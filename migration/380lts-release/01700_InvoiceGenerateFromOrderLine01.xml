@@ -66,7 +66,7 @@
     st.qtyonhand AS QtyOnHandTotal,
     st.qtyordered AS QtyOrderedTotal,
     oline.qtyreserved AS QtyToDeliver,
-    COALESCE(ioldr.QtyDeliveredDr, 0) AS QtyDeliveredDr,
+    COALESCE(ioldr.QtyMovementDrafted, 0) AS QtyMovementDrafted,
     oline.qtyordered - oline.qtyinvoiced AS QtyOpenToInvoice,
     o.documentno,
     o.docstatus
@@ -81,7 +81,7 @@
              JOIN m_locator l ON s.m_locator_id = l.m_locator_id
           GROUP BY s.m_product_id, l.m_warehouse_id) st ON st.m_product_id = oline.m_product_id AND o.m_warehouse_id = st.m_warehouse_id
      LEFT JOIN ( SELECT iol.c_orderline_id,
-            sum(iol.movementqty) AS QtyDeliveredDr
+            sum(iol.movementqty) AS QtyMovementDrafted
            FROM m_inoutline iol
              JOIN m_inout io ON iol.m_inout_id = io.m_inout_id
           WHERE io.docstatus IN('DR','IP')
@@ -153,7 +153,7 @@
     st.qtyonhand AS QtyOnHandTotal,
     st.qtyordered AS QtyOrderedTotal,
     oline.qtyreserved AS qtyToDeliver,
-    COALESCE(ioldr.QtyDeliveredDr, 0) AS QtyDeliveredDr,
+    COALESCE(ioldr.QtyMovementDrafted, 0) AS QtyMovementDrafted,
     oline.qtyordered - oline.qtyinvoiced AS QtyOpenToInvoice,
     o.documentno,
     o.docstatus
@@ -168,7 +168,7 @@
              JOIN m_locator l ON s.m_locator_id = l.m_locator_id
           GROUP BY s.m_product_id, l.m_warehouse_id) st ON st.m_product_id = oline.m_product_id AND o.m_warehouse_id = st.m_warehouse_id
      LEFT JOIN ( SELECT iol.c_orderline_id,
-            sum(iol.movementqty) AS QtyDeliveredDr
+            sum(iol.movementqty) AS QtyMovementDrafted
            FROM m_inoutline iol
              JOIN m_inout io ON iol.m_inout_id = io.m_inout_id
           WHERE io.docstatus IN('DR','IP')
@@ -4707,9 +4707,9 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="1480" StepType="AD">
       <PO AD_Table_ID="276" Action="I" Record_ID="59197" Table="AD_Element">
-        <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
-        <Data AD_Column_ID="2602" Column="ColumnName">QtyDeliveredDr</Data>
-        <Data AD_Column_ID="4299" Column="PrintName">QtyDeliveredDr</Data>
+        <Data AD_Column_ID="2604" Column="Description">The sum of inOutLines line quantities which are in the Drafted status</Data>
+        <Data AD_Column_ID="2602" Column="ColumnName">QtyMovementDrafted</Data>
+        <Data AD_Column_ID="4299" Column="PrintName">Qty Movement Drafted</Data>
         <Data AD_Column_ID="6286" Column="PO_PrintName" isNewNull="true"/>
         <Data AD_Column_ID="6484" Column="EntityType">D</Data>
         <Data AD_Column_ID="6283" Column="PO_Description" isNewNull="true"/>
@@ -4724,23 +4724,23 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="2598" Column="Created">2017-02-10 09:54:09.782</Data>
         <Data AD_Column_ID="2600" Column="Updated">2017-02-10 09:54:09.782</Data>
         <Data AD_Column_ID="2597" Column="IsActive">true</Data>
-        <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="2605" Column="Help">The sum of inOutLines line quantities which are in the Drafted status</Data>
         <Data AD_Column_ID="2594" Column="AD_Element_ID">59197</Data>
-        <Data AD_Column_ID="2603" Column="Name">QtyDeliveredDr</Data>
+        <Data AD_Column_ID="2603" Column="Name"></Data>
         <Data AD_Column_ID="6284" Column="PO_Help" isNewNull="true"/>
       </PO>
     </Step>
     <Step SeqNo="1490" StepType="AD">
       <PO AD_Table_ID="277" Action="I" Record_ID="0" Table="AD_Element_Trl">
         <Data AD_Column_ID="6449" Column="PO_Help" isNewNull="true"/>
-        <Data AD_Column_ID="2646" Column="Name">QtyDeliveredDr</Data>
+        <Data AD_Column_ID="2646" Column="Name">Qty Movement Drafted</Data>
         <Data AD_Column_ID="6450" Column="PO_Name" isNewNull="true"/>
         <Data AD_Column_ID="2638" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="2637" Column="AD_Element_ID">59197</Data>
-        <Data AD_Column_ID="2647" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="2647" Column="Description">The sum of inOutLines line quantities which are in the Drafted status</Data>
         <Data AD_Column_ID="2649" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="4300" Column="PrintName">QtyDeliveredDr</Data>
-        <Data AD_Column_ID="2648" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="4300" Column="PrintName">Qty Movement Drafted</Data>
+        <Data AD_Column_ID="2648" Column="Help">The sum of inOutLines line quantities which are in the Drafted status</Data>
         <Data AD_Column_ID="6451" Column="PO_PrintName" isNewNull="true"/>
         <Data AD_Column_ID="6448" Column="PO_Description" isNewNull="true"/>
         <Data AD_Column_ID="2645" Column="UpdatedBy">0</Data>
@@ -4760,21 +4760,21 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
         <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
-        <Data AD_Column_ID="112" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="112" Column="Description">The sum of inOutLines line quantities which are in the Drafted status</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82271</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">54194</Data>
-        <Data AD_Column_ID="111" Column="Name">QtyDeliveredDr</Data>
+        <Data AD_Column_ID="111" Column="Name">Qty Movement Drafted</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
         <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
-        <Data AD_Column_ID="116" Column="ColumnName">QtyDeliveredDr</Data>
+        <Data AD_Column_ID="116" Column="ColumnName">QtyMovementDrafted</Data>
         <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
         <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
         <Data AD_Column_ID="120" Column="IsParent">false</Data>
-        <Data AD_Column_ID="113" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="113" Column="Help">The sum of inOutLines line quantities which are in the Drafted status</Data>
         <Data AD_Column_ID="118" Column="FieldLength">131089</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="226" Column="AD_Reference_ID">29</Data>
@@ -4805,7 +4805,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="1510" StepType="AD">
       <PO AD_Table_ID="752" Action="I" Record_ID="82271" Table="AD_Column_Trl">
         <Data AD_Column_ID="12955" Column="AD_Column_ID">82271</Data>
-        <Data AD_Column_ID="12957" Column="Name">QtyDeliveredDr</Data>
+        <Data AD_Column_ID="12957" Column="Name">Qty Movement Drafted</Data>
         <Data AD_Column_ID="12954" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="12953" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="12960" Column="Created">2017-02-10 09:54:11.697</Data>
@@ -5281,8 +5281,8 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="58106" Column="ColumnSQL">OLine.QtyDelivered</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">90002</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">55058</Data>
-        <Data AD_Column_ID="58105" Column="Name">Quantity Delivered Drafted</Data>
-        <Data AD_Column_ID="58107" Column="ColumnName">OLINE_QtyDeliveredDr</Data>
+        <Data AD_Column_ID="58105" Column="Name">Qty Movement Drafted</Data>
+        <Data AD_Column_ID="58107" Column="ColumnName">OLINE_QtyMovementDrafted</Data>
         <Data AD_Column_ID="58102" Column="Description">Quantity Delivered Drafted</Data>
         <Data AD_Column_ID="58109" Column="AD_Column_ID">82271</Data>
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>

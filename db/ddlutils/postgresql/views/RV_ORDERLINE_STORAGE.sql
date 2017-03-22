@@ -59,11 +59,11 @@ CREATE OR REPLACE VIEW RV_OrderLine_Storage AS
     oline.isconsumesforecast,
     oline.createfrom,
     oline.createshipment,
-    st.qtyreserved AS ST_QtyReserved,
-    st.qtyonhand AS ST_QtyOnHand,
-    st.qtyordered AS ST_QtyOrdered,
-    oline.qtyreserved AS qtytodeliver,
-    COALESCE(ioldr.QtyDeliveredDr, 0) AS QtyDeliveredDr,
+    st.qtyreserved AS QtyReservedTotal,
+    st.qtyonhand AS QtyOnHandTotal,
+    st.qtyordered AS QtyOrderedTotal,
+    oline.qtyreserved AS qtyToDeliver,
+    COALESCE(ioldr.QtyMovementDrafted, 0) AS QtyMovementDrafted,
     oline.qtyordered - oline.qtyinvoiced AS QtyOpenToInvoice,
     o.documentno,
     o.docstatus
@@ -78,7 +78,7 @@ CREATE OR REPLACE VIEW RV_OrderLine_Storage AS
              JOIN m_locator l ON s.m_locator_id = l.m_locator_id
           GROUP BY s.m_product_id, l.m_warehouse_id) st ON st.m_product_id = oline.m_product_id AND o.m_warehouse_id = st.m_warehouse_id
      LEFT JOIN ( SELECT iol.c_orderline_id,
-            sum(iol.movementqty) AS QtyDeliveredDr
+            sum(iol.movementqty) AS QtyMovementDrafted
            FROM m_inoutline iol
              JOIN m_inout io ON iol.m_inout_id = io.m_inout_id
           WHERE io.docstatus IN('DR','IP')
