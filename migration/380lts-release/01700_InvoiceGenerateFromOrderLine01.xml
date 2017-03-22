@@ -178,14 +178,14 @@
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="100" Action="I" Record_ID="54194" Table="AD_Table">
         <Data AD_Column_ID="6489" Column="ImportTable">N</Data>
-        <Data AD_Column_ID="102" Column="Name">rv_orderline_storage</Data>
+        <Data AD_Column_ID="102" Column="Name">RV_Storage_Per_Product</Data>
         <Data AD_Column_ID="103" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="108" Column="LoadSeq" isNewNull="true"/>
         <Data AD_Column_ID="726" Column="IsSecurityEnabled">false</Data>
         <Data AD_Column_ID="354" Column="AccessLevel">3</Data>
         <Data AD_Column_ID="104" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="106" Column="AD_Val_Rule_ID" isNewNull="true"/>
-        <Data AD_Column_ID="107" Column="TableName">rv_orderline_storage</Data>
+        <Data AD_Column_ID="107" Column="TableName">RV_Storage_Per_Product</Data>
         <Data AD_Column_ID="727" Column="IsDeleteable">false</Data>
         <Data AD_Column_ID="105" Column="AD_Window_ID" isNewNull="true"/>
         <Data AD_Column_ID="4196" Column="IsHighVolume">false</Data>
@@ -214,7 +214,7 @@
         <Data AD_Column_ID="12715" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="12714" Column="AD_Table_ID">54194</Data>
         <Data AD_Column_ID="12724" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="12716" Column="Name">rv_orderline_storage</Data>
+        <Data AD_Column_ID="12716" Column="Name">RV_Storage_Per_Product</Data>
         <Data AD_Column_ID="12720" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="12722" Column="Created">2017-02-10 09:52:40.295</Data>
         <Data AD_Column_ID="12723" Column="Updated">2017-02-10 09:52:40.295</Data>
@@ -687,9 +687,9 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="2747" Column="IncrementNo">1</Data>
         <Data AD_Column_ID="225" Column="StartNewYear">false</Data>
         <Data AD_Column_ID="2746" Column="StartNo">1000000</Data>
-        <Data AD_Column_ID="347" Column="Description">Table rv_orderline_storage</Data>
+        <Data AD_Column_ID="347" Column="Description">Table RV_Storage_Per_Product</Data>
         <Data AD_Column_ID="350" Column="IsTableID">true</Data>
-        <Data AD_Column_ID="216" Column="Name">rv_orderline_storage</Data>
+        <Data AD_Column_ID="216" Column="Name">RV_Storage_Per_Product</Data>
         <Data AD_Column_ID="1187" Column="VFormat" isNewNull="true"/>
         <Data AD_Column_ID="1188" Column="IsAutoSequence">true</Data>
         <Data AD_Column_ID="3887" Column="CurrentNextSys">50000</Data>
