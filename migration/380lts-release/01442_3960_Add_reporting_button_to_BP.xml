@@ -2986,6 +2986,92 @@ Accounting Segments like Organization, Account, Product may have several hierarc
         <Data AD_Column_ID="552" Column="UpdatedBy">0</Data>
         <Data AD_Column_ID="72747" Column="IsSecure">false</Data>
       </PO>
+    </Step> 
+    <Step SeqNo="1230" StepType="AD">
+      <Comments>Added Report Process for Unposted AR/AP Invoice respectively</Comments>
+      <PO AD_Table_ID="361" Action="I" Record_ID="53214" Table="AD_ReportView">
+        <Data AD_Column_ID="4384" Column="AD_ReportView_ID">53214</Data>
+        <Data AD_Column_ID="4386" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="4396" Column="OrderByClause" isNewNull="true"/>
+        <Data AD_Column_ID="4395" Column="WhereClause">posted &lt;&gt; 'Y' AND docstatus &lt;&gt; 'VO' AND IsSOTrx='Y'</Data>
+        <Data AD_Column_ID="4394" Column="AD_Table_ID">318</Data>
+        <Data AD_Column_ID="4387" Column="IsActive">true</Data>
+        <Data AD_Column_ID="10032" Column="EntityType">U</Data>
+        <Data AD_Column_ID="4393" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="4392" Column="Name">RV_UnPosted_AR</Data>
+        <Data AD_Column_ID="4385" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="4388" Column="Created">2017-03-21 11:50:13.362</Data>
+        <Data AD_Column_ID="4389" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="4390" Column="Updated">2017-03-21 11:50:13.362</Data>
+        <Data AD_Column_ID="4391" Column="UpdatedBy">100</Data>
+      </PO>
     </Step>
+    <Step SeqNo="1240" StepType="AD">
+      <Comments>Added Report Process for Unposted AR/AP Invoice respectively</Comments>
+      <PO AD_Table_ID="361" Action="I" Record_ID="53215" Table="AD_ReportView">
+        <Data AD_Column_ID="4396" Column="OrderByClause" isNewNull="true"/>
+        <Data AD_Column_ID="4395" Column="WhereClause">posted &lt;&gt; 'Y' AND docstatus &lt;&gt; 'VO' AND IsSOTrx='N'</Data>
+        <Data AD_Column_ID="4394" Column="AD_Table_ID">318</Data>
+        <Data AD_Column_ID="4387" Column="IsActive">true</Data>
+        <Data AD_Column_ID="10032" Column="EntityType">U</Data>
+        <Data AD_Column_ID="4393" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="4392" Column="Name">RV_UnPosted_AP</Data>
+        <Data AD_Column_ID="4385" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="4388" Column="Created">2017-03-21 11:50:34.658</Data>
+        <Data AD_Column_ID="4389" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="4390" Column="Updated">2017-03-21 11:50:34.658</Data>
+        <Data AD_Column_ID="4391" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="4384" Column="AD_ReportView_ID">53215</Data>
+        <Data AD_Column_ID="4386" Column="AD_Org_ID">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1250" StepType="AD">
+      <Comments>Added Report Process for Unposted AR/AP Invoice respectively</Comments>
+      <PO AD_Table_ID="284" Action="U" Record_ID="53756" Table="AD_Process">
+        <Data AD_Column_ID="4374" Column="AD_ReportView_ID" isOldNull="true">53214</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1260" StepType="AD">
+      <Comments>Added Report Process for Unposted AR/AP Invoice respectively</Comments>
+      <PO AD_Table_ID="284" Action="I" Record_ID="53934" Table="AD_Process">
+        <Data AD_Column_ID="63536" Column="AD_TableSelection_ID" isNewNull="true"/>
+        <Data AD_Column_ID="11834" Column="AD_Workflow_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2811" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="2808" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="2806" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="4214" Column="IsDirectPrint">false</Data>
+        <Data AD_Column_ID="4374" Column="AD_ReportView_ID">53215</Data>
+        <Data AD_Column_ID="3371" Column="IsReport">true</Data>
+        <Data AD_Column_ID="5790" Column="AccessLevel">3</Data>
+        <Data AD_Column_ID="12458" Column="IsBetaFunctionality">false</Data>
+        <Data AD_Column_ID="11563" Column="WorkflowValue" isNewNull="true"/>
+        <Data AD_Column_ID="14084" Column="IsServerProcess">false</Data>
+        <Data AD_Column_ID="50181" Column="ShowHelp">Y</Data>
+        <Data AD_Column_ID="6485" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6653" Column="Statistic_Seconds">0</Data>
+        <Data AD_Column_ID="50182" Column="JasperReport" isNewNull="true"/>
+        <Data AD_Column_ID="6652" Column="Statistic_Count">0</Data>
+        <Data AD_Column_ID="4656" Column="Classname" isNewNull="true"/>
+        <Data AD_Column_ID="56515" Column="AD_Form_ID" isNewNull="true"/>
+        <Data AD_Column_ID="7752" Column="AD_PrintFormat_ID" isNewNull="true"/>
+        <Data AD_Column_ID="57920" Column="CopyFromProcess">N</Data>
+        <Data AD_Column_ID="2813" Column="ProcedureName" isNewNull="true"/>
+        <Data AD_Column_ID="2810" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="4023" Column="Value">RV_UnPosted_AP</Data>
+        <Data AD_Column_ID="2809" Column="Name">Not Posted Invoice</Data>
+        <Data AD_Column_ID="2802" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2805" Column="Created">2017-03-21 11:53:15.475</Data>
+        <Data AD_Column_ID="2807" Column="Updated">2017-03-21 11:53:15.475</Data>
+        <Data AD_Column_ID="2804" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2801" Column="AD_Process_ID">53934</Data>
+        <Data AD_Column_ID="2803" Column="AD_Org_ID">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1270" StepType="AD">
+      <Comments>Added Report Process for Unposted AR/AP Invoice respectively</Comments>
+      <PO AD_Table_ID="284" Action="U" Record_ID="53756" Table="AD_Process">
+        <Data AD_Column_ID="4023" Column="Value" oldValue="RV_UnPosted_Invoice">RV_UnPosted_AR</Data>
+      </PO>
+    </Step>  
   </Migration>
 </Migrations>
