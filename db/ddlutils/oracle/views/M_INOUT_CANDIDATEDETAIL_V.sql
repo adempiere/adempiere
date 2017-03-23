@@ -19,7 +19,7 @@ m_product_id,
 c_charge_id,
 qtyordered,
 isunconfirmedinout,
-no_unconfirmed,
+unconfirmedLinesNoToShip,
 deliveryrule,
 qtyavailable
 )
@@ -43,15 +43,15 @@ l.m_product_id,
 l.c_charge_id,
 l.qtyordered,
 CASE
-WHEN iol.no_unconfirmed IS NULL THEN 'N'
+WHEN iol.unconfirmedLinesNoToShip IS NULL THEN 'N'
 ELSE 'Y'
 END AS isunconfirmedinout,
-iol.no_unconfirmed,
+iol.unconfirmedLinesNoToShip,
 o.deliveryrule,
 storage.qtyavailable - l.qtyreserved AS qtyavailable
 FROM c_order o
 JOIN c_orderline l ON o.c_order_id = l.c_order_id
-LEFT JOIN ( SELECT count(iol_1.m_inoutline_id) AS no_unconfirmed,
+LEFT JOIN ( SELECT count(iol_1.m_inoutline_id) AS unconfirmedLinesNoToShip,
 iol_1.c_orderline_id
 FROM m_inoutline iol_1
 JOIN m_inout io ON iol_1.m_inout_id = io.m_inout_id

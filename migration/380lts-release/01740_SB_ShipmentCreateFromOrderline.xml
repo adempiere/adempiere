@@ -93,7 +93,7 @@ m_product_id,
 c_charge_id,
 qtyordered,
 isunconfirmedinout,
-unconfirmedToShipNo,
+unconfirmedLinesNoToShip,
 deliveryrule,
 qtyavailable
 )
@@ -117,15 +117,15 @@ l.m_product_id,
 l.c_charge_id,
 l.qtyordered,
 CASE
-WHEN iol.unconfirmedToShipNo IS NULL THEN 'N'
+WHEN iol.unconfirmedLinesNoToShip IS NULL THEN 'N'
 ELSE 'Y'
 END AS isunconfirmedinout,
-iol.unconfirmedToShipNo,
+iol.unconfirmedLinesNoToShip,
 o.deliveryrule,
 storage.qtyavailable - l.qtyreserved AS qtyavailable
 FROM c_order o
 JOIN c_orderline l ON o.c_order_id = l.c_order_id
-LEFT JOIN ( SELECT count(iol_1.m_inoutline_id) AS unconfirmedToShipNo,
+LEFT JOIN ( SELECT count(iol_1.m_inoutline_id) AS unconfirmedLinesNoToShip,
 iol_1.c_orderline_id
 FROM m_inoutline iol_1
 JOIN m_inout io ON iol_1.m_inout_id = io.m_inout_id
@@ -238,7 +238,7 @@ m_product_id,
 c_charge_id,
 qtyordered,
 isunconfirmedinout,
-unconfirmedToShipNo,
+unconfirmedLinesNoToShip,
 deliveryrule,
 qtyavailable
 )
@@ -262,15 +262,15 @@ l.m_product_id,
 l.c_charge_id,
 l.qtyordered,
 CASE
-WHEN iol.unconfirmedToShipNo IS NULL THEN 'N'
+WHEN iol.unconfirmedLinesNoToShip IS NULL THEN 'N'
 ELSE 'Y'
 END AS isunconfirmedinout,
-iol.unconfirmedToShipNo,
+iol.unconfirmedLinesNoToShip,
 o.deliveryrule,
 storage.qtyavailable - l.qtyreserved AS qtyavailable
 FROM c_order o
 JOIN c_orderline l ON o.c_order_id = l.c_order_id
-LEFT JOIN ( SELECT count(iol_1.m_inoutline_id) AS unconfirmedToShipNo,
+LEFT JOIN ( SELECT count(iol_1.m_inoutline_id) AS unconfirmedLinesNoToShip,
 iol_1.c_orderline_id
 FROM m_inoutline iol_1
 JOIN m_inout io ON iol_1.m_inout_id = io.m_inout_id
@@ -1936,9 +1936,9 @@ If the document type of your document has no automatic document sequence defined
       <PO AD_Table_ID="276" Action="I" Record_ID="59192" Table="AD_Element">
         <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="2594" Column="AD_Element_ID">59192</Data>
-        <Data AD_Column_ID="2603" Column="Name">unconfirmedToShipNo</Data>
-        <Data AD_Column_ID="2602" Column="ColumnName">unconfirmedToShipNo</Data>
-        <Data AD_Column_ID="4299" Column="PrintName">unconfirmedToShipNo</Data>
+        <Data AD_Column_ID="2603" Column="Name">Unconfirmed Lines No To Ship</Data>
+        <Data AD_Column_ID="2602" Column="ColumnName">unconfirmedLinesNoToShip</Data>
+        <Data AD_Column_ID="4299" Column="PrintName">Unconfirmed Lines No To Ship</Data>
         <Data AD_Column_ID="6286" Column="PO_PrintName" isNewNull="true"/>
         <Data AD_Column_ID="6484" Column="EntityType">D</Data>
         <Data AD_Column_ID="6283" Column="PO_Description" isNewNull="true"/>
@@ -1954,7 +1954,7 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="2598" Column="Created">2017-02-09 20:19:57.455</Data>
         <Data AD_Column_ID="2600" Column="Updated">2017-02-09 20:19:57.455</Data>
         <Data AD_Column_ID="2597" Column="IsActive">true</Data>
-        <Data AD_Column_ID="2604" Column="Description">Number of shipment lines waiting for confirmation</Data>
+        <Data AD_Column_ID="2604" Column="Description">Number unconfirmed of shipment lines waiting for confirmation</Data>
       </PO>
     </Step>
     <Step SeqNo="530" StepType="AD">
@@ -1964,13 +1964,13 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="6448" Column="PO_Description" isNewNull="true"/>
         <Data AD_Column_ID="2645" Column="UpdatedBy">0</Data>
         <Data AD_Column_ID="6449" Column="PO_Help" isNewNull="true"/>
-        <Data AD_Column_ID="2646" Column="Name">unconfirmedToShipNo</Data>
+        <Data AD_Column_ID="2646" Column="Name">Unconfirmed Lines No To Ship</Data>
         <Data AD_Column_ID="6450" Column="PO_Name" isNewNull="true"/>
         <Data AD_Column_ID="2638" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="2637" Column="AD_Element_ID">59192</Data>
         <Data AD_Column_ID="2647" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="2649" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="4300" Column="PrintName">unconfirmedToShipNo</Data>
+        <Data AD_Column_ID="4300" Column="PrintName">Unconfirmed Lines No To Ship</Data>
         <Data AD_Column_ID="2641" Column="IsActive">true</Data>
         <Data AD_Column_ID="2642" Column="Created">2017-02-09 20:19:58.212</Data>
         <Data AD_Column_ID="2643" Column="CreatedBy">0</Data>
@@ -1990,11 +1990,11 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">54193</Data>
-        <Data AD_Column_ID="111" Column="Name">unconfirmedToShipNo</Data>
+        <Data AD_Column_ID="111" Column="Name">Unconfirmed Lines No To Ship</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
         <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
-        <Data AD_Column_ID="116" Column="ColumnName">unconfirmedToShipNo</Data>
+        <Data AD_Column_ID="116" Column="ColumnName">unconfirmedLinesNoToShip</Data>
         <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
         <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
         <Data AD_Column_ID="120" Column="IsParent">false</Data>
@@ -2032,7 +2032,7 @@ If the document type of your document has no automatic document sequence defined
     <Step SeqNo="550" StepType="AD">
       <PO AD_Table_ID="752" Action="I" Record_ID="82201" Table="AD_Column_Trl">
         <Data AD_Column_ID="12955" Column="AD_Column_ID">82201</Data>
-        <Data AD_Column_ID="12957" Column="Name">unconfirmedToShipNo</Data>
+        <Data AD_Column_ID="12957" Column="Name">Unconfirmed Lines No To Ship</Data>
         <Data AD_Column_ID="12954" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="12953" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="12960" Column="Created">2017-02-09 20:19:59.56</Data>
@@ -3504,11 +3504,11 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58104" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50127</Data>
-        <Data AD_Column_ID="58106" Column="ColumnSQL">io.unconfirmedToShipNo</Data>
+        <Data AD_Column_ID="58106" Column="ColumnSQL">io.unconfirmedLinesNoToShip</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50063</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">55056</Data>
-        <Data AD_Column_ID="58105" Column="Name">unconfirmedToShipNo</Data>
-        <Data AD_Column_ID="58107" Column="ColumnName">unconfirmedToShipNo</Data>
+        <Data AD_Column_ID="58105" Column="Name">Unconfirmed Lines No To Ship</Data>
+        <Data AD_Column_ID="58107" Column="ColumnName">unconfirmedLinesNoToShip</Data>
         <Data AD_Column_ID="58102" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="58109" Column="AD_Column_ID">82201</Data>
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
@@ -3527,7 +3527,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58049" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="58052" Column="Name">unconfirmedToShipNo</Data>
+        <Data AD_Column_ID="58052" Column="Name">Unconfirmed Lines No To Ship</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">0</Data>
         <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
@@ -5406,7 +5406,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="57983" Column="AD_Browse_ID">50079</Data>
         <Data AD_Column_ID="63218" Column="Axis_Column_ID" isNewNull="true"/>
         <Data AD_Column_ID="63219" Column="Axis_Parent_Column_ID" isNewNull="true"/>
-        <Data AD_Column_ID="57981" Column="Name">unconfirmedToShipNo</Data>
+        <Data AD_Column_ID="57981" Column="Name">Unconfirmed Lines No To Ship</Data>
         <Data AD_Column_ID="63579" Column="IsReadOnly">true</Data>
         <Data AD_Column_ID="57975" Column="IsCentrallyMaintained">true</Data>
         <Data AD_Column_ID="57971" Column="AD_View_Column_ID">55056</Data>
@@ -5441,7 +5441,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58036" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="58037" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="58039" Column="Name">unconfirmedToShipNo</Data>
+        <Data AD_Column_ID="58039" Column="Name">Unconfirmed Lines No To Ship</Data>
         <Data AD_Column_ID="58030" Column="Created">2017-02-09 20:41:57.516</Data>
         <Data AD_Column_ID="58031" Column="Updated">2017-02-09 20:41:57.516</Data>
         <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
