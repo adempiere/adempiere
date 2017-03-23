@@ -4726,7 +4726,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="2597" Column="IsActive">true</Data>
         <Data AD_Column_ID="2605" Column="Help">The sum of inOutLines line quantities which are in the Drafted status</Data>
         <Data AD_Column_ID="2594" Column="AD_Element_ID">59197</Data>
-        <Data AD_Column_ID="2603" Column="Name"></Data>
+        <Data AD_Column_ID="2603" Column="Name">Qty Movement Drafted</Data>
         <Data AD_Column_ID="6284" Column="PO_Help" isNewNull="true"/>
       </PO>
     </Step>
