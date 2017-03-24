@@ -108,7 +108,7 @@ public abstract class PO
 	implements Serializable, Comparator, Evaluatee, Cloneable
 {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -4708137979682082002L;
 
@@ -277,7 +277,7 @@ public abstract class PO
 
 	/** Trifon - Indicates that this record is created by replication functionality.*/
 	private boolean m_isReplication = false;
-	
+
 	/** Direct load, e.g. from migration. Do not overwrite assigned ID with generated one, or fire triggers */
 	private boolean isDirectLoad = false;
 
@@ -731,7 +731,7 @@ public abstract class PO
 				value = Integer.parseInt((String)value);
 			}
 		}
-		
+
 		return set_Value (index, value);
 	}   //  setValue
 
@@ -768,7 +768,7 @@ public abstract class PO
 			log.log(Level.WARNING, "Virtual Column" + colInfo);
 			return false;
 		}
-		
+
 		//
 		// globalqss -- Bug 1618469 - is throwing not updateable even on new records
 		// if (!p_info.isColumnUpdateable(index))
@@ -866,16 +866,16 @@ public abstract class PO
 				log.finest(ColumnName + " = " + m_newValues[index] + " (OldValue="+m_oldValues[index]+")");
 		}
 		set_Keys (ColumnName, m_newValues[index]);
-		
+
 		// FR 2962094 Fill ProcessedOn when the Processed column is changing from N to Y
 		setProcessedOn(ColumnName, value, m_oldValues[index]);
-		
+
 		return true;
 	}   //  setValue
 
 	/* FR 2962094 - Finish implementation of weighted average costing
-	   Fill the column ProcessedOn (if it exists) with a bigdecimal representation of current timestamp (with nanoseconds) 
-	*/ 
+	   Fill the column ProcessedOn (if it exists) with a bigdecimal representation of current timestamp (with nanoseconds)
+	*/
 	public void setProcessedOn(String ColumnName, Object value, Object oldValue) {
 		if ("Processed".equals(ColumnName)
 				&& value instanceof Boolean
@@ -973,7 +973,7 @@ public abstract class PO
 
 		// FR 2962094 Fill ProcessedOn when the Processed column is changing from N to Y
 		setProcessedOn(ColumnName, value, m_oldValues[index]);
-		
+
 		return true;
 	}   //  set_ValueNoCheck
 
@@ -2098,7 +2098,7 @@ public abstract class PO
 			// If not a localTrx we need to set a savepoint for rollback
 			if (localTrx == null)
 				savepoint = trx.setSavepoint(null);
-			
+
 			if (!beforeSave(newRecord))
 			{
 				log.warning("beforeSave failed - " + toString());
@@ -2317,7 +2317,7 @@ public abstract class PO
 				s_docWFMgr.process (this, p_info.getAD_Table_ID());
 
 		}
-		
+
 		if (success)
 		{
 			//	Copy to Old values
@@ -2639,7 +2639,7 @@ public abstract class PO
 			int no = saveNew_getID();
 			if (no <= 0)
 				no = DB.getNextID(getAD_Client_ID(), p_info.getTableName(), m_trxName);
-			// the primary key is not overwrite with the local sequence	
+			// the primary key is not overwrite with the local sequence
 			if (isReplication())
 			{
 				if (get_ID() > 0)
@@ -3055,7 +3055,7 @@ public abstract class PO
 					log.fine("No Session found");
 				else if ( Ini.isPropertyBool(Ini.P_LOGMIGRATIONSCRIPT) )
 					session.logMigration(this, p_info, MMigrationStep.ACTION_Delete);
-				
+
 				if( p_info.isChangeLog())
 				{
 					//	Change Log
@@ -3318,12 +3318,12 @@ public abstract class PO
 		}
 		//
 		MClient client = MClient.get(getCtx());
-		//	
-		List<PO> trlList = new Query(getCtx(), tableName, 
+		//
+		List<PO> trlList = new Query(getCtx(), tableName,
 				keyColumn + " = ?", get_TrxName())
 			.setParameters(get_ID())
 			.<PO>list();
-		
+
 		if(trlList == null
 				|| trlList.size() == 0)
 			return true;
@@ -3367,11 +3367,11 @@ public abstract class PO
 		//
 		String tableName = p_info.getTableName() + "_Trl";
 		String keyColumn = m_KeyColumns[0];
-		List<PO> trlList = new Query(getCtx(), tableName, 
+		List<PO> trlList = new Query(getCtx(), tableName,
 				keyColumn + " = ?", get_TrxName())
 			.setParameters(get_ID())
 			.<PO>list();
-		
+
 		if(trlList == null
 				|| trlList.size() == 0)
 			return true;
@@ -3431,39 +3431,55 @@ public abstract class PO
 		Arrays.stream(MAcctSchema.getClientAcctSchema(getCtx(), getAD_Client_ID(), get_TrxName()))
 				.filter(accountSchema -> accountSchema != null)
 				.forEach(accountSchema -> {
-			StringBuilder where = new StringBuilder();
-			List<Object> parameters = new ArrayList<Object>();
-			where.append(" EXISTS (SELECT 1 FROM ").append(acctBaseTable).append(" p WHERE p.")
-			.append(MAcctSchema.COLUMNNAME_AD_Client_ID).append("=").append(acctBaseTable).append(".").append(MAcctSchema.COLUMNNAME_AD_Client_ID)
-			.append(" AND p.").append(MAcctSchema.COLUMNNAME_C_AcctSchema_ID).append("=").append(acctBaseTable).append(".").append(MAcctSchema.COLUMNNAME_C_AcctSchema_ID);
-			if (whereClause != null && whereClause.length() > 0)
-				where.append (" AND ").append(whereClause);
-			where.append(") AND ");
-			where.append(acctBaseTable).append(".").append(MAcctSchema.COLUMNNAME_AD_Client_ID).append("=? AND ")
-				 .append(acctBaseTable).append(".").append(MAcctSchema.COLUMNNAME_C_AcctSchema_ID).append("=? ");
-			parameters.add(getAD_Client_ID());
-			parameters.add(accountSchema.getC_AcctSchema_ID());
-			PO accountSource = MTable.get(getCtx(), acctBaseTable).getPO(where.toString(), parameters.toArray() , get_TrxName());
-			if (accountSource != null) {
-				where = new StringBuilder();
-				where.append(MAcctSchema.COLUMNNAME_C_AcctSchema_ID).append("=? AND ").append(get_TableName()).append("_ID=?");
-				parameters = new ArrayList<Object>();
-				parameters.add(accountSchema.getC_AcctSchema_ID());
-				parameters.add(get_ID());
-				PO accountSetting = MTable.get(getCtx(), acctTable).getPO(where.toString(), parameters.toArray(), get_TrxName());
-				if (accountSetting == null) {
-					accountSetting = MTable.get(getCtx(), acctTable).getPO(0, get_TrxName());
-					accountSetting.setAD_Client_ID(getAD_Client_ID());
-					accountSetting.setAD_Org_ID(0);
-					accountSetting.set_Value(MAcctSchema.COLUMNNAME_C_AcctSchema_ID, accountSchema.getC_AcctSchema_ID());
-					accountSetting.set_Value(get_TableName() + "_ID", get_ID());
-					for (String columnName :s_acctColumns) {
-						accountSetting.set_Value(columnName, accountSource.get_Value(columnName));
+				PreparedStatement statement = null;
+				ResultSet resultSet = null;
+				List<Object> parameters = new ArrayList<Object>();
+				try {
+					StringBuilder select = new StringBuilder();
+					select.append("SELECT  * FROM ").append(acctBaseTable).append(" p WHERE p.AD_Client_ID=? AND ").append("p.C_AcctSchema_ID=?");
+					if (whereClause != null && whereClause.length() > 0)
+						select.append(" AND ").append(whereClause);
+
+					select.append(" AND NOT EXISTS (SELECT * FROM ").append(acctTable)
+							.append(" e WHERE e.C_AcctSchema_ID=p.C_AcctSchema_ID AND e.")
+							.append(get_TableName()).append("_ID=? )");
+					parameters.add(getAD_Client_ID());
+					parameters.add(accountSchema.getC_AcctSchema_ID());
+					parameters.add(get_ID());
+					statement = DB.prepareStatement(select.toString(), get_TrxName());
+					DB.setParameters(statement, parameters);
+					resultSet = statement.executeQuery();
+					PO accountBase = null;
+					if (resultSet.next())
+						accountBase = MTable.get(getCtx(), acctBaseTable).getPO(resultSet, get_TrxName());
+
+					if (accountBase != null) {
+						StringBuilder where = new StringBuilder();
+						where.append(MAcctSchema.COLUMNNAME_C_AcctSchema_ID).append("=? AND ").append(get_TableName()).append("_ID=?");
+						parameters = new ArrayList<>();
+						parameters.add(accountSchema.getC_AcctSchema_ID());
+						parameters.add(get_ID());
+						PO accountSetting = MTable.get(getCtx(), acctTable).getPO(where.toString(), parameters.toArray(), get_TrxName());
+						if (accountSetting == null) {
+							accountSetting = MTable.get(getCtx(), acctTable).getPO(0, get_TrxName());
+							accountSetting.setAD_Client_ID(getAD_Client_ID());
+							accountSetting.setAD_Org_ID(0);
+							accountSetting.set_Value(MAcctSchema.COLUMNNAME_C_AcctSchema_ID, accountSchema.getC_AcctSchema_ID());
+							accountSetting.set_Value(get_TableName() + "_ID", get_ID());
+							for (String columnName : s_acctColumns)
+								accountSetting.set_Value(columnName, accountBase.get_Value(columnName));
+
+							accountSetting.saveEx();
+							inserted.set(true);
+						}
 					}
-					accountSetting.saveEx();
-					inserted.set(true);
+				} catch (Exception e) {
+					log.log(Level.SEVERE, acctTable, e);
+				} finally {
+					DB.close(resultSet, statement);
+					resultSet = null;
+					statement = null;
 				}
-			}
 		});
 		return inserted.get();
 	}	//	insert_Accounting
@@ -3497,9 +3513,9 @@ public abstract class PO
 	 *	@return true if inserted
 	 */
 	protected boolean insert_Tree (String treeType, int C_Element_ID)
-	{		
+	{
 		String tableName = MTree_Base.getNodeTableName(treeType);
-		final StringBuilder select = new StringBuilder("SELECT t.AD_Tree_ID FROM AD_Tree t WHERE t.AD_Client_ID=").append(getAD_Client_ID()).append(" AND t.IsActive='Y'"); 
+		final StringBuilder select = new StringBuilder("SELECT t.AD_Tree_ID FROM AD_Tree t WHERE t.AD_Client_ID=").append(getAD_Client_ID()).append(" AND t.IsActive='Y'");
 		if (C_Element_ID != 0)
 			select.append(" AND EXISTS (SELECT * FROM C_Element ae WHERE ae.C_Element_ID=")
 				.append(C_Element_ID).append(" AND t.AD_Tree_ID=ae.AD_Tree_ID)");
@@ -3509,7 +3525,7 @@ public abstract class PO
 		select.append(" AND NOT EXISTS (SELECT * FROM " + MTree_Base.getNodeTableName(treeType) + " e "
 				+ "WHERE e.AD_Tree_ID=t.AD_Tree_ID AND Node_ID=").append(get_ID()).append(")");
 		int AD_Tree_ID = DB.getSQLValue(get_TrxName(), select.toString());
-		
+
 		PO tree = MTable.get(getCtx(), tableName).getPO(0, get_TrxName());
 		tree.setAD_Client_ID(getAD_Client_ID());
 		tree.setAD_Org_ID(0);
@@ -3532,11 +3548,11 @@ public abstract class PO
 		int id = get_ID();
 		if (id == 0)
 			id = get_IDOld();
-		
+
 		String tableName = MTree_Base.getNodeTableName(treeType);
 		String whereClause = tableName + ".Node_ID="+id+ " AND EXISTS (SELECT * FROM AD_Tree t "
 				+ "WHERE t.AD_Tree_ID="+tableName+".AD_Tree_ID AND t.TreeType='" + treeType + "')";
-		
+
 		PO tree = MTable.get(getCtx(), tableName).getPO(whereClause, get_TrxName());
 		if (tree != null)
 			tree.deleteEx(true);
@@ -4088,7 +4104,7 @@ public abstract class PO
 		for (PO line : lines)
 			line.set_TrxName(trxName);
 	}
-	
+
 	/**
 	 * Get Integer Value
 	 * @param columnName
@@ -4103,19 +4119,19 @@ public abstract class PO
 		}
 		return get_ValueAsInt(idx);
 	}
-	
+
 	/**
-	 * Get value as Boolean 
+	 * Get value as Boolean
 	 * @param columnName
 	 * @return boolean value
 	 */
 	public boolean get_ValueAsBoolean(String columnName)
 	{
 		Object oo = get_Value(columnName);
-		if (oo != null) 
+		if (oo != null)
 		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
+			 if (oo instanceof Boolean)
+				 return ((Boolean)oo).booleanValue();
 			return "Y".equals(oo);
 		}
 		return false;

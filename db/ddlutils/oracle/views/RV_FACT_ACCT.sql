@@ -7,7 +7,7 @@ CREATE OR REPLACE VIEW RV_FACT_ACCT
  AMTACCTDR, AMTACCTCR, AMTACCT, RATE, C_UOM_ID, 
  QTY, M_PRODUCT_ID, C_BPARTNER_ID, AD_ORGTRX_ID, C_LOCFROM_ID, 
  C_LOCTO_ID, C_SALESREGION_ID, C_PROJECT_ID, C_CAMPAIGN_ID, C_ACTIVITY_ID, 
- USER1_ID, USER2_ID, A_ASSET_ID, DESCRIPTION, ORGVALUE, 
+ USER1_ID, USER2_ID, USER3_ID , USER4_ID , A_ASSET_ID, DESCRIPTION, ORGVALUE,
  ORGNAME, ACCOUNTVALUE, NAME, ACCOUNTTYPE, BPARTNERVALUE, 
  BPNAME, C_BP_GROUP_ID, PRODUCTVALUE, PRODUCTNAME, UPC, 
  M_PRODUCT_CATEGORY_ID)
@@ -26,7 +26,7 @@ SELECT f.AD_Client_ID, f.AD_Org_ID, f.IsActive,f.Created,f.CreatedBy,f.Updated,f
     f.M_Product_ID, f.C_BPartner_ID, f.AD_OrgTrx_ID, 
     f.C_LocFrom_ID, f.C_LocTo_ID, f.C_SalesRegion_ID,
     f.C_Project_ID, f.C_Campaign_ID, f.C_Activity_ID, 
-    f.User1_ID, f.User2_ID, f.A_Asset_ID,
+    f.User1_ID, f.User2_ID, f.User3_ID , f.User4_ID , f.A_Asset_ID,
     f.Description,
     o.Value AS OrgValue, o.Name AS OrgName,
     ev.Value AS AccountValue, ev.Name, ev.AccountType,

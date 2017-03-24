@@ -194,7 +194,6 @@ public class WHRActionNotice extends HRActionNotice implements IFormController,
 		fieldConcept.setWidth("100%");
 
 		row = rows.newRow();
-		//  Raul Muñoz 19/02/2015
 		//  Add div for Qty-Amount-Date-Text-RuleEngine
 		Div div = new Div();
 		row.appendChild(labelColumnType.rightAlign());

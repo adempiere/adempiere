@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2016 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
@@ -11,8 +11,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.eevolution.model;
@@ -25,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for HR_EmployeeDependent
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0 - $Id$ */
+ *  @version Release 3.9.0 - $Id$ */
 public class X_HR_EmployeeDependent extends PO implements I_HR_EmployeeDependent, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150223L;
+	private static final long serialVersionUID = 20170315L;
 
     /** Standard Constructor */
     public X_HR_EmployeeDependent (Properties ctx, int HR_EmployeeDependent_ID, String trxName)
@@ -43,7 +42,6 @@ public class X_HR_EmployeeDependent extends PO implements I_HR_EmployeeDependent
 			setBirthday (new Timestamp( System.currentTimeMillis() ));
 // @Date@
 			setHR_EmployeeDependent_ID (0);
-			setHR_Employee_ID (0);
 			setHR_Relationship_ID (0);
 			setIsCollectCash (false);
 			setName (null);
@@ -78,23 +76,6 @@ public class X_HR_EmployeeDependent extends PO implements I_HR_EmployeeDependent
       return sb.toString();
     }
 
-	/** Set Age.
-		@param Age 
-		Age of a person
-	  */
-	public void setAge (String Age)
-	{
-		set_Value (COLUMNNAME_Age, Age);
-	}
-
-	/** Get Age.
-		@return Age of a person
-	  */
-	public String getAge () 
-	{
-		return (String)get_Value(COLUMNNAME_Age);
-	}
-
 	/** Set Birthday.
 		@param Birthday 
 		Birthday or Anniversary day
@@ -110,6 +91,62 @@ public class X_HR_EmployeeDependent extends PO implements I_HR_EmployeeDependent
 	public Timestamp getBirthday () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_Birthday);
+	}
+
+	public org.compiere.model.I_C_BPartner getC_BPartnerRelation() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
+			.getPO(getC_BPartnerRelation_ID(), get_TrxName());	}
+
+	/** Set Related Partner.
+		@param C_BPartnerRelation_ID 
+		Related Business Partner
+	  */
+	public void setC_BPartnerRelation_ID (int C_BPartnerRelation_ID)
+	{
+		if (C_BPartnerRelation_ID < 1) 
+			set_Value (COLUMNNAME_C_BPartnerRelation_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BPartnerRelation_ID, Integer.valueOf(C_BPartnerRelation_ID));
+	}
+
+	/** Get Related Partner.
+		@return Related Business Partner
+	  */
+	public int getC_BPartnerRelation_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartnerRelation_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
+			.getPO(getC_BPartner_ID(), get_TrxName());	}
+
+	/** Set Business Partner .
+		@param C_BPartner_ID 
+		Identifies a Business Partner
+	  */
+	public void setC_BPartner_ID (int C_BPartner_ID)
+	{
+		if (C_BPartner_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_BPartner_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
+	}
+
+	/** Get Business Partner .
+		@return Identifies a Business Partner
+	  */
+	public int getC_BPartner_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartner_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Employee Dependents.
