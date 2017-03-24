@@ -265,75 +265,76 @@ public class ImportInventory extends SvrProcess
 			.append(" ORDER BY M_Warehouse_ID, TRUNC(MovementDate), I_Inventory_ID");
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement (sql.toString (), get_TrxName());
-			ResultSet rs = pstmt.executeQuery ();
+			PreparedStatement preparedStatement = DB.prepareStatement (sql.toString (), get_TrxName());
+			ResultSet resultSet = preparedStatement.executeQuery ();
 			//
-			int x_M_Warehouse_ID = -1;
-			Timestamp x_MovementDate = null;
-			while (rs.next())
+			int warehouseId = -1;
+			Timestamp lastMovementDate = null;
+			while (resultSet.next())
 			{
-				X_I_Inventory imp = new X_I_Inventory (getCtx (), rs, get_TrxName());
-				Timestamp MovementDate = TimeUtil.getDay(imp.getMovementDate());
+				X_I_Inventory importInventory = new X_I_Inventory (getCtx (), resultSet, get_TrxName());
+				Timestamp movementDate = TimeUtil.getDay(importInventory.getMovementDate());
 
 				if (inventory == null
-					|| imp.getM_Warehouse_ID() != x_M_Warehouse_ID
-					|| !MovementDate.equals(x_MovementDate))
+					|| importInventory.getM_Warehouse_ID() != warehouseId
+					|| !movementDate.equals(lastMovementDate))
 				{
 					inventory = new MInventory (getCtx(), 0, get_TrxName());
-					inventory.setClientOrg(imp.getAD_Client_ID(), imp.getAD_Org_ID());
-					inventory.setDescription("I " + imp.getM_Warehouse_ID() + " " + MovementDate);
-					inventory.setM_Warehouse_ID(imp.getM_Warehouse_ID());
-					inventory.setMovementDate(MovementDate);
+					inventory.setClientOrg(importInventory.getAD_Client_ID(), importInventory.getAD_Org_ID());
+					inventory.setDescription("I " + importInventory.getM_Warehouse_ID() + " " + movementDate);
+					inventory.setM_Warehouse_ID(importInventory.getM_Warehouse_ID());
+					inventory.setMovementDate(movementDate);
 					//
 					if (!inventory.save())
 					{
 						log.log(Level.SEVERE, "Inventory not saved");
 						break;
 					}
-					x_M_Warehouse_ID = imp.getM_Warehouse_ID();
-					x_MovementDate = MovementDate;
+					warehouseId = importInventory.getM_Warehouse_ID();
+					lastMovementDate = movementDate;
 					noInsert++;
 				}
 
 				//	Line
-				int M_AttributeSetInstance_ID = 0;
-				if (imp.getLot() != null || imp.getSerNo() != null)
+				int attributeSetInstanceId = 0;
+				if (importInventory.getLot() != null || importInventory.getSerNo() != null)
 				{
-					MProduct product = MProduct.get(getCtx(), imp.getM_Product_ID());
+					MProduct product = MProduct.get(getCtx(), importInventory.getM_Product_ID());
 					if (product.isInstanceAttribute())
 					{
-						MAttributeSet mas = product.getAttributeSet();
-						MAttributeSetInstance masi = new MAttributeSetInstance(getCtx(), 0, mas.getM_AttributeSet_ID(), get_TrxName());
-						if (mas.isLot() && imp.getLot() != null)
-							masi.setLot(imp.getLot(), imp.getM_Product_ID());
-						if (mas.isSerNo() && imp.getSerNo() != null)
-							masi.setSerNo(imp.getSerNo());
-						masi.setDescription();
-						masi.saveEx();
-						M_AttributeSetInstance_ID = masi.getM_AttributeSetInstance_ID();
+						MAttributeSet attributeSet = product.getAttributeSet();
+						MAttributeSetInstance attributeSetInstance = new MAttributeSetInstance(getCtx(), 0, attributeSet.getM_AttributeSet_ID(), get_TrxName());
+						if (attributeSet.isLot() && importInventory.getLot() != null)
+							attributeSetInstance.setLot(importInventory.getLot(), importInventory.getM_Product_ID());
+						if (attributeSet.isSerNo() && importInventory.getSerNo() != null)
+							attributeSetInstance.setSerNo(importInventory.getSerNo());
+						attributeSetInstance.setDescription();
+						attributeSetInstance.saveEx();
+						attributeSetInstanceId = attributeSetInstance.getM_AttributeSetInstance_ID();
 					}
 				}
-				MInventoryLine line = new MInventoryLine (inventory, 
-					imp.getM_Locator_ID(), imp.getM_Product_ID(), M_AttributeSetInstance_ID,
-					imp.getQtyBook(), imp.getQtyCount());
-				line.saveEx();
+				MInventoryLine inventoryLine = new MInventoryLine (inventory,
+					importInventory.getM_Locator_ID(), importInventory.getM_Product_ID(), attributeSetInstanceId,
+					importInventory.getQtyBook(), importInventory.getQtyCount());
+				inventoryLine.saveEx();
 
-				imp.setI_IsImported(true);
-				imp.setM_Inventory_ID(line.getM_Inventory_ID());
-				imp.setM_InventoryLine_ID(line.getM_InventoryLine_ID());
-				imp.setProcessed(true);
-				imp.saveEx();
+				importInventory.setI_IsImported(true);
+				importInventory.setM_Inventory_ID(inventoryLine.getM_Inventory_ID());
+				importInventory.setM_InventoryLine_ID(inventoryLine.getM_InventoryLine_ID());
+				importInventory.setProcessed(true);
+				importInventory.saveEx();
 				
 				noInsertLine++;
 					//@Trifon update Product cost record if Update costing is enabled
 				if (p_UpdateCosting) 
 				{
-						line.setCurrentCostPrice(imp.getCurrentCostPrice());
-						line.saveEx();
+						inventoryLine.setCurrentCostPrice(importInventory.getCurrentCostPrice());
+						inventoryLine.setCurrentCostPriceLL(importInventory.getCurrentCostPriceLL());
+						inventoryLine.saveEx();
 				}			
 			}
-			rs.close();
-			pstmt.close();
+			resultSet.close();
+			preparedStatement.close();
 		}
 		catch (Exception e)
 		{

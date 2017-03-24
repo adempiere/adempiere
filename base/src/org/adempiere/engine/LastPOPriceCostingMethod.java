@@ -49,30 +49,25 @@ public class LastPOPriceCostingMethod extends AbstractCostingMethod implements I
     }
 	
 	public MCostDetail process() {
-		MCost cost = ((MCostDetail)  costDetail).getM_Cost();
-		CLogger s_log = CLogger.getCLogger(LastPOPriceCostingMethod.class);
-
+		CLogger logger = CLogger.getCLogger(LastPOPriceCostingMethod.class);
 		boolean isReturnTrx =  costDetail.getQty().signum() < 0;
-		MAcctSchema as = MAcctSchema.get(model.getCtx(),  costDetail.getC_AcctSchema_ID(), model.get_TrxName());
-		int precision = as.getCostingPrecision();
+		int precision = accountSchema.getCostingPrecision();
 		BigDecimal price = costDetail.getAmt();
 
 		if ( costDetail.getQty().signum() != 0)
-			price =  costDetail.getAmt().divide(costDetail.getQty(), precision,
-					BigDecimal.ROUND_HALF_UP);
+			price =  costDetail.getAmt().divide(costDetail.getQty(), precision, BigDecimal.ROUND_HALF_UP);
 
 		if ( costDetail.getC_OrderLine_ID() != 0) {
 			if (!isReturnTrx) {
 				if ( costDetail.getQty().signum() != 0)
-					cost.setCurrentCostPrice(price);
+					dimension.setCurrentCostPrice(price);
 				else {
-					BigDecimal cCosts = cost.getCurrentCostPrice().add(
-                            costDetail.getAmt());
-					cost.setCurrentCostPrice(cCosts);
+					BigDecimal currentCost = dimension.getCurrentCostPrice().add(costDetail.getAmt());
+					dimension.setCurrentCostPrice(currentCost);
 				}
 			}
-			cost.add( costDetail.getAmt(),  costDetail.getQty());
-			s_log.finer("PO - LastPO - " + cost);
+			dimension.add( costDetail.getAmt(),  costDetail.getQty());
+			logger.finer("PO - LastPO - " + dimension);
 		} 
 		else if ( costDetail.getM_InOutLine_ID() != 0 // AR Shipment Detail Record
 				||  costDetail.getM_MovementLine_ID() != 0
@@ -81,18 +76,12 @@ public class LastPOPriceCostingMethod extends AbstractCostingMethod implements I
 				||  costDetail.getC_ProjectIssue_ID() != 0
 				||  costDetail.getPP_Cost_Collector_ID() != 0)
 		{
-			cost.setCurrentQty(cost.getCurrentQty().add(costDetail.getQty()));
-			s_log.finer("QtyAdjust - LastPO - " + cost);
-			cost.saveEx();
+			dimension.setCurrentQty(dimension.getCurrentQty().add(costDetail.getQty()));
+			logger.finer("QtyAdjust - LastPO - " + dimension);
+			dimension.saveEx();
 		}
 		return costDetail;
 	}
-
-	/*@Override
-	public void processCostDetail(MCostDetail mCostdetail) {
-		// TODO Auto-generated method stub
-		
-	}*/
 
 	@Override
 	protected List<CostComponent> getCalculatedCosts() {
@@ -105,30 +94,76 @@ public class LastPOPriceCostingMethod extends AbstractCostingMethod implements I
 
     }
 
-    @Override
-	public BigDecimal getNewCurrentCostPrice(MCostDetail cd, int scale,
-			int roundingMode) {
-		// TODO Auto-generated method stub
-		return null;
+	/**
+	 * Average Invoice Get the New Current Cost Price This Level
+	 * @param cost Cost Detail
+	 * @param scale Scale
+	 * @param roundingMode Rounding Mode
+	 * @return New Current Cost Price This Level
+	 */
+	public BigDecimal getNewCurrentCostPrice(MCostDetail cost, int scale, int roundingMode) {
+		if (getNewAccumulatedQuantity(cost).signum() != 0 && getNewAccumulatedAmount(cost).signum() != 0)
+			return getNewAccumulatedAmount(cost).divide(getNewAccumulatedQuantity(cost), scale, roundingMode);
+		else
+			return BigDecimal.ZERO;
 	}
 
-    @Override
-    public java.math.BigDecimal getNewAccumulatedAmount(org.compiere.model.MCostDetail cd) {
-        return null;
-    }
+	/**
+	 * Average Invoice Get the New Cumulated Amt This Level
+	 * @param cost Cost Detail
+	 * @return New Cumulated Amt This Level
+	 */
+	public BigDecimal getNewAccumulatedAmount(MCostDetail cost) {
 
-    @Override
-    public java.math.BigDecimal getNewCurrentCostPriceLowerLevel(org.compiere.model.MCostDetail cd, int scale, int roundingMode) {
-        return null;
-    }
+		BigDecimal accumulatedAmount = Env.ZERO;
+		if (cost.getQty().signum() > 0)
+			accumulatedAmount = cost.getCumulatedAmt().add(cost.getCostAmt()).add(cost.getCostAdjustment());
+		else if (cost.getQty().signum() < 0)
+			accumulatedAmount = cost.getCumulatedAmt().add(cost.getCostAmt().negate()).add(cost.getCostAdjustment().negate());
+		else if (cost.getQty().signum() == 0)
+		{
+			if(getNewAccumulatedQuantity(cost).signum() > 0)
+				accumulatedAmount = cost.getCumulatedAmt().add(cost.getCostAmt()).add(cost.getCostAdjustment());
+			else if (getNewAccumulatedQuantity(cost).signum() < 0)
+				accumulatedAmount = cost.getCumulatedAmt().add(cost.getCostAmt().negate()).add(cost.getCostAdjustment().negate());
+		}
+		return accumulatedAmount;
+	}
 
-    @Override
-    public java.math.BigDecimal getNewAccumulatedAmountLowerLevel(org.compiere.model.MCostDetail cd) {
-        return null;
-    }
+	/**
+	 * Average Invoice Get the New Current Cost Price low level
+	 * @param cost Cost Detail
+	 * @param scale Scale
+	 * @param roundingMode Rounding Mode
+	 * @return New Current Cost Price low level
+	 */
+	public BigDecimal getNewCurrentCostPriceLowerLevel(MCostDetail cost, int scale, int roundingMode) {
+		if (getNewAccumulatedQuantity(cost).signum() != 0 && getNewAccumulatedAmountLowerLevel(cost).signum() != 0)
+			return getNewAccumulatedAmountLowerLevel(cost).divide(getNewAccumulatedQuantity(cost), scale, roundingMode);
+		else
+			return BigDecimal.ZERO;
+	}
 
-    @Override
-    public java.math.BigDecimal getNewAccumulatedQuantity(org.compiere.model.MCostDetail cd) {
-        return null;
-    }
+	/**
+	 * Average Invoice Get the new Cumulated Amt Low Level
+	 * @param cost MCostDetail
+	 * @return New Cumulated Am Low Level
+	 */
+	public BigDecimal getNewAccumulatedAmountLowerLevel(MCostDetail cost) {
+		BigDecimal accumulatedAmountLowerLevel = Env.ZERO;
+		if (cost.getQty().signum() >= 0)
+			accumulatedAmountLowerLevel = cost.getCumulatedAmtLL().add(cost.getCostAmtLL()).add(cost.getCostAdjustmentLL());
+		else
+			accumulatedAmountLowerLevel = cost.getCumulatedAmtLL().add(cost.getCostAmtLL().negate()).add(cost.getCostAdjustmentLL().negate());
+		return accumulatedAmountLowerLevel;
+	}
+
+	/**
+	 * Average Invoice Get the new Cumulated Qty
+	 * @param cost Cost Detail
+	 * @return New Accumulated Quantity
+	 */
+	public BigDecimal getNewAccumulatedQuantity(MCostDetail cost) {
+		return cost.getCumulatedQty().add(cost.getQty());
+	}
 }

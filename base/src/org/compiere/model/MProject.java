@@ -21,7 +21,9 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
+import java.util.stream.Collectors;
 
+import org.compiere.util.CCache;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 
@@ -33,6 +35,95 @@ import org.compiere.util.Env;
  */
 public class MProject extends X_C_Project
 {
+	private static CCache<Integer, MProject> projectCacheIds = new CCache<Integer, MProject>(Table_Name, 100, 0);
+	private static CCache<String, MProject> projectCacheValues = new CCache<String, MProject>(Table_Name, 100, 0);
+
+	/**
+	 * Ge project by Id
+	 * @param ctx
+	 * @param projectId
+	 * @return
+	 */
+	public static MProject getById(Properties ctx, Integer projectId) {
+		if (projectId <= 0)
+			return null;
+		if (projectCacheIds.size() == 0)
+			getAll(ctx, true);
+
+		MProject project = projectCacheIds.get(projectId);
+		if (project != null)
+			return project;
+
+		project =  new Query(ctx , Table_Name , COLUMNNAME_C_Project_ID + "=?" , null)
+				.setClient_ID()
+				.setParameters(projectId)
+				.first();
+
+		if (project != null && project.get_ID() > 0) {
+			int clientId = Env.getAD_Client_ID(ctx);
+			String key = clientId + "#" + project.getValue();
+			projectCacheIds.put(project.get_ID(), project);
+			projectCacheValues.put(key, project);
+		}
+		return project;
+	}
+
+	/**
+	 * Get project by Search Key
+	 * @param ctx
+	 * @param value
+	 * @return
+	 */
+	public static MProject getByValue(Properties ctx, String value) {
+		if (value == null)
+			return null;
+		if (projectCacheValues.size() == 0)
+			getAll(ctx, true);
+
+		int clientId = Env.getAD_Client_ID(ctx);
+		String key = clientId + "#" + value;
+		MProject project = projectCacheValues.get(key);
+		if (project != null && project.get_ID() > 0)
+			return project;
+
+		project = new Query(ctx, Table_Name, COLUMNNAME_Value + "=?", null)
+				.setClient_ID()
+				.setParameters(value)
+				.first();
+		if (project != null && project.get_ID() > 0) {
+			projectCacheValues.put(key, project);
+			projectCacheIds.put(project.get_ID(), project);
+		}
+		return project;
+	}
+
+	/**
+	 * Get all project and create cache
+	 * @param ctx
+	 * @param resetCache
+	 * @return
+	 */
+	public static List<MProject> getAll(Properties ctx, boolean resetCache) {
+		List<MProject> projectList;
+		if (resetCache || projectCacheIds.size() > 0) {
+			projectList = new Query(Env.getCtx(), Table_Name, null, null)
+					.setClient_ID()
+					.setOrderBy(COLUMNNAME_Name)
+					.list();
+			projectList.stream().forEach(project -> {
+				int clientId = Env.getAD_Client_ID(ctx);
+				String key = clientId + "#" + project.getValue();
+				projectCacheIds.put(project.getC_Project_ID(), project);
+				projectCacheValues.put(key, project);
+			});
+			return projectList;
+		}
+		projectList = projectCacheIds.entrySet().stream()
+				.map(project -> project.getValue())
+				.collect(Collectors.toList());
+		return projectList;
+	}
+
 	/**
 	 * 
 	 */

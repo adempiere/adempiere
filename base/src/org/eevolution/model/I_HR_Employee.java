@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2016 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
@@ -11,8 +11,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 package org.eevolution.model;
 
@@ -23,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for HR_Employee
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0
+ *  @version Release 3.9.0
  */
 public interface I_HR_Employee 
 {
@@ -49,6 +48,19 @@ public interface I_HR_Employee
 	  * Client/Tenant for this installation.
 	  */
 	public int getAD_Client_ID();
+
+    /** Column name AD_OrgTrx_ID */
+    public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
+
+	/** Set Trx Organization.
+	  * Performing or initiating organization
+	  */
+	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID);
+
+	/** Get Trx Organization.
+	  * Performing or initiating organization
+	  */
+	public int getAD_OrgTrx_ID();
 
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
@@ -129,6 +141,21 @@ public interface I_HR_Employee
 	public int getC_BPartner_ID();
 
 	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
+
+    /** Column name C_Project_ID */
+    public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
+
+	/** Set Project.
+	  * Financial Project
+	  */
+	public void setC_Project_ID (int C_Project_ID);
+
+	/** Get Project.
+	  * Financial Project
+	  */
+	public int getC_Project_ID();
+
+	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException;
 
     /** Column name Code */
     public static final String COLUMNNAME_Code = "Code";
@@ -229,20 +256,46 @@ public interface I_HR_Employee
 	/** Get Gender	  */
 	public String getGender();
 
+    /** Column name HR_CareerLevel_ID */
+    public static final String COLUMNNAME_HR_CareerLevel_ID = "HR_CareerLevel_ID";
+
+	/** Set Career Level.
+	  * The Career Level for this position
+	  */
+	public void setHR_CareerLevel_ID (int HR_CareerLevel_ID);
+
+	/** Get Career Level.
+	  * The Career Level for this position
+	  */
+	public int getHR_CareerLevel_ID();
+
+	public org.eevolution.model.I_HR_CareerLevel getHR_CareerLevel() throws RuntimeException;
+
     /** Column name HR_Department_ID */
     public static final String COLUMNNAME_HR_Department_ID = "HR_Department_ID";
 
-	/** Set Department.
-	  * Department of the organization
-	  */
+	/** Set Payroll Department	  */
 	public void setHR_Department_ID (int HR_Department_ID);
 
-	/** Get Department.
-	  * Department of the organization
-	  */
+	/** Get Payroll Department	  */
 	public int getHR_Department_ID();
 
 	public org.eevolution.model.I_HR_Department getHR_Department() throws RuntimeException;
+
+    /** Column name HR_Designation_ID */
+    public static final String COLUMNNAME_HR_Designation_ID = "HR_Designation_ID";
+
+	/** Set Designation.
+	  * Designation is a nationally recognized level
+	  */
+	public void setHR_Designation_ID (int HR_Designation_ID);
+
+	/** Get Designation.
+	  * Designation is a nationally recognized level
+	  */
+	public int getHR_Designation_ID();
+
+	public org.eevolution.model.I_HR_Designation getHR_Designation() throws RuntimeException;
 
     /** Column name HR_EmployeeType_ID */
     public static final String COLUMNNAME_HR_EmployeeType_ID = "HR_EmployeeType_ID";
@@ -268,6 +321,51 @@ public interface I_HR_Employee
 	/** Get Payroll Employee	  */
 	public int getHR_Employee_ID();
 
+    /** Column name HR_JobEducation_ID */
+    public static final String COLUMNNAME_HR_JobEducation_ID = "HR_JobEducation_ID";
+
+	/** Set Job Education.
+	  * The Job Education for this position
+	  */
+	public void setHR_JobEducation_ID (int HR_JobEducation_ID);
+
+	/** Get Job Education.
+	  * The Job Education for this position
+	  */
+	public int getHR_JobEducation_ID();
+
+	public org.eevolution.model.I_HR_JobEducation getHR_JobEducation() throws RuntimeException;
+
+    /** Column name HR_JobOpening_ID */
+    public static final String COLUMNNAME_HR_JobOpening_ID = "HR_JobOpening_ID";
+
+	/** Set Job Openings .
+	  * Job Openings for Recruitment Management
+	  */
+	public void setHR_JobOpening_ID (int HR_JobOpening_ID);
+
+	/** Get Job Openings .
+	  * Job Openings for Recruitment Management
+	  */
+	public int getHR_JobOpening_ID();
+
+	public org.eevolution.model.I_HR_JobOpening getHR_JobOpening() throws RuntimeException;
+
+    /** Column name HR_JobType_ID */
+    public static final String COLUMNNAME_HR_JobType_ID = "HR_JobType_ID";
+
+	/** Set Job Type.
+	  * The Job Type for a Job Openings
+	  */
+	public void setHR_JobType_ID (int HR_JobType_ID);
+
+	/** Get Job Type.
+	  * The Job Type for a Job Openings
+	  */
+	public int getHR_JobType_ID();
+
+	public org.eevolution.model.I_HR_JobType getHR_JobType() throws RuntimeException;
+
     /** Column name HR_Job_ID */
     public static final String COLUMNNAME_HR_Job_ID = "HR_Job_ID";
 
@@ -282,14 +380,10 @@ public interface I_HR_Employee
     /** Column name HR_Payroll_ID */
     public static final String COLUMNNAME_HR_Payroll_ID = "HR_Payroll_ID";
 
-	/** Set Payroll.
-	  * The Payroll definition allows to define all the payroll concepts , year and periods, to  calculate a payroll.
-	  */
+	/** Set Payroll	  */
 	public void setHR_Payroll_ID (int HR_Payroll_ID);
 
-	/** Get Payroll.
-	  * The Payroll definition allows to define all the payroll concepts , year and periods, to  calculate a payroll.
-	  */
+	/** Get Payroll	  */
 	public int getHR_Payroll_ID();
 
 	public org.eevolution.model.I_HR_Payroll getHR_Payroll() throws RuntimeException;
@@ -308,6 +402,36 @@ public interface I_HR_Employee
 	public int getHR_Race_ID();
 
 	public org.eevolution.model.I_HR_Race getHR_Race() throws RuntimeException;
+
+    /** Column name HR_SalaryRange_ID */
+    public static final String COLUMNNAME_HR_SalaryRange_ID = "HR_SalaryRange_ID";
+
+	/** Set Salary Range.
+	  * The Salary Rage is use in Job Openings
+	  */
+	public void setHR_SalaryRange_ID (int HR_SalaryRange_ID);
+
+	/** Get Salary Range.
+	  * The Salary Rage is use in Job Openings
+	  */
+	public int getHR_SalaryRange_ID();
+
+	public org.eevolution.model.I_HR_SalaryRange getHR_SalaryRange() throws RuntimeException;
+
+    /** Column name HR_SalaryStructure_ID */
+    public static final String COLUMNNAME_HR_SalaryStructure_ID = "HR_SalaryStructure_ID";
+
+	/** Set Salary Structure.
+	  * Salary Structure of an Employee
+	  */
+	public void setHR_SalaryStructure_ID (int HR_SalaryStructure_ID);
+
+	/** Get Salary Structure.
+	  * Salary Structure of an Employee
+	  */
+	public int getHR_SalaryStructure_ID();
+
+	public org.eevolution.model.I_HR_SalaryStructure getHR_SalaryStructure() throws RuntimeException;
 
     /** Column name HR_SkillType_ID */
     public static final String COLUMNNAME_HR_SkillType_ID = "HR_SkillType_ID";

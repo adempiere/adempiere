@@ -404,16 +404,14 @@ public class WBrowserTable extends Listbox implements IBrowserTable, TableValueC
 	 * @param multiSelection
 	 * @return
 	 */
-	public String prepareTable(List<MBrowseField> fields, boolean multiSelection)
-	{
+	public String prepareTable(List<MBrowseField> fields, boolean multiSelection) {
 		browserRows = new BrowserRow(this);
 		StringBuffer sql = new StringBuffer("");
 		browserFields = fields;
 		clearColumns();
 		int col = 0;
 		//  Add columns & sql
-		for (MBrowseField field : fields)
-		{
+		for (MBrowseField field : fields) {
 			MViewColumn columnView = field.getAD_View_Column();
 			//  create sql
 			if (col > 0 && columnView.getColumnSQL().length() > 0)
@@ -438,6 +436,7 @@ public class WBrowserTable extends Listbox implements IBrowserTable, TableValueC
 			//	BR [ 257 ]
 			col++;
 		}
+        //	Set Column Class
 		col = 0;
 		for (MBrowseField field : fields)
 		{
@@ -446,11 +445,12 @@ public class WBrowserTable extends Listbox implements IBrowserTable, TableValueC
 						MBrowseField.createGridFieldVO(field, browser.getWindowNo()),
 						field.getAD_Reference_ID(),
 						field.isReadOnly(),
-						field.get_ValueAsString(I_AD_Browse_Field.COLUMNNAME_Name));
+		            	//	#845 Bad translation for table column
+						field.get_Translation(I_AD_Browse_Field.COLUMNNAME_Name));
 				col++;
 			}
 		}
-
+		//	
 		return sql.toString();
 	}
 	/**

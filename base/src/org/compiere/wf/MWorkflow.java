@@ -716,9 +716,9 @@ public class MWorkflow extends X_AD_Workflow
 			localTrx = Trx.get(Trx.createTrxName("WFP"), true);
 		try
 		{
-			if (isLock(getAD_Table_ID(), pi.getRecord_ID()))
+			if (MWorkflow.WORKFLOWTYPE_DocumentProcess.equals(getWorkflowType()) && isLock(getAD_Table_ID(), pi.getRecord_ID()))
 				throw new IllegalStateException(Msg.getMsg(getCtx() , "OtherProcessActive"));
-			else
+			else if (MWorkflow.WORKFLOWTYPE_DocumentProcess.equals(getWorkflowType()))
 				lock(getAD_Table_ID(),pi.getRecord_ID());
 
 			workflowProcess = new MWFProcess (this, pi, trxName != null ? trxName : localTrx.getTrxName());
@@ -727,8 +727,8 @@ public class MWorkflow extends X_AD_Workflow
 			workflowProcess.startWork();
 			if (localTrx != null)
 				localTrx.commit(true);
-
-			unlock(getAD_Table_ID(),pi.getRecord_ID());
+			if (MWorkflow.WORKFLOWTYPE_DocumentProcess.equals(getWorkflowType()))
+				unlock(getAD_Table_ID(),pi.getRecord_ID());
 		}
 		catch (Exception e)
 		{

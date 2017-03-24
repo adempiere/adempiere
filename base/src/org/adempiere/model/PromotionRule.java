@@ -268,6 +268,11 @@ public class PromotionRule {
 										BigDecimal priceActual = ol.getPriceActual();
 										totalPrice = totalPrice.add(priceActual.multiply(qty));
 									}
+									else {  // : Gift line
+										BigDecimal qtyreward = pr.getM_PromotionDistribution().getQty();
+										BigDecimal qtymodulo = ol.getQtyOrdered().divide(qtyreward,0);
+										addGiftLine(order, ol, pr.getAmount(), pr.getQty().multiply(qtymodulo), pr.getC_Charge_ID(), pr.getM_Promotion());
+									} 
 								}
 							}
 
@@ -289,14 +294,36 @@ public class PromotionRule {
 
 	private static void addDiscountLine(MOrder order, MOrderLine ol, BigDecimal discount,
 			BigDecimal qty, int C_Charge_ID, I_M_Promotion promotion) throws Exception {
-		MOrderLine nol = new MOrderLine(order.getCtx(), 0, order.get_TrxName());
+		
+		MOrderLine nol;
+		if (discount.scale() > 2)
+			discount = discount.setScale(2, BigDecimal.ROUND_HALF_UP);
+		String description = promotion.getName();
+		if (ol != null)
+			description += (", " + ol.getName());
+		
+		//Look for same order line. If found, just update qty
+		nol = new Query(Env.getCtx(), MTable.get(order.getCtx(), MOrderLine.Table_ID),
+			  "C_OrderLine.C_Order_ID=? AND C_Charge_ID=? AND M_Promotion_ID=? AND priceactual=? AND Description='" + 
+			  description + "'" + " AND C_OrderLine.IsActive='Y'", order.get_TrxName())
+		.setParameters(ol.getC_Order_ID(), C_Charge_ID, promotion.getM_Promotion_ID(), discount.negate())
+    	.firstOnly();
+		
+    	if (nol != null)
+    	{   // just add one to he Order line
+			nol.setQty(nol.getQtyEntered().add(qty));
+			nol.saveEx();
+			return;
+    	}
+		
+		// SHW: new order line 
+		nol = new MOrderLine(order.getCtx(), 0, order.get_TrxName());
 		nol.setC_Order_ID(order.getC_Order_ID());
 		nol.setOrder(order);
 		nol.setC_Charge_ID(C_Charge_ID);
 		nol.setQty(qty);
-		if (discount.scale() > 2)
-			discount = discount.setScale(2, BigDecimal.ROUND_HALF_UP);
 		nol.setPriceActual(discount.negate());
+		nol.setC_UOM_ID(ol.getC_UOM_ID());  // SHW
 		if (ol != null && Integer.toString(ol.getLine()).endsWith("0")) {
 			for(int i = 0; i < 9; i++) {
 				int line = ol.getLine() + i + 1;
@@ -307,9 +334,6 @@ public class PromotionRule {
 				}
 			}
 		}
-		String description = promotion.getName();
-		if (ol != null)
-			description += (", " + ol.getName());
 		nol.setDescription(description);
 		nol.set_ValueOfColumn("M_Promotion_ID", promotion.getM_Promotion_ID());
 		if (promotion.getC_Campaign_ID() > 0) {
@@ -612,4 +636,131 @@ public class PromotionRule {
 			return index.get(ol1).getPriceActual().compareTo(index.get(ol2).getPriceActual());
 		}
 	}
+
+
+
+	/**
+	 *  addGiftLine
+	 *  Free products are added  to the Order with price according to discount (price is calculated from discount).
+	 *  If there is an order line with the same product and discount, only the quantity is added.
+	 *	
+	 *  @author Mario Calderon (SHW)
+	 *  @date 14.07.2013
+	 *	@param order Sales Order
+	 *	@param ol Sales Order line
+	 *	@param discount Discount in %
+	 *	@param qty Quantity of promotion
+	 *	@param C_Charge_ID Charge for the promotion - not used; just for legacy. Can be refactored later.
+	 *	@param promotion Promotion object
+	 *	@return void
+	 *  
+	 */
+	private static void addGiftLine(MOrder order, MOrderLine ol, BigDecimal discount,
+			BigDecimal qty, int C_Charge_ID, I_M_Promotion promotion) throws Exception {
+		MOrderLine nol;
+		if (discount.scale() > 2)
+			discount = discount.setScale(2, BigDecimal.ROUND_HALF_UP);
+		
+		// Calculate discount
+		BigDecimal actualPrice = ol.getPriceActual();
+		actualPrice = actualPrice.setScale(2, BigDecimal.ROUND_HALF_UP);
+		BigDecimal multiplicator = Env.ONEHUNDRED.subtract(discount).divide(Env.ONEHUNDRED);
+		actualPrice = actualPrice.multiply(multiplicator);
+		
+		//Look for same product and discount as calculated
+		nol = new Query(Env.getCtx(), MTable.get(order.getCtx(), MOrderLine.Table_ID),
+				"C_OrderLine.C_Order_ID=? AND C_OrderLine.m_product_id=? " + " AND C_OrderLine.discount=" + discount.toString() +
+				" AND C_OrderLine.IsActive='Y'", order.get_TrxName())
+		.setParameters(ol.getC_Order_ID(), ol.getM_Product_ID())
+    	.firstOnly();
+		
+    	if (nol != null)
+    	{   // just add one to he Order line
+			nol.setQty(nol.getQtyEntered().add(qty));
+			nol.saveEx();
+			return;
+    	}
+		
+    	// No discounted product before: create a new line
+		nol = new MOrderLine(order.getCtx(), 0, order.get_TrxName());
+		nol.setC_Order_ID(order.getC_Order_ID());
+		nol.setOrder(order);
+		nol.setM_Product_ID(ol.getM_Product_ID());
+		nol.setC_UOM_ID(ol.getC_UOM_ID());
+		nol.setQty(qty);
+		nol.setPriceActual(Env.ZERO);
+		nol.setPriceEntered(Env.ZERO);
+		nol.setPriceList(ol.getPriceList());
+		nol.setDiscount(discount);  // the discount is actually calculated and thus not needed
+		if (ol != null && Integer.toString(ol.getLine()).endsWith("0")) {
+			for(int i = 0; i < 9; i++) {
+				int line = ol.getLine() + i + 1;
+				int r = DB.getSQLValue(order.get_TrxName(), "SELECT C_OrderLine_ID FROM C_OrderLine WHERE C_Order_ID = ? AND Line = ?", order.getC_Order_ID(), line);
+				if (r <= 0) {
+					nol.setLine(line);
+					break;
+				}
+			}
+		}
+		String description = promotion.getName();
+		if (ol != null)
+			description += (", " + ol.getName());
+		nol.setDescription(description + ". Gift.");
+		nol.set_ValueOfColumn("M_Promotion_ID", promotion.getM_Promotion_ID());
+		if (promotion.getC_Campaign_ID() > 0) {
+			nol.setC_Campaign_ID(promotion.getC_Campaign_ID());
+		}
+		nol.saveEx();
+	}
+	
+
+	public static void applyPromotionsByLine(MOrder order, MOrderLine ol) throws Exception {
+		MOrderLine bonLine = null;
+
+		String whereClause = "m_product_ID=? and isgiveaway='Y'";
+		MOrderLine oldbonLine = new Query(ol.getCtx(), MOrderLine.Table_Name, whereClause, ol.get_TrxName())
+		.setParameters(ol.getM_Product_ID())
+		.first();
+		if (oldbonLine != null)
+			oldbonLine.deleteEx(false);
+		MPromotion pr = new MPromotion(ol.getCtx(), ol.getM_Promotion_ID(), ol.get_TrxName());
+		whereClause = "m_promotion_id =? and validfrom<=? and c_bpartner_id =?";
+		int promLine = new Query(order.getCtx(), MPromotionLine.Table_Name, whereClause, order.get_TrxName())
+			.setParameters(new Object[]{pr.getM_Promotion_ID(), order.getDateOrdered(), order.getC_BPartner_ID()})
+			.setOrderBy("validfrom desc")
+			.firstId();
+		if (promLine <=0)
+		{
+			whereClause = "m_promotion_id =? and trunc(validfrom)<=? and c_bpartner_id is null";
+			promLine = new Query(order.getCtx(), MPromotionLine.Table_Name, whereClause, order.get_TrxName())
+				.setParameters(new Object[]{pr.getM_Promotion_ID(), order.getDateOrdered()})
+				.setOrderBy("validfrom desc")
+				.firstId();
+		}
+		if (promLine <=0)
+			return;
+		whereClause = "m_promotionline_ID=?";
+		List <MPromotionDistribution> pds = new Query(order.getCtx(), MPromotionDistribution.Table_Name, whereClause, order.get_TrxName())
+			.setParameters(promLine)
+			.setOrderBy("qty desc")
+			.list();
+		for (MPromotionDistribution dist:pds)
+		{
+			if (ol.getQtyOrdered().doubleValue()>=dist.getQty().doubleValue())
+			{
+				bonLine = new MOrderLine(order);
+				MOrderLine.copyValues(ol, bonLine);
+				bonLine.setPrice(Env.ZERO);
+				bonLine.setDiscount(Env.ONEHUNDRED);
+				bonLine.setQty(dist.getQtyReward());
+				bonLine.setDescription("Bonificaciones");
+				bonLine.set_ValueOfColumn("isGiveAway", true);
+				bonLine.saveEx();
+				break;
+			}
+		}
+		
+				
+}
+
 }

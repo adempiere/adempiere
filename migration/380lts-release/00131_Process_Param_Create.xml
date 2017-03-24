@@ -1,22 +1,26 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Create Process parameter from Report View #243" ReleaseNo="3.9.0" SeqNo="00131">
+  <Migration EntityType="D" Name="Create Process parameter from Report View #243" ReleaseNo="3.9.0" SeqNo="131">
     <Comments>See: https://github.com/adempiere/adempiere/issues/243</Comments>
     <Step DBType="Postgres" Parse="Y" SeqNo="1" StepType="SQL">
-      <SQLStatement>CREATE OR REPLACE VIEW RV_CopyProcess_Para AS
+      <SQLStatement>CREATE OR REPLACE VIEW RV_CopyProcess_Para 
+(AD_Client_ID, AD_Org_ID, Created, CreatedBy, Updated, UpdatedBy, IsActive,
+AD_Element_ID, ColumnName, AD_Reference_ID, IsMandatory, IsRange, 
+DefaultValue, DefaultValue2, AD_ReportView_ID, CopyFromProcess, AD_Process_ID, AD_Process_Para_ID, AD_Column_ID) 
+AS
 SELECT c.AD_Client_ID, c.AD_Org_ID, c.Created, c.CreatedBy, c.Updated, c.UpdatedBy, c.IsActive,
-c.AD_Element_ID, c.ColumnName, c.AD_Reference_ID, c.IsMandatory, 'N' IsRange, 
-c.DefaultValue, '' DefaultValue2, rv.AD_ReportView_ID, 'N' CopyFromProcess, null AD_Process_ID, null AD_Process_Para_ID, c.AD_Column_ID
+c.AD_Element_ID, c.ColumnName, c.AD_Reference_ID, c.IsMandatory, 'N' AS IsRange, 
+c.DefaultValue, null AS DefaultValue2, rv.AD_ReportView_ID, 'N' AS CopyFromProcess, null AS AD_Process_ID, null AS AD_Process_Para_ID, c.AD_Column_ID
 FROM AD_ReportView rv
 INNER JOIN AD_Table t ON(t.AD_Table_ID = rv.AD_Table_ID)
 INNER JOIN AD_Column c ON(c.AD_Table_ID = t.AD_Table_ID)
 UNION ALL
 SELECT pp.AD_Client_ID, pp.AD_Org_ID, pp.Created, pp.CreatedBy, pp.Updated, pp.UpdatedBy, pp.IsActive,
-pp.AD_Element_ID, pp.ColumnName, pp.AD_Reference_ID, pp.IsMandatory, 'N' IsRange, 
-pp.DefaultValue, pp.DefaultValue2, null AD_ReportView_ID, 'Y' CopyFromProcess, p.AD_Process_ID, pp.AD_Process_Para_ID, null AD_Column_ID
+pp.AD_Element_ID, pp.ColumnName, pp.AD_Reference_ID, pp.IsMandatory, 'N' AS IsRange, 
+pp.DefaultValue, pp.DefaultValue2, null AS AD_ReportView_ID, 'Y' AS CopyFromProcess, p.AD_Process_ID, pp.AD_Process_Para_ID, null AS AD_Column_ID
 FROM AD_Process p
-INNER JOIN AD_Process_Para pp ON(pp.AD_Process_ID = p.AD_Process_ID)</SQLStatement>
-      <RollbackStatement>DROP VIEW IF EXISTS RV_CopyProcess_Para</RollbackStatement>
+INNER JOIN AD_Process_Para pp ON(pp.AD_Process_ID = p.AD_Process_ID);</SQLStatement>
+      <RollbackStatement>DROP VIEW IF EXISTS RV_CopyProcess_Para;</RollbackStatement>
     </Step>
     <Step DBType="Oracle" Parse="Y" SeqNo="2" StepType="SQL">
       <SQLStatement>CREATE OR REPLACE VIEW RV_CopyProcess_Para 
@@ -25,18 +29,18 @@ AD_Element_ID, ColumnName, AD_Reference_ID, IsMandatory, IsRange,
 DefaultValue, DefaultValue2, AD_ReportView_ID, CopyFromProcess, AD_Process_ID, AD_Process_Para_ID, AD_Column_ID) 
 AS
 SELECT c.AD_Client_ID, c.AD_Org_ID, c.Created, c.CreatedBy, c.Updated, c.UpdatedBy, c.IsActive,
-c.AD_Element_ID, c.ColumnName, c.AD_Reference_ID, c.IsMandatory, 'N' IsRange, 
-c.DefaultValue, '' DefaultValue2, rv.AD_ReportView_ID, 'N' CopyFromProcess, null AD_Process_ID, null AD_Process_Para_ID, c.AD_Column_ID
+c.AD_Element_ID, c.ColumnName, c.AD_Reference_ID, c.IsMandatory, 'N' AS IsRange, 
+c.DefaultValue, null AS DefaultValue2, rv.AD_ReportView_ID, 'N' AS CopyFromProcess, null AS AD_Process_ID, null AS AD_Process_Para_ID, c.AD_Column_ID
 FROM AD_ReportView rv
 INNER JOIN AD_Table t ON(t.AD_Table_ID = rv.AD_Table_ID)
 INNER JOIN AD_Column c ON(c.AD_Table_ID = t.AD_Table_ID)
 UNION ALL
 SELECT pp.AD_Client_ID, pp.AD_Org_ID, pp.Created, pp.CreatedBy, pp.Updated, pp.UpdatedBy, pp.IsActive,
-pp.AD_Element_ID, pp.ColumnName, pp.AD_Reference_ID, pp.IsMandatory, 'N' IsRange, 
-pp.DefaultValue, pp.DefaultValue2, null AD_ReportView_ID, 'Y' CopyFromProcess, p.AD_Process_ID, pp.AD_Process_Para_ID, null AD_Column_ID
+pp.AD_Element_ID, pp.ColumnName, pp.AD_Reference_ID, pp.IsMandatory, 'N' AS IsRange, 
+pp.DefaultValue, pp.DefaultValue2, null AS AD_ReportView_ID, 'Y' AS CopyFromProcess, p.AD_Process_ID, pp.AD_Process_Para_ID, null AS AD_Column_ID
 FROM AD_Process p
-INNER JOIN AD_Process_Para pp ON(pp.AD_Process_ID = p.AD_Process_ID)</SQLStatement>
-      <RollbackStatement>DROP VIEW IF EXISTS RV_CopyProcess_Para</RollbackStatement>
+INNER JOIN AD_Process_Para pp ON(pp.AD_Process_ID = p.AD_Process_ID);</SQLStatement>
+      <RollbackStatement>DROP VIEW IF EXISTS RV_CopyProcess_Para;</RollbackStatement>
     </Step>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="100" Action="I" Record_ID="54061" Table="AD_Table">
@@ -226,26 +230,6 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="50" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="78543" Table="AD_Column">
-        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
-        <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
-        <Data AD_Column_ID="112" Column="Description">Date this record was created</Data>
-        <Data AD_Column_ID="109" Column="AD_Column_ID">78543</Data>
-        <Data AD_Column_ID="110" Column="Version">1</Data>
-        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
-        <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
-        <Data AD_Column_ID="548" Column="IsActive">true</Data>
-        <Data AD_Column_ID="114" Column="AD_Table_ID">54061</Data>
-        <Data AD_Column_ID="111" Column="Name">Created</Data>
-        <Data AD_Column_ID="124" Column="IsMandatory">true</Data>
-        <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
-        <Data AD_Column_ID="116" Column="ColumnName">Created</Data>
-        <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
-        <Data AD_Column_ID="549" Column="Created">2016-03-25 19:57:43.427</Data>
-        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
-        <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="120" Column="IsParent">false</Data>
         <Data AD_Column_ID="113" Column="Help">The Created field indicates the date that this record was created.</Data>
         <Data AD_Column_ID="551" Column="Updated">2016-03-25 19:57:43.427</Data>
         <Data AD_Column_ID="118" Column="FieldLength">7</Data>
@@ -272,6 +256,26 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">245</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
+        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
+        <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
+        <Data AD_Column_ID="112" Column="Description">Date this record was created</Data>
+        <Data AD_Column_ID="109" Column="AD_Column_ID">78543</Data>
+        <Data AD_Column_ID="110" Column="Version">1</Data>
+        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
+        <Data AD_Column_ID="548" Column="IsActive">true</Data>
+        <Data AD_Column_ID="114" Column="AD_Table_ID">54061</Data>
+        <Data AD_Column_ID="111" Column="Name">Created</Data>
+        <Data AD_Column_ID="124" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="116" Column="ColumnName">Created</Data>
+        <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="549" Column="Created">2016-03-25 19:57:43.427</Data>
+        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="120" Column="IsParent">false</Data>
       </PO>
     </Step>
     <Step SeqNo="60" StepType="AD">
@@ -1163,12 +1167,6 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="320" StepType="AD">
       <PO AD_Table_ID="53232" Action="I" Record_ID="53731" Table="AD_View_Column">
-        <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="58109" Column="AD_Column_ID">78547</Data>
-        <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="58100" Column="AD_View_Column_ID">53731</Data>
-        <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50098</Data>
-        <Data AD_Column_ID="58108" Column="AD_View_ID">50042</Data>
         <Data AD_Column_ID="58107" Column="ColumnName">PARAMETER_AD_Element_ID</Data>
         <Data AD_Column_ID="58106" Column="ColumnSQL">Parameter.AD_Element_ID</Data>
         <Data AD_Column_ID="58096" Column="Created">2016-03-25 20:04:31.534</Data>
@@ -1180,6 +1178,12 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58105" Column="Name">System Element</Data>
         <Data AD_Column_ID="58097" Column="Updated">2016-03-25 20:04:31.534</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58109" Column="AD_Column_ID">78547</Data>
+        <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58100" Column="AD_View_Column_ID">53731</Data>
+        <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50098</Data>
+        <Data AD_Column_ID="58108" Column="AD_View_ID">50042</Data>
       </PO>
     </Step>
     <Step SeqNo="330" StepType="AD">
@@ -1274,7 +1278,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">53736</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50098</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50042</Data>
-        <Data AD_Column_ID="58107" Column="ColumnName">PARAMETER_AD_ReportView_ID</Data>
         <Data AD_Column_ID="58106" Column="ColumnSQL">Parameter.AD_ReportView_ID</Data>
         <Data AD_Column_ID="58096" Column="Created">2016-03-25 20:04:49.131</Data>
         <Data AD_Column_ID="58098" Column="CreatedBy">100</Data>
@@ -1285,6 +1288,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58105" Column="Name">Report View</Data>
         <Data AD_Column_ID="58097" Column="Updated">2016-03-25 20:04:49.131</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="58107" Column="ColumnName">PARAMETER_AD_ReportView_ID</Data>
       </PO>
     </Step>
     <Step SeqNo="380" StepType="AD">
@@ -1379,7 +1383,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">53741</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50098</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50042</Data>
-        <Data AD_Column_ID="58107" Column="ColumnName">PARAMETER_DefaultValue</Data>
         <Data AD_Column_ID="58106" Column="ColumnSQL">Parameter.DefaultValue</Data>
         <Data AD_Column_ID="58096" Column="Created">2016-03-25 20:05:07.191</Data>
         <Data AD_Column_ID="58098" Column="CreatedBy">100</Data>
@@ -1390,6 +1393,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58105" Column="Name">Default Logic</Data>
         <Data AD_Column_ID="58097" Column="Updated">2016-03-25 20:05:07.191</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="58107" Column="ColumnName">PARAMETER_DefaultValue</Data>
       </PO>
     </Step>
     <Step SeqNo="430" StepType="AD">
@@ -1427,14 +1431,14 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58098" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="58102" Column="Description">The record is active in the system</Data>
         <Data AD_Column_ID="58103" Column="EntityType">D</Data>
-        <Data AD_Column_ID="58104" Column="Help">There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
-There are two reasons for de-activating and not deleting records:
-(1) The system requires the record for audit purposes.
-(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.</Data>
         <Data AD_Column_ID="58095" Column="IsActive">true</Data>
         <Data AD_Column_ID="58105" Column="Name">Active</Data>
         <Data AD_Column_ID="58097" Column="Updated">2016-03-25 20:05:17.873</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="58104" Column="Help">There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
+There are two reasons for de-activating and not deleting records:
+(1) The system requires the record for audit purposes.
+(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.</Data>
       </PO>
     </Step>
     <Step SeqNo="450" StepType="AD">
@@ -1541,7 +1545,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="72125" Column="IsCollapsibleByDefault">true</Data>
         <Data AD_Column_ID="72124" Column="IsDeleteable">false</Data>
         <Data AD_Column_ID="72127" Column="IsExecutedQueryByDefault">true</Data>
-        <Data AD_Column_ID="72126" Column="IsSelectedByDefault">false</Data>
         <Data AD_Column_ID="73086" Column="IsShowTotal">false</Data>
         <Data AD_Column_ID="57997" Column="Name">Create Parameters</Data>
         <Data AD_Column_ID="58001" Column="Processing">false</Data>
@@ -1549,6 +1552,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="57992" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="57998" Column="Value">SBProcessCreateParameters</Data>
         <Data AD_Column_ID="58000" Column="WhereClause" isNewNull="true"/>
+        <Data AD_Column_ID="72126" Column="IsSelectedByDefault">false</Data>
       </PO>
     </Step>
     <Step SeqNo="500" StepType="AD">
@@ -1659,7 +1663,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="57966" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="64354" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="64355" Column="DefaultValue2" isNewNull="true"/>
-        <Data AD_Column_ID="57972" Column="Description">System Element enables the central maintenance of column description and help.</Data>
         <Data AD_Column_ID="64356" Column="DisplayLogic" isNewNull="true"/>
         <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="64357" Column="FieldLength" isNewNull="true"/>
@@ -1684,6 +1687,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="64360" Column="ValueMax" isNewNull="true"/>
         <Data AD_Column_ID="64361" Column="ValueMin" isNewNull="true"/>
         <Data AD_Column_ID="64359" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="57972" Column="Description">System Element enables the central maintenance of column description and help.</Data>
       </PO>
     </Step>
     <Step SeqNo="530" StepType="AD">
@@ -1770,10 +1774,10 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="57982" Column="SeqNo">14</Data>
         <Data AD_Column_ID="64221" Column="SortNo" isNewNull="true"/>
         <Data AD_Column_ID="57965" Column="Updated">2016-03-25 20:08:29.523</Data>
-        <Data AD_Column_ID="57967" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="64360" Column="ValueMax" isNewNull="true"/>
         <Data AD_Column_ID="64361" Column="ValueMin" isNewNull="true"/>
         <Data AD_Column_ID="64359" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="57967" Column="UpdatedBy">100</Data>
       </PO>
     </Step>
     <Step SeqNo="550" StepType="AD">
@@ -1877,7 +1881,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="64353" Column="AD_Val_Rule_ID" isNewNull="true"/>
         <Data AD_Column_ID="57971" Column="AD_View_Column_ID">53736</Data>
-        <Data AD_Column_ID="63218" Column="Axis_Column_ID" isNewNull="true"/>
         <Data AD_Column_ID="63219" Column="Axis_Parent_Column_ID" isNewNull="true"/>
         <Data AD_Column_ID="67114" Column="Callout" isNewNull="true"/>
         <Data AD_Column_ID="57964" Column="Created">2016-03-25 20:08:40.978</Data>
@@ -1909,6 +1912,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="64360" Column="ValueMax" isNewNull="true"/>
         <Data AD_Column_ID="64361" Column="ValueMin" isNewNull="true"/>
         <Data AD_Column_ID="64359" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="63218" Column="Axis_Column_ID" isNewNull="true"/>
       </PO>
     </Step>
     <Step SeqNo="580" StepType="AD">
@@ -1988,7 +1992,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="57985" Column="IsMandatory">false</Data>
         <Data AD_Column_ID="64222" Column="IsOrderBy">false</Data>
         <Data AD_Column_ID="57979" Column="IsQueryCriteria">false</Data>
-        <Data AD_Column_ID="57980" Column="IsRange">false</Data>
         <Data AD_Column_ID="63579" Column="IsReadOnly">true</Data>
         <Data AD_Column_ID="57981" Column="Name">Copy From Report and Process</Data>
         <Data AD_Column_ID="64358" Column="ReadOnlyLogic" isNewNull="true"/>
@@ -1999,6 +2002,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="64360" Column="ValueMax" isNewNull="true"/>
         <Data AD_Column_ID="64361" Column="ValueMin" isNewNull="true"/>
         <Data AD_Column_ID="64359" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="57980" Column="IsRange">false</Data>
       </PO>
     </Step>
     <Step SeqNo="600" StepType="AD">
@@ -2106,7 +2110,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="63219" Column="Axis_Parent_Column_ID" isNewNull="true"/>
         <Data AD_Column_ID="67114" Column="Callout" isNewNull="true"/>
         <Data AD_Column_ID="57964" Column="Created">2016-03-25 20:09:01.061</Data>
-        <Data AD_Column_ID="57966" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="64354" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="64355" Column="DefaultValue2" isNewNull="true"/>
         <Data AD_Column_ID="57972" Column="Description">Default value hierarchy, separated by ;</Data>
@@ -2134,6 +2137,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="64360" Column="ValueMax" isNewNull="true"/>
         <Data AD_Column_ID="64361" Column="ValueMin" isNewNull="true"/>
         <Data AD_Column_ID="64359" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="57966" Column="CreatedBy">100</Data>
       </PO>
     </Step>
     <Step SeqNo="630" StepType="AD">
@@ -2173,12 +2177,12 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="57981" Column="Name">Default Logic 2</Data>
         <Data AD_Column_ID="64358" Column="ReadOnlyLogic" isNewNull="true"/>
         <Data AD_Column_ID="57982" Column="SeqNo">23</Data>
-        <Data AD_Column_ID="64221" Column="SortNo" isNewNull="true"/>
         <Data AD_Column_ID="57965" Column="Updated">2016-03-25 20:09:05.11</Data>
         <Data AD_Column_ID="57967" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="64360" Column="ValueMax" isNewNull="true"/>
         <Data AD_Column_ID="64361" Column="ValueMin" isNewNull="true"/>
         <Data AD_Column_ID="64359" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="64221" Column="SortNo" isNewNull="true"/>
       </PO>
     </Step>
     <Step SeqNo="640" StepType="AD">
@@ -2281,7 +2285,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57969" Column="AD_Element_ID">404</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57970" Column="AD_Reference_ID">20</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="64353" Column="AD_Val_Rule_ID" isNewNull="true"/>
         <Data AD_Column_ID="57971" Column="AD_View_Column_ID">53745</Data>
@@ -2317,6 +2320,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="64360" Column="ValueMax" isNewNull="true"/>
         <Data AD_Column_ID="64361" Column="ValueMin" isNewNull="true"/>
         <Data AD_Column_ID="64359" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="57970" Column="AD_Reference_ID">20</Data>
       </PO>
     </Step>
     <Step SeqNo="670" StepType="AD">
@@ -2396,7 +2400,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="57985" Column="IsMandatory">false</Data>
         <Data AD_Column_ID="64222" Column="IsOrderBy">false</Data>
         <Data AD_Column_ID="57979" Column="IsQueryCriteria">false</Data>
-        <Data AD_Column_ID="57980" Column="IsRange">false</Data>
         <Data AD_Column_ID="63579" Column="IsReadOnly">true</Data>
         <Data AD_Column_ID="57981" Column="Name">Updated By</Data>
         <Data AD_Column_ID="64358" Column="ReadOnlyLogic" isNewNull="true"/>
@@ -2407,6 +2410,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="64360" Column="ValueMax" isNewNull="true"/>
         <Data AD_Column_ID="64361" Column="ValueMin" isNewNull="true"/>
         <Data AD_Column_ID="64359" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="57980" Column="IsRange">false</Data>
       </PO>
     </Step>
     <Step SeqNo="690" StepType="AD">
