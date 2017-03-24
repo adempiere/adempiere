@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Increase Script size to AD_Rule #705" ReleaseNo="3.9.0" SeqNo="1540">
+  <Migration EntityType="D" Name="Increase Script size to AD_Rule #705" ReleaseNo="3.9.0" SeqNo="1450">
     <Comments>https://github.com/adempiere/adempiere/issues/705</Comments>
     <Step DBType="Oracle" Parse="Y" SeqNo="10" StepType="SQL">
       <SQLStatement>ALTER TABLE AD_Rule ADD ScriptNew CLOB;
