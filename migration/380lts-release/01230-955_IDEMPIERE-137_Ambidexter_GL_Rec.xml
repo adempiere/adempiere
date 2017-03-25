@@ -3,7 +3,8 @@
   <Migration EntityType="D" Name="IDEMPIERE-137_Ambidexter_GL_Rec #955(Adaxa)" ReleaseNo="3.9.0" SeqNo="01230">
     <Step DBType="Oracle" SeqNo="10" StepType="SQL">
       <SQLStatement>-- Remove Old Primary Key Fact_Acct_ID
-ALTER TABLE Fact_Reconciliation DROP CONSTRAINT fact_reconciliation_key
+ALTER TABLE Fact_Reconciliation DROP CONSTRAINT fact_reconciliation_key;
+DROP INDEX fact_reconciliation_key;
 ;</SQLStatement>
       <RollbackStatement></RollbackStatement>
     </Step>
