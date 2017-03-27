@@ -114,5 +114,36 @@
         <Data AD_Column_ID="2814" Column="AD_Process_Para_ID">55123</Data>
       </PO>
     </Step>
+    <Step SeqNo="40" StepType="AD">
+      <Comments>Add Trial Balance Drillable Report to Menu Tree</Comments>
+      <PO AD_Table_ID="452" Action="I" Record_ID="53935" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6161" Column="Node_ID">53935</Data>
+        <Data AD_Column_ID="6153" Column="Updated">2017-03-27 13:28:39.768</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID">10</Data>
+        <Data AD_Column_ID="6155" Column="Parent_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6157" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="6154" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="6162" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6149" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6152" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="6150" Column="IsActive">true</Data>
+        <Data AD_Column_ID="6151" Column="Created">2017-03-27 13:28:39.768</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="53935" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="53935">53935</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6155" Column="Parent_ID" isOldNull="true">280</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="0">7</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="502" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="502">502</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="7">8</Data>
+      </PO>
+    </Step>
   </Migration>
 </Migrations>
