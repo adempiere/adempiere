@@ -9,7 +9,7 @@
         <Data AD_Column_ID="13022" Column="JSPURL" isNewNull="true"/>
         <Data AD_Column_ID="12738" Column="IsBetaFunctionality">false</Data>
         <Data AD_Column_ID="7708" Column="EntityType">U</Data>
-        <Data AD_Column_ID="4605" Column="Description">Trial Balance Drillable Report</Data>
+        <Data AD_Column_ID="4605" Column="Description">Trial Balance Drillable Report (only for Web)</Data>
         <Data AD_Column_ID="4604" Column="Name">Trial Balance Drillable Report</Data>
         <Data AD_Column_ID="4597" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="4603" Column="UpdatedBy">100</Data>
@@ -19,6 +19,22 @@
         <Data AD_Column_ID="4600" Column="Created">2015-01-31 16:26:16.206</Data>
         <Data AD_Column_ID="4598" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="4596" Column="AD_Form_ID">53051</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="11" StepType="AD">
+      <PO AD_Table_ID="377" Action="I" Record_ID="0" Table="AD_Form_Trl">
+        <Data AD_Column_ID="4613" Column="Created">2017-03-27 11:14:04.484</Data>
+        <Data AD_Column_ID="4610" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="4608" Column="AD_Form_ID">53051</Data>
+        <Data AD_Column_ID="4609" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="4611" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="4614" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="4618" Column="Description">Balance de prueba navegable (ejecutable sólo por Web)</Data>
+        <Data AD_Column_ID="4612" Column="IsActive">true</Data>
+        <Data AD_Column_ID="4620" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="4617" Column="Name">Balance de prueba navegable (sólo Web)</Data>
+        <Data AD_Column_ID="4615" Column="Updated">2017-03-27 11:14:04.484</Data>
+        <Data AD_Column_ID="4616" Column="UpdatedBy">100</Data>
       </PO>
     </Step>
     <Step SeqNo="20" StepType="AD">
@@ -45,7 +61,23 @@
         <Data AD_Column_ID="4621" Column="AD_Form_ID">53051</Data>
         <Data AD_Column_ID="7721" Column="EntityType">U</Data>
         <Data AD_Column_ID="59134" Column="IsCentrallyMaintained">true</Data>
-        <Data AD_Column_ID="229" Column="Name">Trial Balance Drillable Report</Data>
+        <Data AD_Column_ID="229" Column="Name">Trial Balance Drillable Report (only for Web)</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="21" StepType="AD">
+      <PO AD_Table_ID="120" Action="I" Record_ID="0" Table="AD_Menu_Trl">
+        <Data AD_Column_ID="1194" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="246" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="245" Column="AD_Menu_ID">53935</Data>
+        <Data AD_Column_ID="1195" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="637" Column="Created">2017-03-27 11:14:04.484</Data>
+        <Data AD_Column_ID="638" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="248" Column="Description">Balance de prueba navegable (ejecutable sólo por Web)</Data>
+        <Data AD_Column_ID="636" Column="IsActive">true</Data>
+        <Data AD_Column_ID="249" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="247" Column="Name">Balance de prueba navegable (sólo Web)</Data>
+        <Data AD_Column_ID="639" Column="Updated">2017-03-27 11:14:04.484</Data>
+        <Data AD_Column_ID="640" Column="UpdatedBy">100</Data>
       </PO>
     </Step>
     <Step SeqNo="30" StepType="AD">
