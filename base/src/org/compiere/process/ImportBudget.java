@@ -252,7 +252,7 @@ public class ImportBudget extends ImportBudgetAbstract {
             projectId = getId(MProject.Table_Name, MProject.COLUMNNAME_Value + "=?", trxName, importBudget.getProjectValue());
         if (projectId > 0 && importBudget.getC_Project_ID() <= 0)
             importBudget.setC_Project_ID(projectId);
-        if (importBudget.getC_Project_ID() <= 0 && importBudget.getProductValue() != null)
+        if (importBudget.getC_Project_ID() <= 0 && importBudget.getProjectValue() != null)
             stringError.append("@C_Project_ID@ @NotFound@ ");
 
         // Set Campaign
