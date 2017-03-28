@@ -45,6 +45,7 @@ import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.window.FDialog;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MAcctSchemaElement;
+import org.compiere.model.Query;
 import org.compiere.model.X_C_AcctSchema_Element;
 import org.compiere.report.core.RColumn;
 import org.compiere.report.core.RModel;
@@ -1247,6 +1248,30 @@ public class WAcctViewer extends Window implements EventListener
 
 			if (ase != null)
 				whereClause += " AND C_Element_ID=" + ase.getC_Element_ID();
+		}
+		else if ("UserElement1_ID".equals(keyColumn))
+		{
+			MAcctSchemaElement et = new Query(Env.getCtx(), MAcctSchemaElement.Table_Name, 
+					"elementtype = 'X1' ", 
+					null)
+					.setClient_ID()
+					.firstOnly();
+			String tableName = et.getAD_Column().getAD_Table().getTableName();
+			String lookupcolumnname = tableName + "_ID";
+			lookupColumn = lookupcolumnname;
+			whereClause = "";
+		}
+		else if ("UserElement2_ID".equals(keyColumn))
+		{
+			MAcctSchemaElement et = new Query(Env.getCtx(), MAcctSchemaElement.Table_Name, 
+					"elementtype = 'X2' ", 
+					null)
+					.setClient_ID()
+					.firstOnly();
+			String tableName = et.getAD_Column().getAD_Table().getTableName();
+			String lookupcolumnname = tableName + "_ID";
+			lookupColumn = lookupcolumnname;
+			whereClause = "";
 		}
 		else if (keyColumn.equals("M_Product_ID"))
 		{
