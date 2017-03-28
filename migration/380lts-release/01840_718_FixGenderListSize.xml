@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Fix Gender List Import  #718" ReleaseNo="3.9.0" SeqNo="1840">
+    <Comments>https://github.com/adempiere/adempiere/issues/718</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="81876" Table="AD_Column">
+        <Data AD_Column_ID="118" Column="FieldLength" oldValue="10">1</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

@@ -1,7 +1,40 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Smart Browse context is changed from table #340" ReleaseNo="3.9.0" SeqNo="00264">
+  <Migration EntityType="D" Name="Smart Browse context is changed from table #340" ReleaseNo="3.9.0" SeqNo="264">
     <Comments>https://github.com/adempiere/adempiere/issues/340</Comments>
+    <Step DBType="Oracle" Parse="N" SeqNo="10" StepType="SQL">
+      <Comments>Create Function Oracle</Comments>
+      <SQLStatement>create or replace FUNCTION changeSBContextValue
+(    
+    p_AD_Browse_ID          IN NUMBER, 
+    p_CurrentValue          IN NVARCHAR2, 
+    p_ChangeToColumnName    IN NVARCHAR2
+)
+RETURN NVARCHAR2
+AS
+     v_Value NVARCHAR2(1000); 
+
+  CURSOR CUR_Fields IS 
+  SELECT vc.ColumnSQL, vc.ColumnName, b.AD_Browse_ID
+	FROM AD_Browse b
+	INNER JOIN AD_View_Definition vd ON(vd.AD_View_ID = b.AD_View_ID)
+	INNER JOIN AD_View_Column vc ON(vc.AD_View_Definition_ID = vd.AD_View_Definition_ID)
+	WHERE b.AD_Browse_ID = p_AD_Browse_ID
+	AND (
+		(p_CurrentValue LIKE '%@' || vc.ColumnSQL || '@%' OR p_CurrentValue LIKE '%@' || vc.ColumnName || '@%')
+		OR 
+		(p_CurrentValue LIKE '%@' || vc.ColumnSQL || '_To@%' OR p_CurrentValue LIKE '%@' || vc.ColumnName || '_To@%')
+	);
+BEGIN
+    v_Value := p_CurrentValue;
+    FOR v_Fields IN CUR_Fields LOOP
+        v_Value := replace(v_Value, '@' || CASE WHEN p_ChangeToColumnName = 'Y' THEN v_Fields.ColumnSQL ELSE v_Fields.ColumnName END  || '@', '@' || CASE WHEN p_ChangeToColumnName = 'Y' THEN v_Fields.ColumnName ELSE v_Fields.ColumnSQL END || '@');
+        v_Value := replace(v_Value, '@' || CASE WHEN p_ChangeToColumnName = 'Y' THEN v_Fields.ColumnSQL ELSE v_Fields.ColumnName END  || '_To@', '@' || CASE WHEN p_ChangeToColumnName = 'Y' THEN v_Fields.ColumnName ELSE v_Fields.ColumnSQL END || '_To@');
+    END LOOP;
+    RETURN TRIM(v_Value);
+END changeSBContextValue;</SQLStatement>
+      <RollbackStatement>DROP FUNCTION changeSBContextValue</RollbackStatement>
+    </Step>
     <Step DBType="Postgres" Parse="N" SeqNo="10" StepType="SQL">
       <Comments>Create Function PostgreSQL</Comments>
       <SQLStatement>CREATE OR REPLACE FUNCTION changeSBContextValue(p_AD_Browse_ID NUMERIC, p_CurrentValue CHARACTER VARYING, p_ChangeToColumnName CHARACTER VARYING)
@@ -32,41 +65,6 @@ $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100</SQLStatement>
       <RollbackStatement>DROP FUNCTION changeSBContextValue(NUMERIC, CHARACTER VARYING, CHARACTER VARYING)</RollbackStatement>
-    </Step>
-    <Step DBType="Oracle" Parse="N" SeqNo="10" StepType="SQL">
-      <Comments>Create Function Oracle</Comments>
-      <SQLStatement>CREATE OR REPLACE FUNCTION changeSBContextValue
-(    
-    p_AD_Browse_ID          IN NUMBER, 
-    p_CurrentValue          IN NVARCHAR2, 
-    p_ChangeToColumnName    IN NVARCHAR2
-)
-
-RETURN NVARCHAR2
-AS
-     v_Value          NVARCHAR2(1000); 
-    --
-    CURSOR CUR_Fields IS
-        SELECT vc.ColumnSQL, vc.ColumnName, b.AD_Browse_ID
-	FROM AD_Browse b
-	INNER JOIN AD_View_Definition vd ON(vd.AD_View_ID = b.AD_View_ID)
-	INNER JOIN AD_View_Column vc ON(vc.AD_View_Definition_ID = vd.AD_View_Definition_ID)
-	WHERE b.AD_Browse_ID = p_AD_Browse_ID
-	AND (
-		(p_CurrentValue LIKE '%@' || vc.ColumnSQL || '@%' OR p_CurrentValue LIKE '%@' || vc.ColumnName || '@%')
-		OR 
-		(p_CurrentValue LIKE '%@' || vc.ColumnSQL || '_To@%' OR p_CurrentValue LIKE '%@' || vc.ColumnName || '_To@%')
-	)
-
-BEGIN
-    v_Value := p_CurrentValue;
-    FOR v_Fields IN CUR_Fields LOOP
-        v_Value := replace(v_Value, '@' || CASE WHEN p_ChangeToColumnName = 'Y' THEN v_Fields.ColumnSQL ELSE v_Fields.ColumnName END  || '@', '@' || CASE WHEN p_ChangeToColumnName = 'Y' THEN v_Fields.ColumnName ELSE v_Fields.ColumnSQL END || '@');
-        v_Value := replace(v_Value, '@' || CASE WHEN p_ChangeToColumnName = 'Y' THEN v_Fields.ColumnSQL ELSE v_Fields.ColumnName END  || '_To@', '@' || CASE WHEN p_ChangeToColumnName = 'Y' THEN v_Fields.ColumnName ELSE v_Fields.ColumnSQL END || '_To@');
-    END LOOP;
-    RETURN TRIM(v_Value);
-END changeSBContextValue</SQLStatement>
-      <RollbackStatement>DROP FUNCTION changeSBContextValue</RollbackStatement>
     </Step>
     <Step DBType="ALL" Parse="N" SeqNo="20" StepType="SQL">
       <Comments>Change Browse Field</Comments>
@@ -114,41 +112,6 @@ WHERE EXISTS(SELECT 1 FROM AD_Browse sb INNER JOIN AD_Process p ON(p.AD_Process_
 Code = changeSBContextValue((SELECT MAX(sb.AD_Browse_ID) FROM AD_Browse sb INNER JOIN AD_Process p ON(p.AD_Process_ID = sb.AD_Process_ID) INNER JOIN AD_Process_Para pp ON(pp.AD_Process_ID = p.AD_Process_ID) WHERE pp.AD_Val_Rule_ID = AD_Val_Rule.AD_Val_Rule_ID), Code, 'N')
 WHERE EXISTS(SELECT 1 FROM AD_Browse sb INNER JOIN AD_Process p ON(p.AD_Process_ID = sb.AD_Process_ID) INNER JOIN AD_Process_Para pp ON(pp.AD_Process_ID = p.AD_Process_ID) WHERE pp.AD_Val_Rule_ID = AD_Val_Rule.AD_Val_Rule_ID)</RollbackStatement>
     </Step>
-    <Step DBType="Oracle" Parse="N" SeqNo="60" StepType="SQL">
-      <Comments>Drop Function Oracle</Comments>
-      <SQLStatement>DROP FUNCTION changeSBContextValue</SQLStatement>
-      <RollbackStatement>CREATE OR REPLACE FUNCTION changeSBContextValue
-(    
-    p_AD_Browse_ID          IN NUMBER, 
-    p_CurrentValue          IN NVARCHAR2, 
-    p_ChangeToColumnName    IN NVARCHAR2
-)
-
-RETURN NVARCHAR2
-AS
-     v_Value          NVARCHAR2(1000); 
-    --
-    CURSOR CUR_Fields IS
-        SELECT vc.ColumnSQL, vc.ColumnName, b.AD_Browse_ID
-	FROM AD_Browse b
-	INNER JOIN AD_View_Definition vd ON(vd.AD_View_ID = b.AD_View_ID)
-	INNER JOIN AD_View_Column vc ON(vc.AD_View_Definition_ID = vd.AD_View_Definition_ID)
-	WHERE b.AD_Browse_ID = p_AD_Browse_ID
-	AND (
-		(p_CurrentValue LIKE '%@' || vc.ColumnSQL || '@%' OR p_CurrentValue LIKE '%@' || vc.ColumnName || '@%')
-		OR 
-		(p_CurrentValue LIKE '%@' || vc.ColumnSQL || '_To@%' OR p_CurrentValue LIKE '%@' || vc.ColumnName || '_To@%')
-	)
-
-BEGIN
-    v_Value := p_CurrentValue;
-    FOR v_Fields IN CUR_Fields LOOP
-        v_Value := replace(v_Value, '@' || CASE WHEN p_ChangeToColumnName = 'Y' THEN v_Fields.ColumnSQL ELSE v_Fields.ColumnName END  || '@', '@' || CASE WHEN p_ChangeToColumnName = 'Y' THEN v_Fields.ColumnName ELSE v_Fields.ColumnSQL END || '@');
-        v_Value := replace(v_Value, '@' || CASE WHEN p_ChangeToColumnName = 'Y' THEN v_Fields.ColumnSQL ELSE v_Fields.ColumnName END  || '_To@', '@' || CASE WHEN p_ChangeToColumnName = 'Y' THEN v_Fields.ColumnName ELSE v_Fields.ColumnSQL END || '_To@');
-    END LOOP;
-    RETURN TRIM(v_Value);
-END changeSBContextValue</RollbackStatement>
-    </Step>
     <Step DBType="Postgres" Parse="N" SeqNo="60" StepType="SQL">
       <Comments>Drop Function PostgreSQL</Comments>
       <SQLStatement>DROP FUNCTION changeSBContextValue(NUMERIC, CHARACTER VARYING, CHARACTER VARYING)</SQLStatement>
@@ -179,6 +142,39 @@ END;
 $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100</RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" Parse="N" SeqNo="60" StepType="SQL">
+      <Comments>Drop Function Oracle</Comments>
+      <SQLStatement>DROP FUNCTION changeSBContextValue</SQLStatement>
+      <RollbackStatement>create or replace FUNCTION changeSBContextValue
+(    
+    p_AD_Browse_ID          IN NUMBER, 
+    p_CurrentValue          IN NVARCHAR2, 
+    p_ChangeToColumnName    IN NVARCHAR2
+)
+RETURN NVARCHAR2
+AS
+     v_Value NVARCHAR2(1000); 
+
+  CURSOR CUR_Fields IS 
+  SELECT vc.ColumnSQL, vc.ColumnName, b.AD_Browse_ID
+	FROM AD_Browse b
+	INNER JOIN AD_View_Definition vd ON(vd.AD_View_ID = b.AD_View_ID)
+	INNER JOIN AD_View_Column vc ON(vc.AD_View_Definition_ID = vd.AD_View_Definition_ID)
+	WHERE b.AD_Browse_ID = p_AD_Browse_ID
+	AND (
+		(p_CurrentValue LIKE '%@' || vc.ColumnSQL || '@%' OR p_CurrentValue LIKE '%@' || vc.ColumnName || '@%')
+		OR 
+		(p_CurrentValue LIKE '%@' || vc.ColumnSQL || '_To@%' OR p_CurrentValue LIKE '%@' || vc.ColumnName || '_To@%')
+	);
+BEGIN
+    v_Value := p_CurrentValue;
+    FOR v_Fields IN CUR_Fields LOOP
+        v_Value := replace(v_Value, '@' || CASE WHEN p_ChangeToColumnName = 'Y' THEN v_Fields.ColumnSQL ELSE v_Fields.ColumnName END  || '@', '@' || CASE WHEN p_ChangeToColumnName = 'Y' THEN v_Fields.ColumnName ELSE v_Fields.ColumnSQL END || '@');
+        v_Value := replace(v_Value, '@' || CASE WHEN p_ChangeToColumnName = 'Y' THEN v_Fields.ColumnSQL ELSE v_Fields.ColumnName END  || '_To@', '@' || CASE WHEN p_ChangeToColumnName = 'Y' THEN v_Fields.ColumnName ELSE v_Fields.ColumnSQL END || '_To@');
+    END LOOP;
+    RETURN TRIM(v_Value);
+END changeSBContextValue;</RollbackStatement>
     </Step>
   </Migration>
 </Migrations>

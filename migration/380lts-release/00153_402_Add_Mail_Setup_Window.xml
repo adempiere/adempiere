@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Mail setup is hardcoded #402" ReleaseNo="3.9.0" SeqNo="00153">
+  <Migration EntityType="D" Name="Mail setup is hardcoded #402" ReleaseNo="3.9.0" SeqNo="153">
     <Comments>See https://github.com/adempiere/adempiere/issues/402</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="100" Action="I" Record_ID="54127" Table="AD_Table">
@@ -1650,6 +1650,13 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="730" StepType="AD">
       <PO AD_Table_ID="107" Action="I" Record_ID="79307" Table="AD_Field">
+        <Data AD_Column_ID="9969" Column="ObscureType" isNewNull="true"/>
+        <Data AD_Column_ID="59704" Column="PreferredWidth" isNewNull="true"/>
+        <Data AD_Column_ID="181" Column="SeqNo" isNewNull="true"/>
+        <Data AD_Column_ID="62479" Column="SeqNoGrid" isNewNull="true"/>
+        <Data AD_Column_ID="182" Column="SortNo" isNewNull="true"/>
+        <Data AD_Column_ID="581" Column="Updated">2016-05-21 05:20:38.262</Data>
+        <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="383" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="174" Column="AD_Column_ID">80499</Data>
         <Data AD_Column_ID="5375" Column="AD_FieldGroup_ID" isNewNull="true"/>
@@ -1685,13 +1692,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="2007" Column="IsReadOnly">false</Data>
         <Data AD_Column_ID="183" Column="IsSameLine">false</Data>
         <Data AD_Column_ID="168" Column="Name">Active</Data>
-        <Data AD_Column_ID="9969" Column="ObscureType" isNewNull="true"/>
-        <Data AD_Column_ID="59704" Column="PreferredWidth" isNewNull="true"/>
-        <Data AD_Column_ID="181" Column="SeqNo" isNewNull="true"/>
-        <Data AD_Column_ID="62479" Column="SeqNoGrid" isNewNull="true"/>
-        <Data AD_Column_ID="182" Column="SortNo" isNewNull="true"/>
-        <Data AD_Column_ID="581" Column="Updated">2016-05-21 05:20:38.262</Data>
-        <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
       </PO>
     </Step>
     <Step SeqNo="740" StepType="AD">
@@ -2748,6 +2748,7 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="1370" StepType="AD">
       <PO AD_Table_ID="107" Action="D" Record_ID="5887" Table="AD_Field">
+        <Data AD_Column_ID="170" Column="Help" isNewNull="true" oldValue="Some email servers require authentication before sending emails.  If yes, users are required to define their email user name and password.  If authentication is required and no user name and password is required, delivery will fail."/>
         <Data AD_Column_ID="383" Column="AD_Client_ID" isNewNull="true" oldValue="0"/>
         <Data AD_Column_ID="174" Column="AD_Column_ID" isNewNull="true" oldValue="7792"/>
         <Data AD_Column_ID="5375" Column="AD_FieldGroup_ID" isNewNull="true" oldValue="119"/>
@@ -2786,7 +2787,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="182" Column="SortNo" isNewNull="true" isOldNull="true"/>
         <Data AD_Column_ID="581" Column="Updated" isNewNull="true" oldValue="2000-01-02 00:00:00.0"/>
         <Data AD_Column_ID="582" Column="UpdatedBy" isNewNull="true" oldValue="0"/>
-        <Data AD_Column_ID="170" Column="Help" isNewNull="true" oldValue="Some email servers require authentication before sending emails.  If yes, users are required to define their email user name and password.  If authentication is required and no user name and password is required, delivery will fail."/>
       </PO>
     </Step>
     <Step SeqNo="1380" StepType="AD">
@@ -2808,6 +2808,9 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="1390" StepType="AD">
       <PO AD_Table_ID="107" Action="D" Record_ID="3813" Table="AD_Field">
+        <Data AD_Column_ID="15013" Column="IsMandatory" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="181" Column="SeqNo" isNewNull="true" oldValue="100"/>
+        <Data AD_Column_ID="581" Column="Updated" isNewNull="true" oldValue="2000-01-02 00:00:00.0"/>
         <Data AD_Column_ID="383" Column="AD_Client_ID" isNewNull="true" oldValue="0"/>
         <Data AD_Column_ID="174" Column="AD_Column_ID" isNewNull="true" oldValue="4771"/>
         <Data AD_Column_ID="5375" Column="AD_FieldGroup_ID" isNewNull="true" oldValue="119"/>
@@ -2832,19 +2835,16 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="186" Column="IsEncrypted" isNewNull="true" oldValue="false"/>
         <Data AD_Column_ID="185" Column="IsFieldOnly" isNewNull="true" oldValue="false"/>
         <Data AD_Column_ID="184" Column="IsHeading" isNewNull="true" oldValue="false"/>
-        <Data AD_Column_ID="15013" Column="IsMandatory" isNewNull="true" isOldNull="true"/>
         <Data AD_Column_ID="2007" Column="IsReadOnly" isNewNull="true" oldValue="false"/>
         <Data AD_Column_ID="183" Column="IsSameLine" isNewNull="true" oldValue="false"/>
         <Data AD_Column_ID="168" Column="Name" isNewNull="true" oldValue="Mail Host"/>
         <Data AD_Column_ID="9969" Column="ObscureType" isNewNull="true" isOldNull="true"/>
         <Data AD_Column_ID="59704" Column="PreferredWidth" isNewNull="true" isOldNull="true"/>
-        <Data AD_Column_ID="181" Column="SeqNo" isNewNull="true" oldValue="100"/>
         <Data AD_Column_ID="62479" Column="SeqNoGrid" isNewNull="true" isOldNull="true"/>
         <Data AD_Column_ID="182" Column="SortNo" isNewNull="true" isOldNull="true"/>
         <Data AD_Column_ID="582" Column="UpdatedBy" isNewNull="true" oldValue="0"/>
         <Data AD_Column_ID="54357" Column="AD_Val_Rule_ID" isNewNull="true" isOldNull="true"/>
         <Data AD_Column_ID="74868" Column="IsAllowCopy" isNewNull="true" oldValue="true"/>
-        <Data AD_Column_ID="581" Column="Updated" isNewNull="true" oldValue="2000-01-02 00:00:00.0"/>
         <Data AD_Column_ID="169" Column="Description" isNewNull="true" oldValue="Hostname of Mail Server for SMTP and IMAP"/>
         <Data AD_Column_ID="170" Column="Help" isNewNull="true" oldValue="The host name of the Mail Server for this client with SMTP services to send mail, and IMAP to process incoming mail."/>
       </PO>
@@ -2956,6 +2956,9 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="1590" StepType="AD">
       <PO AD_Table_ID="101" Action="D" Record_ID="7792" Table="AD_Column">
+        <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="112" Column="Description" isNewNull="true" oldValue="Your mail server requires Authentication"/>
+        <Data AD_Column_ID="113" Column="Help" isNewNull="true" oldValue="Some email servers require authentication before sending emails.  If yes, users are required to define their email user name and password.  If authentication is required and no user name and password is required, delivery will fail."/>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true" isOldNull="true"/>
         <Data AD_Column_ID="6482" Column="EntityType" isNewNull="true" oldValue="D"/>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true" oldValue="0"/>
@@ -2988,7 +2991,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="552" Column="UpdatedBy" isNewNull="true" oldValue="0"/>
         <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isNewNull="true" isOldNull="true"/>
         <Data AD_Column_ID="1692" Column="Callout" isNewNull="true" isOldNull="true"/>
-        <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable" isNewNull="true" oldValue="false"/>
         <Data AD_Column_ID="128" Column="IsEncrypted" isNewNull="true" oldValue="N"/>
         <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true" isOldNull="true"/>
         <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true" isOldNull="true"/>
@@ -2998,9 +3000,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true" isOldNull="true"/>
         <Data AD_Column_ID="2608" Column="AD_Element_ID" isNewNull="true" oldValue="1898"/>
         <Data AD_Column_ID="68024" Column="IsRange" isNewNull="true" oldValue="false"/>
-        <Data AD_Column_ID="112" Column="Description" isNewNull="true" oldValue="Your mail server requires Authentication"/>
         <Data AD_Column_ID="551" Column="Updated" isNewNull="true" oldValue="2000-01-02 00:00:00.0"/>
-        <Data AD_Column_ID="113" Column="Help" isNewNull="true" oldValue="Some email servers require authentication before sending emails.  If yes, users are required to define their email user name and password.  If authentication is required and no user name and password is required, delivery will fail."/>
         <Data AD_Column_ID="126" Column="IsIdentifier" isNewNull="true" oldValue="false"/>
       </PO>
     </Step>
@@ -3854,6 +3854,10 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="2170" StepType="AD">
       <PO AD_Table_ID="126" Action="I" Record_ID="0" Table="AD_Reference_Trl">
+        <Data AD_Column_ID="283" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="280" Column="Name">Protocol List</Data>
+        <Data AD_Column_ID="669" Column="Updated">2016-05-30 10:17:15.964</Data>
+        <Data AD_Column_ID="670" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="1202" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="279" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="1203" Column="AD_Org_ID">0</Data>
@@ -3863,10 +3867,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="281" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="282" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="666" Column="IsActive">true</Data>
-        <Data AD_Column_ID="283" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="280" Column="Name">Protocol List</Data>
-        <Data AD_Column_ID="669" Column="Updated">2016-05-30 10:17:15.964</Data>
-        <Data AD_Column_ID="670" Column="UpdatedBy">100</Data>
       </PO>
     </Step>
     <Step SeqNo="2180" StepType="AD">
@@ -4203,15 +4203,15 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="1692" Column="Callout" isOldNull="true">org.adempiere.model.CalloutEMailConfig.port</Data>
       </PO>
     </Step>
-    <Step DBType="ALL" Parse="N" SeqNo="2440" StepType="SQL">
+    <Step DBType="ALL" Parse="Y" SeqNo="2440" StepType="SQL">
       <SQLStatement>INSERT INTO AD_EMailConfig(AD_Client_ID, AD_Org_ID, IsActive, Created, CreatedBy, Updated, UpdatedBy, 
 AD_EMailConfig_ID, Port, SMTPHost, IsSmtpAuthorization, EncryptionType, AuthMechanism, Name, Protocol)
-SELECT c.AD_Client_ID, 0, 'Y', getDate(), 100, getDate(), 100, nextID((SELECT AD_Sequence_ID FROM AD_Sequence WHERE Name = 'AD_EMailConfig')::Integer, 'Y'), 
+SELECT c.AD_Client_ID, 0, 'Y', getDate(), 100, getDate(), 100, nextidfunc(54297, 'Y'), 
 CASE WHEN c.SMTPHost = 'mail.smtp.port' THEN 587 ELSE 25 END, c.SMTPHost, c.IsSmtpAuthorization, CASE WHEN c.SMTPHost = 'mail.smtp.port' THEN 'T' ELSE 'N' END,
 'L', c.Name || ' ' || c.SMTPHost,
 CASE WHEN c.SMTPHost = 'mail.smtp.port' THEN 'I' ELSE 'S' END
 FROM AD_Client c
-WHERE c.SMTPHost IS NOT NULL</SQLStatement>
+WHERE c.SMTPHost IS NOT NULL;</SQLStatement>
       <RollbackStatement>DELETE FROM AD_EMailConfig WHERE EXISTS(SELECT 1 FROM AD_Client c WHERE c.AD_Client_ID = AD_EMailConfig.AD_Client_ID AND c.SMTPHost = AD_EMailConfig.SMTPHost)</RollbackStatement>
     </Step>
     <Step DBType="ALL" Parse="N" SeqNo="2450" StepType="SQL">

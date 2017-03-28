@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Bad index for Process SeqNo #264" ReleaseNo="3.9.0" SeqNo="00133">
+  <Migration EntityType="D" Name="Bad index for Process SeqNo #264" ReleaseNo="3.9.0" SeqNo="133">
     <Comments>See: https://github.com/adempiere/adempiere/issues/264</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="285" Action="U" Record_ID="50001" Table="AD_Process_Para">
@@ -21,12 +21,20 @@
   USING btree
   (AD_Process_ID, SeqNo)</RollbackStatement>
     </Step>
+    <Step DBType="Oracle" Parse="Y" SeqNo="35" StepType="SQL">
+      <SQLStatement>DROP INDEX AD_PROCPARA_PROCSEQNO;</SQLStatement>
+      <RollbackStatement>CREATE UNIQUE INDEX AD_PROCPARA_PROCSEQNO ON AD_PROCESS_PARA ("AD_PROCESS_ID", "SEQNO");</RollbackStatement>
+    </Step>
     <Step DBType="Postgres" Parse="Y" SeqNo="40" StepType="SQL">
       <SQLStatement>CREATE UNIQUE INDEX AD_ProcPara_ProcColumnName
   ON AD_Process_Para
   USING btree
   (AD_Process_ID, ColumnName)</SQLStatement>
       <RollbackStatement>DROP INDEX IF EXISTS AD_ProcPara_ProcColumnName</RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" Parse="Y" SeqNo="45" StepType="SQL">
+      <SQLStatement>CREATE UNIQUE INDEX AD_PROCPARA_PROCCOLUMNNAME ON AD_PROCESS_PARA  (AD_PROCESS_ID, COLUMNNAME);</SQLStatement>
+      <RollbackStatement>DROP INDEX AD_PROCPARA_PROCCOLUMNNAME;</RollbackStatement>
     </Step>
   </Migration>
 </Migrations>

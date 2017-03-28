@@ -17,10 +17,12 @@
 package org.compiere.model;
 
 import java.io.File;
+import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -47,6 +49,7 @@ public class MMovementConfirm extends X_M_MovementConfirm implements DocAction
 	 * 
 	 */
 	private static final long serialVersionUID = -5210710606049843678L;
+	public static String	REVERSE_INDICATOR = "^";
 
 	/**
 	 * 	Create Confirmation or return existing one
@@ -122,14 +125,14 @@ public class MMovementConfirm extends X_M_MovementConfirm implements DocAction
 	}	//	MInOutConfirm
 	
 	/**	Confirm Lines					*/
-	private MMovementLineConfirm[]	m_lines = null;
+	private MMovementLineConfirm[] movementLineConfirms = null;
 	
 	/**	Physical Inventory From	*/
-	private MInventory				m_inventoryFrom = null;
+	private MInventory 				inventoryFrom = null;
 	/**	Physical Inventory To	*/
-	private MInventory				m_inventoryTo = null;
+	private MInventory 				inventoryTo = null;
 	/**	Physical Inventory Info	*/
-	private String					m_inventoryInfo = null;
+	private String 					inventoryInfo = null;
 
 	/**
 	 * 	Get Lines
@@ -138,9 +141,9 @@ public class MMovementConfirm extends X_M_MovementConfirm implements DocAction
 	 */
 	public MMovementLineConfirm[] getLines (boolean requery)
 	{
-		if (m_lines != null && !requery) {
-			set_TrxName(m_lines, get_TrxName());
-			return m_lines;
+		if (movementLineConfirms != null && !requery) {
+			set_TrxName(movementLineConfirms, get_TrxName());
+			return movementLineConfirms;
 		}
 		String sql = "SELECT * FROM M_MovementLineConfirm "
 			+ "WHERE M_MovementConfirm_ID=?";
@@ -171,9 +174,9 @@ public class MMovementConfirm extends X_M_MovementConfirm implements DocAction
 		{
 			pstmt = null;
 		}
-		m_lines = new MMovementLineConfirm[list.size ()];
-		list.toArray (m_lines);
-		return m_lines;
+		movementLineConfirms = new MMovementLineConfirm[list.size ()];
+		list.toArray (movementLineConfirms);
+		return movementLineConfirms;
 	}	//	getLines
 	
 	/**
@@ -258,15 +261,15 @@ public class MMovementConfirm extends X_M_MovementConfirm implements DocAction
 	 */
 	public boolean processIt (String processAction)
 	{
-		m_processMsg = null;
+		processMesssage = null;
 		DocumentEngine engine = new DocumentEngine (this, getDocStatus());
 		return engine.processIt (processAction, getDocAction());
 	}	//	processIt
 	
 	/**	Process Message 			*/
-	private String		m_processMsg = null;
+	private String processMesssage = null;
 	/**	Just Prepared Flag			*/
-	private boolean		m_justPrepared = false;
+	private boolean justPrepared = false;
 
 	/**
 	 * 	Unlock Document.
@@ -297,39 +300,39 @@ public class MMovementConfirm extends X_M_MovementConfirm implements DocAction
 	public String prepareIt()
 	{
 		log.info(toString());
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_PREPARE);
-		if (m_processMsg != null)
+		processMesssage = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_PREPARE);
+		if (processMesssage != null)
 			return DocAction.STATUS_Invalid;
 
 		//	Std Period open?
 		if (!MPeriod.isOpen(getCtx(), getUpdated(), MDocType.DOCBASETYPE_MaterialMovement, getAD_Org_ID()))
 		{
-			m_processMsg = "@PeriodClosed@";
+			processMesssage = "@PeriodClosed@";
 			return DocAction.STATUS_Invalid;
 		}
 		
-		MMovementLineConfirm[] lines = getLines(true);
-		if (lines.length == 0)
+		MMovementLineConfirm[] movementLineConfirms = getLines(true);
+		if (movementLineConfirms.length == 0)
 		{
-			m_processMsg = "@NoLines@";
+			processMesssage = "@NoLines@";
 			return DocAction.STATUS_Invalid;
 		}
 		boolean difference = false;
-		for (int i = 0; i < lines.length; i++)
+		for (int i = 0; i < movementLineConfirms.length; i++)
 		{
-			if (!lines[i].isFullyConfirmed())
+			if (!movementLineConfirms[i].isFullyConfirmed())
 			{
 				difference = true;
 				break;
 			}
 		}
 		
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_PREPARE);
-		if (m_processMsg != null)
+		processMesssage = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_PREPARE);
+		if (processMesssage != null)
 			return DocAction.STATUS_Invalid;
 
 		//
-		m_justPrepared = true;
+		justPrepared = true;
 		if (!DOCACTION_Complete.equals(getDocAction()))
 			setDocAction(DOCACTION_Complete);
 		return DocAction.STATUS_InProgress;
@@ -364,15 +367,15 @@ public class MMovementConfirm extends X_M_MovementConfirm implements DocAction
 	public String completeIt()
 	{
 		//	Re-Check
-		if (!m_justPrepared)
+		if (!justPrepared)
 		{
 			String status = prepareIt();
 			if (!DocAction.STATUS_InProgress.equals(status))
 				return status;
 		}
 		
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_COMPLETE);
-		if (m_processMsg != null)
+		processMesssage = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_COMPLETE);
+		if (processMesssage != null)
 			return DocAction.STATUS_Invalid;
 
 		//	Implicit Approval
@@ -380,52 +383,52 @@ public class MMovementConfirm extends X_M_MovementConfirm implements DocAction
 			approveIt();
 		log.info("completeIt - " + toString());
 		//
-		MMovement move = new MMovement (getCtx(), getM_Movement_ID(), get_TrxName());
-		MMovementLineConfirm[] lines = getLines(false);
-		for (int i = 0; i < lines.length; i++)
+		MMovement movement = new MMovement (getCtx(), getM_Movement_ID(), get_TrxName());
+		MMovementLineConfirm[] movementLineConfirms = getLines(false);
+		for (int i = 0; i < movementLineConfirms.length; i++)
 		{
-			MMovementLineConfirm confirm = lines[i];
-			confirm.set_TrxName(get_TrxName());
-			if (!confirm.processLine ())
+			MMovementLineConfirm movementLineConfirm = movementLineConfirms[i];
+			movementLineConfirm.set_TrxName(get_TrxName());
+			if (!movementLineConfirm.processLine ())
 			{
-				m_processMsg = "ShipLine not saved - " + confirm;
+				processMesssage = "ShipLine not saved - " + movementLineConfirm;
 				return DocAction.STATUS_Invalid;
 			}
-			if (confirm.isFullyConfirmed())
+			if (movementLineConfirm.isFullyConfirmed())
 			{
-				confirm.setProcessed(true);
-				confirm.save(get_TrxName());
+				movementLineConfirm.setProcessed(true);
+				movementLineConfirm.save(get_TrxName());
 			}
 			else
 			{
-				if (createDifferenceDoc (move, confirm))
+				if (createDifferenceDoc (movement, movementLineConfirm))
 				{
-					confirm.setProcessed(true);
-					confirm.save(get_TrxName());
+					movementLineConfirm.setProcessed(true);
+					movementLineConfirm.save(get_TrxName());
 				}
 				else
 				{
-					log.log(Level.SEVERE, "completeIt - Scrapped=" + confirm.getScrappedQty()
-						+ " - Difference=" + confirm.getDifferenceQty());
+					log.log(Level.SEVERE, "completeIt - Scrapped=" + movementLineConfirm.getScrappedQty()
+						+ " - Difference=" + movementLineConfirm.getDifferenceQty());
 					
-					m_processMsg = "Differnce Doc not created";
+					processMesssage = "Differnce Doc not created";
 					return DocAction.STATUS_Invalid;
 				}
 			}
 		}	//	for all lines
 		
-		if (m_inventoryInfo != null)
+		if (inventoryInfo != null)
 		{
-			m_processMsg = " @M_Inventory_ID@: " + m_inventoryInfo;
+			processMesssage = " @M_Inventory_ID@: " + inventoryInfo;
 			addDescription(Msg.translate(getCtx(), "M_Inventory_ID") 
-				+ ": " + m_inventoryInfo);
+				+ ": " + inventoryInfo);
 		}
 		
 		//	User Validation
 		String valid = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_COMPLETE);
 		if (valid != null)
 		{
-			m_processMsg = valid;
+			processMesssage = valid;
 			return DocAction.STATUS_Invalid;
 		}
 		
@@ -443,90 +446,90 @@ public class MMovementConfirm extends X_M_MovementConfirm implements DocAction
 	 */
 	private boolean createDifferenceDoc (MMovement move, MMovementLineConfirm confirm)
 	{
-		MMovementLine mLine = confirm.getLine();
+		MMovementLine movementLine = confirm.getLine();
 		
 		//	Difference - Create Inventory Difference for Source Location
 		if (Env.ZERO.compareTo(confirm.getDifferenceQty()) != 0)
 		{
 			//	Get Warehouse for Source
-			MLocator loc = MLocator.get(getCtx(), mLine.getM_Locator_ID());
-			if (m_inventoryFrom != null 
-				&& m_inventoryFrom.getM_Warehouse_ID() != loc.getM_Warehouse_ID())
-				m_inventoryFrom = null;
+			MLocator locator = MLocator.get(getCtx(), movementLine.getM_Locator_ID());
+			if (inventoryFrom != null
+				&& inventoryFrom.getM_Warehouse_ID() != locator.getM_Warehouse_ID())
+				inventoryFrom = null;
 			
-			if (m_inventoryFrom == null)
+			if (inventoryFrom == null)
 			{
-				MWarehouse wh = MWarehouse.get(getCtx(), loc.getM_Warehouse_ID());
-				m_inventoryFrom = new MInventory (wh);
-				m_inventoryFrom.setDescription(Msg.translate(getCtx(), "M_MovementConfirm_ID") + " " + getDocumentNo());
-				if (!m_inventoryFrom.save(get_TrxName()))
+				MWarehouse warehouse = MWarehouse.get(getCtx(), locator.getM_Warehouse_ID());
+				inventoryFrom = new MInventory (warehouse);
+				inventoryFrom.setDescription(Msg.translate(getCtx(), "M_MovementConfirm_ID") + " " + getDocumentNo());
+				if (!inventoryFrom.save(get_TrxName()))
 				{
-					m_processMsg += "Inventory not created";
+					processMesssage += "Inventory not created";
 					return false;
 				}
 				//	First Inventory
 				if (getM_Inventory_ID() == 0)
 				{
-					setM_Inventory_ID(m_inventoryFrom.getM_Inventory_ID());
-					m_inventoryInfo = m_inventoryFrom.getDocumentNo();
+					setM_Inventory_ID(inventoryFrom.getM_Inventory_ID());
+					inventoryInfo = inventoryFrom.getDocumentNo();
 				}
 				else
-					m_inventoryInfo += "," + m_inventoryFrom.getDocumentNo();
+					inventoryInfo += "," + inventoryFrom.getDocumentNo();
 			}
 			
 			log.info("createDifferenceDoc - Difference=" + confirm.getDifferenceQty());
-			MInventoryLine line = new MInventoryLine (m_inventoryFrom, 
-					mLine.getM_Locator_ID(), mLine.getM_Product_ID(), mLine.getM_AttributeSetInstance_ID(),
+			MInventoryLine inventoryLine = new MInventoryLine (inventoryFrom,
+					movementLine.getM_Locator_ID(), movementLine.getM_Product_ID(), movementLine.getM_AttributeSetInstance_ID(),
 					confirm.getDifferenceQty(), Env.ZERO);
-			line.setDescription(Msg.translate(getCtx(), "DifferenceQty"));
-			if (!line.save(get_TrxName()))
+			inventoryLine.setDescription(Msg.translate(getCtx(), "DifferenceQty"));
+			if (!inventoryLine.save(get_TrxName()))
 			{
-				m_processMsg += "Inventory Line not created";
+				processMesssage += "Inventory Line not created";
 				return false;
 			}
-			confirm.setM_InventoryLine_ID(line.getM_InventoryLine_ID());
+			confirm.setM_InventoryLine_ID(inventoryLine.getM_InventoryLine_ID());
 		}	//	Difference
 		
 		//	Scrapped - Create Inventory Difference for Target Location
 		if (Env.ZERO.compareTo(confirm.getScrappedQty()) != 0)
 		{
 			//	Get Warehouse for Target
-			MLocator loc = MLocator.get(getCtx(), mLine.getM_LocatorTo_ID());
-			if (m_inventoryTo != null
-				&& m_inventoryTo.getM_Warehouse_ID() != loc.getM_Warehouse_ID())
-				m_inventoryTo = null;
+			MLocator locator = MLocator.get(getCtx(), movementLine.getM_LocatorTo_ID());
+			if (inventoryTo != null
+				&& inventoryTo.getM_Warehouse_ID() != locator.getM_Warehouse_ID())
+				inventoryTo = null;
 		
-			if (m_inventoryTo == null)
+			if (inventoryTo == null)
 			{
-				MWarehouse wh = MWarehouse.get(getCtx(), loc.getM_Warehouse_ID());
-				m_inventoryTo = new MInventory (wh);
-				m_inventoryTo.setDescription(Msg.translate(getCtx(), "M_MovementConfirm_ID") + " " + getDocumentNo());
-				if (!m_inventoryTo.save(get_TrxName()))
+				MWarehouse warehouse = MWarehouse.get(getCtx(), locator.getM_Warehouse_ID());
+				inventoryTo = new MInventory (warehouse);
+				inventoryTo.setDescription(Msg.translate(getCtx(), "M_MovementConfirm_ID") + " " + getDocumentNo());
+				if (!inventoryTo.save(get_TrxName()))
 				{
-					m_processMsg += "Inventory not created";
+					processMesssage += "Inventory not created";
 					return false;
 				}
 				//	First Inventory
 				if (getM_Inventory_ID() == 0)
 				{
-					setM_Inventory_ID(m_inventoryTo.getM_Inventory_ID());
-					m_inventoryInfo = m_inventoryTo.getDocumentNo();
+					setM_Inventory_ID(inventoryTo.getM_Inventory_ID());
+					inventoryInfo = inventoryTo.getDocumentNo();
 				}
 				else
-					m_inventoryInfo += "," + m_inventoryTo.getDocumentNo();
+					inventoryInfo += "," + inventoryTo.getDocumentNo();
 			}
 			
 			log.info("createDifferenceDoc - Scrapped=" + confirm.getScrappedQty());
-			MInventoryLine line = new MInventoryLine (m_inventoryTo, 
-				mLine.getM_LocatorTo_ID(), mLine.getM_Product_ID(), mLine.getM_AttributeSetInstance_ID(),
+			MInventoryLine inventoryLine = new MInventoryLine (inventoryTo,
+				movementLine.getM_LocatorTo_ID(), movementLine.getM_Product_ID(), movementLine.getM_AttributeSetInstance_ID(),
 				confirm.getScrappedQty(), Env.ZERO);
-			line.setDescription(Msg.translate(getCtx(), "ScrappedQty"));
-			if (!line.save(get_TrxName()))
+			inventoryLine.setDescription(Msg.translate(getCtx(), "ScrappedQty"));
+			if (!inventoryLine.save(get_TrxName()))
 			{
-				m_processMsg += "Inventory Line not created";
+				processMesssage += "Inventory Line not created";
 				return false;
 			}
-			confirm.setM_InventoryLine_ID(line.getM_InventoryLine_ID());
+			confirm.setM_InventoryLine_ID(inventoryLine.getM_InventoryLine_ID());
 		}	//	Scrapped
 		
 		return true;
@@ -540,15 +543,48 @@ public class MMovementConfirm extends X_M_MovementConfirm implements DocAction
 	{
 		log.info("voidIt - " + toString());
 		// Before Void
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_VOID);
-		if (m_processMsg != null)
+		processMesssage = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_VOID);
+		if (processMesssage != null)
 			return false;
+
+		if (DOCSTATUS_Closed.equals(getDocStatus())
+				|| DOCSTATUS_Reversed.equals(getDocStatus())
+				|| DOCSTATUS_Voided.equals(getDocStatus()))
+		{
+			processMesssage = "Document Closed: " + getDocStatus();
+			return false;
+		}
+
+		//	Not Processed
+		if (DOCSTATUS_Drafted.equals(getDocStatus())
+				|| DOCSTATUS_Invalid.equals(getDocStatus())
+				|| DOCSTATUS_InProgress.equals(getDocStatus())
+				|| DOCSTATUS_Approved.equals(getDocStatus())
+				|| DOCSTATUS_NotApproved.equals(getDocStatus()) )
+		{
+			//	Set lines to 0
+			MMovementLineConfirm[] movementLineConfirms = getLines(false);
+			Arrays.stream(movementLineConfirms).forEach( line -> {
+				BigDecimal oldConfirmedQty = line.getConfirmedQty();
+				if (oldConfirmedQty.compareTo(Env.ZERO) != 0)
+				{
+					line.setConfirmedQty(Env.ZERO);
+					line.setDescription("Void (" + oldConfirmedQty + ")");
+					line.saveEx();
+				}
+			});
+		}
+		else
+			return reverseCorrectIt();
+
 		// After Void
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_VOID);
-		if (m_processMsg != null)
+		processMesssage = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_VOID);
+		if (processMesssage != null)
 			return false;
-		
-		return false;
+
+		setProcessed(true);
+		setDocAction(DOCACTION_None);
+		return true;
 	}	//	voidIt
 	
 	/**
@@ -560,16 +596,16 @@ public class MMovementConfirm extends X_M_MovementConfirm implements DocAction
 	{
 		log.info("closeIt - " + toString());
 		// Before Close
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_CLOSE);
-		if (m_processMsg != null)
+		processMesssage = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_CLOSE);
+		if (processMesssage != null)
 			return false;
 
 		//	Close Not delivered Qty
 		setDocAction(DOCACTION_None);
 
 		// After Close
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_CLOSE);
-		if (m_processMsg != null)
+		processMesssage = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_CLOSE);
+		if (processMesssage != null)
 			return false;
 		return true;
 	}	//	closeIt
@@ -582,16 +618,60 @@ public class MMovementConfirm extends X_M_MovementConfirm implements DocAction
 	{
 		log.info("reverseCorrectIt - " + toString());
 		// Before reverseCorrect
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REVERSECORRECT);
-		if (m_processMsg != null)
+		processMesssage = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REVERSECORRECT);
+		if (processMesssage != null)
 			return false;
-		
+
+		MMovementConfirm reversalMovementConfirm = new MMovementConfirm(getCtx(), 0, get_TrxName());
+		copyValues(this, reversalMovementConfirm, getAD_Client_ID(), getAD_Org_ID());
+		reversalMovementConfirm.setReversal_ID(getM_MovementConfirm_ID());
+		reversalMovementConfirm.setM_Movement_ID(getM_Movement_ID());
+		reversalMovementConfirm.setDocStatus(DOCSTATUS_Drafted);
+		reversalMovementConfirm.setDocAction(DOCACTION_Complete);
+		reversalMovementConfirm.setIsApproved (false);
+		reversalMovementConfirm.setProcessed(false);
+		reversalMovementConfirm.setDocumentNo(getDocumentNo() + REVERSE_INDICATOR);	//	indicate reversals
+		reversalMovementConfirm.addDescription("{->" + getDocumentNo() + ")");
+		reversalMovementConfirm.setIsReversal(true);
+		reversalMovementConfirm.saveEx();
+
+		//	Reverse Line Qty
+		Arrays.stream(getLines(true)).forEach(movementLineConfirm -> {
+			MMovementLineConfirm reverseMovementLineConfirm = new MMovementLineConfirm(getCtx(), 0, get_TrxName());
+			copyValues(movementLineConfirm, reverseMovementLineConfirm, movementLineConfirm.getAD_Client_ID(), movementLineConfirm.getAD_Org_ID());
+			reverseMovementLineConfirm.setM_MovementConfirm_ID(reversalMovementConfirm.getM_MovementConfirm_ID());
+			reverseMovementLineConfirm.setReversalLine_ID(movementLineConfirm.getM_MovementLineConfirm_ID());
+			reverseMovementLineConfirm.setM_MovementLine_ID(movementLineConfirm.getM_MovementLine_ID());
+			reverseMovementLineConfirm.setConfirmedQty(movementLineConfirm.getConfirmedQty().negate());
+			reverseMovementLineConfirm.setTargetQty(movementLineConfirm.getTargetQty().negate());
+			reverseMovementLineConfirm.setScrappedQty(movementLineConfirm.getScrappedQty().negate());
+			reverseMovementLineConfirm.setProcessed(false);
+			reverseMovementLineConfirm.saveEx();
+		});
+		if (!reversalMovementConfirm.processIt(DocAction.ACTION_Complete))
+		{
+			processMesssage = "Reversal ERROR: " + reversalMovementConfirm.getProcessMsg();
+			return false;
+		}
+		reversalMovementConfirm.closeIt();
+		reversalMovementConfirm.setDocStatus(DOCSTATUS_Reversed);
+		reversalMovementConfirm.setDocAction(DOCACTION_None);
+		reversalMovementConfirm.saveEx();
+		processMesssage = reversalMovementConfirm.getDocumentNo();
+
 		// After reverseCorrect
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSECORRECT);
-		if (m_processMsg != null)
+		processMesssage = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSECORRECT);
+		if (processMesssage != null)
 			return false;
-		
-		return false;
+
+		//	Update Reversed (this)
+		setDescription("(" + reversalMovementConfirm.getDocumentNo() + "<-)");
+		setIsReversal(true);
+		setProcessed(true);
+		setDocStatus(DOCSTATUS_Reversed);
+		setDocAction(DOCACTION_None);
+		saveEx();
+		return true;
 	}	//	reverseCorrectionIt
 	
 	/**
@@ -602,13 +682,17 @@ public class MMovementConfirm extends X_M_MovementConfirm implements DocAction
 	{
 		log.info("reverseAccrualIt - " + toString());
 		// Before reverseAccrual
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REVERSEACCRUAL);
-		if (m_processMsg != null)
+		processMesssage = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REVERSEACCRUAL);
+		if (processMesssage != null)
 			return false;
+
+		MMovementConfirm movementConfirm = new MMovementConfirm(getCtx() , 0 ,get_TrxName() );
+		PO.copyValues(this, movementConfirm);
+
 		
 		// After reverseAccrual
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSEACCRUAL);
-		if (m_processMsg != null)
+		processMesssage = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSEACCRUAL);
+		if (processMesssage != null)
 			return false;
 				
 		return false;
@@ -622,13 +706,13 @@ public class MMovementConfirm extends X_M_MovementConfirm implements DocAction
 	{
 		log.info("reActivateIt - " + toString());
 		// Before reActivate
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REACTIVATE);
-		if (m_processMsg != null)
+		processMesssage = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REACTIVATE);
+		if (processMesssage != null)
 			return false;	
 		
 		// After reActivate
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REACTIVATE);
-		if (m_processMsg != null)
+		processMesssage = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REACTIVATE);
+		if (processMesssage != null)
 			return false;
 		
 		return false;
@@ -641,16 +725,16 @@ public class MMovementConfirm extends X_M_MovementConfirm implements DocAction
 	 */
 	public String getSummary()
 	{
-		StringBuffer sb = new StringBuffer();
-		sb.append(getDocumentNo());
+		StringBuffer stringBuffer = new StringBuffer();
+		stringBuffer.append(getDocumentNo());
 		//	: Total Lines = 123.00 (#1)
-		sb.append(": ")
+		stringBuffer.append(": ")
 			.append(Msg.translate(getCtx(),"ApprovalAmt")).append("=").append(getApprovalAmt())
 			.append(" (#").append(getLines(false).length).append(")");
 		//	 - Description
 		if (getDescription() != null && getDescription().length() > 0)
-			sb.append(" - ").append(getDescription());
-		return sb.toString();
+			stringBuffer.append(" - ").append(getDescription());
+		return stringBuffer.toString();
 	}	//	getSummary
 	
 	/**
@@ -659,7 +743,7 @@ public class MMovementConfirm extends X_M_MovementConfirm implements DocAction
 	 */
 	public String getProcessMsg()
 	{
-		return m_processMsg;
+		return processMesssage;
 	}	//	getProcessMsg
 	
 	/**

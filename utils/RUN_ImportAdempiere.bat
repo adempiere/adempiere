@@ -90,7 +90,7 @@ SET dbSchema=%ADEMPIERE_DB_USER%
 
 REM variables depending on database vendor
 SET unSupportedVendor=0
-IF NOT "%dbVendor%"=="postgresql" GOTO :NOPGSQL
+IF NOT "%dbVendor%"=="PostgreSQL" GOTO :NOPGSQL
 SET dbSeedFile=%ADEMPIERE_HOME%\data\Adempiere_pg.dmp
 SET sysUser=postgres
 GOTO :VENDORSET
@@ -113,7 +113,7 @@ IF NOT "%importMode%"=="Reference" GOTO :NOREF
 SET dbUser=reference
 SET dbPwd=adempiere
 SET dbSchema=reference
-IF NOT "%dbVendor%"=="postgresql" GOTO :REFNOPG
+IF NOT "%dbVendor%"=="PostgreSQL" GOTO :REFNOPG
 SET dbName=reference
 GOTO :NOREF
 :REFNOPG
@@ -141,7 +141,7 @@ GOTO :ENVOK
 :ENVNOK
 ECHO Please make sure that the environment variables are set correctly:
 ECHO ADEMPIERE_HOME	e.g. "C:\Adempiere"
-ECHO ADEMPIERE_DB_PATH	e.g. "postgresql" or "oracle"
+ECHO ADEMPIERE_DB_PATH	e.g. "PostgreSQL" or "oracle"
 ECHO ADEMPIERE_DB_NAME	e.g. "adempiere" or "xe"
 ECHO ADEMPIERE_DB_SERVER	e.g. "dbserver.adempiere.org"
 ECHO ADEMPIERE_DB_PORT	e.g. "5432" or "1521"

@@ -132,7 +132,7 @@ GOTO :ARGLOOP
 :ENDARGLOOP
 
 REM make sure this script is called for the correct vendor
-IF "%dbVendor%"=="postgresql" GOTO :VENDOROK
+IF "%dbVendor%"=="PostgreSQL" GOTO :VENDOROK
 ECHO wrong vendor
 EXIT /B %errorWrongVendor%
 :VENDOROK

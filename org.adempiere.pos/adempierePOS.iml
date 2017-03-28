@@ -57,7 +57,7 @@
           <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/commons-logging.jar!/" />
           <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/commons-net-1.4.0.jar!/" />
           <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/cron4j-2.2.1.jar!/" />
-          <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/groovy-all-2.0.1.jar!/" />
+          <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/groovy-all-2.4.7.jar!/" />
           <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/groovy-engine.jar!/" />
           <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/iText-2.1.7.jar!/" />
           <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/javaee.jar!/" />

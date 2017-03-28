@@ -18,7 +18,7 @@
         <Data AD_Column_ID="388" Column="AD_Org_ID">0</Data>
       </PO>
     </Step>
-    <Step DBType="Postgres" SeqNo="28" StepType="SQL">
+    <Step DBType="ALL" SeqNo="28" StepType="SQL">
       <SQLStatement>UPDATE M_Production
 set c_doctype_id = 0
 where c_doctype_id is null;</SQLStatement>
