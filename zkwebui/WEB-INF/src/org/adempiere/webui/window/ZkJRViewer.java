@@ -8,8 +8,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.logging.Level;
+
+import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.export.JRRtfExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
 import org.adempiere.webui.component.Listbox;
@@ -112,6 +115,7 @@ public class ZkJRViewer extends Window implements EventListener {
 		previewType.setMold("select");
 		previewType.appendItem("PDF", "PDF");
 		previewType.appendItem("Excel", "XLS");
+		previewType.appendItem("RTF", "RTF");
 
 		
 		toolbar.appendChild(previewType);
@@ -186,6 +190,17 @@ public class ZkJRViewer extends Window implements EventListener {
 			exporterXLS.setParameter(JRXlsExporterParameter.IS_IGNORE_GRAPHICS, Boolean.FALSE);
 			exporterXLS.exportReport();
 			media = new AMedia(this.title, "xls", "application/vnd.ms-excel", file, true);
+		}
+		else if ("RTF".equals(previewType.getSelectedItem().getValue()))
+		{
+
+			FileOutputStream fos = new FileOutputStream(file);
+            JRRtfExporter rtfExporter = new JRRtfExporter();
+            rtfExporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+            rtfExporter.setParameter(JRExporterParameter.OUTPUT_STREAM, fos);
+            rtfExporter.setParameter(JRExporterParameter.CHARACTER_ENCODING, "UTF-8");
+            rtfExporter.exportReport();
+			media = new AMedia(this.title, "doc", "application/vnd.ms-word", file, true);
 		}
 		iframe.setContent(media);
 	}
