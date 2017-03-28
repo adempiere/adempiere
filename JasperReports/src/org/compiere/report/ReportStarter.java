@@ -937,7 +937,7 @@ public class ReportStarter implements ProcessCall, ClientProcess
             if (reportFile.lastModified() == jasperFile.lastModified()) {
             	log.info(" no need to compile use "+jasperFile.getAbsolutePath());
                 try {
-                    jasperReport = (JasperReport)JRLoader.loadObject(jasperFile.getAbsolutePath());
+                    jasperReport = (JasperReport)JRLoader.loadObject(jasperFile);
                 } catch (JRException e) {
                     jasperReport = null;
                     log.severe("Can not load report - "+ e.getMessage());
