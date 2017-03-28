@@ -27,7 +27,6 @@ import org.compiere.model.MAccount;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MAcctSchemaElement;
 import org.compiere.model.MActivity;
-import org.compiere.model.MAsset;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MCampaign;
 import org.compiere.model.MColumn;
@@ -43,6 +42,7 @@ import org.compiere.model.MProject;
 import org.compiere.model.MSalesRegion;
 import org.compiere.model.MTable;
 import org.compiere.model.Query;
+import org.compiere.model.X_A_Asset;
 import org.compiere.model.X_C_SubAcct;
 import org.compiere.model.X_I_Budget;
 import org.compiere.util.CLogger;
@@ -203,7 +203,7 @@ public class ImportBudget extends ImportBudgetAbstract {
         if (importBudget.getA_Asset_ID() > 0)
             assetId = importBudget.getA_Asset_ID();
         if (assetId <= 0 && importBudget.getAssetValue() != null)
-            assetId = getId(MAsset.Table_Name, MAsset.COLUMNNAME_Value + "=?", trxName, importBudget.getAssetValue());
+            assetId = getId(X_A_Asset.Table_Name, X_A_Asset.COLUMNNAME_Value + "=?", trxName, importBudget.getAssetValue());
         if (assetId > 0 && importBudget.getA_Asset_ID() <= 0)
             importBudget.setA_Asset_ID(assetId);
         if (importBudget.getA_Asset_ID() <= 0 && importBudget.getAssetValue() != null)
