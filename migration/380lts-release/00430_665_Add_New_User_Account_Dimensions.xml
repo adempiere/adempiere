@@ -8315,6 +8315,11 @@ UPDATE AD_Table SET IsView='N',Updated=TO_TIMESTAMP('2009-11-28 21:25:39','YYYY-
 ALTER TABLE T_TrialBalance ADD COLUMN User3_ID NUMERIC(10) DEFAULT NULL 
 ;
 
+-- March 27, 2017 10:00:16 PM CST
+-- New Dimensions
+ALTER TABLE T_TrialBalance ADD COLUMN User4_ID NUMERIC(10) DEFAULT NULL 
+;
+
 -- Nov 28, 2009 9:26:45 PM CST
 -- New Dimensions
 INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Reference_Value_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,58647,54081,0,18,53337,753,'User4_ID',TO_TIMESTAMP('2009-11-28 21:26:29','YYYY-MM-DD HH24:MI:SS'),0,'User defined list element #4','D',22,'The user defined element displays the optional elements that have been defined for this account combination.','Y','Y','N','N','N','N','N','N','N','N','N','N','Y','User List 4',0,TO_TIMESTAMP('2009-11-28 21:26:29','YYYY-MM-DD HH24:MI:SS'),0,0)

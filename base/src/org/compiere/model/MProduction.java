@@ -409,7 +409,8 @@ public class MProduction extends X_M_Production implements DocAction {
 		if (m_processMsg != null)
 			return DocAction.STATUS_Invalid;
 		//	Create Lines
-		createLines();
+		if (!isReversal())
+			createLines();
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_PREPARE);
 		if (m_processMsg != null)
 			return DocAction.STATUS_Invalid;

@@ -243,10 +243,13 @@ public class MLandedCostAllocation extends X_C_LandedCostAllocation implements I
 		return -1;
 	}
 
-	@Override
 	public BigDecimal getPriceActualCurrency() {
+		MInvoiceLine invoiceLine = (MInvoiceLine) getC_InvoiceLine();
 		MCurrency currency = MCurrency.get(getCtx(), getC_Currency_ID());
-		return  getAmt().divide(getQty() , currency.getCostingPrecision() ,  RoundingMode.HALF_UP);
+		BigDecimal amount = getAmt().divide(getQty() , currency.getCostingPrecision() ,  RoundingMode.HALF_UP);
+		if (MDocType.DOCBASETYPE_APCreditMemo.equals(invoiceLine.getParent().getC_DocType().getDocBaseType()))
+			amount = amount.negate();
+		return  amount;
 	}
 
 	@Override

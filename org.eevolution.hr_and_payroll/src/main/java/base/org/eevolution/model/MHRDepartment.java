@@ -30,33 +30,74 @@ public class MHRDepartment extends X_HR_Department {
      *
      */
     private static final long serialVersionUID = 83878114891519775L;
-    private static CCache<Integer, MHRDepartment> departmentCacheIds = new CCache<Integer, MHRDepartment>(Table_Name, 50, 0);
-    private static CCache<String, MHRDepartment> departmentCacheValues = new CCache<String, MHRDepartment>(Table_Name, 50, 0);
-
-    public MHRDepartment(Properties ctx, String departmentValue, String departmentName, String trxName) {
-        super(ctx, 0, trxName);
-        setValue(departmentValue);
-        setName(departmentName);
-    }
+    private static CCache<Integer, MHRDepartment> departmentCacheIds = new CCache<Integer, MHRDepartment>(Table_Name, 100, 0);
+    private static CCache<String, MHRDepartment> departmentCacheValues = new CCache<String, MHRDepartment>(Table_Name, 100, 0);
 
     /**
+     * Ge Department by Id
      * @param ctx
      * @param departmentId
-     * @param trxName
+     * @return
      */
-    public MHRDepartment(Properties ctx, int departmentId, String trxName) {
-        super(ctx, departmentId, trxName);
+    public static MHRDepartment getById(Properties ctx, Integer departmentId) {
+        if (departmentId <= 0)
+            return null;
+        if (departmentCacheIds.size() == 0)
+            getAll(ctx, true);
+
+        MHRDepartment department = departmentCacheIds.get(departmentId);
+        if (department != null)
+            return department;
+
+        department =  new Query(ctx , Table_Name , MHRDepartment.COLUMNNAME_HR_Department_ID + "=?" , null)
+                .setClient_ID()
+                .setParameters(departmentId)
+                .first();
+
+        if (department != null && department.get_ID() > 0) {
+            int clientId = Env.getAD_Client_ID(ctx);
+            String key = clientId + "#" + department.getValue();
+            departmentCacheIds.put(department.get_ID(), department);
+            departmentCacheValues.put(key, department);
+        }
+        return department;
     }
 
     /**
+     * Get Department by Search Key
      * @param ctx
-     * @param rs
-     * @param trxName
+     * @param value
+     * @return
      */
-    public MHRDepartment(Properties ctx, ResultSet rs, String trxName) {
-        super(ctx, rs, trxName);
+    public static MHRDepartment getByValue(Properties ctx, String value) {
+        if (value == null)
+            return null;
+        if (departmentCacheValues.size() == 0)
+            getAll(ctx, true);
+
+        int clientId = Env.getAD_Client_ID(ctx);
+        String key = clientId + "#" + value;
+        MHRDepartment department = departmentCacheValues.get(key);
+        if (department != null && department.get_ID() > 0)
+            return department;
+
+        department = new Query(ctx, Table_Name, COLUMNNAME_Value + "=?", null)
+                .setClient_ID()
+                .setParameters(value)
+                .first();
+        if (department != null && department.get_ID() > 0) {
+            departmentCacheValues.put(key, department);
+            departmentCacheIds.put(department.get_ID(), department);
+        }
+        return department;
     }
 
+    /**
+     * Get all department and create cache
+     * @param ctx
+     * @param resetCache
+     * @return
+     */
     public static List<MHRDepartment> getAll(Properties ctx, boolean resetCache) {
         List<MHRDepartment> departmentList;
         if (resetCache || departmentCacheIds.size() > 0) {
@@ -64,9 +105,11 @@ public class MHRDepartment extends X_HR_Department {
                     .setClient_ID()
                     .setOrderBy(COLUMNNAME_Name)
                     .list();
-            departmentList.stream().forEach(departament -> {
-                departmentCacheIds.put(departament.getHR_Department_ID(), departament);
-                departmentCacheValues.put(departament.getValue(), departament);
+            departmentList.stream().forEach(department -> {
+                int clientId = Env.getAD_Client_ID(ctx);
+                String key = clientId + "#" + department.getValue();
+                departmentCacheIds.put(department.getHR_Department_ID(), department);
+                departmentCacheValues.put(key, department);
             });
             return departmentList;
         }
@@ -76,35 +119,37 @@ public class MHRDepartment extends X_HR_Department {
         return departmentList;
     }
 
-    public static MHRDepartment getById(Properties ctx, int departmentId) {
-        if (departmentId <= 0)
-            return null;
-        //fiill cache
-        if (departmentCacheIds.size() == 0)
-            getAll(ctx, true);
-
-        MHRDepartment department = departmentCacheIds.get(departmentId);
-        if (department != null)
-            return department;
-
-        department = new MHRDepartment(ctx, departmentId, null);
-        if (department.get_ID() == departmentId)
-            departmentCacheIds.put(departmentId, department);
-        return department;
+    /**
+     * Constructor Department
+     * @param ctx
+     * @param departmentValue
+     * @param departmentName
+     * @param trxName
+     */
+    public MHRDepartment(Properties ctx, String departmentValue, String departmentName, String trxName) {
+        super(ctx, 0, trxName);
+        setAD_Org_ID(0);
+        setValue(departmentValue);
+        setName(departmentName);
     }
 
-    public static MHRDepartment getByValue(Properties ctx, String value) {
-        if (value == null)
-            return null;
-        if (departmentCacheValues.size() == 0)
-            getAll(ctx, true);
+    /**
+     * Constructor Department
+     * @param ctx
+     * @param departmentId
+     * @param trxName
+     */
+    public MHRDepartment(Properties ctx, int departmentId, String trxName) {
+        super(ctx, departmentId, trxName);
+    }
 
-        MHRDepartment department = new Query(ctx, Table_Name, COLUMNNAME_Value + "=?", null)
-                .setClient_ID()
-                .setParameters(value)
-                .first();
-        if (department.getHR_Department_ID() > 0)
-            departmentCacheValues.put(department.getValue(), department);
-        return department;
+    /**
+     * Constructor Department
+     * @param ctx
+     * @param rs
+     * @param trxName
+     */
+    public MHRDepartment(Properties ctx, ResultSet rs, String trxName) {
+        super(ctx, rs, trxName);
     }
 }

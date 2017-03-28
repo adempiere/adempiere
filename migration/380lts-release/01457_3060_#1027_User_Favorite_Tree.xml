@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="User Favorite Panel Migration" ReleaseNo="" SeqNo="01457">
+  <Migration EntityType="D" Name="User Favorite Panel Migration" ReleaseNo="3.9.0" SeqNo="01457">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="100" Action="I" Record_ID="53869" Table="AD_Table">
         <Data AD_Column_ID="354" Column="AccessLevel">7</Data>
