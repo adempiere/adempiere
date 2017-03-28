@@ -31,7 +31,6 @@ import org.compiere.model.MBPartner;
 import org.compiere.model.MCampaign;
 import org.compiere.model.MColumn;
 import org.compiere.model.MElementValue;
-import org.compiere.model.MGLBudget;
 import org.compiere.model.MJournal;
 import org.compiere.model.MJournalBatch;
 import org.compiere.model.MJournalLine;
@@ -44,6 +43,7 @@ import org.compiere.model.MTable;
 import org.compiere.model.Query;
 import org.compiere.model.X_A_Asset;
 import org.compiere.model.X_C_SubAcct;
+import org.compiere.model.X_GL_Budget;
 import org.compiere.model.X_I_Budget;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -89,7 +89,7 @@ public class ImportBudget extends ImportBudgetAbstract {
         X_I_Budget importBudgetCurrent = new X_I_Budget(getCtx(), getRecord_ID(), null);
         int budgetId = importBudgetCurrent.getGL_Budget_ID();
         if (budgetId <=  0)
-            budgetId = getId(MGLBudget.Table_Name , MGLBudget.COLUMNNAME_Name + "=?", get_TrxName() , importBudgetCurrent.getBudgetCode());
+            budgetId = getId(X_GL_Budget.Table_Name , X_GL_Budget.COLUMNNAME_Name + "=?", get_TrxName() , importBudgetCurrent.getBudgetCode());
         if (budgetId <= 0)
             throw new AdempiereException("@GL_Budget_ID@ @NotFound@");
         else {
@@ -192,7 +192,7 @@ public class ImportBudget extends ImportBudgetAbstract {
         if (importBudget.getGL_Budget_ID() > 0)
             budgetId = importBudget.getGL_Budget_ID();
         if (budgetId <= 0 && importBudget.getBudgetCode() != null)
-            budgetId = getId(MGLBudget.Table_Name, MGLBudget.COLUMNNAME_Name + "=?", trxName, importBudget.getBudgetCode());
+            budgetId = getId(X_GL_Budget.Table_Name, X_GL_Budget.COLUMNNAME_Name + "=?", trxName, importBudget.getBudgetCode());
         if (budgetId > 0 && importBudget.getGL_Budget_ID() <= 0)
             importBudget.setGL_Budget_ID(budgetId);
         if (importBudget.getGL_Budget_ID() <= 0 && importBudget.getBudgetCode() != null)
