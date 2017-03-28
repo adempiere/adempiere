@@ -17,25 +17,27 @@
  * Email: victor.perez@e-evolution.com, http://www.e-evolution.com , http://github.com/e-Evolution
  * Created by victor.perez@e-evolution.com , www.e-evolution.com
  */
-
-
 package org.eevolution.process;
 
 import org.compiere.model.MActivity;
 import org.compiere.model.MBPartner;
+import org.compiere.model.MCampaign;
 import org.compiere.model.MImage;
 import org.compiere.model.MOrg;
 import org.compiere.model.MProject;
+import org.compiere.model.MSalesRegion;
 import org.compiere.model.Query;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
 import org.eevolution.model.I_I_HR_Employee;
 import org.eevolution.model.MHRCareerLevel;
+import org.eevolution.model.MHRDegree;
 import org.eevolution.model.MHRDepartment;
 import org.eevolution.model.MHRDesignation;
 import org.eevolution.model.MHREmployee;
 import org.eevolution.model.MHREmployeeType;
+import org.eevolution.model.MHRGrade;
 import org.eevolution.model.MHRJob;
 import org.eevolution.model.MHRJobEducation;
 import org.eevolution.model.MHRJobType;
@@ -43,7 +45,9 @@ import org.eevolution.model.MHRPayroll;
 import org.eevolution.model.MHRRace;
 import org.eevolution.model.MHRSalaryRange;
 import org.eevolution.model.MHRSalaryStructure;
+import org.eevolution.model.MHRShiftGroup;
 import org.eevolution.model.MHRSkillType;
+import org.eevolution.model.MHRWorkGroup;
 import org.eevolution.model.X_I_HR_Employee;
 
 import java.io.ByteArrayOutputStream;
@@ -53,6 +57,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Import Employee
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<a href="https://github.com/adempiere/adempiere/issues/854">
+ * 		@see FR [ 854 ] Add new columns for Concept Attribute</a>
  */
 public class ImportEmployee extends ImportEmployeeAbstract {
 
@@ -142,8 +149,8 @@ public class ImportEmployee extends ImportEmployeeAbstract {
         MOrg orgTrx = null;
         if (importEmployee.getAD_OrgTrx_ID() > 0)
             orgTrx = MOrg.get(getCtx(), importEmployee.getAD_OrgTrx_ID());
-        if (orgTrx == null && importEmployee.getActivityValue() != null) {
-            int orgTrxId = getId(MOrg.Table_Name, MOrg.COLUMNNAME_Value + "=?", trxName, importEmployee.getOrgValue());
+        if (orgTrx == null && importEmployee.getOrgTrxValue() != null) {
+            int orgTrxId = getId(MOrg.Table_Name, MOrg.COLUMNNAME_Value + "=?", trxName, importEmployee.getOrgTrxValue());
             orgTrx = MOrg.get(getCtx(), orgTrxId);
         }
         if (orgTrx != null && orgTrx.getAD_Org_ID() > 0)
@@ -153,13 +160,13 @@ public class ImportEmployee extends ImportEmployeeAbstract {
         MProject project = null;
         if (importEmployee.getC_Project_ID() > 0)
             project = MProject
-                    .getById(getCtx(), importEmployee.getC_Activity_ID());
-        if (project == null && importEmployee.getActivityValue() != null)
+                    .getById(getCtx(), importEmployee.getC_Project_ID());
+        if (project == null && importEmployee.getProjectValue() != null)
             project = MProject.getByValue(getCtx(), importEmployee.getProjectValue());
         if (project != null && project.getC_Project_ID() > 0)
             importEmployee.setC_Project_ID(project.getC_Project_ID());
 
-        //Set Departament
+        //Set Department
         MHRDepartment department = null;
         if (importEmployee.getHR_Department_ID() > 0)
             department = MHRDepartment.getById(getCtx(), importEmployee.getHR_Department_ID());
@@ -199,6 +206,8 @@ public class ImportEmployee extends ImportEmployeeAbstract {
                 jobEducation.saveEx();
             }
         }
+        if (jobEducation != null && jobEducation.getHR_JobEducation_ID() > 0)
+        	importEmployee.setHR_JobEducation_ID(jobEducation.getHR_JobEducation_ID());
         // Set Carrer Level
         MHRCareerLevel careerLevel = null;
         if (importEmployee.getHR_CareerLevel_ID() > 0)
@@ -225,7 +234,6 @@ public class ImportEmployee extends ImportEmployeeAbstract {
                 jobType.saveEx();
             }
         }
-
         if (jobType != null && jobType.getHR_JobType_ID() > 0)
             importEmployee.setHR_JobType_ID(jobType.getHR_JobType_ID());
 
@@ -245,12 +253,74 @@ public class ImportEmployee extends ImportEmployeeAbstract {
             activity = MActivity.getByValue(getCtx(), importEmployee.getActivityValue());
         if (activity != null && activity.getC_Activity_ID() > 0)
             importEmployee.setC_Activity_ID(activity.getC_Activity_ID());
+        // Set Campaign
+        MCampaign campaign = null;
+        if (importEmployee.getC_Campaign_ID() > 0)
+        	campaign = MCampaign.getById(getCtx(), importEmployee.getC_Campaign_ID());
+        if (campaign == null && importEmployee.getCampaignValue() != null)
+        	campaign = MCampaign.getByValue(getCtx(), importEmployee.getCampaignValue());
+        if (campaign != null && campaign.getC_Campaign_ID() > 0)
+            importEmployee.setC_Campaign_ID(campaign.getC_Campaign_ID());
+        // Set Sales Region
+        MSalesRegion salesRegion = null;
+        if (importEmployee.getC_SalesRegion_ID() > 0)
+        	salesRegion = MSalesRegion.getById(getCtx(), importEmployee.getC_SalesRegion_ID());
+        if (salesRegion == null && importEmployee.getSalesRegionValue() != null)
+        	salesRegion = MSalesRegion.getByValue(getCtx(), importEmployee.getSalesRegionValue());
+        if (salesRegion != null && salesRegion.getC_SalesRegion_ID() > 0)
+            importEmployee.setC_SalesRegion_ID(salesRegion.getC_SalesRegion_ID());
+        // Set Work Group
+        MHRWorkGroup workGroup = null;
+        if (importEmployee.getHR_WorkGroup_ID() > 0)
+        	workGroup = MHRWorkGroup.getById(getCtx(), importEmployee.getHR_WorkGroup_ID());
+        if (workGroup == null && importEmployee.getWorkGroupValue() != null)
+        	workGroup = MHRWorkGroup.getByValue(getCtx(), importEmployee.getWorkGroupValue());
+        if (workGroup != null && workGroup.getHR_WorkGroup_ID() > 0)
+            importEmployee.setHR_WorkGroup_ID(workGroup.getHR_WorkGroup_ID());
+        // Set Shift Group
+        MHRShiftGroup shiftGroup = null;
+        if (importEmployee.getHR_ShiftGroup_ID() > 0)
+        	shiftGroup = MHRShiftGroup.getById(getCtx(), importEmployee.getHR_WorkGroup_ID());
+        if (shiftGroup == null && importEmployee.getShiftGroupValue() != null)
+        	shiftGroup = MHRShiftGroup.getByValue(getCtx(), importEmployee.getWorkGroupValue());
+        if (shiftGroup != null && shiftGroup.getHR_ShiftGroup_ID() > 0)
+            importEmployee.setHR_ShiftGroup_ID(shiftGroup.getHR_ShiftGroup_ID());
+        
+        // Set Degree
+        MHRDegree degree = null;
+        if (importEmployee.getHR_Degree_ID() > 0)
+        	degree = MHRDegree.getById(getCtx(), importEmployee.getHR_Degree_ID());
+        if (degree == null && importEmployee.getDegreeValue() != null)
+        	degree = MHRDegree.getByValue(getCtx(), importEmployee.getDegreeValue());
+        if (degree == null || degree.getHR_Degree_ID() < 0) {
+            if (importEmployee.getDegreeValue() != null && importEmployee.getDegreeName() != null) {
+            	degree = new MHRDegree(getCtx(), importEmployee.getDegreeValue(), importEmployee.getDegreeName(), trxName);
+            	degree.saveEx();
+            }
+        }
+        //	Set it
+        if (degree != null && degree.getHR_Degree_ID() > 0)
+            importEmployee.setHR_Degree_ID(degree.getHR_Degree_ID());
+        // Set Grade
+        MHRGrade grade = null;
+        if (importEmployee.getHR_Grade_ID() > 0)
+        	grade = MHRGrade.getById(getCtx(), importEmployee.getHR_Grade_ID());
+        if (grade == null && importEmployee.getGradeValue() != null)
+        	grade = MHRGrade.getByValue(getCtx(), importEmployee.getGradeValue());
+        if (grade == null || grade.getHR_Grade_ID() < 0) {
+            if (importEmployee.getGradeValue() != null && importEmployee.getGradeName() != null) {
+            	grade = new MHRGrade(getCtx(), importEmployee.getGradeValue(), importEmployee.getGradeName(), trxName);
+            	grade.saveEx();
+            }
+        }
+        if (grade != null && grade.getHR_Grade_ID() > 0)
+            importEmployee.setHR_Grade_ID(grade.getHR_Grade_ID());
         //Set Designation
         MHRDesignation designation = null;
         if (importEmployee.getHR_Designation_ID() > 0)
             designation = MHRDesignation.getById(getCtx(), importEmployee.getHR_Designation_ID());
-        if (designation == null && importEmployee.getDepartmentValue() != null)
-            designation = MHRDesignation.getByValue(getCtx(), importEmployee.getDepartmentValue());
+        if (designation == null && importEmployee.getDesignationValue() != null)
+            designation = MHRDesignation.getByValue(getCtx(), importEmployee.getDesignationValue());
         if (designation != null && designation.getHR_Designation_ID() > 0)
             importEmployee.setHR_Designation_ID(designation.getHR_Designation_ID());
         //Set Salary Structure
@@ -276,7 +346,8 @@ public class ImportEmployee extends ImportEmployeeAbstract {
         if (employeeType == null && importEmployee.getEmployeeTypeValue() != null)
             employeeType = MHREmployeeType.getByValue(getCtx(), importEmployee.getEmployeeTypeValue());
         if (employeeType == null || employeeType.getHR_EmployeeType_ID() < 0) {
-            if (importEmployee.getEmployeeTypeValue() != null && importEmployee.getEmployeeTypeName() != null && payroll.getHR_Payroll_ID() > 0 ) {
+            if (importEmployee.getEmployeeTypeValue() != null && importEmployee.getEmployeeTypeName() != null 
+            		&& payroll != null && payroll.getHR_Payroll_ID() > 0 ) {
                 employeeType = new MHREmployeeType(
                         getCtx(),
                         importEmployee.getEmployeeTypeValue(),
@@ -293,8 +364,8 @@ public class ImportEmployee extends ImportEmployeeAbstract {
         MHRSkillType skillType = null;
         if (importEmployee.getHR_SkillType_ID() > 0)
             skillType = MHRSkillType.getById(getCtx(), importEmployee.getHR_SkillType_ID());
-        if (skillType == null && importEmployee.getJobValue() != null)
-            skillType = MHRSkillType.getByValue(getCtx(), importEmployee.getJobValue());
+        if (skillType == null && importEmployee.getSkillTypeValue() != null)
+            skillType = MHRSkillType.getByValue(getCtx(), importEmployee.getSkillTypeValue());
         if (skillType == null || skillType.getHR_SkillType_ID() < 0) {
             if(importEmployee.getSkillTypeValue() != null && importEmployee.getSkillTypeName() != null) {
                 skillType = new MHRSkillType(getCtx(), importEmployee.getSkillTypeValue(), importEmployee.getSkillTypeName(), trxName);
@@ -369,6 +440,7 @@ public class ImportEmployee extends ImportEmployeeAbstract {
         partner.setBloodGroup(importEmployee.getBloodGroup());
         partner.setGender(importEmployee.getGender());
         partner.setPlaceOfBirth(importEmployee.getPlaceOfBirth());
+        partner.setFathersName(importEmployee.getFathersName());
         partner.saveEx();
 
         importEmployee.setC_BPartner_ID(importEmployee.getC_BPartner_ID());
@@ -389,6 +461,7 @@ public class ImportEmployee extends ImportEmployeeAbstract {
         partner.setBloodGroup(importEmployee.getBloodGroup());
         partner.setGender(importEmployee.getGender());
         partner.setPlaceOfBirth(importEmployee.getPlaceOfBirth());
+        partner.setFathersName(importEmployee.getFathersName());
         partner.saveEx();
         return partner;
 

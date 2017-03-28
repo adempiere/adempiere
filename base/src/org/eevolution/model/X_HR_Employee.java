@@ -33,7 +33,7 @@ public class X_HR_Employee extends PO implements I_HR_Employee, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170315L;
+	private static final long serialVersionUID = 20170327L;
 
     /** Standard Constructor */
     public X_HR_Employee (Properties ctx, int HR_Employee_ID, String trxName)
@@ -128,56 +128,6 @@ public class X_HR_Employee extends PO implements I_HR_Employee, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Birthday.
-		@param Birthday 
-		Birthday or Anniversary day
-	  */
-	public void setBirthday (Timestamp Birthday)
-	{
-		set_Value (COLUMNNAME_Birthday, Birthday);
-	}
-
-	/** Get Birthday.
-		@return Birthday or Anniversary day
-	  */
-	public Timestamp getBirthday () 
-	{
-		return (Timestamp)get_Value(COLUMNNAME_Birthday);
-	}
-
-	/** BloodGroup AD_Reference_ID=53616 */
-	public static final int BLOODGROUP_AD_Reference_ID=53616;
-	/** A - = A- */
-	public static final String BLOODGROUP_A_ = "A-";
-	/** A + = A+ */
-	public static final String BLOODGROUP_APlus = "A+";
-	/** AB - = AB- */
-	public static final String BLOODGROUP_AB_ = "AB-";
-	/** AB + = AB+ */
-	public static final String BLOODGROUP_ABPlus = "AB+";
-	/** B - = B- */
-	public static final String BLOODGROUP_B_ = "B-";
-	/** B + = B+ */
-	public static final String BLOODGROUP_BPlus = "B+";
-	/** O - = O- */
-	public static final String BLOODGROUP_O_ = "O-";
-	/** O + = O+ */
-	public static final String BLOODGROUP_OPlus = "O+";
-	/** Set Blood Group.
-		@param BloodGroup Blood Group	  */
-	public void setBloodGroup (String BloodGroup)
-	{
-
-		set_Value (COLUMNNAME_BloodGroup, BloodGroup);
-	}
-
-	/** Get Blood Group.
-		@return Blood Group	  */
-	public String getBloodGroup () 
-	{
-		return (String)get_Value(COLUMNNAME_BloodGroup);
-	}
-
 	public org.compiere.model.I_C_Activity getC_Activity() throws RuntimeException
     {
 		return (org.compiere.model.I_C_Activity)MTable.get(getCtx(), org.compiere.model.I_C_Activity.Table_Name)
@@ -234,6 +184,51 @@ public class X_HR_Employee extends PO implements I_HR_Employee, I_Persistent
 		return ii.intValue();
 	}
 
+	public org.compiere.model.I_C_Campaign getC_Campaign() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_Campaign)MTable.get(getCtx(), org.compiere.model.I_C_Campaign.Table_Name)
+			.getPO(getC_Campaign_ID(), get_TrxName());	}
+
+	/** Set Campaign.
+		@param C_Campaign_ID 
+		Marketing Campaign
+	  */
+	public void setC_Campaign_ID (int C_Campaign_ID)
+	{
+		if (C_Campaign_ID < 1) 
+			set_Value (COLUMNNAME_C_Campaign_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Campaign_ID, Integer.valueOf(C_Campaign_ID));
+	}
+
+	/** Get Campaign.
+		@return Marketing Campaign
+	  */
+	public int getC_Campaign_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Campaign_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Validation code.
+		@param Code 
+		Validation Code
+	  */
+	public void setCode (String Code)
+	{
+		set_Value (COLUMNNAME_Code, Code);
+	}
+
+	/** Get Validation code.
+		@return Validation Code
+	  */
+	public String getCode () 
+	{
+		return (String)get_Value(COLUMNNAME_Code);
+	}
+
 	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException
     {
 		return (org.compiere.model.I_C_Project)MTable.get(getCtx(), org.compiere.model.I_C_Project.Table_Name)
@@ -262,21 +257,32 @@ public class X_HR_Employee extends PO implements I_HR_Employee, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Validation code.
-		@param Code 
-		Validation Code
+	public org.compiere.model.I_C_SalesRegion getC_SalesRegion() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_SalesRegion)MTable.get(getCtx(), org.compiere.model.I_C_SalesRegion.Table_Name)
+			.getPO(getC_SalesRegion_ID(), get_TrxName());	}
+
+	/** Set Sales Region.
+		@param C_SalesRegion_ID 
+		Sales coverage region
 	  */
-	public void setCode (String Code)
+	public void setC_SalesRegion_ID (int C_SalesRegion_ID)
 	{
-		set_Value (COLUMNNAME_Code, Code);
+		if (C_SalesRegion_ID < 1) 
+			set_Value (COLUMNNAME_C_SalesRegion_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_SalesRegion_ID, Integer.valueOf(C_SalesRegion_ID));
 	}
 
-	/** Get Validation code.
-		@return Validation Code
+	/** Get Sales Region.
+		@return Sales coverage region
 	  */
-	public String getCode () 
+	public int getC_SalesRegion_ID () 
 	{
-		return (String)get_Value(COLUMNNAME_Code);
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_SalesRegion_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Daily Salary.
@@ -384,44 +390,6 @@ public class X_HR_Employee extends PO implements I_HR_Employee, I_Persistent
 		return (Timestamp)get_Value(COLUMNNAME_EndDate);
 	}
 
-	/** Set Father's Name.
-		@param FathersName 
-		Father's Name
-	  */
-	public void setFathersName (String FathersName)
-	{
-		set_Value (COLUMNNAME_FathersName, FathersName);
-	}
-
-	/** Get Father's Name.
-		@return Father's Name
-	  */
-	public String getFathersName () 
-	{
-		return (String)get_Value(COLUMNNAME_FathersName);
-	}
-
-	/** Gender AD_Reference_ID=53612 */
-	public static final int GENDER_AD_Reference_ID=53612;
-	/** Female = F */
-	public static final String GENDER_Female = "F";
-	/** Male = M */
-	public static final String GENDER_Male = "M";
-	/** Set Gender.
-		@param Gender Gender	  */
-	public void setGender (String Gender)
-	{
-
-		set_Value (COLUMNNAME_Gender, Gender);
-	}
-
-	/** Get Gender.
-		@return Gender	  */
-	public String getGender () 
-	{
-		return (String)get_Value(COLUMNNAME_Gender);
-	}
-
 	public org.eevolution.model.I_HR_CareerLevel getHR_CareerLevel() throws RuntimeException
     {
 		return (org.eevolution.model.I_HR_CareerLevel)MTable.get(getCtx(), org.eevolution.model.I_HR_CareerLevel.Table_Name)
@@ -450,13 +418,43 @@ public class X_HR_Employee extends PO implements I_HR_Employee, I_Persistent
 		return ii.intValue();
 	}
 
+	public org.eevolution.model.I_HR_Degree getHR_Degree() throws RuntimeException
+    {
+		return (org.eevolution.model.I_HR_Degree)MTable.get(getCtx(), org.eevolution.model.I_HR_Degree.Table_Name)
+			.getPO(getHR_Degree_ID(), get_TrxName());	}
+
+	/** Set Degree.
+		@param HR_Degree_ID 
+		Degree for an Employee
+	  */
+	public void setHR_Degree_ID (int HR_Degree_ID)
+	{
+		if (HR_Degree_ID < 1) 
+			set_Value (COLUMNNAME_HR_Degree_ID, null);
+		else 
+			set_Value (COLUMNNAME_HR_Degree_ID, Integer.valueOf(HR_Degree_ID));
+	}
+
+	/** Get Degree.
+		@return Degree for an Employee
+	  */
+	public int getHR_Degree_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Degree_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.eevolution.model.I_HR_Department getHR_Department() throws RuntimeException
     {
 		return (org.eevolution.model.I_HR_Department)MTable.get(getCtx(), org.eevolution.model.I_HR_Department.Table_Name)
 			.getPO(getHR_Department_ID(), get_TrxName());	}
 
-	/** Set Payroll Department.
-		@param HR_Department_ID Payroll Department	  */
+	/** Set Department.
+		@param HR_Department_ID 
+		Department of the organization
+	  */
 	public void setHR_Department_ID (int HR_Department_ID)
 	{
 		if (HR_Department_ID < 1) 
@@ -465,8 +463,9 @@ public class X_HR_Employee extends PO implements I_HR_Employee, I_Persistent
 			set_Value (COLUMNNAME_HR_Department_ID, Integer.valueOf(HR_Department_ID));
 	}
 
-	/** Get Payroll Department.
-		@return Payroll Department	  */
+	/** Get Department.
+		@return Department of the organization
+	  */
 	public int getHR_Department_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Department_ID);
@@ -503,6 +502,26 @@ public class X_HR_Employee extends PO implements I_HR_Employee, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Payroll Employee.
+		@param HR_Employee_ID Payroll Employee	  */
+	public void setHR_Employee_ID (int HR_Employee_ID)
+	{
+		if (HR_Employee_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_HR_Employee_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_HR_Employee_ID, Integer.valueOf(HR_Employee_ID));
+	}
+
+	/** Get Payroll Employee.
+		@return Payroll Employee	  */
+	public int getHR_Employee_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Employee_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.eevolution.model.I_HR_EmployeeType getHR_EmployeeType() throws RuntimeException
     {
 		return (org.eevolution.model.I_HR_EmployeeType)MTable.get(getCtx(), org.eevolution.model.I_HR_EmployeeType.Table_Name)
@@ -531,21 +550,29 @@ public class X_HR_Employee extends PO implements I_HR_Employee, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Payroll Employee.
-		@param HR_Employee_ID Payroll Employee	  */
-	public void setHR_Employee_ID (int HR_Employee_ID)
+	public org.eevolution.model.I_HR_Grade getHR_Grade() throws RuntimeException
+    {
+		return (org.eevolution.model.I_HR_Grade)MTable.get(getCtx(), org.eevolution.model.I_HR_Grade.Table_Name)
+			.getPO(getHR_Grade_ID(), get_TrxName());	}
+
+	/** Set Grade.
+		@param HR_Grade_ID 
+		Grade
+	  */
+	public void setHR_Grade_ID (int HR_Grade_ID)
 	{
-		if (HR_Employee_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_HR_Employee_ID, null);
+		if (HR_Grade_ID < 1) 
+			set_Value (COLUMNNAME_HR_Grade_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_HR_Employee_ID, Integer.valueOf(HR_Employee_ID));
+			set_Value (COLUMNNAME_HR_Grade_ID, Integer.valueOf(HR_Grade_ID));
 	}
 
-	/** Get Payroll Employee.
-		@return Payroll Employee	  */
-	public int getHR_Employee_ID () 
+	/** Get Grade.
+		@return Grade
+	  */
+	public int getHR_Grade_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Employee_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Grade_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -574,6 +601,31 @@ public class X_HR_Employee extends PO implements I_HR_Employee, I_Persistent
 	public int getHR_JobEducation_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_JobEducation_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.eevolution.model.I_HR_Job getHR_Job() throws RuntimeException
+    {
+		return (org.eevolution.model.I_HR_Job)MTable.get(getCtx(), org.eevolution.model.I_HR_Job.Table_Name)
+			.getPO(getHR_Job_ID(), get_TrxName());	}
+
+	/** Set Payroll Job.
+		@param HR_Job_ID Payroll Job	  */
+	public void setHR_Job_ID (int HR_Job_ID)
+	{
+		if (HR_Job_ID < 1) 
+			set_Value (COLUMNNAME_HR_Job_ID, null);
+		else 
+			set_Value (COLUMNNAME_HR_Job_ID, Integer.valueOf(HR_Job_ID));
+	}
+
+	/** Get Payroll Job.
+		@return Payroll Job	  */
+	public int getHR_Job_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Job_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -635,38 +687,15 @@ public class X_HR_Employee extends PO implements I_HR_Employee, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.eevolution.model.I_HR_Job getHR_Job() throws RuntimeException
-    {
-		return (org.eevolution.model.I_HR_Job)MTable.get(getCtx(), org.eevolution.model.I_HR_Job.Table_Name)
-			.getPO(getHR_Job_ID(), get_TrxName());	}
-
-	/** Set Payroll Job.
-		@param HR_Job_ID Payroll Job	  */
-	public void setHR_Job_ID (int HR_Job_ID)
-	{
-		if (HR_Job_ID < 1) 
-			set_Value (COLUMNNAME_HR_Job_ID, null);
-		else 
-			set_Value (COLUMNNAME_HR_Job_ID, Integer.valueOf(HR_Job_ID));
-	}
-
-	/** Get Payroll Job.
-		@return Payroll Job	  */
-	public int getHR_Job_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Job_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.eevolution.model.I_HR_Payroll getHR_Payroll() throws RuntimeException
     {
 		return (org.eevolution.model.I_HR_Payroll)MTable.get(getCtx(), org.eevolution.model.I_HR_Payroll.Table_Name)
 			.getPO(getHR_Payroll_ID(), get_TrxName());	}
 
 	/** Set Payroll.
-		@param HR_Payroll_ID Payroll	  */
+		@param HR_Payroll_ID 
+		The Payroll definition allows to define all the payroll concepts , year and periods, to  calculate a payroll.
+	  */
 	public void setHR_Payroll_ID (int HR_Payroll_ID)
 	{
 		if (HR_Payroll_ID < 1) 
@@ -676,7 +705,8 @@ public class X_HR_Employee extends PO implements I_HR_Employee, I_Persistent
 	}
 
 	/** Get Payroll.
-		@return Payroll	  */
+		@return The Payroll definition allows to define all the payroll concepts , year and periods, to  calculate a payroll.
+	  */
 	public int getHR_Payroll_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Payroll_ID);
@@ -769,6 +799,34 @@ public class X_HR_Employee extends PO implements I_HR_Employee, I_Persistent
 		return ii.intValue();
 	}
 
+	public org.eevolution.model.I_HR_ShiftGroup getHR_ShiftGroup() throws RuntimeException
+    {
+		return (org.eevolution.model.I_HR_ShiftGroup)MTable.get(getCtx(), org.eevolution.model.I_HR_ShiftGroup.Table_Name)
+			.getPO(getHR_ShiftGroup_ID(), get_TrxName());	}
+
+	/** Set Shift Group.
+		@param HR_ShiftGroup_ID 
+		Shift Group
+	  */
+	public void setHR_ShiftGroup_ID (int HR_ShiftGroup_ID)
+	{
+		if (HR_ShiftGroup_ID < 1) 
+			set_Value (COLUMNNAME_HR_ShiftGroup_ID, null);
+		else 
+			set_Value (COLUMNNAME_HR_ShiftGroup_ID, Integer.valueOf(HR_ShiftGroup_ID));
+	}
+
+	/** Get Shift Group.
+		@return Shift Group
+	  */
+	public int getHR_ShiftGroup_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_HR_ShiftGroup_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.eevolution.model.I_HR_SkillType getHR_SkillType() throws RuntimeException
     {
 		return (org.eevolution.model.I_HR_SkillType)MTable.get(getCtx(), org.eevolution.model.I_HR_SkillType.Table_Name)
@@ -792,6 +850,34 @@ public class X_HR_Employee extends PO implements I_HR_Employee, I_Persistent
 	public int getHR_SkillType_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_SkillType_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.eevolution.model.I_HR_WorkGroup getHR_WorkGroup() throws RuntimeException
+    {
+		return (org.eevolution.model.I_HR_WorkGroup)MTable.get(getCtx(), org.eevolution.model.I_HR_WorkGroup.Table_Name)
+			.getPO(getHR_WorkGroup_ID(), get_TrxName());	}
+
+	/** Set Work Group.
+		@param HR_WorkGroup_ID 
+		Work Group
+	  */
+	public void setHR_WorkGroup_ID (int HR_WorkGroup_ID)
+	{
+		if (HR_WorkGroup_ID < 1) 
+			set_Value (COLUMNNAME_HR_WorkGroup_ID, null);
+		else 
+			set_Value (COLUMNNAME_HR_WorkGroup_ID, Integer.valueOf(HR_WorkGroup_ID));
+	}
+
+	/** Get Work Group.
+		@return Work Group
+	  */
+	public int getHR_WorkGroup_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_HR_WorkGroup_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -1086,23 +1172,6 @@ public class X_HR_Employee extends PO implements I_HR_Employee, I_Persistent
 	public String getPaymentRule () 
 	{
 		return (String)get_Value(COLUMNNAME_PaymentRule);
-	}
-
-	/** Set Place of Birth.
-		@param PlaceOfBirth 
-		Place of Birth
-	  */
-	public void setPlaceOfBirth (String PlaceOfBirth)
-	{
-		set_Value (COLUMNNAME_PlaceOfBirth, PlaceOfBirth);
-	}
-
-	/** Get Place of Birth.
-		@return Place of Birth
-	  */
-	public String getPlaceOfBirth () 
-	{
-		return (String)get_Value(COLUMNNAME_PlaceOfBirth);
 	}
 
 	/** Set Social Security Code.
