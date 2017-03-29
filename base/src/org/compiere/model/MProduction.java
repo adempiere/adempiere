@@ -1249,6 +1249,8 @@ public class MProduction extends X_M_Production implements DocAction {
 		MAcctSchema as = MClient.get(getCtx()).getAcctSchema();
 		MCostType ct = MCostType.getByMethodCosting(as, as.getCostingMethod());
 		String costingLevel = product.getCostingLevel(as);
+		if (!as.getM_CostType().getCostingMethod().equals(MCostType.COSTINGMETHOD_StandardCosting))
+			return "";
 		int AD_Org_ID = costingLevel.equals(MAcctSchema.COSTINGLEVEL_Organization)?getAD_Org_ID():0;
 		int M_Warehouse_ID = costingLevel.equals(MAcctSchema.COSTINGLEVEL_Warehouse)?getM_Locator().getM_Warehouse_ID():0;
 		ProcessInfo processInfo = ProcessBuilder.create(getCtx())
