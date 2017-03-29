@@ -10,7 +10,7 @@
         <Data AD_Column_ID="2598" Column="Created">2014-05-16 15:46:18.406</Data>
         <Data AD_Column_ID="2599" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
-        <Data AD_Column_ID="6484" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6484" Column="EntityType">D</Data>
         <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="2597" Column="IsActive">true</Data>
         <Data AD_Column_ID="2603" Column="Name">Header Print Format</Data>
@@ -31,7 +31,7 @@
         <Data AD_Column_ID="554" Column="Created">2014-05-16 15:52:47.718</Data>
         <Data AD_Column_ID="555" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="131" Column="Description" isNewNull="true"/>
-        <Data AD_Column_ID="6486" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6486" Column="EntityType">D</Data>
         <Data AD_Column_ID="132" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="553" Column="IsActive">true</Data>
         <Data AD_Column_ID="54355" Column="IsOrderByValue">false</Data>
@@ -54,7 +54,7 @@
         <Data AD_Column_ID="559" Column="Created">2014-05-16 15:53:13.296</Data>
         <Data AD_Column_ID="560" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="62121" Column="DisplaySQL" isNewNull="true"/>
-        <Data AD_Column_ID="7711" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7711" Column="EntityType">D</Data>
         <Data AD_Column_ID="558" Column="IsActive">true</Data>
         <Data AD_Column_ID="62120" Column="IsAlert">false</Data>
         <Data AD_Column_ID="62122" Column="IsDisplayIdentifier">false</Data>
@@ -72,7 +72,7 @@
         <Data AD_Column_ID="109" Column="AD_Column_ID">72906</Data>
         <Data AD_Column_ID="114" Column="AD_Table_ID">445</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID">53691</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -141,7 +141,7 @@
         <Data AD_Column_ID="15011" Column="AD_Reference_ID" isNewNull="true"/>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
         <Data AD_Column_ID="15013" Column="IsMandatory" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="53265" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="54356" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="54357" Column="AD_Val_Rule_ID" isNewNull="true"/>

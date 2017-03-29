@@ -11,7 +11,7 @@
         <Data AD_Column_ID="569" Column="Created">2014-12-15 17:36:19.932</Data>
         <Data AD_Column_ID="570" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="157" Column="Description" isNewNull="true"/>
-        <Data AD_Column_ID="6490" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6490" Column="EntityType">D</Data>
         <Data AD_Column_ID="158" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="568" Column="IsActive">true</Data>
         <Data AD_Column_ID="12457" Column="IsBetaFunctionality">false</Data>
@@ -38,7 +38,7 @@
         <Data AD_Column_ID="544" Column="Created">2014-12-15 17:36:22.503</Data>
         <Data AD_Column_ID="545" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="103" Column="Description" isNewNull="true"/>
-        <Data AD_Column_ID="6488" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6488" Column="EntityType">D</Data>
         <Data AD_Column_ID="104" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="6489" Column="ImportTable">N</Data>
         <Data AD_Column_ID="543" Column="IsActive">true</Data>
@@ -94,7 +94,7 @@
         <Data AD_Column_ID="2598" Column="Created">2014-12-15 17:36:25.506</Data>
         <Data AD_Column_ID="2599" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
-        <Data AD_Column_ID="6484" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6484" Column="EntityType">D</Data>
         <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="2597" Column="IsActive">true</Data>
         <Data AD_Column_ID="2603" Column="Name">Document Status Indicator</Data>
@@ -119,7 +119,7 @@
         <Data AD_Column_ID="109" Column="AD_Column_ID">74869</Data>
         <Data AD_Column_ID="114" Column="AD_Table_ID">53898</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">1</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">true</Data>
@@ -182,7 +182,7 @@
         <Data AD_Column_ID="109" Column="AD_Column_ID">74870</Data>
         <Data AD_Column_ID="114" Column="AD_Table_ID">53898</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">1</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">true</Data>
@@ -240,7 +240,7 @@
         <Data AD_Column_ID="109" Column="AD_Column_ID">74871</Data>
         <Data AD_Column_ID="114" Column="AD_Table_ID">53898</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">1</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">true</Data>
@@ -298,7 +298,7 @@
         <Data AD_Column_ID="109" Column="AD_Column_ID">74872</Data>
         <Data AD_Column_ID="114" Column="AD_Table_ID">53898</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">1</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -361,7 +361,7 @@
         <Data AD_Column_ID="109" Column="AD_Column_ID">74873</Data>
         <Data AD_Column_ID="114" Column="AD_Table_ID">53898</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">1</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -419,7 +419,7 @@
         <Data AD_Column_ID="109" Column="AD_Column_ID">74874</Data>
         <Data AD_Column_ID="114" Column="AD_Table_ID">53898</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">1</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -482,7 +482,7 @@
         <Data AD_Column_ID="109" Column="AD_Column_ID">74875</Data>
         <Data AD_Column_ID="114" Column="AD_Table_ID">53898</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">1</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">true</Data>
@@ -550,7 +550,7 @@
         <Data AD_Column_ID="109" Column="AD_Column_ID">74876</Data>
         <Data AD_Column_ID="114" Column="AD_Table_ID">53898</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">1</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID">110</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">true</Data>
@@ -608,7 +608,7 @@
         <Data AD_Column_ID="109" Column="AD_Column_ID">74877</Data>
         <Data AD_Column_ID="114" Column="AD_Table_ID">53898</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">1</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">true</Data>
@@ -666,7 +666,7 @@
         <Data AD_Column_ID="109" Column="AD_Column_ID">74878</Data>
         <Data AD_Column_ID="114" Column="AD_Table_ID">53898</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">1</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID">110</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">true</Data>
@@ -729,7 +729,7 @@
         <Data AD_Column_ID="109" Column="AD_Column_ID">74879</Data>
         <Data AD_Column_ID="114" Column="AD_Table_ID">53898</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">1</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">true</Data>
@@ -787,7 +787,7 @@
         <Data AD_Column_ID="109" Column="AD_Column_ID">74880</Data>
         <Data AD_Column_ID="114" Column="AD_Table_ID">53898</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">1</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -850,7 +850,7 @@
         <Data AD_Column_ID="109" Column="AD_Column_ID">74881</Data>
         <Data AD_Column_ID="114" Column="AD_Table_ID">53898</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">1</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">true</Data>
@@ -916,7 +916,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="109" Column="AD_Column_ID">74882</Data>
         <Data AD_Column_ID="114" Column="AD_Table_ID">53898</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">1</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">true</Data>
@@ -968,7 +968,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="2598" Column="Created">2014-12-15 17:37:02.889</Data>
         <Data AD_Column_ID="2599" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
-        <Data AD_Column_ID="6484" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6484" Column="EntityType">D</Data>
         <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="2597" Column="IsActive">true</Data>
         <Data AD_Column_ID="2603" Column="Name">Name Colour</Data>
@@ -994,7 +994,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="109" Column="AD_Column_ID">74883</Data>
         <Data AD_Column_ID="114" Column="AD_Table_ID">53898</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">1</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID">266</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">true</Data>
@@ -1046,7 +1046,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="2598" Column="Created">2014-12-15 17:37:05.968</Data>
         <Data AD_Column_ID="2599" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
-        <Data AD_Column_ID="6484" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6484" Column="EntityType">D</Data>
         <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="2597" Column="IsActive">true</Data>
         <Data AD_Column_ID="2603" Column="Name">Name Font</Data>
@@ -1072,7 +1072,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="109" Column="AD_Column_ID">74884</Data>
         <Data AD_Column_ID="114" Column="AD_Table_ID">53898</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">1</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID">267</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">true</Data>
@@ -1124,7 +1124,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="2598" Column="Created">2014-12-15 17:37:08.976</Data>
         <Data AD_Column_ID="2599" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
-        <Data AD_Column_ID="6484" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6484" Column="EntityType">D</Data>
         <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="2597" Column="IsActive">true</Data>
         <Data AD_Column_ID="2603" Column="Name">Number Colour</Data>
@@ -1144,7 +1144,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="109" Column="AD_Column_ID">74885</Data>
         <Data AD_Column_ID="114" Column="AD_Table_ID">53898</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">1</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID">266</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">true</Data>
@@ -1196,7 +1196,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="2598" Column="Created">2014-12-15 17:37:11.593</Data>
         <Data AD_Column_ID="2599" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
-        <Data AD_Column_ID="6484" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6484" Column="EntityType">D</Data>
         <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="2597" Column="IsActive">true</Data>
         <Data AD_Column_ID="2603" Column="Name">Number Font</Data>
@@ -1216,7 +1216,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="109" Column="AD_Column_ID">74886</Data>
         <Data AD_Column_ID="114" Column="AD_Table_ID">53898</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">1</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID">267</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">true</Data>
@@ -1274,7 +1274,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="109" Column="AD_Column_ID">74887</Data>
         <Data AD_Column_ID="114" Column="AD_Table_ID">53898</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">1</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">true</Data>
@@ -1337,7 +1337,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="109" Column="AD_Column_ID">74888</Data>
         <Data AD_Column_ID="114" Column="AD_Table_ID">53898</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">1</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -1395,7 +1395,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="109" Column="AD_Column_ID">74889</Data>
         <Data AD_Column_ID="114" Column="AD_Table_ID">53898</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">1</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -1455,7 +1455,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="575" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="162" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="13450" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7713" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7713" Column="EntityType">D</Data>
         <Data AD_Column_ID="1183" Column="HasTree">false</Data>
         <Data AD_Column_ID="163" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="6487" Column="ImportFields" isNewNull="true"/>
@@ -1497,7 +1497,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">Client/Tenant for this installation.</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">22</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">A Client is a company or a legal entity. You cannot share data between Clients. Tenant is a synonym for Client.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -1537,7 +1537,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">Organisational entity within client</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">22</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">An organisation is a unit of your client or legal entity - examples are store, department. You can share data between organisations.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -1577,7 +1577,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">Alphanumeric identifier of the entity</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">60</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">The name of an entity (record) is used as an default search option in addition to the search key. The name is up to 60 characters in length.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -1617,7 +1617,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">Optional short description of the record</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">255</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">A description is limited to 255 characters.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -1657,7 +1657,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">The record is active in the system</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">1</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
 There are two reasons for de-activating and not deleting records:
 (1) The system requires the record for audit purposes.
@@ -1700,7 +1700,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">Responsibility Role</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">10</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">The Role determines security and access a user who has this Role will have in the System.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -1740,7 +1740,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="53265" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="180" Column="DisplayLength">10</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">The User identifies a unique user in the system. This could be an internal user or a business partner contact</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -1780,7 +1780,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">Financial Project</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">10</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">A Project allows you to track and control internal or external activities.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -1820,7 +1820,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">Method of ordering records; lowest number comes first</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">22</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">The Sequence indicates the order of records</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -1860,7 +1860,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="180" Column="DisplayLength">10</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -1900,7 +1900,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="180" Column="DisplayLength">10</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -1940,7 +1940,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="180" Column="DisplayLength">10</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -1980,7 +1980,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="180" Column="DisplayLength">10</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -2020,7 +2020,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">Database Table information</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">10</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">The Database Table provides the information of the table definition</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -2060,7 +2060,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">Fully qualified SQL WHERE clause</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">2000</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">The Where Clause indicates the SQL WHERE clause to use for record selection. The WHERE clause is added to the query. Fully qualified means "tablename.columnname".</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -2100,7 +2100,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">Data entry or display window</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">10</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">The Window field identifies a unique Window in the system.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -2140,7 +2140,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="180" Column="DisplayLength">10</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -2178,7 +2178,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="599" Column="Created">2014-12-15 17:37:48.672</Data>
         <Data AD_Column_ID="600" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="230" Column="Description" isNewNull="true"/>
-        <Data AD_Column_ID="7721" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7721" Column="EntityType">D</Data>
         <Data AD_Column_ID="598" Column="IsActive">true</Data>
         <Data AD_Column_ID="59134" Column="IsCentrallyMaintained" isNewNull="true"/>
         <Data AD_Column_ID="6651" Column="IsReadOnly">false</Data>
@@ -2371,7 +2371,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">Special Form</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">10</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">The Special Form field identifies a unique Special Form in the system.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>

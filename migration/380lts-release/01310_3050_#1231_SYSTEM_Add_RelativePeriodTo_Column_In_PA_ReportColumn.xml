@@ -7,7 +7,7 @@
         <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="6283" Column="PO_Description" isNewNull="true"/>
         <Data AD_Column_ID="6284" Column="PO_Help" isNewNull="true"/>
-        <Data AD_Column_ID="6484" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6484" Column="EntityType">D</Data>
         <Data AD_Column_ID="2603" Column="Name">Relative Period To</Data>
         <Data AD_Column_ID="2604" Column="Description">Period offset (0 is current)</Data>
         <Data AD_Column_ID="4299" Column="PrintName">Relative Period To</Data>
@@ -29,7 +29,7 @@
         <Data AD_Column_ID="117" Column="DefaultValue">0</Data>
         <Data AD_Column_ID="114" Column="AD_Table_ID">446</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">1</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -93,7 +93,7 @@
         <Data AD_Column_ID="15011" Column="AD_Reference_ID" isNewNull="true"/>
         <Data AD_Column_ID="177" Column="DisplayLogic">@ColumnType@=R</Data>
         <Data AD_Column_ID="15013" Column="IsMandatory" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="53265" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="54356" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="54357" Column="AD_Val_Rule_ID" isNewNull="true"/>

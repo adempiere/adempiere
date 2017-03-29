@@ -88,7 +88,7 @@
         <Data AD_Column_ID="564" Column="Created">2015-09-09 16:24:19.045</Data>
         <Data AD_Column_ID="151" Column="AD_Reference_ID">53793</Data>
         <Data AD_Column_ID="153" Column="ValidTo" isNewNull="true"/>
-        <Data AD_Column_ID="7712" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7712" Column="EntityType">D</Data>
         <Data AD_Column_ID="150" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="200" Column="Value">d_d</Data>
         <Data AD_Column_ID="149" Column="Name">Double Dotted</Data>
