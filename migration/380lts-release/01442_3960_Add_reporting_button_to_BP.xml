@@ -11,7 +11,7 @@
         <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="6283" Column="PO_Description" isNewNull="true"/>
         <Data AD_Column_ID="6284" Column="PO_Help" isNewNull="true"/>
-        <Data AD_Column_ID="6484" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6484" Column="EntityType">D</Data>
         <Data AD_Column_ID="6286" Column="PO_PrintName" isNewNull="true"/>
         <Data AD_Column_ID="2603" Column="Name">AR Enquiry</Data>
         <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
@@ -36,7 +36,7 @@
         <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="6283" Column="PO_Description" isNewNull="true"/>
         <Data AD_Column_ID="6284" Column="PO_Help" isNewNull="true"/>
-        <Data AD_Column_ID="6484" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6484" Column="EntityType">D</Data>
         <Data AD_Column_ID="6286" Column="PO_PrintName" isNewNull="true"/>
         <Data AD_Column_ID="2603" Column="Name">AP Enquiry</Data>
         <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
@@ -61,7 +61,7 @@
         <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="6283" Column="PO_Description" isNewNull="true"/>
         <Data AD_Column_ID="6284" Column="PO_Help" isNewNull="true"/>
-        <Data AD_Column_ID="6484" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6484" Column="EntityType">D</Data>
         <Data AD_Column_ID="6286" Column="PO_PrintName" isNewNull="true"/>
         <Data AD_Column_ID="2603" Column="Name">Unapplied Payments</Data>
         <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
@@ -86,7 +86,7 @@
         <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="6283" Column="PO_Description" isNewNull="true"/>
         <Data AD_Column_ID="6284" Column="PO_Help" isNewNull="true"/>
-        <Data AD_Column_ID="6484" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6484" Column="EntityType">D</Data>
         <Data AD_Column_ID="6286" Column="PO_PrintName" isNewNull="true"/>
         <Data AD_Column_ID="2603" Column="Name">Customer Open Invoices</Data>
         <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
@@ -110,7 +110,7 @@
         <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="6283" Column="PO_Description" isNewNull="true"/>
         <Data AD_Column_ID="6284" Column="PO_Help" isNewNull="true"/>
-        <Data AD_Column_ID="6484" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6484" Column="EntityType">D</Data>
         <Data AD_Column_ID="6286" Column="PO_PrintName" isNewNull="true"/>
         <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="6285" Column="PO_Name" isNewNull="true"/>
@@ -136,7 +136,7 @@
         <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="6283" Column="PO_Description" isNewNull="true"/>
         <Data AD_Column_ID="6284" Column="PO_Help" isNewNull="true"/>
-        <Data AD_Column_ID="6484" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6484" Column="EntityType">D</Data>
         <Data AD_Column_ID="6286" Column="PO_PrintName" isNewNull="true"/>
         <Data AD_Column_ID="2603" Column="Name">Not Posted</Data>
         <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
@@ -164,7 +164,7 @@
         <Data AD_Column_ID="11563" Column="WorkflowValue" isNewNull="true"/>
         <Data AD_Column_ID="14084" Column="IsServerProcess">false</Data>
         <Data AD_Column_ID="50181" Column="ShowHelp">Y</Data>
-        <Data AD_Column_ID="6485" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6485" Column="EntityType">D</Data>
         <Data AD_Column_ID="6653" Column="Statistic_Seconds">2</Data>
         <Data AD_Column_ID="6652" Column="Statistic_Count">2</Data>
         <Data AD_Column_ID="4656" Column="Classname">org.compiere.report.TrialBalance</Data>
@@ -215,7 +215,7 @@
         <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="7729" Column="AD_Element_ID">181</Data>
-        <Data AD_Column_ID="7728" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
         <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
         <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
         <Data AD_Column_ID="2823" Column="Description">Rules for accounting</Data>
@@ -249,7 +249,7 @@
         <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID">275</Data>
         <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="7729" Column="AD_Element_ID">206</Data>
-        <Data AD_Column_ID="7728" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
         <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
         <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
         <Data AD_Column_ID="2823" Column="Description">Period of the Calendar</Data>
@@ -283,7 +283,7 @@
         <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="7729" Column="AD_Element_ID">263</Data>
-        <Data AD_Column_ID="7728" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
         <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
         <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
         <Data AD_Column_ID="2823" Column="Description">Accounting Date</Data>
@@ -317,7 +317,7 @@
         <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="7729" Column="AD_Element_ID">113</Data>
-        <Data AD_Column_ID="7728" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
         <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
         <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
         <Data AD_Column_ID="2823" Column="Description">Organizational entity within client</Data>
@@ -351,7 +351,7 @@
         <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID">331</Data>
         <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="7729" Column="AD_Element_ID">148</Data>
-        <Data AD_Column_ID="7728" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
         <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
         <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
         <Data AD_Column_ID="2823" Column="Description">Account used</Data>
@@ -385,7 +385,7 @@
         <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="7729" Column="AD_Element_ID">2083</Data>
-        <Data AD_Column_ID="7728" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
         <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
         <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
         <Data AD_Column_ID="2823" Column="Description">Key of Account Element</Data>
@@ -419,7 +419,7 @@
         <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="7729" Column="AD_Element_ID">187</Data>
-        <Data AD_Column_ID="7728" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
         <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
         <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
         <Data AD_Column_ID="2823" Column="Description">Identifies a Business Partner</Data>
@@ -453,7 +453,7 @@
         <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="7729" Column="AD_Element_ID">454</Data>
-        <Data AD_Column_ID="7728" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
         <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
         <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
         <Data AD_Column_ID="2823" Column="Description">Product, Service, Item</Data>
@@ -487,7 +487,7 @@
         <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="7729" Column="AD_Element_ID">208</Data>
-        <Data AD_Column_ID="7728" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
         <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
         <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
         <Data AD_Column_ID="2823" Column="Description">Financial Project</Data>
@@ -521,7 +521,7 @@
         <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="7729" Column="AD_Element_ID">1005</Data>
-        <Data AD_Column_ID="7728" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
         <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
         <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
         <Data AD_Column_ID="2823" Column="Description">Business Activity</Data>
@@ -555,7 +555,7 @@
         <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="7729" Column="AD_Element_ID">210</Data>
-        <Data AD_Column_ID="7728" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
         <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
         <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
         <Data AD_Column_ID="2823" Column="Description">Sales coverage region</Data>
@@ -589,7 +589,7 @@
         <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="7729" Column="AD_Element_ID">550</Data>
-        <Data AD_Column_ID="7728" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
         <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
         <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
         <Data AD_Column_ID="2823" Column="Description">Marketing Campaign</Data>
@@ -623,7 +623,7 @@
         <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID">125</Data>
         <Data AD_Column_ID="3739" Column="DefaultValue">A</Data>
         <Data AD_Column_ID="7729" Column="AD_Element_ID">514</Data>
-        <Data AD_Column_ID="7728" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
         <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
         <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
         <Data AD_Column_ID="2823" Column="Description">The type of posted amount for the transaction</Data>
@@ -658,7 +658,7 @@ Accounting Segments like Organization, Account, Product may have several hierarc
         <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="7729" Column="AD_Element_ID">2868</Data>
-        <Data AD_Column_ID="7728" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
         <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
         <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
         <Data AD_Column_ID="2823" Column="Description">Optional Reporting Hierarchy - If not selected the default hierarchy trees are used.</Data>
@@ -926,7 +926,7 @@ Accounting Segments like Organization, Account, Product may have several hierarc
         <Data AD_Column_ID="11563" Column="WorkflowValue" isNewNull="true"/>
         <Data AD_Column_ID="14084" Column="IsServerProcess">false</Data>
         <Data AD_Column_ID="50181" Column="ShowHelp">Y</Data>
-        <Data AD_Column_ID="6485" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6485" Column="EntityType">D</Data>
         <Data AD_Column_ID="6653" Column="Statistic_Seconds">2</Data>
         <Data AD_Column_ID="6652" Column="Statistic_Count">2</Data>
         <Data AD_Column_ID="4656" Column="Classname">org.compiere.report.TrialBalance</Data>
@@ -974,7 +974,7 @@ Accounting Segments like Organization, Account, Product may have several hierarc
         <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="7729" Column="AD_Element_ID">181</Data>
-        <Data AD_Column_ID="7728" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
         <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
         <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
         <Data AD_Column_ID="2823" Column="Description">Rules for accounting</Data>
@@ -1008,7 +1008,7 @@ Accounting Segments like Organization, Account, Product may have several hierarc
         <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="7729" Column="AD_Element_ID">263</Data>
-        <Data AD_Column_ID="7728" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
         <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
         <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
         <Data AD_Column_ID="2823" Column="Description">Accounting Date</Data>
@@ -1042,7 +1042,7 @@ Accounting Segments like Organization, Account, Product may have several hierarc
         <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="7729" Column="AD_Element_ID">113</Data>
-        <Data AD_Column_ID="7728" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
         <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
         <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
         <Data AD_Column_ID="2823" Column="Description">Organizational entity within client</Data>
@@ -1076,7 +1076,7 @@ Accounting Segments like Organization, Account, Product may have several hierarc
         <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID">331</Data>
         <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="7729" Column="AD_Element_ID">148</Data>
-        <Data AD_Column_ID="7728" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
         <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
         <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
         <Data AD_Column_ID="2823" Column="Description">Account used</Data>
@@ -1112,7 +1112,7 @@ Accounting Segments like Organization, Account, Product may have several hierarc
         <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="7729" Column="AD_Element_ID">187</Data>
-        <Data AD_Column_ID="7728" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
         <Data AD_Column_ID="2823" Column="Description">Identifies a Business Partner</Data>
         <Data AD_Column_ID="2822" Column="Name">Business Partner </Data>
         <Data AD_Column_ID="4017" Column="ColumnName">C_BPartner_ID</Data>
@@ -1144,7 +1144,7 @@ Accounting Segments like Organization, Account, Product may have several hierarc
         <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID">125</Data>
         <Data AD_Column_ID="3739" Column="DefaultValue">A</Data>
         <Data AD_Column_ID="7729" Column="AD_Element_ID">514</Data>
-        <Data AD_Column_ID="7728" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
         <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
         <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
         <Data AD_Column_ID="2823" Column="Description">The type of posted amount for the transaction</Data>
@@ -1179,7 +1179,7 @@ Accounting Segments like Organization, Account, Product may have several hierarc
         <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="7729" Column="AD_Element_ID">2868</Data>
-        <Data AD_Column_ID="7728" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
         <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
         <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
         <Data AD_Column_ID="2823" Column="Description">Optional Reporting Hierarchy - If not selected the default hierarchy trees are used.</Data>
@@ -1257,7 +1257,7 @@ Accounting Segments like Organization, Account, Product may have several hierarc
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">291</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -1313,7 +1313,7 @@ Accounting Segments like Organization, Account, Product may have several hierarc
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">291</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -1364,7 +1364,7 @@ Accounting Segments like Organization, Account, Product may have several hierarc
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">291</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -1433,7 +1433,7 @@ Accounting Segments like Organization, Account, Product may have several hierarc
         <Data AD_Column_ID="11563" Column="WorkflowValue" isNewNull="true"/>
         <Data AD_Column_ID="14084" Column="IsServerProcess">false</Data>
         <Data AD_Column_ID="50181" Column="ShowHelp">Y</Data>
-        <Data AD_Column_ID="6485" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6485" Column="EntityType">D</Data>
         <Data AD_Column_ID="6653" Column="Statistic_Seconds">0</Data>
         <Data AD_Column_ID="6652" Column="Statistic_Count">0</Data>
         <Data AD_Column_ID="4656" Column="Classname" isNewNull="true"/>
@@ -1485,7 +1485,7 @@ Accounting Segments like Organization, Account, Product may have several hierarc
         <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="7729" Column="AD_Element_ID">836</Data>
-        <Data AD_Column_ID="7728" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
         <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
         <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
         <Data AD_Column_ID="2823" Column="Description">Account at the Bank</Data>
@@ -1520,7 +1520,7 @@ Accounting Segments like Organization, Account, Product may have several hierarc
         <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="7729" Column="AD_Element_ID">187</Data>
-        <Data AD_Column_ID="7728" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
         <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
         <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
         <Data AD_Column_ID="2823" Column="Description">Identifies a Business Partner</Data>
@@ -1553,7 +1553,7 @@ Accounting Segments like Organization, Account, Product may have several hierarc
         <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="7729" Column="AD_Element_ID">196</Data>
-        <Data AD_Column_ID="7728" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
         <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
         <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
         <Data AD_Column_ID="2823" Column="Description">Document type or rules</Data>
@@ -1587,7 +1587,7 @@ Accounting Segments like Organization, Account, Product may have several hierarc
         <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID">319</Data>
         <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="7729" Column="AD_Element_ID">1508</Data>
-        <Data AD_Column_ID="7728" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
         <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
         <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
         <Data AD_Column_ID="2823" Column="Description">Indicates if the payment has been allocated</Data>
@@ -1649,7 +1649,7 @@ Accounting Segments like Organization, Account, Product may have several hierarc
         <Data AD_Column_ID="15011" Column="AD_Reference_ID" isNewNull="true"/>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
         <Data AD_Column_ID="15013" Column="IsMandatory" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="53265" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="54356" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="54357" Column="AD_Val_Rule_ID" isNewNull="true"/>
@@ -1697,7 +1697,7 @@ Accounting Segments like Organization, Account, Product may have several hierarc
         <Data AD_Column_ID="15011" Column="AD_Reference_ID" isNewNull="true"/>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
         <Data AD_Column_ID="15013" Column="IsMandatory" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="53265" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="54356" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="54357" Column="AD_Val_Rule_ID" isNewNull="true"/>
@@ -1736,7 +1736,7 @@ Accounting Segments like Organization, Account, Product may have several hierarc
         <Data AD_Column_ID="11563" Column="WorkflowValue" isNewNull="true"/>
         <Data AD_Column_ID="14084" Column="IsServerProcess">false</Data>
         <Data AD_Column_ID="50181" Column="ShowHelp">Y</Data>
-        <Data AD_Column_ID="6485" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6485" Column="EntityType">D</Data>
         <Data AD_Column_ID="6653" Column="Statistic_Seconds">0</Data>
         <Data AD_Column_ID="6652" Column="Statistic_Count">0</Data>
         <Data AD_Column_ID="4656" Column="Classname" isNewNull="true"/>
@@ -1788,7 +1788,7 @@ Accounting Segments like Organization, Account, Product may have several hierarc
         <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="7729" Column="AD_Element_ID" isNewNull="true"/>
-        <Data AD_Column_ID="7728" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
         <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
         <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
         <Data AD_Column_ID="2823" Column="Description">Identifies a Business Partner</Data>
@@ -1821,7 +1821,7 @@ Accounting Segments like Organization, Account, Product may have several hierarc
         <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="3739" Column="DefaultValue">Y</Data>
         <Data AD_Column_ID="7729" Column="AD_Element_ID" isNewNull="true"/>
-        <Data AD_Column_ID="7728" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
         <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
         <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
         <Data AD_Column_ID="2823" Column="Description">This is a Sales Transaction</Data>
@@ -1855,7 +1855,7 @@ Accounting Segments like Organization, Account, Product may have several hierarc
         <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="3739" Column="DefaultValue">-99999</Data>
         <Data AD_Column_ID="7729" Column="AD_Element_ID" isNewNull="true"/>
-        <Data AD_Column_ID="7728" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
         <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
         <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
         <Data AD_Column_ID="2823" Column="Description">Number of days due (negative: due in number of days)</Data>
@@ -1889,7 +1889,7 @@ Accounting Segments like Organization, Account, Product may have several hierarc
         <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID">394</Data>
         <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="7729" Column="AD_Element_ID">3092</Data>
-        <Data AD_Column_ID="7728" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
         <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
         <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
         <Data AD_Column_ID="2823" Column="Description">Invoice Collection Status</Data>
@@ -1915,7 +1915,7 @@ Accounting Segments like Organization, Account, Product may have several hierarc
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">291</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -1964,7 +1964,7 @@ Accounting Segments like Organization, Account, Product may have several hierarc
       <PO AD_Table_ID="107" Action="I" Record_ID="76159" Table="AD_Field">
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
         <Data AD_Column_ID="15013" Column="IsMandatory" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="53265" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="54356" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="54357" Column="AD_Val_Rule_ID" isNewNull="true"/>
@@ -2018,7 +2018,7 @@ Accounting Segments like Organization, Account, Product may have several hierarc
         <Data AD_Column_ID="11563" Column="WorkflowValue" isNewNull="true"/>
         <Data AD_Column_ID="14084" Column="IsServerProcess">false</Data>
         <Data AD_Column_ID="50181" Column="ShowHelp">Y</Data>
-        <Data AD_Column_ID="6485" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6485" Column="EntityType">D</Data>
         <Data AD_Column_ID="6653" Column="Statistic_Seconds">0</Data>
         <Data AD_Column_ID="6652" Column="Statistic_Count">0</Data>
         <Data AD_Column_ID="4656" Column="Classname" isNewNull="true"/>
@@ -2060,7 +2060,7 @@ Accounting Segments like Organization, Account, Product may have several hierarc
         <Data AD_Column_ID="2827" Column="AD_Reference_ID">15</Data>
         <Data AD_Column_ID="3739" Column="DefaultValue">@SQL=SELECT TRUNC(ADD_MONTHS(SYSDATE,-3),'MM') AS start_date FROM dual</Data>
         <Data AD_Column_ID="7729" Column="AD_Element_ID" isNewNull="true"/>
-        <Data AD_Column_ID="7728" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
         <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
         <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
         <Data AD_Column_ID="2823" Column="Description" isNewNull="true"/>
@@ -2094,7 +2094,7 @@ Accounting Segments like Organization, Account, Product may have several hierarc
         <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="3739" Column="DefaultValue">@C_BPartner_ID@</Data>
         <Data AD_Column_ID="7729" Column="AD_Element_ID" isNewNull="true"/>
-        <Data AD_Column_ID="7728" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
         <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
         <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
         <Data AD_Column_ID="2823" Column="Description" isNewNull="true"/>
@@ -2115,7 +2115,7 @@ Accounting Segments like Organization, Account, Product may have several hierarc
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">291</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -2180,7 +2180,7 @@ Accounting Segments like Organization, Account, Product may have several hierarc
         <Data AD_Column_ID="15011" Column="AD_Reference_ID" isNewNull="true"/>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
         <Data AD_Column_ID="15013" Column="IsMandatory" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="53265" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="54356" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="54357" Column="AD_Val_Rule_ID" isNewNull="true"/>
@@ -2257,7 +2257,7 @@ Accounting Segments like Organization, Account, Product may have several hierarc
         <Data AD_Column_ID="15011" Column="AD_Reference_ID" isNewNull="true"/>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
         <Data AD_Column_ID="15013" Column="IsMandatory" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="53265" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="54356" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="54357" Column="AD_Val_Rule_ID" isNewNull="true"/>
@@ -2304,7 +2304,7 @@ Accounting Segments like Organization, Account, Product may have several hierarc
         <Data AD_Column_ID="15011" Column="AD_Reference_ID" isNewNull="true"/>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
         <Data AD_Column_ID="15013" Column="IsMandatory" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="53265" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="54356" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="54357" Column="AD_Val_Rule_ID" isNewNull="true"/>
@@ -2332,7 +2332,7 @@ Accounting Segments like Organization, Account, Product may have several hierarc
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">291</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
@@ -2389,7 +2389,7 @@ Accounting Segments like Organization, Account, Product may have several hierarc
         <Data AD_Column_ID="11563" Column="WorkflowValue" isNewNull="true"/>
         <Data AD_Column_ID="14084" Column="IsServerProcess">false</Data>
         <Data AD_Column_ID="50181" Column="ShowHelp">Y</Data>
-        <Data AD_Column_ID="6485" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6485" Column="EntityType">D</Data>
         <Data AD_Column_ID="6653" Column="Statistic_Seconds">0</Data>
         <Data AD_Column_ID="6652" Column="Statistic_Count">0</Data>
         <Data AD_Column_ID="4656" Column="Classname" isNewNull="true"/>
@@ -2440,7 +2440,7 @@ Accounting Segments like Organization, Account, Product may have several hierarc
         <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="3739" Column="DefaultValue">@C_BPartner_ID@</Data>
         <Data AD_Column_ID="7729" Column="AD_Element_ID" isNewNull="true"/>
-        <Data AD_Column_ID="7728" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
         <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
         <Data AD_Column_ID="56300" Column="DisplayLogic">1=2</Data>
         <Data AD_Column_ID="2823" Column="Description">Identifies a Business Partner</Data>
@@ -2474,7 +2474,7 @@ Accounting Segments like Organization, Account, Product may have several hierarc
         <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="3739" Column="DefaultValue">Y</Data>
         <Data AD_Column_ID="7729" Column="AD_Element_ID" isNewNull="true"/>
-        <Data AD_Column_ID="7728" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
         <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
         <Data AD_Column_ID="56300" Column="DisplayLogic">1=2</Data>
         <Data AD_Column_ID="2823" Column="Description">This is a Sales Transaction</Data>
@@ -2508,7 +2508,7 @@ Accounting Segments like Organization, Account, Product may have several hierarc
         <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="3739" Column="DefaultValue">-99999</Data>
         <Data AD_Column_ID="7729" Column="AD_Element_ID" isNewNull="true"/>
-        <Data AD_Column_ID="7728" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
         <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
         <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
         <Data AD_Column_ID="2823" Column="Description">Number of days due (negative: due in number of days)</Data>
@@ -2542,7 +2542,7 @@ Accounting Segments like Organization, Account, Product may have several hierarc
         <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID">394</Data>
         <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="7729" Column="AD_Element_ID">3092</Data>
-        <Data AD_Column_ID="7728" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
         <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
         <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
         <Data AD_Column_ID="2823" Column="Description">Invoice Collection Status</Data>
@@ -2597,7 +2597,7 @@ Accounting Segments like Organization, Account, Product may have several hierarc
         <Data AD_Column_ID="15011" Column="AD_Reference_ID" isNewNull="true"/>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
         <Data AD_Column_ID="15013" Column="IsMandatory" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="53265" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="54356" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="54357" Column="AD_Val_Rule_ID" isNewNull="true"/>
@@ -2654,7 +2654,7 @@ Accounting Segments like Organization, Account, Product may have several hierarc
         <Data AD_Column_ID="15011" Column="AD_Reference_ID" isNewNull="true"/>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
         <Data AD_Column_ID="15013" Column="IsMandatory" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="53265" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="54356" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="54357" Column="AD_Val_Rule_ID" isNewNull="true"/>
@@ -2710,7 +2710,7 @@ Accounting Segments like Organization, Account, Product may have several hierarc
         <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="6283" Column="PO_Description" isNewNull="true"/>
         <Data AD_Column_ID="6284" Column="PO_Help" isNewNull="true"/>
-        <Data AD_Column_ID="6484" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6484" Column="EntityType">D</Data>
         <Data AD_Column_ID="6286" Column="PO_PrintName" isNewNull="true"/>
         <Data AD_Column_ID="2603" Column="Name">DateAcct2</Data>
         <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
@@ -2731,7 +2731,7 @@ Accounting Segments like Organization, Account, Product may have several hierarc
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">291</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -2833,7 +2833,7 @@ Accounting Segments like Organization, Account, Product may have several hierarc
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">753</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">1</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">true</Data>
@@ -2891,7 +2891,7 @@ Accounting Segments like Organization, Account, Product may have several hierarc
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">753</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -2942,7 +2942,7 @@ Accounting Segments like Organization, Account, Product may have several hierarc
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">753</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -2996,7 +2996,7 @@ Accounting Segments like Organization, Account, Product may have several hierarc
         <Data AD_Column_ID="4395" Column="WhereClause">posted &lt;&gt; 'Y' AND docstatus &lt;&gt; 'VO' AND IsSOTrx='Y'</Data>
         <Data AD_Column_ID="4394" Column="AD_Table_ID">318</Data>
         <Data AD_Column_ID="4387" Column="IsActive">true</Data>
-        <Data AD_Column_ID="10032" Column="EntityType">U</Data>
+        <Data AD_Column_ID="10032" Column="EntityType">D</Data>
         <Data AD_Column_ID="4393" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="4392" Column="Name">RV_UnPosted_AR</Data>
         <Data AD_Column_ID="4385" Column="AD_Client_ID">0</Data>
@@ -3013,7 +3013,7 @@ Accounting Segments like Organization, Account, Product may have several hierarc
         <Data AD_Column_ID="4395" Column="WhereClause">posted &lt;&gt; 'Y' AND docstatus &lt;&gt; 'VO' AND IsSOTrx='N'</Data>
         <Data AD_Column_ID="4394" Column="AD_Table_ID">318</Data>
         <Data AD_Column_ID="4387" Column="IsActive">true</Data>
-        <Data AD_Column_ID="10032" Column="EntityType">U</Data>
+        <Data AD_Column_ID="10032" Column="EntityType">D</Data>
         <Data AD_Column_ID="4393" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="4392" Column="Name">RV_UnPosted_AP</Data>
         <Data AD_Column_ID="4385" Column="AD_Client_ID">0</Data>
@@ -3047,7 +3047,7 @@ Accounting Segments like Organization, Account, Product may have several hierarc
         <Data AD_Column_ID="11563" Column="WorkflowValue" isNewNull="true"/>
         <Data AD_Column_ID="14084" Column="IsServerProcess">false</Data>
         <Data AD_Column_ID="50181" Column="ShowHelp">Y</Data>
-        <Data AD_Column_ID="6485" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6485" Column="EntityType">D</Data>
         <Data AD_Column_ID="6653" Column="Statistic_Seconds">0</Data>
         <Data AD_Column_ID="50182" Column="JasperReport" isNewNull="true"/>
         <Data AD_Column_ID="6652" Column="Statistic_Count">0</Data>

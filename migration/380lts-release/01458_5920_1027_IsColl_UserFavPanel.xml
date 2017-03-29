@@ -8,7 +8,7 @@
         <Data AD_Column_ID="114" Column="AD_Table_ID">53870</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
         <Data AD_Column_ID="110" Column="Version">0</Data>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">true</Data>
         <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
@@ -59,7 +59,7 @@
         <Data AD_Column_ID="197" Column="MsgType">I</Data>
         <Data AD_Column_ID="198" Column="MsgText">Start Expanded</Data>
         <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
-        <Data AD_Column_ID="7716" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">D</Data>
         <Data AD_Column_ID="6766" Column="Value">StartExpanded</Data>
         <Data AD_Column_ID="588" Column="IsActive">true</Data>
         <Data AD_Column_ID="6765" Column="AD_Message_ID">53338</Data>
@@ -92,7 +92,7 @@
         <Data AD_Column_ID="197" Column="MsgType">I</Data>
         <Data AD_Column_ID="198" Column="MsgText">Start Collapsed</Data>
         <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
-        <Data AD_Column_ID="7716" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">D</Data>
         <Data AD_Column_ID="6766" Column="Value">StartCollapsed</Data>
         <Data AD_Column_ID="588" Column="IsActive">true</Data>
         <Data AD_Column_ID="6765" Column="AD_Message_ID">53339</Data>

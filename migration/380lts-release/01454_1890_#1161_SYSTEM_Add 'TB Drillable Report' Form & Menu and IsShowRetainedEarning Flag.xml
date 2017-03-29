@@ -8,7 +8,7 @@
         <Data AD_Column_ID="4606" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="13022" Column="JSPURL" isNewNull="true"/>
         <Data AD_Column_ID="12738" Column="IsBetaFunctionality">false</Data>
-        <Data AD_Column_ID="7708" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7708" Column="EntityType">D</Data>
         <Data AD_Column_ID="4605" Column="Description">Trial Balance Drillable Report (only for Web)</Data>
         <Data AD_Column_ID="4604" Column="Name">Trial Balance Drillable Report</Data>
         <Data AD_Column_ID="4597" Column="AD_Client_ID">0</Data>
@@ -59,7 +59,7 @@
         <Data AD_Column_ID="6651" Column="IsReadOnly">false</Data>
         <Data AD_Column_ID="3375" Column="AD_Process_ID" isNewNull="true"/>
         <Data AD_Column_ID="4621" Column="AD_Form_ID">53051</Data>
-        <Data AD_Column_ID="7721" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7721" Column="EntityType">D</Data>
         <Data AD_Column_ID="59134" Column="IsCentrallyMaintained">true</Data>
         <Data AD_Column_ID="229" Column="Name">Trial Balance Drillable Report (only for Web)</Data>
       </PO>
@@ -98,7 +98,7 @@
         <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="7729" Column="AD_Element_ID" isNewNull="true"/>
-        <Data AD_Column_ID="7728" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
         <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
         <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
         <Data AD_Column_ID="2823" Column="Description">Is Show Retained Earnings</Data>

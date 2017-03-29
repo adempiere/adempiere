@@ -10,7 +10,7 @@
         <Data AD_Column_ID="2598" Column="Created">2015-04-27 17:09:06.812</Data>
         <Data AD_Column_ID="2599" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="2604" Column="Description">Include nulls in the selection of the User List 1</Data>
-        <Data AD_Column_ID="6484" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6484" Column="EntityType">D</Data>
         <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="2597" Column="IsActive">true</Data>
         <Data AD_Column_ID="2603" Column="Name">Include Nulls in User List 1</Data>
@@ -32,7 +32,7 @@
         <Data AD_Column_ID="2598" Column="Created">2015-04-27 17:09:34.184</Data>
         <Data AD_Column_ID="2599" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="2604" Column="Description">Include nulls in the selection of the User List 2</Data>
-        <Data AD_Column_ID="6484" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6484" Column="EntityType">D</Data>
         <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="2597" Column="IsActive">true</Data>
         <Data AD_Column_ID="2603" Column="Name">Include Nulls in User List 2</Data>
@@ -64,7 +64,7 @@
         <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="117" Column="DefaultValue">N</Data>
         <Data AD_Column_ID="112" Column="Description">Include nulls in the selection of the User List 1</Data>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="118" Column="FieldLength">1</Data>
         <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
         <Data AD_Column_ID="113" Column="Help" isNewNull="true"/>
@@ -113,7 +113,7 @@
         <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="117" Column="DefaultValue">N</Data>
         <Data AD_Column_ID="112" Column="Description">Include nulls in the selection of the User List 2</Data>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="118" Column="FieldLength">1</Data>
         <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
         <Data AD_Column_ID="113" Column="Help" isNewNull="true"/>
@@ -165,7 +165,7 @@
         <Data AD_Column_ID="169" Column="Description">Include nulls in the selection of the User List 1</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">1</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic">@ElementType@=CO</Data>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -205,7 +205,7 @@
         <Data AD_Column_ID="169" Column="Description">Include nulls in the selection of the User List 2</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">1</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic">@ElementType@=CO</Data>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -247,7 +247,7 @@
         <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="117" Column="DefaultValue">0</Data>
         <Data AD_Column_ID="112" Column="Description">Valid Account Combination</Data>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="118" Column="FieldLength">22</Data>
         <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
         <Data AD_Column_ID="113" Column="Help">The Combination identifies a valid combination of element which represent a GL account.</Data>

@@ -23,7 +23,7 @@
         <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="6283" Column="PO_Description" isNewNull="true"/>
         <Data AD_Column_ID="6284" Column="PO_Help" isNewNull="true"/>
-        <Data AD_Column_ID="6484" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6484" Column="EntityType">D</Data>
         <Data AD_Column_ID="2603" Column="Name">Report Type</Data>
         <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="4299" Column="PrintName">Report Type</Data>
@@ -44,7 +44,7 @@
         <Data AD_Column_ID="139" Column="ValidationType">L</Data>
         <Data AD_Column_ID="1180" Column="VFormat" isNewNull="true"/>
         <Data AD_Column_ID="132" Column="Help" isNewNull="true"/>
-        <Data AD_Column_ID="6486" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6486" Column="EntityType">D</Data>
         <Data AD_Column_ID="54355" Column="IsOrderByValue">false</Data>
         <Data AD_Column_ID="130" Column="Name">ReportType</Data>
         <Data AD_Column_ID="131" Column="Description" isNewNull="true"/>
@@ -63,7 +63,7 @@
         <Data AD_Column_ID="152" Column="ValidFrom" isNewNull="true"/>
         <Data AD_Column_ID="151" Column="AD_Reference_ID">53767</Data>
         <Data AD_Column_ID="153" Column="ValidTo" isNewNull="true"/>
-        <Data AD_Column_ID="7712" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7712" Column="EntityType">D</Data>
         <Data AD_Column_ID="150" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="200" Column="Value">P</Data>
         <Data AD_Column_ID="149" Column="Name">PDF</Data>
@@ -82,7 +82,7 @@
         <Data AD_Column_ID="152" Column="ValidFrom" isNewNull="true"/>
         <Data AD_Column_ID="151" Column="AD_Reference_ID">53767</Data>
         <Data AD_Column_ID="153" Column="ValidTo" isNewNull="true"/>
-        <Data AD_Column_ID="7712" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7712" Column="EntityType">D</Data>
         <Data AD_Column_ID="150" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="200" Column="Value">X</Data>
         <Data AD_Column_ID="149" Column="Name">XLS</Data>
@@ -101,7 +101,7 @@
         <Data AD_Column_ID="152" Column="ValidFrom" isNewNull="true"/>
         <Data AD_Column_ID="151" Column="AD_Reference_ID">53767</Data>
         <Data AD_Column_ID="153" Column="ValidTo" isNewNull="true"/>
-        <Data AD_Column_ID="7712" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7712" Column="EntityType">D</Data>
         <Data AD_Column_ID="150" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="200" Column="Value">H</Data>
         <Data AD_Column_ID="149" Column="Name">HTML</Data>
@@ -121,7 +121,7 @@
         <Data AD_Column_ID="117" Column="DefaultValue">P</Data>
         <Data AD_Column_ID="114" Column="AD_Table_ID">282</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID">53767</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">true</Data>
@@ -171,7 +171,7 @@
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">282</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -271,7 +271,7 @@
         <Data AD_Column_ID="117" Column="DefaultValue">Y</Data>
         <Data AD_Column_ID="114" Column="AD_Table_ID">156</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -322,7 +322,7 @@
         <Data AD_Column_ID="117" Column="DefaultValue">Y</Data>
         <Data AD_Column_ID="114" Column="AD_Table_ID">156</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
