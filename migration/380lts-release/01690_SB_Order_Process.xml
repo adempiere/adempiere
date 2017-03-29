@@ -11,7 +11,7 @@
         <Data AD_Column_ID="4656" Column="Classname">org.adempiere.process.OrderProcess</Data>
         <Data AD_Column_ID="2811" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="2801" Column="AD_Process_ID">53924</Data>
-        <Data AD_Column_ID="6485" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6485" Column="EntityType">D</Data>
         <Data AD_Column_ID="4374" Column="AD_ReportView_ID" isNewNull="true"/>
         <Data AD_Column_ID="7752" Column="AD_PrintFormat_ID" isNewNull="true"/>
         <Data AD_Column_ID="2813" Column="ProcedureName" isNewNull="true"/>
@@ -9488,7 +9488,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="6651" Column="IsReadOnly">false</Data>
         <Data AD_Column_ID="4621" Column="AD_Form_ID" isNewNull="true"/>
         <Data AD_Column_ID="3375" Column="AD_Process_ID" isNewNull="true"/>
-        <Data AD_Column_ID="7721" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7721" Column="EntityType">D</Data>
         <Data AD_Column_ID="59134" Column="IsCentrallyMaintained">true</Data>
         <Data AD_Column_ID="57960" Column="AD_Browse_ID">50075</Data>
         <Data AD_Column_ID="399" Column="AD_Client_ID">0</Data>

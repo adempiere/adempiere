@@ -1045,7 +1045,7 @@
         <Data AD_Column_ID="169" Column="Description">The targeted status of the document</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">2</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">You find the current status in the Document Status field. The options are listed in a popup</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -1169,7 +1169,7 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="169" Column="Description">The current status of the document</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">2</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">The Document Status indicates the status of a document at this time.  If you want to change the document status, use the Document Action field</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -1229,7 +1229,7 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="169" Column="Description">Document type or rules</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">22</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">The Document Type determines document sequence and processing rules</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -1469,7 +1469,7 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="169" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="180" Column="DisplayLength">10</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -1589,7 +1589,7 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="169" Column="Description">ID of document reversal</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">22</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>

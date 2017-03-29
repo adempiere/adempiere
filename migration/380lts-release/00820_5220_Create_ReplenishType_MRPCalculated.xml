@@ -6,7 +6,7 @@
         <Data AD_Column_ID="152" Column="ValidFrom" isNewNull="true"/>
         <Data AD_Column_ID="151" Column="AD_Reference_ID">164</Data>
         <Data AD_Column_ID="153" Column="ValidTo" isNewNull="true"/>
-        <Data AD_Column_ID="7712" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7712" Column="EntityType">D</Data>
         <Data AD_Column_ID="150" Column="Description">Replenish Type is used in Replenish Plan Calculations</Data>
         <Data AD_Column_ID="200" Column="Value">4</Data>
         <Data AD_Column_ID="149" Column="Name">Replenish Plan Calculated</Data>

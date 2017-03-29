@@ -16,7 +16,7 @@
         <Data AD_Column_ID="6651" Column="IsReadOnly">false</Data>
         <Data AD_Column_ID="4621" Column="AD_Form_ID" isNewNull="true"/>
         <Data AD_Column_ID="3375" Column="AD_Process_ID" isNewNull="true"/>
-        <Data AD_Column_ID="7721" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7721" Column="EntityType">D</Data>
         <Data AD_Column_ID="59134" Column="IsCentrallyMaintained">true</Data>
         <Data AD_Column_ID="57960" Column="AD_Browse_ID">90002</Data>
         <Data AD_Column_ID="399" Column="AD_Client_ID">0</Data>

@@ -6,7 +6,7 @@
         <Data AD_Column_ID="4396" Column="OrderByClause" isNewNull="true"/>
         <Data AD_Column_ID="4395" Column="WhereClause" isNewNull="true"/>
         <Data AD_Column_ID="4394" Column="AD_Table_ID">53868</Data>
-        <Data AD_Column_ID="10032" Column="EntityType">U</Data>
+        <Data AD_Column_ID="10032" Column="EntityType">D</Data>
         <Data AD_Column_ID="4393" Column="Description">Replenish Plan Report View</Data>
         <Data AD_Column_ID="4392" Column="Name">ReplenishPlan_Report_View</Data>
         <Data AD_Column_ID="4387" Column="IsActive">true</Data>
@@ -31,7 +31,7 @@
         <Data AD_Column_ID="12458" Column="IsBetaFunctionality">false</Data>
         <Data AD_Column_ID="14084" Column="IsServerProcess">false</Data>
         <Data AD_Column_ID="50181" Column="ShowHelp">Y</Data>
-        <Data AD_Column_ID="6485" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6485" Column="EntityType">D</Data>
         <Data AD_Column_ID="6652" Column="Statistic_Count">0</Data>
         <Data AD_Column_ID="6653" Column="Statistic_Seconds">0</Data>
         <Data AD_Column_ID="4656" Column="Classname">org.adempiere.process.CalculateReplenishPlan</Data>
@@ -71,7 +71,7 @@
         <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="7729" Column="AD_Element_ID" isNewNull="true"/>
-        <Data AD_Column_ID="7728" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
         <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
         <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
         <Data AD_Column_ID="2823" Column="Description">Horizon Date for Replenish Plan Calculations.</Data>
@@ -105,7 +105,7 @@
         <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="7729" Column="AD_Element_ID">453</Data>
-        <Data AD_Column_ID="7728" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
         <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
         <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
         <Data AD_Column_ID="2823" Column="Description">Product Category ID on which Replenish Plan Calculation has been applied.</Data>
@@ -144,7 +144,7 @@
         <Data AD_Column_ID="6651" Column="IsReadOnly">false</Data>
         <Data AD_Column_ID="3375" Column="AD_Process_ID">53685</Data>
         <Data AD_Column_ID="4621" Column="AD_Form_ID" isNewNull="true"/>
-        <Data AD_Column_ID="7721" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7721" Column="EntityType">D</Data>
         <Data AD_Column_ID="59134" Column="IsCentrallyMaintained">true</Data>
       </PO>
     </Step>

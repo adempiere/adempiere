@@ -1313,7 +1313,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="4396" Column="OrderByClause" isNewNull="true"/>
         <Data AD_Column_ID="4395" Column="WhereClause">RV_ProductionLine.ProductType = 'I'</Data>
         <Data AD_Column_ID="4394" Column="AD_Table_ID">54056</Data>
-        <Data AD_Column_ID="10032" Column="EntityType">U</Data>
+        <Data AD_Column_ID="10032" Column="EntityType">D</Data>
         <Data AD_Column_ID="4393" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="4392" Column="Name">RV_ProductionLine_Items</Data>
         <Data AD_Column_ID="4387" Column="IsActive">true</Data>

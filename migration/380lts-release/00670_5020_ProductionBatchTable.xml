@@ -3,7 +3,7 @@
   <Migration EntityType="D" Name="Production Batch Table" ReleaseNo="3.9.0" SeqNo="00670">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="100" Action="I" Record_ID="54052" Table="AD_Table">
-        <Data AD_Column_ID="6488" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6488" Column="EntityType">D</Data>
         <Data AD_Column_ID="726" Column="IsSecurityEnabled">false</Data>
         <Data AD_Column_ID="354" Column="AccessLevel">3</Data>
         <Data AD_Column_ID="104" Column="Help" isNewNull="true"/>
@@ -39,7 +39,7 @@
         <Data AD_Column_ID="117" Column="DefaultValue">@#AD_Client_ID@</Data>
         <Data AD_Column_ID="114" Column="AD_Table_ID">54052</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">1</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">true</Data>
@@ -90,7 +90,7 @@
         <Data AD_Column_ID="117" Column="DefaultValue">@#AD_Org_ID@</Data>
         <Data AD_Column_ID="114" Column="AD_Table_ID">54052</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">1</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">true</Data>
@@ -142,7 +142,7 @@
         <Data AD_Column_ID="117" Column="DefaultValue">Y</Data>
         <Data AD_Column_ID="114" Column="AD_Table_ID">54052</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">1</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">true</Data>
@@ -195,7 +195,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">54052</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">1</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">true</Data>
@@ -246,7 +246,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">54052</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">1</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">true</Data>
@@ -297,7 +297,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">54052</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">1</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID">110</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">true</Data>
@@ -348,7 +348,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">54052</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">1</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID">110</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">true</Data>
@@ -402,7 +402,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="6283" Column="PO_Description" isNewNull="true"/>
         <Data AD_Column_ID="6284" Column="PO_Help" isNewNull="true"/>
-        <Data AD_Column_ID="6484" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6484" Column="EntityType">D</Data>
         <Data AD_Column_ID="6286" Column="PO_PrintName" isNewNull="true"/>
         <Data AD_Column_ID="2603" Column="Name">Production Batch</Data>
         <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
@@ -424,7 +424,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">54052</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">1</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">true</Data>
@@ -1351,7 +1351,7 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">325</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
