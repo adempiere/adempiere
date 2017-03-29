@@ -93,7 +93,7 @@ public class ReportInfo
             {
                 try
                 {
-                    jasperReport = (JasperReport)JRLoader.loadObject(jasperFile.getAbsolutePath());   // Marco LOMBARDO: should refer to local.
+                    jasperReport = (JasperReport)JRLoader.loadObject(jasperFile);   // Marco LOMBARDO: should refer to local.
                 }
                 catch (JRException e)
                 {
@@ -155,7 +155,7 @@ public class ReportInfo
    	    System.setProperty("jasper.reports.compile.class.path", compiere_home+"/lib/reporttools.jar;"+compiere_home+"/lib/Compiere.jar");
             JasperCompileManager.compileReportToFile( reportFile.getAbsolutePath(), jasperFile.getAbsolutePath());
             jasperFile.setLastModified( reportFile.lastModified());
-            res = (JasperReport)JRLoader.loadObject(jasperFile.getAbsolutePath());
+            res = (JasperReport)JRLoader.loadObject(jasperFile);
         }
         catch (JRException e)
         {
