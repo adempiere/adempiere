@@ -45,6 +45,15 @@ public class MProductPricing
 	 * @param isSOTrx SO or PO
 	 * @param trxName
 	 */
+	
+	@Deprecated
+	public MProductPricing(int productId, int partnerId,
+			   BigDecimal quantity, boolean isSOTrx)
+	{
+		 this(productId, partnerId, quantity, isSOTrx, null);
+	}
+	
+	
 	public MProductPricing(int productId, int partnerId,
 						   BigDecimal quantity, boolean isSOTrx, String trxName)
 	{
