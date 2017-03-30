@@ -1622,19 +1622,14 @@ public class MInvoice extends X_C_Invoice implements DocAction
   		//	Create Cash
 		if (PAYMENTRULE_Cash.equals(getPaymentRule()) && !fromPOS )
 		{
-			// Modifications for POSterita
-			//
-			//    MCash cash = MCash.get (getCtx(), getAD_Org_ID(),
-			//    getDateInvoiced(), getC_Currency_ID(), get_TrxName());
 			if (MSysConfig.getBooleanValue("CASH_AS_PAYMENT", true , getAD_Client_ID()))
 			{
-				String error = PayCashWithCashAsPayment();
+				String error = payCashWithCashAsPayment();
 				if (error != "")
 					return error;
 			}
-			else
-			{
-				MCash cash;
+			
+			MCash cash;
 
             int posId = Env.getContextAsInt(getCtx(),Env.POS_ID);
 
@@ -2389,7 +2384,7 @@ public class MInvoice extends X_C_Invoice implements DocAction
 			|| DOCSTATUS_Reversed.equals(ds);
 	}	//	isComplete
 	
-	private String PayCashWithCashAsPayment()
+	private String payCashWithCashAsPayment()
 	{
 
 		MDocType dt = (MDocType)getC_Order().getC_DocType();
