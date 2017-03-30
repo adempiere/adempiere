@@ -21,7 +21,7 @@
         <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">Account at the Bank</Data>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="118" Column="FieldLength">22</Data>
         <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
         <Data AD_Column_ID="113" Column="Help">The Bank Account identifies an account at this Bank.</Data>
