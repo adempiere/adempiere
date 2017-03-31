@@ -2,7 +2,7 @@
 <Migrations>
   <Migration EntityType="D" Name="Ship Date Element ID (1000002) " ReleaseNo="3.9.0" SeqNo="65">
     <Comments>https://github.com/adempiere/adempiere/issues/861</Comments>
-    <Step SeqNo="60" StepType="AD">
+    <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="277" Action="D" Record_ID="1000002" Table="AD_Element_Trl">
         <Data AD_Column_ID="2639" Column="AD_Client_ID" isNewNull="true" oldValue="0"/>
         <Data AD_Column_ID="2637" Column="AD_Element_ID" oldValue="1000002">1000002</Data>
@@ -24,7 +24,7 @@
         <Data AD_Column_ID="2645" Column="UpdatedBy" isNewNull="true" oldValue="0"/>
       </PO>
     </Step>
-    <Step SeqNo="70" StepType="AD">
+    <Step SeqNo="20" StepType="AD">
       <PO AD_Table_ID="276" Action="D" Record_ID="1000002" Table="AD_Element">
         <Data AD_Column_ID="2595" Column="AD_Client_ID" isNewNull="true" oldValue="0"/>
         <Data AD_Column_ID="2594" Column="AD_Element_ID" isNewNull="true" oldValue="1000002"/>
@@ -47,6 +47,11 @@
         <Data AD_Column_ID="4299" Column="PrintName" isNewNull="true" oldValue="ShipDate"/>
         <Data AD_Column_ID="2600" Column="Updated" isNewNull="true" oldValue="2015-02-25 23:34:54.0"/>
         <Data AD_Column_ID="2601" Column="UpdatedBy" isNewNull="true" oldValue="0"/>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="53339" Table="AD_Process_Para">
+        <Data AD_Column_ID="4017" Column="ColumnName" oldValue="Ship Date">ShipDate</Data>
       </PO>
     </Step>
   </Migration>
