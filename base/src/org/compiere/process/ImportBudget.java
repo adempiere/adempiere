@@ -612,6 +612,7 @@ public class ImportBudget extends ImportBudgetAbstract {
 
                 importBudget.setI_IsImported(true);
                 importBudget.setC_ValidCombination_ID(account.getC_ValidCombination_ID());
+                importBudget.setGL_JournalBatch_ID(journal.getGL_JournalBatch_ID());
                 importBudget.setGL_Journal_ID(journal.getGL_Journal_ID());
                 importBudget.setGL_JournalLine_ID(journalLine.getGL_JournalLine_ID());
                 importBudget.setProcessed(true);
