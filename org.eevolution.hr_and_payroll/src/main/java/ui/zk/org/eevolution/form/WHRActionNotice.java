@@ -24,10 +24,10 @@ import java.util.logging.Level;
 import org.adempiere.exceptions.ValueChangeEvent;
 import org.adempiere.exceptions.ValueChangeListener;
 import org.adempiere.webui.component.Button;
+import org.adempiere.webui.component.Combobox;
 import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.GridFactory;
 import org.adempiere.webui.component.Label;
-import org.adempiere.webui.component.Listbox;
 import org.adempiere.webui.component.ListboxFactory;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
@@ -56,6 +56,7 @@ import org.eevolution.model.X_HR_Concept;
 import org.eevolution.service.HRActionNotice;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zkex.zul.Borderlayout;
 import org.zkoss.zkex.zul.Center;
 import org.zkoss.zkex.zul.North;
@@ -98,17 +99,17 @@ public class WHRActionNotice extends HRActionNotice implements IFormController,
 	private Grid parameterPanel = new GridFactory().newGridLayout();
 	// Process
 	private Label labelProcess = new Label();
-	private Listbox fieldProcess = ListboxFactory.newDropdownListbox();
+	private Combobox fieldProcess = new Combobox();
 	// BPartner
 	private Label labelBPartner = new Label();
-	private Listbox fieldEmployee = ListboxFactory.newDropdownListbox();
+	private Combobox fieldEmployee = new Combobox();
 	// Date
 	private Label labelValidFrom = new Label();
 	public WDateEditor fieldValidFrom = new WDateEditor();
 	// Concept
 	private Label labelConcept = new Label();
-	private Listbox fieldConcept = ListboxFactory.newDropdownListbox();
-	private Listbox fieldTextLookup = ListboxFactory.newDropdownListbox();
+	private Combobox fieldConcept = new Combobox();
+	private Combobox fieldTextLookup = new Combobox();
 	// ColumnType
 	private Label labelColumnType = new Label();
 	private WStringEditor fieldColumnType = new WStringEditor();
@@ -142,16 +143,16 @@ public class WHRActionNotice extends HRActionNotice implements IFormController,
 		mainLayout.setStyle("position: absolute");
 		// Process
 		labelProcess.setText(Msg.translate(Env.getCtx(), "HR_Process_ID"));
-		fieldProcess.addActionListener(this);
+		fieldProcess.addEventListener(Events.ON_SELECT, this);
 		// BPartner
 		labelBPartner.setText(Msg.translate(Env.getCtx(), "C_BPartner_ID"));
-		fieldEmployee.addActionListener(this);
+		fieldEmployee.addEventListener(Events.ON_SELECT, this);
 		// Date
 		labelValidFrom.setText(Msg.translate(Env.getCtx(), "Date"));
 		fieldValidFrom.addValueChangeListener(this);
 		// Concept
 		labelConcept.setText(Msg.translate(Env.getCtx(), "HR_Concept_ID"));
-		fieldConcept.addActionListener(this);
+		fieldConcept.addEventListener(Events.ON_SELECT, this);
 		// Concept's
 		labelColumnType.setText(Msg.translate(Env.getCtx(), "ColumnType"));
 
@@ -417,7 +418,7 @@ public class WHRActionNotice extends HRActionNotice implements IFormController,
 				amount = (BigDecimal) fieldAmount.getValue();
 				//	Get from List
 				if(isLookupTextMsg) {
-					text = (String) ((ValueNamePair)fieldTextLookup.getValue()).getValue();
+					text = (String) ((ValueNamePair)fieldTextLookup.getSelectedItem().getValue()).getValue();
 				} else {
 					text = (String) fieldText.getValue();
 				}
@@ -487,7 +488,6 @@ public class WHRActionNotice extends HRActionNotice implements IFormController,
 
 	@Override
 	public void tableChanged(WTableModelEvent event) {
-		// TODO Auto-generated method stub
-
+		
 	}
 } // VAllocation
