@@ -40,6 +40,8 @@ import org.compiere.util.Env;
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *		<a href="https://github.com/adempiere/adempiere/issues/775">
  * 		@see FR [ 775 ] Add isIgnoreDefaultPayroll feature for payroll definition</a>
+ *		<a href="https://github.com/adempiere/adempiere/issues/854">
+ * 		@see FR [ 854 ] Add new columns for Concept Attribute</a>
  */
 public class MHREmployee extends X_HR_Employee
 {
@@ -236,7 +238,6 @@ public class MHREmployee extends X_HR_Employee
 		setIdentificationMark(importEmployee.getIdentificationMark());
 		setMaritalStatus(importEmployee.getMaritalStatus());
 		setMarriageAnniversaryDate(importEmployee.getMarriageAnniversaryDate());
-		setFathersName(importEmployee.getFathersName());
 		setPartnersBirthDate(importEmployee.getPartnersBirthDate());
 		setCode(importEmployee.getCode());
 
@@ -245,7 +246,14 @@ public class MHREmployee extends X_HR_Employee
 		setPaymentRule(importEmployee.getPaymentRule());
 		setHR_Department_ID(importEmployee.getHR_Department_ID());
 		setC_Activity_ID(importEmployee.getC_Activity_ID());
+		setC_Project_ID(importEmployee.getC_Project_ID());
+		setC_Campaign_ID(importEmployee.getC_Campaign_ID());
+		setC_SalesRegion_ID(importEmployee.getC_SalesRegion_ID());
 		setHR_Job_ID(importEmployee.getHR_Job_ID());
+		setHR_WorkGroup_ID(importEmployee.getHR_WorkGroup_ID());
+		setHR_ShiftGroup_ID(importEmployee.getHR_ShiftGroup_ID());
+		setHR_Degree_ID(importEmployee.getHR_Degree_ID());
+		setHR_Grade_ID(importEmployee.getHR_Grade_ID());
 		setHR_JobType_ID(importEmployee.getHR_JobType_ID());
 		setHR_JobEducation_ID(importEmployee.getHR_JobEducation_ID());
 		setHR_CareerLevel_ID(importEmployee.getHR_CareerLevel_ID());

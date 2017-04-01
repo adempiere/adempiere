@@ -21769,7 +21769,7 @@ CREATE OR REPLACE VIEW C_Payment_v AS
     <Step SeqNo="10680" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="81048" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo">0</Data>
         <Data AD_Column_ID="112" Column="Description">User defined list element #1</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">81048</Data>
@@ -21834,7 +21834,7 @@ CREATE OR REPLACE VIEW C_Payment_v AS
     <Step SeqNo="10700" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="81049" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo">0</Data>
         <Data AD_Column_ID="112" Column="Description">User defined list element #2</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">81049</Data>

@@ -696,6 +696,10 @@ public class MTable extends X_AD_Table
 	 */
 	protected boolean afterSave (boolean newRecord, boolean success)
 	{
+		// Skip the ogic while migration process is executed
+		if(isDirectLoad())
+			return success;
+
 		//	Sync Table ID
 		if (newRecord)
 		{

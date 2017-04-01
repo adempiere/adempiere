@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Fix bad AD definition for Fixed Asset" ReleaseNo="3.9.0" SeqNo="65">
+    <Comments>https://github.com/adempiere/adempiere/issues/879</Comments>
+    <Step SeqNo="0" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="200002" Table="AD_Process_Para">
+        <Data AD_Column_ID="7729" Column="AD_Element_ID" isOldNull="true">1947</Data>
+        <Data AD_Column_ID="7728" Column="EntityType" oldValue="U">D</Data>
+        <Data AD_Column_ID="3737" Column="FieldLength" oldValue="0">22</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="59447" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="U">D</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="3" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="61470" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="U">D</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="4" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="61471" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="U">D</Data>
+        <Data AD_Column_ID="3360" Column="IsUpdateable" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="5" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="200050" Table="AD_Field">
+        <Data AD_Column_ID="7714" Column="EntityType" oldValue="U">D</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="6" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="200048" Table="AD_Field">
+        <Data AD_Column_ID="7714" Column="EntityType" oldValue="U">D</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="7" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="59407" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="U">D</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="8" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="200075" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="U">D</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="9" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="200076" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="U">D</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="200587" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="U">D</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="11" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="59256" Table="AD_Field">
+        <Data AD_Column_ID="7714" Column="EntityType" oldValue="U">D</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="12" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="200602" Table="AD_Field">
+        <Data AD_Column_ID="7714" Column="EntityType" oldValue="U">D</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="13" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="200000" Table="AD_Process">
+        <Data AD_Column_ID="6485" Column="EntityType" oldValue="U">D</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="14" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="200000" Table="AD_Process_Para">
+        <Data AD_Column_ID="7728" Column="EntityType" oldValue="U">D</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="15" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="200001" Table="AD_Process_Para">
+        <Data AD_Column_ID="7728" Column="EntityType" oldValue="U">D</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="16" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="53213" Table="AD_Process">
+        <Data AD_Column_ID="6485" Column="EntityType" oldValue="U">D</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="17" StepType="AD">
+      <PO AD_Table_ID="276" Action="U" Record_ID="55168" Table="AD_Element">
+        <Data AD_Column_ID="58588" Column="AD_Reference_ID" isOldNull="true">20</Data>
+        <Data AD_Column_ID="2604" Column="Description" isOldNull="true">Indicates if an Invoice Line is for a Fixed Asset</Data>
+        <Data AD_Column_ID="58589" Column="FieldLength" isOldNull="true">1</Data>
+        <Data AD_Column_ID="2603" Column="Name" oldValue="IsFixedAssetInvoice">Is Fixed Asset Invoice</Data>
+        <Data AD_Column_ID="4299" Column="PrintName" oldValue="IsFixedAssetInvoice">Is Fixed Asset Invoice</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="61470" Table="AD_Column">
+        <Data AD_Column_ID="112" Column="Description" isOldNull="true">Indicates if an Invoice Line is for a Fixed Asset</Data>
+        <Data AD_Column_ID="113" Column="Help" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="111" Column="Name" oldValue="IsFixedAssetInvoice">Is Fixed Asset Invoice</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="200035" Table="AD_Field">
+        <Data AD_Column_ID="169" Column="Description" isOldNull="true">Indicates if an Invoice Line is for a Fixed Asset</Data>
+        <Data AD_Column_ID="170" Column="Help" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="168" Column="Name" oldValue="IsFixedAssetInvoice">Is Fixed Asset Invoice</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="61471" Table="AD_Column">
+        <Data AD_Column_ID="112" Column="Description" isOldNull="true">Indicates if an Invoice Line is for a Fixed Asset</Data>
+        <Data AD_Column_ID="113" Column="Help" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="111" Column="Name" oldValue="IsFixedAssetInvoice">Is Fixed Asset Invoice</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="200050" Table="AD_Field">
+        <Data AD_Column_ID="169" Column="Description" isOldNull="true">Indicates if an Invoice Line is for a Fixed Asset</Data>
+        <Data AD_Column_ID="170" Column="Help" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="168" Column="Name" oldValue="IsFixedAssetInvoice">Is Fixed Asset Invoice</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="200048" Table="AD_Field">
+        <Data AD_Column_ID="169" Column="Description" isOldNull="true">Indicates if an Invoice Line is for a Fixed Asset</Data>
+        <Data AD_Column_ID="170" Column="Help" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="168" Column="Name" oldValue="IsFixedAssetInvoice">Is Fixed Asset Invoice</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="200050" Table="AD_Field">
+        <Data AD_Column_ID="170" Column="Help" isNewNull="true" isOldNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="200048" Table="AD_Field">
+        <Data AD_Column_ID="170" Column="Help" isNewNull="true" isOldNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="200035" Table="AD_Field">
+        <Data AD_Column_ID="170" Column="Help" isNewNull="true" isOldNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="120" StepType="AD">
+      <PO AD_Table_ID="276" Action="U" Record_ID="55168" Table="AD_Element">
+        <Data AD_Column_ID="2604" Column="Description" oldValue="Indicates if an Invoice Line is for a Fixed Asset">Indicates if an Invoice is for a Fixed Asset</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="130" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="61471" Table="AD_Column">
+        <Data AD_Column_ID="112" Column="Description" oldValue="Indicates if an Invoice Line is for a Fixed Asset">Indicates if an Invoice is for a Fixed Asset</Data>
+        <Data AD_Column_ID="113" Column="Help" isNewNull="true" isOldNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="140" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="200050" Table="AD_Field">
+        <Data AD_Column_ID="169" Column="Description" oldValue="Indicates if an Invoice Line is for a Fixed Asset">Indicates if an Invoice is for a Fixed Asset</Data>
+        <Data AD_Column_ID="170" Column="Help" isNewNull="true" isOldNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="150" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="200048" Table="AD_Field">
+        <Data AD_Column_ID="169" Column="Description" oldValue="Indicates if an Invoice Line is for a Fixed Asset">Indicates if an Invoice is for a Fixed Asset</Data>
+        <Data AD_Column_ID="170" Column="Help" isNewNull="true" isOldNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="160" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="61470" Table="AD_Column">
+        <Data AD_Column_ID="112" Column="Description" oldValue="Indicates if an Invoice Line is for a Fixed Asset">Indicates if an Invoice is for a Fixed Asset</Data>
+        <Data AD_Column_ID="113" Column="Help" isNewNull="true" isOldNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="170" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="200035" Table="AD_Field">
+        <Data AD_Column_ID="169" Column="Description" oldValue="Indicates if an Invoice Line is for a Fixed Asset">Indicates if an Invoice is for a Fixed Asset</Data>
+        <Data AD_Column_ID="170" Column="Help" isNewNull="true" isOldNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="180" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="200050" Table="AD_Field">
+        <Data AD_Column_ID="170" Column="Help" isNewNull="true" isOldNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="190" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="200048" Table="AD_Field">
+        <Data AD_Column_ID="170" Column="Help" isNewNull="true" isOldNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="200" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="200035" Table="AD_Field">
+        <Data AD_Column_ID="170" Column="Help" isNewNull="true" isOldNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="230" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="200050" Table="AD_Field">
+        <Data AD_Column_ID="176" Column="IsDisplayed" oldValue="true">false</Data>
+        <Data AD_Column_ID="181" Column="SeqNo" isOldNull="true">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="240" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="200035" Table="AD_Field">
+        <Data AD_Column_ID="176" Column="IsDisplayed" oldValue="false">true</Data>
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="0">320</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="250" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="200035" Table="AD_Field">
+        <Data AD_Column_ID="176" Column="IsDisplayed" oldValue="true">false</Data>
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="320">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="270" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="5825" Table="AD_Field">
+        <Data AD_Column_ID="177" Column="DisplayLogic" oldValue="@A_CreateAsset@='Y'&amp;@IsCollectiveAsset@='N'">@A_CreateAsset@='Y' &amp; @IsCollectiveAsset@='N'</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="280" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="26002" Table="AD_Field">
+        <Data AD_Column_ID="177" Column="DisplayLogic" oldValue="@A_CreateAsset@='Y'&amp;@A_CapvsExp@='Cap'&amp;@A_Asset_ID@&lt;1">@A_CreateAsset@='Y' &amp; @A_CapvsExp@='Cap' &amp; @A_Asset_ID@&lt;1</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="290" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="56254" Table="AD_Field">
+        <Data AD_Column_ID="177" Column="DisplayLogic" oldValue="@A_CreateAsset@='Y'&amp;@A_CapvsExp@='Cap'&amp;@A_Asset_ID@&lt;1">@A_CreateAsset@='Y' &amp; @A_CapvsExp@='Cap' &amp; @A_Asset_ID@&lt;1</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="330" StepType="AD">
+      <PO AD_Table_ID="276" Action="U" Record_ID="200176" Table="AD_Element">
+        <Data AD_Column_ID="2604" Column="Description" isOldNull="true">Indicates whether this group will be a Fixed Asset</Data>
+        <Data AD_Column_ID="2603" Column="Name" oldValue="IsFixedAsset">Is a Fixed Asset</Data>
+        <Data AD_Column_ID="4299" Column="PrintName" oldValue="Fixed Asset ?">Is a Fixed Asset ?</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="340" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="200587" Table="AD_Column">
+        <Data AD_Column_ID="112" Column="Description" isOldNull="true">Indicates whether this group will be a Fixed Asset</Data>
+        <Data AD_Column_ID="113" Column="Help" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="111" Column="Name" oldValue="IsFixedAsset">Is a Fixed Asset</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="350" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="200602" Table="AD_Field">
+        <Data AD_Column_ID="169" Column="Description" isOldNull="true">Indicates whether this group will be a Fixed Asset</Data>
+        <Data AD_Column_ID="170" Column="Help" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="168" Column="Name" oldValue="IsFixedAsset">Is a Fixed Asset</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="360" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="200602" Table="AD_Field">
+        <Data AD_Column_ID="170" Column="Help" isNewNull="true" isOldNull="true"/>
+      </PO>
+    </Step>
+
+    <Step SeqNo="440" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="200001" Table="AD_Process_Para">
+        <Data AD_Column_ID="7729" Column="AD_Element_ID" isOldNull="true">1297</Data>
+        <Data AD_Column_ID="3737" Column="FieldLength" oldValue="0">7</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="450" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="200000" Table="AD_Process_Para">
+        <Data AD_Column_ID="7729" Column="AD_Element_ID" isOldNull="true">208</Data>
+        <Data AD_Column_ID="2827" Column="AD_Reference_ID" oldValue="30">19</Data>
+        <Data AD_Column_ID="3737" Column="FieldLength" oldValue="0">22</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

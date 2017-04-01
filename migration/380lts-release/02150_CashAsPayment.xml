@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Cash as Payment" ReleaseNo="3.9.0" SeqNo="100009">
+  <Migration EntityType="D" Name="Cash as Payment" ReleaseNo="3.9.0" SeqNo="2150">
     <Comments>Define C_Bankaccount_ID for document type POS Order</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82681" Table="AD_Column">
@@ -21,7 +21,7 @@
         <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">Account at the Bank</Data>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="118" Column="FieldLength">22</Data>
         <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
         <Data AD_Column_ID="113" Column="Help">The Bank Account identifies an account at this Bank.</Data>

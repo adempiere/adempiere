@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Delete Entities form accesible only for System Administrator" ReleaseNo="3.9.0" SeqNo="2130">
+    <Comments>https://github.com/adempiere/adempiere/issues/880</Comments>
+    <Step DBType="ALL" Parse="Y" SeqNo="10" StepType="SQL">
+      <Comments>Delete form "Delete Entities" from role Garden Admin</Comments>
+      <SQLStatement>DELETE FROM 
+AD_FORM_ACCESS 
+WHERE AD_ROLE_ID=102 AND AD_FORM_ID=53039
+</SQLStatement>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="376" Action="U" Record_ID="53039" Table="AD_Form">
+        <Data AD_Column_ID="5791" Column="AccessLevel" oldValue="3">4</Data>
+      </PO>
+    </Step>
+    <Step DBType="ALL" Parse="Y" SeqNo="30" StepType="SQL">
+      <Comments>Create access to form "Delete Entities" from role System Administrator</Comments>
+      <SQLStatement>INSERT INTO AD_Form_Access (AD_FORM_ID, AD_ROLE_ID, AD_CLIENT_ID, AD_ORG_ID, ISACTIVE, CREATED, CREATEDBY, UPDATED, UPDATEDBY, ISREADWRITE) 
+VALUES (53039, 0, 0, 0, &apos;Y&apos;, TO_DATE(&apos;2017-03-28 15:37:04&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;), 0, TO_DATE(&apos;2017-03-28 15:37:04&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;), 0, &apos;Y&apos;)
+</SQLStatement>
+    </Step>
+  </Migration>
+</Migrations>

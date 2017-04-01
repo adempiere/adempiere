@@ -733,6 +733,10 @@ public class MMigrationStep extends X_AD_MigrationStep {
 
 			for ( MMigrationData datum : m_migrationData )
 			{
+				I_AD_Column column = datum.getAD_Column();
+				if (column == null)
+					continue;
+
 				po.appendChild(datum.toXmlNode(this, document));
 			}
 

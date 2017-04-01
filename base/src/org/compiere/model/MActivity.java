@@ -118,26 +118,32 @@ public class MActivity extends X_C_Activity
 		return activity;
 	}
 
+	/**
+	 * Get All Activity
+	 * @param ctx
+	 * @param resetCache
+	 * @return
+	 */
 	public static List<MActivity> getAll(Properties ctx, boolean resetCache) {
-	List<MActivity> activitiesList;
-	if (resetCache || activityCacheIds.size() > 0 ) {
-		activitiesList = new Query(Env.getCtx(), Table_Name, null , null)
-				.setClient_ID()
-				.setOrderBy(COLUMNNAME_Name)
-				.list();
-		activitiesList.stream().forEach(activity -> {
-			int clientId = Env.getAD_Client_ID(ctx);
-			String key = clientId + "#" + activity.getValue();
-			activityCacheIds.put(activity.getC_Activity_ID(), activity);
-			activityCacheValues.put(key, activity);
-		});
-		return activitiesList;
+		List<MActivity> activitiesList;
+		if (resetCache || activityCacheIds.size() > 0 ) {
+			activitiesList = new Query(Env.getCtx(), Table_Name, null , null)
+					.setClient_ID()
+					.setOrderBy(COLUMNNAME_Name)
+					.list();
+			activitiesList.stream().forEach(activity -> {
+				int clientId = Env.getAD_Client_ID(ctx);
+				String key = clientId + "#" + activity.getValue();
+				activityCacheIds.put(activity.getC_Activity_ID(), activity);
+				activityCacheValues.put(key, activity);
+			});
+			return activitiesList;
+		}
+		activitiesList = activityCacheIds.entrySet().stream()
+				.map(activity -> activity.getValue())
+				.collect(Collectors.toList());
+		return  activitiesList;
 	}
-	activitiesList = activityCacheIds.entrySet().stream()
-			.map(activity -> activity.getValue())
-			.collect(Collectors.toList());
-	return  activitiesList;
-}
 
 	/**
 	 * 	Standard Constructor
