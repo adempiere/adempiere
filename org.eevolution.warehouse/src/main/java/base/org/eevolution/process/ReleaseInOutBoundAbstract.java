@@ -19,7 +19,7 @@ package org.eevolution.process;
 import org.compiere.process.SvrProcess;
 /** Generated Process for (Release & Print Outbound Order)
  *  @author ADempiere (generated) 
- *  @version Release 3.8.0
+ *  @version Release 3.9.0
  */
 public abstract class ReleaseInOutBoundAbstract extends SvrProcess
 {
@@ -54,8 +54,6 @@ public abstract class ReleaseInOutBoundAbstract extends SvrProcess
 	public static final String IsPrintPickList = "IsPrintPickList";
 	/**	Parameter Name for IsCreateSupply	*/
 	public static final String IsCreateSupply = "IsCreateSupply";
-	/**	Parameter Name for POReference	*/
-	public static final String POReference = "POReference";
 
 	/**	Parameter Value for warehouseAreaTypeId	*/
 	private int warehouseAreaTypeId;
@@ -81,8 +79,6 @@ public abstract class ReleaseInOutBoundAbstract extends SvrProcess
 	private boolean isPrintPickList;
 	/**	Parameter Value for isCreateSupply	*/
 	private boolean isCreateSupply;
-	/**	Parameter Value for consolidationReference	*/
-	private String consolidationReference;
  
 
 	@Override
@@ -100,7 +96,6 @@ public abstract class ReleaseInOutBoundAbstract extends SvrProcess
 		freightCategoryId = getParameterAsInt(M_FreightCategory_ID);
 		isPrintPickList = getParameterAsBoolean(IsPrintPickList);
 		isCreateSupply = getParameterAsBoolean(IsCreateSupply);
-		consolidationReference = getParameterAsString(POReference);
 	}
 
 	/**	 Getter Parameter Value for warehouseAreaTypeId	*/
@@ -161,11 +156,6 @@ public abstract class ReleaseInOutBoundAbstract extends SvrProcess
 	/**	 Getter Parameter Value for isCreateSupply	*/
 	protected boolean isCreateSupply() {
 		return isCreateSupply;
-	}
-
-	/**	 Getter Parameter Value for consolidationReference	*/
-	protected String getConsolidationReference() {
-		return consolidationReference;
 	}
 
 	/**	 Getter Parameter Value for Process ID	*/

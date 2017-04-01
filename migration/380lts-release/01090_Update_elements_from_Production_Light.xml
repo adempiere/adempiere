@@ -371,7 +371,7 @@ Leave Production as to be compatible with Adaxa.</Comments>
         <Data AD_Column_ID="599" Column="Created">2016-11-23 15:51:35.866</Data>
         <Data AD_Column_ID="600" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="230" Column="Description">Showing report of Planned Production generated from current Replenish Plan Run.</Data>
-        <Data AD_Column_ID="7721" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7721" Column="EntityType">D</Data>
         <Data AD_Column_ID="598" Column="IsActive">true</Data>
         <Data AD_Column_ID="59134" Column="IsCentrallyMaintained">true</Data>
         <Data AD_Column_ID="6651" Column="IsReadOnly">false</Data>
@@ -467,7 +467,7 @@ Leave Production as to be compatible with Adaxa.</Comments>
         <Data AD_Column_ID="599" Column="Created">2016-11-23 16:54:46.844</Data>
         <Data AD_Column_ID="600" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="230" Column="Description" isNewNull="true"/>
-        <Data AD_Column_ID="7721" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7721" Column="EntityType">D</Data>
         <Data AD_Column_ID="598" Column="IsActive">true</Data>
         <Data AD_Column_ID="59134" Column="IsCentrallyMaintained">true</Data>
         <Data AD_Column_ID="6651" Column="IsReadOnly">false</Data>
@@ -540,7 +540,7 @@ Leave Production as to be compatible with Adaxa.</Comments>
         <Data AD_Column_ID="599" Column="Created">2016-11-23 16:56:16.321</Data>
         <Data AD_Column_ID="600" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="230" Column="Description">Showing report of Suggested Requisition generated from current Replenish Plan Run.</Data>
-        <Data AD_Column_ID="7721" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7721" Column="EntityType">D</Data>
         <Data AD_Column_ID="598" Column="IsActive">true</Data>
         <Data AD_Column_ID="59134" Column="IsCentrallyMaintained">true</Data>
         <Data AD_Column_ID="6651" Column="IsReadOnly">false</Data>

@@ -1094,8 +1094,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 			return;
 		}
 
-		I_HR_Period payrollPeriod = getHR_Period();
-		logger.info(Msg.parseTranslation(getCtx(), "@HR_Concept_ID@ : ")+ concept.getName());
+		logger.info(Msg.parseTranslation(getCtx(), "@HR_Concept_ID@ : ") + concept.getName());
 		MHRMovement movement = createMovement(concept, attribute, isPrinted);
 		if (MHRConcept.TYPE_RuleEngine.equals(concept.getType()))
 		{

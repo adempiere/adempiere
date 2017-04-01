@@ -20,7 +20,7 @@
         <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="118" Column="FieldLength">10</Data>
         <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
         <Data AD_Column_ID="113" Column="Help" isNewNull="true"/>
@@ -84,7 +84,7 @@
         <Data AD_Column_ID="169" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="180" Column="DisplayLength">10</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -149,7 +149,7 @@
         <Data AD_Column_ID="5593" Column="DefaultValue2" isNewNull="true"/>
         <Data AD_Column_ID="2823" Column="Description">Product, Service, Item</Data>
         <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7728" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
         <Data AD_Column_ID="3737" Column="FieldLength">22</Data>
         <Data AD_Column_ID="2824" Column="Help">Identifies an item which is either purchased or sold in this organization.</Data>
         <Data AD_Column_ID="2817" Column="IsActive">true</Data>

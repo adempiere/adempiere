@@ -49,19 +49,6 @@ public interface I_HR_Employee
 	  */
 	public int getAD_Client_ID();
 
-    /** Column name AD_OrgTrx_ID */
-    public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
-
-	/** Set Trx Organization.
-	  * Performing or initiating organization
-	  */
-	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID);
-
-	/** Get Trx Organization.
-	  * Performing or initiating organization
-	  */
-	public int getAD_OrgTrx_ID();
-
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
 
@@ -74,6 +61,19 @@ public interface I_HR_Employee
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
+
+    /** Column name AD_OrgTrx_ID */
+    public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
+
+	/** Set Trx Organization.
+	  * Performing or initiating organization
+	  */
+	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID);
+
+	/** Get Trx Organization.
+	  * Performing or initiating organization
+	  */
+	public int getAD_OrgTrx_ID();
 
     /** Column name AD_User_ID */
     public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
@@ -89,28 +89,6 @@ public interface I_HR_Employee
 	public int getAD_User_ID();
 
 	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException;
-
-    /** Column name Birthday */
-    public static final String COLUMNNAME_Birthday = "Birthday";
-
-	/** Set Birthday.
-	  * Birthday or Anniversary day
-	  */
-	public void setBirthday (Timestamp Birthday);
-
-	/** Get Birthday.
-	  * Birthday or Anniversary day
-	  */
-	public Timestamp getBirthday();
-
-    /** Column name BloodGroup */
-    public static final String COLUMNNAME_BloodGroup = "BloodGroup";
-
-	/** Set Blood Group	  */
-	public void setBloodGroup (String BloodGroup);
-
-	/** Get Blood Group	  */
-	public String getBloodGroup();
 
     /** Column name C_Activity_ID */
     public static final String COLUMNNAME_C_Activity_ID = "C_Activity_ID";
@@ -142,6 +120,34 @@ public interface I_HR_Employee
 
 	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
 
+    /** Column name C_Campaign_ID */
+    public static final String COLUMNNAME_C_Campaign_ID = "C_Campaign_ID";
+
+	/** Set Campaign.
+	  * Marketing Campaign
+	  */
+	public void setC_Campaign_ID (int C_Campaign_ID);
+
+	/** Get Campaign.
+	  * Marketing Campaign
+	  */
+	public int getC_Campaign_ID();
+
+	public org.compiere.model.I_C_Campaign getC_Campaign() throws RuntimeException;
+
+    /** Column name Code */
+    public static final String COLUMNNAME_Code = "Code";
+
+	/** Set Validation code.
+	  * Validation Code
+	  */
+	public void setCode (String Code);
+
+	/** Get Validation code.
+	  * Validation Code
+	  */
+	public String getCode();
+
     /** Column name C_Project_ID */
     public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
 
@@ -156,19 +162,6 @@ public interface I_HR_Employee
 	public int getC_Project_ID();
 
 	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException;
-
-    /** Column name Code */
-    public static final String COLUMNNAME_Code = "Code";
-
-	/** Set Validation code.
-	  * Validation Code
-	  */
-	public void setCode (String Code);
-
-	/** Get Validation code.
-	  * Validation Code
-	  */
-	public String getCode();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -185,6 +178,21 @@ public interface I_HR_Employee
 	  * User who created this records
 	  */
 	public int getCreatedBy();
+
+    /** Column name C_SalesRegion_ID */
+    public static final String COLUMNNAME_C_SalesRegion_ID = "C_SalesRegion_ID";
+
+	/** Set Sales Region.
+	  * Sales coverage region
+	  */
+	public void setC_SalesRegion_ID (int C_SalesRegion_ID);
+
+	/** Get Sales Region.
+	  * Sales coverage region
+	  */
+	public int getC_SalesRegion_ID();
+
+	public org.compiere.model.I_C_SalesRegion getC_SalesRegion() throws RuntimeException;
 
     /** Column name DailySalary */
     public static final String COLUMNNAME_DailySalary = "DailySalary";
@@ -234,28 +242,6 @@ public interface I_HR_Employee
 	  */
 	public Timestamp getEndDate();
 
-    /** Column name FathersName */
-    public static final String COLUMNNAME_FathersName = "FathersName";
-
-	/** Set Father's Name.
-	  * Father's Name
-	  */
-	public void setFathersName (String FathersName);
-
-	/** Get Father's Name.
-	  * Father's Name
-	  */
-	public String getFathersName();
-
-    /** Column name Gender */
-    public static final String COLUMNNAME_Gender = "Gender";
-
-	/** Set Gender	  */
-	public void setGender (String Gender);
-
-	/** Get Gender	  */
-	public String getGender();
-
     /** Column name HR_CareerLevel_ID */
     public static final String COLUMNNAME_HR_CareerLevel_ID = "HR_CareerLevel_ID";
 
@@ -271,13 +257,32 @@ public interface I_HR_Employee
 
 	public org.eevolution.model.I_HR_CareerLevel getHR_CareerLevel() throws RuntimeException;
 
+    /** Column name HR_Degree_ID */
+    public static final String COLUMNNAME_HR_Degree_ID = "HR_Degree_ID";
+
+	/** Set Degree.
+	  * Degree for an Employee
+	  */
+	public void setHR_Degree_ID (int HR_Degree_ID);
+
+	/** Get Degree.
+	  * Degree for an Employee
+	  */
+	public int getHR_Degree_ID();
+
+	public org.eevolution.model.I_HR_Degree getHR_Degree() throws RuntimeException;
+
     /** Column name HR_Department_ID */
     public static final String COLUMNNAME_HR_Department_ID = "HR_Department_ID";
 
-	/** Set Payroll Department	  */
+	/** Set Department.
+	  * Department of the organization
+	  */
 	public void setHR_Department_ID (int HR_Department_ID);
 
-	/** Get Payroll Department	  */
+	/** Get Department.
+	  * Department of the organization
+	  */
 	public int getHR_Department_ID();
 
 	public org.eevolution.model.I_HR_Department getHR_Department() throws RuntimeException;
@@ -297,6 +302,15 @@ public interface I_HR_Employee
 
 	public org.eevolution.model.I_HR_Designation getHR_Designation() throws RuntimeException;
 
+    /** Column name HR_Employee_ID */
+    public static final String COLUMNNAME_HR_Employee_ID = "HR_Employee_ID";
+
+	/** Set Payroll Employee	  */
+	public void setHR_Employee_ID (int HR_Employee_ID);
+
+	/** Get Payroll Employee	  */
+	public int getHR_Employee_ID();
+
     /** Column name HR_EmployeeType_ID */
     public static final String COLUMNNAME_HR_EmployeeType_ID = "HR_EmployeeType_ID";
 
@@ -312,14 +326,20 @@ public interface I_HR_Employee
 
 	public org.eevolution.model.I_HR_EmployeeType getHR_EmployeeType() throws RuntimeException;
 
-    /** Column name HR_Employee_ID */
-    public static final String COLUMNNAME_HR_Employee_ID = "HR_Employee_ID";
+    /** Column name HR_Grade_ID */
+    public static final String COLUMNNAME_HR_Grade_ID = "HR_Grade_ID";
 
-	/** Set Payroll Employee	  */
-	public void setHR_Employee_ID (int HR_Employee_ID);
+	/** Set Grade.
+	  * Grade
+	  */
+	public void setHR_Grade_ID (int HR_Grade_ID);
 
-	/** Get Payroll Employee	  */
-	public int getHR_Employee_ID();
+	/** Get Grade.
+	  * Grade
+	  */
+	public int getHR_Grade_ID();
+
+	public org.eevolution.model.I_HR_Grade getHR_Grade() throws RuntimeException;
 
     /** Column name HR_JobEducation_ID */
     public static final String COLUMNNAME_HR_JobEducation_ID = "HR_JobEducation_ID";
@@ -335,6 +355,17 @@ public interface I_HR_Employee
 	public int getHR_JobEducation_ID();
 
 	public org.eevolution.model.I_HR_JobEducation getHR_JobEducation() throws RuntimeException;
+
+    /** Column name HR_Job_ID */
+    public static final String COLUMNNAME_HR_Job_ID = "HR_Job_ID";
+
+	/** Set Payroll Job	  */
+	public void setHR_Job_ID (int HR_Job_ID);
+
+	/** Get Payroll Job	  */
+	public int getHR_Job_ID();
+
+	public org.eevolution.model.I_HR_Job getHR_Job() throws RuntimeException;
 
     /** Column name HR_JobOpening_ID */
     public static final String COLUMNNAME_HR_JobOpening_ID = "HR_JobOpening_ID";
@@ -366,24 +397,17 @@ public interface I_HR_Employee
 
 	public org.eevolution.model.I_HR_JobType getHR_JobType() throws RuntimeException;
 
-    /** Column name HR_Job_ID */
-    public static final String COLUMNNAME_HR_Job_ID = "HR_Job_ID";
-
-	/** Set Payroll Job	  */
-	public void setHR_Job_ID (int HR_Job_ID);
-
-	/** Get Payroll Job	  */
-	public int getHR_Job_ID();
-
-	public org.eevolution.model.I_HR_Job getHR_Job() throws RuntimeException;
-
     /** Column name HR_Payroll_ID */
     public static final String COLUMNNAME_HR_Payroll_ID = "HR_Payroll_ID";
 
-	/** Set Payroll	  */
+	/** Set Payroll.
+	  * The Payroll definition allows to define all the payroll concepts , year and periods, to  calculate a payroll.
+	  */
 	public void setHR_Payroll_ID (int HR_Payroll_ID);
 
-	/** Get Payroll	  */
+	/** Get Payroll.
+	  * The Payroll definition allows to define all the payroll concepts , year and periods, to  calculate a payroll.
+	  */
 	public int getHR_Payroll_ID();
 
 	public org.eevolution.model.I_HR_Payroll getHR_Payroll() throws RuntimeException;
@@ -433,6 +457,21 @@ public interface I_HR_Employee
 
 	public org.eevolution.model.I_HR_SalaryStructure getHR_SalaryStructure() throws RuntimeException;
 
+    /** Column name HR_ShiftGroup_ID */
+    public static final String COLUMNNAME_HR_ShiftGroup_ID = "HR_ShiftGroup_ID";
+
+	/** Set Shift Group.
+	  * Shift Group
+	  */
+	public void setHR_ShiftGroup_ID (int HR_ShiftGroup_ID);
+
+	/** Get Shift Group.
+	  * Shift Group
+	  */
+	public int getHR_ShiftGroup_ID();
+
+	public org.eevolution.model.I_HR_ShiftGroup getHR_ShiftGroup() throws RuntimeException;
+
     /** Column name HR_SkillType_ID */
     public static final String COLUMNNAME_HR_SkillType_ID = "HR_SkillType_ID";
 
@@ -447,6 +486,21 @@ public interface I_HR_Employee
 	public int getHR_SkillType_ID();
 
 	public org.eevolution.model.I_HR_SkillType getHR_SkillType() throws RuntimeException;
+
+    /** Column name HR_WorkGroup_ID */
+    public static final String COLUMNNAME_HR_WorkGroup_ID = "HR_WorkGroup_ID";
+
+	/** Set Work Group.
+	  * Work Group
+	  */
+	public void setHR_WorkGroup_ID (int HR_WorkGroup_ID);
+
+	/** Get Work Group.
+	  * Work Group
+	  */
+	public int getHR_WorkGroup_ID();
+
+	public org.eevolution.model.I_HR_WorkGroup getHR_WorkGroup() throws RuntimeException;
 
     /** Column name IdentificationMark */
     public static final String COLUMNNAME_IdentificationMark = "IdentificationMark";
@@ -630,19 +684,6 @@ public interface I_HR_Employee
 	  * How you pay the invoice
 	  */
 	public String getPaymentRule();
-
-    /** Column name PlaceOfBirth */
-    public static final String COLUMNNAME_PlaceOfBirth = "PlaceOfBirth";
-
-	/** Set Place of Birth.
-	  * Place of Birth
-	  */
-	public void setPlaceOfBirth (String PlaceOfBirth);
-
-	/** Get Place of Birth.
-	  * Place of Birth
-	  */
-	public String getPlaceOfBirth();
 
     /** Column name SSCode */
     public static final String COLUMNNAME_SSCode = "SSCode";
