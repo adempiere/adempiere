@@ -64,7 +64,8 @@ public abstract class DeleteEntityControler {
 	public KeyNamePair[] getClients() {
 		return DB.getKeyNamePairs("SELECT AD_Client_ID, Name "
 				+ "FROM AD_Client "
-				+ "WHERE AD_Client_ID <> 0", true);
+				+ "WHERE AD_Client_ID <> 0 "
+				+ "ORDER BY Name", true);
 	}
 	
 	/**
@@ -76,7 +77,8 @@ public abstract class DeleteEntityControler {
 				+ "FROM AD_Table "
 				+ "WHERE IsView = 'N' "
 				//	Not System Only
-				+ "AND AccessLevel <> '4'", true);
+				+ "AND AccessLevel <> '4' "
+				+ "ORDER BY TableName", true);
 	}
 	
 	/**
