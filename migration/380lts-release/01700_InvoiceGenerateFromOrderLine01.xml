@@ -4077,11 +4077,11 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">54194</Data>
-        <Data AD_Column_ID="111" Column="Name">createshipment</Data>
+        <Data AD_Column_ID="111" Column="Name">Create Shipment</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
         <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
-        <Data AD_Column_ID="116" Column="ColumnName">createshipment</Data>
+        <Data AD_Column_ID="116" Column="ColumnName">CreateShipment</Data>
         <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
         <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
         <Data AD_Column_ID="120" Column="IsParent">false</Data>
@@ -4097,7 +4097,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="1230" StepType="AD">
       <PO AD_Table_ID="752" Action="I" Record_ID="82262" Table="AD_Column_Trl">
         <Data AD_Column_ID="12955" Column="AD_Column_ID">82262</Data>
-        <Data AD_Column_ID="12957" Column="Name">createshipment</Data>
+        <Data AD_Column_ID="12957" Column="Name">Crear entrega</Data>
         <Data AD_Column_ID="12954" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="12953" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="12960" Column="Created">2017-02-10 09:53:56.221</Data>
@@ -5242,7 +5242,7 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="58062" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="58063" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58065" Column="Help" isNewNull="true"/>
-        <Data AD_Column_ID="58064" Column="Name">SB_InvoiceGenerateFromOrderLine</Data>
+        <Data AD_Column_ID="58064" Column="Name">Generar Facturas de líneas de Orden</Data>
         <Data AD_Column_ID="58061" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58058" Column="CreatedBy">0</Data>
         <Data AD_Column_ID="58059" Column="UpdatedBy">0</Data>
@@ -7443,7 +7443,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="2830" StepType="AD">
       <PO AD_Table_ID="53232" Action="I" Record_ID="90736" Table="AD_View_Column">
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">90736</Data>
-        <Data AD_Column_ID="58105" Column="Name">createshipment</Data>
+        <Data AD_Column_ID="58105" Column="Name">Create Shipment</Data>
         <Data AD_Column_ID="58107" Column="ColumnName">OLINE_createshipment</Data>
         <Data AD_Column_ID="58102" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="58109" Column="AD_Column_ID">69035</Data>
@@ -7468,7 +7468,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58049" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="58052" Column="Name">createshipment</Data>
+        <Data AD_Column_ID="58052" Column="Name">Crear entrega</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">0</Data>
         <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
