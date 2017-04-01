@@ -366,15 +366,6 @@ UPDATE AD_Field SET DisplayLength=1, IsSameLine=&apos;N&apos;, DisplayLogic=&apo
 ;</SQLStatement>
       <RollbackStatement></RollbackStatement>
     </Step>
-    <Step DBType="Oracle" SeqNo="530" StepType="SQL">
-      <SQLStatement>
-UPDATE AD_System
-  SET LastMigrationScriptApplied=&apos;820_IDEMPIERE-153.sql&apos;
-WHERE LastMigrationScriptApplied&lt;&apos;820_IDEMPIERE-153.sql&apos;
-   OR LastMigrationScriptApplied IS NULL
-;</SQLStatement>
-      <RollbackStatement></RollbackStatement>
-    </Step>
     <Step DBType="Postgres" SeqNo="10" StepType="SQL">
       <SQLStatement>-- Feb 18, 2012 8:32:49 PM COT
 -- IDEMPIERE-153 OrderBy Type (Print Format Item View)
@@ -737,15 +728,6 @@ UPDATE AD_Field SET SeqNo=550,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=8605
 -- Feb 18, 2012 8:57:37 PM COT
 -- IDEMPIERE-153 OrderBy Type (Print Format Item View)
 UPDATE AD_Field SET DisplayLength=1, IsSameLine=&apos;N&apos;, DisplayLogic=&apos;@PrintFormatType@=F &amp; @IsOrderBy@=Y&apos;,Updated=TO_TIMESTAMP(&apos;2012-02-18 20:57:37&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Field_ID=200001
-;</SQLStatement>
-      <RollbackStatement></RollbackStatement>
-    </Step>
-    <Step DBType="Postgres" SeqNo="530" StepType="SQL">
-      <SQLStatement>
-UPDATE AD_System
-  SET LastMigrationScriptApplied=&apos;820_IDEMPIERE-153.sql&apos;
-WHERE LastMigrationScriptApplied&lt;&apos;820_IDEMPIERE-153.sql&apos;
-   OR LastMigrationScriptApplied IS NULL
 ;</SQLStatement>
       <RollbackStatement></RollbackStatement>
     </Step>
