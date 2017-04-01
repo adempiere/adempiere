@@ -3031,7 +3031,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="57983" Column="AD_Browse_ID">90002</Data>
         <Data AD_Column_ID="63218" Column="Axis_Column_ID" isNewNull="true"/>
         <Data AD_Column_ID="63219" Column="Axis_Parent_Column_ID" isNewNull="true"/>
-        <Data AD_Column_ID="57981" Column="Name">createshipment</Data>
+        <Data AD_Column_ID="57981" Column="Name">Create Shipment</Data>
         <Data AD_Column_ID="63579" Column="IsReadOnly">true</Data>
         <Data AD_Column_ID="57975" Column="IsCentrallyMaintained">true</Data>
         <Data AD_Column_ID="57971" Column="AD_View_Column_ID">90736</Data>
@@ -3066,7 +3066,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58036" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="58037" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="58039" Column="Name">createshipment</Data>
+        <Data AD_Column_ID="58039" Column="Name">Crear entrega</Data>
         <Data AD_Column_ID="58030" Column="Created">2017-02-10 10:16:16.405</Data>
         <Data AD_Column_ID="58031" Column="Updated">2017-02-10 10:16:16.405</Data>
         <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
