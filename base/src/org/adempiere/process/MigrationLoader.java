@@ -6,8 +6,8 @@ import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.Adempiere;
-import org.compiere.process.*;
 import org.compiere.process.ProcessInfo;
+import org.compiere.process.SynchronizeTerminology;
 import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -75,6 +75,8 @@ public class MigrationLoader {
 			processInfo = ProcessBuilder.create(context)
 					.process(org.compiere.process.SynchronizeTerminology.class)
 					.withTitle("Synchronize Terminology")
+					.withParameter(SynchronizeTerminology.IsCreateElement,false)
+					.withParameter(SynchronizeTerminology.IsDeletingUnusedElement, false)
 					.execute();
 			log.log(Level.CONFIG, "Process=" + processInfo.getTitle() + " Error="+processInfo.isError() + " Summary=" + processInfo.getSummary());
 

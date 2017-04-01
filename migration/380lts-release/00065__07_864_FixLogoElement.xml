@@ -5,6 +5,7 @@
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="285" Action="U" Record_ID="53547" Table="AD_Process_Para">
         <Data AD_Column_ID="7729" Column="AD_Element_ID" isOldNull="true">53909</Data>
+        <Data AD_Column_ID="4017" Column="ColumnName" oldValue="Logo">Logo_ID</Data>
       </PO>
     </Step>
     <Step SeqNo="20" StepType="AD">

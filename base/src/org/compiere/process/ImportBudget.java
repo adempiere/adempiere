@@ -542,6 +542,8 @@ public class ImportBudget extends ImportBudgetAbstract {
             journal.setC_ConversionType_ID(conversionTypeId);
             journal.setGL_Budget_ID(budgetId);
             journal.setC_AcctSchema_ID(getAccountingSchemaId());
+            journal.saveEx();
+
             createJournalLine(journal, journalBatch.getDocumentNo(), periodNo);
             if (noPeriods < glPeriods.size())
                 noPeriods++;
@@ -604,13 +606,13 @@ public class ImportBudget extends ImportBudgetAbstract {
                         importBudget.getUserElement1_ID(),
                         importBudget.getUserElement2_ID(),
                         journal.get_TrxName());
-
-                if (account != null && account.get_ID() == 0)
-                    account.saveEx();
-
-                journalLine.setC_ValidCombination_ID(account.get_ID());
+                account.saveEx();
+                journalLine.setC_ValidCombination_ID(account.getC_ValidCombination_ID());
                 journalLine.saveEx();
+
                 importBudget.setI_IsImported(true);
+                importBudget.setC_ValidCombination_ID(account.getC_ValidCombination_ID());
+                importBudget.setGL_JournalBatch_ID(journal.getGL_JournalBatch_ID());
                 importBudget.setGL_Journal_ID(journal.getGL_Journal_ID());
                 importBudget.setGL_JournalLine_ID(journalLine.getGL_JournalLine_ID());
                 importBudget.setProcessed(true);
