@@ -65,15 +65,6 @@ ALTER TABLE Fact_Reconciliation ADD CONSTRAINT Fact_Reconciliation_Key PRIMARY K
 ;</SQLStatement>
       <RollbackStatement></RollbackStatement>
     </Step>
-    <Step DBType="Oracle" SeqNo="90" StepType="SQL">
-      <SQLStatement>
-UPDATE AD_System
-  SET LastMigrationScriptApplied=&apos;822_IDEMPIERE-137_Ambidexter_GL_Rec.sql&apos;
-WHERE LastMigrationScriptApplied&lt;&apos;822_IDEMPIERE-137_Ambidexter_GL_Rec.sql&apos;
-   OR LastMigrationScriptApplied IS NULL
-;</SQLStatement>
-      <RollbackStatement></RollbackStatement>
-    </Step>
     <Step DBType="Postgres" SeqNo="10" StepType="SQL">
       <SQLStatement>-- Remove Old Primary Key Fact_Acct_ID
 ALTER TABLE Fact_Reconciliation DROP CONSTRAINT fact_reconciliation_key
@@ -133,15 +124,6 @@ ALTER TABLE Fact_Reconciliation ADD COLUMN Fact_Reconciliation_ID NUMERIC(10) NO
 -- Feb 3, 2012 10:08:33 PM ICT
 -- Ambidexter GL Reconciliation
 ALTER TABLE Fact_Reconciliation ADD CONSTRAINT Fact_Reconciliation_Key PRIMARY KEY (Fact_Reconciliation_ID)
-;</SQLStatement>
-      <RollbackStatement></RollbackStatement>
-    </Step>
-    <Step DBType="Postgres" SeqNo="90" StepType="SQL">
-      <SQLStatement>
-UPDATE AD_System
-  SET LastMigrationScriptApplied=&apos;822_IDEMPIERE-137_Ambidexter_GL_Rec.sql&apos;
-WHERE LastMigrationScriptApplied&lt;&apos;822_IDEMPIERE-137_Ambidexter_GL_Rec.sql&apos;
-   OR LastMigrationScriptApplied IS NULL
 ;</SQLStatement>
       <RollbackStatement></RollbackStatement>
     </Step>
