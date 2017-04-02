@@ -2515,5 +2515,105 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="7721" Column="EntityType" oldValue="U">D</Data>
       </PO>
     </Step>
+    <Step SeqNo="1260" StepType="AD">
+      <Comments>Include declaration of doctatus.zul in Dashboard Content</Comments>
+      <PO AD_Table_ID="50010" Action="I" Record_ID="50014" Table="PA_DashboardContent">
+        <Data AD_Column_ID="69116" Column="onevent" isNewNull="true"/>
+        <Data AD_Column_ID="69115" Column="PageSize" isNewNull="true"/>
+        <Data AD_Column_ID="51007" Column="AD_Window_ID" isNewNull="true"/>
+        <Data AD_Column_ID="51005" Column="Name">Document tasks</Data>
+        <Data AD_Column_ID="51018" Column="PA_DashboardContent_ID">50014</Data>
+        <Data AD_Column_ID="51014" Column="Line">0</Data>
+        <Data AD_Column_ID="51015" Column="PA_Goal_ID" isNewNull="true"/>
+        <Data AD_Column_ID="51010" Column="Description">Pending documents to finish</Data>
+        <Data AD_Column_ID="51012" Column="HTML"></Data>
+        <Data AD_Column_ID="56469" Column="ColumnNo">1</Data>
+        <Data AD_Column_ID="56470" Column="ZulFilePath">/zul/docstatus.zul</Data>
+        <Data AD_Column_ID="56522" Column="IsCollapsible">true</Data>
+        <Data AD_Column_ID="60079" Column="IsOpenByDefault">true</Data>
+        <Data AD_Column_ID="57922" Column="GoalDisplay">T</Data>
+        <Data AD_Column_ID="69433" Column="Zoom_Field_ID" isNewNull="true"/>
+        <Data AD_Column_ID="69114" Column="Zoom_Tab_ID" isNewNull="true"/>
+        <Data AD_Column_ID="69113" Column="Zoom_Window_ID" isNewNull="true"/>
+        <Data AD_Column_ID="69111" Column="IsEventRequired">false</Data>
+        <Data AD_Column_ID="69432" Column="AD_Browse_ID" isNewNull="true"/>
+        <Data AD_Column_ID="51006" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="51013" Column="IsActive">true</Data>
+        <Data AD_Column_ID="51017" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="51016" Column="Updated">2017-04-02 10:34:25.921</Data>
+        <Data AD_Column_ID="51008" Column="Created">2017-04-02 10:34:25.921</Data>
+        <Data AD_Column_ID="51009" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="51011" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1270" StepType="AD">
+      <Comments>Include declaration of doctatus.zul in Dashboard Content</Comments>
+      <PO AD_Table_ID="53295" Action="I" Record_ID="0" Table="PA_DashboardContent_Trl">
+        <Data AD_Column_ID="60125" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="60118" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="60122" Column="PA_DashboardContent_ID">50014</Data>
+        <Data AD_Column_ID="60127" Column="Updated">2017-04-02 10:34:27.182</Data>
+        <Data AD_Column_ID="60128" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="60117" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="60119" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="60120" Column="Created">2017-04-02 10:34:27.182</Data>
+        <Data AD_Column_ID="60121" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="60124" Column="IsActive">true</Data>
+        <Data AD_Column_ID="60126" Column="Name">Tareas pendientes</Data>
+        <Data AD_Column_ID="60123" Column="Description">Documentos pendientes de finalizar</Data>
+      </PO>
+    </Step>  
+    <Step SeqNo="1280" StepType="AD">
+      <Comments>Add window Document status to Menu Tree</Comments>
+      <PO AD_Table_ID="452" Action="I" Record_ID="53897" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6161" Column="Node_ID">53897</Data>
+        <Data AD_Column_ID="6153" Column="Updated">2017-04-02 10:52:38.457</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID">10</Data>
+        <Data AD_Column_ID="6155" Column="Parent_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6157" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="6154" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="6162" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6149" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6152" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="6150" Column="IsActive">true</Data>
+        <Data AD_Column_ID="6151" Column="Created">2017-04-02 10:52:38.457</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1290" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="53897" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="53897">53897</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6155" Column="Parent_ID" isOldNull="true">175</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="0">3</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1300" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="171" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="171">171</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="3">4</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1310" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="437" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="437">437</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="4">5</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1320" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="240" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="240">240</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="5">6</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1330" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="361" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="361">361</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="6">7</Data>
+      </PO>
+    </Step>   
   </Migration>
 </Migrations>
