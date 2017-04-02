@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Added Change Role Message" ReleaseNo="3.9.0" SeqNo="99998">
+  <Migration EntityType="D" Name="Added Change Role Message" ReleaseNo="3.9.0" SeqNo="2240">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="109" Action="I" Record_ID="53317" Table="AD_Message">
         <Data AD_Column_ID="197" Column="MsgType">I</Data>
