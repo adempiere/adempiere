@@ -82,26 +82,16 @@ public class DataEngine
 	{
 		this(language, null);
 	}	//	DataEngine
-	
+
 	/**
 	 *	Constructor
 	 *	@param language Language of the data (for translation)
 	 *  @param trxName
 	 */
 	public DataEngine (Language language, String trxName){
-		this(language, trxName, false);
-	}	//	DataEngine
-	
-	/**
-	 *	Constructor
-	 *	@param language Language of the data (for translation)
-	 *  @param trxName
-	 */
-	public DataEngine (Language language, String trxName, boolean noWhere){
 		if (language != null)
 			m_language = language;
 		m_trxName = trxName;
-		m_nowhere = noWhere;
 	}	//	DataEngine
 
 	/**	Logger							*/
@@ -124,8 +114,6 @@ public class DataEngine
 	private String			m_trxName = null;
 	/** Report Summary FR [ 2011569 ]**/ 
 	private boolean 		m_summary = false;
-	/** adaxa-pb: don't use report view where clause **/
-	private boolean			m_nowhere = false;
 	/** Key Indicator in Report			*/
 	public static final String KEY = "*";
 
@@ -160,14 +148,11 @@ public class DataEngine
 
 		if (format == null)
 			throw new IllegalStateException ("No print format");
-		
+
 		/** Report Summary FR [ 2011569 ]**/ 
 		m_summary = !format.isForm() && summary;
-		
 		String tableName = null;
 		String reportName = format.getName();
-		String whereClause = null;
-		String select = null;		
 		//	Yamel Senih BR [ 236 ] Clear Query before add new restrictions
 		query.clear();
 		//	End Yamel Senih
@@ -178,7 +163,7 @@ public class DataEngine
 		//	
 		if (p_AD_ReportView_ID != 0)
 		{
-			String sql = "SELECT t.AD_Table_ID, t.TableName, rv.Name, rv.WhereClause, t.SQLStatement "
+			String sql = "SELECT t.AD_Table_ID, t.TableName, rv.Name, rv.WhereClause "
 				+ "FROM AD_Table t"
 				+ " INNER JOIN AD_ReportView rv ON (t.AD_Table_ID=rv.AD_Table_ID) "
 				+ "WHERE rv.AD_ReportView_ID=?";	//	1
@@ -194,8 +179,9 @@ public class DataEngine
 					tableName = rs.getString(2);  	//	TableName
 					reportName = rs.getString(3);
 					// Add WhereClause restriction from AD_ReportView - teo_sarca BF [ 1761891 ]
-					whereClause = rs.getString(4);
-					select = rs.getString(5);					
+					String whereClause = rs.getString(4);
+					if (!Util.isEmpty(whereClause))
+						query.addRestriction(whereClause);
 				}
 			}
 			catch (SQLException e)
@@ -228,21 +214,7 @@ public class DataEngine
 			}
 		}
 		//
-		if (!Util.isEmpty(select) && select.contains("@"))
-		{
-			select = Env.parseContext(ctx, query != null ? query.getWindowNo() : -1, select, true);
-		}
-
-		if (!Util.isEmpty(whereClause) && !m_nowhere)
-		{
-			if (whereClause.contains("@"))
-			{
-				select = Env.parseContext(ctx, query != null ? query.getWindowNo() : -1, whereClause, true);
-			}
-			query.addRestriction(whereClause);
-		}
-		//
-		PrintData pd = getPrintDataInfo (ctx, format, query, reportName, tableName, select);
+		PrintData pd = getPrintDataInfo (ctx, format, query, reportName, tableName);
 		if (pd == null)
 			return null;
 		loadPrintData(pd, format);
@@ -261,7 +233,7 @@ public class DataEngine
 	 * 	@return PrintData or null
 	 */
 	private PrintData getPrintDataInfo (Properties ctx, MPrintFormat format, MQuery query,
-			String reportName, String tableName, String select)
+		String reportName, String tableName)
 	{
 		m_startTime = System.currentTimeMillis();
 		log.info(reportName + " - " + m_language.getAD_Language());
@@ -296,9 +268,7 @@ public class DataEngine
 			+ "pfi.isRunningTotal,pfi.RunningTotalLines, "				//	20..21
 			+ "pfi.IsVarianceCalc, pfi.IsDeviationCalc, "				//	22..23
 			+ "c.ColumnSQL, COALESCE(pfi.FormatPattern, c.FormatPattern) "		//	24, 25
-			//BEGIN http://jira.idempiere.com/browse/IDEMPIERE-153
 			+ " , pfi.isDesc " //26
-			//END
 			+ "FROM AD_PrintFormat pf"
 			+ " INNER JOIN AD_PrintFormatItem pfi ON (pf.AD_PrintFormat_ID=pfi.AD_PrintFormat_ID)"
 			+ " INNER JOIN AD_Column c ON (pfi.AD_Column_ID=c.AD_Column_ID)"
@@ -371,11 +341,7 @@ public class DataEngine
 				boolean isPageBreak = "Y".equals(rs.getString(17));
 				
 				String formatPattern = rs.getString(25);
-				
-				//BEGIN http://jira.idempiere.com/browse/IDEMPIERE-153
 				boolean isDesc = "Y".equals(rs.getString(26));
-				//END
-
 				//	Fully qualified Table.Column for ordering
 				String orderName = tableName + "." + ColumnName;
 				String lookupSQL = orderName;
@@ -643,11 +609,8 @@ order by 1,2
 				{
 					if (AD_Column_ID == orderAD_Column_IDs[i])
 					{
-						
-						//BEGIN fernandinho - http://jira.idempiere.com/browse/IDEMPIERE-153
 						if (isDesc)
 							orderName += " DESC";
-						//END
 
 						orderColumns.set(i, orderName);
 						// We need to GROUP BY even is not printed, because is used in ORDER clause
@@ -776,12 +739,6 @@ order by 1,2
 			}
 		}	//	order by
 
-		if (!Util.isEmpty(select))
-		{
-			finalSQL.replace(finalSQL.indexOf("FROM " + tableName),
-					finalSQL.indexOf("FROM " + tableName) + ("FROM " + tableName).length(),
-					"FROM (" + select + ") AS " + tableName);
-		}		
 
 		//	Print Data
 		PrintData pd = new PrintData (ctx, reportName);
