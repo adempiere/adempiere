@@ -311,7 +311,7 @@ public class WTrialBalance extends TrialBalanceDrill implements IFormController,
 		//pa_ReportCube_ID = 1000000;		
 		if (pa_ReportCube_ID == 0 || c_PeriodTo_ID == 0 || m_AD_Org_ID == 0)
 		{
-			FDialog.error(form.getWindowNo(), "Please fill mandatory fields.");
+			FDialog.error(form.getWindowNo(), "Please fill mandatory fields (Cube, Period, Organization).");
 			return;
 		}
 
