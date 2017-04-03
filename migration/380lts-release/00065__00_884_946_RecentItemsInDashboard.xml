@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Recent Items in Dashboard #884 Contribution #946(Adaxa)" ReleaseNo="3.9.0" SeqNo="000064">
+  <Migration EntityType="D" Name="Recent Items in Dashboard #884 Contribution #946(Adaxa)" ReleaseNo="3.9.0" SeqNo="65">
       <Comments>https://github.com/adempiere/adempiere/issues/884</Comments>
     <Step DBType="Oracle" SeqNo="10" StepType="SQL">
       <SQLStatement>-- Jan 27, 2012 3:19:59 PM COT
