@@ -1193,6 +1193,21 @@ public class GridTable extends AbstractTableModel
 	 */
 	public final void setValueAt (Object value, int row, int col, boolean force)
 	{
+		setValueAt (value, row, col, false, true);  
+	}
+
+	/**
+	 * 	Set Value in data and update MField.
+	 *  (called directly or from JTable.editingStopped())
+	 *
+	 *  @param  value value to assign to cell
+	 *  @param  row row index of cell
+	 *  @param  col column index of cell
+	 * 	@param	force force setting new value
+	 *  @param  notify notify listeners of change
+	 */
+	public final void setValueAt (Object value, int row, int col, boolean force, boolean notify)
+	{
 		//	Can we edit?
 		if (!m_open || m_readOnly       //  not accessible
 				|| row < 0 || col < 0   //  invalid index
@@ -1203,7 +1218,10 @@ public class GridTable extends AbstractTableModel
 			return;
 		}
 
-		dataSave(row, false);
+		if(!rowChanged.contains(row))
+			rowChanged.add(row);
+		if(!m_fields.get(0).getGridTab().isIncluded()) // && !m_fields.get(0).getGridTab().isQuickEntry())
+			dataSave(row, false);
 
 		//	Has anything changed?
 		Object oldValue = getValueAt(row, col);
@@ -1241,6 +1259,17 @@ public class GridTable extends AbstractTableModel
 			m_rowData = new Object[size];
 			for (int i = 0; i < size; i++)
 				m_rowData[i] = rowData[i];
+		}
+		
+		if(rowChangedData.containsKey(row))
+		{
+			rowChangedData.get(row)[col]=oldValue;
+		}
+		else
+		{
+			Object[] o = new Object[rowData.length];
+			System.arraycopy( rowData, 0, o, 0,rowData.length);
+			rowChangedData.put(row, o);
 		}
 
 		//	save & update
@@ -1506,8 +1535,7 @@ public class GridTable extends AbstractTableModel
 			Record_ID = getKeyID(m_rowChanged);
 		try
 		{
-			//	FR [ 392 ]
-			if (!specialZeroUpdate)	//	translation tables have no model
+			if (!m_tableName.endsWith("_Trl") && !specialZeroUpdate)	//	translation tables have no model
 				return dataSavePO (Record_ID);
 		}
 		catch (Throwable e)
@@ -2565,7 +2593,13 @@ public class GridTable extends AbstractTableModel
 				field.setValue(rowData[i], m_inserting);
 			}
 		}
-		
+
+		Object[] o =new Object[rowData.length];
+		System.arraycopy(rowData, 0, o, 0, rowData.length);
+		rowChangedData.put(m_newRow, o);
+		if(!rowChanged.contains(m_newRow))
+			rowChanged.add(m_newRow);
+
 		m_rowChanged = -1;  //  only changed in setValueAt
 
 		//	inform
@@ -2614,11 +2648,18 @@ public class GridTable extends AbstractTableModel
 				return false;
 			}
 		}
+		// Carlos Ruiz - globalqss - IDEMPIERE-111
+		// Check if the role has access to this client
+		//	Can we change?
+		int[] co = getClientOrg(row);
+		int AD_Client_ID = co[0];
+		int AD_Org_ID = co[1];
+		if (!MRole.getDefault(m_ctx, false).canUpdate(AD_Client_ID, AD_Org_ID, m_AD_Table_ID, 0, true))
+		{
+			fireDataStatusEEvent("AccessCannotDelete", "", true);
+			return false;
+		}
 		
-
-		/** @todo check Access */
-		//  fireDataStatusEvent(Log.retrieveError());
-
 		MSort sort = (MSort)m_sort.get(row);
 		Object[] rowData = getDataAtRow(row);
 		//
@@ -3690,7 +3731,6 @@ public class GridTable extends AbstractTableModel
 		return false;
 	}
 
-	//BF [ADEMPIERE-369]
 	/**
 	 * get Parent Tab No
 	 * @return Tab No
