@@ -98,20 +98,8 @@ public class GridTable extends AbstractTableModel
 	 * 
 	 */
 	private static final long serialVersionUID = 7799823493936826600L;
-
-	public static final String	DATA_REFRESH_MESSAGE	= "Refreshed";
-
-	public String				m_trxName				= null;
-
-	public String getTrxName()
-	{
-		return m_trxName;
-	}
-
-	public void setTrxName(String trxName)
-	{
-		this.m_trxName = trxName;
-	}
+	
+	public static final String DATA_REFRESH_MESSAGE = "Refreshed";
 
 	/**
 	 *	JDBC Based Buffered Table
@@ -240,10 +228,6 @@ public class GridTable extends AbstractTableModel
 	private final static Integer NEW_ROW_ID = Integer.valueOf(-1);
 	private static final int DEFAULT_FETCH_SIZE = 200;
 
-	public ArrayList<Integer> rowChanged=new ArrayList<Integer>();
-	private HashMap<Integer, Object[]> rowChangedData=new HashMap<Integer, Object[]>();
-
-	
 	/**
 	 *	Set Table Name
 	 *  @param newTableName table name
@@ -1119,7 +1103,7 @@ public class GridTable extends AbstractTableModel
 		ResultSet rs = null;
 		try
 		{
-			stmt = DB.prepareStatement(sql.toString(), m_trxName);
+			stmt = DB.prepareStatement(sql.toString(), null);
 			rs = stmt.executeQuery();
 			while(rs.next())
 			{
@@ -1193,21 +1177,6 @@ public class GridTable extends AbstractTableModel
 	 */
 	public final void setValueAt (Object value, int row, int col, boolean force)
 	{
-		setValueAt (value, row, col, false, true);  
-	}
-
-	/**
-	 * 	Set Value in data and update MField.
-	 *  (called directly or from JTable.editingStopped())
-	 *
-	 *  @param  value value to assign to cell
-	 *  @param  row row index of cell
-	 *  @param  col column index of cell
-	 * 	@param	force force setting new value
-	 *  @param  notify notify listeners of change
-	 */
-	public final void setValueAt (Object value, int row, int col, boolean force, boolean notify)
-	{
 		//	Can we edit?
 		if (!m_open || m_readOnly       //  not accessible
 				|| row < 0 || col < 0   //  invalid index
@@ -1218,10 +1187,7 @@ public class GridTable extends AbstractTableModel
 			return;
 		}
 
-		if(!rowChanged.contains(row))
-			rowChanged.add(row);
-		if(!m_fields.get(0).getGridTab().isIncluded()) // && !m_fields.get(0).getGridTab().isQuickEntry())
-			dataSave(row, false);
+		dataSave(row, false);
 
 		//	Has anything changed?
 		Object oldValue = getValueAt(row, col);
@@ -1259,17 +1225,6 @@ public class GridTable extends AbstractTableModel
 			m_rowData = new Object[size];
 			for (int i = 0; i < size; i++)
 				m_rowData[i] = rowData[i];
-		}
-		
-		if(rowChangedData.containsKey(row))
-		{
-			rowChangedData.get(row)[col]=oldValue;
-		}
-		else
-		{
-			Object[] o = new Object[rowData.length];
-			System.arraycopy( rowData, 0, o, 0,rowData.length);
-			rowChangedData.put(row, o);
 		}
 
 		//	save & update
@@ -1394,27 +1349,6 @@ public class GridTable extends AbstractTableModel
 		return (dataSave(manualCmd) == SAVE_OK);
 	}   //  dataSave
 
-	public char saveDataAll(boolean manualCmd)
-	{
-		for(Integer i : rowChanged)
-		{
-			m_rowChanged=i;
-			m_rowData=rowChangedData.get(i);
-			
-			char saveStatus = dataSave (manualCmd);
-			if (saveStatus != SAVE_OK)
-				return saveStatus;
-		}
-		rowChangedData.clear();
-		rowChanged.clear();
-	/*	if(m_fields.get(0).getGridTab().isIncluded())
-		{
-			 GridTabRowRenderer renderer = new GridTabRowRenderer(m_fields.get(0).getGridTab(), m_WindowNo);
-			 renderer.setCurrentCell(0, 0, 0);
-		}*/
-		return SAVE_OK;
-	}
-
 	/**
 	 *	Save unconditional.
 	 *  @param manualCmd if true, no vetoable PropertyChange will be fired for save confirmation
@@ -1535,7 +1469,8 @@ public class GridTable extends AbstractTableModel
 			Record_ID = getKeyID(m_rowChanged);
 		try
 		{
-			if (!m_tableName.endsWith("_Trl") && !specialZeroUpdate)	//	translation tables have no model
+			//	FR [ 392 ]
+			if (!specialZeroUpdate)	//	translation tables have no model
 				return dataSavePO (Record_ID);
 		}
 		catch (Throwable e)
@@ -2240,7 +2175,7 @@ public class GridTable extends AbstractTableModel
 		ResultSet rs = null;
 		try
 		{
-			pstmt = DB.prepareStatement(refreshSQL.toString(), m_trxName);
+			pstmt = DB.prepareStatement(refreshSQL.toString(), null);
 			rs = pstmt.executeQuery();
 			if (rs.next())
 			{
@@ -2593,13 +2528,7 @@ public class GridTable extends AbstractTableModel
 				field.setValue(rowData[i], m_inserting);
 			}
 		}
-
-		Object[] o =new Object[rowData.length];
-		System.arraycopy(rowData, 0, o, 0, rowData.length);
-		rowChangedData.put(m_newRow, o);
-		if(!rowChanged.contains(m_newRow))
-			rowChanged.add(m_newRow);
-
+		
 		m_rowChanged = -1;  //  only changed in setValueAt
 
 		//	inform
@@ -2648,18 +2577,11 @@ public class GridTable extends AbstractTableModel
 				return false;
 			}
 		}
-		// Carlos Ruiz - globalqss - IDEMPIERE-111
-		// Check if the role has access to this client
-		//	Can we change?
-		int[] co = getClientOrg(row);
-		int AD_Client_ID = co[0];
-		int AD_Org_ID = co[1];
-		if (!MRole.getDefault(m_ctx, false).canUpdate(AD_Client_ID, AD_Org_ID, m_AD_Table_ID, 0, true))
-		{
-			fireDataStatusEEvent("AccessCannotDelete", "", true);
-			return false;
-		}
 		
+
+		/** @todo check Access */
+		//  fireDataStatusEvent(Log.retrieveError());
+
 		MSort sort = (MSort)m_sort.get(row);
 		Object[] rowData = getDataAtRow(row);
 		//
@@ -2702,7 +2624,7 @@ public class GridTable extends AbstractTableModel
 			try
 			{
 				pstmt = DB.prepareStatement (sql.toString(), 
-						ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE, m_trxName);
+						ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE, null);
 				no = pstmt.executeUpdate();
 			}
 			catch (SQLException e)
@@ -2749,20 +2671,6 @@ public class GridTable extends AbstractTableModel
 				MSort ptr = (MSort)m_sort.get(i);
 				if (ptr.index > sort.index)
 					ptr.index--;	//	move up
-			}
-		}
-
-		if(rowChanged.contains(row))
-		{
-			rowChangedData.remove(row);
-			//rowChanged.remove(row); jobriant - it passes the element index instead of the key
-			int i = 0;
-			for (int changed : rowChanged) {
-				if (changed == row) {
-					rowChanged.remove(i);
-					break;
-				}
-				i++;
 			}
 		}
 
@@ -2827,17 +2735,6 @@ public class GridTable extends AbstractTableModel
 			//	inform
 		//	fireTableRowsUpdated(m_rowChanged, m_rowChanged); >> messes up display?? (clearSelection)
 		}
-		
-		if(!m_inserting && rowChanged.size()> 0)
-		{
-			for(int i=0 ; i<rowChanged.size() ; i++)
-			{
-				setDataAtRow(rowChanged.get(i), rowChangedData.get(rowChanged.get(i)));
-			}
-		}
-		rowChangedData.clear();
-		rowChanged.clear();
-		m_inserting = false;
 		m_newRow = -1;
 		fireDataStatusIEvent("Ignored", "");
 	}	//	dataIgnore
@@ -2881,7 +2778,7 @@ public class GridTable extends AbstractTableModel
 		ResultSet rs = null;
 		try
 		{
-			pstmt = DB.prepareStatement(sql, m_trxName);
+			pstmt = DB.prepareStatement(sql, null);
 			rs = pstmt.executeQuery();
 			//	only one row
 			if (rs.next())
@@ -3431,7 +3328,7 @@ public class GridTable extends AbstractTableModel
 			ResultSet rs = null;			
 			try
 			{
-				pstmt = DB.prepareStatement(m_SQL_Count, m_trxName);
+				pstmt = DB.prepareStatement(m_SQL_Count, null);
 				setParameter (pstmt, true);
 				rs = pstmt.executeQuery();
 				if (rs.next())
@@ -3731,6 +3628,7 @@ public class GridTable extends AbstractTableModel
 		return false;
 	}
 
+	//BF [ADEMPIERE-369]
 	/**
 	 * get Parent Tab No
 	 * @return Tab No
