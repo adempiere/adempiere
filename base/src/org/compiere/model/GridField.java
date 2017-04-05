@@ -1494,7 +1494,7 @@ public class GridField
 			oldValue = INSERTING;
 		
 		if (getGridTab() == null ||
-				(getGridTab() != null && !getGridTab().isQuickEntry())) {
+				(getGridTab() != null)) {
 			m_propertyChangeListeners.firePropertyChange(PROPERTY, oldValue, m_value);
 		}
 	}   //  setValue
