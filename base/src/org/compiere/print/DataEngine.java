@@ -16,6 +16,7 @@
  *****************************************************************************/
 package org.compiere.print;
 
+import java.io.Serializable;
 import java.sql.Clob;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -29,6 +30,7 @@ import java.util.logging.Level;
 import org.compiere.model.MLookupFactory;
 import org.compiere.model.MQuery;
 import org.compiere.model.MRole;
+import org.compiere.model.MSysConfig;
 import org.compiere.model.MTable;
 import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
@@ -63,6 +65,8 @@ import org.compiere.util.ValueNamePair;
  * @author Paul Bowden (phib)
  * 				<li> BF 2908435 Virtual columns with lookup reference types can't be printed
  *                   https://sourceforge.net/tracker/?func=detail&aid=2908435&group_id=176962&atid=879332
+ *  @contributor  Fernandinho (FAIRE)
+ *  				- http://jira.idempiere.com/browse/IDEMPIERE-153
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  * 		<li>BR [ 236 ] Report View does not refresh when print format is changed
  * 			@see https://github.com/adempiere/adempiere/issues/236
@@ -79,7 +83,7 @@ public class DataEngine
 	{
 		this(language, null);
 	}	//	DataEngine
-	
+
 	/**
 	 *	Constructor
 	 *	@param language Language of the data (for translation)
@@ -114,6 +118,8 @@ public class DataEngine
 	/** Key Indicator in Report			*/
 	public static final String KEY = "*";
 
+	private static final String REPORT_DISPLAY_YES_NO = "REPORT_DISPLAY_YES_NO";
+
 
 	/**************************************************************************
 	 * 	Load Data
@@ -141,11 +147,11 @@ public class DataEngine
 	public PrintData getPrintData (Properties ctx, MPrintFormat format, MQuery query, boolean summary, int p_AD_ReportView_ID)
 	{
 
-		/** Report Summary FR [ 2011569 ]**/ 
-		m_summary = summary; 
-
 		if (format == null)
 			throw new IllegalStateException ("No print format");
+
+		/** Report Summary FR [ 2011569 ]**/ 
+		m_summary = !format.isForm() && summary;
 		String tableName = null;
 		String reportName = format.getName();
 		//	Yamel Senih BR [ 236 ] Clear Query before add new restrictions
@@ -207,7 +213,7 @@ public class DataEngine
 				tableName += "t";
 				format.setTranslationViewQuery (query);
 			}
-		}		
+		}
 		//
 		PrintData pd = getPrintDataInfo (ctx, format, query, reportName, tableName);
 		if (pd == null)
@@ -263,6 +269,7 @@ public class DataEngine
 			+ "pfi.isRunningTotal,pfi.RunningTotalLines, "				//	20..21
 			+ "pfi.IsVarianceCalc, pfi.IsDeviationCalc, "				//	22..23
 			+ "c.ColumnSQL, COALESCE(pfi.FormatPattern, c.FormatPattern) "		//	24, 25
+			+ " , pfi.isDesc " //26
 			+ "FROM AD_PrintFormat pf"
 			+ " INNER JOIN AD_PrintFormatItem pfi ON (pf.AD_PrintFormat_ID=pfi.AD_PrintFormat_ID)"
 			+ " INNER JOIN AD_Column c ON (pfi.AD_Column_ID=c.AD_Column_ID)"
@@ -335,7 +342,7 @@ public class DataEngine
 				boolean isPageBreak = "Y".equals(rs.getString(17));
 				
 				String formatPattern = rs.getString(25);
-
+				boolean isDesc = "Y".equals(rs.getString(26));
 				//	Fully qualified Table.Column for ordering
 				String orderName = tableName + "." + ColumnName;
 				String lookupSQL = orderName;
@@ -355,8 +362,17 @@ public class DataEngine
 					;
 				}
 				//	-- Parent, TableDir (and unqualified Search) --
-				else if ( (IsParent && DisplayType.isLookup(AD_Reference_ID)) 
-						|| AD_Reference_ID == DisplayType.TableDir
+				else if ( /* (IsParent && DisplayType.isLookup(AD_Reference_ID))
+				// Test case - create a IsParent column with a different name than parent with ref table -- reporting on this column break  
+				 * or try to report on any column here:
+				 * 
+select t.tablename, c.columnname, c.ad_reference_id, c.AD_Reference_Value_ID
+from ad_column  c join ad_table t on c.AD_TABLE_ID=t.AD_TABLE_ID
+where c.isparent = 'Y' and  not
+(c.ad_reference_id = 19
+or (c.ad_reference_id = 30 and c.AD_Reference_Value_ID is null))
+order by 1,2
+						|| */ AD_Reference_ID == DisplayType.TableDir
 						|| (AD_Reference_ID == DisplayType.Search && AD_Reference_Value_ID == 0)
 					)
 				{
@@ -594,6 +610,9 @@ public class DataEngine
 				{
 					if (AD_Column_ID == orderAD_Column_IDs[i])
 					{
+						if (isDesc)
+							orderName += " DESC";
+
 						orderColumns.set(i, orderName);
 						// We need to GROUP BY even is not printed, because is used in ORDER clause
 						if (!IsPrinted && !IsGroupFunction)
@@ -636,6 +655,10 @@ public class DataEngine
 			hasLevelNo = true;
 			if (sqlSELECT.indexOf("LevelNo") == -1)
 				sqlSELECT.append("LevelNo,");
+			
+			if ( tableName.equals("T_Report") &&
+					sqlSELECT.indexOf("PA_ReportLine_ID") == -1)
+				sqlSELECT.append("PA_ReportLine_ID,");
 		}
 
 		/**
@@ -654,6 +677,19 @@ public class DataEngine
 				String q = query.getWhereClause (i);
 				if (q.indexOf("AD_PInstance_ID") != -1)	//	ignore all other Parameters
 					finalSQL.append (q);
+			}	//	for all restrictions
+		}
+		else if (tableName.startsWith("AD_PInstance"))
+		{
+			finalSQL.append(" WHERE ");
+			for (int i = 0; i < query.getRestrictionCount(); i++)
+			{
+				String q = query.getWhereClause (i);
+				if (q.indexOf("AD_PInstance_ID") != -1)	
+				{//	ignore all other Parameters
+					q=q.substring(9);
+						finalSQL.append (q);
+				}
 			}	//	for all restrictions
 		}
 		else
@@ -703,7 +739,7 @@ public class DataEngine
 				finalSQL.append(by);
 			}
 		}	//	order by
-		
+
 
 		//	Print Data
 		PrintData pd = new PrintData (ctx, reportName);
@@ -807,6 +843,8 @@ public class DataEngine
 		PrintDataColumn pdc = null;
 		boolean hasLevelNo = pd.hasLevelNo();
 		int levelNo = 0;
+		int reportLineId = 0;
+		log.log(Level.FINE, "SQL: " +pd.getSQL());
 		//
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -818,7 +856,11 @@ public class DataEngine
 			while (rs.next())
 			{
 				if (hasLevelNo)
+				{
 					levelNo = rs.getInt("LevelNo");
+					if(pd.getTableName().equals("T_Report"))
+						reportLineId = rs.getInt("PA_ReportLine_ID");
+				}
 				else
 					levelNo = 0;
 				//	Check Group Change ----------------------------------------
@@ -864,6 +906,10 @@ public class DataEngine
 										String valueString = value.toString();
 										if (value instanceof Timestamp)
 											valueString = DisplayType.getDateFormat(pdc.getDisplayType(), m_language).format(value);
+
+										if (!format.getTableFormat().isPrintFunctionSymbols())		//	Translate Sum, etc.
+											valueString += " " + Msg.getMsg(format.getLanguage(), PrintDataFunction.getFunctionName(functions[f]));
+										else
 										valueString	+= PrintDataFunction.getFunctionSymbol(functions[f]);
 										pd.addNode(new PrintDataElement(pdc.getColumnName(),
 											valueString, DisplayType.String, false, pdc.isPageBreak(), pdc.getFormatPattern()));
@@ -891,8 +937,9 @@ public class DataEngine
 				printRunningTotal(pd, levelNo, rowNo++);
 
 				/** Report Summary FR [ 2011569 ]**/ 
-				if(!m_summary)					
-					pd.addRow(false, levelNo);
+				if(!m_summary)
+					pd.addRow(false, levelNo, reportLineId);
+
 				int counter = 1;
 				//	get columns
 				for (int i = 0; i < pd.getColumnInfo().length; i++)
@@ -959,12 +1006,27 @@ public class DataEngine
 							//	Transformation for Booleans
 							if (pdc.getDisplayType() == DisplayType.YesNo)
 							{
+								String displayAs = MSysConfig.getValue(REPORT_DISPLAY_YES_NO, "text", Env.getAD_Client_ID(pd.getCtx()));
 								String s = rs.getString(counter++);
 								if (!rs.wasNull())
 								{
+									Serializable value = null;
 									boolean b = s.equals("Y");
-									pde = new PrintDataElement(pdc.getColumnName(), new Boolean(b), pdc.getDisplayType(), pdc.getFormatPattern());
+									if ( "symbol".equalsIgnoreCase(displayAs) )
+									{
+										value = b ? "\u2714" : "\u2718";
+									}
+									else if ( "image".equalsIgnoreCase(displayAs) )
+									{
+										value = Boolean.valueOf(b);
 								}
+									else  // default text
+									{
+										value = b ? "Y" : "N";
+							}
+									pde = new PrintDataElement(pdc.getColumnName(), value, pdc.getDisplayType(), pdc.getFormatPattern());
+								}
+								
 							}
 							else if (pdc.getDisplayType() == DisplayType.TextLong)
 							{
@@ -1010,7 +1072,7 @@ public class DataEngine
 										pde = new PrintDataElement(pdc.getColumnName(), s, pdc.getDisplayType(), pdc.getFormatPattern());
 									}
 									else
-										pde = new PrintDataElement(pdc.getColumnName(), obj, pdc.getDisplayType(), pdc.getFormatPattern());
+										pde = new PrintDataElement(pdc.getColumnName(), (Serializable) obj, pdc.getDisplayType(), pdc.getFormatPattern());
 								}
 							}
 						}	//	Value only
@@ -1062,6 +1124,10 @@ public class DataEngine
 								String valueString = value.toString();
 								if (value instanceof Timestamp)
 									valueString = DisplayType.getDateFormat(pdc.getDisplayType(), m_language).format(value);
+
+								if (!format.getTableFormat().isPrintFunctionSymbols())		//	Translate Sum, etc.
+									valueString += " " + Msg.getMsg(format.getLanguage(), PrintDataFunction.getFunctionName(functions[f]));
+								else
 								valueString	+= PrintDataFunction.getFunctionSymbol(functions[f]);
 								pd.addNode(new PrintDataElement(pdc.getColumnName(),
 									valueString, DisplayType.String, pdc.getFormatPattern()));
@@ -1098,7 +1164,8 @@ public class DataEngine
 						String name = "";
 						if (!format.getTableFormat().isPrintFunctionSymbols())		//	Translate Sum, etc.
 							name = Msg.getMsg(format.getLanguage(), PrintDataFunction.getFunctionName(functions[f]));
-						name += PrintDataFunction.getFunctionSymbol(functions[f]);	//	Symbol
+						else
+							name = PrintDataFunction.getFunctionSymbol(functions[f]);	//	Symbol
 						pd.addNode(new PrintDataElement(pdc.getColumnName(), name.trim(),
 								DisplayType.String, pdc.getFormatPattern()));
 					}

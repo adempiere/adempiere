@@ -117,6 +117,8 @@ public class GridFieldVO implements Serializable
 					vo.IsDisplayed = "Y".equals(rs.getString (i));
 				else if (columnName.equalsIgnoreCase("IsDisplayedGrid"))
 					vo.IsDisplayedGrid = "Y".equals(rs.getString (i));
+				else if (columnName.equalsIgnoreCase("IsQuickEntry"))
+					vo.IsQuickEntry = "Y".equals(rs.getString (i));
 				else if (columnName.equalsIgnoreCase("SeqNoGrid"))
 					vo.SeqNoGrid = rs.getInt (i);
 				else if (columnName.equalsIgnoreCase("DisplayLogic"))
@@ -206,6 +208,12 @@ public class GridFieldVO implements Serializable
 					vo.IsRangeLookup = "Y".equals(rs.getString (i));
 				else if (columnName.equalsIgnoreCase("isEmbedded"))
 					vo.isEmbedded = "Y".equals(rs.getString (i));
+				else if (columnName.equalsIgnoreCase("IsAllowCopy"))
+					vo.IsAllowCopy  = "Y".equals(rs.getString(i));
+				else if (columnName.equalsIgnoreCase("AD_Field_ID"))
+					vo.AD_Field_ID = rs.getInt(i);
+				else if (columnName.equalsIgnoreCase("IsAllowNewAttributeInstance"))
+					vo.IsAllowNewAttributeInstance  = "Y".equals(rs.getString(i));
 			}
 			if (vo.Header == null)
 				vo.Header = vo.ColumnName;
@@ -427,6 +435,8 @@ public class GridFieldVO implements Serializable
 	public boolean      IsDisplayed = false;
 	/**	Displayed Grid		*/
 	public boolean      IsDisplayedGrid = true;
+	/**	Displayed in Quick Entry Form		*/
+	public boolean      IsQuickEntry = false;
 	/** Grid Display sequence	*/
 	public int	SeqNoGrid = 0;
 	/** Preferred size in list view */
@@ -504,6 +514,8 @@ public class GridFieldVO implements Serializable
 	/** Lookup Value Object     */
 	public MLookupInfo  lookupInfo = null;
 	
+	/** Field ID */
+	public int AD_Field_ID = 0;
 	
 	//*  Feature Request FR [ 1757088 ]
 	public int          Included_Tab_ID = 0;
@@ -517,6 +529,10 @@ public class GridFieldVO implements Serializable
 	//	FR [ 344 ]
 	/**	Is ColumnSQL like reference	*/
 	public boolean IsColumnSQLReference = false;
+	/* Allow copy - IDEMPIERE-67 - Carlos Ruiz - globalqss */
+	public boolean IsAllowCopy = false;
+	/** Allow New Attribute Instance Adaxa Ticket#1406 - jobriant */
+	public boolean IsAllowNewAttributeInstance = false;
 	
 	/**
 	 *  Set Context including contained elements
@@ -560,20 +576,31 @@ public class GridFieldVO implements Serializable
 		//  Create Lookup, if not ID
 		if (DisplayType.isLookup(displayType) && IsDisplayed)
 		{
+			loadLookupInfo();
+		}
+	}   //  initFinish
+
+	/**
+	+	 * load lookup info.
+	+	 * used by findwindow to loadlookupinfo for invisible field
+	+	 */
+		public void loadLookupInfo() {
 			try
 			{
 				lookupInfo = MLookupFactory.getLookupInfo (ctx, WindowNo, AD_Column_ID, displayType,
 					Env.getLanguage(ctx), ColumnName, AD_Reference_Value_ID,
 					IsParent, ValidationCode);
-				lookupInfo.InfoFactoryClass = this.InfoFactoryClass;
+				if (lookupInfo == null)
+					displayType = DisplayType.ID;
+				else
+					lookupInfo.InfoFactoryClass = this.InfoFactoryClass;
 			}
 			catch (Exception e)     //  Cannot create Lookup
 			{
 				CLogger.get().log(Level.SEVERE, "No LookupInfo for " + ColumnName, e);
 				displayType = DisplayType.ID;
 			}
-		}
-	}   //  initFinish
+		}  //  loadLookupInfo
 
 	/**
 	 * 	Clone Field.
@@ -678,5 +705,40 @@ public class GridFieldVO implements Serializable
         + ", IsAutocomplete=" + IsAutocomplete + ", ColumnNameAlias=" + ColumnNameAlias + ", IsColumnSQLReference="
         + IsColumnSQLReference + "]";
   }
+
+	/**
+	 * @author <a href="mailto:sbhimani@logilite.com">Sachin Bhimani</a> - Feature #1449
+	 * @param ctx
+	 * @param WindowNo
+	 * @param AD_Column_ID
+	 * @param ColumnName
+	 * @param Name
+	 * @param AD_Reference_ID
+	 * @param AD_Reference_Value_ID
+	 * @param IsMandatory
+	 * @param IsEncrypted
+	 * @return GridFieldVO
+	 */
+	public static GridFieldVO createParameter(Properties ctx, int WindowNo, int AD_Column_ID, String ColumnName,
+			String Name, int AD_Reference_ID, int AD_Reference_Value_ID, boolean IsMandatory, boolean IsEncrypted)
+	{
+		GridFieldVO vo = new GridFieldVO(ctx, WindowNo, 0, 0, 0, false);
+		vo.isProcess = true;
+		vo.IsDisplayed = true;
+		vo.IsReadOnly = false;
+		vo.IsUpdateable = true;
+		vo.AD_Table_ID = 0;
+		vo.AD_Column_ID = AD_Column_ID;
+		vo.ColumnName = ColumnName;
+		vo.Header = Name;
+		vo.displayType = AD_Reference_ID;
+		vo.AD_Reference_Value_ID = AD_Reference_Value_ID;
+		vo.IsMandatory = IsMandatory;
+		vo.IsEncryptedField = IsEncrypted;
+		vo.initFinish();
+
+		return vo;
+
+	} // createParameter
 	
 }   //  MFieldVO

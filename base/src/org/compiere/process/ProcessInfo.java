@@ -22,6 +22,7 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -160,6 +161,10 @@ public class ProcessInfo implements Serializable
 	private boolean 			reportingProcess = false;
 	//FR 1906632
 	private File 				pdfReportFile = null;
+
+	private String reportType=null;
+	
+	private String drillSource = null;
 
 	private boolean 			managedTransaction = true;
 	
@@ -894,6 +899,7 @@ public class ProcessInfo implements Serializable
 			parameters = new Hashtable<String, ProcessInfoParameter>();
 		ProcessInfoParameter parameter = new ProcessInfoParameter(name, value, null, info, null);
 		parameters.put(name, parameter);
+		return;
 	}
 
 	// metas: begin
@@ -1308,6 +1314,23 @@ public class ProcessInfo implements Serializable
 	public String getTableNameSelection()
 	{
 		return MTable.getTableName(Env.getCtx(), getTableSelectionId());
+	}
+	public void setReportType(String type)
+	{
+		reportType=type;
+	}
+	
+	public String getReportType()
+	{
+		return reportType;
+	}
+
+	public String getDrillSource() {
+		return this.drillSource;
+	}
+
+	public void setDrillSource(String drillSource) {
+		this.drillSource = drillSource;
 	}
 	
 }   //  ProcessInfo

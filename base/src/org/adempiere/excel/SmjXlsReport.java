@@ -19,7 +19,7 @@ import org.apache.poi.hssf.usermodel.HSSFRichTextString;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.hssf.util.Region;
+import org.apache.poi.hssf.util.CellRangeAddress;
 import org.compiere.model.MImage;
 import org.compiere.report.MReportColumn;
 import org.compiere.util.CLogger;
@@ -82,7 +82,7 @@ public class SmjXlsReport {
 				HSSFPatriarch patriarch = sheet.createDrawingPatriarch();
 				HSSFClientAnchor anchor;
 				anchor = new HSSFClientAnchor(100,50,200,255,(short)0,0,(short)1,1);
-				anchor.setAnchorType( 2 );
+				anchor.setAnchorType( HSSFClientAnchor.MOVE_DONT_RESIZE );
 				int pictureIndex = book.addPicture(imageData, HSSFWorkbook.PICTURE_TYPE_PNG );
 				patriarch.createPicture(anchor, pictureIndex);
 				for (int i=0;i<5;i++)
@@ -96,7 +96,7 @@ public class SmjXlsReport {
 			cell.setCellStyle(cellStyle);
 			cell.setCellType(HSSFCell.CELL_TYPE_STRING);
 			cell.setCellValue(text);
-			Region region = new Region(fila-1,(short)0,fila-1,endRegion);
+			CellRangeAddress region = new CellRangeAddress(fila-1,(short)0,fila-1,endRegion);
 			sheet.addMergedRegion(region);
 
 			// empresa - Company
@@ -106,7 +106,7 @@ public class SmjXlsReport {
 			cell.setCellStyle(cellStyle);
 			cell.setCellType(HSSFCell.CELL_TYPE_STRING);
 			cell.setCellValue(text);
-			region = new Region(fila-1,(short)0,fila-1,endRegion);
+			region = new CellRangeAddress(fila-1,(short)0,fila-1,endRegion);
 			sheet.addMergedRegion(region);
 
 			// Ciudad - City
@@ -116,7 +116,7 @@ public class SmjXlsReport {
 			cell.setCellStyle(cellStyle);
 			cell.setCellType(HSSFCell.CELL_TYPE_STRING);
 			cell.setCellValue(text);
-			region = new Region(fila-1,(short)0,fila-1,endRegion);
+			region = new CellRangeAddress(fila-1,(short)0,fila-1,endRegion);
 			sheet.addMergedRegion(region);
 			
 			// NIT
@@ -126,7 +126,7 @@ public class SmjXlsReport {
 			cell.setCellStyle(cellStyle);
 			cell.setCellType(HSSFCell.CELL_TYPE_STRING);
 			cell.setCellValue(text);
-			region = new Region(fila-1,(short)0,fila-1,endRegion);
+			region = new CellRangeAddress(fila-1,(short)0,fila-1,endRegion);
 			sheet.addMergedRegion(region);
 
 			// periodo - Period
@@ -145,7 +145,7 @@ public class SmjXlsReport {
 			cell.setCellStyle(cellStyle);
 			cell.setCellType(HSSFCell.CELL_TYPE_STRING);
 			cell.setCellValue(text);
-			region = new Region(fila-1,(short)0,fila-1,endRegion);
+			region = new CellRangeAddress(fila-1,(short)0,fila-1,endRegion);
 			sheet.addMergedRegion(region);
 
 			// tipo moneda - currency
@@ -155,7 +155,7 @@ public class SmjXlsReport {
 			cell.setCellStyle(cellStyle);
 			cell.setCellType(HSSFCell.CELL_TYPE_STRING);
 			cell.setCellValue(text);
-			region = new Region(fila-1,(short)0,fila-1,endRegion);
+			region = new CellRangeAddress(fila-1,(short)0,fila-1,endRegion);
 			sheet.addMergedRegion(region);
 			row = sheet.createRow(fila++);
 			titleTable(book, sheet, fila++, m_columns);
@@ -273,7 +273,7 @@ public class SmjXlsReport {
 				cellStyleT.setAlignment(HSSFCellStyle.ALIGN_CENTER);
 				cellStyleT.setVerticalAlignment(HSSFCellStyle.VERTICAL_TOP);
 				cellStyleT.setFont(fontT);
-				Region region = new Region(fila-1,(short)0,fila-1,endRegion);
+				CellRangeAddress region = new CellRangeAddress(fila-1,(short)0,fila-1,endRegion);
 				sheet.addMergedRegion(region);
 				text = new HSSFRichTextString(rpt.getDescription());
 				HSSFCell cellT = row.createCell(col);
@@ -330,7 +330,7 @@ public class SmjXlsReport {
 				for (int i = 1; i <= rpt.getTablevel(); i++) {
 					jerarchy = jerarchy + "   ";
 				}//for
-				Region region = new Region(fila-1,(short)0,fila-1,endRegion);
+				CellRangeAddress region = new CellRangeAddress(fila-1,(short)0,fila-1,endRegion);
 				sheet.addMergedRegion(region);
 				text = new HSSFRichTextString(jerarchy+rpt.getDescription());
 				HSSFCell cellJ = row.createCell(col);

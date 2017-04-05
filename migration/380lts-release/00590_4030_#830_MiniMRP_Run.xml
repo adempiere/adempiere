@@ -5532,8 +5532,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="598" Column="IsActive">true</Data>
         <Data AD_Column_ID="599" Column="Created">2015-06-02 13:27:50.792</Data>
         <Data AD_Column_ID="400" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="600" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="601" Column="Updated">2015-06-02 13:27:50.792</Data>
+        <Data AD_Column_ID="600" Column="CreatedBy">100</Data>        <Data AD_Column_ID="601" Column="Updated">2015-06-02 13:27:50.792</Data>
         <Data AD_Column_ID="57960" Column="AD_Browse_ID" isNewNull="true"/>
         <Data AD_Column_ID="1169" Column="IsSummary">false</Data>
         <Data AD_Column_ID="6297" Column="AD_Workbench_ID" isNewNull="true"/>

@@ -11946,7 +11946,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="12958" Column="UpdatedBy">100</Data>
       </PO>
     </Step>
-    <!-- Column Available Quantity deleted in earlier XMLs
+    <!--Column Available Quantity deleted in earlier XMLs
     <Step SeqNo="7810" StepType="AD">
       <PO AD_Table_ID="107" Action="I" Record_ID="80509" Table="AD_Field">
         <Data AD_Column_ID="383" Column="AD_Client_ID">0</Data>

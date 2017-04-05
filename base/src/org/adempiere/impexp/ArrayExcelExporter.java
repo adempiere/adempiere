@@ -82,6 +82,11 @@ public class ArrayExcelExporter extends AbstractExcelExporter {
 			nameTrl = name;
 		return nameTrl;
 	}
+	
+	@Override
+	public String getFormatPattern(int col) {
+		return null;
+	}
 
 	@Override
 	public int getRowCount() {

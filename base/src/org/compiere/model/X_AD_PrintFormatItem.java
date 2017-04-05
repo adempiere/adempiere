@@ -48,6 +48,8 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 			setIsAveraged (false);
 			setIsCentrallyMaintained (false);
 			setIsCounted (false);
+			setIsDesc (false);
+// N
 			setIsDeviationCalc (false);
 			setIsFilledRectangle (false);
 // N
@@ -63,6 +65,8 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 			setIsNextPage (false);
 			setIsOrderBy (false);
 			setIsPageBreak (false);
+			setIsPrintBarcodeText (true);
+// Y
 			setIsPrinted (true);
 // Y
 			setIsRelativePosition (true);
@@ -420,6 +424,23 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 		return ii.intValue();
 	}
 
+	/** Set Display Logic.
+		@param DisplayLogic 
+		If the Field is displayed, the result determines if the field is actually displayed
+	  */
+	public void setDisplayLogic (String DisplayLogic)
+	{
+		set_Value (COLUMNNAME_DisplayLogic, DisplayLogic);
+	}
+
+	/** Get Display Logic.
+		@return If the Field is displayed, the result determines if the field is actually displayed
+	  */
+	public String getDisplayLogic () 
+	{
+		return (String)get_Value(COLUMNNAME_DisplayLogic);
+	}
+
 	/** FieldAlignmentType AD_Reference_ID=253 */
 	public static final int FIELDALIGNMENTTYPE_AD_Reference_ID=253;
 	/** Default = D */
@@ -508,7 +529,7 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 		return (String)get_Value(COLUMNNAME_ImageURL);
 	}
 
-	/** Set Calculate Mean (µ).
+	/** Set Calculate Mean (μ).
 		@param IsAveraged 
 		Calculate Average of numeric content or length
 	  */
@@ -517,7 +538,7 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 		set_Value (COLUMNNAME_IsAveraged, Boolean.valueOf(IsAveraged));
 	}
 
-	/** Get Calculate Mean (µ).
+	/** Get Calculate Mean (μ).
 		@return Calculate Average of numeric content or length
 	  */
 	public boolean isAveraged () 
@@ -556,7 +577,7 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 		return false;
 	}
 
-	/** Set Calculate Count (¿).
+	/** Set Calculate Count (№).
 		@param IsCounted 
 		Count number of not empty elements
 	  */
@@ -565,7 +586,7 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 		set_Value (COLUMNNAME_IsCounted, Boolean.valueOf(IsCounted));
 	}
 
-	/** Get Calculate Count (¿).
+	/** Get Calculate Count (№).
 		@return Count number of not empty elements
 	  */
 	public boolean isCounted () 
@@ -580,7 +601,31 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 		return false;
 	}
 
-	/** Set Calculate Deviation (s).
+	/** Set Descending.
+		@param IsDesc 
+		Sort your data using a SQL Desc Order By statement
+	  */
+	public void setIsDesc (boolean IsDesc)
+	{
+		set_Value (COLUMNNAME_IsDesc, Boolean.valueOf(IsDesc));
+	}
+
+	/** Get Descending.
+		@return Sort your data using a SQL Desc Order By statement
+	  */
+	public boolean isDesc () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsDesc);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Calculate Deviation (σ).
 		@param IsDeviationCalc 
 		Calculate Standard Deviation
 	  */
@@ -589,7 +634,7 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 		set_Value (COLUMNNAME_IsDeviationCalc, Boolean.valueOf(IsDeviationCalc));
 	}
 
-	/** Get Calculate Deviation (s).
+	/** Get Calculate Deviation (σ).
 		@return Calculate Standard Deviation
 	  */
 	public boolean isDeviationCalc () 
@@ -748,7 +793,7 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 		return false;
 	}
 
-	/** Set Calculate Minimum (¿).
+	/** Set Calculate Minimum (↓).
 		@param IsMinCalc 
 		Calculate the minimum amount
 	  */
@@ -757,7 +802,7 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 		set_Value (COLUMNNAME_IsMinCalc, Boolean.valueOf(IsMinCalc));
 	}
 
-	/** Get Calculate Minimum (¿).
+	/** Get Calculate Minimum (↓).
 		@return Calculate the minimum amount
 	  */
 	public boolean isMinCalc () 
@@ -868,6 +913,30 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 		return false;
 	}
 
+	/** Set Print Barcode Text.
+		@param IsPrintBarcodeText 
+		Print barcode text beneath symbol
+	  */
+	public void setIsPrintBarcodeText (boolean IsPrintBarcodeText)
+	{
+		set_Value (COLUMNNAME_IsPrintBarcodeText, Boolean.valueOf(IsPrintBarcodeText));
+	}
+
+	/** Get Print Barcode Text.
+		@return Print barcode text beneath symbol
+	  */
+	public boolean isPrintBarcodeText () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsPrintBarcodeText);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Printed.
 		@param IsPrinted 
 		Indicates if this document / line is printed
@@ -964,7 +1033,7 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 		return false;
 	}
 
-	/** Set Calculate Sum (S).
+	/** Set Calculate Sum (Σ).
 		@param IsSummarized 
 		Calculate the Sum of numeric content or length
 	  */
@@ -973,7 +1042,7 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 		set_Value (COLUMNNAME_IsSummarized, Boolean.valueOf(IsSummarized));
 	}
 
-	/** Get Calculate Sum (S).
+	/** Get Calculate Sum (Σ).
 		@return Calculate the Sum of numeric content or length
 	  */
 	public boolean isSummarized () 
@@ -1036,7 +1105,7 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 		return false;
 	}
 
-	/** Set Calculate Variance (s²).
+	/** Set Calculate Variance (σ²).
 		@param IsVarianceCalc 
 		Calculate Variance
 	  */
@@ -1045,7 +1114,7 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 		set_Value (COLUMNNAME_IsVarianceCalc, Boolean.valueOf(IsVarianceCalc));
 	}
 
-	/** Get Calculate Variance (s²).
+	/** Get Calculate Variance (σ²).
 		@return Calculate Variance
 	  */
 	public boolean isVarianceCalc () 
