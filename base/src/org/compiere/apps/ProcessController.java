@@ -26,14 +26,22 @@ import org.adempiere.controller.SmallViewController;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.GridField;
 import org.compiere.model.I_AD_Process;
+import org.compiere.model.Lookup;
+import org.compiere.model.MLookupFactory;
 import org.compiere.model.MPInstance;
 import org.compiere.model.MPInstancePara;
 import org.compiere.model.MProcess;
 import org.compiere.model.MProcessPara;
+import org.compiere.model.MRole;
+import org.compiere.model.MTable;
+import org.compiere.model.X_AD_ReportView;
+import org.compiere.print.MPrintFormat;
 import org.compiere.process.ProcessInfo;
 import org.compiere.process.ProcessInfoUtil;
 import org.compiere.util.CLogger;
+import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
+import org.compiere.util.Ini;
 import org.compiere.util.Msg;
 
 /**
@@ -62,8 +70,9 @@ public abstract class ProcessController extends SmallViewController {
 	 */
 	public ProcessController(int WindowNo, ProcessInfo pi, int columns) {
 		//	Get parameters
-		windowNo = WindowNo;
-		processInfo = pi;
+		windowNo     = WindowNo;
+		processInfo  = pi;
+		processId = pi.getAD_Process_ID();
 		this.columns = columns;
 	}	//	ProcessParameterPanel
 	
@@ -76,19 +85,21 @@ public abstract class ProcessController extends SmallViewController {
 		this(WindowNo, pi, COLUMNS_1);
 	}
 
-	private int			windowNo;
-	private ProcessInfo processInfo;
-	private MProcess 	process;
+
+	private int			  windowNo;
+	protected ProcessInfo processInfo;
+	private MProcess 	  process;
+	protected int 		  processId ;
 	//	BR [ 300 ]
-	private boolean 	isProcessed = false;
-	private boolean 	isError;
-	private int 		columns;
-	private String		textMsg = null;
-	private boolean 	isOnlyPanel;
-	private boolean 	showButtons = true;
-	private boolean 	showDescription = true;
-	private boolean 	autoStart;
-	private boolean 	isOKPressed = false;
+	private boolean 	  isProcessed = false;
+	private boolean 	  isError;
+	private int 		  columns;
+	private String		  textMsg = null;
+	private boolean 	  isOnlyPanel;
+	private boolean 	  showButtons = true;
+	private boolean 	  showDescription = true;
+	private boolean 	  autoStart;
+	private boolean 	  isOKPressed = false;
 	/**	Information Only	*/
 	private HashMap<Integer, Boolean>	fieldsInfoOnly;
 	private List<MPInstance> savedParams;
@@ -134,7 +145,7 @@ public abstract class ProcessController extends SmallViewController {
 	 * Set value for is processed
 	 * @param isProcessed
 	 */
-	private void setIsProcessed(boolean isProcessed) {
+	public void setIsProcessed(boolean isProcessed) {
 		this.isProcessed = isProcessed;
 	}
 	
@@ -677,5 +688,66 @@ public abstract class ProcessController extends SmallViewController {
 		//	Return
 		return messageText.toString();
 	}
-	
+
+	protected MProcess getReportProcess()
+	{
+		return new MProcess(Env.getCtx(), processId , null);
+	}
+
+	protected Lookup listPrintFormat()
+	{
+		int AD_Column_ID = 0;
+		int table_ID = 0;
+		MProcess pr = new MProcess(Env.getCtx(), processId, null);
+		try
+		{
+			if (pr.getAD_ReportView_ID() > 0)
+			{
+				X_AD_ReportView m_Reportview = new X_AD_ReportView(Env.getCtx(), pr.getAD_ReportView_ID(), null);
+				table_ID = m_Reportview.getAD_Table_ID();
+			}
+			else if (pr.getAD_PrintFormat_ID() > 0)
+			{
+				MPrintFormat format = new MPrintFormat(Env.getCtx(), pr.getAD_PrintFormat_ID(), null);
+				table_ID = format.getAD_Table_ID();
+			}
+
+			String valCode = null;
+			if (table_ID > 0)
+			{
+				valCode = "AD_PrintFormat.AD_Table_ID=" + table_ID;
+			}
+
+			Lookup lookup = MLookupFactory.get(Env.getCtx(), windowNo , AD_Column_ID, DisplayType.TableDir,
+					Env.getLanguage(Env.getCtx()), "AD_PrintFormat_ID", 0, false, valCode);
+
+			return  lookup;
+		}
+		catch (Exception e)
+		{
+			log.log(Level.SEVERE, e.getMessage());
+		}
+		return  null;
+	}
+
+	protected boolean isAllowHTMLView(){
+		MRole roleCurrent = MRole.get(Env.getCtx(), Env.getAD_Role_ID(Env.getCtx()));
+		boolean m_isAllowHTMLView = roleCurrent.isAllow_HTML_View();
+		return m_isAllowHTMLView;
+	}
+
+	protected boolean isAllowXLSView() {
+		MRole roleCurrent = MRole.get(Env.getCtx(), Env.getAD_Role_ID(Env.getCtx()));
+		boolean m_isAllowXLSView = roleCurrent.isAllow_XLS_View();
+		return m_isAllowXLSView;
+	}
+
+	protected MPInstance getLastProcessInstance() {	
+		String where = "AD_Process_ID = ? AND AD_User_ID = ? AND Name IS NULL ";	
+		MPInstance lastProcessInstance = MTable.get(Env.getCtx(), MPInstance.Table_Name).createQuery(where, null).setOnlyActiveRecords(true)
+		.setClient_ID().setParameters(getReportProcess().getAD_Process_ID(), Env.getContextAsInt(Env.getCtx(), "#AD_User_ID")).setOrderBy("Created DESC").first();
+		
+		return lastProcessInstance;
+	}
+
 }	//	ProcessParameterPanel

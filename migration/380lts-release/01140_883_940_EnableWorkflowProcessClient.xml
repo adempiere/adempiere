@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Enable Workflow Process Client #883 Contribution #940(Adaxa)" ReleaseNo="3.9.0" SeqNo="01140">
+      <Comments>https://github.com/adempiere/adempiere/issues/883</Comments>
+    <Step DBType="Oracle" SeqNo="10" StepType="SQL">
+      <SQLStatement>-- Sep 25, 2011 10:42:55 AM COT
+UPDATE AD_Table SET AccessLevel=&apos;6&apos;,Updated=TO_DATE(&apos;2011-09-25 10:42:55&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Table_ID=697
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="20" StepType="SQL">
+      <SQLStatement>
+-- Sep 25, 2011 10:43:00 AM COT
+UPDATE AD_Table SET AccessLevel=&apos;6&apos;,Updated=TO_DATE(&apos;2011-09-25 10:43:00&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Table_ID=696
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="30" StepType="SQL">
+      <SQLStatement>
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="10" StepType="SQL">
+      <SQLStatement>-- Sep 25, 2011 10:42:55 AM COT
+UPDATE AD_Table SET AccessLevel=&apos;6&apos;,Updated=TO_TIMESTAMP(&apos;2011-09-25 10:42:55&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Table_ID=697
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="20" StepType="SQL">
+      <SQLStatement>
+-- Sep 25, 2011 10:43:00 AM COT
+UPDATE AD_Table SET AccessLevel=&apos;6&apos;,Updated=TO_TIMESTAMP(&apos;2011-09-25 10:43:00&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Table_ID=696
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="30" StepType="SQL">
+      <SQLStatement>
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+  </Migration>
+</Migrations>

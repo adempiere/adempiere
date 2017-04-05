@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Zoom Across Purchase Order from #930(Adaxa)" ReleaseNo="3.9.0" SeqNo="01120">
+    <Step DBType="Oracle" SeqNo="10" StepType="SQL">
+      <SQLStatement>-- Aug 4, 2011 11:42:53 PM COT
+UPDATE AD_Ref_Table SET WhereClause=&apos;(C_Invoice_ID=@C_Invoice_ID@ AND IsSOTrx=&apos;&apos;Y&apos;&apos;) OR
+M_InOut_ID IN (
+  SELECT m.M_InOut_ID from /* intentionally lowercase */ M_InOut m
+    LEFT JOIN M_InOutline ml ON ml.M_InOut_ID = m.M_InOut_ID
+    LEFT JOIN c_invoiceline il ON il.M_InOutline_ID = ml.M_InOutline_ID
+  where il.C_Invoice_ID=@C_Invoice_ID@ AND m.MovementType IN (&apos;&apos;C-&apos;&apos;)
+)&apos;,Updated=TO_DATE(&apos;2011-08-04 23:42:53&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Reference_ID=53345
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="20" StepType="SQL">
+      <SQLStatement>
+-- Aug 4, 2011 11:44:25 PM COT
+UPDATE AD_Ref_Table SET WhereClause=&apos;(C_Order_ID=@C_Order_ID@ AND IsSOTrx=&apos;&apos;Y&apos;&apos;) OR
+C_Invoice_ID IN (
+  SELECT i.C_Invoice_ID from /* intentionally lowercase */ C_Invoice i
+    LEFT JOIN C_InvoiceLine il ON il.C_Invoice_ID = i.C_Invoice_ID
+    LEFT JOIN C_OrderLine ol ON ol.C_OrderLine_ID = il.C_OrderLine_ID
+  where ol.C_Order_ID=@C_Order_ID@ AND i.isSOTrx=&apos;&apos;Y&apos;&apos;
+)&apos;,Updated=TO_DATE(&apos;2011-08-04 23:44:25&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Reference_ID=53334
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="30" StepType="SQL">
+      <SQLStatement>
+-- Aug 4, 2011 11:44:54 PM COT
+UPDATE AD_Ref_Table SET WhereClause=&apos;(C_Order_ID=@C_Order_ID@ AND IsSOTrx=&apos;&apos;Y&apos;&apos;) OR
+M_InOut_ID IN (
+  SELECT i.M_InOut_ID from /* intentionally lowercase */ M_InOut i
+    LEFT JOIN M_InOutline il ON il.M_InOut_ID = i.M_InOut_ID
+    LEFT JOIN C_OrderLine ol ON ol.C_OrderLine_ID = il.C_OrderLine_ID
+  where ol.C_Order_ID=@C_Order_ID@ AND i.MovementType IN (&apos;&apos;C-&apos;&apos;)
+)&apos;,Updated=TO_DATE(&apos;2011-08-04 23:44:54&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Reference_ID=53347
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="40" StepType="SQL">
+      <SQLStatement>
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="10" StepType="SQL">
+      <SQLStatement>-- Aug 4, 2011 11:42:53 PM COT
+UPDATE AD_Ref_Table SET WhereClause=&apos;(C_Invoice_ID=@C_Invoice_ID@ AND IsSOTrx=&apos;&apos;Y&apos;&apos;) OR
+M_InOut_ID IN (
+  SELECT m.M_InOut_ID from /* intentionally lowercase */ M_InOut m
+    LEFT JOIN M_InOutline ml ON ml.M_InOut_ID = m.M_InOut_ID
+    LEFT JOIN c_invoiceline il ON il.M_InOutline_ID = ml.M_InOutline_ID
+  where il.C_Invoice_ID=@C_Invoice_ID@ AND m.MovementType IN (&apos;&apos;C-&apos;&apos;)
+)&apos;,Updated=TO_TIMESTAMP(&apos;2011-08-04 23:42:53&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Reference_ID=53345
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="20" StepType="SQL">
+      <SQLStatement>
+-- Aug 4, 2011 11:44:25 PM COT
+UPDATE AD_Ref_Table SET WhereClause=&apos;(C_Order_ID=@C_Order_ID@ AND IsSOTrx=&apos;&apos;Y&apos;&apos;) OR
+C_Invoice_ID IN (
+  SELECT i.C_Invoice_ID from /* intentionally lowercase */ C_Invoice i
+    LEFT JOIN C_InvoiceLine il ON il.C_Invoice_ID = i.C_Invoice_ID
+    LEFT JOIN C_OrderLine ol ON ol.C_OrderLine_ID = il.C_OrderLine_ID
+  where ol.C_Order_ID=@C_Order_ID@ AND i.isSOTrx=&apos;&apos;Y&apos;&apos;
+)&apos;,Updated=TO_TIMESTAMP(&apos;2011-08-04 23:44:25&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Reference_ID=53334
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="30" StepType="SQL">
+      <SQLStatement>
+-- Aug 4, 2011 11:44:54 PM COT
+UPDATE AD_Ref_Table SET WhereClause=&apos;(C_Order_ID=@C_Order_ID@ AND IsSOTrx=&apos;&apos;Y&apos;&apos;) OR
+M_InOut_ID IN (
+  SELECT i.M_InOut_ID from /* intentionally lowercase */ M_InOut i
+    LEFT JOIN M_InOutline il ON il.M_InOut_ID = i.M_InOut_ID
+    LEFT JOIN C_OrderLine ol ON ol.C_OrderLine_ID = il.C_OrderLine_ID
+  where ol.C_Order_ID=@C_Order_ID@ AND i.MovementType IN (&apos;&apos;C-&apos;&apos;)
+)&apos;,Updated=TO_TIMESTAMP(&apos;2011-08-04 23:44:54&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Reference_ID=53347
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="40" StepType="SQL">
+      <SQLStatement>
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+  </Migration>
+</Migrations>

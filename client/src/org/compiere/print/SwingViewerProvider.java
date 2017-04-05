@@ -16,6 +16,8 @@
  *****************************************************************************/
 package org.compiere.print;
 
+import java.io.FileInputStream;
+
 import javax.swing.JFrame;
 
 import org.compiere.apps.AMenu;
@@ -33,6 +35,17 @@ public class SwingViewerProvider implements ReportViewerProvider {
 		JFrame top = Env.getWindow(0);
 		if (top instanceof AMenu)
 			((AMenu)top).getWindowManager().add(viewer);
+	}
+
+	@Override
+	public void openViewer(String string, FileInputStream fileInputStream) {
+	
+	}
+
+	@Override
+	public void openViewer(ReportEngine re, Object desktop) {
+		//not needed only for ZK
+		openViewer(re);
 	}
 
 }

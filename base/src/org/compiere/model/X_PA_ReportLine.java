@@ -44,8 +44,8 @@ public class X_PA_ReportLine extends PO implements I_PA_ReportLine, I_Persistent
 // Y
 			setLineType (null);
 			setName (null);
-			setPA_ReportLineSet_ID (0);
 			setPA_ReportLine_ID (0);
+			setPA_ReportLineSet_ID (0);
 			setSeqNo (0);
 // @SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM PA_ReportLine WHERE PA_ReportLineSet_ID=@PA_ReportLineSet_ID@
         } */
@@ -183,6 +183,8 @@ public class X_PA_ReportLine extends PO implements I_PA_ReportLine, I_Persistent
 	public static final String LINETYPE_TabbedText = "T";
 	/** Customized Line = L */
 	public static final String LINETYPE_CustomizedLine = "L";
+	/** Blank line = B */
+	public static final String LINETYPE_BlankLine = "B";
 	/** Set Line Type.
 		@param LineType Line Type	  */
 	public void setLineType (String LineType)
@@ -279,6 +281,35 @@ public class X_PA_ReportLine extends PO implements I_PA_ReportLine, I_Persistent
 		return ii.intValue();
 	}
 
+	/** OverlineStrokeType AD_Reference_ID=53793 */
+	public static final int OVERLINESTROKETYPE_AD_Reference_ID=53793;
+	/** Solid = s */
+	public static final String OVERLINESTROKETYPE_Solid = "s";
+	/** Double Solid = d_s */
+	public static final String OVERLINESTROKETYPE_DoubleSolid = "d_s";
+	/** Dotted = d */
+	public static final String OVERLINESTROKETYPE_Dotted = "d";
+	/** Double Dotted = d_d */
+	public static final String OVERLINESTROKETYPE_DoubleDotted = "d_d";
+	/** Dashed = D */
+	public static final String OVERLINESTROKETYPE_Dashed = "D";
+	/** Double Dashed = d_D */
+	public static final String OVERLINESTROKETYPE_DoubleDashed = "d_D";
+	/** Set Overline Stroke Type.
+		@param OverlineStrokeType Overline Stroke Type	  */
+	public void setOverlineStrokeType (String OverlineStrokeType)
+	{
+
+		set_Value (COLUMNNAME_OverlineStrokeType, OverlineStrokeType);
+	}
+
+	/** Get Overline Stroke Type.
+		@return Overline Stroke Type	  */
+	public String getOverlineStrokeType () 
+	{
+		return (String)get_Value(COLUMNNAME_OverlineStrokeType);
+	}
+
 	/** PAAmountType AD_Reference_ID=53328 */
 	public static final int PAAMOUNTTYPE_AD_Reference_ID=53328;
 	/** Balance (expected sign) = B */
@@ -339,6 +370,26 @@ public class X_PA_ReportLine extends PO implements I_PA_ReportLine, I_Persistent
 		return (String)get_Value(COLUMNNAME_PAPeriodType);
 	}
 
+	/** Set Report Line.
+		@param PA_ReportLine_ID Report Line	  */
+	public void setPA_ReportLine_ID (int PA_ReportLine_ID)
+	{
+		if (PA_ReportLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PA_ReportLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PA_ReportLine_ID, Integer.valueOf(PA_ReportLine_ID));
+	}
+
+	/** Get Report Line.
+		@return Report Line	  */
+	public int getPA_ReportLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PA_ReportLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_PA_ReportLineSet getPA_ReportLineSet() throws RuntimeException
     {
 		return (org.compiere.model.I_PA_ReportLineSet)MTable.get(getCtx(), org.compiere.model.I_PA_ReportLineSet.Table_Name)
@@ -359,26 +410,6 @@ public class X_PA_ReportLine extends PO implements I_PA_ReportLine, I_Persistent
 	public int getPA_ReportLineSet_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PA_ReportLineSet_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Report Line.
-		@param PA_ReportLine_ID Report Line	  */
-	public void setPA_ReportLine_ID (int PA_ReportLine_ID)
-	{
-		if (PA_ReportLine_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_PA_ReportLine_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_PA_ReportLine_ID, Integer.valueOf(PA_ReportLine_ID));
-	}
-
-	/** Get Report Line.
-		@return Report Line	  */
-	public int getPA_ReportLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_PA_ReportLine_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -432,6 +463,35 @@ public class X_PA_ReportLine extends PO implements I_PA_ReportLine, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** UnderlineStrokeType AD_Reference_ID=53793 */
+	public static final int UNDERLINESTROKETYPE_AD_Reference_ID=53793;
+	/** Solid = s */
+	public static final String UNDERLINESTROKETYPE_Solid = "s";
+	/** Double Solid = d_s */
+	public static final String UNDERLINESTROKETYPE_DoubleSolid = "d_s";
+	/** Dotted = d */
+	public static final String UNDERLINESTROKETYPE_Dotted = "d";
+	/** Double Dotted = d_d */
+	public static final String UNDERLINESTROKETYPE_DoubleDotted = "d_d";
+	/** Dashed = D */
+	public static final String UNDERLINESTROKETYPE_Dashed = "D";
+	/** Double Dashed = d_D */
+	public static final String UNDERLINESTROKETYPE_DoubleDashed = "d_D";
+	/** Set Underline Stroke Type.
+		@param UnderlineStrokeType Underline Stroke Type	  */
+	public void setUnderlineStrokeType (String UnderlineStrokeType)
+	{
+
+		set_Value (COLUMNNAME_UnderlineStrokeType, UnderlineStrokeType);
+	}
+
+	/** Get Underline Stroke Type.
+		@return Underline Stroke Type	  */
+	public String getUnderlineStrokeType () 
+	{
+		return (String)get_Value(COLUMNNAME_UnderlineStrokeType);
 	}
 
 	/** Set Tab Level.
