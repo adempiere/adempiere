@@ -54,6 +54,7 @@ import org.compiere.model.MMovementLine;
 import org.compiere.model.MPeriod;
 import org.compiere.model.MPeriodControl;
 import org.compiere.model.MProduct;
+import org.compiere.model.MProductCategoryAcct;
 import org.compiere.model.MProductPO;
 import org.compiere.model.MProduction;
 import org.compiere.model.MProductionLine;
@@ -625,7 +626,7 @@ public class CostEngine {
 							.divide(lastCostDetail.getCumulatedQty(),
 									accountSchema.getCostingPrecision(),
 							BigDecimal.ROUND_HALF_UP).abs();
-					
+
 					return costThisLevel;
 				}	
 				
@@ -659,10 +660,8 @@ public class CostEngine {
 			// (Total Cost transaction + cost adjustments) divide by transaction quantity
 			if (lastCostDetail.getQty().signum() != 0)
 			{
-				costLowLevel =  lastCostDetail.getCostAmtLL().add(
-						lastCostDetail.getCostAdjustmentLL())
-						.divide(lastCostDetail.getQty(), accountSchema.getCostingPrecision(),
-								BigDecimal.ROUND_HALF_UP).abs();
+				costLowLevel =  lastCostDetail.getCostAmtLL().add(lastCostDetail.getCostAdjustmentLL())
+						.divide(lastCostDetail.getQty(), accountSchema.getCostingPrecision(), BigDecimal.ROUND_HALF_UP).abs();
 			}
 			// return unit cost from last transaction
 			// transaction quantity is zero
@@ -670,9 +669,7 @@ public class CostEngine {
 			// (Total Cost Transaction + cost adjustments + accumulate cost) divide between on hand quantity
 			else if (lastCostDetail.getCumulatedQty().add( lastCostDetail.getQty()).signum() != 0)
 			{
-				costLowLevel =  lastCostDetail.getCostAmtLL().add(
-						lastCostDetail.getCostAdjustmentLL()).add(
-						lastCostDetail.getCumulatedAmtLL())
+				costLowLevel =  lastCostDetail.getCostAmtLL().add(lastCostDetail.getCostAdjustmentLL()).add(lastCostDetail.getCumulatedAmtLL())
 						.divide(lastCostDetail.getCumulatedQty().add( lastCostDetail.getQty()),
 								accountSchema.getCostingPrecision(),
 								BigDecimal.ROUND_HALF_UP).abs();
@@ -686,10 +683,7 @@ public class CostEngine {
 			else if (lastCostDetail.getCumulatedQty().signum() != 0)
 			{
 				costLowLevel = lastCostDetail.getCumulatedAmtLL()
-						.divide(lastCostDetail.getCumulatedQty(),
-								accountSchema.getCostingPrecision(),
-								BigDecimal.ROUND_HALF_UP).abs();
-
+						.divide(lastCostDetail.getCumulatedQty(), accountSchema.getCostingPrecision(), BigDecimal.ROUND_HALF_UP).abs();
 				return costLowLevel;
 			}
 
@@ -707,61 +701,52 @@ public class CostEngine {
 
 			if (transaction.getM_InOutLine_ID() > 0) {
 				MInOutLine line = (MInOutLine) transaction.getM_InOutLine();
-				if (!clearAccounting(accountSchema, accountSchema.getM_CostType() , line.getParent(),
-                        line.getDateAcct()))
+				if (!clearAccounting(accountSchema, accountSchema.getM_CostType() , line.getParent() , transaction.getM_Product_ID() , line.getDateAcct()))
 					return;
 
 				// get Purchase matches
 				List<MMatchPO> orderMatches = MMatchPO.getInOutLine(line);
 				for (MMatchPO match : orderMatches) {
-					if (!clearAccounting(accountSchema, accountSchema.getM_CostType() , match, line.getDateAcct()))
+					if (!clearAccounting(accountSchema, accountSchema.getM_CostType() , match,  transaction.getM_Product_ID() , line.getDateAcct()))
 							return;
 				}
 
 				// get invoice matches
 				List<MMatchInv> invoiceMatches = MMatchInv.getInOutLine(line);
 				for (MMatchInv match : invoiceMatches) {
-					if (!clearAccounting(accountSchema, accountSchema.getM_CostType() , match, line.getDateAcct()))
+					if (!clearAccounting(accountSchema, accountSchema.getM_CostType() , match,  transaction.getM_Product_ID() , line.getDateAcct()))
 						return;
 				}
 
 			}
 			else if (transaction.getC_ProjectIssue_ID() > 0) {
-				MProjectIssue line = (MProjectIssue) transaction
-						.getC_ProjectIssue();
-				if (!clearAccounting(accountSchema, accountSchema.getM_CostType() , line.getParent(),
-                        line.getMovementDate()))
+				MProjectIssue line = (MProjectIssue) transaction.getC_ProjectIssue();
+				if (!clearAccounting(accountSchema, accountSchema.getM_CostType() , line.getParent(),  transaction.getM_Product_ID() , line.getMovementDate()))
 					return;
 			}
 
 			else if (transaction.getM_InventoryLine_ID() > 0) {
-				MInventoryLine line = (MInventoryLine) transaction
-						.getM_InventoryLine();
-				if (!clearAccounting(accountSchema, accountSchema.getM_CostType() , line.getParent(),
-                        line.getDateAcct()))
+				MInventoryLine line = (MInventoryLine) transaction.getM_InventoryLine();
+				if (!clearAccounting(accountSchema, accountSchema.getM_CostType() , line.getParent(),  transaction.getM_Product_ID() , line.getDateAcct()))
 					return;
 			}
 			else if (transaction.getM_MovementLine_ID() > 0) {
 				MMovementLine line = (MMovementLine) transaction.getM_MovementLine();
-				if (!clearAccounting(accountSchema, accountSchema.getM_CostType() , line.getParent(),
-                        line.getDateAcct()))
+				if (!clearAccounting(accountSchema, accountSchema.getM_CostType() , line.getParent(),  transaction.getM_Product_ID() , line.getDateAcct()))
 					return;
 			}
 			
 			else if (transaction.getM_ProductionLine_ID() > 0) {
-				MProductionLine line = (MProductionLine) transaction
-						.getM_ProductionLine();
-				MProduction production = (MProduction) line
-						.getM_ProductionPlan().getM_Production();
-				if (!clearAccounting(accountSchema, accountSchema.getM_CostType() , production,
-                        production.getMovementDate()))
+				MProductionLine line = (MProductionLine) transaction.getM_ProductionLine();
+				MProduction production = (MProduction) line.getM_ProductionPlan().getM_Production();
+				if (!clearAccounting(accountSchema, accountSchema.getM_CostType() , production,  transaction.getM_Product_ID()  , production.getMovementDate()))
 					return;
 
 			}
 			else if (transaction.getPP_Cost_Collector_ID() > 0)
 			{
 				MPPCostCollector costCollector = (MPPCostCollector) transaction.getPP_Cost_Collector();
-				if(!clearAccounting(accountSchema, accountSchema.getM_CostType() , costCollector , costCollector.getDateAcct()));
+				if(!clearAccounting(accountSchema, accountSchema.getM_CostType() , costCollector , costCollector.getM_Product_ID() , costCollector.getDateAcct()));
 				return;
 			}
 			else
@@ -776,14 +761,18 @@ public class CostEngine {
      * @param accountSchema
      * @param costType
      * @param model
+	 * @param productId
      * @param dateAcct
      * @return true clean
      */
-	public boolean clearAccounting(MAcctSchema accountSchema, I_M_CostType costType, PO model, Timestamp dateAcct) {
-		
+	public boolean clearAccounting(MAcctSchema accountSchema, I_M_CostType costType, PO model, int productId , Timestamp dateAcct) {
 		// check if costing type need reset accounting 
-		if (!accountSchema.getCostingMethod().equals(costType.getCostingMethod()))
+		if (!accountSchema.getCostingMethod().equals(costType.getCostingMethod())) {
+			MProduct product = MProduct.get(accountSchema.getCtx() , productId);
+			MProductCategoryAcct productCategoryAcct = MProductCategoryAcct.get(accountSchema.getCtx(), product.getM_Product_Category_ID(), accountSchema.get_ID(), model.get_TrxName());
+			if (productCategoryAcct == null || !costType.getCostingMethod().equals(productCategoryAcct.getCostingMethod()))
 				return false;
+		}
 		final String  docBaseType;
 		// check if account period is open
 		if(model instanceof MMatchInv)
@@ -794,8 +783,8 @@ public class CostEngine {
 			docBaseType = MPeriodControl.DOCBASETYPE_MaterialProduction;
 		else
 		{		
-			MDocType dt = MDocType.get(model.getCtx(), model.get_ValueAsInt(MDocType.COLUMNNAME_C_DocType_ID));
-			docBaseType = dt.getDocBaseType();
+			MDocType docType = MDocType.get(model.getCtx(), model.get_ValueAsInt(MDocType.COLUMNNAME_C_DocType_ID));
+			docBaseType = docType.getDocBaseType();
 		}
 			
 		Boolean openPeriod = MPeriod.isOpen(model.getCtx(), dateAcct , docBaseType ,  model.getAD_Org_ID());
@@ -809,8 +798,7 @@ public class CostEngine {
 		DB.executeUpdate(sqlUpdate, new Object[] {model.get_ID()}, false , model.get_TrxName());
 		//Delete account
 		final String sqldelete = "DELETE FROM Fact_Acct WHERE Record_ID =? AND AD_Table_ID=?";		
-		DB.executeUpdate (sqldelete ,new Object[] { model.get_ID(),
-				model.get_Table_ID() }, false , model.get_TrxName());
+		DB.executeUpdate (sqldelete ,new Object[] { model.get_ID(), model.get_Table_ID() }, false , model.get_TrxName());
 		return true;
 	}
 }

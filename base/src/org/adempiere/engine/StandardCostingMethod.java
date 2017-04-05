@@ -136,17 +136,13 @@ public class StandardCostingMethod extends AbstractCostingMethod implements
 		if (model instanceof MPPCostCollector)
 		{
 			MPPCostCollector cc = (MPPCostCollector) model;
-			if (MPPCostCollector.COSTCOLLECTORTYPE_MethodChangeVariance
-					.equals(cc.getCostCollectorType())) {
+			if (MPPCostCollector.COSTCOLLECTORTYPE_MethodChangeVariance.equals(cc.getCostCollectorType())) {
 				createMethodVariances(cc);
-			} else if (MPPCostCollector.COSTCOLLECTORTYPE_UsegeVariance
-					.equals(cc.getCostCollectorType())) {
+			} else if (MPPCostCollector.COSTCOLLECTORTYPE_UsegeVariance.equals(cc.getCostCollectorType())) {
 				createUsageVariances(cc);
-			} else if (MPPCostCollector.COSTCOLLECTORTYPE_RateVariance
-					.equals(cc.getCostCollectorType())) {
+			} else if (MPPCostCollector.COSTCOLLECTORTYPE_RateVariance.equals(cc.getCostCollectorType())) {
 				createRateVariances(cc);
-			} else if (MPPCostCollector.COSTCOLLECTORTYPE_MixVariance
-					.equals(cc.getCostCollectorType())) {
+			} else if (MPPCostCollector.COSTCOLLECTORTYPE_MixVariance.equals(cc.getCostCollectorType())) {
 				; // no implement
 			}
 		}
@@ -426,8 +422,7 @@ public class StandardCostingMethod extends AbstractCostingMethod implements
 			final I_AD_WF_Node node = costCollector.getPP_Order_Node().getAD_WF_Node();
 			product = MProduct.forS_Resource_ID(costCollector.getCtx(),
 					node.getS_Resource_ID(), null);
-		} else if (costCollector
-				.isCostCollectorType(MPPCostCollector.COSTCOLLECTORTYPE_ComponentIssue)) {
+		} else if (costCollector.isCostCollectorType(MPPCostCollector.COSTCOLLECTORTYPE_ComponentIssue)) {
 			final I_PP_Order_BOMLine bomLine = costCollector.getPP_Order_BOMLine();
 			product = MProduct.get(costCollector.getCtx(), bomLine.getM_Product_ID());
 		} else if (MPPCostCollector.COSTCOLLECTORTYPE_RateVariance.equals(costCollector.getCostCollectorType()))
@@ -436,35 +431,25 @@ public class StandardCostingMethod extends AbstractCostingMethod implements
 		MPPCostCollector costCollectorRateVariance = null; // Cost Collector - Rate Variance
 		for (MAcctSchema accountSchema : CostEngine.getAcctSchema(costCollector)) {
 			for (MCostElement costElement : MCostElement.getCostElement(costCollector.getCtx(), costCollector.get_TrxName())) {
-				final MCostDetail cost = MCostDetail.getCostDetail(costCollector,
-						costElement.getM_CostElement_ID());
+				final MCostDetail cost = MCostDetail.getCostDetail(costCollector, costElement.getM_CostElement_ID());
 				if (cost == null)
 					continue;
 				//
 				final BigDecimal quantity = cost.getQty();
-				final BigDecimal priceStandard = getProductStandardCostPrice(costCollector,
-						product, accountSchema, costElement);
-				final BigDecimal priceActual = getProductActualCostPrice(costCollector,
-						product, accountSchema, costElement, costCollector.get_TrxName());
-				final BigDecimal amountStandard = CostEngine.roundCost(priceStandard.multiply(quantity),
-						accountSchema.getC_AcctSchema_ID());
-				final BigDecimal amtActual = CostEngine.roundCost(
-						priceActual.multiply(quantity), accountSchema.getC_AcctSchema_ID());
+				final BigDecimal priceStandard = getProductStandardCostPrice(costCollector, product, accountSchema, costElement);
+				final BigDecimal priceActual = getProductActualCostPrice(costCollector, product, accountSchema, costElement, costCollector.get_TrxName());
+				final BigDecimal amountStandard = CostEngine.roundCost(priceStandard.multiply(quantity), accountSchema.getC_AcctSchema_ID());
+				final BigDecimal amtActual = CostEngine.roundCost(priceActual.multiply(quantity), accountSchema.getC_AcctSchema_ID());
 				if (amountStandard.compareTo(amtActual) == 0)
 					continue;
 				//
-				if (costCollectorRateVariance == null) {
-					costCollectorRateVariance = MPPCostCollector.createVarianceCostCollector(costCollector,
-							MPPCostCollector.COSTCOLLECTORTYPE_RateVariance);
-				}
+				if (costCollectorRateVariance == null)
+					costCollectorRateVariance = MPPCostCollector.createVarianceCostCollector(costCollector, MPPCostCollector.COSTCOLLECTORTYPE_RateVariance);
 
-				List<MCostType> costTypes = MCostType.get(accountSchema.getCtx(),
-						accountSchema.get_TrxName());
+				List<MCostType> costTypes = MCostType.get(accountSchema.getCtx(), accountSchema.get_TrxName());
 				for (MCostType costType : costTypes) {
-					createVarianceCostDetail(costCollectorRateVariance, amtActual.negate(),
-							quantity.negate(), cost, null, accountSchema, costType,  costElement);
-					createVarianceCostDetail(costCollectorRateVariance, amountStandard, quantity, cost, null, accountSchema,
-							costType, costElement);
+					createVarianceCostDetail(costCollectorRateVariance, amtActual.abs(), quantity, cost, null, accountSchema, costType,  costElement);
+					createVarianceCostDetail(costCollectorRateVariance, amountStandard.abs(), quantity, cost, null, accountSchema, costType, costElement);
 				}
 			}
 		}
@@ -477,64 +462,55 @@ public class StandardCostingMethod extends AbstractCostingMethod implements
 		}
 	}
 
-	public void createMethodVariances(MPPCostCollector cc) {
-		if (!cc.isCostCollectorType(MPPCostCollector.COSTCOLLECTORTYPE_ActivityControl))
+	public void createMethodVariances(MPPCostCollector costCollector) {
+		if (!costCollector.isCostCollectorType(MPPCostCollector.COSTCOLLECTORTYPE_ActivityControl))
 			return;
 		//
-		final int std_resource_id = cc.getPP_Order_Node().getAD_WF_Node()
+		final int std_resource_id = costCollector.getPP_Order_Node().getAD_WF_Node()
 				.getS_Resource_ID();
-		final int actual_resource_id = cc.getS_Resource_ID();
+		final int actual_resource_id = costCollector.getS_Resource_ID();
 		if (std_resource_id == actual_resource_id) {
 			return;
 		}
 		//
-		MPPCostCollector ccmv = null; // Cost Collector - Method Change Variance
+		MPPCostCollector methodChangeVariance = null; // Cost Collector - Method Change Variance
 		final RoutingService routingService = RoutingServiceFactory.get()
-				.getRoutingService(cc.getAD_Client_ID());
-		for (MAcctSchema as : CostEngine.getAcctSchema(cc)) {
-			for (MCostElement element : MCostElement.getCostElement(cc.getCtx(), cc.get_TrxName())) {
-				final MProduct resourcePStd = MProduct.forS_Resource_ID(
-						cc.getCtx(), std_resource_id, null);
-				final MProduct resourcePActual = MProduct.forS_Resource_ID(
-						cc.getCtx(), actual_resource_id, null);
-				final BigDecimal priceStd = getProductActualCostPrice(cc,
-						resourcePStd, as, element, cc.get_TrxName());
-				final BigDecimal priceActual = getProductActualCostPrice(cc,
-						resourcePActual, as, element, cc.get_TrxName());
+				.getRoutingService(costCollector.getAD_Client_ID());
+		for (MAcctSchema as : CostEngine.getAcctSchema(costCollector)) {
+			for (MCostElement element : MCostElement.getCostElement(costCollector.getCtx(), costCollector.get_TrxName())) {
+				final MProduct resourcePStd = MProduct.forS_Resource_ID(costCollector.getCtx(), std_resource_id, null);
+				final MProduct resourcePActual = MProduct.forS_Resource_ID(costCollector.getCtx(), actual_resource_id, null);
+				final BigDecimal priceStd = getProductActualCostPrice(costCollector, resourcePStd, as, element, costCollector.get_TrxName());
+				final BigDecimal priceActual = getProductActualCostPrice(costCollector, resourcePActual, as, element, costCollector.get_TrxName());
 				if (priceStd.compareTo(priceActual) == 0) {
 					continue;
 				}
 				//
-				if (ccmv == null) {
-					ccmv = MPPCostCollector.createVarianceCostCollector(
-							cc,
-							MPPCostCollector.COSTCOLLECTORTYPE_MethodChangeVariance);
+				if (methodChangeVariance == null) {
+					methodChangeVariance = MPPCostCollector.createVarianceCostCollector(costCollector, MPPCostCollector.COSTCOLLECTORTYPE_MethodChangeVariance);
 				}
 				//
 				final BigDecimal qty = routingService.getResourceBaseValue(
-						cc.getS_Resource_ID(), cc);
+						costCollector.getS_Resource_ID(), costCollector);
 				final BigDecimal amtStd = priceStd.multiply(qty);
 				final BigDecimal amtActual = priceActual.multiply(qty);
 				//
-				List<MCostType> costtypes = MCostType.get(as.getCtx(),
-						as.get_TrxName());
+				List<MCostType> costtypes = MCostType.get(as.getCtx(), as.get_TrxName());
 				for (MCostType costType : costtypes) {
 					//implementation only for standard cost
 					if (!MCostType.COSTINGMETHOD_StandardCosting.equals(costType.getCostingMethod()))
 						continue;
-					createVarianceCostDetail(ccmv, amtActual, qty, null,
-							resourcePActual, as, costType, element);
-					createVarianceCostDetail(ccmv, amtStd.negate(), qty.negate(),
-							null, resourcePStd, as, costType , element);
+					createVarianceCostDetail(methodChangeVariance, amtActual.abs(), qty, null, resourcePActual, as, costType, element);
+					createVarianceCostDetail(methodChangeVariance, amtStd.negate(), qty.negate(), null, resourcePStd, as, costType , element);
 				}
 			}
 		}
 		//
-		if (ccmv != null) {
-			boolean ok = ccmv.processIt(MPPCostCollector.ACTION_Complete);
-			ccmv.saveEx();
+		if (methodChangeVariance != null) {
+			boolean ok = methodChangeVariance.processIt(MPPCostCollector.ACTION_Complete);
+			methodChangeVariance.saveEx();
 			if (!ok)
-				throw new AdempiereException(ccmv.getProcessMsg());
+				throw new AdempiereException(methodChangeVariance.getProcessMsg());
 		}
 	}
 
@@ -612,8 +588,7 @@ public class StandardCostingMethod extends AbstractCostingMethod implements
 					costs = costs.setScale(accountSchema.getCostingPrecision(),
 							RoundingMode.HALF_UP);
 				//
-				List<MCostType> costTypes = MCostType.get(accountSchema.getCtx(),
-						accountSchema.get_TrxName());
+				List<MCostType> costTypes = MCostType.get(accountSchema.getCtx(), accountSchema.get_TrxName());
 				for (MCostType costType : costTypes) {
 					//implementation only for standard cost
 					if (!MCostType.COSTINGMETHOD_StandardCosting.equals(costType.getCostingMethod()))
@@ -628,7 +603,6 @@ public class StandardCostingMethod extends AbstractCostingMethod implements
 					cost.setDateAcct(costCollector.getDateAcct());
 					cost.setCostAmt(costs.negate());
 					cost.saveEx();
-					//processCostDetail(costDetail);
 				}
 			}
 		}
@@ -636,11 +610,8 @@ public class StandardCostingMethod extends AbstractCostingMethod implements
 
 	public void createUsageVariances(MPPCostCollector usageVariance) {
 		// Apply only for material Usage Variance
-		if (!usageVariance
-				.isCostCollectorType(MPPCostCollector.COSTCOLLECTORTYPE_UsegeVariance)) {
-			throw new IllegalArgumentException(
-					"Cost Collector is not Material Usage Variance");
-		}
+		if (!usageVariance.isCostCollectorType(MPPCostCollector.COSTCOLLECTORTYPE_UsegeVariance))
+			throw new IllegalArgumentException("Cost Collector is not Material Usage Variance");
 		//
 		final MProduct product;
 		final BigDecimal quantity;
@@ -648,29 +619,22 @@ public class StandardCostingMethod extends AbstractCostingMethod implements
 			product = MProduct.get(usageVariance.getCtx(), usageVariance.getM_Product_ID());
 			quantity = usageVariance.getMovementQty();
 		} else {
-			product = MProduct.forS_Resource_ID(usageVariance.getCtx(),
-					usageVariance.getS_Resource_ID(), null);
-			final RoutingService routingService = RoutingServiceFactory.get()
-					.getRoutingService(usageVariance.getAD_Client_ID());
-			quantity = routingService.getResourceBaseValue(usageVariance.getS_Resource_ID(),
-					usageVariance);
+			product = MProduct.forS_Resource_ID(usageVariance.getCtx(), usageVariance.getS_Resource_ID(), null);
+			final RoutingService routingService = RoutingServiceFactory.get().getRoutingService(usageVariance.getAD_Client_ID());
+			quantity = routingService.getResourceBaseValue(usageVariance.getS_Resource_ID(), usageVariance);
 		}
 		//
 		for (MAcctSchema accountSchema : CostEngine.getAcctSchema(usageVariance)) {
 			for (MCostElement element : MCostElement.getCostElement(usageVariance.getCtx(), usageVariance.get_TrxName())) {
-				final BigDecimal price = getProductActualCostPrice(usageVariance,
-						product, accountSchema, element, usageVariance.get_TrxName());
-				final BigDecimal amt = CostEngine.roundCost(price.multiply(quantity),
-						accountSchema.getC_AcctSchema_ID());
+				final BigDecimal price = getProductActualCostPrice(usageVariance, product, accountSchema, element, usageVariance.get_TrxName());
+				final BigDecimal amt = CostEngine.roundCost(price.multiply(quantity), accountSchema.getC_AcctSchema_ID());
 				//
 				// Create / Update Cost Detail
 				if (amt.compareTo(Env.ZERO) != 0)
 				{
-					List<MCostType> costTypes = MCostType.get(accountSchema.getCtx(),
-							accountSchema.get_TrxName());
+					List<MCostType> costTypes = MCostType.get(accountSchema.getCtx(), accountSchema.get_TrxName());
 					for (MCostType costType : costTypes) {
-						createVarianceCostDetail(usageVariance, amt, quantity, null,
-								product, accountSchema, costType , element);
+						createVarianceCostDetail(usageVariance, amt.abs(), quantity, null, product, accountSchema, costType , element);
 					}
 				}
 			} // for Elments

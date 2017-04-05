@@ -96,8 +96,7 @@ public class GenerateCostDetail extends GenerateCostDetailAbstract {
         //	BR [ 405 ]
         sqlDelete = new StringBuffer("DELETE FROM M_CostDetail WHERE ");
         sqlDelete.append(deleteCostDetailWhereClause);
-        DB.executeUpdateEx(sqlDelete.toString(),
-                deleteParameters.toArray(), trxName);
+        DB.executeUpdateEx(sqlDelete.toString(), deleteParameters.toArray(), trxName);
     }
 
     /**
@@ -169,49 +168,35 @@ public class GenerateCostDetail extends GenerateCostDetailAbstract {
         resetCostWhereClause = new StringBuffer("1=1");
 
         if (accountSchemaId > 0) {
-            deleteCostDetailWhereClause.append(" AND ")
-                    .append(MCostDetail.COLUMNNAME_C_AcctSchema_ID)
-                    .append("=? ");
+            deleteCostDetailWhereClause.append(" AND ").append(MCostDetail.COLUMNNAME_C_AcctSchema_ID).append("=? ");
             deleteParameters.add(accountSchemaId);
-            resetCostWhereClause.append(" AND ")
-                    .append(MCostDetail.COLUMNNAME_C_AcctSchema_ID)
-                    .append("=? ");
+            resetCostWhereClause.append(" AND ").append(MCostDetail.COLUMNNAME_C_AcctSchema_ID).append("=? ");
             resetCostParameters.add(accountSchemaId);
         }
         if (costTypeId > 0) {
-            deleteCostDetailWhereClause.append(" AND ")
-                    .append(MCostDetail.COLUMNNAME_M_CostType_ID).append("=? ");
+            deleteCostDetailWhereClause.append(" AND ").append(MCostDetail.COLUMNNAME_M_CostType_ID).append("=? ");
             deleteParameters.add(costTypeId);
-            resetCostWhereClause.append(" AND ")
-                    .append(MCostDetail.COLUMNNAME_M_CostType_ID).append("=? ");
+            resetCostWhereClause.append(" AND ").append(MCostDetail.COLUMNNAME_M_CostType_ID).append("=? ");
             resetCostParameters.add(costTypeId);//SHW
         }
         if (costElementId > 0) {
-            deleteCostDetailWhereClause.append(" AND ")
-                    .append(MCostDetail.COLUMNNAME_M_CostElement_ID)
-                    .append("=? ");
+            deleteCostDetailWhereClause.append(" AND ").append(MCostDetail.COLUMNNAME_M_CostElement_ID).append("=? ");
             deleteParameters.add(costElementId);
-            resetCostWhereClause.append(" AND ")
-                    .append(MCostDetail.COLUMNNAME_M_CostElement_ID)
-                    .append("=? ");
+            resetCostWhereClause.append(" AND ").append(MCostDetail.COLUMNNAME_M_CostElement_ID).append("=? ");
             resetCostParameters.add(costElementId);//SHW
         }
         if (productId > 0) {
-            deleteCostDetailWhereClause.append(" AND ")
-                    .append(MCostDetail.COLUMNNAME_M_Product_ID).append("=? ");
+            deleteCostDetailWhereClause.append(" AND ").append(MCostDetail.COLUMNNAME_M_Product_ID).append("=? ");
             deleteParameters.add(productId);
-            resetCostWhereClause.append(" AND ")
-                    .append(MCostDetail.COLUMNNAME_M_Product_ID).append("=? ");
+            resetCostWhereClause.append(" AND ").append(MCostDetail.COLUMNNAME_M_Product_ID).append("=? ");
             resetCostParameters.add(productId);
         }
         if (dateAccount != null) {
-            deleteCostDetailWhereClause.append(" AND ")
-                    .append(MCostDetail.COLUMNNAME_DateAcct).append(">=? ");
+            deleteCostDetailWhereClause.append(" AND ").append(MCostDetail.COLUMNNAME_DateAcct).append(">=? ");
             deleteParameters.add(dateAccount);
         }
         if (dateAccountTo != null) {
-            deleteCostDetailWhereClause.append(" AND ")
-                    .append(MCostDetail.COLUMNNAME_DateAcct).append("<=? ");
+            deleteCostDetailWhereClause.append(" AND ").append(MCostDetail.COLUMNNAME_DateAcct).append("<=? ");
             deleteParameters.add(dateAccountTo);
         }
         //avoid rest cost dimension if not exist transaction conserve of last cost calculated
@@ -270,22 +255,9 @@ public class GenerateCostDetail extends GenerateCostDetailAbstract {
                                         productId, getAccountDate(), getAccountDateTo());
                                 deleteCostDetail(dbTransaction.getTrxName());
                                 resetCostDimension(costType.getCostingMethod(), dbTransaction.getTrxName());
-                                generateCostCollectorNotTransaction(productId, dbTransaction.getTrxName());
+                                generateCostCollectorNotTransaction(accountSchema , costType , productId, dbTransaction.getTrxName());
                                 processNewProduct = false;
-
-                                if (MCostType.COSTINGMETHOD_AverageInvoice.equals(costType.getCostingMethod())
-                                        || MCostType.COSTINGMETHOD_AveragePO.equals(costType.getCostingMethod())) {
-                                    if (IsUsedInProduction(productId, dbTransaction.getTrxName()))
-                                        //deferredProducts.add(transaction.getM_Product())
-                                        ;
-                                }
                             }
-
-                            //if (deferredProducts.contains(transaction.getM_Product())) {
-                           //     deferredTransactions.add(transaction);
-                             //   continue;
-                           // }
-
                             generateCostDetail(accountSchema, costType, costElement, transaction);
                         }
                     }
@@ -333,35 +305,25 @@ public class GenerateCostDetail extends GenerateCostDetailAbstract {
     public void generateCostDetail(MAcctSchema accountSchema, MCostType costType, MCostElement costElement, MTransaction transaction) {
 
         //Create Cost Detail for this Transaction
-        CostEngineFactory.getCostEngine(accountSchema.getAD_Client_ID())
-                .createCostDetail(accountSchema, costType, costElement, transaction,
-                        transaction.getDocumentLine(), true);
-        CostEngineFactory.getCostEngine(accountSchema.getAD_Client_ID())
-                .clearAccounting(accountSchema, transaction);
+        CostEngineFactory.getCostEngine(accountSchema.getAD_Client_ID()).createCostDetail(accountSchema, costType, costElement, transaction, transaction.getDocumentLine(), true);
+        CostEngineFactory.getCostEngine(accountSchema.getAD_Client_ID()).clearAccounting(accountSchema, transaction);
 
         // Calculate adjustment cost by variances in
         // invoices
         if (MTransaction.MOVEMENTTYPE_VendorReceipts.equals(transaction.getMovementType())) {
-
             MInOutLine line = (MInOutLine) transaction.getDocumentLine();
-
             if (MCostElement.COSTELEMENTTYPE_Material.equals(costElement.getCostElementType())) {
                 //get purchase matches
-                List<MMatchPO> orderMatches = MMatchPO
-                        .getInOutLine(line);
+                List<MMatchPO> orderMatches = MMatchPO.getInOutLine(line);
                 orderMatches.stream().forEach(match -> {
                     if (match.getM_Product_ID() == transaction.getM_Product_ID()
                     && match.getDateAcct().after(getAccountDate())
                     && match.getDateAcct().before(getAccountDateTo())) {
-                        CostEngineFactory.getCostEngine(
-                                accountSchema.getAD_Client_ID())
-                                .createCostDetail(accountSchema, costType, costElement, transaction,
-                                        match, true);
+                        CostEngineFactory.getCostEngine(accountSchema.getAD_Client_ID()).createCostDetail(accountSchema, costType, costElement, transaction, match, true);
                     }
                 });
                 //get invoice matches
-                List<MMatchInv> invoiceMatches = MMatchInv
-                        .getInOutLine(line);
+               List<MMatchInv> invoiceMatches = MMatchInv.getInOutLine(line);
                invoiceMatches.forEach(match -> {
                     if (match.getM_Product_ID() == transaction.getM_Product_ID()
                     && match.getDateAcct().after(getAccountDate())
@@ -376,28 +338,22 @@ public class GenerateCostDetail extends GenerateCostDetailAbstract {
 
             //get landed allocation cost
             MLandedCostAllocation.getOfInOutline(line, costElement.getM_CostElement_ID()).stream().forEach(allocation -> {
-                if (allocation.getDateAcct().after(getAccountDate())
-                 && allocation.getDateAcct().before(getAccountDateTo()))
-                CostEngineFactory
-                        .getCostEngine(accountSchema.getAD_Client_ID())
-                        .createCostDetail(accountSchema, costType, costElement, transaction, allocation, true);
+                if (allocation.getDateAcct().after(getAccountDate()) && allocation.getDateAcct().before(getAccountDateTo()))
+                    CostEngineFactory.getCostEngine(accountSchema.getAD_Client_ID()).createCostDetail(accountSchema, costType, costElement, transaction, allocation, true);
             });
         }
     }
 
-    private void generateCostCollectorNotTransaction(int productId, String trxName)
+    private void generateCostCollectorNotTransaction(MAcctSchema accountSchema , MCostType costType ,  int productId, String trxName)
             throws SQLException {
-        List<MPPCostCollector> costCollectors = MPPCostCollector
-                .getCostCollectorNotTransaction(getCtx(), productId, getAccountDate(), getAccountDateTo(), trxName);
+        List<MPPCostCollector> costCollectors = MPPCostCollector.getCostCollectorNotTransaction(getCtx(), productId, getAccountDate(), getAccountDateTo(), trxName);
         // Process Collector Cost Manufacturing
         for (MPPCostCollector costCollector : costCollectors) {
             for (MCostDetail costDetail : MCostDetail.getByCollectorCost(costCollector)) {
                 costDetail.deleteEx(true);
             }
-
-            final StandardCostingMethod standardCostingMethod = (StandardCostingMethod) CostingMethodFactory.get()
-                    .getCostingMethod(X_M_CostType.COSTINGMETHOD_StandardCosting);
-
+            CostEngineFactory.getCostEngine(getAD_Client_ID()).clearAccounting(accountSchema, costType, costCollector, productId , costCollector.getDateAcct());
+            final StandardCostingMethod standardCostingMethod = (StandardCostingMethod) CostingMethodFactory.get().getCostingMethod(X_M_CostType.COSTINGMETHOD_StandardCosting);
             if (MPPCostCollector.COSTCOLLECTORTYPE_UsegeVariance.equals(costCollector.getCostCollectorType()))
                 standardCostingMethod.createUsageVariances(costCollector);
             else if (MPPCostCollector.COSTCOLLECTORTYPE_MethodChangeVariance.equals(costCollector.getCostCollectorType()))

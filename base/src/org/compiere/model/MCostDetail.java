@@ -162,20 +162,19 @@ public class MCostDetail extends X_M_CostDetail
 	}
 	
 	/**
-	 * get Total Cost
-	 * @param cost
-	 * @param as
+	 * get Total Cost as absolute value
+	 * @param costDetail
+	 * @param acctSchema
 	 * @return
 	 */
-	public static BigDecimal getTotalCost(MCostDetail cost , MAcctSchema as)
+	public static BigDecimal getTotalCost(MCostDetail costDetail , MAcctSchema acctSchema)
 	{
-		return cost
-		.getCostAmt()
-		.add(cost.getCostAdjustment())
-		.add(cost.getCostAmtLL())
-		.add(cost.getCostAdjustmentLL())
-		.setScale(as.getCostingPrecision(),
-				BigDecimal.ROUND_HALF_UP); 
+		return costDetail
+				.getCostAmt()
+				.add(costDetail.getCostAdjustment())
+				.add(costDetail.getCostAmtLL())
+				.add(costDetail.getCostAdjustmentLL())
+				.setScale(acctSchema.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
 	}
 	
 	public static List<MCostDetail> getByCollectorCost(MPPCostCollector costCollector)
