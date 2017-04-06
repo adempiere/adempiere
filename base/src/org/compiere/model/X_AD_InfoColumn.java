@@ -41,23 +41,13 @@ public class X_AD_InfoColumn extends PO implements I_AD_InfoColumn, I_Persistent
 			setAD_InfoColumn_ID (0);
 			setAD_InfoWindow_ID (0);
 			setAD_Reference_ID (0);
-			setColumnName (null);
 			setEntityType (null);
 // U
-			setIsCentrallyMaintained (true);
-// Y
 			setIsDisplayed (false);
-			setIsIdentifier (false);
-// N
-			setIsMandatory (false);
-// N
 			setIsQueryCriteria (false);
-			setIsReadOnly (true);
-// Y
 			setName (null);
 			setSelectClause (null);
 			setSeqNo (0);
-// @SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_InfoColumn WHERE AD_InfoWindow_ID=@AD_InfoWindow_ID@
         } */
     }
 
@@ -196,96 +186,6 @@ public class X_AD_InfoColumn extends PO implements I_AD_InfoColumn, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Reference getAD_Reference_Value() throws RuntimeException
-    {
-		return (I_AD_Reference)MTable.get(getCtx(), I_AD_Reference.Table_Name)
-			.getPO(getAD_Reference_Value_ID(), get_TrxName());	}
-
-	/** Set Reference Key.
-		@param AD_Reference_Value_ID 
-		Required to specify, if data type is Table or List
-	  */
-	public void setAD_Reference_Value_ID (int AD_Reference_Value_ID)
-	{
-		if (AD_Reference_Value_ID < 1) 
-			set_Value (COLUMNNAME_AD_Reference_Value_ID, null);
-		else 
-			set_Value (COLUMNNAME_AD_Reference_Value_ID, Integer.valueOf(AD_Reference_Value_ID));
-	}
-
-	/** Get Reference Key.
-		@return Required to specify, if data type is Table or List
-	  */
-	public int getAD_Reference_Value_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Reference_Value_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_AD_Val_Rule getAD_Val_Rule() throws RuntimeException
-    {
-		return (I_AD_Val_Rule)MTable.get(getCtx(), I_AD_Val_Rule.Table_Name)
-			.getPO(getAD_Val_Rule_ID(), get_TrxName());	}
-
-	/** Set Dynamic Validation.
-		@param AD_Val_Rule_ID 
-		Dynamic Validation Rule
-	  */
-	public void setAD_Val_Rule_ID (int AD_Val_Rule_ID)
-	{
-		if (AD_Val_Rule_ID < 1) 
-			set_Value (COLUMNNAME_AD_Val_Rule_ID, null);
-		else 
-			set_Value (COLUMNNAME_AD_Val_Rule_ID, Integer.valueOf(AD_Val_Rule_ID));
-	}
-
-	/** Get Dynamic Validation.
-		@return Dynamic Validation Rule
-	  */
-	public int getAD_Val_Rule_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Val_Rule_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set DB Column Name.
-		@param ColumnName 
-		Name of the column in the database
-	  */
-	public void setColumnName (String ColumnName)
-	{
-		set_Value (COLUMNNAME_ColumnName, ColumnName);
-	}
-
-	/** Get DB Column Name.
-		@return Name of the column in the database
-	  */
-	public String getColumnName () 
-	{
-		return (String)get_Value(COLUMNNAME_ColumnName);
-	}
-
-	/** Set Default Logic.
-		@param DefaultValue 
-		Default value hierarchy, separated by ;
-	  */
-	public void setDefaultValue (String DefaultValue)
-	{
-		set_Value (COLUMNNAME_DefaultValue, DefaultValue);
-	}
-
-	/** Get Default Logic.
-		@return Default value hierarchy, separated by ;
-	  */
-	public String getDefaultValue () 
-	{
-		return (String)get_Value(COLUMNNAME_DefaultValue);
-	}
-
 	/** Set Description.
 		@param Description 
 		Optional short description of the record
@@ -301,23 +201,6 @@ public class X_AD_InfoColumn extends PO implements I_AD_InfoColumn, I_Persistent
 	public String getDescription () 
 	{
 		return (String)get_Value(COLUMNNAME_Description);
-	}
-
-	/** Set Display Logic.
-		@param DisplayLogic 
-		If the Field is displayed, the result determines if the field is actually displayed
-	  */
-	public void setDisplayLogic (String DisplayLogic)
-	{
-		set_Value (COLUMNNAME_DisplayLogic, DisplayLogic);
-	}
-
-	/** Get Display Logic.
-		@return If the Field is displayed, the result determines if the field is actually displayed
-	  */
-	public String getDisplayLogic () 
-	{
-		return (String)get_Value(COLUMNNAME_DisplayLogic);
 	}
 
 	/** EntityType AD_Reference_ID=389 */
@@ -357,30 +240,6 @@ public class X_AD_InfoColumn extends PO implements I_AD_InfoColumn, I_Persistent
 		return (String)get_Value(COLUMNNAME_Help);
 	}
 
-	/** Set Centrally maintained.
-		@param IsCentrallyMaintained 
-		Information maintained in System Element table
-	  */
-	public void setIsCentrallyMaintained (boolean IsCentrallyMaintained)
-	{
-		set_Value (COLUMNNAME_IsCentrallyMaintained, Boolean.valueOf(IsCentrallyMaintained));
-	}
-
-	/** Get Centrally maintained.
-		@return Information maintained in System Element table
-	  */
-	public boolean isCentrallyMaintained () 
-	{
-		Object oo = get_Value(COLUMNNAME_IsCentrallyMaintained);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
 	/** Set Displayed.
 		@param IsDisplayed 
 		Determines, if this field is displayed
@@ -405,54 +264,6 @@ public class X_AD_InfoColumn extends PO implements I_AD_InfoColumn, I_Persistent
 		return false;
 	}
 
-	/** Set Identifier.
-		@param IsIdentifier 
-		This column is part of the record identifier
-	  */
-	public void setIsIdentifier (boolean IsIdentifier)
-	{
-		set_Value (COLUMNNAME_IsIdentifier, Boolean.valueOf(IsIdentifier));
-	}
-
-	/** Get Identifier.
-		@return This column is part of the record identifier
-	  */
-	public boolean isIdentifier () 
-	{
-		Object oo = get_Value(COLUMNNAME_IsIdentifier);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
-	/** Set Mandatory.
-		@param IsMandatory 
-		Data entry is required in this column
-	  */
-	public void setIsMandatory (boolean IsMandatory)
-	{
-		set_Value (COLUMNNAME_IsMandatory, Boolean.valueOf(IsMandatory));
-	}
-
-	/** Get Mandatory.
-		@return Data entry is required in this column
-	  */
-	public boolean isMandatory () 
-	{
-		Object oo = get_Value(COLUMNNAME_IsMandatory);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
 	/** Set Query Criteria.
 		@param IsQueryCriteria 
 		The column is also used as a query criteria
@@ -468,30 +279,6 @@ public class X_AD_InfoColumn extends PO implements I_AD_InfoColumn, I_Persistent
 	public boolean isQueryCriteria () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsQueryCriteria);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
-	/** Set Read Only.
-		@param IsReadOnly 
-		Field is read only
-	  */
-	public void setIsReadOnly (boolean IsReadOnly)
-	{
-		set_Value (COLUMNNAME_IsReadOnly, Boolean.valueOf(IsReadOnly));
-	}
-
-	/** Get Read Only.
-		@return Field is read only
-	  */
-	public boolean isReadOnly () 
-	{
-		Object oo = get_Value(COLUMNNAME_IsReadOnly);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 
@@ -526,57 +313,6 @@ public class X_AD_InfoColumn extends PO implements I_AD_InfoColumn, I_Persistent
         return new KeyNamePair(get_ID(), getName());
     }
 
-	/** Set Query Function.
-		@param QueryFunction 
-		Database function for query
-	  */
-	public void setQueryFunction (String QueryFunction)
-	{
-		set_Value (COLUMNNAME_QueryFunction, QueryFunction);
-	}
-
-	/** Get Query Function.
-		@return Database function for query
-	  */
-	public String getQueryFunction () 
-	{
-		return (String)get_Value(COLUMNNAME_QueryFunction);
-	}
-
-	/** QueryOperator AD_Reference_ID=53807 */
-	public static final int QUERYOPERATOR_AD_Reference_ID=53807;
-	/** != = != */
-	public static final String QUERYOPERATOR_NotEq = "!=";
-	/** < = < */
-	public static final String QUERYOPERATOR_Le = "<";
-	/** <= = <= */
-	public static final String QUERYOPERATOR_LeEq = "<=";
-	/** = = = */
-	public static final String QUERYOPERATOR_Eq = "=";
-	/** > = > */
-	public static final String QUERYOPERATOR_Gt = ">";
-	/** >= = >= */
-	public static final String QUERYOPERATOR_GtEq = ">=";
-	/** Like = Like */
-	public static final String QUERYOPERATOR_Like = "Like";
-	/** Set Query Operator.
-		@param QueryOperator 
-		Operator for database query
-	  */
-	public void setQueryOperator (String QueryOperator)
-	{
-
-		set_Value (COLUMNNAME_QueryOperator, QueryOperator);
-	}
-
-	/** Get Query Operator.
-		@return Operator for database query
-	  */
-	public String getQueryOperator () 
-	{
-		return (String)get_Value(COLUMNNAME_QueryOperator);
-	}
-
 	/** Set Sql SELECT.
 		@param SelectClause 
 		SQL SELECT clause
@@ -609,26 +345,6 @@ public class X_AD_InfoColumn extends PO implements I_AD_InfoColumn, I_Persistent
 	public int getSeqNo () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_SeqNo);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Selection Column Sequence.
-		@param SeqNoSelection 
-		For ordering sequence of selection column
-	  */
-	public void setSeqNoSelection (int SeqNoSelection)
-	{
-		set_Value (COLUMNNAME_SeqNoSelection, Integer.valueOf(SeqNoSelection));
-	}
-
-	/** Get Selection Column Sequence.
-		@return For ordering sequence of selection column
-	  */
-	public int getSeqNoSelection () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_SeqNoSelection);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

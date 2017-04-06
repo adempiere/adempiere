@@ -120,60 +120,12 @@ public class InfoInvoicePanel extends InfoPanel implements ValueChangeListener
 		//
 		p_loadedOK = true;
     }
-
-	/**
-     * Detail protected constructor
-     * @param WindowNo window no
-     * @param value query value
-     * @param multiSelection multiple selection
-     * @param whereClause where clause
-    *
-     */
-    protected InfoInvoicePanel(int WindowNo, String value,
-            boolean multiSelection, String whereClause)
-    {
-    	this(WindowNo, value, multiSelection, whereClause, true);
-    }
-    
-	/**
-     * Detail protected constructor
-     * @param WindowNo window no
-     * @param value query value
-     * @param multiSelection multiple selection
-     * @param whereClause where clause
-    *
-     */
-    protected InfoInvoicePanel(int WindowNo, String value,
-            boolean multiSelection, String whereClause, boolean lookup)
-    {
-        super ( WindowNo, "i", "C_Invoice_ID", multiSelection, whereClause, lookup);
-        
-        setTitle(Msg.getMsg(Env.getCtx(), "InfoInvoice"));
-        //
-        initComponents();
-        init();
-           
-       initInfo ();
-       p_loadedOK = true;
-       
-       int no = contentPanel.getRowCount();
-       setStatusLine(Integer.toString(no) + " " + Msg.getMsg(Env.getCtx(), "SearchRows_EnterQuery"), false);
-       setStatusDB(Integer.toString(no));
-       if (value != null && value.length() > 0)
-       {
-           String values[] = value.split("_");
-           txtDocumentNo.setText(values[0]);
-           executeQuery();
-           renderItems();
-       }
-    }
     
     private int fieldID = 0;
     private Label lblDocumentNo;
     private Label lblDescription;
     private Label lblDateInvoiced;
     private Label lblGrandTotal;
-    private Textbox txtDocumentNo;
     
     private Textbox fDocumentNo;
     private Textbox fDescription;
@@ -375,6 +327,11 @@ public class InfoInvoicePanel extends InfoPanel implements ValueChangeListener
 		p_centerSouth.setTooltiptext(Msg.translate(Env.getCtx(), "C_InvoicePaySchedule_ID"));
 
 		super.setSizes();
+    }
+    
+    protected void initInfo()
+    {
+    	initInfo(0,"");
     }
     
     /**

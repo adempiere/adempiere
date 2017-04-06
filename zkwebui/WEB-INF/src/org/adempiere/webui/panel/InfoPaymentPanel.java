@@ -180,61 +180,6 @@ public class InfoPaymentPanel extends InfoPanel implements ValueChangeListener, 
 		
 		p_loadedOK = true;
 	} // InfoPaymentPanel
-	
-	/**
-	 *  Detail Protected Constructor
-	 *  
-	 *  @param modal modal
-	 *  @param WindowNo window no
-	 *  @param value query value
-	 *  @param multiSelection multiple selections
-	 *  @param whereClause where clause
-	 */
-	protected InfoPaymentPanel(int WindowNo, String value,
-			boolean multiSelection, String whereClause)
-	{
-		this(WindowNo, value, multiSelection, whereClause, true);
-	}
-	
-	/**
-	 *  Detail Protected Constructor
-	 *
-	 *  @param modal modal
-	 *  @param WindowNo window no
-	 *  @param value query value
-	 *  @param multiSelection multiple selections
-	 *  @param whereClause where clause
-	 */
-	protected InfoPaymentPanel(int WindowNo, String value,
-			boolean multiSelection, String whereClause, boolean lookup)
-	{
-		super(WindowNo, "p", "C_Payment_ID", multiSelection, whereClause, lookup);
-		
-		log.info( "InfoPaymentPanel");
-		setTitle(Msg.getMsg(Env.getCtx(), "InfoPayment"));
-
-		try
-		{
-			statInit();
-			initInfo();
-			p_loadedOK = true;
-		}
-		catch (Exception e)
-		{
-			return;
-		}
-
-		int no = contentPanel.getRowCount();
-		
-		setStatusLine(Integer.toString(no) + " " + Msg.getMsg(Env.getCtx(), "SearchRows_EnterQuery"), false);
-		setStatusDB(Integer.toString(no));
-		
-		if (value != null && value.length() > 0)
-		{
-			fDocumentNo .setValue(value);
-			executeQuery();
-		}
-	} // InfoPaymentPanel
 
 	/**
 	 *	Static Setup - add fields to parameterPanel

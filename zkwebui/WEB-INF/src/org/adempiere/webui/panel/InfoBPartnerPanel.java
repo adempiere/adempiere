@@ -46,7 +46,6 @@ import org.compiere.model.MQuery;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
-import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
 import org.compiere.util.Util;
@@ -78,9 +77,6 @@ public class InfoBPartnerPanel extends InfoPanel implements EventListener, WTabl
 	 * 
 	 */
 	private static final long serialVersionUID = 5677624151607188344L;
-
-	private int m_AD_User_ID_index = -1; 
-    private int m_C_BPartner_Location_ID_index = -1;
 
 	
 	/**
@@ -145,46 +141,6 @@ public class InfoBPartnerPanel extends InfoPanel implements EventListener, WTabl
         p_loadedOK = true;
 	}
 
-	/**
-	 *	Standard Constructor
-	 *  @param  queryvalue   Query value Name or Value if contains numbers
-	 *  @param isSOTrx  if false, query vendors only
-	 *  @param whereClause where clause
-	 */
-	public InfoBPartnerPanel(String queryValue,int windowNo, boolean isSOTrx,boolean multipleSelection, String whereClause, boolean lookup)
-	{
-
-		super (windowNo, "C_BPartner", "C_BPartner_ID",multipleSelection, whereClause, lookup);
-		setTitle(Msg.getMsg(Env.getCtx(), "InfoBPartner"));
-		m_isSOTrx = isSOTrx;
-        initComponents();
-        init();
-		initInfo(queryValue, whereClause);
-        
-        int no = contentPanel.getRowCount();
-        setStatusLine(Integer.toString(no) + " " + Msg.getMsg(Env.getCtx(), "SearchRows_EnterQuery"), false);
-        setStatusDB(Integer.toString(no));
-        //
-		if (queryValue != null && queryValue.length()>0)
-		{
-			 executeQuery();
-             renderItems();
-        }
-		p_loadedOK = true; // Elaine 2008/07/28
-			
-	}
-
-	/**
-	 *	Standard Constructor
-	 *  @param  queryvalue   Query value Name or Value if contains numbers
-	 *  @param isSOTrx  if false, query vendors only
-	 *  @param whereClause where clause
-	 */
-	public InfoBPartnerPanel(String queryValue,int windowNo, boolean isSOTrx,boolean multipleSelection, String whereClause)
-	{		
-		this(queryValue, windowNo, isSOTrx, multipleSelection, whereClause, true);
-	}
-
 	/** SalesOrder Trx          */
 	private boolean 		m_isSOTrx = false;
 	private boolean			m_isSOMatch = true;
@@ -208,28 +164,6 @@ public class InfoBPartnerPanel extends InfoPanel implements EventListener, WTabl
 		new Info_Column(Msg.translate(Env.getCtx(), "SO_CreditUsed"), "C_BPartner.SO_CreditUsed", BigDecimal.class),
 		new Info_Column(Msg.translate(Env.getCtx(), "Revenue"), "C_BPartner.ActualLifetimeValue", BigDecimal.class)
 	};
-	private static ColumnInfo[] s_partnerLayout = {
-		new ColumnInfo(" ", "C_BPartner.C_BPartner_ID", IDColumn.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), "Value"), "C_BPartner.Value", String.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), "Name"), "C_BPartner.Name", String.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), "Contact"), "c.Name AS Contact", KeyNamePair.class, "c.AD_User_ID"),
-		new ColumnInfo(Msg.translate(Env.getCtx(), "SO_CreditAvailable"), "C_BPartner.SO_CreditLimit-C_BPartner.SO_CreditUsed AS SO_CreditAvailable", BigDecimal.class, true, true, null),
-		new ColumnInfo(Msg.translate(Env.getCtx(), "SO_CreditUsed"), "C_BPartner.SO_CreditUsed", BigDecimal.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), "Phone"), "c.Phone", String.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), "Postal"), "a.Postal", KeyNamePair.class, "l.C_BPartner_Location_ID"),
-		new ColumnInfo(Msg.translate(Env.getCtx(), "City"), "a.City", String.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), "TotalOpenBalance"), "C_BPartner.TotalOpenBalance", BigDecimal.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), "Revenue"), "C_BPartner.ActualLifetimeValue", BigDecimal.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), "Address1"), "a.Address1", String.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), "IsShipTo"), "l.IsShipTo", Boolean.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), "IsBillTo"), "l.IsBillTo", Boolean.class)
-	};
-	
-	/** From Clause             */
-	private static String s_partnerFROM = "C_BPartner"
-		+ " LEFT OUTER JOIN C_BPartner_Location l ON (C_BPartner.C_BPartner_ID=l.C_BPartner_ID AND l.IsActive='Y')"
-		+ " LEFT OUTER JOIN AD_User c ON (C_BPartner.C_BPartner_ID=c.C_BPartner_ID AND (c.C_BPartner_Location_ID IS NULL OR c.C_BPartner_Location_ID=l.C_BPartner_Location_ID) AND c.IsActive='Y')" 
-		+ " LEFT OUTER JOIN C_Location a ON (l.C_Location_ID=a.C_Location_ID)";
 	
 	
 	private int fieldID = 0; 
@@ -528,63 +462,6 @@ public class InfoBPartnerPanel extends InfoPanel implements EventListener, WTabl
 				}
 			}
 	    }
-	}	//	initInfo	
-	
-	/**
-	 *	Dynamic Init
-	 *  @param value value
-	 *  @param whereClause where clause
-	 */
-		
-	private void initInfo(String value, String whereClause)
-	{
-			/**	From
-				C_BPartner
-				 LEFT OUTER JOIN C_BPartner_Location l ON (C_BPartner.C_BPartner_ID=l.C_BPartner_ID AND l.IsActive='Y') 
-				 LEFT OUTER JOIN AD_User c ON (C_BPartner.C_BPartner_ID=c.C_BPartner_ID AND (c.C_BPartner_Location_ID IS NULL OR c.C_BPartner_Location_ID=l.C_BPartner_Location_ID) AND c.IsActive='Y') 
-				 LEFT OUTER JOIN C_Location a ON (l.C_Location_ID=a.C_Location_ID)
-			**/
-
-			//	Create Grid
-			StringBuffer where = new StringBuffer();
-			where.append("C_BPartner.IsSummary='N' AND C_BPartner.IsActive='Y'");
-			if (whereClause != null && whereClause.length() > 0)
-				where.append(" AND ").append(whereClause);
-			//
-                          
-			prepareTable(s_partnerLayout, s_partnerFROM, where.toString(), "C_BPartner.Value");
-			
-			// Get indexes
-            for (int i = 0; i < p_layout.length; i++)
-            {
-            	// Elaine 2008/12/16
-            	if (p_layout[i].getKeyPairColSQL().indexOf("AD_User_ID") != -1)
-    				m_AD_User_ID_index = i;
-            	//
-                if (p_layout[i].getKeyPairColSQL().indexOf("C_BPartner_Location_ID") != -1)
-                    m_C_BPartner_Location_ID_index = i;
-            }
-            //  Set Value
-			if (value == null)
-				value = "%";
-			if (!value.endsWith("%"))
-				value += "%";
-
-			//	Put query string in Name if not numeric
-			if (value.equals("%"))
-				fieldName.setText(value);
-			//	No Numbers entered
-			else if ((value.indexOf('0')+value.indexOf('1')+value.indexOf('2')+value.indexOf('3')+value.indexOf('4') +value.indexOf('5')
-				+value.indexOf('6')+value.indexOf('7')+value.indexOf('8')+value.indexOf('9')) == -10)
-			{
-				if (value.startsWith("%"))
-					fieldName.setText(value);
-				else
-					fieldName.setText("%" + value);
-			}
-			//	Number entered
-			else
-				fieldValue.setText(value);
 	}	//	initInfo
 
 	/**

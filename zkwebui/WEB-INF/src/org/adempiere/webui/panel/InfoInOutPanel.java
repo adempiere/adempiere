@@ -109,17 +109,6 @@ public class InfoInOutPanel extends InfoPanel implements ValueChangeListener, Ev
 		new ColumnInfo(Msg.translate(Env.getCtx(), "DocStatus"), "i.docstatus", String.class)
 	};
 
-	/**  Array of Column Info    */
-	private static final ColumnInfo[] s_invoiceLayout = {
-		new ColumnInfo(" ", "i.M_InOut_ID", IDColumn.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), "C_BPartner_ID"), "(SELECT Name FROM C_BPartner bp WHERE bp.C_BPartner_ID=i.C_BPartner_ID)", String.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), "MovementDate"), "i.MovementDate", Timestamp.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), "DocumentNo"), "i.DocumentNo", String.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), "Description"), "i.Description", String.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), "POReference"), "i.POReference", String.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), "IsSOTrx"), "i.IsSOTrx", Boolean.class)
-	};
-
 	/**
 	 *  Detail Protected Constructor
 	 *  
@@ -166,57 +155,6 @@ public class InfoInOutPanel extends InfoPanel implements ValueChangeListener, Ev
         }
         //
         p_loadedOK = true;
-	} // InfoInOutPanel
-
-	/**
-	 *  Detail Protected Constructor
-	 *  
-	 *  @param WindowNo window no
-	 *  @param value query value
-	 *  @param multiSelection multiple selections
-	 *  @param whereClause where clause
-	 */
-	protected InfoInOutPanel(	int WindowNo, String value,
-								boolean multiSelection, String whereClause)
-	{
-		this(WindowNo, value, multiSelection, whereClause, true);
-	}
-	
-	/**
-	 *  Detail Protected Constructor
-	 *
-	 *  @param WindowNo window no
-	 *  @param value query value
-	 *  @param multiSelection multiple selections
-	 *  @param whereClause where clause
-	 */
-	protected InfoInOutPanel(	int WindowNo, String value,
-								boolean multiSelection, String whereClause, boolean lookup)
-	{
-		super (WindowNo, "i", "M_InOut_ID", multiSelection, whereClause, lookup);
-		log.info( "InfoInOut");
-		setTitle(Msg.getMsg(Env.getCtx(), "InfoInOut"));
-
-		try
-		{
-			statInit();
-			initInfo ();
-			p_loadedOK = true;
-		}
-		catch (Exception e)
-		{
-			return;
-		}
-
-		int no = contentPanel.getRowCount();
-		setStatusLine(Integer.toString(no) + " " + Msg.getMsg(Env.getCtx(), "SearchRows_EnterQuery"), false);
-		setStatusDB(Integer.toString(no));
-		
-		if (value != null && value.length() > 0)
-		{
-			fDocumentNo.setValue(value);
-			executeQuery();
-		}
 	} // InfoInOutPanel
 
 	/**
@@ -353,31 +291,6 @@ public class InfoInOutPanel extends InfoPanel implements ValueChangeListener, Ev
 
 			}
         }
-	} // initInfo
-	
-	/**
-	 *	General Init
-	 *	@return true, if success
-	 */
-	
-	protected void initInfo ()
-	{
-		//  Set Defaults
-		String bp = Env.getContext(Env.getCtx(), p_WindowNo, "C_BPartner_ID");
-	
-		if (bp != null && bp.length() != 0)
-			fBPartner_ID.setValue(new Integer(bp));
-
-		// Prepare table
-		
-		StringBuffer where = new StringBuffer("i.IsActive='Y'");
-		
-		if (p_whereClause.length() > 0)
-			where.append(" AND ").append(Util.replace(p_whereClause, "M_InOut.", "i."));
-		
-		prepareTable(s_invoiceLayout, " M_InOut i", where.toString(), "2,3 DESC,4");
-
-		return;
 	} // initInfo
 
 	/*************************************************************************/

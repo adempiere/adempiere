@@ -25,10 +25,8 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Vector;
 import java.util.logging.Level;
 
@@ -48,7 +46,6 @@ import org.adempiere.webui.component.Textbox;
 import org.adempiere.webui.component.WListItemRenderer;
 import org.adempiere.webui.component.WListbox;
 import org.adempiere.webui.component.Window;
-import org.adempiere.webui.editor.WEditor;
 import org.adempiere.webui.editor.WPAttributeEditor;
 import org.adempiere.webui.editor.WSearchEditor;
 import org.adempiere.webui.editor.WTableDirEditor;
@@ -56,12 +53,10 @@ import org.adempiere.exceptions.ValueChangeEvent;
 import org.adempiere.exceptions.ValueChangeListener;
 import org.adempiere.webui.event.WTableModelEvent;
 import org.adempiere.webui.event.WTableModelListener;
-import org.adempiere.webui.info.InfoWindow;
 import org.adempiere.webui.part.ITabOnSelectHandler;
 import org.adempiere.webui.session.SessionManager;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
-import org.compiere.model.MInfoProcess;
 import org.compiere.model.MRole;
 import org.compiere.model.MSysConfig;
 import org.compiere.model.MTable;
@@ -111,41 +106,6 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 	 */
 	private static final long serialVersionUID = 325050327514511004L;
 	private final static int PAGE_SIZE = 100;
-	protected final static String									PROCESS_ID_KEY			= "processId";
-	protected final static String									ON_RUN_PROCESS			= "onRunProcess";
-	protected final static String									ATT_INFO_PROCESS_KEY	= "INFO_PROCESS";
-
-	protected List<Button>											btProcessList			= new ArrayList<Button>();
-	protected Map<String, WEditor>									editorMap				= new HashMap<String, WEditor>();
-	protected boolean												m_lookup;
-	/** Initial ID value from context */
-	protected int													initialId				= 0;
-	protected WListbox												contentPanel			= new WListbox();
-	protected int													m_count;
-	// false, use saved where clause
-	protected boolean												isQueryByUser			= false;
-	// save where clause of prev requery
-	protected String												prevWhereClause			= null;
-	// save value of parameter to set info query parameter
-	protected List<Object>											prevParameterValues		= null;
-	protected List<String>											prevQueryOperators		= null;
-	protected List<WEditor>											prevRefParmeterEditor	= null;
-
-	// All info process of this infoWindow
-	protected MInfoProcess[]										infoProcessList;
-	// Info process have style is button
-	protected List<MInfoProcess>									infoProcessBtList;
-	// Info process have style is drop down list
-	protected List<MInfoProcess>									infoProcessDropList;
-	// Info process have style is menu
-	protected List<MInfoProcess>									infoProcessMenuList;
-	// flag indicate have infoOProcess define ViewID
-	protected boolean												isHasViewID				= false;
-	// number of infoProcess contain ViewID
-	protected int													numOfViewID				= 0;
-	protected Button												btCbbProcess;
-	protected Combobox												cbbProcess;
-	protected Button												btMenuProcess;
 	
     public static InfoPanel create (int WindowNo,
             String tableName, String keyColumn, int record_id, String value,
@@ -195,74 +155,6 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
             //
             return info;
     
-        }
-
-	public static InfoPanel create(int WindowNo, String tableName, String keyColumn, String value,
-			boolean multiSelection, String whereClause, int AD_InfoWindow_ID, boolean lookup)
-	{
-		InfoPanel info = null;
-		info = new InfoWindow(WindowNo, tableName, keyColumn, value, multiSelection, whereClause, AD_InfoWindow_ID,
-				lookup);
-		if (!info.loadedOK())
-		{
-			info = create(WindowNo, tableName, keyColumn, value, multiSelection, whereClause, lookup);
-			if (!info.loadedOK())
-			{
-				info.dispose(false);
-				info = null;
-			}
-		}
-
-		return info;
-	}
-	
-    public static InfoPanel create (int WindowNo,
-            String tableName, String keyColumn, String value,
-            boolean multiSelection, String whereClause, boolean lookup)
-        {
-            InfoPanel info = null;
-
-            if (tableName.equals("C_BPartner"))
-                info = new InfoBPartnerPanel (value,WindowNo, !Env.getContext(Env.getCtx(),"IsSOTrx").equals("N"),
-                        multiSelection, whereClause);
-            else if (tableName.equals("M_Product"))
-                info = new InfoProductPanel ( WindowNo,  0,0, 
-                        multiSelection, value,whereClause);
-            else if (tableName.equals("C_Invoice"))
-                info = new InfoInvoicePanel ( WindowNo, value,
-                        multiSelection, whereClause);
-            else if (tableName.equals("A_Asset"))
-                info = new InfoAssetPanel (WindowNo, 0, value,
-                        multiSelection, whereClause);
-            else if (tableName.equals("C_Order"))
-                info = new InfoOrderPanel ( WindowNo, value,
-                        multiSelection, whereClause);
-            else if (tableName.equals("M_InOut"))
-                info = new InfoInOutPanel (WindowNo, value,
-                        multiSelection, whereClause);
-            else if (tableName.equals("C_Payment"))
-                info = new InfoPaymentPanel (WindowNo, value, multiSelection, whereClause);
-            else if (tableName.equals("C_CashLine"))
-               info = new InfoCashLinePanel (WindowNo, value,
-                        multiSelection, whereClause);
-            else if (tableName.equals("S_ResourceAssigment"))
-                info = new InfoAssignmentPanel (WindowNo, value,
-                        multiSelection, whereClause);
-            else
-			{
-				info = new InfoWindow(WindowNo, tableName, keyColumn, value, multiSelection, whereClause, 0, lookup);
-				if (!info.loadedOK())
-				{
-					info = new InfoGeneralPanel(value, WindowNo, tableName, keyColumn, multiSelection, whereClause);
-					if (!info.loadedOK())
-					{
-						info.dispose(false);
-						info = null;
-					}
-				}
-			}
-            
-            return info;
         }
     
 	/**
@@ -380,61 +272,6 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 	/** Window Width                */
 	static final int        INFO_WIDTH = 800;
 	private boolean m_modal;
-		
-	/**************************************************
-	 * Detail Constructor
-	 * 
-	 * @param WindowNo WindowNo
-	 * @param tableName tableName
-	 * @param keyColumn keyColumn
-	 * @param whereClause whereClause
-	 */
-	protected InfoPanel(int WindowNo, String tableName, String keyColumn, boolean multipleSelection, String whereClause,
-			boolean lookup)
-	{
-		log.info("WinNo=" + p_WindowNo + " " + whereClause);
-
-		if (WindowNo <= 0)
-		{
-			p_WindowNo = SessionManager.getAppDesktop().registerWindow(this);
-		}
-		else
-		{
-			p_WindowNo = WindowNo;
-		}
-
-		p_tableName = tableName;
-		p_keyColumn = keyColumn;
-		p_multipleSelection = multipleSelection;
-		m_lookup = lookup;
-
-		if (whereClause == null || whereClause.indexOf('@') == -1)
-		{
-			p_whereClause = whereClause == null ? "" : whereClause;
-		}
-		else
-		{
-			p_whereClause = Env.parseContext(Env.getCtx(), p_WindowNo, whereClause, false, false);
-			if (p_whereClause.length() == 0)
-				log.log(Level.SEVERE, "Cannot parse context= " + whereClause);
-		}
-
-		init();
-
-		this.setAttribute(ITabOnSelectHandler.ATTRIBUTE_KEY, new ITabOnSelectHandler() {
-			public void onSelect()
-			{
-				scrollToSelectedRow();
-			}
-		});
-
-		// infoWindow = MInfoWindow.get(p_keyColumn.replace("_ID", ""), null);
-		// addEventListener(WindowContainer.ON_WINDOW_CONTAINER_SELECTION_CHANGED_EVENT,
-		// this);
-		addEventListener(ON_RUN_PROCESS, this);
-		addEventListener(Events.ON_CLOSE, this);
-
-	} // InfoPanel
 
 	/**************************************************
      *  Detail Constructor 
@@ -755,12 +592,12 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 	/** SQL Where Clause          */
 	protected String		    p_sqlOrder;
 	/** Main SQL Statement      */
-	protected String              m_sqlMain;
+	private String              m_sqlMain;
 	/** Count SQL Statement		*/
 	private String              m_sqlCount;
 	/** Order By Clause         */
-	protected String              m_sqlOrder;
-	protected String              m_sqlUserOrder;
+	private String              m_sqlOrder;
+	private String              m_sqlUserOrder;
 	/**ValueChange listeners       */
     private ArrayList<ValueChangeListener> listeners = new ArrayList<ValueChangeListener>();
 	/** Loading success indicator       */
@@ -777,6 +614,7 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 	protected Checkbox checkAutoQuery = new Checkbox();
 	protected Paging paging;
 	protected int pageNo;
+	private int m_count;
 	private int cacheStart;
 	private int cacheEnd;
 	private boolean m_useDatabasePaging = false;
@@ -934,7 +772,7 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 	/**************************************************************************
 	 *  Execute Query
 	 */
-	protected void executeQuery()
+	private void executeQuery()
 	{
 		line = new ArrayList<Object>();
 		cacheStart = -1;
@@ -1140,32 +978,6 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 		}
 
 		return line;
-	}
-
-	protected String buildDataSQL(int start, int end)
-	{
-		String dataSql;
-		String dynWhere = getSQLWhere();
-		StringBuilder sql = new StringBuilder(m_sqlMain);
-		if (dynWhere.length() > 0)
-			sql.append(dynWhere); // includes first AND
-
-		if (sql.toString().trim().endsWith("WHERE"))
-		{
-			int index = sql.lastIndexOf(" WHERE");
-			sql.delete(index, sql.length());
-		}
-		if (m_sqlUserOrder != null && m_sqlUserOrder.trim().length() > 0)
-			sql.append(m_sqlUserOrder);
-		else
-			sql.append(m_sqlOrder);
-		dataSql = Msg.parseTranslation(Env.getCtx(), sql.toString()); // Variables
-		dataSql = MRole.getDefault().addAccessSQL(dataSql, getTableName(), MRole.SQL_FULLYQUALIFIED, MRole.SQL_RO);
-		if (end > start && m_useDatabasePaging && DB.getDatabase().isPagingSupported())
-		{
-			dataSql = DB.getDatabase().addPagingSQL(dataSql, getCacheStart(), cacheEnd);
-		}
-		return dataSql;
 	}
 
     private void addDoubleClickListener() {
@@ -1822,48 +1634,6 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
     }  //  onEvent
 
 	/**
-	 * Call query when user click to query button enter in parameter field
-	 */
-	public void onUserQuery()
-	{
-		if (validateParameters())
-		{
-			showBusyDialog();
-			isQueryByUser = true;
-			Clients.response(new AuEcho(this, "onQueryCallback", null));
-		}
-	}
-
-	/**
-	 * validate parameter before run query
-	 * 
-	 * @return
-	 */
-	public boolean validateParameters()
-	{
-		return true;
-	}
-
-	/**
-	 * Call after load parameter panel to set init value can call when reset
-	 * parameter implement this method at inheritance class with each parameter,
-	 * remember call Env.setContext to set new value to env
-	 */
-	protected void initParameters()
-	{
-
-	}
-
-	/**
-	 * Reset parameter to default value or to empty value? implement at
-	 * inheritance class when reset parameter maybe need init again parameter,
-	 * reset again default value
-	 */
-	protected void resetParameters()
-	{
-	}
-
-	/**
 	 * Capture value changes in WSearchEditor components specifically.
 	 * Copy and override as required.
 	 * @param evt
@@ -1937,7 +1707,7 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
     	}
     }
     
-    protected void onOk() 
+    private void onOk() 
     {
 		if (!p_table.getChildren().isEmpty() && p_table.getSelectedRowKey()!=null)
 		{
@@ -2032,13 +1802,6 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 		}
 		return false;
 	}
-
-	/**
-	 * evaluate display logic of button process empty method. implement at child
-	 * class extend
-	 */
-	protected void bindInfoProcess()
-	{}
 
     public void zoom()
     {
@@ -2168,11 +1931,6 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 			renderItems();
 		}
 	}
-
-    public boolean isLookup()
-    {
-    	return m_lookup;
-    }
 
     public boolean isModal()
     {
@@ -2341,36 +2099,6 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 	 */
 	protected void setNumRecordsSelected(int numRecordsSeleted) {
 		p_numRecordsSelected = numRecordsSeleted;
-	}
-    
-	public void setLine(List<Object> line) {
-		this.line = line;
-	}
-	
-	public int getWindowNo() {
-		return p_WindowNo;
-	}
-	
-	public int getRowCount() {
-		return contentPanel.getRowCount();
-	}
-	
-	/**
-	 * @return the cacheStart
-	 */
-	protected int getCacheStart() {
-		return cacheStart;
-	}
-
- 	/**
-	 * @return the cacheEnd
-	 */
-	protected int getCacheEnd() {
-		return cacheEnd;
-	}
-	
-	protected boolean isUseDatabasePaging() {
-		return m_useDatabasePaging;
 	}
 
 }	//	Info
