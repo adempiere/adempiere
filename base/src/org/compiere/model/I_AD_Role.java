@@ -105,6 +105,16 @@ public interface I_AD_Role
 
 	public org.compiere.model.I_AD_Tree getAD_Tree_Org() throws RuntimeException;
 
+	/** Column name Allow_HTML_View */
+    public static final String COLUMNNAME_Allow_HTML_View = "Allow_HTML_View";
+
+	/** Set Allow HTML View	  */
+	public void setAllow_HTML_View (boolean Allow_HTML_View);
+
+	/** Get Allow HTML View	  */
+	public boolean isAllow_HTML_View();
+
+
     /** Column name Allow_Info_Account */
     public static final String COLUMNNAME_Allow_Info_Account = "Allow_Info_Account";
 
@@ -222,6 +232,15 @@ public interface I_AD_Role
 	/** Get Allow Info Schedule	  */
 	public boolean isAllow_Info_Schedule();
 
+	/** Column name Allow_XLS_View */
+    public static final String COLUMNNAME_Allow_XLS_View = "Allow_XLS_View";
+
+	/** Set Allow XLS View	  */
+	public void setAllow_XLS_View (boolean Allow_XLS_View);
+
+	/** Get Allow XLS View	  */
+	public boolean isAllow_XLS_View();
+	
     /** Column name AmtApproval */
     public static final String COLUMNNAME_AmtApproval = "AmtApproval";
 

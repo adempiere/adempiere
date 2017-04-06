@@ -194,6 +194,8 @@ public class MLookupInfo implements Serializable, Cloneable
 
 	public boolean IsAlert = false;
 
+	public String		DisplayColumn;
+	
 	/**
 	 * String representation
 	 * @return info

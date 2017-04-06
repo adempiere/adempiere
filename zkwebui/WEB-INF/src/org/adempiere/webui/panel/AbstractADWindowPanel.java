@@ -62,6 +62,7 @@ import org.compiere.model.GridWindow;
 import org.compiere.model.GridWindowVO;
 import org.compiere.model.MProcess;
 import org.compiere.model.MQuery;
+import org.compiere.model.MRecentItem;
 import org.compiere.model.MRole;
 import org.compiere.process.DocAction;
 import org.compiere.process.ProcessInfo;
@@ -1271,6 +1272,27 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
             readOnly = false;
         }
         toolbar.enableIgnore(changed && !readOnly);
+        
+        if (changed && !readOnly && !toolbar.isSaveEnable() ) {
+        	if (curTab.getRecord_ID() > 0) {
+            	if (curTabIndex == 0) {
+            		MRecentItem.addModifiedField(ctx, curTab.getAD_Table_ID(),
+            				curTab.getRecord_ID(), Env.getAD_User_ID(ctx),
+            				Env.getAD_Role_ID(ctx), curTab.getAD_Window_ID(),
+            				curTab.getAD_Tab_ID());
+            	} else {
+	        		/* when a detail record is modified add header to recent items */
+	        		GridTab mainTab = gridWindow.getTab(0);
+	        		if (mainTab != null) {
+			        	MRecentItem.addModifiedField(ctx, mainTab.getAD_Table_ID(),
+			        			mainTab.getRecord_ID(), Env.getAD_User_ID(ctx),
+			        			Env.getAD_Role_ID(ctx), mainTab.getAD_Window_ID(),
+			        			mainTab.getAD_Tab_ID());
+	        		}
+            	}
+            }
+        }
+        
         toolbar.enableSave(changed && !readOnly);
 
         //
@@ -1560,6 +1582,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
     private boolean onSave(boolean onSaveEvent)
     {
     	GridTab currentTab = toolbar.getCurrentPanel().getGridTab();
+    	boolean wasChanged = toolbar.isSaveEnable();
     	
     	if (currentTab.isSortTab())
     	{
@@ -1591,6 +1614,39 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 	        //curTabPanel.afterSave(onSaveEvent);
 	        toolbar.getCurrentPanel().dynamicDisplay(0);
 	        toolbar.getCurrentPanel().afterSave(onSaveEvent);
+
+	        if (wasChanged) {
+		        if (newRecord) {
+		        	if (curTab.getRecord_ID() > 0) {
+			        	if (curTabIndex == 0) {
+				        	MRecentItem.addModifiedField(ctx, curTab.getAD_Table_ID(),
+				        			curTab.getRecord_ID(), Env.getAD_User_ID(ctx),
+				        			Env.getAD_Role_ID(ctx), curTab.getAD_Window_ID(),
+				        			curTab.getAD_Tab_ID());
+			        	} else {
+			        		/* when a detail record is modified add header to recent items */
+			        		GridTab mainTab = gridWindow.getTab(0);
+			        		if (mainTab != null) {
+					        	MRecentItem.addModifiedField(ctx, mainTab.getAD_Table_ID(),
+					        			mainTab.getRecord_ID(), Env.getAD_User_ID(ctx),
+					        			Env.getAD_Role_ID(ctx), mainTab.getAD_Window_ID(),
+					        			mainTab.getAD_Tab_ID());
+			        		}
+			        	}
+		        	}
+		        } else {
+		        	if (curTabIndex == 0) {
+			        	MRecentItem.touchUpdatedRecord(ctx, curTab.getAD_Table_ID(),
+			        			curTab.getRecord_ID(), Env.getAD_User_ID(ctx));
+		        	} else {
+		        		GridTab mainTab = gridWindow.getTab(0);
+		        		if (mainTab != null) {
+				        	MRecentItem.touchUpdatedRecord(ctx, mainTab.getAD_Table_ID(),
+				        			mainTab.getRecord_ID(), Env.getAD_User_ID(ctx));
+		        		}
+		        	}
+		        }
+	        }
 	        return true;
     	}
     }

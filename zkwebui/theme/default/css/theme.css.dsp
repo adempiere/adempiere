@@ -550,3 +550,20 @@ tr.z-row td.z-row-inner{
 	border-left: 0;
 	border-right: 0px solid #DDE3EB;
 }
+
+<%-- Document Status Indicator First Column - Number --%>
+.docStatus td:first-child {
+	width : 60px;
+	text-align : right;
+
+}
+
+.docStatus-sep {
+	min-width :10px !important;
+}
+
+<%-- Document Status Indicator 3rd Column - Name Label --%>
+
+.docStatus td {
+	text-align : left;
+}

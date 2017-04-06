@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.ref.WeakReference;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.PreparedStatement;
@@ -45,6 +46,7 @@ import org.compiere.model.Lookup;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MLookup;
 import org.compiere.model.MQuery;
+import org.compiere.model.MSession;
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
 import org.compiere.util.CacheMgt;
@@ -55,6 +57,7 @@ import org.compiere.util.Ini;
 import org.compiere.util.Language;
 import org.zkoss.web.servlet.Servlets;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Desktop;
 import org.zkoss.zk.ui.Execution;
 import org.zkoss.zk.ui.Executions;
 
@@ -684,6 +687,7 @@ public final class AEnv
 			language = new Language(tmp.getName(), adLanguage, tmp.getLocale(), tmp.isDecimalPoint(),
 	    			tmp.getDateFormat().toPattern(), tmp.getMediaSize());
 		}
+		Env.verifyLanguage(ctx, language);
 		return language;
 	}
 
@@ -736,5 +740,37 @@ public final class AEnv
 		if (header.length() == 0)
 			header = ThemeManager.getBrowserTitle();
 		return header;
+	}
+	
+	/**
+	 * logout AD_Session
+	 */
+	public static void logout0()
+	{
+		String sessionID = Env.getContext(Env.getCtx(), "#AD_Session_ID");
+		windowCache.remove(sessionID);
+		// End Session
+		MSession session = MSession.get(Env.getCtx(), false); // finish
+		if (session != null)
+			session.logout();
+	}
+	
+	/**
+	 * Get current desktop
+	 * 
+	 * @return Desktop
+	 */
+	public static Desktop getDesktop()
+	{
+		boolean inUIThread = Executions.getCurrent() != null;
+		if (inUIThread)
+		{
+			return Executions.getCurrent().getDesktop();
+		}
+		else
+		{
+			WeakReference<Desktop> ref = DesktopRunnable.getThreadLocalDesktop();
+			return ref != null ? ref.get() : null;
+		}
 	}
 }	//	AEnv

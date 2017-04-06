@@ -290,6 +290,19 @@ public interface I_AD_PrintFormat
 	  */
 	public boolean isForm();
 
+    /** Column name IsPrintParameters */
+    public static final String COLUMNNAME_IsPrintParameters = "IsPrintParameters";
+
+	/** Set Print Parameters.
+	  * Print query parameters on list report
+	  */
+	public void setIsPrintParameters (boolean IsPrintParameters);
+
+	/** Get Print Parameters.
+	  * Print query parameters on list report
+	  */
+	public boolean isPrintParameters();
+
     /** Column name IsStandardHeaderFooter */
     public static final String COLUMNNAME_IsStandardHeaderFooter = "IsStandardHeaderFooter";
 

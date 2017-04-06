@@ -44,6 +44,13 @@ public class ZkContextProvider implements ContextProvider {
 	 * Show url at zk desktop
 	 */
 	public void showURL(String url) {
-		SessionManager.getAppDesktop().showURL(url,true);
-	}	 
+		showURL(url,"");
+	}	
+
+	/**
+	 * Show url at zk desktop
+	 */
+	public void showURL(String url, String title) {
+		SessionManager.getAppDesktop().showURL(url, title, true);
+	} 
 }

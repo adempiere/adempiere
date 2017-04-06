@@ -1,0 +1,879 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Financial Report Header Print Format #893 contribution #1610(Adaxa)" ReleaseNo="3.9.0" SeqNo="01290">
+    <Comments>https://github.com/adempiere/adempiere/issues/893</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="493" Action="I" Record_ID="50337" Table="AD_PrintFormat">
+        <Data AD_Column_ID="64491" Column="IsPrintParameters">true</Data>
+        <Data AD_Column_ID="7026" Column="AD_PrintFormat_ID">50337</Data>
+        <Data AD_Column_ID="7014" Column="IsForm">true</Data>
+        <Data AD_Column_ID="7011" Column="IsStandardHeaderFooter">false</Data>
+        <Data AD_Column_ID="7640" Column="AD_PrintTableFormat_ID" isNewNull="true"/>
+        <Data AD_Column_ID="7013" Column="AD_Table_ID">282</Data>
+        <Data AD_Column_ID="7046" Column="AD_ReportView_ID" isNewNull="true"/>
+        <Data AD_Column_ID="7009" Column="IsTableBased">true</Data>
+        <Data AD_Column_ID="7019" Column="Name">Financial Report Header Print Format</Data>
+        <Data AD_Column_ID="7017" Column="AD_PrintColor_ID">100</Data>
+        <Data AD_Column_ID="7021" Column="FooterMargin">0</Data>
+        <Data AD_Column_ID="8562" Column="PrinterName" isNewNull="true"/>
+        <Data AD_Column_ID="7020" Column="CreateCopy">N</Data>
+        <Data AD_Column_ID="7023" Column="AD_PrintPaper_ID">103</Data>
+        <Data AD_Column_ID="9968" Column="IsDefault">false</Data>
+        <Data AD_Column_ID="7025" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="7012" Column="AD_PrintFont_ID">163</Data>
+        <Data AD_Column_ID="7015" Column="HeaderMargin">80</Data>
+        <Data AD_Column_ID="50209" Column="JasperProcess_ID" isNewNull="true"/>
+        <Data AD_Column_ID="52068" Column="Classname" isNewNull="true"/>
+        <Data AD_Column_ID="52069" Column="Args" isNewNull="true"/>
+        <Data AD_Column_ID="78516" Column="IsSummary">false</Data>
+        <Data AD_Column_ID="7008" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="7024" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="7007" Column="Updated">2017-03-30 11:26:58.998</Data>
+        <Data AD_Column_ID="7010" Column="IsActive">true</Data>
+        <Data AD_Column_ID="7018" Column="Created">2017-03-30 11:26:58.998</Data>
+        <Data AD_Column_ID="7022" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="7016" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="489" Action="I" Record_ID="59686" Table="AD_PrintFormatItem">
+        <Data AD_Column_ID="200016" Column="IsDesc">false</Data>
+        <Data AD_Column_ID="64457" Column="IsPrintBarcodeText">true</Data>
+        <Data AD_Column_ID="74122" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="6970" Column="IsOrderBy">false</Data>
+        <Data AD_Column_ID="7058" Column="ImageURL" isNewNull="true"/>
+        <Data AD_Column_ID="6948" Column="SortNo">0</Data>
+        <Data AD_Column_ID="6965" Column="IsHeightOneLine">true</Data>
+        <Data AD_Column_ID="6967" Column="XPosition">0</Data>
+        <Data AD_Column_ID="7059" Column="ImageIsAttached">true</Data>
+        <Data AD_Column_ID="6966" Column="MaxHeight">30</Data>
+        <Data AD_Column_ID="6969" Column="IsPrinted">true</Data>
+        <Data AD_Column_ID="6971" Column="IsGroupBy">false</Data>
+        <Data AD_Column_ID="7032" Column="PrintAreaType">H</Data>
+        <Data AD_Column_ID="6945" Column="AD_PrintFormatChild_ID" isNewNull="true"/>
+        <Data AD_Column_ID="7031" Column="PrintFormatType">I</Data>
+        <Data AD_Column_ID="6956" Column="IsSummarized">false</Data>
+        <Data AD_Column_ID="6960" Column="AD_PrintFormat_ID">50337</Data>
+        <Data AD_Column_ID="6949" Column="AD_Column_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6943" Column="IsNextLine">true</Data>
+        <Data AD_Column_ID="6950" Column="IsPageBreak">false</Data>
+        <Data AD_Column_ID="7030" Column="LineAlignmentType">X</Data>
+        <Data AD_Column_ID="6957" Column="YPosition">0</Data>
+        <Data AD_Column_ID="6958" Column="AD_PrintColor_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6962" Column="XSpace">0</Data>
+        <Data AD_Column_ID="7061" Column="IsAveraged">false</Data>
+        <Data AD_Column_ID="6963" Column="AD_PrintFont_ID" isNewNull="true"/>
+        <Data AD_Column_ID="7655" Column="IsFixedWidth">false</Data>
+        <Data AD_Column_ID="6951" Column="IsRelativePosition">false</Data>
+        <Data AD_Column_ID="6946" Column="PrintName" isNewNull="true"/>
+        <Data AD_Column_ID="6939" Column="SeqNo">10</Data>
+        <Data AD_Column_ID="6940" Column="Name">@Logo@</Data>
+        <Data AD_Column_ID="7565" Column="IsSuppressNull">false</Data>
+        <Data AD_Column_ID="7060" Column="IsCounted">false</Data>
+        <Data AD_Column_ID="7639" Column="AD_PrintGraph_ID" isNewNull="true"/>
+        <Data AD_Column_ID="7638" Column="BelowColumn">0</Data>
+        <Data AD_Column_ID="6968" Column="FieldAlignmentType">B</Data>
+        <Data AD_Column_ID="6953" Column="MaxWidth">100</Data>
+        <Data AD_Column_ID="7566" Column="IsSetNLPosition">false</Data>
+        <Data AD_Column_ID="9965" Column="RunningTotalLines">20</Data>
+        <Data AD_Column_ID="7654" Column="IsNextPage">false</Data>
+        <Data AD_Column_ID="6954" Column="AD_PrintFormatItem_ID">59686</Data>
+        <Data AD_Column_ID="6947" Column="YSpace">0</Data>
+        <Data AD_Column_ID="9967" Column="IsMinCalc">false</Data>
+        <Data AD_Column_ID="8197" Column="PrintNameSuffix" isNewNull="true"/>
+        <Data AD_Column_ID="9966" Column="IsRunningTotal">false</Data>
+        <Data AD_Column_ID="10258" Column="IsVarianceCalc">false</Data>
+        <Data AD_Column_ID="9964" Column="IsMaxCalc">false</Data>
+        <Data AD_Column_ID="10259" Column="IsDeviationCalc">false</Data>
+        <Data AD_Column_ID="13056" Column="ArcDiameter">0</Data>
+        <Data AD_Column_ID="13057" Column="ShapeType">N</Data>
+        <Data AD_Column_ID="13054" Column="IsFilledRectangle">false</Data>
+        <Data AD_Column_ID="13055" Column="LineWidth">1</Data>
+        <Data AD_Column_ID="15015" Column="BarcodeType" isNewNull="true"/>
+        <Data AD_Column_ID="56351" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="56359" Column="IsSuppressRepeats">false</Data>
+        <Data AD_Column_ID="13237" Column="IsCentrallyMaintained">false</Data>
+        <Data AD_Column_ID="13238" Column="IsImageField">false</Data>
+        <Data AD_Column_ID="6961" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6959" Column="Updated">2017-03-30 11:27:28.234</Data>
+        <Data AD_Column_ID="6955" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="6942" Column="Created">2017-03-30 11:27:28.234</Data>
+        <Data AD_Column_ID="6952" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="6944" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6964" Column="IsActive">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="522" Action="I" Record_ID="59686" Table="AD_PrintFormatItem_Trl">
+        <Data AD_Column_ID="7615" Column="AD_PrintFormatItem_ID">59686</Data>
+        <Data AD_Column_ID="7610" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="7613" Column="PrintName" isNewNull="true"/>
+        <Data AD_Column_ID="7605" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="8198" Column="PrintNameSuffix" isNewNull="true"/>
+        <Data AD_Column_ID="7612" Column="Updated">2017-03-30 11:27:30.05</Data>
+        <Data AD_Column_ID="7606" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="7607" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="7608" Column="Created">2017-03-30 11:27:30.05</Data>
+        <Data AD_Column_ID="7609" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="7611" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="7614" Column="IsActive">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="489" Action="I" Record_ID="59687" Table="AD_PrintFormatItem">
+        <Data AD_Column_ID="200016" Column="IsDesc">false</Data>
+        <Data AD_Column_ID="64457" Column="IsPrintBarcodeText">true</Data>
+        <Data AD_Column_ID="74122" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="6970" Column="IsOrderBy">false</Data>
+        <Data AD_Column_ID="7058" Column="ImageURL" isNewNull="true"/>
+        <Data AD_Column_ID="6948" Column="SortNo">0</Data>
+        <Data AD_Column_ID="6965" Column="IsHeightOneLine">true</Data>
+        <Data AD_Column_ID="6967" Column="XPosition">185</Data>
+        <Data AD_Column_ID="7059" Column="ImageIsAttached">false</Data>
+        <Data AD_Column_ID="6966" Column="MaxHeight">0</Data>
+        <Data AD_Column_ID="6969" Column="IsPrinted">true</Data>
+        <Data AD_Column_ID="6971" Column="IsGroupBy">false</Data>
+        <Data AD_Column_ID="7032" Column="PrintAreaType">H</Data>
+        <Data AD_Column_ID="6945" Column="AD_PrintFormatChild_ID" isNewNull="true"/>
+        <Data AD_Column_ID="7031" Column="PrintFormatType">T</Data>
+        <Data AD_Column_ID="6956" Column="IsSummarized">false</Data>
+        <Data AD_Column_ID="6960" Column="AD_PrintFormat_ID">50337</Data>
+        <Data AD_Column_ID="6949" Column="AD_Column_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6943" Column="IsNextLine">true</Data>
+        <Data AD_Column_ID="6950" Column="IsPageBreak">false</Data>
+        <Data AD_Column_ID="7030" Column="LineAlignmentType">X</Data>
+        <Data AD_Column_ID="6957" Column="YPosition">0</Data>
+        <Data AD_Column_ID="6958" Column="AD_PrintColor_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6962" Column="XSpace">0</Data>
+        <Data AD_Column_ID="7061" Column="IsAveraged">false</Data>
+        <Data AD_Column_ID="6963" Column="AD_PrintFont_ID">143</Data>
+        <Data AD_Column_ID="7655" Column="IsFixedWidth">false</Data>
+        <Data AD_Column_ID="6951" Column="IsRelativePosition">false</Data>
+        <Data AD_Column_ID="6946" Column="PrintName" isNewNull="true"/>
+        <Data AD_Column_ID="6939" Column="SeqNo">20</Data>
+        <Data AD_Column_ID="6940" Column="Name">@Name@</Data>
+        <Data AD_Column_ID="7565" Column="IsSuppressNull">false</Data>
+        <Data AD_Column_ID="7060" Column="IsCounted">false</Data>
+        <Data AD_Column_ID="7639" Column="AD_PrintGraph_ID" isNewNull="true"/>
+        <Data AD_Column_ID="7638" Column="BelowColumn">0</Data>
+        <Data AD_Column_ID="6968" Column="FieldAlignmentType">D</Data>
+        <Data AD_Column_ID="6953" Column="MaxWidth">0</Data>
+        <Data AD_Column_ID="7566" Column="IsSetNLPosition">false</Data>
+        <Data AD_Column_ID="9965" Column="RunningTotalLines">20</Data>
+        <Data AD_Column_ID="7654" Column="IsNextPage">false</Data>
+        <Data AD_Column_ID="6954" Column="AD_PrintFormatItem_ID">59687</Data>
+        <Data AD_Column_ID="6947" Column="YSpace">0</Data>
+        <Data AD_Column_ID="9967" Column="IsMinCalc">false</Data>
+        <Data AD_Column_ID="8197" Column="PrintNameSuffix" isNewNull="true"/>
+        <Data AD_Column_ID="9966" Column="IsRunningTotal">false</Data>
+        <Data AD_Column_ID="10258" Column="IsVarianceCalc">false</Data>
+        <Data AD_Column_ID="9964" Column="IsMaxCalc">false</Data>
+        <Data AD_Column_ID="10259" Column="IsDeviationCalc">false</Data>
+        <Data AD_Column_ID="13056" Column="ArcDiameter">0</Data>
+        <Data AD_Column_ID="13057" Column="ShapeType">N</Data>
+        <Data AD_Column_ID="13054" Column="IsFilledRectangle">false</Data>
+        <Data AD_Column_ID="13055" Column="LineWidth">1</Data>
+        <Data AD_Column_ID="15015" Column="BarcodeType" isNewNull="true"/>
+        <Data AD_Column_ID="56351" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="56359" Column="IsSuppressRepeats">false</Data>
+        <Data AD_Column_ID="13237" Column="IsCentrallyMaintained">false</Data>
+        <Data AD_Column_ID="13238" Column="IsImageField">false</Data>
+        <Data AD_Column_ID="6961" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6959" Column="Updated">2017-03-30 11:27:30.193</Data>
+        <Data AD_Column_ID="6955" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="6942" Column="Created">2017-03-30 11:27:30.193</Data>
+        <Data AD_Column_ID="6952" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="6944" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6964" Column="IsActive">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="522" Action="I" Record_ID="59687" Table="AD_PrintFormatItem_Trl">
+        <Data AD_Column_ID="7615" Column="AD_PrintFormatItem_ID">59687</Data>
+        <Data AD_Column_ID="7610" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="7613" Column="PrintName" isNewNull="true"/>
+        <Data AD_Column_ID="7605" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="8198" Column="PrintNameSuffix" isNewNull="true"/>
+        <Data AD_Column_ID="7612" Column="Updated">2017-03-30 11:27:30.849</Data>
+        <Data AD_Column_ID="7606" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="7607" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="7608" Column="Created">2017-03-30 11:27:30.849</Data>
+        <Data AD_Column_ID="7609" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="7611" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="7614" Column="IsActive">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="489" Action="I" Record_ID="59688" Table="AD_PrintFormatItem">
+        <Data AD_Column_ID="200016" Column="IsDesc">false</Data>
+        <Data AD_Column_ID="64457" Column="IsPrintBarcodeText">true</Data>
+        <Data AD_Column_ID="74122" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="6970" Column="IsOrderBy">false</Data>
+        <Data AD_Column_ID="7058" Column="ImageURL" isNewNull="true"/>
+        <Data AD_Column_ID="6948" Column="SortNo">0</Data>
+        <Data AD_Column_ID="6965" Column="IsHeightOneLine">true</Data>
+        <Data AD_Column_ID="6967" Column="XPosition">0</Data>
+        <Data AD_Column_ID="7059" Column="ImageIsAttached">false</Data>
+        <Data AD_Column_ID="6966" Column="MaxHeight">0</Data>
+        <Data AD_Column_ID="6969" Column="IsPrinted">true</Data>
+        <Data AD_Column_ID="6971" Column="IsGroupBy">false</Data>
+        <Data AD_Column_ID="7032" Column="PrintAreaType">H</Data>
+        <Data AD_Column_ID="6945" Column="AD_PrintFormatChild_ID" isNewNull="true"/>
+        <Data AD_Column_ID="7031" Column="PrintFormatType">T</Data>
+        <Data AD_Column_ID="6956" Column="IsSummarized">false</Data>
+        <Data AD_Column_ID="6960" Column="AD_PrintFormat_ID">50337</Data>
+        <Data AD_Column_ID="6949" Column="AD_Column_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6943" Column="IsNextLine">true</Data>
+        <Data AD_Column_ID="6950" Column="IsPageBreak">false</Data>
+        <Data AD_Column_ID="7030" Column="LineAlignmentType">C</Data>
+        <Data AD_Column_ID="6957" Column="YPosition">0</Data>
+        <Data AD_Column_ID="6958" Column="AD_PrintColor_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6962" Column="XSpace">0</Data>
+        <Data AD_Column_ID="7061" Column="IsAveraged">false</Data>
+        <Data AD_Column_ID="6963" Column="AD_PrintFont_ID" isNewNull="true"/>
+        <Data AD_Column_ID="7655" Column="IsFixedWidth">false</Data>
+        <Data AD_Column_ID="6951" Column="IsRelativePosition">true</Data>
+        <Data AD_Column_ID="6946" Column="PrintName" isNewNull="true"/>
+        <Data AD_Column_ID="6939" Column="SeqNo">30</Data>
+        <Data AD_Column_ID="6940" Column="Name">@Organization@</Data>
+        <Data AD_Column_ID="7565" Column="IsSuppressNull">false</Data>
+        <Data AD_Column_ID="7060" Column="IsCounted">false</Data>
+        <Data AD_Column_ID="7639" Column="AD_PrintGraph_ID" isNewNull="true"/>
+        <Data AD_Column_ID="7638" Column="BelowColumn">0</Data>
+        <Data AD_Column_ID="6968" Column="FieldAlignmentType">C</Data>
+        <Data AD_Column_ID="6953" Column="MaxWidth">0</Data>
+        <Data AD_Column_ID="7566" Column="IsSetNLPosition">false</Data>
+        <Data AD_Column_ID="9965" Column="RunningTotalLines">20</Data>
+        <Data AD_Column_ID="7654" Column="IsNextPage">false</Data>
+        <Data AD_Column_ID="6954" Column="AD_PrintFormatItem_ID">59688</Data>
+        <Data AD_Column_ID="6947" Column="YSpace">0</Data>
+        <Data AD_Column_ID="9967" Column="IsMinCalc">false</Data>
+        <Data AD_Column_ID="8197" Column="PrintNameSuffix" isNewNull="true"/>
+        <Data AD_Column_ID="9966" Column="IsRunningTotal">false</Data>
+        <Data AD_Column_ID="10258" Column="IsVarianceCalc">false</Data>
+        <Data AD_Column_ID="9964" Column="IsMaxCalc">false</Data>
+        <Data AD_Column_ID="10259" Column="IsDeviationCalc">false</Data>
+        <Data AD_Column_ID="13056" Column="ArcDiameter">0</Data>
+        <Data AD_Column_ID="13057" Column="ShapeType">N</Data>
+        <Data AD_Column_ID="13054" Column="IsFilledRectangle">false</Data>
+        <Data AD_Column_ID="13055" Column="LineWidth">1</Data>
+        <Data AD_Column_ID="15015" Column="BarcodeType" isNewNull="true"/>
+        <Data AD_Column_ID="56351" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="56359" Column="IsSuppressRepeats">false</Data>
+        <Data AD_Column_ID="13237" Column="IsCentrallyMaintained">false</Data>
+        <Data AD_Column_ID="13238" Column="IsImageField">false</Data>
+        <Data AD_Column_ID="6961" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6959" Column="Updated">2017-03-30 11:27:30.973</Data>
+        <Data AD_Column_ID="6955" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="6942" Column="Created">2017-03-30 11:27:30.973</Data>
+        <Data AD_Column_ID="6952" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="6944" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6964" Column="IsActive">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="522" Action="I" Record_ID="59688" Table="AD_PrintFormatItem_Trl">
+        <Data AD_Column_ID="7615" Column="AD_PrintFormatItem_ID">59688</Data>
+        <Data AD_Column_ID="7610" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="7613" Column="PrintName" isNewNull="true"/>
+        <Data AD_Column_ID="7605" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="8198" Column="PrintNameSuffix" isNewNull="true"/>
+        <Data AD_Column_ID="7612" Column="Updated">2017-03-30 11:27:31.685</Data>
+        <Data AD_Column_ID="7606" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="7607" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="7608" Column="Created">2017-03-30 11:27:31.685</Data>
+        <Data AD_Column_ID="7609" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="7611" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="7614" Column="IsActive">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <PO AD_Table_ID="489" Action="I" Record_ID="59689" Table="AD_PrintFormatItem">
+        <Data AD_Column_ID="200016" Column="IsDesc">false</Data>
+        <Data AD_Column_ID="64457" Column="IsPrintBarcodeText">true</Data>
+        <Data AD_Column_ID="74122" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="6970" Column="IsOrderBy">false</Data>
+        <Data AD_Column_ID="7058" Column="ImageURL" isNewNull="true"/>
+        <Data AD_Column_ID="6948" Column="SortNo">0</Data>
+        <Data AD_Column_ID="6965" Column="IsHeightOneLine">true</Data>
+        <Data AD_Column_ID="6967" Column="XPosition">0</Data>
+        <Data AD_Column_ID="7059" Column="ImageIsAttached">false</Data>
+        <Data AD_Column_ID="6966" Column="MaxHeight">0</Data>
+        <Data AD_Column_ID="6969" Column="IsPrinted">true</Data>
+        <Data AD_Column_ID="6971" Column="IsGroupBy">false</Data>
+        <Data AD_Column_ID="7032" Column="PrintAreaType">H</Data>
+        <Data AD_Column_ID="6945" Column="AD_PrintFormatChild_ID" isNewNull="true"/>
+        <Data AD_Column_ID="7031" Column="PrintFormatType">T</Data>
+        <Data AD_Column_ID="6956" Column="IsSummarized">false</Data>
+        <Data AD_Column_ID="6960" Column="AD_PrintFormat_ID">50337</Data>
+        <Data AD_Column_ID="6949" Column="AD_Column_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6943" Column="IsNextLine">true</Data>
+        <Data AD_Column_ID="6950" Column="IsPageBreak">false</Data>
+        <Data AD_Column_ID="7030" Column="LineAlignmentType">C</Data>
+        <Data AD_Column_ID="6957" Column="YPosition">0</Data>
+        <Data AD_Column_ID="6958" Column="AD_PrintColor_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6962" Column="XSpace">0</Data>
+        <Data AD_Column_ID="7061" Column="IsAveraged">false</Data>
+        <Data AD_Column_ID="6963" Column="AD_PrintFont_ID">143</Data>
+        <Data AD_Column_ID="7655" Column="IsFixedWidth">false</Data>
+        <Data AD_Column_ID="6951" Column="IsRelativePosition">true</Data>
+        <Data AD_Column_ID="6946" Column="PrintName" isNewNull="true"/>
+        <Data AD_Column_ID="6939" Column="SeqNo">40</Data>
+        <Data AD_Column_ID="6940" Column="Name">@Client@</Data>
+        <Data AD_Column_ID="7565" Column="IsSuppressNull">false</Data>
+        <Data AD_Column_ID="7060" Column="IsCounted">false</Data>
+        <Data AD_Column_ID="7639" Column="AD_PrintGraph_ID" isNewNull="true"/>
+        <Data AD_Column_ID="7638" Column="BelowColumn">0</Data>
+        <Data AD_Column_ID="6968" Column="FieldAlignmentType">D</Data>
+        <Data AD_Column_ID="6953" Column="MaxWidth">0</Data>
+        <Data AD_Column_ID="7566" Column="IsSetNLPosition">false</Data>
+        <Data AD_Column_ID="9965" Column="RunningTotalLines">20</Data>
+        <Data AD_Column_ID="7654" Column="IsNextPage">false</Data>
+        <Data AD_Column_ID="6954" Column="AD_PrintFormatItem_ID">59689</Data>
+        <Data AD_Column_ID="6947" Column="YSpace">0</Data>
+        <Data AD_Column_ID="9967" Column="IsMinCalc">false</Data>
+        <Data AD_Column_ID="8197" Column="PrintNameSuffix" isNewNull="true"/>
+        <Data AD_Column_ID="9966" Column="IsRunningTotal">false</Data>
+        <Data AD_Column_ID="10258" Column="IsVarianceCalc">false</Data>
+        <Data AD_Column_ID="9964" Column="IsMaxCalc">false</Data>
+        <Data AD_Column_ID="10259" Column="IsDeviationCalc">false</Data>
+        <Data AD_Column_ID="13056" Column="ArcDiameter">0</Data>
+        <Data AD_Column_ID="13057" Column="ShapeType">N</Data>
+        <Data AD_Column_ID="13054" Column="IsFilledRectangle">false</Data>
+        <Data AD_Column_ID="13055" Column="LineWidth">1</Data>
+        <Data AD_Column_ID="15015" Column="BarcodeType" isNewNull="true"/>
+        <Data AD_Column_ID="56351" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="56359" Column="IsSuppressRepeats">false</Data>
+        <Data AD_Column_ID="13237" Column="IsCentrallyMaintained">false</Data>
+        <Data AD_Column_ID="13238" Column="IsImageField">false</Data>
+        <Data AD_Column_ID="6961" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6959" Column="Updated">2017-03-30 11:27:31.829</Data>
+        <Data AD_Column_ID="6955" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="6942" Column="Created">2017-03-30 11:27:31.829</Data>
+        <Data AD_Column_ID="6952" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="6944" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6964" Column="IsActive">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="100" StepType="AD">
+      <PO AD_Table_ID="522" Action="I" Record_ID="59689" Table="AD_PrintFormatItem_Trl">
+        <Data AD_Column_ID="7615" Column="AD_PrintFormatItem_ID">59689</Data>
+        <Data AD_Column_ID="7610" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="7613" Column="PrintName" isNewNull="true"/>
+        <Data AD_Column_ID="7605" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="8198" Column="PrintNameSuffix" isNewNull="true"/>
+        <Data AD_Column_ID="7612" Column="Updated">2017-03-30 11:27:32.515</Data>
+        <Data AD_Column_ID="7606" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="7607" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="7608" Column="Created">2017-03-30 11:27:32.515</Data>
+        <Data AD_Column_ID="7609" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="7611" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="7614" Column="IsActive">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="110" StepType="AD">
+      <PO AD_Table_ID="489" Action="I" Record_ID="59690" Table="AD_PrintFormatItem">
+        <Data AD_Column_ID="200016" Column="IsDesc">false</Data>
+        <Data AD_Column_ID="64457" Column="IsPrintBarcodeText">true</Data>
+        <Data AD_Column_ID="74122" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="6970" Column="IsOrderBy">false</Data>
+        <Data AD_Column_ID="7058" Column="ImageURL" isNewNull="true"/>
+        <Data AD_Column_ID="6948" Column="SortNo">0</Data>
+        <Data AD_Column_ID="6965" Column="IsHeightOneLine">true</Data>
+        <Data AD_Column_ID="6967" Column="XPosition">0</Data>
+        <Data AD_Column_ID="7059" Column="ImageIsAttached">false</Data>
+        <Data AD_Column_ID="6966" Column="MaxHeight">0</Data>
+        <Data AD_Column_ID="6969" Column="IsPrinted">true</Data>
+        <Data AD_Column_ID="6971" Column="IsGroupBy">false</Data>
+        <Data AD_Column_ID="7032" Column="PrintAreaType">H</Data>
+        <Data AD_Column_ID="6945" Column="AD_PrintFormatChild_ID" isNewNull="true"/>
+        <Data AD_Column_ID="7031" Column="PrintFormatType">T</Data>
+        <Data AD_Column_ID="6956" Column="IsSummarized">false</Data>
+        <Data AD_Column_ID="6960" Column="AD_PrintFormat_ID">50337</Data>
+        <Data AD_Column_ID="6949" Column="AD_Column_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6943" Column="IsNextLine">true</Data>
+        <Data AD_Column_ID="6950" Column="IsPageBreak">false</Data>
+        <Data AD_Column_ID="7030" Column="LineAlignmentType">C</Data>
+        <Data AD_Column_ID="6957" Column="YPosition">0</Data>
+        <Data AD_Column_ID="6958" Column="AD_PrintColor_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6962" Column="XSpace">0</Data>
+        <Data AD_Column_ID="7061" Column="IsAveraged">false</Data>
+        <Data AD_Column_ID="6963" Column="AD_PrintFont_ID">143</Data>
+        <Data AD_Column_ID="7655" Column="IsFixedWidth">false</Data>
+        <Data AD_Column_ID="6951" Column="IsRelativePosition">true</Data>
+        <Data AD_Column_ID="6946" Column="PrintName" isNewNull="true"/>
+        <Data AD_Column_ID="6939" Column="SeqNo">50</Data>
+        <Data AD_Column_ID="6940" Column="Name">@City@</Data>
+        <Data AD_Column_ID="7565" Column="IsSuppressNull">false</Data>
+        <Data AD_Column_ID="7060" Column="IsCounted">false</Data>
+        <Data AD_Column_ID="7639" Column="AD_PrintGraph_ID" isNewNull="true"/>
+        <Data AD_Column_ID="7638" Column="BelowColumn">0</Data>
+        <Data AD_Column_ID="6968" Column="FieldAlignmentType">D</Data>
+        <Data AD_Column_ID="6953" Column="MaxWidth">0</Data>
+        <Data AD_Column_ID="7566" Column="IsSetNLPosition">false</Data>
+        <Data AD_Column_ID="9965" Column="RunningTotalLines">20</Data>
+        <Data AD_Column_ID="7654" Column="IsNextPage">false</Data>
+        <Data AD_Column_ID="6954" Column="AD_PrintFormatItem_ID">59690</Data>
+        <Data AD_Column_ID="6947" Column="YSpace">0</Data>
+        <Data AD_Column_ID="9967" Column="IsMinCalc">false</Data>
+        <Data AD_Column_ID="8197" Column="PrintNameSuffix" isNewNull="true"/>
+        <Data AD_Column_ID="9966" Column="IsRunningTotal">false</Data>
+        <Data AD_Column_ID="10258" Column="IsVarianceCalc">false</Data>
+        <Data AD_Column_ID="9964" Column="IsMaxCalc">false</Data>
+        <Data AD_Column_ID="10259" Column="IsDeviationCalc">false</Data>
+        <Data AD_Column_ID="13056" Column="ArcDiameter">0</Data>
+        <Data AD_Column_ID="13057" Column="ShapeType">N</Data>
+        <Data AD_Column_ID="13054" Column="IsFilledRectangle">false</Data>
+        <Data AD_Column_ID="13055" Column="LineWidth">1</Data>
+        <Data AD_Column_ID="15015" Column="BarcodeType" isNewNull="true"/>
+        <Data AD_Column_ID="56351" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="56359" Column="IsSuppressRepeats">false</Data>
+        <Data AD_Column_ID="13237" Column="IsCentrallyMaintained">false</Data>
+        <Data AD_Column_ID="13238" Column="IsImageField">false</Data>
+        <Data AD_Column_ID="6961" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6959" Column="Updated">2017-03-30 11:27:32.649</Data>
+        <Data AD_Column_ID="6955" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="6942" Column="Created">2017-03-30 11:27:32.649</Data>
+        <Data AD_Column_ID="6952" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="6944" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6964" Column="IsActive">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="120" StepType="AD">
+      <PO AD_Table_ID="522" Action="I" Record_ID="59690" Table="AD_PrintFormatItem_Trl">
+        <Data AD_Column_ID="7615" Column="AD_PrintFormatItem_ID">59690</Data>
+        <Data AD_Column_ID="7610" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="7613" Column="PrintName" isNewNull="true"/>
+        <Data AD_Column_ID="7605" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="8198" Column="PrintNameSuffix" isNewNull="true"/>
+        <Data AD_Column_ID="7612" Column="Updated">2017-03-30 11:27:33.289</Data>
+        <Data AD_Column_ID="7606" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="7607" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="7608" Column="Created">2017-03-30 11:27:33.289</Data>
+        <Data AD_Column_ID="7609" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="7611" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="7614" Column="IsActive">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="130" StepType="AD">
+      <PO AD_Table_ID="489" Action="I" Record_ID="59691" Table="AD_PrintFormatItem">
+        <Data AD_Column_ID="200016" Column="IsDesc">false</Data>
+        <Data AD_Column_ID="64457" Column="IsPrintBarcodeText">true</Data>
+        <Data AD_Column_ID="74122" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="6970" Column="IsOrderBy">false</Data>
+        <Data AD_Column_ID="7058" Column="ImageURL" isNewNull="true"/>
+        <Data AD_Column_ID="6948" Column="SortNo">0</Data>
+        <Data AD_Column_ID="6965" Column="IsHeightOneLine">true</Data>
+        <Data AD_Column_ID="6967" Column="XPosition">0</Data>
+        <Data AD_Column_ID="7059" Column="ImageIsAttached">false</Data>
+        <Data AD_Column_ID="6966" Column="MaxHeight">0</Data>
+        <Data AD_Column_ID="6969" Column="IsPrinted">true</Data>
+        <Data AD_Column_ID="6971" Column="IsGroupBy">false</Data>
+        <Data AD_Column_ID="7032" Column="PrintAreaType">H</Data>
+        <Data AD_Column_ID="6945" Column="AD_PrintFormatChild_ID" isNewNull="true"/>
+        <Data AD_Column_ID="7031" Column="PrintFormatType">T</Data>
+        <Data AD_Column_ID="6956" Column="IsSummarized">false</Data>
+        <Data AD_Column_ID="6960" Column="AD_PrintFormat_ID">50337</Data>
+        <Data AD_Column_ID="6949" Column="AD_Column_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6943" Column="IsNextLine">true</Data>
+        <Data AD_Column_ID="6950" Column="IsPageBreak">false</Data>
+        <Data AD_Column_ID="7030" Column="LineAlignmentType">C</Data>
+        <Data AD_Column_ID="6957" Column="YPosition">0</Data>
+        <Data AD_Column_ID="6958" Column="AD_PrintColor_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6962" Column="XSpace">0</Data>
+        <Data AD_Column_ID="7061" Column="IsAveraged">false</Data>
+        <Data AD_Column_ID="6963" Column="AD_PrintFont_ID">143</Data>
+        <Data AD_Column_ID="7655" Column="IsFixedWidth">false</Data>
+        <Data AD_Column_ID="6951" Column="IsRelativePosition">true</Data>
+        <Data AD_Column_ID="6946" Column="PrintName" isNewNull="true"/>
+        <Data AD_Column_ID="6939" Column="SeqNo">60</Data>
+        <Data AD_Column_ID="6940" Column="Name">@Business Partner@</Data>
+        <Data AD_Column_ID="7565" Column="IsSuppressNull">false</Data>
+        <Data AD_Column_ID="7060" Column="IsCounted">false</Data>
+        <Data AD_Column_ID="7639" Column="AD_PrintGraph_ID" isNewNull="true"/>
+        <Data AD_Column_ID="7638" Column="BelowColumn">0</Data>
+        <Data AD_Column_ID="6968" Column="FieldAlignmentType">D</Data>
+        <Data AD_Column_ID="6953" Column="MaxWidth">0</Data>
+        <Data AD_Column_ID="7566" Column="IsSetNLPosition">false</Data>
+        <Data AD_Column_ID="9965" Column="RunningTotalLines">20</Data>
+        <Data AD_Column_ID="7654" Column="IsNextPage">false</Data>
+        <Data AD_Column_ID="6954" Column="AD_PrintFormatItem_ID">59691</Data>
+        <Data AD_Column_ID="6947" Column="YSpace">0</Data>
+        <Data AD_Column_ID="9967" Column="IsMinCalc">false</Data>
+        <Data AD_Column_ID="8197" Column="PrintNameSuffix" isNewNull="true"/>
+        <Data AD_Column_ID="9966" Column="IsRunningTotal">false</Data>
+        <Data AD_Column_ID="10258" Column="IsVarianceCalc">false</Data>
+        <Data AD_Column_ID="9964" Column="IsMaxCalc">false</Data>
+        <Data AD_Column_ID="10259" Column="IsDeviationCalc">false</Data>
+        <Data AD_Column_ID="13056" Column="ArcDiameter">0</Data>
+        <Data AD_Column_ID="13057" Column="ShapeType">N</Data>
+        <Data AD_Column_ID="13054" Column="IsFilledRectangle">false</Data>
+        <Data AD_Column_ID="13055" Column="LineWidth">1</Data>
+        <Data AD_Column_ID="15015" Column="BarcodeType" isNewNull="true"/>
+        <Data AD_Column_ID="56351" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="56359" Column="IsSuppressRepeats">false</Data>
+        <Data AD_Column_ID="13237" Column="IsCentrallyMaintained">false</Data>
+        <Data AD_Column_ID="13238" Column="IsImageField">false</Data>
+        <Data AD_Column_ID="6961" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6959" Column="Updated">2017-03-30 11:27:33.405</Data>
+        <Data AD_Column_ID="6955" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="6942" Column="Created">2017-03-30 11:27:33.405</Data>
+        <Data AD_Column_ID="6952" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="6944" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6964" Column="IsActive">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="140" StepType="AD">
+      <PO AD_Table_ID="522" Action="I" Record_ID="59691" Table="AD_PrintFormatItem_Trl">
+        <Data AD_Column_ID="7615" Column="AD_PrintFormatItem_ID">59691</Data>
+        <Data AD_Column_ID="7610" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="7613" Column="PrintName" isNewNull="true"/>
+        <Data AD_Column_ID="7605" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="8198" Column="PrintNameSuffix" isNewNull="true"/>
+        <Data AD_Column_ID="7612" Column="Updated">2017-03-30 11:27:34.009</Data>
+        <Data AD_Column_ID="7606" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="7607" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="7608" Column="Created">2017-03-30 11:27:34.009</Data>
+        <Data AD_Column_ID="7609" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="7611" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="7614" Column="IsActive">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="150" StepType="AD">
+      <PO AD_Table_ID="489" Action="I" Record_ID="59692" Table="AD_PrintFormatItem">
+        <Data AD_Column_ID="200016" Column="IsDesc">false</Data>
+        <Data AD_Column_ID="64457" Column="IsPrintBarcodeText">true</Data>
+        <Data AD_Column_ID="74122" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="6970" Column="IsOrderBy">false</Data>
+        <Data AD_Column_ID="7058" Column="ImageURL" isNewNull="true"/>
+        <Data AD_Column_ID="6948" Column="SortNo">0</Data>
+        <Data AD_Column_ID="6965" Column="IsHeightOneLine">true</Data>
+        <Data AD_Column_ID="6967" Column="XPosition">0</Data>
+        <Data AD_Column_ID="7059" Column="ImageIsAttached">false</Data>
+        <Data AD_Column_ID="6966" Column="MaxHeight">0</Data>
+        <Data AD_Column_ID="6969" Column="IsPrinted">true</Data>
+        <Data AD_Column_ID="6971" Column="IsGroupBy">false</Data>
+        <Data AD_Column_ID="7032" Column="PrintAreaType">H</Data>
+        <Data AD_Column_ID="6945" Column="AD_PrintFormatChild_ID" isNewNull="true"/>
+        <Data AD_Column_ID="7031" Column="PrintFormatType">T</Data>
+        <Data AD_Column_ID="6956" Column="IsSummarized">false</Data>
+        <Data AD_Column_ID="6960" Column="AD_PrintFormat_ID">50337</Data>
+        <Data AD_Column_ID="6949" Column="AD_Column_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6943" Column="IsNextLine">true</Data>
+        <Data AD_Column_ID="6950" Column="IsPageBreak">false</Data>
+        <Data AD_Column_ID="7030" Column="LineAlignmentType">C</Data>
+        <Data AD_Column_ID="6957" Column="YPosition">0</Data>
+        <Data AD_Column_ID="6958" Column="AD_PrintColor_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6962" Column="XSpace">0</Data>
+        <Data AD_Column_ID="7061" Column="IsAveraged">false</Data>
+        <Data AD_Column_ID="6963" Column="AD_PrintFont_ID">143</Data>
+        <Data AD_Column_ID="7655" Column="IsFixedWidth">false</Data>
+        <Data AD_Column_ID="6951" Column="IsRelativePosition">true</Data>
+        <Data AD_Column_ID="6946" Column="PrintName" isNewNull="true"/>
+        <Data AD_Column_ID="6939" Column="SeqNo">70</Data>
+        <Data AD_Column_ID="6940" Column="Name">@Period@</Data>
+        <Data AD_Column_ID="7565" Column="IsSuppressNull">false</Data>
+        <Data AD_Column_ID="7060" Column="IsCounted">false</Data>
+        <Data AD_Column_ID="7639" Column="AD_PrintGraph_ID" isNewNull="true"/>
+        <Data AD_Column_ID="7638" Column="BelowColumn">0</Data>
+        <Data AD_Column_ID="6968" Column="FieldAlignmentType">D</Data>
+        <Data AD_Column_ID="6953" Column="MaxWidth">0</Data>
+        <Data AD_Column_ID="7566" Column="IsSetNLPosition">false</Data>
+        <Data AD_Column_ID="9965" Column="RunningTotalLines">20</Data>
+        <Data AD_Column_ID="7654" Column="IsNextPage">false</Data>
+        <Data AD_Column_ID="6954" Column="AD_PrintFormatItem_ID">59692</Data>
+        <Data AD_Column_ID="6947" Column="YSpace">0</Data>
+        <Data AD_Column_ID="9967" Column="IsMinCalc">false</Data>
+        <Data AD_Column_ID="8197" Column="PrintNameSuffix" isNewNull="true"/>
+        <Data AD_Column_ID="9966" Column="IsRunningTotal">false</Data>
+        <Data AD_Column_ID="10258" Column="IsVarianceCalc">false</Data>
+        <Data AD_Column_ID="9964" Column="IsMaxCalc">false</Data>
+        <Data AD_Column_ID="10259" Column="IsDeviationCalc">false</Data>
+        <Data AD_Column_ID="13056" Column="ArcDiameter">0</Data>
+        <Data AD_Column_ID="13057" Column="ShapeType">N</Data>
+        <Data AD_Column_ID="13054" Column="IsFilledRectangle">false</Data>
+        <Data AD_Column_ID="13055" Column="LineWidth">1</Data>
+        <Data AD_Column_ID="15015" Column="BarcodeType" isNewNull="true"/>
+        <Data AD_Column_ID="56351" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="56359" Column="IsSuppressRepeats">false</Data>
+        <Data AD_Column_ID="13237" Column="IsCentrallyMaintained">false</Data>
+        <Data AD_Column_ID="13238" Column="IsImageField">false</Data>
+        <Data AD_Column_ID="6961" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6959" Column="Updated">2017-03-30 11:27:34.142</Data>
+        <Data AD_Column_ID="6955" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="6942" Column="Created">2017-03-30 11:27:34.142</Data>
+        <Data AD_Column_ID="6952" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="6944" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6964" Column="IsActive">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="160" StepType="AD">
+      <PO AD_Table_ID="522" Action="I" Record_ID="59692" Table="AD_PrintFormatItem_Trl">
+        <Data AD_Column_ID="7615" Column="AD_PrintFormatItem_ID">59692</Data>
+        <Data AD_Column_ID="7610" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="7613" Column="PrintName" isNewNull="true"/>
+        <Data AD_Column_ID="7605" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="8198" Column="PrintNameSuffix" isNewNull="true"/>
+        <Data AD_Column_ID="7612" Column="Updated">2017-03-30 11:27:34.814</Data>
+        <Data AD_Column_ID="7606" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="7607" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="7608" Column="Created">2017-03-30 11:27:34.814</Data>
+        <Data AD_Column_ID="7609" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="7611" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="7614" Column="IsActive">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="170" StepType="AD">
+      <PO AD_Table_ID="489" Action="I" Record_ID="59693" Table="AD_PrintFormatItem">
+        <Data AD_Column_ID="200016" Column="IsDesc">false</Data>
+        <Data AD_Column_ID="64457" Column="IsPrintBarcodeText">true</Data>
+        <Data AD_Column_ID="74122" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="6970" Column="IsOrderBy">false</Data>
+        <Data AD_Column_ID="7058" Column="ImageURL" isNewNull="true"/>
+        <Data AD_Column_ID="6948" Column="SortNo">0</Data>
+        <Data AD_Column_ID="6965" Column="IsHeightOneLine">true</Data>
+        <Data AD_Column_ID="6967" Column="XPosition">0</Data>
+        <Data AD_Column_ID="7059" Column="ImageIsAttached">false</Data>
+        <Data AD_Column_ID="6966" Column="MaxHeight">0</Data>
+        <Data AD_Column_ID="6969" Column="IsPrinted">true</Data>
+        <Data AD_Column_ID="6971" Column="IsGroupBy">false</Data>
+        <Data AD_Column_ID="7032" Column="PrintAreaType">H</Data>
+        <Data AD_Column_ID="6945" Column="AD_PrintFormatChild_ID" isNewNull="true"/>
+        <Data AD_Column_ID="7031" Column="PrintFormatType">T</Data>
+        <Data AD_Column_ID="6956" Column="IsSummarized">false</Data>
+        <Data AD_Column_ID="6960" Column="AD_PrintFormat_ID">50337</Data>
+        <Data AD_Column_ID="6949" Column="AD_Column_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6943" Column="IsNextLine">true</Data>
+        <Data AD_Column_ID="6950" Column="IsPageBreak">false</Data>
+        <Data AD_Column_ID="7030" Column="LineAlignmentType">C</Data>
+        <Data AD_Column_ID="6957" Column="YPosition">0</Data>
+        <Data AD_Column_ID="6958" Column="AD_PrintColor_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6962" Column="XSpace">0</Data>
+        <Data AD_Column_ID="7061" Column="IsAveraged">false</Data>
+        <Data AD_Column_ID="6963" Column="AD_PrintFont_ID">143</Data>
+        <Data AD_Column_ID="7655" Column="IsFixedWidth">false</Data>
+        <Data AD_Column_ID="6951" Column="IsRelativePosition">true</Data>
+        <Data AD_Column_ID="6946" Column="PrintName" isNewNull="true"/>
+        <Data AD_Column_ID="6939" Column="SeqNo">80</Data>
+        <Data AD_Column_ID="6940" Column="Name">@Currency@</Data>
+        <Data AD_Column_ID="7565" Column="IsSuppressNull">false</Data>
+        <Data AD_Column_ID="7060" Column="IsCounted">false</Data>
+        <Data AD_Column_ID="7639" Column="AD_PrintGraph_ID" isNewNull="true"/>
+        <Data AD_Column_ID="7638" Column="BelowColumn">0</Data>
+        <Data AD_Column_ID="6968" Column="FieldAlignmentType">D</Data>
+        <Data AD_Column_ID="6953" Column="MaxWidth">0</Data>
+        <Data AD_Column_ID="7566" Column="IsSetNLPosition">false</Data>
+        <Data AD_Column_ID="9965" Column="RunningTotalLines">20</Data>
+        <Data AD_Column_ID="7654" Column="IsNextPage">false</Data>
+        <Data AD_Column_ID="6954" Column="AD_PrintFormatItem_ID">59693</Data>
+        <Data AD_Column_ID="6947" Column="YSpace">0</Data>
+        <Data AD_Column_ID="9967" Column="IsMinCalc">false</Data>
+        <Data AD_Column_ID="8197" Column="PrintNameSuffix" isNewNull="true"/>
+        <Data AD_Column_ID="9966" Column="IsRunningTotal">false</Data>
+        <Data AD_Column_ID="10258" Column="IsVarianceCalc">false</Data>
+        <Data AD_Column_ID="9964" Column="IsMaxCalc">false</Data>
+        <Data AD_Column_ID="10259" Column="IsDeviationCalc">false</Data>
+        <Data AD_Column_ID="13056" Column="ArcDiameter">0</Data>
+        <Data AD_Column_ID="13057" Column="ShapeType">N</Data>
+        <Data AD_Column_ID="13054" Column="IsFilledRectangle">false</Data>
+        <Data AD_Column_ID="13055" Column="LineWidth">1</Data>
+        <Data AD_Column_ID="15015" Column="BarcodeType" isNewNull="true"/>
+        <Data AD_Column_ID="56351" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="56359" Column="IsSuppressRepeats">false</Data>
+        <Data AD_Column_ID="13237" Column="IsCentrallyMaintained">false</Data>
+        <Data AD_Column_ID="13238" Column="IsImageField">false</Data>
+        <Data AD_Column_ID="6961" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6959" Column="Updated">2017-03-30 11:27:34.941</Data>
+        <Data AD_Column_ID="6955" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="6942" Column="Created">2017-03-30 11:27:34.941</Data>
+        <Data AD_Column_ID="6952" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="6944" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6964" Column="IsActive">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="180" StepType="AD">
+      <PO AD_Table_ID="522" Action="I" Record_ID="59693" Table="AD_PrintFormatItem_Trl">
+        <Data AD_Column_ID="7615" Column="AD_PrintFormatItem_ID">59693</Data>
+        <Data AD_Column_ID="7610" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="7613" Column="PrintName" isNewNull="true"/>
+        <Data AD_Column_ID="7605" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="8198" Column="PrintNameSuffix" isNewNull="true"/>
+        <Data AD_Column_ID="7612" Column="Updated">2017-03-30 11:27:35.621</Data>
+        <Data AD_Column_ID="7606" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="7607" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="7608" Column="Created">2017-03-30 11:27:35.621</Data>
+        <Data AD_Column_ID="7609" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="7611" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="7614" Column="IsActive">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="190" StepType="AD">
+      <PO AD_Table_ID="489" Action="I" Record_ID="59694" Table="AD_PrintFormatItem">
+        <Data AD_Column_ID="200016" Column="IsDesc">false</Data>
+        <Data AD_Column_ID="64457" Column="IsPrintBarcodeText">true</Data>
+        <Data AD_Column_ID="74122" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="6970" Column="IsOrderBy">false</Data>
+        <Data AD_Column_ID="7058" Column="ImageURL" isNewNull="true"/>
+        <Data AD_Column_ID="6948" Column="SortNo">0</Data>
+        <Data AD_Column_ID="6965" Column="IsHeightOneLine">true</Data>
+        <Data AD_Column_ID="6967" Column="XPosition">0</Data>
+        <Data AD_Column_ID="7059" Column="ImageIsAttached">false</Data>
+        <Data AD_Column_ID="6966" Column="MaxHeight">0</Data>
+        <Data AD_Column_ID="6969" Column="IsPrinted">true</Data>
+        <Data AD_Column_ID="6971" Column="IsGroupBy">false</Data>
+        <Data AD_Column_ID="7032" Column="PrintAreaType">C</Data>
+        <Data AD_Column_ID="6945" Column="AD_PrintFormatChild_ID" isNewNull="true"/>
+        <Data AD_Column_ID="7031" Column="PrintFormatType">P</Data>
+        <Data AD_Column_ID="6956" Column="IsSummarized">false</Data>
+        <Data AD_Column_ID="6960" Column="AD_PrintFormat_ID">50337</Data>
+        <Data AD_Column_ID="6949" Column="AD_Column_ID">2780</Data>
+        <Data AD_Column_ID="6943" Column="IsNextLine">true</Data>
+        <Data AD_Column_ID="6950" Column="IsPageBreak">false</Data>
+        <Data AD_Column_ID="7030" Column="LineAlignmentType">X</Data>
+        <Data AD_Column_ID="6957" Column="YPosition">0</Data>
+        <Data AD_Column_ID="6958" Column="AD_PrintColor_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6962" Column="XSpace">0</Data>
+        <Data AD_Column_ID="7061" Column="IsAveraged">false</Data>
+        <Data AD_Column_ID="6963" Column="AD_PrintFont_ID" isNewNull="true"/>
+        <Data AD_Column_ID="7655" Column="IsFixedWidth">false</Data>
+        <Data AD_Column_ID="6951" Column="IsRelativePosition">false</Data>
+        <Data AD_Column_ID="6946" Column="PrintName" isNewNull="true"/>
+        <Data AD_Column_ID="6939" Column="SeqNo">90</Data>
+        <Data AD_Column_ID="6940" Column="Name">Report</Data>
+        <Data AD_Column_ID="7565" Column="IsSuppressNull">false</Data>
+        <Data AD_Column_ID="7060" Column="IsCounted">false</Data>
+        <Data AD_Column_ID="7639" Column="AD_PrintGraph_ID" isNewNull="true"/>
+        <Data AD_Column_ID="7638" Column="BelowColumn">0</Data>
+        <Data AD_Column_ID="6968" Column="FieldAlignmentType">D</Data>
+        <Data AD_Column_ID="6953" Column="MaxWidth">0</Data>
+        <Data AD_Column_ID="7566" Column="IsSetNLPosition">false</Data>
+        <Data AD_Column_ID="9965" Column="RunningTotalLines">20</Data>
+        <Data AD_Column_ID="7654" Column="IsNextPage">false</Data>
+        <Data AD_Column_ID="6954" Column="AD_PrintFormatItem_ID">59694</Data>
+        <Data AD_Column_ID="6947" Column="YSpace">0</Data>
+        <Data AD_Column_ID="9967" Column="IsMinCalc">false</Data>
+        <Data AD_Column_ID="8197" Column="PrintNameSuffix" isNewNull="true"/>
+        <Data AD_Column_ID="9966" Column="IsRunningTotal">false</Data>
+        <Data AD_Column_ID="10258" Column="IsVarianceCalc">false</Data>
+        <Data AD_Column_ID="9964" Column="IsMaxCalc">false</Data>
+        <Data AD_Column_ID="10259" Column="IsDeviationCalc">false</Data>
+        <Data AD_Column_ID="13056" Column="ArcDiameter">0</Data>
+        <Data AD_Column_ID="13057" Column="ShapeType">N</Data>
+        <Data AD_Column_ID="13054" Column="IsFilledRectangle">false</Data>
+        <Data AD_Column_ID="13055" Column="LineWidth">1</Data>
+        <Data AD_Column_ID="15015" Column="BarcodeType" isNewNull="true"/>
+        <Data AD_Column_ID="56351" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="56359" Column="IsSuppressRepeats">false</Data>
+        <Data AD_Column_ID="13237" Column="IsCentrallyMaintained">false</Data>
+        <Data AD_Column_ID="13238" Column="IsImageField">false</Data>
+        <Data AD_Column_ID="6961" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6959" Column="Updated">2017-03-30 11:27:35.746</Data>
+        <Data AD_Column_ID="6955" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="6942" Column="Created">2017-03-30 11:27:35.746</Data>
+        <Data AD_Column_ID="6952" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="6944" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6964" Column="IsActive">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="200" StepType="AD">
+      <PO AD_Table_ID="522" Action="I" Record_ID="59694" Table="AD_PrintFormatItem_Trl">
+        <Data AD_Column_ID="7615" Column="AD_PrintFormatItem_ID">59694</Data>
+        <Data AD_Column_ID="7610" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="7613" Column="PrintName" isNewNull="true"/>
+        <Data AD_Column_ID="7605" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="8198" Column="PrintNameSuffix" isNewNull="true"/>
+        <Data AD_Column_ID="7612" Column="Updated">2017-03-30 11:27:36.339</Data>
+        <Data AD_Column_ID="7606" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="7607" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="7608" Column="Created">2017-03-30 11:27:36.339</Data>
+        <Data AD_Column_ID="7609" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="7611" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="7614" Column="IsActive">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="210" StepType="AD">
+      <PO AD_Table_ID="489" Action="I" Record_ID="59695" Table="AD_PrintFormatItem">
+        <Data AD_Column_ID="200016" Column="IsDesc">false</Data>
+        <Data AD_Column_ID="64457" Column="IsPrintBarcodeText">true</Data>
+        <Data AD_Column_ID="74122" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="6970" Column="IsOrderBy">false</Data>
+        <Data AD_Column_ID="7058" Column="ImageURL" isNewNull="true"/>
+        <Data AD_Column_ID="6948" Column="SortNo">0</Data>
+        <Data AD_Column_ID="6965" Column="IsHeightOneLine">true</Data>
+        <Data AD_Column_ID="6967" Column="XPosition">480</Data>
+        <Data AD_Column_ID="7059" Column="ImageIsAttached">false</Data>
+        <Data AD_Column_ID="6966" Column="MaxHeight">0</Data>
+        <Data AD_Column_ID="6969" Column="IsPrinted">true</Data>
+        <Data AD_Column_ID="6971" Column="IsGroupBy">false</Data>
+        <Data AD_Column_ID="7032" Column="PrintAreaType">H</Data>
+        <Data AD_Column_ID="6945" Column="AD_PrintFormatChild_ID" isNewNull="true"/>
+        <Data AD_Column_ID="7031" Column="PrintFormatType">T</Data>
+        <Data AD_Column_ID="6956" Column="IsSummarized">false</Data>
+        <Data AD_Column_ID="6960" Column="AD_PrintFormat_ID">50337</Data>
+        <Data AD_Column_ID="6949" Column="AD_Column_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6943" Column="IsNextLine">true</Data>
+        <Data AD_Column_ID="6950" Column="IsPageBreak">false</Data>
+        <Data AD_Column_ID="7030" Column="LineAlignmentType">X</Data>
+        <Data AD_Column_ID="6957" Column="YPosition">0</Data>
+        <Data AD_Column_ID="6958" Column="AD_PrintColor_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6962" Column="XSpace">0</Data>
+        <Data AD_Column_ID="7061" Column="IsAveraged">false</Data>
+        <Data AD_Column_ID="6963" Column="AD_PrintFont_ID">112</Data>
+        <Data AD_Column_ID="7655" Column="IsFixedWidth">false</Data>
+        <Data AD_Column_ID="6951" Column="IsRelativePosition">false</Data>
+        <Data AD_Column_ID="6946" Column="PrintName">@Page@ @*Page@ @of@ @*PageCount@</Data>
+        <Data AD_Column_ID="6939" Column="SeqNo">100</Data>
+        <Data AD_Column_ID="6940" Column="Name">page count</Data>
+        <Data AD_Column_ID="7565" Column="IsSuppressNull">false</Data>
+        <Data AD_Column_ID="7060" Column="IsCounted">false</Data>
+        <Data AD_Column_ID="7639" Column="AD_PrintGraph_ID" isNewNull="true"/>
+        <Data AD_Column_ID="7638" Column="BelowColumn">0</Data>
+        <Data AD_Column_ID="6968" Column="FieldAlignmentType">T</Data>
+        <Data AD_Column_ID="6953" Column="MaxWidth">0</Data>
+        <Data AD_Column_ID="7566" Column="IsSetNLPosition">false</Data>
+        <Data AD_Column_ID="9965" Column="RunningTotalLines">20</Data>
+        <Data AD_Column_ID="7654" Column="IsNextPage">false</Data>
+        <Data AD_Column_ID="6954" Column="AD_PrintFormatItem_ID">59695</Data>
+        <Data AD_Column_ID="6947" Column="YSpace">0</Data>
+        <Data AD_Column_ID="9967" Column="IsMinCalc">false</Data>
+        <Data AD_Column_ID="8197" Column="PrintNameSuffix" isNewNull="true"/>
+        <Data AD_Column_ID="9966" Column="IsRunningTotal">false</Data>
+        <Data AD_Column_ID="10258" Column="IsVarianceCalc">false</Data>
+        <Data AD_Column_ID="9964" Column="IsMaxCalc">false</Data>
+        <Data AD_Column_ID="10259" Column="IsDeviationCalc">false</Data>
+        <Data AD_Column_ID="13056" Column="ArcDiameter">0</Data>
+        <Data AD_Column_ID="13057" Column="ShapeType">N</Data>
+        <Data AD_Column_ID="13054" Column="IsFilledRectangle">false</Data>
+        <Data AD_Column_ID="13055" Column="LineWidth">1</Data>
+        <Data AD_Column_ID="15015" Column="BarcodeType" isNewNull="true"/>
+        <Data AD_Column_ID="56351" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="56359" Column="IsSuppressRepeats">false</Data>
+        <Data AD_Column_ID="13237" Column="IsCentrallyMaintained">false</Data>
+        <Data AD_Column_ID="13238" Column="IsImageField">false</Data>
+        <Data AD_Column_ID="6961" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6959" Column="Updated">2017-03-30 11:27:36.47</Data>
+        <Data AD_Column_ID="6955" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="6942" Column="Created">2017-03-30 11:27:36.47</Data>
+        <Data AD_Column_ID="6952" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="6944" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6964" Column="IsActive">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="220" StepType="AD">
+      <PO AD_Table_ID="522" Action="I" Record_ID="59695" Table="AD_PrintFormatItem_Trl">
+        <Data AD_Column_ID="7615" Column="AD_PrintFormatItem_ID">59695</Data>
+        <Data AD_Column_ID="7610" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="7613" Column="PrintName">@Page@ @*Page@ @of@ @*PageCount@</Data>
+        <Data AD_Column_ID="7605" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="8198" Column="PrintNameSuffix" isNewNull="true"/>
+        <Data AD_Column_ID="7612" Column="Updated">2017-03-30 11:27:37.165</Data>
+        <Data AD_Column_ID="7606" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="7607" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="7608" Column="Created">2017-03-30 11:27:37.165</Data>
+        <Data AD_Column_ID="7609" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="7611" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="7614" Column="IsActive">true</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

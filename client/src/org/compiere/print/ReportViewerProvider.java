@@ -16,6 +16,8 @@
  *****************************************************************************/
 package org.compiere.print;
 
+import java.io.FileInputStream;
+
 
 /**
  * 
@@ -24,4 +26,8 @@ package org.compiere.print;
  */
 public interface ReportViewerProvider {
 	public void openViewer(ReportEngine re);
+	
+	public void openViewer(String string, FileInputStream fileInputStream);
+
+	public void openViewer(ReportEngine re, Object desktop);
 }

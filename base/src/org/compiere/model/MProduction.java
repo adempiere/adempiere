@@ -1089,6 +1089,7 @@ public class MProduction extends X_M_Production implements DocAction {
 			return;
 		isBOM(getM_Product_ID());
 		//	Recalculate
+		
 		recalculate();
 		// Check batch having production planned Qty.
 		BigDecimal cntQty = Env.ZERO;
@@ -1253,6 +1254,8 @@ public class MProduction extends X_M_Production implements DocAction {
 			return "";
 		int AD_Org_ID = costingLevel.equals(MAcctSchema.COSTINGLEVEL_Organization)?getAD_Org_ID():0;
 		int M_Warehouse_ID = costingLevel.equals(MAcctSchema.COSTINGLEVEL_Warehouse)?getM_Locator().getM_Warehouse_ID():0;
+		if (!as.getM_CostType().getCostingMethod().equals(MCostType.COSTINGMETHOD_StandardCosting))
+			return "";
 		ProcessInfo processInfo = ProcessBuilder.create(getCtx())
 				//.process(RollupBillOfMaterial.getProcessId())
 				.process(53062)

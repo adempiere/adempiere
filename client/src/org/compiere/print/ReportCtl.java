@@ -21,6 +21,7 @@ import java.util.Properties;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.apps.ADialog;
+import org.compiere.model.MPInstance;
 import org.compiere.model.MPaySelectionCheck;
 import org.compiere.model.MProcess;
 import org.compiere.model.MQuery;
@@ -117,6 +118,19 @@ public class ReportCtl
 	{
 		s_log.info("start - " + processInfo);
 
+		MPInstance instance = new MPInstance(Env.getCtx(), processInfo.getAD_PInstance_ID(), null);
+		
+		if (processInfo.getReportType() != null)
+			instance.set_ValueOfColumn("ReportType", processInfo.getReportType());
+		
+		if (processInfo.getTransientObject() != null)
+			instance.set_ValueOfColumn("AD_PrintFormat_ID", ((MPrintFormat) processInfo.getTransientObject()).getAD_PrintFormat_ID());
+		else if (processInfo.getSerializableObject() != null)
+			instance.set_ValueOfColumn("AD_PrintFormat_ID", ((MPrintFormat) processInfo.getSerializableObject()).getAD_PrintFormat_ID());
+		
+		instance.saveEx();
+		
+		
 		/**
 		 *	Order Print
 		 */
@@ -194,9 +208,14 @@ public class ReportCtl
 			Properties ctx = Env.getCtx();
 			MPrintFormat format = (MPrintFormat)transientObject;
 			String tableName = MTable.getTableName(ctx, format.getAD_Table_ID());
+			if ( processInfo.getAD_Process_ID() == 202	)
+				tableName = "T_Report";
 			MQuery query = MQuery.get (ctx, processInfo.getAD_PInstance_ID(), tableName);
 			PrintInfo info = new PrintInfo(processInfo);
 			reportEngine = new ReportEngine(ctx, format, query, info);
+			{
+				reportEngine.setReportType(processInfo.getReportType());
+			}
 			createOutput(reportEngine, processInfo.isPrintPreview(), null);
 			return true;
 		}
@@ -210,7 +229,10 @@ public class ReportCtl
 				return false;
 			}
 		}
-		
+		if(processInfo.getReportType()!=null)
+		{
+			reportEngine.setReportType(processInfo.getReportType());
+		}
 		createOutput(reportEngine, processInfo.isPrintPreview(), null);
 		return true;
 	}	//	startStandardReport
