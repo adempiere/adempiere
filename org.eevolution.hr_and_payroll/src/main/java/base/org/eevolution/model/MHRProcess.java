@@ -21,7 +21,6 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -51,6 +50,7 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.TimeUtil;
+import org.eevolution.service.HRProcessActionMsg;
 
 import javax.script.ScriptEngine;
 
@@ -104,9 +104,11 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	/**	Static Logger	*/
 	private static CLogger logger = CLogger.getCLogger (MHRProcess.class);
 	public static final String CONCEPT_PP_COST_COLLECTOR_LABOR = "PP_COST_COLLECTOR_LABOR"; // HARDCODED
-	Object description = null;
-
-
+	private Object description = null;
+	//	Action Scope
+	private HRProcessActionMsg actionScope = null;
+	
+	/**	Script to import	*/
 	private static StringBuffer s_scriptImport = new StringBuffer(	 " import org.eevolution.model.*;" 
 			+ Env.NL + "import org.compiere.model.*;"
 			+ Env.NL + "import org.adempiere.model.*;"
@@ -899,9 +901,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		}
 
 	}
-
-
-
+	
 	/**
 	 * create Movements for corresponding process , period
 	 */
@@ -950,6 +950,13 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		scriptCtx.put("_To", dateTo);
 		scriptCtx.put("_Period", payrollPeriod.getPeriodNo());
 		scriptCtx.put("_HR_Payroll_Value", payroll.getValue());
+		//	Scope
+		scriptCtx.put("SCOPE_PROCESS", HRProcessActionMsg.SCOPE_PROCESS);
+		scriptCtx.put("SCOPE_EMPLOYEE", HRProcessActionMsg.SCOPE_EMPLOYEE);
+		scriptCtx.put("SCOPE_CONCEPT", HRProcessActionMsg.SCOPE_CONCEPT);
+		scriptCtx.put("PERSISTENCE_SAVE", HRProcessActionMsg.PERSISTENCE_SAVE);
+		scriptCtx.put("PERSISTENCE_IGNORE", HRProcessActionMsg.PERSISTENCE_IGNORE);
+		scriptCtx.put("ACTION_BREAK", HRProcessActionMsg.ACTION_BREAK);
 		//	
 		if(getHR_Payroll_ID() > 0)
 			payrollId = getHR_Payroll_ID();
@@ -959,8 +966,20 @@ public class MHRProcess extends X_HR_Process implements DocAction
 			jobId = getHR_Job_ID();
 
 		payrollConcepts = MHRPayrollConcept.getPayrollConcepts(this);
-
-		Arrays.stream(MHREmployee.getEmployees(this)).forEach(employee -> calculateMovements(employee, payrollPeriod));
+		//	Instance Scope
+		actionScope = new HRProcessActionMsg();
+		//	
+		for(MBPartner employee : MHREmployee.getEmployees(this)) {
+			calculateMovements(employee, payrollPeriod);
+			//	Validate action
+			if(actionScope.isProcessScope()
+					&& actionScope.isBreakRunning()) {
+				actionScope.clearAction();
+				actionScope.clearScope();
+				actionScope.clearPersistence();
+				break;
+			}
+		}
 
 		// Save period & finish
 		if (getHR_Period_ID() > 0) {
@@ -969,6 +988,15 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		}
 	}
 
+	/**
+	 * Set scope action
+	 * @param scope
+	 * @return
+	 */
+	public HRProcessActionMsg scope(int scope) {
+		return actionScope.scope(scope);
+	}
+	
 	/**
 	 * Calaculate Movements
 	 * @param partner
@@ -1026,6 +1054,14 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		//
 		for(MHRPayrollConcept payrollConcept : payrollConcepts) // ==================================================== Concept
 		{
+			//	Validate action
+			if(actionScope.isConceptScope()
+					&& actionScope.isBreakRunning()) {
+				actionScope.clearAction();
+				actionScope.clearScope();
+				actionScope.clearPersistence();
+				continue;
+			}
 			payrollConceptId = payrollConcept.getHR_Concept_ID();
 			MHRConcept concept = MHRConcept.get(getCtx(), payrollConceptId);
 			boolean printed = payrollConcept.isPrinted() || concept.isPrinted();
@@ -1047,11 +1083,25 @@ public class MHRProcess extends X_HR_Process implements DocAction
 				movement.setHR_PayrollConcept_ID(payrollConcept.getHR_PayrollConcept_ID());
 				movement.setPeriodNo(payrollPeriod.getPeriodNo());
 			}
+			//	Validate action
+			if((actionScope.isEmployeeScope()
+					|| actionScope.isProcessScope())
+					&& actionScope.isBreakRunning()) {
+				//	Clear Scope for employee
+				if(actionScope.isEmployeeScope()) {
+					actionScope.clearScope();
+					actionScope.clearAction();
+				}
+				break;
+			}
 		} // concept
-
+		//	Validate action
+		if(actionScope.isIgnorePersistence()) {
+			actionScope.clearPersistence();
+			return;
+		}
 		// Save movements:
-		for (MHRMovement movement: movements.values())
-		{
+		for (MHRMovement movement: movements.values()) {
 			MHRConcept concept = MHRConcept.get(getCtx() , movement.getHR_Concept_ID());
 			if (concept != null && concept.get_ID() > 0) {
 				if (concept.isManual()) {
@@ -1067,6 +1117,8 @@ public class MHRProcess extends X_HR_Process implements DocAction
 				}
 			}
 		}
+		//	Clear persistence
+		actionScope.clearPersistence();
 	}
 
 	private int deleteMovements()
