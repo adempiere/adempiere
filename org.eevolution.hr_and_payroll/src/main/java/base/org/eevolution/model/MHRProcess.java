@@ -2139,7 +2139,6 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		to.setHR_Period_ID(from.getHR_Period_ID());
 		to.setC_BPartner_ID(from.getC_BPartner_ID());
 		to.setHR_Employee_ID(from.getHR_Employee_ID());
-		to.setC_Charge_ID(from.getC_Charge_ID());
 		//
 		to.setPosted (false);
 		to.setProcessed (false);
