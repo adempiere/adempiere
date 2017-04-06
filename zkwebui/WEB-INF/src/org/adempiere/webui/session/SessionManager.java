@@ -18,7 +18,6 @@
 package org.adempiere.webui.session;
 
 import java.lang.ref.WeakReference;
-import java.util.LinkedList;
 import java.util.Properties;
 
 import org.adempiere.exceptions.AdempiereException;
@@ -42,7 +41,6 @@ import org.zkoss.zk.ui.event.Events;
 public class SessionManager
 {
     public static final String SESSION_APPLICATION = "SessionApplication";
-    public static final String SESSION_QUICKENTRY = "SessionQuickEntry";
     
     private static CLogger log = CLogger.getCLogger(SessionManager.class);
     
@@ -131,45 +129,6 @@ public class SessionManager
 		IWebClient app = getSessionApplication();
 		if (app != null)
 			app.changeRole(user);
-	}
-	
-	public static LinkedList<Integer> getOpenTabs()
-	{
-		Session session = getSession();
-		@SuppressWarnings("unchecked")
-		LinkedList<Integer> tabs = (LinkedList<Integer>) session.getAttribute(SESSION_QUICKENTRY);
-		if (tabs == null) {
-			 tabs = new LinkedList<Integer>();
-		}
-		return tabs;
-	}
-	
-	public static boolean registerQuickGrid(int ad_tab_id) 
-	{
-		LinkedList<Integer> openTabs =  getOpenTabs();
-		
-		if (openTabs.contains((Integer) ad_tab_id)) {
-			return false;
-		}
-		openTabs.add((Integer)ad_tab_id);
-		getSession().setAttribute(SESSION_QUICKENTRY, openTabs);
-		return true;
-	}
-	
-	public static void closeTab(int ad_tab_id) 
-	{
-		LinkedList<Integer> openTabs =  getOpenTabs();
-		openTabs.remove((Integer)ad_tab_id);
-		getSession().setAttribute(SESSION_QUICKENTRY, openTabs);
-	}
-	
-	public static boolean isActiveTab(int ad_tab_id)
-	{
-		LinkedList<Integer> openTabs =  getOpenTabs();
-		if (openTabs.peekLast() == ad_tab_id) {
-			return true;
-		}
-		return false;
 	}
 	
 	public static void logoutSessionAfterBrowserDestroyed()

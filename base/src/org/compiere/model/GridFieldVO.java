@@ -117,8 +117,6 @@ public class GridFieldVO implements Serializable
 					vo.IsDisplayed = "Y".equals(rs.getString (i));
 				else if (columnName.equalsIgnoreCase("IsDisplayedGrid"))
 					vo.IsDisplayedGrid = "Y".equals(rs.getString (i));
-				else if (columnName.equalsIgnoreCase("IsQuickEntry"))
-					vo.IsQuickEntry = "Y".equals(rs.getString (i));
 				else if (columnName.equalsIgnoreCase("SeqNoGrid"))
 					vo.SeqNoGrid = rs.getInt (i);
 				else if (columnName.equalsIgnoreCase("DisplayLogic"))
@@ -435,8 +433,6 @@ public class GridFieldVO implements Serializable
 	public boolean      IsDisplayed = false;
 	/**	Displayed Grid		*/
 	public boolean      IsDisplayedGrid = true;
-	/**	Displayed in Quick Entry Form		*/
-	public boolean      IsQuickEntry = false;
 	/** Grid Display sequence	*/
 	public int	SeqNoGrid = 0;
 	/** Preferred size in list view */

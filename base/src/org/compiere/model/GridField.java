@@ -1092,14 +1092,6 @@ public class GridField
 	{
 		return m_vo.IsDisplayedGrid;
 	}
-	/**
-	 * Is Quick Entry
-	 * @return true if displayed in Quick Entry Form
-	 */
-	public boolean isQuickEntry()
-	{
-		return m_vo.IsQuickEntry;
-	}
 
 	/**
 	 * 	Grid sequence number
