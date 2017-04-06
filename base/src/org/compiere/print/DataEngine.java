@@ -22,6 +22,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -823,17 +824,30 @@ public class DataEngine
 				//	Check Group Change ----------------------------------------
 				if (m_group.getGroupColumnCount() > 1)	//	one is GRANDTOTAL_
 				{
+					List<PrintDataColumn> changedGroups = new ArrayList<>();
+					List<Object> changedValues = new ArrayList<>();
+					boolean force = false;
 					//	Check Columns for Function Columns
-					for (int i = pd.getColumnInfo().length-1; i >= 0; i--)	//	backwards (leaset group first)
+					for (int i = 0; i < pd.getColumnInfo().length; i++)	//	backwards (leaset group first)
 					{
 						PrintDataColumn group_pdc = pd.getColumnInfo()[i];
 						if (!m_group.isGroupColumn(group_pdc.getColumnName()))
 							continue;
-						
+
 						//	Group change
-						Object value = m_group.groupChange(group_pdc.getColumnName(), rs.getObject(group_pdc.getAlias()));
-						if (value != null)	//	Group change
+						Object value = m_group.groupChange(group_pdc.getColumnName(), rs.getObject(group_pdc.getAlias()), force);
+						if (value != null)    //	Group change
 						{
+							changedGroups.add(group_pdc);
+							changedValues.add(value);
+							force = true; // all subsequent groups force change
+						}
+					}
+
+					for (int j = changedGroups.size() - 1; j >= 0; j--) //backwards (least group first)
+					{
+						PrintDataColumn group_pdc = changedGroups.get(j);
+						Object value = changedValues.get(j);
 							char[] functions = m_group.getFunctions(group_pdc.getColumnName());
 							for (int f = 0; f < functions.length; f++)
 							{
@@ -870,8 +884,7 @@ public class DataEngine
 								pdc = pd.getColumnInfo()[c];
 								m_group.reset(group_pdc.getColumnName(), pdc.getColumnName());
 							}
-						}	//	Group change
-					}	//	for all columns
+					}	//	Group change
 				}	//	group change
 
 				//	new row ---------------------------------------------------
@@ -1032,7 +1045,7 @@ public class DataEngine
 				PrintDataColumn group_pdc = pd.getColumnInfo()[i];
 				if (!m_group.isGroupColumn(group_pdc.getColumnName()))
 					continue;
-				Object value = m_group.groupChange(group_pdc.getColumnName(), new Object());
+				Object value = m_group.groupChange(group_pdc.getColumnName(), new Object(), false);
 				if (value != null)	//	Group change
 				{
 					char[] functions = m_group.getFunctions(group_pdc.getColumnName());

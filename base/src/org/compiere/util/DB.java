@@ -1776,7 +1776,16 @@ public final class DB
 	public static int getNextID (int AD_Client_ID, String TableName, String trxName)
 	{
 		boolean SYSTEM_NATIVE_SEQUENCE = MSysConfig.getBooleanValue("SYSTEM_NATIVE_SEQUENCE",false);
-		boolean adempiereSys = Ini.isPropertyBool(Ini.P_ADEMPIERESYS);
+		boolean adempiereSys = false;
+		if (Ini.isClient())
+		{
+			adempiereSys = Ini.isPropertyBool(Ini.P_ADEMPIERESYS);
+		}
+		else
+		{
+			String sysProperty = Env.getCtx().getProperty("AdempiereSys", "N");
+			adempiereSys = "y".equalsIgnoreCase(sysProperty) || "true".equalsIgnoreCase(sysProperty);
+		}
 
 		if(SYSTEM_NATIVE_SEQUENCE && !adempiereSys)
 		{
@@ -1900,7 +1909,7 @@ public final class DB
 		return false;
 	}	//	isRemoteObjects
 
-	/**
+	/**x
 	 * 	Is this a remote client connection
 	 *
 	 *  Deprecated, always return false.

@@ -898,7 +898,7 @@ public class MInvoice extends X_C_Invoice implements DocAction
 		if (getC_BPartner_ID() == 0)
 			setBPartner(MBPartner.getTemplate(getCtx(), getAD_Client_ID()));
 		if (getC_BPartner_Location_ID() == 0)
-			setBPartner(new MBPartner(getCtx(), getC_BPartner_ID(), null));
+			setBPartner(new MBPartner(getCtx(), getC_BPartner_ID(), get_TrxName()));
 
 		//	Price List
 		if (getM_PriceList_ID() == 0)
