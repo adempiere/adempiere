@@ -397,6 +397,7 @@ public class WHRActionNotice extends HRActionNotice implements IFormController,
 						fieldText.setVisible(true);
 						fieldText.setReadWrite(true);
 					}
+					fieldQty.setVisible(false);
 					fieldAmount.setVisible(false);
 					fieldDate.setVisible(false);
 				}
