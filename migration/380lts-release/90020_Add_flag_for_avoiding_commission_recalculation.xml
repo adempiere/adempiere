@@ -175,14 +175,5 @@
         <Data AD_Column_ID="675" Column="UpdatedBy">100</Data>
       </PO>
     </Step>
-    <Step DBType="Postgres" Parse="Y" SeqNo="70" StepType="SQL">
-      <SQLStatement>
-ALTER TABLE C_CommissionRun ADD COLUMN IsReCalculate CHAR(1) DEFAULT 'Y' CHECK (IsReCalculate IN ('Y','N')) NOT NULL
-;</SQLStatement>
-    </Step>
-    <Step DBType="Oracle" Parse="Y" SeqNo="80" StepType="SQL">
-      <SQLStatement>ALTER TABLE C_CommissionRun ADD IsReCalculate CHAR(1) DEFAULT 'Y' CHECK (IsReCalculate IN ('Y','N')) NOT NULL
-;</SQLStatement>
-    </Step>
   </Migration>
 </Migrations>
