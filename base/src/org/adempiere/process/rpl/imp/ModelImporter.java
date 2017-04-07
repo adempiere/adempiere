@@ -116,8 +116,6 @@ public class ModelImporter extends SvrProcess {
 	 */
 	protected String doIt() throws Exception 
 	{
-		StringBuffer result = new StringBuffer("");
-		
 		// Load XML file and parse it
 		/*String fileNameOr = org.compiere.util.Ini.findAdempiereHome()
 		+ System.getProperty("file.separator")  
@@ -129,10 +127,12 @@ public class ModelImporter extends SvrProcess {
 		Document documentToBeImported = XMLHelper.createDocumentFromFile(p_FileName);
 		
 		ImportHelper impHelper = new ImportHelper(getCtx());
-		impHelper.importXMLDocument(result, documentToBeImported, get_TrxName());
+		impHelper.importXMLDocument(documentToBeImported, get_TrxName());
 
-		addLog(0, null, null, Msg.getMsg(getCtx(), "ImportModelProcessResult") + "\n" + result.toString());
-		return result.toString();
+		String resultMsg = impHelper.getResultLog();
+
+		addLog(0, null, null, Msg.getMsg(getCtx(), "ImportModelProcessResult") + "\n" + resultMsg);
+		return resultMsg;
 	}
 	
 	public static void main(String[] args) 

@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2016 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
@@ -11,8 +11,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
@@ -23,14 +22,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_BP_BankAccount
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0 - $Id$ */
+ *  @version Release 3.9.0 - $Id$ */
 public class X_C_BP_BankAccount extends PO implements I_C_BP_BankAccount, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150223L;
+	private static final long serialVersionUID = 20170406L;
 
     /** Standard Constructor */
     public X_C_BP_BankAccount (Properties ctx, int C_BP_BankAccount_ID, String trxName)
@@ -39,8 +38,8 @@ public class X_C_BP_BankAccount extends PO implements I_C_BP_BankAccount, I_Pers
       /** if (C_BP_BankAccount_ID == 0)
         {
 			setA_Name (null);
-			setC_BP_BankAccount_ID (0);
 			setC_BPartner_ID (0);
+			setC_BP_BankAccount_ID (0);
 			setIsACH (false);
         } */
     }
@@ -73,32 +72,21 @@ public class X_C_BP_BankAccount extends PO implements I_C_BP_BankAccount, I_Pers
       return sb.toString();
     }
 
-	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException
-    {
-		return (org.compiere.model.I_AD_User)MTable.get(getCtx(), org.compiere.model.I_AD_User.Table_Name)
-			.getPO(getAD_User_ID(), get_TrxName());	}
-
-	/** Set User/Contact.
-		@param AD_User_ID 
-		User within the system - Internal or Business Partner Contact
+	/** Set Account No.
+		@param AccountNo 
+		Account Number
 	  */
-	public void setAD_User_ID (int AD_User_ID)
+	public void setAccountNo (String AccountNo)
 	{
-		if (AD_User_ID < 1) 
-			set_Value (COLUMNNAME_AD_User_ID, null);
-		else 
-			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
+		set_Value (COLUMNNAME_AccountNo, AccountNo);
 	}
 
-	/** Get User/Contact.
-		@return User within the system - Internal or Business Partner Contact
+	/** Get Account No.
+		@return Account Number
 	  */
-	public int getAD_User_ID () 
+	public String getAccountNo () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_User_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
+		return (String)get_Value(COLUMNNAME_AccountNo);
 	}
 
 	/** Set Account City.
@@ -133,6 +121,34 @@ public class X_C_BP_BankAccount extends PO implements I_C_BP_BankAccount, I_Pers
 	public String getA_Country () 
 	{
 		return (String)get_Value(COLUMNNAME_A_Country);
+	}
+
+	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException
+    {
+		return (org.compiere.model.I_AD_User)MTable.get(getCtx(), org.compiere.model.I_AD_User.Table_Name)
+			.getPO(getAD_User_ID(), get_TrxName());	}
+
+	/** Set User/Contact.
+		@param AD_User_ID 
+		User within the system - Internal or Business Partner Contact
+	  */
+	public void setAD_User_ID (int AD_User_ID)
+	{
+		if (AD_User_ID < 1) 
+			set_Value (COLUMNNAME_AD_User_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
+	}
+
+	/** Get User/Contact.
+		@return User within the system - Internal or Business Partner Contact
+	  */
+	public int getAD_User_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_User_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Account EMail.
@@ -262,21 +278,28 @@ public class X_C_BP_BankAccount extends PO implements I_C_BP_BankAccount, I_Pers
 		return (String)get_Value(COLUMNNAME_A_Zip);
 	}
 
-	/** Set Account No.
-		@param AccountNo 
-		Account Number
+	/** BankAccountType AD_Reference_ID=216 */
+	public static final int BANKACCOUNTTYPE_AD_Reference_ID=216;
+	/** Checking = C */
+	public static final String BANKACCOUNTTYPE_Checking = "C";
+	/** Savings = S */
+	public static final String BANKACCOUNTTYPE_Savings = "S";
+	/** Set Bank Account Type.
+		@param BankAccountType 
+		Bank Account Type
 	  */
-	public void setAccountNo (String AccountNo)
+	public void setBankAccountType (String BankAccountType)
 	{
-		set_Value (COLUMNNAME_AccountNo, AccountNo);
+
+		set_Value (COLUMNNAME_BankAccountType, BankAccountType);
 	}
 
-	/** Get Account No.
-		@return Account Number
+	/** Get Bank Account Type.
+		@return Bank Account Type
 	  */
-	public String getAccountNo () 
+	public String getBankAccountType () 
 	{
-		return (String)get_Value(COLUMNNAME_AccountNo);
+		return (String)get_Value(COLUMNNAME_BankAccountType);
 	}
 
 	/** BPBankAcctUse AD_Reference_ID=393 */
@@ -307,48 +330,29 @@ public class X_C_BP_BankAccount extends PO implements I_C_BP_BankAccount, I_Pers
 		return (String)get_Value(COLUMNNAME_BPBankAcctUse);
 	}
 
-	/** BankAccountType AD_Reference_ID=216 */
-	public static final int BANKACCOUNTTYPE_AD_Reference_ID=216;
-	/** Checking = C */
-	public static final String BANKACCOUNTTYPE_Checking = "C";
-	/** Savings = S */
-	public static final String BANKACCOUNTTYPE_Savings = "S";
-	/** Set Bank Account Type.
-		@param BankAccountType 
-		Bank Account Type
-	  */
-	public void setBankAccountType (String BankAccountType)
-	{
+	public org.compiere.model.I_C_Bank getC_Bank() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_Bank)MTable.get(getCtx(), org.compiere.model.I_C_Bank.Table_Name)
+			.getPO(getC_Bank_ID(), get_TrxName());	}
 
-		set_Value (COLUMNNAME_BankAccountType, BankAccountType);
-	}
-
-	/** Get Bank Account Type.
-		@return Bank Account Type
+	/** Set Bank.
+		@param C_Bank_ID 
+		Bank
 	  */
-	public String getBankAccountType () 
+	public void setC_Bank_ID (int C_Bank_ID)
 	{
-		return (String)get_Value(COLUMNNAME_BankAccountType);
-	}
-
-	/** Set Partner Bank Account.
-		@param C_BP_BankAccount_ID 
-		Bank Account of the Business Partner
-	  */
-	public void setC_BP_BankAccount_ID (int C_BP_BankAccount_ID)
-	{
-		if (C_BP_BankAccount_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_BP_BankAccount_ID, null);
+		if (C_Bank_ID < 1) 
+			set_Value (COLUMNNAME_C_Bank_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_C_BP_BankAccount_ID, Integer.valueOf(C_BP_BankAccount_ID));
+			set_Value (COLUMNNAME_C_Bank_ID, Integer.valueOf(C_Bank_ID));
 	}
 
-	/** Get Partner Bank Account.
-		@return Bank Account of the Business Partner
+	/** Get Bank.
+		@return Bank
 	  */
-	public int getC_BP_BankAccount_ID () 
+	public int getC_Bank_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_BP_BankAccount_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Bank_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -382,29 +386,24 @@ public class X_C_BP_BankAccount extends PO implements I_C_BP_BankAccount, I_Pers
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_Bank getC_Bank() throws RuntimeException
-    {
-		return (org.compiere.model.I_C_Bank)MTable.get(getCtx(), org.compiere.model.I_C_Bank.Table_Name)
-			.getPO(getC_Bank_ID(), get_TrxName());	}
-
-	/** Set Bank.
-		@param C_Bank_ID 
-		Bank
+	/** Set Partner Bank Account.
+		@param C_BP_BankAccount_ID 
+		Bank Account of the Business Partner
 	  */
-	public void setC_Bank_ID (int C_Bank_ID)
+	public void setC_BP_BankAccount_ID (int C_BP_BankAccount_ID)
 	{
-		if (C_Bank_ID < 1) 
-			set_Value (COLUMNNAME_C_Bank_ID, null);
+		if (C_BP_BankAccount_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_BP_BankAccount_ID, null);
 		else 
-			set_Value (COLUMNNAME_C_Bank_ID, Integer.valueOf(C_Bank_ID));
+			set_ValueNoCheck (COLUMNNAME_C_BP_BankAccount_ID, Integer.valueOf(C_BP_BankAccount_ID));
 	}
 
-	/** Get Bank.
-		@return Bank
+	/** Get Partner Bank Account.
+		@return Bank Account of the Business Partner
 	  */
-	public int getC_Bank_ID () 
+	public int getC_BP_BankAccount_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Bank_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BP_BankAccount_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -533,6 +532,30 @@ public class X_C_BP_BankAccount extends PO implements I_C_BP_BankAccount, I_Pers
 	public boolean isACH () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsACH);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Payroll Account.
+		@param IsPayrollAccount 
+		Used for mark a bank account defined for payment of payroll
+	  */
+	public void setIsPayrollAccount (boolean IsPayrollAccount)
+	{
+		set_Value (COLUMNNAME_IsPayrollAccount, Boolean.valueOf(IsPayrollAccount));
+	}
+
+	/** Get Payroll Account.
+		@return Used for mark a bank account defined for payment of payroll
+	  */
+	public boolean isPayrollAccount () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsPayrollAccount);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 
