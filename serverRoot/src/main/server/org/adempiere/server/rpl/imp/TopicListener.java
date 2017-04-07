@@ -57,40 +57,40 @@ import org.w3c.dom.Document;
  * 				<li>http://sourceforge.net/tracker/index.php?func=detail&aid=2194986&group_id=176962&atid=879332
  */
 public class TopicListener implements MessageListener {
-	
+
 	/**
 	 * Connection to JMS Server
 	 */
 	private Connection conn;
-	
+
 	/**
 	 * JMS Session
 	 */
 	private Session session;
-	
+
 	/**
 	 * JMS Topic
 	 */
 	private Topic topic;
-	
+
 //	private String url="tcp://localhost:61616?jms.dispatchAsync=true&jms.useAsyncSend=true&jms.optimizeAcknowledge=true&jms.disableTimeStampsByDefault=true&jms.optimizedMessageDispatch=true&wireFormat.cacheEnabled=false&wireFormat.tightEncodingEnabled=false";
 	private String url="tcp://localhost:61616";
-	
+
 	/**
 	 * host where JMS server is running
 	 */
 	private String host = "localhost";
-	
+
 	/**
 	 * port of JMS Server
 	 */
 	private int port = 61616;
-	
+
 	/**
 	 * Network protocol
 	 */
 	private String protocol = "tcp";
-	
+
 	/**
 	 * Context
 	 */
@@ -100,46 +100,46 @@ public class TopicListener implements MessageListener {
 	 * Transaction name
 	 */
 	private String trxName = null;
-	
+
 	/**
 	 * Topic Name
 	 */
 	private String topicName = null;
-	
+
 	/**
 	 * Replication processor
 	 */
 	private ReplicationProcessor replicationProcessor = null;
-	
+
 	/**	Logger	*/
 	protected CLogger	log = CLogger.getCLogger (TopicListener.class);
-	
+
 	/** 
 	 * Is Durable Subscription
 	 */
 	private boolean isDurableSubscription = false;
-	
+
 	/**
 	 * Subscription Name
 	 */
 	private String subscriptionName = null;
-	
+
 	/**
 	 * JMS Connection ClientID
 	 */
 	private String clientID = null;
-	
+
 	/**
 	 * String User Name
 	 */
 	private String userName = null;
-	
+
 	/**
 	 * Password
 	 */
 	private String password = null;
-	
-	
+
+
 	/**
 	 * 
 	 */
@@ -150,7 +150,7 @@ public class TopicListener implements MessageListener {
 		if ( host != null && !host.equals("") ) {
 			this.host = host;
 		}
-		
+
 		if ( port > 0 ) {
 			this.port = port;
 		}
@@ -158,73 +158,53 @@ public class TopicListener implements MessageListener {
 		if ( protocol != null && !protocol.equals("") ) {
 			this.protocol = protocol;
 		}
-		
 		this.topicName = topicName;
-		
 		String uri=this.protocol + "://" + this.host + ":" + this.port;
-		
-		if(options!=null && options.length()>0)
-		{
-			if(!options.contains("?"))
+
+		if (options != null && options.length()>0) {
+			if (!options.contains("?"))
 				uri+="?"+options;
 		}
 		this.setUrl(uri);
-		
 		this.ctx = ctx;
-		
 		this.trxName = trxName;
-		
 		this.replicationProcessor = replicationProcessor;
-		
 		this.isDurableSubscription = isDurableSubscription;
-		
 		this.subscriptionName = subscriptionName;
-		
 		this.clientID = clientID;
-		
 		this.userName = userName;
-		
 		this.password = password;
-		
 	}
-	
+
 	public void run() throws JMSException {
 		ActiveMQConnectionFactory factory = new ActiveMQConnectionFactory( url );
 		log.finest("ActiveMQConnectionFactory = " + factory);
-		
+
 		if (userName !=null && password !=null) {
 			conn = factory.createConnection(userName, password);
 		} else {
 			conn = factory.createConnection();
 		}
 		log.finest("conn = " + conn );
-		
-		if (conn.getClientID()==null)
-		{
-			try
-			{
-				conn.setClientID( clientID );
-			}
-			catch (Exception e)
-			{
-				//log.info("Connection with clientID '" + clientID +"' already exists" + e.toString());
+
+		if (conn.getClientID() == null) {
+			try {
+				conn.setClientID(clientID);
+			} catch (Exception e) {
+				// log.info("Connection with clientID '" + clientID +"' already exists" + e.toString());
 				conn.close();
 				return;
 			}
 		} else {
-			if (conn.getClientID().equals(clientID))
-			{
+			if (conn.getClientID().equals(clientID)) {
 				log.warning("Connection with clientID '" + clientID + "' already exists");
 				conn.close();
 				return;
 			} else {
-				try
-				{
-					conn.setClientID( clientID );
-				}
-				catch (Exception e)
-				{
-					log.info("Error while invoking setClientID(" + clientID +")! " + e.getMessage());
+				try {
+					conn.setClientID(clientID);
+				} catch (Exception e) {
+					log.info("Error while invoking setClientID(" + clientID + ")! " + e.getMessage());
 					conn.close();
 					return;
 				}
@@ -289,8 +269,7 @@ public class TopicListener implements MessageListener {
 
 				log.finest("Message processed ...");
 				
-				if(replicationProcessor != null)
-				{	
+				if (replicationProcessor != null) {
 					MIMPProcessorLog pLog = new MIMPProcessorLog(replicationProcessor.getMImportProcessor(), "Imported Document!");
 					//pLog.setReference("topicName = " + topicName );
 					if (text.length() > 2000 ) {
@@ -301,12 +280,9 @@ public class TopicListener implements MessageListener {
 					pLog.saveEx();
 				}
 				session.commit();
-			} 
-			catch (Exception e) 
-			{
+			} catch (Exception e) {
 				log.finest("Rollback = " + e.toString());
-				try 
-				{
+				try {
 					session.rollback();
 					stop();
 					//replicationProcessor.interrupt();
@@ -317,15 +293,13 @@ public class TopicListener implements MessageListener {
 				    // TODO Auto-generated catch block
 				    e1.printStackTrace();
 				}*/
-				catch (JMSException e2) 
-				{
+				catch (JMSException e2) {
 					e2.printStackTrace();
 				}
 				e.printStackTrace();
 			}
-
 		} else {
-			log.finest("Received NO TEXT Message: " );
+			log.finest("Received NON TEXT Message! SKIPPED!" );
 		}
 	}
 
