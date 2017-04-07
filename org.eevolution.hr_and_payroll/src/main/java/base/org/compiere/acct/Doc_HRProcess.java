@@ -145,7 +145,6 @@ public class   Doc_HRProcess extends Doc
 				MHRMovement movement =  new MHRMovement(getCtx() , 0 , getTrxName());
 				movement.setC_BPartner_ID(C_BPartner_ID);
 				movement.setHR_Concept_ID(HR_Concept_ID);
-				movement.setAccountSign(AccountSign);
 				movement.setAD_OrgTrx_ID(AD_OrgTrx_ID);
 				movement.setC_Activity_ID(C_Activity_ID);
 				movement.setAmount(sumAmount);
