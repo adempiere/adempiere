@@ -49,6 +49,7 @@ import org.adempiere.webui.component.Combobox;
 import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.ListModelTable;
+import org.adempiere.webui.component.Listbox;
 import org.adempiere.webui.component.ListboxFactory;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
@@ -74,10 +75,12 @@ import org.compiere.model.MPriceListVersion;
 import org.compiere.model.MProduct;
 import org.compiere.model.MProductCategory;
 import org.compiere.model.MQuery;
+import org.compiere.model.MRole;
 import org.compiere.model.MWarehouse;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 import org.compiere.util.Util;
 import org.zkoss.zk.ui.Component;
@@ -117,6 +120,8 @@ public class InfoProductPanel extends InfoPanel implements EventListener, ValueC
 	private Label lblSKU = new Label();
 	private Textbox fieldSKU = new Textbox();
 	private Label lblPriceList = new Label();
+	private Listbox pickPriceList = new Listbox();
+	private Listbox pickWarehouse = new Listbox();
 	private WTableDirEditor fPriceList_ID = null;
 	private Label lblWarehouse = new Label();
 	private WTableDirEditor fWarehouse_ID = null;
@@ -124,6 +129,7 @@ public class InfoProductPanel extends InfoPanel implements EventListener, ValueC
 	private WSearchEditor fVendor_ID = WSearchEditor.createBPartner(0);
 	// Elaine 2008/11/21
 	private Label lblProductCategory = new Label();
+	private Listbox pickProductCategory = new Listbox();
 	private WTableDirEditor fProductCategory_ID = null;
 	//
 	private Label lblAS = new Label();
@@ -133,9 +139,11 @@ public class InfoProductPanel extends InfoPanel implements EventListener, ValueC
 	private Checkbox checkAND;
 	private Checkbox checkOnlyStock;
 	private Checkbox checkShowDetail;
+	private Listbox pickAS = new Listbox();
 
 	// Elaine 2008/11/25
 	private Textbox fieldDescription = new Textbox();
+	Tabbox tabbedPane = new Tabbox();
 	private Textbox fieldPAttributes = new Textbox();
 	private Tabbox detailTabBox = new Tabbox();
 	private WListbox warehouseTbl = ListboxFactory.newDataTable();
@@ -160,9 +168,23 @@ public class InfoProductPanel extends InfoPanel implements EventListener, ValueC
 	private Button	m_InfoPAttributeButton = new Button();
 	/** Instance Button				*/
 	private Button	m_PAttributeButton = null;
+	/** SQL From				*/
+	private static final String s_productFrom =
+		"M_Product p"		
+		+ " LEFT OUTER JOIN (SELECT pp.* FROM M_ProductPrice pp "
+		+ "                  JOIN M_PriceList_Version plv ON (plv.M_PriceList_Version_ID=pp.M_PriceList_Version_ID)"
+		+ "                  JOIN M_PriceList pl ON (pl.M_PriceList_ID=plv.M_PriceList_ID) "
+		+ "                  WHERE pp.IsActive='Y'"
+		+ "                  AND plv.IsActive='Y' AND pl.IsActive='Y') pr ON (p.M_Product_ID=pr.M_Product_ID)"
+		+ " LEFT OUTER JOIN M_AttributeSet pa ON (p.M_AttributeSet_ID=pa.M_AttributeSet_ID)"
+		+ " LEFT OUTER JOIN M_Product_PO ppo ON (p.M_Product_ID=ppo.M_Product_ID)"
+		+ " LEFT OUTER JOIN C_BPartner bp ON (ppo.C_BPartner_ID=bp.C_BPartner_ID)";
 
 	/**  Array of Column Info    */
 	private static Info_Column[] s_Layout = null;
+	private static ColumnInfo[] s_productLayout = null;
+	private static int s_productLayoutRole = -1;
+	private static int INDEX_NAME = 0;
 	private static int INDEX_PATTRIBUTE = 0;
 
 
@@ -172,6 +194,68 @@ public class InfoProductPanel extends InfoPanel implements EventListener, ValueC
 	private int			m_M_Locator_ID = 0;
 
 	protected int m_ATP_M_Warehouse_ID;
+	private int			m_C_BPartner_ID = 0;
+
+	/**
+	 *	Standard Constructor
+	 * 	@param WindowNo window no
+	 * 	@param M_Warehouse_ID warehouse
+	 * 	@param M_PriceList_ID price list
+	 * 	@param value    Query Value or Name if enclosed in @
+	 * 	@param whereClause where clause
+	 */
+	public InfoProductPanel(int windowNo,
+		int M_Warehouse_ID, int M_PriceList_ID, boolean multipleSelection,String value,
+		 String whereClause)
+	{
+		this(windowNo, M_Warehouse_ID, M_PriceList_ID, multipleSelection, value, whereClause, true);
+	}
+
+	/**
+	 *	Standard Constructor
+	 * 	@param WindowNo window no
+	 * 	@param M_Warehouse_ID warehouse
+	 * 	@param M_PriceList_ID price list
+	 * 	@param value    Query Value or Name if enclosed in @
+	 * 	@param whereClause where clause
+	 */
+	public InfoProductPanel(int windowNo,
+		int M_Warehouse_ID, int M_PriceList_ID, boolean multipleSelection,String value,
+		 String whereClause, boolean lookup)
+	{
+		super (windowNo, "p", "M_Product_ID",multipleSelection, whereClause, lookup);
+		log.info(value + ", Wh=" + M_Warehouse_ID + ", PL=" + M_PriceList_ID + ", WHERE=" + whereClause);
+		setTitle(Msg.getMsg(Env.getCtx(), "InfoProduct"));
+		//
+		initComponents();
+		init();
+		initInfo (value, M_Warehouse_ID, M_PriceList_ID);
+		m_C_BPartner_ID = Env.getContextAsInt(Env.getCtx(), windowNo, "C_BPartner_ID");
+
+        int no = contentPanel.getRowCount();
+        setStatusLine(Integer.toString(no) + " " + Msg.getMsg(Env.getCtx(), "SearchRows_EnterQuery"), false);
+        setStatusDB(Integer.toString(no));
+		//	AutoQuery
+		if (value != null && value.length() > 0)
+        {
+			executeQuery();
+            renderItems();
+        }
+		else 
+		{
+			initialId = Env.getContextAsInt(Env.getCtx(), windowNo, "M_Product_ID");
+			executeQuery();
+            renderItems();
+		}
+		tabbedPane.setSelectedIndex(0);
+
+		p_loadedOK = true;
+
+		//Begin - fer_luck @ centuryon
+		mWindowNo = windowNo; // Elaine 2008/12/16
+		//End - fer_luck @ centuryon
+
+	}	//	InfoProductPanel
 
 	/**
 	 *	Standard Constructor
@@ -992,6 +1076,170 @@ public class InfoProductPanel extends InfoPanel implements EventListener, ValueC
 	/**
 	 *	Dynamic Init
 	 *
+	 * @param value value
+	 * @param M_Warehouse_ID warehouse
+	 * @param M_PriceList_ID price list
+	 */
+	private void initInfo (String value, int M_Warehouse_ID, int M_PriceList_ID)
+	{
+		//	Pick init
+		fillPicks(M_PriceList_ID);
+		int M_PriceList_Version_ID = findPLV (M_PriceList_ID);
+		//	Set Value
+		if (value != null && value.length() > 0 && value.startsWith("@") && value.endsWith("@")) {
+			String values[] = value.substring(1,value.length()-1).split("_");
+			fieldValue.setText(values[0]);
+		}
+		else
+			fieldValue.setText(value);
+		//	Set Warehouse
+		if (M_Warehouse_ID == 0)
+			M_Warehouse_ID = Env.getContextAsInt(Env.getCtx(), "#M_Warehouse_ID");
+		if (M_Warehouse_ID != 0)
+			setWarehouse (M_Warehouse_ID);
+		// 	Set PriceList Version
+		if (M_PriceList_Version_ID != 0)
+			setPriceListVersion (M_PriceList_Version_ID);
+
+		//	Create Grid
+		StringBuffer where = new StringBuffer();
+		where.append("p.IsActive='Y'");
+		if (M_Warehouse_ID != 0)
+			where.append(" AND p.IsSummary='N'");
+		//  dynamic Where Clause
+		if (p_whereClause != null && p_whereClause.length() > 0)
+			where.append(" AND ")   //  replace fully qalified name with alias
+				.append(Util.replace(p_whereClause, "M_Product.", "p."));
+		//
+		prepareTable(getProductLayout(),
+			s_productFrom,
+			where.toString(),
+			"p.Value ASC");
+
+		//
+		pickWarehouse.addEventListener(Events.ON_SELECT,this);
+		pickPriceList.addEventListener(Events.ON_SELECT,this);
+		pickProductCategory.addEventListener(Events.ON_SELECT, this); // Elaine 2008/11/21
+		pickAS.addEventListener(Events.ON_SELECT, this);
+	}	//	initInfo
+
+	/**
+	 *	Fill Picks with values
+	 *
+	 * @param M_PriceList_ID price list
+	 */
+	private void fillPicks (int M_PriceList_ID)
+	{
+		//	Price List
+		String SQL = "SELECT M_PriceList_Version.M_PriceList_Version_ID,"
+			+ " M_PriceList_Version.Name || ' (' || c.Iso_Code || ')' AS ValueName "
+			+ "FROM M_PriceList_Version, M_PriceList pl, C_Currency c "
+			+ "WHERE M_PriceList_Version.M_PriceList_ID=pl.M_PriceList_ID"
+			+ " AND pl.C_Currency_ID=c.C_Currency_ID"
+			+ " AND M_PriceList_Version.IsActive='Y' AND pl.IsActive='Y'";
+		//	Same PL currency as original one
+		if (M_PriceList_ID != 0)
+			SQL += " AND EXISTS (SELECT * FROM M_PriceList xp WHERE xp.M_PriceList_ID=" + M_PriceList_ID
+				+ " AND pl.C_Currency_ID=xp.C_Currency_ID)";
+		//	Add Access & Order
+		SQL = MRole.getDefault().addAccessSQL (SQL, "M_PriceList_Version", true, false)	// fully qualidfied - RO
+			+ " ORDER BY M_PriceList_Version.Name";
+		try
+		{
+			pickPriceList.appendItem("",new Integer(0));
+			PreparedStatement pstmt = DB.prepareStatement(SQL, null);
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next())
+			{
+				pickPriceList.appendItem(rs.getString(2),new Integer(rs.getInt(1)));
+			}
+			rs.close();
+			pstmt.close();
+
+			//	Warehouse
+			SQL = MRole.getDefault().addAccessSQL (
+				"SELECT M_Warehouse_ID, Value || ' - ' || Name AS ValueName "
+				+ "FROM M_Warehouse "
+				+ "WHERE IsActive='Y'",
+					"M_Warehouse", MRole.SQL_NOTQUALIFIED, MRole.SQL_RO)
+				+ " ORDER BY Value";
+			pickWarehouse.appendItem("", new Integer(0));
+			pstmt = DB.prepareStatement(SQL, null);
+			rs = pstmt.executeQuery();
+			while (rs.next())
+			{
+				pickWarehouse.appendItem(rs.getString("ValueName"), new Integer(rs.getInt("M_Warehouse_ID")));
+			}
+			rs.close();
+			pstmt.close();
+
+			// Elaine 2008/11/21
+			//	Product Category
+			SQL = MRole.getDefault().addAccessSQL (
+				"SELECT M_Product_Category_ID, Value || ' - ' || Name FROM M_Product_Category WHERE IsActive='Y'",
+					"M_Product_Category", MRole.SQL_NOTQUALIFIED, MRole.SQL_RO)
+				+ " ORDER BY Value";
+			for (KeyNamePair kn : DB.getKeyNamePairs(SQL, true)) {
+				pickProductCategory.addItem(kn);
+			}
+
+			//	Attribute Sets
+			SQL = MRole.getDefault().addAccessSQL (
+				"SELECT M_AttributeSet_ID, Name FROM M_AttributeSet WHERE IsActive='Y'",
+					"M_AttributeSet", MRole.SQL_NOTQUALIFIED, MRole.SQL_RO)
+				+ " ORDER BY Name";
+			for (KeyNamePair kn : DB.getKeyNamePairs(SQL, true)) {
+				pickAS.addItem(kn);
+			}
+		}
+		catch (SQLException e)
+		{
+			log.log(Level.SEVERE, SQL, e);
+			setStatusLine(e.getLocalizedMessage(), true);
+		}
+	}	//	fillPicks
+
+	/**
+	 *	Set Warehouse
+	 *
+	 * 	@param M_Warehouse_ID warehouse
+	 */
+	private void setWarehouse(int M_Warehouse_ID)
+	{
+		for (int i = 0; i < pickWarehouse.getItemCount(); i++)
+		{
+			 Integer key = (Integer) pickWarehouse.getItemAtIndex(i).getValue();
+			if (key == M_Warehouse_ID)
+			{
+				pickWarehouse.setSelectedIndex(i);
+				return;
+			}
+		}
+	}	//	setWarehouse
+
+	/**
+	 *	Set PriceList
+	 *
+	 * @param M_PriceList_Version_ID price list
+	 */
+	private void setPriceListVersion(int M_PriceList_Version_ID)
+	{
+		log.config("M_PriceList_Version_ID=" + M_PriceList_Version_ID);
+		for (int i = 0; i < pickPriceList.getItemCount(); i++)
+		{
+			Integer key = (Integer) pickPriceList.getItemAtIndex(i).getValue();
+			if (key == M_PriceList_Version_ID)
+			{
+				pickPriceList.setSelectedIndex(i);
+				return;
+			}
+		}
+		log.fine("NOT found");
+	}	//	setPriceList
+
+	/**
+	 *	Dynamic Init
+	 *
 	 * @param record_id   M_Product_ID if known, otherwise, 0
 	 * @param value value
 	 * @param M_Warehouse_ID warehouse
@@ -1518,6 +1766,7 @@ public class InfoProductPanel extends InfoPanel implements EventListener, ValueC
 		//
 		return s_Layout;
 	}   //  getTableLayout
+	
 	/**
 	 *  Get Order Clause
 	 *
@@ -1546,6 +1795,54 @@ public class InfoProductPanel extends InfoPanel implements EventListener, ValueC
 		
 		return orderClause;
 	}
+
+	/**
+	 *  Get Product Layout
+	 *
+	 * @return array of Column_Info
+	 */
+	protected ColumnInfo[] getProductLayout()
+	{
+		if (s_productLayout != null && s_productLayoutRole == MRole.getDefault().getAD_Role_ID())
+			return s_productLayout;
+		//
+		s_productLayout = null;
+		s_productLayoutRole = MRole.getDefault().getAD_Role_ID();
+		ArrayList<ColumnInfo> list = new ArrayList<ColumnInfo>();
+		list.add(new ColumnInfo(" ", "p.M_Product_ID", IDColumn.class));
+		list.add(new ColumnInfo(Msg.translate(Env.getCtx(), "Discontinued").substring(0, 1), "p.Discontinued", Boolean.class));
+		list.add(new ColumnInfo(Msg.translate(Env.getCtx(), "Value"), "p.Value", String.class));
+		list.add(new ColumnInfo(Msg.translate(Env.getCtx(), "Name"), "p.Name", String.class));
+		list.add(new ColumnInfo(Msg.translate(Env.getCtx(), "QtyAvailable"), "bomQtyAvailable(p.M_Product_ID,?,0) AS QtyAvailable", Double.class, true, true, null));
+		if (MRole.getDefault().isColumnAccess(251 /*M_ProductPrice*/, 3027/*PriceList*/, false))
+			list.add(new ColumnInfo(Msg.translate(Env.getCtx(), "PriceList"), "bomPriceList(p.M_Product_ID, pr.M_PriceList_Version_ID) AS PriceList",  BigDecimal.class));
+		if (MRole.getDefault().isColumnAccess(251 /*M_ProductPrice*/, 3028/*PriceStd*/, false))
+			list.add(new ColumnInfo(Msg.translate(Env.getCtx(), "PriceStd"), "bomPriceStd(p.M_Product_ID, pr.M_PriceList_Version_ID) AS PriceStd", BigDecimal.class));
+		list.add(new ColumnInfo(Msg.translate(Env.getCtx(), "QtyOnHand"), "bomQtyOnHand(p.M_Product_ID,?,0) AS QtyOnHand", Double.class));
+		list.add(new ColumnInfo(Msg.translate(Env.getCtx(), "QtyReserved"), "bomQtyReserved(p.M_Product_ID,?,0) AS QtyReserved", Double.class));
+		list.add(new ColumnInfo(Msg.translate(Env.getCtx(), "QtyOrdered"), "bomQtyOrdered(p.M_Product_ID,?,0) AS QtyOrdered", Double.class));
+		if (isUnconfirmed())
+		{
+			list.add(new ColumnInfo(Msg.translate(Env.getCtx(), "QtyUnconfirmed"), "(SELECT SUM(c.TargetQty) FROM M_InOutLineConfirm c INNER JOIN M_InOutLine il ON (c.M_InOutLine_ID=il.M_InOutLine_ID) INNER JOIN M_InOut i ON (il.M_InOut_ID=i.M_InOut_ID) WHERE c.Processed='N' AND i.M_Warehouse_ID=? AND il.M_Product_ID=p.M_Product_ID) AS QtyUnconfirmed", Double.class));
+			list.add(new ColumnInfo(Msg.translate(Env.getCtx(), "QtyUnconfirmedMove"), "(SELECT SUM(c.TargetQty) FROM M_MovementLineConfirm c INNER JOIN M_MovementLine ml ON (c.M_MovementLine_ID=ml.M_MovementLine_ID) INNER JOIN M_Locator l ON (ml.M_LocatorTo_ID=l.M_Locator_ID) WHERE c.Processed='N' AND l.M_Warehouse_ID=? AND ml.M_Product_ID=p.M_Product_ID) AS QtyUnconfirmedMove", Double.class));
+		}
+		if (MRole.getDefault().isColumnAccess(251 /*M_ProductPrice*/, 3028/*PriceStd*/, false) && MRole.getDefault().isColumnAccess(251 /*M_ProductPrice*/, 3029/*PriceLimit*/, false))
+			list.add(new ColumnInfo(Msg.translate(Env.getCtx(), "Margin"), "bomPriceStd(p.M_Product_ID, pr.M_PriceList_Version_ID)-bomPriceLimit(p.M_Product_ID, pr.M_PriceList_Version_ID) AS Margin", BigDecimal.class));
+		list.add(new ColumnInfo(Msg.translate(Env.getCtx(), "Vendor"), "bp.Name", String.class));
+		if (MRole.getDefault().isColumnAccess(251 /*M_ProductPrice*/, 3029/*PriceLimit*/, false))
+			list.add(new ColumnInfo(Msg.translate(Env.getCtx(), "PriceLimit"), "bomPriceLimit(p.M_Product_ID, pr.M_PriceList_Version_ID) AS PriceLimit", BigDecimal.class));
+		list.add(new ColumnInfo(Msg.translate(Env.getCtx(), "IsInstanceAttribute"), "pa.IsInstanceAttribute", Boolean.class));
+		list.add(new ColumnInfo(Msg.translate(Env.getCtx(), "IsPhantom"), "p.IsPhantom", Boolean.class));
+		list.add(new ColumnInfo(Msg.translate(Env.getCtx(), "IsBOM"), "p.IsBOM", Boolean.class));
+		list.add(new ColumnInfo(Msg.translate(Env.getCtx(), "IsPurchased"), "p.IsPurchased", Boolean.class));
+		s_productLayout = new ColumnInfo[list.size()];
+		list.toArray(s_productLayout);
+		INDEX_NAME = 3;
+		INDEX_PATTRIBUTE = s_productLayout.length - 1;	//	last item
+
+		return s_productLayout;
+	}   //  getProductLayout
+	
 	/**
 	 * 	System has Unforfirmed records
 	 *	@return true if unconfirmed

@@ -31,5 +31,7 @@ public interface IHTMLExtension {
 	
 	public void extendRowElement(ConcreteElement row, PrintData printData);
 	
-	public void extendIDColumn(int row, ConcreteElement columnElement, a href, PrintDataElement dataElement);
+	public void extendIDColumn(int row, ConcreteElement columnElement, a href, PrintDataElement dataElement, MPrintFormatItem pfi, int AD_PInstace_ID);
+
+	public String getComponentId();
 }

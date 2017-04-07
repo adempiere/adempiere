@@ -83,7 +83,7 @@ public interface IDesktop extends UIPart {
 	 * @param url
 	 * @param closeable
 	 */
-	public void showURL(String url, boolean closeable);
+	public void showURL(String url, String title, boolean closeable);
 
 	/**
 	 *
@@ -205,4 +205,11 @@ public interface IDesktop extends UIPart {
 	 * @param template
 	 */
 	public void onServerPush(ServerPushTemplate template);
+
+	/**
+	 * Feature #1449
+	 * 
+	 * @param infoWindowID
+	 */
+	public void openInfo(int infoWindowID);
 }

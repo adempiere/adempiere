@@ -208,6 +208,27 @@ public class X_AD_Role extends PO implements I_AD_Role, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Allow HTML View.
+		@param Allow_HTML_View Allow HTML View	  */
+	public void setAllow_HTML_View (boolean Allow_HTML_View)
+	{
+		set_Value (COLUMNNAME_Allow_HTML_View, Boolean.valueOf(Allow_HTML_View));
+	}
+
+	/** Get Allow HTML View.
+		@return Allow HTML View	  */
+	public boolean isAllow_HTML_View () 
+	{
+		Object oo = get_Value(COLUMNNAME_Allow_HTML_View);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Allow Info Account.
 		@param Allow_Info_Account Allow Info Account	  */
 	public void setAllow_Info_Account (boolean Allow_Info_Account)
@@ -472,6 +493,27 @@ public class X_AD_Role extends PO implements I_AD_Role, I_Persistent
 	public boolean isAllow_Info_Schedule () 
 	{
 		Object oo = get_Value(COLUMNNAME_Allow_Info_Schedule);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Allow XLS View.
+		@param Allow_XLS_View Allow XLS View	  */
+	public void setAllow_XLS_View (boolean Allow_XLS_View)
+	{
+		set_Value (COLUMNNAME_Allow_XLS_View, Boolean.valueOf(Allow_XLS_View));
+	}
+
+	/** Get Allow XLS View.
+		@return Allow XLS View	  */
+	public boolean isAllow_XLS_View () 
+	{
+		Object oo = get_Value(COLUMNNAME_Allow_XLS_View);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 

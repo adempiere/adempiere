@@ -220,6 +220,19 @@ public interface I_AD_PrintFormatItem
 	  */
 	public int getCreatedBy();
 
+    /** Column name DisplayLogic */
+    public static final String COLUMNNAME_DisplayLogic = "DisplayLogic";
+
+	/** Set Display Logic.
+	  * If the Field is displayed, the result determines if the field is actually displayed
+	  */
+	public void setDisplayLogic (String DisplayLogic);
+
+	/** Get Display Logic.
+	  * If the Field is displayed, the result determines if the field is actually displayed
+	  */
+	public String getDisplayLogic();
+
     /** Column name FieldAlignmentType */
     public static final String COLUMNNAME_FieldAlignmentType = "FieldAlignmentType";
 
@@ -288,12 +301,12 @@ public interface I_AD_PrintFormatItem
     /** Column name IsAveraged */
     public static final String COLUMNNAME_IsAveraged = "IsAveraged";
 
-	/** Set Calculate Mean (µ).
+	/** Set Calculate Mean (μ).
 	  * Calculate Average of numeric content or length
 	  */
 	public void setIsAveraged (boolean IsAveraged);
 
-	/** Get Calculate Mean (µ).
+	/** Get Calculate Mean (μ).
 	  * Calculate Average of numeric content or length
 	  */
 	public boolean isAveraged();
@@ -314,25 +327,38 @@ public interface I_AD_PrintFormatItem
     /** Column name IsCounted */
     public static final String COLUMNNAME_IsCounted = "IsCounted";
 
-	/** Set Calculate Count (¿).
+	/** Set Calculate Count (№).
 	  * Count number of not empty elements
 	  */
 	public void setIsCounted (boolean IsCounted);
 
-	/** Get Calculate Count (¿).
+	/** Get Calculate Count (№).
 	  * Count number of not empty elements
 	  */
 	public boolean isCounted();
 
+    /** Column name IsDesc */
+    public static final String COLUMNNAME_IsDesc = "IsDesc";
+
+	/** Set Descending.
+	  * Sort your data using a SQL Desc Order By statement
+	  */
+	public void setIsDesc (boolean IsDesc);
+
+	/** Get Descending.
+	  * Sort your data using a SQL Desc Order By statement
+	  */
+	public boolean isDesc();
+
     /** Column name IsDeviationCalc */
     public static final String COLUMNNAME_IsDeviationCalc = "IsDeviationCalc";
 
-	/** Set Calculate Deviation (s).
+	/** Set Calculate Deviation (σ).
 	  * Calculate Standard Deviation
 	  */
 	public void setIsDeviationCalc (boolean IsDeviationCalc);
 
-	/** Get Calculate Deviation (s).
+	/** Get Calculate Deviation (σ).
 	  * Calculate Standard Deviation
 	  */
 	public boolean isDeviationCalc();
@@ -418,12 +444,12 @@ public interface I_AD_PrintFormatItem
     /** Column name IsMinCalc */
     public static final String COLUMNNAME_IsMinCalc = "IsMinCalc";
 
-	/** Set Calculate Minimum (¿).
+	/** Set Calculate Minimum (↓).
 	  * Calculate the minimum amount
 	  */
 	public void setIsMinCalc (boolean IsMinCalc);
 
-	/** Get Calculate Minimum (¿).
+	/** Get Calculate Minimum (↓).
 	  * Calculate the minimum amount
 	  */
 	public boolean isMinCalc();
@@ -480,6 +506,19 @@ public interface I_AD_PrintFormatItem
 	  */
 	public boolean isPageBreak();
 
+    /** Column name IsPrintBarcodeText */
+    public static final String COLUMNNAME_IsPrintBarcodeText = "IsPrintBarcodeText";
+
+	/** Set Print Barcode Text.
+	  * Print barcode text beneath symbol
+	  */
+	public void setIsPrintBarcodeText (boolean IsPrintBarcodeText);
+
+	/** Get Print Barcode Text.
+	  * Print barcode text beneath symbol
+	  */
+	public boolean isPrintBarcodeText();
+
     /** Column name IsPrinted */
     public static final String COLUMNNAME_IsPrinted = "IsPrinted";
 
@@ -535,12 +574,12 @@ public interface I_AD_PrintFormatItem
     /** Column name IsSummarized */
     public static final String COLUMNNAME_IsSummarized = "IsSummarized";
 
-	/** Set Calculate Sum (S).
+	/** Set Calculate Sum (Σ).
 	  * Calculate the Sum of numeric content or length
 	  */
 	public void setIsSummarized (boolean IsSummarized);
 
-	/** Get Calculate Sum (S).
+	/** Get Calculate Sum (Σ).
 	  * Calculate the Sum of numeric content or length
 	  */
 	public boolean isSummarized();
@@ -574,12 +613,12 @@ public interface I_AD_PrintFormatItem
     /** Column name IsVarianceCalc */
     public static final String COLUMNNAME_IsVarianceCalc = "IsVarianceCalc";
 
-	/** Set Calculate Variance (s²).
+	/** Set Calculate Variance (σ²).
 	  * Calculate Variance
 	  */
 	public void setIsVarianceCalc (boolean IsVarianceCalc);
 
-	/** Get Calculate Variance (s²).
+	/** Get Calculate Variance (σ²).
 	  * Calculate Variance
 	  */
 	public boolean isVarianceCalc();
