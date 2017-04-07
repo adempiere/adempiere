@@ -459,7 +459,7 @@ public final class MLookup extends Lookup implements Serializable
 			if (directValue != null)
 				return directValue;
 		}
-		log.finer(m_info.KeyColumn + ": " + key 
+		log.log(Level.ALL, m_info.KeyColumn + ": " + key 
 				+ ", SaveInCache=" + saveInCache + ",Local=" + cacheLocal);
 		boolean isNumber = m_info.KeyColumn.endsWith("_ID");
 		try

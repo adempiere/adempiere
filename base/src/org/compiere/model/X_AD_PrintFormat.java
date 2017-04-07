@@ -48,6 +48,8 @@ public class X_AD_PrintFormat extends PO implements I_AD_PrintFormat, I_Persiste
 			setHeaderMargin (0);
 			setIsDefault (false);
 			setIsForm (false);
+			setIsPrintParameters (true);
+// Y
 			setIsStandardHeaderFooter (true);
 // Y
 			setIsTableBased (true);
@@ -416,6 +418,30 @@ public class X_AD_PrintFormat extends PO implements I_AD_PrintFormat, I_Persiste
 	public boolean isForm () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsForm);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Print Parameters.
+		@param IsPrintParameters 
+		Print query parameters on list report
+	  */
+	public void setIsPrintParameters (boolean IsPrintParameters)
+	{
+		set_Value (COLUMNNAME_IsPrintParameters, Boolean.valueOf(IsPrintParameters));
+	}
+
+	/** Get Print Parameters.
+		@return Print query parameters on list report
+	  */
+	public boolean isPrintParameters () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsPrintParameters);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 

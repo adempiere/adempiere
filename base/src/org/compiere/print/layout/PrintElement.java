@@ -24,6 +24,7 @@ import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.geom.Point2D;
 import java.awt.image.ImageObserver;
+import java.io.Serializable;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -38,7 +39,7 @@ import org.compiere.util.CLogger;
  *  @author     Jorg Janke
  *  @version    $Id: PrintElement.java,v 1.2 2006/07/30 00:53:02 jjanke Exp $
  */
-public abstract class PrintElement implements ImageObserver
+public abstract class PrintElement implements ImageObserver, Serializable
 {
 	/**
 	 *  Constructor

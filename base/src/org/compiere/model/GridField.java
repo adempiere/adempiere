@@ -33,6 +33,8 @@ import java.util.List;
 import java.util.Properties;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
@@ -100,6 +102,19 @@ public class GridField
 		//  Set Attributes
 		loadLookup();
 		setError(false);
+		
+		// set related lookup (if column sql matches @BaseColumnName@.DisplayColumnName
+		if ( m_vo.ColumnSQL != null )
+		{
+			Pattern p = Pattern.compile("^\\@(.+)\\@\\.(.+)");
+			Matcher m = p.matcher(m_vo.ColumnSQL);
+			if ( m.matches() )
+			{
+				isLookupRelated = true;
+				lookupRelatedBase = m.group(1);
+				lookupRelatedDisplay = m.group(2);
+			}
+		}
 	}   //  MField
 
 	/** Value Object                */
@@ -161,6 +176,10 @@ public class GridField
 	/**	Logger			*/
 	private static CLogger	log = CLogger.getCLogger(GridField.class);
 	
+	private boolean isLookupRelated = false;
+	private String lookupRelatedDisplay = null;
+	private String lookupRelatedBase = null;
+	
 	
 	/**************************************************************************
 	 *  Set Lookup for columns with lookup
@@ -212,6 +231,21 @@ public class GridField
 		}
 	}   //  m_lookup
 
+	/***
+		 * bypass isdisplay validation, used by findwindow
+		 */
+		public void loadLookupNoValidate() {
+			if (m_vo.lookupInfo == null && isLookup()) {
+				m_vo.loadLookupInfo();
+			}
+			if (m_vo.lookupInfo == null) {
+				return;
+			}
+			m_vo.lookupInfo.IsKey = isKey();
+			MLookup ml = new MLookup (m_vo.lookupInfo, m_vo.TabNo);
+			m_lookup = ml;
+		}
+	
 	/**
 	 *  Wait until Load is complete
 	 */
@@ -231,6 +265,14 @@ public class GridField
 		return m_lookup;
 	}   //  getLookup
 
+	/**
+	 *  Set Lookup
+	 */
+	public void setLookup(Lookup lookup)
+	{
+		m_lookup = lookup;
+	}   //  getLookup
+	
 	/**
 	 *  Is this field a Lookup?.
 	 *  @return true if lookup field
@@ -252,6 +294,33 @@ public class GridField
 
 		return retValue;
 	}   //  isLookup
+	
+	/**
+	 *  Is this field a Related Lookup?.
+	 *  @return true if lookup related field
+	 */
+	public boolean isLookupRelated()
+	{
+		return isLookupRelated;
+	}   //  isLookupRelated
+	
+	/**
+	 *  Get related lookup display column name
+	 *  @return display column name for lookup related field
+	 */
+	public String getLookupDisplayColumnName()
+	{
+		return lookupRelatedDisplay;
+	}   //  
+	
+	/**
+	 *  Get related lookup base column name
+	 *  @return base column name for lookup related field
+	 */
+	public String getLookupBaseColumnName()
+	{
+		return lookupRelatedBase;
+	}   //  
 
 	/**
 	 *  Refresh Lookup if the lookup is unstable
@@ -281,6 +350,7 @@ public class GridField
 		Evaluator.parseDepends(list, m_vo.DisplayLogic);
 		Evaluator.parseDepends(list, m_vo.ReadOnlyLogic);
 		Evaluator.parseDepends(list, m_vo.MandatoryLogic);
+		Evaluator.parseDepends(list, m_vo.ColumnSQL);
 		//	FR [ 305 ]
 		Evaluator.parseDepends(list, m_vo.DefaultValue);
 		Evaluator.parseDepends(list, m_vo.DefaultValue2);
@@ -386,7 +456,7 @@ public class GridField
 			return false;
 		//  Fields always enabled (are usually not updateable)
 		if (m_vo.ColumnName.equals("Posted")
-			|| (m_vo.ColumnName.equals("Record_ID") && m_vo.displayType == DisplayType.Button))	//  Zoom
+			|| (m_vo.ColumnName.equals("Record_ID") && m_vo.displayType == DisplayType.Button) || (m_vo.IsKey  && m_vo.displayType == DisplayType.ID))	//  Zoom
 			return true;
 
 		//  Fields always updareable
@@ -398,6 +468,15 @@ public class GridField
 		{
 			log.finest(m_vo.ColumnName + " NO - TabRO=" + m_vo.tabReadOnly + ", FieldRO=" + m_vo.IsReadOnly);
 			return false;
+		}
+		
+		//check tab context
+		if (checkContext && getGridTab() != null)
+		{
+			if (getGridTab().isReadOnly())
+			{
+				return false;
+			}
 		}
 
 		//	Not Updateable - only editable if new updateable row
@@ -477,6 +556,17 @@ public class GridField
 	{
 		m_inserting = inserting;
 	}   //  setInserting
+	
+	/**************************************************************************
+	 *	Create default value.
+	 * 
+	 *  @return default value or null
+	 */
+	//TODO: implement all getDefault() calls with trxName
+	public Object getDefault()
+	{
+		return getDefault(null);
+	}   //  getDefault
 
 	
 	/**************************************************************************
@@ -494,7 +584,7 @@ public class GridField
 	 *  </pre>
 	 *  @return default value or null
 	 */
-	public Object getDefault()
+	public Object getDefault(String trxName)
 	{
 		/**
 		 *  (a) Key/Parent/IsActive/SystemAccess
@@ -554,7 +644,7 @@ public class GridField
 			{
 				try
 				{
-					PreparedStatement stmt = DB.prepareStatement(sql, null);
+					PreparedStatement stmt = DB.prepareStatement(sql, trxName);
 					ResultSet rs = stmt.executeQuery();
 					if (rs.next())
 						defStr = rs.getString(1);
@@ -932,6 +1022,13 @@ public class GridField
 		return m_vo.displayType;
 	}
 	/**
+	 * 	Set Display Type
+	 */
+	public void setDisplayType(int displayType)
+	{
+		m_vo.displayType = displayType;
+	}
+	/**
 	 * 	Get AD_Reference_Value_ID
 	 *	@return reference value
 	 */
@@ -995,6 +1092,7 @@ public class GridField
 	{
 		return m_vo.IsDisplayedGrid;
 	}
+
 	/**
 	 * 	Grid sequence number
 	 *	@return sequence number
@@ -1018,6 +1116,11 @@ public class GridField
 	public String getDefaultValue()
 	{
 		return m_vo.DefaultValue;
+	}
+	
+	public void setDefaultValue(String defaultValue)
+	{
+		m_vo.DefaultValue = defaultValue;
 	}
 	/**
 	 * 	Is ReadOnly
@@ -1046,6 +1149,17 @@ public class GridField
 	public boolean isAutocomplete() {
 		return m_vo.IsAutocomplete;
 	}
+	/**
+	 * 	Is Allow Copy
+	 *	@return true if allow copy
+	 */
+	public boolean isAllowCopy() {
+		return m_vo.IsAllowCopy;
+	}
+	public boolean isAllowNewAttributeInstance() {
+		return m_vo.IsAllowNewAttributeInstance;
+	}
+	
 	/**
 	 * 	Is Always Updateable
 	 *	@return true if always updateable
@@ -1295,6 +1409,15 @@ public class GridField
 	}   //  isLongField
 
 	/**
+	 * 	Get AD_Field_ID
+	 *	@return field
+	 */
+	public int getAD_Field_ID()
+	{
+		return m_vo.AD_Field_ID;
+	}
+	
+	/**
 	 *  Set Value to null.
 	 *  <p>
 	 *  Do not update context - called from GridTab.setCurrentRow
@@ -1361,7 +1484,11 @@ public class GridField
 		Object oldValue = m_oldValue;
 		if (inserting)
 			oldValue = INSERTING;
-		m_propertyChangeListeners.firePropertyChange(PROPERTY, oldValue, m_value);
+		
+		if (getGridTab() == null ||
+				(getGridTab() != null)) {
+			m_propertyChangeListeners.firePropertyChange(PROPERTY, oldValue, m_value);
+		}
 	}   //  setValue
 
 	/**

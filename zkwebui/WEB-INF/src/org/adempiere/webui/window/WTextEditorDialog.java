@@ -49,7 +49,27 @@ public class WTextEditorDialog extends Window implements EventListener{
 	private Textbox textBox;
 	private FCKeditor editor;
 	private Label status;
+	private boolean isShowHTMLTab = true;
 
+	/**
+	 * @param title
+	 * @param text
+	 * @param editable
+	 * @param maxSize
+	 * @param isShowHTMLTab
+	 */
+	public WTextEditorDialog(String title, String text, boolean editable, int maxSize, boolean isShowHTMLTab)
+	{
+		super();
+		setTitle(title);
+		this.editable = editable;
+		this.maxSize = maxSize;
+		this.text = text;
+		this.isShowHTMLTab = isShowHTMLTab;
+
+		init();
+	}
+	
 	/**
 	 * 
 	 * @param title
@@ -93,26 +113,28 @@ public class WTextEditorDialog extends Window implements EventListener{
 		textBox.setHeight("500px");
 		tabPanel.appendChild(textBox);
 		
-		tab = new Tab("HTML");
-		tabs.appendChild(tab);
-		
-		tabPanel = new Tabpanel();
-		tabPanels.appendChild(tabPanel);
-		if (editable) {
-			editor = new FCKeditor();
-			tabPanel.appendChild(editor);
-			editor.setWidth("700px");
-			editor.setHeight("500px");
-			editor.setValue(text);
-		} else {
-			Div div = new Div();
-			div.setHeight("500px");
-			div.setWidth("700px");
-			div.setStyle("overflow: auto; border: 1px solid");
-			tabPanel.appendChild(div);
-			Html html = new Html();
-			div.appendChild(html);
-			html.setContent(text);
+		if (isShowHTMLTab) {
+			tab = new Tab("HTML");
+			tabs.appendChild(tab);
+
+			tabPanel = new Tabpanel();
+			tabPanels.appendChild(tabPanel);
+			if (editable) {
+				editor = new FCKeditor();
+				tabPanel.appendChild(editor);
+				editor.setWidth("700px");
+				editor.setHeight("500px");
+				editor.setValue(text);
+			} else {
+				Div div = new Div();
+				div.setHeight("500px");
+				div.setWidth("700px");
+				div.setStyle("overflow: auto; border: 1px solid");
+				tabPanel.appendChild(div);
+				Html html = new Html();
+				div.appendChild(html);
+				html.setContent(text);
+			}
 		}
 		
 		vbox.appendChild(new Separator());
@@ -129,7 +151,8 @@ public class WTextEditorDialog extends Window implements EventListener{
 			
 			status.setStyle("margin-top:10px;");
 			textBox.addEventListener(Events.ON_CHANGE, this);
-			editor.addEventListener(Events.ON_CHANGE, this);
+			if (isShowHTMLTab)
+				editor.addEventListener(Events.ON_CHANGE, this);
 		}		
 		
 		tabbox.addEventListener(Events.ON_SELECT, this);

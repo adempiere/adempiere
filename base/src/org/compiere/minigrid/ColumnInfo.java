@@ -16,6 +16,8 @@
  *****************************************************************************/
 package org.compiere.minigrid;
 
+import org.compiere.model.GridField;
+
 /**
  *  Info Column Details
  *
@@ -37,6 +39,19 @@ public class ColumnInfo
 	}   //  ColumnInfo
 
 	/**
+	 * Create Info Column (r/o and not color column)
+	 *
+	 * @param colHeader Column Header
+	 * @param colSQL SQL select code for column
+	 * @param colClass class of column - determines display
+	 * @param readOnly column is read only
+	 */
+	public ColumnInfo(String colHeader, String colSQL, Class<?> colClass, boolean readOnly)
+	{
+		this(colHeader, colSQL, colClass, readOnly, false, null);
+	} // ColumnInfo
+
+	/**
 	 *  Create Info Column (r/o and not color column)
 	 *
 	 *  @param colHeader Column Header
@@ -48,6 +63,21 @@ public class ColumnInfo
 	{
 		this(colHeader, colSQL, colClass, true, false, keyPairColSQL);
 	}   //  ColumnInfo
+
+	/**
+	 * Create Info Column (r/o and not color column)
+	 *
+	 * @param colHeader Column Header
+	 * @param colSQL SQL select code for column
+	 * @param colClass class of column - determines display
+	 * @param keyPairColSQL SQL select for the ID of the for the displayed
+	 *            column
+	 * @param readOnly column is read only
+	 */
+	public ColumnInfo(String colHeader, String colSQL, Class<?> colClass, String keyPairColSQL, boolean readOnly)
+	{
+		this(colHeader, colSQL, colClass, readOnly, false, keyPairColSQL);
+	} // ColumnInfo
 
 	/**
 	 *  Create Info Column
@@ -106,6 +136,29 @@ public class ColumnInfo
 		setDisplayType(displayType);
 		setVisibility(visible);
 	}   //  ColumnInfo
+	
+	/**
+	 *  Create Info Column
+	 *
+	 *  @param colHeader Column Header
+	 *  @param colSQL    SQL select code for column
+	 *  @param colClass  class of column - determines display
+	 *  @param readOnly  column is read only
+	 *  @param colorColumn   if true, value of column determines foreground color
+	 *  @param keyPairColSQL  SQL select for the ID of the for the displayed column
+	 *  @param colWidth  optional fixed width for column (-1 autosizes)
+	 */
+	public ColumnInfo (String colHeader, String colSQL, Class<?> colClass, 
+		boolean readOnly, boolean colorColumn, String keyPairColSQL, int colWidth)
+	{
+		setColHeader(colHeader);
+		setColSQL(colSQL);
+		setColClass(colClass);
+		setReadOnly(readOnly);
+		setColorColumn(colorColumn);
+		setKeyPairColSQL(keyPairColSQL);
+		m_colWidth = colWidth;
+	}   //  ColumnInfo
 
 
 	private String      m_colHeader;
@@ -117,6 +170,16 @@ public class ColumnInfo
 	private int      	m_DisplayType;
 	private boolean		m_isVisible;
 
+	private int			m_colWidth = -1;
+	private GridField	m_gridField;
+
+	public int getColWidth() {
+		return m_colWidth;
+	}
+
+	public void setColWidth(int colWidth) {
+		m_colWidth = colWidth;
+	}
 	/**
 	 * 	Get Col Class
 	 *	@return class
@@ -260,5 +323,15 @@ public class ColumnInfo
 	 */
 	public boolean getVisibility() {
 		return m_isVisible;
+	}
+
+	public GridField getGridField()
+	{
+		return m_gridField;
+	}
+
+	public void setGridField(GridField gridField)
+	{
+		m_gridField = gridField;
 	}
 }   //  infoColumn

@@ -35,6 +35,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Map.Entry;
 import java.util.logging.Level;
@@ -1667,6 +1668,47 @@ public final class DB
 	}	//	getKeyNamePairs
 
 	/**
+	 * Get Array of IDs
+	 * @param trxName
+	 * @param sql select with id as first column
+	 * @param params query parameters
+     * @throws DBException if there is any SQLException
+     */
+	public static int[] getIDsEx(String trxName, String sql, Object ... params) throws DBException
+	{
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        ArrayList<Integer> list = new ArrayList<Integer>();
+        try
+        {
+            pstmt = DB.prepareStatement(sql, trxName);
+            setParameters(pstmt, params);
+            rs = pstmt.executeQuery();
+            while (rs.next())
+            {
+                list.add(rs.getInt(1));
+            }
+        }
+        catch (SQLException e)
+        {
+    		throw new DBException(e, sql);
+        }
+        finally
+        {
+            close(rs, pstmt);
+            rs= null;
+            pstmt = null;
+        }
+		//	Convert to array
+		int[] retValue = new int[list.size()];
+		for (int i = 0; i < retValue.length; i++)
+		{
+			retValue[i] = list.get(i);
+		}
+        return retValue;
+	}	//	getIDsEx
+	
+	/**
 	 * 	Is Sales Order Trx.
 	 * 	Assumes Sales Order. Queries IsSOTrx of table with where clause
 	 *	@param TableName table
@@ -1934,6 +1976,8 @@ public final class DB
 		if (comment == null || warning == null || comment.length() == 0)
 			throw new IllegalArgumentException("Required parameter missing");
 		log.warning(comment);
+		if (warning == null)
+			return;
 		//
 		SQLWarning warn = warning;
 		while (warn != null)
@@ -2353,6 +2397,65 @@ public final class DB
 		}
 	}
 	
+	/**
+	 * Create persistent selection in T_Selection table saveKeys is map with key
+	 * is rowID, value is list value of all viewID viewIDIndex is index of
+	 * viewID need save.
+	 * 
+	 * @author Sachin Bhimani - Feature #1449
+	 * @param AD_PInstance_ID
+	 * @param saveKeys
+	 * @param viewIDIndex
+	 * @param trxName
+	 */
+	public static void createT_Selection(int AD_PInstance_ID, Map<Integer, List<String>> saveKeys, int viewIDIndex,
+			String trxName)
+	{
+		StringBuilder insert = new StringBuilder();
+		insert.append("INSERT INTO T_SELECTION(AD_PINSTANCE_ID, T_SELECTION_ID, ViewID) ");
+		int counter = 0;
+		
+		for (Integer selectedId : saveKeys.keySet())
+		{
+			counter++;
+			if (counter > 1)
+				insert.append(" UNION ");
+			insert.append("SELECT ");
+			insert.append(AD_PInstance_ID);
+			insert.append(", ");
+			insert.append(selectedId);
+			insert.append(", ");
+
+			List<String> viewIDValues = saveKeys.get(selectedId);
+			// when process have no viewID or value of viewID is null
+			if (viewIDValues == null || viewIDIndex < 0 || viewIDValues.get(viewIDIndex) == null)
+			{
+				insert.append("NULL");
+			}
+			else
+			{
+				insert.append("'");
+				insert.append(viewIDValues.get(viewIDIndex));
+				insert.append("'");
+			}
+
+			insert.append(" FROM DUAL ");
+
+			if (counter >= 1000)
+			{
+				DB.executeUpdateEx(insert.toString(), trxName);
+				insert = new StringBuilder("INSERT INTO T_SELECTION (AD_PINSTANCE_ID, T_SELECTION_ID, ViewID) ");
+				counter = 0;
+			}
+		}
+
+		if (counter > 0)
+		{
+			DB.executeUpdateEx(insert.toString(), trxName);
+		}
+
+	} // createT_Selection
+	
 	private static void verifyTrx(String trxName, String sql) {
 		if (trxName != null && Trx.get(trxName, false) == null) {
 			// Using a trx that was previously closed or never opened
@@ -2415,38 +2518,4 @@ public final class DB
 		}
 		return false;
 	}
-
-	public static int[] getIDsEx(String trxName, String sql, Object ... params) throws DBException
-	{
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-        ArrayList<Integer> list = new ArrayList<Integer>();
-        try
-        {
-            pstmt = DB.prepareStatement(sql, trxName);
-            setParameters(pstmt, params);
-            rs = pstmt.executeQuery();
-            while (rs.next())
-            {
-                list.add(rs.getInt(1));
-            }
-        }
-        catch (SQLException e)
-        {
-    		throw new DBException(e, sql);
-        }
-        finally
-        {
-            close(rs, pstmt);
-            rs= null;
-            pstmt = null;
-        }
-		//	Convert to array
-		int[] retValue = new int[list.size()];
-		for (int i = 0; i < retValue.length; i++)
-		{
-			retValue[i] = list.get(i);
-		}
-        return retValue;
-	}	//	getIDsEx
 }	//	DB

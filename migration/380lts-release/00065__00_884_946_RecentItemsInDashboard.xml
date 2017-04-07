@@ -1,0 +1,623 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Recent Items in Dashboard #884 Contribution #946(Adaxa)" ReleaseNo="3.9.0" SeqNo="65">
+      <Comments>https://github.com/adempiere/adempiere/issues/884</Comments>
+    <Step DBType="Oracle" SeqNo="10" StepType="SQL">
+      <SQLStatement>-- Jan 27, 2012 3:19:59 PM COT
+INSERT INTO AD_Element (AD_Element_ID,PrintName,EntityType,ColumnName,Name,AD_Client_ID,Created,Updated,IsActive,AD_Org_ID,CreatedBy,UpdatedBy) VALUES (200000,&apos;Recent Item&apos;,&apos;D&apos;,&apos;AD_RecentItem_ID&apos;,&apos;Recent Item&apos;,0,TO_DATE(&apos;2012-01-27 15:19:57&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),TO_DATE(&apos;2012-01-27 15:19:57&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),&apos;Y&apos;,0,100,100)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="20" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:19:59 PM COT
+INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, PrintName,Help,PO_Description,PO_Help,Name,Description,PO_PrintName,PO_Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Element_ID, t.PrintName,t.Help,t.PO_Description,t.PO_Help,t.Name,t.Description,t.PO_PrintName,t.PO_Name, &apos;N&apos;,t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Element t WHERE l.IsActive=&apos;Y&apos; AND l.IsSystemLanguage=&apos;Y&apos; AND l.IsBaseLanguage=&apos;N&apos; AND t.AD_Element_ID=200000 AND NOT EXISTS (SELECT * FROM AD_Element_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Element_ID=t.AD_Element_ID)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="30" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:20:26 PM COT
+UPDATE AD_Element_Trl SET IsTranslated=&apos;Y&apos;,Name=&apos;Registro Reciente&apos;,PrintName=&apos;Registro Reciente&apos;,Updated=TO_DATE(&apos;2012-01-27 15:20:26&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Element_ID=200000 AND AD_Language=&apos;es_CO&apos;
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="40" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:21:36 PM COT
+INSERT INTO AD_Table (IsSecurityEnabled,ImportTable,AccessLevel,LoadSeq,AD_Table_ID,IsHighVolume,IsChangeLog,IsView,CopyColumnsFromTable,EntityType,IsCentrallyMaintained,IsDeleteable,ReplicationType,TableName,Name,AD_Client_ID,IsActive,AD_Org_ID,CreatedBy,Updated,UpdatedBy,Created) VALUES (&apos;N&apos;,&apos;N&apos;,&apos;7&apos;,0,200000,&apos;N&apos;,&apos;N&apos;,&apos;N&apos;,&apos;N&apos;,&apos;D&apos;,&apos;Y&apos;,&apos;Y&apos;,&apos;L&apos;,&apos;AD_RecentItem&apos;,&apos;Recent Item&apos;,0,&apos;Y&apos;,0,100,TO_DATE(&apos;2012-01-27 15:21:35&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),100,TO_DATE(&apos;2012-01-27 15:21:35&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;))
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="50" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:21:36 PM COT
+INSERT INTO AD_Table_Trl (AD_Language,AD_Table_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Table_ID, t.Name, &apos;N&apos;,t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Table t WHERE l.IsActive=&apos;Y&apos; AND l.IsSystemLanguage=&apos;Y&apos; AND l.IsBaseLanguage=&apos;N&apos; AND t.AD_Table_ID=200000 AND NOT EXISTS (SELECT * FROM AD_Table_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Table_ID=t.AD_Table_ID)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="60" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:21:37 PM COT
+INSERT INTO AD_Sequence (IncrementNo,StartNewYear,CurrentNextSys,IsTableID,StartNo,CurrentNext,IsAudited,IsAutoSequence,AD_Sequence_ID,Description,Name,AD_Org_ID,AD_Client_ID,Updated,UpdatedBy,Created,CreatedBy,IsActive) VALUES (1,&apos;N&apos;,50000,&apos;Y&apos;,1000000,1000000,&apos;N&apos;,&apos;Y&apos;,200000,&apos;Table AD_RecentItem&apos;,&apos;AD_RecentItem&apos;,0,0,TO_DATE(&apos;2012-01-27 15:21:36&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),100,TO_DATE(&apos;2012-01-27 15:21:36&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),100,&apos;Y&apos;)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="70" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:22:36 PM COT
+INSERT INTO AD_Column (DefaultValue,AD_Column_ID,AD_Table_ID,EntityType,Version,IsMandatory,IsTranslated,IsIdentifier,SeqNo,Help,IsParent,FieldLength,IsSelectionColumn,AD_Reference_ID,IsSyncDatabase,IsKey,AD_Element_ID,IsAutocomplete,IsAllowLogging,IsEncrypted,IsUpdateable,IsAlwaysUpdateable,ColumnName,Description,Name,CreatedBy,Updated,AD_Client_ID,AD_Org_ID,IsActive,Created,UpdatedBy) VALUES (&apos;@#AD_Client_ID@&apos;,200000,200000,&apos;D&apos;,0,&apos;Y&apos;,&apos;N&apos;,&apos;N&apos;,0,&apos;A Client is a company or a legal entity. You cannot share data between Clients. Tenant is a synonym for Client.&apos;,&apos;N&apos;,22,&apos;N&apos;,19,&apos;N&apos;,&apos;N&apos;,102,&apos;N&apos;,&apos;Y&apos;,&apos;N&apos;,&apos;Y&apos;,&apos;N&apos;,&apos;AD_Client_ID&apos;,&apos;Client/Tenant for this installation.&apos;,&apos;Client&apos;,100,TO_DATE(&apos;2012-01-27 15:22:35&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),0,0,&apos;Y&apos;,TO_DATE(&apos;2012-01-27 15:22:35&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),100)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="80" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:22:36 PM COT
+INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, &apos;N&apos;,t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive=&apos;Y&apos; AND l.IsSystemLanguage=&apos;Y&apos; AND l.IsBaseLanguage=&apos;N&apos; AND t.AD_Column_ID=200000 AND NOT EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Column_ID=t.AD_Column_ID)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="90" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:25:24 PM COT
+INSERT INTO AD_Column (DefaultValue,AD_Column_ID,AD_Table_ID,EntityType,Version,IsMandatory,IsTranslated,IsIdentifier,SeqNo,Help,IsParent,FieldLength,IsSelectionColumn,AD_Reference_ID,IsSyncDatabase,AD_Val_Rule_ID,IsKey,AD_Element_ID,IsAutocomplete,IsAllowLogging,IsEncrypted,IsUpdateable,IsAlwaysUpdateable,ColumnName,Description,Name,CreatedBy,Updated,AD_Client_ID,AD_Org_ID,IsActive,Created,UpdatedBy) VALUES (&apos;@#AD_Org_ID@&apos;,200001,200000,&apos;D&apos;,0,&apos;Y&apos;,&apos;N&apos;,&apos;N&apos;,0,&apos;An organization is a unit of your client or legal entity - examples are store, department. You can share data between organizations.&apos;,&apos;N&apos;,22,&apos;N&apos;,19,&apos;N&apos;,104,&apos;N&apos;,113,&apos;N&apos;,&apos;Y&apos;,&apos;N&apos;,&apos;N&apos;,&apos;N&apos;,&apos;AD_Org_ID&apos;,&apos;Organizational entity within client&apos;,&apos;Organization&apos;,100,TO_DATE(&apos;2012-01-27 15:25:23&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),0,0,&apos;Y&apos;,TO_DATE(&apos;2012-01-27 15:25:23&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),100)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="100" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:25:24 PM COT
+INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, &apos;N&apos;,t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive=&apos;Y&apos; AND l.IsSystemLanguage=&apos;Y&apos; AND l.IsBaseLanguage=&apos;N&apos; AND t.AD_Column_ID=200001 AND NOT EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Column_ID=t.AD_Column_ID)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="110" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:25:54 PM COT
+INSERT INTO AD_Column (AD_Column_ID,AD_Table_ID,EntityType,Version,IsMandatory,IsTranslated,IsIdentifier,SeqNo,IsParent,FieldLength,IsSelectionColumn,AD_Reference_ID,IsSyncDatabase,IsKey,AD_Element_ID,IsAutocomplete,IsAllowLogging,IsEncrypted,IsUpdateable,IsAlwaysUpdateable,ColumnName,Name,CreatedBy,Updated,AD_Client_ID,AD_Org_ID,IsActive,Created,UpdatedBy) VALUES (200002,200000,&apos;D&apos;,0,&apos;Y&apos;,&apos;N&apos;,&apos;N&apos;,0,&apos;N&apos;,22,&apos;N&apos;,13,&apos;N&apos;,&apos;Y&apos;,200000,&apos;N&apos;,&apos;Y&apos;,&apos;N&apos;,&apos;N&apos;,&apos;N&apos;,&apos;AD_RecentItem_ID&apos;,&apos;Recent Item&apos;,100,TO_DATE(&apos;2012-01-27 15:25:54&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),0,0,&apos;Y&apos;,TO_DATE(&apos;2012-01-27 15:25:54&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),100)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="120" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:25:54 PM COT
+INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, &apos;N&apos;,t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive=&apos;Y&apos; AND l.IsSystemLanguage=&apos;Y&apos; AND l.IsBaseLanguage=&apos;N&apos; AND t.AD_Column_ID=200002 AND NOT EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Column_ID=t.AD_Column_ID)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="130" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:26:23 PM COT
+INSERT INTO AD_Column (AD_Column_ID,AD_Table_ID,EntityType,Version,IsMandatory,IsTranslated,IsIdentifier,SeqNo,Help,IsParent,FieldLength,IsSelectionColumn,AD_Reference_ID,IsSyncDatabase,IsKey,AD_Element_ID,IsAutocomplete,IsAllowLogging,IsEncrypted,IsUpdateable,IsAlwaysUpdateable,ColumnName,Description,Name,CreatedBy,Updated,AD_Client_ID,AD_Org_ID,IsActive,Created,UpdatedBy) VALUES (200003,200000,&apos;D&apos;,0,&apos;Y&apos;,&apos;N&apos;,&apos;N&apos;,0,&apos;The Role determines security and access a user who has this Role will have in the System.&apos;,&apos;N&apos;,10,&apos;N&apos;,19,&apos;N&apos;,&apos;N&apos;,123,&apos;N&apos;,&apos;Y&apos;,&apos;N&apos;,&apos;Y&apos;,&apos;N&apos;,&apos;AD_Role_ID&apos;,&apos;Responsibility Role&apos;,&apos;Role&apos;,100,TO_DATE(&apos;2012-01-27 15:26:22&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),0,0,&apos;Y&apos;,TO_DATE(&apos;2012-01-27 15:26:22&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),100)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="140" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:26:23 PM COT
+INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, &apos;N&apos;,t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive=&apos;Y&apos; AND l.IsSystemLanguage=&apos;Y&apos; AND l.IsBaseLanguage=&apos;N&apos; AND t.AD_Column_ID=200003 AND NOT EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Column_ID=t.AD_Column_ID)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="150" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:26:50 PM COT
+INSERT INTO AD_Column (AD_Column_ID,AD_Table_ID,EntityType,Version,IsMandatory,IsTranslated,IsIdentifier,SeqNo,Help,IsParent,FieldLength,IsSelectionColumn,AD_Reference_ID,IsSyncDatabase,IsKey,AD_Element_ID,IsAutocomplete,IsAllowLogging,IsEncrypted,IsUpdateable,IsAlwaysUpdateable,ColumnName,Description,Name,CreatedBy,Updated,AD_Client_ID,AD_Org_ID,IsActive,Created,UpdatedBy) VALUES (200004,200000,&apos;D&apos;,0,&apos;N&apos;,&apos;N&apos;,&apos;N&apos;,0,&apos;The Tab indicates a tab that displays within a window.&apos;,&apos;N&apos;,10,&apos;N&apos;,19,&apos;N&apos;,&apos;N&apos;,125,&apos;N&apos;,&apos;Y&apos;,&apos;N&apos;,&apos;Y&apos;,&apos;N&apos;,&apos;AD_Tab_ID&apos;,&apos;Tab within a Window&apos;,&apos;Tab&apos;,100,TO_DATE(&apos;2012-01-27 15:26:49&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),0,0,&apos;Y&apos;,TO_DATE(&apos;2012-01-27 15:26:49&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),100)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="160" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:26:50 PM COT
+INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, &apos;N&apos;,t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive=&apos;Y&apos; AND l.IsSystemLanguage=&apos;Y&apos; AND l.IsBaseLanguage=&apos;N&apos; AND t.AD_Column_ID=200004 AND NOT EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Column_ID=t.AD_Column_ID)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="170" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:27:15 PM COT
+INSERT INTO AD_Column (AD_Column_ID,AD_Table_ID,EntityType,Version,IsMandatory,IsTranslated,IsIdentifier,SeqNo,Help,IsParent,FieldLength,IsSelectionColumn,AD_Reference_ID,IsSyncDatabase,IsKey,AD_Element_ID,IsAutocomplete,IsAllowLogging,IsEncrypted,IsUpdateable,IsAlwaysUpdateable,ColumnName,Description,Name,CreatedBy,Updated,AD_Client_ID,AD_Org_ID,IsActive,Created,UpdatedBy) VALUES (200005,200000,&apos;D&apos;,0,&apos;Y&apos;,&apos;N&apos;,&apos;N&apos;,0,&apos;The Database Table provides the information of the table definition&apos;,&apos;N&apos;,10,&apos;N&apos;,19,&apos;N&apos;,&apos;N&apos;,126,&apos;N&apos;,&apos;Y&apos;,&apos;N&apos;,&apos;Y&apos;,&apos;N&apos;,&apos;AD_Table_ID&apos;,&apos;Database Table information&apos;,&apos;Table&apos;,100,TO_DATE(&apos;2012-01-27 15:27:14&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),0,0,&apos;Y&apos;,TO_DATE(&apos;2012-01-27 15:27:14&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),100)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="180" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:27:15 PM COT
+INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, &apos;N&apos;,t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive=&apos;Y&apos; AND l.IsSystemLanguage=&apos;Y&apos; AND l.IsBaseLanguage=&apos;N&apos; AND t.AD_Column_ID=200005 AND NOT EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Column_ID=t.AD_Column_ID)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="190" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:27:34 PM COT
+INSERT INTO AD_Column (AD_Column_ID,AD_Table_ID,EntityType,Version,IsMandatory,IsTranslated,IsIdentifier,SeqNo,Help,IsParent,FieldLength,IsSelectionColumn,AD_Reference_ID,IsSyncDatabase,IsKey,AD_Element_ID,IsAutocomplete,IsAllowLogging,IsEncrypted,IsUpdateable,IsAlwaysUpdateable,ColumnName,Description,Name,CreatedBy,Updated,AD_Client_ID,AD_Org_ID,IsActive,Created,UpdatedBy) VALUES (200006,200000,&apos;D&apos;,0,&apos;N&apos;,&apos;N&apos;,&apos;N&apos;,0,&apos;The User identifies a unique user in the system. This could be an internal user or a business partner contact&apos;,&apos;N&apos;,10,&apos;N&apos;,30,&apos;N&apos;,&apos;N&apos;,138,&apos;N&apos;,&apos;Y&apos;,&apos;N&apos;,&apos;Y&apos;,&apos;N&apos;,&apos;AD_User_ID&apos;,&apos;User within the system - Internal or Business Partner Contact&apos;,&apos;User/Contact&apos;,100,TO_DATE(&apos;2012-01-27 15:27:34&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),0,0,&apos;Y&apos;,TO_DATE(&apos;2012-01-27 15:27:34&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),100)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="200" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:27:34 PM COT
+INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, &apos;N&apos;,t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive=&apos;Y&apos; AND l.IsSystemLanguage=&apos;Y&apos; AND l.IsBaseLanguage=&apos;N&apos; AND t.AD_Column_ID=200006 AND NOT EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Column_ID=t.AD_Column_ID)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="210" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:28:00 PM COT
+INSERT INTO AD_Column (AD_Column_ID,AD_Table_ID,EntityType,Version,IsMandatory,IsTranslated,IsIdentifier,SeqNo,Help,IsParent,FieldLength,IsSelectionColumn,AD_Reference_ID,IsSyncDatabase,IsKey,AD_Element_ID,IsAutocomplete,IsAllowLogging,IsEncrypted,IsUpdateable,IsAlwaysUpdateable,ColumnName,Description,Name,CreatedBy,Updated,AD_Client_ID,AD_Org_ID,IsActive,Created,UpdatedBy) VALUES (200007,200000,&apos;D&apos;,0,&apos;N&apos;,&apos;N&apos;,&apos;N&apos;,0,&apos;The Window field identifies a unique Window in the system.&apos;,&apos;N&apos;,10,&apos;N&apos;,19,&apos;N&apos;,&apos;N&apos;,143,&apos;N&apos;,&apos;Y&apos;,&apos;N&apos;,&apos;Y&apos;,&apos;N&apos;,&apos;AD_Window_ID&apos;,&apos;Data entry or display window&apos;,&apos;Window&apos;,100,TO_DATE(&apos;2012-01-27 15:27:59&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),0,0,&apos;Y&apos;,TO_DATE(&apos;2012-01-27 15:27:59&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),100)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="220" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:28:00 PM COT
+INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, &apos;N&apos;,t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive=&apos;Y&apos; AND l.IsSystemLanguage=&apos;Y&apos; AND l.IsBaseLanguage=&apos;N&apos; AND t.AD_Column_ID=200007 AND NOT EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Column_ID=t.AD_Column_ID)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="230" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:28:26 PM COT
+INSERT INTO AD_Column (AD_Column_ID,AD_Table_ID,EntityType,Version,IsMandatory,IsTranslated,IsIdentifier,SeqNo,Help,IsParent,FieldLength,IsSelectionColumn,AD_Reference_ID,IsSyncDatabase,IsKey,AD_Element_ID,IsAutocomplete,IsAllowLogging,IsEncrypted,IsUpdateable,IsAlwaysUpdateable,ColumnName,Description,Name,CreatedBy,Updated,AD_Client_ID,AD_Org_ID,IsActive,Created,UpdatedBy) VALUES (200008,200000,&apos;D&apos;,0,&apos;Y&apos;,&apos;N&apos;,&apos;N&apos;,0,&apos;The Created field indicates the date that this record was created.&apos;,&apos;N&apos;,7,&apos;N&apos;,16,&apos;N&apos;,&apos;N&apos;,245,&apos;N&apos;,&apos;Y&apos;,&apos;N&apos;,&apos;N&apos;,&apos;N&apos;,&apos;Created&apos;,&apos;Date this record was created&apos;,&apos;Created&apos;,100,TO_DATE(&apos;2012-01-27 15:28:26&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),0,0,&apos;Y&apos;,TO_DATE(&apos;2012-01-27 15:28:26&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),100)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="240" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:28:26 PM COT
+INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, &apos;N&apos;,t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive=&apos;Y&apos; AND l.IsSystemLanguage=&apos;Y&apos; AND l.IsBaseLanguage=&apos;N&apos; AND t.AD_Column_ID=200008 AND NOT EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Column_ID=t.AD_Column_ID)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="250" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:28:56 PM COT
+INSERT INTO AD_Column (AD_Column_ID,AD_Table_ID,EntityType,Version,AD_Reference_Value_ID,IsMandatory,IsTranslated,IsIdentifier,SeqNo,Help,IsParent,FieldLength,IsSelectionColumn,AD_Reference_ID,IsSyncDatabase,IsKey,AD_Element_ID,IsAutocomplete,IsAllowLogging,IsEncrypted,IsUpdateable,IsAlwaysUpdateable,ColumnName,Description,Name,CreatedBy,Updated,AD_Client_ID,AD_Org_ID,IsActive,Created,UpdatedBy) VALUES (200009,200000,&apos;D&apos;,0,110,&apos;Y&apos;,&apos;N&apos;,&apos;N&apos;,0,&apos;The Created By field indicates the user who created this record.&apos;,&apos;N&apos;,22,&apos;N&apos;,18,&apos;N&apos;,&apos;N&apos;,246,&apos;N&apos;,&apos;Y&apos;,&apos;N&apos;,&apos;N&apos;,&apos;N&apos;,&apos;CreatedBy&apos;,&apos;User who created this records&apos;,&apos;Created By&apos;,100,TO_DATE(&apos;2012-01-27 15:28:55&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),0,0,&apos;Y&apos;,TO_DATE(&apos;2012-01-27 15:28:55&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),100)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="260" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:28:56 PM COT
+INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, &apos;N&apos;,t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive=&apos;Y&apos; AND l.IsSystemLanguage=&apos;Y&apos; AND l.IsBaseLanguage=&apos;N&apos; AND t.AD_Column_ID=200009 AND NOT EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Column_ID=t.AD_Column_ID)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="270" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:30:02 PM COT
+INSERT INTO AD_Column (DefaultValue,AD_Column_ID,AD_Table_ID,EntityType,Version,IsMandatory,IsTranslated,IsIdentifier,SeqNo,Help,IsParent,FieldLength,IsSelectionColumn,AD_Reference_ID,IsSyncDatabase,IsKey,AD_Element_ID,IsAutocomplete,IsAllowLogging,IsEncrypted,IsUpdateable,IsAlwaysUpdateable,ColumnName,Description,Name,CreatedBy,Updated,AD_Client_ID,AD_Org_ID,IsActive,Created,UpdatedBy) VALUES (&apos;Y&apos;,200010,200000,&apos;D&apos;,0,&apos;Y&apos;,&apos;N&apos;,&apos;N&apos;,0,&apos;There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
+There are two reasons for de-activating and not deleting records:
+(1) The system requires the record for audit purposes.
+(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.&apos;,&apos;N&apos;,1,&apos;N&apos;,20,&apos;N&apos;,&apos;N&apos;,348,&apos;N&apos;,&apos;Y&apos;,&apos;N&apos;,&apos;Y&apos;,&apos;N&apos;,&apos;IsActive&apos;,&apos;The record is active in the system&apos;,&apos;Active&apos;,100,TO_DATE(&apos;2012-01-27 15:30:01&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),0,0,&apos;Y&apos;,TO_DATE(&apos;2012-01-27 15:30:01&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),100)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="280" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:30:02 PM COT
+INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, &apos;N&apos;,t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive=&apos;Y&apos; AND l.IsSystemLanguage=&apos;Y&apos; AND l.IsBaseLanguage=&apos;N&apos; AND t.AD_Column_ID=200010 AND NOT EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Column_ID=t.AD_Column_ID)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="290" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:30:47 PM COT
+INSERT INTO AD_Column (AD_Column_ID,AD_Table_ID,EntityType,Version,IsMandatory,IsTranslated,IsIdentifier,SeqNo,Help,IsParent,FieldLength,IsSelectionColumn,AD_Reference_ID,IsSyncDatabase,IsKey,AD_Element_ID,IsAutocomplete,IsAllowLogging,IsEncrypted,IsUpdateable,IsAlwaysUpdateable,ColumnName,Description,Name,CreatedBy,Updated,AD_Client_ID,AD_Org_ID,IsActive,Created,UpdatedBy) VALUES (200011,200000,&apos;D&apos;,0,&apos;Y&apos;,&apos;N&apos;,&apos;N&apos;,0,&apos;The Record ID is the internal unique identifier of a record. Please note that zooming to the record may not be successful for Orders, Invoices and Shipment/Receipts as sometimes the Sales Order type is not known.&apos;,&apos;N&apos;,10,&apos;N&apos;,28,&apos;N&apos;,&apos;N&apos;,538,&apos;N&apos;,&apos;Y&apos;,&apos;N&apos;,&apos;Y&apos;,&apos;N&apos;,&apos;Record_ID&apos;,&apos;Direct internal record ID&apos;,&apos;Record ID&apos;,100,TO_DATE(&apos;2012-01-27 15:30:47&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),0,0,&apos;Y&apos;,TO_DATE(&apos;2012-01-27 15:30:47&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),100)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="300" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:30:47 PM COT
+INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, &apos;N&apos;,t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive=&apos;Y&apos; AND l.IsSystemLanguage=&apos;Y&apos; AND l.IsBaseLanguage=&apos;N&apos; AND t.AD_Column_ID=200011 AND NOT EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Column_ID=t.AD_Column_ID)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="310" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:31:12 PM COT
+INSERT INTO AD_Column (AD_Column_ID,AD_Table_ID,EntityType,Version,IsMandatory,IsTranslated,IsIdentifier,SeqNo,Help,IsParent,FieldLength,IsSelectionColumn,AD_Reference_ID,IsSyncDatabase,IsKey,AD_Element_ID,IsAutocomplete,IsAllowLogging,IsEncrypted,IsUpdateable,IsAlwaysUpdateable,ColumnName,Description,Name,CreatedBy,Updated,AD_Client_ID,AD_Org_ID,IsActive,Created,UpdatedBy) VALUES (200012,200000,&apos;D&apos;,0,&apos;Y&apos;,&apos;N&apos;,&apos;N&apos;,0,&apos;The Updated field indicates the date that this record was updated.&apos;,&apos;N&apos;,7,&apos;N&apos;,16,&apos;N&apos;,&apos;N&apos;,607,&apos;N&apos;,&apos;Y&apos;,&apos;N&apos;,&apos;Y&apos;,&apos;N&apos;,&apos;Updated&apos;,&apos;Date this record was updated&apos;,&apos;Updated&apos;,100,TO_DATE(&apos;2012-01-27 15:31:11&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),0,0,&apos;Y&apos;,TO_DATE(&apos;2012-01-27 15:31:11&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),100)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="320" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:31:12 PM COT
+INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, &apos;N&apos;,t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive=&apos;Y&apos; AND l.IsSystemLanguage=&apos;Y&apos; AND l.IsBaseLanguage=&apos;N&apos; AND t.AD_Column_ID=200012 AND NOT EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Column_ID=t.AD_Column_ID)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="330" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:31:43 PM COT
+INSERT INTO AD_Column (AD_Column_ID,AD_Table_ID,EntityType,Version,AD_Reference_Value_ID,IsMandatory,IsTranslated,IsIdentifier,SeqNo,Help,IsParent,FieldLength,IsSelectionColumn,AD_Reference_ID,IsSyncDatabase,IsKey,AD_Element_ID,IsAutocomplete,IsAllowLogging,IsEncrypted,IsUpdateable,IsAlwaysUpdateable,ColumnName,Description,Name,CreatedBy,Updated,AD_Client_ID,AD_Org_ID,IsActive,Created,UpdatedBy) VALUES (200013,200000,&apos;D&apos;,0,110,&apos;Y&apos;,&apos;N&apos;,&apos;N&apos;,0,&apos;The Updated By field indicates the user who updated this record.&apos;,&apos;N&apos;,22,&apos;N&apos;,18,&apos;N&apos;,&apos;N&apos;,608,&apos;N&apos;,&apos;Y&apos;,&apos;N&apos;,&apos;N&apos;,&apos;N&apos;,&apos;UpdatedBy&apos;,&apos;User who updated this records&apos;,&apos;Updated By&apos;,100,TO_DATE(&apos;2012-01-27 15:31:42&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),0,0,&apos;Y&apos;,TO_DATE(&apos;2012-01-27 15:31:42&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),100)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="340" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:31:43 PM COT
+INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, &apos;N&apos;,t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive=&apos;Y&apos; AND l.IsSystemLanguage=&apos;Y&apos; AND l.IsBaseLanguage=&apos;N&apos; AND t.AD_Column_ID=200013 AND NOT EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Column_ID=t.AD_Column_ID)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="350" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:31:53 PM COT
+UPDATE AD_Column SET IsUpdateable=&apos;N&apos;,Updated=TO_DATE(&apos;2012-01-27 15:31:53&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=200012
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="360" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:33:15 PM COT
+UPDATE AD_Column SET EntityType=&apos;D&apos;,Updated=TO_DATE(&apos;2012-01-27 15:33:15&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=200000
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="370" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:33:21 PM COT
+CREATE TABLE AD_RecentItem (AD_Client_ID NUMBER(10) NOT NULL, AD_Org_ID NUMBER(10) NOT NULL, AD_RecentItem_ID NUMBER(10) NOT NULL, AD_Role_ID NUMBER(10) NOT NULL, AD_Tab_ID NUMBER(10) DEFAULT NULL , AD_Table_ID NUMBER(10) NOT NULL, AD_User_ID NUMBER(10) DEFAULT NULL , AD_Window_ID NUMBER(10) DEFAULT NULL , Created DATE NOT NULL, CreatedBy NUMBER(10) NOT NULL, IsActive CHAR(1) DEFAULT &apos;Y&apos; CHECK (IsActive IN (&apos;Y&apos;,&apos;N&apos;)) NOT NULL, Record_ID NUMBER(10) NOT NULL, Updated DATE NOT NULL, UpdatedBy NUMBER(10) NOT NULL, CONSTRAINT AD_RecentItem_Key PRIMARY KEY (AD_RecentItem_ID))
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="380" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:34:35 PM COT
+INSERT INTO PA_DashboardContent (Line,Description,PA_DashboardContent_ID,ZulFilePath,ColumnNo,IsCollapsible,GoalDisplay,Name,Created,CreatedBy,UpdatedBy,Updated,AD_Client_ID,IsActive,AD_Org_ID) VALUES (0,&apos;Recent items&apos;,200000,&apos;/zul/recentItems.zul&apos;,1,&apos;Y&apos;,&apos;T&apos;,&apos;Recent Items&apos;,TO_DATE(&apos;2012-01-27 15:34:34&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),100,100,TO_DATE(&apos;2012-01-27 15:34:34&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),0,&apos;Y&apos;,0)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="390" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:34:35 PM COT
+INSERT INTO PA_DashboardContent_Trl (AD_Language,PA_DashboardContent_ID, Description,Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.PA_DashboardContent_ID, t.Description,t.Name, &apos;N&apos;,t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, PA_DashboardContent t WHERE l.IsActive=&apos;Y&apos; AND l.IsSystemLanguage=&apos;Y&apos; AND l.IsBaseLanguage=&apos;N&apos; AND t.PA_DashboardContent_ID=200000 AND NOT EXISTS (SELECT * FROM PA_DashboardContent_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.PA_DashboardContent_ID=t.PA_DashboardContent_ID)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="400" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:35:09 PM COT
+UPDATE PA_DashboardContent_Trl SET IsTranslated=&apos;Y&apos;,Name=&apos;Registros recientes&apos;,Description=&apos;Registros recientes&apos;,Updated=TO_DATE(&apos;2012-01-27 15:35:09&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE PA_DashboardContent_ID=200000 AND AD_Language=&apos;es_CO&apos;
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="410" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:36:24 PM COT
+INSERT INTO AD_SysConfig (AD_SysConfig_ID,ConfigurationLevel,EntityType,Name,Value,Description,AD_Client_ID,AD_Org_ID,Created,Updated,CreatedBy,UpdatedBy,IsActive) VALUES (200000,&apos;C&apos;,&apos;D&apos;,&apos;RecentItems_MaxShown&apos;,&apos;10&apos;,&apos;Max number of records to show on recent items dashboard&apos;,0,0,TO_DATE(&apos;2012-01-27 15:36:23&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),TO_DATE(&apos;2012-01-27 15:36:23&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),100,100,&apos;Y&apos;)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="420" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:37:11 PM COT
+INSERT INTO AD_SysConfig (AD_SysConfig_ID,ConfigurationLevel,EntityType,Name,Value,Description,AD_Client_ID,AD_Org_ID,Created,Updated,CreatedBy,UpdatedBy,IsActive) VALUES (200001,&apos;C&apos;,&apos;D&apos;,&apos;RecentItems_MaxSaved&apos;,&apos;50&apos;,&apos;Max number of records to save on recent items table per user&apos;,0,0,TO_DATE(&apos;2012-01-27 15:37:11&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),TO_DATE(&apos;2012-01-27 15:37:11&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),100,100,&apos;Y&apos;)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="430" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:37:22 PM COT
+UPDATE AD_SysConfig SET Description=&apos;Max number of records to save on recent items table per user/client&apos;,Updated=TO_DATE(&apos;2012-01-27 15:37:22&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_SysConfig_ID=200001
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="440" StepType="SQL">
+      <SQLStatement>
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="10" StepType="SQL">
+      <SQLStatement>-- Jan 27, 2012 3:19:59 PM COT
+-- IDEMPIERE-127 Implement Recent Items dashboard
+INSERT INTO AD_Element (AD_Element_ID,PrintName,EntityType,ColumnName,Name,AD_Client_ID,Created,Updated,IsActive,AD_Org_ID,CreatedBy,UpdatedBy) VALUES (200000,&apos;Recent Item&apos;,&apos;D&apos;,&apos;AD_RecentItem_ID&apos;,&apos;Recent Item&apos;,0,TO_TIMESTAMP(&apos;2012-01-27 15:19:57&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),TO_TIMESTAMP(&apos;2012-01-27 15:19:57&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),&apos;Y&apos;,0,100,100)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="20" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:19:59 PM COT
+INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, PrintName,Help,PO_Description,PO_Help,Name,Description,PO_PrintName,PO_Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Element_ID, t.PrintName,t.Help,t.PO_Description,t.PO_Help,t.Name,t.Description,t.PO_PrintName,t.PO_Name, &apos;N&apos;,t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Element t WHERE l.IsActive=&apos;Y&apos; AND l.IsSystemLanguage=&apos;Y&apos; AND l.IsBaseLanguage=&apos;N&apos; AND t.AD_Element_ID=200000 AND NOT EXISTS (SELECT * FROM AD_Element_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Element_ID=t.AD_Element_ID)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="30" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:20:26 PM COT
+UPDATE AD_Element_Trl SET IsTranslated=&apos;Y&apos;,Name=&apos;Registro Reciente&apos;,PrintName=&apos;Registro Reciente&apos;,Updated=TO_TIMESTAMP(&apos;2012-01-27 15:20:26&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Element_ID=200000 AND AD_Language=&apos;es_CO&apos;
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="40" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:21:36 PM COT
+INSERT INTO AD_Table (IsSecurityEnabled,ImportTable,AccessLevel,LoadSeq,AD_Table_ID,IsHighVolume,IsChangeLog,IsView,CopyColumnsFromTable,EntityType,IsCentrallyMaintained,IsDeleteable,ReplicationType,TableName,Name,AD_Client_ID,IsActive,AD_Org_ID,CreatedBy,Updated,UpdatedBy,Created) VALUES (&apos;N&apos;,&apos;N&apos;,&apos;7&apos;,0,200000,&apos;N&apos;,&apos;N&apos;,&apos;N&apos;,&apos;N&apos;,&apos;D&apos;,&apos;Y&apos;,&apos;Y&apos;,&apos;L&apos;,&apos;AD_RecentItem&apos;,&apos;Recent Item&apos;,0,&apos;Y&apos;,0,100,TO_TIMESTAMP(&apos;2012-01-27 15:21:35&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),100,TO_TIMESTAMP(&apos;2012-01-27 15:21:35&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;))
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="50" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:21:36 PM COT
+INSERT INTO AD_Table_Trl (AD_Language,AD_Table_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Table_ID, t.Name, &apos;N&apos;,t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Table t WHERE l.IsActive=&apos;Y&apos; AND l.IsSystemLanguage=&apos;Y&apos; AND l.IsBaseLanguage=&apos;N&apos; AND t.AD_Table_ID=200000 AND NOT EXISTS (SELECT * FROM AD_Table_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Table_ID=t.AD_Table_ID)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="60" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:21:37 PM COT
+INSERT INTO AD_Sequence (IncrementNo,StartNewYear,CurrentNextSys,IsTableID,StartNo,CurrentNext,IsAudited,IsAutoSequence,AD_Sequence_ID,Description,Name,AD_Org_ID,AD_Client_ID,Updated,UpdatedBy,Created,CreatedBy,IsActive) VALUES (1,&apos;N&apos;,50000,&apos;Y&apos;,1000000,1000000,&apos;N&apos;,&apos;Y&apos;,200000,&apos;Table AD_RecentItem&apos;,&apos;AD_RecentItem&apos;,0,0,TO_TIMESTAMP(&apos;2012-01-27 15:21:36&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),100,TO_TIMESTAMP(&apos;2012-01-27 15:21:36&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),100,&apos;Y&apos;)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="70" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:22:36 PM COT
+INSERT INTO AD_Column (DefaultValue,AD_Column_ID,AD_Table_ID,EntityType,Version,IsMandatory,IsTranslated,IsIdentifier,SeqNo,Help,IsParent,FieldLength,IsSelectionColumn,AD_Reference_ID,IsSyncDatabase,IsKey,AD_Element_ID,IsAutocomplete,IsAllowLogging,IsEncrypted,IsUpdateable,IsAlwaysUpdateable,ColumnName,Description,Name,CreatedBy,Updated,AD_Client_ID,AD_Org_ID,IsActive,Created,UpdatedBy) VALUES (&apos;@#AD_Client_ID@&apos;,200000,200000,&apos;D&apos;,0,&apos;Y&apos;,&apos;N&apos;,&apos;N&apos;,0,&apos;A Client is a company or a legal entity. You cannot share data between Clients. Tenant is a synonym for Client.&apos;,&apos;N&apos;,22,&apos;N&apos;,19,&apos;N&apos;,&apos;N&apos;,102,&apos;N&apos;,&apos;Y&apos;,&apos;N&apos;,&apos;Y&apos;,&apos;N&apos;,&apos;AD_Client_ID&apos;,&apos;Client/Tenant for this installation.&apos;,&apos;Client&apos;,100,TO_TIMESTAMP(&apos;2012-01-27 15:22:35&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),0,0,&apos;Y&apos;,TO_TIMESTAMP(&apos;2012-01-27 15:22:35&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),100)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="80" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:22:36 PM COT
+INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, &apos;N&apos;,t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive=&apos;Y&apos; AND l.IsSystemLanguage=&apos;Y&apos; AND l.IsBaseLanguage=&apos;N&apos; AND t.AD_Column_ID=200000 AND NOT EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Column_ID=t.AD_Column_ID)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="90" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:25:24 PM COT
+INSERT INTO AD_Column (DefaultValue,AD_Column_ID,AD_Table_ID,EntityType,Version,IsMandatory,IsTranslated,IsIdentifier,SeqNo,Help,IsParent,FieldLength,IsSelectionColumn,AD_Reference_ID,IsSyncDatabase,AD_Val_Rule_ID,IsKey,AD_Element_ID,IsAutocomplete,IsAllowLogging,IsEncrypted,IsUpdateable,IsAlwaysUpdateable,ColumnName,Description,Name,CreatedBy,Updated,AD_Client_ID,AD_Org_ID,IsActive,Created,UpdatedBy) VALUES (&apos;@#AD_Org_ID@&apos;,200001,200000,&apos;D&apos;,0,&apos;Y&apos;,&apos;N&apos;,&apos;N&apos;,0,&apos;An organization is a unit of your client or legal entity - examples are store, department. You can share data between organizations.&apos;,&apos;N&apos;,22,&apos;N&apos;,19,&apos;N&apos;,104,&apos;N&apos;,113,&apos;N&apos;,&apos;Y&apos;,&apos;N&apos;,&apos;N&apos;,&apos;N&apos;,&apos;AD_Org_ID&apos;,&apos;Organizational entity within client&apos;,&apos;Organization&apos;,100,TO_TIMESTAMP(&apos;2012-01-27 15:25:23&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),0,0,&apos;Y&apos;,TO_TIMESTAMP(&apos;2012-01-27 15:25:23&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),100)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="100" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:25:24 PM COT
+INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, &apos;N&apos;,t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive=&apos;Y&apos; AND l.IsSystemLanguage=&apos;Y&apos; AND l.IsBaseLanguage=&apos;N&apos; AND t.AD_Column_ID=200001 AND NOT EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Column_ID=t.AD_Column_ID)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="110" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:25:54 PM COT
+INSERT INTO AD_Column (AD_Column_ID,AD_Table_ID,EntityType,Version,IsMandatory,IsTranslated,IsIdentifier,SeqNo,IsParent,FieldLength,IsSelectionColumn,AD_Reference_ID,IsSyncDatabase,IsKey,AD_Element_ID,IsAutocomplete,IsAllowLogging,IsEncrypted,IsUpdateable,IsAlwaysUpdateable,ColumnName,Name,CreatedBy,Updated,AD_Client_ID,AD_Org_ID,IsActive,Created,UpdatedBy) VALUES (200002,200000,&apos;D&apos;,0,&apos;Y&apos;,&apos;N&apos;,&apos;N&apos;,0,&apos;N&apos;,22,&apos;N&apos;,13,&apos;N&apos;,&apos;Y&apos;,200000,&apos;N&apos;,&apos;Y&apos;,&apos;N&apos;,&apos;N&apos;,&apos;N&apos;,&apos;AD_RecentItem_ID&apos;,&apos;Recent Item&apos;,100,TO_TIMESTAMP(&apos;2012-01-27 15:25:54&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),0,0,&apos;Y&apos;,TO_TIMESTAMP(&apos;2012-01-27 15:25:54&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),100)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="120" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:25:54 PM COT
+INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, &apos;N&apos;,t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive=&apos;Y&apos; AND l.IsSystemLanguage=&apos;Y&apos; AND l.IsBaseLanguage=&apos;N&apos; AND t.AD_Column_ID=200002 AND NOT EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Column_ID=t.AD_Column_ID)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="130" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:26:23 PM COT
+INSERT INTO AD_Column (AD_Column_ID,AD_Table_ID,EntityType,Version,IsMandatory,IsTranslated,IsIdentifier,SeqNo,Help,IsParent,FieldLength,IsSelectionColumn,AD_Reference_ID,IsSyncDatabase,IsKey,AD_Element_ID,IsAutocomplete,IsAllowLogging,IsEncrypted,IsUpdateable,IsAlwaysUpdateable,ColumnName,Description,Name,CreatedBy,Updated,AD_Client_ID,AD_Org_ID,IsActive,Created,UpdatedBy) VALUES (200003,200000,&apos;D&apos;,0,&apos;Y&apos;,&apos;N&apos;,&apos;N&apos;,0,&apos;The Role determines security and access a user who has this Role will have in the System.&apos;,&apos;N&apos;,10,&apos;N&apos;,19,&apos;N&apos;,&apos;N&apos;,123,&apos;N&apos;,&apos;Y&apos;,&apos;N&apos;,&apos;Y&apos;,&apos;N&apos;,&apos;AD_Role_ID&apos;,&apos;Responsibility Role&apos;,&apos;Role&apos;,100,TO_TIMESTAMP(&apos;2012-01-27 15:26:22&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),0,0,&apos;Y&apos;,TO_TIMESTAMP(&apos;2012-01-27 15:26:22&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),100)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="140" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:26:23 PM COT
+INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, &apos;N&apos;,t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive=&apos;Y&apos; AND l.IsSystemLanguage=&apos;Y&apos; AND l.IsBaseLanguage=&apos;N&apos; AND t.AD_Column_ID=200003 AND NOT EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Column_ID=t.AD_Column_ID)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="150" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:26:50 PM COT
+INSERT INTO AD_Column (AD_Column_ID,AD_Table_ID,EntityType,Version,IsMandatory,IsTranslated,IsIdentifier,SeqNo,Help,IsParent,FieldLength,IsSelectionColumn,AD_Reference_ID,IsSyncDatabase,IsKey,AD_Element_ID,IsAutocomplete,IsAllowLogging,IsEncrypted,IsUpdateable,IsAlwaysUpdateable,ColumnName,Description,Name,CreatedBy,Updated,AD_Client_ID,AD_Org_ID,IsActive,Created,UpdatedBy) VALUES (200004,200000,&apos;D&apos;,0,&apos;N&apos;,&apos;N&apos;,&apos;N&apos;,0,&apos;The Tab indicates a tab that displays within a window.&apos;,&apos;N&apos;,10,&apos;N&apos;,19,&apos;N&apos;,&apos;N&apos;,125,&apos;N&apos;,&apos;Y&apos;,&apos;N&apos;,&apos;Y&apos;,&apos;N&apos;,&apos;AD_Tab_ID&apos;,&apos;Tab within a Window&apos;,&apos;Tab&apos;,100,TO_TIMESTAMP(&apos;2012-01-27 15:26:49&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),0,0,&apos;Y&apos;,TO_TIMESTAMP(&apos;2012-01-27 15:26:49&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),100)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="160" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:26:50 PM COT
+INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, &apos;N&apos;,t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive=&apos;Y&apos; AND l.IsSystemLanguage=&apos;Y&apos; AND l.IsBaseLanguage=&apos;N&apos; AND t.AD_Column_ID=200004 AND NOT EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Column_ID=t.AD_Column_ID)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="170" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:27:15 PM COT
+INSERT INTO AD_Column (AD_Column_ID,AD_Table_ID,EntityType,Version,IsMandatory,IsTranslated,IsIdentifier,SeqNo,Help,IsParent,FieldLength,IsSelectionColumn,AD_Reference_ID,IsSyncDatabase,IsKey,AD_Element_ID,IsAutocomplete,IsAllowLogging,IsEncrypted,IsUpdateable,IsAlwaysUpdateable,ColumnName,Description,Name,CreatedBy,Updated,AD_Client_ID,AD_Org_ID,IsActive,Created,UpdatedBy) VALUES (200005,200000,&apos;D&apos;,0,&apos;Y&apos;,&apos;N&apos;,&apos;N&apos;,0,&apos;The Database Table provides the information of the table definition&apos;,&apos;N&apos;,10,&apos;N&apos;,19,&apos;N&apos;,&apos;N&apos;,126,&apos;N&apos;,&apos;Y&apos;,&apos;N&apos;,&apos;Y&apos;,&apos;N&apos;,&apos;AD_Table_ID&apos;,&apos;Database Table information&apos;,&apos;Table&apos;,100,TO_TIMESTAMP(&apos;2012-01-27 15:27:14&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),0,0,&apos;Y&apos;,TO_TIMESTAMP(&apos;2012-01-27 15:27:14&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),100)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="180" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:27:15 PM COT
+INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, &apos;N&apos;,t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive=&apos;Y&apos; AND l.IsSystemLanguage=&apos;Y&apos; AND l.IsBaseLanguage=&apos;N&apos; AND t.AD_Column_ID=200005 AND NOT EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Column_ID=t.AD_Column_ID)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="190" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:27:34 PM COT
+INSERT INTO AD_Column (AD_Column_ID,AD_Table_ID,EntityType,Version,IsMandatory,IsTranslated,IsIdentifier,SeqNo,Help,IsParent,FieldLength,IsSelectionColumn,AD_Reference_ID,IsSyncDatabase,IsKey,AD_Element_ID,IsAutocomplete,IsAllowLogging,IsEncrypted,IsUpdateable,IsAlwaysUpdateable,ColumnName,Description,Name,CreatedBy,Updated,AD_Client_ID,AD_Org_ID,IsActive,Created,UpdatedBy) VALUES (200006,200000,&apos;D&apos;,0,&apos;N&apos;,&apos;N&apos;,&apos;N&apos;,0,&apos;The User identifies a unique user in the system. This could be an internal user or a business partner contact&apos;,&apos;N&apos;,10,&apos;N&apos;,30,&apos;N&apos;,&apos;N&apos;,138,&apos;N&apos;,&apos;Y&apos;,&apos;N&apos;,&apos;Y&apos;,&apos;N&apos;,&apos;AD_User_ID&apos;,&apos;User within the system - Internal or Business Partner Contact&apos;,&apos;User/Contact&apos;,100,TO_TIMESTAMP(&apos;2012-01-27 15:27:34&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),0,0,&apos;Y&apos;,TO_TIMESTAMP(&apos;2012-01-27 15:27:34&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),100)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="200" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:27:34 PM COT
+INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, &apos;N&apos;,t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive=&apos;Y&apos; AND l.IsSystemLanguage=&apos;Y&apos; AND l.IsBaseLanguage=&apos;N&apos; AND t.AD_Column_ID=200006 AND NOT EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Column_ID=t.AD_Column_ID)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="210" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:28:00 PM COT
+INSERT INTO AD_Column (AD_Column_ID,AD_Table_ID,EntityType,Version,IsMandatory,IsTranslated,IsIdentifier,SeqNo,Help,IsParent,FieldLength,IsSelectionColumn,AD_Reference_ID,IsSyncDatabase,IsKey,AD_Element_ID,IsAutocomplete,IsAllowLogging,IsEncrypted,IsUpdateable,IsAlwaysUpdateable,ColumnName,Description,Name,CreatedBy,Updated,AD_Client_ID,AD_Org_ID,IsActive,Created,UpdatedBy) VALUES (200007,200000,&apos;D&apos;,0,&apos;N&apos;,&apos;N&apos;,&apos;N&apos;,0,&apos;The Window field identifies a unique Window in the system.&apos;,&apos;N&apos;,10,&apos;N&apos;,19,&apos;N&apos;,&apos;N&apos;,143,&apos;N&apos;,&apos;Y&apos;,&apos;N&apos;,&apos;Y&apos;,&apos;N&apos;,&apos;AD_Window_ID&apos;,&apos;Data entry or display window&apos;,&apos;Window&apos;,100,TO_TIMESTAMP(&apos;2012-01-27 15:27:59&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),0,0,&apos;Y&apos;,TO_TIMESTAMP(&apos;2012-01-27 15:27:59&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),100)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="220" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:28:00 PM COT
+INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, &apos;N&apos;,t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive=&apos;Y&apos; AND l.IsSystemLanguage=&apos;Y&apos; AND l.IsBaseLanguage=&apos;N&apos; AND t.AD_Column_ID=200007 AND NOT EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Column_ID=t.AD_Column_ID)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="230" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:28:26 PM COT
+INSERT INTO AD_Column (AD_Column_ID,AD_Table_ID,EntityType,Version,IsMandatory,IsTranslated,IsIdentifier,SeqNo,Help,IsParent,FieldLength,IsSelectionColumn,AD_Reference_ID,IsSyncDatabase,IsKey,AD_Element_ID,IsAutocomplete,IsAllowLogging,IsEncrypted,IsUpdateable,IsAlwaysUpdateable,ColumnName,Description,Name,CreatedBy,Updated,AD_Client_ID,AD_Org_ID,IsActive,Created,UpdatedBy) VALUES (200008,200000,&apos;D&apos;,0,&apos;Y&apos;,&apos;N&apos;,&apos;N&apos;,0,&apos;The Created field indicates the date that this record was created.&apos;,&apos;N&apos;,7,&apos;N&apos;,16,&apos;N&apos;,&apos;N&apos;,245,&apos;N&apos;,&apos;Y&apos;,&apos;N&apos;,&apos;N&apos;,&apos;N&apos;,&apos;Created&apos;,&apos;Date this record was created&apos;,&apos;Created&apos;,100,TO_TIMESTAMP(&apos;2012-01-27 15:28:26&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),0,0,&apos;Y&apos;,TO_TIMESTAMP(&apos;2012-01-27 15:28:26&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),100)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="240" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:28:26 PM COT
+INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, &apos;N&apos;,t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive=&apos;Y&apos; AND l.IsSystemLanguage=&apos;Y&apos; AND l.IsBaseLanguage=&apos;N&apos; AND t.AD_Column_ID=200008 AND NOT EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Column_ID=t.AD_Column_ID)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="250" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:28:56 PM COT
+INSERT INTO AD_Column (AD_Column_ID,AD_Table_ID,EntityType,Version,AD_Reference_Value_ID,IsMandatory,IsTranslated,IsIdentifier,SeqNo,Help,IsParent,FieldLength,IsSelectionColumn,AD_Reference_ID,IsSyncDatabase,IsKey,AD_Element_ID,IsAutocomplete,IsAllowLogging,IsEncrypted,IsUpdateable,IsAlwaysUpdateable,ColumnName,Description,Name,CreatedBy,Updated,AD_Client_ID,AD_Org_ID,IsActive,Created,UpdatedBy) VALUES (200009,200000,&apos;D&apos;,0,110,&apos;Y&apos;,&apos;N&apos;,&apos;N&apos;,0,&apos;The Created By field indicates the user who created this record.&apos;,&apos;N&apos;,22,&apos;N&apos;,18,&apos;N&apos;,&apos;N&apos;,246,&apos;N&apos;,&apos;Y&apos;,&apos;N&apos;,&apos;N&apos;,&apos;N&apos;,&apos;CreatedBy&apos;,&apos;User who created this records&apos;,&apos;Created By&apos;,100,TO_TIMESTAMP(&apos;2012-01-27 15:28:55&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),0,0,&apos;Y&apos;,TO_TIMESTAMP(&apos;2012-01-27 15:28:55&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),100)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="260" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:28:56 PM COT
+INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, &apos;N&apos;,t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive=&apos;Y&apos; AND l.IsSystemLanguage=&apos;Y&apos; AND l.IsBaseLanguage=&apos;N&apos; AND t.AD_Column_ID=200009 AND NOT EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Column_ID=t.AD_Column_ID)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="270" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:30:02 PM COT
+INSERT INTO AD_Column (DefaultValue,AD_Column_ID,AD_Table_ID,EntityType,Version,IsMandatory,IsTranslated,IsIdentifier,SeqNo,Help,IsParent,FieldLength,IsSelectionColumn,AD_Reference_ID,IsSyncDatabase,IsKey,AD_Element_ID,IsAutocomplete,IsAllowLogging,IsEncrypted,IsUpdateable,IsAlwaysUpdateable,ColumnName,Description,Name,CreatedBy,Updated,AD_Client_ID,AD_Org_ID,IsActive,Created,UpdatedBy) VALUES (&apos;Y&apos;,200010,200000,&apos;D&apos;,0,&apos;Y&apos;,&apos;N&apos;,&apos;N&apos;,0,&apos;There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
+There are two reasons for de-activating and not deleting records:
+(1) The system requires the record for audit purposes.
+(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.&apos;,&apos;N&apos;,1,&apos;N&apos;,20,&apos;N&apos;,&apos;N&apos;,348,&apos;N&apos;,&apos;Y&apos;,&apos;N&apos;,&apos;Y&apos;,&apos;N&apos;,&apos;IsActive&apos;,&apos;The record is active in the system&apos;,&apos;Active&apos;,100,TO_TIMESTAMP(&apos;2012-01-27 15:30:01&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),0,0,&apos;Y&apos;,TO_TIMESTAMP(&apos;2012-01-27 15:30:01&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),100)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="280" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:30:02 PM COT
+INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, &apos;N&apos;,t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive=&apos;Y&apos; AND l.IsSystemLanguage=&apos;Y&apos; AND l.IsBaseLanguage=&apos;N&apos; AND t.AD_Column_ID=200010 AND NOT EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Column_ID=t.AD_Column_ID)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="290" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:30:47 PM COT
+INSERT INTO AD_Column (AD_Column_ID,AD_Table_ID,EntityType,Version,IsMandatory,IsTranslated,IsIdentifier,SeqNo,Help,IsParent,FieldLength,IsSelectionColumn,AD_Reference_ID,IsSyncDatabase,IsKey,AD_Element_ID,IsAutocomplete,IsAllowLogging,IsEncrypted,IsUpdateable,IsAlwaysUpdateable,ColumnName,Description,Name,CreatedBy,Updated,AD_Client_ID,AD_Org_ID,IsActive,Created,UpdatedBy) VALUES (200011,200000,&apos;D&apos;,0,&apos;Y&apos;,&apos;N&apos;,&apos;N&apos;,0,&apos;The Record ID is the internal unique identifier of a record. Please note that zooming to the record may not be successful for Orders, Invoices and Shipment/Receipts as sometimes the Sales Order type is not known.&apos;,&apos;N&apos;,10,&apos;N&apos;,28,&apos;N&apos;,&apos;N&apos;,538,&apos;N&apos;,&apos;Y&apos;,&apos;N&apos;,&apos;Y&apos;,&apos;N&apos;,&apos;Record_ID&apos;,&apos;Direct internal record ID&apos;,&apos;Record ID&apos;,100,TO_TIMESTAMP(&apos;2012-01-27 15:30:47&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),0,0,&apos;Y&apos;,TO_TIMESTAMP(&apos;2012-01-27 15:30:47&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),100)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="300" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:30:47 PM COT
+INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, &apos;N&apos;,t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive=&apos;Y&apos; AND l.IsSystemLanguage=&apos;Y&apos; AND l.IsBaseLanguage=&apos;N&apos; AND t.AD_Column_ID=200011 AND NOT EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Column_ID=t.AD_Column_ID)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="310" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:31:12 PM COT
+INSERT INTO AD_Column (AD_Column_ID,AD_Table_ID,EntityType,Version,IsMandatory,IsTranslated,IsIdentifier,SeqNo,Help,IsParent,FieldLength,IsSelectionColumn,AD_Reference_ID,IsSyncDatabase,IsKey,AD_Element_ID,IsAutocomplete,IsAllowLogging,IsEncrypted,IsUpdateable,IsAlwaysUpdateable,ColumnName,Description,Name,CreatedBy,Updated,AD_Client_ID,AD_Org_ID,IsActive,Created,UpdatedBy) VALUES (200012,200000,&apos;D&apos;,0,&apos;Y&apos;,&apos;N&apos;,&apos;N&apos;,0,&apos;The Updated field indicates the date that this record was updated.&apos;,&apos;N&apos;,7,&apos;N&apos;,16,&apos;N&apos;,&apos;N&apos;,607,&apos;N&apos;,&apos;Y&apos;,&apos;N&apos;,&apos;Y&apos;,&apos;N&apos;,&apos;Updated&apos;,&apos;Date this record was updated&apos;,&apos;Updated&apos;,100,TO_TIMESTAMP(&apos;2012-01-27 15:31:11&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),0,0,&apos;Y&apos;,TO_TIMESTAMP(&apos;2012-01-27 15:31:11&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),100)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="320" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:31:12 PM COT
+INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, &apos;N&apos;,t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive=&apos;Y&apos; AND l.IsSystemLanguage=&apos;Y&apos; AND l.IsBaseLanguage=&apos;N&apos; AND t.AD_Column_ID=200012 AND NOT EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Column_ID=t.AD_Column_ID)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="330" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:31:43 PM COT
+INSERT INTO AD_Column (AD_Column_ID,AD_Table_ID,EntityType,Version,AD_Reference_Value_ID,IsMandatory,IsTranslated,IsIdentifier,SeqNo,Help,IsParent,FieldLength,IsSelectionColumn,AD_Reference_ID,IsSyncDatabase,IsKey,AD_Element_ID,IsAutocomplete,IsAllowLogging,IsEncrypted,IsUpdateable,IsAlwaysUpdateable,ColumnName,Description,Name,CreatedBy,Updated,AD_Client_ID,AD_Org_ID,IsActive,Created,UpdatedBy) VALUES (200013,200000,&apos;D&apos;,0,110,&apos;Y&apos;,&apos;N&apos;,&apos;N&apos;,0,&apos;The Updated By field indicates the user who updated this record.&apos;,&apos;N&apos;,22,&apos;N&apos;,18,&apos;N&apos;,&apos;N&apos;,608,&apos;N&apos;,&apos;Y&apos;,&apos;N&apos;,&apos;N&apos;,&apos;N&apos;,&apos;UpdatedBy&apos;,&apos;User who updated this records&apos;,&apos;Updated By&apos;,100,TO_TIMESTAMP(&apos;2012-01-27 15:31:42&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),0,0,&apos;Y&apos;,TO_TIMESTAMP(&apos;2012-01-27 15:31:42&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),100)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="340" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:31:43 PM COT
+INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, &apos;N&apos;,t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive=&apos;Y&apos; AND l.IsSystemLanguage=&apos;Y&apos; AND l.IsBaseLanguage=&apos;N&apos; AND t.AD_Column_ID=200013 AND NOT EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Column_ID=t.AD_Column_ID)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="350" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:31:53 PM COT
+UPDATE AD_Column SET IsUpdateable=&apos;N&apos;,Updated=TO_TIMESTAMP(&apos;2012-01-27 15:31:53&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=200012
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="360" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:33:15 PM COT
+UPDATE AD_Column SET EntityType=&apos;D&apos;,Updated=TO_TIMESTAMP(&apos;2012-01-27 15:33:15&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=200000
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="370" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:33:21 PM COT
+CREATE TABLE AD_RecentItem (AD_Client_ID NUMERIC(10) NOT NULL, AD_Org_ID NUMERIC(10) NOT NULL, AD_RecentItem_ID NUMERIC(10) NOT NULL, AD_Role_ID NUMERIC(10) NOT NULL, AD_Tab_ID NUMERIC(10) DEFAULT NULL , AD_Table_ID NUMERIC(10) NOT NULL, AD_User_ID NUMERIC(10) DEFAULT NULL , AD_Window_ID NUMERIC(10) DEFAULT NULL , Created TIMESTAMP NOT NULL, CreatedBy NUMERIC(10) NOT NULL, IsActive CHAR(1) DEFAULT &apos;Y&apos; CHECK (IsActive IN (&apos;Y&apos;,&apos;N&apos;)) NOT NULL, Record_ID NUMERIC(10) NOT NULL, Updated TIMESTAMP NOT NULL, UpdatedBy NUMERIC(10) NOT NULL, CONSTRAINT AD_RecentItem_Key PRIMARY KEY (AD_RecentItem_ID))
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="380" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:34:35 PM COT
+INSERT INTO PA_DashboardContent (Line,Description,PA_DashboardContent_ID,ZulFilePath,ColumnNo,IsCollapsible,GoalDisplay,Name,Created,CreatedBy,UpdatedBy,Updated,AD_Client_ID,IsActive,AD_Org_ID) VALUES (0,&apos;Recent items&apos;,200000,&apos;/zul/recentItems.zul&apos;,1,&apos;Y&apos;,&apos;T&apos;,&apos;Recent Items&apos;,TO_TIMESTAMP(&apos;2012-01-27 15:34:34&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),100,100,TO_TIMESTAMP(&apos;2012-01-27 15:34:34&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),0,&apos;Y&apos;,0)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="390" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:34:35 PM COT
+INSERT INTO PA_DashboardContent_Trl (AD_Language,PA_DashboardContent_ID, Description,Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.PA_DashboardContent_ID, t.Description,t.Name, &apos;N&apos;,t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, PA_DashboardContent t WHERE l.IsActive=&apos;Y&apos; AND l.IsSystemLanguage=&apos;Y&apos; AND l.IsBaseLanguage=&apos;N&apos; AND t.PA_DashboardContent_ID=200000 AND NOT EXISTS (SELECT * FROM PA_DashboardContent_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.PA_DashboardContent_ID=t.PA_DashboardContent_ID)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="400" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:35:09 PM COT
+UPDATE PA_DashboardContent_Trl SET IsTranslated=&apos;Y&apos;,Name=&apos;Registros recientes&apos;,Description=&apos;Registros recientes&apos;,Updated=TO_TIMESTAMP(&apos;2012-01-27 15:35:09&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE PA_DashboardContent_ID=200000 AND AD_Language=&apos;es_CO&apos;
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="410" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:36:24 PM COT
+INSERT INTO AD_SysConfig (AD_SysConfig_ID,ConfigurationLevel,EntityType,Name,Value,Description,AD_Client_ID,AD_Org_ID,Created,Updated,CreatedBy,UpdatedBy,IsActive) VALUES (200000,&apos;C&apos;,&apos;D&apos;,&apos;RecentItems_MaxShown&apos;,&apos;10&apos;,&apos;Max number of records to show on recent items dashboard&apos;,0,0,TO_TIMESTAMP(&apos;2012-01-27 15:36:23&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),TO_TIMESTAMP(&apos;2012-01-27 15:36:23&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),100,100,&apos;Y&apos;)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="420" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:37:11 PM COT
+INSERT INTO AD_SysConfig (AD_SysConfig_ID,ConfigurationLevel,EntityType,Name,Value,Description,AD_Client_ID,AD_Org_ID,Created,Updated,CreatedBy,UpdatedBy,IsActive) VALUES (200001,&apos;C&apos;,&apos;D&apos;,&apos;RecentItems_MaxSaved&apos;,&apos;50&apos;,&apos;Max number of records to save on recent items table per user&apos;,0,0,TO_TIMESTAMP(&apos;2012-01-27 15:37:11&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),TO_TIMESTAMP(&apos;2012-01-27 15:37:11&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),100,100,&apos;Y&apos;)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="430" StepType="SQL">
+      <SQLStatement>
+-- Jan 27, 2012 3:37:22 PM COT
+UPDATE AD_SysConfig SET Description=&apos;Max number of records to save on recent items table per user/client&apos;,Updated=TO_TIMESTAMP(&apos;2012-01-27 15:37:22&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_SysConfig_ID=200001
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="440" StepType="SQL">
+      <SQLStatement>
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+  </Migration>
+</Migrations>
