@@ -365,6 +365,30 @@ public class X_C_CommissionRun extends PO implements I_C_CommissionRun, I_Persis
 		return false;
 	}
 
+	/** Set ReCalculate.
+		@param IsReCalculate 
+		Allow recalculation
+	  */
+	public void setIsReCalculate (boolean IsReCalculate)
+	{
+		set_Value (COLUMNNAME_IsReCalculate, Boolean.valueOf(IsReCalculate));
+	}
+
+	/** Get ReCalculate.
+		@return Allow recalculation
+	  */
+	public boolean isReCalculate () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsReCalculate);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Processed.
 		@param Processed 
 		The document has been processed

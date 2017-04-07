@@ -222,6 +222,19 @@ public interface I_C_CommissionRun
 	  */
 	public boolean isApproved();
 
+    /** Column name IsReCalculate */
+    public static final String COLUMNNAME_IsReCalculate = "IsReCalculate";
+
+	/** Set ReCalculate.
+	  * Allow recalculation
+	  */
+	public void setIsReCalculate (boolean IsReCalculate);
+
+	/** Get ReCalculate.
+	  * Allow recalculation
+	  */
+	public boolean isReCalculate();
+
     /** Column name Processed */
     public static final String COLUMNNAME_Processed = "Processed";
 

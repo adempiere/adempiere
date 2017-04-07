@@ -209,12 +209,18 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 			m_processMsg = "@PeriodClosed@";
 			return DocAction.STATUS_Invalid;
 		}
+		
 		//	Create Commission Movements
-		createMovements();
-		//	Add up Amounts
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_PREPARE);
-		if (m_processMsg != null)
-			return DocAction.STATUS_Invalid;
+		if((getDocStatus().equals(STATUS_Drafted)) ||
+				(getDocStatus().equals(STATUS_InProgress) && isReCalculate())) {
+			createMovements();
+
+			//	Add up Amounts
+			m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_PREPARE);
+			if (m_processMsg != null)
+				return DocAction.STATUS_Invalid;
+		}
+		
 		m_justPrepared = true;
 		if (!DOCACTION_Complete.equals(getDocAction()))
 			setDocAction(DOCACTION_Complete);
@@ -250,6 +256,7 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 			commissionList = group.getLines(true);
 			frequencyType = group.getFrequencyType();
 		} else {
+			// TODO: issue a sensible message that either a Commission or a Commission Group has to be selected
 			return;
 		}
 		startDate = getStartDate();
