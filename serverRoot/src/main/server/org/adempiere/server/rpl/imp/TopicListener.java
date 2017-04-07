@@ -249,14 +249,14 @@ public class TopicListener implements MessageListener {
 		} else {
 			consumer = session.createConsumer( topic );	
 		}
-		
+
 		log.finest("consumer = " + consumer );
-		
+
 		consumer.setMessageListener( this );
 
 		conn.start();
 		log.finest("Waiting for JMS messages...");
-		if(replicationProcessor !=null)
+		if (replicationProcessor !=null)
 		{	
 			MIMPProcessorLog pLog = new MIMPProcessorLog(replicationProcessor.getMImportProcessor(), "Connected to JMS Server. Waiting for messages!");
 			StringBuffer logReference = new StringBuffer("topicName = ").append(topicName)
@@ -266,7 +266,6 @@ public class TopicListener implements MessageListener {
 			boolean resultSave = pLog.save();
 			log.finest("Result Save = " + resultSave);
 		}
-		
 	}
 	
 	/**
@@ -282,12 +281,12 @@ public class TopicListener implements MessageListener {
 				log.finest("Received message: \n" + text );
 
 				Document documentToBeImported = XMLHelper.createDocumentFromString( text );
-				StringBuffer result = new StringBuffer();
-				
+
 				ImportHelper impHelper = new ImportHelper( ctx );
 
-				impHelper.importXMLDocument(result, documentToBeImported, trxName );
-				
+				impHelper.importXMLDocument(documentToBeImported, trxName );
+				//String result = impHelper.getResultLog();
+
 				log.finest("Message processed ...");
 				
 				if(replicationProcessor != null)
@@ -299,12 +298,9 @@ public class TopicListener implements MessageListener {
 					} else {
 						pLog.setTextMsg( text);
 					}
-					
 					pLog.saveEx();
 				}
-				
 				session.commit();
-								
 			} 
 			catch (Exception e) 
 			{
@@ -326,7 +322,6 @@ public class TopicListener implements MessageListener {
 					e2.printStackTrace();
 				}
 				e.printStackTrace();
-				
 			}
 
 		} else {
