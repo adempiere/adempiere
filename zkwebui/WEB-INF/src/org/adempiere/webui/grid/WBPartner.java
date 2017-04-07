@@ -81,9 +81,11 @@ public class WBPartner extends Window implements EventListener, ValueChangeListe
 	private boolean m_readOnly = false;
 
 	private Object[] m_greeting;
+	private Object[] m_bpgroup;
 	
 	private Textbox fValue = new Textbox();
 	private Listbox fGreetingBP = new Listbox();
+	private Listbox fBPGroup = new Listbox();
 	private Textbox fName = new Textbox();
 	private Textbox fName2 = new Textbox();
 	private Textbox fTaxId = new Textbox();
@@ -156,18 +158,28 @@ public class WBPartner extends Window implements EventListener, ValueChangeListe
 	{
 		//	Get Data
 		m_greeting = fillGreeting();
+		m_bpgroup = fillBPGroup();
 
 		//	Value
 		fValue.addEventListener(Events.ON_CHANGE , this);
 		createLine (fValue, "Value", true);
 		
 		//	Greeting Business Partner
-		fGreetingBP.setMold("select");
-		fGreetingBP.setRows(0);
+		fBPGroup.setMold("select");
+		fBPGroup.setRows(0);
 		
-		for (int i = 0; i < m_greeting.length; i++)
-			fGreetingBP.appendItem(m_greeting[i].toString(), m_greeting[i]);
-		createLine (fGreetingBP, "Greeting", false);
+		for (int i = 0; i < m_bpgroup.length; i++)
+			fBPGroup.appendItem(m_bpgroup[i].toString(), m_bpgroup[i]);
+		createLine (fBPGroup, "Business Partner Group", false);
+		
+		//BPGroup
+//		Greeting Business Partner
+			fGreetingBP.setMold("select");
+			fGreetingBP.setRows(0);
+			
+			for (int i = 0; i < m_greeting.length; i++)
+				fGreetingBP.appendItem(m_greeting[i].toString(), m_greeting[i]);
+			createLine (fGreetingBP, "Greeting", false);
 		
 		//	Name
 		fName.addEventListener(Events.ON_CLICK, this);
@@ -263,6 +275,13 @@ public class WBPartner extends Window implements EventListener, ValueChangeListe
 		
 		return DB.getKeyNamePairs(sql, true);
 	}	//	fillGreeting
+	
+	private Object[] fillBPGroup()
+	{
+		String sql = "SELECT C_BP_Group_ID, Name FROM C_BP_Group WHERE IsActive='Y' ORDER BY 2";
+		sql = MRole.getDefault().addAccessSQL(sql, "C_BP_Group", MRole.SQL_NOTQUALIFIED, MRole.SQL_RO);
+		return DB.getKeyNamePairs(sql, true);
+	}	//	fillBPGroup
 
 	/**
 	 *	Search m_greeting for key
@@ -275,6 +294,18 @@ public class WBPartner extends Window implements EventListener, ValueChangeListe
 		for (int i = 0; i < m_greeting.length; i++)
 		{
 			KeyNamePair p = (KeyNamePair)m_greeting[i];
+			if (p.getKey() == key)
+				return p;
+		}
+		
+		return new KeyNamePair(-1, " ");
+	}	//	getGreeting
+
+	private KeyNamePair getBPGroup(int key)
+	{
+		for (int i = 0; i < m_bpgroup.length; i++)
+		{
+			KeyNamePair p = (KeyNamePair)m_bpgroup[i];
 			if (p.getKey() == key)
 				return p;
 		}
@@ -322,6 +353,17 @@ public class WBPartner extends Window implements EventListener, ValueChangeListe
 			if (compare == keynamepair)
 			{
 				fGreetingBP.setSelectedIndex(i);
+				break;
+			}
+		}
+		for (int i = 0; i < fBPGroup.getItemCount(); i++)
+		{
+			ListItem listitem = fBPGroup.getItemAtIndex(i);
+			KeyNamePair compare = (KeyNamePair)listitem.getValue();
+			
+			if (compare == keynamepair)
+			{
+				fBPGroup.setSelectedIndex(i);
 				break;
 			}
 		}
@@ -430,6 +472,11 @@ public class WBPartner extends Window implements EventListener, ValueChangeListe
 			m_partner.setC_Greeting_ID(p.getKey());
 		else
 			m_partner.setC_Greeting_ID(0);
+		listitem = fBPGroup.getSelectedItem();
+		p = listitem != null ? (KeyNamePair)listitem.getValue() : null;
+		
+		if (p != null && p.getKey() > 0)
+			m_partner.setC_BP_Group_ID(p.getKey());
 		
 		if (m_partner.save())
 			log.fine("C_BPartner_ID=" + m_partner.getC_BPartner_ID());
