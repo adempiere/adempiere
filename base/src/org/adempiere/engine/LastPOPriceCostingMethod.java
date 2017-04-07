@@ -131,6 +131,27 @@ public class LastPOPriceCostingMethod extends AbstractCostingMethod implements I
 	}
 
 	/**
+	 * Average Invoice Get the new Cumulated Amt Low Level
+	 * @param cost MCostDetail
+	 * @return New Cumulated Am Low Level
+	 */
+	public BigDecimal getNewAccumulatedAmountLowerLevel(MCostDetail cost) {
+		BigDecimal accumulatedAmountLowerLevel = Env.ZERO;
+		if (cost.getQty().signum() >= 0)
+			accumulatedAmountLowerLevel = cost.getCumulatedAmtLL().add(cost.getCostAmtLL()).add(cost.getCostAdjustmentLL());
+		else if (cost.getQty().signum() < 0)
+			accumulatedAmountLowerLevel = cost.getCumulatedAmtLL().add(cost.getCostAmtLL().negate()).add(cost.getCostAdjustmentLL().negate());
+		else if (cost.getQty().signum() == 0)
+		{
+			if(getNewAccumulatedQuantity(cost).signum() > 0)
+				accumulatedAmountLowerLevel = cost.getCumulatedAmtLL().add(cost.getCostAmtLL()).add(cost.getCostAdjustmentLL());
+			else if (getNewAccumulatedQuantity(cost).signum() < 0)
+				accumulatedAmountLowerLevel = cost.getCumulatedAmtLL().add(cost.getCostAmtLL().negate()).add(cost.getCostAdjustmentLL().negate());
+		}
+		return accumulatedAmountLowerLevel;
+	}
+
+	/**
 	 * Average Invoice Get the New Current Cost Price low level
 	 * @param cost Cost Detail
 	 * @param scale Scale
@@ -144,19 +165,6 @@ public class LastPOPriceCostingMethod extends AbstractCostingMethod implements I
 			return BigDecimal.ZERO;
 	}
 
-	/**
-	 * Average Invoice Get the new Cumulated Amt Low Level
-	 * @param cost MCostDetail
-	 * @return New Cumulated Am Low Level
-	 */
-	public BigDecimal getNewAccumulatedAmountLowerLevel(MCostDetail cost) {
-		BigDecimal accumulatedAmountLowerLevel = Env.ZERO;
-		if (cost.getQty().signum() >= 0)
-			accumulatedAmountLowerLevel = cost.getCumulatedAmtLL().add(cost.getCostAmtLL()).add(cost.getCostAdjustmentLL());
-		else
-			accumulatedAmountLowerLevel = cost.getCumulatedAmtLL().add(cost.getCostAmtLL().negate()).add(cost.getCostAdjustmentLL().negate());
-		return accumulatedAmountLowerLevel;
-	}
 
 	/**
 	 * Average Invoice Get the new Cumulated Qty

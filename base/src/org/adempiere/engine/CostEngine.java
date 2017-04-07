@@ -321,6 +321,7 @@ public class CostEngine {
 			) 
 			{				
 				costThisLevel = getCostThisLevel(accountSchema, costType, costElement, transaction, model, costingLevel);
+				costLowLevel = getCostLowLevel(accountSchema, costType, costElement, transaction, model, costingLevel);
 				if (model instanceof MInventoryLine) {
 					MInventoryLine inventoryLine = (MInventoryLine) model;
 					// If cost this level is zero and is a physical inventory then
@@ -336,7 +337,6 @@ public class CostEngine {
 							costThisLevel = getCostThisLevel(accountSchema, costType, costElement, transaction, model, costingLevel);
 					}
 
-					costLowLevel = getCostLowLevel(accountSchema, costType, costElement, transaction, model, costingLevel);
 					// If cost Low level is zero and is a physical inventory then
 					// try get cost low level from physical inventory
 					if (costLowLevel.signum() == 0 && MCostElement.COSTELEMENTTYPE_Material.equals(costElement.getCostElementType())) {

@@ -193,10 +193,7 @@ public abstract class AbstractCostingMethod implements ICostingMethod {
 			costDetail.setIsReversal(true);
 			costDetail.saveEx();
 			// Update the original cost detail
-			lastCostDetail
-					.setDescription(lastCostDetail.getDescription() != null ? lastCostDetail
-                            .getDescription() : "" + "|Reversal "
-                            + costDetail.getM_Transaction_ID());
+			lastCostDetail.setDescription(lastCostDetail.getDescription() != null ? lastCostDetail.getDescription() : "" + "|Reversal " + costDetail.getM_Transaction_ID());
 			lastCostDetail.setIsReversal(true);
 			lastCostDetail.saveEx(transaction.get_TrxName());
 			
@@ -206,13 +203,8 @@ public abstract class AbstractCostingMethod implements ICostingMethod {
 	
 	protected void setReversalCostDetail()
 	{
-		costDetail.setCurrentCostPrice(getNewCurrentCostPrice(
-                lastCostDetail, accountSchema.getCostingPrecision(),
-                BigDecimal.ROUND_HALF_UP));
-		
-		costDetail.setCurrentCostPriceLL(getNewCurrentCostPriceLowerLevel(
-                lastCostDetail, accountSchema.getCostingPrecision(),
-                BigDecimal.ROUND_HALF_UP));
+		costDetail.setCurrentCostPrice(getNewCurrentCostPrice(lastCostDetail, accountSchema.getCostingPrecision(),BigDecimal.ROUND_HALF_UP));
+		costDetail.setCurrentCostPriceLL(getNewCurrentCostPriceLowerLevel(lastCostDetail, accountSchema.getCostingPrecision(),BigDecimal.ROUND_HALF_UP));
 		costDetail.setCurrentQty(Env.ZERO);
 		costDetail.setQty(Env.ZERO);
 		costDetail.setAmt(Env.ZERO);
@@ -230,9 +222,10 @@ public abstract class AbstractCostingMethod implements ICostingMethod {
 		costDetail.setAmt(lastCostDetail.getAmt());
 		costDetail.setCostAmt(lastCostDetail.getCostAmt());
 		costDetail.setCostAdjustment(lastCostDetail.getCostAdjustment());
-		costDetail.setCostAdjustmentDate(lastCostDetail
-                .getCostAdjustmentDate());
-		
+		costDetail.setAmtLL(lastCostDetail.getAmtLL());
+		costDetail.setCostAmtLL(lastCostDetail.getCostAmtLL());
+		costDetail.setCostAdjustmentLL(lastCostDetail.getCostAdjustmentLL());
+		costDetail.setCostAdjustmentDate(lastCostDetail.getCostAdjustmentDate());
 		currentCostPrice = lastCostDetail.getCurrentCostPrice();
 		currentCostPriceLowerLevel = lastCostDetail.getCurrentCostPriceLL();
 		
@@ -242,8 +235,7 @@ public abstract class AbstractCostingMethod implements ICostingMethod {
 		accumulatedQuantity = getNewAccumulatedQuantity(costDetail);
 		accumulatedAmount = getNewAccumulatedAmount(costDetail);
 		accumulatedAmountLowerLevel = getNewAccumulatedAmountLowerLevel(costDetail);
-		currentCostPrice = getNewCurrentCostPrice(costDetail,
-                accountSchema.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
+		currentCostPrice = getNewCurrentCostPrice(costDetail, accountSchema.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
 	}
 	
 	public abstract void updateAmountCost();
