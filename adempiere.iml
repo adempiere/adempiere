@@ -160,7 +160,7 @@
       <src_folder value="file://$MODULE_DIR$/org.adempiere.test/src/main/scala" expected_position="32" />
     </src_description>
   </component>
-  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8" inherit-compiler-output="false">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
     <output url="file://$MODULE_DIR$/bin" />
     <output-test url="file://$MODULE_DIR$/test" />
     <exclude-output />
@@ -1339,5 +1339,6 @@
     <orderEntry type="library" name="scripting-scala-0.1.1-SNAPSHOT" level="project" />
     <orderEntry type="library" name="scala-sdk-2.12.0" level="project" />
     <orderEntry type="library" name="groovy-all-2.4.7" level="project" />
+    <orderEntry type="library" name="customization" level="project" />
   </component>
 </module>
