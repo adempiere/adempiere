@@ -177,11 +177,9 @@ public class Page
 		}
 		//
 		Point pageStart = new Point(bounds.getLocation());
-		for (int i = 0; i < m_elements.size(); i++)
-		{
-			PrintElement e = (PrintElement)m_elements.get(i);
-			e.paint(g2D, m_pageNo, pageStart, m_ctx, isView);
-		}
+		m_elements.stream().forEach(printElement -> {
+			printElement.paint(g2D, m_pageNo, pageStart, m_ctx, isView);
+		});
 	}	//	paint
 
 	/*************************************************************************/
