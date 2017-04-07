@@ -224,6 +224,19 @@ public interface I_C_Commission
 	  */
 	public boolean isActive();
 
+    /** Column name Paid totally */
+    public static final String COLUMNNAME_IsTotallyPaid = "IsTotallyPaid";
+
+	/** Set Paid totally.
+	  * The document is totally paid
+	  */
+	public void setIsTotallyPaid (boolean IsTotallyPaid);
+
+	/** Get Paid totally.
+	  * The document is totally paid
+	  */
+	public boolean isTotallyPaid();
+
     /** Column name ListDetails */
     public static final String COLUMNNAME_ListDetails = "ListDetails";
 

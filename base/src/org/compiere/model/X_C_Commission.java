@@ -384,4 +384,28 @@ public class X_C_Commission extends PO implements I_C_Commission, I_Persistent
 		}
 		return false;
 	}
+
+	/** Set Paid totally.
+		@param IsTotallyPaid 
+		The document is totally paid
+	  */
+	public void setIsTotallyPaid (boolean IsTotallyPaid)
+	{
+		set_Value (COLUMNNAME_IsTotallyPaid, Boolean.valueOf(IsTotallyPaid));
+	}
+
+	/** Get Paid totally.
+		@return The document is totally paid
+	  */
+	public boolean isTotallyPaid () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsTotallyPaid);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
 }
