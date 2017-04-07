@@ -92,7 +92,8 @@ public class Tax
 	{
 		if (M_Product_ID != 0)
 			return getProduct (ctx, M_Product_ID, billDate, shipDate, AD_Org_ID, M_Warehouse_ID,
-				billC_BPartner_Location_ID, shipC_BPartner_Location_ID, IsSOTrx, trxName);
+				billC_BPartner_Location_ID, shipC_BPartner_Location_ID, IsSOTrx
+				, trxName);
 		else if (C_Charge_ID != 0)
 			return getCharge (ctx, C_Charge_ID, billDate, shipDate, AD_Org_ID, M_Warehouse_ID,
 				billC_BPartner_Location_ID, shipC_BPartner_Location_ID, IsSOTrx);
@@ -342,7 +343,7 @@ public class Tax
 					+ ", shipToC_Location_ID=" + shipToC_Location_ID);
 				return get(ctx, C_TaxCategory_ID, IsSOTrx,
 					shipDate, shipFromC_Location_ID, shipToC_Location_ID,
-					billDate, billFromC_Location_ID, billToC_Location_ID);
+					billDate, billFromC_Location_ID, billToC_Location_ID, trxName);
 			}
 
 			// ----------------------------------------------------------------
@@ -499,6 +500,19 @@ public class Tax
 		Timestamp shipDate, int shipFromC_Location_ID, int shipToC_Location_ID,
 		Timestamp billDate, int billFromC_Location_ID, int billToC_Location_ID)
 	{
+		return get(ctx,
+			C_TaxCategory_ID, IsSOTrx,
+			shipDate, shipFromC_Location_ID, shipToC_Location_ID,
+			billDate, billFromC_Location_ID, billToC_Location_ID
+			, null);
+	}
+
+	protected static int get (Properties ctx,
+		int C_TaxCategory_ID, boolean IsSOTrx,
+		Timestamp shipDate, int shipFromC_Location_ID, int shipToC_Location_ID,
+		Timestamp billDate, int billFromC_Location_ID, int billToC_Location_ID
+		, String trxName)
+	{
 		//	C_TaxCategory contains CommodityCode
 		
 		//	API to Tax Vendor comes here
@@ -512,8 +526,8 @@ public class Tax
 		}
 
 		MTax[] taxes = MTax.getAll (ctx);
-		MLocation lFrom = new MLocation (ctx, billFromC_Location_ID, null); 
-		MLocation lTo = new MLocation (ctx, billToC_Location_ID, null); 
+		MLocation lFrom = new MLocation (ctx, billFromC_Location_ID, trxName); 
+		MLocation lTo = new MLocation (ctx, billToC_Location_ID, trxName); 
 		log.finer("From=" + lFrom);
 		log.finer("To=" + lTo);
 		
