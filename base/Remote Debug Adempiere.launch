@@ -13,6 +13,7 @@
 </listAttribute>
 <booleanAttribute key="org.eclipse.jdt.launching.ALLOW_TERMINATE" value="true"/>
 <mapAttribute key="org.eclipse.jdt.launching.CONNECT_MAP">
+<mapEntry key="timeout" value="20000"/>
 <mapEntry key="hostname" value="localhost"/>
 <mapEntry key="port" value="8787"/>
 </mapAttribute>
