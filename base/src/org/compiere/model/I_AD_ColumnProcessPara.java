@@ -14,44 +14,32 @@
  * For the text or an alternative of this public license, you may reach us    *
  * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
-package org.adempiere.model;
+package org.compiere.model;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for AD_Browse_Access
+/** Generated Interface for AD_ColumnProcessPara
  *  @author Adempiere (generated) 
  *  @version Release 3.9.0
  */
-public interface I_AD_Browse_Access 
+public interface I_AD_ColumnProcessPara 
 {
 
-    /** TableName=AD_Browse_Access */
-    public static final String Table_Name = "AD_Browse_Access";
+    /** TableName=AD_ColumnProcessPara */
+    public static final String Table_Name = "AD_ColumnProcessPara";
 
-    /** AD_Table_ID=53225 */
+    /** AD_Table_ID=54088 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
-    /** AccessLevel = 6 - System - Client 
+    /** AccessLevel = 4 - System 
      */
-    BigDecimal accessLevel = BigDecimal.valueOf(6);
+    BigDecimal accessLevel = BigDecimal.valueOf(4);
 
     /** Load Meta Data */
-
-    /** Column name AD_Browse_ID */
-    public static final String COLUMNNAME_AD_Browse_ID = "AD_Browse_ID";
-
-	/** Set Smart Browse	  */
-	public void setAD_Browse_ID (int AD_Browse_ID);
-
-	/** Get Smart Browse	  */
-	public int getAD_Browse_ID();
-
-	public org.adempiere.model.I_AD_Browse getAD_Browse() throws RuntimeException;
 
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
@@ -60,6 +48,26 @@ public interface I_AD_Browse_Access
 	  * Client/Tenant for this installation.
 	  */
 	public int getAD_Client_ID();
+
+    /** Column name AD_ColumnProcessPara_ID */
+    public static final String COLUMNNAME_AD_ColumnProcessPara_ID = "AD_ColumnProcessPara_ID";
+
+	/** Set Link Process Parameter	  */
+	public void setAD_ColumnProcessPara_ID (int AD_ColumnProcessPara_ID);
+
+	/** Get Link Process Parameter	  */
+	public int getAD_ColumnProcessPara_ID();
+
+    /** Column name AD_ColumnProcess_ID */
+    public static final String COLUMNNAME_AD_ColumnProcess_ID = "AD_ColumnProcess_ID";
+
+	/** Set Column Link Process	  */
+	public void setAD_ColumnProcess_ID (int AD_ColumnProcess_ID);
+
+	/** Get Column Link Process	  */
+	public int getAD_ColumnProcess_ID();
+
+	public org.compiere.model.I_AD_ColumnProcess getAD_ColumnProcess() throws RuntimeException;
 
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
@@ -74,20 +82,16 @@ public interface I_AD_Browse_Access
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name AD_Role_ID */
-    public static final String COLUMNNAME_AD_Role_ID = "AD_Role_ID";
+    /** Column name AD_Process_Para_ID */
+    public static final String COLUMNNAME_AD_Process_Para_ID = "AD_Process_Para_ID";
 
-	/** Set Role.
-	  * Responsibility Role
-	  */
-	public void setAD_Role_ID (int AD_Role_ID);
+	/** Set Process Parameter	  */
+	public void setAD_Process_Para_ID (int AD_Process_Para_ID);
 
-	/** Get Role.
-	  * Responsibility Role
-	  */
-	public int getAD_Role_ID();
+	/** Get Process Parameter	  */
+	public int getAD_Process_Para_ID();
 
-	public org.compiere.model.I_AD_Role getAD_Role() throws RuntimeException;
+	public org.compiere.model.I_AD_Process_Para getAD_Process_Para() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -105,6 +109,21 @@ public interface I_AD_Browse_Access
 	  */
 	public int getCreatedBy();
 
+    /** Column name DefaultValue */
+    public static final String COLUMNNAME_DefaultValue = "DefaultValue";
+
+	/** Set Default Logic.
+	  * Default value hierarchy, separated by ;
+
+	  */
+	public void setDefaultValue (String DefaultValue);
+
+	/** Get Default Logic.
+	  * Default value hierarchy, separated by ;
+
+	  */
+	public String getDefaultValue();
+
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
 
@@ -117,19 +136,6 @@ public interface I_AD_Browse_Access
 	  * The record is active in the system
 	  */
 	public boolean isActive();
-
-    /** Column name IsReadWrite */
-    public static final String COLUMNNAME_IsReadWrite = "IsReadWrite";
-
-	/** Set Read Write.
-	  * Field is read / write
-	  */
-	public void setIsReadWrite (boolean IsReadWrite);
-
-	/** Get Read Write.
-	  * Field is read / write
-	  */
-	public boolean isReadWrite();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

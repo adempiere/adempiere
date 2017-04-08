@@ -15,17 +15,16 @@
  * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
-package org.adempiere.model;
+package org.compiere.model;
 
 import java.sql.ResultSet;
 import java.util.Properties;
-import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Model for AD_View_Definition
+/** Generated Model for AD_ZoomCondition
  *  @author Adempiere (generated) 
  *  @version Release 3.9.0 - $Id$ */
-public class X_AD_View_Definition extends PO implements I_AD_View_Definition, I_Persistent 
+public class X_AD_ZoomCondition extends PO implements I_AD_ZoomCondition, I_Persistent 
 {
 
 	/**
@@ -34,26 +33,23 @@ public class X_AD_View_Definition extends PO implements I_AD_View_Definition, I_
 	private static final long serialVersionUID = 20170407L;
 
     /** Standard Constructor */
-    public X_AD_View_Definition (Properties ctx, int AD_View_Definition_ID, String trxName)
+    public X_AD_ZoomCondition (Properties ctx, int AD_ZoomCondition_ID, String trxName)
     {
-      super (ctx, AD_View_Definition_ID, trxName);
-      /** if (AD_View_Definition_ID == 0)
+      super (ctx, AD_ZoomCondition_ID, trxName);
+      /** if (AD_ZoomCondition_ID == 0)
         {
-			setAD_Table_ID (0);
-			setAD_View_Definition_ID (0);
-			setAD_View_ID (0);
-			setTableAlias (null);
+			setAD_ZoomCondition_ID (0);
         } */
     }
 
     /** Load Constructor */
-    public X_AD_View_Definition (Properties ctx, ResultSet rs, String trxName)
+    public X_AD_ZoomCondition (Properties ctx, ResultSet rs, String trxName)
     {
       super (ctx, rs, trxName);
     }
 
     /** AccessLevel
-      * @return 6 - System - Client 
+      * @return 4 - System 
       */
     protected int get_AccessLevel()
     {
@@ -69,7 +65,7 @@ public class X_AD_View_Definition extends PO implements I_AD_View_Definition, I_
 
     public String toString()
     {
-      StringBuffer sb = new StringBuffer ("X_AD_View_Definition[")
+      StringBuffer sb = new StringBuffer ("X_AD_ZoomCondition[")
         .append(get_ID()).append("]");
       return sb.toString();
     }
@@ -102,102 +98,95 @@ public class X_AD_View_Definition extends PO implements I_AD_View_Definition, I_
 		return ii.intValue();
 	}
 
+	public org.compiere.model.I_AD_Window getAD_Window() throws RuntimeException
+    {
+		return (org.compiere.model.I_AD_Window)MTable.get(getCtx(), org.compiere.model.I_AD_Window.Table_Name)
+			.getPO(getAD_Window_ID(), get_TrxName());	}
+
+	/** Set Window.
+		@param AD_Window_ID 
+		Data entry or display window
+	  */
+	public void setAD_Window_ID (int AD_Window_ID)
+	{
+		if (AD_Window_ID < 1) 
+			set_Value (COLUMNNAME_AD_Window_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Window_ID, Integer.valueOf(AD_Window_ID));
+	}
+
+	/** Get Window.
+		@return Data entry or display window
+	  */
+	public int getAD_Window_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Window_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Zoom Condition.
+		@param AD_ZoomCondition_ID Zoom Condition	  */
+	public void setAD_ZoomCondition_ID (int AD_ZoomCondition_ID)
+	{
+		if (AD_ZoomCondition_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_ZoomCondition_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_ZoomCondition_ID, Integer.valueOf(AD_ZoomCondition_ID));
+	}
+
+	/** Get Zoom Condition.
+		@return Zoom Condition	  */
+	public int getAD_ZoomCondition_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_ZoomCondition_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Description.
+		@param Description 
+		Optional short description of the record
+	  */
+	public void setDescription (String Description)
+	{
+		set_Value (COLUMNNAME_Description, Description);
+	}
+
+	/** Get Description.
+		@return Optional short description of the record
+	  */
+	public String getDescription () 
+	{
+		return (String)get_Value(COLUMNNAME_Description);
+	}
+
+	/** Set Name.
+		@param Name 
+		Alphanumeric identifier of the entity
+	  */
+	public void setName (String Name)
+	{
+		set_Value (COLUMNNAME_Name, Name);
+	}
+
+	/** Get Name.
+		@return Alphanumeric identifier of the entity
+	  */
+	public String getName () 
+	{
+		return (String)get_Value(COLUMNNAME_Name);
+	}
+
     /** Get Record ID/ColumnName
         @return ID/ColumnName pair
       */
     public KeyNamePair getKeyNamePair() 
     {
-        return new KeyNamePair(get_ID(), String.valueOf(getAD_Table_ID()));
+        return new KeyNamePair(get_ID(), getName());
     }
-
-	/** Set View Definition.
-		@param AD_View_Definition_ID 
-		The View Definition allow defined the tables for a view.
-	  */
-	public void setAD_View_Definition_ID (int AD_View_Definition_ID)
-	{
-		if (AD_View_Definition_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_View_Definition_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_AD_View_Definition_ID, Integer.valueOf(AD_View_Definition_ID));
-	}
-
-	/** Get View Definition.
-		@return The View Definition allow defined the tables for a view.
-	  */
-	public int getAD_View_Definition_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_View_Definition_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public org.adempiere.model.I_AD_View getAD_View() throws RuntimeException
-    {
-		return (org.adempiere.model.I_AD_View)MTable.get(getCtx(), org.adempiere.model.I_AD_View.Table_Name)
-			.getPO(getAD_View_ID(), get_TrxName());	}
-
-	/** Set View.
-		@param AD_View_ID 
-		View allows you to create dynamic views of information from the dictionary application
-	  */
-	public void setAD_View_ID (int AD_View_ID)
-	{
-		if (AD_View_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_View_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_AD_View_ID, Integer.valueOf(AD_View_ID));
-	}
-
-	/** Get View.
-		@return View allows you to create dynamic views of information from the dictionary application
-	  */
-	public int getAD_View_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_View_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Join Clause.
-		@param JoinClause 
-		Defined the Join Clause between Tables
-	  */
-	public void setJoinClause (String JoinClause)
-	{
-		set_Value (COLUMNNAME_JoinClause, JoinClause);
-	}
-
-	/** Get Join Clause.
-		@return Defined the Join Clause between Tables
-	  */
-	public String getJoinClause () 
-	{
-		return (String)get_Value(COLUMNNAME_JoinClause);
-	}
-
-	/** Set Process Now.
-		@param Processing Process Now	  */
-	public void setProcessing (boolean Processing)
-	{
-		set_Value (COLUMNNAME_Processing, Boolean.valueOf(Processing));
-	}
-
-	/** Get Process Now.
-		@return Process Now	  */
-	public boolean isProcessing () 
-	{
-		Object oo = get_Value(COLUMNNAME_Processing);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
 
 	/** Set Sequence.
 		@param SeqNo 
@@ -219,20 +208,37 @@ public class X_AD_View_Definition extends PO implements I_AD_View_Definition, I_
 		return ii.intValue();
 	}
 
-	/** Set DB Table Alias.
-		@param TableAlias 
-		Alias of the table in the view
+	/** Set Sql WHERE.
+		@param WhereClause 
+		Fully qualified SQL WHERE clause
 	  */
-	public void setTableAlias (String TableAlias)
+	public void setWhereClause (String WhereClause)
 	{
-		set_Value (COLUMNNAME_TableAlias, TableAlias);
+		set_Value (COLUMNNAME_WhereClause, WhereClause);
 	}
 
-	/** Get DB Table Alias.
-		@return Alias of the table in the view
+	/** Get Sql WHERE.
+		@return Fully qualified SQL WHERE clause
 	  */
-	public String getTableAlias () 
+	public String getWhereClause () 
 	{
-		return (String)get_Value(COLUMNNAME_TableAlias);
+		return (String)get_Value(COLUMNNAME_WhereClause);
+	}
+
+	/** Set Zoom Logic.
+		@param ZoomLogic 
+		the result determines if the zoom condition is applied
+	  */
+	public void setZoomLogic (String ZoomLogic)
+	{
+		set_Value (COLUMNNAME_ZoomLogic, ZoomLogic);
+	}
+
+	/** Get Zoom Logic.
+		@return the result determines if the zoom condition is applied
+	  */
+	public String getZoomLogic () 
+	{
+		return (String)get_Value(COLUMNNAME_ZoomLogic);
 	}
 }

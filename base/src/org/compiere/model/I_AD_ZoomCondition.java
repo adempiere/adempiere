@@ -14,44 +14,32 @@
  * For the text or an alternative of this public license, you may reach us    *
  * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
-package org.adempiere.model;
+package org.compiere.model;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for AD_Browse_Access
+/** Generated Interface for AD_ZoomCondition
  *  @author Adempiere (generated) 
  *  @version Release 3.9.0
  */
-public interface I_AD_Browse_Access 
+public interface I_AD_ZoomCondition 
 {
 
-    /** TableName=AD_Browse_Access */
-    public static final String Table_Name = "AD_Browse_Access";
+    /** TableName=AD_ZoomCondition */
+    public static final String Table_Name = "AD_ZoomCondition";
 
-    /** AD_Table_ID=53225 */
+    /** AD_Table_ID=54064 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
-    /** AccessLevel = 6 - System - Client 
+    /** AccessLevel = 4 - System 
      */
-    BigDecimal accessLevel = BigDecimal.valueOf(6);
+    BigDecimal accessLevel = BigDecimal.valueOf(4);
 
     /** Load Meta Data */
-
-    /** Column name AD_Browse_ID */
-    public static final String COLUMNNAME_AD_Browse_ID = "AD_Browse_ID";
-
-	/** Set Smart Browse	  */
-	public void setAD_Browse_ID (int AD_Browse_ID);
-
-	/** Get Smart Browse	  */
-	public int getAD_Browse_ID();
-
-	public org.adempiere.model.I_AD_Browse getAD_Browse() throws RuntimeException;
 
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
@@ -74,20 +62,44 @@ public interface I_AD_Browse_Access
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name AD_Role_ID */
-    public static final String COLUMNNAME_AD_Role_ID = "AD_Role_ID";
+    /** Column name AD_Table_ID */
+    public static final String COLUMNNAME_AD_Table_ID = "AD_Table_ID";
 
-	/** Set Role.
-	  * Responsibility Role
+	/** Set Table.
+	  * Database Table information
 	  */
-	public void setAD_Role_ID (int AD_Role_ID);
+	public void setAD_Table_ID (int AD_Table_ID);
 
-	/** Get Role.
-	  * Responsibility Role
+	/** Get Table.
+	  * Database Table information
 	  */
-	public int getAD_Role_ID();
+	public int getAD_Table_ID();
 
-	public org.compiere.model.I_AD_Role getAD_Role() throws RuntimeException;
+	public org.compiere.model.I_AD_Table getAD_Table() throws RuntimeException;
+
+    /** Column name AD_Window_ID */
+    public static final String COLUMNNAME_AD_Window_ID = "AD_Window_ID";
+
+	/** Set Window.
+	  * Data entry or display window
+	  */
+	public void setAD_Window_ID (int AD_Window_ID);
+
+	/** Get Window.
+	  * Data entry or display window
+	  */
+	public int getAD_Window_ID();
+
+	public org.compiere.model.I_AD_Window getAD_Window() throws RuntimeException;
+
+    /** Column name AD_ZoomCondition_ID */
+    public static final String COLUMNNAME_AD_ZoomCondition_ID = "AD_ZoomCondition_ID";
+
+	/** Set Zoom Condition	  */
+	public void setAD_ZoomCondition_ID (int AD_ZoomCondition_ID);
+
+	/** Get Zoom Condition	  */
+	public int getAD_ZoomCondition_ID();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -105,6 +117,19 @@ public interface I_AD_Browse_Access
 	  */
 	public int getCreatedBy();
 
+    /** Column name Description */
+    public static final String COLUMNNAME_Description = "Description";
+
+	/** Set Description.
+	  * Optional short description of the record
+	  */
+	public void setDescription (String Description);
+
+	/** Get Description.
+	  * Optional short description of the record
+	  */
+	public String getDescription();
+
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
 
@@ -118,18 +143,33 @@ public interface I_AD_Browse_Access
 	  */
 	public boolean isActive();
 
-    /** Column name IsReadWrite */
-    public static final String COLUMNNAME_IsReadWrite = "IsReadWrite";
+    /** Column name Name */
+    public static final String COLUMNNAME_Name = "Name";
 
-	/** Set Read Write.
-	  * Field is read / write
+	/** Set Name.
+	  * Alphanumeric identifier of the entity
 	  */
-	public void setIsReadWrite (boolean IsReadWrite);
+	public void setName (String Name);
 
-	/** Get Read Write.
-	  * Field is read / write
+	/** Get Name.
+	  * Alphanumeric identifier of the entity
 	  */
-	public boolean isReadWrite();
+	public String getName();
+
+    /** Column name SeqNo */
+    public static final String COLUMNNAME_SeqNo = "SeqNo";
+
+	/** Set Sequence.
+	  * Method of ordering records;
+ lowest number comes first
+	  */
+	public void setSeqNo (int SeqNo);
+
+	/** Get Sequence.
+	  * Method of ordering records;
+ lowest number comes first
+	  */
+	public int getSeqNo();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -146,4 +186,30 @@ public interface I_AD_Browse_Access
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name WhereClause */
+    public static final String COLUMNNAME_WhereClause = "WhereClause";
+
+	/** Set Sql WHERE.
+	  * Fully qualified SQL WHERE clause
+	  */
+	public void setWhereClause (String WhereClause);
+
+	/** Get Sql WHERE.
+	  * Fully qualified SQL WHERE clause
+	  */
+	public String getWhereClause();
+
+    /** Column name ZoomLogic */
+    public static final String COLUMNNAME_ZoomLogic = "ZoomLogic";
+
+	/** Set Zoom Logic.
+	  * the result determines if the zoom condition is applied
+	  */
+	public void setZoomLogic (String ZoomLogic);
+
+	/** Get Zoom Logic.
+	  * the result determines if the zoom condition is applied
+	  */
+	public String getZoomLogic();
 }
