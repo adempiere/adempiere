@@ -17,7 +17,6 @@ package org.compiere.acct;
 
 import java.math.BigDecimal;
 
-import org.compiere.model.MBPartner;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.eevolution.model.MHRConcept;
