@@ -665,7 +665,8 @@ public class MHRProcess extends X_HR_Process implements DocAction
 			if(movements.containsKey(movement.getHR_Concept_ID()))
 			{
 				MHRMovement lastM = movements.get(movement.getHR_Concept_ID());
-				String columntype = lastM.getColumnType();
+				MHRConcept concept = MHRConcept.get(getCtx(), lastM.getHR_Concept_ID());
+				String columntype = concept.getColumnType();
 				if (columntype.equals(MHRConcept.COLUMNTYPE_Amount))
 				{
 					movement.addAmount(lastM.getAmount());
@@ -1211,7 +1212,6 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		movement.setHR_Concept_ID(concept.getHR_Concept_ID());
 		movement.setHR_Concept_Category_ID(concept.getHR_Concept_Category_ID());
 		movement.setHR_Process_ID(getHR_Process_ID());
-		movement.setColumnType(concept.getColumnType());
 		movement.setAD_Rule_ID(attribute.getAD_Rule_ID());
 		movement.setValidFrom(dateFrom);
 		movement.setValidTo(dateTo);
@@ -1245,10 +1245,10 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		if (movement == null)
 			throw new AdempiereException("Concept " + concept.getValue() + " not created");
 
-		String type = movement.getColumnType();
-		if (MHRMovement.COLUMNTYPE_Amount.equals(type))
+		String type = concept.getColumnType();
+		if (MHRConcept.COLUMNTYPE_Amount.equals(type))
 			return movement.getAmount().doubleValue();
-		else if (MHRMovement.COLUMNTYPE_Quantity.equals(type))
+		else if (MHRConcept.COLUMNTYPE_Quantity.equals(type))
 			return movement.getQty().doubleValue();
 		else
 			return 0;
@@ -1271,8 +1271,8 @@ public class MHRProcess extends X_HR_Process implements DocAction
 			movement = movements.get(concept.get_ID());
 		}
 
-		String type = movement.getColumnType();
-		if (MHRMovement.COLUMNTYPE_Text.equals(type))
+		String type = concept.getColumnType();
+		if (MHRConcept.COLUMNTYPE_Text.equals(type))
 			return movement.getTextMsg();
 		else
 			return null;
@@ -1295,8 +1295,8 @@ public class MHRProcess extends X_HR_Process implements DocAction
 			movement = movements.get(concept.get_ID());
 		}
 
-		String type = movement.getColumnType();
-		if (MHRMovement.COLUMNTYPE_Text.equals(type))
+		String type = concept.getColumnType();
+		if (MHRConcept.COLUMNTYPE_Text.equals(type))
 			return movement.getServiceDate();
 		else
 			return null;
@@ -1454,7 +1454,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 
 				if (movement != null)
 				{
-					String columnType = movement.getColumnType();
+					String columnType = concept.getColumnType();
 					if(MHRConcept.COLUMNTYPE_Amount.equals(columnType))
 					{
 						value += movement.getAmount().doubleValue();
@@ -1505,7 +1505,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 
 				if (movement != null)
 				{
-					String columnType = movement.getColumnType();
+					String columnType = concept.getColumnType();
 					if(MHRConcept.COLUMNTYPE_Amount.equals(columnType))
 					{
 						value += movement.getAmount().doubleValue();
@@ -2171,7 +2171,6 @@ public class MHRProcess extends X_HR_Process implements DocAction
 			toMovement.setHR_Process_ID(getHR_Process_ID());
 			toMovement.setC_BPartner_ID(fromMovement.getC_BPartner_ID());
 			toMovement.setHR_Concept_ID(fromMovement.getHR_Concept_ID());
-			toMovement.setColumnType(fromMovement.getColumnType());
 			toMovement.setDescription(fromMovement.getDescription());
 			toMovement.setHR_Department_ID(fromMovement.getHR_Department_ID());
 			toMovement.setHR_Job_ID(fromMovement.getHR_Job_ID());
@@ -2198,7 +2197,6 @@ public class MHRProcess extends X_HR_Process implements DocAction
 			toMovement.setHR_Employee_ID(fromMovement.getHR_Employee_ID());
 			toMovement.setHR_EmployeeType_ID(fromMovement.getHR_EmployeeType_ID());
 			toMovement.setHR_SkillType_ID(fromMovement.getHR_SkillType_ID());
-			toMovement.setPaymentRule(fromMovement.getPaymentRule());
 			toMovement.setHR_Payroll_ID(fromMovement.getHR_Payroll_ID());
 			toMovement.setHR_Contract_ID(fromMovement.getHR_Payroll().getHR_Contract_ID());
 

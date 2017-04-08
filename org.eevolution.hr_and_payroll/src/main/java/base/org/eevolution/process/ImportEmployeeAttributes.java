@@ -85,15 +85,22 @@ public class ImportEmployeeAttributes extends ImportEmployeeAttributesAbstract {
 
     	StringBuilder messageError = new StringBuilder();
     	importEmployeeAttribute.setI_ErrorMsg("");
-    	final String partnerQuery = "SELECT C_BPartner_ID FROM C_BPartner WHERE TRIM(Value) = TRIM(?)";
-    	int partnerId = DB.getSQLValue(null, partnerQuery, importEmployeeAttribute.getValue());
-    	if (partnerId < 0)
-    		messageError.append("@HR_Employee_ID@ @NotFound@");
 
     	final String conceptQuery = "SELECT HR_Concept_ID FROM HR_Concept WHERE TRIM(Value) = TRIM(?)";
     	int conceptId = DB.getSQLValue(importEmployeeAttribute.get_TrxName(), conceptQuery, importEmployeeAttribute.getConceptValue());
     	if (conceptId < 0)
     		messageError.append(", ").append("@HR_Concept_ID@ @NotFound@");
+    	
+    	final String partnerQuery = "SELECT C_BPartner_ID FROM C_BPartner WHERE TRIM(Value) = TRIM(?)";
+    	int partnerId = DB.getSQLValue(null, partnerQuery, importEmployeeAttribute.getValue());
+    	if(conceptId > 0) {
+    		MHRConcept concept = MHRConcept.get(getCtx(), conceptId);
+    		if(concept.isEmployee()
+    				&& partnerId < 0) {
+    			messageError.append("@HR_Employee_ID@ @NotFound@");
+    		}
+    	}
+    	
     	if (importEmployeeAttribute.getValidFrom() == null)
     		messageError.append(", ").append("@Invalid@ @ValidFrom@");
         if (messageError.length() > 0)
@@ -323,7 +330,6 @@ public class ImportEmployeeAttributes extends ImportEmployeeAttributesAbstract {
         Optional<MHRPayroll> optionalPayroll = Optional.ofNullable(MHRPayroll.getByValue(getCtx(), importEmployeeAttribute.getPayrollValue()));
         Optional<String> optinalReferenceNo = Optional.ofNullable(importEmployeeAttribute.getReferenceNo());
         int payrollId = optionalPayroll.isPresent() ? optionalPayroll.get().getHR_Payroll_ID() : 0;
-        MHREmployee employee = MHREmployee.getActiveEmployee(getCtx(), importEmployeeAttribute.getC_BPartner_ID(), get_TrxName());
         MHRConcept concept = MHRConcept.get(getCtx(), importEmployeeAttribute.getHR_Concept_ID());
         Optional<MHRAttribute> optionalAttribute = Optional.ofNullable(
                 MHRAttribute.getByConceptAndPartnerId(
@@ -335,12 +341,22 @@ public class ImportEmployeeAttributes extends ImportEmployeeAttributesAbstract {
                         importEmployeeAttribute.getValidFrom())
         );
 
+        int employeeId = 0;
+        if(importEmployeeAttribute.getC_BPartner_ID() > 0) {
+        	MHREmployee employee = MHREmployee.getActiveEmployee(getCtx(), importEmployeeAttribute.getC_BPartner_ID(), get_TrxName());
+        	if(employee != null) {
+        		employeeId = employee.getHR_Employee_ID();
+        	}
+        }
+        
         MHRAttribute employeeAttribute = optionalAttribute.orElse(new MHRAttribute(importEmployeeAttribute));
         if (employeeAttribute.getHR_Attribute_ID() <= 0) {
             employeeAttribute.setColumnType(concept.getColumnType());
-            employeeAttribute.setHR_Employee_ID(employee.getHR_Employee_ID());
             optionalValidFrom.ifPresent(validFrom -> employeeAttribute.setValidFrom(validFrom));
             optionalPayroll.ifPresent(payroll -> employeeAttribute.setHR_Payroll_ID(payroll.getHR_Payroll_ID()));
+            if(employeeId > 0) {
+            	employeeAttribute.setHR_Employee_ID(employeeId);
+            }
         }
 
         optinalReferenceNo.ifPresent(referenceNo -> employeeAttribute.setReferenceNo(referenceNo));

@@ -1052,7 +1052,6 @@ public class TableElement extends PrintElement
 	protected int getPageXIndex (int pageIndex)
 	{
 		int noXpages = m_firstColumnOnPage.size();
-	//	int noYpages = m_firstRowOnPage.size();
 		int x = pageIndex % noXpages;
 		return x;
 	}	//	getPageXIndex
@@ -1089,7 +1088,6 @@ public class TableElement extends PrintElement
 	protected int getPageYIndex (int pageIndex)
 	{
 		int noXpages = m_firstColumnOnPage.size();
-	//	int noYpages = m_firstRowOnPage.size();
 		int y = (pageIndex - (pageIndex % noXpages)) / noXpages;
 		return y;
 	}	//	getPageYIndex
@@ -1272,9 +1270,9 @@ public class TableElement extends PrintElement
 		if (pageXindex+1 < m_firstColumnOnPage.size())
 			nextPageColumn = ((Integer)m_firstColumnOnPage.get(pageXindex+1)).intValue();
 		//
-		if (pageYindex >= m_firstRowOnPage.size())  {
+		if (pageYindex >= m_firstRowOnPage.size())
 			pageYindex = m_firstRowOnPage.size() - 1;
-		}
+
 		int firstRow = ((Integer)m_firstRowOnPage.get(pageYindex)).intValue();
 		int nextPageRow = m_data.getRowCount();				//	no of rows
 		if (pageYindex+1 < m_firstRowOnPage.size())

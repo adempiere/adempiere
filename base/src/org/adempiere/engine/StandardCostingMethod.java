@@ -80,45 +80,31 @@ public class StandardCostingMethod extends AbstractCostingMethod implements
 			currentCostPrice = dimension.getCurrentCostPrice();
 			currentCostPriceLowerLevel = dimension.getCurrentCostPriceLL();
 			amount = movementQuantity.multiply(currentCostPrice);
-			amountLowerLevel = movementQuantity
-					.multiply(currentCostPriceLowerLevel);
-			accumulatedQuantity = dimension.getCumulatedQty().add(
-					movementQuantity);
+			amountLowerLevel = movementQuantity.multiply(currentCostPriceLowerLevel);
+			accumulatedQuantity = dimension.getCumulatedQty().add(movementQuantity);
 			accumulatedAmount = dimension.getCumulatedAmt().add(amount);
 			accumulatedAmountLowerLevel = dimension.getCumulatedAmtLL().add(amountLowerLevel);
 			return;
 		}
 
 		if (costDetail != null) {
-			amount = movementQuantity.multiply(
-					costDetail.getCurrentCostPrice());
-			amountLowerLevel = movementQuantity.multiply(
-					costDetail.getCurrentCostPriceLL());
-			accumulatedQuantity = costDetail.getCumulatedQty().add(
-					movementQuantity);
+			amount = movementQuantity.multiply(costDetail.getCurrentCostPrice());
+			amountLowerLevel = movementQuantity.multiply(costDetail.getCurrentCostPriceLL());
+			accumulatedQuantity = costDetail.getCumulatedQty().add(movementQuantity);
 			accumulatedAmount = costDetail.getCumulatedAmt().add(amount);
 			accumulatedAmountLowerLevel = costDetail.getCumulatedAmtLL().add(amountLowerLevel);
 			currentCostPrice = dimension.getCurrentCostPrice();
 			currentCostPriceLowerLevel = dimension.getCurrentCostPriceLL();
-			adjustCost = currentCostPrice.multiply(
-					dimension.getCumulatedQty()).subtract(
-					dimension.getCumulatedAmt());
-			adjustCost = currentCostPriceLowerLevel.multiply(
-					dimension.getCumulatedQty()).subtract(
-					dimension.getCumulatedAmtLL());
+			adjustCost = currentCostPrice.multiply(dimension.getCumulatedQty()).subtract(dimension.getCumulatedAmt());
+			adjustCost = currentCostPriceLowerLevel.multiply(dimension.getCumulatedQty()).subtract(dimension.getCumulatedAmtLL());
 			return;
 		}
 
-		amount = movementQuantity.multiply(
-				dimension.getCurrentCostPrice());
-		amountLowerLevel = movementQuantity.multiply(
-				dimension.getCurrentCostPriceLL());
-		accumulatedAmount = dimension.getCumulatedAmt().add(amount)
-				.add(adjustCost);
-		accumulatedAmountLowerLevel = dimension.getCumulatedAmtLL().add(amountLowerLevel)
-				.add(adjustCostLowerLevel);
-		accumulatedQuantity = dimension.getCumulatedQty().add(
-				movementQuantity);
+		amount = movementQuantity.multiply(dimension.getCurrentCostPrice());
+		amountLowerLevel = movementQuantity.multiply(dimension.getCurrentCostPriceLL());
+		accumulatedAmount = dimension.getCumulatedAmt().add(amount).add(adjustCost);
+		accumulatedAmountLowerLevel = dimension.getCumulatedAmtLL().add(amountLowerLevel).add(adjustCostLowerLevel);
+		accumulatedQuantity = dimension.getCumulatedQty().add(movementQuantity);
 		currentCostPrice = dimension.getCurrentCostPrice();
 		currentCostPriceLowerLevel = dimension.getCurrentCostPriceLL();
 	}
@@ -167,23 +153,16 @@ public class StandardCostingMethod extends AbstractCostingMethod implements
             if (adjustCost.signum() != 0) {
                 costDetail.setCostAdjustmentDate(model.getDateAcct());
                 costDetail.setCostAdjustment(adjustCost);
-                //costDetail.setCostAmt(BigDecimal.ZERO);
-                costDetail.setAmt(costDetail.getAmt().add(
-                        costDetail.getCostAdjustment()));
-                costDetail.setDescription(description + " Adjust Cost:"
-                        + adjustCost);
+                costDetail.setAmt(costDetail.getAmt().add(costDetail.getCostAdjustment()));
+                costDetail.setDescription(description + " Adjust Cost:" + adjustCost);
             }
             // update adjustment cost lower level
             if (adjustCostLowerLevel.signum() != 0) {
-                description = costDetail.getDescription() != null ? costDetail
-                        .getDescription() : "";
+                description = costDetail.getDescription() != null ? costDetail.getDescription() : "";
                 costDetail.setCostAdjustmentDateLL(model.getDateAcct());
                 costDetail.setCostAdjustmentLL(adjustCostLowerLevel);
-                //costDetail.setCostAmtLL(BigDecimal.ZERO);
-                costDetail.setAmt(costDetail.getCostAmtLL().add(
-                        costDetail.getCostAdjustmentLL()));
-                costDetail.setDescription(description
-                        + " Adjust Cost LL:" + adjustCost);
+                costDetail.setAmtLL(costDetail.getCostAmtLL().add(costDetail.getCostAdjustmentLL()));
+                costDetail.setDescription(description + " Adjust Cost LL:" + adjustCost);
             }
         }
 
@@ -269,6 +248,28 @@ public class StandardCostingMethod extends AbstractCostingMethod implements
 	}
 
 	/**
+	 * Average Invoice Get the new Cumulated Amt Low Level
+	 * @param cost MCostDetail
+	 * @return New Cumulated Am Low Level
+	 */
+	public BigDecimal getNewAccumulatedAmountLowerLevel(MCostDetail cost) {
+		BigDecimal accumulatedAmountLowerLevel = Env.ZERO;
+		if (cost.getQty().signum() >= 0)
+			accumulatedAmountLowerLevel = cost.getCumulatedAmtLL().add(cost.getCostAmtLL()).add(cost.getCostAdjustmentLL());
+		else if (cost.getQty().signum() < 0)
+			accumulatedAmountLowerLevel = cost.getCumulatedAmtLL().add(cost.getCostAmtLL().negate()).add(cost.getCostAdjustmentLL().negate());
+		else if (cost.getQty().signum() == 0)
+		{
+			if(getNewAccumulatedQuantity(cost).signum() > 0)
+				accumulatedAmountLowerLevel = cost.getCumulatedAmt().add(cost.getCostAmtLL()).add(cost.getCostAdjustmentLL());
+			else if (getNewAccumulatedQuantity(cost).signum() < 0)
+				accumulatedAmountLowerLevel = cost.getCumulatedAmt().add(cost.getCostAmtLL().negate()).add(cost.getCostAdjustmentLL().negate());
+		}
+		return accumulatedAmountLowerLevel;
+	}
+
+
+	/**
 	 * Average Invoice Get the New Current Cost Price low level
 	 * @param cost Cost Detail
 	 * @param scale Scale
@@ -280,20 +281,6 @@ public class StandardCostingMethod extends AbstractCostingMethod implements
 			return getNewAccumulatedAmountLowerLevel(cost).divide(getNewAccumulatedQuantity(cost), scale, roundingMode);
 		else
 			return BigDecimal.ZERO;
-	}
-
-	/**
-	 * Average Invoice Get the new Cumulated Amt Low Level
-	 * @param cost MCostDetail
-	 * @return New Cumulated Am Low Level
-	 */
-	public BigDecimal getNewAccumulatedAmountLowerLevel(MCostDetail cost) {
-		BigDecimal accumulatedAmountLowerLevel = Env.ZERO;
-		if (cost.getQty().signum() >= 0)
-			accumulatedAmountLowerLevel = cost.getCumulatedAmtLL().add(cost.getCostAmtLL()).add(cost.getCostAdjustmentLL());
-		else
-			accumulatedAmountLowerLevel = cost.getCumulatedAmtLL().add(cost.getCostAmtLL().negate()).add(cost.getCostAdjustmentLL().negate());
-		return accumulatedAmountLowerLevel;
 	}
 
 	/**
@@ -327,15 +314,12 @@ public class StandardCostingMethod extends AbstractCostingMethod implements
 	public void updateAmountCost() {
 
         if (movementQuantity.signum() > 0) {
-            costDetail.setCostAmt(costDetail.getAmt().subtract(
-                    costDetail.getCostAdjustment()));
-            costDetail.setCostAmtLL(costDetail.getAmtLL().subtract(
-                    costDetail.getCostAdjustmentLL()));
+            costDetail.setCostAmt(costDetail.getAmt().subtract(costDetail.getCostAdjustment()));
+            costDetail.setCostAmtLL(costDetail.getAmtLL().subtract(costDetail.getCostAdjustmentLL()));
         }
         else if (movementQuantity.signum() < 0 ) {
             costDetail.setCostAmt(costDetail.getAmt().add(adjustCost));
-            costDetail.setCostAmtLL(costDetail.getAmtLL().add(
-                    adjustCostLowerLevel));
+            costDetail.setCostAmtLL(costDetail.getAmtLL().add(adjustCostLowerLevel));
         }
 
         costDetail.setCumulatedQty(getNewAccumulatedQuantity(lastCostDetail));

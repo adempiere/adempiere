@@ -640,9 +640,10 @@ public class ImportHelper {
 				}
 				record_ID = getID(ctx, referencedExpFormat, referencedNode, uniqueFormatLine.getValue(), replicationType, trxName);
 
-				// TODO - Trifon - If ReferencedExport format is marked that NON existing record MUST be created then try to create new RECORD!!!
-				// TODO - Trifon - add new column to EXP_FormatLine
-				boolean createNonExistingRecords = uniqueFormatLine.getValue().equalsIgnoreCase("C_BPartner_ID");
+				// If ReferencedExport format has checkbox "CreateNonExisting" marked then NON existing record MUST be created!!!
+				// Add new column to EXP_FormatLine "IsCreateNonExisting"
+				//boolean createNonExistingRecords = uniqueFormatLine.getValue().equalsIgnoreCase("C_BPartner");
+				boolean createNonExistingRecords = uniqueFormatLine.get_ValueAsBoolean("IsCreateNonExisting");
 				if (createNonExistingRecords && record_ID <= 0) {
 					PO po = importElement(ctx, referencedNode, referencedExpFormat, replicationType, trxName);
 					log.info("Embeded - po = " + po);
@@ -652,7 +653,7 @@ public class ImportHelper {
 						po.saveReplica(true);
 						isChanged = true;
 					}
-					resultBuff.append(" !!! C_BPartner_Location !!! Saved Successfully; ");
+					resultBuff.append(" !!! Created NEW NON existing REFERENCE record and saved successfully; ");
 					record_ID = po.get_ID();
 				}
 				log.info("record_ID = " + record_ID);

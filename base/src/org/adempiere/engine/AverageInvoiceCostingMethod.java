@@ -89,10 +89,10 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 		if (model.getReversalLine_ID() > 0 && costDetail == null)
 			return;
 		else if( costDetail != null && costDetail.isReversal() && model.getReversalLine_ID() > 0)
-		{
-			setReversalCostDetail();
-			return;
-		}
+	    {
+            setReversalCostDetail();
+            return;
+	    }
 
 		// created a new instance cost detail to process calculated cost
 		if (lastCostDetail == null) {
@@ -108,7 +108,6 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 		// The cost detail was created before then is necessary to update cost by
 		// generate adjustment
 		if (transaction.getM_Transaction_ID() == lastCostDetail.getM_Transaction_ID()) {
-			//SHW
 			movementQuantity = Env.ZERO;
 			
 			//Processing provision of purchase cost  
@@ -162,11 +161,9 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 			
 			// reset with the current values
 			costDetail.setCostAdjustment(adjustCost);
-			costDetail.setAmt(costDetail.getCostAmt().add(
-					costDetail.getCostAdjustment()));
+			costDetail.setAmt(costDetail.getCostAmt().add(costDetail.getCostAdjustment()));
 			costDetail.setCostAdjustmentLL(adjustCostLowerLevel);
-			costDetail.setAmtLL(costDetail.getCostAmtLL().add(
-					costDetail.getCostAdjustmentLL()));
+			costDetail.setAmtLL(costDetail.getCostAmtLL().add(costDetail.getCostAdjustmentLL()));
 
 			updateAmountCost();
 
@@ -347,12 +344,11 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 				}
 				// update adjustment cost lower level
 				if (adjustCostLowerLevel.signum() != 0) {
-					description = costDetail.getDescription() != null ? costDetail
-							.getDescription() : "";
+					description = costDetail.getDescription() != null ? costDetail.getDescription() : "";
 					costDetail.setCostAdjustmentDateLL(model.getDateAcct());
 					costDetail.setCostAdjustmentLL(adjustCostLowerLevel);
 					costDetail.setCostAmtLL(BigDecimal.ZERO);
-					costDetail.setAmt(costDetail.getCostAmtLL().add(costDetail.getCostAdjustmentLL()));
+					costDetail.setAmtLL(costDetail.getCostAmtLL().add(costDetail.getCostAdjustmentLL()));
 					costDetail.setDescription(description + Msg.parseTranslation(Env.getCtx() , "@CostAdjustmentLL@ ")+ adjustCost);
 				}
 			}
@@ -451,6 +447,27 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 	}
 
 	/**
+	 * Average Invoice Get the new Cumulated Amt Low Level
+	 * @param cost MCostDetail
+	 * @return New Cumulated Am Low Level
+	 */
+	public BigDecimal getNewAccumulatedAmountLowerLevel(MCostDetail cost) {
+		BigDecimal accumulatedAmountLowerLevel = Env.ZERO;
+		if (cost.getQty().signum() >= 0)
+			accumulatedAmountLowerLevel = cost.getCumulatedAmtLL().add(cost.getCostAmtLL()).add(cost.getCostAdjustmentLL());
+		else if (cost.getQty().signum() < 0)
+			accumulatedAmountLowerLevel = cost.getCumulatedAmtLL().add(cost.getCostAmtLL().negate()).add(cost.getCostAdjustmentLL().negate());
+		else if (cost.getQty().signum() == 0)
+		{
+			if(getNewAccumulatedQuantity(cost).signum() > 0)
+				accumulatedAmountLowerLevel = cost.getCumulatedAmtLL().add(cost.getCostAmtLL()).add(cost.getCostAdjustmentLL());
+			else if (getNewAccumulatedQuantity(cost).signum() < 0)
+				accumulatedAmountLowerLevel = cost.getCumulatedAmtLL().add(cost.getCostAmtLL().negate()).add(cost.getCostAdjustmentLL().negate());
+		}
+		return accumulatedAmountLowerLevel;
+	}
+
+	/**
 	 * Average Invoice Get the New Current Cost Price low level
 	 * @param cost Cost Detail
 	 * @param scale Scale
@@ -464,19 +481,6 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 			return BigDecimal.ZERO;
 	}
 
-	/**
-	 * Average Invoice Get the new Cumulated Amt Low Level
-	 * @param cost MCostDetail
-	 * @return New Cumulated Am Low Level
-	 */
-	public BigDecimal getNewAccumulatedAmountLowerLevel(MCostDetail cost) {
-		BigDecimal accumulatedAmountLowerLevel = Env.ZERO;
-		if (cost.getQty().signum() >= 0)
-			accumulatedAmountLowerLevel = cost.getCumulatedAmtLL().add(cost.getCostAmtLL()).add(cost.getCostAdjustmentLL());
-		else
-			accumulatedAmountLowerLevel = cost.getCumulatedAmtLL().add(cost.getCostAmtLL().negate()).add(cost.getCostAdjustmentLL().negate());
-		return accumulatedAmountLowerLevel;
-	}
 
 	/**
 	 * Average Invoice Get the new Cumulated Qty
@@ -579,8 +583,7 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 			{
                 if (cost.getM_InOutLine_ID() > 0 && cost.getQty().signum() !=  0 )
                 {
-                    CostEngineFactory.getCostEngine(clientId).createCostDetail(
-                            accountSchema, costType, costElement, transaction, line, true);
+                    CostEngineFactory.getCostEngine(clientId).createCostDetail(accountSchema, costType, costElement, transaction, line, true);
                 }
                 else if (cost.getM_InOutLine_ID() > 0 && cost.getQty().signum() != 0 && cost.getC_OrderLine_ID() > 0) {
                     List<MMatchPO> orderMatches = MMatchPO.getInOutLine(line);
@@ -596,17 +599,11 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
                     List<MMatchInv> invoiceMatches = MMatchInv.getInOutLine(line);
                     for (MMatchInv match : invoiceMatches) {
                         if (match.getM_Product_ID() == transaction.getM_Product_ID()) {
-                            CostEngineFactory.getCostEngine(clientId)
-                                    .createCostDetail(accountSchema, costType, costElement, transaction, match, true);
+                            CostEngineFactory.getCostEngine(clientId).createCostDetail(accountSchema, costType, costElement, transaction, match, true);
                         }
                     }
                 }
-			}
-			//get landed allocation cost
-			/*for (MLandedCostAllocation allocation : 
-				MLandedCostAllocation.getOfInOutline(line,
-							costElement.getM_CostElement_ID()))*/
-			// only own allocation
+			}// only own allocation
 			if (cost.getC_LandedCostAllocation_ID()!=0)
 			{
 				MLandedCostAllocation allocation = (MLandedCostAllocation)cost.getC_LandedCostAllocation();

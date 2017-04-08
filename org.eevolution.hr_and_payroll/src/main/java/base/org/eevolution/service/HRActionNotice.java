@@ -402,7 +402,6 @@ public class HRActionNotice
 		movement.setC_BPartner_ID(getPartnerId());
 		movement.setHR_Concept_ID(getConceptId());
 		movement.setHR_Concept_Category_ID(concept.getHR_Concept_Category_ID());
-		movement.setColumnType(concept.getColumnType());
 		Optional.ofNullable(getQuantity()).ifPresent(qty -> movement.setQty((BigDecimal) qty));
 		Optional.ofNullable(getAmount()).ifPresent(amount -> movement.setAmount((BigDecimal) amount));
 		Optional.ofNullable(getText()).ifPresent(msg -> movement.setTextMsg((String) msg.toString()));

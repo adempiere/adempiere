@@ -471,6 +471,7 @@ public class VHRActionNotice extends HRActionNotice implements FormPanel, Action
 						fieldText.setVisible(true);
 						fieldText.setReadWrite(true);
 					}
+					fieldQty.setVisible(false);
 					fieldAmount.setVisible(false);
 					fieldDate.setVisible(false);
 					fieldRuleE.setVisible(false);

@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Properties;
 
 import org.adempiere.exceptions.AdempiereException;
-import org.compiere.model.I_C_BP_BankAccount;
 import org.compiere.model.MCurrency;
 import org.compiere.model.Query;
 import org.compiere.util.DB;
@@ -532,7 +531,6 @@ public class MHRMovement extends X_HR_Movement
 		setHR_Job_ID(employee.getHR_Job_ID());
 		setHR_Department_ID(employee.getHR_Department_ID());
 		setC_Activity_ID(employee.getC_Activity_ID());
-		setColumnType(concept.getColumnType());
 		setValidFrom(importPayrollMovement.getValidFrom());
         setValidTo(importPayrollMovement.getValidTo());
 		setIsManual(concept.isManual());
@@ -561,7 +559,6 @@ public class MHRMovement extends X_HR_Movement
 		// Concept
 		this.setHR_Concept_Category_ID(concept.getHR_Concept_Category_ID());
 		this.setHR_Concept_ID(concept.getHR_Concept_ID());
-		this.setColumnType(concept.getColumnType());
 	}
 	
 	public void addAmount(BigDecimal amount)
@@ -588,11 +585,15 @@ public class MHRMovement extends X_HR_Movement
 	 * According to the concept type, it's saved in the column specified for the purpose
 	 * @param value
 	 */
-	public void setColumnValue(Object value)
-	{
-		try
-		{
-			final String columnType = getColumnType();
+	public void setColumnValue(Object value) {
+		try {
+			//	Get column Type from concept
+			MHRConcept concept = MHRConcept.get(getCtx(), getHR_Concept_ID());
+			if(concept == null) {
+				throw new AdempiereException("@HR_Concept_ID@ @NotFound@");
+			}
+			//	
+			final String columnType = concept.getColumnType();
 			if (MHRConcept.COLUMNTYPE_Quantity.equals(columnType))
 			{
 				BigDecimal qty = new BigDecimal(value.toString()); 
@@ -639,17 +640,6 @@ public class MHRMovement extends X_HR_Movement
 		if (employee != null) {
 			setAD_Org_ID(employee.getAD_Org_ID());
 		}
-		// BankAccount
-		int C_BP_BankAccount_ID = new Query(getCtx(), I_C_BP_BankAccount.Table_Name, COLUMNNAME_C_BPartner_ID+"=?", get_TrxName())
-			.setOnlyActiveRecords(true)
-			.setParameters(getC_BPartner_ID())
-			.setOrderBy(I_C_BP_BankAccount.COLUMNNAME_C_BP_BankAccount_ID+" DESC") // just in case...
-			.firstId();
-		
-		if(C_BP_BankAccount_ID > 0)
-			setC_BP_BankAccount_ID(C_BP_BankAccount_ID);
-			
-		setAccountSign(getHR_Concept().getAccountSign());
 		return true;
 	}
 
@@ -666,7 +656,6 @@ public class MHRMovement extends X_HR_Movement
 		setHR_Employee_ID(employee.getHR_Employee_ID());
 		setHR_EmployeeType_ID(employee.getHR_EmployeeType_ID());
 		setHR_SkillType_ID(employee.getHR_SkillType_ID());
-		setPaymentRule(employee.getPaymentRule());
 		setHR_Payroll_ID(employee.getHR_Payroll_ID());
 		if (employee.getHR_Payroll_ID() > 0)
 			setHR_Contract_ID(employee.getHR_Payroll().getHR_Contract_ID());
