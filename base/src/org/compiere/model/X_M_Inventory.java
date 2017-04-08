@@ -1,8 +1,9 @@
 /******************************************************************************
  * Product: ADempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 2006-2016 ADempiere Foundation, All Rights Reserved.         *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -32,7 +33,7 @@ public class X_M_Inventory extends PO implements I_M_Inventory, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20161103L;
+	private static final long serialVersionUID = 20170407L;
 
     /** Standard Constructor */
     public X_M_Inventory (Properties ctx, int M_Inventory_ID, String trxName)
@@ -414,6 +415,27 @@ public class X_M_Inventory extends PO implements I_M_Inventory, I_Persistent
 		return false;
 	}
 
+	/** Set Stocktake.
+		@param IsStocktake Stocktake	  */
+	public void setIsStocktake (boolean IsStocktake)
+	{
+		set_Value (COLUMNNAME_IsStocktake, Boolean.valueOf(IsStocktake));
+	}
+
+	/** Get Stocktake.
+		@return Stocktake	  */
+	public boolean isStocktake () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsStocktake);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Phys.Inventory.
 		@param M_Inventory_ID 
 		Parameters for a Physical Inventory
@@ -639,6 +661,20 @@ public class X_M_Inventory extends PO implements I_M_Inventory, I_Persistent
 	public String getUpdateQty () 
 	{
 		return (String)get_Value(COLUMNNAME_UpdateQty);
+	}
+
+	/** Set Update Quantity Count.
+		@param UpdateQtyCount Update Quantity Count	  */
+	public void setUpdateQtyCount (String UpdateQtyCount)
+	{
+		set_Value (COLUMNNAME_UpdateQtyCount, UpdateQtyCount);
+	}
+
+	/** Get Update Quantity Count.
+		@return Update Quantity Count	  */
+	public String getUpdateQtyCount () 
+	{
+		return (String)get_Value(COLUMNNAME_UpdateQtyCount);
 	}
 
 	public org.compiere.model.I_C_ElementValue getUser1() throws RuntimeException

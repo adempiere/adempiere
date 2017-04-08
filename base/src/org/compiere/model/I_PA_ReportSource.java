@@ -1,8 +1,9 @@
 /******************************************************************************
  * Product: ADempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 2006-2016 ADempiere Foundation, All Rights Reserved.         *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -442,6 +443,32 @@ public interface I_PA_ReportSource
 	  */
 	public boolean isIncludeNullsUserElement2();
 
+    /** Column name IsIncludeNullsUserList1 */
+    public static final String COLUMNNAME_IsIncludeNullsUserList1 = "IsIncludeNullsUserList1";
+
+	/** Set Include Nulls in User List 1.
+	  * Include nulls in the selection of the User List 1
+	  */
+	public void setIsIncludeNullsUserList1 (boolean IsIncludeNullsUserList1);
+
+	/** Get Include Nulls in User List 1.
+	  * Include nulls in the selection of the User List 1
+	  */
+	public boolean isIncludeNullsUserList1();
+
+    /** Column name IsIncludeNullsUserList2 */
+    public static final String COLUMNNAME_IsIncludeNullsUserList2 = "IsIncludeNullsUserList2";
+
+	/** Set Include Nulls in User List 2.
+	  * Include nulls in the selection of the User List 2
+	  */
+	public void setIsIncludeNullsUserList2 (boolean IsIncludeNullsUserList2);
+
+	/** Get Include Nulls in User List 2.
+	  * Include nulls in the selection of the User List 2
+	  */
+	public boolean isIncludeNullsUserList2();
+
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 
@@ -469,6 +496,21 @@ public interface I_PA_ReportSource
 	  * Organizational entity within client
 	  */
 	public int getOrg_ID();
+
+    /** Column name PA_ReportColumn_ID */
+    public static final String COLUMNNAME_PA_ReportColumn_ID = "PA_ReportColumn_ID";
+
+	/** Set Report Column.
+	  * Column in Report
+	  */
+	public void setPA_ReportColumn_ID (int PA_ReportColumn_ID);
+
+	/** Get Report Column.
+	  * Column in Report
+	  */
+	public int getPA_ReportColumn_ID();
+
+	public org.compiere.model.I_PA_ReportColumn getPA_ReportColumn() throws RuntimeException;
 
     /** Column name PA_ReportLine_ID */
     public static final String COLUMNNAME_PA_ReportLine_ID = "PA_ReportLine_ID";

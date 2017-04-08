@@ -1,8 +1,9 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -11,8 +12,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for U_PA_DocumentStatus
  *  @author Adempiere (generated) 
- *  @version 1.5.0 - $Id$ */
+ *  @version Release 3.9.0 - $Id$ */
 public class X_U_PA_DocumentStatus extends PO implements I_U_PA_DocumentStatus, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20160701L;
+	private static final long serialVersionUID = 20170407L;
 
     /** Standard Constructor */
     public X_U_PA_DocumentStatus (Properties ctx, int U_PA_DocumentStatus_ID, String trxName)
@@ -56,7 +56,7 @@ public class X_U_PA_DocumentStatus extends PO implements I_U_PA_DocumentStatus, 
     }
 
     /** AccessLevel
-      * @return 7 - System - Client - Org 
+      * @return 3 - Client - Org 
       */
     protected int get_AccessLevel()
     {
@@ -77,9 +77,9 @@ public class X_U_PA_DocumentStatus extends PO implements I_U_PA_DocumentStatus, 
       return sb.toString();
     }
 
-	public I_AD_Form getAD_Form() throws RuntimeException
+	public org.compiere.model.I_AD_Form getAD_Form() throws RuntimeException
     {
-		return (I_AD_Form)MTable.get(getCtx(), I_AD_Form.Table_Name)
+		return (org.compiere.model.I_AD_Form)MTable.get(getCtx(), org.compiere.model.I_AD_Form.Table_Name)
 			.getPO(getAD_Form_ID(), get_TrxName());	}
 
 	/** Set Special Form.
@@ -105,9 +105,9 @@ public class X_U_PA_DocumentStatus extends PO implements I_U_PA_DocumentStatus, 
 		return ii.intValue();
 	}
 
-	public I_AD_Role getAD_Role() throws RuntimeException
+	public org.compiere.model.I_AD_Role getAD_Role() throws RuntimeException
     {
-		return (I_AD_Role)MTable.get(getCtx(), I_AD_Role.Table_Name)
+		return (org.compiere.model.I_AD_Role)MTable.get(getCtx(), org.compiere.model.I_AD_Role.Table_Name)
 			.getPO(getAD_Role_ID(), get_TrxName());	}
 
 	/** Set Role.
@@ -133,9 +133,9 @@ public class X_U_PA_DocumentStatus extends PO implements I_U_PA_DocumentStatus, 
 		return ii.intValue();
 	}
 
-	public I_AD_Table getAD_Table() throws RuntimeException
+	public org.compiere.model.I_AD_Table getAD_Table() throws RuntimeException
     {
-		return (I_AD_Table)MTable.get(getCtx(), I_AD_Table.Table_Name)
+		return (org.compiere.model.I_AD_Table)MTable.get(getCtx(), org.compiere.model.I_AD_Table.Table_Name)
 			.getPO(getAD_Table_ID(), get_TrxName());	}
 
 	/** Set Table.
@@ -161,9 +161,9 @@ public class X_U_PA_DocumentStatus extends PO implements I_U_PA_DocumentStatus, 
 		return ii.intValue();
 	}
 
-	public I_AD_User getAD_User() throws RuntimeException
+	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException
     {
-		return (I_AD_User)MTable.get(getCtx(), I_AD_User.Table_Name)
+		return (org.compiere.model.I_AD_User)MTable.get(getCtx(), org.compiere.model.I_AD_User.Table_Name)
 			.getPO(getAD_User_ID(), get_TrxName());	}
 
 	/** Set User/Contact.
@@ -189,9 +189,9 @@ public class X_U_PA_DocumentStatus extends PO implements I_U_PA_DocumentStatus, 
 		return ii.intValue();
 	}
 
-	public I_AD_Window getAD_Window() throws RuntimeException
+	public org.compiere.model.I_AD_Window getAD_Window() throws RuntimeException
     {
-		return (I_AD_Window)MTable.get(getCtx(), I_AD_Window.Table_Name)
+		return (org.compiere.model.I_AD_Window)MTable.get(getCtx(), org.compiere.model.I_AD_Window.Table_Name)
 			.getPO(getAD_Window_ID(), get_TrxName());	}
 
 	/** Set Window.
@@ -217,9 +217,9 @@ public class X_U_PA_DocumentStatus extends PO implements I_U_PA_DocumentStatus, 
 		return ii.intValue();
 	}
 
-	public I_C_Project getC_Project() throws RuntimeException
+	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException
     {
-		return (I_C_Project)MTable.get(getCtx(), I_C_Project.Table_Name)
+		return (org.compiere.model.I_C_Project)MTable.get(getCtx(), org.compiere.model.I_C_Project.Table_Name)
 			.getPO(getC_Project_ID(), get_TrxName());	}
 
 	/** Set Project.
@@ -287,9 +287,9 @@ public class X_U_PA_DocumentStatus extends PO implements I_U_PA_DocumentStatus, 
         return new KeyNamePair(get_ID(), getName());
     }
 
-	public I_AD_PrintColor getName_PrintColor() throws RuntimeException
+	public org.compiere.model.I_AD_PrintColor getName_PrintColor() throws RuntimeException
     {
-		return (I_AD_PrintColor)MTable.get(getCtx(), I_AD_PrintColor.Table_Name)
+		return (org.compiere.model.I_AD_PrintColor)MTable.get(getCtx(), org.compiere.model.I_AD_PrintColor.Table_Name)
 			.getPO(getName_PrintColor_ID(), get_TrxName());	}
 
 	/** Set Name Colour.
@@ -312,9 +312,9 @@ public class X_U_PA_DocumentStatus extends PO implements I_U_PA_DocumentStatus, 
 		return ii.intValue();
 	}
 
-	public I_AD_PrintFont getName_PrintFont() throws RuntimeException
+	public org.compiere.model.I_AD_PrintFont getName_PrintFont() throws RuntimeException
     {
-		return (I_AD_PrintFont)MTable.get(getCtx(), I_AD_PrintFont.Table_Name)
+		return (org.compiere.model.I_AD_PrintFont)MTable.get(getCtx(), org.compiere.model.I_AD_PrintFont.Table_Name)
 			.getPO(getName_PrintFont_ID(), get_TrxName());	}
 
 	/** Set Name Font.
@@ -337,9 +337,9 @@ public class X_U_PA_DocumentStatus extends PO implements I_U_PA_DocumentStatus, 
 		return ii.intValue();
 	}
 
-	public I_AD_PrintColor getNumber_PrintColor() throws RuntimeException
+	public org.compiere.model.I_AD_PrintColor getNumber_PrintColor() throws RuntimeException
     {
-		return (I_AD_PrintColor)MTable.get(getCtx(), I_AD_PrintColor.Table_Name)
+		return (org.compiere.model.I_AD_PrintColor)MTable.get(getCtx(), org.compiere.model.I_AD_PrintColor.Table_Name)
 			.getPO(getNumber_PrintColor_ID(), get_TrxName());	}
 
 	/** Set Number Colour.
@@ -362,9 +362,9 @@ public class X_U_PA_DocumentStatus extends PO implements I_U_PA_DocumentStatus, 
 		return ii.intValue();
 	}
 
-	public I_AD_PrintFont getNumber_PrintFont() throws RuntimeException
+	public org.compiere.model.I_AD_PrintFont getNumber_PrintFont() throws RuntimeException
     {
-		return (I_AD_PrintFont)MTable.get(getCtx(), I_AD_PrintFont.Table_Name)
+		return (org.compiere.model.I_AD_PrintFont)MTable.get(getCtx(), org.compiere.model.I_AD_PrintFont.Table_Name)
 			.getPO(getNumber_PrintFont_ID(), get_TrxName());	}
 
 	/** Set Number Font.

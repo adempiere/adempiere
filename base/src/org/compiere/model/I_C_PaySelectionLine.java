@@ -1,8 +1,9 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -11,8 +12,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 package org.compiere.model;
 
@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_PaySelectionLine
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0
+ *  @version Release 3.9.0
  */
 public interface I_C_PaySelectionLine 
 {
@@ -75,21 +75,6 @@ public interface I_C_PaySelectionLine
 	  */
 	public BigDecimal getAmtSource();
 
-    /** Column name C_BPartner_ID */
-    public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
-
-	/** Set Business Partner .
-	  * Identifies a Business Partner
-	  */
-	public void setC_BPartner_ID (int C_BPartner_ID);
-
-	/** Get Business Partner .
-	  * Identifies a Business Partner
-	  */
-	public int getC_BPartner_ID();
-
-	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
-
     /** Column name C_BP_BankAccount_ID */
     public static final String COLUMNNAME_C_BP_BankAccount_ID = "C_BP_BankAccount_ID";
 
@@ -104,6 +89,21 @@ public interface I_C_PaySelectionLine
 	public int getC_BP_BankAccount_ID();
 
 	public org.compiere.model.I_C_BP_BankAccount getC_BP_BankAccount() throws RuntimeException;
+
+    /** Column name C_BPartner_ID */
+    public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
+
+	/** Set Business Partner .
+	  * Identifies a Business Partner
+	  */
+	public void setC_BPartner_ID (int C_BPartner_ID);
+
+	/** Get Business Partner .
+	  * Identifies a Business Partner
+	  */
+	public int getC_BPartner_ID();
+
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
 
     /** Column name C_Charge_ID */
     public static final String COLUMNNAME_C_Charge_ID = "C_Charge_ID";
@@ -120,21 +120,6 @@ public interface I_C_PaySelectionLine
 
 	public org.compiere.model.I_C_Charge getC_Charge() throws RuntimeException;
 
-    /** Column name C_Conversion_Rate_ID */
-    public static final String COLUMNNAME_C_Conversion_Rate_ID = "C_Conversion_Rate_ID";
-
-	/** Set Conversion Rate.
-	  * Rate used for converting currencies
-	  */
-	public void setC_Conversion_Rate_ID (int C_Conversion_Rate_ID);
-
-	/** Get Conversion Rate.
-	  * Rate used for converting currencies
-	  */
-	public int getC_Conversion_Rate_ID();
-
-	public org.compiere.model.I_C_Conversion_Rate getC_Conversion_Rate() throws RuntimeException;
-
     /** Column name C_ConversionType_ID */
     public static final String COLUMNNAME_C_ConversionType_ID = "C_ConversionType_ID";
 
@@ -150,20 +135,20 @@ public interface I_C_PaySelectionLine
 
 	public org.compiere.model.I_C_ConversionType getC_ConversionType() throws RuntimeException;
 
-    /** Column name C_Invoice_ID */
-    public static final String COLUMNNAME_C_Invoice_ID = "C_Invoice_ID";
+    /** Column name C_Conversion_Rate_ID */
+    public static final String COLUMNNAME_C_Conversion_Rate_ID = "C_Conversion_Rate_ID";
 
-	/** Set Invoice.
-	  * Invoice Identifier
+	/** Set Conversion Rate.
+	  * Rate used for converting currencies
 	  */
-	public void setC_Invoice_ID (int C_Invoice_ID);
+	public void setC_Conversion_Rate_ID (int C_Conversion_Rate_ID);
 
-	/** Get Invoice.
-	  * Invoice Identifier
+	/** Get Conversion Rate.
+	  * Rate used for converting currencies
 	  */
-	public int getC_Invoice_ID();
+	public int getC_Conversion_Rate_ID();
 
-	public org.compiere.model.I_C_Invoice getC_Invoice() throws RuntimeException;
+	public org.compiere.model.I_C_Conversion_Rate getC_Conversion_Rate() throws RuntimeException;
 
     /** Column name C_InvoicePaySchedule_ID */
     public static final String COLUMNNAME_C_InvoicePaySchedule_ID = "C_InvoicePaySchedule_ID";
@@ -179,6 +164,21 @@ public interface I_C_PaySelectionLine
 	public int getC_InvoicePaySchedule_ID();
 
 	public org.compiere.model.I_C_InvoicePaySchedule getC_InvoicePaySchedule() throws RuntimeException;
+
+    /** Column name C_Invoice_ID */
+    public static final String COLUMNNAME_C_Invoice_ID = "C_Invoice_ID";
+
+	/** Set Invoice.
+	  * Invoice Identifier
+	  */
+	public void setC_Invoice_ID (int C_Invoice_ID);
+
+	/** Get Invoice.
+	  * Invoice Identifier
+	  */
+	public int getC_Invoice_ID();
+
+	public org.compiere.model.I_C_Invoice getC_Invoice() throws RuntimeException;
 
     /** Column name C_Order_ID */
     public static final String COLUMNNAME_C_Order_ID = "C_Order_ID";
@@ -210,21 +210,6 @@ public interface I_C_PaySelectionLine
 
 	public org.compiere.model.I_C_PaySelectionCheck getC_PaySelectionCheck() throws RuntimeException;
 
-    /** Column name C_PaySelection_ID */
-    public static final String COLUMNNAME_C_PaySelection_ID = "C_PaySelection_ID";
-
-	/** Set Payment Selection.
-	  * Payment Selection
-	  */
-	public void setC_PaySelection_ID (int C_PaySelection_ID);
-
-	/** Get Payment Selection.
-	  * Payment Selection
-	  */
-	public int getC_PaySelection_ID();
-
-	public org.compiere.model.I_C_PaySelection getC_PaySelection() throws RuntimeException;
-
     /** Column name C_PaySelectionLine_ID */
     public static final String COLUMNNAME_C_PaySelectionLine_ID = "C_PaySelectionLine_ID";
 
@@ -248,6 +233,21 @@ public interface I_C_PaySelectionLine
 	public int getC_PaySelectionLine_Parent_ID();
 
 	public org.compiere.model.I_C_PaySelectionLine getC_PaySelectionLine_Parent() throws RuntimeException;
+
+    /** Column name C_PaySelection_ID */
+    public static final String COLUMNNAME_C_PaySelection_ID = "C_PaySelection_ID";
+
+	/** Set Payment Selection.
+	  * Payment Selection
+	  */
+	public void setC_PaySelection_ID (int C_PaySelection_ID);
+
+	/** Get Payment Selection.
+	  * Payment Selection
+	  */
+	public int getC_PaySelection_ID();
+
+	public org.compiere.model.I_C_PaySelection getC_PaySelection() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

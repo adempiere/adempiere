@@ -1,8 +1,9 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -11,8 +12,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 package org.compiere.model;
 
@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for PA_ReportLine
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0
+ *  @version Release 3.9.0
  */
 public interface I_PA_ReportLine 
 {
@@ -141,6 +141,19 @@ public interface I_PA_ReportLine
 	  */
 	public boolean isPrinted();
 
+    /** Column name IsShowOppositeSign */
+    public static final String COLUMNNAME_IsShowOppositeSign = "IsShowOppositeSign";
+
+	/** Set Show Opposite Sign.
+	  * Display values with the opposite sign
+	  */
+	public void setIsShowOppositeSign (boolean IsShowOppositeSign);
+
+	/** Get Show Opposite Sign.
+	  * Display values with the opposite sign
+	  */
+	public boolean isShowOppositeSign();
+
     /** Column name LineType */
     public static final String COLUMNNAME_LineType = "LineType";
 
@@ -228,15 +241,6 @@ public interface I_PA_ReportLine
 	  */
 	public String getPAPeriodType();
 
-    /** Column name PA_ReportLine_ID */
-    public static final String COLUMNNAME_PA_ReportLine_ID = "PA_ReportLine_ID";
-
-	/** Set Report Line	  */
-	public void setPA_ReportLine_ID (int PA_ReportLine_ID);
-
-	/** Get Report Line	  */
-	public int getPA_ReportLine_ID();
-
     /** Column name PA_ReportLineSet_ID */
     public static final String COLUMNNAME_PA_ReportLineSet_ID = "PA_ReportLineSet_ID";
 
@@ -247,6 +251,15 @@ public interface I_PA_ReportLine
 	public int getPA_ReportLineSet_ID();
 
 	public org.compiere.model.I_PA_ReportLineSet getPA_ReportLineSet() throws RuntimeException;
+
+    /** Column name PA_ReportLine_ID */
+    public static final String COLUMNNAME_PA_ReportLine_ID = "PA_ReportLine_ID";
+
+	/** Set Report Line	  */
+	public void setPA_ReportLine_ID (int PA_ReportLine_ID);
+
+	/** Get Report Line	  */
+	public int getPA_ReportLine_ID();
 
     /** Column name PostingType */
     public static final String COLUMNNAME_PostingType = "PostingType";

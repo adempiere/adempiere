@@ -1,8 +1,9 @@
 /******************************************************************************
  * Product: ADempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 2006-2016 ADempiere Foundation, All Rights Reserved.         *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -32,7 +33,7 @@ public class X_M_Movement extends PO implements I_M_Movement, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20161103L;
+	private static final long serialVersionUID = 20170407L;
 
     /** Standard Constructor */
     public X_M_Movement (Properties ctx, int M_Movement_ID, String trxName)
@@ -736,6 +737,31 @@ public class X_M_Movement extends PO implements I_M_Movement, I_Persistent
 	public int getM_Movement_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_Movement_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_M_ProductionBatch getM_ProductionBatch() throws RuntimeException
+    {
+		return (org.compiere.model.I_M_ProductionBatch)MTable.get(getCtx(), org.compiere.model.I_M_ProductionBatch.Table_Name)
+			.getPO(getM_ProductionBatch_ID(), get_TrxName());	}
+
+	/** Set Production Batch.
+		@param M_ProductionBatch_ID Production Batch	  */
+	public void setM_ProductionBatch_ID (int M_ProductionBatch_ID)
+	{
+		if (M_ProductionBatch_ID < 1) 
+			set_Value (COLUMNNAME_M_ProductionBatch_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_ProductionBatch_ID, Integer.valueOf(M_ProductionBatch_ID));
+	}
+
+	/** Get Production Batch.
+		@return Production Batch	  */
+	public int getM_ProductionBatch_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_ProductionBatch_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

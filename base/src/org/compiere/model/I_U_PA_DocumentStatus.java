@@ -1,8 +1,9 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -11,8 +12,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 package org.compiere.model;
 
@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for U_PA_DocumentStatus
  *  @author Adempiere (generated) 
- *  @version 1.5.0
+ *  @version Release 3.9.0
  */
 public interface I_U_PA_DocumentStatus 
 {
@@ -35,9 +35,9 @@ public interface I_U_PA_DocumentStatus
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
-    /** AccessLevel = 7 - System - Client - Org 
+    /** AccessLevel = 3 - Client - Org 
      */
-    BigDecimal accessLevel = BigDecimal.valueOf(7);
+    BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
 
@@ -62,18 +62,18 @@ public interface I_U_PA_DocumentStatus
 	  */
 	public int getAD_Form_ID();
 
-	public I_AD_Form getAD_Form() throws RuntimeException;
+	public org.compiere.model.I_AD_Form getAD_Form() throws RuntimeException;
 
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
 
-	/** Set Organisation.
-	  * Organisational entity within client
+	/** Set Organization.
+	  * Organizational entity within client
 	  */
 	public void setAD_Org_ID (int AD_Org_ID);
 
-	/** Get Organisation.
-	  * Organisational entity within client
+	/** Get Organization.
+	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
 
@@ -90,7 +90,7 @@ public interface I_U_PA_DocumentStatus
 	  */
 	public int getAD_Role_ID();
 
-	public I_AD_Role getAD_Role() throws RuntimeException;
+	public org.compiere.model.I_AD_Role getAD_Role() throws RuntimeException;
 
     /** Column name AD_Table_ID */
     public static final String COLUMNNAME_AD_Table_ID = "AD_Table_ID";
@@ -105,7 +105,7 @@ public interface I_U_PA_DocumentStatus
 	  */
 	public int getAD_Table_ID();
 
-	public I_AD_Table getAD_Table() throws RuntimeException;
+	public org.compiere.model.I_AD_Table getAD_Table() throws RuntimeException;
 
     /** Column name AD_User_ID */
     public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
@@ -120,7 +120,7 @@ public interface I_U_PA_DocumentStatus
 	  */
 	public int getAD_User_ID();
 
-	public I_AD_User getAD_User() throws RuntimeException;
+	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException;
 
     /** Column name AD_Window_ID */
     public static final String COLUMNNAME_AD_Window_ID = "AD_Window_ID";
@@ -135,7 +135,7 @@ public interface I_U_PA_DocumentStatus
 	  */
 	public int getAD_Window_ID();
 
-	public I_AD_Window getAD_Window() throws RuntimeException;
+	public org.compiere.model.I_AD_Window getAD_Window() throws RuntimeException;
 
     /** Column name C_Project_ID */
     public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
@@ -150,7 +150,7 @@ public interface I_U_PA_DocumentStatus
 	  */
 	public int getC_Project_ID();
 
-	public I_C_Project getC_Project() throws RuntimeException;
+	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -216,7 +216,7 @@ public interface I_U_PA_DocumentStatus
 	/** Get Name Colour	  */
 	public int getName_PrintColor_ID();
 
-	public I_AD_PrintColor getName_PrintColor() throws RuntimeException;
+	public org.compiere.model.I_AD_PrintColor getName_PrintColor() throws RuntimeException;
 
     /** Column name Name_PrintFont_ID */
     public static final String COLUMNNAME_Name_PrintFont_ID = "Name_PrintFont_ID";
@@ -227,7 +227,7 @@ public interface I_U_PA_DocumentStatus
 	/** Get Name Font	  */
 	public int getName_PrintFont_ID();
 
-	public I_AD_PrintFont getName_PrintFont() throws RuntimeException;
+	public org.compiere.model.I_AD_PrintFont getName_PrintFont() throws RuntimeException;
 
     /** Column name Number_PrintColor_ID */
     public static final String COLUMNNAME_Number_PrintColor_ID = "Number_PrintColor_ID";
@@ -238,7 +238,7 @@ public interface I_U_PA_DocumentStatus
 	/** Get Number Colour	  */
 	public int getNumber_PrintColor_ID();
 
-	public I_AD_PrintColor getNumber_PrintColor() throws RuntimeException;
+	public org.compiere.model.I_AD_PrintColor getNumber_PrintColor() throws RuntimeException;
 
     /** Column name Number_PrintFont_ID */
     public static final String COLUMNNAME_Number_PrintFont_ID = "Number_PrintFont_ID";
@@ -249,7 +249,7 @@ public interface I_U_PA_DocumentStatus
 	/** Get Number Font	  */
 	public int getNumber_PrintFont_ID();
 
-	public I_AD_PrintFont getNumber_PrintFont() throws RuntimeException;
+	public org.compiere.model.I_AD_PrintFont getNumber_PrintFont() throws RuntimeException;
 
     /** Column name SeqNo */
     public static final String COLUMNNAME_SeqNo = "SeqNo";

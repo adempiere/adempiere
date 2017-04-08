@@ -1,8 +1,9 @@
 /******************************************************************************
  * Product: ADempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 2006-2016 ADempiere Foundation, All Rights Reserved.         *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -31,7 +32,7 @@ public class X_M_InOutLine extends PO implements I_M_InOutLine, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20161103L;
+	private static final long serialVersionUID = 20170407L;
 
     /** Standard Constructor */
     public X_M_InOutLine (Properties ctx, int M_InOutLine_ID, String trxName)
@@ -628,15 +629,15 @@ public class X_M_InOutLine extends PO implements I_M_InOutLine, I_Persistent
 		return bd;
 	}
 
-	/** Set Picked Quantity.
-		@param PickedQty Picked Quantity	  */
+	/** Set Picked Qty.
+		@param PickedQty Picked Qty	  */
 	public void setPickedQty (BigDecimal PickedQty)
 	{
 		set_Value (COLUMNNAME_PickedQty, PickedQty);
 	}
 
-	/** Get Picked Quantity.
-		@return Picked Quantity	  */
+	/** Get Picked Qty.
+		@return Picked Qty	  */
 	public BigDecimal getPickedQty () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_PickedQty);

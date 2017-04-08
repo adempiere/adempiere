@@ -1,8 +1,9 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -11,8 +12,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_PrintFormatItem
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0 - $Id$ */
+ *  @version Release 3.9.0 - $Id$ */
 public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150223L;
+	private static final long serialVersionUID = 20170407L;
 
     /** Standard Constructor */
     public X_AD_PrintFormatItem (Properties ctx, int AD_PrintFormatItem_ID, String trxName)
@@ -46,7 +46,8 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 // D
 			setImageIsAttached (false);
 			setIsAveraged (false);
-			setIsCentrallyMaintained (false);
+			setIsCentrallyMaintained (true);
+// Y
 			setIsCounted (false);
 			setIsDesc (false);
 // N
@@ -58,6 +59,7 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 			setIsHeightOneLine (true);
 // Y
 			setIsImageField (false);
+// N
 			setIsMaxCalc (false);
 			setIsMinCalc (false);
 			setIsNextLine (true);
@@ -529,7 +531,7 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 		return (String)get_Value(COLUMNNAME_ImageURL);
 	}
 
-	/** Set Calculate Mean (μ).
+	/** Set Calculate Mean (µ).
 		@param IsAveraged 
 		Calculate Average of numeric content or length
 	  */
@@ -538,7 +540,7 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 		set_Value (COLUMNNAME_IsAveraged, Boolean.valueOf(IsAveraged));
 	}
 
-	/** Get Calculate Mean (μ).
+	/** Get Calculate Mean (µ).
 		@return Calculate Average of numeric content or length
 	  */
 	public boolean isAveraged () 
@@ -577,7 +579,7 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 		return false;
 	}
 
-	/** Set Calculate Count (№).
+	/** Set Calculate Count (¿).
 		@param IsCounted 
 		Count number of not empty elements
 	  */
@@ -586,7 +588,7 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 		set_Value (COLUMNNAME_IsCounted, Boolean.valueOf(IsCounted));
 	}
 
-	/** Get Calculate Count (№).
+	/** Get Calculate Count (¿).
 		@return Count number of not empty elements
 	  */
 	public boolean isCounted () 
@@ -625,7 +627,7 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 		return false;
 	}
 
-	/** Set Calculate Deviation (σ).
+	/** Set Calculate Deviation (s).
 		@param IsDeviationCalc 
 		Calculate Standard Deviation
 	  */
@@ -634,7 +636,7 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 		set_Value (COLUMNNAME_IsDeviationCalc, Boolean.valueOf(IsDeviationCalc));
 	}
 
-	/** Get Calculate Deviation (σ).
+	/** Get Calculate Deviation (s).
 		@return Calculate Standard Deviation
 	  */
 	public boolean isDeviationCalc () 
@@ -793,7 +795,7 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 		return false;
 	}
 
-	/** Set Calculate Minimum (↓).
+	/** Set Calculate Minimum (¿).
 		@param IsMinCalc 
 		Calculate the minimum amount
 	  */
@@ -802,7 +804,7 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 		set_Value (COLUMNNAME_IsMinCalc, Boolean.valueOf(IsMinCalc));
 	}
 
-	/** Get Calculate Minimum (↓).
+	/** Get Calculate Minimum (¿).
 		@return Calculate the minimum amount
 	  */
 	public boolean isMinCalc () 
@@ -1033,7 +1035,7 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 		return false;
 	}
 
-	/** Set Calculate Sum (Σ).
+	/** Set Calculate Sum (S).
 		@param IsSummarized 
 		Calculate the Sum of numeric content or length
 	  */
@@ -1042,7 +1044,7 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 		set_Value (COLUMNNAME_IsSummarized, Boolean.valueOf(IsSummarized));
 	}
 
-	/** Get Calculate Sum (Σ).
+	/** Get Calculate Sum (S).
 		@return Calculate the Sum of numeric content or length
 	  */
 	public boolean isSummarized () 
@@ -1105,7 +1107,7 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 		return false;
 	}
 
-	/** Set Calculate Variance (σ²).
+	/** Set Calculate Variance (s²).
 		@param IsVarianceCalc 
 		Calculate Variance
 	  */
@@ -1114,7 +1116,7 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 		set_Value (COLUMNNAME_IsVarianceCalc, Boolean.valueOf(IsVarianceCalc));
 	}
 
-	/** Get Calculate Variance (σ²).
+	/** Get Calculate Variance (s²).
 		@return Calculate Variance
 	  */
 	public boolean isVarianceCalc () 

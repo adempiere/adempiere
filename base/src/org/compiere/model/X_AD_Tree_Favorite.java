@@ -1,8 +1,9 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -11,8 +12,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
@@ -22,11 +22,14 @@ import java.util.Properties;
 
 /** Generated Model for AD_Tree_Favorite
  *  @author Adempiere (generated) 
- *  @version 1.03 - $Id$ */
+ *  @version Release 3.9.0 - $Id$ */
 public class X_AD_Tree_Favorite extends PO implements I_AD_Tree_Favorite, I_Persistent 
 {
 
-	private static final long serialVersionUID = 20140723L;
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 20170407L;
 
     /** Standard Constructor */
     public X_AD_Tree_Favorite (Properties ctx, int AD_Tree_Favorite_ID, String trxName)
@@ -68,9 +71,9 @@ public class X_AD_Tree_Favorite extends PO implements I_AD_Tree_Favorite, I_Pers
       return sb.toString();
     }
 
-	public I_AD_Role getAD_Role() throws RuntimeException
+	public org.compiere.model.I_AD_Role getAD_Role() throws RuntimeException
     {
-		return (I_AD_Role)MTable.get(getCtx(), I_AD_Role.Table_Name)
+		return (org.compiere.model.I_AD_Role)MTable.get(getCtx(), org.compiere.model.I_AD_Role.Table_Name)
 			.getPO(getAD_Role_ID(), get_TrxName());	}
 
 	/** Set Role.
@@ -96,8 +99,8 @@ public class X_AD_Tree_Favorite extends PO implements I_AD_Tree_Favorite, I_Pers
 		return ii.intValue();
 	}
 
-	/** Set AD_Tree_Favorite_ID.
-		@param AD_Tree_Favorite_ID AD_Tree_Favorite_ID	  */
+	/** Set Tree Favorite ID.
+		@param AD_Tree_Favorite_ID Tree Favorite ID	  */
 	public void setAD_Tree_Favorite_ID (int AD_Tree_Favorite_ID)
 	{
 		if (AD_Tree_Favorite_ID < 1) 
@@ -106,8 +109,8 @@ public class X_AD_Tree_Favorite extends PO implements I_AD_Tree_Favorite, I_Pers
 			set_ValueNoCheck (COLUMNNAME_AD_Tree_Favorite_ID, Integer.valueOf(AD_Tree_Favorite_ID));
 	}
 
-	/** Get AD_Tree_Favorite_ID.
-		@return AD_Tree_Favorite_ID	  */
+	/** Get Tree Favorite ID.
+		@return Tree Favorite ID	  */
 	public int getAD_Tree_Favorite_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Tree_Favorite_ID);
@@ -116,9 +119,9 @@ public class X_AD_Tree_Favorite extends PO implements I_AD_Tree_Favorite, I_Pers
 		return ii.intValue();
 	}
 
-	public I_AD_User getAD_User() throws RuntimeException
+	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException
     {
-		return (I_AD_User)MTable.get(getCtx(), I_AD_User.Table_Name)
+		return (org.compiere.model.I_AD_User)MTable.get(getCtx(), org.compiere.model.I_AD_User.Table_Name)
 			.getPO(getAD_User_ID(), get_TrxName());	}
 
 	/** Set User/Contact.
@@ -127,7 +130,7 @@ public class X_AD_Tree_Favorite extends PO implements I_AD_Tree_Favorite, I_Pers
 	  */
 	public void setAD_User_ID (int AD_User_ID)
 	{
-		if (AD_User_ID < -1) 
+		if (AD_User_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_AD_User_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));

@@ -1,8 +1,9 @@
 /******************************************************************************
  * Product: ADempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 2006-2016 ADempiere Foundation, All Rights Reserved.         *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -254,6 +255,15 @@ public interface I_M_Inventory
 	  */
 	public boolean isApproved();
 
+    /** Column name IsStocktake */
+    public static final String COLUMNNAME_IsStocktake = "IsStocktake";
+
+	/** Set Stocktake	  */
+	public void setIsStocktake (boolean IsStocktake);
+
+	/** Get Stocktake	  */
+	public boolean isStocktake();
+
     /** Column name M_Inventory_ID */
     public static final String COLUMNNAME_M_Inventory_ID = "M_Inventory_ID";
 
@@ -381,6 +391,15 @@ public interface I_M_Inventory
 
 	/** Get Update Quantities	  */
 	public String getUpdateQty();
+
+    /** Column name UpdateQtyCount */
+    public static final String COLUMNNAME_UpdateQtyCount = "UpdateQtyCount";
+
+	/** Set Update Quantity Count	  */
+	public void setUpdateQtyCount (String UpdateQtyCount);
+
+	/** Get Update Quantity Count	  */
+	public String getUpdateQtyCount();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
