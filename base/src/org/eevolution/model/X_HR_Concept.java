@@ -1,8 +1,9 @@
 /******************************************************************************
  * Product: ADempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 2006-2016 ADempiere Foundation, All Rights Reserved.         *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -31,7 +32,7 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170219L;
+	private static final long serialVersionUID = 20170407L;
 
     /** Standard Constructor */
     public X_HR_Concept (Properties ctx, int HR_Concept_ID, String trxName)
@@ -74,32 +75,6 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
       return sb.toString();
     }
 
-	/** AccountSign AD_Reference_ID=118 */
-	public static final int ACCOUNTSIGN_AD_Reference_ID=118;
-	/** Natural = N */
-	public static final String ACCOUNTSIGN_Natural = "N";
-	/** Debit = D */
-	public static final String ACCOUNTSIGN_Debit = "D";
-	/** Credit = C */
-	public static final String ACCOUNTSIGN_Credit = "C";
-	/** Set Account Sign.
-		@param AccountSign 
-		Indicates the Natural Sign of the Account as a Debit or Credit
-	  */
-	public void setAccountSign (String AccountSign)
-	{
-
-		set_Value (COLUMNNAME_AccountSign, AccountSign);
-	}
-
-	/** Get Account Sign.
-		@return Indicates the Natural Sign of the Account as a Debit or Credit
-	  */
-	public String getAccountSign () 
-	{
-		return (String)get_Value(COLUMNNAME_AccountSign);
-	}
-
 	public org.compiere.model.I_AD_Reference getAD_Reference() throws RuntimeException
     {
 		return (org.compiere.model.I_AD_Reference)MTable.get(getCtx(), org.compiere.model.I_AD_Reference.Table_Name)
@@ -126,6 +101,32 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** AccountSign AD_Reference_ID=118 */
+	public static final int ACCOUNTSIGN_AD_Reference_ID=118;
+	/** Natural = N */
+	public static final String ACCOUNTSIGN_Natural = "N";
+	/** Debit = D */
+	public static final String ACCOUNTSIGN_Debit = "D";
+	/** Credit = C */
+	public static final String ACCOUNTSIGN_Credit = "C";
+	/** Set Account Sign.
+		@param AccountSign 
+		Indicates the Natural Sign of the Account as a Debit or Credit
+	  */
+	public void setAccountSign (String AccountSign)
+	{
+
+		set_Value (COLUMNNAME_AccountSign, AccountSign);
+	}
+
+	/** Get Account Sign.
+		@return Indicates the Natural Sign of the Account as a Debit or Credit
+	  */
+	public String getAccountSign () 
+	{
+		return (String)get_Value(COLUMNNAME_AccountSign);
 	}
 
 	/** ColumnType AD_Reference_ID=53243 */
@@ -226,8 +227,10 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
 		return (org.eevolution.model.I_HR_Concept_Type)MTable.get(getCtx(), org.eevolution.model.I_HR_Concept_Type.Table_Name)
 			.getPO(getHR_Concept_Type_ID(), get_TrxName());	}
 
-	/** Set Global Payroll Concept Type ID.
-		@param HR_Concept_Type_ID Global Payroll Concept Type ID	  */
+	/** Set Global Payroll Concept Type.
+		@param HR_Concept_Type_ID 
+		Allows define types for concepts
+	  */
 	public void setHR_Concept_Type_ID (int HR_Concept_Type_ID)
 	{
 		if (HR_Concept_Type_ID < 1) 
@@ -236,8 +239,9 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
 			set_Value (COLUMNNAME_HR_Concept_Type_ID, Integer.valueOf(HR_Concept_Type_ID));
 	}
 
-	/** Get Global Payroll Concept Type ID.
-		@return Global Payroll Concept Type ID	  */
+	/** Get Global Payroll Concept Type.
+		@return Allows define types for concepts
+	  */
 	public int getHR_Concept_Type_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Concept_Type_ID);
@@ -251,10 +255,8 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
 		return (org.eevolution.model.I_HR_Department)MTable.get(getCtx(), org.eevolution.model.I_HR_Department.Table_Name)
 			.getPO(getHR_Department_ID(), get_TrxName());	}
 
-	/** Set Department.
-		@param HR_Department_ID 
-		Department of the organization
-	  */
+	/** Set Payroll Department.
+		@param HR_Department_ID Payroll Department	  */
 	public void setHR_Department_ID (int HR_Department_ID)
 	{
 		if (HR_Department_ID < 1) 
@@ -263,9 +265,8 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
 			set_Value (COLUMNNAME_HR_Department_ID, Integer.valueOf(HR_Department_ID));
 	}
 
-	/** Get Department.
-		@return Department of the organization
-	  */
+	/** Get Payroll Department.
+		@return Payroll Department	  */
 	public int getHR_Department_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Department_ID);
@@ -305,9 +306,7 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
 			.getPO(getHR_Payroll_ID(), get_TrxName());	}
 
 	/** Set Payroll.
-		@param HR_Payroll_ID 
-		The Payroll definition allows to define all the payroll concepts , year and periods, to  calculate a payroll.
-	  */
+		@param HR_Payroll_ID Payroll	  */
 	public void setHR_Payroll_ID (int HR_Payroll_ID)
 	{
 		if (HR_Payroll_ID < 1) 
@@ -317,8 +316,7 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
 	}
 
 	/** Get Payroll.
-		@return The Payroll definition allows to define all the payroll concepts , year and periods, to  calculate a payroll.
-	  */
+		@return Payroll	  */
 	public int getHR_Payroll_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Payroll_ID);

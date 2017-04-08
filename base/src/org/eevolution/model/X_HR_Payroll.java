@@ -1,8 +1,9 @@
 /******************************************************************************
  * Product: ADempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 2006-2016 ADempiere Foundation, All Rights Reserved.         *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -30,7 +31,7 @@ public class X_HR_Payroll extends PO implements I_HR_Payroll, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170219L;
+	private static final long serialVersionUID = 20170407L;
 
     /** Standard Constructor */
     public X_HR_Payroll (Properties ctx, int HR_Payroll_ID, String trxName)
@@ -173,9 +174,7 @@ public class X_HR_Payroll extends PO implements I_HR_Payroll, I_Persistent
 	}
 
 	/** Set Payroll.
-		@param HR_Payroll_ID 
-		The Payroll definition allows to define all the payroll concepts , year and periods, to  calculate a payroll.
-	  */
+		@param HR_Payroll_ID Payroll	  */
 	public void setHR_Payroll_ID (int HR_Payroll_ID)
 	{
 		if (HR_Payroll_ID < 1) 
@@ -185,8 +184,7 @@ public class X_HR_Payroll extends PO implements I_HR_Payroll, I_Persistent
 	}
 
 	/** Get Payroll.
-		@return The Payroll definition allows to define all the payroll concepts , year and periods, to  calculate a payroll.
-	  */
+		@return Payroll	  */
 	public int getHR_Payroll_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Payroll_ID);
@@ -196,20 +194,20 @@ public class X_HR_Payroll extends PO implements I_HR_Payroll, I_Persistent
 	}
 
 	/** Set Ignore Default Payroll.
-		@param isIgnoreDefaultPayroll 
-		Ignore Default Payroll of Employee
+		@param IsIgnoreDefaultPayroll 
+		Ignore Default Payroll for Employee
 	  */
-	public void setisIgnoreDefaultPayroll (boolean isIgnoreDefaultPayroll)
+	public void setIsIgnoreDefaultPayroll (boolean IsIgnoreDefaultPayroll)
 	{
-		set_Value (COLUMNNAME_isIgnoreDefaultPayroll, Boolean.valueOf(isIgnoreDefaultPayroll));
+		set_Value (COLUMNNAME_IsIgnoreDefaultPayroll, Boolean.valueOf(IsIgnoreDefaultPayroll));
 	}
 
 	/** Get Ignore Default Payroll.
-		@return Ignore Default Payroll of Employee
+		@return Ignore Default Payroll for Employee
 	  */
 	public boolean isIgnoreDefaultPayroll () 
 	{
-		Object oo = get_Value(COLUMNNAME_isIgnoreDefaultPayroll);
+		Object oo = get_Value(COLUMNNAME_IsIgnoreDefaultPayroll);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 

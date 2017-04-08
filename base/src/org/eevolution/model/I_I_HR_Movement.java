@@ -1,8 +1,9 @@
 /******************************************************************************
  * Product: ADempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 2006-2016 ADempiere Foundation, All Rights Reserved.         *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -230,6 +231,19 @@ public interface I_I_HR_Movement
 	  */
 	public boolean isActive();
 
+    /** Column name ProcessName */
+    public static final String COLUMNNAME_ProcessName = "ProcessName";
+
+	/** Set Process Name.
+	  * Name of the Process
+	  */
+	public void setProcessName (String ProcessName);
+
+	/** Get Process Name.
+	  * Name of the Process
+	  */
+	public String getProcessName();
+
     /** Column name Processed */
     public static final String COLUMNNAME_Processed = "Processed";
 
@@ -251,19 +265,6 @@ public interface I_I_HR_Movement
 
 	/** Get Process Now	  */
 	public boolean isProcessing();
-
-    /** Column name ProcessName */
-    public static final String COLUMNNAME_ProcessName = "ProcessName";
-
-	/** Set Process Name.
-	  * Name of the Process
-	  */
-	public void setProcessName (String ProcessName);
-
-	/** Get Process Name.
-	  * Name of the Process
-	  */
-	public String getProcessName();
 
     /** Column name Qty */
     public static final String COLUMNNAME_Qty = "Qty";

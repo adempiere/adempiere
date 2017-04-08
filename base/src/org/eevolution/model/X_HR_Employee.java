@@ -1,8 +1,9 @@
 /******************************************************************************
  * Product: ADempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 2006-2016 ADempiere Foundation, All Rights Reserved.         *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -33,7 +34,7 @@ public class X_HR_Employee extends PO implements I_HR_Employee, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170327L;
+	private static final long serialVersionUID = 20170407L;
 
     /** Standard Constructor */
     public X_HR_Employee (Properties ctx, int HR_Employee_ID, String trxName)
@@ -212,23 +213,6 @@ public class X_HR_Employee extends PO implements I_HR_Employee, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Validation code.
-		@param Code 
-		Validation Code
-	  */
-	public void setCode (String Code)
-	{
-		set_Value (COLUMNNAME_Code, Code);
-	}
-
-	/** Get Validation code.
-		@return Validation Code
-	  */
-	public String getCode () 
-	{
-		return (String)get_Value(COLUMNNAME_Code);
-	}
-
 	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException
     {
 		return (org.compiere.model.I_C_Project)MTable.get(getCtx(), org.compiere.model.I_C_Project.Table_Name)
@@ -283,6 +267,23 @@ public class X_HR_Employee extends PO implements I_HR_Employee, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Validation code.
+		@param Code 
+		Validation Code
+	  */
+	public void setCode (String Code)
+	{
+		set_Value (COLUMNNAME_Code, Code);
+	}
+
+	/** Get Validation code.
+		@return Validation Code
+	  */
+	public String getCode () 
+	{
+		return (String)get_Value(COLUMNNAME_Code);
 	}
 
 	/** Set Daily Salary.
@@ -451,10 +452,8 @@ public class X_HR_Employee extends PO implements I_HR_Employee, I_Persistent
 		return (org.eevolution.model.I_HR_Department)MTable.get(getCtx(), org.eevolution.model.I_HR_Department.Table_Name)
 			.getPO(getHR_Department_ID(), get_TrxName());	}
 
-	/** Set Department.
-		@param HR_Department_ID 
-		Department of the organization
-	  */
+	/** Set Payroll Department.
+		@param HR_Department_ID Payroll Department	  */
 	public void setHR_Department_ID (int HR_Department_ID)
 	{
 		if (HR_Department_ID < 1) 
@@ -463,9 +462,8 @@ public class X_HR_Employee extends PO implements I_HR_Employee, I_Persistent
 			set_Value (COLUMNNAME_HR_Department_ID, Integer.valueOf(HR_Department_ID));
 	}
 
-	/** Get Department.
-		@return Department of the organization
-	  */
+	/** Get Payroll Department.
+		@return Payroll Department	  */
 	public int getHR_Department_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Department_ID);
@@ -502,26 +500,6 @@ public class X_HR_Employee extends PO implements I_HR_Employee, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Payroll Employee.
-		@param HR_Employee_ID Payroll Employee	  */
-	public void setHR_Employee_ID (int HR_Employee_ID)
-	{
-		if (HR_Employee_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_HR_Employee_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_HR_Employee_ID, Integer.valueOf(HR_Employee_ID));
-	}
-
-	/** Get Payroll Employee.
-		@return Payroll Employee	  */
-	public int getHR_Employee_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Employee_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.eevolution.model.I_HR_EmployeeType getHR_EmployeeType() throws RuntimeException
     {
 		return (org.eevolution.model.I_HR_EmployeeType)MTable.get(getCtx(), org.eevolution.model.I_HR_EmployeeType.Table_Name)
@@ -545,6 +523,26 @@ public class X_HR_Employee extends PO implements I_HR_Employee, I_Persistent
 	public int getHR_EmployeeType_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_EmployeeType_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Payroll Employee.
+		@param HR_Employee_ID Payroll Employee	  */
+	public void setHR_Employee_ID (int HR_Employee_ID)
+	{
+		if (HR_Employee_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_HR_Employee_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_HR_Employee_ID, Integer.valueOf(HR_Employee_ID));
+	}
+
+	/** Get Payroll Employee.
+		@return Payroll Employee	  */
+	public int getHR_Employee_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Employee_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -606,31 +604,6 @@ public class X_HR_Employee extends PO implements I_HR_Employee, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.eevolution.model.I_HR_Job getHR_Job() throws RuntimeException
-    {
-		return (org.eevolution.model.I_HR_Job)MTable.get(getCtx(), org.eevolution.model.I_HR_Job.Table_Name)
-			.getPO(getHR_Job_ID(), get_TrxName());	}
-
-	/** Set Payroll Job.
-		@param HR_Job_ID Payroll Job	  */
-	public void setHR_Job_ID (int HR_Job_ID)
-	{
-		if (HR_Job_ID < 1) 
-			set_Value (COLUMNNAME_HR_Job_ID, null);
-		else 
-			set_Value (COLUMNNAME_HR_Job_ID, Integer.valueOf(HR_Job_ID));
-	}
-
-	/** Get Payroll Job.
-		@return Payroll Job	  */
-	public int getHR_Job_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Job_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.eevolution.model.I_HR_JobOpening getHR_JobOpening() throws RuntimeException
     {
 		return (org.eevolution.model.I_HR_JobOpening)MTable.get(getCtx(), org.eevolution.model.I_HR_JobOpening.Table_Name)
@@ -687,15 +660,38 @@ public class X_HR_Employee extends PO implements I_HR_Employee, I_Persistent
 		return ii.intValue();
 	}
 
+	public org.eevolution.model.I_HR_Job getHR_Job() throws RuntimeException
+    {
+		return (org.eevolution.model.I_HR_Job)MTable.get(getCtx(), org.eevolution.model.I_HR_Job.Table_Name)
+			.getPO(getHR_Job_ID(), get_TrxName());	}
+
+	/** Set Payroll Job.
+		@param HR_Job_ID Payroll Job	  */
+	public void setHR_Job_ID (int HR_Job_ID)
+	{
+		if (HR_Job_ID < 1) 
+			set_Value (COLUMNNAME_HR_Job_ID, null);
+		else 
+			set_Value (COLUMNNAME_HR_Job_ID, Integer.valueOf(HR_Job_ID));
+	}
+
+	/** Get Payroll Job.
+		@return Payroll Job	  */
+	public int getHR_Job_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Job_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.eevolution.model.I_HR_Payroll getHR_Payroll() throws RuntimeException
     {
 		return (org.eevolution.model.I_HR_Payroll)MTable.get(getCtx(), org.eevolution.model.I_HR_Payroll.Table_Name)
 			.getPO(getHR_Payroll_ID(), get_TrxName());	}
 
 	/** Set Payroll.
-		@param HR_Payroll_ID 
-		The Payroll definition allows to define all the payroll concepts , year and periods, to  calculate a payroll.
-	  */
+		@param HR_Payroll_ID Payroll	  */
 	public void setHR_Payroll_ID (int HR_Payroll_ID)
 	{
 		if (HR_Payroll_ID < 1) 
@@ -705,8 +701,7 @@ public class X_HR_Employee extends PO implements I_HR_Employee, I_Persistent
 	}
 
 	/** Get Payroll.
-		@return The Payroll definition allows to define all the payroll concepts , year and periods, to  calculate a payroll.
-	  */
+		@return Payroll	  */
 	public int getHR_Payroll_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Payroll_ID);
