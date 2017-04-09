@@ -34,7 +34,6 @@ import org.compiere.util.Msg;
  *	RMA Model
  *
  *  @author Jorg Janke
- *  @version $Id: MRMA.java,v 1.3 2006/07/30 00:51:03 jjanke Exp $
  *
  *  Modifications: Completed RMA functionality (Ashley Ramdass)
  */
@@ -228,6 +227,23 @@ public class MRMA extends X_M_RMA implements DocAction
 	//	return re.getPDF(file);
 	}	//	createPDF
 
+	// @Trifon - allow Invalid documents to be deleted!
+	// @Trifon - delete RMA Lines.
+	protected boolean beforeDelete () {
+		if (isProcessed()) {
+			return false;
+		}
+		if (DOCSTATUS_Invalid.equals( getDocStatus() ) 
+			|| DOCSTATUS_Drafted.equals( getDocStatus() )
+			|| DOCSTATUS_Unknown.equals( getDocStatus() )
+		) {
+			for (MRMALine rmaLine : getLinesAsList()) {
+				rmaLine.deleteEx(false);
+			}
+			return true;
+		}
+		return false;
+	}
 
 	/**
 	 * 	Before Save
