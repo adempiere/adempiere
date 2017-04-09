@@ -104,6 +104,15 @@ public class MRMA extends X_M_RMA implements DocAction
 		return m_lines;
 	}	//	getLines
 
+	// @Trifon
+	public List<MRMALine> getLinesAsList() {
+		List<MRMALine> list = new Query(getCtx(), I_M_RMALine.Table_Name, "M_RMA_ID=?", get_TrxName())
+			.setParameters(getM_RMA_ID())
+			.setOrderBy(MRMALine.COLUMNNAME_Line)
+			.list();
+		return list;
+	}
+
 	/**
 	 * 	Get Shipment
 	 *	@return shipment
