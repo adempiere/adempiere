@@ -212,8 +212,11 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 		
 		//	Create Commission Movements
 		if((getDocStatus().equals(STATUS_Drafted)) ||
+				(getDocStatus().equals(STATUS_Invalid)) ||
 				(getDocStatus().equals(STATUS_InProgress) && isReCalculate())) {
-			createMovements();
+			m_processMsg = createMovements();
+			if (m_processMsg != null)
+				return DocAction.STATUS_Invalid;
 
 			//	Add up Amounts
 			m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_PREPARE);
@@ -242,52 +245,67 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> Feb 24, 2016, 1:13:03 AM
 	 * @return void
 	 */
-	private void createMovements() {
+	private String createMovements() {
+		String message = null;
+		String frequencyType = null;
+		List<MCommission> commissionList = new ArrayList<MCommission>();
+		
 		deleteMovements();
 		//	Get lines
-		List<MCommission> commissionList = new ArrayList<MCommission>();
-		String frequencyType = null;
 		if(getC_Commission_ID() != 0) {
 			MCommission commission = new MCommission(getCtx(), getC_Commission_ID(), get_TrxName());
-			commissionList.add(commission);
-			frequencyType = commission.getFrequencyType();
+			if(commission.isActive()) {
+				commissionList.add(commission);
+				frequencyType = commission.getFrequencyType();
+			} else  {
+				message = "No commission defined";
+			}
 		} else if(getC_CommissionGroup_ID() != 0) {
 			MCommissionGroup group = new MCommissionGroup(getCtx(), getC_CommissionGroup_ID(), get_TrxName());
-			commissionList = group.getLines(true);
+			commissionList = group.getLines(MCommissionGroup.COLUMNNAME_IsActive + "Y");
 			frequencyType = group.getFrequencyType();
+			if(commissionList.size()==0)
+				message = "No commission defined";
 		} else {
-			// TODO: issue a sensible message that either a Commission or a Commission Group has to be selected
-			return;
+			message = "No commission defined";
 		}
+		
+		if (message!=null)
+			return message;
+		
 		startDate = getStartDate();
 		setStartEndDate(frequencyType);
 		//	Set Start and End
 		log.info("StartDate = " + getStartDate() + ", EndDate = " + endDate);
 		//	Iterate it for each commission definition
-		for(MCommission line : commissionList) {
-			//	For each business partner
-			for(MBPartner bPartner : line.getBPartnerOfCommission()) {
-				processLine(bPartner, line);
+		for(MCommission commission : commissionList) {
+			//	For each Sales Representative
+			for(MBPartner salesRep : commission.getSalesRepsOfCommission()) {
+				processLine(salesRep, commission);
 			}
 		}
 		//	Set Date
 		setStartDate(startDate);
 		saveEx();
+		return message;
 	}
 	
 	/**
 	 * 	Create Commission Detail
 	 *	@param sql sql statement
 	 *	@param comAmt parent
+	 *	@param comAmt isCompletePayment
 	 */
-	private void createDetail (String sql, MCommissionAmt comAmt) {
+	private void createDetail (String sql, MCommissionAmt comAmt, boolean isCompletePayment) {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
 			pstmt = DB.prepareStatement(sql, get_TrxName());
 			pstmt.setInt(1, getAD_Client_ID());
-			pstmt.setTimestamp(2, startDate);
-			pstmt.setTimestamp(3, endDate);
+			if(!isCompletePayment) {				
+				pstmt.setTimestamp(2, startDate);
+				pstmt.setTimestamp(3, endDate);
+			}
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				//	CommissionAmount, C_Currency_ID, Amt, Qty,
@@ -321,26 +339,33 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 	/**
 	 * 
 	 * Process lines
-	 * @param bPartner
-	 * @param line
+	 * @param salesRep
+	 * @param commission
 	 * @return
 	 */
-	private String processLine(MBPartner bPartner, MCommission line) {
+	private String processLine(MBPartner salesRep, MCommission commission) {
 		//	
-		MCommissionLine[] lines = line.getLines();
+		MCommissionLine[] commissionLines = commission.getLines();
 		List<Integer> salesRegion;
-		for (int i = 0; i < lines.length; i++) {
+		for (int i = 0; i < commissionLines.length; i++) {
+			String sqlAppend = null;
 			//	Instance Sales Region
 			salesRegion = new ArrayList<Integer>();
 			//	Amt for Line - Updated By Trigger
-			MCommissionAmt comAmt = new MCommissionAmt (this, lines[i].getC_CommissionLine_ID());
-			comAmt.setC_BPartner_ID(bPartner.getC_BPartner_ID());
+			MCommissionAmt comAmt = new MCommissionAmt (this, commissionLines[i].getC_CommissionLine_ID());
+			comAmt.setC_BPartner_ID(salesRep.getC_BPartner_ID());
 			comAmt.saveEx();
 			//
 			StringBuffer sql = new StringBuffer();
-			if (MCommission.DOCBASISTYPE_Receipt.equals(line.getDocBasisType()))
+			if (MCommission.DOCBASISTYPE_Receipt.equals(commission.getDocBasisType()))
 			{
-				if (line.isListDetails())
+				if (commission!=null && commission.isTotallyPaid())
+					// TODO: get the invoices that have been paid as of today
+					sqlAppend = " AND h.ispaid='Y' ";	
+				else
+					sqlAppend = " AND p.DateTrx BETWEEN ? AND ? ";					
+				
+				if (commission.isListDetails())
 				{
 					//	the view must be change
 					sql.append("SELECT h.C_Currency_ID, (l.LineNetAmt*al.Amount/h.GrandTotal) AS Amt,"
@@ -354,8 +379,8 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 						+ " LEFT OUTER JOIN M_Product prd ON (l.M_Product_ID = prd.M_Product_ID) "
 						+ "WHERE p.DocStatus IN ('CL','CO','RE')"
 						+ " AND h.IsSOTrx='Y'"
-						+ " AND p.AD_Client_ID = ?"
-						+ " AND p.DateTrx BETWEEN ? AND ?");
+						+ " AND p.AD_Client_ID = ? "
+						+ sqlAppend);
 				}
 				else
 				{
@@ -368,13 +393,13 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 							+ " INNER JOIN C_InvoiceLine l ON (h.C_Invoice_ID = l.C_Invoice_ID) "
 							+ "WHERE p.DocStatus IN ('CL','CO','RE')"
 							+ " AND h.IsSOTrx='Y'"
-							+ " AND p.AD_Client_ID = ?"
-							+ " AND p.DateTrx BETWEEN ? AND ?");
+							+ " AND p.AD_Client_ID = ? "
+							+ sqlAppend);
 				}
 			}
-			else if (MCommission.DOCBASISTYPE_Order.equals(line.getDocBasisType()))
+			else if (MCommission.DOCBASISTYPE_Order.equals(commission.getDocBasisType()))
 			{
-				if (line.isListDetails())
+				if (commission.isListDetails())
 				{
 					sql.append("SELECT h.C_Currency_ID, l.LineNetAmt, l.QtyOrdered, "
 						+ "l.C_OrderLine_ID, NULL, h.DocumentNo,"
@@ -402,7 +427,7 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 			}
 			else 	//	Invoice Basis
 			{
-				if (line.isListDetails())
+				if (commission.isListDetails())
 				{
 					sql.append("SELECT h.C_Currency_ID, l.LineNetAmt, l.QtyInvoiced, "
 						+ "NULL, l.C_InvoiceLine_ID, h.DocumentNo,"
@@ -429,8 +454,8 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 				}
 			}
 			//	CommissionOrders/Invoices
-			if (lines[i].isCommissionOrders()) {
-				MUser[] users = MUser.getOfBPartner(getCtx(), bPartner.getC_BPartner_ID(), get_TrxName());
+			if (commissionLines[i].isCommissionOrders()) {
+				MUser[] users = MUser.getOfBPartner(getCtx(), salesRep.getC_BPartner_ID(), get_TrxName());
 				if (users == null || users.length == 0) {
 					continue;
 				}
@@ -440,66 +465,67 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 					sql.append(" AND h.SalesRep_ID=").append(SalesRep_ID);
 				} else {
 					log.warning("Not 1 User/Contact for C_BPartner_ID=" 
-						+ bPartner.getC_BPartner_ID() + " but " + users.length);
+						+ salesRep.getC_BPartner_ID() + " but " + users.length);
 					sql.append(" AND EXISTS(SELECT 1 FROM AD_User u WHERE u.AD_User_ID = h.SalesRep_ID AND u.C_BPartner_ID=")
-						.append(bPartner.getC_BPartner_ID()).append(")");
+						.append(salesRep.getC_BPartner_ID()).append(")");
 				}
 			}
 			//	Organization
-			if (lines[i].getOrg_ID() != 0)
-				sql.append(" AND h.AD_Org_ID=").append(lines[i].getOrg_ID());
+			if (commissionLines[i].getOrg_ID() != 0)
+				sql.append(" AND h.AD_Org_ID=").append(commissionLines[i].getOrg_ID());
 			//	BPartner
-			if (lines[i].getC_BPartner_ID() != 0)
-				sql.append(" AND h.C_BPartner_ID=").append(lines[i].getC_BPartner_ID());
+			if (commissionLines[i].getC_BPartner_ID() != 0)
+				sql.append(" AND h.C_BPartner_ID=").append(commissionLines[i].getC_BPartner_ID());
 			//	BPartner Group
-			if (lines[i].getC_BP_Group_ID() != 0)
+			if (commissionLines[i].getC_BP_Group_ID() != 0)
 				sql.append(" AND h.C_BPartner_ID IN "
-					+ "(SELECT C_BPartner_ID FROM C_BPartner WHERE C_BP_Group_ID=").append(lines[i].getC_BP_Group_ID()).append(")");
+					+ "(SELECT C_BPartner_ID FROM C_BPartner WHERE C_BP_Group_ID=").append(commissionLines[i].getC_BP_Group_ID()).append(")");
 			//	Sales Region
-			if (lines[i].getC_SalesRegion_ID() != 0) {
+			if (commissionLines[i].getC_SalesRegion_ID() != 0) {
 				sql.append(" AND (h.C_BPartner_Location_ID IN "
-						+ "(SELECT C_BPartner_Location_ID FROM C_BPartner_Location WHERE C_SalesRegion_ID ").append(getSalesRegionClause(salesRegion, lines[i].getC_SalesRegion_ID())).append(")"
+						+ "(SELECT C_BPartner_Location_ID FROM C_BPartner_Location WHERE C_SalesRegion_ID ").append(getSalesRegionClause(salesRegion, commissionLines[i].getC_SalesRegion_ID())).append(")"
 								+ " OR EXISTS(SELECT 1 FROM C_Order o "
 								+ "					INNER JOIN C_BPartner_Location bpl ON(bpl.C_BPartner_Location_ID = o.C_BPartner_Location_ID)"
 								+ "					WHERE o.C_Order_ID = h.C_Order_ID "
-								+ "					AND bpl.C_SalesRegion_ID " + getSalesRegionClause(salesRegion, lines[i].getC_SalesRegion_ID()) + "))");
+								+ "					AND bpl.C_SalesRegion_ID " + getSalesRegionClause(salesRegion, commissionLines[i].getC_SalesRegion_ID()) + "))");
 			}
 			//	Product
-			if (lines[i].getM_Product_ID() != 0)
-				sql.append(" AND l.M_Product_ID=").append(lines[i].getM_Product_ID());
+			if (commissionLines[i].getM_Product_ID() != 0)
+				sql.append(" AND l.M_Product_ID=").append(commissionLines[i].getM_Product_ID());
 			//	Product Category
-			if (lines[i].getM_Product_Category_ID() != 0)
+			if (commissionLines[i].getM_Product_Category_ID() != 0)
 				sql.append(" AND l.M_Product_ID IN "
-					+ "(SELECT M_Product_ID FROM M_Product WHERE M_Product_Category_ID=").append(lines[i].getM_Product_Category_ID()).append(")");
+					+ "(SELECT M_Product_ID FROM M_Product WHERE M_Product_Category_ID=").append(commissionLines[i].getM_Product_Category_ID()).append(")");
 			//	Payment Rule
-			if (lines[i].getPaymentRule() != null)
-				sql.append(" AND h.PaymentRule='").append(lines[i].getPaymentRule()).append("'");
+			if (commissionLines[i].getPaymentRule() != null)
+				sql.append(" AND h.PaymentRule='").append(commissionLines[i].getPaymentRule()).append("'");
 			//	Yamel Senih
 			//	2015-10-26
 			//	Add Support to Days Due
-			if(MCommission.DOCBASISTYPE_Receipt.equals(line.getDocBasisType())) {
-				if (lines[i].get_ValueAsInt("DayFrom") != 0)
-					sql.append(" AND h.DaysDue >= ").append(lines[i].get_ValueAsInt("DayFrom"));
-				if (lines[i].get_ValueAsInt("DayTo") != 0)
-					sql.append(" AND h.DaysDue <= ").append(lines[i].get_ValueAsInt("DayTo"));
-			}
+			// TODO: get the correct payment dates
+			/*if(MCommission.DOCBASISTYPE_Receipt.equals(commission.getDocBasisType())) {
+				if (commissionLines[i].get_ValueAsInt(MCommissionLine.COLUMNNAME_DaysFrom) != 0)
+					sql.append(" AND h.DaysDue >= ").append(commissionLines[i].get_ValueAsInt(MCommissionLine.COLUMNNAME_DaysFrom));
+				if (commissionLines[i].get_ValueAsInt(MCommissionLine.COLUMNNAME_DaysTo) != 0)
+					sql.append(" AND h.DaysDue <= ").append(commissionLines[i].get_ValueAsInt(MCommissionLine.COLUMNNAME_DaysTo));
+			}*/
 			//	Add Exclusion
-			sql.append(getExclusionWhere(lines[i], lines));
+			sql.append(getExclusionWhere(commissionLines[i], commissionLines));
 			//	End Yamel Senih
 			//	Grouping
-			if (!line.isListDetails())
+			if (!commission.isListDetails())
 				sql.append(" GROUP BY h.C_Currency_ID");
 			//
-			log.fine("Line=" + lines[i].getLine() + " - " + sql);
+			log.fine("Line=" + commissionLines[i].getLine() + " - " + sql);
 			//
-			createDetail(sql.toString(), comAmt);
+			createDetail(sql.toString(), comAmt, commission.isTotallyPaid());
 			comAmt.calculateCommission();
 			comAmt.saveEx();
 		}	//	for all commission lines
 		
 		//	Save Last Run
-		line.setDateLastRun(startDate);
-		line.saveEx();
+		commission.setDateLastRun(startDate);
+		commission.saveEx();
 		return "@C_CommissionRun_ID@ = " + getDocumentNo() 
 			+ " - " + getDescription();
 	}	//	processLine

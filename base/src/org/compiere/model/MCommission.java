@@ -127,15 +127,15 @@ public class MCommission extends X_C_Commission
 	}	//	copyLinesFrom
 	
 	/**
-	 * Get business partner for commission run
+	 * Get Sales Representative for commission run
 	 * @return
 	 */
-	public List<MBPartner> getBPartnerOfCommission() {
-		List<MBPartner> list = new ArrayList<MBPartner>();
+	public List<MBPartner> getSalesRepsOfCommission() {
+		List<MBPartner> salesRepsList = new ArrayList<MBPartner>();
 		if(getC_BPartner_ID() != 0) {
-			list.add((MBPartner) getC_BPartner());
+			salesRepsList.add((MBPartner) getC_BPartner());
 		} else {
-			list = new Query(getCtx(), I_C_BPartner.Table_Name, "EXISTS(SELECT 1 FROM C_CommissionSalesRep csr "
+			salesRepsList = new Query(getCtx(), I_C_BPartner.Table_Name, "EXISTS(SELECT 1 FROM C_CommissionSalesRep csr "
 					+ "WHERE csr.C_BPartner_ID = C_BPartner.C_BPartner_ID "
 					+ "AND csr.C_Commission_ID = ?"
 					+ "AND csr.IsActive = 'Y')", get_TrxName())
@@ -143,8 +143,7 @@ public class MCommission extends X_C_Commission
 											.setOnlyActiveRecords(true)
 											.list();
 		}
-		//	Return
-		return list;
+		return salesRepsList;
 	}
 
 }	//	MCommission
