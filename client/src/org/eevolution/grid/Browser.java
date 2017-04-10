@@ -898,8 +898,10 @@ public abstract class Browser {
 	public void setProcessInfo(ProcessInfo pi) {
 		m_pi = pi;
 		if(m_pi != null)
-			if(	browsePI !=null)
+			if(	browsePI !=null) {
 				browsePI.setRecord_ID(m_pi.getRecord_ID());
+				browsePI.setTable_ID(m_pi.getTable_ID());
+			}
 	}
 
 	/**
