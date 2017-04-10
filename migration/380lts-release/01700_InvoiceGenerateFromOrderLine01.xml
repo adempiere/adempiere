@@ -2531,7 +2531,7 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="740" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82239" Table="AD_Column">
-        <Data AD_Column_ID="226" Column="AD_Reference_ID">19</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID">18</Data>
         <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
         <Data AD_Column_ID="6482" Column="EntityType">D</Data>
@@ -3656,7 +3656,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="113" Column="Help">The organization which performs or initiates this transaction (for another organization).  The owning Organization may not be the transaction organization in a service bureau environment, with centralized services, and inter-organization transactions.</Data>
         <Data AD_Column_ID="118" Column="FieldLength">10</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
-        <Data AD_Column_ID="226" Column="AD_Reference_ID">19</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID">18</Data>
         <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
         <Data AD_Column_ID="3360" Column="IsUpdateable">false</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
@@ -3721,7 +3721,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="113" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="118" Column="FieldLength">10</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
-        <Data AD_Column_ID="226" Column="AD_Reference_ID">19</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID">18</Data>
         <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
         <Data AD_Column_ID="3360" Column="IsUpdateable">false</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
