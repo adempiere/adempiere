@@ -7009,5 +7009,15 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="183" Column="IsSameLine" oldValue="true">false</Data>
       </PO>
     </Step>
+    <Step SeqNo="4050" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="4567" Table="AD_Field">
+        <Data AD_Column_ID="2007" Column="IsReadOnly" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="4060" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="81121" Table="AD_Field">
+        <Data AD_Column_ID="2007" Column="IsReadOnly" oldValue="true">false</Data>
+      </PO>
+    </Step>
   </Migration>
 </Migrations>
