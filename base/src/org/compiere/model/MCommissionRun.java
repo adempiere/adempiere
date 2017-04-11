@@ -29,6 +29,7 @@ import org.adempiere.exceptions.AdempiereException;
 import org.compiere.process.DocAction;
 import org.compiere.process.DocOptions;
 import org.compiere.process.DocumentEngine;
+import org.compiere.util.AdempiereUserError;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Language;
@@ -214,9 +215,12 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 		if((getDocStatus().equals(STATUS_Drafted)) ||
 				(getDocStatus().equals(STATUS_Invalid)) ||
 				(getDocStatus().equals(STATUS_InProgress) && isReCalculate())) {
-			m_processMsg = createMovements();
-			if (m_processMsg != null)
+			try {
+				createMovements();
+			} catch (Exception e) {
+				log.severe(e.getMessage());
 				return DocAction.STATUS_Invalid;
+			}
 
 			//	Add up Amounts
 			m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_PREPARE);
@@ -243,10 +247,12 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 	/**
 	 * Create Commission Movements
 	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> Feb 24, 2016, 1:13:03 AM
+	 *  @throws Exception if not successful
 	 * @return void
 	 */
-	private String createMovements() {
-		String message = null;
+	private void createMovements()  throws Exception {
+		final String NO_COMMISSION_DEFINED = "No commission defined";
+		boolean isCommissionDefined = true;
 		String frequencyType = null;
 		List<MCommission> commissionList = new ArrayList<MCommission>();
 		
@@ -258,20 +264,20 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 				commissionList.add(commission);
 				frequencyType = commission.getFrequencyType();
 			} else  {
-				message = "No commission defined";
+				isCommissionDefined = false;
 			}
 		} else if(getC_CommissionGroup_ID() != 0) {
 			MCommissionGroup group = new MCommissionGroup(getCtx(), getC_CommissionGroup_ID(), get_TrxName());
 			commissionList = group.getLines(MCommissionGroup.COLUMNNAME_IsActive + "Y");
 			frequencyType = group.getFrequencyType();
 			if(commissionList.size()==0)
-				message = "No commission defined";
+				isCommissionDefined = false;
 		} else {
-			message = "No commission defined";
+			isCommissionDefined = false;
 		}
 		
-		if (message!=null)
-			return message;
+		if (!isCommissionDefined)
+			throw new AdempiereUserError (NO_COMMISSION_DEFINED);
 		
 		startDate = getStartDate();
 		setStartEndDate(frequencyType);
@@ -287,7 +293,7 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 		//	Set Date
 		setStartDate(startDate);
 		saveEx();
-		return message;
+		return;
 	}
 	
 	/**
