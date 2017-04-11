@@ -578,14 +578,14 @@ public class ImportHelper {
 		List<PO> values = null;
 
 		if (expFormat == null || rootElement == null) {
-			throw new IllegalArgumentException("expFormat, rootNode and RootnodeName can't be null!");
+			throw new IllegalArgumentException("expFormat, and rootElement can't be null!");
 		}
 		
 		log.info("expFormat = " + expFormat);
-		log.info("rootNode.getNodeName() = " + rootElement.getNodeName());
+		log.info("rootElement.getNodeName() = " + rootElement.getNodeName());
 
 		if (rootElement.getParentNode() != null) {
-			log.info("rootNode.ParentName = " + rootElement.getParentNode().getNodeName());	
+			log.info("rootElement.ParentName = " + rootElement.getParentNode().getNodeName());	
 		}
 		
 		// Get list with all Unique columns!
@@ -593,7 +593,7 @@ public class ImportHelper {
 		if (uniqueFormatLines == null || uniqueFormatLines.size() < 1) {
 			throw new AdempiereException(Msg.getMsg(ctx, "EXPFormatLineNoUniqueColumns"));
 		}
-		
+
 		int replication_id = 0;
 		Object[] cols 	= new Object[uniqueFormatLines.size()];
 		Object[] params = new Object[uniqueFormatLines.size()];
@@ -604,24 +604,24 @@ public class ImportHelper {
 		{
 			MColumn column = MColumn.get(ctx, uniqueFormatLine.getAD_Column_ID());
 			log.info("UNIQUE column = ["+column.getAD_Table().getTableName()+"."+column.getColumnName()+"]");
-			String valuecol=column.getColumnName();
-			
+			String valuecol = column.getColumnName();
+
 			formatLines = formatLines + "|"+ valuecol;
-			
+
 			if (MEXPFormatLine.TYPE_XMLElement.equals(uniqueFormatLine.getType())) 
 			{
 				// XML Element
 				String xPath = null;
 				xPath = ""+ uniqueFormatLine.getValue();
 				cols[col] = XMLHelper.getString(xPath, rootElement);
-				log.info("values[" + col + "]=" +  cols[col]);
+				log.info("values[" + col + "]=" + cols[col]);
 			} else if (MEXPFormatLine.TYPE_XMLAttribute.equals(uniqueFormatLine.getType()))
 			{
 				// XML Attribute
 				String xPath = null;
 				xPath = "@"+ uniqueFormatLine.getValue();
 				cols[col] = XMLHelper.getString(xPath, rootElement);
-				log.info("values[" + col + "]=" +  cols[col]);
+				log.info("values[" + col + "]=" + cols[col]);
 			} else if (MEXPFormatLine.TYPE_ReferencedEXPFormat.equals(uniqueFormatLine.getType()))
 			{
 				// Referenced Export Format
@@ -635,7 +635,7 @@ public class ImportHelper {
 				Element referencedNode = ((Element) rootElement.getElementsByTagName(uniqueFormatLine.getValue()).item(0));
 				log.info("referencedNode = " + referencedNode);
 				if (referencedNode == null) 
-				{					
+				{
 					throw new IllegalArgumentException("referencedNode can't be found!");
 				}
 				record_ID = getID(ctx, referencedExpFormat, referencedNode, uniqueFormatLine.getValue(), replicationType, trxName);
