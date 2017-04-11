@@ -118,7 +118,7 @@ public class ExportHelper {
 	 * @return info
 	 * @throws Exception
 	 */
-	public String exportRecord (PO po, Integer replicationMode , String replicationType, Integer replicationEvent) throws Exception
+	public String exportRecord (PO po, Integer replicationMode, String replicationType, Integer replicationEvent) throws Exception
 	{
 		MClient client = MClient.get (po.getCtx(), clientId);
 		log.info("Client = " + client.toString());
