@@ -195,7 +195,7 @@ public class Allocation
 				+ "c.ISO_Code,p.PayAmt,"                            //  4..5
 				+ "currencyConvert(p.PayAmt,p.C_Currency_ID,?,?,p.C_ConversionType_ID,p.AD_Client_ID,p.AD_Org_ID),"//  6   #1, #2
 				+ "currencyConvert(paymentAvailable(C_Payment_ID),p.C_Currency_ID,?,?,p.C_ConversionType_ID,p.AD_Client_ID,p.AD_Org_ID),"  //  7   #3, #4
-				+ "p.MultiplierAP, p.IsReceipt, p.AD_Org_ID " // 8..10
+				+ "p.MultiplierAP, p.IsReceipt, p.AD_Org_ID, p.description " // 8..11
 				+ "FROM C_Payment_v p"		//	Corrected for AP/AR
 				+ " INNER JOIN C_Currency c ON (p.C_Currency_ID=c.C_Currency_ID) "
 				+ "WHERE p.IsAllocated='N' AND p.Processed='Y'"
@@ -254,6 +254,9 @@ public class Allocation
 				line.add(available);				//  6/8-ConvOpen/Available
 				line.add(Env.ZERO);					//  7/9-Paymentr
 				//
+
+				pp = new KeyNamePair(rs.getInt(3), rs.getString(11));
+				line.add(pp);                       //  11 Description
 				data.add(line);
 			}
 			rs.close();
@@ -284,6 +287,7 @@ public class Allocation
 		columnNames.add(Msg.getMsg(Env.getCtx(), "ConvertedAmount"));
 		columnNames.add(Msg.getMsg(Env.getCtx(), "OpenAmt"));
 		columnNames.add(Msg.getMsg(Env.getCtx(), "AppliedAmt"));
+		columnNames.add(Util.cleanAmp(Msg.translate(Env.getCtx(), "Description")));
 		return columnNames;
 	}
 	
@@ -305,6 +309,7 @@ public class Allocation
 		paymentTable.setColumnClass(i, BigDecimal.class, true, names.get(i++));       //  5-ConvAmt
 		paymentTable.setColumnClass(i, BigDecimal.class, true, names.get(i++));       //  6-ConvOpen
 		paymentTable.setColumnClass(i, BigDecimal.class, false, names.get(i));      //  7-Allocated
+		paymentTable.setColumnClass(i, String.class, true, names.get(i++));           //  11-Description
 		//
 		i_payment = isMultiCurrency ? 9 : 7;
 		//  Table UI
