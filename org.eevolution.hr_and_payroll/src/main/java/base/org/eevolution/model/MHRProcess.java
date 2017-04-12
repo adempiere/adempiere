@@ -1191,6 +1191,56 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	}
 
 	/**
+	 * Get Monthly Salary
+	 * @return
+	 */
+	public double getMonthlySalary() {
+		BigDecimal monthtlySalary = employee.getMonthlySalary();
+		if(monthtlySalary != null
+				&& !monthtlySalary.equals(Env.ZERO)) {
+			return monthtlySalary.doubleValue();
+		}
+		//	if not exists
+		if(employee.getHR_Payroll_ID() != 0) {
+			MHRPayroll payroll = MHRPayroll.getById(getCtx(), employee.getHR_Payroll_ID());
+			MHRContract contract = MHRContract.getById(getCtx(), payroll.getHR_Contract_ID());
+			if(contract != null
+					&& contract.getMonthlySalary_ID() != 0) {
+				MHRConcept concept = MHRConcept.get(getCtx(), contract.getMonthlySalary_ID());
+				//	Get from attribute
+				return getAttribute(concept.getValue());
+			}
+		}
+		//	Default
+		return 0;
+	}
+	
+	/**
+	 * Get Daily Salary
+	 * @return
+	 */
+	public double getDailySalary() {
+		BigDecimal dailySalary = employee.getDailySalary();
+		if(dailySalary != null
+				&& !dailySalary.equals(Env.ZERO)) {
+			return dailySalary.doubleValue();
+		}
+		//	if not exists
+		if(employee.getHR_Payroll_ID() != 0) {
+			MHRPayroll payroll = MHRPayroll.getById(getCtx(), employee.getHR_Payroll_ID());
+			MHRContract contract = MHRContract.getById(getCtx(), payroll.getHR_Contract_ID());
+			if(contract != null
+					&& contract.getDailySalary_ID() != 0) {
+				MHRConcept concept = MHRConcept.get(getCtx(), contract.getDailySalary_ID());
+				//	Get from attribute
+				return getAttribute(concept.getValue());
+			}
+		}
+		//	Default
+		return 0;
+	}
+	
+	/**
 	 * Create movement based on concept , attribute and is printed
 	 * @param concept
 	 * @param attribute
