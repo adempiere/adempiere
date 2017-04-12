@@ -37,42 +37,40 @@ import org.compiere.util.KeyNamePair;
 import org.compiere.util.Login;
 
 /**
- * 	Adempiere Monitor Filter.
+ * 	ADempiere Monitor Filter.
  * 	Application Server independent check of username/password
  * 	
  *  @author Jorg Janke
- *  @version $Id: AdempiereMonitorFilter.java,v 1.2 2006/07/30 00:53:33 jjanke Exp $
  *  @author Michael Judd BF [ 2736817 ] - remove deprecated BASE64Encoder classes
  */
 public class AdempiereMonitorFilter implements Filter
 {
-	/**
-	 * 	AdempiereMonitorFilter
-	 */
-	public AdempiereMonitorFilter ()
-	{
-		super ();
-		m_authorization = new Long (System.currentTimeMillis());
-	}	//	AdempiereMonitorFilter
-
 	/**	Logger			*/
 	protected CLogger	log = CLogger.getCLogger(getClass());
 
 	/**	Authorization ID				*/
 	private static final String		AUTHORIZATION = "AdempiereAuthorization";
+
 	/** Authorization Marker			*/
 	private Long					m_authorization = null;
-	
+
+
+	/**
+	 * 	AdempiereMonitorFilter
+	 */
+	public AdempiereMonitorFilter() {
+		super ();
+		m_authorization = new Long (System.currentTimeMillis());
+	}
+
 	/**
 	 * 	Init
 	 *	@param config configuration
 	 *	@throws ServletException
 	 */
-	public void init (FilterConfig config)
-		throws ServletException
-	{
+	public void init (FilterConfig config) throws ServletException {
 		log.info ("");
-	}	//	Init
+	}
 
 	/**
 	 * 	Filter
@@ -85,7 +83,6 @@ public class AdempiereMonitorFilter implements Filter
 	public void doFilter (ServletRequest request, ServletResponse response, FilterChain chain)
 		throws IOException, ServletException
 	{
-		boolean error = false;
 		String errorPage = "/error.html";
 		boolean pass = false;
 		try
@@ -100,22 +97,16 @@ public class AdempiereMonitorFilter implements Filter
 			//	Previously checked
 			HttpSession session = req.getSession(true);
 			Long compare = (Long)session.getAttribute(AUTHORIZATION);
-			if (compare != null && compare.compareTo(m_authorization) == 0)
-			{
+			if (compare != null && compare.compareTo(m_authorization) == 0) {
 				pass = true;
-			}
-			else if (checkAuthorization (req.getHeader("Authorization")))
-			{
+			} else if (checkAuthorization(req.getHeader("Authorization"))) {
 				session.setAttribute(AUTHORIZATION, m_authorization);
 				pass = true;
 			}
 			//	--------------------------------------------
-			if (pass)
-			{
+			if (pass) {
 				chain.doFilter(request, response);
-			}
-			else
-			{
+			} else {
 				resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 				resp.setHeader("WWW-Authenticate", "BASIC realm=\"Adempiere Server\"");
 			}
@@ -170,13 +161,13 @@ public class AdempiereMonitorFilter implements Filter
 		}
 		return false;
 	}	//	check
-	
+
 	/**
 	 * 	Destroy
 	 */
 	public void destroy ()
 	{
 		log.info ("");
-	}	//	destroy
+	}
 
-}	//	AdempiereMonitorFilter
+}
