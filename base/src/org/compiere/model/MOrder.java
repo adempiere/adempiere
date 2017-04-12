@@ -2479,8 +2479,15 @@ public class MOrder extends X_C_Order implements DocAction
 				if(product.isASIMandatory(isSOTrx(), ol.getAD_Org_ID()))
 				{
 					MAttributeSet mas = MAttributeSet.get(getCtx(), product.getM_AttributeSet_ID());
-					if(!mas.excludeEntry(MColumn.getColumn_ID(MOrderLine.Table_Name, MOrderLine.COLUMNNAME_C_OrderLine_ID), isSOTrx())
-						&& ol.getM_AttributeSetInstance_ID() == 0)
+					Boolean isASIMandatory = mas.isMandatory();
+					Boolean isExclude = mas.excludeEntry(MColumn.getColumn_ID(MOrderLine.Table_Name, MOrderLine.COLUMNNAME_C_OrderLine_ID), isSOTrx());
+					Boolean isStandardOrder = isSOTrx()?							
+							(getC_DocTypeTarget().getDocSubTypeSO().equals(MDocType.DOCSUBTYPESO_StandardOrder)
+							|| getC_DocTypeTarget().getDocSubTypeSO().equals(MDocType.DOCSUBTYPESO_Proposal)
+							|| getC_DocTypeTarget().getDocSubTypeSO().equals(MDocType.DOCSUBTYPESO_Quotation))
+							: true;
+					Boolean isAsiInOrderLine = isASIMandatory && !isExclude && !isStandardOrder;
+					if(isAsiInOrderLine	&& ol.getM_AttributeSetInstance_ID() == 0)
 					{
 							m_processMsg = "@LinesWithoutProductAttribute@ (" + ol.getLine()+ ")";
 							throw new AdempiereException(m_processMsg);
