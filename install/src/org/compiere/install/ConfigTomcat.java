@@ -28,14 +28,14 @@ public class ConfigTomcat extends Config
 {
 
 	/**
-	 * 	ConfigJBoss
+	 * 	ConfigTomcat
 	 * 	@param data configuration
 	 */
 	public ConfigTomcat(ConfigurationData data)
 	{
 		super (data);
 	}	//	ConfigJBoss
-	
+
 	/**
 	 * 	Initialize
 	 */
@@ -76,19 +76,15 @@ public class ConfigTomcat extends Config
 			&& !server.equals("127.0.0.1");
 		InetAddress appsServer = null;
 		String error = "Not correct: AppsServer = " + server; 
-		try
-		{
+		try {
 			if (pass)
 				appsServer = InetAddress.getByName(server);
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			error += " - " + e.getMessage();
 			pass = false;
 		}
 		if (getPanel() != null)
-			signalOK(getPanel().okAppsServer, "ErrorAppsServer",
-				pass, true, error); 
+			signalOK(getPanel().okAppsServer, "ErrorAppsServer", pass, true, error); 
 		if (!pass)
 			return error;
 		log.info("OK: AppsServer = " + appsServer);
@@ -101,13 +97,12 @@ public class ConfigTomcat extends Config
 		pass = deploy.exists();
 		error = "Not found: " + deploy;
 		if (getPanel() != null)
-			signalOK(getPanel().okDeployDir, "ErrorDeployDir", 
-				pass, true, error);
+			signalOK(getPanel().okDeployDir, "ErrorDeployDir", pass, true, error);
 		if (!pass)
 			return error;
 		setProperty(ConfigurationData.ADEMPIERE_APPS_DEPLOY, p_data.getAppsServerDeployDir());
 		log.info("OK: Deploy Directory = " + deploy);
-		
+
 		//	JNP Port
 		setProperty(ConfigurationData.ADEMPIERE_JNP_PORT, String.valueOf(p_data.getAppsServerJNPPort()));
 
@@ -117,21 +112,19 @@ public class ConfigTomcat extends Config
 			&& p_data.testServerPort(WebPort);
 		error = "Not correct: Web Port = " + WebPort;
 		if (getPanel() != null)
-			signalOK(getPanel().okWebPort, "ErrorWebPort",
-				pass, true, error); 
+			signalOK(getPanel().okWebPort, "ErrorWebPort", pass, true, error); 
 		if (!pass)
 			return error;
 		log.info("OK: Web Port = " + WebPort);
 		setProperty(ConfigurationData.ADEMPIERE_WEB_PORT, String.valueOf(WebPort));
-		
+
 		//	SSL Port
 		int sslPort = p_data.getAppsServerSSLPort();
 		pass = !p_data.testPort ("https", appsServer.getHostName(), sslPort, "/") 
 			&& p_data.testServerPort(sslPort);
 		error = "Not correct: SSL Port = " + sslPort;
 		if (getPanel() != null)
-			signalOK(getPanel().okSSLPort, "ErrorWebPort",
-				pass, true, error); 
+			signalOK(getPanel().okSSLPort, "ErrorWebPort", pass, true, error); 
 		if (!pass)
 			return error;
 		log.info("OK: SSL Port = " + sslPort);

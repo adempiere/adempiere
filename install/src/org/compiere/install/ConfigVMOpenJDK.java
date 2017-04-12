@@ -113,13 +113,12 @@ public class ConfigVMOpenJDK extends Config
 		}
 		error = "Wrong Java Version: Should be " + VERSION17;
 		if (getPanel() != null)
-			signalOK(getPanel().okJavaHome, "ErrorJavaHome",
-					pass, true, error);
+			signalOK(getPanel().okJavaHome, "ErrorJavaHome", pass, true, error);
 		if (!pass)
 			return error;
 		//
 		setProperty(ConfigurationData.JAVA_TYPE, p_data.getJavaType());
-		
+
 		return null;
 	}
 
