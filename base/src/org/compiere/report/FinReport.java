@@ -572,17 +572,17 @@ public class FinReport extends SvrProcess
 			StringBuffer sql1=new StringBuffer("UPDATE t_report SET accounttype=accounttype1 ,ax_case=ax_case1 " 
 												+ "from (SELECT ev.accounttype as accounttype1 ," 
 					+ "CASE ev.accounttype " 
-					+ " WHEN 'A'::bpchar THEN 'B'::text " 
-					+ " WHEN 'C'::bpchar THEN 'P'::text " 
-					+ " WHEN 'E'::bpchar THEN 'P'::text " 
-					+ " WHEN 'F'::bpchar THEN 'P'::text " 
-					+ " WHEN 'L'::bpchar THEN 'B'::text " 
-					+ " WHEN 'M'::bpchar THEN 'B'::text " 
-					+ " WHEN 'O'::bpchar THEN 'B'::text " 
-					+ " WHEN 'P'::bpchar THEN 'P'::text " 
-					+ " WHEN 'R'::bpchar THEN 'P'::text " 
-					+ " WHEN 'T'::bpchar THEN 'P'::text " 
-					+ " ELSE '9. Unknown'::text  END   " 
+					+ " WHEN 'A' THEN 'B' "
+					+ " WHEN 'C' THEN 'P' "
+					+ " WHEN 'E' THEN 'P' "
+					+ " WHEN 'F' THEN 'P' "
+					+ " WHEN 'L' THEN 'B' "
+					+ " WHEN 'M' THEN 'B' "
+					+ " WHEN 'O' THEN 'B' "
+					+ " WHEN 'P' THEN 'P' "
+					+ " WHEN 'R' THEN 'P' "
+					+ " WHEN 'T' THEN 'P' "
+					+ " ELSE '9. Unknown'  END   "
 					+ "as ax_case1 FROM fact_acct f " 
 					+ "RIGHT  JOIN c_elementvalue ev  ON  f.account_id = ev.c_elementvalue_id WHERE ev.c_elementvalue_id= ")
 					.append(mrs[j].getC_ElementValue_ID())
@@ -883,7 +883,6 @@ public class FinReport extends SvrProcess
 		StringBuffer sql = new StringBuffer();
 		sql.append("SELECT FixedPercentage, "+colName+" FROM T_Report WHERE AD_PInstance_ID= "+AD_PInstance_ID+" ");
 		sql.append("AND PA_ReportLine_ID= "+PA_ReportLine_ID+" ");
-		//		System.out.println("getFixedPercentage SQL::"+sql.toString());
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		Float percent = new Float(0);
