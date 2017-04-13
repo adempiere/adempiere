@@ -1,9 +1,8 @@
 /******************************************************************************
  * Product: ADempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
+ * Copyright (C) 2006-2016 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -124,6 +123,21 @@ public interface I_HR_Contract
 	  */
 	public int getCreatedBy();
 
+    /** Column name DailySalary_ID */
+    public static final String COLUMNNAME_DailySalary_ID = "DailySalary_ID";
+
+	/** Set Daily Salary (Concept).
+	  * Reference to concept used for daily salary
+	  */
+	public void setDailySalary_ID (int DailySalary_ID);
+
+	/** Get Daily Salary (Concept).
+	  * Reference to concept used for daily salary
+	  */
+	public int getDailySalary_ID();
+
+	public org.eevolution.model.I_HR_Concept_Type getDailySalary() throws RuntimeException;
+
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
 
@@ -158,6 +172,21 @@ public interface I_HR_Contract
 	  * The record is active in the system
 	  */
 	public boolean isActive();
+
+    /** Column name MonthlySalary_ID */
+    public static final String COLUMNNAME_MonthlySalary_ID = "MonthlySalary_ID";
+
+	/** Set Monthly Salary (Concept).
+	  * Reference to concept used for monthly salary
+	  */
+	public void setMonthlySalary_ID (int MonthlySalary_ID);
+
+	/** Get Monthly Salary (Concept).
+	  * Reference to concept used for monthly salary
+	  */
+	public int getMonthlySalary_ID();
+
+	public org.eevolution.model.I_HR_Concept_Type getMonthlySalary() throws RuntimeException;
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

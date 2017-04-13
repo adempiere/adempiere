@@ -42,6 +42,8 @@ import org.zkoss.zk.ui.event.Events;
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *		<li> FR [ 146 ] Remove unnecessary class, add support for info to specific column
  *		@see https://github.com/adempiere/adempiere/issues/146
+ *		<a href="https://github.com/adempiere/adempiere/issues/966">
+ * 		@see FR [ 966 ] ZK Dialog for Attribute don't change gridfield</a>
  */
 public class WPAttributeEditor extends WEditor implements ContextMenuListener
 {
@@ -60,7 +62,6 @@ public class WPAttributeEditor extends WEditor implements ContextMenuListener
 	private MPAttributeLookup	m_mPAttribute;
 	private int 				m_C_BPartner_ID;
 	private boolean 			m_searchOnly;
-	private boolean				m_mandatory;
 	private boolean				m_readWrite;
 	private WEditorPopupMenu	popupMenu;
 
@@ -88,6 +89,7 @@ public class WPAttributeEditor extends WEditor implements ContextMenuListener
 		m_mPAttribute = (MPAttributeLookup) gridField.getLookup();
 		m_AD_Column_ID = gridField.getAD_Column_ID();
 		m_readWrite = false;
+		m_GridField = gridField;
 		initComponents();
 	}
 
@@ -115,8 +117,8 @@ public class WPAttributeEditor extends WEditor implements ContextMenuListener
 		m_WindowNo = WindowNo;
 		m_mPAttribute = lookup;
 		m_searchOnly = searchOnly;
-		m_mandatory = mandatory;
 		m_readWrite = !isReadOnly && isUpdateable;
+		m_GridField = gridField;
 		if (m_GridTab != null){
 			GridField gridField = m_GridTab.getField(m_columnName);
 			if (gridField != null)

@@ -46,7 +46,6 @@ import org.w3c.dom.Document;
   * @author victor.perez@e-evolution.com 
  * FB  [1963487 ] Is necessary new process to export and import with an Export
  * @see  http://sourceforge.net/tracker/?func=detail&atid=879335&aid=1963487&group_id=176962
- * @version $Id:$
  */
 public class ModelExporter extends SvrProcess {
 
@@ -71,7 +70,6 @@ public class ModelExporter extends SvrProcess {
 	 * Get Parameters
 	 */
 	protected void prepare() {
-
 		p_Record_ID = getRecord_ID();
 		if (p_AD_Client_ID == 0)
 			p_AD_Client_ID = Env.getAD_Client_ID(getCtx());
@@ -93,10 +91,10 @@ public class ModelExporter extends SvrProcess {
 			else
 				log.log(Level.SEVERE, "Unknown Parameter: " + name);
 		}
-		
-		if(p_EXP_Format_ID == 0)
+
+		if (p_EXP_Format_ID == 0)
 			p_EXP_Format_ID = p_Record_ID;
-		if(p_FileName == null)
+		if (p_FileName == null)
 		{
 			// Load XML file and parse it
 			String fileNameOr = org.compiere.util.Ini.findAdempiereHome()
@@ -116,50 +114,48 @@ public class ModelExporter extends SvrProcess {
 	 */
 	protected String doIt() throws Exception 
 	{
-		ExportHelper expHelper =  new ExportHelper(getCtx(),p_AD_Client_ID);
+		ExportHelper expHelper =  new ExportHelper(getCtx(), p_AD_Client_ID);
 		MEXPFormat exportFormat = new MEXPFormat (getCtx(), p_EXP_Format_ID, get_TrxName() );
 		File file = new File(p_FileName);
-		Document doc = expHelper.exportRecord(exportFormat,"", MReplicationStrategy.REPLICATION_TABLE, X_AD_ReplicationTable.REPLICATIONTYPE_Merge,ModelValidator.TYPE_AFTER_CHANGE);
+		Document doc = expHelper.exportRecord(exportFormat, "", MReplicationStrategy.REPLICATION_TABLE, X_AD_ReplicationTable.REPLICATIONTYPE_Merge, ModelValidator.TYPE_AFTER_CHANGE);
 		// Save the document to the disk file
-        TransformerFactory tranFactory = TransformerFactory.newInstance();
-        
+		TransformerFactory tranFactory = TransformerFactory.newInstance();
+
      //   tranFactory.setAttribute("indent-number", 4); //Adempiere-65 change    
-        
-        Transformer aTransformer = tranFactory.newTransformer();
-        aTransformer.setOutputProperty(OutputKeys.METHOD, "xml");
-        aTransformer.setOutputProperty(OutputKeys.INDENT, "yes");
-        Source src = new DOMSource(doc);
-		
-        // =================================== Write to String
-        Writer writer = new StringWriter();
-        Result dest2 = new StreamResult(writer);
-        aTransformer.transform(src, dest2);
-        // =================================== Write to Disk
-        try {
-        	Result dest = new StreamResult(file);
-            aTransformer.transform(src, dest);
-            writer.flush();
-            writer.close();
-            
-        } catch (TransformerException ex) {
-        	ex.printStackTrace();
-        	throw ex;
-        }
+
+		Transformer aTransformer = tranFactory.newTransformer();
+		aTransformer.setOutputProperty(OutputKeys.METHOD, "xml");
+		aTransformer.setOutputProperty(OutputKeys.INDENT, "yes");
+		Source src = new DOMSource(doc);
+
+		// =================================== Write to String
+		Writer writer = new StringWriter();
+		Result dest2 = new StreamResult(writer);
+		aTransformer.transform(src, dest2);
+		// =================================== Write to Disk
+		try {
+			Result dest = new StreamResult(file);
+			aTransformer.transform(src, dest);
+			writer.flush();
+			writer.close();
+		} catch (TransformerException ex) {
+			ex.printStackTrace();
+			throw ex;
+		}
 		return "Exported";
 	}
-	
+
 	public static void main(String[] args) 
 	{
 		CLogMgt.setLoggerLevel(Level.INFO, null);
 		CLogMgt.setLevel(Level.INFO);
-		
+
 		Adempiere.startupEnvironment(true);
 		ProcessInfo pi = new ProcessInfo("Test Import Model", 1000000);
 		pi.setAD_Client_ID(11);
 		pi.setAD_User_ID(100);
-		
+
 		ModelExporter modelExporter = new ModelExporter();
 		modelExporter.startProcess(Env.getCtx(), pi, null);
 	}
-
 }

@@ -1,9 +1,8 @@
 /******************************************************************************
  * Product: ADempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
+ * Copyright (C) 2006-2016 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -32,7 +31,7 @@ public class X_HR_Contract extends PO implements I_HR_Contract, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170407L;
+	private static final long serialVersionUID = 20170412L;
 
     /** Standard Constructor */
     public X_HR_Contract (Properties ctx, int HR_Contract_ID, String trxName)
@@ -157,6 +156,34 @@ public class X_HR_Contract extends PO implements I_HR_Contract, I_Persistent
 		return ii.intValue();
 	}
 
+	public org.eevolution.model.I_HR_Concept_Type getDailySalary() throws RuntimeException
+    {
+		return (org.eevolution.model.I_HR_Concept_Type)MTable.get(getCtx(), org.eevolution.model.I_HR_Concept_Type.Table_Name)
+			.getPO(getDailySalary_ID(), get_TrxName());	}
+
+	/** Set Daily Salary (Concept).
+		@param DailySalary_ID 
+		Reference to concept used for daily salary
+	  */
+	public void setDailySalary_ID (int DailySalary_ID)
+	{
+		if (DailySalary_ID < 1) 
+			set_Value (COLUMNNAME_DailySalary_ID, null);
+		else 
+			set_Value (COLUMNNAME_DailySalary_ID, Integer.valueOf(DailySalary_ID));
+	}
+
+	/** Get Daily Salary (Concept).
+		@return Reference to concept used for daily salary
+	  */
+	public int getDailySalary_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_DailySalary_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Description.
 		@param Description 
 		Optional short description of the record
@@ -189,6 +216,34 @@ public class X_HR_Contract extends PO implements I_HR_Contract, I_Persistent
 	public int getHR_Contract_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Contract_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.eevolution.model.I_HR_Concept_Type getMonthlySalary() throws RuntimeException
+    {
+		return (org.eevolution.model.I_HR_Concept_Type)MTable.get(getCtx(), org.eevolution.model.I_HR_Concept_Type.Table_Name)
+			.getPO(getMonthlySalary_ID(), get_TrxName());	}
+
+	/** Set Monthly Salary (Concept).
+		@param MonthlySalary_ID 
+		Reference to concept used for monthly salary
+	  */
+	public void setMonthlySalary_ID (int MonthlySalary_ID)
+	{
+		if (MonthlySalary_ID < 1) 
+			set_Value (COLUMNNAME_MonthlySalary_ID, null);
+		else 
+			set_Value (COLUMNNAME_MonthlySalary_ID, Integer.valueOf(MonthlySalary_ID));
+	}
+
+	/** Get Monthly Salary (Concept).
+		@return Reference to concept used for monthly salary
+	  */
+	public int getMonthlySalary_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_MonthlySalary_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

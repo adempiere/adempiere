@@ -2,237 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6ea42611-0cd8-47e7-b2d3-d009fb0e3735" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/JasperReportsTools/lib/jasperreports-6.3.1.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/JasperReportsTools/lib/jasperreports-fonts-6.3.1.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/data/seed/ExpDat20161104_140833_up_to_xml_00436_5440_#1443_ColumnLinkProcess.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tools/lib/commons-codec-1.10.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tools/lib/commons-logging-1.2.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tools/lib/ooxml-schemas-1.3.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tools/lib/poi-3.14-20160307.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tools/lib/poi-ooxml-3.14-20160307.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tools/lib/xmlbeans-2.6.0.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/base/src/org/adempiere/model/IDocumentStatus.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/base/src/org/adempiere/model/MDocumentStatus.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/base/src/org/adempiere/util/DateUtil.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/I_AD_InfoProcess.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/I_AD_InfoWindow_Access.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/I_AD_RecentItem.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/I_AD_Tree_Favorite.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/I_AD_Tree_Favorite_Node.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/I_U_PA_DocumentStatus.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/MDocumentStatus.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/MInfoProcess.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/MInfoWindowAccess.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/MRecentItem.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/MTreeFavorite.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/MTreeFavoriteNode.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/X_AD_InfoProcess.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/X_AD_InfoWindow_Access.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/X_AD_RecentItem.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/X_AD_Tree_Favorite.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/X_AD_Tree_Favorite_Node.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/X_U_PA_DocumentStatus.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/base/src/org/compiere/print/util/SerializableMatrix.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/base/src/org/compiere/print/util/SerializableMatrixImpl.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/base/src/org/compiere/print/util/SwapFile.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/base/src/org/compiere/print/util/SwapFileSegment.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/base/src/org/compiere/util/ImpExpUtil.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/client/src/org/compiere/apps/form/TrialBalanceDrill.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/client/src/org/compiere/minigrid/EmbedWinInfo.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/db/ddlutils/oracle/views/AD_FIELD_V.sql" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/migration/380lts-release/00065__00_884_946_RecentItemsInDashboard.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/migration/380lts-release/01120_930_FixCorrectReferences.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/migration/380lts-release/01130_922_936_IsAllowCopyColumn.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/migration/380lts-release/01140_883_940_EnableWorkflowProcessClient.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/migration/380lts-release/01150_922_943_IsAllowCopyColumn.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/migration/380lts-release/01170_885_948_SYSCONFIG_ZK_report_output_type.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/migration/380lts-release/01190-886_950_AD_SYSTEM_GoogleMap.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/migration/380lts-release/01200_887_951_SysConfigReversalInvoiceDocNo.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/migration/380lts-release/01220_888_953_IsDescPrintFormatItem.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/migration/380lts-release/01230_889_955_AmbidexterGLRec.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/migration/380lts-release/01250_890_1340_BarcodeTextPrint.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/migration/380lts-release/01260_891_1360_PrintFormatIsPrintParameters.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/migration/380lts-release/01280_892_1590_PrintItemDisplayLogic.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/migration/380lts-release/01290_893_1610_FinReportHeaderPrintFormat.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/migration/380lts-release/01300_893_1630_FinancailReportPrintFormat.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/migration/380lts-release/01310_894_3050_AddRelativePeriodToColumnInPAReportColumn.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/migration/380lts-release/01320_896_1640_FinancialReportChangesForHeader.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/migration/380lts-release/01330_897_3060_UserList1AndUserList2InCombination.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/migration/380lts-release/01340_898_3090_DefaultPeriodForFinancialReport.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/migration/380lts-release/01350_899_4600_ReportSourceOnColumn.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/migration/380lts-release/01360_900_4860_FinReportLines.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/migration/380lts-release/01380_901_5410_AddBlankLineToReportLineTypes.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/migration/380lts-release/01390_902_5460_FixFinReportColumns.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/migration/380lts-release/01400_903_5850_ShowOppositeSign.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/migration/380lts-release/01420_904_5870_SetFinReportColumnFormat.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/migration/380lts-release/01430_905_SysConfigReportDisplayYesNo.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/migration/380lts-release/01440_906_5440_ColumnLinkProcess.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/migration/380lts-release/01441_907_1880_PrintFormatOnDialog.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/migration/380lts-release/01442_908_3960_AddReportingButtonToBP.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/migration/380lts-release/01443_909_3960_BPTrialBalance.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/migration/380lts-release/01454_913_1890_TrialBalanceDrillableReportForm.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/migration/380lts-release/01455_910_4130_DocumentStatusIndicators.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/migration/380lts-release/01456_910_4670_AddDocumentStatusGW.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/migration/380lts-release/01457_911_3060_UserFavoriteTree.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/migration/380lts-release/01458_911_5920_IsUserFavoritePanel.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/migration/380lts-release/01459_912_ChangeFontInPrintFormat.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/migration/380lts-release/01730_UpdateRVTransaction.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/migration/380lts-release/02240_230_Message_ChangeRole.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/apps/DesktopRunnable.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/apps/form/WTrialBalance.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/apps/graph/WDocumentStatusIndicator.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/apps/graph/WDocumentStatusPanel.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/component/ADTreeFavoriteOnDropListener.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/component/SimpleFavoriteTreeModel.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/dashboard/DPDocumentStatus.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/dashboard/DPRecentItems.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/dashboard/DPUserFavorites.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/info/InfoWindow.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/zul/docstatus.zul" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/zul/recentItems.zul" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/zul/userfavorites.zul" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tools/lib/commons-codec.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tools/lib/commons-logging.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tools/lib/poi-3.9-20121203.jar" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/migration/380lts-release/00065__00_806_FixSequenceId.xml" afterPath="$PROJECT_DIR$/migration/380lts-release/00065__01_806_FixSequenceId.xml" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/migration/380lts-release/00065__01_867_FixIsPrintPickListElement.xml" afterPath="$PROJECT_DIR$/migration/380lts-release/00065__02_867_FixIsPrintPickListElement.xml" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/migration/380lts-release/00065__02_879_FixBadADDefinitionForFixedAsset.xml" afterPath="$PROJECT_DIR$/migration/380lts-release/00065__03_879_FixBadADDefinitionForFixedAsset.xml" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/migration/380lts-release/00065__03_878_EntityTypeIncorrectNameColumn.xml" afterPath="$PROJECT_DIR$/migration/380lts-release/00065__04_878_EntityTypeIncorrectNameColumn.xml" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/migration/380lts-release/00065__04_806_FixImportFormat.xml" afterPath="$PROJECT_DIR$/migration/380lts-release/00065__05_806_FixImportFormat.xml" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/migration/380lts-release/00065__05_871_FixCreateByProductElement.xml" afterPath="$PROJECT_DIR$/migration/380lts-release/00065__06_871_FixCreateByProductElement.xml" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/migration/380lts-release/00065__06_865_FixHistoryYearsElement.xml" afterPath="$PROJECT_DIR$/migration/380lts-release/00065__07_865_FixHistoryYearsElement.xml" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/migration/380lts-release/00065__07_864_FixLogoElement.xml" afterPath="$PROJECT_DIR$/migration/380lts-release/00065__08_864_FixLogoElement.xml" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/migration/380lts-release/00065__08_863_FixIsCreateSupplyElement.xml" afterPath="$PROJECT_DIR$/migration/380lts-release/00065__09_863_FixIsCreateSupplyElement.xml" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/migration/380lts-release/00065__09_862_FixIsIncludeNotAvailableElement.xml" afterPath="$PROJECT_DIR$/migration/380lts-release/00065__10_862_FixIsIncludeNotAvailableElement.xml" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/migration/380lts-release/00065__10_859_FixIsExcludeKanbanElement.xml" afterPath="$PROJECT_DIR$/migration/380lts-release/00065__11_859_FixIsExcludeKanbanElement.xml" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/migration/380lts-release/00065__11_861_DeleteShipDateElement.xml" afterPath="$PROJECT_DIR$/migration/380lts-release/00065__12_861_DeleteShipDateElement.xml" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/migration/380lts-release/00065__12_860_CreateOpportunityElement.xml" afterPath="$PROJECT_DIR$/migration/380lts-release/00065__13_860_CreateOpportunityElement.xml" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/migration/380lts-release/00065__13_RecreateElement.xml" afterPath="$PROJECT_DIR$/migration/380lts-release/00065__14_RecreateElement.xml" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/migration/380lts-release/01480_700_MoveDepreciationMethodFromGardenWorldToSystem.xml" afterPath="$PROJECT_DIR$/migration/380lts-release/01444_700_MoveDepreciationMethodFromGardenWorldToSystem.xml" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/migration/380lts-release/01490_584_FixQtyTheGenerateOutboundOrderFromSalesOrder.xml" afterPath="$PROJECT_DIR$/migration/380lts-release/01445_584_FixQtyTheGenerateOutboundOrderFromSalesOrder.xml" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/migration/380lts-release/01500_701_AddSupportAttributeforPayroll.xml" afterPath="$PROJECT_DIR$/migration/380lts-release/01446_701_AddSupportAttributeforPayroll.xml" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/migration/380lts-release/01510_702_AddTabPayrollRuleForPayrollConcept.xml" afterPath="$PROJECT_DIR$/migration/380lts-release/01447_702_AddTabPayrollRuleForPayrollConcept.xml" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/migration/380lts-release/01520_703_AddTheMovementHRProcess.xml" afterPath="$PROJECT_DIR$/migration/380lts-release/01448_703_AddTheMovementHRProcess.xml" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/migration/380lts-release/01530_704_AddSmartBrowserToCreatePayrollConcept.xml" afterPath="$PROJECT_DIR$/migration/380lts-release/01449_704_AddSmartBrowserToCreatePayrollConcept.xml" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/migration/380lts-release/01540_705_IncreaseScriptSizeToAD_Rule.xml" afterPath="$PROJECT_DIR$/migration/380lts-release/01450_705_IncreaseScriptSizeToAD_Rule.xml" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/migration/380lts-release/01550_706_ChangeWindowZoomForHR_Employee_ID.xml" afterPath="$PROJECT_DIR$/migration/380lts-release/01451_706_ChangeWindowZoomForHR_Employee_ID.xml" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/migration/380lts-release/01560_708_EnableZoomforPayrollConceptAndEmployeeAttribute.xml" afterPath="$PROJECT_DIR$/migration/380lts-release/01452_708_EnableZoomforPayrollConceptAndEmployeeAttribute.xml" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/migration/380lts-release/01570_714_TabDetailAccountEmployeeDetail.xml" afterPath="$PROJECT_DIR$/migration/380lts-release/01453_714_TabDetailAccountEmployeeDetail.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.classpath" afterPath="$PROJECT_DIR$/.classpath" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/ADInterface-1.0.war" afterPath="$PROJECT_DIR$/lib/ADInterface-1.0.war" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/mysql-connector-java-5.1.13-bin.jar" afterPath="$PROJECT_DIR$/lib/mysql-connector-java-5.1.13-bin.jar" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/packages/FixedAsset.jar" afterPath="$PROJECT_DIR$/packages/FixedAsset.jar" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/packages/liberoCashflow.jar" afterPath="$PROJECT_DIR$/packages/liberoCashflow.jar" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/packages/liberoFreight.jar" afterPath="$PROJECT_DIR$/packages/liberoFreight.jar" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/packages/liberoHR.jar" afterPath="$PROJECT_DIR$/packages/liberoHR.jar" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/packages/liberoMFG.jar" afterPath="$PROJECT_DIR$/packages/liberoMFG.jar" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/packages/liberoWM.jar" afterPath="$PROJECT_DIR$/packages/liberoWM.jar" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkpackages/liberozkFreight.jar" afterPath="$PROJECT_DIR$/zkpackages/liberozkFreight.jar" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkpackages/liberozkHR.jar" afterPath="$PROJECT_DIR$/zkpackages/liberozkHR.jar" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkpackages/liberozkMFG.jar" afterPath="$PROJECT_DIR$/zkpackages/liberozkMFG.jar" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.settings/org.eclipse.wst.common.component" afterPath="$PROJECT_DIR$/.settings/org.eclipse.wst.common.component" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/JasperReports/build.xml" afterPath="$PROJECT_DIR$/JasperReports/build.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/JasperReports/src/org/compiere/report/JasperReportViewer.java" afterPath="$PROJECT_DIR$/JasperReports/src/org/compiere/report/JasperReportViewer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/JasperReports/src/org/compiere/report/ReportStarter.java" afterPath="$PROJECT_DIR$/JasperReports/src/org/compiere/report/ReportStarter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/JasperReportsTools/.classpath" afterPath="$PROJECT_DIR$/JasperReportsTools/.classpath" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/adempiere.iml" afterPath="$PROJECT_DIR$/adempiere.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/.classpath" afterPath="$PROJECT_DIR$/base/.classpath" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/build.xml" afterPath="$PROJECT_DIR$/base/build.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/adempiere/excel/SmjXlsReport.java" afterPath="$PROJECT_DIR$/base/src/org/adempiere/excel/SmjXlsReport.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/adempiere/impexp/AbstractExcelExporter.java" afterPath="$PROJECT_DIR$/base/src/org/adempiere/impexp/AbstractExcelExporter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/adempiere/impexp/ArrayExcelExporter.java" afterPath="$PROJECT_DIR$/base/src/org/adempiere/impexp/ArrayExcelExporter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/adempiere/impexp/GridTabExcelExporter.java" afterPath="$PROJECT_DIR$/base/src/org/adempiere/impexp/GridTabExcelExporter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/adempiere/print/export/PrintDataExcelExporter.java" afterPath="$PROJECT_DIR$/base/src/org/adempiere/print/export/PrintDataExcelExporter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/apps/ProcessController.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/apps/ProcessController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/minigrid/ColumnInfo.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/minigrid/ColumnInfo.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/model/GridField.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/GridField.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/model/GridFieldVO.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/GridFieldVO.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/model/GridTab.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/GridTab.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/model/GridTable.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/GridTable.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/model/I_AD_InfoColumn.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/I_AD_InfoColumn.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/model/I_AD_InfoWindow.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/I_AD_InfoWindow.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/model/I_AD_PrintFormat.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/I_AD_PrintFormat.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/model/I_AD_PrintFormatItem.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/I_AD_PrintFormatItem.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/model/I_AD_Role.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/I_AD_Role.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/model/I_PA_ReportLine.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/I_PA_ReportLine.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/model/MInfoColumn.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/MInfoColumn.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/model/MInfoWindow.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/MInfoWindow.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/model/MLookupInfo.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/MLookupInfo.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/model/MProduction.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/MProduction.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/model/MQuery.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/MQuery.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/model/MRole.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/MRole.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/model/MTreeNode.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/MTreeNode.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/model/PO_Record.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/PO_Record.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/model/PrintInfo.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/PrintInfo.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/model/X_AD_InfoColumn.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/X_AD_InfoColumn.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/model/X_AD_InfoWindow.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/X_AD_InfoWindow.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/model/X_AD_PrintFormat.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/X_AD_PrintFormat.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/model/X_AD_PrintFormatItem.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/X_AD_PrintFormatItem.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/model/X_AD_Role.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/X_AD_Role.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/model/X_PA_ReportLine.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/X_PA_ReportLine.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/print/DataEngine.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/print/DataEngine.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/print/IHTMLExtension.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/print/IHTMLExtension.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/print/MPrintFormat.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/print/MPrintFormat.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/print/MPrintFormatItem.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/print/MPrintFormatItem.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/print/MPrintPaper.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/print/MPrintPaper.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/print/PrintData.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/print/PrintData.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/print/PrintDataElement.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/print/PrintDataElement.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/print/ReportEngine.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/print/ReportEngine.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/print/layout/BarcodeElement.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/print/layout/BarcodeElement.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/print/layout/BoxElement.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/print/layout/BoxElement.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/print/layout/Dimension2DImpl.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/print/layout/Dimension2DImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/print/layout/HTMLRenderer.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/print/layout/HTMLRenderer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/print/layout/LayoutEngine.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/print/layout/LayoutEngine.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/print/layout/PrintElement.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/print/layout/PrintElement.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/print/layout/TableElement.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/print/layout/TableElement.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/process/ProcessInfo.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/process/ProcessInfo.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/report/FinReport.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/report/FinReport.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/report/MReportColumn.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/report/MReportColumn.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/report/MReportLine.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/report/MReportLine.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/report/MReportSource.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/report/MReportSource.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/report/TrialBalance.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/report/TrialBalance.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/report/core/RModelExcelExporter.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/report/core/RModelExcelExporter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/util/ContextProvider.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/util/ContextProvider.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/util/DB.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/util/DB.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/util/DefaultContextProvider.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/util/DefaultContextProvider.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/util/Env.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/util/Env.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/src/org/compiere/print/ReportCtl.java" afterPath="$PROJECT_DIR$/client/src/org/compiere/print/ReportCtl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/src/org/compiere/print/ReportViewerProvider.java" afterPath="$PROJECT_DIR$/client/src/org/compiere/print/ReportViewerProvider.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/src/org/compiere/print/SwingViewerProvider.java" afterPath="$PROJECT_DIR$/client/src/org/compiere/print/SwingViewerProvider.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/src/org/compiere/print/Viewer.java" afterPath="$PROJECT_DIR$/client/src/org/compiere/print/Viewer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/ddlutils/oracle/views/AD_FIELD_VT.sql" afterPath="$PROJECT_DIR$/db/ddlutils/oracle/views/AD_FIELD_VT.sql" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/ddlutils/postgresql/views/AD_FIELD_V.sql" afterPath="$PROJECT_DIR$/db/ddlutils/postgresql/views/AD_FIELD_V.sql" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/ddlutils/postgresql/views/AD_FIELD_VT.sql" afterPath="$PROJECT_DIR$/db/ddlutils/postgresql/views/AD_FIELD_VT.sql" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/migration/380lts-release/00131_Process_Param_Create.xml" afterPath="$PROJECT_DIR$/migration/380lts-release/00131_Process_Param_Create.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/migration/380lts-release/00590_4030_#830_MiniMRP_Run.xml" afterPath="$PROJECT_DIR$/migration/380lts-release/00590_4030_#830_MiniMRP_Run.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/migration/380lts-release/01460_695_AddSupportForTheProject.xml" afterPath="$PROJECT_DIR$/migration/380lts-release/01460_695_AddSupportForTheProject.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.adempiere.webservice/WEB-INF/src/net/sf/compilo/report/ReportInfo.java" afterPath="$PROJECT_DIR$/org.adempiere.webservice/WEB-INF/src/net/sf/compilo/report/ReportInfo.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tools/.classpath" afterPath="$PROJECT_DIR$/tools/.classpath" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tools/build.xml" afterPath="$PROJECT_DIR$/tools/build.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/AdempiereIdGenerator.java" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/AdempiereIdGenerator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/AdempiereWebUI.java" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/AdempiereWebUI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/IWebClient.java" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/IWebClient.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/WLogin.java" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/WLogin.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/ZkContextProvider.java" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/ZkContextProvider.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/apps/AEnv.java" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/apps/AEnv.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/apps/ProcessPanel.java" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/apps/ProcessPanel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/component/ConfirmPanel.java" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/component/ConfirmPanel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/component/ListModelTable.java" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/component/ListModelTable.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/component/WListItemRenderer.java" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/component/WListItemRenderer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/desktop/IDesktop.java" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/desktop/IDesktop.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/desktop/TabbedDesktop.java" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/desktop/TabbedDesktop.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/editor/WEditor.java" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/editor/WEditor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/editor/WSearchEditor.java" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/editor/WSearchEditor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/AbstractADWindowPanel.java" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/AbstractADWindowPanel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/InfoBPartnerPanel.java" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/InfoBPartnerPanel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/InfoInOutPanel.java" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/InfoInOutPanel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/InfoInvoicePanel.java" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/InfoInvoicePanel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/InfoOrderPanel.java" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/InfoOrderPanel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/InfoPanel.java" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/InfoPanel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/InfoPaymentPanel.java" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/InfoPaymentPanel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/InfoProductPanel.java" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/InfoProductPanel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/RolePanel.java" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/RolePanel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/TreeSearchPanel.java" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/TreeSearchPanel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/UserPanel.java" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/UserPanel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/report/HTMLExtension.java" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/report/HTMLExtension.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/session/SessionManager.java" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/session/SessionManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/theme/ThemeManager.java" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/theme/ThemeManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/window/LoginWindow.java" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/window/LoginWindow.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/window/WTextEditorDialog.java" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/window/WTextEditorDialog.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/window/ZkReportViewer.java" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/window/ZkReportViewer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/window/ZkReportViewerProvider.java" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/window/ZkReportViewerProvider.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/css/report.css" afterPath="$PROJECT_DIR$/zkwebui/css/report.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/theme/default/css/theme.css.dsp" afterPath="$PROJECT_DIR$/zkwebui/theme/default/css/theme.css.dsp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/adempiere/util/GenerateModel.java" afterPath="$PROJECT_DIR$/base/src/org/adempiere/util/GenerateModel.java" />
     </list>
     <ignored path="extension_apparel_management.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -286,98 +68,168 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="DataEngine.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/base/src/org/compiere/print/DataEngine.java">
+      <file leaf-file-name="Doc_GLJournal.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/base/src/org/compiere/acct/Doc_GLJournal.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="177">
-              <caret line="941" column="0" lean-forward="true" selection-start-line="941" selection-start-column="0" selection-end-line="941" selection-end-column="0" />
+            <state relative-caret-position="1695">
+              <caret line="137" column="0" lean-forward="false" selection-start-line="137" selection-start-column="0" selection-end-line="137" selection-end-column="0" />
               <folding>
-                <element signature="e#3965#3966#0" expanded="true" />
-                <element signature="e#3992#3993#0" expanded="true" />
-                <element signature="e#8539#8556#0" expanded="true" />
-                <element signature="e#8760#8768#0" expanded="true" />
-                <element signature="e#9215#9223#0" expanded="true" />
+                <element signature="n#!!doc" expanded="false" />
+                <element signature="imports" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="GridTable.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/GridTable.java">
+      <file leaf-file-name="Doc.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/base/src/org/compiere/acct/Doc.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="345">
-              <caret line="74" column="0" lean-forward="false" selection-start-line="74" selection-start-column="0" selection-end-line="74" selection-end-column="0" />
+            <state relative-caret-position="7215">
+              <caret line="542" column="0" lean-forward="false" selection-start-line="542" selection-start-column="0" selection-end-line="542" selection-end-column="0" />
               <folding>
-                <element signature="e#6997#7007#0" expanded="true" />
-                <element signature="e#7072#7079#0" expanded="true" />
-                <element signature="e#7156#7175#0" expanded="true" />
-                <element signature="e#7483#7494#0" expanded="true" />
-                <element signature="e#7560#7568#0" expanded="true" />
-                <element signature="e#7632#7640#0" expanded="true" />
-                <element signature="e#9674#9675#0" expanded="true" />
-                <element signature="e#9699#9700#0" expanded="true" />
-                <element signature="e#10518#10519#0" expanded="true" />
-                <element signature="e#10545#10546#0" expanded="true" />
-                <element signature="e#10686#10687#0" expanded="true" />
-                <element signature="e#10718#10719#0" expanded="true" />
-                <element signature="e#11114#11115#0" expanded="true" />
-                <element signature="e#11141#11142#0" expanded="true" />
-                <element signature="e#20532#20533#0" expanded="true" />
-                <element signature="e#20552#20553#0" expanded="true" />
-                <element signature="e#22742#22743#0" expanded="true" />
-                <element signature="e#22771#22772#0" expanded="true" />
-                <element signature="e#22888#22889#0" expanded="true" />
-                <element signature="e#22917#22918#0" expanded="true" />
-                <element signature="e#23048#23049#0" expanded="true" />
-                <element signature="e#23072#23073#0" expanded="true" />
-                <element signature="e#23237#23238#0" expanded="true" />
-                <element signature="e#23287#23288#0" expanded="true" />
-                <element signature="e#24081#24111#0" expanded="true" />
-                <element signature="e#27968#27969#0" expanded="true" />
-                <element signature="e#28005#28006#0" expanded="true" />
-                <element signature="e#29250#29268#0" expanded="true" />
-                <element signature="e#30432#30441#0" expanded="true" />
-                <element signature="e#31429#31430#0" expanded="true" />
-                <element signature="e#31471#31472#0" expanded="true" />
-                <element signature="e#34072#34073#0" expanded="true" />
-                <element signature="e#34124#34125#0" expanded="true" />
-                <element signature="e#34293#34294#0" expanded="true" />
-                <element signature="e#34336#34337#0" expanded="true" />
-                <element signature="e#34571#34572#0" expanded="true" />
-                <element signature="e#34608#34609#0" expanded="true" />
-                <element signature="e#64102#64110#0" expanded="true" />
-                <element signature="e#64173#64181#0" expanded="true" />
-                <element signature="e#66886#66887#0" expanded="true" />
-                <element signature="e#66909#66910#0" expanded="true" />
-                <element signature="e#74811#74812#0" expanded="true" />
-                <element signature="e#74840#74841#0" expanded="true" />
-                <element signature="e#76232#76233#0" expanded="true" />
-                <element signature="e#76263#76264#0" expanded="true" />
-                <element signature="e#81017#81018#0" expanded="true" />
-                <element signature="e#81041#81042#0" expanded="true" />
-                <element signature="e#81151#81152#0" expanded="true" />
-                <element signature="e#81176#81177#0" expanded="true" />
-                <element signature="e#81500#81501#0" expanded="true" />
-                <element signature="e#81530#81531#0" expanded="true" />
-                <element signature="e#81720#81721#0" expanded="true" />
-                <element signature="e#81745#81746#0" expanded="true" />
-                <element signature="e#88458#88459#0" expanded="true" />
-                <element signature="e#88480#88481#0" expanded="true" />
+                <element signature="n#!!doc" expanded="false" />
+                <element signature="imports" expanded="false" />
+                <element signature="e#16341#16342#0" expanded="false" />
+                <element signature="e#16363#16364#0" expanded="false" />
+                <element signature="e#16506#16507#0" expanded="false" />
+                <element signature="e#16525#16526#0" expanded="false" />
+                <element signature="e#16623#16624#0" expanded="false" />
+                <element signature="e#16657#16658#0" expanded="false" />
+                <element signature="e#16755#16756#0" expanded="false" />
+                <element signature="e#16788#16789#0" expanded="false" />
+                <element signature="e#16880#16881#0" expanded="false" />
+                <element signature="e#16907#16908#0" expanded="false" />
+                <element signature="e#16996#16997#0" expanded="false" />
+                <element signature="e#17014#17015#0" expanded="false" />
+                <element signature="e#26696#26697#0" expanded="false" />
+                <element signature="e#26719#26720#0" expanded="false" />
+                <element signature="e#34840#34841#0" expanded="false" />
+                <element signature="e#34866#34867#0" expanded="false" />
+                <element signature="e#34976#34977#0" expanded="false" />
+                <element signature="e#34994#34995#0" expanded="false" />
+                <element signature="e#47292#47293#0" expanded="false" />
+                <element signature="e#47321#47322#0" expanded="false" />
+                <element signature="e#47423#47424#0" expanded="false" />
+                <element signature="e#47459#47460#0" expanded="false" />
+                <element signature="e#47555#47556#0" expanded="false" />
+                <element signature="e#47588#47589#0" expanded="false" />
+                <element signature="e#48904#48905#0" expanded="false" />
+                <element signature="e#48942#48943#0" expanded="false" />
+                <element signature="e#49049#49050#0" expanded="false" />
+                <element signature="e#49078#49079#0" expanded="false" />
+                <element signature="e#49209#49210#0" expanded="false" />
+                <element signature="e#49236#49237#0" expanded="false" />
+                <element signature="e#49347#49348#0" expanded="false" />
+                <element signature="e#49374#49375#0" expanded="false" />
+                <element signature="e#49497#49498#0" expanded="false" />
+                <element signature="e#49522#49523#0" expanded="false" />
+                <element signature="e#49962#49963#0" expanded="false" />
+                <element signature="e#49992#49993#0" expanded="false" />
+                <element signature="e#50795#50796#0" expanded="false" />
+                <element signature="e#50817#50818#0" expanded="false" />
+                <element signature="e#51373#51374#0" expanded="false" />
+                <element signature="e#51394#51395#0" expanded="false" />
+                <element signature="e#54560#54561#0" expanded="false" />
+                <element signature="e#54598#54599#0" expanded="false" />
+                <element signature="e#55458#55459#0" expanded="false" />
+                <element signature="e#55496#55497#0" expanded="false" />
+                <element signature="e#59041#59042#0" expanded="false" />
+                <element signature="e#59069#59070#0" expanded="false" />
+                <element signature="e#59205#59206#0" expanded="false" />
+                <element signature="e#59241#59242#0" expanded="false" />
+                <element signature="e#59341#59342#0" expanded="false" />
+                <element signature="e#59367#59368#0" expanded="false" />
+                <element signature="e#59490#59491#0" expanded="false" />
+                <element signature="e#59522#59523#0" expanded="false" />
+                <element signature="e#61690#61691#0" expanded="false" />
+                <element signature="e#61710#61711#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Doc_PPCostCollector.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/org.eevolution.manufacturing/src/main/java/base/org/compiere/acct/Doc_PPCostCollector.java">
+      <file leaf-file-name="HAH Connection" pinned="false" current-in-tab="false">
+        <entry file="db://1cfb4a05-0763-4fd8-9390-0a78f80f9d4d/console#HAH Connection">
+          <provider selected="true" editor-type-id="0.CONSOLE">
+            <state line="59" column="0" selection-start="4265" selection-end="4265" vertical-scroll-proportion="-12.034483" current-schema="" />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ReportEngine.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/base/src/org/compiere/print/ReportEngine.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="205">
-              <caret line="223" column="58" lean-forward="false" selection-start-line="223" selection-start-column="58" selection-end-line="223" selection-end-column="58" />
+            <state relative-caret-position="462">
+              <caret line="1639" column="45" lean-forward="false" selection-start-line="1639" selection-start-column="45" selection-end-line="1639" selection-end-column="45" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="FactLine.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/base/src/org/compiere/acct/FactLine.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="651">
+              <caret line="191" column="44" lean-forward="true" selection-start-line="191" selection-start-column="44" selection-end-line="191" selection-end-column="44" />
               <folding>
-                <marker date="1491433910000" expanded="true" signature="2189:2223" ph="/**...*/" />
-                <marker date="1491433910000" expanded="true" signature="16890:16919" ph="{...}" />
-                <marker date="1491433910000" expanded="true" signature="16982:17481" ph="{...}" />
+                <marker date="1492105586000" expanded="false" signature="14800:14806" ph=" { " />
+                <marker date="1492105586000" expanded="false" signature="14823:14826" ph=" }" />
+                <marker date="1492105586000" expanded="false" signature="18788:18794" ph=" { " />
+                <marker date="1492105586000" expanded="false" signature="18835:18838" ph=" }" />
+                <marker date="1492105586000" expanded="false" signature="19293:19299" ph=" { " />
+                <marker date="1492105586000" expanded="false" signature="19330:19333" ph=" }" />
+                <marker date="1492105586000" expanded="false" signature="21803:21809" ph=" { " />
+                <marker date="1492105586000" expanded="false" signature="21823:21826" ph=" }" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MCPaySelection.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/MCPaySelection.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="450">
+              <caret line="56" column="54" lean-forward="false" selection-start-line="56" selection-start-column="54" selection-end-line="56" selection-end-column="54" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MPaySelection.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/MPaySelection.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-11266">
+              <caret line="48" column="13" lean-forward="false" selection-start-line="48" selection-start-column="13" selection-end-line="48" selection-end-column="13" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MLanguage.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/MLanguage.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="136">
+              <caret line="448" column="0" lean-forward="false" selection-start-line="448" selection-start-column="0" selection-end-line="448" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="01700_InvoiceGenerateFromOrderLine01.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/migration/dist/380lts-release/01700_InvoiceGenerateFromOrderLine01.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="660">
+              <caret line="44" column="21" lean-forward="false" selection-start-line="44" selection-start-column="21" selection-end-line="44" selection-end-column="21" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="01950_844_Fixed_PS_Query.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/install/build/Adempiere/migration/380lts-release/01950_844_Fixed_PS_Query.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="280">
+              <caret line="82" column="87" lean-forward="false" selection-start-line="82" selection-start-column="87" selection-end-line="82" selection-end-column="87" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -392,6 +244,33 @@
       </list>
     </option>
   </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>HR_PaySelectionCheck_ID</find>
+      <find>C_Doc</find>
+      <find>User</find>
+      <find>User1_ID</find>
+      <find>::</find>
+      <find>userelement</find>
+      <find>Combination</find>
+      <find>m_account</find>
+      <find>PostImmediate</find>
+      <find>RV_</find>
+      <find>YYYY-MM-DD</find>
+      <find>82239</find>
+      <find>S</find>
+      <find>SQL</find>
+      <find>SQL=</find>
+      <find>@SQL=</find>
+      <find>SELECT p</find>
+      <find>C_PaySelection</find>
+      <find>delet</find>
+      <find>del</find>
+    </findStrings>
+    <dirStrings>
+      <dir>$PROJECT_DIR$/zkwebui</dir>
+    </dirStrings>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -403,15 +282,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/adempiere/Adempiere/lib/adempiereAll.xml" />
-        <option value="$PROJECT_DIR$/install/build/Adempiere/build.xml" />
-        <option value="$PROJECT_DIR$/adempiere/Adempiere/build.xml" />
-        <option value="$PROJECT_DIR$/target/webapp/WEB-INF/lib/posterita.xml" />
-        <option value="$PROJECT_DIR$/lib/adempiereAll.xml" />
-        <option value="$PROJECT_DIR$/org.eevolution.warehouse/src/main/java/ui/zk/org/eevolution/form/ScanBar.java" />
-        <option value="$PROJECT_DIR$/org.eevolution.warehouse/src/main/java/ui/zk/org/eevolution/form/ExpressReceiptScanBar.java" />
-        <option value="$PROJECT_DIR$/base/src/org/compiere/wf/MWFActivity.java" />
-        <option value="$PROJECT_DIR$/migration/380lts-release/0253_470_ExpressReceipt.xml" />
         <option value="$PROJECT_DIR$/migration/380lts-release/0263_470_ExpressReceiptBarCode.xml" />
         <option value="$PROJECT_DIR$/client/src/org/compiere/apps/wf/WFActivity.java" />
         <option value="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/apps/wf/WFPanel.java" />
@@ -436,7 +306,6 @@
         <option value="$PROJECT_DIR$/base/src/org/compiere/process/SvrProcess.java" />
         <option value="$PROJECT_DIR$/base/src/org/eevolution/process/ProcessingOrderSelection.java" />
         <option value="$PROJECT_DIR$/base/src/org/eevolution/process/ProcessingInvoiceSelection.java" />
-        <option value="$PROJECT_DIR$/base/src/org/adempiere/util/GenerateModel.java" />
         <option value="$PROJECT_DIR$/base/src/org/adempiere/model/ExportModelValidator.java" />
         <option value="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/eevolution/form/WBrowser.java" />
         <option value="$PROJECT_DIR$/client/src/org/eevolution/form/VBrowser.java" />
@@ -454,6 +323,16 @@
         <option value="$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/eevolution/model/MHRProcess.java" />
         <option value="$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/eevolution/process/HRPayrollTemplete.java" />
         <option value="$PROJECT_DIR$/base/src/org/compiere/print/DataEngine.java" />
+        <option value="$PROJECT_DIR$/base/src/org/adempiere/util/GenerateModel.java" />
+        <option value="$PROJECT_DIR$/migration/380lts-release/02250_928_Remove_Unnecessary_HR_Column.xml" />
+        <option value="$PROJECT_DIR$/migration/380lts-release/02260_930_Add_PayrollAccount_Attribute.xml" />
+        <option value="$PROJECT_DIR$/migration/380lts-release/02270_929_Remove_Unnecessary_Columns_HR_Movement.xml" />
+        <option value="$PROJECT_DIR$/migration/380lts-release/02280_M_ProductionLine_ReversalLine_ID.xml" />
+        <option value="$PROJECT_DIR$/base/src/org/compiere/report/FinReport.java" />
+        <option value="$PROJECT_DIR$/base/src/org/compiere/process/DocumentEngine.java" />
+        <option value="[HAH Connection] CONSOLE - HAH Connection" />
+        <option value="$PROJECT_DIR$/base/src/org/compiere/model/MCPaySelection.java" />
+        <option value="$PROJECT_DIR$/base/src/org/compiere/acct/FactLine.java" />
       </list>
     </option>
   </component>
@@ -480,7 +359,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -499,46 +378,14 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="adaxaFinReports" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="adempiereDevelop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="adaxaFinReports" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="migration" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="adempiereDevelop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="adaxaFinReports" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="migration" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="380lts-release" />
+              <option name="myItemId" value="390" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
       <pane id="Scratches" />
-      <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -564,6 +411,10 @@
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder2" value="2" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="1092" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder3" value="3" />
+    <property name="GenerateAntBuildDialog.enableUiFormCompile" value="true" />
+    <property name="GenerateAntBuildDialog.forceTargetJdk" value="true" />
+    <property name="GenerateAntBuildDialog.backupFiles" value="true" />
+    <property name="GenerateAntBuildDialog.outputFileNameProperty" value="adempieredevelop" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -593,7 +444,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.Adempiere">
+  <component name="RunManager" selected="Application.Adempiere Hermosillo">
     <configuration default="false" name="Adempiere" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
         <pattern>
@@ -920,18 +771,39 @@
       <envs />
       <method />
     </configuration>
-    <list size="5">
+    <configuration default="false" name="Adempiere Hermosillo" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="org.compiere.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="MAIN_CLASS_NAME" value="org.compiere.Adempiere" />
+      <option name="VM_PARAMETERS" value="-DPropertyFile=$USER_HOME$/AdempiereHermosillo.properties " />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="adempiere" />
+      <envs />
+      <method />
+    </configuration>
+    <list size="6">
       <item index="0" class="java.lang.String" itemvalue="Application.Adempiere Pastora" />
-      <item index="1" class="java.lang.String" itemvalue="Application.Adempiere" />
-      <item index="2" class="java.lang.String" itemvalue="Application.HRPayrollTemplete" />
-      <item index="3" class="java.lang.String" itemvalue="Application.CreateUUIDforTables" />
-      <item index="4" class="java.lang.String" itemvalue="Application.GenerateModel" />
+      <item index="1" class="java.lang.String" itemvalue="Application.Adempiere Hermosillo" />
+      <item index="2" class="java.lang.String" itemvalue="Application.Adempiere" />
+      <item index="3" class="java.lang.String" itemvalue="Application.HRPayrollTemplete" />
+      <item index="4" class="java.lang.String" itemvalue="Application.CreateUUIDforTables" />
+      <item index="5" class="java.lang.String" itemvalue="Application.GenerateModel" />
     </list>
     <recent_temporary>
       <list size="4">
         <item index="0" class="java.lang.String" itemvalue="Application.Adempiere" />
-        <item index="1" class="java.lang.String" itemvalue="Application.HRPayrollTemplete" />
-        <item index="2" class="java.lang.String" itemvalue="Application.GenerateModel" />
+        <item index="1" class="java.lang.String" itemvalue="Application.GenerateModel" />
+        <item index="2" class="java.lang.String" itemvalue="Application.HRPayrollTemplete" />
         <item index="3" class="java.lang.String" itemvalue="Application.CreateUUIDforTables" />
       </list>
     </recent_temporary>
@@ -1001,27 +873,25 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="22" width="2048" height="1254" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32951543" sideWeight="0.498006" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="DB Browser" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.5044014" sideWeight="0.5224327" order="18" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5044014" sideWeight="0.5224327" order="18" side_tool="false" content_ui="tabs" />
       <window_info id="SBT" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23479562" sideWeight="0.4707792" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="DB Execution Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.41409692" sideWeight="0.5428714" order="12" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.20226936" sideWeight="0.49393415" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.54361236" sideWeight="0.68494517" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24911971" sideWeight="0.6296112" order="13" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.48415494" sideWeight="0.8968096" order="17" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5431338" sideWeight="0.68494517" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3894273" sideWeight="0.6296112" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4845815" sideWeight="0.8968096" order="17" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.31954136" sideWeight="0.5" order="6" side_tool="true" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.41725352" sideWeight="0.4571286" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.27018943" sideWeight="0.5" order="6" side_tool="true" content_ui="combo" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4775673" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.19042872" sideWeight="0.47339448" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19042872" sideWeight="0.47339448" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2878521" sideWeight="0.6560319" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.36355633" sideWeight="0.6560319" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.12063809" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -1032,43 +902,24 @@
       <window_info id="Cabal" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32951146" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32960597" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="JSF" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5044014" sideWeight="0.5224327" order="18" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32985783" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3894273" sideWeight="0.6296112" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="SQL" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="16" side_tool="false" content_ui="tabs" />
       <window_info id="GhcMod" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32919848" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.35992023" sideWeight="0.5" order="6" side_tool="true" content_ui="combo" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32960597" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.12063809" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="DB Execution Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.41409692" sideWeight="0.5428714" order="12" side_tool="true" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.20226936" sideWeight="0.49393415" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="MaxCompute Job Explorer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="SBT Execute" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="14" side_tool="true" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4775673" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19042872" sideWeight="0.47339448" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="MaxCompute Project Explorer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.14084508" sideWeight="0.6560319" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32951543" sideWeight="0.498006" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="SBT Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.43788546" sideWeight="0.86340976" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="DB Browser" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="SBT" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23479562" sideWeight="0.4707792" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Thumbnails" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32922536" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21834497" sideWeight="0.52922076" order="10" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.54361236" sideWeight="0.68494517" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4845815" sideWeight="0.8968096" order="17" side_tool="false" content_ui="tabs" />
       <window_info id="MaxCompute Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.16901408" sideWeight="0.4571286" order="2" side_tool="false" content_ui="tabs" />
@@ -1152,6 +1003,24 @@
       </list>
     </option>
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="RECENTLY_FILTERED_USER_GROUPS">
+                <collection />
+              </option>
+              <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+                <collection />
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="Vcs.Log.UiProperties">
     <option name="RECENTLY_FILTERED_USER_GROUPS">
       <collection />
@@ -1171,12 +1040,6 @@
           <line>1227</line>
           <properties />
           <option name="timeStamp" value="10" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/base/src/org/compiere/model/MMigrationStep.java</url>
-          <line>457</line>
-          <properties />
-          <option name="timeStamp" value="49" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/base/src/org/compiere/db/DB_PostgreSQL.java</url>
@@ -1462,8 +1325,38 @@
           </properties>
           <option name="timeStamp" value="314" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/base/src/org/compiere/acct/Fact.java</url>
+          <line>571</line>
+          <properties />
+          <option name="timeStamp" value="354" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/base/src/org/compiere/acct/Fact.java</url>
+          <line>187</line>
+          <properties />
+          <option name="timeStamp" value="355" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/base/src/org/compiere/acct/Fact.java</url>
+          <line>208</line>
+          <properties />
+          <option name="timeStamp" value="357" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/compiere/acct/Doc_HRProcess.java</url>
+          <line>108</line>
+          <properties />
+          <option name="timeStamp" value="358" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/client/src/org/compiere/apps/APanel.java</url>
+          <line>2569</line>
+          <properties />
+          <option name="timeStamp" value="362" />
+        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="348" />
+      <option name="time" value="368" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="Application">
@@ -1567,259 +1460,6 @@
     <option name="serverIp" value="localhost" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/X_AD_ReplicationRoleAccess.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-576">
-          <caret line="24" column="13" lean-forward="false" selection-start-line="24" selection-start-column="13" selection-end-line="24" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/MReplicationOrgAccess.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="352">
-          <caret line="28" column="0" lean-forward="false" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/adempiere/process/rpl/imp/ModelImporter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-934">
-          <caret line="50" column="13" lean-forward="false" selection-start-line="50" selection-start-column="13" selection-end-line="50" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/MReplicationStrategy.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="278">
-          <caret line="156" column="45" lean-forward="false" selection-start-line="156" selection-start-column="45" selection-end-line="156" selection-end-column="45" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/adempiere/model/ExportModelValidator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-28">
-          <caret line="265" column="11" lean-forward="false" selection-start-line="265" selection-start-column="11" selection-end-line="265" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/eevolution/model/MHRPeriod.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="122">
-          <caret line="13" column="13" lean-forward="false" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/migration/380lts-release/0253_470_ExpressReceipt.xml" />
-    <entry file="file://$PROJECT_DIR$/zkwebui/WEB-INF/src/org/eevolution/form/WBrowser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="9264">
-          <caret line="647" column="80" lean-forward="false" selection-start-line="647" selection-start-column="80" selection-end-line="647" selection-end-column="80" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/org/eevolution/form/VBrowser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="368">
-          <caret line="39" column="51" lean-forward="false" selection-start-line="39" selection-start-column="51" selection-end-line="39" selection-end-column="51" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/org.eevolution.warehouse/src/main/java/base/org/eevolution/model/MWMInOutBoundLine.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="174">
-          <caret line="38" column="35" lean-forward="false" selection-start-line="38" selection-start-column="35" selection-end-line="38" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/org.eevolution.warehouse/src/main/java/base/org/eevolution/process/GenerateShipmentOutBound.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="320">
-          <caret line="48" column="39" lean-forward="false" selection-start-line="48" selection-start-column="39" selection-end-line="48" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/org.eevolution.warehouse/src/main/java/base/org/eevolution/process/ProcessingInvoiceSelection.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="80">
-          <caret line="19" column="42" lean-forward="false" selection-start-line="19" selection-start-column="42" selection-end-line="19" selection-end-column="42" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-            <element signature="imports" expanded="false" />
-            <element signature="e#1939#1940#0" expanded="false" />
-            <element signature="e#1970#1971#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/org.eevolution.warehouse/src/main/java/base/org/eevolution/process/ProcessingInvoiceSelectionAbstract.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="31" column="1" lean-forward="false" selection-start-line="31" selection-start-column="1" selection-end-line="31" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/eevolution/service/ScanBar.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="192">
-          <caret line="28" column="34" lean-forward="false" selection-start-line="28" selection-start-column="34" selection-end-line="28" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/minigrid/IMiniTable.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="64">
-          <caret line="8" column="17" lean-forward="false" selection-start-line="8" selection-start-column="17" selection-end-line="8" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/minigrid/IDColumnEditor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="185">
-          <caret line="42" column="13" lean-forward="false" selection-start-line="42" selection-start-column="13" selection-end-line="42" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/minigrid/IDColumn.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="24" column="13" lean-forward="false" selection-start-line="24" selection-start-column="13" selection-end-line="24" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/org/compiere/minigrid/ROCellEditor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="29" column="19" lean-forward="false" selection-start-line="29" selection-start-column="19" selection-end-line="29" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/org/compiere/minigrid/MiniTable.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="185">
-          <caret line="111" column="13" lean-forward="false" selection-start-line="111" selection-start-column="13" selection-end-line="111" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/org/compiere/minigrid/MiniCellEditor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="224">
-          <caret line="43" column="13" lean-forward="false" selection-start-line="43" selection-start-column="13" selection-end-line="43" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/org/compiere/minigrid/CheckRenderer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="41" column="19" lean-forward="false" selection-start-line="41" selection-start-column="19" selection-end-line="41" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/minigrid/ColumnInfo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="432">
-          <caret line="42" column="51" lean-forward="false" selection-start-line="42" selection-start-column="51" selection-end-line="42" selection-end-column="51" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/org.eevolution.warehouse/src/main/java/ui/zk/org/eevolution/form/WExpressReceiptScanBarUI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
-          <caret line="67" column="37" lean-forward="false" selection-start-line="67" selection-start-column="13" selection-end-line="67" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/zkwebui/WEB-INF/src/org/eevolution/form/WScanBarUI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="7776">
-          <caret line="544" column="27" lean-forward="false" selection-start-line="544" selection-start-column="27" selection-end-line="544" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/org.eevolution.warehouse/src/main/java/base/org/eevolution/service/ExpressReceiptScanBar.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3968">
-          <caret line="304" column="37" lean-forward="false" selection-start-line="304" selection-start-column="28" selection-end-line="304" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/eevolution/model/MHRConcept.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="208">
-          <caret line="36" column="13" lean-forward="false" selection-start-line="36" selection-start-column="13" selection-end-line="36" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/I_M_Product.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="14400">
-          <caret line="917" column="31" lean-forward="false" selection-start-line="917" selection-start-column="31" selection-end-line="917" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/eevolution/model/X_HR_Process.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="278">
-          <caret line="162" column="15" lean-forward="false" selection-start-line="162" selection-start-column="15" selection-end-line="162" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/wf/MWorkflow.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="166">
-          <caret line="750" column="0" lean-forward="false" selection-start-line="750" selection-start-column="0" selection-end-line="750" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/ui/swing/org/eevolution/form/VHRActionNotice.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="230">
-          <caret line="73" column="37" lean-forward="false" selection-start-line="73" selection-start-column="37" selection-end-line="73" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/ui/zk/org/eevolution/form/WHRActionNotice.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
-          <caret line="71" column="37" lean-forward="false" selection-start-line="71" selection-start-column="37" selection-end-line="71" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/packages/liberoHR.jar!/org/eevolution/form/HRPayPrint.class" />
-    <entry file="file://$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/ui/zk/org/eevolution/form/WHRPayPrint.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="48">
-          <caret line="46" column="41" lean-forward="false" selection-start-line="46" selection-start-column="41" selection-end-line="46" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/ui/swing/org/eevolution/form/VHRPayPrint.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2817">
-          <caret line="37" column="41" lean-forward="false" selection-start-line="37" selection-start-column="41" selection-end-line="37" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/process/DocumentEngine.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="163">
-          <caret line="408" column="0" lean-forward="false" selection-start-line="408" selection-start-column="0" selection-end-line="408" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/eevolution/service/HRActionNotice.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="49" column="54" lean-forward="false" selection-start-line="49" selection-start-column="54" selection-end-line="49" selection-end-column="54" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/MLocator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="231">
-          <caret line="83" column="13" lean-forward="false" selection-start-line="83" selection-start-column="13" selection-end-line="83" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/MOrderLine.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
@@ -1909,61 +1549,61 @@
         <state relative-caret-position="345">
           <caret line="74" column="0" lean-forward="false" selection-start-line="74" selection-start-column="0" selection-end-line="74" selection-end-column="0" />
           <folding>
-            <element signature="e#6997#7007#0" expanded="true" />
-            <element signature="e#7072#7079#0" expanded="true" />
-            <element signature="e#7156#7175#0" expanded="true" />
-            <element signature="e#7483#7494#0" expanded="true" />
-            <element signature="e#7560#7568#0" expanded="true" />
-            <element signature="e#7632#7640#0" expanded="true" />
-            <element signature="e#9674#9675#0" expanded="true" />
-            <element signature="e#9699#9700#0" expanded="true" />
-            <element signature="e#10518#10519#0" expanded="true" />
-            <element signature="e#10545#10546#0" expanded="true" />
-            <element signature="e#10686#10687#0" expanded="true" />
-            <element signature="e#10718#10719#0" expanded="true" />
-            <element signature="e#11114#11115#0" expanded="true" />
-            <element signature="e#11141#11142#0" expanded="true" />
-            <element signature="e#20532#20533#0" expanded="true" />
-            <element signature="e#20552#20553#0" expanded="true" />
-            <element signature="e#22742#22743#0" expanded="true" />
-            <element signature="e#22771#22772#0" expanded="true" />
-            <element signature="e#22888#22889#0" expanded="true" />
-            <element signature="e#22917#22918#0" expanded="true" />
-            <element signature="e#23048#23049#0" expanded="true" />
-            <element signature="e#23072#23073#0" expanded="true" />
-            <element signature="e#23237#23238#0" expanded="true" />
-            <element signature="e#23287#23288#0" expanded="true" />
-            <element signature="e#24081#24111#0" expanded="true" />
-            <element signature="e#27968#27969#0" expanded="true" />
-            <element signature="e#28005#28006#0" expanded="true" />
-            <element signature="e#29250#29268#0" expanded="true" />
-            <element signature="e#30432#30441#0" expanded="true" />
-            <element signature="e#31429#31430#0" expanded="true" />
-            <element signature="e#31471#31472#0" expanded="true" />
-            <element signature="e#34072#34073#0" expanded="true" />
-            <element signature="e#34124#34125#0" expanded="true" />
-            <element signature="e#34293#34294#0" expanded="true" />
-            <element signature="e#34336#34337#0" expanded="true" />
-            <element signature="e#34571#34572#0" expanded="true" />
-            <element signature="e#34608#34609#0" expanded="true" />
-            <element signature="e#64102#64110#0" expanded="true" />
-            <element signature="e#64173#64181#0" expanded="true" />
-            <element signature="e#66886#66887#0" expanded="true" />
-            <element signature="e#66909#66910#0" expanded="true" />
-            <element signature="e#74811#74812#0" expanded="true" />
-            <element signature="e#74840#74841#0" expanded="true" />
-            <element signature="e#76232#76233#0" expanded="true" />
-            <element signature="e#76263#76264#0" expanded="true" />
-            <element signature="e#81017#81018#0" expanded="true" />
-            <element signature="e#81041#81042#0" expanded="true" />
-            <element signature="e#81151#81152#0" expanded="true" />
-            <element signature="e#81176#81177#0" expanded="true" />
-            <element signature="e#81500#81501#0" expanded="true" />
-            <element signature="e#81530#81531#0" expanded="true" />
-            <element signature="e#81720#81721#0" expanded="true" />
-            <element signature="e#81745#81746#0" expanded="true" />
-            <element signature="e#88458#88459#0" expanded="true" />
-            <element signature="e#88480#88481#0" expanded="true" />
+            <element signature="e#6997#7007#0" expanded="false" />
+            <element signature="e#7072#7079#0" expanded="false" />
+            <element signature="e#7156#7175#0" expanded="false" />
+            <element signature="e#7483#7494#0" expanded="false" />
+            <element signature="e#7560#7568#0" expanded="false" />
+            <element signature="e#7632#7640#0" expanded="false" />
+            <element signature="e#9674#9675#0" expanded="false" />
+            <element signature="e#9699#9700#0" expanded="false" />
+            <element signature="e#10518#10519#0" expanded="false" />
+            <element signature="e#10545#10546#0" expanded="false" />
+            <element signature="e#10686#10687#0" expanded="false" />
+            <element signature="e#10718#10719#0" expanded="false" />
+            <element signature="e#11114#11115#0" expanded="false" />
+            <element signature="e#11141#11142#0" expanded="false" />
+            <element signature="e#20532#20533#0" expanded="false" />
+            <element signature="e#20552#20553#0" expanded="false" />
+            <element signature="e#22742#22743#0" expanded="false" />
+            <element signature="e#22771#22772#0" expanded="false" />
+            <element signature="e#22888#22889#0" expanded="false" />
+            <element signature="e#22917#22918#0" expanded="false" />
+            <element signature="e#23048#23049#0" expanded="false" />
+            <element signature="e#23072#23073#0" expanded="false" />
+            <element signature="e#23237#23238#0" expanded="false" />
+            <element signature="e#23287#23288#0" expanded="false" />
+            <element signature="e#24081#24111#0" expanded="false" />
+            <element signature="e#27968#27969#0" expanded="false" />
+            <element signature="e#28005#28006#0" expanded="false" />
+            <element signature="e#29250#29268#0" expanded="false" />
+            <element signature="e#30432#30441#0" expanded="false" />
+            <element signature="e#31429#31430#0" expanded="false" />
+            <element signature="e#31471#31472#0" expanded="false" />
+            <element signature="e#34072#34073#0" expanded="false" />
+            <element signature="e#34124#34125#0" expanded="false" />
+            <element signature="e#34293#34294#0" expanded="false" />
+            <element signature="e#34336#34337#0" expanded="false" />
+            <element signature="e#34571#34572#0" expanded="false" />
+            <element signature="e#34608#34609#0" expanded="false" />
+            <element signature="e#64102#64110#0" expanded="false" />
+            <element signature="e#64173#64181#0" expanded="false" />
+            <element signature="e#66886#66887#0" expanded="false" />
+            <element signature="e#66909#66910#0" expanded="false" />
+            <element signature="e#74811#74812#0" expanded="false" />
+            <element signature="e#74840#74841#0" expanded="false" />
+            <element signature="e#76232#76233#0" expanded="false" />
+            <element signature="e#76263#76264#0" expanded="false" />
+            <element signature="e#81017#81018#0" expanded="false" />
+            <element signature="e#81041#81042#0" expanded="false" />
+            <element signature="e#81151#81152#0" expanded="false" />
+            <element signature="e#81176#81177#0" expanded="false" />
+            <element signature="e#81500#81501#0" expanded="false" />
+            <element signature="e#81530#81531#0" expanded="false" />
+            <element signature="e#81720#81721#0" expanded="false" />
+            <element signature="e#81745#81746#0" expanded="false" />
+            <element signature="e#88458#88459#0" expanded="false" />
+            <element signature="e#88480#88481#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1972,12 +1612,495 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="177">
           <caret line="941" column="0" lean-forward="true" selection-start-line="941" selection-start-column="0" selection-end-line="941" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/print/layout/TableElement.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="1274" column="0" lean-forward="false" selection-start-line="1274" selection-start-column="0" selection-end-line="1274" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/MMigrationStep.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6300">
+          <caret line="457" column="0" lean-forward="false" selection-start-line="457" selection-start-column="0" selection-end-line="457" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/base/src/org/adempiere/util/GenerateModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="101" column="35" lean-forward="false" selection-start-line="101" selection-start-column="35" selection-end-line="101" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/migration/380lts-release/02250_928_Remove_Unnecessary_HR_Column.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="21">
+          <caret line="2" column="109" lean-forward="false" selection-start-line="2" selection-start-column="109" selection-end-line="2" selection-end-column="109" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/migration/380lts-release/02260_930_Add_PayrollAccount_Attribute.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="113" lean-forward="false" selection-start-line="2" selection-start-column="113" selection-end-line="2" selection-end-column="113" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/migration/380lts-release/99999_Sync_DB_version.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="10" column="121" lean-forward="false" selection-start-line="10" selection-start-column="121" selection-end-line="10" selection-end-column="121" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/migration/380lts-release/02270_929_Remove_Unnecessary_Columns_HR_Movement.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" column="83" lean-forward="false" selection-start-line="7" selection-start-column="83" selection-end-line="7" selection-end-column="83" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/MProduction.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="297">
+          <caret line="640" column="25" lean-forward="false" selection-start-line="640" selection-start-column="25" selection-end-line="640" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/migration/380lts-release/02280_M_ProductionLine_ReversalLine_ID.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-23">
+          <caret line="2" column="104" lean-forward="false" selection-start-line="2" selection-start-column="104" selection-end-line="2" selection-end-column="104" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/process/ProcessInfo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="380">
+          <caret line="724" column="76" lean-forward="false" selection-start-line="724" selection-start-column="65" selection-end-line="724" selection-end-column="83" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/Adempiere.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="313">
+          <caret line="71" column="34" lean-forward="true" selection-start-line="71" selection-start-column="34" selection-end-line="71" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/org.eevolution.manufacturing/src/main/java/base/org/eevolution/process/MRPApproval.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="293">
+          <caret line="355" column="47" lean-forward="false" selection-start-line="355" selection-start-column="47" selection-end-line="355" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/org.eevolution.manufacturing/src/main/java/base/org/eevolution/process/MRPSchedule.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="295">
+          <caret line="158" column="55" lean-forward="false" selection-start-line="158" selection-start-column="55" selection-end-line="158" selection-end-column="55" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/org.eevolution.manufacturing/src/main/java/base/org/eevolution/model/LiberoValidator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="64">
+          <caret line="82" column="8" lean-forward="true" selection-start-line="82" selection-start-column="8" selection-end-line="82" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/base/src/org/adempiere/model/ExportModelValidator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-3077">
+          <caret line="62" column="13" lean-forward="false" selection-start-line="62" selection-start-column="13" selection-end-line="62" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/report/MReportLine.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1219">
+          <caret line="448" column="18" lean-forward="false" selection-start-line="448" selection-start-column="18" selection-end-line="448" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/report/FinReport.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="324">
+          <caret line="1224" column="65" lean-forward="true" selection-start-line="1224" selection-start-column="65" selection-end-line="1224" selection-end-column="65" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/MAcctSchemaElement.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="196">
+          <caret line="375" column="18" lean-forward="false" selection-start-line="375" selection-start-column="18" selection-end-line="375" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/X_Fact_Acct.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="196">
+          <caret line="1089" column="16" lean-forward="false" selection-start-line="1089" selection-start-column="16" selection-end-line="1089" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/acct/Fact.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-112">
+          <caret line="209" column="0" lean-forward="false" selection-start-line="209" selection-start-column="0" selection-end-line="209" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/compiere/acct/Doc_HRProcess.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-697">
+          <caret line="46" column="15" lean-forward="false" selection-start-line="46" selection-start-column="15" selection-end-line="46" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/src/org/compiere/apps/APanel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="251">
+          <caret line="2570" column="47" lean-forward="false" selection-start-line="2570" selection-start-column="47" selection-end-line="2570" selection-end-column="47" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/acct/DocLine.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15765">
+          <caret line="1158" column="0" lean-forward="false" selection-start-line="1158" selection-start-column="0" selection-end-line="1158" selection-end-column="0" />
           <folding>
-            <element signature="e#3965#3966#0" expanded="true" />
-            <element signature="e#3992#3993#0" expanded="true" />
-            <element signature="e#8539#8556#0" expanded="true" />
-            <element signature="e#8760#8768#0" expanded="true" />
-            <element signature="e#9215#9223#0" expanded="true" />
+            <element signature="n#!!doc" expanded="false" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#6470#6471#0" expanded="false" />
+            <element signature="e#6521#6522#0" expanded="false" />
+            <element signature="e#6658#6659#0" expanded="false" />
+            <element signature="e#6685#6686#0" expanded="false" />
+            <element signature="e#6827#6828#0" expanded="false" />
+            <element signature="e#6854#6855#0" expanded="false" />
+            <element signature="e#6994#6995#0" expanded="false" />
+            <element signature="e#7019#7020#0" expanded="false" />
+            <element signature="e#7157#7158#0" expanded="false" />
+            <element signature="e#7182#7183#0" expanded="false" />
+            <element signature="e#8468#8469#0" expanded="false" />
+            <element signature="e#8495#8496#0" expanded="false" />
+            <element signature="e#8609#8610#0" expanded="false" />
+            <element signature="e#8632#8633#0" expanded="false" />
+            <element signature="e#9273#9274#0" expanded="false" />
+            <element signature="e#9301#9302#0" expanded="false" />
+            <element signature="e#9831#9832#0" expanded="false" />
+            <element signature="e#9857#9858#0" expanded="false" />
+            <element signature="e#10441#10442#0" expanded="false" />
+            <element signature="e#10464#10465#0" expanded="false" />
+            <element signature="e#10574#10575#0" expanded="false" />
+            <element signature="e#10597#10598#0" expanded="false" />
+            <element signature="e#12455#12456#0" expanded="false" />
+            <element signature="e#12489#12490#0" expanded="false" />
+            <element signature="e#12685#12686#0" expanded="false" />
+            <element signature="e#12716#12717#0" expanded="false" />
+            <element signature="e#12808#12809#0" expanded="false" />
+            <element signature="e#12835#12836#0" expanded="false" />
+            <element signature="e#12921#12922#0" expanded="false" />
+            <element signature="e#12954#12955#0" expanded="false" />
+            <element signature="e#15229#15230#0" expanded="false" />
+            <element signature="e#15267#15268#0" expanded="false" />
+            <element signature="e#15395#15396#0" expanded="false" />
+            <element signature="e#15424#15425#0" expanded="false" />
+            <element signature="e#16179#16180#0" expanded="false" />
+            <element signature="e#16207#16208#0" expanded="false" />
+            <element signature="e#16342#16343#0" expanded="false" />
+            <element signature="e#16378#16379#0" expanded="false" />
+            <element signature="e#16509#16510#0" expanded="false" />
+            <element signature="e#16545#16546#0" expanded="false" />
+            <element signature="e#16700#16701#0" expanded="false" />
+            <element signature="e#16736#16737#0" expanded="false" />
+            <element signature="e#16836#16837#0" expanded="false" />
+            <element signature="e#16862#16863#0" expanded="false" />
+            <element signature="e#16985#16986#0" expanded="false" />
+            <element signature="e#17017#17018#0" expanded="false" />
+            <element signature="e#20693#20694#0" expanded="false" />
+            <element signature="e#20712#20713#0" expanded="false" />
+            <element signature="e#22081#22082#0" expanded="false" />
+            <element signature="e#22119#22120#0" expanded="false" />
+            <element signature="e#26940#26941#0" expanded="false" />
+            <element signature="e#26982#26983#0" expanded="false" />
+            <element signature="e#27158#27159#0" expanded="false" />
+            <element signature="e#27189#27190#0" expanded="false" />
+            <element signature="e#28229#28230#0" expanded="false" />
+            <element signature="e#28266#28267#0" expanded="false" />
+            <element signature="e#28295#28296#0" expanded="false" />
+            <element signature="e#28324#28325#0" expanded="false" />
+            <element signature="e#28355#28356#0" expanded="false" />
+            <element signature="e#28382#28383#0" expanded="false" />
+            <element signature="e#28413#28414#0" expanded="false" />
+            <element signature="e#28445#28446#0" expanded="false" />
+            <element signature="e#28478#28479#0" expanded="false" />
+            <element signature="e#28512#28513#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/src/org/compiere/apps/AEnv.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="13245">
+          <caret line="953" column="0" lean-forward="false" selection-start-line="953" selection-start-column="0" selection-end-line="953" selection-end-column="0" />
+          <folding>
+            <element signature="n#!!doc" expanded="false" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#4336#4337#0" expanded="false" />
+            <element signature="e#4378#4379#0" expanded="false" />
+            <element signature="e#21054#21055#0" expanded="false" />
+            <element signature="e#21080#21081#0" expanded="false" />
+            <element signature="e#24328#24329#0" expanded="false" />
+            <element signature="e#24378#24379#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/process/DocumentEngine.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17145">
+          <caret line="1277" column="0" lean-forward="false" selection-start-line="1277" selection-start-column="0" selection-end-line="1277" selection-end-column="0" />
+          <folding>
+            <element signature="n#!!doc" expanded="false" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#3268#3269#0" expanded="false" />
+            <element signature="e#3300#3301#0" expanded="false" />
+            <element signature="e#4004#4005#0" expanded="false" />
+            <element signature="e#4026#4027#0" expanded="false" />
+            <element signature="e#4349#4350#0" expanded="false" />
+            <element signature="e#4394#4395#0" expanded="false" />
+            <element signature="e#4503#4504#0" expanded="false" />
+            <element signature="e#4548#4549#0" expanded="false" />
+            <element signature="e#4668#4669#0" expanded="false" />
+            <element signature="e#4716#4717#0" expanded="false" />
+            <element signature="e#4831#4832#0" expanded="false" />
+            <element signature="e#4877#4878#0" expanded="false" />
+            <element signature="e#5001#5002#0" expanded="false" />
+            <element signature="e#5050#5051#0" expanded="false" />
+            <element signature="e#5419#5420#0" expanded="false" />
+            <element signature="e#5466#5467#0" expanded="false" />
+            <element signature="e#5580#5581#0" expanded="false" />
+            <element signature="e#5626#5627#0" expanded="false" />
+            <element signature="e#5733#5734#0" expanded="false" />
+            <element signature="e#5777#5778#0" expanded="false" />
+            <element signature="e#5882#5883#0" expanded="false" />
+            <element signature="e#5926#5927#0" expanded="false" />
+            <element signature="e#16374#16375#0" expanded="false" />
+            <element signature="e#16401#16402#0" expanded="false" />
+            <element signature="e#18109#18110#0" expanded="false" />
+            <element signature="e#18132#18133#0" expanded="false" />
+            <element signature="e#18269#18270#0" expanded="false" />
+            <element signature="e#18291#18292#0" expanded="false" />
+            <element signature="e#18581#18582#0" expanded="false" />
+            <element signature="e#18634#18635#0" expanded="false" />
+            <element signature="e#18729#18730#0" expanded="false" />
+            <element signature="e#18782#18783#0" expanded="false" />
+            <element signature="e#18880#18881#0" expanded="false" />
+            <element signature="e#18933#18934#0" expanded="false" />
+            <element signature="e#19028#19029#0" expanded="false" />
+            <element signature="e#19081#19082#0" expanded="false" />
+            <element signature="e#19182#19183#0" expanded="false" />
+            <element signature="e#19235#19236#0" expanded="false" />
+            <element signature="e#19347#19348#0" expanded="false" />
+            <element signature="e#19400#19401#0" expanded="false" />
+            <element signature="e#19497#19498#0" expanded="false" />
+            <element signature="e#19550#19551#0" expanded="false" />
+            <element signature="e#19650#19651#0" expanded="false" />
+            <element signature="e#19703#19704#0" expanded="false" />
+            <element signature="e#19796#19797#0" expanded="false" />
+            <element signature="e#19818#19819#0" expanded="false" />
+            <element signature="e#19902#19903#0" expanded="false" />
+            <element signature="e#19955#19956#0" expanded="false" />
+            <element signature="e#21021#21022#0" expanded="false" />
+            <element signature="e#21039#21040#0" expanded="false" />
+            <element signature="e#21126#21127#0" expanded="false" />
+            <element signature="e#21144#21145#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/MClient.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="13275">
+          <caret line="934" column="0" lean-forward="false" selection-start-line="934" selection-start-column="0" selection-end-line="934" selection-end-column="0" />
+          <folding>
+            <element signature="n#!!doc" expanded="false" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#3651#3652#0" expanded="false" />
+            <element signature="e#3700#3701#0" expanded="false" />
+            <element signature="e#5096#5097#0" expanded="false" />
+            <element signature="e#5127#5128#0" expanded="false" />
+            <element signature="e#5284#5285#0" expanded="false" />
+            <element signature="e#5336#5337#0" expanded="false" />
+            <element signature="e#11500#11501#0" expanded="false" />
+            <element signature="e#11534#11535#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/acct/Doc.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="7215">
+          <caret line="542" column="0" lean-forward="false" selection-start-line="542" selection-start-column="0" selection-end-line="542" selection-end-column="0" />
+          <folding>
+            <element signature="n#!!doc" expanded="false" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#16341#16342#0" expanded="false" />
+            <element signature="e#16363#16364#0" expanded="false" />
+            <element signature="e#16506#16507#0" expanded="false" />
+            <element signature="e#16525#16526#0" expanded="false" />
+            <element signature="e#16623#16624#0" expanded="false" />
+            <element signature="e#16657#16658#0" expanded="false" />
+            <element signature="e#16755#16756#0" expanded="false" />
+            <element signature="e#16788#16789#0" expanded="false" />
+            <element signature="e#16880#16881#0" expanded="false" />
+            <element signature="e#16907#16908#0" expanded="false" />
+            <element signature="e#16996#16997#0" expanded="false" />
+            <element signature="e#17014#17015#0" expanded="false" />
+            <element signature="e#26696#26697#0" expanded="false" />
+            <element signature="e#26719#26720#0" expanded="false" />
+            <element signature="e#34840#34841#0" expanded="false" />
+            <element signature="e#34866#34867#0" expanded="false" />
+            <element signature="e#34976#34977#0" expanded="false" />
+            <element signature="e#34994#34995#0" expanded="false" />
+            <element signature="e#47292#47293#0" expanded="false" />
+            <element signature="e#47321#47322#0" expanded="false" />
+            <element signature="e#47423#47424#0" expanded="false" />
+            <element signature="e#47459#47460#0" expanded="false" />
+            <element signature="e#47555#47556#0" expanded="false" />
+            <element signature="e#47588#47589#0" expanded="false" />
+            <element signature="e#48904#48905#0" expanded="false" />
+            <element signature="e#48942#48943#0" expanded="false" />
+            <element signature="e#49049#49050#0" expanded="false" />
+            <element signature="e#49078#49079#0" expanded="false" />
+            <element signature="e#49209#49210#0" expanded="false" />
+            <element signature="e#49236#49237#0" expanded="false" />
+            <element signature="e#49347#49348#0" expanded="false" />
+            <element signature="e#49374#49375#0" expanded="false" />
+            <element signature="e#49497#49498#0" expanded="false" />
+            <element signature="e#49522#49523#0" expanded="false" />
+            <element signature="e#49962#49963#0" expanded="false" />
+            <element signature="e#49992#49993#0" expanded="false" />
+            <element signature="e#50795#50796#0" expanded="false" />
+            <element signature="e#50817#50818#0" expanded="false" />
+            <element signature="e#51373#51374#0" expanded="false" />
+            <element signature="e#51394#51395#0" expanded="false" />
+            <element signature="e#54560#54561#0" expanded="false" />
+            <element signature="e#54598#54599#0" expanded="false" />
+            <element signature="e#55458#55459#0" expanded="false" />
+            <element signature="e#55496#55497#0" expanded="false" />
+            <element signature="e#59041#59042#0" expanded="false" />
+            <element signature="e#59069#59070#0" expanded="false" />
+            <element signature="e#59205#59206#0" expanded="false" />
+            <element signature="e#59241#59242#0" expanded="false" />
+            <element signature="e#59341#59342#0" expanded="false" />
+            <element signature="e#59367#59368#0" expanded="false" />
+            <element signature="e#59490#59491#0" expanded="false" />
+            <element signature="e#59522#59523#0" expanded="false" />
+            <element signature="e#61690#61691#0" expanded="false" />
+            <element signature="e#61710#61711#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/acct/Doc_GLJournal.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1695">
+          <caret line="137" column="0" lean-forward="false" selection-start-line="137" selection-start-column="0" selection-end-line="137" selection-end-column="0" />
+          <folding>
+            <element signature="n#!!doc" expanded="false" />
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/base/src/org/eevolution/process/BankTransfer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1469">
+          <caret line="39" column="11" lean-forward="false" selection-start-line="39" selection-start-column="4" selection-end-line="39" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/migration/dist/380lts-release/01700_InvoiceGenerateFromOrderLine01.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="660">
+          <caret line="44" column="21" lean-forward="false" selection-start-line="44" selection-start-column="21" selection-end-line="44" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/install/build/Adempiere/migration/380lts-release/01950_844_Fixed_PS_Query.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="280">
+          <caret line="82" column="87" lean-forward="false" selection-start-line="82" selection-start-column="87" selection-end-line="82" selection-end-column="87" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/MLanguage.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="448" column="0" lean-forward="false" selection-start-line="448" selection-start-column="0" selection-end-line="448" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="db://[HAH Connection] CONSOLE - HAH Connection">
+      <provider selected="true" editor-type-id="0.CONSOLE">
+        <state line="59" column="0" selection-start="4265" selection-end="4265" vertical-scroll-proportion="-12.034483" current-schema="" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/print/ReportEngine.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="462">
+          <caret line="1639" column="45" lean-forward="false" selection-start-line="1639" selection-start-column="45" selection-end-line="1639" selection-end-column="45" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/MCPaySelection.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="450">
+          <caret line="56" column="54" lean-forward="false" selection-start-line="56" selection-start-column="54" selection-end-line="56" selection-end-column="54" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/MPaySelection.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-11266">
+          <caret line="48" column="13" lean-forward="false" selection-start-line="48" selection-start-column="13" selection-end-line="48" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/acct/FactLine.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="651">
+          <caret line="191" column="44" lean-forward="true" selection-start-line="191" selection-start-column="44" selection-end-line="191" selection-end-column="44" />
+          <folding>
+            <marker date="1492105586000" expanded="false" signature="14800:14806" ph=" { " />
+            <marker date="1492105586000" expanded="false" signature="14823:14826" ph=" }" />
+            <marker date="1492105586000" expanded="false" signature="18788:18794" ph=" { " />
+            <marker date="1492105586000" expanded="false" signature="18835:18838" ph=" }" />
+            <marker date="1492105586000" expanded="false" signature="19293:19299" ph=" { " />
+            <marker date="1492105586000" expanded="false" signature="19330:19333" ph=" }" />
+            <marker date="1492105586000" expanded="false" signature="21803:21809" ph=" { " />
+            <marker date="1492105586000" expanded="false" signature="21823:21826" ph=" }" />
           </folding>
         </state>
       </provider>

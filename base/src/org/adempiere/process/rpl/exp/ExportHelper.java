@@ -35,18 +35,21 @@ import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Properties;
+import java.util.logging.Level;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.adempiere.process.rpl.IExportProcessor;
+import org.apache.commons.codec.binary.Base64;
 import org.compiere.model.MClient;
 import org.compiere.model.MColumn;
 import org.compiere.model.MEXPFormat;
 import org.compiere.model.MEXPFormatLine;
 import org.compiere.model.MEXPProcessor;
 import org.compiere.model.MEXPProcessorType;
+import org.compiere.model.MImage;
 import org.compiere.model.MReplicationStrategy;
 import org.compiere.model.MTable;
 import org.compiere.model.PO;
@@ -74,23 +77,23 @@ import org.w3c.dom.Text;
  *
  */
 public class ExportHelper {
-	
-	/**	Logger					*/
+
+	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(ExportHelper.class);
-	
-	/** XML Document 			*/
-	private Document outDocument = null; 
-	
+
+	/** XML Document 		*/
+	private Document outDocument = null;
+
 	/** Custom Date Format		*/
 	private SimpleDateFormat	customDateFormat = null;
-	
+
 	/** Client					*/
 	private int clientId = -1;
-	
+
 	/** Replication Strategy	*/
 	MReplicationStrategy replicationStrategy = null;
-	
-	
+
+
 	public ExportHelper(MClient client, MReplicationStrategy replicationStrategy) {
 		clientId = client.getAD_Client_ID();
 		this.replicationStrategy = replicationStrategy;
@@ -100,11 +103,10 @@ public class ExportHelper {
 	 * Export Helper constructor
 	 * @param ctx
 	 * @param clientId
-     */
+	 */
 	public ExportHelper(Properties ctx , int clientId) {
 		this.clientId = clientId;
 	}
-
 
 	/**
 	 *
@@ -114,24 +116,24 @@ public class ExportHelper {
 	 * @param replicationType
 	 * @param replicationEvent
 	 * @return info
-     * @throws Exception
-     */
-	public String exportRecord (PO po, Integer replicationMode , String replicationType, Integer replicationEvent) throws Exception
+	 * @throws Exception
+	 */
+	public String exportRecord (PO po, Integer replicationMode, String replicationType, Integer replicationEvent) throws Exception
 	{
 		MClient client = MClient.get (po.getCtx(), clientId);
 		log.info("Client = " + client.toString());
-		
+
 		log.info("po.getAD_Org_ID() = " + po.getAD_Org_ID());
-		
+
 		log.info("po.get_TrxName() = " + po.get_TrxName());
 		if (po.get_TrxName() == null || po.get_TrxName().equals("")) {
 			po.set_TrxName("exportRecord");
 		}
-		
+
 		log.info("Table = " + po.get_TableName());
-		
+
 		if (po.get_KeyColumns().length < 1) {
-			throw new Exception(Msg.getMsg (po.getCtx(), "ExportNoneColumnKeyNotSupported"));//TODO: Create Mesagge.
+			throw new Exception(Msg.getMsg (po.getCtx(), "ExportNoneColumnKeyNotSupported")); //TODO: Create Message.
 		}
 		// TODO - get proper Export Format!
 		String version = "3.8.2";
@@ -143,22 +145,23 @@ public class ExportHelper {
 		if (exportFormat == null || exportFormat.getEXP_Format_ID() == 0) {
 			// Fall back to System Client
 			MClient systemClient = MClient.get (po.getCtx(), 0);
-			log.info(systemClient.toString());
+			log.log(Level.ALL, "SYSTEM client = " + systemClient.toString());
 			exportFormat = MEXPFormat.getFormatByAD_Client_IDAD_Table_IDAndVersion(po.getCtx(), 0, po.get_Table_ID(), version, po.get_TrxName());
-			
+
 			if (exportFormat == null || exportFormat.getEXP_Format_ID() == 0) {
-				throw new Exception(Msg.getMsg(po.getCtx(), "EXPFormatNotFound"));	
+				throw new Exception(Msg.getMsg(po.getCtx(), "EXPFormatNotFound"));
 			}
 		}
 
 		outDocument = createNewDocument();
+
 		HashMap<String, Integer> variableMap = new HashMap<String, Integer>();
 
 		Element rootElement = outDocument.createElement(exportFormat.getValue());
 		if (exportFormat.getDescription() != null && !"".equals(exportFormat.getDescription())) 
 		{
 		    rootElement.appendChild(outDocument.createComment(exportFormat.getDescription()));
-		}	
+		}
 		rootElement.setAttribute("AD_Client_Value", client.getValue());
 		rootElement.setAttribute("Version", exportFormat.getVersion());
 		rootElement.setAttribute("ReplicationMode", replicationMode.toString());
@@ -166,22 +169,20 @@ public class ExportHelper {
 		rootElement.setAttribute("ReplicationEvent", replicationEvent.toString());
 		outDocument.appendChild(rootElement);
 		generateExportFormat(rootElement, exportFormat, po, po.get_ID(), variableMap);
-		    		
+
 		MEXPProcessor mExportProcessor = null;
 		mExportProcessor = new MEXPProcessor (po.getCtx(), replicationStrategy.getEXP_Processor_ID(), po.get_TrxName() );
 		log.fine("ExportProcessor = " + mExportProcessor);
 		int EXP_ProcessorType_ID = 0;
 		EXP_ProcessorType_ID = mExportProcessor.getEXP_Processor_Type_ID();
 		MEXPProcessorType expProcessor_Type = new MEXPProcessorType(po.getCtx(), EXP_ProcessorType_ID, po.get_TrxName() );
-		
-        
+
 		String javaClass = expProcessor_Type.getJavaClass();
 		try {
 			Class clazz = Class.forName(javaClass);
 			IExportProcessor exportProcessor = (IExportProcessor)clazz.newInstance();
-			
+
 			exportProcessor.process(po.getCtx(), mExportProcessor, outDocument, Trx.get( po.get_TrxName(), false ));
-			
 		} catch (Exception e) {
 			log.severe(e.toString());
 			throw e;
@@ -191,52 +192,54 @@ public class ExportHelper {
 	}
 
 	/**
-	 * 	 * 	Process - Generate Export Format
+	 * Process - Generate Export Format
 	 * @param exportFormat
 	 * @param where
 	 * @param replicationMode
 	 * @param replicationType
 	 * @param replicationEvent
-	 * @return
-     * @throws Exception
-     */
-	public Document exportRecord (MEXPFormat exportFormat, String where , Integer replicationMode , String replicationType, Integer replicationEvent) throws Exception
+	 *
+	 * @return Document
+	 * @throws Exception
+	 */
+	public Document exportRecord (MEXPFormat exportFormat, String where, Integer replicationMode, String replicationType, Integer replicationEvent) throws Exception
 	{
 		MClient client = MClient.get (exportFormat.getCtx(), clientId);
 		MTable table = MTable.get(exportFormat.getCtx(), exportFormat.getAD_Table_ID());
 		log.info("Table = " + table);
-		
-		Collection<PO> records = new Query(exportFormat.getCtx(),table.getTableName(), exportFormat.getWhereClause(), exportFormat.get_TrxName())
-		.setOnlyActiveRecords(true)
-		.list();
-		
+
+		Collection<PO> records = new Query(exportFormat.getCtx(), table.getTableName(), exportFormat.getWhereClause(), exportFormat.get_TrxName())
+			.setOnlyActiveRecords(true)
+			.list();
+
 		for (PO po : records)
-		{	
-				log.info("Client = " + client.toString());
-				log.finest("po.getAD_Org_ID() = " + po.getAD_Org_ID());
-				log.finest("po.get_TrxName() = " + po.get_TrxName());
-				if (po.get_TrxName() == null || po.get_TrxName().equals("")) {
-					po.set_TrxName("exportRecord");
-				}
-				
-				if (po.get_KeyColumns().length < 1) {
-					throw new Exception(Msg.getMsg (po.getCtx(), "ExportNoneColumnKeyNotSupported"));//TODO: Create Mesagge.
-				}
-				
-				outDocument = createNewDocument();
-				HashMap<String, Integer> variableMap = new HashMap<String, Integer>();		
-				Element rootElement = outDocument.createElement(exportFormat.getValue());
-				if (exportFormat.getDescription() != null && !"".equals(exportFormat.getDescription())) 
-				{
-				    rootElement.appendChild(outDocument.createComment(exportFormat.getDescription()));
-				}
-				rootElement.setAttribute("AD_Client_Value", client.getValue());
-				rootElement.setAttribute("Version", exportFormat.getVersion());
-				rootElement.setAttribute("ReplicationMode", replicationMode.toString());
-				rootElement.setAttribute("ReplicationType", replicationType);
-				rootElement.setAttribute("ReplicationEvent", replicationEvent.toString());
-				outDocument.appendChild(rootElement);
-				generateExportFormat(rootElement, exportFormat, po, po.get_ID(), variableMap);			
+		{
+			log.info("Client = " + client.toString());
+			log.finest("po.getAD_Org_ID() = " + po.getAD_Org_ID());
+			log.finest("po.get_TrxName() = " + po.get_TrxName());
+			if (po.get_TrxName() == null || po.get_TrxName().equals("")) {
+				po.set_TrxName("exportRecord");
+			}
+
+			if (po.get_KeyColumns().length < 1) {
+				throw new Exception(Msg.getMsg (po.getCtx(), "ExportNoneColumnKeyNotSupported"));//TODO: Create Message.
+			}
+
+			outDocument = createNewDocument();
+
+			HashMap<String, Integer> variableMap = new HashMap<String, Integer>();
+			Element rootElement = outDocument.createElement(exportFormat.getValue());
+			if (exportFormat.getDescription() != null && !"".equals(exportFormat.getDescription()))
+			{
+			    rootElement.appendChild(outDocument.createComment(exportFormat.getDescription()));
+			}
+			rootElement.setAttribute("AD_Client_Value", client.getValue());
+			rootElement.setAttribute("Version", exportFormat.getVersion());
+			rootElement.setAttribute("ReplicationMode", replicationMode.toString());
+			rootElement.setAttribute("ReplicationType", replicationType);
+			rootElement.setAttribute("ReplicationEvent", replicationEvent.toString());
+			outDocument.appendChild(rootElement);
+			generateExportFormat(rootElement, exportFormat, po, po.get_ID(), variableMap);
 		}// finish record read
 		return outDocument;
 	}
@@ -253,21 +256,21 @@ public class ExportHelper {
 	 * @param masterID
 	 * @param variableMap
 	 * @throws SQLException
-     * @throws Exception
-     */
+	 * @throws Exception
+	 */
 	private void generateExportFormat(Element rootElement, MEXPFormat exportFormat, PO masterPO, int masterID, HashMap<String, Integer> variableMap) throws SQLException, Exception 
 	{
 		Collection<MEXPFormatLine> formatLines = exportFormat.getFormatLines();
 		@SuppressWarnings("unused")
 		boolean elementHasValue = false;
-		//for (int i = 0; i < formatLines.length; i++) {
+
 		for (MEXPFormatLine formatLine : formatLines)
-		{	
+		{
 			if ( formatLine.getType().equals(X_EXP_FormatLine.TYPE_XMLElement) ) {
 				// process single XML Attribute
 				// Create new element
 				Element newElement = outDocument.createElement(formatLine.getValue());
-				log.info("Format Line Seach key: "+ formatLine.getValue());
+				log.info("Format Line Search key: "+ formatLine.getValue());
 				if (formatLine.getAD_Column_ID() == 0) {
 					throw new Exception(Msg.getMsg (masterPO.getCtx(), "EXPColumnMandatory"));
 				}
@@ -285,7 +288,7 @@ public class ExportHelper {
 				if (value != null) {
 					valueString = value.toString();
 				} else {
-					//  Could remove this exception and create empty XML Element when column do not have value. 
+					//  Could remove this exception and create empty XML Element when column do not have value.
 					if (formatLine.isMandatory()) {
 						//throw new Exception(Msg.getMsg (masterPO.getCtx(), "EXPFieldMandatory"));
 					}
@@ -294,14 +297,13 @@ public class ExportHelper {
 					if (valueString != null) {
 						if (formatLine.getDateFormat() != null && !"".equals(formatLine.getDateFormat())) {
 							customDateFormat = new SimpleDateFormat( formatLine.getDateFormat() ); // "MM/dd/yyyy"
-						
+
 							valueString = customDateFormat.format(Timestamp.valueOf (valueString));
 							newElement.setAttribute("DateFormat", customDateFormat.toPattern()); // Add "DateForamt attribute"
-						} else 
+						} else
 						{
-								newElement.setAttribute("DateFormat", valueString);	
+							newElement.setAttribute("DateFormat", valueString);
 						}
-								
 					}
 				} else if (column.getAD_Reference_ID() == DisplayType.DateTime) {
 					if (valueString != null) {
@@ -310,14 +312,67 @@ public class ExportHelper {
 							valueString = customDateFormat.format(Timestamp.valueOf (valueString));
 							newElement.setAttribute("DateFormat", customDateFormat.toPattern()); // Add "DateForamt attribute"
 						} else {
-							newElement.setAttribute("DateFormat", valueString);	
+							newElement.setAttribute("DateFormat", valueString);
+						}
+					}
+				} else if (column.getAD_Reference_ID() == DisplayType.Image     // TODO - Trifon - Handle Binary and Image data
+					//	|| column.getAD_Reference_ID() == DisplayType.Binary
+				) {
+					if (value != null) {
+						int imageId = ((Integer)value).intValue();
+						// Read AD_Image
+						MImage image = null;
+						image = new MImage(masterPO.getCtx(), imageId, null); //image = MImage.get(masterPO.getCtx(), imageId);
+
+						if (image.getAD_Image_ID() > 0) {
+							elementHasValue = true;
+							newElement.setAttribute("id", String.valueOf( image.getAD_Image_ID() ) );
+
+							Element nameElement = outDocument.createElement( "Name" );
+							Text newText = outDocument.createTextNode( image.getName() );
+							nameElement.appendChild( newText );
+							newElement.appendChild( nameElement );
+
+							if (image.getDescription() != null && image.getDescription().length() > 0) {
+								Element descriptionElement = outDocument.createElement( "Description" );
+								Text newDesc = outDocument.createTextNode( image.getDescription() );
+								descriptionElement.appendChild( newDesc );
+								newElement.appendChild( descriptionElement );
+							}
+
+							if (image.getImageURL() != null && image.getImageURL().length() > 0) {
+								Element imageURLElement = outDocument.createElement( "ImageURL" );
+								Text newImageUrl = outDocument.createTextNode( image.getImageURL() );
+								imageURLElement.appendChild( newImageUrl );
+								newElement.appendChild( imageURLElement );
+							}
+
+							if (image.getBinaryData() != null && image.getBinaryData().length > 0) {
+								Element binaryDataElement = outDocument.createElement( "BinaryData" );
+								byte[] encodedBytes = null;
+								encodedBytes = Base64.encodeBase64( image.getBinaryData() );
+
+								String encodedString = new String( encodedBytes );
+							    //System.out.println("encodedBytes " + valueString);
+
+							    //byte[] decodedBytes = Base64.decodeBase64(encodedBytes);
+							    //System.out.println("decodedBytes " + new String(decodedBytes));
+
+								Text encodedText = outDocument.createTextNode( encodedString );
+								binaryDataElement.appendChild( encodedText );
+								newElement.appendChild( binaryDataElement );
+							}
 						}
 					}
 				}
 				log.info("EXP Field - column=["+column.getColumnName()+"]; value=" + value);
 				if (valueString != null && !"".equals(valueString) && !"null".equals(valueString)) {
-					Text newText = outDocument.createTextNode(valueString);
-					newElement.appendChild(newText);
+					if (column.getAD_Reference_ID() == DisplayType.Image) {
+						// already added
+					} else {
+						Text newText = outDocument.createTextNode(valueString);
+						newElement.appendChild(newText);
+					}
 					rootElement.appendChild(newElement);
 					elementHasValue = true;
 				} else {
@@ -361,7 +416,6 @@ public class ExportHelper {
 						} else {
 							valueString = m_dateFormat.format (Timestamp.valueOf (valueString));
 						}
-								
 					}
 				} else if (column.getAD_Reference_ID() == DisplayType.DateTime) {
 					if (valueString != null) {
@@ -386,7 +440,7 @@ public class ExportHelper {
 			else if ( formatLine.getType().equals(X_EXP_FormatLine.TYPE_EmbeddedEXPFormat) ) 
 			{
 				// process Embedded Export Format
-				
+
 				int embeddedFormat_ID = formatLine.getEXP_EmbeddedFormat_ID();
 				//get from cache
 				MEXPFormat embeddedFormat = MEXPFormat.get(masterPO.getCtx(), embeddedFormat_ID, masterPO.get_TrxName());
@@ -400,27 +454,30 @@ public class ExportHelper {
 				{
 				    whereClause.append(" AND ").append(embeddedFormat.getWhereClause());
 				}
-				Collection<PO> instances = new Query(masterPO.getCtx(),
-					tableEmbedded.getTableName(), whereClause.toString(),
-					masterPO.get_TrxName()).setClient_ID().setParameters(
-					new Object[] { masterID }).list();
+				Collection<PO> instances = new Query(masterPO.getCtx(), tableEmbedded.getTableName(), whereClause.toString(),
+						masterPO.get_TrxName())
+					.setApplyAccessFilter(true) //Adempiere-65 change
+					.setParameters(new Object[] { masterID })
+					.list();
 
-				for (PO instance : instances) 
+				for (PO instance : instances)
 				{		
-        				Element embeddedElement = outDocument.createElement(formatLine.getValue());
-        				if (formatLine.getDescription() != null && !"".equals(formatLine.getDescription())) 
-        				{
-        					embeddedElement.appendChild(outDocument.createComment(formatLine.getDescription()));
-        				}
-        					
-        				generateExportFormat(embeddedElement, embeddedFormat, instance, instance.get_ID(), variableMap);
-        				rootElement.appendChild(embeddedElement);
+    					Element embeddedElement = outDocument.createElement(formatLine.getValue());
+    					if (formatLine.getDescription() != null && !"".equals(formatLine.getDescription())) 
+    					{
+    						embeddedElement.appendChild(outDocument.createComment(formatLine.getDescription()));
+    					}
+
+    				generateExportFormat(embeddedElement, embeddedFormat, instance, instance.get_ID(), variableMap);
+    				rootElement.appendChild(embeddedElement);
 				}
-			} 
+
+
+			}
 			else if ( formatLine.getType().equals(X_EXP_FormatLine.TYPE_ReferencedEXPFormat) ) 
 			{
 				// process Referenced Export Format
-				
+
 				int embeddedFormat_ID = formatLine.getEXP_EmbeddedFormat_ID();
 				//get from cache
 				MEXPFormat embeddedFormat =  MEXPFormat.get(masterPO.getCtx(), embeddedFormat_ID, masterPO.get_TrxName());
@@ -447,33 +504,53 @@ public class ExportHelper {
 
 				Object value = masterPO.get_Value(columnName);
 				if (value == null)
-				{	
+				{
 				    continue;
 				}
 				
-				Collection<PO> instances = new Query(masterPO.getCtx(),tableEmbedded.getTableName(), whereClause.toString(),masterPO.get_TrxName())
-                                				.setClient_ID()
-                                				.setParameters(value)
-                                				.list();
+				Collection<PO> instances = null;
+				if (tableEmbedded.getTableName().equals("C_Country") || tableEmbedded.getTableName().equals("C_UOM")
+//						|| tableEmbedded.getTableName().equals("AD_Client") NOT - lead to duplication!
+//						|| tableEmbedded.getAccessLevel()
+				) {
+					// SYSTEM records
+					instances = new Query(masterPO.getCtx(), tableEmbedded.getTableName(), whereClause.toString(), masterPO.get_TrxName())
+//						.setClient_ID()
+						.setParameters(value)
+						.list();
+					// Tenant specific records
+					Collection<PO> tenantSpecificInstances = new Query(masterPO.getCtx(), tableEmbedded.getTableName(), whereClause.toString(), masterPO.get_TrxName())
+						//.setClient_ID()
+						.setApplyAccessFilter(true) //Adempiere-65 change
+						.setParameters(value)
+						.list();
+
+					instances.addAll( tenantSpecificInstances );
+				} else {
+					instances = new Query(masterPO.getCtx(), tableEmbedded.getTableName(), whereClause.toString(), masterPO.get_TrxName())
+						//.setClient_ID()
+						.setApplyAccessFilter(true) //Adempiere-65 change
+						.setParameters(value)
+						.list();
+				}
 
 				for (PO instance : instances)
 				{		
-        				Element embeddedElement = outDocument.createElement(formatLine.getValue());
-        				if (formatLine.getDescription() != null && !"".equals(formatLine.getDescription())) 
-        				{
-        					embeddedElement.appendChild(outDocument.createComment(formatLine.getDescription()));
-        				}
-        				
-        				generateExportFormat(embeddedElement, embeddedFormat, instance, instance.get_ID(), variableMap);
-        						rootElement.appendChild(embeddedElement);
-				}		
+					Element embeddedElement = outDocument.createElement(formatLine.getValue());
+					if (formatLine.getDescription() != null && !"".equals(formatLine.getDescription())) 
+					{
+						embeddedElement.appendChild(outDocument.createComment(formatLine.getDescription()));
+					}
+
+					generateExportFormat(embeddedElement, embeddedFormat, instance, instance.get_ID(), variableMap);
+					rootElement.appendChild(embeddedElement);
+				}
 
 			}
-			
 			else {
 				throw new Exception(Msg.getMsg (masterPO.getCtx(), "EXPUnknownLineType"));
 			}
-		} 
+		}
 	}
 
 	/**
@@ -498,13 +575,12 @@ public class ExportHelper {
 	 * @return Document
 	 * @throws ParserConfigurationException
 	 */
-	// create new Document
 	Document createNewDocument() throws ParserConfigurationException 
 	{
 		Document result = null;
 		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-		
+
 		result = documentBuilder.newDocument();
 		return result;
 	}
