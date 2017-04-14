@@ -254,7 +254,7 @@ public class WTrialBalance extends TrialBalanceDrill implements IFormController,
 						"C_ElementValue_ID",
 						362,
 						false,
-						"IsActive='Y' AND AD_Client_ID="+m_AD_Client_ID );
+						"C_ElementValue.IsActive='Y' AND C_ElementValue.AD_Client_ID="+m_AD_Client_ID );
 		
 		fieldAcctFrom = new WTableDirEditor("Account_ID", false	, false, true, lookupAcct); 
 		
