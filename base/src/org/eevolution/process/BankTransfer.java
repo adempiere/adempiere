@@ -30,6 +30,9 @@ import org.compiere.util.Env;
  *  For Bank Transfer From Bank Account "A" 
  *                 
  *	@author victor.perez@e-evoltuion.com
+ *	@author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+*		<a href="https://github.com/adempiere/adempiere/issues/983">
+* 		@see FR [ 592 ] Default name for bank statement is necessary</a>
  *	
  **/
 public class BankTransfer extends BankTransferAbstract {
