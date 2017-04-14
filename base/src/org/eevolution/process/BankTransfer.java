@@ -31,8 +31,8 @@ import org.compiere.util.Env;
  *                 
  *	@author victor.perez@e-evoltuion.com
  *	@author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
-*		<a href="https://github.com/adempiere/adempiere/issues/983">
-* 		@see FR [ 592 ] Default name for bank statement is necessary</a>
+*		<a href="https://github.com/adempiere/adempiere/issues/850">
+* 		@see FR [ 850 ] Bank transfer does not have document no to</a>
  *	
  **/
 public class BankTransfer extends BankTransferAbstract {
