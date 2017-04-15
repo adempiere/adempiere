@@ -302,18 +302,21 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 	 *	@param comAmt parent
 	 *	@param comAmt isCompletePayment
 	 */
-	private void createDetail (String sql, MCommissionAmt comAmt, boolean isCompletePayment) {
+	private boolean createDetail (String sql, MCommissionAmt comAmt, boolean isCompletePayment) {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
 			pstmt = DB.prepareStatement(sql, get_TrxName());
 			pstmt.setInt(1, getAD_Client_ID());
-			if(!isCompletePayment) {				
-				pstmt.setTimestamp(2, startDate);
-				pstmt.setTimestamp(3, endDate);
-			}
+			pstmt.setTimestamp(2, startDate);
+			pstmt.setTimestamp(3, endDate);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
+				if(isCompletePayment) {
+					if (!invoiceCompletelyPaid(rs.getInt(5)))
+						continue;					
+				}
+				
 				//	CommissionAmount, C_Currency_ID, Amt, Qty,
 				MCommissionDetail cd = new MCommissionDetail (comAmt,
 					rs.getInt(1), rs.getBigDecimal(2), rs.getBigDecimal(3));
@@ -340,8 +343,56 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 			DB.close(rs, pstmt);
 			rs = null; pstmt = null;
 		}
+		return true;
 	}	//	createDetail
+
 	
+	/**
+	 * 	Check if invoice has been completely paid
+	 *	@param C_IvoiceLine_ID Invoice line 
+	 */
+	private boolean invoiceCompletelyPaid(int C_IvoiceLine_ID) {
+		BigDecimal payedSum = Env.ZERO;
+		BigDecimal grandTotal  = Env.ZERO;
+		StringBuffer sql = new StringBuffer();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;		
+		
+		sql.append("SELECT coalesce(al1.payedSum,0) as payedSum, i.grandTotal "
+				+ " FROM C_Invoice i "
+				+ " INNER JOIN C_InvoiceLine il on (i.C_Invoice_ID=il.C_Invoice_ID) "
+				+ " LEFT JOIN (  SELECT al2.C_Invoice_ID, sum(al2.amount) as payedSum "
+				+ "              FROM C_AllocationLine al2 "
+				+ "              INNER JOIN C_AllocationHdr ah on (al2.c_allocationhdr_id=ah.c_allocationhdr_id) "
+				+ "              WHERE al2.C_Charge_ID IS NULL AND ah.docstatus<>'RE' "
+				+ "              GROUP BY al2.C_Invoice_ID "
+				+ "            ) al1 on (i.C_Invoice_ID = al1.C_Invoice_ID) "
+				+ " WHERE il.C_InvoiceLine_ID=" + C_IvoiceLine_ID 
+				+ " AND i.DocStatus IN ('CL','CO')"
+				+ " AND i.AD_Client_ID = ? "
+				+ " AND i.IsSOTrx='Y'");
+		
+		try {
+			pstmt = DB.prepareStatement(sql.toString(), get_TrxName());
+			pstmt.setInt(1, getAD_Client_ID());
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				payedSum = rs.getBigDecimal(1);
+				grandTotal  = rs.getBigDecimal(2);
+			}
+		}
+		catch (Exception e) {
+			throw new AdempiereException("System Error: " + e.getLocalizedMessage(), e);
+		} finally {
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
+		}
+		if (grandTotal.compareTo(payedSum)==1)
+			return false;
+		else
+			return true;
+	}
+
 	/**
 	 * 
 	 * Process lines
@@ -353,8 +404,8 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 		//	
 		MCommissionLine[] commissionLines = commission.getLines();
 		List<Integer> salesRegion;
+		String sqlAppend = " AND p.DateTrx BETWEEN ? AND ? ";	
 		for (int i = 0; i < commissionLines.length; i++) {
-			String sqlAppend = null;
 			//	Instance Sales Region
 			salesRegion = new ArrayList<Integer>();
 			//	Amt for Line - Updated By Trigger
@@ -364,13 +415,7 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 			//
 			StringBuffer sql = new StringBuffer();
 			if (MCommission.DOCBASISTYPE_Receipt.equals(commission.getDocBasisType()))
-			{
-				if (commission!=null && commission.isTotallyPaid())
-					// TODO: get the invoices that have been paid as of today
-					sqlAppend = " AND h.ispaid='Y' ";	
-				else
-					sqlAppend = " AND p.DateTrx BETWEEN ? AND ? ";					
-				
+			{			
 				if (commission.isListDetails())
 				{
 					//	the view must be change
@@ -386,6 +431,7 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 						+ "WHERE p.DocStatus IN ('CL','CO','RE')"
 						+ " AND h.IsSOTrx='Y'"
 						+ " AND p.AD_Client_ID = ? "
+						+ " AND al.C_Charge_ID IS NULL "
 						+ sqlAppend);
 				}
 				else
@@ -400,8 +446,16 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 							+ "WHERE p.DocStatus IN ('CL','CO','RE')"
 							+ " AND h.IsSOTrx='Y'"
 							+ " AND p.AD_Client_ID = ? "
+							+ " AND al.C_Charge_ID IS NULL "
 							+ sqlAppend);
 				}
+				//	Add Support to Days Due
+				if (commissionLines[i].get_ValueAsInt(MCommissionLine.COLUMNNAME_DaysFrom) != 0)
+					// sql.append(" AND h.DaysDue >= ").append(commissionLines[i].get_ValueAsInt(MCommissionLine.COLUMNNAME_DaysFrom));
+					sql.append(" AND paymenttermduedays(h.c_paymentterm_id, h.dateinvoiced, p.datetrx) >= ").append(commissionLines[i].get_ValueAsInt(MCommissionLine.COLUMNNAME_DaysFrom));
+				if (commissionLines[i].get_ValueAsInt(MCommissionLine.COLUMNNAME_DaysTo) != 0)
+					//sql.append(" AND h.DaysDue <= ").append(commissionLines[i].get_ValueAsInt(MCommissionLine.COLUMNNAME_DaysTo));
+					sql.append("  AND paymenttermduedays(h.c_paymentterm_id, h.dateinvoiced, p.datetrx) <= ").append(commissionLines[i].get_ValueAsInt(MCommissionLine.COLUMNNAME_DaysTo));
 			}
 			else if (MCommission.DOCBASISTYPE_Order.equals(commission.getDocBasisType()))
 			{
@@ -505,28 +559,20 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 			//	Payment Rule
 			if (commissionLines[i].getPaymentRule() != null)
 				sql.append(" AND h.PaymentRule='").append(commissionLines[i].getPaymentRule()).append("'");
-			//	Yamel Senih
-			//	2015-10-26
-			//	Add Support to Days Due
-			// TODO: get the correct payment dates
-			/*if(MCommission.DOCBASISTYPE_Receipt.equals(commission.getDocBasisType())) {
-				if (commissionLines[i].get_ValueAsInt(MCommissionLine.COLUMNNAME_DaysFrom) != 0)
-					sql.append(" AND h.DaysDue >= ").append(commissionLines[i].get_ValueAsInt(MCommissionLine.COLUMNNAME_DaysFrom));
-				if (commissionLines[i].get_ValueAsInt(MCommissionLine.COLUMNNAME_DaysTo) != 0)
-					sql.append(" AND h.DaysDue <= ").append(commissionLines[i].get_ValueAsInt(MCommissionLine.COLUMNNAME_DaysTo));
-			}*/
-			//	Add Exclusion
+
 			sql.append(getExclusionWhere(commissionLines[i], commissionLines));
-			//	End Yamel Senih
-			//	Grouping
 			if (!commission.isListDetails())
 				sql.append(" GROUP BY h.C_Currency_ID");
 			//
 			log.fine("Line=" + commissionLines[i].getLine() + " - " + sql);
 			//
 			createDetail(sql.toString(), comAmt, commission.isTotallyPaid());
-			comAmt.calculateCommission();
-			comAmt.saveEx();
+			if(comAmt.getDetails().length==0)
+				comAmt.deleteEx(true, get_TrxName());
+			else  {					
+				comAmt.calculateCommission();
+				comAmt.saveEx();
+			}
 		}	//	for all commission lines
 		
 		//	Save Last Run
