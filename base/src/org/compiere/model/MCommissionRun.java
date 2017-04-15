@@ -1,6 +1,6 @@
 /******************************************************************************
  * Product: ADempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 2006-2016 ADempiere Foundation, All Rights Reserved.         *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
@@ -287,7 +287,7 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 		for(MCommission commission : commissionList) {
 			//	For each Sales Representative
 			for(MBPartner salesRep : commission.getSalesRepsOfCommission()) {
-				processLine(salesRep, commission);
+				processCommissionLine(salesRep, commission);
 			}
 		}
 		//	Set Date
@@ -314,6 +314,8 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 			while (rs.next()) {
 				if(isCompletePayment) {
 					if (!invoiceCompletelyPaid(rs.getInt(5)))
+						// Commission applies only in case the invoice has been paid in whole.
+						// The Invoice Line belongs to an Invoice which has not been (completely) paid.
 						continue;					
 				}
 				
@@ -400,15 +402,13 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 	 * @param commission
 	 * @return
 	 */
-	private String processLine(MBPartner salesRep, MCommission commission) {
+	private String processCommissionLine(MBPartner salesRep, MCommission commission) {
 		//	
 		MCommissionLine[] commissionLines = commission.getLines();
 		List<Integer> salesRegion;
 		String sqlAppend = " AND p.DateTrx BETWEEN ? AND ? ";	
 		for (int i = 0; i < commissionLines.length; i++) {
-			//	Instance Sales Region
 			salesRegion = new ArrayList<Integer>();
-			//	Amt for Line - Updated By Trigger
 			MCommissionAmt comAmt = new MCommissionAmt (this, commissionLines[i].getC_CommissionLine_ID());
 			comAmt.setC_BPartner_ID(salesRep.getC_BPartner_ID());
 			comAmt.saveEx();
@@ -449,7 +449,7 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 							+ " AND al.C_Charge_ID IS NULL "
 							+ sqlAppend);
 				}
-				//	Add Support to Days Due
+				//	Days Due
 				if (commissionLines[i].get_ValueAsInt(MCommissionLine.COLUMNNAME_DaysFrom) != 0)
 					// sql.append(" AND h.DaysDue >= ").append(commissionLines[i].get_ValueAsInt(MCommissionLine.COLUMNNAME_DaysFrom));
 					sql.append(" AND paymenttermduedays(h.c_paymentterm_id, h.dateinvoiced, p.datetrx) >= ").append(commissionLines[i].get_ValueAsInt(MCommissionLine.COLUMNNAME_DaysFrom));
@@ -565,7 +565,8 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 				sql.append(" GROUP BY h.C_Currency_ID");
 			//
 			log.fine("Line=" + commissionLines[i].getLine() + " - " + sql);
-			//
+			
+			// Here the actual calculation is performed
 			createDetail(sql.toString(), comAmt, commission.isTotallyPaid());
 			if(comAmt.getDetails().length==0)
 				comAmt.deleteEx(true, get_TrxName());
