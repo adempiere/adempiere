@@ -31,7 +31,7 @@ public class X_C_CommissionLine extends PO implements I_C_CommissionLine, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170318L;
+	private static final long serialVersionUID = 20170416L;
 
     /** Standard Constructor */
     public X_C_CommissionLine (Properties ctx, int C_CommissionLine_ID, String trxName)

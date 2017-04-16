@@ -29,7 +29,7 @@ public class X_C_CommissionGroup extends PO implements I_C_CommissionGroup, I_Pe
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170318L;
+	private static final long serialVersionUID = 20170416L;
 
     /** Standard Constructor */
     public X_C_CommissionGroup (Properties ctx, int C_CommissionGroup_ID, String trxName)

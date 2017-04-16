@@ -224,7 +224,7 @@ public interface I_C_Commission
 	  */
 	public boolean isActive();
 
-    /** Column name Paid totally */
+    /** Column name IsTotallyPaid */
     public static final String COLUMNNAME_IsTotallyPaid = "IsTotallyPaid";
 
 	/** Set Paid totally.

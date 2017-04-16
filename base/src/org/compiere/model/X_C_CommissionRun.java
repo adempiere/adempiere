@@ -32,7 +32,7 @@ public class X_C_CommissionRun extends PO implements I_C_CommissionRun, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170318L;
+	private static final long serialVersionUID = 20170416L;
 
     /** Standard Constructor */
     public X_C_CommissionRun (Properties ctx, int C_CommissionRun_ID, String trxName)
@@ -51,7 +51,6 @@ public class X_C_CommissionRun extends PO implements I_C_CommissionRun, I_Persis
 			setIsApproved (false);
 // N
 			setProcessed (false);
-			setStartDate (new Timestamp( System.currentTimeMillis() ));
         } */
     }
 
@@ -185,6 +184,23 @@ public class X_C_CommissionRun extends PO implements I_C_CommissionRun, I_Persis
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Document Date.
+		@param DateDoc 
+		Date of the Document
+	  */
+	public void setDateDoc (Timestamp DateDoc)
+	{
+		set_Value (COLUMNNAME_DateDoc, DateDoc);
+	}
+
+	/** Get Document Date.
+		@return Date of the Document
+	  */
+	public Timestamp getDateDoc () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_DateDoc);
 	}
 
 	/** Set Description.
@@ -321,6 +337,23 @@ public class X_C_CommissionRun extends PO implements I_C_CommissionRun, I_Persis
         return new KeyNamePair(get_ID(), getDocumentNo());
     }
 
+	/** Set End Date.
+		@param EndDate 
+		Last effective date (inclusive)
+	  */
+	public void setEndDate (Timestamp EndDate)
+	{
+		set_Value (COLUMNNAME_EndDate, EndDate);
+	}
+
+	/** Get End Date.
+		@return Last effective date (inclusive)
+	  */
+	public Timestamp getEndDate () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_EndDate);
+	}
+
 	/** Set Grand Total.
 		@param GrandTotal 
 		Total amount of document
@@ -365,7 +398,7 @@ public class X_C_CommissionRun extends PO implements I_C_CommissionRun, I_Persis
 		return false;
 	}
 
-	/** Set ReCalculate.
+	/** Set Recalculate.
 		@param IsReCalculate 
 		Allow recalculation
 	  */
@@ -374,7 +407,7 @@ public class X_C_CommissionRun extends PO implements I_C_CommissionRun, I_Persis
 		set_Value (COLUMNNAME_IsReCalculate, Boolean.valueOf(IsReCalculate));
 	}
 
-	/** Get ReCalculate.
+	/** Get Recalculate.
 		@return Allow recalculation
 	  */
 	public boolean isReCalculate () 

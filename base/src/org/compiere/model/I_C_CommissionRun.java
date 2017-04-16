@@ -131,6 +131,19 @@ public interface I_C_CommissionRun
 	  */
 	public int getCreatedBy();
 
+    /** Column name DateDoc */
+    public static final String COLUMNNAME_DateDoc = "DateDoc";
+
+	/** Set Document Date.
+	  * Date of the Document
+	  */
+	public void setDateDoc (Timestamp DateDoc);
+
+	/** Get Document Date.
+	  * Date of the Document
+	  */
+	public Timestamp getDateDoc();
+
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
 
@@ -183,6 +196,19 @@ public interface I_C_CommissionRun
 	  */
 	public String getDocumentNo();
 
+    /** Column name EndDate */
+    public static final String COLUMNNAME_EndDate = "EndDate";
+
+	/** Set End Date.
+	  * Last effective date (inclusive)
+	  */
+	public void setEndDate (Timestamp EndDate);
+
+	/** Get End Date.
+	  * Last effective date (inclusive)
+	  */
+	public Timestamp getEndDate();
+
     /** Column name GrandTotal */
     public static final String COLUMNNAME_GrandTotal = "GrandTotal";
 
@@ -225,12 +251,12 @@ public interface I_C_CommissionRun
     /** Column name IsReCalculate */
     public static final String COLUMNNAME_IsReCalculate = "IsReCalculate";
 
-	/** Set ReCalculate.
+	/** Set Recalculate.
 	  * Allow recalculation
 	  */
 	public void setIsReCalculate (boolean IsReCalculate);
 
-	/** Get ReCalculate.
+	/** Get Recalculate.
 	  * Allow recalculation
 	  */
 	public boolean isReCalculate();

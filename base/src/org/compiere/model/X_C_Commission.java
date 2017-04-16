@@ -30,7 +30,7 @@ public class X_C_Commission extends PO implements I_C_Commission, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170318L;
+	private static final long serialVersionUID = 20170416L;
 
     /** Standard Constructor */
     public X_C_Commission (Properties ctx, int C_Commission_ID, String trxName)
@@ -315,6 +315,30 @@ public class X_C_Commission extends PO implements I_C_Commission, I_Persistent
 		return (String)get_Value(COLUMNNAME_FrequencyType);
 	}
 
+	/** Set Paid totally.
+		@param IsTotallyPaid 
+		The document is totally paid
+	  */
+	public void setIsTotallyPaid (boolean IsTotallyPaid)
+	{
+		set_Value (COLUMNNAME_IsTotallyPaid, Boolean.valueOf(IsTotallyPaid));
+	}
+
+	/** Get Paid totally.
+		@return The document is totally paid
+	  */
+	public boolean isTotallyPaid () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsTotallyPaid);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set List Details.
 		@param ListDetails 
 		List document details
@@ -376,30 +400,6 @@ public class X_C_Commission extends PO implements I_C_Commission, I_Persistent
 	public boolean isProcessing () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processing);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
-	/** Set Paid totally.
-		@param IsTotallyPaid 
-		The document is totally paid
-	  */
-	public void setIsTotallyPaid (boolean IsTotallyPaid)
-	{
-		set_Value (COLUMNNAME_IsTotallyPaid, Boolean.valueOf(IsTotallyPaid));
-	}
-
-	/** Get Paid totally.
-		@return The document is totally paid
-	  */
-	public boolean isTotallyPaid () 
-	{
-		Object oo = get_Value(COLUMNNAME_IsTotallyPaid);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 

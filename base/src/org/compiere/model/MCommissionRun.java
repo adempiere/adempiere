@@ -29,7 +29,6 @@ import org.adempiere.exceptions.AdempiereException;
 import org.compiere.process.DocAction;
 import org.compiere.process.DocOptions;
 import org.compiere.process.DocumentEngine;
-import org.compiere.util.AdempiereUserError;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Language;
@@ -73,11 +72,6 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 		setClientOrg (commission);
 		setC_Commission_ID (commission.getC_Commission_ID());
 	}	//	MCommissionRun
-	
-	/**	Start Date				*/
-	private Timestamp		startDate;
-	/**	End Date				*/
-	private Timestamp		endDate;
 
 	/**
 	 * 	Get Amounts
@@ -205,7 +199,7 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 		MDocType dt = MDocType.get(getCtx(), getC_DocType_ID());
 
 		//	Std Period open?
-		if (!MPeriod.isOpen(getCtx(), getStartDate(), dt.getDocBaseType(), getAD_Org_ID()))
+		if (!MPeriod.isOpen(getCtx(), getDateDoc(), dt.getDocBaseType(), getAD_Org_ID()))
 		{
 			m_processMsg = "@PeriodClosed@";
 			return DocAction.STATUS_Invalid;
@@ -218,7 +212,7 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 			try {
 				createMovements();
 			} catch (Exception e) {
-				log.severe(e.getMessage());
+				m_processMsg = e.getMessage();
 				return DocAction.STATUS_Invalid;
 			}
 
@@ -251,7 +245,6 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 	 * @return void
 	 */
 	private void createMovements()  throws Exception {
-		final String NO_COMMISSION_DEFINED = "No commission defined";
 		boolean isCommissionDefined = true;
 		String frequencyType = null;
 		List<MCommission> commissionList = new ArrayList<MCommission>();
@@ -275,14 +268,13 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 		} else {
 			isCommissionDefined = false;
 		}
-		
+		//	Verify if exist a commission or group configured
 		if (!isCommissionDefined)
-			throw new AdempiereUserError (NO_COMMISSION_DEFINED);
+			throw new AdempiereException("@NoCommissionDefined@");
 		
-		startDate = getStartDate();
 		setStartEndDate(frequencyType);
 		//	Set Start and End
-		log.info("StartDate = " + getStartDate() + ", EndDate = " + endDate);
+		log.info("StartDate = " + getStartDate() + ", EndDate = " + getEndDate());
 		//	Iterate it for each commission definition
 		for(MCommission commission : commissionList) {
 			//	For each Sales Representative
@@ -290,33 +282,32 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 				processCommissionLine(salesRep, commission);
 			}
 		}
-		//	Set Date
-		setStartDate(startDate);
 		saveEx();
-		return;
 	}
 	
 	/**
 	 * 	Create Commission Detail
 	 *	@param sql sql statement
-	 *	@param comAmt parent
-	 *	@param comAmt isCompletePayment
+	 *	@param commission parent
+	 *	@param comAmt
 	 */
-	private boolean createDetail (String sql, MCommissionAmt comAmt, boolean isCompletePayment) {
+	private boolean createDetail (String sql, MCommission commission, MCommissionAmt comAmt) {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
 			pstmt = DB.prepareStatement(sql, get_TrxName());
 			pstmt.setInt(1, getAD_Client_ID());
-			pstmt.setTimestamp(2, startDate);
-			pstmt.setTimestamp(3, endDate);
+			pstmt.setTimestamp(2, getStartDate());
+			pstmt.setTimestamp(3, getEndDate());
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
-				if(isCompletePayment) {
-					if (!invoiceCompletelyPaid(rs.getInt(5)))
+				if(commission.getDocBasisType().equals(MCommission.DOCBASISTYPE_Receipt)
+						&& commission.isTotallyPaid()) {
+					if (!invoiceCompletelyPaid(rs.getInt(5))) {
 						// Commission applies only in case the invoice has been paid in whole.
 						// The Invoice Line belongs to an Invoice which has not been (completely) paid.
-						continue;					
+						continue;
+					}
 				}
 				
 				//	CommissionAmount, C_Currency_ID, Amt, Qty,
@@ -407,9 +398,9 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 		MCommissionLine[] commissionLines = commission.getLines();
 		List<Integer> salesRegion;
 		String sqlAppend = " AND p.DateTrx BETWEEN ? AND ? ";	
-		for (int i = 0; i < commissionLines.length; i++) {
+		for (MCommissionLine commissionLine : commissionLines) {
 			salesRegion = new ArrayList<Integer>();
-			MCommissionAmt comAmt = new MCommissionAmt (this, commissionLines[i].getC_CommissionLine_ID());
+			MCommissionAmt comAmt = new MCommissionAmt (this, commissionLine.getC_CommissionLine_ID());
 			comAmt.setC_BPartner_ID(salesRep.getC_BPartner_ID());
 			comAmt.saveEx();
 			//
@@ -450,12 +441,12 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 							+ sqlAppend);
 				}
 				//	Days Due
-				if (commissionLines[i].get_ValueAsInt(MCommissionLine.COLUMNNAME_DaysFrom) != 0)
-					// sql.append(" AND h.DaysDue >= ").append(commissionLines[i].get_ValueAsInt(MCommissionLine.COLUMNNAME_DaysFrom));
-					sql.append(" AND paymenttermduedays(h.c_paymentterm_id, h.dateinvoiced, p.datetrx) >= ").append(commissionLines[i].get_ValueAsInt(MCommissionLine.COLUMNNAME_DaysFrom));
-				if (commissionLines[i].get_ValueAsInt(MCommissionLine.COLUMNNAME_DaysTo) != 0)
-					//sql.append(" AND h.DaysDue <= ").append(commissionLines[i].get_ValueAsInt(MCommissionLine.COLUMNNAME_DaysTo));
-					sql.append("  AND paymenttermduedays(h.c_paymentterm_id, h.dateinvoiced, p.datetrx) <= ").append(commissionLines[i].get_ValueAsInt(MCommissionLine.COLUMNNAME_DaysTo));
+				if (commissionLine.get_ValueAsInt(MCommissionLine.COLUMNNAME_DaysFrom) != 0)
+					// sql.append(" AND h.DaysDue >= ").append(commissionLine.get_ValueAsInt(MCommissionLine.COLUMNNAME_DaysFrom));
+					sql.append(" AND paymenttermduedays(h.C_PaymentTerm_ID, h.DateInvoiced, p.DateTrx) >= ").append(commissionLine.get_ValueAsInt(MCommissionLine.COLUMNNAME_DaysFrom));
+				if (commissionLine.get_ValueAsInt(MCommissionLine.COLUMNNAME_DaysTo) != 0)
+					//sql.append(" AND h.DaysDue <= ").append(commissionLine.get_ValueAsInt(MCommissionLine.COLUMNNAME_DaysTo));
+					sql.append("  AND paymenttermduedays(h.C_PaymentTerm_ID, h.DateInvoiced, p.DateTrx) <= ").append(commissionLine.get_ValueAsInt(MCommissionLine.COLUMNNAME_DaysTo));
 			}
 			else if (MCommission.DOCBASISTYPE_Order.equals(commission.getDocBasisType()))
 			{
@@ -512,9 +503,17 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 						+ " AND h.AD_Client_ID = ?"
 						+ " AND h.DateInvoiced BETWEEN ? AND ?");
 				}
+				//	Dunning Level
+				if (commissionLine.getC_DunningLevel_ID() != 0) {
+					sql.append(" AND h.C_DunningLevel_ID=").append(commissionLine.getC_DunningLevel_ID());
+				}
+				//	Collection Status
+				if (commissionLine.getInvoiceCollectionType() != null) {
+					sql.append(" AND h.InvoiceCollectionType='").append(commissionLine.getInvoiceCollectionType()).append("'");
+				}
 			}
 			//	CommissionOrders/Invoices
-			if (commissionLines[i].isCommissionOrders()) {
+			if (commissionLine.isCommissionOrders()) {
 				MUser[] users = MUser.getOfBPartner(getCtx(), salesRep.getC_BPartner_ID(), get_TrxName());
 				if (users == null || users.length == 0) {
 					continue;
@@ -531,43 +530,83 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 				}
 			}
 			//	Organization
-			if (commissionLines[i].getOrg_ID() != 0)
-				sql.append(" AND h.AD_Org_ID=").append(commissionLines[i].getOrg_ID());
+			if (commissionLine.getOrg_ID() != 0) {
+				sql.append(" AND h.AD_Org_ID=").append(commissionLine.getOrg_ID());
+			}
 			//	BPartner
-			if (commissionLines[i].getC_BPartner_ID() != 0)
-				sql.append(" AND h.C_BPartner_ID=").append(commissionLines[i].getC_BPartner_ID());
+			if (commissionLine.getC_BPartner_ID() != 0) {
+				sql.append(" AND h.C_BPartner_ID=").append(commissionLine.getC_BPartner_ID());
+			}
 			//	BPartner Group
-			if (commissionLines[i].getC_BP_Group_ID() != 0)
-				sql.append(" AND h.C_BPartner_ID IN "
-					+ "(SELECT C_BPartner_ID FROM C_BPartner WHERE C_BP_Group_ID=").append(commissionLines[i].getC_BP_Group_ID()).append(")");
+			if (commissionLine.getC_BP_Group_ID() != 0) {
+				sql.append(" AND EXISTS(SELECT 1 FROM C_BPartner "
+						+ "						WHERE C_BPartner.C_BPartner_ID = h.C_BPartner_ID "
+						+ "						AND C_BP_Group_ID=").append(commissionLine.getC_BP_Group_ID()).append(")");
+			}
 			//	Sales Region
-			if (commissionLines[i].getC_SalesRegion_ID() != 0) {
+			if (commissionLine.getC_SalesRegion_ID() != 0) {
 				sql.append(" AND (h.C_BPartner_Location_ID IN "
-						+ "(SELECT C_BPartner_Location_ID FROM C_BPartner_Location WHERE C_SalesRegion_ID ").append(getSalesRegionClause(salesRegion, commissionLines[i].getC_SalesRegion_ID())).append(")"
+						+ "(SELECT C_BPartner_Location_ID FROM C_BPartner_Location WHERE C_SalesRegion_ID ").append(getSalesRegionClause(salesRegion, commissionLine.getC_SalesRegion_ID())).append(")"
 								+ " OR EXISTS(SELECT 1 FROM C_Order o "
 								+ "					INNER JOIN C_BPartner_Location bpl ON(bpl.C_BPartner_Location_ID = o.C_BPartner_Location_ID)"
 								+ "					WHERE o.C_Order_ID = h.C_Order_ID "
-								+ "					AND bpl.C_SalesRegion_ID " + getSalesRegionClause(salesRegion, commissionLines[i].getC_SalesRegion_ID()) + "))");
+								+ "					AND bpl.C_SalesRegion_ID " + getSalesRegionClause(salesRegion, commissionLine.getC_SalesRegion_ID()) + "))");
 			}
 			//	Product
-			if (commissionLines[i].getM_Product_ID() != 0)
-				sql.append(" AND l.M_Product_ID=").append(commissionLines[i].getM_Product_ID());
+			if (commissionLine.getM_Product_ID() != 0) {
+				sql.append(" AND l.M_Product_ID=").append(commissionLine.getM_Product_ID());
+			}
 			//	Product Category
-			if (commissionLines[i].getM_Product_Category_ID() != 0)
-				sql.append(" AND l.M_Product_ID IN "
-					+ "(SELECT M_Product_ID FROM M_Product WHERE M_Product_Category_ID=").append(commissionLines[i].getM_Product_Category_ID()).append(")");
+			if (commissionLine.getM_Product_Category_ID() != 0) {
+				sql.append(" AND EXISTS(SELECT 1 FROM M_Product "
+						+ "					WHERE M_Product.M_Product_ID = l.M_Product_ID "
+						+ "					AND M_Product_Category_ID=").append(commissionLine.getM_Product_Category_ID()).append(")");
+			}
+			//	Product Group
+			if (commissionLine.getM_Product_Group_ID() != 0) {
+				sql.append(" AND EXISTS(SELECT 1 FROM M_Product "
+						+ "					WHERE M_Product.M_Product_ID = l.M_Product_ID "
+						+ "					AND M_Product_Group_ID=").append(commissionLine.getM_Product_Group_ID()).append(")");
+			}
+			//	Product Class
+			if (commissionLine.getM_Product_Class_ID() != 0) {
+				sql.append(" AND EXISTS(SELECT 1 FROM M_Product "
+						+ "					WHERE M_Product.M_Product_ID = l.M_Product_ID "
+						+ "					AND M_Product_Class_ID=").append(commissionLine.getM_Product_Class_ID()).append(")");
+			}
+			//	Product Classification
+			if (commissionLine.getM_Product_Classification_ID() != 0) {
+				sql.append(" AND EXISTS(SELECT 1 FROM M_Product "
+						+ "					WHERE M_Product.M_Product_ID = l.M_Product_ID "
+						+ "					AND M_Product_Classification_ID=").append(commissionLine.getM_Product_Classification_ID()).append(")");
+			}
+			//	Project
+			if (commissionLine.getC_Project_ID() != 0) {
+				sql.append(" AND l.C_Project_ID=").append(commissionLine.getC_Project_ID());
+			}
+			//	Campaign
+			if (commissionLine.getC_Campaign_ID() != 0) {
+				sql.append(" AND l.C_Campaign_ID=").append(commissionLine.getC_Campaign_ID());
+			}
+			//	Channel
+			if (commissionLine.getC_Channel_ID() != 0) {
+				sql.append(" AND EXISTS(SELECT 1 FROM C_Campaign "
+						+ "					WHERE C_Campaign.C_Campaign_ID = l.C_Campaign_ID "
+						+ "					AND C_Campaign.C_Channel_ID=").append(commissionLine.getC_Channel_ID()).append(")");
+			}
 			//	Payment Rule
-			if (commissionLines[i].getPaymentRule() != null)
-				sql.append(" AND h.PaymentRule='").append(commissionLines[i].getPaymentRule()).append("'");
-
-			sql.append(getExclusionWhere(commissionLines[i], commissionLines));
-			if (!commission.isListDetails())
+			if (commissionLine.getPaymentRule() != null) {
+				sql.append(" AND h.PaymentRule='").append(commissionLine.getPaymentRule()).append("'");
+			}
+			sql.append(getExclusionWhere(commission.getDocBasisType(), commissionLine, commissionLines));
+			if (!commission.isListDetails()) {
 				sql.append(" GROUP BY h.C_Currency_ID");
+			}
 			//
-			log.fine("Line=" + commissionLines[i].getLine() + " - " + sql);
+			log.fine("Line=" + commissionLine.getLine() + " - " + sql);
 			
 			// Here the actual calculation is performed
-			createDetail(sql.toString(), comAmt, commission.isTotallyPaid());
+			createDetail(sql.toString(), commission, comAmt);
 			if(comAmt.getDetails().length==0)
 				comAmt.deleteEx(true, get_TrxName());
 			else  {					
@@ -577,7 +616,7 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 		}	//	for all commission lines
 		
 		//	Save Last Run
-		commission.setDateLastRun(startDate);
+		commission.setDateLastRun(getDateDoc());
 		commission.saveEx();
 		return "@C_CommissionRun_ID@ = " + getDocumentNo() 
 			+ " - " + getDescription();
@@ -657,12 +696,13 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 	
 	/**
 	 * Exclusion Where
+	 * @param docBasisType
 	 * @param currentLine
 	 * @param lines
 	 * @return
 	 * @return String
 	 */
-	private String getExclusionWhere(MCommissionLine currentLine, MCommissionLine[] lines) {
+	private String getExclusionWhere(String docBasisType, MCommissionLine currentLine, MCommissionLine[] lines) {
 		//	Array of values
 		List<Integer> orgId = new ArrayList<Integer>();
 		List<Integer> bPartnerId = new ArrayList<Integer>();
@@ -670,7 +710,17 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 		List<Integer> salesRegionId = new ArrayList<Integer>();
 		List<Integer> productId = new ArrayList<Integer>();
 		List<Integer> productCategoryId = new ArrayList<Integer>();
+		List<Integer> productGroupId = new ArrayList<Integer>();
+		List<Integer> productClassId = new ArrayList<Integer>();
+		List<Integer> productClassificationId = new ArrayList<Integer>();
+		List<Integer> projectId = new ArrayList<Integer>();
+		List<Integer> campaignId = new ArrayList<Integer>();
+		List<Integer> channelId = new ArrayList<Integer>();
 		List<String> paymentRule = new ArrayList<String>();
+		//	For Invoice
+		List<Integer> dunningLevelId = new ArrayList<Integer>();
+		List<String> invoiceCollectionType = new ArrayList<String>();
+		//	
 		for(MCommissionLine line : lines) {
 			//	ignore current line
 			if(line.getC_CommissionLine_ID() == currentLine.getC_CommissionLine_ID())
@@ -678,66 +728,170 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 			//	Do it
 			//	Organization
 			if (currentLine.getOrg_ID() == 0
-					&& line.getOrg_ID() != 0)
+					&& line.getOrg_ID() != 0) {
 				orgId.add(line.getOrg_ID());
+			}
 			//	BPartner
 			if (currentLine.getC_BPartner_ID() == 0
-					&& line.getC_BPartner_ID() != 0)
+					&& line.getC_BPartner_ID() != 0) {
 				bPartnerId.add(line.getC_BPartner_ID());
+			}
 			//	BPartner Group
 			if (currentLine.getC_BP_Group_ID() == 0
-					&& line.getC_BP_Group_ID() != 0)
+					&& line.getC_BP_Group_ID() != 0) {
 				bPGroupId.add(line.getC_BP_Group_ID());
+			}
 			//	Sales Region
 			if (currentLine.getC_SalesRegion_ID() == 0
-					&& line.getC_SalesRegion_ID() != 0)
+					&& line.getC_SalesRegion_ID() != 0) {
 				salesRegionId.add(line.getC_SalesRegion_ID());
+			}
 			//	Product
 			if (currentLine.getM_Product_ID() == 0
-					&& line.getM_Product_ID() != 0)
+					&& line.getM_Product_ID() != 0) {
 				productId.add(line.getM_Product_ID());
+			}
 			//	Product Category
 			if (currentLine.getM_Product_Category_ID() == 0
-					&& line.getM_Product_Category_ID() != 0)
+					&& line.getM_Product_Category_ID() != 0) {
 				productCategoryId.add(line.getM_Product_Category_ID());
+			}
+			//	Product Group
+			if (currentLine.getM_Product_Group_ID() == 0
+					&& line.getM_Product_Group_ID() != 0) {
+				productGroupId.add(line.getM_Product_Group_ID());
+			}
+			//	Product Class
+			if (currentLine.getM_Product_Class_ID() == 0
+					&& line.getM_Product_Class_ID() != 0) {
+				productClassId.add(line.getM_Product_Class_ID());
+			}
+			//	Product Classification
+			if (currentLine.getM_Product_Classification_ID() == 0
+					&& line.getM_Product_Classification_ID() != 0) {
+				productClassificationId.add(line.getM_Product_Classification_ID());
+			}
 			//	Payment Rule
 			if (currentLine.getPaymentRule() == null
-					&& line.getPaymentRule() != null)
+					&& line.getPaymentRule() != null) {
 				paymentRule.add(line.getPaymentRule());
+			}
+			//	Project
+			if (currentLine.getC_Project_ID() == 0
+					&& line.getC_Project_ID() != 0) {
+				projectId.add(line.getC_Project_ID());
+			}
+			//	Campaign
+			if (currentLine.getC_Campaign_ID() == 0
+					&& line.getC_Campaign_ID() != 0) {
+				campaignId.add(line.getC_Campaign_ID());
+			}
+			//	Channel
+			if (currentLine.getC_Channel_ID() == 0
+					&& line.getC_Channel_ID() != 0) {
+				channelId.add(line.getC_Channel_ID());
+			}
+			//	Only for invoice
+			if(docBasisType.equals(MCommission.DOCBASISTYPE_Invoice)) {
+				//	Dunning Level
+				if (currentLine.getC_DunningLevel_ID() == 0
+						&& line.getC_DunningLevel_ID() != 0) {
+					dunningLevelId.add(line.getC_DunningLevel_ID());
+				}
+				//	Collection status
+				if (currentLine.getInvoiceCollectionType() == null
+						&& line.getInvoiceCollectionType() != null) {
+					invoiceCollectionType.add(line.getInvoiceCollectionType());
+				}
+			}
 		}
 		//	Process Values
 		StringBuffer sql = new StringBuffer();
 		//	Organization
-		if (orgId.size() != 0)
+		if (orgId.size() != 0) {
 			sql.append(" AND h.AD_Org_ID NOT IN").append(orgId.toString().replace('[','(').replace(']',')'));
+		}
 		//	BPartner
-		if (bPartnerId.size() != 0)
+		if (bPartnerId.size() != 0) {
 			sql.append(" AND h.C_BPartner_ID NOT IN").append(bPartnerId.toString().replace('[','(').replace(']',')'));
+		}
 		//	BPartner Group
-		if (bPGroupId.size() != 0)
+		if (bPGroupId.size() != 0) {
 			sql.append(" AND EXISTS"
 				+ "(SELECT 1 FROM C_BPartner bp "
 				+ "		WHERE bp.C_BPartner_ID = h.C_BPartner_ID "
 				+ "		AND bp.C_BP_Group_ID NOT IN").append(bPGroupId.toString().replace('[','(').replace(']',')')).append(")");
+		}
 		//	Sales Region
-		if (salesRegionId.size() != 0)
+		if (salesRegionId.size() != 0) {
 			sql.append(" AND EXISTS"
 				+ "(SELECT 1 FROM C_BPartner_Location l "
 				+ "		WHERE l.C_BPartner_Location_ID = h.C_BPartner_Location_ID "
 				+ "		AND C_SalesRegion_ID NOT IN").append(salesRegionId.toString().replace('[','(').replace(']',')')).append(")");
+		}
 		//	Product
-		if (productId.size() != 0)
+		if (productId.size() != 0) {
 			sql.append(" AND l.M_Product_ID NOT IN").append(productId.toString().replace('[','(').replace(']',')')).append(")");
+		}
 		//	Product Category
-		if (productCategoryId.size() != 0)
+		if (productCategoryId.size() != 0) {
 			sql.append(" AND EXISTS"
 				+ "(SELECT 1 FROM M_Product p "
 				+ "		WHERE p.M_Product_ID = l.M_Product_ID "
-				+ "		AND M_Product_Category_ID NOT IN").append(productId.toString().replace('[','(').replace(']',')')).append(")");
+				+ "		AND M_Product_Category_ID NOT IN").append(productCategoryId.toString().replace('[','(').replace(']',')')).append(")");
+		}
+		//	Product Group
+		if (productGroupId.size() != 0) {
+			sql.append(" AND EXISTS"
+				+ "(SELECT 1 FROM M_Product p "
+				+ "		WHERE p.M_Product_ID = l.M_Product_ID "
+				+ "		AND M_Product_Group_ID NOT IN").append(productGroupId.toString().replace('[','(').replace(']',')')).append(")");
+		}
+		//	Product Class
+		if (productClassId.size() != 0) {
+			sql.append(" AND EXISTS"
+				+ "(SELECT 1 FROM M_Product p "
+				+ "		WHERE p.M_Product_ID = l.M_Product_ID "
+				+ "		AND M_Product_Class_ID NOT IN").append(productClassId.toString().replace('[','(').replace(']',')')).append(")");
+		}
+		//	Classification
+		if (productClassId.size() != 0) {
+			sql.append(" AND EXISTS"
+				+ "(SELECT 1 FROM M_Product p "
+				+ "		WHERE p.M_Product_ID = l.M_Product_ID "
+				+ "		AND M_Product_Classification_ID NOT IN").append(productClassificationId.toString().replace('[','(').replace(']',')')).append(")");
+		}
+		//	Project
+		if (projectId.size() != 0) {
+			sql.append(" AND l.C_Project_ID NOT IN").append(projectId.toString().replace('[','(').replace(']',')')).append(")");
+		}
+		//	Campaign
+		if (campaignId.size() != 0) {
+			sql.append(" AND l.C_Campaign_ID NOT IN").append(campaignId.toString().replace('[','(').replace(']',')')).append(")");
+		}
+		//	Channel
+		if (campaignId.size() != 0) {
+			sql.append(" AND EXISTS(SELECT 1 FROM C_Campaign "
+					+ "					WHERE C_Campaign.C_Campaign_ID = l.C_Campaign_ID "
+					+ "					AND C_Campaign.C_Channel_ID NOT IN").append(campaignId.toString().replace('[','(').replace(']',')')).append(")");
+		}
 		//	Payment Rule
-		if (paymentRule.size() != 0)
+		if (paymentRule.size() != 0) {
 			sql.append(" AND h.PaymentRule NOT IN('").append(paymentRule.toString()
 					.replace('[', ' ').replace(']',')').replaceAll(",", ",'")).append(")");
+		}
+		//	Only for invoice
+		if(docBasisType.equals(MCommission.DOCBASISTYPE_Invoice)) {
+			//	Dunning Level
+			if (dunningLevelId.size() != 0) {
+				sql.append(" AND h.C_DunningLevel_ID NOT IN").append(dunningLevelId.toString().replace('[','(').replace(']',')')).append(")");
+			}
+			//	Collection Status
+			if (invoiceCollectionType.size() != 0) {
+				sql.append(" AND h.InvoiceCollectionType NOT IN('").append(invoiceCollectionType.toString()
+						.replace('[', ' ').replace(']',')').replaceAll(",", ",'")).append(")");
+			}
+		}
 		//	
 		return sql.toString();
 	}
@@ -748,7 +902,7 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 	 */
 	private void setStartEndDate(String frequencyType) {
 		GregorianCalendar cal = new GregorianCalendar(Language.getLoginLanguage().getLocale());
-		cal.setTimeInMillis(startDate.getTime());
+		cal.setTimeInMillis(getDateDoc().getTime());
 		cal.set(Calendar.HOUR_OF_DAY, 0);
 		cal.set(Calendar.MINUTE, 0);
 		cal.set(Calendar.SECOND, 0);
@@ -756,11 +910,11 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 		//	Yearly
 		if (MCommission.FREQUENCYTYPE_Yearly.equals(frequencyType)) {
 			cal.set(Calendar.DAY_OF_YEAR, 1);
-			startDate = new Timestamp (cal.getTimeInMillis());
+			setStartDate(new Timestamp (cal.getTimeInMillis()));
 			//
 			cal.add(Calendar.YEAR, 1);
 			cal.add(Calendar.DAY_OF_YEAR, -1); 
-			endDate = new Timestamp (cal.getTimeInMillis());
+			setEndDate(new Timestamp (cal.getTimeInMillis()));
 			
 		}
 		//	Quarterly
@@ -775,30 +929,30 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 				cal.set(Calendar.MONTH, Calendar.JULY);
 			else
 				cal.set(Calendar.MONTH, Calendar.OCTOBER);
-			startDate = new Timestamp (cal.getTimeInMillis());
+			setStartDate(new Timestamp (cal.getTimeInMillis()));
 			//
 			cal.add(Calendar.MONTH, 3);
 			cal.add(Calendar.DAY_OF_YEAR, -1); 
-			endDate = new Timestamp (cal.getTimeInMillis());
+			setEndDate(new Timestamp (cal.getTimeInMillis()));
 		}
 		//	Weekly
 		else if (MCommission.FREQUENCYTYPE_Weekly.equals(frequencyType)) {
 			cal.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
-			startDate = new Timestamp (cal.getTimeInMillis());
+			setStartDate(new Timestamp (cal.getTimeInMillis()));
 			//
 			cal.add(Calendar.DAY_OF_YEAR, 7); 
-			endDate = new Timestamp (cal.getTimeInMillis());
+			setEndDate(new Timestamp (cal.getTimeInMillis()));
 		}
 		//	Monthly
 		else {
 			cal.set(Calendar.DAY_OF_MONTH, 1);
-			startDate = new Timestamp (cal.getTimeInMillis());
+			setStartDate(new Timestamp (cal.getTimeInMillis()));
 			//
 			cal.add(Calendar.MONTH, 1);
 			cal.add(Calendar.DAY_OF_YEAR, -1); 
-			endDate = new Timestamp (cal.getTimeInMillis());
+			setEndDate(new Timestamp (cal.getTimeInMillis()));
 		}
-		log.fine("setStartEndDate = " + startDate + " - " + endDate);
+		log.fine("setStartEndDate = " + getStartDate() + " - " + getEndDate());
 	}	//	setStartEndDate
 	
 	/**

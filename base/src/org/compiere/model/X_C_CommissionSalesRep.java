@@ -28,7 +28,7 @@ public class X_C_CommissionSalesRep extends PO implements I_C_CommissionSalesRep
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170318L;
+	private static final long serialVersionUID = 20170416L;
 
     /** Standard Constructor */
     public X_C_CommissionSalesRep (Properties ctx, int C_CommissionSalesRep_ID, String trxName)
