@@ -83,11 +83,11 @@ if [ "$dbVendor" == "PostgreSQL" ]
 then
 	dbSeedFile="$ADEMPIERE_HOME/data/Adempiere_pg.dmp"
 	sysUser="postgres"
-elif [ "$dbVendor" == "oracle" ]
+elif [ "$dbVendor" == "Oracle" ]
 then
 	dbSeedFile="$ADEMPIERE_HOME/data/Adempiere.dmp"
 	sysUser="system"
-elif [ "$dbVendor" == "oracleXE" ]
+elif [ "$dbVendor" == "OracleXE" ]
 then
 	dbSeedFile="$ADEMPIERE_HOME/data/Adempiere.dmp"
 	sysUser="system"
@@ -104,10 +104,10 @@ then
 	if [ "$dbVendor" == "PostgreSQL" ]
 	then
 		dbName="reference"
-	elif [ "$dbVendor" == "oracle" ]
+	elif [ "$dbVendor" == "Oracle" ]
 	then
 		dbName=$ADEMPIERE_DB_NAME
-	elif [ "$dbVendor" == "oracleXE" ]
+	elif [ "$dbVendor" == "OracleXE" ]
 	then
 		dbName=$ADEMPIERE_DB_NAME
 	fi

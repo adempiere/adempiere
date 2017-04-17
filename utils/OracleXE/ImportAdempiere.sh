@@ -1,12 +1,12 @@
 #!/bin/bash
 #
 # Name:			ImportAdempiere.sh
-# Description:	script to import database into oracleXE
+# Description:	script to import database into OracleXE
 # Created:		2010-05-12
 # Vendor:		K.K. Alice
 # Author:		Stefan Christians
 #
-# FileTarget:	~/development/sandbox/adempiere/utils/oracleXE/ImportAdempiere.sh
+# FileTarget:	~/development/sandbox/adempiere/utils/OracleXE/ImportAdempiere.sh
 # FileOwner:	spc.dvp
 # FilePerms:	0755
 #
@@ -105,13 +105,13 @@ dbPwd="$5"
 sysUser="$6"
 sysPwd="$7"
 dbName="$8"
-dbCatalog="$9" # ignored for oracleXE
-dbSchema="${10}" # ignored for oracleXE
+dbCatalog="$9" # ignored for OracleXE
+dbSchema="${10}" # ignored for OracleXE
 dbSeedFile="${11}"
-dbSqljFile="${12}" #ignored for oracleXE
+dbSqljFile="${12}" #ignored for OracleXE
 
 # make sure this script is called for the correct vendor
-if [ "$dbVendor" != "oracleXE" ]
+if [ "$dbVendor" != "OracleXE" ]
 then
 	echo "wrong vendor"
 	exit $errorWrongVendor
@@ -169,7 +169,7 @@ fi
 
 # create sqlj
 # The original "old" script is commented out at this point,
-# so this step is probably not needed for oracleXE
+# so this step is probably not needed for OracleXE
 #if [ -x $(dirname $0)/create.sh ]
 #then
 #	echo "----------------------------------------"
@@ -187,7 +187,7 @@ fi
 # If we are running in a distribution built from trunk head,
 # the seed database must still be updated from last release to head.
 # The relevant migration scripts will be located in
-# ADEMPIERE_HOME/data/migration/oracleXE/...
+# ADEMPIERE_HOME/data/migration/OracleXE/...
 # It can only happen if the adempiere code is a custom-built RPM package,
 # so this feature is only included in the relevant *.sh scripts.
 if [ "$dbUser" != "adempiere" ]

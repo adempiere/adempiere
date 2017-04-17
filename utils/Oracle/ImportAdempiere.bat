@@ -6,7 +6,7 @@ REM Created:	2010-05-12
 REM Vendor:		K.K. Alice
 REM Author:		Stefan Christians
 REM
-REM FileTarget:	~/development/sandbox/adempiere/utils/oracle/ImportAdempiere.bat
+REM FileTarget:	~/development/sandbox/adempiere/utils/Oracle/ImportAdempiere.bat
 REM FileOwner:	spc.dvp
 REM FilePerms:	0644
 REM
@@ -127,7 +127,7 @@ GOTO :ARGLOOP
 :ENDARGLOOP
 
 REM make sure this script is called for the correct vendor
-IF "%dbVendor%"=="oracle" GOTO :VENDOROK 
+IF "%dbVendor%"=="Oracle" GOTO :VENDOROK 
 ECHO wrong vendor
 EXIT /B %errorWrongVendor%
 :VENDOROK
