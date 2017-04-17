@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.adempiere.webui.panel.ADSortTab;
+import org.adempiere.webui.panel.WSortTab;
 import org.adempiere.webui.panel.ADTabPanel;
 import org.adempiere.webui.panel.AbstractADWindowPanel;
 import org.adempiere.webui.part.AbstractUIPart;
@@ -154,7 +154,7 @@ public abstract class AbstractADTab extends AbstractUIPart implements IADTab
 				{
 					org.adempiere.webui.panel.IADTabPanel adtab = tabPanelList.get(i);
 					if (adtab.getGridTab() == null) continue;
-					if (adtab instanceof ADSortTab) continue;
+					if (adtab instanceof WSortTab) continue;
 					if (adtab.getTabLevel() < currentLevel || i == 0)
 					{
 						parents.add(i);
@@ -172,7 +172,7 @@ public abstract class AbstractADTab extends AbstractUIPart implements IADTab
 			{
 				org.adempiere.webui.panel.IADTabPanel adtab = tabPanelList.get(i);
 				if (adtab.getGridTab() == null) continue;
-				if (adtab instanceof ADSortTab) continue;
+				if (adtab instanceof WSortTab) continue;
 				GridField[] fields = adtab.getGridTab().getFields();
 				for (GridField gf : fields)
 				{
