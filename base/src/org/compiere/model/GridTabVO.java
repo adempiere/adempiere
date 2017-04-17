@@ -38,8 +38,6 @@ import org.compiere.util.Evaluator;
  *  @author Dixon Martinez, dmartinez@erpcya.com, <a href="http://www.erpcya.com">ERPCyA</a>
  *  	<li> <a href="https://github.com/adempiere/adempiere/issues/162">BR [162]</a> -
  *  		Readonly Logic for tab does not prevent the data from modifying
- *  	</li>
- *   
  */
 public class GridTabVO implements Evaluatee, Serializable
 {
