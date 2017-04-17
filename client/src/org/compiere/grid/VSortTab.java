@@ -34,10 +34,9 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.event.MouseMotionListener;
 import java.net.URL;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.logging.Level;
 
 import javax.swing.DefaultListCellRenderer;
@@ -49,23 +48,16 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.MouseInputAdapter;
 import javax.swing.event.MouseInputListener;
 
+import org.adempiere.controller.SortTabController;
+import org.adempiere.util.ListElement;
 import org.compiere.apps.ADialog;
 import org.compiere.apps.APanel;
-import org.compiere.model.MColumn;
-import org.compiere.model.MLookupFactory;
-import org.compiere.model.MRole;
-import org.compiere.model.MTable;
-import org.compiere.model.PO;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CLabel;
 import org.compiere.swing.CPanel;
 import org.compiere.util.CLogger;
-import org.compiere.util.DB;
-import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
-import org.compiere.util.Language;
 import org.compiere.util.Msg;
-import org.compiere.util.NamePair;
 
 /**
  *	Tab to maintain Order/Sequence
@@ -81,9 +73,10 @@ import org.compiere.util.NamePair;
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *		<li> BR [ 93 ] 
  *		@see https://github.com/adempiere/adempiere/issues/93
+ *		<a href="https://github.com/adempiere/adempiere/issues/990">
+ * 		@see FR [ 990 ] Sort Tab is not MVC</a>
  */
-public class VSortTab extends CPanel implements APanelTab
-{
+public class VSortTab extends CPanel implements APanelTab {
 	/**
 	 * 
 	 */
@@ -97,15 +90,22 @@ public class VSortTab extends CPanel implements APanelTab
 	 *  @param AD_ColumnSortOrder_ID Sort Column
 	 *  @param AD_ColumnSortYesNo_ID YesNo Column
 	 */
-	public VSortTab(int WindowNo, int AD_Table_ID, int AD_ColumnSortOrder_ID, int AD_ColumnSortYesNo_ID)
-	{
-		log.config("SortOrder=" + AD_ColumnSortOrder_ID + ", SortYesNo=" + AD_ColumnSortYesNo_ID);
-		m_WindowNo = WindowNo;
-
-		try
-		{
+	public VSortTab(int windowNo, int tableId, int columnSortOrderId, int columnSortYesNoId) {
+		log.config("SortOrder=" + columnSortOrderId + ", SortYesNo=" + columnSortYesNoId);
+		this.windowNo = windowNo;
+		try {
+			sortTabController = new SortTabController(windowNo, tableId, columnSortOrderId, columnSortYesNoId) {
+				
+				@Override
+				public void addItem(ListElement item) {
+					if (item.isYes()) {
+						yesModel.addElement(item);
+					} else {
+						noModel.addElement(item);
+					}
+				}
+			};
 			jbInit();
-			dynInit (AD_Table_ID, AD_ColumnSortOrder_ID, AD_ColumnSortYesNo_ID);
 		}
 		catch(Exception e)
 		{
@@ -115,16 +115,9 @@ public class VSortTab extends CPanel implements APanelTab
 
 	/**	Logger			*/
 	static CLogger log = CLogger.getCLogger(VSortTab.class);
-	private int			m_WindowNo;
-	private int			m_AD_Table_ID;
-	private String		m_TableName = null;
-	private String		m_ColumnSortName= null;
-	private String		m_ColumnYesNoName = null;
-	private String		m_KeyColumnName = null;
-	private String		m_IdentifierSql = null;
-	private boolean		m_IdentifierTranslated = false;
+	private int			windowNo;
 
-	private String		m_ParentColumnName = null;
+	private SortTabController	sortTabController;
 	private APanel		m_aPanel = null;
 
 	//	UI variables
@@ -136,14 +129,13 @@ public class VSortTab extends CPanel implements APanelTab
 	private CButton bUp = new CButton();
 	private CButton bDown = new CButton();
 	//
-	private DefaultListModel noModel = new DefaultListModel()
-	{
+	private DefaultListModel<ListElement> noModel = new DefaultListModel<ListElement>() {
 		/**
 		 * 
 		 */
 		private static final long serialVersionUID = 2171680655634744697L;
 		@Override
-		public void addElement(Object obj) {
+		public void addElement(ListElement obj) {
 			Object[] elements = toArray();
 			Arrays.sort(elements);
 			int index = Arrays.binarySearch(elements, obj);
@@ -155,11 +147,11 @@ public class VSortTab extends CPanel implements APanelTab
 				super.add(index, obj);
 		}
 		@Override
-		public void add(int index, Object obj) {
+		public void add(int index, ListElement obj) {
 			addElement(obj);
 		}
 	};
-	private DefaultListModel yesModel = new DefaultListModel();
+	private DefaultListModel<ListElement> yesModel = new DefaultListModel<ListElement>();
 	private DefaultListCellRenderer listRenderer = new DefaultListCellRenderer() {
 		/**
 		 * 
@@ -169,7 +161,7 @@ public class VSortTab extends CPanel implements APanelTab
 		@Override
 		public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
 			Component c = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-			if (value != null && value instanceof ListItem && !((ListItem)value).isUpdateable()) {
+			if (value != null && value instanceof ListElement && !((ListElement)value).isUpdateable()) {
 				Font f = c.getFont();
 				c.setFont(f.deriveFont(f.getStyle() | Font.ITALIC));
 				c.setFocusable(false);
@@ -184,149 +176,15 @@ public class VSortTab extends CPanel implements APanelTab
 	private JScrollPane yesPane = new JScrollPane(yesList);
 
 	/**
-	 * 	Dyanamic Init
-	 *  @param AD_Table_ID Table No
-	 *  @param AD_ColumnSortOrder_ID Sort Column
-	 *  @param AD_ColumnSortYesNo_ID YesNo Column
-	 */
-	private void dynInit (int AD_Table_ID, int AD_ColumnSortOrder_ID, int AD_ColumnSortYesNo_ID)
-	{
-		m_AD_Table_ID = AD_Table_ID;
-		int identifiersCount = 0;
-		StringBuffer identifierSql = new StringBuffer();
-		String sql = "SELECT t.TableName, c.AD_Column_ID, c.ColumnName, e.Name,"	//	1..4
-			+ "c.IsParent, c.IsKey, c.IsIdentifier, c.IsTranslated "				//	4..8
-			+ "FROM AD_Table t, AD_Column c, AD_Element e "
-			+ "WHERE t.AD_Table_ID=?"						//	#1
-			+ " AND t.AD_Table_ID=c.AD_Table_ID"
-			+ " AND (c.AD_Column_ID=? OR AD_Column_ID=?"	//	#2..3
-			+ " OR c.IsParent='Y' OR c.IsKey='Y' OR c.IsIdentifier='Y')"
-			+ " AND c.AD_Element_ID=e.AD_Element_ID";
-		boolean trl = !Env.isBaseLanguage(Env.getCtx(), "AD_Element");
-		if (trl)
-			sql = "SELECT t.TableName, c.AD_Column_ID, c.ColumnName, et.Name,"	//	1..4
-				+ "c.IsParent, c.IsKey, c.IsIdentifier, c.IsTranslated "		//	4..8
-				+ "FROM AD_Table t, AD_Column c, AD_Element_Trl et "
-				+ "WHERE t.AD_Table_ID=?"						//	#1
-				+ " AND t.AD_Table_ID=c.AD_Table_ID"
-				+ " AND (c.AD_Column_ID=? OR AD_Column_ID=?"	//	#2..3
-				+ "	OR c.IsParent='Y' OR c.IsKey='Y' OR c.IsIdentifier='Y')"
-				+ " AND c.AD_Element_ID=et.AD_Element_ID"
-				+ " AND et.AD_Language=?";						//	#4
-		sql += " ORDER BY c.SeqNo";
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, AD_Table_ID);
-			pstmt.setInt(2, AD_ColumnSortOrder_ID);
-			pstmt.setInt(3, AD_ColumnSortYesNo_ID);
-			if (trl)
-				pstmt.setString(4, Env.getAD_Language(Env.getCtx()));
-			rs = pstmt.executeQuery();
-			while (rs.next())
-			{
-				m_TableName = rs.getString(1);
-				//	Sort Column
-				if (AD_ColumnSortOrder_ID == rs.getInt(2))
-				{
-					log.fine("Sort=" + rs.getString(1) + "." + rs.getString(3));
-					m_ColumnSortName = rs.getString(3);
-					yesLabel.setText(rs.getString(4));
-				}
-				//	Optional YesNo
-				else if (AD_ColumnSortYesNo_ID == rs.getInt(2))
-				{
-					log.fine("YesNo=" + rs.getString(1) + "." + rs.getString(3));
-					m_ColumnYesNoName = rs.getString(3);
-				}
-				//	Parent2
-				else if (rs.getString(5).equals("Y"))
-				{
-					log.fine("Parent=" + rs.getString(1) + "." + rs.getString(3));
-					m_ParentColumnName = rs.getString(3);
-				}
-				//	KeyColumn
-				else if (rs.getString(6).equals("Y"))
-				{
-					log.fine("Key=" + rs.getString(1) + "." + rs.getString(3));
-					m_KeyColumnName = rs.getString(3);
-				}
-				//	Identifier
-				else if (rs.getString(7).equals("Y"))
-				{
-					log.fine("Identifier=" + rs.getString(1) + "." + rs.getString(3));
-					boolean isTranslated = trl && "Y".equals(rs.getString(8));
-					if (identifierSql.length() > 0)
-						identifierSql.append(",");
-					identifierSql.append(getIdentifier(rs.getString(1), rs.getString(3), rs.getInt(2),isTranslated));
-					identifiersCount++;
-//					m_IdentifierColumnName = rs.getString(3);
-					if (isTranslated)
-						m_IdentifierTranslated = true;
-				}
-				else
-					log.fine("??NotUsed??=" + rs.getString(1) + "." + rs.getString(3));
-			}
-		}
-		catch (SQLException e)
-		{
-			log.log(Level.SEVERE, sql.toString(), e);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
-		//
-		if (identifiersCount == 0)
-			m_IdentifierSql = "NULL";
-		else if (identifiersCount == 1)
-			m_IdentifierSql = identifierSql.toString();
-		else 
-			m_IdentifierSql = identifierSql.insert(0, "COALESCE(").append(")").toString();
-		//
-		noLabel.setText(Msg.getMsg(Env.getCtx(), "Available"));
-		log.fine(m_ColumnSortName);
-	}	//	dynInit
-	
-	/**
-	 * get Identifier
-	 * @param tableName
-	 * @param columnName
-	 * @param AD_Column_ID
-	 * @param isTranslated
-	 * @return Sql
-	 */
-	private String getIdentifier (String tableName, String columnName,Integer AD_Column_ID, boolean isTranslated)
-	{
-		Language language = Language.getLanguage(Env
-				.getAD_Language(Env.getCtx()));
-		StringBuilder sql = new StringBuilder("");
-		MColumn column = MColumn.get(Env.getCtx(), AD_Column_ID);
-		if(DisplayType.TableDir == column.getAD_Reference_ID() || DisplayType.Search == column.getAD_Reference_ID())
-			sql.append("(").append(MLookupFactory.getLookup_TableDirEmbed(language, columnName, "t")).append(")");
-		else if (DisplayType.Table == column.getAD_Reference_ID())
-			sql.append("(").append(MLookupFactory.getLookup_TableEmbed(language, column.getColumnName(), "t", column.getAD_Reference_Value_ID())).append(")");
-		else if(DisplayType.List == column.getAD_Reference_ID())
-			sql.append("(").append(MLookupFactory.getLookup_ListEmbed(language, column.getAD_Reference_Value_ID(), columnName)).append(")");
-		else 
-			sql.append(isTranslated ? "tt." : "t.").append(columnName);
-		
-		return sql.toString();
-	}
-
-	/**
 	 * 	Static Layout
 	 * 	@throws Exception
 	 */
 	private void jbInit() throws Exception
 	{
-		this.setLayout(mainLayout);
+		setLayout(mainLayout);
 		//
-		noLabel.setText("No");
-		yesLabel.setText("Yes");
+		noLabel.setText(Msg.getMsg(Env.getCtx(), "Available"));
+		yesLabel.setText(Msg.getMsg(Env.getCtx(), "Sequence"));
 
 		for (MouseMotionListener mml : noList.getMouseMotionListeners())
 			noList.removeMouseMotionListener(mml);
@@ -410,21 +268,21 @@ public class VSortTab extends CPanel implements APanelTab
 		yesList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		noList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
-		this.add(noLabel,    new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
+		add(noLabel,    new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-		this.add(yesLabel,    new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0
+		add(yesLabel,    new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-		this.add(bDown,         new GridBagConstraints(3, 2, 1, 1, 0.0, 0.0
+		add(bDown,         new GridBagConstraints(3, 2, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(4, 4, 4, 4), 0, 0));
-		this.add(noPane,      new GridBagConstraints(0, 1, 1, 3, 1, 1
+		add(noPane,      new GridBagConstraints(0, 1, 1, 3, 1, 1
 				,GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(4, 4, 4, 4), 0, 0));
-		this.add(yesPane,      new GridBagConstraints(2, 1, 1, 3, 1, 1
+		add(yesPane,      new GridBagConstraints(2, 1, 1, 3, 1, 1
 				,GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(4, 4, 4, 4), 0, 0));
-		this.add(bUp,  new GridBagConstraints(3, 1, 1, 1, 0.0, 0.0
+		add(bUp,  new GridBagConstraints(3, 1, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(4, 4, 4, 4), 0, 0));
-		this.add(bAdd,  new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0
+		add(bAdd,  new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(4, 4, 4, 4), 0, 0));
-		this.add(bRemove,  new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0
+		add(bRemove,  new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(4, 4, 4, 4), 0, 0));
 		//	End Yamel Senih
 	}	//	jbInit
@@ -436,104 +294,15 @@ public class VSortTab extends CPanel implements APanelTab
 	{
 		yesModel.removeAllElements();
 		noModel.removeAllElements();
-
-		boolean isReadWrite = true;
-		//	SELECT t.AD_Field_ID,t.Name,t.SeqNo,t.IsDisplayed FROM AD_Field t WHERE t.AD_Tab_ID=? ORDER BY 4 DESC,3,2
-		//	SELECT t.AD_PrintFormatItem_ID,t.Name,t.SeqNo,t.IsPrinted FROM AD_PrintFormatItem t WHERE t.AD_PrintFormat_ID=? ORDER BY 4 DESC,3,2
-		//	SELECT t.AD_PrintFormatItem_ID,t.Name,t.SortNo,t.IsOrderBy FROM AD_PrintFormatItem t WHERE t.AD_PrintFormat_ID=? ORDER BY 4 DESC,3,2
-		StringBuffer sql = new StringBuffer();
-		//	Columns
-		sql.append("SELECT t.").append(m_KeyColumnName)				//	1
-		.append(",").append(m_IdentifierSql)						//	2
-		.append(",t.").append(m_ColumnSortName)				//	3
-		.append(", t.AD_Client_ID, t.AD_Org_ID");		// 4, 5
-		if (m_ColumnYesNoName != null)
-			sql.append(",t.").append(m_ColumnYesNoName);			//	6
-		//	Tables
-		sql.append(" FROM ").append(m_TableName).append( " t");
-		if (m_IdentifierTranslated)
-			sql.append(", ").append(m_TableName).append("_Trl tt");
-		//	Where
-		//FR [ 2826406 ]
-		if(m_ParentColumnName != null)
-		{
-			sql.append(" WHERE t.").append(m_ParentColumnName).append("=?");
-		}
-		else
-		{
-			sql.append(" WHERE 1=?");
-		}
-			
-		if (m_IdentifierTranslated)
-			sql.append(" AND t.").append(m_KeyColumnName).append("=tt.").append(m_KeyColumnName)
-			.append(" AND tt.AD_Language=?");
-		//	Order
-		sql.append(" ORDER BY ");
-		if (m_ColumnYesNoName != null)
-			sql.append("6 DESC,");		//	t.IsDisplayed DESC
-		sql.append("3,2");				//	t.SeqNo, tt.Name 
-		//FR [ 2826406 ]
-		int ID = 0;		
-		if(m_ParentColumnName != null)
-		{	
-			ID = Env.getContextAsInt(Env.getCtx(), m_WindowNo, m_ParentColumnName);
-			log.fine(sql.toString() + " - ID=" + ID);
-		}
-		else
-		{
-			ID = 1;
-		}
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement(sql.toString(), null);
-			pstmt.setInt(1, ID);
-			
-			if (m_IdentifierTranslated)
-				pstmt.setString(2, Env.getAD_Language(Env.getCtx()));
-			
-			rs = pstmt.executeQuery();
-			while (rs.next())
-			{
-				int key = rs.getInt(1);
-				String name = rs.getString(2);
-				int seq = rs.getInt(3);
-				boolean isYes = seq != 0;
-				int AD_Client_ID = rs.getInt(4);
-				int AD_Org_ID = rs.getInt(5);
-				if (m_ColumnYesNoName != null)
-					isYes = rs.getString(6).equals("Y");
-				
-				//
-				ListItem pp = new ListItem(key, name, seq, isYes, AD_Client_ID, AD_Org_ID);
-				if (isYes)
-					yesModel.addElement(pp);
-				else
-					noModel.addElement(pp);
-				// If the one item from "Yes" list is readonly make entire tab readonly
-				if (isYes && !pp.isUpdateable()) {
-					isReadWrite = false;
-				}
-			}
-		}
-		catch (SQLException e)
-		{
-			log.log(Level.SEVERE, sql.toString(), e);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
-
+		sortTabController.loadData();
+		//
 		setIsChanged(false);
-		bAdd.setEnabled(isReadWrite);
-		bRemove.setEnabled(isReadWrite);
-		bUp.setEnabled(isReadWrite);
-		bDown.setEnabled(isReadWrite);
-		yesList.setEnabled(isReadWrite);
-		noList.setEnabled(isReadWrite);
+		bAdd.setEnabled(sortTabController.isReadWrite());
+		bRemove.setEnabled(sortTabController.isReadWrite());
+		bUp.setEnabled(sortTabController.isReadWrite());
+		bDown.setEnabled(sortTabController.isReadWrite());
+		yesList.setEnabled(sortTabController.isReadWrite());
+		noList.setEnabled(sortTabController.isReadWrite());
 	}	//	loadData
 
 	/**
@@ -553,23 +322,22 @@ public class VSortTab extends CPanel implements APanelTab
 	void migrateValueAcrossLists (AWTEvent event)
 	{
 		Object source = event.getSource();
-		Object[] selObjects = (source == bAdd || source == noList) ?
-				noList.getSelectedValues() : yesList.getSelectedValues();
-		for (int i = 0; i < selObjects.length; i++)
-		{
-			ListItem selObject = (ListItem)selObjects[i];
-			if (selObject == null || !selObject.isUpdateable())
+		@SuppressWarnings("unchecked")
+		List<ListElement> selObjects = (source == bAdd || source == noList) ?
+				noList.getSelectedValuesList() : yesList.getSelectedValuesList();
+		for (ListElement itemSelected : selObjects) {
+			if (itemSelected == null || !itemSelected.isUpdateable())
 				continue;
-
-			DefaultListModel lmFrom = (source == bAdd || source == noList) ?
-					noModel : yesModel;
-			DefaultListModel lmTo = (lmFrom == yesModel) ? noModel : yesModel;
-			lmFrom.removeElement(selObject);
-			lmTo.addElement(selObject);
-
-			JList list =  (source == bAdd || source == noList) ?
-					yesList : noList;
-			list.setSelectedValue(selObject, true);
+			//	
+			if(source == bAdd || source == noList) {
+				noModel.removeElement(itemSelected);
+				yesModel.addElement(itemSelected);
+				yesList.setSelectedValue(itemSelected, true);
+			} else {
+				yesModel.removeElement(itemSelected);
+				noModel.addElement(itemSelected);
+				noList.setSelectedValue(itemSelected, true);
+			}
 
 			//  Enable explicit Save
 			setIsChanged(true);
@@ -588,9 +356,6 @@ public class VSortTab extends CPanel implements APanelTab
 		int length = selObjects.length;
 		if (length == 0)
 			return;
-//		Object selObject = selObjects[0];
-//		if (selObject == null)
-//		return;
 		//
 		int[] indices = yesList.getSelectedIndices();
 		//
@@ -600,11 +365,11 @@ public class VSortTab extends CPanel implements APanelTab
 		if (source == bUp)
 		{
 			for (int i = 0; i < length; i++) {
-				ListItem selObject = (ListItem)selObjects[i];
+				ListElement selObject = (ListElement)selObjects[i];
 				int index = indices[i];
 				if (index == 0)
 					break;
-				ListItem newObject = (ListItem)yesModel.getElementAt(index - 1);
+				ListElement newObject = (ListElement)yesModel.getElementAt(index - 1);
 				if (!selObject.isUpdateable() || !newObject.isUpdateable())
 					break;
 				yesModel.setElementAt(newObject, index);
@@ -617,11 +382,11 @@ public class VSortTab extends CPanel implements APanelTab
 		else if (source == bDown)
 		{
 			for (int i = length - 1; i >= 0; i--) {
-				ListItem selObject = (ListItem)selObjects[i];
+				ListElement selObject = (ListElement)selObjects[i];
 				int index = indices[i];
 				if (index  >= yesModel.size () - 1)
 					break;
-				ListItem newObject = (ListItem)yesModel.getElementAt(index + 1);
+				ListElement newObject = (ListElement)yesModel.getElementAt(index + 1);
 				if (!selObject.isUpdateable() || !newObject.isUpdateable())
 					break;
 				yesModel.setElementAt(newObject, index);
@@ -657,175 +422,32 @@ public class VSortTab extends CPanel implements APanelTab
 	/** (non-Javadoc)
 	 * @see org.compiere.grid.APanelTab#saveData()
 	 */
-	public void saveData()
-	{
+	public void saveData() {
 		if (!m_aPanel.aSave.isEnabled())
 			return;
 		log.fine("");
-		boolean ok = true;
-		StringBuffer info = new StringBuffer();
-		MTable table = MTable.get(Env.getCtx(), m_AD_Table_ID);
-		//	noList - Set SortColumn to null and optional YesNo Column to 'N'
-		for (int i = 0; i < noModel.getSize(); i++)
-		{
-			ListItem pp = (ListItem)noModel.getElementAt(i);
-			if (!pp.isUpdateable())
-				continue;
-			if(pp.getSortNo() == 0 && (m_ColumnYesNoName == null || !pp.isYes()))
-				continue; // no changes
-			//
-			
-			PO po = table.getPO(pp.getKey(), null);
-			po.set_ValueOfColumn(m_ColumnSortName, 0);
-			po.set_ValueOfColumn(m_ColumnYesNoName, false);
-			
-			if (po.save()) {
-				pp.setSortNo(0);
-				pp.setIsYes(false);
-			}
-			else {
-				ok = false;
-				if (info.length() > 0)
-					info.append(", ");
-				info.append(pp.getName());
-				log.log(Level.SEVERE, "NoModel - Not updated: " + m_KeyColumnName + "=" + pp.getKey());
-			}
-		}
-		//	yesList - Set SortColumn to value and optional YesNo Column to 'Y'
-		int index = 0;
-		for (int i = 0; i < yesModel.getSize(); i++)
-		{
-			ListItem pp = (ListItem)yesModel.getElementAt(i);
-			if (!pp.isUpdateable())
-				continue;
-			index += 10;
-			if(pp.getSortNo() == index && (m_ColumnYesNoName == null || pp.isYes()))
-				continue; // no changes
-			//
-
-			PO po = table.getPO(pp.getKey(), null);
-			po.set_ValueOfColumn(m_ColumnSortName, index);
-			po.set_ValueOfColumn(m_ColumnYesNoName, true);
-			
-			if (po.save()) {
-				pp.setSortNo(index);
-				pp.setIsYes(true);
-			}
-			else {
-				ok = false;
-				if (info.length() > 0)
-					info.append(", ");
-				info.append(pp.getName());
-				log.log(Level.SEVERE, "YesModel - Not updated: " + m_KeyColumnName + "=" + pp.getKey());
-			}
-		}
+		//	
+		String info = sortTabController.saveData(Collections.list(noModel.elements()), 
+				Collections.list(yesModel.elements()));
 		//
-		if (ok) {
+		if (info == null) {
 			setIsChanged(false);
-		}
-		else {
-			ADialog.error(m_WindowNo, null, "SaveError", info.toString());
+		} else {
+			ADialog.error(windowNo, null, "SaveError", info);
 		}
 	}	//	saveData
 
-	/* (non-Javadoc)
-	 * @see org.compiere.grid.APanelTab#unregisterPanel()
-	 */
-	public void unregisterPanel ()
-	{
+	@Override
+	public void unregisterPanel() {
 		saveData();
 		m_aPanel = null;
 	}	//	dispoase
-	
-	/**
-	 * List Item
-	 * @author Teo Sarca
-	 */
-	private class ListItem extends NamePair {
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 5399675004361331697L;
-		private int		m_key;
-		private int		m_AD_Client_ID;
-		private int		m_AD_Org_ID;
-		/** Initial seq number */
-		private int		m_sortNo;
-		/** Initial selection flag */
-		private boolean m_isYes;
-		private boolean	m_updateable;
-		
-		public ListItem(int key, String name, int sortNo, boolean isYes, int AD_Client_ID, int AD_Org_ID) {
-			super(name);
-			this.m_key = key;
-			this.m_AD_Client_ID = AD_Client_ID;
-			this.m_AD_Org_ID = AD_Org_ID;
-			this.m_sortNo = sortNo;
-			this.m_isYes = isYes;
-			this.m_updateable = MRole.getDefault().canUpdate(m_AD_Client_ID, m_AD_Org_ID, m_AD_Table_ID, m_key, false); 
-		}
-		public int getKey() {
-			return m_key;
-		}
-		public void setSortNo(int sortNo) {
-			m_sortNo = sortNo;
-		}
-		public int getSortNo() {
-			return m_sortNo;
-		}
-		public void setIsYes(boolean value) {
-			m_isYes = value;
-		}
-		public boolean isYes() {
-			return m_isYes;
-		}
-		public int getAD_Client_ID() {
-			return m_AD_Client_ID;
-		}
-		public int getAD_Org_ID() {
-			return m_AD_Org_ID;
-		}
-		public boolean isUpdateable() {
-			return m_updateable;
-		}
-		@Override
-		public String getID() {
-			return m_key != -1 ? String.valueOf(m_key) : null;
-		}
-		@Override
-		public int hashCode() {
-			return m_key;
-		}
-		@Override
-		public boolean equals(Object obj)
-		{
-			if (obj instanceof ListItem)
-			{
-				ListItem li = (ListItem)obj;
-				return
-					li.getKey() == m_key
-					&& li.getName() != null
-					&& li.getName().equals(getName())
-					&& li.getAD_Client_ID() == m_AD_Client_ID
-					&& li.getAD_Org_ID() == m_AD_Org_ID;
-			}
-			return false;
-		}	//	equals
-		@Override
-		public String toString() {
-			String s = super.toString();
-			if (s == null || s.trim().length() == 0)
-				s = "<" + getKey() + ">";
-			return s;
-		}
-	}
 
 	/**
 	 * @author eslatis
 	 *
 	 */
-	private class DragListener extends MouseInputAdapter
-	{
+	private class DragListener extends MouseInputAdapter {
 
 		/**
 		 * Creates a VSortTab.DragListener.
@@ -877,7 +499,7 @@ public class VSortTab extends CPanel implements APanelTab
 		@Override
 		public void mouseDragged(MouseEvent me)
 		{
-			if (selObject == null || !((ListItem)selObject).isUpdateable()) {
+			if (selObject == null || !((ListElement)selObject).isUpdateable()) {
 				moved = false;
 				return;
 			}

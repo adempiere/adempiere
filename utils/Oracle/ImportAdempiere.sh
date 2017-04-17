@@ -1,12 +1,12 @@
 #!/bin/bash
 #
 # Name:			ImportAdempiere.sh
-# Description:	script to import database into oracle
+# Description:	script to import database into Oracle
 # Created:		2010-05-12
 # Vendor:		K.K. Alice
 # Author:		Stefan Christians
 #
-# FileTarget:	~/development/sandbox/adempiere/utils/oracle/ImportAdempiere.sh
+# FileTarget:	~/development/sandbox/adempiere/utils/Oracle/ImportAdempiere.sh
 # FileOwner:	spc.dvp
 # FilePerms:	0755
 #
@@ -105,13 +105,13 @@ dbPwd="$5"
 sysUser="$6"
 sysPwd="$7"
 dbName="$8"
-dbCatalog="$9" # ignored for oracle
-dbSchema="${10}" # ignored for oracle
+dbCatalog="$9" # ignored for Oracle
+dbSchema="${10}" # ignored for Oracle
 dbSeedFile="${11}"
 dbSqljFile="${12}"
 
 # make sure this script is called for the correct vendor
-if [ "$dbVendor" != "oracle" ]
+if [ "$dbVendor" != "Oracle" ]
 then
 	echo "wrong vendor"
 	exit $errorWrongVendor
@@ -185,7 +185,7 @@ fi
 # If we are running in a distribution built from trunk head,
 # the seed database must still be updated from last release to head.
 # The relevant migration scripts will be located in
-# ADEMPIERE_HOME/data/migration/oracle/...
+# ADEMPIERE_HOME/data/migration/Oracle/...
 # It can only happen if the adempiere code is a custom-built RPM package,
 # so this feature is only included in the relevant *.sh scripts.
 if [ "$dbUser" != "adempiere" ]

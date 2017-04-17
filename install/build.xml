@@ -130,7 +130,7 @@
 	<fixcrlf srcdir="${utils.dir}/unix"
 		eol="lf" eof="remove"
 		includes="*"/>
-	<fixcrlf srcdir="../sqlj/oracle"
+	<fixcrlf srcdir="../sqlj/Oracle"
 		eol="lf" eof="remove"
 		includes="*.sh"/>
   </target>
@@ -231,16 +231,16 @@
 	<copy todir="${build.dir}/Adempiere/utils">
 	  <fileset dir="${utils.dir}" excludes="**/pg/**,.project"/>
 	</copy>
-	<copy todir="${build.dir}/Adempiere/utils/oracle">
-	  <fileset dir="${dbStartup.dir}/oracle" includes="*.sql"/>
-	  <fileset dir="../sqlj/oracle/"/>
+	<copy todir="${build.dir}/Adempiere/utils/Oracle">
+	  <fileset dir="${dbStartup.dir}/Oracle" includes="*.sql"/>
+	  <fileset dir="../sqlj/Oracle/"/>
 	</copy>
 	<copy todir="${build.dir}/Adempiere/utils/PostgreSQL">
 	  <fileset dir="${dbStartup.dir}/PostgreSQL" includes="*.sql"/>
-	  <fileset dir="../sqlj/postgresql/"/>
+	  <fileset dir="../sqlj/PostgreSQL/"/>
 	</copy>
-	<copy todir="${build.dir}/Adempiere/utils/oracleXE">
-	  <fileset dir="${dbStartup.dir}/oracleXE" includes="*.sql"/>
+	<copy todir="${build.dir}/Adempiere/utils/OracleXE">
+	  <fileset dir="${dbStartup.dir}/OracleXE" includes="*.sql"/>
 	</copy>
 
 

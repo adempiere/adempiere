@@ -1,12 +1,12 @@
 @ECHO OFF
 REM
 REM Name:		ImportAdempiere.bat
-REM Description:script to import database into oracleXE
+REM Description:script to import database into OracleXE
 REM Created:	2010-05-12
 REM Vendor:		K.K. Alice
 REM Author:		Stefan Christians
 REM
-REM FileTarget:	~/development/sandbox/adempiere/utils/oracleXE/ImportAdempiere.bat
+REM FileTarget:	~/development/sandbox/adempiere/utils/OracleXE/ImportAdempiere.bat
 REM FileOwner:	spc.dvp
 REM FilePerms:	0644
 REM
@@ -127,7 +127,7 @@ GOTO :ARGLOOP
 :ENDARGLOOP
 
 REM make sure this script is called for the correct vendor
-IF "%dbVendor%"=="oracleXE" GOTO :VENDOROK 
+IF "%dbVendor%"=="OracleXE" GOTO :VENDOROK 
 ECHO wrong vendor
 EXIT /B %errorWrongVendor%
 :VENDOROK
@@ -180,7 +180,7 @@ EXIT /B %errorImportData%
 
 REM create sqlj
 REM The original "old" script is commented out at this point,
-REM so this step is probably not needed for oracleXE
+REM so this step is probably not needed for OracleXE
 REM SET curDir=%~dp0
 REM CALL :NORMALIZE curDir
 REM SET createScript=%curDir%create.bat
