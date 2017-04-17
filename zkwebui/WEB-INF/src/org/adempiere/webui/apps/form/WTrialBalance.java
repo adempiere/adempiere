@@ -116,6 +116,10 @@ public class WTrialBalance extends TrialBalanceDrill implements IFormController,
 
 	private Label			luser1			= new Label(Msg.translate(Env.getCtx(), "User1_ID"));
 	private WTableDirEditor	fUser1	= null;
+	
+
+	private Label			lCube			= new Label(Msg.translate(Env.getCtx(), "PA_ReportCube_ID"));
+	private WTableDirEditor	fReportCube	= null;
 
 	ConfirmPanel			cp				= new ConfirmPanel();
 	private Button			bRefresh		= cp.createButton(ConfirmPanel.A_REFRESH);
@@ -181,6 +185,8 @@ public class WTrialBalance extends TrialBalanceDrill implements IFormController,
 		row.appendChild(fieldAcctTo.getComponent());
 		
 		row = rows.newRow();
+		row.appendChild(lCube.rightAlign());
+		row.appendChild(fReportCube.getComponent());
 		row.appendChild(bRefresh);
 
 		// Data Panel
@@ -267,12 +273,19 @@ public class WTrialBalance extends TrialBalanceDrill implements IFormController,
 						col_User1_ID,
 						DisplayType.Table,
 						Env.getLanguage(Env.getCtx()),
-						"User1_ID",
+						"C_ElementValue_ID",
 						ReferenceID_of_User1_ID,
 						false,
-						"IsActive='Y' AND AD_Client_ID="+m_AD_Client_ID );
+						"C_ElementValue.IsActive='Y' AND C_ElementValue.AD_Client_ID="+m_AD_Client_ID );
 		
 		fUser1 = new WTableDirEditor("User1_ID", false	, false, true, lookupUser1); 
+		
+		// ReportCube
+				
+		MLookup lookupCube = MLookupFactory.get(Env.getCtx(), form.getWindowNo(), col_PA_ReportCube_ID,
+				DisplayType.TableDir, Env.getLanguage(Env.getCtx()), "PA_ReportCube_ID", 0, false, null);
+		fReportCube = new WTableDirEditor("PA_ReportCube_ID", false, false, true, lookupCube);
+		
 		
 		setOrgStyle();
 		setPeriodToStyle();
@@ -307,6 +320,9 @@ public class WTrialBalance extends TrialBalanceDrill implements IFormController,
 
 		if (fieldPeriod.getValue() != null)
 			c_PeriodTo_ID = (Integer) fieldPeriod.getValue();
+		
+		if (fReportCube.getValue() !=null)
+			pa_ReportCube_ID = (Integer)fReportCube.getValue();
 		
 		//pa_ReportCube_ID = 1000000;		
 		if (pa_ReportCube_ID == 0 || c_PeriodTo_ID == 0 || m_AD_Org_ID == 0)

@@ -93,23 +93,24 @@ public class TrialBalanceDrill
 						null,
 						"SELECT MIN(PA_ReportCube_ID) FROM PA_ReportCube WHERE isactive='Y' AND isuser1dim='Y' AND isactivitydim='N' AND  isbpartnerdim='N' AND  "
 						+ " iscampaigndim='N' AND  isglbudgetdim='N' AND islocfromdim='N' AND  isloctodim='N' AND  isorgtrxdim='N' AND  isproductdim='N' AND isprojectdim='N' AND "
-						+ " isprojectphasedim='N' AND  isprojecttaskdim='N' AND issalesregiondim='N' AND issubacctdim='N' AND  isuser2dim='N' AND 	isuserelement2dim='N' AND isuserelement1dim='N'");
+						+ " isprojectphasedim='N' AND  isprojecttaskdim='N' AND issalesregiondim='N' AND issubacctdim='N' AND  isuser2dim='N' AND 	isuserelement2dim='N' AND isuserelement1dim='N'"
+						+ " AND AD_Client_ID=" + m_AD_Client_ID);
 	}
 
 	public Vector<String> getColumnNames()
 	{
 		// Header Info
 		Vector<String> columnNames = new Vector<String>();
-		columnNames.add("Select");
-		columnNames.add("Account No");
-		columnNames.add("Account Name");
+		columnNames.add(Msg.translate(Env.getCtx(), "Select"));
+		columnNames.add(Msg.translate(Env.getCtx(), "Account No"));
+		columnNames.add(Msg.translate(Env.getCtx(), "Account Name"));
 		columnNames.add(Msg.translate(Env.getCtx(), "User1_ID"));
-		columnNames.add("Period Actual");
-		columnNames.add("Period Budget");
-		columnNames.add("Period Variance");
-		columnNames.add("YTD Actual");
-		columnNames.add("YTD Budget");
-		columnNames.add("Variance");
+		columnNames.add(Msg.translate(Env.getCtx(), "Period Actual"));
+		columnNames.add(Msg.translate(Env.getCtx(), "Period Budget"));
+		columnNames.add(Msg.translate(Env.getCtx(), "Period Variance"));
+		columnNames.add(Msg.translate(Env.getCtx(), "YTD Actual"));
+		columnNames.add(Msg.translate(Env.getCtx(), "YTD Budget"));
+		columnNames.add(Msg.translate(Env.getCtx(), "Variance"));
 		return columnNames;
 	}
 	
