@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.compiere.model.I_C_InvoiceLine;
 import org.compiere.model.I_C_OrderLine;
@@ -148,11 +149,21 @@ public class CostEngine {
 		.append(" IN (SELECT PP_Cost_Collector_ID FROM PP_Cost_Collector cc WHERE cc.PP_Order_ID=? AND ")
 		.append(" cc.CostCollectorType <> '").append(MPPCostCollector.COSTCOLLECTORTYPE_MaterialReceipt).append("')");
 
-		BigDecimal actualCost = new Query(costCollector.getCtx(), MCostDetail.Table_Name, whereClause.toString(), costCollector.get_TrxName())
+		List<MCostDetail> componentsIssue= new Query(costCollector.getCtx(), MCostDetail.Table_Name, whereClause.toString(), costCollector.get_TrxName())
 				.setClient_ID()
 				.setParameters(accountSchema.getC_AcctSchema_ID() , costTypeId, costElementId, costCollector.getPP_Order_ID())
-				.sum("(" + MCostDetail.COLUMNNAME_Amt + "+" + MCostDetail.COLUMNNAME_CostAmtLL + ")");
+				.list();
 
+		AtomicReference<BigDecimal> actualCostReference = new AtomicReference(BigDecimal.ZERO);
+		componentsIssue.stream().forEach( costDetail ->{
+			if (costDetail.getQty().signum() < 0)
+				actualCostReference.updateAndGet(cost -> cost.subtract(costDetail.getAmt().add(costDetail.getAmtLL())));
+			else
+				actualCostReference.updateAndGet(cost -> cost.add(costDetail.getAmt().add(costDetail.getAmtLL())));
+
+		});
+
+		BigDecimal actualCost = actualCostReference.get();
 		whereClause = new StringBuffer();
 		whereClause
 				.append(" EXISTS (SELECT 1 FROM PP_Cost_Collector cc ")
