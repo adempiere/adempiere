@@ -6,7 +6,7 @@ REM Created:	2010-07-04
 REM Vendor:		K.K. Alice
 REM Author:		Stefan Christians
 REM
-REM FileTarget:	~/development/sandbox/adempiere/sqlj/oracle/create.bat
+REM FileTarget:	~/development/sandbox/adempiere/sqlj/Oracle/create.bat
 REM FileOwner:	spc.dvp
 REM FilePerms:	0644
 REM
@@ -38,7 +38,7 @@ REM begin original "old style" script --->>>
 @Echo .
 
 @Echo Create Oracle Functions ...
-@sqlplus %1@%ADEMPIERE_DB_SERVER%/%ADEMPIERE_DB_NAME% @%ADEMPIERE_HOME%\utils\oracle\createSQLJ.sql
+@sqlplus %1@%ADEMPIERE_DB_SERVER%/%ADEMPIERE_DB_NAME% @%ADEMPIERE_HOME%\utils\Oracle\createSQLJ.sql
 
 REM <<<--- end original "old style" script
 GOTO :EOF
@@ -95,7 +95,7 @@ GOTO :ARGLOOP
 :ENDARGLOOP
 
 REM make sure this script is called for the correct vendor
-IF "%dbVendor%"=="oracle" GOTO :VENDOROK 
+IF "%dbVendor%"=="Oracle" GOTO :VENDOROK 
 ECHO wrong vendor
 EXIT /B %errorWrongVendor%
 :VENDOROK
@@ -107,7 +107,7 @@ ECHO Please make sure it exists and you have read permissions.
 EXIT /B %errorNoSqljFile%	
 :SQLJOK
 
-REM load oracle sqlj
+REM load Oracle sqlj
 ECHO Load Oracle SQLJ ...
 SET oldCP=%CLASSPATH%
 SET CLASSPATH=
