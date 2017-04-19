@@ -32,6 +32,7 @@ import org.compiere.process.DocumentEngine;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Language;
+import org.compiere.util.Msg;
 
 import java.util.List;
 import java.util.logging.Level;
@@ -245,41 +246,38 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 	 * @return void
 	 */
 	private void createMovements()  throws Exception {
-		boolean isCommissionDefined = true;
 		String frequencyType = null;
 		List<MCommission> commissionList = new ArrayList<MCommission>();
 		
 		deleteMovements();
-		//	Get lines
+		//	Get commission(s)
 		if(getC_Commission_ID() != 0) {
 			MCommission commission = new MCommission(getCtx(), getC_Commission_ID(), get_TrxName());
 			if(commission.isActive()) {
 				commissionList.add(commission);
 				frequencyType = commission.getFrequencyType();
-			} else  {
-				isCommissionDefined = false;
 			}
 		} else if(getC_CommissionGroup_ID() != 0) {
 			MCommissionGroup group = new MCommissionGroup(getCtx(), getC_CommissionGroup_ID(), get_TrxName());
 			commissionList = group.getLines(MCommissionGroup.COLUMNNAME_IsActive + "Y");
 			frequencyType = group.getFrequencyType();
-			if(commissionList.size()==0)
-				isCommissionDefined = false;
-		} else {
-			isCommissionDefined = false;
 		}
-		//	Verify if exist a commission or group configured
-		if (!isCommissionDefined)
+		
+		//	Verify if a commission or group configured exists
+		if (commissionList.size()==0)
 			throw new AdempiereException("@NoCommissionDefined@");
 		
-		setStartEndDate(frequencyType);
 		//	Set Start and End
+		setStartEndDate(frequencyType);
 		log.info("StartDate = " + getStartDate() + ", EndDate = " + getEndDate());
-		//	Iterate it for each commission definition
+		
+		//	Iterate for each commission definition and  Sales Representative
 		for(MCommission commission : commissionList) {
-			//	For each Sales Representative
 			for(MBPartner salesRep : commission.getSalesRepsOfCommission()) {
 				processCommissionLine(salesRep, commission);
+				if (commission.isAllowRMA()) {					
+					// TODO: process devolutions which are not in the invoice lines
+				}				
 			}
 		}
 		saveEx();
@@ -291,7 +289,10 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 	 *	@param commission parent
 	 *	@param comAmt
 	 */
-	private boolean createDetail (String sql, MCommission commission, MCommissionAmt comAmt) {
+	private void createDetail (String sql, MCommission commission, MCommissionAmt comAmt) {
+		String language = Env.getAD_Language(getCtx());
+		int C_InvoiceLine_ID;
+		BigDecimal qtyReturned = Env.ZERO;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
@@ -301,15 +302,15 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 			pstmt.setTimestamp(3, getEndDate());
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
+				C_InvoiceLine_ID = rs.getInt(5);
 				if(commission.getDocBasisType().equals(MCommission.DOCBASISTYPE_Receipt)
 						&& commission.isTotallyPaid()) {
-					if (!invoiceCompletelyPaid(rs.getInt(5))) {
+					if (!invoiceCompletelyPaid(C_InvoiceLine_ID)) {
 						// Commission applies only in case the invoice has been paid in whole.
-						// The Invoice Line belongs to an Invoice which has not been (completely) paid.
+						// If the Invoice Line belongs to an Invoice which has not been (completely) paid, skip commission calculation.
 						continue;
 					}
 				}
-				
 				//	CommissionAmount, C_Currency_ID, Amt, Qty,
 				MCommissionDetail cd = new MCommissionDetail (comAmt,
 					rs.getInt(1), rs.getBigDecimal(2), rs.getBigDecimal(3));
@@ -320,15 +321,29 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 				//	Reference, Info,
 				String s = rs.getString(6);
 				if (s != null)
-					cd.setReference(s);
+					cd.setReference(Msg.translate(language, "Payment") + "_" + Msg.translate(language, "Invoice") + ": " + s);
 				s = rs.getString(7);
 				if (s != null)
-					cd.setInfo(s);
+					cd.setInfo(Msg.translate(language, "ProductValue") + ": " + s);
 				
 				//	Date
 				Timestamp date = rs.getTimestamp(8);
 				cd.setConvertedAmt(date);
 				cd.saveEx();
+				
+				// Check for RMAs
+				if (commission.isAllowRMA()) {
+					qtyReturned = returnedItemsQty(C_InvoiceLine_ID);
+					if (qtyReturned.compareTo(Env.ZERO)==1) {
+						// There has been RMA(s) for this Invoice Line
+						// Create one (!) Commission Detail to compensate for all RMAs.
+						MCommissionDetail compensationCD = MCommissionDetail.copy(getCtx(), cd, get_TrxName());
+						compensationCD.setInfo(Msg.translate(language, "CompensationFor") + " "  + cd.getInfo() 
+								+ " (" + Msg.translate(language, "QtyReturned") + ": "+ qtyReturned + "), ");						
+						compensationCD.correctForRMA(qtyReturned);
+						compensationCD.saveEx();
+					}
+				}
 			}
 		} catch (Exception e) {
 			throw new AdempiereException("System Error: " + e.getLocalizedMessage(), e);
@@ -336,7 +351,7 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 			DB.close(rs, pstmt);
 			rs = null; pstmt = null;
 		}
-		return true;
+		return;
 	}	//	createDetail
 
 	
@@ -384,7 +399,49 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 			return false;
 		else
 			return true;
-	}
+	}  // invoiceCompletelyPaid
+
+	
+	/**
+	 * 	Find quantity of items returned for this Invoice Line
+	 *	@param C_IvoiceLine_ID Invoice line 
+	 * @return quantity of items returned
+	 */
+	private BigDecimal returnedItemsQty(int C_IvoiceLine_ID) {
+		BigDecimal qtyReturned = Env.ZERO;
+		StringBuffer sql = new StringBuffer();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		sql.append("SELECT iol2.movementqty, i.documentno as invoice, rma.documentno as rma, io.documentno as io "
+				+ " FROM C_InvoiceLine il "
+				+ " INNER JOIN C_Invoice i ON (il.C_Invoice_ID=i.C_Invoice_ID AND i.DocStatus NOT IN ('DR', 'IP', 'VO', 'RE') ) "
+				+ " INNER JOIN M_InOutLine iol1 ON (il.C_OrderLine_ID=iol1.C_OrderLine_ID) "
+				+ " INNER JOIN M_RMALine rmal ON (iol1.M_InOutLine_ID=rmal.M_InOutLine_ID) "
+				+ " INNER JOIN M_RMA rma ON (rmal.M_RMA_ID=rma.M_RMA_ID AND rma.DocStatus NOT IN ('DR', 'IP', 'VO', 'RE') ) "
+				+ " INNER JOIN M_InOutLine iol2 ON (rmal.M_RMALine_ID=iol2.M_RMALine_ID) "
+				+ " INNER JOIN M_InOut io ON (iol2.M_InOut_ID=io.M_InOut_ID AND io.DocStatus NOT IN ('DR', 'IP', 'VO', 'RE') ) "
+				+ " WHERE il.C_InvoiceLine_ID=" + C_IvoiceLine_ID 
+				+ " AND i.AD_Client_ID = ? "
+				+ " AND i.IsSOTrx='Y'");
+		
+		try {
+			pstmt = DB.prepareStatement(sql.toString(), get_TrxName());
+			pstmt.setInt(1, getAD_Client_ID());
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				qtyReturned = qtyReturned.add(rs.getBigDecimal(1));
+			}
+		}
+		catch (Exception e) {
+			throw new AdempiereException("System Error: " + e.getLocalizedMessage(), e);
+		} finally {
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
+		}
+		
+		return qtyReturned;
+	}  // returnedItemsQty
 
 	/**
 	 * 

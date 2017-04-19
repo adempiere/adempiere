@@ -17,11 +17,16 @@
 package org.compiere.model;
 
 import java.math.BigDecimal;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Properties;
 
+import org.adempiere.exceptions.AdempiereException;
+import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.compiere.util.Msg;
 
 /**
  *	Commission Run Amount Detail Model
@@ -42,11 +47,33 @@ public class MCommissionDetail extends X_C_CommissionDetail
 	 *	@param ignored ignored
 	 *	@param trxName transaction
 	 */
-	public MCommissionDetail (Properties ctx, int ignored, String trxName)
+	public MCommissionDetail (Properties ctx, String trxName, int ignored)
 	{
 		super(ctx, 0, trxName);
 		if (ignored != 0)
 			throw new IllegalArgumentException("Multi-Key");
+	}	//	MCommissionDetail
+
+	/**
+	 * 	Default Constructor
+	 * 	@param ctx context
+	 * 	@param trxName transaction
+	 * 	@param C_CommissionDetail_ID or 0
+	 */
+	public MCommissionDetail (Properties ctx, int C_CommissionDetail_ID, String trxName)
+	{
+		super (ctx, C_CommissionDetail_ID, trxName);
+		//
+		if (C_CommissionDetail_ID == -1)
+			C_CommissionDetail_ID = 0;
+
+		if (C_CommissionDetail_ID == 0)
+		{
+			setActualAmt (Env.ZERO);
+			setActualQty (Env.ZERO);
+			setConvertedAmt (Env.ZERO);
+		}
+		log.fine(toString());
 	}	//	MCommissionDetail
 
 	/**
@@ -141,5 +168,107 @@ public class MCommissionDetail extends X_C_CommissionDetail
 		amt.calculateCommission();
 		amt.saveEx();
 	}	//	updateAmtHeader
+
+	
+	/**
+	 * 	Find Commission Detail objects already created for this Invoice Line
+	 *	@param ctx Properties 
+	 *	@param clientId
+	 *	@param C_IvoiceLine_ID Invoice line 
+	 *	@param trxName 
+	 * @return quantity of items returned
+	 */
+	public static  ArrayList<MCommissionDetail> getAlreadyProcessedCommissionDetails(Properties ctx, int clientId, 
+			int C_IvoiceLine_ID, String	trxName) {
+		ArrayList<MCommissionDetail> commisionDetails = new ArrayList<MCommissionDetail>();
+		StringBuffer sql = new StringBuffer();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		sql.append("SELECT cd.C_CommissionDetail_ID "
+				+ " FROM C_CommissionDetail cd "
+				+ " INNER JOIN C_CommissionAmt ca on(cd.c_commissionamt_id=ca.c_commissionamt_id) "
+				+ " INNER JOIN C_CommissionRun cr on(ca.c_commissionrun_id=cr.c_commissionrun_id) "
+				+ " WHERE cd.C_InvoiceLine_ID=" + C_IvoiceLine_ID 
+				+ " AND cr.DocStatus IN ('CL','CO')"
+				+ " AND cr.AD_Client_ID = ? "
+				+ " ORDER BY cd.C_CommissionDetail_ID ");
+		
+		try {
+			pstmt = DB.prepareStatement(sql.toString(), trxName);
+			pstmt.setInt(1, clientId);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				MCommissionDetail cd = new  MCommissionDetail(ctx, rs.getInt(1), trxName);				
+				commisionDetails.add(cd);
+			}
+		}
+		catch (Exception e) {
+			throw new AdempiereException("System Error: " + e.getLocalizedMessage(), e);
+		} finally {
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
+		}
+		
+		return commisionDetails;
+	}  // commissionsAlreadyCalculated
+
+	
+	/**************************************************************************
+	 * 	Copy existing Definition of Commission Detail
+	 * 	@param ctx Properties
+	 * 	@param fromCommissionDetail old Commission Detail
+	 * 	@param trxName
+	 * 	@return Coped instance of original Commission Detail
+	 */
+	public static MCommissionDetail copy (Properties ctx, MCommissionDetail fromCommissionDetail, String trxName)
+	{
+		MCommissionDetail toCommissionDetail = new  MCommissionDetail (ctx, 0, trxName);
+		
+		toCommissionDetail.setAD_Client_ID(fromCommissionDetail.getAD_Client_ID());
+		toCommissionDetail.setAD_Org_ID(fromCommissionDetail.getAD_Org_ID());
+		toCommissionDetail.setC_CommissionAmt_ID(fromCommissionDetail.getC_CommissionAmt_ID());
+		toCommissionDetail.setC_Currency_ID(fromCommissionDetail.getC_Currency_ID());
+		toCommissionDetail.setActualAmt(fromCommissionDetail.getActualAmt());
+		toCommissionDetail.setActualQty(fromCommissionDetail.getActualQty());
+		toCommissionDetail.setConvertedAmt(fromCommissionDetail.getConvertedAmt());
+		toCommissionDetail.setInfo(fromCommissionDetail.getInfo());
+		toCommissionDetail.setReference(fromCommissionDetail.getReference());
+		toCommissionDetail.setC_OrderLine_ID(fromCommissionDetail.getC_OrderLine_ID());
+		toCommissionDetail.setC_InvoiceLine_ID(fromCommissionDetail.getC_InvoiceLine_ID());
+		toCommissionDetail.setIsActive(fromCommissionDetail.isActive());		
+		return toCommissionDetail;
+	} // copy
+	
+	
+	/**
+	 * 	Correct Commission Detail for RMA corresponding to InvoiceLine
+	 *	@param quantity returned in former RMAs
+	 */
+	protected  void correctForRMA(BigDecimal qtyReturned) {	
+		// Get commissions paid in the past for this Invoice Line
+		ArrayList<MCommissionDetail> oldCommisionDetails = 
+				MCommissionDetail.getAlreadyProcessedCommissionDetails(getCtx(), getAD_Client_ID(), getC_InvoiceLine_ID(), get_TrxName());		
+
+		// Add commissions paid in the past for this Invoice Line
+		for (MCommissionDetail oldCommisionDetail: oldCommisionDetails) {
+			setActualAmt(getActualAmt().add(oldCommisionDetail.getActualAmt()));	
+			setActualQty(getActualQty().add(oldCommisionDetail.getActualQty()));
+			setConvertedAmt(getConvertedAmt().add(oldCommisionDetail.getConvertedAmt()));
+			setInfo(getInfo() + Msg.translate(Env.getAD_Language(getCtx()), "Commission") + ": "  + oldCommisionDetail.getInfo() + ", ");
+		}
+
+		// Proportional overall commission reduction: there is no distinction among the different commissions paid (too complex)
+		BigDecimal percentage = Env.ONE;
+		if (getActualQty().compareTo(qtyReturned)==1) {
+			percentage = qtyReturned.divide(getActualQty(), 4, BigDecimal.ROUND_HALF_UP);
+		}
+		
+		// all negated
+		setActualAmt(getActualAmt().multiply(percentage).setScale(2, BigDecimal.ROUND_HALF_UP).negate());	
+		setActualQty(getActualQty().multiply(percentage).setScale(2, BigDecimal.ROUND_HALF_UP).negate());
+		setConvertedAmt(getConvertedAmt().multiply(percentage).setScale(2, BigDecimal.ROUND_HALF_UP).negate());
+		return;		
+	}  // correctForRMA
 	
 }	//	MCommissionDetail

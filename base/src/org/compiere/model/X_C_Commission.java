@@ -339,6 +339,30 @@ public class X_C_Commission extends PO implements I_C_Commission, I_Persistent
 		return false;
 	}
 
+	/** Set Allow RMA.
+		@param IsAllowRMA 
+		Allow to consider RMA
+	  */
+	public void setIsAllowRMA (boolean IsAllowRMA)
+	{
+		set_Value (COLUMNNAME_IsAllowRMA, Boolean.valueOf(IsAllowRMA));
+	}
+
+	/** Get Allow RMA.
+		@return Allow to consider RMA
+	  */
+	public boolean isAllowRMA () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsAllowRMA);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set List Details.
 		@param ListDetails 
 		List document details

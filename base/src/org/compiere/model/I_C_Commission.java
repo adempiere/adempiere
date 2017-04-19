@@ -237,6 +237,19 @@ public interface I_C_Commission
 	  */
 	public boolean isTotallyPaid();
 
+    /** Column name IsAllowRMA */
+    public static final String COLUMNNAME_IsAllowRMA = "IsAllowRMA";
+
+	/** Set Allow RMA.
+	  * Allow to consider RMA
+	  */
+	public void setIsAllowRMA (boolean IsAllowRMA);
+
+	/** Get Allow RMA.
+	  * Allow to consider RMA
+	  */
+	public boolean isAllowRMA();
+
     /** Column name ListDetails */
     public static final String COLUMNNAME_ListDetails = "ListDetails";
 
