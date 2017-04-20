@@ -1,12 +1,11 @@
 <%@ include file="/WEB-INF/jspf/page.jspf" %>
 <html>
-<!--
+<%--
 - Author: Jorg Janke
-- Version: $Id: login.jsp,v 1.2 2006/05/06 00:41:33 mdeaelfweald Exp $
-- Adempiere ERP & CRM Smart Business Solution - Copyright (c) 1999-2003 Jorg Janke
+- ADempiere ERP & CRM Smart Business Solution - Copyright (c) 1999-2003 Jorg Janke
 - - -
 - Web Login
--->
+--%>
 
 <head>
     <%@ include file="/WEB-INF/jspf/head.jspf" %>
@@ -64,7 +63,7 @@
                 <fieldset>
                     <legend id="LoginOrNewLegend">Login Existing User</legend>
 
-            <input name="AD_Client_ID" type="hidden" value='<c:out value="${initParam['#AD_Client_ID']}" default="0"/>'/>
+            <input name="AD_Client_ID" type="hidden" value='<c:out value="${initParam.#AD_Client_ID}" default="0"/>'/>
             <input name="Source" type="hidden" value=""/>
             <input name="Info" type="hidden" value=""/>
             <input name="Mode" type="hidden" value=""/>
@@ -76,9 +75,6 @@
 
             <label id="LBL_EMail" for="EMail" title="Must be a valid EMail Address!!"><cws:message txt="EMail"/></label>
             <input class="mandatory" size="40" id="ID_EMail" value='<c:out value="${webUser.email}"/>' name="EMail" maxlength="60" type="text"/>
-            <input name="validated" type="checkbox" id="validated" value="validated" disabled
-                <c:if test='${webUser.EMailVerified}'> checked</c:if>> Address validated
-            <br/>
 
             <label id="LBL_Password" for="Password"><cws:message txt="Password"/></label>
             <input class="mandatory" size="20" type="password" id="ID_Password" value="" name="Password" maxlength="40"/>
