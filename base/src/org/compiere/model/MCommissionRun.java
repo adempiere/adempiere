@@ -378,7 +378,7 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 					if (!invoiceCompletelyPaid(C_InvoiceLine_ID)) {
 						// Commission applies only in case the invoice has been paid in whole.
 						// If the Invoice Line belongs to an Invoice which has not been (completely) paid, skip commission calculation.
-						m_comissionLog.append("<br>" + "----------------Not totally " + "<mark>"+ "paid" + "</mark>" + " . Skipping");	
+						m_comissionLog.append("<br>" + "----------------" + "<mark>" + "Not totally paid" + "</mark>" + " . Skipping");	
 						m_comissionLog.append("<br>" + "------------One match found end" + "<br><br>");	
 						continue;
 					}
