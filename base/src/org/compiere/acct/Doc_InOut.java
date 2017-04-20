@@ -40,7 +40,6 @@ import org.compiere.util.Env;
  *  @author Armen Rizal, Goodwill Consulting
  * 			<li>BF [ 1745154 ] Cost in Reversing Material Related Docs
  * 			<li>BF [ 2858043 ] Correct Included Tax in Average Costing
- *  @version  $Id: Doc_InOut.java,v 1.3 2006/07/30 00:53:33 jjanke Exp $
  */
 public class Doc_InOut extends Doc
 {
@@ -266,6 +265,7 @@ public class Doc_InOut extends Doc
 			}	//	Commitment
 		
 		}	//	Shipment
+
         //	  *** Sales - Return
 		else if ( getDocumentType().equals(DOCTYPE_MatReceipt) && isSOTrx() )
 		{
@@ -455,7 +455,8 @@ public class Doc_InOut extends Doc
 					}*/
 				}
 		}	//	Receipt
-				//	  *** Purchasing - return
+
+		//	  *** Purchasing - return
 		else if (getDocumentType().equals(DOCTYPE_MatShipment) && !isSOTrx())
 		{
 			BigDecimal total = Env.ZERO;
@@ -468,17 +469,17 @@ public class Doc_InOut extends Doc
 				BigDecimal costs = null;
 				
 				MProduct product = line.getProduct();
-				for(MCostDetail cost : line.getCostDetail(as,true))
+				for (MCostDetail cost : line.getCostDetail(as,true))
 				{	
 					if (!MCostDetail.existsCost(cost))
 						continue;
-					
+
 					costs = MCostDetail.getTotalCost(cost, as);
-					
+
 					total = total.add(costs);
-					
+
 					String description = cost.getM_CostElement().getName() +" "+ cost.getM_CostType().getName();
-						
+
 						dr = fact.createLine(line,
 							getAccount(Doc.ACCTTYPE_NotInvoicedReceipts, as),
 							C_Currency_ID, costs , null);
