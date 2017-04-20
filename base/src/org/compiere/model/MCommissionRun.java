@@ -199,11 +199,13 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 	{
 		log.info(toString());
 		m_comissionLog = new StringBuffer();
-		m_comissionLog.append("<br>" + "Commission calculation process: start");				
+		m_comissionLog.append("<!DOCTYPE html>");	
+		m_comissionLog.append("<html><head> <title>Commission calculation process</title> <meta charset=\"UTF-8\"> </head><body>");
+		m_comissionLog.append("<h1>" + "Commission calculation process: start" + "</h1>");				
 		Date todayAsDate      = new java.util.Date();
 		Timestamp todayAsTime = new Timestamp(todayAsDate.getTime());
-		m_comissionLog.append("<br>" + "Starting date: " + todayAsTime);
-		m_comissionLog.append("<br>" + "Document No: " + getDocumentNo());
+		m_comissionLog.append("Starting date: " + todayAsTime);
+		m_comissionLog.append("<br>" + "Document No: " + "<b>" + getDocumentNo() + "</b>");
 		m_comissionLog.append("<br>" + "Recalculate: " + (isReCalculate()?"Y":"N"));
 		m_comissionLog.append("<br>");
 		
@@ -255,6 +257,7 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 		todayAsTime = new Timestamp(todayAsDate.getTime());
 		m_comissionLog.append("<br>" + "Ending date: " + todayAsTime);
 		m_comissionLog.append("<br>" + "Commission calculation process: end");	
+		m_comissionLog.append("</body></html>");
 
 		try
 		{
@@ -294,8 +297,7 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 		String frequencyType = null;
 		List<MCommission> commissionList = new ArrayList<MCommission>();
 		
-		deleteMovements();
-		//	Get commission(s)
+		//	Verify for commission(s) to process
 		if(getC_Commission_ID() != 0) {
 			MCommission commission = new MCommission(getCtx(), getC_Commission_ID(), get_TrxName());
 			if(commission.isActive()) {
@@ -316,26 +318,33 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 			throw new AdempiereException("@NoCommissionDefined@");
 		}
 		
+		// Delete old movements only when we can start
+		deleteMovements();
+		
 		//	Set Start and End
 		setStartEndDate(frequencyType);
-		m_comissionLog.append("<br>" + "----Start and end date set: " + "StartDate = " + getStartDate() + ", EndDate = " + getEndDate());
+		m_comissionLog.append("<br>" + "----Start and end date of this commission run has been set: " + "StartDate = " + getStartDate() + ", EndDate = " + getEndDate());
 		log.info("StartDate = " + getStartDate() + ", EndDate = " + getEndDate());
 		
 		//	Iterate for each commission definition and  Sales Representative
 		for(MCommission commission : commissionList) {
-			m_comissionLog.append("<br>" + "--------Commission processing start: " + commission.getName());
-			m_comissionLog.append("(Calculation basis:" + commission.getDocBasisType() + ", Frequency type: " + commission.getFrequencyType());
+			m_comissionLog.append("<h2>" + "Commission processing" + "</h2>");
+			m_comissionLog.append("--------Commission processing start: " + "<b>" + commission.getName() + "</b>");
+			m_comissionLog.append("<br>" + "Calculation basis:" + commission.getDocBasisType() + ", Frequency type: " + commission.getFrequencyType());
 			m_comissionLog.append(", must to have been paid totally?: " + (commission.isTotallyPaid()?"Y":"N") + ", includes RMA?: " + (commission.isAllowRMA()?"Y":"N"));
-			m_comissionLog.append(", list details?: " + (commission.isListDetails()?"Y":"N") + ")");
+			m_comissionLog.append(" Charge: " + commission.getC_Charge().getName());
+			m_comissionLog.append(", list details?: " + (commission.isListDetails()?"Y":"N"));
+			m_comissionLog.append("<h3>" + "Commission for Sales representatives" + "</h3>");
 			
 			for(MBPartner salesRep : commission.getSalesRepsOfCommission()) {
-				m_comissionLog.append("<br>" + "------------Commission for Sales representative start: " + salesRep.getName());
+				m_comissionLog.append("------------Commission for Sales representative start: " + "<b>" + salesRep.getName() + "</b>");
 				processCommissionLine(salesRep, commission);
 				if (commission.isAllowRMA()) {					
 					// TODO: process devolutions which are not in the invoice lines
 				}	
-				m_comissionLog.append("<br>" + "------------Commission for Sales representative end: " + salesRep.getName() + "<br>");	
+				m_comissionLog.append("------------Commission for Sales representative end: " + salesRep.getName() + "<br><br>");	
 			}	
+			m_comissionLog.append("<br>" + "------------Commission for Sales representatives end");
 			m_comissionLog.append("<br>" + "--------Commission processing end: " + commission.getName() + "<br>");	
 		}
 		saveEx();
@@ -351,6 +360,7 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 		String language = Env.getAD_Language(getCtx());
 		int C_InvoiceLine_ID;
 		BigDecimal qtyReturned = Env.ZERO;
+		m_comissionLog.append("<h5>" + "Matching commission line definition with documents" + "</h5>");
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
@@ -360,7 +370,7 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 			pstmt.setTimestamp(3, getEndDate());
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
-				m_comissionLog.append("<br>" + "------------One match found start");	
+				m_comissionLog.append("------------One match found start: try to create a Commission detail");	
 				C_InvoiceLine_ID = rs.getInt(5);
 				if(commission.getDocBasisType().equals(MCommission.DOCBASISTYPE_Receipt)
 						&& commission.isTotallyPaid()) {
@@ -368,18 +378,18 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 					if (!invoiceCompletelyPaid(C_InvoiceLine_ID)) {
 						// Commission applies only in case the invoice has been paid in whole.
 						// If the Invoice Line belongs to an Invoice which has not been (completely) paid, skip commission calculation.
-						m_comissionLog.append("<br>" + "----------------Not totally paid. Skipping");	
-						m_comissionLog.append("<br>" + "------------One match found end" + "<br>");	
+						m_comissionLog.append("<br>" + "----------------Not totally " + "<mark>"+ "paid" + "</mark>" + " . Skipping");	
+						m_comissionLog.append("<br>" + "------------One match found end" + "<br><br>");	
 						continue;
 					}
-					m_comissionLog.append("<br>" + "----------------Totally paid. Continuing");	
+					m_comissionLog.append("<br>" + "----------------Totally paid test " + "<mark>" + "passed" +  "</mark>" + " . Continuing creating a new Commission Detail");	
 				}
 				//	CommissionAmount, C_Currency_ID, Amt, Qty,
 				MCommissionDetail cd = new MCommissionDetail (comAmt,
 					rs.getInt(1), rs.getBigDecimal(2), rs.getBigDecimal(3));
 
-				m_comissionLog.append("<br>" + "----------------Actual Amount: " + rs.getBigDecimal(2));
-				m_comissionLog.append("<br>" + "----------------Actual Quantity: " + rs.getBigDecimal(3));
+				m_comissionLog.append("<br>" + "----------------Actual Amount: "+ "<b>" + rs.getBigDecimal(2).setScale(2, BigDecimal.ROUND_HALF_UP) + "</b>");
+				m_comissionLog.append("<br>" + "----------------Actual Quantity: "+ "<b>" + rs.getBigDecimal(3).setScale(2, BigDecimal.ROUND_HALF_UP) + "</b>");
 					
 				//	C_OrderLine_ID, C_InvoiceLine_ID,
 				cd.setLineIDs(rs.getInt(4), rs.getInt(5));
@@ -388,18 +398,18 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 				String s = rs.getString(6);
 				if (s != null) {					
 					cd.setReference(Msg.translate(language, "Payment") + "_" + Msg.translate(language, "Invoice") + ": " + s);
-					m_comissionLog.append("<br>" + "----------------" + cd.getReference());	
+					m_comissionLog.append("<br>" + "----------------"+ "<b>" + cd.getReference()+ "</b>");	
 				}
 				s = rs.getString(7);
 				if (s != null) {					
 					cd.setInfo(Msg.translate(language, "ProductValue") + ": " + s);
-					m_comissionLog.append("<br>" + "----------------" + cd.getInfo());	
+					m_comissionLog.append("<br>" + "----------------"+ "<b>" + cd.getInfo()+ "</b>");	
 				}
 				
 				//	Date
 				Timestamp date = rs.getTimestamp(8);
 				cd.setConvertedAmt(date);
-				m_comissionLog.append("<br>" + "----------------Converted Amount: " + cd.getConvertedAmt());
+				m_comissionLog.append("<br>" + "----------------Converted Amount: "+ "<b>" + cd.getConvertedAmt().setScale(2, BigDecimal.ROUND_HALF_UP) + "</b>");
 				cd.saveEx();
 				
 				// Check for RMAs
@@ -418,11 +428,11 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 						m_comissionLog.append(compensationCD.getReference() + ", " + compensationCD.getInfo() + ", ");
 						m_comissionLog.append("Actual Amount:" + compensationCD.getActualAmt() + ", ");
 						m_comissionLog.append("Actual Qty:" + compensationCD.getActualQty() + ", ");
-						m_comissionLog.append("Converted Amount:" + compensationCD.getConvertedAmt() + "<br>");
+						m_comissionLog.append("Converted Amount:" + compensationCD.getConvertedAmt());
 						m_comissionLog.append("<br>" + "----------------Compensation needed end: ");
 					}
 				}
-				m_comissionLog.append("<br>" + "------------One match found end" + "<br>");	
+				m_comissionLog.append("<br>" + "------------One match found end" + "<br><br>");	
 			}
 		} catch (Exception e) {
 			throw new AdempiereException("System Error: " + e.getLocalizedMessage(), e);
@@ -466,7 +476,7 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 			while (rs.next()) {
 				payedSum = rs.getBigDecimal(1);
 				grandTotal  = rs.getBigDecimal(2);
-				m_comissionLog.append("<br>" + "----------------Invoice: " + rs.getString(3) );
+				m_comissionLog.append("<br>" + "----------------Invoice: " + "<b>" + rs.getString(3) + "</b>");
 			}
 		}
 		catch (Exception e) {
@@ -475,7 +485,8 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 			DB.close(rs, pstmt);
 			rs = null; pstmt = null;
 		}
-		m_comissionLog.append("<br>" + "----------------Check if totally paid: Grand Total: " + grandTotal + ", payed sum: " + payedSum);	
+		m_comissionLog.append("<br>" + "----------------Check if totally paid: Grand Total: " + 
+				"<b>" + grandTotal + "</b>" + ", Payed sum: "+ "<b>" + payedSum.setScale(2, BigDecimal.ROUND_HALF_UP) + "</b>");	
 		if (grandTotal.compareTo(payedSum)==1)
 			return false;
 		else
@@ -536,7 +547,15 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 		MCommissionLine[] commissionLines = commission.getLines();
 		List<Integer> salesRegion;
 		String sqlAppend = " AND p.DateTrx BETWEEN ? AND ? ";	
+		m_comissionLog.append("<h4>" + "Processing Commission line" + "</h4>");
 		for (MCommissionLine commissionLine : commissionLines) {
+			m_comissionLog.append("Commission Line No: " + "<b>" + commissionLine.getLine() + "</b><br>");
+			m_comissionLog.append("Quantity to subtract: " + commissionLine.getQtySubtract() + ", Value to multiply: " + commissionLine.getQtyMultiplier());
+			m_comissionLog.append(", Subtract Amount: " + commissionLine.getAmtSubtract() + ", Multiplier Amount: " + commissionLine.getAmtMultiplier());
+			m_comissionLog.append(", Positive only?: " + (commissionLine.isPositiveOnly()?"Y":"N") );
+			m_comissionLog.append(", Business Partner: " + commissionLine.getC_BPartner().getName() + ", Product: " + commissionLine.getM_Product().getName());
+			m_comissionLog.append(", Valid if paid from: " + commissionLine.getDaysFrom() + " days to: " + commissionLine.getDaysTo() + " days");
+			m_comissionLog.append("<br>" + "Description: " + commissionLine.getDescription());
 			salesRegion = new ArrayList<Integer>();
 			MCommissionAmt comAmt = new MCommissionAmt (this, commissionLine.getC_CommissionLine_ID());
 			comAmt.setC_BPartner_ID(salesRep.getC_BPartner_ID());
@@ -750,11 +769,12 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 				m_comissionLog.append("<br>" + "------------No match found ->  Delete Commission Amount because it has no details");	
 			}
 			else  {		
-				m_comissionLog.append("<br>" + "------------Calculate summary start");				
+				m_comissionLog.append("<h3 style=\"background-color:orange\">" + "Calculate summary for " + salesRep.getName() + " start" + "</h3>");				
 				comAmt.calculateCommission();
-				m_comissionLog.append("<br>" + "----------------Commission Amount: " + comAmt.getCommissionAmt());	
-				m_comissionLog.append("<br>" + ", Actual qty: " + comAmt.getActualQty() + ", Base for commission: " + comAmt.getConvertedAmt());	
-				m_comissionLog.append("<br>" + "------------Calculate summary end");	
+				m_comissionLog.append("Commission Amount: " + comAmt.getCommissionAmt().setScale(2, BigDecimal.ROUND_HALF_UP));	
+				m_comissionLog.append("<br>" + "Actual qty: " + comAmt.getActualQty().setScale(2, BigDecimal.ROUND_HALF_UP));
+				m_comissionLog.append("<br>" + "Base for commission: " + comAmt.getConvertedAmt().setScale(2, BigDecimal.ROUND_HALF_UP));	
+				m_comissionLog.append("<h3 style=\"background-color:orange\">" + "Calculate summary end" + "</h3>");	
 				comAmt.saveEx();
 			}
 		}	//	for all commission lines
