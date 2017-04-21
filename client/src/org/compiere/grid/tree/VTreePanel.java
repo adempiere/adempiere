@@ -239,19 +239,19 @@ public final class VTreePanel extends CPanel
 	/**
 	 *  Tree initialization.
 	 * 	May be called several times
-	 *	@param	AD_Tree_ID	tree to load
+	 *	@param	treeId	tree to load
 	 *  @return true if loaded ok
 	 */
-	public boolean initTree (int AD_Tree_ID)
+	public boolean initTree (int treeId)
 	{
-		log.config("AD_Tree_ID=" + AD_Tree_ID);
+		log.config("AD_Tree_ID=" + treeId);
 		//
-		m_AD_Tree_ID = AD_Tree_ID;
+		m_AD_Tree_ID = treeId;
 
 		//  Get Tree
-		MTree vTree = new MTree (Env.getCtx(), AD_Tree_ID, m_editable, true, null);
+		MTree vTree = new MTree (Env.getCtx(), treeId, m_editable, true, null);
 		m_root = vTree.getRoot();
-		m_root.setName(Msg.getMsg(Env.getCtx(), vTree.getName() ) ); // translate name of menu.
+		m_root.setName(Msg.getMsg(Env.getCtx(), vTree.getName()).replace("&" , "")); // translate name of menu.
 		// m_root.setName(Msg.getMsg(Env.getCtx(), "Menu") ); // @Trifon; this is the hardcoded way.
 
 		log.config("root=" + m_root);
