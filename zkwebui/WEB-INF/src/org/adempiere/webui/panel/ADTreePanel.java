@@ -43,6 +43,7 @@ public class ADTreePanel extends Panel implements EventListener
 	private static final long serialVersionUID = 5473705529310157142L;
 	private TreeSearchPanel pnlSearch;
     private Tree tree;
+    private int treeId = 0 ;
     
     private Checkbox chkExpand; // Elaine 2009/02/27 - expand tree
     
@@ -57,8 +58,11 @@ public class ADTreePanel extends Panel implements EventListener
      */
     public void initTree(int AD_Tree_ID, int windowNo) 
     {
-    	SimpleTreeModel.initADTree(tree, AD_Tree_ID, windowNo);
-    	pnlSearch.initialise();
+		if (this.getTreeId() != AD_Tree_ID) {
+			SimpleTreeModel.initADTree(tree, AD_Tree_ID, windowNo);
+			pnlSearch.initialise();
+			treeId = AD_Tree_ID;
+		}
     }
     
     private void init()
@@ -217,5 +221,10 @@ public class ADTreePanel extends Panel implements EventListener
 			return;
 
 	}   //  nodeChanged
+
+	public int getTreeId()
+	{
+		return treeId;
+	}
 
 }
