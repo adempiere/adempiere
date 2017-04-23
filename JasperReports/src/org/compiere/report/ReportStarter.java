@@ -102,7 +102,10 @@ import org.compiere.util.Util;
  * @author Cristina Ghita, www.arhipac.ro
  * 			<li>BF [ 2778472 ] Subreport bug
  * @author Trifon Trifonov, 
- * 			<li>BF[ ] Create PDF file with human readable name: Title +"_"+ Record_ID +".pdf" - link</li>
+ * 			<li>BF[ ] Create PDF file with human readable name: Title +"_"+ Record_ID +".pdf" - link</li>\
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<a href="https://github.com/adempiere/adempiere/issues/149">
+ * 		@see FR [ 149 ] iReport integration does not have the standard names for parameters</a>
  */
 public class ReportStarter implements ProcessCall, ClientProcess
 {
@@ -424,8 +427,7 @@ public class ReportStarter implements ProcessCall, ClientProcess
 			reportResult(AD_PInstance_ID, tmp, trxName);
 		}
 
-		if (reportFile != null)
-		{
+		if (reportFile != null) {
 			data = processReport(reportFile);
 			if(data.getJasperReport()==null) {				
                 log.severe("Could not load Jasper Report " + reportPath);
@@ -433,27 +435,25 @@ public class ReportStarter implements ProcessCall, ClientProcess
 			}
 			fileExtension = reportFile.getName().substring(reportFile.getName().lastIndexOf("."),
 					reportFile.getName().length());
-		}
-		else
-		{
+		} else {
 			return false;
 		}
-
+		//	
 		JasperReport jasperReport = data.getJasperReport();
-        String jasperName = data.getJasperName();
-        String name =  jasperReport.getName();
-        File reportDir = data.getReportDir();
-        
-       	// Add reportDir to class path
-		ClassLoader scl = ClassLoader.getSystemClassLoader();
-		try {
-			java.net.URLClassLoader ucl = new java.net.URLClassLoader(new java.net.URL[]{reportDir.toURI().toURL()}, scl);
-			net.sf.jasperreports.engine.util.JRResourcesUtil.setThreadClassLoader(ucl);
-		} catch (MalformedURLException me) {
-			log.warning("Could not add report directory to classpath: "+ me.getMessage());
-		}
-
+		//	Validate and do it
         if (jasperReport != null) {
+        	String jasperName = data.getJasperName();
+            String name =  jasperReport.getName();
+            File reportDir = data.getReportDir();
+            
+           	// Add reportDir to class path
+    		ClassLoader scl = ClassLoader.getSystemClassLoader();
+    		try {
+    			java.net.URLClassLoader ucl = new java.net.URLClassLoader(new java.net.URL[]{reportDir.toURI().toURL()}, scl);
+    			net.sf.jasperreports.engine.util.JRResourcesUtil.setThreadClassLoader(ucl);
+    		} catch (MalformedURLException me) {
+    			log.warning("Could not add report directory to classpath: "+ me.getMessage());
+    		}
 			File[] subreports;
 
             // Subreports
@@ -490,17 +490,26 @@ public class ReportStarter implements ProcessCall, ClientProcess
             	} // @Trifon - end
             }
 
-            if (Record_ID > 0)
-            	params.put("RECORD_ID", new Integer( Record_ID));
+            if (Record_ID > 0) {
+            	params.put("RECORD_ID", new Integer(Record_ID));
+            	params.put("Record_ID", new Integer(Record_ID));
+            }
 
         	// contribution from Ricardo (ralexsander)
             // in iReports you can 'SELECT' AD_Client_ID, AD_Org_ID and AD_User_ID using only AD_PINSTANCE_ID
-            params.put("AD_PINSTANCE_ID", new Integer( AD_PInstance_ID));
-
+            params.put("AD_PINSTANCE_ID", new Integer(AD_PInstance_ID));
+            params.put("AD_PInstance_ID", new Integer(AD_PInstance_ID));
+            
             // FR [3123850] - Add continiuosly needed parameters to Jasper Starter - Carlos Ruiz - GlobalQSS
-        	params.put("AD_CLIENT_ID", new Integer( Env.getAD_Client_ID(Env.getCtx())));
-        	params.put("AD_ROLE_ID", new Integer( Env.getAD_Role_ID(Env.getCtx())));
-        	params.put("AD_USER_ID", new Integer( Env.getAD_User_ID(Env.getCtx())));
+        	//	Client
+            params.put("AD_CLIENT_ID", new Integer(Env.getAD_Client_ID(Env.getCtx())));
+        	params.put("AD_Client_ID", new Integer(Env.getAD_Client_ID(Env.getCtx())));
+        	//	Role
+        	params.put("AD_ROLE_ID", new Integer(Env.getAD_Role_ID(Env.getCtx())));
+        	params.put("AD_Role_ID", new Integer(Env.getAD_Role_ID(Env.getCtx())));
+        	//	User
+        	params.put("AD_USER_ID", new Integer(Env.getAD_User_ID(Env.getCtx())));
+        	params.put("AD_User_ID", new Integer(Env.getAD_User_ID(Env.getCtx())));
 
         	Language currLang = Env.getLanguage(Env.getCtx());
         	String printerName = null;
@@ -616,9 +625,7 @@ public class ReportStarter implements ProcessCall, ClientProcess
                     		log.severe("ReportStarter.startProcess: Can not make PDF File - "+ e.getMessage());
                     	}
                 }
-
                     // You can use JasperPrint to create PDF
-//                        JasperExportManager.exportReportToPdfFile(jasperPrint, "BasicReport.pdf");
                 } else {
                     log.info( "ReportStarter.startProcess run report -"+jasperPrint.getName());
                     JRViewerProvider viewerLauncher = getReportViewerProvider();
@@ -636,8 +643,8 @@ public class ReportStarter implements ProcessCall, ClientProcess
 					}
             }
         }
-
-        reportResult( AD_PInstance_ID, null, trxName);
+        //	
+        reportResult(AD_PInstance_ID, null, trxName);
         return true;
     }
 
@@ -775,8 +782,7 @@ public class ReportStarter implements ProcessCall, ClientProcess
 	 * @param reportPath
 	 * @return the abstract file corresponding to report
 	 */
-	protected File getReportFile(String reportPath)
-	{
+	protected File getReportFile(String reportPath) {
 		File reportFile = null;
 
 		// Reports deployment on web server Thanks to Alin Vaida
@@ -792,7 +798,6 @@ public class ReportStarter implements ProcessCall, ClientProcess
 				reportFile = new File(new URI(reportPath));
 			} catch (URISyntaxException e) {
 				log.warning(e.getLocalizedMessage());
-				reportFile = null;
 			}
 		} else if (reportPath.startsWith("resource:")) {
 			try {
@@ -831,15 +836,12 @@ public class ReportStarter implements ProcessCall, ClientProcess
 
 		OutputStream out = null;
 		out = new FileOutputStream(reportFile);
-		if (out != null){
-			byte buf[]=new byte[1024];
-			int len;
-			while((len=inputStream.read(buf))>0)
-				out.write(buf,0,len);
-			out.close();
-			inputStream.close();
-		}
-
+		byte buf[]=new byte[1024];
+		int len;
+		while((len=inputStream.read(buf))>0)
+			out.write(buf,0,len);
+		out.close();
+		inputStream.close();
 		return reportFile;
 	}
 
@@ -939,7 +941,6 @@ public class ReportStarter implements ProcessCall, ClientProcess
                 try {
                     jasperReport = (JasperReport)JRLoader.loadObject(jasperFile.getAbsolutePath());
                 } catch (JRException e) {
-                    jasperReport = null;
                     log.severe("Can not load report - "+ e.getMessage());
                 }
             } else {
@@ -958,8 +959,7 @@ public class ReportStarter implements ProcessCall, ClientProcess
      * @param params
      * @param trxName
      */
-    private static void addProcessParameters(int AD_PInstance_ID, Map<String, Object> params, String trxName)
-    {
+    private static void addProcessParameters(int AD_PInstance_ID, Map<String, Object> params, String trxName) {
         final String sql = "SELECT "
         				+" "+X_AD_PInstance_Para.COLUMNNAME_ParameterName
         				+","+X_AD_PInstance_Para.COLUMNNAME_P_String
@@ -974,41 +974,50 @@ public class ReportStarter implements ProcessCall, ClientProcess
                     +" WHERE "+X_AD_PInstance_Para.COLUMNNAME_AD_PInstance_ID+"=?";
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        try
-        {
+        try {
             pstmt = DB.prepareStatement(sql, ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY, trxName);
             pstmt.setInt(1, AD_PInstance_ID);
             rs = pstmt.executeQuery();
-            while (rs.next())
-            {
+            while (rs.next()) {
                 String name = rs.getString(1);
                 String pStr = rs.getString(2);
                 String pStrTo = rs.getString(3);
                 BigDecimal pNum = rs.getBigDecimal(4);
                 BigDecimal pNumTo = rs.getBigDecimal(5);
-
+                //	
                 Timestamp pDate = rs.getTimestamp(6);
                 Timestamp pDateTo = rs.getTimestamp(7);
+                
                 if (pStr != null) {
-                    if (pStrTo!=null) {
-                        params.put( name+"1", pStr);
-                        params.put( name+"2", pStrTo);
-                    } else {
-                        params.put( name, pStr);
+                	//	Add Standard Name
+                	params.put(name, pStr);
+                	//	
+                    if (pStrTo != null) {
+                    	//	Old Compatibility
+                        params.put(name+"1", pStr);
+                        params.put(name+"2", pStrTo);
+                        //	Add Standard Name
+                        params.put(name + "_To", pStrTo);
                     }
                 } else if (pDate != null) {
-                    if (pDateTo!=null) {
-                        params.put( name+"1", pDate);
-                        params.put( name+"2", pDateTo);
-                    } else {
-                        params.put( name, pDate);
+                    //	Add Standard Name
+                	params.put(name, pDate);
+                	//	
+                    if (pDateTo != null) {
+                        params.put(name+"1", pDate);
+                        params.put(name+"2", pDateTo);
+                        //	Add Standard Name
+                        params.put(name + "_To", pDateTo);
                     }
                 } else if (pNum != null) {
-                    if (pNumTo!=null) {
-                        params.put( name+"1", pNum);
-                        params.put( name+"2", pNumTo);
-                    } else {
-                        params.put( name, pNum);
+                    //	Add Standard Name
+                	params.put(name, pNum);
+                	//	
+                    if (pNumTo != null) {
+                        params.put(name+"1", pNum);
+                        params.put(name+"2", pNumTo);
+                        //	Add Standard Name
+                        params.put(name + "_To", pNumTo);
                     }
                 }
                 //
@@ -1018,28 +1027,25 @@ public class ReportStarter implements ProcessCall, ClientProcess
         		params.put(name+"_Info1", (info != null ? info : ""));
         		params.put(name+"_Info2", (infoTo != null ? infoTo : ""));
             }
-        }
-        catch (SQLException e)
-        {
-//            log.severe("Execption; sql = "+sql+"; e.getMessage() = " +e.getMessage());
+        } catch (SQLException e) {
             throw new DBException(e, sql);
-        }
-        finally
-        {
+        } finally {
             DB.close(rs, pstmt);
             rs = null; pstmt = null;
         }
     }
 
-    private void addProcessInfoParameters(Map<String, Object> params, ProcessInfoParameter[] para)
-    {
-    	if (para != null) {
-			for (int i = 0; i < para.length; i++) {
-				if (para[i].getParameter_To() == null) {
-					params.put(para[i].getParameterName(), para[i].getParameter());
-				} else {
-	                params.put( para[i].getParameterName()+"1", para[i].getParameter());
-	                params.put( para[i].getParameterName()+"2", para[i].getParameter_To());
+    private void addProcessInfoParameters(Map<String, Object> params, ProcessInfoParameter[] infoPara) {
+    	if (infoPara != null) {
+			for (ProcessInfoParameter para : infoPara) {
+				//	Add Standard Name
+				params.put(para.getParameterName(), para.getParameter());
+				//	
+				if (para.getParameter_To() != null) {
+	                params.put(para.getParameterName()+"1", para.getParameter());
+	                params.put(para.getParameterName()+"2", para.getParameter_To());
+	                //	Add Standard Name
+	                params.put(para.getParameterName() + "_To", para.getParameter_To());
 				}
 			}
     	}
@@ -1088,8 +1094,10 @@ public class ReportStarter implements ProcessCall, ClientProcess
 					reqLib = null;
 				}
 			}
-
-			jasperreportsAbsolutePath = reqLib.getAbsolutePath();
+			//	
+			if(reqLib != null) {
+				jasperreportsAbsolutePath = reqLib.getAbsolutePath();
+			}
 		}
 		else
 		{
@@ -1170,8 +1178,6 @@ public class ReportStarter implements ProcessCall, ClientProcess
         catch (SQLException e)
         {
         	throw new DBException(e, sql);
-//        	log.severe("sql = "+sql+"; e.getMessage() = "+ e.getMessage());
-//        	return null;
         }
         finally
         {
