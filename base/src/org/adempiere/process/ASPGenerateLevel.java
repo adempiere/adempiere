@@ -65,6 +65,10 @@ import org.compiere.wf.MWorkflow;
  * 	Generate ASP entries for a level
  *	
  *  @author Carlos Ruiz
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<a href="https://github.com/adempiere/adempiere/issues/569">
+ * 		@see FR [ 569 ] ASP_Browse does not exist</a>
+ *  
  */
 public class ASPGenerateLevel extends SvrProcess
 {
@@ -138,27 +142,31 @@ public class ASPGenerateLevel extends SvrProcess
 		}
 		
 		if (noWindows > 0)
-			addLog("Window " + noWindows);
+			addLog("@AD_Window_ID@ (" + noWindows + ")");
 		if (noTabs > 0)
-			addLog("Tab " + noTabs);
+			addLog("@AD_Tab_ID@ (" + noTabs + ")");
 		if (noFields > 0)
-			addLog("Field " + noFields);
+			addLog("@AD_Field_ID@ (" + noFields + ")");
 		if (noProcesses > 0)
-			addLog("Process " + noProcesses);
+			addLog("@AD_Process_ID@ (" + noProcesses + ")");
 		if (noParameters > 0)
-			addLog("Process Parameter " + noParameters);
+			addLog("@AD_Process_Para_ID@ (" + noParameters + ")");
 		if (noForms > 0)
-			addLog("Form " + noForms);
+			addLog("@AD_Form_ID@ (" + noForms + ")");
 		if (noBrowses > 0)
-			addLog("noBrowses " + noBrowses);
+			addLog("@AD_Browse_ID@ (" + noBrowses + ")");
 		if (noTasks > 0)
-			addLog("Task " + noTasks);
+			addLog("@AD_Task_ID@ (" + noTasks + ")");
 		if (noWorkflows > 0)
-			addLog("Workflow " + noWorkflows);
+			addLog("@AD_Workflow_ID@ (" + noWorkflows + ")");
 
 		return "@OK@";
 	}	//	doIt
 
+	/**
+	 * Add Node
+	 * @param nn
+	 */
 	private void addNodeToLevel(MTreeNode nn) {
 		// Add Menu
 		MMenu menu = new MMenu(getCtx(), nn.getNode_ID(), get_TrxName());
@@ -212,8 +220,8 @@ public class ASPGenerateLevel extends SvrProcess
 							aspField.setASP_Tab_ID(aspTab.getASP_Tab_ID());
 							aspField.setAD_Field_ID(field.getAD_Field_ID());
 							aspField.setASP_Status(p_ASP_Status);
-							if (aspField.save())
-								noFields++;
+							aspField.saveEx();
+							noFields++;
 						}
 					}
 					// verify if a field is a button and assign permission to the corresponding process
@@ -239,8 +247,8 @@ public class ASPGenerateLevel extends SvrProcess
 				aspForm.setASP_Level_ID(p_ASP_Level_ID);
 				aspForm.setAD_Form_ID(form.getAD_Form_ID());
 				aspForm.setASP_Status(p_ASP_Status);
-				if (aspForm.save())
-					noForms++;
+				aspForm.saveEx();
+				noForms++;
 			}
 		} else if (menu.getAction().equals(MMenu.ACTION_SmartBrowse)) {
 			// Add Browse
@@ -253,8 +261,8 @@ public class ASPGenerateLevel extends SvrProcess
 				aspBrowse.setASP_Level_ID(p_ASP_Level_ID);
 				aspBrowse.setAD_Browse_ID(browse.getAD_Browse_ID());
 				aspBrowse.setASP_Status(p_ASP_Status);
-				if (aspBrowse.save())
-					noBrowses++;
+				aspBrowse.saveEx();
+				noBrowses++;
 			}
 		} else if (menu.getAction().equals(MMenu.ACTION_Task)) {
 			// Add Task
@@ -267,14 +275,18 @@ public class ASPGenerateLevel extends SvrProcess
 				aspTask.setASP_Level_ID(p_ASP_Level_ID);
 				aspTask.setAD_Task_ID(task.getAD_Task_ID());
 				aspTask.setASP_Status(p_ASP_Status);
-				if (aspTask.save())
-					noTasks++;
+				aspTask.saveEx();
+				noTasks++;
 			}
 		} else if (menu.getAction().equals(MMenu.ACTION_WorkFlow)) {
 			generateWorkflow(menu.getAD_Workflow_ID());
 		}		
 	}
-
+	
+	/**
+	 * For Process
+	 * @param p_AD_Process_ID
+	 */
 	private void generateProcess(int p_AD_Process_ID) {
 		// Add Process and Parameters
 		MProcess process = new MProcess(getCtx(), p_AD_Process_ID, get_TrxName());
@@ -312,7 +324,11 @@ public class ASPGenerateLevel extends SvrProcess
 			generateWorkflow(process.getAD_Workflow_ID());
 		}
 	}
-
+	
+	/**
+	 * For Workflow
+	 * @param p_AD_Workflow_ID
+	 */
 	private void generateWorkflow(int p_AD_Workflow_ID) {
 		// Add Workflow and Nodes
 		MWorkflow workflow = new MWorkflow(getCtx(), p_AD_Workflow_ID, get_TrxName());
@@ -324,8 +340,8 @@ public class ASPGenerateLevel extends SvrProcess
 			aspWorkflow.setASP_Level_ID(p_ASP_Level_ID);
 			aspWorkflow.setAD_Workflow_ID(workflow.getAD_Workflow_ID());
 			aspWorkflow.setASP_Status(p_ASP_Status);
-			if (aspWorkflow.save())
-				noWorkflows++;
+			aspWorkflow.saveEx();
+			noWorkflows++;
 		}
 	}
 
