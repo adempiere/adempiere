@@ -42,8 +42,14 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Trx;
 
-
-public class AProcessModel
+/**
+ * 
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<a href="https://github.com/adempiere/adempiere/issues/999">
+ * 		@see FR [ 999 ] Add ZK Support for Process Action</a>
+ *
+ */
+public class AProcessActionModel
 {
 	private static final String ACTION_Name = "Process";
 
@@ -64,9 +70,7 @@ public class AProcessModel
 
 		final MRole role = MRole.getDefault(ctx, false);
 		Check.assumeNotNull(role, "No role found for {0}", ctx);
-
-		final int AD_Table_ID = gridTab.getAD_Table_ID();
-		final List<I_AD_Process> list = fetchProcessesForTable(ctx, AD_Table_ID);
+		final List<I_AD_Process> list = fetchProcessesForTab(ctx, gridTab);
 
 		for (Iterator<I_AD_Process> it = list.iterator(); it.hasNext();)
 		{
@@ -189,19 +193,28 @@ public class AProcessModel
 		}
 	}
 
-	private List<I_AD_Process> fetchProcessesForTable(final Properties ctx, final int adTableId)
+	private List<I_AD_Process> fetchProcessesForTab(final Properties ctx, GridTab gridTab)
 	{
-		final List<Integer> processIds = staticRegisteredProcesses.get(adTableId);
+		final List<Integer> processIds = staticRegisteredProcesses.get(gridTab.getAD_Table_ID());
 
 		final List<Object> params = new ArrayList<Object>();
-		params.add(adTableId);
+		params.add(gridTab.getAD_Table_ID());
 		final String whereClause =
 				// AD_Process_ID present in AD_Table_Process table
-				I_AD_Process.COLUMNNAME_AD_Process_ID + " IN ("
-						+ " SELECT " + I_AD_Table_Process.COLUMNNAME_AD_Process_ID
+				"EXISTS("
+						+ " SELECT 1 "
 						+ " FROM " + I_AD_Table_Process.Table_Name + " tp"
-						+ " WHERE tp." + I_AD_Table_Process.COLUMNNAME_AD_Table_ID + "=?" +
-						"	AND tp." + I_AD_Table_Process.COLUMNNAME_IsActive + "='Y'"
+						+ " WHERE tp." + I_AD_Table_Process.COLUMNNAME_AD_Table_ID + "=?"
+						+ "	AND tp." + I_AD_Table_Process.COLUMNNAME_IsActive + "='Y'"
+						+ " AND tp." + I_AD_Table_Process.COLUMNNAME_AD_Process_ID + "=" 
+						+ I_AD_Process.Table_Name + "." + I_AD_Process.COLUMNNAME_AD_Process_ID
+						+ ")"
+						+ " OR EXISTS("
+						+ "			SELECT 1 "
+						+ "			FROM AD_Field f "
+						+ "			INNER JOIN AD_Column c ON(c.AD_Column_ID = f.AD_Column_ID) "
+						+ "			WHERE f.AD_Tab_ID = " + gridTab.getAD_Tab_ID() + " "
+						+ "			AND c.AD_Process_ID = AD_Process.AD_Process_ID"
 						+ ")"
 						// ... or AD_Process_ID was statically registered
 						+ " OR " + I_AD_Process.COLUMNNAME_AD_Process_ID + " IN " + DB.buildSqlList(processIds, params);

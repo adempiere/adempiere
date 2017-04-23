@@ -54,6 +54,8 @@ import org.zkoss.zul.Space;
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *		<a href="https://github.com/adempiere/adempiere/issues/990">
  * 		@see FR [ 990 ] Sort Tab is not MVC</a>
+ * 		<a href="https://github.com/adempiere/adempiere/issues/999">
+ * 		@see FR [ 999 ] Add ZK Support for Process Action</a>
  */
 public class CWindowToolbar extends FToolbar implements EventListener
 {
@@ -85,6 +87,8 @@ public class CWindowToolbar extends FToolbar implements EventListener
     private ToolBarButton btnZoomAcross, btnActiveWorkflows, btnRequests, btnProductInfo;
 
     private ToolBarButton btnChat;
+    
+    private ToolBarButton btnProcess;
     
     private HashMap<String, ToolBarButton> buttons = new HashMap<String, ToolBarButton>();
 
@@ -192,6 +196,10 @@ public class CWindowToolbar extends FToolbar implements EventListener
 		btnZoomAcross = createButton("ZoomAcross", "ZoomAcross", "ZoomAcross");
         btnActiveWorkflows = createButton("ActiveWorkflows", "WorkFlow", "WorkFlow");
         btnRequests = createButton("Requests", "Request", "Request");
+        //	Add Process Action
+        btnProcess = createButton("Process", "Process", "Process");
+        btnProcess.setDisabled(false);
+        //	
         btnProductInfo = createButton("ProductInfo", "Product", "InfoProduct");
         btnProductInfo.setVisible(isAllowProductInfo);
 
@@ -549,6 +557,10 @@ public class CWindowToolbar extends FToolbar implements EventListener
     
     public void enableZoomAcross(boolean enabled) {
     	btnZoomAcross.setDisabled(!enabled);
+    }
+    
+    public void enableProcess(boolean enabled) {
+    	btnProcess.setDisabled(!enabled);
     }
     
     public void enableArchive(boolean enabled) {
