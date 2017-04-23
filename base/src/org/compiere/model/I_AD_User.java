@@ -21,7 +21,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_User
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0
+ *  @version Release 3.9.0
  */
 public interface I_AD_User 
 {
@@ -410,6 +410,28 @@ public interface I_AD_User
 	  */
 	public boolean isInPayroll();
 
+    /** Column name IsInternalUser */
+    public static final String COLUMNNAME_IsInternalUser = "IsInternalUser";
+
+	/** Set Internal User.
+	  * Is just for use internal
+	  */
+	public void setIsInternalUser (boolean IsInternalUser);
+
+	/** Get Internal User.
+	  * Is just for use internal
+	  */
+	public boolean isInternalUser();
+
+    /** Column name IsLoginUser */
+    public static final String COLUMNNAME_IsLoginUser = "IsLoginUser";
+
+	/** Set Login User	  */
+	public void setIsLoginUser (boolean IsLoginUser);
+
+	/** Get Login User	  */
+	public boolean isLoginUser();
+
     /** Column name IsSalesLead */
     public static final String COLUMNNAME_IsSalesLead = "IsSalesLead";
 
@@ -422,6 +444,19 @@ public interface I_AD_User
 	  * This contact is a sales lead
 	  */
 	public boolean isSalesLead();
+
+    /** Column name IsWebstoreUser */
+    public static final String COLUMNNAME_IsWebstoreUser = "IsWebstoreUser";
+
+	/** Set Webstore User.
+	  * Is a user for Webstore
+	  */
+	public void setIsWebstoreUser (boolean IsWebstoreUser);
+
+	/** Get Webstore User.
+	  * Is a user for Webstore
+	  */
+	public boolean isWebstoreUser();
 
     /** Column name LastContact */
     public static final String COLUMNNAME_LastContact = "LastContact";

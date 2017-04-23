@@ -22,11 +22,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
 import java.util.logging.Level;
+
 import javax.swing.*;
+
+import org.adempiere.exceptions.DBException;
 import org.compiere.Adempiere;
 import org.compiere.db.CConnection;
 import org.compiere.model.*;
@@ -220,7 +222,105 @@ public class Login
 	{
 		return getRoles (app_user, app_pwd, false);
 	}   //  login
+	
+	/**
+	 * Get Authenticated User ID
+	 * @param app_user
+	 * @param app_pwd
+	 * @return User ID if exist else return -1
+	 */
+	public int getAuthenticatedUserId(String app_user, String app_pwd) {
+		log.info("User=" + app_user);
+		int userId = -1;
+		String userPwd = null;
+		String userSalt = null;
+		if (app_user == null || app_user.length() == 0) {
+			log.warning("No Apps User");
+			return userId;
+		}
+		if (app_pwd == null || app_pwd.length() == 0) {
+			log.warning("No Apps Password");
+			return userId;
+		}
+		//	Authentication
+		boolean authenticated = false;
+		if (Ini.isClient()) {
+			CConnection.get().setAppServerCredential(app_user, app_pwd);
+		}
+		MSystem system = MSystem.get(m_ctx);
+		if (system == null) {
+			throw new IllegalStateException("No System Info");
+		}
+		//	For LDAP
+		if (system.isLDAP()) {
+			authenticated = system.isLDAP(app_user, app_pwd);
+			// if not authenticated, use AD_User as backup
+		}
+		boolean loginWithValue = M_Element.get(Env.getCtx(), I_AD_User.COLUMNNAME_IsLoginUser) != null;
+		String userLogin = "Name";
+		if(loginWithValue) {
+			userLogin = "Value";
+		}
+		// adaxa-pb: try to authenticate using hashed password -- falls back to plain text/encrypted
+		String sql = "SELECT AD_User_ID, Password, Salt FROM AD_User " + 
+				"WHERE COALESCE(LDAPUser," + userLogin + ") = ? AND" +
+				" EXISTS (SELECT 1 FROM AD_User_Roles ur" +
+				"         INNER JOIN AD_Role r ON (ur.AD_Role_ID=r.AD_Role_ID)" +
+				"         WHERE ur.AD_User_ID=AD_User.AD_User_ID AND ur.IsActive='Y' AND r.IsActive='Y') AND " +
+				" EXISTS (SELECT 1 FROM AD_Client c" +
+				"         WHERE c.AD_Client_ID=AD_User.AD_Client_ID" +
+				"         AND c.IsActive='Y') " + 
+				"AND AD_User.IsActive='Y' ";
+		if(loginWithValue) {
+			sql += "AND IsLoginUser = 'Y'";
+		}
 
+		PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            pstmt = DB.prepareStatement(sql, null);
+            pstmt.setString(1, app_user);
+            rs = pstmt.executeQuery();
+            if(rs.next()) {
+            	userId = rs.getInt("AD_User_ID");
+            	userPwd = rs.getString("Password");
+            	userSalt = rs.getString("Salt");
+            }
+        } catch (SQLException e) {
+            throw new DBException(e, sql);
+        } finally {
+            DB.close(rs, pstmt);
+            rs = null; pstmt = null;
+        }
+        //	
+        if(!authenticated) {
+        	//Validate if password column is encrypted
+	        boolean isEncrypted = MColumn.isEncrypted(417);
+	        //Validate  password hash
+	        if(isEncrypted) {
+	        	app_pwd = SecureEngine.encrypt(app_pwd);
+	        }
+	        //	Bad password
+	        if(app_pwd == null) {
+	        	return -1;
+	        }
+			//	
+	        if(userSalt == null) {
+	        	if(app_pwd.equals(userPwd)) {
+	        		return userId;
+	        	}
+	        }
+	        //	Match Password
+			if (MUser.authenticateHash(app_pwd, userPwd , userSalt)) {
+				return userId;
+			}
+			//	
+			return -1;
+        }
+        //	
+        return userId;
+	}
+	
 	/**
 	 *  Actual DB login procedure.
 	 *  @param app_user user
@@ -229,78 +329,14 @@ public class Login
 	 *  @return role array or null if in error.
 	 *  The error (NoDatabase, UserPwdError, DBLogin) is saved in the log
 	 */
-	private KeyNamePair[] getRoles (String app_user, String app_pwd, boolean force)
-	{
-		log.info("User=" + app_user);
+	private KeyNamePair[] getRoles (String app_user, String app_pwd, boolean force) {
 		long start = System.currentTimeMillis();
-		if (app_user == null)
-		{
-			log.warning("No Apps User");
+		//	
+		int userId = getAuthenticatedUserId(app_user, app_pwd);
+		//	Fail authentication
+		if(userId == -1) {
 			return null;
 		}
-
-		//	Authentication
-		boolean authenticated = false;
-		if (Ini.isClient())
-			CConnection.get().setAppServerCredential(app_user, app_pwd);
-		MSystem system = MSystem.get(m_ctx);
-		if (system == null)
-			throw new IllegalStateException("No System Info");
-		
-		if (app_pwd == null || app_pwd.length() == 0)
-		{
-			log.warning("No Apps Password");
-			return null;
-		}
-		if (system.isLDAP())
-		{
-			authenticated = system.isLDAP(app_user, app_pwd);
-			if (authenticated)
-				app_pwd = null;
-			// if not authenticated, use AD_User as backup
-		}
-		
-
-		// adaxa-pb: try to authenticate using hashed password -- falls back to plain text/encrypted
-		final String where = " COALESCE(LDAPUser,Name) = ? AND" +
-				" EXISTS (SELECT * FROM AD_User_Roles ur" +
-				"         INNER JOIN AD_Role r ON (ur.AD_Role_ID=r.AD_Role_ID)" +
-				"         WHERE ur.AD_User_ID=AD_User.AD_User_ID AND ur.IsActive='Y' AND r.IsActive='Y') AND " +
-				" EXISTS (SELECT * FROM AD_Client c" +
-				"         WHERE c.AD_Client_ID=AD_User.AD_Client_ID" +
-				"         AND c.IsActive='Y') AND " +
-				" AD_User.IsActive='Y'";
-
-        List<Object> parameters  = new ArrayList<Object>();
-        parameters.add(app_user);
-        //Get User ID and hash Password
-        final ValueNamePair[]  passwordHash = DB.getValueNamePairs("SELECT  AD_User_ID , Password FROM AD_User WHERE " + where , false  ,parameters);
-
-        String hash = null;
-        String salt = null;
-        int AD_User_ID = 0;
-        //Validate if password column is encrypted
-        boolean isEncrypted = MColumn.isEncrypted(417);
-
-        //Validate  password hash
-        if ( passwordHash != null && passwordHash.length > 0)
-        {
-            AD_User_ID = new Integer (passwordHash[0].getValue());
-            hash = isEncrypted ? SecureEngine.decrypt(passwordHash[0].getName()) : passwordHash[0].getName();
-            salt = DB.getSQLValueString(null, "SELECT Salt FROM AD_User WHERE AD_User_ID=?", AD_User_ID);
-        }
-
-		if ( hash == null )
-			hash = "0000000000000000";
-		if ( salt == null )
-			salt = "0000000000000000";
-
-		if ( MUser.authenticateHash(app_pwd, hash , salt) )
-		{
-			authenticated = true;
-			app_pwd = null;
-		}
-
 		KeyNamePair[] retValue = null;
 		ArrayList<KeyNamePair> list = new ArrayList<KeyNamePair>();
 		//
@@ -308,35 +344,21 @@ public class Login
 			.append(" u.ConnectionProfile ")
 			.append("FROM AD_User u")
 			.append(" INNER JOIN AD_User_Roles ur ON (u.AD_User_ID=ur.AD_User_ID AND ur.IsActive='Y')")
-			.append(" INNER JOIN AD_Role r ON (ur.AD_Role_ID=r.AD_Role_ID AND r.IsActive='Y') ");
-			if ( AD_User_ID > 0 )
-				sql.append( "WHERE u.AD_User_ID = ?");          // #1
-			else 
-				sql.append("WHERE COALESCE(u.LDAPUser,u.Name)=?");		//	#1
-			sql.append(" AND u.IsActive='Y'")
-			.append(" AND EXISTS (SELECT * FROM AD_Client c WHERE u.AD_Client_ID=c.AD_Client_ID AND c.IsActive='Y')");
-		if (app_pwd != null)
-			sql.append(" AND ((u.Password=? AND (SELECT IsEncrypted FROM AD_Column WHERE AD_Column_ID=417)='N') " 
-					+     "OR (u.Password=? AND (SELECT IsEncrypted FROM AD_Column WHERE AD_Column_ID=417)='Y'))");	//  #2/3
+			.append(" INNER JOIN AD_Role r ON (ur.AD_Role_ID=r.AD_Role_ID AND r.IsActive='Y') ")
+			.append( "WHERE u.AD_User_ID = ?")         
+			.append(" AND u.IsActive='Y'")
+			.append(" AND EXISTS (SELECT 1 FROM AD_Client c "
+					+ "WHERE u.AD_Client_ID=c.AD_Client_ID AND c.IsActive='Y')");
 		sql.append(" ORDER BY r.Name");
 		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		try
-		{
+		try {
 			pstmt = DB.prepareStatement(sql.toString(), null);
-			if ( AD_User_ID > 0 )
-				pstmt.setInt(1, AD_User_ID);
-			else
-				pstmt.setString(1, app_user);
-			if (app_pwd != null)
-			{
-				pstmt.setString(2, app_pwd);
-				pstmt.setString(3, SecureEngine.encrypt(app_pwd));
-			}
+			pstmt.setInt(1, userId);
 			//	execute a query
 			rs = pstmt.executeQuery();
-
+			//	
 			if (!rs.next())		//	no record found
 				if (force)
 				{

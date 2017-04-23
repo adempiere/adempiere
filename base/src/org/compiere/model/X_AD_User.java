@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_User
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0 - $Id$ */
+ *  @version Release 3.9.0 - $Id$ */
 public class X_AD_User extends PO implements I_AD_User, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20160610L;
+	private static final long serialVersionUID = 20170420L;
 
     /** Standard Constructor */
     public X_AD_User (Properties ctx, int AD_User_ID, String trxName)
@@ -605,6 +605,51 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 		return false;
 	}
 
+	/** Set Internal User.
+		@param IsInternalUser 
+		Is just for use internal
+	  */
+	public void setIsInternalUser (boolean IsInternalUser)
+	{
+		set_Value (COLUMNNAME_IsInternalUser, Boolean.valueOf(IsInternalUser));
+	}
+
+	/** Get Internal User.
+		@return Is just for use internal
+	  */
+	public boolean isInternalUser () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsInternalUser);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Login User.
+		@param IsLoginUser Login User	  */
+	public void setIsLoginUser (boolean IsLoginUser)
+	{
+		set_Value (COLUMNNAME_IsLoginUser, Boolean.valueOf(IsLoginUser));
+	}
+
+	/** Get Login User.
+		@return Login User	  */
+	public boolean isLoginUser () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsLoginUser);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Sales Lead.
 		@param IsSalesLead 
 		This contact is a sales lead
@@ -620,6 +665,30 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 	public boolean isSalesLead () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsSalesLead);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Webstore User.
+		@param IsWebstoreUser 
+		Is a user for Webstore
+	  */
+	public void setIsWebstoreUser (boolean IsWebstoreUser)
+	{
+		set_Value (COLUMNNAME_IsWebstoreUser, Boolean.valueOf(IsWebstoreUser));
+	}
+
+	/** Get Webstore User.
+		@return Is a user for Webstore
+	  */
+	public boolean isWebstoreUser () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsWebstoreUser);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 
