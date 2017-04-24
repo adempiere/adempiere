@@ -137,19 +137,19 @@ public class FifoLifoCostingMethod extends AbstractCostingMethod
 		}
 		if(costDetail == null)
 		{
-			for (MCostDetail cd : createCostDetails(dimension, transaction))
+			for (MCostDetail cost : createCostDetails())
 			{
 				if (CostDimension.isSameCostDimension(accountSchema, model) &&
 					(transaction.getMovementType().equals("M+") || transaction.getMovementType().equals("M-")))
 				{
-					costDetail = cd;
+					costDetail = cost;
 					continue;
 				}
-				processCostDetail(cd);	
+				processCostDetail(cost);
 				
 				if (costDetail.getDateAcct().compareTo(lastCostDetail.getDateAcct()) < 0)
 				{
-					adjustementQueue(cd);
+					adjustementQueue(cost);
 				}
 			}
 		}
@@ -250,6 +250,7 @@ public class FifoLifoCostingMethod extends AbstractCostingMethod
 			}
 			costDetail.setCumulatedQty(dimension.getCumulatedQty());
 			costDetail.setCumulatedAmt(dimension.getCumulatedQty());
+			costDetail.setCumulatedAmtLL(getNewAccumulatedAmountLowerLevel(lastCostDetail));
 			costDetail.setCurrentCostPrice(dimension.getCurrentCostPrice());
 			updateCurrentCost(costDetail);
 			costDetail.saveEx();

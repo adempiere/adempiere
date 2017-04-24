@@ -142,6 +142,11 @@ public class BarcodeElement extends PrintElement
 			m_valid = false;
 		}
 		
+		if ( item.isPrintBarcodeText() )
+			m_barcode.setDrawingText(true);
+		else
+			m_barcode.setDrawingText(false);
+		
 		if (m_valid && m_barcode != null)
 		{
 			if (item.getAD_PrintFont_ID() != 0)
@@ -150,7 +155,11 @@ public class BarcodeElement extends PrintElement
 				if (mFont != null)
 					m_barcode.setFont(mFont.getFont());
 			}
+
+			if (item.getMaxHeight() > 0)
+				m_barcode.setBarHeight(item.getMaxHeight());
 		}
+		
 	}	//	createBarcode
 	
 	/**

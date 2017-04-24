@@ -1,8 +1,9 @@
 /******************************************************************************
  * Product: ADempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 2006-2016 ADempiere Foundation, All Rights Reserved.         *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -86,19 +87,6 @@ public interface I_HR_Movement
 
 	public org.compiere.model.I_AD_Rule getAD_Rule() throws RuntimeException;
 
-    /** Column name AccountSign */
-    public static final String COLUMNNAME_AccountSign = "AccountSign";
-
-	/** Set Account Sign.
-	  * Indicates the Natural Sign of the Account as a Debit or Credit
-	  */
-	public void setAccountSign (String AccountSign);
-
-	/** Get Account Sign.
-	  * Indicates the Natural Sign of the Account as a Debit or Credit
-	  */
-	public String getAccountSign();
-
     /** Column name Amount */
     public static final String COLUMNNAME_Amount = "Amount";
 
@@ -126,21 +114,6 @@ public interface I_HR_Movement
 	public int getC_Activity_ID();
 
 	public org.compiere.model.I_C_Activity getC_Activity() throws RuntimeException;
-
-    /** Column name C_BP_BankAccount_ID */
-    public static final String COLUMNNAME_C_BP_BankAccount_ID = "C_BP_BankAccount_ID";
-
-	/** Set Partner Bank Account.
-	  * Bank Account of the Business Partner
-	  */
-	public void setC_BP_BankAccount_ID (int C_BP_BankAccount_ID);
-
-	/** Get Partner Bank Account.
-	  * Bank Account of the Business Partner
-	  */
-	public int getC_BP_BankAccount_ID();
-
-	public org.compiere.model.I_C_BP_BankAccount getC_BP_BankAccount() throws RuntimeException;
 
     /** Column name C_BP_Group_ID */
     public static final String COLUMNNAME_C_BP_Group_ID = "C_BP_Group_ID";
@@ -217,21 +190,6 @@ public interface I_HR_Movement
 
 	public org.compiere.model.I_C_InvoiceLine getC_InvoiceLine() throws RuntimeException;
 
-    /** Column name C_Payment_ID */
-    public static final String COLUMNNAME_C_Payment_ID = "C_Payment_ID";
-
-	/** Set Payment.
-	  * Payment identifier
-	  */
-	public void setC_Payment_ID (int C_Payment_ID);
-
-	/** Get Payment.
-	  * Payment identifier
-	  */
-	public int getC_Payment_ID();
-
-	public org.compiere.model.I_C_Payment getC_Payment() throws RuntimeException;
-
     /** Column name C_ProjectPhase_ID */
     public static final String COLUMNNAME_C_ProjectPhase_ID = "C_ProjectPhase_ID";
 
@@ -291,15 +249,6 @@ public interface I_HR_Movement
 	public int getC_SalesRegion_ID();
 
 	public org.compiere.model.I_C_SalesRegion getC_SalesRegion() throws RuntimeException;
-
-    /** Column name ColumnType */
-    public static final String COLUMNNAME_ColumnType = "ColumnType";
-
-	/** Set Column Type	  */
-	public void setColumnType (String ColumnType);
-
-	/** Get Column Type	  */
-	public String getColumnType();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -402,14 +351,10 @@ public interface I_HR_Movement
     /** Column name HR_Department_ID */
     public static final String COLUMNNAME_HR_Department_ID = "HR_Department_ID";
 
-	/** Set Department.
-	  * Department of the organization
-	  */
+	/** Set Payroll Department	  */
 	public void setHR_Department_ID (int HR_Department_ID);
 
-	/** Get Department.
-	  * Department of the organization
-	  */
+	/** Get Payroll Department	  */
 	public int getHR_Department_ID();
 
 	public org.eevolution.model.I_HR_Department getHR_Department() throws RuntimeException;
@@ -508,14 +453,10 @@ public interface I_HR_Movement
     /** Column name HR_Payroll_ID */
     public static final String COLUMNNAME_HR_Payroll_ID = "HR_Payroll_ID";
 
-	/** Set Payroll.
-	  * The Payroll definition allows to define all the payroll concepts , year and periods, to  calculate a payroll.
-	  */
+	/** Set Payroll	  */
 	public void setHR_Payroll_ID (int HR_Payroll_ID);
 
-	/** Get Payroll.
-	  * The Payroll definition allows to define all the payroll concepts , year and periods, to  calculate a payroll.
-	  */
+	/** Get Payroll	  */
 	public int getHR_Payroll_ID();
 
 	public org.eevolution.model.I_HR_Payroll getHR_Payroll() throws RuntimeException;
@@ -595,19 +536,6 @@ public interface I_HR_Movement
 	public int getPP_Cost_Collector_ID();
 
 	public org.eevolution.model.I_PP_Cost_Collector getPP_Cost_Collector() throws RuntimeException;
-
-    /** Column name PaymentRule */
-    public static final String COLUMNNAME_PaymentRule = "PaymentRule";
-
-	/** Set Payment Rule.
-	  * How you pay the invoice
-	  */
-	public void setPaymentRule (String PaymentRule);
-
-	/** Get Payment Rule.
-	  * How you pay the invoice
-	  */
-	public String getPaymentRule();
 
     /** Column name PeriodNo */
     public static final String COLUMNNAME_PeriodNo = "PeriodNo";

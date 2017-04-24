@@ -414,7 +414,7 @@ public class MInvoiceLine extends X_C_InvoiceLine
 		int C_Tax_ID = Tax.get(getCtx(), getM_Product_ID(), getC_Charge_ID() , m_DateInvoiced, m_DateInvoiced,
 			getAD_Org_ID(), M_Warehouse_ID,
 			m_C_BPartner_Location_ID,		//	should be bill to
-			m_C_BPartner_Location_ID, m_IsSOTrx);
+			m_C_BPartner_Location_ID, m_IsSOTrx, get_TrxName());
 		if (C_Tax_ID == 0)
 		{
 			log.log(Level.SEVERE, "No Tax found");
@@ -431,20 +431,22 @@ public class MInvoiceLine extends X_C_InvoiceLine
 	 */
 	public void setTaxAmt ()
 	{
-		BigDecimal TaxAmt = Env.ZERO;
+		BigDecimal taxAmt = Env.ZERO;
 		if (getC_Tax_ID() == 0)
 			return;
 	//	setLineNetAmt();
 		MTax tax = MTax.get (getCtx(), getC_Tax_ID());
-		if (tax.isDocumentLevel() && m_IsSOTrx)		//	AR Inv Tax
+		if (tax.isDocumentLevel() && m_IsSOTrx)	{	//	AR Inv Tax
+			setLineTotalAmt(getLineNetAmt()); // @Trifon
 			return;
+		}
 		//
-		TaxAmt = tax.calculateTax(getLineNetAmt(), isTaxIncluded(), getPrecision());
+		taxAmt = tax.calculateTax(getLineNetAmt(), isTaxIncluded(), getPrecision());
 		if (isTaxIncluded())
 			setLineTotalAmt(getLineNetAmt());
 		else
-			setLineTotalAmt(getLineNetAmt().add(TaxAmt));
-		super.setTaxAmt (TaxAmt);
+			setLineTotalAmt(getLineNetAmt().add(taxAmt));
+		super.setTaxAmt (taxAmt);
 	}	//	setTaxAmt
 
 	/**

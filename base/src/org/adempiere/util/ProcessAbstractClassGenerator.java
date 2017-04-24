@@ -228,7 +228,7 @@ public class ProcessAbstractClassGenerator {
 	private void createParameterName(MProcessPara parameter) {
 		//	Add new Line
 		parametersName.append(ModelInterfaceGenerator.NL);
-		String staticName =  parameter.getColumnName().replace(" ", "");
+		String staticName = replaceSpecialCharacter(parameter.getColumnName());
 		//	Add Comment
 		parametersName
 			.append("\t/**\tParameter Name for ").append(staticName).append("\t*/")
@@ -357,6 +357,15 @@ public class ProcessAbstractClassGenerator {
 			variableName.append("Id");
 
 		return variableName.toString();
+	}
+	
+	/**
+	 * Replace Special Character by "_"
+	 * @param value
+	 * @return
+	 */
+	private String replaceSpecialCharacter(String value) {
+		return value.replaceAll("[+^:&áàäéèëíìïóòöúùñÁÀÄÉÈËÍÌÏÓÒÖÚÙÜÑçÇ$#()* ]","");
 	}
 
 	/**
@@ -528,9 +537,8 @@ public class ProcessAbstractClassGenerator {
 	 * @param processParameter
 	 * @return
 	 */
-	private String  getParameterName(MProcessPara processParameter)
-	{
+	private String  getParameterName(MProcessPara processParameter) {
 		String parameterName = processParameter.getName().replaceAll("\\s", "").replaceAll("_", "").replaceAll(" ", "").replaceAll("/","");
-		return parameterName;
+		return replaceSpecialCharacter(parameterName);
 	}
 }

@@ -1,16 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
   <Migration EntityType="D" Name="T_ReplenishPlan Table 1420" ReleaseNo="3.9.0" SeqNo="00560">
-    <Step SeqNo="10" StepType="AD">
-      <PO AD_Table_ID="50009" Action="U" Record_ID="50002" Table="AD_SysConfig">
-        <Data AD_Column_ID="50196" Column="Value" oldValue="9Rabab8c">zAcechu7</Data>
-      </PO>
-    </Step>
-    <Step SeqNo="20" StepType="AD">
-      <PO AD_Table_ID="50009" Action="U" Record_ID="50001" Table="AD_SysConfig">
-        <Data AD_Column_ID="50196" Column="Value" oldValue="globalqss">phib</Data>
-      </PO>
-    </Step>
     <Step SeqNo="30" StepType="AD">
       <PO AD_Table_ID="100" Action="I" Record_ID="53868" Table="AD_Table">
         <Data AD_Column_ID="726" Column="IsSecurityEnabled">false</Data>
@@ -25,7 +15,7 @@
         <Data AD_Column_ID="8564" Column="IsChangeLog">false</Data>
         <Data AD_Column_ID="9342" Column="PO_Window_ID" isNewNull="true"/>
         <Data AD_Column_ID="50183" Column="CopyColumnsFromTable">N</Data>
-        <Data AD_Column_ID="6488" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6488" Column="EntityType">D</Data>
         <Data AD_Column_ID="59135" Column="IsCentrallyMaintained">true</Data>
         <Data AD_Column_ID="727" Column="IsDeleteable">true</Data>
         <Data AD_Column_ID="9341" Column="ReplicationType">L</Data>
@@ -48,7 +38,7 @@
         <Data AD_Column_ID="117" Column="DefaultValue">@#AD_Client_ID@</Data>
         <Data AD_Column_ID="114" Column="AD_Table_ID">53868</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">1</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">true</Data>
@@ -98,7 +88,7 @@
         <Data AD_Column_ID="117" Column="DefaultValue">@#AD_Org_ID@</Data>
         <Data AD_Column_ID="114" Column="AD_Table_ID">53868</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">1</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">true</Data>
@@ -148,7 +138,7 @@
         <Data AD_Column_ID="117" Column="DefaultValue">Y</Data>
         <Data AD_Column_ID="114" Column="AD_Table_ID">53868</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">1</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">true</Data>
@@ -201,7 +191,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">53868</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">1</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">true</Data>
@@ -251,7 +241,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">53868</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">1</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">true</Data>
@@ -301,7 +291,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">53868</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">1</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID">110</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">true</Data>
@@ -351,7 +341,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">53868</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">1</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID">110</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">true</Data>
@@ -401,7 +391,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="6283" Column="PO_Description" isNewNull="true"/>
         <Data AD_Column_ID="6284" Column="PO_Help" isNewNull="true"/>
-        <Data AD_Column_ID="6484" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6484" Column="EntityType">D</Data>
         <Data AD_Column_ID="2603" Column="Name">T_ReplenishPlan ID</Data>
         <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="4299" Column="PrintName">T_ReplenishPlan ID</Data>
@@ -423,7 +413,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">53868</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">1</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">true</Data>
@@ -500,7 +490,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">53868</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -550,7 +540,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">53868</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -600,7 +590,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="6283" Column="PO_Description" isNewNull="true"/>
         <Data AD_Column_ID="6284" Column="PO_Help" isNewNull="true"/>
-        <Data AD_Column_ID="6484" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6484" Column="EntityType">D</Data>
         <Data AD_Column_ID="2603" Column="Name">recordtype</Data>
         <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="4299" Column="PrintName">recordtype</Data>
@@ -622,7 +612,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">53868</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -672,7 +662,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">53868</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -722,7 +712,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="6283" Column="PO_Description" isNewNull="true"/>
         <Data AD_Column_ID="6284" Column="PO_Help" isNewNull="true"/>
-        <Data AD_Column_ID="6484" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6484" Column="EntityType">D</Data>
         <Data AD_Column_ID="2603" Column="Name">week1</Data>
         <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="4299" Column="PrintName">week1</Data>
@@ -744,7 +734,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">53868</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -794,7 +784,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="6283" Column="PO_Description" isNewNull="true"/>
         <Data AD_Column_ID="6284" Column="PO_Help" isNewNull="true"/>
-        <Data AD_Column_ID="6484" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6484" Column="EntityType">D</Data>
         <Data AD_Column_ID="2603" Column="Name">week2</Data>
         <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="4299" Column="PrintName">week2</Data>
@@ -816,7 +806,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">53868</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -866,7 +856,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="6283" Column="PO_Description" isNewNull="true"/>
         <Data AD_Column_ID="6284" Column="PO_Help" isNewNull="true"/>
-        <Data AD_Column_ID="6484" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6484" Column="EntityType">D</Data>
         <Data AD_Column_ID="2603" Column="Name">week3</Data>
         <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="4299" Column="PrintName">week3</Data>
@@ -888,7 +878,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">53868</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -938,7 +928,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="6283" Column="PO_Description" isNewNull="true"/>
         <Data AD_Column_ID="6284" Column="PO_Help" isNewNull="true"/>
-        <Data AD_Column_ID="6484" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6484" Column="EntityType">D</Data>
         <Data AD_Column_ID="2603" Column="Name">week4</Data>
         <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="4299" Column="PrintName">week4</Data>
@@ -960,7 +950,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">53868</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -1010,7 +1000,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="6283" Column="PO_Description" isNewNull="true"/>
         <Data AD_Column_ID="6284" Column="PO_Help" isNewNull="true"/>
-        <Data AD_Column_ID="6484" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6484" Column="EntityType">D</Data>
         <Data AD_Column_ID="2603" Column="Name">week5</Data>
         <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="4299" Column="PrintName">week5</Data>
@@ -1032,7 +1022,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">53868</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -1082,7 +1072,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="6283" Column="PO_Description" isNewNull="true"/>
         <Data AD_Column_ID="6284" Column="PO_Help" isNewNull="true"/>
-        <Data AD_Column_ID="6484" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6484" Column="EntityType">D</Data>
         <Data AD_Column_ID="2603" Column="Name">week6</Data>
         <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="4299" Column="PrintName">week6</Data>
@@ -1104,7 +1094,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">53868</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -1154,7 +1144,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="6283" Column="PO_Description" isNewNull="true"/>
         <Data AD_Column_ID="6284" Column="PO_Help" isNewNull="true"/>
-        <Data AD_Column_ID="6484" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6484" Column="EntityType">D</Data>
         <Data AD_Column_ID="2603" Column="Name">week7</Data>
         <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="4299" Column="PrintName">week7</Data>
@@ -1176,7 +1166,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">53868</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -1226,7 +1216,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="6283" Column="PO_Description" isNewNull="true"/>
         <Data AD_Column_ID="6284" Column="PO_Help" isNewNull="true"/>
-        <Data AD_Column_ID="6484" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6484" Column="EntityType">D</Data>
         <Data AD_Column_ID="2603" Column="Name">week8</Data>
         <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="4299" Column="PrintName">week8</Data>
@@ -1248,7 +1238,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">53868</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -1298,7 +1288,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="6283" Column="PO_Description" isNewNull="true"/>
         <Data AD_Column_ID="6284" Column="PO_Help" isNewNull="true"/>
-        <Data AD_Column_ID="6484" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6484" Column="EntityType">D</Data>
         <Data AD_Column_ID="2603" Column="Name">week9</Data>
         <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="4299" Column="PrintName">week9</Data>
@@ -1320,7 +1310,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">53868</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -1370,7 +1360,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="6283" Column="PO_Description" isNewNull="true"/>
         <Data AD_Column_ID="6284" Column="PO_Help" isNewNull="true"/>
-        <Data AD_Column_ID="6484" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6484" Column="EntityType">D</Data>
         <Data AD_Column_ID="2603" Column="Name">week10</Data>
         <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="4299" Column="PrintName">week10</Data>
@@ -1392,7 +1382,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">53868</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -1442,7 +1432,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="6283" Column="PO_Description" isNewNull="true"/>
         <Data AD_Column_ID="6284" Column="PO_Help" isNewNull="true"/>
-        <Data AD_Column_ID="6484" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6484" Column="EntityType">D</Data>
         <Data AD_Column_ID="2603" Column="Name">week11</Data>
         <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="4299" Column="PrintName">week11</Data>
@@ -1464,7 +1454,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">53868</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -1514,7 +1504,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="6283" Column="PO_Description" isNewNull="true"/>
         <Data AD_Column_ID="6284" Column="PO_Help" isNewNull="true"/>
-        <Data AD_Column_ID="6484" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6484" Column="EntityType">D</Data>
         <Data AD_Column_ID="2603" Column="Name">week12</Data>
         <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="4299" Column="PrintName">week12</Data>
@@ -1536,7 +1526,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">53868</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -1586,7 +1576,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="6283" Column="PO_Description" isNewNull="true"/>
         <Data AD_Column_ID="6284" Column="PO_Help" isNewNull="true"/>
-        <Data AD_Column_ID="6484" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6484" Column="EntityType">D</Data>
         <Data AD_Column_ID="2603" Column="Name">week13</Data>
         <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="4299" Column="PrintName">week13</Data>
@@ -1608,7 +1598,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">53868</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -1658,7 +1648,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="6283" Column="PO_Description" isNewNull="true"/>
         <Data AD_Column_ID="6284" Column="PO_Help" isNewNull="true"/>
-        <Data AD_Column_ID="6484" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6484" Column="EntityType">D</Data>
         <Data AD_Column_ID="2603" Column="Name">week14</Data>
         <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="4299" Column="PrintName">week14</Data>
@@ -1680,7 +1670,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">53868</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -1730,7 +1720,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="6283" Column="PO_Description" isNewNull="true"/>
         <Data AD_Column_ID="6284" Column="PO_Help" isNewNull="true"/>
-        <Data AD_Column_ID="6484" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6484" Column="EntityType">D</Data>
         <Data AD_Column_ID="2603" Column="Name">week15</Data>
         <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="4299" Column="PrintName">week15</Data>
@@ -1752,7 +1742,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">53868</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -1802,7 +1792,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="6283" Column="PO_Description" isNewNull="true"/>
         <Data AD_Column_ID="6284" Column="PO_Help" isNewNull="true"/>
-        <Data AD_Column_ID="6484" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6484" Column="EntityType">D</Data>
         <Data AD_Column_ID="2603" Column="Name">week16</Data>
         <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="4299" Column="PrintName">week16</Data>
@@ -1824,7 +1814,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">53868</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -1874,7 +1864,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="6283" Column="PO_Description" isNewNull="true"/>
         <Data AD_Column_ID="6284" Column="PO_Help" isNewNull="true"/>
-        <Data AD_Column_ID="6484" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6484" Column="EntityType">D</Data>
         <Data AD_Column_ID="2603" Column="Name">week17</Data>
         <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="4299" Column="PrintName">week17</Data>
@@ -1896,7 +1886,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">53868</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -1946,7 +1936,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="6283" Column="PO_Description" isNewNull="true"/>
         <Data AD_Column_ID="6284" Column="PO_Help" isNewNull="true"/>
-        <Data AD_Column_ID="6484" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6484" Column="EntityType">D</Data>
         <Data AD_Column_ID="2603" Column="Name">week18</Data>
         <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="4299" Column="PrintName">week18</Data>
@@ -1968,7 +1958,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">53868</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -2018,7 +2008,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="6283" Column="PO_Description" isNewNull="true"/>
         <Data AD_Column_ID="6284" Column="PO_Help" isNewNull="true"/>
-        <Data AD_Column_ID="6484" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6484" Column="EntityType">D</Data>
         <Data AD_Column_ID="2603" Column="Name">week19</Data>
         <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="4299" Column="PrintName">week19</Data>
@@ -2040,7 +2030,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">53868</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -2090,7 +2080,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="6283" Column="PO_Description" isNewNull="true"/>
         <Data AD_Column_ID="6284" Column="PO_Help" isNewNull="true"/>
-        <Data AD_Column_ID="6484" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6484" Column="EntityType">D</Data>
         <Data AD_Column_ID="2603" Column="Name">week20</Data>
         <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="4299" Column="PrintName">week20</Data>
@@ -2112,7 +2102,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">53868</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -2162,7 +2152,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="6283" Column="PO_Description" isNewNull="true"/>
         <Data AD_Column_ID="6284" Column="PO_Help" isNewNull="true"/>
-        <Data AD_Column_ID="6484" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6484" Column="EntityType">D</Data>
         <Data AD_Column_ID="2603" Column="Name">week21</Data>
         <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="4299" Column="PrintName">week21</Data>
@@ -2184,7 +2174,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">53868</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -2234,7 +2224,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="6283" Column="PO_Description" isNewNull="true"/>
         <Data AD_Column_ID="6284" Column="PO_Help" isNewNull="true"/>
-        <Data AD_Column_ID="6484" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6484" Column="EntityType">D</Data>
         <Data AD_Column_ID="2603" Column="Name">week22</Data>
         <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="4299" Column="PrintName">week22</Data>
@@ -2256,7 +2246,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">53868</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -2306,7 +2296,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="6283" Column="PO_Description" isNewNull="true"/>
         <Data AD_Column_ID="6284" Column="PO_Help" isNewNull="true"/>
-        <Data AD_Column_ID="6484" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6484" Column="EntityType">D</Data>
         <Data AD_Column_ID="2603" Column="Name">week24</Data>
         <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="4299" Column="PrintName">week24</Data>
@@ -2328,7 +2318,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">53868</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -2378,7 +2368,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">53868</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -2428,7 +2418,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="6283" Column="PO_Description" isNewNull="true"/>
         <Data AD_Column_ID="6284" Column="PO_Help" isNewNull="true"/>
-        <Data AD_Column_ID="6484" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6484" Column="EntityType">D</Data>
         <Data AD_Column_ID="2603" Column="Name">week23</Data>
         <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="4299" Column="PrintName">week23</Data>
@@ -2450,7 +2440,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">53868</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -2500,7 +2490,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">53868</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -2550,7 +2540,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">53868</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -2600,7 +2590,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">53868</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>

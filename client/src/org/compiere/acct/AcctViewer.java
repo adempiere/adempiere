@@ -42,6 +42,7 @@ import org.compiere.apps.search.Info;
 import org.compiere.grid.ed.VDate;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MAcctSchemaElement;
+import org.compiere.model.Query;
 import org.compiere.model.X_C_AcctSchema_Element;
 import org.compiere.report.core.RModel;
 import org.compiere.report.core.RModelExcelExporter;
@@ -752,6 +753,30 @@ public class AcctViewer extends CFrame
 		}
 		else if (keyColumn.equals("M_Product_ID"))
 		{
+			whereClause = "";
+		}
+		if (lookupColumn.equals("UserElement1_ID"))			
+		{
+			MAcctSchemaElement et = new Query(Env.getCtx(), MAcctSchemaElement.Table_Name, 
+					"elementtype = 'X1' ", 
+					null)
+			.setClient_ID()
+			.firstOnly();
+			String tableName = et.getAD_Column().getAD_Table().getTableName();
+			String lookupcolumnname = tableName + "_ID";
+			lookupColumn = lookupcolumnname;
+			whereClause = "";
+		}
+		if (lookupColumn.equals("UserElement2_ID"))			
+		{
+			MAcctSchemaElement et = new Query(Env.getCtx(), MAcctSchemaElement.Table_Name, 
+					"elementtype = 'X2' ", 
+					null)
+			.setClient_ID()
+			.firstOnly();
+			String tableName = et.getAD_Column().getAD_Table().getTableName();
+			String lookupcolumnname = tableName + "_ID";
+			lookupColumn = lookupcolumnname;
 			whereClause = "";
 		}
 		else if (selDocument.isSelected())

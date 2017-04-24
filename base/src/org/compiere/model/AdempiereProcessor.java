@@ -87,7 +87,7 @@ public interface AdempiereProcessor
 
 	/**
 	 * 	Get the date Last run
-	 * 	@return date lext run
+	 * 	@return date last run
 	 */
 	public Timestamp getDateLastRun ();
 

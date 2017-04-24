@@ -65,7 +65,7 @@
         <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="6283" Column="PO_Description" isNewNull="true"/>
         <Data AD_Column_ID="6284" Column="PO_Help" isNewNull="true"/>
-        <Data AD_Column_ID="6484" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6484" Column="EntityType">D</Data>
         <Data AD_Column_ID="6286" Column="PO_PrintName" isNewNull="true"/>
         <Data AD_Column_ID="2603" Column="Name">Purchase Order Doc Type</Data>
         <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
@@ -112,7 +112,7 @@
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">53974</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID">170</Data>
         <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
@@ -168,7 +168,7 @@
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">53974</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID">170</Data>
         <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
@@ -224,7 +224,7 @@
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">53974</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID">170</Data>
         <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
@@ -280,7 +280,7 @@
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">53974</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID">170</Data>
         <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
@@ -820,7 +820,7 @@
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">53974</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="125" Column="IsTranslated">false</Data>

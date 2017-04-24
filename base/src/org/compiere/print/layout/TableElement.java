@@ -29,22 +29,26 @@ import java.awt.font.TextAttribute;
 import java.awt.font.TextLayout;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
+import java.io.Serializable;
 import java.awt.image.BufferedImage;
 import java.text.AttributedCharacterIterator;
 import java.text.AttributedString;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.regex.Pattern;
-
 import net.sourceforge.barbecue.Barcode;
 import net.sourceforge.barbecue.output.OutputException;
 
 import org.compiere.model.MQuery;
 import org.compiere.print.MPrintFormatItem;
 import org.compiere.print.MPrintTableFormat;
+import org.compiere.print.util.SerializableMatrix;
+import org.compiere.print.util.SerializableMatrixImpl;
+import org.compiere.report.MReportLine;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.NamePair;
 import org.compiere.util.Util;
@@ -75,6 +79,15 @@ import org.compiere.util.ValueNamePair;
  */
 public class TableElement extends PrintElement
 {
+
+
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4185521888252077894L;
+
+
 	/**
 	 *	Constructor.
 	 *	Created in LayoutEngine.
@@ -85,7 +98,8 @@ public class TableElement extends PrintElement
 	 *
 	 *  @param columnHeader array with column headers (Key=ColumnName)
 	 *  @param columnMaxWidth array with column max width - 0=no restrictions - negative=supress if null
-	 *  @param columnMaxHeight array with row max height for a column - 0=no restrictions; -1=one row only
+	 *  @param columnMaxHeight array with row max
+	private ArrayList<Integer> m_blankRows; height for a column - 0=no restrictions; -1=one row only
 	 *  @param columnJustification field justification for column
 	 *
 	 *  @param fixedWidth array with column fixed width
@@ -107,23 +121,30 @@ public class TableElement extends PrintElement
 	 *  @param rowColBackground HashMap with Point as key with background Color overwrite
 	 *  @param tFormat table format
 	 *  @param pageBreak Arraylist of rows with page break
+	 * @param rowColReportLine 
 	 */
 	public TableElement (ValueNamePair[] columnHeader,
 		int[] columnMaxWidth, int[] columnMaxHeight, String[] columnJustification,
 		boolean[] fixedWidth, ArrayList<Integer> functionRows, boolean multiLineHeader,
-		Object[][] data, KeyNamePair[] pk, String pkColumnName,
+		SerializableMatrix<Serializable> data, KeyNamePair[] pk, String pkColumnName,
 		int pageNoStart, Rectangle firstPage, Rectangle nextPages, int repeatedColumns, HashMap<Integer,Integer> additionalLines,
 		HashMap<Point,Font> rowColFont, HashMap<Point,Color> rowColColor, HashMap<Point,Color> rowColBackground,
-		MPrintTableFormat tFormat, ArrayList<Integer> pageBreak, boolean[] colSuppressRepeats)
+		MPrintTableFormat tFormat, ArrayList<Integer> pageBreak, Boolean[] colSuppressRepeats, HashMap<Point,
+		MReportLine> rowColReportLine, ArrayList<Integer> finReportSumRows, ArrayList<Integer> blankRows)
 	{
 		super();
-		log.fine("Cols=" + columnHeader.length + ", Rows=" + data.length);
+		if (log.isLoggable(Level.FINE))
+		{
+			log.fine("Cols=" + columnHeader.length + ", Rows=" + data.getRowCount());
+		}
 		m_colSuppressRepeats = colSuppressRepeats;
 		m_columnHeader = columnHeader;
 		m_columnMaxWidth = columnMaxWidth;
 		m_columnMaxHeight = columnMaxHeight;
 		m_columnJustification = columnJustification;
 		m_functionRows = functionRows;
+		m_finReportSumRows = finReportSumRows;
+		m_blankRows = blankRows;
 		m_fixedWidth = fixedWidth;
 		//
 		m_multiLineHeader = multiLineHeader;
@@ -151,6 +172,7 @@ public class TableElement extends PrintElement
 		if (m_baseBackground == null)
 			m_baseBackground = Color.white;
 		m_tFormat = tFormat;
+		m_rowColReportLine = rowColReportLine;
 
 		//	Page Break - not two after each other
 		m_pageBreak = pageBreak;
@@ -162,7 +184,7 @@ public class TableElement extends PrintElement
 				Integer nextRow = (Integer)m_pageBreak.get(i+1);
 				if ((row.intValue()+1) == nextRow.intValue())
 				{
-					log.fine("- removing PageBreak row=" + row);
+					if (log.isLoggable(Level.FINE)) log.fine("- removing PageBreak row=" + row);
 					m_pageBreak.remove(i);
 					row = nextRow;
 				}
@@ -190,8 +212,12 @@ public class TableElement extends PrintElement
 	private boolean 			m_multiLineHeader;
 	/** List of Function Rows			*/
 	private ArrayList<Integer>	m_functionRows;
+	/** List of Fin Report Summary Rows			*/
+	private ArrayList<Integer>	m_finReportSumRows;
+	/** List of Fin Report blank rows		*/
+	private ArrayList<Integer> m_blankRows;
 	/** The Data					*/
-	private Object[][]			m_data;
+	private SerializableMatrix<Serializable> m_data;
 	/** Primary Keys				*/
 	private KeyNamePair[]		m_pk;
 	/** Primary Key Column Name		*/
@@ -203,7 +229,7 @@ public class TableElement extends PrintElement
 	/** Bounds of next Pages		*/
 	private Rectangle 			m_nextPages;
 	
-	private boolean[]			m_colSuppressRepeats;
+	private Boolean[]			m_colSuppressRepeats;
 
 	/** repeat first x columns on - X Axis follow pages	*/
 	private int					m_repeatedColumns;
@@ -243,6 +269,9 @@ public class TableElement extends PrintElement
 	/**	Key: Point(row,col) - Value: NamePair	*/
 	private HashMap<Point,NamePair>	m_rowColDrillDown = new HashMap<Point,NamePair>();
 
+	/** HashMap with Point as key with report line	*/
+	private HashMap<Point, MReportLine> m_rowColReportLine;
+
 
 	/**	Key: Integer (original Column) - Value: Integer (below column)	*/
 	private HashMap<Integer,Integer>	m_additionalLines;
@@ -274,17 +303,16 @@ public class TableElement extends PrintElement
 			return true;
 
 		p_width = 0;
-		m_printRows = new ArrayList<ArrayList<ArrayList<Object>>>(m_data.length);	//	reset
-
+		m_printRows = new SerializableMatrixImpl<ArrayList<Serializable>>("TableElementPrintRows");	
 		//	Max Column Width = 50% of available width (used if maxWidth not set)
-		float dynMxColumnWidth = m_firstPage.width / 2;
+		float dynMxColumnWidth = m_firstPage.width / (float)2;
 
-		//	Width caolculation
-		int rows = m_data.length;
+		//	Width calculation
+		int rows = m_data.getRowCount();
 		int cols = m_columnHeader.length;
 		//	Data Sizes and Header Sizes
-		Dimension2DImpl[][] dataSizes = new Dimension2DImpl[rows][cols];
-		Dimension2DImpl[] headerSizes = new Dimension2DImpl[cols];
+		SerializableMatrix<Dimension2DImpl> dataSizes = new SerializableMatrixImpl<Dimension2DImpl>("TableElementDimensions");
+ 		Dimension2DImpl[] headerSizes = new Dimension2DImpl[cols];
 		FontRenderContext frc = new FontRenderContext(null, true, true);
 
 		//	data columns - rows
@@ -295,57 +323,100 @@ public class TableElement extends PrintElement
 			if (m_additionalLines.containsKey(new Integer(dataCol)))
 			{
 				col = ((Integer)m_additionalLines.get(new Integer(dataCol))).intValue();
-				log.finest("DataColumn=" + dataCol + ", BelowColumn=" + col);
+				if (log.isLoggable(Level.FINEST)) log.finest("DataColumn=" + dataCol + ", BelowColumn=" + col);
 			}
 			float colWidth = 0;
 			for (int row = 0; row < rows; row++)
 			{
-				Object dataItem = m_data[row][dataCol];
+				m_data.setRowIndex(row);
+				// define if all the row is null
+				boolean isNullRow = true;
+				for (Serializable element : m_data.getRowData()) {
+					if (element != null) {
+						isNullRow = false;
+						break;
+					}
+				}
+				//
+				if (dataSizes.getRowCount() <= row) 
+				{
+					dataSizes.addRow(new ArrayList<Dimension2DImpl>());
+				}
+				else
+				{
+					dataSizes.setRowIndex(row);
+				}
+				List<Dimension2DImpl> dimensions = dataSizes.getRowData();
+				if (dimensions.size() <= dataCol) 
+				{
+					dimensions.add(null);
+				}
+				Serializable dataItem = m_data.getRowData().get(dataCol);
 				if (dataItem == null)
 				{
-					dataSizes[row][dataCol] = new Dimension2DImpl();
-					continue;
-				}
+					//ensure fixed column width respected even when data is null
+					if (   m_columnMaxWidth[dataCol] >= 0  // the data column is not suppress null
+						&& m_fixedWidth[col]               // the print column (below column) has fixed width
+						&& !isNullRow)
+					{
+						dataItem = " ";
+					}
+					else
+					{
+						dimensions.set(dataCol, new Dimension2DImpl());
+						continue;
+					}										
+				}									
 				String string = dataItem.toString();
 				if (string.length() == 0)
 				{
-					dataSizes[row][dataCol] = new Dimension2DImpl();
+					dimensions.set(dataCol, new Dimension2DImpl());
 					continue;
 				}
 				Font font = getFont(row, dataCol);
 
 				//	Print below existing column = (col != dataCol)
 				addPrintLines(row, col, dataItem);
-				dataSizes[row][dataCol] = new Dimension2DImpl();		//	don't print
+				dimensions.set(dataCol, new Dimension2DImpl());
 
 				if (dataItem instanceof Boolean)
 				{
-					dataSizes[row][col].addBelow(LayoutEngine.IMAGE_SIZE);
+					dimensions.get(col).addBelow(LayoutEngine.IMAGE_SIZE);
 					continue;
 				}
 				else if (dataItem instanceof ImageElement)
 				{
-					dataSizes[row][col].addBelow(
+					dimensions.get(col).addBelow(
 						new Dimension((int)((ImageElement)dataItem).getWidth(), 
 							(int)((ImageElement)dataItem).getHeight()));
 					// Adjust the column width - teo_sarca, [ 1673620 ]
-					float width = (float)Math.ceil(dataSizes[row][col].getWidth());
+					float width = (float)Math.ceil(dimensions.get(col).getWidth());
 					if (colWidth < width)
 						colWidth = width;
 					continue;
 				}
 				else if (dataItem instanceof BarcodeElement)
 				{
-					dataSizes[row][col].addBelow(
+					dimensions.get(col).addBelow(
 						new Dimension((int)((BarcodeElement)dataItem).getWidth(), 
 							(int)((BarcodeElement)dataItem).getHeight()));
 					// Check if the overflow is allowed - teo_sarca, [ 1673590 ]
 					if (!((BarcodeElement)dataItem).isAllowOverflow()) {
-						float width = (float)Math.ceil(dataSizes[row][col].getWidth());
+						float width = (float)Math.ceil(dimensions.get(col).getWidth());
 						if (colWidth < width)
 							colWidth = width;
 					}
 					
+					continue;
+				}
+				else if (dataItem instanceof BoxElement)
+				{
+					dimensions.get(col).addBelow(
+							new Dimension((int)((BoxElement)dataItem).getWidth(), 
+									(int)((BoxElement)dataItem).getHeight()));
+					float width = (float)Math.ceil(dimensions.get(col).getWidth());
+					if (colWidth < width)
+						colWidth = width;
 					continue;
 				}
 				//	No Width Limitations
@@ -362,12 +433,12 @@ public class TableElement extends PrintElement
 						m_columnMaxWidth[col] = (int)Math.ceil(dynMxColumnWidth);
 					else if (colWidth < width)
 						colWidth = width;
-					if (dataSizes[row][col] == null)
+					if (dimensions.get(col) == null)
 					{
-						dataSizes[row][col] = new Dimension2DImpl();
+						dimensions.set(col, new Dimension2DImpl());
 						log.log(Level.WARNING, "No Size for r=" + row + ",c=" + col);
 					}
-					dataSizes[row][col].addBelow(width, height);
+					dimensions.get(col).addBelow(width, height);
 				}
 				//	Width limitations
 				if (m_columnMaxWidth[col] != 0 && m_columnMaxWidth[col] != -1)
@@ -385,14 +456,17 @@ public class TableElement extends PrintElement
 							height = renderer.getHeight();
 						renderer.setAllocation((int)colWidth, (int)height);
 					//	log.finest( "calculateSize HTML - " + renderer.getAllocation());
-						m_data[row][dataCol] = renderer;	//	replace for printing
+						m_data.getRowData().set(dataCol, renderer);
 					}
 					else
 					{ 
 						String[] lines = Pattern.compile("$", Pattern.MULTILINE).split(string);
 						for (int lineNo = 0; lineNo < lines.length; lineNo++)
 						{
-							AttributedString aString = new AttributedString(lines[lineNo]);
+							String str = lines[lineNo];
+							if (str.length() == 0)
+								str = " ";
+							AttributedString aString = new AttributedString(str);
 							aString.addAttribute(TextAttribute.FONT, font);
 							AttributedCharacterIterator iter = aString.getIterator();
 							LineBreakMeasurer measurer = new LineBreakMeasurer(iter, frc);
@@ -415,14 +489,17 @@ public class TableElement extends PrintElement
 					}
 					if (m_fixedWidth[col])
 						colWidth = Math.abs(m_columnMaxWidth[col]);
-					dataSizes[row][col].addBelow(colWidth, height);
+					dimensions.get(col).addBelow(colWidth, height);
 				}
-				dataSizes[row][col].roundUp();
+				dimensions.get(col).roundUp();
 				if (dataItem instanceof NamePair)
 					m_rowColDrillDown.put(new Point(row, col), (NamePair)dataItem);
 				//	
-				log.finest("Col=" + col + ", row=" + row 
-					+ " => " + dataSizes[row][col] + " - ColWidth=" + colWidth);
+				if (log.isLoggable(Level.FINEST))
+				{
+					log.finest("Col=" + col + ", row=" + row 
+							+ " => " + dimensions.get(col) + " - ColWidth=" + colWidth);
+				}
 			}	//	for all data rows
 
 			//	Column Width  for Header
@@ -458,7 +535,7 @@ public class TableElement extends PrintElement
 				{
 					float height = 0;
 					//
-					String[] lines = Pattern.compile("$", Pattern.MULTILINE).split(string);
+					String[] lines = Pattern.compile("\n", Pattern.MULTILINE).split(string);
 					for (int lineNo = 0; lineNo < lines.length; lineNo++)
 					{
 						AttributedString aString = new AttributedString(lines[lineNo]);
@@ -522,7 +599,7 @@ public class TableElement extends PrintElement
 			{
 				m_columnWidths.add(new Float(colWidth));
 				p_width += colWidth;
-				log.finest("Width - Col=" + dataCol 
+				if (log.isLoggable(Level.FINEST)) log.finest("Width - Col=" + dataCol 
 						+ " - Width=" + colWidth + " - Total=" + p_width);
 			}
 		}	//	for all columns
@@ -532,11 +609,26 @@ public class TableElement extends PrintElement
 		for (int row = 0; row < rows; row++)
 		{
 			float rowHeight = 0f;
+			float over = 0f;
+			float under = 0f;
+			dataSizes.setRowIndex(row);			
+			List<Dimension2DImpl> dimensions = dataSizes.getRowData();			
 			for (int col = 0; col < cols; col++)
 			{
-				if (dataSizes[row][col].height > rowHeight)	//	max
-					rowHeight = (float)dataSizes[row][col].height;
+				if (dimensions.get(col).height > rowHeight)	//	max
+					rowHeight = (float)dimensions.get(col).height;
+
+				if ( getReportLine(row, col) != null )
+				{
+					if ( getReportLine(row,col).getOverline() > over )
+						over = getReportLine(row,col).getOverline();
+					if ( getReportLine(row,col).getUnderline() > under )
+						under = getReportLine(row,col).getUnderline();
+				}
 			}	//	for all columns
+			over = over == 2 ? over  * m_tFormat.getLineStroke().floatValue() + V_GAP : over  * m_tFormat.getLineStroke().floatValue();
+			under = under == 2 ? under *  m_tFormat.getLineStroke().floatValue() + V_GAP : under *  m_tFormat.getLineStroke().floatValue();
+			rowHeight += over + under;
 			rowHeight += m_tFormat.getLineStroke().floatValue() + (2*V_GAP);
 			m_rowHeights.add(new Float(rowHeight));
 			p_height += rowHeight;
@@ -553,14 +645,15 @@ public class TableElement extends PrintElement
 
 		//	Last row Lines
 		p_height += m_tFormat.getLineStroke().floatValue();			//	last fat line
+		
 
 		//	Page Layout	*******************************************************
 
-		log.fine("FirstPage=" + m_firstPage + ", NextPages=" + m_nextPages);
+		if (log.isLoggable(Level.FINE)) log.fine("FirstPage=" + m_firstPage + ", NextPages=" + m_nextPages);
 		//	One Page on Y | Axis
 		if (m_firstPage.height >= p_height && m_pageBreak.size() == 0)
 		{
-			log.finest("Page Y=1 - PageHeight=" + m_firstPage.height + " - TableHeight=" + p_height);
+			if (log.isLoggable(Level.FINEST)) log.finest("Page Y=1 - PageHeight=" + m_firstPage.height + " - TableHeight=" + p_height);
 			m_firstRowOnPage.add(new Integer(0));	//	Y
 			m_pageHeight.add(new Float(p_height));	//	Y index only
 		}
@@ -588,7 +681,7 @@ public class TableElement extends PrintElement
 				{
 					if (availableHeight > 40 && rowHeight > 40)
 					{
-						log.finest("- Split (leave on current) Row=" + dataRow 
+						if (log.isLoggable(Level.FINEST)) log.finest("- Split (leave on current) Row=" + dataRow 
 							+ " - Available=" + availableHeight + ", RowHeight=" + rowHeight);
 					//	if (splitRow (dataRow))
 					//		addlRows += 1;
@@ -603,10 +696,10 @@ public class TableElement extends PrintElement
 					if (!firstPage)
 					{
 						m_pageHeight.add(new Float(usedHeight));	//	Y index only
-						log.finest("Page Y=" + m_pageHeight.size()
+						if (log.isLoggable(Level.FINEST)) log.finest("Page Y=" + m_pageHeight.size()
 								+ " - PageHeight=" + usedHeight);
 					}
-					log.finest("Page Y=" + m_firstRowOnPage.size() 
+					if (log.isLoggable(Level.FINEST)) log.finest("Page Y=" + m_firstRowOnPage.size() 
 						+ " - Row=" + dataRow + " - force=" + isPageBreak(dataRow));
 					firstPage = false;
 					//
@@ -617,23 +710,23 @@ public class TableElement extends PrintElement
 				usedHeight += rowHeight;
 				if (availableHeight < 0)
 				{
-					log.finest("- Split (move to next) Row=" + dataRow 
+					if (log.isLoggable(Level.FINEST)) log.finest("- Split (move to next) Row=" + dataRow 
 						+ " - Available=" + availableHeight + ", RowHeight=" + rowHeight);
 					
 				}
-				log.finest("Page Y=" + m_pageHeight.size() 
+				if (log.isLoggable(Level.FINEST)) log.finest("Page Y=" + m_pageHeight.size() 
 					+ ", Row=" + dataRow + ",AddlRows=" + addlRows + ", Height=" + rowHeight 
 					+ " - Available=" + availableHeight + ", Used=" + usedHeight);
 			}	//	for all rows
 			m_pageHeight.add(new Float(usedHeight));			//	Y index only
-			log.finest("Page Y=" + m_pageHeight.size()
+			if (log.isLoggable(Level.FINEST)) log.finest("Page Y=" + m_pageHeight.size()
 					+ " - PageHeight=" + usedHeight);
 		}	//	multiple Y | pages
 
 		//	One page on - X Axis
 		if (m_firstPage.width >= p_width)
 		{
-			log.finest("Page X=1 - PageWidth=" + m_firstPage.width 
+			if (log.isLoggable(Level.FINEST)) log.finest("Page X=1 - PageWidth=" + m_firstPage.width 
 					+ " - TableWidth=" + p_width);
 			m_firstColumnOnPage.add(new Integer(0));	//	X
 			//
@@ -654,7 +747,7 @@ public class TableElement extends PrintElement
 						distributeColumns (availableWidth, lastStart, col);
 					//
 					m_firstColumnOnPage.add(new Integer(col));	//	X
-					log.finest("Page X=" + m_firstColumnOnPage.size()
+					if (log.isLoggable(Level.FINEST)) log.finest("Page X=" + m_firstColumnOnPage.size()
 							+ " - Col=" + col);
 					lastStart = col;
 					availableWidth = m_firstPage.width; 		//	Width is the same on all pages
@@ -672,7 +765,7 @@ public class TableElement extends PrintElement
 			}	//	for acc columns
 		}	//	multiple - X pages
 
-		log.fine("Pages=" + getPageCount() 
+		if (log.isLoggable(Level.FINE)) log.fine("Pages=" + getPageCount() 
 			+ " X=" + m_firstColumnOnPage.size() + "/Y=" + m_firstRowOnPage.size()
 			+ " - Width=" + p_width + ", Height=" + p_height);
 		return true;
@@ -687,7 +780,7 @@ public class TableElement extends PrintElement
 	 */
 	private void distributeColumns (int availableWidth, int fromCol, int toCol)
 	{
-		log.finest("Available=" + availableWidth + ", Columns " + fromCol + "->" + toCol);
+		if (log.isLoggable(Level.FINEST)) log.finest("Available=" + availableWidth + ", Columns " + fromCol + "->" + toCol);
 		int start = fromCol;
 		if (fromCol == 0 && m_repeatedColumns > 0)
 			start = m_repeatedColumns;
@@ -699,11 +792,11 @@ public class TableElement extends PrintElement
 		//	distribute proportionally (does not increase zero width columns)
 		for (int x = 0; remainingWidth > 0 && x < 5; x++)	//	max 4 iterations
 		{
-			log.finest("TotalWidth=" + totalWidth + ", Remaining=" + remainingWidth);
+			if (log.isLoggable(Level.FINEST)) log.finest("TotalWidth=" + totalWidth + ", Remaining=" + remainingWidth);
 			for (int col = start; col < toCol && remainingWidth != 0; col++)
 			{
 				int columnWidth = ((Float)m_columnWidths.get(col)).intValue();
-				if (columnWidth != 0)
+				if (columnWidth != 0 && !m_fixedWidth[col])
 				{
 					int additionalPart = columnWidth * availableWidth / totalWidth;
 					if (remainingWidth < additionalPart)
@@ -716,7 +809,7 @@ public class TableElement extends PrintElement
 						m_columnWidths.set(col, new Float(columnWidth+additionalPart));
 						remainingWidth -= additionalPart;
 					}
-					log.finest("  col=" + col + " - From " + columnWidth + " to " + m_columnWidths.get(col));
+					if (log.isLoggable(Level.FINEST)) log.finest("  col=" + col + " - From " + columnWidth + " to " + m_columnWidths.get(col));
 				}
 			}
 		}
@@ -727,7 +820,7 @@ public class TableElement extends PrintElement
 			if (columnWidth > 0)
 			{
 				m_columnWidths.set(c, new Float(columnWidth+remainingWidth));
-				log.finest("Final col=" + c + " - From " + columnWidth + " to " + m_columnWidths.get(c));
+				if (log.isLoggable(Level.FINEST)) log.finest("Final col=" + c + " - From " + columnWidth + " to " + m_columnWidths.get(c));
 				remainingWidth = 0;
 			}
 		}
@@ -757,12 +850,12 @@ public class TableElement extends PrintElement
 	public void setHeightToLastPage()
 	{
 		int lastLayoutPage = getPageCount() + m_pageNoStart - 1;
-		log.fine("PageCount - Table=" + getPageCount()
+		if (log.isLoggable(Level.FINE)) log.fine("PageCount - Table=" + getPageCount()
 			+ "(Start=" + m_pageNoStart
 			+ ") Layout=" + lastLayoutPage
 			+ " - Old Height=" + p_height);
 		p_height = getHeight(lastLayoutPage);
-		log.fine("New Height=" + p_height);
+		if (log.isLoggable(Level.FINE)) log.fine("New Height=" + p_height);
 	}	//	setHeightToLastPage
 
 	
@@ -810,6 +903,9 @@ public class TableElement extends PrintElement
 	 */
 	private Color getColor (int row, int col)
 	{
+		if ( m_blankRows.contains(row))
+			return getBackground(row, col);
+		
 		//	First specific position
 		Color color = (Color)m_rowColColor.get(new Point(row, col));
 		if (color != null)
@@ -850,6 +946,21 @@ public class TableElement extends PrintElement
 		return m_baseBackground;
 	}	//	getFont
 
+	/**
+	 * 	Get Report Line.
+	 * 	@param row row
+	 * 	@param col column
+	 * 	@return ReportLine for row/col
+	 */
+	private MReportLine getReportLine (int row, int col)
+	{
+		//	First specific position
+		MReportLine rLine = (MReportLine)m_rowColReportLine.get(new Point(row, col));
+		if (rLine != null)
+			return rLine;
+		
+		return null;
+	}	//	getFont
 	
 	/**************************************************************************
 	 * 	Get Calculated Height on page
@@ -860,14 +971,14 @@ public class TableElement extends PrintElement
 	{
 		int pageIndex = getPageIndex(pageNo);
 		int pageYindex = getPageYIndex(pageIndex);
-		log.fine("Page=" + pageNo + " - PageIndex=" + pageIndex 
+		if (log.isLoggable(Level.FINE)) log.fine("Page=" + pageNo + " - PageIndex=" + pageIndex 
 			+ ", PageYindex=" +  pageYindex);
 		float pageHeight = ((Float)m_pageHeight.get(pageYindex)).floatValue();
 		float pageHeightPrevious = 0f;
 		if (pageYindex > 0)
 			pageHeightPrevious = ((Float)m_pageHeight.get(pageYindex-1)).floatValue();
 		float retValue = pageHeight - pageHeightPrevious;
-		log.fine("Page=" + pageNo + " - PageIndex=" + pageIndex + ", PageYindex=" +  pageYindex + ", Height=" + String.valueOf(retValue));
+		if (log.isLoggable(Level.FINE)) log.fine("Page=" + pageNo + " - PageIndex=" + pageIndex + ", PageYindex=" +  pageYindex + ", Height=" + String.valueOf(retValue));
 		return retValue;
 	}	//	getHeight
 
@@ -912,10 +1023,10 @@ public class TableElement extends PrintElement
 	 * 	@param pageIndex zero based page index
 	 *  @return page number
 	 */
-	private int getPageNo (int pageIndex)
+	/*private int getPageNo (int pageIndex)
 	{
 		return pageIndex + m_pageNoStart;
-	}	//	getPageNo
+	}	//	getPageNo*/
 
 	
 	/**************************************************************************
@@ -941,7 +1052,6 @@ public class TableElement extends PrintElement
 	protected int getPageXIndex (int pageIndex)
 	{
 		int noXpages = m_firstColumnOnPage.size();
-	//	int noYpages = m_firstRowOnPage.size();
 		int x = pageIndex % noXpages;
 		return x;
 	}	//	getPageXIndex
@@ -978,7 +1088,6 @@ public class TableElement extends PrintElement
 	protected int getPageYIndex (int pageIndex)
 	{
 		int noXpages = m_firstColumnOnPage.size();
-	//	int noYpages = m_firstRowOnPage.size();
 		int y = (pageIndex - (pageIndex % noXpages)) / noXpages;
 		return y;
 	}	//	getPageYIndex
@@ -1011,7 +1120,7 @@ public class TableElement extends PrintElement
 		int col = getCol (relativePoint.x, pageNo);
 		if (col == -1)
 			return null;
-		log.fine("Row=" + row + ", Col=" + col + ", PageNo=" + pageNo);
+		if (log.isLoggable(Level.FINE)) log.fine("Row=" + row + ", Col=" + col + ", PageNo=" + pageNo);
 		//
 		NamePair pp = (NamePair)m_rowColDrillDown.get(new Point(row,col));
 		if (pp == null)
@@ -1040,7 +1149,7 @@ public class TableElement extends PrintElement
 		int row = getRow (relativePoint.y, pageNo);
 		if (row == -1)
 			return null;
-		log.fine("Row=" + row  + ", PageNo=" + pageNo);
+		if (log.isLoggable(Level.FINE)) log.fine("Row=" + row  + ", PageNo=" + pageNo);
 		//
 		if (m_pk[row] == null)	//	FunctionRows
 			return null;
@@ -1080,7 +1189,7 @@ public class TableElement extends PrintElement
 			return -1;		//	above
 		//
 		int firstRow = ((Integer)m_firstRowOnPage.get(pageYindex)).intValue();
-		int nextPageRow = m_data.length;				//	no of rows
+		int nextPageRow = m_data.getRowCount();				//	no of rows
 		if (pageYindex+1 < m_firstRowOnPage.size())
 			nextPageRow = ((Integer)m_firstRowOnPage.get(pageYindex+1)).intValue();
 		//
@@ -1154,29 +1263,32 @@ public class TableElement extends PrintElement
 		int pageXindex = getPageXIndex(pageIndex);
 		int pageYindex = getPageYIndex(pageIndex);
 		if (DEBUG_PRINT)
-			log.config("Page=" + pageNo + " [x=" + pageXindex + ", y=" + pageYindex + "]");
+			if (log.isLoggable(Level.CONFIG)) log.config("Page=" + pageNo + " [x=" + pageXindex + ", y=" + pageYindex + "]");
 		//
 		int firstColumn = ((Integer)m_firstColumnOnPage.get(pageXindex)).intValue();
 		int nextPageColumn = m_columnHeader.length;		// no of cols
 		if (pageXindex+1 < m_firstColumnOnPage.size())
 			nextPageColumn = ((Integer)m_firstColumnOnPage.get(pageXindex+1)).intValue();
 		//
+		if (pageYindex >= m_firstRowOnPage.size())
+			pageYindex = m_firstRowOnPage.size() - 1;
+
 		int firstRow = ((Integer)m_firstRowOnPage.get(pageYindex)).intValue();
-		int nextPageRow = m_data.length;				//	no of rows
+		int nextPageRow = m_data.getRowCount();				//	no of rows
 		if (pageYindex+1 < m_firstRowOnPage.size())
 			nextPageRow = ((Integer)m_firstRowOnPage.get(pageYindex+1)).intValue();
 		if (DEBUG_PRINT)
-			log.finest("Col=" + firstColumn + "-" + (nextPageColumn-1)
+			if (log.isLoggable(Level.FINEST)) log.finest("Col=" + firstColumn + "-" + (nextPageColumn-1)
 				+ ", Row=" + firstRow + "-" + (nextPageRow-1));
 
 		//	Top Left
 		int startX = (int)pageStart.getX();
 		int startY = (int)pageStart.getY();
 		//	Table Start
-		startX += pageXindex == 0 ? m_firstPage.x : m_nextPages.x;
-		startY += pageYindex == 0 ? m_firstPage.y : m_nextPages.y;
+		startX += pageIndex == 0 ? m_firstPage.x : m_nextPages.x;
+		startY += pageIndex == 0 ? m_firstPage.y : m_nextPages.y;
 		if (DEBUG_PRINT)
-			log.finest("PageStart=" + pageStart + ", StartTable x=" + startX + ", y=" + startY);
+			if (log.isLoggable(Level.FINEST)) log.finest("PageStart=" + pageStart + ", StartTable x=" + startX + ", y=" + startY);
 
 		//	paint first fixed volumns
 		boolean firstColumnPrint = true;
@@ -1231,11 +1343,11 @@ public class TableElement extends PrintElement
 		float netWidth = colWidth - (2*H_GAP) - m_tFormat.getVLineStroke().floatValue();
 		if (leftVline)
 			netWidth -= m_tFormat.getVLineStroke().floatValue();
-		int rowHeight = m_headerHeight;
+		float rowHeight = m_headerHeight;
 		float netHeight = rowHeight - (4*m_tFormat.getLineStroke().floatValue()) + (2*V_GAP);
 
 		if (DEBUG_PRINT)
-			log.finer("#" + col + " - x=" + curX + ", y=" + curY
+			if (log.isLoggable(Level.FINER)) log.finer("#" + col + " - x=" + curX + ", y=" + curY
 				+ ", width=" + colWidth + "/" + netWidth + ", HeaderHeight=" + rowHeight + "/" + netHeight);
 		String alignment = m_columnJustification[col];
 
@@ -1299,7 +1411,7 @@ public class TableElement extends PrintElement
 				TextLayout layout = measurer.nextLayout(netWidth + 2);
 				if (iter.getEndIndex() != measurer.getPosition())
 					fastDraw = false;
-				float lineHeight = layout.getAscent() + layout.getDescent() + layout.getLeading();
+				//float lineHeight = layout.getAscent() + layout.getDescent() + layout.getLeading();
 				
 				if (alignment.equals(MPrintFormatItem.FIELDALIGNMENTTYPE_Block))
 				{
@@ -1376,6 +1488,30 @@ public class TableElement extends PrintElement
 					(int)(colWidth-m_tFormat.getVLineStroke().floatValue()), 
 					(int)(rowHeight-m_tFormat.getLineStroke().floatValue()) );
 			}
+			
+			// over line
+			MReportLine rLine = getReportLine(row,col);
+			if ( rLine != null )
+			{
+				if ( rLine.getOverline() > 0 )
+				{
+					g2D.setPaint(m_tFormat.getHeaderLine_Color());
+					g2D.setStroke(rLine.getOverlineStroke(m_tFormat.getVLineStroke()));
+					g2D.drawLine(curX, curY, 							//	 -> - (top)
+						(int)(curX+colWidth-m_tFormat.getVLineStroke().floatValue()), curY);
+					curY += m_tFormat.getVLineStroke().floatValue();
+				}
+				if ( rLine.getOverline() > 1 )
+				{
+					curY += V_GAP;
+					g2D.setPaint(m_tFormat.getHeaderLine_Color());
+					g2D.setStroke(rLine.getOverlineStroke(m_tFormat.getVLineStroke()));
+					g2D.drawLine(curX, (int) (curY + m_tFormat.getVLineStroke().floatValue()) ,
+						(int)(curX+colWidth-m_tFormat.getVLineStroke().floatValue()), (int) (curY + m_tFormat.getVLineStroke().floatValue()));
+					curY += m_tFormat.getVLineStroke().floatValue();
+				}
+			}
+			
 			curX += H_GAP;		//	upper left gap
 			curY += V_GAP;
 
@@ -1449,6 +1585,14 @@ public class TableElement extends PrintElement
 						} catch (OutputException e) {
 						}
 					}
+					else if (printItems[index] instanceof BoxElement)
+					{
+						BoxElement box = ((BoxElement)printItems[index]);
+						if ( box != null )
+						{
+							box.draw(g2D, curX, (int)penY);
+						}
+					}
 					else if (printItems[index] instanceof Boolean)
 					{
 						int penX = curX + (int)((netWidth-LayoutEngine.IMAGE_SIZE.width)/2);	//	center
@@ -1472,14 +1616,17 @@ public class TableElement extends PrintElement
 					{
 						String str = printItems[index].toString();
 						if (DEBUG_PRINT)
-							log.fine("row=" + row + ",col=" + col + " - " + str + " 8Bit=" + Util.is8Bit(str));
+							if (log.isLoggable(Level.FINE)) log.fine("row=" + row + ",col=" + col + " - " + str + " 8Bit=" + Util.is8Bit(str));
 						if (str.length() > 0)
 						{
 							usedHeight = 0;
-							String[] lines = Pattern.compile("$", Pattern.MULTILINE).split(str);
+							String[] lines = Pattern.compile("\n", Pattern.MULTILINE).split(str);
 							for (int lineNo = 0; lineNo < lines.length; lineNo++)
 							{
-								aString = new AttributedString(lines[lineNo]);
+								String aStr = lines[lineNo];
+								if (aStr.length() == 0)
+									aStr = " ";
+								aString = new AttributedString(aStr);
 								aString.addAttribute(TextAttribute.FONT, getFont(row, col));
 								if (isView && printItems[index] instanceof NamePair)	//	ID
 								{
@@ -1532,7 +1679,7 @@ public class TableElement extends PrintElement
 										else
 											layout.draw(g2D, penX, penY);										//	-> text
 										if (DEBUG_PRINT)
-											log.fine("row=" + row + ",col=" + col + " - " + str + " - x=" + penX + ",y=" + penY);
+											if (log.isLoggable(Level.FINE)) log.fine("row=" + row + ",col=" + col + " - " + str + " - x=" + penX + ",y=" + penY);
 										penY += layout.getDescent() + layout.getLeading();
 										usedHeight += lineHeight;
 										//
@@ -1546,7 +1693,7 @@ public class TableElement extends PrintElement
 				}	//	for all print items
 			} // not suppressed
 
-			curY += netHeight + V_GAP;
+			curY = (int) (rowYstart + netHeight + 2* V_GAP);
 			curX += netWidth + H_GAP;
 			//	Y end line
 			g2D.setPaint(m_tFormat.getVLine_Color());
@@ -1557,7 +1704,33 @@ public class TableElement extends PrintElement
 			curX += m_tFormat.getVLineStroke().floatValue();
 
             //  X end line
-            if (row == m_data.length-1)         //  last Line
+			if ( rLine != null && rLine.getUnderline() > 0 )
+			{
+				if ( rLine.getUnderline() > 1 )
+				{
+					curY -= V_GAP +  m_tFormat.getVLineStroke().floatValue();
+					g2D.setPaint(m_tFormat.getHeaderLine_Color());
+					g2D.setStroke(rLine.getUnderlineStroke(m_tFormat.getVLineStroke()));
+					g2D.drawLine(origX, curY, 							//	 -> - (bottom)
+							(int)(origX+colWidth-m_tFormat.getVLineStroke().floatValue()), curY);
+					curY += m_tFormat.getVLineStroke().floatValue(); //jobrian  
+					curY += V_GAP;
+				}
+				if ( rLine.getUnderline() > 0 )
+				{
+					g2D.setPaint(m_tFormat.getHeaderLine_Color());
+					g2D.setStroke(rLine.getUnderlineStroke(m_tFormat.getVLineStroke()));
+					g2D.drawLine(origX, curY, 							//	 -> - (bottom)
+						(int)(origX+colWidth-m_tFormat.getVLineStroke().floatValue()), curY);
+//					curY += m_tFormat.getVLineStroke().floatValue();  //jobrian
+				}
+			}
+			//placeholder to substitute comment above - jobrian
+			//but this has another side effect - this overlaps with the footer
+			//turned OFF for the time being as this place is quite hard to track
+			//curY += m_tFormat.getVLineStroke().floatValue(); 
+			
+			if (row == m_data.getRowCount()-1)		//  last Line
             {
                 /**
                  * Bug fix - Bottom line was always displayed whether or not header lines was set to be visible
@@ -1578,11 +1751,11 @@ public class TableElement extends PrintElement
             }
             else
             {
-                //  next line is a funcion column -> underline this
+                //  next line is a function column -> underline this
                 boolean nextIsFunction = m_functionRows.contains(new Integer(row+1));
                 if (nextIsFunction && m_functionRows.contains(new Integer(row)))
                     nextIsFunction = false;     //  this is a function line too
-                if (nextIsFunction)
+                if (nextIsFunction || (m_finReportSumRows.contains(new Integer(row + 1)) && getReportLine(row + 1,col) != null))
                 {
                     g2D.setPaint(m_tFormat.getFunctFG_Color());
                     g2D.setStroke(m_tFormat.getHLine_Stroke());
@@ -1608,39 +1781,43 @@ public class TableElement extends PrintElement
 	 * 	@param col col
 	 * 	@param data data
 	 */
-	private void addPrintLines (int row, int col, Object data)
+	private void addPrintLines (int row, int col, Serializable data)
 	{
-		while (m_printRows.size() <= row)
-			m_printRows.add(null);
-		ArrayList<ArrayList<Object>> columns = m_printRows.get(row);
+		while (m_printRows.getRowCount() <= row)
+			m_printRows.addRow(null);
+		m_printRows.setRowIndex(row);
+		List<ArrayList<Serializable>> columns = m_printRows.getRowData();
 		if (columns == null)
-			columns = new ArrayList<ArrayList<Object>>(m_columnHeader.length);
+			columns = new ArrayList<ArrayList<Serializable>>(m_columnHeader.length);
 		while (columns.size() <= col)
 			columns.add(null);
 		//
-		ArrayList<Object> coordinate = columns.get(col);
+		ArrayList<Serializable> coordinate = columns.get(col);
 		if (coordinate == null)
-			coordinate = new ArrayList<Object>(); 
+			coordinate = new ArrayList<Serializable>(); 
 		coordinate.add(data);
 		//
 		columns.set(col, coordinate);
-		m_printRows.set(row, columns);
-		log.finest("row=" + row + ", col=" + col 
-			+ " - Rows=" + m_printRows.size() + ", Cols=" + columns.size()
-			+ " - " + data);
+		m_printRows.setRowData(columns);
+		if (log.isLoggable(Level.FINEST))
+		{
+			log.finest("row=" + row + ", col=" + col 
+					+ " - Rows=" + m_printRows.getRowCount() + ", Cols=" + columns.size()
+					+ " - " + data);
+		}
 	}	//	addAdditionalLines
 
 	/** Print Data				*/
-	private ArrayList<ArrayList<ArrayList<Object>>> m_printRows = new ArrayList<ArrayList<ArrayList<Object>>>();
+	private SerializableMatrix<ArrayList<Serializable>> m_printRows = new SerializableMatrixImpl<ArrayList<Serializable>>("PrintRows");
 	
 	/**
 	 * 	Insert empty Row after current Row
 	 *	@param currentRow
 	 */
-	private void insertRow (int currentRow)
+	/*private void insertRow (int currentRow)
 	{
 		
-	}	//	inserRow
+	}	//	inserRow*/
 	
 	
 	/**
@@ -1651,12 +1828,15 @@ public class TableElement extends PrintElement
 	 */
 	private Object[] getPrintItems (int row, int col)
 	{
-		ArrayList<ArrayList<Object>> columns = null;
-		if (m_printRows.size() > row)
-			columns = m_printRows.get(row);
+		List<ArrayList<Serializable>> columns = null;
+		if (m_printRows.getRowCount() > row)
+		{	
+			m_printRows.setRowIndex(row);
+			columns = m_printRows.getRowData();
+		}
 		if (columns == null)
 			return new Object[]{};
-		ArrayList<Object> coordinate = null;
+		ArrayList<Serializable> coordinate = null;
 		if (columns.size() > col)
 			coordinate = columns.get(col); 
 		if (coordinate == null)

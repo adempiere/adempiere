@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Financial Report Header Print Format #893 contribution #1630(Adaxa)" ReleaseNo="3.9.0" SeqNo="01300">
+    <Comments>https://github.com/adempiere/adempiere/issues/893</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="8183" Table="AD_Column">
+        <Data AD_Column_ID="118" Column="FieldLength" oldValue="22">50</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID" oldValue="12">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="8157" Table="AD_Column">
+        <Data AD_Column_ID="118" Column="FieldLength" oldValue="22">50</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID" oldValue="12">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="8144" Table="AD_Column">
+        <Data AD_Column_ID="118" Column="FieldLength" oldValue="22">50</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID" oldValue="12">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="8158" Table="AD_Column">
+        <Data AD_Column_ID="226" Column="AD_Reference_ID" oldValue="12">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="8158" Table="AD_Column">
+        <Data AD_Column_ID="118" Column="FieldLength" oldValue="22">50</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="8143" Table="AD_Column">
+        <Data AD_Column_ID="118" Column="FieldLength" oldValue="22">50</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID" oldValue="12">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="8146" Table="AD_Column">
+        <Data AD_Column_ID="118" Column="FieldLength" oldValue="22">50</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID" oldValue="12">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="8145" Table="AD_Column">
+        <Data AD_Column_ID="226" Column="AD_Reference_ID" oldValue="12">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="8145" Table="AD_Column">
+        <Data AD_Column_ID="118" Column="FieldLength" oldValue="22">50</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="100" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="8154" Table="AD_Column">
+        <Data AD_Column_ID="118" Column="FieldLength" oldValue="22">50</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID" oldValue="12">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="110" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="8147" Table="AD_Column">
+        <Data AD_Column_ID="226" Column="AD_Reference_ID" oldValue="12">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="120" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="8147" Table="AD_Column">
+        <Data AD_Column_ID="118" Column="FieldLength" oldValue="22">50</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="130" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="8160" Table="AD_Column">
+        <Data AD_Column_ID="226" Column="AD_Reference_ID" oldValue="12">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="140" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="8160" Table="AD_Column">
+        <Data AD_Column_ID="118" Column="FieldLength" oldValue="22">50</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="150" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="8151" Table="AD_Column">
+        <Data AD_Column_ID="118" Column="FieldLength" oldValue="22">50</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID" oldValue="12">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="160" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="8164" Table="AD_Column">
+        <Data AD_Column_ID="118" Column="FieldLength" oldValue="22">50</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID" oldValue="12">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="170" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="8149" Table="AD_Column">
+        <Data AD_Column_ID="118" Column="FieldLength" oldValue="22">50</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID" oldValue="12">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="180" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="8148" Table="AD_Column">
+        <Data AD_Column_ID="118" Column="FieldLength" oldValue="22">50</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID" oldValue="12">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="190" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="8159" Table="AD_Column">
+        <Data AD_Column_ID="118" Column="FieldLength" oldValue="22">50</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID" oldValue="12">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="200" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="8152" Table="AD_Column">
+        <Data AD_Column_ID="118" Column="FieldLength" oldValue="22">50</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID" oldValue="12">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="210" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="8150" Table="AD_Column">
+        <Data AD_Column_ID="118" Column="FieldLength" oldValue="22">50</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID" oldValue="12">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="220" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="8156" Table="AD_Column">
+        <Data AD_Column_ID="118" Column="FieldLength" oldValue="22">50</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID" oldValue="12">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="230" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="8161" Table="AD_Column">
+        <Data AD_Column_ID="118" Column="FieldLength" oldValue="22">50</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID" oldValue="12">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="240" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="8153" Table="AD_Column">
+        <Data AD_Column_ID="118" Column="FieldLength" oldValue="22">50</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID" oldValue="12">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="250" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="8162" Table="AD_Column">
+        <Data AD_Column_ID="118" Column="FieldLength" oldValue="22">50</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID" oldValue="12">10</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

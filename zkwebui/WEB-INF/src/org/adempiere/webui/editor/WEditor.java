@@ -17,7 +17,7 @@
 
 package org.adempiere.webui.editor;
 
-import java.awt.*;
+import java.awt.Color;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.VetoableChangeListener;
@@ -25,9 +25,13 @@ import java.util.ArrayList;
 
 import org.adempiere.exceptions.ValueChangeEvent;
 import org.adempiere.exceptions.ValueChangeListener;
-import org.adempiere.webui.component.*;
+import org.adempiere.webui.AdempiereIdGenerator;
+import org.adempiere.webui.component.Bandbox;
 import org.adempiere.webui.component.Button;
+import org.adempiere.webui.component.CWindowToolbar;
+import org.adempiere.webui.component.Datebox;
 import org.adempiere.webui.component.Label;
+import org.adempiere.webui.component.StringBox;
 import org.adempiere.webui.panel.IADTabPanel;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
@@ -81,6 +85,8 @@ public abstract class WEditor implements CEditor, EventListener, PropertyChangeL
 
 	protected boolean hasFocus;
 	
+	protected int rowIndex = -1;
+	
 	private IADTabPanel tabPanel;
 
     private Object m_oldValue = null;
@@ -95,12 +101,16 @@ public abstract class WEditor implements CEditor, EventListener, PropertyChangeL
 		return tabPanel;
 	}
 
+    public WEditor(Component comp, GridField gridField) {
+    	this(comp, gridField, -1);
+	}
+
     /**
      *
      * @param comp
      * @param gridField
      */
-    public WEditor(Component comp, GridField gridField)
+    public WEditor(Component comp, GridField gridField, int rowIndex)
     {
         if (comp == null)
         {
@@ -113,7 +123,13 @@ public abstract class WEditor implements CEditor, EventListener, PropertyChangeL
         }
 
         this.setComponent(comp);
-        comp.setAttribute("zk_component_prefix", "Field_" + gridField.getColumnName() + "_" + gridField.getAD_Tab_ID() + "_" + gridField.getWindowNo() + "_");
+        String gridTabName = gridField.getGridTab() != null ? gridField.getGridTab().getTabNo() + "_" + gridField.getGridTab().getTableName() : "";
+		comp.setAttribute(AdempiereIdGenerator.ZK_COMPONENT_PREFIX_ATTRIBUTE,
+				"unqField_" 
+						+ gridField.getWindowNo() 
+						+ "_" + gridTabName 
+						+ "_" + gridField.getColumnName()
+						+ (rowIndex >= 0 ? "_" + rowIndex : ""));
         this.gridField = gridField;
         this.setMandatory(gridField.isMandatory(false));
         this.readOnly = gridField.isReadOnly();
@@ -537,6 +553,17 @@ public abstract class WEditor implements CEditor, EventListener, PropertyChangeL
      */
     abstract public String getDisplay();
 
+	public String getDisplayTextForGridView(Object value)
+	{
+		this.setValue(value);
+		String s = getDisplay();
+		if ("<0>".equals(s))
+		{
+			s = "";
+		}
+		return s;
+	}
+
     /**
      *
      * @return list of events
@@ -661,6 +688,48 @@ public abstract class WEditor implements CEditor, EventListener, PropertyChangeL
             else
                 return false;
     }
+
+    
+	public void updateLabelStyle()
+	{
+		if (getLabel() != null)
+		{
+			String style = (isZoomable() ? STYLE_ZOOMABLE_LABEL : "")
+					+ (isMandatoryStyle() ? STYLE_EMPTY_MANDATORY_LABEL : STYLE_NORMAL_LABEL);
+			getLabel().setStyle(style.intern());
+		}
+	}
+
+	public boolean isMandatoryStyle()
+	{
+		return mandatory && !readOnly && getGridField().isEditable(true) && isNullOrEmpty();
+	}
+	public boolean isNullOrEmpty()
+	{
+		Object value = getValue();
+		return value == null || value.toString().trim().length() == 0;
+	}
+
+	public boolean isZoomable()
+	{
+		WEditorPopupMenu menu = getPopupMenu();
+		if (menu != null && menu.isZoomEnabled() && this instanceof IZoomableEditor)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	public int getRowIndex() {
+		return rowIndex;
+	}
+
+	public void setRowIndex(int rowIndex) {
+		this.rowIndex = rowIndex;
+	}
 
 	public void addVetoableChangeListener(VetoableChangeListener listener) {
 		// Not used in ZK		

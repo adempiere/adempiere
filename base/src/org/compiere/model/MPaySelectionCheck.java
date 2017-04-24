@@ -252,8 +252,8 @@ public final class MPaySelectionCheck extends X_C_PaySelectionCheck
 
 		draftPaySelectionChecks.stream()
 				.filter(paySelectionCheck -> paySelectionCheck != null).forEach(paySelectionCheck -> {
-			docNo.updateAndGet(no -> no + 1);
 			paySelectionCheck.setDocumentNo(String.valueOf(docNo.get()));
+			docNo.updateAndGet(no -> no + 1);
 			paySelectionCheck.saveEx();
 			paySelectionChecks.add(paySelectionCheck);
 		});

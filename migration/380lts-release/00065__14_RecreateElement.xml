@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="U" Name="Recreate element" ReleaseNo="3.9.0" SeqNo="65">
+    <Step DBType="Postgres" Parse="Y" SeqNo="10" StepType="SQL">
+      <SQLStatement>DELETE FROM AD_Element_Trl  WHERE AD_Element_ID=1000000; 
+DELETE FROM AD_Element WHERE AD_Element_ID=1000000;</SQLStatement>
+    </Step>
+    <Step DBType="Oracle" Parse="Y" SeqNo="20" StepType="SQL">
+      <SQLStatement>DELETE FROM AD_Element_Trl  WHERE AD_Element_ID=1000008; 
+DELETE FROM AD_Element WHERE AD_Element_ID=1000008;</SQLStatement>
+    </Step>
+  </Migration>
+</Migrations>

@@ -67,24 +67,22 @@ public class MActivity extends X_C_Activity
 	public static MActivity getById(Properties ctx, int activityId)
 	{
 		if (activityId <= 0)
-		{
 			return null;
-		}
-		// Try cache
+
 		MActivity activity = activityCacheIds.get(activityId);
-		if (activity != null)
-		{
+		if (activity != null && activity.get_ID() > 0)
 			return activity;
-		}
-		// Load from DB
-		activity = new MActivity(ctx, activityId, null);
-		if (activity.get_ID() == activityId)
+
+		activity = new Query(ctx , Table_Name , COLUMNNAME_C_Activity_ID + "=?" , null)
+				.setClient_ID()
+				.setParameters(activityId)
+				.first();
+		if (activity != null && activity.get_ID() > 0)
 		{
-			activityCacheIds.put(activityId, activity);
-		}
-		else
-		{
-			activity = null;
+			int clientId = Env.getAD_Client_ID(ctx);
+			String key = clientId + "#" + activity.getValue();
+			activityCacheValues.put(key, activity);
+			activityCacheIds.put(activity.get_ID(), activity);
 		}
 		return activity;
 	}
@@ -102,33 +100,50 @@ public class MActivity extends X_C_Activity
 		if (activityCacheValues.size() == 0 )
 			getAll(ctx, true);
 
-		MActivity activity =  new Query(ctx, Table_Name , COLUMNNAME_Value +  "=?", null)
+		int clientId = Env.getAD_Client_ID(ctx);
+		String key = clientId + "#" + activityvalue;
+		MActivity activity = activityCacheValues.get(key);
+		if (activity != null && activity.get_ID() > 0 )
+			return activity;
+
+		activity =  new Query(ctx, Table_Name , COLUMNNAME_Value +  "=?", null)
 				.setClient_ID()
 				.setParameters(activityvalue)
 				.first();
-		if (activity.getC_Activity_ID() > 0)
-			activityCacheValues.put(activity.getValue() , activity);
+
+		if (activity != null && activity.get_ID() > 0) {
+			activityCacheValues.put(key, activity);
+			activityCacheIds.put(activity.get_ID() , activity);
+		}
 		return activity;
 	}
 
+	/**
+	 * Get All Activity
+	 * @param ctx
+	 * @param resetCache
+	 * @return
+	 */
 	public static List<MActivity> getAll(Properties ctx, boolean resetCache) {
-	List<MActivity> activitiesList;
-	if (resetCache || activityCacheIds.size() > 0 ) {
-		activitiesList = new Query(Env.getCtx(), Table_Name, null , null)
-				.setClient_ID()
-				.setOrderBy(COLUMNNAME_Name)
-				.list();
-		activitiesList.stream().forEach(activity -> {
-			activityCacheIds.put(activity.getC_Activity_ID(), activity);
-			activityCacheValues.put(activity.getValue(), activity);
-		});
-		return activitiesList;
+		List<MActivity> activitiesList;
+		if (resetCache || activityCacheIds.size() > 0 ) {
+			activitiesList = new Query(Env.getCtx(), Table_Name, null , null)
+					.setClient_ID()
+					.setOrderBy(COLUMNNAME_Name)
+					.list();
+			activitiesList.stream().forEach(activity -> {
+				int clientId = Env.getAD_Client_ID(ctx);
+				String key = clientId + "#" + activity.getValue();
+				activityCacheIds.put(activity.getC_Activity_ID(), activity);
+				activityCacheValues.put(key, activity);
+			});
+			return activitiesList;
+		}
+		activitiesList = activityCacheIds.entrySet().stream()
+				.map(activity -> activity.getValue())
+				.collect(Collectors.toList());
+		return  activitiesList;
 	}
-	activitiesList = activityCacheIds.entrySet().stream()
-			.map(activity -> activity.getValue())
-			.collect(Collectors.toList());
-	return  activitiesList;
-}
 
 	/**
 	 * 	Standard Constructor

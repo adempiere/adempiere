@@ -1,8 +1,9 @@
 /******************************************************************************
  * Product: ADempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 2006-2016 ADempiere Foundation, All Rights Reserved.         *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -329,6 +330,19 @@ public interface I_PA_ReportColumn
 	  * Perform conversion for all amounts to currency
 	  */
 	public boolean isAdhocConversion();
+
+    /** Column name IsAllowOppositeSign */
+    public static final String COLUMNNAME_IsAllowOppositeSign = "IsAllowOppositeSign";
+
+	/** Set Allow Opposite Sign.
+	  * Allow column values to be displayed with the opposite sign
+	  */
+	public void setIsAllowOppositeSign (boolean IsAllowOppositeSign);
+
+	/** Get Allow Opposite Sign.
+	  * Allow column values to be displayed with the opposite sign
+	  */
+	public boolean isAllowOppositeSign();
 
     /** Column name IsIncludeNullsActivity */
     public static final String COLUMNNAME_IsIncludeNullsActivity = "IsIncludeNullsActivity";
@@ -701,6 +715,19 @@ public interface I_PA_ReportColumn
 	  * Period offset (0 is current)
 	  */
 	public BigDecimal getRelativePeriod();
+
+    /** Column name RelativePeriodTo */
+    public static final String COLUMNNAME_RelativePeriodTo = "RelativePeriodTo";
+
+	/** Set Relative Period To.
+	  * Period offset (0 is current)
+	  */
+	public void setRelativePeriodTo (BigDecimal RelativePeriodTo);
+
+	/** Get Relative Period To.
+	  * Period offset (0 is current)
+	  */
+	public BigDecimal getRelativePeriodTo();
 
     /** Column name SeqNo */
     public static final String COLUMNNAME_SeqNo = "SeqNo";

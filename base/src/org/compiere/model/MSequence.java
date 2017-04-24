@@ -1055,7 +1055,7 @@ public class MSequence extends X_AD_Sequence
 
 
 	/**	Sequence for Table Document No's	*/
-	private static final String	PREFIX_DOCSEQ = "DocumentNo_";
+	public static final String	PREFIX_DOCSEQ = "DocumentNo_";
 	/**	Start Number			*/
 	public static final int		INIT_NO = 1000000;	//	1 Mio
 	/**	Start System Number		*/

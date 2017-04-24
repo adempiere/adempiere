@@ -127,7 +127,7 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 	 * @param columnIndex	The index of the column for which details are to be retrieved.
 	 * @return	The details of the column at the specified index.
 	 */
-	private WTableColumn getColumn(int columnIndex)
+	public WTableColumn getColumn(int columnIndex)
 	{
 		try
 		{
@@ -555,6 +555,11 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 			m_headers.set(index, header);
 	}
 
+	public ArrayList<ListHeader> getHeaders()
+	{
+		return m_headers;
+	}
+	
     /**
      * Obtain the comparator for a given column.
      *

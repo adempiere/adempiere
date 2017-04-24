@@ -889,9 +889,9 @@ public class VOrderReceiptIssue extends OrderReceiptIssue implements FormPanel,
 				public void run(String trxName) {
 					MPPOrder order = new MPPOrder(Env.getCtx(),
 							getPP_Order_ID(), trxName);
-					if (isBackflush() || isOnlyIssue()) {
+					if (isBackflush() || isOnlyIssue())
 						createIssue(order, issue);
-					}
+
 					if (isOnlyReceipt() || isBackflush()) {
 						MPPOrder.createReceipt(order, getMovementDate(),
 								getDeliveredQty(), getToDeliverQty(),

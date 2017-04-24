@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="RV_ProductionLine 2" ReleaseNo="3.9.0" SeqNo="00840">
+  <Migration EntityType="D" Name="RV_ProductionLine 2" ReleaseNo="3.9.0" SeqNo="840">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="78389" Table="AD_Column">
         <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
@@ -20,7 +20,6 @@
         <Data AD_Column_ID="118" Column="FieldLength">40</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
         <Data AD_Column_ID="226" Column="AD_Reference_ID">10</Data>
-        <Data AD_Column_ID="72747" Column="IsSecure" isNewNull="true"/>
         <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
         <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
@@ -71,7 +70,6 @@
         <Data AD_Column_ID="118" Column="FieldLength">255</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">true</Data>
         <Data AD_Column_ID="226" Column="AD_Reference_ID">10</Data>
-        <Data AD_Column_ID="72747" Column="IsSecure" isNewNull="true"/>
         <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
         <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
@@ -103,18 +101,28 @@
         <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
       </PO>
     </Step>
-    <Step DBType="ALL" SeqNo="30" StepType="SQL">
-      <SQLStatement>DROP VIEW IF EXISTS rv_productionline;
-
-CREATE OR REPLACE VIEW rv_productionline AS 
- SELECT pl.m_productionline_id, pl.ad_client_id, pl.ad_org_id, pl.isactive, pl.created, pl.createdby, pl.updated, pl.updatedby, pl.m_productionplan_id, pl.line, pl.m_product_id, pl.movementqty, pl.m_locator_id, pl.description, pl.m_attributesetinstance_id, pl.processed, pl.m_production_id, pl.plannedqty, pl.qtyused, pl.isendproduct, pl.qtyreserved, pl.pickedqty, p.m_product_category_id, p.producttype, p.value AS productvalue, 
- p.name AS productname
-   FROM m_productionline pl
-   JOIN m_product p ON pl.m_product_id = p.m_product_id;
-
-ALTER TABLE rv_productionline
-  OWNER TO adempiere;
-</SQLStatement>
+    <Step DBType="Postgres" Parse="Y" SeqNo="30" StepType="SQL">
+      <SQLStatement>
+        DROP VIEW IF EXISTS rv_productionline;
+        CREATE OR REPLACE VIEW rv_productionline AS
+        SELECT pl.m_productionline_id, pl.ad_client_id, pl.ad_org_id, pl.isactive, pl.created, pl.createdby, pl.updated, pl.updatedby, pl.m_productionplan_id, pl.line, pl.m_product_id, pl.movementqty, pl.m_locator_id, pl.description, pl.m_attributesetinstance_id, pl.processed, pl.m_production_id, pl.plannedqty, pl.qtyused, pl.isendproduct, pl.qtyreserved, pl.pickedqty, p.m_product_category_id, p.producttype, p.value AS productvalue,
+        p.name AS productname
+        FROM m_productionline pl
+        JOIN m_product p ON pl.m_product_id = p.m_product_id;
+      </SQLStatement>
+    </Step>
+    <Step DBType="Oracle" Parse="Y" SeqNo="40" StepType="SQL">
+      <SQLStatement>
+        CREATE OR REPLACE VIEW rv_productionline
+        (m_productionline_id, ad_client_id, ad_org_id, isactive, created, createdby, updated, updatedby, m_productionplan_id, line, m_product_id, movementqty, m_locator_id, description,
+        m_attributesetinstance_id, processed, m_production_id, plannedqty, qtyused, isendproduct, qtyreserved, pickedqty, m_product_category_id, producttype, productvalue,
+        productname)
+        AS
+        SELECT pl.m_productionline_id, pl.ad_client_id, pl.ad_org_id, pl.isactive, pl.created, pl.createdby, pl.updated, pl.updatedby, pl.m_productionplan_id, pl.line, pl.m_product_id, pl.movementqty, pl.m_locator_id, pl.description, pl.m_attributesetinstance_id, pl.processed, pl.m_production_id, pl.plannedqty, pl.qtyused, pl.isendproduct, pl.qtyreserved, pl.pickedqty, p.m_product_category_id, p.producttype, p.value AS productvalue,
+        p.name AS productname
+        FROM m_productionline pl
+        JOIN m_product p ON pl.m_product_id = p.m_product_id;
+      </SQLStatement>
     </Step>
   </Migration>
 </Migrations>

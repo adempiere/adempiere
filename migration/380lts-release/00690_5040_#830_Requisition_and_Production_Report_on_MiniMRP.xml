@@ -3,17 +3,18 @@
   <Migration EntityType="D" Name="Requisition and Planned Production Report On Replenish Plan" ReleaseNo="3.9.0" SeqNo="00690">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="101" Action="U" Record_ID="76557" Table="AD_Column">
-        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isOldNull="true">162</Data>
         <Data AD_Column_ID="226" Column="AD_Reference_ID" oldValue="19">30</Data>
+        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isOldNull="true">162</Data>
       </PO>
     </Step>
     <Step SeqNo="20" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="78324" Table="AD_Column">
+        <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">53975</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -26,7 +27,6 @@
         <Data AD_Column_ID="118" Column="FieldLength">22</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
         <Data AD_Column_ID="226" Column="AD_Reference_ID">19</Data>
-        <Data AD_Column_ID="72747" Column="IsSecure">false</Data>
         <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
         <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
@@ -54,7 +54,6 @@
         <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="549" Column="Created">2016-01-06 15:05:30.084</Data>
-        <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
       </PO>
     </Step>
@@ -78,7 +77,7 @@
         <Data AD_Column_ID="15011" Column="AD_Reference_ID" isNewNull="true"/>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
         <Data AD_Column_ID="15013" Column="IsMandatory" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="53265" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="54356" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="54357" Column="AD_Val_Rule_ID" isNewNull="true"/>
@@ -88,7 +87,6 @@
         <Data AD_Column_ID="168" Column="Name">Requisition</Data>
         <Data AD_Column_ID="62478" Column="IsDisplayedGrid">true</Data>
         <Data AD_Column_ID="62479" Column="SeqNoGrid">360</Data>
-        <Data AD_Column_ID="62200" Column="IsAllowCopy" isNewNull="true"/>
         <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="578" Column="IsActive">true</Data>
         <Data AD_Column_ID="579" Column="Created">2016-01-06 15:06:53.572</Data>
@@ -97,21 +95,36 @@
         <Data AD_Column_ID="581" Column="Updated">2016-01-06 15:06:53.572</Data>
         <Data AD_Column_ID="167" Column="AD_Field_ID">78248</Data>
         <Data AD_Column_ID="384" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="78296" Column="IsAllowNewAttributeInstance">false</Data>
       </PO>
     </Step>
-    <Step DBType="ALL" SeqNo="40" StepType="SQL">
-      <SQLStatement>	       	  
- CREATE OR REPLACE VIEW rv_m_replenishplan_production AS    
+    <Step DBType="Postgres" Parse="Y" SeqNo="40" StepType="SQL">
+      <SQLStatement>CREATE OR REPLACE VIEW rv_m_replenishplan_production AS    
  SELECT mrl.ad_client_id, mrl.ad_org_id, mrl.m_replenishplan_id, p.m_product_id, pd.m_production_id, pd.productionqty, pd.datepromised, pd.movementdate,   pd.isactive, 0 AS currentcostprice      
  FROM m_replenishplanline mrl      
  JOIN m_production pd ON pd.m_production_id = mrl.m_production_id      
  JOIN m_product p ON p.m_product_id = pd.m_product_id           
  WHERE mrl.recordtype= 'Planned Production'  ORDER BY pd.m_production_id;</SQLStatement>
+      <RollbackStatement>DROP VIEW rv_m_replenishplan_production;</RollbackStatement>
     </Step>
-    <Step DBType="ALL" SeqNo="50" StepType="SQL">
-      <SQLStatement>
-DROP VIEW IF EXISTS rv_m_replenishplan_requisition;
+    <Step DBType="Oracle" Parse="Y" SeqNo="45" StepType="SQL">
+      <SQLStatement>CREATE VIEW rv_m_replenishplan_production 
+( AD_CLIENT_ID, AD_ORG_ID, M_REPLENISHPLAN_ID, M_PRODUCT_ID, M_PRODUCTION_ID, 
+PRODUCTIONQTY, DATEPROMISED, MOVEMENTDATE, ISACTIVE, CURRENTCOSTPRICE 
+)
+AS    
+ SELECT mrl.ad_client_id, mrl.ad_org_id, mrl.m_replenishplan_id, p.m_product_id, pd.m_production_id, 
+pd.productionqty, 
+pd.datepromised, pd.movementdate,   pd.isactive, 0 AS currentcostprice      
+ FROM m_replenishplanline mrl      
+ INNER JOIN m_production pd ON pd.m_production_id = mrl.m_production_id      
+ INNER JOIN m_product p ON p.m_product_id = pd.m_product_id           
+ WHERE mrl.recordtype= 'Planned Production'  
+ORDER BY pd.m_production_id;
+</SQLStatement>
+      <RollbackStatement>DROP VIEW rv_m_replenishplan_production;</RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" Parse="Y" SeqNo="50" StepType="SQL">
+      <SQLStatement>DROP VIEW IF EXISTS rv_m_replenishplan_requisition;
 CREATE OR REPLACE VIEW rv_m_replenishplan_requisition AS
  SELECT mrl.ad_client_id, mrl.ad_org_id, mrl.m_replenishplanline_id, mrl.m_replenishplan_id, r.m_requisition_id, r.documentno, rl.line, p.m_product_id, po.vendorproductno, rl.c_bpartner_id, rl.qty, rl.priceactual, rl.isactive
    FROM m_replenishplanline mrl
@@ -120,6 +133,24 @@ CREATE OR REPLACE VIEW rv_m_replenishplan_requisition AS
    JOIN m_product p ON p.m_product_id = rl.m_product_id
    LEFT OUTER JOIN m_product_po po ON po.m_product_id = p.m_product_id AND po.c_bpartner_id = rl.c_bpartner_id
   ORDER BY r.m_requisition_id, rl.line;</SQLStatement>
+      <RollbackStatement>DROP VIEW IF EXISTS rv_m_replenishplan_requisition;</RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" Parse="Y" SeqNo="55" StepType="SQL">
+      <SQLStatement>CREATE VIEW rv_m_replenishplan_requisition 
+(
+AD_CLIENT_ID, AD_ORG_ID, M_REPLENISHPLANLINE_ID, M_REPLENISHPLAN_ID, M_REQUISITION_ID, 
+DOCUMENTNO, LINE, M_PRODUCT_ID, VENDORPRODUCTNO, 
+C_BPARTNER_ID, QTY, PRICEACTUAL, ISACTIVE
+)
+AS
+ SELECT mrl.ad_client_id, mrl.ad_org_id, mrl.m_replenishplanline_id, mrl.m_replenishplan_id, r.m_requisition_id, r.documentno, rl.line, p.m_product_id, po.vendorproductno, rl.c_bpartner_id, rl.qty, rl.priceactual, rl.isactive
+   FROM m_replenishplanline mrl
+   INNER JOIN m_requisitionline rl ON rl.m_requisition_id = mrl.m_requisition_id AND rl.m_product_id = mrl.m_product_id
+   INNER JOIN m_requisition r ON r.m_requisition_id = rl.m_requisition_id
+   INNER JOIN m_product p ON p.m_product_id = rl.m_product_id
+   LEFT OUTER JOIN m_product_po po ON po.m_product_id = p.m_product_id AND po.c_bpartner_id = rl.c_bpartner_id
+  ORDER BY r.m_requisition_id, rl.line;</SQLStatement>
+      <RollbackStatement>DROP VIEW rv_m_replenishplan_requisition;</RollbackStatement>
     </Step>
     <Step SeqNo="60" StepType="AD">
       <PO AD_Table_ID="100" Action="I" Record_ID="54054" Table="AD_Table">
@@ -135,7 +166,7 @@ CREATE OR REPLACE VIEW rv_m_replenishplan_requisition AS
         <Data AD_Column_ID="8564" Column="IsChangeLog">false</Data>
         <Data AD_Column_ID="9342" Column="PO_Window_ID" isNewNull="true"/>
         <Data AD_Column_ID="50183" Column="CopyColumnsFromTable">N</Data>
-        <Data AD_Column_ID="6488" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6488" Column="EntityType">D</Data>
         <Data AD_Column_ID="59135" Column="IsCentrallyMaintained">true</Data>
         <Data AD_Column_ID="727" Column="IsDeleteable">false</Data>
         <Data AD_Column_ID="9341" Column="ReplicationType">L</Data>
@@ -159,7 +190,7 @@ CREATE OR REPLACE VIEW rv_m_replenishplan_requisition AS
         <Data AD_Column_ID="117" Column="DefaultValue">@#AD_Client_ID@</Data>
         <Data AD_Column_ID="114" Column="AD_Table_ID">54054</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">1</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">true</Data>
@@ -172,7 +203,6 @@ CREATE OR REPLACE VIEW rv_m_replenishplan_requisition AS
         <Data AD_Column_ID="118" Column="FieldLength">22</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
         <Data AD_Column_ID="226" Column="AD_Reference_ID">19</Data>
-        <Data AD_Column_ID="72747" Column="IsSecure" isNewNull="true"/>
         <Data AD_Column_ID="115" Column="AD_Val_Rule_ID">129</Data>
         <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
@@ -210,7 +240,7 @@ CREATE OR REPLACE VIEW rv_m_replenishplan_requisition AS
         <Data AD_Column_ID="117" Column="DefaultValue">@#AD_Org_ID@</Data>
         <Data AD_Column_ID="114" Column="AD_Table_ID">54054</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">1</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">true</Data>
@@ -223,7 +253,6 @@ CREATE OR REPLACE VIEW rv_m_replenishplan_requisition AS
         <Data AD_Column_ID="118" Column="FieldLength">22</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
         <Data AD_Column_ID="226" Column="AD_Reference_ID">19</Data>
-        <Data AD_Column_ID="72747" Column="IsSecure" isNewNull="true"/>
         <Data AD_Column_ID="115" Column="AD_Val_Rule_ID">104</Data>
         <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
@@ -261,7 +290,7 @@ CREATE OR REPLACE VIEW rv_m_replenishplan_requisition AS
         <Data AD_Column_ID="117" Column="DefaultValue">Y</Data>
         <Data AD_Column_ID="114" Column="AD_Table_ID">54054</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">1</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">true</Data>
@@ -277,7 +306,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="118" Column="FieldLength">1</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
         <Data AD_Column_ID="226" Column="AD_Reference_ID">20</Data>
-        <Data AD_Column_ID="72747" Column="IsSecure" isNewNull="true"/>
         <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
         <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
@@ -342,7 +370,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">54054</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -355,7 +383,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="118" Column="FieldLength">10</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
         <Data AD_Column_ID="226" Column="AD_Reference_ID">19</Data>
-        <Data AD_Column_ID="72747" Column="IsSecure" isNewNull="true"/>
         <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
         <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
@@ -393,7 +420,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">54054</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -406,7 +433,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="118" Column="FieldLength">10</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
         <Data AD_Column_ID="226" Column="AD_Reference_ID">19</Data>
-        <Data AD_Column_ID="72747" Column="IsSecure" isNewNull="true"/>
         <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
         <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
@@ -444,7 +470,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">54054</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -457,7 +483,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="118" Column="FieldLength">10</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
         <Data AD_Column_ID="226" Column="AD_Reference_ID">19</Data>
-        <Data AD_Column_ID="72747" Column="IsSecure" isNewNull="true"/>
         <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
         <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
@@ -495,7 +520,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">54054</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -508,7 +533,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="118" Column="FieldLength">131089</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
         <Data AD_Column_ID="226" Column="AD_Reference_ID">29</Data>
-        <Data AD_Column_ID="72747" Column="IsSecure" isNewNull="true"/>
         <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
         <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
@@ -546,7 +570,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">54054</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -559,7 +583,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="118" Column="FieldLength">29</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
         <Data AD_Column_ID="226" Column="AD_Reference_ID">16</Data>
-        <Data AD_Column_ID="72747" Column="IsSecure" isNewNull="true"/>
         <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
         <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
@@ -597,7 +620,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">54054</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -610,7 +633,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="118" Column="FieldLength">29</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
         <Data AD_Column_ID="226" Column="AD_Reference_ID">16</Data>
-        <Data AD_Column_ID="72747" Column="IsSecure" isNewNull="true"/>
         <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
         <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
@@ -648,7 +670,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">54054</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -661,7 +683,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="118" Column="FieldLength">131089</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
         <Data AD_Column_ID="226" Column="AD_Reference_ID">22</Data>
-        <Data AD_Column_ID="72747" Column="IsSecure" isNewNull="true"/>
         <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
         <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
@@ -707,7 +728,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="8564" Column="IsChangeLog">false</Data>
         <Data AD_Column_ID="9342" Column="PO_Window_ID" isNewNull="true"/>
         <Data AD_Column_ID="50183" Column="CopyColumnsFromTable">N</Data>
-        <Data AD_Column_ID="6488" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6488" Column="EntityType">D</Data>
         <Data AD_Column_ID="59135" Column="IsCentrallyMaintained">true</Data>
         <Data AD_Column_ID="727" Column="IsDeleteable">false</Data>
         <Data AD_Column_ID="9341" Column="ReplicationType">L</Data>
@@ -731,7 +752,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="117" Column="DefaultValue">@#AD_Client_ID@</Data>
         <Data AD_Column_ID="114" Column="AD_Table_ID">54055</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">1</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">true</Data>
@@ -744,7 +765,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="118" Column="FieldLength">22</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
         <Data AD_Column_ID="226" Column="AD_Reference_ID">19</Data>
-        <Data AD_Column_ID="72747" Column="IsSecure" isNewNull="true"/>
         <Data AD_Column_ID="115" Column="AD_Val_Rule_ID">129</Data>
         <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
@@ -782,7 +802,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="117" Column="DefaultValue">@#AD_Org_ID@</Data>
         <Data AD_Column_ID="114" Column="AD_Table_ID">54055</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">1</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">true</Data>
@@ -795,7 +815,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="118" Column="FieldLength">22</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
         <Data AD_Column_ID="226" Column="AD_Reference_ID">19</Data>
-        <Data AD_Column_ID="72747" Column="IsSecure" isNewNull="true"/>
         <Data AD_Column_ID="115" Column="AD_Val_Rule_ID">104</Data>
         <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
@@ -833,7 +852,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="117" Column="DefaultValue">Y</Data>
         <Data AD_Column_ID="114" Column="AD_Table_ID">54055</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">1</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">true</Data>
@@ -849,7 +868,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="118" Column="FieldLength">1</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
         <Data AD_Column_ID="226" Column="AD_Reference_ID">20</Data>
-        <Data AD_Column_ID="72747" Column="IsSecure" isNewNull="true"/>
         <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
         <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
@@ -914,7 +932,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">54055</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -927,7 +945,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="118" Column="FieldLength">10</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
         <Data AD_Column_ID="226" Column="AD_Reference_ID">19</Data>
-        <Data AD_Column_ID="72747" Column="IsSecure" isNewNull="true"/>
         <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
         <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
@@ -965,7 +982,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">54055</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -978,7 +995,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="118" Column="FieldLength">10</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
         <Data AD_Column_ID="226" Column="AD_Reference_ID">19</Data>
-        <Data AD_Column_ID="72747" Column="IsSecure" isNewNull="true"/>
         <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
         <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
@@ -1016,7 +1032,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">54055</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -1029,7 +1045,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="118" Column="FieldLength">10</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
         <Data AD_Column_ID="226" Column="AD_Reference_ID">19</Data>
-        <Data AD_Column_ID="72747" Column="IsSecure" isNewNull="true"/>
         <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
         <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
@@ -1067,7 +1082,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">54055</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -1082,7 +1097,6 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="118" Column="FieldLength">30</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">true</Data>
         <Data AD_Column_ID="226" Column="AD_Reference_ID">10</Data>
-        <Data AD_Column_ID="72747" Column="IsSecure" isNewNull="true"/>
         <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
         <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
@@ -1120,7 +1134,7 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">54055</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -1133,7 +1147,6 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="118" Column="FieldLength">10</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
         <Data AD_Column_ID="226" Column="AD_Reference_ID">11</Data>
-        <Data AD_Column_ID="72747" Column="IsSecure" isNewNull="true"/>
         <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
         <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
@@ -1171,7 +1184,7 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">54055</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -1184,7 +1197,6 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="118" Column="FieldLength">10</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
         <Data AD_Column_ID="226" Column="AD_Reference_ID">19</Data>
-        <Data AD_Column_ID="72747" Column="IsSecure" isNewNull="true"/>
         <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
         <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
@@ -1222,7 +1234,7 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">54055</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -1235,7 +1247,6 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="118" Column="FieldLength">40</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
         <Data AD_Column_ID="226" Column="AD_Reference_ID">10</Data>
-        <Data AD_Column_ID="72747" Column="IsSecure" isNewNull="true"/>
         <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
         <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
@@ -1273,7 +1284,7 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">54055</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -1286,7 +1297,6 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="118" Column="FieldLength">10</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
         <Data AD_Column_ID="226" Column="AD_Reference_ID">19</Data>
-        <Data AD_Column_ID="72747" Column="IsSecure" isNewNull="true"/>
         <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
         <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
@@ -1324,7 +1334,7 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">54055</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -1337,7 +1347,6 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="118" Column="FieldLength">131089</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
         <Data AD_Column_ID="226" Column="AD_Reference_ID">29</Data>
-        <Data AD_Column_ID="72747" Column="IsSecure" isNewNull="true"/>
         <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
         <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
@@ -1375,7 +1384,7 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">54055</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -1388,7 +1397,6 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="118" Column="FieldLength">131089</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
         <Data AD_Column_ID="226" Column="AD_Reference_ID">22</Data>
-        <Data AD_Column_ID="72747" Column="IsSecure" isNewNull="true"/>
         <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
         <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
@@ -1425,7 +1433,7 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="4396" Column="OrderByClause" isNewNull="true"/>
         <Data AD_Column_ID="4395" Column="WhereClause" isNewNull="true"/>
         <Data AD_Column_ID="4394" Column="AD_Table_ID">54054</Data>
-        <Data AD_Column_ID="10032" Column="EntityType">U</Data>
+        <Data AD_Column_ID="10032" Column="EntityType">D</Data>
         <Data AD_Column_ID="4393" Column="Description">Report View of Replenish Plan planned Production</Data>
         <Data AD_Column_ID="4392" Column="Name">RV_M_ReplenishPlan_Production</Data>
         <Data AD_Column_ID="4387" Column="IsActive">true</Data>
@@ -1443,7 +1451,7 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="4396" Column="OrderByClause" isNewNull="true"/>
         <Data AD_Column_ID="4395" Column="WhereClause" isNewNull="true"/>
         <Data AD_Column_ID="4394" Column="AD_Table_ID">54055</Data>
-        <Data AD_Column_ID="10032" Column="EntityType">U</Data>
+        <Data AD_Column_ID="10032" Column="EntityType">D</Data>
         <Data AD_Column_ID="4393" Column="Description">Report View of Replenish Plan Suggested Requisition</Data>
         <Data AD_Column_ID="4392" Column="Name">RV_M_ReplenishPlan_Requisition</Data>
         <Data AD_Column_ID="4387" Column="IsActive">true</Data>
@@ -1458,7 +1466,6 @@ If the document type of your document has no automatic document sequence defined
     </Step>
     <Step SeqNo="350" StepType="AD">
       <PO AD_Table_ID="284" Action="I" Record_ID="53820" Table="AD_Process">
-        <Data AD_Column_ID="63536" Column="AD_TableSelection_ID" isNewNull="true"/>
         <Data AD_Column_ID="11834" Column="AD_Workflow_ID" isNewNull="true"/>
         <Data AD_Column_ID="2811" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="4374" Column="AD_ReportView_ID">53186</Data>
@@ -1469,7 +1476,7 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="11563" Column="WorkflowValue" isNewNull="true"/>
         <Data AD_Column_ID="14084" Column="IsServerProcess">false</Data>
         <Data AD_Column_ID="50181" Column="ShowHelp">Y</Data>
-        <Data AD_Column_ID="6485" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6485" Column="EntityType">D</Data>
         <Data AD_Column_ID="6652" Column="Statistic_Count">0</Data>
         <Data AD_Column_ID="6653" Column="Statistic_Seconds">0</Data>
         <Data AD_Column_ID="4656" Column="Classname">org.adempiere.process.GenerateReplenishPlanProductionReport</Data>
@@ -1493,7 +1500,6 @@ If the document type of your document has no automatic document sequence defined
     </Step>
     <Step SeqNo="360" StepType="AD">
       <PO AD_Table_ID="284" Action="I" Record_ID="53821" Table="AD_Process">
-        <Data AD_Column_ID="63536" Column="AD_TableSelection_ID" isNewNull="true"/>
         <Data AD_Column_ID="11834" Column="AD_Workflow_ID" isNewNull="true"/>
         <Data AD_Column_ID="2811" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="4374" Column="AD_ReportView_ID">53187</Data>
@@ -1504,7 +1510,7 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="11563" Column="WorkflowValue" isNewNull="true"/>
         <Data AD_Column_ID="14084" Column="IsServerProcess">false</Data>
         <Data AD_Column_ID="50181" Column="ShowHelp">Y</Data>
-        <Data AD_Column_ID="6485" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6485" Column="EntityType">D</Data>
         <Data AD_Column_ID="6652" Column="Statistic_Count">0</Data>
         <Data AD_Column_ID="6653" Column="Statistic_Seconds">0</Data>
         <Data AD_Column_ID="4656" Column="Classname">org.adempiere.process.GenerateReplenishPlanRequisitionReport</Data>
@@ -2551,7 +2557,7 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="6283" Column="PO_Description" isNewNull="true"/>
         <Data AD_Column_ID="6284" Column="PO_Help" isNewNull="true"/>
-        <Data AD_Column_ID="6484" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6484" Column="EntityType">D</Data>
         <Data AD_Column_ID="6286" Column="PO_PrintName" isNewNull="true"/>
         <Data AD_Column_ID="2603" Column="Name">Generate Planned Production Report</Data>
         <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
@@ -2576,7 +2582,7 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="6283" Column="PO_Description" isNewNull="true"/>
         <Data AD_Column_ID="6284" Column="PO_Help" isNewNull="true"/>
-        <Data AD_Column_ID="6484" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6484" Column="EntityType">D</Data>
         <Data AD_Column_ID="6286" Column="PO_PrintName" isNewNull="true"/>
         <Data AD_Column_ID="2603" Column="Name">Generate Suggested Requisition Report</Data>
         <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
@@ -2598,7 +2604,7 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">53974</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -2611,7 +2617,6 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="118" Column="FieldLength">1</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
         <Data AD_Column_ID="226" Column="AD_Reference_ID">28</Data>
-        <Data AD_Column_ID="72747" Column="IsSecure">false</Data>
         <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
         <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
@@ -2649,7 +2654,7 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">53974</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -2662,7 +2667,6 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="118" Column="FieldLength">1</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
         <Data AD_Column_ID="226" Column="AD_Reference_ID">28</Data>
-        <Data AD_Column_ID="72747" Column="IsSecure">false</Data>
         <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
         <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
@@ -2714,7 +2718,7 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="15011" Column="AD_Reference_ID" isNewNull="true"/>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
         <Data AD_Column_ID="15013" Column="IsMandatory" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="53265" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="54356" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="54357" Column="AD_Val_Rule_ID" isNewNull="true"/>
@@ -2724,7 +2728,6 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="168" Column="Name">Generate Planned Production Report</Data>
         <Data AD_Column_ID="62478" Column="IsDisplayedGrid">true</Data>
         <Data AD_Column_ID="62479" Column="SeqNoGrid">90</Data>
-        <Data AD_Column_ID="62200" Column="IsAllowCopy" isNewNull="true"/>
         <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="578" Column="IsActive">true</Data>
         <Data AD_Column_ID="579" Column="Created">2016-01-06 17:17:00.478</Data>
@@ -2733,7 +2736,6 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="581" Column="Updated">2016-01-06 17:17:00.478</Data>
         <Data AD_Column_ID="167" Column="AD_Field_ID">78249</Data>
         <Data AD_Column_ID="384" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="78296" Column="IsAllowNewAttributeInstance">false</Data>
       </PO>
     </Step>
     <Step SeqNo="580" StepType="AD">
@@ -2756,7 +2758,7 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="15011" Column="AD_Reference_ID" isNewNull="true"/>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
         <Data AD_Column_ID="15013" Column="IsMandatory" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="53265" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="54356" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="54357" Column="AD_Val_Rule_ID" isNewNull="true"/>
@@ -2766,7 +2768,6 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="168" Column="Name">Generate Suggested Requisition Report</Data>
         <Data AD_Column_ID="62478" Column="IsDisplayedGrid">true</Data>
         <Data AD_Column_ID="62479" Column="SeqNoGrid">100</Data>
-        <Data AD_Column_ID="62200" Column="IsAllowCopy" isNewNull="true"/>
         <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="578" Column="IsActive">true</Data>
         <Data AD_Column_ID="579" Column="Created">2016-01-06 17:17:18.722</Data>
@@ -2775,7 +2776,6 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="581" Column="Updated">2016-01-06 17:17:18.722</Data>
         <Data AD_Column_ID="167" Column="AD_Field_ID">78250</Data>
         <Data AD_Column_ID="384" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="78296" Column="IsAllowNewAttributeInstance">false</Data>
       </PO>
     </Step>
   </Migration>

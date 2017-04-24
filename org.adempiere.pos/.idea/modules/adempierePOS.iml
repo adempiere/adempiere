@@ -83,10 +83,10 @@
           <root url="jar://$MODULE_DIR$/../../../adempiere/tools/lib/c3p0-0.9.1.2.jar!/" />
           <root url="jar://$MODULE_DIR$/../../../adempiere/zkwebui/WEB-INF/lib/asm.jar!/" />
           <root url="jar://$MODULE_DIR$/../../../adempiere/zkwebui/WEB-INF/lib/keylistener.jar!/" />
-          <root url="jar://$MODULE_DIR$/../../../adempiere/tools/lib/groovy-all-2.0.1.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../../adempiere/tools/lib/groovy-all-2.4.7.jar!/" />
           <root url="jar://$MODULE_DIR$/../../../adempiere/tools/lib/xml-apis.jar!/" />
           <root url="jar://$MODULE_DIR$/../../../adempiere/lib/postgresql.jar!/" />
-          <root url="jar://$MODULE_DIR$/../../../adempiere/tools/lib/bsh-2.0b5.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../../adempiere/tools/lib/bsh-2.0b6.jar!/" />
           <root url="jar://$MODULE_DIR$/../../../adempiere/tools/lib/wizard.jar!/" />
           <root url="jar://$MODULE_DIR$/../../../adempiere/lib/CompiereJasperReqs.jar!/" />
           <root url="jar://$MODULE_DIR$/../../../adempiere/zkwebui/WEB-INF/lib/mvel.jar!/" />

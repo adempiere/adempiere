@@ -45,46 +45,8 @@ public class DefaultContextProvider implements ContextProvider {
 		return s_ctx;
 	}
 
-	public void showURL(String url) {
-		/* JAVA5 */
-		if (!Ini.isClient()) return;
-	//  OS command
-		String cmd = "rundll32 url.dll,FileProtocolHandler ";
-		if (!Env.isWindows()){
-			if(Env.isMac())
-				cmd = MAC_BROWSER + " ";
-			else
-				cmd = UNIX_BROWSER + " ";
-		}
-		//
-		String execute = cmd + url;
-		try
-		{
-			Runtime.getRuntime().exec(execute);
-			return;
-		}
-		catch (Exception e)
-		{
-			if (Env.isWindows())
-				s_log.severe(execute + " - " + e);
-		}
+public void showURL(String url, String title) {
 		
-		//try firefox
-		if (!Env.isWindows() && !("firefox".equals(UNIX_BROWSER)))
-		{
-			UNIX_BROWSER = "firefox";
-			cmd = UNIX_BROWSER + " ";
-			execute = cmd + url;
-			try
-			{
-				Runtime.getRuntime().exec(execute);
-			}
-			catch (Exception e)
-			{
-				s_log.severe(execute + " - " + e);
-			}
-		}
-		/* JAVA6 *
 		try {
 			java.net.URI uri = new java.net.URI(url);
 			java.awt.Desktop.getDesktop().browse(uri);
@@ -92,7 +54,6 @@ public class DefaultContextProvider implements ContextProvider {
 		catch (Exception e) {
 			s_log.warning(e.getLocalizedMessage());
 		}
-		/**/
 	}
 
 }

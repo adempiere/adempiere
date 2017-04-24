@@ -23,13 +23,18 @@
 
 package org.adempiere.webui.window;
 
+import java.util.Locale;
 import java.util.Properties;
 
 import org.adempiere.webui.IWebClient;
 import org.adempiere.webui.component.FWindow;
 import org.adempiere.webui.panel.LoginPanel;
 import org.adempiere.webui.panel.RolePanel;
+import org.compiere.model.MUser;
 import org.compiere.util.Env;
+import org.compiere.util.Login;
+import org.zkoss.util.Locales;
+import org.zkoss.web.Attributes;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
@@ -117,4 +122,18 @@ public class LoginWindow extends FWindow implements EventListener
            }
        }
     }
+
+	public void changeRole(Locale locale, Properties ctx)
+	{
+		Env.setCtx(ctx);
+		getDesktop().getSession().setAttribute(Attributes.PREFERRED_LOCALE, locale);
+		Locales.setThreadLocal(locale);
+		new Login(Env.getCtx());
+		MUser user = MUser.get(ctx, Env.getAD_User_ID(ctx));
+		String loginName = user.getLDAPUser() != null ? user.getLDAPUser() : user.getName();
+		loginOk(loginName, user.getPassword());
+		getDesktop().getSession().setAttribute("Check_AD_User_ID", Env.getAD_User_ID(ctx));
+
+		pnlRole.changeRole(ctx);
+	}
 }

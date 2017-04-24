@@ -1,8 +1,9 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -11,8 +12,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.eevolution.model;
@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for HR_Concept
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0 - $Id$ */
+ *  @version Release 3.9.0 - $Id$ */
 public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20151117L;
+	private static final long serialVersionUID = 20170407L;
 
     /** Standard Constructor */
     public X_HR_Concept (Properties ctx, int HR_Concept_ID, String trxName)
@@ -75,32 +75,6 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
       return sb.toString();
     }
 
-	/** AccountSign AD_Reference_ID=118 */
-	public static final int ACCOUNTSIGN_AD_Reference_ID=118;
-	/** Natural = N */
-	public static final String ACCOUNTSIGN_Natural = "N";
-	/** Debit = D */
-	public static final String ACCOUNTSIGN_Debit = "D";
-	/** Credit = C */
-	public static final String ACCOUNTSIGN_Credit = "C";
-	/** Set Account Sign.
-		@param AccountSign 
-		Indicates the Natural Sign of the Account as a Debit or Credit
-	  */
-	public void setAccountSign (String AccountSign)
-	{
-
-		set_Value (COLUMNNAME_AccountSign, AccountSign);
-	}
-
-	/** Get Account Sign.
-		@return Indicates the Natural Sign of the Account as a Debit or Credit
-	  */
-	public String getAccountSign () 
-	{
-		return (String)get_Value(COLUMNNAME_AccountSign);
-	}
-
 	public org.compiere.model.I_AD_Reference getAD_Reference() throws RuntimeException
     {
 		return (org.compiere.model.I_AD_Reference)MTable.get(getCtx(), org.compiere.model.I_AD_Reference.Table_Name)
@@ -127,6 +101,32 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** AccountSign AD_Reference_ID=118 */
+	public static final int ACCOUNTSIGN_AD_Reference_ID=118;
+	/** Natural = N */
+	public static final String ACCOUNTSIGN_Natural = "N";
+	/** Debit = D */
+	public static final String ACCOUNTSIGN_Debit = "D";
+	/** Credit = C */
+	public static final String ACCOUNTSIGN_Credit = "C";
+	/** Set Account Sign.
+		@param AccountSign 
+		Indicates the Natural Sign of the Account as a Debit or Credit
+	  */
+	public void setAccountSign (String AccountSign)
+	{
+
+		set_Value (COLUMNNAME_AccountSign, AccountSign);
+	}
+
+	/** Get Account Sign.
+		@return Indicates the Natural Sign of the Account as a Debit or Credit
+	  */
+	public String getAccountSign () 
+	{
+		return (String)get_Value(COLUMNNAME_AccountSign);
 	}
 
 	/** ColumnType AD_Reference_ID=53243 */
@@ -199,7 +199,7 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set AD Payroll Concept.
+	/** Set Global Payroll Concept.
 		@param HR_Concept_ID 
 		The Payroll Concept allows to define all the perception and deductions elements needed to define a payroll.
 	  */
@@ -211,7 +211,7 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
 			set_ValueNoCheck (COLUMNNAME_HR_Concept_ID, Integer.valueOf(HR_Concept_ID));
 	}
 
-	/** Get AD Payroll Concept.
+	/** Get Global Payroll Concept.
 		@return The Payroll Concept allows to define all the perception and deductions elements needed to define a payroll.
 	  */
 	public int getHR_Concept_ID () 
@@ -255,10 +255,8 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
 		return (org.eevolution.model.I_HR_Department)MTable.get(getCtx(), org.eevolution.model.I_HR_Department.Table_Name)
 			.getPO(getHR_Department_ID(), get_TrxName());	}
 
-	/** Set Department.
-		@param HR_Department_ID 
-		Department of the organization
-	  */
+	/** Set Payroll Department.
+		@param HR_Department_ID Payroll Department	  */
 	public void setHR_Department_ID (int HR_Department_ID)
 	{
 		if (HR_Department_ID < 1) 
@@ -267,9 +265,8 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
 			set_Value (COLUMNNAME_HR_Department_ID, Integer.valueOf(HR_Department_ID));
 	}
 
-	/** Get Department.
-		@return Department of the organization
-	  */
+	/** Get Payroll Department.
+		@return Payroll Department	  */
 	public int getHR_Department_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Department_ID);
@@ -309,9 +306,7 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
 			.getPO(getHR_Payroll_ID(), get_TrxName());	}
 
 	/** Set Payroll.
-		@param HR_Payroll_ID 
-		The Payroll definition allows to define all the payroll concepts , year and periods, to  calculate a payroll.
-	  */
+		@param HR_Payroll_ID Payroll	  */
 	public void setHR_Payroll_ID (int HR_Payroll_ID)
 	{
 		if (HR_Payroll_ID < 1) 
@@ -321,8 +316,7 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
 	}
 
 	/** Get Payroll.
-		@return The Payroll definition allows to define all the payroll concepts , year and periods, to  calculate a payroll.
-	  */
+		@return Payroll	  */
 	public int getHR_Payroll_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Payroll_ID);
@@ -418,6 +412,27 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
 	public boolean isManual () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsManual);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set No Save In History If Is Null.
+		@param IsNotSaveInHistoryIfNull No Save In History If Is Null	  */
+	public void setIsNotSaveInHistoryIfNull (boolean IsNotSaveInHistoryIfNull)
+	{
+		set_Value (COLUMNNAME_IsNotSaveInHistoryIfNull, Boolean.valueOf(IsNotSaveInHistoryIfNull));
+	}
+
+	/** Get No Save In History If Is Null.
+		@return No Save In History If Is Null	  */
+	public boolean isNotSaveInHistoryIfNull () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsNotSaveInHistoryIfNull);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 

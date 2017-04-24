@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="U" Name="UpdateRV_Transaction, field lowlevel" ReleaseNo="" SeqNo="1730">
+  <Migration EntityType="D" Name="UpdateRV_Transaction, field lowlevel" ReleaseNo="3.9.0" SeqNo="1730">
     <Step DBType="ALL" Parse="Y" SeqNo="0" StepType="SQL">
       <SQLStatement>--DROP VIEW RV_TRANSACTION;
 CREATE OR REPLACE VIEW RV_TRANSACTION

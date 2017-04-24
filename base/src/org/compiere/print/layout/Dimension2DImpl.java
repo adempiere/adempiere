@@ -18,6 +18,7 @@ package org.compiere.print.layout;
 
 import java.awt.Dimension;
 import java.awt.geom.Dimension2D;
+import java.io.Serializable;
 
 /**
  *	2D Dimesnion Implementation
@@ -25,8 +26,13 @@ import java.awt.geom.Dimension2D;
  * 	@author 	Jorg Janke
  * 	@version 	$Id: Dimension2DImpl.java,v 1.3 2006/07/30 00:53:02 jjanke Exp $
  */
-public class Dimension2DImpl extends Dimension2D
+public class Dimension2DImpl extends Dimension2D implements Serializable
 {
+	/**
+	 * generated serial id
+	 */
+	private static final long serialVersionUID = -6718670551461826020L;
+
 	/**
 	 *	Constructor 0/0
 	 */
@@ -163,7 +169,7 @@ public class Dimension2DImpl extends Dimension2D
 	 */
 	public String toString()
 	{
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		sb.append("Dimension2D[w=").append(width).append(",h=").append(height).append("]");
 		return sb.toString();
 	}	//	toString

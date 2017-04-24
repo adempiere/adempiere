@@ -1,8 +1,9 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -11,8 +12,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 package org.compiere.model;
 
@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for I_BPartner
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0
+ *  @version Release 3.9.0
  */
 public interface I_I_BPartner 
 {
@@ -128,6 +128,15 @@ public interface I_I_BPartner
 	  * Birthday or Anniversary day
 	  */
 	public Timestamp getBirthday();
+
+    /** Column name BloodGroup */
+    public static final String COLUMNNAME_BloodGroup = "BloodGroup";
+
+	/** Set Blood Group	  */
+	public void setBloodGroup (String BloodGroup);
+
+	/** Get Blood Group	  */
+	public String getBloodGroup();
 
     /** Column name C_BP_Group_ID */
     public static final String COLUMNNAME_C_BP_Group_ID = "C_BP_Group_ID";
@@ -339,6 +348,19 @@ public interface I_I_BPartner
 	  */
 	public String getEMail();
 
+    /** Column name FathersName */
+    public static final String COLUMNNAME_FathersName = "FathersName";
+
+	/** Set Father's Name.
+	  * Father's Name
+	  */
+	public void setFathersName (String FathersName);
+
+	/** Get Father's Name.
+	  * Father's Name
+	  */
+	public String getFathersName();
+
     /** Column name Fax */
     public static final String COLUMNNAME_Fax = "Fax";
 
@@ -351,6 +373,15 @@ public interface I_I_BPartner
 	  * Facsimile number
 	  */
 	public String getFax();
+
+    /** Column name Gender */
+    public static final String COLUMNNAME_Gender = "Gender";
+
+	/** Set Gender	  */
+	public void setGender (String Gender);
+
+	/** Get Gender	  */
+	public String getGender();
 
     /** Column name GroupValue */
     public static final String COLUMNNAME_GroupValue = "GroupValue";
@@ -542,6 +573,19 @@ public interface I_I_BPartner
 	  * Identifies an alternate telephone number.
 	  */
 	public String getPhone2();
+
+    /** Column name PlaceOfBirth */
+    public static final String COLUMNNAME_PlaceOfBirth = "PlaceOfBirth";
+
+	/** Set Place of Birth.
+	  * Place of Birth
+	  */
+	public void setPlaceOfBirth (String PlaceOfBirth);
+
+	/** Get Place of Birth.
+	  * Place of Birth
+	  */
+	public String getPlaceOfBirth();
 
     /** Column name Postal */
     public static final String COLUMNNAME_Postal = "Postal";

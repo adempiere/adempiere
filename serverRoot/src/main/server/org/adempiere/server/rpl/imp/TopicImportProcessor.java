@@ -40,34 +40,32 @@ import org.compiere.util.CLogger;
  * Aim of this class is to import records from JMS Server.
  * 
  * @author Trifon N. Trifonov
- * @version $Id:$
  */
 public class TopicImportProcessor implements IImportProcessor {
-	
+
 	/**	Logger	*/
 	protected CLogger	log = CLogger.getCLogger (TopicImportProcessor.class);
-	
+
 	/**
 	 * Topic Listener
 	 */
 	private TopicListener topicListener = null;
-	
-	
-	public void process(Properties ctx, ReplicationProcessor replicationProcessor, String trxName)
-			throws Exception {
-		
+
+
+	public void process(Properties ctx, ReplicationProcessor replicationProcessor, String trxName) throws Exception {
+
 		log.info("replicationProcessor = " + replicationProcessor);
 		log.info("replicationProcessor.getMImportProcessor() = " + replicationProcessor.getMImportProcessor());
-		
+
 		MIMPProcessor impProcessor = replicationProcessor.getMImportProcessor();
-		
+
 		X_IMP_ProcessorParameter[] processorParameters = impProcessor.getIMP_ProcessorParameters(trxName);
-		
+
 		String host = impProcessor.getHost();
 		int port = impProcessor.getPort();
 		String account = impProcessor.getAccount();
 		String password = impProcessor.getPasswordInfo();
-		
+
 		// mandatory parameters!
 		String topicName = null;
 		String protocol = null;
@@ -75,56 +73,52 @@ public class TopicImportProcessor implements IImportProcessor {
 		String subscriptionName = null;
 		String options = null;
 		String clientID = null;
-		
+
 		if (processorParameters != null && processorParameters.length > 0) {
-        	for (int i = 0; i < processorParameters.length; i++) {
-        		log.info("ProcesParameter          Value = " + processorParameters[i].getValue());
-        		log.info("ProcesParameter ParameterValue = " + processorParameters[i].getParameterValue());
-        		if (processorParameters[i].getValue().equals("topicName")) {
-        			topicName = processorParameters[i].getParameterValue();
-        		} else if (processorParameters[i].getValue().equals("protocol")) {
-        			protocol = processorParameters[i].getParameterValue();
-        		} else if (processorParameters[i].getValue().equals("isDurableSubscription")) {
-        			isDurableSubscription = Boolean.parseBoolean( processorParameters[i].getParameterValue() );
-        		} else if (processorParameters[i].getValue().equals("subscriptionName")) {
-        			subscriptionName = processorParameters[i].getParameterValue();
-        		} else if (processorParameters[i].getValue().equals("clientID")) {
-        			clientID = processorParameters[i].getParameterValue();
-        		} else {
-        			// Some other mandatory parameter here
-        		}
-        	}
-        }
-        
-        if (topicName == null || topicName.length() == 0) {
-        	throw new Exception("Missing "+X_IMP_ProcessorParameter.Table_Name+" with key 'topicName'!");
-        }
-        if (protocol == null || protocol.length() == 0) {
-        	throw new Exception("Missing "+X_IMP_ProcessorParameter.Table_Name+" with key 'protocol'!");
-        }
-        if (isDurableSubscription && subscriptionName == null || subscriptionName.length() == 0) {
-        	throw new Exception("Missing "+X_IMP_ProcessorParameter.Table_Name+" with key 'subscriptionName'!");
-        }
-        if (clientID == null || clientID.length() == 0) {
-        	throw new Exception("Missing "+X_IMP_ProcessorParameter.Table_Name+" with key 'clientID'!");
-        }
-        
-        topicListener = new TopicListener(ctx, replicationProcessor, protocol, host, port
-        		, isDurableSubscription, subscriptionName, topicName, clientID
-        		, account, password, options, trxName);
-        
-        topicListener.run();
-        log.info("Started topicListener = " + topicListener);
-   }
+			for (int i = 0; i < processorParameters.length; i++) {
+				log.info("ProcesParameter          Value = " + processorParameters[i].getValue());
+				log.info("ProcesParameter ParameterValue = " + processorParameters[i].getParameterValue());
+				if (processorParameters[i].getValue().equals("topicName")) {
+					topicName = processorParameters[i].getParameterValue();
+				} else if (processorParameters[i].getValue().equals("protocol")) {
+					protocol = processorParameters[i].getParameterValue();
+				} else if (processorParameters[i].getValue().equals("isDurableSubscription")) {
+					isDurableSubscription = Boolean.parseBoolean(processorParameters[i].getParameterValue());
+				} else if (processorParameters[i].getValue().equals("subscriptionName")) {
+					subscriptionName = processorParameters[i].getParameterValue();
+				} else if (processorParameters[i].getValue().equals("clientID")) {
+					clientID = processorParameters[i].getParameterValue();
+				} else {
+					// @Trifon - put other parameters into context! For example: #M_Warehouse_ID=1000000
+					ctx.put(processorParameters[i].getValue(), processorParameters[i].getParameterValue());
+				}
+			}
+		}
+
+		if (topicName == null || topicName.length() == 0) {
+			throw new Exception("Missing " + X_IMP_ProcessorParameter.Table_Name + " with key 'topicName'!");
+		}
+		if (protocol == null || protocol.length() == 0) {
+			throw new Exception("Missing " + X_IMP_ProcessorParameter.Table_Name + " with key 'protocol'!");
+		}
+		if (isDurableSubscription && subscriptionName == null || subscriptionName.length() == 0) {
+			throw new Exception("Missing " + X_IMP_ProcessorParameter.Table_Name + " with key 'subscriptionName'!");
+		}
+		if (clientID == null || clientID.length() == 0) {
+			throw new Exception("Missing " + X_IMP_ProcessorParameter.Table_Name + " with key 'clientID'!");
+		}
+
+		topicListener = new TopicListener(ctx, replicationProcessor, protocol, host, port, isDurableSubscription,
+			subscriptionName, topicName, clientID, account, password, options, trxName);
+
+		topicListener.run();
+		log.info("Started topicListener = " + topicListener);
+	}
 
 	public void stop() throws Exception {
-		
-		if ( topicListener != null ) {
+		if (topicListener != null) {
 			topicListener.stop();
-			log.info("Stoped topicListener." );
+			log.info("Stoped topicListener.");
 		}
-		
 	}
-	
-	
 }

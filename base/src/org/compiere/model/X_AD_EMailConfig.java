@@ -1,8 +1,9 @@
 /******************************************************************************
  * Product: ADempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 2006-2016 ADempiere Foundation, All Rights Reserved.         *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -21,14 +22,14 @@ import java.util.Properties;
 
 /** Generated Model for AD_EMailConfig
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0 - $Id$ */
+ *  @version Release 3.9.0 - $Id$ */
 public class X_AD_EMailConfig extends PO implements I_AD_EMailConfig, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20160610L;
+	private static final long serialVersionUID = 20170407L;
 
     /** Standard Constructor */
     public X_AD_EMailConfig (Properties ctx, int AD_EMailConfig_ID, String trxName)

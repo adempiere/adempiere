@@ -1,8 +1,9 @@
 /******************************************************************************
  * Product: ADempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 2006-2016 ADempiere Foundation, All Rights Reserved.         *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -23,14 +24,14 @@ import org.compiere.util.Env;
 
 /** Generated Model for M_Cost
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0 - $Id$ */
+ *  @version Release 3.9.0 - $Id$ */
 public class X_M_Cost extends PO implements I_M_Cost, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20160424L;
+	private static final long serialVersionUID = 20170407L;
 
     /** Standard Constructor */
     public X_M_Cost (Properties ctx, int M_Cost_ID, String trxName)
@@ -47,7 +48,6 @@ public class X_M_Cost extends PO implements I_M_Cost, I_Persistent
 			setM_CostElement_ID (0);
 			setM_CostType_ID (0);
 			setM_Product_ID (0);
-			setM_Warehouse_ID (0);
         } */
     }
 

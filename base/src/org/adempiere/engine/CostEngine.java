@@ -54,6 +54,7 @@ import org.compiere.model.MMovementLine;
 import org.compiere.model.MPeriod;
 import org.compiere.model.MPeriodControl;
 import org.compiere.model.MProduct;
+import org.compiere.model.MProductCategoryAcct;
 import org.compiere.model.MProductPO;
 import org.compiere.model.MProduction;
 import org.compiere.model.MProductionLine;
@@ -299,7 +300,7 @@ public class CostEngine {
 
 		if (model instanceof MLandedCostAllocation) {
 			MLandedCostAllocation allocation = (MLandedCostAllocation) model;
-			costThisLevel = convertCostThisLevel(accountSchema, model);
+			costThisLevel = convertCostToSchemaCurrency(accountSchema, model , model.getPriceActualCurrency());
 		}
 
 		MCost cost = MCost.validateCostForCostType(accountSchema, costType, costElement,
@@ -320,31 +321,50 @@ public class CostEngine {
 			) 
 			{				
 				costThisLevel = getCostThisLevel(accountSchema, costType, costElement, transaction, model, costingLevel);
-				// If cost this level is zero and is a physical inventory then
-				// try get cost from physical inventory
-				if (model instanceof MInventoryLine
-						&& costThisLevel.signum() == 0
-						&& MCostElement.COSTELEMENTTYPE_Material.equals(costElement
-								.getCostElementType())) {
+				costLowLevel = getCostLowLevel(accountSchema, costType, costElement, transaction, model, costingLevel);
+				if (model instanceof MInventoryLine) {
 					MInventoryLine inventoryLine = (MInventoryLine) model;
-					// Use the cost only for Physical Inventory
-					if (inventoryLine.getQtyInternalUse().signum() == 0 &&
-							inventoryLine.getCurrentCostPrice() != null &&
-							inventoryLine.getCurrentCostPrice().signum() > 0) {
-							costThisLevel = convertCostThisLevel(accountSchema, model);
+					// If cost this level is zero and is a physical inventory then
+					// try get cost from physical inventory
+					if (costThisLevel.signum() == 0 && MCostElement.COSTELEMENTTYPE_Material.equals(costElement.getCostElementType())) {
+						// Use the current cost only for Physical Inventory
+						if (inventoryLine.getQtyInternalUse().signum() == 0 &&
+								inventoryLine.getCurrentCostPrice() != null &&
+								inventoryLine.getCurrentCostPrice().signum() > 0) {
+							costThisLevel = convertCostToSchemaCurrency(accountSchema, model, model.getPriceActualCurrency());
+						}
+						if (costThisLevel.signum() == 0)
+							costThisLevel = getCostThisLevel(accountSchema, costType, costElement, transaction, model, costingLevel);
 					}
-					if(costThisLevel.signum() == 0)
-						costThisLevel = getCostThisLevel(accountSchema, costType, costElement, transaction, model, costingLevel);
+
+					// If cost Low level is zero and is a physical inventory then
+					// try get cost low level from physical inventory
+					if (costLowLevel.signum() == 0 && MCostElement.COSTELEMENTTYPE_Material.equals(costElement.getCostElementType())) {
+						// Use the current cost only for Physical Inventory
+						if (inventoryLine.getQtyInternalUse().signum() == 0 &&
+								inventoryLine.getCurrentCostPriceLL() != null &&
+								inventoryLine.getCurrentCostPriceLL().signum() > 0) {
+							costLowLevel = convertCostToSchemaCurrency(accountSchema, model, inventoryLine.getCurrentCostPriceLL());
+						}
+						if (costLowLevel.signum() == 0)
+							costLowLevel = getCostLowLevel(accountSchema, costType, costElement, transaction, model, costingLevel);
+					}
 				}
+
+
 				//Get cost from movement from if it > that zero replace cost This Level
 				if (model instanceof MMovementLine) {
 					MTransaction transactionFrom = MTransaction.getByDocumentLine(model, MTransaction.MOVEMENTTYPE_MovementFrom);
 					BigDecimal costMovementFrom = getCostThisLevel(accountSchema, costType, costElement, transactionFrom == null ? transaction : transactionFrom, model,costingLevel);
 					if (costMovementFrom.signum() > 0 )
-						costThisLevel = costMovementFrom;					
+						costThisLevel = costMovementFrom;
+
+					BigDecimal costMovementFromLL = getCostLowLevel(accountSchema, costType, costElement, transactionFrom == null ? transaction : transactionFrom, model,costingLevel);
+					if (costMovementFromLL.signum() > 0 )
+						costLowLevel = costMovementFromLL;
 				}
 			} else if (MCostElement.COSTELEMENTTYPE_Material.equals(costElement.getCostElementType())) {
-					costThisLevel = convertCostThisLevel(accountSchema , model);
+					costThisLevel = convertCostToSchemaCurrency(accountSchema , model , model.getPriceActualCurrency());
 			}
 		}
 
@@ -353,6 +373,7 @@ public class CostEngine {
 				MPPCostCollector costCollector = (MPPCostCollector) model;
 				if (MPPCostCollector.COSTCOLLECTORTYPE_MaterialReceipt.equals(costCollector.getCostCollectorType())) {
 					// get Actual Cost for Cost Type and Cost Element
+					costThisLevel = getCostThisLevel(accountSchema, costType, costElement, transaction, model, costingLevel);
 					costLowLevel = CostEngine.getParentActualCostByCostType(accountSchema, costType.getM_CostType_ID(), costElement.getM_CostElement_ID(), costCollector);
 				} 
 			}
@@ -389,39 +410,70 @@ public class CostEngine {
         else if (MCostType.COSTINGMETHOD_StandardCosting.equals(costType.getCostingMethod())){
 			costThisLevel = cost.getCurrentCostPrice();
 			costLowLevel = cost.getCurrentCostPriceLL();
-
-			if (model instanceof MInventoryLine && costThisLevel.signum() == 0 && MCostElement.COSTELEMENTTYPE_Material.equals(costElement.getCostElementType())) {
+			//Define Cost Inventory Line
+			if (model instanceof MInventoryLine) {
 				MInventoryLine inventoryLine = (MInventoryLine) model;
-				// Use the cost only for Physical Inventory
-				if (inventoryLine.getQtyInternalUse().signum() == 0 &&
-					inventoryLine.getCurrentCostPrice() != null &&
-					inventoryLine.getCurrentCostPrice().signum() > 0) {
-						costThisLevel = convertCostThisLevel(accountSchema , model);
+				//Define Current Cost Level
+				if (costThisLevel.signum() == 0 && MCostElement.COSTELEMENTTYPE_Material.equals(costElement.getCostElementType())) {
+					// Use the current cost only for Physical Inventory
+					if (inventoryLine.getQtyInternalUse().signum() == 0 &&
+							inventoryLine.getCurrentCostPrice() != null &&
+							inventoryLine.getCurrentCostPrice().signum() > 0) {
+						costThisLevel = convertCostToSchemaCurrency(accountSchema, model, model.getPriceActualCurrency());
+						cost.setCurrentCostPrice(costThisLevel);
+						cost.saveEx();
+					}
 
-					cost.setCurrentCostPrice(costThisLevel);
-					cost.saveEx();
+					if (costThisLevel.signum() == 0)
+						costThisLevel = getCostThisLevel(accountSchema, costType, costElement, transaction, model, costingLevel);
 				}
+				//Define Current Cost Low Level
+				if (costLowLevel.signum() == 0 && MCostElement.COSTELEMENTTYPE_Material.equals(costElement.getCostElementType())) {
+					// Use the cost only for Physical Inventory
+					if (inventoryLine.getQtyInternalUse().signum() == 0 &&
+							inventoryLine.getCurrentCostPriceLL() != null &&
+							inventoryLine.getCurrentCostPriceLL().signum() > 0) {
+						costLowLevel = convertCostToSchemaCurrency(accountSchema, model, inventoryLine.getCurrentCostPriceLL());
 
-				if(costThisLevel.signum() == 0)
-					costThisLevel = getCostThisLevel(accountSchema, costType, costElement, transaction, model, costingLevel);
+						cost.setCurrentCostPriceLL(costLowLevel);
+						cost.saveEx();
+					}
+
+					if (costLowLevel.signum() == 0)
+						costLowLevel = getCostLowLevel(accountSchema, costType, costElement, transaction, model, costingLevel);
+				}
 			}
-			if (model instanceof  MMovementLine && costThisLevel.signum() == 0 && MCostElement.COSTELEMENTTYPE_Material.equals(costElement.getCostElementType())) {
+
+			if (model instanceof  MMovementLine) {
 				MTransaction transactionFrom = MTransaction.getByDocumentLine(model, MTransaction.MOVEMENTTYPE_MovementFrom);
-				BigDecimal costMovementFrom = getCostThisLevel(accountSchema, costType, costElement, transactionFrom == null ? transaction : transactionFrom, model,costingLevel);
-				if (costMovementFrom.signum() > 0 )
-					costThisLevel = costMovementFrom;
+				BigDecimal costMovementFrom = getCostThisLevel(accountSchema, costType, costElement, transactionFrom == null ? transaction : transactionFrom, model, costingLevel);
+				if (costThisLevel.signum() == 0 && MCostElement.COSTELEMENTTYPE_Material.equals(costElement.getCostElementType())) {
+					if (costMovementFrom.signum() > 0)
+						costThisLevel = costMovementFrom;
+				}
+				if (costLowLevel.signum() == 0 && MCostElement.COSTELEMENTTYPE_Material.equals(costElement.getCostElementType())) {
+					BigDecimal costMovementFromLL = getCostLowLevel(accountSchema, costType, costElement, transactionFrom == null ? transaction : transactionFrom, model, costingLevel);
+					if (costMovementFromLL.signum() > 0)
+						costLowLevel = costMovementFromLL;
+				}
 			}
+
             if (costThisLevel.signum() == 0 &&  MCostElement.COSTELEMENTTYPE_Material.equals(costElement.getCostElementType())) {
                 costThisLevel = getSeedCost(transaction.getCtx(), transaction.getM_Product_ID(), transaction.get_TrxName());
                 if (costThisLevel.signum() == 0)
                     if (model instanceof  MInOutLine && !model.isSOTrx()) {
-							costThisLevel = convertCostThisLevel(accountSchema , model);
+							costThisLevel = convertCostToSchemaCurrency(accountSchema , model , model.getPriceActualCurrency());
                     }
                 if (costThisLevel.signum() != 0) {
                     cost.setCurrentCostPrice(costThisLevel);
                     cost.saveEx();
                 }
             }
+
+			if (costLowLevel.signum() != 0) {
+				cost.setCurrentCostPriceLL(costLowLevel);
+				cost.saveEx();
+			}
         }
 
 		final ICostingMethod method = CostingMethodFactory.get()
@@ -432,7 +484,14 @@ public class CostEngine {
 	}
 
 
-	public BigDecimal convertCostThisLevel(MAcctSchema acctSchema , IDocumentLine model)
+	/**
+	 * Convert Cost To Schema Currency
+	 * @param acctSchema
+	 * @param model
+	 * @param cost
+	 * @return
+	 */
+	private BigDecimal convertCostToSchemaCurrency(MAcctSchema acctSchema , IDocumentLine model , BigDecimal cost)
 	{
 		BigDecimal costThisLevel = BigDecimal.ZERO;
 		BigDecimal rate = MConversionRate.getRate(
@@ -440,7 +499,7 @@ public class CostEngine {
 				model.getDateAcct(), model.getC_ConversionType_ID() ,
 				model.getAD_Client_ID(), model.getAD_Org_ID());
 		if (rate != null) {
-			costThisLevel = model.getPriceActualCurrency().multiply(rate);
+			costThisLevel = cost.multiply(rate);
 			if (costThisLevel.scale() > acctSchema.getCostingPrecision())
 				costThisLevel = costThisLevel.setScale(acctSchema.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
 		}
@@ -567,13 +626,70 @@ public class CostEngine {
 							.divide(lastCostDetail.getCumulatedQty(),
 									accountSchema.getCostingPrecision(),
 							BigDecimal.ROUND_HALF_UP).abs();
-					
+
 					return costThisLevel;
 				}	
 				
 			}
 
 		return costThisLevel;
+	}
+
+	/**
+	 * get cost this level
+	 * @param accountSchema
+	 * @param costType
+	 * @param costElement
+	 * @param transaction
+	 * @param model
+	 * @param costingLevel
+	 * @return
+	 */
+	public static BigDecimal getCostLowLevel(MAcctSchema accountSchema, I_M_CostType costType, I_M_CostElement costElement, MTransaction transaction,
+											  IDocumentLine model,
+											  String costingLevel) {
+		BigDecimal costLowLevel = Env.ZERO;
+		MCostDetail lastCostDetail = MCostDetail.getLastTransaction(model,
+				transaction, accountSchema.getC_AcctSchema_ID(), costType.getM_CostType_ID(),
+				costElement.getM_CostElement_ID(), model.getDateAcct(), costingLevel);
+		if (lastCostDetail != null) {
+
+			// Return of unit cost from last transaction
+			// transaction quantity is different of zero
+			// then cost this level is equal that:
+			// (Total Cost transaction + cost adjustments) divide by transaction quantity
+			if (lastCostDetail.getQty().signum() != 0)
+			{
+				costLowLevel =  lastCostDetail.getCostAmtLL().add(lastCostDetail.getCostAdjustmentLL())
+						.divide(lastCostDetail.getQty(), accountSchema.getCostingPrecision(), BigDecimal.ROUND_HALF_UP).abs();
+			}
+			// return unit cost from last transaction
+			// transaction quantity is zero
+			// the cost this level is equal that:
+			// (Total Cost Transaction + cost adjustments + accumulate cost) divide between on hand quantity
+			else if (lastCostDetail.getCumulatedQty().add( lastCostDetail.getQty()).signum() != 0)
+			{
+				costLowLevel =  lastCostDetail.getCostAmtLL().add(lastCostDetail.getCostAdjustmentLL()).add(lastCostDetail.getCumulatedAmtLL())
+						.divide(lastCostDetail.getCumulatedQty().add( lastCostDetail.getQty()),
+								accountSchema.getCostingPrecision(),
+								BigDecimal.ROUND_HALF_UP).abs();
+
+				return costLowLevel;
+			}
+			// Return of unit cost from inventory value
+			// Cumulated quantity is different of zero
+			// then cost this level is equal that:
+			// (Total Cost transaction + cost adjustments + Cumulated amount) divide by On hand Quantity
+			else if (lastCostDetail.getCumulatedQty().signum() != 0)
+			{
+				costLowLevel = lastCostDetail.getCumulatedAmtLL()
+						.divide(lastCostDetail.getCumulatedQty(), accountSchema.getCostingPrecision(), BigDecimal.ROUND_HALF_UP).abs();
+				return costLowLevel;
+			}
+
+		}
+
+		return costLowLevel;
 	}
 
     /**
@@ -585,61 +701,52 @@ public class CostEngine {
 
 			if (transaction.getM_InOutLine_ID() > 0) {
 				MInOutLine line = (MInOutLine) transaction.getM_InOutLine();
-				if (!clearAccounting(accountSchema, accountSchema.getM_CostType() , line.getParent(),
-                        line.getDateAcct()))
+				if (!clearAccounting(accountSchema, accountSchema.getM_CostType() , line.getParent() , transaction.getM_Product_ID() , line.getDateAcct()))
 					return;
 
 				// get Purchase matches
 				List<MMatchPO> orderMatches = MMatchPO.getInOutLine(line);
 				for (MMatchPO match : orderMatches) {
-					if (!clearAccounting(accountSchema, accountSchema.getM_CostType() , match, line.getDateAcct()))
+					if (!clearAccounting(accountSchema, accountSchema.getM_CostType() , match,  transaction.getM_Product_ID() , line.getDateAcct()))
 							return;
 				}
 
 				// get invoice matches
 				List<MMatchInv> invoiceMatches = MMatchInv.getInOutLine(line);
 				for (MMatchInv match : invoiceMatches) {
-					if (!clearAccounting(accountSchema, accountSchema.getM_CostType() , match, line.getDateAcct()))
+					if (!clearAccounting(accountSchema, accountSchema.getM_CostType() , match,  transaction.getM_Product_ID() , line.getDateAcct()))
 						return;
 				}
 
 			}
 			else if (transaction.getC_ProjectIssue_ID() > 0) {
-				MProjectIssue line = (MProjectIssue) transaction
-						.getC_ProjectIssue();
-				if (!clearAccounting(accountSchema, accountSchema.getM_CostType() , line.getParent(),
-                        line.getMovementDate()))
+				MProjectIssue line = (MProjectIssue) transaction.getC_ProjectIssue();
+				if (!clearAccounting(accountSchema, accountSchema.getM_CostType() , line.getParent(),  transaction.getM_Product_ID() , line.getMovementDate()))
 					return;
 			}
 
 			else if (transaction.getM_InventoryLine_ID() > 0) {
-				MInventoryLine line = (MInventoryLine) transaction
-						.getM_InventoryLine();
-				if (!clearAccounting(accountSchema, accountSchema.getM_CostType() , line.getParent(),
-                        line.getDateAcct()))
+				MInventoryLine line = (MInventoryLine) transaction.getM_InventoryLine();
+				if (!clearAccounting(accountSchema, accountSchema.getM_CostType() , line.getParent(),  transaction.getM_Product_ID() , line.getDateAcct()))
 					return;
 			}
 			else if (transaction.getM_MovementLine_ID() > 0) {
 				MMovementLine line = (MMovementLine) transaction.getM_MovementLine();
-				if (!clearAccounting(accountSchema, accountSchema.getM_CostType() , line.getParent(),
-                        line.getDateAcct()))
+				if (!clearAccounting(accountSchema, accountSchema.getM_CostType() , line.getParent(),  transaction.getM_Product_ID() , line.getDateAcct()))
 					return;
 			}
 			
 			else if (transaction.getM_ProductionLine_ID() > 0) {
-				MProductionLine line = (MProductionLine) transaction
-						.getM_ProductionLine();
-				MProduction production = (MProduction) line
-						.getM_ProductionPlan().getM_Production();
-				if (!clearAccounting(accountSchema, accountSchema.getM_CostType() , production,
-                        production.getMovementDate()))
+				MProductionLine line = (MProductionLine) transaction.getM_ProductionLine();
+				MProduction production = (MProduction) line.getM_ProductionPlan().getM_Production();
+				if (!clearAccounting(accountSchema, accountSchema.getM_CostType() , production,  transaction.getM_Product_ID()  , production.getMovementDate()))
 					return;
 
 			}
 			else if (transaction.getPP_Cost_Collector_ID() > 0)
 			{
 				MPPCostCollector costCollector = (MPPCostCollector) transaction.getPP_Cost_Collector();
-				if(!clearAccounting(accountSchema, accountSchema.getM_CostType() , costCollector , costCollector.getDateAcct()));
+				if(!clearAccounting(accountSchema, accountSchema.getM_CostType() , costCollector , costCollector.getM_Product_ID() , costCollector.getDateAcct()));
 				return;
 			}
 			else
@@ -654,14 +761,18 @@ public class CostEngine {
      * @param accountSchema
      * @param costType
      * @param model
+	 * @param productId
      * @param dateAcct
      * @return true clean
      */
-	public boolean clearAccounting(MAcctSchema accountSchema, I_M_CostType costType, PO model, Timestamp dateAcct) {
-		
+	public boolean clearAccounting(MAcctSchema accountSchema, I_M_CostType costType, PO model, int productId , Timestamp dateAcct) {
 		// check if costing type need reset accounting 
-		if (!accountSchema.getCostingMethod().equals(costType.getCostingMethod()))
+		if (!accountSchema.getCostingMethod().equals(costType.getCostingMethod())) {
+			MProduct product = MProduct.get(accountSchema.getCtx() , productId);
+			MProductCategoryAcct productCategoryAcct = MProductCategoryAcct.get(accountSchema.getCtx(), product.getM_Product_Category_ID(), accountSchema.get_ID(), model.get_TrxName());
+			if (productCategoryAcct == null || !costType.getCostingMethod().equals(productCategoryAcct.getCostingMethod()))
 				return false;
+		}
 		final String  docBaseType;
 		// check if account period is open
 		if(model instanceof MMatchInv)
@@ -672,8 +783,8 @@ public class CostEngine {
 			docBaseType = MPeriodControl.DOCBASETYPE_MaterialProduction;
 		else
 		{		
-			MDocType dt = MDocType.get(model.getCtx(), model.get_ValueAsInt(MDocType.COLUMNNAME_C_DocType_ID));
-			docBaseType = dt.getDocBaseType();
+			MDocType docType = MDocType.get(model.getCtx(), model.get_ValueAsInt(MDocType.COLUMNNAME_C_DocType_ID));
+			docBaseType = docType.getDocBaseType();
 		}
 			
 		Boolean openPeriod = MPeriod.isOpen(model.getCtx(), dateAcct , docBaseType ,  model.getAD_Org_ID());
@@ -687,8 +798,7 @@ public class CostEngine {
 		DB.executeUpdate(sqlUpdate, new Object[] {model.get_ID()}, false , model.get_TrxName());
 		//Delete account
 		final String sqldelete = "DELETE FROM Fact_Acct WHERE Record_ID =? AND AD_Table_ID=?";		
-		DB.executeUpdate (sqldelete ,new Object[] { model.get_ID(),
-				model.get_Table_ID() }, false , model.get_TrxName());
+		DB.executeUpdate (sqldelete ,new Object[] { model.get_ID(), model.get_Table_ID() }, false , model.get_TrxName());
 		return true;
 	}
 }

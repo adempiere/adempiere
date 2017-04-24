@@ -62,6 +62,7 @@ import org.compiere.model.GridWindow;
 import org.compiere.model.GridWindowVO;
 import org.compiere.model.MProcess;
 import org.compiere.model.MQuery;
+import org.compiere.model.MRecentItem;
 import org.compiere.model.MRole;
 import org.compiere.process.DocAction;
 import org.compiere.process.ProcessInfo;
@@ -120,6 +121,8 @@ import org.zkoss.zul.Menupopup;
  *		@see https://github.com/adempiere/adempiere/issues/147
  *		<a href="https://github.com/adempiere/adempiere/issues/592">
  * 		@see FR [ 592 ] Delete Selection dialog is not MVC</a>
+ * 		<a href="https://github.com/adempiere/adempiere/issues/990">
+ * 		@see FR [ 990 ] Sort Tab is not MVC</a>
  *
  */
 public abstract class AbstractADWindowPanel extends AbstractUIPart implements ToolbarListener,
@@ -531,7 +534,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		gTab.addDataStatusListener(this);
 		adTab.addTab(gTab, embeddedTabPanel);
 		if (gTab.isSortTab()) {
-			((ADSortTab)embeddedTabPanel).registerAPanel(this);
+			((WSortTab)embeddedTabPanel).registerAPanel(this);
 		} else {
 			((ADTabPanel)embeddedTabPanel).init(this, curWindowNo, gTab, gridWindow);
 		}
@@ -571,7 +574,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 
 		if (gTab.isSortTab())
 		{
-			ADSortTab sortTab = new ADSortTab(curWindowNo, gTab);
+			WSortTab sortTab = new WSortTab(curWindowNo, gTab);
             toolbar.setCurrentPanel(sortTab);
 			sortTab.setGlobalToolbar(toolbar);
 			if (includedMap.containsKey(gTab.getAD_Tab_ID()))
@@ -1022,10 +1025,10 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		{
 			if (curTab.isSortTab())
 			{
-				if (curTabPanel instanceof ADSortTab)
+				if (curTabPanel instanceof WSortTab)
 				{
-					((ADSortTab) curTabPanel).saveData();
-					((ADSortTab) curTabPanel).unregisterPanel();
+					((WSortTab) curTabPanel).saveData();
+					((WSortTab) curTabPanel).unregisterPanel();
 				}
 			}
 			else if (curTab.needSave(true, false))
@@ -1120,9 +1123,9 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		curTabPanel.setGlobalToolbar(toolbar);
 
 
-		if (curTabPanel instanceof ADSortTab)
+		if (curTabPanel instanceof WSortTab)
 		{
-			((ADSortTab) curTabPanel).registerAPanel(this);
+			((WSortTab) curTabPanel).registerAPanel(this);
 		}
 		else
 		{
@@ -1139,7 +1142,8 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 
 	private void updateToolbar()
 	{
-		if(!isEmbedded())
+		if(!isEmbedded()
+				&& !(curTabPanel instanceof WSortTab))
     	{
             toolbar.enableChanges(curTab.isReadOnly());
             toolbar.enabledNew(curTab.isInsertRecord());
@@ -1171,6 +1175,35 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
             {
                 toolbar.enableHistoryRecords(false);
             }
+            toolbar.enableGridToggle(true);
+    		toolbar.enableArchive(true);
+    		toolbar.enableWorkflows(true);
+    		toolbar.enableRequests(true);
+    		toolbar.enableProductInfo(true);
+    		toolbar.enableZoomAcross(true);
+    		toolbar.enableFind(true);
+    		toolbar.enableRefresh(true);
+    		toolbar.enableAttachment(true);
+    		toolbar.enableChat(true);
+    		toolbar.enableNavigation(true);
+    	} else if(curTabPanel instanceof WSortTab) {
+    		toolbar.enableGridToggle(false);
+    		toolbar.enableNew(false);
+    		toolbar.enableCopy(false);
+    		toolbar.enableReport(false);
+    		toolbar.enablePrint(false);
+    		toolbar.enableArchive(false);
+    		toolbar.enableWorkflows(false);
+    		toolbar.enableRequests(false);
+    		toolbar.enableProductInfo(false);
+    		toolbar.enableZoomAcross(false);
+    		toolbar.enableDelete(false);
+    		toolbar.enableDeleteSelection(false);
+    		toolbar.enableFind(false);
+    		toolbar.enableRefresh(false);
+    		toolbar.enableAttachment(false);
+    		toolbar.enableChat(false);
+    		toolbar.enableNavigation(false);
     	}
 	}
 
@@ -1271,6 +1304,27 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
             readOnly = false;
         }
         toolbar.enableIgnore(changed && !readOnly);
+        
+        if (changed && !readOnly && !toolbar.isSaveEnable() ) {
+        	if (curTab.getRecord_ID() > 0) {
+            	if (curTabIndex == 0) {
+            		MRecentItem.addModifiedField(ctx, curTab.getAD_Table_ID(),
+            				curTab.getRecord_ID(), Env.getAD_User_ID(ctx),
+            				Env.getAD_Role_ID(ctx), curTab.getAD_Window_ID(),
+            				curTab.getAD_Tab_ID());
+            	} else {
+	        		/* when a detail record is modified add header to recent items */
+	        		GridTab mainTab = gridWindow.getTab(0);
+	        		if (mainTab != null) {
+			        	MRecentItem.addModifiedField(ctx, mainTab.getAD_Table_ID(),
+			        			mainTab.getRecord_ID(), Env.getAD_User_ID(ctx),
+			        			Env.getAD_Role_ID(ctx), mainTab.getAD_Window_ID(),
+			        			mainTab.getAD_Tab_ID());
+	        		}
+            	}
+            }
+        }
+        
         toolbar.enableSave(changed && !readOnly);
 
         //
@@ -1560,12 +1614,11 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
     private boolean onSave(boolean onSaveEvent)
     {
     	GridTab currentTab = toolbar.getCurrentPanel().getGridTab();
+    	boolean wasChanged = toolbar.isSaveEnable();
     	
     	if (currentTab.isSortTab())
     	{
-    		((ADSortTab) curTabPanel).saveData();
-    		toolbar.enableSave(true);	//	set explicitly
-    		toolbar.enableIgnore(false);
+    		((WSortTab) curTabPanel).saveData();
     		return true;
     	}
     	else
@@ -1591,6 +1644,39 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 	        //curTabPanel.afterSave(onSaveEvent);
 	        toolbar.getCurrentPanel().dynamicDisplay(0);
 	        toolbar.getCurrentPanel().afterSave(onSaveEvent);
+
+	        if (wasChanged) {
+		        if (newRecord) {
+		        	if (curTab.getRecord_ID() > 0) {
+			        	if (curTabIndex == 0) {
+				        	MRecentItem.addModifiedField(ctx, curTab.getAD_Table_ID(),
+				        			curTab.getRecord_ID(), Env.getAD_User_ID(ctx),
+				        			Env.getAD_Role_ID(ctx), curTab.getAD_Window_ID(),
+				        			curTab.getAD_Tab_ID());
+			        	} else {
+			        		/* when a detail record is modified add header to recent items */
+			        		GridTab mainTab = gridWindow.getTab(0);
+			        		if (mainTab != null) {
+					        	MRecentItem.addModifiedField(ctx, mainTab.getAD_Table_ID(),
+					        			mainTab.getRecord_ID(), Env.getAD_User_ID(ctx),
+					        			Env.getAD_Role_ID(ctx), mainTab.getAD_Window_ID(),
+					        			mainTab.getAD_Tab_ID());
+			        		}
+			        	}
+		        	}
+		        } else {
+		        	if (curTabIndex == 0) {
+			        	MRecentItem.touchUpdatedRecord(ctx, curTab.getAD_Table_ID(),
+			        			curTab.getRecord_ID(), Env.getAD_User_ID(ctx));
+		        	} else {
+		        		GridTab mainTab = gridWindow.getTab(0);
+		        		if (mainTab != null) {
+				        	MRecentItem.touchUpdatedRecord(ctx, mainTab.getAD_Table_ID(),
+				        			mainTab.getRecord_ID(), Env.getAD_User_ID(ctx));
+		        		}
+		        	}
+		        }
+	        }
 	        return true;
     	}
     }

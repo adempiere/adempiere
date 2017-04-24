@@ -46,8 +46,6 @@ import org.compiere.model.MSetup;
 import org.compiere.model.Query;
 import org.compiere.print.PrintUtil;
 import org.compiere.process.ProcessInfo;
-import org.compiere.process.ProcessInfoParameter;
-import org.compiere.process.SvrProcess;
 import org.compiere.util.CLogMgt;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -60,41 +58,8 @@ import org.compiere.util.Util;
  *  @author Carlos Ruiz
  *    [ 2598506 ] FR - Implement Initial Client Setup
  */
-public class InitialClientSetup extends SvrProcess
+public class InitialClientSetup extends InitialClientSetupAbstract
 {
-	
-	// Process Parameters
-	protected String p_ClientName = null;
-	protected String p_OrgValue = null;
-	protected String p_OrgName = null;
-	protected String p_AdminUserName = null;
-	protected String p_NormalUserName = null;
-	protected int p_C_Currency_ID = 0;
-	protected int p_C_Country_ID = 0;
-	protected int p_C_Region_ID = 0;
-	protected String p_CityName = null;
-	protected String p_Postal = null;
-	protected String p_Address1 = null;
-	protected String p_Phone = null;
-	protected String p_Phone2 = null;
-	protected String p_Fax = null;
-	protected String p_EMail = null;
-	protected String p_TaxID = null;
-	protected int p_C_City_ID = 0;
-	protected boolean p_IsUseBPDimension = true;
-	protected boolean p_IsUseProductDimension = true;
-	protected boolean p_IsUseProjectDimension = false;
-	protected boolean p_IsUseCampaignDimension = false;
-	protected boolean p_IsUseSalesRegionDimension = false;
-	protected String p_CoAFile = null;
-	protected String p_logoFile = null;
-	protected Timestamp p_startDate = null;
-	protected int		p_historyYears = 0;
-	protected String	p_DUNS = null;
-	protected String	p_bankName = null;
-	protected String	p_routingNo = null;
-	protected String 	p_accountNo = null;
-
 	/** WindowNo for this process */
 	public static final int     WINDOW_THIS_PROCESS = 9999;
 
@@ -103,75 +68,7 @@ public class InitialClientSetup extends SvrProcess
 	 */
 	protected void prepare ()
 	{
-		ProcessInfoParameter[] para = getParameter();
-		for (int i = 0; i < para.length; i++)
-		{
-			String name = para[i].getParameterName();
-			if (para[i].getParameter() == null)
-				;
-			else if (name.equals("ClientName"))
-				p_ClientName = (String) para[i].getParameter();
-			else if (name.equals("OrgValue"))
-				p_OrgValue = (String) para[i].getParameter();
-			else if (name.equals("OrgName"))
-				p_OrgName = (String) para[i].getParameter();
-			else if (name.equals("AdminUserName"))
-				p_AdminUserName = (String) para[i].getParameter();
-			else if (name.equals("NormalUserName"))
-				p_NormalUserName = (String) para[i].getParameter();
-			else if (name.equals("C_Currency_ID"))
-				p_C_Currency_ID = para[i].getParameterAsInt();
-			else if (name.equals("C_Country_ID"))
-				p_C_Country_ID = para[i].getParameterAsInt();
-			else if (name.equals("C_Region_ID"))
-				p_C_Region_ID = para[i].getParameterAsInt();
-			else if (name.equals("CityName"))
-				p_CityName = (String) para[i].getParameter();
-			else if (name.equals("C_City_ID"))
-				p_C_City_ID = para[i].getParameterAsInt();
-			else if (name.equals("Postal"))
-				p_Postal = (String) para[i].getParameter();
-			else if (name.equals("Address1"))
-				p_Address1 = (String) para[i].getParameter();
-			else if (name.equals("IsUseBPDimension"))
-				p_IsUseBPDimension = para[i].getParameter().equals("Y");
-			else if (name.equals("IsUseProductDimension"))
-				p_IsUseProductDimension = para[i].getParameter().equals("Y");
-			else if (name.equals("IsUseProjectDimension"))
-				p_IsUseProjectDimension = para[i].getParameter().equals("Y");
-			else if (name.equals("IsUseCampaignDimension"))
-				p_IsUseCampaignDimension = para[i].getParameter().equals("Y");
-			else if (name.equals("IsUseSalesRegionDimension"))
-				p_IsUseSalesRegionDimension = para[i].getParameter().equals("Y");
-			else if (name.equals("CoAFile"))
-				p_CoAFile = (String) para[i].getParameter();
-			else if (name.equals("Phone"))
-				p_Phone = (String) para[i].getParameter();
-			else if (name.equals("Phone2"))
-				p_Phone2 = (String) para[i].getParameter();
-			else if (name.equals("Fax"))
-				p_Fax = (String) para[i].getParameter();
-			else if (name.equals("EMail"))
-				p_EMail = (String) para[i].getParameter();
-			else if (name.equals("TaxID"))
-				p_TaxID = (String) para[i].getParameter();
-			else if (name.equals("Logo"))
-				p_logoFile = (String) para[i].getParameter();
-			else if (name.equals("StartDate"))
-				p_startDate = (Timestamp) para[i].getParameter();
-			else if (name.equals("HistoryYears"))
-				p_historyYears = para[i].getParameterAsInt();
-			else if (name.equals("DUNS"))
-				p_DUNS = (String) para[i].getParameter();
-			else if (name.equals("BankName"))
-				p_bankName = (String) para[i].getParameter();
-			else if (name.equals("RoutingNo"))
-				p_routingNo = (String) para[i].getParameter();
-			else if (name.equals("AccountNo"))
-				p_accountNo = (String) para[i].getParameter();
-			else
-				log.log(Level.SEVERE, "Unknown Parameter: " + name);
-		}
+		super.prepare();
 	}
 
 	/**
@@ -182,139 +79,124 @@ public class InitialClientSetup extends SvrProcess
 	protected String doIt () throws Exception
 	{
 		log.info("InitialClientSetup"
-				+ ": ClientName=" + p_ClientName
-				+ ", OrgValue=" + p_OrgValue
-				+ ", OrgName=" + p_OrgName
-				+ ", AdminUserName=" + p_AdminUserName
-				+ ", NormalUserName=" + p_NormalUserName
-				+ ", C_Currency_ID=" + p_C_Currency_ID
-				+ ", C_Country_ID=" + p_C_Country_ID
-				+ ", C_Region_ID=" + p_C_Region_ID
-				+ ", CityName=" + p_CityName
-				+ ", C_City_ID=" + p_C_City_ID
-				+ ", IsUseBPDimension=" + p_IsUseBPDimension
-				+ ", IsUseProductDimension=" + p_IsUseProductDimension
-				+ ", IsUseProjectDimension=" + p_IsUseProjectDimension
-				+ ", IsUseCampaignDimension=" + p_IsUseCampaignDimension
-				+ ", IsUseSalesRegionDimension=" + p_IsUseSalesRegionDimension
-				+ ", CoAFile=" + p_CoAFile
+				+ ": ClientName=" + getClientName()
+				+ ", OrgValue=" + getOrgKey()
+				+ ", OrgName=" + getOrganizationName()
+				+ ", AdminUserName=" + getAdministrativeUserName()
+				+ ", NormalUserName=" + getNormalUserName()
+				+ ", C_Currency_ID=" + getCurrencyId()
+				+ ", C_Country_ID=" + getCountryId()
+				+ ", C_Region_ID=" + getRegionId()
+				+ ", CityName=" + getCityName()
+				+ ", C_City_ID=" + getCityId()
+				+ ", IsUseBPDimension=" + isBPAccounting()
+				+ ", IsUseProductDimension=" + isProductAccounting()
+				+ ", IsUseProjectDimension=" + isProjectAccounting()
+				+ ", IsUseCampaignDimension=" + isCampaignAccounting()
+				+ ", IsUseSalesRegionDimension=" + isSalesRegionAccounting()
+				+ ", ChartofAccountsFile=" + getChartofAccountsFile()
 			);
-
 		// Validations
-
 		// Validate Mandatory parameters
-		if (   p_ClientName == null || p_ClientName.length() == 0
-			|| p_OrgName == null || p_OrgName.length() == 0
-			|| p_C_Currency_ID <= 0
-			|| p_C_Country_ID <= 0
-			|| p_CoAFile == null || p_CoAFile.length() == 0
+		if (   getClientName() == null || getClientName().length() == 0
+			|| getOrganizationName() == null || getOrganizationName().length() == 0
+			|| getCurrencyId() <= 0
+			|| getCountryId() <= 0
+			|| getChartofAccountsFile() == null || getChartofAccountsFile().length() == 0
 			)
 			throw new IllegalArgumentException("Missing required parameters");
 
 		// Validate Uniqueness of client and users name
 		//	Unique Client Name
-		if (DB.executeUpdate("UPDATE AD_Client SET CreatedBy=0 WHERE Name=?", new Object[] {p_ClientName}, false, null) != 0)
-			throw new AdempiereException("@NotUnique@ " + p_ClientName);
+		if (DB.executeUpdate("UPDATE AD_Client SET CreatedBy=0 WHERE Name=?", new Object[] {getClientName()}, false, null) != 0)
+			throw new AdempiereException("@NotUnique@ " + getClientName());
 
 		//	Unique User Names
-		if (DB.executeUpdate("UPDATE AD_User SET CreatedBy=0 WHERE Name=?", new Object[] {p_AdminUserName}, false, null) != 0)
-			throw new AdempiereException("@NotUnique@ " + p_AdminUserName);
-		if (DB.executeUpdate("UPDATE AD_User SET CreatedBy=0 WHERE Name=?", new Object[] {p_NormalUserName}, false, null) != 0)
-			throw new AdempiereException("@NotUnique@ " + p_NormalUserName);
+		if (DB.executeUpdate("UPDATE AD_User SET CreatedBy=0 WHERE Name=?", new Object[] {getAdministrativeUserName()}, false, null) != 0)
+			throw new AdempiereException("@NotUnique@ " + getAdministrativeUserName());
+		if (DB.executeUpdate("UPDATE AD_User SET CreatedBy=0 WHERE Name=?", new Object[] {getNormalUserName()}, false, null) != 0)
+			throw new AdempiereException("@NotUnique@ " + getNormalUserName());
 
 		// City_ID overrides CityName if both used
-		if (p_C_City_ID > 0) {
-			MCity city = MCity.get(getCtx(), p_C_City_ID);
-			if (! city.getName().equals(p_CityName)) {
-				log.info("City name changed from " + p_CityName + " to " + city.getName());
-				p_CityName = city.getName();
+		if (getCityId() > 0) {
+			MCity city = MCity.get(getCtx(), getCityId());
+			if (!city.getName().equals(getCityName())) {
+				log.info("City name changed from " + getCityName() + " to " + city.getName());
+				setCityName(city.getName());
 			}
 		}
 
 		// Validate existence and read permissions on CoA file
-		File coaFile = new File(p_CoAFile);
-		if (!coaFile.exists())
-			throw new AdempiereException("CoaFile " + p_CoAFile + " does not exist");
-		if (!coaFile.canRead())
-			throw new AdempiereException("Cannot read CoaFile " + p_CoAFile);
-		if (!coaFile.isFile())
-			throw new AdempiereException("CoaFile " + p_CoAFile + " is not a file");
-		if (coaFile.length() <= 0L)
-			throw new AdempiereException("CoaFile " + p_CoAFile + " is empty");
+		File chartofAccountsFile = new File(getChartofAccountsFile());
+		if (!chartofAccountsFile.exists())
+			throw new AdempiereException("CoaFile " + getChartofAccountsFile() + " does not exist");
+		if (!chartofAccountsFile.canRead())
+			throw new AdempiereException("Cannot read CoaFile " + getChartofAccountsFile());
+		if (!chartofAccountsFile.isFile())
+			throw new AdempiereException("CoaFile " + getChartofAccountsFile() + " is not a file");
+		if (chartofAccountsFile.length() <= 0L)
+			throw new AdempiereException("CoaFile " + getChartofAccountsFile() + " is empty");
 
 		// Process
-		MSetup ms = null;
+		MSetup setup = null;
 		
-		MCountry country = MCountry.get(getCtx(), p_C_Country_ID);
+		MCountry country = MCountry.get(getCtx(), getCountryId());
 		try
 		{
 			Class<?> ppClass = Class.forName("org.compiere.model.MSetup_" + country.getCountryCode());
 			if (ppClass != null)
-				ms = (MSetup) ppClass.newInstance();
+				setup = (MSetup) ppClass.newInstance();
 		}
 		catch (Exception e)    //  NoClassDefFound
 		{
 			// ignore as country specific setup class may not exist
 		}
 			
-		if ( ms == null )
-			ms = new MSetup();
+		if ( setup == null )
+			setup = new MSetup();
 
-		ms.initialize(Env.getCtx(), WINDOW_THIS_PROCESS);
-
-		if (! ms.createClient(p_ClientName, p_OrgValue, p_OrgName, p_AdminUserName, p_NormalUserName
-				, p_Phone, p_Phone2, p_Fax, p_EMail, p_TaxID, p_DUNS, p_logoFile, p_C_Country_ID) ) {
-			ms.rollback();
+		setup.initialize(Env.getCtx(), WINDOW_THIS_PROCESS);
+		if (! setup.createClient(getClientName(), getOrgKey(), getOrganizationName(), getAdministrativeUserName(), getNormalUserName()
+				, getPhone(), getPhone2(), getFax(), getEMailAddress(), getTaxID(), getDUNS(), getLogo(), getCountryId()) ) {
+			setup.rollback();
 			throw new AdempiereException("Create client failed");
 		}
-			
-		addLog(ms.getInfo());
-
+		addLog(setup.getInfo());
 		//  Generate Accounting
-		MCurrency currency = MCurrency.get(getCtx(), p_C_Currency_ID);
-		KeyNamePair currency_kp = new KeyNamePair(p_C_Currency_ID, currency.getDescription());
-		if (!ms.createAccounting(currency_kp,
-			p_IsUseProductDimension, p_IsUseBPDimension, p_IsUseProjectDimension,
-			p_IsUseCampaignDimension, p_IsUseSalesRegionDimension, p_startDate, p_historyYears,
-			coaFile)) {
-			ms.rollback();
+		MCurrency currency = MCurrency.get(getCtx(), getCurrencyId());
+		KeyNamePair currencyKeyNamePair = new KeyNamePair(getCurrencyId(), currency.getDescription());
+		if (!setup.createAccounting(currencyKeyNamePair,
+				isProductAccounting() , isBPAccounting() , isProjectAccounting(),
+			isCampaignAccounting(), isSalesRegionAccounting(), getStartDate(), getHistoryYears(),
+			chartofAccountsFile)) {
+			setup.rollback();
 			throw new AdempiereException("@AccountSetupError@");
 		}
-
 		//  Generate Entities
-		if (!ms.createEntities(p_C_Country_ID, p_CityName, p_C_Region_ID, p_C_Currency_ID, p_Postal, p_Address1)) {
-			ms.rollback();
+		if (!setup.createEntities(getCountryId(), getCityName(), getRegionId(), getCurrencyId(), getZIP(), getAddress1())) {
+			setup.rollback();
 			throw new AdempiereException("@AccountSetupError@");
 		}
-		
-		if ( !Util.isEmpty(p_bankName) && !Util.isEmpty(p_routingNo) && !Util.isEmpty(p_accountNo) )
+		// Create Bank
+		if ( !Util.isEmpty(getBankName()) && !Util.isEmpty(getRoutingNo()) && !Util.isEmpty(getAccountNo()))
 		{
-			ms.createBank(p_bankName, p_routingNo, p_accountNo, p_C_Currency_ID);
+			setup.createBank(getBankName(), getRoutingNo(), getAccountNo(), getCurrencyId());
 		}
-		
 		// load chart of accounts
-		if ( !ms.importChart(coaFile) ){
-			ms.rollback();
+		if ( !setup.importChart(chartofAccountsFile) ){
+			setup.rollback();
 			throw new AdempiereException("@AccountSetupError@");
 		}
-		
-		addLog(ms.getInfo());
-
+		addLog(setup.getInfo());
 		//	Create Print Documents
-		PrintUtil.setupPrintForm(ms.getAD_Client_ID());
-		
+		PrintUtil.setupPrintForm(setup.getAD_Client_ID());
        // Update translation after create a new tenant
-
 		String whereClause   = MLanguage.COLUMNNAME_IsSystemLanguage+"='Y' AND "+ MLanguage.COLUMNNAME_IsActive+"='Y'"; //Adempiere-53 Changes
-
 		List<MLanguage> list = new Query(Env.getCtx(), MLanguage.Table_Name, whereClause, get_TrxName()).list();
-
 		for (MLanguage lang : list)
-
 		{
 			log.fine ("Updating Translation - " + lang);
 			lang.maintain(true);
-
 		}	//	for
 
 		return "@OK@";
@@ -325,9 +207,7 @@ public class InitialClientSetup extends SvrProcess
 		
 		Adempiere.startupEnvironment(false);
 		CLogMgt.setLevel(Level.CONFIG);
-		
 		String propFileName = Adempiere.getAdempiereHome() + File.separatorChar + "clientsetup.properties";
-		
 		if (args.length > 0)
 			propFileName = args[0];
 
@@ -336,7 +216,6 @@ public class InitialClientSetup extends SvrProcess
 		pi.setAD_User_ID(100);
 		
 		Properties prop = new Properties();
-		
 		try {
 			prop.load(new FileInputStream(propFileName));
 		
@@ -386,11 +265,8 @@ public class InitialClientSetup extends SvrProcess
 		catch (Exception e) {
 			// TODO: handle exception
 		}
-		
 		InitialClientSetup setup = new InitialClientSetup();
 		setup.startProcess(Env.getCtx(), pi, null);
-		
-		//System.out.println("Process=" + pi.getTitle() + " Error="+pi.isError() + " Summary=" + pi.getSummary());
 		
 		
 	}

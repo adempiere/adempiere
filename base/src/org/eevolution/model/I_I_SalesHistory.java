@@ -1,8 +1,9 @@
 /******************************************************************************
  * Product: ADempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 2006-2016 ADempiere Foundation, All Rights Reserved.         *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -237,10 +238,10 @@ public interface I_I_SalesHistory
     /** Column name CampaignValue */
     public static final String COLUMNNAME_CampaignValue = "CampaignValue";
 
-	/** Set CampaignValue	  */
+	/** Set Campaign Value	  */
 	public void setCampaignValue (String CampaignValue);
 
-	/** Get CampaignValue	  */
+	/** Get Campaign Value	  */
 	public String getCampaignValue();
 
     /** Column name CategoryName */

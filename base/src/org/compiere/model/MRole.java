@@ -645,7 +645,9 @@ public final class MRole extends X_AD_Role
 	private HashMap<Integer,Boolean>	m_formAccess = null;
 	/**	Smart Browse Access				*/
 	private HashMap<Integer,Boolean>	m_browseAccess = null;
-
+	/**	Info Windows			*/
+	private HashMap<Integer, Boolean>	m_infoAccess = null;
+	
 	/**
 	 * 	Set Logged in user
 	 *	@param AD_User_ID user requesting info

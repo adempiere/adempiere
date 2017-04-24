@@ -1,8 +1,9 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -11,8 +12,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 package org.compiere.model;
 
@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Table
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0
+ *  @version Release 3.9.0
  */
 public interface I_AD_Table 
 {
@@ -40,19 +40,6 @@ public interface I_AD_Table
     BigDecimal accessLevel = BigDecimal.valueOf(4);
 
     /** Load Meta Data */
-
-    /** Column name AccessLevel */
-    public static final String COLUMNNAME_AccessLevel = "AccessLevel";
-
-	/** Set Data Access Level.
-	  * Access Level required
-	  */
-	public void setAccessLevel (String AccessLevel);
-
-	/** Get Data Access Level.
-	  * Access Level required
-	  */
-	public String getAccessLevel();
 
     /** Column name ACTriggerLength */
     public static final String COLUMNNAME_ACTriggerLength = "ACTriggerLength";
@@ -130,6 +117,19 @@ public interface I_AD_Table
 	public int getAD_Window_ID();
 
 	public org.compiere.model.I_AD_Window getAD_Window() throws RuntimeException;
+
+    /** Column name AccessLevel */
+    public static final String COLUMNNAME_AccessLevel = "AccessLevel";
+
+	/** Set Data Access Level.
+	  * Access Level required
+	  */
+	public void setAccessLevel (String AccessLevel);
+
+	/** Get Data Access Level.
+	  * Access Level required
+	  */
+	public String getAccessLevel();
 
     /** Column name CopyColumnsFromTable */
     public static final String COLUMNNAME_CopyColumnsFromTable = "CopyColumnsFromTable";
@@ -287,6 +287,19 @@ public interface I_AD_Table
 	  * Use Search instead of Pick list
 	  */
 	public boolean isHighVolume();
+
+    /** Column name IsIgnoreMigration */
+    public static final String COLUMNNAME_IsIgnoreMigration = "IsIgnoreMigration";
+
+	/** Set Ignore Migration.
+	  * Ignore this record in log migration
+	  */
+	public void setIsIgnoreMigration (boolean IsIgnoreMigration);
+
+	/** Get Ignore Migration.
+	  * Ignore this record in log migration
+	  */
+	public boolean isIgnoreMigration();
 
     /** Column name IsSecurityEnabled */
     public static final String COLUMNNAME_IsSecurityEnabled = "IsSecurityEnabled";

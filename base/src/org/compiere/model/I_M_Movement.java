@@ -1,8 +1,9 @@
 /******************************************************************************
  * Product: ADempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 2006-2016 ADempiere Foundation, All Rights Reserved.         *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -428,6 +429,17 @@ public interface I_M_Movement
 	  * Movement of Inventory
 	  */
 	public int getM_Movement_ID();
+
+    /** Column name M_ProductionBatch_ID */
+    public static final String COLUMNNAME_M_ProductionBatch_ID = "M_ProductionBatch_ID";
+
+	/** Set Production Batch	  */
+	public void setM_ProductionBatch_ID (int M_ProductionBatch_ID);
+
+	/** Get Production Batch	  */
+	public int getM_ProductionBatch_ID();
+
+	public org.compiere.model.I_M_ProductionBatch getM_ProductionBatch() throws RuntimeException;
 
     /** Column name M_Shipper_ID */
     public static final String COLUMNNAME_M_Shipper_ID = "M_Shipper_ID";

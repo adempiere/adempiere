@@ -1,21 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="SB_InvoiceFromOrderLine_03" ReleaseNo="" SeqNo="1720">
-    <Step SeqNo="10" StepType="AD">
-      <PO AD_Table_ID="50009" Action="U" Record_ID="50001" Table="AD_SysConfig">
-        <Data AD_Column_ID="50196" Column="Value" oldValue="phib">scalderon</Data>
-      </PO>
-    </Step>
-    <Step SeqNo="20" StepType="AD">
-      <PO AD_Table_ID="50009" Action="U" Record_ID="50000" Table="AD_SysConfig">
-        <Data AD_Column_ID="50196" Column="Value" oldValue="http://developer.adempiere.com/cgi-bin/get_ID">http://188.40.37.194:7780/cgi-bin/get_ID</Data>
-      </PO>
-    </Step>
-    <Step SeqNo="30" StepType="AD">
-      <PO AD_Table_ID="50009" Action="U" Record_ID="50002" Table="AD_SysConfig">
-        <Data AD_Column_ID="50196" Column="Value" oldValue="zAcechu7">Rxjtrx2SW</Data>
-      </PO>
-    </Step>
+  <Migration EntityType="D" Name="SB_InvoiceFromOrderLine_03" ReleaseNo="3.9.0" SeqNo="1720">
     <Step SeqNo="40" StepType="AD">
       <PO AD_Table_ID="116" Action="I" Record_ID="54139" Table="AD_Menu">
         <Data AD_Column_ID="234" Column="AD_Workflow_ID" isNewNull="true"/>
@@ -31,7 +16,7 @@
         <Data AD_Column_ID="6651" Column="IsReadOnly">false</Data>
         <Data AD_Column_ID="4621" Column="AD_Form_ID" isNewNull="true"/>
         <Data AD_Column_ID="3375" Column="AD_Process_ID" isNewNull="true"/>
-        <Data AD_Column_ID="7721" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7721" Column="EntityType">D</Data>
         <Data AD_Column_ID="59134" Column="IsCentrallyMaintained">true</Data>
         <Data AD_Column_ID="57960" Column="AD_Browse_ID">90002</Data>
         <Data AD_Column_ID="399" Column="AD_Client_ID">0</Data>

@@ -1,8 +1,9 @@
 /******************************************************************************
  * Product: ADempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 2006-2016 ADempiere Foundation, All Rights Reserved.         *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -163,19 +164,6 @@ public interface I_M_Production
 	public int getC_Project_ID();
 
 	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException;
-
-    /** Column name CreateFrom */
-    public static final String COLUMNNAME_CreateFrom = "CreateFrom";
-
-	/** Set Create lines from.
-	  * Process which will generate a new document lines based on an existing document
-	  */
-	public void setCreateFrom (String CreateFrom);
-
-	/** Get Create lines from.
-	  * Process which will generate a new document lines based on an existing document
-	  */
-	public String getCreateFrom();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

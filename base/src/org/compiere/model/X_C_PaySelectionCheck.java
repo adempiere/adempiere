@@ -1,8 +1,9 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -11,8 +12,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
@@ -21,17 +21,18 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
 import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_PaySelectionCheck
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0 - $Id$ */
+ *  @version Release 3.9.0 - $Id$ */
 public class X_C_PaySelectionCheck extends PO implements I_C_PaySelectionCheck, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20160414L;
+	private static final long serialVersionUID = 20170407L;
 
     /** Standard Constructor */
     public X_C_PaySelectionCheck (Properties ctx, int C_PaySelectionCheck_ID, String trxName)
@@ -83,34 +84,6 @@ public class X_C_PaySelectionCheck extends PO implements I_C_PaySelectionCheck, 
       return sb.toString();
     }
 
-	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
-    {
-		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
-			.getPO(getC_BPartner_ID(), get_TrxName());	}
-
-	/** Set Business Partner .
-		@param C_BPartner_ID 
-		Identifies a Business Partner
-	  */
-	public void setC_BPartner_ID (int C_BPartner_ID)
-	{
-		if (C_BPartner_ID < 1) 
-			set_Value (COLUMNNAME_C_BPartner_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
-	}
-
-	/** Get Business Partner .
-		@return Identifies a Business Partner
-	  */
-	public int getC_BPartner_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartner_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.compiere.model.I_C_BP_BankAccount getC_BP_BankAccount() throws RuntimeException
     {
 		return (org.compiere.model.I_C_BP_BankAccount)MTable.get(getCtx(), org.compiere.model.I_C_BP_BankAccount.Table_Name)
@@ -139,33 +112,41 @@ public class X_C_PaySelectionCheck extends PO implements I_C_PaySelectionCheck, 
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_Payment getC_Payment() throws RuntimeException
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
     {
-		return (org.compiere.model.I_C_Payment)MTable.get(getCtx(), org.compiere.model.I_C_Payment.Table_Name)
-			.getPO(getC_Payment_ID(), get_TrxName());	}
+		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
+			.getPO(getC_BPartner_ID(), get_TrxName());	}
 
-	/** Set Payment.
-		@param C_Payment_ID 
-		Payment identifier
+	/** Set Business Partner .
+		@param C_BPartner_ID 
+		Identifies a Business Partner
 	  */
-	public void setC_Payment_ID (int C_Payment_ID)
+	public void setC_BPartner_ID (int C_BPartner_ID)
 	{
-		if (C_Payment_ID < 1) 
-			set_Value (COLUMNNAME_C_Payment_ID, null);
+		if (C_BPartner_ID < 1) 
+			set_Value (COLUMNNAME_C_BPartner_ID, null);
 		else 
-			set_Value (COLUMNNAME_C_Payment_ID, Integer.valueOf(C_Payment_ID));
+			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
 	}
 
-	/** Get Payment.
-		@return Payment identifier
+	/** Get Business Partner .
+		@return Identifies a Business Partner
 	  */
-	public int getC_Payment_ID () 
+	public int getC_BPartner_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Payment_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartner_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
 	}
+
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), String.valueOf(getC_BPartner_ID()));
+    }
 
 	/** Set Pay Selection Check.
 		@param C_PaySelectionCheck_ID 
@@ -213,6 +194,34 @@ public class X_C_PaySelectionCheck extends PO implements I_C_PaySelectionCheck, 
 	public int getC_PaySelection_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_PaySelection_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_Payment getC_Payment() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_Payment)MTable.get(getCtx(), org.compiere.model.I_C_Payment.Table_Name)
+			.getPO(getC_Payment_ID(), get_TrxName());	}
+
+	/** Set Payment.
+		@param C_Payment_ID 
+		Payment identifier
+	  */
+	public void setC_Payment_ID (int C_Payment_ID)
+	{
+		if (C_Payment_ID < 1) 
+			set_Value (COLUMNNAME_C_Payment_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Payment_ID, Integer.valueOf(C_Payment_ID));
+	}
+
+	/** Get Payment.
+		@return Payment identifier
+	  */
+	public int getC_Payment_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Payment_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

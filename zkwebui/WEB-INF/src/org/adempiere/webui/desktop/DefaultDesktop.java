@@ -186,18 +186,42 @@ public class DefaultDesktop extends TabbedDesktop implements MenuListener, Seria
         int noOfCols = DB.getSQLValue(null, sql, Env.getAD_Client_ID(Env.getCtx()));
         int width = noOfCols <= 0 ? 100 : 100 / noOfCols;
         
-        sql = "SELECT x.* "
+       /* sql = "SELECT x.* "
 			+ "FROM PA_DASHBOARDCONTENT x "
 			+ "WHERE (x.AD_CLIENT_ID=0 OR x.AD_CLIENT_ID=?) AND x.ISACTIVE='Y' "
-			+ "ORDER BY x.COLUMNNO, x.AD_CLIENT_ID, x.LINE ";
-        
+			+ "ORDER BY x.COLUMNNO, x.AD_CLIENT_ID, x.LINE ";*/
+        StringBuffer sqlContent = new StringBuffer();
+        sqlContent.append("SELECT x.PA_DASHBOARDCONTENT_ID, x.AD_CLIENT_ID, x.AD_ORG_ID, x.ISACTIVE ,");
+        sqlContent.append("       COALESCE(XTRL.NAME,x.NAME) AS NAME ,");        
+        sqlContent.append(" x.AD_WINDOW_ID ,");   
+        sqlContent.append(" x.DESCRIPTION ,");   
+        sqlContent.append("  x.HTML ,");   
+        sqlContent.append("  x.LINE ,");   
+        sqlContent.append("  x.PA_GOAL_ID ,");   
+        sqlContent.append(" x.COLUMNNO ,");   
+        sqlContent.append(" x.ZULFILEPATH ,");   
+        sqlContent.append(" x.ISCOLLAPSIBLE ,");   
+        sqlContent.append(" x.GOALDISPLAY ,");   
+        sqlContent.append(" x.ISOPENBYDEFAULT ,");   
+        sqlContent.append("  x.ISEVENTREQUIRED ,");   
+        sqlContent.append("  x.ZOOM_WINDOW_ID ,");   
+        sqlContent.append(" x.ZOOM_TAB_ID ,");   
+        sqlContent.append("  x.PAGESIZE ,");   
+        sqlContent.append(" x.ONEVENT ,");   
+        sqlContent.append(" x.AD_BROWSE_ID ,");   
+        sqlContent.append(" x.ZOOM_FIELD_ID ");  
+        sqlContent.append(" FROM PA_DASHBOARDCONTENT x ");   
+        sqlContent.append(" LEFT JOIN PA_DASHBOARDCONTENT_TRL xtrl on x.PA_DASHBOARDCONTENT_ID = xtrl.PA_DASHBOARDCONTENT_ID "
+        		+ "AND xtrl.AD_LANGUAGE = ?");   
+        sqlContent.append(" WHERE (x.AD_CLIENT_ID=0 OR x.AD_CLIENT_ID=?) AND x.ISACTIVE='Y' ");   
+        sqlContent.append(" ORDER BY x.COLUMNNO, x.AD_CLIENT_ID, x.LINE ");           
         PreparedStatement pstmt = null;
 		ResultSet rs = null;
-
         try
 		{
-        	pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, Env.getAD_Client_ID(Env.getCtx()));
+        	pstmt = DB.prepareStatement(sqlContent.toString(), null);
+        	pstmt.setString(1, Env.getAD_Language(Env.getCtx()));
+			pstmt.setInt(2, Env.getAD_Client_ID(Env.getCtx()));
 			rs = pstmt.executeQuery();
 			
 			while (rs.next()) {

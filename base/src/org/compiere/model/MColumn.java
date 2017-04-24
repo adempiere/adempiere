@@ -22,6 +22,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -302,8 +303,25 @@ public class MColumn extends X_AD_Column
 	protected boolean beforeSave (boolean newRecord)
 	{
 		//set column default based in element when is a new column FR [ 3426134 ]
-		if(newRecord)
+		if(newRecord) {
 			setAD_Column(getCtx(), this, get_TrxName());
+			//Create Document No or Value sequence
+			if (!isDirectLoad() && "DocumentNo".equals(getColumnName()) || !isDirectLoad() && "Value".equals(getColumnName()))
+			{
+				String tableName = MTable.getTableName(getCtx(), getAD_Table_ID());
+				final String whereClause = MSequence.COLUMNNAME_AD_Client_ID + "=? AND " + MSequence.COLUMNNAME_Name + "=? ";
+				//	Sequence for DocumentNo/Value
+				Arrays.stream(MClient.getAll(getCtx())).forEach( client -> {
+					MSequence sequence = new Query(getCtx(), MSequence.Table_Name, whereClause, get_TrxName())
+							.setParameters(client.getAD_Client_ID() , MSequence.PREFIX_DOCSEQ + tableName )
+							.first();
+					if (sequence == null || sequence.getAD_Sequence_ID() <= 0) {
+						sequence = new MSequence(getCtx(), client.getAD_Client_ID(), tableName, get_TrxName());
+						sequence.saveEx();
+					}
+				});
+			}
+		}
 
 		int displayType = getAD_Reference_ID();
 		if (DisplayType.isLOB(displayType))	//	LOBs are 0

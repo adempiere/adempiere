@@ -1,8 +1,9 @@
 /******************************************************************************
  * Product: ADempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 2006-2016 ADempiere Foundation, All Rights Reserved.         *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -33,7 +34,7 @@ public class X_DD_Order extends PO implements I_DD_Order, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20161103L;
+	private static final long serialVersionUID = 20170407L;
 
     /** Standard Constructor */
     public X_DD_Order (Properties ctx, int DD_Order_ID, String trxName)

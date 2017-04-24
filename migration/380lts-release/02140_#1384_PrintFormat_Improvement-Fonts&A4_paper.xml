@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Print Format Improvement - Fonts &amp; A4 paper" ReleaseNo="3.9.0" SeqNo="02140">
+    <Step DBType="ALL" SeqNo="10" StepType="SQL">
+      <Comments>-- Set Print Font = San Serif 9 for all report listing
+-- Set Landscape paper from Letter to A4 for all report listing
+-- Set Portrait paper from Letter to A4 for all report listing
+
+https://github.com/adempiere/adempiere/issues/882
+</Comments>
+      <SQLStatement>update ad_printformat set ad_printfont_id=163 where IsForm='N';
+update ad_printformat set AD_PrintPaper_ID=102 where IsForm='N' and AD_PrintPaper_ID=100;
+update ad_printformat set AD_PrintPaper_ID=103 where IsForm='N' and AD_PrintPaper_ID=101;</SQLStatement>
+    </Step>
+  </Migration>
+</Migrations>

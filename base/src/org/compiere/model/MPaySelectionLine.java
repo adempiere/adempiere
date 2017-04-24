@@ -28,6 +28,7 @@ import java.util.Properties;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.eevolution.model.X_HR_Employee;
 import org.eevolution.model.X_HR_Movement;
 import org.eevolution.model.X_HR_Payroll;
 
@@ -195,12 +196,14 @@ public class MPaySelectionLine extends X_C_PaySelectionLine
 		X_HR_Movement movement = new X_HR_Movement(getCtx(), movementId, get_TrxName());
 		setC_BPartner_ID(movement.getC_BPartner_ID());
 		//	Set Payment Rule
-		if(movement.getPaymentRule() != null)
-			setPaymentRule(movement.getPaymentRule());
+		X_HR_Employee employee = (X_HR_Employee) movement.getHR_Employee();
+		if(employee != null 
+				&& employee.getPaymentRule() != null) {
+			setPaymentRule(employee.getPaymentRule());
+		}
 		//	From Payroll
 		if(getPaymentRule() == null) {
 			X_HR_Payroll payroll = new X_HR_Payroll(getCtx(), movement.getHR_Payroll_ID(), get_TableName());
-//			X_HR_Payroll payroll = MHRPayroll.get(getCtx(), movement.getHR_Payroll_ID());
 			if(payroll.getPaymentRule() != null)
 				setPaymentRule(payroll.getPaymentRule());
 		}

@@ -18,7 +18,7 @@
         <Data AD_Column_ID="388" Column="AD_Org_ID">0</Data>
       </PO>
     </Step>
-    <Step DBType="Postgres" SeqNo="28" StepType="SQL">
+    <Step DBType="ALL" SeqNo="28" StepType="SQL">
       <SQLStatement>UPDATE M_Production
 set c_doctype_id = 0
 where c_doctype_id is null;</SQLStatement>
@@ -147,7 +147,7 @@ where c_doctype_id is null;</SQLStatement>
       <PO AD_Table_ID="101" Action="I" Record_ID="78218" Table="AD_Column">
         <Data AD_Column_ID="114" Column="AD_Table_ID">54052</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">true</Data>

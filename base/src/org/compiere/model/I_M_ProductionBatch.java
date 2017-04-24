@@ -1,8 +1,9 @@
 /******************************************************************************
  * Product: ADempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 2006-2016 ADempiere Foundation, All Rights Reserved.         *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -219,19 +220,6 @@ public interface I_M_ProductionBatch
 
 	/** Get Automatic Production	  */
 	public boolean isAutoProduction();
-
-    /** Column name IsComplete */
-    public static final String COLUMNNAME_IsComplete = "IsComplete";
-
-	/** Set Complete.
-	  * It is complete
-	  */
-	public void setIsComplete (String IsComplete);
-
-	/** Get Complete.
-	  * It is complete
-	  */
-	public String getIsComplete();
 
     /** Column name IsCreateMove */
     public static final String COLUMNNAME_IsCreateMove = "IsCreateMove";

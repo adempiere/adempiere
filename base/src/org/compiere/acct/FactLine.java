@@ -152,44 +152,47 @@ public final class FactLine extends X_Fact_Acct
 		setC_SubAcct_ID(m_acct.getC_SubAcct_ID());
 
 		//	User Defined References
-		MAcctSchemaElement ud1 = m_acctSchema.getAcctSchemaElement(
-				X_C_AcctSchema_Element.ELEMENTTYPE_UserElement1);
-		if (ud1 != null)
+		MAcctSchemaElement acctSchemaElement1 = m_acctSchema.getAcctSchemaElement(X_C_AcctSchema_Element.ELEMENTTYPE_UserElement1);
+		if (acctSchemaElement1 != null)
 		{
-			String ColumnName1 = ud1.getDisplayColumnName();
+			String ColumnName1 = acctSchemaElement1.getDisplayColumnName();
 			if (ColumnName1 != null)
 			{
-				int ID1 = 0;
+				int userElement1Id = 0;
 				if (m_docLine != null)
-					ID1 = m_docLine.getValue(ColumnName1);
-				if (ID1 == 0)
+					userElement1Id = m_docLine.getValue(ColumnName1);
+				if (userElement1Id == 0)
 				{
 					if (m_doc == null)
 						throw new IllegalArgumentException("Document not set yet");
-					ID1 = m_doc.getValue(ColumnName1);
+					userElement1Id = m_doc.getValue(ColumnName1);
 				}
-				if (ID1 != 0)
-					setUserElement1_ID(ID1);
+				if (userElement1Id == 0 && acct.getUserElement1_ID() > 0 )
+					userElement1Id = acct.getUserElement1_ID();
+				if (userElement1Id != 0)
+					setUserElement1_ID(userElement1Id);
 			}
 		}
-		MAcctSchemaElement ud2 = m_acctSchema.getAcctSchemaElement(
-				X_C_AcctSchema_Element.ELEMENTTYPE_UserElement2);
-		if (ud2 != null)
+		MAcctSchemaElement acctSchemaElement2 = m_acctSchema.getAcctSchemaElement(X_C_AcctSchema_Element.ELEMENTTYPE_UserElement2);
+		if (acctSchemaElement2 != null)
 		{
-			String ColumnName2 = ud2.getDisplayColumnName();
+			String ColumnName2 = acctSchemaElement2.getDisplayColumnName();
 			if (ColumnName2 != null)
 			{
-				int ID2 = 0;
+				int userElement2Id = 0;
 				if (m_docLine != null)
-					ID2 = m_docLine.getValue(ColumnName2);
-				if (ID2 == 0)
+					userElement2Id = m_docLine.getValue(ColumnName2);
+				if (userElement2Id == 0)
 				{
 					if (m_doc == null)
 						throw new IllegalArgumentException("Document not set yet");
-					ID2 = m_doc.getValue(ColumnName2);
+					userElement2Id = m_doc.getValue(ColumnName2);
 				}
-				if (ID2 != 0)
-					setUserElement2_ID(ID2);
+				if (userElement2Id == 0 && acct.getUserElement2_ID() > 0 )
+					userElement2Id = acct.getUserElement1_ID();
+
+				if (userElement2Id != 0)
+					setUserElement2_ID(userElement2Id);
 			}
 		}
 	}   //  setAccount

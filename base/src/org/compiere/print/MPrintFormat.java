@@ -597,6 +597,7 @@ public class MPrintFormat extends X_AD_PrintFormat
 			+ "FROM AD_Field "
 			+ "WHERE AD_Tab_ID=(SELECT MIN(AD_Tab_ID) FROM AD_Tab WHERE AD_Table_ID=?)"
 			+ " AND IsEncrypted='N' AND ObscureType IS NULL "
+			+ " AND AD_Column_ID NOT IN (SELECT pfi.AD_Column_ID FROM AD_PrintFormatItem pfi WHERE pfi.AD_PrintFormat_ID=? AND pfi.AD_Column_ID IS NOT NULL) "
 			+ "ORDER BY COALESCE(IsDisplayed,'N') DESC, SortNo, SeqNo, Name";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -604,6 +605,7 @@ public class MPrintFormat extends X_AD_PrintFormat
 		{
 			pstmt = DB.prepareStatement(sql, format.get_TrxName());
 			pstmt.setInt(1, format.getAD_Table_ID());
+			pstmt.setInt(2, format.getAD_PrintFormat_ID());
 			rs = pstmt.executeQuery();
 			int seqNo = 1;
 			while (rs.next())
@@ -631,11 +633,13 @@ public class MPrintFormat extends X_AD_PrintFormat
 			sql = "SELECT AD_Column_ID "
 				+ "FROM AD_Column "
 				+ "WHERE AD_Table_ID=? "
+				+ " AND AD_Column_ID NOT IN (SELECT pfi.AD_Column_ID FROM AD_PrintFormatItem pfi WHERE pfi.AD_PrintFormat_ID=? AND pfi.AD_Column_ID IS NOT NULL) "
 				+ "ORDER BY IsIdentifier DESC, SeqNo, Name";
 			try
 			{
 				pstmt = DB.prepareStatement(sql, format.get_TrxName());
 				pstmt.setInt(1, format.getAD_Table_ID());
+				pstmt.setInt(2, format.getAD_PrintFormat_ID());
 				rs = pstmt.executeQuery();
 				int seqNo = 1;
 				while (rs.next())

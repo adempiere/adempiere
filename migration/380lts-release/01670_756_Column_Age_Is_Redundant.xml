@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Column Age is Rounded #756" ReleaseNo="3.8.0" SeqNo="1670">
+  <Migration EntityType="D" Name="Column Age is Rounded #756" ReleaseNo="3.9.0" SeqNo="1670">
     <Comments>See: https://github.com/adempiere/adempiere/issues/756</Comments>
     <Step SeqNo="20" StepType="AD">
       <PO AD_Table_ID="127" Action="D" Record_ID="71346" Table="AD_Field_Trl">

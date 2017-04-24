@@ -144,6 +144,8 @@ import org.eevolution.form.VBrowser;
  * 		@see FR [ 592 ] Delete Selection dialog is not MVC</a>
  * 		<a href="https://github.com/adempiere/adempiere/issues/611">
  * 		@see BR [ 611 ] Error dialog is showed and lost focus from window</a>
+ *		<a href="https://github.com/adempiere/adempiere/issues/990">
+ * 		@see FR [ 990 ] Sort Tab is not MVC</a>
  *  @sponsor www.metas.de
  */
 public final class APanel extends CPanel
@@ -307,7 +309,7 @@ public final class APanel extends CPanel
 							aNew, aCopy, aDelete, aPrint, aPrintPreview,
 							aExport = null,
 							aRefresh, aHistory, aAttachment, aChat, aMulti, aFind,
-							aWorkflow, aZoomAcross, aRequest, aWinSize, aArchive;
+							aWorkflow, aZoomAcross, aRequest, aProcess, aWinSize, aArchive;
 	/** Ignore Button		*/
 	public AppsAction		aIgnore;
 	/** Save Button			*/
@@ -443,6 +445,8 @@ public final class APanel extends CPanel
 		mGo.addSeparator();
 		aZoomAcross = addAction("ZoomAcross",	mGo, 	null,	false);
 		aRequest =  addAction("Request",		mGo, 	null,	false);
+		//	should be evaluated by window instead table
+		aProcess = AProcess.createAppsAction(this);
 		aArchive =  addAction("Archive",		mGo, 	null,	false);
 		aHome =		addAction("Home", 			mGo,	null,	false);
 		//								Tools
@@ -523,7 +527,7 @@ public final class APanel extends CPanel
 			if (aWorkflow != null)
 				toolBar.add(aWorkflow.getButton());
 			toolBar.add(aRequest.getButton());
-			toolBar.add(AProcess.createAppsAction(this).getButton());
+			toolBar.add(aProcess.getButton());
 			if (MRole.getDefault().isAllow_Info_Product())
 			{
 				toolBar.add(aProduct.getButton());
@@ -1575,12 +1579,23 @@ public final class APanel extends CPanel
 			aMulti.setPressed(false);
 			aMulti.setEnabled(false);
 			aNew.setEnabled(false);
+			aCopy.setEnabled(false);
+			aReport.setEnabled(false);
+			aPrint.setEnabled(false);
+			aPrintPreview.setEnabled(false);
+			aArchive.setEnabled(false);
+			aWorkflow.setEnabled(false);
+			aRequest.setEnabled(false);
+			aProcess.setEnabled(false);
+			aProduct.setEnabled(false);
+			aZoomAcross.setEnabled(false);
 			aDelete.setEnabled(false);
 			aDeleteSelection.setEnabled(false);
 			aFind.setEnabled(false);
 			aRefresh.setEnabled(false);
 			aAttachment.setEnabled(false);
 			aChat.setEnabled(false);
+			aHistory.setEnabled(false);
 		}
 		else	//	Grid Tab
 		{
@@ -1590,6 +1605,14 @@ public final class APanel extends CPanel
 			aRefresh.setEnabled(true);
 			aAttachment.setEnabled(true);
 			aChat.setEnabled(true);
+			//	
+			aReport.setEnabled(true);
+			aArchive.setEnabled(true);
+			aWorkflow.setEnabled(true);
+			aRequest.setEnabled(true);
+			aProcess.setEnabled(true);
+			aProduct.setEnabled(true);
+			aZoomAcross.setEnabled(true);
 		}
 		//
 		m_curWinTab.requestFocusInWindow();

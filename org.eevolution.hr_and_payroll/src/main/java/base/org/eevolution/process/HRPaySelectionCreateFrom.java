@@ -69,10 +69,11 @@ public class HRPaySelectionCreateFrom extends HRPaySelectionCreateFromAbstract {
 
         StringBuilder where = new StringBuilder();
         where.append(MHRMovement.COLUMNNAME_HR_Process_ID).append("=?");
-        where.append(" AND HR_Concept_ID IN(SELECT HR_Concept_ID FROM HR_Concept WHERE IsPaid=?)");    // Only Concept isPaid
-        where.append(" AND HR_Movement_ID NOT IN(SELECT HR_Movement_ID " + // Not Exist in PaySelection Process or PaySelection Actual
+        where.append(" AND EXISTS(SELECT 1 FROM HR_Concept WHERE HR_Concept_ID = HR_Movement.HR_Concept_ID AND IsPaid=?)");    // Only Concept isPaid
+        where.append(" AND NOT EXISTS(SELECT 1 " + // Not Exist in PaySelection Process or PaySelection Actual
                 " FROM HR_PaySelectionLine " +
-                " WHERE HR_PaySelectionCheck_ID > 0 OR HR_PaySelection_ID=?)");
+                " WHERE HR_Movement_ID = HR_Movement.HR_Movement_ID" + 
+                " AND HR_PaySelectionCheck_ID > 0 OR HR_PaySelection_ID=?)");
         if (getBusinessPartnerGroupId() > 0) {
             where.append(" AND ").append(MHRMovement.COLUMNNAME_C_BP_Group_ID).append("=?");
             parameters.add(getBusinessPartnerGroupId());
@@ -86,7 +87,7 @@ public class HRPaySelectionCreateFrom extends HRPaySelectionCreateFromAbstract {
             parameters.add(getBusinessPartnerId());
         }
         if (getPaymentRule() != null) {
-            where.append(" AND ").append(MHRMovement.COLUMNNAME_PaymentRule).append("=?");
+            where.append(" AND EXISTS(SELECT 1 FROM HR_Employee WHERE HR_Employee_ID = HR_Movement.HR_Employee_ID AND PaymentRule=?)");
             parameters.add(getPaymentRule());
         }
         if (getGlobalPayrollConceptId() > 0) {
@@ -126,7 +127,7 @@ public class HRPaySelectionCreateFrom extends HRPaySelectionCreateFromAbstract {
             paySelectionLine.setOpenAmt(movement.getAmount().setScale(2, BigDecimal.ROUND_HALF_DOWN));
             paySelectionLine.setPayAmt(movement.getAmount().setScale(2, BigDecimal.ROUND_HALF_DOWN));
             paySelectionLine.setDescription(partner.getName() + " " + partner.getName2());
-            paySelectionLine.setDifferenceAmt(BigDecimal.ZERO.ZERO);
+            paySelectionLine.setDifferenceAmt(BigDecimal.ZERO);
             paySelectionLine.setDiscountAmt(BigDecimal.ZERO);
             paySelectionLine.setIsManual(false);
             paySelectionLine.setIsSOTrx(false);

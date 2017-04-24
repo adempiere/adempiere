@@ -33,7 +33,7 @@ import org.compiere.util.Trx;
  * 		<li>BR [ 237 ] Same Print format but distinct report view
  * 			@see https://github.com/adempiere/adempiere/issues/237
  */
-public class SynchronizeTerminology extends SvrProcess
+public class SynchronizeTerminology extends SynchronizeTerminologyAbstract
 {
 	/**	Static Logger	*/
 	private static CLogger	s_log	= CLogger.getCLogger (SynchronizeTerminology.class);
@@ -43,6 +43,7 @@ public class SynchronizeTerminology extends SvrProcess
 	 */
 	protected void prepare()
 	{
+		super.prepare();
 	}	//	prepare
 
 	/**
@@ -57,55 +58,59 @@ public class SynchronizeTerminology extends SvrProcess
 		try {
 			int no;
 			Trx trx = Trx.get(get_TrxName(), false);
-			// Create Elements from ColumnNames
-			sql="SELECT DISTINCT ColumnName, Name, Description, Help, EntityType "
-				+"FROM	AD_COLUMN c WHERE NOT EXISTS "
-				+"(SELECT 1 FROM AD_ELEMENT e "
-				+" WHERE UPPER(c.ColumnName)=UPPER(e.ColumnName))"
-				+" AND c.isActive = 'Y'";
-			PreparedStatement pstmt = DB.prepareStatement(sql, get_TrxName());
-			ResultSet rs = pstmt.executeQuery ();
-			while (rs.next()){
-				String columnName = rs.getString(1);
-				String name = rs.getString(2);
-				String desc = rs.getString(3);
-				String help =rs.getString(4);
-				String entityType=rs.getString(5);
-				M_Element elem = new M_Element(getCtx(),columnName,entityType,get_TrxName());
-				elem.setDescription(desc);
-				elem.setHelp(help);
-				elem.setPrintName(name);
-				elem.saveEx();
+			if (isCreateElementsfromColumnOrParameters()) {
+				// Create Elements from ColumnNames
+				sql = "SELECT DISTINCT ColumnName, Name, Description, Help, EntityType "
+						+ "FROM	AD_COLUMN c WHERE NOT EXISTS "
+						+ "(SELECT 1 FROM AD_ELEMENT e "
+						+ " WHERE UPPER(c.ColumnName)=UPPER(e.ColumnName))"
+						+ " AND c.isActive = 'Y'";
+				PreparedStatement pstmt = DB.prepareStatement(sql, get_TrxName());
+				ResultSet rs = pstmt.executeQuery();
+				while (rs.next()) {
+					String columnName = rs.getString(1);
+					String name = rs.getString(2);
+					String desc = rs.getString(3);
+					String help = rs.getString(4);
+					String entityType = rs.getString(5);
+					M_Element elem = new M_Element(getCtx(), columnName, entityType, get_TrxName());
+					elem.setDescription(desc);
+					elem.setHelp(help);
+					elem.setPrintName(name);
+					elem.saveEx();
+				}
+				pstmt.close();
+				rs.close();
+				trx.commit(true);
+				// Create Elements for Process Parameters which are centrally maintained
+				sql = "SELECT DISTINCT ColumnName, Name, Description, Help, EntityType "
+						+ " FROM	AD_PROCESS_PARA p "
+						+ " WHERE NOT EXISTS "
+						+ " (SELECT 1 FROM AD_ELEMENT e "
+						+ " WHERE UPPER(p.ColumnName)=UPPER(e.ColumnName))"
+						+ " AND p.isCentrallyMaintained = 'Y'"
+						+ " AND p.isActive = 'Y'";
+				pstmt = DB.prepareStatement(sql, get_TrxName());
+				rs = pstmt.executeQuery();
+				while (rs.next()) {
+					String columnName = rs.getString(1);
+					String name = rs.getString(2);
+					String desc = rs.getString(3);
+					String help = rs.getString(4);
+					String entityType = rs.getString(5);
+					//TODO AD_SEQ system !!!
+					M_Element elem = new M_Element(getCtx(), columnName, entityType, get_TrxName());
+					elem.setDescription(desc);
+					elem.setHelp(help);
+					elem.setPrintName(name);
+					elem.saveEx();
+				}
+				pstmt.close();
+				rs.close();
+				trx.commit(true);
 			}
-			pstmt.close();
-			rs.close();
-			trx.commit(true);
-			// Create Elements for Process Parameters which are centrally maintained
-			sql="SELECT DISTINCT ColumnName, Name, Description, Help, EntityType "
-				+" FROM	AD_PROCESS_PARA p "
-				+" WHERE NOT EXISTS "
-				+" (SELECT 1 FROM AD_ELEMENT e "
-				+" WHERE UPPER(p.ColumnName)=UPPER(e.ColumnName))"
-				+" AND p.isCentrallyMaintained = 'Y'"
-				+" AND p.isActive = 'Y'";
-			pstmt = DB.prepareStatement(sql, get_TrxName());
-			rs = pstmt.executeQuery ();
-			while (rs.next()){
-				String columnName = rs.getString(1);
-				String name = rs.getString(2);
-				String desc = rs.getString(3);
-				String help =rs.getString(4);
-				String entityType=rs.getString(5);
-				//TODO AD_SEQ system !!!
-				M_Element elem = new M_Element(getCtx(),columnName,entityType,get_TrxName());
-				elem.setDescription(desc);
-				elem.setHelp(help);
-				elem.setPrintName(name);
-				elem.saveEx();
-			}
-			pstmt.close();
-			rs.close();
-			trx.commit(true);
+
+
 			log.info("Adding missing Element Translations");
 			sql="INSERT INTO AD_ELEMENT_TRL (AD_Element_ID, AD_LANGUAGE, AD_Client_ID, AD_Org_ID,"
 				+" IsActive, Created, CreatedBy, Updated, UpdatedBy,"
@@ -131,26 +136,29 @@ public class SynchronizeTerminology extends SvrProcess
 			log.info("  rows updated: "+no);
 			trx.commit(true);
 
-			log.info("Deleting unused Elements");
-			sql="DELETE	AD_ELEMENT_TRL"
-				+" 	WHERE	AD_Element_ID IN"
-				+" 	(SELECT AD_Element_ID FROM AD_ELEMENT e "
-				+" 	WHERE NOT EXISTS"
-				+" 	(SELECT 1 FROM AD_COLUMN c WHERE UPPER(e.ColumnName)=UPPER(c.ColumnName))"
-				+" 	AND NOT EXISTS"
-				+" 	(SELECT 1 FROM AD_PROCESS_PARA p WHERE UPPER(e.ColumnName)=UPPER(p.ColumnName)))";
-			no = DB.executeUpdate(sql, false, get_TrxName());	  	
-			log.info("  rows deleted: "+no);
-			trx.commit(true);
+			if (isDeletingUnusedElements()) {
+				log.info("Deleting unused Elements");
+				sql = "DELETE	AD_ELEMENT_TRL"
+						+ " 	WHERE	AD_Element_ID IN"
+						+ " 	(SELECT AD_Element_ID FROM AD_ELEMENT e "
+						+ " 	WHERE NOT EXISTS"
+						+ " 	(SELECT 1 FROM AD_COLUMN c WHERE UPPER(e.ColumnName)=UPPER(c.ColumnName))"
+						+ " 	AND NOT EXISTS"
+						+ " 	(SELECT 1 FROM AD_PROCESS_PARA p WHERE UPPER(e.ColumnName)=UPPER(p.ColumnName)))";
+				no = DB.executeUpdate(sql, false, get_TrxName());
+				log.info("  rows deleted: " + no);
+				trx.commit(true);
 
-			sql="DELETE	AD_ELEMENT e"
-				+" 	WHERE AD_Element_ID >= 1000000 AND NOT EXISTS"
-				+" 	(SELECT 1 FROM AD_COLUMN c WHERE UPPER(e.ColumnName)=UPPER(c.ColumnName))"
-				+" 	AND NOT EXISTS"
-				+" 	(SELECT 1 FROM AD_PROCESS_PARA p WHERE UPPER(e.ColumnName)=UPPER(p.ColumnName))";
-			no = DB.executeUpdate(sql, false, get_TrxName());	  	
-			log.info("  rows deleted: "+no);
-			trx.commit(true);
+
+				sql = "DELETE	AD_ELEMENT e"
+						+ " 	WHERE AD_Element_ID >= 1000000 AND NOT EXISTS"
+						+ " 	(SELECT 1 FROM AD_COLUMN c WHERE UPPER(e.ColumnName)=UPPER(c.ColumnName))"
+						+ " 	AND NOT EXISTS"
+						+ " 	(SELECT 1 FROM AD_PROCESS_PARA p WHERE UPPER(e.ColumnName)=UPPER(p.ColumnName))";
+				no = DB.executeUpdate(sql, false, get_TrxName());
+				log.info("  rows deleted: " + no);
+				trx.commit(true);
+			}
 
 			//	Columns
 			log.info("Synchronize Column");
@@ -881,7 +889,7 @@ public class SynchronizeTerminology extends SvrProcess
 					+" 				FROM AD_Table tt "
 					+"				INNER JOIN AD_ReportView rv ON(rv.AD_Table_ID = tt.AD_Table_ID) "
 					+"				WHERE rv.AD_ReportView_ID = rvt.AD_ReportView_ID "
-					+" 				AND tt.Name <> COALESCE(rvt.PrintName, '')"
+					+" 				AND tt.Name <> COALESCE(rvt.PrintName, NULL)"
 					+"				AND rv.IsCentrallyMaintained = 'Y') ";
 			no = DB.executeUpdate(sql, false, get_TrxName());	  	
 			log.info("  trl rows updated: "+no);
@@ -900,7 +908,7 @@ public class SynchronizeTerminology extends SvrProcess
 					+"				INNER JOIN AD_Table_Trl tt ON(tt.AD_Table_ID = t.AD_Table_ID)"
 					+"				INNER JOIN AD_ReportView rv ON(rv.AD_Table_ID = tt.AD_Table_ID)"
 					+"				LEFT JOIN AD_Element e ON(SUBSTR(t.TableName, 1, LENGTH(t.TableName) - 4) || '_ID' = e.ColumnName)"
-					+"				LEFT JOIN AD_Element_Trl et ON(et.AD_Element_ID = e.AD_Element_ID AND et.AD_Language = rvt.AD_Language)"
+					+"				LEFT JOIN AD_Element_Trl et ON(et.AD_Element_ID = e.AD_Element_ID AND et.AD_Language = tt.AD_Language)"
 					+"				WHERE rv.AD_ReportView_ID = rvt.AD_ReportView_ID"
 					+"				AND tt.AD_Language = rvt.AD_Language"
 					+"), "
@@ -909,7 +917,7 @@ public class SynchronizeTerminology extends SvrProcess
 					+"				INNER JOIN AD_Table_Trl tt ON(tt.AD_Table_ID = t.AD_Table_ID)"
 					+"				INNER JOIN AD_ReportView rv ON(rv.AD_Table_ID = tt.AD_Table_ID)"
 					+"				LEFT JOIN AD_Element e ON(SUBSTR(t.TableName, 1, LENGTH(t.TableName) - 4) || '_ID' = e.ColumnName)"
-					+"				LEFT JOIN AD_Element_Trl et ON(et.AD_Element_ID = e.AD_Element_ID AND et.AD_Language = rvt.AD_Language)"
+					+"				LEFT JOIN AD_Element_Trl et ON(et.AD_Element_ID = e.AD_Element_ID AND et.AD_Language = tt.AD_Language)"
 					+"				WHERE rv.AD_ReportView_ID = rvt.AD_ReportView_ID"
 					+"				AND tt.AD_Language = rvt.AD_Language"
 					+")"

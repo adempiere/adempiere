@@ -46,7 +46,7 @@
           <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/ant-launcher.jar!/" />
           <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/ant.jar!/" />
           <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/barbecue-1.5-beta1.jar!/" />
-          <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/bsh-2.0b5.jar!/" />
+          <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/bsh-2.0b6.jar!/" />
           <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/bsh-engine.jar!/" />
           <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/c3p0-0.9.1.2.jar!/" />
           <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/c3p0-oracle-thin-extras-0.9.1.2.jar!/" />
@@ -57,7 +57,7 @@
           <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/commons-logging.jar!/" />
           <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/commons-net-1.4.0.jar!/" />
           <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/cron4j-2.2.1.jar!/" />
-          <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/groovy-all-2.0.1.jar!/" />
+          <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/groovy-all-2.4.7.jar!/" />
           <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/groovy-engine.jar!/" />
           <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/iText-2.1.7.jar!/" />
           <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/javaee.jar!/" />

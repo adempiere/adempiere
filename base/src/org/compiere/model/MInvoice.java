@@ -898,7 +898,7 @@ public class MInvoice extends X_C_Invoice implements DocAction
 		if (getC_BPartner_ID() == 0)
 			setBPartner(MBPartner.getTemplate(getCtx(), getAD_Client_ID()));
 		if (getC_BPartner_Location_ID() == 0)
-			setBPartner(new MBPartner(getCtx(), getC_BPartner_ID(), null));
+			setBPartner(new MBPartner(getCtx(), getC_BPartner_ID(), get_TrxName()));
 
 		//	Price List
 		if (getM_PriceList_ID() == 0)
@@ -1622,11 +1622,13 @@ public class MInvoice extends X_C_Invoice implements DocAction
   		//	Create Cash
 		if (PAYMENTRULE_Cash.equals(getPaymentRule()) && !fromPOS )
 		{
-			// Modifications for POSterita
-            //
-            //    MCash cash = MCash.get (getCtx(), getAD_Org_ID(),
-            //    getDateInvoiced(), getC_Currency_ID(), get_TrxName());
-
+			if (MSysConfig.getBooleanValue("CASH_AS_PAYMENT", true , getAD_Client_ID()))
+			{
+				String error = payCashWithCashAsPayment();
+				if (error != "")
+					return error;
+			}
+			
 			MCash cash;
 
             int posId = Env.getContextAsInt(getCtx(),Env.POS_ID);
@@ -2381,5 +2383,33 @@ public class MInvoice extends X_C_Invoice implements DocAction
 			|| DOCSTATUS_Closed.equals(ds)
 			|| DOCSTATUS_Reversed.equals(ds);
 	}	//	isComplete
+	
+	private String payCashWithCashAsPayment()
+	{
+
+		MDocType dt = (MDocType)getC_Order().getC_DocType();
+		MPayment paymentCash = new MPayment(getCtx(), 0 ,  get_TrxName());
+		paymentCash.setC_BankAccount_ID(dt.get_ValueAsInt("C_BankAccount_ID"));
+		paymentCash.setC_DocType_ID(true);
+        String value = DB.getDocumentNo(paymentCash.getC_DocType_ID(),get_TrxName(), false,  paymentCash);
+        paymentCash.setDocumentNo(value);
+        paymentCash.setDateAcct(getDateAcct());
+        paymentCash.setDateTrx(getDateInvoiced());
+        paymentCash.setTenderType(MPayment.TENDERTYPE_Cash);
+        paymentCash.setDescription(getDescription());
+        paymentCash.setC_BPartner_ID (getC_BPartner_ID());
+        paymentCash.setC_Currency_ID(getC_Currency_ID());
+        paymentCash.setPayAmt(getGrandTotal());
+        paymentCash.setOverUnderAmt(Env.ZERO);
+        paymentCash.setC_Invoice_ID(getC_Invoice_ID());
+		paymentCash.saveEx();
+		if (!paymentCash.processIt("CO"))
+			return DOCSTATUS_Invalid;
+		paymentCash.saveEx();
+		MBankStatement.addPayment(paymentCash);
+		return "";
+	}
+
+
 
 }	//	MInvoice

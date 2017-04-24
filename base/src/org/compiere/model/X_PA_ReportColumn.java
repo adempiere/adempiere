@@ -1,8 +1,9 @@
 /******************************************************************************
  * Product: ADempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 2006-2016 ADempiere Foundation, All Rights Reserved.         *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -31,7 +32,7 @@ public class X_PA_ReportColumn extends PO implements I_PA_ReportColumn, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20161103L;
+	private static final long serialVersionUID = 20170407L;
 
     /** Standard Constructor */
     public X_PA_ReportColumn (Properties ctx, int PA_ReportColumn_ID, String trxName)
@@ -584,6 +585,30 @@ public class X_PA_ReportColumn extends PO implements I_PA_ReportColumn, I_Persis
 	public boolean isAdhocConversion () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsAdhocConversion);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Allow Opposite Sign.
+		@param IsAllowOppositeSign 
+		Allow column values to be displayed with the opposite sign
+	  */
+	public void setIsAllowOppositeSign (boolean IsAllowOppositeSign)
+	{
+		set_Value (COLUMNNAME_IsAllowOppositeSign, Boolean.valueOf(IsAllowOppositeSign));
+	}
+
+	/** Get Allow Opposite Sign.
+		@return Allow column values to be displayed with the opposite sign
+	  */
+	public boolean isAllowOppositeSign () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsAllowOppositeSign);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 
@@ -1289,6 +1314,26 @@ public class X_PA_ReportColumn extends PO implements I_PA_ReportColumn, I_Persis
 	public BigDecimal getRelativePeriod () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_RelativePeriod);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Relative Period To.
+		@param RelativePeriodTo 
+		Period offset (0 is current)
+	  */
+	public void setRelativePeriodTo (BigDecimal RelativePeriodTo)
+	{
+		set_Value (COLUMNNAME_RelativePeriodTo, RelativePeriodTo);
+	}
+
+	/** Get Relative Period To.
+		@return Period offset (0 is current)
+	  */
+	public BigDecimal getRelativePeriodTo () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_RelativePeriodTo);
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;

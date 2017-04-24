@@ -409,7 +409,8 @@ public class MProduction extends X_M_Production implements DocAction {
 		if (m_processMsg != null)
 			return DocAction.STATUS_Invalid;
 		//	Create Lines
-		createLines();
+		if (!isReversal())
+			createLines();
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_PREPARE);
 		if (m_processMsg != null)
 			return DocAction.STATUS_Invalid;
@@ -1088,6 +1089,7 @@ public class MProduction extends X_M_Production implements DocAction {
 			return;
 		isBOM(getM_Product_ID());
 		//	Recalculate
+		
 		recalculate();
 		// Check batch having production planned Qty.
 		BigDecimal cntQty = Env.ZERO;
@@ -1248,8 +1250,12 @@ public class MProduction extends X_M_Production implements DocAction {
 		MAcctSchema as = MClient.get(getCtx()).getAcctSchema();
 		MCostType ct = MCostType.getByMethodCosting(as, as.getCostingMethod());
 		String costingLevel = product.getCostingLevel(as);
+		if (!as.getM_CostType().getCostingMethod().equals(MCostType.COSTINGMETHOD_StandardCosting))
+			return "";
 		int AD_Org_ID = costingLevel.equals(MAcctSchema.COSTINGLEVEL_Organization)?getAD_Org_ID():0;
 		int M_Warehouse_ID = costingLevel.equals(MAcctSchema.COSTINGLEVEL_Warehouse)?getM_Locator().getM_Warehouse_ID():0;
+		if (!as.getM_CostType().getCostingMethod().equals(MCostType.COSTINGMETHOD_StandardCosting))
+			return "";
 		ProcessInfo processInfo = ProcessBuilder.create(getCtx())
 				//.process(RollupBillOfMaterial.getProcessId())
 				.process(53062)

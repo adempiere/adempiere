@@ -357,7 +357,7 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="584" Column="Created">2016-04-22 16:11:03.407</Data>
         <Data AD_Column_ID="585" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="189" Column="Description" isNewNull="true"/>
-        <Data AD_Column_ID="7715" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7715" Column="EntityType">D</Data>
         <Data AD_Column_ID="583" Column="IsActive">true</Data>
         <Data AD_Column_ID="188" Column="Name">C_BankAccount_ID To for POS Terminal</Data>
         <Data AD_Column_ID="192" Column="Type">S</Data>

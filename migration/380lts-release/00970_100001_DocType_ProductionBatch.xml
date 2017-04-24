@@ -3,7 +3,7 @@
   <Migration EntityType="D" Name="DocType Production Batch" ReleaseNo="3.9.0" SeqNo="00970">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="108" Action="I" Record_ID="300000" Table="AD_Val_Rule">
-        <Data AD_Column_ID="7715" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7715" Column="EntityType">D</Data>
         <Data AD_Column_ID="387" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="388" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="187" Column="AD_Val_Rule_ID">300000</Data>

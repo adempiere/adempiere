@@ -1,8 +1,9 @@
 /******************************************************************************
  * Product: ADempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 2006-2016 ADempiere Foundation, All Rights Reserved.         *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -563,6 +564,15 @@ public interface I_C_OrderLine
 	public int getPP_Cost_Collector_ID();
 
 	public org.eevolution.model.I_PP_Cost_Collector getPP_Cost_Collector() throws RuntimeException;
+
+    /** Column name PickedQty */
+    public static final String COLUMNNAME_PickedQty = "PickedQty";
+
+	/** Set Picked Qty	  */
+	public void setPickedQty (BigDecimal PickedQty);
+
+	/** Get Picked Qty	  */
+	public BigDecimal getPickedQty();
 
     /** Column name PriceActual */
     public static final String COLUMNNAME_PriceActual = "PriceActual";

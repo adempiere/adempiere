@@ -276,7 +276,6 @@ public class VBrowserTable extends CTable implements IBrowserTable {
                 field.setName("#");
             }
 
-
             sql.append(columnView.getColumnSQL())
                     .append(" ")
                     .append("AS")
@@ -298,7 +297,8 @@ public class VBrowserTable extends CTable implements IBrowserTable {
                         MBrowseField.createGridFieldVO(field, browser.getWindowNo()),
                         field.getAD_Reference_ID(),
                         field.isReadOnly(),
-                        field.get_ValueAsString(I_AD_Browse_Field.COLUMNNAME_Name));
+                    	//	#845 Bad translation for table column
+                        field.get_Translation(I_AD_Browse_Field.COLUMNNAME_Name));
                 col++;
             }
         }

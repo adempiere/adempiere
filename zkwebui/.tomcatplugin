@@ -26,11 +26,11 @@
         <webClassPathEntry>/tools/lib/activation.jar</webClassPathEntry>
         <webClassPathEntry>/tools/lib/ant.jar</webClassPathEntry>
         <webClassPathEntry>/tools/lib/barbecue-1.1.jar</webClassPathEntry>
-        <webClassPathEntry>/tools/lib/bsh-2.0b5.jar</webClassPathEntry>
+        <webClassPathEntry>/tools/lib/bsh-2.0b6.jar</webClassPathEntry>
         <webClassPathEntry>/tools/lib/bsh-engine.jar</webClassPathEntry>
         <webClassPathEntry>/tools/lib/c3p0-0.9.1.2.jar</webClassPathEntry>
         <webClassPathEntry>/tools/lib/commons-net-1.4.0.jar</webClassPathEntry>
-        <webClassPathEntry>/tools/lib/groovy-all-1.5.1.jar</webClassPathEntry>
+        <webClassPathEntry>/tools/lib/groovy-all-2.4.7.jar</webClassPathEntry>
         <webClassPathEntry>/tools/lib/groovy-engine.jar</webClassPathEntry>
         <webClassPathEntry>/tools/lib/iText-2.1.7.jar</webClassPathEntry>
         <webClassPathEntry>/tools/lib/jcommon-1.0.5.jar</webClassPathEntry>

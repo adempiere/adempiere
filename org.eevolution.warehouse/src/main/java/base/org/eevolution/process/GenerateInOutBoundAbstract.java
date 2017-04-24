@@ -20,7 +20,7 @@ import java.sql.Timestamp;
 import org.compiere.process.SvrProcess;
 /** Generated Process for (Generare Outbound Order)
  *  @author ADempiere (generated) 
- *  @version Release 3.8.0
+ *  @version Release 3.9.0
  */
 public abstract class GenerateInOutBoundAbstract extends SvrProcess
 {
@@ -33,8 +33,6 @@ public abstract class GenerateInOutBoundAbstract extends SvrProcess
  
 	/**	Parameter Name for POReference	*/
 	public static final String POReference = "POReference";
-	/**	Parameter Name for WM_Section_Type_ID	*/
-	public static final String WM_Section_Type_ID = "WM_Section_Type_ID";
 	/**	Parameter Name for M_Locator_ID	*/
 	public static final String M_Locator_ID = "M_Locator_ID";
 	/**	Parameter Name for DeliveryRule	*/
@@ -60,8 +58,6 @@ public abstract class GenerateInOutBoundAbstract extends SvrProcess
 
 	/**	Parameter Value for orderReference	*/
 	private String orderReference;
-	/**	Parameter Value for sourceWarehouseSectionTypeId	*/
-	private int sourceWarehouseSectionTypeId;
 	/**	Parameter Value for locatorId	*/
 	private int locatorId;
 	/**	Parameter Value for deliveryRule	*/
@@ -90,7 +86,6 @@ public abstract class GenerateInOutBoundAbstract extends SvrProcess
 	protected void prepare()
 	{
 		orderReference = getParameterAsString(POReference);
-		sourceWarehouseSectionTypeId = getParameterAsInt(WM_Section_Type_ID);
 		locatorId = getParameterAsInt(M_Locator_ID);
 		deliveryRule = getParameterAsString(DeliveryRule);
 		documentTypeId = getParameterAsInt(C_DocType_ID);
@@ -107,11 +102,6 @@ public abstract class GenerateInOutBoundAbstract extends SvrProcess
 	/**	 Getter Parameter Value for orderReference	*/
 	protected String getOrderReference() {
 		return orderReference;
-	}
-
-	/**	 Getter Parameter Value for sourceWarehouseSectionTypeId	*/
-	protected int getSourceWarehouseSectionTypeId() {
-		return sourceWarehouseSectionTypeId;
 	}
 
 	/**	 Getter Parameter Value for locatorId	*/
