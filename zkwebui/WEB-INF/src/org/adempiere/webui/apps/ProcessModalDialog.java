@@ -39,6 +39,8 @@ import org.compiere.util.Env;
  *		@see https://github.com/adempiere/adempiere/issues/265
  *		<a href="https://github.com/adempiere/adempiere/issues/571">
  * 		@see FR [ 571 ] Process Dialog is not MVC</a>
+ * @author Raul Muñoz, rMunoz@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> BR [ 1004 ] Bad size for processing dialog on ZK Web UI
  */
 public class ProcessModalDialog extends Window implements IZKProcessDialog {
 	/**
@@ -131,6 +133,7 @@ public class ProcessModalDialog extends Window implements IZKProcessDialog {
 			getFirstChild().setVisible(false);
 			setBorder("none");
 			setTitle(null);
+			setBorder("none");
 			setVisible(false);
 			appendChild(new BusyDialog());
 			processPanel.process();
@@ -144,15 +147,7 @@ public class ProcessModalDialog extends Window implements IZKProcessDialog {
 	 *  @return true, if there is something to process (start from menu)
 	 */
 	private boolean init() {
-		setAttribute("modal", true);
-		setBorder("normal");
-		setSizable(true);
-		setClosable(true);
-		setMaximizable(true);
-		setPosition("center");
-		setStyle("overflow: auto");
-		setWidth("70%");
-        setHeight("60%");
+
 		log.config("");
 		//	Move from APanel.actionButton
 		processInfo.setAD_User_ID (Env.getAD_User_ID(Env.getCtx()));
@@ -161,8 +156,25 @@ public class ProcessModalDialog extends Window implements IZKProcessDialog {
 		processPanel.setIsOnlyPanel(onlyPanel);
 		processPanel.setAutoStart(autoStart);
 		processPanel.init();
-		appendChild(processPanel.getPanel());
+		
 		setTitle(processPanel.getName());
+		//  BR [ 1004 ]
+		if(!autoStart) {
+			setAttribute("modal", true);
+			setBorder("normal");
+			setSizable(true);
+			setClosable(true);
+			setMaximizable(true);
+			setPosition("center");
+			setStyle("overflow: auto");
+			setWidth("500px");
+			setHeight("60%");
+			appendChild(processPanel.getPanel());
+		} else {
+			setTitle(null);
+			appendChild(new BusyDialog());
+			processPanel.process();
+		}
 		return true;
 	}	//	init
 	

@@ -122,7 +122,8 @@ import org.zkoss.zul.Menupopup;
  * 		@see FR [ 592 ] Delete Selection dialog is not MVC</a>
  * 		<a href="https://github.com/adempiere/adempiere/issues/990">
  * 		@see FR [ 990 ] Sort Tab is not MVC</a>
- *
+ * @author Raul Muñoz, rMunoz@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> BR [ 1004 ] Bad size for processing dialog on ZK Web UI
  */
 public abstract class AbstractADWindowPanel extends AbstractUIPart implements ToolbarListener,
         EventListener, DataStatusListener, ActionListener, ASyncProcess
@@ -2183,14 +2184,11 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		{
 			ProcessModalDialog dialog = new ProcessModalDialog(this, curWindowNo,
 					wButton.getProcess_ID(), table_ID, record_ID, startWOasking);
+			//	BR [ 1004 ]
+			dialog.setVisible(true);
+			dialog.setPosition("center");
+			AEnv.showWindow(dialog);
 
-			if (dialog.isValid())
-			{
-				dialog.setWidth("500px");
-				dialog.setVisible(true);
-				dialog.setPosition("center");
-				AEnv.showWindow(dialog);
-			}
 			//onRefresh(true); // Need to fire events to activate subordinate tabs.
 		}
 	} // actionButton
