@@ -78,6 +78,8 @@ import org.zkoss.zul.Html;
  *		@see https://github.com/adempiere/adempiere/issues/265
  *		<li>FR [ 298 ] Process Parameter Panel not set default value correctly into parameters
  *		@see https://github.com/adempiere/adempiere/issues/298
+ *  @author Raul Muñoz, rMunoz@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li>FR [ 299 ] Instance saved, is not supported for swing UI
  *	@author Michael Mckay michael.mckay@mckayerp.com
  *		<li>BF [ <a href="https://github.com/adempiere/adempiere/issues/495">495</a> ] Parameter Panel & SmartBrowser criteria do not set gridField value
  * 	@version 	2006-12-01
@@ -142,8 +144,7 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 	//saved paramaters
 
 	private Combobox fSavedName=new Combobox();
-	private Button bSave = new Button("Save");
-	private Button bDelete = new Button("Delete");
+	private Button bDelete = null;
 	private Label lSaved = new Label(Msg.getMsg(Env.getCtx(), "SavedParameter"));
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(ProcessPanel.class);
@@ -208,21 +209,6 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 			fSavedName.addEventListener(Events.ON_CHANGE, this);
 			hBox.appendChild(fSavedName);
 
-			bSave.setEnabled(false);
-			bSave.setImage("/images/Save24.png");
-			bSave.setSclass("action-button");
-			bSave.addActionListener(this);
-			hBox.appendChild(bSave);
-
-			bDelete.setEnabled(false);
-			bDelete.setImage("/images/Delete24.png");
-			bDelete.setSclass("action-button");
-			bDelete.addActionListener(this);
-			hBox.appendChild(bDelete);
-
-			row.appendChild(hBox);
-
-
 			Panel confParaPanel = new Panel();
 			confParaPanel.setAlign("right");
 			//	BR [ 300 ]
@@ -233,6 +219,9 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 				//	Set to Cancel
 				action = new WAppsAction(ConfirmPanel.A_CANCEL, null, ConfirmPanel.A_CANCEL);
 				bCancel = action.getButton();
+				//	Set Delete
+				action = new WAppsAction(ConfirmPanel.A_DELETE, null, ConfirmPanel.A_DELETE);
+				bDelete = action.getButton();
 				//	Add Listener
 				bOK.addEventListener(Events.ON_CLICK, this);
 				bCancel.addEventListener(Events.ON_CLICK, this);
@@ -242,6 +231,13 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 			} catch(Exception e) {
 				log.severe("Error loading Buttons " + e.getLocalizedMessage());
 			}
+			bDelete.setEnabled(false);
+			bDelete.setImage("/images/Delete24.png");
+			bDelete.setSclass("action-button");
+			bDelete.addActionListener(this);
+			hBox.appendChild(bDelete);
+
+			row.appendChild(hBox);
 			//	
 			row.appendChild(confParaPanel);
 			
@@ -258,6 +254,8 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 		mainPanel.appendChild(mainLayout);
 		mainPanel.setHeight("100%");
 		mainPanel.setWidth("100%");
+		//
+		loadQuerySaved();
 	}
 	
 	/**
@@ -411,7 +409,7 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 	 */
 	private void loadQuerySaved() {
 		//user query
-		List<MPInstance> savedParams = getSavedInstances(true);
+		List<MPInstance> savedParams = getSavedInstances(true);	
 		fSavedName.removeAllItems();
 		for (MPInstance instance : savedParams) {
 			String queries = instance.getName();
@@ -476,6 +474,7 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 
 	@Override
 	public void onEvent(Event event) throws Exception {
+		//	FR [ 299 ]
 		String saveName = null;
 		boolean lastRun = false;
 		if(fSavedName.getRawText() != null) {
@@ -487,7 +486,8 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 			setIsOkPressed(true);
 			if(isOnlyPanel()) {
 				//	check if saving parameters is complete
-				if (saveParameters() == null) {
+				//	FR [ 299 ]
+				if (saveOrUpdateParameters(saveName) == null) {
 					//	Save Parameters
 					dispose();
 				}
@@ -495,29 +495,11 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 				dispose();
 			} else {
 				//	BR [ 265 ]
-				process();
+					process(saveName);
 			}
 		} else if (event.getTarget().equals(bCancel)) {
 			dispose();
-		} else if(event.getTarget().equals(bSave) 
-				&& fSavedName != null && !lastRun) {
-			// Update existing
-			if (fSavedName.getSelectedIndex() > -1) {
-				String saveError = updateInstance(saveName);
-				if(saveError != null) {
-					FDialog.error(getWindowNo(), getPanel(), "Error", saveError);
-				}
-			} else {
-				//	create new
-				String saveError = createNewInstance(saveName);
-				if(saveError != null) {
-					FDialog.error(getWindowNo(), getPanel(), "Error", saveError);
-				}
-			}
-			//	
-			loadQuerySaved();
-			fSavedName.setSelectedItem(getComboItem(saveName));
-		} else if(event.getTarget().equals(bDelete) 
+		}  else if(event.getTarget().equals(bDelete) 
 				&& fSavedName != null && !lastRun) {
 			Object o = fSavedName.getSelectedItem();
 			if (o != null) {
@@ -530,11 +512,37 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 			//	Load saved parameters
 			loadParameters(saveName);
 			boolean enabled = !Util.isEmpty(saveName);
-			bSave.setEnabled(enabled && !lastRun);
 			bDelete.setEnabled(enabled && fSavedName.getSelectedIndex() > -1 && !lastRun);
 		}
 	}
 
+	/**
+	 * Save or Update Parameters 
+	 * @param saveName
+	 * @return 
+	 */
+	private String saveOrUpdateParameters(String saveName) {
+		String saveError = null;
+		boolean lastRun = ("** " + Msg.getMsg(Env.getCtx(), "LastRun") + " **").equals(saveName);
+		if(fSavedName != null && !lastRun) {
+			if (fSavedName.getSelectedIndex() > -1) {
+				saveError = updateInstance(saveName);
+				if(saveError != null) {
+					FDialog.error(getWindowNo(), getPanel(), "Error", saveError);
+				}
+			} else {
+				saveError = saveParameters(saveName);
+				if(saveError != null) {
+					FDialog.error(getWindowNo(), getPanel(), "Error", saveError);
+				}
+			}
+		} else {
+			saveError = saveParameters();
+		}
+			
+		return saveError;
+	}
+	
 	@Override
 	public void afterInit() {
 		//	BR [ 265 ]
@@ -554,15 +562,21 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 		if(!isAutoStart()) {
 			loadQuerySaved();
 		} else if(parent.getParentProcess() == null) {
-			process();
+			//process();
+			Events.postEvent("onClick", bOK, null);
 		}
+	}
+	
+	
+	public void process() {
+		process(null);
 	}
 	
 	/**
 	 * Save Parameters and process it
 	 */
-	public void process() {
-		if(saveParameters() == null) {
+	public void process(String saveName) {
+		if(saveOrUpdateParameters(saveName) == null) {
 			showBusyDialog();
 			Clients.response(new AuEcho((Component) parent.getParentContainer(), "runProcess", null));
 		}
