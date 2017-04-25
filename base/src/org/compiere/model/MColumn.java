@@ -315,7 +315,7 @@ public class MColumn extends X_AD_Column
 					MSequence sequence = new Query(getCtx(), MSequence.Table_Name, whereClause, get_TrxName())
 							.setParameters(client.getAD_Client_ID() , MSequence.PREFIX_DOCSEQ + tableName )
 							.first();
-					if (sequence.getAD_Sequence_ID() <= 0) {
+					if (sequence == null || sequence.getAD_Sequence_ID() <= 0) {
 						sequence = new MSequence(getCtx(), client.getAD_Client_ID(), tableName , get_TrxName());
 						sequence.saveEx();
 					}
