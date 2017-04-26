@@ -101,7 +101,7 @@ public class WAcctViewer extends Window implements EventListener
 	private static final int PAGE_SIZE = 1000;
 
 	/** State Info          */
-	private WAcctViewerData	m_data = null;
+	private WAcctViewerData accountViewerData = null;
 
 	private Listbox selAcctSchema = new Listbox();
 	private Listbox selTable = new Listbox();
@@ -127,6 +127,13 @@ public class WAcctViewer extends Window implements EventListener
 	private Button sel6 = new Button();
 	private Button sel7 = new Button();
 	private Button sel8 = new Button();
+	private Button sel9 = new Button();
+	private Button sel10 = new Button();
+	private Button sel11 = new Button();
+	private Button sel12 = new Button();
+	private Button sel13 = new Button();
+
+
 
 	private Label statusLine = new Label();
 	private Label lsel1 = new Label();
@@ -137,6 +144,12 @@ public class WAcctViewer extends Window implements EventListener
 	private Label lsel6 = new Label();
 	private Label lsel7 = new Label();
 	private Label lsel8 = new Label();
+	private Label lsel9 = new Label();
+	private Label lsel10 = new Label();
+	private Label lsel11 = new Label();
+	private Label lsel12 = new Label();
+	private Label lsel13 = new Label();
+
 
 	private Label lacctSchema = new Label();
 	private Label lpostingType = new Label();
@@ -177,10 +190,10 @@ public class WAcctViewer extends Window implements EventListener
 
 	private Hbox southPanel = new Hbox();
 
-	private int m_windowNo;
-	private boolean m_lookup;
+	private int windowNo;
+	private boolean isLookup;
 
-	private ArrayList<ArrayList<Object>> m_queryData;
+	private ArrayList<ArrayList<Object>> queryData;
 
 	private South pagingPanel;
 
@@ -201,40 +214,40 @@ public class WAcctViewer extends Window implements EventListener
 	/**
 	 *  Detail Constructor
 	 *
-	 *  @param AD_Client_ID Client
-	 *  @param AD_Table_ID Table
-	 *  @param Record_ID Record
+	 *  @param clientId Client
+	 *  @param tableId Table
+	 *  @param recordId Record
 	 */
 
-	public WAcctViewer(int AD_Client_ID, int AD_Table_ID, int Record_ID)
+	public WAcctViewer(int clientId, int tableId, int recordId)
 	{
-		this (AD_Client_ID, AD_Table_ID, Record_ID, false);	
+		this (clientId, tableId, recordId, false);
 	}
 	
 	/**
 	 *  Detail Constructor
 	 *
-	 *  @param AD_Client_ID Client
-	 *  @param AD_Table_ID Table
-	 *  @param Record_ID Record
+	 *  @param clientId Client
+	 *  @param tableId Table
+	 *  @param recordId Record
 	 *  @param isLookup - a flag, modal if true, non-modal if false
 	 */
 
-	public WAcctViewer(int AD_Client_ID, int AD_Table_ID, int Record_ID, Boolean isLookup)
+	public WAcctViewer(int clientId, int tableId, int recordId, Boolean isLookup)
 	{
 		super ();
 
-		log.info("AD_Table_ID=" + AD_Table_ID + ", Record_ID=" + Record_ID);
+		log.info("AD_Table_ID=" + tableId + ", Record_ID=" + recordId);
 
 		//setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		m_windowNo = SessionManager.getAppDesktop().registerWindow(this);
-		m_data = new WAcctViewerData (Env.getCtx(), m_windowNo, AD_Client_ID, AD_Table_ID);
-		m_lookup = isLookup;
+		windowNo = SessionManager.getAppDesktop().registerWindow(this);
+		accountViewerData = new WAcctViewerData (Env.getCtx(), windowNo, clientId, tableId);
+		this.isLookup = isLookup;
 
 		try
 		{
 			init();
-			dynInit (AD_Table_ID, Record_ID);
+			dynInit (tableId, recordId);
 			AEnv.showWindow(this);
 		}
 		catch(Exception e)
@@ -434,6 +447,45 @@ public class WAcctViewer extends Window implements EventListener
 		boxSel8.appendChild(lsel8);
 		boxSel8.appendChild(sel8);
 
+		Hbox boxSel9 = new Hbox();
+		boxSel9.setWidth("100%");
+		boxSel9.setWidths("30%, 70%");
+
+		boxSel9.appendChild(lsel9);
+		boxSel9.appendChild(sel9);
+
+
+
+		Hbox boxSel10 = new Hbox();
+		boxSel10.setWidth("100%");
+		boxSel10.setWidths("30%, 70%");
+
+		boxSel10.appendChild(lsel10);
+		boxSel10.appendChild(sel10);
+
+
+		Hbox boxSel11 = new Hbox();
+		boxSel11.setWidth("100%");
+		boxSel11.setWidths("30%, 70%");
+
+		boxSel11.appendChild(lsel11);
+		boxSel11.appendChild(sel11);
+
+
+		Hbox boxSel12 = new Hbox();
+		boxSel12.setWidth("100%");
+		boxSel12.setWidths("30%, 70%");
+
+		boxSel12.appendChild(lsel12);
+		boxSel12.appendChild(sel12);
+
+		Hbox boxSel13 = new Hbox();
+		boxSel13.setWidth("100%");
+		boxSel13.setWidths("30%, 70%");
+
+		boxSel13.appendChild(lsel13);
+		boxSel13.appendChild(sel13);
+
 		selectionPanel.setWidth("100%");
 		selectionPanel.appendChild(boxAcctSchema);
 		selectionPanel.appendChild(boxSelDoc);
@@ -449,11 +501,14 @@ public class WAcctViewer extends Window implements EventListener
 		selectionPanel.appendChild(boxSel6);
 		selectionPanel.appendChild(boxSel7);
 		selectionPanel.appendChild(boxSel8);
+		selectionPanel.appendChild(boxSel9);
+		selectionPanel.appendChild(boxSel10);
+		selectionPanel.appendChild(boxSel11);
+		selectionPanel.appendChild(boxSel12);
+		selectionPanel.appendChild(boxSel13);
 
-		//Display Panel
-
-			// Display Document Info
-
+		// Display Panel
+		// Display Document Info
 		displayDocumentInfo.setLabel(Util.cleanAmp(Msg.getMsg(Env.getCtx(), "DisplayDocumentInfo")));
 		displayDocumentInfo.addEventListener(Events.ON_CLICK, this);
 
@@ -662,31 +717,31 @@ public class WAcctViewer extends Window implements EventListener
 	/**
 	 *  Dynamic Init
 	 *
-	 *  @param AD_Table_ID table
-	 *  @param Record_ID record
+	 *  @param tableId table
+	 *  @param recordId record
 	 */
 
-	private void dynInit (int AD_Table_ID, int Record_ID)
+	private void dynInit (int tableId, int recordId)
 	{
-		m_data.fillAcctSchema(selAcctSchema );
+		accountViewerData.fillAcctSchema(selAcctSchema );
 		selAcctSchema.addEventListener(Events.ON_SELECT, this);
 
 		selAcctSchema.setSelectedIndex(0);
 		actionAcctSchema();
 
-		m_data.fillTable(selTable);
+		accountViewerData.fillTable(selTable);
 		selTable.addEventListener(Events.ON_SELECT, this);
 
 		selRecord.setImage("/images/Find16.png");
 		selRecord.addEventListener(Events.ON_CLICK, this);
 		selRecord.setLabel("");
 
-		m_data.fillPostingType(selPostingType);
+		accountViewerData.fillPostingType(selPostingType);
 		selPostingType.setSelectedIndex(0);
 
 		//  Mandatory Elements
 
-		m_data.fillOrg(selOrg);
+		accountViewerData.fillOrg(selOrg);
 		selAcct.setName("Account_ID");
 		selAcct.addEventListener(Events.ON_CLICK, this);
 		selAcct.setLabel("");
@@ -702,23 +757,23 @@ public class WAcctViewer extends Window implements EventListener
 		sortBy4.setSelectedIndex(0);
 
 		//  Document Select
-		boolean haveDoc = (AD_Table_ID != 0 && Record_ID != 0);
-		selDocument.setChecked(haveDoc);
+		boolean haveDocument = (tableId != 0 && recordId != 0);
+		selDocument.setChecked(haveDocument);
 		actionDocument();
 		actionTable();
 		statusLine.setText(" " + Msg.getMsg(Env.getCtx(), "ViewerOptions"));
 
 		//  Initial Query
-		if (haveDoc)
+		if (haveDocument)
 		{
-			m_data.AD_Table_ID = AD_Table_ID;
-			m_data.Record_ID = Record_ID;
+			accountViewerData.AD_Table_ID = tableId;
+			accountViewerData.Record_ID = recordId;
 			actionQuery();
 			String keyColumn = selRecord.getName();
 			String tableName = keyColumn.substring(0, keyColumn.length()-3);
-			String selectSQL = keyColumn + "=" + Record_ID;
-			m_data.buttonRecordID.put(keyColumn,Record_ID);
-			selRecord.setLabel(m_data.getButtonText(tableName, keyColumn, selectSQL));
+			String selectSQL = keyColumn + "=" + recordId;
+			accountViewerData.buttonRecordID.put(keyColumn,recordId);
+			selRecord.setLabel(accountViewerData.getButtonText(tableName, keyColumn, selectSQL));
 		}
 
 		if (tabResult.isSelected())
@@ -734,14 +789,13 @@ public class WAcctViewer extends Window implements EventListener
 
 	public void dispose()
 	{
-		m_data.dispose();
-		m_data = null;
+		accountViewerData.dispose();
+		accountViewerData = null;
 		this.detach();
 	} // dispose;
 
 	/**************************************************************************
 	 *  Tab Changed
-	 *  @param e ChangeEvent
 	 */
 
 	public void stateChanged()
@@ -749,7 +803,7 @@ public class WAcctViewer extends Window implements EventListener
 	//	log.info( "AcctViewer.stateChanged");
 		iframe.setContent(null);
 		
-		boolean visible = m_data.documentQuery && tabResult.isSelected();
+		boolean visible = accountViewerData.documentQuery && tabResult.isSelected();
 
 		bRePost.setVisible(visible);
 
@@ -759,15 +813,15 @@ public class WAcctViewer extends Window implements EventListener
 
 	/**
 	 *  Event Performed (Event Listener)
-	 *  @param e Event
+	 *  @param event Event
 	 */
 
-	public void onEvent(Event e) throws Exception
+	public void onEvent(Event event) throws Exception
 	{
 		// log.info(e.getActionCommand());
 		iframe.setContent(null);
 		
-		Object source = e.getTarget();
+		Object source = event.getTarget();
 
 		if (source == tabResult)
 			stateChanged();
@@ -799,7 +853,7 @@ public class WAcctViewer extends Window implements EventListener
 			int end = start + PAGE_SIZE;
 			if ( end > paging.getTotalSize())
 				end = paging.getTotalSize();
-			List<ArrayList<Object>> list = m_queryData.subList(start, end);
+			List<ArrayList<Object>> list = queryData.subList(start, end);
 			ListModelTable model = new ListModelTable(list);
 			table.setModel(model);
 		}
@@ -813,18 +867,18 @@ public class WAcctViewer extends Window implements EventListener
 	{
 		Listitem listitem = selAcctSchema.getSelectedItem();
 
-		KeyNamePair kp = null;
+		KeyNamePair keyNamePair = null;
 
 		if (listitem != null)
-			kp = (KeyNamePair)listitem.getValue();
+			keyNamePair = (KeyNamePair)listitem.getValue();
 
-		if (kp == null)
+		if (keyNamePair == null)
 			return;
 
-		m_data.C_AcctSchema_ID = kp.getKey();
-		m_data.ASchema = MAcctSchema.get(Env.getCtx(), m_data.C_AcctSchema_ID);
+		accountViewerData.C_AcctSchema_ID = keyNamePair.getKey();
+		accountViewerData.ASchema = MAcctSchema.get(Env.getCtx(), accountViewerData.C_AcctSchema_ID);
 
-		log.info(m_data.ASchema.toString());
+		log.info(accountViewerData.ASchema.toString());
 
 		//  Sort Options
 
@@ -838,13 +892,12 @@ public class WAcctViewer extends Window implements EventListener
 		sortAddItem(new ValueNamePair("DateTrx", Msg.translate(Env.getCtx(), "DateTrx")));
 		sortAddItem(new ValueNamePair("C_Period_ID", Msg.translate(Env.getCtx(), "C_Period_ID")));
 
-		Label[] labels = new Label[] {lsel1, lsel2, lsel3, lsel4, lsel5, lsel6, lsel7, lsel8};
-		Button[] buttons = new Button[] {sel1 , sel2, sel3, sel4, sel5, sel6, sel7, sel8};
+		Label[] labels = new Label[] {lsel1, lsel2, lsel3, lsel4, lsel5, lsel6, lsel7, lsel8 , lsel9, lsel10, lsel11, lsel12, lsel13};
+		Button[] buttons = new Button[] {sel1 , sel2, sel3, sel4, sel5, sel6, sel7, sel8, sel9, sel10, sel11, sel12, sel13};
 
 		int selectionIndex = 0;
 
-		MAcctSchemaElement[] elements = m_data.ASchema.getAcctSchemaElements();
-
+		MAcctSchemaElement[] elements = accountViewerData.ASchema.getAcctSchemaElements();
 		for (int i = 0; i < elements.length && selectionIndex < labels.length; i++)
 		{
 			MAcctSchemaElement acctSchemaElement = elements[i];
@@ -886,15 +939,15 @@ public class WAcctViewer extends Window implements EventListener
 
 	/**
 	 * 	Add to Sort
-	 *	@param vn name pair
+	 *	@param valueNamePair name pair
 	 */
 
-	private void sortAddItem(ValueNamePair vn)
+	private void sortAddItem(ValueNamePair valueNamePair)
 	{
-		sortBy1.appendItem(vn.getName(), vn);
-		sortBy2.appendItem(vn.getName(), vn);
-		sortBy3.appendItem(vn.getName(), vn);
-		sortBy4.appendItem(vn.getName(), vn);
+		sortBy1.appendItem(valueNamePair.getName(), valueNamePair);
+		sortBy2.appendItem(valueNamePair.getName(), valueNamePair);
+		sortBy3.appendItem(valueNamePair.getName(), valueNamePair);
+		sortBy4.appendItem(valueNamePair.getName(), valueNamePair);
 	} // sortAddItem
 
 	/**
@@ -909,135 +962,135 @@ public class WAcctViewer extends Window implements EventListener
 
 		//  Reset Selection Data
 
-		m_data.C_AcctSchema_ID = 0;
-		m_data.AD_Org_ID = 0;
+		accountViewerData.C_AcctSchema_ID = 0;
+		accountViewerData.AD_Org_ID = 0;
 
 		//  Save Selection Choices
 
 		Listitem listitem = selAcctSchema.getSelectedItem();
 
-		KeyNamePair kp = null;
+		KeyNamePair keyNamePair = null;
 
 		if (listitem != null)
-			kp = (KeyNamePair)listitem.getValue();
+			keyNamePair = (KeyNamePair)listitem.getValue();
 
-		if (kp != null)
-			m_data.C_AcctSchema_ID = kp.getKey();
+		if (keyNamePair != null)
+			accountViewerData.C_AcctSchema_ID = keyNamePair.getKey();
 
-		para.append("C_AcctSchema_ID=").append(m_data.C_AcctSchema_ID);
+		para.append("C_AcctSchema_ID=").append(accountViewerData.C_AcctSchema_ID);
 
 		listitem = selPostingType.getSelectedItem();
 
-		ValueNamePair vp = null;
+		ValueNamePair valueNamePair = null;
 
 		if (listitem != null)
-			vp = (ValueNamePair)listitem.getValue();
+			valueNamePair = (ValueNamePair)listitem.getValue();
 		else
 			return;
 
-		m_data.PostingType = vp.getValue();
-		para.append(", PostingType=").append(m_data.PostingType);
+		accountViewerData.PostingType = valueNamePair.getValue();
+		para.append(", PostingType=").append(accountViewerData.PostingType);
 
 		//  Document
 
-		m_data.documentQuery = selDocument.isChecked();
-		para.append(", DocumentQuery=").append(m_data.documentQuery);
+		accountViewerData.documentQuery = selDocument.isChecked();
+		para.append(", DocumentQuery=").append(accountViewerData.documentQuery);
 
 		if (selDocument.isChecked())
 		{
-			if (m_data.AD_Table_ID == 0 || m_data.Record_ID == 0)
+			if (accountViewerData.AD_Table_ID == 0 || accountViewerData.Record_ID == 0)
 				return;
 
-			para.append(", AD_Table_ID=").append(m_data.AD_Table_ID)
-				.append(", Record_ID=").append(m_data.Record_ID);
+			para.append(", AD_Table_ID=").append(accountViewerData.AD_Table_ID)
+				.append(", Record_ID=").append(accountViewerData.Record_ID);
 		}
 		else
 		{
-			m_data.DateFrom = selDateFrom.getValue() != null
+			accountViewerData.DateFrom = selDateFrom.getValue() != null
 				? new Timestamp(selDateFrom.getValue().getTime()) : null;
-			para.append(", DateFrom=").append(m_data.DateFrom);
-			m_data.DateTo = selDateTo.getValue() != null
+			para.append(", DateFrom=").append(accountViewerData.DateFrom);
+			accountViewerData.DateTo = selDateTo.getValue() != null
 				? new Timestamp(selDateTo.getValue().getTime()) : null;
-			para.append(", DateTo=").append(m_data.DateTo);
+			para.append(", DateTo=").append(accountViewerData.DateTo);
 
 			listitem = selOrg.getSelectedItem();
 
 			if (listitem != null)
-				kp = (KeyNamePair)listitem.getValue();
+				keyNamePair = (KeyNamePair)listitem.getValue();
 			else
-				kp = null;
+				keyNamePair = null;
 
-			if (kp != null)
-				m_data.AD_Org_ID = kp.getKey();
-			para.append(", AD_Org_ID=").append(m_data.AD_Org_ID);
+			if (keyNamePair != null)
+				accountViewerData.AD_Org_ID = keyNamePair.getKey();
+			para.append(", AD_Org_ID=").append(accountViewerData.AD_Org_ID);
 			//
-			Iterator<String> it = m_data.whereInfo.values().iterator();
+			Iterator<String> it = accountViewerData.whereInfo.values().iterator();
 			while (it.hasNext())
 				para.append(", ").append(it.next());
 		}
 
 		//  Save Display Choices
 
-		m_data.displayQty = displayQty.isChecked();
-		para.append(" - Display Qty=").append(m_data.displayQty);
-		m_data.displaySourceAmt = displaySourceAmt.isChecked();
-		para.append(", Source=").append(m_data.displaySourceAmt);
-		m_data.displayDocumentInfo = displayDocumentInfo.isChecked();
-		para.append(", Doc=").append(m_data.displayDocumentInfo);
+		accountViewerData.displayQty = displayQty.isChecked();
+		para.append(" - Display Qty=").append(accountViewerData.displayQty);
+		accountViewerData.displaySourceAmt = displaySourceAmt.isChecked();
+		para.append(", Source=").append(accountViewerData.displaySourceAmt);
+		accountViewerData.displayDocumentInfo = displayDocumentInfo.isChecked();
+		para.append(", Doc=").append(accountViewerData.displayDocumentInfo);
 
 		listitem = sortBy1.getSelectedItem();
-		vp = null;
+		valueNamePair = null;
 
 		if (listitem != null)
 		{
-			vp = (ValueNamePair)listitem.getValue();
-			if (vp.getName() != null && vp.getName().trim().length() > 0)
+			valueNamePair = (ValueNamePair)listitem.getValue();
+			if (valueNamePair.getName() != null && valueNamePair.getName().trim().length() > 0)
 			{
-				m_data.sortBy1 = vp.getValue();//vp.getName();
-				m_data.group1 = group1.isChecked();
-				para.append(" - Sorting: ").append(m_data.sortBy1).append("/").append(m_data.group1);
+				accountViewerData.sortBy1 = valueNamePair.getValue();//vp.getName();
+				accountViewerData.group1 = group1.isChecked();
+				para.append(" - Sorting: ").append(accountViewerData.sortBy1).append("/").append(accountViewerData.group1);
 			}
 		}
 
 		listitem = sortBy2.getSelectedItem();
-		vp = null;
+		valueNamePair = null;
 
 		if (listitem != null)
 		{
-			vp = (ValueNamePair)listitem.getValue();
-			if (vp.getName() != null && vp.getName().trim().length() > 0)
+			valueNamePair = (ValueNamePair)listitem.getValue();
+			if (valueNamePair.getName() != null && valueNamePair.getName().trim().length() > 0)
 			{
-				m_data.sortBy2 = vp.getValue();//vp.getName();
-				m_data.group2 = group2.isChecked();
-				para.append(", ").append(m_data.sortBy2).append("/").append(m_data.group2);
+				accountViewerData.sortBy2 = valueNamePair.getValue();//vp.getName();
+				accountViewerData.group2 = group2.isChecked();
+				para.append(", ").append(accountViewerData.sortBy2).append("/").append(accountViewerData.group2);
 			}
 		}
 
 		listitem = sortBy3.getSelectedItem();
-		vp = null;
+		valueNamePair = null;
 
 		if (listitem != null)
 		{
-			vp = (ValueNamePair)listitem.getValue();
-			if (vp.getName() != null && vp.getName().trim().length() > 0)
+			valueNamePair = (ValueNamePair)listitem.getValue();
+			if (valueNamePair.getName() != null && valueNamePair.getName().trim().length() > 0)
 			{
-				m_data.sortBy3 = vp.getValue();//vp.getName();
-				m_data.group3 = group3.isChecked();
-				para.append(", ").append(m_data.sortBy3).append("/").append(m_data.group3);
+				accountViewerData.sortBy3 = valueNamePair.getValue();//vp.getName();
+				accountViewerData.group3 = group3.isChecked();
+				para.append(", ").append(accountViewerData.sortBy3).append("/").append(accountViewerData.group3);
 			}
 		}
 
 		listitem = sortBy4.getSelectedItem();
-		vp = null;
+		valueNamePair = null;
 
 		if (listitem != null)
 		{
-			vp = (ValueNamePair)listitem.getValue();
-			if (vp.getName() != null && vp.getName().trim().length() > 0)
+			valueNamePair = (ValueNamePair)listitem.getValue();
+			if (valueNamePair.getName() != null && valueNamePair.getName().trim().length() > 0)
 			{
-				m_data.sortBy4 = vp.getValue();//vp.getName();
-				m_data.group4 = group4.isChecked();
-				para.append(", ").append(m_data.sortBy4).append("/").append(m_data.group4);
+				accountViewerData.sortBy4 = valueNamePair.getValue();//vp.getName();
+				accountViewerData.group4 = group4.isChecked();
+				para.append(", ").append(accountViewerData.sortBy4).append("/").append(accountViewerData.group4);
 			}
 		}
 
@@ -1052,20 +1105,20 @@ public class WAcctViewer extends Window implements EventListener
 
 		//  Set TableModel with Query
 
-		RModel rmodel = m_data.query();
-		m_queryData = rmodel.getRows();
+		RModel model = accountViewerData.query();
+		queryData = model.getRows();
 		List<ArrayList<Object>> list = null;
 		paging.setPageSize(PAGE_SIZE);
-		if (m_queryData.size() > PAGE_SIZE)
+		if (queryData.size() > PAGE_SIZE)
 		{
-			list = m_queryData.subList(0, PAGE_SIZE);
-			paging.setTotalSize(m_queryData.size());
+			list = queryData.subList(0, PAGE_SIZE);
+			paging.setTotalSize(queryData.size());
 			pagingPanel.setVisible(true);
 		}
 		else
 		{
-			list = m_queryData;
-			paging.setTotalSize(m_queryData.size());
+			list = queryData;
+			paging.setTotalSize(queryData.size());
 			pagingPanel.setVisible(false);
 		}
 		paging.setActivePage(0);
@@ -1077,14 +1130,14 @@ public class WAcctViewer extends Window implements EventListener
 			Listhead listhead = new Listhead();
 			listhead.setSizable(true);
 
-			for (int i = 0; i < rmodel.getColumnCount(); i++)
+			for (int i = 0; i < model.getColumnCount(); i++)
 			{
 				// Replace user columns with the user selected names
-				String displayColumnName = rmodel.getColumnName(i);;
+				String displayColumnName = model.getColumnName(i);;
 				String columnName;
-				RColumn col = rmodel.getColumn(i);
+				RColumn col = model.getColumn(i);
 				columnName = col.getColumnName();
-				MAcctSchema as = MAcctSchema.get(Env.getCtx(), m_data.C_AcctSchema_ID);
+				MAcctSchema as = MAcctSchema.get(Env.getCtx(), accountViewerData.C_AcctSchema_ID);
 				if (columnName.equals("User1_ID")) {
 					MAcctSchemaElement ase = as.getAcctSchemaElement(MAcctSchemaElement.ELEMENTTYPE_UserList1);
 					if (ase != null)
@@ -1106,7 +1159,7 @@ public class WAcctViewer extends Window implements EventListener
 						displayColumnName = Msg.translate(Env.getCtx(), ase.getName());
 				}
 				Listheader listheader = new Listheader(displayColumnName);
-				listheader.setTooltiptext(rmodel.getColumnName(i));
+				listheader.setTooltiptext(model.getColumnName(i));
 				listhead.appendChild(listheader);
 			}
 			table.appendChild(listhead);
@@ -1114,16 +1167,16 @@ public class WAcctViewer extends Window implements EventListener
 		// Elaine 2008/07/28
 		else
 		{
-			Listhead listhead = table.getListhead();
+			Listhead listHead = table.getListhead();
 
 			// remove existing column header
-			listhead.getChildren().clear();
+			listHead.getChildren().clear();
 
 			// add in new column header
-			for (int i = 0; i < rmodel.getColumnCount(); i++)
+			for (int i = 0; i < model.getColumnCount(); i++)
 			{
-				Listheader listheader = new Listheader(rmodel.getColumnName(i));
-				listhead.appendChild(listheader);
+				Listheader listheader = new Listheader(model.getColumnName(i));
+				listHead.appendChild(listheader);
 			}
 		}
 		//
@@ -1145,22 +1198,22 @@ public class WAcctViewer extends Window implements EventListener
 
 	private void actionDocument()
 	{
-		boolean doc = selDocument.isChecked();
-		selTable.setEnabled(doc);
-		selRecord.setEnabled(doc);
+		boolean isDocumentSelected = selDocument.isChecked();
+		selTable.setEnabled(isDocumentSelected);
+		selRecord.setEnabled(isDocumentSelected);
 		//
-		selDateFrom.setEnabled(!doc);
-		selDateTo.setEnabled(!doc);
-		selOrg.setEnabled(!doc);
-		selAcct.setEnabled(!doc);
-		sel1.setEnabled(!doc);
-		sel2.setEnabled(!doc);
-		sel3.setEnabled(!doc);
-		sel4.setEnabled(!doc);
-		sel5.setEnabled(!doc);
-		sel6.setEnabled(!doc);
-		sel7.setEnabled(!doc);
-		sel8.setEnabled(!doc);
+		selDateFrom.setEnabled(!isDocumentSelected);
+		selDateTo.setEnabled(!isDocumentSelected);
+		selOrg.setEnabled(!isDocumentSelected);
+		selAcct.setEnabled(!isDocumentSelected);
+		sel1.setEnabled(!isDocumentSelected);
+		sel2.setEnabled(!isDocumentSelected);
+		sel3.setEnabled(!isDocumentSelected);
+		sel4.setEnabled(!isDocumentSelected);
+		sel5.setEnabled(!isDocumentSelected);
+		sel6.setEnabled(!isDocumentSelected);
+		sel7.setEnabled(!isDocumentSelected);
+		sel8.setEnabled(!isDocumentSelected);
 	} // actionDocument
 
 	/**
@@ -1170,21 +1223,21 @@ public class WAcctViewer extends Window implements EventListener
 	private void actionTable()
 	{
 		Listitem listitem = selTable.getSelectedItem();
-		ValueNamePair vp = null;
+		ValueNamePair valueNamePair = null;
 
 		if (listitem != null)
-			vp = (ValueNamePair)listitem.getValue();
+			valueNamePair = (ValueNamePair)listitem.getValue();
 		else
 			return;
 
-		m_data.AD_Table_ID = ((Integer)m_data.tableInfo.get(vp.getValue())).intValue();
-		log.config(vp.getValue() + " = " + m_data.AD_Table_ID);
+		accountViewerData.AD_Table_ID = ((Integer) accountViewerData.tableInfo.get(valueNamePair.getValue())).intValue();
+		log.config(valueNamePair.getValue() + " = " + accountViewerData.AD_Table_ID);
 
 		//  Reset Record
 
-		m_data.Record_ID = 0;
+		accountViewerData.Record_ID = 0;
 		selRecord.setLabel("");
-		selRecord.setName(vp.getValue() + "_ID");
+		selRecord.setName(valueNamePair.getValue() + "_ID");
 	} // actionTable
 
 	/**
@@ -1202,12 +1255,11 @@ public class WAcctViewer extends Window implements EventListener
 		// String whereClause = ""; // Elaine 2008/07/28
 		String whereClause = "(IsSummary='N' OR IsSummary IS NULL)";
 		String lookupColumn = keyColumn;
-		int record_id = m_data.getButtonRecordID(keyColumn);
-
+		int recordId = accountViewerData.getButtonRecordID(keyColumn);
 		if ("Account_ID".equals(keyColumn))
 		{
 			lookupColumn = "C_ElementValue_ID";
-			MAcctSchemaElement ase = m_data.ASchema
+			MAcctSchemaElement ase = accountViewerData.ASchema
 				.getAcctSchemaElement(X_C_AcctSchema_Element.ELEMENTTYPE_Account);
 
 			if (ase != null)
@@ -1216,7 +1268,7 @@ public class WAcctViewer extends Window implements EventListener
 		else if ("User1_ID".equals(keyColumn))
 		{
 			lookupColumn = "C_ElementValue_ID";
-			MAcctSchemaElement ase = m_data.ASchema
+			MAcctSchemaElement ase = accountViewerData.ASchema
 				.getAcctSchemaElement(X_C_AcctSchema_Element.ELEMENTTYPE_UserList1);
 
 			if (ase != null)
@@ -1225,7 +1277,7 @@ public class WAcctViewer extends Window implements EventListener
 		else if ("User2_ID".equals(keyColumn))
 		{
 			lookupColumn = "C_ElementValue_ID";
-			MAcctSchemaElement ase = m_data.ASchema
+			MAcctSchemaElement ase = accountViewerData.ASchema
 				.getAcctSchemaElement(X_C_AcctSchema_Element.ELEMENTTYPE_UserList2);
 
 			if (ase != null)
@@ -1234,7 +1286,7 @@ public class WAcctViewer extends Window implements EventListener
 		else if ("User3_ID".equals(keyColumn))
 		{
 			lookupColumn = "C_ElementValue_ID";
-			MAcctSchemaElement ase = m_data.ASchema
+			MAcctSchemaElement ase = accountViewerData.ASchema
 					.getAcctSchemaElement(X_C_AcctSchema_Element.ELEMENTTYPE_UserList3);
 
 			if (ase != null)
@@ -1243,7 +1295,7 @@ public class WAcctViewer extends Window implements EventListener
 		else if ("User4_ID".equals(keyColumn))
 		{
 			lookupColumn = "C_ElementValue_ID";
-			MAcctSchemaElement ase = m_data.ASchema
+			MAcctSchemaElement ase = accountViewerData.ASchema
 					.getAcctSchemaElement(X_C_AcctSchema_Element.ELEMENTTYPE_UserList4);
 
 			if (ase != null)
@@ -1281,23 +1333,23 @@ public class WAcctViewer extends Window implements EventListener
 			whereClause = "";
 
 		if (button == selRecord)                            //  Record_ID
-			record_id = m_data.Record_ID;
+			recordId = accountViewerData.Record_ID;
 		else
-			record_id = m_data.getButtonRecordID(keyColumn);
+			recordId = accountViewerData.getButtonRecordID(keyColumn);
 		
 		String tableName = lookupColumn.substring(0, lookupColumn.length()-3);
 		//whereClause = tableName + ".IsSummary='N'" + whereClause; // Elaine 2008/07/28
 
 		//  Open modal
-		InfoPanel info = InfoPanel.create(m_data.WindowNo, tableName, lookupColumn, record_id, "", false, whereClause);
+		InfoPanel info = InfoPanel.create(accountViewerData.WindowNo, tableName, lookupColumn, recordId, "", false, whereClause);
 
 		if (!info.loadedOK())
 		{
 			info.dispose();
 			info = null;
 			button.setLabel("");
-			m_data.whereInfo.put(keyColumn, "");
-			m_data.buttonRecordID.put(keyColumn, null);
+			accountViewerData.whereInfo.put(keyColumn, "");
+			accountViewerData.buttonRecordID.put(keyColumn, null);
 			return 0;
 		}
 
@@ -1312,11 +1364,11 @@ public class WAcctViewer extends Window implements EventListener
 		{
 			key = 0;
 			if (button == selRecord)                            //  Record_ID
-				m_data.Record_ID = key.intValue();
+				accountViewerData.Record_ID = key.intValue();
 			else
 			{
-				m_data.whereInfo.put(keyColumn, "");    //  no query
-				m_data.buttonRecordID.put(keyColumn, key.intValue());
+				accountViewerData.whereInfo.put(keyColumn, "");    //  no query
+				accountViewerData.buttonRecordID.put(keyColumn, key.intValue());
 			}
 			button.setLabel("");
 		}
@@ -1327,22 +1379,22 @@ public class WAcctViewer extends Window implements EventListener
 			key = (Integer)info.getSelectedKey();
 			log.config(keyColumn + " - " + key);
 			if (button == selRecord)                            //  Record_ID
-				m_data.Record_ID = key.intValue();
+				accountViewerData.Record_ID = key.intValue();
 			else
 			{
-				m_data.whereInfo.put(keyColumn, keyColumn + "=" + key.intValue());  //  Add to query
-				m_data.buttonRecordID.put(keyColumn, key.intValue());
+				accountViewerData.whereInfo.put(keyColumn, keyColumn + "=" + key.intValue());  //  Add to query
+				accountViewerData.buttonRecordID.put(keyColumn, key.intValue());
 			}
 			//  Display Selection and resize
-			button.setLabel(m_data.getButtonText(tableName, lookupColumn, selectSQL));
+			button.setLabel(accountViewerData.getButtonText(tableName, lookupColumn, selectSQL));
 		}
 		else if(!(isCancelled ^ isOK)) // xor: window closed or error - no change
 		{
-			// m_data not changed
+			// accountViewerData not changed
 			if (button == selRecord)                            //  Record_ID
-				key = m_data.Record_ID = key.intValue();
+				key = accountViewerData.Record_ID = key.intValue();
 			else
-				key = m_data.getButtonRecordID(keyColumn);
+				key = accountViewerData.getButtonRecordID(keyColumn);
 		}
 		info = null;
 		return key.intValue();
@@ -1355,14 +1407,14 @@ public class WAcctViewer extends Window implements EventListener
 
 	private void actionRePost()
 	{
-		if (m_data.documentQuery
-			&& m_data.AD_Table_ID != 0 && m_data.Record_ID != 0
-			&& FDialog.ask(m_data.WindowNo, this, "PostImmediate?"))
+		if (accountViewerData.documentQuery
+			&& accountViewerData.AD_Table_ID != 0 && accountViewerData.Record_ID != 0
+			&& FDialog.ask(accountViewerData.WindowNo, this, "PostImmediate?"))
 		{
 			//setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			boolean force = forcePost.isChecked();
-			String error = AEnv.postImmediate (m_data.WindowNo, m_data.AD_Client_ID,
-				m_data.AD_Table_ID, m_data.Record_ID, force);
+			String error = AEnv.postImmediate (accountViewerData.WindowNo, accountViewerData.AD_Client_ID,
+				accountViewerData.AD_Table_ID, accountViewerData.Record_ID, force);
 			//setCursor(Cursor.getDefaultCursor());
 			if (error != null)
 				FDialog.error(0, this, "PostingError-N", error);
@@ -1377,7 +1429,7 @@ public class WAcctViewer extends Window implements EventListener
 	 */
 	public boolean isLookup()
 	{
-		return m_lookup;
+		return isLookup;
 	}
 	
 	//FR[3435028]
@@ -1385,7 +1437,7 @@ public class WAcctViewer extends Window implements EventListener
 	 * Export to Excel
 	 */
 	private void actionExportExcel() {
-		RModel model = m_data.query();
+		RModel model = accountViewerData.query();
 		if (model == null) {
 
 			return;

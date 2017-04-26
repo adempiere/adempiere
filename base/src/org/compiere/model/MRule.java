@@ -112,14 +112,10 @@ public class MRule extends X_AD_Rule
 	public static List<MRule> getModelValidatorLoginRules (Properties ctx)
 	{
 		final String whereClause = "EventType=?";
-		List<MRule> rules = new Query(ctx,I_AD_Rule.Table_Name,whereClause,null)
+		return new Query(ctx,I_AD_Rule.Table_Name,whereClause,null)
 		.setParameters(EVENTTYPE_ModelValidatorLoginEvent)
 		.setOnlyActiveRecords(true)
 		.list();
-		if (rules != null && rules.size() > 0)
-			return rules;
-		else
-			return null;
 	}	//	getModelValidatorLoginRules
 
 	/**	Cache						*/

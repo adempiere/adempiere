@@ -98,23 +98,22 @@ public class AcctViewer extends CFrame
 	/**
 	 *  Detail Constructor
 	 *
-	 *  @param AD_Client_ID Client
-	 *  @param AD_Table_ID Table
-	 *  @param Record_ID Record
+	 *  @param clientId Client
+	 *  @param tableId Table
+	 *  @param recordId Record
 	 */
-	public AcctViewer(int AD_Client_ID, int AD_Table_ID, int Record_ID)
+	public AcctViewer(int clientId, int tableId, int recordId)
 	{
 		super (Msg.getMsg(Env.getCtx(), "AcctViewer"));
-		log.info("AD_Table_ID=" + AD_Table_ID + ", Record_ID=" + Record_ID);
+		log.info("AD_Table_ID=" + tableId + ", Record_ID=" + recordId);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		m_data = new AcctViewerData (Env.getCtx(), Env.createWindowNo(this), 
-			AD_Client_ID, AD_Table_ID);
+		accountViewerData = new AcctViewerData (Env.getCtx(), Env.createWindowNo(this), clientId, tableId);
 		AEnv.addToWindowManager(this);
 		//
 		try
 		{
 			jbInit();
-			dynInit (AD_Table_ID, Record_ID);
+			dynInit (tableId, recordId);
 			AEnv.showCenterScreen(this);
 		}
 		catch(Exception e)
@@ -125,16 +124,14 @@ public class AcctViewer extends CFrame
 	}   //  AcctViewer
 
 	/** State Info          */
-	private AcctViewerData	m_data = null;
+	private AcctViewerData accountViewerData = null;
 	/** Image Icon			*/
-	private ImageIcon 		m_iFind = new ImageIcon(org.compiere.Adempiere.class.getResource("images/Find16.gif"));
+	private ImageIcon findIcon = new ImageIcon(org.compiere.Adempiere.class.getResource("images/Find16.gif"));
 	
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(AcctViewer.class);
 
 	/** @todo Display Record Info & Zoom */
-
-	//
 	private CPanel mainPanel = new CPanel();
 	private CTabbedPane tabbedPane = new CTabbedPane();
 	private CPanel query = new CPanel();
@@ -188,6 +185,12 @@ public class AcctViewer extends CFrame
 	private CLabel lsel6 = new CLabel();
 	private CLabel lsel7 = new CLabel();
 	private CLabel lsel8 = new CLabel();
+	private CLabel lsel9 = new CLabel();
+	private CLabel lsel10 = new CLabel();
+	private CLabel lsel11 = new CLabel();
+	private CLabel lsel12 = new CLabel();
+	private CLabel lsel13 = new CLabel();
+
 	private CButton sel1 = new CButton();
 	private CButton sel2 = new CButton();
 	private CButton sel3 = new CButton();
@@ -196,6 +199,12 @@ public class AcctViewer extends CFrame
 	private CButton sel6 = new CButton();
 	private CButton sel7 = new CButton();
 	private CButton sel8 = new CButton();
+	private CButton sel9 = new CButton();
+	private CButton sel10 = new CButton();
+	private CButton sel11 = new CButton();
+	private CButton sel12 = new CButton();
+	private CButton sel13 = new CButton();
+
 	//
 	private CButton bRePost = new CButton();
 	private CCheckBox forcePost = new CCheckBox();
@@ -215,8 +224,8 @@ public class AcctViewer extends CFrame
 	 */
 	private void jbInit() throws Exception
 	{
-		ImageIcon ii = new ImageIcon(org.compiere.Adempiere.class.getResource("images/InfoAccount16.gif"));
-		setIconImage(ii.getImage());
+		ImageIcon imageIcon = new ImageIcon(org.compiere.Adempiere.class.getResource("images/InfoAccount16.gif"));
+		setIconImage(imageIcon.getImage());
 		//
 		mainLayout.setHgap(5);
 		mainLayout.setVgap(5);
@@ -249,6 +258,13 @@ public class AcctViewer extends CFrame
 		lsel6.setLabelFor(sel6);
 		lsel7.setLabelFor(sel7);
 		lsel8.setLabelFor(sel8);
+		lsel9.setLabelFor(sel9);
+		lsel10.setLabelFor(sel10);
+		lsel11.setLabelFor(sel11);
+		lsel12.setLabelFor(sel12);
+		lsel13.setLabelFor(sel13);
+
+
 
 		//  Display
 		displayBorder = new TitledBorder(BorderFactory.createEtchedBorder(
@@ -351,6 +367,26 @@ public class AcctViewer extends CFrame
 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 0, 5), 0, 0));
 		selectionPanel.add(sel8,  new GridBagConstraints(1, 13, 2, 1, 0.0, 0.0
 			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 0, 5), 0, 0));
+		selectionPanel.add(lsel9,  new GridBagConstraints(0, 14, 1, 1, 0.0, 0.0
+				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 0, 5), 0, 0));
+		selectionPanel.add(sel9,  new GridBagConstraints(1, 14, 2, 1, 0.0, 0.0
+				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 0, 5), 0, 0));
+		selectionPanel.add(lsel10,  new GridBagConstraints(0, 15, 1, 1, 0.0, 0.0
+				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 0, 5), 0, 0));
+		selectionPanel.add(sel10,  new GridBagConstraints(1, 15, 2, 1, 0.0, 0.0
+				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 0, 5), 0, 0));
+		selectionPanel.add(lsel11,  new GridBagConstraints(0, 16, 1, 1, 0.0, 0.0
+				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 0, 5), 0, 0));
+		selectionPanel.add(sel11,  new GridBagConstraints(1, 16, 2, 1, 0.0, 0.0
+				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 0, 5), 0, 0));
+		selectionPanel.add(lsel12,  new GridBagConstraints(0, 17, 1, 1, 0.0, 0.0
+				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 0, 5), 0, 0));
+		selectionPanel.add(sel12,  new GridBagConstraints(1, 17, 2, 1, 0.0, 0.0
+				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 0, 5), 0, 0));
+		selectionPanel.add(lsel13,  new GridBagConstraints(0, 18, 1, 1, 0.0, 0.0
+				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 0, 5), 0, 0));
+		selectionPanel.add(sel13,  new GridBagConstraints(1, 18, 2, 1, 0.0, 0.0
+				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 0, 5), 0, 0));
 		//
 		queryLayout.setHgap(5);
 		queryLayout.setVgap(5);
@@ -404,48 +440,48 @@ public class AcctViewer extends CFrame
 	/**
 	 *  Dynamic Init
 	 *
-	 *  @param AD_Table_ID table
-	 *  @param Record_ID record
+	 *  @param tableId table
+	 *  @param recordId record
 	 */
-	private void dynInit (int AD_Table_ID, int Record_ID)
+	private void dynInit (int tableId, int recordId)
 	{
-		m_data.fillAcctSchema(selAcctSchema);
+		accountViewerData.fillAcctSchema(selAcctSchema);
 		selAcctSchema.addActionListener(this);
 		actionAcctSchema();
 		//
-		m_data.fillTable(selTable);
+		accountViewerData.fillTable(selTable);
 		selTable.addActionListener(this);
-		selRecord.setIcon(m_iFind);
+		selRecord.setIcon(findIcon);
 		selRecord.addActionListener(this);
 		selRecord.setText("");
 		//
-		m_data.fillPostingType (selPostingType);
+		accountViewerData.fillPostingType (selPostingType);
 
 		//  Mandatory Elements
-		m_data.fillOrg(selOrg);
+		accountViewerData.fillOrg(selOrg);
 		selAcct.setActionCommand("Account_ID");
 		selAcct.addActionListener(this);
 		selAcct.setText("");
-		selAcct.setIcon(m_iFind);
+		selAcct.setIcon(findIcon);
 
 		//  Document Select
-		boolean haveDoc = AD_Table_ID != 0 && Record_ID != 0;
-		selDocument.setSelected (haveDoc);
+		boolean haveDocument = tableId != 0 && recordId != 0;
+		selDocument.setSelected (haveDocument);
 		actionDocument();
 		actionTable();
 		statusLine.setText(" " + Msg.getMsg(Env.getCtx(), "ViewerOptions"));
 
 		//  Initial Query
-		if (haveDoc)
+		if (haveDocument)
 		{
-			m_data.AD_Table_ID = AD_Table_ID;
-			m_data.Record_ID = Record_ID;
+			accountViewerData.AD_Table_ID = tableId;
+			accountViewerData.Record_ID = recordId;
 			actionQuery();
 			String keyColumn = selRecord.getActionCommand();
 			String tableName = keyColumn.substring(0, keyColumn.length()-3);
-			String selectSQL = keyColumn + "=" + Record_ID;
-			m_data.buttonRecordID.put(keyColumn,Record_ID);
-			selRecord.setText(m_data.getButtonText(tableName, keyColumn, selectSQL));
+			String selectSQL = keyColumn + "=" + recordId;
+			accountViewerData.buttonRecordID.put(keyColumn,recordId);
+			selRecord.setText(accountViewerData.getButtonText(tableName, keyColumn, selectSQL));
 		}
 		
 		// Display quantity as default
@@ -457,20 +493,20 @@ public class AcctViewer extends CFrame
 	 */
 	public void dispose()
 	{
-		if (m_data != null)
-			m_data.dispose();
-		m_data = null;
+		if (accountViewerData != null)
+			accountViewerData.dispose();
+		accountViewerData = null;
 		super.dispose();
 	}   //  dispose;
 
 	/**************************************************************************
 	 *  Tab Changed
-	 *  @param e ChangeEvent
+	 *  @param changeEvent ChangeEvent
 	 */
-	public void stateChanged(ChangeEvent e)
+	public void stateChanged(ChangeEvent changeEvent)
 	{
 	//	log.info( "AcctViewer.stateChanged");
-		boolean visible = m_data.documentQuery && tabbedPane.getSelectedIndex() == 1;
+		boolean visible = accountViewerData.documentQuery && tabbedPane.getSelectedIndex() == 1;
 		bRePost.setVisible(visible);
 		bExport.setVisible(tabbedPane.getSelectedIndex() == 1);
 		if (Ini.isPropertyBool(Ini.P_SHOW_ADVANCED))
@@ -480,12 +516,12 @@ public class AcctViewer extends CFrame
 
 	/**
 	 *  Action Performed (Action Listener)
-	 *  @param e ActionEvent
+	 *  @param actionEvent ActionEvent
 	 */
-	public void actionPerformed(ActionEvent e)
+	public void actionPerformed(ActionEvent actionEvent)
 	{
 	//	log.info(e.getActionCommand());
-		Object source = e.getSource();
+		Object source = actionEvent.getSource();
 		if (source == selAcctSchema)
 			actionAcctSchema();
 		else if (source == bQuery)
@@ -510,12 +546,12 @@ public class AcctViewer extends CFrame
 	 */
 	private void actionAcctSchema()
 	{
-		KeyNamePair kp = (KeyNamePair)selAcctSchema.getSelectedItem();
-		if (kp == null)
+		KeyNamePair keyNamePair = (KeyNamePair)selAcctSchema.getSelectedItem();
+		if (keyNamePair == null)
 			return;
-		m_data.C_AcctSchema_ID = kp.getKey();
-		m_data.ASchema = MAcctSchema.get(Env.getCtx(), m_data.C_AcctSchema_ID);
-		log.info(m_data.ASchema.toString());
+		accountViewerData.C_AcctSchema_ID = keyNamePair.getKey();
+		accountViewerData.ASchema = MAcctSchema.get(Env.getCtx(), accountViewerData.C_AcctSchema_ID);
+		log.info(accountViewerData.ASchema.toString());
 		//
 		//  Sort Options
 		sortBy1.removeAllItems();
@@ -527,10 +563,10 @@ public class AcctViewer extends CFrame
 		sortAddItem(new ValueNamePair("DateTrx", Msg.translate(Env.getCtx(), "DateTrx")));
 		sortAddItem(new ValueNamePair("C_Period_ID", Msg.translate(Env.getCtx(), "C_Period_ID")));
 		//
-		CLabel[] labels = new CLabel[] {lsel1, lsel2, lsel3, lsel4, lsel5, lsel6, lsel7, lsel8};
-		CButton[] buttons = new CButton[] {sel1, sel2, sel3, sel4, sel5, sel6, sel7, sel8};
+		CLabel[] labels = new CLabel[] {lsel1, lsel2, lsel3, lsel4, lsel5, lsel6, lsel7, lsel8 , lsel9 , lsel10 , lsel11 , lsel12 , lsel13};
+		CButton[] buttons = new CButton[] {sel1, sel2, sel3, sel4, sel5, sel6, sel7, sel8 , sel9 , sel10 , sel11 , sel12 , sel13};
 		int selectionIndex = 0;
-		MAcctSchemaElement[] elements = m_data.ASchema.getAcctSchemaElements();
+		MAcctSchemaElement[] elements = accountViewerData.ASchema.getAcctSchemaElements();
 		for (int i = 0; i < elements.length && selectionIndex < labels.length; i++)
 		{
 			MAcctSchemaElement acctSchemaElement = elements[i];
@@ -544,36 +580,37 @@ public class AcctViewer extends CFrame
 			sortAddItem(new ValueNamePair(columnName, Msg.translate(Env.getCtx(), displayColumnName)));
 			//  Additional Elements
 			if (!acctSchemaElement.isElementType(X_C_AcctSchema_Element.ELEMENTTYPE_Organization)
-				&& !acctSchemaElement.isElementType(X_C_AcctSchema_Element.ELEMENTTYPE_Account))
+			&&  !acctSchemaElement.isElementType(X_C_AcctSchema_Element.ELEMENTTYPE_Account))
 			{
+
 				labels[selectionIndex].setText(Msg.translate(Env.getCtx(), displayColumnName));
 				labels[selectionIndex].setVisible(true);
 				buttons[selectionIndex].setActionCommand(columnName);
 				buttons[selectionIndex].addActionListener(this);
-				buttons[selectionIndex].setIcon(m_iFind);
+				buttons[selectionIndex].setIcon(findIcon);
 				buttons[selectionIndex].setText("");
 				buttons[selectionIndex].setVisible(true);
-				selectionIndex++;
+				selectionIndex ++;
 			}
 		}
 		//	don't show remaining
 		while (selectionIndex < labels.length)
 		{
 			labels[selectionIndex].setVisible(false);
-			buttons[selectionIndex++].setVisible(false);
+			buttons[selectionIndex ++].setVisible(false);
 		}
 	}	//	actionAcctSchema
 	
 	/**
 	 * 	Add to Sort
-	 *	@param vn name pair
+	 *	@param valueNamePair name pair
 	 */
-	private void sortAddItem(ValueNamePair vn)
+	private void sortAddItem(ValueNamePair valueNamePair)
 	{
-		sortBy1.addItem(vn);
-		sortBy2.addItem(vn);
-		sortBy3.addItem(vn);
-		sortBy4.addItem(vn);
+		sortBy1.addItem(valueNamePair);
+		sortBy2.addItem(valueNamePair);
+		sortBy3.addItem(valueNamePair);
+		sortBy4.addItem(valueNamePair);
 	}	//	sortAddItem
 
 	/**
@@ -584,65 +621,65 @@ public class AcctViewer extends CFrame
 		//  Parameter Info
 		StringBuffer para = new StringBuffer();
 		//  Reset Selection Data
-		m_data.C_AcctSchema_ID = 0;
-		m_data.AD_Org_ID = 0;
+		accountViewerData.C_AcctSchema_ID = 0;
+		accountViewerData.AD_Org_ID = 0;
 
 		//  Save Selection Choices
-		KeyNamePair kp = (KeyNamePair)selAcctSchema.getSelectedItem();
-		if (kp != null)
-			m_data.C_AcctSchema_ID = kp.getKey();
-		para.append("C_AcctSchema_ID=").append(m_data.C_AcctSchema_ID);
+		KeyNamePair keyNamePair = (KeyNamePair)selAcctSchema.getSelectedItem();
+		if (keyNamePair != null)
+			accountViewerData.C_AcctSchema_ID = keyNamePair.getKey();
+		para.append("C_AcctSchema_ID=").append(accountViewerData.C_AcctSchema_ID);
 		//
 		ValueNamePair vp = (ValueNamePair)selPostingType.getSelectedItem();
-		m_data.PostingType = vp.getValue();
-		para.append(", PostingType=").append(m_data.PostingType);
+		accountViewerData.PostingType = vp.getValue();
+		para.append(", PostingType=").append(accountViewerData.PostingType);
 
 		//  Document
-		m_data.documentQuery = selDocument.isSelected();
-		para.append(", DocumentQuery=").append(m_data.documentQuery);
+		accountViewerData.documentQuery = selDocument.isSelected();
+		para.append(", DocumentQuery=").append(accountViewerData.documentQuery);
 		if (selDocument.isSelected())
 		{
-			if (m_data.AD_Table_ID == 0 || m_data.Record_ID == 0)
+			if (accountViewerData.AD_Table_ID == 0 || accountViewerData.Record_ID == 0)
 				return;
-			para.append(", AD_Table_ID=").append(m_data.AD_Table_ID)
-				.append(", Record_ID=").append(m_data.Record_ID);
+			para.append(", AD_Table_ID=").append(accountViewerData.AD_Table_ID)
+				.append(", Record_ID=").append(accountViewerData.Record_ID);
 		}
 		else
 		{
-			m_data.DateFrom = (Timestamp)selDateFrom.getValue();
-			para.append(", DateFrom=").append(m_data.DateFrom);
-			m_data.DateTo = (Timestamp)selDateTo.getValue();
-			para.append(", DateTo=").append(m_data.DateTo);
-			kp = (KeyNamePair)selOrg.getSelectedItem();
-			if (kp != null)
-				m_data.AD_Org_ID = kp.getKey();
-			para.append(", AD_Org_ID=").append(m_data.AD_Org_ID);
+			accountViewerData.DateFrom = (Timestamp)selDateFrom.getValue();
+			para.append(", DateFrom=").append(accountViewerData.DateFrom);
+			accountViewerData.DateTo = (Timestamp)selDateTo.getValue();
+			para.append(", DateTo=").append(accountViewerData.DateTo);
+			keyNamePair = (KeyNamePair)selOrg.getSelectedItem();
+			if (keyNamePair != null)
+				accountViewerData.AD_Org_ID = keyNamePair.getKey();
+			para.append(", AD_Org_ID=").append(accountViewerData.AD_Org_ID);
 			//
-			Iterator it = m_data.whereInfo.values().iterator();
+			Iterator it = accountViewerData.whereInfo.values().iterator();
 			while (it.hasNext())
 				para.append(", ").append(it.next());
 		}
 
 		//  Save Display Choices
-		m_data.displayQty = displayQty.isSelected();
-		para.append(" - Display Qty=").append(m_data.displayQty);
-		m_data.displaySourceAmt = displaySourceAmt.isSelected();
-		para.append(", Source=").append(m_data.displaySourceAmt);
-		m_data.displayDocumentInfo = displayDocumentInfo.isSelected();
-		para.append(", Doc=").append(m_data.displayDocumentInfo);
+		accountViewerData.displayQty = displayQty.isSelected();
+		para.append(" - Display Qty=").append(accountViewerData.displayQty);
+		accountViewerData.displaySourceAmt = displaySourceAmt.isSelected();
+		para.append(", Source=").append(accountViewerData.displaySourceAmt);
+		accountViewerData.displayDocumentInfo = displayDocumentInfo.isSelected();
+		para.append(", Doc=").append(accountViewerData.displayDocumentInfo);
 		//
-		m_data.sortBy1 = ((ValueNamePair)sortBy1.getSelectedItem()).getValue();
-		m_data.group1 = group1.isSelected();
-		para.append(" - Sorting: ").append(m_data.sortBy1).append("/").append(m_data.group1);
-		m_data.sortBy2 = ((ValueNamePair)sortBy2.getSelectedItem()).getValue();
-		m_data.group2 = group2.isSelected();
-		para.append(", ").append(m_data.sortBy2).append("/").append(m_data.group2);
-		m_data.sortBy3 = ((ValueNamePair)sortBy3.getSelectedItem()).getValue();
-		m_data.group3 = group3.isSelected();
-		para.append(", ").append(m_data.sortBy3).append("/").append(m_data.group3);
-		m_data.sortBy4 = ((ValueNamePair)sortBy4.getSelectedItem()).getValue();
-		m_data.group4 = group4.isSelected();
-		para.append(", ").append(m_data.sortBy4).append("/").append(m_data.group4);
+		accountViewerData.sortBy1 = ((ValueNamePair)sortBy1.getSelectedItem()).getValue();
+		accountViewerData.group1 = group1.isSelected();
+		para.append(" - Sorting: ").append(accountViewerData.sortBy1).append("/").append(accountViewerData.group1);
+		accountViewerData.sortBy2 = ((ValueNamePair)sortBy2.getSelectedItem()).getValue();
+		accountViewerData.group2 = group2.isSelected();
+		para.append(", ").append(accountViewerData.sortBy2).append("/").append(accountViewerData.group2);
+		accountViewerData.sortBy3 = ((ValueNamePair)sortBy3.getSelectedItem()).getValue();
+		accountViewerData.group3 = group3.isSelected();
+		para.append(", ").append(accountViewerData.sortBy3).append("/").append(accountViewerData.group3);
+		accountViewerData.sortBy4 = ((ValueNamePair)sortBy4.getSelectedItem()).getValue();
+		accountViewerData.group4 = group4.isSelected();
+		para.append(", ").append(accountViewerData.sortBy4).append("/").append(accountViewerData.group4);
 
 		bQuery.setEnabled(false);
 		statusLine.setText(" " + Msg.getMsg(Env.getCtx(), "Processing"));
@@ -654,7 +691,7 @@ public class AcctViewer extends CFrame
 		tabbedPane.setSelectedIndex(1);
 
 		//  Set TableModel with Query
-		table.setModel(m_data.query());
+		table.setModel(accountViewerData.query());
 
 		bQuery.setEnabled(true);
 		statusLine.setText(" " + Msg.getMsg(Env.getCtx(), "ViewerOptions"));
@@ -665,22 +702,22 @@ public class AcctViewer extends CFrame
 	 */
 	private void actionDocument()
 	{
-		boolean doc = selDocument.isSelected();
-		selTable.setEnabled(doc);
-		selRecord.setEnabled(doc);
+		boolean isDocumentSelected = selDocument.isSelected();
+		selTable.setEnabled(isDocumentSelected);
+		selRecord.setEnabled(isDocumentSelected);
 		//
-		selDateFrom.setReadWrite(!doc);
-		selDateTo.setReadWrite(!doc);
-		selOrg.setEnabled(!doc);
-		selAcct.setEnabled(!doc);
-		sel1.setEnabled(!doc);
-		sel2.setEnabled(!doc);
-		sel3.setEnabled(!doc);
-		sel4.setEnabled(!doc);
-		sel5.setEnabled(!doc);
-		sel6.setEnabled(!doc);
-		sel7.setEnabled(!doc);
-		sel8.setEnabled(!doc);
+		selDateFrom.setReadWrite(!isDocumentSelected);
+		selDateTo.setReadWrite(!isDocumentSelected);
+		selOrg.setEnabled(!isDocumentSelected);
+		selAcct.setEnabled(!isDocumentSelected);
+		sel1.setEnabled(!isDocumentSelected);
+		sel2.setEnabled(!isDocumentSelected);
+		sel3.setEnabled(!isDocumentSelected);
+		sel4.setEnabled(!isDocumentSelected);
+		sel5.setEnabled(!isDocumentSelected);
+		sel6.setEnabled(!isDocumentSelected);
+		sel7.setEnabled(!isDocumentSelected);
+		sel8.setEnabled(!isDocumentSelected);
 	}   //  actionDocument
 
 	/**
@@ -688,13 +725,13 @@ public class AcctViewer extends CFrame
 	 */
 	private void actionTable()
 	{
-		ValueNamePair vp = (ValueNamePair)selTable.getSelectedItem();
-		m_data.AD_Table_ID = ((Integer)m_data.tableInfo.get(vp.getValue())).intValue();
-		log.config(vp.getValue() + " = " + m_data.AD_Table_ID);
+		ValueNamePair valueNamePair = (ValueNamePair)selTable.getSelectedItem();
+		accountViewerData.AD_Table_ID = ((Integer) accountViewerData.tableInfo.get(valueNamePair.getValue())).intValue();
+		log.config(valueNamePair.getValue() + " = " + accountViewerData.AD_Table_ID);
 		//  Reset Record
-		m_data.Record_ID = 0;
+		accountViewerData.Record_ID = 0;
 		selRecord.setText("");
-		selRecord.setActionCommand(vp.getValue() + "_ID");
+		selRecord.setActionCommand(valueNamePair.getValue() + "_ID");
 	}   //  actionTable
 
 	/**
@@ -709,12 +746,12 @@ public class AcctViewer extends CFrame
 		log.info(keyColumn);
 		String whereClause = "(IsSummary='N' OR IsSummary IS NULL)";
 		String lookupColumn = keyColumn;
-		int record_id = m_data.getButtonRecordID(keyColumn);
+		int record_id = accountViewerData.getButtonRecordID(keyColumn);
 
 		if (keyColumn.equals("Account_ID"))
 		{
 			lookupColumn = "C_ElementValue_ID";
-			MAcctSchemaElement ase = m_data.ASchema
+			MAcctSchemaElement ase = accountViewerData.ASchema
 				.getAcctSchemaElement(X_C_AcctSchema_Element.ELEMENTTYPE_Account);
 			if (ase != null)
 				whereClause += " AND C_Element_ID=" + ase.getC_Element_ID();
@@ -722,7 +759,7 @@ public class AcctViewer extends CFrame
 		else if (keyColumn.equals("User1_ID"))
 		{
 			lookupColumn = "C_ElementValue_ID";
-			MAcctSchemaElement ase = m_data.ASchema
+			MAcctSchemaElement ase = accountViewerData.ASchema
 				.getAcctSchemaElement(X_C_AcctSchema_Element.ELEMENTTYPE_UserList1);
 			if (ase != null)
 				whereClause += " AND C_Element_ID=" + ase.getC_Element_ID();
@@ -730,7 +767,7 @@ public class AcctViewer extends CFrame
 		else if (keyColumn.equals("User2_ID"))
 		{
 			lookupColumn = "C_ElementValue_ID";
-			MAcctSchemaElement ase = m_data.ASchema
+			MAcctSchemaElement ase = accountViewerData.ASchema
 				.getAcctSchemaElement(X_C_AcctSchema_Element.ELEMENTTYPE_UserList2);
 			if (ase != null)
 				whereClause += " AND C_Element_ID=" + ase.getC_Element_ID();
@@ -738,7 +775,7 @@ public class AcctViewer extends CFrame
 		else if (keyColumn.equals("User3_ID"))
 		{
 			lookupColumn = "C_ElementValue_ID";
-			MAcctSchemaElement ase = m_data.ASchema
+			MAcctSchemaElement ase = accountViewerData.ASchema
 					.getAcctSchemaElement(X_C_AcctSchema_Element.ELEMENTTYPE_UserList3);
 			if (ase != null)
 				whereClause += " AND C_Element_ID=" + ase.getC_Element_ID();
@@ -746,7 +783,7 @@ public class AcctViewer extends CFrame
 		else if (keyColumn.equals("User4_ID"))
 		{
 			lookupColumn = "C_ElementValue_ID";
-			MAcctSchemaElement ase = m_data.ASchema
+			MAcctSchemaElement ase = accountViewerData.ASchema
 					.getAcctSchemaElement(X_C_AcctSchema_Element.ELEMENTTYPE_UserList4);
 			if (ase != null)
 				whereClause += " AND C_Element_ID=" + ase.getC_Element_ID();
@@ -783,19 +820,19 @@ public class AcctViewer extends CFrame
 			whereClause = "";
 		
 		if (button == selRecord)                            //  Record_ID
-			record_id = m_data.Record_ID;
+			record_id = accountViewerData.Record_ID;
 		else
-			record_id = m_data.getButtonRecordID(keyColumn);
+			record_id = accountViewerData.getButtonRecordID(keyColumn);
 
 		String tableName = lookupColumn.substring(0, lookupColumn.length()-3);
-		Info info = Info.create(this, true, m_data.WindowNo, tableName, lookupColumn, record_id, "", false, true, whereClause);
+		Info info = Info.create(this, true, accountViewerData.WindowNo, tableName, lookupColumn, record_id, "", false, true, whereClause);
 		if (!info.loadedOK())
 		{
 			info.dispose();
 			info = null;
 			button.setText("");
-			m_data.whereInfo.put(keyColumn, "");
-			m_data.buttonRecordID.put(keyColumn, null);
+			accountViewerData.whereInfo.put(keyColumn, "");
+			accountViewerData.buttonRecordID.put(keyColumn, null);
 			return 0;
 		}
 		info.setVisible(true);
@@ -808,11 +845,11 @@ public class AcctViewer extends CFrame
 		{
 			key = 0;
 			if (button == selRecord)                            //  Record_ID
-				m_data.Record_ID = key.intValue();
+				accountViewerData.Record_ID = key.intValue();
 			else
 			{
-				m_data.whereInfo.put(keyColumn, "");    //  no query
-				m_data.buttonRecordID.put(keyColumn, key.intValue());
+				accountViewerData.whereInfo.put(keyColumn, "");    //  no query
+				accountViewerData.buttonRecordID.put(keyColumn, key.intValue());
 			}
 			button.setText("");
 		}
@@ -823,23 +860,23 @@ public class AcctViewer extends CFrame
 			key = (Integer)info.getSelectedKey();
 			log.config(keyColumn + " - " + key);
 			if (button == selRecord)                            //  Record_ID
-				m_data.Record_ID = key.intValue();
+				accountViewerData.Record_ID = key.intValue();
 			else
 			{
-				m_data.whereInfo.put(keyColumn, keyColumn + "=" + key.intValue());  //  Add to query
-				m_data.buttonRecordID.put(keyColumn, key.intValue());
+				accountViewerData.whereInfo.put(keyColumn, keyColumn + "=" + key.intValue());  //  Add to query
+				accountViewerData.buttonRecordID.put(keyColumn, key.intValue());
 			}
 			//  Display Selection and resize
-			button.setText(m_data.getButtonText(tableName, lookupColumn, selectSQL));
+			button.setText(accountViewerData.getButtonText(tableName, lookupColumn, selectSQL));
 			pack();
 		}
 		else if(!(isCancelled ^ isOK)) // xor: window closed or error - no change
 		{
-			// m_data not changed
+			// accountViewerData not changed
 			if (button == selRecord)                            //  Record_ID
-				key = m_data.Record_ID = key.intValue();
+				key = accountViewerData.Record_ID = key.intValue();
 			else
-				key = m_data.getButtonRecordID(keyColumn);
+				key = accountViewerData.getButtonRecordID(keyColumn);
 		}
 		info = null;
 		return key.intValue();
@@ -850,14 +887,14 @@ public class AcctViewer extends CFrame
 	 */
 	private void actionRePost()
 	{
-		if (m_data.documentQuery 
-			&& m_data.AD_Table_ID != 0 && m_data.Record_ID != 0
-			&& ADialog.ask(m_data.WindowNo, this, "PostImmediate?"))
+		if (accountViewerData.documentQuery
+			&& accountViewerData.AD_Table_ID != 0 && accountViewerData.Record_ID != 0
+			&& ADialog.ask(accountViewerData.WindowNo, this, "PostImmediate?"))
 		{
 			setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			boolean force = forcePost.isSelected();
-			String error = AEnv.postImmediate (m_data.WindowNo, m_data.AD_Client_ID,
-				m_data.AD_Table_ID, m_data.Record_ID, force);
+			String error = AEnv.postImmediate (accountViewerData.WindowNo, accountViewerData.AD_Client_ID,
+				accountViewerData.AD_Table_ID, accountViewerData.Record_ID, force);
 			setCursor(Cursor.getDefaultCursor());
 			if (error != null)
 				ADialog.error(0, this, "PostingError-N", error);

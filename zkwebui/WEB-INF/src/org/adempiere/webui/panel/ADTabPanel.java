@@ -201,17 +201,20 @@ public class ADTabPanel extends Div implements Evaluatee, EventListener, DataSta
 
         this.getChildren().clear();
 
-        int AD_Tree_ID = 0;
-		if (gridTab.isTreeTab())
-			AD_Tree_ID = MTree.getDefaultAD_Tree_ID (
-				Env.getAD_Client_ID(Env.getCtx()), gridTab.getKeyColumnName());
-		if (gridTab.isTreeTab() && AD_Tree_ID != 0)
+        int treeId = Env.getContextAsInt(Env.getCtx(), windowNo , gridTab.getTabNo() , "AD_Tree_ID" );
+		if (gridTab.isTreeTab() && treeId == 0) {
+			treeId = MTree.getDefaultAD_Tree_ID(Env.getAD_Client_ID(Env.getCtx()), gridTab.getKeyColumnName());
+			Env.setContext (Env.getCtx(), windowNo, "AD_Tree_ID",  treeId);
+		}
+		if (gridTab.isTreeTab() && treeId != 0)
 		{
 			Borderlayout layout = new Borderlayout();
 			layout.setParent(this);
 			layout.setStyle("width: 100%; height: 100%; position: absolute;");
-
 			treePanel = new ADTreePanel();
+			if (gridTab.getTabLevel() == 0)	//	initialize other tabs later
+				treePanel.initTree(treeId, windowNo);
+
 			West west = new West();
 			west.appendChild(treePanel);
 			west.setWidth("300px");
@@ -237,7 +240,6 @@ public class ADTabPanel extends Div implements Evaluatee, EventListener, DataSta
         listPanel.setVisible(false);
         listPanel.setWindowNo(windowNo);
         listPanel.setADWindowPanel(winPanel);
-
         gridTab.getTableModel().addVetoableChangeListener(this);
     }
 
@@ -246,9 +248,10 @@ public class ADTabPanel extends Div implements Evaluatee, EventListener, DataSta
      */
     public void createUI()
     {
-    	if (uiCreated) return;
+    	if (uiCreated)
+    		return;
 
-    	uiCreated = true;
+		uiCreated = true;
 
     	//setup columns
     	Columns columns = new Columns();
@@ -547,13 +550,6 @@ public class ADTabPanel extends Div implements Evaluatee, EventListener, DataSta
             rows.appendChild(row);
             if (rowList != null)
 				rowList.add(row);
-        }
-
-        //create tree
-        if (gridTab.isTreeTab() && treePanel != null) {
-			int AD_Tree_ID = MTree.getDefaultAD_Tree_ID (
-				Env.getAD_Client_ID(Env.getCtx()), gridTab.getKeyColumnName());
-			treePanel.initTree(AD_Tree_ID, windowNo);
         }
 
         if (!gridTab.isSingleRow() && !isGridView())
@@ -1122,6 +1118,15 @@ public class ADTabPanel extends Div implements Evaluatee, EventListener, DataSta
         if (!uiCreated)
         	createUI();
         dynamicDisplay(col);
+
+		int treeId = Env.getContextAsInt(Env.getCtx(), windowNo , gridTab.getTabNo(), "AD_Tree_ID");
+		if ((gridTab.isTreeTab() && treeId == 0) || gridTab.getTabLevel() == 0)
+			treeId = MTree.getDefaultAD_Tree_ID (Env.getAD_Client_ID(Env.getCtx()), gridTab.getKeyColumnName());
+		if (gridTab.isTreeTab() && treeId != 0 && treeId != treePanel.getTreeId()) {
+			treePanel.initTree(treeId, windowNo);
+			if (!gridTab.isSingleRow() && !isGridView())
+				switchRowPresentation();
+		}
 
         //sync tree
         if (treePanel != null) {

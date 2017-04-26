@@ -25,26 +25,33 @@ import java.util.List;
 import javax.swing.AbstractButton;
 import javax.swing.JPopupMenu;
 
-import org.adempiere.apps.toolbar.AProcessModel;
+import org.adempiere.apps.toolbar.AProcessActionModel;
 import org.adempiere.model.POWrapper;
 import org.compiere.grid.ed.VButton;
 import org.compiere.model.I_AD_Process;
 import org.compiere.swing.CMenuItem;
 import org.compiere.util.Env;
 
-public class AProcess
+/**
+ * 
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<a href="https://github.com/adempiere/adempiere/issues/999">
+ * 		@see FR [ 999 ] Add ZK Support for Process Action</a>
+ *
+ */
+public class AProcessAction
 {
-	private final AProcessModel model = new AProcessModel();
-	private final APanel parent;
+	private AProcessActionModel model = new AProcessActionModel();
+	private APanel parent;
 	private AppsAction action;
 
 	public static AppsAction createAppsAction(APanel parent)
 	{
-		AProcess app = new AProcess(parent);
+		AProcessAction app = new AProcessAction(parent);
 		return app.action;
 	}
 
-	public AProcess(APanel parent)
+	public AProcessAction(APanel parent)
 	{
 		this.parent = parent;
 		initAction();
@@ -106,8 +113,7 @@ public class AProcess
 		return mi;
 	}
 
-	private void startProcess(I_AD_Process process)
-	{
+	private void startProcess(I_AD_Process process) {
 		final I_AD_Process processTrl = POWrapper.translate(process, I_AD_Process.class);
 		final VButton button = new VButton(
 				"StartProcess", // columnName,

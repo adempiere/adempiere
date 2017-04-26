@@ -1,12 +1,12 @@
 #!/bin/bash
 #
 # Name:			create.sh
-# Description:	script to load SQLJ into oracle
+# Description:	script to load SQLJ into Oracle
 # Created:		2010-07-04
 # Vendor:		K.K. Alice
 # Author:		Stefan Christians
 #
-# FileTarget:	~/development/sandbox/adempiere/sqlj/oracle/create.sh
+# FileTarget:	~/development/sandbox/adempiere/sqlj/Oracle/create.sh
 # FileOwner:	spc.dvp
 # FilePerms:	0755
 #
@@ -33,7 +33,7 @@ loadjava -user $1@$ADEMPIERE_DB_SERVER/$ADEMPIERE_DB_NAME -verbose -force -resol
 
 echo .
 echo Create Oracle Functions ...
-sqlplus $1@$ADEMPIERE_DB_SERVER/$ADEMPIERE_DB_NAME @$ADEMPIERE_HOME/utils/oracle/createSQLJ.sql
+sqlplus $1@$ADEMPIERE_DB_SERVER/$ADEMPIERE_DB_NAME @$ADEMPIERE_HOME/utils/Oracle/createSQLJ.sql
 
 	# <<<--- end original "old style" script
 	exit 0
@@ -82,7 +82,7 @@ dbSqljFile="${12}"
 
 
 # make sure this script is called for the correct vendor
-if [ "$dbVendor" != "oracle" ]
+if [ "$dbVendor" != "Oracle" ]
 then
 	echo "wrong vendor"
 	exit $errorWrongVendor
@@ -96,7 +96,7 @@ then
 	exit $errorNoSqljFile	
 fi
 
-# load oracle sqlj
+# load Oracle sqlj
 echo "Load Oracle SQLJ ..."
 loadjava -user $dbUser/$dbPwd@$dbHost:$dbPort/$dbName -verbose -force -resolve "$dbSqljFile"
 result=$?

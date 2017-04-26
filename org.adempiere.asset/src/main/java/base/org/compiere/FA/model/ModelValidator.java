@@ -154,11 +154,11 @@ implements org.compiere.model.ModelValidator, org.compiere.model.FactsValidator
 		String tableName = po.get_TableName();
 		if(tableName.equals(MInvoice.Table_Name)){
 			// Invoice - Validate Fixed Assets Invoice (LRO)
-			if (timing==TIMING_AFTER_PREPARE)
-			{
-				MInvoice invoice = (MInvoice)po;
-				validateFixedAssetsInvoice_LRO(invoice);
-			}
+			//if (timing==TIMING_AFTER_PREPARE)
+			//{
+			//	MInvoice invoice = (MInvoice)po;
+			//	validateFixedAssetsInvoice_LRO(invoice);
+			//}
 			
 			if(timing==TIMING_AFTER_COMPLETE){
 				MInvoice mi = (MInvoice)po;

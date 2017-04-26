@@ -124,72 +124,56 @@ public class MTree extends MTree_Base
 	 *  Get default (oldest) complete AD_Tree_ID for KeyColumn.
 	 *  Called from GridController
 	 *  @param keyColumnName key column name, eg. C_Project_ID
-	 *  @param AD_Client_ID client
+	 *  @param clientId client
 	 *  @return AD_Tree_ID
 	 */
-	public static int getDefaultAD_Tree_ID (int AD_Client_ID, String keyColumnName)
+	public static int getDefaultAD_Tree_ID (int clientId, String keyColumnName)
 	{
 		s_log.config(keyColumnName);
 		if (keyColumnName == null || keyColumnName.length() == 0)
 			return 0;
 
-		String TreeType = null;
+		String treeType = null;
 		if (keyColumnName.equals("AD_Menu_ID"))
-			TreeType = TREETYPE_Menu; 
+			treeType = TREETYPE_Menu;
 		else if (keyColumnName.equals("C_ElementValue_ID"))
-			TreeType = TREETYPE_ElementValue;
+			treeType = TREETYPE_ElementValue;
 		else if (keyColumnName.equals("M_Product_ID"))
-			TreeType = TREETYPE_Product;
+			treeType = TREETYPE_Product;
 		else if (keyColumnName.equals("C_BPartner_ID"))
-			TreeType = TREETYPE_BPartner;
+			treeType = TREETYPE_BPartner;
 		else if (keyColumnName.equals("AD_Org_ID"))
-			TreeType = TREETYPE_Organization;
+			treeType = TREETYPE_Organization;
 		else if (keyColumnName.equals("C_Project_ID"))
-			TreeType = TREETYPE_Project;
+			treeType = TREETYPE_Project;
 		else if (keyColumnName.equals("M_ProductCategory_ID"))
-			TreeType = TREETYPE_ProductCategory;
+			treeType = TREETYPE_ProductCategory;
 		else if (keyColumnName.equals("M_BOM_ID"))
-			TreeType = TREETYPE_BoM;
+			treeType = TREETYPE_BoM;
 		else if (keyColumnName.equals("C_SalesRegion_ID"))
-			TreeType = TREETYPE_SalesRegion;
+			treeType = TREETYPE_SalesRegion;
 		else if (keyColumnName.equals("C_Campaign_ID"))
-			TreeType = TREETYPE_Campaign;
+			treeType = TREETYPE_Campaign;
 		else if (keyColumnName.equals("C_Activity_ID"))
-			TreeType = TREETYPE_Activity;
+			treeType = TREETYPE_Activity;
 		//
 		else if (keyColumnName.equals("CM_CStage_ID"))
-			TreeType = TREETYPE_CMContainerStage;
+			treeType = TREETYPE_CMContainerStage;
 		else if (keyColumnName.equals("CM_Container_ID"))
-			TreeType = TREETYPE_CMContainer;
+			treeType = TREETYPE_CMContainer;
 		else if (keyColumnName.equals("CM_Media_ID"))
-			TreeType = TREETYPE_CMMedia;
+			treeType = TREETYPE_CMMedia;
 		else if (keyColumnName.equals("CM_Template_ID"))
-			TreeType = TREETYPE_CMTemplate;
+			treeType = TREETYPE_CMTemplate;
 		else {
 			s_log.log(Level.SEVERE, "Could not map " + keyColumnName);
 			return 0;
 		}
-
-		int AD_Tree_ID = 0;
 		String sql = "SELECT AD_Tree_ID, Name FROM AD_Tree "
 			+ "WHERE AD_Client_ID=? AND TreeType=? AND IsActive='Y' AND IsAllNodes='Y' "
 			+ "ORDER BY IsDefault DESC, AD_Tree_ID";
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try {
-			pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, AD_Client_ID);
-			pstmt.setString(2, TreeType);
-			rs = pstmt.executeQuery();
-			if (rs.next())
-				AD_Tree_ID = rs.getInt(1);
-		} catch (SQLException e) {
-			s_log.log(Level.SEVERE, sql, e);
-		} finally {
-			DB.close(rs, pstmt);
-		}
-
-		return AD_Tree_ID;
+		int treeId = DB.getSQLValueEx(null ,sql , clientId , treeType);
+		return treeId;
 	}   //  getDefaultAD_Tree_ID
 
 

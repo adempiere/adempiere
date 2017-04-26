@@ -446,7 +446,7 @@ public final class APanel extends CPanel
 		aZoomAcross = addAction("ZoomAcross",	mGo, 	null,	false);
 		aRequest =  addAction("Request",		mGo, 	null,	false);
 		//	should be evaluated by window instead table
-		aProcess = AProcess.createAppsAction(this);
+		aProcess = AProcessAction.createAppsAction(this);
 		aArchive =  addAction("Archive",		mGo, 	null,	false);
 		aHome =		addAction("Home", 			mGo,	null,	false);
 		//								Tools
@@ -2443,7 +2443,6 @@ public final class APanel extends CPanel
 		}
 
 		boolean startWOasking = false;
-//		boolean batch = false;
 		String col = vButton.getColumnName();
 
 		//  Zoom
@@ -2488,6 +2487,10 @@ public final class APanel extends CPanel
 		}
 
 		boolean isProcessMandatory = false;
+		MProcess process = null;
+		if(vButton.getProcess_ID() != 0) {
+			process = MProcess.get(m_ctx, vButton.getProcess_ID());
+		}
 
 		//	Pop up Payment Rules
 		if (col.equals("PaymentRule"))
@@ -2504,8 +2507,10 @@ public final class APanel extends CPanel
 		}	//	PaymentRule
 
 		//	Pop up Document Action (Workflow)
-		else if (col.equals("DocAction"))
-		{
+		else if (col.equals("DocAction")
+				|| (col.equals("StartProcess")
+						&& process != null
+						&& process.getAD_Workflow_ID() != 0)) {
 			isProcessMandatory = true;
 			VDocAction vda = new VDocAction(m_curWindowNo, m_curTab, vButton, record_ID);
 			//	Something to select from?
@@ -2520,7 +2525,6 @@ public final class APanel extends CPanel
 				vda.setVisible(true);
 				if (!vda.isStartProcess())
 					return;
-//				batch = vda.isBatch();
 				startWOasking = true;
 				vda.dispose();
 			}
@@ -2619,19 +2623,17 @@ public final class APanel extends CPanel
 		if (m_curTab.needSave(true, false))
 			if (!cmd_save(true))
 				return;
-
-		// call form
-		MProcess pr = new MProcess(m_ctx, vButton.getProcess_ID(), null);
+		
 		//	Validate Access
 		MRole role = MRole.getDefault(m_ctx, false);
-		Boolean accessRW = role.checkProcessAccess(pr.getAD_Process_ID());
+		Boolean accessRW = role.checkProcessAccess(process.getAD_Process_ID());
 		if(accessRW == null
 				|| !accessRW.booleanValue()) {
 			ADialog.error(m_curWindowNo, this, null, Msg.parseTranslation(m_ctx, "@AccessCannotProcess@"));
 			return;
 		}
 		//	
-		int form_ID = pr.getAD_Form_ID();
+		int form_ID = process.getAD_Form_ID();
 		if (form_ID != 0 )
 		{
 
@@ -2655,7 +2657,7 @@ public final class APanel extends CPanel
 			//	End Yamel Senih
 			return;
 		}
-		int browse_ID = pr.getAD_Browse_ID();
+		int browse_ID = process.getAD_Browse_ID();
 		if (browse_ID != 0 )
 		{
 

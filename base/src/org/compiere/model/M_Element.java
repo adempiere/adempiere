@@ -39,6 +39,8 @@ import org.compiere.util.Msg;
  *		<li> Lookup for search view not show button
  *  	<li> Add default Tables lookup
  *  	@see https://adempiere.atlassian.net/browse/ADEMPIERE-447
+ *   	<a href="https://github.com/adempiere/adempiere/issues/998">
+ * 		@see FR [ 998 ] Possible NPE on isLookupColumnName method of M_Element class</a>
  * eEvolution @author Victor Perez <victor.perez@e-evolution.com>, Created by e-Evolution on 26/02/16.
  * 		<li>The current isLookupColumnName logic not should be hard code should be solve using column name and name convention #328
  * 		@see http://github.com/adempiere/adempiere/issues/328
@@ -147,14 +149,7 @@ public class M_Element extends X_AD_Element
 	 */
 	public M_Element (Properties ctx, int AD_Element_ID, String trxName)
 	{
-		super (ctx, AD_Element_ID, trxName);
-		if (AD_Element_ID == 0)
-		{
-		//	setColumnName (null);
-		//	setEntityType (null);	// U
-		//	setName (null);
-		//	setPrintName (null);
-		}	
+		super (ctx, AD_Element_ID, trxName);	
 	}	//	M_Element
 
 	/**
@@ -222,7 +217,6 @@ public class M_Element extends X_AD_Element
 		//	Update Columns, Fields, Parameters, Print Info
 		if (!newRecord)
 		{
-			StringBuffer sql = new StringBuffer();
 			StringBuffer whereClause = new StringBuffer();
 			int no = 0;
 			
@@ -231,15 +225,6 @@ public class M_Element extends X_AD_Element
 				|| is_ValueChanged(M_Element.COLUMNNAME_Help)
 				|| is_ValueChanged(M_Element.COLUMNNAME_ColumnName)
 				) {
-				//	Column
-//				sql = new StringBuffer("UPDATE AD_Column SET ColumnName=")
-//					.append(DB.TO_STRING(getColumnName()))
-//					.append(", Name=").append(DB.TO_STRING(getName()))
-//					.append(", Description=").append(DB.TO_STRING(getDescription()))
-//					.append(", Help=").append(DB.TO_STRING(getHelp()))
-//					.append(" WHERE AD_Element_ID=").append(get_ID());
-//				no = DB.executeUpdate(sql.toString(), get_TrxName());
-				
 				// Use the Column model to trigger the after save and sync of the database.
 				whereClause = new StringBuffer(" AD_Element_ID=?");
 				List<MColumn> columns = new Query(getCtx(), MColumn.Table_Name, whereClause.toString(), get_TrxName())
@@ -256,19 +241,7 @@ public class M_Element extends X_AD_Element
 					no++;
 				}
 				log.fine("afterSave - Columns updated #" + no);
-
 				//	Parameter 
-//				sql = new StringBuffer("UPDATE AD_Process_Para SET ColumnName=")
-//					.append(DB.TO_STRING(getColumnName()))
-//					.append(", Name=").append(DB.TO_STRING(getName()))
-//					.append(", Description=").append(DB.TO_STRING(getDescription()))
-//					.append(", Help=").append(DB.TO_STRING(getHelp()))
-//					.append(", AD_Element_ID=").append(get_ID())
-//					.append(" WHERE UPPER(ColumnName)=")
-//					.append(DB.TO_STRING(getColumnName().toUpperCase()))
-//					.append(" AND IsCentrallyMaintained='Y' AND AD_Element_ID IS NULL");
-//				no = DB.executeUpdate(sql.toString(), get_TrxName());
-
 				whereClause = new StringBuffer("UPPER(ColumnName)=?")
 									.append(" AND IsCentrallyMaintained=? AND AD_Element_ID IS NULL");
 				List<MProcessPara> processParas = new Query(getCtx(), MProcessPara.Table_Name, whereClause.toString(), get_TrxName())
@@ -285,15 +258,6 @@ public class M_Element extends X_AD_Element
 					para.saveEx();
 					no++;
 				}
-
-//				sql = new StringBuffer("UPDATE AD_Process_Para SET ColumnName=")
-//					.append(DB.TO_STRING(getColumnName()))
-//					.append(", Name=").append(DB.TO_STRING(getName()))
-//					.append(", Description=").append(DB.TO_STRING(getDescription()))
-//					.append(", Help=").append(DB.TO_STRING(getHelp()))
-//					.append(" WHERE AD_Element_ID=").append(get_ID())
-//					.append(" AND IsCentrallyMaintained='Y'");
-//				no += DB.executeUpdate(sql.toString(), get_TrxName());
 
 				whereClause = new StringBuffer("AD_Element_ID=?")
 						.append(" AND IsCentrallyMaintained=?");
@@ -317,15 +281,6 @@ public class M_Element extends X_AD_Element
 				|| is_ValueChanged(M_Element.COLUMNNAME_Help)
 				) {
 				//	Field
-//				sql = new StringBuffer("UPDATE AD_Field SET Name=")
-//					.append(DB.TO_STRING(getName()))
-//					.append(", Description=").append(DB.TO_STRING(getDescription()))
-//					.append(", Help=").append(DB.TO_STRING(getHelp()))
-//					.append(" WHERE AD_Column_ID IN (SELECT AD_Column_ID FROM AD_Column WHERE AD_Element_ID=")
-//					.append(get_ID())
-//					.append(") AND IsCentrallyMaintained='Y'");
-//				no = DB.executeUpdate(sql.toString(), get_TrxName());
-
 				whereClause = new StringBuffer("AD_Column_ID IN (SELECT AD_Column_ID FROM AD_Column WHERE AD_Element_ID=?")
 						.append(") AND IsCentrallyMaintained=?");
 				List<MField> fields = new Query(getCtx(), MField.Table_Name, whereClause.toString(), get_TrxName())
@@ -341,25 +296,12 @@ public class M_Element extends X_AD_Element
 					no++;
 				}
 				log.fine("Fields updated #" + no);
-
-				// Info Column - update Name, Description, Help - doesn't have IsCentrallyMaintained currently
-				// no = DB.executeUpdate(sql.toString(), get_TrxName());
-				// log.fine("InfoColumn updated #" + no);
 			}
 			
 			if (   is_ValueChanged(M_Element.COLUMNNAME_PrintName)
 				|| is_ValueChanged(M_Element.COLUMNNAME_Name)
 				) {
 				//	Print Info
-//				sql = new StringBuffer("UPDATE AD_PrintFormatItem pi SET PrintName=")
-//					.append(DB.TO_STRING(getPrintName()))
-//					.append(", Name=").append(DB.TO_STRING(getName()))
-//					.append(" WHERE IsCentrallyMaintained='Y'")	
-//					.append(" AND EXISTS (SELECT * FROM AD_Column c ")
-//						.append("WHERE c.AD_Column_ID=pi.AD_Column_ID AND c.AD_Element_ID=")
-//						.append(get_ID()).append(")");
-//				no = DB.executeUpdate(sql.toString(), get_TrxName());
-
 				whereClause = new StringBuffer("AD_Column_ID IN (SELECT AD_Column_ID FROM AD_Column WHERE AD_Element_ID=?")
 					.append(") AND IsCentrallyMaintained=?");
 				List<MPrintFormatItem> items = new Query(getCtx(), MPrintFormatItem.Table_Name, whereClause.toString(), get_TrxName())
@@ -418,13 +360,13 @@ public class M_Element extends X_AD_Element
 		//	Valid Null
 		if(columnName == null
 				|| columnName.trim().length() == 0)
-
+			return false;
 		if (!columnName.endsWith("_ID") && referenceKeyId <= 0)
 			return false;
 
 		String tableName =  columnName.substring(0, columnName.length() -3);
-		Integer tableId = DB.getSQLValue(null, "SELECT AD_Table_ID FROM AD_Table t WHERE t.TableName=?", tableName.trim());
-		if (tableId <= 0)
+		MTable table = MTable.get(Env.getCtx(), tableName);
+		if (table == null)
 			return false;
 		else if (DisplayType.isLookup(referenceKeyId))
 			return true;
