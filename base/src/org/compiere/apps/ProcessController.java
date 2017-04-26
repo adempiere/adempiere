@@ -527,7 +527,6 @@ public abstract class ProcessController extends SmallViewController {
 			{
 				
 				MPInstancePara para = params[i];
-				System.out.println(para.getParameterName()+"-");
 				para.getParameterName();
 
 				if ( field.getColumnName().equals(para.getParameterName()) )
