@@ -258,7 +258,7 @@ public class WPOSActionMenu implements  POSQueryListener, EventListener{
                 receiver.setBankAccountId(pos.getC_BankAccount_ID());
                 command.execute(receiver);
                 ProcessInfo processInfo = receiver.getProcessInfo();
-                waiting.dispose();nM
+                waiting.dispose();
                 if (processInfo != null && processInfo.isError()) {
                     showError(processInfo);
                 }
