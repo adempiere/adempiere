@@ -1,4 +1,3 @@
 
 include 'tools', 'base', 'JasperReport', 'client'
-
 rootProject.name = 'ADempiere'

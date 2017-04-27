@@ -1,3 +1,25 @@
+/******************************************************************************
+ *                                                                            *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) Serasoft S.r.l. Consultants All Rights Reserved.             *
+ *                                                                            *
+ * This program is free software; you can redistribute it and/or              *
+ * modify it under the terms of the GNU General Public License                *
+ * as published by the Free Software Foundation; either version 2             *
+ * of the License, or (at your option) any later version.                     *
+ *                                                                            *
+ * This program is distributed in the hope that it will be useful,            *
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of             *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                       *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ *                                                                            *
+ * @author sergio.ramazzina@serasoft.it, www.serasoft.it                      *
+ *                                                                            *
+ *****************************************************************************/
+
 apply plugin: 'java'
 apply plugin: 'maven-publish'
 
@@ -6,6 +28,9 @@ description = 'This buildfile is used to build the base subproject within the Ad
 
 repositories {
     mavenCentral()
+    maven {
+        url "https://repo.serasoft.org/repository/adempiere-snapshot/"
+    }
     mavenLocal()
 }
 
@@ -35,12 +60,34 @@ jar {
 
 publishing {
     publications {
-        baseJar(MavenPublication) {
+        mavenJava(MavenPublication) {
             groupId 'org.adempiere'
-            artifactId 'Base'
+            artifactId 'base'
             version version
 
             artifact jar
         }
     }
 }
+
+publishing {
+    repositories {
+        maven {
+            url "https://repo.serasoft.org/repository/adempiere-snapshot/"
+            credentials {
+                username System.properties['deploy.user.name']
+                password System.properties['deploy.user.pwd']
+            }
+        }
+    }
+}
+
+
+/* uploadArchives {
+    repositories {
+        repository (url: "https://repo.serasoft.it/repository/adempiere")
+        pom.version = version
+        pom.artifactId = 'Base'
+        pom.groupId = 'org.adempiere'
+    }
+}*/

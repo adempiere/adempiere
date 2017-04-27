@@ -24,12 +24,7 @@ apply plugin: 'java'
 apply plugin: 'maven-publish'
 
 version = System.properties['project.version']
-description = 'This buildfile is used to build the JasperReport subproject within the Adempiere project.'
-
-
-def libDir = './lib'
-
-def assemblyDir = 'build/assembly'
+description = 'Building fixed asset subproject within the Adempiere project.'
 
 repositories {
     mavenCentral()
@@ -41,64 +36,24 @@ repositories {
 
 dependencies {
 
-    compile group:'org.adempiere', name: 'base', version: version
-    compile group:'org.adempiere', name: 'client', version: version
-    compile group:'org.adempiere', name: 'oracle', version: version
-    compile group:'org.adempiere', name: 'postgresql', version: version
-    compile group: 'net.sourceforge.barbecue', name: 'barbecue', version: '1.5-beta1'
-    compile group: 'net.sf.jasperreports', name: 'jasperreports', version: '5.1.0'
-    compile group: 'com.lowagie', name: 'itext', version: '2.1.7'
+    compile group:'org.adempiere', name: 'CSTools', version: version
+    compile group:'org.adempiere', name: 'Base', version: version
+
+    // This dependencies are for customizations and patches. Temporarily commented because otherwise
+    // we will have an error (the jars are not available), this mechanism must be reviewed and redesigned
+    // to be more elgant and efficent.
+    //
+    // compile file('lib/customization.jar')
+    // compile file('lib/patches.jar')
 
 }
 
-
-jar {
-    manifest {
-        attributes("Implementation-Title": "CompiereJasper - Rel." + version,
-                   "Implementation-Version": version,
-                   "Implementation-Vendor": "ADempiere",
-                   "Implementation-URL": "http://www.adempiere.org",
-                   "Main-Class": "org.compiere.report.ReportStarter"
-                   )
-    }
-}
-
-/* task rebuildJars(type: Jar) {
-
-    FileCollection fc = files([libDir + '/iReport.jar',
-        libDir + '/jasperreports-5.1.0.jar',
-        libDir + '/commons-digester-2.1.jar',
-        libDir + '/jasperreports-fonts-5.1.0.jar',
-        libDir + '/commons-logging.jar',
-        libDir + '/commons-beanutils-1.8.0.jar',
-        libDir + '/xercesImpl.jar',
-        libDir + '/xml-apis.jar'
-        ])
-
-    from {
-        fc.collect {
-            it.isDirectory() ? it : zipTree(it)
-        }
-    }{
-        exclude 'META-INF/*'
-    }
-
-    archivesBaseName = 'CompiereJasperReqs'
-    manifest {
-        attributes("Implementation-Title": "Needed libraries for Jasper Reports integration on org.compiere.report.ReportStarter - " + version,
-                   "Implementation-Version": version,
-                   "Implementation-Vendor": "ADempiere",
-                   "Implementation-URL": "http://www.adempiere.org"
-                   )
-    }
-}
-*/
-
+// TODO to consider definitive we need to add the inclusion of the Jasper things + other (see original build.xml)
 publishing {
     publications {
-        jasperReportModule(MavenPublication) {
+        fixedAssets(MavenPublication) {
             groupId 'org.adempiere'
-            artifactId 'compiere-jasper-reports'
+            artifactId 'fixed-assets'
             version version
 
             artifact jar
@@ -117,3 +72,12 @@ publishing {
         }
     }
 }
+
+
+jar {
+    manifest {
+        attributes("Implementation-Title": "Adempiere SWING Client Module",
+                   "Implementation-Version": version)
+    }
+}
+

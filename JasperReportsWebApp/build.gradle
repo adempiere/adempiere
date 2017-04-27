@@ -24,7 +24,7 @@ apply plugin: 'java'
 apply plugin: 'maven-publish'
 
 version = System.properties['project.version']
-description = 'This buildfile is used to build the JasperReport subproject within the Adempiere project.'
+description = 'This buildfile is used to build the JasperReport WebApp subproject within the Adempiere project.'
 
 
 def libDir = './lib'
@@ -42,12 +42,12 @@ repositories {
 dependencies {
 
     compile group:'org.adempiere', name: 'base', version: version
-    compile group:'org.adempiere', name: 'client', version: version
-    compile group:'org.adempiere', name: 'oracle', version: version
-    compile group:'org.adempiere', name: 'postgresql', version: version
-    compile group: 'net.sourceforge.barbecue', name: 'barbecue', version: '1.5-beta1'
-    compile group: 'net.sf.jasperreports', name: 'jasperreports', version: '5.1.0'
-    compile group: 'com.lowagie', name: 'itext', version: '2.1.7'
+    compile group:'org.adempiere', name: 'compiere-jasper-reports', version: version
+
+    compile group:'jboss', name: 'jboss-ejb3x', version: '4.2.2.GA'
+    compile group:'javax.servlet', name: 'servlet-api', version: '2.5'
+    compile group:'net.sf.jasperreports', name: 'jasperreports', version: '5.1.0'
+    compile group:'com.lowagie', name: 'itext', version: '2.1.7'
 
 }
 
@@ -63,7 +63,7 @@ jar {
     }
 }
 
-/* task rebuildJars(type: Jar) {
+task rebuildJars(type: Jar) {
 
     FileCollection fc = files([libDir + '/iReport.jar',
         libDir + '/jasperreports-5.1.0.jar',
@@ -92,11 +92,10 @@ jar {
                    )
     }
 }
-*/
 
-publishing {
+/* publishing {
     publications {
-        jasperReportModule(MavenPublication) {
+        mavenJava(MavenPublication) {
             groupId 'org.adempiere'
             artifactId 'compiere-jasper-reports'
             version version
@@ -104,7 +103,7 @@ publishing {
             artifact jar
         }
     }
-}
+}*/
 
 publishing {
     repositories {

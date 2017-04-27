@@ -1,0 +1,30 @@
+apply plugin: 'java'
+apply plugin: 'maven-publish'
+
+version = System.properties['project.version']
+description = 'This buildfile is used to build the Migrate subproject within the Adempiere project.'
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+// TODO to consider definitive we need to add the inclusion of the Jasper things + other (see original build.xml)
+publishing {
+    publications {
+        swingClientJar(MavenPublication) {
+            groupId 'org.adempiere'
+            artifactId 'Adempiere' // TODO Why not giving a name that identify the nature of this client? SWING
+            version version
+
+            artifact jar
+        }
+    }
+}
+jar {
+    manifest {
+        attributes("Implementation-Title": "Adempiere SWING Client Module",
+                   "Implementation-Version": version)
+    }
+}
+
