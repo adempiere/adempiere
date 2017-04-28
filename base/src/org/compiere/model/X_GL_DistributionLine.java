@@ -1,8 +1,9 @@
 /******************************************************************************
  * Product: ADempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 2006-2016 ADempiere Foundation, All Rights Reserved.         *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -31,7 +32,7 @@ public class X_GL_DistributionLine extends PO implements I_GL_DistributionLine, 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20161103L;
+	private static final long serialVersionUID = 20170428L;
 
     /** Standard Constructor */
     public X_GL_DistributionLine (Properties ctx, int GL_DistributionLine_ID, String trxName)
@@ -132,6 +133,46 @@ public class X_GL_DistributionLine extends PO implements I_GL_DistributionLine, 
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Accounted Credit.
+		@param AmtAcctCr 
+		Accounted Credit Amount
+	  */
+	public void setAmtAcctCr (BigDecimal AmtAcctCr)
+	{
+		set_Value (COLUMNNAME_AmtAcctCr, AmtAcctCr);
+	}
+
+	/** Get Accounted Credit.
+		@return Accounted Credit Amount
+	  */
+	public BigDecimal getAmtAcctCr () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_AmtAcctCr);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Accounted Debit.
+		@param AmtAcctDr 
+		Accounted Debit Amount
+	  */
+	public void setAmtAcctDr (BigDecimal AmtAcctDr)
+	{
+		set_Value (COLUMNNAME_AmtAcctDr, AmtAcctDr);
+	}
+
+	/** Get Accounted Debit.
+		@return Accounted Debit Amount
+	  */
+	public BigDecimal getAmtAcctDr () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_AmtAcctDr);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	public org.compiere.model.I_C_Activity getC_Activity() throws RuntimeException
@@ -396,6 +437,30 @@ public class X_GL_DistributionLine extends PO implements I_GL_DistributionLine, 
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Invert Account Sign.
+		@param InvertAccountSign 
+		Enable invert account sign when a GL Distribution rule applied
+	  */
+	public void setInvertAccountSign (boolean InvertAccountSign)
+	{
+		set_Value (COLUMNNAME_InvertAccountSign, Boolean.valueOf(InvertAccountSign));
+	}
+
+	/** Get Invert Account Sign.
+		@return Enable invert account sign when a GL Distribution rule applied
+	  */
+	public boolean isInvertAccountSign () 
+	{
+		Object oo = get_Value(COLUMNNAME_InvertAccountSign);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
 	}
 
 	/** Set Line No.
@@ -669,6 +734,30 @@ public class X_GL_DistributionLine extends PO implements I_GL_DistributionLine, 
 		return false;
 	}
 
+	/** Set Overwrite Posting Type.
+		@param OverwritePostingType 
+		Overwrite the posting type with the value specified
+	  */
+	public void setOverwritePostingType (boolean OverwritePostingType)
+	{
+		set_Value (COLUMNNAME_OverwritePostingType, Boolean.valueOf(OverwritePostingType));
+	}
+
+	/** Get Overwrite Posting Type.
+		@return Overwrite the posting type with the value specified
+	  */
+	public boolean isOverwritePostingType () 
+	{
+		Object oo = get_Value(COLUMNNAME_OverwritePostingType);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Overwrite Product.
 		@param OverwriteProduct 
 		Overwrite the account segment Product with the value specified
@@ -855,6 +944,36 @@ public class X_GL_DistributionLine extends PO implements I_GL_DistributionLine, 
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
+	}
+
+	/** PostingType AD_Reference_ID=125 */
+	public static final int POSTINGTYPE_AD_Reference_ID=125;
+	/** Actual = A */
+	public static final String POSTINGTYPE_Actual = "A";
+	/** Budget = B */
+	public static final String POSTINGTYPE_Budget = "B";
+	/** Commitment = E */
+	public static final String POSTINGTYPE_Commitment = "E";
+	/** Statistical = S */
+	public static final String POSTINGTYPE_Statistical = "S";
+	/** Reservation = R */
+	public static final String POSTINGTYPE_Reservation = "R";
+	/** Set PostingType.
+		@param PostingType 
+		The type of posted amount for the transaction
+	  */
+	public void setPostingType (String PostingType)
+	{
+
+		set_Value (COLUMNNAME_PostingType, PostingType);
+	}
+
+	/** Get PostingType.
+		@return The type of posted amount for the transaction
+	  */
+	public String getPostingType () 
+	{
+		return (String)get_Value(COLUMNNAME_PostingType);
 	}
 
 	public org.compiere.model.I_C_ElementValue getUser1() throws RuntimeException

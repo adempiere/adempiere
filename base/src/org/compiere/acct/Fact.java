@@ -20,6 +20,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 
 import org.compiere.model.MAccount;
 import org.compiere.model.MAcctSchema;
@@ -644,18 +645,21 @@ public final class Fact
 			{
 				log.warning("No Element Value for " + account 
 					+ ": " + line);
+				m_doc.p_Error = account.toString();
 				return false;
 			}
 			if (ev.isSummary())
 			{
 				log.warning("Cannot post to Summary Account " + ev 
 					+ ": " + line);
+				m_doc.p_Error = ev.toString();
 				return false;
 			}
 			if (!ev.isActive())
 			{
 				log.warning("Cannot post to Inactive Account " + ev 
 					+ ": " + line);
+				m_doc.p_Error = ev.toString();
 				return false;
 			}
 
@@ -678,9 +682,9 @@ public final class Fact
 		//	For all fact lines
 		for (int i = 0; i < m_lines.size(); i++)
 		{
-			FactLine dLine = (FactLine)m_lines.get(i);
-			MDistribution[] distributions = MDistribution.get (dLine.getAccount(), 
-				m_postingType, m_doc.getC_DocType_ID());
+			FactLine factLineSource = (FactLine)m_lines.get(i);
+			List<MDistribution> distributions = MDistribution.get (factLineSource.getAccount(),
+				m_postingType, m_doc.getC_DocType_ID(),factLineSource.getDateAcct());
 			//	No Distribution for this line
 			//AZ Goodwill
 			//The above "get" only work in GL Journal because it's using ValidCombination Account
@@ -689,94 +693,123 @@ public final class Fact
 			//	continue;
 			//For other document, we try the followings (from FactLine):
 			//New:	
-			if (distributions == null || distributions.length == 0)
+			if (distributions == null || distributions.size() == 0)
 			{
-				distributions = MDistribution.get (dLine.getCtx(), dLine.getC_AcctSchema_ID(),
+				distributions = MDistribution.get (factLineSource.getCtx(), factLineSource.getC_AcctSchema_ID(),
 					m_postingType, m_doc.getC_DocType_ID(),
-					dLine.getAD_Org_ID(), dLine.getAccount_ID(),
-					dLine.getM_Product_ID(), dLine.getC_BPartner_ID(), dLine.getC_Project_ID(),
-					dLine.getC_Campaign_ID(), dLine.getC_Activity_ID(), dLine.getAD_OrgTrx_ID(),
-					dLine.getC_SalesRegion_ID(), dLine.getC_LocTo_ID(), dLine.getC_LocFrom_ID(),
-					dLine.getUser1_ID(), dLine.getUser2_ID(), dLine.getUser3_ID(), dLine.getUser4_ID());
-				if (distributions == null || distributions.length == 0)
+					factLineSource.getAD_Org_ID(), factLineSource.getAccount_ID(),
+					factLineSource.getM_Product_ID(), factLineSource.getC_BPartner_ID(), factLineSource.getC_Project_ID(),
+					factLineSource.getC_Campaign_ID(), factLineSource.getC_Activity_ID(), factLineSource.getAD_OrgTrx_ID(),
+					factLineSource.getC_SalesRegion_ID(), factLineSource.getC_LocTo_ID(), factLineSource.getC_LocFrom_ID(),
+					factLineSource.getUser1_ID(), factLineSource.getUser2_ID(), factLineSource.getUser3_ID(), factLineSource.getUser4_ID() , factLineSource.getDateAcct());
+				if (distributions == null || distributions.size() == 0)
 					continue;
 			}
 			//end AZ
 			//	Just the first
-			if (distributions.length > 1)
-				log.warning("More then one Distributiion for " + dLine.getAccount());
-			MDistribution distribution = distributions[0]; 
-
-			// FR 2685367 - GL Distribution delete line instead reverse
-			if (distribution.isCreateReversal()) {
-				//	Add Reversal
-				FactLine reversal = dLine.reverse(distribution.getName());
-				log.info("Reversal=" + reversal);
-				newLines.add(reversal);		//	saved in postCommit
-			} else {
-				// delete the line being distributed
-				m_lines.remove(i);    // or it could be m_lines.remove(dLine);
-				i--;
+			if (distributions.size() > 1){
+				log.warning("More then one Distributiion for " + factLineSource.getAccount());
+				//throw new AdempiereException("More then one Distribution for " + dLine.getAccount());
 			}
+			
+			MDistribution distribution = distributions.get(0);
+			List<MDistributionLine> distributionLines = distribution.getLines(false);
 
-			//	Prepare
-			distribution.distribute(dLine.getAccount(), dLine.getSourceBalance(), dLine.getQty(), dLine.getC_Currency_ID());
-			MDistributionLine[] lines = distribution.getLines(false);
-			for (int j = 0; j < lines.length; j++)
+			if(distribution.getPercentTotal().signum() != 0)
 			{
-				MDistributionLine dl = lines[j];
-				if (!dl.isActive() || dl.getAmt().signum() == 0)
-					continue;
-				FactLine factLine = new FactLine (m_doc.getCtx(), m_doc.get_Table_ID(),
-					m_doc.get_ID(), 0, m_trxName);
+			// FR 2685367 - GL Distribution delete line instead reverse
+				if (distribution.isCreateReversal() ){
+					//	Add Reversal				
+					FactLine reversal = factLineSource.reverse(distribution.getName());
+					log.info("Reversal=" + reversal);
+					newLines.add(reversal);		//	saved in postCommit
+				
+				} else  {
+					MDistributionLine distributionLine = distributionLines.stream().findFirst().get();
+					if (distributionLine.isOverwritePostingType()
+							&& distributionLine.getPostingType() != null
+							&& !distribution.getPostingType().equals(distributionLine.getPostingType())
+							&& distributionLine.getPercent().doubleValue() == 0)
+						;
+					else {
+						// delete the line being distributed
+						m_lines.remove(i);    // or it could be m_lines.remove(dLine);
+						i--;
+					}
+				}		
+			
+			}
+				
+			//	Prepare
+			distribution.distribute(factLineSource.getAccount(), factLineSource.getSourceBalance(), factLineSource.getQty(), factLineSource.getC_Currency_ID(),m_doc.getAmount().signum());
+			for (MDistributionLine distributionLine : distributionLines)
+			{
+				//if (!distributionLine.isActive() /*|| distributionLine.getAmt().signum() == 0*/)
+				//	continue;
+				FactLine factLine = new FactLine (m_doc.getCtx(), m_doc.get_Table_ID(), m_doc.get_ID(), 0, m_trxName);
 				//  Set Info & Account
-				factLine.setDocumentInfo(m_doc, dLine.getDocLine());
-				factLine.setAccount(m_acctSchema, dl.getAccount());
+				factLine.setDocumentInfo(m_doc, factLineSource.getDocLine());
+				factLine.setAccount(m_acctSchema, distributionLine.getAccount());
 				factLine.setPostingType(m_postingType);
-				if (dl.isOverwriteOrg())	//	set Org explicitly
-					factLine.setAD_Org_ID(dl.getOrg_ID());
+				if (distributionLine.isOverwritePostingType()
+						&& distributionLine.getPostingType() != null
+						&& !distribution.getPostingType().equals(distributionLine.getPostingType())
+						&& distributionLine.getPercent().doubleValue() == 0)
+					factLine.setPostingType(distributionLine.getPostingType());
+				if (distributionLine.isOverwriteOrg())	//	set Org explicitly
+					factLine.setAD_Org_ID(distributionLine.getOrg_ID());
 				// Silvano - freepath - F3P - Bug#2904994 Fact distribtution only overwriting Org
-				if(dl.isOverwriteAcct())
-					factLine.setAccount_ID(dl.getAccount_ID());
-				if(dl.isOverwriteActivity())
-					factLine.setC_Activity_ID(dl.getC_Activity_ID());
-				if(dl.isOverwriteBPartner())
-					factLine.setC_BPartner_ID(dl.getC_BPartner_ID());
-				if(dl.isOverwriteCampaign())
-					factLine.setC_Campaign_ID(dl.getC_Campaign_ID());
-				if(dl.isOverwriteLocFrom())
-					factLine.setC_LocFrom_ID(dl.getC_LocFrom_ID());
-				if(dl.isOverwriteLocTo())
-					factLine.setC_LocTo_ID(dl.getC_LocTo_ID());
-				if(dl.isOverwriteOrgTrx())
-					factLine.setAD_OrgTrx_ID(dl.getAD_OrgTrx_ID());
-				if(dl.isOverwriteProduct())
-					factLine.setM_Product_ID(dl.getM_Product_ID());
-				if(dl.isOverwriteProject())
-					factLine.setC_Project_ID(dl.getC_Project_ID());
-				if(dl.isOverwriteSalesRegion())
-					factLine.setC_SalesRegion_ID(dl.getC_SalesRegion_ID());
-				if(dl.isOverwriteUser1())				
-					factLine.setUser1_ID(dl.getUser1_ID());
-				if(dl.isOverwriteUser2())				
-					factLine.setUser2_ID(dl.getUser2_ID());
-				if(dl.isOverwriteUser3())
-					factLine.setUser3_ID(dl.getUser3_ID());
-				if(dl.isOverwriteUser4())
-					factLine.setUser4_ID(dl.getUser4_ID());
+				if(distributionLine.isOverwriteAcct())
+					factLine.setAccount_ID(distributionLine.getAccount_ID());
+				if(distributionLine.isOverwriteActivity())
+					factLine.setC_Activity_ID(distributionLine.getC_Activity_ID());
+				if(distributionLine.isOverwriteBPartner())
+					factLine.setC_BPartner_ID(distributionLine.getC_BPartner_ID());
+				if(distributionLine.isOverwriteCampaign())
+					factLine.setC_Campaign_ID(distributionLine.getC_Campaign_ID());
+				if(distributionLine.isOverwriteLocFrom())
+					factLine.setC_LocFrom_ID(distributionLine.getC_LocFrom_ID());
+				if(distributionLine.isOverwriteLocTo())
+					factLine.setC_LocTo_ID(distributionLine.getC_LocTo_ID());
+				if(distributionLine.isOverwriteOrgTrx())
+					factLine.setAD_OrgTrx_ID(distributionLine.getAD_OrgTrx_ID());
+				if(distributionLine.isOverwriteProduct())
+					factLine.setM_Product_ID(distributionLine.getM_Product_ID());
+				if(distributionLine.isOverwriteProject())
+					factLine.setC_Project_ID(distributionLine.getC_Project_ID());
+				if(distributionLine.isOverwriteSalesRegion())
+					factLine.setC_SalesRegion_ID(distributionLine.getC_SalesRegion_ID());
+				if(distributionLine.isOverwriteUser1())
+					factLine.setUser1_ID(distributionLine.getUser1_ID());
+				if(distributionLine.isOverwriteUser2())
+					factLine.setUser2_ID(distributionLine.getUser2_ID());
+				if(distributionLine.isOverwriteUser3())
+					factLine.setUser3_ID(distributionLine.getUser3_ID());
+				if(distributionLine.isOverwriteUser4())
+					factLine.setUser4_ID(distributionLine.getUser4_ID());
 				// F3P end
-				//
-				if (dl.getAmt().signum() < 0)
-					factLine.setAmtSource(dLine.getC_Currency_ID(), null, dl.getAmt().abs()); 
+
+				if (distributionLine.isInvertAccountSign()) {
+					if (distributionLine.getAmt().signum() < 0)
+						factLine.setAmtSource(factLineSource.getC_Currency_ID(), null, distributionLine.getAmt().abs());
+					else
+						factLine.setAmtSource(factLineSource.getC_Currency_ID(), distributionLine.getAmt(), null);
+				}
 				else
-					factLine.setAmtSource(dLine.getC_Currency_ID(), dl.getAmt(), null);
-				factLine.setQty(dl.getQty());
+				{
+					if (distributionLine.getAmt().signum() < 0)
+						factLine.setAmtSource(factLineSource.getC_Currency_ID(), null, distributionLine.getAmt().abs());
+					else
+						factLine.setAmtSource(factLineSource.getC_Currency_ID(), distributionLine.getAmt(), null);
+				}
+
+				factLine.setQty(distributionLine.getQty());
 				//  Convert
 				factLine.convert();
 				//
-				String description = distribution.getName() + " #" + dl.getLine();
-				if (dl.getDescription() != null)
-					description += " - " + dl.getDescription();
+				String description = distribution.getName() + " #" + distributionLine.getLine();
+				if (distributionLine.getDescription() != null)
+					description += " - " + distributionLine.getDescription();
 				factLine.addDescription(description);
 				//
 				log.info(factLine.toString());
@@ -943,5 +976,14 @@ public final class Fact
 		} //	toString
 		
 	}	//	Balance
+
+	/**
+	 * get Document
+	 * @return
+	 */
+	public Doc getDocument()
+	{
+		return m_doc;
+	}
 	
 }   //  Fact
