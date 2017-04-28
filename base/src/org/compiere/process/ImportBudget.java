@@ -98,8 +98,15 @@ public class ImportBudget extends ImportBudgetAbstract {
         }
 
         MAcctSchema acctSchema = MAcctSchema.get(getCtx(), getAccountingSchemaId());
-        MAcctSchemaElement[] acctSchemaElements = MAcctSchemaElement.getAcctSchemaElements(acctSchema);
+        if (acctSchema == null || acctSchema.getC_AcctSchema_ID() == 0)
+            throw new AdempiereException("@C_AcctSchema_ID@ @NotFound@");
         MPeriod period = MPeriod.get(getCtx(), acctSchema.getC_Period_ID());
+        if (period == null)
+            throw new AdempiereException("@C_Period_ID@ @NotFound@");
+
+        MAcctSchemaElement[] acctSchemaElements = MAcctSchemaElement.getAcctSchemaElements(acctSchema);
+
+
         int glCategoryId = DB.getSQLValue(get_TrxName(), "SELECT GL_Category_ID FROM GL_Category WHERE Name = 'Manual'  AND AD_Client_ID =? ", Env.getAD_Client_ID(getCtx()));
         int currencyId = acctSchema.getC_Currency_ID();
         int docTypeId = DB.getSQLValue(get_TrxName(), "SELECT C_DocType_ID FROM C_DocType WHERE Name = 'GL Journal' AND AD_Client_ID =?", Env.getAD_Client_ID(getCtx()));
