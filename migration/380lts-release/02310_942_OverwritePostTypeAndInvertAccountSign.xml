@@ -276,7 +276,7 @@ Credit Expense 1000
         <Data AD_Column_ID="111" Column="Name">Invert Account Sign</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
         <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="117" Column="DefaultValue">false</Data>
         <Data AD_Column_ID="116" Column="ColumnName">InvertAccountSign</Data>
         <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
         <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>

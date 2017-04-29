@@ -139,9 +139,9 @@ public class MDistribution extends X_GL_Distribution
 				continue;
 			if (!distribution.isAnyUser2() && distribution.getUser2_ID() != user2Id)
 				continue;
-			if (!distribution.isAnyUser1() && distribution.getUser3_ID() != user3Id)
+			if (!distribution.isAnyUser3() && distribution.getUser3_ID() != user3Id)
 				continue;
-			if (!distribution.isAnyUser2() && distribution.getUser3_ID() != user4Id)
+			if (!distribution.isAnyUser4() && distribution.getUser4_ID() != user4Id)
 				continue;
 			//
 			distributionList.add (distribution);
@@ -296,7 +296,7 @@ public class MDistribution extends X_GL_Distribution
 
 		Timestamp startDate = getValidFrom();
 		Timestamp endDate = getValidTo();
-		if (startDate.after(endDate)) {
+		if (startDate != null && endDate!= null && startDate.after(endDate)) {
 			retValue = "Invalid Time range";		
 		}
 		
