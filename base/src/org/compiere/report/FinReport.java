@@ -426,33 +426,33 @@ public class FinReport extends SvrProcess
 			if (m_columns[col].isColumnTypeRelativePeriod())
 			{
 				relativeOffset = m_columns[col].getRelativePeriod();
-				relativeOffsetTo = (BigDecimal) m_columns[col].get_Value("RelativePeriodTo");
+				relativeOffsetTo = m_columns[col].getRelativePeriodTo();
 			}
-			FinReportPeriod frp = getPeriod (relativeOffset);
+			FinReportPeriod finReportPeriod = getPeriod (relativeOffset);
 			if (m_lines[line].getPAPeriodType() != null)			//	line amount type overwrites column
 			{
 				info.append(" - LineDateAcct=");
 				if (m_lines[line].isPeriod())
 				{
-					String sql = frp.getPeriodWhere();
+					String sql = finReportPeriod.getPeriodWhere();
 					info.append("Period");
 					select.append(sql);
 				}
 				else if (m_lines[line].isYear())
 				{
-					String sql = frp.getYearWhere();
+					String sql = finReportPeriod.getYearWhere();
 					info.append("Year");
 					select.append(sql);
 				}
 				else if (m_lines[line].isTotal())
 				{
-					String sql = frp.getTotalWhere();
+					String sql = finReportPeriod.getTotalWhere();
 					info.append("Total");
 					select.append(sql);
 				}
 				else if (m_lines[line].isNatural())
 				{
-						select.append( frp.getNaturalWhere("fa"));
+						select.append( finReportPeriod.getNaturalWhere("fa"));
 				}
 				else
 				{
@@ -465,45 +465,45 @@ public class FinReport extends SvrProcess
 				info.append(" - ColumnDateAcct=");
 
 				String sql = null;
-				FinReportPeriod frpTo = null;
+				FinReportPeriod finReportPeriodTo = null;
 				if (relativeOffsetTo != null)
-					frpTo = getPeriod(relativeOffsetTo);
+					finReportPeriodTo = getPeriod(relativeOffsetTo);
 
 				if (m_columns[col].isPeriod())
 				{
-					if (frpTo != null)
-						sql = "BETWEEN " + DB.TO_DATE(frp.getStartDate()) + " AND " + DB.TO_DATE(frpTo.getEndDate());
+					if (finReportPeriodTo != null)
+						sql = "BETWEEN " + DB.TO_DATE(finReportPeriod.getStartDate()) + " AND " + DB.TO_DATE(finReportPeriodTo.getEndDate());
 					else
-						sql = frp.getPeriodWhere();
+						sql = finReportPeriod.getPeriodWhere();
 					info.append("Period");
 				}
 				else if (m_columns[col].isYear())
 				{
-					if (frpTo != null)
-						sql = "BETWEEN " + DB.TO_DATE(frp.getYearStartDate()) + " AND " + DB.TO_DATE(frpTo.getEndDate());
+					if (finReportPeriodTo != null)
+						sql = "BETWEEN " + DB.TO_DATE(finReportPeriod.getYearStartDate()) + " AND " + DB.TO_DATE(finReportPeriodTo.getEndDate());
 					else
-						sql = frp.getYearWhere();
+						sql = finReportPeriod.getYearWhere();
 					info.append("Year");
 				}
 				else if (m_columns[col].isTotal())
 				{
-					if (frpTo != null)
-						sql = "<= " + DB.TO_DATE(frpTo.getEndDate());
+					if (finReportPeriodTo != null)
+						sql = "<= " + DB.TO_DATE(finReportPeriodTo.getEndDate());
 					else
-						sql = frp.getTotalWhere();
+						sql = finReportPeriod.getTotalWhere();
 					info.append("Total");
 				}
 				else if (m_columns[col].isNatural())
 				{
-					if (frpTo != null)
+					if (finReportPeriodTo != null)
 					{
-						String yearWhere = "BETWEEN " + DB.TO_DATE(frp.getYearStartDate()) + " AND " + DB.TO_DATE(frpTo.getEndDate());
-						String totalWhere =  "<= " + DB.TO_DATE(frpTo.getEndDate());
+						String yearWhere = "BETWEEN " + DB.TO_DATE(finReportPeriod.getYearStartDate()) + " AND " + DB.TO_DATE(finReportPeriodTo.getEndDate());
+						String totalWhere =  "<= " + DB.TO_DATE(finReportPeriodTo.getEndDate());
 						String bs = " EXISTS (SELECT C_ElementValue_ID FROM C_ElementValue WHERE C_ElementValue_ID = fa.Account_ID AND AccountType NOT IN ('R', 'E'))";
 						sql = totalWhere + " AND ( " + bs + " OR TRUNC(fa.DateAcct) " + yearWhere + " ) ";
 					}
 					else
-						sql = frp.getNaturalWhere("fa");
+						sql = finReportPeriod.getNaturalWhere("fa");
 				}
 				else
 				{
@@ -1180,7 +1180,7 @@ public class FinReport extends SvrProcess
 				else if (m_columns[col].getPAPeriodType() != null)
 				{
 					FinReportPeriod frpTo = null;
-					BigDecimal relativeOffsetTo = (BigDecimal) m_columns[col].get_Value("RelativePeriodTo");
+					BigDecimal relativeOffsetTo = (BigDecimal) m_columns[col].getRelativePeriodTo();
 					if (relativeOffsetTo != null)
 						frpTo = getPeriod(relativeOffsetTo);
 
@@ -1541,7 +1541,7 @@ public class FinReport extends SvrProcess
 					if (m_columns[index].isColumnTypeRelativePeriod())
 					{
 						BigDecimal relativeOffset = m_columns[index].getRelativePeriod();
-						BigDecimal relativeOffsetTo = (BigDecimal) m_columns[index].get_Value("RelativePeriodTo");
+						BigDecimal relativeOffsetTo = (BigDecimal) m_columns[index].getRelativePeriodTo();
 						FinReportPeriod frp = getPeriod (relativeOffset);
 					
 						if ( s.contains("@Period@") )
