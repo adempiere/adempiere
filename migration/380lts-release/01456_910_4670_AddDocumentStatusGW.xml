@@ -3,6 +3,7 @@
   <Migration EntityType="D" Name="Document Status Indicators Dashboard GW" ReleaseNo="3.9.0" SeqNo="01456">
     <Comments>https://github.com/adempiere/adempiere/issues/910</Comments>
     <Step SeqNo="10" StepType="AD">
+      <Comments>Add new document status indicator: Pending Customer Shipments</Comments>
       <PO AD_Table_ID="53898" Action="I" Record_ID="50000" Table="U_PA_DocumentStatus">
         <Data AD_Column_ID="74869" Column="U_PA_DocumentStatus_ID">50000</Data>
         <Data AD_Column_ID="74870" Column="AD_Client_ID">11</Data>
@@ -48,7 +49,7 @@
         <Data AD_Column_ID="74877" Column="Updated">2017-04-02 10:58:45.127</Data>
         <Data AD_Column_ID="74878" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="74872" Column="AD_Role_ID" isNewNull="true"/>
-        <Data AD_Column_ID="74889" Column="AD_Window_ID">169</Data>
+        <Data AD_Column_ID="74889" Column="AD_Window_ID">143</Data>
         <Data AD_Column_ID="74881" Column="IsActive">true</Data>
         <Data AD_Column_ID="74888" Column="WhereClause">C_Order.IsSOTrx='Y' AND C_Order.Processed='N'</Data>
         <Data AD_Column_ID="74890" Column="AD_Form_ID" isNewNull="true"/>
