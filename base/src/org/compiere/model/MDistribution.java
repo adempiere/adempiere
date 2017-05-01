@@ -20,7 +20,6 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -164,6 +163,8 @@ public class MDistribution extends X_GL_Distribution
 		final String whereClause = "Account_ID=?";
 
 		List<MDistribution> list = new Query(ctx,I_GL_Distribution.Table_Name,whereClause,null)
+		.setClient_ID()
+		.setOnlyActiveRecords(true)
 		.setParameters(Account_ID)
 		.list();
 		distributionCache.put(key, list);
@@ -239,6 +240,8 @@ public class MDistribution extends X_GL_Distribution
 		//red1 Query
 		final String whereClause = I_GL_DistributionLine.COLUMNNAME_GL_Distribution_ID+"=?";
 		distributionLines = new Query(getCtx(),I_GL_DistributionLine.Table_Name,whereClause,get_TrxName())
+		.setClient_ID()
+		.setOnlyActiveRecords(true)
 		.setParameters(getGL_Distribution_ID())
 		.setOrderBy("Line")
 		.list();
@@ -418,7 +421,11 @@ public class MDistribution extends X_GL_Distribution
 		final String whereClause = "C_AcctSchema_ID=?";
 
 		List<MDistribution> list = new Query(ctx, I_GL_Distribution.Table_Name,
-				whereClause, null).setParameters(acctSchemaId).list();
+				whereClause, null)
+				.setClient_ID()
+				.setOnlyActiveRecords(true)
+				.setParameters(acctSchemaId)
+				.list();
 		distributionCache.put(key, list);
 		return retValue;
 	} // get
