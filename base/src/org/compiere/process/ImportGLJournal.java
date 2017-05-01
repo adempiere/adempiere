@@ -24,10 +24,13 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.logging.Level;
 
+import org.adempiere.model.ImportValidator;
+import org.adempiere.process.ImportProcess;
 import org.compiere.model.MAccount;
 import org.compiere.model.MJournal;
 import org.compiere.model.MJournalBatch;
 import org.compiere.model.MJournalLine;
+import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.X_I_GLJournal;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -39,7 +42,7 @@ import org.compiere.util.TimeUtil;
  * 	@author 	Jorg Janke
  * 	@version 	$Id: ImportGLJournal.java,v 1.2 2006/07/30 00:51:02 jjanke Exp $
  */
-public class ImportGLJournal extends SvrProcess
+public class ImportGLJournal extends SvrProcess implements ImportProcess
 {
 	/**	Client to be imported to		*/
 	private int 			m_AD_Client_ID = 0;
@@ -111,6 +114,7 @@ public class ImportGLJournal extends SvrProcess
 			log.fine("Delete Old Impored =" + no);
 		}
 
+		ModelValidationEngine.get().fireImportValidate(this, null ,  null , ImportValidator.TIMING_BEFORE_VALIDATE);
 		//	Set IsActive, Created/Updated
 		sql = new StringBuilder ("UPDATE I_GLJournal "
 			+ "SET IsActive = COALESCE (IsActive, 'Y'),"
@@ -525,6 +529,7 @@ public class ImportGLJournal extends SvrProcess
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
 		if (no != 0)
 			log.warning ("Zero Acct Balance=" + no);
+
 		//AZ Goodwill
 		//BF: 2391401 Remove account balance limitation in Import GL Journal 
 		/*
@@ -625,7 +630,7 @@ public class ImportGLJournal extends SvrProcess
 			while (rs.next())
 			{
 				X_I_GLJournal imp = new X_I_GLJournal (getCtx (), rs, get_TrxName());
-
+				ModelValidationEngine.get().fireImportValidate(this, imp, null, ImportValidator.TIMING_AFTER_IMPORT);
 				//	New Batch if Batch Document No changes
 				String impBatchDocumentNo = imp.getBatchDocumentNo();
 				if (impBatchDocumentNo == null)
@@ -758,6 +763,7 @@ public class ImportGLJournal extends SvrProcess
 				//
 				line.setC_UOM_ID(imp.getC_UOM_ID());
 				line.setQty(imp.getQty());
+				ModelValidationEngine.get().fireImportValidate(this, imp, line, ImportValidator.TIMING_BEFORE_IMPORT);
 				//
 				if (line.save())
 				{
@@ -769,6 +775,7 @@ public class ImportGLJournal extends SvrProcess
 					if (imp.save())
 						noInsertLine++;
 				}
+				ModelValidationEngine.get().fireImportValidate(this, imp, line, ImportValidator.TIMING_AFTER_IMPORT);
 			}	//	while records
 			rs.close();
 			pstmt.close();
@@ -801,4 +808,13 @@ public class ImportGLJournal extends SvrProcess
 		return "";
 	}	//	doIt
 
+	public String getWhereClause()
+	{
+		return " AND AD_Client_ID=" + m_AD_Client_ID;
+	}
+
+	public String getImportTableName()
+	{
+		return X_I_GLJournal.Table_Name;
+	}
 }	//	ImportGLJournal
