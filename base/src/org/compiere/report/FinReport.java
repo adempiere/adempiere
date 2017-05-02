@@ -426,7 +426,8 @@ public class FinReport extends SvrProcess
 			if (m_columns[col].isColumnTypeRelativePeriod())
 			{
 				relativeOffset = m_columns[col].getRelativePeriod();
-				relativeOffsetTo = m_columns[col].getRelativePeriodTo();
+				//Is necessary call using get_Value to get the null value
+				relativeOffsetTo = (BigDecimal) m_columns[col].get_Value("RelativePeriodTo");
 			}
 			FinReportPeriod finReportPeriod = getPeriod (relativeOffset);
 			if (m_lines[line].getPAPeriodType() != null)			//	line amount type overwrites column
@@ -1180,7 +1181,8 @@ public class FinReport extends SvrProcess
 				else if (m_columns[col].getPAPeriodType() != null)
 				{
 					FinReportPeriod frpTo = null;
-					BigDecimal relativeOffsetTo = (BigDecimal) m_columns[col].getRelativePeriodTo();
+					//Is necessary call using get_Value to get the null value
+					BigDecimal relativeOffsetTo = (BigDecimal) m_columns[col].get_Value("RelativePeriodTo");
 					if (relativeOffsetTo != null)
 						frpTo = getPeriod(relativeOffsetTo);
 
@@ -1541,7 +1543,8 @@ public class FinReport extends SvrProcess
 					if (m_columns[index].isColumnTypeRelativePeriod())
 					{
 						BigDecimal relativeOffset = m_columns[index].getRelativePeriod();
-						BigDecimal relativeOffsetTo = (BigDecimal) m_columns[index].getRelativePeriodTo();
+						///Is necessary call using get_Value to get the null value
+						BigDecimal relativeOffsetTo = (BigDecimal) m_columns[index].get_Value("RelativePeriodTo");
 						FinReportPeriod frp = getPeriod (relativeOffset);
 					
 						if ( s.contains("@Period@") )
