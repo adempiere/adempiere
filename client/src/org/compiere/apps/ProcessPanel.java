@@ -265,7 +265,6 @@ public class ProcessPanel extends ProcessController
 		//	FR [ 299 ]
 		fSavedName.setEditable(true);
 		fSavedName.setReadWrite(true);
-		fSavedName.addActionListener(this);
 		bDelete.addActionListener(this);
 		//	
 		mainLayout.setVgap(2);
@@ -299,6 +298,9 @@ public class ProcessPanel extends ProcessController
 		else {
 			loadQuerySaved();
 		}
+		
+		fSavedName.addActionListener(this);
+		
 	}
 	
 	/**
@@ -633,11 +635,13 @@ public class ProcessPanel extends ProcessController
 		
 		List<MPInstance> savedParams = getSavedInstances(true);	
 		fSavedName.removeAllItems();
+		fSavedName.setValue("");
 		for (MPInstance instance : savedParams) {
 			fSavedName.addItem(new KeyNamePair(instance.getAD_PInstance_ID(),instance.getName()));
 		}
 		//	
-		fSavedName.setValue("");
+		fSavedName.setSelectedIndex(-1);
+		
 	}
 	
 	/**
