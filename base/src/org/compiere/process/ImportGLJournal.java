@@ -630,7 +630,7 @@ public class ImportGLJournal extends SvrProcess implements ImportProcess
 			while (rs.next())
 			{
 				X_I_GLJournal imp = new X_I_GLJournal (getCtx (), rs, get_TrxName());
-				ModelValidationEngine.get().fireImportValidate(this, imp, null, ImportValidator.TIMING_AFTER_IMPORT);
+				ModelValidationEngine.get().fireImportValidate(this, imp, null, ImportValidator.TIMING_AFTER_VALIDATE);
 				//	New Batch if Batch Document No changes
 				String impBatchDocumentNo = imp.getBatchDocumentNo();
 				if (impBatchDocumentNo == null)
@@ -725,7 +725,7 @@ public class ImportGLJournal extends SvrProcess implements ImportProcess
 
 				//	Lines
 				MJournalLine line = new MJournalLine (journal);
-				//
+				ModelValidationEngine.get().fireImportValidate(this, imp, line, ImportValidator.TIMING_BEFORE_IMPORT);
 				line.setDescription(imp.getDescription());
 				line.setCurrency (imp.getC_Currency_ID(), imp.getC_ConversionType_ID(), imp.getCurrencyRate());
 				//	Set/Get Account Combination
@@ -763,8 +763,6 @@ public class ImportGLJournal extends SvrProcess implements ImportProcess
 				//
 				line.setC_UOM_ID(imp.getC_UOM_ID());
 				line.setQty(imp.getQty());
-				ModelValidationEngine.get().fireImportValidate(this, imp, line, ImportValidator.TIMING_BEFORE_IMPORT);
-				//
 				if (line.save())
 				{
 					imp.setGL_JournalBatch_ID(batch.getGL_JournalBatch_ID());
