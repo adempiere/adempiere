@@ -206,7 +206,7 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 			Row row = rows.newRow();
 			Hbox hBox = new Hbox();
 			hBox.appendChild(lSaved);
-			fSavedName.addEventListener(Events.ON_CHANGE, this);
+			
 			hBox.appendChild(fSavedName);
 
 			Panel confParaPanel = new Panel();
@@ -256,6 +256,7 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 		mainPanel.setWidth("100%");
 		//
 		loadQuerySaved();
+		fSavedName.addEventListener(Events.ON_CHANGE, this);
 	}
 	
 	/**
