@@ -433,15 +433,14 @@ public class WPayPrint extends PayPrint implements IFormController, EventListene
 			return;
 
 		//	for all checks
-		pdfList = new ArrayList<File>();
+		pdfList = new ArrayList<>();
 		paySelectionChecks.stream().filter(paySelectionCheck -> paySelectionCheck != null).forEach(paySelectionCheck -> {
 			//	ReportCtrl will check BankAccountDoc for PrintFormat
 			ReportEngine re = ReportEngine.get(Env.getCtx(), ReportEngine.CHECK, paySelectionCheck.get_ID());
 			try 
 			{
 				File file = File.createTempFile("WPayPrint", null);
-				re.getPDF(file);
-				addPDFFile(file);
+				addPDFFile(re.getPDF(file));
 			}
 			catch (Exception e)
 			{
@@ -479,7 +478,7 @@ public class WPayPrint extends PayPrint implements IFormController, EventListene
 		SimplePDFViewer remitViewer = null; 
 		if (FDialog.ask(windowNo, form, "VPayPrintPrintRemittance"))
 		{
-			pdfList = new ArrayList<File>();
+			pdfList = new ArrayList<>();
 			paySelectionChecks.stream()
 					.filter(paySelectionCheck -> paySelectionCheck != null)
 					.forEach(paySelectionCheck -> {
@@ -487,8 +486,7 @@ public class WPayPrint extends PayPrint implements IFormController, EventListene
 				try 
 				{
 					File file = File.createTempFile("WPayPrint", null);
-					re.getPDF(file);
-					addPDFFile(file);
+					addPDFFile(re.getPDF(file));
 				}
 				catch (Exception e)
 				{
