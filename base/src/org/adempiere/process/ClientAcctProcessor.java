@@ -240,7 +240,7 @@ public class ClientAcctProcessor extends SvrProcess
 							}
 							catch (Exception e)
 							{
-								log.log(Level.SEVERE, getName() + ": " + TableName, e);
+								log.log(Level.SEVERE, getName() + ": " + TableName, e);	
 								ok = false;
 							}
 							finally
