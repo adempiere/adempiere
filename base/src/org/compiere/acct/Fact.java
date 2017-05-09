@@ -728,7 +728,8 @@ public final class Fact
 					MDistributionLine distributionLine = distributionLines.stream().findFirst().get();
 					if (distributionLine.isOverwritePostingType()
 							&& distributionLine.getPostingType() != null
-							&& !distribution.getPostingType().equals(distributionLine.getPostingType())
+							&& (distribution.getPostingType() != null && distributionLine.getPostingType() != null
+							&& !distribution.getPostingType().equals(distributionLine.getPostingType()))
 							&& distributionLine.getPercent().doubleValue() == 0)
 						;
 					else {
