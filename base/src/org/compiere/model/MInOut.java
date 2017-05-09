@@ -1168,6 +1168,11 @@ public class MInOut extends X_M_InOut implements DocAction
 			//
 			if (line.getM_AttributeSetInstance_ID() != 0)
 				continue;
+			   MAttributeSet mas = MAttributeSet.get(getCtx(), product.getM_AttributeSet_ID());
+			   if (mas == null)
+			    continue;
+			   if(mas.excludeEntry(MColumn.getColumn_ID(MInOutLine.Table_Name, MInOutLine.COLUMNNAME_M_InOutLine_ID), isSOTrx()))
+			     continue;
 			if (product != null && product.isASIMandatory(isSOTrx(),line.getAD_Org_ID()))
 			{
 				m_processMsg = "@M_AttributeSet_ID@ @IsMandatory@ (@Line@ #" + lines[i].getLine() +
