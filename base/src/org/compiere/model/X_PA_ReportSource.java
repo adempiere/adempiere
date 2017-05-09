@@ -30,7 +30,7 @@ public class X_PA_ReportSource extends PO implements I_PA_ReportSource, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170407L;
+	private static final long serialVersionUID = 20170509L;
 
     /** Standard Constructor */
     public X_PA_ReportSource (Properties ctx, int PA_ReportSource_ID, String trxName)
@@ -828,6 +828,54 @@ public class X_PA_ReportSource extends PO implements I_PA_ReportSource, I_Persis
 	public boolean isIncludeNullsUserList2 () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsIncludeNullsUserList2);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set List Sources.
+		@param ListSources 
+		List Report Line Sources
+	  */
+	public void setListSources (boolean ListSources)
+	{
+		set_Value (COLUMNNAME_ListSources, Boolean.valueOf(ListSources));
+	}
+
+	/** Get List Sources.
+		@return List Report Line Sources
+	  */
+	public boolean isListSources () 
+	{
+		Object oo = get_Value(COLUMNNAME_ListSources);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set List Transactions.
+		@param ListTrx 
+		List the report transactions
+	  */
+	public void setListTrx (boolean ListTrx)
+	{
+		set_Value (COLUMNNAME_ListTrx, Boolean.valueOf(ListTrx));
+	}
+
+	/** Get List Transactions.
+		@return List the report transactions
+	  */
+	public boolean isListTrx () 
+	{
+		Object oo = get_Value(COLUMNNAME_ListTrx);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 
