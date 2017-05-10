@@ -628,6 +628,7 @@ public class MMovement extends X_M_Movement implements DocAction
 			if (qtyToDeliver.signum() != 0)
 			{
 				//deliver using new asi
+				MAttributeSet.validateAttributeSetInstanceMandatory(product, line.Table_ID , false , line.getM_AttributeSetInstance_ID());
 				MAttributeSetInstance attributeSetInstance = MAttributeSetInstance.create(getCtx(), product, get_TrxName());
 				int attributeSetInstanceId = attributeSetInstance.getM_AttributeSetInstance_ID();
 				MMovementLineMA movementLineMA = new MMovementLineMA (line, attributeSetInstanceId , qtyToDeliver);

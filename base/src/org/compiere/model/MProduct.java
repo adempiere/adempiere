@@ -609,7 +609,14 @@ public class MProduct extends X_M_Product
 		//	UOM reset
 		if (m_precision != null && is_ValueChanged("C_UOM_ID"))
 			m_precision = null;
-		
+
+		if (getM_AttributeSet_ID() > 0 )
+		{
+			MAttributeSet attributeSet = MAttributeSet.get(getCtx(), getM_AttributeSet_ID());
+			if (!attributeSet.isInstanceAttribute() && attributeSet.isMandatoryAlways() && getM_AttributeSetInstance_ID() == 0)
+				throw new AdempiereException("@M_AttributeSetInstance_ID@ @FillMandatory@ @M_AttributeSetInstance_ID@ : " + attributeSet.getName());
+
+		}
 		// AttributeSetInstance reset
 		if (is_ValueChanged(COLUMNNAME_M_AttributeSet_ID))
 		{
@@ -618,7 +625,8 @@ public class MProduct extends X_M_Product
 			// Delete the old m_attributesetinstance
 			try {
 				asi.deleteEx(true, get_TrxName());
-			} catch (AdempiereException ex)
+			}
+			catch (AdempiereException ex)
 			{
 				log.saveError("Error", "Error deleting the AttributeSetInstance");
 				return false;
@@ -854,7 +862,7 @@ public class MProduct extends X_M_Product
 	 * @param isSOTrx is outgoing trx?
 	 * @return true if ASI is mandatory, false otherwise
 	 */
-	public boolean isASIMandatory(boolean isSOTrx,int AD_Org_ID) {
+	/*public boolean isASIMandatory(boolean isSOTrx,int AD_Org_ID) {
 		//
 		//	If CostingLevel is BatchLot ASI is always mandatory - check all client acct schemas
 		MAcctSchema[] mass = MAcctSchema.getClientAcctSchema(getCtx(), getAD_Client_ID(), get_TrxName());
@@ -884,7 +892,7 @@ public class MProduct extends X_M_Product
 		//
 		// Default not mandatory
 		return false;
-	}
+	}*
 	
 	/**
 	 * Get Product Costing Level

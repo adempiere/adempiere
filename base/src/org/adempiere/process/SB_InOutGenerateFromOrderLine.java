@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 
+import org.compiere.model.MAttributeSet;
 import org.compiere.model.MClient;
 import org.compiere.model.MInOut;
 import org.compiere.model.MInOutLine;
@@ -403,8 +404,9 @@ public class SB_InOutGenerateFromOrderLine extends SvrProcess
 				line = new MInOutLine (m_shipment);
 				line.setOrderLine(orderLine, M_Locator_ID, order.isSOTrx() ? deliver : Env.ZERO);
 				line.setQty(deliver);
-				if (product != null && product.isASIMandatory(order.isSOTrx(),line.getAD_Org_ID()))
-					line.setM_AttributeSetInstance_ID(storage.getM_AttributeSetInstance_ID());
+				MAttributeSet.validateAttributeSetInstanceMandatory(product, MInOutLine.Table_ID , line.isSOTrx() , line.getM_AttributeSetInstance_ID());
+				//if (product != null && product.isASIMandatory(order.isSOTrx(),line.getAD_Org_ID()))
+				//	line.setM_AttributeSetInstance_ID(storage.getM_AttributeSetInstance_ID());
 				list.add(line);
 			}
 			else				//	existing line
