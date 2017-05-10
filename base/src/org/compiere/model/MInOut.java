@@ -1168,12 +1168,12 @@ public class MInOut extends X_M_InOut implements DocAction
 			//
 			if (line.getM_AttributeSetInstance_ID() != 0)
 				continue;
-			if (product != null && product.isASIMandatory(isSOTrx(),line.getAD_Org_ID()))
+			/*if (product != null && product.isASIMandatory(isSOTrx(),line.getAD_Org_ID()))
 			{
 				m_processMsg = "@M_AttributeSet_ID@ @IsMandatory@ (@Line@ #" + lines[i].getLine() +
 								", @M_Product_ID@=" + product.getValue() + ")";
 				return DocAction.STATUS_Invalid;
-			}
+			}*/
 		}
 		setVolume(Volume);
 		setWeight(Weight);
@@ -1832,6 +1832,7 @@ public class MInOut extends X_M_InOut implements DocAction
 				//always create asi so fifo/lifo work.
 				if (asi == null && line.getM_AttributeSetInstance_ID() == 0)
 				{
+					MAttributeSet.validateAttributeSetInstanceMandatory(product, line.Table_ID , isSOTrx() , line.getM_AttributeSetInstance_ID());
 					asi = MAttributeSetInstance.create(getCtx(), product, get_TrxName());
 					line.setM_AttributeSetInstance_ID(asi.getM_AttributeSetInstance_ID());
 					log.config("New ASI=" + line);
@@ -1874,6 +1875,7 @@ public class MInOut extends X_M_InOut implements DocAction
 				if (qtyToDeliver.signum() != 0)
 				{
 					//deliver using new asi
+					MAttributeSet.validateAttributeSetInstanceMandatory(product, line.Table_ID , isSOTrx() , line.getM_AttributeSetInstance_ID());
 					MAttributeSetInstance asi = MAttributeSetInstance.create(getCtx(), product, get_TrxName());
 					int M_AttributeSetInstance_ID = asi.getM_AttributeSetInstance_ID();
 					MInOutLineMA ma = new MInOutLineMA (line, M_AttributeSetInstance_ID, qtyToDeliver);

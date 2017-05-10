@@ -120,7 +120,21 @@ public class MInOutLineMA extends X_M_InOutLineMA
 		setM_AttributeSetInstance_ID(M_AttributeSetInstance_ID);
 		setMovementQty(MovementQty);
 	}	//	MInOutLineMA
-	
+
+	/**
+	 * 	Before Save
+	 *	@param newRecord new
+	 *	@return true or false
+	 */
+	protected boolean beforeSave (boolean newRecord)
+	{
+		MInOutLine inOutLine =  (MInOutLine) getM_InOutLine();
+		MProduct product = (MProduct) inOutLine.getM_Product();
+		MAttributeSet.validateAttributeSetInstanceMandatory(product, MInOutLine.Table_ID, inOutLine.isSOTrx(), getM_AttributeSetInstance_ID());
+		return true;
+	}
+
+
 	/**
 	 * 	String Representation
 	 *	@return info

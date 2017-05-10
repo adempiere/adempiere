@@ -212,12 +212,13 @@ public class MMovementLine extends X_M_MovementLine implements IDocumentLine
 		
 		//      Mandatory Instance
 		MProduct product = getProduct();
-		if (getM_AttributeSetInstance_ID() == 0) {
+		MAttributeSet.validateAttributeSetInstanceMandatory(product, Table_ID , isSOTrx() , getM_AttributeSetInstance_ID());
+		/*if (getM_AttributeSetInstance_ID() == 0) {
 			if (product != null && product.isASIMandatory(false, getAD_Org_ID())) {
 				log.saveError("FillMandatory", Msg.getElement(getCtx(), COLUMNNAME_M_AttributeSetInstance_ID));
 				return false;
 			}
-		}
+		}*/
 		if (getM_AttributeSetInstanceTo_ID() == 0)
 		{
 			//instance id default to same for movement between locator 
@@ -226,12 +227,12 @@ public class MMovementLine extends X_M_MovementLine implements IDocumentLine
 				if (getM_AttributeSetInstance_ID() != 0)        //set to from
 					setM_AttributeSetInstanceTo_ID(getM_AttributeSetInstance_ID());
 			}
-			
-			if (product != null && product.isASIMandatory(true, getAD_Org_ID()) && getM_AttributeSetInstanceTo_ID() == 0)
+			MAttributeSet.validateAttributeSetInstanceMandatory(product, Table_ID , isSOTrx() , getM_AttributeSetInstanceTo_ID());
+			/*if (product != null && product.isASIMandatory(true, getAD_Org_ID()) && getM_AttributeSetInstanceTo_ID() == 0)
 			{
 				log.saveError("FillMandatory", Msg.getElement(getCtx(), COLUMNNAME_M_AttributeSetInstanceTo_ID));
 				return false;
-			}
+			}*/
 		}       //      ASI
 
 		return true;

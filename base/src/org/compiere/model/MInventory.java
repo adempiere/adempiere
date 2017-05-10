@@ -606,6 +606,7 @@ public class MInventory extends X_M_Inventory implements DocAction
 				}
 				if (asi == null)
 				{
+					MAttributeSet.validateAttributeSetInstanceMandatory(product,MInventoryLine.Table_ID , false , line.getM_AttributeSetInstance_ID());
 					asi = MAttributeSetInstance.create(getCtx(), product, get_TrxName());
 				}
 				line.setM_AttributeSetInstance_ID(asi.getM_AttributeSetInstance_ID());
@@ -646,6 +647,7 @@ public class MInventory extends X_M_Inventory implements DocAction
 				//	No AttributeSetInstance found for remainder
 				if (qtyToDeliver.signum() != 0)
 				{
+					MAttributeSet.validateAttributeSetInstanceMandatory(product, MInventoryLine.Table_ID , false , line.getM_AttributeSetInstance_ID());
 					//deliver using new asi
 					MAttributeSetInstance asi = MAttributeSetInstance.create(getCtx(), product, get_TrxName());
 					int M_AttributeSetInstance_ID = asi.getM_AttributeSetInstance_ID();

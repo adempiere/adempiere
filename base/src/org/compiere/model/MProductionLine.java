@@ -435,6 +435,7 @@ public class MProductionLine extends X_M_ProductionLine implements IDocumentLine
 					//always create asi so fifo/lifo work.
 					if (pLine.getM_AttributeSetInstance_ID() == 0)
 					{
+						MAttributeSet.validateAttributeSetInstanceMandatory(product, pLine.Table_ID , false , pLine.getM_AttributeSetInstance_ID());
 						asi = MAttributeSetInstance.create(getCtx(), product, get_TrxName());
 						pLine.setM_AttributeSetInstance_ID(asi.getM_AttributeSetInstance_ID());
 						transactionAttributeSetInstance_ID = asi.getM_AttributeSetInstance_ID();

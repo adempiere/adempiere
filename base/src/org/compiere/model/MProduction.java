@@ -1066,6 +1066,7 @@ public class MProduction extends X_M_Production implements DocAction {
 
 		if (qtyToDeliver.signum() != 0)
 		{
+			MAttributeSet.validateAttributeSetInstanceMandatory(product, pLine.Table_ID , false , pLine.getM_AttributeSetInstance_ID());
 			//deliver using new asi
 			MAttributeSetInstance asi = MAttributeSetInstance.create(getCtx(), product, get_TrxName());
 			int M_AttributeSetInstance_ID = asi.getM_AttributeSetInstance_ID();
