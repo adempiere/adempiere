@@ -92,6 +92,8 @@ import org.xml.sax.helpers.AttributesImpl;
  * 			<li>--
  * 			<li>FR [ 2847727 ] 2pack export all messages for a entity type functionality
  * 				https://sourceforge.net/tracker/?func=detail&atid=879335&aid=2847727&group_id=176962
+ *	@author Dixon Martinez, dmartinez@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li>BR [1019] New Icon to export report definition is show only swing but not ZK https://github.com/adempiere/adempiere/issues/1019
  */
 
 public class PackOut extends SvrProcess
@@ -921,5 +923,12 @@ public class PackOut extends SvrProcess
 	public Properties getCtx() {
 		return localContext != null ? localContext : super.getCtx();
 	}
-	
+	//	BR [1019]
+	/**
+	 * Set Value by Local Context
+	 * @param localContext to set
+	 */
+	public void setLocalContext(Properties localContext) {
+		this.localContext = localContext;
+	}
 }	//	PackOut
