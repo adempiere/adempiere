@@ -64,14 +64,16 @@ import org.zkoss.zul.event.ListDataEvent;
  *
  * @author victor.perez@e-evolution.com, e-Evolution
  * 				FR [ 2826406 ] The Tab Sort without parent column
- *				<li> https://sourceforge.net/tracker/?func=detail&atid=879335&aid=2826406&group_id=176962
- *              <li>Implement embedded or horizontal tab panel https://adempiere.atlassian.net/browse/ADEMPIERE-319
- *              <li>New ADempiere 3.8.0 ZK Theme Light  https://adempiere.atlassian.net/browse/ADEMPIERE-320
+ *				<li> https://sourceforge.net/tracker/?func=detail&atid=879335&aid=2826406&group_id=176962 </li>
+ *              <li>Implement embedded or horizontal tab panel https://adempiere.atlassian.net/browse/ADEMPIERE-319</li>
+ *              <li>New ADempiere 3.8.0 ZK Theme Light  https://adempiere.atlassian.net/browse/ADEMPIERE-320</li>
  * Zk Port
  * @author Low Heng Sin
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *		<a href="https://github.com/adempiere/adempiere/issues/990">
  * 		@see FR [ 990 ] Sort Tab is not MVC</a>
+ *	@author Dixon Martinez, dmartinez@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> BR [ 1027 ] NPE when try navigate in tabs for new Table and Column Window https://github.com/adempiere/adempiere/issues/1027 </li>
  */
 public class WSortTab extends Panel implements IADTabPanel {
 
@@ -427,8 +429,14 @@ public class WSortTab extends Panel implements IADTabPanel {
 	 */
 	public void saveData()
 	{
-		if (!adWindowPanel.getToolbar().isSaveEnable())
+		//	BR [ 1027 ]
+		if(adWindowPanel != null) {
+			if (!adWindowPanel.getToolbar().isSaveEnable())
+				return;
+		} else {
 			return;
+		}
+			
 		log.fine("");
 		String info = sortTabController.saveData(noModel.getElements(), yesModel.getElements());
 		//
