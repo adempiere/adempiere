@@ -141,15 +141,6 @@ public interface I_AD_Role
 	/** Get Allow Info BPartner	  */
 	public boolean isAllow_Info_BPartner();
 
-    /** Column name Allow_Info_CRP */
-    public static final String COLUMNNAME_Allow_Info_CRP = "Allow_Info_CRP";
-
-	/** Set Allow Info CRP	  */
-	public void setAllow_Info_CRP (boolean Allow_Info_CRP);
-
-	/** Get Allow Info CRP	  */
-	public boolean isAllow_Info_CRP();
-
     /** Column name Allow_Info_CashJournal */
     public static final String COLUMNNAME_Allow_Info_CashJournal = "Allow_Info_CashJournal";
 
@@ -158,6 +149,15 @@ public interface I_AD_Role
 
 	/** Get Allow Info CashJournal	  */
 	public boolean isAllow_Info_CashJournal();
+
+    /** Column name Allow_Info_CRP */
+    public static final String COLUMNNAME_Allow_Info_CRP = "Allow_Info_CRP";
+
+	/** Set Allow Info CRP	  */
+	public void setAllow_Info_CRP (boolean Allow_Info_CRP);
+
+	/** Get Allow Info CRP	  */
+	public boolean isAllow_Info_CRP();
 
     /** Column name Allow_Info_InOut */
     public static final String COLUMNNAME_Allow_Info_InOut = "Allow_Info_InOut";
@@ -374,6 +374,19 @@ public interface I_AD_Role
 	  * Users with this role can export data
 	  */
 	public boolean isCanExport();
+
+    /** Column name IsCanLoad */
+    public static final String COLUMNNAME_IsCanLoad = "IsCanLoad";
+
+	/** Set Can Load.
+	  * Users with this role can load data
+	  */
+	public void setIsCanLoad (boolean IsCanLoad);
+
+	/** Get Can Load.
+	  * Users with this role can load data
+	  */
+	public boolean isCanLoad();
 
     /** Column name IsCanReport */
     public static final String COLUMNNAME_IsCanReport = "IsCanReport";
