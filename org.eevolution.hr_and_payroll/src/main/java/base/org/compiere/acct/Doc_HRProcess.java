@@ -110,7 +110,7 @@ public class   Doc_HRProcess extends Doc
 		final String sql= "SELECT m.HR_Concept_id, MAX(c.Name) As Name, SUM(m.Amount) As Amount, MAX(c.AccountSign) As AccountSign, " + // 1,2,3,4
 		" MAX(CA.IsBalancing) As IsBalancing, e.AD_Org_ID As AD_Org_ID, m.C_Activity_ID, bp.C_BPartner_ID, m.User1_ID, m.User2_ID, m.User3_ID, m.User4_ID " // 5,6,7
 		+ " FROM HR_Movement m"
-		+ " INNER JOIN HR_Concept_Acct ca ON (ca.HR_Concept_ID=m.HR_Concept_ID AND ca.AD_Client_ID = m.AD_Client_ID AND ca.IsActive = 'Y')"
+		+ " INNER JOIN HR_Concept_Acct ca ON (ca.HR_Concept_ID=m.HR_Concept_ID AND ca.AD_Client_ID = m.AD_Client_ID AND ca.IsActive = 'Y' AND ca.C_AcctSchema_ID=" + as.getC_AcctSchema_ID() +" )"
 		+ " INNER JOIN HR_Concept      c  ON (c.HR_Concept_ID=m.HR_Concept_ID AND c.IsActive = 'Y')"
 		+ " INNER JOIN C_BPartner      bp ON (bp.C_BPartner_ID = m.C_BPartner_ID)"
 		+ " INNER JOIN HR_Employee	 e  ON (bp.C_BPartner_ID=e.C_BPartner_ID)"
