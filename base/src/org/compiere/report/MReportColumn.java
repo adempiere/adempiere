@@ -297,53 +297,57 @@ public class MReportColumn extends X_PA_ReportColumn
 
 		if (isColumnTypeSegmentValue())
 		{
-		String et = getElementType();
+		String elementType = getElementType();
 		//	ID for Tree Leaf Value
-		int ID = 0;
+		int dimensionId = 0;
 		//
-		if (MReportColumn.ELEMENTTYPE_Account.equals(et))
-			ID = getC_ElementValue_ID();
-		else if (MReportColumn.ELEMENTTYPE_Activity.equals(et))
-			ID = getC_Activity_ID();
-		else if (MReportColumn.ELEMENTTYPE_BPartner.equals(et))
-			ID = getC_BPartner_ID();
-		else if (MReportColumn.ELEMENTTYPE_Campaign.equals(et))
-			ID = getC_Campaign_ID();
-		else if (MReportColumn.ELEMENTTYPE_LocationFrom.equals(et))
-			ID = getC_Location_ID();
-		else if (MReportColumn.ELEMENTTYPE_LocationTo.equals(et))
-			ID = getC_Location_ID();
-		else if (MReportColumn.ELEMENTTYPE_Organization.equals(et))
-			ID = getOrg_ID();
-		else if (MReportColumn.ELEMENTTYPE_Product.equals(et))
-			ID = getM_Product_ID();
-		else if (MReportColumn.ELEMENTTYPE_Project.equals(et))
-			ID = getC_Project_ID();
-		else if (MReportColumn.ELEMENTTYPE_SalesRegion.equals(et))
-			ID = getC_SalesRegion_ID();
-		else if (MReportColumn.ELEMENTTYPE_OrgTrx.equals(et))
-			ID = getOrg_ID();	//	(re)uses Org_ID
-		else if (MReportColumn.ELEMENTTYPE_UserList1.equals(et))
-			ID = getC_ElementValue_ID();
-		else if (MReportColumn.ELEMENTTYPE_UserList2.equals(et))
-			ID = getC_ElementValue_ID();
-		else if (MReportColumn.ELEMENTTYPE_UserElement1.equals(et))
+		if (MReportColumn.ELEMENTTYPE_Account.equals(elementType))
+			dimensionId = getC_ElementValue_ID();
+		else if (MReportColumn.ELEMENTTYPE_Activity.equals(elementType))
+			dimensionId = getC_Activity_ID();
+		else if (MReportColumn.ELEMENTTYPE_BPartner.equals(elementType))
+			dimensionId = getC_BPartner_ID();
+		else if (MReportColumn.ELEMENTTYPE_Campaign.equals(elementType))
+			dimensionId = getC_Campaign_ID();
+		else if (MReportColumn.ELEMENTTYPE_LocationFrom.equals(elementType))
+			dimensionId = getC_Location_ID();
+		else if (MReportColumn.ELEMENTTYPE_LocationTo.equals(elementType))
+			dimensionId = getC_Location_ID();
+		else if (MReportColumn.ELEMENTTYPE_Organization.equals(elementType))
+			dimensionId = getOrg_ID();
+		else if (MReportColumn.ELEMENTTYPE_Product.equals(elementType))
+			dimensionId = getM_Product_ID();
+		else if (MReportColumn.ELEMENTTYPE_Project.equals(elementType))
+			dimensionId = getC_Project_ID();
+		else if (MReportColumn.ELEMENTTYPE_SalesRegion.equals(elementType))
+			dimensionId = getC_SalesRegion_ID();
+		else if (MReportColumn.ELEMENTTYPE_OrgTrx.equals(elementType))
+			dimensionId = getOrg_ID();	//	(re)uses Org_ID
+		else if (MReportColumn.ELEMENTTYPE_UserList1.equals(elementType))
+			dimensionId = getUser1_ID();
+		else if (MReportColumn.ELEMENTTYPE_UserList2.equals(elementType))
+			dimensionId = getUser2_ID();
+		else if (MReportColumn.ELEMENTTYPE_UserList3.equals(elementType))
+			dimensionId = getUser3_ID();
+		else if (MReportColumn.ELEMENTTYPE_UserList4.equals(elementType))
+			dimensionId = getUser4_ID();
+		else if (MReportColumn.ELEMENTTYPE_UserElement1.equals(elementType))
 			return " AND UserElement1_ID="+getUserElement1_ID(); // Not Tree
-		else if (MReportColumn.ELEMENTTYPE_UserElement2.equals(et))
+		else if (MReportColumn.ELEMENTTYPE_UserElement2.equals(elementType))
 			return " AND UserElement2_ID="+getUserElement2_ID(); // Not Tree
 		// Financial Report Source with Type Combination
-		else if (MReportColumn.ELEMENTTYPE_Combination.equals(et))
+		else if (MReportColumn.ELEMENTTYPE_Combination.equals(elementType))
 			return getWhereCombination(PA_Hierarchy_ID);
 		else
-			log.warning("Unsupported Element Type=" + et);
+			log.warning("Unsupported Element Type=" + elementType);
 
-		if (ID == 0)
+		if (dimensionId == 0)
 		{
-			log.fine("No Restrictions - No ID for EntityType=" + et);
+			log.fine("No Restrictions - No ID for EntityType=" + elementType);
 				return m_whereClause;
 		}
 		
-			m_whereClause += " AND " + MReportTree.getWhereClause (getCtx(), PA_Hierarchy_ID, et, ID);
+			m_whereClause += " AND " + MReportTree.getWhereClause (getCtx(), PA_Hierarchy_ID, elementType, dimensionId);
 		}
 		
 		

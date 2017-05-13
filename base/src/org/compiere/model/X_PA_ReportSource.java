@@ -373,6 +373,10 @@ public class X_PA_ReportSource extends PO implements I_PA_ReportSource, I_Persis
 	public static final String ELEMENTTYPE_UserList1 = "U1";
 	/** User List 2 = U2 */
 	public static final String ELEMENTTYPE_UserList2 = "U2";
+	/** User List 1 = U1 */
+	public static final String ELEMENTTYPE_UserList3 = "U3";
+	/** User List 2 = U2 */
+	public static final String ELEMENTTYPE_UserList4 = "U4";
 	/** User Element 1 = X1 */
 	public static final String ELEMENTTYPE_UserElement1 = "X1";
 	/** User Element 2 = X2 */

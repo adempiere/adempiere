@@ -1011,8 +1011,14 @@ public class FinReport extends FinReportAbstract
 		boolean isCombination = sources[0].getElementType().equals("CO");
 		for(int i=0; i<sources.length; i++)
 		{
-			if (!sources[0].isListSources())
-				continue;
+			if (finReport.isListSources() && sources[0].isListSources())
+				;
+			else if (finReport.isListSources() && !sources[0].isListSources())
+				;
+			else if (!finReport.isListSources() && sources[0].isListSources())
+				;
+			else continue;
+
 			//	Insert
 			StringBuffer insert = new StringBuffer("INSERT INTO T_Report "
 					+ "(AD_PInstance_ID, PA_ReportLine_ID, Record_ID,Fact_Acct_ID,LevelNo ");
