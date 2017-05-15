@@ -2121,35 +2121,23 @@ public class MInOut extends X_M_InOut implements DocAction
 		reversal.setReversal(true);
 
 		//	Reverse Line Qty
-		MInOutLine[] sLines = getLines(true);
-		MInOutLine[] rLines = reversal.getLines(true);
-		for (int i = 0; i < rLines.length; i++)
+		MInOutLine[] inOutLines = getLines(true);
+		MInOutLine[] reversalLines = reversal.getLines(true);
+		for (int i = 0; i < reversalLines.length; i++)
 		{
-			MInOutLine rLine = rLines[i];
-			rLine.setQtyEntered(rLine.getQtyEntered().negate());
-			rLine.setMovementQty(rLine.getMovementQty().negate());
-			rLine.setM_AttributeSetInstance_ID(sLines[i].getM_AttributeSetInstance_ID());
+			MInOutLine reversalLine = reversalLines[i];
+			reversalLine.setQtyEntered(reversalLine.getQtyEntered().negate());
+			reversalLine.setMovementQty(reversalLine.getMovementQty().negate());
+			reversalLine.setM_AttributeSetInstance_ID(inOutLines[i].getM_AttributeSetInstance_ID());
 			// Goodwill: store original (voided/reversed) document line
-			rLine.setReversalLine_ID(sLines[i].getM_InOutLine_ID());
-			if (!rLine.save(get_TrxName()))
-			{
-				m_processMsg = "Could not correct Ship Reversal Line";
-				return false;
-			}
+			reversalLine.setReversalLine_ID(inOutLines[i].getM_InOutLine_ID());
+			reversalLine.saveEx();
 			//	We need to copy MA
-			if (rLine.getM_AttributeSetInstance_ID() == 0)
-			{
-				List<MInOutLineMA> mas = MInOutLineMA.get(getCtx(),
-					sLines[i].getM_InOutLine_ID(), get_TrxName());
-				//for (int j = 0; j < mas.length; j++)
-                for (MInOutLineMA ma : mas)
-				{
-					MInOutLineMA reverseLine = new MInOutLineMA (rLine,
-						ma.getM_AttributeSetInstance_ID(),
-						ma.getMovementQty().negate());
-                    reverseLine.saveEx();
-				}
-			}
+			List<MInOutLineMA> mas = MInOutLineMA.get(getCtx(), inOutLines[i].getM_InOutLine_ID(), get_TrxName());
+			mas.forEach(lineMA -> {
+				MInOutLineMA reverseLine = new MInOutLineMA (reversalLine, lineMA.getM_AttributeSetInstance_ID(), lineMA.getMovementQty().negate());
+				reverseLine.saveEx();
+			});
 			//	De-Activate Asset
 			//Move code to model asset validator to solve build dependence
 			/*MAsset asset = MAsset.getFromShipment(getCtx(), sLines[i].getM_InOutLine_ID(), get_TrxName());
