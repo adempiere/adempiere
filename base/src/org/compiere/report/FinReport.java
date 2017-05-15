@@ -1011,11 +1011,9 @@ public class FinReport extends FinReportAbstract
 		boolean isCombination = sources[0].getElementType().equals("CO");
 		for(int i=0; i<sources.length; i++)
 		{
-			if (finReport.isListSources() && sources[0].isListSources())
-				;
-			else if (finReport.isListSources() && !sources[0].isListSources())
-				;
-			else if (!finReport.isListSources() && sources[0].isListSources())
+			if ((finReport.isListSources() && sources[0].isListSources())
+			||	(finReport.isListSources() && !sources[0].isListSources())
+			||	(!finReport.isListSources() && sources[0].isListSources()))
 				;
 			else continue;
 
@@ -1090,48 +1088,48 @@ public class FinReport extends FinReportAbstract
 					//	Get Period info
 					select.append(" FROM Fact_Acct fb WHERE TRUNC(DateAcct) ");
 				}
-				FinReportPeriod frp = getPeriod (reportColumns[col].getRelativePeriod());
+				FinReportPeriod finReportPeriod = getPeriod (reportColumns[col].getRelativePeriod());
 				if (reportLines[line].getPAPeriodType() != null)			//	line amount type overwrites column
 				{
 					if (reportLines[line].isPeriod())
-						select.append(frp.getPeriodWhere());
+						select.append(finReportPeriod.getPeriodWhere());
 					else if (reportLines[line].isYear())
-						select.append(frp.getYearWhere());
+						select.append(finReportPeriod.getYearWhere());
 					else if (reportLines[line].isNatural())
-						select.append(frp.getNaturalWhere("fb"));
+						select.append(finReportPeriod.getNaturalWhere("fb"));
 					else
-						select.append(frp.getTotalWhere());
+						select.append(finReportPeriod.getTotalWhere());
 				}
 				else if (reportColumns[col].getPAPeriodType() != null)
 				{
-					FinReportPeriod frpTo = null;
+					FinReportPeriod finReportPeriodTo = null;
 					//Is necessary call using get_Value to get the null value
 					BigDecimal relativeOffsetTo = (BigDecimal) reportColumns[col].get_Value("RelativePeriodTo");
 					if (relativeOffsetTo != null)
-						frpTo = getPeriod(relativeOffsetTo);
+						finReportPeriodTo = getPeriod(relativeOffsetTo);
 
 					if (reportColumns[col].isPeriod())
 					{
-						if (frpTo == null)
-							select.append(frp.getPeriodWhere());
+						if (finReportPeriodTo == null)
+							select.append(finReportPeriod.getPeriodWhere());
 						else
-							select.append("BETWEEN " + DB.TO_DATE(frp.getStartDate()) + " AND " + DB.TO_DATE(frpTo.getEndDate()));
+							select.append("BETWEEN " + DB.TO_DATE(finReportPeriod.getStartDate()) + " AND " + DB.TO_DATE(finReportPeriodTo.getEndDate()));
 					}
 					else if (reportColumns[col].isYear())
 					{
-						if (frpTo == null)
-							select.append(frp.getYearWhere());
+						if (finReportPeriodTo == null)
+							select.append(finReportPeriod.getYearWhere());
 						else
-							select.append("BETWEEN " + DB.TO_DATE(frp.getYearStartDate()) + " AND " + DB.TO_DATE(frpTo.getEndDate()));
+							select.append("BETWEEN " + DB.TO_DATE(finReportPeriod.getYearStartDate()) + " AND " + DB.TO_DATE(finReportPeriodTo.getEndDate()));
 					}
 					else if (reportColumns[col].isNatural())
 					{
-						if (frpTo == null)
-							select.append(frp.getNaturalWhere("fb"));
+						if (finReportPeriodTo == null)
+							select.append(finReportPeriod.getNaturalWhere("fb"));
 						else
 						{
-							String yearWhere = "BETWEEN " + DB.TO_DATE(frp.getYearStartDate()) + " AND " + DB.TO_DATE(frpTo.getEndDate());
-							String totalWhere =  "<= " + DB.TO_DATE(frpTo.getEndDate());
+							String yearWhere = "BETWEEN " + DB.TO_DATE(finReportPeriod.getYearStartDate()) + " AND " + DB.TO_DATE(finReportPeriodTo.getEndDate());
+							String totalWhere =  "<= " + DB.TO_DATE(finReportPeriodTo.getEndDate());
 							String bs = " EXISTS (SELECT C_ElementValue_ID FROM C_ElementValue WHERE C_ElementValue_ID = fa.Account_ID AND AccountType NOT IN ('R', 'E'))";
 							String full = totalWhere + " AND ( " + bs + " OR TRUNC(fa.DateAcct) " + yearWhere + " ) ";
 							select.append(full);
@@ -1139,10 +1137,10 @@ public class FinReport extends FinReportAbstract
 					}
 					else
 					{
-						if (frpTo == null)
-							select.append(frp.getTotalWhere());
+						if (finReportPeriodTo == null)
+							select.append(finReportPeriod.getTotalWhere());
 						else
-							select.append("<= " + DB.TO_DATE(frpTo.getEndDate()));
+							select.append("<= " + DB.TO_DATE(finReportPeriodTo.getEndDate()));
 					}
 
 				}
@@ -1255,7 +1253,10 @@ public class FinReport extends FinReportAbstract
 			if (CLogMgt.isLevelFinest())
 				log.fine("Name #=" + no + " - " + sql.toString());
 
-			if (finReport.isListTrx() || sources[i].isListTrx())
+
+			if ((finReport.isListTrx() && sources[0].isListTrx())
+			||	(finReport.isListTrx() && !sources[0].isListSources())
+			||	(!finReport.isListTrx() && sources[0].isListSources()))
 			{
 				if(isCombination)
 					insertLineTrx (line, String.valueOf(combinationId), whereComb.toString());
@@ -1469,18 +1470,18 @@ public class FinReport extends FinReportAbstract
 						BigDecimal relativeOffset = reportColumns[index].getRelativePeriod();
 						///Is necessary call using get_Value to get the null value
 						BigDecimal relativeOffsetTo = (BigDecimal) reportColumns[index].get_Value("RelativePeriodTo");
-						FinReportPeriod frp = getPeriod (relativeOffset);
+						FinReportPeriod finReportPeriod = getPeriod (relativeOffset);
 					
 						if ( s.contains("@Period@") )
 						{
 							if (relativeOffsetTo != null)
 							{
-								FinReportPeriod frpTo = getPeriod(relativeOffsetTo);
-								s = s.replace("@Period@", frp.getName() + " - " + frpTo.getName());
+								FinReportPeriod finReportPeriodTo = getPeriod(relativeOffsetTo);
+								s = s.replace("@Period@", finReportPeriod.getName() + " - " + finReportPeriodTo.getName());
 							}
 							else
 							{
-								s = s.replace("@Period@", frp.getName() );
+								s = s.replace("@Period@", finReportPeriod.getName() );
 							}
 						}
 					}
