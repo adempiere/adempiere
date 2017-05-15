@@ -1255,8 +1255,8 @@ public class FinReport extends FinReportAbstract
 
 
 			if ((finReport.isListTrx() && sources[0].isListTrx())
-			||	(finReport.isListTrx() && !sources[0].isListSources())
-			||	(!finReport.isListTrx() && sources[0].isListSources()))
+			||	(finReport.isListTrx() && !sources[0].isListTrx())
+			||	(!finReport.isListTrx() && sources[0].isListTrx()))
 			{
 				if(isCombination)
 					insertLineTrx (line, String.valueOf(combinationId), whereComb.toString());
