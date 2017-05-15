@@ -438,6 +438,15 @@ public final class FactLine extends X_Fact_Acct
 			setUser4_ID (m_docLine.getUser4_ID());
 		if (getUser4_ID() == 0)
 			setUser4_ID (m_doc.getUser4_ID());
+		if (m_docLine != null)
+			setUserElement1_ID (m_docLine.getUserElement1_ID());
+		if (getUserElement1_ID() == 0)
+			setUserElement1_ID (m_doc.getUserElement1_ID());
+		//	User List 2
+		if (m_docLine != null)
+			setUserElement2_ID(m_docLine.getUserElement2_ID());
+		if (getUserElement2_ID() == 0)
+			setUserElement2_ID(m_doc.getUserElement2_ID());
 		//	References in setAccount
 	}   //  setDocumentInfo
 

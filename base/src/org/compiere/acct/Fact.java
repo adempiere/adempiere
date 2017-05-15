@@ -87,7 +87,7 @@ public final class Fact
 	private boolean		    m_converted = false;
 
 	/** Lines               */
-	private ArrayList<FactLine>	m_lines = new ArrayList<FactLine>();
+	private ArrayList<FactLine>	m_lines = new ArrayList<>();
 
 
 	/**
@@ -745,12 +745,14 @@ public final class Fact
 			distribution.distribute(factLineSource.getAccount(), factLineSource.getSourceBalance(), factLineSource.getQty(), factLineSource.getC_Currency_ID(),m_doc.getAmount().signum());
 			for (MDistributionLine distributionLine : distributionLines)
 			{
-				//if (!distributionLine.isActive() /*|| distributionLine.getAmt().signum() == 0*/)
-				//	continue;
 				FactLine factLine = new FactLine (m_doc.getCtx(), m_doc.get_Table_ID(), m_doc.get_ID(), 0, m_trxName);
 				//  Set Info & Account
 				factLine.setDocumentInfo(m_doc, factLineSource.getDocLine());
 				factLine.setAccount(m_acctSchema, distributionLine.getAccount());
+				factLine.setLine_ID(factLineSource.getLine_ID());
+				factLine.setUserElement1_ID(factLineSource.getUserElement1_ID());
+				factLine.setUserElement2_ID(factLineSource.getUserElement2_ID());
+
 				factLine.setPostingType(m_postingType);
 				if (distributionLine.isOverwritePostingType()
 						&& distributionLine.getPostingType() != null
@@ -780,6 +782,8 @@ public final class Fact
 					factLine.setC_Project_ID(distributionLine.getC_Project_ID());
 				if(distributionLine.isOverwriteSalesRegion())
 					factLine.setC_SalesRegion_ID(distributionLine.getC_SalesRegion_ID());
+				else
+					factLine.setC_SalesRegion_ID(factLineSource.getC_SalesRegion_ID());
 				if(distributionLine.isOverwriteUser1())
 					factLine.setUser1_ID(distributionLine.getUser1_ID());
 				if(distributionLine.isOverwriteUser2())
