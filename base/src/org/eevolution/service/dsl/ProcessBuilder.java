@@ -65,6 +65,9 @@ public class ProcessBuilder {
     private MProcess process;
     private ASyncProcess parent;
     private List<Integer> selectedRecordsIds;
+    private boolean isBatch = false;
+    private boolean isPrintPreview = false;
+
     private Boolean isManagedTransaction = true;
     private Boolean isExecuteUsingSystemRole =  false;
     /**	Multi-Selection Parameters	*/
@@ -170,6 +173,8 @@ public class ProcessBuilder {
         processInfo.setClassName(MProcess.get(context , processId).getClassname());
         processInfo.setTransactionName(trxName);
         processInfo.setIsSelection(isSelection);
+        processInfo.setPrintPreview(isPrintPreview());
+        processInfo.setIsBatch(isBatch());
         if (isExecuteUsingSystemRole) {
             processInfo.setAD_Client_ID(0);
             processInfo.setAD_User_ID(100);
@@ -415,6 +420,41 @@ public class ProcessBuilder {
     public ProcessBuilder withParentProcess(ASyncProcess parent) {
         this.parent = parent;
         return this;
+    }
+
+    public ProcessBuilder withoutPrintPreview()
+    {
+        this.isPrintPreview = false;
+        return this;
+    }
+
+    public ProcessBuilder withPrintPreview()
+    {
+        this.isPrintPreview = true;
+        return this;
+    }
+
+    public boolean isPrintPreview()
+    {
+        return this.isPrintPreview;
+    }
+
+
+    public ProcessBuilder withoutBatchMode()
+    {
+        this.isBatch = false;
+        return  this;
+    }
+
+    public ProcessBuilder withBatchMode()
+    {
+        this.isBatch = true;
+        return  this;
+    }
+
+    public boolean isBatch()
+    {
+        return this.isBatch;
     }
 
     /**
