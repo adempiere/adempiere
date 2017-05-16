@@ -614,23 +614,25 @@ public class ReportStarter implements ProcessCall, ClientProcess
                     	exporter.setParameter(JRPrintServiceExporterParameter.DISPLAY_PRINT_DIALOG, Boolean.FALSE);
                     	// Print report / document
                     	exporter.exportReport();
-                    } else {
-                    	// You can use JasperPrint to create PDF
-                    	// Used For the PH
-                    	try {
-                    		File PDF = File.createTempFile("mail", ".pdf");
-                    		JasperExportManager.exportReportToPdfFile(jasperPrint, PDF.getAbsolutePath());
-                    		processInfo.setPDFReport(PDF);
-                    	} catch (IOException e) {
-                    		log.severe("ReportStarter.startProcess: Can not make PDF File - "+ e.getMessage());
-                    	}
+                    }
                 }
+				else {
+					// You can use JasperPrint to create PDF
+					// Used For the PH
+					try {
+						File PDF = File.createTempFile("mail", ".pdf");
+						JasperExportManager.exportReportToPdfFile(jasperPrint, PDF.getAbsolutePath());
+						processInfo.setPDFReport(PDF);
+						if (processInfo.isPrintPreview()) {
+							log.info("ReportStarter.startProcess run report -" + jasperPrint.getName());
+							JRViewerProvider viewerLauncher = getReportViewerProvider();
+							//viewerLauncher.openViewer(jasperPrint, pi.getTitle()+" - " + reportPath);
+							viewerLauncher.openViewer(jasperPrint, pi.getTitle() + "_" + pi.getRecord_ID() + ".pdf");
+						}
+					} catch (IOException e) {
+						log.severe("ReportStarter.startProcess: Can not make PDF File - "+ e.getMessage());
+					}
                     // You can use JasperPrint to create PDF
-                } else {
-                    log.info( "ReportStarter.startProcess run report -"+jasperPrint.getName());
-                    JRViewerProvider viewerLauncher = getReportViewerProvider();
-                    //viewerLauncher.openViewer(jasperPrint, pi.getTitle()+" - " + reportPath);
-                    viewerLauncher.openViewer(jasperPrint, pi.getTitle()+"_" + pi.getRecord_ID() + ".pdf");
                 }
             } catch (JRException e) {
                 log.severe("ReportStarter.startProcess: Can not run report - "+ e.getMessage());
