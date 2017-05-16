@@ -362,7 +362,12 @@ public class MProcess extends X_AD_Process
 
 		//	Java Class
 		String Classname = getClassname();
-		if (Classname != null && Classname.length() > 0)
+		if (Classname != null && Classname.length() > 0 && Classname.toLowerCase().startsWith(MRule.SCRIPT_PREFIX))
+		{
+			pi.setClassName(Classname);
+			ProcessUtil.startScriptProcess(Env.getCtx(), pi, trx);
+		}
+		else if (Classname != null && Classname.length() > 0 && !Classname.toLowerCase().startsWith(MRule.SCRIPT_PREFIX))
 		{
 			pi.setClassName(Classname);
 			ok = startClass(pi, trx, managedTrx);
