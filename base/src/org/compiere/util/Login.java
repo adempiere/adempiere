@@ -311,7 +311,7 @@ public class Login
 	        	}
 	        }
 	        //	Match Password
-			if (MUser.authenticateHash(app_pwd, userPwd , userSalt)) {
+			if (userSalt != null && MUser.authenticateHash(app_pwd, userPwd , userSalt)) {
 				return userId;
 			}
 			//	
