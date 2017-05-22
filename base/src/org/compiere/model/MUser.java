@@ -296,7 +296,7 @@ public class MUser extends X_AD_User
 			value = "noname";
 		//	
 		value = value.replaceAll(" ", "")
-				.replaceAll("[+^:&áàäéèëíìïóòöúùuñÁÀÄÉÈËÍÌÏÓÒÖÚÙÜÑçÇ$#*/]","");
+				.replaceAll("[+^:&áàäéèëíìïóòöúùñÁÀÄÉÈËÍÌÏÓÒÖÚÙÜÑçÇ$#*/]","");
 		super.setValue(value);
 	}	//	setValue
 	
