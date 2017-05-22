@@ -67,7 +67,7 @@ public class MQuery implements Serializable
 		boolean isTemporaryTable = false;
 		MTable table = null;
 		table = MTable.get(ctx, TableName);
-		if (TableName.startsWith("T_"))
+		if (table.getColumn("AD_PInstance_ID") != null)
 		{
 			//	BR [ 236 ]
 			query.addRestriction(TableName + ".AD_PInstance_ID=" + AD_PInstance_ID, true);
