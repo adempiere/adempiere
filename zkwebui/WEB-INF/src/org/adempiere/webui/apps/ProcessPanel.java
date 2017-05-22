@@ -36,18 +36,20 @@ import org.adempiere.webui.component.WAppsAction;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.editor.WEditor;
 import org.adempiere.webui.editor.WEditorPopupMenu;
+import org.adempiere.webui.editor.WTableDirEditor;
 import org.adempiere.webui.editor.WebEditorFactory;
 import org.adempiere.webui.event.ContextMenuListener;
 import org.adempiere.webui.window.FDialog;
 import org.compiere.apps.ProcessController;
 import org.compiere.apps.ProcessCtl;
-import org.compiere.model.GridField;
-import org.compiere.model.MPInstance;
+import org.compiere.model.*;
+import org.compiere.print.MPrintFormat;
 import org.compiere.process.ProcessInfo;
 import org.compiere.swing.CEditor;
 import org.compiere.util.ASyncProcess;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
+import org.compiere.util.Ini;
 import org.compiere.util.Msg;
 import org.compiere.util.Util;
 import org.zkoss.zk.au.out.AuEcho;
@@ -144,8 +146,17 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 	//saved paramaters
 
 	private Combobox fSavedName=new Combobox();
-	private Button bDelete = null;
+	private Button bSave = new Button("Save");
+	private Button bDelete = new Button("Delete");
 	private Label lSaved = new Label(Msg.getMsg(Env.getCtx(), "SavedParameter"));
+
+	// Print Format
+	private WTableDirEditor		fPrintFormat		= null;
+	private Combobox 			fReportType = new Combobox();
+	private Label				lPrintFormat		= new Label("Print Format:");
+	private Label 				lReportType = new Label("Report Type:");
+
+
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(ProcessPanel.class);
 	
@@ -206,7 +217,6 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 			Row row = rows.newRow();
 			Hbox hBox = new Hbox();
 			hBox.appendChild(lSaved);
-			
 			hBox.appendChild(fSavedName);
 
 			Panel confParaPanel = new Panel();
@@ -231,14 +241,60 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 			} catch(Exception e) {
 				log.severe("Error loading Buttons " + e.getLocalizedMessage());
 			}
+			bSave.setEnabled(false);
+			bSave.setImage("/images/Save24.png");
+			bSave.setSclass("action-button");
+			bSave.addActionListener(this);
+			hBox.appendChild(bSave);
+
 			bDelete.setEnabled(false);
 			bDelete.setImage("/images/Delete24.png");
 			bDelete.setSclass("action-button");
 			bDelete.addActionListener(this);
 			hBox.appendChild(bDelete);
 
+			if (isReport() ) {
+				Lookup lookup = listPrintFormat();
+				fPrintFormat = new WTableDirEditor("AD_PrintFormat_ID", false, false, true, lookup);
+				MRole roleCurrent = MRole.get(Env.getCtx(), Env.getAD_Role_ID(Env.getCtx()));
+				boolean m_isAllowHTMLView = roleCurrent.isAllow_HTML_View();
+				boolean m_isAllowXLSView = roleCurrent.isAllow_XLS_View();
+				String typeSelection = MSysConfig.getValue("ZK_REPORT_TABLE_OUTPUT_TYPE", Env.getAD_Client_ID(Env.getCtx()));
+				int selectionIndex = 0;
+				if (typeSelection != null && "HTML".equals(typeSelection))
+					selectionIndex = 3;
+
+				fReportType.removeAllItems();
+				fReportType.appendItem("PDF", "P");
+				if ("PDF".equals(typeSelection))
+					selectionIndex = 0;
+
+				if (m_isAllowXLSView) {
+					fReportType.appendItem("Excel", "X");
+					if ("XLS".equals(typeSelection))
+						selectionIndex = 1;
+					fReportType.appendItem("XLSX", "XX");
+					if ("XLSX".equals(typeSelection))
+						selectionIndex = 2;
+
+				}
+				if (m_isAllowHTMLView)
+					fReportType.appendItem("HTML", "H");
+
+				if ("HTML".equals(typeSelection))
+					selectionIndex = 3;
+
+				fReportType.setSelectedIndex(selectionIndex);
+
+				hBox.appendChild(lPrintFormat);
+				hBox.appendChild(fPrintFormat.getComponent());
+
+				hBox.appendChild(lReportType);
+				hBox.appendChild(fReportType);
+			}
+
 			row.appendChild(hBox);
-			//	
+			//
 			row.appendChild(confParaPanel);
 			
 			South south = new South();
@@ -343,8 +399,8 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 	
 	/**
 	 * Congure columns
-	 * @param field
-	 * @param field_To
+	 * @param editor
+	 * @param editorTo
 	 */
 	private void configColumns(WEditor editor, WEditor editorTo) {
 		int maxToAdd = getColumns() * 2;
@@ -459,7 +515,9 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 		hideBusyDialog();
 		//	Hide
 		if(isReport() && !pi.isError()) {
-			dispose();
+			//dispose();
+			getProcessInfo().setAD_PInstance_ID(0);
+			setIsProcessed(false);
 		}
 	}
 
@@ -475,7 +533,6 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 
 	@Override
 	public void onEvent(Event event) throws Exception {
-		//	FR [ 299 ]
 		String saveName = null;
 		boolean lastRun = false;
 		if(fSavedName.getRawText() != null) {
@@ -487,7 +544,6 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 			setIsOkPressed(true);
 			if(isOnlyPanel()) {
 				//	check if saving parameters is complete
-				//	FR [ 299 ]
 				if (saveOrUpdateParameters(saveName) == null) {
 					//	Save Parameters
 					dispose();
@@ -495,6 +551,26 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 			} else if (isProcessed()) {
 				dispose();
 			} else {
+
+				// Print format on report para
+				if (fReportType != null && fReportType.getSelectedItem() != null
+						&& fReportType.getSelectedItem().getValue() != null)
+				{
+					getProcessInfo().setReportType(fReportType.getSelectedItem().getValue().toString());
+				}
+				if (fPrintFormat != null && fPrintFormat.getValue() != null)
+				{
+					MPrintFormat format = new MPrintFormat(Env.getCtx(), (Integer) fPrintFormat.getValue(), null);
+					if (format != null)
+					{
+						if (Ini.isClient())
+							getProcessInfo().setTransientObject(format);
+						else
+							getProcessInfo().setSerializableObject(format);
+					}
+				}
+
+
 				//	BR [ 265 ]
 					process(saveName);
 			}
@@ -563,7 +639,7 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 		if(!isAutoStart()) {
 			loadQuerySaved();
 		} else if(parent.getParentProcess() == null) {
-			//process();
+			process();
 			Events.postEvent("onClick", bOK, null);
 		}
 	}
