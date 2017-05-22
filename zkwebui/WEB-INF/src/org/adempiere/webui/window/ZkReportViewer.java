@@ -227,17 +227,30 @@ public class ZkReportViewer extends Window implements EventListener {
 		toolBar.appendChild(new Separator("vertical"));
 		
 		//set default type
-		String type = m_reportEngine.getPrintFormat().isForm()
-				? MSysConfig.getValue("ZK_REPORT_FORM_OUTPUT_TYPE")
-				: MSysConfig.getValue("ZK_REPORT_TABLE_OUTPUT_TYPE");
+		String type = m_reportEngine.getReportType();
+		if (type == null) {
+			type = m_reportEngine.getPrintFormat().isForm()
+					? MSysConfig.getValue("ZK_REPORT_FORM_OUTPUT_TYPE", Env.getAD_Client_ID(Env.getCtx()))
+					: MSysConfig.getValue("ZK_REPORT_TABLE_OUTPUT_TYPE" , Env.getAD_Client_ID(Env.getCtx()));
+		}
 
-		if ("HTML".equals(type)  && !m_isAllowHTMLView) {
+		if ("H".equals(type)  && !m_isAllowHTMLView) {
 			type = "PDF";
 		}
-		if (("XLS".equals(type)  && !m_isAllowXLSView) ||
-			("XLSX".equals(type)  && !m_isAllowXLSView)) {
+
+		if (("X".equals(type)  && !m_isAllowXLSView) || ("XX".equals(type)  && !m_isAllowXLSView)) {
 			type = "PDF";
 		}
+
+		if ("H".equals(type))
+			type = "HTML";
+		if ("X".equals(type))
+			type = "XLS";
+		if ("XX".equals(type))
+			type = "XLSX";
+		if ("P".equals(type))
+			type = "PDF";
+
 		if ("PDF".equals(type))
 			previewType.setSelectedIndex(0);
 		else if ("HTML".equals(type))
@@ -250,7 +263,7 @@ public class ZkReportViewer extends Window implements EventListener {
 			// XXX - provide hint if unexpected value
 			previewType.setSelectedIndex(0); //fallback to PDF
 			
-		if(m_reportEngine.getReportType()!=null)
+		if(m_reportEngine.getReportType() != null)
 		{
 			if(m_reportEngine.getReportType().equals("P"))
 			{

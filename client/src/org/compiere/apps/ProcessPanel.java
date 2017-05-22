@@ -29,10 +29,16 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 
 import org.adempiere.controller.SmallViewEditable;
+import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.grid.ed.VEditor;
 import org.compiere.grid.ed.VEditorFactory;
+import org.compiere.grid.ed.VLookup;
 import org.compiere.model.GridField;
+import org.compiere.model.Lookup;
 import org.compiere.model.MPInstance;
+import org.compiere.model.MRole;
+import org.compiere.model.MSysConfig;
+import org.compiere.print.MPrintFormat;
 import org.compiere.print.ReportCtl;
 import org.compiere.print.ReportEngine;
 import org.compiere.process.ProcessInfo;
@@ -40,14 +46,17 @@ import org.compiere.swing.CButton;
 import org.compiere.swing.CComboBoxEditable;
 import org.compiere.swing.CEditor;
 import org.compiere.swing.CLabel;
+import org.compiere.swing.CComboBox;
 import org.compiere.swing.CPanel;
 import org.compiere.swing.CScrollPane;
 import org.compiere.util.ASyncProcess;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
+import org.compiere.util.Ini;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 import org.compiere.util.Util;
+import org.compiere.util.ValueNamePair;
 
 /**
  *	Process Parameter Panel, based on existing ProcessParameter dialog.
@@ -138,6 +147,12 @@ public class ProcessPanel extends ProcessController
 	private CComboBoxEditable fSavedName;
 	private CButton bDelete;
 	private CLabel lSaved;
+
+	// Print Format
+	private VLookup 			fPrintFormat		= null;
+	private CComboBox 			fReportType			= new CComboBox();
+	private CLabel 				lPrintFormat		= new CLabel("Print Format:");
+	private CLabel 				lReportType = new CLabel("Report Type:");
 	
 	private CPanel mainPanel = new CPanel() {
 		/**
@@ -222,6 +237,9 @@ public class ProcessPanel extends ProcessController
 		bOK.addActionListener(this);
 		bCancel.addActionListener(this);
 		bPrint.addActionListener(this);
+
+
+
 		//	
 		mainPanel.setLayout(mainLayout);
 		mainPanel.setMinimumSize(new Dimension(500, 100));
@@ -258,14 +276,68 @@ public class ProcessPanel extends ProcessController
 		parameterScrollPane.createHorizontalScrollBar();
 		//	
 		mainPanel.add(parameterScrollPane, BorderLayout.CENTER);
-		//	Add buttons
-		if(isShowButtons()) {
-			mainPanel.add(southPanel, BorderLayout.SOUTH);
-		}
 		//	FR [ 299 ]
 		fSavedName.setEditable(true);
 		fSavedName.setReadWrite(true);
 		bDelete.addActionListener(this);
+
+		//	Add buttons
+		if(isShowButtons()) {
+			if (isReport() ) {
+				Lookup lookup = listPrintFormat();
+				fPrintFormat = new VLookup("AD_PrintFormat_ID", false, false, true, lookup);
+				fPrintFormat.setBackground(AdempierePLAF.getInfoBackground());
+				fPrintFormat.addActionListener(this);
+
+				MRole roleCurrent = MRole.get(Env.getCtx(), Env.getAD_Role_ID(Env.getCtx()));
+				boolean m_isAllowHTMLView = roleCurrent.isAllow_HTML_View();
+				boolean m_isAllowXLSView = roleCurrent.isAllow_XLS_View();
+				String type = MSysConfig.getValue("ZK_REPORT_TABLE_OUTPUT_TYPE", Env.getAD_Client_ID(Env.getCtx()));
+				if (type != null && "XLS".equals(type))
+					type = "X";
+
+				if (type != null && "XLSX".equals(type))
+					type = "XX";
+
+				if (type != null && "HTML".equals(type))
+					type = "H";
+
+				ValueNamePair valueNamePairSelection = null;
+				fReportType.removeAllItems();
+				ValueNamePair valueNamePairPDF =  new ValueNamePair("P", "PDF");
+				fReportType.addItem(valueNamePairPDF);
+				if (valueNamePairPDF.getValue().equals(type))
+					valueNamePairSelection = valueNamePairPDF;
+
+				if (m_isAllowXLSView) {
+					ValueNamePair valueNamePairExcel =  new ValueNamePair("X", "Excel");
+					ValueNamePair valueNamePairXLSX =  new ValueNamePair("XX", "XLSX");
+					fReportType.addItem(valueNamePairExcel);
+					fReportType.addItem(valueNamePairXLSX);
+					if (valueNamePairExcel.getValue().equals(type) || "X".equals(type))
+						valueNamePairSelection = valueNamePairExcel;
+					if (valueNamePairXLSX.getValue().equals(type))
+						valueNamePairSelection = valueNamePairXLSX;
+				}
+				if (m_isAllowHTMLView) {
+					ValueNamePair valueNamePairHTML =  new ValueNamePair("H", "HTML");
+					fReportType.addItem(valueNamePairHTML);
+					if (valueNamePairHTML.getValue().equals(type))
+						valueNamePairSelection = valueNamePairHTML;
+				}
+				if (valueNamePairSelection != null)
+					fReportType.setSelectedItem(valueNamePairSelection);
+				else
+					fReportType.setSelectedItem(0);
+
+				leftPanel.add(lPrintFormat,null);
+				leftPanel.add(fPrintFormat,null);
+
+				leftPanel.add(lReportType,null);
+				leftPanel.add(fReportType,null);
+			}
+			mainPanel.add(southPanel, BorderLayout.SOUTH);
+		}
 		//	
 		mainLayout.setVgap(2);
 		//	Set Text
@@ -528,6 +600,23 @@ public class ProcessPanel extends ProcessController
 			} else if (isProcessed()) {
 				dispose();
 			} else {
+				// Print format on report para
+				if (fReportType != null && fReportType.getSelectedItem() != null
+						&& ((ValueNamePair)fReportType.getSelectedItem()).getValue() != null)
+				{
+					getProcessInfo().setReportType(((ValueNamePair)fReportType.getSelectedItem()).getValue().toString());
+				}
+				if (fPrintFormat != null && fPrintFormat.getValue() != null)
+				{
+					MPrintFormat format = new MPrintFormat(Env.getCtx(), (Integer) fPrintFormat.getValue(), null);
+					if (format != null)
+					{
+						if (Ini.isClient())
+							getProcessInfo().setTransientObject(format);
+						else
+							getProcessInfo().setSerializableObject(format);
+					}
+				}
 				//	BR [ 265 ]
 				if(validateParameters() == null) {
 					if(saveOrUpdateParameters(saveName) == null) {

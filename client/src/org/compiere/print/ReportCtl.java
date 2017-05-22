@@ -121,12 +121,12 @@ public class ReportCtl
 		MPInstance instance = new MPInstance(Env.getCtx(), processInfo.getAD_PInstance_ID(), null);
 		
 		if (processInfo.getReportType() != null)
-			instance.set_ValueOfColumn("ReportType", processInfo.getReportType());
+			instance.setReportType(processInfo.getReportType());
 		
 		if (processInfo.getTransientObject() != null)
-			instance.set_ValueOfColumn("AD_PrintFormat_ID", ((MPrintFormat) processInfo.getTransientObject()).getAD_PrintFormat_ID());
+			instance.setAD_PrintFormat_ID(((MPrintFormat) processInfo.getTransientObject()).getAD_PrintFormat_ID());
 		else if (processInfo.getSerializableObject() != null)
-			instance.set_ValueOfColumn("AD_PrintFormat_ID", ((MPrintFormat) processInfo.getSerializableObject()).getAD_PrintFormat_ID());
+			instance.setAD_PrintFormat_ID(((MPrintFormat) processInfo.getSerializableObject()).getAD_PrintFormat_ID());
 		
 		instance.saveEx();
 		
@@ -229,7 +229,7 @@ public class ReportCtl
 				return false;
 			}
 		}
-		if(processInfo.getReportType()!=null)
+		if(processInfo.getReportType() != null)
 		{
 			reportEngine.setReportType(processInfo.getReportType());
 		}

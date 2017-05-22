@@ -162,9 +162,9 @@ public class ProcessInfo implements Serializable
 	//FR 1906632
 	private File 				pdfReportFile = null;
 
-	private String reportType=null;
+	private String 				reportType = null;
 	
-	private String drillSource = null;
+	private String 				drillSource = null;
 
 	private boolean 			managedTransaction = true;
 	
@@ -1315,9 +1315,10 @@ public class ProcessInfo implements Serializable
 	{
 		return MTable.getTableName(Env.getCtx(), getTableSelectionId());
 	}
+
 	public void setReportType(String type)
 	{
-		reportType=type;
+		reportType = type;
 	}
 	
 	public String getReportType()
