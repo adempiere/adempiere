@@ -81,6 +81,7 @@ import org.compiere.model.MArchive;
 import org.compiere.model.MClient;
 import org.compiere.model.MQuery;
 import org.compiere.model.MRole;
+import org.compiere.model.MSysConfig;
 import org.compiere.model.MUser;
 import org.compiere.model.PrintInfo;
 import org.compiere.model.X_C_Invoice;
@@ -141,6 +142,9 @@ public class Viewer extends CFrame
 	 * 
 	 */
 	private static final long serialVersionUID = 7306392362119021781L;
+	private static final String PDF = "P";
+	private static final String XLS = "X";
+	private static final String HTML = "H";
 
 	/**
 	 * 	@deprecated
@@ -173,15 +177,65 @@ public class Viewer extends CFrame
 		m_isCanExport = MRole.getDefault().isCanExport(m_AD_Table_ID);
 		//	BR [1019]
 		m_IsCanLoad = MRole.getDefault().isCanLoad(m_AD_Table_ID);
+		m_isAllowHTMLView =  MRole.getDefault().isAllow_HTML_View();
+		m_isAllowXLSView =  MRole.getDefault().isAllow_XLS_View();
 		try
 		{
 			m_viewPanel = re.getView();
 			m_ctx = m_reportEngine.getCtx();
+			String type = m_reportEngine.getReportType();
+			if (type == null) {
+				type = m_reportEngine.getPrintFormat().isForm()
+						? MSysConfig.getValue("ZK_REPORT_FORM_OUTPUT_TYPE")
+						: MSysConfig.getValue("ZK_REPORT_TABLE_OUTPUT_TYPE");
+				if (type != null && XLS.equals(type))
+					type = XLS;
+				if (type != null && PDF.equals(type))
+					type = PDF;
+			}
+
+			if (HTML.equals(type)  && !m_isAllowHTMLView) {
+				type = PDF;
+			}
+			if ((XLS.equals(type)  && !m_isAllowXLSView) || ("XX".equals(type)  && !m_isAllowXLSView)) {
+				type = PDF;
+			}
+
+			if (XLS.equals(type) || HTML.equals(type)) {
+				try {
+					String extension = "pdf";
+					if (XLS.equals(type))
+						extension = "xls";
+					if (HTML.equals(type))
+						extension = "html";
+
+					File outFile = new File("./"  + m_reportEngine.getPrintFormat().getName() + "_" +  System.currentTimeMillis() + "." + extension);
+					outFile.createNewFile();
+					if (XLS.equals(type))
+						m_reportEngine.createXLS(outFile, m_reportEngine.getPrintFormat().getLanguage());
+					if (HTML.equals(type))
+						m_reportEngine.createHTML(outFile, false, m_reportEngine.getPrintFormat().getLanguage());
+					this.dispose();
+					return;
+				}
+				catch (Exception e)
+				{
+					ADialog.error(m_WindowNo, this, "Error", e.getLocalizedMessage());
+					if (CLogMgt.isLevelFinest())
+						e.printStackTrace();
+
+					this.dispose();
+					return;
+				}
+			}
+
 			jbInit();
 			dynInit();
 			if (!m_viewPanel.isArchivable())
 				log.warning("Cannot archive Document");
 			AEnv.showCenterScreen(this);
+
+
 		}
 		catch(Exception e)
 		{
@@ -213,7 +267,9 @@ public class Viewer extends CFrame
 	//	BR [1019]
 	/**	Is Can Load							*/
 	private boolean 			m_IsCanLoad = false;
-	
+	private boolean 			m_isAllowHTMLView = false;
+	private boolean 			m_isAllowXLSView= false;
+
 	private MQuery 		m_ddQ = null;
 	private MQuery 		m_daQ = null;
 	private CMenuItem 	m_ddM = null;
