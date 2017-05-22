@@ -31,8 +31,8 @@ package org.adempiere.model;
 
 import org.adempiere.process.rpl.exp.ExportHelper;
 import org.compiere.model.MClient;
-import org.compiere.model.MOrg;
 import org.compiere.model.MReplicationStrategy;
+import org.compiere.model.MReplicationTable;
 import org.compiere.model.MTable;
 import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.ModelValidator;
@@ -41,6 +41,7 @@ import org.compiere.model.X_AD_ReplicationDocument;
 import org.compiere.model.X_AD_ReplicationTable;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
+import java.util.Properties;
 
 
 /**
@@ -68,25 +69,25 @@ public class ExportModelValidator implements ModelValidator
 	private static CLogger log = CLogger.getCLogger(ExportModelValidator.class);
 	
 	/** Client			*/
-	private int		m_AD_Client_ID = -1;
+	private int clientId = -1;
 	
 	/** Organization	*/
-	private int m_AD_Org_ID = -1;
+	private int orgId = -1;
 	
 	/** Role			*/
-	private int m_AD_Role_ID = -1;
+	private int roleId = -1;
 	
 	/** User			*/
-	private int m_AD_User_ID = -1;
-	
-	/** Replication Strategy **/
-	private int m_AD_ReplicationStrategy_ID = -1;
-	
+	private int userId = -1;
+
+	/** Company**/
+	MClient client = null;
+
 	/** ModelValidationEngine engine **/
-	ModelValidationEngine m_engine = null;
+	ModelValidationEngine modelValidationEngine = null;
 	
 	/** Export Helper				*/
-	ExportHelper expHelper = null;	
+	ExportHelper exportHelper = null;
 	
 	/**
 	 *	Constructor.
@@ -99,21 +100,22 @@ public class ExportModelValidator implements ModelValidator
 	
 	/**
 	 *	Initialize Validation
-	 *	@param engine validation engine 
+	 *	@param modelValidationEngine validation engine
 	 *	@param client client
 	 */
-	public void initialize (ModelValidationEngine engine, MClient client)
+	public void initialize (ModelValidationEngine modelValidationEngine, MClient client)
 	{
-	    m_engine = engine;	    
+	    this.modelValidationEngine = modelValidationEngine;
+	    this.client = client;
 	    if (client != null)
 	    {
-			m_AD_Client_ID = client.getAD_Client_ID();
+			clientId = client.getAD_Client_ID();
 			log.info(client.toString());
 	    }
 	    else 
 	    {
-		log.warning("Export Model Validator cannot be used as a global validator, it needs to be defined in a per-client (tenant) basis");
-		return;
+			log.warning("Export Model Validator cannot be used as a global validator, it needs to be defined in a per-client (tenant) basis");
+			return;
 	    }		
 	}
 
@@ -129,21 +131,26 @@ public class ExportModelValidator implements ModelValidator
 	{
 		//String Mode = "Table";
 		log.info("po.get_TableName() = " + po.get_TableName());
-		if (expHelper != null) {
+		if (exportHelper != null) {
 		if (   type == TYPE_AFTER_CHANGE 
-			|| type == TYPE_AFTER_NEW 
+			|| type == TYPE_AFTER_NEW
 			|| type == TYPE_BEFORE_DELETE) // After Change or After New
 			{
-		    	X_AD_ReplicationTable replicationTable = MReplicationStrategy.getReplicationTable(
-		    		po.getCtx(), m_AD_ReplicationStrategy_ID, po.get_Table_ID());
-        		    if (replicationTable != null) 
-        		    {
-        				expHelper.exportRecord(
-        		        po, 
-        		        MReplicationStrategy.REPLICATION_TABLE, 
-        		        replicationTable.getReplicationType(),
-        		        type);
-        		    }
+				MReplicationStrategy.getByOrgAndRole(po.getCtx() , orgId , roleId, po.get_TrxName()).stream().forEach( replicationStrategy -> {
+					MReplicationTable replicationTable = MReplicationStrategy.getReplicationTable(po.getCtx(), replicationStrategy.get_ID(), po.get_Table_ID());
+					if (replicationTable != null) {
+						exportHelper = new ExportHelper(client, replicationStrategy);
+						try {
+							exportHelper.exportRecord(
+									po,
+									MReplicationStrategy.REPLICATION_TABLE,
+									replicationTable.getReplicationType(),
+									type);
+						} catch (Exception exeption)
+						{
+						}
+					}
+				});
 			}			
 		}
 
@@ -163,7 +170,7 @@ public class ExportModelValidator implements ModelValidator
 	{
 		log.info("Replicate the Document = " + po.get_TableName() + " with Type = " + type);
 		String result = null;
-		if (expHelper != null) {
+		if (exportHelper != null) {
 			try {
 				if (   type == TIMING_AFTER_COMPLETE 
 					|| type == TIMING_AFTER_CLOSE 
@@ -173,28 +180,33 @@ public class ExportModelValidator implements ModelValidator
 					//|| type == TIMING_AFTER_PREPARE
 				)
 				{
-				    X_AD_ReplicationDocument replicationDocument = null;
-				    int C_DocType_ID = po.get_ValueAsInt("C_DocType_ID");
-				    if (C_DocType_ID > 0)
-				    {
-					replicationDocument = MReplicationStrategy.getReplicationDocument(
-						po.getCtx(), m_AD_ReplicationStrategy_ID, po.get_Table_ID(), C_DocType_ID);
-				    }
-				    else
-				    {
-					replicationDocument = MReplicationStrategy.getReplicationDocument(
-						po.getCtx(), m_AD_ReplicationStrategy_ID, po.get_Table_ID());
-				    }
-				    
-				    
-				    if (replicationDocument != null) {
-					expHelper.exportRecord(	
-					po, 
-					MReplicationStrategy.REPLICATION_DOCUMENT,
-					replicationDocument.getReplicationType(),
-					type);			
-				    }
-									
+					MReplicationStrategy.getByOrgAndRole(po.getCtx() , orgId , roleId, po.get_TrxName()).stream().forEach( replicationStrategy -> {
+						X_AD_ReplicationDocument replicationDocument = null;
+						int C_DocType_ID = po.get_ValueAsInt("C_DocType_ID");
+						if (C_DocType_ID > 0) {
+							replicationDocument = MReplicationStrategy.getReplicationDocument(
+									po.getCtx(), replicationStrategy.get_ID(), po.get_Table_ID(), C_DocType_ID);
+						} else {
+							replicationDocument = MReplicationStrategy.getReplicationDocument(
+									po.getCtx(),  replicationStrategy.get_ID(), po.get_Table_ID());
+						}
+
+
+						if (replicationDocument != null) {
+							exportHelper = new ExportHelper(client, replicationStrategy);
+							try {
+								exportHelper.exportRecord(
+										po,
+										MReplicationStrategy.REPLICATION_DOCUMENT,
+										replicationDocument.getReplicationType(),
+										type);
+							}
+							catch (Exception exeption)
+							{
+
+							}
+						}
+					});
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -207,22 +219,22 @@ public class ExportModelValidator implements ModelValidator
 	/**
 	 *	User Login.
 	 *	Called when preferences are set
-	 *	@param AD_Org_ID org
-	 *	@param AD_Role_ID role
-	 *	@param AD_User_ID user
+	 *	@param orgId org
+	 *	@param roleId role
+	 *	@param userId user
 	 *	@return error message or null
 	 */
-	public String login (int AD_Org_ID, int AD_Role_ID, int AD_User_ID)
+	public String login (int orgId, int roleId, int userId)
 	{
-	    	Env.setContext(Env.getCtx(), CTX_IsReplicationEnabled, true);
-		m_AD_Org_ID = AD_Org_ID;
-		m_AD_Role_ID = AD_Role_ID;
-		m_AD_User_ID = AD_User_ID;
+	    Env.setContext(Env.getCtx(), CTX_IsReplicationEnabled, true);
+		this.orgId = orgId;
+		this.roleId = roleId;
+		this.userId = userId;
 		
-		log.info("AD_Org_ID  =" + m_AD_Org_ID);
-		log.info("AD_Role_ID =" + m_AD_Role_ID);
-		log.info("AD_User_ID =" + m_AD_User_ID);
-		loadReplicationStrategy();
+		log.info("AD_Org_ID  =" + this.orgId);
+		log.info("AD_Role_ID =" + this.roleId);
+		log.info("AD_User_ID =" + this.userId);
+		loadReplicationStrategy(Env.getCtx());
 		return null;
 	}
 
@@ -233,59 +245,62 @@ public class ExportModelValidator implements ModelValidator
 	 */
 	public int getAD_Client_ID()
 	{
-		return m_AD_Client_ID;
+		return clientId;
 	}
 	
-	public void loadReplicationStrategy()
+	public void loadReplicationStrategy(Properties ctx)
 	{
-		MClient client = MClient.get(Env.getCtx(), m_AD_Client_ID);
-		MReplicationStrategy rplStrategy = null;
+		MClient m_client = MClient.get(Env.getCtx(), clientId);
 		
-		m_AD_ReplicationStrategy_ID = MOrg.get(client.getCtx(),m_AD_Org_ID).getAD_ReplicationStrategy_ID();
-		
-		if(m_AD_ReplicationStrategy_ID  <= 0)
-		{    
-		    m_AD_ReplicationStrategy_ID =  client.getAD_ReplicationStrategy_ID();
-		    log.info("client.getAD_ReplicationStrategy_ID() = " + m_AD_ReplicationStrategy_ID);
+		/*replicationStrategyId = MRole.get(m_client.getCtx(), roleId).get_ValueAsInt("AD_ReplicationStrategy_ID");
+		if(replicationStrategyId <= 0)
+		{
+			replicationStrategyId = MOrg.get(m_client.getCtx(), orgId).getAD_ReplicationStrategy_ID();
+		}
+
+		if(replicationStrategyId <= 0)
+		{
+			replicationStrategyId =  m_client.getAD_ReplicationStrategy_ID();
+			log.info("client.getAD_ReplicationStrategy_ID() = " + replicationStrategyId);
 		}
 		
-		if (m_AD_ReplicationStrategy_ID > 0) {
-			rplStrategy = new MReplicationStrategy(client.getCtx(), m_AD_ReplicationStrategy_ID, null);
-			if(!rplStrategy.isActive())
+		if (replicationStrategyId > 0) {
+			replicationStrategy = new MReplicationStrategy(m_client.getCtx(), replicationStrategyId, null);
+			if(!replicationStrategy.isActive())
 			{	
 				return;
 			}
-			expHelper = new ExportHelper(client, rplStrategy);
-		}
+			exportHelper = new ExportHelper(m_client, replicationStrategy);
+		}*/
+
 		// Add Tables
 		// We want to be informed when records in Replication tables are created/updated/deleted!
 		//engine.addModelChange(MBPartner.Table_Name, this);
 		//engine.addModelChange(MOrder.Table_Name, this);
 		//engine.addModelChange(MOrderLine.Table_Name, this);
-		if (rplStrategy != null) {
-
-			for (X_AD_ReplicationTable rplTable : rplStrategy.getReplicationTables()) {
+		MReplicationStrategy.getByOrgAndRole(ctx , orgId , roleId, null ).stream()
+				.filter(replicationStrategy -> replicationStrategy != null)
+				.forEach(replicationStrategy -> {
+			for (X_AD_ReplicationTable rplTable : replicationStrategy.getReplicationTables()) {
 				if (X_AD_ReplicationTable.REPLICATIONTYPE_Merge.equals(rplTable.getReplicationType())
 					|| X_AD_ReplicationTable.REPLICATIONTYPE_Broadcast.equals(rplTable.getReplicationType())
-					|| X_AD_ReplicationTable.REPLICATIONTYPE_Reference.equals(rplTable.getReplicationType())) 
+					|| X_AD_ReplicationTable.REPLICATIONTYPE_Reference.equals(rplTable.getReplicationType()))
 				{
-				    String tableName = MTable.getTableName(client.getCtx(), rplTable.getAD_Table_ID());
-				    m_engine.addModelChange(tableName, this);
+					String tableName = MTable.getTableName(replicationStrategy.getCtx(), rplTable.getAD_Table_ID());
+					modelValidationEngine.addModelChange(tableName, this);
 				}
 			}
-		}
-		// Add Documents
-		// We want to be informed when Replication documents are created/updated/deleted!
-		if (rplStrategy != null) {
-			for (X_AD_ReplicationDocument rplDocument : rplStrategy.getReplicationDocuments()) {				
+			// Add Documents
+			// We want to be informed when Replication documents are created/updated/deleted!
+			for (X_AD_ReplicationDocument rplDocument : replicationStrategy.getReplicationDocuments()) {
 				if (X_AD_ReplicationDocument.REPLICATIONTYPE_Merge.equals(rplDocument.getReplicationType())
-					|| X_AD_ReplicationDocument.REPLICATIONTYPE_Reference.equals(rplDocument.getReplicationType())) 
-				{				    	
-				    String tableName = MTable.getTableName(client.getCtx(), rplDocument.getAD_Table_ID());
-				    m_engine.addDocValidate(tableName, this);
+					|| X_AD_ReplicationDocument.REPLICATIONTYPE_Reference.equals(rplDocument.getReplicationType()))
+				{
+					String tableName = MTable.getTableName(replicationStrategy.getCtx(), rplDocument.getAD_Table_ID());
+					modelValidationEngine.addDocValidate(tableName, this);
 				}
 			}
-		}
+		});
 	}
 	
 	/**
@@ -294,8 +309,8 @@ public class ExportModelValidator implements ModelValidator
 	 */
 	public String toString ()
 	{
-		StringBuffer sb = new StringBuffer (ExportModelValidator.class.getName());
-		return sb.toString();
+		StringBuffer stringBuffer = new StringBuffer (ExportModelValidator.class.getName());
+		return stringBuffer.toString();
 	}
 	
 }

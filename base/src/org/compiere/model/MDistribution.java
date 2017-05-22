@@ -18,9 +18,11 @@ package org.compiere.model;
 
 import java.math.BigDecimal;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.util.logging.Level;
 
 import org.compiere.util.CCache;
 import org.compiere.util.CLogMgt;
@@ -43,105 +45,107 @@ public class MDistribution extends X_GL_Distribution
 
 	/**
 	 * 	Get Distribution for combination
-	 *	@param acct account (ValidCombination)
-	 *	@param PostingType only posting type
-	 *	@param C_DocType_ID only document type
+	 *	@param account account (ValidCombination)
+	 *	@param postingType only posting type
+	 *	@param docTypeId only document type
 	 *	@return array of distributions
 	 */
-	public static MDistribution[] get (MAccount acct,  
-		String PostingType, int C_DocType_ID)
-	{
-		return get (acct.getCtx(), acct.getC_AcctSchema_ID(), 
-			PostingType, C_DocType_ID,
-			acct.getAD_Org_ID(), acct.getAccount_ID(),
-			acct.getM_Product_ID(), acct.getC_BPartner_ID(), acct.getC_Project_ID(),
-			acct.getC_Campaign_ID(), acct.getC_Activity_ID(), acct.getAD_OrgTrx_ID(),
-			acct.getC_SalesRegion_ID(), acct.getC_LocTo_ID(), acct.getC_LocFrom_ID(),
-			acct.getUser1_ID(), acct.getUser2_ID());
-	}	//	get
+	public static List<MDistribution> get(MAccount account, String postingType,
+			int docTypeId,Timestamp accountDate) {
+		return get(account.getCtx(), account.getC_AcctSchema_ID(), postingType,
+				docTypeId, account.getAD_Org_ID(), account.getAccount_ID(),
+				account.getM_Product_ID(), account.getC_BPartner_ID(),
+				account.getC_Project_ID(), account.getC_Campaign_ID(),
+				account.getC_Activity_ID(), account.getAD_OrgTrx_ID(),
+				account.getC_SalesRegion_ID(), account.getC_LocTo_ID(),
+				account.getC_LocFrom_ID(), account.getUser1_ID(), account.getUser2_ID() ,
+				account.getUser3_ID() , account.getUser4_ID() ,accountDate);
+	} // get
 
 	/**
 	 * 	Get Distributions for combination
 	 *	@param ctx context
-	 *	@param C_AcctSchema_ID schema
-	 *	@param PostingType posting type
-	 *	@param C_DocType_ID document type
-	 *	@param AD_Org_ID org
-	 *	@param Account_ID account
-	 *	@param M_Product_ID product
-	 *	@param C_BPartner_ID partner
-	 *	@param C_Project_ID project
-	 *	@param C_Campaign_ID campaign
-	 *	@param C_Activity_ID activity
-	 *	@param AD_OrgTrx_ID trx org
-	 *	@param C_SalesRegion_ID
-	 *	@param C_LocTo_ID location to
-	 *	@param C_LocFrom_ID location from
-	 *	@param User1_ID user 1
-	 *	@param User2_ID user 2
+	 *	@param acctSchemaId schema
+	 *	@param postingType posting type
+	 *	@param docTypeId document type
+	 *	@param orgId org
+	 *	@param accountId account
+	 *	@param productId product
+	 *	@param partnerId partner
+	 *	@param projectId project
+	 *	@param campaignId campaign
+	 *	@param activityId activity
+	 *	@param orgTrxId trx org
+	 *	@param salesRegionId
+	 *	@param locToId location to
+	 *	@param locFromId location from
+	 *	@param user1Id user 1
+	 *	@param user2Id user 2
+	 *  @param user3Id user 3
+	 *  @param user4Id user 4
 	 *	@return array of distributions or null
 	 */
-	public static MDistribution[] get (Properties ctx, int C_AcctSchema_ID, 
-		String PostingType, int C_DocType_ID,
-		int AD_Org_ID, int Account_ID,
-		int M_Product_ID, int C_BPartner_ID, int C_Project_ID,
-		int C_Campaign_ID, int C_Activity_ID, int AD_OrgTrx_ID,
-		int C_SalesRegion_ID, int C_LocTo_ID, int C_LocFrom_ID,
-		int User1_ID, int User2_ID)
-	{
-		MDistribution[] acctList = get (ctx, Account_ID);
-		if (acctList == null || acctList.length == 0)
+	public static List<MDistribution> get(Properties ctx, int acctSchemaId,
+			String postingType, int docTypeId, int orgId,
+			int accountId, int productId, int partnerId,
+			int projectId, int campaignId, int activityId,
+			int orgTrxId, int salesRegionId, int locToId,
+			int locFromId, int user1Id, int user2Id, int user3Id, int user4Id,
+			Timestamp accountDate) {
+		List<MDistribution> distributions = get(ctx, accountId);
+		if (distributions == null || distributions.size() == 0)
 			return null;
-		//
-		ArrayList<MDistribution> list = new ArrayList<MDistribution>();
-		for (int i = 0; i < acctList.length; i++)
-		{
-			MDistribution distribution = acctList[i];
+
+		List<MDistribution> distributionList = new ArrayList<>();
+		for (MDistribution distribution : distributions) {
+
+			if(!distribution.isValidFromTo( accountDate))
+				continue;
 			if (!distribution.isActive() || !distribution.isValid())
 				continue;
 			//	Mandatory Acct Schema
-			if (distribution.getC_AcctSchema_ID() != C_AcctSchema_ID)
+			if (distribution.getC_AcctSchema_ID() != acctSchemaId)
 				continue;
 			//	Only Posting Type / DocType
-			if (distribution.getPostingType() != null && !distribution.getPostingType().equals(PostingType))
+			if (distribution.getPostingType() != null && !distribution.getPostingType().equals(postingType))
 				continue;
-			if (distribution.getC_DocType_ID() != 0 && distribution.getC_DocType_ID() != C_DocType_ID)
+			if (distribution.getC_DocType_ID() != 0 && distribution.getC_DocType_ID() != docTypeId)
 				continue;
-			
 			//	Optional Elements - "non-Any"
-			if (!distribution.isAnyOrg() && distribution.getAD_Org_ID() != AD_Org_ID)
+			if (!distribution.isAnyOrg() && distribution.getAD_Org_ID() != orgId)
 				continue;
-			if (!distribution.isAnyAcct() && distribution.getAccount_ID() != Account_ID)
+			if (!distribution.isAnyAcct() && distribution.getAccount_ID() != accountId)
 				continue;
-			if (!distribution.isAnyProduct() && distribution.getM_Product_ID() != M_Product_ID)
+			if (!distribution.isAnyProduct() && distribution.getM_Product_ID() != productId)
 				continue;
-			if (!distribution.isAnyBPartner() && distribution.getC_BPartner_ID() != C_BPartner_ID)
+			if (!distribution.isAnyBPartner() && distribution.getC_BPartner_ID() != partnerId)
 				continue;
-			if (!distribution.isAnyProject() && distribution.getC_Project_ID() != C_Project_ID)
+			if (!distribution.isAnyProject() && distribution.getC_Project_ID() != projectId)
 				continue;
-			if (!distribution.isAnyCampaign() && distribution.getC_Campaign_ID() != C_Campaign_ID)
+			if (!distribution.isAnyCampaign() && distribution.getC_Campaign_ID() != campaignId)
 				continue;
-			if (!distribution.isAnyActivity() && distribution.getC_Activity_ID() != C_Activity_ID)
+			if (!distribution.isAnyActivity() && distribution.getC_Activity_ID() != activityId)
 				continue;
-			if (!distribution.isAnyOrgTrx() && distribution.getAD_OrgTrx_ID() != AD_OrgTrx_ID)
+			if (!distribution.isAnyOrgTrx() && distribution.getAD_OrgTrx_ID() != orgTrxId)
 				continue;
-			if (!distribution.isAnySalesRegion() && distribution.getC_SalesRegion_ID() != C_SalesRegion_ID)
+			if (!distribution.isAnySalesRegion() && distribution.getC_SalesRegion_ID() != salesRegionId)
 				continue;
-			if (!distribution.isAnyLocTo() && distribution.getC_LocTo_ID() != C_LocTo_ID)
+			if (!distribution.isAnyLocTo() && distribution.getC_LocTo_ID() != locToId)
 				continue;
-			if (!distribution.isAnyLocFrom() && distribution.getC_LocFrom_ID() != C_LocFrom_ID)
+			if (!distribution.isAnyLocFrom() && distribution.getC_LocFrom_ID() != locFromId)
 				continue;
-			if (!distribution.isAnyUser1() && distribution.getUser1_ID() != User1_ID)
+			if (!distribution.isAnyUser1() && distribution.getUser1_ID() != user1Id)
 				continue;
-			if (!distribution.isAnyUser2() && distribution.getUser2_ID() != User2_ID)
+			if (!distribution.isAnyUser2() && distribution.getUser2_ID() != user2Id)
+				continue;
+			if (!distribution.isAnyUser3() && distribution.getUser3_ID() != user3Id)
+				continue;
+			if (!distribution.isAnyUser4() && distribution.getUser4_ID() != user4Id)
 				continue;
 			//
-			list.add (distribution);
+			distributionList.add (distribution);
 		}	//	 for all distributions with acct
-		//
-		MDistribution[] retValue = new MDistribution[list.size ()];
-		list.toArray (retValue);
-		return retValue;
+		return distributionList;
 	}	//	get
 	
 	/**
@@ -150,41 +154,39 @@ public class MDistribution extends X_GL_Distribution
 	 *	@param Account_ID id
 	 *	@return array of distributions
 	 */
-	public static MDistribution[] get (Properties ctx, int Account_ID)
+	public static List<MDistribution> get (Properties ctx, int Account_ID)
 	{
 		Integer key = new Integer (Account_ID);
-		MDistribution[] retValue = (MDistribution[])s_accounts.get(key);
-		if (retValue != null)
-			return retValue;
+		List<MDistribution> distributions = distributionCache.get(key);
+		if (distributions != null)
+			return distributions;
 		final String whereClause = "Account_ID=?";
 
 		List<MDistribution> list = new Query(ctx,I_GL_Distribution.Table_Name,whereClause,null)
+		.setClient_ID()
+		.setOnlyActiveRecords(true)
 		.setParameters(Account_ID)
 		.list();
-		//
-		retValue = new MDistribution[list.size ()];
-		list.toArray (retValue);
-		s_accounts.put(key, retValue);
-		return retValue;
+		distributionCache.put(key, list);
+		return distributions;
 	}	//	get
 	
 	/**	Static Logger	*/
-	private static CLogger	s_log	= CLogger.getCLogger (MDistribution.class);
+	private static CLogger logger = CLogger.getCLogger (MDistribution.class);
 	/**	Distributions by Account			*/
-	private static CCache<Integer,MDistribution[]> s_accounts 
-		= new CCache<Integer,MDistribution[]>("GL_Distribution", 100);
+	private static CCache<Integer,List<MDistribution>> distributionCache = new CCache<>("GL_Distribution", 100);
 	
 	
 	/**************************************************************************
 	 * 	Standard Constructor
 	 *	@param ctx context
-	 *	@param GL_Distribution_ID id
+	 *	@param distributionId id
 	 *	@param trxName transaction
 	 */
-	public MDistribution (Properties ctx, int GL_Distribution_ID, String trxName)
+	public MDistribution (Properties ctx, int distributionId, String trxName)
 	{
-		super (ctx, GL_Distribution_ID, trxName);
-		if (GL_Distribution_ID == 0)
+		super (ctx, distributionId, trxName);
+		if (distributionId == 0)
 		{
 		//	setC_AcctSchema_ID (0);
 		//	setName (null);
@@ -217,51 +219,66 @@ public class MDistribution extends X_GL_Distribution
 	public MDistribution (Properties ctx, ResultSet rs, String trxName)
 	{
 		super(ctx, rs, trxName);
-	}	//	MDistribution
+	} // MDistribution
 
-	/**	The Lines						*/
-	private MDistributionLine[]		m_lines = null;
-	
+	/** The Lines */
+	private List<MDistributionLine> distributionLines = null;
+	Boolean isPercentage = false;
+	Boolean isAmount = false;
 	/**
 	 * 	Get Lines and calculate total
 	 *	@param reload reload data
 	 *	@return array of lines
 	 */
-	public MDistributionLine[] getLines (boolean reload)
+	public List<MDistributionLine> getLines (boolean reload)
 	{
-		if (m_lines != null && !reload) {
-			set_TrxName(m_lines, get_TrxName());
-			return m_lines;
-		}		
+		if (distributionLines != null && !reload) {
+			distributionLines.forEach(distributionLine -> distributionLine.set_TrxName(get_TrxName()));
+			return distributionLines;
+		}
 		BigDecimal PercentTotal = Env.ZERO;
 		//red1 Query
 		final String whereClause = I_GL_DistributionLine.COLUMNNAME_GL_Distribution_ID+"=?";
-		List<MDistributionLine> list = new Query(getCtx(),I_GL_DistributionLine.Table_Name,whereClause,get_TrxName())
+		distributionLines = new Query(getCtx(),I_GL_DistributionLine.Table_Name,whereClause,get_TrxName())
+		.setClient_ID()
+		.setOnlyActiveRecords(true)
 		.setParameters(getGL_Distribution_ID())
 		.setOrderBy("Line")
 		.list();
 		//red1 Query  -end-
 		boolean hasNullRemainder = false;
-		for (MDistributionLine dl : list) {
-			if (dl.isActive())
-			{
-				PercentTotal = PercentTotal.add(dl.getPercent());
-				hasNullRemainder = Env.ZERO.compareTo(dl.getPercent()) == 0;
+
+		BigDecimal amountCreditTotal = BigDecimal.ZERO;
+		BigDecimal amountDebitTotal = BigDecimal.ZERO;
+		for (MDistributionLine distributionLine : distributionLines) {
+			if (distributionLine.isActive()) {
+				BigDecimal amountCredit = distributionLine.getAmtAcctCr();
+				BigDecimal amountDebit = distributionLine.getAmtAcctDr();
+
+				if (amountCredit != null && amountCredit.signum() != 0) {
+					amountCreditTotal = amountCreditTotal.add(distributionLine.getAmtAcctCr());
+					isAmount = true;
+				} else if (amountDebit != null && amountDebit.signum() != 0) {
+					amountDebitTotal = amountDebitTotal.add(distributionLine.getAmtAcctDr());
+					isAmount = true;
+				} else {
+
+					PercentTotal = PercentTotal.add(distributionLine.getPercent());
+					hasNullRemainder = Env.ZERO.compareTo(distributionLine.getPercent()) == 0;
+
+					isPercentage = true;
+				}
+				distributionLine.setParent(this);
 			}
-			dl.setParent(this);
 		}
-		//	Update Ratio when saved and difference
-		if (hasNullRemainder)
+		// Update Ratio when saved and difference
+		if (hasNullRemainder && isPercentage)
 			PercentTotal = Env.ONEHUNDRED;
-		if (get_ID() != 0 && PercentTotal.compareTo(getPercentTotal()) != 0)
-		{
+		if (get_ID() != 0 && (PercentTotal.compareTo(getPercentTotal()) != 0 || isAmount)) {
 			setPercentTotal(PercentTotal);
-			save();
+			saveEx();
 		}
-		//	return
-		m_lines = new MDistributionLine[list.size ()];
-		list.toArray (m_lines);
-		return m_lines;
+		return this.distributionLines;
 	}	//	getLines
 	
 	/**
@@ -272,116 +289,270 @@ public class MDistribution extends X_GL_Distribution
 	{
 		String retValue = null;
 		getLines(true);
-		if (m_lines.length == 0)
+		if (distributionLines.size() == 0)
 			retValue = "@NoLines@";
-		else if (getPercentTotal().compareTo(Env.ONEHUNDRED) != 0)
+		else if (isPercentage && getPercentTotal().compareTo(Env.ONEHUNDRED) != 0)
 			retValue = "@PercentTotal@ <> 100";
-		else
-		{
-			//	More then one line with 0
-			int lineFound = -1;
-			for (int i = 0; i < m_lines.length; i++)
-			{
-				if (m_lines[i].getPercent().compareTo(Env.ZERO) == 0)
-				{
-					if (lineFound >= 0 && m_lines[i].getPercent().compareTo(Env.ZERO) == 0)
-					{
-						retValue = "@Line@ " + lineFound 
-							+ " + " + m_lines[i].getLine() + ": == 0";
-						break;
-					}
-					lineFound = m_lines[i].getLine();
-				}
-			}	//	for all lines
+		else if (isAmount && getBalance().signum() !=0 ) {
+				retValue = "Debit amount is not equal to credit amount";
+		}
+
+		Timestamp startDate = getValidFrom();
+		Timestamp endDate = getValidTo();
+		if (startDate != null && endDate!= null && startDate.after(endDate)) {
+			retValue = "Invalid Time range";		
 		}
 		
-		setIsValid (retValue == null);
+		List<MDistribution> distributions = getSameDistributions(getCtx(), getC_AcctSchema_ID(),
+				getPostingType(), getC_DocType_ID(), getAD_Org_ID(),
+				getAccount_ID(), getM_Product_ID(), getC_BPartner_ID(),
+				getC_Project_ID(), getC_Campaign_ID(), getC_Activity_ID(),
+				getAD_OrgTrx_ID(), getC_SalesRegion_ID(), getC_LocTo_ID(),
+				getC_LocFrom_ID(), getUser1_ID(), getUser2_ID());
+		
+
+	    if (distributions!= null && distributions.size() > 0) {
+			for (int i = 0; i < distributions.size(); i++) {
+				if (distributions.get(i).getGL_Distribution_ID() != get_ID()) {
+					
+					Timestamp curStartDate =  distributions.get(i).getValidFrom();
+					Timestamp curEndDate = distributions.get(i).getValidTo();
+					
+					if (startDate != null && endDate != null && curStartDate != null && curEndDate!= null && !startDate.after(curEndDate) && !curStartDate.after(endDate)) {
+						retValue = "Current date range Overlapping with GL Distribution :" + distributions.get(i).getName();
+						break;
+					}
+				}
+			}
+		}
+
+		setIsValid(retValue == null);
 		return retValue;
-	}	//	validate
+	} // validate
+
+	public BigDecimal getBalance()
+	{
+		BigDecimal totalDebit =  getLines(true).stream().map(MDistributionLine::getAmtAcctDr).reduce(BigDecimal.ZERO , BigDecimal::add);
+		BigDecimal totalCredit =  getLines(true).stream().map(MDistributionLine::getAmtAcctCr).reduce(BigDecimal.ZERO , BigDecimal::add);
+		return totalDebit.subtract(totalCredit);
+	}
+	
+	
+	public static List<MDistribution> getSameDistributions(Properties ctx, int acctSchemaId,
+			String postingType, int docTypeId, int orgId,
+			int accountId, int productId, int partnerId,
+			int projectId, int campaignId, int activityId,
+			int orgTrxId, int salesRegionId, int locToId,
+			int locFromId, int user1Id, int user2Id) {
+
+		List<MDistribution> distributions = getDistributions(ctx, acctSchemaId);
+		if (distributions == null || distributions.size() == 0)
+			return null;
+		//
+		List<MDistribution> list = new ArrayList<MDistribution>();
+		for (MDistribution distribution : distributions) {
+			if (!distribution.isActive() || !distribution.isValid())
+				continue;
+						
+			if (distribution.getPostingType() != null
+					&& !distribution.getPostingType().equals(postingType))
+				continue;
+			if (distribution.getC_DocType_ID() != 0
+					&& distribution.getC_DocType_ID() != docTypeId)
+				continue;
+			
+			if (!distribution.isAnyOrg()
+					&& distribution.getAD_Org_ID() != orgId)
+				continue;
+			if (!distribution.isAnyAcct()
+					&& distribution.getAccount_ID() != accountId)
+				continue;
+			if (!distribution.isAnyProduct()
+					&& distribution.getM_Product_ID() != productId)
+				continue;
+			if (!distribution.isAnyBPartner()
+					&& distribution.getC_BPartner_ID() != partnerId)
+				continue;
+			if (!distribution.isAnyProject()
+					&& distribution.getC_Project_ID() != projectId)
+				continue;
+			if (!distribution.isAnyCampaign()
+					&& distribution.getC_Campaign_ID() != campaignId)
+				continue;
+			if (!distribution.isAnyActivity()
+					&& distribution.getC_Activity_ID() != activityId)
+				continue;
+			if (!distribution.isAnyOrgTrx()
+					&& distribution.getAD_OrgTrx_ID() != orgTrxId)
+				continue;
+			if (!distribution.isAnySalesRegion()
+					&& distribution.getC_SalesRegion_ID() != salesRegionId)
+				continue;
+			if (!distribution.isAnyLocTo()
+					&& distribution.getC_LocTo_ID() != locToId)
+				continue;
+			if (!distribution.isAnyLocFrom()
+					&& distribution.getC_LocFrom_ID() != locFromId)
+				continue;
+			if (!distribution.isAnyUser1()
+					&& distribution.getUser1_ID() != user1Id)
+				continue;
+			if (!distribution.isAnyUser2()
+					&& distribution.getUser2_ID() != user2Id)
+				continue;
+
+			list.add(distribution);
+		} // for all distributions with acct
+		return list;
+	} // get
+	
+	/**
+	 * Get Distributions for accounting schema
+	 * 
+	 * @param ctx context
+	 * @param acctSchemaId id
+	 * @return array of distributions
+	 */
+	public static List<MDistribution> getDistributions(Properties ctx, int acctSchemaId) {
+		Integer key = new Integer(acctSchemaId);
+		List<MDistribution> retValue = distributionCache.get(key);
+		if (retValue != null)
+			return retValue;
+		final String whereClause = "C_AcctSchema_ID=?";
+
+		List<MDistribution> list = new Query(ctx, I_GL_Distribution.Table_Name,
+				whereClause, null)
+				.setClient_ID()
+				.setOnlyActiveRecords(true)
+				.setParameters(acctSchemaId)
+				.list();
+		distributionCache.put(key, list);
+		return retValue;
+	} // get
+
 	
 	
 	/**
 	 * 	Distribute Amount to Lines
-	 * 	@param acct account
-	 *	@param Amt amount
-	 * @param Qty 
-	 *	@param C_Currency_ID currency
+	 * 	@param account account
+	 *	@param amount amount
+	 * @param quantity
+	 *	@param currencyId currency
 	 */
-	public void distribute (MAccount acct, BigDecimal Amt, BigDecimal Qty, int C_Currency_ID)
+	public void distribute (MAccount account, BigDecimal amount, BigDecimal quantity, int currencyId ,int sign)
 	{
-		log.info("distribute - Amt=" + Amt + " - Qty=" + Qty + " - " + acct);
+		log.info("distribute - Amt=" + amount + " - Qty=" + quantity + " - " + account);
 		getLines(false);
-		int precision = MCurrency.getStdPrecision(getCtx(), C_Currency_ID);
+		int precision = MCurrency.getStdPrecision(getCtx(), currencyId);
 		//	First Round
-		BigDecimal total = Env.ZERO;
-		BigDecimal totalQty = Env.ZERO;
+		BigDecimal total = BigDecimal.ZERO;
+		BigDecimal totalQty = BigDecimal.ZERO;
 		int indexBiggest = -1;
 		int indexZeroPercent = -1;
-		for (int i = 0; i < m_lines.length; i++)
+		boolean isPercentage = false;
+		for (int i = 0; i < distributionLines.size(); i++)
 		{
-			MDistributionLine dl = m_lines[i];
-			if (!dl.isActive())
+			MDistributionLine distributionLine = distributionLines.get(i);
+			if (!distributionLine.isActive())
 				continue;
-			dl.setAccount(acct);
-			//	Calculate Amount
-			dl.calculateAmt (Amt, precision);	
-			//	Calculate Quantity
-			dl.calculateQty (Qty);	
-			total = total.add(dl.getAmt());
-			totalQty = totalQty.add(dl.getQty());
-		//	log.fine("distribute - Line=" + dl.getLine() + " - " + dl.getPercent() + "% " + dl.getAmt() + " - Total=" + total);
-			//	Remainder
-			if (dl.getPercent().compareTo(Env.ZERO) == 0)
-				indexZeroPercent = i;
-			if (indexZeroPercent == -1)
-			{
-				if (indexBiggest == -1)
-					indexBiggest = i;
-				else if (dl.getAmt().compareTo(m_lines[indexBiggest].getAmt()) > 0)
-					indexBiggest = i;
+			
+			distributionLine.setAccount(account);
+			
+			// Calculate Amount
+			if (distributionLine.getAmtAcctDr() != null &&  distributionLine.getAmtAcctDr().signum() !=0) {
+				if( sign < 0)
+					distributionLine.setAmt(distributionLine.getAmtAcctDr());
+				else
+					distributionLine.setAmt(distributionLine.getAmtAcctDr().negate());
+			}
+			else if (distributionLine.getAmtAcctCr() !=null && distributionLine.getAmtAcctCr().signum() != 0) {
+				if( sign > 0)
+					distributionLine.setAmt(distributionLine.getAmtAcctCr());
+				else
+					distributionLine.setAmt(distributionLine.getAmtAcctCr().negate());
+			}
+			else {
+				if (distributionLine.getPercent().signum() != 0) {
+					// Calculate Amount
+					distributionLine.calculateAmt(amount, precision);
+					// Calculate Quantity
+					distributionLine.calculateQty(quantity);
+					total = total.add(distributionLine.getAmt());
+					totalQty = totalQty.add(distributionLine.getQty());
+					// log.fine("distribute - Line=" + dl.getLine() + " - " +
+					// dl.getPercent() + "% " + dl.getAmt() + " - Total=" + total);
+					// Remainder
+					if (distributionLine.getPercent().signum() == 0)
+						indexZeroPercent = i;
+					if (indexZeroPercent == -1) {
+						if (indexBiggest == -1)
+							indexBiggest = i;
+						else if (distributionLine.getAmt().compareTo(distributionLines.get(indexBiggest).getAmt()) > 0)
+							indexBiggest = i;
+					}
+					isPercentage = true;
+				}
 			}
 		}
-		//	Adjust Remainder
-		BigDecimal difference = Amt.subtract(total);
-		if (difference.compareTo(Env.ZERO) != 0)
+		
+		if(isPercentage){
+			//	Adjust Remainder
+			BigDecimal difference = amount.subtract(total);
+			if (difference.compareTo(Env.ZERO) != 0)
+			{
+				if (indexZeroPercent != -1)
+				{
+				//	log.fine("distribute - Difference=" + difference + " - 0%Line=" + distributionLines[indexZeroPercent]);
+					distributionLines.get(indexZeroPercent).setAmt (difference);
+				}
+				else if (indexBiggest != -1)
+				{
+				//	log.fine("distribute - Difference=" + difference + " - MaxLine=" + distributionLines[indexBiggest] + " - " + distributionLines[indexBiggest].getAmt());
+					distributionLines.get(indexBiggest).setAmt (distributionLines.get(indexBiggest).getAmt().add(difference));
+				}
+				else
+					log.warning("distribute - Remaining Difference=" + difference); 
+			}
+			//	Adjust Remainder
+			BigDecimal differenceQty = quantity.subtract(totalQty);
+			if (differenceQty.compareTo(Env.ZERO) != 0)
+			{
+				if (indexZeroPercent != -1)
+				{
+				//	log.fine("distribute - Difference=" + difference + " - 0%Line=" + distributionLines[indexZeroPercent]);
+					distributionLines.get(indexZeroPercent).setQty (differenceQty);
+				}
+				else if (indexBiggest != -1)
+				{
+				//	log.fine("distribute - Difference=" + difference + " - MaxLine=" + distributionLines[indexBiggest] + " - " + distributionLines[indexBiggest].getAmt());
+					distributionLines.get(indexBiggest).setQty (distributionLines.get(indexBiggest).getQty().add(differenceQty));
+				}
+				else
+					log.warning("distribute - Remaining Qty Difference=" + differenceQty); 
+			}
+		}
+		else
 		{
-			if (indexZeroPercent != -1)
-			{
-			//	log.fine("distribute - Difference=" + difference + " - 0%Line=" + m_lines[indexZeroPercent]); 
-				m_lines[indexZeroPercent].setAmt (difference);
-			}
-			else if (indexBiggest != -1)
-			{
-			//	log.fine("distribute - Difference=" + difference + " - MaxLine=" + m_lines[indexBiggest] + " - " + m_lines[indexBiggest].getAmt()); 
-				m_lines[indexBiggest].setAmt (m_lines[indexBiggest].getAmt().add(difference));
-			}
-			else
-				log.warning("distribute - Remaining Difference=" + difference); 
+			distributionLines.stream()
+			.filter(distributionLine -> distributionLine.isOverwritePostingType() && !distributionLine.getPostingType().equals(getPostingType()))
+			.forEach(distributionLine -> {
+				if (!distributionLine.isInvertAccountSign()) {
+					distributionLine.setAmt(amount);
+					distributionLine.setQty(quantity);
+				}
+				else {
+					distributionLine.setAmt(amount.negate());
+					distributionLine.setQty(quantity.negate());
+				}
+			});
 		}
-		//	Adjust Remainder
-		BigDecimal differenceQty = Qty.subtract(totalQty);
-		if (differenceQty.compareTo(Env.ZERO) != 0)
-		{
-			if (indexZeroPercent != -1)
-			{
-			//	log.fine("distribute - Difference=" + difference + " - 0%Line=" + m_lines[indexZeroPercent]); 
-				m_lines[indexZeroPercent].setQty (differenceQty);
-			}
-			else if (indexBiggest != -1)
-			{
-			//	log.fine("distribute - Difference=" + difference + " - MaxLine=" + m_lines[indexBiggest] + " - " + m_lines[indexBiggest].getAmt()); 
-				m_lines[indexBiggest].setQty (m_lines[indexBiggest].getQty().add(differenceQty));
-			}
-			else
-				log.warning("distribute - Remaining Qty Difference=" + differenceQty); 
-		}
-		//
+
 		if (CLogMgt.isLevelFinest())
 		{
-			for (int i = 0; i < m_lines.length; i++)
+			for (MDistributionLine distributionLine: distributionLines)
 			{
-				if (m_lines[i].isActive())
-					log.fine("distribute = Amt=" + m_lines[i].getAmt() + " - " + m_lines[i].getAccount());
+				if (distributionLine.isActive())
+					log.fine("distribute = Amt=" +distributionLine.getAmt() + " - " + distributionLine.getAccount());
 			}
 		}
 	}	//	distribute
@@ -421,7 +592,45 @@ public class MDistribution extends X_GL_Distribution
 			setUser1_ID(0);
 		if (isAnyUser2() && getUser2_ID() != 0)
 			setUser2_ID(0);
+		if (isAnyUser3() && getUser3_ID() != 0)
+			setUser3_ID(0);
+		if (isAnyUser4() && getUser4_ID() != 0)
+			setUser4_ID(0);
 		return true;
 	}	//	beforeSave
 	
-}	//	MDistribution
+	
+	public int copyLinesFrom (MDistribution fromDistribution)
+	{
+		List<MDistributionLine> fromLines = fromDistribution.getLines(true);
+		int count = 0;
+		for (MDistributionLine distributionLine :  fromLines)
+		{
+			MDistributionLine toLine = new MDistributionLine (getCtx(),0,get_TrxName());
+			PO.copyValues(distributionLine, toLine, getAD_Client_ID(), getAD_Org_ID());
+			toLine.setGL_Distribution_ID(getGL_Distribution_ID());
+			if (toLine.save())
+				count++;
+			
+		}
+		if (fromLines.size() != count)
+			log.log(Level.SEVERE, "Line difference - From=" + fromLines.size() + " <> Saved=" + count);
+		
+		return count;
+	}	//	copyLinesFrom
+
+
+	public  boolean isValidFromTo(Timestamp date)
+	{
+		Timestamp validFrom = getValidFrom();
+		Timestamp validTo = getValidTo();
+
+		if (validFrom != null && date.before(validFrom))
+			return false;
+		if (validTo != null && date.after(validTo))
+			return false;
+		return true;
+	}
+		
+} // MDistribution
+

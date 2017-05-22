@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2016 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
@@ -11,8 +11,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 package org.compiere.model;
 
@@ -48,6 +47,17 @@ public interface I_AD_Client
 	  * Client/Tenant for this installation.
 	  */
 	public int getAD_Client_ID();
+
+    /** Column name AD_EMailConfig_ID */
+    public static final String COLUMNNAME_AD_EMailConfig_ID = "AD_EMailConfig_ID";
+
+	/** Set EMail Configuration	  */
+	public void setAD_EMailConfig_ID (int AD_EMailConfig_ID);
+
+	/** Get EMail Configuration	  */
+	public int getAD_EMailConfig_ID();
+
+	public org.compiere.model.I_AD_EMailConfig getAD_EMailConfig() throws RuntimeException;
 
     /** Column name AD_Language */
     public static final String COLUMNNAME_AD_Language = "AD_Language";
@@ -223,19 +233,6 @@ public interface I_AD_Client
 	  */
 	public boolean isServerEMail();
 
-    /** Column name IsSmtpAuthorization */
-    public static final String COLUMNNAME_IsSmtpAuthorization = "IsSmtpAuthorization";
-
-	/** Set SMTP Authentication.
-	  * Your mail server requires Authentication
-	  */
-	public void setIsSmtpAuthorization (boolean IsSmtpAuthorization);
-
-	/** Get SMTP Authentication.
-	  * Your mail server requires Authentication
-	  */
-	public boolean isSmtpAuthorization();
-
     /** Column name IsUseASP */
     public static final String COLUMNNAME_IsUseASP = "IsUseASP";
 
@@ -361,19 +358,6 @@ public interface I_AD_Client
 	  * Password of the user name (ID) for mail processing
 	  */
 	public String getRequestUserPW();
-
-    /** Column name SMTPHost */
-    public static final String COLUMNNAME_SMTPHost = "SMTPHost";
-
-	/** Set Mail Host.
-	  * Hostname of Mail Server for SMTP and IMAP
-	  */
-	public void setSMTPHost (String SMTPHost);
-
-	/** Get Mail Host.
-	  * Hostname of Mail Server for SMTP and IMAP
-	  */
-	public String getSMTPHost();
 
     /** Column name StoreArchiveOnFileSystem */
     public static final String COLUMNNAME_StoreArchiveOnFileSystem = "StoreArchiveOnFileSystem";

@@ -13798,7 +13798,7 @@ If none is entered, the default printer is used. You specify your default printe
   <value column="Name" original="Internal Users">Internal Users</value>
   <value column="PrintName" original="Internal Users">Internal Users</value>
   <value column="Description" original="Number of Internal Users for Adempiere Support">Number of Internal Users for Adempiere Support</value>
-  <value column="Help" original="You can purchase professioal support from ComPiere, Inc. or their partners.  See http://www.adempiere.com for details.&#10;">You can purchase professioal support from ComPiere, Inc. or their partners.  See http://www.adempiere.com for details.
+  <value column="Help" original="You can purchase professioal support from ComPiere, Inc. or their partners.  See http://wiki.adempiere.net for details.&#10;">You can purchase professioal support from ComPiere, Inc. or their partners.  See http://wiki.adempiere.net for details.
 </value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>

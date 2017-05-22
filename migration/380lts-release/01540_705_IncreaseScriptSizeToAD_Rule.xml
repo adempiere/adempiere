@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Increase Script size to AD_Rule #705" ReleaseNo="3.9.0" SeqNo="1540">
+    <Comments>https://github.com/adempiere/adempiere/issues/705</Comments>
+    <Step DBType="Oracle" Parse="Y" SeqNo="10" StepType="SQL">
+      <SQLStatement>ALTER TABLE AD_Rule ADD ScriptNew CLOB;
+UPDATE AD_Rule  SET ScriptNew = Script;
+ALTER TABLE AD_Rule DROP COLUMN Script;
+ALTER TABLE AD_Rule RENAME COLUMN  ScriptNew TO Script;
+UPDATE AD_Column SET FieldLength = 8000 WHERE AD_Column_ID = 54257;</SQLStatement>
+    </Step>
+    <Step DBType="Postgres" Parse="Y" SeqNo="20" StepType="SQL">
+      <SQLStatement>ALTER TABLE AD_Rule ADD ScriptNew TEXT;
+UPDATE AD_Rule  SET ScriptNew = Script;
+ALTER TABLE AD_Rule DROP COLUMN Script;
+ALTER TABLE AD_Rule RENAME COLUMN  ScriptNew TO Script;
+UPDATE AD_Column SET FieldLength = 8000 WHERE AD_Column_ID = 54257;</SQLStatement>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+       <PO AD_Table_ID="101" Action="U" Record_ID="54247" Table="AD_Column">
+           <Data AD_Column_ID="117" Column="DefaultValue" oldValue="N">Y</Data>
+       </PO>
+    </Step>
+  </Migration>
+</Migrations>

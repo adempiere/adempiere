@@ -33,6 +33,11 @@ import javax.print.attribute.standard.MediaSize;
  *
  *  @author     Jorg Janke
  *  @version    $Id: Language.java,v 1.2 2006/07/30 00:52:23 jjanke Exp $
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *  	<li> Add Support to Language Venezuela
+ *  	@see https://adempiere.atlassian.net/browse/ADEMPIERE-397
+ *  	<a href="https://github.com/adempiere/adempiere/issues/580">
+ * 		@see FR [ 580 ] Bad language for es Venezuela</a>
  */
 public class Language implements Serializable
 {
@@ -64,6 +69,7 @@ public class Language implements Serializable
 	private static final String AD_Language_es_MX = "es_MX";
 	private static final String AD_Language_es_CO = "es_CO";
 	private static final String AD_Language_es_DO = "es_DO";
+	private static final String AD_Language_es_VE = "es_VE";
 	private static final String AD_Language_fr_FR = "fr_FR";
 	private static final String AD_Language_fr_CA = "fr_CA";
 	private static final String AD_Language_bg_BG = "bg_BG";
@@ -135,8 +141,8 @@ public class Language implements Serializable
 			AD_Language_es_CO,  new Locale("es","ES"), new Boolean(false), "dd/MM/yyyy",
 			MediaSize.NA.LETTER),
 		new Language ("Espa\u00f1ol (VE)",
-			AD_Language_es_ES,  new Locale("es","ES"), new Boolean(false), "dd/MM/yyyy",
-			MediaSize.ISO.A4),				
+			AD_Language_es_VE,  new Locale("es","VE"), new Boolean(false), "dd/MM/yyyy",
+			MediaSize.NA.LETTER),				
 		new Language ("Espa\u00f1ol (EC)",
 			AD_Language_es_ES,  new Locale("es","ES"), new Boolean(false), "dd/MM/yyyy",
 			MediaSize.ISO.A4),

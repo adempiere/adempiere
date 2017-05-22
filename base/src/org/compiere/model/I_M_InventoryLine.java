@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2016 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
@@ -11,8 +11,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 package org.compiere.model;
 
@@ -22,7 +21,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_InventoryLine
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0
+ *  @version Release 3.9.0
  */
 public interface I_M_InventoryLine 
 {
@@ -49,6 +48,19 @@ public interface I_M_InventoryLine
 	  */
 	public int getAD_Client_ID();
 
+    /** Column name AD_OrgTrx_ID */
+    public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
+
+	/** Set Trx Organization.
+	  * Performing or initiating organization
+	  */
+	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID);
+
+	/** Get Trx Organization.
+	  * Performing or initiating organization
+	  */
+	public int getAD_OrgTrx_ID();
+
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
 
@@ -61,6 +73,36 @@ public interface I_M_InventoryLine
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
+
+    /** Column name C_Activity_ID */
+    public static final String COLUMNNAME_C_Activity_ID = "C_Activity_ID";
+
+	/** Set Activity.
+	  * Business Activity
+	  */
+	public void setC_Activity_ID (int C_Activity_ID);
+
+	/** Get Activity.
+	  * Business Activity
+	  */
+	public int getC_Activity_ID();
+
+	public org.compiere.model.I_C_Activity getC_Activity() throws RuntimeException;
+
+    /** Column name C_Campaign_ID */
+    public static final String COLUMNNAME_C_Campaign_ID = "C_Campaign_ID";
+
+	/** Set Campaign.
+	  * Marketing Campaign
+	  */
+	public void setC_Campaign_ID (int C_Campaign_ID);
+
+	/** Get Campaign.
+	  * Marketing Campaign
+	  */
+	public int getC_Campaign_ID();
+
+	public org.compiere.model.I_C_Campaign getC_Campaign() throws RuntimeException;
 
     /** Column name C_Charge_ID */
     public static final String COLUMNNAME_C_Charge_ID = "C_Charge_ID";
@@ -76,6 +118,73 @@ public interface I_M_InventoryLine
 	public int getC_Charge_ID();
 
 	public org.compiere.model.I_C_Charge getC_Charge() throws RuntimeException;
+
+    /** Column name C_ProjectPhase_ID */
+    public static final String COLUMNNAME_C_ProjectPhase_ID = "C_ProjectPhase_ID";
+
+	/** Set Project Phase.
+	  * Phase of a Project
+	  */
+	public void setC_ProjectPhase_ID (int C_ProjectPhase_ID);
+
+	/** Get Project Phase.
+	  * Phase of a Project
+	  */
+	public int getC_ProjectPhase_ID();
+
+	public org.compiere.model.I_C_ProjectPhase getC_ProjectPhase() throws RuntimeException;
+
+    /** Column name C_ProjectTask_ID */
+    public static final String COLUMNNAME_C_ProjectTask_ID = "C_ProjectTask_ID";
+
+	/** Set Project Task.
+	  * Actual Project Task in a Phase
+	  */
+	public void setC_ProjectTask_ID (int C_ProjectTask_ID);
+
+	/** Get Project Task.
+	  * Actual Project Task in a Phase
+	  */
+	public int getC_ProjectTask_ID();
+
+	public org.compiere.model.I_C_ProjectTask getC_ProjectTask() throws RuntimeException;
+
+    /** Column name C_Project_ID */
+    public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
+
+	/** Set Project.
+	  * Financial Project
+	  */
+	public void setC_Project_ID (int C_Project_ID);
+
+	/** Get Project.
+	  * Financial Project
+	  */
+	public int getC_Project_ID();
+
+	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException;
+
+    /** Column name CostStandard */
+    public static final String COLUMNNAME_CostStandard = "CostStandard";
+
+	/** Set Standard Cost.
+	  * Standard Costs
+	  */
+	public void setCostStandard (BigDecimal CostStandard);
+
+	/** Get Standard Cost.
+	  * Standard Costs
+	  */
+	public BigDecimal getCostStandard();
+
+    /** Column name CountEntered */
+    public static final String COLUMNNAME_CountEntered = "CountEntered";
+
+	/** Set Count Entered	  */
+	public void setCountEntered (boolean CountEntered);
+
+	/** Get Count Entered	  */
+	public boolean isCountEntered();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -106,6 +215,19 @@ public interface I_M_InventoryLine
 	  */
 	public BigDecimal getCurrentCostPrice();
 
+    /** Column name CurrentCostPriceLL */
+    public static final String COLUMNNAME_CurrentCostPriceLL = "CurrentCostPriceLL";
+
+	/** Set Current Cost Price LL.
+	  * Current Price Lower Level Is the sum of the costs of the components of this product manufactured for this level.
+	  */
+	public void setCurrentCostPriceLL (BigDecimal CurrentCostPriceLL);
+
+	/** Get Current Cost Price LL.
+	  * Current Price Lower Level Is the sum of the costs of the components of this product manufactured for this level.
+	  */
+	public BigDecimal getCurrentCostPriceLL();
+
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
 
@@ -118,6 +240,28 @@ public interface I_M_InventoryLine
 	  * Optional short description of the record
 	  */
 	public String getDescription();
+
+    /** Column name Discontinued */
+    public static final String COLUMNNAME_Discontinued = "Discontinued";
+
+	/** Set Discontinued.
+	  * This product is no longer available
+	  */
+	public void setDiscontinued (boolean Discontinued);
+
+	/** Get Discontinued.
+	  * This product is no longer available
+	  */
+	public boolean isDiscontinued();
+
+    /** Column name FirstCountQty */
+    public static final String COLUMNNAME_FirstCountQty = "FirstCountQty";
+
+	/** Set First Count Qty	  */
+	public void setFirstCountQty (BigDecimal FirstCountQty);
+
+	/** Get First Count Qty	  */
+	public BigDecimal getFirstCountQty();
 
     /** Column name InventoryType */
     public static final String COLUMNNAME_InventoryType = "InventoryType";
@@ -157,6 +301,19 @@ public interface I_M_InventoryLine
 	  * Unique line for this document
 	  */
 	public int getLine();
+
+    /** Column name LocatorValue */
+    public static final String COLUMNNAME_LocatorValue = "LocatorValue";
+
+	/** Set Locator Key.
+	  * Key of the Warehouse Locator
+	  */
+	public void setLocatorValue (String LocatorValue);
+
+	/** Get Locator Key.
+	  * Key of the Warehouse Locator
+	  */
+	public String getLocatorValue();
 
     /** Column name M_AttributeSetInstance_ID */
     public static final String COLUMNNAME_M_AttributeSetInstance_ID = "M_AttributeSetInstance_ID";
@@ -231,6 +388,15 @@ public interface I_M_InventoryLine
 
 	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
+    /** Column name PickedQty */
+    public static final String COLUMNNAME_PickedQty = "PickedQty";
+
+	/** Set Picked Qty	  */
+	public void setPickedQty (BigDecimal PickedQty);
+
+	/** Get Picked Qty	  */
+	public BigDecimal getPickedQty();
+
     /** Column name Processed */
     public static final String COLUMNNAME_Processed = "Processed";
 
@@ -243,6 +409,19 @@ public interface I_M_InventoryLine
 	  * The document has been processed
 	  */
 	public boolean isProcessed();
+
+    /** Column name ProductName */
+    public static final String COLUMNNAME_ProductName = "ProductName";
+
+	/** Set Product Name.
+	  * Name of the Product
+	  */
+	public void setProductName (String ProductName);
+
+	/** Get Product Name.
+	  * Name of the Product
+	  */
+	public String getProductName();
 
     /** Column name QtyBook */
     public static final String COLUMNNAME_QtyBook = "QtyBook";
@@ -307,6 +486,28 @@ public interface I_M_InventoryLine
 
 	public org.compiere.model.I_M_InventoryLine getReversalLine() throws RuntimeException;
 
+    /** Column name SecondCountQty */
+    public static final String COLUMNNAME_SecondCountQty = "SecondCountQty";
+
+	/** Set Second Count Qty	  */
+	public void setSecondCountQty (BigDecimal SecondCountQty);
+
+	/** Get Second Count Qty	  */
+	public BigDecimal getSecondCountQty();
+
+    /** Column name UOMSymbol */
+    public static final String COLUMNNAME_UOMSymbol = "UOMSymbol";
+
+	/** Set Symbol.
+	  * Symbol for a Unit of Measure
+	  */
+	public void setUOMSymbol (String UOMSymbol);
+
+	/** Get Symbol.
+	  * Symbol for a Unit of Measure
+	  */
+	public String getUOMSymbol();
+
     /** Column name UPC */
     public static final String COLUMNNAME_UPC = "UPC";
 
@@ -336,6 +537,66 @@ public interface I_M_InventoryLine
 	  */
 	public int getUpdatedBy();
 
+    /** Column name User1_ID */
+    public static final String COLUMNNAME_User1_ID = "User1_ID";
+
+	/** Set User List 1.
+	  * User defined list element #1
+	  */
+	public void setUser1_ID (int User1_ID);
+
+	/** Get User List 1.
+	  * User defined list element #1
+	  */
+	public int getUser1_ID();
+
+	public org.compiere.model.I_C_ElementValue getUser1() throws RuntimeException;
+
+    /** Column name User2_ID */
+    public static final String COLUMNNAME_User2_ID = "User2_ID";
+
+	/** Set User List 2.
+	  * User defined list element #2
+	  */
+	public void setUser2_ID (int User2_ID);
+
+	/** Get User List 2.
+	  * User defined list element #2
+	  */
+	public int getUser2_ID();
+
+	public org.compiere.model.I_C_ElementValue getUser2() throws RuntimeException;
+
+    /** Column name User3_ID */
+    public static final String COLUMNNAME_User3_ID = "User3_ID";
+
+	/** Set User List 3.
+	  * User defined list element #3
+	  */
+	public void setUser3_ID (int User3_ID);
+
+	/** Get User List 3.
+	  * User defined list element #3
+	  */
+	public int getUser3_ID();
+
+	public org.compiere.model.I_C_ElementValue getUser3() throws RuntimeException;
+
+    /** Column name User4_ID */
+    public static final String COLUMNNAME_User4_ID = "User4_ID";
+
+	/** Set User List 4.
+	  * User defined list element #4
+	  */
+	public void setUser4_ID (int User4_ID);
+
+	/** Get User List 4.
+	  * User defined list element #4
+	  */
+	public int getUser4_ID();
+
+	public org.compiere.model.I_C_ElementValue getUser4() throws RuntimeException;
+
     /** Column name Value */
     public static final String COLUMNNAME_Value = "Value";
 
@@ -348,4 +609,17 @@ public interface I_M_InventoryLine
 	  * Search key for the record in the format required - must be unique
 	  */
 	public String getValue();
+
+    /** Column name X */
+    public static final String COLUMNNAME_X = "X";
+
+	/** Set Aisle (X).
+	  * X dimension, e.g., Aisle
+	  */
+	public void setX (String X);
+
+	/** Get Aisle (X).
+	  * X dimension, e.g., Aisle
+	  */
+	public String getX();
 }

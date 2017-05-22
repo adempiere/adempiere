@@ -606,6 +606,7 @@ public class MInventory extends X_M_Inventory implements DocAction
 				}
 				if (asi == null)
 				{
+					MAttributeSet.validateAttributeSetInstanceMandatory(product,MInventoryLine.Table_ID , false , line.getM_AttributeSetInstance_ID());
 					asi = MAttributeSetInstance.create(getCtx(), product, get_TrxName());
 				}
 				line.setM_AttributeSetInstance_ID(asi.getM_AttributeSetInstance_ID());
@@ -646,6 +647,7 @@ public class MInventory extends X_M_Inventory implements DocAction
 				//	No AttributeSetInstance found for remainder
 				if (qtyToDeliver.signum() != 0)
 				{
+					MAttributeSet.validateAttributeSetInstanceMandatory(product, MInventoryLine.Table_ID , false , line.getM_AttributeSetInstance_ID());
 					//deliver using new asi
 					MAttributeSetInstance asi = MAttributeSetInstance.create(getCtx(), product, get_TrxName());
 					int M_AttributeSetInstance_ID = asi.getM_AttributeSetInstance_ID();
@@ -996,7 +998,7 @@ public class MInventory extends X_M_Inventory implements DocAction
 
 	//if isReversal CostDetail is created from CostDetail of original document 
 	// is made a new CostDetail where Amt and Qty are negate
-	private void createCostDetail(MTransaction trx, int reversalLine_ID) {
+	/*private void createCostDetail(MTransaction trx, int reversalLine_ID) {
 			
 		String whereClause = MCostDetail.COLUMNNAME_M_InventoryLine_ID+"=?"
 		                                 +" AND "+MCostDetail.COLUMNNAME_M_AttributeSetInstance_ID+"=?";
@@ -1019,7 +1021,7 @@ public class MInventory extends X_M_Inventory implements DocAction
 			cdnew.process();
 		}
 		
-	}
+	}*/
 
 	/**
 	 * 	Document Status is Complete or Closed

@@ -34,7 +34,6 @@ import org.compiere.util.Msg;
  *	RMA Model
  *
  *  @author Jorg Janke
- *  @version $Id: MRMA.java,v 1.3 2006/07/30 00:51:03 jjanke Exp $
  *
  *  Modifications: Completed RMA functionality (Ashley Ramdass)
  */
@@ -105,6 +104,15 @@ public class MRMA extends X_M_RMA implements DocAction
 		return m_lines;
 	}	//	getLines
 
+	// @Trifon
+	public List<MRMALine> getLinesAsList() {
+		List<MRMALine> list = new Query(getCtx(), I_M_RMALine.Table_Name, "M_RMA_ID=?", get_TrxName())
+			.setParameters(getM_RMA_ID())
+			.setOrderBy(MRMALine.COLUMNNAME_Line)
+			.list();
+		return list;
+	}
+
 	/**
 	 * 	Get Shipment
 	 *	@return shipment
@@ -114,6 +122,17 @@ public class MRMA extends X_M_RMA implements DocAction
 		if (m_inout == null && getInOut_ID() != 0)
 			m_inout = new MInOut (getCtx(), getInOut_ID(), get_TrxName());
 		return m_inout;
+	}	//	getShipment
+
+	/**
+	 * 	Get Return for this RMA
+	 *	@return shipment
+	 */
+	public List<MInOut> getReturns()
+	{
+		return new Query(getCtx(), I_M_InOut.Table_Name, "M_RMA_ID=?", get_TrxName())
+				.setParameters(getM_RMA_ID())
+				.list();
 	}	//	getShipment
 
     /**
@@ -217,6 +236,23 @@ public class MRMA extends X_M_RMA implements DocAction
 	//	return re.getPDF(file);
 	}	//	createPDF
 
+	// @Trifon - allow Invalid documents to be deleted!
+	// @Trifon - delete RMA Lines.
+	protected boolean beforeDelete () {
+		if (isProcessed()) {
+			return false;
+		}
+		if (DOCSTATUS_Invalid.equals( getDocStatus() ) 
+			|| DOCSTATUS_Drafted.equals( getDocStatus() )
+			|| DOCSTATUS_Unknown.equals( getDocStatus() )
+		) {
+			for (MRMALine rmaLine : getLinesAsList()) {
+				rmaLine.deleteEx(false);
+			}
+			return true;
+		}
+		return false;
+	}
 
 	/**
 	 * 	Before Save

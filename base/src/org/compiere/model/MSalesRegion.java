@@ -17,9 +17,12 @@
 package org.compiere.model;
 
 import java.sql.ResultSet;
+import java.util.List;
 import java.util.Properties;
+import java.util.stream.Collectors;
 
 import org.compiere.util.CCache;
+import org.compiere.util.Env;
 
 
 /**
@@ -39,23 +42,103 @@ public class MSalesRegion extends X_C_SalesRegion
 	/**
 	 * 	Get SalesRegion from Cache
 	 *	@param ctx context
-	 *	@param C_SalesRegion_ID id
+	 *	@param salesRegionId id
 	 *	@return MSalesRegion
 	 */
-	public static MSalesRegion get (Properties ctx, int C_SalesRegion_ID)
-	{
-		Integer key = new Integer (C_SalesRegion_ID);
-		MSalesRegion retValue = (MSalesRegion) s_cache.get (key);
-		if (retValue != null)
-			return retValue;
-		retValue = new MSalesRegion (ctx, C_SalesRegion_ID, null);
-		if (retValue.get_ID () != 0)
-			s_cache.put (key, retValue);
-		return retValue;
+	@Deprecated
+	public static MSalesRegion get (Properties ctx, int salesRegionId) {
+		return getById(ctx, salesRegionId);
 	}	//	get
 
-	/**	Cache						*/
-	private static CCache<Integer,MSalesRegion>	s_cache	= new CCache<Integer,MSalesRegion>("C_SalesRegion", 10);
+	/** Static Cache */
+	private static CCache<Integer, MSalesRegion> salesRegionCacheIds = new CCache<Integer, MSalesRegion>(Table_Name, 30);
+	/** Static Cache */
+	private static CCache<String, MSalesRegion> salesRegionCacheValues = new CCache<String, MSalesRegion>(Table_Name, 30);
+
+	/**
+	 * Get/Load Campaign [CACHED]
+	 * @param ctx context
+	 * @param salesRegionId
+	 * @return activity or null
+	 */
+	public static MSalesRegion getById(Properties ctx, int salesRegionId) {
+		if (salesRegionId <= 0)
+			return null;
+
+		MSalesRegion salesRegion = salesRegionCacheIds.get(salesRegionId);
+		if (salesRegion != null && salesRegion.get_ID() > 0)
+			return salesRegion;
+
+		salesRegion = new Query(ctx , Table_Name , COLUMNNAME_C_SalesRegion_ID + "=?" , null)
+				.setClient_ID()
+				.setParameters(salesRegionId)
+				.first();
+		if (salesRegion != null && salesRegion.get_ID() > 0)
+		{
+			int clientId = Env.getAD_Client_ID(ctx);
+			String key = clientId + "#" + salesRegion.getValue();
+			salesRegionCacheValues.put(key, salesRegion);
+			salesRegionCacheIds.put(salesRegion.get_ID(), salesRegion);
+		}
+		return salesRegion;
+	}
+
+	/**
+	 * get Activity By Value [CACHED]
+	 * @param ctx
+	 * @param salesRegionValue
+	 * @return
+	 */
+	public static MSalesRegion getByValue(Properties ctx , String salesRegionValue) {
+		if (salesRegionValue == null)
+			return null;
+		if (salesRegionCacheValues.size() == 0 )
+			getAll(ctx, true);
+
+		int clientId = Env.getAD_Client_ID(ctx);
+		String key = clientId + "#" + salesRegionValue;
+		MSalesRegion salesRegion = salesRegionCacheValues.get(key);
+		if (salesRegion != null && salesRegion.get_ID() > 0 )
+			return salesRegion;
+
+		salesRegion =  new Query(ctx, Table_Name , COLUMNNAME_Value +  "=?", null)
+				.setClient_ID()
+				.setParameters(salesRegionValue)
+				.first();
+
+		if (salesRegion != null && salesRegion.get_ID() > 0) {
+			salesRegionCacheValues.put(key, salesRegion);
+			salesRegionCacheIds.put(salesRegion.get_ID() , salesRegion);
+		}
+		return salesRegion;
+	}
+	
+	/**
+	 * Get All Campaign
+	 * @param ctx
+	 * @param resetCache
+	 * @return
+	 */
+	public static List<MSalesRegion> getAll(Properties ctx, boolean resetCache) {
+		List<MSalesRegion> salesRegionList;
+		if (resetCache || salesRegionCacheIds.size() > 0 ) {
+			salesRegionList = new Query(Env.getCtx(), Table_Name, null , null)
+					.setClient_ID()
+					.setOrderBy(COLUMNNAME_Name)
+					.list();
+			salesRegionList.stream().forEach(salesRegion -> {
+				int clientId = Env.getAD_Client_ID(ctx);
+				String key = clientId + "#" + salesRegion.getValue();
+				salesRegionCacheIds.put(salesRegion.getC_SalesRegion_ID(), salesRegion);
+				salesRegionCacheValues.put(key, salesRegion);
+			});
+			return salesRegionList;
+		}
+		salesRegionList = salesRegionCacheIds.entrySet().stream()
+				.map(salesRegion -> salesRegion.getValue())
+				.collect(Collectors.toList());
+		return  salesRegionList;
+	}
 	
 	
 	/**************************************************************************

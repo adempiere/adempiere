@@ -1,0 +1,190 @@
+/********************************************************************
+ * tf_fr3028588_rounding.sah
+ * 
+ * FR 3028588
+ * http://wiki.adempiere.net/Rounding
+ *
+ * Tests that orders and invoices are rounded according to the rules 
+ * on the price lists.	
+ *
+ * Test process:
+ *
+ * Create a product with a random name and set its price on the 
+ * purchase price list in a way that the price will be rounded on sales 
+ * price lists at qty 1 and on orders and invoices at fractional 
+ * quantities. 
+ *
+ * For all Rounding Rules:
+ *
+ *    Create a price list that uses that rule
+ *    Create a version of the price list based on the purchase 
+ *    price list
+ *    Verify that the prices have been rounded correctly
+ *    Open a new sales order (POS Order) - assign it to Joe Block and 
+ *    set the price list to the new price list just created. (This sets 
+ *    the rounding rule for the order/invoice). Save.
+ *    Add an order line and include the test product. Set the qty so 
+ *    that the line and grand total will have to be rounded. Save.
+ *    Complete the order.
+ *    Check the grand total and the line totals against the rounding rule.
+ *    zoom across to the invoice
+ *    Check the grand total and the line totals against the rounding rule.
+ *    Repeat 
+ *	
+ *******************************************************************/
+
+// Assumes login and logout are performed at the scenario level.
+ 
+function fr3028588_rounding(
+	$testNo,
+	$listPrice,
+	$stdPrice,
+	$limitPrice,
+	$listRounding,
+	$stdRounding,
+	$limitRounding,
+	$salesRounding,
+	$splList,
+	$splStd,
+	$splLimit,
+	$olQty,
+	$olTotal,
+	$olGrandTotal){
+	
+	// Run from the main menu
+
+	// Run variables
+	$rndString = random_string(4);
+	$testProduct = "Test_" + $rndString;
+	$testPLSchema = "Test_Schema " + $rndString;
+	$testBasePL = "Test Base Price List " +  $rndString;
+	$testSalesPL = "Test Sales Price List " + $rndString;
+	
+	_log("*** Starting test " + $testNo + " with code " + $rndString,"info");
+	
+	_setStrictVisibilityCheck(true);
+	
+	// Create a test price list schema
+	wOpenWindow("Price List Schema");
+	iFormView();
+	iNewRecord();
+	fSetText("Name", $testPLSchema);
+	fSetText("Description", "Test No Rounding");
+	fSetText("ValidFrom", "06/04/2011");
+	fSetText("DiscountType", "Pricelist");
+	iSaveRecord();
+
+	wOpenTab("Schema Line");
+	iFormView();
+	fSetList("List_Rounding", $listRounding);
+	fSetList("Std_Rounding", $stdRounding);
+	fSetList("Limit_Rounding", $limitRounding);	
+	iSaveRecord();
+	wCloseWindow("Price List Schema");
+
+	// Create the base price list
+	wOpenWindow("Price List");
+	iFormView();
+	iNewRecord();
+	fSetText("Name", $testBasePL);
+	fSetText("Description", "Base price list for test");
+	_uncheck(_checkbox(/^Field_IsSOPriceList/));
+	//fSetList("RoundingRule", "No Rounding");
+	//fSetSearch("RoundingCharge", "Bank Charge");
+	iSaveRecord();
+	wOpenTab("Version");
+	iFormView();
+	fSetText("Name", $testBasePL);
+	fSetText("Description", $testBasePL + " Test Version");
+	fSetListRq("M_DiscountSchema_ID", $testPLSchema, "Y");
+	iSaveRecord();	
+	wCloseWindow("Price List");
+	
+	// Create a test product and add it to the base price list
+	wOpenWindow("Product");
+	iFormView();
+	iNewRecord();
+	fSetText("Value", $testProduct);
+	fSetText("Name", $testProduct);
+	fSetText("C_UOM_ID", "Hour");
+	_uncheck(_checkbox(/^Field_IsStocked/));  // Don't invoke material management
+	iSaveRecord();
+	wOpenTab("Price");
+	fSetListRq("M_PriceList_Version_ID", $testBasePL, "Y");
+	fSetAmount("PriceList", $listPrice);
+	fSetAmount("PriceStd", $stdPrice);
+	fSetAmount("PriceLimit", $limitPrice);
+	iSaveRecord();
+	wCloseWindow("Product");
+
+	// Create the sales price list
+	wOpenWindow("Price List");
+	iFormView();
+	iNewRecord();
+	fSetText("Name", $testSalesPL);
+	fSetText("Description", "Sales price list for test");
+	_check(_checkbox(/^Field_IsSOPriceList/));
+	//fSetText("RoundingRule", $salesRounding);
+	//fSetSearch("RoundingCharge", "Bank Charge");
+	iSaveRecord();
+	wOpenTab("Version");
+	iFormView();
+	fSetText("Name", $testSalesPL);
+	fSetText("Description", $testSalesPL + " Test Version");
+	fSetListRq("M_DiscountSchema_ID", $testPLSchema, "Y");
+	fSetListRq("M_Pricelist_Version_Base_ID", $testBasePL, "Y");
+	iSaveRecord();	
+	
+	fClickButton("ProcCreate");
+	iOk();
+	_wait(1000);
+	iOk();
+	iRefresh();
+	wOpenTab("Product Price");
+	iFormView();
+	
+	// Check the results
+	_assertEqual($splList, fGetSearch("PriceList"), "tr_fr3028588_rounding: List Price not rounded as expected.");
+	_assertEqual($splStd, fGetSearch("PriceStd"), "tr_fr3028588_rounding: Std Price not rounded as expected.");
+	_assertEqual($splLimit, fGetSearch("PriceLimit"), "tr_fr3028588_rounding: Limit Price not rounded as expected.");
+	
+	wCloseWindow("Price List");
+	
+	//Create an order
+	wOpenWindow("Sales Order");
+	iFormView();
+	iNewRecord();	
+	fSetSearch("C_BPartner_ID", "Joe Block");
+	fSetListRq("M_PriceList_ID", $testSalesPL);
+	iSaveRecord();
+	wOpenTab("Order Line");
+	iFormView();
+	fSetSearch("M_Product_ID", $testProduct);
+	fSetAmount("QtyEntered", $olQty);
+	iSaveRecord();
+	wOpenTab("Order");
+	
+	// Set payment method to On Credit  - may need some work
+	_click(_cell("Cash"));  
+	_setSelected(_select(7), "On Credit");
+	iConfirm();
+	
+	fDocAction("Complete");
+
+	_assertEqual($olGrandTotal, fGetAmount("GrandTotal"), "tr_fr3028588_rounding: Order Grand Total not rounded as expected.");
+	
+	wCloseWindow("Sales Order");
+	
+	_log("*** Test " + $testNo + " Completed", "info"); // Test Completed.
+	
+}
+
+function test_fr3028588_rounding(){
+
+	var $data = _readCSVFile("material_management/tf_fr3028588_rounding.csv");
+
+	_dataDrive(fr3028588_rounding, $data);
+
+}
+
+// End of test_fr3028588_rounding

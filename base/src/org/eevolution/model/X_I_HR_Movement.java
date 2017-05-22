@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2016 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
@@ -11,8 +11,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.eevolution.model;
@@ -27,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for I_HR_Movement
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0 - $Id$ */
+ *  @version Release 3.9.0 - $Id$ */
 public class X_I_HR_Movement extends PO implements I_I_HR_Movement, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150223L;
+	private static final long serialVersionUID = 20170326L;
 
     /** Standard Constructor */
     public X_I_HR_Movement (Properties ctx, int I_HR_Movement_ID, String trxName)
@@ -43,7 +42,7 @@ public class X_I_HR_Movement extends PO implements I_I_HR_Movement, I_Persistent
       /** if (I_HR_Movement_ID == 0)
         {
 			setI_HR_Movement_ID (0);
-			setI_IsImported (null);
+			setI_IsImported (false);
 // N
         } */
     }
@@ -180,7 +179,7 @@ public class X_I_HR_Movement extends PO implements I_I_HR_Movement, I_Persistent
 		return (org.eevolution.model.I_HR_Concept)MTable.get(getCtx(), org.eevolution.model.I_HR_Concept.Table_Name)
 			.getPO(getHR_Concept_ID(), get_TrxName());	}
 
-	/** Set AD Payroll Concept.
+	/** Set Global Payroll Concept.
 		@param HR_Concept_ID 
 		The Payroll Concept allows to define all the perception and deductions elements needed to define a payroll.
 	  */
@@ -192,7 +191,7 @@ public class X_I_HR_Movement extends PO implements I_I_HR_Movement, I_Persistent
 			set_Value (COLUMNNAME_HR_Concept_ID, Integer.valueOf(HR_Concept_ID));
 	}
 
-	/** Get AD Payroll Concept.
+	/** Get Global Payroll Concept.
 		@return The Payroll Concept allows to define all the perception and deductions elements needed to define a payroll.
 	  */
 	public int getHR_Concept_ID () 
@@ -302,34 +301,24 @@ public class X_I_HR_Movement extends PO implements I_I_HR_Movement, I_Persistent
 		@param I_IsImported 
 		Has this import been processed
 	  */
-	public void setI_IsImported (String I_IsImported)
+	public void setI_IsImported (boolean I_IsImported)
 	{
-		set_Value (COLUMNNAME_I_IsImported, I_IsImported);
+		set_Value (COLUMNNAME_I_IsImported, Boolean.valueOf(I_IsImported));
 	}
 
 	/** Get Imported.
 		@return Has this import been processed
 	  */
-	public String getI_IsImported () 
+	public boolean isI_IsImported () 
 	{
-		return (String)get_Value(COLUMNNAME_I_IsImported);
-	}
-
-	/** Set Process Name.
-		@param ProcessName 
-		Name of the Process
-	  */
-	public void setProcessName (String ProcessName)
-	{
-		set_Value (COLUMNNAME_ProcessName, ProcessName);
-	}
-
-	/** Get Process Name.
-		@return Name of the Process
-	  */
-	public String getProcessName () 
-	{
-		return (String)get_Value(COLUMNNAME_ProcessName);
+		Object oo = get_Value(COLUMNNAME_I_IsImported);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
 	}
 
 	/** Set Processed.
@@ -377,6 +366,23 @@ public class X_I_HR_Movement extends PO implements I_I_HR_Movement, I_Persistent
 		return false;
 	}
 
+	/** Set Process Name.
+		@param ProcessName 
+		Name of the Process
+	  */
+	public void setProcessName (String ProcessName)
+	{
+		set_Value (COLUMNNAME_ProcessName, ProcessName);
+	}
+
+	/** Get Process Name.
+		@return Name of the Process
+	  */
+	public String getProcessName () 
+	{
+		return (String)get_Value(COLUMNNAME_ProcessName);
+	}
+
 	/** Set Quantity.
 		@param Qty 
 		Quantity
@@ -395,6 +401,23 @@ public class X_I_HR_Movement extends PO implements I_I_HR_Movement, I_Persistent
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
+	}
+
+	/** Set Reference No.
+		@param ReferenceNo 
+		Your customer or vendor number at the Business Partner's site
+	  */
+	public void setReferenceNo (String ReferenceNo)
+	{
+		set_Value (COLUMNNAME_ReferenceNo, ReferenceNo);
+	}
+
+	/** Get Reference No.
+		@return Your customer or vendor number at the Business Partner's site
+	  */
+	public String getReferenceNo () 
+	{
+		return (String)get_Value(COLUMNNAME_ReferenceNo);
 	}
 
 	/** Set Service date.

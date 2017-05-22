@@ -52,13 +52,13 @@ public interface I_M_ProductionLine
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
 
-	/** Set Organization.
-	  * Organizational entity within client
+	/** Set Organisation.
+	  * Organisational entity within client
 	  */
 	public void setAD_Org_ID (int AD_Org_ID);
 
-	/** Get Organization.
-	  * Organizational entity within client
+	/** Get Organisation.
+	  * Organisational entity within client
 	  */
 	public int getAD_Org_ID();
 
@@ -160,6 +160,19 @@ public interface I_M_ProductionLine
 
 	public I_M_Locator getM_Locator() throws RuntimeException;
 
+    /** Column name MovementQty */
+    public static final String COLUMNNAME_MovementQty = "MovementQty";
+
+	/** Set Movement Quantity.
+	  * Quantity of a product moved.
+	  */
+	public void setMovementQty (BigDecimal MovementQty);
+
+	/** Get Movement Quantity.
+	  * Quantity of a product moved.
+	  */
+	public BigDecimal getMovementQty();
+
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 
@@ -173,7 +186,22 @@ public interface I_M_ProductionLine
 	  */
 	public int getM_Product_ID();
 
-	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
+	public I_M_Product getM_Product() throws RuntimeException;
+
+    /** Column name M_Production_ID */
+    public static final String COLUMNNAME_M_Production_ID = "M_Production_ID";
+
+	/** Set Production.
+	  * Plan for producing a product
+	  */
+	public void setM_Production_ID (int M_Production_ID);
+
+	/** Get Production.
+	  * Plan for producing a product
+	  */
+	public int getM_Production_ID();
+
+	public I_M_Production getM_Production() throws RuntimeException;
 
     /** Column name M_ProductionLine_ID */
     public static final String COLUMNNAME_M_ProductionLine_ID = "M_ProductionLine_ID";
@@ -201,35 +229,16 @@ public interface I_M_ProductionLine
 	  */
 	public int getM_ProductionPlan_ID();
 
-	public org.compiere.model.I_M_ProductionPlan getM_ProductionPlan() throws RuntimeException;
+	public I_M_ProductionPlan getM_ProductionPlan() throws RuntimeException;
 
-    /** Column name M_Production_ID */
-    public static final String COLUMNNAME_M_Production_ID = "M_Production_ID";
+    /** Column name PickedQty */
+    public static final String COLUMNNAME_PickedQty = "PickedQty";
 
-	/** Set Production.
-	  * Plan for producing a product
-	  */
-	public void setM_Production_ID (int M_Production_ID);
+	/** Set Picked Qty	  */
+	public void setPickedQty (BigDecimal PickedQty);
 
-	/** Get Production.
-	  * Plan for producing a product
-	  */
-	public int getM_Production_ID();
-
-	public org.compiere.model.I_M_Production getM_Production() throws RuntimeException;
-
-    /** Column name MovementQty */
-    public static final String COLUMNNAME_MovementQty = "MovementQty";
-
-	/** Set Movement Quantity.
-	  * Quantity of a product moved.
-	  */
-	public void setMovementQty (BigDecimal MovementQty);
-
-	/** Get Movement Quantity.
-	  * Quantity of a product moved.
-	  */
-	public BigDecimal getMovementQty();
+	/** Get Picked Qty	  */
+	public BigDecimal getPickedQty();
 
     /** Column name PlannedQty */
     public static final String COLUMNNAME_PlannedQty = "PlannedQty";
@@ -283,6 +292,19 @@ public interface I_M_ProductionLine
 	  */
 	public BigDecimal getQtyAvailable();
 
+    /** Column name QtyReserved */
+    public static final String COLUMNNAME_QtyReserved = "QtyReserved";
+
+	/** Set Reserved Quantity.
+	  * Reserved Quantity
+	  */
+	public void setQtyReserved (BigDecimal QtyReserved);
+
+	/** Get Reserved Quantity.
+	  * Reserved Quantity
+	  */
+	public BigDecimal getQtyReserved();
+
     /** Column name QtyUsed */
     public static final String COLUMNNAME_QtyUsed = "QtyUsed";
 
@@ -307,4 +329,19 @@ public interface I_M_ProductionLine
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name ReversalLine_ID */
+    public static final String COLUMNNAME_ReversalLine_ID = "ReversalLine_ID";
+
+	/** Set Reversal Line.
+	  * Use to keep the reversal line ID for reversing costing purpose
+	  */
+	public void setReversalLine_ID (int ReversalLine_ID);
+
+	/** Get Reversal Line.
+	  * Use to keep the reversal line ID for reversing costing purpose
+	  */
+	public int getReversalLine_ID();
+
+	public org.compiere.model.I_M_ProductionLine getReversalLine() throws RuntimeException;
 }

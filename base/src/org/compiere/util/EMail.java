@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.URI;
+import java.security.Security;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
@@ -43,10 +44,13 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
+import org.adempiere.util.EMailOAuth2Provider;
 import org.compiere.model.MClient;
+import org.compiere.model.MEMailConfig;
 import org.compiere.model.MSysConfig;
 
 import com.sun.mail.smtp.SMTPMessage;
+import com.sun.mail.smtp.SMTPTransport;
 
 /**
  *	EMail Object.
@@ -64,6 +68,11 @@ import com.sun.mail.smtp.SMTPMessage;
  *  @author Jorg Janke
  *  @version  $Id: EMail.java,v 1.4 2006/07/30 00:54:35 jjanke Exp $
  *	@author	Michael Judd BF [ 2736995 ] - toURL() in java.io.File has been depreciated
+ *	@author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *			<li> FR [ 402 ] Mail setup is hardcoded
+ *			@see https://github.com/adempiere/adempiere/issues/402
+ *			<li> FR [ 423 ] Add support to oAuth EMail
+ *			@see https://github.com/adempiere/adempiere/issues/423
  */
 public final class EMail implements Serializable
 {
@@ -74,83 +83,117 @@ public final class EMail implements Serializable
 	private static final long serialVersionUID = -1408649015285763245L;
 	//use in server bean
 	public final static String HTML_MAIL_MARKER = "ContentType=text/html;";
-	/**
-	 *	Full Constructor
-	 *  @param client the client
-	 *  @param from Sender's EMail address
-	 *  @param to   Recipient EMail address
-	 *  @param subject  Subject of message
-	 *  @param message  The message
-	 */
-	public EMail (MClient client, String from, String to, 
-		String subject, String message)
-	{
-		this (client.getCtx(), client.getSMTPHost(), from, to, subject, message);
-	}	//	EMail
 	
 	/**
-	 *	Full Constructor
-	 *  @param client the client
-	 *  @param from Sender's EMail address
-	 *  @param to   Recipient EMail address
-	 *  @param subject  Subject of message
-	 *  @param message  The message
-	 *  @param html
+	 * Constructor without custom mail config by user and no html
+	 * @param client
+	 * @param from
+	 * @param to
+	 * @param subject
+	 * @param message
 	 */
 	public EMail (MClient client, String from, String to, 
-		String subject, String message, boolean html)
-	{
-		this (client.getCtx(), client.getSMTPHost(), from, to, subject, message, html);
-	}	//	EMail
-
-	/**
-	 *	Full Constructor
-	 *	@param ctx context
-	 *  @param smtpHost The mail server
-	 *  @param from Sender's EMail address
-	 *  @param to   Recipient EMail address
-	 *  @param subject  Subject of message
-	 *  @param message  The message
-	 */
-	public EMail (Properties ctx, String smtpHost, String from, String to, 
-		String subject, String message) 
-	{
-		this(ctx, smtpHost, from, to, subject, message, false);
+			String subject, String message) {
+		this(client, 0, from, to, subject, message, false);
 	}
 	
 	/**
-	 *	Full Constructor
-	 *	@param ctx context
-	 *  @param smtpHost The mail server
-	 *  @param from Sender's EMail address
-	 *  @param to   Recipient EMail address
-	 *  @param subject  Subject of message
-	 *  @param message  The message
-	 *  @param html html email
+	 * Full Constructor for Client
+	 * @param client Current Client
+	 * @param p_AD_EMailConfig_ID
+	 * @param from Sender's EMail address
+	 * @param to Recipient EMail address
+	 * @param subject Subject of message
+	 * @param message The message
+	 * @param html html email
 	 */
-	public EMail (Properties ctx, String smtpHost, String from, String to, 
-		String subject, String message, boolean html)
-	{
-		setSmtpHost(smtpHost);
-		setFrom(from);
-		String bccAddressForAllMails = MSysConfig.getValue("MAIL_SEND_BCC_TO_ADDRESS", Env.getAD_Client_ID(Env.getCtx()));
-		if (bccAddressForAllMails != null && bccAddressForAllMails.length() > 0)
-	 			addBcc(bccAddressForAllMails);
-		addTo(to);
-		m_ctx = ctx;
-		if (subject == null || subject.length() == 0)
-			setSubject(".");	//	pass validation
-		else
-			setSubject (subject);
-		if (message != null && message.length() > 0)
-		{
-			if (html)
-				setMessageHTML(subject, message);
-			else
-				setMessageText (message);
-		}
+	public EMail (MClient client, int p_AD_EMailConfig_ID, String from, String to, 
+		String subject, String message, boolean html) {
+		m_ctx = client.getCtx();
+		m_IsManual = false;
+		//	FR [ 402 ]
+		setEMailParameters(p_AD_EMailConfig_ID);
+		//	Configure EMail
+		configureEMail(from, to, subject, message, html);
 		m_valid = isValid (true);
 	}	//	EMail
+	
+	/**
+	 * Default instance not client configuration
+	 * @param smtpHost
+	 * @param from
+	 * @param to
+	 * @param subject
+	 * @param message
+	 * @param html
+	 */
+	public EMail(String smtpHost, String from, String to, 
+			String subject, String message, boolean html) {
+		this(smtpHost, MEMailConfig.DEFAULT_SMTP_PORT, MEMailConfig.PROTOCOL_SMTP, MEMailConfig.ENCRYPTIONTYPE_None, 
+				MEMailConfig.AUTHMECHANISM_Login, from, to, subject, message, html);
+	}
+	
+	/**
+	 * Full Manual constructor
+	 * @param smtpHost
+	 * @param smtpPort
+	 * @param protocol
+	 * @param encryptionType
+	 * @param authMechanism
+	 * @param from
+	 * @param to
+	 * @param subject
+	 * @param message
+	 * @param html
+	 */
+	public EMail(String smtpHost, int smtpPort, String protocol, String encryptionType, String authMechanism, String from, String to, 
+			String subject, String message, boolean html) {
+		setSmtpHost(smtpHost);
+		setPort(smtpPort);
+		setProtocol(protocol);
+		setEncryptionType(encryptionType);
+		setAuthMechanism(authMechanism);
+		m_IsSmtpAuthorization = false;
+		m_IsManual = true;
+		//	
+		if(from == null
+				&& to == null)
+			return;
+		//	For send
+		configureEMail(from, to, subject, message, html);
+		//	Is Valid?
+		m_valid = isValid (true);
+	}
+	
+	/**
+	 * Standard Constructor, test receipt
+	 * @param smtpHost
+	 * @param smtpPort
+	 * @param protocol
+	 * @param encryptionType
+	 * @param authMechanism
+	 */
+	public EMail(String smtpHost, int smtpPort, String protocol, String encryptionType, String authMechanism) {
+		this(smtpHost, smtpPort, protocol, encryptionType, authMechanism, null, null, null, null, false);
+	}	
+	
+	/**
+	 * Constructor used by receipt server
+	 * @param client
+	 * @param p_AD_EMailConfig_ID
+	 */
+	public EMail (MClient client, int p_AD_EMailConfig_ID) {
+		//	FR [ 402 ]
+		setEMailParameters(p_AD_EMailConfig_ID);
+	}
+	
+	/**
+	 * Constructor used by receipt server, get configuration from client
+	 * @param client
+	 */
+	public EMail (MClient client) {
+		this(client, client.getAD_EMailConfig_ID());
+	}
 
 	/**	From Address				*/
 	private InternetAddress     m_from;
@@ -169,24 +212,44 @@ public final class EMail implements Serializable
 	/** Mail HTML Message			*/
 	private String  			m_messageHTML;
 	/**	Mail SMTP Server			*/
-	private String  			m_smtpHost;
+	private String  			m_Host;
 	/**	Mail SMTP Server Port		*/
-	// @TODO - make port configurable - private int  				m_smtpPort = 0;
-	/**	SMTP enable start TLS		*/
-	// @TODO - make tls configurable - private boolean 			m_smtpStarttlsEnable = false;
+	private int  				m_Port = 0;
+	/**	Protocol					*/
+	private String 				m_Protocol = null;
+	/**	SMTP Encryption Type		*/
+	private String 				m_EncryptionType = null;
+	/**	SMTP Authentication Mechanism*/
+	private String 				m_AuthMechanism = null;
+	/**	SMTP Authentication			*/
+	private boolean 			m_IsSmtpAuthorization = false;
+	/**	Domain						*/
+	private String 				m_Domain = null;
+	/**	Timeout						*/
+	private long				m_Timeout = 0;
+	/**	Connection Timeout			*/
+	private long				m_ConnectionTimeout = 0;
+	/**	Custom EMail Configuration	*/
+	private int					m_AD_EMailConfig_ID = 0;
 	/**	Attachments					*/
 	private ArrayList<Object>	m_attachments;
 	/**	UserName and Password		*/
 	private EMailAuthenticator	m_auth = null;
 	/**	Message						*/
 	private SMTPMessage 		m_msg = null;
+	/**	User						*/
+	private String				m_user = null;
+	/**	Token						*/
+	private String				m_token = "";
 	/** Context - may be null		*/
 	private Properties			m_ctx;
+	/**	Is Manual					*/
+	private boolean				m_IsManual = false;
 
 	/**	Info Valid					*/
-	private boolean 	m_valid = false;
+	private boolean 			m_valid = false;
 	/** Send result Message			*/
-	private String		m_sentMsg = null;
+	private String				m_sentMsg = null;
 
 	/**	Mail Sent OK Status				*/
 	public static final String      SENT_OK = "OK";
@@ -195,12 +258,52 @@ public final class EMail implements Serializable
 	protected static CLogger		log = CLogger.getCLogger (EMail.class);
 
 	/**
+	 * Get Session from email config
+	 * @return
+	 */
+	public Session getSession() {
+		//	FR [ 402 ]
+		Session session = null;
+		if(getAuthMechanism().equals(MEMailConfig.AUTHMECHANISM_OAuth)) {
+			//	Add initialization
+			Security.addProvider(new EMailOAuth2Provider());
+			session = Session.getInstance(getEMailProperties());
+		} else {
+			session = Session.getInstance(getEMailProperties(), m_auth);
+		}
+		session.setDebug(CLogMgt.isLevelFinest());
+		//	
+		return session;
+	}
+	
+	/**
+	 * Get Transport
+	 * @param session
+	 * @return
+	 * @throws MessagingException
+	 */
+	public Transport getTransport(Session session) throws MessagingException {
+		Transport transport = null;
+		if(getAuthMechanism().equals(MEMailConfig.AUTHMECHANISM_OAuth)) {
+			transport = new SMTPTransport(session, null);
+			transport.connect(getSmtpHost(), getPort(), m_user, "");
+		} else {
+			transport = session.getTransport("smtp");
+			transport.connect();
+		}
+		//	Log
+		log.fine("transport=" + transport);
+		log.fine("transport connected");
+		//	Default Return
+		return transport;
+	}
+	
+	/**
 	 *	Send Mail direct
 	 *	@return OK or error message
 	 */
-	public String send ()
-	{
-		log.info("(" + m_smtpHost + ") " + m_from + " -> " + m_to);
+	public String send() {
+		log.info("(" + m_Host + ") " + m_from + " -> " + m_to);
 		m_sentMsg = null;
 		//
 		if (!isValid(true))
@@ -208,31 +311,11 @@ public final class EMail implements Serializable
 			m_sentMsg = "Invalid Data";
 			return m_sentMsg;
 		}
-		//
-		Properties props = System.getProperties();
-		props.put("mail.store.protocol", "smtp");
-		props.put("mail.transport.protocol", "smtp");
-		props.put("mail.host", m_smtpHost);
-		if (CLogMgt.isLevelFinest())
-			props.put("mail.debug", "true");
-		//
+		//	FR [ 402 ]
 		Session session = null;
-		try
-		{
-			if (m_auth != null)		//	createAuthenticator was called
-				props.put("mail.smtp.auth", "true");
-			if (m_smtpHost.equalsIgnoreCase("smtp.gmail.com")) {
-				// TODO: make it configurable
-				// Enable gmail port and ttls - Hardcoded
-				props.put("mail.smtp.port", "587");
-				props.put("mail.smtp.starttls.enable", "true");
-			}
-			
-			session = Session.getInstance(props, m_auth);
-			session.setDebug(CLogMgt.isLevelFinest());
-		}
-		catch (SecurityException se)
-		{
+		try {
+			session = getSession();
+		} catch (SecurityException se) {
 			log.log(Level.WARNING, "Auth=" + m_auth + " - " + se.toString());
 			m_sentMsg = se.toString();
 			return se.toString();
@@ -246,7 +329,6 @@ public final class EMail implements Serializable
 
 		try
 		{
-		//	m_msg = new MimeMessage(session);
 			m_msg = new SMTPMessage(session);
 			//	Addresses
 			m_msg.setFrom(m_from);
@@ -266,27 +348,18 @@ public final class EMail implements Serializable
 			//
 			m_msg.setSentDate(new java.util.Date());
 			m_msg.setHeader("Comments", "AdempiereMail");
-		//	m_msg.setDescription("Description");
 			//	SMTP specifics
 			m_msg.setAllow8bitMIME(true);
 			//	Send notification on Failure & Success - no way to set envid in Java yet
-		//	m_msg.setNotifyOptions (SMTPMessage.NOTIFY_FAILURE | SMTPMessage.NOTIFY_SUCCESS);
 			//	Bounce only header
 			m_msg.setReturnOption (SMTPMessage.RETURN_HDRS);
-		//	m_msg.setHeader("X-Mailer", "msgsend");
 			//
 			setContent();
 			m_msg.saveChanges();
-		//	log.fine("message =" + m_msg);
+			log.fine("message =" + m_msg);
 			//
-		//	Transport.send(msg);
-			Transport t = session.getTransport("smtp");
-		//	log.fine("transport=" + t);
-			t.connect();
-		//	t.connect(m_smtpHost, user, password);
-		//	log.fine("transport connected");
+			getTransport(session);
 			Transport.send(m_msg);
-		//	t.sendMessage(msg, msg.getAllRecipients());
 			log.fine("Success - MessageID=" + m_msg.getMessageID());
 		}
 		catch (MessagingException me)
@@ -383,6 +456,216 @@ public final class EMail implements Serializable
 		m_sentMsg = SENT_OK;
 		return m_sentMsg;
 	}	//	send
+	
+	/**
+	 * Get EMail Properties from type
+	 * @return
+	 */
+	public Properties getEMailProperties() {
+		//
+		Properties props = System.getProperties();
+		//	For Debug
+		if (CLogMgt.isLevelFinest())
+			props.put("mail.debug", "true");
+		//	Timeout
+		if(m_Timeout > 0)
+			props.put("mail.smtp.timeout", String.valueOf(m_Timeout));
+		//	Connection Timeout
+		if(m_Timeout > 0)
+			props.put("mail.smtp.connectiontimeout", String.valueOf(m_ConnectionTimeout));
+		//	Protocol
+		if(m_Protocol.equals(MEMailConfig.PROTOCOL_SMTP)) {
+			//	
+			if (m_IsSmtpAuthorization && m_auth != null)		//	createAuthenticator was called
+				props.put("mail.smtp.auth", "true");
+			props.put("mail.store.protocol", "smtp");
+			props.put("mail.transport.protocol", "smtp");
+			//	Encryption Type
+			if(!getAuthMechanism().equals(MEMailConfig.AUTHMECHANISM_OAuth)) {
+				if(getEncryptionType().equals(MEMailConfig.ENCRYPTIONTYPE_SSL))
+					props.put("mail.smtp.ssl.enable", "true");
+				else if(getEncryptionType().equals(MEMailConfig.ENCRYPTIONTYPE_TLS))
+					props.put("mail.smtp.starttls.enable", "true");
+			}
+		}
+		//	For oAuth2
+		if(getAuthMechanism().equals(MEMailConfig.AUTHMECHANISM_OAuth)) {
+			props.put("mail.smtp.starttls.enable", "true");
+		    props.put("mail.smtp.sasl.enable", "true");
+		    props.put("mail.smtp.sasl.mechanisms", "XOAUTH2");;
+		    props.put("mail.imaps.sasl.mechanisms.oauth2.oauthToken", m_token);
+		} else {
+			//	Set Host
+			props.put("mail.host", m_Host);
+			//	Set Port
+			props.put("mail.smtp.port", String.valueOf(getPort()));
+			//	Add Authentication Mechanism
+			if(getAuthMechanism().equals(MEMailConfig.AUTHMECHANISM_NTLM)) {
+				props.put("mail.smtp.auth.mechanisms","NTLM");
+				if(m_Domain != null)
+					props.put("mail.smtp.auth.ntlm.domain", m_Domain);	
+			}
+		}
+		//	Unsupported
+		//if(m_AuthMechanism == MEMailConfig.AUTHMECHANISM_Digest_MD5)
+			
+		//	Default return
+		return props;
+	}
+	
+	/**
+	 *	Set EMail Parameters (Host / Port / Encryption)
+	 */
+	private void setEMailParameters(int p_AD_EMailConfig_ID) {
+		//	
+		if(p_AD_EMailConfig_ID != 0)
+			m_AD_EMailConfig_ID = p_AD_EMailConfig_ID;
+		//	Validate Config
+		if(m_AD_EMailConfig_ID == 0) {
+			MClient client = MClient.get(m_ctx);
+			m_AD_EMailConfig_ID = client.getAD_EMailConfig_ID();
+		}
+		MEMailConfig eMailConfig = MEMailConfig.get(m_ctx, m_AD_EMailConfig_ID);
+		//	Valid null
+		if(eMailConfig != null) {
+			m_Host = eMailConfig.getSMTPHost();
+			//	
+			m_Port = eMailConfig.getPort();
+			m_Timeout = eMailConfig.getTimeout();
+			m_ConnectionTimeout = eMailConfig.getConnectionTimeout();
+			m_Protocol = eMailConfig.getProtocol();
+			m_EncryptionType = eMailConfig.getEncryptionType();
+			m_AuthMechanism = eMailConfig.getAuthMechanism();
+			m_IsSmtpAuthorization = eMailConfig.isSmtpAuthorization();
+			m_Domain = eMailConfig.getLDAPDomain();
+		} else {
+			getPort();
+			getProtocol();
+			getEncryptionType();
+			getAuthMechanism();
+			m_IsSmtpAuthorization = false;
+		}
+	}
+	
+	/**
+	 * Configure Mail from values
+	 * @param from
+	 * @param to
+	 * @param subject
+	 * @param message
+	 * @param html
+	 */
+	private void configureEMail(String from, String to, 
+			String subject, String message, boolean html) {
+		setFrom(from);
+		addTo(to);
+		if (subject == null || subject.length() == 0)
+			setSubject(".");	//	pass validation
+		else
+			setSubject (subject);
+		if (message != null && message.length() > 0) {
+			if (html)
+				setMessageHTML(subject, message);
+			else
+				setMessageText (message);
+		}
+	}
+	
+	/**
+	 * Set Port
+	 * @param port
+	 */
+	public void setPort(int port) {
+		m_Port = port;
+	}
+	
+	/**
+	 * Get Port
+	 * @return
+	 */
+	public int getPort() {
+		//	Set Default
+		if(m_Port <= 0) {
+			if(getProtocol().equals(MEMailConfig.PROTOCOL_SMTP)) {
+				if(getEncryptionType().equals(MEMailConfig.ENCRYPTIONTYPE_None))
+					m_Port = MEMailConfig.DEFAULT_SMTP_PORT;
+				else
+					m_Port = MEMailConfig.DEFAULT_SMTP_SSL_PORT;
+			} else if(getProtocol().equals(MEMailConfig.PROTOCOL_POP3)) {
+				if(getEncryptionType().equals(MEMailConfig.ENCRYPTIONTYPE_None))
+					m_Port = MEMailConfig.DEFAULT_POP3_PORT;
+				else
+					m_Port = MEMailConfig.DEFAULT_POP3_SSL_PORT;
+			} else if(getProtocol().equals(MEMailConfig.PROTOCOL_IMAP)) {
+				if(getEncryptionType().equals(MEMailConfig.ENCRYPTIONTYPE_None))
+					m_Port = MEMailConfig.DEFAULT_IMAP_PORT;
+				else
+					m_Port = MEMailConfig.DEFAULT_IMAP_SSL_PORT;
+			}
+		}
+		//	Return
+		return m_Port;
+	}
+	
+	/**
+	 * Set Protocol
+	 * @param protocol
+	 */
+	public void setProtocol(String protocol) {
+		m_Protocol = protocol;
+	}
+	
+	/**
+	 * Get Protocol
+	 * @return
+	 */
+	public String getProtocol() {
+		//	Set Default
+		if(m_Protocol == null)
+			m_Protocol = MEMailConfig.PROTOCOL_SMTP;
+		//	Return
+		return m_Protocol;
+	}
+	
+	/**
+	 * Set Encryption Type
+	 * @param encryptionType
+	 */
+	public void setEncryptionType(String encryptionType) {
+		m_EncryptionType = encryptionType;
+	}
+	
+	/**
+	 * Get Encryption Type
+	 * @return
+	 */
+	public String getEncryptionType() {
+		//	Valid default
+		if(m_EncryptionType == null)
+			m_EncryptionType = MEMailConfig.ENCRYPTIONTYPE_None;
+		//	Return
+		return m_EncryptionType;
+	}
+	
+	/**
+	 * Set Authentication Mechanism
+	 * @param authMechanism
+	 */
+	public void setAuthMechanism(String authMechanism) {
+		m_AuthMechanism = authMechanism;
+	}
+	
+	/**
+	 * Get Authentication Mechanism
+	 * @return
+	 */
+	public String getAuthMechanism() {
+		//	Valid default
+		if(m_AuthMechanism == null)
+			m_AuthMechanism = MEMailConfig.AUTHMECHANISM_Login;
+		//	Return
+		return m_AuthMechanism;
+	}
 
 	/**
 	 * 	Get Send Result Msg
@@ -455,22 +738,37 @@ public final class EMail implements Serializable
 	 * 	Create Authenticator for User
 	 * 	@param username user name
 	 * 	@param password user password
-	 * 	@return Authenticator or null
 	 */
-	public EMailAuthenticator createAuthenticator (String username, String password)
-	{
-		if (username == null || password == null)
-		{
-			log.warning("Ignored - " +  username + "/" + password);
-			m_auth = null;
+	public void createAuthenticator (String username, String password) {
+		m_IsSmtpAuthorization = false;
+		if(getAuthMechanism().equals(MEMailConfig.AUTHMECHANISM_OAuth)) {
+			m_user = username;
+			m_token = password;
+			m_IsSmtpAuthorization = true;
+		} else {
+			if (username == null || password == null) {
+				log.warning("Ignored - " +  username + "/" + password);
+				m_auth = null;
+			} else {
+			//	log.fine("setEMailUser: " + username + "/" + password);
+				m_auth = new EMailAuthenticator (username, password);
+				m_IsSmtpAuthorization = true;
+			}
 		}
-		else
-		{
-		//	log.fine("setEMailUser: " + username + "/" + password);
-			m_auth = new EMailAuthenticator (username, password);
-		}
-		return m_auth;
 	}	//	createAuthenticator
+	
+	/**
+	 * Get Store Protocol
+	 * @return
+	 */
+	public String getStoreProtocol() {
+		if(getProtocol().equals(MEMailConfig.PROTOCOL_IMAP))
+			return "imap";
+		else if(getProtocol().equals(MEMailConfig.PROTOCOL_POP3))
+			return "pop3s";
+		//	Default
+		return "";
+	}
 
 	/**
 	 *  Get Sender
@@ -485,21 +783,24 @@ public final class EMail implements Serializable
 	 *  Set Sender
 	 *  @param newFrom Sender's email address
 	 */
-	public void setFrom(String newFrom)
-	{
-		if (newFrom == null)
-		{
+	public void setFrom(String newFrom) {
+		if (newFrom == null) {
 			m_valid = false;
 			return;
 		}
-		try
-		{
+		try {
 			m_from = new InternetAddress (newFrom, true);
+			//	No Client
+			if(m_IsManual)
+				return;
+			//	
 			if (MSysConfig.getBooleanValue("MAIL_SEND_BCC_TO_FROM", false, Env.getAD_Client_ID(Env.getCtx())));
 				addBcc(newFrom);
-		}
-		catch (Exception e)
-		{
+			//	Add Copy
+			String bccAddressForAllMails = MSysConfig.getValue("MAIL_SEND_BCC_TO_ADDRESS", Env.getAD_Client_ID(Env.getCtx()));
+			if (bccAddressForAllMails != null && bccAddressForAllMails.length() > 0)
+	 			addBcc(bccAddressForAllMails);
+		} catch (Exception e) {
 			log.log(Level.WARNING, newFrom + ": " + e.toString());
 			m_valid = false;
 		}
@@ -510,20 +811,17 @@ public final class EMail implements Serializable
 	 *  @param newTo Recipient's email address
 	 * 	@return true if valid
 	 */
-	public boolean addTo (String newTo)
+	public boolean addTo(String newTo)
 	{
-		if (newTo == null || newTo.length() == 0)
-		{
+		if (newTo == null 
+				|| newTo.length() == 0) {
 			m_valid = false;
 			return false;
 		}
 		InternetAddress ia = null;
-		try
-		{
+		try {
 			ia = new InternetAddress (newTo, true);
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			log.log(Level.WARNING, newTo + ": " + e.toString());
 			m_valid = false;
 			return false;
@@ -941,7 +1239,7 @@ public final class EMail implements Serializable
 		if (newSmtpHost == null || newSmtpHost.length() == 0)
 			m_valid = false;
 		else
-			m_smtpHost = newSmtpHost;
+			m_Host = newSmtpHost;
 	}   //  setSMTPHost
 
 	/**
@@ -950,7 +1248,7 @@ public final class EMail implements Serializable
 	 */
 	public String getSmtpHost()
 	{
-		return m_smtpHost;
+		return m_Host;
 	}   //  getSmtpHosr
 
 	/**
@@ -999,9 +1297,9 @@ public final class EMail implements Serializable
 		}
 
 		//	Host
-		if (m_smtpHost == null || m_smtpHost.length() == 0)
+		if (m_Host == null || m_Host.length() == 0)
 		{
-			log.warning("SMTP Host is invalid" + m_smtpHost);
+			log.warning("SMTP Host is invalid" + m_Host);
 			return false;
 		}
 		
@@ -1059,7 +1357,8 @@ public final class EMail implements Serializable
 			System.out.println("Example: java org.compiere.util.EMail mail.acme.com joe@acme.com sue@acme.com HiThere CheersJoe");
 			System.exit(1);
 		}
-		EMail email = new EMail(System.getProperties(), args[0], args[1], args[2], args[3], args[4]);
+		//	FR [ 402 ]
+		EMail email = new EMail(args[0], args[1], args[2], args[3], args[4], false);
 		email.send();
 	}   //  main
 

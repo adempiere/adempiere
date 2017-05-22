@@ -262,4 +262,25 @@ public class X_M_PromotionDistribution extends PO implements I_M_PromotionDistri
 			 return 0;
 		return ii.intValue();
 	}
+	
+	/** Set Quantity Reward.
+	@param QtyReward 
+	Quantity Reward
+  */
+public void setQtyReward (BigDecimal QtyReward)
+{
+	set_Value (COLUMNNAME_QtyReward, QtyReward);
+}
+
+/** Get QuantityReward.
+	@return Quantity Reward
+  */
+public BigDecimal getQtyReward() 
+{
+	BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_QtyReward);
+	if (bd == null)
+		 return Env.ZERO;
+	return bd;
+}
+
 }

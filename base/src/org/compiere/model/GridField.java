@@ -70,6 +70,15 @@ import org.compiere.util.Evaluator;
  *  			https://sourceforge.net/tracker/?func=detail&aid=2910368&group_id=176962&atid=879332
  *  		<li>BF [ 3007342 ] Included tab context conflict issue
  *  			https://sourceforge.net/tracker/?func=detail&aid=3007342&group_id=176962&atid=879332
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 305 ] Allows evaluate of default value based on the other parameter context
+ *  	@see https://github.com/adempiere/adempiere/issues/305
+ *  	<li>BR [ 344 ] Smart Browse Search View is not MVC
+ * 		@see https://github.com/adempiere/adempiere/issues/344
+ * 		<li>FR [ 349 ] GridFieldVO attribute is ambiguous
+ * 		@see https://github.com/adempiere/adempiere/issues/349
+ * 		<a href="https://github.com/adempiere/adempiere/issues/566">
+ * 		@see FR [ 566 ] Process parameter don't have a parameter like only information</a>
  *  @version $Id: GridField.java,v 1.5 2006/07/30 00:51:02 jjanke Exp $
  */
 public class GridField 
@@ -272,6 +281,9 @@ public class GridField
 		Evaluator.parseDepends(list, m_vo.DisplayLogic);
 		Evaluator.parseDepends(list, m_vo.ReadOnlyLogic);
 		Evaluator.parseDepends(list, m_vo.MandatoryLogic);
+		//	FR [ 305 ]
+		Evaluator.parseDepends(list, m_vo.DefaultValue);
+		Evaluator.parseDepends(list, m_vo.DefaultValue2);
 		//  Lookup
 		if (m_lookup != null)
 			Evaluator.parseDepends(list, m_lookup.getValidation());
@@ -496,7 +508,8 @@ public class GridField
 		if (isParentValue()
 			&& (m_vo.DefaultValue == null || m_vo.DefaultValue.length() == 0))
 		{
-			String parent = Env.getContext(m_vo.ctx, m_vo.WindowNo, m_vo.ColumnName);
+			String columnName = m_vo.ColumnNameAlias.isEmpty() ? m_vo.ColumnName : m_vo.ColumnNameAlias;
+			String parent = Env.getContext(m_vo.ctx, m_vo.WindowNo, columnName);
 			log.fine("[Parent] " + m_vo.ColumnName + "=" + parent);
 			return createDefault(parent);
 		}
@@ -577,7 +590,7 @@ public class GridField
 					return new Timestamp (System.currentTimeMillis());
 				else if (defStr.indexOf('@') != -1)			//	it is a variable
 					defStr = Env.getContext(m_vo.ctx, m_vo.WindowNo, defStr.replace('@',' ').trim());
-				else if (defStr.indexOf("'") != -1)			//	it is a 'String'
+				else if (defStr.startsWith("'") && defStr.endsWith("'"))			//	it is a real 'String'
 					defStr = defStr.replace('\'', ' ').trim();
 
 				if (!defStr.equals(""))
@@ -638,6 +651,9 @@ public class GridField
 		//  actual Numbers default to zero
 		if (DisplayType.isNumeric(m_vo.displayType))
 		{
+			if (m_vo.IsRange)
+				return null;
+
 			log.fine("[Number=0] " + m_vo.ColumnName);
 			return createDefault("0");
 		}
@@ -860,6 +876,15 @@ public class GridField
 	}	//	getColumnName
 	
 	/**
+	 * FR [ 344 ]
+	 * Get Column Name Alias
+	 * @return
+	 */
+	public String getColumnNameAlias() {
+		return m_vo.ColumnNameAlias;
+	}	//	getColumnNameAlias
+	
+	/**
 	 *  Get Column Name or SQL .. with/without AS
 	 *  @param withAS include AS ColumnName for virtual columns in select statements
 	 *  @return column name
@@ -868,10 +893,11 @@ public class GridField
 	{
 		if (m_vo.ColumnSQL != null && m_vo.ColumnSQL.length() > 0)
 		{
+			String retValue = Env.parseContext(Env.getCtx(), m_vo.WindowNo, m_vo.ColumnSQL, false);
 			if (withAS)
-				return m_vo.ColumnSQL + " AS " + m_vo.ColumnName;
+				return retValue + " AS " + m_vo.ColumnName;
 			else
-				return m_vo.ColumnSQL;
+				return retValue;
 		}
 		return m_vo.ColumnName;
 	}	//	getColumnSQL
@@ -882,7 +908,9 @@ public class GridField
 	 */
 	public boolean isVirtualColumn()
 	{
-		if (m_vo.ColumnSQL != null && m_vo.ColumnSQL.length() > 0)
+		if (m_vo.ColumnSQL != null && m_vo.ColumnSQL.length() > 0
+				//	FR [ 344 ]
+				&& !m_vo.IsColumnSQLReference)
 			return true; 
 		return false;
 	}	//	isColumnVirtual
@@ -1063,7 +1091,11 @@ public class GridField
 		String ob = getObscureType();
 		if (ob != null && ob.length() > 0)
 			return true;
-		return m_vo.ColumnName.equals("Password");
+
+		if (m_vo.ColumnName != null && m_vo.ColumnName.equals("Password"))
+			return true;
+
+		return false;
 	}
 	/**
 	 * 	Is Encrypted Column (data)
@@ -1298,7 +1330,8 @@ public class GridField
 		m_error = false;        //  reset error
 
 		// [ 1881480 ] Navigation problem between tabs
-		Env.setContext(m_vo.ctx, m_vo.WindowNo, m_vo.ColumnName, (String) m_value);
+		String columnName = m_vo.ColumnNameAlias.isEmpty() ? m_vo.ColumnName : m_vo.ColumnNameAlias;
+		Env.setContext(m_vo.ctx, m_vo.WindowNo, columnName, (String) m_value);
 
 		//  Does not fire, if same value
 		m_propertyChangeListeners.firePropertyChange(PROPERTY, m_oldValue, m_value);
@@ -1335,6 +1368,7 @@ public class GridField
 	 * Update env. context with current value
 	 */
 	public void updateContext() {
+		String columnName = m_vo.ColumnNameAlias.isEmpty() ? m_vo.ColumnName : m_vo.ColumnNameAlias;
 		//	Set Context
 		if (m_vo.displayType == DisplayType.Text 
 			|| m_vo.displayType == DisplayType.Memo
@@ -1348,10 +1382,10 @@ public class GridField
 			backupValue(); // teo_sarca [ 1699826 ]
 			if (!isParentTabField())
 			{
-				Env.setContext(m_vo.ctx, m_vo.WindowNo, m_vo.ColumnName, 
+				Env.setContext(m_vo.ctx, m_vo.WindowNo, columnName,
 					((Boolean)m_value).booleanValue());
 			}
-			Env.setContext(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo, m_vo.ColumnName, 
+			Env.setContext(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo, columnName,
 					m_value==null ? null : (((Boolean)m_value) ? "Y" : "N"));
 		}
 		else if (m_value instanceof Timestamp)
@@ -1359,7 +1393,7 @@ public class GridField
 			backupValue(); // teo_sarca [ 1699826 ]
 			if (!isParentTabField())
 			{
-				Env.setContext(m_vo.ctx, m_vo.WindowNo, m_vo.ColumnName, (Timestamp)m_value);
+				Env.setContext(m_vo.ctx, m_vo.WindowNo, columnName , (Timestamp)m_value);
 			}
 			// BUG:3075946 KTU - Fix Thai Date
 			//Env.setContext(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo, m_vo.ColumnName, 
@@ -1371,7 +1405,7 @@ public class GridField
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				stringValue = sdf.format(c1.getTime());
 			}
-			Env.setContext(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo, m_vo.ColumnName, stringValue);
+			Env.setContext(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo, columnName, stringValue);
 			// KTU - Fix Thai Date		
 		}
 		else
@@ -1379,10 +1413,10 @@ public class GridField
 			backupValue(); // teo_sarca [ 1699826 ]
 			if (!isParentTabField())
 			{
-				Env.setContext(m_vo.ctx, m_vo.WindowNo, m_vo.ColumnName, 
+				Env.setContext(m_vo.ctx, m_vo.WindowNo, columnName,
 					m_value==null ? null : m_value.toString());
 			}
-			Env.setContext(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo, m_vo.ColumnName, 
+			Env.setContext(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo, columnName,
 				m_value==null ? null : m_value.toString());
 		}		
 	}
@@ -1729,9 +1763,10 @@ public class GridField
 	 */
 	private final void backupValue() {
 		if (!m_isBackupValue) {
-			m_backupValue = get_ValueAsString(m_vo.ColumnName);
+			String columnName = m_vo.ColumnNameAlias.isEmpty() ? m_vo.ColumnName : m_vo.ColumnNameAlias;
+			m_backupValue = get_ValueAsString(columnName);
 			if (CLogMgt.isLevelFinest())
-				log.finest("Backup " + m_vo.WindowNo + "|" + m_vo.ColumnName + "=" + m_backupValue);
+				log.finest("Backup " + m_vo.WindowNo + "|" + columnName + "=" + m_backupValue);
 			m_isBackupValue = true;
 		}
 	}
@@ -1742,17 +1777,18 @@ public class GridField
 	 */
 	public void restoreValue() {
 		if (m_isBackupValue) {
+			String columnName = m_vo.ColumnNameAlias.isEmpty() ? m_vo.ColumnName : m_vo.ColumnNameAlias;
 			if (isParentTabField())
 			{
 				if (CLogMgt.isLevelFinest())
-					log.finest("Restore " + m_vo.WindowNo + "|" + m_vo.TabNo + "|" + m_vo.ColumnName + "=" + m_backupValue);
-				Env.setContext(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo, m_vo.ColumnName, m_backupValue);
+					log.finest("Restore " + m_vo.WindowNo + "|" + m_vo.TabNo + "|" + columnName + "=" + m_backupValue);
+				Env.setContext(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo, columnName, m_backupValue);
 			}
 			else
 			{
 				if (CLogMgt.isLevelFinest())
 					log.finest("Restore " + m_vo.WindowNo + "|" + m_vo.ColumnName + "=" + m_backupValue);
-				Env.setContext(m_vo.ctx, m_vo.WindowNo, m_vo.ColumnName, m_backupValue);
+				Env.setContext(m_vo.ctx, m_vo.WindowNo, columnName, m_backupValue);
 			}
 		}
 	}
@@ -1893,8 +1929,18 @@ public class GridField
 	}
 
 	/**           Selection column in range based or not        */
-	public boolean isRange()
+	//	FR [ 349 ]
+	public boolean isRangeLookup()
 	{
+		return m_vo.IsRangeLookup;
+	}
+	
+	/**
+	 * Is Range, temporally used for process
+	 * FR [ 349 ]
+	 * @return
+	 */
+	public boolean isRange() {
 		return m_vo.IsRange;
 	}
 
@@ -1910,5 +1956,13 @@ public class GridField
     public boolean isEmbedded()
     {
     	return m_vo.isEmbedded;
+    }
+    
+    /**
+     * Is Information Only
+     * @return
+     */
+    public boolean isInfoOnly() {
+    	return m_vo.IsInfoOnly;
     }
 }   //  MField

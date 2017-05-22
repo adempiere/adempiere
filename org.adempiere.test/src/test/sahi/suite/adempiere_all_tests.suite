@@ -1,0 +1,6 @@
+
+//  ADempiere test suite - all tests related to 380
+
+../scenario/scenario_main_functional_tests.sah
+../scenario/scenario_ADEMPIERE72_webui_info_panels.sah
+

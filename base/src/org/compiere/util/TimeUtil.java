@@ -27,6 +27,9 @@ import java.util.GregorianCalendar;
  *
  * 	@author 	Jorg Janke
  * 	@version 	$Id: TimeUtil.java,v 1.3 2006/07/30 00:54:35 jjanke Exp $
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<a href="https://github.com/adempiere/adempiere/issues/764">
+ * 		@see FR [ 764 ] Add hepler method to TimeUtil class</a>
  */
 public class TimeUtil
 {
@@ -289,6 +292,31 @@ public class TimeUtil
 		return false;
 	}	//	isRange
 
+	
+	/**
+	 * Valid Non Business Day
+	 * Use any of follow constants
+	 * <li> Calendar.SUNDAY
+	 * <li> Calendar.MONDAY
+	 * <li> Calendar.TUESDAY
+	 * <li> Calendar.WEDNESDAY
+	 * <li> Calendar.THURSDAY
+	 * <li> Calendar.FRIDAY
+	 * <li> Calendar.SATURDAY
+	 * @param day
+	 * @param matchingDays
+	 * @return boolean
+	 */
+	private static boolean isMatchingDay(int day, int... matchingDays){
+		if(matchingDays == null
+				|| matchingDays.length == 0)
+			return true;
+		for (int i = 0; i < matchingDays.length; i++) {
+			if(day == matchingDays[i])
+				return true;
+		}
+		return false;
+	}
 
 	/**
 	 * 	Is it the same day
@@ -361,12 +389,19 @@ public class TimeUtil
 
 	/**
 	 * 	Calculate the number of days between start and end.
+	 *  Use any of follow constants for get a specific day of week
+	 *  <li> Calendar.SUNDAY
+	 *  <li> Calendar.MONDAY
+	 *  <li> Calendar.TUESDAY
+	 *  <li> Calendar.WEDNESDAY
+	 *  <li> Calendar.THURSDAY
+	 *  <li> Calendar.FRIDAY
+	 *  <li> Calendar.SATURDAY
 	 * 	@param start start date
 	 * 	@param end end date
 	 * 	@return number of days (0 = same)
 	 */
-	static public int getDaysBetween (Timestamp start, Timestamp end)
-	{
+	static public int getDaysBetween (Timestamp start, Timestamp end, int... matchingDay) {
 		boolean negative = false;
 		if (end.before(start))
 		{
@@ -388,11 +423,9 @@ public class TimeUtil
 		calEnd.set(Calendar.MINUTE, 0);
 		calEnd.set(Calendar.SECOND, 0);
 		calEnd.set(Calendar.MILLISECOND, 0);
-
-	//	System.out.println("Start=" + start + ", End=" + end + ", dayStart=" + cal.get(Calendar.DAY_OF_YEAR) + ", dayEnd=" + calEnd.get(Calendar.DAY_OF_YEAR));
-
 		//	in same year
-		if (cal.get(Calendar.YEAR) == calEnd.get(Calendar.YEAR))
+		if (cal.get(Calendar.YEAR) == calEnd.get(Calendar.YEAR)
+				&& (matchingDay == null || matchingDay.length == 0))
 		{
 			if (negative)
 				return (calEnd.get(Calendar.DAY_OF_YEAR) - cal.get(Calendar.DAY_OF_YEAR)) * -1;
@@ -401,10 +434,12 @@ public class TimeUtil
 
 		//	not very efficient, but correct
 		int counter = 0;
-		while (calEnd.after(cal))
-		{
+		while (calEnd.after(cal)) {
 			cal.add (Calendar.DAY_OF_YEAR, 1);
-			counter++;
+			boolean match = isMatchingDay(cal.get(Calendar.DAY_OF_WEEK), matchingDay);
+	    	if(match) {
+	    		counter++;
+	    	}
 		}
 		if (negative)
 			return counter * -1;
@@ -707,7 +742,7 @@ public class TimeUtil
 		return new Timestamp(gc.getTimeInMillis());
 	}
 
-	/*
+	/**
 	 * @param date calendar initialization date; if null, the current date is used
 	 * @return calendar
 	 * @author Teo Sarca, Teo Sarca <teo.sarca@gmail.com>
@@ -765,20 +800,125 @@ public class TimeUtil
 		cal.add(Calendar.MONTH, offset);
 		return new Timestamp (cal.getTimeInMillis());
 	}	//	addMonths
-
-	public static int getMonthsBetween (Timestamp start, Timestamp end)
-	{
-		Calendar startCal = getCalendar(start);
-		Calendar endCal = getCalendar(end);
-		//
-		return endCal.get(Calendar.YEAR) * 12 + endCal.get(Calendar.MONTH);
+	
+	/**
+	 * Add Year to Date
+	 * @param from
+	 * @param years
+	 * @return Timestamp
+	 */
+	public Timestamp addYears (Timestamp from, int offset) {
+		if(from == null)
+			return from;
+		GregorianCalendar cal = new GregorianCalendar();
+		cal.setTime(from);
+		cal.set(Calendar.HOUR_OF_DAY, 0);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		cal.set(Calendar.MILLISECOND, 0);
+		if (offset == 0)
+			return new Timestamp (cal.getTimeInMillis());
+		cal.add(Calendar.YEAR, offset);
+		return new Timestamp (cal.getTimeInMillis());
 	}
 
+	/**
+	 * 
+	 * @param start
+	 * @param end
+	 * @return
+	 */
+	public static int getMonthsBetween (Timestamp start, Timestamp end)
+	{
+		boolean negative = false;
+		if (end.before(start)) {
+			negative = true;
+			Timestamp temp = start;
+			start = end;
+			end = temp;
+		}
 
-		/**
-         * 	Test
-         *	@param args ignored
-         */
+		GregorianCalendar cal = new GregorianCalendar();
+		cal.setTime(start);
+		cal.set(Calendar.HOUR_OF_DAY, 0);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		cal.set(Calendar.MILLISECOND, 0);
+		GregorianCalendar calEnd = new GregorianCalendar();
+
+		calEnd.setTime(end);
+		calEnd.set(Calendar.HOUR_OF_DAY, 0);
+		calEnd.set(Calendar.MINUTE, 0);
+		calEnd.set(Calendar.SECOND, 0);
+		calEnd.set(Calendar.MILLISECOND, 0);
+
+		if (cal.get(Calendar.YEAR) == calEnd.get(Calendar.YEAR)) {
+			int months = 0;
+			if (negative) {
+				months = (calEnd.get(Calendar.MONTH) - cal.get(Calendar.MONTH)) * -1;
+				if(((calEnd.get(Calendar.DAY_OF_MONTH) - cal.get(Calendar.DAY_OF_MONTH)) * -1) < 0)
+					months--;
+			} else {
+				months = calEnd.get(Calendar.MONTH) - cal.get(Calendar.MONTH);
+				if(calEnd.get(Calendar.DAY_OF_MONTH) - cal.get(Calendar.DAY_OF_MONTH) < 0)
+					months--;
+			}
+			//	Return Months
+			return months;
+		}
+
+		//	not very efficient, but correct
+		int counter = 0;
+		while (calEnd.after(cal)) {
+			cal.add (Calendar.MONTH, 1);
+			counter++;
+			//	Yamel Senih 2014-09-04, 17:15:35
+			//	Add Break on equals values
+			if(calEnd.get(Calendar.MONTH) == cal.get(Calendar.MONTH))
+				break;
+			//	End Yamel Senih
+		}
+		if (negative) {
+			counter *= -1;
+			if(((calEnd.get(Calendar.DAY_OF_MONTH) - cal.get(Calendar.DAY_OF_MONTH)) * -1) < 0)
+				counter --;
+		} else {
+			if(calEnd.get(Calendar.DAY_OF_MONTH) - cal.get(Calendar.DAY_OF_MONTH) < 0)
+				counter--;
+		}
+		return counter;
+	}
+
+	/**
+	 * Get Years from two date
+	 * @param from
+	 * @param to
+	 * @return
+	 * @return int
+	 */
+	public static int getYearsBetween (Timestamp from, Timestamp to) {
+		//	Set Date From
+		Calendar dateFrom = Calendar.getInstance();
+		dateFrom.setTime(from);
+        //	Set Date To
+		Calendar dateTo = Calendar.getInstance();
+        dateTo.setTime(to);
+        //	Calculate Difference
+        int yearDiff = dateTo.get(Calendar.YEAR) - dateFrom.get(Calendar.YEAR);
+        int monthDiff = dateTo.get(Calendar.MONTH) - dateFrom.get(Calendar.MONTH);
+        int dayDiff = dateTo.get(Calendar.DAY_OF_MONTH) - dateFrom.get(Calendar.DAY_OF_MONTH);
+        if (monthDiff < 0 ||(monthDiff == 0 && dayDiff < 0)){
+            yearDiff -= 1;
+        }
+        //	Value
+        return yearDiff;
+	}
+	
+
+	/**
+	 * 	Test
+	 *	@param args ignored
+	 */
 	public static void main (String[] args)
 	{
 		Timestamp t1 = getDay(01, 01, 01);
@@ -793,6 +933,10 @@ public class TimeUtil
 		System.out.println(isSameDay(t1, t4) + " == true" );
 		System.out.println(isSameDay(t2, t5) + " == true");
 		System.out.println(isSameDay(t3, t5) + " == false");
+		System.out.println(getDaysBetween(t1, t2));
+		System.out.println(getDaysBetween(t1, t2, Calendar.SATURDAY, Calendar.SUNDAY));
+		System.out.println(getYearsBetween(t1, t2));
+		
 	}	//	main
 	
 }	//	TimeUtil

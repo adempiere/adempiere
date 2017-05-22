@@ -21,49 +21,26 @@ package org.eevolution.process;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map.Entry;
-import java.util.logging.Level;
 import org.compiere.model.I_M_InOutLine;
 import org.compiere.model.MInOut;
 import org.compiere.model.MInOutLine;
-import org.compiere.model.MInvoiceLine;
 import org.compiere.model.MLandedCost;
 import org.compiere.model.Query;
-import org.compiere.process.ProcessInfoParameter;
-import org.compiere.process.SvrProcess;
 
 /**
  * Fill the Landed Cost based on Material Receipts Smart Browser Filter
  *
  * @author victor.perez@e-evolution.com, www.e-evolution.com
  */
-public class GenerateLandedCost extends SvrProcess {
+public class GenerateLandedCost extends GenerateLandedCostAbstract {
 
     /** Record ID */
-    protected int pRecordId = 0;
-    protected int pCostElementId = 0;
-    protected String pLandedCostDistribution = null;
-    protected boolean pCreateByProduct = false;
     protected List<MInOutLine> records = null;
-    protected MInvoiceLine invoiceLine = null;
-
     /**
      * Get Parameters
      */
     protected void prepare() {
-        pRecordId = getRecord_ID();
-        for (ProcessInfoParameter para : getParameter()) {
-            String name = para.getParameterName();
-            if (para.getParameter() == null)
-                ;
-            else if (name.equals(MLandedCost.COLUMNNAME_LandedCostDistribution))
-                pLandedCostDistribution = (String) para.getParameter();
-            else if (name.equals(MLandedCost.COLUMNNAME_M_CostElement_ID))
-                pCostElementId = para.getParameterAsInt();
-            else if (name.equals("CreateByProduct"))
-                pCreateByProduct = para.getParameterAsBoolean();
-            else
-                log.log(Level.SEVERE, "Unknown Parameter: " + name);
-        }
+        super.prepare();
     }
 
     /**
@@ -75,7 +52,7 @@ public class GenerateLandedCost extends SvrProcess {
     protected String doIt() throws Exception {
 
         String receipts = "";
-        if (pCreateByProduct == true) {
+        if ( isCreatebyProduct()) {
             for (MInOutLine inOutLine : getRecords()) {
                 createLandedCost(null, inOutLine);
                 receipts = receipts.concat(
@@ -108,11 +85,11 @@ public class GenerateLandedCost extends SvrProcess {
 
         MLandedCost landedCost = new MLandedCost(getCtx(), 0, get_TrxName());
         landedCost.setAD_Org_ID(document.getAD_Org_ID());
-        landedCost.setC_InvoiceLine_ID(pRecordId);
+        landedCost.setC_InvoiceLine_ID(getRecord_ID());
         landedCost.setM_InOut_ID(document.getM_InOut_ID());
         landedCost.setDescription(document.getPOReference());
-        landedCost.setLandedCostDistribution(pLandedCostDistribution);
-        landedCost.setM_CostElement_ID(pCostElementId);
+        landedCost.setLandedCostDistribution(getCostDistribution());
+        landedCost.setM_CostElement_ID(getCostElementId());
         if (inOut == null) {
             landedCost.setM_InOutLine_ID(inOutLine.getM_InOutLine_ID());
             landedCost.setM_Product_ID(inOutLine.getM_Product_ID());
@@ -128,14 +105,14 @@ public class GenerateLandedCost extends SvrProcess {
 
         StringBuilder whereClause = new StringBuilder("EXISTS (SELECT T_Selection_ID FROM T_Selection ");
         whereClause.append("WHERE T_Selection.AD_PInstance_ID=? AND T_Selection.T_Selection_ID=M_InOutLine.M_InOutLine_ID ");
-        if (pCreateByProduct)
+        if (isCreatebyProduct())
             whereClause.append("AND NOT EXISTS (SELECT 1 FROM C_LandedCost lc WHERE lc.C_InvoiceLine_ID=? AND lc.M_InOutLine_ID=M_InOutLine.M_InOutLine_ID))");
         else
             whereClause.append("AND NOT EXISTS (SELECT 1 FROM C_LandedCost lc WHERE lc.C_InvoiceLine_ID=? AND lc.M_InOut_ID=M_InOutLine.M_InOut_ID)) ");
 
         records = new Query(getCtx(), I_M_InOutLine.Table_Name,
                 whereClause.toString(), get_TrxName()).setClient_ID()
-                .setParameters(getAD_PInstance_ID(), pRecordId)
+                .setParameters(getAD_PInstance_ID(), getRecord_ID())
                 .list();
         return records;
     }

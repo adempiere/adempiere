@@ -33,29 +33,22 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.TreeMap;
-import java.util.Vector;
 import java.util.logging.Level;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.BorderFactory;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
-import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -73,6 +66,7 @@ import org.compiere.grid.VOnlyCurrentDays;
 import org.compiere.grid.VPayment;
 import org.compiere.grid.VSortTab;
 import org.compiere.grid.VTabbedPane;
+import org.compiere.grid.VTable;
 import org.compiere.grid.ed.VButton;
 import org.compiere.grid.ed.VDocAction;
 import org.compiere.model.DataStatusEvent;
@@ -83,8 +77,6 @@ import org.compiere.model.GridTable;
 import org.compiere.model.GridWindow;
 import org.compiere.model.GridWindowVO;
 import org.compiere.model.GridWorkbench;
-import org.compiere.model.Lookup;
-import org.compiere.model.MLookupFactory;
 import org.compiere.model.MProcess;
 import org.compiere.model.MQuery;
 import org.compiere.model.MRole;
@@ -95,7 +87,6 @@ import org.compiere.print.AReport;
 import org.compiere.process.DocAction;
 import org.compiere.process.ProcessInfo;
 import org.compiere.process.ProcessInfoUtil;
-import org.compiere.swing.CFrame;
 import org.compiere.swing.CPanel;
 import org.compiere.util.ASyncProcess;
 import org.compiere.util.CLogMgt;
@@ -144,6 +135,17 @@ import org.eevolution.form.VBrowser;
  *
  * 	@author hengsin, hengsin.low@idalica.com
  *  @see FR [2887701] https://sourceforge.net/tracker/?func=detail&atid=879335&aid=2887701&group_id=176962
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 114 ] Change "Create From" UI for Form like Dialog in window without "hardcode"
+ *		@see https://github.com/adempiere/adempiere/issues/114
+ *		<li>FR [ 248 ] Smart Browse not open on modal inside a window
+ * 		@see https://github.com/adempiere/adempiere/issues/248
+ * 		<a href="https://github.com/adempiere/adempiere/issues/592">
+ * 		@see FR [ 592 ] Delete Selection dialog is not MVC</a>
+ * 		<a href="https://github.com/adempiere/adempiere/issues/611">
+ * 		@see BR [ 611 ] Error dialog is showed and lost focus from window</a>
+ *		<a href="https://github.com/adempiere/adempiere/issues/990">
+ * 		@see FR [ 990 ] Sort Tab is not MVC</a>
  *  @sponsor www.metas.de
  */
 public final class APanel extends CPanel
@@ -307,7 +309,7 @@ public final class APanel extends CPanel
 							aNew, aCopy, aDelete, aPrint, aPrintPreview,
 							aExport = null,
 							aRefresh, aHistory, aAttachment, aChat, aMulti, aFind,
-							aWorkflow, aZoomAcross, aRequest, aWinSize, aArchive;
+							aWorkflow, aZoomAcross, aRequest, aProcess, aWinSize, aArchive;
 	/** Ignore Button		*/
 	public AppsAction		aIgnore;
 	/** Save Button			*/
@@ -443,6 +445,8 @@ public final class APanel extends CPanel
 		mGo.addSeparator();
 		aZoomAcross = addAction("ZoomAcross",	mGo, 	null,	false);
 		aRequest =  addAction("Request",		mGo, 	null,	false);
+		//	should be evaluated by window instead table
+		aProcess = AProcessAction.createAppsAction(this);
 		aArchive =  addAction("Archive",		mGo, 	null,	false);
 		aHome =		addAction("Home", 			mGo,	null,	false);
 		//								Tools
@@ -523,7 +527,7 @@ public final class APanel extends CPanel
 			if (aWorkflow != null)
 				toolBar.add(aWorkflow.getButton());
 			toolBar.add(aRequest.getButton());
-			toolBar.add(AProcess.createAppsAction(this).getButton());
+			toolBar.add(aProcess.getButton());
 			if (MRole.getDefault().isAllow_Info_Product())
 			{
 				toolBar.add(aProduct.getButton());
@@ -628,6 +632,8 @@ public final class APanel extends CPanel
 	private boolean 		m_isPersonalLock = MRole.getDefault().isPersonalLock();
 	/**	Last Modifier of Action Event					*/
 	private int 			m_lastModifiers;
+	/**	Error on the load								*/
+	private String 			loadError = null;
 
 	private HashMap<Integer, GridController> includedMap;
 
@@ -668,7 +674,8 @@ public final class APanel extends CPanel
 		//	}
 		//	tabPanel.setWorkbench(true);
 		//	tabPanel.addChangeListener(this);
-			ADialog.warn(0, this, "","Not implemented yet");
+			log.warning("Workbench Not implemented yet [" + this + "]");
+			loadError = "Workbench Not implemented yet";
 			return false;
 		}
 
@@ -719,7 +726,8 @@ public final class APanel extends CPanel
 				GridWindowVO wVO = AEnv.getMWindowVO(m_curWindowNo, m_mWorkbench.getWindowID(wb), 0);
 				if (wVO == null)
 				{
-					ADialog.error(0, null, "AccessTableNoView", "(No Window Model Info)");
+					log.warning("AccessTableNoView for [" + this + "]");
+					loadError = "AccessTableNoView";
 					return false;
 				}
 				GridWindow mWindow = new GridWindow (wVO, true);			                //  Timing: ca. 0.3-1 sec
@@ -763,7 +771,8 @@ public final class APanel extends CPanel
 					    	}
 							isCancel = false; //Goodwill
 							query = initialQuery (query, gTab);
-							if (isCancel) return false; //Cancel opening window
+							if (isCancel) 
+								return false; //Cancel opening window
 							if (query != null && query.getRecordCount() <= 1)
 								goSingleRow = true;
 						}
@@ -909,6 +918,14 @@ public final class APanel extends CPanel
 		m_curWinTab.requestFocusInWindow();
 		return true;
 	}	//	initPanel
+	
+	/**
+	 * Get load error if the window is not displayed
+	 * @return
+	 */
+	public String getLoadError() {
+		return loadError;
+	}
 
 	private boolean zoomToDetailTab(MQuery query) {
 		if (query != null && query.getZoomTableName() != null && query.getZoomColumnName() != null)
@@ -1562,12 +1579,23 @@ public final class APanel extends CPanel
 			aMulti.setPressed(false);
 			aMulti.setEnabled(false);
 			aNew.setEnabled(false);
+			aCopy.setEnabled(false);
+			aReport.setEnabled(false);
+			aPrint.setEnabled(false);
+			aPrintPreview.setEnabled(false);
+			aArchive.setEnabled(false);
+			aWorkflow.setEnabled(false);
+			aRequest.setEnabled(false);
+			aProcess.setEnabled(false);
+			aProduct.setEnabled(false);
+			aZoomAcross.setEnabled(false);
 			aDelete.setEnabled(false);
 			aDeleteSelection.setEnabled(false);
 			aFind.setEnabled(false);
 			aRefresh.setEnabled(false);
 			aAttachment.setEnabled(false);
 			aChat.setEnabled(false);
+			aHistory.setEnabled(false);
 		}
 		else	//	Grid Tab
 		{
@@ -1577,6 +1605,14 @@ public final class APanel extends CPanel
 			aRefresh.setEnabled(true);
 			aAttachment.setEnabled(true);
 			aChat.setEnabled(true);
+			//	
+			aReport.setEnabled(true);
+			aArchive.setEnabled(true);
+			aWorkflow.setEnabled(true);
+			aRequest.setEnabled(true);
+			aProcess.setEnabled(true);
+			aProduct.setEnabled(true);
+			aZoomAcross.setEnabled(true);
 		}
 		//
 		m_curWinTab.requestFocusInWindow();
@@ -1906,113 +1942,68 @@ public final class APanel extends CPanel
 	/**
 	 *  Confirm & delete record
 	 */
-	private void cmd_delete()
-	{
+	private void cmd_delete() {
 		if (m_curTab.isReadOnly())
 			return;
-		int keyID = m_curTab.getRecord_ID();
-		if (ADialog.ask(m_curWindowNo, this, "DeleteRecord?"))
-			if (m_curTab.dataDelete())
-				m_curGC.rowChanged(false, keyID);
-		m_curGC.dynamicDisplay(0);
-	}   //  cmd_delete
+		VTable table = m_curGC.getTable();
 
+		int[] selection = table.getSelectedRows();
+		Arrays.sort(selection);
+
+		if (selection.length <= 1) {
+			int keyID = m_curTab.getRecord_ID();
+			if (ADialog.ask(m_curWindowNo, this, "DeleteRecord?")) {
+				if (m_curTab.dataDelete()) {
+					m_curGC.rowChanged(false, keyID);
+					m_curGC.dynamicDisplay(0);
+				}
+			}
+		} else {
+			//	FR [ 564 ]
+			ArrayList<Integer> selectionIndex = new ArrayList<>();
+			for(int i = 0; i < selection.length; i++) {
+				int index = table.convertRowIndexToModel(selection[i]);
+				selectionIndex.add(index);
+			}
+			//	Delete only selection
+			cmd_deleteSelection(selectionIndex);
+		}
+	}   //  cmd_delete
+	
 	/**
 	 * Show a list to select one or more items to delete.
 	 */
-	private void cmd_deleteSelection(){
+	private void cmd_deleteSelection() {
+		cmd_deleteSelection(null);
+	}
+	
+	/**
+	 * Show a list to select one or more items to delete.
+	 * @param selectionIndex
+	 */
+	private void cmd_deleteSelection(List<Integer> selectionIndex) {
 		if (m_curTab.isReadOnly())
 			return;
-		//show table with deletion rows -> by identifiers columns
-		JPanel messagePanel = new JPanel();
-		JList list = new JList();
-		JScrollPane scrollPane = new JScrollPane(list);
-		Vector<String> data = new Vector<String>();
-		// FR [ 2877111 ]
-		final String keyColumnName = m_curTab.getKeyColumnName();
-		String sql = null;
-		if (! "".equals(keyColumnName)) {
-			sql = MLookupFactory.getLookup_TableDirEmbed(Env.getLanguage(m_ctx), keyColumnName, "[?","?]")
-			   .replace("[?.?]", "?");
-		}
-		int noOfRows = m_curTab.getRowCount();
-		for(int i = 0; i < noOfRows; i++)
-		{
-			StringBuffer displayValue = new StringBuffer();
-			if ("".equals(keyColumnName))
-			{
-				ArrayList<String> parentColumnNames = m_curTab.getParentColumnNames();
-				for (Iterator<String> iter = parentColumnNames.iterator(); iter.hasNext();)
-				{
-					String columnName = iter.next();
-					GridField field = m_curTab.getField(columnName);
-					if(field.isLookup()){
-						Lookup lookup = field.getLookup();
-						if (lookup != null){
-							displayValue = displayValue.append(lookup.getDisplay(m_curTab.getValue(i,columnName))).append(" | ");
-						} else {
-							displayValue = displayValue.append(m_curTab.getValue(i,columnName)).append(" | ");
-						}
-					} else {
-						displayValue = displayValue.append(m_curTab.getValue(i,columnName)).append(" | ");
-					}
-				}
-			} else {
-				final int id = m_curTab.getKeyID(i);
-				String value = DB.getSQLValueStringEx(null, sql, id);
-				if (value != null)
-					value = value.replace(" - ", " | ");
-				displayValue.append(value);
-				// Append ID
-				if (displayValue.length() == 0 || CLogMgt.isLevelFine())
-				{
-					if (displayValue.length() > 0)
-						displayValue.append(" | ");
-					displayValue.append("<").append(id).append(">");
-				}
-			}
-			//
-			data.add(displayValue.toString());
-		}
-		// FR [ 2877111 ]
-		list.setListData(data);
-
-		list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-		messagePanel.add(scrollPane);
-
-		final JOptionPane pane = new JOptionPane(
-				messagePanel, // message
-				JOptionPane.QUESTION_MESSAGE, // messageType
-				JOptionPane.OK_CANCEL_OPTION); // optionType
-		final JDialog deleteDialog = pane.createDialog(this.getParent(), Msg.getMsg(m_ctx, "DeleteSelection"));
-		deleteDialog.setVisible(true);
-		Integer okCancel = (Integer) pane.getValue();
-		if(okCancel != null && okCancel == JOptionPane.OK_OPTION)
-		{
+		//	
+		DeleteSelection dSelection = new DeleteSelection(m_window, m_curTab, selectionIndex);
+		dSelection.showDialog();
+		//	Verify Selection
+		if(dSelection.isOkPressed()) {
 			log.fine("ok");
-			Object[] selectedValues = list.getSelectedValues();
-			for (int i = 0; i < selectedValues.length; i++)
-			{
-				log.fine(selectedValues[i].toString());
-			}
-			int[] indices = list.getSelectedIndices();
-			Arrays.sort(indices);
+			int[] indices = dSelection.getSelection();
 			int offset = 0;
-			for (int i = 0; i < indices.length; i++)
-			{
+			for (int i = 0; i < indices.length; i++) {
 				//m_curTab.setCurrentRow(indices[i]-offset);
 				m_curTab.navigate(indices[i]-offset);
 				int keyID = m_curTab.getRecord_ID();
-				if (m_curTab.dataDelete())
-				{
+				if (m_curTab.dataDelete()) {
 					m_curGC.rowChanged(false, keyID);
 					offset++;
 				}
 			}
+			//	Refresh
 			m_curGC.dynamicDisplay(0);
-		}
-		else
-		{
+		} else {
 			log.fine("cancel");
 		}
 	}//cmd_deleteSelection
@@ -2452,7 +2443,6 @@ public final class APanel extends CPanel
 		}
 
 		boolean startWOasking = false;
-//		boolean batch = false;
 		String col = vButton.getColumnName();
 
 		//  Zoom
@@ -2497,6 +2487,10 @@ public final class APanel extends CPanel
 		}
 
 		boolean isProcessMandatory = false;
+		MProcess process = null;
+		if(vButton.getProcess_ID() != 0) {
+			process = MProcess.get(m_ctx, vButton.getProcess_ID());
+		}
 
 		//	Pop up Payment Rules
 		if (col.equals("PaymentRule"))
@@ -2513,8 +2507,10 @@ public final class APanel extends CPanel
 		}	//	PaymentRule
 
 		//	Pop up Document Action (Workflow)
-		else if (col.equals("DocAction"))
-		{
+		else if (col.equals("DocAction")
+				|| (col.equals("StartProcess")
+						&& process != null
+						&& process.getAD_Workflow_ID() != 0)) {
 			isProcessMandatory = true;
 			VDocAction vda = new VDocAction(m_curWindowNo, m_curTab, vButton, record_ID);
 			//	Something to select from?
@@ -2529,7 +2525,6 @@ public final class APanel extends CPanel
 				vda.setVisible(true);
 				if (!vda.isStartProcess())
 					return;
-//				batch = vda.isBatch();
 				startWOasking = true;
 				vda.dispose();
 			}
@@ -2628,18 +2623,25 @@ public final class APanel extends CPanel
 		if (m_curTab.needSave(true, false))
 			if (!cmd_save(true))
 				return;
-
-		// call form
-		MProcess pr = new MProcess(m_ctx, vButton.getProcess_ID(), null);
-		int form_ID = pr.getAD_Form_ID();
+		
+		//	Validate Access
+		MRole role = MRole.getDefault(m_ctx, false);
+		Boolean accessRW = role.checkProcessAccess(process.getAD_Process_ID());
+		if(accessRW == null
+				|| !accessRW.booleanValue()) {
+			ADialog.error(m_curWindowNo, this, null, Msg.parseTranslation(m_ctx, "@AccessCannotProcess@"));
+			return;
+		}
+		//	
+		int form_ID = process.getAD_Form_ID();
 		if (form_ID != 0 )
 		{
 
 			if (m_curTab.needSave(true, false))
 				if (!cmd_save(true))
 					return;
-
-			FormFrame ff = new FormFrame(getGraphicsConfiguration());
+			//	Yamel Senih FR [ 114 ] 2015-11-23 Add Support to Dialog for create from
+			FormFrame ff = new FormFrame(getWindowNo());
 			String title = vButton.getDescription();
 			if (title == null || title.length() == 0)
 				title = vButton.getName();
@@ -2650,9 +2652,12 @@ public final class APanel extends CPanel
 			ff.openForm(form_ID);
 			ff.pack();
 			AEnv.showCenterScreen(ff);
+			//	Refresh
+			m_curTab.dataRefresh();
+			//	End Yamel Senih
 			return;
 		}
-		int browse_ID = pr.getAD_Browse_ID();
+		int browse_ID = process.getAD_Browse_ID();
 		if (browse_ID != 0 )
 		{
 
@@ -2666,22 +2671,24 @@ public final class APanel extends CPanel
 			ProcessInfo pi = new ProcessInfo (title, vButton.getProcess_ID(), table_ID, record_ID);
 			pi.setAD_User_ID (Env.getAD_User_ID(m_ctx));
 			pi.setAD_Client_ID (Env.getAD_Client_ID(m_ctx));
-			CFrame ff = new CFrame();
+			FormFrame ff = new FormFrame(getWindowNo());
+			ff.setProcessInfo(pi);
 			MBrowse browse = new MBrowse(Env.getCtx(), browse_ID , null);
-			VBrowser browser = new VBrowser(ff, true , m_curWindowNo, "" , browse , "" , true, "");
-			browser.setProcessInfo(pi);
-			ff = browser.getFrame();
-			ff.setVisible(true);
+			new VBrowser(ff, true , getWindowNo(), "" , browse , "" , true, "", Env.isSOTrx(Env.getCtx(), m_curWindowNo));
 			ff.pack();
 			AEnv.showCenterScreen(ff);
+			//	Yamel Senih
+			//	Refresh
+			m_curTab.dataRefresh();
 			return;
 		}
 		else {
 			ProcessModalDialog dialog = new ProcessModalDialog(m_ctx, Env.getWindow(m_curWindowNo), Env.getHeader(m_ctx, m_curWindowNo),
 					this, m_curWindowNo, vButton.getProcess_ID(), table_ID,
 					record_ID, startWOasking);
-			if (dialog.isValidDialog())
-			{
+			//	FR [ 265 ]
+			//	BR [ 323 ]
+			if(!startWOasking) {
 				dialog.validate();
 				dialog.pack();
 				AEnv.showCenterWindow(Env.getWindow(m_curWindowNo), dialog);
@@ -2728,11 +2735,14 @@ public final class APanel extends CPanel
 			if ( pi.isError() )
 				ADialog.error(m_curWindowNo, this, null, pi.getSummary());
 			//	Get Log Info
-			ProcessInfoUtil.setLogFromDB(pi);
-			String logInfo = pi.getLogInfo();
-			if (logInfo.length() > 0)
-				ADialog.info(m_curWindowNo, this, Env.getHeader(m_ctx, m_curWindowNo),
-					pi.getTitle(), logInfo);	//	 clear text
+			else
+			{
+				ProcessInfoUtil.setLogFromDB(pi);
+				String logInfo = pi.getLogInfo();
+				if (logInfo.length() > 0)
+					ADialog.info(m_curWindowNo, this, Env.getHeader(m_ctx, m_curWindowNo),
+						pi.getTitle(), logInfo);	//	 clear text
+			}
 		}
 		else
 		{

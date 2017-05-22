@@ -30,20 +30,23 @@
 		<ant inheritAll="false" dir="webStore"/>
 		<ant inheritAll="false" dir="webCM"/>
 		<ant inheritAll="false" dir="sqlj"/>
-		<ant inheritAll="false" dir="posterita/posterita"/>
 		<ant inheritAll="false" dir="zkwebui"/>
-		<ant inheritAll="false" dir="mobile"/>
+		<ant inheritAll="false" dir="org.compiere.mobile"/>
 		<ant inheritAll="false" dir="migration"/>
 		<ant inheritAll="false" dir="org.eevolution.cashflow"/>
 		<ant inheritAll="false" dir="org.eevolution.manufacturing"/>
 		<ant inheritAll="false" dir="org.eevolution.hr_and_payroll"/>
 		<ant inheritAll="false" dir="org.eevolution.warehouse"/>
+		<ant inheritAll="false" dir="org.eevolution.freight"/>
         <ant inheritAll="false" dir="com.kkalice.adempiere.migrate"/>
+		<ant inheritAll="false" dir="org.adempiere.pos"/>
+		<ant inheritAll="false" dir="org.adempiere.production"/>
 	</target>
-	<target name="build" depends="jar">
+	<target name="build" depends="clean, jar">
 		<ant inheritAll="false" dir="install"/>		
 	</target>	
 	<target name="clean">
+		<echo message="=========== Cleaning Build"/>
 		<ant inheritAll="false" dir="tools" target="clean"/>
 		<ant inheritAll="false" dir="base" target="clean"/>
 		<ant inheritAll="false" dir="org.adempiere.asset" target="clean"/>
@@ -58,16 +61,18 @@
 		<ant inheritAll="false" dir="webStore" target="clean"/>
 		<ant inheritAll="false" dir="webCM" target="clean"/>
 		<ant inheritAll="false" dir="sqlj" target="clean"/>
-		<ant inheritAll="false" dir="posterita/posterita" target="clean"/>
 		<ant inheritAll="false" dir="install" target="clean"/>
 		<ant inheritAll="false" dir="zkwebui" target="clean"/>
-		<ant inheritAll="false" dir="mobile" target="clean"/>
+		<ant inheritAll="false" dir="org.compiere.mobile" target="clean"/>
 		<ant inheritAll="false" dir="migration" target="clean"/>
 		<ant inheritAll="false" dir="org.eevolution.cashflow" target="clean"/>
 		<ant inheritAll="false" dir="org.eevolution.manufacturing" target="clean"/>
 		<ant inheritAll="false" dir="org.eevolution.hr_and_payroll" target="clean"/>
 		<ant inheritAll="false" dir="org.eevolution.warehouse" target="clean"/>
+		<ant inheritAll="false" dir="org.eevolution.freight" target="clean"/>
         <ant inheritAll="false" dir="com.kkalice.adempiere.migrate" target="migrate.clean"/>
+		<ant inheritAll="false" dir="org.adempiere.pos" target="clean"/>
+		<ant inheritAll="false" dir="org.adempiere.production" target="clean"/>
 	</target>
 
   <target name="clean-all" depends="clean">

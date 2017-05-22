@@ -166,7 +166,7 @@
 		        <attribute name="Implementation-Title" value="Adempiere ${ADEMPIERE_VERSION}"/>
 		        <attribute name="Implementation-Version" value="${ADEMPIERE_VERSION} ${DSTAMP}-${TSTAMP}"/>
 		        <attribute name="Implementation-Vendor" value="${ADEMPIERE_VENDOR}"/>
-		        <attribute name="Implementation-URL" value="http://www.adempiere.com"/>
+		        <attribute name="Implementation-URL" value="http://wwww.adempiere.net"/>
 		        <attribute name="Main-Class" value="org.compiere.Adempiere"/>
 		        <attribute name="Class-Path" value="AdempiereSLib.jar"/>
     		</manifest>
@@ -259,7 +259,7 @@
 				<attribute name="Implementation-Title" value="AdempiereCLib ${ADEMPIERE_MAIN_VERSION}" />
 				<attribute name="Implementation-Version" value="${ADEMPIERE_MAIN_VERSION} ${DSTAMP}-${TSTAMP}" />
 				<attribute name="Implementation-Vendor" value="Adempiere, Inc." />
-				<attribute name="Implementation-URL" value="http://www.adempiere.com" />
+				<attribute name="Implementation-URL" value="http://www.adempiere.net" />
 			</manifest>
 		</jar>
 
@@ -302,7 +302,7 @@
 				<attribute name="Implementation-Title" value="AdempiereSLib ${ADEMPIERE_MAIN_VERSION}" />
 				<attribute name="Implementation-Version" value="${ADEMPIERE_MAIN_VERSION} ${DSTAMP}-${TSTAMP}" />
 				<attribute name="Implementation-Vendor" value="Adempiere, Inc." />
-				<attribute name="Implementation-URL" value="http://www.adempiere.com" />
+				<attribute name="Implementation-URL" value="http://www.adempiere.net" />
 			</manifest>
 		</jar>
 
@@ -408,7 +408,7 @@
 		<!-- bundle everything in one ear file for simpler deployment -->
 		<ear destfile="${basedir}/lib/adempiere.ear" appxml="${basedir}/lib/adempiereAll.xml" >
 			<fileset dir="${basedir}/lib"
-				includes="Adempiere.jar,AdempiereSLib.jar,adempiereRoot.jar,adempiereApps.jar,adempiereApps.war,adempiereRoot.war,adempiereWebStore.war,adempiereWebCM.war,posterita.war,posterita.jar,webui.war,ADInterface-1.0.war" />
+				includes="Adempiere.jar,AdempiereSLib.jar,adempiereRoot.jar,adempiereApps.jar,adempiereApps.war,adempiereRoot.war,adempiereWebStore.war,adempiereWebCM.war,webui.war,ADInterface-1.0.war" />
 		</ear>
 	</target>
 
@@ -423,7 +423,7 @@
 		<!-- bundle everything in one ear file for simpler deployment -->
 		<ear destfile="${basedir}/lib/adempiere.ear" appxml="${basedir}/lib/adempiereAll.xml" >
 			<fileset dir="${basedir}/lib"
-				includes="adempiereRoot.jar,adempiereApps.jar,adempiereApps.war,adempiereRoot.war,adempiereWebStore.war,adempiereWebCM.war,posterita.war,posterita.jar,webui.war,ADInterface-1.0.war" />
+				includes="adempiereRoot.jar,adempiereApps.jar,adempiereApps.war,adempiereRoot.war,adempiereWebStore.war,adempiereWebCM.war,webui.war,ADInterface-1.0.war" />
 			<metainf dir="${basedir}/glassfish" includes="sun-application.xml"/>
 		</ear>
 	</target>

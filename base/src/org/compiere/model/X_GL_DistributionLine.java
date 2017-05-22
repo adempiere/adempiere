@@ -1,8 +1,9 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -11,8 +12,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for GL_DistributionLine
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0 - $Id$ */
+ *  @version Release 3.9.0 - $Id$ */
 public class X_GL_DistributionLine extends PO implements I_GL_DistributionLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150223L;
+	private static final long serialVersionUID = 20170428L;
 
     /** Standard Constructor */
     public X_GL_DistributionLine (Properties ctx, int GL_DistributionLine_ID, String trxName)
@@ -133,6 +133,46 @@ public class X_GL_DistributionLine extends PO implements I_GL_DistributionLine, 
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Accounted Credit.
+		@param AmtAcctCr 
+		Accounted Credit Amount
+	  */
+	public void setAmtAcctCr (BigDecimal AmtAcctCr)
+	{
+		set_Value (COLUMNNAME_AmtAcctCr, AmtAcctCr);
+	}
+
+	/** Get Accounted Credit.
+		@return Accounted Credit Amount
+	  */
+	public BigDecimal getAmtAcctCr () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_AmtAcctCr);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Accounted Debit.
+		@param AmtAcctDr 
+		Accounted Debit Amount
+	  */
+	public void setAmtAcctDr (BigDecimal AmtAcctDr)
+	{
+		set_Value (COLUMNNAME_AmtAcctDr, AmtAcctDr);
+	}
+
+	/** Get Accounted Debit.
+		@return Accounted Debit Amount
+	  */
+	public BigDecimal getAmtAcctDr () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_AmtAcctDr);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	public org.compiere.model.I_C_Activity getC_Activity() throws RuntimeException
@@ -397,6 +437,30 @@ public class X_GL_DistributionLine extends PO implements I_GL_DistributionLine, 
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Invert Account Sign.
+		@param InvertAccountSign 
+		Enable invert account sign when a GL Distribution rule applied
+	  */
+	public void setInvertAccountSign (boolean InvertAccountSign)
+	{
+		set_Value (COLUMNNAME_InvertAccountSign, Boolean.valueOf(InvertAccountSign));
+	}
+
+	/** Get Invert Account Sign.
+		@return Enable invert account sign when a GL Distribution rule applied
+	  */
+	public boolean isInvertAccountSign () 
+	{
+		Object oo = get_Value(COLUMNNAME_InvertAccountSign);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
 	}
 
 	/** Set Line No.
@@ -670,6 +734,30 @@ public class X_GL_DistributionLine extends PO implements I_GL_DistributionLine, 
 		return false;
 	}
 
+	/** Set Overwrite Posting Type.
+		@param OverwritePostingType 
+		Overwrite the posting type with the value specified
+	  */
+	public void setOverwritePostingType (boolean OverwritePostingType)
+	{
+		set_Value (COLUMNNAME_OverwritePostingType, Boolean.valueOf(OverwritePostingType));
+	}
+
+	/** Get Overwrite Posting Type.
+		@return Overwrite the posting type with the value specified
+	  */
+	public boolean isOverwritePostingType () 
+	{
+		Object oo = get_Value(COLUMNNAME_OverwritePostingType);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Overwrite Product.
 		@param OverwriteProduct 
 		Overwrite the account segment Product with the value specified
@@ -790,6 +878,54 @@ public class X_GL_DistributionLine extends PO implements I_GL_DistributionLine, 
 		return false;
 	}
 
+	/** Set Overwrite User3.
+		@param OverwriteUser3 
+		Overwrite the account segment User 3 with the value specified
+	  */
+	public void setOverwriteUser3 (boolean OverwriteUser3)
+	{
+		set_Value (COLUMNNAME_OverwriteUser3, Boolean.valueOf(OverwriteUser3));
+	}
+
+	/** Get Overwrite User3.
+		@return Overwrite the account segment User 3 with the value specified
+	  */
+	public boolean isOverwriteUser3 () 
+	{
+		Object oo = get_Value(COLUMNNAME_OverwriteUser3);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Overwrite User4.
+		@param OverwriteUser4 
+		Overwrite the account segment User 4 with the value specified
+	  */
+	public void setOverwriteUser4 (boolean OverwriteUser4)
+	{
+		set_Value (COLUMNNAME_OverwriteUser4, Boolean.valueOf(OverwriteUser4));
+	}
+
+	/** Get Overwrite User4.
+		@return Overwrite the account segment User 4 with the value specified
+	  */
+	public boolean isOverwriteUser4 () 
+	{
+		Object oo = get_Value(COLUMNNAME_OverwriteUser4);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Percent.
 		@param Percent 
 		Percentage
@@ -808,6 +944,36 @@ public class X_GL_DistributionLine extends PO implements I_GL_DistributionLine, 
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
+	}
+
+	/** PostingType AD_Reference_ID=125 */
+	public static final int POSTINGTYPE_AD_Reference_ID=125;
+	/** Actual = A */
+	public static final String POSTINGTYPE_Actual = "A";
+	/** Budget = B */
+	public static final String POSTINGTYPE_Budget = "B";
+	/** Commitment = E */
+	public static final String POSTINGTYPE_Commitment = "E";
+	/** Statistical = S */
+	public static final String POSTINGTYPE_Statistical = "S";
+	/** Reservation = R */
+	public static final String POSTINGTYPE_Reservation = "R";
+	/** Set PostingType.
+		@param PostingType 
+		The type of posted amount for the transaction
+	  */
+	public void setPostingType (String PostingType)
+	{
+
+		set_Value (COLUMNNAME_PostingType, PostingType);
+	}
+
+	/** Get PostingType.
+		@return The type of posted amount for the transaction
+	  */
+	public String getPostingType () 
+	{
+		return (String)get_Value(COLUMNNAME_PostingType);
 	}
 
 	public org.compiere.model.I_C_ElementValue getUser1() throws RuntimeException
@@ -861,6 +1027,62 @@ public class X_GL_DistributionLine extends PO implements I_GL_DistributionLine, 
 	public int getUser2_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_User2_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_ElementValue getUser3() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_ElementValue)MTable.get(getCtx(), org.compiere.model.I_C_ElementValue.Table_Name)
+			.getPO(getUser3_ID(), get_TrxName());	}
+
+	/** Set User List 3.
+		@param User3_ID 
+		User defined list element #3
+	  */
+	public void setUser3_ID (int User3_ID)
+	{
+		if (User3_ID < 1) 
+			set_Value (COLUMNNAME_User3_ID, null);
+		else 
+			set_Value (COLUMNNAME_User3_ID, Integer.valueOf(User3_ID));
+	}
+
+	/** Get User List 3.
+		@return User defined list element #3
+	  */
+	public int getUser3_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_User3_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_ElementValue getUser4() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_ElementValue)MTable.get(getCtx(), org.compiere.model.I_C_ElementValue.Table_Name)
+			.getPO(getUser4_ID(), get_TrxName());	}
+
+	/** Set User List 4.
+		@param User4_ID 
+		User defined list element #4
+	  */
+	public void setUser4_ID (int User4_ID)
+	{
+		if (User4_ID < 1) 
+			set_Value (COLUMNNAME_User4_ID, null);
+		else 
+			set_Value (COLUMNNAME_User4_ID, Integer.valueOf(User4_ID));
+	}
+
+	/** Get User List 4.
+		@return User defined list element #4
+	  */
+	public int getUser4_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_User4_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

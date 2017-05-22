@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2016 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
@@ -11,8 +11,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
@@ -25,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for I_Budget
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0 - $Id$ */
+ *  @version Release 3.9.0 - $Id$ */
 public class X_I_Budget extends PO implements I_I_Budget, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150223L;
+	private static final long serialVersionUID = 20170327L;
 
     /** Standard Constructor */
     public X_I_Budget (Properties ctx, int I_Budget_ID, String trxName)
@@ -140,6 +139,11 @@ public class X_I_Budget extends PO implements I_I_Budget, I_Persistent
 		return (String)get_Value(COLUMNNAME_AccountValue);
 	}
 
+	public org.compiere.model.I_C_ElementValue getAccount() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_ElementValue)MTable.get(getCtx(), org.compiere.model.I_C_ElementValue.Table_Name)
+			.getPO(getAccount_ID(), get_TrxName());	}
+
 	/** Set Account.
 		@param Account_ID 
 		Account used
@@ -178,6 +182,20 @@ public class X_I_Budget extends PO implements I_I_Budget, I_Persistent
 	public String getAcctSchemaName () 
 	{
 		return (String)get_Value(COLUMNNAME_AcctSchemaName);
+	}
+
+	/** Set Activity Value.
+		@param ActivityValue Activity Value	  */
+	public void setActivityValue (String ActivityValue)
+	{
+		set_Value (COLUMNNAME_ActivityValue, ActivityValue);
+	}
+
+	/** Get Activity Value.
+		@return Activity Value	  */
+	public String getActivityValue () 
+	{
+		return (String)get_Value(COLUMNNAME_ActivityValue);
 	}
 
 	/** Set Asset Value.
@@ -466,6 +484,34 @@ public class X_I_Budget extends PO implements I_I_Budget, I_Persistent
 		return ii.intValue();
 	}
 
+	public org.compiere.model.I_C_SubAcct getC_SubAcct() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_SubAcct)MTable.get(getCtx(), org.compiere.model.I_C_SubAcct.Table_Name)
+			.getPO(getC_SubAcct_ID(), get_TrxName());	}
+
+	/** Set Sub Account.
+		@param C_SubAcct_ID 
+		Sub account for Element Value
+	  */
+	public void setC_SubAcct_ID (int C_SubAcct_ID)
+	{
+		if (C_SubAcct_ID < 1) 
+			set_Value (COLUMNNAME_C_SubAcct_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_SubAcct_ID, Integer.valueOf(C_SubAcct_ID));
+	}
+
+	/** Get Sub Account.
+		@return Sub account for Element Value
+	  */
+	public int getC_SubAcct_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_SubAcct_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_C_ValidCombination getC_ValidCombination() throws RuntimeException
     {
 		return (org.compiere.model.I_C_ValidCombination)MTable.get(getCtx(), org.compiere.model.I_C_ValidCombination.Table_Name)
@@ -494,15 +540,15 @@ public class X_I_Budget extends PO implements I_I_Budget, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set CampaignValue.
-		@param CampaignValue CampaignValue	  */
+	/** Set Campaign Value.
+		@param CampaignValue Campaign Value	  */
 	public void setCampaignValue (String CampaignValue)
 	{
 		set_Value (COLUMNNAME_CampaignValue, CampaignValue);
 	}
 
-	/** Get CampaignValue.
-		@return CampaignValue	  */
+	/** Get Campaign Value.
+		@return Campaign Value	  */
 	public String getCampaignValue () 
 	{
 		return (String)get_Value(COLUMNNAME_CampaignValue);
@@ -559,6 +605,62 @@ public class X_I_Budget extends PO implements I_I_Budget, I_Persistent
 	public int getGL_JournalBatch_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_GL_JournalBatch_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_GL_JournalLine getGL_JournalLine() throws RuntimeException
+    {
+		return (org.compiere.model.I_GL_JournalLine)MTable.get(getCtx(), org.compiere.model.I_GL_JournalLine.Table_Name)
+			.getPO(getGL_JournalLine_ID(), get_TrxName());	}
+
+	/** Set Journal Line.
+		@param GL_JournalLine_ID 
+		General Ledger Journal Line
+	  */
+	public void setGL_JournalLine_ID (int GL_JournalLine_ID)
+	{
+		if (GL_JournalLine_ID < 1) 
+			set_Value (COLUMNNAME_GL_JournalLine_ID, null);
+		else 
+			set_Value (COLUMNNAME_GL_JournalLine_ID, Integer.valueOf(GL_JournalLine_ID));
+	}
+
+	/** Get Journal Line.
+		@return General Ledger Journal Line
+	  */
+	public int getGL_JournalLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_GL_JournalLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_GL_Journal getGL_Journal() throws RuntimeException
+    {
+		return (org.compiere.model.I_GL_Journal)MTable.get(getCtx(), org.compiere.model.I_GL_Journal.Table_Name)
+			.getPO(getGL_Journal_ID(), get_TrxName());	}
+
+	/** Set Journal.
+		@param GL_Journal_ID 
+		General Ledger Journal
+	  */
+	public void setGL_Journal_ID (int GL_Journal_ID)
+	{
+		if (GL_Journal_ID < 1) 
+			set_Value (COLUMNNAME_GL_Journal_ID, null);
+		else 
+			set_Value (COLUMNNAME_GL_Journal_ID, Integer.valueOf(GL_Journal_ID));
+	}
+
+	/** Get Journal.
+		@return General Ledger Journal
+	  */
+	public int getGL_Journal_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_GL_Journal_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -1100,13 +1202,30 @@ public class X_I_Budget extends PO implements I_I_Budget, I_Persistent
 		return (String)get_Value(COLUMNNAME_OrgTrxValue);
 	}
 
+	/** Set Org Key.
+		@param OrgValue 
+		Key of the Organization
+	  */
+	public void setOrgValue (String OrgValue)
+	{
+		set_Value (COLUMNNAME_OrgValue, OrgValue);
+	}
+
+	/** Get Org Key.
+		@return Key of the Organization
+	  */
+	public String getOrgValue () 
+	{
+		return (String)get_Value(COLUMNNAME_OrgValue);
+	}
+
 	/** Set Processed.
 		@param Processed 
 		The document has been processed
 	  */
 	public void setProcessed (boolean Processed)
 	{
-		set_Value (COLUMNNAME_Processed, Boolean.valueOf(Processed));
+		set_ValueNoCheck (COLUMNNAME_Processed, Boolean.valueOf(Processed));
 	}
 
 	/** Get Processed.
@@ -1193,6 +1312,23 @@ public class X_I_Budget extends PO implements I_I_Budget, I_Persistent
 		return (String)get_Value(COLUMNNAME_SalesRegionValue);
 	}
 
+	/** Set Sub Account Value.
+		@param SubAcctValue 
+		Sub account Value
+	  */
+	public void setSubAcctValue (String SubAcctValue)
+	{
+		set_Value (COLUMNNAME_SubAcctValue, SubAcctValue);
+	}
+
+	/** Get Sub Account Value.
+		@return Sub account Value
+	  */
+	public String getSubAcctValue () 
+	{
+		return (String)get_Value(COLUMNNAME_SubAcctValue);
+	}
+
 	public org.compiere.model.I_C_ElementValue getUser1() throws RuntimeException
     {
 		return (org.compiere.model.I_C_ElementValue)MTable.get(getCtx(), org.compiere.model.I_C_ElementValue.Table_Name)
@@ -1247,5 +1383,221 @@ public class X_I_Budget extends PO implements I_I_Budget, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_ElementValue getUser3() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_ElementValue)MTable.get(getCtx(), org.compiere.model.I_C_ElementValue.Table_Name)
+			.getPO(getUser3_ID(), get_TrxName());	}
+
+	/** Set User List 3.
+		@param User3_ID 
+		User defined list element #3
+	  */
+	public void setUser3_ID (int User3_ID)
+	{
+		if (User3_ID < 1) 
+			set_Value (COLUMNNAME_User3_ID, null);
+		else 
+			set_Value (COLUMNNAME_User3_ID, Integer.valueOf(User3_ID));
+	}
+
+	/** Get User List 3.
+		@return User defined list element #3
+	  */
+	public int getUser3_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_User3_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_ElementValue getUser4() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_ElementValue)MTable.get(getCtx(), org.compiere.model.I_C_ElementValue.Table_Name)
+			.getPO(getUser4_ID(), get_TrxName());	}
+
+	/** Set User List 4.
+		@param User4_ID 
+		User defined list element #4
+	  */
+	public void setUser4_ID (int User4_ID)
+	{
+		if (User4_ID < 1) 
+			set_Value (COLUMNNAME_User4_ID, null);
+		else 
+			set_Value (COLUMNNAME_User4_ID, Integer.valueOf(User4_ID));
+	}
+
+	/** Get User List 4.
+		@return User defined list element #4
+	  */
+	public int getUser4_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_User4_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set User Element 1.
+		@param UserElement1_ID 
+		User defined accounting Element
+	  */
+	public void setUserElement1_ID (int UserElement1_ID)
+	{
+		if (UserElement1_ID < 1) 
+			set_Value (COLUMNNAME_UserElement1_ID, null);
+		else 
+			set_Value (COLUMNNAME_UserElement1_ID, Integer.valueOf(UserElement1_ID));
+	}
+
+	/** Get User Element 1.
+		@return User defined accounting Element
+	  */
+	public int getUserElement1_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_UserElement1_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set User Element 2.
+		@param UserElement2_ID 
+		User defined accounting Element
+	  */
+	public void setUserElement2_ID (int UserElement2_ID)
+	{
+		if (UserElement2_ID < 1) 
+			set_Value (COLUMNNAME_UserElement2_ID, null);
+		else 
+			set_Value (COLUMNNAME_UserElement2_ID, Integer.valueOf(UserElement2_ID));
+	}
+
+	/** Get User Element 2.
+		@return User defined accounting Element
+	  */
+	public int getUserElement2_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_UserElement2_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set User Element Value 1.
+		@param UserElementValue1 
+		User Element Value 1 defined accounting Element
+	  */
+	public void setUserElementValue1 (String UserElementValue1)
+	{
+		set_Value (COLUMNNAME_UserElementValue1, UserElementValue1);
+	}
+
+	/** Get User Element Value 1.
+		@return User Element Value 1 defined accounting Element
+	  */
+	public String getUserElementValue1 () 
+	{
+		return (String)get_Value(COLUMNNAME_UserElementValue1);
+	}
+
+	/** Set User Element Value 2.
+		@param UserElementValue2 
+		User Element Value 2 defined accounting Element
+	  */
+	public void setUserElementValue2 (String UserElementValue2)
+	{
+		set_Value (COLUMNNAME_UserElementValue2, UserElementValue2);
+	}
+
+	/** Get User Element Value 2.
+		@return User Element Value 2 defined accounting Element
+	  */
+	public String getUserElementValue2 () 
+	{
+		return (String)get_Value(COLUMNNAME_UserElementValue2);
+	}
+
+	/** UserValue1 AD_Reference_ID=134 */
+	public static final int USERVALUE1_AD_Reference_ID=134;
+	/** Set User List Value 1.
+		@param UserValue1 
+		User value defined list element #1
+	  */
+	public void setUserValue1 (String UserValue1)
+	{
+
+		set_Value (COLUMNNAME_UserValue1, UserValue1);
+	}
+
+	/** Get User List Value 1.
+		@return User value defined list element #1
+	  */
+	public String getUserValue1 () 
+	{
+		return (String)get_Value(COLUMNNAME_UserValue1);
+	}
+
+	/** UserValue2 AD_Reference_ID=134 */
+	public static final int USERVALUE2_AD_Reference_ID=134;
+	/** Set User List Value 2.
+		@param UserValue2 
+		User value defined list element #2
+	  */
+	public void setUserValue2 (String UserValue2)
+	{
+
+		set_Value (COLUMNNAME_UserValue2, UserValue2);
+	}
+
+	/** Get User List Value 2.
+		@return User value defined list element #2
+	  */
+	public String getUserValue2 () 
+	{
+		return (String)get_Value(COLUMNNAME_UserValue2);
+	}
+
+	/** UserValue3 AD_Reference_ID=134 */
+	public static final int USERVALUE3_AD_Reference_ID=134;
+	/** Set User List Value 3.
+		@param UserValue3 
+		User value defined list element #3
+	  */
+	public void setUserValue3 (String UserValue3)
+	{
+
+		set_Value (COLUMNNAME_UserValue3, UserValue3);
+	}
+
+	/** Get User List Value 3.
+		@return User value defined list element #3
+	  */
+	public String getUserValue3 () 
+	{
+		return (String)get_Value(COLUMNNAME_UserValue3);
+	}
+
+	/** UserValue4 AD_Reference_ID=134 */
+	public static final int USERVALUE4_AD_Reference_ID=134;
+	/** Set User List Value 4.
+		@param UserValue4 
+		User value defined list element #3
+	  */
+	public void setUserValue4 (String UserValue4)
+	{
+
+		set_Value (COLUMNNAME_UserValue4, UserValue4);
+	}
+
+	/** Get User List Value 4.
+		@return User value defined list element #3
+	  */
+	public String getUserValue4 () 
+	{
+		return (String)get_Value(COLUMNNAME_UserValue4);
 	}
 }

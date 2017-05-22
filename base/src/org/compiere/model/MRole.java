@@ -2072,9 +2072,15 @@ public final class MRole extends X_AD_Role
 				if (!(charCheck == ',' || charCheck == ' ' || charCheck == ')'))
 					continue;
 			}
-			
-			if (AD_Table_ID != 0 && AD_Table_ID != m_recordDependentAccess[i].getAD_Table_ID())
+			//	
+			if (AD_Table_ID != 0 && AD_Table_ID != m_recordDependentAccess[i].getAD_Table_ID()) {
 				retSQL.append(getDependentAccess(whereColumnName, includes, excludes));
+				//	Yamel Senih
+				//	Initialize values when table is changed
+				includes = new ArrayList<Integer>();
+				excludes = new ArrayList<Integer>();
+				//	End Yamel Senih
+			}
 			
 			AD_Table_ID = m_recordDependentAccess[i].getAD_Table_ID();
 			//	*** we found the column in the main query

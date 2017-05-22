@@ -27,8 +27,8 @@ import org.adempiere.webui.component.Textbox;
 import org.adempiere.webui.component.VerticalBox;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.editor.WLocationEditor;
-import org.adempiere.webui.event.ValueChangeEvent;
-import org.adempiere.webui.event.ValueChangeListener;
+import org.adempiere.exceptions.ValueChangeEvent;
+import org.adempiere.exceptions.ValueChangeListener;
 import org.adempiere.webui.window.FDialog;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MBPartnerLocation;
@@ -86,6 +86,7 @@ public class WBPartner extends Window implements EventListener, ValueChangeListe
 	private Listbox fGreetingBP = new Listbox();
 	private Textbox fName = new Textbox();
 	private Textbox fName2 = new Textbox();
+	private Textbox fTaxId = new Textbox();
 	private Textbox fContact = new Textbox();
 	private Listbox fGreetingC = new Listbox();
 	private Textbox fTitle = new Textbox();
@@ -174,6 +175,8 @@ public class WBPartner extends Window implements EventListener, ValueChangeListe
 
 		//	Name2
 		createLine (fName2, "Name2", false);
+		// TaxId
+		createLine (fTaxId, "TaxID", false);
 		
 		//	Contact
 		createLine (fContact, "Contact", true)/*.setFontBold(true)*/;
@@ -325,6 +328,7 @@ public class WBPartner extends Window implements EventListener, ValueChangeListe
 		
 		fName.setText(m_partner.getName());
 		fName2.setText(m_partner.getName2());
+		fTaxId.setText(m_partner.getTaxID());
 
 		//	Contact - Load values
 		m_pLocation = m_partner.getLocation(
@@ -334,7 +338,6 @@ public class WBPartner extends Window implements EventListener, ValueChangeListe
 		{
 			int location = m_pLocation.getC_Location_ID();
 			fAddress.setValue (new Integer(location));
-			
 			fPhone.setText(m_pLocation.getPhone());
 			fPhone2.setText(m_pLocation.getPhone2());
 			fFax.setText(m_pLocation.getFax());
@@ -418,6 +421,7 @@ public class WBPartner extends Window implements EventListener, ValueChangeListe
 		
 		m_partner.setName(fName.getText());
 		m_partner.setName2(fName2.getText());
+		m_partner.setTaxID(fTaxId.getText());
 		
 		ListItem listitem = fGreetingBP.getSelectedItem();
 		KeyNamePair p = listitem != null ? (KeyNamePair)listitem.getValue() : null;
@@ -438,7 +442,7 @@ public class WBPartner extends Window implements EventListener, ValueChangeListe
 			m_pLocation = new MBPartnerLocation(m_partner);
 		
 		m_pLocation.setC_Location_ID(fAddress.getC_Location_ID());
-
+		m_pLocation.setEMail(fEMail.getText());
 		m_pLocation.setPhone(fPhone.getText());
 		m_pLocation.setPhone2(fPhone2.getText());
 		m_pLocation.setFax(fFax.getText());

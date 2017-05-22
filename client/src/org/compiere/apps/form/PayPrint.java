@@ -22,12 +22,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 
 import org.compiere.model.MLookupFactory;
 import org.compiere.model.MLookupInfo;
 import org.compiere.model.MPaySelectionCheck;
 import org.compiere.model.MPaymentBatch;
+import org.compiere.model.Query;
+import org.compiere.model.X_C_BankAccountDoc;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -35,24 +38,36 @@ import org.compiere.util.KeyNamePair;
 import org.compiere.util.Language;
 import org.compiere.util.ValueNamePair;
 
+/**
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 297 ] Payment Selection must be like ADempiere Document, this process is changed to 
+ *			document workflow of Payment Selection
+ *		@see https://github.com/adempiere/adempiere/issues/297
+ * @author  victor.perez , victor.perez@e-evolution.com http://www.e-evolution.com
+ * 		<li> FR [ 297 ] Apply ADempiere best Pratice
+ *		@see https://github.com/adempiere/adempiere/issues/297
+ */
+@Deprecated
 public class PayPrint {
 
 	/**	Window No			*/
-	public int         	m_WindowNo = 0;
+	public int windowNo = 0;
 	/**	Used Bank Account	*/
-	public int				m_C_BankAccount_ID = -1;
+	public int bankAccountId = -1;
 	/**	Export Class for Bank Account	*/
-	public String			m_PaymentExportClass = null;
+	public String paymentExportClass = null;
 	/**	Payment Selection	*/
-	public int         		m_C_PaySelection_ID = 0;
+	public int paySelectionId = 0;
 
 	/** Payment Information */
-	public MPaySelectionCheck[]     m_checks = null;
+	public List<MPaySelectionCheck> paySelectionChecks = new ArrayList<>();
 	/** Payment Batch		*/
-	public MPaymentBatch	m_batch = null; 
+	public MPaymentBatch	paymentBatch = null;
 	/**	Logger			*/
 	public static CLogger log = CLogger.getCLogger(PayPrint.class);
 	
+	//	FR [ 297 ]
+	@Deprecated
 	public ArrayList<KeyNamePair> getPaySelectionData()
 	{
 		ArrayList<KeyNamePair> data = new ArrayList<KeyNamePair>();
@@ -92,39 +107,42 @@ public class PayPrint {
 	
 	/**
 	 *  PaySelect changed - load Bank
+	 *  FR [ 297 ] Change by Document Type
 	 */
-	public void loadPaySelectInfo(int C_PaySelection_ID)
+	public void loadPaySelectInfo(int paySelectionId)
 	{
 		//  load Banks from PaySelectLine
-		m_C_BankAccount_ID = -1;
+		bankAccountId = -1;
 		String sql = "SELECT ps.C_BankAccount_ID, b.Name || ' ' || ba.AccountNo,"	//	1..2
 			+ " c.ISO_Code, CurrentBalance, ba.PaymentExportClass "					//	3..5
 			+ "FROM C_PaySelection ps"
 			+ " INNER JOIN C_BankAccount ba ON (ps.C_BankAccount_ID=ba.C_BankAccount_ID)"
 			+ " INNER JOIN C_Bank b ON (ba.C_Bank_ID=b.C_Bank_ID)"
 			+ " INNER JOIN C_Currency c ON (ba.C_Currency_ID=c.C_Currency_ID) "
-			+ "WHERE ps.C_PaySelection_ID=? AND ps.Processed='Y' AND ba.IsActive='Y'";
+			+ "WHERE ps.C_PaySelection_ID=? "
+			+ "AND ps.DocStatus IN('CO', 'CL') "
+			+ "AND ba.IsActive='Y'";
 		try
 		{
 			PreparedStatement pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, C_PaySelection_ID);
+			pstmt.setInt(1, paySelectionId);
 			ResultSet rs = pstmt.executeQuery();
 			if (rs.next())
 			{
-				m_C_BankAccount_ID = rs.getInt(1);
+				bankAccountId = rs.getInt(1);
 				bank = rs.getString(2);
 				currency = rs.getString(3);
 				balance = rs.getBigDecimal(4);
-				m_PaymentExportClass = rs.getString(5);
+				paymentExportClass = rs.getString(5);
 			}
 			else
 			{
-				m_C_BankAccount_ID = -1;
+				bankAccountId = -1;
 				bank = "";
 				currency = "";
 				balance = Env.ZERO;
-				m_PaymentExportClass = null;
-				log.log(Level.SEVERE, "No active BankAccount for C_PaySelection_ID=" + C_PaySelection_ID);
+				paymentExportClass = null;
+				log.log(Level.SEVERE, "No active BankAccount for C_PaySelection_ID=" + paySelectionId);
 			}
 			rs.close();
 			pstmt.close();
@@ -138,7 +156,7 @@ public class PayPrint {
 	/**
 	 *  Bank changed - load PaymentRule
 	 */
-	public ArrayList<ValueNamePair> loadPaymentRule(int C_PaySelection_ID)
+	public ArrayList<ValueNamePair> loadPaymentRule(int paySelectionId)
 	{
 		ArrayList<ValueNamePair> data = new ArrayList<ValueNamePair>();
 
@@ -153,7 +171,7 @@ public class PayPrint {
 		try
 		{
 			PreparedStatement pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, C_PaySelection_ID);
+			pstmt.setInt(1, paySelectionId);
 			ResultSet rs = pstmt.executeQuery();
 			//
 			while (rs.next())
@@ -170,7 +188,7 @@ public class PayPrint {
 		}
 		
 		if (data.size() == 0)
-			log.config("PaySel=" + C_PaySelection_ID + ", BAcct=" + m_C_BankAccount_ID + " - " + sql);
+			log.config("PaySel=" + paySelectionId + ", BAcct=" + bankAccountId + " - " + sql);
 		
 		return data;
 	}   //  loadPaymentRule
@@ -183,56 +201,38 @@ public class PayPrint {
 	 *  PaymentRule changed - load DocumentNo, NoPayments,
 	 *  enable/disable EFT, Print
 	 */
-	public String loadPaymentRuleInfo(int C_PaySelection_ID, String PaymentRule)
+	public String loadPaymentRuleInfo(int paySelectionId, String paymentRule)
 	{
-		String msg = null;
-		
-		String sql = "SELECT COUNT(*) "
-			+ "FROM C_PaySelectionCheck "
-			+ "WHERE C_PaySelection_ID=?";
-		try
-		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, C_PaySelection_ID);
-			ResultSet rs = pstmt.executeQuery();
-			//
-			if (rs.next())
-				noPayments = String.valueOf(rs.getInt(1));
-			rs.close();
-			pstmt.close();
-		}
-		catch (SQLException e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
+		Integer paymentCount  = new Query(Env.getCtx(), MPaySelectionCheck.Table_Name , MPaySelectionCheck.COLUMNNAME_C_PaySelection_ID + "=?" , null)
+				.setClient_ID()
+				.setParameters(paySelectionId)
+				.count();
 
+		noPayments = String.valueOf(paymentCount);
+		String msg = null;
+		//"SELECT CurrentNext FROM C_BankAccountDoc WHERE  C_BankAccount_ID=? AND PaymentRule=? AND IsActive=?
+		StringBuilder sql = new StringBuilder();
+		sql.append("SELECT ")
+				.append(X_C_BankAccountDoc.COLUMNNAME_CurrentNext)
+				.append(" FROM ")
+				.append(X_C_BankAccountDoc.Table_Name)
+				.append(" WHERE ")
+				.append(X_C_BankAccountDoc.COLUMNNAME_C_BankAccount_ID).append("=? AND ")
+				.append(X_C_BankAccountDoc.COLUMNNAME_PaymentRule).append("=? AND ")
+				.append(X_C_BankAccountDoc.COLUMNNAME_IsActive).append("=?");
+
+		List<Object> parameters =  new ArrayList<>();
+		parameters.add(bankAccountId);
+		parameters.add(paymentRule);
+		parameters.add(true);
 		//  DocumentNo
-		sql = "SELECT CurrentNext "
-			+ "FROM C_BankAccountDoc "
-			+ "WHERE C_BankAccount_ID=? AND PaymentRule=? AND IsActive='Y'";
-		try
+		documentNo = DB.getSQLValueEx(null , sql.toString() , parameters.toArray());
+		if (documentNo == -1)
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, m_C_BankAccount_ID);
-			pstmt.setString(2, PaymentRule);
-			ResultSet rs = pstmt.executeQuery();
-			//
-			if (rs.next())
-				documentNo = new Integer(rs.getInt(1));
-			else
-			{
-				log.log(Level.SEVERE, "VPayPrint.loadPaymentRuleInfo - No active BankAccountDoc for C_BankAccount_ID="
-					+ m_C_BankAccount_ID + " AND PaymentRule=" + PaymentRule);
-				msg = "VPayPrintNoDoc";
-			}
-			rs.close();
-			pstmt.close();
+			log.log(Level.SEVERE, "VPayPrint.loadPaymentRuleInfo - No active BankAccountDoc for C_BankAccount_ID="
+					+ bankAccountId + " AND PaymentRule=" + paymentRule);
+			msg = "VPayPrintNoDoc";
 		}
-		catch (SQLException e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
-		
 		return msg;
 	}   //  loadPaymentRuleInfo
 }

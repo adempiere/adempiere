@@ -1,4 +1,4 @@
-<project name="Libero" default="dist" basedir=".">
+<project name="LiberoWM" default="zkdist" basedir=".">
     <description>
         Building Libero liberoWM.jar
         by
@@ -11,6 +11,8 @@
   <property name="src" location="src/main/java/base"/>
   <property name="build" location="build"/>
   <property name="dist"  location="dist"/>
+  <property name="zksrc" value="${basedir}/src/main/java/ui/zk"/>
+  <property name="zkclasses" value="${basedir}/build/zkwebui/WEB-INF/classes"/>
 
   <path id="lib.class.path">
      <fileset dir="${adempiere.trunk}/lib">
@@ -20,6 +22,16 @@
        <include name="*.jar"/>
     </fileset>
   </path>
+  <path id="compile.classpath">
+    <pathelement location="${basedir}/build"/>
+    <pathelement location="${adempiere.trunk}/zkwebui/WEB-INF/classes"/>
+    <fileset dir="${adempiere.trunk}/lib">
+        <include name="*.jar"/>
+    </fileset>
+    <fileset dir="${adempiere.trunk}/zkwebui/WEB-INF/lib">
+        <include name="*.jar"/>
+    </fileset>
+  </path>
 
   <target name="init" depends="clean">
     <echo message="Trunk location: ${adempiere.trunk}"/>
@@ -27,12 +39,14 @@
     <tstamp/>
     <!-- Create the build directory structure used by compile -->
     <mkdir dir="${build}"/>
+    <!-- Create the classes directory structure used by compile -->
+    <mkdir dir="${zkclasses}"/>
   </target>
 
   <target name="compile" depends="init"
         description="compile the source " >
     <!-- Compile the java code from ${src} into ${build} -->
-    <javac srcdir="${src}" destdir="${build}">
+    <javac encoding="UTF-8"  srcdir="${src}" destdir="${build}">
       <exclude name="**/org/eevolution/plugin/*.java"/>
       <classpath refid="lib.class.path"/>
     </javac>
@@ -56,10 +70,35 @@
 
   </target>
 
+    <target name="zkcompile" depends="dist"
+            description="compile the source " >
+        <!-- Compile the zk java code from ${src} into ${zkclasses} -->
+        <javac encoding="UTF-8" debug="true" srcdir="${zksrc}" destdir="${zkclasses}">
+            <classpath refid="compile.classpath"/>
+        </javac>
+    </target>
+
+    <target name="zkdist" depends="zkcompile"
+            description="generate the distribution" >
+        <!-- Create the distribution directory -->
+        <mkdir dir="${dist}/lib"/>
+        <!-- Put everything in ${zkclasses} into the MyProject-${DSTAMP}.jar file -->
+        <jar jarfile="${dist}/lib/liberozkWM.jar" basedir="${basedir}/build/zkwebui" includes="WEB-INF/"/>
+
+        <!-- Create target Liberozk deployment -->
+        <mkdir dir="${env.ADEMPIERE_HOME}/zkpackages/liberozkWM/lib"/>
+
+        <!-- Transfer liberozkWM.jar -->
+        <copy file="${dist}/lib/liberozkWM.jar" todir="${env.ADEMPIERE_HOME}/zkpackages/liberozkWM/lib"/>
+        <copy file="${dist}/lib/liberozkWM.jar" todir="${adempiere.trunk}/zkpackages/"/>
+    </target>
+
+
   <target name="clean"
         description="clean up" >
     <!-- Delete the ${build} and ${dist} directory trees -->
     <delete dir="${build}"/>
     <delete dir="${dist}"/>
+    <delete dir="${zkclasses}"/>
   </target>
 </project>

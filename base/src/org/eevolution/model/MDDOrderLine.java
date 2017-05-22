@@ -19,6 +19,7 @@ package org.eevolution.model;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.Properties;
 
 import org.compiere.model.MAttributeSet;
@@ -324,66 +325,6 @@ public class MDDOrderLine extends X_DD_OrderLine
 		//	We can change
 		return true;
 	}	//	canChangeWarehouse
-	
-	/**
-	 * 	Get C_Project_ID
-	 *	@return project
-	 */
-	public int getC_Project_ID()
-	{
-		int ii = super.getC_Project_ID ();
-		if (ii == 0)
-			ii = getParent().getC_Project_ID();
-		return ii;
-	}	//	getC_Project_ID
-	
-	/**
-	 * 	Get C_Activity_ID
-	 *	@return Activity
-	 */
-	public int getC_Activity_ID()
-	{
-		int ii = super.getC_Activity_ID ();
-		if (ii == 0)
-			ii = getParent().getC_Activity_ID();
-		return ii;
-	}	//	getC_Activity_ID
-	
-	/**
-	 * 	Get C_Campaign_ID
-	 *	@return Campaign
-	 */
-	public int getC_Campaign_ID()
-	{
-		int ii = super.getC_Campaign_ID ();
-		if (ii == 0)
-			ii = getParent().getC_Campaign_ID();
-		return ii;
-	}	//	getC_Campaign_ID
-	
-	/**
-	 * 	Get User2_ID
-	 *	@return User2
-	 */
-	public int getUser1_ID ()
-	{
-		int ii = super.getUser1_ID ();
-		if (ii == 0)
-			ii = getParent().getUser1_ID();
-		return ii;
-	}	//	getUser1_ID
-
-	/**
-	 * 	Get User2_ID
-	 *	@return User2
-	 */
-	public int getUser2_ID ()
-	{
-		int ii = super.getUser2_ID ();
-		if (ii == 0)
-			ii = getParent().getUser2_ID();
-		return ii;
-	}	//	getUser2_ID
 
 	/**
 	 * 	Get AD_OrgTrx_ID
@@ -605,7 +546,7 @@ public class MDDOrderLine extends X_DD_OrderLine
 		//	Get Line No
 		if (getLine() == 0)
 		{
-			String sql = "SELECT COALESCE(MAX(Line),0)+10 FROM C_OrderLine WHERE C_Order_ID=?";
+			String sql = "SELECT COALESCE(MAX(Line),0)+10 FROM DD_OrderLine WHERE DD_Order_ID=?";
 			int ii = DB.getSQLValue (get_TrxName(), sql, getDD_Order_ID());
 			setLine (ii);
 		}
@@ -670,5 +611,37 @@ public class MDDOrderLine extends X_DD_OrderLine
 	public BigDecimal getQtyToDeliver()
 	{
 		return getQtyOrdered().subtract(getQtyInTransit()).subtract(getQtyDelivered());
+	}
+
+	/**
+	 * get Calculate Quantity Reserved
+	 * @return
+     */
+	public BigDecimal getCalculateQtyReserved()
+	{
+		BigDecimal reservedQuantity = getQtyOrdered()
+				.subtract(getQtyReserved())
+				.subtract(getQtyDelivered());
+		return reservedQuantity;
+	}
+
+	/**
+	 * get Weigth of Line
+	 * @return
+     */
+	public BigDecimal getWeight()
+	{
+		return Optional.ofNullable(getProduct().getWeight())
+				.orElse(BigDecimal.ZERO);
+	}
+
+	/**
+	 * get Volume of Line
+	 * @return
+	 */
+	public BigDecimal getVolume()
+	{
+		return Optional.ofNullable(getProduct().getVolume())
+				.orElse(BigDecimal.ZERO);
 	}
 }	//	MDDOrderLine

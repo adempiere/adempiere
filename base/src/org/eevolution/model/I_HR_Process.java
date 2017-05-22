@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2016 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
@@ -11,8 +11,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 package org.eevolution.model;
 
@@ -23,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for HR_Process
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0
+ *  @version Release 3.9.0
  */
 public interface I_HR_Process 
 {
@@ -63,21 +62,6 @@ public interface I_HR_Process
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name AD_PrintFormat_ID */
-    public static final String COLUMNNAME_AD_PrintFormat_ID = "AD_PrintFormat_ID";
-
-	/** Set Print Format.
-	  * Data Print Format
-	  */
-	public void setAD_PrintFormat_ID (int AD_PrintFormat_ID);
-
-	/** Get Print Format.
-	  * Data Print Format
-	  */
-	public int getAD_PrintFormat_ID();
-
-	public org.compiere.model.I_AD_PrintFormat getAD_PrintFormat() throws RuntimeException;
-
     /** Column name AD_Workflow_ID */
     public static final String COLUMNNAME_AD_Workflow_ID = "AD_Workflow_ID";
 
@@ -108,36 +92,6 @@ public interface I_HR_Process
 
 	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
 
-    /** Column name C_Charge_ID */
-    public static final String COLUMNNAME_C_Charge_ID = "C_Charge_ID";
-
-	/** Set Charge.
-	  * Additional document charges
-	  */
-	public void setC_Charge_ID (int C_Charge_ID);
-
-	/** Get Charge.
-	  * Additional document charges
-	  */
-	public int getC_Charge_ID();
-
-	public org.compiere.model.I_C_Charge getC_Charge() throws RuntimeException;
-
-    /** Column name C_DocTypeTarget_ID */
-    public static final String COLUMNNAME_C_DocTypeTarget_ID = "C_DocTypeTarget_ID";
-
-	/** Set Target Document Type.
-	  * Target document type for conversing documents
-	  */
-	public void setC_DocTypeTarget_ID (int C_DocTypeTarget_ID);
-
-	/** Get Target Document Type.
-	  * Target document type for conversing documents
-	  */
-	public int getC_DocTypeTarget_ID();
-
-	public org.compiere.model.I_C_DocType getC_DocTypeTarget() throws RuntimeException;
-
     /** Column name C_DocType_ID */
     public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
 
@@ -153,33 +107,20 @@ public interface I_HR_Process
 
 	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException;
 
-    /** Column name C_PaySelection_ID */
-    public static final String COLUMNNAME_C_PaySelection_ID = "C_PaySelection_ID";
+    /** Column name C_DocTypeTarget_ID */
+    public static final String COLUMNNAME_C_DocTypeTarget_ID = "C_DocTypeTarget_ID";
 
-	/** Set Payment Selection.
-	  * Payment Selection
+	/** Set Target Document Type.
+	  * Target document type for conversing documents
 	  */
-	public void setC_PaySelection_ID (int C_PaySelection_ID);
+	public void setC_DocTypeTarget_ID (int C_DocTypeTarget_ID);
 
-	/** Get Payment Selection.
-	  * Payment Selection
+	/** Get Target Document Type.
+	  * Target document type for conversing documents
 	  */
-	public int getC_PaySelection_ID();
+	public int getC_DocTypeTarget_ID();
 
-	public org.compiere.model.I_C_PaySelection getC_PaySelection() throws RuntimeException;
-
-    /** Column name ColumnSQL */
-    public static final String COLUMNNAME_ColumnSQL = "ColumnSQL";
-
-	/** Set Column SQL.
-	  * Virtual Column (r/o)
-	  */
-	public void setColumnSQL (String ColumnSQL);
-
-	/** Get Column SQL.
-	  * Virtual Column (r/o)
-	  */
-	public String getColumnSQL();
+	public org.compiere.model.I_C_DocType getC_DocTypeTarget() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

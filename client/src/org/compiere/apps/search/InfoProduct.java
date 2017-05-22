@@ -934,7 +934,8 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 		s_productFrom += " LEFT OUTER JOIN M_AttributeSet pa ON (p.M_AttributeSet_ID=pa.M_AttributeSet_ID)"
 			+ " LEFT OUTER JOIN M_Product_PO ppo ON (p.M_Product_ID=ppo.M_Product_ID and ppo.IsCurrentVendor='Y' and ppo.IsActive='Y')"
 			+ " LEFT OUTER JOIN M_Product_Category pc ON (p.M_Product_Category_ID=pc.M_Product_Category_ID)"
-			+ " LEFT OUTER JOIN C_BPartner bp ON (ppo.C_BPartner_ID=bp.C_BPartner_ID)";
+			+ " LEFT OUTER JOIN C_BPartner bp ON (ppo.C_BPartner_ID=bp.C_BPartner_ID)"
+			+ " LEFT OUTER JOIN C_UOM u ON (p.C_UOM_ID=u.C_UOM_ID)";
 		
 		return s_productFrom;
 	}
@@ -1380,7 +1381,10 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 		int M_Product_ID = record_id;
 		if (M_Product_ID <= 0)
 			return;
-		int M_Warehouse_ID = ((Integer) fWarehouse_ID.getValue()).intValue();
+		int M_Warehouse_ID = 0;
+		if (fWarehouse_ID.getValue() != null)
+			M_Warehouse_ID = (Integer)fWarehouse_ID.getValue();
+		
 		int M_AttributeSetInstance_ID = m_M_AttributeSetInstance_ID;
 		if (m_M_AttributeSetInstance_ID < 0)	//	not selected
 			M_AttributeSetInstance_ID = 0;
@@ -1491,6 +1495,7 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 		list.add(new Info_Column(Msg.translate(Env.getCtx(), "Name"), "p.Name", String.class));
 		list.add(new Info_Column(Msg.translate(Env.getCtx(), "UPC"), "p.UPC", String.class));
 		list.add(new Info_Column(Msg.translate(Env.getCtx(), "SKU"), "p.SKU", String.class));
+		list.add(new Info_Column(Msg.translate(Env.getCtx(), "C_UOM_ID"), "u.name", String.class));
 		if (isValidVObject(fPriceList_ID))
 		{
 			list.add(new Info_Column(Msg.translate(Env.getCtx(), "PriceList"), "bomPriceList(p.M_Product_ID, pr.M_PriceList_Version_ID) AS PriceList",  BigDecimal.class));

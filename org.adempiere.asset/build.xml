@@ -33,7 +33,7 @@
   <target name="compile" depends="init"
         description="compile the source " >
     <!-- Compile the java code from ${src} into ${build} -->
-    <javac srcdir="${src}" destdir="${build}">
+    <javac encoding="UTF-8" srcdir="${src}" destdir="${build}">
       <classpath refid="lib.class.path"/>
     </javac>
 

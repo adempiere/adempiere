@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2016 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
@@ -11,8 +11,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 package org.eevolution.model;
 
@@ -23,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for I_HR_Movement
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0
+ *  @version Release 3.9.0
  */
 public interface I_I_HR_Movement 
 {
@@ -149,12 +148,12 @@ public interface I_I_HR_Movement
     /** Column name HR_Concept_ID */
     public static final String COLUMNNAME_HR_Concept_ID = "HR_Concept_ID";
 
-	/** Set AD Payroll Concept.
+	/** Set Global Payroll Concept.
 	  * The Payroll Concept allows to define all the perception and deductions elements needed to define a payroll.
 	  */
 	public void setHR_Concept_ID (int HR_Concept_ID);
 
-	/** Get AD Payroll Concept.
+	/** Get Global Payroll Concept.
 	  * The Payroll Concept allows to define all the perception and deductions elements needed to define a payroll.
 	  */
 	public int getHR_Concept_ID();
@@ -211,12 +210,12 @@ public interface I_I_HR_Movement
 	/** Set Imported.
 	  * Has this import been processed
 	  */
-	public void setI_IsImported (String I_IsImported);
+	public void setI_IsImported (boolean I_IsImported);
 
 	/** Get Imported.
 	  * Has this import been processed
 	  */
-	public String getI_IsImported();
+	public boolean isI_IsImported();
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
@@ -230,19 +229,6 @@ public interface I_I_HR_Movement
 	  * The record is active in the system
 	  */
 	public boolean isActive();
-
-    /** Column name ProcessName */
-    public static final String COLUMNNAME_ProcessName = "ProcessName";
-
-	/** Set Process Name.
-	  * Name of the Process
-	  */
-	public void setProcessName (String ProcessName);
-
-	/** Get Process Name.
-	  * Name of the Process
-	  */
-	public String getProcessName();
 
     /** Column name Processed */
     public static final String COLUMNNAME_Processed = "Processed";
@@ -266,6 +252,19 @@ public interface I_I_HR_Movement
 	/** Get Process Now	  */
 	public boolean isProcessing();
 
+    /** Column name ProcessName */
+    public static final String COLUMNNAME_ProcessName = "ProcessName";
+
+	/** Set Process Name.
+	  * Name of the Process
+	  */
+	public void setProcessName (String ProcessName);
+
+	/** Get Process Name.
+	  * Name of the Process
+	  */
+	public String getProcessName();
+
     /** Column name Qty */
     public static final String COLUMNNAME_Qty = "Qty";
 
@@ -278,6 +277,19 @@ public interface I_I_HR_Movement
 	  * Quantity
 	  */
 	public BigDecimal getQty();
+
+    /** Column name ReferenceNo */
+    public static final String COLUMNNAME_ReferenceNo = "ReferenceNo";
+
+	/** Set Reference No.
+	  * Your customer or vendor number at the Business Partner's site
+	  */
+	public void setReferenceNo (String ReferenceNo);
+
+	/** Get Reference No.
+	  * Your customer or vendor number at the Business Partner's site
+	  */
+	public String getReferenceNo();
 
     /** Column name ServiceDate */
     public static final String COLUMNNAME_ServiceDate = "ServiceDate";

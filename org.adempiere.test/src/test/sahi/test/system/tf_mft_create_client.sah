@@ -1,0 +1,175 @@
+/******************************************************************************
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2011, Michael McKay, All Rights Reserved.                    *
+ * This program is free software; you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ *****************************************************************************
+ *
+ *  Function function mft_create_client
+ *  
+ *  Parameters:	$ClientName,  				Name of the client account 
+ *				$OrgName, 					Organization name
+ *				$AdminUsr, 					Administrative User and Pwd
+ *				$NormalUsr, 				Normal User and Pwd
+ *				$Currency, 					Currency Code
+ *				$Country,					Country Name
+ *				$CoAFile,					Path and file to COA  
+ *				$FirstDefaultAcctValue,		Lowest value (search key) of the default accounts 
+ *				$FirstAcctValue,			Lowest value of all accounts
+ *				$NumAccts					Total number of accounts
+ * 
+ * 
+ **/
+
+var $CreateClientCSVFilePath = null;
+
+function mft_creat_client_set_path($Path){
+	$CreateClientCSVFilePath = $Path;
+}
+
+function mft_create_client_process($ClientName, 
+						   $OrgName, 
+						   $AdminUsr, 
+						   $NormalUsr, 
+						   $Currency, 
+						   $Country,
+						   $CoAFile,
+						   $FirstDefaultAcctValue,
+						   $FirstAcctValue,
+						   $NumAccts){
+
+	var $usr = "", $pwd="";
+	var $language="", $rememberMe="", $role="", $client="", $org="", $warehouse="";	
+	$usr = "System";
+	$pwd = "System";
+	$client = "System";
+	$role = "System Administrator";
+	
+	logout(); /* in case */
+	
+	
+	login($usr, $pwd, $language, $rememberMe, $role, $client, $org, $warehouse);
+	
+	wOpenWindow("Initial Client Setup Process");
+	fSetText("ClientName", $ClientName);
+	fSetText("OrgName",$OrgName);
+	fSetText("AdminUserName", $AdminUsr);
+	fSetText("NormalUserName", $NormalUsr);
+	fSetList("C_Currency_ID", $Currency);
+	fSetList("C_Country_ID", $Country);
+	fSetSearch("CoAFile", $CoAFile);
+	iStart();
+	_wait(180000,_exists(_span(/ OK/))); // Wait for the process to complete.
+	
+	if (! _exists(_span(/ OK/))){
+		_log("tf_mft_create_client: An error occured in the create client process.", "error");
+	} else {
+		_log("tf_mft_create_client: Client " + $ClientName + "created.", "info");
+		logout();
+		login($AdminUsr, $AdminUsr, "", "", "", $ClientName, "", "");
+
+		wOpenWindow("Client");
+		
+		$SearchData = [
+		                ["Value", $ClientName],
+		        	    ["",""]
+		        	   ];
+		dPerformLookup("Client",$SearchData);
+		
+		_assertEqual(fGetText("Value"),$ClientName,"Error: Initial Client Setup: Value not what was expected");
+		_assertEqual(fGetText("Name"),$ClientName,"Error: Initial Client Setup: Name not what was expected");
+	
+		wCloseWindow("Client");
+
+		/*  Release 380 - the import of account element data is not required.
+		 		
+		// Check the accounting data - first element
+		wOpenWindow("Account Element");
+		wOpenTab("Element Value");
+		iFirst();
+		
+		// Check that the first default account value is correct
+		_assertEqual(fGetText("Value"),$FirstDefaultAcctValue,"Error: Initial Client Setup: First Default Acct Value not what was expected");		
+
+		// Check that the total number of default accounts is correct - expect 84
+		_assertExists(_span("1/376",_in(_div("z-south-body"))));
+		wCloseWindow("Account Element");
+		
+		// Now load the regular accounts
+		wOpenWindow("Import File Loader");
+		_click(_cell("/Select File to Load/"));
+		_setFile(_file("file"),$CoAFile);
+		_wait(500);
+		_click(_submit("Upload"));
+		_setSelected(_select("/^zk/[1]",_near(_span("Import Format"))),"Accounting - Accounts");
+		iConfirm();
+		_wait(120000,_exists(_span(/ready to import/)));
+		iOk();
+		//
+		wOpenWindow("Import Account");
+		iFirst();
+		if(_condition(fGetText("Value")==null && fGetText("Name")==null)){
+			iDeleteRecord();
+			iOk();
+		}
+		fClickButton("Processing"); //Import Accounts - opens a modal window.
+		fSetTextModal("C_Element_ID",$ClientName + " Account");
+		iOk();
+		_wait(120000,_exists(_span(/^Import Account Test/)));
+		iOk();
+		wCloseWindow("Import Account");
+
+		 */
+		
+		
+		// Check the accounting data - first element
+		wOpenWindow("Account Element");
+		wOpenTab("Element Value");
+		iFirst();
+		
+		// Check that the first account value is correct
+		_assertEqual(fGetText("Value"),$FirstAcctValue,"Error: Initial Client Setup: First Acct Value not what was expected");		
+
+		// Check that the total number of default accounts is correct
+		_assertExists(_span("1/"+$NumAccts,_in(_div("z-south-body"))));
+		wCloseWindow("Account Element");
+		
+	}
+	logout();
+}
+
+function mft_create_client(){
+	
+		if ($CreateClientCSVFilePath == null){ // Create and use a default
+			var $ClientData = [
+		                   ["Test Client", 
+		        		   "Test Org", 
+		        		   "TestClientAdmin", 
+		        		   "TestClientUser", 
+		        		   "CAD", 
+		        		   "Canada",
+		        		   "C:\\ADempiere\\data\\import\\AccountingUS.csv",
+		        		   "11100",  // First default account in the list
+		        		   "1", 	// First account in the list
+		        		   "376"]
+		        	   	];  // The number of accounts
+	
+		        var $ClientDataPath = "../system/tf_mtf_create_client_single.csv";
+		        _writeCSVFile($ClientData, $ClientDataPath,true,",");
+		        mft_creat_client_set_path($ClientDataPath);
+		}
+
+	var $data = _readCSVFile($CreateClientCSVFilePath);
+
+	_dataDrive(mft_create_client_process, $data);
+
+}
+
+// End of tf_mtf_create_client.sah

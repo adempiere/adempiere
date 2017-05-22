@@ -1,0 +1,56 @@
+/******************************************************************************
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2011, Michael McKay, All Rights Reserved.                    *
+ * This program is free software; you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ ****************************************************************************** 
+ *
+ * Test Flow Main Functional Tests
+ * 
+ * Business Partner Group Setup
+ * 
+ * This test flow creates the business partner groups that are used in the Main
+ * Functional Tests
+ * 
+ * See http://wiki.adempiere.net/Functional_Tests
+ * 
+ **/
+
+$mft_bpgroup_setup_CSVFilePath = "../test/customer_relationship_management/tf_mft_bpartner_groups_setup.csv";
+
+function mft_bpgroup_setup(
+		$Value,
+		$Name,
+		$Default,
+		$CreditWatchPercent,
+		$PriceMatchTolerance){
+
+	iNewRecord();
+	fSetText("Value",$Value);
+	fSetText("Name",$Name);
+	fSetCheckbox("IsDefault",$Default);
+	fSetAmount("CreditWatchPercent", $CreditWatchPercent);
+	fSetAmount("PriceMatchTolerance", $PriceMatchTolerance);
+	iSaveRecord();
+}
+
+function mft_bpartner_group_setup(){
+	
+	var $data = _readCSVFile($mft_bpgroup_setup_CSVFilePath);
+
+	// Assume we are logged in as the administrator
+	wOpenWindow("Business Partner Group");
+
+	_dataDrive(mft_bpgroup_setup, $data);
+
+	wCloseWindow("Business Partner Group");
+
+	_log("MFT_BPGroup_Setup completed");
+}

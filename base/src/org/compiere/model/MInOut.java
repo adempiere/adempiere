@@ -57,6 +57,9 @@ import org.compiere.util.Msg;
  *  @author Teo Sarca, teo.sarca@gmail.com
  * 			<li>BF [ 2993853 ] Voiding/Reversing Receipt should void confirmations
  * 				https://sourceforge.net/tracker/?func=detail&atid=879332&aid=2993853&group_id=176962
+ * 	@author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com 2015-05-25, 18:20
+ * 			<li>BF [ 9223372036854775807 ] Transaction is generate when shipment is invalid in InOut generate
+ * 	@see https://adempiere.atlassian.net/browse/ADEMPIERE-418
  */
 public class MInOut extends X_M_InOut implements DocAction
 {
@@ -402,6 +405,8 @@ public class MInOut extends X_M_InOut implements DocAction
 		setAD_OrgTrx_ID(order.getAD_OrgTrx_ID());
 		setUser1_ID(order.getUser1_ID());
 		setUser2_ID(order.getUser2_ID());
+		setUser3_ID(order.getUser3_ID());
+		setUser4_ID(order.getUser4_ID());
 		setPriorityRule(order.getPriorityRule());
 		// Drop shipment
 		setIsDropShip(order.isDropShip());
@@ -461,6 +466,8 @@ public class MInOut extends X_M_InOut implements DocAction
 		setAD_OrgTrx_ID(invoice.getAD_OrgTrx_ID());
 		setUser1_ID(invoice.getUser1_ID());
 		setUser2_ID(invoice.getUser2_ID());
+		setUser3_ID(invoice.getUser3_ID());
+		setUser4_ID(invoice.getUser4_ID());
 
 		if (order != null)
 		{
@@ -527,6 +534,8 @@ public class MInOut extends X_M_InOut implements DocAction
 		setAD_OrgTrx_ID(original.getAD_OrgTrx_ID());
 		setUser1_ID(original.getUser1_ID());
 		setUser2_ID(original.getUser2_ID());
+		setUser3_ID(original.getUser3_ID());
+		setUser4_ID(original.getUser4_ID());
 
 		// DropShipment
 		setIsDropShip(original.isDropShip());
@@ -1159,12 +1168,12 @@ public class MInOut extends X_M_InOut implements DocAction
 			//
 			if (line.getM_AttributeSetInstance_ID() != 0)
 				continue;
-			if (product != null && product.isASIMandatory(isSOTrx(),line.getAD_Org_ID()))
+			/*if (product != null && product.isASIMandatory(isSOTrx(),line.getAD_Org_ID()))
 			{
 				m_processMsg = "@M_AttributeSet_ID@ @IsMandatory@ (@Line@ #" + lines[i].getLine() +
 								", @M_Product_ID@=" + product.getValue() + ")";
 				return DocAction.STATUS_Invalid;
-			}
+			}*/
 		}
 		setVolume(Volume);
 		setWeight(Weight);
@@ -1471,12 +1480,15 @@ public class MInOut extends X_M_InOut implements DocAction
 				
 				oLine.setDateDelivered(getMovementDate());	//	overwrite=last
 				
-				if (!oLine.save())
-				{
-					m_processMsg = "Could not update Order Line";
-					return DocAction.STATUS_Invalid;
-				}
-				else
+				//	Yamel Senih BF [ 9223372036854775807 ]
+//				if (!oLine.save())
+//				{
+//					m_processMsg = "Could not update Order Line";
+//					return DocAction.STATUS_Invalid;
+//				}
+//				else
+				oLine.saveEx();
+				//	End Yamel Senih
 					log.fine("OrderLine -> Reserved=" + oLine.getQtyReserved()
 						+ ", Delivered=" + oLine.getQtyDelivered());
 			}
@@ -1820,6 +1832,7 @@ public class MInOut extends X_M_InOut implements DocAction
 				//always create asi so fifo/lifo work.
 				if (asi == null && line.getM_AttributeSetInstance_ID() == 0)
 				{
+					MAttributeSet.validateAttributeSetInstanceMandatory(product, line.Table_ID , isSOTrx() , line.getM_AttributeSetInstance_ID());
 					asi = MAttributeSetInstance.create(getCtx(), product, get_TrxName());
 					line.setM_AttributeSetInstance_ID(asi.getM_AttributeSetInstance_ID());
 					log.config("New ASI=" + line);
@@ -1862,6 +1875,7 @@ public class MInOut extends X_M_InOut implements DocAction
 				if (qtyToDeliver.signum() != 0)
 				{
 					//deliver using new asi
+					MAttributeSet.validateAttributeSetInstanceMandatory(product, line.Table_ID , isSOTrx() , line.getM_AttributeSetInstance_ID());
 					MAttributeSetInstance asi = MAttributeSetInstance.create(getCtx(), product, get_TrxName());
 					int M_AttributeSetInstance_ID = asi.getM_AttributeSetInstance_ID();
 					MInOutLineMA ma = new MInOutLineMA (line, M_AttributeSetInstance_ID, qtyToDeliver);

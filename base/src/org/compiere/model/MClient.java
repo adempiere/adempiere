@@ -34,7 +34,6 @@ import javax.mail.internet.InternetAddress;
 import org.compiere.db.CConnection;
 import org.compiere.interfaces.Server;
 import org.compiere.util.CCache;
-import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.EMail;
 import org.compiere.util.Env;
@@ -52,6 +51,9 @@ import org.compiere.util.Language;
  *    [ 1619085 ] Client setup creates duplicate trees
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 			<li>BF [ 1886480 ] Print Format Item Trl not updated even if not multilingual
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *			<li> FR [ 402 ] Mail setup is hardcoded
+ *			@see https://github.com/adempiere/adempiere/issues/402
  */
 public class MClient extends X_AD_Client
 {
@@ -105,8 +107,6 @@ public class MClient extends X_AD_Client
 		return get (ctx, Env.getAD_Client_ID(ctx));
 	}	//	get
 
-	/**	Static Logger				*/
-	private static CLogger	s_log	= CLogger.getCLogger (MClient.class);
 	/**	Cache						*/
 	private static CCache<Integer,MClient>	s_cache = new CCache<Integer,MClient>("AD_Client", 3);
 
@@ -130,7 +130,6 @@ public class MClient extends X_AD_Client
 			//	setName (null);
 				setAD_Org_ID(0);
 				setIsMultiLingualDocument (false);
-				setIsSmtpAuthorization (false);	
 				setIsUseBetaFunctions (true);
 				setIsServerEMail(false);
 				setAD_Language(Language.getBaseAD_Language());
@@ -184,18 +183,37 @@ public class MClient extends X_AD_Client
 	private boolean				m_createNew = false;
 	/** Client Info Setup Tree for Account	*/
 	private int					m_AD_Tree_Account_ID;
-
+	
 	/**
 	 *	Get SMTP Host
 	 *	@return SMTP or loaclhost
 	 */
-	public String getSMTPHost()
-	{
-		String s = super.getSMTPHost();
+	public String getSMTPHost() {
+		//	FR [ 402 ]
+		String s = null;
+		MEMailConfig eMailConfig = MEMailConfig.get(getCtx(), getAD_EMailConfig_ID());
+		if(eMailConfig != null) {
+			s = eMailConfig.getSMTPHost();
+		}
+		//	Valid null
 		if (s == null)
 			s = "localhost";
 		return s;
 	}	//	getSMTPHost
+	
+	/**
+	 * Verify if is SMTP Authorization
+	 * FR [ 402 ]
+	 * @return
+	 */
+	public boolean isSmtpAuthorization() {
+		MEMailConfig eMailConfig = MEMailConfig.get(getCtx(), getAD_EMailConfig_ID());
+		if(eMailConfig != null) {
+			return eMailConfig.isSmtpAuthorization();
+		}
+		//	Default
+		return false;
+	}
 
 	/**
 	 *	Get Client Info
@@ -770,10 +788,10 @@ public class MClient extends X_AD_Client
 				log.log(Level.SEVERE, getName() + " - AppsServer error", ex);
 			}
 		}
+		//	FR [ 402 ]
+		//	Constructor is changed
 		if (email == null)
-			email = new EMail (this,
-				   getRequestEMail(), to,
-				   subject, message, html);
+			email = new EMail(this, 0, getRequestEMail(), to, subject, message, html);
 		if (isSmtpAuthorization())
 			email.createAuthenticator (getRequestUser(), getRequestUserPW());
 		return email;
@@ -883,14 +901,20 @@ public class MClient extends X_AD_Client
 				log.log(Level.SEVERE, getName() + " - AppsServer error", ex);
 			}
 		}
+		//	FR [ 402 ]
+		//	Add support to custom user mail
 		if (email == null)
-			email = new EMail (this,
-				   from.getEMail(), 
-				   to,
-				   subject, 
-				   message, html);
-		if (isSmtpAuthorization())
-			email.createAuthenticator (from.getEMailUser(), from.getEMailUserPW());
+			email = new EMail (this, from.getAD_EMailConfig_ID(), from.getEMail(), to, subject, message, html);
+		//	For Custom EMail Server
+		if(from.getAD_EMailConfig_ID() != 0) {
+			MEMailConfig emailConfig = MEMailConfig.get(getCtx(), from.getAD_EMailConfig_ID());
+			if(emailConfig.isSmtpAuthorization()
+					|| emailConfig.getAuthMechanism().equals(MEMailConfig.AUTHMECHANISM_OAuth))
+				email.createAuthenticator (from.getEMailUser(), from.getEMailUserPW());
+		} else {
+			if (isSmtpAuthorization())
+				email.createAuthenticator (from.getEMailUser(), from.getEMailUserPW());
+		}
 		return email;
 	}	//	createEMail
 

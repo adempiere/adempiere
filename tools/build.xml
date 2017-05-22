@@ -67,7 +67,7 @@
 	<!-- ============================================= -->
 	<target name="toolsCompile" depends="toolsInit" unless="jars.uptodate">
 		<!-- compile the java code from ${src} into ${build.dir}S -->
-		<javac target="1.7" encoding="UTF-8" srcdir="${src}" destdir="${build.dir}" deprecation="on" debug="on">
+		<javac target="1.8" encoding="UTF-8" srcdir="${src}" destdir="${build.dir}" deprecation="on" debug="on">
 			<classpath refid="project.class.path" />
 		</javac>
 		<!-- copy all image & sound files from src to the build directory -->
@@ -108,7 +108,7 @@
 				<attribute name="Implementation-Title" value="jboss ${env.ADEMPIERE_VERSION}" />
 				<attribute name="Implementation-Version" value="${env.ADEMPIERE_VERSION} ${DSTAMP}-${TSTAMP}" />
 				<attribute name="Implementation-Vendor" value="${env.ADEMPIERE_VENDOR}" />
-				<attribute name="Implementation-URL" value="http://www.adempiere.com" />
+				<attribute name="Implementation-URL" value="http://www.adempiere.net" />
 			</manifest>
 		</jar>
 
@@ -126,7 +126,7 @@
 				<attribute name="Implementation-Title" value="GlassFish ${env.ADEMPIERE_VERSION}" />
 				<attribute name="Implementation-Version" value="${env.ADEMPIERE_VERSION} ${DSTAMP}-${TSTAMP}" />
 				<attribute name="Implementation-Vendor" value="${env.ADEMPIERE_VENDOR}" />
-				<attribute name="Implementation-URL" value="http://www.adempiere.com" />
+				<attribute name="Implementation-URL" value="http://www.adempiere.net" />
 			</manifest>
 		</jar>
 	</target>
@@ -149,7 +149,7 @@
 				<attribute name="Implementation-Title" value="oracle ${env.ADEMPIERE_VERSION}" />
 				<attribute name="Implementation-Version" value="${env.ADEMPIERE_VERSION} ${DSTAMP}-${TSTAMP}" />
 				<attribute name="Implementation-Vendor" value="${env.ADEMPIERE_VENDOR}" />
-				<attribute name="Implementation-URL" value="http://www.adempiere.org" />
+				<attribute name="Implementation-URL" value="http://www.adempiere.net" />
 			</manifest>
 		</jar>
 
@@ -166,7 +166,7 @@
 				<attribute name="Implementation-Title" value="postgresql ${env.ADEMPIERE_VERSION}" />
 				<attribute name="Implementation-Version" value="${env.ADEMPIERE_VERSION} ${DSTAMP}-${TSTAMP}" />
 				<attribute name="Implementation-Vendor" value="${env.ADEMPIERE_VENDOR}" />
-				<attribute name="Implementation-URL" value="http://www.adempiere.org" />
+				<attribute name="Implementation-URL" value="http://www.adempiere.net" />
 			</manifest>
 		</jar>
 
@@ -183,7 +183,7 @@
 				<attribute name="Implementation-Title" value="MYSQL ${env.ADEMPIERE_VERSION}" />
 				<attribute name="Implementation-Version" value="${env.ADEMPIERE_VERSION} ${DSTAMP}-${TSTAMP}" />
 				<attribute name="Implementation-Vendor" value="${env.ADEMPIERE_VENDOR}" />
-				<attribute name="Implementation-URL" value="http://www.adempiere.org" />
+				<attribute name="Implementation-URL" value="http://www.adempiere.net" />
 			</manifest>
 		</jar>
         <!-- -->
@@ -220,14 +220,14 @@
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- BeanShell -->
-			<zipfileset src="lib/bsh-2.0b5.jar">
+			<zipfileset src="lib/bsh-2.0b6.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<zipfileset src="lib/bsh-engine.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- Groovy -->
-			<zipfileset src="lib/groovy-all-2.0.1.jar">
+			<zipfileset src="lib/groovy-all-2.4.7.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<zipfileset src="lib/groovy-engine.jar">
@@ -318,7 +318,7 @@
 				<attribute name="Implementation-Title" value="CSTools ${env.ADEMPIERE_VERSION}" />
 				<attribute name="Implementation-Version" value="${env.ADEMPIERE_VERSION} ${DSTAMP}-${TSTAMP}" />
 				<attribute name="Implementation-Vendor" value="${env.ADEMPIERE_VENDOR}" />
-				<attribute name="Implementation-URL" value="http://www.adempiere.org" />
+				<attribute name="Implementation-URL" value="http://www.adempiere.net" />
 			</manifest>
 			<!-- Commons -->
 			<zipfileset src="lib/commons-collections-3.1.jar">
@@ -372,14 +372,14 @@
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- BeanShell -->
-			<zipfileset src="lib/bsh-2.0b5.jar">
+			<zipfileset src="lib/bsh-2.0b6.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<zipfileset src="lib/bsh-engine.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- Groovy -->
-			<zipfileset src="lib/groovy-all-2.0.1.jar">
+			<zipfileset src="lib/groovy-all-2.4.7.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<zipfileset src="lib/groovy-engine.jar">
@@ -485,7 +485,7 @@
 				<attribute name="Implementation-Title" value="CCTools ${env.ADEMPIERE_VERSION}" />
 				<attribute name="Implementation-Version" value="${env.ADEMPIERE_VERSION} ${DSTAMP}-${TSTAMP}" />
 				<attribute name="Implementation-Vendor" value="${env.ADEMPIERE_VENDOR}" />
-				<attribute name="Implementation-URL" value="http://www.adempiere.org" />
+				<attribute name="Implementation-URL" value="http://www.adempiere.net" />
 			</manifest>
 			<!-- Commons -->
 			<zipfileset src="lib/commons-collections-3.1.jar">

@@ -32,8 +32,8 @@ import org.adempiere.webui.component.ToolBarButton;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.editor.WEditor;
 import org.adempiere.webui.editor.WebEditorFactory;
-import org.adempiere.webui.event.ValueChangeEvent;
-import org.adempiere.webui.event.ValueChangeListener;
+import org.adempiere.exceptions.ValueChangeEvent;
+import org.adempiere.exceptions.ValueChangeListener;
 import org.adempiere.webui.panel.ADTabPanel;
 import org.adempiere.webui.panel.StatusBarPanel;
 import org.adempiere.webui.session.SessionManager;
@@ -144,7 +144,7 @@ public final class WAccountDialog extends Window
 		f_AD_Org_ID, f_Account_ID, f_SubAcct_ID,
 		f_M_Product_ID, f_C_BPartner_ID, f_C_Campaign_ID, f_C_LocFrom_ID, f_C_LocTo_ID,
 		f_C_Project_ID, f_C_SalesRegion_ID, f_AD_OrgTrx_ID, f_C_Activity_ID,
-		f_User1_ID, f_User2_ID;
+		f_User1_ID, f_User2_ID , f_User3_ID, f_User4_ID;
 	//
 	private Label f_Description = new Label ("");
 
@@ -428,6 +428,22 @@ public final class WAccountDialog extends Window
 				//f_User2_ID.setLabel(ase.getName());				
 				addLine(field, f_User2_ID, isMandatory);
 			}
+			else if (type.equals(MAcctSchemaElement.ELEMENTTYPE_UserList3))
+			{
+				GridField field = m_mTab.getField("User3_ID");
+				f_User3_ID = WebEditorFactory.getEditor(field, false);
+				// Change the label from the default to the user defined name
+				//f_User3_ID.setLabel(ase.getName());
+				addLine(field, f_User3_ID, isMandatory);
+			}
+			else if (type.equals(MAcctSchemaElement.ELEMENTTYPE_UserList4))
+			{
+				GridField field = m_mTab.getField("User4_ID");
+				f_User4_ID = WebEditorFactory.getEditor(field, false);
+				// Change the label from the default to the user defined name
+				//f_User4_ID.setLabel(ase.getName());
+				addLine(field, f_User4_ID, isMandatory);
+			}
 		}	//	Create Fields in Element Order
 
 		//	Add description
@@ -541,6 +557,8 @@ public final class WAccountDialog extends Window
 				loadInfoOf (rs, f_C_Activity_ID, "C_Activity_ID");
 				loadInfoOf (rs, f_User1_ID, "User1_ID");
 				loadInfoOf (rs, f_User2_ID, "User2_ID");
+				loadInfoOf (rs, f_User3_ID, "User3_ID");
+				loadInfoOf (rs, f_User4_ID, "User4_ID");
 				//
 				f_Description.setValue (rs.getString("Description"));
 			}
@@ -714,6 +732,12 @@ public final class WAccountDialog extends Window
 		//	User 2
 		if (f_User2_ID != null && f_User2_ID.getValue() != null)
 			query.addRestriction("User2_ID", MQuery.EQUAL, f_User2_ID.getValue());
+		//	User 1
+		if (f_User3_ID != null && f_User3_ID.getValue() != null)
+			query.addRestriction("User3_ID", MQuery.EQUAL, f_User3_ID.getValue());
+		//	User 2
+		if (f_User4_ID != null && f_User4_ID.getValue() != null)
+			query.addRestriction("User4_ID", MQuery.EQUAL, f_User4_ID.getValue());
 
 		//	Query
 		m_mTab.setQuery(query);
@@ -872,6 +896,24 @@ public final class WAccountDialog extends Window
 				else
 					sql.append("=").append(value).append(" AND ");
 			}
+			else if (type.equals(MAcctSchemaElement.ELEMENTTYPE_UserList3))
+			{
+				value = f_User3_ID.getValue();
+				sql.append("User3_ID");
+				if (isEmpty(value))
+					sql.append(" IS NULL AND ");
+				else
+					sql.append("=").append(value).append(" AND ");
+			}
+			else if (type.equals(MAcctSchemaElement.ELEMENTTYPE_UserList4))
+			{
+				value = f_User4_ID.getValue();
+				sql.append("User4_ID");
+				if (isEmpty(value))
+					sql.append(" IS NULL AND ");
+				else
+					sql.append("=").append(value).append(" AND ");
+			}
 			//
 			if (ase.isMandatory() && isEmpty(value))
 				sb.append(ase.getName()).append(", ");
@@ -999,6 +1041,12 @@ public final class WAccountDialog extends Window
 		int User2_ID = 0;
 		if (f_User2_ID != null && !isEmpty(f_User2_ID.getValue()))
 			User2_ID = ((Integer)f_User2_ID.getValue()).intValue();
+		int User3_ID = 0;
+		if (f_User3_ID != null && !isEmpty(f_User3_ID.getValue()))
+			User3_ID = ((Integer)f_User3_ID.getValue()).intValue();
+		int User4_ID = 0;
+		if (f_User4_ID != null && !isEmpty(f_User4_ID.getValue()))
+			User4_ID = ((Integer)f_User4_ID.getValue()).intValue();
 
 		MAccount acct = MAccount.get (Env.getCtx(), m_AD_Client_ID,
 			((Integer)f_AD_Org_ID.getValue()).intValue(),
@@ -1007,7 +1055,7 @@ public final class WAccountDialog extends Window
 			M_Product_ID, C_BPartner_ID, AD_OrgTrx_ID,
 			C_LocFrom_ID, C_LocTo_ID, C_SRegion_ID,
 			C_Project_ID, C_Campaign_ID, C_Activity_ID,
-			User1_ID, User2_ID, 0, 0, null);
+			User1_ID, User2_ID , User3_ID , User4_ID , 0, 0, null);
 		if (acct != null && acct.get_ID() == 0)
 			acct.saveEx();
 
@@ -1088,6 +1136,12 @@ public final class WAccountDialog extends Window
 		//	User 2
 		if (f_User2_ID != null)
 			f_User2_ID.setValue(null);
+		//	User 3
+		if (f_User3_ID != null)
+			f_User3_ID.setValue(null);
+		//	User 4
+		if (f_User4_ID != null)
+			f_User4_ID.setValue(null);
 	}	//	action_Ignore
 
 	/**

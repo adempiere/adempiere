@@ -1,0 +1,193 @@
+/********************************************************************
+ * tf_fr3028588_rounding.sah
+ * 
+ * FR 3004020
+ * http://wiki.adempiere.net/Delivery_Policy
+ *
+ * Tests that orders are allocated according to the delivery policy
+ *
+ * Test process:
+ *
+ * Create a product with a random name and set it as stocked.  
+ * Create an organization with a warehouse.
+ * 
+ * For all values of the Client and Org delivery policy, verify that
+ * the allocation process functions.  Specifically:
+ *
+ *    Create a POS order and veryify that the order ships immediately.
+ *    Create a standard order and verify that the order does not ship. 
+ *    Check qty allocated to the order.
+ *    Create a second order and verify that the order does not ship.
+ *    Check qty allocated to the order.
+ *    Purchase more material and receive it.
+ *    Check qty allocated to the orders - should not change.
+ *	  Add a third order for the material and check qty allocated. Should
+ *    have changed for all unallocated orders.
+ *    Ship the orders and purchase material to reset inventory.
+ *
+ *    Repeat the first two steps above but use manual allocation after 
+ *    the purchase of new material.  
+ *	
+ *******************************************************************/
+
+// Login performed at the scenario level.
+ 
+function fr3004020_allocation(
+	$clientDeliveryPolicy,
+	$orgDeliveryPolicy,
+	$allocMethod,
+	$purchaseQty,
+	$O1Qty,
+	$O2Qty,
+	$O3Qty,
+	$O11Allocation,
+	$012Allocation,
+	$013Allocation,
+	$O22Allocation,
+	$O23Allocation,
+	$O33Allocation
+){
+	
+	// Run from the main menu
+
+	// Run variables
+	$rndString = random_string(4);
+	$testOrg = "Org_" + $rndString;
+	$testProduct = "Test_" + $rndString;
+	$testWarehouse = "Test_" + $rndString;
+	$testPLSchema = "Test_Schema " + $rndString;
+	$testBasePL = "Test Base Price List " +  $rndString;
+	$testSalesPL = "Test Sales Price List " + $rndString;
+	
+	$PO = "";
+	
+	// Set the Client Delivery Policy
+	open_window("Client");
+	form_view();
+	open_tab("Client Info");
+	if(_condition(_textbox(/^Field_DeliveryPolicy/).Value != $clientDeliveryPolicy))
+	{
+		_setValue(_textbox(/^Field_DeliveryPolicy/), $clientDeliveryPolicy);
+		save_record();
+		if(_exists(_cell("OK"))) {
+			_click(_cell("OK")); //Confirm the save.
+		}
+	}
+	close_window("Client");
+	
+	// Create a test organization and set the Delivery Policy
+	open_window("Organization");
+	form_view();
+	new_record();
+	_setValue(_textbox(/^Field_Value/), $testOrg);
+	_setValue(_textbox(/^Field_Name/), $testOrg);
+	_setValue(_textbox(/^Field_Description/), "Test Organization");
+	save_record();
+	_click(_cell("OK")); //Confirm the save.
+	open_tab("Organization Info");
+	if($orgDeliveryPolicy == "Null")
+	{
+		$orgDeliveryPolicy = "";
+	}
+	if(_condition(_textbox(/^Field_DeliveryPolicy/).Value != $orgDeliveryPolicy))
+	{
+		_setValue(_textbox(/^Field_DeliveryPolicy/), $orgDeliveryPolicy);
+		save_record();
+		if(_exists(_cell("OK"))) {
+			_click(_cell("OK")); //Confirm the save.
+		}
+	}
+	close_window("Organization");
+	
+	logout();
+	login("GardenAdmin", "GardenAdmin", "", "", "", "", $testOrg, "");
+	
+	// Assign a warehouse to the new organization
+	open_window("Warehouse & Locators");
+	new_record();
+	_setValue(_textbox(/^Field_Value/), $testWarehouse);
+	_setValue(_textbox(/^Field_Name/), $testWarehouse);
+	_setValue(_textbox(/^Field_Description/), "Test Warehouse");
+	_click(_image("Online10.png[1]"));
+	_setValue(_textbox(10), "1 main st");
+	_setValue(_textbox(14), "Ottawa");
+	_setSelected(_select(1), "Canada");
+	_setSelected(_select(0), "Ontario");
+	_click(_image("Ok16.png"));
+	save_record();
+	
+	open_tab("Locator");
+	_setValue(_textbox(/^Field_Value_178/), $testWarehouse);
+	_setValue(_textbox(/^Field_X/), "A");
+	_setValue(_textbox(/^Field_Y/), "B");
+	_setValue(_textbox(/^Field_Z/), "C");
+	save_record();
+	_assertEqual($testWarehouse,_getValue(_textbox(/^Field_Value_178/)));
+	close_window("Warehouse Locators");
+
+	logout();
+	login("GardenAdmin", "GardenAdmin", "", "", "", "", $testOrg, $testWarehouse);
+	
+	// Create a test product and add it to the base price list
+	open_window("Product");
+	form_view();
+	_click(_image("New24.png"));
+	_setValue(_textbox(/^Field_Value/), $testProduct);
+	_setValue(_textbox(/^Field_Name/), $testProduct);
+	_setValue(_textbox(/^Field_C_UOM_ID/), "Each");
+	_check(_checkbox(/^Field_IsStocked/));  // Invoke material management
+	// _click(_link("Re&Query[44]")); //Requery	
+	_setValue(_textbox(/^zk/,_in(_div(/^Field_M_Locator_ID_180/))),$testWarehouse);
+	save_record();
+	
+	open_tab("Price");
+	//Use the default/standard price list
+	//_click(_image("New24.png"));
+	_setValue(_textbox(/^Field_M_PriceList_Version_ID/), "Standard 2003");
+	_setValue(_textbox(49), 1.00);
+	_setValue(_textbox(51), 1.00);
+	_setValue(_textbox(53), 1.00);
+	save_record();
+	close_window("Product");
+	
+	//Create an order
+	open_window("Purchase Order");
+	form_view();
+	new_record();	
+	_setValue(_textbox(/^zk/,_in(_div(/^Field_C_BPartner_ID/))), "Tree Farm");
+	_click(_image("Save24.png"));
+	open_tab("PO Line");
+	_setValue(_textbox(/^zk/, _in(_div(/^Field_M_Product_ID/))), $testProduct);
+	_setValue(_textbox(/^zk/, _in(_div(/^Field_QtyEntered/))), $purchaseQty);
+	save_record();
+	open_tab("Purchase Order");
+	_getValue(_textbox(/^DocumentNo/),$PO);
+	_click(_cell("Complete"));
+	_click(_image("Ok24.png"));
+
+	//Receive the purchased goods.
+	open_window("Material Receipt");
+	form_view();
+	new_record();
+	_setValue(_textbox(/^C_BPartner_ID/), "Tree Farm Inc.");
+	save_record();
+	open_tab("Create lines from");
+	_setSelected(_select(0), /^$PO/);
+	_click(_checkbox("on[5]"));
+	_click(_image("Ok24.png"));
+	_click(_cell("Complete"));
+	_click(_image("Ok24.png"));
+	
+	_log("Test Completed", "info"); // Test Completed.
+	
+}
+
+function test_fr3004010_allocation(){
+
+	var $data = _readCSVFile("material_management/tf_fr3004020_allocation.csv");
+
+	_dataDrive(fr3004020_allocation, $data);
+
+}
+
+// End of test_fr3004020_allocation.

@@ -13,13 +13,13 @@
  *****************************************************************************/
 package org.adempiere.webui.apps.form;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.util.Vector;
 import java.util.logging.Level;
 
-import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.component.Grid;
@@ -35,15 +35,17 @@ import org.adempiere.webui.editor.WNumberEditor;
 import org.adempiere.webui.editor.WSearchEditor;
 import org.adempiere.webui.editor.WStringEditor;
 import org.adempiere.webui.editor.WTableDirEditor;
-import org.adempiere.webui.window.FDialog;
-import org.compiere.grid.CreateFromStatement;
-import org.compiere.model.GridTab;
-import org.compiere.model.MBankAccount;
+import org.adempiere.webui.panel.ADForm;
+import org.adempiere.webui.panel.CustomForm;
+import org.adempiere.webui.panel.IFormController;
+import org.compiere.apps.form.CreateFromStatement;
+import org.compiere.apps.form.ICreateFrom;
 import org.compiere.model.MBankStatement;
 import org.compiere.model.MColumn;
 import org.compiere.model.MLookup;
 import org.compiere.model.MLookupFactory;
 import org.compiere.model.MPayment;
+import org.compiere.process.ProcessInfo;
 import org.compiere.util.CLogger;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
@@ -55,100 +57,109 @@ import org.zkoss.zkex.zul.Borderlayout;
 import org.zkoss.zkex.zul.Center;
 import org.zkoss.zul.Hbox;
 
-public class WCreateFromStatementUI extends CreateFromStatement implements EventListener
-{
-	private static final long serialVersionUID = 1L;
+/**
+ *	@author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 114 ] Change "Create From" UI for Form like Dialog in window without "hardcode"
+ *		@see https://github.com/adempiere/adempiere/issues/114
+ *		<li> FR [ 441 ] Create From in C_BankStatement change to Smart Browse
+ *		@see https://github.com/adempiere/adempiere/issues/441
+ */
+@Deprecated
+public class WCreateFromStatementUI extends CreateFromStatement 
+	implements IFormController, ICreateFrom, EventListener {
 	
-	private WCreateFromWindow window;
-	
-	public WCreateFromStatementUI(GridTab tab) 
-	{
-		super(tab);
-		log.info(getGridTab().toString());
-		
-		window = new WCreateFromWindow(this, getGridTab().getWindowNo());
-		
-		p_WindowNo = getGridTab().getWindowNo();
+	/**
+	 * Standard Constructor
+	 */
+	public WCreateFromStatementUI() {
+		try {
+			v_CreateFromPanel = new WCreateFromPanel(this);
+			v_Container = new CustomForm() {
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = -6022139819209111460L;
 
-		try
-		{
-			if (!dynInit())
-				return;
-			zkInit();
-			setInitOK(true);
-		}
-		catch(Exception e)
-		{
+				public void setProcessInfo(ProcessInfo pi) {
+					p_WindowNo = pi.getWindowNo();
+					try {
+						//	Valid for launched from a window
+						if(pi != null) {
+							//	Valid Table and Record
+							validTable(pi.getTable_ID(), 
+									pi.getRecord_ID());
+						}
+						//	Init
+						if (!dynInit())
+							return;
+						zkInit();
+					} catch(Exception e) {
+						log.log(Level.SEVERE, "", e);
+					}
+				}
+			};
+		} catch (IOException e) {
 			log.log(Level.SEVERE, "", e);
-			setInitOK(false);
 		}
-		AEnv.showWindow(window);
 	}
-	
+
+	//	Yamel Senih FR [ 114 ], 2015-11-26
+	//	Change to form
+	private CustomForm v_Container = null;
+	/**	Main Panel for Create From	*/
+	private WCreateFromPanel v_CreateFromPanel;
 	/** Window No               */
 	private int p_WindowNo;
 
 	/**	Logger			*/
 	private CLogger log = CLogger.getCLogger(getClass());
 	
-	protected Label bankAccountLabel = new Label();
-	protected WTableDirEditor bankAccountField;
+	private Label bankAccountLabel = new Label();
+	private WTableDirEditor bankAccountField;
 	
-	protected Label documentNoLabel = new Label(Msg.translate(Env.getCtx(), "DocumentNo"));
-	protected WStringEditor documentNoField = new WStringEditor();
+	private Label documentNoLabel = new Label(Msg.translate(Env.getCtx(), "DocumentNo"));
+	private WStringEditor documentNoField = new WStringEditor();
 
-	protected Label documentTypeLabel = new Label();
-	protected WTableDirEditor documentTypeField;
+	private Label documentTypeLabel = new Label();
+	private WTableDirEditor documentTypeField;
 
-	protected Label authorizationLabel = new Label();
-	protected WStringEditor authorizationField = new WStringEditor();
+	private Label authorizationLabel = new Label();
+	private WStringEditor authorizationField = new WStringEditor();
 
-	protected Label tenderTypeLabel = new Label();
-	protected WTableDirEditor tenderTypeField;
+	private Label tenderTypeLabel = new Label();
+	private WTableDirEditor tenderTypeField;
 	
-	protected Label amtFromLabel = new Label(Msg.translate(Env.getCtx(), "PayAmt"));
-	protected WNumberEditor amtFromField = new WNumberEditor("AmtFrom", false, false, true, DisplayType.Amount, Msg.translate(Env.getCtx(), "AmtFrom"));
-	protected Label amtToLabel = new Label("-");
-	protected WNumberEditor amtToField = new WNumberEditor("AmtTo", false, false, true, DisplayType.Amount, Msg.translate(Env.getCtx(), "AmtTo"));
+	private Label amtFromLabel = new Label(Msg.translate(Env.getCtx(), "PayAmt"));
+	private WNumberEditor amtFromField = new WNumberEditor("AmtFrom", false, false, true, DisplayType.Amount, Msg.translate(Env.getCtx(), "AmtFrom"));
+	private Label amtToLabel = new Label("-");
+	private WNumberEditor amtToField = new WNumberEditor("AmtTo", false, false, true, DisplayType.Amount, Msg.translate(Env.getCtx(), "AmtTo"));
 	
-	protected Label BPartner_idLabel = new Label(Msg.translate(Env.getCtx(), "BPartner"));
-	protected WEditor bPartnerLookup;
+	private Label BPartner_idLabel = new Label(Msg.translate(Env.getCtx(), "BPartner"));
+	private WEditor bPartnerLookup;
 
-	protected Label dateFromLabel = new Label(Msg.translate(Env.getCtx(), "DateTrx"));
-	protected WDateEditor dateFromField = new WDateEditor("DateFrom", false, false, true, Msg.translate(Env.getCtx(), "DateFrom"));
-	protected Label dateToLabel = new Label("-");
-	protected WDateEditor dateToField = new WDateEditor("DateTo", false, false, true, Msg.translate(Env.getCtx(), "DateTo"));
+	private Label dateFromLabel = new Label(Msg.translate(Env.getCtx(), "DateTrx"));
+	private WDateEditor dateFromField = new WDateEditor("DateFrom", false, false, true, Msg.translate(Env.getCtx(), "DateFrom"));
+	private Label dateToLabel = new Label("-");
+	private WDateEditor dateToField = new WDateEditor("DateTo", false, false, true, Msg.translate(Env.getCtx(), "DateTo"));
 
 	/**
 	 *  Dynamic Init
 	 *  @throws Exception if Lookups cannot be initialized
 	 *  @return true if initialized
 	 */
-	public boolean dynInit() throws Exception
-	{
+	public boolean dynInit() throws Exception {
 		log.config("");
 		
-		super.dynInit();
-		
 		//Refresh button
-		Button refreshButton = window.getConfirmPanel().createButton(ConfirmPanel.A_REFRESH);
+		Button refreshButton = v_CreateFromPanel.getConfirmPanel().createButton(ConfirmPanel.A_REFRESH);
 		refreshButton.addEventListener(Events.ON_CLICK, this);
-		window.getConfirmPanel().addButton(refreshButton);
-				
-		if (getGridTab().getValue("C_BankStatement_ID") == null)
-		{
-			FDialog.error(0, window, "SaveErrorRowNotFound");
-			return false;
-		}
-		
-		window.setTitle(getTitle());
+		v_CreateFromPanel.getConfirmPanel().addButton(refreshButton);
 		
 		int AD_Column_ID = 4917;        //  C_BankStatement.C_BankAccount_ID
 		MLookup lookup = MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, AD_Column_ID, DisplayType.TableDir);
-		bankAccountField = new WTableDirEditor ("C_BankAccount_ID", true, false, true, lookup);
+		bankAccountField = new WTableDirEditor ("C_BankAccount_ID", true, true, true, lookup);
 		//  Set Default
-		int C_BankAccount_ID = Env.getContextAsInt(Env.getCtx(), p_WindowNo, "C_BankAccount_ID");
-		bankAccountField.setValue(new Integer(C_BankAccount_ID));
+		bankAccountField.setValue(getC_BankAccount_ID());
 		//  initial Loading
 		authorizationField = new WStringEditor ("authorization", false, false, true, 10, 30, null, null);
 		authorizationField.getComponent().addEventListener(Events.ON_CHANGE, this);
@@ -166,16 +177,13 @@ public class WCreateFromStatementUI extends CreateFromStatement implements Event
 		
 		Timestamp date = Env.getContextAsDate(Env.getCtx(), p_WindowNo, MBankStatement.COLUMNNAME_StatementDate);
 		dateToField.setValue(date);
-	
-		bankAccount = new MBankAccount(Env.getCtx(), C_BankAccount_ID, null);
 		
 		loadBankAccount();
 		
 		return true;
 	}   //  dynInit
 	
-	protected void zkInit() throws Exception
-	{
+	protected void zkInit() throws Exception {
 		bankAccountLabel.setText(Msg.translate(Env.getCtx(), "C_BankAccount_ID"));
     	authorizationLabel.setText(Msg.translate(Env.getCtx(), "R_AuthCode"));
     	
@@ -189,9 +197,9 @@ public class WCreateFromStatementUI extends CreateFromStatement implements Event
     	amtToField.getComponent().setTooltiptext(Msg.translate(Env.getCtx(), "AmtTo"));
     	
     	Borderlayout parameterLayout = new Borderlayout();
-		parameterLayout.setHeight("110px");
+		parameterLayout.setHeight("120px");
 		parameterLayout.setWidth("100%");
-    	Panel parameterPanel = window.getParameterPanel();
+    	Panel parameterPanel = v_CreateFromPanel.getParameterPanel();
 		parameterPanel.appendChild(parameterLayout);
 		
 		Grid parameterBankLayout = GridFactory.newGridLayout();
@@ -236,6 +244,10 @@ public class WCreateFromStatementUI extends CreateFromStatement implements Event
 		hbox.appendChild(dateToLabel.rightAlign());
 		hbox.appendChild(dateToField.getComponent());
 		row.appendChild(hbox);
+		//	Add to Main
+		v_CreateFromPanel.setWidth("100%");
+		v_CreateFromPanel.setHeight("100%");
+		v_Container.appendChild(v_CreateFromPanel);
 	}
 
 	/**
@@ -243,66 +255,78 @@ public class WCreateFromStatementUI extends CreateFromStatement implements Event
 	 *  @param e event
 	 * @throws Exception 
 	 */
-	public void onEvent(Event e) throws Exception
-	{
+	public void onEvent(Event e) throws Exception {
 		log.config("Action=" + e.getTarget().getId());
-		if(e.getTarget().equals(window.getConfirmPanel().getButton(ConfirmPanel.A_REFRESH)))
-		{
+		if(e.getTarget().equals(v_CreateFromPanel.getConfirmPanel().getButton(ConfirmPanel.A_REFRESH))) {
 			loadBankAccount();
-			window.tableChanged(null);
+			v_CreateFromPanel.tableChanged(null);
 		}
 	}
 	
-	protected void loadBankAccount()
-	{
+	/**
+	 * Load Bank Account
+	 */
+	private void loadBankAccount() {
 		loadTableOIS(getBankData(documentNoField.getValue().toString(), bPartnerLookup.getValue(), dateFromField.getValue(), dateToField.getValue(),
 				amtFromField.getValue(), amtToField.getValue(), documentTypeField.getValue(), tenderTypeField.getValue(), 
 				authorizationField.getValue().toString()));
 	}
 	
-	protected void loadTableOIS (Vector<?> data)
-	{
-		window.getWListbox().clear();
+	/**
+	 * Load Table Columns
+	 * @param data
+	 */
+	private void loadTableOIS (Vector<?> data) {
+		v_CreateFromPanel.getWListbox().clear();
 		
 		//  Remove previous listeners
-		window.getWListbox().getModel().removeTableModelListener(window);
+		v_CreateFromPanel.getWListbox().getModel().removeTableModelListener(v_CreateFromPanel);
 		//  Set Model
 		ListModelTable model = new ListModelTable(data);
-		model.addTableModelListener(window);
-		window.getWListbox().setData(model, getOISColumnNames());
+		model.addTableModelListener(v_CreateFromPanel);
+		v_CreateFromPanel.getWListbox().setData(model, getOISColumnNames());
 		//
 		
-		configureMiniTable(window.getWListbox());
+		configureMiniTable(v_CreateFromPanel.getWListbox());
 	}
 	
 	/**
 	 *  List total amount
 	 */
-	public void info()
-	{
+	public boolean info() {
+		//	Valid null
+		if(v_CreateFromPanel == null)
+			return false;
 		DecimalFormat format = DisplayType.getNumberFormat(DisplayType.Amount);
 
 		BigDecimal total = new BigDecimal(0.0);
-		int rows = window.getWListbox().getRowCount();
+		int rows = v_CreateFromPanel.getWListbox().getRowCount();
 		int count = 0;
 		for (int i = 0; i < rows; i++)
 		{
-			if (((Boolean)window.getWListbox().getValueAt(i, 0)).booleanValue())
+			if (((Boolean)v_CreateFromPanel.getWListbox().getValueAt(i, 0)).booleanValue())
 			{
-				total = total.add((BigDecimal)window.getWListbox().getValueAt(i, 4));
+				total = total.add((BigDecimal)v_CreateFromPanel.getWListbox().getValueAt(i, 4));
 				count++;
 			}
 		}
-		window.setStatusLine(count, Msg.getMsg(Env.getCtx(), "Sum") + "  " + format.format(total));
+		v_CreateFromPanel.setStatusLine(count, Msg.getMsg(Env.getCtx(), "Sum") + "  " + format.format(total));
+		//	Default return true for update panel from it method
+		return true;
 	}   //  infoStatement
-	
-	public void showWindow()
-	{
-		window.setVisible(true);
+
+	@Override
+	public int getWindowNo() {
+		return v_Container.getWindowNo();
 	}
-	
-	public void closeWindow()
-	{
-		window.dispose();
+
+	@Override
+	public void dispose() {
+		v_Container.dispose();
+	}
+
+	@Override
+	public ADForm getForm() {
+		return v_Container;
 	}
 }

@@ -1,8 +1,9 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -11,8 +12,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 package org.compiere.model;
 
@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for GL_DistributionLine
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0
+ *  @version Release 3.9.0
  */
 public interface I_GL_DistributionLine 
 {
@@ -87,6 +87,32 @@ public interface I_GL_DistributionLine
 	  * Account used
 	  */
 	public int getAccount_ID();
+
+    /** Column name AmtAcctCr */
+    public static final String COLUMNNAME_AmtAcctCr = "AmtAcctCr";
+
+	/** Set Accounted Credit.
+	  * Accounted Credit Amount
+	  */
+	public void setAmtAcctCr (BigDecimal AmtAcctCr);
+
+	/** Get Accounted Credit.
+	  * Accounted Credit Amount
+	  */
+	public BigDecimal getAmtAcctCr();
+
+    /** Column name AmtAcctDr */
+    public static final String COLUMNNAME_AmtAcctDr = "AmtAcctDr";
+
+	/** Set Accounted Debit.
+	  * Accounted Debit Amount
+	  */
+	public void setAmtAcctDr (BigDecimal AmtAcctDr);
+
+	/** Get Accounted Debit.
+	  * Accounted Debit Amount
+	  */
+	public BigDecimal getAmtAcctDr();
 
     /** Column name C_Activity_ID */
     public static final String COLUMNNAME_C_Activity_ID = "C_Activity_ID";
@@ -250,6 +276,19 @@ public interface I_GL_DistributionLine
 
 	public org.compiere.model.I_GL_Distribution getGL_Distribution() throws RuntimeException;
 
+    /** Column name InvertAccountSign */
+    public static final String COLUMNNAME_InvertAccountSign = "InvertAccountSign";
+
+	/** Set Invert Account Sign.
+	  * Enable invert account sign when a GL Distribution rule applied
+	  */
+	public void setInvertAccountSign (boolean InvertAccountSign);
+
+	/** Get Invert Account Sign.
+	  * Enable invert account sign when a GL Distribution rule applied
+	  */
+	public boolean isInvertAccountSign();
+
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
 
@@ -408,6 +447,19 @@ public interface I_GL_DistributionLine
 	  */
 	public boolean isOverwriteOrgTrx();
 
+    /** Column name OverwritePostingType */
+    public static final String COLUMNNAME_OverwritePostingType = "OverwritePostingType";
+
+	/** Set Overwrite Posting Type.
+	  * Overwrite the posting type with the value specified
+	  */
+	public void setOverwritePostingType (boolean OverwritePostingType);
+
+	/** Get Overwrite Posting Type.
+	  * Overwrite the posting type with the value specified
+	  */
+	public boolean isOverwritePostingType();
+
     /** Column name OverwriteProduct */
     public static final String COLUMNNAME_OverwriteProduct = "OverwriteProduct";
 
@@ -473,6 +525,32 @@ public interface I_GL_DistributionLine
 	  */
 	public boolean isOverwriteUser2();
 
+    /** Column name OverwriteUser3 */
+    public static final String COLUMNNAME_OverwriteUser3 = "OverwriteUser3";
+
+	/** Set Overwrite User3.
+	  * Overwrite the account segment User 3 with the value specified
+	  */
+	public void setOverwriteUser3 (boolean OverwriteUser3);
+
+	/** Get Overwrite User3.
+	  * Overwrite the account segment User 3 with the value specified
+	  */
+	public boolean isOverwriteUser3();
+
+    /** Column name OverwriteUser4 */
+    public static final String COLUMNNAME_OverwriteUser4 = "OverwriteUser4";
+
+	/** Set Overwrite User4.
+	  * Overwrite the account segment User 4 with the value specified
+	  */
+	public void setOverwriteUser4 (boolean OverwriteUser4);
+
+	/** Get Overwrite User4.
+	  * Overwrite the account segment User 4 with the value specified
+	  */
+	public boolean isOverwriteUser4();
+
     /** Column name Percent */
     public static final String COLUMNNAME_Percent = "Percent";
 
@@ -485,6 +563,19 @@ public interface I_GL_DistributionLine
 	  * Percentage
 	  */
 	public BigDecimal getPercent();
+
+    /** Column name PostingType */
+    public static final String COLUMNNAME_PostingType = "PostingType";
+
+	/** Set PostingType.
+	  * The type of posted amount for the transaction
+	  */
+	public void setPostingType (String PostingType);
+
+	/** Get PostingType.
+	  * The type of posted amount for the transaction
+	  */
+	public String getPostingType();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -531,4 +622,34 @@ public interface I_GL_DistributionLine
 	public int getUser2_ID();
 
 	public org.compiere.model.I_C_ElementValue getUser2() throws RuntimeException;
+
+    /** Column name User3_ID */
+    public static final String COLUMNNAME_User3_ID = "User3_ID";
+
+	/** Set User List 3.
+	  * User defined list element #3
+	  */
+	public void setUser3_ID (int User3_ID);
+
+	/** Get User List 3.
+	  * User defined list element #3
+	  */
+	public int getUser3_ID();
+
+	public org.compiere.model.I_C_ElementValue getUser3() throws RuntimeException;
+
+    /** Column name User4_ID */
+    public static final String COLUMNNAME_User4_ID = "User4_ID";
+
+	/** Set User List 4.
+	  * User defined list element #4
+	  */
+	public void setUser4_ID (int User4_ID);
+
+	/** Get User List 4.
+	  * User defined list element #4
+	  */
+	public int getUser4_ID();
+
+	public org.compiere.model.I_C_ElementValue getUser4() throws RuntimeException;
 }

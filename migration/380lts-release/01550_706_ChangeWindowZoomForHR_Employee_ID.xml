@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Change window zoom for HR_Employee_ID field #706" ReleaseNo="3.9.0" SeqNo="01550">
+    <Comments>https://github.com/adempiere/adempiere/issues/706</Comments>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="100" Action="U" Record_ID="53086" Table="AD_Table">
+        <Data AD_Column_ID="105" Column="AD_Window_ID" oldValue="53033">53323</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

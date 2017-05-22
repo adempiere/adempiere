@@ -31,6 +31,7 @@ import javax.sql.ConnectionPoolDataSource;
 import javax.sql.DataSource;
 import javax.sql.RowSet;
 
+import org.compiere.Adempiere;
 import org.compiere.dbPort.Convert;
 import org.compiere.dbPort.Convert_PostgreSQL;
 import org.compiere.util.CLogger;
@@ -49,7 +50,10 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
  *  Modifications: removed static references to database connection and instead always
  *  get a new connection from database pool manager which manages all connections
  *                 set rw/ro properties for the connection accordingly.
- *  @author Ashley Ramdass (Posterita) 
+ *  @author Ashley Ramdass (Posterita)
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *			<li> FR [ 391 ] getSchema method in DB_PostgreSQL.java is better use the adempiere user
+ *			@see https://github.com/adempiere/adempiere/issues/391
  */
 public class DB_PostgreSQL implements AdempiereDatabase
 {
@@ -213,11 +217,19 @@ public class DB_PostgreSQL implements AdempiereDatabase
 	 * 	Get JDBC Schema
 	 *	@return schema (dbo)
 	 */
-	public String getSchema()
-	{
-		//begin vpj-cd e-evolution 03/04/2005
-		return "adempiere";
-		//end vpj-cd e-evolution 03/04/2005
+	public String getSchema() {
+		//	vpj-cd e-evolution 03/04/2005
+		//	BR [ 391 ]
+		if (m_userName == null) {
+	        CConnection cconn = CConnection.get(Adempiere.getCodeBaseHost());
+	        m_userName = cconn.getDbUid();
+	    }
+    	//	Validate
+        if (m_userName == null) {
+        	log.severe("User Name not set (yet) - call getConnectionURL first");
+        	return null;
+        }
+	    return m_userName;
 	}	//	getSchema
 
 	/**
@@ -287,22 +299,19 @@ public class DB_PostgreSQL implements AdempiereDatabase
 	public String convertStatement (String oraStatement)
 	{
 		String retValue[] = m_convert.convert(oraStatement);
-		
+		//	begin vpj-cd 24/06/2005 e-evolution
+		if (retValue == null) {	
+			log.log(Level.SEVERE,("DB_PostgreSQL.convertStatement - Not Converted (" + oraStatement + ") - "
+					+ m_convert.getConversionError()));
+			throw new IllegalArgumentException
+			("DB_PostgreSQL.convertStatement - Not Converted (" + oraStatement + ") - "
+					+ m_convert.getConversionError());
+		}
+		//	end vpj-cd 24/06/2005 e-evolution
         //begin vpj-cd e-evolution 03/14/2005
 		if (retValue.length == 0 )
 			return  oraStatement;
         //end vpj-cd e-evolution 03/14/2005
-		
-		if (retValue == null)
-        //begin vpj-cd 24/06/2005 e-evolution	
-		{	
-			log.log(Level.SEVERE,("DB_PostgreSQL.convertStatement - Not Converted (" + oraStatement + ") - "
-					+ m_convert.getConversionError()));
-			throw new IllegalArgumentException
-				("DB_PostgreSQL.convertStatement - Not Converted (" + oraStatement + ") - "
-					+ m_convert.getConversionError());
-		}
-		//		end vpj-cd 24/06/2005 e-evolution
 		if (retValue.length != 1)
 			//begin vpj-cd 24/06/2005 e-evolution
 			{
@@ -314,12 +323,12 @@ public class DB_PostgreSQL implements AdempiereDatabase
 			}
 			//end vpj-cd 24/06/2005 e-evolution
 		//  Diagnostics (show changed, but not if AD_Error
-		if (log.isLoggable(Level.FINE))
+		if (log.isLoggable(Level.ALL))
 		{
 			if (!oraStatement.equals(retValue[0]) && retValue[0].indexOf("AD_Error") == -1)
 			{
 				//begin vpj-cd 24/06/2005 e-evolution
-				log.log(Level.FINE, "PostgreSQL =>" + retValue[0] + "<= <" + oraStatement + ">");
+				log.log(Level.ALL, "PostgreSQL =>" + retValue[0] + "<= <" + oraStatement + ">");
 			}
 		}
 		    //end vpj-cd 24/06/2005 e-evolution
@@ -363,8 +372,8 @@ public class DB_PostgreSQL implements AdempiereDatabase
 		if (time == null)
 		{
 			if (dayOnly)
-				return "current_date()";
-			return "current_date()";
+				return "current_date";
+			return "current_date";
 		}
 
 		StringBuffer dateString = new StringBuffer("TO_DATE('");

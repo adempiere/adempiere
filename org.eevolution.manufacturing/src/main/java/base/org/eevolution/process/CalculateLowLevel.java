@@ -16,58 +16,51 @@
 
 package org.eevolution.process;
 
-import java.util.logging.Level;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.compiere.model.MProduct;
-import org.compiere.model.POResultSet;
 import org.compiere.model.Query;
-import org.compiere.process.SvrProcess;
-import org.compiere.util.Env;
+import org.compiere.util.DB;
+import org.compiere.util.Trx;
 import org.eevolution.model.MPPProductBOMLine;
 
 /**
- *	CalculateLowLevel for MRP
- *	
- *  @author Victor Perez, e-Evolution, S.C.
- *  @version $Id: CalculateLowLevel.java,v 1.1 2004/06/22 05:24:03 vpj-cd Exp $
- *  
+ * Calculate Low Level for MRP and Rollup Cost
+ *
+ * @author Victor Perez, e-Evolution, S.C.
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  */
-public class CalculateLowLevel extends SvrProcess
-{
-	/**
-	 *  Prepare - e.g., get Parameters.
-	 */
-	protected void prepare()
-	{
-	} //	prepare
+public class CalculateLowLevel extends CalculateLowLevelAbstract {
+    /**
+     * Prepare - e.g., get Parameters.
+     */
+    protected void prepare() {
+        super.prepare();
+    } //	prepare
 
-	protected String doIt() throws Exception
-	{
-		int count_ok = 0;
-		int count_err = 0;
-		//
-		POResultSet<MProduct> rs = new Query(getCtx(), MProduct.Table_Name, "AD_Client_ID=?", get_TrxName())
-									.setParameters(new Object[]{Env.getAD_Client_ID(getCtx())})
-									.setOrderBy(MProduct.COLUMNNAME_M_Product_ID)
-									.scroll();
-		rs.setCloseOnError(true);
-		while(rs.hasNext()) {
-			MProduct product = rs.next();
-			try {
-				int lowlevel = MPPProductBOMLine.getLowLevel(getCtx(), product.get_ID(), get_TrxName());
-				product.setLowLevel(lowlevel);
-				product.saveEx();
-				commitEx();
-				count_ok++;
-			}
-			catch(Exception e) {
-				log.log(Level.SEVERE, e.getLocalizedMessage(), e);
-				count_err++;
-			}
-		}
-		rs.close();
+    protected String doIt() throws Exception {
+        AtomicInteger countOk = new AtomicInteger(0);
+        int[] productIds = new Query(getCtx(), MProduct.Table_Name, "AD_Client_ID=?", get_TrxName())
+                .setParameters(getAD_Client_ID())
+                .setOrderBy(MProduct.COLUMNNAME_M_Product_ID)
+                .getIDs();
 
-		return "@Ok@ #"+count_ok+" @Error@ #"+count_err;
-	}
+        Arrays.stream(productIds).
+                filter(productId -> productId > 0)
+                .forEach(productId -> {
+                    Trx.run(trxName -> {
+                        int lowLevel = MPPProductBOMLine.getLowLevel(getCtx(), productId, trxName);
+                        StringBuilder sql = new StringBuilder("UPDATE M_Product SET LowLevel=? WHERE M_Product_ID=?");
+                        List<Object> parameters = new ArrayList();
+                        parameters.add(lowLevel);
+                        parameters.add(productId);
+                        DB.executeUpdateEx(sql.toString(), parameters.toArray(), trxName);
+                        countOk.updateAndGet(count -> count + 1);
+                    });
+                });
+        return "@Ok@ @Records@ " + countOk + " @Processed@";
+    }
 }

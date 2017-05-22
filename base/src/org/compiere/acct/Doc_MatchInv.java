@@ -26,12 +26,14 @@ import org.compiere.model.MAcctSchemaElement;
 import org.compiere.model.MConversionRate;
 import org.compiere.model.MCostDetail;
 import org.compiere.model.MCostType;
+import org.compiere.model.MDocType;
 import org.compiere.model.MInOut;
 import org.compiere.model.MInOutLine;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MInvoiceLine;
 import org.compiere.model.MMatchInv;
 import org.compiere.model.ProductCost;
+import org.compiere.util.DB;
 import org.compiere.util.Env;
 
 /**
@@ -151,7 +153,8 @@ public class Doc_MatchInv extends Doc
 			return fact;
 		}
 		**/
-		
+		if (!m_receiptLine.getM_Product().isStocked())
+			return facts;
 		
 		//  NotInvoicedReceipt      DR
 		//  From Receipt
@@ -167,12 +170,13 @@ public class Doc_MatchInv extends Doc
 			return null;
 		}
         dr.setM_Product_ID(m_receiptLine.getM_Product_ID());
-		dr.setQty(getQty());
+		String documentBaseTypeReceipt = DB.getSQLValueString(m_receiptLine.get_TrxName() , "SELECT DocBaseType FROM C_DocType WHERE C_DocType_ID=?", m_receiptLine.getParent().getC_DocType_ID());
+		BigDecimal quantityReceipt = MDocType.DOCBASETYPE_MaterialReceipt.equals(documentBaseTypeReceipt) ? getQty() : getQty().negate();
+		dr.setQty(quantityReceipt);
 		BigDecimal temp = dr.getAcctBalance();
 		//	Set AmtAcctCr/Dr from Receipt (sets also Project)
 		if (!dr.updateReverseLine (MInOut.Table_ID, 		//	Amt updated
-			m_receiptLine.getM_InOut_ID(), m_receiptLine.getM_InOutLine_ID(),
-            getQty() , multiplier))
+			m_receiptLine.getM_InOut_ID(), m_receiptLine.getM_InOutLine_ID(), quantityReceipt , multiplier))
 		{
 			p_Error = "Mat.Receipt not posted yet";
 			return null;
@@ -230,6 +234,8 @@ public class Doc_MatchInv extends Doc
 					pv.setC_UOM_ID(m_invoiceLine.getC_UOM_ID());
 					pv.setUser1_ID(m_invoiceLine.getUser1_ID());
 					pv.setUser2_ID(m_invoiceLine.getUser2_ID());
+					pv.setUser3_ID(m_invoiceLine.getUser3_ID());
+					pv.setUser4_ID(m_invoiceLine.getUser4_ID());
 					if (diff.compareTo(Env.ZERO)!= 0 && MCostType.COSTINGMETHOD_AverageInvoice.equals(ct.getCostingMethod()))
 					{
 						FactLine diffline = fact.createLine(null,
@@ -242,6 +248,8 @@ public class Doc_MatchInv extends Doc
 						diffline.setC_UOM_ID(m_invoiceLine.getC_UOM_ID());
 						diffline.setUser1_ID(m_invoiceLine.getUser1_ID());
 						diffline.setUser2_ID(m_invoiceLine.getUser2_ID());
+						diffline.setUser3_ID(m_invoiceLine.getUser3_ID());
+						diffline.setUser4_ID(m_invoiceLine.getUser4_ID());
 					}
 				}
 				log.fine("IPV=" + ipv + "; Balance=" + fact.getSourceBalance());
@@ -249,12 +257,13 @@ public class Doc_MatchInv extends Doc
 				return facts;
 			}
             cr.setM_Product_ID(m_invoiceLine.getM_Product_ID());
-			cr.setQty(getQty().negate());
-
 			temp = cr.getAcctBalance();
+			String documentBaseTypeInvoice = DB.getSQLValueString(m_invoiceLine.get_TrxName() , "SELECT DocBaseType FROM C_DocType WHERE C_DocType_ID=?", m_invoiceLine.getParent().getC_DocType_ID());
+			BigDecimal quantityInvoice = MDocType.DOCBASETYPE_APInvoice.equals(documentBaseTypeInvoice) ?  getQty().negate() : getQty() ;
+			cr.setQty(quantityInvoice);
 			//	Set AmtAcctCr/Dr from Invoice (sets also Project)
 			if (as.isAccrual() && !cr.updateReverseLine (MInvoice.Table_ID, 		//	Amt updated
-				m_invoiceLine.getC_Invoice_ID(), m_invoiceLine.getC_InvoiceLine_ID(), getQty().negate() , multiplier))
+				m_invoiceLine.getC_Invoice_ID(), m_invoiceLine.getC_InvoiceLine_ID(), quantityInvoice , multiplier))
 			{
 				p_Error = "Invoice not posted yet";
 				return null;
@@ -282,6 +291,8 @@ public class Doc_MatchInv extends Doc
 		cr.setC_UOM_ID(m_invoiceLine.getC_UOM_ID());
 		cr.setUser1_ID(m_invoiceLine.getUser1_ID());
 		cr.setUser2_ID(m_invoiceLine.getUser2_ID());
+		cr.setUser3_ID(m_invoiceLine.getUser3_ID());
+		cr.setUser4_ID(m_invoiceLine.getUser4_ID());
 
 		//AZ Goodwill
 		//Desc: Source Not Balanced problem because Currency is Difference - PO=CNY but AP=USD 
@@ -338,6 +349,8 @@ public class Doc_MatchInv extends Doc
 			pv.setC_UOM_ID(m_invoiceLine.getC_UOM_ID());
 			pv.setUser1_ID(m_invoiceLine.getUser1_ID());
 			pv.setUser2_ID(m_invoiceLine.getUser2_ID());
+			pv.setUser3_ID(m_invoiceLine.getUser3_ID());
+			pv.setUser4_ID(m_invoiceLine.getUser4_ID());
 			
 			//
 		}
@@ -349,30 +362,37 @@ public class Doc_MatchInv extends Doc
 			FactLine pv = fact.createLine(null,
 				m_pc.getAccount(ProductCost.ACCTTYPE_P_Asset, as),
 				as.getC_Currency_ID(), costs);
-			pv.setC_Activity_ID(m_invoiceLine.getC_Activity_ID());
-			pv.setC_Campaign_ID(m_invoiceLine.getC_Campaign_ID());
-			pv.setC_Project_ID(m_invoiceLine.getC_Project_ID());
-			pv.setC_ProjectPhase_ID(m_invoiceLine.getC_ProjectPhase_ID());
-			pv.setC_ProjectTask_ID(m_invoiceLine.getC_ProjectTask_ID());
-			pv.setC_UOM_ID(m_invoiceLine.getC_UOM_ID());
-			pv.setUser1_ID(m_invoiceLine.getUser1_ID());
-			pv.setUser2_ID(m_invoiceLine.getUser2_ID());
+			if (pv != null) {
+				pv.setC_Activity_ID(m_invoiceLine.getC_Activity_ID());
+				pv.setC_Campaign_ID(m_invoiceLine.getC_Campaign_ID());
+				pv.setC_Project_ID(m_invoiceLine.getC_Project_ID());
+				pv.setC_ProjectPhase_ID(m_invoiceLine.getC_ProjectPhase_ID());
+				pv.setC_ProjectTask_ID(m_invoiceLine.getC_ProjectTask_ID());
+				pv.setC_UOM_ID(m_invoiceLine.getC_UOM_ID());
+				pv.setUser1_ID(m_invoiceLine.getUser1_ID());
+				pv.setUser2_ID(m_invoiceLine.getUser2_ID());
+				pv.setUser3_ID(m_invoiceLine.getUser3_ID());
+				pv.setUser4_ID(m_invoiceLine.getUser4_ID());
+			}
 			
 			BigDecimal diff = ipv.subtract(costs);
 			MInvoice m_invoice = m_invoiceLine.getParent();
-			int C_Currency_ID = m_invoice.getC_Currency_ID();
 			if (diff.compareTo(Env.ZERO)!= 0 )
 			{
 				FactLine diffline = fact.createLine(null,
 						m_pc.getAccount(ProductCost.ACCTTYPE_P_CostAdjustment, as),
-						C_Currency_ID, diff);
-				diffline.setC_Activity_ID(m_invoiceLine.getC_Activity_ID());
-				diffline.setC_Project_ID(m_invoiceLine.getC_Project_ID());
-				diffline.setC_ProjectPhase_ID(m_invoiceLine.getC_ProjectPhase_ID());
-				diffline.setC_ProjectTask_ID(m_invoiceLine.getC_ProjectTask_ID());
-				diffline.setC_UOM_ID(m_invoiceLine.getC_UOM_ID());
-				diffline.setUser1_ID(m_invoiceLine.getUser1_ID());
-				diffline.setUser2_ID(m_invoiceLine.getUser2_ID());
+						as.getC_Currency_ID(), diff);
+				if (diffline != null) {
+					diffline.setC_Activity_ID(m_invoiceLine.getC_Activity_ID());
+					diffline.setC_Project_ID(m_invoiceLine.getC_Project_ID());
+					diffline.setC_ProjectPhase_ID(m_invoiceLine.getC_ProjectPhase_ID());
+					diffline.setC_ProjectTask_ID(m_invoiceLine.getC_ProjectTask_ID());
+					diffline.setC_UOM_ID(m_invoiceLine.getC_UOM_ID());
+					diffline.setUser1_ID(m_invoiceLine.getUser1_ID());
+					diffline.setUser2_ID(m_invoiceLine.getUser2_ID());
+					diffline.setUser3_ID(m_invoiceLine.getUser3_ID());
+					diffline.setUser4_ID(m_invoiceLine.getUser4_ID());
+				}
 			}
 		}
 		log.fine("IPV=" + ipv + "; Balance=" + fact.getSourceBalance());

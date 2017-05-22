@@ -51,6 +51,37 @@ public class MYear extends X_C_Year
 	 */
 	private static final long serialVersionUID = 2110541427179611810L;
 
+	static public  MYear getByFiscalYear(Properties ctx , Timestamp dateAccount , String trxName )
+	{
+		long timestamp = dateAccount.getTime();
+		Calendar cal = Calendar.getInstance();
+		cal.setTimeInMillis(timestamp);
+		int year = cal.get(Calendar.YEAR);
+
+		if (year > 0)
+		return new Query(ctx , MYear.Table_Name , MYear.COLUMNNAME_FiscalYear + "=?" , trxName)
+				.setClient_ID()
+				.setParameters(new Integer(year).toString())
+				.first();
+		else
+			return null;
+	}
+
+	/**
+	 * Get Year based on fiscal Year
+	 * @param ctx
+	 * @param fiscalYear
+	 * @param trxName
+	 * @return
+	 */
+	static public  MYear getByFiscalYear(Properties ctx , String fiscalYear , String trxName )
+	{
+		return new Query(ctx , MYear.Table_Name , MYear.COLUMNNAME_FiscalYear +  "=?", trxName)
+				.setClient_ID()
+				.setParameters(fiscalYear)
+				.first();
+	}
+
 	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
@@ -261,9 +292,21 @@ public class MYear extends X_C_Year
 			// get first day of next month
 			cal.add(Calendar.DAY_OF_YEAR, 1);
 		}
-		
 		return true;
-		
 	}	//	createStdPeriods
+
+	/**
+	 * get Period based for this year
+	 * @param periodNo
+	 * @return
+	 */
+	public MPeriod getPeriod(int periodNo) {
+		final String whereClause = MPeriod.COLUMNNAME_C_Year_ID+"=? AND " + MPeriod.COLUMNNAME_PeriodNo + "=?";
+		return new Query(getCtx(), MPeriod.Table_Name, whereClause, get_TrxName())
+				.setClient_ID()
+				.setOnlyActiveRecords(true)
+				.setParameters(getC_Year_ID(), periodNo)
+				.firstOnly();
+	}
 	
 }	//	MYear

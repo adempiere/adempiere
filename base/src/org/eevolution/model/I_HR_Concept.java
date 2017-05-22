@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2016 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
@@ -11,8 +11,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 package org.eevolution.model;
 
@@ -23,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for HR_Concept
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0
+ *  @version Release 3.9.0
  */
 public interface I_HR_Concept 
 {
@@ -41,6 +40,19 @@ public interface I_HR_Concept
     BigDecimal accessLevel = BigDecimal.valueOf(7);
 
     /** Load Meta Data */
+
+    /** Column name AccountSign */
+    public static final String COLUMNNAME_AccountSign = "AccountSign";
+
+	/** Set Account Sign.
+	  * Indicates the Natural Sign of the Account as a Debit or Credit
+	  */
+	public void setAccountSign (String AccountSign);
+
+	/** Get Account Sign.
+	  * Indicates the Natural Sign of the Account as a Debit or Credit
+	  */
+	public String getAccountSign();
 
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
@@ -77,19 +89,6 @@ public interface I_HR_Concept
 	public int getAD_Reference_ID();
 
 	public org.compiere.model.I_AD_Reference getAD_Reference() throws RuntimeException;
-
-    /** Column name AccountSign */
-    public static final String COLUMNNAME_AccountSign = "AccountSign";
-
-	/** Set Account Sign.
-	  * Indicates the Natural Sign of the Account as a Debit or Credit
-	  */
-	public void setAccountSign (String AccountSign);
-
-	/** Get Account Sign.
-	  * Indicates the Natural Sign of the Account as a Debit or Credit
-	  */
-	public String getAccountSign();
 
     /** Column name ColumnType */
     public static final String COLUMNNAME_ColumnType = "ColumnType";
@@ -147,15 +146,26 @@ public interface I_HR_Concept
     /** Column name HR_Concept_ID */
     public static final String COLUMNNAME_HR_Concept_ID = "HR_Concept_ID";
 
-	/** Set AD Payroll Concept.
+	/** Set Global Payroll Concept.
 	  * The Payroll Concept allows to define all the perception and deductions elements needed to define a payroll.
 	  */
 	public void setHR_Concept_ID (int HR_Concept_ID);
 
-	/** Get AD Payroll Concept.
+	/** Get Global Payroll Concept.
 	  * The Payroll Concept allows to define all the perception and deductions elements needed to define a payroll.
 	  */
 	public int getHR_Concept_ID();
+
+    /** Column name HR_Concept_Type_ID */
+    public static final String COLUMNNAME_HR_Concept_Type_ID = "HR_Concept_Type_ID";
+
+	/** Set Global Payroll Concept Type ID	  */
+	public void setHR_Concept_Type_ID (int HR_Concept_Type_ID);
+
+	/** Get Global Payroll Concept Type ID	  */
+	public int getHR_Concept_Type_ID();
+
+	public org.eevolution.model.I_HR_Concept_Type getHR_Concept_Type() throws RuntimeException;
 
     /** Column name HR_Department_ID */
     public static final String COLUMNNAME_HR_Department_ID = "HR_Department_ID";
@@ -263,6 +273,15 @@ public interface I_HR_Concept
 	  */
 	public boolean isManual();
 
+    /** Column name IsNotSaveInHistoryIfNull */
+    public static final String COLUMNNAME_IsNotSaveInHistoryIfNull = "IsNotSaveInHistoryIfNull";
+
+	/** Set No Save In History If Is Null	  */
+	public void setIsNotSaveInHistoryIfNull (boolean IsNotSaveInHistoryIfNull);
+
+	/** Get No Save In History If Is Null	  */
+	public boolean isNotSaveInHistoryIfNull();
+
     /** Column name IsPaid */
     public static final String COLUMNNAME_IsPaid = "IsPaid";
 
@@ -275,6 +294,19 @@ public interface I_HR_Concept
 	  * The document is paid
 	  */
 	public boolean isPaid();
+
+    /** Column name IsPrepayment */
+    public static final String COLUMNNAME_IsPrepayment = "IsPrepayment";
+
+	/** Set Prepayment.
+	  * The Payment/Receipt is a Prepayment
+	  */
+	public void setIsPrepayment (boolean IsPrepayment);
+
+	/** Get Prepayment.
+	  * The Payment/Receipt is a Prepayment
+	  */
+	public boolean isPrepayment();
 
     /** Column name IsPrinted */
     public static final String COLUMNNAME_IsPrinted = "IsPrinted";
@@ -310,6 +342,19 @@ public interface I_HR_Concept
 
 	/** Get Save In Historic	  */
 	public boolean isSaveInHistoric();
+
+    /** Column name IsTaxExempt */
+    public static final String COLUMNNAME_IsTaxExempt = "IsTaxExempt";
+
+	/** Set SO Tax exempt.
+	  * Business partner is exempt from tax on sales
+	  */
+	public void setIsTaxExempt (boolean IsTaxExempt);
+
+	/** Get SO Tax exempt.
+	  * Business partner is exempt from tax on sales
+	  */
+	public boolean isTaxExempt();
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

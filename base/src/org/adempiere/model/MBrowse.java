@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Properties;
 
 import org.compiere.model.Query;
+import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -32,7 +33,11 @@ import org.compiere.util.Env;
  * @author victor.perez@e-evoluton.com, www.e-evolution.com
  *  <li>FR [ 3426137 ] Smart Browser
  * 	https://sourceforge.net/tracker/?func=detail&aid=3426137&group_id=176962&atid=879335
- * 
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * 		<li>FR [ 267 ] Smart Browse don't have a Sequence Tab for Search Criteria Fields
+ * 		@see https://github.com/adempiere/adempiere/issues/267
+ * 		<li>FR [ 344 ] Smart Browse Search View is not MVC
+ * 		@see https://github.com/adempiere/adempiere/issues/344
  */
 public class MBrowse extends X_AD_Browse {
 
@@ -50,6 +55,8 @@ public class MBrowse extends X_AD_Browse {
 	private List<MBrowseField> m_IdentifierFields = null;
 	private List<MBrowseField> m_OrderByFields = null;
 	private	MBrowseField m_fieldKey = null;
+	/**	Cache						*/
+	private static CCache<Integer,MBrowse>	s_cache	= new CCache<Integer,MBrowse>("AD_Browse", 20);
 
 	/**************************************************************************
 	 * Asset Constructor
@@ -121,7 +128,8 @@ public class MBrowse extends X_AD_Browse {
 			return new Query(getCtx(), MBrowseField.Table_Name,
 					whereClause.toString(), get_TrxName())
 					.setParameters(get_ID(), "Y").setOnlyActiveRecords(true)
-					.setOrderBy(MBrowseField.COLUMNNAME_SeqNo).list();
+					//	FR [ 267 ] Add SeqNoGrid
+					.setOrderBy(MBrowseField.COLUMNNAME_SeqNoGrid).list();
 		}
 		return m_CriterialFields;
 	}
@@ -172,11 +180,16 @@ public class MBrowse extends X_AD_Browse {
 		if (m_DisplayFields == null) {
 			final StringBuilder whereClause = new StringBuilder(
 					MBrowseField.COLUMNNAME_AD_Browse_ID);
-			whereClause.append("=? AND ")
-					.append(MBrowseField.COLUMNNAME_IsDisplayed).append("=? ");
+			whereClause.append(" = ? AND ")
+					.append("(")
+					.append(MBrowseField.COLUMNNAME_IsDisplayed).append(" = ? ")
+					.append("OR ")
+					.append(MBrowseField.COLUMNNAME_IsIdentifier).append(" = ?")
+					.append(")");
 			m_DisplayFields = new Query(getCtx(), MBrowseField.Table_Name,
 					whereClause.toString(), get_TrxName())
-					.setParameters(get_ID(), "Y").setOnlyActiveRecords(true)
+					.setParameters(get_ID(), "Y", "Y")
+					.setOnlyActiveRecords(true)
 					.setOrderBy(MBrowseField.COLUMNNAME_SeqNo).list();
 		}
 		return m_DisplayFields;
@@ -289,4 +302,24 @@ public class MBrowse extends X_AD_Browse {
 				getAD_Browse_ID(), Env.getAD_Language(Env.getCtx()));
 		return m_title;
 	}
+	
+	/**
+	 * 	Get MBrowse from ID
+	 *	@param ctx context 
+	 *	@param Value value
+	 *	@return MBrowse or null
+	 */
+	public static MBrowse get (Properties ctx, int AD_Browse_ID) {
+		Integer key = new Integer (AD_Browse_ID);
+		MBrowse retValue = (MBrowse) s_cache.get (key);
+		if (retValue != null)
+			return retValue;
+		//	Get from disk
+		s_log.fine("AD_Browse_ID = " + AD_Browse_ID + " get from disk no cache");
+		retValue = new MBrowse (ctx, AD_Browse_ID, null);
+		if (retValue.get_ID () != 0)
+			s_cache.put (key, retValue);
+		//	Return
+		return retValue;
+	}	//	get
 }

@@ -56,7 +56,10 @@
 		<condition property="isAppsGlassfish">
 			<equals arg1="glassfish" arg2="${ADEMPIERE_APPS_TYPE}" />
 		</condition>
-		<echo message="Windows=${isWindows} JBoss=${isAppsJBoss} Glassfish=${isAppsGlassfish}" />
+		<condition property="isAppsTomcat">
+			<equals arg1="tomcat" arg2="${ADEMPIERE_APPS_TYPE}" />
+		</condition>
+		<echo message="Windows=${isWindows} JBoss=${isAppsJBoss} Glassfish=${isAppsGlassfish} Tomcat=${isAppsTomcat}" />
 
 	</target>
 
@@ -148,10 +151,6 @@
 			<zipfileset src="lib/patches.jar" >
 				<patternset refid="manifest.exclude"/>
 			</zipfileset>
-			<!-- posterita packages -->
-			<zipfileset src="lib/posterita.jar" >
-				<patternset refid="manifest.exclude"/>
-			</zipfileset>
 			<zipfileset src="lib/AdempiereOriginal.jar" >
 				<patternset refid="manifest.exclude"/>
 			</zipfileset>
@@ -166,7 +165,7 @@
 		        <attribute name="Implementation-Title" value="Adempiere ${ADEMPIERE_VERSION}"/>
 		        <attribute name="Implementation-Version" value="${ADEMPIERE_VERSION} ${DSTAMP}-${TSTAMP}"/>
 		        <attribute name="Implementation-Vendor" value="${ADEMPIERE_VENDOR}"/>
-		        <attribute name="Implementation-URL" value="http://www.adempiere.com"/>
+		        <attribute name="Implementation-URL" value="http://www.adempiere.net"/>
 		        <attribute name="Main-Class" value="org.compiere.Adempiere"/>
 		        <attribute name="Class-Path" value="AdempiereSLib.jar"/>
     		</manifest>
@@ -254,7 +253,7 @@
 			<zipfileset src="lib/mysql-connector-java-5.1.13-bin.jar" >
 				<patternset refid="manifest.exclude"/>
 			</zipfileset>
-			
+
 			<manifest>
 				<attribute name="Specification-Title" value="Adempiere Client Library" />
 				<attribute name="Specification-Version" value="${ADEMPIERE_MAIN_VERSION}" />
@@ -262,7 +261,7 @@
 				<attribute name="Implementation-Title" value="AdempiereCLib ${ADEMPIERE_MAIN_VERSION}" />
 				<attribute name="Implementation-Version" value="${ADEMPIERE_MAIN_VERSION} ${DSTAMP}-${TSTAMP}" />
 				<attribute name="Implementation-Vendor" value="Adempiere, Inc." />
-				<attribute name="Implementation-URL" value="http://www.adempiere.com" />
+				<attribute name="Implementation-URL" value="http://www.adempiere.net" />
 			</manifest>
 		</jar>
 
@@ -308,7 +307,7 @@
 				<attribute name="Implementation-Title" value="AdempiereSLib ${ADEMPIERE_MAIN_VERSION}" />
 				<attribute name="Implementation-Version" value="${ADEMPIERE_MAIN_VERSION} ${DSTAMP}-${TSTAMP}" />
 				<attribute name="Implementation-Vendor" value="Adempiere, Inc." />
-				<attribute name="Implementation-URL" value="http://www.adempiere.com" />
+				<attribute name="Implementation-URL" value="http://www.adempiere.net" />
 			</manifest>
 		</jar>
 
@@ -354,7 +353,6 @@
 			tofile="${basedir}/utils/ftpGetAdempiere.txt" filtering="yes" overwrite="yes" />
 		<copy file="${basedir}/utils/adempiereDirectTemplate.jnlp"
 			tofile="${basedir}/lib/adempiereDirect.jnlp" filtering="yes" overwrite="yes" />
-
 		<!--	Create Client Zip		-->
 		<zip zipfile="${basedir}/lib/AdempiereClient.zip">
 			<zipfileset dir="." prefix="Adempiere"
@@ -394,6 +392,8 @@
 		<zip destfile="${basedir}/lib/adempiereRoot.war">
 			<!-- copy Base	-->
 			<zipfileset src="${basedir}/lib/adempiereRootBase.war" />
+			<!--zipfileset dir="${basedir}/lib"
+				includes="adempiereDirect.jnlp"/-->
 			<!-- copy to adempiereHome	-->
 			<zipfileset dir="${basedir}/lib"
 				includes="AdempiereClient.zip,Adempiere.jar,AdempiereCLib.jar,*.jnlp,*.0,*.html,CompiereJasperReqs.jar,CompiereJasper.jar"
@@ -408,13 +408,14 @@
 
 		<antcall target="jbossEAR" inheritall="true"/>
 		<antcall target="glassfishEAR" inheritall="true"/>
+		<antcall target="tomcatWAR" inheritall="true"/>
 	</target>
 
 	<target name="jbossEAR" if="isAppsJBoss">
 		<!-- bundle everything in one ear file for simpler deployment -->
 		<ear destfile="${basedir}/lib/adempiere.ear" appxml="${basedir}/lib/adempiereAll.xml" >
 			<fileset dir="${basedir}/lib"
-				includes="Adempiere.jar,AdempiereSLib.jar,adempiereRoot.jar,adempiereApps.jar,adempiereApps.war,adempiereRoot.war,adempiereWebStore.war,adempiereWebCM.war,posterita.war,posterita.jar,webui.war,mobile.war,ADInterface-1.0.war" />
+				includes="Adempiere.jar,AdempiereSLib.jar,adempiereRoot.jar,adempiereApps.jar,adempiereApps.war,adempiereRoot.war,adempiereWebStore.war,adempiereWebCM.war,webui.war,mobile.war,ADInterface-1.0.war" />
 		</ear>
 	</target>
 
@@ -429,9 +430,13 @@
 		<!-- bundle everything in one ear file for simpler deployment -->
 		<ear destfile="${basedir}/lib/adempiere.ear" appxml="${basedir}/lib/adempiereAll.xml" >
 			<fileset dir="${basedir}/lib"
-				includes="adempiereRoot.jar,adempiereApps.jar,adempiereApps.war,adempiereRoot.war,adempiereWebStore.war,adempiereWebCM.war,posterita.war,posterita.jar,webui.war,mobile.war,ADInterface-1.0.war" />
+				includes="adempiereRoot.jar,adempiereApps.jar,adempiereApps.war,adempiereRoot.war,adempiereWebStore.war,adempiereWebCM.war,webui.war,mobile.war,ADInterface-1.0.war" />
 			<metainf dir="${basedir}/glassfish" includes="sun-application.xml"/>
 		</ear>
+	</target>
+
+	<target name="tomcatWAR" if="isAppsTomcat" depends="setupInit">
+		
 	</target>
 
 	<!-- ==================================================== -->
@@ -466,6 +471,31 @@
 		<copy file="${basedir}/lib/adempiere.ear" tofile="${basedir}/glassfish/adempiere.ear"/>
 		<copy file="${basedir}/lib/Adempiere.jar" tofile="${basedir}/glassfish/Adempiere.jar"/>
 		<copy file="${basedir}/lib/AdempiereSLib.jar" tofile="${basedir}/glassfish/AdempiereSLib.jar"/>
+	</target>
+
+	<!-- ==================================================== -->
+	<!-- Setup Tomcat              -->
+	<!-- ==================================================== -->
+	<target name="setupTomcat" depends="setupLib, setupEAR" if="isAppsTomcat"
+
+		description="Setup tomcat Server">
+		<delete dir="${ADEMPIERE_APPS_DEPLOY}/mobile" />
+		<delete dir="${ADEMPIERE_APPS_DEPLOY}/webui" />
+		<delete dir="${ADEMPIERE_APPS_DEPLOY}/admin" />
+		<delete dir="${ADEMPIERE_APPS_DEPLOY}/wstore" />
+
+		<copy file="${basedir}/lib/adempiereRoot.war" tofile="${ADEMPIERE_APPS_DEPLOY}/admin.war"/>
+		<copy file="${basedir}/lib/adempiereApps.war" tofile="${ADEMPIERE_APPS_DEPLOY}/adempiere.war"/>
+		<copy file="${basedir}/lib/webui.war" tofile="${ADEMPIERE_APPS_DEPLOY}/webui.war"/>
+		<copy file="${basedir}/lib/mobile.war" tofile="${ADEMPIERE_APPS_DEPLOY}/mobile.war"/>
+		<copy file="${basedir}/lib/adempiereWebStore.war" tofile="${ADEMPIERE_APPS_DEPLOY}/wstore.war"/>
+		<copy file="${basedir}/lib/adempiereWebCM.war" tofile="${ADEMPIERE_APPS_DEPLOY}/ROOT.war"/>
+		<copy file="${basedir}/lib/ADInterface-1.0.war" tofile="${ADEMPIERE_APPS_DEPLOY}/ADInterface.war"/>
+		<copy file="${basedir}/lib/Adempiere.jar" tofile="${ADEMPIERE_APPS_DEPLOY}/../lib/Adempiere.jar" overwrite="true" />
+		<copy file="${basedir}/lib/adempiereRoot.jar" tofile="${ADEMPIERE_APPS_DEPLOY}/../lib/adempiereRoot.jar" overwrite="true" />
+		<copy file="${basedir}/lib/AdempiereSLib.jar" tofile="${ADEMPIERE_APPS_DEPLOY}/../lib/AdempiereSLib.jar" overwrite="true" />
+		<copy file="${basedir}/lib/adempiereApps.jar" tofile="${ADEMPIERE_APPS_DEPLOY}/../lib/adempiereApps.jar" overwrite="true" />
+		<copy file="${basedir}/lib/server.xml" tofile="${ADEMPIERE_APPS_DEPLOY}/../conf/server.xml" filtering="yes" overwrite="yes"/>
 	</target>
 
 	<!-- ==================================================== -->
@@ -509,7 +539,7 @@
 	<!-- ==================================================== -->
 	<!-- Deploy J2EE Server                                   -->
 	<!-- ==================================================== -->
-	<target name="setupDeploy" depends="setupJBoss, setupGlassfish"
+	<target name="setupDeploy" depends="setupJBoss, setupGlassfish, setupTomcat"
 		description="Deploy Adempiere Application Server">
 		<echo message="AppsDeployment= ${ADEMPIERE_APPS_DEPLOY}" />
 	</target>

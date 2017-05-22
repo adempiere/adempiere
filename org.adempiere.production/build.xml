@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- =============================================== -->
+<!-- ADempiere Production Ligth -->
+<!-- =============================================== -->
+
+<project name="Production Light" default="productionDistribute" basedir=".">
+
+  <description>
+    This buildfile is used to build the client sub project within
+    the Adempiere project.
+  </description>
+
+  <!-- set global properties for this build -->
+  <property name="src" value="src/main/java/base"/>
+  <property name="build.dir" value="build"/>
+  <property name="dist.dir" value="../packages"/>
+  <property name="jar.path" value="../lib"/>
+  <!--<property environment="env"/>-->
+  <import file="../utils_dev/properties.xml"/>
+
+  <!-- set path to include the necessary jar files for javac -->
+  <path id="project.class.path">
+    <fileset dir="../lib">
+      <include name="*.jar"/>
+    </fileset>
+    <pathelement path="../tools/lib/c3p0-0.9.1.2.jar"/>
+    <pathelement path="../serverApps/src/web/WEB-INF/lib/commons-lang-2.1.jar"/>
+  </path>
+
+
+  <target name="productionInit" description="initialization target">
+    <echo message="=========== Build Client"/>
+    <!-- create the time stamp -->
+    <tstamp/>
+    <!-- create the build directory structure used by compile -->
+    <mkdir dir="${build.dir}"/>
+    <!-- check for the distribution directory -->
+    <available file="${dist.dir}" type="dir" property="dist.dir.exists"/>
+
+    <uptodate property="jar.uptodate"
+		targetfile="${dist.dir}/${jar.name}.jar">
+      <srcfiles dir="${src}" includes="**/*.java"/>
+      <srcfiles dir="..\base" includes="Base.jar"/>
+    </uptodate>
+  </target>
+
+  <target name="productionMakedir" depends="productionInit" unless="dist.dir.exists">
+    <!-- create the distribution directory if not available -->
+    <mkdir dir="${dist.dir}"/>
+  </target>
+  
+
+  <!-- =========================================== -->
+  <!-- Compile                                     -->
+  <!-- =========================================== -->
+  <target name="productionCompile" depends="productionMakedir">
+    <!-- compile the java code from ${src} into ${build.dir} -->
+    <javac  target="1.8" encoding="UTF-8" srcdir="${src}" destdir="${build.dir}" deprecation="on" debug="on">
+      <classpath refid="project.class.path"/>
+    </javac>
+    <!-- copy all image & sound files from src to the build directory -->
+    <copy todir="${build.dir}">
+      <fileset dir="${src}">
+        <include name="**/images/*"/>
+        <include name="**/*.gif"/>
+        <include name="**/*.jpg"/>
+        <include name="**/*.wav"/>
+        <include name="**/*.htm"/>
+        <include name="**/*.html"/>
+        <include name="**/*.properties"/>
+        <exclude name="**/package.html"/>
+      </fileset>
+    </copy>
+  </target>
+
+
+  <!-- =========================================== -->
+  <!-- Distribution                                -->
+  <!-- =========================================== -->
+  <target name="productionDistribute" depends="productionCompile" unless="jar.uptodate">
+    <!-- put everything from ${build.dir} into Adempiere.jar file -->
+    <jar
+	  jarfile="${dist.dir}/ProductionLight.jar"
+	  basedir="${build.dir}"
+	  duplicate="preserve"
+	  index="yes">
+	  <manifest>
+        <attribute name="Specification-Title" value="Adempiere Production Ligth"/>
+        <attribute name="Specification-Version" value="${env.ADEMPIERE_VERSION}"/>
+        <attribute name="Specification-Vendor" value="ADempiere"/>
+        <attribute name="Implementation-Title" value="Adempiere ${env.ADEMPIERE_VERSION}"/>
+        <attribute name="Implementation-Version" value="${env.ADEMPIERE_VERSION} ${DSTAMP}-${TSTAMP}"/>
+        <attribute name="Implementation-Vendor" value="${env.ADEMPIERE_VENDOR}"/> 
+        <attribute name="Implementation-URL" value="http://www.adempiere.net"/>
+        <attribute name="Main-Class" value="org.compiere.Adempiere"/>
+        <attribute name="Class-Path" value="ProductionLight.jar"/>
+      </manifest> 
+    </jar>
+  </target>
+
+
+  <target name="clean">
+    <!-- Delete the ${build.dir} directory trees -->
+    <delete dir="${build.dir}"/>
+    <delete file="${dist.dir}/ProductionLight.jar" failonerror="false"/>
+  </target>
+
+</project>

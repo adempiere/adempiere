@@ -22,6 +22,7 @@ import java.sql.Timestamp;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.engine.IDocumentLine;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 
@@ -31,7 +32,7 @@ import org.compiere.util.Env;
  *	@author Jorg Janke
  *	@version $Id: MProjectIssue.java,v 1.2 2006/07/30 00:51:02 jjanke Exp $
  */
-public class MProjectIssue extends X_C_ProjectIssue
+public class MProjectIssue extends X_C_ProjectIssue implements IDocumentLine
 {
 
 	/**
@@ -183,5 +184,64 @@ public class MProjectIssue extends X_C_ProjectIssue
 		//
 		return false;
 	}	//	process
+
+	@Override
+	public int getC_DocType_ID() {
+		return MDocType.getDocType(MDocType.DOCBASETYPE_ProjectIssue, getAD_Org_ID());
+	}
+
+	@Override
+	public int getM_LocatorTo_ID() {
+		return 0;
+	}
+
+	@Override
+	public int getM_AttributeSetInstanceTo_ID() {
+		return 0;
+	}
+
+	@Override
+	public Timestamp getDateAcct() {
+		return getMovementDate();
+	}
+
+	@Override
+	public boolean isSOTrx() {
+		return false;
+	}
+
+	@Override
+	public int getReversalLine_ID() {
+		return 0;
+	}
+
+	@Override
+	public BigDecimal getPriceActual() {
+		return BigDecimal.ZERO;
+	}
+
+	@Override
+	public IDocumentLine getReversalDocumentLine() {
+		return null;
+	}
+
+	@Override
+	public BigDecimal getPriceActualCurrency() {
+		return BigDecimal.ZERO;
+	}
+
+	@Override
+	public int getC_Currency_ID ()
+	{
+		MClient client  = MClient.get(getCtx());
+		return client.getC_Currency_ID();
+	}
+
+	@Override
+	public int getC_ConversionType_ID()
+	{
+		return  MConversionType.getDefault(getAD_Client_ID());
+	}
+
 
 }	//	MProjectIssue

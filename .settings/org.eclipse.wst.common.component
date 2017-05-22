@@ -11,7 +11,6 @@
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/serverRoot/src/main/ejb"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/serverRoot/src/main/server"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/serverRoot/src/main/servlet"/>
-        <wb-resource deploy-path="/WEB-INF/classes" source-path="/interfaces/src"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/serverApps/src/main/servlet"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/zkwebui/WEB-INF/src"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/JasperReports/src"/>
@@ -19,17 +18,17 @@
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/tools/src"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/webCM/src/main/servlet"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/migration/src"/>
-        <wb-resource deploy-path="/WEB-INF/classes" source-path="/posterita/posterita/src/main"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/org.eevolution.cashflow/src/main/java"/>
-        <wb-resource deploy-path="/WEB-INF/classes" source-path="/org.eevolution.hr_and_payroll/src/main/java/base"/>
-        <wb-resource deploy-path="/WEB-INF/classes" source-path="/org.eevolution.hr_and_payroll/src/main/java/ui/swing"/>
-        <wb-resource deploy-path="/WEB-INF/classes" source-path="/org.eevolution.hr_and_payroll/src/main/java/ui/zk"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/org.eevolution.manufacturing/src/main/java/base"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/org.eevolution.manufacturing/src/main/java/test"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/org.eevolution.manufacturing/src/main/java/ui/swing"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/org.eevolution.manufacturing/src/main/java/ui/zk"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/org.eevolution.warehouse/src/main/java/base"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/org.adempiere.webservice/WEB-INF/src"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/org.adempiere.test/src/test/scala"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/org.adempiere.test/src/main/scala"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/org.adempiere.test/src/test/sahi"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/org.eevolution.freight/src/main/java/base"/>
 		<property name="java-output-path" value="build/classes"/>
 		<property name="context-root" value="webui"/>
 	</wb-module>

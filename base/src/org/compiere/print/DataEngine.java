@@ -22,6 +22,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -62,6 +63,11 @@ import org.compiere.util.ValueNamePair;
  * @author Paul Bowden (phib)
  * 				<li> BF 2908435 Virtual columns with lookup reference types can't be printed
  *                   https://sourceforge.net/tracker/?func=detail&aid=2908435&group_id=176962&atid=879332
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * 		<li>BR [ 236 ] Report View does not refresh when print format is changed
+ * 			@see https://github.com/adempiere/adempiere/issues/236
+ * 		<li>BR [ 237 ] Same Print format but distinct report view
+ * 			@see https://github.com/adempiere/adempiere/issues/237
  */
 public class DataEngine
 {
@@ -119,7 +125,7 @@ public class DataEngine
 	 */
 	public PrintData getPrintData (Properties ctx, MPrintFormat format, MQuery query)
 	{
-		return getPrintData(ctx, format, query, false);
+		return getPrintData(ctx, format, query, false, 0);
 	}
 	
 	/**************************************************************************
@@ -129,9 +135,10 @@ public class DataEngine
 	 * 	@param query query
 	 * 	@param ctx context
 	 *  @param summary
+	 *  @param p_AD_ReportView_ID
 	 * 	@return PrintData or null
 	 */
-	public PrintData getPrintData (Properties ctx, MPrintFormat format, MQuery query, boolean summary)
+	public PrintData getPrintData (Properties ctx, MPrintFormat format, MQuery query, boolean summary, int p_AD_ReportView_ID)
 	{
 
 		/** Report Summary FR [ 2011569 ]**/ 
@@ -141,8 +148,15 @@ public class DataEngine
 			throw new IllegalStateException ("No print format");
 		String tableName = null;
 		String reportName = format.getName();
-		//
-		if (format.getAD_ReportView_ID() != 0)
+		//	Yamel Senih BR [ 236 ] Clear Query before add new restrictions
+		query.clear();
+		//	End Yamel Senih
+		//	FR [ 237 ]
+		if(p_AD_ReportView_ID == 0) {
+			p_AD_ReportView_ID = format.getAD_ReportView_ID();
+		}
+		//	
+		if (p_AD_ReportView_ID != 0)
 		{
 			String sql = "SELECT t.AD_Table_ID, t.TableName, rv.Name, rv.WhereClause "
 				+ "FROM AD_Table t"
@@ -153,7 +167,7 @@ public class DataEngine
 			try
 			{				
 				pstmt = DB.prepareStatement(sql, m_trxName);
-				pstmt.setInt(1, format.getAD_ReportView_ID());
+				pstmt.setInt(1, p_AD_ReportView_ID);
 				rs = pstmt.executeQuery();
 				if (rs.next())
 				{
@@ -810,17 +824,30 @@ public class DataEngine
 				//	Check Group Change ----------------------------------------
 				if (m_group.getGroupColumnCount() > 1)	//	one is GRANDTOTAL_
 				{
+					List<PrintDataColumn> changedGroups = new ArrayList<>();
+					List<Object> changedValues = new ArrayList<>();
+					boolean force = false;
 					//	Check Columns for Function Columns
-					for (int i = pd.getColumnInfo().length-1; i >= 0; i--)	//	backwards (leaset group first)
+					for (int i = 0; i < pd.getColumnInfo().length; i++)	//	backwards (leaset group first)
 					{
 						PrintDataColumn group_pdc = pd.getColumnInfo()[i];
 						if (!m_group.isGroupColumn(group_pdc.getColumnName()))
 							continue;
-						
+
 						//	Group change
-						Object value = m_group.groupChange(group_pdc.getColumnName(), rs.getObject(group_pdc.getAlias()));
-						if (value != null)	//	Group change
+						Object value = m_group.groupChange(group_pdc.getColumnName(), rs.getObject(group_pdc.getAlias()), force);
+						if (value != null)    //	Group change
 						{
+							changedGroups.add(group_pdc);
+							changedValues.add(value);
+							force = true; // all subsequent groups force change
+						}
+					}
+
+					for (int j = changedGroups.size() - 1; j >= 0; j--) //backwards (least group first)
+					{
+						PrintDataColumn group_pdc = changedGroups.get(j);
+						Object value = changedValues.get(j);
 							char[] functions = m_group.getFunctions(group_pdc.getColumnName());
 							for (int f = 0; f < functions.length; f++)
 							{
@@ -857,8 +884,7 @@ public class DataEngine
 								pdc = pd.getColumnInfo()[c];
 								m_group.reset(group_pdc.getColumnName(), pdc.getColumnName());
 							}
-						}	//	Group change
-					}	//	for all columns
+					}	//	Group change
 				}	//	group change
 
 				//	new row ---------------------------------------------------
@@ -1019,7 +1045,7 @@ public class DataEngine
 				PrintDataColumn group_pdc = pd.getColumnInfo()[i];
 				if (!m_group.isGroupColumn(group_pdc.getColumnName()))
 					continue;
-				Object value = m_group.groupChange(group_pdc.getColumnName(), new Object());
+				Object value = m_group.groupChange(group_pdc.getColumnName(), new Object(), false);
 				if (value != null)	//	Group change
 				{
 					char[] functions = m_group.getFunctions(group_pdc.getColumnName());

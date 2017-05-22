@@ -13,11 +13,11 @@
  *****************************************************************************/
 package org.adempiere.webui.apps.form;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Vector;
 import java.util.logging.Level;
 
-import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.GridFactory;
 import org.adempiere.webui.component.Label;
@@ -30,13 +30,17 @@ import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.editor.WEditor;
 import org.adempiere.webui.editor.WSearchEditor;
-import org.adempiere.webui.event.ValueChangeEvent;
-import org.adempiere.webui.event.ValueChangeListener;
-import org.compiere.grid.CreateFromInvoice;
-import org.compiere.model.GridTab;
+import org.adempiere.exceptions.ValueChangeEvent;
+import org.adempiere.exceptions.ValueChangeListener;
+import org.adempiere.webui.panel.ADForm;
+import org.adempiere.webui.panel.CustomForm;
+import org.adempiere.webui.panel.IFormController;
+import org.compiere.apps.form.CreateFromInvoice;
+import org.compiere.apps.form.ICreateFrom;
 import org.compiere.model.MDocType;
 import org.compiere.model.MLookup;
 import org.compiere.model.MLookupFactory;
+import org.compiere.process.ProcessInfo;
 import org.compiere.util.CLogger;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
@@ -48,36 +52,59 @@ import org.zkoss.zkex.zul.Borderlayout;
 import org.zkoss.zkex.zul.Center;
 import org.zkoss.zul.Space;
 
-public class WCreateFromInvoiceUI extends CreateFromInvoice implements EventListener, ValueChangeListener
-{
-	private static final long serialVersionUID = 1L;
+/**
+ * @author	Michael McKay
+ * 				<li>release/380 - fix row selection event handling to fire single event per row selection
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 114 ] Change "Create From" UI for Form like Dialog in window without "hardcode"
+ *		@see https://github.com/adempiere/adempiere/issues/114
+ *		<li> FR [ 442 ] Create From in C_Invoice change to Smart Browse
+ *		@see https://github.com/adempiere/adempiere/issues/442
+ */
+@Deprecated
+public class WCreateFromInvoiceUI extends CreateFromInvoice 
+	implements IFormController, ICreateFrom, EventListener, ValueChangeListener {
 	
-	private WCreateFromWindow window;
-	
-	public WCreateFromInvoiceUI(GridTab tab) 
-	{
-		super(tab);
-		log.info(getGridTab().toString());
-		
-		window = new WCreateFromWindow(this, getGridTab().getWindowNo());
-		
-		p_WindowNo = getGridTab().getWindowNo();
+	/**
+	 * Standard Constructor
+	 */
+	public WCreateFromInvoiceUI() {
+		try {
+			v_CreateFromPanel = new WCreateFromPanel(this);
+			v_Container = new CustomForm() {
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = -6022139819209111460L;
 
-		try
-		{
-			if (!dynInit())
-				return;
-			zkInit();
-			setInitOK(true);
-		}
-		catch(Exception e)
-		{
+				public void setProcessInfo(ProcessInfo pi) {
+					p_WindowNo = pi.getWindowNo();
+					try {
+						//	Valid for launched from a window
+						if(pi != null) {
+							//	Valid Table and Record
+							validTable(pi.getTable_ID(), 
+									pi.getRecord_ID());
+						}
+						//	Init
+						if (!dynInit())
+							return;
+						zkInit();
+					} catch(Exception e) {
+						log.log(Level.SEVERE, "", e);
+					}
+				}
+			};
+		} catch (IOException e) {
 			log.log(Level.SEVERE, "", e);
-			setInitOK(false);
 		}
-		AEnv.showWindow(window);
 	}
 	
+	//	Yamel Senih FR [ 114 ], 2015-11-26
+	//	Change to form
+	private CustomForm v_Container = null;
+	/**	Main Panel for Create From	*/
+	private WCreateFromPanel v_CreateFromPanel;
 	/** Window No               */
 	private int p_WindowNo;
 
@@ -107,14 +134,8 @@ public class WCreateFromInvoiceUI extends CreateFromInvoice implements EventList
 	{
 		log.config("");
 		
-		super.dynInit();
-		
-		window.setTitle(getTitle());
-
 		// RMA Selection option should only be available for AP Credit Memo
-		Integer docTypeId = (Integer)getGridTab().getValue("C_DocTypeTarget_ID");
-		MDocType docType = MDocType.get(Env.getCtx(), docTypeId);
-		if (!MDocType.DOCBASETYPE_APCreditMemo.equals(docType.getDocBaseType()))
+		if (!MDocType.DOCBASETYPE_APCreditMemo.equals(getDocBaseType()))
 		{
 			rmaLabel.setVisible(false);
 		    rmaField.setVisible(false);
@@ -126,6 +147,10 @@ public class WCreateFromInvoiceUI extends CreateFromInvoice implements EventList
 		return true;
 	}   //  dynInit
 	
+	/**
+	 * Init ZK
+	 * @throws Exception
+	 */
 	protected void zkInit() throws Exception
 	{
 		bPartnerLabel.setText(Msg.getElement(Env.getCtx(), "C_BPartner_ID"));
@@ -136,7 +161,7 @@ public class WCreateFromInvoiceUI extends CreateFromInvoice implements EventList
 		Borderlayout parameterLayout = new Borderlayout();
 		parameterLayout.setHeight("110px");
 		parameterLayout.setWidth("100%");
-    	Panel parameterPanel = window.getParameterPanel();
+    	Panel parameterPanel = v_CreateFromPanel.getParameterPanel();
 		parameterPanel.appendChild(parameterLayout);
 		
 		Grid parameterStdLayout = GridFactory.newGridLayout();
@@ -167,6 +192,10 @@ public class WCreateFromInvoiceUI extends CreateFromInvoice implements EventList
 		row.appendChild(new Space());
         row.appendChild(rmaLabel.rightAlign());
         row.appendChild(rmaField);
+		//	Add to Main
+		v_CreateFromPanel.setWidth("100%");
+		v_CreateFromPanel.setHeight("100%");
+		v_Container.appendChild(v_CreateFromPanel);
 	}
 
 	private boolean 	m_actionActive = false;
@@ -235,7 +264,7 @@ public class WCreateFromInvoiceUI extends CreateFromInvoice implements EventList
 			int C_BPartner_ID = ((Integer)e.getNewValue()).intValue();
 			initBPOrderDetails (C_BPartner_ID, true);
 		}
-		window.tableChanged(null);
+		v_CreateFromPanel.tableChanged(null);
 	}   //  vetoableChange
 	
 	/**************************************************************************
@@ -250,7 +279,7 @@ public class WCreateFromInvoiceUI extends CreateFromInvoice implements EventList
 		MLookup lookup = MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, AD_Column_ID, DisplayType.Search);
 		bPartnerField = new WSearchEditor ("C_BPartner_ID", true, false, true, lookup);
 		//
-		int C_BPartner_ID = Env.getContextAsInt(Env.getCtx(), p_WindowNo, "C_BPartner_ID");
+		int C_BPartner_ID = getC_BPartner_ID();
 		bPartnerField.setValue(new Integer(C_BPartner_ID));
 
 		//  initial loading
@@ -271,7 +300,7 @@ public class WCreateFromInvoiceUI extends CreateFromInvoice implements EventList
 		orderField.removeAllItems();
 		orderField.addItem(pp);
 		
-		ArrayList<KeyNamePair> list = loadOrderData(C_BPartner_ID, forInvoice, false);
+		ArrayList<KeyNamePair> list = loadOrderData(C_BPartner_ID, forInvoice, 0);
 		for(KeyNamePair knp : list)
 			orderField.addItem(knp);
 		
@@ -340,11 +369,19 @@ public class WCreateFromInvoiceUI extends CreateFromInvoice implements EventList
 		loadTableOIS(getOrderData(C_Order_ID, forInvoice));
 	}   //  LoadOrder
 	
+	/**
+	 * Load From RMA
+	 * @param M_RMA_ID
+	 */
 	protected void loadRMA (int M_RMA_ID)
 	{
 		loadTableOIS(getRMAData(M_RMA_ID));
 	}
 	
+	/**
+	 * Load From Shipment
+	 * @param M_InOut_ID
+	 */
 	protected void loadShipment (int M_InOut_ID)
 	{
 		loadTableOIS(getShipmentData(M_InOut_ID));
@@ -356,26 +393,38 @@ public class WCreateFromInvoiceUI extends CreateFromInvoice implements EventList
 	 */
 	protected void loadTableOIS (Vector<?> data)
 	{
-		window.getWListbox().clear();
+		v_CreateFromPanel.getWListbox().clear();
 		
 		//  Remove previous listeners
-		window.getWListbox().getModel().removeTableModelListener(window);
+		v_CreateFromPanel.getWListbox().getModel().removeTableModelListener(v_CreateFromPanel);
 		//  Set Model
 		ListModelTable model = new ListModelTable(data);
-		model.addTableModelListener(window);
-		window.getWListbox().setData(model, getOISColumnNames());
+		model.addTableModelListener(v_CreateFromPanel);
+		v_CreateFromPanel.getWListbox().setData(model, getOISColumnNames());
 		//
 		
-		configureMiniTable(window.getWListbox());
+		configureMiniTable(v_CreateFromPanel.getWListbox());
 	}   //  loadOrder
+
+	/**
+	 *  List total amount
+	 */
+	public boolean info() {
+		return false;
+	}   //  infoStatement
 	
-	public void showWindow()
-	{
-		window.setVisible(true);
+	@Override
+	public int getWindowNo() {
+		return v_Container.getWindowNo();
 	}
-	
-	public void closeWindow()
-	{
-		window.dispose();
+
+	@Override
+	public void dispose() {
+		v_Container.dispose();
+	}
+
+	@Override
+	public ADForm getForm() {
+		return v_Container;
 	}
 }

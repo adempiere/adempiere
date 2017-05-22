@@ -23,8 +23,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
@@ -367,6 +369,8 @@ public class MInvoice extends X_C_Invoice implements DocAction
 		setC_Activity_ID(line.getC_Activity_ID());
 		setUser1_ID(line.getUser1_ID());
 		setUser2_ID(line.getUser2_ID());
+		setUser3_ID(line.getUser3_ID());
+		setUser4_ID(line.getUser4_ID());
 		//
 		setC_DocTypeTarget_ID(line.getC_DocType_ID());
 		setDateInvoiced(line.getDateInvoiced());
@@ -485,6 +489,8 @@ public class MInvoice extends X_C_Invoice implements DocAction
 		setC_Activity_ID(order.getC_Activity_ID());
 		setUser1_ID(order.getUser1_ID());
 		setUser2_ID(order.getUser2_ID());
+		setUser3_ID(order.getUser3_ID());
+		setUser4_ID(order.getUser4_ID());
 	}	//	setOrder
 
 	/**
@@ -515,6 +521,8 @@ public class MInvoice extends X_C_Invoice implements DocAction
 		setC_Activity_ID(ship.getC_Activity_ID());
 		setUser1_ID(ship.getUser1_ID());
 		setUser2_ID(ship.getUser2_ID());
+		setUser3_ID(ship.getUser3_ID());
+		setUser4_ID(ship.getUser4_ID());
 		//
 		if (ship.getC_Order_ID() != 0)
 		{
@@ -890,7 +898,7 @@ public class MInvoice extends X_C_Invoice implements DocAction
 		if (getC_BPartner_ID() == 0)
 			setBPartner(MBPartner.getTemplate(getCtx(), getAD_Client_ID()));
 		if (getC_BPartner_Location_ID() == 0)
-			setBPartner(new MBPartner(getCtx(), getC_BPartner_ID(), null));
+			setBPartner(new MBPartner(getCtx(), getC_BPartner_ID(), get_TrxName()));
 
 		//	Price List
 		if (getM_PriceList_ID() == 0)
@@ -1614,11 +1622,13 @@ public class MInvoice extends X_C_Invoice implements DocAction
   		//	Create Cash
 		if (PAYMENTRULE_Cash.equals(getPaymentRule()) && !fromPOS )
 		{
-			// Modifications for POSterita
-            //
-            //    MCash cash = MCash.get (getCtx(), getAD_Org_ID(),
-            //    getDateInvoiced(), getC_Currency_ID(), get_TrxName());
-
+			if (MSysConfig.getBooleanValue("CASH_AS_PAYMENT", true , getAD_Client_ID()))
+			{
+				String error = payCashWithCashAsPayment();
+				if (error != "")
+					return error;
+			}
+			
 			MCash cash;
 
             int posId = Env.getContextAsInt(getCtx(),Env.POS_ID);
@@ -1654,98 +1664,115 @@ public class MInvoice extends X_C_Invoice implements DocAction
 		}	//	CashBook
 
 		//	Update Order & Match
-		int matchInv = 0;
-		int matchPO = 0;
-		MInvoiceLine[] lines = getLines(false);
-		for (int i = 0; i < lines.length; i++)
-		{
-			MInvoiceLine line = lines[i];
+		AtomicInteger matchInvoices = new AtomicInteger(0);
+		AtomicInteger matchOrders = new AtomicInteger(0);
+		String docBaseType = getC_DocType().getDocBaseType();
 
+		Arrays.stream(getLines(false))
+				.filter(invoiceLine -> invoiceLine != null)
+				.forEach( invoiceLine -> {
 			//	Update Order Line
-			MOrderLine ol = null;
-			if (line.getC_OrderLine_ID() != 0)
+			MOrderLine orderLine = null;
+			if (invoiceLine.getC_OrderLine_ID() != 0)
 			{
-				if (isSOTrx()
-					|| line.getM_Product_ID() == 0)
+				if (isSOTrx() || invoiceLine.getM_Product_ID() == 0)
 				{
-					ol = new MOrderLine (getCtx(), line.getC_OrderLine_ID(), get_TrxName());
-					if (line.getQtyInvoiced() != null)
-						ol.setQtyInvoiced(ol.getQtyInvoiced().add(line.getQtyInvoiced()));
-					if (!ol.save(get_TrxName()))
+					orderLine = new MOrderLine (getCtx(), invoiceLine.getC_OrderLine_ID(), get_TrxName());
+					//increase invoice quantity
+					if ((isSOTrx() && MDocType.DOCBASETYPE_ARInvoice.equals(docBaseType)        && invoiceLine.getQtyInvoiced().signum() > 0)  // Quantity invoiced
+					||	(isSOTrx() && MDocType.DOCBASETYPE_ARCreditMemo.equals(docBaseType)     && invoiceLine.getQtyInvoiced().signum() < 0)) // Revert AR Credit Memo
+						orderLine.setQtyInvoiced(orderLine.getQtyInvoiced().add(invoiceLine.getQtyInvoiced().abs()));
+					else if ((isSOTrx() && MDocType.DOCBASETYPE_ARInvoice.equals(docBaseType)   && invoiceLine.getQtyInvoiced().signum() < 0) // Revert Invoiced
+					|| (isSOTrx() && MDocType.DOCBASETYPE_ARCreditMemo.equals(docBaseType)      && invoiceLine.getQtyInvoiced().signum() > 0)) // AR Credit Memo
+						orderLine.setQtyInvoiced(orderLine.getQtyInvoiced().add(invoiceLine.getQtyInvoiced().abs().negate()));
+					/*else if ((!isSOTrx() &&  MDocType.DOCBASETYPE_APInvoice.equals(docBaseType) && invoiceLine.getQtyInvoiced().signum() > 0) // Vendor Receipt
+					|| (!isSOTrx() &&  MDocType.DOCBASETYPE_APCreditMemo.equals(docBaseType)    && invoiceLine.getQtyInvoiced().signum() < 0)) // Revert Return Vendor
+						orderLine.setQtyInvoiced(orderLine.getQtyInvoiced().add(invoiceLine.getQtyInvoiced().abs());
+					else if ((!isSOTrx() &&  MDocType.DOCBASETYPE_APInvoice.equals(docBaseType) && invoiceLine.getQtyInvoiced().signum() < 0)  // Revert Vendor Receipt
+					|| (!isSOTrx() &&  MDocType.DOCBASETYPE_APCreditMemo.equals(docBaseType)    && invoiceLine.getQtyInvoiced().signum() > 0))  // Return Vendor
+						orderLine.setQtyInvoiced(orderLine.getQtyInvoiced().add(invoiceLine.getQtyInvoiced().abs()));*/
+					orderLine.saveEx();
+					/*if (!orderLine.save(get_TrxName()))
 					{
 						m_processMsg = "Could not update Order Line";
 						return DocAction.STATUS_Invalid;
-					}
+					}*/
 				}
 				//	Order Invoiced Qty updated via Matching Inv-PO
 				else if (!isSOTrx()
-					&& line.getM_Product_ID() != 0
+					&& invoiceLine.getM_Product_ID() != 0
 					&& !isReversal())
 				{
 					//	MatchPO is created also from MInOut when Invoice exists before Shipment
-					BigDecimal matchQty = line.getQtyInvoiced();
-					MMatchPO po = MMatchPO.create (line, null,
+					BigDecimal matchQty = invoiceLine.getQtyInvoiced();
+					MMatchPO matchPO = MMatchPO.create (invoiceLine, null,
 						getDateInvoiced(), matchQty);
 					boolean isNewMatchPO = false;
-					if (po.get_ID() == 0)
+					if (matchPO.get_ID() == 0)
 						isNewMatchPO = true;
-					if (!po.save(get_TrxName()))
+					matchPO.saveEx();
+					/*if (!matchPO.save(get_TrxName()))
 					{
 						m_processMsg = "Could not create PO Matching";
 						return DocAction.STATUS_Invalid;
-					}
-					matchPO++;
+					}*/
+					
+					matchOrders.getAndUpdate(record -> record + 1);
 					if (isNewMatchPO)
-						addDocsPostProcess(po);
+						addDocsPostProcess(matchPO);
 				}
 			}
 
 			//Update QtyInvoiced RMA Line
-			if (line.getM_RMALine_ID() != 0)
+			if (invoiceLine.getM_RMALine_ID() != 0)
 			{
-				MRMALine rmaLine = new MRMALine (getCtx(),line.getM_RMALine_ID(), get_TrxName());
+				MRMALine rmaLine = new MRMALine (getCtx(),invoiceLine.getM_RMALine_ID(), get_TrxName());
 				if (rmaLine.getQtyInvoiced() != null)
-					rmaLine.setQtyInvoiced(rmaLine.getQtyInvoiced().add(line.getQtyInvoiced()));
+					rmaLine.setQtyInvoiced(rmaLine.getQtyInvoiced().add(invoiceLine.getQtyInvoiced()));
 				else
-					rmaLine.setQtyInvoiced(line.getQtyInvoiced());
-				if (!rmaLine.save(get_TrxName()))
+					rmaLine.setQtyInvoiced(invoiceLine.getQtyInvoiced());
+
+				rmaLine.saveEx();
+				/*if (!rmaLine.save(get_TrxName()))
 				{
 					m_processMsg = "Could not update RMA Line";
 					return DocAction.STATUS_Invalid;
-				}
+				}*/
 			}
 			//
 
 			//	Matching - Inv-Shipment
 			if (!isSOTrx()
-				&& line.getM_InOutLine_ID() != 0
-				&& line.getM_Product_ID() != 0
+				&& invoiceLine.getM_InOutLine_ID() != 0
+				&& invoiceLine.getM_Product_ID() != 0
 				&& !isReversal())
 			{
-				MInOutLine receiptLine = new MInOutLine (getCtx(),line.getM_InOutLine_ID(), get_TrxName());
-				BigDecimal matchQty = line.getQtyInvoiced();
+				MInOutLine receiptLine = new MInOutLine (getCtx(),invoiceLine.getM_InOutLine_ID(), get_TrxName());
+				BigDecimal matchQty = invoiceLine.getQtyInvoiced();
 
 				if (receiptLine.getMovementQty().compareTo(matchQty) < 0)
 					matchQty = receiptLine.getMovementQty();
 
-				MMatchInv inv = new MMatchInv(line, getDateInvoiced(), matchQty);
+				MMatchInv matchInvoice = new MMatchInv(invoiceLine, getDateInvoiced(), matchQty);
 				boolean isNewMatchInv = false;
-				if (inv.get_ID() == 0)
+				if (matchInvoice.get_ID() == 0)
 					isNewMatchInv = true;
-				if (!inv.save(get_TrxName()))
+				matchInvoice.saveEx();
+				/*if (!inv.save(get_TrxName()))
 				{
 					m_processMsg = CLogger.retrieveErrorString("Could not create Invoice Matching");
 					return DocAction.STATUS_Invalid;
-				}
-				matchInv++;
+				}*/
+				matchInvoices.getAndUpdate( record -> record + 1);
 				if (isNewMatchInv)
-					addDocsPostProcess(inv);
+					addDocsPostProcess(matchInvoice);
 			}
-		}	//	for all lines
-		if (matchInv > 0)
-			info.append(" @M_MatchInv_ID@#").append(matchInv).append(" ");
-		if (matchPO > 0)
-			info.append(" @M_MatchPO_ID@#").append(matchPO).append(" ");
+		});	//	for all lines
+
+		if (matchInvoices.get() > 0)
+			info.append(" @M_MatchInv_ID@#").append(matchInvoices.get()).append(" ");
+		if (matchOrders.get() > 0)
+			info.append(" @M_MatchPO_ID@#").append(matchOrders.get()).append(" ");
 
 
 
@@ -2341,6 +2368,8 @@ public class MInvoice extends X_C_Invoice implements DocAction
         setC_Campaign_ID(originalInvoice.getC_Campaign_ID());
         setUser1_ID(originalInvoice.getUser1_ID());
         setUser2_ID(originalInvoice.getUser2_ID());
+		setUser3_ID(originalInvoice.getUser3_ID());
+		setUser4_ID(originalInvoice.getUser4_ID());
 	}
 
 	/**
@@ -2354,5 +2383,33 @@ public class MInvoice extends X_C_Invoice implements DocAction
 			|| DOCSTATUS_Closed.equals(ds)
 			|| DOCSTATUS_Reversed.equals(ds);
 	}	//	isComplete
+	
+	private String payCashWithCashAsPayment()
+	{
+
+		MDocType dt = (MDocType)getC_Order().getC_DocType();
+		MPayment paymentCash = new MPayment(getCtx(), 0 ,  get_TrxName());
+		paymentCash.setC_BankAccount_ID(dt.get_ValueAsInt("C_BankAccount_ID"));
+		paymentCash.setC_DocType_ID(true);
+        String value = DB.getDocumentNo(paymentCash.getC_DocType_ID(),get_TrxName(), false,  paymentCash);
+        paymentCash.setDocumentNo(value);
+        paymentCash.setDateAcct(getDateAcct());
+        paymentCash.setDateTrx(getDateInvoiced());
+        paymentCash.setTenderType(MPayment.TENDERTYPE_Cash);
+        paymentCash.setDescription(getDescription());
+        paymentCash.setC_BPartner_ID (getC_BPartner_ID());
+        paymentCash.setC_Currency_ID(getC_Currency_ID());
+        paymentCash.setPayAmt(getGrandTotal());
+        paymentCash.setOverUnderAmt(Env.ZERO);
+        paymentCash.setC_Invoice_ID(getC_Invoice_ID());
+		paymentCash.saveEx();
+		if (!paymentCash.processIt("CO"))
+			return DOCSTATUS_Invalid;
+		paymentCash.saveEx();
+		MBankStatement.addPayment(paymentCash);
+		return "";
+	}
+
+
 
 }	//	MInvoice

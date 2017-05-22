@@ -19,10 +19,10 @@ import org.adempiere.webui.component.PAttributebox;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.event.ContextMenuEvent;
 import org.adempiere.webui.event.ContextMenuListener;
-import org.adempiere.webui.event.ValueChangeEvent;
+import org.adempiere.exceptions.ValueChangeEvent;
 import org.adempiere.webui.panel.InfoPAttributePanel;
 import org.adempiere.webui.panel.InfoProductPanel;
-import org.adempiere.webui.window.WFieldRecordInfo;
+import org.adempiere.webui.window.WRecordInfo;
 import org.adempiere.webui.window.WPAttributeDialog;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
@@ -39,7 +39,11 @@ import org.zkoss.zk.ui.event.Events;
 /**
  *
  * @author Low Heng Sin
- *
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 146 ] Remove unnecessary class, add support for info to specific column
+ *		@see https://github.com/adempiere/adempiere/issues/146
+ *		<a href="https://github.com/adempiere/adempiere/issues/966">
+ * 		@see FR [ 966 ] ZK Dialog for Attribute don't change gridfield</a>
  */
 public class WPAttributeEditor extends WEditor implements ContextMenuListener
 {
@@ -58,7 +62,6 @@ public class WPAttributeEditor extends WEditor implements ContextMenuListener
 	private MPAttributeLookup	m_mPAttribute;
 	private int 				m_C_BPartner_ID;
 	private boolean 			m_searchOnly;
-	private boolean				m_mandatory;
 	private boolean				m_readWrite;
 	private WEditorPopupMenu	popupMenu;
 
@@ -86,6 +89,7 @@ public class WPAttributeEditor extends WEditor implements ContextMenuListener
 		m_mPAttribute = (MPAttributeLookup) gridField.getLookup();
 		m_AD_Column_ID = gridField.getAD_Column_ID();
 		m_readWrite = false;
+		m_GridField = gridField;
 		initComponents();
 	}
 
@@ -113,8 +117,8 @@ public class WPAttributeEditor extends WEditor implements ContextMenuListener
 		m_WindowNo = WindowNo;
 		m_mPAttribute = lookup;
 		m_searchOnly = searchOnly;
-		m_mandatory = mandatory;
 		m_readWrite = !isReadOnly && isUpdateable;
+		m_GridField = gridField;
 		if (m_GridTab != null){
 			GridField gridField = m_GridTab.getField(m_columnName);
 			if (gridField != null)
@@ -138,7 +142,7 @@ public class WPAttributeEditor extends WEditor implements ContextMenuListener
 		getComponent().getTextbox().setReadonly(true); // Disable the text box
 		if (gridField != null && gridField.getGridTab() != null)
 		{
-			WFieldRecordInfo.addMenu(popupMenu);
+			WRecordInfo.addMenu(popupMenu);
 		}
 		
 		//getComponent().getTextbox().setReadonly(!m_readWrite);
@@ -373,7 +377,7 @@ public class WPAttributeEditor extends WEditor implements ContextMenuListener
 		}
 		else if (WEditorPopupMenu.CHANGE_LOG_EVENT.equals(evt.getContextEvent()))
 		{
-			WFieldRecordInfo.start(gridField);
+			WRecordInfo.start(gridField);
 		}
 	}
 

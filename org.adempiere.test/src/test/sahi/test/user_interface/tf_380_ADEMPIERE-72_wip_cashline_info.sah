@@ -1,0 +1,95 @@
+/******************************************************************************
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2011, Michael McKay, All Rights Reserved.                    *
+ * This program is free software; you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ ****************************************************************************** 
+ *
+ * Test Flow WebUI test of Cashline Info panel.
+ * 
+ * This test flow exercises the various features of the Cashline info panel 
+ * 
+ **/
+
+ // Need to determine what test functions are required.
+ 
+/**
+ * Test the Cashline info window.
+ */
+ function test_wip_cashline_info()
+{
+
+	 _log("tf_wip_cashline_info starting.","custom");
+	 
+	//  Open the Assignment Info panel
+	info_viewInfo("Cashline");
+
+	//  Default should be to auto query
+	//  Check that all records are returned - expecting 5 (not based on default database)
+	_assertEqual("5 ",String(info_getStatus()).substring(0, 2),"Error: tf_wip_cashline_info: initial auto query not returning what was expected");
+
+	_assertEqual("HQ CashBook",info_getCriteriaFieldText("C_CashBook_ID"),"Error: tf_wip_cashline_info: CashBook not set as expected.");
+
+	info_setSearchText("C_Invoice_ID","200000");
+	_assertEqual("1 ",String(info_getStatus()).substring(0, 2),"Error: tf_wip_cashline_info: Invoice ID not returning what was expected");
+	
+	info_resetCriteria();
+
+	info_setCriteriaText("C_BankAccount_ID","MoneyBank - 123456789_1234");
+	_assertEqual("3 ",String(info_getStatus()).substring(0, 2),"Error: tf_wip_cashline_info: Bank Account not returning what was expected");
+
+	info_resetCriteria();
+
+	info_setCriteriaText("C_Charge_ID","Bank Charge");
+	_assertEqual("0 ",String(info_getStatus()).substring(0, 2),"Error: tf_wip_cashline_info: Charge not returning what was expected");
+
+	info_resetCriteria();
+
+	info_setSearchText("C_Cash_ID","2002-02-22");
+	_assertEqual("3 ",String(info_getStatus()).substring(0, 2),"Error: tf_wip_cashline_info: Cash Journal not returning what was expected");
+
+	info_resetCriteria();
+
+	info_setCriteriaText("DateFrom","01/22/2002");
+	_assertEqual("5 ",String(info_getStatus()).substring(0, 2),"Error: tf_wip_cashline_info: DateFrom not returning what was expected");
+
+	info_setCriteriaText("DateFrom","03/22/2002");
+	_assertEqual("1 ",String(info_getStatus()).substring(0, 2),"Error: tf_wip_cashline_info: DateFrom not returning what was expected");
+
+	info_setCriteriaText("DateTo","09/01/2002");
+	_assertEqual("1 ",String(info_getStatus()).substring(0, 2),"Error: tf_wip_cashline_info: DateFrom not returning what was expected");
+
+	info_setCriteriaText("DateFrom","");
+	_assertEqual("5 ",String(info_getStatus()).substring(0, 2),"Error: tf_wip_cashline_info: DateFrom not returning what was expected");
+
+	info_setCriteriaText("DateTo","07/01/2002");
+	_assertEqual("4 ",String(info_getStatus()).substring(0, 2),"Error: tf_wip_cashline_info: DateFrom not returning what was expected");
+
+	info_resetCriteria();
+
+	info_setAmountValue("AmtFrom","10.00");
+	_assertEqual("3 ",String(info_getStatus()).substring(0, 2),"Error: tf_wip_cashline_info: AmtFrom not returning what was expected");
+
+	info_setAmountValue("AmtTo","60.00");
+	_assertEqual("2 ",String(info_getStatus()).substring(0, 2),"Error: tf_wip_cashline_info: AmtTo not returning what was expected");
+
+	info_setCheckbox("AbsoluteAmt","Y");
+	_assertEqual("4 ",String(info_getStatus()).substring(0, 2),"Error: tf_wip_cashline_info: AbsoluteAmt not returning what was expected");
+
+	info_resetCriteria();
+	
+	// Check Zoom functionality
+	
+	
+	
+	iCancel();
+	
+	_log("tf_wip_cashline_info completed.","custom");
+}

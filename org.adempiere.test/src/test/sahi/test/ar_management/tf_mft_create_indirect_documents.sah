@@ -1,0 +1,108 @@
+/******************************************************************************
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2014, Michael McKay, All Rights Reserved.                    *
+ * This program is free software; you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ *                                                                            *
+ * @Author Michael McKay (mjmckay)                                            *
+ *                                                                            *
+ ******************************************************************************/
+/**
+ * Test Flow Main Functional Tests
+ * 
+ * Create Indirect Documents
+ * 
+ * This test flow tests the creation of shipment and invoices from the 
+ * Sales Order window
+ * 
+ * See http://wiki.adempiere.net/Functional_Tests
+ * 
+ **/
+
+// Local test - un-comment next three lines if running just this file
+//var $mft_create_indirect_documents_CSVFilePath = "../ar_management/tf_mft_create_indirect_documents.csv";
+
+// General test - un-comment if including this file in a scenario
+var $mft_create_indirect_documents_CSVFilePath = "../test/ar_management/tf_mft_create_indirect_documents.csv";
+
+
+_include("../../lib/common_functions.sah");
+
+mft_create_indirect_documents();
+
+function mft_create_indirect_documents_detail(
+		$CustomerName,
+		$DocTypeTarget,
+		$ProductName,
+		$ExpectedStatus,
+		$ExpectingShipment,
+		$ExpectingInvoice
+	){
+
+	wOpenTab("Order");
+	iFormView();
+	iNewRecord();
+	fSetSearch("C_BPartner_ID",$CustomerName);
+	fSetList("C_DocTypeTarget_ID",$DocTypeTarget);
+	iSaveRecord();
+	wOpenTab("Order Line");
+	iFormView();
+	iNewRecord();
+	fSetSearch("M_Product_ID",$ProductName);
+	iSaveRecord();
+	wOpenTab("Order");
+	fDocActionCheck("Complete",$ExpectedStatus);
+	iZoomAcross();
+
+	if ($ExpectingShipment == "Y")
+	{
+	    _assertExists(_link("Shipment (Customer) (#1)"));
+	    _click(_link("Shipment (Customer) (#1)")); // Opens the shipment
+	    _assertEqual("Completed", fGetList("DocStatus"));
+	    wCloseWindow("Shipment (Customer)"); // Should leave us at the Sale Order window
+	    iZoomAcross();
+	}
+	else
+	{
+	    _assertNotExists(_link("Shipment (Customer) (#1)"));
+	}
+	
+	if ($ExpectingInvoice == "Y")
+	{
+	    _assertExists(_link("Invoice (Customer) (#1)"));
+	    _click(_link("Invoice (Customer) (#1)")); // Opens the shipment
+	    _assertEqual("Completed", fGetList("DocStatus"));
+	    wCloseWindow("Invoice (Customer)"); // Should leave us at the Sale Order window
+	}
+	else
+	{
+	    _assertNotExists(_link("Invoice (Customer) (#1)"));
+	}
+
+}
+
+function mft_create_indirect_documents(){
+	
+	var $data = _readCSVFile($mft_create_indirect_documents_CSVFilePath);
+	
+	_log("MFT_Create_Indirect_Documents starting");
+	
+	logout(); // in case
+	login("GardenAdmin","GardenAdmin","","","","","HQ","HQ Warehouse");
+
+	wOpenWindow("Sales Order");
+	
+	_dataDrive(mft_create_indirect_documents_detail, $data);
+
+	wCloseWindow("Sales Order");
+
+	_log("MFT_Create_Indirect_Documents completed");
+}
+

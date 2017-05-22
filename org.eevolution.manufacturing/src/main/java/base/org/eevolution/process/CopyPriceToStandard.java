@@ -17,7 +17,10 @@
 package org.eevolution.process;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
@@ -37,88 +40,47 @@ import org.compiere.process.SvrProcess;
  *	CopyPriceToStandard 
  *	
  *  @author Victor Perez, e-Evolution, S.C.
- *  @version $Id: CopyPriceToStandard.java,v 1.1 2004/06/22 05:24:03 vpj-cd Exp $
  */
-public class CopyPriceToStandard extends SvrProcess
+public class CopyPriceToStandard extends CopyPriceToStandardAbstract
 {
-	private int p_AD_Org_ID = 0;
-	private int p_C_AcctSchema_ID = 0;
-	private int p_M_CostType_ID = 0;
-	private int p_M_CostElement_ID = 0;
-	private int p_M_PriceList_Version_ID =0;
+
 
 	protected void prepare()
 	{
-		ProcessInfoParameter[] para = getParameter();
-		for (int i = 0; i < para.length; i++)
-		{
-			String name = para[i].getParameterName();
-
-			if (para[i].getParameter() == null)
-				;
-			else if (name.equals("M_CostType_ID"))
-			{    
-				p_M_CostType_ID = ((BigDecimal)para[i].getParameter()).intValue();
-			}
-			else if (name.equals("AD_Org_ID"))
-			{    
-				p_AD_Org_ID = ((BigDecimal)para[i].getParameter()).intValue();
-			}
-			else if (name.equals("C_AcctSchema_ID"))
-			{    
-				p_C_AcctSchema_ID = ((BigDecimal)para[i].getParameter()).intValue();
-			}           
-			else if (name.equals("M_CostElement_ID"))
-			{    
-				p_M_CostElement_ID = ((BigDecimal)para[i].getParameter()).intValue();
-			}
-			else if (name.equals("M_PriceList_Version_ID"))
-			{    
-				p_M_PriceList_Version_ID = ((BigDecimal)para[i].getParameter()).intValue();
-			}
-			else
-			{
-				log.log(Level.SEVERE,"prepare - Unknown Parameter: " + name);
-			}
-		}
+		super.prepare();
 	}
 	
 	protected String doIt() throws Exception                
 	{
-		MAcctSchema as = MAcctSchema.get(getCtx(), p_C_AcctSchema_ID);
-		MCostElement element = MCostElement.get(getCtx(), p_M_CostElement_ID);
-		if (!MCostElement.COSTELEMENTTYPE_Material.equals(element.getCostElementType()))
-		{
+		MAcctSchema accountSchema = MAcctSchema.get(getCtx(), getAccountingSchemaId());
+		MCostElement costElement = MCostElement.get(getCtx(), getCostElementId());
+		if (!MCostElement.COSTELEMENTTYPE_Material.equals(costElement.getCostElementType()))
 			throw new AdempiereException("Only Material Cost Elements are allowed");
-		}
 		
-		int count_updated = 0;
-		
-		MPriceListVersion plv = new MPriceListVersion(getCtx(), p_M_PriceList_Version_ID, get_TrxName());
-		for (final MProductPrice pprice : plv.getProductPrice(" AND "+MProductPrice.COLUMNNAME_PriceStd+"<>0"))
-		{
-			BigDecimal price = pprice.getPriceStd();
-			int C_Currency_ID = plv.getPriceList().getC_Currency_ID();
-			if (C_Currency_ID != as.getC_Currency_ID())
+		AtomicInteger countUpdated = new AtomicInteger(0);
+		MPriceListVersion priceListVersion = new MPriceListVersion(getCtx(), getPriceListVersionId(), get_TrxName());
+		Arrays.stream(priceListVersion.getProductPrice(" AND " + MProductPrice.COLUMNNAME_PriceStd + " <> 0")).forEach(productPrice -> {
+			final BigDecimal price;
+			int currencyId = priceListVersion.getPriceList().getC_Currency_ID();
+			if (currencyId != accountSchema.getC_Currency_ID())
 			{                     	
-				price = MConversionRate.convert(getCtx(), pprice.getPriceStd(),
-								C_Currency_ID, as.getC_Currency_ID(),
-								getAD_Client_ID(), p_AD_Org_ID);                     	
-			}
-			MProduct product = MProduct.get(getCtx(), pprice.getM_Product_ID());
-			CostDimension d = new CostDimension(product, as, p_M_CostType_ID, p_AD_Org_ID, 0, 0, p_M_CostElement_ID);
-			Collection<MCost> costs = d.toQuery(MCost.class, get_TrxName()).list(); 
-			for (MCost cost : costs)
-			{
-				if (cost.getM_CostElement_ID() == element.get_ID())
-				{
-					cost.setFutureCostPrice(price);
-					cost.saveEx();
-					count_updated++;
-					break;
-				}
-			}                                                                      
-		}
-		return "@Updated@ #"+count_updated;
+				price = MConversionRate.convert(getCtx(), productPrice.getPriceStd(),
+								currencyId, accountSchema.getC_Currency_ID(),
+								getAD_Client_ID(), getOrganizationId());
+			} else
+				price = productPrice.getPriceStd();
+
+			MProduct product = MProduct.get(getCtx(), productPrice.getM_Product_ID());
+			CostDimension costDimension = new CostDimension(product, accountSchema, getCostTypeId(), getOrganizationId(), 0, 0, getCostElementId());
+			List<MCost> costs = costDimension.toQuery(MCost.class, get_TrxName()).list();
+			costs.stream()
+					.filter( cost -> cost != null && cost.getM_CostElement_ID() == costElement.get_ID())
+					.findFirst().ifPresent( cost -> {
+							cost.setFutureCostPrice(price);
+							cost.saveEx();
+							countUpdated.getAndUpdate(count -> count + 1);
+					});
+			});
+		return "@Updated@ # "+countUpdated;
 	}
 }	

@@ -1,0 +1,324 @@
+/******************************************************************************
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2011, Michael McKay, All Rights Reserved.                    *
+ * This program is free software; you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ *                                                                            *
+ * @Author Michael McKay (mjmckay)                                            *
+ *                                                                            *
+ ******************************************************************************/
+/**
+ * Test Flow Main Functional Tests
+ * 
+ * RFQ to PO
+ * 
+ * This test flow sets up a RFQ process that results in POs.
+ * 
+ * See http://wiki.adempiere.net/Functional_Tests
+ * 
+ * 
+ **/
+
+var $mft_rfq_topic_setup_CSVFilePath = "../test/ap_management/tf_mft_rfq_topic_setup.csv";
+var $mft_rfq_setup_CSVFilePath = "../test/ap_management/tf_mft_rfq_setup.csv";
+var $mft_rfq_response_tests_CSVFilePath = "../test/ap_management/tf_mft_rfq_response_tests.csv";
+var $mft_rfq_topic_OldName = "";
+var $mft_rfq_topic_OldBP = "";
+var $mft_rfq_topic_OldRestriction = "";
+var $mft_rfq_OldDocNo = "";
+var $mft_rfq_OldLine = "";
+var $mft_rfq_OldQtyCode = "";
+var $mft_rfq_to_po_rndtext = "";
+
+function mft_rfq_topic_setup_detail(
+		$Name,
+		$Description,
+		$C_BPartner_ID,
+		$C_BPartner_Location_ID,
+		$AD_User_ID,
+		$RestrictionCode,
+		$HasRestriction,
+		$M_Product_ID,
+		$M_Product_Category_ID
+	){	
+	if($mft_rfq_topic_OldName!=$Name){
+		wOpenTab("Topic");
+		iFormView();
+		iNewRecord();
+		fSetText("Name",$Name+$mft_rfq_to_po_rndtext);
+		fSetText("Description",$Description);
+		iSaveRecord();
+		
+		$mft_rfq_topic_OldName=$Name;
+		$mft_rfq_topic_OldBP = "";
+	}
+	
+	if($mft_rfq_topic_OldBP != $C_BPartner_ID){
+		wOpenTab("Subscriber");
+		iFormView();
+		iNewRecord();
+		fSetSearch("C_BPartner_ID",$C_BPartner_ID);
+		fSetListRq("C_BPartner_Location_ID",$C_BPartner_Location_ID,"N");
+		fSetListRq("AD_User_ID",$AD_User_ID);
+		iSaveRecord();
+		
+		$mft_rfq_topic_OldBP = $C_BPartner_ID;
+		$mft_rfq_topic_OldRestriction = "";
+	}
+	
+	if($mft_rfq_topic_OldRestriction != $RestrictionCode && $HasRestriction == "Y"){
+		wOpenTab("Restriction");
+		iFormView();
+		iNewRecord();
+		if($M_Product_ID != ""){
+			fSetSearch("M_Product_ID",$M_Product_ID);
+		}
+		if($M_Product_Category_ID != ""){
+			fSetSearch("M_Product_Category_ID",$M_Product_Category_ID);
+		}
+		iSaveRecord();
+	}
+		
+}
+
+function mft_rfq_setup_detail(
+		$DocumentNo,
+		$AD_Org_ID,
+		$Name,
+		$Description,
+		$C_RfQ_Topic_ID,
+		$QuoteType,
+		$IsQuoteAllQty,
+		$IsInvitedVendorsOnly,
+		$IsRfQResponseAccepted,
+		$DateResponse,
+		$DateWorkStart,
+		$C_Currency_ID,
+		$DeliveryDays,
+		$DateWorkComplete,
+		$Line,
+		$M_Product_ID,
+		$Line_DateWorkStart,
+		$Line_DeliveryDays,
+		$Line_DateWorkComplete,
+		$Qty_Code,
+		$Qty_C_UOM_ID,
+		$Qty_Qty,
+		$Qty_IsRfQQty,
+		$Qty_BenchmarkPrice,
+		$Qty_IsPurchaseQty,
+		$Qty_IsOfferQty
+		){
+	
+	if($mft_rfq_OldDocNo != $DocumentNo){
+		wOpenTab("RfQ");
+		iFormView();
+		iNewRecord();
+		fSetList("AD_Org_ID",$AD_Org_ID);
+		fSetText("DocumentNo",$DocumentNo + $mft_rfq_to_po_rndtext);
+		fSetText("Name",$Name + $mft_rfq_to_po_rndtext);
+		fSetText("Description",$Description);
+		fSetListRq("C_RfQ_Topic_ID",$C_RfQ_Topic_ID + $mft_rfq_to_po_rndtext,"Y");
+		fSetListRq("QuoteType",$QuoteType,"Y");
+		fSetCheckbox("IsQuoteAllQty",$IsQuoteAllQty);
+		fSetCheckbox("IsInvitedVendorsOnly",$IsInvitedVendorsOnly);
+		fSetCheckbox("IsRfQResponseAccepted",$IsRfQResponseAccepted);
+		fSetText("DateResponse",$DateResponse);
+		fSetText("DateWorkStart", $DateWorkStart);
+		fSetList("C_Currency_ID",$C_Currency_ID);
+		fSetAmount("DeliveryDays",$DeliveryDays);
+		fSetText("DateWorkComplete",$DateWorkComplete);
+		iSaveRecord();
+		
+		$mft_rfq_OldDocNo = $DocumentNo;
+		$mft_rfq_OldLine = "";
+		$mft_rfq_OldQtyCode = "";
+
+	}
+	
+	if($mft_rfq_OldLine != $Line){
+		wOpenTab("Line");
+		iFormView();
+		iNewRecord();
+		fSetAmount("Line",$Line);
+		fSetSearch("M_Product_ID",$M_Product_ID);
+		fSetText("DateWorkStart", $Line_DateWorkStart);
+		fSetAmount("DeliveryDays",$Line_DeliveryDays);
+		fSetText("DateWorkComplete",$Line_DateWorkComplete);
+		
+		$mft_rfq_OldLine = $Line;
+		$mft_rfq_OldQtyCode = "";
+	}
+	
+	if($mft_rfq_OldQtyCode != $Qty_Code){
+		wOpenTab("Quantity");
+		iFormView();
+		iNewRecord();
+		fSetList("C_UOM_ID",$Qty_C_UOM_ID);
+		fSetAmount("Qty",$Qty_Qty);
+		fSetCheckbox("IsRfQQty",$Qty_IsRfQQty);
+		fSetAmount("BenchmarkPrice",$Qty_BenchmarkPrice);
+		fSetCheckbox("IsPurchaseQty",$Qty_IsPurchaseQty);
+		fSetCheckbox("IsOfferQty",$Qty_IsOfferQty);
+		iSaveRecord();
+		
+		$mft_rfq_OldQtyCode = $Qty_Code;
+	}
+}
+
+function mft_rfq_response_tests_detail(
+		$Name,
+		$NumResponses,
+		$C_BPartner_ID,
+		$C_RfQ_ID,
+		$C_Currency_ID,
+		$ExpectedRows,
+		$RowNo,
+		$C_RfQLine_ID_Part1,
+		$C_RfQLine_ID_Part2,
+		$DeliveryDays,
+		$C_RfQLineQty_ID,
+		$Price
+		){
+
+	wOpenTab("Response");
+	
+	//Find the response
+	$SearchData = [
+	                ["Name", $Name + $mft_rfq_to_po_rndtext],
+	        	    ["",""]
+	        	   ];
+	dPerformLookup("Response",$SearchData);
+	iFirst();
+	_wait(1000);  
+	
+	var $NumRec = _getText(_span("status-db z-label")); // "[ 1/xx ]
+	$NumRec = $NumRec.match(/\d+/g);  // An array of two numbers
+	var $CurrentRec = $NumRec[0];
+	var $TotRec = $NumRec[1];
+
+	_assertEqual($TotRec,$NumResponses,"*** - Did not find the number of RfQ responses expected!");
+	
+	var $Found = "N";
+	
+	while ($Found == "N"){
+		// Not sure of the order so cycle through the records and find the match
+		// Find the number of records returned
+		_log("*** Found " + $TotRec + " records! Currently on record " + $CurrentRec);
+
+		var $tempName="";
+		var $tempBP = 0;
+		var $tempRfQ = 0;
+		_set($tempName,fGetText("Name"));
+		_set($tempBP, fGetSearch("C_BPartner_ID")); // Not sure why, but this has to be done twice to work.
+		_set($tempBP, fGetSearch("C_BPartner_ID"));
+		_set($tempRfQ, fGetText("C_RfQ_ID"));
+
+		_log("*** Looking for Name " + $Name + $mft_rfq_to_po_rndtext + " and found " + $tempName);
+		_log("*** Looking for BP " + $C_BPartner_ID + " and found BP " + $tempBP);
+		_log("*** Looking for RFQ " + $C_RfQ_ID + $mft_rfq_to_po_rndtext + " and found " + $tempRfQ);
+
+		if (($tempName == $Name + $mft_rfq_to_po_rndtext) && ($tempBP == $C_BPartner_ID) && ($tempRfQ == $C_RfQ_ID + $mft_rfq_to_po_rndtext)){
+			$Found = "Y";
+			_log("*** Found the RfQ Response!!", "info");
+		} else {
+			if ($CurrentRec == $TotRec){
+				_log("*** Can't find the RFQ Response!!", "error");
+				return;
+			} else{
+				iNext();
+				_wait(1000);
+				$NumRec = _getText(_span("status-db z-label")); // "[ 1/xx ]
+				$NumRec = $NumRec.match(/\d+/g);  // An array of two numbers
+				$CurrentRec = $NumRec[0];
+				$TotRec = $NumRec[1];
+			}
+		}
+	}
+	
+	// We have the correct response
+	_assertEqual(fGetList("C_Currency_ID"),$C_Currency_ID);
+	
+	//Response Line
+	wOpenTab("Response Line");
+	$Found = "N";
+	$NumRec = _getText(_span("status-db z-label")); // "[ 1/xx ]
+	$NumRec = $NumRec.match(/\d+/g);  // An array of two numbers
+	$CurrentRec = $NumRec[0];
+	$TotRec = $NumRec[1];
+	
+	var $tempRfQLine = 0;
+	_set($tempRfQLine, fGetList("C_RfQLine_ID"));
+	
+	while ($Found == "N"){
+		_log("*** Looking for RfQ Line " + $C_RfQLine_ID_Part1 + $mft_rfq_to_po_rndtext + "_" + $C_RfQLine_ID_Part2 + ". Found " + $tempRfQLine);
+		if($tempRfQLine == $C_RfQLine_ID_Part1 + $mft_rfq_to_po_rndtext + "_" + $C_RfQLine_ID_Part2){
+			$Found = "Y";
+			break;
+		} else {
+			if ($CurrentRec == $TotRec){
+				_log("*** Can't find the RFQ Response Line!!", "error");
+				return;
+				break;
+			} else {
+				iNext();
+				$NumRec = _getText(_span("status-db z-label")); // "[ 1/xx ]
+				$NumRec = $NumRec.match(/\d+/g);  // An array of two numbers
+				$CurrentRec = $NumRec[0];
+				$TotRec = $NumRec[1];
+				_set($tempRfQLine, fGetList("C_RfQLine_ID"));
+			}
+		}
+	}
+	
+	_assertEqual(fGetAmount("DeliveryDays"),$DeliveryDays);
+
+	// Response Quantity
+	wOpenTab("Response Quantity");
+	fSetAmount("Price",$Price);
+	
+	// Check if we are done with this Response and check if it is complete.
+	if ($ExpectedRows == $RowNo){
+		wOpenTab("Response");
+		fClickButton("CheckComplete");
+		iOk();
+		_assertEqual(fGetCheckbox("IsComplete"),"Y","*** RfQ Response was not completed.");			
+	}	
+}
+
+/**
+ * 		Test the rfq process from rfq to PO
+ * 
+ */
+function test_mft_rfq_to_po(){
+	
+	$mft_rfq_to_po_rndtext = random_string(4);
+	
+	var $data = _readCSVFile($mft_rfq_topic_setup_CSVFilePath);
+	wOpenWindow("RfQ Topic");
+	_dataDrive(mft_rfq_topic_setup_detail, $data);
+	wCloseWindow("RfQ Topic");
+	
+	$data = _readCSVFile($mft_rfq_setup_CSVFilePath);
+	wOpenWindow("RfQ");
+	_dataDrive(mft_rfq_setup_detail, $data);
+	wOpenTab("RfQ");
+	fClickButton("PublishRfQ");
+	iOk();
+	wCloseWindow("RfQ");
+	
+	$data = _readCSVFile($mft_rfq_response_tests_CSVFilePath);
+	wOpenWindow("RfQ Response");
+	iFormView();
+	_dataDrive(mft_rfq_response_tests_detail, $data);
+
+	_log("MFT_RFQ_To_PO completed");
+}
+

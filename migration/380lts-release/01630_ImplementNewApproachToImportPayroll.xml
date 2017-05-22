@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Implement new approach to import payroll movement" ReleaseNo="3.9.0" SeqNo="1630">
+    <Comments>https://github.com/adempiere/adempiere/issues/731</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="58968" Table="AD_Column">
+        <Data AD_Column_ID="226" Column="AD_Reference_ID" oldValue="10">20</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="58961" Table="AD_Column">
+        <Data AD_Column_ID="117" Column="DefaultValue" isOldNull="true">N</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="53197" Table="AD_Process">
+        <Data AD_Column_ID="4656" Column="Classname" oldValue="org.eevolution.process.ImportPayrollMovement">org.eevolution.process.ImportPayrollMovements</Data>
+        <Data AD_Column_ID="78843" Column="GenerateClass" isOldNull="true">N</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="53197" Table="AD_Process">
+        <Data AD_Column_ID="2810" Column="Description" oldValue="Import Payroll Movement">Import Payroll Movements</Data>
+        <Data AD_Column_ID="2809" Column="Name" oldValue="Import Payroll Movement">Import Payroll Movements</Data>
+        <Data AD_Column_ID="4023" Column="Value" oldValue="Import_PayrollMovement">Import_PayrollMovements</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

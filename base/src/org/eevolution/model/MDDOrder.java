@@ -10,7 +10,7 @@
  * You should have received a copy of the GNU General Public License along    *
  * with this program; if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
- * Copyright (C) 2003-2007 e-Evolution,SC. All Rights Reserved.               *
+ * Copyright (C) 2003-2016 e-Evolution,SC. All Rights Reserved.               *
  * Contributor(s): Victor Perez www.e-evolution.com                           *
  *****************************************************************************/
  
@@ -18,26 +18,31 @@ package org.eevolution.model;
 
 import java.io.File;
 import java.math.BigDecimal;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
+import org.compiere.model.I_C_DocType;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MBPartnerLocation;
 import org.compiere.model.MDocType;
 import org.compiere.model.MLocator;
 import org.compiere.model.MMovement;
 import org.compiere.model.MPeriod;
-import org.compiere.model.MProduct;
 import org.compiere.model.MProject;
 import org.compiere.model.MRefList;
 import org.compiere.model.MStorage;
-import org.compiere.model.MUser;
 import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.ModelValidator;
 import org.compiere.model.PO;
@@ -45,10 +50,14 @@ import org.compiere.model.Query;
 import org.compiere.print.ReportEngine;
 import org.compiere.process.DocAction;
 import org.compiere.process.DocumentEngine;
+import org.compiere.process.ProcessInfo;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Util;
+import org.eevolution.process.GenerateMovement;
+import org.eevolution.process.GenerateMovementMaterial;
+import org.eevolution.service.dsl.ProcessBuilder;
 
 /**
  *  Order Distribution Model.
@@ -86,8 +95,8 @@ public class MDDOrder extends X_DD_Order implements DocAction
 		MDDOrder to = new MDDOrder (from.getCtx(), 0, trxName);
 		to.set_TrxName(trxName);
 		PO.copyValues(from, to, from.getAD_Client_ID(), from.getAD_Org_ID());
-		to.set_ValueNoCheck ("DD_Order_ID", I_ZERO);
-		to.set_ValueNoCheck ("DocumentNo", null);
+		to.set_ValueNoCheck (COLUMNNAME_DD_Order_ID, I_ZERO);
+		to.set_ValueNoCheck (COLUMNNAME_DocumentNo, null);
 		//
 		to.setDocStatus (DOCSTATUS_Drafted);		//	Draft
 		to.setDocAction(DOCACTION_Complete);
@@ -209,7 +218,7 @@ public class MDDOrder extends X_DD_Order implements DocAction
 	}	//	MDDOrder
 
 	/**	Order Lines					*/
-	private MDDOrderLine[] 	m_lines = null;
+	private List<MDDOrderLine> orderLines = null;
 	
 	/** Force Creation of order		*/
 	private boolean			m_forceCreation = false;
@@ -295,6 +304,7 @@ public class MDDOrder extends X_DD_Order implements DocAction
 		}
 
 		//	Set Locations
+		/*
 		MBPartnerLocation[] locs = bp.getLocations(false);
 		if (locs != null)
 		{
@@ -311,17 +321,34 @@ public class MDDOrder extends X_DD_Order implements DocAction
 				super.setC_BPartner_Location_ID(locs[0].getC_BPartner_Location_ID());
 			}
 		}
+		*/
+
+		List<MBPartnerLocation> partnerLocations = Arrays.asList(bp.getLocations(false));
+		// search the Ship To Location
+		MBPartnerLocation partnerLocation = partnerLocations.stream() 			// create steam
+				.filter( pl -> pl.isShipTo()).reduce((first , last ) -> last) 	// get of last Ship to location
+				.orElse(partnerLocations.stream() 								// if not exist Ship to location else get first partner location
+							.findFirst()										// if not exist partner location then throw an exception
+							.orElseThrow(() -> new AdempiereException("@IsShipTo@ @NotFound@"))
+				);
+
+		setC_BPartner_Location_ID(partnerLocation.getC_BPartner_Location_ID());
+
 		if (getC_BPartner_Location_ID() == 0)
 		{
 			log.log(Level.SEVERE, "MDDOrder.setBPartner - Has no Ship To Address: " + bp);
 		}
 
 		//	Set Contact
-		MUser[] contacts = bp.getContacts(false);
+		/*MUser[] contacts = bp.getContacts(false);
 		if (contacts != null && contacts.length == 1)
 		{
 			setAD_User_ID(contacts[0].getAD_User_ID());
-		}
+		}*/
+		Arrays.asList(bp.getContacts(false))
+				.stream()
+				.findFirst()
+				.ifPresent(user -> setAD_User_ID(user.getAD_User_ID()));
 	}	//	setBPartner
 
 
@@ -336,32 +363,27 @@ public class MDDOrder extends X_DD_Order implements DocAction
 	{
 		if (isProcessed() || isPosted() || otherOrder == null)
 			return 0;
-		MDDOrderLine[] fromLines = otherOrder.getLines(false, null);
-		int count = 0;
-		for (int i = 0; i < fromLines.length; i++)
-		{
-			MDDOrderLine line = new MDDOrderLine (this);
-			PO.copyValues(fromLines[i], line, getAD_Client_ID(), getAD_Org_ID());
-			line.setDD_Order_ID(getDD_Order_ID());
-			line.setOrder(this);
+		List<MDDOrderLine> otherOrderLines = otherOrder.getLines(false, null);
+		otherOrderLines.stream().forEach( otherOrderLine -> {
+			MDDOrderLine orderLine = new MDDOrderLine (this);
+			PO.copyValues(otherOrderLine, orderLine, getAD_Client_ID(), getAD_Org_ID());
+			orderLine.setDD_Order_ID(getDD_Order_ID());
+			orderLine.setOrder(this);
 			//	References
 			if (!copyASI)
-			{
-				line.setM_AttributeSetInstance_ID(0);
-				//line.setS_ResourceAssignment_ID(0);
-			}
+				orderLine.setM_AttributeSetInstance_ID(0);
 
-			line.setQtyDelivered(Env.ZERO);
-			line.setQtyReserved(Env.ZERO);
-			line.setDateDelivered(null);
+			orderLine.setQtyDelivered(Env.ZERO);
+			orderLine.setQtyReserved(Env.ZERO);
+			orderLine.setDateDelivered(null);
+			orderLine.setProcessed(false);
+			orderLine.saveEx(get_TrxName());
+			orderLines.add(orderLine);
+		});
 
-			line.setProcessed(false);
-			if (line.save(get_TrxName()))
-				count++;
-		}
-		if (fromLines.length != count)
-			log.log(Level.SEVERE, "Line difference - From=" + fromLines.length + " <> Saved=" + count);
-		return count;
+		if (otherOrderLines.size() != orderLines.size())
+			log.log(Level.SEVERE, "Line difference - From=" + otherOrderLines.size() + " <> Saved=" + orderLines.size());
+		return orderLines.size();
 	}	//	copyLinesFrom
 
 	
@@ -385,8 +407,8 @@ public class MDDOrder extends X_DD_Order implements DocAction
 	 */
 	public String getDocumentInfo()
 	{
-		MDocType dt = MDocType.get(getCtx(), getC_DocType_ID());
-		return dt.getName() + " " + getDocumentNo();
+		I_C_DocType docType = getC_DocType();
+		return docType.getName() + " " + getDocumentNo();
 	}	//	getDocumentInfo
 
 	/**
@@ -405,6 +427,7 @@ public class MDDOrder extends X_DD_Order implements DocAction
 			log.severe("Could not create PDF - " + e.getMessage());
 		}
 		return null;
+
 	}	//	getPDF
 
 	/**
@@ -414,10 +437,9 @@ public class MDDOrder extends X_DD_Order implements DocAction
 	 */
 	public File createPDF (File file)
 	{
-		ReportEngine re = ReportEngine.get (getCtx(), ReportEngine.DISTRIBUTION_ORDER, getDD_Order_ID());
-		if (re == null)
-			return null;
-		return re.getPDF(file);
+		return Optional.ofNullable(ReportEngine.get(getCtx(), ReportEngine.DISTRIBUTION_ORDER, getDD_Order_ID()))
+				.orElseThrow(() -> new AdempiereException("@AD_PrintFormat_ID@ @NotFound@"))
+				.getPDF();
 	}	//	createPDF
 	
 
@@ -429,30 +451,29 @@ public class MDDOrder extends X_DD_Order implements DocAction
 	 * 	@param orderClause order clause
 	 * 	@return lines
 	 */
-	public MDDOrderLine[] getLines (String whereClause, String orderClause)
+	public List<MDDOrderLine> getLines (String whereClause, String orderClause)
 	{
 		StringBuffer whereClauseFinal = new StringBuffer(MDDOrderLine.COLUMNNAME_DD_Order_ID).append("=?");
 		if (!Util.isEmpty(whereClause, true))
 			whereClauseFinal.append(" AND (").append(whereClause).append(")");
-		//
-		List<MDDOrderLine> list = new Query(getCtx(), I_DD_OrderLine.Table_Name, whereClauseFinal.toString(), get_TrxName())
+
+		return new Query(getCtx(), I_DD_OrderLine.Table_Name, whereClauseFinal.toString(), get_TrxName())
 												.setParameters(getDD_Order_ID())
 												.setOrderBy(orderClause)
 												.list();
-		return list.toArray(new MDDOrderLine[list.size()]);		
 	}	//	getLines
 
 	/**
 	 * 	Get Lines of Order
-	 * 	@param requery requery
+	 * 	@param reQuery requery
 	 * 	@param orderBy optional order by column
 	 * 	@return lines
 	 */
-	public MDDOrderLine[] getLines (boolean requery, String orderBy)
+	public List<MDDOrderLine> getLines (boolean reQuery, String orderBy)
 	{
-		if (m_lines != null && !requery) {
-			set_TrxName(m_lines, get_TrxName());
-			return m_lines;
+		if (orderLines != null && !reQuery) {
+			orderLines.stream().forEach(orderLine -> orderLine.set_TrxName(get_TrxName()));
+			return orderLines;
 		}
 		//
 		String orderClause = "";
@@ -460,8 +481,8 @@ public class MDDOrder extends X_DD_Order implements DocAction
 			orderClause += orderBy;
 		else
 			orderClause += "Line";
-		m_lines = getLines(null, orderClause);
-		return m_lines;
+		orderLines = getLines(null, orderClause);
+		return orderLines;
 	}	//	getLines
 
 	/**
@@ -469,7 +490,7 @@ public class MDDOrder extends X_DD_Order implements DocAction
 	 * 	(useb by web store)
 	 * 	@return lines
 	 */
-	public MDDOrderLine[] getLines()
+	public List<MDDOrderLine> getLines()
 	{
 		return getLines(false, null);
 	}	//	getLines
@@ -480,67 +501,33 @@ public class MDDOrder extends X_DD_Order implements DocAction
 	 */
 	public void renumberLines (int step)
 	{
-		int number = step;
-		MDDOrderLine[] lines = getLines(true, null);	//	Line is default
-		for (int i = 0; i < lines.length; i++)
-		{
-			MDDOrderLine line = lines[i];
-			line.setLine(number);
-			line.save(get_TrxName());
-			number += step;
-		}
-		m_lines = null;
+		AtomicInteger number = new AtomicInteger(0);
+		orderLines =  getLines(true, null);
+		orderLines.stream().forEach( orderLine -> {
+			orderLine.setLine(  number.updateAndGet(lineNo -> lineNo + 10));
+			orderLine.save(get_TrxName());
+		});
+
+		orderLines = null;
 	}	//	renumberLines
 	
 	
 
 
 	/**
-	 * 	Get Shipments of Order
+	 * 	Get Movement of Order
 	 * 	@return shipments
 	 */
-	public MMovement[] getMovement()
+	public List<MMovement> getMovement()
 	{
-		ArrayList<MMovement> list = new ArrayList<MMovement>();
-		String sql = "SELECT DISTINCT io.* FROM M_MovementLine ml " + 
-						"INNER JOIN M_Movement m ON (m.M_Movement_ID = ml.M_Movement_ID) " +
-						"INNER JOIN DD_ORDERLINE ol ON (ol.DD_ORDERLINE_ID=ml.DD_ORDERLINE_ID) " + 
-						"INNER JOIN DD_ORDER o ON (o.DD_ORDER_ID=ol.DD_ORDER_ID) " +
-						"WHERE	o.DD_ORDER_ID=? " +
-						"ORDER BY m.Created DESC";
-
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement(sql, get_TrxName());
-			pstmt.setInt(1, getDD_Order_ID());
-			ResultSet rs = pstmt.executeQuery();
-			while (rs.next())
-				list.add(new MMovement(getCtx(), rs, get_TrxName()));
-			rs.close();
-			pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
-		finally
-		{
-			try
-			{
-				if (pstmt != null)
-					pstmt.close ();
-			}
-			catch (Exception e)
-			{}
-			pstmt = null;
-		}
-		//
-		MMovement[] retValue = new MMovement[list.size()];
-		list.toArray(retValue);
-		return retValue;
-	}	//	getShipments
+		StringBuilder whereClause = new StringBuilder();
+		whereClause.append(MMovement.COLUMNNAME_DD_Order_ID).append("=?");
+		return new Query(getCtx(), MMovement.Table_Name , whereClause.toString() , get_TrxName())
+				.setClient_ID()
+				.setOrderBy(MDDOrder.COLUMNNAME_Created)
+				.setParameters(getDD_Order_ID())
+				.list();
+	}	//	get Movements
 
 	
 	
@@ -572,12 +559,12 @@ public class MDDOrder extends X_DD_Order implements DocAction
 		super.setProcessed (processed);
 		if (get_ID() == 0)
 			return;
-		String set = "SET Processed='"
-			+ (processed ? "Y" : "N")
-			+ "' WHERE DD_Order_ID=" + getDD_Order_ID();
-		int noLine = DB.executeUpdate("UPDATE DD_OrderLine " + set, get_TrxName());
-		m_lines = null;
-		log.fine("setProcessed - " + processed + " - Lines=" + noLine);
+		getLines().stream().forEach(orderLine -> {
+			orderLine.setProcessed(processed);
+			orderLine.saveEx();
+		});
+		orderLines = null;
+		log.fine("setProcessed - " + processed + " - Lines=" + getLines().size());
 	}	//	setProcessed
 	
 	
@@ -592,16 +579,16 @@ public class MDDOrder extends X_DD_Order implements DocAction
 		//	Client/Org Check
 		if (getAD_Org_ID() == 0)
 		{
-			int context_AD_Org_ID = Env.getAD_Org_ID(getCtx());
-			if (context_AD_Org_ID != 0)
+			int contextOrgId = Env.getAD_Org_ID(getCtx());
+			if (contextOrgId != 0)
 			{
-				setAD_Org_ID(context_AD_Org_ID);
-				log.warning("Changed Org to Context=" + context_AD_Org_ID);
+				setAD_Org_ID(contextOrgId);
+				log.warning("Changed Org to Context=" + contextOrgId);
 			}
 		}
 		if (getAD_Client_ID() == 0)
 		{
-			m_processMsg = "AD_Client_ID = 0";
+			processMessage = "AD_Client_ID = 0";
 			return false;
 		}
 		
@@ -612,9 +599,9 @@ public class MDDOrder extends X_DD_Order implements DocAction
 		//	Default Warehouse
 		if (getM_Warehouse_ID() == 0)
 		{
-			int ii = Env.getContextAsInt(getCtx(), "#M_Warehouse_ID");
-			if (ii != 0)
-				setM_Warehouse_ID(ii);
+			int warehouseId = Env.getContextAsInt(getCtx(), "#M_Warehouse_ID");
+			if (warehouseId != 0)
+				setM_Warehouse_ID(warehouseId);
 			else
 			{
 				log.saveError("FillMandatory", Msg.getElement(getCtx(), "M_Warehouse_ID"));
@@ -624,12 +611,8 @@ public class MDDOrder extends X_DD_Order implements DocAction
 		//	Reservations in Warehouse
 		if (!newRecord && is_ValueChanged("M_Warehouse_ID"))
 		{
-			MDDOrderLine[] lines = getLines(false,null);
-			for (int i = 0; i < lines.length; i++)
-			{
-				if (!lines[i].canChangeWarehouse())
-					return false;
-			}
+			if (!getLines().stream().anyMatch(orderLine -> orderLine.canChangeWarehouse()))
+				return false;
 		}
 		
 		//	No Partner Info - set Template
@@ -642,9 +625,9 @@ public class MDDOrder extends X_DD_Order implements DocAction
 		//	Default Sales Rep
 		if (getSalesRep_ID() == 0)
 		{
-			int ii = Env.getContextAsInt(getCtx(), "#AD_User_ID");
-			if (ii != 0)
-				setSalesRep_ID (ii);
+			int userId = Env.getContextAsInt(getCtx(), "#AD_User_ID");
+			if (userId != 0)
+				setSalesRep_ID (userId);
 		}
 		
 		return true;
@@ -663,15 +646,17 @@ public class MDDOrder extends X_DD_Order implements DocAction
 			return success;
 		
 		//	Propagate Description changes
-		if (is_ValueChanged("Description") || is_ValueChanged("POReference"))
+		if (is_ValueChanged(COLUMNNAME_Description) || is_ValueChanged(COLUMNNAME_POReference))
 		{
-			String sql = "UPDATE M_Movement i"
-				+ " SET (Description,POReference)="
-					+ "(SELECT Description,POReference "
-					+ "FROM DD_Order o WHERE i.DD_Order_ID=o.DD_Order_ID) "
-				+ "WHERE DocStatus NOT IN ('RE','CL') AND DD_Order_ID=" + getDD_Order_ID();
-			int no = DB.executeUpdate(sql, get_TrxName());
-			log.fine("Description -> #" + no);
+			getMovement()
+					.stream()
+					.filter(movement -> !movement.getDocStatus().endsWith(DOCSTATUS_Reversed))
+					.filter(movement -> !movement.getDocStatus().endsWith(DOCACTION_Close))
+					.forEach(movement -> {
+						movement.setDescription(getDescription());
+						movement.setPOReference(getPOReference());
+						movement.saveEx();
+					});
 		}		
 	      
 		//	Sync Lines
@@ -690,16 +675,15 @@ public class MDDOrder extends X_DD_Order implements DocAction
 		if (is_ValueChanged(columnName))
 		{
 		    	final String whereClause = I_DD_Order.COLUMNNAME_DD_Order_ID + "=?";
-		    	List<MDDOrderLine> lines = new Query (getCtx(), I_DD_OrderLine.Table_Name, whereClause, get_TrxName())
+		    	List<MDDOrderLine> orderLines = new Query (getCtx(), I_DD_OrderLine.Table_Name, whereClause, get_TrxName())
 		    	.setParameters(getDD_Order_ID())
 		    	.list();
-		    	
-		    	for (MDDOrderLine line : lines)
-		    	{
-		    	    line.set_ValueOfColumn(columnName, get_Value(columnName));
-		    	    line.saveEx();
-		    	    log.fine(columnName + " Lines -> #" + get_Value(columnName));
-		    	}		    	
+
+			orderLines.stream().forEach(orderLine -> {
+				orderLine.set_ValueOfColumn(columnName, get_Value(columnName));
+				orderLine.saveEx();
+				log.fine(columnName + " Lines -> #" + get_Value(columnName));
+			});
 		}		
 	}	//	afterSaveSync
 	
@@ -723,12 +707,10 @@ public class MDDOrder extends X_DD_Order implements DocAction
 	{
 		if (isProcessed())
 			return false;
-		
-		getLines();
-		for (int i = 0; i < m_lines.length; i++)
-		{
-			m_lines[i].delete(true);
-		}
+
+		getLines()
+				.stream()
+				.forEach(orderLine -> orderLine.deleteEx(true));
 		return true;
 	}	//	beforeDelete
  
@@ -739,15 +721,15 @@ public class MDDOrder extends X_DD_Order implements DocAction
 	 */
 	public boolean processIt (String processAction)
 	{
-		m_processMsg = null;
+		processMessage = null;
 		DocumentEngine engine = new DocumentEngine (this, getDocStatus());
 		return engine.processIt (processAction, getDocAction());
 	}	//	processIt
 	
 	/**	Process Message 			*/
-	private String		m_processMsg = null;
+	private String processMessage = null;
 	/**	Just Prepared Flag			*/
-	private boolean		m_justPrepared = false;
+	private boolean justPrepared = false;
 
 	/**
 	 * 	Unlock Document.
@@ -779,39 +761,49 @@ public class MDDOrder extends X_DD_Order implements DocAction
 	public String prepareIt()
 	{
 		log.info(toString());
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_PREPARE);
-		if (m_processMsg != null)
+		processMessage = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_PREPARE);
+		if (processMessage != null)
 			return DocAction.STATUS_Invalid;
-		MDocType dt = MDocType.get(getCtx(), getC_DocType_ID());
 
+		MDocType dt = MDocType.get(getCtx(), getC_DocType_ID());
 		//	Std Period open?
 		if (!MPeriod.isOpen(getCtx(), getDateOrdered(), dt.getDocBaseType(), getAD_Org_ID()))
 		{
-			m_processMsg = "@PeriodClosed@";
+			processMessage = "@PeriodClosed@";
 			return DocAction.STATUS_Invalid;
 		}
-		
-		//	Lines
-		MDDOrderLine[] lines = getLines(true, "M_Product_ID");
-		if (lines.length == 0)
+
+		List<MDDOrderLine> orderLines= getLines(true, "M_Product_ID");
+		if (orderLines.isEmpty())
 		{
-			m_processMsg = "@NoLines@";
+			processMessage = "@NoLines@";
 			return DocAction.STATUS_Invalid;
 		}
+
+
 		
 		// Bug 1564431
 		if (getDeliveryRule() != null && getDeliveryRule().equals(MDDOrder.DELIVERYRULE_CompleteOrder)) 
 		{
-			for (int i = 0; i < lines.length; i++) 
+			/*for (int i = 0; i < lines.length; i++)
 			{
 				MDDOrderLine line = lines[i];
 				MProduct product = line.getProduct();
 				if (product != null && product.isExcludeAutoDelivery())
 				{
-					m_processMsg = "@M_Product_ID@ "+product.getValue()+" @IsExcludeAutoDelivery@";
+					processMessage = "@M_Product_ID@ "+product.getValue()+" @IsExcludeAutoDelivery@";
 					return DocAction.STATUS_Invalid;
 				}
-			}
+			}*/
+
+			orderLines.stream()
+					.filter(orderLine -> orderLine.getProduct() != null && orderLine.getProduct().isExcludeAutoDelivery())
+					.map(orderLine ->
+							{
+								processMessage = "@M_Product_ID@ " + orderLine.getProduct().getValue() + " @IsExcludeAutoDelivery@";
+								return DocAction.STATUS_Invalid;
+							}
+					);
 		}
 		
 
@@ -827,92 +819,85 @@ public class MDDOrder extends X_DD_Order implements DocAction
 		int no = DB.getSQLValue(get_TrxName(), sql, getDD_Order_ID());
 		if (no != 0)
 		{
-			m_processMsg = "@LinesWithoutProductAttribute@ (" + no + ")";
+			processMessage = "@LinesWithoutProductAttribute@ (" + no + ")";
 			return DocAction.STATUS_Invalid;
 		}
 		
-		reserveStock(lines);
+		reserveStock(orderLines);
 		
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_PREPARE);
-		if (m_processMsg != null)
+		processMessage = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_PREPARE);
+		if (processMessage != null)
 			return DocAction.STATUS_Invalid;
 		
-		m_justPrepared = true;
+		justPrepared = true;
 		return DocAction.STATUS_InProgress;
 	}	//	prepareIt
+
 
 
 	/**
 	 * 	Reserve Inventory.
 	 * 	Counterpart: MMovement.completeIt()
-	 * 	@param lines distribution order lines (ordered by M_Product_ID for deadlock prevention)
+	 * 	@param orderLines distribution order lines (ordered by M_Product_ID for deadlock prevention)
 	 * 	@return true if (un) reserved
 	 */
-	public void reserveStock (MDDOrderLine[] lines)
+	public void reserveStock (List<MDDOrderLine> orderLines)
 	{
-		BigDecimal Volume = Env.ZERO;
-		BigDecimal Weight = Env.ZERO;
-		
 		//	Always check and (un) Reserve Inventory		
-		for (MDDOrderLine line : lines)
-		{
-			MLocator locator_from = MLocator.get(getCtx(),line.getM_Locator_ID());
-			MLocator locator_to = MLocator.get(getCtx(),line.getM_LocatorTo_ID());			
-			BigDecimal reserved_ordered = line.getQtyOrdered()
-				.subtract(line.getQtyReserved())
-				.subtract(line.getQtyDelivered()); 
-			if (reserved_ordered.signum() == 0)
-			{
-				MProduct product = line.getProduct();
-				if (product != null)
-				{
-					Volume = Volume.add(product.getVolume().multiply(line.getQtyOrdered()));
-					Weight = Weight.add(product.getWeight().multiply(line.getQtyOrdered()));
-				}
-				continue;
-			}
-			
-			log.fine("Line=" + line.getLine() 
-				+ " - Ordered=" + line.getQtyOrdered() 
-				+ ",Reserved=" + line.getQtyReserved() + ",Delivered=" + line.getQtyDelivered());
+		orderLines.stream()
+				.filter(orderLine -> orderLine.getCalculateQtyReserved().signum() != 0 ) // filter the order line that where Reserved Quantity need be change
+				.filter(orderLine -> orderLine.getProduct() != null && orderLine.getProduct().isStocked()) // filter that order line with product stocked
+				.forEach(orderLine -> {
 
-			//	Check Product - Stocked and Item
-			MProduct product = line.getProduct();
-			if (product != null) 
-			{
-				if (product.isStocked())
-				{
-					//	Update Storage
-					if (!MStorage.add(getCtx(), locator_to.getM_Warehouse_ID(), locator_to.getM_Locator_ID(), 
-						line.getM_Product_ID(), 
-						line.getM_AttributeSetInstance_ID(), line.getM_AttributeSetInstance_ID(),
-						Env.ZERO, Env.ZERO , reserved_ordered , get_TrxName()))
-					{
-						throw new AdempiereException();
-					}
-					
-					if (!MStorage.add(getCtx(), locator_from.getM_Warehouse_ID(), locator_from.getM_Locator_ID(), 
-						line.getM_Product_ID(), 
-						line.getM_AttributeSetInstanceTo_ID(), line.getM_AttributeSetInstance_ID(),
-						Env.ZERO, reserved_ordered, Env.ZERO , get_TrxName()))
-					{
-						throw new AdempiereException();
-					}
-					
-				}	//	stockec
+			MLocator locatorFrom = MLocator.get(getCtx(),orderLine.getM_Locator_ID());
+			MLocator locatorTo = MLocator.get(getCtx(),orderLine.getM_LocatorTo_ID());
+			log.fine("Line=" + orderLine.getLine()
+				+ " - Ordered=" + orderLine.getQtyOrdered()
+				+ ",Reserved=" + orderLine.getQtyReserved() + ",Delivered=" + orderLine.getQtyDelivered());
+			//	Update Storage
+			if (!MStorage.add(getCtx(), locatorTo.getM_Warehouse_ID(), locatorTo.getM_Locator_ID(),
+					orderLine.getM_Product_ID(),
+					orderLine.getM_AttributeSetInstance_ID(), orderLine.getM_AttributeSetInstance_ID(),
+				Env.ZERO, Env.ZERO , orderLine.getCalculateQtyReserved() , get_TrxName()))
+				throw new AdempiereException("@M_Storage_ID@ @Error@ @To@ @QtyReserved@");
+
+			if (!MStorage.add(getCtx(), locatorFrom.getM_Warehouse_ID(), locatorFrom.getM_Locator_ID(),
+					orderLine.getM_Product_ID(),
+					orderLine.getM_AttributeSetInstanceTo_ID(), orderLine.getM_AttributeSetInstance_ID(),
+				Env.ZERO, orderLine.getCalculateQtyReserved(), Env.ZERO , get_TrxName()))
+				throw new AdempiereException("@M_Storage_ID@ @Error@ @To@ @QtyReserved@");
+
 				//	update line
-				line.setQtyReserved(line.getQtyReserved().add(reserved_ordered));
-				line.saveEx();
-				//
-				Volume = Volume.add(product.getVolume().multiply(line.getQtyOrdered()));
-				Weight = Weight.add(product.getWeight().multiply(line.getQtyOrdered()));
-			}	//	product
-		}	//	reverse inventory
-		
-		setVolume(Volume);
-		setWeight(Weight);
+				orderLine.setQtyReserved(orderLine.getQtyReserved().add(orderLine.getCalculateQtyReserved()));
+				orderLine.saveEx();
+		});
+		updateVolume();
+		updateWeight();
 	}	//	reserveStock
-	
+
+	public BigDecimal updateWeight()
+	{
+		BigDecimal weight = getLines()
+				.stream()
+				.filter(orderLine -> orderLine.getProduct() != null && orderLine.getProduct().isStocked())
+				.map(MDDOrderLine::getWeight)
+				.reduce(BigDecimal.ZERO, BigDecimal::add);
+		setWeight(weight);
+		saveEx();
+		return  weight;
+	}
+
+	public BigDecimal updateVolume()
+	{
+		BigDecimal volume = getLines()
+				.stream()
+				.filter(orderLine -> orderLine.getProduct() != null && orderLine.getProduct().isStocked())
+				.map(MDDOrderLine::getVolume)
+				.reduce(BigDecimal.ZERO, BigDecimal::add);
+		setVolume(volume);
+		saveEx();
+		return volume;
+	}
 	
 	/**
 	 * 	Approve Document
@@ -943,8 +928,6 @@ public class MDDOrder extends X_DD_Order implements DocAction
 	 */
 	public String completeIt()
 	{
-		MDocType dt = MDocType.get(getCtx(), getC_DocType_ID());
-		
 		//	Just prepare
 		if (DOCACTION_Prepare.equals(getDocAction()))
 		{
@@ -953,21 +936,27 @@ public class MDDOrder extends X_DD_Order implements DocAction
 		}
 		
 		//	Re-Check
-		if (!m_justPrepared)
+		if (!justPrepared)
 		{
 			String status = prepareIt();
 			if (!DocAction.STATUS_InProgress.equals(status))
 				return status;
 		}
 		
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_COMPLETE);
-		if (m_processMsg != null)
+		processMessage = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_COMPLETE);
+		if (processMessage != null)
 			return DocAction.STATUS_Invalid;
 		
 		//	Implicit Approval
 		if (!isApproved())
 			approveIt();
+
 		getLines(true,null);
+		renumberLines(10);
+
+		if (isDropShip())
+			createDropShip();
+
 		log.info(toString());
 		StringBuffer info = new StringBuffer();		
 		String valid = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_COMPLETE);
@@ -976,17 +965,58 @@ public class MDDOrder extends X_DD_Order implements DocAction
 			if (info.length() > 0)
 				info.append(" - ");
 			info.append(valid);
-			m_processMsg = info.toString();
+			processMessage = info.toString();
 			return DocAction.STATUS_Invalid;
 		}
 
 		setProcessed(true);	
-		m_processMsg = info.toString();
+		processMessage = info.toString();
 		//
 		setDocAction(DOCACTION_Close);
 		return DocAction.STATUS_Completed;
 	}	//	completeIt
-	
+
+	private void createDropShip() {
+		//Create movement delivery
+		Date date = Date.from(LocalDate.now().atStartOfDay()
+				.atZone(ZoneId.systemDefault()).toInstant());
+		Timestamp today = new Timestamp(date.getTime());
+		List<Integer> recordIds = new ArrayList<>();
+		recordIds.add(getDD_Order_ID());
+		ProcessInfo processInfo = ProcessBuilder.create(getCtx()).process(GenerateMovement.getProcessId())
+				.withTitle(GenerateMovement.getProcessName())
+				.withRecordId(MDDOrder.Table_ID, 0)
+				.withSelectedRecordsIds(recordIds)
+				.withParameter(MMovement.COLUMNNAME_MovementDate , today)
+				.withParameter(MMovement.COLUMNNAME_DocAction, DocAction.ACTION_Complete)
+				.withoutTransactionClose()
+				.execute(get_TrxName());
+
+		if (processInfo.isError())
+			throw new AdempiereException(processInfo.getSummary());
+
+		List<Integer> orderLinesIds = new ArrayList<>();
+		LinkedHashMap<Integer, LinkedHashMap<String, Object>> selection = new LinkedHashMap<Integer, LinkedHashMap<String, Object>>();
+
+		getLines().stream().filter(orderLine -> orderLine != null).forEach(orderLine -> {
+			orderLinesIds.add(orderLine.get_ID());
+			LinkedHashMap<String, Object> values = new LinkedHashMap<String, Object>();
+			values.put("LINE_"+MDDOrderLine.COLUMNNAME_QtyInTransit , orderLine.getQtyInTransit());
+			selection.put(orderLine.get_ID(), values);
+		});
+
+		processInfo = ProcessBuilder.create(getCtx()).process(GenerateMovementMaterial.getProcessId())
+				.withTitle(GenerateMovementMaterial.getProcessName())
+				.withRecordId(MDDOrderLine.Table_ID, 0)
+				.withSelectedRecordsIds(orderLinesIds , selection)
+				.withParameter(MMovement.COLUMNNAME_MovementDate , today)
+				.withoutTransactionClose()
+				.execute(get_TrxName());
+
+		if (processInfo.isError())
+			throw new AdempiereException(processInfo.getSummary());
+	}
+
 	/**
 	 * 	Void Document.
 	 * 	Set Qtys to 0 - Sales: reverse all documents
@@ -996,11 +1026,11 @@ public class MDDOrder extends X_DD_Order implements DocAction
 	{
 		log.info(toString());
 		// Before Void
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_VOID);
-		if (m_processMsg != null)
+		processMessage = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_VOID);
+		if (processMessage != null)
 			return false;
 
-		MDDOrderLine[] lines = getLines(true, "M_Product_ID");
+		/*MDDOrderLine[] lines = getLines(true, "M_Product_ID");
 		for (int i = 0; i < lines.length; i++)
 		{
 			MDDOrderLine line = lines[i];
@@ -1010,104 +1040,28 @@ public class MDDOrder extends X_DD_Order implements DocAction
 				line.addDescription(Msg.getMsg(getCtx(), "Voided") + " (" + old + ")");		
 				line.save(get_TrxName());
 			}
-		}
+		}*/
+
+		List<MDDOrderLine> lines = getLines(true, "M_Product_ID");
+		lines.stream()
+				.filter(orderLine -> orderLine.getQtyOrdered().signum() != 0)
+				.forEach(orderLine -> {
+					orderLine.addDescription(Msg.getMsg(getCtx(), "Voided") + " (" + orderLine.getQtyOrdered() + ")");
+					orderLine.save(get_TrxName());
+				});
+
 		addDescription(Msg.getMsg(getCtx(), "Voided"));
 		//	Clear Reservations
 		reserveStock(lines);		
 		// After Void
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_VOID);
-		if (m_processMsg != null)
+		processMessage = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_VOID);
+		if (processMessage != null)
 			return false;
 		
 		setProcessed(true);
 		setDocAction(DOCACTION_None);
 		return true;
 	}	//	voidIt
-	
-	/**
-	 * 	Create Shipment/Invoice Reversals
-	 * 	@return true if success
-	 */
-	/*
-	private boolean createReversals()
-	{
-		//	Cancel only Sales 
-		if (!isSOTrx())
-			return true;
-		
-		log.info("createReversals");
-		StringBuffer info = new StringBuffer();
-		
-		//	Reverse All *Shipments*
-		info.append("@M_InOut_ID@:");
-		MInOut[] shipments = getShipments();
-		for (int i = 0; i < shipments.length; i++)
-		{
-			MInOut ship = shipments[i];
-			//	if closed - ignore
-			if (MInOut.DOCSTATUS_Closed.equals(ship.getDocStatus())
-				|| MInOut.DOCSTATUS_Reversed.equals(ship.getDocStatus())
-				|| MInOut.DOCSTATUS_Voided.equals(ship.getDocStatus()) )
-				continue;
-			ship.set_TrxName(get_TrxName());
-		
-			//	If not completed - void - otherwise reverse it
-			if (!MInOut.DOCSTATUS_Completed.equals(ship.getDocStatus()))
-			{
-				if (ship.voidIt())
-					ship.setDocStatus(MInOut.DOCSTATUS_Voided);
-			}
-			else if (ship.reverseCorrectIt())	//	completed shipment
-			{
-				ship.setDocStatus(MInOut.DOCSTATUS_Reversed);
-				info.append(" ").append(ship.getDocumentNo());
-			}
-			else
-			{
-				m_processMsg = "Could not reverse Shipment " + ship;
-				return false;
-			}
-			ship.setDocAction(MInOut.DOCACTION_None);
-			ship.save(get_TrxName());
-		}	//	for all shipments
-			
-		//	Reverse All *Invoices*
-		info.append(" - @C_Invoice_ID@:");
-		MInvoice[] invoices = getInvoices();
-		for (int i = 0; i < invoices.length; i++)
-		{
-			MInvoice invoice = invoices[i];
-			//	if closed - ignore
-			if (MInvoice.DOCSTATUS_Closed.equals(invoice.getDocStatus())
-				|| MInvoice.DOCSTATUS_Reversed.equals(invoice.getDocStatus())
-				|| MInvoice.DOCSTATUS_Voided.equals(invoice.getDocStatus()) )
-				continue;			
-			invoice.set_TrxName(get_TrxName());
-			
-			//	If not completed - void - otherwise reverse it
-			if (!MInvoice.DOCSTATUS_Completed.equals(invoice.getDocStatus()))
-			{
-				if (invoice.voidIt())
-					invoice.setDocStatus(MInvoice.DOCSTATUS_Voided);
-			}
-			else if (invoice.reverseCorrectIt())	//	completed invoice
-			{
-				invoice.setDocStatus(MInvoice.DOCSTATUS_Reversed);
-				info.append(" ").append(invoice.getDocumentNo());
-			}
-			else
-			{
-				m_processMsg = "Could not reverse Invoice " + invoice;
-				return false;
-			}
-			invoice.setDocAction(MInvoice.DOCACTION_None);
-			invoice.save(get_TrxName());
-		}	//	for all shipments
-		
-		m_processMsg = info.toString();
-		return true;
-	}	//	createReversals
-	*/
 	
 	/**
 	 * 	Close Document.
@@ -1118,12 +1072,12 @@ public class MDDOrder extends X_DD_Order implements DocAction
 	{
 		log.info(toString());
 		// Before Close
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_CLOSE);
-		if (m_processMsg != null)
+		processMessage = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_CLOSE);
+		if (processMessage != null)
 			return false;
 		
 		//	Close Not delivered Qty - SO/PO
-		MDDOrderLine[] lines = getLines(true, "M_Product_ID");
+		/*MDDOrderLine[] lines = getLines(true, "M_Product_ID");
 		for (int i = 0; i < lines.length; i++)
 		{
 			MDDOrderLine line = lines[i];
@@ -1135,15 +1089,24 @@ public class MDDOrder extends X_DD_Order implements DocAction
 				line.addDescription("Close (" + old + ")");
 				line.save(get_TrxName());
 			}
-		}
+		}*/
+
+		List<MDDOrderLine> lines = getLines(true, "M_Product_ID");
+		lines.stream()
+				.filter(orderLine -> orderLine.getQtyOrdered().compareTo(orderLine.getQtyDelivered()) != 0)
+				.forEach(orderLine -> {
+					orderLine.setQtyOrdered(orderLine.getQtyDelivered());
+					orderLine.addDescription("Close (" + orderLine.getQtyOrdered() + ")");
+					orderLine.save(get_TrxName());
+				});
+
 		//	Clear Reservations
 		reserveStock(lines);
-		
 		setProcessed(true);
 		setDocAction(DOCACTION_None);
 		// After Close
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_CLOSE);
-		if (m_processMsg != null)
+		processMessage = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_CLOSE);
+		if (processMessage != null)
 			return false;
 		return true;
 	}	//	closeIt
@@ -1156,13 +1119,13 @@ public class MDDOrder extends X_DD_Order implements DocAction
 	{
 		log.info(toString());
 		// Before reverseCorrect
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REVERSECORRECT);
-		if (m_processMsg != null)
+		processMessage = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REVERSECORRECT);
+		if (processMessage != null)
 			return false;
 		
 		// After reverseCorrect
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSECORRECT);
-		if (m_processMsg != null)
+		processMessage = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSECORRECT);
+		if (processMessage != null)
 			return false;
 		
 		return voidIt();
@@ -1176,13 +1139,13 @@ public class MDDOrder extends X_DD_Order implements DocAction
 	{
 		log.info(toString());
 		// Before reverseAccrual
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REVERSEACCRUAL);
-		if (m_processMsg != null)
+		processMessage = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REVERSEACCRUAL);
+		if (processMessage != null)
 			return false;
 		
 		// After reverseAccrual
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSEACCRUAL);
-		if (m_processMsg != null)
+		processMessage = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSEACCRUAL);
+		if (processMessage != null)
 			return false;
 		
 		return false;
@@ -1196,12 +1159,12 @@ public class MDDOrder extends X_DD_Order implements DocAction
 	{
 		log.info(toString());
 		// Before reActivate
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REACTIVATE);
-		if (m_processMsg != null)
+		processMessage = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REACTIVATE);
+		if (processMessage != null)
 			return false;	
 		// After reActivate
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REACTIVATE);
-		if (m_processMsg != null)
+		processMessage = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REACTIVATE);
+		if (processMessage != null)
 			return false;
 		
 		setDocAction(DOCACTION_Complete);
@@ -1219,8 +1182,8 @@ public class MDDOrder extends X_DD_Order implements DocAction
 		StringBuffer sb = new StringBuffer();
 		sb.append(getDocumentNo());
 			
-		if (m_lines != null)
-			sb.append(" (#").append(m_lines.length).append(")");
+		if (orderLines != null)
+			sb.append(" (#").append(orderLines.size()).append(")");
 		//	 - Description
 		if (getDescription() != null && getDescription().length() > 0)
 			sb.append(" - ").append(getDescription());
@@ -1233,7 +1196,7 @@ public class MDDOrder extends X_DD_Order implements DocAction
 	 */
 	public String getProcessMsg()
 	{
-		return m_processMsg;
+		return processMessage;
 	}	//	getProcessMsg
 	
 	/**

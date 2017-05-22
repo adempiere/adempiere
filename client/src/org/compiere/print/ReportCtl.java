@@ -18,7 +18,6 @@ package org.compiere.print;
 
 import java.lang.reflect.Method;
 import java.util.Properties;
-import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.apps.ADialog;
@@ -42,6 +41,9 @@ import org.compiere.util.Ini;
  * 
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 			<li>FR [ 1866739 ] ReportCtl: use printformat from the transient/serializable
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> BR [ 92 ] 
+ *		@see https://github.com/adempiere/adempiere/issues/92
  */
 public class ReportCtl
 {
@@ -76,13 +78,13 @@ public class ReportCtl
 	 *	Called from ProcessCtl.
 	 *	- Check special reports first, if not, create standard Report
 	 *
-	 *  @param pi process info
-	 *  @param IsDirectPrint if true, prints directly - otherwise View
+	 *  @param processInfo process info
+	 *  @param isDirectPrint if true, prints directly - otherwise View
 	 *  @return true if created
 	 */
-	static public boolean start (ProcessInfo pi, boolean IsDirectPrint)
+	static public boolean start (ProcessInfo processInfo, boolean isDirectPrint)
 	{
-		return start(null, -1, pi, IsDirectPrint);
+		return start(null, -1, processInfo, isDirectPrint);
 	}
 	
 	/**
@@ -91,81 +93,81 @@ public class ReportCtl
 	 *	- Check special reports first, if not, create standard Report
 	 *
 	 *  @param parent The window which invoked the printing
-	 *  @param WindowNo The windows number which invoked the printing
-	 *  @param pi process info
-	 *  @param IsDirectPrint if true, prints directly - otherwise View
+	 *  @param windowNo The windows number which invoked the printing
+	 *  @param processInfo process info
+	 *  @param isDirectPrint if true, prints directly - otherwise View
 	 *  @return true if created
 	 */
-	static public boolean start (ASyncProcess parent, int WindowNo, ProcessInfo pi, boolean IsDirectPrint)
+	static public boolean start (ASyncProcess parent, int windowNo, ProcessInfo processInfo, boolean isDirectPrint)
 	{
-		pi.setPrintPreview(!IsDirectPrint);
-		return start(parent, WindowNo, pi);
+		processInfo.setPrintPreview(!isDirectPrint);
+		return start(parent, windowNo, processInfo);
 	}
 	
 	/**
 	 *	Create Report.
 	 *	Called from ProcessCtl.
 	 *	- Check special reports first, if not, create standard Report
-	 *
-	 *  @param parent The window which invoked the printing
-	 *  @param WindowNo The windows number which invoked the printing
-	 *  @param pi process info
-	 *  @param IsDirectPrint if true, prints directly - otherwise View
-	 *  @return true if created
-	 */
-	static public boolean start (ASyncProcess parent, int WindowNo, ProcessInfo pi)
+	 * @param parent
+	 * @param windowNo
+	 * @param processInfo
+     * @return true if created
+     */
+	static public boolean start (ASyncProcess parent, int windowNo, ProcessInfo processInfo)
 	{
-		s_log.info("start - " + pi);
+		s_log.info("start - " + processInfo);
 
 		/**
 		 *	Order Print
 		 */
-		if (pi.getAD_Process_ID() == 110)			//	C_Order
-			return startDocumentPrint(ReportEngine.ORDER, pi.getRecord_ID(), parent, WindowNo, !pi.isPrintPreview());
-		if (pi.getAD_Process_ID() ==  MProcess.getProcess_ID("Rpt PP_Order", null))			//	C_Order
-			return startDocumentPrint(ReportEngine.MANUFACTURING_ORDER, pi.getRecord_ID(), parent, WindowNo, !pi.isPrintPreview());
-		if (pi.getAD_Process_ID() ==  MProcess.getProcess_ID("Rpt DD_Order", null))			//	C_Order
-			return startDocumentPrint(ReportEngine.DISTRIBUTION_ORDER, pi.getRecord_ID(), parent, WindowNo, !pi.isPrintPreview());
-		else if (pi.getAD_Process_ID() == 116)		//	C_Invoice
-			return startDocumentPrint(ReportEngine.INVOICE, pi.getRecord_ID(), parent, WindowNo, !pi.isPrintPreview());
-		else if (pi.getAD_Process_ID() == 117)		//	M_InOut
-			return startDocumentPrint(ReportEngine.SHIPMENT, pi.getRecord_ID(), parent, WindowNo, !pi.isPrintPreview());
-		else if (pi.getAD_Process_ID() == 217)		//	C_Project
-			return startDocumentPrint(ReportEngine.PROJECT, pi.getRecord_ID(), parent, WindowNo, !pi.isPrintPreview());
-		else if (pi.getAD_Process_ID() == 276)		//	C_RfQResponse
-			return startDocumentPrint(ReportEngine.RFQ, pi.getRecord_ID(), parent, WindowNo, !pi.isPrintPreview());
-		else if (pi.getAD_Process_ID() == 313)		//	C_Payment
-			return startCheckPrint(pi.getRecord_ID(), !pi.isPrintPreview());
-		/**
-        else if (pi.getAD_Process_ID() == 290)      // Movement Submission by VHARCQ
-            return startDocumentPrint(ReportEngine.MOVEMENT, pi.getRecord_ID(), parent, WindowNo, IsDirectPrint);
-		else if (pi.AD_Process_ID == 9999999)	//	PaySelection
+		if (processInfo.getAD_Process_ID() == 110)			//	C_Order
+			return startDocumentPrint(ReportEngine.ORDER, processInfo.getRecord_ID(), parent, windowNo, !processInfo.isPrintPreview());
+		if (processInfo.getAD_Process_ID() ==  MProcess.getProcess_ID("Rpt PP_Order", null))			//	C_Order
+			return startDocumentPrint(ReportEngine.MANUFACTURING_ORDER, processInfo.getRecord_ID(), parent, windowNo, !processInfo.isPrintPreview());
+		if (processInfo.getAD_Process_ID() ==  MProcess.getProcess_ID("Rpt DD_Order", null))			//	C_Order
+			return startDocumentPrint(ReportEngine.DISTRIBUTION_ORDER, processInfo.getRecord_ID(), parent, windowNo, !processInfo.isPrintPreview());
+		else if (processInfo.getAD_Process_ID() == 116)		//	C_Invoice
+			return startDocumentPrint(ReportEngine.INVOICE, processInfo.getRecord_ID(), parent, windowNo, !processInfo.isPrintPreview());
+		else if (processInfo.getAD_Process_ID() == 117)		//	M_InOut
+			return startDocumentPrint(ReportEngine.SHIPMENT, processInfo.getRecord_ID(), parent, windowNo, !processInfo.isPrintPreview());
+		else if (processInfo.getAD_Process_ID() == 217)		//	C_Project
+			return startDocumentPrint(ReportEngine.PROJECT, processInfo.getRecord_ID(), parent, windowNo, !processInfo.isPrintPreview());
+		else if (processInfo.getAD_Process_ID() == 276)		//	C_RfQResponse
+			return startDocumentPrint(ReportEngine.RFQ, processInfo.getRecord_ID(), parent, windowNo, !processInfo.isPrintPreview());
+		else if (processInfo.getAD_Process_ID() == 313)		//	C_Payment
+			return startCheckPrint(processInfo.getRecord_ID(), !processInfo.isPrintPreview());
+        else if (processInfo.getAD_Process_ID() == 290)     // M_Movement
+            return startDocumentPrint(ReportEngine.MOVEMENT , processInfo.getRecord_ID(), parent, windowNo, !processInfo.isPrintPreview());
+		/*else if (pi.AD_Process_ID == 9999999)	//	PaySelection
 			return startDocumentPrint(CHECK, pi, IsDirectPrint);
 		else if (pi.AD_Process_ID == 9999999)	//	PaySelection
 			return startDocumentPrint(REMITTANCE, pi, IsDirectPrint);
 		**/
-		else if (pi.getAD_Process_ID() == 159)		//	Dunning
-			return startDocumentPrint(ReportEngine.DUNNING, pi.getRecord_ID(), parent, WindowNo, !pi.isPrintPreview());
-	   else if (pi.getAD_Process_ID() == 202			//	Financial Report
-			|| pi.getAD_Process_ID() == 204)			//	Financial Statement
-		   return startFinReport (pi);
+		else if (processInfo.getAD_Process_ID() == 159)		//	Dunning
+			return startDocumentPrint(ReportEngine.DUNNING, processInfo.getRecord_ID(), parent, windowNo, !processInfo.isPrintPreview());
+		//	Yamel Senih, 2015-11-13
+		//	Delete Hardcode
+//	   else if (pi.getAD_Process_ID() == 202			//	Financial Report
+//			|| pi.getAD_Process_ID() == 204)			//	Financial Statement
+//		   return startFinReport (pi);
+		//	End Yamel Senih
 		/********************
 		 *	Standard Report
 		 *******************/
-		return startStandardReport (pi);
+		return startStandardReport (processInfo);
 	}	//	create
 
 	/**************************************************************************
 	 *	Start Standard Report.
 	 *  - Get Table Info & submit
-	 *  @param pi Process Info
-	 *  @param IsDirectPrint if true, prints directly - otherwise View
+	 *  @param processInfo Process Info
+	 *  @param isDirectPrint if true, prints directly - otherwise View
 	 *  @return true if OK
 	 */
-	static public boolean startStandardReport (ProcessInfo pi, boolean IsDirectPrint)
+	static public boolean startStandardReport (ProcessInfo processInfo, boolean isDirectPrint)
 	{
-		pi.setPrintPreview(!IsDirectPrint);
-		return startStandardReport(pi);
+		processInfo.setPrintPreview(!isDirectPrint);
+		return startStandardReport(processInfo);
 	}
 	
 	/**************************************************************************
@@ -176,40 +178,40 @@ public class ReportCtl
 	 *  <li>attached MPrintFormat, if any (see {@link ProcessInfo#setTransientObject(Object)}, {@link ProcessInfo#setSerializableObject(java.io.Serializable)}
 	 *  <li>process information (AD_Process.AD_PrintFormat_ID, AD_Process.AD_ReportView_ID)
 	 *  </ol>
-	 *  @param pi Process Info
+	 *  @param processInfo Process Info
 	 *  @param IsDirectPrint if true, prints directly - otherwise View
 	 *  @return true if OK
 	 */
-	static public boolean startStandardReport (ProcessInfo pi)
+	static public boolean startStandardReport (ProcessInfo processInfo)
 	{
-		ReportEngine re = null;
+		ReportEngine reportEngine = null;
 		//
 		// Create Report Engine by using attached MPrintFormat (if any)
-		Object o = pi.getTransientObject();
-		if (o == null)
-			o = pi.getSerializableObject();
-		if (o != null && o instanceof MPrintFormat) {
+		Object transientObject = processInfo.getTransientObject();
+		if (transientObject == null)
+			transientObject = processInfo.getSerializableObject();
+		if (transientObject != null && transientObject instanceof MPrintFormat) {
 			Properties ctx = Env.getCtx();
-			MPrintFormat format = (MPrintFormat)o;
-			String TableName = MTable.getTableName(ctx, format.getAD_Table_ID());
-			MQuery query = MQuery.get (ctx, pi.getAD_PInstance_ID(), TableName);
-			PrintInfo info = new PrintInfo(pi);
-			re = new ReportEngine(ctx, format, query, info);
-			createOutput(re, pi.isPrintPreview(), null);
+			MPrintFormat format = (MPrintFormat)transientObject;
+			String tableName = MTable.getTableName(ctx, format.getAD_Table_ID());
+			MQuery query = MQuery.get (ctx, processInfo.getAD_PInstance_ID(), tableName);
+			PrintInfo info = new PrintInfo(processInfo);
+			reportEngine = new ReportEngine(ctx, format, query, info);
+			createOutput(reportEngine, processInfo.isPrintPreview(), null);
 			return true;
 		}
 		//
 		// Create Report Engine normally
 		else {
-			re = ReportEngine.get(Env.getCtx(), pi);
-			if (re == null)
+			reportEngine = ReportEngine.get(Env.getCtx(), processInfo);
+			if (reportEngine == null)
 			{
-				pi.setSummary("No ReportEngine");
+				processInfo.setSummary("No ReportEngine");
 				return false;
 			}
 		}
 		
-		createOutput(re, pi.isPrintPreview(), null);
+		createOutput(reportEngine, processInfo.isPrintPreview(), null);
 		return true;
 	}	//	startStandardReport
 
@@ -218,86 +220,96 @@ public class ReportCtl
 	 *  @param pi Process Info
 	 *  @return true if OK
 	 */
-	static public boolean startFinReport (ProcessInfo pi)
-	{
-		//  Create Query from Parameters
-		String TableName = pi.getAD_Process_ID() == 202 ? "T_Report" : "T_ReportStatement";
-		MQuery query = MQuery.get (Env.getCtx(), pi.getAD_PInstance_ID(), TableName);
-
-		//	Get PrintFormat
-		MPrintFormat format = (MPrintFormat)pi.getTransientObject();
-		if (format == null)
-			format = (MPrintFormat)pi.getSerializableObject();
-		if (format == null)
-		{
-			s_log.log(Level.SEVERE, "startFinReport - No PrintFormat");
-			return false;
-		}
-		PrintInfo info = new PrintInfo(pi);
-
-		ReportEngine re = new ReportEngine(Env.getCtx(), format, query, pi,info);
-		createOutput(re, pi.isPrintPreview(), null);
-		return true;
-	}	//	startFinReport
+	//	Yamel Senih, 2015-11-13
+	//	Delete Hardcode
+//	static public boolean startFinReport (ProcessInfo pi)
+//	{
+//		//  Create Query from Parameters
+//		String TableName = pi.getAD_Process_ID() == 202 ? "T_Report" : "T_ReportStatement";
+//		MQuery query = MQuery.get (Env.getCtx(), pi.getAD_PInstance_ID(), TableName);
+//
+//		//	Get PrintFormat
+//		MPrintFormat format = (MPrintFormat)pi.getTransientObject();
+//		if (format == null)
+//			format = (MPrintFormat)pi.getSerializableObject();
+//		if (format == null)
+//		{
+//			s_log.log(Level.SEVERE, "startFinReport - No PrintFormat");
+//			return false;
+//		}
+//		PrintInfo info = new PrintInfo(pi);
+//
+//		ReportEngine re = new ReportEngine(Env.getCtx(), format, query, pi,info);
+//		createOutput(re, pi.isPrintPreview(), null);
+//		return true;
+//	}	//	startFinReport
+	//	End Yamel Senih
 	
 	/**
 	 * 	Start Document Print for Type.
 	 *  	Called also directly from ProcessDialog, VInOutGen, VInvoiceGen, VPayPrint
 	 * 	@param type document type in ReportEngine
-	 * 	@param Record_ID id
-	 * 	@param IsDirectPrint if true, prints directly - otherwise View
+	 * 	@param recordId id
+	 * 	@param isDirectPrint if true, prints directly - otherwise View
 	 * 	@return true if success
 	 */
-	public static boolean startDocumentPrint (int type, int Record_ID, boolean IsDirectPrint)
+	public static boolean startDocumentPrint (int type, int recordId, boolean isDirectPrint)
 	{
-		return startDocumentPrint(type, Record_ID, null, -1, IsDirectPrint);
+		return startDocumentPrint(type, recordId, null, -1, isDirectPrint);
 	}
 	
 	/**
 	 * 	Start Document Print for Type with specified printer. Always direct print.
 	 * 	@param type document type in ReportEngine
 	 *  @param customPrintFormat	Custom print format. Can be null.
-	 * 	@param Record_ID id
+	 * 	@param recordId id
 	 *  @param parent The window which invoked the printing
-	 *  @param WindowNo The windows number which invoked the printing
+	 *  @param windowNo The windows number which invoked the printing
 	 * 	@param printerName 	Specified printer name
 	 * 	@return true if success
 	 */
-	public static boolean startDocumentPrint(int type, MPrintFormat customPrintFormat, int Record_ID, ASyncProcess parent, int WindowNo, String printerName) 
+	public static boolean startDocumentPrint(int type, MPrintFormat customPrintFormat, int recordId, ASyncProcess parent, int windowNo, String printerName)
 	{
-		return(startDocumentPrint(type, customPrintFormat, Record_ID, parent, WindowNo, true, printerName));
+		return(startDocumentPrint(type, customPrintFormat, recordId, parent, windowNo, true, printerName , null));
 	}
 
 	/**
 	 * 	Start Document Print for Type.
 	 *  	Called also directly from ProcessDialog, VInOutGen, VInvoiceGen, VPayPrint
 	 * 	@param type document type in ReportEngine
-	 * 	@param Record_ID id
+	 * 	@param recordId id
 	 *  @param parent The window which invoked the printing
-	 *  @param WindowNo The windows number which invoked the printing
-	 * 	@param IsDirectPrint if true, prints directly - otherwise View
+	 *  @param windowNo The windows number which invoked the printing
+	 * 	@param isDirectPrint if true, prints directly - otherwise View
 	 * 	@return true if success
 	 */
-	public static boolean startDocumentPrint(int type, int Record_ID, ASyncProcess parent, int WindowNo,
-			boolean IsDirectPrint) 
+	public static boolean startDocumentPrint(int type, int recordId, ASyncProcess parent, int windowNo,
+			boolean isDirectPrint)
 	{
-		return(startDocumentPrint(type, null, Record_ID, parent, WindowNo, IsDirectPrint, null ));
+		return(startDocumentPrint(type, null, recordId, parent, windowNo, isDirectPrint, null , null));
 	}
 
 	/**
 	 * 	Start Document Print for Type with specified printer.
 	 * 	@param type document type in ReportEngine
-	 * 	@param Record_ID id
+	 * 	@param recordId id
 	 *  @param parent The window which invoked the printing
-	 *  @param WindowNo The windows number which invoked the printing
+	 *  @param windowNo The windows number which invoked the printing
 	 * 	@param printerName 	Specified printer name
+	 * 	@param processInfo Process Info
 	 * 	@return true if success
 	 */
-	public static boolean startDocumentPrint (int type, MPrintFormat customPrintFormat, int Record_ID, ASyncProcess parent, int WindowNo, 
-			boolean IsDirectPrint, String printerName)
+	public static boolean startDocumentPrint (int type, MPrintFormat customPrintFormat, int recordId, ASyncProcess parent, int windowNo,
+			boolean isDirectPrint, String printerName , ProcessInfo processInfo)
 	{
-		ReportEngine re = ReportEngine.get (Env.getCtx(), type, Record_ID);
-		if (re == null)
+		String trxName;
+		if (processInfo != null)
+			trxName = processInfo.getTransactionName();
+		else
+			trxName = null;
+
+		ReportEngine reportEngine = ReportEngine.get (Env.getCtx(), type, recordId , trxName);
+		if (reportEngine == null)
 		{
 			if (Ini.isClient())
 			{
@@ -322,27 +334,31 @@ public class ReportCtl
 		}
 		if (customPrintFormat!=null) {
 			// Use custom print format if available
-			re.setPrintFormat(customPrintFormat);
+			reportEngine.setPrintFormat(customPrintFormat);
 		}
 		
-		if(re.getPrintFormat()!=null)
+		if(reportEngine.getPrintFormat()!=null)
 		{
-			MPrintFormat format = re.getPrintFormat();
+			MPrintFormat format = reportEngine.getPrintFormat();
 			
 			// We have a Jasper Print Format
 			// ==============================
 			if(format.getJasperProcess_ID() > 0)	
 			{
-				ServerReportCtl.runJasperProcess(Record_ID, re, IsDirectPrint, printerName);
+				ServerReportCtl.runJasperProcess(recordId, reportEngine, isDirectPrint, printerName, processInfo);
 			}
 			else
 			// Standard Print Format (Non-Jasper)
 			// ==================================
 			{
-				createOutput(re, !IsDirectPrint, printerName);
-				if (IsDirectPrint)
+				// set generated PDF
+				if (processInfo != null)
+					processInfo.setPDFReport(reportEngine.getPDF());
+
+				createOutput(reportEngine, !isDirectPrint, printerName);
+				if (isDirectPrint)
 				{
-					ReportEngine.printConfirm (type, Record_ID);
+					ReportEngine.printConfirm (type, recordId , trxName);
 				}
 			}
 		}
@@ -358,56 +374,56 @@ public class ReportCtl
 	 */
 	public static boolean startCheckPrint (int C_Payment_ID, boolean IsDirectPrint)
 	{
-		int HR_PaySelectionCheck_ID = getHRPaySelectionCheckById(Env.getCtx(), C_Payment_ID, null);
-		if (HR_PaySelectionCheck_ID > 0)
+		int paySelectionCheckById = getHRPaySelectionCheckById(Env.getCtx(), C_Payment_ID, null);
+		if (paySelectionCheckById > 0)
 		{	
-			return startDocumentPrint (ReportEngine.HR_CHECK, HR_PaySelectionCheck_ID, null, -1, IsDirectPrint);			
+			return startDocumentPrint (ReportEngine.HR_CHECK, paySelectionCheckById, null, -1, IsDirectPrint);
 		}	
 		 		
 		// afalcone - [ 1871567 ] Wrong value in Payment document
 		boolean ok = MPaySelectionCheck.deleteGeneratedDraft(Env.getCtx(), C_Payment_ID, null);
 		//
 		
-		int C_PaySelectionCheck_ID = 0;
-		MPaySelectionCheck psc = MPaySelectionCheck.getOfPayment(Env.getCtx(), C_Payment_ID, null);
+		int PaySelectionCheckId = 0;
+		MPaySelectionCheck paySelectionCheck = MPaySelectionCheck.getOfPayment(Env.getCtx(), C_Payment_ID, null);
 		
-		if (psc != null)
-			C_PaySelectionCheck_ID = psc.getC_PaySelectionCheck_ID();
+		if (paySelectionCheck != null)
+			PaySelectionCheckId = paySelectionCheck.getC_PaySelectionCheck_ID();
 		else
 		{
-			psc = MPaySelectionCheck.createForPayment(Env.getCtx(), C_Payment_ID, null);
-			if (psc != null)
-				C_PaySelectionCheck_ID = psc.getC_PaySelectionCheck_ID();
+			paySelectionCheck = MPaySelectionCheck.createForPayment(Env.getCtx(), C_Payment_ID, null);
+			if (paySelectionCheck != null)
+				PaySelectionCheckId = paySelectionCheck.getC_PaySelectionCheck_ID();
 		}
-		return startDocumentPrint (ReportEngine.CHECK, C_PaySelectionCheck_ID, null, -1, IsDirectPrint);
+		return startDocumentPrint (ReportEngine.CHECK, PaySelectionCheckId, null, -1, IsDirectPrint);
 	}	//	startCheckPrint
 	
-	private static int getHRPaySelectionCheckById(Properties ctx, int C_Payment_ID,
+	private static int getHRPaySelectionCheckById(Properties ctx, int paymentId,
 			String trxName) {
 		final String sql = "SELECT MAX(HR_PaySelectionCheck_ID) FROM HR_PaySelectionCheck psc WHERE psc.C_Payment_ID = ? AND Processed=?";
-		return DB.getSQLValue(trxName,sql, C_Payment_ID , true);
+		return DB.getSQLValue(trxName,sql, paymentId , true);
 	}
 
-	private static void createOutput(ReportEngine re, boolean printPreview, String printerName)
+	private static void createOutput(ReportEngine reportEngine, boolean printPreview, String printerName)
 	{
 		if (printPreview)
-			preview(re);
+			preview(reportEngine);
 		else {
 				if (printerName!=null) {
-					re.getPrintInfo().setPrinterName(printerName);
+					reportEngine.getPrintInfo().setPrinterName(printerName);
 				}
-				re.print();
+				reportEngine.print();
 		}
 	}
 	
 	/**
 	 * Launch viewer for report
-	 * @param re
+	 * @param reportEngine
 	 */
-	public static void preview(ReportEngine re) 
+	public static void preview(ReportEngine reportEngine)
 	{
 		ReportViewerProvider provider = getReportViewerProvider();
-		provider.openViewer(re);
+		provider.openViewer(reportEngine);
 	}
 	
 	public static void setReportViewerProvider(ReportViewerProvider provider)

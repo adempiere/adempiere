@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--Adempiere(r) Release 3.2.0_2007-05-01 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ${env.ADEMPIERE_VERSION} 20070605-1226 - ${env.ADEMPIERE_VENDOR}-->
-<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
+<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.net/dtd/adempiereTrl.dtd">-->
 <!--Translated by Anatoly Ustyugov. anatoly.ustyugov@gmail.com -->
 <adempiereTrl language="ru_RU" table="AD_Element">
  <row id="101" trl="Y">
@@ -4497,8 +4497,8 @@ C	любая буква и цифра или пробел конвертирую
  <row id="983" trl="Y">
   <value column="Name" original="URL">URL</value>
   <value column="PrintName" original="URL">URL</value>
-  <value column="Description" original="Full URL address - e.g. http://www.adempiere.org">Полный URL адрес - например, http://www.compiere.org</value>
-  <value column="Help" original="The URL defines an fully qualified web address like http://www.adempiere.org">URL определяет полностью описанный web адрес, например http://www.adempiere.org</value>
+  <value column="Description" original="Full URL address - e.g. http://www.adempiere.net">Полный URL адрес - например, http://www.compiere.org</value>
+  <value column="Help" original="The URL defines an fully qualified web address like http://www.adempiere.net">URL определяет полностью описанный web адрес, например http://www.adempiere.net</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -13559,7 +13559,7 @@ Strings may be in single quotes (optional)</value>
   <value column="Name" original="Internal Users">Пользователей</value>
   <value column="PrintName" original="Internal Users">Пользователей</value>
   <value column="Description" original="Number of Internal Users for Adempiere Support">Количество внутренних пользователей для поддержки от ADempiere</value>
-  <value column="Help" original="You can purchase professioal support from Adempiere, Inc. or their partners.  See http://www.adempiere.com for details.&#10;">Вы можете купить профессиональную поддержку у Adempiere или их партнеров.  См. http://www.adempiere.com для детализации.
+  <value column="Help" original="You can purchase professioal support from Adempiere, Inc. or their partners.  See http://wiki.adempiere.net for details.&#10;">Вы можете купить профессиональную поддержку у Adempiere или их партнеров.  См. http://wiki.adempiere.net для детализации.
 </value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -21270,7 +21270,7 @@ Web контекст обычно начинается с / и это нужно
   <value column="Name" original="Support Expires">Оконч. поддержки</value>
   <value column="PrintName" original="Support Expires">Оконч. поддержки</value>
   <value column="Description" original="Date when the Adempiere support expires">Дата, когда Adempiere прекращает поддержку</value>
-  <value column="Help" original="Check http://www.adempiere.org for support options">Проверьте http://www.adempiere.org для опций поддержки</value>
+  <value column="Help" original="Check http://www.adempiere.net for support options">Проверьте http://www.adempiere.net для опций поддержки</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Enable tree into elements window for the user dimension" ReleaseNo="3.9.0" SeqNo="1790">
+    <Comments>https://github.com/adempiere/adempiere/issues/786</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="108" Action="U" Record_ID="244" Table="AD_Val_Rule">
+        <Data AD_Column_ID="193" Column="Code" oldValue="AD_Tree.TreeType IN ('EV','U1','U2') AND AD_Tree.IsAllNodes='Y'">AD_Tree.TreeType IN ('EV','U1','U2','U3','U4') AND AD_Tree.IsAllNodes='Y'</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

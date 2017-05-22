@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.logging.Level;
+
 import org.adempiere.webui.LayoutUtils;
 import org.adempiere.webui.event.ToolbarListener;
 import org.adempiere.webui.panel.IADTabPanel;
@@ -33,7 +34,6 @@ import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.zkoss.zk.ui.Component;
-import org.zkoss.zk.ui.HtmlBasedComponent;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
@@ -51,6 +51,11 @@ import org.zkoss.zul.Space;
  *
  * @author Cristina Ghita, www.arhipac.ro
  * 				<li>FR [ 2076330 ] Add new methods in CWindowToolbar class
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<a href="https://github.com/adempiere/adempiere/issues/990">
+ * 		@see FR [ 990 ] Sort Tab is not MVC</a>
+ * 		<a href="https://github.com/adempiere/adempiere/issues/999">
+ * 		@see FR [ 999 ] Add ZK Support for Process Action</a>
  */
 public class CWindowToolbar extends FToolbar implements EventListener
 {
@@ -82,6 +87,8 @@ public class CWindowToolbar extends FToolbar implements EventListener
     private ToolBarButton btnZoomAcross, btnActiveWorkflows, btnRequests, btnProductInfo;
 
     private ToolBarButton btnChat;
+    
+    private ToolBarButton btnProcess;
     
     private HashMap<String, ToolBarButton> buttons = new HashMap<String, ToolBarButton>();
 
@@ -189,6 +196,10 @@ public class CWindowToolbar extends FToolbar implements EventListener
 		btnZoomAcross = createButton("ZoomAcross", "ZoomAcross", "ZoomAcross");
         btnActiveWorkflows = createButton("ActiveWorkflows", "WorkFlow", "WorkFlow");
         btnRequests = createButton("Requests", "Request", "Request");
+        //	Add Process Action
+        btnProcess = createButton("Process", "Process", "Process");
+        btnProcess.setDisabled(false);
+        //	
         btnProductInfo = createButton("ProductInfo", "Product", "InfoProduct");
         btnProductInfo.setVisible(isAllowProductInfo);
 
@@ -531,7 +542,31 @@ public class CWindowToolbar extends FToolbar implements EventListener
     {
     	btnGridToggle.setDisabled(!enabled);
     }
-
+    
+    public void enableWorkflows(boolean enabled) {
+    	btnActiveWorkflows.setDisabled(!enabled);
+    }
+    
+    public void enableRequests(boolean enabled) {
+    	btnRequests.setDisabled(!enabled);
+    }
+    
+    public void enableProductInfo(boolean enabled) {
+    	btnProductInfo.setDisabled(!enabled);
+    }
+    
+    public void enableZoomAcross(boolean enabled) {
+    	btnZoomAcross.setDisabled(!enabled);
+    }
+    
+    public void enableProcess(boolean enabled) {
+    	btnProcess.setDisabled(!enabled);
+    }
+    
+    public void enableArchive(boolean enabled) {
+    	btnArchive.setDisabled(!enabled);
+    }
+    
     public void lock(boolean locked)
     {
     	this.btnLock.setPressed(locked);

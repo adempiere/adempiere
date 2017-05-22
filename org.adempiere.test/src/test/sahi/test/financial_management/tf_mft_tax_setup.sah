@@ -1,0 +1,105 @@
+/******************************************************************************
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2011, Michael McKay, All Rights Reserved.                    *
+ * This program is free software; you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ *                                                                            *
+ * @Author Michael McKay (mjmckay)                                            *
+ *                                                                            *
+ ******************************************************************************/
+/**
+ * Test Flow Main Functional Tests
+ * 
+ * Tax Setup
+ * 
+ * This test flow creates the tax types that are used in the Main
+ * Functional Tests
+ * 
+ * See http://wiki.adempiere.net/Functional_Tests
+ * 
+ **/
+
+var $mft_tax_setup_CSVFilePath = "../test/financial_management/tf_mft_tax_setup.csv";
+
+function mft_tax_setup_detail(
+		$Name,
+		$IsDefault,
+		$C_TaxCategory_ID,
+		$ValidFrom,
+		$IsTaxExempt,
+		$RequiresTaxCertificate,
+		$IsDocumentLevel,
+		$IsSalesTax,
+		$IsSummary,
+		$Parent_Tax_ID,
+		$SOPOType,
+		$TaxIndicator,
+		$Rate,
+		$C_Country_ID,
+		$To_Country_ID,
+		$C_Region_ID,
+		$To_Region_ID
+		){
+
+	iNewRecord();
+	fSetText("Name",$Name);
+	fSetCheckbox("IsDefault",$IsDefault);
+	fSetList("C_TaxCategory_ID",$C_TaxCategory_ID);
+	fSetText("ValidFrom",$ValidFrom);
+	fSetCheckbox("IsTaxExempt",$IsTaxExempt);
+	fSetCheckbox("RequiresTaxCertificate",$RequiresTaxCertificate);
+	fSetCheckbox("IsDocumentLevel",$IsDocumentLevel);
+	fSetCheckbox("IsSalesTax",$IsSalesTax);
+	fSetCheckbox("IsSummary",$IsSummary);
+	
+	//  The following code causes errors on the very first pass.  Parents are selected by default
+	//if($IsSummary == "N"){
+	//	_log("Parent Tax = " + fGetText("Parent_Tax_ID"), "info");
+	//	if(_condition(fGetText("Parent_Tax_ID") != $Parent_Tax_ID)){
+	//		fSetText("Parent_Tax_ID",$Parent_Tax_ID);
+	//	}
+	//}
+	
+	fSetList("SOPOType",$SOPOType);
+	fSetText("TaxIndicator",$TaxIndicator);
+	fSetAmount("Rate",$Rate);
+	fSetList("C_Country_ID",$C_Country_ID);
+	fSetList("To_Country_ID",$To_Country_ID);
+	fSetList("C_Region_ID",$C_Region_ID);
+	fSetList("To_Region_ID",$To_Region_ID);
+	iSaveRecord();
+
+}
+
+function mft_tax_setup(){
+	
+	var $data = _readCSVFile($mft_tax_setup_CSVFilePath);
+
+	// Assume we are logged in as the administrator
+	wOpenWindow("Tax Category");
+	if(_condition(fGetText("Name") == "Standard")){
+		fSetCheckbox("IsDefault","N");
+		iSaveRecord();
+	}
+	iNewRecord();
+	fSetText("Name","Test Tax Category");
+	fSetCheckbox("IsDefault", "Y");
+	iSaveRecord();
+	wCloseWindow("Tax Category");
+	
+	wOpenWindow("Tax Rate");
+	
+	_dataDrive(mft_tax_setup_detail, $data);
+
+	wCloseWindow("Tax Rate");
+
+	_log("MFT_Tax_Setup completed");
+}
+

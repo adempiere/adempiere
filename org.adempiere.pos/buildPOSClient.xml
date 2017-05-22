@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="Create Run POSClient" name="Create Runnable Jar for POSClient">
+	 <description>
+	        Building ${project-name}.jar
+	        rmunoz@erpcya.com
+	</description>
+	
+	<!-- set global properties for this build -->
+	<property file="build.properties"/>
+    <property name="dir.buildfile" value="${project.trunk}/POSClient/"/>
+    <property name="dir.workspace" value="/opt/Development/workspace"/>
+    <property name="dir.jarfile" value="${dir.buildfile}"/>
+	
+    <target name="Create Run POSClient">
+        <jar destfile="${dir.jarfile}/POSClient.jar" filesetmanifest="mergewithoutmain">
+            <manifest>
+                <attribute name="Main-Class" value="org.adempiere.pos.test.POSClient"/>
+                <attribute name="Class-Path" value="."/>
+            </manifest>
+
+       	 <!-- set file to include the necessary class files for jar -->
+            <fileset dir="${project.trunk}/bin"/>
+            <fileset dir="${adempiere.trunk}/bin">
+            	<include name="**/Adempiere.class"/>
+                <include name="**/apps/*.class"/>
+            	<include name="**/as/*.class"/>
+            	<include name="**/CPrinter.class"/>
+            	<include name="**/db/*.*"/>
+            	<include name="**/dbPort/*.class"/>
+            	<include name="**/DocAction.class"/>
+            	<include name="**/ed/*.class"/>
+            	<include name="**/exceptions/*.class"/>
+            	<include name="**/FormFrame*.*"/>
+            	<include name="**/IDocumentLine.class"/>
+            	<include name="**/images/*.*"/>
+            	<include name="**/model/*.class"/>
+            	<include name="**/plaf/*.*"/>
+            	<include name="**/plaf/icons/*.*"/>
+            	<include name="**/swing/*.class"/>
+            	<include name="**/util/*.*"/>
+            	<include name="**/print/*.*"/>
+            	<include name="**/print/*/*.*"/>
+            	<include name="**/process/*.*"/>
+            	<include name="**/wf/*.*"/>
+            	<include name="**/apache/ecs/*.*"/>
+            	<include name="**/apache/ecs/*/*.*"/>
+            	<include name="**/pdf/*.*"/>
+            	
+            	
+            </fileset>
+
+       	 <!-- set zip files to include the necessary zip files for jar -->
+            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/adempiere_380/tools/lib/mail.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/adempiere_380/tools/lib/log4j.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/adempiere_380/tools/lib/ojdbc6.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/adempiere_380/tools/lib/jnlp.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/adempiere_380/tools/lib/commons-collections-3.1.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/adempiere_380/tools/lib/postgresql.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/adempiere_380/tools/lib/c3p0-0.9.1.2.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/adempiere_380/tools/lib/looks-2.0.4.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/adempiere_380/tools/lib/barbecue-1.5-beta1.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/adempiere_380/tools/lib/iText-2.1.7.jar"/>
+        	
+        	
+        </jar>
+    </target>
+</project>

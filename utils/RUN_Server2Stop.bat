@@ -4,6 +4,7 @@
 @Rem $Id: RUN_Server2Stop.bat,v 1.12 2005/09/06 02:46:16 jjanke Exp $
 
 @IF '%ADEMPIERE_APPS_TYPE%' == 'jboss' GOTO JBOSS
+@IF '%ADEMPIERE_APPS_TYPE%' == 'tomcat' GOTO TOMCAT
 @GOTO UNSUPPORTED
 
 :JBOSS
@@ -11,6 +12,11 @@
 @Set JBOSS_LIB=%JBOSS_HOME%\lib
 @Set JBOSS_SERVERLIB=%JBOSS_HOME%\server\adempiere\lib
 @Set JBOSS_CLASSPATH=%ADEMPIERE_HOME%\lib\jboss.jar;%JBOSS_LIB%\jboss-system.jar
+
+:TOMCAT
+@Set NOPAUSE=Yes
+Call ../tomcat/bin/shutdown.bat
+
 
 @CD %JBOSS_HOME%\bin
 Call shutdown --server=jnp://%ADEMPIERE_APPS_SERVER%:%ADEMPIERE_JNP_PORT% --shutdown

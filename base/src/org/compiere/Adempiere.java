@@ -51,6 +51,9 @@ import org.compiere.util.Util;
  *
  *  @author Jorg Janke
  *  @version $Id: Adempiere.java,v 1.8 2006/08/11 02:58:14 jjanke Exp $
+ *  @athor Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 379 ] Change URL in About
+ *		@see https://github.com/adempiere/adempiere/issues/379
  *  
  */
 public final class Adempiere
@@ -60,16 +63,16 @@ public final class Adempiere
 	/** Main Version String         */
 	// Conventions for naming second number is even for stable, and odd for unstable
 	// the releases will have a suffix (a) for alpha - (b) for beta - (t) for trunk - (s) for stable - and (LTS) for long term support
-	static public String	MAIN_VERSION	= "Release 3.8.0";
+	static public String	MAIN_VERSION	= "Release 3.9.0";
 	/** Detail Version as date      Used for Client/Server		*/
-	static public String	DATE_VERSION	= "2015-03-01";
+	static public String	DATE_VERSION	= "2016-09-30";
 	/** Database Version as date    Compared with AD_System		*/
-	static public String	DB_VERSION		= "2015-03-01";
+	static public String	DB_VERSION		= "2016-09-30";
 
 	/** Product Name            */
 	static public final String	NAME 			= "ADempiere\u00AE";
 	/** URL of Product          */
-	static public final String	URL				= "www.adempiere.org";
+	static public final String	URL				= "www.adempiere.net";
 	/** 16*16 Product Image. **/
 	static private final String	s_File16x16		= "images/AD16.png";
 	/** 32*32 Product Image.   	*/
@@ -86,7 +89,7 @@ public final class Adempiere
 	/** Subtitle                */
 	static public final String	SUB_TITLE		= "Smart Suite ERP,CRM and SCM";
 	static public final String	ADEMPIERE_R		= "ADempiere\u00AE";
-	static public final String	COPYRIGHT		= "\u00A9 1999-2015 ADempiere\u00AE";
+	static public final String	COPYRIGHT		= "\u00A9 1999-2016 ADempiere\u00AE";
 
 	static private String		s_ImplementationVersion = null;
 	static private String		s_ImplementationVendor = null;
@@ -97,7 +100,7 @@ public final class Adempiere
 	static private ImageIcon 	s_imageIcon32;
 	static private ImageIcon 	s_imageIconLogo;
 	
-	static private final String ONLINE_HELP_URL = "http://www.adempiere.com/wiki/index.php/Manual";
+	static private final String ONLINE_HELP_URL = "http://wiki.adempiere.net/Manual";
 
 	/**	Logging								*/
 	private static CLogger		log = null;

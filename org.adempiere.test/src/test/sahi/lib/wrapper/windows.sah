@@ -1,0 +1,116 @@
+/******************************************************************************
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2011, Michael McKay, All Rights Reserved.                    *
+ * This program is free software; you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ ****************************************************************************** 
+ *
+ *    windows.sah
+ *
+ *  Functions related to windows in ADempiere and related operations 
+ *   
+ *    Functions names follow this format:
+ *    w<operation>(<window name>, [<parameter1>,] [<parame ...)
+ *
+ *    <window name> is the ADempiere window name in the menu tree. It should
+ *    be unique.
+ *    
+ ******************************************************************************/
+
+
+/********************************************************************
+*
+* wOpenWindow($windowName)
+* 
+* Opens the window.  
+*
+*******************************************************************/
+function wOpenWindow($windowName){
+	wOpenWindowLookup($windowName, "close");
+}
+
+/********************************************************************
+*
+* wOpenWindowLookup($windowName, $lookup)
+* 
+* Opens the window.  For high-volume tables, if a lookup record window 
+* appears, it can be treated as follows:
+* 
+* $lookup can be:
+* 	"open" to leave the lookup record window open. 
+* 	"close" to close the lookup record window and show all records.
+* 	"new" to start a new record.
+*
+*******************************************************************/
+function wOpenWindowLookup($windowName, $lookup){
+	_setStrictVisibilityCheck(false);  //Items buried in the menu tree are hidden
+	_assertExists(_div($windowName),"wOpenLookup: Can't find menu entry for window " + $windowName);
+	_click(_div($windowName));
+	_setStrictVisibilityCheck(true);
+	
+	try {
+		if($lookup == "open"){
+			/* do nothing */
+		}
+		if($lookup == "close"){
+			dConfirmLookup($windowName);
+		}
+		if($lookup == "new"){
+			if(_condition(_isVisible(dLookup($windowName)))){
+				dNewLookup($windowName);
+			}
+		}
+	} catch(e) {
+		// No lookup. Do nothing.
+	}
+	_wait(500); //Give it a chance. 
+}
+
+/********************************************************************
+ *
+ * wCloseWindow($windowName)
+ * 
+ * Closes the window. Unsaved changes are discarded.
+ *
+ *******************************************************************/
+function wCloseWindow($windowName){
+	_assertExists(_span($windowName),"wCloseWindow: Can't find open window " + $windowName);
+	_click(_link(/./,_near(_span($windowName))));
+	if(_condition(_exists(_span("Please save changes before closing")))){
+		_log(_span("Please save changes before closing"),"wCloseWindow: Oh oh! Unsaved changes - can't close window " + $windowName, "error");
+		_click(_cell("OK"));
+		iUndo();
+		_click(_link(/./,_near(_span($windowName))));
+	}
+}
+
+/********************************************************************
+ *
+ * wOpenTab($tabName)
+ * 
+ * Opens a tab in the current window
+ *
+ *******************************************************************/
+function wOpenTab($tabName){
+	_click(_submit($tabName));
+	_wait(500); // Give it a chance
+} 
+ 
+//<browser> 
+ /**
+  * wGetStatus()
+  * @return A string with the window status text
+  */
+ function wGetStatus(){
+	return __getText(__span("status-info z-label"));
+ }
+ //</browser>
+ 
+ 

@@ -54,6 +54,9 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
  *  connection pooling framework for better and more efficient connnection handling
  *  
  *  @author Ashley Ramdass (Posterita)
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *			<li> FR [ 391 ] getSchema method in DB_PostgreSQL.java is better use the adempiere user
+ *			@see https://github.com/adempiere/adempiere/issues/391
  */
 public class DB_Oracle implements AdempiereDatabase
 {
@@ -98,7 +101,7 @@ public class DB_Oracle implements AdempiereDatabase
     private String                  m_connectionURL;
 
     /** Statement Cache (50)        */
-    private static final String     MAX_STATEMENTS = "200";
+    public static final String     MAX_STATEMENTS = "200";
     /** Data Source                 */
     private ComboPooledDataSource   m_ds = null;
 
@@ -274,12 +277,18 @@ public class DB_Oracle implements AdempiereDatabase
      *  Get JDBC Schema
      *  @return user name
      */
-    public String getSchema()
-    {
-        if (m_userName != null)
-            return m_userName.toUpperCase();
-        log.severe("User Name not set (yet) - call getConnectionURL first");
-        return null;
+    public String getSchema() {
+    	if (m_userName == null) {
+	        CConnection cconn = CConnection.get(Adempiere.getCodeBaseHost());
+	        m_userName = cconn.getDbUid();
+	    }
+    	//	Validate
+        if (m_userName == null) {
+        	log.severe("User Name not set (yet) - call getConnectionURL first");
+        	return null;
+        }
+        //	
+        return m_userName.toUpperCase();
     }   //  getSchema
 
     /**

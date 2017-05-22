@@ -1,4 +1,4 @@
-<project name="Libero" default="zkdist" basedir=".">
+<project name="LiberoMFG" default="zkdist" basedir=".">
     <description>
         Building Libero liberoMFG.jar
         by
@@ -12,7 +12,7 @@
   <property name="srcSwing" location="${basedir}/src/main/java/ui/swing"/>
   <property name="build" location="${basedir}/build"/>
   <property name="dist"  location="${basedir}/dist"/>
-  <property name="zksrc" value="${basedir}/src/main/java/ui/zk"/>
+  <property name="zksrc" value="${basedir}/src/main/java/base:${basedir}/src/main/java/ui/zk"/>
   <property name="zkclasses" value="${basedir}/build/zkwebui/WEB-INF/classes"/>
 
   <path id="compile.classpath">
@@ -43,7 +43,7 @@
   <target name="compile" depends="init"
         description="compile the source " >
     <!-- Compile the java code from ${src} into ${build} -->
-    <javac debug="true" srcdir="${src}:${srcSwing}" destdir="${build}">
+    <javac encoding="UTF-8" debug="true" srcdir="${src}:${srcSwing}" destdir="${build}">
       <classpath refid="compile.classpath"/>
     </javac>
   </target>
@@ -67,7 +67,7 @@
   <target name="zkcompile" depends="dist"
         description="compile the source " >
     <!-- Compile the zk java code from ${src} into ${zkclasses} -->
-    <javac debug="true" srcdir="${zksrc}" destdir="${zkclasses}">
+    <javac encoding="UTF-8" debug="true" srcdir="${zksrc}" destdir="${zkclasses}">
       <classpath refid="compile.classpath"/>
     </javac>
   </target>

@@ -17,7 +17,6 @@
 
 package org.compiere.process;
 
-import org.compiere.model.MMigration;
 import org.compiere.model.MMigrationStep;
 import org.compiere.util.Ini;
 import org.compiere.util.Msg;
@@ -25,6 +24,11 @@ import org.compiere.util.Msg;
 public class MigrationStepApply extends SvrProcess {
 
 	private MMigrationStep migrationStep;
+
+	@Override
+	protected void prepare() {
+		
+	}
 
 	/**
 	 * 
@@ -35,35 +39,29 @@ public class MigrationStepApply extends SvrProcess {
 	 */
 	@Override
 	protected String doIt() throws Exception {
-
+		
+		// Test if the user is logging dictionary or other changes.  If so
+		// advise that the flag is set and exit as it is not a good idea to 
+		// log scripts and apply them at the same time.
 		if ( Ini.isPropertyBool(Ini.P_LOGMIGRATIONSCRIPT) )
 		{
 			addLog( Msg.getMsg(getCtx(), "LogMigrationScriptFlagIsSetMessage"));
 			return "@Error@" + Msg.getMsg(getCtx(), "LogMigrationScripFlagtIsSet");
 		}
 
-		String retval = migrationStep.toString();
+		// Find the migrationSetp. Use a null transaction to create a read-only
+		// query.
+		migrationStep = new MMigrationStep(getCtx(), getRecord_ID(), null);
+		
 		if ( migrationStep == null || migrationStep.is_new() )
-			return "No migration step";
-		else if ( MMigrationStep.STATUSCODE_Applied.equals(migrationStep.getStatusCode()) )
-			retval += migrationStep.rollback();
-		else
-			retval += migrationStep.apply();
-
-        commitEx();
-
-		// Set the parent status
-		MMigration migration = migrationStep.getParent();
-		migration.updateStatus(get_TrxName());
+		{
+			// TODO Translate
+			addLog(Msg.getMsg(getCtx(), "NoMigrationStepFound"));
+			return "@Error@" + Msg.getMsg(getCtx(), "NoMigrationStepFound");
+		}
 		
-		return retval;
+		// This call will either rollback or apply based on the 
+		// status of the step.
+		return migrationStep.apply();			
 	}
-	
-	@Override
-	protected void prepare() {
-		
-		migrationStep = new MMigrationStep(getCtx(), getRecord_ID(), get_TrxName());
-
-	}
-
 }

@@ -32,8 +32,11 @@ import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Properties;
+import java.util.Map.Entry;
 import java.util.logging.Level;
 
 import javax.sql.RowSet;
@@ -90,6 +93,11 @@ import org.compiere.process.SequenceCheck;
  * 			https://sourceforge.net/tracker/?func=detail&aid=2873891&group_id=176962&atid=879335
  *  @author Paul Bowden, phib BF 2900767 Zoom to child tab - inefficient queries
  *  @see https://sourceforge.net/tracker/?func=detail&aid=2900767&group_id=176962&atid=879332
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * 		<li>FR [ 352 ] T_Selection is better send to process like a HashMap instead read from disk
+ *		@see https://github.com/adempiere/adempiere/issues/352
+ *		<li> FR [ 391 ] Add connection support to MariaDB
+ *		@see https://github.com/adempiere/adempiere/issues/464
  */
 public final class DB
 {
@@ -535,6 +543,17 @@ public final class DB
 	}
 
 	/**
+	 * Do we have a Maria DB ?
+	 *	@return true if connected to Maria DB
+	 */
+	public static boolean isMariaDB() {
+		if (s_cc != null)
+			return s_cc.isMariaDB();
+		log.severe("No Database Connection");
+		return false;
+	}
+	
+	/**
 	 * 	Get Database Info
 	 *	@return info
 	 */
@@ -594,7 +613,7 @@ public final class DB
         if (no == 1)
         {
             JOptionPane.showMessageDialog (null,
-                "Start RUN_Migrate (in utils)\nSee: http://www.adempiere.com/maintain",
+                "Start RUN_Migrate (in utils)\nSee: http://wiki.adempiere.net/maintain",
                 title, JOptionPane.INFORMATION_MESSAGE);
             Env.exitEnv(1);
         }
@@ -1757,7 +1776,16 @@ public final class DB
 	public static int getNextID (int AD_Client_ID, String TableName, String trxName)
 	{
 		boolean SYSTEM_NATIVE_SEQUENCE = MSysConfig.getBooleanValue("SYSTEM_NATIVE_SEQUENCE",false);
-		boolean adempiereSys = Ini.isPropertyBool(Ini.P_ADEMPIERESYS);
+		boolean adempiereSys = false;
+		if (Ini.isClient())
+		{
+			adempiereSys = Ini.isPropertyBool(Ini.P_ADEMPIERESYS);
+		}
+		else
+		{
+			String sysProperty = Env.getCtx().getProperty("AdempiereSys", "N");
+			adempiereSys = "y".equalsIgnoreCase(sysProperty) || "true".equalsIgnoreCase(sysProperty);
+		}
 
 		if(SYSTEM_NATIVE_SEQUENCE && !adempiereSys)
 		{
@@ -1881,7 +1909,7 @@ public final class DB
 		return false;
 	}	//	isRemoteObjects
 
-	/**
+	/**x
 	 * 	Is this a remote client connection
 	 *
 	 *  Deprecated, always return false.
@@ -1906,8 +1934,6 @@ public final class DB
 		if (comment == null || warning == null || comment.length() == 0)
 			throw new IllegalArgumentException("Required parameter missing");
 		log.warning(comment);
-		if (warning == null)
-			return;
 		//
 		SQLWarning warn = warning;
 		while (warn != null)
@@ -2255,6 +2281,78 @@ public final class DB
 		}
 	}
 	
+	/**
+	 * Insert result values
+	 * FR [ 352 ]
+	 * @param AD_PInstance_ID
+	 * @param selection
+	 * @param trxName
+	 */
+	public static void createT_Selection_Browse(int AD_PInstance_ID, LinkedHashMap<Integer, 
+			LinkedHashMap<String, Object>> selection, String trxName) {
+		StringBuilder insert = new StringBuilder();
+		insert.append("INSERT INTO "
+				+ "T_Selection_Browse (AD_PInstance_ID, T_Selection_ID, ColumnName , Value_String, Value_Number , Value_Date) "
+				+ "VALUES(?,?,?,?,?,?) ");
+		for (Entry<Integer,LinkedHashMap<String, Object>> records : selection.entrySet()) {
+			//set Record ID
+			LinkedHashMap<String, Object> fields = records.getValue();
+			for(Entry<String, Object> field : fields.entrySet())
+			{
+				List<Object> parameters = new ArrayList<Object>();
+				parameters.add(AD_PInstance_ID);
+				parameters.add(records.getKey());
+				parameters.add(field.getKey());
+				
+				Object data = field.getValue();
+				// set Values					
+				if (data instanceof String)
+				{
+					parameters.add(data);
+					parameters.add(null);
+					parameters.add(null);
+				}
+				else if (data instanceof BigDecimal || data instanceof Integer || data instanceof Double)
+				{
+					parameters.add(null);
+					if(data instanceof Double)
+					{	
+						BigDecimal value = BigDecimal.valueOf((Double)data);
+						parameters.add(value);
+					}	
+					else	
+						parameters.add(data);
+					parameters.add(null);
+				}
+				else if (data instanceof Integer)
+				{
+					parameters.add(null);
+					parameters.add((Integer)data);
+					parameters.add(null);
+				}
+				else if (data instanceof Timestamp || data instanceof Date)
+				{
+					parameters.add(null);
+					parameters.add(null);
+					if(data instanceof Date)
+					{
+						Timestamp value = new Timestamp(((Date)data).getTime());
+						parameters.add(value);
+					}
+					else 
+					parameters.add(data);
+				}
+				else
+				{
+					parameters.add(data);
+					parameters.add(null);
+					parameters.add(null);
+				}
+				DB.executeUpdateEx(insert.toString(),parameters.toArray() , null);	
+			}
+		}
+	}
+	
 	private static void verifyTrx(String trxName, String sql) {
 		if (trxName != null && Trx.get(trxName, false) == null) {
 			// Using a trx that was previously closed or never opened
@@ -2317,4 +2415,38 @@ public final class DB
 		}
 		return false;
 	}
+
+	public static int[] getIDsEx(String trxName, String sql, Object ... params) throws DBException
+	{
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        ArrayList<Integer> list = new ArrayList<Integer>();
+        try
+        {
+            pstmt = DB.prepareStatement(sql, trxName);
+            setParameters(pstmt, params);
+            rs = pstmt.executeQuery();
+            while (rs.next())
+            {
+                list.add(rs.getInt(1));
+            }
+        }
+        catch (SQLException e)
+        {
+    		throw new DBException(e, sql);
+        }
+        finally
+        {
+            close(rs, pstmt);
+            rs= null;
+            pstmt = null;
+        }
+		//	Convert to array
+		int[] retValue = new int[list.size()];
+		for (int i = 0; i < retValue.length; i++)
+		{
+			retValue[i] = list.get(i);
+		}
+        return retValue;
+	}	//	getIDsEx
 }	//	DB

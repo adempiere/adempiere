@@ -30,6 +30,7 @@ package org.eevolution.model;
 
 import java.sql.ResultSet;
 import java.util.Collection;
+import java.util.List;
 import java.util.Properties;
 
 import org.compiere.model.Query;
@@ -43,7 +44,13 @@ import org.compiere.util.CLogger;
 public class MWMSectionType extends X_WM_Section_Type
 {
 
-	public static Collection <MWMSectionType> getTypeByOutbound(Properties ctx, String trxName)
+	/**
+	 * Get OutBound Section Type List
+	 * @param ctx
+	 * @param trxName
+     * @return
+     */
+	public static List <MWMSectionType> getByOutBoundType(Properties ctx, String trxName)
 	{
 		final String whereClause = MWMSectionType.COLUMNNAME_InOutBoundType + "="
 								 + MWMSectionType.INOUTBOUNDTYPE_OutboundOperation;
@@ -52,8 +59,14 @@ public class MWMSectionType extends X_WM_Section_Type
 		.setOnlyActiveRecords(true)
 		.list();
 	}
-	
-	public static Collection <MWMSectionType> getTypeByInbound(Properties ctx, String trxName)
+
+	/**
+	 * Get InBound Section Type List
+	 * @param ctx
+	 * @param trxName
+     * @return
+     */
+	public static List<MWMSectionType> getByInBoundType(Properties ctx, String trxName)
 	{
 		final String whereClause = MWMSectionType.COLUMNNAME_InOutBoundType + "="
 								 + MWMSectionType.INOUTBOUNDTYPE_InboundOperation;

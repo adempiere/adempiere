@@ -53,6 +53,11 @@ import org.compiere.util.CLogger;
  *
  * 	@author 	Jorg Janke
  * 	@version 	$Id: ConfigurationPanel.java,v 1.3 2006/07/30 00:57:42 jjanke Exp $
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 402 ] Mail setup is hardcoded
+ *		@see https://github.com/adempiere/adempiere/issues/402
+ *		<li> FR [ 391 ] Add connection support to MariaDB
+ *		@see https://github.com/adempiere/adempiere/issues/464
  */
 public class ConfigurationPanel extends CPanel implements ActionListener
 {
@@ -89,9 +94,6 @@ public class ConfigurationPanel extends CPanel implements ActionListener
 
 	/** Translation				*/
 	static ResourceBundle 		res = ResourceBundle.getBundle("org.compiere.install.SetupRes");
-
-	/**	Setup Frame				*/
-	private Setup				m_setup = null;
 	/** Status Bar				*/
 	private JLabel 				m_statusBar;
 	/**	Configuration Data		*/
@@ -163,17 +165,26 @@ public class ConfigurationPanel extends CPanel implements ActionListener
 	CCheckBox okDatabaseUser = new CCheckBox();
 	CCheckBox okDatabaseSystem = new CCheckBox();
 	CCheckBox okDatabaseSQL = new CCheckBox();
-	//
-	CLabel lMailServer = new CLabel();
-	CTextField fMailServer = new CTextField(FIELDLENGTH);
-	private CLabel lAdminEMail = new CLabel();
-	CTextField fAdminEMail = new CTextField(FIELDLENGTH);
-	private CLabel lMailUser = new CLabel();
-	CTextField fMailUser = new CTextField(FIELDLENGTH);
-	private CLabel lMailPassword = new CLabel();
-	CPassword fMailPassword = new CPassword();
-	CCheckBox okMailServer = new CCheckBox();
-	CCheckBox okMailUser = new CCheckBox();
+	//	Server for Send Mail
+	CLabel 			lMailServer = new CLabel();
+	CTextField 		fMailServer = new CTextField(FIELDLENGTH);
+	private CLabel 	lAdminEMail = new CLabel();
+	CTextField 		fAdminEMail = new CTextField(FIELDLENGTH);
+	private CLabel 	lMailUser = new CLabel();
+	CTextField 		fMailUser = new CTextField(FIELDLENGTH);
+	private CLabel 	lMailPassword = new CLabel();
+	CPassword 		fMailPassword = new CPassword();
+	CCheckBox 		okMailServer = new CCheckBox();
+	CCheckBox 		okMailUser = new CCheckBox();
+	//	FR [ 402 ]
+	private CLabel 	lMailPort = new CLabel();
+	CTextField 		fMailPort = new CTextField(FIELDLENGTH);
+	private CLabel 	lEncryptionType = new CLabel();
+	CComboBox 		fEncryptionType = new CComboBox(ConfigurationData.ENCRYPTIONTYPE);
+	private CLabel 	lAuthMechanism = new CLabel();
+	CComboBox 		fAuthMechanism = new CComboBox(ConfigurationData.AUTHMECHANISMS);
+	private CLabel 	lMailProtocol = new CLabel();
+	CComboBox 		fMailProtocol = new CComboBox(ConfigurationData.EMAIL_PROTOCOL);
 	//
 	private CButton bHelp = new CButton(iHelp);
 	private CButton bTest = new CButton();
@@ -425,17 +436,6 @@ public class ConfigurationPanel extends CPanel implements ActionListener
 		lAdminEMail.setText(res.getString("AdminEMail"));
 		fAdminEMail.setText(".");
 		okMailServer.setEnabled(false);
-		this.add(lMailServer,   new GridBagConstraints(0, 19, 1, 1, 0.0, 0.0
-			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 2, 5), 0, 0));
-		this.add(fMailServer,   new GridBagConstraints(1, 19, 1, 1, 0.5, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(5, 5, 2, 0), 0, 0));
-		this.add(okMailServer,	new GridBagConstraints(2, 19, 1, 1, 0.0, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 2, 5), 0, 0));
-		this.add(lAdminEMail,   new GridBagConstraints(4, 19, 1, 1, 0.0, 0.0
-			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 2, 5), 0, 0));
-		this.add(fAdminEMail,   new GridBagConstraints(5, 19, 1, 1, 0.5, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(5, 5, 2, 0), 0, 0));
-		
 		//	Mail User = Password
 		lMailUser.setToolTipText(res.getString("MailUserInfo"));
 		lMailUser.setText(res.getString("MailUser"));
@@ -443,23 +443,64 @@ public class ConfigurationPanel extends CPanel implements ActionListener
 		lMailPassword.setToolTipText(res.getString("MailPasswordInfo"));
 		lMailPassword.setText(res.getString("MailPassword"));
 		fMailPassword.setText(".");
+		//	FR [ 402 ]
+		lMailProtocol.setToolTipText(res.getString("MailProtocolInfo"));
+		lMailProtocol.setText(res.getString("MailProtocol"));
+		fMailProtocol.setPreferredSize(fMailProtocol.getPreferredSize());
+		lEncryptionType.setToolTipText(res.getString("MailEncryptionTypeInfo"));
+		lEncryptionType.setText(res.getString("MailEncryptionType"));
+		fEncryptionType.setPreferredSize(fEncryptionType.getPreferredSize());
+		lAuthMechanism.setToolTipText(res.getString("MailAuthMechanismInfo"));
+		lAuthMechanism.setText(res.getString("MailAuthMechanism"));
+		fAuthMechanism.setPreferredSize(fAuthMechanism.getPreferredSize());
+		lMailPort.setToolTipText(res.getString("MailPortInfo"));
+		lMailPort.setText(res.getString("MailPort"));
+		fMailPort.setText("25");
 		okMailUser.setEnabled(false);
-		this.add(lMailUser,		new GridBagConstraints(0, 20, 1, 1, 0.0, 0.0
+		this.add(lMailServer,   new GridBagConstraints(0, 19, 1, 1, 0.0, 0.0
+			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 2, 5), 0, 0));
+		this.add(fMailServer,   new GridBagConstraints(1, 19, 1, 1, 0.5, 0.0
+			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 2, 0), 0, 0));
+		this.add(lMailPort,	new GridBagConstraints(4, 19, 1, 1, 0.0, 0.0
 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(2, 5, 2, 5), 0, 0));
-		this.add(fMailUser,     new GridBagConstraints(1, 20, 1, 1, 0.5, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(2, 5, 2, 0), 0, 0));
-		this.add(lMailPassword, new GridBagConstraints(4, 20, 1, 1, 0.0, 0.0
-			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(2, 5, 2, 5), 0, 0));
-		this.add(fMailPassword, new GridBagConstraints(5, 20, 1, 1, 0.5, 0.0
+		this.add(fMailPort, 	new GridBagConstraints(5, 19, 1, 1, 0.5, 0.0
 			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(2, 5, 2, 0), 0, 0));
-		this.add(okMailUser,	new GridBagConstraints(6, 20, 1, 1, 0.0, 0.0
+		this.add(okMailServer,	new GridBagConstraints(6, 19, 1, 1, 0.0, 0.0
+			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 2, 5), 0, 0));
+		this.add(lMailProtocol,   new GridBagConstraints(0, 20, 1, 1, 0.0, 0.0
+			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 2, 5), 0, 0));
+		this.add(fMailProtocol,new GridBagConstraints(1, 20, 1, 1, 0.0, 0.0
+			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 2, 5), 0, 0));
+		this.add(lAdminEMail,   new GridBagConstraints(4, 20, 1, 1, 0.0, 0.0
+			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 2, 5), 0, 0));
+		this.add(fAdminEMail,   new GridBagConstraints(5, 20, 1, 1, 0.5, 0.0
+			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 2, 0), 0, 0));
+		//	FR [ 402 ]
+		this.add(lEncryptionType, 	new GridBagConstraints(0, 21, 1, 1, 0.0, 0.0
+			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(2, 5, 2, 5), 0, 0));
+		this.add(fEncryptionType, 	new GridBagConstraints(1, 21, 1, 1, 0.0, 0.0
+			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(2, 5, 2, 5), 0, 0));
+		this.add(lAuthMechanism, 	new GridBagConstraints(4, 21, 1, 1, 0.0, 0.0
+			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(2, 5, 2, 5), 0, 0));
+		this.add(fAuthMechanism, 	new GridBagConstraints(5, 21, 1, 1, 0.0, 0.0
+			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(2, 5, 2, 5), 0, 0));
+		//	
+		this.add(lMailUser,			new GridBagConstraints(0, 22, 1, 1, 0.0, 0.0
+			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(2, 5, 2, 5), 0, 0));
+		this.add(fMailUser,     	new GridBagConstraints(1, 22, 1, 1, 0.5, 0.0
+			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(2, 5, 2, 0), 0, 0));
+		this.add(lMailPassword, 	new GridBagConstraints(4, 22, 1, 1, 0.0, 0.0
+			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(2, 5, 2, 5), 0, 0));
+		this.add(fMailPassword, 	new GridBagConstraints(5, 22, 1, 1, 0.5, 0.0
+			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(2, 5, 2, 0), 0, 0));
+		this.add(okMailUser,		new GridBagConstraints(6, 22, 1, 1, 0.0, 0.0
 			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(2, 0, 2, 5), 0, 0));
 
 		//grap extra space when window is maximized
 		CPanel filler = new CPanel();
 		filler.setOpaque(false);
 		filler.setBorder(null);
-		this.add(filler,    		new GridBagConstraints(0, 21, 1, 1, 0.0, 1.0
+		this.add(filler,    		new GridBagConstraints(0, 23, 1, 1, 0.0, 1.0
 				,GridBagConstraints.WEST, GridBagConstraints.VERTICAL, new Insets(0, 0, 0, 0), 0, 0));
 		
 		//	End
@@ -468,11 +509,11 @@ public class ConfigurationPanel extends CPanel implements ActionListener
 		bSave.setToolTipText(res.getString("SaveInfo"));
 		bSave.setText(res.getString("Save"));
 		bHelp.setToolTipText(res.getString("HelpInfo"));
-		this.add(bTest,    		new GridBagConstraints(0, 22, 1, 1, 0.0, 0.0
+		this.add(bTest,    		new GridBagConstraints(0, 24, 1, 1, 0.0, 0.0
 			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(15, 5, 10, 5), 0, 0));
-		this.add(bHelp,         new GridBagConstraints(3, 22, 2, 1, 0.0, 0.0
+		this.add(bHelp,         new GridBagConstraints(3, 24, 2, 1, 0.0, 0.0
 			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(15, 5, 10, 5), 0, 0));
-		this.add(bSave,         new GridBagConstraints(5, 22, 2, 1, 0.0, 0.0
+		this.add(bSave,         new GridBagConstraints(5, 24, 2, 1, 0.0, 0.0
 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(15, 5, 10, 5), 0, 0));
 		//
 		bAdempiereHome.addActionListener(this);

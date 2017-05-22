@@ -172,7 +172,7 @@ public final class VAccountDialog extends CDialog
 		f_AD_Org_ID, f_Account_ID, f_SubAcct_ID,
 		f_M_Product_ID, f_C_BPartner_ID, f_C_Campaign_ID, f_C_LocFrom_ID, f_C_LocTo_ID,
 		f_C_Project_ID, f_C_SalesRegion_ID, f_AD_OrgTrx_ID, f_C_Activity_ID,
-		f_User1_ID, f_User2_ID;
+		f_User1_ID, f_User2_ID, f_User3_ID, f_User4_ID;
 	//
 	private JLabel f_Description = new JLabel ("", JLabel.CENTER);
 
@@ -435,6 +435,25 @@ public final class VAccountDialog extends CDialog
 				field = new GridField (newFieldVO);
 				addLine(field, f_User2_ID, isMandatory);
 			}
+			//	User3
+			else if (type.equals(MAcctSchemaElement.ELEMENTTYPE_UserList3))
+			{
+				GridField field = m_mTab.getField("User3_ID");
+				f_User3_ID = VEditorFactory.getEditor(m_mTab, field, false);
+				GridFieldVO newFieldVO = f_User3_ID.getField().getVO();
+				newFieldVO.Header = f_User3_ID.getName();
+				field = new GridField (newFieldVO);
+				addLine(field, f_User3_ID, isMandatory);
+			}
+			else if (type.equals(MAcctSchemaElement.ELEMENTTYPE_UserList4))
+			{
+				GridField field = m_mTab.getField("User4_ID");
+				f_User4_ID = VEditorFactory.getEditor(m_mTab, field, false);
+				GridFieldVO newFieldVO = f_User4_ID.getField().getVO();
+				newFieldVO.Header = f_User4_ID.getName();
+				field = new GridField (newFieldVO);
+				addLine(field, f_User4_ID, isMandatory);
+			}
 		}	//	Create Fields in Element Order
 
 		//	Add description
@@ -554,6 +573,8 @@ public final class VAccountDialog extends CDialog
 				loadInfoOf (rs, f_C_Activity_ID, "C_Activity_ID");
 				loadInfoOf (rs, f_User1_ID, "User1_ID");
 				loadInfoOf (rs, f_User2_ID, "User2_ID");
+				loadInfoOf (rs, f_User3_ID, "User3_ID");
+				loadInfoOf (rs, f_User4_ID, "User4_ID");
 				//
 				f_Description.setText (rs.getString("Description"));
 			}
@@ -740,6 +761,12 @@ public final class VAccountDialog extends CDialog
 		//	User 2
 		if (f_User2_ID != null && f_User2_ID.getValue() != null)
 			query.addRestriction("User2_ID", MQuery.EQUAL, f_User2_ID.getValue());
+		//	User 3
+		if (f_User3_ID != null && f_User3_ID.getValue() != null)
+			query.addRestriction("User3_ID", MQuery.EQUAL, f_User3_ID.getValue());
+		//	User 4
+		if (f_User4_ID != null && f_User4_ID.getValue() != null)
+			query.addRestriction("User4_ID", MQuery.EQUAL, f_User4_ID.getValue());
 
 		//	Query
 		m_mTab.setQuery(query);
@@ -899,6 +926,24 @@ public final class VAccountDialog extends CDialog
 				else
 					sql.append("=").append(value).append(" AND ");
 			}
+			else if (type.equals(MAcctSchemaElement.ELEMENTTYPE_UserList3))
+			{
+				value = f_User3_ID.getValue();
+				sql.append("User3_ID");
+				if (value == null)
+					sql.append(" IS NULL AND ");
+				else
+					sql.append("=").append(value).append(" AND ");
+			}
+			else if (type.equals(MAcctSchemaElement.ELEMENTTYPE_UserList4))
+			{
+				value = f_User4_ID.getValue();
+				sql.append("User4_ID");
+				if (value == null)
+					sql.append(" IS NULL AND ");
+				else
+					sql.append("=").append(value).append(" AND ");
+			}
 			//
 			if (ase.isMandatory() && value == null)
 				sb.append(ase.getName()).append(", ");
@@ -1026,6 +1071,12 @@ public final class VAccountDialog extends CDialog
 		int User2_ID = 0;
 		if (f_User2_ID != null && f_User2_ID.getValue() != null)
 			User2_ID = ((Integer)f_User2_ID.getValue()).intValue();
+		int User3_ID = 0;
+		if (f_User3_ID != null && f_User3_ID.getValue() != null)
+			User3_ID = ((Integer)f_User3_ID.getValue()).intValue();
+		int User4_ID = 0;
+		if (f_User4_ID != null && f_User4_ID.getValue() != null)
+			User4_ID = ((Integer)f_User4_ID.getValue()).intValue();
 
 		MAccount acct = MAccount.get (Env.getCtx(), m_AD_Client_ID, 
 			((Integer)f_AD_Org_ID.getValue()).intValue(),
@@ -1034,7 +1085,7 @@ public final class VAccountDialog extends CDialog
 			M_Product_ID, C_BPartner_ID, AD_OrgTrx_ID,
 			C_LocFrom_ID, C_LocTo_ID, C_SRegion_ID, 
 			C_Project_ID, C_Campaign_ID, C_Activity_ID, 
-			User1_ID, User2_ID, 0, 0, null);
+			User1_ID, User2_ID, User3_ID, User4_ID, 0, 0, null);
 		if (acct != null && acct.get_ID() == 0)
 			acct.saveEx();
 
@@ -1105,6 +1156,12 @@ public final class VAccountDialog extends CDialog
 		//	User 2
 		if (f_User2_ID != null)
 			f_User2_ID.setValue(null);
+		//	User 3
+		if (f_User3_ID != null)
+			f_User3_ID.setValue(null);
+		//	User 4
+		if (f_User4_ID != null)
+			f_User4_ID.setValue(null);
 	}	//	action_Ignore
 
 	/**

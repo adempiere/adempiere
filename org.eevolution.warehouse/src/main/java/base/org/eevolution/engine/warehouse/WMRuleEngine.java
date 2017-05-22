@@ -32,8 +32,8 @@ package org.eevolution.engine.warehouse;
 import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Properties;
 import java.util.TreeSet;
 
@@ -48,9 +48,6 @@ import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.Login;
-import org.eevolution.engine.warehouse.WMRuleEngine;
-import org.eevolution.engine.warehouse.WMRuleFIFO;
-import org.eevolution.engine.warehouse.WMRuleInterface;
 import org.eevolution.model.MWMDefinition;
 import org.eevolution.model.MWMInOutBound;
 import org.eevolution.model.MWMInOutBoundLine;
@@ -75,23 +72,22 @@ public final class WMRuleEngine {
 	private HashMap<String, WMRuleInterface> m_WMRules = new HashMap<String, WMRuleInterface>();
 
 	/** Package for Warehouse Rule classes */
-	private String m_packageName = "org.eevolution.engines.Warehouse";
+	private String m_packageName = "org.eevolution.engine.warehouse";
 
 	/**
-	 * get WM Rules
-	 * 
+	 * Get Warehouse Rules
 	 * @param ctx
-	 * @param AD_Client_ID
+	 * @param clientId
 	 * @param trxName
 	 * @return Collection of the MWMRules
 	 */
-	public static Collection<MWMRule> getWMRules(Properties ctx,
-			int AD_Client_ID, String trxName) {
+	public static List<MWMRule> getWMRules(Properties ctx,
+			int clientId, String trxName) {
 		String whereClause = "";
 		ArrayList<Object> parameters = new ArrayList();
-		if (AD_Client_ID > 0) {
+		if (clientId > 0) {
 			whereClause = MWMRule.COLUMNNAME_AD_Client_ID + "=?";
-			parameters.add(AD_Client_ID);
+			parameters.add(clientId);
 		} else {
 			whereClause = null;
 		}
@@ -102,34 +98,34 @@ public final class WMRuleEngine {
 	}
 
 	/**
-	 * Apply the WM Rule by Bound Type
+	 * Apply the Warehouse Rule by InOut Bound line and Bound Type
 	 * 
-	 * @param lines
+	 * @param inOutBounds
 	 * @param boundType
 	 */
-	public static void applyWMRule(Collection<MWMInOutBound> lines,
+	public static void applyWMRule(List<MWMInOutBound> inOutBounds,
 			String boundType) {
-		for (MWMInOutBound line : lines) {
-			for (MWMDefinition definition : MWMDefinition.getAll(line.getCtx(),
-					line.get_TrxName())) {
-				WMRuleEngine.validateDefinition(line, definition, boundType);
+		for (MWMInOutBound inOutBound : inOutBounds) {
+			for (MWMDefinition definition : MWMDefinition.getAll(inOutBound.getCtx(),
+					inOutBound.get_TrxName())) {
+				WMRuleEngine.validateDefinition(inOutBound, definition, boundType);
 			}
 		}
 
 	}
 
 	/**
-	 * validateDefinition
+	 * Validate Definition for InOut Bound
 	 * 
-	 * @param line
+	 * @param inOutBound
 	 * @param definition
 	 * @param boundType
 	 */
-	private static void validateDefinition(MWMInOutBound line,
+	private static void validateDefinition(MWMInOutBound inOutBound,
 			MWMDefinition definition, String boundType) {
-		for (MWMStrategy strategy : MWMStrategy.getByBoundType(line.getCtx(),
-				boundType, line.get_TrxName())) {
-			for (MWMStrategyDetail strategyLine : strategy.getDetail()) {
+		for (MWMStrategy strategy : MWMStrategy.getByBoundType(inOutBound.getCtx(),
+				boundType, inOutBound.get_TrxName())) {
+			for (MWMStrategyDetail strategyLine : strategy.getStrategyDetail()) {
 				MWMRule rule = (MWMRule) strategyLine.getWM_Rule();
 			}
 		}
@@ -250,60 +246,48 @@ public final class WMRuleEngine {
 	}
 
 	/**
-	 * get Locators by WM Area Type and WM Section Type
-	 * 
-	 * @param MWMInOutBoundLine
-	 *            line
-	 * @param WM_Area_Type_ID
-	 *            WM Area Type
-	 * @param WM_Section_Type_ID
-	 *            Section Type
-	 * @return Collection with Locator to Document Bound
-	 */
-	public Collection<MLocator> getMLocator(MWMInOutBoundLine line,
-			int WM_Area_Type_ID, int WM_Section_Type_ID) {
-		MWMStrategy strategy = applyDefinition(line, WM_Area_Type_ID,
-				WM_Section_Type_ID);
-		return getMLocators(strategy, line.getMProduct().getM_Product_ID(),
-				WM_Section_Type_ID, WM_Section_Type_ID);
+	 * Get Locators based on InOut Bound Order Line and Area Type and Section Type
+	 * @param inOutBoundLine
+	 * @param warehouseAreaTypeId
+	 * @param warehouseSectionTypeId
+     * @return
+     */
+	public List<MLocator> getLocator(MWMInOutBoundLine inOutBoundLine,
+			int warehouseAreaTypeId, int warehouseSectionTypeId) {
+		MWMStrategy strategy = applyDefinition(inOutBoundLine, warehouseAreaTypeId,
+				warehouseSectionTypeId);
+		return getLocator(strategy, inOutBoundLine.getMProduct().getM_Product_ID(),
+				warehouseSectionTypeId, warehouseSectionTypeId);
 	}
 
 	/**
-	 * get Storages
-	 * 
-	 * @param MWMInOutBoundLine
-	 *            line
-	 * @param WM_Area_Type_ID
-	 *            Area Type
-	 * @param WM_Section_Type_ID
-	 *            Section Type
-	 * @return get Collection Storages
-	 */
-	public Collection<MStorage> getMStorage(MWMInOutBoundLine line,
-			int WM_Area_Type_ID, int WM_Section_Type_ID) {
-		MWMStrategy strategy = applyDefinition(line, WM_Area_Type_ID,
-				WM_Section_Type_ID);
-		if (strategy.getM_Warehouse_ID() != line.getM_Warehouse_ID()) {
+	 * Get Storage based InOut Bound Line based on Area Type Id and Section Type Id
+	 * @param inOutBoundLine
+	 * @param warehouseAreaTypeId
+	 * @param warehouseSectionTypeId
+	 * */
+	public List<MStorage> getStorage(MWMInOutBoundLine inOutBoundLine,
+									 int warehouseAreaTypeId, int warehouseSectionTypeId) {
+		MWMStrategy strategy = applyDefinition(inOutBoundLine, warehouseAreaTypeId,
+				warehouseSectionTypeId);
+
+		/*if (strategy.getM_Warehouse_ID() != inOutBoundLine.getM_Warehouse_ID()) {
 			return null;
-		}
-		return getMStorages(strategy, line.getMProduct().getM_Product_ID(),
-				line.getM_AttributeSetInstance_ID(), line.getMovementQty(),
-				WM_Section_Type_ID, WM_Section_Type_ID);
+		}*/
+
+		return getStorage(strategy, inOutBoundLine.getMProduct().getM_Product_ID(),
+				inOutBoundLine.getM_AttributeSetInstance_ID(), inOutBoundLine.getMovementQty(),
+				warehouseSectionTypeId, warehouseSectionTypeId);
 	}
 
 	/**
-	 * apply Definition to get WM Strategy
-	 * 
-	 * @param MWMInOutBoundLine
-	 *            line
-	 * @param WM_Area_Type_ID
-	 *            Area Type
-	 * @param WM_Section_Type_ID
-	 *            Section Type
-	 * @return WMStrategy
-	 */
-	private MWMStrategy applyDefinition(MWMInOutBoundLine line,
-			int WM_Area_Type_ID, int WM_Section_Type_ID) {
+	 * Apply Definition for Warehouse  Strategy
+	 * @param inOutBoundLine Order Bound Line
+	 * @param warehouseAreaTypeId Area Type Id
+	 * @param warehouseSectionTypeId Section Type Id
+	 * */
+	private MWMStrategy applyDefinition(MWMInOutBoundLine inOutBoundLine,
+										int warehouseAreaTypeId, int warehouseSectionTypeId) {
 		StringBuffer whereClause = new StringBuffer("(");
 		whereClause.append(MWMDefinition.COLUMNNAME_M_Product_ID
 				+ " IN (0,?) OR ");
@@ -362,56 +346,54 @@ public final class WMRuleEngine {
 		whereClause.append(MWMStrategy.COLUMNNAME_InOutBoundType + "=?");
 		whereClause.append(")");
 
-		MProduct product = line.getMProduct();
-		MBPartner bpartner = line.getMBPartner();
+		MProduct product = inOutBoundLine.getMProduct();
+		MBPartner partner = inOutBoundLine.getBPartner();
 
-		MWMDefinition definition = new Query(line.getCtx(),
+		MWMDefinition definition = new Query(inOutBoundLine.getCtx(),
 				MWMDefinition.Table_Name, whereClause.toString(),
-				line.get_TrxName())
+				inOutBoundLine.get_TrxName())
 				.setClient_ID()
-				.setParameters(
-						new Object[] { product.getM_Product_ID(),
+				.setParameters( product.getM_Product_ID(),
 								product.getM_Product_Category_ID(),
 								product.getGroup1(), product.getGroup2(),
 								product.getClassification(),
-								bpartner.getC_BPartner_ID(),
-								bpartner.getC_BP_Group_ID(), WM_Area_Type_ID,
-								WM_Section_Type_ID,
-								MWMStrategy.INOUTBOUNDTYPE_OutboundOperation })
+								partner.getC_BPartner_ID(),
+								partner.getC_BP_Group_ID(), warehouseAreaTypeId,
+								warehouseSectionTypeId,
+								MWMStrategy.INOUTBOUNDTYPE_OutboundOperation)
 				.first();
 
 		if (definition == null) {
-			throw new AdempiereException("Can not found valid Definition");
+			throw new AdempiereException("@WM_Definition_ID@ @NotFound@");
 		}
 
-		return definition.getWMStrategy();
+		return definition.getWarehouseStrategy();
 	}
 
 	/**
-	 * get MLocator
-	 * 
-	 * @param MWMStrategy
-	 *            strategy
-	 * @param M_Product_ID
-	 *            Product
-	 * @param WM_Area_Type_ID
-	 *            Area Type
-	 * @param WM_Section_Type_ID
-	 *            Section Type
-	 * @return Collection of Locators
+	 * Get Locator based on strategy and product id , area type id , section id
+	 * @param strategy strategy
+	 * @param productId Product
+	 * @param warehouseAreaTypeId Area Type
+	 * @param warehouseSectionTypeId Section Type
+	 * @return List of Locators
 	 */
-	public static Collection<MLocator> getMLocators(MWMStrategy strategy,
-			int M_Product_ID, int WM_Area_Type_ID, int WM_Section_Type_ID) {
+	public static List<MLocator> getLocator(MWMStrategy strategy,
+													int productId, int warehouseAreaTypeId, int warehouseSectionTypeId) {
 		ArrayList<MLocator> targetLocators = new ArrayList();
 		WMRuleEngine engine = WMRuleEngine.get();
-		for (MWMStrategyDetail detail : strategy.getDetail()) {
+		for (MWMStrategyDetail detail : strategy.getStrategyDetail()) {
 			MWMRule rule = (MWMRule) detail.getWM_Rule();
 			WMRuleInterface implementation = engine.getWMRuleFactory(engine
 					.getClassName(rule));
-			Collection<MLocator> locators = implementation.getLocator(
-					strategy.getCtx(), M_Product_ID,
-					strategy.getM_Warehouse_ID(), WM_Area_Type_ID,
-					WM_Section_Type_ID, strategy.get_TrxName());
+			List<MLocator> locators = implementation.getLocator(
+					strategy.getCtx(),
+					productId,
+					strategy.getM_Warehouse_ID(),
+					warehouseAreaTypeId,
+					warehouseSectionTypeId,
+					strategy.get_TrxName()
+			);
 
 			for (MLocator locator : locators) {
 				targetLocators.add(locator);
@@ -421,30 +403,30 @@ public final class WMRuleEngine {
 	}
 
 	/**
-	 * get Collection of Storages
-	 * 
+	 * Get Storage list based on strategy , product id , attribute set instance id , area type , section type
 	 * @param strategy
-	 * @param M_Product_ID
+	 * @param productId
+	 * @param attributeSetInstanceId
 	 * @param qtyToDeliver
-	 * @param WM_Area_Type_ID
-	 * @param WM_Section_Type_ID
-	 * @return Collection of Storage
+	 * @param warehouseAreaTypeId
+	 * @param warehouseSectionTypeId    @return List of Storage
 	 */
-	public static Collection<MStorage> getMStorages(MWMStrategy strategy,
-			int M_Product_ID, int M_AttributeSetInstance_ID,
-			BigDecimal qtyToDeliver, int WM_Area_Type_ID, int WM_Section_Type_ID) {
+	public static List<MStorage> getStorage(MWMStrategy strategy,
+											int productId, int attributeSetInstanceId,
+											BigDecimal qtyToDeliver, int warehouseAreaTypeId, int warehouseSectionTypeId) {
 		ArrayList<MStorage> targetStorages = new ArrayList();
 		WMRuleEngine engine = WMRuleEngine.get();
-		for (MWMStrategyDetail detail : strategy.getDetail()) {
+		for (MWMStrategyDetail detail : strategy.getStrategyDetail()) {
 			MWMRule rule = (MWMRule) detail.getWM_Rule();
 			WMRuleInterface implementation = engine.getWMRuleFactory(engine
 					.getClassName(rule));
 
-			Collection<MStorage> storages = implementation
+
+			List<MStorage> storages = implementation
 					.getStorage(strategy.getCtx(),
-							strategy.getM_Warehouse_ID(), M_Product_ID,
-							M_AttributeSetInstance_ID, qtyToDeliver,
-							WM_Area_Type_ID, WM_Section_Type_ID,
+							strategy.getM_Warehouse_ID(), productId,
+							attributeSetInstanceId, qtyToDeliver,
+							warehouseAreaTypeId, warehouseSectionTypeId,
 							strategy.get_TrxName());
 
 			for (MStorage storage : storages) {
@@ -470,7 +452,7 @@ public final class WMRuleEngine {
 				null);
 		WMRuleEngine engine = WMRuleEngine.get();
 		MWMInOutBound order = line.getParent();
-		engine.getMLocator(line, 0, 0);
+		engine.getLocator(line, 0, 0);
 	}
 
 }

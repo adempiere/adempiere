@@ -118,7 +118,6 @@ public class CostDimension
 		}
 		else if (MAcctSchema.COSTINGLEVEL_Warehouse.equals(CostingLevel))
 		{
-			M_Warehouse_ID = 0;
 			M_AttributeSetInstance_ID = 0;
 		}
 		else if (MAcctSchema.COSTINGLEVEL_BatchLot.equals(CostingLevel))
@@ -242,16 +241,16 @@ public class CostDimension
 
 		finalWhereClause.append(I_AD_Client.COLUMNNAME_AD_Client_ID+ "=? ");
 		finalParams.add(this.AD_Client_ID);
+		finalWhereClause.append(" AND "+I_C_AcctSchema.COLUMNNAME_C_AcctSchema_ID+"=?");
+		finalParams.add(this.C_AcctSchema_ID);
 		finalWhereClause.append(" AND "+I_AD_Org.COLUMNNAME_AD_Org_ID+"=?");
 		finalParams.add(this.AD_Org_ID);
         finalWhereClause.append(" AND (").append(I_M_Warehouse.COLUMNNAME_M_Warehouse_ID).append(" IS NULL OR ").append(I_M_Warehouse.COLUMNNAME_M_Warehouse_ID+"=? )");
 		finalParams.add(this.M_Warehouse_ID);
 		finalWhereClause.append(" AND "+I_M_Product.COLUMNNAME_M_Product_ID+"=?");
 		finalParams.add(this.M_Product_ID);
-		finalWhereClause.append(" AND "+I_M_AttributeInstance.COLUMNNAME_M_AttributeSetInstance_ID+"=?");
+		finalWhereClause.append(" AND " + I_M_AttributeInstance.COLUMNNAME_M_AttributeSetInstance_ID + "=?");
 		finalParams.add(this.M_AttributeSetInstance_ID);
-		finalWhereClause.append(" AND "+I_C_AcctSchema.COLUMNNAME_C_AcctSchema_ID+"=?");
-		finalParams.add(this.C_AcctSchema_ID);
 		if (this.M_CostElement_ID != ANY)
 		{
 			finalWhereClause.append(" AND "+I_M_CostElement.COLUMNNAME_M_CostElement_ID+"=?");

@@ -44,6 +44,9 @@ import org.eevolution.form.VBrowser;
  *  @author victor.perez@e-evoluton.com, www.e-evolution.com 
  * 		<li>FR [ 3426137 ] Smart Browser
  *  	https://sourceforge.net/tracker/?func=detail&aid=3426137&group_id=176962&atid=879335
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 114 ] Change "Create From" UI for Form like Dialog in window without "hardcode"
+ *		@see https://github.com/adempiere/adempiere/issues/114
  * 	@version 	$Id: AMenuStartItem.java,v 1.2 2006/07/30 00:51:27 jjanke Exp $
  */
 public class AMenuStartItem extends Thread implements ActionListener
@@ -183,7 +186,7 @@ public class AMenuStartItem extends Thread implements ActionListener
 				else if (Action.equals("S"))		//	Form
 				{
 					cmd = rs.getInt("AD_Browse_ID");
-					startSmartBrowse(cmd);
+					startSmartBrowse(cmd, "Y".equals(IsSOTrx));
 				}
 				else
 					log.log(Level.SEVERE, "No valid Action in ID=" + m_ID);
@@ -343,29 +346,32 @@ public class AMenuStartItem extends Thread implements ActionListener
 				return;
 			}
 		}
-		ff = new FormFrame(m_menu.getGraphicsConfiguration());
+		//	Yamel Senih FR [ 114 ] Add Support to Dialog Frame
+		ff = new FormFrame(0);
 		SwingUtilities.invokeLater(m_updatePB);			//	1
 		boolean ok = ff.openForm(AD_Form_ID);
 		if (!ok) {
 			ff.dispose();
 			return;
 		}
-		m_menu.getWindowManager().add(ff);
+		//	Add Menu
+		m_menu.getWindowManager().add(ff.getCFrame());
 		SwingUtilities.invokeLater(m_updatePB);			//	2
 		
 		//	Center the window
 		SwingUtilities.invokeLater(m_updatePB);			//	3
 		if (Ini.isPropertyBool(Ini.P_OPEN_WINDOW_MAXIMIZED) ) {
-			AEnv.showMaximized(ff);
+			AEnv.showMaximized(ff.getCFrame());
 		} else
 			AEnv.showCenterScreen(ff);
+		//	End Yamel Senih
 	}	//	startForm
 	
 	/**
 	 *	Start SmartBrowse
 	 *  @param AD_SmartBrowse_ID form
 	 */
-	private void startSmartBrowse (int AD_Browse_ID)
+	private void startSmartBrowse (int AD_Browse_ID, Boolean isSOTrx)
 	{
 		CFrame ff = new CFrame();
 		if (Ini.isPropertyBool(Ini.P_SINGLE_INSTANCE_PER_WINDOW)) {
@@ -377,7 +383,7 @@ public class AMenuStartItem extends Thread implements ActionListener
 		}
 		//ff = new FormFrame();
 		SwingUtilities.invokeLater(m_updatePB);			//	1
-		ff 	= VBrowser.openBrowse(AD_Browse_ID);
+		ff 	= VBrowser.openBrowse(0 , AD_Browse_ID , "", isSOTrx);
 		ff.setVisible(true);
 		ff.pack();
 		m_menu.getWindowManager().add(ff);

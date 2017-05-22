@@ -151,6 +151,8 @@ public class MMailText extends X_R_MailText
 	 */
 	private String parse (String text)
 	{
+		if (text == null)
+			return "";
 		if (text.indexOf('@') == -1)
 			return text;
 		//	Parse User
@@ -171,6 +173,8 @@ public class MMailText extends X_R_MailText
 	 */
 	private String parse (String text, PO po)
 	{
+		if (text == null)
+			return "";
 		if (po == null || text.indexOf('@') == -1)
 			return text;
 		
@@ -210,6 +214,8 @@ public class MMailText extends X_R_MailText
 	 */
 	private String parseVariable (String variable, PO po)
 	{
+		if (variable == null || po == null)
+			return "";
 		int index = po.get_ColumnIndex(variable);
 		if (index == -1)
 			return "@" + variable + "@";	//	keep for next

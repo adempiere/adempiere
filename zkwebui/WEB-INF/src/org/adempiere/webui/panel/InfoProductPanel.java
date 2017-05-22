@@ -62,7 +62,7 @@ import org.adempiere.webui.component.WListbox;
 import org.adempiere.webui.editor.WPAttributeEditor;
 import org.adempiere.webui.editor.WSearchEditor;
 import org.adempiere.webui.editor.WTableDirEditor;
-import org.adempiere.webui.event.ValueChangeListener;
+import org.adempiere.exceptions.ValueChangeListener;
 import org.compiere.apps.search.Info_Column;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
@@ -294,22 +294,22 @@ public class InfoProductPanel extends InfoPanel implements EventListener, ValueC
 		m_InfoPAttributeButton.addEventListener(Events.ON_CLICK,this);
 
 		fieldValue = new Textbox();
-		fieldValue.setMaxlength(40);
+		//fieldValue.setMaxlength(40);
 		fieldValue.setAttribute("zk_component_ID", "Lookup_Criteria_fieldValue");
 		fieldValue.addEventListener(Events.ON_CHANGE, this);
 		//
 		fieldName = new Textbox();
-		fieldName.setMaxlength(40);
+		//fieldName.setMaxlength(40);
 		fieldName.setAttribute("zk_component_ID", "Lookup_Criteria_fieldName");
 		fieldName.addEventListener(Events.ON_CHANGE, this);
 		//
 		fieldUPC = new Textbox();
-		fieldUPC.setMaxlength(40);
+		//fieldUPC.setMaxlength(40);
 		fieldUPC.setAttribute("zk_component_ID", "Lookup_Criteria_fieldUPC");
 		fieldUPC.addEventListener(Events.ON_CHANGE, this);
 		//
 		fieldSKU = new Textbox();
-		fieldSKU.setMaxlength(40);
+		//fieldSKU.setMaxlength(40);
 		fieldSKU.setAttribute("zk_component_ID", "Lookup_Criteria_fieldSKU");
 		fieldSKU.addEventListener(Events.ON_CHANGE, this);
 		//
@@ -371,7 +371,7 @@ public class InfoProductPanel extends InfoPanel implements EventListener, ValueC
 		fWarehouse_ID.getComponent().setAttribute("fieldName", "fWarehouse_ID");
 
 		
-		fVendor_ID.getComponent().getTextbox().setMaxlength(30);
+		//fVendor_ID.getComponent().getTextbox().setMaxlength(30);
 		fVendor_ID.setIsSOTrx(true, false); // Override the isSOTrx context, Vendors only
 		fVendor_ID.addValueChangeListener(this);
 		fVendor_ID.getComponent().setAttribute("zk_component_ID", "Lookup_Criteria_C_BPartner_ID");
@@ -446,7 +446,7 @@ public class InfoProductPanel extends InfoPanel implements EventListener, ValueC
 		//
         ColumnInfo[] s_layoutWarehouse = new ColumnInfo[]{
         		new ColumnInfo(" ", "M_Warehouse_ID", IDColumn.class),
-        		new ColumnInfo(Msg.translate(Env.getCtx(), "Warehouse"), "Warehouse", String.class),
+        		new ColumnInfo(Msg.translate(Env.getCtx(), "WarehouseName"), "WarehouseName", String.class),
         		new ColumnInfo(Msg.translate(Env.getCtx(), "QtyAvailable"), "sum(QtyAvailable)", Double.class, true, true, null),
         		new ColumnInfo(Msg.translate(Env.getCtx(), "QtyOnHand"), "sum(QtyOnHand)", Double.class),
            		new ColumnInfo(Msg.translate(Env.getCtx(), "QtyReserved"), "sum(QtyReserved)", Double.class),
@@ -458,8 +458,8 @@ public class InfoProductPanel extends InfoPanel implements EventListener, ValueC
         String s_sqlWhere = "(QtyOnHand <> 0 OR QtyAvailable <> 0 OR QtyReserved <> 0 OR QtyOrdered <> 0) AND M_Product_ID = ?";
 //      String s_sqlWhere = "M_Product_ID = ?";
         m_sqlWarehouse = warehouseTbl.prepareTable(s_layoutWarehouse, s_sqlFrom, s_sqlWhere, false, "M_PRODUCT_STOCK_V");
-		m_sqlWarehouse += " Group By M_Warehouse_ID, Warehouse ";
-		m_sqlWarehouse += " Order By sum(QtyOnHand) DESC, Warehouse ";		
+		m_sqlWarehouse += " Group By M_Warehouse_ID, WarehouseName ";
+		m_sqlWarehouse += " Order By sum(QtyOnHand) DESC, WarehouseName ";
 		warehouseTbl.setMultiSelection(false);
         warehouseTbl.autoSize();
         warehouseTbl.setShowTotals(true);
@@ -1181,7 +1181,8 @@ public class InfoProductPanel extends InfoPanel implements EventListener, ValueC
 		s_productFrom += " LEFT OUTER JOIN M_AttributeSet pa ON (p.M_AttributeSet_ID=pa.M_AttributeSet_ID)"
 			+ " LEFT OUTER JOIN M_Product_PO ppo ON (p.M_Product_ID=ppo.M_Product_ID and ppo.IsCurrentVendor='Y' and ppo.IsActive='Y')"
 			+ " LEFT OUTER JOIN M_Product_Category pc ON (p.M_Product_Category_ID=pc.M_Product_Category_ID)"
-			+ " LEFT OUTER JOIN C_BPartner bp ON (ppo.C_BPartner_ID=bp.C_BPartner_ID)";
+			+ " LEFT OUTER JOIN C_BPartner bp ON (ppo.C_BPartner_ID=bp.C_BPartner_ID)"
+			+ " LEFT OUTER JOIN C_UOM u ON (p.C_UOM_ID=u.C_UOM_ID)";
 		
 		return s_productFrom;
 	}
@@ -1486,6 +1487,7 @@ public class InfoProductPanel extends InfoPanel implements EventListener, ValueC
 		list.add(new Info_Column(Msg.translate(Env.getCtx(), "Name"), "p.Name", String.class));
 		list.add(new Info_Column(Msg.translate(Env.getCtx(), "UPC"), "p.UPC", String.class));
 		list.add(new Info_Column(Msg.translate(Env.getCtx(), "SKU"), "p.SKU", String.class));
+		list.add(new Info_Column(Msg.translate(Env.getCtx(), "C_UOM_ID"), "u.name", String.class));
 		if (isValidVObject(fPriceList_ID))
 		{
 			list.add(new Info_Column(Msg.translate(Env.getCtx(), "PriceList"), "bomPriceList(p.M_Product_ID, pr.M_PriceList_Version_ID) AS PriceList",  BigDecimal.class));

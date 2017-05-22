@@ -33,6 +33,9 @@ import java.util.logging.Level;
  * 
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 				<li>BF [ 1810632 ] PricePrecision error in InfoProduct (and similar)
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<a href="https://github.com/adempiere/adempiere/issues/676">
+ * 		@see FR [ 677 ] Process Class Generator not get parameters type correctly</a>
  */
 public final class DisplayType
 {
@@ -193,7 +196,8 @@ public final class DisplayType
 	{
 		if (displayType == String || displayType == Text 
 			|| displayType == TextLong || displayType == Memo
-			|| displayType == FilePath || displayType == FileName
+			|| displayType == FilePath || displayType == FileName 
+			|| displayType == FilePathOrName
 			|| displayType == URL || displayType == PrinterName)
 			return true;
 		return false;

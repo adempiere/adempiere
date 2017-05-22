@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2016 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
@@ -11,8 +11,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.adempiere.model;
@@ -31,7 +30,7 @@ public class X_AD_Browse_Field extends PO implements I_AD_Browse_Field, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150223L;
+	private static final long serialVersionUID = 20160823L;
 
     /** Standard Constructor */
     public X_AD_Browse_Field (Properties ctx, int AD_Browse_Field_ID, String trxName)
@@ -557,6 +556,30 @@ public class X_AD_Browse_Field extends PO implements I_AD_Browse_Field, I_Persis
 		return false;
 	}
 
+	/** Set Is Information Only.
+		@param IsInfoOnly 
+		When a Parameter is Information Only
+	  */
+	public void setIsInfoOnly (boolean IsInfoOnly)
+	{
+		set_Value (COLUMNNAME_IsInfoOnly, Boolean.valueOf(IsInfoOnly));
+	}
+
+	/** Get Is Information Only.
+		@return When a Parameter is Information Only
+	  */
+	public boolean isInfoOnly () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsInfoOnly);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Key column.
 		@param IsKey 
 		This column is the key in this table
@@ -755,6 +778,26 @@ public class X_AD_Browse_Field extends PO implements I_AD_Browse_Field, I_Persis
 		return ii.intValue();
 	}
 
+	/** Set Grid Sequence.
+		@param SeqNoGrid 
+		Method of ordering records; lowest number comes first
+	  */
+	public void setSeqNoGrid (int SeqNoGrid)
+	{
+		set_Value (COLUMNNAME_SeqNoGrid, Integer.valueOf(SeqNoGrid));
+	}
+
+	/** Get Grid Sequence.
+		@return Method of ordering records; lowest number comes first
+	  */
+	public int getSeqNoGrid () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_SeqNoGrid);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Record Sort No.
 		@param SortNo 
 		Determines in what order the records are displayed
@@ -773,23 +816,6 @@ public class X_AD_Browse_Field extends PO implements I_AD_Browse_Field, I_Persis
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Value Format.
-		@param VFormat 
-		Format of the value; Can contain fixed format elements, Variables: "_lLoOaAcCa09"
-	  */
-	public void setVFormat (String VFormat)
-	{
-		set_Value (COLUMNNAME_VFormat, VFormat);
-	}
-
-	/** Get Value Format.
-		@return Format of the value; Can contain fixed format elements, Variables: "_lLoOaAcCa09"
-	  */
-	public String getVFormat () 
-	{
-		return (String)get_Value(COLUMNNAME_VFormat);
 	}
 
 	/** Set Max. Value.
@@ -824,5 +850,22 @@ public class X_AD_Browse_Field extends PO implements I_AD_Browse_Field, I_Persis
 	public String getValueMin () 
 	{
 		return (String)get_Value(COLUMNNAME_ValueMin);
+	}
+
+	/** Set Value Format.
+		@param VFormat 
+		Format of the value; Can contain fixed format elements, Variables: "_lLoOaAcCa09"
+	  */
+	public void setVFormat (String VFormat)
+	{
+		set_Value (COLUMNNAME_VFormat, VFormat);
+	}
+
+	/** Get Value Format.
+		@return Format of the value; Can contain fixed format elements, Variables: "_lLoOaAcCa09"
+	  */
+	public String getVFormat () 
+	{
+		return (String)get_Value(COLUMNNAME_VFormat);
 	}
 }

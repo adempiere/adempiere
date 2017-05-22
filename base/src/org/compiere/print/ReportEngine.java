@@ -61,6 +61,7 @@ import org.compiere.model.MClient;
 import org.compiere.model.MDunningRunEntry;
 import org.compiere.model.MInOut;
 import org.compiere.model.MInvoice;
+import org.compiere.model.MMovement;
 import org.compiere.model.MOrder;
 import org.compiere.model.MPaySelectionCheck;
 import org.compiere.model.MProject;
@@ -104,6 +105,13 @@ import org.eevolution.model.X_PP_Order;  // to be changed by MPPOrder
  * 				https://sourceforge.net/tracker/?func=detail&atid=879332&aid=2828886&group_id=176962
  * 
  *  FR 2872010 - Dunning Run for a complete Dunning (not just level) - Developer: Carlos Ruiz - globalqss - Sponsor: Metas
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * 		<li>BR [ 237 ] Same Print format but distinct report view
+ * 		@see https://github.com/adempiere/adempiere/issues/237
+ * 		<li>FR [ 295 ] Report viewer re-query
+ * 		@see https://github.com/adempiere/adempiere/issues/295
+ * 		<li>FR [ 238 ] Is Summary property by default in Print Format (Set default summary property from print format)
+ * 		@see https://github.com/adempiere/adempiere/issues/238
  */
 public class ReportEngine implements PrintServiceAttributeListener
 {
@@ -130,8 +138,7 @@ public class ReportEngine implements PrintServiceAttributeListener
 	 */
 	public ReportEngine ( Properties ctx,MPrintFormat pf,MQuery query,ProcessInfo pInfo, PrintInfo info ){
 		this(ctx, pf, query, info, null);
-		this.setProcessInfo(pInfo) ;
-
+		this.setProcessInfo(pInfo);
 	}
 
 
@@ -153,8 +160,9 @@ public class ReportEngine implements PrintServiceAttributeListener
 		m_printFormat = pf;
 		m_info = info;
 		m_trxName = trxName;
+		//	FR [ 238 ] Set default summary from print format
+		setSummary(m_printFormat.isSummary());
 		setQuery(query);		//	loads Data
-
 	}	//	ReportEngine
 
 	/**	Static Logger	*/
@@ -187,6 +195,24 @@ public class ReportEngine implements PrintServiceAttributeListener
 	private ProcessInfo processInfo = null ;
 
 	private boolean m_summary = false;
+	//	FR [ 237 ]
+	private int 			m_AD_ReportView_ID = 0;
+	
+	/**
+	 * Set Optional Report View
+	 * @param p_AD_ReportView_ID
+	 */
+	public void setAD_ReportView_ID(int p_AD_ReportView_ID) {
+		m_AD_ReportView_ID = p_AD_ReportView_ID;
+	}
+	
+	/**
+	 * Get Optional Report View
+	 * @return
+	 */
+	public int getAD_ReportView_ID() {
+		return m_AD_ReportView_ID;
+	}
 
 	/**
 	 * 	Set PrintFormat.
@@ -244,7 +270,8 @@ public class ReportEngine implements PrintServiceAttributeListener
 			return;
 
 		DataEngine de = new DataEngine(m_printFormat.getLanguage(),m_trxName);
-		setPrintData(de.getPrintData (m_ctx, m_printFormat, m_query, m_summary));
+		//	FR [ 237 ]
+		setPrintData(de.getPrintData (m_ctx, m_printFormat, m_query, m_summary, getAD_ReportView_ID()));
 		//	m_printData.dump();
 	}	//	setPrintData
 
@@ -1207,13 +1234,17 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 		PrintInfo info = new PrintInfo (pi);
 		info.setAD_Table_ID(AD_Table_ID);
 
-		return new ReportEngine(ctx, format, query, info, pi.getTransactionName());
+		//	FR [ 295 ]
+		ReportEngine re = new ReportEngine(ctx, format, query, info, pi.getTransactionName());
+		//	Set Process Information
+		re.setProcessInfo(pi);
+		return re;
 	}	//	get
 
 	/*************************************************************************/
 
 	/** Order = 0				*/
-	public static final int		ORDER = 0;
+	public static final int			ORDER = 0;
 	/** Shipment = 1				*/
 	public static final int		SHIPMENT = 1;
 	/** Invoice = 2				*/
@@ -1237,6 +1268,8 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 
     public static final int     HR_REMITTANCE = 11;
 
+	public static final int     MOVEMENT = 12;
+
 
 	//	private static final String[]	DOC_TABLES = new String[] {
 	//		"C_Order_Header_v", "M_InOut_Header_v", "C_Invoice_Header_v", "C_Project_Header_v",
@@ -1247,17 +1280,17 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 		"C_Order", "M_InOut", "C_Invoice", "C_Project",
 		"C_RfQResponse",
 		"C_PaySelectionCheck", "C_PaySelectionCheck", 
-		"C_DunningRunEntry","PP_Order", "DD_Order", "HR_PaySelectionCheck","HR_PaySelectionCheck"};
+		"C_DunningRunEntry","PP_Order", "DD_Order", "HR_PaySelectionCheck","HR_PaySelectionCheck", "M_Movement"};
 	private static final String[]	DOC_IDS = new String[] {
 		"C_Order_ID", "M_InOut_ID", "C_Invoice_ID", "C_Project_ID",
 		"C_RfQResponse_ID",
 		"C_PaySelectionCheck_ID", "C_PaySelectionCheck_ID", 
-		"C_DunningRunEntry_ID" , "PP_Order_ID" , "DD_Order_ID" , "HR_PaySelectionCheck_ID", "HR_PaySelectionCheck" };
+		"C_DunningRunEntry_ID" , "PP_Order_ID" , "DD_Order_ID" , "HR_PaySelectionCheck_ID", "HR_PaySelectionCheck_ID" , "M_Movement_ID"};
 	private static final int[]	DOC_TABLE_ID = new int[] {
 		MOrder.Table_ID, MInOut.Table_ID, MInvoice.Table_ID, MProject.Table_ID,
 		MRfQResponse.Table_ID,
 		MPaySelectionCheck.Table_ID, MPaySelectionCheck.Table_ID, 
-		MDunningRunEntry.Table_ID, X_PP_Order.Table_ID, MDDOrder.Table_ID , X_HR_PaySelectionCheck.Table_ID ,  X_HR_PaySelectionCheck.Table_ID };
+		MDunningRunEntry.Table_ID, X_PP_Order.Table_ID, MDDOrder.Table_ID , X_HR_PaySelectionCheck.Table_ID ,  X_HR_PaySelectionCheck.Table_ID , MMovement.Table_ID};
 
 	/**************************************************************************
 	 * 	Get Document Print Engine for Document Type.
@@ -1612,8 +1645,9 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 	 *  Update Date Printed
 	 * 	@param type document type
 	 * 	@param Record_ID record id
+	 * 	@param trxName
 	 */
-	public static void printConfirm (int type, int Record_ID)
+	public static void printConfirm (int type, int Record_ID, String trxName)
 	{
 		StringBuffer sql = new StringBuffer();
 		if (type == ORDER || type == SHIPMENT || type == INVOICE)
@@ -1623,7 +1657,7 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 		//
 		if (sql.length() > 0)
 		{
-			int no = DB.executeUpdate(sql.toString(), null);
+			int no = DB.executeUpdate(sql.toString(), trxName);
 			if (no != 1)
 				log.log(Level.SEVERE, "Updated records=" + no + " - should be just one");
 		}

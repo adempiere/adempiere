@@ -39,8 +39,9 @@ import javax.swing.JPopupMenu;
 import javax.swing.LookAndFeel;
 import javax.swing.SwingUtilities;
 
+import org.adempiere.exceptions.ValueChangeListener;
 import org.adempiere.plaf.AdempierePLAF;
-import org.compiere.apps.FieldRecordInfo;
+import org.compiere.apps.RecordInfo;
 import org.compiere.model.GridField;
 import org.compiere.model.MAccountLookup;
 import org.compiere.model.MRole;
@@ -58,6 +59,9 @@ import org.compiere.util.Env;
  * 
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 			<li>BF [ 1830531 ] Process parameter with type Account not working
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 146 ] Remove unnecessary class, add support for info to specific column
+ *		@see https://github.com/adempiere/adempiere/issues/146
  */
 public final class VAccount extends JComponent
 	implements VEditor, ActionListener, FocusListener
@@ -296,9 +300,9 @@ public final class VAccount extends JComponent
 	 */
 	public void actionPerformed(ActionEvent e)
 	{
-		if (e.getActionCommand().equals(FieldRecordInfo.CHANGE_LOG_COMMAND))
+		if (e.getActionCommand().equals(RecordInfo.CHANGE_LOG_COMMAND))
 		{
-			FieldRecordInfo.start(m_mField);
+			RecordInfo.start(m_mField);
 			return;
 		}
 		
@@ -446,7 +450,7 @@ public final class VAccount extends JComponent
 			m_WindowNo = mField.getWindowNo();
 		m_mField = mField;
 		if (m_mField != null)
-			FieldRecordInfo.addMenu(this, popupMenu);
+			RecordInfo.addMenu(this, popupMenu);
 		
 	}   //  setField
 
@@ -488,6 +492,12 @@ public final class VAccount extends JComponent
 		{
 			cmd_text();
 		}
+	}
+
+	@Override
+	public void addValueChangeListener(ValueChangeListener listener) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }	//	VAccount
