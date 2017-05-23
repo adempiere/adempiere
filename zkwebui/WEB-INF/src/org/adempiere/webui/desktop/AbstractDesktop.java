@@ -59,11 +59,6 @@ public abstract class AbstractDesktop extends AbstractUIPart implements IDesktop
     public void onMenuSelected(int menuId)
     {
         MMenu menu = new MMenu(Env.getCtx(), menuId, null);
-        if(menu == null)
-        {
-            return;
-        }
-
         if(menu.getAction().equals(MMenu.ACTION_Window))
         {
         	openWindow(menu.getAD_Window_ID());

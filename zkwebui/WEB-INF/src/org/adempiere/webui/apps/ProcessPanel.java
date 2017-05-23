@@ -515,9 +515,7 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 		hideBusyDialog();
 		//	Hide
 		if(isReport() && !pi.isError()) {
-			//dispose();
-			getProcessInfo().setAD_PInstance_ID(0);
-			setIsProcessed(false);
+			dispose();
 		}
 	}
 
@@ -554,15 +552,12 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 
 				// Print format on report para
 				if (fReportType != null && fReportType.getSelectedItem() != null
-						&& fReportType.getSelectedItem().getValue() != null)
-				{
+						&& fReportType.getSelectedItem().getValue() != null) {
 					getProcessInfo().setReportType(fReportType.getSelectedItem().getValue().toString());
 				}
-				if (fPrintFormat != null && fPrintFormat.getValue() != null)
-				{
-					MPrintFormat format = new MPrintFormat(Env.getCtx(), (Integer) fPrintFormat.getValue(), null);
-					if (format != null)
-					{
+				if (fPrintFormat != null && fPrintFormat.getValue() != null) {
+					MPrintFormat format = MPrintFormat.get(Env.getCtx(), (Integer) fPrintFormat.getValue(), false);
+					if (format != null) {
 						if (Ini.isClient())
 							getProcessInfo().setTransientObject(format);
 						else
