@@ -41,6 +41,7 @@ import org.compiere.util.Env;
  * 		@see FR [ 571 ] Process Dialog is not MVC</a>
  * @author Raul Muñoz, rMunoz@erpcya.com, ERPCyA http://www.erpcya.com
  *		<li> BR [ 1004 ] Bad size for processing dialog on ZK Web UI
+ *		<li> FR [ 1051 ] Process Dialog have not scroll bar in zk
  */
 public class ProcessModalDialog extends Window implements IZKProcessDialog {
 	/**
@@ -166,8 +167,8 @@ public class ProcessModalDialog extends Window implements IZKProcessDialog {
 			setClosable(true);
 			setMaximizable(true);
 			setPosition("center");
-			setStyle("overflow: auto");
-			setWidth("500px");
+			//	FR [ 1051 ]
+			setWidth("75%");
 			setHeight("60%");
 			appendChild(processPanel.getPanel());
 		} else {

@@ -82,6 +82,7 @@ import org.zkoss.zul.Html;
  *		@see https://github.com/adempiere/adempiere/issues/298
  *  @author Raul Muñoz, rMunoz@erpcya.com, ERPCyA http://www.erpcya.com
  *		<li>FR [ 299 ] Instance saved, is not supported for swing UI
+ *		<li>FR [ 1051 ] Process Dialog have not scroll bar in zk
  *	@author Michael Mckay michael.mckay@mckayerp.com
  *		<li>BF [ <a href="https://github.com/adempiere/adempiere/issues/495">495</a> ] Parameter Panel & SmartBrowser criteria do not set gridField value
  * 	@version 	2006-12-01
@@ -118,7 +119,7 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 		this.width = width;
 	}
 
-	private static final String MESSAGE_DIV_STYLE = "max-height: 150pt; overflow: auto";
+	private static final String MESSAGE_DIV_STYLE = "max-height: 120px; overflow: auto";
 	/**	Width	*/
 	private String width;
 	//Layout Mode
@@ -146,7 +147,6 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 	//saved paramaters
 
 	private Combobox fSavedName=new Combobox();
-	private Button bSave = new Button("Save");
 	private Button bDelete = new Button("Delete");
 	private Label lSaved = new Label(Msg.getMsg(Env.getCtx(), "SavedParameter"));
 
@@ -177,7 +177,7 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
     	parameterPanel.appendChild(columns);
     	int colN = getColumns() * 2;
     	if(colN != 0) {
-    		int percent = 100 / colN;
+    		int percent = 99 / colN;
     		for(int i = 0; i < colN; i++) {
     			Column col = new Column();
 	        	col.setWidth((i == 0
@@ -190,7 +190,7 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
     	parameterPanel.appendChild(rows);
     	//	
     	mainLayout = new Borderlayout();
-		mainLayout.setStyle("border: none; overflow: auto");
+		mainLayout.setStyle("border: none;");
 		//	Message Panel
 		if(isShowDescription()) {
 			messageDiv = new Div();
@@ -208,7 +208,8 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 		mainLayout.appendChild(centerPanel);
 		centerPanel.appendChild(parameterPanel);
 		centerPanel.setFlex(false);
-		centerPanel.setStyle("border: none");
+		//	FR [ 1051 ]
+		centerPanel.setStyle("border: none; overflow-y:auto;width:98%");
 		
 		//	Buttons Panel
 		if(isShowButtons()) {
@@ -241,12 +242,7 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 			} catch(Exception e) {
 				log.severe("Error loading Buttons " + e.getLocalizedMessage());
 			}
-			bSave.setEnabled(false);
-			bSave.setImage("/images/Save24.png");
-			bSave.setSclass("action-button");
-			bSave.addActionListener(this);
-			hBox.appendChild(bSave);
-
+			
 			bDelete.setEnabled(false);
 			bDelete.setImage("/images/Delete24.png");
 			bDelete.setSclass("action-button");
@@ -308,8 +304,10 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 		}
 		//	
 		mainPanel.appendChild(mainLayout);
+		
 		mainPanel.setHeight("100%");
 		mainPanel.setWidth("100%");
+		parameterPanel.setWidth("97%");
 		//
 		loadQuerySaved();
 		fSavedName.addEventListener(Events.ON_CHANGE, this);
