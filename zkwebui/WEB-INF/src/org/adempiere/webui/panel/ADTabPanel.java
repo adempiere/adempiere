@@ -204,9 +204,10 @@ public class ADTabPanel extends Div implements Evaluatee, EventListener, DataSta
         int treeId = Env.getContextAsInt(Env.getCtx(), windowNo , gridTab.getTabNo() , "AD_Tree_ID" );
 		if (gridTab.isTreeTab() && treeId == 0) {
 			treeId = MTree.getDefaultAD_Tree_ID(Env.getAD_Client_ID(Env.getCtx()), gridTab.getKeyColumnName());
-			Env.setContext (Env.getCtx(), windowNo, "AD_Tree_ID",  treeId);
+			if (treeId > 0)
+				Env.setContext (Env.getCtx(), windowNo, "AD_Tree_ID",  treeId);
 		}
-		if (gridTab.isTreeTab() && treeId != 0)
+		if (gridTab.isTreeTab() && treeId > 0)
 		{
 			Borderlayout layout = new Borderlayout();
 			layout.setParent(this);
@@ -1122,7 +1123,7 @@ public class ADTabPanel extends Div implements Evaluatee, EventListener, DataSta
 		int treeId = Env.getContextAsInt(Env.getCtx(), windowNo , gridTab.getTabNo(), "AD_Tree_ID");
 		if ((gridTab.isTreeTab() && treeId == 0) || gridTab.getTabLevel() == 0)
 			treeId = MTree.getDefaultAD_Tree_ID (Env.getAD_Client_ID(Env.getCtx()), gridTab.getKeyColumnName());
-		if (gridTab.isTreeTab() && treeId != 0 && treeId != treePanel.getTreeId()) {
+		if (gridTab.isTreeTab() && treeId > 0 && treePanel != null && treeId != treePanel.getTreeId()) {
 			treePanel.initTree(treeId, windowNo);
 			if (!gridTab.isSingleRow() && !isGridView())
 				switchRowPresentation();

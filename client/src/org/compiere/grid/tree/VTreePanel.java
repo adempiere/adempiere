@@ -1023,7 +1023,11 @@ public final class VTreePanel extends CPanel
 			treeSearch.setCursor(Cursor.getDefaultCursor());
 		}
 	}	//	set Busy
-    
+
+	public int getTreeId()
+	{
+		return m_AD_Tree_ID;
+	}
 }   //  VTreePanel
 
 
