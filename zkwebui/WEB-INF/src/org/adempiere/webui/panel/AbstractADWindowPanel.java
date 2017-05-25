@@ -123,7 +123,8 @@ import org.zkoss.zul.Menupopup;
  * 		@see FR [ 592 ] Delete Selection dialog is not MVC</a>
  * 		<a href="https://github.com/adempiere/adempiere/issues/990">
  * 		@see FR [ 990 ] Sort Tab is not MVC</a>
- *
+ * @author Raul Muñoz, rMunoz@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> BR [ 1004 ] Bad size for processing dialog on ZK Web UI
  */
 public abstract class AbstractADWindowPanel extends AbstractUIPart implements ToolbarListener,
         EventListener, DataStatusListener, ActionListener, ASyncProcess
@@ -180,6 +181,8 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 	public Borderlayout layout;
 	
 	public North north = new North();
+	
+	private WProcessAction processAction;
 
 
 	/**
@@ -253,7 +256,6 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
         /** Initalise toolbar */
         toolbar = new CWindowToolbar(isEmbedded());
         toolbar.addListener(this);
-
         statusBar = new StatusBarPanel(isEmbedded());
     }
 
@@ -1186,6 +1188,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
     		toolbar.enableAttachment(true);
     		toolbar.enableChat(true);
     		toolbar.enableNavigation(true);
+    		toolbar.enableProcess(true);
     	} else if(curTabPanel instanceof WSortTab) {
     		toolbar.enableGridToggle(false);
     		toolbar.enableNew(false);
@@ -1204,6 +1207,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
     		toolbar.enableAttachment(false);
     		toolbar.enableChat(false);
     		toolbar.enableNavigation(false);
+    		toolbar.enableProcess(false);
     	}
 	}
 
@@ -1879,6 +1883,23 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 					.getTableName(), currentTab.getAD_Window_ID(), query);
 		}
 	}
+	
+	/**
+     * @see ToolbarListener#onProcess()
+     */
+	public void onProcess() {
+		if (toolbar.getEvent() != null) {
+			GridTab currentTab = toolbar.getCurrentPanel().getGridTab();
+			int record_ID = currentTab.getRecord_ID();
+			if (record_ID <= 0)
+				return;
+			//	
+			if(processAction == null) {
+				processAction = new WProcessAction(this);
+			}
+			processAction.openOption(toolbar.getEvent().getTarget());			
+		}
+	}
 
 	// Elaine 2008/07/17
 	/**
@@ -1950,8 +1971,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 	 *	Start Button Process
 	 *  @param wButton button
 	 */
-	private void actionButton (WButtonEditor wButton)
-	{
+	public void actionButton (WButtonEditor wButton) {
 		GridTab currentTab = toolbar.getCurrentPanel().getGridTab();
 		if (currentTab.hasChangedCurrentTabAndParents()) {
 			String msg = CLogger.retrieveErrorString("Please ReQuery Window");
@@ -2011,7 +2031,10 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		}
 
 		boolean isProcessMandatory = false;
-
+		MProcess process = null;
+		if(wButton.getProcess_ID() != 0) {
+			process = MProcess.get(ctx, wButton.getProcess_ID());
+		}
 		//	Pop up Payment Rules
 
 		if (col.equals("PaymentRule"))
@@ -2035,7 +2058,10 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 
 		//	Pop up Document Action (Workflow)
 
-		else if (col.equals("DocAction"))
+		else if (col.equals("DocAction")
+				|| (col.equals("StartProcess")
+						&& process != null
+						&& process.getAD_Workflow_ID() != 0))
 		{
 			isProcessMandatory = true;
 			WDocActionPanel win = new WDocActionPanel(currentTab);
@@ -2158,21 +2184,19 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 				return;
 		}
 
-		// call form
-		MProcess pr = new MProcess(ctx, wButton.getProcess_ID(), null);
 		//	Validate Access
 		//	BR [ 147 ]
 		MRole role = MRole.getDefault(ctx, false);
-		Boolean accessRW = role.checkProcessAccess(pr.getAD_Process_ID());
+		Boolean accessRW = role.checkProcessAccess(process.getAD_Process_ID());
 		if(accessRW == null
 				|| !accessRW.booleanValue()) {
 			FDialog.error(curWindowNo, parent, "AccessCannotProcess");
 			return;
 		}
-		int adFormID = pr.getAD_Form_ID();
+		int adFormID = process.getAD_Form_ID();
 		//	Yamel Senih BR[ 127 ], 2015-11-25
 		//	Bug with launch form
-		int adBrowseID = pr.getAD_Browse_ID();
+		int adBrowseID = process.getAD_Browse_ID();
 		if (adFormID != 0 )
 		{
 			String title = wButton.getDescription();
@@ -2216,14 +2240,11 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		{
 			ProcessModalDialog dialog = new ProcessModalDialog(this, curWindowNo,
 					wButton.getProcess_ID(), table_ID, record_ID, startWOasking);
+			//	BR [ 1004 ]
+			dialog.setVisible(true);
+			dialog.setPosition("center");
+			AEnv.showWindow(dialog);
 
-			if (dialog.isValid())
-			{
-				dialog.setWidth("500px");
-				dialog.setVisible(true);
-				dialog.setPosition("center");
-				AEnv.showWindow(dialog);
-			}
 			//onRefresh(true); // Need to fire events to activate subordinate tabs.
 		}
 	} // actionButton

@@ -59,6 +59,8 @@ import org.compiere.util.Msg;
  * 		@see FR [ 566 ] Process parameter don't have a parameter like only information</a>
  *	@author Michael Mckay michael.mckay@mckayerp.com
  *		<li>BF [ <a href="https://github.com/adempiere/adempiere/issues/495">495</a> ] Parameter Panel & SmartBrowser criteria do not set gridField value
+ *  @author Raul Muñoz, rMunoz@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li>FR [ 299 ] Instance saved, is not supported for swing UI
  */
 public abstract class ProcessController extends SmallViewController {
 	
@@ -391,12 +393,17 @@ public abstract class ProcessController extends SmallViewController {
 		//	All OK
 		return null;
 	}	//	validateParameters
-
+	
+	
+	public String saveParameters() {
+		return saveParameters(null);
+	}
+	
 	/**
 	 * Validate and save parameters if not happened error
 	 * @return null if nothing happened
 	 */
-	public String saveParameters() {
+	public String saveParameters(String saveName) {
 		log.config("");
 		setIsProcessed(false);
 		//	Valid parameters
@@ -414,6 +421,7 @@ public abstract class ProcessController extends SmallViewController {
 			try {
 				instance = new MPInstance(Env.getCtx(), 
 						processInfo.getAD_Process_ID(), processInfo.getRecord_ID());
+				instance.setName(saveName);
 				instance.saveEx();
 				//	Set Instance
 				processInfo.setAD_PInstance_ID(instance.getAD_PInstance_ID());
@@ -503,7 +511,7 @@ public abstract class ProcessController extends SmallViewController {
 				return true;
 			}
 		}
-		//	
+		//	1000322
 		return false;
 	}
 	
@@ -515,6 +523,7 @@ public abstract class ProcessController extends SmallViewController {
 	public boolean loadParameters(MPInstance instance) {
 		log.config("");
 		//	
+		
 		MPInstancePara[] params = instance.getParameters();
 		for (int j = 0; j < getFieldSize(); j++) {
 			//	Get Values
@@ -527,6 +536,7 @@ public abstract class ProcessController extends SmallViewController {
 
 			for ( int i = 0; i < params.length; i++)
 			{
+				
 				MPInstancePara para = params[i];
 				para.getParameterName();
 
@@ -542,6 +552,8 @@ public abstract class ProcessController extends SmallViewController {
 					//	String
 					else if ( para.getP_String() != null || para.getP_String_To() != null )
 					{
+						
+						
 						setValue(j, para.getP_String());
 						if (fieldTo != null)
 							setValue_To(j, para.getP_String_To());
@@ -559,28 +571,6 @@ public abstract class ProcessController extends SmallViewController {
 			} // for every saved parameter
 		}	//	for every field
 		return true;
-	}
-	
-	/**
-	 * Create New Instance
-	 * @param saveName
-	 * @return
-	 */
-	public String createNewInstance(String saveName) {
-		String errorMsg = null;
-		try {
-			MPInstance instance = new MPInstance(Env.getCtx(), processInfo.getAD_Process_ID(), processInfo.getRecord_ID());
-			instance.setName(saveName);
-			instance.saveEx();
-			processInfo.setAD_PInstance_ID(instance.getAD_PInstance_ID());
-			//	Get Parameters
-			errorMsg = saveParameters();
-		} catch(Exception ex) {
-			errorMsg = ex.getLocalizedMessage();
-			log.log(Level.SEVERE, ex.getLocalizedMessage(), ex);
-		}
-		//	Default Return
-		return errorMsg;
 	}
 	
 	/**
@@ -603,7 +593,7 @@ public abstract class ProcessController extends SmallViewController {
 						para.deleteEx(true);
 					}
 					//	Save
-					errorMsg = saveParameters();
+					errorMsg = saveParameters(saveName);
 					if(errorMsg != null)
 						throw new AdempiereException(errorMsg);
 				}

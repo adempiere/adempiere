@@ -42,10 +42,7 @@ import org.adempiere.webui.event.ContextMenuListener;
 import org.adempiere.webui.window.FDialog;
 import org.compiere.apps.ProcessController;
 import org.compiere.apps.ProcessCtl;
-import org.compiere.model.GridField;
-import org.compiere.model.Lookup;
-import org.compiere.model.MPInstance;
-import org.compiere.model.MRole;
+import org.compiere.model.*;
 import org.compiere.print.MPrintFormat;
 import org.compiere.process.ProcessInfo;
 import org.compiere.swing.CEditor;
@@ -83,6 +80,9 @@ import org.zkoss.zul.Html;
  *		@see https://github.com/adempiere/adempiere/issues/265
  *		<li>FR [ 298 ] Process Parameter Panel not set default value correctly into parameters
  *		@see https://github.com/adempiere/adempiere/issues/298
+ *  @author Raul Muñoz, rMunoz@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li>FR [ 299 ] Instance saved, is not supported for swing UI
+ *		<li>FR [ 1051 ] Process Dialog have not scroll bar in zk
  *	@author Michael Mckay michael.mckay@mckayerp.com
  *		<li>BF [ <a href="https://github.com/adempiere/adempiere/issues/495">495</a> ] Parameter Panel & SmartBrowser criteria do not set gridField value
  * 	@version 	2006-12-01
@@ -119,7 +119,7 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 		this.width = width;
 	}
 
-	private static final String MESSAGE_DIV_STYLE = "max-height: 150pt; overflow: auto";
+	private static final String MESSAGE_DIV_STYLE = "max-height: 120px; overflow: auto";
 	/**	Width	*/
 	private String width;
 	//Layout Mode
@@ -147,17 +147,16 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 	//saved paramaters
 
 	private Combobox fSavedName=new Combobox();
-	private Button bSave = new Button("Save");
 	private Button bDelete = new Button("Delete");
 	private Label lSaved = new Label(Msg.getMsg(Env.getCtx(), "SavedParameter"));
-	
+
 	// Print Format
 	private WTableDirEditor		fPrintFormat		= null;
-	private Combobox			freportType			= new Combobox();
+	private Combobox 			fReportType = new Combobox();
 	private Label				lPrintFormat		= new Label("Print Format:");
-	private Label				lreportType			= new Label("Report Type:");
+	private Label 				lReportType = new Label("Report Type:");
 
-	
+
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(ProcessPanel.class);
 	
@@ -178,7 +177,7 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
     	parameterPanel.appendChild(columns);
     	int colN = getColumns() * 2;
     	if(colN != 0) {
-    		int percent = 100 / colN;
+    		int percent = 99 / colN;
     		for(int i = 0; i < colN; i++) {
     			Column col = new Column();
 	        	col.setWidth((i == 0
@@ -191,7 +190,7 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
     	parameterPanel.appendChild(rows);
     	//	
     	mainLayout = new Borderlayout();
-		mainLayout.setStyle("border: none; overflow: auto");
+		mainLayout.setStyle("border: none;");
 		//	Message Panel
 		if(isShowDescription()) {
 			messageDiv = new Div();
@@ -209,7 +208,8 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 		mainLayout.appendChild(centerPanel);
 		centerPanel.appendChild(parameterPanel);
 		centerPanel.setFlex(false);
-		centerPanel.setStyle("border: none");
+		//	FR [ 1051 ]
+		centerPanel.setStyle("border: none; overflow-y:auto;width:98%");
 		
 		//	Buttons Panel
 		if(isShowButtons()) {
@@ -218,15 +218,31 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 			Row row = rows.newRow();
 			Hbox hBox = new Hbox();
 			hBox.appendChild(lSaved);
-			fSavedName.addEventListener(Events.ON_CHANGE, this);
 			hBox.appendChild(fSavedName);
 
-			bSave.setEnabled(false);
-			bSave.setImage("/images/Save24.png");
-			bSave.setSclass("action-button");
-			bSave.addActionListener(this);
-			hBox.appendChild(bSave);
-
+			Panel confParaPanel = new Panel();
+			confParaPanel.setAlign("right");
+			//	BR [ 300 ]
+			try{
+				//	Set Ok
+				WAppsAction action = new WAppsAction(ConfirmPanel.A_OK, null, ConfirmPanel.A_OK);
+				bOK = action.getButton();
+				//	Set to Cancel
+				action = new WAppsAction(ConfirmPanel.A_CANCEL, null, ConfirmPanel.A_CANCEL);
+				bCancel = action.getButton();
+				//	Set Delete
+				action = new WAppsAction(ConfirmPanel.A_DELETE, null, ConfirmPanel.A_DELETE);
+				bDelete = action.getButton();
+				//	Add Listener
+				bOK.addEventListener(Events.ON_CLICK, this);
+				bCancel.addEventListener(Events.ON_CLICK, this);
+				//	Add to Panel
+				confParaPanel.appendChild(bCancel);
+				confParaPanel.appendChild(bOK);
+			} catch(Exception e) {
+				log.severe("Error loading Buttons " + e.getLocalizedMessage());
+			}
+			
 			bDelete.setEnabled(false);
 			bDelete.setImage("/images/Delete24.png");
 			bDelete.setSclass("action-button");
@@ -239,46 +255,42 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 				MRole roleCurrent = MRole.get(Env.getCtx(), Env.getAD_Role_ID(Env.getCtx()));
 				boolean m_isAllowHTMLView = roleCurrent.isAllow_HTML_View();
 				boolean m_isAllowXLSView = roleCurrent.isAllow_XLS_View();
+				String typeSelection = MSysConfig.getValue("ZK_REPORT_TABLE_OUTPUT_TYPE", Env.getAD_Client_ID(Env.getCtx()));
+				int selectionIndex = 0;
+				if (typeSelection != null && "HTML".equals(typeSelection))
+					selectionIndex = 3;
 
-				freportType.removeAllItems();
-				freportType.appendItem("PDF", "P");
+				fReportType.removeAllItems();
+				fReportType.appendItem("PDF", "P");
+				if ("PDF".equals(typeSelection))
+					selectionIndex = 0;
+
 				if (m_isAllowXLSView) {
-					freportType.appendItem("Excel", "X");
-					freportType.appendItem("XLSX", "XX");
+					fReportType.appendItem("Excel", "X");
+					if ("XLS".equals(typeSelection))
+						selectionIndex = 1;
+					fReportType.appendItem("XLSX", "XX");
+					if ("XLSX".equals(typeSelection))
+						selectionIndex = 2;
+
 				}
 				if (m_isAllowHTMLView)
-					freportType.appendItem("HTML", "H");
-				freportType.setSelectedIndex(0);
-				
+					fReportType.appendItem("HTML", "H");
+
+				if ("HTML".equals(typeSelection))
+					selectionIndex = 3;
+
+				fReportType.setSelectedIndex(selectionIndex);
+
 				hBox.appendChild(lPrintFormat);
 				hBox.appendChild(fPrintFormat.getComponent());
 
-				hBox.appendChild(lreportType);
-				hBox.appendChild(freportType);
+				hBox.appendChild(lReportType);
+				hBox.appendChild(fReportType);
 			}
+
 			row.appendChild(hBox);
-
-
-			Panel confParaPanel = new Panel();
-			confParaPanel.setAlign("right");
-			//	BR [ 300 ]
-			try{
-				//	Set Ok
-				WAppsAction action = new WAppsAction(ConfirmPanel.A_OK, null, ConfirmPanel.A_OK);
-				bOK = action.getButton();
-				//	Set to Cancel
-				action = new WAppsAction(ConfirmPanel.A_CANCEL, null, ConfirmPanel.A_CANCEL);
-				bCancel = action.getButton();
-				//	Add Listener
-				bOK.addEventListener(Events.ON_CLICK, this);
-				bCancel.addEventListener(Events.ON_CLICK, this);
-				//	Add to Panel
-				confParaPanel.appendChild(bCancel);
-				confParaPanel.appendChild(bOK);
-			} catch(Exception e) {
-				log.severe("Error loading Buttons " + e.getLocalizedMessage());
-			}
-			//	
+			//
 			row.appendChild(confParaPanel);
 			
 			South south = new South();
@@ -292,10 +304,13 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 		}
 		//	
 		mainPanel.appendChild(mainLayout);
+		
 		mainPanel.setHeight("100%");
 		mainPanel.setWidth("100%");
-		
+		parameterPanel.setWidth("97%");
+		//
 		loadQuerySaved();
+		fSavedName.addEventListener(Events.ON_CHANGE, this);
 	}
 	
 	/**
@@ -382,8 +397,8 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 	
 	/**
 	 * Congure columns
-	 * @param field
-	 * @param field_To
+	 * @param editor
+	 * @param editorTo
 	 */
 	private void configColumns(WEditor editor, WEditor editorTo) {
 		int maxToAdd = getColumns() * 2;
@@ -449,7 +464,7 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 	 */
 	private void loadQuerySaved() {
 		//user query
-		List<MPInstance> savedParams = getSavedInstances(true);
+		List<MPInstance> savedParams = getSavedInstances(true);	
 		fSavedName.removeAllItems();
 		for (MPInstance instance : savedParams) {
 			String queries = instance.getName();
@@ -498,9 +513,7 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 		hideBusyDialog();
 		//	Hide
 		if(isReport() && !pi.isError()) {
-			//dispose();
-			getProcessInfo().setAD_PInstance_ID(0);
-			setIsProcessed(false);
+			dispose();
 		}
 	}
 
@@ -527,57 +540,36 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 			setIsOkPressed(true);
 			if(isOnlyPanel()) {
 				//	check if saving parameters is complete
-				if (saveParameters() == null) {
+				if (saveOrUpdateParameters(saveName) == null) {
 					//	Save Parameters
 					dispose();
 				}
 			} else if (isProcessed()) {
 				dispose();
 			} else {
-				
+
 				// Print format on report para
-				if (freportType != null && freportType.getSelectedItem() != null
-						&& freportType.getSelectedItem().getValue() != null)
-				{
-					getProcessInfo().setReportType(freportType.getSelectedItem().getValue().toString());
+				if (fReportType != null && fReportType.getSelectedItem() != null
+						&& fReportType.getSelectedItem().getValue() != null) {
+					getProcessInfo().setReportType(fReportType.getSelectedItem().getValue().toString());
 				}
-				if (fPrintFormat != null && fPrintFormat.getValue() != null)
-				{
-					MPrintFormat format = new MPrintFormat(Env.getCtx(), (Integer) fPrintFormat.getValue(), null);
-					if (format != null)
-					{
+				if (fPrintFormat != null && fPrintFormat.getValue() != null) {
+					MPrintFormat format = MPrintFormat.get(Env.getCtx(), (Integer) fPrintFormat.getValue(), false);
+					if (format != null) {
 						if (Ini.isClient())
 							getProcessInfo().setTransientObject(format);
 						else
 							getProcessInfo().setSerializableObject(format);
 					}
 				}
-								
-				
+
+
 				//	BR [ 265 ]
-				process();
+					process(saveName);
 			}
 		} else if (event.getTarget().equals(bCancel)) {
 			dispose();
-		} else if(event.getTarget().equals(bSave) 
-				&& fSavedName != null && !lastRun) {
-			// Update existing
-			if (fSavedName.getSelectedIndex() > -1) {
-				String saveError = updateInstance(saveName);
-				if(saveError != null) {
-					FDialog.error(getWindowNo(), getPanel(), "Error", saveError);
-				}
-			} else {
-				//	create new
-				String saveError = createNewInstance(saveName);
-				if(saveError != null) {
-					FDialog.error(getWindowNo(), getPanel(), "Error", saveError);
-				}
-			}
-			//	
-			loadQuerySaved();
-			fSavedName.setSelectedItem(getComboItem(saveName));
-		} else if(event.getTarget().equals(bDelete) 
+		}  else if(event.getTarget().equals(bDelete) 
 				&& fSavedName != null && !lastRun) {
 			Object o = fSavedName.getSelectedItem();
 			if (o != null) {
@@ -590,11 +582,37 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 			//	Load saved parameters
 			loadParameters(saveName);
 			boolean enabled = !Util.isEmpty(saveName);
-			bSave.setEnabled(enabled && !lastRun);
 			bDelete.setEnabled(enabled && fSavedName.getSelectedIndex() > -1 && !lastRun);
 		}
 	}
 
+	/**
+	 * Save or Update Parameters 
+	 * @param saveName
+	 * @return 
+	 */
+	private String saveOrUpdateParameters(String saveName) {
+		String saveError = null;
+		boolean lastRun = ("** " + Msg.getMsg(Env.getCtx(), "LastRun") + " **").equals(saveName);
+		if(fSavedName != null && !lastRun) {
+			if (fSavedName.getSelectedIndex() > -1) {
+				saveError = updateInstance(saveName);
+				if(saveError != null) {
+					FDialog.error(getWindowNo(), getPanel(), "Error", saveError);
+				}
+			} else {
+				saveError = saveParameters(saveName);
+				if(saveError != null) {
+					FDialog.error(getWindowNo(), getPanel(), "Error", saveError);
+				}
+			}
+		} else {
+			saveError = saveParameters();
+		}
+			
+		return saveError;
+	}
+	
 	@Override
 	public void afterInit() {
 		//	BR [ 265 ]
@@ -615,14 +633,20 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 			loadQuerySaved();
 		} else if(parent.getParentProcess() == null) {
 			process();
+			Events.postEvent("onClick", bOK, null);
 		}
+	}
+	
+	
+	public void process() {
+		process(null);
 	}
 	
 	/**
 	 * Save Parameters and process it
 	 */
-	public void process() {
-		if(saveParameters() == null) {
+	public void process(String saveName) {
+		if(saveOrUpdateParameters(saveName) == null) {
 			showBusyDialog();
 			Clients.response(new AuEcho((Component) parent.getParentContainer(), "runProcess", null));
 		}

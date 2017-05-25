@@ -67,7 +67,6 @@ import org.adempiere.pdf.Document;
 import org.compiere.apps.ADialog;
 import org.compiere.apps.AEnv;
 import org.compiere.apps.AMenu;
-import org.compiere.apps.ASearch;
 import org.compiere.apps.AWindow;
 import org.compiere.apps.AWindowListener;
 import org.compiere.apps.AppsAction;
@@ -82,6 +81,7 @@ import org.compiere.model.MArchive;
 import org.compiere.model.MClient;
 import org.compiere.model.MQuery;
 import org.compiere.model.MRole;
+import org.compiere.model.MSysConfig;
 import org.compiere.model.MUser;
 import org.compiere.model.PrintInfo;
 import org.compiere.model.X_C_Invoice;
@@ -132,7 +132,8 @@ import org.compiere.util.ValueNamePair;
  * 			@see https://github.com/adempiere/adempiere/issues/238
  * 		<li>BR [ 237 ] Same Print format but distinct report view
  * 			@see https://github.com/adempiere/adempiere/issues/237
- * 
+ *	@author Dixon Martinez, dmartinez@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li>BR [1019] New Icon to export report definition is show only swing but not ZK https://github.com/adempiere/adempiere/issues/1019
  */
 public class Viewer extends CFrame
 	implements ActionListener, ChangeListener, WindowStateListener
@@ -141,6 +142,9 @@ public class Viewer extends CFrame
 	 * 
 	 */
 	private static final long serialVersionUID = 7306392362119021781L;
+	private static final String PDF = "P";
+	private static final String XLS = "X";
+	private static final String HTML = "H";
 
 	/**
 	 * 	@deprecated
@@ -171,15 +175,67 @@ public class Viewer extends CFrame
 			this.dispose();
 		}
 		m_isCanExport = MRole.getDefault().isCanExport(m_AD_Table_ID);
+		//	BR [1019]
+		m_IsCanLoad = MRole.getDefault().isCanLoad(m_AD_Table_ID);
+		m_isAllowHTMLView =  MRole.getDefault().isAllow_HTML_View();
+		m_isAllowXLSView =  MRole.getDefault().isAllow_XLS_View();
 		try
 		{
 			m_viewPanel = re.getView();
 			m_ctx = m_reportEngine.getCtx();
+			String type = m_reportEngine.getReportType();
+			if (type == null) {
+				type = m_reportEngine.getPrintFormat().isForm()
+						? MSysConfig.getValue("ZK_REPORT_FORM_OUTPUT_TYPE")
+						: MSysConfig.getValue("ZK_REPORT_TABLE_OUTPUT_TYPE");
+				if (type != null && XLS.equals(type))
+					type = XLS;
+				if (type != null && PDF.equals(type))
+					type = PDF;
+			}
+
+			if (HTML.equals(type)  && !m_isAllowHTMLView) {
+				type = PDF;
+			}
+			if ((XLS.equals(type)  && !m_isAllowXLSView) || ("XX".equals(type)  && !m_isAllowXLSView)) {
+				type = PDF;
+			}
+
+			if (XLS.equals(type) || HTML.equals(type)) {
+				try {
+					String extension = "pdf";
+					if (XLS.equals(type))
+						extension = "xls";
+					if (HTML.equals(type))
+						extension = "html";
+
+					File outFile = new File("./"  + m_reportEngine.getPrintFormat().getName() + "_" +  System.currentTimeMillis() + "." + extension);
+					outFile.createNewFile();
+					if (XLS.equals(type))
+						m_reportEngine.createXLS(outFile, m_reportEngine.getPrintFormat().getLanguage());
+					if (HTML.equals(type))
+						m_reportEngine.createHTML(outFile, false, m_reportEngine.getPrintFormat().getLanguage());
+					this.dispose();
+					return;
+				}
+				catch (Exception e)
+				{
+					ADialog.error(m_WindowNo, this, "Error", e.getLocalizedMessage());
+					if (CLogMgt.isLevelFinest())
+						e.printStackTrace();
+
+					this.dispose();
+					return;
+				}
+			}
+
 			jbInit();
 			dynInit();
 			if (!m_viewPanel.isArchivable())
 				log.warning("Cannot archive Document");
 			AEnv.showCenterScreen(this);
+
+
 		}
 		catch(Exception e)
 		{
@@ -208,9 +264,12 @@ public class Viewer extends CFrame
 	/** Table ID					*/
 	private int					m_AD_Table_ID = 0;
 	private boolean				m_isCanExport;
-	
-	private boolean hasSystemRole = true;
-	
+	//	BR [1019]
+	/**	Is Can Load							*/
+	private boolean 			m_IsCanLoad = false;
+	private boolean 			m_isAllowHTMLView = false;
+	private boolean 			m_isAllowXLSView= false;
+
 	private MQuery 		m_ddQ = null;
 	private MQuery 		m_daQ = null;
 	private CMenuItem 	m_ddM = null;
@@ -260,7 +319,8 @@ public class Viewer extends CFrame
 		//
 		northPanel.setLayout(northLayout);
 		this.getContentPane().add(northPanel, BorderLayout.NORTH);
-		northPanel.add(toolBar,  BorderLayout.EAST);
+		//	BR [1019]
+		northPanel.add(toolBar,  BorderLayout.WEST);
 		this.getContentPane().add(centerScrollPane, BorderLayout.CENTER);
 		centerScrollPane.getViewport().add(m_viewPanel, null);
 		// pb add: set scrolling with scrollbar buttons to move by 20 pixels
@@ -334,14 +394,15 @@ public class Viewer extends CFrame
 			bExport.setToolTipText(Msg.getMsg(m_ctx, "Export"));
 			toolBar.add(bExport);
 		}
+		//	BR [1019]
+		if (m_IsCanLoad) {
+			bLoad.setToolTipText("Load New Report Definition");
+			toolBar.add(bLoad);
+		}
 		// 	End
 		toolBar.addSeparator();
 		toolBar.add(bEnd, null);
 		bEnd.setToolTipText(Msg.getMsg(m_ctx, "End"));
-		if (hasSystemRole) {
-			bLoad.setToolTipText("Load New Report Definition");
-			toolBar.add(bLoad);
-		}
 	}	//	jbInit
 
 	/**
@@ -614,6 +675,10 @@ public class Viewer extends CFrame
 		AEnv.addMenuItem("Print", null, KeyStroke.getKeyStroke(KeyEvent.VK_P, Event.CTRL_MASK), mFile, this);
 		if (m_isCanExport)
 			AEnv.addMenuItem("Export", null, null, mFile, this);
+		//	BR [1019]
+		if(m_IsCanLoad) {
+			AEnv.addMenuItem("Load", "Import", null, mFile, this);
+		}
 		mFile.addSeparator();
 		AEnv.addMenuItem("End", null, KeyStroke.getKeyStroke(KeyEvent.VK_X, Event.ALT_MASK), mFile, this);
 		AEnv.addMenuItem("Logout", null, KeyStroke.getKeyStroke(KeyEvent.VK_L, Event.SHIFT_MASK+Event.ALT_MASK), mFile, this);
@@ -727,8 +792,8 @@ public class Viewer extends CFrame
 		setButton(bCustomize, "PrintCustomize", "Preference");
 		//
 		setButton(bEnd, "End", "End");
-		
-		if (hasSystemRole)
+		//	BR [1019]
+		if (m_IsCanLoad)
 			setButton(bLoad, "Load", "Import");
 	}   //  createMenu
 
@@ -1089,7 +1154,8 @@ public class Viewer extends CFrame
 		chooser.addChoosableFileFilter(new ExtensionFileFilter("csv", Msg.getMsg(m_ctx, "FileCSV")));
 		chooser.addChoosableFileFilter(new ExtensionFileFilter("xls", Msg.getMsg(m_ctx, "FileXLS")));
 		chooser.addChoosableFileFilter(new ExtensionFileFilter("xlsx", Msg.getMsg(m_ctx, "FileXLSX")));
-		if (hasSystemRole) {
+		//	BR [1019]
+		if (m_IsCanLoad) {
 			chooser.addChoosableFileFilter(new ExtensionFileFilter( "arxml", "arxml" + " - Adempiere Report Definition"));
 		}
 		//

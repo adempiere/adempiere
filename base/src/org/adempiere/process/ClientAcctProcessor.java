@@ -240,7 +240,7 @@ public class ClientAcctProcessor extends SvrProcess
 							}
 							catch (Exception e)
 							{
-								log.log(Level.SEVERE, getName() + ": " + TableName, e);
+								log.log(Level.SEVERE, getName() + ": " + TableName, e);	
 								ok = false;
 							}
 							finally
@@ -354,24 +354,27 @@ public class ClientAcctProcessor extends SvrProcess
 
 	private String getColumnNameDateAcct(int AD_Table_ID)
 	{
-		if (AD_Table_ID == 392)
+		if (AD_Table_ID == MBankStatement.Table_ID)
 			return MBankStatement.COLUMNNAME_StatementDate;
-		if (AD_Table_ID == 623)
+		if (AD_Table_ID == MProjectIssue.Table_ID)
 			return MProjectIssue.COLUMNNAME_MovementDate;
-		if (AD_Table_ID == 321)
+		if (AD_Table_ID == MInventory.Table_ID)
 			return MInventory.COLUMNNAME_MovementDate;
-		if (AD_Table_ID == 323)
+		if (AD_Table_ID == MMovement.Table_ID)
 			return MMovement.COLUMNNAME_MovementDate;
-		if (AD_Table_ID == 325)
+		if (AD_Table_ID == MProduct.Table_ID)
 			return MProduction.COLUMNNAME_MovementDate;
-		if (AD_Table_ID == 702)
+		if (AD_Table_ID == MRequisition.Table_ID)
 			return MRequisition.COLUMNNAME_DateDoc;
-		if (AD_Table_ID == 53027)
+		if (AD_Table_ID == MPPOrder.Table_ID)
 			return MPPOrder.COLUMNNAME_DateOrdered;
-		if (AD_Table_ID == 53037)
+		if (AD_Table_ID == MDDOrder.Table_ID)
 			return MDDOrder.COLUMNNAME_DateOrdered;
-		
-		
+		if (AD_Table_ID == MProduction.Table_ID)
+			return MProductionBatch.COLUMNNAME_MovementDate;
+		if (AD_Table_ID == MProductionBatch.Table_ID)
+			return MProduction.COLUMNNAME_MovementDate;
+
 		return MInvoice.COLUMNNAME_DateAcct;
 	}
 

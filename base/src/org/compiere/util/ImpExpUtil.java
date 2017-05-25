@@ -29,7 +29,7 @@ public class ImpExpUtil {
 	
 	private static CLogger log = CLogger.getCLogger(ImpExpUtil.class);
 
-	public static void exportPrintFormat(File file, ReportEngine reportEngine)
+	public static File exportPrintFormat(File file, ReportEngine reportEngine)
 	{
 		int AD_PrintFormat_ID = reportEngine.getPrintFormat().get_ID();
 		String trxName = Trx.createTrxName();
@@ -73,6 +73,7 @@ public class ImpExpUtil {
 		Env.getCtx().remove("TrxName");
 		Trx x = Trx.get(trxName, false);
 		x.close();
+		return file;
 		
 	}
 	

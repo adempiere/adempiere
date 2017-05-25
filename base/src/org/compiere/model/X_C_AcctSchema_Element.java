@@ -405,6 +405,10 @@ public class X_C_AcctSchema_Element extends PO implements I_C_AcctSchema_Element
 	public static final String ELEMENTTYPE_UserList1 = "U1";
 	/** User List 2 = U2 */
 	public static final String ELEMENTTYPE_UserList2 = "U2";
+	/** User List 1 = U1 */
+	public static final String ELEMENTTYPE_UserList3 = "U3";
+	/** User List 2 = U2 */
+	public static final String ELEMENTTYPE_UserList4 = "U4";
 	/** Activity = AY */
 	public static final String ELEMENTTYPE_Activity = "AY";
 	/** Sub Account = SA */
@@ -413,10 +417,6 @@ public class X_C_AcctSchema_Element extends PO implements I_C_AcctSchema_Element
 	public static final String ELEMENTTYPE_UserElement1 = "X1";
 	/** User Element 2 = X2 */
 	public static final String ELEMENTTYPE_UserElement2 = "X2";
-	/** User List 3 = U3 */
-	public static final String ELEMENTTYPE_UserList3 = "U3";
-	/** User List 4 = U4 */
-	public static final String ELEMENTTYPE_UserList4 = "U4";
 	/** Set Type.
 		@param ElementType 
 		Element Type (account or user defined)

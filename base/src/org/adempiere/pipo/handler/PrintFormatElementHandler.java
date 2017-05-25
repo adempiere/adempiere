@@ -42,6 +42,10 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 
+/**
+ *	@author Dixon Martinez, dmartinez@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li>BR [1019] New Icon to export report definition is show only swing but not ZK https://github.com/adempiere/adempiere/issues/1019
+ */
 public class PrintFormatElementHandler extends AbstractElementHandler {
 
 	private PrintFormatItemElementHandler itemHandler = new PrintFormatItemElementHandler();
@@ -185,6 +189,11 @@ public class PrintFormatElementHandler extends AbstractElementHandler {
 			throws SAXException {
 		int AD_PrintFormat_ID = Env.getContextAsInt(ctx, X_AD_Package_Exp_Detail.COLUMNNAME_AD_PrintFormat_ID);
 		PackOut packOut = (PackOut) ctx.get("PackOutProcess");
+		//	BR [1019]
+		if(packOut == null ) {
+			packOut = new PackOut();
+			packOut.setLocalContext(ctx);
+		}
 		
 		if (formats.contains(AD_PrintFormat_ID))
 			return;

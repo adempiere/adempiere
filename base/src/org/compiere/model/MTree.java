@@ -54,65 +54,63 @@ public class MTree extends MTree_Base
 	private static final long serialVersionUID = -6412057411585787707L;
 
 	/** Is Tree editable    	*/
-	private boolean     		m_editable = false;
+	private boolean 	isTreeEditable = false;
 
 	/** Root Node                   */
-	private MTreeNode           m_root = null;
+	private MTreeNode 	treeNode = null;
 
 	/** Buffer while loading tree   */
-	private ArrayList<MTreeNode> m_buffer = new ArrayList<MTreeNode>();
+	private ArrayList<MTreeNode> treeNodes = new ArrayList<>();
 
 	/** Prepared Statement for Node Details */
-	private RowSet			   	m_nodeRowSet;
+	private RowSet 		nodeRowSet;
 
 	/** The tree is displayed on the Java Client (i.e. not web)	*/
-	private boolean				m_clientTree = true;
+	private boolean 	clientTree = true;
 	
-	private HashMap<Integer, ArrayList<Integer>> m_nodeIdMap;
+	private HashMap<Integer, ArrayList<Integer>> nodeIdMap;
 
 	/**	Logger			*/
-	private static CLogger s_log = CLogger.getCLogger(MTree.class);
+	private static CLogger logger = CLogger.getCLogger(MTree.class);
 
 
 	/**
 	 *  Default Constructor.
 	 * 	Need to call loadNodes explicitly
 	 * 	@param ctx context for security
-	 *  @param AD_Tree_ID   The tree to build
+	 *  @param treeId   The tree to build
 	 *  @param trxName transaction
 	 */
-	public MTree (Properties ctx, int AD_Tree_ID, String trxName)
+	public MTree (Properties ctx, int treeId, String trxName)
 	{
-		super (ctx, AD_Tree_ID, trxName);
+		super (ctx, treeId, trxName);
 	}   //  MTree
 
 	/**
 	 *  Construct & Load Tree
-	 *  @param AD_Tree_ID   The tree to build
+	 *  @param treeId   The tree to build
 	 *  @param editable     True, if tree can be modified
 	 *  - includes inactive and empty summary nodes
 	 * 	@param ctx context for security
 	 *	@param clientTree the tree is displayed on the java client (not on web)
 	 *  @param trxName transaction
 	 */
-	public MTree (Properties ctx, int AD_Tree_ID, 
-		boolean editable, boolean clientTree, String trxName)
+	public MTree (Properties ctx, int treeId, boolean editable, boolean clientTree, String trxName)
 	{
-		this (ctx, AD_Tree_ID, editable, clientTree, false, trxName);
+		this (ctx, treeId, editable, clientTree, false, trxName);
 	}   //  MTree
 
-	public MTree (Properties ctx, int AD_Tree_ID, 
-			boolean editable, boolean clientTree, boolean allNodes, String trxName)
+	public MTree (Properties ctx, int treeId, boolean editable, boolean clientTree, boolean allNodes, String trxName)
 	{
-		this (ctx, AD_Tree_ID, trxName);
-		m_editable = editable;
+		this (ctx, treeId, trxName);
+		isTreeEditable = editable;
 		int AD_User_ID;
 		if (allNodes)
 			AD_User_ID = -1;
 		else
 			AD_User_ID = Env.getContextAsInt(ctx, "AD_User_ID");
-		m_clientTree = clientTree;
-		log.info("AD_Tree_ID=" + AD_Tree_ID
+		this.clientTree = clientTree;
+		log.info("AD_Tree_ID=" + treeId
 				+ ", AD_User_ID=" + AD_User_ID 
 				+ ", Editable=" + editable
 				+ ", OnClient=" + clientTree);
@@ -124,81 +122,64 @@ public class MTree extends MTree_Base
 	 *  Get default (oldest) complete AD_Tree_ID for KeyColumn.
 	 *  Called from GridController
 	 *  @param keyColumnName key column name, eg. C_Project_ID
-	 *  @param AD_Client_ID client
+	 *  @param clientId client
 	 *  @return AD_Tree_ID
 	 */
-	public static int getDefaultAD_Tree_ID (int AD_Client_ID, String keyColumnName)
+	public static int getDefaultAD_Tree_ID (int clientId, String keyColumnName)
 	{
-		s_log.config(keyColumnName);
+		logger.config(keyColumnName);
 		if (keyColumnName == null || keyColumnName.length() == 0)
 			return 0;
 
-		String TreeType = null;
+		String treeType = null;
 		if (keyColumnName.equals("AD_Menu_ID"))
-			TreeType = TREETYPE_Menu; 
+			treeType = TREETYPE_Menu;
 		else if (keyColumnName.equals("C_ElementValue_ID"))
-			TreeType = TREETYPE_ElementValue;
+			treeType = TREETYPE_ElementValue;
 		else if (keyColumnName.equals("M_Product_ID"))
-			TreeType = TREETYPE_Product;
+			treeType = TREETYPE_Product;
 		else if (keyColumnName.equals("C_BPartner_ID"))
-			TreeType = TREETYPE_BPartner;
+			treeType = TREETYPE_BPartner;
 		else if (keyColumnName.equals("AD_Org_ID"))
-			TreeType = TREETYPE_Organization;
+			treeType = TREETYPE_Organization;
 		else if (keyColumnName.equals("C_Project_ID"))
-			TreeType = TREETYPE_Project;
+			treeType = TREETYPE_Project;
 		else if (keyColumnName.equals("M_ProductCategory_ID"))
-			TreeType = TREETYPE_ProductCategory;
+			treeType = TREETYPE_ProductCategory;
 		else if (keyColumnName.equals("M_BOM_ID"))
-			TreeType = TREETYPE_BoM;
+			treeType = TREETYPE_BoM;
 		else if (keyColumnName.equals("C_SalesRegion_ID"))
-			TreeType = TREETYPE_SalesRegion;
+			treeType = TREETYPE_SalesRegion;
 		else if (keyColumnName.equals("C_Campaign_ID"))
-			TreeType = TREETYPE_Campaign;
+			treeType = TREETYPE_Campaign;
 		else if (keyColumnName.equals("C_Activity_ID"))
-			TreeType = TREETYPE_Activity;
-		//
+			treeType = TREETYPE_Activity;
 		else if (keyColumnName.equals("CM_CStage_ID"))
-			TreeType = TREETYPE_CMContainerStage;
+			treeType = TREETYPE_CMContainerStage;
 		else if (keyColumnName.equals("CM_Container_ID"))
-			TreeType = TREETYPE_CMContainer;
+			treeType = TREETYPE_CMContainer;
 		else if (keyColumnName.equals("CM_Media_ID"))
-			TreeType = TREETYPE_CMMedia;
+			treeType = TREETYPE_CMMedia;
 		else if (keyColumnName.equals("CM_Template_ID"))
-			TreeType = TREETYPE_CMTemplate;
+			treeType = TREETYPE_CMTemplate;
 		else {
-			s_log.log(Level.SEVERE, "Could not map " + keyColumnName);
+			logger.log(Level.SEVERE, "Could not map " + keyColumnName);
 			return 0;
 		}
-
-		int AD_Tree_ID = 0;
 		String sql = "SELECT AD_Tree_ID, Name FROM AD_Tree "
 			+ "WHERE AD_Client_ID=? AND TreeType=? AND IsActive='Y' AND IsAllNodes='Y' "
 			+ "ORDER BY IsDefault DESC, AD_Tree_ID";
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try {
-			pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, AD_Client_ID);
-			pstmt.setString(2, TreeType);
-			rs = pstmt.executeQuery();
-			if (rs.next())
-				AD_Tree_ID = rs.getInt(1);
-		} catch (SQLException e) {
-			s_log.log(Level.SEVERE, sql, e);
-		} finally {
-			DB.close(rs, pstmt);
-		}
-
-		return AD_Tree_ID;
+		int treeId = DB.getSQLValueEx(null ,sql , clientId , treeType);
+		return treeId;
 	}   //  getDefaultAD_Tree_ID
 
 
 
 	/*************************************************************************
 	 *  Load Nodes and Bar
-	 * 	@param AD_User_ID user for tree bar
+	 * 	@param userId user for tree bar
 	 */
-	private void loadNodes (int AD_User_ID)
+	private void loadNodes (int userId)
 	{
 		//  SQL for TreeNodes
 		StringBuffer sql = new StringBuffer("SELECT "
@@ -206,10 +187,10 @@ public class MTree extends MTree_Base
 			+ "FROM ").append(getNodeTableName()).append(" tn"
 			+ " LEFT OUTER JOIN AD_TreeBar tb ON (tn.AD_Tree_ID=tb.AD_Tree_ID"
 			+ " AND tn.Node_ID=tb.Node_ID "
-			+ (AD_User_ID != -1 ? " AND tb.AD_User_ID=? ": "") 	//	#1 (conditional)
+			+ (userId != -1 ? " AND tb.AD_User_ID=? ": "") 	//	#1 (conditional)
 			+ ") "
 			+ "WHERE tn.AD_Tree_ID=?");								//	#2
-		if (!m_editable)
+		if (!isTreeEditable)
 			sql.append(" AND tn.IsActive='Y'");
 		sql.append(" ORDER BY COALESCE(tn.Parent_ID, -1), tn.SeqNo");
 		log.finest(sql.toString());
@@ -222,12 +203,12 @@ public class MTree extends MTree_Base
 			//
 			PreparedStatement pstmt = DB.prepareStatement(sql.toString(), get_TrxName());
 			int idx = 1;
-			if (AD_User_ID != -1)
-				pstmt.setInt(idx++, AD_User_ID);
+			if (userId != -1)
+				pstmt.setInt(idx++, userId);
 			pstmt.setInt(idx++, getAD_Tree_ID());
 			//	Get Tree & Bar
 			ResultSet rs = pstmt.executeQuery();
-			m_root = new MTreeNode (0, 0, getName(), getDescription(), 0, true, null, false, null);
+			treeNode = new MTreeNode (0, 0, getName(), getDescription(), 0, true, null, false, null);
 			while (rs.next())
 			{
 				int node_ID = rs.getInt(1);
@@ -244,92 +225,92 @@ public class MTree extends MTree_Base
 			pstmt.close();
 			//
 			//closing the rowset will also close connection for oracle rowset implementation
-			//m_nodeRowSet.close();
-			m_nodeRowSet = null;
-			m_nodeIdMap = null;
+			//nodeRowSet.close();
+			nodeRowSet = null;
+			nodeIdMap = null;
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql.toString(), e);
-			m_nodeRowSet = null;
-			m_nodeIdMap = null;
+			nodeRowSet = null;
+			nodeIdMap = null;
 		}
 			
 		//  Done with loading - add remainder from buffer
-		if (m_buffer.size() != 0)
+		if (treeNodes.size() != 0)
 		{
-			log.finest("clearing buffer - Adding to: " + m_root);
-			for (int i = 0; i < m_buffer.size(); i++)
+			log.finest("clearing buffer - Adding to: " + treeNode);
+			for (int i = 0; i < treeNodes.size(); i++)
 			{
-				MTreeNode node = (MTreeNode)m_buffer.get(i);
-				MTreeNode parent = m_root.findNode(node.getParent_ID());
+				MTreeNode node = (MTreeNode) treeNodes.get(i);
+				MTreeNode parent = treeNode.findNode(node.getParent_ID());
 				if (parent != null && parent.getAllowsChildren())
 				{
 					parent.add(node);
-					int sizeBeforeCheckBuffer = m_buffer.size();
+					int sizeBeforeCheckBuffer = treeNodes.size();
 					checkBuffer(node);
-					if (sizeBeforeCheckBuffer == m_buffer.size())
-						m_buffer.remove(i);
+					if (sizeBeforeCheckBuffer == treeNodes.size())
+						treeNodes.remove(i);
 					i = -1;		//	start again with i=0
 				}
 			}
 		}
 
 		//	Nodes w/o parent
-		if (m_buffer.size() != 0)
+		if (treeNodes.size() != 0)
 		{
-			log.severe ("Nodes w/o parent - adding to root - " + m_buffer);
-			for (int i = 0; i < m_buffer.size(); i++)
+			log.severe ("Nodes w/o parent - adding to root - " + treeNodes);
+			for (int i = 0; i < treeNodes.size(); i++)
 			{
-				MTreeNode node = (MTreeNode)m_buffer.get(i);
-				m_root.add(node);
-				int sizeBeforeCheckBuffer = m_buffer.size();
+				MTreeNode node = (MTreeNode) treeNodes.get(i);
+				treeNode.add(node);
+				int sizeBeforeCheckBuffer = treeNodes.size();
 				checkBuffer(node);
-				if (sizeBeforeCheckBuffer == m_buffer.size())
-					m_buffer.remove(i);
+				if (sizeBeforeCheckBuffer == treeNodes.size())
+					treeNodes.remove(i);
 				i = -1;
 			}
-			if (m_buffer.size() != 0)
-				log.severe ("Still nodes in Buffer - " + m_buffer);
+			if (treeNodes.size() != 0)
+				log.severe ("Still nodes in Buffer - " + treeNodes);
 		}	//	nodes w/o parents
 
 		//  clean up
-		if (!m_editable && m_root.getChildCount() > 0)
+		if (!isTreeEditable && treeNode.getChildCount() > 0)
 			trimTree();
 //		diagPrintTree();
-		if (CLogMgt.isLevelFinest() || m_root.getChildCount() == 0)
-			log.fine("ChildCount=" + m_root.getChildCount());
+		if (CLogMgt.isLevelFinest() || treeNode.getChildCount() == 0)
+			log.fine("ChildCount=" + treeNode.getChildCount());
 	}   //  loadNodes
 
 	/**
 	 *  Add Node to Tree.
 	 *  If not found add to buffer
-	 *  @param node_ID Node_ID
-	 *  @param parent_ID Parent_ID
+	 *  @param nodeId Node_ID
+	 *  @param parentId Parent_ID
 	 *  @param seqNo SeqNo
 	 *  @param onBar on bar
 	 */
-	private void addToTree (int node_ID, int parent_ID, int seqNo, boolean onBar)
+	private void addToTree (int nodeId, int parentId, int seqNo, boolean onBar)
 	{
 		//  Create new Node
-		MTreeNode child = getNodeDetail (node_ID, parent_ID, seqNo, onBar);
+		MTreeNode child = getNodeDetail (nodeId, parentId, seqNo, onBar);
 		if (child == null)
 			return;
 
 		//  Add to Tree
 		MTreeNode parent = null;
-		if (m_root != null)
-			parent = m_root.findNode (parent_ID);
+		if (treeNode != null)
+			parent = treeNode.findNode (parentId);
 		//  Parent found
 		if (parent != null && parent.getAllowsChildren())
 		{
 			parent.add(child);
 			//  see if we can add nodes from buffer
-			if (m_buffer.size() > 0)
+			if (treeNodes.size() > 0)
 				checkBuffer(child);
 		}
 		else
-			m_buffer.add(child);
+			treeNodes.add(child);
 	}   //  addToTree
 
 	/**
@@ -342,9 +323,9 @@ public class MTree extends MTree_Base
 		if (!newNode.isSummary() || !newNode.getAllowsChildren())
 			return;
 		//
-		for (int i = 0; i < m_buffer.size(); i++)
+		for (int i = 0; i < treeNodes.size(); i++)
 		{
-			MTreeNode node = (MTreeNode)m_buffer.get(i);
+			MTreeNode node = (MTreeNode) treeNodes.get(i);
 			if (node.getParent_ID() == newNode.getNode_ID())
 			{
 				try
@@ -356,7 +337,7 @@ public class MTree extends MTree_Base
 					log.severe("Adding " + node.getName() 
 						+ " to " + newNode.getName() + ": " + e.getMessage());
 				}
-				m_buffer.remove(i);
+				treeNodes.remove(i);
 				i--;
 			}
 		}
@@ -366,7 +347,7 @@ public class MTree extends MTree_Base
 	
 	/**************************************************************************
 	 *  Get Node Detail.
-	 * 	Loads data into RowSet m_nodeRowSet
+	 * 	Loads data into RowSet nodeRowSet
 	 *  Columns:
 	 * 	- ID
 	 *  - Name
@@ -403,7 +384,7 @@ public class MTree extends MTree_Base
 			if (!base)
 				sqlNode.append(" WHERE m.AD_Menu_ID=t.AD_Menu_ID AND t.AD_Language='")
 					.append(Env.getAD_Language(p_ctx)).append("'");
-			if (!m_editable)
+			if (!isTreeEditable)
 			{
 				boolean hasWhere = sqlNode.indexOf(" WHERE ") != -1;
 				sqlNode.append(hasWhere ? " AND " : " WHERE ").append("m.IsActive='Y' ");
@@ -420,12 +401,12 @@ public class MTree extends MTree_Base
 					.append(" AND (m.AD_Browse_ID IS NULL OR EXISTS (SELECT * FROM AD_Browse b WHERE m.AD_Browse_ID=b.AD_Browse_ID AND b.IsBetaFunctionality='N'))");
 			}
 			//	In R/O Menu - Show only defined Forms
-			if (!m_editable)
+			if (!isTreeEditable)
 			{
 				boolean hasWhere = sqlNode.indexOf(" WHERE ") != -1;
 				sqlNode.append(hasWhere ? " AND " : " WHERE ");
 				sqlNode.append("(m.AD_Form_ID IS NULL OR EXISTS (SELECT * FROM AD_Form f WHERE m.AD_Form_ID=f.AD_Form_ID AND ");
-				if (m_clientTree)
+				if (clientTree)
 					sqlNode.append("f.Classname");
 				else
 					sqlNode.append("f.JSPURL");
@@ -444,27 +425,27 @@ public class MTree extends MTree_Base
 				sqlNode.append(", t.Value"); //@Trifon
 			}
 			sqlNode.append(" FROM ").append(fromClause);
-			if (!m_editable)
+			if (!isTreeEditable)
 				sqlNode.append(" WHERE t.IsActive='Y'");
 		}
 		String sql = sqlNode.toString();
-		if (!m_editable)	//	editable = menu/etc. window
+		if (!isTreeEditable)	//	editable = menu/etc. window
 			sql = MRole.getDefault(getCtx(), false).addAccessSQL(sql, 
-				sourceTable, MRole.SQL_FULLYQUALIFIED, m_editable);
+				sourceTable, MRole.SQL_FULLYQUALIFIED, isTreeEditable);
 		log.fine(sql);
-		m_nodeRowSet = DB.getRowSet (sql);
-		m_nodeIdMap = new HashMap<Integer, ArrayList<Integer>>(50);
+		nodeRowSet = DB.getRowSet (sql);
+		nodeIdMap = new HashMap<Integer, ArrayList<Integer>>(50);
 		try {
-			m_nodeRowSet.beforeFirst();
+			nodeRowSet.beforeFirst();
 			int i = 0;
-			while (m_nodeRowSet.next()) {
+			while (nodeRowSet.next()) {
 				i++;
-				int node = m_nodeRowSet.getInt(1);
+				int node = nodeRowSet.getInt(1);
 				Integer nodeId = Integer.valueOf(node);
-				ArrayList<Integer> list = m_nodeIdMap.get(nodeId);
+				ArrayList<Integer> list = nodeIdMap.get(nodeId);
 				if (list == null) {
 					list = new ArrayList<Integer>(5);
-					m_nodeIdMap.put(nodeId, list);
+					nodeIdMap.put(nodeId, list);
 				}
 				list.add(Integer.valueOf(i));
 			}
@@ -498,35 +479,35 @@ public class MTree extends MTree_Base
 		MTreeNode retValue = null;
 		try
 		{
-			//m_nodeRowSet.beforeFirst();
-			ArrayList<Integer> nodeList = m_nodeIdMap.get(Integer.valueOf(node_ID));
+			//nodeRowSet.beforeFirst();
+			ArrayList<Integer> nodeList = nodeIdMap.get(Integer.valueOf(node_ID));
 			int size = nodeList != null ? nodeList.size() : 0;
 			int i = 0;
-			//while (m_nodeRowSet.next())
+			//while (nodeRowSet.next())
 			while (i < size)
 			{
 				Integer nodeId = nodeList.get(i);
 				i++;
-				m_nodeRowSet.absolute(nodeId.intValue());
-				int node = m_nodeRowSet.getInt(1);				
+				nodeRowSet.absolute(nodeId.intValue());
+				int node = nodeRowSet.getInt(1);
 				if (node_ID != node)	//	search for correct one
 					continue;
 				//	ID, Name, Description, IsSummary, Action/Color, Value // @Trifon
 				int index = 2;				
-				String name = m_nodeRowSet.getString(index++); 
-				String description = m_nodeRowSet.getString(index++);
-				boolean isSummary = "Y".equals(m_nodeRowSet.getString(index++));
-				String actionColor = m_nodeRowSet.getString(index++);
+				String name = nodeRowSet.getString(index++);
+				String description = nodeRowSet.getString(index++);
+				boolean isSummary = "Y".equals(nodeRowSet.getString(index++));
+				String actionColor = nodeRowSet.getString(index++);
 				//	Menu only
 				if (getTreeType().equals(TREETYPE_Menu) && !isSummary)
 				{
-					int AD_Window_ID = m_nodeRowSet.getInt(index++);
-					int AD_Process_ID = m_nodeRowSet.getInt(index++);
-					int AD_Form_ID = m_nodeRowSet.getInt(index++);
-					int AD_Workflow_ID = m_nodeRowSet.getInt(index++);
-					int AD_Task_ID = m_nodeRowSet.getInt(index++);
-					int AD_Workbench_ID = m_nodeRowSet.getInt(index++);
-					int AD_Browse_ID = m_nodeRowSet.getInt(index++);
+					int AD_Window_ID = nodeRowSet.getInt(index++);
+					int AD_Process_ID = nodeRowSet.getInt(index++);
+					int AD_Form_ID = nodeRowSet.getInt(index++);
+					int AD_Workflow_ID = nodeRowSet.getInt(index++);
+					int AD_Task_ID = nodeRowSet.getInt(index++);
+					int AD_Workbench_ID = nodeRowSet.getInt(index++);
+					int AD_Browse_ID = nodeRowSet.getInt(index++);
 					//
 					MRole role = MRole.getDefault(getCtx(), false);
 					Boolean access = null;
@@ -548,7 +529,7 @@ public class MTree extends MTree_Base
 				//	log.fine("getNodeDetail - " + name + " - " + actionColor + " - " + access);
 					//
 					if (access != null		//	rw or ro for Role 
-						|| m_editable)		//	Menu Window can see all
+						|| isTreeEditable)		//	Menu Window can see all
 					{
 						retValue = new MTreeNode (node_ID, seqNo,
 							name, description, parent_ID, isSummary,
@@ -568,7 +549,7 @@ public class MTree extends MTree_Base
 					if ( getTreeType().equals(TREETYPE_ElementValue) ) {
 //					String sourceTableName = getSourceTableName(true); // Uncomment it if you want to see Value for all Tree types
 //					if ( containsValueColumn( sourceTableName ) ) { // Uncomment it if you want to see Value for all Tree types
-						String value = m_nodeRowSet.getString(index++);
+						String value = nodeRowSet.getString(index++);
 						name = value + " - " + name;
 					}// @Trifon-end
 					//
@@ -591,12 +572,12 @@ public class MTree extends MTree_Base
 	 */
 	public void trimTree()
 	{
-		boolean needsTrim = m_root != null;
+		boolean needsTrim = treeNode != null;
 		while (needsTrim)
 		{
 			needsTrim = false;
-			Enumeration<MTreeNode> en = m_root.preorderEnumeration();
-			while (m_root.getChildCount() > 0 && en.hasMoreElements())
+			Enumeration<MTreeNode> en = treeNode.preorderEnumeration();
+			while (treeNode.getChildCount() > 0 && en.hasMoreElements())
 			{
 				MTreeNode nd = (MTreeNode)en.nextElement();
 				if (nd.isSummary() && nd.getChildCount() == 0)
@@ -613,7 +594,7 @@ public class MTree extends MTree_Base
 	 */
 	private void dumpTree()
 	{
-		Enumeration en = m_root.preorderEnumeration();
+		Enumeration en = treeNode.preorderEnumeration();
 		int count = 0;
 		while (en.hasMoreElements())
 		{
@@ -636,7 +617,7 @@ public class MTree extends MTree_Base
 	 */
 	public MTreeNode getRoot()
 	{
-		return m_root;
+		return treeNode;
 	}   //  getRoot
 
 	/**

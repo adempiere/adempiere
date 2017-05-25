@@ -58,7 +58,7 @@ public class CommandManager {
             put(GENERATE_RETURN, commandReceiver);
 
             commandReceiver = new CommandReceiver(null, COMPLETE_DOCUMENT, "@smenu.complete.prepared.order@");
-            commands.put(GENERATE_RETURN , new CommandCompleteDocument(COMPLETE_DOCUMENT, commandReceiver.getEvent()));
+            commands.put(COMPLETE_DOCUMENT, new CommandCompleteDocument(COMPLETE_DOCUMENT, commandReceiver.getEvent()));
             put(GENERATE_RETURN, commandReceiver);
 
             commandReceiver = new CommandReceiver(null, GENERATE_WITHDRAWAL, GenerateWithdrawal.getProcessName());

@@ -2994,7 +2994,7 @@ Accounting Segments like Organization, Account, Product may have several hierarc
         <Data AD_Column_ID="4384" Column="AD_ReportView_ID">53214</Data>
         <Data AD_Column_ID="4386" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="4396" Column="OrderByClause" isNewNull="true"/>
-        <Data AD_Column_ID="4395" Column="WhereClause">posted &lt;&gt; 'Y' AND docstatus &lt;&gt; 'VO' AND IsSOTrx='Y'</Data>
+        <Data AD_Column_ID="4395" Column="WhereClause">C_Invoice.posted &lt;&gt; 'Y' AND C_Invoice.docstatus &lt;&gt; 'VO' AND C_Invoice.IsSOTrx='Y'</Data>
         <Data AD_Column_ID="4394" Column="AD_Table_ID">318</Data>
         <Data AD_Column_ID="4387" Column="IsActive">true</Data>
         <Data AD_Column_ID="10032" Column="EntityType">D</Data>
@@ -3011,7 +3011,7 @@ Accounting Segments like Organization, Account, Product may have several hierarc
       <Comments>Added Report Process for Unposted AR/AP Invoice respectively</Comments>
       <PO AD_Table_ID="361" Action="I" Record_ID="53215" Table="AD_ReportView">
         <Data AD_Column_ID="4396" Column="OrderByClause" isNewNull="true"/>
-        <Data AD_Column_ID="4395" Column="WhereClause">posted &lt;&gt; 'Y' AND docstatus &lt;&gt; 'VO' AND IsSOTrx='N'</Data>
+        <Data AD_Column_ID="4395" Column="WhereClause">C_Invoice.posted &lt;&gt; 'Y' AND C_Invoice.docstatus &lt;&gt; 'VO' AND C_Invoice.IsSOTrx='N'</Data>
         <Data AD_Column_ID="4394" Column="AD_Table_ID">318</Data>
         <Data AD_Column_ID="4387" Column="IsActive">true</Data>
         <Data AD_Column_ID="10032" Column="EntityType">D</Data>

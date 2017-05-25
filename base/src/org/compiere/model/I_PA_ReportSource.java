@@ -469,6 +469,32 @@ public interface I_PA_ReportSource
 	  */
 	public boolean isIncludeNullsUserList2();
 
+    /** Column name ListSources */
+    public static final String COLUMNNAME_ListSources = "ListSources";
+
+	/** Set List Sources.
+	  * List Report Line Sources
+	  */
+	public void setListSources (boolean ListSources);
+
+	/** Get List Sources.
+	  * List Report Line Sources
+	  */
+	public boolean isListSources();
+
+    /** Column name ListTrx */
+    public static final String COLUMNNAME_ListTrx = "ListTrx";
+
+	/** Set List Transactions.
+	  * List the report transactions
+	  */
+	public void setListTrx (boolean ListTrx);
+
+	/** Get List Transactions.
+	  * List the report transactions
+	  */
+	public boolean isListTrx();
+
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 

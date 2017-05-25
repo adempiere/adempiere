@@ -5,12 +5,12 @@
     xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
     version="2.0">
     
-	<display-name>Adempiere WebStore</display-name>
-	<description>$Id: webStore.tld,v 1.1 2006/04/21 18:07:57 jjanke Exp $</description>
+	<display-name>ADempiere WebStore JSP Tag library</display-name>
+	<description>ADempiere WebStore JSP Tag library</description>
 	<tlib-version>1.1</tlib-version>
 	<short-name>cws</short-name>
 	<uri>webStore.tld</uri>
-	
+
 	<tag>
 		<name>requestType</name>
 		<tag-class>org.compiere.wstore.RequestTypeTag</tag-class>

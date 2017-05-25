@@ -18,6 +18,9 @@ package org.adempiere.webui.window;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.StringWriter;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -57,9 +60,11 @@ import org.compiere.process.ProcessInfo;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.compiere.util.ImpExpUtil;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 import org.zkoss.util.media.AMedia;
+import org.zkoss.util.media.Media;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
@@ -70,6 +75,7 @@ import org.zkoss.zkex.zul.Center;
 import org.zkoss.zkex.zul.North;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Filedownload;
+import org.zkoss.zul.Fileupload;
 import org.zkoss.zul.Hbox;
 import org.zkoss.zul.Iframe;
 import org.zkoss.zul.Listitem;
@@ -103,6 +109,8 @@ import org.zkoss.zul.Vbox;
  * 			@see https://github.com/adempiere/adempiere/issues/237
  * 		<li>BR [ 237 ] Same Print format but distinct report view
  * 			@see https://github.com/adempiere/adempiere/issues/237
+ *	@author Dixon Martinez, dmartinez@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li>BR [1019] New Icon to export report definition is show only swing but not ZK https://github.com/adempiere/adempiere/issues/1019
  */
 public class ZkReportViewer extends Window implements EventListener {
 	
@@ -151,6 +159,11 @@ public class ZkReportViewer extends Window implements EventListener {
 	private Checkbox summary = new Checkbox();
 	//	FR [ 237 ]
 	private Listbox comboReportView = new Listbox();
+	//	BR [1019]
+	/**	Is Can Load							*/
+	private boolean		m_IsCanLoad 		= false;
+	/**	Load Toll Bar Button				*/
+	private Toolbarbutton 	bLoad 			= new Toolbarbutton();
 	
 	/**
 	 * 	Static Layout
@@ -170,6 +183,8 @@ public class ZkReportViewer extends Window implements EventListener {
 			this.onClose();
 		}
 		m_isCanExport = MRole.getDefault().isCanExport(m_AD_Table_ID);
+		//	BR [1019]
+		m_IsCanLoad = MRole.getDefault().isCanLoad(m_AD_Table_ID);
 		MRole roleCurrent = MRole.get(Env.getCtx(), Env.getAD_Role_ID(Env.getCtx()));
 		m_isAllowHTMLView = roleCurrent.isAllow_HTML_View();	
 		m_isAllowXLSView = roleCurrent.isAllow_XLS_View();			
@@ -212,17 +227,30 @@ public class ZkReportViewer extends Window implements EventListener {
 		toolBar.appendChild(new Separator("vertical"));
 		
 		//set default type
-		String type = m_reportEngine.getPrintFormat().isForm()
-				? MSysConfig.getValue("ZK_REPORT_FORM_OUTPUT_TYPE")
-				: MSysConfig.getValue("ZK_REPORT_TABLE_OUTPUT_TYPE");
+		String type = m_reportEngine.getReportType();
+		if (type == null) {
+			type = m_reportEngine.getPrintFormat().isForm()
+					? MSysConfig.getValue("ZK_REPORT_FORM_OUTPUT_TYPE", Env.getAD_Client_ID(Env.getCtx()))
+					: MSysConfig.getValue("ZK_REPORT_TABLE_OUTPUT_TYPE" , Env.getAD_Client_ID(Env.getCtx()));
+		}
 
-		if ("HTML".equals(type)  && !m_isAllowHTMLView) {
+		if ("H".equals(type)  && !m_isAllowHTMLView) {
 			type = "PDF";
 		}
-		if (("XLS".equals(type)  && !m_isAllowXLSView) ||
-			("XLSX".equals(type)  && !m_isAllowXLSView)) {
+
+		if (("X".equals(type)  && !m_isAllowXLSView) || ("XX".equals(type)  && !m_isAllowXLSView)) {
 			type = "PDF";
 		}
+
+		if ("H".equals(type))
+			type = "HTML";
+		if ("X".equals(type))
+			type = "XLS";
+		if ("XX".equals(type))
+			type = "XLSX";
+		if ("P".equals(type))
+			type = "PDF";
+
 		if ("PDF".equals(type))
 			previewType.setSelectedIndex(0);
 		else if ("HTML".equals(type))
@@ -235,7 +263,7 @@ public class ZkReportViewer extends Window implements EventListener {
 			// XXX - provide hint if unexpected value
 			previewType.setSelectedIndex(0); //fallback to PDF
 			
-		if(m_reportEngine.getReportType()!=null)
+		if(m_reportEngine.getReportType() != null)
 		{
 			if(m_reportEngine.getReportType().equals("P"))
 			{
@@ -305,6 +333,14 @@ public class ZkReportViewer extends Window implements EventListener {
 			bExport.setTooltiptext(Msg.getMsg(Env.getCtx(), "Export"));
 			toolBar.appendChild(bExport);
 			bExport.addEventListener(Events.ON_CLICK, this);
+		}
+		
+		//	BR [1019]
+		if (m_IsCanLoad) {
+			bLoad.setImage("/images/Import24.png");
+			bLoad.setTooltiptext(Msg.getMsg(Env.getCtx(), "Load New Report Definition"));
+			toolBar.appendChild(bLoad);
+			bLoad.addEventListener(Events.ON_CLICK, this);
 		}
 		
 		toolBar.appendChild(new Separator("vertical"));
@@ -704,6 +740,10 @@ public class ZkReportViewer extends Window implements EventListener {
 			cmd_find();
 		else if (e.getTarget() == bExport)
 			cmd_export();
+		//	BR [1019]
+		else if (e.getTarget() == bLoad){
+			cmd_load();
+		}
 		else if (e.getTarget() == previewType)
 			cmd_render();
 		else if (e.getTarget() == bSendMail)
@@ -836,6 +876,10 @@ public class ZkReportViewer extends Window implements EventListener {
 			cboType.appendItem("ssv" + " - " + Msg.getMsg(Env.getCtx(), "FileSSV"), "ssv");
 			cboType.appendItem("csv" + " - " + Msg.getMsg(Env.getCtx(), "FileCSV"), "csv");
 			cboType.appendItem("xls" + " - " + Msg.getMsg(Env.getCtx(), "FileXLS"), "xls");
+			//	BR [1019]
+			if (m_IsCanLoad) {
+				cboType.appendItem("arxml" + " - " + Msg.getMsg(Env.getCtx(), "Adempiere Report Definition"), "arxml");
+			}
 			cboType.setSelectedItem(li);
 			
 			Hbox hb = new Hbox();
@@ -845,7 +889,6 @@ public class ZkReportViewer extends Window implements EventListener {
 			hb.appendChild(div);
 			hb.appendChild(cboType);
 			cboType.setWidth("100%");
-
 			Vbox vb = new Vbox();
 			vb.setWidth("390px");
 			winExportFile.appendChild(vb);
@@ -858,6 +901,67 @@ public class ZkReportViewer extends Window implements EventListener {
 		
 	}	//	cmd_export
 		
+	/**
+	 * Load Data Command
+	 */
+	private void cmd_load() {
+		log.config("");
+		if (!m_IsCanLoad) {
+			FDialog.error(m_WindowNo, this, "AccessCannotLoad", getTitle());
+			return;
+		}
+		//  Show File Open Dialog
+		Media file = null;
+
+		try {
+			file = Fileupload.get(true);
+			if (file == null)
+				return;
+		}
+		catch (InterruptedException e)
+		{
+			log.warning(e.getLocalizedMessage());
+			return;
+		}
+
+		FileOutputStream fos = null;
+		try {
+
+			File tempFile = File.createTempFile("adempiere_", "_"+file.getName());
+
+			fos = new FileOutputStream(tempFile);
+			byte[] bytes = null;
+			if (file.inMemory()) {
+				bytes = file.getByteData();
+			} else {
+				InputStream is = file.getStreamData();
+				ByteArrayOutputStream baos = new ByteArrayOutputStream();
+				byte[] buf = new byte[ 1000 ];
+				int byteread = 0;
+				while (( byteread=is.read(buf) )!=-1)
+					baos.write(buf,0,byteread);
+				bytes = baos.toByteArray();
+			}
+
+			fos.write(bytes);
+			fos.flush();
+			fos.close();
+			if (ImpExpUtil.importPrintFormat(tempFile)) {
+				FDialog.info(m_WindowNo, this, "Report Definition Loaded", getTitle());
+				fillComboReport(m_reportEngine.getPrintFormat().get_ID());
+			}
+		} catch (IOException e) {
+			log.log(Level.SEVERE, e.getLocalizedMessage(), e);
+			return;
+		} finally {
+			if (fos != null)
+				try {
+					fos.close();
+				} catch (IOException e) {}
+		}
+		
+	}
+	
 	private void exportFile()
 	{
 		try
@@ -912,6 +1016,11 @@ public class ZkReportViewer extends Window implements EventListener {
 			{
 				inputFile = File.createTempFile("Export", ".xls");							
 				m_reportEngine.createXLS(inputFile, m_reportEngine.getPrintFormat().getLanguage());
+			} 
+			//	BR [1019]
+			else if (ext.equals("arxml")){
+				inputFile = File.createTempFile("Export", ".arxml");	
+				ImpExpUtil.exportPrintFormat(inputFile, m_reportEngine);
 			}
 			else
 			{

@@ -556,6 +556,18 @@ public class MReportLine extends X_PA_ReportLine
 							.append("User2_ID");
 					combinationGroupBy.add("User2_ID");
 				}
+				if (source.get_ValueAsInt("User3_ID") != 0
+						|| source.get_ValueAsBoolean("IsIncludeNullsUserList3")) {
+					select.append(" AND fb.").append("User3_ID").append("=x.")
+							.append("User3_ID");
+					combinationGroupBy.add("User3_ID");
+				}
+				if (source.get_ValueAsInt("User4_ID") != 0
+						|| source.get_ValueAsBoolean("IsIncludeNullsUserList4")) {
+					select.append(" AND fb.").append("User4_ID").append("=x.")
+							.append("User4_ID");
+					combinationGroupBy.add("User4_ID");
+				}
 				m_selectClauseCombination = select.toString();
 			}
 

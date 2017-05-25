@@ -8,15 +8,13 @@
 	</icon>
 	<display-name>ADempiere Web Store</display-name>
 	<description></description>
+
 	<!--Standard Parameters - if 0 use web store context -->
 	<context-param>
 		<param-name>#W_Store_ID</param-name>
 		<param-value>0</param-value>
 	</context-param>
-	<context-param>
-		<param-name>#AD_Client_ID</param-name>
-		<param-value>0</param-value>
-	</context-param>
+
 	<filter>
 		<description>ADempiere Web Store Filter</description>
 		<display-name>Web Store Filter </display-name>
@@ -103,12 +101,12 @@
 		<servlet-class>org.compiere.wstore.LocationServlet</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
-    <servlet>
-    	<display-name>Web User Login Servlet</display-name>
-        <servlet-name>LoginServlet</servlet-name>
-        <servlet-class>org.compiere.wstore.LoginServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
+	<servlet>
+		<display-name>Web User Login Servlet</display-name>
+		<servlet-name>LoginServlet</servlet-name>
+		<servlet-class>org.compiere.wstore.LoginServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
 	<servlet>
 		<display-name>Web Notification</display-name>
 		<servlet-name>NoteServlet</servlet-name>
@@ -211,6 +209,7 @@
 		<servlet-class>org.compiere.wstore.IssueReportServlet</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
+
 	<servlet-mapping>
 		<servlet-name>AdvertisementServlet</servlet-name>
 		<url-pattern>/advertisementServlet/*</url-pattern>
@@ -247,10 +246,10 @@
 		<servlet-name>InvoiceServlet</servlet-name>
 		<url-pattern>/invoiceServlet/*</url-pattern>
 	</servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>LocationServlet</servlet-name>
-        <url-pattern>/locationServlet</url-pattern>
-    </servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>LocationServlet</servlet-name>
+		<url-pattern>/locationServlet</url-pattern>
+	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>LoginServlet</servlet-name>
 		<url-pattern>/loginServlet</url-pattern>
@@ -283,14 +282,14 @@
 		<servlet-name>RfQServlet</servlet-name>
 		<url-pattern>/rfqServlet/*</url-pattern>
 	</servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>SearchServlet</servlet-name>
-        <url-pattern>/searchServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>UpdateServlet</servlet-name>
-        <url-pattern>/updateServlet</url-pattern>
-    </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>SearchServlet</servlet-name>
+    <url-pattern>/searchServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UpdateServlet</servlet-name>
+    <url-pattern>/updateServlet</url-pattern>
+  </servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>WorkflowServlet</servlet-name>
 		<url-pattern>/workflowServlet/*</url-pattern>

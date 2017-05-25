@@ -28,7 +28,6 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.regex.Pattern;
 
-import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.BPartnerNoBillToAddressException;
 import org.adempiere.exceptions.BPartnerNoShipToAddressException;
 import org.adempiere.exceptions.FillMandatoryException;
@@ -1228,9 +1227,6 @@ public class MOrder extends X_C_Order implements DocAction
 			}
 		}	//	convert DocType
 
-		//	Mandatory Product Attribute Set Instance
-		isASIMandatory();
-
 		//	Lines
 		if (explodeBOM())
 			lines = getLines(true, MOrderLine.COLUMNNAME_M_Product_ID);
@@ -1412,6 +1408,7 @@ public class MOrder extends X_C_Order implements DocAction
 	 */
 	private boolean reserveStock (MDocType dt, MOrderLine[] lines)
 	{
+
 		if (dt == null)
 			dt = MDocType.get(getCtx(), getC_DocType_ID());
 
@@ -1449,9 +1446,7 @@ public class MOrder extends X_C_Order implements DocAction
 			}
 			//	Binding
 			BigDecimal target = binding ? line.getQtyOrdered() : Env.ZERO; 
-			BigDecimal difference = target
-				.subtract(line.getQtyReserved())
-				.subtract(line.getQtyDelivered()); 
+			BigDecimal difference = target.subtract(line.getQtyReserved()).subtract(line.getQtyDelivered());
 			if (difference.signum() == 0)
 			{
 				MProduct product = line.getProduct();
@@ -1474,6 +1469,9 @@ public class MOrder extends X_C_Order implements DocAction
 			{
 				if (product.isStocked())
 				{
+					//	Mandatory Product Attribute Set Instance
+					MAttributeSet.validateAttributeSetInstanceMandatory(product, line.Table_ID, isSOTrx() , line.getM_AttributeSetInstance_ID());
+
 					BigDecimal ordered = isSOTrx ? Env.ZERO : difference;
 					BigDecimal reserved = isSOTrx ? difference : Env.ZERO;
 					int M_Locator_ID = 0; 
@@ -1715,6 +1713,11 @@ public class MOrder extends X_C_Order implements DocAction
 			MInvoice invoice = createInvoice (dt, shipment, realTimePOS ? null : getDateOrdered());
 			if (invoice == null)
 				return DocAction.STATUS_Invalid;
+			if ( shipment != null )
+			{
+				shipment.setC_Invoice_ID(invoice.getC_Invoice_ID());
+				shipment.saveEx();
+			}
 			info.append(" - @C_Invoice_ID@: ").append(invoice.getDocumentNo());
 			String msg = invoice.getProcessMsg();
 			if (msg != null && msg.length() > 0)
@@ -2469,7 +2472,7 @@ public class MOrder extends X_C_Order implements DocAction
 	}
 	
 	//Mandatory Product Attribute Set Instance
-	private void isASIMandatory()
+	/*private void isASIMandatory()
 	{
 		for(MOrderLine ol : getLines())
 		{
@@ -2495,5 +2498,5 @@ public class MOrder extends X_C_Order implements DocAction
 				}
 			}
 		}
-	}
+	}*/
 }	//	MOrder

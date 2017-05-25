@@ -500,6 +500,19 @@ public interface I_C_DocType
 	  */
 	public String getName();
 
+    /** Column name PrintDocument */
+    public static final String COLUMNNAME_PrintDocument = "PrintDocument";
+
+	/** Set Print Document.
+	  * Document to print
+	  */
+	public void setPrintDocument (String PrintDocument);
+
+	/** Get Print Document.
+	  * Document to print
+	  */
+	public String getPrintDocument();
+
     /** Column name PrintName */
     public static final String COLUMNNAME_PrintName = "PrintName";
 

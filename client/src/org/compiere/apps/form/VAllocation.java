@@ -123,6 +123,8 @@ public class VAllocation extends Allocation
 	private JCheckBox multiCurrency = new JCheckBox();
 	private JLabel chargeLabel = new JLabel();
     private VLookup chargePick = null;
+    private JLabel orgWriteLabel = new JLabel();
+    private VLookup orgWritePick = null;
     private JLabel descriptionLabel = new JLabel();
 	private CTextField descriptionField = new CTextField();
 	private JLabel allocCurrencyLabel = new JLabel();
@@ -176,6 +178,7 @@ public class VAllocation extends Allocation
 		paymentInfo.setText(".");
 		chargeLabel.setText(Msg.translate(Env.getCtx(), "C_Charge_ID"));
 	    chargeLabel.setToolTipText(Msg.getMsg(Env.getCtx(), "ChargeDifference", false));
+	    orgWriteLabel.setText(Msg.translate(Env.getCtx(), "AD_Org_ID"));
 	    descriptionLabel.setText(Msg.getMsg(Env.getCtx(), "Description"));
 		descriptionField.setColumns(20);
 		differenceLabel.setText(Msg.getMsg(Env.getCtx(), "Difference"));
@@ -231,9 +234,13 @@ public class VAllocation extends Allocation
 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0)); 
 		allocationPanel.add(chargePick, new GridBagConstraints(4, 0, 1, 1, 0.0, 0.0
 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		allocationPanel.add(descriptionLabel, new GridBagConstraints(5, 0, 1, 1, 0.0, 0.0
+		allocationPanel.add(orgWriteLabel, new GridBagConstraints(5, 0, 1, 1, 0.0, 0.0
+			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0)); 
+		allocationPanel.add(orgWritePick, new GridBagConstraints(6, 0, 1, 1, 0.0, 0.0
+			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+		allocationPanel.add(descriptionLabel, new GridBagConstraints(7, 0, 1, 1, 0.0, 0.0
 			,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
-		allocationPanel.add(descriptionField, new GridBagConstraints(6, 0, 1, 1, 0.0, 0.0
+		allocationPanel.add(descriptionField, new GridBagConstraints(8, 0, 1, 1, 0.0, 0.0
 			,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
 		allocationPanel.add(allocCurrencyLabel, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0
 			,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
@@ -280,7 +287,7 @@ public class VAllocation extends Allocation
 		int AD_Column_ID = 3505;    //  C_Invoice.C_Currency_ID
 		MLookup lookupCur = MLookupFactory.get (Env.getCtx(), getWindowNo(), 0, AD_Column_ID, DisplayType.TableDir);
 		currencyPick = new VLookup("C_Currency_ID", true, false, true, lookupCur);
-		currencyPick.setValue(new Integer(m_C_Currency_ID));
+		currencyPick.setValue(new Integer(currencyId));
 		currencyPick.addVetoableChangeListener(this);
 
 		// Organization filter selection
@@ -309,8 +316,14 @@ public class VAllocation extends Allocation
 
 		MLookup lookupCharge = MLookupFactory.get(Env.getCtx(), getWindowNo(), 0, AD_Column_ID, DisplayType.TableDir);
 		chargePick = new VLookup("C_Charge_ID", false, false, true, lookupCharge);
-		chargePick.setValue(new Integer(m_C_Charge_ID));
+		chargePick.setValue(new Integer(chargeId));
 		chargePick.addVetoableChangeListener(this);
+		
+		// Organization filter selection
+		AD_Column_ID = 3863; //C_Period.AD_Org_ID
+		MLookup lookupOrgWrite = MLookupFactory.get(Env.getCtx(), getWindowNo(), 0, AD_Column_ID, DisplayType.TableDir);
+		orgWritePick = new VLookup("AD_OrgTrx_ID", false, false, true, lookupOrgWrite);
+		orgWritePick.addVetoableChangeListener(this);
 		
 		//	APAR
 		AD_Column_ID = 14082;    //  T_InvoiceGL.APAR
@@ -335,10 +348,8 @@ public class VAllocation extends Allocation
 			dispose();
 		} else if (e.getActionCommand().equals(ConfirmPanel.A_OK)) {
 			confirmPanel.getOKButton().setEnabled(false);
-			m_description = descriptionField.getText();
+			description = descriptionField.getText();
 			saveData();
-			loadBPartner();
-			confirmPanel.getOKButton().setEnabled(true);
 		}
 	}   //  actionPerformed
 
@@ -391,22 +402,26 @@ public class VAllocation extends Allocation
 			loadBPartner();
 		}
 		
-		else if (name.equals("C_Charge_ID")) {
-			m_C_Charge_ID = ((Integer) value).intValue();
+		else if(name.equals("C_Charge_ID")) {
+			chargeId = ((Integer) value).intValue();
 			setAllocateButton();
 		}
 
+		else if(name.equals("AD_OrgTrx_ID")) {
+			orgWriteId = ((Integer) value).intValue();
+		}
+		
 		//  BPartner
 		if (name.equals("C_BPartner_ID"))
 		{
 			bpartnerSearch.setValue(value);
-			m_C_BPartner_ID = ((Integer)value).intValue();
+			bPartnerId = ((Integer)value).intValue();
 			loadBPartner();
 		}
 		//	Currency
 		else if (name.equals("C_Currency_ID"))
 		{
-			m_C_Currency_ID = ((Integer)value).intValue();
+			currencyId = ((Integer)value).intValue();
 			loadBPartner();
 		}
 		//	Date for Multi-Currency
@@ -451,7 +466,7 @@ public class VAllocation extends Allocation
 		setInvoiceColumnClass(invoiceTable, multiCurrency.isSelected());
 		//
 		
-		calculate(multiCurrency.isSelected());
+		changeIndexForTables(multiCurrency.isSelected());
 		
 		//  Calculate Totals
 		calculate();
@@ -478,7 +493,7 @@ public class VAllocation extends Allocation
 	
 	private void setAllocateButton() {
 
-		if (totalDiff.compareTo(new BigDecimal(0.0)) == 0 ^ m_C_Charge_ID > 0)
+		if (totalDiff.compareTo(new BigDecimal(0.0)) == 0 ^ chargeId > 0)
 
 		{
 			confirmPanel.getOKButton().setEnabled(true);
@@ -491,30 +506,27 @@ public class VAllocation extends Allocation
 		if (totalDiff.compareTo(new BigDecimal(0.0)) == 0)
 		{
 			chargePick.setValue(null);
-			m_C_Charge_ID = 0;
+			chargeId = 0;
 		}
 	}
 	
 	/**************************************************************************
 	 *  Save Data
 	 */
-	public void saveData()
-	{
+	public void saveData() {
 		setAD_Org_ID();
-		try
-		{
-			Trx.run(new TrxRunnable() 
-			{
-				public void run(String trxName)
-				{
+		try {
+			Trx.run(new TrxRunnable() {
+				public void run(String trxName) {
 					statusBar.setStatusLine(saveData(getWindowNo(), dateField.getValue(), paymentTable, invoiceTable, trxName));
 				}
 			});
-		}
-		catch (Exception e)
-		{
+			//	If Ok
+			loadBPartner();
+		} catch (Exception e) {
 			ADialog.error(getWindowNo(), panel, "Error", e.getLocalizedMessage());
-			return;
+		} finally {
+			confirmPanel.getOKButton().setEnabled(true);
 		}
 	}   //  saveData
 }

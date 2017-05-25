@@ -190,11 +190,21 @@ import org.compiere.util.Msg;
 			setC_BPartner_ID(payment.getC_BPartner_ID());
 			if (payment.getC_Invoice_ID() != 0)
 				setC_Invoice_ID(payment.getC_Invoice_ID());
-		}
+
+			MBPartner partner = MBPartner.get(payment.getCtx() , payment.getC_BPartner_ID());
+			String description = getDescription() != null
+			? getDescription() + " - " + payment.getDocumentInfo()  + " - " + partner.getValue() + " - " + partner.getName()
+			:  payment.getDocumentInfo() + " - " + partner.getValue() + " - " + partner.getName() ;
+			setDescription(description);
+	}
 		if (getC_Invoice_ID() != 0 && getC_BPartner_ID() == 0)
 		{
 			MInvoice invoice = new MInvoice (getCtx(), getC_Invoice_ID(), get_TrxName());
 			setC_BPartner_ID(invoice.getC_BPartner_ID());
+			String description = getDescription() != null
+					? getDescription() + " - " + invoice.getDocumentInfo()  + " - " + invoice.getOpenAmt()
+					:  invoice.getDocumentInfo() + " - " +invoice.getOpenAmt();
+			setDescription(description);
 		}
 		
 		//	Calculate Charge = Statement - trx - Interest  

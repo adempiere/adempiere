@@ -21,6 +21,7 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.JEditorPane;
@@ -28,21 +29,34 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 
 import org.adempiere.controller.SmallViewEditable;
+import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.grid.ed.VEditor;
 import org.compiere.grid.ed.VEditorFactory;
+import org.compiere.grid.ed.VLookup;
 import org.compiere.model.GridField;
+import org.compiere.model.Lookup;
+import org.compiere.model.MPInstance;
+import org.compiere.model.MRole;
+import org.compiere.model.MSysConfig;
+import org.compiere.print.MPrintFormat;
 import org.compiere.print.ReportCtl;
 import org.compiere.print.ReportEngine;
 import org.compiere.process.ProcessInfo;
 import org.compiere.swing.CButton;
+import org.compiere.swing.CComboBoxEditable;
 import org.compiere.swing.CEditor;
 import org.compiere.swing.CLabel;
+import org.compiere.swing.CComboBox;
 import org.compiere.swing.CPanel;
 import org.compiere.swing.CScrollPane;
 import org.compiere.util.ASyncProcess;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
+import org.compiere.util.Ini;
+import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
+import org.compiere.util.Util;
+import org.compiere.util.ValueNamePair;
 
 /**
  *	Process Parameter Panel, based on existing ProcessParameter dialog.
@@ -74,6 +88,8 @@ import org.compiere.util.Msg;
  * 			@see FR [ 571 ] Process Dialog is not MVC</a>
  * 			<a href="https://github.com/adempiere/adempiere/issues/602">
  * 			@see BR [ 602 ] Error in SmallViewController</a>
+ *  @author Raul Muñoz, rMunoz@erpcya.com, ERPCyA http://www.erpcya.com
+ *			<li>FR [ 299 ] Instance saved, is not supported for swing UI
  */
 public class ProcessPanel extends ProcessController 
 	implements SmallViewEditable, ActionListener, ASyncProcess {
@@ -123,10 +139,20 @@ public class ProcessPanel extends ProcessController
 	private CScrollPane 	parameterScrollPane;
 	//	
 	private CPanel southPanel;
+	private CPanel leftPanel;
+	private CPanel rightPanel;
 	private CButton bOK;
 	private CButton bCancel;
-	private FlowLayout southLayout;
 	private CButton bPrint;
+	private CComboBoxEditable fSavedName;
+	private CButton bDelete;
+	private CLabel lSaved;
+
+	// Print Format
+	private VLookup 			fPrintFormat		= null;
+	private CComboBox 			fReportType			= new CComboBox();
+	private CLabel 				lPrintFormat		= new CLabel("Print Format:");
+	private CLabel 				lReportType = new CLabel("Report Type:");
 	
 	private CPanel mainPanel = new CPanel() {
 		/**
@@ -197,23 +223,39 @@ public class ProcessPanel extends ProcessController
 		parameterScrollPane = new CScrollPane(centerPanel);
 		//	
 		southPanel 			= new CPanel();
-		southLayout 		= new FlowLayout();
+		leftPanel 			= new CPanel();
+		rightPanel 			= new CPanel();
 		//	Buttons
 		bOK 				= ConfirmPanel.createOKButton(true);
 		bCancel				= ConfirmPanel.createCancelButton(true);
 		bPrint 				= ConfirmPanel.createPrintButton(true);
+		//	FR [ 299 ]
+		fSavedName			= new CComboBoxEditable();
+		bDelete 			= ConfirmPanel.createDeleteButton(true);
+		
+		lSaved = new CLabel(Msg.getMsg(Env.getCtx(), "SavedParameter"));
 		bOK.addActionListener(this);
 		bCancel.addActionListener(this);
 		bPrint.addActionListener(this);
+
+
+
 		//	
 		mainPanel.setLayout(mainLayout);
 		mainPanel.setMinimumSize(new Dimension(500, 100));
 		//	South Panel
-		southPanel.setLayout(southLayout);
-		southLayout.setAlignment(FlowLayout.RIGHT);
-		southPanel.add(bPrint, null);
-		southPanel.add(bCancel, null);
-		southPanel.add(bOK, null);
+		southPanel.setLayout(new BorderLayout());
+		//southLayout.setAlignment(FlowLayout.RIGHT);
+		leftPanel.setLayout(new FlowLayout());
+		rightPanel.setLayout(new FlowLayout());
+		leftPanel.add(lSaved,null);
+		leftPanel.add(fSavedName,null);
+		leftPanel.add(bDelete,null);
+		rightPanel.add(bPrint, null);
+		rightPanel.add(bCancel, null);
+		rightPanel.add(bOK, null);
+		southPanel.add(leftPanel,  BorderLayout.LINE_START);
+		southPanel.add(rightPanel, BorderLayout.LINE_END);
 		//	Editors
 		m_separators 	= new ArrayList<CLabel>();
 		//	
@@ -234,8 +276,66 @@ public class ProcessPanel extends ProcessController
 		parameterScrollPane.createHorizontalScrollBar();
 		//	
 		mainPanel.add(parameterScrollPane, BorderLayout.CENTER);
+		//	FR [ 299 ]
+		fSavedName.setEditable(true);
+		fSavedName.setReadWrite(true);
+		bDelete.addActionListener(this);
+
 		//	Add buttons
 		if(isShowButtons()) {
+			if (isReport() ) {
+				Lookup lookup = listPrintFormat();
+				fPrintFormat = new VLookup("AD_PrintFormat_ID", false, false, true, lookup);
+				fPrintFormat.setBackground(AdempierePLAF.getInfoBackground());
+				fPrintFormat.addActionListener(this);
+
+				MRole roleCurrent = MRole.get(Env.getCtx(), Env.getAD_Role_ID(Env.getCtx()));
+				boolean m_isAllowHTMLView = roleCurrent.isAllow_HTML_View();
+				boolean m_isAllowXLSView = roleCurrent.isAllow_XLS_View();
+				String type = MSysConfig.getValue("ZK_REPORT_TABLE_OUTPUT_TYPE", Env.getAD_Client_ID(Env.getCtx()));
+				if (type != null && "XLS".equals(type))
+					type = "X";
+
+				if (type != null && "XLSX".equals(type))
+					type = "XX";
+
+				if (type != null && "HTML".equals(type))
+					type = "H";
+
+				ValueNamePair valueNamePairSelection = null;
+				fReportType.removeAllItems();
+				ValueNamePair valueNamePairPDF =  new ValueNamePair("P", "PDF");
+				fReportType.addItem(valueNamePairPDF);
+				if (valueNamePairPDF.getValue().equals(type))
+					valueNamePairSelection = valueNamePairPDF;
+
+				if (m_isAllowXLSView) {
+					ValueNamePair valueNamePairExcel =  new ValueNamePair("X", "Excel");
+					ValueNamePair valueNamePairXLSX =  new ValueNamePair("XX", "XLSX");
+					fReportType.addItem(valueNamePairExcel);
+					fReportType.addItem(valueNamePairXLSX);
+					if (valueNamePairExcel.getValue().equals(type) || "X".equals(type))
+						valueNamePairSelection = valueNamePairExcel;
+					if (valueNamePairXLSX.getValue().equals(type))
+						valueNamePairSelection = valueNamePairXLSX;
+				}
+				if (m_isAllowHTMLView) {
+					ValueNamePair valueNamePairHTML =  new ValueNamePair("H", "HTML");
+					fReportType.addItem(valueNamePairHTML);
+					if (valueNamePairHTML.getValue().equals(type))
+						valueNamePairSelection = valueNamePairHTML;
+				}
+				if (valueNamePairSelection != null)
+					fReportType.setSelectedItem(valueNamePairSelection);
+				else
+					fReportType.setSelectedItem(0);
+
+				leftPanel.add(lPrintFormat,null);
+				leftPanel.add(fPrintFormat,null);
+
+				leftPanel.add(lReportType,null);
+				leftPanel.add(fReportType,null);
+			}
 			mainPanel.add(southPanel, BorderLayout.SOUTH);
 		}
 		//	
@@ -267,6 +367,12 @@ public class ProcessPanel extends ProcessController
 		if(isAutoStart()) {
 			bOK.doClick();
 		}
+		else {
+			loadQuerySaved();
+		}
+		
+		fSavedName.addActionListener(this);
+		
 	}
 	
 	/**
@@ -446,13 +552,13 @@ public class ProcessPanel extends ProcessController
 		//	Close automatically
 		if (isReport() 
 				&& !pi.isError()) {
-			bOK.doClick();
+			dispose();
 		}
 		
 		// If the process is a silent one and no errors occured, close the dialog
 		if(getShowHelp() != null 
 				&& getShowHelp().equals("S"))
-			bOK.doClick();
+			dispose();
 	}
 
 	@Override
@@ -475,25 +581,53 @@ public class ProcessPanel extends ProcessController
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		//	FR [ 299 ]
+		String saveName = null;
+		boolean lastRun = false;
+		Object pp = fSavedName.getSelectedItem();
+		if (pp != null) {
+			saveName =pp.toString();
+			lastRun = ("** " + Msg.getMsg(Env.getCtx(), "LastRun") + " **").equals(saveName);
+		}
 		if (e.getSource() == bOK) {
 			setIsOkPressed(true);
 			if(isOnlyPanel()) {
 				//	check if saving parameters is complete
-				if (saveParameters() == null) {
+				if (saveOrUpdateParameters(saveName) == null) {
 					//	Save Parameters
 					dispose();
 				}
 			} else if (isProcessed()) {
 				dispose();
 			} else {
+				// Print format on report para
+				if (fReportType != null && fReportType.getSelectedItem() != null
+						&& ((ValueNamePair)fReportType.getSelectedItem()).getValue() != null)
+				{
+					getProcessInfo().setReportType(((ValueNamePair)fReportType.getSelectedItem()).getValue().toString());
+				}
+				if (fPrintFormat != null && fPrintFormat.getValue() != null)
+				{
+					MPrintFormat format = new MPrintFormat(Env.getCtx(), (Integer) fPrintFormat.getValue(), null);
+					if (format != null)
+					{
+						if (Ini.isClient())
+							getProcessInfo().setTransientObject(format);
+						else
+							getProcessInfo().setSerializableObject(format);
+					}
+				}
 				//	BR [ 265 ]
 				if(validateParameters() == null) {
-					ProcessCtl.process(parent.getParentProcess(), getWindowNo(), this, getProcessInfo(), null);
+					if(saveOrUpdateParameters(saveName) == null) {
+						ProcessCtl.process(parent.getParentProcess(), getWindowNo(), this, getProcessInfo(), null);
+					}
 				}
 				if(parent.isEmbedded()) {
 					dispose();
 				}
 			}
+			
 		} else if(e.getSource() == bCancel) {
 			dispose();
 		} else if (e.getSource() == bPrint) {
@@ -501,7 +635,43 @@ public class ProcessPanel extends ProcessController
 				parent.printScreen();
 			}
 		}
+		else if(e.getSource() == fSavedName) {
+			//	Load saved parameters
+			loadParameters(saveName);
+			boolean enabled = !Util.isEmpty(saveName);
+			bDelete.setEnabled(enabled && fSavedName.getItemCount() > 1);
+			return;
+		} 
+		 else if(e.getSource() == bDelete 
+				&& fSavedName != null && !lastRun) {
+			Object o = fSavedName.getSelectedItem();
+			if (o != null) {
+				deleteInstance(saveName);
+			}
+			//	
+			loadQuerySaved();
+		}
 	}
+	
+	private String saveOrUpdateParameters(String saveName) {
+		String saveError = null;
+		boolean lastRun = ("** " + Msg.getMsg(Env.getCtx(), "LastRun") + " **").equals(saveName);
+		if(fSavedName != null && !lastRun) {
+			if (fSavedName.getSelectedIndex() > -1) {
+				saveError = updateInstance(saveName);
+				if(saveError != null) {
+					ADialog.error(getWindowNo(), getPanel(), "Error", saveError);
+				}
+			} else {
+				saveError = saveParameters(saveName);
+				if(saveError != null) {
+					ADialog.error(getWindowNo(), getPanel(), "Error", saveError);
+				}
+			}
+		}
+		return saveError;
+	}
+	
 	
 	/**
 	 * After Task (It is hardcoded!!!!!!)
@@ -545,7 +715,24 @@ public class ProcessPanel extends ProcessController
 		}
 		while (retValue == ADialogDialog.A_CANCEL);
 	}	//	printInvoices
-
+	
+	/**
+	 * Load Combo
+	 */
+	private void loadQuerySaved() {
+		//user query
+		
+		List<MPInstance> savedParams = getSavedInstances(true);	
+		fSavedName.removeAllItems();
+		fSavedName.setValue("");
+		for (MPInstance instance : savedParams) {
+			fSavedName.addItem(new KeyNamePair(instance.getAD_PInstance_ID(),instance.getName()));
+		}
+		//	
+		fSavedName.setSelectedIndex(-1);
+		
+	}
+	
 	/**
 	 *	Print Invoices
 	 */

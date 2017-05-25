@@ -37,6 +37,9 @@ import org.compiere.util.Util;
  * @author Oscar Gómez Islas
  * @author Cristina Ghita, www.arhipac.ro
  * @author victor.perez@e-evolution.com , www.e-Evolution.com
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<a href="https://github.com/adempiere/adempiere/issues/1030">
+ * 		@see FR [ 1030 ] Posting Error on payroll process</a>
  */
 public class MHRConcept extends X_HR_Concept {
     /**
@@ -201,6 +204,18 @@ public class MHRConcept extends X_HR_Concept {
         if (result > 0)
             return result;
         return 0;
+    }
+    
+    /**
+     * Get Account configuration
+     * @param acctSchemaId
+     * @return
+     */
+    public X_HR_Concept_Acct getConceptAcct(int acctSchemaId) {
+    	return new Query(getCtx(), I_HR_Concept_Acct.Table_Name, 
+    			"HR_Concept_ID = ? AND C_AcctSchema_ID = ?", get_TrxName())
+    		.setParameters(getHR_Concept_ID(), acctSchemaId)
+    		.first();
     }
 
     /**

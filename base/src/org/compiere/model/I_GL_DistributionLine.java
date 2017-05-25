@@ -88,6 +88,32 @@ public interface I_GL_DistributionLine
 	  */
 	public int getAccount_ID();
 
+    /** Column name AmtAcctCr */
+    public static final String COLUMNNAME_AmtAcctCr = "AmtAcctCr";
+
+	/** Set Accounted Credit.
+	  * Accounted Credit Amount
+	  */
+	public void setAmtAcctCr (BigDecimal AmtAcctCr);
+
+	/** Get Accounted Credit.
+	  * Accounted Credit Amount
+	  */
+	public BigDecimal getAmtAcctCr();
+
+    /** Column name AmtAcctDr */
+    public static final String COLUMNNAME_AmtAcctDr = "AmtAcctDr";
+
+	/** Set Accounted Debit.
+	  * Accounted Debit Amount
+	  */
+	public void setAmtAcctDr (BigDecimal AmtAcctDr);
+
+	/** Get Accounted Debit.
+	  * Accounted Debit Amount
+	  */
+	public BigDecimal getAmtAcctDr();
+
     /** Column name C_Activity_ID */
     public static final String COLUMNNAME_C_Activity_ID = "C_Activity_ID";
 
@@ -250,6 +276,19 @@ public interface I_GL_DistributionLine
 
 	public org.compiere.model.I_GL_Distribution getGL_Distribution() throws RuntimeException;
 
+    /** Column name InvertAccountSign */
+    public static final String COLUMNNAME_InvertAccountSign = "InvertAccountSign";
+
+	/** Set Invert Account Sign.
+	  * Enable invert account sign when a GL Distribution rule applied
+	  */
+	public void setInvertAccountSign (boolean InvertAccountSign);
+
+	/** Get Invert Account Sign.
+	  * Enable invert account sign when a GL Distribution rule applied
+	  */
+	public boolean isInvertAccountSign();
+
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
 
@@ -408,6 +447,19 @@ public interface I_GL_DistributionLine
 	  */
 	public boolean isOverwriteOrgTrx();
 
+    /** Column name OverwritePostingType */
+    public static final String COLUMNNAME_OverwritePostingType = "OverwritePostingType";
+
+	/** Set Overwrite Posting Type.
+	  * Overwrite the posting type with the value specified
+	  */
+	public void setOverwritePostingType (boolean OverwritePostingType);
+
+	/** Get Overwrite Posting Type.
+	  * Overwrite the posting type with the value specified
+	  */
+	public boolean isOverwritePostingType();
+
     /** Column name OverwriteProduct */
     public static final String COLUMNNAME_OverwriteProduct = "OverwriteProduct";
 
@@ -511,6 +563,19 @@ public interface I_GL_DistributionLine
 	  * Percentage
 	  */
 	public BigDecimal getPercent();
+
+    /** Column name PostingType */
+    public static final String COLUMNNAME_PostingType = "PostingType";
+
+	/** Set PostingType.
+	  * The type of posted amount for the transaction
+	  */
+	public void setPostingType (String PostingType);
+
+	/** Get PostingType.
+	  * The type of posted amount for the transaction
+	  */
+	public String getPostingType();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

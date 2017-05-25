@@ -127,6 +127,8 @@ public class WAllocation extends Allocation
 	private Label invoiceLabel = new Label();
 	private Label chargeLabel = new Label();
 	private WTableDirEditor chargePick = null;
+	private Label orgWriteLabel = new Label();
+	private WTableDirEditor orgWritePick = null;
 	private Borderlayout paymentLayout = new Borderlayout();
 	private Borderlayout invoiceLayout = new Borderlayout();
 	private Label paymentInfo = new Label();
@@ -180,6 +182,7 @@ public class WAllocation extends Allocation
 		invoiceInfo.setText(".");
 		paymentInfo.setText(".");
 		chargeLabel.setText(" " + Msg.translate(Env.getCtx(), "C_Charge_ID"));
+		orgWriteLabel.setText(" " + Msg.translate(Env.getCtx(), "AD_Org_ID"));
 		differenceLabel.setText(Msg.getMsg(Env.getCtx(), "Difference"));
 		differenceField.setText("0");
 		differenceField.setStyle("text-align: right");
@@ -247,6 +250,9 @@ public class WAllocation extends Allocation
 		row.appendChild(new Space());
 		row.appendChild(chargeLabel.rightAlign());
 		row.appendChild(chargePick.getComponent());
+		row.appendChild(new Space());
+		row.appendChild(orgWriteLabel.rightAlign());
+		row.appendChild(orgWritePick.getComponent());
 		row.appendChild(new Space());
 		row.appendChild(descriptionLabel.rightAlign());
 		row.appendChild(descriptionField);
@@ -331,7 +337,7 @@ public class WAllocation extends Allocation
 		int AD_Column_ID = 3505;    //  C_Invoice.C_Currency_ID
 		MLookup lookupCur = MLookupFactory.get (Env.getCtx(), getWindowNo(), 0, AD_Column_ID, DisplayType.TableDir);
 		currencyPick = new WTableDirEditor("C_Currency_ID", true, false, true, lookupCur);
-		currencyPick.setValue(new Integer(m_C_Currency_ID));
+		currencyPick.setValue(new Integer(currencyId));
 		currencyPick.addValueChangeListener(this);
 
 		// Organization filter selection
@@ -358,8 +364,14 @@ public class WAllocation extends Allocation
 		AD_Column_ID = 61804;    //  C_AllocationLine.C_Charge_ID
 		MLookup lookupCharge = MLookupFactory.get (Env.getCtx(), getWindowNo(), 0, AD_Column_ID, DisplayType.TableDir);
 		chargePick = new WTableDirEditor("C_Charge_ID", true, false, true, lookupCharge);
-		chargePick.setValue(new Integer(m_C_Charge_ID));
+		chargePick.setValue(new Integer(chargeId));
 		chargePick.addValueChangeListener(this);
+		
+		// Organization set on allocation
+		AD_Column_ID = 3863; //C_Period.AD_Org_ID (needed to allow org 0)
+		MLookup lookupOrgWrite = MLookupFactory.get(Env.getCtx(), getWindowNo(), 0, AD_Column_ID, DisplayType.TableDir);
+		orgWritePick = new WTableDirEditor("AD_OrgTrx_ID", false, false, true, lookupOrgWrite);
+		orgWritePick.addValueChangeListener(this);
 		
 		//	APAR
 		AD_Column_ID = 14082;    //  T_InvoiceGL.APAR
@@ -384,10 +396,8 @@ public class WAllocation extends Allocation
 			dispose();
 		} else if (e.getTarget().getId().equals(ConfirmPanel.A_OK)) {
 			confirmPanel.getOKButton().setEnabled(false);
-			m_description = descriptionField.getText();
+			description = descriptionField.getText();
 			saveData();
-			loadBPartner();
-			confirmPanel.getOKButton().setEnabled(true);
 		}
 	}   //  actionPerformed
 	
@@ -461,13 +471,13 @@ public class WAllocation extends Allocation
 		{
 			if (value == null)
 			{
-				m_C_BPartner_ID = 0;
+				bPartnerId = 0;
 				bpartnerSearch.setValue(null);
 			}
 			else
 			{
-				m_C_BPartner_ID = ((Integer)value).intValue();
-				bpartnerSearch.setValue(m_C_BPartner_ID);
+				bPartnerId = ((Integer)value).intValue();
+				bpartnerSearch.setValue(bPartnerId);
 			}
 			
 			checkBPartner();
@@ -477,13 +487,21 @@ public class WAllocation extends Allocation
 		{
 			if (value == null)
 			{
-     			m_C_Charge_ID = 0;
+     			chargeId = 0;
 			}
 			else
 			{
-				m_C_Charge_ID = ((Integer) value).intValue();
+				chargeId = ((Integer) value).intValue();
 			}
 			setAllocateButton();
+		}
+		//	For Org
+        else if (name.equals("AD_OrgTrx_ID")) {
+			if (value == null) {
+     			orgWriteId = 0;
+			} else {
+				orgWriteId = ((Integer) value).intValue();
+			}
 		}
 
 		//	Currency
@@ -491,11 +509,11 @@ public class WAllocation extends Allocation
 		{
 			if (value == null)
 			{
-				m_C_Currency_ID = 0;
+				currencyId = 0;
 			}
 			else
 			{
-				m_C_Currency_ID = ((Integer) value).intValue();
+				currencyId = ((Integer) value).intValue();
 			}
 			loadBPartner();
 		}
@@ -515,7 +533,7 @@ public class WAllocation extends Allocation
 	
 	private void setAllocateButton() {
 
-		if (totalDiff.compareTo(new BigDecimal(0.0)) == 0 ^ m_C_Charge_ID > 0)
+		if (totalDiff.compareTo(new BigDecimal(0.0)) == 0 ^ chargeId > 0)
 		{
 			confirmPanel.getOKButton().setEnabled(true);
 		}
@@ -527,7 +545,7 @@ public class WAllocation extends Allocation
 		if (totalDiff.compareTo(new BigDecimal(0.0)) == 0)
 		{
 			chargePick.setValue(null);
-			m_C_Charge_ID = 0;
+			chargeId = 0;
 		}
 	  }
 	
@@ -573,7 +591,7 @@ public class WAllocation extends Allocation
 		invoiceTable.recreateListHead();
 		//
 		
-		calculate(multiCurrency.isSelected());
+		changeIndexForTables(multiCurrency.isSelected());
 		
 		//  Calculate Totals
 		calculate();
@@ -602,23 +620,20 @@ public class WAllocation extends Allocation
 	/**************************************************************************
 	 *  Save Data
 	 */
-	public void saveData()
-	{
+	public void saveData() {
 		setAD_Org_ID();
-		try
-		{
-			Trx.run(new TrxRunnable() 
-			{
-				public void run(String trxName)
-				{
+		try {
+			Trx.run(new TrxRunnable() {
+				public void run(String trxName) {
 					statusBar.setStatusLine(saveData(getWindowNo(), dateField.getValue(), paymentTable, invoiceTable, trxName));
 				}
 			});
-		}
-		catch (Exception e)
-		{
+			//	If is Ok
+			loadBPartner();
+		} catch (Exception e) {
 			FDialog.error(getWindowNo(), form , "Error", e.getLocalizedMessage());
-			return;
+		} finally {
+			confirmPanel.getOKButton().setEnabled(true);
 		}
 	}   //  saveData
 	

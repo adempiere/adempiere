@@ -107,6 +107,10 @@ public class WPOSActionMenu implements  POSQueryListener, EventListener{
                 executeCommand(command);
         } else if (command.getCommand() == CommandManager.GENERATE_RETURN) {
             executeCommand(command);
+        } else if (command.getCommand() == CommandManager.COMPLETE_DOCUMENT) {
+            if(pos.getC_Order_ID() > 0) {
+                executeCommand(command);
+            }
         } else if (command.getCommand() == CommandManager.GENERATE_WITHDRAWAL) {
             executeCommand(command);
         } else if (command.getCommand() == CommandManager.CLOSE_STATEMENT) {
@@ -244,6 +248,28 @@ public class WPOSActionMenu implements  POSQueryListener, EventListener{
                 ff.setAttribute(org.adempiere.webui.component.Window.INSERT_POSITION_KEY, org.adempiere.webui.component.Window.INSERT_NEXT);
                 ff.setTitle(browse.getTitle());
                 SessionManager.getAppDesktop().showWindow(ff);
+            } else if (command.getCommand() == CommandManager.COMPLETE_DOCUMENT) {
+                waiting.setPage(pos.v_Panel.getPage());
+                waiting.doHighlighted();
+                receiver.setCtx(pos.getCtx());
+                receiver.setOrderId(pos.getC_Order_ID());
+                receiver.setPOSId(pos.getC_POS_ID());
+                receiver.setPartnerId(pos.getC_BPartner_ID());
+                receiver.setBankAccountId(pos.getC_BankAccount_ID());
+                command.execute(receiver);
+                ProcessInfo processInfo = receiver.getProcessInfo();
+                waiting.dispose();
+                if (processInfo != null && processInfo.isError()) {
+                    showError(processInfo);
+                }
+                else
+                {
+                    afterExecutionCommand(command);
+                    if (processInfo != null)
+                        showOkMessage(processInfo);
+
+                    pos.refreshHeader();
+                }
             }
         }
         catch (Exception exception)

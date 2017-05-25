@@ -339,6 +339,10 @@ public class MPaySelectionLine extends X_C_PaySelectionLine
 		//	FR [ 297 ]
 		if(getC_BPartner_ID() == 0)
 			throw new AdempiereException("@C_BPartner_ID@ @NotFound@");
+
+		if (getC_Invoice_ID() > 0 && getOpenAmt().subtract(getPayAmt()).subtract(getDiscountAmt()).signum() < 0 )
+			throw new AdempiereException("@PayAmt@ > @C_Invoice_ID@ @Amount@ @OpenAmt@ ");
+
 		return true;
 	}	//	beforeSave
 	

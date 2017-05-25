@@ -91,5 +91,6 @@ CREATE OR REPLACE VIEW C_Payment_v AS
     p.C_Activity_ID,
     p.C_Order_ID,
     p.User1_ID,
-    p.User2_ID
-   FROM C_Payment p ;
+    p.User2_ID,
+    p.Description
+   FROM C_Payment p;

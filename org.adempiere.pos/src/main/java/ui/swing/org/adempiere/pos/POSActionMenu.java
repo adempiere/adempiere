@@ -105,7 +105,13 @@ public class POSActionMenu implements  ActionListener , POSQueryListener{
         			&& pos.isCompleted()) {
         		executeCommand(command);
         	}
-        } else if (command.getCommand() == CommandManager.GENERATE_WITHDRAWAL) {
+        }
+        else if (command.getCommand() == CommandManager.COMPLETE_DOCUMENT) {
+            if(pos.getC_Order_ID() > 0) {
+                executeCommand(command);
+            }
+        }
+        else if (command.getCommand() == CommandManager.GENERATE_WITHDRAWAL) {
             executeCommand(command);
         } else if (command.getCommand() == CommandManager.CLOSE_STATEMENT) {
             executeCommand(command);
@@ -147,9 +153,10 @@ public class POSActionMenu implements  ActionListener , POSQueryListener{
                         showError(processInfo);
                     } else {
                         afterExecutionCommand(command);
-                        showOkMessage(processInfo);
-                        if(processInfo != null)
-                        	pos.setOrder(processInfo.getRecord_ID());
+                        if(processInfo != null) {
+                            showOkMessage(processInfo);
+                            pos.setOrder(processInfo.getRecord_ID());
+                        }
                         pos.refreshHeader();
                         //	Print Ticket
                         pos.printTicket();
@@ -182,7 +189,8 @@ public class POSActionMenu implements  ActionListener , POSQueryListener{
                     else
                     {
                         afterExecutionCommand(command);
-                        showOkMessage(processInfo);
+                        if (processInfo != null)
+                            showOkMessage(processInfo);
                     }
                     pos.printTicket();
                 }
@@ -212,10 +220,9 @@ public class POSActionMenu implements  ActionListener , POSQueryListener{
                     else
                     {
                         afterExecutionCommand(command);
-                        showOkMessage(processInfo);
                         //execute out transaction
-                        if (processInfo != null 
-                        		&& processInfo.getRecord_ID() > 0) {
+                        if (processInfo != null && processInfo.getRecord_ID() > 0) {
+                            showOkMessage(processInfo);
                             pos.setOrder(processInfo.getRecord_ID());
                             pos.refreshHeader();
                         }
@@ -239,6 +246,27 @@ public class POSActionMenu implements  ActionListener , POSQueryListener{
                 new VBrowser(ff, true , pos.getWindowNo(), "" , browse , "" , true, "", true);
                 ff.pack();
                 AEnv.showCenterScreen(ff);
+            }
+            else if (command.getCommand() == CommandManager.COMPLETE_DOCUMENT) {
+                receiver.setCtx(pos.getCtx());
+                receiver.setOrderId(pos.getC_Order_ID());
+                receiver.setPOSId(pos.getC_POS_ID());
+                receiver.setPartnerId(pos.getC_BPartner_ID());
+                receiver.setBankAccountId(pos.getC_BankAccount_ID());
+                command.execute(receiver);
+                ProcessInfo processInfo = receiver.getProcessInfo();
+                waiting.setVisible(false);
+                if (processInfo != null && processInfo.isError()) {
+                    showError(processInfo);
+                }
+                else
+                {
+                    afterExecutionCommand(command);
+                    if (processInfo != null)
+                        showOkMessage(processInfo);
+
+                    pos.refreshHeader();
+                }
             }
         }
         catch (Exception exception)
