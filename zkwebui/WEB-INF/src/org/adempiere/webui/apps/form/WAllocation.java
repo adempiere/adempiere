@@ -182,6 +182,7 @@ public class WAllocation extends Allocation
 		invoiceInfo.setText(".");
 		paymentInfo.setText(".");
 		chargeLabel.setText(" " + Msg.translate(Env.getCtx(), "C_Charge_ID"));
+		orgWriteLabel.setText(" " + Msg.translate(Env.getCtx(), "AD_Org_ID"));
 		differenceLabel.setText(Msg.getMsg(Env.getCtx(), "Difference"));
 		differenceField.setText("0");
 		differenceField.setStyle("text-align: right");
