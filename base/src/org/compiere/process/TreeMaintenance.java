@@ -104,7 +104,6 @@ public class TreeMaintenance extends SvrProcess
 			if (C_Element_ID <= 0)
 				throw new IllegalStateException("No Account Element found");
 		}
-
 		
 		//	Delete unused
 		StringBuffer sql = new StringBuffer();
@@ -152,7 +151,7 @@ public class TreeMaintenance extends SvrProcess
 					node = new MTree_NodeBP(tree, Node_ID);
 				else if (nodeTableName.equals("AD_TreeNodePR"))
 					node = new MTree_NodePR(tree, Node_ID);
-				else if (nodeTableName.equals("AD_TreeNode"))
+				else if (nodeTableName.equals("AD_TreeNodeMM"))
 					node = new MTree_NodeMM(tree, Node_ID);
 				else if (nodeTableName.equals("AD_TreeNodeU1"))
 					node = new MTree_NodeU1(tree, Node_ID);
