@@ -1718,7 +1718,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 						log.finer("PageBreak row=" + row);
 				}
 			}
-			//	Summary/Line Levels for Finanial Reports
+			//	Summary/Line Levels for Financial Reports
 			else
 			{
 				levelNo = printData.getLineLevelNo();

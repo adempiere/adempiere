@@ -923,6 +923,32 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
         return new KeyNamePair(get_ID(), getName());
     }
 
+	/** PrintDocument AD_Reference_ID=53425 */
+	public static final int PRINTDOCUMENT_AD_Reference_ID=53425;
+	/** Order = 0 */
+	public static final String PRINTDOCUMENT_Order = "0";
+	/** Shipment = 1 */
+	public static final String PRINTDOCUMENT_Shipment = "1";
+	/** Invoice = 2 */
+	public static final String PRINTDOCUMENT_Invoice = "2";
+	/** Set Print Document.
+		@param PrintDocument 
+		Document to print
+	  */
+	public void setPrintDocument (String PrintDocument)
+	{
+
+		set_Value (COLUMNNAME_PrintDocument, PrintDocument);
+	}
+
+	/** Get Print Document.
+		@return Document to print
+	  */
+	public String getPrintDocument () 
+	{
+		return (String)get_Value(COLUMNNAME_PrintDocument);
+	}
+
 	/** Set Print Text.
 		@param PrintName 
 		The label text to be printed on a document or correspondence.
