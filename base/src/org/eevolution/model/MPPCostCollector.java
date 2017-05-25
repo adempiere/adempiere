@@ -401,21 +401,13 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction ,
 		{
 			MProduct product = getM_Product();
 			//Validate if ASI is mandatory
-			MAttributeSet.validateAttributeSetInstanceMandatory(product, Table_ID , false , getM_AttributeSetInstanceTo_ID());
-			/*if (getM_AttributeSetInstance_ID() == 0 && product.isASIMandatory(false, getAD_Org_ID()))
-			{
-				throw new AdempiereException("@M_AttributeSet_ID@ @IsMandatory@ @M_Product_ID@=" + product.getValue());
-			}*/
+			MAttributeSet.validateAttributeSetInstanceMandatory(product, Table_ID , false , getM_AttributeSetInstance_ID());
 		}
 		// Receipt
 		else if (isReceipt())
 		{
 			MProduct product = getM_Product();
-			MAttributeSet.validateAttributeSetInstanceMandatory(product, Table_ID , false , getM_AttributeSetInstanceTo_ID());
-			/*if (getM_AttributeSetInstance_ID() == 0 && product.isASIMandatory(true,getAD_Org_ID()))
-			{
-				throw new AdempiereException("@M_AttributeSet_ID@ @IsMandatory@ @M_Product_ID@=" + product.getValue());
-			}**/
+			MAttributeSet.validateAttributeSetInstanceMandatory(product, Table_ID , false , getM_AttributeSetInstance_ID());
 		}
 		
 		m_justPrepared = true;
