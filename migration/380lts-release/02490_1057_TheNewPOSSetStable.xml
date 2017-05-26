@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="The new POS functionality is stable version so need be chang" ReleaseNo="3.9.0" SeqNo="2490">
+    <Comments>https://github.com/adempiere/adempiere/issues/1057</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="105" Action="U" Record_ID="339" Table="AD_Window">
+        <Data AD_Column_ID="12457" Column="IsBetaFunctionality" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="105" Action="U" Record_ID="338" Table="AD_Window">
+        <Data AD_Column_ID="12457" Column="IsBetaFunctionality" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="376" Action="U" Record_ID="113" Table="AD_Form">
+        <Data AD_Column_ID="12738" Column="IsBetaFunctionality" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="53822" Table="AD_Process">
+        <Data AD_Column_ID="12458" Column="IsBetaFunctionality" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="53824" Table="AD_Process">
+        <Data AD_Column_ID="12458" Column="IsBetaFunctionality" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="53202" Table="AD_Process">
+        <Data AD_Column_ID="12458" Column="IsBetaFunctionality" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="110" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="53823" Table="AD_Process">
+        <Data AD_Column_ID="12458" Column="IsBetaFunctionality" oldValue="true">false</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>
