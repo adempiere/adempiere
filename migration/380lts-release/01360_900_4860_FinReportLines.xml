@@ -552,5 +552,50 @@ WITH (
   OIDS=FALSE
 );</SQLStatement>
     </Step>
+    <Step DBType="Oracle" SeqNo="420" StepType="SQL">
+      <SQLStatement> DROP TABLE t_report;
+
+CREATE TABLE t_report
+(
+  ad_pinstance_id NUMBER(10,0) NOT NULL,
+  pa_reportline_id NUMBER(10,0) NOT NULL,
+  record_id NUMBER(10,0) NOT NULL,
+  fact_acct_id NUMBER(10,0) NOT NULL,
+  seqno NUMBER,
+  levelno NUMBER(10,0) DEFAULT 0,
+  name NVARCHAR2(60),
+  description NVARCHAR2(255),
+  col_0 NUMBER,
+  col_2 NUMBER,
+  col_1 NUMBER,
+  col_3 NUMBER,
+  col_4 NUMBER,
+  col_5 NUMBER,
+  col_6 NUMBER,
+  col_7 NUMBER,
+  col_8 NUMBER,
+  col_9 NUMBER,
+  col_10 NUMBER,
+  col_11 NUMBER,
+  col_12 NUMBER,
+  col_13 NUMBER,
+  col_14 NUMBER,
+  col_15 NUMBER,
+  col_16 NUMBER,
+  col_17 NUMBER,
+  col_18 NUMBER,
+  col_19 NUMBER,
+  col_20 NUMBER,
+  tablevel NUMBER(10,0),
+  reportlinestyle CHAR(1),
+  fixedpercentage NUMBER,
+  accounttype CHAR(1),
+  ax_case CHAR(1),
+  c_validcombination_id NUMBER(10,0) NOT NULL DEFAULT 0,
+  CONSTRAINT t_report_pkey PRIMARY KEY (ad_pinstance_id, pa_reportline_id, record_id, fact_acct_id),
+  CONSTRAINT adpinstance_treport FOREIGN KEY (ad_pinstance_id) REFERENCES ad_pinstance (ad_pinstance_id) ,
+  CONSTRAINT pareportline_treport FOREIGN KEY (pa_reportline_id) REFERENCES pa_reportline (pa_reportline_id) 
+);</SQLStatement>
+    </Step>
   </Migration>
 </Migrations>

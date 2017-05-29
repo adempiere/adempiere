@@ -125,6 +125,7 @@ import org.zkoss.zul.Menupopup;
  * 		@see FR [ 990 ] Sort Tab is not MVC</a>
  * @author Raul Muñoz, rMunoz@erpcya.com, ERPCyA http://www.erpcya.com
  *		<li> BR [ 1004 ] Bad size for processing dialog on ZK Web UI
+ *		<li> BR [ 1059 ] Error when a process button deletes a record from the window
  */
 public abstract class AbstractADWindowPanel extends AbstractUIPart implements ToolbarListener,
         EventListener, DataStatusListener, ActionListener, ASyncProcess
@@ -2386,7 +2387,8 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 	private void updateUI(ProcessInfo pi) {
 		//	Refresh data
 		//n.setHeight("68px");
-		curTab.dataRefresh(false);
+		//	BR [ 1059 ]
+		//	curTab.dataRefresh(false);
 		//	Timeout
 		if (pi.isTimeout())		//	set temporarily to R/O
 			Env.setContext(ctx, curWindowNo, "Processed", "Y");
