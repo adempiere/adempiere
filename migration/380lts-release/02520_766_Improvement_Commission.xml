@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Improve Commission Calculation #766" ReleaseNo="3.9.0" SeqNo="90000">
+  <Migration EntityType="D" Name="Improve Commission Calculation #766" ReleaseNo="3.9.0" SeqNo="2520">
     <Comments>Create window Commission Group</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="100" Action="I" Record_ID="54195" Table="AD_Table">

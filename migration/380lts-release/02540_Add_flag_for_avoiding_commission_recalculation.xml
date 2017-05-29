@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Add a flag for avoiding commission recalculation" ReleaseNo="3.9.0" SeqNo="90020">
+  <Migration EntityType="D" Name="Add a flag for avoiding commission recalculation" ReleaseNo="3.9.0" SeqNo="2540">
     <Comments>https://github.com/marcalwestf/commissions/issues/2</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="276" Action="I" Record_ID="59312" Table="AD_Element">
