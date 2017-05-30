@@ -83,6 +83,7 @@ import org.zkoss.zul.Html;
  *  @author Raul Muñoz, rMunoz@erpcya.com, ERPCyA http://www.erpcya.com
  *		<li>FR [ 299 ] Instance saved, is not supported for swing UI
  *		<li>FR [ 1051 ] Process Dialog have not scroll bar in zk
+ *		<li>FR [ 1061 ] Process Modal Dialog in zk height is not autosize
  *	@author Michael Mckay michael.mckay@mckayerp.com
  *		<li>BF [ <a href="https://github.com/adempiere/adempiere/issues/495">495</a> ] Parameter Panel & SmartBrowser criteria do not set gridField value
  * 	@version 	2006-12-01
@@ -129,6 +130,7 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 	/**	Rows for Parameters	*/
 	private Rows 	rows;
 	private Row		currentRow;
+	private int		qtyRow = 0;
 	//
 	private Center 	centerPanel;
 	private Panel	mainPanel;
@@ -305,9 +307,12 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 		//	
 		mainPanel.appendChild(mainLayout);
 		
-		mainPanel.setHeight("100%");
+		//mainPanel.setHeight("100%");
 		mainPanel.setWidth("100%");
 		parameterPanel.setWidth("97%");
+		mainPanel.invalidate();
+		mainPanel.setStyle("height:100%");
+		mainPanel.invalidate();
 		//
 		loadQuerySaved();
 		fSavedName.addEventListener(Events.ON_CHANGE, this);
@@ -347,6 +352,8 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 		if(editor == null) {
 			return;
 		}
+		//	FR [ 1061 ]
+		qtyRow++;
 		//streach component to fill grid cell
 		editor.fillHorizontal();
         //setup editor context menu
@@ -702,4 +709,11 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 		return validError;
 	}	//	printInvoices
 	
+	/**
+	 * Get Quantity Row
+	 * @return
+	 */
+	public int getQtyRow() {
+		return qtyRow;
+	}
 }	//	ProcessParameterPanel

@@ -23,6 +23,7 @@ import org.compiere.process.ProcessInfo;
 import org.compiere.util.ASyncProcess;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
+import org.compiere.util.Msg;
 
 /**
  * 
@@ -42,6 +43,7 @@ import org.compiere.util.Env;
  * @author Raul Muñoz, rMunoz@erpcya.com, ERPCyA http://www.erpcya.com
  *		<li> BR [ 1004 ] Bad size for processing dialog on ZK Web UI
  *		<li> FR [ 1051 ] Process Dialog have not scroll bar in zk
+ *		<li> FR [ 1061 ] Process Modal Dialog in zk height is not autosize
  */
 public class ProcessModalDialog extends Window implements IZKProcessDialog {
 	/**
@@ -99,6 +101,7 @@ public class ProcessModalDialog extends Window implements IZKProcessDialog {
 	private int 			windowNo;
 	private boolean 		onlyPanel;
 	private boolean 		autoStart;
+	private boolean			isDefaultLastRun;
 	
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(ProcessModalDialog.class);
@@ -106,6 +109,11 @@ public class ProcessModalDialog extends Window implements IZKProcessDialog {
 	private ProcessPanel 	processPanel = null;
 	/**	Process Information	*/
 	private ProcessInfo 	processInfo = null;
+	
+	/**	Min Height Panel */
+	private static final int MINHEIGHT = 170;
+	/** Row Height */
+	private static final int ROWHEIGHT = 36;
 	
 	/**
 	 * 	Set Visible 
@@ -129,10 +137,12 @@ public class ProcessModalDialog extends Window implements IZKProcessDialog {
 	 * @return boolean
 	 */
 	public boolean isValid() {
+		if(isDefaultLastRun())
+			processPanel.loadLastRunParameter();
+		
 		if(autoStart) {
 			setStyle("");
 			getFirstChild().setVisible(false);
-			setBorder("none");
 			setTitle(null);
 			setBorder("none");
 			setVisible(false);
@@ -168,14 +178,18 @@ public class ProcessModalDialog extends Window implements IZKProcessDialog {
 			setMaximizable(true);
 			setPosition("center");
 			//	FR [ 1051 ]
-			setWidth("75%");
-			setHeight("60%");
+			setWidth("55%");
+			
 			appendChild(processPanel.getPanel());
 		} else {
 			setTitle(null);
 			appendChild(new BusyDialog());
 			processPanel.process();
 		}
+		//	FR [ 1061 ]
+		int height= ROWHEIGHT * processPanel.getQtyRow() + MINHEIGHT;
+		setStyle("max-height:90%; height:"+height+"px");
+		
 		return true;
 	}	//	init
 	
@@ -220,5 +234,14 @@ public class ProcessModalDialog extends Window implements IZKProcessDialog {
 	@Override
 	public void runProcess() {
 		processPanel.runProcess();
+	}
+
+	public void setDefaultLastRun(boolean isDefaultLastRun) {
+		this.isDefaultLastRun = isDefaultLastRun;
+	}
+	
+	@Override
+	public boolean isDefaultLastRun() {
+		return this.isDefaultLastRun;
 	}
 }	//	ProcessDialog
