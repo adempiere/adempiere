@@ -79,11 +79,11 @@ import org.zkoss.zul.Window;
 public class AdempiereWebUI extends Window implements EventListener, IWebClient
 {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 3744725245132180915L;
 
-	public static final String APP_NAME = "Adempiere";
+	public static final String APP_NAME = "ADempiere";
 
     public static final String UID          = "3.5";
 
@@ -102,13 +102,13 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 	public static final String EXECUTION_CARRYOVER_SESSION_KEY = "execution.carryover";
 
 	public static final String ZK_DESKTOP_SESSION_KEY = "zk.desktop";
-	
+
 	public static final String ZK_CLIENT_CONTEXT = "zk_client_context";
-	
+
 	private static final String SAVED_CONTEXT = "saved.context";
-	
+
 	public static final String APPLICATION_DESKTOP_KEY = "application.desktop";
-	
+
     public AdempiereWebUI()
     {
     	this.addEventListener(Events.ON_CLIENT_INFO, this);
@@ -125,7 +125,7 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
         langSession = Env.getContext(ctx, Env.LANGUAGE);
         SessionManager.setSessionApplication(this);
         Session session = Executions.getCurrent().getDesktop().getSession();
-        
+
         @SuppressWarnings("unchecked")
 		Map<String, Object>map = (Map<String, Object>) session.getAttribute(SAVED_CONTEXT);
         session.removeAttribute(SAVED_CONTEXT);
@@ -134,7 +134,7 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
         	onChangeRole(map);
         	return;
         }
-        
+
         if (session.getAttribute(SessionContextListener.SESSION_CTX) == null || !SessionManager.isUserLoggedIn(ctx))
         {
             loginDesktop = new WLogin(this);
@@ -217,7 +217,7 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 
 		// to reload preferences when the user refresh the browser
 		userPreference = loadUserPreference(Env.getAD_User_ID(ctx));
-		
+
 		//auto commit user preference
 		String autoCommit = userPreference.getProperty(UserPreference.P_AUTO_COMMIT);
 		Env.setAutoCommit(ctx, "true".equalsIgnoreCase(autoCommit) || "y".equalsIgnoreCase(autoCommit));
@@ -280,7 +280,7 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 						appDesktop.setPage(this.getPage());
 						currSess.setAttribute(EXECUTION_CARRYOVER_SESSION_KEY, current);
 					}
-					
+
 					currSess.setAttribute(ZK_DESKTOP_SESSION_KEY, this.getPage().getDesktop());
 				} catch (Throwable t) {
 					//restore fail
@@ -301,7 +301,7 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 			currSess.setAttribute(EXECUTION_CARRYOVER_SESSION_KEY, eco);
 			currSess.setAttribute(ZK_DESKTOP_SESSION_KEY, this.getPage().getDesktop());
 		}
-		
+
 		if ("Y".equalsIgnoreCase(Env.getContext(ctx, BrowserToken.REMEMBER_ME)) && MSystem.isZKRememberUserAllowed())
 		{
 			MUser user = MUser.get(ctx);
@@ -393,7 +393,7 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 	public UserPreference getUserPreference() {
 		return userPreference;
 	}
-	
+
 	//global command
 	static {
 		new ZoomCommand("onZoom", Command.IGNORE_OLD_EQUIV);
@@ -420,7 +420,7 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 		Env.setContext(properties, AEnv.LOCALE, Env.getContext(Env.getCtx(), AEnv.LOCALE));
 
 		Locale locale = (Locale) Executions.getCurrent().getDesktop().getSession().getAttribute(Attributes.PREFERRED_LOCALE);
-		HttpServletRequest httpRequest = (HttpServletRequest) Executions.getCurrent().getNativeRequest();		
+		HttpServletRequest httpRequest = (HttpServletRequest) Executions.getCurrent().getNativeRequest();
 
 		Session session = Executions.getCurrent().getDesktop().getSession();
 
@@ -432,7 +432,7 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 		// clear remove all children and root component
 		getChildren().clear();
 		getPage().removeComponents();
-		
+
 		Env.getCtx().clear();
 
 		// clear session attributes
@@ -444,13 +444,13 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 		map.put("locale", locale);
 
 		HttpSession newSession = httpRequest.getSession(false);
-		
+
 		newSession.setAttribute(SAVED_CONTEXT, map);
 		properties.setProperty(SessionContextListener.SERVLET_SESSION_ID, newSession.getId());
-		
+
 		Executions.sendRedirect("index.zul");
 	}
-	
+
 	public void changeRole(Locale locale, Properties properties)
 	{
 		loginDesktop.changeRole(locale, properties);

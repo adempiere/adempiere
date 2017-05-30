@@ -137,25 +137,27 @@ public class WPerformanceIndicator extends Panel implements EventListener
                  	  new Range(rangeLo, rangeHi), //range
                  	  colorSchema.getColor(rangeHi),
                  	  new BasicStroke(7.0f),
-                 	  new Color(-13091716)
+                 	  new Color(0xF7F7F7)
                 ));
             	rangeLo = rangeHi;
             }
         }
         plot.setRange(new Range(0,rangeLo));
 
-        plot.setDialBackgroundPaint(new Color(-13091716));
+        plot.setDialBackgroundPaint(new Color(0xF7F7F7));
         plot.setUnits("");
         plot.setDialShape(DialShape.CHORD);//CIRCLE);
-        plot.setNeedlePaint(Color.white);
+        plot.setNeedlePaint(new Color(0X333333));
         plot.setTickSize(2000);
-        plot.setTickLabelFont(new Font("SansSerif", Font.BOLD, 8));
-        plot.setValueFont(new Font("SansSerif", Font.BOLD, 8));
-        plot.setNoDataMessageFont(new Font("SansSerif", Font.BOLD, 8));
+        plot.setTickLabelFont(new Font("Verdana", Font.TRUETYPE_FONT, 8));
+        plot.setValueFont(new Font("Verdana", Font.TRUETYPE_FONT, 8));
+        plot.setNoDataMessageFont(new Font("Verdana", Font.TRUETYPE_FONT, 8));
         plot.setTickLabelPaint(Color.white);
         plot.setInsets(new RectangleInsets(1.0, 2.0, 3.0, 4.0));
 
-        chart = new JFreeChart( m_text, new Font("SansSerif", Font.BOLD, 9), plot,false);
+        chart = new JFreeChart( m_text, new Font("Verdana", Font.TRUETYPE_FONT, 9), plot,false);
+
+		chart.setBackgroundPaint(new Color(0xF7F7F7));
 
 		return chart;
 	}

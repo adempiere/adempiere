@@ -178,26 +178,28 @@ public class PerformanceIndicator extends JPanel
                  	  colorSchema.getColor(rangeHi),
                  	  new BasicStroke(7.0f),
                  	  //Color.lightGray
-                 	  new Color(-13091716)
-                 	  //Color.gray 
+                 	  new Color(0xF7F7F7)
+                 	  //Color.gray
                 ));
             	rangeLo = rangeHi;
             }
         }
         plot.setRange(new Range(0,rangeLo));
-        
-        plot.setDialBackgroundPaint(new Color(-13091716));//Color.GRAY);
+
+        plot.setDialBackgroundPaint(new Color(0xF7F7F7));//Color.GRAY);
         plot.setUnits(m_goal.getName());
-        plot.setDialShape(DialShape.CHORD);//CIRCLE);        
+        plot.setDialShape(DialShape.CHORD);//CIRCLE);
         //plot.setDialBackgroundPaint(new GradientPaint(0, 0, m_goal.getColor(), 0, 1000, Color.black));
-        plot.setNeedlePaint(Color.white);  
+        plot.setNeedlePaint(new Color(0X333333));
         plot.setTickSize(2000);
-        plot.setTickLabelFont(new Font("SansSerif", Font.BOLD, 12));
-        plot.setTickLabelPaint(Color.white);
+        plot.setTickLabelFont(new Font("Verdana", Font.TRUETYPE_FONT, 16));
+        plot.setTickLabelPaint(new Color(0x333333));
         plot.setInsets(new RectangleInsets(1.0, 2.0, 3.0, 4.0)); 
 
-        chart = new JFreeChart( m_text, new Font("SansSerif", Font.BOLD, 15), plot,false);
-        
+        chart = new JFreeChart( m_text, new Font("Verdana", Font.TRUETYPE_FONT, 20), plot,false);
+
+		chart.setBackgroundPaint(new Color(0xF7F7F7));
+
 		return chart;
 	}
      /**
