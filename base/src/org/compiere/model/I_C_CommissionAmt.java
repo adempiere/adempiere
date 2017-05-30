@@ -1,6 +1,10 @@
 /******************************************************************************
  * Product: ADempiere ERP & CRM Smart Business Solution                       *
+<<<<<<< HEAD
+ * Copyright (C) 2006-2016 ADempiere Foundation, All Rights Reserved.         *
+=======
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
+>>>>>>> remotes/upstream/release/3.9.0
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * or (at your option) any later version.										*
@@ -41,6 +45,19 @@ public interface I_C_CommissionAmt
 
     /** Load Meta Data */
 
+    /** Column name ActualQty */
+    public static final String COLUMNNAME_ActualQty = "ActualQty";
+
+	/** Set Actual Quantity.
+	  * The actual quantity
+	  */
+	public void setActualQty (BigDecimal ActualQty);
+
+	/** Get Actual Quantity.
+	  * The actual quantity
+	  */
+	public BigDecimal getActualQty();
+
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
 
@@ -62,18 +79,20 @@ public interface I_C_CommissionAmt
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name ActualQty */
-    public static final String COLUMNNAME_ActualQty = "ActualQty";
+    /** Column name C_BPartner_ID */
+    public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 
-	/** Set Actual Quantity.
-	  * The actual quantity
+	/** Set Business Partner .
+	  * Identifies a Business Partner
 	  */
-	public void setActualQty (BigDecimal ActualQty);
+	public void setC_BPartner_ID (int C_BPartner_ID);
 
-	/** Get Actual Quantity.
-	  * The actual quantity
+	/** Get Business Partner .
+	  * Identifies a Business Partner
 	  */
-	public BigDecimal getActualQty();
+	public int getC_BPartner_ID();
+
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
 
     /** Column name C_CommissionAmt_ID */
     public static final String COLUMNNAME_C_CommissionAmt_ID = "C_CommissionAmt_ID";

@@ -1,6 +1,10 @@
 /******************************************************************************
  * Product: ADempiere ERP & CRM Smart Business Solution                       *
+<<<<<<< HEAD
+ * Copyright (C) 2006-2016 ADempiere Foundation, All Rights Reserved.         *
+=======
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
+>>>>>>> remotes/upstream/release/3.9.0
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * or (at your option) any later version.										*
@@ -92,6 +96,17 @@ public interface I_C_Commission
 
 	public org.compiere.model.I_C_Charge getC_Charge() throws RuntimeException;
 
+    /** Column name C_CommissionGroup_ID */
+    public static final String COLUMNNAME_C_CommissionGroup_ID = "C_CommissionGroup_ID";
+
+	/** Set Commission Group	  */
+	public void setC_CommissionGroup_ID (int C_CommissionGroup_ID);
+
+	/** Get Commission Group	  */
+	public int getC_CommissionGroup_ID();
+
+	public org.compiere.model.I_C_CommissionGroup getC_CommissionGroup() throws RuntimeException;
+
     /** Column name C_Commission_ID */
     public static final String COLUMNNAME_C_Commission_ID = "C_Commission_ID";
 
@@ -120,19 +135,6 @@ public interface I_C_Commission
 
 	public org.compiere.model.I_C_Currency getC_Currency() throws RuntimeException;
 
-    /** Column name CreateFrom */
-    public static final String COLUMNNAME_CreateFrom = "CreateFrom";
-
-	/** Set Create lines from.
-	  * Process which will generate a new document lines based on an existing document
-	  */
-	public void setCreateFrom (String CreateFrom);
-
-	/** Get Create lines from.
-	  * Process which will generate a new document lines based on an existing document
-	  */
-	public String getCreateFrom();
-
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -148,6 +150,19 @@ public interface I_C_Commission
 	  * User who created this records
 	  */
 	public int getCreatedBy();
+
+    /** Column name CreateFrom */
+    public static final String COLUMNNAME_CreateFrom = "CreateFrom";
+
+	/** Set Create lines from.
+	  * Process which will generate a new document lines based on an existing document
+	  */
+	public void setCreateFrom (String CreateFrom);
+
+	/** Get Create lines from.
+	  * Process which will generate a new document lines based on an existing document
+	  */
+	public String getCreateFrom();
 
     /** Column name DateLastRun */
     public static final String COLUMNNAME_DateLastRun = "DateLastRun";
@@ -213,6 +228,32 @@ public interface I_C_Commission
 	  * The record is active in the system
 	  */
 	public boolean isActive();
+
+    /** Column name IsTotallyPaid */
+    public static final String COLUMNNAME_IsTotallyPaid = "IsTotallyPaid";
+
+	/** Set Paid totally.
+	  * The document is totally paid
+	  */
+	public void setIsTotallyPaid (boolean IsTotallyPaid);
+
+	/** Get Paid totally.
+	  * The document is totally paid
+	  */
+	public boolean isTotallyPaid();
+
+    /** Column name IsAllowRMA */
+    public static final String COLUMNNAME_IsAllowRMA = "IsAllowRMA";
+
+	/** Set Allow RMA.
+	  * Allow to consider RMA
+	  */
+	public void setIsAllowRMA (boolean IsAllowRMA);
+
+	/** Get Allow RMA.
+	  * Allow to consider RMA
+	  */
+	public boolean isAllowRMA();
 
     /** Column name ListDetails */
     public static final String COLUMNNAME_ListDetails = "ListDetails";

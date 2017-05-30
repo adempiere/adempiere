@@ -31,7 +31,7 @@ public class X_C_Commission extends PO implements I_C_Commission, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170407L;
+	private static final long serialVersionUID = 20170416L;
 
     /** Standard Constructor */
     public X_C_Commission (Properties ctx, int C_Commission_ID, String trxName)
@@ -131,6 +131,31 @@ public class X_C_Commission extends PO implements I_C_Commission, I_Persistent
 	public int getC_Charge_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_Charge_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_CommissionGroup getC_CommissionGroup() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_CommissionGroup)MTable.get(getCtx(), org.compiere.model.I_C_CommissionGroup.Table_Name)
+			.getPO(getC_CommissionGroup_ID(), get_TrxName());	}
+
+	/** Set Commission Group.
+		@param C_CommissionGroup_ID Commission Group	  */
+	public void setC_CommissionGroup_ID (int C_CommissionGroup_ID)
+	{
+		if (C_CommissionGroup_ID < 1) 
+			set_Value (COLUMNNAME_C_CommissionGroup_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_CommissionGroup_ID, Integer.valueOf(C_CommissionGroup_ID));
+	}
+
+	/** Get Commission Group.
+		@return Commission Group	  */
+	public int getC_CommissionGroup_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_CommissionGroup_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -290,6 +315,54 @@ public class X_C_Commission extends PO implements I_C_Commission, I_Persistent
 	public String getFrequencyType () 
 	{
 		return (String)get_Value(COLUMNNAME_FrequencyType);
+	}
+
+	/** Set Paid totally.
+		@param IsTotallyPaid 
+		The document is totally paid
+	  */
+	public void setIsTotallyPaid (boolean IsTotallyPaid)
+	{
+		set_Value (COLUMNNAME_IsTotallyPaid, Boolean.valueOf(IsTotallyPaid));
+	}
+
+	/** Get Paid totally.
+		@return The document is totally paid
+	  */
+	public boolean isTotallyPaid () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsTotallyPaid);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Allow RMA.
+		@param IsAllowRMA 
+		Allow to consider RMA
+	  */
+	public void setIsAllowRMA (boolean IsAllowRMA)
+	{
+		set_Value (COLUMNNAME_IsAllowRMA, Boolean.valueOf(IsAllowRMA));
+	}
+
+	/** Get Allow RMA.
+		@return Allow to consider RMA
+	  */
+	public boolean isAllowRMA () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsAllowRMA);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
 	}
 
 	/** Set List Details.

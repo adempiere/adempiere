@@ -32,6 +32,7 @@ import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MBPartner;
+import org.compiere.model.MCommission;
 import org.compiere.model.MDocType;
 import org.compiere.model.MFactAcct;
 import org.compiere.model.MPeriod;
@@ -72,6 +73,8 @@ import javax.script.ScriptEngine;
  * 		@see FR [ 765 ] Method getAttribute is inconsistent</a>
  * 		<a href="https://github.com/adempiere/adempiere/issues/834">
  * 		@see FR [ 834 ] add break date for getAttribute</a>
+ * 		<a href="https://github.com/adempiere/adempiere/issues/766">
+ * 		@see FR [ 766 ] Improve Commission Calculation</a>
  */
 public class MHRProcess extends X_HR_Process implements DocAction
 {
@@ -2357,4 +2360,54 @@ public class MHRProcess extends X_HR_Process implements DocAction
 
 		return employee;
 	}
+	
+	/**********************************************************************************
+	 * Helper Method for Get Amount from commission                                   *
+	 **********************************************************************************/
+	
+	/**
+	 * Get Commission of Employee sales representative from Commission Run
+	 * @param bPartnerId
+	 * @param from
+	 * @param to
+	 * @param docBasisType
+	 * @return
+	 */
+	public double getCommissionAmt(int bPartnerId, Timestamp from, Timestamp to, String docBasisType) {
+		BigDecimal value = MCommission.getCommissionAmt(bPartnerId, from, to, docBasisType);
+		//	Validate value
+		if(value == null)
+			return 0.0;
+		//	Default
+		return value.doubleValue();
+	}
+	
+	/**
+	 * Get commission amount for current employee
+	 * @param from
+	 * @param to
+	 * @param docBasisType
+	 * @return
+	 */
+	public double getCommissionAmt(Timestamp from, Timestamp to, String docBasisType) {
+		return getCommissionAmt(partnerId, from, to, docBasisType);
+	}
+	
+	/**
+	 * Get commission amount for current employee on current period with a doc basis type
+	 * @param docBasisType
+	 * @return
+	 */
+	public double getCommissionAmt(String docBasisType) {
+		return getCommissionAmt(dateFrom, dateTo, docBasisType);
+	}
+	
+	/**
+	 * Get commission amount for current employee and current period and all doc basis type
+	 * @return
+	 */
+	public double getCommissionAmt() {
+		return getCommissionAmt(null);
+	}
+	
 }	//	MHRProcess

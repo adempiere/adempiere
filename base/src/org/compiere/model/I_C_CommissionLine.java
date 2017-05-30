@@ -1,6 +1,10 @@
 /******************************************************************************
  * Product: ADempiere ERP & CRM Smart Business Solution                       *
+<<<<<<< HEAD
+ * Copyright (C) 2006-2016 ADempiere Foundation, All Rights Reserved.         *
+=======
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
+>>>>>>> remotes/upstream/release/3.9.0
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * or (at your option) any later version.										*
@@ -88,21 +92,6 @@ public interface I_C_CommissionLine
 	  */
 	public BigDecimal getAmtSubtract();
 
-    /** Column name C_BP_Group_ID */
-    public static final String COLUMNNAME_C_BP_Group_ID = "C_BP_Group_ID";
-
-	/** Set Business Partner Group.
-	  * Business Partner Group
-	  */
-	public void setC_BP_Group_ID (int C_BP_Group_ID);
-
-	/** Get Business Partner Group.
-	  * Business Partner Group
-	  */
-	public int getC_BP_Group_ID();
-
-	public org.compiere.model.I_C_BP_Group getC_BP_Group() throws RuntimeException;
-
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 
@@ -118,18 +107,50 @@ public interface I_C_CommissionLine
 
 	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
 
-    /** Column name C_CommissionLine_ID */
-    public static final String COLUMNNAME_C_CommissionLine_ID = "C_CommissionLine_ID";
+    /** Column name C_BP_Group_ID */
+    public static final String COLUMNNAME_C_BP_Group_ID = "C_BP_Group_ID";
 
-	/** Set Commission Line.
-	  * Commission Line
+	/** Set Business Partner Group.
+	  * Business Partner Group
 	  */
-	public void setC_CommissionLine_ID (int C_CommissionLine_ID);
+	public void setC_BP_Group_ID (int C_BP_Group_ID);
 
-	/** Get Commission Line.
-	  * Commission Line
+	/** Get Business Partner Group.
+	  * Business Partner Group
 	  */
-	public int getC_CommissionLine_ID();
+	public int getC_BP_Group_ID();
+
+	public org.compiere.model.I_C_BP_Group getC_BP_Group() throws RuntimeException;
+
+    /** Column name C_Campaign_ID */
+    public static final String COLUMNNAME_C_Campaign_ID = "C_Campaign_ID";
+
+	/** Set Campaign.
+	  * Marketing Campaign
+	  */
+	public void setC_Campaign_ID (int C_Campaign_ID);
+
+	/** Get Campaign.
+	  * Marketing Campaign
+	  */
+	public int getC_Campaign_ID();
+
+	public org.compiere.model.I_C_Campaign getC_Campaign() throws RuntimeException;
+
+    /** Column name C_Channel_ID */
+    public static final String COLUMNNAME_C_Channel_ID = "C_Channel_ID";
+
+	/** Set Channel.
+	  * Sales Channel
+	  */
+	public void setC_Channel_ID (int C_Channel_ID);
+
+	/** Get Channel.
+	  * Sales Channel
+	  */
+	public int getC_Channel_ID();
+
+	public org.compiere.model.I_C_Channel getC_Channel() throws RuntimeException;
 
     /** Column name C_Commission_ID */
     public static final String COLUMNNAME_C_Commission_ID = "C_Commission_ID";
@@ -146,20 +167,29 @@ public interface I_C_CommissionLine
 
 	public org.compiere.model.I_C_Commission getC_Commission() throws RuntimeException;
 
-    /** Column name C_SalesRegion_ID */
-    public static final String COLUMNNAME_C_SalesRegion_ID = "C_SalesRegion_ID";
+    /** Column name C_CommissionLine_ID */
+    public static final String COLUMNNAME_C_CommissionLine_ID = "C_CommissionLine_ID";
 
-	/** Set Sales Region.
-	  * Sales coverage region
+	/** Set Commission Line.
+	  * Commission Line
 	  */
-	public void setC_SalesRegion_ID (int C_SalesRegion_ID);
+	public void setC_CommissionLine_ID (int C_CommissionLine_ID);
 
-	/** Get Sales Region.
-	  * Sales coverage region
+	/** Get Commission Line.
+	  * Commission Line
 	  */
-	public int getC_SalesRegion_ID();
+	public int getC_CommissionLine_ID();
 
-	public org.compiere.model.I_C_SalesRegion getC_SalesRegion() throws RuntimeException;
+    /** Column name C_DunningLevel_ID */
+    public static final String COLUMNNAME_C_DunningLevel_ID = "C_DunningLevel_ID";
+
+	/** Set Dunning Level	  */
+	public void setC_DunningLevel_ID (int C_DunningLevel_ID);
+
+	/** Get Dunning Level	  */
+	public int getC_DunningLevel_ID();
+
+	public org.compiere.model.I_C_DunningLevel getC_DunningLevel() throws RuntimeException;
 
     /** Column name CommissionOrders */
     public static final String COLUMNNAME_CommissionOrders = "CommissionOrders";
@@ -173,6 +203,36 @@ public interface I_C_CommissionLine
 	  * Commission only Orders or Invoices, where this Sales Rep is entered
 	  */
 	public boolean isCommissionOrders();
+
+    /** Column name C_PaymentTerm_ID */
+    public static final String COLUMNNAME_C_PaymentTerm_ID = "C_PaymentTerm_ID";
+
+	/** Set Payment Term.
+	  * The terms of Payment (timing, discount)
+	  */
+	public void setC_PaymentTerm_ID (int C_PaymentTerm_ID);
+
+	/** Get Payment Term.
+	  * The terms of Payment (timing, discount)
+	  */
+	public int getC_PaymentTerm_ID();
+
+	public org.compiere.model.I_C_PaymentTerm getC_PaymentTerm() throws RuntimeException;
+
+    /** Column name C_Project_ID */
+    public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
+
+	/** Set Project.
+	  * Financial Project
+	  */
+	public void setC_Project_ID (int C_Project_ID);
+
+	/** Get Project.
+	  * Financial Project
+	  */
+	public int getC_Project_ID();
+
+	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -190,6 +250,39 @@ public interface I_C_CommissionLine
 	  */
 	public int getCreatedBy();
 
+    /** Column name C_SalesRegion_ID */
+    public static final String COLUMNNAME_C_SalesRegion_ID = "C_SalesRegion_ID";
+
+	/** Set Sales Region.
+	  * Sales coverage region
+	  */
+	public void setC_SalesRegion_ID (int C_SalesRegion_ID);
+
+	/** Get Sales Region.
+	  * Sales coverage region
+	  */
+	public int getC_SalesRegion_ID();
+
+	public org.compiere.model.I_C_SalesRegion getC_SalesRegion() throws RuntimeException;
+
+    /** Column name DaysFrom */
+    public static final String COLUMNNAME_DaysFrom = "DaysFrom";
+
+	/** Set Days From	  */
+	public void setDaysFrom (int DaysFrom);
+
+	/** Get Days From	  */
+	public int getDaysFrom();
+
+    /** Column name DaysTo */
+    public static final String COLUMNNAME_DaysTo = "DaysTo";
+
+	/** Set Days To	  */
+	public void setDaysTo (int DaysTo);
+
+	/** Get Days To	  */
+	public int getDaysTo();
+
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
 
@@ -202,6 +295,19 @@ public interface I_C_CommissionLine
 	  * Optional short description of the record
 	  */
 	public String getDescription();
+
+    /** Column name InvoiceCollectionType */
+    public static final String COLUMNNAME_InvoiceCollectionType = "InvoiceCollectionType";
+
+	/** Set Collection Status.
+	  * Invoice Collection Status
+	  */
+	public void setInvoiceCollectionType (String InvoiceCollectionType);
+
+	/** Get Collection Status.
+	  * Invoice Collection Status
+	  */
+	public String getInvoiceCollectionType();
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
@@ -256,6 +362,51 @@ public interface I_C_CommissionLine
 	public int getM_Product_Category_ID();
 
 	public org.compiere.model.I_M_Product_Category getM_Product_Category() throws RuntimeException;
+
+    /** Column name M_Product_Class_ID */
+    public static final String COLUMNNAME_M_Product_Class_ID = "M_Product_Class_ID";
+
+	/** Set Product Class.
+	  * Class of a Product
+	  */
+	public void setM_Product_Class_ID (int M_Product_Class_ID);
+
+	/** Get Product Class.
+	  * Class of a Product
+	  */
+	public int getM_Product_Class_ID();
+
+	public org.compiere.model.I_M_Product_Class getM_Product_Class() throws RuntimeException;
+
+    /** Column name M_Product_Classification_ID */
+    public static final String COLUMNNAME_M_Product_Classification_ID = "M_Product_Classification_ID";
+
+	/** Set Product Classification.
+	  * Classification of a Product
+	  */
+	public void setM_Product_Classification_ID (int M_Product_Classification_ID);
+
+	/** Get Product Classification.
+	  * Classification of a Product
+	  */
+	public int getM_Product_Classification_ID();
+
+	public org.compiere.model.I_M_Product_Classification getM_Product_Classification() throws RuntimeException;
+
+    /** Column name M_Product_Group_ID */
+    public static final String COLUMNNAME_M_Product_Group_ID = "M_Product_Group_ID";
+
+	/** Set Product Group.
+	  * Group of a Product
+	  */
+	public void setM_Product_Group_ID (int M_Product_Group_ID);
+
+	/** Get Product Group.
+	  * Group of a Product
+	  */
+	public int getM_Product_Group_ID();
+
+	public org.compiere.model.I_M_Product_Group getM_Product_Group() throws RuntimeException;
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
