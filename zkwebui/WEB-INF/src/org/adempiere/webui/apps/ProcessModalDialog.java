@@ -137,9 +137,6 @@ public class ProcessModalDialog extends Window implements IZKProcessDialog {
 	 * @return boolean
 	 */
 	public boolean isValid() {
-		if(isDefaultLastRun())
-			processPanel.loadLastRunParameter();
-		
 		if(autoStart) {
 			setStyle("");
 			getFirstChild().setVisible(false);
@@ -236,12 +233,4 @@ public class ProcessModalDialog extends Window implements IZKProcessDialog {
 		processPanel.runProcess();
 	}
 
-	public void setDefaultLastRun(boolean isDefaultLastRun) {
-		this.isDefaultLastRun = isDefaultLastRun;
-	}
-	
-	@Override
-	public boolean isDefaultLastRun() {
-		return this.isDefaultLastRun;
-	}
 }	//	ProcessDialog
