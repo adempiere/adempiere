@@ -12,7 +12,7 @@ html,body {
 
 <%-- login --%>
 .login-window {
-	background-color: #FAFAFA;
+	background-color: #003764;
 }
 
 .login-box-body {
@@ -155,7 +155,7 @@ html,body {
 	background-position: bottom left;
 	background-color: white;
 	width: 100%;
-	height: 80px;
+	height: 50px;
 }
 
 .desktop-header-font {
@@ -240,7 +240,7 @@ div.wc-modal, div.wc-modal-none, div.wc-highlighted, div.wc-highlighted-none {
 }
 
 .adwindow-nav-content {
-	background-color: #FAFAFA;
+	background-color: #D7D7D7;
 	height: 100%;
 	width:110px;
 	-moz-box-shadow: inset 0 0 5px #333;
@@ -282,7 +282,7 @@ div.wc-modal, div.wc-modal-none, div.wc-highlighted, div.wc-highlighted-none {
 	-moz-box-shadow: 0 0 5px #333;
 	-webkit-box-shadow: 0 0 5px #333;
 	box-shadow: 0 0 5px #333;
-	
+
 
 	background-color: #0068c5 !important;
 	background-image: url(../images/adtab-left-bg.png);
@@ -374,7 +374,7 @@ div.wc-modal, div.wc-modal-none, div.wc-highlighted, div.wc-highlighted-none {
 	height: 100%;
 	position: absolute;
 	background-color: #EDEDED;
-	
+
 }
 
 .adtab-grid-panel {
@@ -387,7 +387,7 @@ div.wc-modal, div.wc-modal-none, div.wc-highlighted, div.wc-highlighted-none {
 .adtab-grid {
 	width: 100%;
 	position: absolute;
-	
+
 }
 
 .adtab-tabpanels {
@@ -396,7 +396,7 @@ div.wc-modal, div.wc-modal-none, div.wc-highlighted, div.wc-highlighted-none {
 	border-bottom: 1px solid #9CBDFF;
 	border-left: 2px solid #9CBDFF;
 	border-right: 2px solid #9CBDFF;
-	
+
 }
 
 <%-- status bar --%>
@@ -437,7 +437,7 @@ div.wc-modal, div.wc-modal-none, div.wc-highlighted, div.wc-highlighted-none {
 }
 
 .message-error-text{
-	color: black; 
+	color: black;
 	font-weight: bold;
 	margin-top:10px;
 }
@@ -449,7 +449,7 @@ div.wc-modal, div.wc-modal-none, div.wc-highlighted, div.wc-highlighted-none {
 }
 
 .message-info-text{
-	color: black; 
+	color: black;
 	font-weight: bold;
 }
 
@@ -459,7 +459,7 @@ div.wc-modal, div.wc-modal-none, div.wc-highlighted, div.wc-highlighted-none {
 }
 
 .message-warning-text{
-	color: black; 
+	color: black;
 	font-weight: bold;
 }
 
