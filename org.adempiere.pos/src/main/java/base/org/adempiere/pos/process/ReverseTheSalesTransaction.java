@@ -43,6 +43,9 @@ import java.util.List;
 /**
  * Process allows reverse the sales order using new documents with new dates and cancel of original effects
  * eEvolution author Victor Perez <victor.perez@e-evolution.com>, Created by e-Evolution on 23/12/15.
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<a href="https://github.com/adempiere/adempiere/issues/1062">
+ * 		@see FR [ 1062 ] Throw exception on Reverse Sales Transaction</a>
  */
 public class ReverseTheSalesTransaction extends ReverseTheSalesTransactionAbstract  {
     private Timestamp today;
@@ -220,8 +223,16 @@ public class ReverseTheSalesTransaction extends ReverseTheSalesTransactionAbstra
         return payments;
     }
 
+    /**
+     * Get RMA Type
+     * @return
+     */
     public int getRMATypeId() {
-        return new Query(getCtx(), X_M_RMAType.Table_Name , null , get_TrxName()).setClient_ID().firstIdOnly();
+        return new Query(getCtx(), X_M_RMAType.Table_Name , null , get_TrxName())
+        	.setOnlyActiveRecords(true)
+        	.setOrderBy(X_M_RMAType.COLUMNNAME_Name)
+        	.setClient_ID()
+        	.firstId();
     }
 
     public List<MInvoice> getCreditNotes(int Id)
