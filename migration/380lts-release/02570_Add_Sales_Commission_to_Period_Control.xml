@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Add Sales Commission to Period Control" ReleaseNo="390" SeqNo="2570">
+  <Migration EntityType="D" Name="Add Sales Commission to Period Control" ReleaseNo="3.9.0" SeqNo="2570">
     <Comments>From2017 to 2018. Other years have to be done later.</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="229" Action="I" Record_ID="62101" Table="C_PeriodControl">
