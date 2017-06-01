@@ -321,7 +321,7 @@ public class FinReport extends FinReportAbstract
 		}
 		
 		//Add extra columns for account type and balancesheet/Pl flag.
-		Arrays.stream(reportLines[line].getSources()).forEach(reportLine -> {
+		Arrays.stream(reportLines[line].getSources()).forEach(reportSourceLine -> {
 			StringBuffer updateAccountType = new StringBuffer("UPDATE T_Report SET AccountType=accounttype1 ,ax_case=ax_case1 "
 												+ "FROM (SELECT ev.AccountType AS AccountType1 ,"
 					+ "CASE ev.accounttype " 
@@ -338,11 +338,11 @@ public class FinReport extends FinReportAbstract
 					+ " ELSE '9'  END   "
 					+ "as ax_case1 FROM Fact_Acct f "
 					+ "RIGHT  JOIN C_ElementValue ev  ON  f.Account_id = ev.C_ElementValue_ID WHERE ev.C_ElementValue_ID= ")
-					.append(reportLine.getC_ElementValue_ID())
+					.append(reportSourceLine.getC_ElementValue_ID())
 					.append(") t  " ).append(" WHERE AD_PInstance_ID = ")
 					.append(getAD_PInstance_ID())
 					.append(" AND PA_ReportLine_ID= ")
-					.append(reportLine.getPA_ReportLine_ID());
+					.append(reportLines[line].getPA_ReportLine_ID());
 			int no = DB.executeUpdate(updateAccountType .toString(), get_TrxName());
 			log.log(Level.INFO, "#=" + no + " for " + sqlStatementReport);
 		});
