@@ -806,7 +806,7 @@ public class ADTabPanel extends Div implements Evaluatee, EventListener, DataSta
     	if (getGrid() != null && activate)
 		{
 			Grid gridCurrent = getGrid();
-			((HtmlBasedComponent)gridCurrent).setStyle("border-left: 3px solid #AAAAAA; "); //border-top: 1px solid #fa962f; border-bottom: 1px solid #fa962f; border-right: 1px solid #fa962f;");
+			((HtmlBasedComponent)gridCurrent).setStyle("border-left: 3px solid #009bde; "); //border-top: 1px solid #fa962f; border-bottom: 1px solid #fa962f; border-right: 1px solid #fa962f;");
 	    	gridCurrent.setWidth("99.1%");
 
 		}
@@ -821,7 +821,7 @@ public class ADTabPanel extends Div implements Evaluatee, EventListener, DataSta
 		{
 			GridPanel gridPanel = getListPanel();
 			//gridPanel.setHeight("95%");
-			((HtmlBasedComponent)gridPanel).setStyle("border-left: 3px solid #aaaaaa; "); //border-top: 1px solid #fa962f; border-bottom: 1px solid #fa962f; border-right: 1px solid #fa962f;");
+			((HtmlBasedComponent)gridPanel).setStyle("border-left: 3px solid #009bde; "); //border-top: 1px solid #fa962f; border-bottom: 1px solid #fa962f; border-right: 1px solid #fa962f;");
 			gridPanel.setWidth("99.1%");
 			//gridPanel.setHeight("95%");
 		}
@@ -1121,7 +1121,7 @@ public class ADTabPanel extends Div implements Evaluatee, EventListener, DataSta
         dynamicDisplay(col);
 
 		int treeId = Env.getContextAsInt(Env.getCtx(), windowNo , gridTab.getTabNo(), "AD_Tree_ID");
-		if ((gridTab.isTreeTab() && treeId == 0) || gridTab.getTabLevel() == 0)
+		if ((gridTab.isTreeTab() && treeId == 0) || (gridTab.isTreeTab() && gridTab.getTabLevel() == 0))
 			treeId = MTree.getDefaultAD_Tree_ID (Env.getAD_Client_ID(Env.getCtx()), gridTab.getKeyColumnName());
 		if (gridTab.isTreeTab() && treeId > 0 && treePanel != null && treeId != treePanel.getTreeId()) {
 			treePanel.initTree(treeId, windowNo);
