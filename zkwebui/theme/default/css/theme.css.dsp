@@ -150,10 +150,12 @@ html,body {
 }
 
 .desktop-header {
+<%--
 	background-image: url(../images/header-bg.png);
+--%>
 	background-repeat: repeat-x;
 	background-position: bottom left;
-	background-color: white;
+	background-color: #f0faff;
 	width: 100%;
 	height: 50px;
 }
@@ -161,7 +163,7 @@ html,body {
 .desktop-header-font {
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: 10px;
-	color: #FFFFFF;
+	color: #009bde;
 }
 
 <%-- button --%>
@@ -240,7 +242,7 @@ div.wc-modal, div.wc-modal-none, div.wc-highlighted, div.wc-highlighted-none {
 }
 
 .adwindow-nav-content {
-	background-color: #D7D7D7;
+	background-color: #f0faff;
 	height: 100%;
 	width:110px;
 	-moz-box-shadow: inset 0 0 5px #333;
