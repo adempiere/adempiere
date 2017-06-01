@@ -166,12 +166,13 @@ public class MPaymentTerm extends X_C_PaymentTerm
 		{
 			if (isValid())
 				setIsValid(false);
-			if (m_schedule[0].isValid())
+			/*if (m_schedule[0].isValid())
 			{
 				m_schedule[0].setIsValid(false);
 				m_schedule[0].saveEx();
 			}
 			return "@Invalid@ @Count@ # = 1 (@C_PaySchedule_ID@)";
+			*/
 		}
 		
 		//	Add up
