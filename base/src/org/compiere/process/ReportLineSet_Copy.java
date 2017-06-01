@@ -74,7 +74,7 @@ public class ReportLineSet_Copy extends SvrProcess
 		//
 		MReportLineSet to = new MReportLineSet(getCtx(), to_ID, get_TrxName());
 		MReportLineSet rlSet = new MReportLineSet(getCtx(), m_PA_ReportLineSet_ID, get_TrxName());
-		MReportLine[] rls = rlSet.getLiness();
+		MReportLine[] rls = rlSet.getLines();
 		for (int i = 0; i < rls.length; i++)
 		{
 			MReportLine rl = MReportLine.copy (getCtx(), to.getAD_Client_ID(), to.getAD_Org_ID(), to_ID, rls[i], get_TrxName());

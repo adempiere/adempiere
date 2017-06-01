@@ -116,7 +116,7 @@ public class MReportLineSet extends X_PA_ReportLineSet
 	 * 	Get Liness
 	 *	@return array of lines
 	 */
-	public MReportLine[] getLiness()
+	public MReportLine[] getLines()
 	{
 		return m_lines;
 	}	//	getLines

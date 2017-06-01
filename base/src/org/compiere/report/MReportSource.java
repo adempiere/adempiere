@@ -223,7 +223,8 @@ public class MReportSource extends X_PA_ReportSource
 				whcomb.append(" AND C_SalesRegion_ID IS NULL");
 
 		if (getUserElement1_ID() > 0) {
-			String whtree = "UserElement1_ID=" + getUserElement1_ID(); // No Tree
+			String whtree = MReportTree.getWhereClause (getCtx(), hierarchyId, MReportSource.ELEMENTTYPE_UserElement1, getUserElement1_ID());
+			//String whtree = "UserElement1_ID=" + getUserElement1_ID(); // No Tree
 			if (isIncludeNullsUserElement1())
 				whcomb.append(" AND (UserElement1_ID IS NULL OR ").append(whtree).append(")");
 			else
@@ -233,7 +234,8 @@ public class MReportSource extends X_PA_ReportSource
 				whcomb.append(" AND UserElement1_ID IS NULL");
 
 		if (getUserElement2_ID() > 0) {
-			String whtree = "UserElement2_ID=" + getUserElement2_ID(); // No Tree
+			String whtree = MReportTree.getWhereClause (getCtx(), hierarchyId, MReportSource.ELEMENTTYPE_UserElement2,  getUserElement2_ID());
+			//String whtree = "UserElement2_ID=" + getUserElement2_ID(); // No Tree
 			if (isIncludeNullsUserElement2())
 				whcomb.append(" AND (UserElement2_ID IS NULL OR ").append(whtree).append(")");
 			else
@@ -243,7 +245,8 @@ public class MReportSource extends X_PA_ReportSource
 				whcomb.append(" AND UserElement2_ID IS NULL");
 
 		if (getUser1_ID() > 0) {
-			String whtree = "User1_ID=" + getUser1_ID(); // No Tree
+			String whtree = MReportTree.getWhereClause (getCtx(), hierarchyId, MReportSource.ELEMENTTYPE_UserList1, getUser1_ID());
+			//String whtree = "User1_ID=" + getUser1_ID(); // No Tree
 			if (isIncludeNullsUser1())
 				whcomb.append(" AND (User1_ID IS NULL OR ").append(whtree).append(")");
 			else
@@ -253,8 +256,9 @@ public class MReportSource extends X_PA_ReportSource
 			whcomb.append(" AND User1_ID IS NULL");
 
 		if (getUser2_ID() > 0) {
-			String whtree = "User2_ID=" + getUser2_ID(); // No Tree
-			if (isIncludeNullsUser2())
+			String whtree = MReportTree.getWhereClause (getCtx(), hierarchyId, MReportSource.ELEMENTTYPE_UserList2, getUser2_ID());
+			//String whtree = "User2_ID=" + getUser2_ID(); // No Tree
+			if (isIncludeNullsUserElement2())
 				whcomb.append(" AND (User2_ID IS NULL OR ").append(whtree).append(")");
 			else
 				whcomb.append(" AND ").append(whtree);
@@ -263,7 +267,8 @@ public class MReportSource extends X_PA_ReportSource
 			whcomb.append(" AND User2_ID IS NULL");
 
 		if (getUser3_ID() > 0) {
-			String whtree = "User3_ID=" + getUser3_ID(); // No Tree
+			String whtree = MReportTree.getWhereClause (getCtx(), hierarchyId, MReportSource.ELEMENTTYPE_UserList3, getUser3_ID());
+			//String whtree = "User3_ID=" + getUser3_ID(); // No Tree
 			if (isIncludeNullsUser3())
 				whcomb.append(" AND (User3_ID IS NULL OR ").append(whtree).append(")");
 			else
@@ -273,7 +278,8 @@ public class MReportSource extends X_PA_ReportSource
 			whcomb.append(" AND User3_ID IS NULL");
 
 		if (getUser4_ID() > 0) {
-			String whtree = "User4_ID=" + getUser4_ID(); // No Tree
+			String whtree = MReportTree.getWhereClause (getCtx(), hierarchyId, MReportSource.ELEMENTTYPE_UserList4, getUser4_ID());
+			//String whtree = "User4_ID=" + getUser4_ID(); // No Tree
 			if (isIncludeNullsUser4())
 				whcomb.append(" AND (User4_ID IS NULL OR ").append(whtree).append(")");
 			else
@@ -323,7 +329,6 @@ public class MReportSource extends X_PA_ReportSource
 	}	//	copy
 	
 	/**
-	 * @param source
 	 * @return
 	 */
 	public String getCombinationKey() {

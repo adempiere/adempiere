@@ -324,8 +324,8 @@ public class MReportLine extends X_PA_ReportLine
 	 */
 	public boolean isPostingType()
 	{
-		String PostingType = getPostingType();
-		return (PostingType != null && PostingType.length() > 0);
+		String postingtype = getPostingType();
+		return (postingtype != null && postingtype.length() > 0);
 	}	//	isPostingType
 
 	/**
