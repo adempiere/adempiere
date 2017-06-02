@@ -1,8 +1,9 @@
 /******************************************************************************
  * Product: ADempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 2006-2016 ADempiere Foundation, All Rights Reserved.         *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -17,69 +18,80 @@
 package org.eevolution.process;
 
 import org.compiere.process.SvrProcess;
+
 /** Generated Process for (Landed Cost Generate to based on Receipts)
  *  @author ADempiere (generated) 
  *  @version Release 3.9.0
  */
-public abstract class GenerateLandedCostAbstract extends SvrProcess
-{
+public abstract class GenerateLandedCostAbstract extends SvrProcess {
 	/** Process Value 	*/
-	private static final String VALUE = "C_LandedCost Receipts";
+	private static final String VALUE_FOR_PROCESS = "C_LandedCost Receipts";
 	/** Process Name 	*/
-	private static final String NAME = "Landed Cost Generate to based on Receipts";
+	private static final String NAME_FOR_PROCESS = "Landed Cost Generate to based on Receipts";
 	/** Process Id 	*/
-	private static final int ID = 53690;
- 
-	/**	Parameter Name for M_CostElement_ID	*/
-	public static final String M_CostElement_ID = "M_CostElement_ID";
-	/**	Parameter Name for LandedCostDistribution	*/
-	public static final String LandedCostDistribution = "LandedCostDistribution";
-	/**	Parameter Name for IsCreateByProduct	*/
-	public static final String IsCreateByProduct = "IsCreateByProduct";
-
-	/**	Parameter Value for costElementId	*/
+	private static final int ID_FOR_PROCESS = 53690;
+	/**	Parameter Name for Cost Element	*/
+	private static final String M_COSTELEMENT_ID = "M_CostElement_ID";
+	/**	Parameter Name for Cost Distribution	*/
+	private static final String LANDEDCOSTDISTRIBUTION = "LandedCostDistribution";
+	/**	Parameter Name for Create by Product	*/
+	private static final String ISCREATEBYPRODUCT = "IsCreateByProduct";
+	/**	Parameter Value for Cost Element	*/
 	private int costElementId;
-	/**	Parameter Value for costDistribution	*/
-	private String costDistribution;
-	/**	Parameter Value for isCreatebyProduct	*/
-	private boolean isCreatebyProduct;
- 
+	/**	Parameter Value for Cost Distribution	*/
+	private String landedCostDistribution;
+	/**	Parameter Value for Create by Product	*/
+	private boolean isCreateByProduct;
 
 	@Override
-	protected void prepare()
-	{
-		costElementId = getParameterAsInt(M_CostElement_ID);
-		costDistribution = getParameterAsString(LandedCostDistribution);
-		isCreatebyProduct = getParameterAsBoolean(IsCreateByProduct);
+	protected void prepare() {
+		costElementId = getParameterAsInt(M_COSTELEMENT_ID);
+		landedCostDistribution = getParameterAsString(LANDEDCOSTDISTRIBUTION);
+		isCreateByProduct = getParameterAsBoolean(ISCREATEBYPRODUCT);
 	}
 
-	/**	 Getter Parameter Value for costElementId	*/
+	/**	 Getter Parameter Value for Cost Element	*/
 	protected int getCostElementId() {
 		return costElementId;
 	}
 
-	/**	 Getter Parameter Value for costDistribution	*/
-	protected String getCostDistribution() {
-		return costDistribution;
+	/**	 Setter Parameter Value for Cost Element	*/
+	protected void setCostElementId(int costElementId) {
+		this.costElementId = costElementId;
 	}
 
-	/**	 Getter Parameter Value for isCreatebyProduct	*/
-	protected boolean isCreatebyProduct() {
-		return isCreatebyProduct;
+	/**	 Getter Parameter Value for Cost Distribution	*/
+	protected String getLandedCostDistribution() {
+		return landedCostDistribution;
+	}
+
+	/**	 Setter Parameter Value for Cost Distribution	*/
+	protected void setLandedCostDistribution(String landedCostDistribution) {
+		this.landedCostDistribution = landedCostDistribution;
+	}
+
+	/**	 Getter Parameter Value for Create by Product	*/
+	protected boolean isCreateByProduct() {
+		return isCreateByProduct;
+	}
+
+	/**	 Setter Parameter Value for Create by Product	*/
+	protected void setIsCreateByProduct(boolean isCreateByProduct) {
+		this.isCreateByProduct = isCreateByProduct;
 	}
 
 	/**	 Getter Parameter Value for Process ID	*/
 	public static final int getProcessId() {
-		return ID;
+		return ID_FOR_PROCESS;
 	}
 
 	/**	 Getter Parameter Value for Process Value	*/
 	public static final String getProcessValue() {
-		return VALUE;
+		return VALUE_FOR_PROCESS;
 	}
 
 	/**	 Getter Parameter Value for Process Name	*/
 	public static final String getProcessName() {
-		return NAME;
+		return NAME_FOR_PROCESS;
 	}
 }

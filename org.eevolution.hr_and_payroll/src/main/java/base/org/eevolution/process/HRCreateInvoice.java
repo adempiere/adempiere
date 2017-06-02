@@ -58,7 +58,7 @@ public class HRCreateInvoice extends HRCreateInvoiceAbstract {
      * @throws Exception
      */
     protected String doIt() throws Exception {
-        MHRProcess process = new MHRProcess(getCtx(), getPayrollProcessId(), get_TrxName());
+        MHRProcess process = new MHRProcess(getCtx(), getHRProcessId(), get_TrxName());
         final Timestamp dateInvoice = getDateInvoiced() != null ? getDateInvoiced() : process.getHR_Period_ID() > 0 ? process.getHR_Period().getStartDate() : process.getDateAcct();
         Arrays.stream(getEmployeeIds(process))
                 .filter(partnerId -> partnerId > 0)
@@ -67,7 +67,7 @@ public class HRCreateInvoice extends HRCreateInvoiceAbstract {
                         int lastPartnerId = 0;
                         MHREmployee employee = null;
                         MInvoice invoice = null;
-                        for (MHRMovement movement : getPayrollMovement(getPayrollProcessId(), partnerId, trxName)) {
+                        for (MHRMovement movement : getPayrollMovement(getHRProcessId(), partnerId, trxName)) {
                             MBPartner partner = new MBPartner(getCtx(), partnerId, trxName);
                             MHRAttribute attribute = MHRAttribute.getByConceptIdAndPartnerId(movement.getCtx(), movement.getHR_Concept_ID(), movement.getC_BPartner_ID(), movement.getValidFrom(), trxName);
                             if (attribute != null && attribute.getC_DocType_ID() == 0) {

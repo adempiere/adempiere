@@ -64,7 +64,7 @@ public class RollupWorkflow extends RollupWorkflowAbstract {
 
     protected String doIt() throws Exception {
         //Get account schema
-        MAcctSchema accountSchema = MAcctSchema.get(getCtx(), getAccountingSchemaId());
+        MAcctSchema accountSchema = MAcctSchema.get(getCtx(), getAcctSchemaId());
         //Get cost type
         MCostType costType = MCostType.get(getCtx(), getCostTypeId());
         //Get cost element to process
@@ -83,7 +83,7 @@ public class RollupWorkflow extends RollupWorkflowAbstract {
                     if (workflowId <= 0)
                         workflowId = MWorkflow.getWorkflowSearchKey(product);
                     if (workflowId <= 0) {
-                        productPlanning = MPPProductPlanning.find(getCtx(), getOrganizationId(), getWarehouseId(), getResourcePlantId(), product.get_ID(), get_TrxName());
+                        productPlanning = MPPProductPlanning.find(getCtx(), getOrgId(), getWarehouseId(), getResourceId(), product.get_ID(), get_TrxName());
 
                         if (productPlanning != null)
                             workflowId = productPlanning.getAD_Workflow_ID();
@@ -231,11 +231,11 @@ public class RollupWorkflow extends RollupWorkflowAbstract {
                 product,
                 accountSchema,
                 costType.getM_CostType_ID(),
-                getOrganizationId(),
+                getOrgId(),
                 getWarehouseId(),
                 0,
                 costElement.get_ID());
-        MCost cost = MCost.getOrCreate(product, 0 , accountSchema , getOrganizationId() , getWarehouseId() , costType.getM_CostType_ID() , costElement.getM_CostElement_ID());
+        MCost cost = MCost.getOrCreate(product, 0 , accountSchema , getOrgId() , getWarehouseId() , costType.getM_CostType_ID() , costElement.getM_CostElement_ID());
         cost.setFutureCostPrice(BigDecimal.ZERO);
         if (!cost.isCostFrozen())
             cost.setCurrentCostPrice(BigDecimal.ZERO);

@@ -1,8 +1,9 @@
 /******************************************************************************
  * Product: ADempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 2006-2016 ADempiere Foundation, All Rights Reserved.         *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -18,159 +19,218 @@ package org.eevolution.process;
 
 import java.sql.Timestamp;
 import org.compiere.process.SvrProcess;
+
 /** Generated Process for (Generare Outbound Order)
  *  @author ADempiere (generated) 
  *  @version Release 3.9.0
  */
-public abstract class GenerateInOutBoundAbstract extends SvrProcess
-{
+public abstract class GenerateInOutBoundAbstract extends SvrProcess {
 	/** Process Value 	*/
-	private static final String VALUE = "WM_InOutbound Generate";
+	private static final String VALUE_FOR_PROCESS = "WM_InOutbound Generate";
 	/** Process Name 	*/
-	private static final String NAME = "Generare Outbound Order";
+	private static final String NAME_FOR_PROCESS = "Generare Outbound Order";
 	/** Process Id 	*/
-	private static final int ID = 53186;
+	private static final int ID_FOR_PROCESS = 53186;
  
-	/**	Parameter Name for POReference	*/
-	public static final String POReference = "POReference";
-	/**	Parameter Name for M_Locator_ID	*/
-	public static final String M_Locator_ID = "M_Locator_ID";
-	/**	Parameter Name for DeliveryRule	*/
-	public static final String DeliveryRule = "DeliveryRule";
-	/**	Parameter Name for C_DocType_ID	*/
-	public static final String C_DocType_ID = "C_DocType_ID";
-	/**	Parameter Name for DocAction	*/
-	public static final String DocAction = "DocAction";
-	/**	Parameter Name for ShipDate	*/
-	public static final String ShipDate = "ShipDate";
-	/**	Parameter Name for PickDate	*/
-	public static final String PickDate = "PickDate";
-	/**	Parameter Name for PriorityRule	*/
-	public static final String PriorityRule = "PriorityRule";
-	/**	Parameter Name for DeliveryViaRule	*/
-	public static final String DeliveryViaRule = "DeliveryViaRule";
-	/**	Parameter Name for M_Shipper_ID	*/
-	public static final String M_Shipper_ID = "M_Shipper_ID";
-	/**	Parameter Name for FreightCostRule	*/
-	public static final String FreightCostRule = "FreightCostRule";
-	/**	Parameter Name for M_FreightCategory_ID	*/
-	public static final String M_FreightCategory_ID = "M_FreightCategory_ID";
+	/**	Parameter Name for Order Reference	*/
+	private static final String POREFERENCE = "POReference";
+	/**	Parameter Name for Locator	*/
+	private static final String M_LOCATOR_ID = "M_Locator_ID";
+	/**	Parameter Name for Delivery Rule	*/
+	private static final String DELIVERYRULE = "DeliveryRule";
+	/**	Parameter Name for Document Type	*/
+	private static final String C_DOCTYPE_ID = "C_DocType_ID";
+	/**	Parameter Name for Document Action	*/
+	private static final String DOCACTION = "DocAction";
+	/**	Parameter Name for Ship Date	*/
+	private static final String SHIPDATE = "ShipDate";
+	/**	Parameter Name for Pick Date	*/
+	private static final String PICKDATE = "PickDate";
+	/**	Parameter Name for Priority	*/
+	private static final String PRIORITYRULE = "PriorityRule";
+	/**	Parameter Name for Delivery Via	*/
+	private static final String DELIVERYVIARULE = "DeliveryViaRule";
+	/**	Parameter Name for Shipper	*/
+	private static final String M_SHIPPER_ID = "M_Shipper_ID";
+	/**	Parameter Name for Freight Cost Rule	*/
+	private static final String FREIGHTCOSTRULE = "FreightCostRule";
+	/**	Parameter Name for Freight Category	*/
+	private static final String M_FREIGHTCATEGORY_ID = "M_FreightCategory_ID";
 
-	/**	Parameter Value for orderReference	*/
-	private String orderReference;
-	/**	Parameter Value for locatorId	*/
+	/**	Parameter Value for Order Reference	*/
+	private String pOReference;
+	/**	Parameter Value for Locator	*/
 	private int locatorId;
-	/**	Parameter Value for deliveryRule	*/
+	/**	Parameter Value for Delivery Rule	*/
 	private String deliveryRule;
-	/**	Parameter Value for documentTypeId	*/
-	private int documentTypeId;
-	/**	Parameter Value for documentAction	*/
-	private String documentAction;
-	/**	Parameter Value for shipDate	*/
+	/**	Parameter Value for Document Type	*/
+	private int docTypeId;
+	/**	Parameter Value for Document Action	*/
+	private String docAction;
+	/**	Parameter Value for Ship Date	*/
 	private Timestamp shipDate;
-	/**	Parameter Value for pickDate	*/
+	/**	Parameter Value for Pick Date	*/
 	private Timestamp pickDate;
-	/**	Parameter Value for priority	*/
-	private String priority;
-	/**	Parameter Value for deliveryVia	*/
-	private String deliveryVia;
-	/**	Parameter Value for shipperId	*/
+	/**	Parameter Value for Priority	*/
+	private String priorityRule;
+	/**	Parameter Value for Delivery Via	*/
+	private String deliveryViaRule;
+	/**	Parameter Value for Shipper	*/
 	private int shipperId;
-	/**	Parameter Value for freightCostRule	*/
+	/**	Parameter Value for Freight Cost Rule	*/
 	private String freightCostRule;
-	/**	Parameter Value for freightCategoryId	*/
+	/**	Parameter Value for Freight Category	*/
 	private int freightCategoryId;
  
 
 	@Override
-	protected void prepare()
-	{
-		orderReference = getParameterAsString(POReference);
-		locatorId = getParameterAsInt(M_Locator_ID);
-		deliveryRule = getParameterAsString(DeliveryRule);
-		documentTypeId = getParameterAsInt(C_DocType_ID);
-		documentAction = getParameterAsString(DocAction);
-		shipDate = getParameterAsTimestamp(ShipDate);
-		pickDate = getParameterAsTimestamp(PickDate);
-		priority = getParameterAsString(PriorityRule);
-		deliveryVia = getParameterAsString(DeliveryViaRule);
-		shipperId = getParameterAsInt(M_Shipper_ID);
-		freightCostRule = getParameterAsString(FreightCostRule);
-		freightCategoryId = getParameterAsInt(M_FreightCategory_ID);
+	protected void prepare() {
+		pOReference = getParameterAsString(POREFERENCE);
+		locatorId = getParameterAsInt(M_LOCATOR_ID);
+		deliveryRule = getParameterAsString(DELIVERYRULE);
+		docTypeId = getParameterAsInt(C_DOCTYPE_ID);
+		docAction = getParameterAsString(DOCACTION);
+		shipDate = getParameterAsTimestamp(SHIPDATE);
+		pickDate = getParameterAsTimestamp(PICKDATE);
+		priorityRule = getParameterAsString(PRIORITYRULE);
+		deliveryViaRule = getParameterAsString(DELIVERYVIARULE);
+		shipperId = getParameterAsInt(M_SHIPPER_ID);
+		freightCostRule = getParameterAsString(FREIGHTCOSTRULE);
+		freightCategoryId = getParameterAsInt(M_FREIGHTCATEGORY_ID);
 	}
 
-	/**	 Getter Parameter Value for orderReference	*/
-	protected String getOrderReference() {
-		return orderReference;
+	/**	 Getter Parameter Value for Order Reference	*/
+	protected String getPOReference() {
+		return pOReference;
 	}
 
-	/**	 Getter Parameter Value for locatorId	*/
+	/**	 Setter Parameter Value for Order Reference	*/
+	protected void setPOReference(String pOReference) {
+		this.pOReference = pOReference;
+	}
+
+	/**	 Getter Parameter Value for Locator	*/
 	protected int getLocatorId() {
 		return locatorId;
 	}
 
-	/**	 Getter Parameter Value for deliveryRule	*/
+	/**	 Setter Parameter Value for Locator	*/
+	protected void setLocatorId(int locatorId) {
+		this.locatorId = locatorId;
+	}
+
+	/**	 Getter Parameter Value for Delivery Rule	*/
 	protected String getDeliveryRule() {
 		return deliveryRule;
 	}
 
-	/**	 Getter Parameter Value for documentTypeId	*/
-	protected int getDocumentTypeId() {
-		return documentTypeId;
+	/**	 Setter Parameter Value for Delivery Rule	*/
+	protected void setDeliveryRule(String deliveryRule) {
+		this.deliveryRule = deliveryRule;
 	}
 
-	/**	 Getter Parameter Value for documentAction	*/
-	protected String getDocumentAction() {
-		return documentAction;
+	/**	 Getter Parameter Value for Document Type	*/
+	protected int getDocTypeId() {
+		return docTypeId;
 	}
 
-	/**	 Getter Parameter Value for shipDate	*/
+	/**	 Setter Parameter Value for Document Type	*/
+	protected void setDocTypeId(int docTypeId) {
+		this.docTypeId = docTypeId;
+	}
+
+	/**	 Getter Parameter Value for Document Action	*/
+	protected String getDocAction() {
+		return docAction;
+	}
+
+	/**	 Setter Parameter Value for Document Action	*/
+	protected void setDocAction(String docAction) {
+		this.docAction = docAction;
+	}
+
+	/**	 Getter Parameter Value for Ship Date	*/
 	protected Timestamp getShipDate() {
 		return shipDate;
 	}
 
-	/**	 Getter Parameter Value for pickDate	*/
+	/**	 Setter Parameter Value for Ship Date	*/
+	protected void setShipDate(Timestamp shipDate) {
+		this.shipDate = shipDate;
+	}
+
+	/**	 Getter Parameter Value for Pick Date	*/
 	protected Timestamp getPickDate() {
 		return pickDate;
 	}
 
-	/**	 Getter Parameter Value for priority	*/
-	protected String getPriority() {
-		return priority;
+	/**	 Setter Parameter Value for Pick Date	*/
+	protected void setPickDate(Timestamp pickDate) {
+		this.pickDate = pickDate;
 	}
 
-	/**	 Getter Parameter Value for deliveryVia	*/
-	protected String getDeliveryVia() {
-		return deliveryVia;
+	/**	 Getter Parameter Value for Priority	*/
+	protected String getPriorityRule() {
+		return priorityRule;
 	}
 
-	/**	 Getter Parameter Value for shipperId	*/
+	/**	 Setter Parameter Value for Priority	*/
+	protected void setPriorityRule(String priorityRule) {
+		this.priorityRule = priorityRule;
+	}
+
+	/**	 Getter Parameter Value for Delivery Via	*/
+	protected String getDeliveryViaRule() {
+		return deliveryViaRule;
+	}
+
+	/**	 Setter Parameter Value for Delivery Via	*/
+	protected void setDeliveryViaRule(String deliveryViaRule) {
+		this.deliveryViaRule = deliveryViaRule;
+	}
+
+	/**	 Getter Parameter Value for Shipper	*/
 	protected int getShipperId() {
 		return shipperId;
 	}
 
-	/**	 Getter Parameter Value for freightCostRule	*/
+	/**	 Setter Parameter Value for Shipper	*/
+	protected void setShipperId(int shipperId) {
+		this.shipperId = shipperId;
+	}
+
+	/**	 Getter Parameter Value for Freight Cost Rule	*/
 	protected String getFreightCostRule() {
 		return freightCostRule;
 	}
 
-	/**	 Getter Parameter Value for freightCategoryId	*/
+	/**	 Setter Parameter Value for Freight Cost Rule	*/
+	protected void setFreightCostRule(String freightCostRule) {
+		this.freightCostRule = freightCostRule;
+	}
+
+	/**	 Getter Parameter Value for Freight Category	*/
 	protected int getFreightCategoryId() {
 		return freightCategoryId;
 	}
 
+	/**	 Setter Parameter Value for Freight Category	*/
+	protected void setFreightCategoryId(int freightCategoryId) {
+		this.freightCategoryId = freightCategoryId;
+	}
+
 	/**	 Getter Parameter Value for Process ID	*/
 	public static final int getProcessId() {
-		return ID;
+		return ID_FOR_PROCESS;
 	}
 
 	/**	 Getter Parameter Value for Process Value	*/
 	public static final String getProcessValue() {
-		return VALUE;
+		return VALUE_FOR_PROCESS;
 	}
 
 	/**	 Getter Parameter Value for Process Name	*/
 	public static final String getProcessName() {
-		return NAME;
+		return NAME_FOR_PROCESS;
 	}
 }

@@ -1,8 +1,9 @@
 /******************************************************************************
  * Product: ADempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 2006-2016 ADempiere Foundation, All Rights Reserved.         *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -17,69 +18,80 @@
 package org.compiere.process;
 
 
+
 /** Generated Process for (Import migration from XML)
  *  @author ADempiere (generated) 
  *  @version Release 3.9.0
  */
-public abstract class MigrationFromXMLAbstract extends SvrProcess
-{
+public abstract class MigrationFromXMLAbstract extends SvrProcess {
 	/** Process Value 	*/
-	private static final String VALUE = "AD_Migration import";
+	private static final String VALUE_FOR_PROCESS = "AD_Migration import";
 	/** Process Name 	*/
-	private static final String NAME = "Import migration from XML";
+	private static final String NAME_FOR_PROCESS = "Import migration from XML";
 	/** Process Id 	*/
-	private static final int ID = 53175;
- 
-	/**	Parameter Name for FileName	*/
-	public static final String FileName = "FileName";
+	private static final int ID_FOR_PROCESS = 53175;
+	/**	Parameter Name for File Name	*/
+	private static final String FILENAME = "FileName";
 	/**	Parameter Name for Apply	*/
-	public static final String Apply = "Apply";
-	/**	Parameter Name for IsForce	*/
-	public static final String IsForce = "IsForce";
-
-	/**	Parameter Value for fileName	*/
+	private static final String APPLY = "Apply";
+	/**	Parameter Name for Force	*/
+	private static final String ISFORCE = "IsForce";
+	/**	Parameter Value for File Name	*/
 	private String fileName;
-	/**	Parameter Value for isApply	*/
+	/**	Parameter Value for Apply	*/
 	private boolean isApply;
-	/**	Parameter Value for isForce	*/
+	/**	Parameter Value for Force	*/
 	private boolean isForce;
- 
 
 	@Override
-	protected void prepare()
-	{
-		fileName = getParameterAsString(FileName);
-		isApply = getParameterAsBoolean(Apply);
-		isForce = getParameterAsBoolean(IsForce);
+	protected void prepare() {
+		fileName = getParameterAsString(FILENAME);
+		isApply = getParameterAsBoolean(APPLY);
+		isForce = getParameterAsBoolean(ISFORCE);
 	}
 
-	/**	 Getter Parameter Value for fileName	*/
+	/**	 Getter Parameter Value for File Name	*/
 	protected String getFileName() {
 		return fileName;
 	}
 
-	/**	 Getter Parameter Value for isApply	*/
+	/**	 Setter Parameter Value for File Name	*/
+	protected void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
+	/**	 Getter Parameter Value for Apply	*/
 	protected boolean isApply() {
 		return isApply;
 	}
 
-	/**	 Getter Parameter Value for isForce	*/
+	/**	 Setter Parameter Value for Apply	*/
+	protected void setApply(boolean isApply) {
+		this.isApply = isApply;
+	}
+
+	/**	 Getter Parameter Value for Force	*/
 	protected boolean isForce() {
 		return isForce;
 	}
 
+	/**	 Setter Parameter Value for Force	*/
+	protected void setIsForce(boolean isForce) {
+		this.isForce = isForce;
+	}
+
 	/**	 Getter Parameter Value for Process ID	*/
 	public static final int getProcessId() {
-		return ID;
+		return ID_FOR_PROCESS;
 	}
 
 	/**	 Getter Parameter Value for Process Value	*/
 	public static final String getProcessValue() {
-		return VALUE;
+		return VALUE_FOR_PROCESS;
 	}
 
 	/**	 Getter Parameter Value for Process Name	*/
 	public static final String getProcessName() {
-		return NAME;
+		return NAME_FOR_PROCESS;
 	}
 }

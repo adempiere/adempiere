@@ -193,9 +193,9 @@ public class GenerateShipmentOutBound extends GenerateShipmentOutBoundAbstract
 	{
 		manufacturingIssues.entrySet().stream().forEach(entry  -> {
 			MPPCostCollector issue = entry.getValue();
-			issue.setDocAction(getDocumentAction());
-			issue.processIt(getDocumentAction());
-			if (!issue.processIt(getDocumentAction())) {
+			issue.setDocAction(getDocAction());
+			issue.processIt(getDocAction());
+			if (!issue.processIt(getDocAction())) {
 				addLog("@ProcessFailed@ : " + issue.getDocumentInfo());
 				log.warning("@ProcessFailed@ :" + issue.getDocumentInfo());
 			}
@@ -207,9 +207,9 @@ public class GenerateShipmentOutBound extends GenerateShipmentOutBoundAbstract
 	{
 		shipments.entrySet().stream().forEach(entry -> {
 			MInOut shipment = entry.getValue();
-			shipment.setDocAction(getDocumentAction());
-			shipment.processIt(getDocumentAction());
-			if (!shipment.processIt(getDocumentAction())) {
+			shipment.setDocAction(getDocAction());
+			shipment.processIt(getDocAction());
+			if (!shipment.processIt(getDocAction())) {
 				addLog("@ProcessFailed@ : " + shipment.getDocumentInfo());
 				log.warning("@ProcessFailed@ :" + shipment.getDocumentInfo());
 			}

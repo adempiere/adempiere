@@ -62,8 +62,8 @@ public class InOutCreateFrom extends InOutCreateFromAbstract {
 	 */
 	private int getValidLocator(int locatorId, MLocator defaultLocator) {
 		// If a locator is specified on the product, choose that otherwise default locator
-		if(getLocator() != 0)
-			locatorId = getLocator();
+		if(getLocatorId() != 0)
+			locatorId = getLocatorId();
 		//	Validate Locator
 		if(locatorId != 0) {
 			MLocator locator = MLocator.get(getCtx(), locatorId);
@@ -95,7 +95,7 @@ public class InOutCreateFrom extends InOutCreateFromAbstract {
 		AtomicInteger 	created = new AtomicInteger(0);
 		//	Get Shipment
 		MInOut inout = new MInOut(getCtx(), getRecord_ID(), get_TrxName());
-		log.config(inout + ", C_Locator_ID=" + getLocator());
+		log.config(inout + ", C_Locator_ID=" + getLocatorId());
 		//	Get Default Locator
 		MLocator defaultLocator = MLocator.getDefault((MWarehouse) inout.getM_Warehouse());
 		List<Integer> recordIds =  getSelectionKeys();

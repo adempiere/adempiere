@@ -18,13 +18,11 @@ package org.eevolution.process;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.logging.Level;
 
-import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.engine.CostDimension;
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MConversionRate;
 import org.compiere.model.MCost;
@@ -32,8 +30,6 @@ import org.compiere.model.MCostElement;
 import org.compiere.model.MPriceListVersion;
 import org.compiere.model.MProduct;
 import org.compiere.model.MProductPrice;
-import org.compiere.process.ProcessInfoParameter;
-import org.compiere.process.SvrProcess;
 
 
 /**
@@ -52,7 +48,7 @@ public class CopyPriceToStandard extends CopyPriceToStandardAbstract
 	
 	protected String doIt() throws Exception                
 	{
-		MAcctSchema accountSchema = MAcctSchema.get(getCtx(), getAccountingSchemaId());
+		MAcctSchema accountSchema = MAcctSchema.get(getCtx(), getAcctSchemaId());
 		MCostElement costElement = MCostElement.get(getCtx(), getCostElementId());
 		if (!MCostElement.COSTELEMENTTYPE_Material.equals(costElement.getCostElementType()))
 			throw new AdempiereException("Only Material Cost Elements are allowed");
@@ -66,12 +62,12 @@ public class CopyPriceToStandard extends CopyPriceToStandardAbstract
 			{                     	
 				price = MConversionRate.convert(getCtx(), productPrice.getPriceStd(),
 								currencyId, accountSchema.getC_Currency_ID(),
-								getAD_Client_ID(), getOrganizationId());
+								getAD_Client_ID(), getOrgId());
 			} else
 				price = productPrice.getPriceStd();
 
 			MProduct product = MProduct.get(getCtx(), productPrice.getM_Product_ID());
-			CostDimension costDimension = new CostDimension(product, accountSchema, getCostTypeId(), getOrganizationId(), 0, 0, getCostElementId());
+			CostDimension costDimension = new CostDimension(product, accountSchema, getCostTypeId(), getOrgId(), 0, 0, getCostElementId());
 			List<MCost> costs = costDimension.toQuery(MCost.class, get_TrxName()).list();
 			costs.stream()
 					.filter( cost -> cost != null && cost.getM_CostElement_ID() == costElement.get_ID())

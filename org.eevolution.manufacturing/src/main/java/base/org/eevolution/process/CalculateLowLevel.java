@@ -54,7 +54,7 @@ public class CalculateLowLevel extends CalculateLowLevelAbstract {
                     Trx.run(trxName -> {
                         int lowLevel = MPPProductBOMLine.getLowLevel(getCtx(), productId, trxName);
                         StringBuilder sql = new StringBuilder("UPDATE M_Product SET LowLevel=? WHERE M_Product_ID=?");
-                        List<Object> parameters = new ArrayList();
+                        List<Object> parameters = new ArrayList<Object>();
                         parameters.add(lowLevel);
                         parameters.add(productId);
                         DB.executeUpdateEx(sql.toString(), parameters.toArray(), trxName);

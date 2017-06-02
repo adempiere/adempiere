@@ -1,8 +1,9 @@
 /******************************************************************************
  * Product: ADempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 2006-2016 ADempiere Foundation, All Rights Reserved.         *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -17,109 +18,128 @@
 package org.eevolution.process;
 
 import org.compiere.process.SvrProcess;
+
 /** Generated Process for (Copy Price to Standard Cost)
  *  @author ADempiere (generated) 
- *  @version Release 3.8.0
+ *  @version Release 3.9.0
  */
-public abstract class CopyPriceToStandardAbstract extends SvrProcess
-{
+public abstract class CopyPriceToStandardAbstract extends SvrProcess {
 	/** Process Value 	*/
-	private static final String VALUE = "PP_Copy Price to Standard Cost";
+	private static final String VALUE_FOR_PROCESS = "PP_Copy Price to Standard Cost";
 	/** Process Name 	*/
-	private static final String NAME = "Copy Price to Standard Cost";
+	private static final String NAME_FOR_PROCESS = "Copy Price to Standard Cost";
 	/** Process Id 	*/
-	private static final int ID = 53056;
+	private static final int ID_FOR_PROCESS = 53056;
  
-	/**	Parameter Name for IsCostFrozen	*/
-	public static final String IsCostFrozen = "IsCostFrozen";
-	/**	Parameter Name for C_AcctSchema_ID	*/
-	public static final String C_AcctSchema_ID = "C_AcctSchema_ID";
-	/**	Parameter Name for AD_Org_ID	*/
-	public static final String AD_Org_ID = "AD_Org_ID";
-	/**	Parameter Name for M_Warehouse_ID	*/
-	public static final String M_Warehouse_ID = "M_Warehouse_ID";
-	/**	Parameter Name for M_CostType_ID	*/
-	public static final String M_CostType_ID = "M_CostType_ID";
-	/**	Parameter Name for M_CostElement_ID	*/
-	public static final String M_CostElement_ID = "M_CostElement_ID";
-	/**	Parameter Name for M_PriceList_Version_ID	*/
-	public static final String M_PriceList_Version_ID = "M_PriceList_Version_ID";
+	/**	Parameter Name for Accounting Schema	*/
+	private static final String C_ACCTSCHEMA_ID = "C_AcctSchema_ID";
+	/**	Parameter Name for Organization	*/
+	private static final String AD_ORG_ID = "AD_Org_ID";
+	/**	Parameter Name for Warehouse	*/
+	private static final String M_WAREHOUSE_ID = "M_Warehouse_ID";
+	/**	Parameter Name for Cost Type	*/
+	private static final String M_COSTTYPE_ID = "M_CostType_ID";
+	/**	Parameter Name for Cost Element	*/
+	private static final String M_COSTELEMENT_ID = "M_CostElement_ID";
+	/**	Parameter Name for Price List Version	*/
+	private static final String M_PRICELIST_VERSION_ID = "M_PriceList_Version_ID";
 
-	/**	Parameter Value for isstFrozen	*/
-	private boolean isstFrozen;
-	/**	Parameter Value for accountingSchemaId	*/
-	private int accountingSchemaId;
-	/**	Parameter Value for organizationId	*/
-	private int organizationId;
-	/**	Parameter Value for warehouseId	*/
+	/**	Parameter Value for Accounting Schema	*/
+	private int acctSchemaId;
+	/**	Parameter Value for Organization	*/
+	private int orgId;
+	/**	Parameter Value for Warehouse	*/
 	private int warehouseId;
-	/**	Parameter Value for costTypeId	*/
+	/**	Parameter Value for Cost Type	*/
 	private int costTypeId;
-	/**	Parameter Value for costElementId	*/
+	/**	Parameter Value for Cost Element	*/
 	private int costElementId;
-	/**	Parameter Value for priceListVersionId	*/
+	/**	Parameter Value for Price List Version	*/
 	private int priceListVersionId;
  
 
 	@Override
-	protected void prepare()
-	{
-		isstFrozen = getParameterAsBoolean(IsCostFrozen);
-		accountingSchemaId = getParameterAsInt(C_AcctSchema_ID);
-		organizationId = getParameterAsInt(AD_Org_ID);
-		warehouseId = getParameterAsInt(M_Warehouse_ID);
-		costTypeId = getParameterAsInt(M_CostType_ID);
-		costElementId = getParameterAsInt(M_CostElement_ID);
-		priceListVersionId = getParameterAsInt(M_PriceList_Version_ID);
+	protected void prepare() {
+		acctSchemaId = getParameterAsInt(C_ACCTSCHEMA_ID);
+		orgId = getParameterAsInt(AD_ORG_ID);
+		warehouseId = getParameterAsInt(M_WAREHOUSE_ID);
+		costTypeId = getParameterAsInt(M_COSTTYPE_ID);
+		costElementId = getParameterAsInt(M_COSTELEMENT_ID);
+		priceListVersionId = getParameterAsInt(M_PRICELIST_VERSION_ID);
 	}
 
-	/**	 Getter Parameter Value for isstFrozen	*/
-	protected boolean isstFrozen() {
-		return isstFrozen;
+	/**	 Getter Parameter Value for Accounting Schema	*/
+	protected int getAcctSchemaId() {
+		return acctSchemaId;
 	}
 
-	/**	 Getter Parameter Value for accountingSchemaId	*/
-	protected int getAccountingSchemaId() {
-		return accountingSchemaId;
+	/**	 Setter Parameter Value for Accounting Schema	*/
+	protected void setAcctSchemaId(int acctSchemaId) {
+		this.acctSchemaId = acctSchemaId;
 	}
 
-	/**	 Getter Parameter Value for organizationId	*/
-	protected int getOrganizationId() {
-		return organizationId;
+	/**	 Getter Parameter Value for Organization	*/
+	protected int getOrgId() {
+		return orgId;
 	}
 
-	/**	 Getter Parameter Value for warehouseId	*/
+	/**	 Setter Parameter Value for Organization	*/
+	protected void setOrgId(int orgId) {
+		this.orgId = orgId;
+	}
+
+	/**	 Getter Parameter Value for Warehouse	*/
 	protected int getWarehouseId() {
 		return warehouseId;
 	}
 
-	/**	 Getter Parameter Value for costTypeId	*/
+	/**	 Setter Parameter Value for Warehouse	*/
+	protected void setWarehouseId(int warehouseId) {
+		this.warehouseId = warehouseId;
+	}
+
+	/**	 Getter Parameter Value for Cost Type	*/
 	protected int getCostTypeId() {
 		return costTypeId;
 	}
 
-	/**	 Getter Parameter Value for costElementId	*/
+	/**	 Setter Parameter Value for Cost Type	*/
+	protected void setCostTypeId(int costTypeId) {
+		this.costTypeId = costTypeId;
+	}
+
+	/**	 Getter Parameter Value for Cost Element	*/
 	protected int getCostElementId() {
 		return costElementId;
 	}
 
-	/**	 Getter Parameter Value for priceListVersionId	*/
+	/**	 Setter Parameter Value for Cost Element	*/
+	protected void setCostElementId(int costElementId) {
+		this.costElementId = costElementId;
+	}
+
+	/**	 Getter Parameter Value for Price List Version	*/
 	protected int getPriceListVersionId() {
 		return priceListVersionId;
 	}
 
+	/**	 Setter Parameter Value for Price List Version	*/
+	protected void setPriceListVersionId(int priceListVersionId) {
+		this.priceListVersionId = priceListVersionId;
+	}
+
 	/**	 Getter Parameter Value for Process ID	*/
 	public static final int getProcessId() {
-		return ID;
+		return ID_FOR_PROCESS;
 	}
 
 	/**	 Getter Parameter Value for Process Value	*/
 	public static final String getProcessValue() {
-		return VALUE;
+		return VALUE_FOR_PROCESS;
 	}
 
 	/**	 Getter Parameter Value for Process Name	*/
 	public static final String getProcessName() {
-		return NAME;
+		return NAME_FOR_PROCESS;
 	}
 }

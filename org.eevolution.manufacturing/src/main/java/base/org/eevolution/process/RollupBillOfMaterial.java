@@ -65,7 +65,7 @@ public class RollupBillOfMaterial extends RollupBillOfMaterialAbstract
 	protected String doIt() throws Exception                
 	{
 		//Get account schema
-		MAcctSchema acctSchema = MAcctSchema.get(getCtx(), getAccountingSchemaId());
+		MAcctSchema acctSchema = MAcctSchema.get(getCtx(), getAcctSchemaId());
 		//Get cost type
 		MCostType costType = MCostType.get(getCtx(), getCostTypeId());
 		final List<MCostElement>  costElements = getCostElementId() > 0 ?
@@ -81,9 +81,9 @@ public class RollupBillOfMaterial extends RollupBillOfMaterialAbstract
 				.filter(productId -> productId > 0)
 				.forEach(productId -> {
 				MProduct product = MProduct.get(getCtx() , productId);
-				I_PP_Product_Planning productPlanning = MPPProductPlanning.find(getCtx(), getOrganizationId(),
+				I_PP_Product_Planning productPlanning = MPPProductPlanning.find(getCtx(), getOrgId(),
 						getWarehouseId(), // M_Warehouse_ID
-						getResourcePlantId(), // S_Resource_ID
+						getResourceId(), // S_Resource_ID
 						productId,
 						get_TrxName());
 				int bomId = 0;
@@ -139,7 +139,7 @@ public class RollupBillOfMaterial extends RollupBillOfMaterialAbstract
 	 */
 	protected void rollup(MAcctSchema acctSchema , MCostType costType , MCostElement costElement , MProduct product, MPPProductBOM bom , String trxName)
 	{
-		MCost cost = MCost.getOrCreate(product, 0 , acctSchema , getOrganizationId() , getWarehouseId()  , costType.getM_CostType_ID(),  costElement.getM_CostElement_ID());
+		MCost cost = MCost.getOrCreate(product, 0 , acctSchema , getOrgId() , getWarehouseId()  , costType.getM_CostType_ID(),  costElement.getM_CostElement_ID());
 		cost.setFutureCostPriceLL(BigDecimal.ZERO);
 		if (!cost.isCostFrozen())
 			cost.setCurrentCostPriceLL(BigDecimal.ZERO);
@@ -222,7 +222,7 @@ public class RollupBillOfMaterial extends RollupBillOfMaterialAbstract
 			.filter(bomLine -> bomLine != null && !bomLine.isCoProduct())
 			.forEach(bomLine -> {
 				MProduct component = MProduct.get(getCtx(), bomLine.getM_Product_ID());
-				MCost cost = MCost.getOrCreate(component, 0 , acctSchema , getOrganizationId() , getWarehouseId()  , getCostTypeId(),  costElement.getM_CostElement_ID());
+				MCost cost = MCost.getOrCreate(component, 0 , acctSchema , getOrgId() , getWarehouseId()  , getCostTypeId(),  costElement.getM_CostElement_ID());
 				Boolean includingScrapQty = true;
 				BigDecimal qty = bomLine.getQty(includingScrapQty);
 				// By Products
@@ -250,7 +250,7 @@ public class RollupBillOfMaterial extends RollupBillOfMaterialAbstract
 					if (workflowId <= 0)
 						workflowId = MWorkflow.getWorkflowSearchKey(product);
 					if (workflowId <= 0) {
-						productPlanning = MPPProductPlanning.find(getCtx(), getOrganizationId(), getWarehouseId(), getResourcePlantId(), product.get_ID(), get_TrxName());
+						productPlanning = MPPProductPlanning.find(getCtx(), getOrgId(), getWarehouseId(), getResourceId(), product.get_ID(), get_TrxName());
 						if (productPlanning != null)
 							workflowId = productPlanning.getAD_Workflow_ID();
 						else
@@ -326,34 +326,6 @@ public class RollupBillOfMaterial extends RollupBillOfMaterialAbstract
 		.setParameters(params)
 		.getIDs();
 	}
-	
-	/**
-	 * Reset Low Level Cost for products with LowLevel=0 (items)
-	 */
-	/*private void resetCostsLowLevel()
-	{
-		List<Object> params = new ArrayList<Object>();
-		StringBuffer productWhereClause = new StringBuffer();
-		productWhereClause.append("AD_Client_ID=? AND "+MProduct.COLUMNNAME_LowLevel+"=?");
-		params.add(getAD_Client_ID());
-		params.add(0);
-		if (getProductId() > 0)
-		{  
-			productWhereClause.append(" AND ").append(MProduct.COLUMNNAME_M_Product_ID).append("=?");
-			params.add(getProductId());
-		}		
-		else if (getProductCategoryId() > 0)
-		{
-			productWhereClause.append(" AND ").append(MProduct.COLUMNNAME_M_Product_Category_ID).append("=?");
-			params.add(getProductCategoryId());
-		}
-
-		final String sql = "UPDATE M_Cost c SET "+MCost.COLUMNNAME_FutureCostPriceLL+"=0"
-		+" WHERE EXISTS (SELECT 1 FROM M_Product p WHERE p.M_Product_ID=c.M_Product_ID"
-						+" AND "+productWhereClause+")";
-		int no = DB.executeUpdateEx(sql, params.toArray(), null);
-		log.info("Updated #"+no);
-	}*/
 
 	/**
 	 * Create Cost Rollup Notice

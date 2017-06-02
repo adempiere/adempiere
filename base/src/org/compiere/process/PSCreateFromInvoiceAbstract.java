@@ -1,8 +1,9 @@
 /******************************************************************************
  * Product: ADempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 2006-2016 ADempiere Foundation, All Rights Reserved.         *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -17,79 +18,95 @@
 package org.compiere.process;
 
 import java.sql.Timestamp;
+
 /** Generated Process for (Payment Selection Generate (From Invoice))
  *  @author ADempiere (generated) 
- *  @version Release 3.8.0
+ *  @version Release 3.9.0
  */
-public abstract class PSCreateFromInvoiceAbstract extends SvrProcess
-{
+public abstract class PSCreateFromInvoiceAbstract extends SvrProcess {
 	/** Process Value 	*/
-	private static final String VALUE = "SBP_PaySelectionGenerateFromInvoice";
+	private static final String VALUE_FOR_PROCESS = "SBP_PaySelectionGenerateFromInvoice";
 	/** Process Name 	*/
-	private static final String NAME = "Payment Selection Generate (From Invoice)";
+	private static final String NAME_FOR_PROCESS = "Payment Selection Generate (From Invoice)";
 	/** Process Id 	*/
-	private static final int ID = 53890;
- 
-	/**	Parameter Name for C_BankAccount_ID	*/
-	public static final String C_BankAccount_ID = "C_BankAccount_ID";
-	/**	Parameter Name for C_DocTypeTarget_ID	*/
-	public static final String C_DocTypeTarget_ID = "C_DocTypeTarget_ID";
-	/**	Parameter Name for DateDoc	*/
-	public static final String DateDoc = "DateDoc";
-	/**	Parameter Name for PayDate	*/
-	public static final String PayDate = "PayDate";
-
-	/**	Parameter Value for bankAccountId	*/
+	private static final int ID_FOR_PROCESS = 53890;
+	/**	Parameter Name for Bank Account	*/
+	private static final String C_BANKACCOUNT_ID = "C_BankAccount_ID";
+	/**	Parameter Name for Target Document Type	*/
+	private static final String C_DOCTYPETARGET_ID = "C_DocTypeTarget_ID";
+	/**	Parameter Name for Document Date	*/
+	private static final String DATEDOC = "DateDoc";
+	/**	Parameter Name for Payment date	*/
+	private static final String PAYDATE = "PayDate";
+	/**	Parameter Value for Bank Account	*/
 	private int bankAccountId;
-	/**	Parameter Value for targetDocumentTypeId	*/
-	private int targetDocumentTypeId;
-	/**	Parameter Value for documentDate	*/
-	private Timestamp documentDate;
-	/**	Parameter Value for paymentdate	*/
-	private Timestamp paymentdate;
- 
+	/**	Parameter Value for Target Document Type	*/
+	private int docTypeTargetId;
+	/**	Parameter Value for Document Date	*/
+	private Timestamp dateDoc;
+	/**	Parameter Value for Payment date	*/
+	private Timestamp payDate;
 
 	@Override
-	protected void prepare()
-	{
-		bankAccountId = getParameterAsInt(C_BankAccount_ID);
-		targetDocumentTypeId = getParameterAsInt(C_DocTypeTarget_ID);
-		documentDate = getParameterAsTimestamp(DateDoc);
-		paymentdate = getParameterAsTimestamp(PayDate);
+	protected void prepare() {
+		bankAccountId = getParameterAsInt(C_BANKACCOUNT_ID);
+		docTypeTargetId = getParameterAsInt(C_DOCTYPETARGET_ID);
+		dateDoc = getParameterAsTimestamp(DATEDOC);
+		payDate = getParameterAsTimestamp(PAYDATE);
 	}
 
-	/**	 Getter Parameter Value for bankAccountId	*/
+	/**	 Getter Parameter Value for Bank Account	*/
 	protected int getBankAccountId() {
 		return bankAccountId;
 	}
 
-	/**	 Getter Parameter Value for targetDocumentTypeId	*/
-	protected int getTargetDocumentTypeId() {
-		return targetDocumentTypeId;
+	/**	 Setter Parameter Value for Bank Account	*/
+	protected void setBankAccountId(int bankAccountId) {
+		this.bankAccountId = bankAccountId;
 	}
 
-	/**	 Getter Parameter Value for documentDate	*/
-	protected Timestamp getDocumentDate() {
-		return documentDate;
+	/**	 Getter Parameter Value for Target Document Type	*/
+	protected int getDocTypeTargetId() {
+		return docTypeTargetId;
 	}
 
-	/**	 Getter Parameter Value for paymentdate	*/
-	protected Timestamp getPaymentdate() {
-		return paymentdate;
+	/**	 Setter Parameter Value for Target Document Type	*/
+	protected void setDocTypeTargetId(int docTypeTargetId) {
+		this.docTypeTargetId = docTypeTargetId;
+	}
+
+	/**	 Getter Parameter Value for Document Date	*/
+	protected Timestamp getDateDoc() {
+		return dateDoc;
+	}
+
+	/**	 Setter Parameter Value for Document Date	*/
+	protected void setDateDoc(Timestamp dateDoc) {
+		this.dateDoc = dateDoc;
+	}
+
+	/**	 Getter Parameter Value for Payment date	*/
+	protected Timestamp getPayDate() {
+		return payDate;
+	}
+
+	/**	 Setter Parameter Value for Payment date	*/
+	protected void setPayDate(Timestamp payDate) {
+		this.payDate = payDate;
 	}
 
 	/**	 Getter Parameter Value for Process ID	*/
 	public static final int getProcessId() {
-		return ID;
+		return ID_FOR_PROCESS;
 	}
 
 	/**	 Getter Parameter Value for Process Value	*/
 	public static final String getProcessValue() {
-		return VALUE;
+		return VALUE_FOR_PROCESS;
 	}
 
 	/**	 Getter Parameter Value for Process Name	*/
 	public static final String getProcessName() {
-		return NAME;
+		return NAME_FOR_PROCESS;
 	}
 }

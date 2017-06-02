@@ -47,7 +47,7 @@ public class PSCreateFromInvoice extends PSCreateFromInvoiceAbstract {
 		//	Valid Record Identifier
 		if(getRecord_ID() <= 0
 				&& getBankAccountId() == 0
-				&& getPaymentdate() == null)
+				&& getPayDate() == null)
 			throw new AdempiereException("@C_PaySelection_ID@ @NotFound@");
 	}
 
@@ -60,10 +60,10 @@ public class PSCreateFromInvoice extends PSCreateFromInvoiceAbstract {
 		} else {	//	Is a new Payment Selection
 			paymentSelection = new MPaySelection(getCtx(), 0, get_TrxName());
 			paymentSelection.setC_BankAccount_ID(getBankAccountId());
-			paymentSelection.setDateDoc(getDocumentDate());
-			paymentSelection.setPayDate(getPaymentdate());
-			if(getTargetDocumentTypeId() > 0)
-				paymentSelection.setC_DocType_ID(getTargetDocumentTypeId());
+			paymentSelection.setDateDoc(getDateDoc());
+			paymentSelection.setPayDate(getPayDate());
+			if(getDocTypeTargetId() > 0)
+				paymentSelection.setC_DocType_ID(getDocTypeTargetId());
 			MUser user = MUser.get(getCtx(), getAD_User_ID());
 			String userName = "";
 			if(user != null)
@@ -71,7 +71,7 @@ public class PSCreateFromInvoice extends PSCreateFromInvoiceAbstract {
 			//	Set description
 			paymentSelection.setDescription(Msg.getMsg(Env.getCtx(), "VPaySelect")
 					+ " - " + userName
-					+ " - " + DisplayType.getDateFormat(DisplayType.Date).format(getPaymentdate()));
+					+ " - " + DisplayType.getDateFormat(DisplayType.Date).format(getPayDate()));
 			//	Save
 			paymentSelection.saveEx();
 			isNew = true;

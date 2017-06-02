@@ -1,8 +1,9 @@
 /******************************************************************************
  * Product: ADempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 2006-2016 ADempiere Foundation, All Rights Reserved.         *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -17,149 +18,203 @@
 package org.eevolution.process;
 
 import org.compiere.process.SvrProcess;
+
 /** Generated Process for (Requisition Approval)
  *  @author ADempiere (generated) 
- *  @version Release 3.8.0
+ *  @version Release 3.9.0
  */
-public abstract class MRPApprovalAbstract extends SvrProcess
-{
+public abstract class MRPApprovalAbstract extends SvrProcess {
 	/** Process Value 	*/
-	private static final String VALUE = "MRP_Requisition_Approval";
+	private static final String VALUE_FOR_PROCESS = "MRP_Requisition_Approval";
 	/** Process Name 	*/
-	private static final String NAME = "Requisition Approval";
+	private static final String NAME_FOR_PROCESS = "Requisition Approval";
 	/** Process Id 	*/
-	private static final int ID = 53321;
+	private static final int ID_FOR_PROCESS = 53321;
  
-	/**	Parameter Name for OrderType	*/
-	public static final String OrderType = "OrderType";
-	/**	Parameter Name for PriorityRule	*/
-	public static final String PriorityRule = "PriorityRule";
-	/**	Parameter Name for C_BPartner_ID	*/
-	public static final String C_BPartner_ID = "C_BPartner_ID";
-	/**	Parameter Name for ReferenceNo	*/
-	public static final String ReferenceNo = "ReferenceNo";
-	/**	Parameter Name for M_Warehouse_ID	*/
-	public static final String M_Warehouse_ID = "M_Warehouse_ID";
-	/**	Parameter Name for M_Shipper_ID	*/
-	public static final String M_Shipper_ID = "M_Shipper_ID";
-	/**	Parameter Name for M_Locator_ID	*/
-	public static final String M_Locator_ID = "M_Locator_ID";
-	/**	Parameter Name for M_LocatorTo_ID	*/
-	public static final String M_LocatorTo_ID = "M_LocatorTo_ID";
-	/**	Parameter Name for S_Resource_ID	*/
-	public static final String S_Resource_ID = "S_Resource_ID";
-	/**	Parameter Name for PP_Product_BOM_ID	*/
-	public static final String PP_Product_BOM_ID = "PP_Product_BOM_ID";
-	/**	Parameter Name for AD_Workflow_ID	*/
-	public static final String AD_Workflow_ID = "AD_Workflow_ID";
+	/**	Parameter Name for Order Type	*/
+	private static final String ORDERTYPE = "OrderType";
+	/**	Parameter Name for Priority	*/
+	private static final String PRIORITYRULE = "PriorityRule";
+	/**	Parameter Name for Business Partner 	*/
+	private static final String C_BPARTNER_ID = "C_BPartner_ID";
+	/**	Parameter Name for Reference No	*/
+	private static final String REFERENCENO = "ReferenceNo";
+	/**	Parameter Name for Warehouse in Transit	*/
+	private static final String M_WAREHOUSE_ID = "M_Warehouse_ID";
+	/**	Parameter Name for Shipper	*/
+	private static final String M_SHIPPER_ID = "M_Shipper_ID";
+	/**	Parameter Name for Locator	*/
+	private static final String M_LOCATOR_ID = "M_Locator_ID";
+	/**	Parameter Name for Locator To	*/
+	private static final String M_LOCATORTO_ID = "M_LocatorTo_ID";
+	/**	Parameter Name for Resource (Plant)	*/
+	private static final String S_RESOURCE_ID = "S_Resource_ID";
+	/**	Parameter Name for BOM & Formula	*/
+	private static final String PP_PRODUCT_BOM_ID = "PP_Product_BOM_ID";
+	/**	Parameter Name for Workflow	*/
+	private static final String AD_WORKFLOW_ID = "AD_Workflow_ID";
 
-	/**	Parameter Value for orderType	*/
+	/**	Parameter Value for Order Type	*/
 	private String orderType;
-	/**	Parameter Value for priority	*/
-	private String priority;
-	/**	Parameter Value for businessPartnerId	*/
-	private int businessPartnerId;
-	/**	Parameter Value for referenceNo	*/
+	/**	Parameter Value for Priority	*/
+	private String priorityRule;
+	/**	Parameter Value for Business Partner 	*/
+	private int bPartnerId;
+	/**	Parameter Value for Reference No	*/
 	private String referenceNo;
-	/**	Parameter Value for warehouseinTransitId	*/
-	private int warehouseinTransitId;
-	/**	Parameter Value for shipperId	*/
+	/**	Parameter Value for Warehouse in Transit	*/
+	private int warehouseId;
+	/**	Parameter Value for Shipper	*/
 	private int shipperId;
-	/**	Parameter Value for locatorId	*/
+	/**	Parameter Value for Locator	*/
 	private int locatorId;
-	/**	Parameter Value for locatorToId	*/
+	/**	Parameter Value for Locator To	*/
 	private int locatorToId;
-	/**	Parameter Value for resource(Plant)Id	*/
-	private int resourcePlantId;
-	/**	Parameter Value for bOM&FormulaId	*/
-	private int bOMFormulaId;
-	/**	Parameter Value for workflowId	*/
+	/**	Parameter Value for Resource (Plant)	*/
+	private int resourceId;
+	/**	Parameter Value for BOM & Formula	*/
+	private int productBOMId;
+	/**	Parameter Value for Workflow	*/
 	private int workflowId;
  
 
 	@Override
-	protected void prepare()
-	{
-		orderType = getParameterAsString(OrderType);
-		priority = getParameterAsString(PriorityRule);
-		businessPartnerId = getParameterAsInt(C_BPartner_ID);
-		referenceNo = getParameterAsString(ReferenceNo);
-		warehouseinTransitId = getParameterAsInt(M_Warehouse_ID);
-		shipperId = getParameterAsInt(M_Shipper_ID);
-		locatorId = getParameterAsInt(M_Locator_ID);
-		locatorToId = getParameterAsInt(M_LocatorTo_ID);
-		resourcePlantId = getParameterAsInt(S_Resource_ID);
-		bOMFormulaId = getParameterAsInt(PP_Product_BOM_ID);
-		workflowId = getParameterAsInt(AD_Workflow_ID);
+	protected void prepare() {
+		orderType = getParameterAsString(ORDERTYPE);
+		priorityRule = getParameterAsString(PRIORITYRULE);
+		bPartnerId = getParameterAsInt(C_BPARTNER_ID);
+		referenceNo = getParameterAsString(REFERENCENO);
+		warehouseId = getParameterAsInt(M_WAREHOUSE_ID);
+		shipperId = getParameterAsInt(M_SHIPPER_ID);
+		locatorId = getParameterAsInt(M_LOCATOR_ID);
+		locatorToId = getParameterAsInt(M_LOCATORTO_ID);
+		resourceId = getParameterAsInt(S_RESOURCE_ID);
+		productBOMId = getParameterAsInt(PP_PRODUCT_BOM_ID);
+		workflowId = getParameterAsInt(AD_WORKFLOW_ID);
 	}
 
-	/**	 Getter Parameter Value for orderType	*/
+	/**	 Getter Parameter Value for Order Type	*/
 	protected String getOrderType() {
 		return orderType;
 	}
 
-	/**	 Getter Parameter Value for priority	*/
-	protected String getPriority() {
-		return priority;
+	/**	 Setter Parameter Value for Order Type	*/
+	protected void setOrderType(String orderType) {
+		this.orderType = orderType;
 	}
 
-	/**	 Getter Parameter Value for businessPartnerId	*/
-	protected int getBusinessPartnerId() {
-		return businessPartnerId;
+	/**	 Getter Parameter Value for Priority	*/
+	protected String getPriorityRule() {
+		return priorityRule;
 	}
 
-	/**	 Getter Parameter Value for referenceNo	*/
+	/**	 Setter Parameter Value for Priority	*/
+	protected void setPriorityRule(String priorityRule) {
+		this.priorityRule = priorityRule;
+	}
+
+	/**	 Getter Parameter Value for Business Partner 	*/
+	protected int getBPartnerId() {
+		return bPartnerId;
+	}
+
+	/**	 Setter Parameter Value for Business Partner 	*/
+	protected void setBPartnerId(int bPartnerId) {
+		this.bPartnerId = bPartnerId;
+	}
+
+	/**	 Getter Parameter Value for Reference No	*/
 	protected String getReferenceNo() {
 		return referenceNo;
 	}
 
-	/**	 Getter Parameter Value for warehouseinTransitId	*/
-	protected int getWarehouseinTransitId() {
-		return warehouseinTransitId;
+	/**	 Setter Parameter Value for Reference No	*/
+	protected void setReferenceNo(String referenceNo) {
+		this.referenceNo = referenceNo;
 	}
 
-	/**	 Getter Parameter Value for shipperId	*/
+	/**	 Getter Parameter Value for Warehouse in Transit	*/
+	protected int getWarehouseId() {
+		return warehouseId;
+	}
+
+	/**	 Setter Parameter Value for Warehouse in Transit	*/
+	protected void setWarehouseId(int warehouseId) {
+		this.warehouseId = warehouseId;
+	}
+
+	/**	 Getter Parameter Value for Shipper	*/
 	protected int getShipperId() {
 		return shipperId;
 	}
 
-	/**	 Getter Parameter Value for locatorId	*/
+	/**	 Setter Parameter Value for Shipper	*/
+	protected void setShipperId(int shipperId) {
+		this.shipperId = shipperId;
+	}
+
+	/**	 Getter Parameter Value for Locator	*/
 	protected int getLocatorId() {
 		return locatorId;
 	}
 
-	/**	 Getter Parameter Value for locatorToId	*/
+	/**	 Setter Parameter Value for Locator	*/
+	protected void setLocatorId(int locatorId) {
+		this.locatorId = locatorId;
+	}
+
+	/**	 Getter Parameter Value for Locator To	*/
 	protected int getLocatorToId() {
 		return locatorToId;
 	}
 
-	/**	 Getter Parameter Value for resource(Plant)Id	*/
-	protected int getResourcePlantId() {
-		return resourcePlantId;
+	/**	 Setter Parameter Value for Locator To	*/
+	protected void setLocatorToId(int locatorToId) {
+		this.locatorToId = locatorToId;
 	}
 
-	/**	 Getter Parameter Value for bOM&FormulaId	*/
-	protected int getBOMFormulaId() {
-		return bOMFormulaId;
+	/**	 Getter Parameter Value for Resource (Plant)	*/
+	protected int getResourceId() {
+		return resourceId;
 	}
 
-	/**	 Getter Parameter Value for workflowId	*/
+	/**	 Setter Parameter Value for Resource (Plant)	*/
+	protected void setResourceId(int resourceId) {
+		this.resourceId = resourceId;
+	}
+
+	/**	 Getter Parameter Value for BOM & Formula	*/
+	protected int getProductBOMId() {
+		return productBOMId;
+	}
+
+	/**	 Setter Parameter Value for BOM & Formula	*/
+	protected void setProductBOMId(int productBOMId) {
+		this.productBOMId = productBOMId;
+	}
+
+	/**	 Getter Parameter Value for Workflow	*/
 	protected int getWorkflowId() {
 		return workflowId;
 	}
 
+	/**	 Setter Parameter Value for Workflow	*/
+	protected void setWorkflowId(int workflowId) {
+		this.workflowId = workflowId;
+	}
+
 	/**	 Getter Parameter Value for Process ID	*/
 	public static final int getProcessId() {
-		return ID;
+		return ID_FOR_PROCESS;
 	}
 
 	/**	 Getter Parameter Value for Process Value	*/
 	public static final String getProcessValue() {
-		return VALUE;
+		return VALUE_FOR_PROCESS;
 	}
 
 	/**	 Getter Parameter Value for Process Name	*/
 	public static final String getProcessName() {
-		return NAME;
+		return NAME_FOR_PROCESS;
 	}
 }

@@ -64,12 +64,12 @@ public class InvoiceWriteOff extends InvoiceWriteOffAbstract
 	protected String doIt () throws Exception
 	{
 		List<Object> parameters = new ArrayList<Object>();
-		log.info("C_BPartner_ID=" + getBusinessPartnerId()
-			+ ", C_BP_Group_ID=" + getBusinessPartnerGroupId()
+		log.info("C_BPartner_ID=" + getBPartnerId()
+			+ ", C_BP_Group_ID=" + getBPGroupId()
 			+ ", C_Invoice_ID=" + getInvoiceId()
-			+ ", InvoiceCollectionType=" + getCollectionStatus()
+			+ ", InvoiceCollectionType=" + getInvoiceCollectionType()
 			+ ", C_DunningLevel_ID=" + getDunningLevelId()
-			+ "; APAR=" + getAccountPayableAndReceivable()
+			+ "; APAR=" + getAPAR()
 			+ ", " + getDateInvoiced() + " - " + getDateInvoicedTo()
 			+ "; CreatePayment=" + isCreatePayment()
 			+ ", C_BankAccount_ID=" + getBankAccountId());
@@ -79,10 +79,10 @@ public class InvoiceWriteOff extends InvoiceWriteOffAbstract
 			+ " C_Currency_ID,GrandTotal, invoiceOpen(C_Invoice_ID, 0) AS OpenAmt "
 			+ "FROM C_Invoice WHERE ");
 		
-		if (getOrganizationId() > 0)
+		if (getOrgId() > 0)
 		{	
 			sql.append("AD_Org_ID=? AND ");
-			parameters.add(getOrganizationId());
+			parameters.add(getOrgId());
 		}
 		
 		if (getInvoiceId() > 0)
@@ -92,32 +92,32 @@ public class InvoiceWriteOff extends InvoiceWriteOffAbstract
 		}	
 		else
 		{
-			if (getBusinessPartnerId() > 0)
+			if (getBPartnerId() > 0)
 			{	
 				sql.append("C_BPartner_ID=? AND ");
-				parameters.add(getBusinessPartnerId());
+				parameters.add(getBPartnerId());
 			}
-			else if (getBusinessPartnerGroupId() > 0)
+			else if (getBPGroupId() > 0)
 			{
 				sql.append("EXISTS (SELECT * FROM C_BPartner bp WHERE C_Invoice.C_BPartner_ID=bp.C_BPartner_ID AND bp.C_BP_Group_ID=?) AND ");
-				parameters.add(getBusinessPartnerGroupId());
+				parameters.add(getBPGroupId());
 			}
 			//
-			if (ONLY_AR.equals(getAccountPayableAndReceivable()))
+			if (ONLY_AR.equals(getAPAR()))
 			{	
 				sql.append("IsSOTrx=? AND ");
 				parameters.add("Y");
 			}
-			else if (ONLY_AP.equals(getAccountPayableAndReceivable()))
+			else if (ONLY_AP.equals(getAPAR()))
 			{	
 				sql.append("IsSOTrx=? AND ");
 				parameters.add("N");
 			}	
 			
-			if(getCollectionStatus() != null)
+			if(getInvoiceCollectionType() != null)
 			{	
 				sql.append(" InvoiceCollectionType=? AND ");
-				parameters.add(getCollectionStatus());
+				parameters.add(getInvoiceCollectionType());
 			}	
 			
 			if(getDunningLevelId() > 0)
@@ -199,7 +199,7 @@ public class InvoiceWriteOff extends InvoiceWriteOffAbstract
 		//	Nothing to do
 		if (openAmt == null || openAmt.signum() == 0)
 			return false;
-		if (openAmt.abs().compareTo(getMaximumWriteOffperInvoice()) >= 0)
+		if (openAmt.abs().compareTo(getMaxInvWriteOffAmt()) >= 0)
 			return false;
 		//
 		if (isSimulation())
@@ -219,7 +219,7 @@ public class InvoiceWriteOff extends InvoiceWriteOffAbstract
 		{
 			processAllocation();
 			allocation = new MAllocationHdr (getCtx(), true, 
-				getAccountDate(), currencyId,
+				getDateAcct(), currencyId,
 				getProcessInfo().getTitle() + " #" + getAD_PInstance_ID(), get_TrxName());
 			allocation.setAD_Org_ID(invoice.getAD_Org_ID());
 			if (!allocation.save())
@@ -239,8 +239,8 @@ public class InvoiceWriteOff extends InvoiceWriteOffAbstract
 			payment.setAD_Org_ID(invoice.getAD_Org_ID());
 			payment.setC_BankAccount_ID(getBankAccountId());
 			payment.setTenderType(MPayment.TENDERTYPE_Check);
-			payment.setDateTrx(getAccountDate());
-			payment.setDateAcct(getAccountDate());
+			payment.setDateTrx(getDateAcct());
+			payment.setDateAcct(getDateAcct());
 			payment.setDescription(getProcessInfo().getTitle() + " #" + getAD_PInstance_ID());
 			payment.setC_BPartner_ID(invoice.getC_BPartner_ID());
 			payment.setIsReceipt(true);	//	payments are negative

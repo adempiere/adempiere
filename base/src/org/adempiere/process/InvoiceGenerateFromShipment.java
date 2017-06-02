@@ -69,7 +69,7 @@ public class InvoiceGenerateFromShipment extends InvoiceGenerateFromShipmentAbst
 	protected void prepare() {
 		super.prepare();
 		dateInvoiced = getDateInvoiced();
-		docAction = getDocumentAction();
+		docAction = getDocAction();
 		//	Login Date
 		if (dateInvoiced == null)
 			dateInvoiced = Env.getContextAsDate(getCtx(), "#Date");
@@ -88,9 +88,9 @@ public class InvoiceGenerateFromShipment extends InvoiceGenerateFromShipmentAbst
 	 */
 	protected String doIt () throws Exception {
 		log.info("Selection=" + isSelection() + ", DateInvoiced=" + getDateInvoiced()
-			+ ", AD_Org_ID=" + getOrganizationId() + ", C_BPartner_ID=" + getBusinessPartnerId()
-			+ ", M_InOut_ID=" + getShipmentReceiptId() + ", DocAction=" + getDocumentAction() 
-			+ ", Consolidate=" + isConsolidatetooneDocument());
+			+ ", AD_Org_ID=" + getOrgId() + ", C_BPartner_ID=" + getBPartnerId()
+			+ ", M_InOut_ID=" + getInOutId() + ", DocAction=" + getDocAction()
+			+ ", Consolidate=" + isConsolidateDocument());
 		//
 		String sql = null;
 		if (isSelection()) {	//	VInvoiceGenFromShipment
@@ -103,12 +103,12 @@ public class InvoiceGenerateFromShipment extends InvoiceGenerateFromShipmentAbst
 		} else {
 			sql = "SELECT * FROM M_InOut o "
 				+ "WHERE DocStatus IN('CO','CL') AND IsSOTrx='Y'";
-			if(getShipmentReceiptId() != 0) {
+			if(getInOutId() != 0) {
 				sql += " AND M_InOut_ID=?";
 			} else {
-				if (getOrganizationId() != 0)
+				if (getOrgId() != 0)
 					sql += " AND AD_Org_ID=?";
-				if (getBusinessPartnerId() != 0)
+				if (getBPartnerId() != 0)
 					sql += " AND C_BPartner_ID=?";
 			}
 			//
@@ -125,13 +125,13 @@ public class InvoiceGenerateFromShipment extends InvoiceGenerateFromShipmentAbst
 			if (isSelection()) {
 				pstmt.setInt(index, getAD_PInstance_ID());
 			} else {
-				if (getShipmentReceiptId() != 0) {
-					pstmt.setInt(index++, getShipmentReceiptId());
+				if (getInOutId() != 0) {
+					pstmt.setInt(index++, getInOutId());
 				} else {
-					if (getOrganizationId() != 0)
-						pstmt.setInt(index++, getOrganizationId());
-					if (getBusinessPartnerId() != 0)
-						pstmt.setInt(index++, getBusinessPartnerId());
+					if (getOrgId() != 0)
+						pstmt.setInt(index++, getOrgId());
+					if (getBPartnerId() != 0)
+						pstmt.setInt(index++, getBPartnerId());
 				}
 			}
 		} catch (Exception e) {
@@ -156,7 +156,7 @@ public class InvoiceGenerateFromShipment extends InvoiceGenerateFromShipmentAbst
 				MOrder order = new MOrder(getCtx(), inOut.getC_Order_ID(), get_TrxName());
 				
 				//	New Invoice Location
-				if (!isConsolidatetooneDocument() 
+				if (!isConsolidateDocument() 
 					|| (invoice != null && invoice.getC_BPartner_Location_ID() != order.getBill_Location_ID()) 
 				) {
 					invoice = completeInvoice( invoice );
@@ -216,8 +216,8 @@ public class InvoiceGenerateFromShipment extends InvoiceGenerateFromShipmentAbst
 	private MInvoice createInvoiceLineFromShipmentLine(MInvoice invoice, MOrder order, MInOut inOut, MInOutLine inOutLine) {
 		if (invoice == null) {
 			invoice = new MInvoice(inOut, dateInvoiced);
-			if(getTrxOrganizationId() != 0) {
-				invoice.setAD_Org_ID(getTrxOrganizationId());
+			if(getOrgTrxId() != 0) {
+				invoice.setAD_Org_ID(getOrgTrxId());
 			}
 			invoice.saveEx();
 		}

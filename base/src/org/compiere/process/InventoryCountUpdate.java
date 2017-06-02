@@ -95,7 +95,7 @@ public class InventoryCountUpdate extends InventoryCountUpdateAbstract
 		int noMA = updateWithMA();
 
 		//	Set Count to Zero
-		if (isUpdateCountQty() && "Z".equals(getSetInventoryCountto()))
+		if (isUpdateCountQty() && "Z".equals(getInventoryCountSet()))
 		{
 			sql = "UPDATE M_InventoryLine l "
 				+ "SET QtyCount=0 "

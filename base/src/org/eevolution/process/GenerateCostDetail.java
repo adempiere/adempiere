@@ -72,7 +72,7 @@ public class GenerateCostDetail extends GenerateCostDetailAbstract {
      */
     protected void prepare() {
         super.prepare();
-        if (getAccountDate() != null)
+        if (getDateAcct() != null)
             setup();
 
     } // prepare
@@ -132,8 +132,8 @@ public class GenerateCostDetail extends GenerateCostDetailAbstract {
      */
     private void setup() {
 
-        if (getAccountingSchemaId() > 0)
-            acctSchemas.add(MAcctSchema.get(getCtx(), getAccountingSchemaId() , get_TrxName()));
+        if (getAcctSchemaId() > 0)
+            acctSchemas.add(MAcctSchema.get(getCtx(), getAcctSchemaId() , get_TrxName()));
         else
             acctSchemas = new ArrayList(Arrays.asList(MAcctSchema
                     .getClientAcctSchema(getCtx(), getAD_Client_ID(),
@@ -252,7 +252,7 @@ public class GenerateCostDetail extends GenerateCostDetailAbstract {
                             if (processNewProduct) {
                                 applyCriteria(accountSchema.getC_AcctSchema_ID(),
                                         costType.getM_CostType_ID(), costElement.getM_CostElement_ID(),
-                                        productId, getAccountDate(), getAccountDateTo());
+                                        productId, getDateAcct(), getDateAcctTo());
                                 deleteCostDetail(dbTransaction.getTrxName());
                                 resetCostDimension(costType.getCostingMethod(), dbTransaction.getTrxName());
                                 generateCostCollectorNotTransaction(accountSchema , costType , productId, dbTransaction.getTrxName());
@@ -317,8 +317,8 @@ public class GenerateCostDetail extends GenerateCostDetailAbstract {
                 List<MMatchPO> orderMatches = MMatchPO.getInOutLine(line);
                 orderMatches.stream().forEach(match -> {
                     if (match.getM_Product_ID() == transaction.getM_Product_ID()
-                    && match.getDateAcct().after(getAccountDate())
-                    && match.getDateAcct().before(getAccountDateTo())) {
+                    && match.getDateAcct().after(getDateAcct())
+                    && match.getDateAcct().before(getDateAcctTo())) {
                         CostEngineFactory.getCostEngine(accountSchema.getAD_Client_ID()).createCostDetail(accountSchema, costType, costElement, transaction, match, true);
                     }
                 });
@@ -326,8 +326,8 @@ public class GenerateCostDetail extends GenerateCostDetailAbstract {
                List<MMatchInv> invoiceMatches = MMatchInv.getInOutLine(line);
                invoiceMatches.forEach(match -> {
                     if (match.getM_Product_ID() == transaction.getM_Product_ID()
-                    && match.getDateAcct().after(getAccountDate())
-                    && match.getDateAcct().before(getAccountDateTo())) {
+                    && match.getDateAcct().after(getDateAcct())
+                    && match.getDateAcct().before(getDateAcctTo())) {
                         CostEngineFactory.getCostEngine(
                                 accountSchema.getAD_Client_ID())
                                 .createCostDetail(accountSchema, costType, costElement, transaction,
@@ -338,7 +338,7 @@ public class GenerateCostDetail extends GenerateCostDetailAbstract {
 
             //get landed allocation cost
             MLandedCostAllocation.getOfInOutline(line, costElement.getM_CostElement_ID()).stream().forEach(allocation -> {
-                if (allocation.getDateAcct().after(getAccountDate()) && allocation.getDateAcct().before(getAccountDateTo()))
+                if (allocation.getDateAcct().after(getDateAcct()) && allocation.getDateAcct().before(getDateAcctTo()))
                     CostEngineFactory.getCostEngine(accountSchema.getAD_Client_ID()).createCostDetail(accountSchema, costType, costElement, transaction, allocation, true);
             });
         }
@@ -346,7 +346,7 @@ public class GenerateCostDetail extends GenerateCostDetailAbstract {
 
     private void generateCostCollectorNotTransaction(MAcctSchema accountSchema , MCostType costType ,  int productId, String trxName)
             throws SQLException {
-        List<MPPCostCollector> costCollectors = MPPCostCollector.getCostCollectorNotTransaction(getCtx(), productId, getAccountDate(), getAccountDateTo(), trxName);
+        List<MPPCostCollector> costCollectors = MPPCostCollector.getCostCollectorNotTransaction(getCtx(), productId, getDateAcct(), getDateAcctTo(), trxName);
         // Process Collector Cost Manufacturing
         for (MPPCostCollector costCollector : costCollectors) {
             for (MCostDetail costDetail : MCostDetail.getByCollectorCost(costCollector)) {
@@ -379,11 +379,11 @@ public class GenerateCostDetail extends GenerateCostDetailAbstract {
             parameters.add(getProductId());
         }
         whereClause.append("TRUNC(").append(MCostDetail.COLUMNNAME_DateAcct).append(")>=?");
-        parameters.add(getAccountDate());
+        parameters.add(getDateAcct());
 
-        if (getAccountDateTo() != null) {
+        if (getDateAcctTo() != null) {
             whereClause.append(" AND TRUNC(").append(MCostDetail.COLUMNNAME_DateAcct).append(")<=?");
-            parameters.add(getAccountDateTo());
+            parameters.add(getDateAcctTo());
         }
 
         sql.append("SELECT M_Transaction_ID , M_Product_ID FROM RV_Transaction ")

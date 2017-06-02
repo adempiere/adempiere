@@ -58,7 +58,7 @@ public class SynchronizeTerminology extends SynchronizeTerminologyAbstract
 		try {
 			int no;
 			Trx trx = Trx.get(get_TrxName(), false);
-			if (isCreateElementsfromColumnOrParameters()) {
+			if (isCreateElement()) {
 				// Create Elements from ColumnNames
 				sql = "SELECT DISTINCT ColumnName, Name, Description, Help, EntityType "
 						+ "FROM	AD_COLUMN c WHERE NOT EXISTS "
@@ -136,7 +136,7 @@ public class SynchronizeTerminology extends SynchronizeTerminologyAbstract
 			log.info("  rows updated: "+no);
 			trx.commit(true);
 
-			if (isDeletingUnusedElements()) {
+			if (isDeletingUnusedElement()) {
 				log.info("Deleting unused Elements");
 				sql = "DELETE	AD_ELEMENT_TRL"
 						+ " 	WHERE	AD_Element_ID IN"

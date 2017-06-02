@@ -56,6 +56,7 @@ import org.compiere.model.X_C_DocType;
 import org.compiere.print.MPrintFormat;
 import org.compiere.print.ReportCtl;
 import org.compiere.print.ReportEngine;
+import org.compiere.process.DocAction;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
@@ -118,15 +119,15 @@ public class ReleaseInOutBound extends ReleaseInOutBoundAbstract
 			BigDecimal qtySupply = createDistributionOrder(outBoundLine);
 			if(isCreateSupply() && qtySupply.signum() > 0)
 			{
-				Env.setContext(outBoundLine.getCtx(),IsCreateSupply, "Y");
+				Env.setContext(outBoundLine.getCtx(),"IsCreateSupply", "Y");
 				createSupply(outBoundLine, qtySupply);
 			}
 		});
 		
-		if(orderDistribution != null && getDocumentAction() != null)
+		if(orderDistribution != null && getDocAction() != null)
 		{
-			orderDistribution.setDocAction(getDocumentAction());
-			orderDistribution.setDocStatus(org.compiere.process.DocAction.STATUS_InProgress);
+			orderDistribution.setDocAction(getDocAction());
+			orderDistribution.setDocStatus(DocAction.STATUS_InProgress);
 			orderDistribution.completeIt();
 			orderDistribution.save();
 		}	
@@ -168,7 +169,7 @@ public class ReleaseInOutBound extends ReleaseInOutBoundAbstract
 	protected BigDecimal createDistributionOrder(MWMInOutBoundLine outBoundOrderLine)
 	{				
 		WMRuleEngine engineRule = WMRuleEngine.get();
-		List<MStorage> storageList = engineRule.getStorage(outBoundOrderLine, getWarehouseAreaTypeId(), getWarehouseSectionTypeId());
+		List<MStorage> storageList = engineRule.getStorage(outBoundOrderLine, getAreaTypeId(), getSectionTypeId());
 
 		int shipperId = 0;
 		BigDecimal qtySupply = BigDecimal.ZERO;
@@ -192,9 +193,9 @@ public class ReleaseInOutBound extends ReleaseInOutBoundAbstract
 				orderDistribution = new MDDOrder(getCtx() , 0 , get_TrxName());
 				orderDistribution.setAD_Org_ID(outBoundLocator.getAD_Org_ID());
 				orderDistribution.setC_BPartner_ID(partnerId);
-				if(getDocumentTypeId() > 0)
+				if(getDocTypeId() > 0)
 				{
-					orderDistribution.setC_DocType_ID(getDocumentTypeId());
+					orderDistribution.setC_DocType_ID(getDocTypeId());
 				}	
 				else
 				{
@@ -202,8 +203,8 @@ public class ReleaseInOutBound extends ReleaseInOutBoundAbstract
 				}
 
 				orderDistribution.setM_Warehouse_ID(wsts[0].get_ID());
-				if(getDocumentAction() != null)
-					orderDistribution.setDocAction(getDocumentAction());
+				if(getDocAction() != null)
+					orderDistribution.setDocAction(getDocAction());
 				else
 					orderDistribution.setDocAction(X_DD_Order.DOCACTION_Prepare);
 				

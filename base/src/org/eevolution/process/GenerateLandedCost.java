@@ -48,11 +48,10 @@ public class GenerateLandedCost extends GenerateLandedCostAbstract {
      *
      * @return info
      */
-    @SuppressWarnings("unchecked")
     protected String doIt() throws Exception {
 
         String receipts = "";
-        if ( isCreatebyProduct()) {
+        if (isCreateByProduct()) {
             for (MInOutLine inOutLine : getRecords()) {
                 createLandedCost(null, inOutLine);
                 receipts = receipts.concat(
@@ -88,7 +87,7 @@ public class GenerateLandedCost extends GenerateLandedCostAbstract {
         landedCost.setC_InvoiceLine_ID(getRecord_ID());
         landedCost.setM_InOut_ID(document.getM_InOut_ID());
         landedCost.setDescription(document.getPOReference());
-        landedCost.setLandedCostDistribution(getCostDistribution());
+        landedCost.setLandedCostDistribution(getLandedCostDistribution());
         landedCost.setM_CostElement_ID(getCostElementId());
         if (inOut == null) {
             landedCost.setM_InOutLine_ID(inOutLine.getM_InOutLine_ID());
@@ -105,7 +104,7 @@ public class GenerateLandedCost extends GenerateLandedCostAbstract {
 
         StringBuilder whereClause = new StringBuilder("EXISTS (SELECT T_Selection_ID FROM T_Selection ");
         whereClause.append("WHERE T_Selection.AD_PInstance_ID=? AND T_Selection.T_Selection_ID=M_InOutLine.M_InOutLine_ID ");
-        if (isCreatebyProduct())
+        if (isCreateByProduct())
             whereClause.append("AND NOT EXISTS (SELECT 1 FROM C_LandedCost lc WHERE lc.C_InvoiceLine_ID=? AND lc.M_InOutLine_ID=M_InOutLine.M_InOutLine_ID))");
         else
             whereClause.append("AND NOT EXISTS (SELECT 1 FROM C_LandedCost lc WHERE lc.C_InvoiceLine_ID=? AND lc.M_InOut_ID=M_InOutLine.M_InOut_ID)) ");

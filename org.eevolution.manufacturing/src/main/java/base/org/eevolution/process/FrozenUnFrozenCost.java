@@ -48,7 +48,7 @@ public class FrozenUnFrozenCost extends FrozenUnFrozenCostAbstract
 	protected String doIt() throws Exception
 	{
 		//Get account schema
-		MAcctSchema accountSchema = MAcctSchema.get(getCtx(), getAccountingSchemaId());
+		MAcctSchema accountSchema = MAcctSchema.get(getCtx(), getAcctSchemaId());
 		//Get cost type
 		MCostType costType = MCostType.get(getCtx() , getCostTypeId());
 		//Get cost element to process
@@ -70,7 +70,7 @@ public class FrozenUnFrozenCost extends FrozenUnFrozenCostAbstract
 										product,
 										accountSchema,
 										costType.getM_CostType_ID(),
-										getOrganizationId(),
+										getOrgId(),
 										getWarehouseId(),
 										0,
 										costElement.getM_CostElement_ID());
@@ -100,7 +100,7 @@ public class FrozenUnFrozenCost extends FrozenUnFrozenCostAbstract
 	 */
 	private int[] getProductIds() {
 		StringBuilder whereClause = new StringBuilder("1=1 ");
-		List<Object> parameters = new ArrayList();
+		List<Object> parameters = new ArrayList<Object>();
 		if (getProductId() > 0) {
 			whereClause.append(MCost.COLUMNNAME_M_Product_ID).append("=? ");
 			parameters.add(getProcessId());

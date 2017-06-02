@@ -1,8 +1,9 @@
 /******************************************************************************
  * Product: ADempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 2006-2016 ADempiere Foundation, All Rights Reserved.         *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -17,39 +18,35 @@
 package org.compiere.process;
 
 
+
 /** Generated Process for (Invoice Create From)
  *  @author ADempiere (generated) 
- *  @version Release 3.8.0
+ *  @version Release 3.9.0
  */
-public abstract class InvoiceCreateFromAbstract extends SvrProcess
-{
+public abstract class InvoiceCreateFromAbstract extends SvrProcess {
 	/** Process Value 	*/
-	private static final String VALUE = "SBP_InvoiceCreateFrom";
+	private static final String VALUE_FOR_PROCESS = "SBP_InvoiceCreateFrom";
 	/** Process Name 	*/
-	private static final String NAME = "Invoice Create From";
+	private static final String NAME_FOR_PROCESS = "Invoice Create From";
 	/** Process Id 	*/
-	private static final int ID = 53879;
- 
-
- 
+	private static final int ID_FOR_PROCESS = 53879;
 
 	@Override
-	protected void prepare()
-	{
+	protected void prepare() {
 	}
 
 	/**	 Getter Parameter Value for Process ID	*/
 	public static final int getProcessId() {
-		return ID;
+		return ID_FOR_PROCESS;
 	}
 
 	/**	 Getter Parameter Value for Process Value	*/
 	public static final String getProcessValue() {
-		return VALUE;
+		return VALUE_FOR_PROCESS;
 	}
 
 	/**	 Getter Parameter Value for Process Name	*/
 	public static final String getProcessName() {
-		return NAME;
+		return NAME_FOR_PROCESS;
 	}
 }

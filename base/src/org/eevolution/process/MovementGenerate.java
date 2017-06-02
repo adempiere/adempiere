@@ -81,9 +81,9 @@ public class MovementGenerate extends MovementGenerateAbstract
 	{
 		log.info("Selection=" + isSelection()
 			+ ", M_Warehouse_ID=" + getWarehouseId()
-			+ ", C_BPartner_ID=" + getBusinessPartnerId()
-			+ ", Consolidate=" + isConsolidatetooneDocument()
-			+ ", IsUnconfirmed=" + isOrderswithunconfirmedShipments()
+			+ ", C_BPartner_ID=" + getBPartnerId()
+			+ ", Consolidate=" + isConsolidateDocument()
+			+ ", IsUnconfirmed=" + isUnconfirmedInOut()
 			+ ", Movement=" + getMovementDate());
 		List<MDDOrder> distributionOrders;
         if (isSelection())
@@ -115,9 +115,9 @@ public class MovementGenerate extends MovementGenerateAbstract
                 parameters.add(datePromised);
             });
 
-            if (getBusinessPartnerId() > 0) {
+            if (getBPartnerId() > 0) {
                 whereClause.append(" AND ").append(MDDOrder.COLUMNNAME_C_BPartner_ID).append("=? ");
-                parameters.add(getBusinessPartnerId());
+                parameters.add(getBPartnerId());
             }
 
             whereClause.append("AND ol.DD_Order_ID=DD_Order.DD_Order_ID AND ol.QtyOrdered <> ol.QtyInTransit )");
@@ -148,7 +148,7 @@ public class MovementGenerate extends MovementGenerateAbstract
 
 				getCurrentMovement()
 						.filter(movement -> movement != null
-							 || !isConsolidatetooneDocument())
+							 || !isConsolidateDocument())
 						.filter(movement -> movement.getC_BPartner_Location_ID() != order.getC_BPartner_Location_ID()
 							 || movement.getM_Shipper_ID() != order.getM_Shipper_ID())
 						.ifPresent(movement -> completeMovement());
@@ -169,7 +169,7 @@ public class MovementGenerate extends MovementGenerateAbstract
 						.append("WHERE DD_OrderLine.M_Product_ID=p.M_Product_ID")
 						.append(" AND IsExcludeAutoDelivery='N'))");
 				//	Exclude Unconfirmed
-				if (!isOrderswithunconfirmedShipments())
+				if (!isUnconfirmedInOut())
 					where.append(" AND NOT EXISTS (SELECT * FROM M_MovementLine iol")
 							.append(" INNER JOIN M_Movement io ON (iol.M_Movement_ID=io.M_Movement_ID) ")
 							.append("WHERE iol.DD_OrderLine_ID=DD_OrderLine.DD_OrderLine_ID AND io.DocStatus IN ('IP','WC'))");
@@ -192,7 +192,7 @@ public class MovementGenerate extends MovementGenerateAbstract
 					
 					//	Check / adjust for confirmations
 					BigDecimal unconfirmedShippedQty = Env.ZERO;
-					if (isOrderswithunconfirmedShipments() && product != null && toDeliver.signum() != 0)
+					if (isUnconfirmedInOut() && product != null && toDeliver.signum() != 0)
 					{
 						String whereLine = "EXISTS (SELECT * FROM M_Movement io WHERE io.M_Movement_ID=M_MovementLine.M_Movement_ID AND io.DocStatus IN ('IP','WC'))";
 						MMovementLine[] movementLines = MMovementLine.getOfOrderLine(getCtx(), orderLine.getDD_OrderLine_ID(), whereLine, null);
@@ -516,7 +516,7 @@ public class MovementGenerate extends MovementGenerateAbstract
             //if the location or shipper is differrent complete of order
             getCurrentMovement().ifPresent(movement -> {
 				//	Fails if there is a confirmation
-				if (!movement.processIt(getDocumentAction()))
+				if (!movement.processIt(getDocAction()))
 					log.warning("Failed: " + this.movement);
 				movement.saveEx();
                 addLog(movement.getM_Movement_ID() , movement.getMovementDate() , null , movement.getDocumentInfo());

@@ -53,7 +53,7 @@ public class CopyCostTypeToCostType extends CopyCostTypeToCostTypeAbstract {
         if (getCostTypeId() == getCostTypeIdTo())
             throw new AdempiereException("@M_CostType_ID@ @NotValid@");
 
-        MAcctSchema accountSchema = MAcctSchema.get(getCtx(), getAccountingSchemaId());
+        MAcctSchema accountSchema = MAcctSchema.get(getCtx(), getAcctSchemaId());
         MCostType costTypeFrom = MCostType.get(getCtx(), getCostTypeId());
         MCostType costTypeTo = MCostType.get(getCtx(), getCostTypeIdTo());
         MCostElement costElementFrom = MCostElement.get(getCtx(), getCostElementId());
@@ -81,9 +81,9 @@ public class CopyCostTypeToCostType extends CopyCostTypeToCostTypeAbstract {
      */
     private void copyCostTypeToCostType(int productId, MAcctSchema accountSchema, MCostType costTypeFrom, MCostType costTypeTo, MCostElement costElementFrom, MCostElement costElementTo, String trxName) {
         MProduct product = MProduct.get(getCtx(), productId);
-        CostDimension costDimensionFrom = new CostDimension(product, accountSchema, costTypeFrom.get_ID(), getOrganizationId(), getWarehouseId(), 0, costElementFrom.get_ID());
+        CostDimension costDimensionFrom = new CostDimension(product, accountSchema, costTypeFrom.get_ID(), getOrgId(), getWarehouseId(), 0, costElementFrom.get_ID());
         Optional<MCost> costDimensionFromOptional = Optional.ofNullable(costDimensionFrom.toQuery(MCost.class, trxName).first());
-        CostDimension costDimensionTo = new CostDimension(product, accountSchema, costTypeTo.get_ID(), getOrganizationId(), getWarehouseId(), 0, costElementTo.get_ID());
+        CostDimension costDimensionTo = new CostDimension(product, accountSchema, costTypeTo.get_ID(), getOrgId(), getWarehouseId(), 0, costElementTo.get_ID());
         Optional<MCost> costDimensionToOptional = Optional.ofNullable(costDimensionTo.toQuery(MCost.class, trxName).first());
         if (isUpdateCosting()) {
             // exist cost form and cost to or not exist cost to and exit cost from
@@ -96,7 +96,7 @@ public class CopyCostTypeToCostType extends CopyCostTypeToCostTypeAbstract {
                     costTo.saveEx();
                 }
             } else if (!costDimensionToOptional.isPresent() && costDimensionFromOptional.isPresent()) {
-                MCost costTo = MCost.getOrCreate(product, 0, accountSchema, getOrganizationId(), getWarehouseId(), costTypeTo.get_ID(), costElementTo.get_ID());
+                MCost costTo = MCost.getOrCreate(product, 0, accountSchema, getOrgId(), getWarehouseId(), costTypeTo.get_ID(), costElementTo.get_ID());
                 if (MCostType.COSTINGMETHOD_StandardCosting.equals(costTypeFrom.getCostingMethod()) && costTo.isCostFrozen())
                     ;
                 else {
@@ -109,12 +109,12 @@ public class CopyCostTypeToCostType extends CopyCostTypeToCostTypeAbstract {
                 costTo.setCurrentCostPrice(BigDecimal.ZERO);
                 costTo.saveEx();
             } else if (!costDimensionToOptional.isPresent() && !costDimensionFromOptional.isPresent()) {
-                MCost costTo = MCost.getOrCreate(product, 0, accountSchema, getOrganizationId(), getWarehouseId(), costTypeTo.get_ID(), costElementTo.get_ID());
+                MCost costTo = MCost.getOrCreate(product, 0, accountSchema, getOrgId(), getWarehouseId(), costTypeTo.get_ID(), costElementTo.get_ID());
                 costTo.setCurrentCostPrice(BigDecimal.ZERO);
                 costTo.saveEx();
             }
         } else if (!costDimensionToOptional.isPresent()) {
-            MCost costTo = MCost.getOrCreate(product, 0, accountSchema, getOrganizationId(), getWarehouseId(), costTypeTo.get_ID(), costElementTo.get_ID());
+            MCost costTo = MCost.getOrCreate(product, 0, accountSchema, getOrgId(), getWarehouseId(), costTypeTo.get_ID(), costElementTo.get_ID());
             costDimensionFromOptional.ifPresent(costFrom -> costTo.setCurrentCostPrice(costFrom.getCurrentCostPrice()));
             costTo.saveEx();
         }

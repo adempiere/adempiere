@@ -1,8 +1,9 @@
 /******************************************************************************
  * Product: ADempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 2006-2016 ADempiere Foundation, All Rights Reserved.         *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -17,69 +18,80 @@
 package org.eevolution.process;
 
 import org.compiere.process.SvrProcess;
+
 /** Generated Process for (Export Format Generator)
  *  @author ADempiere (generated) 
- *  @version Release 3.8.0
+ *  @version Release 3.9.0
  */
-public abstract class ExportFormatGeneratorAbstract extends SvrProcess
-{
+public abstract class ExportFormatGeneratorAbstract extends SvrProcess {
 	/** Process Value 	*/
-	private static final String VALUE = "EXP_Format Generator";
+	private static final String VALUE_FOR_PROCESS = "EXP_Format Generator";
 	/** Process Name 	*/
-	private static final String NAME = "Export Format Generator";
+	private static final String NAME_FOR_PROCESS = "Export Format Generator";
 	/** Process Id 	*/
-	private static final int ID = 53085;
- 
-	/**	Parameter Name for AD_Window_ID	*/
-	public static final String AD_Window_ID = "AD_Window_ID";
-	/**	Parameter Name for IsInsertRecord	*/
-	public static final String IsInsertRecord = "IsInsertRecord";
-	/**	Parameter Name for IsMandatory	*/
-	public static final String IsMandatory = "IsMandatory";
-
-	/**	Parameter Value for windowId	*/
+	private static final int ID_FOR_PROCESS = 53085;
+	/**	Parameter Name for Window	*/
+	private static final String AD_WINDOW_ID = "AD_Window_ID";
+	/**	Parameter Name for Includes only the Tabs that Insert records	*/
+	private static final String ISINSERTRECORD = "IsInsertRecord";
+	/**	Parameter Name for Includes only the mandatory columns	*/
+	private static final String ISMANDATORY = "IsMandatory";
+	/**	Parameter Value for Window	*/
 	private int windowId;
-	/**	Parameter Value for iscludesonlytheTabsthatInsertrecords	*/
-	private boolean iscludesonlytheTabsthatInsertrecords;
-	/**	Parameter Value for iscludesonlythemandatorycolumns	*/
-	private boolean iscludesonlythemandatorycolumns;
- 
+	/**	Parameter Value for Includes only the Tabs that Insert records	*/
+	private boolean isInsertRecord;
+	/**	Parameter Value for Includes only the mandatory columns	*/
+	private boolean isMandatory;
 
 	@Override
-	protected void prepare()
-	{
-		windowId = getParameterAsInt(AD_Window_ID);
-		iscludesonlytheTabsthatInsertrecords = getParameterAsBoolean(IsInsertRecord);
-		iscludesonlythemandatorycolumns = getParameterAsBoolean(IsMandatory);
+	protected void prepare() {
+		windowId = getParameterAsInt(AD_WINDOW_ID);
+		isInsertRecord = getParameterAsBoolean(ISINSERTRECORD);
+		isMandatory = getParameterAsBoolean(ISMANDATORY);
 	}
 
-	/**	 Getter Parameter Value for windowId	*/
+	/**	 Getter Parameter Value for Window	*/
 	protected int getWindowId() {
 		return windowId;
 	}
 
-	/**	 Getter Parameter Value for iscludesonlytheTabsthatInsertrecords	*/
-	protected boolean iscludesonlytheTabsthatInsertrecords() {
-		return iscludesonlytheTabsthatInsertrecords;
+	/**	 Setter Parameter Value for Window	*/
+	protected void setWindowId(int windowId) {
+		this.windowId = windowId;
 	}
 
-	/**	 Getter Parameter Value for iscludesonlythemandatorycolumns	*/
-	protected boolean iscludesonlythemandatorycolumns() {
-		return iscludesonlythemandatorycolumns;
+	/**	 Getter Parameter Value for Includes only the Tabs that Insert records	*/
+	protected boolean isInsertRecord() {
+		return isInsertRecord;
+	}
+
+	/**	 Setter Parameter Value for Includes only the Tabs that Insert records	*/
+	protected void setIsInsertRecord(boolean isInsertRecord) {
+		this.isInsertRecord = isInsertRecord;
+	}
+
+	/**	 Getter Parameter Value for Includes only the mandatory columns	*/
+	protected boolean isMandatory() {
+		return isMandatory;
+	}
+
+	/**	 Setter Parameter Value for Includes only the mandatory columns	*/
+	protected void setIsMandatory(boolean isMandatory) {
+		this.isMandatory = isMandatory;
 	}
 
 	/**	 Getter Parameter Value for Process ID	*/
 	public static final int getProcessId() {
-		return ID;
+		return ID_FOR_PROCESS;
 	}
 
 	/**	 Getter Parameter Value for Process Value	*/
 	public static final String getProcessValue() {
-		return VALUE;
+		return VALUE_FOR_PROCESS;
 	}
 
 	/**	 Getter Parameter Value for Process Name	*/
 	public static final String getProcessName() {
-		return NAME;
+		return NAME_FOR_PROCESS;
 	}
 }

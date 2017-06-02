@@ -45,16 +45,16 @@ public class HRPaySelectionCreateFrom extends HRPaySelectionCreateFromAbstract {
      */
     protected String doIt() throws Exception {
         log.info("Pay Selection Id=" + getRecord_ID()
-                + ", Process=" + getPayrollProcessId()
+                + ", Process=" + getHRProcessId()
                 + ", Payroll=" + getPayrollId()
-                + ", BP Group=" + getBusinessPartnerGroupId()
+                + ", BP Group=" + getBPGroupId()
                 + ", PaymentRule=" + getPaymentRule()
-                + ", Concept=" + getGlobalPayrollConceptId()
+                + ", Concept=" + getConceptId()
                 + ", Depatment=" + getDepartmentId()
-                + ", Job=" + getPayrollJobId());
+                + ", Job=" + getJobId());
 
         MHRPaySelection paySelection = (MHRPaySelection) getInstance(get_TrxName());
-        paySelection.setHR_Process_ID(getPayrollProcessId());
+        paySelection.setHR_Process_ID(getHRProcessId());
         paySelection.saveEx();
 
         List<Object> parameters = new ArrayList<Object>();
@@ -63,7 +63,7 @@ public class HRPaySelectionCreateFrom extends HRPaySelectionCreateFromAbstract {
         if (paySelection.isProcessed())
             throw new IllegalArgumentException("@HR_PaySelection_ID@ @Processed@");
 
-        parameters.add(getPayrollProcessId());
+        parameters.add(getHRProcessId());
         parameters.add(true);
         parameters.add(getRecord_ID());
 
@@ -74,33 +74,33 @@ public class HRPaySelectionCreateFrom extends HRPaySelectionCreateFromAbstract {
                 " FROM HR_PaySelectionLine " +
                 " WHERE HR_Movement_ID = HR_Movement.HR_Movement_ID" + 
                 " AND HR_PaySelectionCheck_ID > 0 OR HR_PaySelection_ID=?)");
-        if (getBusinessPartnerGroupId() > 0) {
+        if (getBPGroupId() > 0) {
             where.append(" AND ").append(MHRMovement.COLUMNNAME_C_BP_Group_ID).append("=?");
-            parameters.add(getBusinessPartnerGroupId());
+            parameters.add(getBPGroupId());
         }
         if (getEmployeeTypeId() > 0) {
             where.append(" AND ").append(MHRMovement.COLUMNNAME_HR_EmployeeType_ID).append("=?");
             parameters.add(getEmployeeTypeId());
         }
-        if (getBusinessPartnerId() > 0) {
+        if (getBPartnerId() > 0) {
             where.append(" AND ").append(MHRMovement.COLUMNNAME_C_BPartner_ID).append("=?");
-            parameters.add(getBusinessPartnerId());
+            parameters.add(getBPartnerId());
         }
         if (getPaymentRule() != null) {
             where.append(" AND EXISTS(SELECT 1 FROM HR_Employee WHERE HR_Employee_ID = HR_Movement.HR_Employee_ID AND PaymentRule=?)");
             parameters.add(getPaymentRule());
         }
-        if (getGlobalPayrollConceptId() > 0) {
+        if (getConceptId() > 0) {
             where.append(" AND ").append(MHRMovement.COLUMNNAME_HR_Concept_ID).append("=?");
-            parameters.add(getGlobalPayrollConceptId());
+            parameters.add(getConceptId());
         }
         if (getDepartmentId() > 0) {
             where.append(" AND ").append(MHRMovement.COLUMNNAME_HR_Department_ID).append("=?");
             parameters.add(getDepartmentId());
         }
-        if (getPayrollJobId() > 0) {
+        if (getJobId() > 0) {
             where.append(" AND ").append(MHRMovement.COLUMNNAME_HR_Job_ID).append("=?");
-            parameters.add(getPayrollJobId());
+            parameters.add(getJobId());
         }
 
         List<MHRMovement> movements = new Query(getCtx(), MHRMovement.Table_Name, where.toString(), get_TrxName())

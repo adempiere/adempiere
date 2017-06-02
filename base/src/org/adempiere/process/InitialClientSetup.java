@@ -31,7 +31,6 @@ package org.adempiere.process;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.sql.Timestamp;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -80,29 +79,29 @@ public class InitialClientSetup extends InitialClientSetupAbstract
 	{
 		log.info("InitialClientSetup"
 				+ ": ClientName=" + getClientName()
-				+ ", OrgValue=" + getOrgKey()
-				+ ", OrgName=" + getOrganizationName()
-				+ ", AdminUserName=" + getAdministrativeUserName()
+				+ ", OrgValue=" + getOrgValue()
+				+ ", OrgName=" + getOrgName()
+				+ ", AdminUserName=" + getAdminUserName()
 				+ ", NormalUserName=" + getNormalUserName()
 				+ ", C_Currency_ID=" + getCurrencyId()
 				+ ", C_Country_ID=" + getCountryId()
 				+ ", C_Region_ID=" + getRegionId()
 				+ ", CityName=" + getCityName()
 				+ ", C_City_ID=" + getCityId()
-				+ ", IsUseBPDimension=" + isBPAccounting()
-				+ ", IsUseProductDimension=" + isProductAccounting()
-				+ ", IsUseProjectDimension=" + isProjectAccounting()
-				+ ", IsUseCampaignDimension=" + isCampaignAccounting()
-				+ ", IsUseSalesRegionDimension=" + isSalesRegionAccounting()
-				+ ", ChartofAccountsFile=" + getChartofAccountsFile()
+				+ ", IsUseBPDimension=" + isUseBPDimension()
+				+ ", IsUseProductDimension=" + isUseProductDimension()
+				+ ", IsUseProjectDimension=" + isUseProjectDimension()
+				+ ", IsUseCampaignDimension=" + isUseCampaignDimension()
+				+ ", IsUseSalesRegionDimension=" + isUseSalesRegionDimension()
+				+ ", ChartofAccountsFile=" + getCoAFile()
 			);
 		// Validations
 		// Validate Mandatory parameters
 		if (   getClientName() == null || getClientName().length() == 0
-			|| getOrganizationName() == null || getOrganizationName().length() == 0
+			|| getOrgName() == null || getOrgName().length() == 0
 			|| getCurrencyId() <= 0
 			|| getCountryId() <= 0
-			|| getChartofAccountsFile() == null || getChartofAccountsFile().length() == 0
+			|| getCoAFile() == null || getCoAFile().length() == 0
 			)
 			throw new IllegalArgumentException("Missing required parameters");
 
@@ -112,8 +111,8 @@ public class InitialClientSetup extends InitialClientSetupAbstract
 			throw new AdempiereException("@NotUnique@ " + getClientName());
 
 		//	Unique User Names
-		if (DB.executeUpdate("UPDATE AD_User SET CreatedBy=0 WHERE Name=?", new Object[] {getAdministrativeUserName()}, false, null) != 0)
-			throw new AdempiereException("@NotUnique@ " + getAdministrativeUserName());
+		if (DB.executeUpdate("UPDATE AD_User SET CreatedBy=0 WHERE Name=?", new Object[] {getAdminUserName()}, false, null) != 0)
+			throw new AdempiereException("@NotUnique@ " + getAdminUserName());
 		if (DB.executeUpdate("UPDATE AD_User SET CreatedBy=0 WHERE Name=?", new Object[] {getNormalUserName()}, false, null) != 0)
 			throw new AdempiereException("@NotUnique@ " + getNormalUserName());
 
@@ -127,15 +126,15 @@ public class InitialClientSetup extends InitialClientSetupAbstract
 		}
 
 		// Validate existence and read permissions on CoA file
-		File chartofAccountsFile = new File(getChartofAccountsFile());
+		File chartofAccountsFile = new File(getCoAFile());
 		if (!chartofAccountsFile.exists())
-			throw new AdempiereException("CoaFile " + getChartofAccountsFile() + " does not exist");
+			throw new AdempiereException("CoaFile " + getCoAFile() + " does not exist");
 		if (!chartofAccountsFile.canRead())
-			throw new AdempiereException("Cannot read CoaFile " + getChartofAccountsFile());
+			throw new AdempiereException("Cannot read CoaFile " + getCoAFile());
 		if (!chartofAccountsFile.isFile())
-			throw new AdempiereException("CoaFile " + getChartofAccountsFile() + " is not a file");
+			throw new AdempiereException("CoaFile " + getCoAFile() + " is not a file");
 		if (chartofAccountsFile.length() <= 0L)
-			throw new AdempiereException("CoaFile " + getChartofAccountsFile() + " is empty");
+			throw new AdempiereException("CoaFile " + getCoAFile() + " is empty");
 
 		// Process
 		MSetup setup = null;
@@ -156,8 +155,8 @@ public class InitialClientSetup extends InitialClientSetupAbstract
 			setup = new MSetup();
 
 		setup.initialize(Env.getCtx(), WINDOW_THIS_PROCESS);
-		if (! setup.createClient(getClientName(), getOrgKey(), getOrganizationName(), getAdministrativeUserName(), getNormalUserName()
-				, getPhone(), getPhone2(), getFax(), getEMailAddress(), getTaxID(), getDUNS(), getLogo(), getCountryId()) ) {
+		if (! setup.createClient(getClientName(), getOrgValue(), getOrgName(), getAdminUserName(), getNormalUserName()
+				, getPhone(), getPhone2(), getFax(), getEMail(), getTaxID(), getDUNS(), getLogo(), getCountryId()) ) {
 			setup.rollback();
 			throw new AdempiereException("Create client failed");
 		}
@@ -166,14 +165,14 @@ public class InitialClientSetup extends InitialClientSetupAbstract
 		MCurrency currency = MCurrency.get(getCtx(), getCurrencyId());
 		KeyNamePair currencyKeyNamePair = new KeyNamePair(getCurrencyId(), currency.getDescription());
 		if (!setup.createAccounting(currencyKeyNamePair,
-				isProductAccounting() , isBPAccounting() , isProjectAccounting(),
-			isCampaignAccounting(), isSalesRegionAccounting(), getStartDate(), getHistoryYears(),
+				isUseProductDimension() , isUseBPDimension() , isUseProjectDimension(),
+			isUseCampaignDimension(), isUseSalesRegionDimension(), getStartDate(), getHistoryYears(),
 			chartofAccountsFile)) {
 			setup.rollback();
 			throw new AdempiereException("@AccountSetupError@");
 		}
 		//  Generate Entities
-		if (!setup.createEntities(getCountryId(), getCityName(), getRegionId(), getCurrencyId(), getZIP(), getAddress1())) {
+		if (!setup.createEntities(getCountryId(), getCityName(), getRegionId(), getCurrencyId(), getPostal(), getAddress1())) {
 			setup.rollback();
 			throw new AdempiereException("@AccountSetupError@");
 		}

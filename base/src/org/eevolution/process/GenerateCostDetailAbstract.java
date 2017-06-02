@@ -1,8 +1,9 @@
 /******************************************************************************
  * Product: ADempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 2006-2016 ADempiere Foundation, All Rights Reserved.         *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -18,97 +19,123 @@ package org.eevolution.process;
 
 import java.sql.Timestamp;
 import org.compiere.process.SvrProcess;
+
 /** Generated Process for (Generate Cost Transaction)
  *  @author ADempiere (generated) 
- *  @version Release 3.8.0
+ *  @version Release 3.9.0
  */
-public abstract class GenerateCostDetailAbstract extends SvrProcess
-{
+public abstract class GenerateCostDetailAbstract extends SvrProcess {
 	/** Process Value 	*/
-	private static final String VALUE = "M_CostDetail Generate Cost Transaction";
+	private static final String VALUE_FOR_PROCESS = "M_CostDetail Generate Cost Transaction";
 	/** Process Name 	*/
-	private static final String NAME = "Generate Cost Transaction";
+	private static final String NAME_FOR_PROCESS = "Generate Cost Transaction";
 	/** Process Id 	*/
-	private static final int ID = 53223;
- 
-	/**	Parameter Name for C_AcctSchema_ID	*/
-	public static final String C_AcctSchema_ID = "C_AcctSchema_ID";
-	/**	Parameter Name for M_CostType_ID	*/
-	public static final String M_CostType_ID = "M_CostType_ID";
-	/**	Parameter Name for M_CostElement_ID	*/
-	public static final String M_CostElement_ID = "M_CostElement_ID";
-	/**	Parameter Name for M_Product_ID	*/
-	public static final String M_Product_ID = "M_Product_ID";
-	/**	Parameter Name for DateAcct	*/
-	public static final String DateAcct = "DateAcct";
-
-	/**	Parameter Value for accountingSchemaId	*/
-	private int accountingSchemaId;
-	/**	Parameter Value for costTypeId	*/
+	private static final int ID_FOR_PROCESS = 53223;
+	/**	Parameter Name for Accounting Schema	*/
+	private static final String C_ACCTSCHEMA_ID = "C_AcctSchema_ID";
+	/**	Parameter Name for Cost Type	*/
+	private static final String M_COSTTYPE_ID = "M_CostType_ID";
+	/**	Parameter Name for Cost Element	*/
+	private static final String M_COSTELEMENT_ID = "M_CostElement_ID";
+	/**	Parameter Name for Product	*/
+	private static final String M_PRODUCT_ID = "M_Product_ID";
+	/**	Parameter Name for Account Date	*/
+	private static final String DATEACCT = "DateAcct";
+	/**	Parameter Value for Accounting Schema	*/
+	private int acctSchemaId;
+	/**	Parameter Value for Cost Type	*/
 	private int costTypeId;
-	/**	Parameter Value for costElementId	*/
+	/**	Parameter Value for Cost Element	*/
 	private int costElementId;
-	/**	Parameter Value for productId	*/
+	/**	Parameter Value for Product	*/
 	private int productId;
-	/**	Parameter Value for accountDate	*/
-	private Timestamp accountDate;
-	/**	Parameter Value for accountDateTo	*/
-	private Timestamp accountDateTo;
- 
+	/**	Parameter Value for Account Date	*/
+	private Timestamp dateAcct;
+	/**	Parameter Value for Account Date(To)	*/
+	private Timestamp dateAcctTo;
 
 	@Override
-	protected void prepare()
-	{
-		accountingSchemaId = getParameterAsInt(C_AcctSchema_ID);
-		costTypeId = getParameterAsInt(M_CostType_ID);
-		costElementId = getParameterAsInt(M_CostElement_ID);
-		productId = getParameterAsInt(M_Product_ID);
-		accountDate = getParameterAsTimestamp(DateAcct);
-		accountDateTo = getParameterToAsTimestamp(DateAcct);
+	protected void prepare() {
+		acctSchemaId = getParameterAsInt(C_ACCTSCHEMA_ID);
+		costTypeId = getParameterAsInt(M_COSTTYPE_ID);
+		costElementId = getParameterAsInt(M_COSTELEMENT_ID);
+		productId = getParameterAsInt(M_PRODUCT_ID);
+		dateAcct = getParameterAsTimestamp(DATEACCT);
+		dateAcctTo = getParameterToAsTimestamp(DATEACCT);
 	}
 
-	/**	 Getter Parameter Value for accountingSchemaId	*/
-	protected int getAccountingSchemaId() {
-		return accountingSchemaId;
+	/**	 Getter Parameter Value for Accounting Schema	*/
+	protected int getAcctSchemaId() {
+		return acctSchemaId;
 	}
 
-	/**	 Getter Parameter Value for costTypeId	*/
+	/**	 Setter Parameter Value for Accounting Schema	*/
+	protected void setAcctSchemaId(int acctSchemaId) {
+		this.acctSchemaId = acctSchemaId;
+	}
+
+	/**	 Getter Parameter Value for Cost Type	*/
 	protected int getCostTypeId() {
 		return costTypeId;
 	}
 
-	/**	 Getter Parameter Value for costElementId	*/
+	/**	 Setter Parameter Value for Cost Type	*/
+	protected void setCostTypeId(int costTypeId) {
+		this.costTypeId = costTypeId;
+	}
+
+	/**	 Getter Parameter Value for Cost Element	*/
 	protected int getCostElementId() {
 		return costElementId;
 	}
 
-	/**	 Getter Parameter Value for productId	*/
+	/**	 Setter Parameter Value for Cost Element	*/
+	protected void setCostElementId(int costElementId) {
+		this.costElementId = costElementId;
+	}
+
+	/**	 Getter Parameter Value for Product	*/
 	protected int getProductId() {
 		return productId;
 	}
 
-	/**	 Getter Parameter Value for accountDate	*/
-	protected Timestamp getAccountDate() {
-		return accountDate;
+	/**	 Setter Parameter Value for Product	*/
+	protected void setProductId(int productId) {
+		this.productId = productId;
 	}
 
-	/**	 Getter Parameter Value for accountDateTo	*/
-	protected Timestamp getAccountDateTo() {
-		return accountDateTo;
+	/**	 Getter Parameter Value for Account Date	*/
+	protected Timestamp getDateAcct() {
+		return dateAcct;
+	}
+
+	/**	 Setter Parameter Value for Account Date	*/
+	protected void setDateAcct(Timestamp dateAcct) {
+		this.dateAcct = dateAcct;
+	}
+
+	/**	 Getter Parameter Value for Account Date(To)	*/
+	protected Timestamp getDateAcctTo() {
+		return dateAcctTo;
+	}
+
+	/**	 Setter Parameter Value for Account Date(To)	*/
+	protected void setDateAcctTo(Timestamp dateAcctTo) {
+		this.dateAcctTo = dateAcctTo;
 	}
 
 	/**	 Getter Parameter Value for Process ID	*/
 	public static final int getProcessId() {
-		return ID;
+		return ID_FOR_PROCESS;
 	}
 
 	/**	 Getter Parameter Value for Process Value	*/
 	public static final String getProcessValue() {
-		return VALUE;
+		return VALUE_FOR_PROCESS;
 	}
 
 	/**	 Getter Parameter Value for Process Name	*/
 	public static final String getProcessName() {
-		return NAME;
+		return NAME_FOR_PROCESS;
 	}
 }

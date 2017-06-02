@@ -1,8 +1,9 @@
 /******************************************************************************
  * Product: ADempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 2006-2016 ADempiere Foundation, All Rights Reserved.         *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -18,344 +19,485 @@ package org.adempiere.process;
 
 import java.sql.Timestamp;
 import org.compiere.process.SvrProcess;
+
 /** Generated Process for (Initial Client Setup Process)
  *  @author ADempiere (generated) 
  *  @version Release 3.9.0
  */
-public abstract class InitialClientSetupAbstract extends SvrProcess
-{
+public abstract class InitialClientSetupAbstract extends SvrProcess {
 	/** Process Value 	*/
-	private static final String VALUE = "InitialClientSetup";
+	private static final String VALUE_FOR_PROCESS = "InitialClientSetup";
 	/** Process Name 	*/
-	private static final String NAME = "Initial Client Setup Process";
+	private static final String NAME_FOR_PROCESS = "Initial Client Setup Process";
 	/** Process Id 	*/
-	private static final int ID = 53161;
- 
-	/**	Parameter Name for ClientName	*/
-	public static final String ClientName = "ClientName";
-	/**	Parameter Name for OrgName	*/
-	public static final String OrgName = "OrgName";
-	/**	Parameter Name for OrgValue	*/
-	public static final String OrgValue = "OrgValue";
-	/**	Parameter Name for C_Currency_ID	*/
-	public static final String C_Currency_ID = "C_Currency_ID";
-	/**	Parameter Name for C_Country_ID	*/
-	public static final String C_Country_ID = "C_Country_ID";
-	/**	Parameter Name for CoAFile	*/
-	public static final String CoAFile = "CoAFile";
-	/**	Parameter Name for IsUseBPDimension	*/
-	public static final String IsUseBPDimension = "IsUseBPDimension";
-	/**	Parameter Name for IsUseProductDimension	*/
-	public static final String IsUseProductDimension = "IsUseProductDimension";
-	/**	Parameter Name for IsUseProjectDimension	*/
-	public static final String IsUseProjectDimension = "IsUseProjectDimension";
-	/**	Parameter Name for IsUseCampaignDimension	*/
-	public static final String IsUseCampaignDimension = "IsUseCampaignDimension";
-	/**	Parameter Name for IsUseSalesRegionDimension	*/
-	public static final String IsUseSalesRegionDimension = "IsUseSalesRegionDimension";
-	/**	Parameter Name for StartDate	*/
-	public static final String StartDate = "StartDate";
+	private static final int ID_FOR_PROCESS = 53161;
+	/**	Parameter Name for Client Name	*/
+	private static final String CLIENTNAME = "ClientName";
+	/**	Parameter Name for Organization Name	*/
+	private static final String ORGNAME = "OrgName";
+	/**	Parameter Name for Org Key	*/
+	private static final String ORGVALUE = "OrgValue";
+	/**	Parameter Name for Currency	*/
+	private static final String C_CURRENCY_ID = "C_Currency_ID";
+	/**	Parameter Name for Country	*/
+	private static final String C_COUNTRY_ID = "C_Country_ID";
+	/**	Parameter Name for Chart of Accounts File	*/
+	private static final String COAFILE = "CoAFile";
+	/**	Parameter Name for BP Accounting	*/
+	private static final String ISUSEBPDIMENSION = "IsUseBPDimension";
+	/**	Parameter Name for Product Accounting	*/
+	private static final String ISUSEPRODUCTDIMENSION = "IsUseProductDimension";
+	/**	Parameter Name for Project Accounting	*/
+	private static final String ISUSEPROJECTDIMENSION = "IsUseProjectDimension";
+	/**	Parameter Name for Campaign Accounting	*/
+	private static final String ISUSECAMPAIGNDIMENSION = "IsUseCampaignDimension";
+	/**	Parameter Name for Sales Region Accounting	*/
+	private static final String ISUSESALESREGIONDIMENSION = "IsUseSalesRegionDimension";
+	/**	Parameter Name for Start Date	*/
+	private static final String STARTDATE = "StartDate";
 	/**	Parameter Name for HistoryYears	*/
-	public static final String HistoryYears = "HistoryYears";
-	/**	Parameter Name for C_Region_ID	*/
-	public static final String C_Region_ID = "C_Region_ID";
-	/**	Parameter Name for CityName	*/
-	public static final String CityName = "CityName";
-	/**	Parameter Name for C_City_ID	*/
-	public static final String C_City_ID = "C_City_ID";
-	/**	Parameter Name for Postal	*/
-	public static final String Postal = "Postal";
-	/**	Parameter Name for Address1	*/
-	public static final String Address1 = "Address1";
+	private static final String HISTORYYEARS = "HistoryYears";
+	/**	Parameter Name for Region	*/
+	private static final String C_REGION_ID = "C_Region_ID";
+	/**	Parameter Name for City Name	*/
+	private static final String CITYNAME = "CityName";
+	/**	Parameter Name for City	*/
+	private static final String C_CITY_ID = "C_City_ID";
+	/**	Parameter Name for ZIP	*/
+	private static final String POSTAL = "Postal";
+	/**	Parameter Name for Address 1	*/
+	private static final String ADDRESS1 = "Address1";
 	/**	Parameter Name for Phone	*/
-	public static final String Phone = "Phone";
-	/**	Parameter Name for Phone2	*/
-	public static final String Phone2 = "Phone2";
+	private static final String PHONE = "Phone";
+	/**	Parameter Name for 2nd Phone	*/
+	private static final String PHONE2 = "Phone2";
 	/**	Parameter Name for Fax	*/
-	public static final String Fax = "Fax";
-	/**	Parameter Name for EMail	*/
-	public static final String EMail = "EMail";
-	/**	Parameter Name for TaxID	*/
-	public static final String TaxID = "TaxID";
-	/**	Parameter Name for DUNS	*/
-	public static final String DUNS = "DUNS";
-	/**	Parameter Name for Logo_ID	*/
-	public static final String Logo_ID = "Logo_ID";
-	/**	Parameter Name for AdminUserName	*/
-	public static final String AdminUserName = "AdminUserName";
-	/**	Parameter Name for NormalUserName	*/
-	public static final String NormalUserName = "NormalUserName";
-	/**	Parameter Name for BankName	*/
-	public static final String BankName = "BankName";
-	/**	Parameter Name for RoutingNo	*/
-	public static final String RoutingNo = "RoutingNo";
-	/**	Parameter Name for AccountNo	*/
-	public static final String AccountNo = "AccountNo";
-
-	/**	Parameter Value for clientName	*/
+	private static final String FAX = "Fax";
+	/**	Parameter Name for EMail Address	*/
+	private static final String EMAIL = "EMail";
+	/**	Parameter Name for Tax ID	*/
+	private static final String TAXID = "TaxID";
+	/**	Parameter Name for D-U-N-S	*/
+	private static final String DUNS = "DUNS";
+	/**	Parameter Name for Logo	*/
+	private static final String LOGO_ID = "Logo_ID";
+	/**	Parameter Name for Administrative User Name	*/
+	private static final String ADMINUSERNAME = "AdminUserName";
+	/**	Parameter Name for Normal User Name	*/
+	private static final String NORMALUSERNAME = "NormalUserName";
+	/**	Parameter Name for Bank Name	*/
+	private static final String BANKNAME = "BankName";
+	/**	Parameter Name for Routing No	*/
+	private static final String ROUTINGNO = "RoutingNo";
+	/**	Parameter Name for Account No	*/
+	private static final String ACCOUNTNO = "AccountNo";
+	/**	Parameter Value for Client Name	*/
 	private String clientName;
-	/**	Parameter Value for organizationName	*/
-	private String organizationName;
-	/**	Parameter Value for orgKey	*/
-	private String orgKey;
-	/**	Parameter Value for currencyId	*/
+	/**	Parameter Value for Organization Name	*/
+	private String orgName;
+	/**	Parameter Value for Org Key	*/
+	private String orgValue;
+	/**	Parameter Value for Currency	*/
 	private int currencyId;
-	/**	Parameter Value for countryId	*/
+	/**	Parameter Value for Country	*/
 	private int countryId;
-	/**	Parameter Value for chartofAccountsFile	*/
-	private String chartofAccountsFile;
-	/**	Parameter Value for isBPAccounting	*/
-	private boolean isBPAccounting;
-	/**	Parameter Value for isProductAccounting	*/
-	private boolean isProductAccounting;
-	/**	Parameter Value for isProjectAccounting	*/
-	private boolean isProjectAccounting;
-	/**	Parameter Value for isCampaignAccounting	*/
-	private boolean isCampaignAccounting;
-	/**	Parameter Value for isSalesRegionAccounting	*/
-	private boolean isSalesRegionAccounting;
-	/**	Parameter Value for startDate	*/
+	/**	Parameter Value for Chart of Accounts File	*/
+	private String coAFile;
+	/**	Parameter Value for BP Accounting	*/
+	private boolean isUseBPDimension;
+	/**	Parameter Value for Product Accounting	*/
+	private boolean isUseProductDimension;
+	/**	Parameter Value for Project Accounting	*/
+	private boolean isUseProjectDimension;
+	/**	Parameter Value for Campaign Accounting	*/
+	private boolean isUseCampaignDimension;
+	/**	Parameter Value for Sales Region Accounting	*/
+	private boolean isUseSalesRegionDimension;
+	/**	Parameter Value for Start Date	*/
 	private Timestamp startDate;
-	/**	Parameter Value for historyYears	*/
+	/**	Parameter Value for HistoryYears	*/
 	private int historyYears;
-	/**	Parameter Value for regionId	*/
+	/**	Parameter Value for Region	*/
 	private int regionId;
-	/**	Parameter Value for cityName	*/
+	/**	Parameter Value for City Name	*/
 	private String cityName;
-	/**	Parameter Value for cityId	*/
+	/**	Parameter Value for City	*/
 	private int cityId;
-	/**	Parameter Value for zIP	*/
-	private String zIP;
-	/**	Parameter Value for address1	*/
+	/**	Parameter Value for ZIP	*/
+	private String postal;
+	/**	Parameter Value for Address 1	*/
 	private String address1;
-	/**	Parameter Value for phone	*/
+	/**	Parameter Value for Phone	*/
 	private String phone;
-	/**	Parameter Value for 2ndPhone	*/
+	/**	Parameter Value for 2nd Phone	*/
 	private String phone2;
-	/**	Parameter Value for fax	*/
+	/**	Parameter Value for Fax	*/
 	private String fax;
-	/**	Parameter Value for eMailAddress	*/
-	private String eMailAddress;
-	/**	Parameter Value for taxID	*/
+	/**	Parameter Value for EMail Address	*/
+	private String eMail;
+	/**	Parameter Value for Tax ID	*/
 	private String taxID;
-	/**	Parameter Value for d-U-N-S	*/
-	private String duns;
-	/**	Parameter Value for logo	*/
+	/**	Parameter Value for D-U-N-S	*/
+	private String dUNS;
+	/**	Parameter Value for Logo	*/
 	private String logo;
-	/**	Parameter Value for administrativeUserName	*/
-	private String administrativeUserName;
-	/**	Parameter Value for normalUserName	*/
+	/**	Parameter Value for Administrative User Name	*/
+	private String adminUserName;
+	/**	Parameter Value for Normal User Name	*/
 	private String normalUserName;
-	/**	Parameter Value for bankName	*/
+	/**	Parameter Value for Bank Name	*/
 	private String bankName;
-	/**	Parameter Value for routingNo	*/
+	/**	Parameter Value for Routing No	*/
 	private String routingNo;
-	/**	Parameter Value for accountNo	*/
+	/**	Parameter Value for Account No	*/
 	private String accountNo;
- 
 
 	@Override
-	protected void prepare()
-	{
-		clientName = getParameterAsString(ClientName);
-		organizationName = getParameterAsString(OrgName);
-		orgKey = getParameterAsString(OrgValue);
-		currencyId = getParameterAsInt(C_Currency_ID);
-		countryId = getParameterAsInt(C_Country_ID);
-		chartofAccountsFile = getParameterAsString(CoAFile);
-		isBPAccounting = getParameterAsBoolean(IsUseBPDimension);
-		isProductAccounting = getParameterAsBoolean(IsUseProductDimension);
-		isProjectAccounting = getParameterAsBoolean(IsUseProjectDimension);
-		isCampaignAccounting = getParameterAsBoolean(IsUseCampaignDimension);
-		isSalesRegionAccounting = getParameterAsBoolean(IsUseSalesRegionDimension);
-		startDate = getParameterAsTimestamp(StartDate);
-		historyYears = getParameterAsInt(HistoryYears);
-		regionId = getParameterAsInt(C_Region_ID);
-		cityName = getParameterAsString(CityName);
-		cityId = getParameterAsInt(C_City_ID);
-		zIP = getParameterAsString(Postal);
-		address1 = getParameterAsString(Address1);
-		phone = getParameterAsString(Phone);
-		phone2 = getParameterAsString(Phone2);
-		fax = getParameterAsString(Fax);
-		eMailAddress = getParameterAsString(EMail);
-		taxID = getParameterAsString(TaxID);
-		duns = getParameterAsString(DUNS);
-		logo = getParameterAsString(Logo_ID);
-		administrativeUserName = getParameterAsString(AdminUserName);
-		normalUserName = getParameterAsString(NormalUserName);
-		bankName = getParameterAsString(BankName);
-		routingNo = getParameterAsString(RoutingNo);
-		accountNo = getParameterAsString(AccountNo);
+	protected void prepare() {
+		clientName = getParameterAsString(CLIENTNAME);
+		orgName = getParameterAsString(ORGNAME);
+		orgValue = getParameterAsString(ORGVALUE);
+		currencyId = getParameterAsInt(C_CURRENCY_ID);
+		countryId = getParameterAsInt(C_COUNTRY_ID);
+		coAFile = getParameterAsString(COAFILE);
+		isUseBPDimension = getParameterAsBoolean(ISUSEBPDIMENSION);
+		isUseProductDimension = getParameterAsBoolean(ISUSEPRODUCTDIMENSION);
+		isUseProjectDimension = getParameterAsBoolean(ISUSEPROJECTDIMENSION);
+		isUseCampaignDimension = getParameterAsBoolean(ISUSECAMPAIGNDIMENSION);
+		isUseSalesRegionDimension = getParameterAsBoolean(ISUSESALESREGIONDIMENSION);
+		startDate = getParameterAsTimestamp(STARTDATE);
+		historyYears = getParameterAsInt(HISTORYYEARS);
+		regionId = getParameterAsInt(C_REGION_ID);
+		cityName = getParameterAsString(CITYNAME);
+		cityId = getParameterAsInt(C_CITY_ID);
+		postal = getParameterAsString(POSTAL);
+		address1 = getParameterAsString(ADDRESS1);
+		phone = getParameterAsString(PHONE);
+		phone2 = getParameterAsString(PHONE2);
+		fax = getParameterAsString(FAX);
+		eMail = getParameterAsString(EMAIL);
+		taxID = getParameterAsString(TAXID);
+		dUNS = getParameterAsString(DUNS);
+		logo = getParameterAsString(LOGO_ID);
+		adminUserName = getParameterAsString(ADMINUSERNAME);
+		normalUserName = getParameterAsString(NORMALUSERNAME);
+		bankName = getParameterAsString(BANKNAME);
+		routingNo = getParameterAsString(ROUTINGNO);
+		accountNo = getParameterAsString(ACCOUNTNO);
 	}
 
-	/**	 Getter Parameter Value for clientName	*/
+	/**	 Getter Parameter Value for Client Name	*/
 	protected String getClientName() {
 		return clientName;
 	}
 
-	/**	 Getter Parameter Value for organizationName	*/
-	protected String getOrganizationName() {
-		return organizationName;
+	/**	 Setter Parameter Value for Client Name	*/
+	protected void setClientName(String clientName) {
+		this.clientName = clientName;
 	}
 
-	/**	 Getter Parameter Value for orgKey	*/
-	protected String getOrgKey() {
-		return orgKey;
+	/**	 Getter Parameter Value for Organization Name	*/
+	protected String getOrgName() {
+		return orgName;
 	}
 
-	/**	 Getter Parameter Value for currencyId	*/
+	/**	 Setter Parameter Value for Organization Name	*/
+	protected void setOrgName(String orgName) {
+		this.orgName = orgName;
+	}
+
+	/**	 Getter Parameter Value for Org Key	*/
+	protected String getOrgValue() {
+		return orgValue;
+	}
+
+	/**	 Setter Parameter Value for Org Key	*/
+	protected void setOrgValue(String orgValue) {
+		this.orgValue = orgValue;
+	}
+
+	/**	 Getter Parameter Value for Currency	*/
 	protected int getCurrencyId() {
 		return currencyId;
 	}
 
-	/**	 Getter Parameter Value for countryId	*/
+	/**	 Setter Parameter Value for Currency	*/
+	protected void setCurrencyId(int currencyId) {
+		this.currencyId = currencyId;
+	}
+
+	/**	 Getter Parameter Value for Country	*/
 	protected int getCountryId() {
 		return countryId;
 	}
 
-	/**	 Getter Parameter Value for chartofAccountsFile	*/
-	protected String getChartofAccountsFile() {
-		return chartofAccountsFile;
+	/**	 Setter Parameter Value for Country	*/
+	protected void setCountryId(int countryId) {
+		this.countryId = countryId;
 	}
 
-	/**	 Getter Parameter Value for isBPAccounting	*/
-	protected boolean isBPAccounting() {
-		return isBPAccounting;
+	/**	 Getter Parameter Value for Chart of Accounts File	*/
+	protected String getCoAFile() {
+		return coAFile;
 	}
 
-	/**	 Getter Parameter Value for isProductAccounting	*/
-	protected boolean isProductAccounting() {
-		return isProductAccounting;
+	/**	 Setter Parameter Value for Chart of Accounts File	*/
+	protected void setCoAFile(String coAFile) {
+		this.coAFile = coAFile;
 	}
 
-	/**	 Getter Parameter Value for isProjectAccounting	*/
-	protected boolean isProjectAccounting() {
-		return isProjectAccounting;
+	/**	 Getter Parameter Value for BP Accounting	*/
+	protected boolean isUseBPDimension() {
+		return isUseBPDimension;
 	}
 
-	/**	 Getter Parameter Value for isCampaignAccounting	*/
-	protected boolean isCampaignAccounting() {
-		return isCampaignAccounting;
+	/**	 Setter Parameter Value for BP Accounting	*/
+	protected void setIsUseBPDimension(boolean isUseBPDimension) {
+		this.isUseBPDimension = isUseBPDimension;
 	}
 
-	/**	 Getter Parameter Value for isSalesRegionAccounting	*/
-	protected boolean isSalesRegionAccounting() {
-		return isSalesRegionAccounting;
+	/**	 Getter Parameter Value for Product Accounting	*/
+	protected boolean isUseProductDimension() {
+		return isUseProductDimension;
 	}
 
-	/**	 Getter Parameter Value for startDate	*/
+	/**	 Setter Parameter Value for Product Accounting	*/
+	protected void setIsUseProductDimension(boolean isUseProductDimension) {
+		this.isUseProductDimension = isUseProductDimension;
+	}
+
+	/**	 Getter Parameter Value for Project Accounting	*/
+	protected boolean isUseProjectDimension() {
+		return isUseProjectDimension;
+	}
+
+	/**	 Setter Parameter Value for Project Accounting	*/
+	protected void setIsUseProjectDimension(boolean isUseProjectDimension) {
+		this.isUseProjectDimension = isUseProjectDimension;
+	}
+
+	/**	 Getter Parameter Value for Campaign Accounting	*/
+	protected boolean isUseCampaignDimension() {
+		return isUseCampaignDimension;
+	}
+
+	/**	 Setter Parameter Value for Campaign Accounting	*/
+	protected void setIsUseCampaignDimension(boolean isUseCampaignDimension) {
+		this.isUseCampaignDimension = isUseCampaignDimension;
+	}
+
+	/**	 Getter Parameter Value for Sales Region Accounting	*/
+	protected boolean isUseSalesRegionDimension() {
+		return isUseSalesRegionDimension;
+	}
+
+	/**	 Setter Parameter Value for Sales Region Accounting	*/
+	protected void setIsUseSalesRegionDimension(boolean isUseSalesRegionDimension) {
+		this.isUseSalesRegionDimension = isUseSalesRegionDimension;
+	}
+
+	/**	 Getter Parameter Value for Start Date	*/
 	protected Timestamp getStartDate() {
 		return startDate;
 	}
 
-	/**	 Getter Parameter Value for historyYears	*/
+	/**	 Setter Parameter Value for Start Date	*/
+	protected void setStartDate(Timestamp startDate) {
+		this.startDate = startDate;
+	}
+
+	/**	 Getter Parameter Value for HistoryYears	*/
 	protected int getHistoryYears() {
 		return historyYears;
 	}
 
-	/**	 Getter Parameter Value for regionId	*/
+	/**	 Setter Parameter Value for HistoryYears	*/
+	protected void setHistoryYears(int historyYears) {
+		this.historyYears = historyYears;
+	}
+
+	/**	 Getter Parameter Value for Region	*/
 	protected int getRegionId() {
 		return regionId;
 	}
 
-	/**	 Getter Parameter Value for cityName	*/
+	/**	 Setter Parameter Value for Region	*/
+	protected void setRegionId(int regionId) {
+		this.regionId = regionId;
+	}
+
+	/**	 Getter Parameter Value for City Name	*/
 	protected String getCityName() {
 		return cityName;
 	}
 
-	public void setCityName(String cityName)
-	{
-		this.cityName = clientName;
+	/**	 Setter Parameter Value for City Name	*/
+	protected void setCityName(String cityName) {
+		this.cityName = cityName;
 	}
 
-	/**	 Getter Parameter Value for cityId	*/
+	/**	 Getter Parameter Value for City	*/
 	protected int getCityId() {
 		return cityId;
 	}
 
-	/**	 Getter Parameter Value for zIP	*/
-	protected String getZIP() {
-		return zIP;
+	/**	 Setter Parameter Value for City	*/
+	protected void setCityId(int cityId) {
+		this.cityId = cityId;
 	}
 
-	/**	 Getter Parameter Value for address1	*/
+	/**	 Getter Parameter Value for ZIP	*/
+	protected String getPostal() {
+		return postal;
+	}
+
+	/**	 Setter Parameter Value for ZIP	*/
+	protected void setPostal(String postal) {
+		this.postal = postal;
+	}
+
+	/**	 Getter Parameter Value for Address 1	*/
 	protected String getAddress1() {
 		return address1;
 	}
 
-	/**	 Getter Parameter Value for phone	*/
+	/**	 Setter Parameter Value for Address 1	*/
+	protected void setAddress1(String address1) {
+		this.address1 = address1;
+	}
+
+	/**	 Getter Parameter Value for Phone	*/
 	protected String getPhone() {
 		return phone;
 	}
 
-	/**	 Getter Parameter Value for 2ndPhone	*/
+	/**	 Setter Parameter Value for Phone	*/
+	protected void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	/**	 Getter Parameter Value for 2nd Phone	*/
 	protected String getPhone2() {
 		return phone2;
 	}
 
-	/**	 Getter Parameter Value for fax	*/
+	/**	 Setter Parameter Value for 2nd Phone	*/
+	protected void setPhone2(String phone2) {
+		this.phone2 = phone2;
+	}
+
+	/**	 Getter Parameter Value for Fax	*/
 	protected String getFax() {
 		return fax;
 	}
 
-	/**	 Getter Parameter Value for eMailAddress	*/
-	protected String getEMailAddress() {
-		return eMailAddress;
+	/**	 Setter Parameter Value for Fax	*/
+	protected void setFax(String fax) {
+		this.fax = fax;
 	}
 
-	/**	 Getter Parameter Value for taxID	*/
+	/**	 Getter Parameter Value for EMail Address	*/
+	protected String getEMail() {
+		return eMail;
+	}
+
+	/**	 Setter Parameter Value for EMail Address	*/
+	protected void setEMail(String eMail) {
+		this.eMail = eMail;
+	}
+
+	/**	 Getter Parameter Value for Tax ID	*/
 	protected String getTaxID() {
 		return taxID;
 	}
 
-	/**	 Getter Parameter Value for d-U-N-S	*/
-	protected String getDUNS() {
-		return duns;
+	/**	 Setter Parameter Value for Tax ID	*/
+	protected void setTaxID(String taxID) {
+		this.taxID = taxID;
 	}
 
-	/**	 Getter Parameter Value for logo	*/
+	/**	 Getter Parameter Value for D-U-N-S	*/
+	protected String getDUNS() {
+		return dUNS;
+	}
+
+	/**	 Setter Parameter Value for D-U-N-S	*/
+	protected void setDUNS(String dUNS) {
+		this.dUNS = dUNS;
+	}
+
+	/**	 Getter Parameter Value for Logo	*/
 	protected String getLogo() {
 		return logo;
 	}
 
-	/**	 Getter Parameter Value for administrativeUserName	*/
-	protected String getAdministrativeUserName() {
-		return administrativeUserName;
+	/**	 Setter Parameter Value for Logo	*/
+	protected void setLogo(String logo) {
+		this.logo = logo;
 	}
 
-	/**	 Getter Parameter Value for normalUserName	*/
+	/**	 Getter Parameter Value for Administrative User Name	*/
+	protected String getAdminUserName() {
+		return adminUserName;
+	}
+
+	/**	 Setter Parameter Value for Administrative User Name	*/
+	protected void setAdminUserName(String adminUserName) {
+		this.adminUserName = adminUserName;
+	}
+
+	/**	 Getter Parameter Value for Normal User Name	*/
 	protected String getNormalUserName() {
 		return normalUserName;
 	}
 
-	/**	 Getter Parameter Value for bankName	*/
+	/**	 Setter Parameter Value for Normal User Name	*/
+	protected void setNormalUserName(String normalUserName) {
+		this.normalUserName = normalUserName;
+	}
+
+	/**	 Getter Parameter Value for Bank Name	*/
 	protected String getBankName() {
 		return bankName;
 	}
 
-	/**	 Getter Parameter Value for routingNo	*/
+	/**	 Setter Parameter Value for Bank Name	*/
+	protected void setBankName(String bankName) {
+		this.bankName = bankName;
+	}
+
+	/**	 Getter Parameter Value for Routing No	*/
 	protected String getRoutingNo() {
 		return routingNo;
 	}
 
-	/**	 Getter Parameter Value for accountNo	*/
+	/**	 Setter Parameter Value for Routing No	*/
+	protected void setRoutingNo(String routingNo) {
+		this.routingNo = routingNo;
+	}
+
+	/**	 Getter Parameter Value for Account No	*/
 	protected String getAccountNo() {
 		return accountNo;
 	}
 
+	/**	 Setter Parameter Value for Account No	*/
+	protected void setAccountNo(String accountNo) {
+		this.accountNo = accountNo;
+	}
+
 	/**	 Getter Parameter Value for Process ID	*/
 	public static final int getProcessId() {
-		return ID;
+		return ID_FOR_PROCESS;
 	}
 
 	/**	 Getter Parameter Value for Process Value	*/
 	public static final String getProcessValue() {
-		return VALUE;
+		return VALUE_FOR_PROCESS;
 	}
 
 	/**	 Getter Parameter Value for Process Name	*/
 	public static final String getProcessName() {
-		return NAME;
+		return NAME_FOR_PROCESS;
 	}
 }

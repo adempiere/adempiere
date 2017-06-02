@@ -17,15 +17,18 @@
  *****************************************************************************/
 package org.eevolution.process;
 
+import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicInteger;
+
 import org.compiere.model.MBPartner;
 import org.compiere.model.Query;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
-import org.eevolution.model.*;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
+import org.eevolution.model.I_I_HR_Movement;
+import org.eevolution.model.MHRConcept;
+import org.eevolution.model.MHRMovement;
+import org.eevolution.model.MHRProcess;
+import org.eevolution.model.X_I_HR_Movement;
 
 /**
  * Import Payroll Movements
@@ -48,7 +51,7 @@ public class ImportPayrollMovements extends ImportPayrollMovementsAbstract {
      */
     protected String doIt() throws Exception {
 
-        if (isDeleteoldimportedrecords())
+        if (isDeleteOldImported())
             Arrays.stream(getPayrollImportMovementIds(true, true, null)).forEach(recordId -> {
                 X_I_HR_Movement importPayrollMovement = new X_I_HR_Movement(getCtx(), recordId, null);
                 importPayrollMovement.deleteEx(true);
@@ -117,7 +120,7 @@ public class ImportPayrollMovements extends ImportPayrollMovementsAbstract {
         if (importPayrollMovement.getValidTo() == null)
             importPayrollMovement.setValidTo(importPayrollMovement.getValidFrom());
 
-        if (messageError != null && messageError.length() > 0)
+        if (messageError.length() > 0)
             setImportError(importPayrollMovement, messageError.toString()).saveEx(importPayrollMovement.get_TrxName());
 
         importPayrollMovement.setHR_Process_ID(processId);

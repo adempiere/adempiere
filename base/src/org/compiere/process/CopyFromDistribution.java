@@ -32,7 +32,7 @@ public class CopyFromDistribution extends CopyFromDistributionAbstract {
 	protected String doIt() throws Exception {
 		if (getRecord_ID() == 0)
 			throw new IllegalArgumentException("@GL_Distribution_ID@ @NotFound@");
-		MDistribution from = new MDistribution (getCtx(), getGLDistributionId(), get_TrxName());
+		MDistribution from = new MDistribution (getCtx(), getDistributionId(), get_TrxName());
 		MDistribution to = new MDistribution (getCtx(), getRecord_ID(), get_TrxName());
 		int no = to.copyLinesFrom (from);
 		return "@Copied@=" + no;

@@ -1,8 +1,9 @@
 /******************************************************************************
  * Product: ADempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 2006-2016 ADempiere Foundation, All Rights Reserved.         *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -17,49 +18,53 @@
 package org.eevolution.process;
 
 import org.compiere.process.SvrProcess;
+
 /** Generated Process for (Payroll Prepare Payment)
  *  @author ADempiere (generated) 
- *  @version Release 3.8.0
+ *  @version Release 3.9.0
  */
-public abstract class HRPaySelectionCreateCheckAbstract extends SvrProcess
-{
+public abstract class HRPaySelectionCreateCheckAbstract extends SvrProcess {
 	/** Process Value 	*/
-	private static final String VALUE = "HR_PaySelection_CreatePayment";
+	private static final String VALUE_FOR_PROCESS = "HR_PaySelection_CreatePayment";
 	/** Process Name 	*/
-	private static final String NAME = "Payroll Prepare Payment";
+	private static final String NAME_FOR_PROCESS = "Payroll Prepare Payment";
 	/** Process Id 	*/
-	private static final int ID = 53191;
+	private static final int ID_FOR_PROCESS = 53191;
  
-	/**	Parameter Name for PaymentRule	*/
-	public static final String PaymentRule = "PaymentRule";
+	/**	Parameter Name for Payment Rule	*/
+	private static final String PAYMENTRULE = "PaymentRule";
 
-	/**	Parameter Value for paymentRule	*/
+	/**	Parameter Value for Payment Rule	*/
 	private String paymentRule;
  
 
 	@Override
-	protected void prepare()
-	{
-		paymentRule = getParameterAsString(PaymentRule);
+	protected void prepare() {
+		paymentRule = getParameterAsString(PAYMENTRULE);
 	}
 
-	/**	 Getter Parameter Value for paymentRule	*/
+	/**	 Getter Parameter Value for Payment Rule	*/
 	protected String getPaymentRule() {
 		return paymentRule;
 	}
 
+	/**	 Setter Parameter Value for Payment Rule	*/
+	protected void setPaymentRule(String paymentRule) {
+		this.paymentRule = paymentRule;
+	}
+
 	/**	 Getter Parameter Value for Process ID	*/
 	public static final int getProcessId() {
-		return ID;
+		return ID_FOR_PROCESS;
 	}
 
 	/**	 Getter Parameter Value for Process Value	*/
 	public static final String getProcessValue() {
-		return VALUE;
+		return VALUE_FOR_PROCESS;
 	}
 
 	/**	 Getter Parameter Value for Process Name	*/
 	public static final String getProcessName() {
-		return NAME;
+		return NAME_FOR_PROCESS;
 	}
 }

@@ -1,8 +1,9 @@
 /******************************************************************************
  * Product: ADempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 2006-2016 ADempiere Foundation, All Rights Reserved.         *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -19,110 +20,139 @@ package org.eevolution.process;
 import java.sql.Timestamp;
 import org.compiere.process.SvrProcess;
 
-
 /** Generated Process for (Generate Movement)
  *  @author ADempiere (generated) 
- *  @version Release 3.8.0
+ *  @version Release 3.9.0
  */
-public abstract class MovementGenerateAbstract extends SvrProcess
-{
+public abstract class MovementGenerateAbstract extends SvrProcess {
 	/** Process Value 	*/
-	private static final String VALUE = "M_Generate Movement";
+	private static final String VALUE_FOR_PROCESS = "M_Generate Movement";
 	/** Process Name 	*/
-	private static final String NAME = "Generate Movement";
+	private static final String NAME_FOR_PROCESS = "Generate Movement";
 	/** Process Id 	*/
-	private static final int ID = 53046;
- 
-	/**	Parameter Name for M_Warehouse_ID	*/
-	public static final String M_Warehouse_ID = "M_Warehouse_ID";
-	/**	Parameter Name for MovementDate	*/
-	public static final String MovementDate = "MovementDate";
-	/**	Parameter Name for C_BPartner_ID	*/
-	public static final String C_BPartner_ID = "C_BPartner_ID";
-	/**	Parameter Name for DatePromised	*/
-	public static final String DatePromised = "DatePromised";
-	/**	Parameter Name for IsUnconfirmedInOut	*/
-	public static final String IsUnconfirmedInOut = "IsUnconfirmedInOut";
-	/**	Parameter Name for DocAction	*/
-	public static final String DocAction = "DocAction";
-	/**	Parameter Name for ConsolidateDocument	*/
-	public static final String ConsolidateDocument = "ConsolidateDocument";
-
-	/**	Parameter Value for warehouseId	*/
+	private static final int ID_FOR_PROCESS = 53046;
+	/**	Parameter Name for Warehouse	*/
+	private static final String M_WAREHOUSE_ID = "M_Warehouse_ID";
+	/**	Parameter Name for Movement Date	*/
+	private static final String MOVEMENTDATE = "MovementDate";
+	/**	Parameter Name for Business Partner 	*/
+	private static final String C_BPARTNER_ID = "C_BPartner_ID";
+	/**	Parameter Name for Date Promised	*/
+	private static final String DATEPROMISED = "DatePromised";
+	/**	Parameter Name for Orders with unconfirmed Shipments	*/
+	private static final String ISUNCONFIRMEDINOUT = "IsUnconfirmedInOut";
+	/**	Parameter Name for Document Action	*/
+	private static final String DOCACTION = "DocAction";
+	/**	Parameter Name for Consolidate to one Document	*/
+	private static final String CONSOLIDATEDOCUMENT = "ConsolidateDocument";
+	/**	Parameter Value for Warehouse	*/
 	private int warehouseId;
-	/**	Parameter Value for movementDate	*/
+	/**	Parameter Value for Movement Date	*/
 	private Timestamp movementDate;
-	/**	Parameter Value for businessPartnerId	*/
-	private int businessPartnerId;
-	/**	Parameter Value for datePromised	*/
+	/**	Parameter Value for Business Partner 	*/
+	private int bPartnerId;
+	/**	Parameter Value for Date Promised	*/
 	private Timestamp datePromised;
-	/**	Parameter Value for isOrderswithunconfirmedShipments	*/
-	private boolean isOrderswithunconfirmedShipments;
-	/**	Parameter Value for documentAction	*/
-	private String documentAction;
-	/**	Parameter Value for isConsolidatetooneDocument	*/
-	private boolean isConsolidatetooneDocument;
- 
+	/**	Parameter Value for Orders with unconfirmed Shipments	*/
+	private boolean isUnconfirmedInOut;
+	/**	Parameter Value for Document Action	*/
+	private String docAction;
+	/**	Parameter Value for Consolidate to one Document	*/
+	private boolean isConsolidateDocument;
 
 	@Override
-	protected void prepare()
-	{
-		warehouseId = getParameterAsInt(M_Warehouse_ID);
-		movementDate = getParameterAsTimestamp(MovementDate);
-		businessPartnerId = getParameterAsInt(C_BPartner_ID);
-		datePromised = getParameterAsTimestamp(DatePromised);
-		isOrderswithunconfirmedShipments = getParameterAsBoolean(IsUnconfirmedInOut);
-		documentAction = getParameterAsString(DocAction);
-		isConsolidatetooneDocument = getParameterAsBoolean(ConsolidateDocument);
+	protected void prepare() {
+		warehouseId = getParameterAsInt(M_WAREHOUSE_ID);
+		movementDate = getParameterAsTimestamp(MOVEMENTDATE);
+		bPartnerId = getParameterAsInt(C_BPARTNER_ID);
+		datePromised = getParameterAsTimestamp(DATEPROMISED);
+		isUnconfirmedInOut = getParameterAsBoolean(ISUNCONFIRMEDINOUT);
+		docAction = getParameterAsString(DOCACTION);
+		isConsolidateDocument = getParameterAsBoolean(CONSOLIDATEDOCUMENT);
 	}
 
-	/**	 Getter Parameter Value for warehouseId	*/
+	/**	 Getter Parameter Value for Warehouse	*/
 	protected int getWarehouseId() {
 		return warehouseId;
 	}
 
-	/**	 Getter Parameter Value for movementDate	*/
+	/**	 Setter Parameter Value for Warehouse	*/
+	protected void setWarehouseId(int warehouseId) {
+		this.warehouseId = warehouseId;
+	}
+
+	/**	 Getter Parameter Value for Movement Date	*/
 	protected Timestamp getMovementDate() {
 		return movementDate;
 	}
 
-	/**	 Getter Parameter Value for businessPartnerId	*/
-	protected int getBusinessPartnerId() {
-		return businessPartnerId;
+	/**	 Setter Parameter Value for Movement Date	*/
+	protected void setMovementDate(Timestamp movementDate) {
+		this.movementDate = movementDate;
 	}
 
-	/**	 Getter Parameter Value for datePromised	*/
+	/**	 Getter Parameter Value for Business Partner 	*/
+	protected int getBPartnerId() {
+		return bPartnerId;
+	}
+
+	/**	 Setter Parameter Value for Business Partner 	*/
+	protected void setBPartnerId(int bPartnerId) {
+		this.bPartnerId = bPartnerId;
+	}
+
+	/**	 Getter Parameter Value for Date Promised	*/
 	protected Timestamp getDatePromised() {
 		return datePromised;
 	}
 
-	/**	 Getter Parameter Value for isOrderswithunconfirmedShipments	*/
-	protected boolean isOrderswithunconfirmedShipments() {
-		return isOrderswithunconfirmedShipments;
+	/**	 Setter Parameter Value for Date Promised	*/
+	protected void setDatePromised(Timestamp datePromised) {
+		this.datePromised = datePromised;
 	}
 
-	/**	 Getter Parameter Value for documentAction	*/
-	protected String getDocumentAction() {
-		return documentAction;
+	/**	 Getter Parameter Value for Orders with unconfirmed Shipments	*/
+	protected boolean isUnconfirmedInOut() {
+		return isUnconfirmedInOut;
 	}
 
-	/**	 Getter Parameter Value for isConsolidatetooneDocument	*/
-	protected boolean isConsolidatetooneDocument() {
-		return isConsolidatetooneDocument;
+	/**	 Setter Parameter Value for Orders with unconfirmed Shipments	*/
+	protected void setIsUnconfirmedInOut(boolean isUnconfirmedInOut) {
+		this.isUnconfirmedInOut = isUnconfirmedInOut;
+	}
+
+	/**	 Getter Parameter Value for Document Action	*/
+	protected String getDocAction() {
+		return docAction;
+	}
+
+	/**	 Setter Parameter Value for Document Action	*/
+	protected void setDocAction(String docAction) {
+		this.docAction = docAction;
+	}
+
+	/**	 Getter Parameter Value for Consolidate to one Document	*/
+	protected boolean isConsolidateDocument() {
+		return isConsolidateDocument;
+	}
+
+	/**	 Setter Parameter Value for Consolidate to one Document	*/
+	protected void setConsolidateDocument(boolean isConsolidateDocument) {
+		this.isConsolidateDocument = isConsolidateDocument;
 	}
 
 	/**	 Getter Parameter Value for Process ID	*/
 	public static final int getProcessId() {
-		return ID;
+		return ID_FOR_PROCESS;
 	}
 
 	/**	 Getter Parameter Value for Process Value	*/
 	public static final String getProcessValue() {
-		return VALUE;
+		return VALUE_FOR_PROCESS;
 	}
 
 	/**	 Getter Parameter Value for Process Name	*/
 	public static final String getProcessName() {
-		return NAME;
+		return NAME_FOR_PROCESS;
 	}
 }

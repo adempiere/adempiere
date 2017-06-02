@@ -55,7 +55,7 @@ public class ImportEmployeeAttributes extends ImportEmployeeAttributesAbstract {
      * @throws Exception
      */
     protected String doIt() throws Exception {
-        if (isDeleteoldimportedrecords())
+        if (isDeleteOldImported())
             Arrays.stream(getAttributeIds(true,true, null)).forEach(recordId -> {
                 X_I_HR_Attribute importAttribute = new X_I_HR_Attribute(getCtx(), recordId , null);
                 importAttribute.deleteEx(true);

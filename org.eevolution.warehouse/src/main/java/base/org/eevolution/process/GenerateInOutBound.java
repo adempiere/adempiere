@@ -87,16 +87,16 @@ public class GenerateInOutBound extends GenerateInOutBoundAbstract {
         MWMInOutBound outBoundOrder = new MWMInOutBound(getCtx(), 0, get_TrxName());
         outBoundOrder.setShipDate(getShipDate());
         outBoundOrder.setPickDate(getPickDate());
-        if (getOrderReference() != null)
-            outBoundOrder.setPOReference(getOrderReference());
+        if (getPOReference() != null)
+            outBoundOrder.setPOReference(getPOReference());
 
         if (getDeliveryRule() != null)
             outBoundOrder.setDeliveryRule(getDeliveryRule());
-        if (getDeliveryVia() != null)
-            outBoundOrder.setDeliveryViaRule(getDeliveryVia());
+        if (getDeliveryViaRule() != null)
+            outBoundOrder.setDeliveryViaRule(getDeliveryViaRule());
 
-        if (getDocumentTypeId() > 0)
-            outBoundOrder.setC_DocType_ID(getDocumentTypeId());
+        if (getDocTypeId() > 0)
+            outBoundOrder.setC_DocType_ID(getDocTypeId());
         else {
             int docTypeId = MDocType.getDocType(MDocType.DOCBASETYPE_WarehouseManagementOrder);
             if (docTypeId <= 0)
@@ -105,8 +105,8 @@ public class GenerateInOutBound extends GenerateInOutBoundAbstract {
                 outBoundOrder.setC_DocType_ID(docTypeId);
         }
 
-        if (getDocumentAction() != null)
-            outBoundOrder.setDocAction(getDocumentAction());
+        if (getDocAction() != null)
+            outBoundOrder.setDocAction(getDocAction());
         else
             outBoundOrder.setDocAction(MWMInOutBound.ACTION_Prepare);
 

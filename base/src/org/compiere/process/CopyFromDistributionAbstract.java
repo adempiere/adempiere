@@ -18,49 +18,50 @@
 package org.compiere.process;
 
 
+
 /** Generated Process for (GL Distribution Copy From)
  *  @author ADempiere (generated) 
  *  @version Release 3.9.0
  */
-public abstract class CopyFromDistributionAbstract extends SvrProcess
-{
+public abstract class CopyFromDistributionAbstract extends SvrProcess {
 	/** Process Value 	*/
-	private static final String VALUE = "GL_Distribution_CopyFrom";
+	private static final String VALUE_FOR_PROCESS = "GL_Distribution_CopyFrom";
 	/** Process Name 	*/
-	private static final String NAME = "GL Distribution Copy From";
+	private static final String NAME_FOR_PROCESS = "GL Distribution Copy From";
 	/** Process Id 	*/
-	private static final int ID = 53949;
- 
-	/**	Parameter Name for GL_Distribution_ID	*/
-	public static final String GL_Distribution_ID = "GL_Distribution_ID";
-
-	/**	Parameter Value for gLDistributionId	*/
-	private int gLDistributionId;
- 
+	private static final int ID_FOR_PROCESS = 53949;
+	/**	Parameter Name for GL Distribution	*/
+	private static final String GL_DISTRIBUTION_ID = "GL_Distribution_ID";
+	/**	Parameter Value for GL Distribution	*/
+	private int distributionId;
 
 	@Override
-	protected void prepare()
-	{
-		gLDistributionId = getParameterAsInt(GL_Distribution_ID);
+	protected void prepare() {
+		distributionId = getParameterAsInt(GL_DISTRIBUTION_ID);
 	}
 
-	/**	 Getter Parameter Value for gLDistributionId	*/
-	protected int getGLDistributionId() {
-		return gLDistributionId;
+	/**	 Getter Parameter Value for GL Distribution	*/
+	protected int getDistributionId() {
+		return distributionId;
+	}
+
+	/**	 Setter Parameter Value for GL Distribution	*/
+	protected void setDistributionId(int distributionId) {
+		this.distributionId = distributionId;
 	}
 
 	/**	 Getter Parameter Value for Process ID	*/
 	public static final int getProcessId() {
-		return ID;
+		return ID_FOR_PROCESS;
 	}
 
 	/**	 Getter Parameter Value for Process Value	*/
 	public static final String getProcessValue() {
-		return VALUE;
+		return VALUE_FOR_PROCESS;
 	}
 
 	/**	 Getter Parameter Value for Process Name	*/
 	public static final String getProcessName() {
-		return NAME;
+		return NAME_FOR_PROCESS;
 	}
 }

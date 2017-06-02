@@ -19,119 +19,155 @@ package org.adempiere.process;
 
 import java.sql.Timestamp;
 import org.compiere.process.SvrProcess;
+
 /** Generated Process for (Generate Invoices from Shipments)
  *  @author ADempiere (generated) 
  *  @version Release 3.9.0
  */
-public abstract class InvoiceGenerateFromShipmentAbstract extends SvrProcess
-{
+public abstract class InvoiceGenerateFromShipmentAbstract extends SvrProcess {
 	/** Process Value 	*/
-	private static final String VALUE = "C_Invoice_Generate_from_Shipment";
+	private static final String VALUE_FOR_PROCESS = "C_Invoice_Generate_from_Shipment";
 	/** Process Name 	*/
-	private static final String NAME = "Generate Invoices from Shipments";
+	private static final String NAME_FOR_PROCESS = "Generate Invoices from Shipments";
 	/** Process Id 	*/
-	private static final int ID = 53345;
- 
-	/**	Parameter Name for DateInvoiced	*/
-	public static final String DateInvoiced = "DateInvoiced";
-	/**	Parameter Name for AD_Org_ID	*/
-	public static final String AD_Org_ID = "AD_Org_ID";
-	/**	Parameter Name for M_InOut_ID	*/
-	public static final String M_InOut_ID = "M_InOut_ID";
-	/**	Parameter Name for C_BPartner_ID	*/
-	public static final String C_BPartner_ID = "C_BPartner_ID";
-	/**	Parameter Name for DocAction	*/
-	public static final String DocAction = "DocAction";
-	/**	Parameter Name for ConsolidateDocument	*/
-	public static final String ConsolidateDocument = "ConsolidateDocument";
-	/**	Parameter Name for AD_OrgTrx_ID	*/
-	public static final String AD_OrgTrx_ID = "AD_OrgTrx_ID";
-	/**	Parameter Name for IsAddInvoiceReferenceLine	*/
-	public static final String IsAddInvoiceReferenceLine = "IsAddInvoiceReferenceLine";
-
-	/**	Parameter Value for dateInvoiced	*/
+	private static final int ID_FOR_PROCESS = 53345;
+	/**	Parameter Name for Date Invoiced	*/
+	private static final String DATEINVOICED = "DateInvoiced";
+	/**	Parameter Name for Organization	*/
+	private static final String AD_ORG_ID = "AD_Org_ID";
+	/**	Parameter Name for Shipment/Receipt	*/
+	private static final String M_INOUT_ID = "M_InOut_ID";
+	/**	Parameter Name for Business Partner 	*/
+	private static final String C_BPARTNER_ID = "C_BPartner_ID";
+	/**	Parameter Name for Document Action	*/
+	private static final String DOCACTION = "DocAction";
+	/**	Parameter Name for Consolidate to one Document	*/
+	private static final String CONSOLIDATEDOCUMENT = "ConsolidateDocument";
+	/**	Parameter Name for Trx Organization	*/
+	private static final String AD_ORGTRX_ID = "AD_OrgTrx_ID";
+	/**	Parameter Name for Add Invoice Reference Line	*/
+	private static final String ISADDINVOICEREFERENCELINE = "IsAddInvoiceReferenceLine";
+	/**	Parameter Value for Date Invoiced	*/
 	private Timestamp dateInvoiced;
-	/**	Parameter Value for organizationId	*/
-	private int organizationId;
-	/**	Parameter Value for shipmentReceiptId	*/
-	private int shipmentReceiptId;
-	/**	Parameter Value for businessPartnerId	*/
-	private int businessPartnerId;
-	/**	Parameter Value for documentAction	*/
-	private String documentAction;
-	/**	Parameter Value for isConsolidatetooneDocument	*/
-	private boolean isConsolidatetooneDocument;
-	/**	Parameter Value for trxOrganizationId	*/
-	private int trxOrganizationId;
-	/**	Parameter Value for isAddInvoiceReferenceLine	*/
+	/**	Parameter Value for Organization	*/
+	private int orgId;
+	/**	Parameter Value for Shipment/Receipt	*/
+	private int inOutId;
+	/**	Parameter Value for Business Partner 	*/
+	private int bPartnerId;
+	/**	Parameter Value for Document Action	*/
+	private String docAction;
+	/**	Parameter Value for Consolidate to one Document	*/
+	private boolean isConsolidateDocument;
+	/**	Parameter Value for Trx Organization	*/
+	private int orgTrxId;
+	/**	Parameter Value for Add Invoice Reference Line	*/
 	private boolean isAddInvoiceReferenceLine;
- 
 
 	@Override
-	protected void prepare()
-	{
-		dateInvoiced = getParameterAsTimestamp(DateInvoiced);
-		organizationId = getParameterAsInt(AD_Org_ID);
-		shipmentReceiptId = getParameterAsInt(M_InOut_ID);
-		businessPartnerId = getParameterAsInt(C_BPartner_ID);
-		documentAction = getParameterAsString(DocAction);
-		isConsolidatetooneDocument = getParameterAsBoolean(ConsolidateDocument);
-		trxOrganizationId = getParameterAsInt(AD_OrgTrx_ID);
-		isAddInvoiceReferenceLine = getParameterAsBoolean(IsAddInvoiceReferenceLine);
+	protected void prepare() {
+		dateInvoiced = getParameterAsTimestamp(DATEINVOICED);
+		orgId = getParameterAsInt(AD_ORG_ID);
+		inOutId = getParameterAsInt(M_INOUT_ID);
+		bPartnerId = getParameterAsInt(C_BPARTNER_ID);
+		docAction = getParameterAsString(DOCACTION);
+		isConsolidateDocument = getParameterAsBoolean(CONSOLIDATEDOCUMENT);
+		orgTrxId = getParameterAsInt(AD_ORGTRX_ID);
+		isAddInvoiceReferenceLine = getParameterAsBoolean(ISADDINVOICEREFERENCELINE);
 	}
 
-	/**	 Getter Parameter Value for dateInvoiced	*/
+	/**	 Getter Parameter Value for Date Invoiced	*/
 	protected Timestamp getDateInvoiced() {
 		return dateInvoiced;
 	}
 
-	/**	 Getter Parameter Value for organizationId	*/
-	protected int getOrganizationId() {
-		return organizationId;
+	/**	 Setter Parameter Value for Date Invoiced	*/
+	protected void setDateInvoiced(Timestamp dateInvoiced) {
+		this.dateInvoiced = dateInvoiced;
 	}
 
-	/**	 Getter Parameter Value for shipmentReceiptId	*/
-	protected int getShipmentReceiptId() {
-		return shipmentReceiptId;
+	/**	 Getter Parameter Value for Organization	*/
+	protected int getOrgId() {
+		return orgId;
 	}
 
-	/**	 Getter Parameter Value for businessPartnerId	*/
-	protected int getBusinessPartnerId() {
-		return businessPartnerId;
+	/**	 Setter Parameter Value for Organization	*/
+	protected void setOrgId(int orgId) {
+		this.orgId = orgId;
 	}
 
-	/**	 Getter Parameter Value for documentAction	*/
-	protected String getDocumentAction() {
-		return documentAction;
+	/**	 Getter Parameter Value for Shipment/Receipt	*/
+	protected int getInOutId() {
+		return inOutId;
 	}
 
-	/**	 Getter Parameter Value for isConsolidatetooneDocument	*/
-	protected boolean isConsolidatetooneDocument() {
-		return isConsolidatetooneDocument;
+	/**	 Setter Parameter Value for Shipment/Receipt	*/
+	protected void setInOutId(int inOutId) {
+		this.inOutId = inOutId;
 	}
 
-	/**	 Getter Parameter Value for trxOrganizationId	*/
-	protected int getTrxOrganizationId() {
-		return trxOrganizationId;
+	/**	 Getter Parameter Value for Business Partner 	*/
+	protected int getBPartnerId() {
+		return bPartnerId;
 	}
 
-	/**	 Getter Parameter Value for isAddInvoiceReferenceLine	*/
+	/**	 Setter Parameter Value for Business Partner 	*/
+	protected void setBPartnerId(int bPartnerId) {
+		this.bPartnerId = bPartnerId;
+	}
+
+	/**	 Getter Parameter Value for Document Action	*/
+	protected String getDocAction() {
+		return docAction;
+	}
+
+	/**	 Setter Parameter Value for Document Action	*/
+	protected void setDocAction(String docAction) {
+		this.docAction = docAction;
+	}
+
+	/**	 Getter Parameter Value for Consolidate to one Document	*/
+	protected boolean isConsolidateDocument() {
+		return isConsolidateDocument;
+	}
+
+	/**	 Setter Parameter Value for Consolidate to one Document	*/
+	protected void setConsolidateDocument(boolean isConsolidateDocument) {
+		this.isConsolidateDocument = isConsolidateDocument;
+	}
+
+	/**	 Getter Parameter Value for Trx Organization	*/
+	protected int getOrgTrxId() {
+		return orgTrxId;
+	}
+
+	/**	 Setter Parameter Value for Trx Organization	*/
+	protected void setOrgTrxId(int orgTrxId) {
+		this.orgTrxId = orgTrxId;
+	}
+
+	/**	 Getter Parameter Value for Add Invoice Reference Line	*/
 	protected boolean isAddInvoiceReferenceLine() {
 		return isAddInvoiceReferenceLine;
 	}
 
+	/**	 Setter Parameter Value for Add Invoice Reference Line	*/
+	protected void setIsAddInvoiceReferenceLine(boolean isAddInvoiceReferenceLine) {
+		this.isAddInvoiceReferenceLine = isAddInvoiceReferenceLine;
+	}
+
 	/**	 Getter Parameter Value for Process ID	*/
 	public static final int getProcessId() {
-		return ID;
+		return ID_FOR_PROCESS;
 	}
 
 	/**	 Getter Parameter Value for Process Value	*/
 	public static final String getProcessValue() {
-		return VALUE;
+		return VALUE_FOR_PROCESS;
 	}
 
 	/**	 Getter Parameter Value for Process Name	*/
 	public static final String getProcessName() {
-		return NAME;
+		return NAME_FOR_PROCESS;
 	}
 }

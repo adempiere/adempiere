@@ -75,8 +75,8 @@ public class MigrationLoader {
 			processInfo = ProcessBuilder.create(context)
 					.process(org.compiere.process.SynchronizeTerminology.class)
 					.withTitle("Synchronize Terminology")
-					.withParameter(SynchronizeTerminology.IsCreateElement,false)
-					.withParameter(SynchronizeTerminology.IsDeletingUnusedElement, false)
+					.withParameter(SynchronizeTerminology.ISCREATEELEMENT,false)
+					.withParameter(SynchronizeTerminology.ISDELETINGUNUSEDELEMENT, false)
 					.execute();
 			log.log(Level.CONFIG, "Process=" + processInfo.getTitle() + " Error="+processInfo.isError() + " Summary=" + processInfo.getSummary());
 

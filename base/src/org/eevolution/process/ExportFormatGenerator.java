@@ -16,7 +16,6 @@
 package org.eevolution.process;
 
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.Hashtable;
 
 import org.adempiere.exceptions.AdempiereException;
@@ -64,10 +63,10 @@ public class ExportFormatGenerator extends ExportFormatGeneratorAbstract {
         for (MTab tab : tabs) {
             MTable table = null;
             String format = null;
-            if (iscludesonlytheTabsthatInsertrecords() && tab.isInsertRecord()) {
+            if (isInsertRecord() && tab.isInsertRecord()) {
                 table = new MTable(getCtx(), tab.getAD_Table_ID(), get_TrxName());
                 format = createFormat(table);
-            } else if (!iscludesonlytheTabsthatInsertrecords()) {
+            } else if (!isInsertRecord()) {
                 table = new MTable(getCtx(), tab.getAD_Table_ID(), get_TrxName());
                 format = createFormat(table);
             }
@@ -129,7 +128,7 @@ public class ExportFormatGenerator extends ExportFormatGeneratorAbstract {
 
         int position = 10;
         for (MColumn column : columns) {
-            if (iscludesonlythemandatorycolumns()) {
+            if (isMandatory()) {
                 if (column.isMandatory())
                     createFormatLine(format, table, column, position, false);
             } else

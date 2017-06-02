@@ -20,18 +20,15 @@
 
 package org.eevolution.process;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.compiere.model.Query;
-import org.compiere.process.ProcessInfoParameter;
-import org.compiere.process.SvrProcess;
 import org.compiere.util.DB;
 import org.eevolution.model.I_PP_Order;
 import org.eevolution.model.I_PP_Order_Cost;
 import org.eevolution.model.MPPOrder;
 import org.eevolution.model.MPPOrderCost;
-
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
 
 
 /**
@@ -70,10 +67,10 @@ public class GenerateOrderCost extends GenerateOrderCostAbstract
         List<Object> parameters = new ArrayList<Object>();
         whereClause.append(MPPOrder.COLUMNNAME_DocStatus).append("=? AND ");
         parameters.add(MPPOrder.DOCSTATUS_Completed);
-        if (getManufacturingOrderId() > 0)
+        if (getOrderId() > 0)
         {
             whereClause.append(I_PP_Order.COLUMNNAME_PP_Order_ID).append("=? AND ");
-            parameters.add(getManufacturingOrderId());
+            parameters.add(getOrderId());
         }
 
         whereClause.append("TRUNC(DateOrdered, 'DD') BETWEEN ")

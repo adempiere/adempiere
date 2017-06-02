@@ -79,7 +79,7 @@ public class ValuationEffectiveDate extends ValuationEffectiveDateAbstract {
 		DB.close(pstmt);
 		
 		DB.executeUpdate("UPDATE T_InventoryValue SET Cost = CASE WHEN QtyOnHand <> 0 THEN (CostAmt + CostAmtLL) / QtyOnHand ELSE  0 END  ,  CumulatedAmt = CASE WHEN QtyOnHand <> 0  THEN  CostAmt + CostAmtLL ELSE 0 END ,  DateValue = "
-						+ DB.TO_DATE(getValuationDate()) + " WHERE AD_PInstance_ID=?",
+						+ DB.TO_DATE(getDateValue()) + " WHERE AD_PInstance_ID=?",
 				getAD_PInstance_ID(), get_TrxName());
 
 		return "@Ok@ " + count;
@@ -91,8 +91,8 @@ public class ValuationEffectiveDate extends ValuationEffectiveDateAbstract {
 	 */
 	private void setup() {
 
-		if (getAccountingSchemaId() > 0)
-			acctSchemas.add(MAcctSchema.get(getCtx(), getAccountingSchemaId(), get_TrxName()));
+		if (getAcctSchemaId() > 0)
+			acctSchemas.add(MAcctSchema.get(getCtx(), getAcctSchemaId(), get_TrxName()));
 		else
 			acctSchemas = Arrays.asList(MAcctSchema.getClientAcctSchema(getCtx() , getAD_Client_ID()));
 		
@@ -149,9 +149,9 @@ public class ValuationEffectiveDate extends ValuationEffectiveDateAbstract {
 				.append(" WHERE tc1.IsReversal='N' AND tc1.M_Product_ID=tc.M_Product_ID AND tc1.M_Warehouse_ID = tc.M_Warehouse_ID ");
 
 		whereClause1.append("AND tc.DateAcct<= ").append(
-				DB.TO_DATE(getValuationDate()));
+				DB.TO_DATE(getDateValue()));
 		whereClause2.append("AND tc1.DateAcct<= ").append(
-				DB.TO_DATE(getValuationDate()));
+				DB.TO_DATE(getDateValue()));
 
 		whereClause1.append(" AND p.M_Product_ID=? ");
 
