@@ -32,8 +32,6 @@ import org.compiere.model.MOrderLine;
 import org.compiere.model.MProduct;
 import org.compiere.model.MStorage;
 import org.compiere.process.DocAction;
-import org.compiere.process.ProcessInfoParameter;
-import org.compiere.process.SvrProcess;
 import org.compiere.util.Env;
 
 /**
@@ -42,25 +40,17 @@ import org.compiere.util.Env;
  *	
  *  @author Jorg Janke
  *  @version $Id: InOutGenerate.java,v 1.2 2006/07/30 00:51:01 jjanke Exp $
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<a href="https://github.com/adempiere/adempiere/issues/1069">
+ * 		@see FR [ 1069 ] Remove bad parameter for SB Create Shipment from Order Line</a>
  */
-public class SB_InOutGenerateFromOrderLine extends SvrProcess
-{
-	/** DocAction				*/
-	private String					p_docAction = DocAction.ACTION_Complete;
-	/** Consolidate				*/
-	private boolean				p_ConsolidateDocument = true;
-    /** Shipment Date                       */
-	private Timestamp       		p_DateShipped = null;
-	private int 						p_C_DocType_ID = 0;
-	
+public class SB_InOutGenerateFromOrderLine extends SB_InOutGenerateFromOrderLineAbstract {
 	/**	The current Shipment	*/
-	private MInOut 				m_shipment = null;
+	private MInOut 					m_shipment = null;
 	/** Number of Shipments	being created	*/
 	private int						m_created = 0;
 	/**	Line Number				*/
 	private int						m_line = 0;
-	/** Movement Date			*/
-	private Timestamp				m_movementDate = null;
 	/**	Last BP Location		*/
 	private int						m_lastC_BPartner_Location_ID = -1;
 
@@ -75,9 +65,7 @@ public class SB_InOutGenerateFromOrderLine extends SvrProcess
 	private SParameter		m_lastPP = null;
 	/** Last Storage					*/
 	private MStorage[]		m_lastStorages = null;
-
-	//protected List<MOrderLine> m_records = null;
-	//protected LinkedHashMap<Integer, LinkedHashMap<String, Object>> m_values = null;
+	
 	protected List<MOrder> ordersToShip = null;
 	StringBuffer resultMsg = new StringBuffer();
 
@@ -85,38 +73,20 @@ public class SB_InOutGenerateFromOrderLine extends SvrProcess
 	/**
 	 *  Prepare - e.g., get Parameters.
 	 */
-	protected void prepare()
-	{
-		ProcessInfoParameter[] para = getParameter();
-		for (int i = 0; i < para.length; i++)
-		{
-			String name = para[i].getParameterName();
-			if (para[i].getParameter() == null)
-				;
-			
-			else if (name.equals("ConsolidateDocument"))
-				p_ConsolidateDocument = "Y".equals(para[i].getParameter());
-			else if (name.equals("DocAction"))
-				p_docAction = (String)para[i].getParameter();
-			else if (name.equals("MovementDate"))
-                p_DateShipped = (Timestamp)para[i].getParameter();
-			//else if (name.equals("Alias"))
-			//	alias= para[i].getParameterAsString();
-			else if (name.equals(MInOut.COLUMNNAME_C_DocType_ID))
-				p_C_DocType_ID = para[i].getParameterAsInt();
-			else
-				log.log(Level.SEVERE, "Unknown Parameter: " + name);
-			
-			//  juddm - added ability to specify a shipment date from Generate Shipments
-			if (p_DateShipped == null) {
-				m_movementDate = Env.getContextAsDate(getCtx(), "#Date");
-				if (m_movementDate == null)
-					m_movementDate = new Timestamp(System.currentTimeMillis());
-			} else
-				m_movementDate = p_DateShipped;
-			//	DocAction check
-			if (!DocAction.ACTION_Complete.equals(p_docAction))
-				p_docAction = DocAction.ACTION_Prepare;
+	protected void prepare() {
+		super.prepare();
+		//  juddm - added ability to specify a shipment date from Generate Shipments
+		if(getMovementDate() == null) {
+			setMovementDate(Env.getContextAsDate(getCtx(), "#Date"));
+			if (getMovementDate() == null) {
+				setMovementDate(new Timestamp(System.currentTimeMillis()));
+			}
+		}
+		//	DocAction check
+		if (getDocAction() == null) { 
+			setDocAction(DocAction.ACTION_Complete);
+		} else if(!DocAction.ACTION_Complete.equals(getDocAction())) {
+			setDocAction(DocAction.ACTION_Prepare);
 		}
 	}	//	prepare
 
@@ -144,12 +114,17 @@ public class SB_InOutGenerateFromOrderLine extends SvrProcess
 				ordersToShip.add(orderLine.getParent());
 			
 		}
+		StringBuffer msg = new StringBuffer();
 		//setColumnsValues();
 		for (MOrder order:ordersToShip)
 		{
-			generate(order);
+			if(msg.length() > 0) {
+				msg.append(", ");
+			}
+			//	
+			msg.append(generate(order));
 		}
-		return "";
+		return msg.toString();
 	}	//	doIt
 	
 	/**
@@ -162,14 +137,15 @@ public class SB_InOutGenerateFromOrderLine extends SvrProcess
 		try
 		{			
 
-			if (!p_ConsolidateDocument 
+			if (!isConsolidateDocument() 
 					|| (m_shipment != null 
 					&& (m_shipment.getC_BPartner_Location_ID() != order.getC_BPartner_Location_ID()
-					|| m_shipment.getM_Shipper_ID() != order.getM_Shipper_ID() )))
+					|| m_shipment.getM_Shipper_ID() != order.getM_Shipper_ID() ))) {
 				completeShipment();
+			}
 			log.fine("check: " + order + " - DeliveryRule=" + order.getDeliveryRule());
 			//
-			Timestamp minGuaranteeDate = m_movementDate;
+			Timestamp minGuaranteeDate = getMovementDate();
 			boolean completeOrder = MOrder.DELIVERYRULE_CompleteOrder.equals(order.getDeliveryRule());
 			//	OrderLine WHERE
 			String where = "";
@@ -310,7 +286,7 @@ public class SB_InOutGenerateFromOrderLine extends SvrProcess
 			log.log(Level.SEVERE, m_sql, e);
 		}
 		completeShipment();
-		return "@Created@ = " + m_created;
+		return "@C_Order_ID@: " + order.getDocumentNo() + "[@M_InOut_ID@ @Created@: " + m_created + "]";
 	}	//	generate
 	
 	
@@ -333,9 +309,9 @@ public class SB_InOutGenerateFromOrderLine extends SvrProcess
 		//	Create New Shipment
 		if (m_shipment == null)
 		{
-			m_shipment = new MInOut (order, 0, m_movementDate);
-			if (p_C_DocType_ID  != 0)
-				m_shipment.setC_DocType_ID(p_C_DocType_ID);
+			m_shipment = new MInOut (order, 0, getMovementDate());
+			if (getDocTypeId()  != 0)
+				m_shipment.setC_DocType_ID(getDocTypeId());
 			m_shipment.setM_Warehouse_ID(orderLine.getM_Warehouse_ID());	//	sets Org too
 			if (order.getC_BPartner_ID() != orderLine.getC_BPartner_ID())
 				m_shipment.setC_BPartner_ID(orderLine.getC_BPartner_ID());
@@ -484,7 +460,7 @@ public class SB_InOutGenerateFromOrderLine extends SvrProcess
 		if (m_shipment != null)
 		{
 			//	Fails if there is a confirmation
-			if (!m_shipment.processIt(p_docAction))
+			if (!m_shipment.processIt(getDocAction()))
 				log.warning("Failed: " + m_shipment);
 			m_shipment.saveEx();
 			//
@@ -500,27 +476,10 @@ public class SB_InOutGenerateFromOrderLine extends SvrProcess
 		m_line = 0;
 	}	//	completeOrder
 	
-
-	/*private LinkedHashMap<Integer, LinkedHashMap<String, Object>> setColumnsValues() {
-		if (m_values != null)
-			return m_values;
-
-		m_values = new LinkedHashMap<Integer, LinkedHashMap<String, Object>>();
-
-		for (MOrderLine record : m_records) {
-			m_values.put(
-					record.get_ID(),
-					Browser.getBrowseValues(getAD_PInstance_ID(), null,
-							record.get_ID(), null));
-		}
-		return m_values;
-	}*/
-	
-	private BigDecimal getQtyToDeliver(MOrderLine oLine)
-	{		 
+	private BigDecimal getQtyToDeliver(MOrderLine oLine) {		 
 		BigDecimal toDeliver = getSelectionAsBigDecimal(oLine.getC_OrderLine_ID(), "IO_QtyToDeliver");
 		return toDeliver;
-		}
+	}
 	
 	 
 	
