@@ -87,6 +87,11 @@ public class OrderLineCreateShipment extends OrderLineCreateShipmentAbstract {
 		sline.setQty(line.getQtyReserved());
 		sline.setM_Warehouse_ID(line.getM_Warehouse_ID());
 		sline.saveEx();
+		//	Process It
+		if (!shipment.processIt(getDocAction())) {
+			log.warning("Failed: " + shipment);
+		}
+		shipment.saveEx();
 	
 		return "@M_InOut_ID@ @Created@: " + shipment.getDocumentNo();
 	}	//	OrderLineCreateShipment

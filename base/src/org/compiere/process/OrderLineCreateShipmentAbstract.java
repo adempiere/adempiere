@@ -41,13 +41,13 @@ public abstract class OrderLineCreateShipmentAbstract extends SvrProcess {
 	/**	Parameter Value for Movement Date	*/
 	private Timestamp movementDate;
 	/**	Parameter Value for Document Action	*/
-	private Object docAction;
+	private String docAction;
 
 	@Override
 	protected void prepare() {
 		docTypeId = getParameterAsInt(C_DOCTYPE_ID);
 		movementDate = getParameterAsTimestamp(MOVEMENTDATE);
-		docAction = getParameter(DOCACTION);
+		docAction = getParameterAsString(DOCACTION);
 	}
 
 	/**	 Getter Parameter Value for Document Type	*/
@@ -71,12 +71,12 @@ public abstract class OrderLineCreateShipmentAbstract extends SvrProcess {
 	}
 
 	/**	 Getter Parameter Value for Document Action	*/
-	protected Object getDocAction() {
+	protected String getDocAction() {
 		return docAction;
 	}
 
 	/**	 Setter Parameter Value for Document Action	*/
-	protected void setDocAction(Object docAction) {
+	protected void setDocAction(String docAction) {
 		this.docAction = docAction;
 	}
 
