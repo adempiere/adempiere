@@ -303,7 +303,7 @@ public class SB_InOutGenerateFromOrderLine extends SB_InOutGenerateFromOrderLine
 		MStorage[] storages, boolean force)
 	{
 		//	Complete last Shipment - can have multiple shipments
-		if (m_lastC_BPartner_Location_ID != orderLine.getC_BPartner_Location_ID() )
+		if (m_lastC_BPartner_Location_ID != orderLine.getC_BPartner_Location_ID())
 			completeShipment();
 		m_lastC_BPartner_Location_ID = orderLine.getC_BPartner_Location_ID();
 		//	Create New Shipment
@@ -331,8 +331,7 @@ public class SB_InOutGenerateFromOrderLine extends SB_InOutGenerateFromOrderLine
 					.multiply(orderLine.getQtyEntered())
 					.divide(orderLine.getQtyOrdered(), 12, BigDecimal.ROUND_HALF_UP));
 			line.setLine(m_line + orderLine.getLine());
-			if (!line.save())
-				throw new IllegalStateException("Could not create Shipment Line");
+			line.saveEx();
 			log.fine(line.toString());
 			return;
 		}
@@ -391,8 +390,7 @@ public class SB_InOutGenerateFromOrderLine extends SB_InOutGenerateFromOrderLine
 				line.setQtyEntered(line.getMovementQty().multiply(orderLine.getQtyEntered())
 					.divide(orderLine.getQtyOrdered(), 12, BigDecimal.ROUND_HALF_UP));
 			line.setLine(m_line + orderLine.getLine());
-			if (!line.save())
-				throw new IllegalStateException("Could not create Shipment Line");
+			line.saveEx();
 			log.fine("ToDeliver=" + qty + "/" + deliver + " - " + line);
 			toDeliver = toDeliver.subtract(deliver);
 			//      Temp adjustment, actual update happen in MInOut.completeIt
@@ -403,20 +401,13 @@ public class SB_InOutGenerateFromOrderLine extends SB_InOutGenerateFromOrderLine
 		}		
 		if (toDeliver.signum() != 0)
 		{	 
-			if (!force)
-			{
+			if (!force) {
 				throw new IllegalStateException("Not All Delivered - Remainder=" + toDeliver);
-			}
-			else 
-			{
-				
+			} else {
 				 MInOutLine line = new MInOutLine (m_shipment);
 				 line.setOrderLine(orderLine, 0, order.isSOTrx() ? toDeliver : Env.ZERO);
 				 line.setQty(toDeliver);
-			     if (!line.save())
-					 throw new IllegalStateException("Could not create Shipment Line");
-					 
-
+			     line.saveEx();
 			}
 		}	
 	}	//	createLine
@@ -476,6 +467,11 @@ public class SB_InOutGenerateFromOrderLine extends SB_InOutGenerateFromOrderLine
 		m_line = 0;
 	}	//	completeOrder
 	
+	/**
+	 * Get Qty to Deliver
+	 * @param oLine
+	 * @return
+	 */
 	private BigDecimal getQtyToDeliver(MOrderLine oLine) {		 
 		BigDecimal toDeliver = getSelectionAsBigDecimal(oLine.getC_OrderLine_ID(), "IO_QtyToDeliver");
 		return toDeliver;

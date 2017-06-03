@@ -33,6 +33,7 @@ import org.compiere.model.MInvoiceLine;
 import org.compiere.model.MInvoiceSchedule;
 import org.compiere.model.MLocation;
 import org.compiere.model.MOrder;
+import org.compiere.process.DocAction;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
@@ -50,10 +51,6 @@ import org.compiere.util.Msg;
  */
 public class InvoiceGenerateFromShipment extends InvoiceGenerateFromShipmentAbstract {
 	
-	/**	Date Invoiced			*/
-	private Timestamp	dateInvoiced = null;
-	/** Invoice Document Action	*/
-	private String		docAction = null;
 	/**	The current Shipment	*/
 	private MInOut	 	m_ship = null;
 	/** Number of Invoices		*/
@@ -68,17 +65,19 @@ public class InvoiceGenerateFromShipment extends InvoiceGenerateFromShipmentAbst
 	 */
 	protected void prepare() {
 		super.prepare();
-		dateInvoiced = getDateInvoiced();
-		docAction = getDocAction();
 		//	Login Date
-		if (dateInvoiced == null)
-			dateInvoiced = Env.getContextAsDate(getCtx(), "#Date");
-		if (dateInvoiced == null)
-			dateInvoiced = new Timestamp(System.currentTimeMillis());
-
+		if(getDateInvoiced() == null) {
+			setDateInvoiced(Env.getContextAsDate(getCtx(), "#Date"));
+			if (getDateInvoiced() == null) {
+				setDateInvoiced(new Timestamp(System.currentTimeMillis()));
+			}
+		}
 		//	DocAction check
-		if (!org.compiere.process.DocAction.ACTION_Complete.equals(docAction))
-			docAction = org.compiere.process.DocAction.ACTION_Prepare;
+		if (getDocAction() == null) { 
+			setDocAction(DocAction.ACTION_Complete);
+		} else if(!DocAction.ACTION_Complete.equals(getDocAction())) {
+			setDocAction(DocAction.ACTION_Prepare);
+		}
 	}
 
 	/**
@@ -215,7 +214,7 @@ public class InvoiceGenerateFromShipment extends InvoiceGenerateFromShipmentAbst
 	 */
 	private MInvoice createInvoiceLineFromShipmentLine(MInvoice invoice, MOrder order, MInOut inOut, MInOutLine inOutLine) {
 		if (invoice == null) {
-			invoice = new MInvoice(inOut, dateInvoiced);
+			invoice = new MInvoice(inOut, getDateInvoiced());
 			if(getOrgTrxId() != 0) {
 				invoice.setAD_Org_ID(getOrgTrxId());
 			}
@@ -288,7 +287,7 @@ public class InvoiceGenerateFromShipment extends InvoiceGenerateFromShipmentAbst
 	 */
 	private MInvoice completeInvoice(MInvoice invoice) {
 		if (invoice != null) {
-			if (!invoice.processIt(docAction)) {
+			if (!invoice.processIt(getDocAction())) {
 				log.warning("completeInvoice - failed: " + invoice);
 				addLog(Msg.getMsg(getCtx(), "GenerateInvoiceFromInOut.completeInvoice.Failed") + invoice); // Elaine 2008/11/25
 			}

@@ -18,6 +18,7 @@ package org.adempiere.process;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -36,28 +37,22 @@ import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.Query;
 import org.compiere.process.DocAction;
-import org.compiere.process.ProcessInfoParameter;
-import org.compiere.process.SvrProcess;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Language;
+import org.compiere.util.Msg;
 
 /**
  *	Generate Invoices
  *	
  *  @author Susanne Calderon
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<a href="https://github.com/adempiere/adempiere/issues/1070">
+ * 		@see FR [ 1070 ] Class Not Found on SB for Generate Invoice from Order Line</a>
  */
-public class SB_InvoiceGenerateFromOrderLine extends SvrProcess
-{
-	/**	Date Invoiced			*/
-	private Timestamp	p_DateInvoiced = null;
-	/** Consolidate				*/
-	private boolean		p_ConsolidateDocument = true;
-	/** Invoice Document Action	*/
-	private String		p_docAction = DocAction.ACTION_Complete;
-	
+public class SB_InvoiceGenerateFromOrderLine extends SB_InvoiceGenerateFromOrderLineAbstract {
 	/**	The current Invoice	*/
-	private MInvoice 	m_invoice = null;
+	private MInvoice 	invoice = null;
 	/**	The current Shipment	*/
 	private MInOut	 	m_ship = null;
 	/** Number of Invoices		*/
@@ -75,33 +70,21 @@ public class SB_InvoiceGenerateFromOrderLine extends SvrProcess
 	/**
 	 *  Prepare - e.g., get Parameters.
 	 */
-	protected void prepare()
-	{
-		ProcessInfoParameter[] para = getParameter();
-		for (int i = 0; i < para.length; i++)
-		{
-			String name = para[i].getParameterName();
-			if (para[i].getParameter() == null)
-				;
-			else if (name.equals("DateInvoiced"))
-				p_DateInvoiced = (Timestamp)para[i].getParameter();
-			else if (name.equals("ConsolidateDocument"))
-				p_ConsolidateDocument = "Y".equals(para[i].getParameter());
-			else if (name.equals("DocAction"))
-				p_docAction = (String)para[i].getParameter();
-			else
-				log.log(Level.SEVERE, "Unknown Parameter: " + name);
-		}
-
+	protected void prepare() {
+		super.prepare();
 		//	Login Date
-		if (p_DateInvoiced == null)
-			p_DateInvoiced = Env.getContextAsDate(getCtx(), "#Date");
-		if (p_DateInvoiced == null)
-			p_DateInvoiced = new Timestamp(System.currentTimeMillis());
-
+		if(getDateInvoiced() == null) {
+			setDateInvoiced(Env.getContextAsDate(getCtx(), "#Date"));
+			if (getDateInvoiced() == null) {
+				setDateInvoiced(new Timestamp(System.currentTimeMillis()));
+			}
+		}
 		//	DocAction check
-		if (!DocAction.ACTION_Complete.equals(p_docAction))
-			p_docAction = DocAction.ACTION_Prepare;
+		if (getDocAction() == null) { 
+			setDocAction(DocAction.ACTION_Complete);
+		} else if(!DocAction.ACTION_Complete.equals(getDocAction())) {
+			setDocAction(DocAction.ACTION_Prepare);
+		}
 	}	//	prepare
 
 	/**
@@ -113,7 +96,7 @@ public class SB_InvoiceGenerateFromOrderLine extends SvrProcess
 	{
 		StringBuffer orderClause = new StringBuffer();
 		m_invoices = new ArrayList<MInvoice>();
-		if (!p_ConsolidateDocument)
+		if (!isConsolidateDocument())
 			orderClause.append("C_BPartner_ID, C_Order_ID, line");
 		else 
 			orderClause.append("C_BPartner_ID");
@@ -140,17 +123,16 @@ public class SB_InvoiceGenerateFromOrderLine extends SvrProcess
 			if (!isadded)
 				ordersToInvoice.add(orderLine.getParent());
 		}
-		for (MOrder order:ordersToInvoice)
-		{
-			generate(order);
+		StringBuffer msg = new StringBuffer();
+		for (MOrder order : ordersToInvoice) {
+			if(msg.length() > 0) {
+				msg.append(", ");
+			}
+			//	
+			msg.append(generate(order));
 		}
-		String result = "Fact. No";
-		for (MInvoice inv:m_invoices)
-		{
-			Env.setContext(getCtx(), "@WhereClause@", whereClause);
-			result = result + ", " + inv.getDocumentInfo();
-		}
-		return result;
+		//	
+		return msg.toString();
 	}	//	doIt
 	
 	
@@ -163,138 +145,136 @@ public class SB_InvoiceGenerateFromOrderLine extends SvrProcess
 	{
 		try
 		{
-			{			
-				//	New Invoice Location
-				if (!p_ConsolidateDocument 
-					|| (m_invoice != null 
-					&& m_invoice.getC_BPartner_Location_ID() != order.getBill_Location_ID()) )
-					completeInvoice();
-				boolean completeOrder = MOrder.INVOICERULE_AfterOrderDelivered.equals(order.getInvoiceRule());
-				
-				//	Schedule After Delivery
-				boolean doInvoice = false;
-				if (MOrder.INVOICERULE_CustomerScheduleAfterDelivery.equals(order.getInvoiceRule()))
+			//	New Invoice Location
+			if (!isConsolidateDocument() 
+				|| (invoice != null 
+				&& invoice.getC_BPartner_Location_ID() != order.getBill_Location_ID()) )
+				completeInvoice();
+			boolean completeOrder = MOrder.INVOICERULE_AfterOrderDelivered.equals(order.getInvoiceRule());
+			
+			//	Schedule After Delivery
+			boolean doInvoice = false;
+			if (MOrder.INVOICERULE_CustomerScheduleAfterDelivery.equals(order.getInvoiceRule()))
+			{
+				m_bp = new MBPartner (getCtx(), order.getBill_BPartner_ID(), null);
+				if (m_bp.getC_InvoiceSchedule_ID() == 0)
 				{
-					m_bp = new MBPartner (getCtx(), order.getBill_BPartner_ID(), null);
-					if (m_bp.getC_InvoiceSchedule_ID() == 0)
+					log.warning("BPartner has no Schedule - set to After Delivery");
+					order.setInvoiceRule(MOrder.INVOICERULE_AfterDelivery);
+					order.saveEx();
+				}
+				else
+				{
+					MInvoiceSchedule is = MInvoiceSchedule.get(getCtx(), m_bp.getC_InvoiceSchedule_ID(), get_TrxName());
+					if (is.canInvoice(order.getDateOrdered(), order.getGrandTotal())) {
+						doInvoice = true;
+					} else {
+						return "";
+					}
+				}
+			}	//	Schedule
+			
+			//	After Delivery
+			if (doInvoice || MOrder.INVOICERULE_AfterDelivery.equals(order.getInvoiceRule()))
+			{
+				MInOut[] shipments = order.getShipments();
+				for (int i = 0; i < shipments.length; i++)
+				{
+					MInOut ship = shipments[i];
+					if (!ship.isComplete()		//	ignore incomplete or reversals 
+						|| ship.getDocStatus().equals(MInOut.DOCSTATUS_Reversed))
+						continue;
+					MInOutLine[] shipLines = ship.getLines(false);
+					for (int j = 0; j < shipLines.length; j++)
 					{
-						log.warning("BPartner has no Schedule - set to After Delivery");
-						order.setInvoiceRule(MOrder.INVOICERULE_AfterDelivery);
-						order.saveEx();
+						MInOutLine shipLine = shipLines[j];
+						if (!order.isOrderLine(shipLine.getC_OrderLine_ID()))
+							continue;
+						if ( !getSelectionKeys().contains(shipLine.getC_OrderLine_ID()))
+							continue;	
+						if (!shipLine.isInvoiced())
+							createLine (order, ship, shipLine);
+					}
+					m_line += 1000;
+				}
+			}
+			//	After Order Delivered, Immediate
+			else
+			{
+				MOrderLine[] oLines = order.getLines(true, null);
+				for (int i = 0; i < oLines.length; i++)
+				{
+					MOrderLine oLine = oLines[i];
+					if ( !getSelectionKeys().contains(oLine.getC_OrderLine_ID()))
+						continue;	
+					BigDecimal toInvoice = oLine.getQtyOrdered().subtract(oLine.getQtyInvoiced());
+					if (toInvoice.compareTo(Env.ZERO) == 0 && oLine.getM_Product_ID() != 0)
+						continue;
+					//
+					boolean fullyDelivered = oLine.getQtyOrdered().compareTo(oLine.getQtyDelivered()) == 0;
+				
+					//	Complete Order
+					if (completeOrder && !fullyDelivered)
+					{
+						log.fine("Failed CompleteOrder - " + oLine);
+						addLog(Msg.getMsg(getCtx(), "GenerateInvoiceFromInOut.InvoiceRule.NotSupported") + oLine); // Elaine 2008/11/25
+						completeOrder = false;
+						break;
+					}
+					//	Immediate
+					else if (MOrder.INVOICERULE_Immediate.equals(order.getInvoiceRule()))
+					{
+						log.fine("Immediate - ToInvoice=" + toInvoice + " - " + oLine);
+						BigDecimal qtyEntered = toInvoice;
+						//	Correct UOM for QtyEntered
+						
+						if (oLine.getQtyEntered().compareTo(oLine.getQtyOrdered()) != 0)
+							qtyEntered = toInvoice
+								.multiply(oLine.getQtyEntered())
+								.divide(oLine.getQtyOrdered(), 12, BigDecimal.ROUND_HALF_UP);
+						createLine (order, oLine, toInvoice, qtyEntered);
 					}
 					else
 					{
-						MInvoiceSchedule is = MInvoiceSchedule.get(getCtx(), m_bp.getC_InvoiceSchedule_ID(), get_TrxName());
-						if (is.canInvoice(order.getDateOrdered(), order.getGrandTotal()))
-							doInvoice = true;
-						else
-							return "";
+						log.fine("Failed: " + order.getInvoiceRule() 
+							+ " - ToInvoice=" + toInvoice + " - " + oLine);
+						addLog("Failed: " + order.getInvoiceRule() 
+							+ " - ToInvoice=" + toInvoice + " - " + oLine);
 					}
-				}	//	Schedule
-				
-				//	After Delivery
-				if (doInvoice || MOrder.INVOICERULE_AfterDelivery.equals(order.getInvoiceRule()))
+				}	//	for all order lines
+				if (MOrder.INVOICERULE_Immediate.equals(order.getInvoiceRule()))
+					m_line += 1000;
+			}
+			
+			//	Complete Order successful
+			if (completeOrder && MOrder.INVOICERULE_AfterOrderDelivered.equals(order.getInvoiceRule()))
+			{
+				MInOut[] shipments = order.getShipments();
+				for (int i = 0; i < shipments.length; i++)
 				{
-					MInOut[] shipments = order.getShipments();
-					for (int i = 0; i < shipments.length; i++)
+					MInOut ship = shipments[i];
+					if (!ship.isComplete()		//	ignore incomplete or reversals 
+						|| ship.getDocStatus().equals(MInOut.DOCSTATUS_Reversed))
+						continue;
+					MInOutLine[] shipLines = ship.getLines(false);
+					for (int j = 0; j < shipLines.length; j++)
 					{
-						MInOut ship = shipments[i];
-						if (!ship.isComplete()		//	ignore incomplete or reversals 
-							|| ship.getDocStatus().equals(MInOut.DOCSTATUS_Reversed))
+						MInOutLine shipLine = shipLines[j];
+						if (!order.isOrderLine(shipLine.getC_OrderLine_ID()))
 							continue;
-						MInOutLine[] shipLines = ship.getLines(false);
-						for (int j = 0; j < shipLines.length; j++)
-						{
-							MInOutLine shipLine = shipLines[j];
-							if (!order.isOrderLine(shipLine.getC_OrderLine_ID()))
-								continue;
-							if ( !getSelectionKeys().contains(shipLine.getC_OrderLine_ID()))
-								continue;	
-							if (!shipLine.isInvoiced())
-								createLine (order, ship, shipLine);
-						}
-						m_line += 1000;
+						if (!shipLine.isInvoiced())
+							createLine (order, ship, shipLine);
 					}
+					m_line += 1000;
 				}
-				//	After Order Delivered, Immediate
-				else
-				{
-					MOrderLine[] oLines = order.getLines(true, null);
-					for (int i = 0; i < oLines.length; i++)
-					{
-						MOrderLine oLine = oLines[i];
-						if ( !getSelectionKeys().contains(oLine.getC_OrderLine_ID()))
-							continue;	
-						BigDecimal toInvoice = oLine.getQtyOrdered().subtract(oLine.getQtyInvoiced());
-						if (toInvoice.compareTo(Env.ZERO) == 0 && oLine.getM_Product_ID() != 0)
-							continue;
-						BigDecimal notInvoicedShipment = oLine.getQtyDelivered().subtract(oLine.getQtyInvoiced());
-						//
-						boolean fullyDelivered = oLine.getQtyOrdered().compareTo(oLine.getQtyDelivered()) == 0;
-					
-						//	Complete Order
-						if (completeOrder && !fullyDelivered)
-						{
-							log.fine("Failed CompleteOrder - " + oLine);
-							addLog("Failed CompleteOrder - " + oLine); // Elaine 2008/11/25
-							completeOrder = false;
-							break;
-						}
-						//	Immediate
-						else if (MOrder.INVOICERULE_Immediate.equals(order.getInvoiceRule()))
-						{
-							log.fine("Immediate - ToInvoice=" + toInvoice + " - " + oLine);
-							BigDecimal qtyEntered = toInvoice;
-							//	Correct UOM for QtyEntered
-							
-							if (oLine.getQtyEntered().compareTo(oLine.getQtyOrdered()) != 0)
-								qtyEntered = toInvoice
-									.multiply(oLine.getQtyEntered())
-									.divide(oLine.getQtyOrdered(), 12, BigDecimal.ROUND_HALF_UP);
-							createLine (order, oLine, toInvoice, qtyEntered);
-						}
-						else
-						{
-							log.fine("Failed: " + order.getInvoiceRule() 
-								+ " - ToInvoice=" + toInvoice + " - " + oLine);
-							addLog("Failed: " + order.getInvoiceRule() 
-								+ " - ToInvoice=" + toInvoice + " - " + oLine);
-						}
-					}	//	for all order lines
-					if (MOrder.INVOICERULE_Immediate.equals(order.getInvoiceRule()))
-						m_line += 1000;
-				}
-				
-				//	Complete Order successful
-				if (completeOrder && MOrder.INVOICERULE_AfterOrderDelivered.equals(order.getInvoiceRule()))
-				{
-					MInOut[] shipments = order.getShipments();
-					for (int i = 0; i < shipments.length; i++)
-					{
-						MInOut ship = shipments[i];
-						if (!ship.isComplete()		//	ignore incomplete or reversals 
-							|| ship.getDocStatus().equals(MInOut.DOCSTATUS_Reversed))
-							continue;
-						MInOutLine[] shipLines = ship.getLines(false);
-						for (int j = 0; j < shipLines.length; j++)
-						{
-							MInOutLine shipLine = shipLines[j];
-							if (!order.isOrderLine(shipLine.getC_OrderLine_ID()))
-								continue;
-							if (!shipLine.isInvoiced())
-								createLine (order, ship, shipLine);
-						}
-						m_line += 1000;
-					}
-				}	//	complete Order
-			}	//	for all orders
+			}	//	complete Order
 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, "", e);
 		}
 		completeInvoice();
-		return "@Created@ = " + m_created;
+		return "@C_Order_ID@: " + order.getDocumentNo() + "[@C_Invoice_ID@ @Created@: " + m_created + "]";
 	}	//	generate
 	
 	
@@ -307,22 +287,24 @@ public class SB_InvoiceGenerateFromOrderLine extends SvrProcess
 	 *	@param qtyEntered qty
 	 */
 	private void createLine (MOrder order, MOrderLine orderLine, 
-		BigDecimal qtyInvoiced, BigDecimal qtyEntered)
-	{
-		if (m_invoice == null)
-		{
-			m_invoice = new MInvoice (order, 0, p_DateInvoiced);
-			if (!m_invoice.save())
-				throw new IllegalStateException("Could not create Invoice (o)");
+		BigDecimal qtyInvoiced, BigDecimal qtyEntered) {
+		if (invoice == null) {
+			invoice = new MInvoice (order, 0, getDateInvoiced());
+			if(getOrgTrxId() != 0) {
+				invoice.setAD_Org_ID(getOrgTrxId());
+			}
+			if (getDocTypeId()  != 0) {
+				invoice.setC_DocType_ID(getDocTypeId());
+			}
+			invoice.saveEx();
 		}
 		//	
-		MInvoiceLine line = new MInvoiceLine (m_invoice);
+		MInvoiceLine line = new MInvoiceLine (invoice);
 		line.setOrderLine(orderLine);
 		line.setQtyInvoiced(qtyInvoiced);
 		line.setQtyEntered(qtyEntered);
 		line.setLine(m_line + orderLine.getLine());
-		if (!line.save())
-			throw new IllegalStateException("Could not create Invoice Line (o)");
+		line.saveEx();
 		log.fine(line.toString());
 	}	//	createLine
 
@@ -334,15 +316,20 @@ public class SB_InvoiceGenerateFromOrderLine extends SvrProcess
 	 */
 	private void createLine (MOrder order, MInOut ship, MInOutLine sLine)
 	{
-		if (m_invoice == null)
-		{
-			m_invoice = new MInvoice (order, 0, p_DateInvoiced);
-			if (!m_invoice.save())
-				throw new IllegalStateException("Could not create Invoice (s)");
+		if (invoice == null) {
+			invoice = new MInvoice (order, 0, getDateInvoiced());
+			if(getOrgTrxId() != 0) {
+				invoice.setAD_Org_ID(getOrgTrxId());
+			}
+			if (getDocTypeId()  != 0) {
+				invoice.setC_DocType_ID(getDocTypeId());
+			}
+			invoice.saveEx();
 		}
 		//	Create Shipment Comment Line
-		if (m_ship == null 
-			|| m_ship.getM_InOut_ID() != ship.getM_InOut_ID())
+		if (isAddInvoiceReferenceLine()
+				&& (m_ship == null 
+					|| m_ship.getM_InOut_ID() != ship.getM_InOut_ID()))
 		{
 			MDocType dt = MDocType.get(getCtx(), ship.getC_DocType_ID());
 			if (m_bp == null || m_bp.getC_BPartner_ID() != ship.getC_BPartner_ID())
@@ -355,33 +342,31 @@ public class SB_InvoiceGenerateFromOrderLine extends SvrProcess
 				AD_Language = m_bp.getAD_Language();
 			if (AD_Language == null)
 				AD_Language = Language.getBaseAD_Language();
-			java.text.SimpleDateFormat format = DisplayType.getDateFormat 
+			SimpleDateFormat format = DisplayType.getDateFormat 
 				(DisplayType.Date, Language.getLanguage(AD_Language));
 			String reference = dt.getPrintName(m_bp.getAD_Language())
 				+ ": " + ship.getDocumentNo() 
 				+ " - " + format.format(ship.getMovementDate());
 			m_ship = ship;
 			//
-			MInvoiceLine line = new MInvoiceLine (m_invoice);
+			MInvoiceLine line = new MInvoiceLine (invoice);
 			line.setIsDescription(true);
 			line.setDescription(reference);
 			line.setLine(m_line + sLine.getLine() - 2);
-			if (!line.save())
-				throw new IllegalStateException("Could not create Invoice Comment Line (sh)");
+			line.saveEx();
 			//	Optional Ship Address if not Bill Address
 			if (order.getBill_Location_ID() != ship.getC_BPartner_Location_ID())
 			{
 				MLocation addr = MLocation.getBPLocation(getCtx(), ship.getC_BPartner_Location_ID(), null);
-				line = new MInvoiceLine (m_invoice);
+				line = new MInvoiceLine (invoice);
 				line.setIsDescription(true);
 				line.setDescription(addr.toString());
 				line.setLine(m_line + sLine.getLine() - 1);
-				if (!line.save())
-					throw new IllegalStateException("Could not create Invoice Comment Line 2 (sh)");
+				line.saveEx();
 			}
 		}
 		//	
-		MInvoiceLine line = new MInvoiceLine (m_invoice);
+		MInvoiceLine line = new MInvoiceLine (invoice);
 		line.setShipLine(sLine);
 		if (sLine.sameOrderLineUOM())
 			line.setQtyEntered(sLine.getQtyEntered());
@@ -390,8 +375,7 @@ public class SB_InvoiceGenerateFromOrderLine extends SvrProcess
 		line.setQtyInvoiced(sLine.getMovementQty());
 		line.setLine(m_line + sLine.getLine());
 		//@Trifon - special handling when ShipLine.ToBeInvoiced='N'
-		String toBeInvoiced = sLine.get_ValueAsString( "ToBeInvoiced" );
-		if ("N".equals( toBeInvoiced )) {
+		if (!sLine.isToBeInvoiced()) {
 			line.setPriceEntered( Env.ZERO );
 			line.setPriceActual( Env.ZERO );
 			line.setPriceLimit( Env.ZERO );
@@ -400,12 +384,10 @@ public class SB_InvoiceGenerateFromOrderLine extends SvrProcess
 			line.setLineNetAmt( Env.ZERO );
 			line.setIsDescription( true );
 		}
-		if (!line.save())
-			throw new IllegalStateException("Could not create Invoice Line (s)");
+		line.saveEx();
 		//	Link
 		sLine.setIsInvoiced(true);
-		if (!sLine.save())
-			throw new IllegalStateException("Could not update Shipment Line");
+		sLine.saveEx();
 		
 		log.fine(line.toString());
 	}	//	createLine
@@ -416,20 +398,19 @@ public class SB_InvoiceGenerateFromOrderLine extends SvrProcess
 	 */
 	private void completeInvoice()
 	{
-		if (m_invoice != null)
+		if (invoice != null)
 		{
-			if (!m_invoice.processIt(p_docAction))
-			{
-				log.warning("completeInvoice - failed: " + m_invoice);
-				addLog("completeInvoice - failed: " + m_invoice); // Elaine 2008/11/25
+			if (!invoice.processIt(getDocAction())) {
+				log.warning("completeInvoice - failed: " + invoice);
+				addLog(Msg.getMsg(getCtx(), "GenerateInvoiceFromInOut.completeInvoice.Failed") + invoice); // Elaine 2008/11/25
 			}
-			m_invoice.saveEx();
+			invoice.saveEx();
 
-			addLog(m_invoice.getC_Invoice_ID(), m_invoice.getDateInvoiced(), null, m_invoice.getDocumentNo());
-			m_invoices.add(m_invoice);
+			addLog(invoice.getC_Invoice_ID(), invoice.getDateInvoiced(), null, invoice.getDocumentNo());
+			m_invoices.add(invoice);
 			m_created++;
 		}
-		m_invoice = null;
+		invoice = null;
 		m_ship = null;
 		m_line = 0;
 	}	//	completeInvoice
