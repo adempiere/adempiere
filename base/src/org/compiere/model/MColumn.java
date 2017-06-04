@@ -53,6 +53,8 @@ import org.compiere.util.Util;
  *  	@see https://github.com/adempiere/adempiere/issues/185
  *  	<a href="https://github.com/adempiere/adempiere/issues/655">
  * 		@see FR [ 655 ] Bad validation for sequence of identifier columns</a>
+ * 		<a href="https://github.com/adempiere/adempiere/issues/1072">
+ * 		@see BR [ 1072 ] Synchronize Column is unnecessary when it is not apply for DB</a>
  */
 public class MColumn extends X_AD_Column
 {
@@ -838,8 +840,13 @@ public class MColumn extends X_AD_Column
 		}
 	}
 
-	public static boolean isSuggestSelectionColumn(String columnName, boolean caseSensitive)
-	{
+	/**
+	 * Verify if a columnName is suggested for selection column
+	 * @param columnName
+	 * @param caseSensitive
+	 * @return
+	 */
+	public static boolean isSuggestSelectionColumn(String columnName, boolean caseSensitive) {
 		if (Util.isEmpty(columnName, true))
 			return false;
 		//
@@ -857,4 +864,23 @@ public class MColumn extends X_AD_Column
         else
         	return false;
 	}
+	
+	/**
+	 * Verify if the value changed required a synchronizing on DB
+	 * @param columnName
+	 * @return
+	 */
+	public static boolean isForSynchronizeColumn(String columnName) {
+		if (Util.isEmpty(columnName, true))
+			return false;
+		//	Verify
+		return columnName.equals(I_AD_Column.COLUMNNAME_IsMandatory)
+				|| columnName.equals(I_AD_Column.COLUMNNAME_IsParent)
+				|| columnName.equals(I_AD_Column.COLUMNNAME_ColumnName)
+				|| columnName.equals(I_AD_Column.COLUMNNAME_AD_Reference_ID)
+				|| columnName.equals(I_AD_Column.COLUMNNAME_FieldLength)
+				|| columnName.equals(I_AD_Column.COLUMNNAME_IsKey)
+				|| columnName.equals(I_AD_Column.COLUMNNAME_DefaultValue);
+	}
+	
 }	//	MColumn

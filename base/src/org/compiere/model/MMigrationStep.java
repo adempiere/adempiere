@@ -47,6 +47,8 @@ import org.w3c.dom.NodeList;
  *		@see https://github.com/adempiere/adempiere/issues/440
  *		<a href="https://github.com/adempiere/adempiere/issues/673">
  * 		@see FR [ 673 ] Model Migration don't load current value for Multi-Key records</a>
+ * 		<a href="https://github.com/adempiere/adempiere/issues/1072">
+ * 		@see BR [ 1072 ] Synchronize Column is unnecessary when it is not apply for DB</a>
  */
 public class MMigrationStep extends X_AD_MigrationStep {
 
@@ -501,8 +503,7 @@ public class MMigrationStep extends X_AD_MigrationStep {
 			//	Get PO from table
 			po = getPO(table);
 			//	
-			if ( po == null && getAction().equals(MMigrationStep.ACTION_Insert) )
-			{
+			if (po == null && getAction().equals(MMigrationStep.ACTION_Insert)) {
 				po = table.getPO(0, get_TrxName());
 				po.set_ValueNoCheck(po.get_KeyColumns()[0], getRecord_ID());
 			} else if(po == null 
@@ -519,67 +520,86 @@ public class MMigrationStep extends X_AD_MigrationStep {
 			}
 			//	Set flag for direct load from migration
 			po.setIsDirectLoad(true);
-			for (MMigrationData data : m_migrationData )
-			{
+			boolean syncColumn = po.is_new();
+			boolean isColumn = po instanceof MColumn;
+			for (MMigrationData data : m_migrationData) {
 				if (!data.isActive())
 					continue;
 
 				MColumn column = (MColumn) data.getAD_Column();
 				if(column == null)
 					continue;
-
 				// TODO: option to apply only when existing value equals reference value
 				String value = data.getNewValue();
-				if ( data.isNewNull() )
+				if (data.isNewNull()) {
 					value = null;
-
-				if (value == null && column.isMandatory() && column.getDefaultValue() != null)
+				}
+				//	
+				if (value == null && column.isMandatory() && column.getDefaultValue() != null) {
 					value = Env.parseVariable(column.getDefaultValue() ,  po, po.get_TrxName(), false);
-
+				}
 				// backup existing value
-				if ( !po.is_new() )
-				{
+				if (!po.is_new()) {
+					String oldDataType = "";
+					if(isColumn
+							&& column.getColumnName().equals(I_AD_Column.COLUMNNAME_AD_Reference_ID)) {
+						oldDataType = DisplayType.getSQLDataType(
+								po.get_ValueAsInt(I_AD_Column.COLUMNNAME_AD_Reference_ID), 
+								column.getColumnName(), 
+								po.get_ValueAsInt(I_AD_Column.COLUMNNAME_FieldLength));
+					}
+					//	Backup value
 					Object backupValue = po.get_Value(column.getColumnName());
-					if ( backupValue == null )
+					if (backupValue == null) {
 						data.setIsBackupNull(true);
-					else
+					} else {
 						data.setBackupValue(backupValue.toString());
-
+					}
+					//	
 					data.saveEx(get_TrxName());
+					//	Verify if is necessary synchronize column
+					if(isColumn
+							&& !syncColumn) {
+						if(!column.getColumnName().equals(I_AD_Column.COLUMNNAME_AD_Reference_ID)) {
+							syncColumn = MColumn.isForSynchronizeColumn(column.getColumnName());
+						} else {
+							String newDataType = DisplayType.getSQLDataType(
+									po.get_ValueAsInt(I_AD_Column.COLUMNNAME_AD_Reference_ID), 
+									column.getColumnName(), 
+									po.get_ValueAsInt(I_AD_Column.COLUMNNAME_FieldLength));
+							//	Validate
+							syncColumn = !oldDataType.equals(newDataType);
+						}
+					}
 				}
 				// apply new values
-				if (getAction().equals(MMigrationStep.ACTION_Insert) || getAction().equals(MMigrationStep.ACTION_Update))
-						po.set_ValueNoCheck(column.getColumnName(), stringToObject(column, value));
-
+				if (getAction().equals(MMigrationStep.ACTION_Insert) 
+						|| getAction().equals(MMigrationStep.ACTION_Update)) {
+					po.set_ValueNoCheck(column.getColumnName(), stringToObject(column, value));
+				}
 			}
-
-
-			if ( getAction().equals(MMigrationStep.ACTION_Delete) )
-			{
-				if (po instanceof  MEntityType)
-				{
+			//	For Delete
+			if (getAction().equals(MMigrationStep.ACTION_Delete)){
+				if (po instanceof  MEntityType) {
 					MEntityType entityType = (MEntityType) po;
 					entityType.setIsDeleteForced(true);
 					entityType.delete(true , get_TrxName());
-				}
-				else
+				} else {
 					po.deleteEx(false, get_TrxName());
+				}
 				// TODO unsync column?
-			}
-			else
-			{
+			} else {
 				if(po.get_TableName().endsWith("Trl")
 						&& getAction().equals(MMigrationStep.ACTION_Insert)) {
 					po.save(get_TrxName());
 				} else {
 					po.saveEx(get_TrxName());
 				}
-
 				//  Synchronize the AD_Column changes with the database.
-				if ( po instanceof MColumn )
-				{
+				if (po instanceof MColumn) {
 					MColumn col = (MColumn) po;
-					if (!col.isVirtualColumn()) {
+					if (!col.isVirtualColumn()
+							&& syncColumn) {
 						if(col.getAD_Table_ID() == I_AD_Table.Table_ID
 								|| col.getAD_Table_ID() == I_AD_Column.Table_ID
 								|| !isAllMigration) {
@@ -655,6 +675,8 @@ public class MMigrationStep extends X_AD_MigrationStep {
 			}
 			// If the record was updated, set the values back to the old values.
 			else if ( getAction().equals(MMigrationStep.ACTION_Update) && po != null) {
+				boolean syncColumn = false;
+				boolean isColumn = po instanceof MColumn;
 				for (MMigrationData data : m_migrationData ) {
 					String value = data.getOldValue();
 					if ( data.isOldNull() )
@@ -663,15 +685,39 @@ public class MMigrationStep extends X_AD_MigrationStep {
 					MColumn column = (MColumn) data.getAD_Column();
                     if(column == null)
                         continue;
-
+                    //	Verify if is a column
+                    String oldDataType = "";
+                    if(isColumn
+                    		&& column.getColumnName().equals(I_AD_Column.COLUMNNAME_AD_Reference_ID)) {
+						oldDataType = DisplayType.getSQLDataType(
+								po.get_ValueAsInt(I_AD_Column.COLUMNNAME_AD_Reference_ID), 
+								column.getColumnName(), 
+								po.get_ValueAsInt(I_AD_Column.COLUMNNAME_FieldLength));
+					}
+                    //	
 					po.set_ValueNoCheck(column.getColumnName(), stringToObject(column, value));
+					//	For column
+					if(isColumn
+							&& !syncColumn) {
+						if(!column.getColumnName().equals(I_AD_Column.COLUMNNAME_AD_Reference_ID)) {
+							syncColumn = MColumn.isForSynchronizeColumn(column.getColumnName());
+						} else {
+							String newDataType = DisplayType.getSQLDataType(
+									po.get_ValueAsInt(I_AD_Column.COLUMNNAME_AD_Reference_ID), 
+									column.getColumnName(), 
+									po.get_ValueAsInt(I_AD_Column.COLUMNNAME_FieldLength));
+							//	Validate
+							syncColumn = !oldDataType.equals(newDataType);
+						}
+					}
 				}
 				po.saveEx();
 				
 				//  Synchronize the AD_Column changes with the database.
 				if ( po instanceof MColumn ) {
 					MColumn col = (MColumn) po;
-					if (!col.isVirtualColumn()) {
+					if (!col.isVirtualColumn()
+							&& syncColumn) {
 						log.log(Level.CONFIG, "Synchronizing column: " + col.toString() 
 								+ " in table: " + MTable.get(Env.getCtx(), col.getAD_Table_ID()));
 						col.syncDatabase();
