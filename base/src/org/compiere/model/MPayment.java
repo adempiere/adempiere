@@ -75,6 +75,8 @@ import org.compiere.util.ValueNamePair;
  *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *		<li> FR [ 297 ] Payment Selection must be like ADempiere Document
  *		@see https://github.com/adempiere/adempiere/issues/297
+ *		<a href="https://github.com/adempiere/adempiere/issues/887">
+ * 		@see FR [ 887 ] System Config reversal invoice DocNo</a>
  *  @version 	$Id: MPayment.java,v 1.4 2006/10/02 05:18:39 jjanke Exp $
  */
 public final class MPayment extends X_C_Payment 
@@ -2365,7 +2367,12 @@ public final class MPayment extends X_C_Payment
 		reversal.setC_Invoice_ID(0);
 		reversal.setDateAcct(dateAcct);
 		//
-		reversal.setDocumentNo(getDocumentNo() + REVERSE_INDICATOR);	//	indicate reversals
+		reversal.set_ValueNoCheck("DocumentNo", null);
+		//	Set Document No from flag
+		MDocType docType = MDocType.get(getCtx(), getC_DocType_ID());
+		if(docType.isCopyDocNoOnReversal()) {
+			reversal.setDocumentNo(getDocumentNo() + "^");
+		}
 		reversal.setDocStatus(DOCSTATUS_Drafted);
 		reversal.setDocAction(DOCACTION_Complete);
 		//

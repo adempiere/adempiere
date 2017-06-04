@@ -57,6 +57,9 @@ import org.eevolution.model.MPPProductBOMLine;
  * 			<li> FR [ 2520591 ] Support multiples calendar for Org
  *			@see http://sourceforge.net/tracker2/?func=detail&atid=879335&aid=2520591&group_id=176962
  *  Modifications: Added RMA functionality (Ashley Ramdass)
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *			<a href="https://github.com/adempiere/adempiere/issues/887">
+ * 			@see FR [ 887 ] System Config reversal invoice DocNo</a>
  */
 public class MInvoice extends X_C_Invoice implements DocAction
 {
@@ -88,18 +91,29 @@ public class MInvoice extends X_C_Invoice implements DocAction
 	 * 	@param C_DocTypeTarget_ID target doc type
 	 * 	@param isSOTrx sales order
 	 * 	@param counter create counter links
+	 * 	@param isReversal is a reversal document
 	 * 	@param trxName trx
 	 * 	@param setOrder set Order links
 	 *	@return Invoice
 	 */
 	public static MInvoice copyFrom (MInvoice from, Timestamp dateDoc, Timestamp dateAcct,
-		int C_DocTypeTarget_ID, boolean isSOTrx, boolean counter,
+		int C_DocTypeTarget_ID, boolean isSOTrx, boolean counter, boolean isReversal,
 		String trxName, boolean setOrder)
 	{
 		MInvoice to = new MInvoice (from.getCtx(), 0, trxName);
 		PO.copyValues (from, to, from.getAD_Client_ID(), from.getAD_Org_ID());
 		to.set_ValueNoCheck ("C_Invoice_ID", I_ZERO);
-		to.set_ValueNoCheck ("DocumentNo", null);
+		to.set_ValueNoCheck("DocumentNo", null);
+		//	For Reversal
+		if(isReversal) {
+			to.setReversal(true);
+			to.setReversal_ID(from.getC_Invoice_ID());
+			MDocType docType = MDocType.get(from.getCtx(), from.getC_DocType_ID());
+			//	Set Document No from flag
+			if(docType.isCopyDocNoOnReversal()) {
+				to.setDocumentNo(from.getDocumentNo() + "^");
+			}
+		}
 		//
 		to.setDocStatus (DOCSTATUS_Drafted);		//	Draft
 		to.setDocAction(DOCACTION_Complete);
@@ -150,46 +164,23 @@ public class MInvoice extends X_C_Invoice implements DocAction
 					to.setM_RMA_ID(peer.getRef_RMA_ID());
 			}
 			//
-		}
-		else
+		} else {
 			to.setRef_Invoice_ID(0);
-
+		}
+		//	Save Copied
 		to.saveEx(trxName);
 		if (counter)
 			from.setRef_Invoice_ID(to.getC_Invoice_ID());
 
 		//	Lines
 		// Check lines exist before copy
-		if ( from.getLines(true).length > 0 )
-		{
+		if (from.getLines(true).length > 0) {
 			if (to.copyLinesFrom(from, counter, setOrder) == 0)
 				throw new IllegalStateException("Could not create Invoice Lines");
 		}	
 
 		return to;
 	}
-	
-	/** 
-	 *  @deprecated
-	 * 	Create new Invoice by copying
-	 * 	@param from invoice
-	 * 	@param dateDoc date of the document date
-	 * 	@param C_DocTypeTarget_ID target doc type
-	 * 	@param isSOTrx sales order
-	 * 	@param counter create counter links
-	 * 	@param trxName trx
-	 * 	@param setOrder set Order links
-	 *	@return Invoice
-	 */
-	public static MInvoice copyFrom (MInvoice from, Timestamp dateDoc,
-		int C_DocTypeTarget_ID, boolean isSOTrx, boolean counter,
-		String trxName, boolean setOrder)
-	{
-		MInvoice to = copyFrom ( from, dateDoc, dateDoc,
-				 C_DocTypeTarget_ID, isSOTrx, counter,
-				trxName, setOrder);
-		return to;
-	}	//	copyFrom
 
 	/**
 	 * 	Get PDF File Name
@@ -1966,7 +1957,7 @@ public class MInvoice extends X_C_Invoice implements DocAction
 
 		//	Deep Copy
 		MInvoice counter = copyFrom(this, getDateInvoiced(), getDateAcct(),
-			C_DocTypeTarget_ID, !isSOTrx(), true, get_TrxName(), true);
+			C_DocTypeTarget_ID, !isSOTrx(), true, false, get_TrxName(), true);
 		//
 		counter.setAD_Org_ID(counterAD_Org_ID);
 	//	counter.setM_Warehouse_ID(counterOrgInfo.getM_Warehouse_ID());
@@ -2142,14 +2133,12 @@ public class MInvoice extends X_C_Invoice implements DocAction
 
 		//	Deep Copy
 		MInvoice reversal = copyFrom (this, getDateInvoiced(), getDateAcct(),
-			getC_DocType_ID(), isSOTrx(), false, get_TrxName(), true);
+			getC_DocType_ID(), isSOTrx(), false, true, get_TrxName(), true);
 		if (reversal == null)
 		{
 			m_processMsg = "Could not create Invoice Reversal";
 			return false;
 		}
-		reversal.setReversal(true);
-
 		//	Reverse Line Qty
 		MInvoiceLine[] rLines = reversal.getLines(false);
 		for (int i = 0; i < rLines.length; i++)
@@ -2171,7 +2160,6 @@ public class MInvoice extends X_C_Invoice implements DocAction
 		reversal.setC_Order_ID(getC_Order_ID());
 		reversal.addDescription("{->" + getDocumentNo() + ")");
 		//FR1948157
-		reversal.setReversal_ID(getC_Invoice_ID());
 		reversal.saveEx(get_TrxName());
 		//
 		if (!reversal.processIt(DocAction.ACTION_Complete))

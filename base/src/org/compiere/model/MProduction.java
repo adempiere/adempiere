@@ -45,7 +45,9 @@ import org.eevolution.service.dsl.ProcessBuilder;
  * @author Mario Calderon, mario.calderon@westfalia-it.com, Systemhaus Westfalia, http://www.westfalia-it.com
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  * 		<a href="https://github.com/adempiere/adempiere/issues/648">
- * 		@see FR [ 648 ] Add Support to document Action on Standard Production window</a>		
+ * 		@see FR [ 648 ] Add Support to document Action on Standard Production window</a>
+ * 		<a href="https://github.com/adempiere/adempiere/issues/887">
+ * 		@see FR [ 887 ] System Config reversal invoice DocNo</a>	
  */
 public class MProduction extends X_M_Production implements DocAction {
 
@@ -619,11 +621,18 @@ public class MProduction extends X_M_Production implements DocAction {
 
 		MProduction reversal = new MProduction(getCtx(), 0, get_TrxName());
 		copyValues(this, reversal, getAD_Client_ID(), getAD_Org_ID());
+		reversal.set_ValueNoCheck("DocumentNo", null);
+		//	Set Document No from flag
+		MDocType docType = MDocType.get(getCtx(), getC_DocType_ID());
+		if(docType.isCopyDocNoOnReversal()) {
+			reversal.setDocumentNo(getDocumentNo() + "^");
+		}
 		reversal.setDocStatus(DOCSTATUS_Drafted);
 		reversal.setDocAction(DOCACTION_Complete);
 		reversal.setPosted(false);
 		reversal.setProcessed(false);
-		reversal.setProductionQty(getProductionQty().negate());		reversal.addDescription("{->" + getDocumentNo() + ")");
+		reversal.setProductionQty(getProductionQty().negate());		
+		reversal.addDescription("{->" + getDocumentNo() + ")");
 		//FR1948157
 		reversal.setReversal_ID(getM_Production_ID());
 		reversal.setReversal(true);
@@ -962,42 +971,6 @@ public class MProduction extends X_M_Production implements DocAction {
 		}
 		log.info("M_Production_ID=" + getM_Production_ID() + " created");
 	}
-	
-	/**
-	 * Verify if the cost is OK
-	 * @return
-	 */
-//	private String costsOK()  {
-//		String costingMethod = "";
-//		MAcctSchema[] acctschemas= MAcctSchema.getClientAcctSchema(getCtx(), getAD_Client_ID());
-//		for (MAcctSchema as: acctschemas)
-//		{
-//			costingMethod = as.getCostingMethod();
-//			continue;			
-//		}		
-//		if (!costingMethod.equals(MAcctSchema.COSTINGMETHOD_StandardCosting))
-//			return "";
-//		String whereClause = "m_productionline_ID in (select m_productionline_ID from m_productionline where m_production_ID = ?)";
-//		BigDecimal costPercentageDiff = new Query(getCtx(), MCostDetail.Table_Name, whereClause, get_TrxName())
-//				.setOnlyActiveRecords(true)
-//				.setParameters(getM_Production_ID())
-//				.aggregate("CostAmt", Query.AGGREGATE_SUM);
-//				
-//		if (costPercentageDiff == null)
-//		{
-//			return "Could not retrieve costs";
-//		}
-//		
-//		MClientInfo ci = MClientInfo.get(getCtx(), getAD_Client_ID());
-//		BigDecimal percentDiffMax =  (BigDecimal) ci.get_Value("PercentDiffMax");
-//		if (percentDiffMax == null) {
-//			percentDiffMax = new BigDecimal(0.005);
-//		}
-//		
-//		if ( (costPercentageDiff.compareTo(percentDiffMax))< 0 )
-//			return "";		
-//		return  "Excessive difference in standard costs";
-//	}
 
 	/** Reversal Flag		*/
 	private boolean m_reversal = false;
@@ -1066,7 +1039,7 @@ public class MProduction extends X_M_Production implements DocAction {
 
 		if (qtyToDeliver.signum() != 0)
 		{
-			MAttributeSet.validateAttributeSetInstanceMandatory(product, pLine.Table_ID , false , pLine.getM_AttributeSetInstance_ID());
+			MAttributeSet.validateAttributeSetInstanceMandatory(product, I_M_ProductionLine.Table_ID , false , pLine.getM_AttributeSetInstance_ID());
 			//deliver using new asi
 			MAttributeSetInstance asi = MAttributeSetInstance.create(getCtx(), product, get_TrxName());
 			int M_AttributeSetInstance_ID = asi.getM_AttributeSetInstance_ID();

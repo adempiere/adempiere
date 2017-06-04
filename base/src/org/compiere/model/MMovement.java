@@ -46,6 +46,9 @@ import java.util.Properties;
  *  @author Teo Sarca, www.arhipac.ro
  *  		<li>FR [ 2214883 ] Remove SQL code and Replace for Query
  *  @version $Id: MMovement.java,v 1.3 2006/07/30 00:51:03 jjanke Exp $
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com 2015-05-25, 18:20
+ * 			<a href="https://github.com/adempiere/adempiere/issues/887">
+ * 			@see FR [ 887 ] System Config reversal invoice DocNo</a>
  */
 public class MMovement extends X_M_Movement implements DocAction
 {
@@ -132,8 +135,6 @@ public class MMovement extends X_M_Movement implements DocAction
 	private MMovementLine[] movementLines = null;
 	/** Confirmations				*/
 	private MMovementConfirm[] movementConfirms = null;
-	/** Reversal Indicator			*/
-	public static String	REVERSE_INDICATOR = "^";
 	
 	/**
 	 * 	Get Lines
@@ -748,11 +749,16 @@ public class MMovement extends X_M_Movement implements DocAction
 		reversalMovement.setIsInTransit (false);
 		reversalMovement.setPosted(false);
 		reversalMovement.setProcessed(false);
-		reversalMovement.setDocumentNo(getDocumentNo() + REVERSE_INDICATOR);	//	indicate reversals
+		reversalMovement.set_ValueNoCheck("DocumentNo", null);
 		reversalMovement.addDescription("{->" + getDocumentNo() + ")");
 		//FR [ 1948157  ]
 		reversalMovement.setReversal_ID(getM_Movement_ID());
 		reversalMovement.setReversal(true);
+		//	Set Document No from flag
+		if(dt.isCopyDocNoOnReversal()) {
+			reversalMovement.setDocumentNo(getDocumentNo() + "^");
+		}
+		//	
 		if (!reversalMovement.save())
 		{
 			processMessage = "Could not create Movement Reversal";

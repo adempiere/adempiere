@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.process.DocAction;
 import org.compiere.process.DocumentEngine;
 import org.compiere.util.DB;
@@ -46,6 +47,9 @@ import org.compiere.util.Msg;
  *  		<li>FR: [ 2214883 ] Remove SQL code and Replace for Query 
  * 			<li> FR [ 2520591 ] Support multiples calendar for Org 
  *			@see http://sourceforge.net/tracker2/?func=detail&atid=879335&aid=2520591&group_id=176962 	
+ *	@author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com 2015-05-25, 18:20
+ * 			<a href="https://github.com/adempiere/adempiere/issues/887">
+ * 			@see FR [ 887 ] System Config reversal invoice DocNo</a>
  */
 public class MJournal extends X_GL_Journal implements DocAction
 {
@@ -717,17 +721,22 @@ public class MJournal extends X_GL_Journal implements DocAction
 		reverse.addDescription("(->" + getDocumentNo() + ")");
 		//FR [ 1948157  ] 
 		reverse.setReversal_ID(getGL_Journal_ID());
+		reverse.set_ValueNoCheck("DocumentNo", null);
+		MDocType docType = MDocType.get(getCtx(), getC_DocType_ID());
+		//	Set Document No from flag
+		if(docType.isCopyDocNoOnReversal()) {
+			reverse.setDocumentNo(getDocumentNo() + "^");
+		}
 		reverse.saveEx();
 
 		addDescription("(" + reverse.getDocumentNo() + "<-)");
 		//	Lines
 		reverse.copyLinesFrom(this, null, 'C');
-		for (MJournalLine journalLine : reverse.getLines(true))
-		{
-			journalLine.setProcessed(true);
-			journalLine.saveEx();
+		//	Add support for process journal to reverse
+		boolean sucess = reverse.processIt(DOCACTION_Complete);
+		if(!sucess) {
+			throw new AdempiereException(reverse.getProcessMsg());
 		}
-		reverse.setProcessed(true);
 		reverse.setDocAction(DOCACTION_None);
 		reverse.setDocStatus(DOCSTATUS_Reversed);
 		reverse.saveEx();
