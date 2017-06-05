@@ -1,102 +1,105 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Is Allow Copy in model #922 contribution from #936(Adaxa)" ReleaseNo="3.9.0" SeqNo="01130">
-      <Comments>https://github.com/adempiere/adempiere/issues/922</Comments>
-      <Step DBType="Oracle" SeqNo="40" StepType="SQL">
-      <SQLStatement>
--- Sep 9, 2011 10:59:43 AM COT
--- IDEMPIERE-67 ProcessedOn should not be copied by MOrder.copyFrom
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,62199,57572,0,20,101,&apos;IsAllowCopy&apos;,TO_DATE(&apos;2011-09-09 10:59:42&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),100,&apos;Y&apos;,&apos;Determine if a column must be copied when pushing the button to copy record&apos;,&apos;D&apos;,1,&apos;Y&apos;,&apos;Y&apos;,&apos;N&apos;,&apos;N&apos;,&apos;N&apos;,&apos;N&apos;,&apos;N&apos;,&apos;Y&apos;,&apos;N&apos;,&apos;N&apos;,&apos;N&apos;,&apos;N&apos;,&apos;Y&apos;,&apos;Allow Copy&apos;,0,TO_DATE(&apos;2011-09-09 10:59:42&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),100,0)
-;</SQLStatement>
-      <RollbackStatement></RollbackStatement>
+  <Migration EntityType="D" Name="Is Allow Copy in model #922 contribution from #936(Adaxa)" ReleaseNo="3.9.0" SeqNo="1130">
+    <Comments>https://github.com/adempiere/adempiere/issues/922</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="101" Action="I" Record_ID="84053" Table="AD_Column">
+        <Data AD_Column_ID="109" Column="AD_Column_ID">62199</Data>
+        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
+        <Data AD_Column_ID="127" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="112" Column="Description">Defines whether the value of this field is considered in the copy of record</Data>
+        <Data AD_Column_ID="110" Column="Version">0</Data>
+        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
+        <Data AD_Column_ID="114" Column="AD_Table_ID">101</Data>
+        <Data AD_Column_ID="111" Column="Name">Allow Copy</Data>
+        <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="117" Column="DefaultValue">Y</Data>
+        <Data AD_Column_ID="116" Column="ColumnName">IsAllowCopy</Data>
+        <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="120" Column="IsParent">false</Data>
+        <Data AD_Column_ID="113" Column="Help">The default value is yes, it is recommended that values such as ID, document action, document status  should be defined as no.</Data>
+        <Data AD_Column_ID="118" Column="FieldLength">1</Data>
+        <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID">20</Data>
+        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="3360" Column="IsUpdateable">true</Data>
+        <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
+        <Data AD_Column_ID="6483" Column="IsSyncDatabase">N</Data>
+        <Data AD_Column_ID="119" Column="IsKey">false</Data>
+        <Data AD_Column_ID="3369" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
+        <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
+        <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
+        <Data AD_Column_ID="56187" Column="IsAllowLogging">true</Data>
+        <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
+        <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2608" Column="AD_Element_ID">57572</Data>
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
+        <Data AD_Column_ID="548" Column="IsActive">true</Data>
+        <Data AD_Column_ID="549" Column="Created">2017-06-04 19:33:59.452</Data>
+        <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="551" Column="Updated">2017-06-04 19:33:59.452</Data>
+        <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
+      </PO>
     </Step>
-    <Step DBType="Oracle" SeqNo="50" StepType="SQL">
-      <SQLStatement>
--- Sep 9, 2011 10:59:43 AM COT
--- IDEMPIERE-67 ProcessedOn should not be copied by MOrder.copyFrom
-INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, &apos;N&apos;,t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive=&apos;Y&apos; AND l.IsSystemLanguage=&apos;Y&apos; AND l.IsBaseLanguage=&apos;N&apos; AND t.AD_Column_ID=62199 AND NOT EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Column_ID=t.AD_Column_ID)
-;</SQLStatement>
-      <RollbackStatement></RollbackStatement>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="752" Action="I" Record_ID="84053" Table="AD_Column_Trl">
+        <Data AD_Column_ID="12957" Column="Name">Allow Copy</Data>
+        <Data AD_Column_ID="12954" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="12953" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="12960" Column="Created">2017-06-04 19:34:01.159</Data>
+        <Data AD_Column_ID="12958" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="12961" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="12959" Column="IsActive">true</Data>
+        <Data AD_Column_ID="12956" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="12952" Column="Updated">2017-06-04 19:34:01.159</Data>
+        <Data AD_Column_ID="12951" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="12955" Column="AD_Column_ID">62199</Data>
+      </PO>
     </Step>
-    <Step DBType="Oracle" SeqNo="60" StepType="SQL">
-      <SQLStatement>
--- Sep 9, 2011 11:00:47 AM COT
--- IDEMPIERE-67 ProcessedOn should not be copied by MOrder.copyFrom
-UPDATE AD_Field SET IsSameLine=&apos;N&apos;, SeqNo=390,Updated=TO_DATE(&apos;2011-09-09 11:00:47&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Field_ID=5122
-;</SQLStatement>
-      <RollbackStatement></RollbackStatement>
+    <Step DBType="ALL" Parse="N" SeqNo="30" StepType="SQL">
+      <Comments>Old compatibility</Comments>
+      <SQLStatement>UPDATE AD_Column SET IsAllowCopy = 'N' 
+WHERE ColumnName IN('Created', 'Updated', 'IsActive', 'AD_Client_ID', 'AD_Org_ID', 'EntityType', 'DocumentNo', 'Processed', 
+				'Processing', 'Reversal_ID', 'IsSelfService', 'DocAction', 'DocStatus', 
+				'Posted', 'IsReconciled', 'IsApproved', 'IsGenerated', 'GrandTotal', 'TotalLines', 
+				'C_CashLine_ID', 'C_Payment_ID', 'IsPaid', 'IsAllocated', 'C_DocType_ID', 'Line')
+OR IsKey = 'Y' 
+OR ColumnSQL IS NOT NULL
+OR AD_Reference_ID IN(13, 21);</SQLStatement>
     </Step>
-    <Step DBType="Oracle" SeqNo="70" StepType="SQL">
-      <SQLStatement>
--- Sep 9, 2011 11:01:22 AM COT
--- IDEMPIERE-67 ProcessedOn should not be copied by MOrder.copyFrom
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,SortNo,Updated,UpdatedBy) VALUES (0,62199,62467,0,101,TO_DATE(&apos;2011-09-09 11:01:22&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),100,&apos;Determine if a column must be copied when pushing the button to copy record&apos;,10,&apos;D&apos;,&apos;Y&apos;,&apos;Y&apos;,&apos;Y&apos;,&apos;N&apos;,&apos;N&apos;,&apos;N&apos;,&apos;N&apos;,&apos;Y&apos;,&apos;Allow Copy&apos;,380,0,TO_DATE(&apos;2011-09-09 11:01:22&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),100)
-;</SQLStatement>
-      <RollbackStatement></RollbackStatement>
+    <Step DBType="ALL" Parse="N" SeqNo="40" StepType="SQL">
+      <Comments>Old compatibility</Comments>
+      <SQLStatement>UPDATE AD_Column SET IsAllowCopy = 'Y' 
+WHERE ColumnName NOT IN('Created', 'Updated', 'IsActive', 'AD_Client_ID', 'AD_Org_ID', 'EntityType', 'DocumentNo', 'Processed', 
+				'Processing', 'Reversal_ID', 'IsSelfService', 'DocAction', 'DocStatus', 
+				'Posted', 'IsReconciled', 'IsApproved', 'IsGenerated', 'GrandTotal', 'TotalLines', 
+				'C_CashLine_ID', 'C_Payment_ID', 'IsPaid', 'IsAllocated', 'C_DocType_ID', 'Line')
+AND IsKey = 'N' 
+AND ColumnSQL IS NULL
+AND AD_Reference_ID NOT IN(13, 21);</SQLStatement>
     </Step>
-    <Step DBType="Oracle" SeqNo="80" StepType="SQL">
-      <SQLStatement>
--- Sep 9, 2011 11:01:22 AM COT
--- IDEMPIERE-67 ProcessedOn should not be copied by MOrder.copyFrom
-INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Field_ID, t.Description,t.Help,t.Name, &apos;N&apos;,t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Field t WHERE l.IsActive=&apos;Y&apos; AND l.IsSystemLanguage=&apos;Y&apos; AND l.IsBaseLanguage=&apos;N&apos; AND t.AD_Field_ID=62467 AND NOT EXISTS (SELECT * FROM AD_Field_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Field_ID=t.AD_Field_ID)
-;</SQLStatement>
-      <RollbackStatement></RollbackStatement>
-    </Step>
-    <Step DBType="Oracle" SeqNo="90" StepType="SQL">
-      <SQLStatement>
--- Sep 9, 2011 11:01:35 AM COT
--- IDEMPIERE-67 ProcessedOn should not be copied by MOrder.copyFrom
-UPDATE AD_Field SET DisplayLength=10,Updated=TO_DATE(&apos;2011-09-09 11:01:35&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Field_ID=56317
-;</SQLStatement>
-      <RollbackStatement></RollbackStatement>
-    </Step>   
-    <Step DBType="Oracle" SeqNo="130" StepType="SQL">
-      <SQLStatement>
--- Sep 17, 2016 11:52:39 AM COT
--- ADEMPIERE
-ALTER TABLE AD_Column ADD IsAllowCopy CHAR(1) DEFAULT NULL 
-;</SQLStatement>
-      <RollbackStatement></RollbackStatement>
-    </Step>  
-    <Step DBType="Oracle" SeqNo="170" StepType="SQL">
-      <SQLStatement>
--- Backward compatibility with old PO copyValues method
-UPDATE AD_Column SET IsAllowCopy=&apos;N&apos; WHERE ColumnName IN (
-&apos;Created&apos;,
-&apos;Created&apos;,
-&apos;CreatedBy&apos;,
-&apos;Updated&apos;,
-&apos;UpdatedBy&apos;,
-&apos;IsActive&apos;,
-&apos;AD_Client_ID&apos;,
-&apos;AD_Org_ID&apos;,
-&apos;Processing&apos;
-);</SQLStatement>
-      <RollbackStatement></RollbackStatement>
-    </Step>
-    <Step DBType="Oracle" SeqNo="210" StepType="SQL">
-      <SQLStatement>
--- new columns found to be problematic
-UPDATE AD_Column SET IsAllowCopy=&apos;N&apos; WHERE ColumnName IN (
-&apos;ProcessedOn&apos;
-);</SQLStatement>
-      <RollbackStatement></RollbackStatement>
-    </Step>
-    <Step DBType="Oracle" SeqNo="230" StepType="SQL">
-      <SQLStatement>
--- key columns
-UPDATE AD_Column SET IsAllowCopy=&apos;N&apos; WHERE IsKey=&apos;Y&apos;;</SQLStatement>
-      <RollbackStatement></RollbackStatement>
-    </Step>
-    <Step DBType="Oracle" SeqNo="240" StepType="SQL">
-      <SQLStatement>
--- virtual columns
-UPDATE AD_Column SET IsAllowCopy=&apos;N&apos; WHERE ColumnSQL IS NOT NULL;</SQLStatement>
-      <RollbackStatement></RollbackStatement>
-    </Step>
-    <Step DBType="Oracle" SeqNo="260" StepType="SQL">
-      <SQLStatement>
-  CREATE OR REPLACE VIEW AD_FIELD_V AS 
+    <Step DBType="Oracle" Parse="N" SeqNo="50" StepType="SQL">
+      <Comments>Alter AD_Field_v (For add support to column IsAllowCopy)</Comments>
+      <SQLStatement>  DROP VIEW AD_FIELD_V;
+  CREATE OR REPLACE VIEW AD_FIELD_V
+  (AD_WINDOW_ID, AD_TAB_ID, AD_FIELD_ID, AD_TABLE_ID, AD_COLUMN_ID, NAME, DESCRIPTION, HELP, ISDISPLAYED, 
+  DISPLAYLOGIC, DISPLAYLENGTH, SEQNO, SORTNO, ISSAMELINE, ISHEADING, ISFIELDONLY, ISREADONLY, ISENCRYPTEDFIELD, 
+  OBSCURETYPE, COLUMNNAME, COLUMNSQL, FIELDLENGTH, VFORMAT, DEFAULTVALUE, ISKEY, ISPARENT, ISMANDATORY, ISIDENTIFIER, 
+  ISTRANSLATED, AD_REFERENCE_VALUE_ID, CALLOUT, AD_REFERENCE_ID, AD_VAL_RULE_ID, AD_PROCESS_ID, ISALWAYSUPDATEABLE, 
+  READONLYLOGIC, MANDATORYLOGIC, ISUPDATEABLE, ISENCRYPTEDCOLUMN, ISSELECTIONCOLUMN, ISRANGE, TABLENAME, VALUEMIN, VALUEMAX, 
+  FIELDGROUP, VALIDATIONCODE, INCLUDED_TAB_ID, FIELDGROUPTYPE, ISCOLLAPSEDBYDEFAULT, INFOFACTORYCLASS, ISAUTOCOMPLETE, 
+  PREFERREDWIDTH, AD_CHART_ID, ISDISPLAYEDGRID, SEQNOGRID , ISEMBEDDED, ISALLOWCOPY) AS
   SELECT t.AD_Window_ID, f.AD_Tab_ID, f.AD_Field_ID, tbl.AD_Table_ID, f.AD_Column_ID, 
  f.NAME, f.Description, f.Help, f.IsDisplayed, f.DisplayLogic, f.DisplayLength, 
  f.SeqNo, f.SortNo, f.IsSameLine, f.IsHeading, f.IsFieldOnly, f.IsReadOnly, 
@@ -109,12 +112,13 @@ UPDATE AD_Column SET IsAllowCopy=&apos;N&apos; WHERE ColumnSQL IS NOT NULL;</SQL
  c.Callout, COALESCE(f.AD_Reference_ID, c.AD_Reference_ID) AS AD_Reference_ID, 
     COALESCE(f.AD_Val_Rule_ID, c.AD_Val_Rule_ID) AS AD_Val_Rule_ID, c.AD_Process_ID, c.IsAlwaysUpdateable,
  c.ReadOnlyLogic, c.MandatoryLogic, c.IsUpdateable, c.IsEncrypted AS IsEncryptedColumn, 
-    c.IsSelectionColumn, c.isrange,
+    c.IsSelectionColumn,c.IsRange,
  tbl.TableName, c.ValueMin, c.ValueMax,
  fg.NAME AS FieldGroup, vr.Code AS ValidationCode,
  f.Included_Tab_ID, fg.FieldGroupType, fg.IsCollapsedByDefault,
  COALESCE(f.InfoFactoryClass, c.InfoFactoryClass) as InfoFactoryClass,
- c.IsAutocomplete, f.preferredwidth, c.AD_Chart_ID, f.isdisplayedgrid, f.seqnogrid, f.isembedded, COALESCE(f.IsAllowCopy, c.IsAllowCopy) AS IsAllowCopy
+ c.IsAutocomplete, f.PreferredWidth, c.AD_Chart_ID , f.ISDISPLAYEDGRID, f.SEQNOGRID , f.isEmbedded , 
+ COALESCE(f.IsAllowCopy, c.IsAllowCopy) AS IsAllowCopy
 FROM AD_FIELD f 
   INNER JOIN AD_TAB t ON (f.AD_Tab_ID = t.AD_Tab_ID)
   LEFT OUTER JOIN AD_FIELDGROUP fg ON (f.AD_FieldGroup_ID = fg.AD_FieldGroup_ID) 
@@ -122,13 +126,133 @@ FROM AD_FIELD f
  INNER JOIN AD_TABLE tbl ON (c.AD_Table_ID = tbl.AD_Table_ID)
  INNER JOIN AD_REFERENCE r ON (c.AD_Reference_ID = r.AD_Reference_ID)
  LEFT OUTER JOIN AD_VAL_RULE vr ON (vr.AD_Val_Rule_ID = COALESCE(f.AD_Val_Rule_ID, c.AD_Val_Rule_ID))
-WHERE f.IsActive = &apos;Y&apos; 
-  AND c.IsActive = &apos;Y&apos;;</SQLStatement>
-      <RollbackStatement></RollbackStatement>
+WHERE f.IsActive = 'Y' 
+  AND c.IsActive = 'Y';</SQLStatement>
+      <RollbackStatement>  DROP VIEW AD_FIELD_V;
+  CREATE OR REPLACE VIEW AD_FIELD_V
+  (AD_WINDOW_ID, AD_TAB_ID, AD_FIELD_ID, AD_TABLE_ID, AD_COLUMN_ID, NAME, DESCRIPTION, HELP, ISDISPLAYED, 
+  DISPLAYLOGIC, DISPLAYLENGTH, SEQNO, SORTNO, ISSAMELINE, ISHEADING, ISFIELDONLY, ISREADONLY, ISENCRYPTEDFIELD, 
+  OBSCURETYPE, COLUMNNAME, COLUMNSQL, FIELDLENGTH, VFORMAT, DEFAULTVALUE, ISKEY, ISPARENT, ISMANDATORY, ISIDENTIFIER, 
+  ISTRANSLATED, AD_REFERENCE_VALUE_ID, CALLOUT, AD_REFERENCE_ID, AD_VAL_RULE_ID, AD_PROCESS_ID, ISALWAYSUPDATEABLE, 
+  READONLYLOGIC, MANDATORYLOGIC, ISUPDATEABLE, ISENCRYPTEDCOLUMN, ISSELECTIONCOLUMN, ISRANGE, TABLENAME, VALUEMIN, VALUEMAX, 
+  FIELDGROUP, VALIDATIONCODE, INCLUDED_TAB_ID, FIELDGROUPTYPE, ISCOLLAPSEDBYDEFAULT, INFOFACTORYCLASS, ISAUTOCOMPLETE, 
+  PREFERREDWIDTH, AD_CHART_ID, ISDISPLAYEDGRID, SEQNOGRID , ISEMBEDDED, ISALLOWCOPY) AS
+  SELECT t.AD_Window_ID, f.AD_Tab_ID, f.AD_Field_ID, tbl.AD_Table_ID, f.AD_Column_ID, 
+ f.NAME, f.Description, f.Help, f.IsDisplayed, f.DisplayLogic, f.DisplayLength, 
+ f.SeqNo, f.SortNo, f.IsSameLine, f.IsHeading, f.IsFieldOnly, f.IsReadOnly, 
+ f.IsEncrypted AS IsEncryptedField, f.ObscureType,
+ c.ColumnName, c.ColumnSQL, c.FieldLength, c.VFormat,
+ COALESCE(f.DefaultValue, c.DefaultValue) AS DefaultValue,
+ c.IsKey, c.IsParent, 
+ COALESCE(f.IsMandatory, c.IsMandatory) AS IsMandatory, 
+    c.IsIdentifier, c.IsTranslated, COALESCE(f.AD_Reference_Value_ID, c.AD_Reference_Value_ID) AS AD_Reference_Value_ID, 
+ c.Callout, COALESCE(f.AD_Reference_ID, c.AD_Reference_ID) AS AD_Reference_ID, 
+    COALESCE(f.AD_Val_Rule_ID, c.AD_Val_Rule_ID) AS AD_Val_Rule_ID, c.AD_Process_ID, c.IsAlwaysUpdateable,
+ c.ReadOnlyLogic, c.MandatoryLogic, c.IsUpdateable, c.IsEncrypted AS IsEncryptedColumn, 
+    c.IsSelectionColumn,c.IsRange,
+ tbl.TableName, c.ValueMin, c.ValueMax,
+ fg.NAME AS FieldGroup, vr.Code AS ValidationCode,
+ f.Included_Tab_ID, fg.FieldGroupType, fg.IsCollapsedByDefault,
+ COALESCE(f.InfoFactoryClass, c.InfoFactoryClass) as InfoFactoryClass,
+ c.IsAutocomplete, f.PreferredWidth, c.AD_Chart_ID , f.ISDISPLAYEDGRID, f.SEQNOGRID , f.isEmbedded , f.IsAllowCopy
+FROM AD_FIELD f 
+  INNER JOIN AD_TAB t ON (f.AD_Tab_ID = t.AD_Tab_ID)
+  LEFT OUTER JOIN AD_FIELDGROUP fg ON (f.AD_FieldGroup_ID = fg.AD_FieldGroup_ID) 
+  LEFT OUTER JOIN AD_COLUMN c ON (f.AD_Column_ID = c.AD_Column_ID)
+ INNER JOIN AD_TABLE tbl ON (c.AD_Table_ID = tbl.AD_Table_ID)
+ INNER JOIN AD_REFERENCE r ON (c.AD_Reference_ID = r.AD_Reference_ID)
+ LEFT OUTER JOIN AD_VAL_RULE vr ON (vr.AD_Val_Rule_ID = COALESCE(f.AD_Val_Rule_ID, c.AD_Val_Rule_ID))
+WHERE f.IsActive = 'Y' 
+  AND c.IsActive = 'Y';</RollbackStatement>
     </Step>
-    <Step DBType="Oracle" SeqNo="270" StepType="SQL">
-      <SQLStatement>
-    CREATE OR REPLACE VIEW AD_FIELD_VT AS 
+    <Step DBType="Postgres" Parse="N" SeqNo="50" StepType="SQL">
+      <Comments>Alter AD_Field_v (For add support to column IsAllowCopy)</Comments>
+      <SQLStatement>DROP VIEW  AD_FIELD_V;
+CREATE OR REPLACE VIEW AD_FIELD_V 
+  (AD_WINDOW_ID, AD_TAB_ID, AD_FIELD_ID, AD_TABLE_ID, AD_COLUMN_ID, NAME, DESCRIPTION, HELP, ISDISPLAYED, 
+  DISPLAYLOGIC, DISPLAYLENGTH, SEQNO, SORTNO, ISSAMELINE, ISHEADING, ISFIELDONLY, ISREADONLY, ISENCRYPTEDFIELD, 
+  OBSCURETYPE, COLUMNNAME, COLUMNSQL, FIELDLENGTH, VFORMAT, DEFAULTVALUE, ISKEY, ISPARENT, ISMANDATORY, ISIDENTIFIER, 
+  ISTRANSLATED, AD_REFERENCE_VALUE_ID, CALLOUT, AD_REFERENCE_ID, AD_VAL_RULE_ID, AD_PROCESS_ID, ISALWAYSUPDATEABLE, 
+  READONLYLOGIC, MANDATORYLOGIC, ISUPDATEABLE, ISENCRYPTEDCOLUMN, ISSELECTIONCOLUMN, ISRANGE, TABLENAME, VALUEMIN, VALUEMAX, 
+  FIELDGROUP, VALIDATIONCODE, INCLUDED_TAB_ID, FIELDGROUPTYPE, ISCOLLAPSEDBYDEFAULT, INFOFACTORYCLASS, ISAUTOCOMPLETE, 
+  PREFERREDWIDTH, AD_CHART_ID, ISDISPLAYEDGRID, SEQNOGRID , ISEMBEDDED, ISALLOWCOPY) AS 
+  SELECT t.AD_Window_ID, f.AD_Tab_ID, f.AD_Field_ID, tbl.AD_Table_ID, f.AD_Column_ID, 
+ f.NAME, f.Description, f.Help, f.IsDisplayed, f.DisplayLogic, f.DisplayLength, 
+ f.SeqNo, f.SortNo, f.IsSameLine, f.IsHeading, f.IsFieldOnly, f.IsReadOnly, 
+ f.IsEncrypted AS IsEncryptedField, f.ObscureType,
+ c.ColumnName, c.ColumnSQL, c.FieldLength, c.VFormat,
+ COALESCE(f.DefaultValue, c.DefaultValue) AS DefaultValue,
+ c.IsKey, c.IsParent, 
+ COALESCE(f.IsMandatory, c.IsMandatory) AS IsMandatory, 
+    c.IsIdentifier, c.IsTranslated, COALESCE(f.AD_Reference_Value_ID, c.AD_Reference_Value_ID) AS AD_Reference_Value_ID, 
+ c.Callout, COALESCE(f.AD_Reference_ID, c.AD_Reference_ID) AS AD_Reference_ID, 
+    COALESCE(f.AD_Val_Rule_ID, c.AD_Val_Rule_ID) AS AD_Val_Rule_ID, c.AD_Process_ID, c.IsAlwaysUpdateable,
+ c.ReadOnlyLogic, c.MandatoryLogic, c.IsUpdateable, c.IsEncrypted AS IsEncryptedColumn, 
+    c.IsSelectionColumn,c.IsRange,
+ tbl.TableName, c.ValueMin, c.ValueMax,
+ fg.NAME AS FieldGroup, vr.Code AS ValidationCode,
+ f.Included_Tab_ID, fg.FieldGroupType, fg.IsCollapsedByDefault,
+ COALESCE(f.InfoFactoryClass, c.InfoFactoryClass) as InfoFactoryClass,
+ c.IsAutocomplete, f.PreferredWidth, c.AD_Chart_ID , f.ISDISPLAYEDGRID, f.SEQNOGRID , f.isEmbedded , 
+ COALESCE(f.IsAllowCopy, c.IsAllowCopy) AS IsAllowCopy
+
+FROM AD_FIELD f 
+  INNER JOIN AD_TAB t ON (f.AD_Tab_ID = t.AD_Tab_ID)
+  LEFT OUTER JOIN AD_FIELDGROUP fg ON (f.AD_FieldGroup_ID = fg.AD_FieldGroup_ID) 
+  LEFT OUTER JOIN AD_COLUMN c ON (f.AD_Column_ID = c.AD_Column_ID)
+ INNER JOIN AD_TABLE tbl ON (c.AD_Table_ID = tbl.AD_Table_ID)
+ INNER JOIN AD_REFERENCE r ON (c.AD_Reference_ID = r.AD_Reference_ID)
+ LEFT OUTER JOIN AD_VAL_RULE vr ON (vr.AD_Val_Rule_ID = COALESCE(f.AD_Val_Rule_ID, c.AD_Val_Rule_ID))
+WHERE f.IsActive = 'Y' 
+  AND c.IsActive = 'Y';</SQLStatement>
+      <RollbackStatement>DROP VIEW  AD_FIELD_V;  
+CREATE OR REPLACE VIEW AD_FIELD_V 
+  (AD_WINDOW_ID, AD_TAB_ID, AD_FIELD_ID, AD_TABLE_ID, AD_COLUMN_ID, NAME, DESCRIPTION, HELP, ISDISPLAYED, 
+  DISPLAYLOGIC, DISPLAYLENGTH, SEQNO, SORTNO, ISSAMELINE, ISHEADING, ISFIELDONLY, ISREADONLY, ISENCRYPTEDFIELD, 
+  OBSCURETYPE, COLUMNNAME, COLUMNSQL, FIELDLENGTH, VFORMAT, DEFAULTVALUE, ISKEY, ISPARENT, ISMANDATORY, ISIDENTIFIER, 
+  ISTRANSLATED, AD_REFERENCE_VALUE_ID, CALLOUT, AD_REFERENCE_ID, AD_VAL_RULE_ID, AD_PROCESS_ID, ISALWAYSUPDATEABLE, 
+  READONLYLOGIC, MANDATORYLOGIC, ISUPDATEABLE, ISENCRYPTEDCOLUMN, ISSELECTIONCOLUMN, ISRANGE, TABLENAME, VALUEMIN, VALUEMAX, 
+  FIELDGROUP, VALIDATIONCODE, INCLUDED_TAB_ID, FIELDGROUPTYPE, ISCOLLAPSEDBYDEFAULT, INFOFACTORYCLASS, ISAUTOCOMPLETE, 
+  PREFERREDWIDTH, AD_CHART_ID, ISDISPLAYEDGRID, SEQNOGRID , ISEMBEDDED, ISALLOWCOPY) AS 
+  SELECT t.AD_Window_ID, f.AD_Tab_ID, f.AD_Field_ID, tbl.AD_Table_ID, f.AD_Column_ID, 
+ f.NAME, f.Description, f.Help, f.IsDisplayed, f.DisplayLogic, f.DisplayLength, 
+ f.SeqNo, f.SortNo, f.IsSameLine, f.IsHeading, f.IsFieldOnly, f.IsReadOnly, 
+ f.IsEncrypted AS IsEncryptedField, f.ObscureType,
+ c.ColumnName, c.ColumnSQL, c.FieldLength, c.VFormat,
+ COALESCE(f.DefaultValue, c.DefaultValue) AS DefaultValue,
+ c.IsKey, c.IsParent, 
+ COALESCE(f.IsMandatory, c.IsMandatory) AS IsMandatory, 
+    c.IsIdentifier, c.IsTranslated, COALESCE(f.AD_Reference_Value_ID, c.AD_Reference_Value_ID) AS AD_Reference_Value_ID, 
+ c.Callout, COALESCE(f.AD_Reference_ID, c.AD_Reference_ID) AS AD_Reference_ID, 
+    COALESCE(f.AD_Val_Rule_ID, c.AD_Val_Rule_ID) AS AD_Val_Rule_ID, c.AD_Process_ID, c.IsAlwaysUpdateable,
+ c.ReadOnlyLogic, c.MandatoryLogic, c.IsUpdateable, c.IsEncrypted AS IsEncryptedColumn, 
+    c.IsSelectionColumn,c.IsRange,
+ tbl.TableName, c.ValueMin, c.ValueMax,
+ fg.NAME AS FieldGroup, vr.Code AS ValidationCode,
+ f.Included_Tab_ID, fg.FieldGroupType, fg.IsCollapsedByDefault,
+ COALESCE(f.InfoFactoryClass, c.InfoFactoryClass) as InfoFactoryClass,
+ c.IsAutocomplete, f.PreferredWidth, c.AD_Chart_ID , f.ISDISPLAYEDGRID, f.SEQNOGRID , f.isEmbedded , f.IsAllowCopy
+FROM AD_FIELD f 
+  INNER JOIN AD_TAB t ON (f.AD_Tab_ID = t.AD_Tab_ID)
+  LEFT OUTER JOIN AD_FIELDGROUP fg ON (f.AD_FieldGroup_ID = fg.AD_FieldGroup_ID) 
+  LEFT OUTER JOIN AD_COLUMN c ON (f.AD_Column_ID = c.AD_Column_ID)
+ INNER JOIN AD_TABLE tbl ON (c.AD_Table_ID = tbl.AD_Table_ID)
+ INNER JOIN AD_REFERENCE r ON (c.AD_Reference_ID = r.AD_Reference_ID)
+ LEFT OUTER JOIN AD_VAL_RULE vr ON (vr.AD_Val_Rule_ID = COALESCE(f.AD_Val_Rule_ID, c.AD_Val_Rule_ID))
+WHERE f.IsActive = 'Y' 
+  AND c.IsActive = 'Y';</RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" Parse="N" SeqNo="60" StepType="SQL">
+      <Comments>Alter AD_Field_vt (For add support to column IsAllowCopy)</Comments>
+      <SQLStatement>DROP VIEW AD_FIELD_VT ;
+CREATE OR REPLACE VIEW AD_FIELD_VT (AD_LANGUAGE, AD_WINDOW_ID, AD_TAB_ID, AD_FIELD_ID, AD_TABLE_ID, 
+    AD_COLUMN_ID, NAME, DESCRIPTION, HELP, ISDISPLAYED, DISPLAYLOGIC, DISPLAYLENGTH, SEQNO, SORTNO, ISSAMELINE, 
+    ISHEADING, ISFIELDONLY, ISREADONLY, ISENCRYPTEDFIELD, OBSCURETYPE, COLUMNNAME, COLUMNSQL, FIELDLENGTH, VFORMAT, 
+    DEFAULTVALUE, ISKEY, ISPARENT, ISMANDATORY, ISIDENTIFIER, ISTRANSLATED, AD_REFERENCE_VALUE_ID, CALLOUT, 
+    AD_REFERENCE_ID, AD_VAL_RULE_ID, AD_PROCESS_ID, ISALWAYSUPDATEABLE, READONLYLOGIC, MANDATORYLOGIC, ISUPDATEABLE, 
+    ISENCRYPTEDCOLUMN, ISSELECTIONCOLUMN, TABLENAME, VALUEMIN, VALUEMAX, FIELDGROUP, VALIDATIONCODE, INCLUDED_TAB_ID, 
+    FIELDGROUPTYPE, ISCOLLAPSEDBYDEFAULT, INFOFACTORYCLASS, ISAUTOCOMPLETE,
+    PREFERREDWITH, AD_CHART_ID, ISDISPLAYEDGRID, SEQNOGRID ,  ISEMBEDDED , ISALLOWCOPY) AS 
     SELECT trl.AD_LANGUAGE, t.AD_Window_ID, f.AD_Tab_ID, f.AD_Field_ID, tbl.AD_Table_ID, f.AD_Column_ID, 
    trl.NAME, trl.Description, trl.Help, f.IsDisplayed, f.DisplayLogic, f.DisplayLength, 
    f.SeqNo, f.SortNo, f.IsSameLine, f.IsHeading, f.IsFieldOnly, f.IsReadOnly, 
@@ -145,7 +269,8 @@ WHERE f.IsActive = &apos;Y&apos;
    fgt.NAME AS FieldGroup, vr.Code AS ValidationCode,
    f.Included_Tab_ID, fg.FieldGroupType, fg.IsCollapsedByDefault,
    COALESCE(f.InfoFactoryClass, c.InfoFactoryClass) as InfoFactoryClass,
-   c.IsAutocomplete, f.preferredwidth, c.AD_Chart_ID, f.isdisplayedgrid, f.seqnogrid, f.isembedded, COALESCE(f.IsAllowCopy, c.IsAllowCopy) AS IsAllowCopy
+   c.IsAutocomplete, f.PreferredWidth, c.AD_Chart_ID , f.ISDISPLAYEDGRID, f.SEQNOGRID , f.isEmbedded ,
+  COALESCE(f.IsAllowCopy, c.IsAllowCopy) AS IsAllowCopy
   FROM AD_FIELD f 
    INNER JOIN AD_FIELD_TRL trl ON (f.AD_Field_ID = trl.AD_Field_ID)
     INNER JOIN AD_TAB t ON (f.AD_Tab_ID = t.AD_Tab_ID)
@@ -156,163 +281,186 @@ WHERE f.IsActive = &apos;Y&apos;
    INNER JOIN AD_TABLE tbl ON (c.AD_Table_ID = tbl.AD_Table_ID)
    INNER JOIN AD_REFERENCE r ON (c.AD_Reference_ID = r.AD_Reference_ID)
    LEFT OUTER JOIN AD_VAL_RULE vr ON (vr.AD_Val_Rule_ID=COALESCE(f.AD_Val_Rule_ID, c.AD_Val_Rule_ID))
-  WHERE f.IsActive = &apos;Y&apos; 
-  AND c.IsActive = &apos;Y&apos;;</SQLStatement>
-      <RollbackStatement></RollbackStatement>
+  WHERE f.IsActive = 'Y' 
+  AND c.IsActive = 'Y';</SQLStatement>
+      <RollbackStatement>DROP VIEW AD_FIELD_VT ;
+CREATE OR REPLACE VIEW AD_FIELD_VT (AD_LANGUAGE, AD_WINDOW_ID, AD_TAB_ID, AD_FIELD_ID, AD_TABLE_ID, 
+    AD_COLUMN_ID, NAME, DESCRIPTION, HELP, ISDISPLAYED, DISPLAYLOGIC, DISPLAYLENGTH, SEQNO, SORTNO, ISSAMELINE, 
+    ISHEADING, ISFIELDONLY, ISREADONLY, ISENCRYPTEDFIELD, OBSCURETYPE, COLUMNNAME, COLUMNSQL, FIELDLENGTH, VFORMAT, 
+    DEFAULTVALUE, ISKEY, ISPARENT, ISMANDATORY, ISIDENTIFIER, ISTRANSLATED, AD_REFERENCE_VALUE_ID, CALLOUT, 
+    AD_REFERENCE_ID, AD_VAL_RULE_ID, AD_PROCESS_ID, ISALWAYSUPDATEABLE, READONLYLOGIC, MANDATORYLOGIC, ISUPDATEABLE, 
+    ISENCRYPTEDCOLUMN, ISSELECTIONCOLUMN, TABLENAME, VALUEMIN, VALUEMAX, FIELDGROUP, VALIDATIONCODE, INCLUDED_TAB_ID, 
+    FIELDGROUPTYPE, ISCOLLAPSEDBYDEFAULT, INFOFACTORYCLASS, ISAUTOCOMPLETE,
+    PREFERREDWITH, AD_CHART_ID, ISDISPLAYEDGRID, SEQNOGRID ,  ISEMBEDDED , ISALLOWCOPY) AS 
+    SELECT trl.AD_LANGUAGE, t.AD_Window_ID, f.AD_Tab_ID, f.AD_Field_ID, tbl.AD_Table_ID, f.AD_Column_ID, 
+   trl.NAME, trl.Description, trl.Help, f.IsDisplayed, f.DisplayLogic, f.DisplayLength, 
+   f.SeqNo, f.SortNo, f.IsSameLine, f.IsHeading, f.IsFieldOnly, f.IsReadOnly, 
+   f.IsEncrypted AS IsEncryptedField, f.ObscureType,
+   c.ColumnName, c.ColumnSQL, c.FieldLength, c.VFormat,
+   COALESCE(f.DefaultValue, c.DefaultValue) AS DefaultValue,
+   c.IsKey, c.IsParent, 
+   COALESCE(f.IsMandatory, c.IsMandatory) AS IsMandatory, 
+      c.IsIdentifier, c.IsTranslated, COALESCE(f.AD_Reference_Value_ID, c.AD_Reference_Value_ID) AS AD_Reference_Value_ID, 
+   c.Callout, COALESCE(f.AD_Reference_ID, c.AD_Reference_ID) AS AD_Reference_ID, 
+      COALESCE(f.AD_Val_Rule_ID, c.AD_Val_Rule_ID) as AD_Val_Rule_ID, c.AD_Process_ID, c.IsAlwaysUpdateable,
+   c.ReadOnlyLogic, c.MandatoryLogic, c.IsUpdateable, c.IsEncrypted AS IsEncryptedColumn, c.IsSelectionColumn,
+   tbl.TableName, c.ValueMin, c.ValueMax, 
+   fgt.NAME AS FieldGroup, vr.Code AS ValidationCode,
+   f.Included_Tab_ID, fg.FieldGroupType, fg.IsCollapsedByDefault,
+   COALESCE(f.InfoFactoryClass, c.InfoFactoryClass) as InfoFactoryClass,
+   c.IsAutocomplete, f.PreferredWidth, c.AD_Chart_ID , f.ISDISPLAYEDGRID, f.SEQNOGRID , f.isEmbedded ,f.IsAllowCopy
+  FROM AD_FIELD f 
+   INNER JOIN AD_FIELD_TRL trl ON (f.AD_Field_ID = trl.AD_Field_ID)
+    INNER JOIN AD_TAB t ON (f.AD_Tab_ID = t.AD_Tab_ID)
+    LEFT OUTER JOIN AD_FIELDGROUP fg ON (f.AD_FieldGroup_ID = fg.AD_FieldGroup_ID) 
+    LEFT OUTER JOIN AD_FIELDGROUP_TRL fgt ON 
+   (f.AD_FieldGroup_ID = fgt.AD_FieldGroup_ID AND trl.AD_LANGUAGE=fgt.AD_LANGUAGE)
+    LEFT OUTER JOIN AD_COLUMN c ON (f.AD_Column_ID = c.AD_Column_ID)
+   INNER JOIN AD_TABLE tbl ON (c.AD_Table_ID = tbl.AD_Table_ID)
+   INNER JOIN AD_REFERENCE r ON (c.AD_Reference_ID = r.AD_Reference_ID)
+   LEFT OUTER JOIN AD_VAL_RULE vr ON (vr.AD_Val_Rule_ID=COALESCE(f.AD_Val_Rule_ID, c.AD_Val_Rule_ID))
+  WHERE f.IsActive = 'Y' 
+  AND c.IsActive = 'Y';</RollbackStatement>
     </Step>
-    <Step DBType="Postgres" SeqNo="40" StepType="SQL">
-      <SQLStatement>
--- Sep 9, 2011 10:59:43 AM COT
--- IDEMPIERE-67 ProcessedOn should not be copied by MOrder.copyFrom
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,62199,57572,0,20,101,&apos;IsAllowCopy&apos;,TO_TIMESTAMP(&apos;2011-09-09 10:59:42&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),100,&apos;Y&apos;,&apos;Determine if a column must be copied when pushing the button to copy record&apos;,&apos;D&apos;,1,&apos;Y&apos;,&apos;Y&apos;,&apos;N&apos;,&apos;N&apos;,&apos;N&apos;,&apos;N&apos;,&apos;N&apos;,&apos;Y&apos;,&apos;N&apos;,&apos;N&apos;,&apos;N&apos;,&apos;N&apos;,&apos;Y&apos;,&apos;Allow Copy&apos;,0,TO_TIMESTAMP(&apos;2011-09-09 10:59:42&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),100,0)
-;</SQLStatement>
-      <RollbackStatement></RollbackStatement>
+    <Step DBType="Oracle" Parse="N" SeqNo="60" StepType="SQL">
+      <Comments>Alter AD_Field_vt (For add support to column IsAllowCopy)</Comments>
+      <SQLStatement>DROP VIEW AD_FIELD_VT ;
+CREATE OR REPLACE VIEW AD_FIELD_VT (AD_LANGUAGE, AD_WINDOW_ID, AD_TAB_ID, AD_FIELD_ID, AD_TABLE_ID, 
+    AD_COLUMN_ID, NAME, DESCRIPTION, HELP, ISDISPLAYED, DISPLAYLOGIC, DISPLAYLENGTH, SEQNO, SORTNO, ISSAMELINE, 
+    ISHEADING, ISFIELDONLY, ISREADONLY, ISENCRYPTEDFIELD, OBSCURETYPE, COLUMNNAME, COLUMNSQL, FIELDLENGTH, VFORMAT, 
+    DEFAULTVALUE, ISKEY, ISPARENT, ISMANDATORY, ISIDENTIFIER, ISTRANSLATED, AD_REFERENCE_VALUE_ID, CALLOUT, 
+    AD_REFERENCE_ID, AD_VAL_RULE_ID, AD_PROCESS_ID, ISALWAYSUPDATEABLE, READONLYLOGIC, MANDATORYLOGIC, ISUPDATEABLE, 
+    ISENCRYPTEDCOLUMN, ISSELECTIONCOLUMN, TABLENAME, VALUEMIN, VALUEMAX, FIELDGROUP, VALIDATIONCODE, INCLUDED_TAB_ID, 
+    FIELDGROUPTYPE, ISCOLLAPSEDBYDEFAULT, INFOFACTORYCLASS, ISAUTOCOMPLETE,
+    PREFERREDWITH, AD_CHART_ID, ISDISPLAYEDGRID, SEQNOGRID ,  ISEMBEDDED , ISALLOWCOPY) AS 
+    SELECT trl.AD_LANGUAGE, t.AD_Window_ID, f.AD_Tab_ID, f.AD_Field_ID, tbl.AD_Table_ID, f.AD_Column_ID, 
+   trl.NAME, trl.Description, trl.Help, f.IsDisplayed, f.DisplayLogic, f.DisplayLength, 
+   f.SeqNo, f.SortNo, f.IsSameLine, f.IsHeading, f.IsFieldOnly, f.IsReadOnly, 
+   f.IsEncrypted AS IsEncryptedField, f.ObscureType,
+   c.ColumnName, c.ColumnSQL, c.FieldLength, c.VFormat,
+   COALESCE(f.DefaultValue, c.DefaultValue) AS DefaultValue,
+   c.IsKey, c.IsParent, 
+   COALESCE(f.IsMandatory, c.IsMandatory) AS IsMandatory, 
+      c.IsIdentifier, c.IsTranslated, COALESCE(f.AD_Reference_Value_ID, c.AD_Reference_Value_ID) AS AD_Reference_Value_ID, 
+   c.Callout, COALESCE(f.AD_Reference_ID, c.AD_Reference_ID) AS AD_Reference_ID, 
+      COALESCE(f.AD_Val_Rule_ID, c.AD_Val_Rule_ID) as AD_Val_Rule_ID, c.AD_Process_ID, c.IsAlwaysUpdateable,
+   c.ReadOnlyLogic, c.MandatoryLogic, c.IsUpdateable, c.IsEncrypted AS IsEncryptedColumn, c.IsSelectionColumn,
+   tbl.TableName, c.ValueMin, c.ValueMax, 
+   fgt.NAME AS FieldGroup, vr.Code AS ValidationCode,
+   f.Included_Tab_ID, fg.FieldGroupType, fg.IsCollapsedByDefault,
+   COALESCE(f.InfoFactoryClass, c.InfoFactoryClass) as InfoFactoryClass,
+   c.IsAutocomplete, f.PreferredWidth, c.AD_Chart_ID , f.ISDISPLAYEDGRID, f.SEQNOGRID , f.isEmbedded ,
+  COALESCE(f.IsAllowCopy, c.IsAllowCopy) AS IsAllowCopy
+  FROM AD_FIELD f 
+   INNER JOIN AD_FIELD_TRL trl ON (f.AD_Field_ID = trl.AD_Field_ID)
+    INNER JOIN AD_TAB t ON (f.AD_Tab_ID = t.AD_Tab_ID)
+    LEFT OUTER JOIN AD_FIELDGROUP fg ON (f.AD_FieldGroup_ID = fg.AD_FieldGroup_ID) 
+    LEFT OUTER JOIN AD_FIELDGROUP_TRL fgt ON 
+   (f.AD_FieldGroup_ID = fgt.AD_FieldGroup_ID AND trl.AD_LANGUAGE=fgt.AD_LANGUAGE)
+    LEFT OUTER JOIN AD_COLUMN c ON (f.AD_Column_ID = c.AD_Column_ID)
+   INNER JOIN AD_TABLE tbl ON (c.AD_Table_ID = tbl.AD_Table_ID)
+   INNER JOIN AD_REFERENCE r ON (c.AD_Reference_ID = r.AD_Reference_ID)
+   LEFT OUTER JOIN AD_VAL_RULE vr ON (vr.AD_Val_Rule_ID=COALESCE(f.AD_Val_Rule_ID, c.AD_Val_Rule_ID))
+  WHERE f.IsActive = 'Y' 
+  AND c.IsActive = 'Y';</SQLStatement>
+      <RollbackStatement>DROP VIEW AD_FIELD_VT ;
+CREATE OR REPLACE VIEW AD_FIELD_VT (AD_LANGUAGE, AD_WINDOW_ID, AD_TAB_ID, AD_FIELD_ID, AD_TABLE_ID, 
+    AD_COLUMN_ID, NAME, DESCRIPTION, HELP, ISDISPLAYED, DISPLAYLOGIC, DISPLAYLENGTH, SEQNO, SORTNO, ISSAMELINE, 
+    ISHEADING, ISFIELDONLY, ISREADONLY, ISENCRYPTEDFIELD, OBSCURETYPE, COLUMNNAME, COLUMNSQL, FIELDLENGTH, VFORMAT, 
+    DEFAULTVALUE, ISKEY, ISPARENT, ISMANDATORY, ISIDENTIFIER, ISTRANSLATED, AD_REFERENCE_VALUE_ID, CALLOUT, 
+    AD_REFERENCE_ID, AD_VAL_RULE_ID, AD_PROCESS_ID, ISALWAYSUPDATEABLE, READONLYLOGIC, MANDATORYLOGIC, ISUPDATEABLE, 
+    ISENCRYPTEDCOLUMN, ISSELECTIONCOLUMN, TABLENAME, VALUEMIN, VALUEMAX, FIELDGROUP, VALIDATIONCODE, INCLUDED_TAB_ID, 
+    FIELDGROUPTYPE, ISCOLLAPSEDBYDEFAULT, INFOFACTORYCLASS, ISAUTOCOMPLETE,
+    PREFERREDWITH, AD_CHART_ID, ISDISPLAYEDGRID, SEQNOGRID ,  ISEMBEDDED , ISALLOWCOPY) AS 
+    SELECT trl.AD_LANGUAGE, t.AD_Window_ID, f.AD_Tab_ID, f.AD_Field_ID, tbl.AD_Table_ID, f.AD_Column_ID, 
+   trl.NAME, trl.Description, trl.Help, f.IsDisplayed, f.DisplayLogic, f.DisplayLength, 
+   f.SeqNo, f.SortNo, f.IsSameLine, f.IsHeading, f.IsFieldOnly, f.IsReadOnly, 
+   f.IsEncrypted AS IsEncryptedField, f.ObscureType,
+   c.ColumnName, c.ColumnSQL, c.FieldLength, c.VFormat,
+   COALESCE(f.DefaultValue, c.DefaultValue) AS DefaultValue,
+   c.IsKey, c.IsParent, 
+   COALESCE(f.IsMandatory, c.IsMandatory) AS IsMandatory, 
+      c.IsIdentifier, c.IsTranslated, COALESCE(f.AD_Reference_Value_ID, c.AD_Reference_Value_ID) AS AD_Reference_Value_ID, 
+   c.Callout, COALESCE(f.AD_Reference_ID, c.AD_Reference_ID) AS AD_Reference_ID, 
+      COALESCE(f.AD_Val_Rule_ID, c.AD_Val_Rule_ID) as AD_Val_Rule_ID, c.AD_Process_ID, c.IsAlwaysUpdateable,
+   c.ReadOnlyLogic, c.MandatoryLogic, c.IsUpdateable, c.IsEncrypted AS IsEncryptedColumn, c.IsSelectionColumn,
+   tbl.TableName, c.ValueMin, c.ValueMax, 
+   fgt.NAME AS FieldGroup, vr.Code AS ValidationCode,
+   f.Included_Tab_ID, fg.FieldGroupType, fg.IsCollapsedByDefault,
+   COALESCE(f.InfoFactoryClass, c.InfoFactoryClass) as InfoFactoryClass,
+   c.IsAutocomplete, f.PreferredWidth, c.AD_Chart_ID , f.ISDISPLAYEDGRID, f.SEQNOGRID , f.isEmbedded ,f.IsAllowCopy
+  FROM AD_FIELD f 
+   INNER JOIN AD_FIELD_TRL trl ON (f.AD_Field_ID = trl.AD_Field_ID)
+    INNER JOIN AD_TAB t ON (f.AD_Tab_ID = t.AD_Tab_ID)
+    LEFT OUTER JOIN AD_FIELDGROUP fg ON (f.AD_FieldGroup_ID = fg.AD_FieldGroup_ID) 
+    LEFT OUTER JOIN AD_FIELDGROUP_TRL fgt ON 
+   (f.AD_FieldGroup_ID = fgt.AD_FieldGroup_ID AND trl.AD_LANGUAGE=fgt.AD_LANGUAGE)
+    LEFT OUTER JOIN AD_COLUMN c ON (f.AD_Column_ID = c.AD_Column_ID)
+   INNER JOIN AD_TABLE tbl ON (c.AD_Table_ID = tbl.AD_Table_ID)
+   INNER JOIN AD_REFERENCE r ON (c.AD_Reference_ID = r.AD_Reference_ID)
+   LEFT OUTER JOIN AD_VAL_RULE vr ON (vr.AD_Val_Rule_ID=COALESCE(f.AD_Val_Rule_ID, c.AD_Val_Rule_ID))
+  WHERE f.IsActive = 'Y' 
+  AND c.IsActive = 'Y';</RollbackStatement>
     </Step>
-    <Step DBType="Postgres" SeqNo="50" StepType="SQL">
-      <SQLStatement>
--- Sep 9, 2011 10:59:43 AM COT
--- IDEMPIERE-67 ProcessedOn should not be copied by MOrder.copyFrom
-INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, &apos;N&apos;,t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive=&apos;Y&apos; AND l.IsSystemLanguage=&apos;Y&apos; AND l.IsBaseLanguage=&apos;N&apos; AND t.AD_Column_ID=62199 AND NOT EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Column_ID=t.AD_Column_ID)
-;</SQLStatement>
-      <RollbackStatement></RollbackStatement>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="107" Action="I" Record_ID="82928" Table="AD_Field">
+        <Data AD_Column_ID="579" Column="Created">2017-06-04 20:17:56.978</Data>
+        <Data AD_Column_ID="581" Column="Updated">2017-06-04 20:17:56.978</Data>
+        <Data AD_Column_ID="384" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="383" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="578" Column="IsActive">true</Data>
+        <Data AD_Column_ID="62478" Column="IsDisplayedGrid">true</Data>
+        <Data AD_Column_ID="62479" Column="SeqNoGrid">410</Data>
+        <Data AD_Column_ID="180" Column="DisplayLength">0</Data>
+        <Data AD_Column_ID="59703" Column="IsEmbedded">false</Data>
+        <Data AD_Column_ID="74868" Column="IsAllowCopy">true</Data>
+        <Data AD_Column_ID="169" Column="Description">Defines whether the value of this field is considered in the copy of record</Data>
+        <Data AD_Column_ID="176" Column="IsDisplayed">true</Data>
+        <Data AD_Column_ID="183" Column="IsSameLine">false</Data>
+        <Data AD_Column_ID="184" Column="IsHeading">false</Data>
+        <Data AD_Column_ID="172" Column="AD_Tab_ID">101</Data>
+        <Data AD_Column_ID="185" Column="IsFieldOnly">false</Data>
+        <Data AD_Column_ID="182" Column="SortNo">0</Data>
+        <Data AD_Column_ID="2745" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="181" Column="SeqNo">410</Data>
+        <Data AD_Column_ID="168" Column="Name">Allow Copy</Data>
+        <Data AD_Column_ID="2007" Column="IsReadOnly">false</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
+        <Data AD_Column_ID="170" Column="Help">The default value is yes, it is recommended that values such as ID, document action, document status  should be defined as no.</Data>
+        <Data AD_Column_ID="5375" Column="AD_FieldGroup_ID" isNewNull="true"/>
+        <Data AD_Column_ID="9969" Column="ObscureType" isNewNull="true"/>
+        <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="15011" Column="AD_Reference_ID" isNewNull="true"/>
+        <Data AD_Column_ID="15013" Column="IsMandatory" isNewNull="true"/>
+        <Data AD_Column_ID="54356" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54357" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="53265" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
+        <Data AD_Column_ID="59704" Column="PreferredWidth">0</Data>
+        <Data AD_Column_ID="186" Column="IsEncrypted">false</Data>
+        <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="167" Column="AD_Field_ID">62467</Data>
+        <Data AD_Column_ID="174" Column="AD_Column_ID">62199</Data>
+      </PO>
     </Step>
-    <Step DBType="Postgres" SeqNo="60" StepType="SQL">
-      <SQLStatement>
--- Sep 9, 2011 11:00:47 AM COT
--- IDEMPIERE-67 ProcessedOn should not be copied by MOrder.copyFrom
-UPDATE AD_Field SET IsSameLine=&apos;N&apos;, SeqNo=390,Updated=TO_TIMESTAMP(&apos;2011-09-09 11:00:47&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Field_ID=5122
-;</SQLStatement>
-      <RollbackStatement></RollbackStatement>
-    </Step>
-    <Step DBType="Postgres" SeqNo="70" StepType="SQL">
-      <SQLStatement>
--- Sep 9, 2011 11:01:22 AM COT
--- IDEMPIERE-67 ProcessedOn should not be copied by MOrder.copyFrom
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,SortNo,Updated,UpdatedBy) VALUES (0,62199,62467,0,101,TO_TIMESTAMP(&apos;2011-09-09 11:01:22&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),100,&apos;Determine if a column must be copied when pushing the button to copy record&apos;,10,&apos;D&apos;,&apos;Y&apos;,&apos;Y&apos;,&apos;Y&apos;,&apos;N&apos;,&apos;N&apos;,&apos;N&apos;,&apos;N&apos;,&apos;Y&apos;,&apos;Allow Copy&apos;,380,0,TO_TIMESTAMP(&apos;2011-09-09 11:01:22&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),100)
-;</SQLStatement>
-      <RollbackStatement></RollbackStatement>
-    </Step>
-    <Step DBType="Postgres" SeqNo="80" StepType="SQL">
-      <SQLStatement>
--- Sep 9, 2011 11:01:22 AM COT
--- IDEMPIERE-67 ProcessedOn should not be copied by MOrder.copyFrom
-INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Field_ID, t.Description,t.Help,t.Name, &apos;N&apos;,t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Field t WHERE l.IsActive=&apos;Y&apos; AND l.IsSystemLanguage=&apos;Y&apos; AND l.IsBaseLanguage=&apos;N&apos; AND t.AD_Field_ID=62467 AND NOT EXISTS (SELECT * FROM AD_Field_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Field_ID=t.AD_Field_ID)
-;</SQLStatement>
-      <RollbackStatement></RollbackStatement>
-    </Step>
-    <Step DBType="Postgres" SeqNo="90" StepType="SQL">
-      <SQLStatement>
--- Sep 9, 2011 11:01:35 AM COT
--- IDEMPIERE-67 ProcessedOn should not be copied by MOrder.copyFrom
-UPDATE AD_Field SET DisplayLength=10,Updated=TO_TIMESTAMP(&apos;2011-09-09 11:01:35&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Field_ID=56317
-;</SQLStatement>
-      <RollbackStatement></RollbackStatement>
-    </Step>   
-    <Step DBType="Postgres" SeqNo="130" StepType="SQL">
-      <SQLStatement>
--- Sep 17, 2016 11:52:39 AM COT
--- ADEMPIERE
-ALTER TABLE AD_Column ADD IsAllowCopy CHAR(1) DEFAULT NULL 
-;</SQLStatement>
-      <RollbackStatement></RollbackStatement>
-    </Step>  
-    <Step DBType="Postgres" SeqNo="170" StepType="SQL">
-      <SQLStatement>
--- Backward compatibility with old PO copyValues method
-UPDATE AD_Column SET IsAllowCopy=&apos;N&apos; WHERE ColumnName IN (
-&apos;Created&apos;,
-&apos;Created&apos;,
-&apos;CreatedBy&apos;,
-&apos;Updated&apos;,
-&apos;UpdatedBy&apos;,
-&apos;IsActive&apos;,
-&apos;AD_Client_ID&apos;,
-&apos;AD_Org_ID&apos;,
-&apos;Processing&apos;
-);</SQLStatement>
-      <RollbackStatement></RollbackStatement>
-    </Step>
-    <Step DBType="Postgres" SeqNo="210" StepType="SQL">
-      <SQLStatement>
--- new columns found to be problematic
-UPDATE AD_Column SET IsAllowCopy=&apos;N&apos; WHERE ColumnName IN (
-&apos;ProcessedOn&apos;
-);</SQLStatement>
-      <RollbackStatement></RollbackStatement>
-    </Step>
-    <Step DBType="Postgres" SeqNo="230" StepType="SQL">
-      <SQLStatement>
--- key columns
-UPDATE AD_Column SET IsAllowCopy=&apos;N&apos; WHERE IsKey=&apos;Y&apos;;</SQLStatement>
-      <RollbackStatement></RollbackStatement>
-    </Step>
-    <Step DBType="Postgres" SeqNo="240" StepType="SQL">
-      <SQLStatement>
--- virtual columns
-UPDATE AD_Column SET IsAllowCopy=&apos;N&apos; WHERE ColumnSQL IS NOT NULL;</SQLStatement>
-      <RollbackStatement></RollbackStatement>
-    </Step>
-    <Step DBType="Postgres" SeqNo="260" StepType="SQL">
-      <SQLStatement>
-DROP VIEW ad_field_v;</SQLStatement>
-      <RollbackStatement></RollbackStatement>
-    </Step>
-    <Step DBType="Postgres" SeqNo="270" StepType="SQL">
-      <SQLStatement>
-CREATE OR REPLACE VIEW ad_field_v AS 
- SELECT t.ad_window_id, f.ad_tab_id, f.ad_field_id, tbl.ad_table_id, f.ad_column_id, 
- f.name, f.description, f.help, f.isdisplayed, f.displaylogic, f.displaylength, f.seqno, 
- f.sortno, f.issameline, f.isheading, f.isfieldonly, f.isreadonly, f.isencrypted AS isencryptedfield, 
- f.obscuretype, c.columnname, c.columnsql, c.fieldlength, c.vformat, 
- COALESCE(f.defaultvalue, c.defaultvalue) AS defaultvalue, c.iskey, c.isparent, 
- COALESCE(f.ismandatory, c.ismandatory) AS ismandatory, c.isidentifier, c.istranslated, 
- COALESCE(f.ad_reference_value_id, c.ad_reference_value_id) AS ad_reference_value_id, c.callout, 
- COALESCE(f.ad_reference_id, c.ad_reference_id) AS ad_reference_id, 
- COALESCE(f.ad_val_rule_id, c.ad_val_rule_id) AS ad_val_rule_id, c.ad_process_id, 
- c.isalwaysupdateable, c.readonlylogic, c.mandatorylogic, c.isupdateable, 
- c.isencrypted AS isencryptedcolumn, c.isselectioncolumn, c.isrange, tbl.tablename, c.valuemin, c.valuemax, 
- fg.name AS fieldgroup, vr.code AS validationcode, f.included_tab_id, fg.fieldgrouptype, fg.iscollapsedbydefault, 
- COALESCE(f.infofactoryclass, c.infofactoryclass) AS infofactoryclass, c.isautocomplete, f.preferredwidth, c.ad_chart_id, f.isdisplayedgrid, f.seqnogrid, f.isembedded,
- COALESCE(f.IsAllowCopy, c.IsAllowCopy) AS IsAllowCopy
-   FROM ad_field f
-   JOIN ad_tab t ON f.ad_tab_id = t.ad_tab_id
-   LEFT JOIN ad_fieldgroup fg ON f.ad_fieldgroup_id = fg.ad_fieldgroup_id
-   LEFT JOIN ad_column c ON f.ad_column_id = c.ad_column_id
-   JOIN ad_table tbl ON c.ad_table_id = tbl.ad_table_id
-   JOIN ad_reference r ON c.ad_reference_id = r.ad_reference_id
-   LEFT JOIN ad_val_rule vr ON vr.ad_val_rule_id = COALESCE(f.ad_val_rule_id, c.ad_val_rule_id)
-  WHERE f.isactive = &apos;Y&apos;::bpchar AND c.isactive = &apos;Y&apos;::bpchar;</SQLStatement>
-      <RollbackStatement></RollbackStatement>
-    </Step>
-    <Step DBType="Postgres" SeqNo="280" StepType="SQL">
-      <SQLStatement>
-DROP VIEW ad_field_vt;</SQLStatement>
-      <RollbackStatement></RollbackStatement>
-    </Step>
-    <Step DBType="Postgres" SeqNo="290" StepType="SQL">
-      <SQLStatement>
-CREATE OR REPLACE VIEW ad_field_vt AS 
- SELECT trl.ad_language, t.ad_window_id, f.ad_tab_id, f.ad_field_id, tbl.ad_table_id, f.ad_column_id, trl.name, trl.description, 
- trl.help, f.isdisplayed, f.displaylogic, f.displaylength, f.seqno, f.sortno, f.issameline, f.isheading, f.isfieldonly, f.isreadonly, 
- f.isencrypted AS isencryptedfield, f.obscuretype, c.columnname, c.columnsql, c.fieldlength, c.vformat, COALESCE(f.defaultvalue, c.defaultvalue) AS defaultvalue, 
- c.iskey, c.isparent, COALESCE(f.ismandatory, c.ismandatory) AS ismandatory, c.isidentifier, c.istranslated, 
- COALESCE(f.ad_reference_value_id, c.ad_reference_value_id) AS ad_reference_value_id, c.callout, COALESCE(f.ad_reference_id, c.ad_reference_id) AS ad_reference_id, 
- COALESCE(f.ad_val_rule_id, c.ad_val_rule_id) AS ad_val_rule_id, c.ad_process_id, c.isalwaysupdateable, c.readonlylogic, c.mandatorylogic, c.isupdateable, 
- c.isencrypted AS isencryptedcolumn, c.isselectioncolumn, tbl.tablename, c.valuemin, c.valuemax, fgt.name AS fieldgroup, vr.code AS validationcode, 
- f.included_tab_id, fg.fieldgrouptype, fg.iscollapsedbydefault, 
- COALESCE(f.infofactoryclass, c.infofactoryclass) AS infofactoryclass, c.isautocomplete, f.preferredwidth, c.ad_chart_id, f.isdisplayedgrid, f.seqnogrid, f.isembedded,
- COALESCE(f.IsAllowCopy, c.IsAllowCopy) AS IsAllowCopy
-   FROM ad_field f
-   JOIN ad_field_trl trl ON f.ad_field_id = trl.ad_field_id
-   JOIN ad_tab t ON f.ad_tab_id = t.ad_tab_id
-   LEFT JOIN ad_fieldgroup fg ON f.ad_fieldgroup_id = fg.ad_fieldgroup_id
-   LEFT JOIN ad_fieldgroup_trl fgt ON f.ad_fieldgroup_id = fgt.ad_fieldgroup_id AND trl.ad_language::text = fgt.ad_language::text
-   LEFT JOIN ad_column c ON f.ad_column_id = c.ad_column_id
-   JOIN ad_table tbl ON c.ad_table_id = tbl.ad_table_id
-   JOIN ad_reference r ON c.ad_reference_id = r.ad_reference_id
-   LEFT JOIN ad_val_rule vr ON vr.ad_val_rule_id = COALESCE(f.ad_val_rule_id, c.ad_val_rule_id)
-  WHERE f.isactive = &apos;Y&apos;::bpchar AND c.isactive = &apos;Y&apos;::bpchar;</SQLStatement>
-      <RollbackStatement></RollbackStatement>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="127" Action="I" Record_ID="82928" Table="AD_Field_Trl">
+        <Data AD_Column_ID="1205" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="674" Column="Updated">2017-06-04 20:17:58.678</Data>
+        <Data AD_Column_ID="1204" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="671" Column="IsActive">true</Data>
+        <Data AD_Column_ID="672" Column="Created">2017-06-04 20:17:58.678</Data>
+        <Data AD_Column_ID="285" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="289" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="286" Column="Name">Allow Copy</Data>
+        <Data AD_Column_ID="287" Column="Description">Defines whether the value of this field is considered in the copy of record</Data>
+        <Data AD_Column_ID="288" Column="Help">The default value is yes, it is recommended that values such as ID, document action, document status  should be defined as no.</Data>
+        <Data AD_Column_ID="675" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="673" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="284" Column="AD_Field_ID">62467</Data>
+      </PO>
     </Step>
   </Migration>
 </Migrations>
