@@ -79,6 +79,9 @@ import org.zkoss.zul.Row;
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *		<a href="https://github.com/adempiere/adempiere/issues/610">
  * 		@see FR [ 610 ] Incorrect Label Align on Window for ZK GUI</a>
+ * @author Raul Muñoz, rmunoz@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<a href="https://github.com/adempiere/adempiere/issues/1063">
+ * 		@see BR [ 1063 ] Null pointer exception in field type Account zk</a>
  */
 public class ADTabPanel extends Div implements Evaluatee, EventListener, DataStatusListener, IADTabPanel, VetoableChangeListener
 {
@@ -140,6 +143,8 @@ public class ADTabPanel extends Div implements Evaluatee, EventListener, DataSta
 
     private boolean isEmbedded = false;
 
+    private boolean isSwitchRow = true;	
+    
 	private int INC = 30;
 
 	public CWindowToolbar getGlobalToolbar()
@@ -950,7 +955,9 @@ public class ADTabPanel extends Div implements Evaluatee, EventListener, DataSta
 		}
 		else if (event.getTarget() == listPanel.getListbox())
     	{
-    		this.switchRowPresentation();
+			//	BR [ 1063 ]
+    		if(isSwitchRowPresentation())
+    			this.switchRowPresentation();
     	}
 
     	else if (event.getTarget() == treePanel.getTree()) {
@@ -1217,7 +1224,19 @@ public class ADTabPanel extends Div implements Evaluatee, EventListener, DataSta
 			addNewNode();
 		}
 	}
-
+	
+	/**
+	 * Set Switch Row Presentation
+	 * @param isSwitchRow
+	 */
+	public void setSwitchRowPresentation(boolean isSwitchRow) {
+		this.isSwitchRow = isSwitchRow;
+	}
+	
+	public boolean isSwitchRowPresentation() {
+		return this.isSwitchRow;
+	}
+	
 	/**
 	 * Toggle between form and grid view
 	 */

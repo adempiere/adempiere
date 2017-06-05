@@ -21,7 +21,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 
+import org.adempiere.exceptions.ValueChangeEvent;
+import org.adempiere.exceptions.ValueChangeListener;
 import org.adempiere.webui.apps.AEnv;
+import org.adempiere.webui.component.CWindowToolbar;
 import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.Label;
@@ -32,8 +35,6 @@ import org.adempiere.webui.component.ToolBarButton;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.editor.WEditor;
 import org.adempiere.webui.editor.WebEditorFactory;
-import org.adempiere.exceptions.ValueChangeEvent;
-import org.adempiere.exceptions.ValueChangeListener;
 import org.adempiere.webui.panel.ADTabPanel;
 import org.adempiere.webui.panel.StatusBarPanel;
 import org.adempiere.webui.session.SessionManager;
@@ -70,6 +71,10 @@ import org.zkoss.zul.Vbox;
  *	Dialog to enter Account Info
  *
  * 	@author Low Heng Sin
+ * 
+ * @author Raul Muñoz, rmunoz@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<a href="https://github.com/adempiere/adempiere/issues/1063">
+ * 		@see BR [ 1063 ] Null pointer exception in field type Account zk</a>
  */
 public final class WAccountDialog extends Window
 	implements EventListener, DataStatusListener, ValueChangeListener
@@ -208,7 +213,11 @@ public final class WAccountDialog extends Window
 		northPanel.setWidth("100%");
 
 		m_adTabPanel = new ADTabPanel();
-
+		//	BR [ 1063 ]
+		CWindowToolbar toolbar = new CWindowToolbar(true);
+		m_adTabPanel.setGlobalToolbar(toolbar);
+		m_adTabPanel.setSwitchRowPresentation(false);
+		
 		Borderlayout layout = new Borderlayout();
 		layout.setParent(this);
 		if (AEnv.isFirefox2())
