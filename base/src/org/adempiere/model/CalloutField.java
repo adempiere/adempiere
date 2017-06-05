@@ -22,13 +22,14 @@ import org.compiere.model.CalloutEngine;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
 import org.compiere.model.MColumn;
-import org.compiere.model.MField;
 
 /**
  * 	CalloutField Callout
  * 	@author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *		<li> FR [ 9223372036854775807 ] Add default values for Name, Description, Entity Type...
  *		@see https://adempiere.atlassian.net/browse/ADEMPIERE-449
+ *		<a href="https://github.com/adempiere/adempiere/issues/922">
+ * 		@see FR [ 922 ] Is Allow Copy in model</a>
  */
 public class CalloutField extends CalloutEngine {
 	
@@ -55,7 +56,7 @@ public class CalloutField extends CalloutEngine {
 			mTab.setValue("Help", column.getHelp());
 			mTab.setValue("EntityType", column.getEntityType());
 			//	for Allow copy
-			mTab.setValue("IsAllowCopy", MField.isAllowCopy(ctx, m_AD_Column_ID));
+			mTab.setValue("IsAllowCopy", column.isAllowCopy());
 		}
 		//	
 		return "";

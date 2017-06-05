@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Minor improvements on view print format window #1074" ReleaseNo="3.9.0" SeqNo="2700">
+    <Comments>See: https://github.com/adempiere/adempiere/issues/1074</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="5654" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="170">140</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="5658" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="180">150</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="5762" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="130">160</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="78423" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="200">170</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="6503" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="140">180</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="5657" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="150">190</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="5661" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="160">200</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="50179" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="200">210</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="52008" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="230">220</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="100" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="52009" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="210">230</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="110" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="5660" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="220">240</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="120" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="6503" Table="AD_Field">
+        <Data AD_Column_ID="183" Column="IsSameLine" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="130" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="5762" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="160">110</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="140" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="5663" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="110">140</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="150" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="6503" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="180">150</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="160" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="5654" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="140">160</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="170" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="5658" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="150">170</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="180" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="78423" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="170">180</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="190" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="6503" Table="AD_Field">
+        <Data AD_Column_ID="183" Column="IsSameLine" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="200" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="5762" Table="AD_Field">
+        <Data AD_Column_ID="177" Column="DisplayLogic" isOldNull="true">@IsForm@=N</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="210" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="5653" Table="AD_Field">
+        <Data AD_Column_ID="177" Column="DisplayLogic" isOldNull="true">@IsForm@=N</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="220" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="78423" Table="AD_Field">
+        <Data AD_Column_ID="183" Column="IsSameLine" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="230" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="78423" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="180">140</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="240" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="5663" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="140">150</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="250" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="6503" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="150">160</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="260" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="5654" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="160">170</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="270" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="5658" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="170">180</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="280" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="5660" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="240">220</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="290" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="52008" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="220">230</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="300" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="52009" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="230">240</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="310" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="5660" Table="AD_Field">
+        <Data AD_Column_ID="183" Column="IsSameLine" oldValue="false">true</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

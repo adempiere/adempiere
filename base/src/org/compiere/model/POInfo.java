@@ -46,6 +46,8 @@ import org.compiere.util.Env;
  *	@author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *			<li> FR [ 390 ] Special Tables are with hardcode instead use attribute
  *			@see https://github.com/adempiere/adempiere/issues/390
+ *			<a href="https://github.com/adempiere/adempiere/issues/922">
+ * 			@see FR [ 922 ] Is Allow Copy in model</a>
  */
 public class POInfo implements Serializable
 {
@@ -115,7 +117,7 @@ public class POInfo implements Serializable
 	private POInfo (Properties ctx, int AD_Table_ID, boolean baseLanguageOnly, String trxName)
 	{
 		m_ctx = ctx;
-		m_AD_Table_ID = AD_Table_ID;
+		tableId = AD_Table_ID;
 		boolean baseLanguage = baseLanguageOnly ? true : Env.isBaseLanguage(m_ctx, "AD_Table");
 		loadInfo (baseLanguage, trxName);
 	}   //  PInfo
@@ -123,20 +125,25 @@ public class POInfo implements Serializable
 	/** Context             	*/
 	private Properties  m_ctx = null;
 	/** Table_ID            	*/
-	private int         m_AD_Table_ID = 0;
+	private int         tableId = 0;
 	/** Table Name          	*/
-	private String      m_TableName = null;
+	private String      tableName = null;
 	/** Access Level			*/
-	private String		m_AccessLevel = MTable.ACCESSLEVEL_Organization;
+	private String		accessLevel = MTable.ACCESSLEVEL_Organization;
 	/** Columns             	*/
-	private POInfoColumn[]    m_columns = null;
+	private POInfoColumn[]    columns = null;
 	/** Table has Key Column	*/ 
-	private boolean		m_hasKeyColumn = false;
-	/**	Table needs keep log*/
-	private boolean 	m_IsChangeLog = false;
-	/**	Ignore Migration Log*/
-	private boolean 	m_IsIgnoreMigration = false;
-
+	private boolean		hasKeyColumn = false;
+	/**	Table needs keep log	*/
+	private boolean 	isChangeLog = false;
+	/**	Ignore Migration Log	*/
+	private boolean 	isIgnoreMigration = false;
+	/**	Ignore Allow Copy		*/
+	private boolean 	isAllowCopy = false;
+	/**	Key Column Name			*/
+	private String keyColumnName = null;
+	/**	Cache					*/
+	private static final CCache<String,POInfo>  s_cacheByTableName = new CCache<String,POInfo>("POInfo_ByTableName", 200);
 	/**
 	 *  Load Table/Column Info
 	 * 	@param baseLanguage in English
@@ -184,7 +191,7 @@ public class POInfo implements Serializable
 			sql.append("_Trl");
 		sql.append(" e "
 			+ " ON (c.AD_Element_ID=e.AD_Element_ID) "
-			+ "WHERE t." + (m_AD_Table_ID <= 0 ? "TableName=?" : "AD_Table_ID=?")
+			+ "WHERE t." + (tableId <= 0 ? "TableName=?" : "AD_Table_ID=?")
 			+ " AND c.IsActive='Y'");
 		if (!baseLanguage)
 			sql.append(" AND e.AD_Language='").append(Env.getAD_Language(m_ctx)).append("'");
@@ -194,19 +201,17 @@ public class POInfo implements Serializable
 		try
 		{
 			pstmt = DB.prepareStatement(sql.toString(), trxName);
-			if (m_AD_Table_ID <= 0)
-				pstmt.setString(1, m_TableName);
+			if (tableId <= 0)
+				pstmt.setString(1, tableName);
 			else
-				pstmt.setInt(1, m_AD_Table_ID);
+				pstmt.setInt(1, tableId);
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
 				//	Get Table
-				if (m_TableName == null)
-					m_TableName = rs.getString(1);
-				if (m_AD_Table_ID <= 0)
-					m_AD_Table_ID = rs.getInt("AD_Table_ID");
-				//	Load additional attributes
-				loadAdditionalAttributes(rs);
+				if (tableName == null)
+					tableName = rs.getString(1);
+				if (tableId <= 0)
+					tableId = rs.getInt("AD_Table_ID");
 				//	Get Standard Columns
 				do {
 					String ColumnName = rs.getString(2);
@@ -221,20 +226,20 @@ public class POInfo implements Serializable
 					// metas: begin
 					if (IsKey)
 					{
-						if (m_hasKeyColumn)
+						if (hasKeyColumn)
 						{
 							// it already has a key column, which means that this table has multi-primary key
 							// so we don't have a single key column
-							m_keyColumnName = null;
+							keyColumnName = null;
 						}
 						else
 						{
-							m_keyColumnName = ColumnName;
+							keyColumnName = ColumnName;
 						}
 					}
 					// metas: end
 					if (IsKey)
-						m_hasKeyColumn = true;
+						hasKeyColumn = true;
 					boolean IsParent = "Y".equals(rs.getString(11));
 					int AD_Reference_Value_ID = rs.getInt(12);
 					String ValidationCode = rs.getString(13);
@@ -243,12 +248,14 @@ public class POInfo implements Serializable
 					String ValueMax = rs.getString(16);
 					boolean IsTranslated = "Y".equals(rs.getString(17));
 					//
-					m_AccessLevel = rs.getString(18);
+					accessLevel = rs.getString(18);
 					String ColumnSQL = rs.getString(19);
 					boolean IsEncrypted = "Y".equals(rs.getString(20));
 					boolean IsAllowLogging = "Y".equals(rs.getString(21));
-					m_IsChangeLog="Y".equals(rs.getString(22));
-
+					isChangeLog="Y".equals(rs.getString(22));
+					//	Load additional attributes
+					loadAdditionalAttributes(rs);
+					//	
 					POInfoColumn col = new POInfoColumn (
 						AD_Column_ID, ColumnName, ColumnSQL, AD_Reference_ID,
 						IsMandatory, IsUpdateable,
@@ -257,7 +264,8 @@ public class POInfo implements Serializable
 						AD_Reference_Value_ID, ValidationCode,
 						FieldLength, ValueMin, ValueMax,
 						IsTranslated, IsEncrypted,
-						IsAllowLogging);
+						IsAllowLogging,
+						isAllowCopy);
 					list.add(col);
 				} while(rs.next());
 			}
@@ -271,8 +279,8 @@ public class POInfo implements Serializable
 			rs = null; pstmt = null;
 		}
 		//  convert to array
-		m_columns = new POInfoColumn[list.size()];
-		list.toArray(m_columns);
+		columns = new POInfoColumn[list.size()];
+		list.toArray(columns);
 	}   //  loadInfo
 	
 	/**
@@ -288,21 +296,26 @@ public class POInfo implements Serializable
 		//	First verify if exists
 		HashMap<String, Boolean> existColumn = new HashMap<String, Boolean>();
 		//	Add new attributes here
-		existColumn.put("IsIgnoreMigration", false);
+		existColumn.put(I_AD_Table.COLUMNNAME_IsIgnoreMigration, false);
+		existColumn.put(I_AD_Column.COLUMNNAME_IsAllowCopy, false);
 		//	
-		for(int i = 1; i < rsmd.getColumnCount(); i++) {
+		for(int i = 1; i <= rsmd.getColumnCount(); i++) {
 			String columnName = rsmd.getColumnName(i);
-			if (columnName.equalsIgnoreCase("IsIgnoreMigration")) {
-				existColumn.put("IsIgnoreMigration", true);
+			if (columnName.equalsIgnoreCase(I_AD_Table.COLUMNNAME_IsIgnoreMigration)) {
+				existColumn.put(I_AD_Table.COLUMNNAME_IsIgnoreMigration, true);
 				String value = rs.getString(i);
-				m_IsIgnoreMigration = (value != null && value.equals("Y"));
+				isIgnoreMigration = (value != null && value.equals("Y"));
+			} else if(columnName.equalsIgnoreCase(I_AD_Column.COLUMNNAME_IsAllowCopy)) {
+				existColumn.put(I_AD_Column.COLUMNNAME_IsAllowCopy, true);
+				String value = rs.getString(i);
+				isAllowCopy = (value != null && value.equals("Y"));
 			}
 		}
 		//	Valid Additional Columns
 		for(Entry<String, Boolean> entry : existColumn.entrySet()) {
 			//	Validate for warning
 			if(!entry.getValue()) {
-				CLogger.get().log(Level.WARNING, "Table [" + m_TableName + "] - Attribute [" + entry.getKey() + "] Not found");
+				CLogger.get().log(Level.WARNING, "Table [" + tableName + "] - Attribute [" + entry.getKey() + "] Not found");
 			}
 		}
 	}
@@ -324,9 +337,9 @@ public class POInfo implements Serializable
 	 */
 	public String toString (int index)
 	{
-		if (index < 0 || index >= m_columns.length)
+		if (index < 0 || index >= columns.length)
 			return "POInfo[" + getTableName() + "-(InvalidColumnIndex=" + index + ")]";
-		return "POInfo[" + getTableName() + "-" + m_columns[index].toString() + "]";
+		return "POInfo[" + getTableName() + "-" + columns[index].toString() + "]";
 	}   //  toString
 
 	/**
@@ -335,7 +348,7 @@ public class POInfo implements Serializable
 	 */
 	public String getTableName()
 	{
-		return m_TableName;
+		return tableName;
 	}   //  getTableName
 
 	/**
@@ -344,7 +357,7 @@ public class POInfo implements Serializable
 	 */
 	public int getAD_Table_ID()
 	{
-		return m_AD_Table_ID;
+		return tableId;
 	}   //  getAD_Table_ID
 	
 	/**
@@ -352,7 +365,7 @@ public class POInfo implements Serializable
 	 * @return
 	 */
 	public boolean isIgnoreMigration() {
-		return m_IsIgnoreMigration;
+		return isIgnoreMigration;
 	}
 
 	/**
@@ -361,7 +374,7 @@ public class POInfo implements Serializable
 	 */
 	public boolean hasKeyColumn()
 	{
-		return m_hasKeyColumn;
+		return hasKeyColumn;
 	}	//	hasKeyColumn
 
 	/**
@@ -370,7 +383,7 @@ public class POInfo implements Serializable
 	 */
 	public String getAccessLevel()
 	{
-		return m_AccessLevel;
+		return accessLevel;
 	}	//	getAccessLevel
 	
 	/**************************************************************************
@@ -379,7 +392,7 @@ public class POInfo implements Serializable
 	 */
 	public int getColumnCount()
 	{
-		return m_columns.length;
+		return columns.length;
 	}   //  getColumnCount
 
 	/**
@@ -389,9 +402,9 @@ public class POInfo implements Serializable
 	 */
 	public int getColumnIndex (String ColumnName)
 	{
-		for (int i = 0; i < m_columns.length; i++)
+		for (int i = 0; i < columns.length; i++)
 		{
-			if (ColumnName.equalsIgnoreCase(m_columns[i].ColumnName)) // teo_sarca : modified to compare ignoring case [ 1619179 ]
+			if (ColumnName.equalsIgnoreCase(columns[i].ColumnName)) // teo_sarca : modified to compare ignoring case [ 1619179 ]
 				return i;
 		}
 		return -1;
@@ -404,9 +417,9 @@ public class POInfo implements Serializable
 	 */
 	public int getColumnIndex (int AD_Column_ID)
 	{
-		for (int i = 0; i < m_columns.length; i++)
+		for (int i = 0; i < columns.length; i++)
 		{
-			if (AD_Column_ID == m_columns[i].AD_Column_ID)
+			if (AD_Column_ID == columns[i].AD_Column_ID)
 				return i;
 		}
 		return -1;
@@ -418,10 +431,10 @@ public class POInfo implements Serializable
 	 */
 	public int getAD_Column_ID(String columnName) 
 	{
-		for (int i = 0; i < m_columns.length; i++)
+		for (int i = 0; i < columns.length; i++)
 		{
-			if (columnName.equalsIgnoreCase(m_columns[i].ColumnName)) // globalqss : modified to compare ignoring case [ 1619179 ]
-				return m_columns[i].AD_Column_ID;
+			if (columnName.equalsIgnoreCase(columns[i].ColumnName)) // globalqss : modified to compare ignoring case [ 1619179 ]
+				return columns[i].AD_Column_ID;
 		}
 		return -1;
 	}
@@ -434,9 +447,9 @@ public class POInfo implements Serializable
 	// metas: making getColumn public to enable easier testing (was protected)
 	public POInfoColumn getColumn (int index)
 	{
-		if (index < 0 || index >= m_columns.length)
+		if (index < 0 || index >= columns.length)
 			return null;
-		return m_columns[index];
+		return columns[index];
 	}   //  getColumn
 
 	/**
@@ -446,9 +459,9 @@ public class POInfo implements Serializable
 	 */
 	public String getColumnName (int index)
 	{
-		if (index < 0 || index >= m_columns.length)
+		if (index < 0 || index >= columns.length)
 			return null;
-		return m_columns[index].ColumnName;
+		return columns[index].ColumnName;
 	}   //  getColumnName
 
 	/**
@@ -458,11 +471,11 @@ public class POInfo implements Serializable
 	 */
 	public String getColumnSQL (int index)
 	{
-		if (index < 0 || index >= m_columns.length)
+		if (index < 0 || index >= columns.length)
 			return null;
-		if (m_columns[index].ColumnSQL != null && m_columns[index].ColumnSQL.length() > 0)
-			return m_columns[index].ColumnSQL + " AS " + m_columns[index].ColumnName;
-		return m_columns[index].ColumnName;
+		if (columns[index].ColumnSQL != null && columns[index].ColumnSQL.length() > 0)
+			return columns[index].ColumnSQL + " AS " + columns[index].ColumnName;
+		return columns[index].ColumnName;
 	}   //  getColumnSQL
 
 	/**
@@ -472,10 +485,10 @@ public class POInfo implements Serializable
 	 */
 	public boolean isVirtualColumn (int index)
 	{
-		if (index < 0 || index >= m_columns.length)
+		if (index < 0 || index >= columns.length)
 			return true;
-		return m_columns[index].ColumnSQL != null 
-			&& m_columns[index].ColumnSQL.length() > 0;
+		return columns[index].ColumnSQL != null 
+			&& columns[index].ColumnSQL.length() > 0;
 	}   //  isVirtualColumn
 
 	/**
@@ -485,9 +498,9 @@ public class POInfo implements Serializable
 	 */
 	public String getColumnLabel (int index)
 	{
-		if (index < 0 || index >= m_columns.length)
+		if (index < 0 || index >= columns.length)
 			return null;
-		return m_columns[index].ColumnLabel;
+		return columns[index].ColumnLabel;
 	}   //  getColumnLabel
 
 	/**
@@ -497,9 +510,9 @@ public class POInfo implements Serializable
 	 */
 	public String getColumnDescription (int index)
 	{
-		if (index < 0 || index >= m_columns.length)
+		if (index < 0 || index >= columns.length)
 			return null;
-		return m_columns[index].ColumnDescription;
+		return columns[index].ColumnDescription;
 	}   //  getColumnDescription
 
 	/**
@@ -509,9 +522,9 @@ public class POInfo implements Serializable
 	 */
 	public Class<?> getColumnClass (int index)
 	{
-		if (index < 0 || index >= m_columns.length)
+		if (index < 0 || index >= columns.length)
 			return null;
-		return m_columns[index].ColumnClass;
+		return columns[index].ColumnClass;
 	}   //  getColumnClass
 
 	/**
@@ -521,9 +534,9 @@ public class POInfo implements Serializable
 	 */
 	public int getColumnDisplayType (int index)
 	{
-		if (index < 0 || index >= m_columns.length)
+		if (index < 0 || index >= columns.length)
 			return DisplayType.String;
-		return m_columns[index].DisplayType;
+		return columns[index].DisplayType;
 	}   //  getColumnDisplayType
 
 	/**
@@ -533,9 +546,9 @@ public class POInfo implements Serializable
 	 */
 	public String getDefaultLogic (int index)
 	{
-		if (index < 0 || index >= m_columns.length)
+		if (index < 0 || index >= columns.length)
 			return null;
-		return m_columns[index].DefaultLogic;
+		return columns[index].DefaultLogic;
 	}   //  getDefaultLogic
 
 	/**
@@ -545,9 +558,9 @@ public class POInfo implements Serializable
 	 */
 	public boolean isColumnMandatory (int index)
 	{
-		if (index < 0 || index >= m_columns.length)
+		if (index < 0 || index >= columns.length)
 			return false;
-		return m_columns[index].IsMandatory;
+		return columns[index].IsMandatory;
 	}   //  isMandatory
 
 	// metas-mo73_03035 begin
@@ -560,9 +573,9 @@ public class POInfo implements Serializable
 	 */
 	public int getColumnReferenceValueId (int index)
 	{
-		if (index < 0 || index >= m_columns.length)
+		if (index < 0 || index >= columns.length)
 			return -1;
-		return m_columns[index].AD_Reference_Value_ID;
+		return columns[index].AD_Reference_Value_ID;
 	}   
 	//
 	// metas-mo73_03035 end
@@ -574,9 +587,9 @@ public class POInfo implements Serializable
 	 */
 	public boolean isColumnUpdateable (int index)
 	{
-		if (index < 0 || index >= m_columns.length)
+		if (index < 0 || index >= columns.length)
 			return false;
-		return m_columns[index].IsUpdateable;
+		return columns[index].IsUpdateable;
 	}   //  isUpdateable
 
 	/**
@@ -586,9 +599,9 @@ public class POInfo implements Serializable
 	 */
 	public void setColumnUpdateable (int index, boolean updateable)
 	{
-		if (index < 0 || index >= m_columns.length)
+		if (index < 0 || index >= columns.length)
 			return;
-		m_columns[index].IsUpdateable = updateable;
+		columns[index].IsUpdateable = updateable;
 	}	//	setColumnUpdateable
 
 	/**
@@ -597,8 +610,8 @@ public class POInfo implements Serializable
 	 */
 	public void setUpdateable (boolean updateable)
 	{
-		for (int i = 0; i < m_columns.length; i++)
-			m_columns[i].IsUpdateable = updateable;
+		for (int i = 0; i < columns.length; i++)
+			columns[i].IsUpdateable = updateable;
 	}	//	setUpdateable
 
 	/**
@@ -608,9 +621,9 @@ public class POInfo implements Serializable
 	 */
 	public boolean isColumnLookup (int index)
 	{
-		if (index < 0 || index >= m_columns.length)
+		if (index < 0 || index >= columns.length)
 			return false;
-		return DisplayType.isLookup(m_columns[index].DisplayType);
+		return DisplayType.isLookup(columns[index].DisplayType);
 	}   //  isColumnLookup
 
 	/**
@@ -629,10 +642,10 @@ public class POInfo implements Serializable
 		try
 		{
 			lookup = MLookupFactory.get (m_ctx, WindowNo,
-				m_columns[index].AD_Column_ID, m_columns[index].DisplayType,
-				Env.getLanguage(m_ctx), m_columns[index].ColumnName,
-				m_columns[index].AD_Reference_Value_ID,
-				m_columns[index].IsParent, m_columns[index].ValidationCode);
+				columns[index].AD_Column_ID, columns[index].DisplayType,
+				Env.getLanguage(m_ctx), columns[index].ColumnName,
+				columns[index].AD_Reference_Value_ID,
+				columns[index].IsParent, columns[index].ValidationCode);
 		}
 		catch (Exception e)
 		{
@@ -649,9 +662,9 @@ public class POInfo implements Serializable
 	 */
 	public boolean isKey (int index)
 	{
-		if (index < 0 || index >= m_columns.length)
+		if (index < 0 || index >= columns.length)
 			return false;
-		return m_columns[index].IsKey;
+		return columns[index].IsKey;
 	}   //  isKey
 
 	/**
@@ -661,9 +674,9 @@ public class POInfo implements Serializable
 	 */
 	public boolean isColumnParent (int index)
 	{
-		if (index < 0 || index >= m_columns.length)
+		if (index < 0 || index >= columns.length)
 			return false;
-		return m_columns[index].IsParent;
+		return columns[index].IsParent;
 	}   //  isColumnParent
 
 	/**
@@ -673,9 +686,9 @@ public class POInfo implements Serializable
 	 */
 	public boolean isColumnTranslated (int index)
 	{
-		if (index < 0 || index >= m_columns.length)
+		if (index < 0 || index >= columns.length)
 			return false;
-		return m_columns[index].IsTranslated;
+		return columns[index].IsTranslated;
 	}   //  isColumnTranslated
 
 	/**
@@ -684,9 +697,9 @@ public class POInfo implements Serializable
 	 */
 	public boolean isTranslated ()
 	{
-		for (int i = 0; i < m_columns.length; i++)
+		for (int i = 0; i < columns.length; i++)
 		{
-			if (m_columns[i].IsTranslated)
+			if (columns[i].IsTranslated)
 				return true;
 		}
 		return false;
@@ -699,9 +712,9 @@ public class POInfo implements Serializable
 	 */
 	public boolean isEncrypted (int index)
 	{
-		if (index < 0 || index >= m_columns.length)
+		if (index < 0 || index >= columns.length)
 			return false;
-		return m_columns[index].IsEncrypted;
+		return columns[index].IsEncrypted;
 	}   //  isEncrypted
 
 	/**
@@ -712,10 +725,23 @@ public class POInfo implements Serializable
 	 * @return true if column is allowed to be logged
 	 */
 	public boolean isAllowLogging(int index) {
-		if (index < 0 || index >= m_columns.length)
+		if (index < 0 || index >= columns.length)
 			return false;
-		return m_columns[index].IsAllowLogging;
+		return columns[index].IsAllowLogging;
 	} // isAllowLogging
+	
+	/**
+	 * Is allowed a copy on this column
+	 * 
+	 * @param index
+	 *            index
+	 * @return true if column is allowed to be logged
+	 */
+	public boolean isAllowCopy(int index) {
+		if (index < 0 || index >= columns.length)
+			return false;
+		return columns[index].IsAllowCopy;
+	} // isAllowCopy
 
 	/**
 	 *  Get Column FieldLength
@@ -724,9 +750,9 @@ public class POInfo implements Serializable
 	 */
 	public int getFieldLength (int index)
 	{
-		if (index < 0 || index >= m_columns.length)
+		if (index < 0 || index >= columns.length)
 			return 0;
-		return m_columns[index].FieldLength;
+		return columns[index].FieldLength;
 	}   //  getFieldLength
 
 	/**
@@ -751,10 +777,10 @@ public class POInfo implements Serializable
 	 */
 	public String validate (int index, Object value)
 	{
-		if (index < 0 || index >= m_columns.length)
+		if (index < 0 || index >= columns.length)
 			return "RangeError";
 		//	Mandatory (i.e. not null
-		if (m_columns[index].IsMandatory && value == null)
+		if (columns[index].IsMandatory && value == null)
 		{
 			return "IsMandatory";
 		}
@@ -764,64 +790,64 @@ public class POInfo implements Serializable
 		//	Length ignored
 
 		//
-		if (m_columns[index].ValueMin != null)
+		if (columns[index].ValueMin != null)
 		{
 			BigDecimal value_BD = null;
 			try
 			{
-				if (m_columns[index].ValueMin_BD != null)
+				if (columns[index].ValueMin_BD != null)
 					value_BD = new BigDecimal(value.toString());
 			}
 			catch (Exception ex){}
 			//	Both are Numeric
-			if (m_columns[index].ValueMin_BD != null && value_BD != null)
+			if (columns[index].ValueMin_BD != null && value_BD != null)
 			{	//	error: 1 - 0 => 1  -  OK: 1 - 1 => 0 & 1 - 10 => -1
-				int comp = m_columns[index].ValueMin_BD.compareTo(value_BD);
+				int comp = columns[index].ValueMin_BD.compareTo(value_BD);
 				if (comp > 0)
 				{
-					return "MinValue=" + m_columns[index].ValueMin_BD 
-						+ "(" + m_columns[index].ValueMin + ")"
+					return "MinValue=" + columns[index].ValueMin_BD 
+						+ "(" + columns[index].ValueMin + ")"
 						+ " - compared with Numeric Value=" + value_BD + "(" + value + ")"
 						+ " - results in " + comp;
 				}
 			}
 			else	//	String
 			{
-				int comp = m_columns[index].ValueMin.compareTo(value.toString());
+				int comp = columns[index].ValueMin.compareTo(value.toString());
 				if (comp > 0)
 				{
-					return "MinValue=" + m_columns[index].ValueMin
+					return "MinValue=" + columns[index].ValueMin
 					  + " - compared with String Value=" + value
 					  + " - results in " + comp;
 				}
 			}
 		}
-		if (m_columns[index].ValueMax != null)
+		if (columns[index].ValueMax != null)
 		{
 			BigDecimal value_BD = null;
 			try
 			{
-				if (m_columns[index].ValueMax_BD != null)
+				if (columns[index].ValueMax_BD != null)
 					value_BD = new BigDecimal(value.toString());
 			}
 			catch (Exception ex){}
 			//	Both are Numeric
-			if (m_columns[index].ValueMax_BD != null && value_BD != null)
+			if (columns[index].ValueMax_BD != null && value_BD != null)
 			{	//	error 12 - 20 => -1  -  OK: 12 - 12 => 0 & 12 - 10 => 1
-				int comp = m_columns[index].ValueMax_BD.compareTo(value_BD);
+				int comp = columns[index].ValueMax_BD.compareTo(value_BD);
 				if (comp < 0)
 				{
-					return "MaxValue=" + m_columns[index].ValueMax_BD + "(" + m_columns[index].ValueMax + ")"
+					return "MaxValue=" + columns[index].ValueMax_BD + "(" + columns[index].ValueMax + ")"
 					  + " - compared with Numeric Value=" + value_BD + "(" + value + ")"
 					  + " - results in " + comp;
 				}
 			}
 			else	//	String
 			{
-				int comp = m_columns[index].ValueMax.compareTo(value.toString());
+				int comp = columns[index].ValueMax.compareTo(value.toString());
 				if (comp < 0)
 				{
-					return "MaxValue=" + m_columns[index].ValueMax
+					return "MaxValue=" + columns[index].ValueMax
 					  + " - compared with String Value=" + value
 					  + " - results in " + comp;
 				}
@@ -832,9 +858,9 @@ public class POInfo implements Serializable
 	
 	public boolean isLazyLoading(int index)
 	{
-		if (index < 0 || index >= m_columns.length)
+		if (index < 0 || index >= columns.length)
 			return true;
-		return isVirtualColumn(index) && m_columns[index].IsLazyLoading; 
+		return isVirtualColumn(index) && columns[index].IsLazyLoading; 
 	}
 	
 	/**
@@ -864,22 +890,25 @@ public class POInfo implements Serializable
 	 */
 	public boolean isChangeLog()
 	{
-		return m_IsChangeLog;
+		return isChangeLog;
 	}
 
 	// metas: pr50_us215
 	public boolean isCalculated(int index)
 	{
-		if (index < 0 || index >= m_columns.length)
+		if (index < 0 || index >= columns.length)
 			return false;
-		return m_columns[index].IsCalculated
+		return columns[index].IsCalculated
 				;
 	}
-
-	private String m_keyColumnName = null;
+	
+	/**
+	 * Get Key Column Name
+	 * @return
+	 */
 	public String getKeyColumnName()
 	{
-		return m_keyColumnName;
+		return keyColumnName;
 	}
 	
 	// metas-mo73_03035 begin
@@ -949,14 +978,20 @@ public class POInfo implements Serializable
 	
 	public int getAccessLevelInt()
 	{
-		return Integer.parseInt(m_AccessLevel);
+		return Integer.parseInt(accessLevel);
 	}
 	
-	private static final CCache<String,POInfo>  s_cacheByTableName = new CCache<String,POInfo>("POInfo_ByTableName", 200);
+	/**
+	 * Get PO Info
+	 * @param ctx
+	 * @param tableName
+	 * @param baseLanguageOnly
+	 * @param trxName
+	 */
 	private POInfo (Properties ctx, String tableName, boolean baseLanguageOnly, String trxName)
 	{
 		m_ctx = ctx;
-		m_TableName = tableName;
+		this.tableName = tableName;
 		boolean baseLanguage = baseLanguageOnly ? true : Env.isBaseLanguage(m_ctx, "AD_Table");
 		loadInfo (baseLanguage, trxName);
 	}   //  PInfo

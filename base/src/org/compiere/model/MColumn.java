@@ -55,6 +55,8 @@ import org.compiere.util.Util;
  * 		@see FR [ 655 ] Bad validation for sequence of identifier columns</a>
  * 		<a href="https://github.com/adempiere/adempiere/issues/1072">
  * 		@see BR [ 1072 ] Synchronize Column is unnecessary when it is not apply for DB</a>
+ * 		<a href="https://github.com/adempiere/adempiere/issues/922">
+ * 		@see FR [ 922 ] Is Allow Copy in model</a>
  */
 public class MColumn extends X_AD_Column
 {
@@ -323,6 +325,10 @@ public class MColumn extends X_AD_Column
 					}
 				});
 			}
+			//	For Is Allow Copy
+			if(!isDirectLoad()) {
+				setIsAllowCopy(MColumn.isAllowCopy(getColumnName(), getAD_Reference_ID()));
+			}
 		}
 
 		int displayType = getAD_Reference_ID();
@@ -470,14 +476,7 @@ public class MColumn extends X_AD_Column
 					field.saveEx();
 					no++;
 				}
-
-//				StringBuffer sql = new StringBuffer("UPDATE AD_Field SET Name=")
-//					.append(DB.TO_STRING(getName()))
-//					.append(", Description=").append(DB.TO_STRING(getDescription()))
-//					.append(", Help=").append(DB.TO_STRING(getHelp()))
-//					.append(" WHERE AD_Column_ID=").append(get_ID())
-//					.append(" AND IsCentrallyMaintained='Y'");
-//				int no = DB.executeUpdate(sql.toString(), get_TrxName());
+				//	
 				log.fine("afterSave - Fields updated #" + no);
 			}
 		}
@@ -635,37 +634,6 @@ public class MColumn extends X_AD_Column
 		int dt = getAD_Reference_ID();
 		return DisplayType.getSQLDataType (dt, columnName, getFieldLength());
 	}	//	getSQLDataType
-	
-	/**
-	 * 	Get SQL Data Type
-	 *	@return e.g. NVARCHAR2(60)
-	 */
-	/*
-	private String getSQLDataType()
-	{
-		int dt = getAD_Reference_ID();
-		if (DisplayType.isID(dt) || dt == DisplayType.Integer)
-			return "NUMBER(10)";
-		if (DisplayType.isDate(dt))
-			return "DATE";
-		if (DisplayType.isNumeric(dt))
-			return "NUMBER";
-		if (dt == DisplayType.Binary)
-			return "BLOB";
-		if (dt == DisplayType.TextLong)
-			return "CLOB";
-		if (dt == DisplayType.YesNo)
-			return "CHAR(1)";
-		if (dt == DisplayType.List)
-			return "NVARCHAR2(" + getFieldLength() + ")";
-		if (dt == DisplayType.Button)
-			return "CHAR(" + getFieldLength() + ")";
-		else if (!DisplayType.isText(dt))
-			log.severe("Unhandled Data Type = " + dt);
-			
-		return "NVARCHAR2(" + getFieldLength() + ")";
-	}	//	getSQLDataType
-	*/
 	
 	/**
 	 * 	Get Table Constraint
@@ -881,6 +849,41 @@ public class MColumn extends X_AD_Column
 				|| columnName.equals(I_AD_Column.COLUMNNAME_FieldLength)
 				|| columnName.equals(I_AD_Column.COLUMNNAME_IsKey)
 				|| columnName.equals(I_AD_Column.COLUMNNAME_DefaultValue);
+	}
+	
+	/**
+	 * Verify if column name and display type allow copy
+	 * @param ctx
+	 * @param p_AD_Column_ID
+	 * @return
+	 */
+	public static boolean isAllowCopy(Properties ctx, int p_AD_Column_ID) {
+		MColumn column = MColumn.get(ctx, p_AD_Column_ID);
+		//	Set values from column
+		if(column != null) {
+			//	for Allow copy
+			isAllowCopy(column.getColumnName(), column.getAD_Reference_ID());
+			//	
+			return true;
+		}
+		//	Default return
+		return false;
+	}
+	
+	/**
+	 * Verify if is allow copy of column
+	 * @param columnName
+	 * @param referenceId
+	 * @return
+	 */
+	public static boolean isAllowCopy(String columnName, int referenceId) {
+		if(DisplayType.ID == referenceId
+				|| DisplayType.Location == referenceId
+				|| M_Element.isReservedColumnName(columnName)) {
+			return false;
+		}
+		//	Default
+		return true;
 	}
 	
 }	//	MColumn
