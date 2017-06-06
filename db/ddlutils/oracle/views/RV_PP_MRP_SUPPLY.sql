@@ -40,5 +40,5 @@ CREATE OR REPLACE VIEW rv_pp_mrp_supply AS
     mrp.datefinishschedule
    FROM rv_pp_mrp mrp
      JOIN m_product p ON p.m_product_id = mrp.m_product_id
-  WHERE mrp.typemrp = 'S'::bpchar AND mrp.qty > 0::numeric
+  WHERE mrp.typemrp = 'S' AND mrp.qty > 0
   ORDER BY mrp.datepromised;
