@@ -150,12 +150,10 @@ html,body {
 }
 
 .desktop-header {
-<%--
 	background-image: url(../images/header-bg.png);
---%>
 	background-repeat: repeat-x;
 	background-position: bottom left;
-	background-color: #f0faff;
+	background-color: white;
 	width: 100%;
 	height: 50px;
 }
@@ -163,7 +161,7 @@ html,body {
 .desktop-header-font {
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: 10px;
-	color: #009bde;
+	color: #FFFFFF;
 }
 
 <%-- button --%>

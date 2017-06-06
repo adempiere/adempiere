@@ -41,7 +41,7 @@
 .desktop-header-font {
 	font-family: 'Open Sans', sans-serif, Verdana, Arial, Helvetica;
 	font-size: 10px;
-	color: #009bde;
+	color: #FFFFFF;
 }
 
 
@@ -65,7 +65,7 @@
   color: #686868 !important;
 }
 .desktop-header-font {
-  color: #009bde !important;
+  color: #FFFFFF !important;
 }
 .z-tab-seld *, .z-button *, .form-button *, .adwindow-navbtn-sel * {
   color: #ffffff !important;
