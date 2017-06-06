@@ -1,4 +1,4 @@
---DROP VIEW adempiere.rv_reconciliation;
+--DROP VIEW rv_reconciliation;
 
 CREATE OR REPLACE VIEW rv_reconciliation AS
  SELECT f.ad_client_id,
@@ -45,6 +45,8 @@ CREATE OR REPLACE VIEW rv_reconciliation AS
     f.user2_id,
     f.user3_id,
     f.user4_id,
+    f.userelement1_id,
+    f.userelement2_id,
     f.a_asset_id,
     f.description,
     f.orgvalue,
