@@ -23,9 +23,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Properties;
-import java.util.Map.Entry;
 import java.util.logging.Level;
 
 import org.compiere.util.CCache;
@@ -293,29 +291,15 @@ public class POInfo implements Serializable
 		ResultSetMetaData rsmd = rs.getMetaData();
 		//	FR [ 390 ]
 		//	Additional columns
-		//	First verify if exists
-		HashMap<String, Boolean> existColumn = new HashMap<String, Boolean>();
-		//	Add new attributes here
-		existColumn.put(I_AD_Table.COLUMNNAME_IsIgnoreMigration, false);
-		existColumn.put(I_AD_Column.COLUMNNAME_IsAllowCopy, false);
 		//	
 		for(int i = 1; i <= rsmd.getColumnCount(); i++) {
 			String columnName = rsmd.getColumnName(i);
 			if (columnName.equalsIgnoreCase(I_AD_Table.COLUMNNAME_IsIgnoreMigration)) {
-				existColumn.put(I_AD_Table.COLUMNNAME_IsIgnoreMigration, true);
 				String value = rs.getString(i);
 				isIgnoreMigration = (value != null && value.equals("Y"));
 			} else if(columnName.equalsIgnoreCase(I_AD_Column.COLUMNNAME_IsAllowCopy)) {
-				existColumn.put(I_AD_Column.COLUMNNAME_IsAllowCopy, true);
 				String value = rs.getString(i);
 				isAllowCopy = (value != null && value.equals("Y"));
-			}
-		}
-		//	Valid Additional Columns
-		for(Entry<String, Boolean> entry : existColumn.entrySet()) {
-			//	Validate for warning
-			if(!entry.getValue()) {
-				CLogger.get().log(Level.WARNING, "Table [" + tableName + "] - Attribute [" + entry.getKey() + "] Not found");
 			}
 		}
 	}
