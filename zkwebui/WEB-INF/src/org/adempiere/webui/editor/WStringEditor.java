@@ -50,6 +50,8 @@ import org.zkoss.zul.Menuitem;
  * @author Raul Muñoz, rmunoz@erpcya.com, ERPCyA http://www.erpcya.com
  *		<li href="https://github.com/adempiere/adempiere/issues/1066">
  * 		@see BR [ 1066 ] Java null exception in text field read-only when pressing editor option zk</li>
+ * 		<li href="https://github.com/adempiere/adempiere/issues/1066">
+ * 		@see BR [ 640 ] When try change of Tab in Migration window get this error</li>
  */
 public class WStringEditor extends WEditor implements ContextMenuListener
 {
@@ -104,7 +106,11 @@ public class WStringEditor extends WEditor implements ContextMenuListener
 
     @Override
     public org.zkoss.zul.Textbox getComponent() {
-    	return (org.zkoss.zul.Textbox) (((StringBox)component).getTextBox());
+    	// BR [ 640 ]
+    	if(gridField.isAutocomplete())
+    		return (org.zkoss.zul.Textbox) (((Combobox)component));
+    	else
+    		return (org.zkoss.zul.Textbox) (((StringBox)component).getTextBox());
     }
 
     @Override
@@ -148,8 +154,7 @@ public class WStringEditor extends WEditor implements ContextMenuListener
 	            ((HtmlBasedComponent)getComponent()).setSclass("field-memo");
 	        }
 
-	        if (getComponent() instanceof org.zkoss.zul.api.Textbox)
-	        	((StringBox)component).setObscureType(obscureType);
+	       
 
 	        popupMenu = new WEditorPopupMenu(false, false, true);
 	        // BR [ 1066 ]
@@ -177,6 +182,9 @@ public class WStringEditor extends WEditor implements ContextMenuListener
 	        		combo.appendItem(s);
 	        	}
 	        }
+	        //	BR [ 640 ]
+	        else  if (getComponent() instanceof org.zkoss.zul.api.Textbox)
+	        	((StringBox)component).setObscureType(obscureType);
 		}
     }
 
