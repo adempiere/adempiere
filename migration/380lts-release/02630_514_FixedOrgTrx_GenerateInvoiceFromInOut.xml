@@ -184,7 +184,6 @@ AND NOT EXISTS(SELECT 1 FROM C_Invoice i
         <Data AD_Column_ID="583" Column="IsActive">true</Data>
         <Data AD_Column_ID="587" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="584" Column="Created">2017-06-01 09:06:27.885</Data>
-        <Data AD_Column_ID="387" Column="AD_Client_ID" isNewNull="true"/>
         <Data AD_Column_ID="188" Column="Name">M_InOut Shipment Completed Not Invoiced</Data>
       </PO>
     </Step>
