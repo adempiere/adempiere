@@ -150,6 +150,19 @@ public interface I_C_CommissionDetail
 
 	public org.compiere.model.I_C_InvoiceLine getC_InvoiceLine() throws RuntimeException;
 
+    /** Column name CommissionAmt */
+    public static final String COLUMNNAME_CommissionAmt = "CommissionAmt";
+
+	/** Set Commission Amount.
+	  * Commission Amount
+	  */
+	public void setCommissionAmt (BigDecimal CommissionAmt);
+
+	/** Get Commission Amount.
+	  * Commission Amount
+	  */
+	public BigDecimal getCommissionAmt();
+
     /** Column name ConvertedAmt */
     public static final String COLUMNNAME_ConvertedAmt = "ConvertedAmt";
 
