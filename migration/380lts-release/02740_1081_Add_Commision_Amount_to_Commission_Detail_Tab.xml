@@ -5,7 +5,7 @@
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="84146" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo">0</Data>
         <Data AD_Column_ID="112" Column="Description">Commission Amount</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">84146</Data>
@@ -288,7 +288,7 @@ FROM C_CommissionRun cr
     LEFT OUTER JOIN C_Order o ON (ol.C_Order_ID=o.C_Order_ID)
     LEFT OUTER JOIN C_Invoice i ON (il.C_Invoice_ID=i.C_Invoice_ID);</RollbackStatement>
     </Step>
-    <Step DBType="Oracle" Parse="N" SeqNo="190" StepType="SQL">
+    <Step DBType="Oracle" Parse="N" SeqNo="200" StepType="SQL">
       <Comments>RV_CommissionRunDetail View for Oracle</Comments>
       <SQLStatement>DROP VIEW RV_COMMISSIONRUNDETAIL;
 CREATE OR REPLACE VIEW RV_COMMISSIONRUNDETAIL
