@@ -39,6 +39,8 @@ import org.compiere.util.Msg;
  * 	@author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *		<li> FR [ 297 ] Payment Selection must be like ADempiere Document
  *		@see https://github.com/adempiere/adempiere/issues/297
+ *		<a href="https://github.com/adempiere/adempiere/issues/1089">
+ * 		@see FR [ 1089 ] Current the Print Pay allows print a check in multiples times</a>
  *	@author  victor.perez , victor.perez@e-evolution.com http://www.e-evolution.com
  * 		<li> FR [ 297 ] Apply ADempiere best Pratice
  *		@see https://github.com/adempiere/adempiere/issues/297
@@ -243,7 +245,13 @@ public final class MPaySelectionCheck extends X_C_PaySelectionCheck
 		AtomicInteger docNo = new AtomicInteger(startDocumentNo);
 		StringBuilder whereClause = new StringBuilder();
 		whereClause.append(MPaySelectionCheck.COLUMNNAME_C_PaySelection_ID).append("=? AND ")
-				   .append(MPaySelectionCheck.COLUMNNAME_PaymentRule).append("=?");
+				   .append(MPaySelectionCheck.COLUMNNAME_PaymentRule).append("=? ")
+				   .append("AND (C_PaySelectionCheck.C_Payment_ID IS NULL "
+				   		+ "			OR "
+				   		+ "		EXISTS(SELECT 1 FROM C_Payment p "
+				   		+ "				WHERE p.C_Payment_ID = C_PaySelectionCheck.C_Payment_ID "
+				   		+ "				AND p.DocStatus NOT IN('CO', 'CL'))"
+				   		+ ")");
 
 		List<MPaySelectionCheck> draftPaySelectionChecks = new Query(Env.getCtx(), MPaySelectionCheck.Table_Name , whereClause.toString(), trxName)
 				.setClient_ID()
@@ -293,7 +301,9 @@ public final class MPaySelectionCheck extends X_C_PaySelectionCheck
 		{
 			MPayment payment = new MPayment(paySelectionCheck.getCtx(), paySelectionCheck.getC_Payment_ID(), paySelectionCheck.get_TrxName());
 			//	Existing Payment
-			if (paySelectionCheck.getC_Payment_ID() != 0)
+			if (paySelectionCheck.getC_Payment_ID() != 0
+					&& (payment.getDocStatus().equals(DocAction.STATUS_Completed)
+								|| payment.getDocStatus().equals(DocAction.STATUS_Closed)))
 			{
 				//	Update check number
 				if (paySelectionCheck.getPaymentRule().equals(PAYMENTRULE_Check))

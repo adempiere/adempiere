@@ -508,9 +508,6 @@ public class MPaySelection extends X_C_PaySelection implements DocAction, DocOpt
 	{
 		StringBuffer stringBuffer = new StringBuffer();
 		stringBuffer.append(getDocumentNo());
-	//	sb.append(": ")
-	//		.append(Msg.translate(getCtx(),"TotalLines")).append("=").append(getTotalLines())
-	//		.append(" (#").append(getLines(false).length).append(")");
 		//	 - Description
 		if (getDescription() != null && getDescription().length() > 0)
 			stringBuffer.append(" - ").append(getDescription());

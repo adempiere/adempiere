@@ -34,7 +34,6 @@ import org.compiere.model.X_C_BankAccountDoc;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
-import org.compiere.util.KeyNamePair;
 import org.compiere.util.Language;
 import org.compiere.util.ValueNamePair;
 
@@ -65,42 +64,6 @@ public class PayPrint {
 	public MPaymentBatch	paymentBatch = null;
 	/**	Logger			*/
 	public static CLogger log = CLogger.getCLogger(PayPrint.class);
-	
-	//	FR [ 297 ]
-	@Deprecated
-	public ArrayList<KeyNamePair> getPaySelectionData()
-	{
-		ArrayList<KeyNamePair> data = new ArrayList<KeyNamePair>();
-		
-		log.config("");
-		int AD_Client_ID = Env.getAD_Client_ID(Env.getCtx());
-
-		//  Load PaySelect
-		String sql = "SELECT C_PaySelection_ID, Name || ' - ' || TotalAmt FROM C_PaySelection "
-			+ "WHERE AD_Client_ID=? AND Processed='Y' AND IsActive='Y'"
-			+ "ORDER BY PayDate DESC";
-		try
-		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, AD_Client_ID);
-			ResultSet rs = pstmt.executeQuery();
-			//
-			while (rs.next())
-			{
-				KeyNamePair pp = new KeyNamePair(rs.getInt(1), rs.getString(2));
-				data.add(pp);
-			}
-			rs.close();
-			pstmt.close();
-		}
-		catch (SQLException e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
-		
-		return data;
-	}
-
 	public String bank;
 	public String currency;
 	public BigDecimal balance;
@@ -242,6 +205,11 @@ public class PayPrint {
 	 */
 	protected String getValidationCode()
 	{
-		return "C_PaySelection.DocStatus IN('CO') AND C_PaySelection.C_BankAccount_ID IS NOT NULL";
+		return "C_PaySelection.DocStatus = 'CO' "
+				+ "AND C_PaySelection.C_BankAccount_ID IS NOT NULL "
+				+ "AND EXISTS(SELECT 1 FROM C_PaySelectionCheck psc "
+				+ "				LEFT JOIN C_Payment p ON(p.C_Payment_ID = psc.C_Payment_ID) "
+				+ "				WHERE psc.C_PaySelection_ID = C_PaySelection.C_PaySelection_ID "
+				+ "				AND (psc.C_Payment_ID IS NULL OR p.DocStatus NOT IN('CO', 'CL')))";
 	}
 }
