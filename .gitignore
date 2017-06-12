@@ -48,3 +48,6 @@ migration/postgresql.properties
 .DS_Store
 .DS_Store?
 ._*
+/packages/
+/posterita/
+/zkpackages/

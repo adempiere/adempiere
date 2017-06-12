@@ -40,19 +40,9 @@ public class MCommissionDetail extends X_C_CommissionDetail
 	 * 
 	 */
 	private static final long serialVersionUID = 1727857992121809494L;
-
-	/**
-	 * 	Persistency Constructor
-	 *	@param ctx context
-	 *	@param ignored ignored
-	 *	@param trxName transaction
-	 */
-	public MCommissionDetail (Properties ctx, String trxName, int ignored)
-	{
-		super(ctx, 0, trxName);
-		if (ignored != 0)
-			throw new IllegalArgumentException("Multi-Key");
-	}	//	MCommissionDetail
+	
+	/**	Parent Commission Amount	*/
+	private MCommissionAmt parent = null;
 
 	/**
 	 * 	Default Constructor
@@ -93,6 +83,7 @@ public class MCommissionDetail extends X_C_CommissionDetail
 		setActualAmt (Amt);
 		setActualQty (Qty);
 		setConvertedAmt (Env.ZERO);
+		parent = amt;
 	}	//	MCommissionDetail
 
 	/**
@@ -132,7 +123,58 @@ public class MCommissionDetail extends X_C_CommissionDetail
 		if (amt != null)
 			setConvertedAmt(amt);
 	}	//	setConvertedAmt
-
+	
+	/**
+	 * Calculate commission for line
+	 */
+	public void calculateCommission() {
+		getParent();
+		if(parent.getC_CommissionAmt_ID() <= 0
+				|| parent.getC_CommissionLine_ID() <= 0) {
+			return;
+		}
+		//	Scale
+		int stdPrecision = MCurrency.getStdPrecision(getCtx(), MClient.get(getCtx()).getC_Currency_ID());
+		//	Calculate
+		MCommissionLine commissionLine = new MCommissionLine(getCtx(), parent.getC_CommissionLine_ID(), get_TrxName());
+		BigDecimal convertedAmt = getConvertedAmt();
+		BigDecimal commissionAmt = getConvertedAmt();
+		BigDecimal actualQty = getActualQty();
+		if (convertedAmt == null) {
+			convertedAmt = Env.ZERO;
+		}
+		//	Qty
+		actualQty = actualQty.subtract(commissionLine.getQtySubtract());
+		if (commissionLine.isPositiveOnly() && actualQty.signum() < 0) {
+			actualQty = Env.ZERO;
+		}
+		actualQty = actualQty.multiply(commissionLine.getQtyMultiplier());
+		//	Commission Amount
+		commissionAmt = convertedAmt.subtract(commissionLine.getAmtSubtract());
+		if (commissionLine.isPositiveOnly() && commissionAmt.signum() < 0) {
+			commissionAmt = Env.ZERO;
+		}
+		commissionAmt = commissionAmt.multiply(commissionLine.getAmtMultiplier());
+		//	Scale
+		if (commissionAmt.scale() > stdPrecision) {
+			commissionAmt = commissionAmt.setScale(stdPrecision, BigDecimal.ROUND_HALF_UP);
+		}
+		//	Set Commission
+		setCommissionAmt(commissionAmt);
+	}
+	
+	/**
+	 * Get Parent and instance if it don't exist
+	 * @return
+	 */
+	private MCommissionAmt getParent() {
+		if(parent == null) {
+			parent = new MCommissionAmt(getCtx(), getC_CommissionAmt_ID(), get_TrxName());
+		}
+		//	Default return
+		return parent;
+	}
+	
 	
 	/**
 	 * 	After Save
@@ -165,7 +207,7 @@ public class MCommissionDetail extends X_C_CommissionDetail
 	private void updateAmtHeader()
 	{
 		MCommissionAmt amt = new MCommissionAmt(getCtx(), getC_CommissionAmt_ID(), get_TrxName());
-		amt.calculateCommission();
+		amt.updateCommissionAmount();
 		amt.saveEx();
 	}	//	updateAmtHeader
 

@@ -385,32 +385,34 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 					m_comissionLog.append("<br>" + "----------------Totally paid test " + "<mark>" + "passed" +  "</mark>" + " . Continuing creating a new Commission Detail");	
 				}
 				//	CommissionAmount, C_Currency_ID, Amt, Qty,
-				MCommissionDetail cd = new MCommissionDetail (comAmt,
+				MCommissionDetail commissionDetail = new MCommissionDetail (comAmt,
 					rs.getInt(1), rs.getBigDecimal(2), rs.getBigDecimal(3));
 
 				m_comissionLog.append("<br>" + "----------------Actual Amount: "+ "<b>" + rs.getBigDecimal(2).setScale(2, BigDecimal.ROUND_HALF_UP) + "</b>");
 				m_comissionLog.append("<br>" + "----------------Actual Quantity: "+ "<b>" + rs.getBigDecimal(3).setScale(2, BigDecimal.ROUND_HALF_UP) + "</b>");
 					
 				//	C_OrderLine_ID, C_InvoiceLine_ID,
-				cd.setLineIDs(rs.getInt(4), rs.getInt(5));
+				commissionDetail.setLineIDs(rs.getInt(4), rs.getInt(5));
 				
 				//	Reference, Info,
 				String s = rs.getString(6);
 				if (s != null) {					
-					cd.setReference(Msg.translate(language, "Payment") + "_" + Msg.translate(language, "Invoice") + ": " + s);
-					m_comissionLog.append("<br>" + "----------------"+ "<b>" + cd.getReference()+ "</b>");	
+					commissionDetail.setReference(Msg.translate(language, "Payment") + "_" + Msg.translate(language, "Invoice") + ": " + s);
+					m_comissionLog.append("<br>" + "----------------"+ "<b>" + commissionDetail.getReference()+ "</b>");	
 				}
 				s = rs.getString(7);
 				if (s != null) {					
-					cd.setInfo(Msg.translate(language, "ProductValue") + ": " + s);
-					m_comissionLog.append("<br>" + "----------------"+ "<b>" + cd.getInfo()+ "</b>");	
+					commissionDetail.setInfo(Msg.translate(language, "ProductValue") + ": " + s);
+					m_comissionLog.append("<br>" + "----------------"+ "<b>" + commissionDetail.getInfo()+ "</b>");	
 				}
 				
 				//	Date
 				Timestamp date = rs.getTimestamp(8);
-				cd.setConvertedAmt(date);
-				m_comissionLog.append("<br>" + "----------------Converted Amount: "+ "<b>" + cd.getConvertedAmt().setScale(2, BigDecimal.ROUND_HALF_UP) + "</b>");
-				cd.saveEx();
+				commissionDetail.setConvertedAmt(date);
+				//	Calculate commission by line
+				commissionDetail.calculateCommission();
+				m_comissionLog.append("<br>" + "----------------Converted Amount: "+ "<b>" + commissionDetail.getConvertedAmt().setScale(2, BigDecimal.ROUND_HALF_UP) + "</b>");
+				commissionDetail.saveEx();
 				
 				// Check for RMAs
 				if (commission.isAllowRMA()) {
@@ -419,8 +421,8 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 						// There has been RMA(s) for this Invoice Line
 						// Create one (!) Commission Detail to compensate for all RMAs.
 						m_comissionLog.append("<br>" + "----------------Compensation needed start: " + qtyReturned + " RMAs");
-						MCommissionDetail compensationCD = MCommissionDetail.copy(getCtx(), cd, get_TrxName());
-						compensationCD.setInfo(Msg.translate(language, "CompensationFor") + " "  + cd.getInfo() 
+						MCommissionDetail compensationCD = MCommissionDetail.copy(getCtx(), commissionDetail, get_TrxName());
+						compensationCD.setInfo(Msg.translate(language, "CompensationFor") + " "  + commissionDetail.getInfo() 
 								+ " (" + Msg.translate(language, "QtyReturned") + ": "+ qtyReturned + "), ");						
 						compensationCD.correctForRMA(qtyReturned);
 						compensationCD.saveEx();
@@ -770,7 +772,7 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 			}
 			else  {		
 				m_comissionLog.append("<h3 style=\"background-color:orange\">" + "Calculate summary for " + salesRep.getName() + " start" + "</h3>");				
-				comAmt.calculateCommission();
+				comAmt.updateCommissionAmount();
 				m_comissionLog.append("Commission Amount: " + comAmt.getCommissionAmt().setScale(2, BigDecimal.ROUND_HALF_UP));	
 				m_comissionLog.append("<br>" + "Actual qty: " + comAmt.getActualQty().setScale(2, BigDecimal.ROUND_HALF_UP));
 				m_comissionLog.append("<br>" + "Base for commission: " + comAmt.getConvertedAmt().setScale(2, BigDecimal.ROUND_HALF_UP));	

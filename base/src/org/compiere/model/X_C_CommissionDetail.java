@@ -32,7 +32,7 @@ public class X_C_CommissionDetail extends PO implements I_C_CommissionDetail, I_
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170416L;
+	private static final long serialVersionUID = 20170608L;
 
     /** Standard Constructor */
     public X_C_CommissionDetail (Properties ctx, int C_CommissionDetail_ID, String trxName)
@@ -222,6 +222,26 @@ public class X_C_CommissionDetail extends PO implements I_C_CommissionDetail, I_
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Commission Amount.
+		@param CommissionAmt 
+		Commission Amount
+	  */
+	public void setCommissionAmt (BigDecimal CommissionAmt)
+	{
+		set_Value (COLUMNNAME_CommissionAmt, CommissionAmt);
+	}
+
+	/** Get Commission Amount.
+		@return Commission Amount
+	  */
+	public BigDecimal getCommissionAmt () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CommissionAmt);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** Set Converted Amount.

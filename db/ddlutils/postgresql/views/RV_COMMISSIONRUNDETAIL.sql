@@ -15,8 +15,8 @@ SELECT cr.AD_Client_ID, cr.AD_Org_ID, cr.IsActive, cr.Created,cr.CreatedBy, cr.U
     c.C_Commission_ID, ca.C_BPartner_ID AS Commission_BPartner_ID,
     --  Commission Amount
     ca.C_CommissionAmt_ID, 
-    ca.ConvertedAmt AS CommissionConvertedAmt, ca.ActualQty AS CommissionQty, 
-    ca.CommissionAmt,
+    cd.ConvertedAmt AS CommissionConvertedAmt, cd.ActualQty AS CommissionQty, 
+    cd.CommissionAmt,
     --  Commission Detail
     cd.C_CommissionDetail_ID,
     cd.Reference,
