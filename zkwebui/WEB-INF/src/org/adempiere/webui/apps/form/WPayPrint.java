@@ -206,7 +206,7 @@ public class WPayPrint extends PayPrint implements IFormController, EventListene
 		//	FR [ 297 ]
 		//	Add DocStatus for validation
 		MLookupInfo info = MLookupFactory.getLookupInfo(Env.getCtx(), windowNo, AD_Column_ID, DisplayType.Search);
-		info.ValidationCode = "C_PaySelection.DocStatus IN('CO', 'CL') AND C_PaySelection.C_BankAccount_ID IS NOT NULL";
+		info.ValidationCode = getValidationCode();
 		MLookup lookupPS = new MLookup(info, 0);
 		paySelectSearch = new WSearchEditor("C_PaySelection_ID", true, false, true, lookupPS);
 		paySelectSearch.addValueChangeListener(this);

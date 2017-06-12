@@ -235,4 +235,13 @@ public class PayPrint {
 		}
 		return msg;
 	}   //  loadPaymentRuleInfo
+
+	/**
+	 *
+	 * @return
+	 */
+	protected String getValidationCode()
+	{
+		return "C_PaySelection.DocStatus IN('CO') AND C_PaySelection.C_BankAccount_ID IS NOT NULL";
+	}
 }
