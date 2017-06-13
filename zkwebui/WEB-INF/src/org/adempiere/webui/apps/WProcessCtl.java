@@ -92,19 +92,32 @@ public class WProcessCtl {
 		pi.setAD_PInstance_ID (instance.getAD_PInstance_ID());
 
 		//	Get Parameters (Dialog)
-		ProcessModalDialog processModalDialog = new ProcessModalDialog(asyncProcess, windowNo, pi);
-		if (processModalDialog.isValidDialog())
+		ProcessModalDialog para = new ProcessModalDialog(asyncProcess, windowNo, pi);
+		if (para.isValid())
 		{
-			processModalDialog.setWidth("500px");
-			processModalDialog.setVisible(true);
-			processModalDialog.setPosition("center");
-			processModalDialog.setAttribute(Window.MODE_KEY, Window.MODE_MODAL);
-			AEnv.showWindow(processModalDialog);
-			if (!processModalDialog.isOK()) {
+			para.setWidth("500px");
+			para.setVisible(true);
+			para.setPosition("center");
+			para.setAttribute(Window.MODE_KEY, Window.MODE_MODAL);
+			AEnv.showWindow(para);
+			if (!para.isOK()) {
 				return;
 			}
 		}
-		processModalDialog.runProcess();
+
+
+		//	execute
+		ProcessCtl worker = new ProcessCtl(asyncProcess, windowNo, pi , trx);
+		if (asyncProcess != null)
+		{
+			//asynchrous
+			worker.start();
+		}
+		else
+		{
+			//synchrous
+			worker.run();
+		}
 		return;
 
 	}	//	execute
