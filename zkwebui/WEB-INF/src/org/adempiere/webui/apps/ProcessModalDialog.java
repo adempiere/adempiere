@@ -102,6 +102,7 @@ public class ProcessModalDialog extends Window implements IZKProcessDialog {
 	private boolean 		onlyPanel;
 	private boolean 		autoStart;
 	private boolean			isDefaultLastRun;
+	private boolean 		isValid = true;
 	
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(ProcessModalDialog.class);
@@ -147,7 +148,7 @@ public class ProcessModalDialog extends Window implements IZKProcessDialog {
 			processPanel.process();
 		}
 		//	
-		return true;
+		return isValid;
 	}
 
 	/**
@@ -163,6 +164,7 @@ public class ProcessModalDialog extends Window implements IZKProcessDialog {
 		processPanel = new ProcessPanel(this, windowNo, processInfo, "100%");
 		processPanel.setIsOnlyPanel(onlyPanel);
 		processPanel.setAutoStart(autoStart);
+		isValid = processPanel.createFieldsAndEditors();
 		processPanel.init();
 		
 		setTitle(processPanel.getName());
