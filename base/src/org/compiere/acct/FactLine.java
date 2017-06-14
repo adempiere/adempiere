@@ -189,7 +189,7 @@ public final class FactLine extends X_Fact_Acct
 					userElement2Id = m_doc.getValue(ColumnName2);
 				}
 				if (userElement2Id == 0 && acct.getUserElement2_ID() > 0 )
-					userElement2Id = acct.getUserElement1_ID();
+					userElement2Id = acct.getUserElement2_ID();
 
 				if (userElement2Id != 0)
 					setUserElement2_ID(userElement2Id);
@@ -323,6 +323,8 @@ public final class FactLine extends X_Fact_Acct
 		//	reset
 		setAD_Org_ID(0);
 		setC_SalesRegion_ID(0);
+		if (docLine != null)
+			setLine_ID(docLine.get_ID());
 		//	Client
 		if (getAD_Client_ID() == 0)
 			setAD_Client_ID (m_doc.getAD_Client_ID());

@@ -701,7 +701,9 @@ public final class Fact
 					factLineSource.getM_Product_ID(), factLineSource.getC_BPartner_ID(), factLineSource.getC_Project_ID(),
 					factLineSource.getC_Campaign_ID(), factLineSource.getC_Activity_ID(), factLineSource.getAD_OrgTrx_ID(),
 					factLineSource.getC_SalesRegion_ID(), factLineSource.getC_LocTo_ID(), factLineSource.getC_LocFrom_ID(),
-					factLineSource.getUser1_ID(), factLineSource.getUser2_ID(), factLineSource.getUser3_ID(), factLineSource.getUser4_ID() , factLineSource.getDateAcct());
+					factLineSource.getUser1_ID(), factLineSource.getUser2_ID(),
+					factLineSource.getUser3_ID(), factLineSource.getUser4_ID() ,
+					factLineSource.getDateAcct());
 				if (distributions == null || distributions.size() == 0)
 					continue;
 			}
@@ -745,7 +747,7 @@ public final class Fact
 			distribution.distribute(factLineSource.getAccount(), factLineSource.getSourceBalance(), factLineSource.getQty(), factLineSource.getC_Currency_ID(),m_doc.getAmount().signum());
 			for (MDistributionLine distributionLine : distributionLines)
 			{
-				FactLine factLine = new FactLine (m_doc.getCtx(), m_doc.get_Table_ID(), m_doc.get_ID(), 0, m_trxName);
+				FactLine factLine = new FactLine (m_doc.getCtx(), m_doc.get_Table_ID(), m_doc.get_ID(), 0 , m_trxName);
 				//  Set Info & Account
 				factLine.setDocumentInfo(m_doc, factLineSource.getDocLine());
 				factLine.setAccount(m_acctSchema, distributionLine.getAccount());

@@ -308,7 +308,7 @@ public class MDistribution extends X_GL_Distribution
 				getAccount_ID(), getM_Product_ID(), getC_BPartner_ID(),
 				getC_Project_ID(), getC_Campaign_ID(), getC_Activity_ID(),
 				getAD_OrgTrx_ID(), getC_SalesRegion_ID(), getC_LocTo_ID(),
-				getC_LocFrom_ID(), getUser1_ID(), getUser2_ID());
+				getC_LocFrom_ID(), getUser1_ID(), getUser2_ID() , getUser3_ID() , getUser4_ID());
 		
 
 	    if (distributions!= null && distributions.size() > 0) {
@@ -343,7 +343,7 @@ public class MDistribution extends X_GL_Distribution
 			int accountId, int productId, int partnerId,
 			int projectId, int campaignId, int activityId,
 			int orgTrxId, int salesRegionId, int locToId,
-			int locFromId, int user1Id, int user2Id) {
+			int locFromId, int user1Id, int user2Id ,  int user3Id, int user4Id ) {
 
 		List<MDistribution> distributions = getDistributions(ctx, acctSchemaId);
 		if (distributions == null || distributions.size() == 0)
@@ -400,6 +400,17 @@ public class MDistribution extends X_GL_Distribution
 			if (!distribution.isAnyUser2()
 					&& distribution.getUser2_ID() != user2Id)
 				continue;
+			if (!distribution.isAnyUser3()
+					&& distribution.getUser3_ID() != user3Id)
+				continue;
+			if (!distribution.isAnyUser4()
+					&& distribution.getUser4_ID() != user4Id)
+
+			if (!distribution.isAnyUser3()
+						&& distribution.getUser3_ID() != user3Id)
+					continue;
+			if (!distribution.isAnyUser4()
+					&& distribution.getUser4_ID() != user4Id)
 
 			list.add(distribution);
 		} // for all distributions with acct
