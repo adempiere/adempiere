@@ -165,7 +165,6 @@ public class ProcessModalDialog extends Window implements IZKProcessDialog {
 		processPanel.setIsOnlyPanel(onlyPanel);
 		processPanel.setAutoStart(autoStart);
 		isValid = processPanel.createFieldsAndEditors();
-		processPanel.init();
 		
 		setTitle(processPanel.getName());
 		//  BR [ 1004 ]
