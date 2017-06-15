@@ -44,7 +44,6 @@ import org.adempiere.webui.event.ZoomEvent;
 import org.adempiere.webui.panel.StatusBarPanel;
 import org.adempiere.webui.report.HTMLExtension;
 import org.adempiere.webui.session.SessionManager;
-import org.compiere.apps.ProcessCtl;
 import org.compiere.model.GridField;
 import org.compiere.model.MArchive;
 import org.compiere.model.MClient;
@@ -1284,17 +1283,18 @@ public class ZkReportViewer extends Window implements EventListener {
 				m_reportEngine.getProcessInfo().getTable_ID(), 
 				m_reportEngine.getProcessInfo().getRecord_ID());
 		//	Launch dialog
-		ProcessModalDialog dialog = new ProcessModalDialog(null, m_WindowNo, pi);
-		if (dialog.isValid()) {
+		ProcessModalDialog processModalDialog = new ProcessModalDialog(null, m_WindowNo, pi);
+		if (processModalDialog.isValidDialog()) {
 			try {
-				dialog.setPage(this.getPage());
-				dialog.doModal();
+				processModalDialog.setPage(this.getPage());
+				processModalDialog.doModal();
 				//	Valid
-				if(dialog.isOK()) {
+				if(processModalDialog.isOK()) {
 					//	execute
-					ProcessCtl worker = new ProcessCtl(null, m_WindowNo, pi, true, null);
+					//ProcessCtl worker = new ProcessCtl(null, m_WindowNo, pi, true, null);
 					//synchrous
-					worker.run();
+					//worker.run();
+					processModalDialog.runProcess();
 					//	
 					ReportEngine re = ReportEngine.get(Env.getCtx(), pi);
 					//	
@@ -1308,6 +1308,8 @@ public class ZkReportViewer extends Window implements EventListener {
 				log.severe(e.getLocalizedMessage());
 			}
 		}
+		else
+			processModalDialog.runProcess();
 		//	Default
 		return false;
 	}

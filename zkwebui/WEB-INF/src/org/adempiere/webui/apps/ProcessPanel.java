@@ -42,7 +42,11 @@ import org.adempiere.webui.event.ContextMenuListener;
 import org.adempiere.webui.window.FDialog;
 import org.compiere.apps.ProcessController;
 import org.compiere.apps.ProcessCtl;
-import org.compiere.model.*;
+import org.compiere.model.GridField;
+import org.compiere.model.Lookup;
+import org.compiere.model.MPInstance;
+import org.compiere.model.MRole;
+import org.compiere.model.MSysConfig;
 import org.compiere.print.MPrintFormat;
 import org.compiere.process.ProcessInfo;
 import org.compiere.swing.CEditor;
@@ -664,7 +668,7 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 	 */
 	protected void runProcess() {
 		getProcessInfo().setPrintPreview(true);
-		ProcessCtl worker = new ProcessCtl(this, getWindowNo(), getProcessInfo(), null);
+		ProcessCtl worker = new ProcessCtl(this, getWindowNo(), getProcessInfo(),null);
 		worker.run();
 		//	Run
 	}

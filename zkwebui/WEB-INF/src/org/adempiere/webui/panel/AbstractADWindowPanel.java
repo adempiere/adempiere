@@ -1766,20 +1766,21 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		if (!onSave(false))
 			return;
 		//
-		int table_ID = currentTab.getAD_Table_ID();
-		int record_ID = currentTab.getRecord_ID();
+		int tableId = currentTab.getAD_Table_ID();
+		int recordId = currentTab.getRecord_ID();
 
-		ProcessModalDialog dialog = new ProcessModalDialog(this,getWindowNo(),
-				AD_Process_ID,table_ID, record_ID, true);
-		if (dialog.isValid()) {
-			dialog.setPosition("center");
+		ProcessModalDialog processModalDialog = new ProcessModalDialog(this,getWindowNo(), AD_Process_ID,tableId, recordId, true);
+		if (processModalDialog.isValidDialog()) {
+			processModalDialog.setPosition("center");
 			try {
-				dialog.setPage(this.getComponent().getPage());
-				dialog.doModal();
+				processModalDialog.setPage(this.getComponent().getPage());
+				processModalDialog.doModal();
 			}
 			catch (InterruptedException e) {
 			}
 		}
+		else
+			processModalDialog.runProcess();
 	}
 
 	/**

@@ -522,23 +522,24 @@ public class WPaySelect extends PaySelect
 			return;
 		
 		//  Prepare Process 
-		int AD_Proces_ID = 155;	//	C_PaySelection_CreatePayment
+		int procesId = 155;	//	C_PaySelection_CreatePayment
 
 		//	Execute Process
-		ProcessModalDialog dialog = new ProcessModalDialog(this, m_WindowNo, 
-				AD_Proces_ID, X_C_PaySelection.Table_ID, m_ps.getC_PaySelection_ID(), false);
-		if (dialog.isValid()) {
+		ProcessModalDialog processModalDialog = new ProcessModalDialog(this, m_WindowNo, procesId, X_C_PaySelection.Table_ID, m_ps.getC_PaySelection_ID(), false);
+		if (processModalDialog.isValidDialog()) {
 			try {
-				dialog.setWidth("500px");
-				dialog.setVisible(true);
-				dialog.setPage(form.getPage());
-				dialog.doModal();
+				processModalDialog.setWidth("500px");
+				processModalDialog.setVisible(true);
+				processModalDialog.setPage(form.getPage());
+				processModalDialog.doModal();
 			} catch (SuspendNotAllowedException e) {
 				log.log(Level.SEVERE, e.getLocalizedMessage(), e);
 			} catch (InterruptedException e) {
 				log.log(Level.SEVERE, e.getLocalizedMessage(), e);
 			}
 		}
+		else
+			processModalDialog.runProcess();
 	}   //  generatePaySelect
 	
 	/**
