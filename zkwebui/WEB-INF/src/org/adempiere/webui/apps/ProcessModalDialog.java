@@ -136,7 +136,7 @@ public class ProcessModalDialog extends Window implements IZKProcessDialog {
 	 * is dialog still valid
 	 * @return boolean
 	 */
-	public boolean isValid() {
+	public boolean isValidDialog() {
 		if(autoStart) {
 			setStyle("");
 			getFirstChild().setVisible(false);
