@@ -319,7 +319,7 @@ public class DefaultDesktop extends TabbedDesktop implements MenuListener, Seria
 	        			Env.setContext( Env.getCtx(), "#AD_Browse_ID", rs.getInt(X_PA_DashboardContent.COLUMNNAME_AD_Browse_ID));//setting Tab ID to context
 	        			Env.setContext( Env.getCtx(), "#PageSize", rs.getInt(X_PA_DashboardContent.COLUMNNAME_PageSize));
 	        			Env.setContext( Env.getCtx(), "#Zoom_Tab_ID", rs.getInt(X_PA_DashboardContent.COLUMNNAME_Zoom_Tab_ID));
-	        			Env.setContext( Env.getCtx(),"#Zoom_Window_ID", rs.getInt(X_PA_DashboardContent.COLUMNNAME_Zoom_Window_ID));
+	        			Env.setContext( Env.getCtx(), "#Zoom_Window_ID", rs.getInt(X_PA_DashboardContent.COLUMNNAME_Zoom_Window_ID));
 	        			Env.setContext( Env.getCtx(), "#Zoom_Field_ID", rs.getInt(X_PA_DashboardContent.COLUMNNAME_Zoom_Field_ID));
 	        			Env.setContext( Env.getCtx(), "#OnEvent", rs.getString(X_PA_DashboardContent.COLUMNNAME_onevent));
 
@@ -340,7 +340,7 @@ public class DefaultDesktop extends TabbedDesktop implements MenuListener, Seria
 	        				}
 	        			}
 	        		} catch (Exception e) {
-	        		logger.log(Level.WARNING, "Failed to create components. zul=" + dynamic_Dashboard_zulFilepath, e);
+	        			logger.log(Level.WARNING, "Failed to create components. zul=" + dynamic_Dashboard_zulFilepath, e);
 	        		}
 	        	}
 

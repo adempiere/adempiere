@@ -44,7 +44,10 @@ import org.compiere.util.Msg;
  * @author Teo Sarca, www.arhipac.ro
  * 			<li>FR [ 2214883 ] Remove SQL code and Replace for Query
  * 			<li>BF [ 2815732 ] MWFNode.getWorkflow not working in trx
- * 				https://sourceforge.net/tracker/?func=detail&aid=2815732&group_id=176962&atid=879332 
+ * 				https://sourceforge.net/tracker/?func=detail&aid=2815732&group_id=176962&atid=879332
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * 		<a href="https://github.com/adempiere/adempiere/issues/884">
+ * 		@see FR [ 884 ] Recent Items in Dashboard</a>
  */
 public class MWFNode extends X_AD_WF_Node
 {
@@ -689,5 +692,35 @@ public class MWFNode extends X_AD_WF_Node
 		if (validTo != null && date.after(validTo))
 			return false;
 		return true;
+	}
+	
+	/**
+	 * Get Option ID, return 0 if don't have action
+	 * @return
+	 */
+	public int getOptionId() {
+		if(getAction() == null) {
+			return 0;
+		}
+		//	
+		if (getAction().equals(MWFNode.ACTION_UserWindow)) {	//	Window
+			return getAD_Window_ID();
+		} else if (getAction().equals(MWFNode.ACTION_AppsProcess) 
+				|| getAction().equals(MWFNode.ACTION_AppsReport)) {	//	Process & Report
+			return getAD_Process_ID();
+		} else if (getAction().equals(MWFNode.ACTION_UserWorkbench)) {	//	Workbench
+			//	Unsupported
+			return 0;
+		} else if (getAction().equals(MWFNode.ACTION_SubWorkflow)) {	//	WorkFlow
+			return getWorkflow_ID();
+		} else if (getAction().equals(MWFNode.ACTION_AppsTask)) {	//	Task
+			return getAD_Task_ID();
+		} else if (getAction().equals(MWFNode.ACTION_UserForm)) {	//	Form
+			return getAD_Form_ID();
+		} else if (getAction().equals(MWFNode.ACTION_SmartBrowse)) {	//	Smart Browse
+			return getAD_Browse_ID();
+		}
+		//	Return
+		return 0;
 	}
 }	//	M_WFNext

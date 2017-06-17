@@ -65,10 +65,13 @@ import org.compiere.wf.MWorkflow;
  *			@see https://github.com/adempiere/adempiere/issues/304
  *			<a href="https://github.com/adempiere/adempiere/issues/657">
  * 			@see FR [ 657 ] The tables mark like IsDocument is deleteable</a>
+ * 			<a href="https://github.com/adempiere/adempiere/issues/884">
+ * 			@see FR [ 884 ] Recent Items in Dashboard (Add new functionality)</a>
  *
  *	@author Trifon Trifon
  *			<li> FR [ 356 ] Decrease verbosity of SQL statement closing lines.
  *			@see https://github.com/adempiere/adempiere/issues/356
+ *	
  */
 public class MTable extends X_AD_Table
 {
@@ -80,7 +83,7 @@ public class MTable extends X_AD_Table
 	private static CCache<String,Class<?>> s_classCache = new CCache<String,Class<?>>("PO_Class", 20);
 
 	/**	Columns				*/
-	private MColumn[]	m_columns = null;
+	private List<MColumn>	columns = null;
 	
 	/**	Static Logger	*/
 	private static CLogger	s_log	= CLogger.getCLogger (MTable.class);
@@ -282,14 +285,6 @@ public class MTable extends X_AD_Table
 		{
 			if (index < 3)		//	AD_, A_
 				 className = className.substring(index+1);
-			/* DELETEME: this part is useless - teo_sarca, [ 1648850 ]
-			else
-			{
-				String prefix = className.substring(0,index);
-				if (prefix.equals("Fact"))		//	keep custom prefix
-					className = className.substring(index+1);
-			}
-			*/
 		}
 		//	Remove underlines
 		className = Util.replace(className, "_", "");
@@ -429,55 +424,54 @@ public class MTable extends X_AD_Table
 	 *	@param requery requery
 	 *	@return array of columns
 	 */
-	public MColumn[] getColumns (boolean requery)
-	{
-		if (m_columns != null && !requery)
-			return m_columns;
-
-		List<MColumn> list = getColumnsAsList();
-
-		m_columns = new MColumn[list.size()];
-		list.toArray (m_columns);
-		return m_columns;
+	public MColumn[] getColumns (boolean requery) {
+		List<MColumn> columnList = getColumnsAsList(requery);
+		MColumn[] columnArray = new MColumn[columnList.size()];
+		columns.toArray (columnArray);
+		return columnArray;
 	}	//	getColumns
 
-	//@Trifon
+	/**
+	 * Get Column As List, by default it not re-query
+	 * @return
+	 */
 	public List<MColumn> getColumnsAsList() {
-		String sql = "SELECT * FROM AD_Column WHERE AD_Table_ID=? ORDER BY ColumnName";
-		List<MColumn> list = new ArrayList<MColumn>();
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try {
-			pstmt = DB.prepareStatement (sql, get_TrxName());
-			pstmt.setInt (1, getAD_Table_ID());
-			rs = pstmt.executeQuery ();
-			while (rs.next ())
-				list.add (new MColumn (getCtx(), rs, get_TrxName()));
-		} catch (Exception e) {
-			log.log(Level.SEVERE, sql, e);
-		} finally {
-			DB.close(rs, pstmt);
-		}
-		return list;
+		return getColumnsAsList(false);
 	}
+	
+	//@Trifon
+	public List<MColumn> getColumnsAsList(boolean requery) {
+		if (columns != null
+				&& columns.size() != 0
+				&& !requery) {
+			return columns;
+		}
+		//	Default find
+		columns = new Query(getCtx(), I_AD_Column.Table_Name, "AD_Table_ID = ?", get_TrxName())
+				.setParameters(getAD_Table_ID())
+				.setOrderBy(I_AD_Column.COLUMNNAME_ColumnName)
+				.list();
+		//	Default Return
+		return columns;
+	}
+	
 	/**
 	 * 	Get Column
 	 *	@param columnName (case insensitive)
 	 *	@return column if found
 	 */
-	public MColumn getColumn (String columnName)
-	{
+	public MColumn getColumn (String columnName) {
 		if (columnName == null || columnName.isEmpty() )
 			return null;
 
-		if (m_columns == null) {
+		if (columns == null
+				|| columns.size() == 0) {
 			getColumns(false);
 		}
 		//
-		for (int i = 0; i < m_columns.length; i++)
-		{
-			if (columnName.equalsIgnoreCase(m_columns[i].getColumnName()))
-				return m_columns[i];
+		for (MColumn column : columns) {
+			if (columnName.equalsIgnoreCase(column.getColumnName()))
+				return column;
 		}
 		return null;
 	}	//	getColumn
@@ -496,14 +490,11 @@ public class MTable extends X_AD_Table
 	 * 	Get Key Columns of Table
 	 *	@return key columns
 	 */
-	public String[] getKeyColumns()
-	{
+	public String[] getKeyColumns() {
 		getColumns(false);
 		ArrayList<String> list = new ArrayList<String>();
 		//
-		for (int i = 0; i < m_columns.length; i++)
-		{
-			MColumn column = m_columns[i];
+		for (MColumn column : columns) {
 			if (column.isKey())
 				return new String[]{column.getColumnName()};
 			if (column.isParent())
@@ -761,9 +752,8 @@ public class MTable extends X_AD_Table
 		boolean hasParents = false;
 		StringBuffer constraints = new StringBuffer();
 		getColumns(true);
-		for (int i = 0; i < m_columns.length; i++)
-		{
-			MColumn column = m_columns[i];
+		for (int i = 0; i < columns.size(); i++) {
+			MColumn column = columns.get(i);
 			String colSQL = column.getSQLDDL();
 			if ( colSQL != null )
 			{
@@ -786,9 +776,7 @@ public class MTable extends X_AD_Table
 		if (!hasPK && hasParents)
 		{
 			StringBuffer cols = new StringBuffer();
-			for (int i = 0; i < m_columns.length; i++)
-			{
-				MColumn column = m_columns[i];
+			for (MColumn column : columns) {
 				if (!column.isParent())
 					continue;
 				if (cols.length() > 0)

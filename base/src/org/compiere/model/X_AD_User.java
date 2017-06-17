@@ -1,8 +1,9 @@
 /******************************************************************************
  * Product: ADempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 2006-2016 ADempiere Foundation, All Rights Reserved.         *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -30,7 +31,7 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170420L;
+	private static final long serialVersionUID = 20170614L;
 
     /** Standard Constructor */
     public X_AD_User (Properties ctx, int AD_User_ID, String trxName)
@@ -974,6 +975,40 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 			return "Y".equals(oo);
 		}
 		return false;
+	}
+
+	/** Set RecentItems Max Saved.
+		@param RecentItemsMaxSaved RecentItems Max Saved	  */
+	public void setRecentItemsMaxSaved (int RecentItemsMaxSaved)
+	{
+		set_Value (COLUMNNAME_RecentItemsMaxSaved, Integer.valueOf(RecentItemsMaxSaved));
+	}
+
+	/** Get RecentItems Max Saved.
+		@return RecentItems Max Saved	  */
+	public int getRecentItemsMaxSaved () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_RecentItemsMaxSaved);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set RecentItems Max Shown.
+		@param RecentItemsMaxShown RecentItems Max Shown	  */
+	public void setRecentItemsMaxShown (int RecentItemsMaxShown)
+	{
+		set_Value (COLUMNNAME_RecentItemsMaxShown, Integer.valueOf(RecentItemsMaxShown));
+	}
+
+	/** Get RecentItems Max Shown.
+		@return RecentItems Max Shown	  */
+	public int getRecentItemsMaxShown () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_RecentItemsMaxShown);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	public org.compiere.model.I_AD_User getSalesRep() throws RuntimeException

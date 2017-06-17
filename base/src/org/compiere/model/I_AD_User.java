@@ -1,8 +1,9 @@
 /******************************************************************************
  * Product: ADempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 2006-2016 ADempiere Foundation, All Rights Reserved.         *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -622,6 +623,24 @@ public interface I_AD_User
 
 	/** Get Process Now	  */
 	public boolean isProcessing();
+
+    /** Column name RecentItemsMaxSaved */
+    public static final String COLUMNNAME_RecentItemsMaxSaved = "RecentItemsMaxSaved";
+
+	/** Set RecentItems Max Saved	  */
+	public void setRecentItemsMaxSaved (int RecentItemsMaxSaved);
+
+	/** Get RecentItems Max Saved	  */
+	public int getRecentItemsMaxSaved();
+
+    /** Column name RecentItemsMaxShown */
+    public static final String COLUMNNAME_RecentItemsMaxShown = "RecentItemsMaxShown";
+
+	/** Set RecentItems Max Shown	  */
+	public void setRecentItemsMaxShown (int RecentItemsMaxShown);
+
+	/** Get RecentItems Max Shown	  */
+	public int getRecentItemsMaxShown();
 
     /** Column name SalesRep_ID */
     public static final String COLUMNNAME_SalesRep_ID = "SalesRep_ID";

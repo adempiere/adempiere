@@ -29,7 +29,7 @@ public class X_AD_RecentItem extends PO implements I_AD_RecentItem, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170407L;
+	private static final long serialVersionUID = 20170614L;
 
     /** Standard Constructor */
     public X_AD_RecentItem (Properties ctx, int AD_RecentItem_ID, String trxName)
@@ -39,8 +39,7 @@ public class X_AD_RecentItem extends PO implements I_AD_RecentItem, I_Persistent
         {
 			setAD_RecentItem_ID (0);
 			setAD_Role_ID (0);
-			setAD_Table_ID (0);
-			setRecord_ID (0);
+			setAD_User_ID (0);
         } */
     }
 
@@ -71,6 +70,34 @@ public class X_AD_RecentItem extends PO implements I_AD_RecentItem, I_Persistent
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	public org.compiere.model.I_AD_Menu getAD_Menu() throws RuntimeException
+    {
+		return (org.compiere.model.I_AD_Menu)MTable.get(getCtx(), org.compiere.model.I_AD_Menu.Table_Name)
+			.getPO(getAD_Menu_ID(), get_TrxName());	}
+
+	/** Set Menu.
+		@param AD_Menu_ID 
+		Identifies a Menu
+	  */
+	public void setAD_Menu_ID (int AD_Menu_ID)
+	{
+		if (AD_Menu_ID < 1) 
+			set_Value (COLUMNNAME_AD_Menu_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Menu_ID, Integer.valueOf(AD_Menu_ID));
+	}
+
+	/** Get Menu.
+		@return Identifies a Menu
+	  */
+	public int getAD_Menu_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Menu_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	/** Set Recent Item.
 		@param AD_RecentItem_ID Recent Item	  */

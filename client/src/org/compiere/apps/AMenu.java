@@ -200,9 +200,6 @@ public final class AMenu extends CFrame
 	private int 		m_AD_User_ID;
 	/** The Role			*/
 	private int 		m_AD_Role_ID;
-	
-	/** Center Tabbed Pane index: Menu			*/
-	private int 		m_tabMenu = 0;
 	/** Center Tabbed Pane index: Activities	*/
 	private int 		m_tabActivities = 1;
 	/** Center Tabbed Pane index: Workflow		*/
@@ -239,8 +236,6 @@ public final class AMenu extends CFrame
 
 		//  Focus Traversal
 		KeyboardFocusManager.setCurrentKeyboardFocusManager(AKeyboardFocusManager.get());
-	//	FocusManager.getCurrentManager().setDefaultFocusTraversalPolicy(AFocusTraversalPolicy.get());
-	//	this.setFocusTraversalPolicy(AFocusTraversalPolicy.get());
 
 		/**
 		 *	Show Login Screen - if not successful - exit
@@ -361,7 +356,6 @@ public final class AMenu extends CFrame
 		{
 			//centerPane.add(paPanel, Msg.getMsg(m_ctx, "PAPanel"));
 			centerPane.addTab(Msg.getMsg(m_ctx, "PAPanel"), Env.getImageIcon2("InfoAccount16"), paPanel);
-			m_tabMenu++;
 			m_tabActivities++;
 			m_tabWorkflow++;
 		}
@@ -661,14 +655,7 @@ public final class AMenu extends CFrame
 	/**
 	 *  Open Request Window
 	 */
-	private void gotoRequests()
-	{
-		//	AD_Table_ID for R_Request = 417		HARDCODED
-	//	if (m_request_Menu_ID == 0)		//	Goes to Request (all)
-	//		m_request_Menu_ID = DB.getSQLValue (null, "SELECT AD_Menu_ID "
-	//			+ "FROM AD_Menu m"
-	//			+ " INNER JOIN AD_TABLE t ON (t.AD_Window_ID=m.AD_Window_ID) "
-	//			+ "WHERE t.AD_Table_ID=?", 417);
+	private void gotoRequests() {
 		if (m_request_Menu_ID == 0)
 			m_request_Menu_ID = 237;	//	My Requests
 		(new AMenuStartItem (m_request_Menu_ID, true, Msg.translate(m_ctx, "R_Request_ID"), this)).start();		//	async load
@@ -690,16 +677,10 @@ public final class AMenu extends CFrame
 			new Object[] {new BigDecimal(total / 1024), new BigDecimal(percent)});
 		memoryBar.setString(msg);
 		//
-	//	msg = MessageFormat.format("Total Memory {0,number,integer} kB - Free {1,number,integer} kB", 
 		msg = Msg.getMsg(m_ctx, "MemoryInfo",
 			new Object[] {new BigDecimal(total), new BigDecimal(free)});
 		memoryBar.setToolTipText(msg);
-	//	progressBar.repaint();
-		
-		// CarlosRuiz - globalqss - [ 1881285 ] Remove unnecessary calls to System.gc
-		// if (percent > 50)
-			// System.gc();
-
+		//	
 		if (DB.isConnected())
 		{
 			//	Requests
@@ -711,13 +692,6 @@ public final class AMenu extends CFrame
 			//	Activities
 			int activities = wfActivity.getActivitiesCount();
 			centerPane.setTitleAt(m_tabActivities, Msg.getMsg (m_ctx, "WorkflowActivities") + ": " + activities);
-			/*
-			log.config(msg
-					+ ", Processors=" + Runtime.getRuntime().availableProcessors()
-					+ ", Requests=" + requests + ", Notes=" + notes + ", Activities=" + activities 
-					+ "," + CConnection.get().getStatus()
-				);
-			*/
 			MSystem.get(m_ctx).info();
 		}
 	}	//	updateInfo

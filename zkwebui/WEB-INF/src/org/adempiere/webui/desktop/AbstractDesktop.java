@@ -21,6 +21,7 @@ import org.adempiere.webui.component.Window;
 import org.adempiere.webui.exception.ApplicationException;
 import org.adempiere.webui.part.AbstractUIPart;
 import org.compiere.model.MMenu;
+import org.compiere.model.MRecentItem;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.zkoss.zk.ui.event.Events;
@@ -31,7 +32,9 @@ import org.zkoss.zk.ui.event.Events;
  * @author victor.perez@e-evoluton.com, www.e-evolution.com 
  * 	<li>FR [ 3426137 ] Smart Browser
  *  https://sourceforge.net/tracker/?func=detail&aid=3426137&group_id=176962&atid=879335
- *
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * 		<a href="https://github.com/adempiere/adempiere/issues/884">
+ * 		@see FR [ 884 ] Recent Items in Dashboard</a>
  */
 public abstract class AbstractDesktop extends AbstractUIPart implements IDesktop {
 
@@ -39,7 +42,6 @@ public abstract class AbstractDesktop extends AbstractUIPart implements IDesktop
 
 	private List<Object> windows = null;
 
-	@SuppressWarnings("unused")
 	private static final CLogger logger = CLogger.getCLogger(AbstractDesktop.class);
 
 	public AbstractDesktop() {
@@ -58,7 +60,7 @@ public abstract class AbstractDesktop extends AbstractUIPart implements IDesktop
      */
     public void onMenuSelected(int menuId)
     {
-        MMenu menu = new MMenu(Env.getCtx(), menuId, null);
+        MMenu menu = MMenu.getFromId(Env.getCtx(), menuId);
         if(menu.getAction().equals(MMenu.ACTION_Window))
         {
         	openWindow(menu.getAD_Window_ID());
@@ -86,8 +88,10 @@ public abstract class AbstractDesktop extends AbstractUIPart implements IDesktop
         }
         else
         {
-            throw new ApplicationException("Menu Action not yet implemented: " + menu.getAction());
+        	logger.warning("Menu Action not yet implemented: " + menu.getAction());
         }
+        //	Add to Recent Items
+        MRecentItem.addMenuOption(Env.getCtx(), menu.getAD_Menu_ID(), menu.getAD_Window_ID());
     }
     
     /**

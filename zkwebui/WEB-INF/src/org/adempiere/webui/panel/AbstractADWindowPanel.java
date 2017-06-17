@@ -123,6 +123,8 @@ import org.zkoss.zul.Menupopup;
  * 		@see FR [ 592 ] Delete Selection dialog is not MVC</a>
  * 		<a href="https://github.com/adempiere/adempiere/issues/990">
  * 		@see FR [ 990 ] Sort Tab is not MVC</a>
+ * 		<a href="https://github.com/adempiere/adempiere/issues/884">
+ * 		@see FR [ 884 ] Recent Items in Dashboard</a>
  * @author Raul Muñoz, rMunoz@erpcya.com, ERPCyA http://www.erpcya.com
  *		<li> BR [ 1004 ] Bad size for processing dialog on ZK Web UI
  *		<li> BR [ 1059 ] Error when a process button deletes a record from the window
@@ -147,7 +149,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 
     private int                  curWindowNo;
 
-    private GridTab              curTab;
+    private GridTab              currentTab;
     
     private boolean              m_onlyCurrentRows = true;
 
@@ -155,7 +157,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 
     protected CWindowToolbar     toolbar;
 
-    private int                  curTabIndex;
+    private int                  currentTabIndex;
 
     protected String             title;
 
@@ -213,7 +215,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
         this.embeddedTabPanel = tabPanel;
         curTabPanel = tabPanel;
         if (gridWindow != null && tabIndex >= 0)
-        	curTab = gridWindow.getTab(tabIndex);
+        	currentTab = gridWindow.getTab(tabIndex);
 
         initComponents();
     }
@@ -355,7 +357,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 	        for (int tab = 0; tab < tabSize; tab++)
 	        {
 	            initTab(query, tab);
-	            if (tab == 0 && curTab == null && m_findCancelled)
+	            if (tab == 0 && currentTab == null && m_findCancelled)
 	            	return false;
 	        }
 	        setActiveTab(0);
@@ -368,12 +370,12 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
         	initEmbeddedTab(query, embeddedTabIndex);
         }
 
-        if (curTab != null)
-        	curTab.getTableModel().setChanged(false);
+        if (currentTab != null)
+        	currentTab.getTableModel().setChanged(false);
 
         if (embeddedTabIndex < 0)
         {
-	        curTabIndex = 0;
+	        currentTabIndex = 0;
 
 	        adTab.setSelectedIndex(0);
 	        toolbar.enableTabNavigation(adTab.getTabCount() > 1);
@@ -392,7 +394,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
         }
         else
         {
-        	curTabIndex = embeddedTabIndex;
+        	currentTabIndex = embeddedTabIndex;
         	toolbar.enableTabNavigation(false);
 	        toolbar.enableFind(true);
 	        toolbar.enableHistoryRecords(false);
@@ -571,8 +573,8 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		        gTab.setQuery(query);
 		    }
 
-		    curTab = gTab;
-		    curTabIndex = tabIndex;
+		    currentTab = gTab;
+		    currentTabIndex = tabIndex;
 		}
 
 		if (gTab.isSortTab())
@@ -647,11 +649,11 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 
 		if (tabIndex == 0) {
 			toolbar.setCurrentPanel(curTabPanel);	
-			if (curTab.isHighVolume() && m_findCreateNew)
+			if (currentTab.isHighVolume() && m_findCreateNew)
 				onNew();
-		    else if (query == null && curTab.getRowCount() == 0 && Env.isAutoNew(ctx, curWindowNo))
+		    else if (query == null && currentTab.getRowCount() == 0 && Env.isAutoNew(ctx, curWindowNo))
 		    	onNew();
-		    else if (!curTab.isReadOnly() && curTab.isQueryNewRecord())
+		    else if (!currentTab.isReadOnly() && currentTab.isQueryNewRecord())
 		    	onNew();
 		}
 	}
@@ -806,7 +808,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 	{
 		if (!toolbar.isPersonalLock)
 			return;
-		final int record_ID = curTab.getRecord_ID();
+		final int record_ID = currentTab.getRecord_ID();
 		if (record_ID == -1)	//	No Key
 			return;
 
@@ -820,10 +822,10 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 			{
 				public void onEvent(Event event) throws Exception
 				{
-					curTab.lock(Env.getCtx(),  curTab.getRecord_ID() , !toolbar.getButton("Lock").isPressed());
-					curTab.loadAttachments();			//	reload
+					currentTab.lock(Env.getCtx(),  currentTab.getRecord_ID() , !toolbar.getButton("Lock").isPressed());
+					currentTab.loadAttachments();			//	reload
 
-					toolbar.lock(curTab.isLocked());
+					toolbar.lock(currentTab.isLocked());
 				}
 			});
 
@@ -833,9 +835,9 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 			{
 				public void onEvent(Event event) throws Exception
 				{
-					new WRecordAccessDialog(null, curTab.getAD_Table_ID(), curTab.getRecord_ID());
+					new WRecordAccessDialog(null, currentTab.getAD_Table_ID(), currentTab.getRecord_ID());
 
-					toolbar.lock(curTab.isLocked());
+					toolbar.lock(currentTab.isLocked());
 				}
 			});
 
@@ -854,7 +856,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 
 		if (gridWindow.isTransaction())
 		{
-			if (curTab.needSave(true, true) && !onSave(false))
+			if (currentTab.needSave(true, true) && !onSave(false))
 				return;
 
 			WOnlyCurrentDays ocd = new WOnlyCurrentDays();
@@ -875,7 +877,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		else
 			m_onlyCurrentRows = false;
 
-		curTab.setQuery(null);	//	reset previous queries
+		currentTab.setQuery(null);	//	reset previous queries
 		MRole role = MRole.getDefault();
 		int maxRows = role.getMaxQueryRecords();
 
@@ -883,7 +885,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 			+ ", Days=" + m_onlyCurrentDays
 			+ ", MaxRows=" + maxRows);
 
-		curTab.query(m_onlyCurrentRows, onlyCurrentDays, maxRows);
+		currentTab.query(m_onlyCurrentRows, onlyCurrentDays, maxRows);
 
     }
 
@@ -892,7 +894,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
      */
     public void onAttachment()
     {
-		int record_ID = curTab.getRecord_ID();
+		int record_ID = currentTab.getRecord_ID();
 		logger.info("Record_ID=" + record_ID);
 
 		if (record_ID == -1)	//	No Key
@@ -902,17 +904,17 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		}
 
 		//	Attachment va =
-		new WAttachment (	curWindowNo, curTab.getAD_AttachmentID(),
-							curTab.getAD_Table_ID(), record_ID, null);
+		new WAttachment (	curWindowNo, currentTab.getAD_AttachmentID(),
+							currentTab.getAD_Table_ID(), record_ID, null);
 
-		curTab.loadAttachments();				//	reload
-		toolbar.getButton("Attachment").setPressed(curTab.hasAttachment());
+		currentTab.loadAttachments();				//	reload
+		toolbar.getButton("Attachment").setPressed(currentTab.hasAttachment());
 		focusToActivePanel();
 	}
 
     public void onChat()
     {
-    	int recordId = curTab.getRecord_ID();
+    	int recordId = currentTab.getRecord_ID();
     	logger.info("Record_ID=" + recordId);
 
 		if (recordId == -1)	//	No Key
@@ -923,9 +925,9 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		//	Find display
 		String infoName = null;
 		String infoDisplay = null;
-		for (int i = 0; i < curTab.getFieldCount(); i++)
+		for (int i = 0; i < currentTab.getFieldCount(); i++)
 		{
-			GridField field = curTab.getField(i);
+			GridField field = currentTab.getField(i);
 			if (field.isKey())
 				infoName = field.getHeader();
 			if ((field.getColumnName().equals("Name") || field.getColumnName().equals("DocumentNo") )
@@ -936,9 +938,9 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		}
 		String description = infoName + ": " + infoDisplay;
 		
-    	new WChat(curWindowNo, curTab.getCM_ChatID(), curTab.getAD_Table_ID(), recordId, description, null);
-    	curTab.loadChats();
-		toolbar.getButton("Chat").setPressed(curTab.hasChat());
+    	new WChat(curWindowNo, currentTab.getCM_ChatID(), currentTab.getAD_Table_ID(), recordId, description, null);
+    	currentTab.loadChats();
+		toolbar.getButton("Chat").setPressed(currentTab.hasChat());
 		focusToActivePanel();
     }
     
@@ -1009,7 +1011,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
             else
             {
             	//reset to original
-            	tabList.setSelectedIndex(curTabIndex);
+            	tabList.setSelectedIndex(currentTabIndex);
             }
         }
     }
@@ -1017,16 +1019,16 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 	private boolean setActiveTab(int newTabIndex) {
 		boolean back = false;
 
-		int oldTabIndex = curTabIndex;
+		int oldTabIndex = currentTabIndex;
 
 		if (oldTabIndex == newTabIndex)
 		{
 		    return true;
 		}
 		
-		if (curTab != null)
+		if (currentTab != null)
 		{
-			if (curTab.isSortTab())
+			if (currentTab.isSortTab())
 			{
 				if (curTabPanel instanceof WSortTab)
 				{
@@ -1034,15 +1036,15 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 					((WSortTab) curTabPanel).unregisterPanel();
 				}
 			}
-			else if (curTab.needSave(true, false))
+			else if (currentTab.needSave(true, false))
 		    {
-		    	if (curTab.needSave(true, true))
+		    	if (currentTab.needSave(true, true))
 				{
 					//	Automatic Save
 					if (Env.isAutoCommit(ctx, curWindowNo)
-						&& (curTab.getCommitWarning() == null || curTab.getCommitWarning().trim().length() == 0))
+						&& (currentTab.getCommitWarning() == null || currentTab.getCommitWarning().trim().length() == 0))
 					{
-						if (!curTab.dataSave(true))
+						if (!currentTab.dataSave(true))
 						{
 							showLastError();
 							//  there is a problem, stop here
@@ -1050,9 +1052,9 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 						}
 					}
 					//  explicitly ask when changing tabs
-					else if (FDialog.ask(curWindowNo, this.getComponent(), "SaveChanges?", curTab.getCommitWarning()))
+					else if (FDialog.ask(curWindowNo, this.getComponent(), "SaveChanges?", currentTab.getCommitWarning()))
 					{   //  yes we want to save
-						if (!curTab.dataSave(true))
+						if (!currentTab.dataSave(true))
 						{
 							showLastError();
 							//  there is a problem, stop here
@@ -1061,10 +1063,10 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 					}
 					else    //  Don't save
 					{
-						int newRecord= curTab.getTableModel().getNewRow();     //VOSS COM
+						int newRecord= currentTab.getTableModel().getNewRow();     //VOSS COM
 
 						if( newRecord == -1)
-							curTab.dataIgnore();
+							currentTab.dataIgnore();
 						else
 						{
 							return false;
@@ -1072,7 +1074,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 					}
 				}
 				else    //  new record, but nothing changed
-					curTab.dataIgnore();
+					currentTab.dataIgnore();
 			}   //  there is a change
 		}
 
@@ -1086,7 +1088,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		toolbar.setPreviousPanel(oldTabPanel);
 		IADTabPanel newTabPanel = adTab.getSelectedTabpanel();		
 	
-		curTab = newTabPanel.getGridTab();	
+		currentTab = newTabPanel.getGridTab();	
 			
 		if (oldTabPanel != null)
 			oldTabPanel.activate(false);
@@ -1120,7 +1122,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 			newTabPanel.getGridTab().dataRefreshAll();
 		}
 
-		curTabIndex = newTabIndex;
+		currentTabIndex = newTabIndex;
 		curTabPanel = newTabPanel;
 		toolbar.setCurrentPanel(curTabPanel);
 		curTabPanel.setGlobalToolbar(toolbar);
@@ -1132,7 +1134,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		}
 		else
 		{
-			if (curTab.getRowCount() == 0 && Env.isAutoNew(ctx, getWindowNo()))
+			if (currentTab.getRowCount() == 0 && Env.isAutoNew(ctx, getWindowNo()))
 			{
 				onNew();
 			}
@@ -1148,27 +1150,27 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		if(!isEmbedded()
 				&& !(curTabPanel instanceof WSortTab))
     	{
-            toolbar.enableChanges(curTab.isReadOnly());
-            toolbar.enabledNew(curTab.isInsertRecord());
-            toolbar.enableCopy(curTab.isInsertRecord());
+            toolbar.enableChanges(currentTab.isReadOnly());
+            toolbar.enabledNew(currentTab.isInsertRecord());
+            toolbar.enableCopy(currentTab.isInsertRecord());
 
-            toolbar.enableTabNavigation(curTabIndex > 0,
-                    curTabIndex < (adTab.getTabCount() - 1));
+            toolbar.enableTabNavigation(currentTabIndex > 0,
+                    currentTabIndex < (adTab.getTabCount() - 1));
 
-            toolbar.getButton("Attachment").setPressed(curTab.hasAttachment());
-            toolbar.getButton("Chat").setPressed(curTab.hasChat());
+            toolbar.getButton("Attachment").setPressed(currentTab.hasAttachment());
+            toolbar.getButton("Chat").setPressed(currentTab.hasChat());
             if (isFirstTab())
             {
-                toolbar.getButton("HistoryRecords").setPressed(!curTab.isOnlyCurrentRows());
+                toolbar.getButton("HistoryRecords").setPressed(!currentTab.isOnlyCurrentRows());
             }
-            toolbar.getButton("Find").setPressed(curTab.isQueryActive());
+            toolbar.getButton("Find").setPressed(currentTab.isQueryActive());
 
             if (toolbar.isPersonalLock)
             {
-                toolbar.lock(curTab.isLocked());
+                toolbar.lock(currentTab.isLocked());
             }
 
-            toolbar.enablePrint(curTab.isPrinted());
+            toolbar.enablePrint(currentTab.isPrinted());
 
             if (gridWindow.isTransaction() && isFirstTab())
             {
@@ -1225,7 +1227,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 
         logger.info(e.getMessage());
         String dbInfo = e.getMessage();
-        if (curTab != null && curTab.isQueryActive())
+        if (currentTab != null && currentTab.isQueryActive())
             dbInfo = "[ " + dbInfo + " ]";
         statusBar.setStatusDB(dbInfo, e);
 
@@ -1263,7 +1265,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
         {
         	//focus to error field
         	ADTabPanel tabPanel = (ADTabPanel) getADTab().getSelectedTabpanel();
-        	GridField[] fields = curTab.getFields();
+        	GridField[] fields = currentTab.getFields();
         	for (GridField field : fields)
         	{
         		if (field.isError())
@@ -1284,52 +1286,36 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
         //  update Navigation
         boolean firstRow = e.isFirstRow();
         boolean lastRow = e.isLastRow();
-        toolbar.enableFirstNavigation(!firstRow && !curTab.isSortTab());
-        toolbar.enableLastNavigation(!lastRow && !curTab.isSortTab());
+        toolbar.enableFirstNavigation(!firstRow && !currentTab.isSortTab());
+        toolbar.enableLastNavigation(!lastRow && !currentTab.isSortTab());
 
         //  update Change
         boolean changed = e.isChanged() || e.isInserting();
         boolChanges = changed;
-        boolean readOnly = curTab.isReadOnly();
+        boolean readOnly = currentTab.isReadOnly();
         boolean insertRecord = !readOnly;
 
         if (insertRecord)
         {
-            insertRecord = curTab.isInsertRecord();
+            insertRecord = currentTab.isInsertRecord();
         }
 //        toolbar.enabledNew(!changed && insertRecord && !curTab.isSortTab());
-        toolbar.enabledNew(insertRecord && !curTab.isSortTab());
-        toolbar.enableCopy(!changed && insertRecord && !curTab.isSortTab());
+        toolbar.enabledNew(insertRecord && !currentTab.isSortTab());
+        toolbar.enableCopy(!changed && insertRecord && !currentTab.isSortTab());
         toolbar.enableRefresh(!changed);
-        toolbar.enableDelete(!changed && !readOnly && !curTab.isSortTab());
-        toolbar.enableDeleteSelection(!changed && !readOnly && !curTab.isSortTab());
+        toolbar.enableDelete(!changed && !readOnly && !currentTab.isSortTab());
+        toolbar.enableDeleteSelection(!changed && !readOnly && !currentTab.isSortTab());
         //
-        if (readOnly && curTab.isAlwaysUpdateField())
+        if (readOnly && currentTab.isAlwaysUpdateField())
         {
             readOnly = false;
         }
         toolbar.enableIgnore(changed && !readOnly);
-        
-        if (changed && !readOnly && !toolbar.isSaveEnable() ) {
-        	if (curTab.getRecord_ID() > 0) {
-            	if (curTabIndex == 0) {
-            		MRecentItem.addModifiedField(ctx, curTab.getAD_Table_ID(),
-            				curTab.getRecord_ID(), Env.getAD_User_ID(ctx),
-            				Env.getAD_Role_ID(ctx), curTab.getAD_Window_ID(),
-            				curTab.getAD_Tab_ID());
-            	} else {
-	        		/* when a detail record is modified add header to recent items */
-	        		GridTab mainTab = gridWindow.getTab(0);
-	        		if (mainTab != null) {
-			        	MRecentItem.addModifiedField(ctx, mainTab.getAD_Table_ID(),
-			        			mainTab.getRecord_ID(), Env.getAD_User_ID(ctx),
-			        			Env.getAD_Role_ID(ctx), mainTab.getAD_Window_ID(),
-			        			mainTab.getAD_Tab_ID());
-	        		}
-            	}
-            }
+        //	Add to recent items
+        if (changed && !readOnly && !toolbar.isSaveEnable()) {
+        	addToRecentItems();
         }
-        
+        //	
         toolbar.enableSave(changed && !readOnly);
 
         //
@@ -1344,32 +1330,32 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
         //  History (on first Tab only)
         if (isFirstTab())
         {
-            toolbar.getButton("HistoryRecords").setPressed(!curTab.isOnlyCurrentRows());
+            toolbar.getButton("HistoryRecords").setPressed(!currentTab.isOnlyCurrentRows());
         }
 
         //  Transaction info
-        String trxInfo = curTab.getTrxInfo();
+        String trxInfo = currentTab.getTrxInfo();
         if (trxInfo != null)
         {
             statusBar.setInfo(trxInfo);
         }
 
         //  Check Attachment
-        boolean canHaveAttachment = curTab.canHaveAttachment();       //  not single _ID column
+        boolean canHaveAttachment = currentTab.canHaveAttachment();       //  not single _ID column
         //
         if (canHaveAttachment && e.isLoading() &&
-                curTab.getCurrentRow() > e.getLoadedRows())
+                currentTab.getCurrentRow() > e.getLoadedRows())
         {
             canHaveAttachment = false;
         }
-        if (canHaveAttachment && curTab.getRecord_ID() == -1)    //   No Key
+        if (canHaveAttachment && currentTab.getRecord_ID() == -1)    //   No Key
         {
             canHaveAttachment = false;
         }
         if (canHaveAttachment)
         {
             toolbar.enableAttachment(true);
-            toolbar.getButton("Attachment").setPressed(curTab.hasAttachment());
+            toolbar.getButton("Attachment").setPressed(currentTab.hasAttachment());
         }
         else
         {
@@ -1379,39 +1365,61 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
         // Check Chat
         boolean canHaveChat = true;
         if (e.isLoading() &&
-                curTab.getCurrentRow() > e.getLoadedRows())
+                currentTab.getCurrentRow() > e.getLoadedRows())
         {
             canHaveChat = false;
         }
-        if (canHaveChat && curTab.getRecord_ID() == -1)    //   No Key
+        if (canHaveChat && currentTab.getRecord_ID() == -1)    //   No Key
         {
             canHaveChat = false;
         }
         if (canHaveChat)
         {
             toolbar.enableChat(true);
-            toolbar.getButton("Chat").setPressed(curTab.hasChat());
+            toolbar.getButton("Chat").setPressed(currentTab.hasChat());
         }
         else
         {
         	toolbar.enableChat(false);
         }
         
-        toolbar.getButton("Find").setPressed(curTab.isQueryActive());
+        toolbar.getButton("Find").setPressed(currentTab.isQueryActive());
 
         // Elaine 2008/12/05
         //  Lock Indicator
         if (toolbar.isPersonalLock)
         {
-			toolbar.lock(curTab.isLocked());
+			toolbar.lock(currentTab.isLocked());
         }
         //
 
         adTab.evaluate(e);
 
-        toolbar.enablePrint(curTab.isPrinted());
+        toolbar.enablePrint(currentTab.isPrinted());
         toolbar.enableReport(true);
     }
+    
+    /**
+     * Add to recent items
+     */
+    private void addToRecentItems() {
+		//	Add Recent Items
+    	if (currentTab.getRecord_ID() > 0) {
+        	if (currentTabIndex == 0) {
+        		MRecentItem.addWindowChange(ctx, currentTab.getAD_Table_ID(),
+        				currentTab.getRecord_ID(), currentTab.getAD_Window_ID(),
+        				currentTab.getAD_Tab_ID());
+        	} else {
+        		//	when a detail record is modified add header to recent items
+        		GridTab mainTab = gridWindow.getTab(0);
+        		if (mainTab != null) {
+        			MRecentItem.addWindowChange(ctx, mainTab.getAD_Table_ID(),
+        					mainTab.getRecord_ID(), mainTab.getAD_Window_ID(),
+        					mainTab.getAD_Tab_ID());
+        		}
+        	}
+        }
+	}
 
     /**
      * @return boolean
@@ -1559,11 +1567,8 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 
         //  Gets Fields from AD_Field_v
         GridField[] findFields = GridField.createFields(ctx, currentTab.getWindowNo(), 0,currentTab.getAD_Tab_ID());
-//        FindWindow find = new FindWindow (currentTab.getWindowNo(), currentTab.getName(),
-//                currentTab.getAD_Table_ID(), currentTab.getTableName(),
-//                currentTab.getWhereExtended(), findFields, 1, currentTab.getAD_Tab_ID());
         //  Open a popup or the search window
-        WSearch find = new WSearch (this, toolbar.getEvent().getTarget(), currentTab, findFields);
+        new WSearch (this, toolbar.getEvent().getTarget(), currentTab, findFields);
     }
 
     public void onFindCallback(MQuery query)
@@ -1651,36 +1656,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 	        toolbar.getCurrentPanel().afterSave(onSaveEvent);
 
 	        if (wasChanged) {
-		        if (newRecord) {
-		        	if (curTab.getRecord_ID() > 0) {
-			        	if (curTabIndex == 0) {
-				        	MRecentItem.addModifiedField(ctx, curTab.getAD_Table_ID(),
-				        			curTab.getRecord_ID(), Env.getAD_User_ID(ctx),
-				        			Env.getAD_Role_ID(ctx), curTab.getAD_Window_ID(),
-				        			curTab.getAD_Tab_ID());
-			        	} else {
-			        		/* when a detail record is modified add header to recent items */
-			        		GridTab mainTab = gridWindow.getTab(0);
-			        		if (mainTab != null) {
-					        	MRecentItem.addModifiedField(ctx, mainTab.getAD_Table_ID(),
-					        			mainTab.getRecord_ID(), Env.getAD_User_ID(ctx),
-					        			Env.getAD_Role_ID(ctx), mainTab.getAD_Window_ID(),
-					        			mainTab.getAD_Tab_ID());
-			        		}
-			        	}
-		        	}
-		        } else {
-		        	if (curTabIndex == 0) {
-			        	MRecentItem.touchUpdatedRecord(ctx, curTab.getAD_Table_ID(),
-			        			curTab.getRecord_ID(), Env.getAD_User_ID(ctx));
-		        	} else {
-		        		GridTab mainTab = gridWindow.getTab(0);
-		        		if (mainTab != null) {
-				        	MRecentItem.touchUpdatedRecord(ctx, mainTab.getAD_Table_ID(),
-				        			mainTab.getRecord_ID(), Env.getAD_User_ID(ctx));
-		        		}
-		        	}
-		        }
+		        addToRecentItems();
 	        }
 	        return true;
     	}
@@ -2284,8 +2260,8 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 	 */
 	private String processButtonCallout (WButtonEditor button)
 	{
-		GridField field = curTab.getField(button.getColumnName());
-		return curTab.processCallout(field);
+		GridField field = currentTab.getField(button.getColumnName());
+		return currentTab.processCallout(field);
 	}	//	processButtonCallout
 
 	/**
@@ -2346,9 +2322,9 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 
 		m_uiLocked = false;
 		boolean notPrint = pi != null
-		&& pi.getAD_Process_ID() != curTab.getAD_Process_ID()
+		&& pi.getAD_Process_ID() != currentTab.getAD_Process_ID()
 		&& pi.isReportingProcess() == false;
-		curTab.dataRefresh();
+		currentTab.dataRefresh();
 		//
 		//  Process Result
 
@@ -2421,7 +2397,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 	 * @return active grid tab
 	 */
 	public GridTab getActiveGridTab() {
-		return curTab;
+		return currentTab;
 	}
 
 	/**

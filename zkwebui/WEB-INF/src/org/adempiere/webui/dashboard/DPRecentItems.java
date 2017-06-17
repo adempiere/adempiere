@@ -17,10 +17,11 @@ import java.util.List;
 
 import org.adempiere.webui.component.ToolBarButton;
 import org.adempiere.webui.session.SessionManager;
+import org.adempiere.webui.theme.ITheme;
 import org.adempiere.webui.util.ServerPushTemplate;
+import org.compiere.model.MMenu;
 import org.compiere.model.MQuery;
 import org.compiere.model.MRecentItem;
-import org.compiere.model.MSysConfig;
 import org.compiere.model.MTable;
 import org.compiere.util.Env;
 import org.zkoss.zk.ui.Component;
@@ -39,6 +40,9 @@ import org.zkoss.zul.Vbox;
  * Dashboard item: Recent Items
  * @author Carlos Ruiz / GlobalQSS
  * @date January 27, 2012
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * 		<a href="https://github.com/adempiere/adempiere/issues/884">
+ * 		@see FR [ 884 ] Recent Items in Dashboard (Add new functionality)</a>
  */
 public class DPRecentItems extends DashboardPanel implements EventListener {
 
@@ -111,20 +115,23 @@ public class DPRecentItems extends DashboardPanel implements EventListener {
             {
             	ToolBarButton btn = (ToolBarButton) comp;
 
-            	int AD_RecentItem_ID = 0;
-            	try
-            	{
-            		AD_RecentItem_ID = Integer.valueOf(btn.getName());            		
+            	int recentItemId = 0;
+            	try {
+            		recentItemId = Integer.valueOf(btn.getName());            		
+            	} catch (Exception e) {
+            		//	
             	}
-            	catch (Exception e) {
-				}
-
-            	if (AD_RecentItem_ID > 0) {
-            		MRecentItem ri = MRecentItem.get(Env.getCtx(), AD_RecentItem_ID);
-            		String TableName = MTable.getTableName(Env.getCtx(), ri.getAD_Table_ID());
-        			MQuery query = MQuery.getEqualQuery(TableName + "_ID", ri.getRecord_ID());
-
-            		SessionManager.getAppDesktop().openWindow(ri.getAD_Window_ID(), query);
+            	//	Open
+            	if (recentItemId > 0) {
+            		MRecentItem recentItem = MRecentItem.get(Env.getCtx(), recentItemId);
+            		//	Is a window change
+            		if(!recentItem.isOptionMenu()) {
+            			String TableName = MTable.getTableName(Env.getCtx(), recentItem.getAD_Table_ID());
+            			MQuery query = MQuery.getEqualQuery(TableName + "_ID", recentItem.getRecord_ID());
+                		SessionManager.getAppDesktop().openWindow(recentItem.getAD_Window_ID(), query);
+            		} else {
+            			SessionManager.getAppDesktop().onMenuSelected(recentItem.getAD_Menu_ID());
+            		}
             	}
             }
             if (comp instanceof Image) // Refresh button
@@ -160,31 +167,30 @@ public class DPRecentItems extends DashboardPanel implements EventListener {
 			}
 			bxRecentItems.removeChild(comp);
 		}
-
-		int maxri = MSysConfig.getIntValue("RecentItems_MaxShown", 10, Env.getAD_Client_ID(Env.getCtx()));
-		if (maxri <= 0)
-			return;
-
-		int AD_User_ID = Env.getAD_User_ID(Env.getCtx());
-		List<MRecentItem> ris = MRecentItem.getFromUser(Env.getCtx(), AD_User_ID);
-		int riShown = 0;
-		for (MRecentItem ri : ris) {
-			String label = ri.getLabel();
+		//	Delete Unnecessary Items
+		MRecentItem.deleteExtraItems(Env.getCtx());
+		List<MRecentItem> recentItemList = MRecentItem.getFromUserAndRole(Env.getCtx());
+		for (MRecentItem recentItem : recentItemList) {
+			String label = recentItem.getLabel();
 			if (label == null) {
-				ri.delete(true);
-				ri.save();
+				recentItem.delete(true);
+				recentItem.save();
 				continue; // record could have been deleted
 			}
-			ToolBarButton btnrecentItem = new ToolBarButton(String.valueOf(ri.getAD_RecentItem_ID()));
+			ToolBarButton btnrecentItem = new ToolBarButton(String.valueOf(recentItem.getAD_RecentItem_ID()));
 			btnrecentItem.setLabel(label);
-			btnrecentItem.setImage(getIconFile());
 			btnrecentItem.setDraggable(DELETE_RECENTITEMS_DROPPABLE);
 			btnrecentItem.addEventListener(Events.ON_CLICK, this);
 			btnrecentItem.addEventListener(Events.ON_DROP, this);
+			//	Set icon image
+			String action = MMenu.ACTION_Window;
+			//	
+			if(recentItem.getAD_Menu_ID() != 0) {
+				MMenu menu = MMenu.getFromId(Env.getCtx(), recentItem.getAD_Menu_ID());
+				action = menu.getAction();
+			}
+			btnrecentItem.setImage(getIconFile(action));
 			bxRecentItems.appendChild(btnrecentItem);
-			riShown++;
-			if (riShown >= maxri)
-				break;
 		}
 
 	}
@@ -201,8 +207,27 @@ public class DPRecentItems extends DashboardPanel implements EventListener {
 		}
 	}
 
-	private String getIconFile() {
-		return "images/mWindow.png";
+	/**
+	 * Get icon from action
+	 * @param action
+	 * @return
+	 */
+	private String getIconFile(String action) {
+		String iconPath = null;
+		if (action.equals(MMenu.ACTION_Report))
+			iconPath = ITheme.MENU_REPORT_IMAGE;
+        else if (action.equals(MMenu.ACTION_Process))
+        	iconPath = ITheme.MENU_PROCESS_IMAGE;
+        else if (action.equals(MMenu.ACTION_WorkFlow))
+        	iconPath = ITheme.MENU_WORKFLOW_IMAGE;
+        else if (action.equals(MMenu.ACTION_Task))
+        	iconPath = ITheme.MENU_TASK_IMAGE;
+        else if (action.equals(MMenu.ACTION_Workbench))
+        	iconPath = ITheme.MENU_WORKBENCH_IMAGE;
+        else
+        	iconPath = ITheme.MENU_WINDOW_IMAGE;
+		//	Default
+		return iconPath;
 	}
 
 	@Override
@@ -216,6 +241,4 @@ public class DPRecentItems extends DashboardPanel implements EventListener {
 		refresh();
 		bxRecentItems.invalidate();
 	}
-
-	
 }

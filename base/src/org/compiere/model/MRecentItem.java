@@ -13,70 +13,59 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Iterator;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Properties;
+import java.util.stream.Collectors;
 
-import org.adempiere.exceptions.AdempiereException;
 import org.compiere.util.CCache;
-import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.compiere.util.Util;
 
 /**
  *	Recent Item model
  *
  *  @author Carlos Ruiz - GlobalQSS
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * 		<a href="https://github.com/adempiere/adempiere/issues/884">
+ * 		@see FR [ 884 ] Recent Items in Dashboard (Add new functionality)</a>
  */
 public class MRecentItem extends X_AD_RecentItem
 {
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 8337619537799431984L;
 
 	/**	Recent Item Cache				*/
-	private static CCache<Integer,MRecentItem>	s_cache = new CCache<Integer,MRecentItem>("AD_RecentItem", 10);
-	/**	Logger			*/
-	private static CLogger s_log = CLogger.getCLogger(MRecentItem.class);
-
+	private static CCache<String, MRecentItem>	cache = new CCache<String, MRecentItem>("AD_RecentItem", 10);
+	/**	Window Cache					*/
+	private static CCache<Integer, Integer>	windowcache = new CCache<Integer, Integer>("AD_Window", 10);
+	
+	
 	/**************************************************************************
 	 * 	Standard Constructor
 	 *	@param ctx context
 	 *	@param AD_RecentItem_ID id
 	 *	@param trxName transaction
 	 */
-	public MRecentItem (Properties ctx, int AD_RecentItem_ID, String trxName)
-	{
+	public MRecentItem (Properties ctx, int AD_RecentItem_ID, String trxName) {
 	      super (ctx, AD_RecentItem_ID, trxName);
-	      if (AD_RecentItem_ID > 0) {
-				Integer key = new Integer (AD_RecentItem_ID);
-				if (!s_cache.containsKey(key))
-					s_cache.put (key, this);
-	      }
 	}	//	MRecentItem
-
-	/**
-	 * 	Load Constructor
-	 *	@param ctx ctx
-	 *	@param rs result set
+	
+	/**************************************************************************
+	 * 	Standard Constructor
+	 *	@param ctx context
+	 *	@param AD_RecentItem_ID id
 	 *	@param trxName transaction
 	 */
-	public MRecentItem (Properties ctx, ResultSet rs, String trxName)
-	{
+	public MRecentItem(Properties ctx, ResultSet rs, String trxName) {
 		super(ctx, rs, trxName);
-		Integer key = null;
-		try {
-			key = new Integer (rs.getInt("AD_RecentItem_ID"));
-		} catch (SQLException e) {
-			throw new AdempiereException(e);
-		}
-		if (key != null && !s_cache.containsKey(key))
-			s_cache.put (key, this);
-	}	//	MRecentItem
+	}
 
 	/**
 	 * 	Get from Cache using ID
@@ -84,181 +73,384 @@ public class MRecentItem extends X_AD_RecentItem
 	 *	@param AD_RecentItem_ID id
 	 *	@return recent item
 	 */
-	public static MRecentItem get (Properties ctx, int AD_RecentItem_ID)
-	{
+	public static MRecentItem get (Properties ctx, int AD_RecentItem_ID) {
 		Integer ii = new Integer (AD_RecentItem_ID);
-		MRecentItem ri = (MRecentItem)s_cache.get(ii);
+		MRecentItem ri = (MRecentItem)cache.get(ii);
 		if (ri == null)
 			ri = new MRecentItem (ctx, AD_RecentItem_ID, null);
 		return ri;
 	}	//	get
 
 	/**
-	 * 	Get Recent Item from Cache using table+recordID
-	 *	@param ctx context
-	 *	@param AD_Table_ID tableID
-	 *	@param Record_ID recordID
-	 *	@return recent item
+	 * Get From Recent Item from menu option (It instance a new record it it not exist)
+	 * @param ctx
+	 * @param userId
+	 * @param roleId
+	 * @param menuId
+	 * @return
 	 */
-	public static MRecentItem get (Properties ctx, int AD_Table_ID, int Record_ID, int AD_User_ID)
-	{
-		Iterator<MRecentItem> it = s_cache.values().iterator();
-		while (it.hasNext())
-		{
-			MRecentItem retValue = it.next();
-			if (retValue.getAD_Table_ID() == AD_Table_ID
-					&& retValue.getRecord_ID() == Record_ID
-					&& retValue.getCtx() == ctx
-					)
-			{
-				return retValue;
+	public static MRecentItem getFromMenuOption(Properties ctx, int userId, int roleId, int menuId) {
+		String key = "OptionMenu|" + userId + "|" + roleId + "|" + menuId;
+		MRecentItem item = cache.get(key);
+		if(item == null) {
+			item = new Query(ctx, Table_Name, 
+					"AD_User_ID = " + userId
+					+ " AND AD_Role_ID = " + roleId
+					+ " AND AD_Menu_ID = " + menuId, null)
+					.setClient_ID()
+					.setOrderBy(COLUMNNAME_Updated + " DESC")
+					.first();
+			//	Validate
+			if(item == null) {
+				return new MRecentItem(ctx, 0, null);
 			}
+			//	set on cache
+			cache.put(key, item);
 		}
-		//
-		MRecentItem retValue = null;
-		String sql = "SELECT * FROM AD_RecentItem WHERE AD_Table_ID=? AND Record_ID=? AND AD_User_ID=?";
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, null);
-			pstmt.setInt(1, AD_Table_ID);
-			pstmt.setInt(2, Record_ID);
-			pstmt.setInt(3, AD_User_ID);
-			rs = pstmt.executeQuery ();
-			if (rs.next ())
-				retValue = new MRecentItem (ctx, rs, null);
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new AdempiereException(e);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
-
-		if (retValue != null)
-		{
-			Integer key = new Integer (retValue.getAD_RecentItem_ID());
-			s_cache.put (key, retValue);
-		}
-		return retValue;
-	}	//	get
-
-	/*
-	 * addModifiedField / method to be called when first field is modified on a window
-	 * it adds a record in recent item, or touches the record if it was added before
+		//	
+		return item;
+	}
+	
+	/**
+	 * Get Recent Item from Window Change (It instance a new record it it not exist)
+	 * @param ctx
+	 * @param userId
+	 * @param roleId
+	 * @param tableId
+	 * @param recordId
+	 * @param windowId
+	 * @return
 	 */
-	public static void addModifiedField(Properties ctx, int AD_Table_ID, int Record_ID, int AD_User_ID, int AD_Role_ID, int AD_Window_ID, int AD_Tab_ID) {
-		int maxri = MSysConfig.getIntValue("RecentItems_MaxSaved", 50, Env.getAD_Client_ID(ctx));
-		if (maxri <= 0)
-			return;
-		MRecentItem ri = get(ctx, AD_Table_ID, Record_ID, AD_User_ID);
-		if (ri == null) {
-			ri = new MRecentItem(ctx, 0, null);
-			ri.setAD_Table_ID(AD_Table_ID);
-			ri.setRecord_ID(Record_ID);
-			ri.setAD_User_ID(AD_User_ID);
+	public static MRecentItem getFromWindowChange(Properties ctx, int userId, int roleId, int tableId, int recordId, int windowId) {
+		String key = "WindowChange|" + userId + "|" + roleId + "|" + tableId + "|" + recordId + "|" + windowId;
+		MRecentItem item = cache.get(key);
+		if(item == null) {
+			item = new Query(ctx, I_AD_RecentItem.Table_Name, 
+					"AD_User_ID = " + userId
+					+ " AND AD_Role_ID = " + roleId
+					+ " AND AD_Window_ID = " + windowId
+					+ " AND (AD_Table_ID = " + tableId + " OR AD_Table_ID IS NULL)"
+					+ " AND (Record_ID = " + recordId + " OR Record_ID IS NULL)", null)
+					.first();
+			//	Validate
+			if(item == null) {
+				return new MRecentItem(ctx, 0, null);
+			}
+			//	set on cache
+			cache.put(key, item);
 		}
-		ri.setAD_Role_ID(AD_Role_ID);
-		ri.setAD_Window_ID(AD_Window_ID);
-		ri.setAD_Tab_ID(AD_Tab_ID);
-		ri.saveEx();
+		//	
+		return item;
 	}
 
-	/*
+	/**
+	 * Get Max Recent Items by User to save
+	 * @param ctx
+	 * @param userId
+	 * @return
+	 */
+	public static int getMaxRecentItemsToSave(Properties ctx, int userId) {
+		MUser user = MUser.get(ctx, userId);
+		//	For null value it is not valid
+		int maxRecentItems = 0;
+		if(user != null) {
+			maxRecentItems = user.getRecentItemsMaxSaved();
+		}
+		//	Get from system
+		if(maxRecentItems <= 0) {
+			maxRecentItems = MSysConfig.getIntValue("RecentItems_MaxSaved", 50, Env.getAD_Client_ID(ctx));
+		}
+		//	Default Return
+		return maxRecentItems;
+	}
+	
+	/**
+	 * Get Max Recent Items by User to shown
+	 * @param ctx
+	 * @param userId
+	 * @return
+	 */
+	public static int getMaxRecentItemsToShown(Properties ctx, int userId) {
+		MUser user = MUser.get(ctx, userId);
+		//	For null value it is not valid
+		int maxRecentItems = 0;
+		if(user != null) {
+			maxRecentItems = user.getRecentItemsMaxShown();
+		}
+		//	Get from system
+		if(maxRecentItems <= 0) {
+			maxRecentItems = MSysConfig.getIntValue("RecentItems_MaxShown", 50, Env.getAD_Client_ID(ctx));
+		}
+		//	Default Return
+		return maxRecentItems;
+	}
+	
+	/**
+	 * addModifiedField / method to be called when first field is modified on a window
+	 * it adds a record in recent item, or touches the record if it was added before
+	 * @param ctx
+	 * @param userId
+	 * @param roleId
+	 * @param tableId
+	 * @param recordId
+	 * @param windowId
+	 * @param tabId
+	 * @param menuId
+	 */
+	public static void addChange(Properties ctx, int userId, 
+			int roleId, int tableId, int recordId, int windowId, int tabId, int menuId) {
+		//	Validate user (Mandatory)
+		if(userId < 0)
+			return;
+		MRecentItem recentItem = null;
+		String key = null;
+		//	For menu
+		if(menuId != 0) {
+			recentItem = getFromMenuOption(ctx, userId, roleId, menuId);
+			key = "OptionMenu|" + userId + "|" + roleId + "|" + menuId;
+		} else {
+			recentItem = getFromWindowChange(ctx, userId, roleId, tableId, recordId, windowId);
+			key = "WindowChange|" + userId + "|" + roleId + "|" + tableId + "|" + recordId + "|" + windowId;
+		}
+		//	Set Values
+		recentItem.setAD_User_ID(userId);
+		recentItem.setAD_Role_ID(roleId);
+		if(menuId != 0) {
+			recentItem.setAD_Menu_ID(menuId);
+			recentItem.setAD_Window_ID(windowId);
+			windowcache.put(windowId, menuId);
+		} else {
+			//	Get Last menu for it window
+			if(menuId == 0) {
+				menuId = windowcache.get(windowId);
+			}
+			recentItem.setAD_Table_ID(tableId);
+			recentItem.setRecord_ID(recordId);
+			recentItem.setAD_Window_ID(windowId);
+			recentItem.setAD_Tab_ID(tabId);
+			recentItem.setAD_Menu_ID(menuId);
+		}
+		//	Only update
+		if(!recentItem.is_new()
+				&& !recentItem.is_Changed()) {
+			touchUpdatedRecord(recentItem.getAD_RecentItem_ID());
+		} else if(recentItem.save()) {
+			cache.put(key, recentItem);
+		}
+	}
+	
+	/**
+	 * Helper method for add a a record to items when a field has need changed
+	 * @param ctx
+	 * @param userId
+	 * @param roleId
+	 * @param tableId
+	 * @param recordId
+	 * @param windowId
+	 * @param tabId
+	 */
+	public static void addWindowChange(Properties ctx, int userId, int roleId, int tableId, int recordId, int windowId, int tabId) {
+		addChange(ctx, userId, roleId, tableId, recordId, windowId, tabId, 0);
+	}
+	
+	/**
+	 * Helper method for add window change
+	 * @param ctx
+	 * @param tableId
+	 * @param recordId
+	 * @param windowId
+	 * @param tabId
+	 */
+	public static void addWindowChange(Properties ctx, int tableId, int recordId, int windowId, int tabId) {
+		try {
+			addWindowChange(ctx, Env.getAD_User_ID(ctx), Env.getAD_Role_ID(ctx), tableId, recordId, windowId, tabId);
+		} catch(Exception e) {
+			//	
+		}
+	}
+	
+	/**
+	 * Helper method for add a option opened for user on a menu
+	 * @param ctx
+	 * @param userId
+	 * @param roleId
+	 * @param menuId
+	 * @param windowId
+	 */
+	public static void addMenuOption(Properties ctx, int userId, int roleId, int menuId, int windowId) {
+		try {
+			addChange(ctx, userId, roleId, 0, 0, windowId, 0, menuId);
+		} catch(Exception e) {
+			//	
+		}
+		
+	}
+
+	/**
+	 * Helper method for add menu option choice
+	 * @param ctx
+	 * @param menuId
+	 * @param windowId
+	 */
+	public static void addMenuOption(Properties ctx, int menuId, int windowId) {
+		try {
+			addMenuOption(ctx, Env.getAD_User_ID(ctx), Env.getAD_Role_ID(ctx), menuId, windowId);
+		} catch(Exception e) {
+			//	
+		}
+	}
+	
+	/**
 	 * touchUpdatedRecord / method to be called when a record is saved or updated in database
 	 * it touches the record added before
 	 * also delete recent items beyond the number of records allowed per user
+	 * @param recentItemId
 	 */
-	public static void touchUpdatedRecord(Properties ctx, int AD_Table_ID, int Record_ID, int AD_User_ID) {
-		MRecentItem ri = get(ctx, AD_Table_ID, Record_ID, AD_User_ID);
-		if (ri != null) {
-			DB.executeUpdateEx("UPDATE AD_RecentItem SET Updated=SYSDATE WHERE AD_RecentItem_ID=?", new Object[] {ri.getAD_RecentItem_ID()}, null);
-			deleteExtraRecentItems(ctx, AD_User_ID);
-		}
-	}
-
-	private static void deleteExtraRecentItems(Properties ctx, int AD_User_ID) {
-		int AD_Client_ID = Env.getAD_Client_ID(ctx);
-		int maxri = MSysConfig.getIntValue("RecentItems_MaxSaved", 50, AD_Client_ID);
-		if (maxri < 0)
-			maxri = 0;
-		int cntri = DB.getSQLValue(null, "SELECT COUNT(*) FROM AD_RecentItem WHERE AD_User_ID=? AND AD_Client_ID=?", AD_User_ID, AD_Client_ID);
-		if (cntri > maxri) {
-			int cntdel = cntri - maxri;
-			String sql = "SELECT AD_Table_ID, Record_ID FROM AD_RecentItem WHERE AD_User_ID=? AND AD_Client_ID=? ORDER BY Updated";
-			PreparedStatement pstmt = null;
-			ResultSet rs = null;
-			try
-			{
-				pstmt = DB.prepareStatement (sql, null);
-				pstmt.setInt(1, AD_User_ID);
-				pstmt.setInt(2, AD_Client_ID);
-				rs = pstmt.executeQuery ();
-				while (rs.next()) {
-					int AD_Table_ID = rs.getInt(1);
-					int Record_ID = rs.getInt(2);
-					MRecentItem ri = get(ctx, AD_Table_ID, Record_ID, AD_User_ID);
-					ri.deleteEx(true);
-					cntdel--;
-					if (cntdel == 0)
-						break;
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-				throw new AdempiereException(e);
-			}
-			finally
-			{
-				DB.close(rs, pstmt);
-				rs = null; pstmt = null;
-			}
+	public static void touchUpdatedRecord(int recentItemId) {
+		if(recentItemId != 0) {
+			DB.executeUpdate("UPDATE AD_RecentItem "
+					+ "SET Updated=SYSDATE "
+					+ "WHERE AD_RecentItem_ID=?", recentItemId, null);
 		}
 	}
 	
 	@Override
 	public boolean delete(boolean force) {
 		Integer ii = new Integer (getAD_RecentItem_ID());
-		s_cache.remove(ii);
+		cache.remove(ii);
 		return super.delete(force);
 	}
 
-	public static List<MRecentItem> getFromUser(Properties ctx, int AD_User_ID) {
-		List<MRecentItem> ris = new Query(ctx, MRecentItem.Table_Name, "AD_User_ID=?", null)
+	/**
+	 * Get Recent Item for user
+	 * @param ctx
+	 * @param userId
+	 * @param roleId
+	 * @return
+	 */
+	public static List<MRecentItem> getFromUserAndRole(Properties ctx, int userId, int roleId, boolean isForShow) {
+		List<MRecentItem> recentItems = new Query(ctx, Table_Name, "AD_User_ID = ? AND AD_Role_ID = ?", null)
 			.setOnlyActiveRecords(true)
 			.setClient_ID()
-			.setParameters(AD_User_ID)
-			.setOrderBy("Updated DESC")
+			.setParameters(userId, roleId)
+			.setOrderBy(COLUMNNAME_Updated + " DESC")
 			.list();
-		return ris;
+		//	Is for show?
+		if(isForShow) {
+			int limit = getMaxRecentItemsToShown(ctx, userId);
+			if(limit > 0) {
+				return recentItems
+						.stream()
+						.limit(limit)
+						.collect(Collectors.toList());
+			}
+		}
+		//	Recent Items
+		return recentItems;
+	}
+	
+	/**
+	 * Get Recent Items for User And Role
+	 * @param ctx
+	 * @return
+	 */
+	public static List<MRecentItem> getFromUserAndRole(Properties ctx) {
+		return getFromUserAndRole(ctx, Env.getAD_User_ID(ctx), Env.getAD_Role_ID(ctx), true);
+	}
+	
+	/**
+	 * Verify if is a option menu
+	 * @return
+	 */
+	public boolean isOptionMenu() {
+		return getAD_Menu_ID() != 0
+				&& getRecord_ID() == 0;
 	}
 
+	/**
+	 * Get Label for record
+	 * @return
+	 */
 	public String getLabel() {
-		MWindow win = new MWindow(getCtx(), getAD_Window_ID(), null);
-		String windowName = win.get_Translation("Name");
-		MTable table = MTable.get(getCtx(), getAD_Table_ID());
-		PO po = table.getPO(getRecord_ID(), null);
-		String recordIdentifier = "";
-		if  (po == null) {
-			log.warning(windowName + "=" + getRecord_ID() + " could have been deleted.");
-			return null;
+		//	Option Name
+		String optionName = null;
+		//	Use for record changed
+		StringBuffer identifier = new StringBuffer();
+		if(isOptionMenu()) {
+			MMenu menu = MMenu.getFromId(getCtx(), getAD_Menu_ID());
+			optionName = menu.get_Translation("Name");
+		} else {
+			//	View Window
+			MWindow win = new MWindow(getCtx(), getAD_Window_ID(), null);
+			optionName = win.get_Translation("Name");
+			//	
+			identifier.append(": ");
+			//	Get info from PO
+			MTable table = MTable.get(getCtx(), getAD_Table_ID());
+			PO po = table.getPO(getRecord_ID(), null);
+			//	
+			table.getColumnsAsList().stream()
+					.sorted(Comparator.comparing(MColumn::getSeqNo))
+					.filter(entry -> entry.isIdentifier() 
+							&& po.get_Value(entry.getColumnName()) != null
+							&& !Util.isEmpty(po.get_DisplayValue(entry.getColumnName(), true)))
+					.forEach(column -> {
+				//	Validate value
+				String displayColumn = po.get_DisplayValue(column.getColumnName(), true);
+				//	Add separator
+				if(identifier.length() > 0) {
+					identifier.append("_");
+				}
+				//	Add Value
+				identifier.append(displayColumn);				
+			});
+			//	Add default
+			if(identifier.length() == 0) {
+				identifier.append("<").append(po.get_ID()).append(">");
+			}
 		}
-		if (po.get_ColumnIndex("DocumentNo") > 0)
-			recordIdentifier = recordIdentifier + "_" + po.get_ValueAsString("DocumentNo");
-		if (po.get_ColumnIndex("Value") > 0)
-			recordIdentifier = recordIdentifier + "_" + po.get_ValueAsString("Value");
-		if (po.get_ColumnIndex("Name") > 0)
-			recordIdentifier = recordIdentifier + "_" + po.get_ValueAsString("Name");
-		if (recordIdentifier.length() == 0)
-			recordIdentifier = "_" + po.toString();
-		if (recordIdentifier.length() == 0)
-			recordIdentifier = "_[" + po.get_ID() + "]";
-		if (recordIdentifier.length() == 0)
-			recordIdentifier = "_[no identifier]";
-
-		return windowName + ": " + recordIdentifier.substring(1);
+		//	Return Identifier
+		return optionName + identifier;
+	}
+	
+	/**
+	 * Delete Extra Items
+	 * @param ctx
+	 * @param userId
+	 * @param roleId
+	 * @return
+	 */
+	public static int deleteExtraItems(Properties ctx, int userId, int roleId) {
+		//	Recent Items
+		List<Integer> recentItemId = new ArrayList<Integer>();
+		int maxRecentItems = getMaxRecentItemsToSave(ctx, userId);
+		if(maxRecentItems <= 0)
+			return 0;
+		//	
+		List<MRecentItem> items = getFromUserAndRole(ctx, userId, roleId, false);
+		if(items != null
+				&& items.size() > maxRecentItems)
+		//	Delete Extra
+		for(int i = maxRecentItems - 1; i < items.size(); i++) {
+			recentItemId.add(items.get(i).getAD_RecentItem_ID());
+		}
+		//	
+		if(recentItemId.size() == 0)
+			return 0;
+		//	
+		int deleted = DB.executeUpdate("DELETE FROM "
+				+ "AD_RecentItem "
+				+ "WHERE AD_RecentItem_ID IN" + recentItemId.toString().replace('[','(').replace(']',')'), null);
+		return deleted;
+	}
+	
+	/**
+	 * Delete Extra Item from context
+	 * @param ctx
+	 * @return
+	 */
+	public static int deleteExtraItems(Properties ctx) {
+		return deleteExtraItems(ctx, Env.getAD_User_ID(ctx), Env.getAD_Role_ID(ctx));
 	}
 
 }	//	MRecentItem

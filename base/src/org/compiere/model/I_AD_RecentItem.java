@@ -49,6 +49,21 @@ public interface I_AD_RecentItem
 	  */
 	public int getAD_Client_ID();
 
+    /** Column name AD_Menu_ID */
+    public static final String COLUMNNAME_AD_Menu_ID = "AD_Menu_ID";
+
+	/** Set Menu.
+	  * Identifies a Menu
+	  */
+	public void setAD_Menu_ID (int AD_Menu_ID);
+
+	/** Get Menu.
+	  * Identifies a Menu
+	  */
+	public int getAD_Menu_ID();
+
+	public org.compiere.model.I_AD_Menu getAD_Menu() throws RuntimeException;
+
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
 
