@@ -26,6 +26,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Savepoint;
 import java.sql.Timestamp;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -1223,8 +1225,7 @@ public abstract class PO
 	 *	@param currentValue current value
 	 *	@return String value with "./." as null
 	 */
-	protected String get_DisplayValue(String columnName, boolean currentValue)
-	{
+	protected String get_DisplayValue(String columnName, boolean currentValue) {
 		Object value = currentValue ? get_Value(columnName) : get_ValueOld(columnName);
 		if (value == null)
 			return "./.";
@@ -1232,9 +1233,20 @@ public abstract class PO
 		int index = get_ColumnIndex(columnName);
 		if (index < 0)
 			return retValue;
-		int dt = get_ColumnDisplayType(index);
-		if (DisplayType.isText(dt) || DisplayType.YesNo == dt)
+		int displayType = get_ColumnDisplayType(index);
+		if (DisplayType.isText(displayType) || DisplayType.YesNo == displayType) {
 			return retValue;
+		}
+		//	For Date
+		if(DisplayType.isDate(displayType)) {
+			SimpleDateFormat format = DisplayType.getDateFormat(displayType);
+			return format.format(value);
+		}
+		//	For Number
+		if(DisplayType.isNumeric(displayType)) {
+			DecimalFormat format = DisplayType.getNumberFormat(displayType);
+			format.format(value);
+		}
 		//	Lookup
 		Lookup lookup = get_ColumnLookup(index);
 		if (lookup != null)
