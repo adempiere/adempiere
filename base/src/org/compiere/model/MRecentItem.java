@@ -21,6 +21,7 @@ import java.util.Properties;
 import java.util.stream.Collectors;
 
 import org.compiere.util.CCache;
+import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Util;
@@ -40,7 +41,8 @@ public class MRecentItem extends X_AD_RecentItem
 	 * 
 	 */
 	private static final long serialVersionUID = 8337619537799431984L;
-
+	/**	Logger			*/
+	private static CLogger log = CLogger.getCLogger(MRecentItem.class);
 	/**	Recent Item Cache				*/
 	private static CCache<String, MRecentItem>	cache = new CCache<String, MRecentItem>("AD_RecentItem", 10);
 	/**	Window Cache					*/
@@ -75,10 +77,17 @@ public class MRecentItem extends X_AD_RecentItem
 	 */
 	public static MRecentItem get (Properties ctx, int AD_RecentItem_ID) {
 		Integer ii = new Integer (AD_RecentItem_ID);
-		MRecentItem ri = (MRecentItem)cache.get(ii);
-		if (ri == null)
-			ri = new MRecentItem (ctx, AD_RecentItem_ID, null);
-		return ri;
+		MRecentItem recentItem = (MRecentItem)cache.get(ii);
+		if (recentItem == null) {
+			recentItem = new MRecentItem (ctx, AD_RecentItem_ID, null);
+		}
+		//	Add it to window cache
+		if(recentItem.getAD_RecentItem_ID() > 0
+				&& recentItem.getAD_Window_ID() != 0
+				&& recentItem.getAD_Menu_ID() != 0) {
+			windowcache.put(recentItem.getAD_Window_ID(), recentItem.getAD_Menu_ID());
+		}
+		return recentItem;
 	}	//	get
 
 	/**
@@ -265,7 +274,7 @@ public class MRecentItem extends X_AD_RecentItem
 		try {
 			addWindowChange(ctx, Env.getAD_User_ID(ctx), Env.getAD_Role_ID(ctx), tableId, recordId, windowId, tabId);
 		} catch(Exception e) {
-			//	
+			log.warning(e.getLocalizedMessage());
 		}
 	}
 	
@@ -281,7 +290,7 @@ public class MRecentItem extends X_AD_RecentItem
 		try {
 			addChange(ctx, userId, roleId, 0, 0, windowId, 0, menuId);
 		} catch(Exception e) {
-			//	
+			log.warning(e.getLocalizedMessage());
 		}
 		
 	}
@@ -296,7 +305,7 @@ public class MRecentItem extends X_AD_RecentItem
 		try {
 			addMenuOption(ctx, Env.getAD_User_ID(ctx), Env.getAD_Role_ID(ctx), menuId, windowId);
 		} catch(Exception e) {
-			//	
+			log.warning(e.getLocalizedMessage());
 		}
 	}
 	
