@@ -503,9 +503,9 @@ public final class ALogin extends CDialog
 		if (m_connectionOK)			
 		{
 			//  Verify Language & Load Msg
-			Language l = Language.getLoginLanguage();
-			Env.verifyLanguage (m_ctx, l);
-			Env.setContext(m_ctx, Env.LANGUAGE, l.getAD_Language());
+			Language language = Language.getLoginLanguage();
+			Env.verifyLanguage (m_ctx, language);
+			Env.setContext(m_ctx, Env.LANGUAGE, language.getAD_Language());
 			Msg.getMsg(m_ctx, "0");
 			
 			//	Migration

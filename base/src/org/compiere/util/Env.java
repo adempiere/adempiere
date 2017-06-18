@@ -70,6 +70,9 @@ import org.compiere.swing.CFrame;
  * 			<li>BF [ 1619390 ] Use default desktop browser as external browser
  * 			<li>BF [ 2017987 ] Env.getContext(TAB_INFO) should NOT use global context
  * 			<li>FR [ 2392044 ] Introduce Env.WINDOW_MAIN
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * 		<a href="https://github.com/adempiere/adempiere/issues/1143">
+ * 		@see FR [ 1143 ] Login language is not by default on Env.getLanguage(cxt)</a>
  */
 public final class Env
 {
@@ -1092,13 +1095,12 @@ public final class Env
 	 *  @param ctx context
 	 *	@return Language
 	 */
-	public static Language getLanguage (Properties ctx)
-	{
+	public static Language getLanguage (Properties ctx) {
 		if (ctx != null)
 		{
-			String lang = getPreference(ctx, 0, "Language", false);
+			String lang = getAD_Language(ctx);
 			if (Util.isEmpty(lang))
-				lang = getContext(ctx, LANGUAGE);
+				lang = getPreference(ctx, 0, "Language", false);
 			if (!Util.isEmpty(lang))
 				return Language.getLanguage(lang);
 		}
