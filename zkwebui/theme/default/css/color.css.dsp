@@ -117,9 +117,11 @@
 <%-- OpenUp Ltda. Fin --%>
 
 
-
-
-
+<%-- Begin ERPCyA --%>
+.z-toolbar-body span {
+	font-size: 11px !important;
+}
+<%-- ERPCyA end --%>
 
 tr.z-vbox{
 	background-color:${ColorGray};
