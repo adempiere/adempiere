@@ -32,7 +32,7 @@ public class X_C_CommissionLine extends PO implements I_C_CommissionLine, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170416L;
+	private static final long serialVersionUID = 20170619L;
 
     /** Standard Constructor */
     public X_C_CommissionLine (Properties ctx, int C_CommissionLine_ID, String trxName)
@@ -502,6 +502,30 @@ public class X_C_CommissionLine extends PO implements I_C_CommissionLine, I_Pers
 	public String getInvoiceCollectionType () 
 	{
 		return (String)get_Value(COLUMNNAME_InvoiceCollectionType);
+	}
+
+	/** Set Is Percentage.
+		@param IsPercentage 
+		Indicate that Quantity is Expressed on Percentage (%)
+	  */
+	public void setIsPercentage (boolean IsPercentage)
+	{
+		set_Value (COLUMNNAME_IsPercentage, Boolean.valueOf(IsPercentage));
+	}
+
+	/** Get Is Percentage.
+		@return Indicate that Quantity is Expressed on Percentage (%)
+	  */
+	public boolean isPercentage () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsPercentage);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
 	}
 
 	/** Set Positive only.

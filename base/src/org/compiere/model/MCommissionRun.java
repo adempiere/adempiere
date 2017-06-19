@@ -46,6 +46,8 @@ import java.util.logging.Level;
  *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *  	<a href="https://github.com/adempiere/adempiere/issues/766">
  * 		@see FR [ 766 ] Improve Commission Calculation</a>
+ * 		<a href="https://github.com/adempiere/adempiere/issues/1080">
+ * 		@see FR [ 1080 ] Commission: percentage definition not only as multiplier, but also as percentage</a>
  **/
 public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocOptions {
 
@@ -1067,6 +1069,12 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 	 * 	Set Start and End Date
 	 */
 	private void setStartEndDate(String frequencyType) {
+		//	If Recalculate flag is false and Start and End Date are filled then it is not recalculated
+		if(getStartDate() != null
+				&& getEndDate() != null
+				&& !isReCalculate()) {
+			return;
+		}
 		GregorianCalendar cal = new GregorianCalendar(Language.getLoginLanguage().getLocale());
 		cal.setTimeInMillis(getDateDoc().getTime());
 		cal.set(Calendar.HOUR_OF_DAY, 0);

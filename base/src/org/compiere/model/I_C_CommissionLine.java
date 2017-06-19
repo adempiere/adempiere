@@ -1,10 +1,6 @@
 /******************************************************************************
  * Product: ADempiere ERP & CRM Smart Business Solution                       *
-<<<<<<< HEAD
- * Copyright (C) 2006-2016 ADempiere Foundation, All Rights Reserved.         *
-=======
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
->>>>>>> remotes/upstream/release/3.9.0
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * or (at your option) any later version.										*
@@ -321,6 +317,19 @@ public interface I_C_CommissionLine
 	  * The record is active in the system
 	  */
 	public boolean isActive();
+
+    /** Column name IsPercentage */
+    public static final String COLUMNNAME_IsPercentage = "IsPercentage";
+
+	/** Set Is Percentage.
+	  * Indicate that Quantity is Expressed on Percentage (%)
+	  */
+	public void setIsPercentage (boolean IsPercentage);
+
+	/** Get Is Percentage.
+	  * Indicate that Quantity is Expressed on Percentage (%)
+	  */
+	public boolean isPercentage();
 
     /** Column name IsPositiveOnly */
     public static final String COLUMNNAME_IsPositiveOnly = "IsPositiveOnly";
