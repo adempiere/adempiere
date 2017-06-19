@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Commission: percentage definition not only as multiplier, bu" ReleaseNo="3.9.0" SeqNo="2800">
+  <Migration EntityType="D" Name="Commission: percentage definition not only as multiplier" ReleaseNo="3.9.0" SeqNo="2800">
     <Comments>See: https://github.com/adempiere/adempiere/issues/1080</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="276" Action="I" Record_ID="59580" Table="AD_Element">
@@ -15,7 +15,7 @@
         <Data AD_Column_ID="2600" Column="Updated">2017-06-19 00:24:35.23</Data>
         <Data AD_Column_ID="2597" Column="IsActive">true</Data>
         <Data AD_Column_ID="2603" Column="Name">Is Percentage</Data>
-        <Data AD_Column_ID="2604" Column="Description">Indicate that Quantity is Expressed on Percentage (%)</Data>
+        <Data AD_Column_ID="2604" Column="Description">Indicates that Quantity is expressed as Percentage (%)</Data>
         <Data AD_Column_ID="2602" Column="ColumnName">IsPercentage</Data>
         <Data AD_Column_ID="4299" Column="PrintName">Is Percentage</Data>
         <Data AD_Column_ID="6286" Column="PO_PrintName" isNewNull="true"/>
@@ -30,7 +30,7 @@
     <Step SeqNo="20" StepType="AD">
       <PO AD_Table_ID="277" Action="I" Record_ID="0" Table="AD_Element_Trl">
         <Data AD_Column_ID="6449" Column="PO_Help" isNewNull="true"/>
-        <Data AD_Column_ID="2647" Column="Description">Indicate that Quantity is Expressed on Percentage (%)</Data>
+        <Data AD_Column_ID="2647" Column="Description">La cantidad es expresada como un porcentaje (%)</Data>
         <Data AD_Column_ID="2649" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="4300" Column="PrintName">Is Percentage</Data>
         <Data AD_Column_ID="2645" Column="UpdatedBy">100</Data>
@@ -41,7 +41,7 @@
         <Data AD_Column_ID="2644" Column="Updated">2017-06-19 00:24:36.445</Data>
         <Data AD_Column_ID="2640" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="2639" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="2646" Column="Name">Is Percentage</Data>
+        <Data AD_Column_ID="2646" Column="Name">Es porcentaje</Data>
         <Data AD_Column_ID="6450" Column="PO_Name" isNewNull="true"/>
         <Data AD_Column_ID="2638" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="2637" Column="AD_Element_ID">59580</Data>
@@ -50,40 +50,9 @@
       </PO>
     </Step>
     <Step SeqNo="30" StepType="AD">
-      <PO AD_Table_ID="277" Action="I" Record_ID="0" Table="AD_Element_Trl">
-        <Data AD_Column_ID="6449" Column="PO_Help" isNewNull="true"/>
-        <Data AD_Column_ID="2647" Column="Description">Indicate that Quantity is Expressed on Percentage (%)</Data>
-        <Data AD_Column_ID="2649" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="4300" Column="PrintName">Is Percentage</Data>
-        <Data AD_Column_ID="2645" Column="UpdatedBy">100</Data>
-        <Data AD_Column_ID="2643" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="6451" Column="PO_PrintName" isNewNull="true"/>
-        <Data AD_Column_ID="2641" Column="IsActive">true</Data>
-        <Data AD_Column_ID="2642" Column="Created">2017-06-19 00:24:37.075</Data>
-        <Data AD_Column_ID="2644" Column="Updated">2017-06-19 00:24:37.075</Data>
-        <Data AD_Column_ID="2640" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="2639" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="2646" Column="Name">Is Percentage</Data>
-        <Data AD_Column_ID="6450" Column="PO_Name" isNewNull="true"/>
-        <Data AD_Column_ID="2638" Column="AD_Language">es_VE</Data>
-        <Data AD_Column_ID="2637" Column="AD_Element_ID">59580</Data>
-        <Data AD_Column_ID="2648" Column="Help" isNewNull="true"/>
-        <Data AD_Column_ID="6448" Column="PO_Description" isNewNull="true"/>
-      </PO>
-    </Step>
-    <Step SeqNo="40" StepType="AD">
-      <PO AD_Table_ID="277" Action="U" Record_ID="0" Table="AD_Element_Trl">
-        <Data AD_Column_ID="2647" Column="Description" oldValue="Indicate that Quantity is Expressed on Percentage (%)">Indica que la Cantidad es Expresada en Porcentaje (%)</Data>
-        <Data AD_Column_ID="4300" Column="PrintName" oldValue="Is Percentage">Es Porcentaje</Data>
-        <Data AD_Column_ID="2646" Column="Name" oldValue="Is Percentage">Es Porcentaje</Data>
-        <Data AD_Column_ID="2638" Column="AD_Language" oldValue="es_MX">es_MX</Data>
-        <Data AD_Column_ID="2637" Column="AD_Element_ID" oldValue="59580">59580</Data>
-      </PO>
-    </Step>
-    <Step SeqNo="50" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="84201" Table="AD_Column">
         <Data AD_Column_ID="127" Column="SeqNo">0</Data>
-        <Data AD_Column_ID="112" Column="Description">Indicate that Quantity is Expressed on Percentage (%)</Data>
+        <Data AD_Column_ID="112" Column="Description">Indicates that Quantity is expressed as Percentage (%)</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
         <Data AD_Column_ID="111" Column="Name">Is Percentage</Data>
@@ -131,7 +100,7 @@
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
       </PO>
     </Step>
-    <Step SeqNo="60" StepType="AD">
+    <Step SeqNo="40" StepType="AD">
       <PO AD_Table_ID="752" Action="I" Record_ID="84201" Table="AD_Column_Trl">
         <Data AD_Column_ID="12958" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="12956" Column="CreatedBy">100</Data>
@@ -141,49 +110,34 @@
         <Data AD_Column_ID="12952" Column="Updated">2017-06-19 00:25:43.056</Data>
         <Data AD_Column_ID="12951" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="12955" Column="AD_Column_ID">84201</Data>
-        <Data AD_Column_ID="12957" Column="Name">Is Percentage</Data>
+        <Data AD_Column_ID="12957" Column="Name">Es porcentaje</Data>
         <Data AD_Column_ID="12954" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="12953" Column="AD_Language">es_MX</Data>
       </PO>
     </Step>
-    <Step SeqNo="70" StepType="AD">
-      <PO AD_Table_ID="752" Action="I" Record_ID="84201" Table="AD_Column_Trl">
-        <Data AD_Column_ID="12958" Column="UpdatedBy">100</Data>
-        <Data AD_Column_ID="12956" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="12960" Column="Created">2017-06-19 00:25:43.455</Data>
-        <Data AD_Column_ID="12961" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="12959" Column="IsActive">true</Data>
-        <Data AD_Column_ID="12952" Column="Updated">2017-06-19 00:25:43.455</Data>
-        <Data AD_Column_ID="12951" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="12955" Column="AD_Column_ID">84201</Data>
-        <Data AD_Column_ID="12957" Column="Name">Is Percentage</Data>
-        <Data AD_Column_ID="12954" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="12953" Column="AD_Language">es_VE</Data>
-      </PO>
-    </Step>
-    <Step SeqNo="80" StepType="AD">
+    <Step SeqNo="50" StepType="AD">
       <PO AD_Table_ID="107" Action="U" Record_ID="4476" Table="AD_Field">
         <Data AD_Column_ID="181" Column="SeqNo" oldValue="280">260</Data>
       </PO>
     </Step>
-    <Step SeqNo="90" StepType="AD">
+    <Step SeqNo="60" StepType="AD">
       <PO AD_Table_ID="107" Action="U" Record_ID="4475" Table="AD_Field">
         <Data AD_Column_ID="181" Column="SeqNo" oldValue="290">270</Data>
       </PO>
     </Step>
-    <Step SeqNo="100" StepType="AD">
+    <Step SeqNo="70" StepType="AD">
       <PO AD_Table_ID="107" Action="U" Record_ID="4489" Table="AD_Field">
         <Data AD_Column_ID="181" Column="SeqNo" oldValue="260">280</Data>
       </PO>
     </Step>
-    <Step SeqNo="110" StepType="AD">
+    <Step SeqNo="80" StepType="AD">
       <PO AD_Table_ID="107" Action="U" Record_ID="4488" Table="AD_Field">
         <Data AD_Column_ID="181" Column="SeqNo" oldValue="270">290</Data>
       </PO>
     </Step>
-    <Step SeqNo="120" StepType="AD">
+    <Step SeqNo="90" StepType="AD">
       <PO AD_Table_ID="107" Action="I" Record_ID="82949" Table="AD_Field">
-        <Data AD_Column_ID="169" Column="Description">Indicate that Quantity is Expressed on Percentage (%)</Data>
+        <Data AD_Column_ID="169" Column="Description">Indicates that Quantity is expressed as Percentage (%)</Data>
         <Data AD_Column_ID="172" Column="AD_Tab_ID">356</Data>
         <Data AD_Column_ID="168" Column="Name">Is Percentage</Data>
         <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
@@ -224,7 +178,7 @@
         <Data AD_Column_ID="186" Column="IsEncrypted">false</Data>
       </PO>
     </Step>
-    <Step SeqNo="130" StepType="AD">
+    <Step SeqNo="100" StepType="AD">
       <PO AD_Table_ID="127" Action="I" Record_ID="82949" Table="AD_Field_Trl">
         <Data AD_Column_ID="675" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="673" Column="CreatedBy">100</Data>
@@ -236,135 +190,118 @@
         <Data AD_Column_ID="284" Column="AD_Field_ID">82949</Data>
         <Data AD_Column_ID="285" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="289" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="286" Column="Name">Is Percentage</Data>
-        <Data AD_Column_ID="287" Column="Description">Indicate that Quantity is Expressed on Percentage (%)</Data>
+        <Data AD_Column_ID="286" Column="Name">Es porcentaje</Data>
+        <Data AD_Column_ID="287" Column="Description">La cantidad es expresada como un porcentaje (%)</Data>
         <Data AD_Column_ID="288" Column="Help" isNewNull="true"/>
       </PO>
     </Step>
-    <Step SeqNo="140" StepType="AD">
-      <PO AD_Table_ID="127" Action="I" Record_ID="82949" Table="AD_Field_Trl">
-        <Data AD_Column_ID="675" Column="UpdatedBy">100</Data>
-        <Data AD_Column_ID="673" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="1205" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="674" Column="Updated">2017-06-19 00:27:02.345</Data>
-        <Data AD_Column_ID="1204" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="671" Column="IsActive">true</Data>
-        <Data AD_Column_ID="672" Column="Created">2017-06-19 00:27:02.345</Data>
-        <Data AD_Column_ID="284" Column="AD_Field_ID">82949</Data>
-        <Data AD_Column_ID="285" Column="AD_Language">es_VE</Data>
-        <Data AD_Column_ID="289" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="286" Column="Name">Is Percentage</Data>
-        <Data AD_Column_ID="287" Column="Description">Indicate that Quantity is Expressed on Percentage (%)</Data>
-        <Data AD_Column_ID="288" Column="Help" isNewNull="true"/>
-      </PO>
-    </Step>
-    <Step SeqNo="150" StepType="AD">
+    <Step SeqNo="110" StepType="AD">
       <PO AD_Table_ID="107" Action="U" Record_ID="82949" Table="AD_Field">
         <Data AD_Column_ID="181" Column="SeqNo" oldValue="310">260</Data>
       </PO>
     </Step>
-    <Step SeqNo="160" StepType="AD">
+    <Step SeqNo="120" StepType="AD">
       <PO AD_Table_ID="107" Action="U" Record_ID="4476" Table="AD_Field">
         <Data AD_Column_ID="181" Column="SeqNo" oldValue="260">270</Data>
       </PO>
     </Step>
-    <Step SeqNo="170" StepType="AD">
+    <Step SeqNo="130" StepType="AD">
       <PO AD_Table_ID="107" Action="U" Record_ID="4475" Table="AD_Field">
         <Data AD_Column_ID="181" Column="SeqNo" oldValue="270">280</Data>
       </PO>
     </Step>
-    <Step SeqNo="180" StepType="AD">
+    <Step SeqNo="140" StepType="AD">
       <PO AD_Table_ID="107" Action="U" Record_ID="4489" Table="AD_Field">
         <Data AD_Column_ID="181" Column="SeqNo" oldValue="280">290</Data>
       </PO>
     </Step>
-    <Step SeqNo="190" StepType="AD">
+    <Step SeqNo="150" StepType="AD">
       <PO AD_Table_ID="107" Action="U" Record_ID="4488" Table="AD_Field">
         <Data AD_Column_ID="181" Column="SeqNo" oldValue="290">300</Data>
       </PO>
     </Step>
-    <Step SeqNo="200" StepType="AD">
+    <Step SeqNo="160" StepType="AD">
       <PO AD_Table_ID="107" Action="U" Record_ID="4484" Table="AD_Field">
         <Data AD_Column_ID="181" Column="SeqNo" oldValue="300">310</Data>
       </PO>
     </Step>
-    <Step SeqNo="210" StepType="AD">
+    <Step SeqNo="170" StepType="AD">
       <PO AD_Table_ID="107" Action="U" Record_ID="82949" Table="AD_Field">
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true" oldValue="Y"/>
         <Data AD_Column_ID="53265" Column="DefaultValue" isOldNull="true">Y</Data>
       </PO>
     </Step>
-    <Step SeqNo="220" StepType="AD">
+    <Step SeqNo="180" StepType="AD">
       <PO AD_Table_ID="107" Action="U" Record_ID="81120" Table="AD_Field">
         <Data AD_Column_ID="181" Column="SeqNo" oldValue="45">50</Data>
       </PO>
     </Step>
-    <Step SeqNo="230" StepType="AD">
+    <Step SeqNo="190" StepType="AD">
       <PO AD_Table_ID="107" Action="U" Record_ID="80805" Table="AD_Field">
         <Data AD_Column_ID="181" Column="SeqNo" oldValue="50">60</Data>
       </PO>
     </Step>
-    <Step SeqNo="240" StepType="AD">
+    <Step SeqNo="200" StepType="AD">
       <PO AD_Table_ID="107" Action="U" Record_ID="4566" Table="AD_Field">
         <Data AD_Column_ID="181" Column="SeqNo" oldValue="60">70</Data>
       </PO>
     </Step>
-    <Step SeqNo="250" StepType="AD">
+    <Step SeqNo="210" StepType="AD">
       <PO AD_Table_ID="107" Action="U" Record_ID="4565" Table="AD_Field">
         <Data AD_Column_ID="181" Column="SeqNo" oldValue="70">80</Data>
       </PO>
     </Step>
-    <Step SeqNo="260" StepType="AD">
+    <Step SeqNo="220" StepType="AD">
       <PO AD_Table_ID="107" Action="U" Record_ID="4567" Table="AD_Field">
         <Data AD_Column_ID="181" Column="SeqNo" oldValue="80">90</Data>
       </PO>
     </Step>
-    <Step SeqNo="270" StepType="AD">
+    <Step SeqNo="230" StepType="AD">
       <PO AD_Table_ID="107" Action="U" Record_ID="81121" Table="AD_Field">
         <Data AD_Column_ID="181" Column="SeqNo" oldValue="85">100</Data>
       </PO>
     </Step>
-    <Step SeqNo="280" StepType="AD">
+    <Step SeqNo="240" StepType="AD">
       <PO AD_Table_ID="107" Action="U" Record_ID="81288" Table="AD_Field">
         <Data AD_Column_ID="181" Column="SeqNo" oldValue="150">110</Data>
       </PO>
     </Step>
-    <Step SeqNo="290" StepType="AD">
+    <Step SeqNo="250" StepType="AD">
       <PO AD_Table_ID="107" Action="U" Record_ID="4570" Table="AD_Field">
         <Data AD_Column_ID="181" Column="SeqNo" oldValue="90">120</Data>
       </PO>
     </Step>
-    <Step SeqNo="300" StepType="AD">
+    <Step SeqNo="260" StepType="AD">
       <PO AD_Table_ID="107" Action="U" Record_ID="80803" Table="AD_Field">
         <Data AD_Column_ID="181" Column="SeqNo" oldValue="100">130</Data>
       </PO>
     </Step>
-    <Step SeqNo="310" StepType="AD">
+    <Step SeqNo="270" StepType="AD">
       <PO AD_Table_ID="107" Action="U" Record_ID="4568" Table="AD_Field">
         <Data AD_Column_ID="181" Column="SeqNo" oldValue="110">140</Data>
       </PO>
     </Step>
-    <Step SeqNo="320" StepType="AD">
+    <Step SeqNo="280" StepType="AD">
       <PO AD_Table_ID="107" Action="U" Record_ID="80801" Table="AD_Field">
         <Data AD_Column_ID="181" Column="SeqNo" oldValue="120">150</Data>
       </PO>
     </Step>
-    <Step SeqNo="330" StepType="AD">
+    <Step SeqNo="290" StepType="AD">
       <PO AD_Table_ID="107" Action="U" Record_ID="4569" Table="AD_Field">
         <Data AD_Column_ID="181" Column="SeqNo" oldValue="130">160</Data>
       </PO>
     </Step>
-    <Step SeqNo="340" StepType="AD">
+    <Step SeqNo="300" StepType="AD">
       <PO AD_Table_ID="107" Action="U" Record_ID="80800" Table="AD_Field">
         <Data AD_Column_ID="181" Column="SeqNo" oldValue="140">170</Data>
       </PO>
     </Step>
-    <Step SeqNo="350" StepType="AD">
+    <Step SeqNo="310" StepType="AD">
       <PO AD_Table_ID="107" Action="U" Record_ID="81288" Table="AD_Field">
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true" oldValue="@DocStatus@=IP"/>
       </PO>
     </Step>
-    <Step SeqNo="360" StepType="AD">
+    <Step SeqNo="320" StepType="AD">
       <PO AD_Table_ID="107" Action="U" Record_ID="4570" Table="AD_Field">
         <Data AD_Column_ID="183" Column="IsSameLine" oldValue="false">true</Data>
       </PO>
