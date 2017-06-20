@@ -114,6 +114,15 @@
   margin-top: 0px;
   padding-left: 15px;
 }
+
+.z-combo-item-text {
+  font-size: 12px !important;
+}
+.z-combo-item-inner {
+  font-size: 10px !important;
+  font-style: italic;
+}
+
 <%-- OpenUp Ltda. Fin --%>
 
 
