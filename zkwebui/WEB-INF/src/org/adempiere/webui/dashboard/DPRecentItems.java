@@ -170,29 +170,31 @@ public class DPRecentItems extends DashboardPanel implements EventListener {
 		//	Delete Unnecessary Items
 		MRecentItem.deleteExtraItems(Env.getCtx());
 		List<MRecentItem> recentItemList = MRecentItem.getFromUserAndRole(Env.getCtx());
-		for (MRecentItem recentItem : recentItemList) {
-			String label = recentItem.getLabel();
-			if (label == null) {
-				recentItem.delete(true);
-				recentItem.save();
-				continue; // record could have been deleted
+		if(recentItemList != null
+				&& recentItemList.size() != 0) {
+			for (MRecentItem recentItem : recentItemList) {
+				String label = recentItem.getLabel();
+				if (label == null) {
+					recentItem.delete(true);
+					recentItem.save();
+					continue; // record could have been deleted
+				}
+				ToolBarButton btnrecentItem = new ToolBarButton(String.valueOf(recentItem.getAD_RecentItem_ID()));
+				btnrecentItem.setLabel(label);
+				btnrecentItem.setDraggable(DELETE_RECENTITEMS_DROPPABLE);
+				btnrecentItem.addEventListener(Events.ON_CLICK, this);
+				btnrecentItem.addEventListener(Events.ON_DROP, this);
+				//	Set icon image
+				String action = MMenu.ACTION_Window;
+				//	
+				if(recentItem.getAD_Menu_ID() != 0) {
+					MMenu menu = MMenu.getFromId(Env.getCtx(), recentItem.getAD_Menu_ID());
+					action = menu.getAction();
+				}
+				btnrecentItem.setImage(getIconFile(action));
+				bxRecentItems.appendChild(btnrecentItem);
 			}
-			ToolBarButton btnrecentItem = new ToolBarButton(String.valueOf(recentItem.getAD_RecentItem_ID()));
-			btnrecentItem.setLabel(label);
-			btnrecentItem.setDraggable(DELETE_RECENTITEMS_DROPPABLE);
-			btnrecentItem.addEventListener(Events.ON_CLICK, this);
-			btnrecentItem.addEventListener(Events.ON_DROP, this);
-			//	Set icon image
-			String action = MMenu.ACTION_Window;
-			//	
-			if(recentItem.getAD_Menu_ID() != 0) {
-				MMenu menu = MMenu.getFromId(Env.getCtx(), recentItem.getAD_Menu_ID());
-				action = menu.getAction();
-			}
-			btnrecentItem.setImage(getIconFile(action));
-			bxRecentItems.appendChild(btnrecentItem);
 		}
-
 	}
 
 	private void removeLink(ToolBarButton btn) {

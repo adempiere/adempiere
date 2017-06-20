@@ -332,23 +332,27 @@ public final class VTreePanel extends CPanel
 			boolean first = true;
 			//	Delete unnecessary items
 			MRecentItem.deleteExtraItems(Env.getCtx());
-			//	Add Recent Items
-			for(MRecentItem recentItem : MRecentItem.getFromUserAndRole(Env.getCtx())) {
-				if (first) {
-					newToolbar = new JToolBar(JToolBar.VERTICAL);
-					MTable table = MTable.get(Env.getCtx(), MRecentItem.Table_ID);
-					titleMap.put(newToolbar, table.get_Translation(MTable.COLUMNNAME_Name));
-					toolbarMap.put(recentItem.getAD_RecentItem_ID(), newToolbar);
-					newToolbar.setName(PREFIX_RECENT_ITEM + recentItem.getAD_RecentItem_ID());
-					first = false;
+			List<MRecentItem> recentItemList = MRecentItem.getFromUserAndRole(Env.getCtx());
+			if(recentItemList != null
+					&& recentItemList.size() != 0) {
+				//	Add Recent Items
+				for(MRecentItem recentItem : recentItemList) {
+					if (first) {
+						newToolbar = new JToolBar(JToolBar.VERTICAL);
+						MTable table = MTable.get(Env.getCtx(), MRecentItem.Table_ID);
+						titleMap.put(newToolbar, table.get_Translation(MTable.COLUMNNAME_Name));
+						toolbarMap.put(recentItem.getAD_RecentItem_ID(), newToolbar);
+						newToolbar.setName(PREFIX_RECENT_ITEM + recentItem.getAD_RecentItem_ID());
+						first = false;
+					}
+					//	
+					addToBar(recentItem, newToolbar, false);
 				}
-				//	
-				addToBar(recentItem, newToolbar, false);
-			}
-			//	Add to Tool bar
-			if (newToolbar!=null) {
-				newToolbar.addMouseListener(mouseListener);
-				toolbarList.add(newToolbar);
+				//	Add to Tool bar
+				if (newToolbar!=null) {
+					newToolbar.addMouseListener(mouseListener);
+					toolbarList.add(newToolbar);
+				}
 			}
 			newToolbar=null;
 			//	

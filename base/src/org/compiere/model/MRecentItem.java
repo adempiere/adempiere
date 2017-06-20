@@ -364,7 +364,13 @@ public class MRecentItem extends X_AD_RecentItem
 	 * @return
 	 */
 	public static List<MRecentItem> getFromUserAndRole(Properties ctx) {
-		return getFromUserAndRole(ctx, Env.getAD_User_ID(ctx), Env.getAD_Role_ID(ctx), true);
+		try {
+			return getFromUserAndRole(ctx, Env.getAD_User_ID(ctx), Env.getAD_Role_ID(ctx), true);
+		} catch (Exception e) {
+			log.warning(e.getLocalizedMessage());
+		}
+		//	Default return
+		return null;
 	}
 	
 	/**
@@ -459,7 +465,13 @@ public class MRecentItem extends X_AD_RecentItem
 	 * @return
 	 */
 	public static int deleteExtraItems(Properties ctx) {
-		return deleteExtraItems(ctx, Env.getAD_User_ID(ctx), Env.getAD_Role_ID(ctx));
+		try {
+			return deleteExtraItems(ctx, Env.getAD_User_ID(ctx), Env.getAD_Role_ID(ctx));
+		} catch (Exception e) {
+			log.warning(e.getLocalizedMessage());
+		}
+		//	Default return
+		return 0;
 	}
 
 }	//	MRecentItem
