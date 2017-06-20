@@ -108,7 +108,9 @@ public class TreeSearchPanel extends Panel implements EventListener, TreeDataLis
     {
     	Div div = new Div();
         lblSearch = new Label();
-        LayoutUtils.addSclass("desktop-header-font", lblSearch);
+        //	[ #1118 ] Remove Class
+        //	LayoutUtils.addSclass("desktop-header-font", lblSearch);
+        
         lblSearch.setValue(Msg.getMsg(Env.getCtx(),"TreeSearch").replaceAll("&", "") + ":");
         lblSearch.setTooltiptext(Msg.getMsg(Env.getCtx(),"TreeSearchText"));
         div.appendChild(lblSearch);
