@@ -70,12 +70,19 @@
 .z-tab-seld *, .z-button *, .form-button *, .adwindow-navbtn-sel * {
   color: #ffffff !important;
 }
-.z-textbox, .z-combobox-inp, .z-decimalbox {
+.z-textbox
+, .z-combobox-inp
+, .z-decimalbox
+, .z-datebox-inp {
   background-color: #ffffff !important;
-  border: 1px solid #c0c0c0 !important;
+  border: 1px solid #bbbbbb !important;
 }
-.z-textbox-readonly {
+.z-textbox-readonly
+, .z-combobox-inp-readonly
+, .z-decimalbox-readonly
+, .z-datebox-inp-readonly {
   border: 1px solid #f0f0f0 !important;
+	color: #888888 !important;
 }
 
 .z-panel-header {
@@ -107,12 +114,23 @@
   margin-top: 0px;
   padding-left: 15px;
 }
+
+.z-combo-item-text {
+  font-size: 12px !important;
+}
+.z-combo-item-inner {
+  font-size: 10px !important;
+  font-style: italic;
+}
+
 <%-- OpenUp Ltda. Fin --%>
 
 
-
-
-
+<%-- Begin ERPCyA --%>
+.z-toolbar-body span {
+	font-size: 11px !important;
+}
+<%-- ERPCyA end --%>
 
 tr.z-vbox{
 	background-color:${ColorGray};
