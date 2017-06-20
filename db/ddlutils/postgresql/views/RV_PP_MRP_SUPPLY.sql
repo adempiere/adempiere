@@ -1,7 +1,4 @@
--- View: rv_pp_mrp_supply
-
--- DROP VIEW rv_pp_mrp_supply;
-
+DROP VIEW IF EXISTS rv_pp_mrp_supply;
 CREATE OR REPLACE VIEW rv_pp_mrp_supply AS
  SELECT mrp.ad_client_id,
     mrp.ad_org_id,

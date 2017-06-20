@@ -1,7 +1,3 @@
--- View: rv_pp_mrp_detail_demand
-
--- DROP VIEW rv_pp_mrp_detail_demand;
-
 CREATE OR REPLACE VIEW rv_pp_mrp_detail_demand AS
  SELECT mrp_detail.ad_client_id,
     mrp_detail.ad_org_id,
@@ -28,4 +24,4 @@ CREATE OR REPLACE VIEW rv_pp_mrp_detail_demand AS
     demand.datestartschedule,
     demand.datefinishschedule
    FROM pp_mrp_detail mrp_detail
-     LEFT JOIN rv_pp_mrp demand ON demand.pp_mrp_id = mrp_detail.mrp_demand_id;
+     LEFT JOIN rv_pp_mrp demand ON demand.pp_mrp_id = mrp_detail.mrp_demand_id

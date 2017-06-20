@@ -1,7 +1,3 @@
--- View: rv_pp_mrp_supply
-
--- DROP VIEW rv_pp_mrp_supply;
-
 CREATE OR REPLACE VIEW rv_pp_mrp_supply AS
  SELECT mrp.ad_client_id,
     mrp.ad_org_id,
@@ -41,4 +37,4 @@ CREATE OR REPLACE VIEW rv_pp_mrp_supply AS
    FROM rv_pp_mrp mrp
      JOIN m_product p ON p.m_product_id = mrp.m_product_id
   WHERE mrp.typemrp = 'S' AND mrp.qty > 0
-  ORDER BY mrp.datepromised;
+  ORDER BY mrp.datepromised
