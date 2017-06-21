@@ -67,7 +67,7 @@
         <Data AD_Column_ID="12955" Column="AD_Column_ID">62199</Data>
       </PO>
     </Step>
-    <Step DBType="ALL" Parse="N" SeqNo="30" StepType="SQL">
+    <Step DBType="ALL" Parse="Y" SeqNo="30" StepType="SQL">
       <Comments>Old compatibility</Comments>
       <SQLStatement>UPDATE AD_Column SET IsAllowCopy = 'N' 
 WHERE ColumnName IN('Created', 'Updated', 'IsActive', 'AD_Client_ID', 'AD_Org_ID', 'EntityType', 'DocumentNo', 'Processed', 
@@ -78,7 +78,7 @@ OR IsKey = 'Y'
 OR ColumnSQL IS NOT NULL
 OR AD_Reference_ID IN(13, 21);</SQLStatement>
     </Step>
-    <Step DBType="ALL" Parse="N" SeqNo="40" StepType="SQL">
+    <Step DBType="ALL" Parse="Y" SeqNo="40" StepType="SQL">
       <Comments>Old compatibility</Comments>
       <SQLStatement>UPDATE AD_Column SET IsAllowCopy = 'Y' 
 WHERE ColumnName NOT IN('Created', 'Updated', 'IsActive', 'AD_Client_ID', 'AD_Org_ID', 'EntityType', 'DocumentNo', 'Processed', 
@@ -89,7 +89,7 @@ AND IsKey = 'N'
 AND ColumnSQL IS NULL
 AND AD_Reference_ID NOT IN(13, 21);</SQLStatement>
     </Step>
-    <Step DBType="Oracle" Parse="N" SeqNo="50" StepType="SQL">
+    <Step DBType="Oracle" Parse="Y" SeqNo="50" StepType="SQL">
       <Comments>Alter AD_Field_v (For add support to column IsAllowCopy)</Comments>
       <SQLStatement>  DROP VIEW AD_FIELD_V;
   CREATE OR REPLACE VIEW AD_FIELD_V
@@ -165,7 +165,7 @@ FROM AD_FIELD f
 WHERE f.IsActive = 'Y' 
   AND c.IsActive = 'Y';</RollbackStatement>
     </Step>
-    <Step DBType="Postgres" Parse="N" SeqNo="50" StepType="SQL">
+    <Step DBType="Postgres" Parse="Y" SeqNo="50" StepType="SQL">
       <Comments>Alter AD_Field_v (For add support to column IsAllowCopy)</Comments>
       <SQLStatement>DROP VIEW  AD_FIELD_V;
 CREATE OR REPLACE VIEW AD_FIELD_V 
@@ -242,7 +242,7 @@ FROM AD_FIELD f
 WHERE f.IsActive = 'Y' 
   AND c.IsActive = 'Y';</RollbackStatement>
     </Step>
-    <Step DBType="Postgres" Parse="N" SeqNo="60" StepType="SQL">
+    <Step DBType="Oracle" Parse="Y" SeqNo="60" StepType="SQL">
       <Comments>Alter AD_Field_vt (For add support to column IsAllowCopy)</Comments>
       <SQLStatement>DROP VIEW AD_FIELD_VT ;
 CREATE OR REPLACE VIEW AD_FIELD_VT (AD_LANGUAGE, AD_WINDOW_ID, AD_TAB_ID, AD_FIELD_ID, AD_TABLE_ID, 
@@ -322,7 +322,7 @@ CREATE OR REPLACE VIEW AD_FIELD_VT (AD_LANGUAGE, AD_WINDOW_ID, AD_TAB_ID, AD_FIE
   WHERE f.IsActive = 'Y' 
   AND c.IsActive = 'Y';</RollbackStatement>
     </Step>
-    <Step DBType="Oracle" Parse="N" SeqNo="60" StepType="SQL">
+    <Step DBType="Postgres" Parse="Y" SeqNo="60" StepType="SQL">
       <Comments>Alter AD_Field_vt (For add support to column IsAllowCopy)</Comments>
       <SQLStatement>DROP VIEW AD_FIELD_VT ;
 CREATE OR REPLACE VIEW AD_FIELD_VT (AD_LANGUAGE, AD_WINDOW_ID, AD_TAB_ID, AD_FIELD_ID, AD_TABLE_ID, 
