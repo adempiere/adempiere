@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Financial Report Lines #900 contribution #4860(Adaxa)" ReleaseNo="3.9.0" SeqNo="01360">
+  <Migration EntityType="D" Name="Financial Report Lines #900 contribution #4860(Adaxa)" ReleaseNo="3.9.0" SeqNo="1360">
     <Comments>https://github.com/adempiere/adempiere/issues/900</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="102" Action="I" Record_ID="53793" Table="AD_Reference">
@@ -220,7 +220,6 @@
         <Data AD_Column_ID="118" Column="FieldLength">5</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
         <Data AD_Column_ID="226" Column="AD_Reference_ID">17</Data>
-        <Data AD_Column_ID="72747" Column="IsSecure">false</Data>
         <Data AD_Column_ID="6483" Column="IsSyncDatabase">N</Data>
         <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
         <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
@@ -271,7 +270,6 @@
         <Data AD_Column_ID="118" Column="FieldLength">5</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
         <Data AD_Column_ID="226" Column="AD_Reference_ID">17</Data>
-        <Data AD_Column_ID="72747" Column="IsSecure">false</Data>
         <Data AD_Column_ID="6483" Column="IsSyncDatabase">N</Data>
         <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
         <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
@@ -334,7 +332,6 @@
         <Data AD_Column_ID="168" Column="Name">Overline Stroke Type</Data>
         <Data AD_Column_ID="62478" Column="IsDisplayedGrid" isNewNull="true"/>
         <Data AD_Column_ID="62479" Column="SeqNoGrid" isNewNull="true"/>
-        <Data AD_Column_ID="62200" Column="IsAllowCopy" isNewNull="true"/>
         <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="578" Column="IsActive">true</Data>
         <Data AD_Column_ID="383" Column="AD_Client_ID">0</Data>
@@ -375,7 +372,6 @@
         <Data AD_Column_ID="168" Column="Name">Underline Stroke Type</Data>
         <Data AD_Column_ID="62478" Column="IsDisplayedGrid" isNewNull="true"/>
         <Data AD_Column_ID="62479" Column="SeqNoGrid" isNewNull="true"/>
-        <Data AD_Column_ID="62200" Column="IsAllowCopy" isNewNull="true"/>
         <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="578" Column="IsActive">true</Data>
         <Data AD_Column_ID="383" Column="AD_Client_ID">0</Data>
@@ -500,102 +496,40 @@
         <Data AD_Column_ID="181" Column="SeqNo" isOldNull="true">200</Data>
       </PO>
     </Step>
-    <Step DBType="Postgres" SeqNo="410" StepType="SQL">
-      <SQLStatement> DROP TABLE t_report;
-
-CREATE TABLE t_report
-(
-  ad_pinstance_id numeric(10,0) NOT NULL,
-  pa_reportline_id numeric(10,0) NOT NULL,
-  record_id numeric(10,0) NOT NULL,
-  fact_acct_id numeric(10,0) NOT NULL,
-  seqno numeric,
-  levelno numeric(10,0) DEFAULT 0,
-  name character varying(60),
-  description character varying(255),
-  col_0 numeric,
-  col_2 numeric,
-  col_1 numeric,
-  col_3 numeric,
-  col_4 numeric,
-  col_5 numeric,
-  col_6 numeric,
-  col_7 numeric,
-  col_8 numeric,
-  col_9 numeric,
-  col_10 numeric,
-  col_11 numeric,
-  col_12 numeric,
-  col_13 numeric,
-  col_14 numeric,
-  col_15 numeric,
-  col_16 numeric,
-  col_17 numeric,
-  col_18 numeric,
-  col_19 numeric,
-  col_20 numeric,
-  tablevel numeric(10,0),
-  reportlinestyle character(1),
-  fixedpercentage numeric,
-  accounttype character(1),
-  ax_case character(1),
-  c_validcombination_id numeric(10,0) NOT NULL DEFAULT 0::numeric,
-  CONSTRAINT t_report_pkey PRIMARY KEY (ad_pinstance_id, pa_reportline_id, record_id, fact_acct_id),
-  CONSTRAINT adpinstance_treport FOREIGN KEY (ad_pinstance_id)
-      REFERENCES ad_pinstance (ad_pinstance_id) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED,
-  CONSTRAINT pareportline_treport FOREIGN KEY (pa_reportline_id)
-      REFERENCES pa_reportline (pa_reportline_id) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED
-)
-WITH (
-  OIDS=FALSE
-);</SQLStatement>
+    <Step DBType="Postgres" Parse="Y" SeqNo="410" StepType="SQL">
+      <Comments>Drop Table PostgreSQL</Comments>
+      <SQLStatement>DROP TABLE IF EXISTS T_Report</SQLStatement>
     </Step>
-    <Step DBType="Oracle" SeqNo="420" StepType="SQL">
-      <SQLStatement> DROP TABLE t_report;
-
-CREATE TABLE t_report
-(
-  ad_pinstance_id NUMBER(10,0) NOT NULL,
-  pa_reportline_id NUMBER(10,0) NOT NULL,
-  record_id NUMBER(10,0) NOT NULL,
-  fact_acct_id NUMBER(10,0) NOT NULL,
-  seqno NUMBER,
-  levelno NUMBER(10,0) DEFAULT 0,
-  name NVARCHAR2(60),
-  description NVARCHAR2(255),
-  col_0 NUMBER,
-  col_2 NUMBER,
-  col_1 NUMBER,
-  col_3 NUMBER,
-  col_4 NUMBER,
-  col_5 NUMBER,
-  col_6 NUMBER,
-  col_7 NUMBER,
-  col_8 NUMBER,
-  col_9 NUMBER,
-  col_10 NUMBER,
-  col_11 NUMBER,
-  col_12 NUMBER,
-  col_13 NUMBER,
-  col_14 NUMBER,
-  col_15 NUMBER,
-  col_16 NUMBER,
-  col_17 NUMBER,
-  col_18 NUMBER,
-  col_19 NUMBER,
-  col_20 NUMBER,
-  tablevel NUMBER(10,0),
-  reportlinestyle CHAR(1),
-  fixedpercentage NUMBER,
-  accounttype CHAR(1),
-  ax_case CHAR(1),
-  c_validcombination_id NUMBER(10,0) NOT NULL DEFAULT 0,
-  CONSTRAINT t_report_pkey PRIMARY KEY (ad_pinstance_id, pa_reportline_id, record_id, fact_acct_id),
-  CONSTRAINT adpinstance_treport FOREIGN KEY (ad_pinstance_id) REFERENCES ad_pinstance (ad_pinstance_id) ,
-  CONSTRAINT pareportline_treport FOREIGN KEY (pa_reportline_id) REFERENCES pa_reportline (pa_reportline_id) 
-);</SQLStatement>
+    <Step DBType="Oracle" Parse="N" SeqNo="430" StepType="SQL">
+      <Comments>Drop Table T_Report Oracle</Comments>
+      <SQLStatement>begin
+execute immediate 'DROP TABLE t_report';
+exception
+when others then null;
+end;</SQLStatement>
+    </Step>
+    <Step SeqNo="450" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="8155" Table="AD_Column">
+        <Data AD_Column_ID="124" Column="IsMandatory" oldValue="true">false</Data>
+        <Data AD_Column_ID="120" Column="IsParent" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="460" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="8184" Table="AD_Column">
+        <Data AD_Column_ID="226" Column="AD_Reference_ID" oldValue="13">30</Data>
+        <Data AD_Column_ID="124" Column="IsMandatory" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="470" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="8163" Table="AD_Column">
+        <Data AD_Column_ID="124" Column="IsMandatory" oldValue="true">false</Data>
+        <Data AD_Column_ID="120" Column="IsParent" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="480" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="8181" Table="AD_Column">
+        <Data AD_Column_ID="124" Column="IsMandatory" oldValue="true">false</Data>
+      </PO>
     </Step>
   </Migration>
 </Migrations>
