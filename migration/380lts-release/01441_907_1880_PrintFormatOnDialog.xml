@@ -16,22 +16,117 @@ ALTER TABLE ad_pinstance ALTER COLUMN reporttype SET DEFAULT 'P';
 ALTER TABLE ad_pinstance ADD COLUMN ad_printformat_id numeric(10,0);
 ALTER TABLE ad_pinstance ALTER COLUMN ad_printformat_id SET DEFAULT NULL;		</SQLStatement>
     </Step>
-    <Step DBType="Oracle" Parse="Y" SeqNo="2" StepType="SQL">
-      <SQLStatement>ALTER TABLE ad_role ADD  allow_html_view char(1);
-ALTER TABLE ad_role MODIFY allow_html_view DEFAULT 'Y';
-UPDATE ad_role SET allow_html_view = 'Y' WHERE allow_html_view IS NULL;
-ALTER TABLE ad_role ADD allow_xls_view CHAR(1);
-ALTER TABLE ad_role MODIFY allow_xls_view DEFAULT 'Y';
-UPDATE ad_role SET allow_xls_view = 'Y' WHERE allow_xls_view IS NULL;
-      	
-ALTER TABLE ad_pinstance ADD reporttype CHAR(1);
-UPDATE ad_pinstance set reporttype = 'P' where reporttype IS NULL;
-ALTER TABLE ad_pinstance MODIFY reporttype DEFAULT 'P';
-      	
-ALTER TABLE ad_pinstance ADD ad_printformat_id number(10,0);
-ALTER TABLE ad_pinstance MODIFY ad_printformat_id DEFAULT NULL;</SQLStatement>
+    <Step DBType="Oracle" Parse="N" SeqNo="3" StepType="SQL">
+      <Comments>Alter AD_Role allow_html_view</Comments>
+      <SQLStatement>begin
+execute immediate 'ALTER TABLE ad_role ADD  allow_html_view char(1)';
+exception
+when others then null;
+end;</SQLStatement>
+      <RollbackStatement>begin
+execute immediate 'ALTER TABLE ad_role ADD  allow_html_view char(1)';
+exception
+when others then null;
+end;</RollbackStatement>
     </Step>
-    <Step SeqNo="10" StepType="AD">
+    <Step DBType="Oracle" Parse="N" SeqNo="4" StepType="SQL">
+      <Comments>Alter AD_Role allow_html_view</Comments>
+      <SQLStatement>begin
+execute immediate 'ALTER TABLE ad_role ADD  ALTER TABLE ad_role MODIFY allow_html_view DEFAULT ''Y''';
+exception
+when others then null;
+end;</SQLStatement>
+      <RollbackStatement>begin
+execute immediate 'ALTER TABLE ad_role ADD  ALTER TABLE ad_role MODIFY allow_html_view DEFAULT ''Y''';
+exception
+when others then null;
+end;</RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" Parse="N" SeqNo="5" StepType="SQL">
+      <Comments>Alter AD_Role allow_xls_view</Comments>
+      <SQLStatement>begin
+execute immediate 'ALTER TABLE ad_role ADD allow_xls_view CHAR(1)';
+exception
+when others then null;
+end;</SQLStatement>
+      <RollbackStatement>begin
+execute immediate 'ALTER TABLE ad_role ADD allow_xls_view CHAR(1)';
+exception
+when others then null;
+end;</RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" Parse="N" SeqNo="6" StepType="SQL">
+      <Comments>Alter AD_Role allow_xls_view</Comments>
+      <SQLStatement>begin
+execute immediate 'ALTER TABLE ad_role MODIFY allow_xls_view DEFAULT ''Y''';
+exception
+when others then null;
+end;</SQLStatement>
+      <RollbackStatement>begin
+execute immediate 'ALTER TABLE ad_role MODIFY allow_xls_view DEFAULT ''Y''';
+exception
+when others then null;
+end;</RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" Parse="N" SeqNo="7" StepType="SQL">
+      <Comments>Alter AD_Role reporttype</Comments>
+      <SQLStatement>begin
+execute immediate 'ALTER TABLE ad_pinstance ADD reporttype CHAR(1)';
+exception
+when others then null;
+end;</SQLStatement>
+      <RollbackStatement>begin
+execute immediate 'ALTER TABLE ad_pinstance ADD reporttype CHAR(1)';
+exception
+when others then null;
+end;</RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" Parse="N" SeqNo="8" StepType="SQL">
+      <Comments>Alter AD_Role reporttype</Comments>
+      <SQLStatement>begin
+execute immediate 'ALTER TABLE ad_pinstance MODIFY reporttype DEFAULT ''P''';
+exception
+when others then null;
+end;</SQLStatement>
+      <RollbackStatement>begin
+execute immediate 'ALTER TABLE ad_pinstance MODIFY reporttype DEFAULT ''P''';
+exception
+when others then null;
+end;</RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" Parse="N" SeqNo="9" StepType="SQL">
+      <Comments>Alter AD_Role ad_printformat_id</Comments>
+      <SQLStatement>begin
+execute immediate 'ALTER TABLE ad_pinstance ADD ad_printformat_id number(10,0)';
+exception
+when others then null;
+end;</SQLStatement>
+      <RollbackStatement>begin
+execute immediate 'ALTER TABLE ad_pinstance ADD ad_printformat_id number(10,0)';
+exception
+when others then null;
+end;</RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" Parse="N" SeqNo="10" StepType="SQL">
+      <Comments>Alter AD_Role ad_printformat_id</Comments>
+      <SQLStatement>begin
+execute immediate 'ALTER TABLE ad_pinstance MODIFY ad_printformat_id DEFAULT NULL';
+exception
+when others then null;
+end;</SQLStatement>
+      <RollbackStatement>begin
+execute immediate 'ALTER TABLE ad_pinstance MODIFY ad_printformat_id DEFAULT NULL';
+exception
+when others then null;
+end;</RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" Parse="Y" SeqNo="10" StepType="SQL">
+      <Comments>Update for default value</Comments>
+      <SQLStatement>UPDATE ad_role SET allow_html_view = 'Y' WHERE allow_html_view IS NULL;
+UPDATE ad_role SET allow_xls_view = 'Y' WHERE allow_xls_view IS NULL;
+UPDATE ad_pinstance set reporttype = 'P' where reporttype IS NULL;</SQLStatement>
+    </Step>
+    <Step SeqNo="15" StepType="AD">
       <PO AD_Table_ID="276" Action="I" Record_ID="57734" Table="AD_Element">
         <Data AD_Column_ID="2602" Column="ColumnName">ReportType</Data>
         <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
@@ -509,16 +604,6 @@ ALTER TABLE ad_pinstance MODIFY ad_printformat_id DEFAULT NULL;</SQLStatement>
         <Data AD_Column_ID="592" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
       </PO>
-    </Step>
-    <Step DBType="Postgres" Parse="Y" SeqNo="190" StepType="SQL">
-      <SQLStatement>ALTER TABLE ad_role ALTER COLUMN allow_html_view SET NOT NULL;
-ALTER TABLE ad_role ALTER COLUMN allow_xls_view SET NOT NULL;
-ALTER TABLE ad_pinstance ALTER COLUMN reporttype SET NOT NULL;</SQLStatement>
-    </Step>
-    <Step DBType="Oracle" Parse="Y" SeqNo="200" StepType="SQL">
-      <SQLStatement>ALTER TABLE ad_role MODIFY allow_html_view NOT NULL;
-ALTER TABLE ad_role MODIFY allow_xls_view NOT NULL;
-ALTER TABLE ad_pinstance MODIFY reporttype NOT NULL;</SQLStatement>
     </Step>
   </Migration>
 </Migrations>
