@@ -324,16 +324,16 @@ public class MMigrationStep extends X_AD_MigrationStep {
 		if (this.get_ColumnIndex(MMigrationStep.COLUMNNAME_Parse) >= 0)
 			isParse = isParse();
 		
-		if ( sqlStatements == null || sqlStatements.trim().length() == 0 || sqlStatements.equals(";"))
-		{
-			bailout("No SQL to execute.");
-		}
+		boolean ignore = sqlStatements == null 
+				|| sqlStatements.trim().length() == 0 
+				|| sqlStatements.equals(";");
 
 		// Apply the sql if the database is supported.  Otherwise, mark the step 
 		// applied/rolled-back but take no action.
-        if (getDBType().equals(MMigrationStep.DBTYPE_AllDatabaseTypes)
+        if ((getDBType().equals(MMigrationStep.DBTYPE_AllDatabaseTypes)
 		    || (DB.isOracle() && getDBType().equals(MMigrationStep.DBTYPE_Oracle))
-		    || (DB.isPostgreSQL() && getDBType().equals(MMigrationStep.DBTYPE_Postgres))) 
+		    || (DB.isPostgreSQL() && getDBType().equals(MMigrationStep.DBTYPE_Postgres)))
+		    && !ignore) 
         {
         	//	Synchronize column first
         	getParent().syncColumn();
@@ -365,7 +365,7 @@ public class MMigrationStep extends X_AD_MigrationStep {
 		         setErrorMsg(null);
 		         conn.close();
 		     } catch (SQLException e) {
-		         java.sql.SQLException ne = e.getNextException();
+		         SQLException ne = e.getNextException();
 		
 		         // Try to close the connection.  If not failing on error and there are
 		         // many errors, we could be left with a lot of hanging connections.
