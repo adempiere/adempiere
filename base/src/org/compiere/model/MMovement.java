@@ -779,6 +779,13 @@ public class MMovement extends X_M_Movement implements DocAction
 			reversalMovementLine.setConfirmedQty(movementLine.getConfirmedQty().negate());
 			reversalMovementLine.setProcessed(false);
 			reversalMovementLine.saveEx();
+
+			//	We need revert MA
+			MMovementLineMA[] mas = MMovementLineMA.get(getCtx(), movementLine.getM_MovementLine_ID(), get_TrxName());
+			Arrays.stream(mas).forEach(lineMA -> {
+				MMovementLineMA reverseLine = new MMovementLineMA (reversalMovementLine, lineMA.getM_AttributeSetInstance_ID(), lineMA.getMovementQty().negate());
+				reverseLine.saveEx();
+			});
 		});
 
 		//After that those reverse movements confirmations are generated,
