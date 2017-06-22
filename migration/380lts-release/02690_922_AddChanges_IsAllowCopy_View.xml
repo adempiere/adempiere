@@ -335,7 +335,7 @@ WHERE ColumnName IN('Created', 'Updated', 'IsActive', 'AD_Client_ID', 'AD_Org_ID
 				'C_CashLine_ID', 'C_Payment_ID', 'IsPaid', 'IsAllocated', 'C_DocType_ID', 'Line')
 OR IsKey = 'Y' 
 OR ColumnSQL IS NOT NULL
-OR AD_Reference_ID IN(13, 21);</SQLStatement>
+OR AD_Reference_ID IN(13, 21)</SQLStatement>
     </Step>
     <Step DBType="ALL" Parse="N" SeqNo="660" StepType="SQL">
       <Comments>Old compatibility</Comments>
@@ -346,7 +346,7 @@ WHERE ColumnName NOT IN('Created', 'Updated', 'IsActive', 'AD_Client_ID', 'AD_Or
 				'C_CashLine_ID', 'C_Payment_ID', 'IsPaid', 'IsAllocated', 'C_DocType_ID', 'Line')
 AND IsKey = 'N' 
 AND ColumnSQL IS NULL
-AND AD_Reference_ID NOT IN(13, 21);</SQLStatement>
+AND AD_Reference_ID NOT IN(13, 21)</SQLStatement>
     </Step>
     <Step SeqNo="670" StepType="AD">
       <PO AD_Table_ID="101" Action="U" Record_ID="62199" Table="AD_Column">
