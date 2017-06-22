@@ -202,7 +202,7 @@ $BODY$
 </RollbackStatement>
     </Step>
     <Step DBType="Oracle" Parse="N" SeqNo="25" StepType="SQL">
-      <SQLStatement>CREATE OR REPLACE FUNCTION prodQtyReserved
+      <SQLStatement>CREATE OR REPLACE FUNCTION "ADEMPIERE"."PRODQTYRESERVED"
 (
 	p_Product_ID 		IN NUMBER,
     p_Warehouse_ID		IN NUMBER,
@@ -264,7 +264,7 @@ BEGIN
 		  INTO	v_ProductQty
 		FROM M_ProductionLine p
 		WHERE M_Product_ID=p_Product_ID AND MovementQty &lt; 0 AND p.Processed = 'N'
-		  AND EXISTS (SELECT * FROM M_LOCATOR l WHERE s.M_Locator_ID=l.M_Locator_ID
+		  AND EXISTS (SELECT * FROM M_LOCATOR l WHERE p.M_Locator_ID=l.M_Locator_ID
 		  	AND l.M_Warehouse_ID=v_Warehouse_ID);
 		--
 		RETURN v_ProductQty;
@@ -587,35 +587,6 @@ END prodQtyReserved;
     </Step>
     <Step SeqNo="90" StepType="AD">
       <PO AD_Table_ID="489" Action="I" Record_ID="53001" Table="AD_PrintFormatItem">
-        <Data AD_Column_ID="6959" Column="Updated">2012-02-22 17:42:12.986</Data>
-        <Data AD_Column_ID="6948" Column="SortNo">0</Data>
-        <Data AD_Column_ID="6967" Column="XPosition">0</Data>
-        <Data AD_Column_ID="6970" Column="IsOrderBy">false</Data>
-        <Data AD_Column_ID="7058" Column="ImageURL" isNewNull="true"/>
-        <Data AD_Column_ID="6969" Column="IsPrinted">true</Data>
-        <Data AD_Column_ID="6965" Column="IsHeightOneLine">false</Data>
-        <Data AD_Column_ID="7032" Column="PrintAreaType">C</Data>
-        <Data AD_Column_ID="6960" Column="AD_PrintFormat_ID">50090</Data>
-        <Data AD_Column_ID="6945" Column="AD_PrintFormatChild_ID" isNewNull="true"/>
-        <Data AD_Column_ID="6971" Column="IsGroupBy">false</Data>
-        <Data AD_Column_ID="6966" Column="MaxHeight">0</Data>
-        <Data AD_Column_ID="7031" Column="PrintFormatType">F</Data>
-        <Data AD_Column_ID="7059" Column="ImageIsAttached">false</Data>
-        <Data AD_Column_ID="6939" Column="SeqNo">5</Data>
-        <Data AD_Column_ID="6949" Column="AD_Column_ID">4721</Data>
-        <Data AD_Column_ID="7030" Column="LineAlignmentType">X</Data>
-        <Data AD_Column_ID="6952" Column="UpdatedBy">100</Data>
-        <Data AD_Column_ID="6944" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="6962" Column="XSpace">0</Data>
-        <Data AD_Column_ID="6968" Column="FieldAlignmentType">L</Data>
-        <Data AD_Column_ID="6951" Column="IsRelativePosition">true</Data>
-        <Data AD_Column_ID="6957" Column="YPosition">0</Data>
-        <Data AD_Column_ID="6955" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="7565" Column="IsSuppressNull">false</Data>
-        <Data AD_Column_ID="6950" Column="IsPageBreak">false</Data>
-        <Data AD_Column_ID="7655" Column="IsFixedWidth">false</Data>
-        <Data AD_Column_ID="6943" Column="IsNextLine">false</Data>
-        <Data AD_Column_ID="7638" Column="BelowColumn" isNewNull="true"/>
         <Data AD_Column_ID="7639" Column="AD_PrintGraph_ID" isNewNull="true"/>
         <Data AD_Column_ID="6942" Column="Created">2012-02-22 17:42:12.986</Data>
         <Data AD_Column_ID="6947" Column="YSpace">0</Data>
@@ -648,6 +619,35 @@ END prodQtyReserved;
         <Data AD_Column_ID="6958" Column="AD_PrintColor_ID" isNewNull="true"/>
         <Data AD_Column_ID="6963" Column="AD_PrintFont_ID" isNewNull="true"/>
         <Data AD_Column_ID="6961" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6959" Column="Updated">2012-02-22 17:42:12.986</Data>
+        <Data AD_Column_ID="6948" Column="SortNo">0</Data>
+        <Data AD_Column_ID="6967" Column="XPosition">0</Data>
+        <Data AD_Column_ID="6970" Column="IsOrderBy">false</Data>
+        <Data AD_Column_ID="7058" Column="ImageURL" isNewNull="true"/>
+        <Data AD_Column_ID="6969" Column="IsPrinted">true</Data>
+        <Data AD_Column_ID="6965" Column="IsHeightOneLine">false</Data>
+        <Data AD_Column_ID="7032" Column="PrintAreaType">C</Data>
+        <Data AD_Column_ID="6960" Column="AD_PrintFormat_ID">50090</Data>
+        <Data AD_Column_ID="6945" Column="AD_PrintFormatChild_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6971" Column="IsGroupBy">false</Data>
+        <Data AD_Column_ID="6966" Column="MaxHeight">0</Data>
+        <Data AD_Column_ID="7031" Column="PrintFormatType">F</Data>
+        <Data AD_Column_ID="7059" Column="ImageIsAttached">false</Data>
+        <Data AD_Column_ID="6939" Column="SeqNo">5</Data>
+        <Data AD_Column_ID="6949" Column="AD_Column_ID">4721</Data>
+        <Data AD_Column_ID="7030" Column="LineAlignmentType">X</Data>
+        <Data AD_Column_ID="6952" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="6944" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6962" Column="XSpace">0</Data>
+        <Data AD_Column_ID="6968" Column="FieldAlignmentType">L</Data>
+        <Data AD_Column_ID="6951" Column="IsRelativePosition">true</Data>
+        <Data AD_Column_ID="6957" Column="YPosition">0</Data>
+        <Data AD_Column_ID="6955" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="7565" Column="IsSuppressNull">false</Data>
+        <Data AD_Column_ID="6950" Column="IsPageBreak">false</Data>
+        <Data AD_Column_ID="7655" Column="IsFixedWidth">false</Data>
+        <Data AD_Column_ID="6943" Column="IsNextLine">false</Data>
+        <Data AD_Column_ID="7638" Column="BelowColumn" isNewNull="true"/>
       </PO>
     </Step>
     <Step SeqNo="100" StepType="AD">
@@ -1717,28 +1717,6 @@ END prodQtyReserved;
     </Step>
     <Step SeqNo="370" StepType="AD">
       <PO AD_Table_ID="489" Action="I" Record_ID="53017" Table="AD_PrintFormatItem">
-        <Data AD_Column_ID="6959" Column="Updated">2012-02-22 17:53:49.903</Data>
-        <Data AD_Column_ID="6948" Column="SortNo">0</Data>
-        <Data AD_Column_ID="6967" Column="XPosition">0</Data>
-        <Data AD_Column_ID="6970" Column="IsOrderBy">false</Data>
-        <Data AD_Column_ID="7058" Column="ImageURL" isNewNull="true"/>
-        <Data AD_Column_ID="6969" Column="IsPrinted">true</Data>
-        <Data AD_Column_ID="6965" Column="IsHeightOneLine">false</Data>
-        <Data AD_Column_ID="7032" Column="PrintAreaType">C</Data>
-        <Data AD_Column_ID="6960" Column="AD_PrintFormat_ID">50091</Data>
-        <Data AD_Column_ID="6945" Column="AD_PrintFormatChild_ID" isNewNull="true"/>
-        <Data AD_Column_ID="6971" Column="IsGroupBy">false</Data>
-        <Data AD_Column_ID="6966" Column="MaxHeight">0</Data>
-        <Data AD_Column_ID="7031" Column="PrintFormatType">F</Data>
-        <Data AD_Column_ID="7059" Column="ImageIsAttached">false</Data>
-        <Data AD_Column_ID="6939" Column="SeqNo">9</Data>
-        <Data AD_Column_ID="6949" Column="AD_Column_ID">2304</Data>
-        <Data AD_Column_ID="7030" Column="LineAlignmentType">X</Data>
-        <Data AD_Column_ID="6952" Column="UpdatedBy">100</Data>
-        <Data AD_Column_ID="6944" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="6962" Column="XSpace">0</Data>
-        <Data AD_Column_ID="6968" Column="FieldAlignmentType">L</Data>
-        <Data AD_Column_ID="6951" Column="IsRelativePosition">true</Data>
         <Data AD_Column_ID="6957" Column="YPosition">0</Data>
         <Data AD_Column_ID="6955" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="7565" Column="IsSuppressNull">false</Data>
@@ -1778,6 +1756,28 @@ END prodQtyReserved;
         <Data AD_Column_ID="6958" Column="AD_PrintColor_ID" isNewNull="true"/>
         <Data AD_Column_ID="6963" Column="AD_PrintFont_ID" isNewNull="true"/>
         <Data AD_Column_ID="6961" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6959" Column="Updated">2012-02-22 17:53:49.903</Data>
+        <Data AD_Column_ID="6948" Column="SortNo">0</Data>
+        <Data AD_Column_ID="6967" Column="XPosition">0</Data>
+        <Data AD_Column_ID="6970" Column="IsOrderBy">false</Data>
+        <Data AD_Column_ID="7058" Column="ImageURL" isNewNull="true"/>
+        <Data AD_Column_ID="6969" Column="IsPrinted">true</Data>
+        <Data AD_Column_ID="6965" Column="IsHeightOneLine">false</Data>
+        <Data AD_Column_ID="7032" Column="PrintAreaType">C</Data>
+        <Data AD_Column_ID="6960" Column="AD_PrintFormat_ID">50091</Data>
+        <Data AD_Column_ID="6945" Column="AD_PrintFormatChild_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6971" Column="IsGroupBy">false</Data>
+        <Data AD_Column_ID="6966" Column="MaxHeight">0</Data>
+        <Data AD_Column_ID="7031" Column="PrintFormatType">F</Data>
+        <Data AD_Column_ID="7059" Column="ImageIsAttached">false</Data>
+        <Data AD_Column_ID="6939" Column="SeqNo">9</Data>
+        <Data AD_Column_ID="6949" Column="AD_Column_ID">2304</Data>
+        <Data AD_Column_ID="7030" Column="LineAlignmentType">X</Data>
+        <Data AD_Column_ID="6952" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="6944" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6962" Column="XSpace">0</Data>
+        <Data AD_Column_ID="6968" Column="FieldAlignmentType">L</Data>
+        <Data AD_Column_ID="6951" Column="IsRelativePosition">true</Data>
       </PO>
     </Step>
     <Step SeqNo="380" StepType="AD">
@@ -2757,6 +2757,11 @@ END prodQtyReserved;
     </Step>
     <Step SeqNo="530" StepType="AD">
       <PO AD_Table_ID="489" Action="I" Record_ID="53033" Table="AD_PrintFormatItem">
+        <Data AD_Column_ID="6940" Column="Name">Stocked</Data>
+        <Data AD_Column_ID="8197" Column="PrintNameSuffix" isNewNull="true"/>
+        <Data AD_Column_ID="6958" Column="AD_PrintColor_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6963" Column="AD_PrintFont_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6961" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="6959" Column="Updated">2012-02-22 17:54:22.711</Data>
         <Data AD_Column_ID="6948" Column="SortNo">0</Data>
         <Data AD_Column_ID="6967" Column="XPosition">0</Data>
@@ -2813,11 +2818,6 @@ END prodQtyReserved;
         <Data AD_Column_ID="10259" Column="IsDeviationCalc">false</Data>
         <Data AD_Column_ID="9966" Column="IsRunningTotal">false</Data>
         <Data AD_Column_ID="6946" Column="PrintName">Stocked</Data>
-        <Data AD_Column_ID="6940" Column="Name">Stocked</Data>
-        <Data AD_Column_ID="8197" Column="PrintNameSuffix" isNewNull="true"/>
-        <Data AD_Column_ID="6958" Column="AD_PrintColor_ID" isNewNull="true"/>
-        <Data AD_Column_ID="6963" Column="AD_PrintFont_ID" isNewNull="true"/>
-        <Data AD_Column_ID="6961" Column="AD_Org_ID">0</Data>
       </PO>
     </Step>
     <Step SeqNo="540" StepType="AD">
@@ -3862,36 +3862,6 @@ END prodQtyReserved;
     </Step>
     <Step SeqNo="700" StepType="AD">
       <PO AD_Table_ID="489" Action="I" Record_ID="53050" Table="AD_PrintFormatItem">
-        <Data AD_Column_ID="6959" Column="Updated">2012-02-22 17:54:54.642</Data>
-        <Data AD_Column_ID="6948" Column="SortNo">0</Data>
-        <Data AD_Column_ID="6967" Column="XPosition">0</Data>
-        <Data AD_Column_ID="6970" Column="IsOrderBy">false</Data>
-        <Data AD_Column_ID="7058" Column="ImageURL" isNewNull="true"/>
-        <Data AD_Column_ID="6969" Column="IsPrinted">true</Data>
-        <Data AD_Column_ID="6965" Column="IsHeightOneLine">false</Data>
-        <Data AD_Column_ID="7032" Column="PrintAreaType">C</Data>
-        <Data AD_Column_ID="6960" Column="AD_PrintFormat_ID">50091</Data>
-        <Data AD_Column_ID="6945" Column="AD_PrintFormatChild_ID" isNewNull="true"/>
-        <Data AD_Column_ID="6971" Column="IsGroupBy">false</Data>
-        <Data AD_Column_ID="6966" Column="MaxHeight">0</Data>
-        <Data AD_Column_ID="7031" Column="PrintFormatType">F</Data>
-        <Data AD_Column_ID="7059" Column="ImageIsAttached">false</Data>
-        <Data AD_Column_ID="6939" Column="SeqNo">42</Data>
-        <Data AD_Column_ID="6949" Column="AD_Column_ID">10919</Data>
-        <Data AD_Column_ID="7030" Column="LineAlignmentType">X</Data>
-        <Data AD_Column_ID="6952" Column="UpdatedBy">100</Data>
-        <Data AD_Column_ID="6944" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="6962" Column="XSpace">0</Data>
-        <Data AD_Column_ID="6968" Column="FieldAlignmentType">L</Data>
-        <Data AD_Column_ID="6951" Column="IsRelativePosition">true</Data>
-        <Data AD_Column_ID="6957" Column="YPosition">0</Data>
-        <Data AD_Column_ID="6955" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="7565" Column="IsSuppressNull">false</Data>
-        <Data AD_Column_ID="6950" Column="IsPageBreak">false</Data>
-        <Data AD_Column_ID="7655" Column="IsFixedWidth">false</Data>
-        <Data AD_Column_ID="6943" Column="IsNextLine">false</Data>
-        <Data AD_Column_ID="7638" Column="BelowColumn" isNewNull="true"/>
-        <Data AD_Column_ID="7639" Column="AD_PrintGraph_ID" isNewNull="true"/>
         <Data AD_Column_ID="6942" Column="Created">2012-02-22 17:54:54.642</Data>
         <Data AD_Column_ID="6947" Column="YSpace">0</Data>
         <Data AD_Column_ID="7566" Column="IsSetNLPosition">false</Data>
@@ -3923,6 +3893,36 @@ END prodQtyReserved;
         <Data AD_Column_ID="6958" Column="AD_PrintColor_ID" isNewNull="true"/>
         <Data AD_Column_ID="6963" Column="AD_PrintFont_ID" isNewNull="true"/>
         <Data AD_Column_ID="6961" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6959" Column="Updated">2012-02-22 17:54:54.642</Data>
+        <Data AD_Column_ID="6948" Column="SortNo">0</Data>
+        <Data AD_Column_ID="6967" Column="XPosition">0</Data>
+        <Data AD_Column_ID="6970" Column="IsOrderBy">false</Data>
+        <Data AD_Column_ID="7058" Column="ImageURL" isNewNull="true"/>
+        <Data AD_Column_ID="6969" Column="IsPrinted">true</Data>
+        <Data AD_Column_ID="6965" Column="IsHeightOneLine">false</Data>
+        <Data AD_Column_ID="7032" Column="PrintAreaType">C</Data>
+        <Data AD_Column_ID="6960" Column="AD_PrintFormat_ID">50091</Data>
+        <Data AD_Column_ID="6945" Column="AD_PrintFormatChild_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6971" Column="IsGroupBy">false</Data>
+        <Data AD_Column_ID="6966" Column="MaxHeight">0</Data>
+        <Data AD_Column_ID="7031" Column="PrintFormatType">F</Data>
+        <Data AD_Column_ID="7059" Column="ImageIsAttached">false</Data>
+        <Data AD_Column_ID="6939" Column="SeqNo">42</Data>
+        <Data AD_Column_ID="6949" Column="AD_Column_ID">10919</Data>
+        <Data AD_Column_ID="7030" Column="LineAlignmentType">X</Data>
+        <Data AD_Column_ID="6952" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="6944" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6962" Column="XSpace">0</Data>
+        <Data AD_Column_ID="6968" Column="FieldAlignmentType">L</Data>
+        <Data AD_Column_ID="6951" Column="IsRelativePosition">true</Data>
+        <Data AD_Column_ID="6957" Column="YPosition">0</Data>
+        <Data AD_Column_ID="6955" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="7565" Column="IsSuppressNull">false</Data>
+        <Data AD_Column_ID="6950" Column="IsPageBreak">false</Data>
+        <Data AD_Column_ID="7655" Column="IsFixedWidth">false</Data>
+        <Data AD_Column_ID="6943" Column="IsNextLine">false</Data>
+        <Data AD_Column_ID="7638" Column="BelowColumn" isNewNull="true"/>
+        <Data AD_Column_ID="7639" Column="AD_PrintGraph_ID" isNewNull="true"/>
       </PO>
     </Step>
     <Step SeqNo="710" StepType="AD">
@@ -4011,7 +4011,6 @@ END prodQtyReserved;
         <Data AD_Column_ID="7030" Column="LineAlignmentType">X</Data>
         <Data AD_Column_ID="6952" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="6944" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="6962" Column="XSpace">0</Data>
         <Data AD_Column_ID="6968" Column="FieldAlignmentType">L</Data>
         <Data AD_Column_ID="6951" Column="IsRelativePosition">true</Data>
         <Data AD_Column_ID="6957" Column="YPosition">0</Data>
@@ -4053,6 +4052,7 @@ END prodQtyReserved;
         <Data AD_Column_ID="6958" Column="AD_PrintColor_ID" isNewNull="true"/>
         <Data AD_Column_ID="6963" Column="AD_PrintFont_ID" isNewNull="true"/>
         <Data AD_Column_ID="6961" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6962" Column="XSpace">0</Data>
       </PO>
     </Step>
     <Step SeqNo="730" StepType="AD">
@@ -4131,7 +4131,6 @@ END prodQtyReserved;
         <Data AD_Column_ID="6965" Column="IsHeightOneLine">false</Data>
         <Data AD_Column_ID="7032" Column="PrintAreaType">C</Data>
         <Data AD_Column_ID="6960" Column="AD_PrintFormat_ID">50091</Data>
-        <Data AD_Column_ID="6945" Column="AD_PrintFormatChild_ID" isNewNull="true"/>
         <Data AD_Column_ID="6971" Column="IsGroupBy">false</Data>
         <Data AD_Column_ID="6966" Column="MaxHeight">0</Data>
         <Data AD_Column_ID="7031" Column="PrintFormatType">F</Data>
@@ -4183,6 +4182,7 @@ END prodQtyReserved;
         <Data AD_Column_ID="6958" Column="AD_PrintColor_ID" isNewNull="true"/>
         <Data AD_Column_ID="6963" Column="AD_PrintFont_ID" isNewNull="true"/>
         <Data AD_Column_ID="6961" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6945" Column="AD_PrintFormatChild_ID" isNewNull="true"/>
       </PO>
     </Step>
     <Step SeqNo="750" StepType="AD">
@@ -4367,7 +4367,6 @@ END prodQtyReserved;
         <Data AD_Column_ID="56359" Column="IsSuppressRepeats" isNewNull="true"/>
         <Data AD_Column_ID="9967" Column="IsMinCalc">false</Data>
         <Data AD_Column_ID="6956" Column="IsSummarized">false</Data>
-        <Data AD_Column_ID="9964" Column="IsMaxCalc">false</Data>
         <Data AD_Column_ID="7061" Column="IsAveraged">false</Data>
         <Data AD_Column_ID="7060" Column="IsCounted">false</Data>
         <Data AD_Column_ID="10259" Column="IsDeviationCalc">false</Data>
@@ -4378,6 +4377,7 @@ END prodQtyReserved;
         <Data AD_Column_ID="6958" Column="AD_PrintColor_ID" isNewNull="true"/>
         <Data AD_Column_ID="6963" Column="AD_PrintFont_ID" isNewNull="true"/>
         <Data AD_Column_ID="6961" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="9964" Column="IsMaxCalc">false</Data>
       </PO>
     </Step>
     <Step SeqNo="780" StepType="AD">
@@ -4486,7 +4486,6 @@ END prodQtyReserved;
         <Data AD_Column_ID="7654" Column="IsNextPage">false</Data>
         <Data AD_Column_ID="9965" Column="RunningTotalLines" isNewNull="true"/>
         <Data AD_Column_ID="13237" Column="IsCentrallyMaintained">true</Data>
-        <Data AD_Column_ID="10258" Column="IsVarianceCalc">false</Data>
         <Data AD_Column_ID="13056" Column="ArcDiameter">0</Data>
         <Data AD_Column_ID="13057" Column="ShapeType">N</Data>
         <Data AD_Column_ID="13054" Column="IsFilledRectangle">false</Data>
@@ -4508,6 +4507,7 @@ END prodQtyReserved;
         <Data AD_Column_ID="6958" Column="AD_PrintColor_ID" isNewNull="true"/>
         <Data AD_Column_ID="6963" Column="AD_PrintFont_ID" isNewNull="true"/>
         <Data AD_Column_ID="6961" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="10258" Column="IsVarianceCalc">false</Data>
       </PO>
     </Step>
     <Step SeqNo="800" StepType="AD">
@@ -4607,7 +4607,6 @@ END prodQtyReserved;
         <Data AD_Column_ID="6943" Column="IsNextLine">false</Data>
         <Data AD_Column_ID="7638" Column="BelowColumn" isNewNull="true"/>
         <Data AD_Column_ID="7639" Column="AD_PrintGraph_ID" isNewNull="true"/>
-        <Data AD_Column_ID="6942" Column="Created">2012-02-22 17:55:14.823</Data>
         <Data AD_Column_ID="6947" Column="YSpace">0</Data>
         <Data AD_Column_ID="7566" Column="IsSetNLPosition">false</Data>
         <Data AD_Column_ID="6954" Column="AD_PrintFormatItem_ID">53061</Data>
@@ -4638,6 +4637,7 @@ END prodQtyReserved;
         <Data AD_Column_ID="6958" Column="AD_PrintColor_ID" isNewNull="true"/>
         <Data AD_Column_ID="6963" Column="AD_PrintFont_ID" isNewNull="true"/>
         <Data AD_Column_ID="6961" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6942" Column="Created">2012-02-22 17:55:14.823</Data>
       </PO>
     </Step>
     <Step SeqNo="820" StepType="AD">
@@ -4766,8 +4766,8 @@ END prodQtyReserved;
     </Step>
     <Step SeqNo="930" StepType="AD">
       <PO AD_Table_ID="489" Action="U" Record_ID="53032" Table="AD_PrintFormatItem">
-        <Data AD_Column_ID="6969" Column="IsPrinted" oldValue="true">false</Data>
         <Data AD_Column_ID="6939" Column="SeqNo" oldValue="24">0</Data>
+        <Data AD_Column_ID="6969" Column="IsPrinted" oldValue="true">false</Data>
       </PO>
     </Step>
     <Step SeqNo="940" StepType="AD">
@@ -5046,7 +5046,6 @@ END prodQtyReserved;
         <Data AD_Column_ID="6950" Column="IsPageBreak">false</Data>
         <Data AD_Column_ID="7655" Column="IsFixedWidth">false</Data>
         <Data AD_Column_ID="6943" Column="IsNextLine">false</Data>
-        <Data AD_Column_ID="7638" Column="BelowColumn">0</Data>
         <Data AD_Column_ID="7639" Column="AD_PrintGraph_ID" isNewNull="true"/>
         <Data AD_Column_ID="6942" Column="Created">2012-02-22 18:01:22.292</Data>
         <Data AD_Column_ID="6947" Column="YSpace">0</Data>
@@ -5079,6 +5078,7 @@ END prodQtyReserved;
         <Data AD_Column_ID="6958" Column="AD_PrintColor_ID" isNewNull="true"/>
         <Data AD_Column_ID="6963" Column="AD_PrintFont_ID" isNewNull="true"/>
         <Data AD_Column_ID="6961" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="7638" Column="BelowColumn">0</Data>
       </PO>
     </Step>
     <Step SeqNo="1370" StepType="AD">
@@ -5180,7 +5180,6 @@ END prodQtyReserved;
         <Data AD_Column_ID="7058" Column="ImageURL" isNewNull="true"/>
         <Data AD_Column_ID="6969" Column="IsPrinted">true</Data>
         <Data AD_Column_ID="6965" Column="IsHeightOneLine">false</Data>
-        <Data AD_Column_ID="7032" Column="PrintAreaType">C</Data>
         <Data AD_Column_ID="6960" Column="AD_PrintFormat_ID">50091</Data>
         <Data AD_Column_ID="6945" Column="AD_PrintFormatChild_ID" isNewNull="true"/>
         <Data AD_Column_ID="6971" Column="IsGroupBy">false</Data>
@@ -5234,6 +5233,7 @@ END prodQtyReserved;
         <Data AD_Column_ID="6958" Column="AD_PrintColor_ID">100</Data>
         <Data AD_Column_ID="6963" Column="AD_PrintFont_ID">161</Data>
         <Data AD_Column_ID="6961" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="7032" Column="PrintAreaType">C</Data>
       </PO>
     </Step>
     <Step SeqNo="1430" StepType="AD">
@@ -5299,11 +5299,11 @@ END prodQtyReserved;
         <Data AD_Column_ID="10259" Column="IsDeviationCalc">false</Data>
         <Data AD_Column_ID="9966" Column="IsRunningTotal">false</Data>
         <Data AD_Column_ID="6946" Column="PrintName">Product Category</Data>
-        <Data AD_Column_ID="6940" Column="Name">Label Product Category</Data>
         <Data AD_Column_ID="8197" Column="PrintNameSuffix" isNewNull="true"/>
         <Data AD_Column_ID="6958" Column="AD_PrintColor_ID">100</Data>
         <Data AD_Column_ID="6963" Column="AD_PrintFont_ID">161</Data>
         <Data AD_Column_ID="6961" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6940" Column="Name">Label Product Category</Data>
       </PO>
     </Step>
     <Step SeqNo="1450" StepType="AD">
@@ -5423,7 +5423,6 @@ END prodQtyReserved;
         <Data AD_Column_ID="13054" Column="IsFilledRectangle">false</Data>
         <Data AD_Column_ID="13055" Column="LineWidth">1</Data>
         <Data AD_Column_ID="13238" Column="IsImageField">false</Data>
-        <Data AD_Column_ID="15015" Column="BarcodeType" isNewNull="true"/>
         <Data AD_Column_ID="56351" Column="FormatPattern" isNewNull="true"/>
         <Data AD_Column_ID="56359" Column="IsSuppressRepeats">false</Data>
         <Data AD_Column_ID="9967" Column="IsMinCalc">false</Data>
@@ -5439,6 +5438,7 @@ END prodQtyReserved;
         <Data AD_Column_ID="6958" Column="AD_PrintColor_ID">100</Data>
         <Data AD_Column_ID="6963" Column="AD_PrintFont_ID">161</Data>
         <Data AD_Column_ID="6961" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="15015" Column="BarcodeType" isNewNull="true"/>
       </PO>
     </Step>
     <Step SeqNo="1480" StepType="AD">
@@ -5546,7 +5546,6 @@ END prodQtyReserved;
         <Data AD_Column_ID="6942" Column="Created">2012-02-22 18:05:53.645</Data>
         <Data AD_Column_ID="6947" Column="YSpace">0</Data>
         <Data AD_Column_ID="7566" Column="IsSetNLPosition">false</Data>
-        <Data AD_Column_ID="6954" Column="AD_PrintFormatItem_ID">53070</Data>
         <Data AD_Column_ID="6964" Column="IsActive">true</Data>
         <Data AD_Column_ID="6953" Column="MaxWidth">0</Data>
         <Data AD_Column_ID="7654" Column="IsNextPage">false</Data>
@@ -5574,6 +5573,7 @@ END prodQtyReserved;
         <Data AD_Column_ID="6958" Column="AD_PrintColor_ID">100</Data>
         <Data AD_Column_ID="6963" Column="AD_PrintFont_ID">161</Data>
         <Data AD_Column_ID="6961" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6954" Column="AD_PrintFormatItem_ID">53070</Data>
       </PO>
     </Step>
     <Step SeqNo="1510" StepType="AD">
@@ -5677,7 +5677,6 @@ END prodQtyReserved;
         <Data AD_Column_ID="6939" Column="SeqNo">51</Data>
         <Data AD_Column_ID="6949" Column="AD_Column_ID">61998</Data>
         <Data AD_Column_ID="7030" Column="LineAlignmentType">X</Data>
-        <Data AD_Column_ID="6952" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="6944" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="6962" Column="XSpace">0</Data>
         <Data AD_Column_ID="6968" Column="FieldAlignmentType">T</Data>
@@ -5721,6 +5720,7 @@ END prodQtyReserved;
         <Data AD_Column_ID="6958" Column="AD_PrintColor_ID" isNewNull="true"/>
         <Data AD_Column_ID="6963" Column="AD_PrintFont_ID" isNewNull="true"/>
         <Data AD_Column_ID="6961" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6952" Column="UpdatedBy">100</Data>
       </PO>
     </Step>
     <Step SeqNo="1560" StepType="AD">

@@ -1,4 +1,4 @@
-CREATE OR REPLACE FUNCTION prodQtyReserved
+CREATE OR REPLACE FUNCTION "ADEMPIERE"."PRODQTYRESERVED"
 (
 	p_Product_ID 		IN NUMBER,
     p_Warehouse_ID		IN NUMBER,
@@ -52,7 +52,6 @@ BEGIN
 		WHEN OTHERS THEN
 			RETURN 0;
 	END;
-	
 
 	--	No reservation for non-stocked
 	IF ( v_IsStocked='Y') THEN
@@ -61,7 +60,7 @@ BEGIN
 		  INTO	v_ProductQty
 		FROM M_ProductionLine p
 		WHERE M_Product_ID=p_Product_ID AND MovementQty < 0 AND p.Processed = 'N'
-		  AND EXISTS (SELECT * FROM M_LOCATOR l WHERE s.M_Locator_ID=l.M_Locator_ID
+		  AND EXISTS (SELECT * FROM M_LOCATOR l WHERE p.M_Locator_ID=l.M_Locator_ID
 		  	AND l.M_Warehouse_ID=v_Warehouse_ID);
 		--
 		RETURN v_ProductQty;
