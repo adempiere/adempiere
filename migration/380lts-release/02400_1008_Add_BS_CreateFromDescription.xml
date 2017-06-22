@@ -195,7 +195,7 @@ CREATE OR REPLACE VIEW C_Payment_v AS
     p.User2_ID
    FROM C_Payment p;</RollbackStatement>
     </Step>
-    <Step DBType="Oracle" Parse="N" SeqNo="0" StepType="SQL">
+    <Step DBType="Oracle" Parse="Y" SeqNo="0" StepType="SQL">
       <Comments>Change on View</Comments>
       <SQLStatement>CREATE OR REPLACE VIEW C_Payment_v AS
  SELECT p.C_Payment_ID,
