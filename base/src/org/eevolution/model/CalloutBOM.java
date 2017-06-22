@@ -64,7 +64,8 @@ public class CalloutBOM extends CalloutEngine
 
 		if (bom.getM_Product_ID() ==  bomLine.getM_Product_ID())
 		{                                                                               
-			throw new AdempiereException("@ValidComponent@ - Error Parent not be Component");				
+			bomLine.setM_Product_ID(-1);
+			return "";
 		}
 		// Set BOM Line defaults
 		MProduct product = MProduct.get(ctx, M_Product_ID);  // May be the parent;
