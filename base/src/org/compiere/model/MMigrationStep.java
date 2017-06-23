@@ -359,7 +359,7 @@ public class MMigrationStep extends X_AD_MigrationStep {
 			     else {  // Don't parse.  Assume its a single statement.
 			    	 int lastIndex = sqlStatements.lastIndexOf(";");
 			    	 if(lastIndex > -1
-			    			 && lastIndex < sqlStatements.length() -1) {
+			    			 && lastIndex == sqlStatements.length() -1) {
 			    		 sqlStatements = sqlStatements.substring(0, lastIndex);
 			    	 }
 			         stmt.executeUpdate(sqlStatements);
