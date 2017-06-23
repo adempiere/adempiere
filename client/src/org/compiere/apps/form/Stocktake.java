@@ -81,7 +81,9 @@ public class Stocktake {
 		 */
 		MQuery query = m_staticQuery.deepCopy();
 		//  Physical Inventory
-		if (inventory == null || inventory.toString().length() == 0) return;
+		if (inventory == null || inventory.toString().length() == 0) {
+			return;
+		}
 		query.addRestriction("M_Inventory_ID", MQuery.EQUAL, inventory);
 		//  Locator
 		if (locator != null && locator.toString().length() > 0)

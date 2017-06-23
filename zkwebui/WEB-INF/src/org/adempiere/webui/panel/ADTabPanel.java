@@ -935,7 +935,8 @@ public class ADTabPanel extends Div implements Evaluatee, EventListener, DataSta
 		if(event.getTarget() instanceof IADTabPanel)
 		{
 			IADTabPanel panel = (IADTabPanel)event.getTarget();
-			if (panel == panel.getGlobalToolbar().getCurrentPanel())
+			if (panel.getGlobalToolbar() != null
+					&& panel == panel.getGlobalToolbar().getCurrentPanel())
 				return;
 
 			IADTabPanel last = panel.getGlobalToolbar().getCurrentPanel();

@@ -183,7 +183,7 @@ public class WStocktake extends Stocktake
 		//  Physical Inventory
 		String vcode = "M_Inventory.IsStocktake='Y' ";
 		MLookup inventoryLookup = MLookupFactory.get (ctx, m_WindowNo, 3563, DisplayType.TableDir, Env.getLanguage(Env.getCtx()), "M_Inventory_ID", 53249, true, vcode);
-		inventoryField = new WTableDirEditor("M_Inventory_ID", false, false, true, inventoryLookup);
+		inventoryField = new WTableDirEditor("M_Inventory_ID", true, false, true, inventoryLookup);
 		//  Locator
 		MLocatorLookup locatorLookup = new MLocatorLookup(ctx, m_WindowNo);
 		locatorField = new WLocatorEditor ("M_Locator_ID", false, false, true, locatorLookup, m_WindowNo);

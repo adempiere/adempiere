@@ -386,7 +386,8 @@ public class GridPanel extends Borderlayout implements EventListener
 		{
 			if(tabPanel != null)
 			{
-				if (tabPanel.getGlobalToolbar().getCurrentPanel() != tabPanel)
+				if (tabPanel.getGlobalToolbar() != null
+						&& tabPanel.getGlobalToolbar().getCurrentPanel() != tabPanel)
 				{		
 					tabPanel.getGlobalToolbar().getCurrentPanel().activate(false);
 					tabPanel.setUnselected(tabPanel.getGlobalToolbar().getCurrentPanel());
