@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="ECA02" Name="Functionality is old and unsupported for postgreSQL #1171" ReleaseNo="3.9.0" SeqNo="2830">
+    <Comments>See: https://github.com/adempiere/adempiere/issues/1171Fact_Acct_Balance_Update</Comments>
+    <Step DBType="Oracle" Parse="Y" SeqNo="0" StepType="SQL">
+      <Comments>Drop Procedure</Comments>
+      <SQLStatement>DROP PROCEDURE Fact_Acct_Balance_Update</SQLStatement>
+    </Step>
+  </Migration>
+</Migrations>
