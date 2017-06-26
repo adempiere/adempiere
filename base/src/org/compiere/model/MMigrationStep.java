@@ -326,7 +326,7 @@ public class MMigrationStep extends X_AD_MigrationStep {
 		
 		boolean ignore = sqlStatements == null 
 				|| sqlStatements.trim().length() == 0 
-				|| sqlStatements.trim().equals(";");
+				|| sqlStatements.equals(";");
 
 		// Apply the sql if the database is supported.  Otherwise, mark the step 
 		// applied/rolled-back but take no action.
@@ -335,7 +335,6 @@ public class MMigrationStep extends X_AD_MigrationStep {
 		    || (DB.isPostgreSQL() && getDBType().equals(MMigrationStep.DBTYPE_Postgres)))
 		    && !ignore) 
         {
-        	sqlStatements = sqlStatements.trim();
         	//	Synchronize column first
         	getParent().syncColumn();
         	//	
@@ -357,11 +356,6 @@ public class MMigrationStep extends X_AD_MigrationStep {
 		             stmt.executeBatch();
 		         } 
 			     else {  // Don't parse.  Assume its a single statement.
-			    	 int lastIndex = sqlStatements.lastIndexOf(";");
-			    	 if(lastIndex > -1
-			    			 && lastIndex < sqlStatements.length() -1) {
-			    		 sqlStatements = sqlStatements.substring(0, lastIndex);
-			    	 }
 			         stmt.executeUpdate(sqlStatements);
 			     }
 		
@@ -391,6 +385,7 @@ public class MMigrationStep extends X_AD_MigrationStep {
 		         setApply(rollback ? MMigrationStep.APPLY_Rollback : MMigrationStep.APPLY_Apply);
 		         if (!rollback)
 		             setStatusCode(MMigrationStep.STATUSCODE_Failed);
+		
 		         
 				log.severe(this.toString() + " " + getErrorMsg());
 				throw new AdempiereException(this.toString() + " " + getErrorMsg(), e);
