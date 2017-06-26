@@ -3,7 +3,7 @@
   <Migration EntityType="EE03" Name="Update View Demand  #401" ReleaseNo="3.9.0" SeqNo="143">
     <Comments>#401 Update View
 https://github.com/adempiere/adempiere/issues/401</Comments>
-    <Step DBType="Postgres" Parse="N" SeqNo="10" StepType="SQL">
+    <Step DBType="Postgres" Parse="Y" SeqNo="10" StepType="SQL">
       <SQLStatement>DROP VIEW IF EXISTS rv_pp_mrp_demand;
 DROP VIEW IF EXISTS rv_pp_mrp_detail_demand;
 DROP VIEW IF EXISTS rv_pp_mrp_supply;
@@ -634,11 +634,7 @@ end;</RollbackStatement>
     </Step>
     <Step DBType="Oracle" Parse="N" SeqNo="102" StepType="SQL">
       <Comments>For view rv_pp_mrp_detail_supply</Comments>
-      <SQLStatement>begin
-execute immediate 'DROP VIEW rv_pp_mrp_detail_supply';
-exception
-when others then null;
-end;</SQLStatement>
+      <SQLStatement>begin execute immediate 'DROP VIEW rv_pp_mrp_detail_supply'; exception when others then null; end;</SQLStatement>
       <RollbackStatement>begin
 execute immediate 'DROP VIEW rv_pp_mrp_detail_supply';
 exception
@@ -658,7 +654,7 @@ exception
 when others then null;
 end;</RollbackStatement>
     </Step>
-    <Step DBType="Oracle" Parse="N" SeqNo="105" StepType="SQL">
+    <Step DBType="Oracle" Parse="Y" SeqNo="105" StepType="SQL">
       <Comments>Create View rv_pp_mrp</Comments>
       <SQLStatement>CREATE OR REPLACE VIEW rv_pp_mrp AS 
 SELECT 
@@ -887,7 +883,7 @@ FROM pp_product_planning pp
 INNER JOIN M_Product p ON (pp.M_Product_ID = p.M_Product_ID)
 WHERE bomqtyonhand(pp.M_Product_ID,pp.M_Warehouse_ID, 0) &lt; pp.safetystock</RollbackStatement>
     </Step>
-    <Step DBType="Oracle" Parse="N" SeqNo="106" StepType="SQL">
+    <Step DBType="Oracle" Parse="Y" SeqNo="106" StepType="SQL">
       <Comments>Create View rv_pp_mrp_demand</Comments>
       <SQLStatement>CREATE OR REPLACE VIEW rv_pp_mrp_demand AS
   SELECT mrp.ad_client_id,
@@ -1040,7 +1036,7 @@ WHERE bomqtyonhand(pp.M_Product_ID,pp.M_Warehouse_ID, 0) &lt; pp.safetystock</Ro
    WHERE mrp.typemrp = 'D' AND mrp.qty &gt; 0
    ORDER BY mrp.datepromised</RollbackStatement>
     </Step>
-    <Step DBType="Oracle" Parse="N" SeqNo="107" StepType="SQL">
+    <Step DBType="Oracle" Parse="Y" SeqNo="107" StepType="SQL">
       <Comments>Create View rv_pp_mrp_detail_demand</Comments>
       <SQLStatement>CREATE OR REPLACE VIEW rv_pp_mrp_detail_demand AS
  SELECT mrp_detail.ad_client_id,
@@ -1097,7 +1093,7 @@ WHERE bomqtyonhand(pp.M_Product_ID,pp.M_Warehouse_ID, 0) &lt; pp.safetystock</Ro
    FROM pp_mrp_detail mrp_detail
      LEFT JOIN rv_pp_mrp demand ON demand.pp_mrp_id = mrp_detail.mrp_demand_id</RollbackStatement>
     </Step>
-    <Step DBType="Oracle" Parse="N" SeqNo="108" StepType="SQL">
+    <Step DBType="Oracle" Parse="Y" SeqNo="108" StepType="SQL">
       <Comments>Create View rv_pp_mrp_supply</Comments>
       <SQLStatement>CREATE OR REPLACE VIEW rv_pp_mrp_supply AS
  SELECT mrp.ad_client_id,
@@ -1180,7 +1176,7 @@ WHERE bomqtyonhand(pp.M_Product_ID,pp.M_Warehouse_ID, 0) &lt; pp.safetystock</Ro
   WHERE mrp.typemrp = 'S' AND mrp.qty &gt; 0
   ORDER BY mrp.datepromised</RollbackStatement>
     </Step>
-    <Step DBType="Oracle" Parse="N" SeqNo="109" StepType="SQL">
+    <Step DBType="Oracle" Parse="Y" SeqNo="109" StepType="SQL">
       <Comments>Create View rv_pp_mrp_detail_supply</Comments>
       <SQLStatement>CREATE OR REPLACE VIEW rv_pp_mrp_detail_supply AS
  SELECT mrp_detail.ad_client_id,
