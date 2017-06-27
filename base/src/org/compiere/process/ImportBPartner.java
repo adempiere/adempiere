@@ -384,8 +384,8 @@ implements ImportProcess
 							bp.setFathersName(impBP.getFathersName());
 						if(impBP.getBloodGroup() != null)
 							bp.setBloodGroup(impBP.getBloodGroup());
-						if(impBP.getPlaceOfBirth() != null)
-							bp.setPlaceOfBirth(impBP.getPlaceOfBirth());
+						//if(impBP.getPlaceOfBirth() != null)  //todo : implement PlaceOfBirth_ID
+						//	bp.setPlaceOfBirth(impBP.getPlaceOfBirth());
 						if(impBP.getGender() != null)
 							bp.setGender(impBP.getGender());
 						//	

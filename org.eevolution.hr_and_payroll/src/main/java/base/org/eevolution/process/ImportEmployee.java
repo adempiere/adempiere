@@ -439,7 +439,7 @@ public class ImportEmployee extends ImportEmployeeAbstract {
         partner.setBirthday(importEmployee.getBirthday());
         partner.setBloodGroup(importEmployee.getBloodGroup());
         partner.setGender(importEmployee.getGender());
-        partner.setPlaceOfBirth(importEmployee.getPlaceOfBirth());
+        //partner.setPlaceOfBirth(importEmployee.getPlaceOfBirth()); // todo : Need be impleented setPlaceOfBirth_ID(impBP.getPlaceOfBirth_ID());
         partner.setFathersName(importEmployee.getFathersName());
         partner.saveEx();
 
@@ -460,7 +460,7 @@ public class ImportEmployee extends ImportEmployeeAbstract {
         partner.setBirthday(importEmployee.getBirthday());
         partner.setBloodGroup(importEmployee.getBloodGroup());
         partner.setGender(importEmployee.getGender());
-        partner.setPlaceOfBirth(importEmployee.getPlaceOfBirth());
+        //partner.setPlaceOfBirth(importEmployee.getPlaceOfBirth()); todo : Need be impleented setPlaceOfBirth_ID(impBP.getPlaceOfBirth_ID());
         partner.setFathersName(importEmployee.getFathersName());
         partner.saveEx();
         return partner;
