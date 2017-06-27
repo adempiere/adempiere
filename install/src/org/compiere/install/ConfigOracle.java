@@ -388,7 +388,7 @@ public class ConfigOracle extends Config
 			+ "//" + databaseServer.getHostName()
 			+ ":" + databasePort
 			+ "/" + databaseName
-			+ " @utils/oracle/Test.sql";
+			+ " @utils/Oracle/Test.sql";
 		log.config(sqlplus);
 		pass = testSQL(sqlplus);
 		error = "Error connecting via: " + sqlplus;
