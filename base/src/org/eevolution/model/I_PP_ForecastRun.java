@@ -118,6 +118,21 @@ public interface I_PP_ForecastRun
 	  */
 	public boolean isActive();
 
+    /** Column name M_Warehouse_ID */
+    public static final String COLUMNNAME_M_Warehouse_ID = "M_Warehouse_ID";
+
+	/** Set Warehouse.
+	  * Storage Warehouse and Service Point
+	  */
+	public void setM_Warehouse_ID (int M_Warehouse_ID);
+
+	/** Get Warehouse.
+	  * Storage Warehouse and Service Point
+	  */
+	public int getM_Warehouse_ID();
+
+	public org.compiere.model.I_M_Warehouse getM_Warehouse() throws RuntimeException;
+
     /** Column name M_WarehouseSource_ID */
     public static final String COLUMNNAME_M_WarehouseSource_ID = "M_WarehouseSource_ID";
 
@@ -133,20 +148,18 @@ public interface I_PP_ForecastRun
 
 	public org.compiere.model.I_M_Warehouse getM_WarehouseSource() throws RuntimeException;
 
-    /** Column name M_Warehouse_ID */
-    public static final String COLUMNNAME_M_Warehouse_ID = "M_Warehouse_ID";
+    /** Column name PeriodHistory */
+    public static final String COLUMNNAME_PeriodHistory = "PeriodHistory";
 
-	/** Set Warehouse.
-	  * Storage Warehouse and Service Point
+	/** Set Periods of History.
+	  * Number Period of History
 	  */
-	public void setM_Warehouse_ID (int M_Warehouse_ID);
+	public void setPeriodHistory (int PeriodHistory);
 
-	/** Get Warehouse.
-	  * Storage Warehouse and Service Point
+	/** Get Periods of History.
+	  * Number Period of History
 	  */
-	public int getM_Warehouse_ID();
-
-	public org.compiere.model.I_M_Warehouse getM_Warehouse() throws RuntimeException;
+	public int getPeriodHistory();
 
     /** Column name PP_Calendar_ID */
     public static final String COLUMNNAME_PP_Calendar_ID = "PP_Calendar_ID";
@@ -216,19 +229,6 @@ public interface I_PP_ForecastRun
 	public int getPP_PeriodDefinition_ID();
 
 	public org.eevolution.model.I_PP_PeriodDefinition getPP_PeriodDefinition() throws RuntimeException;
-
-    /** Column name PeriodHistory */
-    public static final String COLUMNNAME_PeriodHistory = "PeriodHistory";
-
-	/** Set Periods of History.
-	  * Number Period of History
-	  */
-	public void setPeriodHistory (int PeriodHistory);
-
-	/** Get Periods of History.
-	  * Number Period of History
-	  */
-	public int getPeriodHistory();
 
     /** Column name Processed */
     public static final String COLUMNNAME_Processed = "Processed";

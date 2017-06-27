@@ -33,7 +33,7 @@ public class X_HR_ShiftGroup extends PO implements I_HR_ShiftGroup, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170407L;
+	private static final long serialVersionUID = 20170627L;
 
     /** Standard Constructor */
     public X_HR_ShiftGroup (Properties ctx, int HR_ShiftGroup_ID, String trxName)

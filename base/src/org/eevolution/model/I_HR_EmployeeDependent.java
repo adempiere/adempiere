@@ -76,21 +76,6 @@ public interface I_HR_EmployeeDependent
 	  */
 	public Timestamp getBirthday();
 
-    /** Column name C_BPartnerRelation_ID */
-    public static final String COLUMNNAME_C_BPartnerRelation_ID = "C_BPartnerRelation_ID";
-
-	/** Set Related Partner.
-	  * Related Business Partner
-	  */
-	public void setC_BPartnerRelation_ID (int C_BPartnerRelation_ID);
-
-	/** Get Related Partner.
-	  * Related Business Partner
-	  */
-	public int getC_BPartnerRelation_ID();
-
-	public org.compiere.model.I_C_BPartner getC_BPartnerRelation() throws RuntimeException;
-
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 
@@ -105,6 +90,21 @@ public interface I_HR_EmployeeDependent
 	public int getC_BPartner_ID();
 
 	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
+
+    /** Column name C_BPartnerRelation_ID */
+    public static final String COLUMNNAME_C_BPartnerRelation_ID = "C_BPartnerRelation_ID";
+
+	/** Set Related Partner.
+	  * Related Business Partner
+	  */
+	public void setC_BPartnerRelation_ID (int C_BPartnerRelation_ID);
+
+	/** Get Related Partner.
+	  * Related Business Partner
+	  */
+	public int getC_BPartnerRelation_ID();
+
+	public org.compiere.model.I_C_BPartner getC_BPartnerRelation() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

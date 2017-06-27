@@ -50,19 +50,6 @@ public interface I_HR_Attribute
 	  */
 	public int getAD_Client_ID();
 
-    /** Column name AD_OrgTrx_ID */
-    public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
-
-	/** Set Trx Organization.
-	  * Performing or initiating organization
-	  */
-	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID);
-
-	/** Get Trx Organization.
-	  * Performing or initiating organization
-	  */
-	public int getAD_OrgTrx_ID();
-
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
 
@@ -75,6 +62,19 @@ public interface I_HR_Attribute
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
+
+    /** Column name AD_OrgTrx_ID */
+    public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
+
+	/** Set Trx Organization.
+	  * Performing or initiating organization
+	  */
+	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID);
+
+	/** Get Trx Organization.
+	  * Performing or initiating organization
+	  */
+	public int getAD_OrgTrx_ID();
 
     /** Column name AD_Rule_ID */
     public static final String COLUMNNAME_AD_Rule_ID = "AD_Rule_ID";
@@ -115,21 +115,6 @@ public interface I_HR_Attribute
 
 	public org.compiere.model.I_C_Activity getC_Activity() throws RuntimeException;
 
-    /** Column name C_BP_Relation_ID */
-    public static final String COLUMNNAME_C_BP_Relation_ID = "C_BP_Relation_ID";
-
-	/** Set Partner Relation.
-	  * Business Partner Relation
-	  */
-	public void setC_BP_Relation_ID (int C_BP_Relation_ID);
-
-	/** Get Partner Relation.
-	  * Business Partner Relation
-	  */
-	public int getC_BP_Relation_ID();
-
-	public org.compiere.model.I_C_BP_Relation getC_BP_Relation() throws RuntimeException;
-
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 
@@ -144,6 +129,21 @@ public interface I_HR_Attribute
 	public int getC_BPartner_ID();
 
 	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
+
+    /** Column name C_BP_Relation_ID */
+    public static final String COLUMNNAME_C_BP_Relation_ID = "C_BP_Relation_ID";
+
+	/** Set Partner Relation.
+	  * Business Partner Relation
+	  */
+	public void setC_BP_Relation_ID (int C_BP_Relation_ID);
+
+	/** Get Partner Relation.
+	  * Business Partner Relation
+	  */
+	public int getC_BP_Relation_ID();
+
+	public org.compiere.model.I_C_BP_Relation getC_BP_Relation() throws RuntimeException;
 
     /** Column name C_Campaign_ID */
     public static final String COLUMNNAME_C_Campaign_ID = "C_Campaign_ID";
@@ -205,6 +205,15 @@ public interface I_HR_Attribute
 
 	public org.compiere.model.I_C_Invoice getC_Invoice() throws RuntimeException;
 
+    /** Column name ColumnType */
+    public static final String COLUMNNAME_ColumnType = "ColumnType";
+
+	/** Set Column Type	  */
+	public void setColumnType (String ColumnType);
+
+	/** Get Column Type	  */
+	public String getColumnType();
+
     /** Column name C_Project_ID */
     public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
 
@@ -219,15 +228,6 @@ public interface I_HR_Attribute
 	public int getC_Project_ID();
 
 	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException;
-
-    /** Column name ColumnType */
-    public static final String COLUMNNAME_ColumnType = "ColumnType";
-
-	/** Set Column Type	  */
-	public void setColumnType (String ColumnType);
-
-	/** Get Column Type	  */
-	public String getColumnType();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -373,6 +373,17 @@ public interface I_HR_Attribute
 
 	public org.eevolution.model.I_HR_Designation getHR_Designation() throws RuntimeException;
 
+    /** Column name HR_Employee_ID */
+    public static final String COLUMNNAME_HR_Employee_ID = "HR_Employee_ID";
+
+	/** Set Payroll Employee	  */
+	public void setHR_Employee_ID (int HR_Employee_ID);
+
+	/** Get Payroll Employee	  */
+	public int getHR_Employee_ID();
+
+	public org.eevolution.model.I_HR_Employee getHR_Employee() throws RuntimeException;
+
     /** Column name HR_EmployeeType_ID */
     public static final String COLUMNNAME_HR_EmployeeType_ID = "HR_EmployeeType_ID";
 
@@ -387,17 +398,6 @@ public interface I_HR_Attribute
 	public int getHR_EmployeeType_ID();
 
 	public org.eevolution.model.I_HR_EmployeeType getHR_EmployeeType() throws RuntimeException;
-
-    /** Column name HR_Employee_ID */
-    public static final String COLUMNNAME_HR_Employee_ID = "HR_Employee_ID";
-
-	/** Set Payroll Employee	  */
-	public void setHR_Employee_ID (int HR_Employee_ID);
-
-	/** Get Payroll Employee	  */
-	public int getHR_Employee_ID();
-
-	public org.eevolution.model.I_HR_Employee getHR_Employee() throws RuntimeException;
 
     /** Column name HR_Grade_ID */
     public static final String COLUMNNAME_HR_Grade_ID = "HR_Grade_ID";
@@ -429,6 +429,17 @@ public interface I_HR_Attribute
 
 	public org.eevolution.model.I_HR_JobEducation getHR_JobEducation() throws RuntimeException;
 
+    /** Column name HR_Job_ID */
+    public static final String COLUMNNAME_HR_Job_ID = "HR_Job_ID";
+
+	/** Set Payroll Job	  */
+	public void setHR_Job_ID (int HR_Job_ID);
+
+	/** Get Payroll Job	  */
+	public int getHR_Job_ID();
+
+	public org.eevolution.model.I_HR_Job getHR_Job() throws RuntimeException;
+
     /** Column name HR_JobType_ID */
     public static final String COLUMNNAME_HR_JobType_ID = "HR_JobType_ID";
 
@@ -443,17 +454,6 @@ public interface I_HR_Attribute
 	public int getHR_JobType_ID();
 
 	public org.eevolution.model.I_HR_JobType getHR_JobType() throws RuntimeException;
-
-    /** Column name HR_Job_ID */
-    public static final String COLUMNNAME_HR_Job_ID = "HR_Job_ID";
-
-	/** Set Payroll Job	  */
-	public void setHR_Job_ID (int HR_Job_ID);
-
-	/** Get Payroll Job	  */
-	public int getHR_Job_ID();
-
-	public org.eevolution.model.I_HR_Job getHR_Job() throws RuntimeException;
 
     /** Column name HR_Payroll_ID */
     public static final String COLUMNNAME_HR_Payroll_ID = "HR_Payroll_ID";

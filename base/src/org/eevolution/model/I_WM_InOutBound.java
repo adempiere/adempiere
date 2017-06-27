@@ -50,19 +50,6 @@ public interface I_WM_InOutBound
 	  */
 	public int getAD_Client_ID();
 
-    /** Column name AD_OrgTrx_ID */
-    public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
-
-	/** Set Trx Organization.
-	  * Performing or initiating organization
-	  */
-	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID);
-
-	/** Get Trx Organization.
-	  * Performing or initiating organization
-	  */
-	public int getAD_OrgTrx_ID();
-
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
 
@@ -75,6 +62,19 @@ public interface I_WM_InOutBound
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
+
+    /** Column name AD_OrgTrx_ID */
+    public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
+
+	/** Set Trx Organization.
+	  * Performing or initiating organization
+	  */
+	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID);
+
+	/** Get Trx Organization.
+	  * Performing or initiating organization
+	  */
+	public int getAD_OrgTrx_ID();
 
     /** Column name C_Activity_ID */
     public static final String COLUMNNAME_C_Activity_ID = "C_Activity_ID";
@@ -121,19 +121,6 @@ public interface I_WM_InOutBound
 
 	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException;
 
-    /** Column name CreateFrom */
-    public static final String COLUMNNAME_CreateFrom = "CreateFrom";
-
-	/** Set Create lines from.
-	  * Process which will generate a new document lines based on an existing document
-	  */
-	public void setCreateFrom (String CreateFrom);
-
-	/** Get Create lines from.
-	  * Process which will generate a new document lines based on an existing document
-	  */
-	public String getCreateFrom();
-
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -149,6 +136,19 @@ public interface I_WM_InOutBound
 	  * User who created this records
 	  */
 	public int getCreatedBy();
+
+    /** Column name CreateFrom */
+    public static final String COLUMNNAME_CreateFrom = "CreateFrom";
+
+	/** Set Create lines from.
+	  * Process which will generate a new document lines based on an existing document
+	  */
+	public void setCreateFrom (String CreateFrom);
+
+	/** Get Create lines from.
+	  * Process which will generate a new document lines based on an existing document
+	  */
+	public String getCreateFrom();
 
     /** Column name DatePrinted */
     public static final String COLUMNNAME_DatePrinted = "DatePrinted";
@@ -476,19 +476,6 @@ public interface I_WM_InOutBound
 
 	public org.compiere.model.I_M_Warehouse getM_Warehouse() throws RuntimeException;
 
-    /** Column name POReference */
-    public static final String COLUMNNAME_POReference = "POReference";
-
-	/** Set Order Reference.
-	  * Transaction Reference Number (Sales Order, Purchase Order) of your Business Partner
-	  */
-	public void setPOReference (String POReference);
-
-	/** Get Order Reference.
-	  * Transaction Reference Number (Sales Order, Purchase Order) of your Business Partner
-	  */
-	public String getPOReference();
-
     /** Column name PickDate */
     public static final String COLUMNNAME_PickDate = "PickDate";
 
@@ -501,6 +488,19 @@ public interface I_WM_InOutBound
 	  * Date/Time when picked for Shipment
 	  */
 	public Timestamp getPickDate();
+
+    /** Column name POReference */
+    public static final String COLUMNNAME_POReference = "POReference";
+
+	/** Set Order Reference.
+	  * Transaction Reference Number (Sales Order, Purchase Order) of your Business Partner
+	  */
+	public void setPOReference (String POReference);
+
+	/** Get Order Reference.
+	  * Transaction Reference Number (Sales Order, Purchase Order) of your Business Partner
+	  */
+	public String getPOReference();
 
     /** Column name PriorityRule */
     public static final String COLUMNNAME_PriorityRule = "PriorityRule";
@@ -650,15 +650,6 @@ public interface I_WM_InOutBound
 	  */
 	public BigDecimal getVolume();
 
-    /** Column name WM_InOutBound_ID */
-    public static final String COLUMNNAME_WM_InOutBound_ID = "WM_InOutBound_ID";
-
-	/** Set In & Out Bound Order	  */
-	public void setWM_InOutBound_ID (int WM_InOutBound_ID);
-
-	/** Get In & Out Bound Order	  */
-	public int getWM_InOutBound_ID();
-
     /** Column name Weight */
     public static final String COLUMNNAME_Weight = "Weight";
 
@@ -671,4 +662,13 @@ public interface I_WM_InOutBound
 	  * Weight of a product
 	  */
 	public BigDecimal getWeight();
+
+    /** Column name WM_InOutBound_ID */
+    public static final String COLUMNNAME_WM_InOutBound_ID = "WM_InOutBound_ID";
+
+	/** Set In & Out Bound Order	  */
+	public void setWM_InOutBound_ID (int WM_InOutBound_ID);
+
+	/** Get In & Out Bound Order	  */
+	public int getWM_InOutBound_ID();
 }

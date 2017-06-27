@@ -34,7 +34,7 @@ public class X_WM_InOutBound extends PO implements I_WM_InOutBound, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170407L;
+	private static final long serialVersionUID = 20170627L;
 
     /** Standard Constructor */
     public X_WM_InOutBound (Properties ctx, int WM_InOutBound_ID, String trxName)
@@ -827,23 +827,6 @@ public class X_WM_InOutBound extends PO implements I_WM_InOutBound, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Order Reference.
-		@param POReference 
-		Transaction Reference Number (Sales Order, Purchase Order) of your Business Partner
-	  */
-	public void setPOReference (String POReference)
-	{
-		set_Value (COLUMNNAME_POReference, POReference);
-	}
-
-	/** Get Order Reference.
-		@return Transaction Reference Number (Sales Order, Purchase Order) of your Business Partner
-	  */
-	public String getPOReference () 
-	{
-		return (String)get_Value(COLUMNNAME_POReference);
-	}
-
 	/** Set Pick Date.
 		@param PickDate 
 		Date/Time when picked for Shipment
@@ -859,6 +842,23 @@ public class X_WM_InOutBound extends PO implements I_WM_InOutBound, I_Persistent
 	public Timestamp getPickDate () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_PickDate);
+	}
+
+	/** Set Order Reference.
+		@param POReference 
+		Transaction Reference Number (Sales Order, Purchase Order) of your Business Partner
+	  */
+	public void setPOReference (String POReference)
+	{
+		set_Value (COLUMNNAME_POReference, POReference);
+	}
+
+	/** Get Order Reference.
+		@return Transaction Reference Number (Sales Order, Purchase Order) of your Business Partner
+	  */
+	public String getPOReference () 
+	{
+		return (String)get_Value(COLUMNNAME_POReference);
 	}
 
 	/** PriorityRule AD_Reference_ID=154 */
@@ -1098,26 +1098,6 @@ public class X_WM_InOutBound extends PO implements I_WM_InOutBound, I_Persistent
 		return bd;
 	}
 
-	/** Set In & Out Bound Order.
-		@param WM_InOutBound_ID In & Out Bound Order	  */
-	public void setWM_InOutBound_ID (int WM_InOutBound_ID)
-	{
-		if (WM_InOutBound_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_WM_InOutBound_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_WM_InOutBound_ID, Integer.valueOf(WM_InOutBound_ID));
-	}
-
-	/** Get In & Out Bound Order.
-		@return In & Out Bound Order	  */
-	public int getWM_InOutBound_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_WM_InOutBound_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Weight.
 		@param Weight 
 		Weight of a product
@@ -1136,5 +1116,25 @@ public class X_WM_InOutBound extends PO implements I_WM_InOutBound, I_Persistent
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
+	}
+
+	/** Set In & Out Bound Order.
+		@param WM_InOutBound_ID In & Out Bound Order	  */
+	public void setWM_InOutBound_ID (int WM_InOutBound_ID)
+	{
+		if (WM_InOutBound_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_WM_InOutBound_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_WM_InOutBound_ID, Integer.valueOf(WM_InOutBound_ID));
+	}
+
+	/** Get In & Out Bound Order.
+		@return In & Out Bound Order	  */
+	public int getWM_InOutBound_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_WM_InOutBound_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 }

@@ -1,8 +1,9 @@
 /******************************************************************************
  * Product: ADempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 2006-2016 ADempiere Foundation, All Rights Reserved.         *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -31,7 +32,7 @@ public class X_HR_Contract extends PO implements I_HR_Contract, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170412L;
+	private static final long serialVersionUID = 20170627L;
 
     /** Standard Constructor */
     public X_HR_Contract (Properties ctx, int HR_Contract_ID, String trxName)
@@ -156,9 +157,9 @@ public class X_HR_Contract extends PO implements I_HR_Contract, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.eevolution.model.I_HR_Concept_Type getDailySalary() throws RuntimeException
+	public org.eevolution.model.I_HR_Concept getDailySalary() throws RuntimeException
     {
-		return (org.eevolution.model.I_HR_Concept_Type)MTable.get(getCtx(), org.eevolution.model.I_HR_Concept_Type.Table_Name)
+		return (org.eevolution.model.I_HR_Concept)MTable.get(getCtx(), org.eevolution.model.I_HR_Concept.Table_Name)
 			.getPO(getDailySalary_ID(), get_TrxName());	}
 
 	/** Set Daily Salary (Concept).
@@ -221,9 +222,9 @@ public class X_HR_Contract extends PO implements I_HR_Contract, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.eevolution.model.I_HR_Concept_Type getMonthlySalary() throws RuntimeException
+	public org.eevolution.model.I_HR_Concept getMonthlySalary() throws RuntimeException
     {
-		return (org.eevolution.model.I_HR_Concept_Type)MTable.get(getCtx(), org.eevolution.model.I_HR_Concept_Type.Table_Name)
+		return (org.eevolution.model.I_HR_Concept)MTable.get(getCtx(), org.eevolution.model.I_HR_Concept.Table_Name)
 			.getPO(getMonthlySalary_ID(), get_TrxName());	}
 
 	/** Set Monthly Salary (Concept).

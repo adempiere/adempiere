@@ -50,19 +50,6 @@ public interface I_C_CashFlow
 	  */
 	public int getAD_Client_ID();
 
-    /** Column name AD_OrgTrx_ID */
-    public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
-
-	/** Set Trx Organization.
-	  * Performing or initiating organization
-	  */
-	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID);
-
-	/** Get Trx Organization.
-	  * Performing or initiating organization
-	  */
-	public int getAD_OrgTrx_ID();
-
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
 
@@ -76,20 +63,18 @@ public interface I_C_CashFlow
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name C_BPartner_ID */
-    public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
+    /** Column name AD_OrgTrx_ID */
+    public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
 
-	/** Set Business Partner .
-	  * Identifies a Business Partner
+	/** Set Trx Organization.
+	  * Performing or initiating organization
 	  */
-	public void setC_BPartner_ID (int C_BPartner_ID);
+	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID);
 
-	/** Get Business Partner .
-	  * Identifies a Business Partner
+	/** Get Trx Organization.
+	  * Performing or initiating organization
 	  */
-	public int getC_BPartner_ID();
-
-	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
+	public int getAD_OrgTrx_ID();
 
     /** Column name C_BankAccount_ID */
     public static final String COLUMNNAME_C_BankAccount_ID = "C_BankAccount_ID";
@@ -105,6 +90,21 @@ public interface I_C_CashFlow
 	public int getC_BankAccount_ID();
 
 	public org.compiere.model.I_C_BankAccount getC_BankAccount() throws RuntimeException;
+
+    /** Column name C_BPartner_ID */
+    public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
+
+	/** Set Business Partner .
+	  * Identifies a Business Partner
+	  */
+	public void setC_BPartner_ID (int C_BPartner_ID);
+
+	/** Get Business Partner .
+	  * Identifies a Business Partner
+	  */
+	public int getC_BPartner_ID();
+
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
 
     /** Column name C_CashFlow_ID */
     public static final String COLUMNNAME_C_CashFlow_ID = "C_CashFlow_ID";

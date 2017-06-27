@@ -93,21 +93,6 @@ public interface I_HR_Process
 
 	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
 
-    /** Column name C_DocTypeTarget_ID */
-    public static final String COLUMNNAME_C_DocTypeTarget_ID = "C_DocTypeTarget_ID";
-
-	/** Set Target Document Type.
-	  * Target document type for conversing documents
-	  */
-	public void setC_DocTypeTarget_ID (int C_DocTypeTarget_ID);
-
-	/** Get Target Document Type.
-	  * Target document type for conversing documents
-	  */
-	public int getC_DocTypeTarget_ID();
-
-	public org.compiere.model.I_C_DocType getC_DocTypeTarget() throws RuntimeException;
-
     /** Column name C_DocType_ID */
     public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
 
@@ -122,6 +107,21 @@ public interface I_HR_Process
 	public int getC_DocType_ID();
 
 	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException;
+
+    /** Column name C_DocTypeTarget_ID */
+    public static final String COLUMNNAME_C_DocTypeTarget_ID = "C_DocTypeTarget_ID";
+
+	/** Set Target Document Type.
+	  * Target document type for conversing documents
+	  */
+	public void setC_DocTypeTarget_ID (int C_DocTypeTarget_ID);
+
+	/** Get Target Document Type.
+	  * Target document type for conversing documents
+	  */
+	public int getC_DocTypeTarget_ID();
+
+	public org.compiere.model.I_C_DocType getC_DocTypeTarget() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
