@@ -319,7 +319,8 @@ public class MBPartner extends X_C_BPartner
 		setBirthday(impBP.getBirthday());
 		setFathersName(impBP.getFathersName());
 		setBloodGroup(impBP.getBloodGroup());
-		setPlaceOfBirth(impBP.getPlaceOfBirth());
+		// setPlaceOfBirth(impBP.getPlaceOfBirth()); //todo : Need be impleented setPlaceOfBirth_ID(impBP.getPlaceOfBirth_ID());
+
 		setGender(impBP.getGender());
 		//	Se
 	}	//	MBPartner
