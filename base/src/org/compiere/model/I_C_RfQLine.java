@@ -62,18 +62,21 @@ public interface I_C_RfQLine
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name C_RfQLine_ID */
-    public static final String COLUMNNAME_C_RfQLine_ID = "C_RfQLine_ID";
+    /** Column name Created */
+    public static final String COLUMNNAME_Created = "Created";
 
-	/** Set RfQ Line.
-	  * Request for Quotation Line
+	/** Get Created.
+	  * Date this record was created
 	  */
-	public void setC_RfQLine_ID (int C_RfQLine_ID);
+	public Timestamp getCreated();
 
-	/** Get RfQ Line.
-	  * Request for Quotation Line
+    /** Column name CreatedBy */
+    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
+
+	/** Get Created By.
+	  * User who created this records
 	  */
-	public int getC_RfQLine_ID();
+	public int getCreatedBy();
 
     /** Column name C_RfQ_ID */
     public static final String COLUMNNAME_C_RfQ_ID = "C_RfQ_ID";
@@ -90,21 +93,18 @@ public interface I_C_RfQLine
 
 	public org.compiere.model.I_C_RfQ getC_RfQ() throws RuntimeException;
 
-    /** Column name Created */
-    public static final String COLUMNNAME_Created = "Created";
+    /** Column name C_RfQLine_ID */
+    public static final String COLUMNNAME_C_RfQLine_ID = "C_RfQLine_ID";
 
-	/** Get Created.
-	  * Date this record was created
+	/** Set RfQ Line.
+	  * Request for Quotation Line
 	  */
-	public Timestamp getCreated();
+	public void setC_RfQLine_ID (int C_RfQLine_ID);
 
-    /** Column name CreatedBy */
-    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
-
-	/** Get Created By.
-	  * User who created this records
+	/** Get RfQ Line.
+	  * Request for Quotation Line
 	  */
-	public int getCreatedBy();
+	public int getC_RfQLine_ID();
 
     /** Column name DateWorkComplete */
     public static final String COLUMNNAME_DateWorkComplete = "DateWorkComplete";

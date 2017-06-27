@@ -122,6 +122,19 @@ public interface I_GL_Journal
 
 	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException;
 
+    /** Column name ControlAmt */
+    public static final String COLUMNNAME_ControlAmt = "ControlAmt";
+
+	/** Set Control Amount.
+	  * If not zero, the Debit amount of the document must be equal this amount
+	  */
+	public void setControlAmt (BigDecimal ControlAmt);
+
+	/** Get Control Amount.
+	  * If not zero, the Debit amount of the document must be equal this amount
+	  */
+	public BigDecimal getControlAmt();
+
     /** Column name C_Period_ID */
     public static final String COLUMNNAME_C_Period_ID = "C_Period_ID";
 
@@ -136,19 +149,6 @@ public interface I_GL_Journal
 	public int getC_Period_ID();
 
 	public org.compiere.model.I_C_Period getC_Period() throws RuntimeException;
-
-    /** Column name ControlAmt */
-    public static final String COLUMNNAME_ControlAmt = "ControlAmt";
-
-	/** Set Control Amount.
-	  * If not zero, the Debit amount of the document must be equal this amount
-	  */
-	public void setControlAmt (BigDecimal ControlAmt);
-
-	/** Get Control Amount.
-	  * If not zero, the Debit amount of the document must be equal this amount
-	  */
-	public BigDecimal getControlAmt();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -370,12 +370,12 @@ public interface I_GL_Journal
     /** Column name PostingType */
     public static final String COLUMNNAME_PostingType = "PostingType";
 
-	/** Set PostingType.
+	/** Set Posting Type.
 	  * The type of posted amount for the transaction
 	  */
 	public void setPostingType (String PostingType);
 
-	/** Get PostingType.
+	/** Get Posting Type.
 	  * The type of posted amount for the transaction
 	  */
 	public String getPostingType();

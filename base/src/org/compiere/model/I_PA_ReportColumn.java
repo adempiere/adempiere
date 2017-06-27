@@ -49,19 +49,6 @@ public interface I_PA_ReportColumn
 	  */
 	public int getAD_Client_ID();
 
-    /** Column name AD_OrgTrx_ID */
-    public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
-
-	/** Set Trx Organization.
-	  * Performing or initiating organization
-	  */
-	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID);
-
-	/** Get Trx Organization.
-	  * Performing or initiating organization
-	  */
-	public int getAD_OrgTrx_ID();
-
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
 
@@ -74,6 +61,19 @@ public interface I_PA_ReportColumn
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
+
+    /** Column name AD_OrgTrx_ID */
+    public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
+
+	/** Set Trx Organization.
+	  * Performing or initiating organization
+	  */
+	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID);
+
+	/** Get Trx Organization.
+	  * Performing or initiating organization
+	  */
+	public int getAD_OrgTrx_ID();
 
     /** Column name C_Activity_ID */
     public static final String COLUMNNAME_C_Activity_ID = "C_Activity_ID";
@@ -89,6 +89,15 @@ public interface I_PA_ReportColumn
 	public int getC_Activity_ID();
 
 	public org.compiere.model.I_C_Activity getC_Activity() throws RuntimeException;
+
+    /** Column name CalculationType */
+    public static final String COLUMNNAME_CalculationType = "CalculationType";
+
+	/** Set Calculation	  */
+	public void setCalculationType (String CalculationType);
+
+	/** Get Calculation	  */
+	public String getCalculationType();
 
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
@@ -165,6 +174,15 @@ public interface I_PA_ReportColumn
 
 	public I_C_Location getC_Location() throws RuntimeException;
 
+    /** Column name ColumnType */
+    public static final String COLUMNNAME_ColumnType = "ColumnType";
+
+	/** Set Column Type	  */
+	public void setColumnType (String ColumnType);
+
+	/** Get Column Type	  */
+	public String getColumnType();
+
     /** Column name C_Project_ID */
     public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
 
@@ -179,39 +197,6 @@ public interface I_PA_ReportColumn
 	public int getC_Project_ID();
 
 	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException;
-
-    /** Column name C_SalesRegion_ID */
-    public static final String COLUMNNAME_C_SalesRegion_ID = "C_SalesRegion_ID";
-
-	/** Set Sales Region.
-	  * Sales coverage region
-	  */
-	public void setC_SalesRegion_ID (int C_SalesRegion_ID);
-
-	/** Get Sales Region.
-	  * Sales coverage region
-	  */
-	public int getC_SalesRegion_ID();
-
-	public org.compiere.model.I_C_SalesRegion getC_SalesRegion() throws RuntimeException;
-
-    /** Column name CalculationType */
-    public static final String COLUMNNAME_CalculationType = "CalculationType";
-
-	/** Set Calculation	  */
-	public void setCalculationType (String CalculationType);
-
-	/** Get Calculation	  */
-	public String getCalculationType();
-
-    /** Column name ColumnType */
-    public static final String COLUMNNAME_ColumnType = "ColumnType";
-
-	/** Set Column Type	  */
-	public void setColumnType (String ColumnType);
-
-	/** Get Column Type	  */
-	public String getColumnType();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -228,6 +213,21 @@ public interface I_PA_ReportColumn
 	  * User who created this records
 	  */
 	public int getCreatedBy();
+
+    /** Column name C_SalesRegion_ID */
+    public static final String COLUMNNAME_C_SalesRegion_ID = "C_SalesRegion_ID";
+
+	/** Set Sales Region.
+	  * Sales coverage region
+	  */
+	public void setC_SalesRegion_ID (int C_SalesRegion_ID);
+
+	/** Get Sales Region.
+	  * Sales coverage region
+	  */
+	public int getC_SalesRegion_ID();
+
+	public org.compiere.model.I_C_SalesRegion getC_SalesRegion() throws RuntimeException;
 
     /** Column name CurrencyType */
     public static final String COLUMNNAME_CurrencyType = "CurrencyType";
@@ -474,6 +474,32 @@ public interface I_PA_ReportColumn
 	  */
 	public boolean isIncludeNullsSalesRegion();
 
+    /** Column name IsIncludeNullsUserElement1 */
+    public static final String COLUMNNAME_IsIncludeNullsUserElement1 = "IsIncludeNullsUserElement1";
+
+	/** Set Include Nulls in User Element 1.
+	  * Include nulls in the selection of the user element 1
+	  */
+	public void setIsIncludeNullsUserElement1 (boolean IsIncludeNullsUserElement1);
+
+	/** Get Include Nulls in User Element 1.
+	  * Include nulls in the selection of the user element 1
+	  */
+	public boolean isIncludeNullsUserElement1();
+
+    /** Column name IsIncludeNullsUserElement2 */
+    public static final String COLUMNNAME_IsIncludeNullsUserElement2 = "IsIncludeNullsUserElement2";
+
+	/** Set Include Nulls in User Element 2.
+	  * Include nulls in the selection of the user element 2
+	  */
+	public void setIsIncludeNullsUserElement2 (boolean IsIncludeNullsUserElement2);
+
+	/** Get Include Nulls in User Element 2.
+	  * Include nulls in the selection of the user element 2
+	  */
+	public boolean isIncludeNullsUserElement2();
+
     /** Column name IsIncludeNullsUser1 */
     public static final String COLUMNNAME_IsIncludeNullsUser1 = "IsIncludeNullsUser1";
 
@@ -525,32 +551,6 @@ public interface I_PA_ReportColumn
 	  * Include nulls in the selection of the user 4
 	  */
 	public boolean isIncludeNullsUser4();
-
-    /** Column name IsIncludeNullsUserElement1 */
-    public static final String COLUMNNAME_IsIncludeNullsUserElement1 = "IsIncludeNullsUserElement1";
-
-	/** Set Include Nulls in User Element 1.
-	  * Include nulls in the selection of the user element 1
-	  */
-	public void setIsIncludeNullsUserElement1 (boolean IsIncludeNullsUserElement1);
-
-	/** Get Include Nulls in User Element 1.
-	  * Include nulls in the selection of the user element 1
-	  */
-	public boolean isIncludeNullsUserElement1();
-
-    /** Column name IsIncludeNullsUserElement2 */
-    public static final String COLUMNNAME_IsIncludeNullsUserElement2 = "IsIncludeNullsUserElement2";
-
-	/** Set Include Nulls in User Element 2.
-	  * Include nulls in the selection of the user element 2
-	  */
-	public void setIsIncludeNullsUserElement2 (boolean IsIncludeNullsUserElement2);
-
-	/** Get Include Nulls in User Element 2.
-	  * Include nulls in the selection of the user element 2
-	  */
-	public boolean isIncludeNullsUserElement2();
 
     /** Column name IsPrinted */
     public static final String COLUMNNAME_IsPrinted = "IsPrinted";
@@ -662,6 +662,19 @@ public interface I_PA_ReportColumn
 	  */
 	public String getPAPeriodType();
 
+    /** Column name PA_ReportColumn_ID */
+    public static final String COLUMNNAME_PA_ReportColumn_ID = "PA_ReportColumn_ID";
+
+	/** Set Report Column.
+	  * Column in Report
+	  */
+	public void setPA_ReportColumn_ID (int PA_ReportColumn_ID);
+
+	/** Get Report Column.
+	  * Column in Report
+	  */
+	public int getPA_ReportColumn_ID();
+
     /** Column name PA_ReportColumnSet_ID */
     public static final String COLUMNNAME_PA_ReportColumnSet_ID = "PA_ReportColumnSet_ID";
 
@@ -677,28 +690,15 @@ public interface I_PA_ReportColumn
 
 	public org.compiere.model.I_PA_ReportColumnSet getPA_ReportColumnSet() throws RuntimeException;
 
-    /** Column name PA_ReportColumn_ID */
-    public static final String COLUMNNAME_PA_ReportColumn_ID = "PA_ReportColumn_ID";
-
-	/** Set Report Column.
-	  * Column in Report
-	  */
-	public void setPA_ReportColumn_ID (int PA_ReportColumn_ID);
-
-	/** Get Report Column.
-	  * Column in Report
-	  */
-	public int getPA_ReportColumn_ID();
-
     /** Column name PostingType */
     public static final String COLUMNNAME_PostingType = "PostingType";
 
-	/** Set PostingType.
+	/** Set Posting Type.
 	  * The type of posted amount for the transaction
 	  */
 	public void setPostingType (String PostingType);
 
-	/** Get PostingType.
+	/** Get Posting Type.
 	  * The type of posted amount for the transaction
 	  */
 	public String getPostingType();
@@ -760,6 +760,32 @@ public interface I_PA_ReportColumn
 	  */
 	public int getUpdatedBy();
 
+    /** Column name UserElement1_ID */
+    public static final String COLUMNNAME_UserElement1_ID = "UserElement1_ID";
+
+	/** Set User Element 1.
+	  * User defined accounting Element
+	  */
+	public void setUserElement1_ID (int UserElement1_ID);
+
+	/** Get User Element 1.
+	  * User defined accounting Element
+	  */
+	public int getUserElement1_ID();
+
+    /** Column name UserElement2_ID */
+    public static final String COLUMNNAME_UserElement2_ID = "UserElement2_ID";
+
+	/** Set User Element 2.
+	  * User defined accounting Element
+	  */
+	public void setUserElement2_ID (int UserElement2_ID);
+
+	/** Get User Element 2.
+	  * User defined accounting Element
+	  */
+	public int getUserElement2_ID();
+
     /** Column name User1_ID */
     public static final String COLUMNNAME_User1_ID = "User1_ID";
 
@@ -819,30 +845,4 @@ public interface I_PA_ReportColumn
 	public int getUser4_ID();
 
 	public org.compiere.model.I_C_ElementValue getUser4() throws RuntimeException;
-
-    /** Column name UserElement1_ID */
-    public static final String COLUMNNAME_UserElement1_ID = "UserElement1_ID";
-
-	/** Set User Element 1.
-	  * User defined accounting Element
-	  */
-	public void setUserElement1_ID (int UserElement1_ID);
-
-	/** Get User Element 1.
-	  * User defined accounting Element
-	  */
-	public int getUserElement1_ID();
-
-    /** Column name UserElement2_ID */
-    public static final String COLUMNNAME_UserElement2_ID = "UserElement2_ID";
-
-	/** Set User Element 2.
-	  * User defined accounting Element
-	  */
-	public void setUserElement2_ID (int UserElement2_ID);
-
-	/** Get User Element 2.
-	  * User defined accounting Element
-	  */
-	public int getUserElement2_ID();
 }

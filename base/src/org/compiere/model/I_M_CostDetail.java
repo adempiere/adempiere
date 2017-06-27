@@ -148,21 +148,6 @@ public interface I_M_CostDetail
 
 	public org.compiere.model.I_C_OrderLine getC_OrderLine() throws RuntimeException;
 
-    /** Column name C_ProjectIssue_ID */
-    public static final String COLUMNNAME_C_ProjectIssue_ID = "C_ProjectIssue_ID";
-
-	/** Set Project Issue.
-	  * Project Issues (Material, Labor)
-	  */
-	public void setC_ProjectIssue_ID (int C_ProjectIssue_ID);
-
-	/** Get Project Issue.
-	  * Project Issues (Material, Labor)
-	  */
-	public int getC_ProjectIssue_ID();
-
-	public org.compiere.model.I_C_ProjectIssue getC_ProjectIssue() throws RuntimeException;
-
     /** Column name CostAdjustment */
     public static final String COLUMNNAME_CostAdjustment = "CostAdjustment";
 
@@ -253,6 +238,21 @@ public interface I_M_CostDetail
 	  * Indicates how Costs will be calculated
 	  */
 	public String getCostingMethod();
+
+    /** Column name C_ProjectIssue_ID */
+    public static final String COLUMNNAME_C_ProjectIssue_ID = "C_ProjectIssue_ID";
+
+	/** Set Project Issue.
+	  * Project Issues (Material, Labor)
+	  */
+	public void setC_ProjectIssue_ID (int C_ProjectIssue_ID);
+
+	/** Get Project Issue.
+	  * Project Issues (Material, Labor)
+	  */
+	public int getC_ProjectIssue_ID();
+
+	public org.compiere.model.I_C_ProjectIssue getC_ProjectIssue() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

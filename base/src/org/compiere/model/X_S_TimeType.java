@@ -30,7 +30,7 @@ public class X_S_TimeType extends PO implements I_S_TimeType, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170407L;
+	private static final long serialVersionUID = 20170627L;
 
     /** Standard Constructor */
     public X_S_TimeType (Properties ctx, int S_TimeType_ID, String trxName)

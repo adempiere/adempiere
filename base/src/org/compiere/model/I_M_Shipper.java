@@ -62,6 +62,19 @@ public interface I_M_Shipper
 	  */
 	public int getAD_Org_ID();
 
+    /** Column name CalculationClass */
+    public static final String COLUMNNAME_CalculationClass = "CalculationClass";
+
+	/** Set Calculation Class.
+	  * Java Class for calculation, implementing Interface Measure
+	  */
+	public void setCalculationClass (String CalculationClass);
+
+	/** Get Calculation Class.
+	  * Java Class for calculation, implementing Interface Measure
+	  */
+	public String getCalculationClass();
+
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 
@@ -76,19 +89,6 @@ public interface I_M_Shipper
 	public int getC_BPartner_ID();
 
 	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
-
-    /** Column name CalculationClass */
-    public static final String COLUMNNAME_CalculationClass = "CalculationClass";
-
-	/** Set Calculation Class.
-	  * Java Class for calculation, implementing Interface Measure
-	  */
-	public void setCalculationClass (String CalculationClass);
-
-	/** Get Calculation Class.
-	  * Java Class for calculation, implementing Interface Measure
-	  */
-	public String getCalculationClass();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

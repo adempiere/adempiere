@@ -32,7 +32,7 @@ public class X_T_Report extends PO implements I_T_Report, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170407L;
+	private static final long serialVersionUID = 20170627L;
 
     /** Standard Constructor */
     public X_T_Report (Properties ctx, int T_Report_ID, String trxName)
@@ -40,10 +40,6 @@ public class X_T_Report extends PO implements I_T_Report, I_Persistent
       super (ctx, T_Report_ID, trxName);
       /** if (T_Report_ID == 0)
         {
-			setAD_PInstance_ID (0);
-			setFact_Acct_ID (0);
-			setPA_ReportLine_ID (0);
-			setRecord_ID (0);
         } */
     }
 
@@ -75,6 +71,30 @@ public class X_T_Report extends PO implements I_T_Report, I_Persistent
       return sb.toString();
     }
 
+	/** Set Account Type.
+		@param AccountType 
+		Indicates the type of account
+	  */
+	public void setAccountType (boolean AccountType)
+	{
+		set_Value (COLUMNNAME_AccountType, Boolean.valueOf(AccountType));
+	}
+
+	/** Get Account Type.
+		@return Indicates the type of account
+	  */
+	public boolean isAccountType () 
+	{
+		Object oo = get_Value(COLUMNNAME_AccountType);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	public org.compiere.model.I_AD_PInstance getAD_PInstance() throws RuntimeException
     {
 		return (org.compiere.model.I_AD_PInstance)MTable.get(getCtx(), org.compiere.model.I_AD_PInstance.Table_Name)
@@ -103,21 +123,18 @@ public class X_T_Report extends PO implements I_T_Report, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Account Type.
-		@param AccountType 
-		Indicates the type of account
-	  */
-	public void setAccountType (boolean AccountType)
+	/** Set ax_case.
+		@param ax_case ax_case	  */
+	public void setax_case (boolean ax_case)
 	{
-		set_Value (COLUMNNAME_AccountType, Boolean.valueOf(AccountType));
+		set_Value (COLUMNNAME_ax_case, Boolean.valueOf(ax_case));
 	}
 
-	/** Get Account Type.
-		@return Indicates the type of account
-	  */
-	public boolean isAccountType () 
+	/** Get ax_case.
+		@return ax_case	  */
+	public boolean isax_case () 
 	{
-		Object oo = get_Value(COLUMNNAME_AccountType);
+		Object oo = get_Value(COLUMNNAME_ax_case);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 
@@ -125,34 +142,6 @@ public class X_T_Report extends PO implements I_T_Report, I_Persistent
 			return "Y".equals(oo);
 		}
 		return false;
-	}
-
-	public org.compiere.model.I_C_ValidCombination getC_ValidCombination() throws RuntimeException
-    {
-		return (org.compiere.model.I_C_ValidCombination)MTable.get(getCtx(), org.compiere.model.I_C_ValidCombination.Table_Name)
-			.getPO(getC_ValidCombination_ID(), get_TrxName());	}
-
-	/** Set Combination.
-		@param C_ValidCombination_ID 
-		Valid Account Combination
-	  */
-	public void setC_ValidCombination_ID (int C_ValidCombination_ID)
-	{
-		if (C_ValidCombination_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_ValidCombination_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_ValidCombination_ID, Integer.valueOf(C_ValidCombination_ID));
-	}
-
-	/** Get Combination.
-		@return Valid Account Combination
-	  */
-	public int getC_ValidCombination_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_ValidCombination_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
 	}
 
 	/** Set Col_0.
@@ -512,6 +501,34 @@ public class X_T_Report extends PO implements I_T_Report, I_Persistent
 		return bd;
 	}
 
+	public org.compiere.model.I_C_ValidCombination getC_ValidCombination() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_ValidCombination)MTable.get(getCtx(), org.compiere.model.I_C_ValidCombination.Table_Name)
+			.getPO(getC_ValidCombination_ID(), get_TrxName());	}
+
+	/** Set Combination.
+		@param C_ValidCombination_ID 
+		Valid Account Combination
+	  */
+	public void setC_ValidCombination_ID (int C_ValidCombination_ID)
+	{
+		if (C_ValidCombination_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_ValidCombination_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_ValidCombination_ID, Integer.valueOf(C_ValidCombination_ID));
+	}
+
+	/** Get Combination.
+		@return Valid Account Combination
+	  */
+	public int getC_ValidCombination_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_ValidCombination_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Description.
 		@param Description 
 		Optional short description of the record
@@ -528,6 +545,11 @@ public class X_T_Report extends PO implements I_T_Report, I_Persistent
 	{
 		return (String)get_Value(COLUMNNAME_Description);
 	}
+
+	public org.compiere.model.I_Fact_Acct getFact_Acct() throws RuntimeException
+    {
+		return (org.compiere.model.I_Fact_Acct)MTable.get(getCtx(), org.compiere.model.I_Fact_Acct.Table_Name)
+			.getPO(getFact_Acct_ID(), get_TrxName());	}
 
 	/** Set Accounting Fact.
 		@param Fact_Acct_ID Accounting Fact	  */
@@ -547,6 +569,23 @@ public class X_T_Report extends PO implements I_T_Report, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set fixedpercentage.
+		@param fixedpercentage fixedpercentage	  */
+	public void setfixedpercentage (BigDecimal fixedpercentage)
+	{
+		set_Value (COLUMNNAME_fixedpercentage, fixedpercentage);
+	}
+
+	/** Get fixedpercentage.
+		@return fixedpercentage	  */
+	public BigDecimal getfixedpercentage () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_fixedpercentage);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** Set Level no.
@@ -639,6 +678,27 @@ public class X_T_Report extends PO implements I_T_Report, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set reportlinestyle.
+		@param reportlinestyle reportlinestyle	  */
+	public void setreportlinestyle (boolean reportlinestyle)
+	{
+		set_Value (COLUMNNAME_reportlinestyle, Boolean.valueOf(reportlinestyle));
+	}
+
+	/** Get reportlinestyle.
+		@return reportlinestyle	  */
+	public boolean isreportlinestyle () 
+	{
+		Object oo = get_Value(COLUMNNAME_reportlinestyle);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Sequence.
 		@param SeqNo 
 		Method of ordering records; lowest number comes first
@@ -677,64 +737,5 @@ public class X_T_Report extends PO implements I_T_Report, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set ax_case.
-		@param ax_case ax_case	  */
-	public void setax_case (boolean ax_case)
-	{
-		set_Value (COLUMNNAME_ax_case, Boolean.valueOf(ax_case));
-	}
-
-	/** Get ax_case.
-		@return ax_case	  */
-	public boolean isax_case () 
-	{
-		Object oo = get_Value(COLUMNNAME_ax_case);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
-	/** Set fixedpercentage.
-		@param fixedpercentage fixedpercentage	  */
-	public void setfixedpercentage (BigDecimal fixedpercentage)
-	{
-		set_Value (COLUMNNAME_fixedpercentage, fixedpercentage);
-	}
-
-	/** Get fixedpercentage.
-		@return fixedpercentage	  */
-	public BigDecimal getfixedpercentage () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_fixedpercentage);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
-	/** Set reportlinestyle.
-		@param reportlinestyle reportlinestyle	  */
-	public void setreportlinestyle (boolean reportlinestyle)
-	{
-		set_Value (COLUMNNAME_reportlinestyle, Boolean.valueOf(reportlinestyle));
-	}
-
-	/** Get reportlinestyle.
-		@return reportlinestyle	  */
-	public boolean isreportlinestyle () 
-	{
-		Object oo = get_Value(COLUMNNAME_reportlinestyle);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
 	}
 }

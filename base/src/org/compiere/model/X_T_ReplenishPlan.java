@@ -32,7 +32,7 @@ public class X_T_ReplenishPlan extends PO implements I_T_ReplenishPlan, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170407L;
+	private static final long serialVersionUID = 20170627L;
 
     /** Standard Constructor */
     public X_T_ReplenishPlan (Properties ctx, int T_ReplenishPlan_ID, String trxName)

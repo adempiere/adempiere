@@ -41,6 +41,19 @@ public interface I_AD_Menu
 
     /** Load Meta Data */
 
+    /** Column name Action */
+    public static final String COLUMNNAME_Action = "Action";
+
+	/** Set Action.
+	  * Indicates the Action to be performed
+	  */
+	public void setAction (String Action);
+
+	/** Get Action.
+	  * Indicates the Action to be performed
+	  */
+	public String getAction();
+
     /** Column name AD_Browse_ID */
     public static final String COLUMNNAME_AD_Browse_ID = "AD_Browse_ID";
 
@@ -175,19 +188,6 @@ public interface I_AD_Menu
 	public int getAD_Workflow_ID();
 
 	public org.compiere.model.I_AD_Workflow getAD_Workflow() throws RuntimeException;
-
-    /** Column name Action */
-    public static final String COLUMNNAME_Action = "Action";
-
-	/** Set Action.
-	  * Indicates the Action to be performed
-	  */
-	public void setAction (String Action);
-
-	/** Get Action.
-	  * Indicates the Action to be performed
-	  */
-	public String getAction();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

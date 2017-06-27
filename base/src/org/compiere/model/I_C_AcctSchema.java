@@ -49,19 +49,6 @@ public interface I_C_AcctSchema
 	  */
 	public int getAD_Client_ID();
 
-    /** Column name AD_OrgOnly_ID */
-    public static final String COLUMNNAME_AD_OrgOnly_ID = "AD_OrgOnly_ID";
-
-	/** Set Only Organization.
-	  * Create posting entries only for this organization
-	  */
-	public void setAD_OrgOnly_ID (int AD_OrgOnly_ID);
-
-	/** Get Only Organization.
-	  * Create posting entries only for this organization
-	  */
-	public int getAD_OrgOnly_ID();
-
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
 
@@ -74,6 +61,19 @@ public interface I_C_AcctSchema
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
+
+    /** Column name AD_OrgOnly_ID */
+    public static final String COLUMNNAME_AD_OrgOnly_ID = "AD_OrgOnly_ID";
+
+	/** Set Only Organization.
+	  * Create posting entries only for this organization
+	  */
+	public void setAD_OrgOnly_ID (int AD_OrgOnly_ID);
+
+	/** Get Only Organization.
+	  * Create posting entries only for this organization
+	  */
+	public int getAD_OrgOnly_ID();
 
     /** Column name AutoPeriodControl */
     public static final String COLUMNNAME_AutoPeriodControl = "AutoPeriodControl";
@@ -116,21 +116,6 @@ public interface I_C_AcctSchema
 
 	public org.compiere.model.I_C_Currency getC_Currency() throws RuntimeException;
 
-    /** Column name C_Period_ID */
-    public static final String COLUMNNAME_C_Period_ID = "C_Period_ID";
-
-	/** Set Period.
-	  * Period of the Calendar
-	  */
-	public void setC_Period_ID (int C_Period_ID);
-
-	/** Get Period.
-	  * Period of the Calendar
-	  */
-	public int getC_Period_ID();
-
-	public org.compiere.model.I_C_Period getC_Period() throws RuntimeException;
-
     /** Column name CommitmentType */
     public static final String COLUMNNAME_CommitmentType = "CommitmentType";
 
@@ -169,6 +154,21 @@ public interface I_C_AcctSchema
 	  * Indicates how Costs will be calculated
 	  */
 	public String getCostingMethod();
+
+    /** Column name C_Period_ID */
+    public static final String COLUMNNAME_C_Period_ID = "C_Period_ID";
+
+	/** Set Period.
+	  * Period of the Calendar
+	  */
+	public void setC_Period_ID (int C_Period_ID);
+
+	/** Get Period.
+	  * Period of the Calendar
+	  */
+	public int getC_Period_ID();
+
+	public org.compiere.model.I_C_Period getC_Period() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

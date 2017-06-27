@@ -1,10 +1,6 @@
 /******************************************************************************
  * Product: ADempiere ERP & CRM Smart Business Solution                       *
-<<<<<<< HEAD
- * Copyright (C) 2006-2016 ADempiere Foundation, All Rights Reserved.         *
-=======
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
->>>>>>> remotes/upstream/release/3.9.0
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * or (at your option) any later version.										*
@@ -229,19 +225,6 @@ public interface I_C_Commission
 	  */
 	public boolean isActive();
 
-    /** Column name IsTotallyPaid */
-    public static final String COLUMNNAME_IsTotallyPaid = "IsTotallyPaid";
-
-	/** Set Paid totally.
-	  * The document is totally paid
-	  */
-	public void setIsTotallyPaid (boolean IsTotallyPaid);
-
-	/** Get Paid totally.
-	  * The document is totally paid
-	  */
-	public boolean isTotallyPaid();
-
     /** Column name IsAllowRMA */
     public static final String COLUMNNAME_IsAllowRMA = "IsAllowRMA";
 
@@ -254,6 +237,19 @@ public interface I_C_Commission
 	  * Allow to consider RMA
 	  */
 	public boolean isAllowRMA();
+
+    /** Column name IsTotallyPaid */
+    public static final String COLUMNNAME_IsTotallyPaid = "IsTotallyPaid";
+
+	/** Set Paid totally.
+	  * The document is totally paid
+	  */
+	public void setIsTotallyPaid (boolean IsTotallyPaid);
+
+	/** Get Paid totally.
+	  * The document is totally paid
+	  */
+	public boolean isTotallyPaid();
 
     /** Column name ListDetails */
     public static final String COLUMNNAME_ListDetails = "ListDetails";

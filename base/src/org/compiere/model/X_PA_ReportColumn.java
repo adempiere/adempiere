@@ -32,7 +32,7 @@ public class X_PA_ReportColumn extends PO implements I_PA_ReportColumn, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170407L;
+	private static final long serialVersionUID = 20170627L;
 
     /** Standard Constructor */
     public X_PA_ReportColumn (Properties ctx, int PA_ReportColumn_ID, String trxName)
@@ -62,6 +62,10 @@ public class X_PA_ReportColumn extends PO implements I_PA_ReportColumn, I_Persis
 // N
 			setIsIncludeNullsSalesRegion (false);
 // N
+			setIsIncludeNullsUserElement1 (false);
+// N
+			setIsIncludeNullsUserElement2 (false);
+// N
 			setIsIncludeNullsUser1 (false);
 // N
 			setIsIncludeNullsUser2 (false);
@@ -70,15 +74,11 @@ public class X_PA_ReportColumn extends PO implements I_PA_ReportColumn, I_Persis
 // N
 			setIsIncludeNullsUser4 (false);
 // N
-			setIsIncludeNullsUserElement1 (false);
-// N
-			setIsIncludeNullsUserElement2 (false);
-// N
 			setIsPrinted (true);
 // Y
 			setName (null);
-			setPA_ReportColumnSet_ID (0);
 			setPA_ReportColumn_ID (0);
+			setPA_ReportColumnSet_ID (0);
 			setPostingType (null);
 // A
 			setSeqNo (0);
@@ -163,6 +163,31 @@ public class X_PA_ReportColumn extends PO implements I_PA_ReportColumn, I_Persis
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** CalculationType AD_Reference_ID=236 */
+	public static final int CALCULATIONTYPE_AD_Reference_ID=236;
+	/** Add (Op1+Op2) = A */
+	public static final String CALCULATIONTYPE_AddOp1PlusOp2 = "A";
+	/** Subtract (Op1-Op2) = S */
+	public static final String CALCULATIONTYPE_SubtractOp1_Op2 = "S";
+	/** Percentage (Op1 of Op2) = P */
+	public static final String CALCULATIONTYPE_PercentageOp1OfOp2 = "P";
+	/** Add Range (Op1 to Op2) = R */
+	public static final String CALCULATIONTYPE_AddRangeOp1ToOp2 = "R";
+	/** Set Calculation.
+		@param CalculationType Calculation	  */
+	public void setCalculationType (String CalculationType)
+	{
+
+		set_Value (COLUMNNAME_CalculationType, CalculationType);
+	}
+
+	/** Get Calculation.
+		@return Calculation	  */
+	public String getCalculationType () 
+	{
+		return (String)get_Value(COLUMNNAME_CalculationType);
 	}
 
 	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
@@ -305,6 +330,29 @@ public class X_PA_ReportColumn extends PO implements I_PA_ReportColumn, I_Persis
 		return ii.intValue();
 	}
 
+	/** ColumnType AD_Reference_ID=237 */
+	public static final int COLUMNTYPE_AD_Reference_ID=237;
+	/** Relative Period = R */
+	public static final String COLUMNTYPE_RelativePeriod = "R";
+	/** Calculation = C */
+	public static final String COLUMNTYPE_Calculation = "C";
+	/** Segment Value = S */
+	public static final String COLUMNTYPE_SegmentValue = "S";
+	/** Set Column Type.
+		@param ColumnType Column Type	  */
+	public void setColumnType (String ColumnType)
+	{
+
+		set_Value (COLUMNNAME_ColumnType, ColumnType);
+	}
+
+	/** Get Column Type.
+		@return Column Type	  */
+	public String getColumnType () 
+	{
+		return (String)get_Value(COLUMNNAME_ColumnType);
+	}
+
 	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException
     {
 		return (org.compiere.model.I_C_Project)MTable.get(getCtx(), org.compiere.model.I_C_Project.Table_Name)
@@ -359,54 +407,6 @@ public class X_PA_ReportColumn extends PO implements I_PA_ReportColumn, I_Persis
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** CalculationType AD_Reference_ID=236 */
-	public static final int CALCULATIONTYPE_AD_Reference_ID=236;
-	/** Add (Op1+Op2) = A */
-	public static final String CALCULATIONTYPE_AddOp1PlusOp2 = "A";
-	/** Subtract (Op1-Op2) = S */
-	public static final String CALCULATIONTYPE_SubtractOp1_Op2 = "S";
-	/** Percentage (Op1 of Op2) = P */
-	public static final String CALCULATIONTYPE_PercentageOp1OfOp2 = "P";
-	/** Add Range (Op1 to Op2) = R */
-	public static final String CALCULATIONTYPE_AddRangeOp1ToOp2 = "R";
-	/** Set Calculation.
-		@param CalculationType Calculation	  */
-	public void setCalculationType (String CalculationType)
-	{
-
-		set_Value (COLUMNNAME_CalculationType, CalculationType);
-	}
-
-	/** Get Calculation.
-		@return Calculation	  */
-	public String getCalculationType () 
-	{
-		return (String)get_Value(COLUMNNAME_CalculationType);
-	}
-
-	/** ColumnType AD_Reference_ID=237 */
-	public static final int COLUMNTYPE_AD_Reference_ID=237;
-	/** Relative Period = R */
-	public static final String COLUMNTYPE_RelativePeriod = "R";
-	/** Calculation = C */
-	public static final String COLUMNTYPE_Calculation = "C";
-	/** Segment Value = S */
-	public static final String COLUMNTYPE_SegmentValue = "S";
-	/** Set Column Type.
-		@param ColumnType Column Type	  */
-	public void setColumnType (String ColumnType)
-	{
-
-		set_Value (COLUMNNAME_ColumnType, ColumnType);
-	}
-
-	/** Get Column Type.
-		@return Column Type	  */
-	public String getColumnType () 
-	{
-		return (String)get_Value(COLUMNNAME_ColumnType);
 	}
 
 	/** CurrencyType AD_Reference_ID=238 */
@@ -477,16 +477,16 @@ public class X_PA_ReportColumn extends PO implements I_PA_ReportColumn, I_Persis
 	public static final String ELEMENTTYPE_UserList1 = "U1";
 	/** User List 2 = U2 */
 	public static final String ELEMENTTYPE_UserList2 = "U2";
-	/** User List 1 = U1 */
-	public static final String ELEMENTTYPE_UserList3 = "U3";
-	/** User List 2 = U2 */
-	public static final String ELEMENTTYPE_UserList4 = "U4";
 	/** User Element 1 = X1 */
 	public static final String ELEMENTTYPE_UserElement1 = "X1";
 	/** User Element 2 = X2 */
 	public static final String ELEMENTTYPE_UserElement2 = "X2";
 	/** Combination = CO */
 	public static final String ELEMENTTYPE_Combination = "CO";
+	/** User List 3 = U3 */
+	public static final String ELEMENTTYPE_UserList3 = "U3";
+	/** User List 4 = U4 */
+	public static final String ELEMENTTYPE_UserList4 = "U4";
 	/** Set Type.
 		@param ElementType 
 		Element Type (account or user defined)
@@ -862,6 +862,54 @@ public class X_PA_ReportColumn extends PO implements I_PA_ReportColumn, I_Persis
 		return false;
 	}
 
+	/** Set Include Nulls in User Element 1.
+		@param IsIncludeNullsUserElement1 
+		Include nulls in the selection of the user element 1
+	  */
+	public void setIsIncludeNullsUserElement1 (boolean IsIncludeNullsUserElement1)
+	{
+		set_Value (COLUMNNAME_IsIncludeNullsUserElement1, Boolean.valueOf(IsIncludeNullsUserElement1));
+	}
+
+	/** Get Include Nulls in User Element 1.
+		@return Include nulls in the selection of the user element 1
+	  */
+	public boolean isIncludeNullsUserElement1 () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsIncludeNullsUserElement1);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Include Nulls in User Element 2.
+		@param IsIncludeNullsUserElement2 
+		Include nulls in the selection of the user element 2
+	  */
+	public void setIsIncludeNullsUserElement2 (boolean IsIncludeNullsUserElement2)
+	{
+		set_Value (COLUMNNAME_IsIncludeNullsUserElement2, Boolean.valueOf(IsIncludeNullsUserElement2));
+	}
+
+	/** Get Include Nulls in User Element 2.
+		@return Include nulls in the selection of the user element 2
+	  */
+	public boolean isIncludeNullsUserElement2 () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsIncludeNullsUserElement2);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Include Nulls in User 1.
 		@param IsIncludeNullsUser1 
 		Include nulls in the selection of the user 1
@@ -949,54 +997,6 @@ public class X_PA_ReportColumn extends PO implements I_PA_ReportColumn, I_Persis
 	public boolean isIncludeNullsUser4 () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsIncludeNullsUser4);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
-	/** Set Include Nulls in User Element 1.
-		@param IsIncludeNullsUserElement1 
-		Include nulls in the selection of the user element 1
-	  */
-	public void setIsIncludeNullsUserElement1 (boolean IsIncludeNullsUserElement1)
-	{
-		set_Value (COLUMNNAME_IsIncludeNullsUserElement1, Boolean.valueOf(IsIncludeNullsUserElement1));
-	}
-
-	/** Get Include Nulls in User Element 1.
-		@return Include nulls in the selection of the user element 1
-	  */
-	public boolean isIncludeNullsUserElement1 () 
-	{
-		Object oo = get_Value(COLUMNNAME_IsIncludeNullsUserElement1);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
-	/** Set Include Nulls in User Element 2.
-		@param IsIncludeNullsUserElement2 
-		Include nulls in the selection of the user element 2
-	  */
-	public void setIsIncludeNullsUserElement2 (boolean IsIncludeNullsUserElement2)
-	{
-		set_Value (COLUMNNAME_IsIncludeNullsUserElement2, Boolean.valueOf(IsIncludeNullsUserElement2));
-	}
-
-	/** Get Include Nulls in User Element 2.
-		@return Include nulls in the selection of the user element 2
-	  */
-	public boolean isIncludeNullsUserElement2 () 
-	{
-		Object oo = get_Value(COLUMNNAME_IsIncludeNullsUserElement2);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 
@@ -1222,6 +1222,29 @@ public class X_PA_ReportColumn extends PO implements I_PA_ReportColumn, I_Persis
 		return (String)get_Value(COLUMNNAME_PAPeriodType);
 	}
 
+	/** Set Report Column.
+		@param PA_ReportColumn_ID 
+		Column in Report
+	  */
+	public void setPA_ReportColumn_ID (int PA_ReportColumn_ID)
+	{
+		if (PA_ReportColumn_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PA_ReportColumn_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PA_ReportColumn_ID, Integer.valueOf(PA_ReportColumn_ID));
+	}
+
+	/** Get Report Column.
+		@return Column in Report
+	  */
+	public int getPA_ReportColumn_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PA_ReportColumn_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_PA_ReportColumnSet getPA_ReportColumnSet() throws RuntimeException
     {
 		return (org.compiere.model.I_PA_ReportColumnSet)MTable.get(getCtx(), org.compiere.model.I_PA_ReportColumnSet.Table_Name)
@@ -1250,29 +1273,6 @@ public class X_PA_ReportColumn extends PO implements I_PA_ReportColumn, I_Persis
 		return ii.intValue();
 	}
 
-	/** Set Report Column.
-		@param PA_ReportColumn_ID 
-		Column in Report
-	  */
-	public void setPA_ReportColumn_ID (int PA_ReportColumn_ID)
-	{
-		if (PA_ReportColumn_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_PA_ReportColumn_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_PA_ReportColumn_ID, Integer.valueOf(PA_ReportColumn_ID));
-	}
-
-	/** Get Report Column.
-		@return Column in Report
-	  */
-	public int getPA_ReportColumn_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_PA_ReportColumn_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** PostingType AD_Reference_ID=125 */
 	public static final int POSTINGTYPE_AD_Reference_ID=125;
 	/** Actual = A */
@@ -1285,7 +1285,7 @@ public class X_PA_ReportColumn extends PO implements I_PA_ReportColumn, I_Persis
 	public static final String POSTINGTYPE_Statistical = "S";
 	/** Reservation = R */
 	public static final String POSTINGTYPE_Reservation = "R";
-	/** Set PostingType.
+	/** Set Posting Type.
 		@param PostingType 
 		The type of posted amount for the transaction
 	  */
@@ -1295,7 +1295,7 @@ public class X_PA_ReportColumn extends PO implements I_PA_ReportColumn, I_Persis
 		set_Value (COLUMNNAME_PostingType, PostingType);
 	}
 
-	/** Get PostingType.
+	/** Get Posting Type.
 		@return The type of posted amount for the transaction
 	  */
 	public String getPostingType () 
@@ -1358,6 +1358,52 @@ public class X_PA_ReportColumn extends PO implements I_PA_ReportColumn, I_Persis
 	public int getSeqNo () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_SeqNo);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set User Element 1.
+		@param UserElement1_ID 
+		User defined accounting Element
+	  */
+	public void setUserElement1_ID (int UserElement1_ID)
+	{
+		if (UserElement1_ID < 1) 
+			set_Value (COLUMNNAME_UserElement1_ID, null);
+		else 
+			set_Value (COLUMNNAME_UserElement1_ID, Integer.valueOf(UserElement1_ID));
+	}
+
+	/** Get User Element 1.
+		@return User defined accounting Element
+	  */
+	public int getUserElement1_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_UserElement1_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set User Element 2.
+		@param UserElement2_ID 
+		User defined accounting Element
+	  */
+	public void setUserElement2_ID (int UserElement2_ID)
+	{
+		if (UserElement2_ID < 1) 
+			set_Value (COLUMNNAME_UserElement2_ID, null);
+		else 
+			set_Value (COLUMNNAME_UserElement2_ID, Integer.valueOf(UserElement2_ID));
+	}
+
+	/** Get User Element 2.
+		@return User defined accounting Element
+	  */
+	public int getUserElement2_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_UserElement2_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -1470,52 +1516,6 @@ public class X_PA_ReportColumn extends PO implements I_PA_ReportColumn, I_Persis
 	public int getUser4_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_User4_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set User Element 1.
-		@param UserElement1_ID 
-		User defined accounting Element
-	  */
-	public void setUserElement1_ID (int UserElement1_ID)
-	{
-		if (UserElement1_ID < 1) 
-			set_Value (COLUMNNAME_UserElement1_ID, null);
-		else 
-			set_Value (COLUMNNAME_UserElement1_ID, Integer.valueOf(UserElement1_ID));
-	}
-
-	/** Get User Element 1.
-		@return User defined accounting Element
-	  */
-	public int getUserElement1_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_UserElement1_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set User Element 2.
-		@param UserElement2_ID 
-		User defined accounting Element
-	  */
-	public void setUserElement2_ID (int UserElement2_ID)
-	{
-		if (UserElement2_ID < 1) 
-			set_Value (COLUMNNAME_UserElement2_ID, null);
-		else 
-			set_Value (COLUMNNAME_UserElement2_ID, Integer.valueOf(UserElement2_ID));
-	}
-
-	/** Get User Element 2.
-		@return User defined accounting Element
-	  */
-	public int getUserElement2_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_UserElement2_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

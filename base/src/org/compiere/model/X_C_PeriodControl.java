@@ -30,7 +30,7 @@ public class X_C_PeriodControl extends PO implements I_C_PeriodControl, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170407L;
+	private static final long serialVersionUID = 20170627L;
 
     /** Standard Constructor */
     public X_C_PeriodControl (Properties ctx, int C_PeriodControl_ID, String trxName)
@@ -196,6 +196,8 @@ public class X_C_PeriodControl extends PO implements I_C_PeriodControl, I_Persis
 	public static final String DOCBASETYPE_ManufacturingPlannedOrder = "MPO";
 	/** AP Payment Selection = APS */
 	public static final String DOCBASETYPE_APPaymentSelection = "APS";
+	/** Sales Commission = SOC */
+	public static final String DOCBASETYPE_SalesCommission = "SOC";
 	/** Fixed Assets Addition = FAA */
 	public static final String DOCBASETYPE_FixedAssetsAddition = "FAA";
 	/** Fixed Assets Disposal = FAD */

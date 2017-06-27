@@ -49,15 +49,6 @@ public interface I_AD_ColumnProcessPara
 	  */
 	public int getAD_Client_ID();
 
-    /** Column name AD_ColumnProcessPara_ID */
-    public static final String COLUMNNAME_AD_ColumnProcessPara_ID = "AD_ColumnProcessPara_ID";
-
-	/** Set Link Process Parameter	  */
-	public void setAD_ColumnProcessPara_ID (int AD_ColumnProcessPara_ID);
-
-	/** Get Link Process Parameter	  */
-	public int getAD_ColumnProcessPara_ID();
-
     /** Column name AD_ColumnProcess_ID */
     public static final String COLUMNNAME_AD_ColumnProcess_ID = "AD_ColumnProcess_ID";
 
@@ -68,6 +59,15 @@ public interface I_AD_ColumnProcessPara
 	public int getAD_ColumnProcess_ID();
 
 	public org.compiere.model.I_AD_ColumnProcess getAD_ColumnProcess() throws RuntimeException;
+
+    /** Column name AD_ColumnProcessPara_ID */
+    public static final String COLUMNNAME_AD_ColumnProcessPara_ID = "AD_ColumnProcessPara_ID";
+
+	/** Set Link Process Parameter	  */
+	public void setAD_ColumnProcessPara_ID (int AD_ColumnProcessPara_ID);
+
+	/** Get Link Process Parameter	  */
+	public int getAD_ColumnProcessPara_ID();
 
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";

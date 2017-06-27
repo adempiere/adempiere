@@ -30,7 +30,7 @@ public class X_R_IssueUser extends PO implements I_R_IssueUser, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170407L;
+	private static final long serialVersionUID = 20170627L;
 
     /** Standard Constructor */
     public X_R_IssueUser (Properties ctx, int R_IssueUser_ID, String trxName)

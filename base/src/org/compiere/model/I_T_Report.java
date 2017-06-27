@@ -40,6 +40,19 @@ public interface I_T_Report
 
     /** Load Meta Data */
 
+    /** Column name AccountType */
+    public static final String COLUMNNAME_AccountType = "AccountType";
+
+	/** Set Account Type.
+	  * Indicates the type of account
+	  */
+	public void setAccountType (boolean AccountType);
+
+	/** Get Account Type.
+	  * Indicates the type of account
+	  */
+	public boolean isAccountType();
+
     /** Column name AD_PInstance_ID */
     public static final String COLUMNNAME_AD_PInstance_ID = "AD_PInstance_ID";
 
@@ -55,33 +68,14 @@ public interface I_T_Report
 
 	public org.compiere.model.I_AD_PInstance getAD_PInstance() throws RuntimeException;
 
-    /** Column name AccountType */
-    public static final String COLUMNNAME_AccountType = "AccountType";
+    /** Column name ax_case */
+    public static final String COLUMNNAME_ax_case = "ax_case";
 
-	/** Set Account Type.
-	  * Indicates the type of account
-	  */
-	public void setAccountType (boolean AccountType);
+	/** Set ax_case	  */
+	public void setax_case (boolean ax_case);
 
-	/** Get Account Type.
-	  * Indicates the type of account
-	  */
-	public boolean isAccountType();
-
-    /** Column name C_ValidCombination_ID */
-    public static final String COLUMNNAME_C_ValidCombination_ID = "C_ValidCombination_ID";
-
-	/** Set Combination.
-	  * Valid Account Combination
-	  */
-	public void setC_ValidCombination_ID (int C_ValidCombination_ID);
-
-	/** Get Combination.
-	  * Valid Account Combination
-	  */
-	public int getC_ValidCombination_ID();
-
-	public org.compiere.model.I_C_ValidCombination getC_ValidCombination() throws RuntimeException;
+	/** Get ax_case	  */
+	public boolean isax_case();
 
     /** Column name Col_0 */
     public static final String COLUMNNAME_Col_0 = "Col_0";
@@ -272,6 +266,21 @@ public interface I_T_Report
 	/** Get Col_9	  */
 	public BigDecimal getCol_9();
 
+    /** Column name C_ValidCombination_ID */
+    public static final String COLUMNNAME_C_ValidCombination_ID = "C_ValidCombination_ID";
+
+	/** Set Combination.
+	  * Valid Account Combination
+	  */
+	public void setC_ValidCombination_ID (int C_ValidCombination_ID);
+
+	/** Get Combination.
+	  * Valid Account Combination
+	  */
+	public int getC_ValidCombination_ID();
+
+	public org.compiere.model.I_C_ValidCombination getC_ValidCombination() throws RuntimeException;
+
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
 
@@ -293,6 +302,17 @@ public interface I_T_Report
 
 	/** Get Accounting Fact	  */
 	public int getFact_Acct_ID();
+
+	public org.compiere.model.I_Fact_Acct getFact_Acct() throws RuntimeException;
+
+    /** Column name fixedpercentage */
+    public static final String COLUMNNAME_fixedpercentage = "fixedpercentage";
+
+	/** Set fixedpercentage	  */
+	public void setfixedpercentage (BigDecimal fixedpercentage);
+
+	/** Get fixedpercentage	  */
+	public BigDecimal getfixedpercentage();
 
     /** Column name LevelNo */
     public static final String COLUMNNAME_LevelNo = "LevelNo";
@@ -340,6 +360,15 @@ public interface I_T_Report
 	  */
 	public int getRecord_ID();
 
+    /** Column name reportlinestyle */
+    public static final String COLUMNNAME_reportlinestyle = "reportlinestyle";
+
+	/** Set reportlinestyle	  */
+	public void setreportlinestyle (boolean reportlinestyle);
+
+	/** Get reportlinestyle	  */
+	public boolean isreportlinestyle();
+
     /** Column name SeqNo */
     public static final String COLUMNNAME_SeqNo = "SeqNo";
 
@@ -367,31 +396,4 @@ public interface I_T_Report
 	  * Hierarchical Tab Level (0 = top)
 	  */
 	public int getTabLevel();
-
-    /** Column name ax_case */
-    public static final String COLUMNNAME_ax_case = "ax_case";
-
-	/** Set ax_case	  */
-	public void setax_case (boolean ax_case);
-
-	/** Get ax_case	  */
-	public boolean isax_case();
-
-    /** Column name fixedpercentage */
-    public static final String COLUMNNAME_fixedpercentage = "fixedpercentage";
-
-	/** Set fixedpercentage	  */
-	public void setfixedpercentage (BigDecimal fixedpercentage);
-
-	/** Get fixedpercentage	  */
-	public BigDecimal getfixedpercentage();
-
-    /** Column name reportlinestyle */
-    public static final String COLUMNNAME_reportlinestyle = "reportlinestyle";
-
-	/** Set reportlinestyle	  */
-	public void setreportlinestyle (boolean reportlinestyle);
-
-	/** Get reportlinestyle	  */
-	public boolean isreportlinestyle();
 }

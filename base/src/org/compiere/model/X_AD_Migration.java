@@ -30,7 +30,7 @@ public class X_AD_Migration extends PO implements I_AD_Migration, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170407L;
+	private static final long serialVersionUID = 20170627L;
 
     /** Standard Constructor */
     public X_AD_Migration (Properties ctx, int AD_Migration_ID, String trxName)

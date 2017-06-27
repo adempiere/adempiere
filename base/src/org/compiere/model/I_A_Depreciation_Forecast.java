@@ -49,6 +49,15 @@ public interface I_A_Depreciation_Forecast
 	  */
 	public int getAD_Client_ID();
 
+    /** Column name A_Depreciation_Forecast_ID */
+    public static final String COLUMNNAME_A_Depreciation_Forecast_ID = "A_Depreciation_Forecast_ID";
+
+	/** Set Depreciation Forecast	  */
+	public void setA_Depreciation_Forecast_ID (int A_Depreciation_Forecast_ID);
+
+	/** Get Depreciation Forecast	  */
+	public int getA_Depreciation_Forecast_ID();
+
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
 
@@ -61,15 +70,6 @@ public interface I_A_Depreciation_Forecast
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
-
-    /** Column name A_Depreciation_Forecast_ID */
-    public static final String COLUMNNAME_A_Depreciation_Forecast_ID = "A_Depreciation_Forecast_ID";
-
-	/** Set Depreciation Forecast	  */
-	public void setA_Depreciation_Forecast_ID (int A_Depreciation_Forecast_ID);
-
-	/** Get Depreciation Forecast	  */
-	public int getA_Depreciation_Forecast_ID();
 
     /** Column name A_End_Asset_ID */
     public static final String COLUMNNAME_A_End_Asset_ID = "A_End_Asset_ID";
@@ -138,12 +138,12 @@ public interface I_A_Depreciation_Forecast
     /** Column name PostingType */
     public static final String COLUMNNAME_PostingType = "PostingType";
 
-	/** Set PostingType.
+	/** Set Posting Type.
 	  * The type of posted amount for the transaction
 	  */
 	public void setPostingType (String PostingType);
 
-	/** Get PostingType.
+	/** Get Posting Type.
 	  * The type of posted amount for the transaction
 	  */
 	public String getPostingType();

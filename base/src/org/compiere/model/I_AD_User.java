@@ -224,7 +224,7 @@ public interface I_AD_User
 	  */
 	public int getC_Location_ID();
 
-	public org.compiere.model.I_C_Location getC_Location() throws RuntimeException;
+	public I_C_Location getC_Location() throws RuntimeException;
 
     /** Column name Comments */
     public static final String COLUMNNAME_Comments = "Comments";

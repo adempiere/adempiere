@@ -41,27 +41,6 @@ public interface I_A_Depreciation_Workfile
 
     /** Load Meta Data */
 
-    /** Column name AD_Client_ID */
-    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
-
-	/** Get Client.
-	  * Client/Tenant for this installation.
-	  */
-	public int getAD_Client_ID();
-
-    /** Column name AD_Org_ID */
-    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
-
-	/** Set Organization.
-	  * Organizational entity within client
-	  */
-	public void setAD_Org_ID (int AD_Org_ID);
-
-	/** Get Organization.
-	  * Organizational entity within client
-	  */
-	public int getAD_Org_ID();
-
     /** Column name A_Accumulated_Depr */
     public static final String COLUMNNAME_A_Accumulated_Depr = "A_Accumulated_Depr";
 
@@ -185,6 +164,14 @@ public interface I_A_Depreciation_Workfile
 	/** Get Current Period	  */
 	public int getA_Current_Period();
 
+    /** Column name AD_Client_ID */
+    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
+
+	/** Get Client.
+	  * Client/Tenant for this installation.
+	  */
+	public int getAD_Client_ID();
+
     /** Column name A_Depreciation_Workfile_ID */
     public static final String COLUMNNAME_A_Depreciation_Workfile_ID = "A_Depreciation_Workfile_ID";
 
@@ -193,6 +180,19 @@ public interface I_A_Depreciation_Workfile
 
 	/** Get A_Depreciation_Workfile_ID	  */
 	public int getA_Depreciation_Workfile_ID();
+
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
 
     /** Column name A_Expense_SL */
     public static final String COLUMNNAME_A_Expense_SL = "A_Expense_SL";
@@ -304,6 +304,19 @@ public interface I_A_Depreciation_Workfile
 	/** Get Asset Salvage Value	  */
 	public BigDecimal getA_Salvage_Value();
 
+    /** Column name AssetDepreciationDate */
+    public static final String COLUMNNAME_AssetDepreciationDate = "AssetDepreciationDate";
+
+	/** Set Asset Depreciation Date.
+	  * Date of last depreciation
+	  */
+	public void setAssetDepreciationDate (Timestamp AssetDepreciationDate);
+
+	/** Get Asset Depreciation Date.
+	  * Date of last depreciation
+	  */
+	public Timestamp getAssetDepreciationDate();
+
     /** Column name A_Tip_Finantare */
     public static final String COLUMNNAME_A_Tip_Finantare = "A_Tip_Finantare";
 
@@ -334,19 +347,6 @@ public interface I_A_Depreciation_Workfile
 
 	/** Get Third contribution	  */
 	public BigDecimal getA_Valoare_Tert();
-
-    /** Column name AssetDepreciationDate */
-    public static final String COLUMNNAME_AssetDepreciationDate = "AssetDepreciationDate";
-
-	/** Set Asset Depreciation Date.
-	  * Date of last depreciation
-	  */
-	public void setAssetDepreciationDate (Timestamp AssetDepreciationDate);
-
-	/** Get Asset Depreciation Date.
-	  * Date of last depreciation
-	  */
-	public Timestamp getAssetDepreciationDate();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -419,12 +419,12 @@ public interface I_A_Depreciation_Workfile
     /** Column name PostingType */
     public static final String COLUMNNAME_PostingType = "PostingType";
 
-	/** Set PostingType.
+	/** Set Posting Type.
 	  * The type of posted amount for the transaction
 	  */
 	public void setPostingType (String PostingType);
 
-	/** Get PostingType.
+	/** Get Posting Type.
 	  * The type of posted amount for the transaction
 	  */
 	public String getPostingType();

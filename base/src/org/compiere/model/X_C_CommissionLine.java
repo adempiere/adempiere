@@ -32,7 +32,7 @@ public class X_C_CommissionLine extends PO implements I_C_CommissionLine, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170619L;
+	private static final long serialVersionUID = 20170627L;
 
     /** Standard Constructor */
     public X_C_CommissionLine (Properties ctx, int C_CommissionLine_ID, String trxName)
@@ -506,7 +506,7 @@ public class X_C_CommissionLine extends PO implements I_C_CommissionLine, I_Pers
 
 	/** Set Is Percentage.
 		@param IsPercentage 
-		Indicate that Quantity is Expressed on Percentage (%)
+		Indicates that Quantity is expressed as Percentage (%)
 	  */
 	public void setIsPercentage (boolean IsPercentage)
 	{
@@ -514,7 +514,7 @@ public class X_C_CommissionLine extends PO implements I_C_CommissionLine, I_Pers
 	}
 
 	/** Get Is Percentage.
-		@return Indicate that Quantity is Expressed on Percentage (%)
+		@return Indicates that Quantity is expressed as Percentage (%)
 	  */
 	public boolean isPercentage () 
 	{

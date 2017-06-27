@@ -222,6 +222,15 @@ public interface I_PA_DashboardContent
 	  */
 	public String getName();
 
+    /** Column name onevent */
+    public static final String COLUMNNAME_onevent = "onevent";
+
+	/** Set onevent	  */
+	public void setonevent (String onevent);
+
+	/** Get onevent	  */
+	public String getonevent();
+
     /** Column name PA_DashboardContent_ID */
     public static final String COLUMNNAME_PA_DashboardContent_ID = "PA_DashboardContent_ID";
 
@@ -230,6 +239,15 @@ public interface I_PA_DashboardContent
 
 	/** Get Dashboard Content	  */
 	public int getPA_DashboardContent_ID();
+
+    /** Column name PageSize */
+    public static final String COLUMNNAME_PageSize = "PageSize";
+
+	/** Set PageSize	  */
+	public void setPageSize (BigDecimal PageSize);
+
+	/** Get PageSize	  */
+	public BigDecimal getPageSize();
 
     /** Column name PA_Goal_ID */
     public static final String COLUMNNAME_PA_Goal_ID = "PA_Goal_ID";
@@ -245,15 +263,6 @@ public interface I_PA_DashboardContent
 	public int getPA_Goal_ID();
 
 	public org.compiere.model.I_PA_Goal getPA_Goal() throws RuntimeException;
-
-    /** Column name PageSize */
-    public static final String COLUMNNAME_PageSize = "PageSize";
-
-	/** Set PageSize	  */
-	public void setPageSize (BigDecimal PageSize);
-
-	/** Get PageSize	  */
-	public BigDecimal getPageSize();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -316,13 +325,4 @@ public interface I_PA_DashboardContent
 	  * Absolute path to zul file
 	  */
 	public String getZulFilePath();
-
-    /** Column name onevent */
-    public static final String COLUMNNAME_onevent = "onevent";
-
-	/** Set onevent	  */
-	public void setonevent (String onevent);
-
-	/** Get onevent	  */
-	public String getonevent();
 }

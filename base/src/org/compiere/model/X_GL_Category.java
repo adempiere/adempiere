@@ -30,7 +30,7 @@ public class X_GL_Category extends PO implements I_GL_Category, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170407L;
+	private static final long serialVersionUID = 20170627L;
 
     /** Standard Constructor */
     public X_GL_Category (Properties ctx, int GL_Category_ID, String trxName)
@@ -185,6 +185,8 @@ public class X_GL_Category extends PO implements I_GL_Category, I_Persistent
 	public static final String DOCBASETYPE_ManufacturingPlannedOrder = "MPO";
 	/** AP Payment Selection = APS */
 	public static final String DOCBASETYPE_APPaymentSelection = "APS";
+	/** Sales Commission = SOC */
+	public static final String DOCBASETYPE_SalesCommission = "SOC";
 	/** Fixed Assets Addition = FAA */
 	public static final String DOCBASETYPE_FixedAssetsAddition = "FAA";
 	/** Fixed Assets Disposal = FAD */

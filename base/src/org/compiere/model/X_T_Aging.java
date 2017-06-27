@@ -32,7 +32,7 @@ public class X_T_Aging extends PO implements I_T_Aging, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170407L;
+	private static final long serialVersionUID = 20170627L;
 
     /** Standard Constructor */
     public X_T_Aging (Properties ctx, int T_Aging_ID, String trxName)
@@ -41,38 +41,38 @@ public class X_T_Aging extends PO implements I_T_Aging, I_Persistent
       /** if (T_Aging_ID == 0)
         {
 			setAD_PInstance_ID (0);
-			setC_BP_Group_ID (0);
 			setC_BPartner_ID (0);
+			setC_BP_Group_ID (0);
 			setC_CashFlow_ID (0);
 // -1
 			setC_Currency_ID (0);
 			setC_Order_ID (0);
 // 1
+			setDueAmt (Env.ZERO);
+			setDueDate (new Timestamp( System.currentTimeMillis() ));
 			setDue0 (Env.ZERO);
 			setDue0_30 (Env.ZERO);
 			setDue0_7 (Env.ZERO);
 			setDue1_7 (Env.ZERO);
-			setDue31_60 (Env.ZERO);
 			setDue31_Plus (Env.ZERO);
-			setDue61_90 (Env.ZERO);
+			setDue31_60 (Env.ZERO);
 			setDue61_Plus (Env.ZERO);
+			setDue61_90 (Env.ZERO);
 			setDue8_30 (Env.ZERO);
 			setDue91_Plus (Env.ZERO);
-			setDueAmt (Env.ZERO);
-			setDueDate (new Timestamp( System.currentTimeMillis() ));
 			setInvoicedAmt (Env.ZERO);
 			setIsListInvoices (false);
 			setIsSOTrx (false);
 			setOpenAmt (Env.ZERO);
+			setPastDueAmt (Env.ZERO);
 			setPastDue1_30 (Env.ZERO);
 			setPastDue1_7 (Env.ZERO);
-			setPastDue31_60 (Env.ZERO);
 			setPastDue31_Plus (Env.ZERO);
-			setPastDue61_90 (Env.ZERO);
+			setPastDue31_60 (Env.ZERO);
 			setPastDue61_Plus (Env.ZERO);
+			setPastDue61_90 (Env.ZERO);
 			setPastDue8_30 (Env.ZERO);
 			setPastDue91_Plus (Env.ZERO);
-			setPastDueAmt (Env.ZERO);
 			setStatementDate (new Timestamp( System.currentTimeMillis() ));
         } */
     }
@@ -161,29 +161,29 @@ public class X_T_Aging extends PO implements I_T_Aging, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_BP_Group getC_BP_Group() throws RuntimeException
+	public org.compiere.model.I_C_BankAccount getC_BankAccount() throws RuntimeException
     {
-		return (org.compiere.model.I_C_BP_Group)MTable.get(getCtx(), org.compiere.model.I_C_BP_Group.Table_Name)
-			.getPO(getC_BP_Group_ID(), get_TrxName());	}
+		return (org.compiere.model.I_C_BankAccount)MTable.get(getCtx(), org.compiere.model.I_C_BankAccount.Table_Name)
+			.getPO(getC_BankAccount_ID(), get_TrxName());	}
 
-	/** Set Business Partner Group.
-		@param C_BP_Group_ID 
-		Business Partner Group
+	/** Set Bank Account.
+		@param C_BankAccount_ID 
+		Account at the Bank
 	  */
-	public void setC_BP_Group_ID (int C_BP_Group_ID)
+	public void setC_BankAccount_ID (int C_BankAccount_ID)
 	{
-		if (C_BP_Group_ID < 1) 
-			set_Value (COLUMNNAME_C_BP_Group_ID, null);
+		if (C_BankAccount_ID < 1) 
+			set_Value (COLUMNNAME_C_BankAccount_ID, null);
 		else 
-			set_Value (COLUMNNAME_C_BP_Group_ID, Integer.valueOf(C_BP_Group_ID));
+			set_Value (COLUMNNAME_C_BankAccount_ID, Integer.valueOf(C_BankAccount_ID));
 	}
 
-	/** Get Business Partner Group.
-		@return Business Partner Group
+	/** Get Bank Account.
+		@return Account at the Bank
 	  */
-	public int getC_BP_Group_ID () 
+	public int getC_BankAccount_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_BP_Group_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BankAccount_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -217,29 +217,29 @@ public class X_T_Aging extends PO implements I_T_Aging, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_BankAccount getC_BankAccount() throws RuntimeException
+	public org.compiere.model.I_C_BP_Group getC_BP_Group() throws RuntimeException
     {
-		return (org.compiere.model.I_C_BankAccount)MTable.get(getCtx(), org.compiere.model.I_C_BankAccount.Table_Name)
-			.getPO(getC_BankAccount_ID(), get_TrxName());	}
+		return (org.compiere.model.I_C_BP_Group)MTable.get(getCtx(), org.compiere.model.I_C_BP_Group.Table_Name)
+			.getPO(getC_BP_Group_ID(), get_TrxName());	}
 
-	/** Set Bank Account.
-		@param C_BankAccount_ID 
-		Account at the Bank
+	/** Set Business Partner Group.
+		@param C_BP_Group_ID 
+		Business Partner Group
 	  */
-	public void setC_BankAccount_ID (int C_BankAccount_ID)
+	public void setC_BP_Group_ID (int C_BP_Group_ID)
 	{
-		if (C_BankAccount_ID < 1) 
-			set_Value (COLUMNNAME_C_BankAccount_ID, null);
+		if (C_BP_Group_ID < 1) 
+			set_Value (COLUMNNAME_C_BP_Group_ID, null);
 		else 
-			set_Value (COLUMNNAME_C_BankAccount_ID, Integer.valueOf(C_BankAccount_ID));
+			set_Value (COLUMNNAME_C_BP_Group_ID, Integer.valueOf(C_BP_Group_ID));
 	}
 
-	/** Get Bank Account.
-		@return Account at the Bank
+	/** Get Business Partner Group.
+		@return Business Partner Group
 	  */
-	public int getC_BankAccount_ID () 
+	public int getC_BP_Group_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_BankAccount_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BP_Group_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -326,34 +326,6 @@ public class X_T_Aging extends PO implements I_T_Aging, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_InvoicePaySchedule getC_InvoicePaySchedule() throws RuntimeException
-    {
-		return (org.compiere.model.I_C_InvoicePaySchedule)MTable.get(getCtx(), org.compiere.model.I_C_InvoicePaySchedule.Table_Name)
-			.getPO(getC_InvoicePaySchedule_ID(), get_TrxName());	}
-
-	/** Set Invoice Payment Schedule.
-		@param C_InvoicePaySchedule_ID 
-		Invoice Payment Schedule
-	  */
-	public void setC_InvoicePaySchedule_ID (int C_InvoicePaySchedule_ID)
-	{
-		if (C_InvoicePaySchedule_ID < 1) 
-			set_Value (COLUMNNAME_C_InvoicePaySchedule_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_InvoicePaySchedule_ID, Integer.valueOf(C_InvoicePaySchedule_ID));
-	}
-
-	/** Get Invoice Payment Schedule.
-		@return Invoice Payment Schedule
-	  */
-	public int getC_InvoicePaySchedule_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_InvoicePaySchedule_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.compiere.model.I_C_Invoice getC_Invoice() throws RuntimeException
     {
 		return (org.compiere.model.I_C_Invoice)MTable.get(getCtx(), org.compiere.model.I_C_Invoice.Table_Name)
@@ -377,6 +349,34 @@ public class X_T_Aging extends PO implements I_T_Aging, I_Persistent
 	public int getC_Invoice_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_Invoice_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_InvoicePaySchedule getC_InvoicePaySchedule() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_InvoicePaySchedule)MTable.get(getCtx(), org.compiere.model.I_C_InvoicePaySchedule.Table_Name)
+			.getPO(getC_InvoicePaySchedule_ID(), get_TrxName());	}
+
+	/** Set Invoice Payment Schedule.
+		@param C_InvoicePaySchedule_ID 
+		Invoice Payment Schedule
+	  */
+	public void setC_InvoicePaySchedule_ID (int C_InvoicePaySchedule_ID)
+	{
+		if (C_InvoicePaySchedule_ID < 1) 
+			set_Value (COLUMNNAME_C_InvoicePaySchedule_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_InvoicePaySchedule_ID, Integer.valueOf(C_InvoicePaySchedule_ID));
+	}
+
+	/** Get Invoice Payment Schedule.
+		@return Invoice Payment Schedule
+	  */
+	public int getC_InvoicePaySchedule_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_InvoicePaySchedule_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -482,6 +482,43 @@ public class X_T_Aging extends PO implements I_T_Aging, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Amount due.
+		@param DueAmt 
+		Amount of the payment due
+	  */
+	public void setDueAmt (BigDecimal DueAmt)
+	{
+		set_Value (COLUMNNAME_DueAmt, DueAmt);
+	}
+
+	/** Get Amount due.
+		@return Amount of the payment due
+	  */
+	public BigDecimal getDueAmt () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_DueAmt);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Due Date.
+		@param DueDate 
+		Date when the payment is due
+	  */
+	public void setDueDate (Timestamp DueDate)
+	{
+		set_Value (COLUMNNAME_DueDate, DueDate);
+	}
+
+	/** Get Due Date.
+		@return Date when the payment is due
+	  */
+	public Timestamp getDueDate () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_DueDate);
+	}
+
 	/** Set Due Today.
 		@param Due0 Due Today	  */
 	public void setDue0 (BigDecimal Due0)
@@ -550,23 +587,6 @@ public class X_T_Aging extends PO implements I_T_Aging, I_Persistent
 		return bd;
 	}
 
-	/** Set Due 31-60.
-		@param Due31_60 Due 31-60	  */
-	public void setDue31_60 (BigDecimal Due31_60)
-	{
-		set_Value (COLUMNNAME_Due31_60, Due31_60);
-	}
-
-	/** Get Due 31-60.
-		@return Due 31-60	  */
-	public BigDecimal getDue31_60 () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Due31_60);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
 	/** Set Due > 31.
 		@param Due31_Plus Due > 31	  */
 	public void setDue31_Plus (BigDecimal Due31_Plus)
@@ -584,18 +604,18 @@ public class X_T_Aging extends PO implements I_T_Aging, I_Persistent
 		return bd;
 	}
 
-	/** Set Due 61-90.
-		@param Due61_90 Due 61-90	  */
-	public void setDue61_90 (BigDecimal Due61_90)
+	/** Set Due 31-60.
+		@param Due31_60 Due 31-60	  */
+	public void setDue31_60 (BigDecimal Due31_60)
 	{
-		set_Value (COLUMNNAME_Due61_90, Due61_90);
+		set_Value (COLUMNNAME_Due31_60, Due31_60);
 	}
 
-	/** Get Due 61-90.
-		@return Due 61-90	  */
-	public BigDecimal getDue61_90 () 
+	/** Get Due 31-60.
+		@return Due 31-60	  */
+	public BigDecimal getDue31_60 () 
 	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Due61_90);
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Due31_60);
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
@@ -613,6 +633,23 @@ public class X_T_Aging extends PO implements I_T_Aging, I_Persistent
 	public BigDecimal getDue61_Plus () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Due61_Plus);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Due 61-90.
+		@param Due61_90 Due 61-90	  */
+	public void setDue61_90 (BigDecimal Due61_90)
+	{
+		set_Value (COLUMNNAME_Due61_90, Due61_90);
+	}
+
+	/** Get Due 61-90.
+		@return Due 61-90	  */
+	public BigDecimal getDue61_90 () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Due61_90);
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
@@ -650,43 +687,6 @@ public class X_T_Aging extends PO implements I_T_Aging, I_Persistent
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
-	}
-
-	/** Set Amount due.
-		@param DueAmt 
-		Amount of the payment due
-	  */
-	public void setDueAmt (BigDecimal DueAmt)
-	{
-		set_Value (COLUMNNAME_DueAmt, DueAmt);
-	}
-
-	/** Get Amount due.
-		@return Amount of the payment due
-	  */
-	public BigDecimal getDueAmt () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_DueAmt);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
-	/** Set Due Date.
-		@param DueDate 
-		Date when the payment is due
-	  */
-	public void setDueDate (Timestamp DueDate)
-	{
-		set_Value (COLUMNNAME_DueDate, DueDate);
-	}
-
-	/** Get Due Date.
-		@return Date when the payment is due
-	  */
-	public Timestamp getDueDate () 
-	{
-		return (Timestamp)get_Value(COLUMNNAME_DueDate);
 	}
 
 	/** Set Invoiced Amount.
@@ -777,6 +777,23 @@ public class X_T_Aging extends PO implements I_T_Aging, I_Persistent
 		return bd;
 	}
 
+	/** Set Past Due.
+		@param PastDueAmt Past Due	  */
+	public void setPastDueAmt (BigDecimal PastDueAmt)
+	{
+		set_Value (COLUMNNAME_PastDueAmt, PastDueAmt);
+	}
+
+	/** Get Past Due.
+		@return Past Due	  */
+	public BigDecimal getPastDueAmt () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_PastDueAmt);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
 	/** Set Past Due 1-30.
 		@param PastDue1_30 Past Due 1-30	  */
 	public void setPastDue1_30 (BigDecimal PastDue1_30)
@@ -811,23 +828,6 @@ public class X_T_Aging extends PO implements I_T_Aging, I_Persistent
 		return bd;
 	}
 
-	/** Set Past Due 31-60.
-		@param PastDue31_60 Past Due 31-60	  */
-	public void setPastDue31_60 (BigDecimal PastDue31_60)
-	{
-		set_Value (COLUMNNAME_PastDue31_60, PastDue31_60);
-	}
-
-	/** Get Past Due 31-60.
-		@return Past Due 31-60	  */
-	public BigDecimal getPastDue31_60 () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_PastDue31_60);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
 	/** Set Past Due > 31.
 		@param PastDue31_Plus Past Due > 31	  */
 	public void setPastDue31_Plus (BigDecimal PastDue31_Plus)
@@ -845,18 +845,18 @@ public class X_T_Aging extends PO implements I_T_Aging, I_Persistent
 		return bd;
 	}
 
-	/** Set Past Due 61-90.
-		@param PastDue61_90 Past Due 61-90	  */
-	public void setPastDue61_90 (BigDecimal PastDue61_90)
+	/** Set Past Due 31-60.
+		@param PastDue31_60 Past Due 31-60	  */
+	public void setPastDue31_60 (BigDecimal PastDue31_60)
 	{
-		set_Value (COLUMNNAME_PastDue61_90, PastDue61_90);
+		set_Value (COLUMNNAME_PastDue31_60, PastDue31_60);
 	}
 
-	/** Get Past Due 61-90.
-		@return Past Due 61-90	  */
-	public BigDecimal getPastDue61_90 () 
+	/** Get Past Due 31-60.
+		@return Past Due 31-60	  */
+	public BigDecimal getPastDue31_60 () 
 	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_PastDue61_90);
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_PastDue31_60);
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
@@ -874,6 +874,23 @@ public class X_T_Aging extends PO implements I_T_Aging, I_Persistent
 	public BigDecimal getPastDue61_Plus () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_PastDue61_Plus);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Past Due 61-90.
+		@param PastDue61_90 Past Due 61-90	  */
+	public void setPastDue61_90 (BigDecimal PastDue61_90)
+	{
+		set_Value (COLUMNNAME_PastDue61_90, PastDue61_90);
+	}
+
+	/** Get Past Due 61-90.
+		@return Past Due 61-90	  */
+	public BigDecimal getPastDue61_90 () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_PastDue61_90);
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
@@ -908,23 +925,6 @@ public class X_T_Aging extends PO implements I_T_Aging, I_Persistent
 	public BigDecimal getPastDue91_Plus () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_PastDue91_Plus);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
-	/** Set Past Due.
-		@param PastDueAmt Past Due	  */
-	public void setPastDueAmt (BigDecimal PastDueAmt)
-	{
-		set_Value (COLUMNNAME_PastDueAmt, PastDueAmt);
-	}
-
-	/** Get Past Due.
-		@return Past Due	  */
-	public BigDecimal getPastDueAmt () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_PastDueAmt);
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;

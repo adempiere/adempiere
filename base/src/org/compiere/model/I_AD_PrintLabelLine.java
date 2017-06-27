@@ -92,19 +92,6 @@ public interface I_AD_PrintLabelLine
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name AD_PrintLabelLine_ID */
-    public static final String COLUMNNAME_AD_PrintLabelLine_ID = "AD_PrintLabelLine_ID";
-
-	/** Set Print Label Line.
-	  * Print Label Line Format
-	  */
-	public void setAD_PrintLabelLine_ID (int AD_PrintLabelLine_ID);
-
-	/** Get Print Label Line.
-	  * Print Label Line Format
-	  */
-	public int getAD_PrintLabelLine_ID();
-
     /** Column name AD_PrintLabel_ID */
     public static final String COLUMNNAME_AD_PrintLabel_ID = "AD_PrintLabel_ID";
 
@@ -119,6 +106,19 @@ public interface I_AD_PrintLabelLine
 	public int getAD_PrintLabel_ID();
 
 	public org.compiere.model.I_AD_PrintLabel getAD_PrintLabel() throws RuntimeException;
+
+    /** Column name AD_PrintLabelLine_ID */
+    public static final String COLUMNNAME_AD_PrintLabelLine_ID = "AD_PrintLabelLine_ID";
+
+	/** Set Print Label Line.
+	  * Print Label Line Format
+	  */
+	public void setAD_PrintLabelLine_ID (int AD_PrintLabelLine_ID);
+
+	/** Get Print Label Line.
+	  * Print Label Line Format
+	  */
+	public int getAD_PrintLabelLine_ID();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

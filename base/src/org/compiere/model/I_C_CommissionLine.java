@@ -322,12 +322,12 @@ public interface I_C_CommissionLine
     public static final String COLUMNNAME_IsPercentage = "IsPercentage";
 
 	/** Set Is Percentage.
-	  * Indicate that Quantity is Expressed on Percentage (%)
+	  * Indicates that Quantity is expressed as Percentage (%)
 	  */
 	public void setIsPercentage (boolean IsPercentage);
 
 	/** Get Is Percentage.
-	  * Indicate that Quantity is Expressed on Percentage (%)
+	  * Indicates that Quantity is expressed as Percentage (%)
 	  */
 	public boolean isPercentage();
 

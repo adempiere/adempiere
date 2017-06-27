@@ -137,15 +137,6 @@ public interface I_M_QualityTestResult
 
 	public I_M_AttributeSetInstance getM_AttributeSetInstance() throws RuntimeException;
 
-    /** Column name M_QualityTestResult_ID */
-    public static final String COLUMNNAME_M_QualityTestResult_ID = "M_QualityTestResult_ID";
-
-	/** Set Quality Test Result	  */
-	public void setM_QualityTestResult_ID (int M_QualityTestResult_ID);
-
-	/** Get Quality Test Result	  */
-	public int getM_QualityTestResult_ID();
-
     /** Column name M_QualityTest_ID */
     public static final String COLUMNNAME_M_QualityTest_ID = "M_QualityTest_ID";
 
@@ -156,6 +147,15 @@ public interface I_M_QualityTestResult
 	public int getM_QualityTest_ID();
 
 	public org.compiere.model.I_M_QualityTest getM_QualityTest() throws RuntimeException;
+
+    /** Column name M_QualityTestResult_ID */
+    public static final String COLUMNNAME_M_QualityTestResult_ID = "M_QualityTestResult_ID";
+
+	/** Set Quality Test Result	  */
+	public void setM_QualityTestResult_ID (int M_QualityTestResult_ID);
+
+	/** Get Quality Test Result	  */
+	public int getM_QualityTestResult_ID();
 
     /** Column name Processed */
     public static final String COLUMNNAME_Processed = "Processed";

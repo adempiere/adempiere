@@ -73,17 +73,6 @@ public interface I_M_ReplenishPlan
 
 	public org.compiere.model.I_C_DocType getC_DocType_ConfirmedOr() throws RuntimeException;
 
-    /** Column name C_DocType_PO */
-    public static final String COLUMNNAME_C_DocType_PO = "C_DocType_PO";
-
-	/** Set Purchase Order Doc Type	  */
-	public void setC_DocType_PO (int C_DocType_PO);
-
-	/** Get Purchase Order Doc Type	  */
-	public int getC_DocType_PO();
-
-	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException;
-
     /** Column name C_DocType_PlannedOrder */
     public static final String COLUMNNAME_C_DocType_PlannedOrder = "C_DocType_PlannedOrder";
 
@@ -94,6 +83,17 @@ public interface I_M_ReplenishPlan
 	public int getC_DocType_PlannedOrder();
 
 	public org.compiere.model.I_C_DocType getC_DocType_PlannedOr() throws RuntimeException;
+
+    /** Column name C_DocType_PO */
+    public static final String COLUMNNAME_C_DocType_PO = "C_DocType_PO";
+
+	/** Set Purchase Order Doc Type	  */
+	public void setC_DocType_PO (int C_DocType_PO);
+
+	/** Get Purchase Order Doc Type	  */
+	public int getC_DocType_PO();
+
+	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException;
 
     /** Column name C_DocType_Requisition */
     public static final String COLUMNNAME_C_DocType_Requisition = "C_DocType_Requisition";
