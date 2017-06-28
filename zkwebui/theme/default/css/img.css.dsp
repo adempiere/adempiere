@@ -503,14 +503,31 @@ tr.z-row .z-detail-outer {
 	height:20px;
 }
 
-.z-combobox-pp .z-combo-item-seld{
-	background-image : url(../images/zul/common/focusd.png);
+.z-combobox-pp .z-combo-item-over .z-combo-item-inner {
+	color: #FFF !important;
 }
-.z-combobox-pp .z-combo-item-over-seld{
-	background-image : url(../images/zul/common/focusd.png);
+.z-combobox-pp .z-combo-item-over-seld .z-combo-item-text {
+	color: #FFF !important;
+}
+.z-combobox-pp .z-combo-item-over .z-combo-item-text {
+	color: #FFF !important;
+}
+.z-combobox-pp .z-combo-item-seld .z-combo-item-text {
+	color: #FFF !important;
+}
+
+.z-combobox-pp .z-combo-item-seld {
+/*	background-image : url(../images/zul/common/focusd.png); */
+	background: #1F9BDE;
+}
+
+ .z-combobox-pp .z-combo-item-over-seld{
+/*	background-image : url(../images/zul/common/focusd.png);*/
+	background: #1F9BDE;
 }
 .z-combobox-pp .z-combo-item-over{
-	background-image : url(../images/zul/common/focusd.png);
+/*	background-image : url(../images/zul/common/focusd.png);*/
+	background: #1F9BDE;
 }
 
 
