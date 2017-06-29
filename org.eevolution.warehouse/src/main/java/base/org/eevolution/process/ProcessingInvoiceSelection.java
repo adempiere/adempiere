@@ -59,15 +59,13 @@ public class ProcessingInvoiceSelection extends ProcessingInvoiceSelectionAbstra
     private void UpdatingInvoiceProperties(List<MInvoice> invoices) {
         invoices.stream().filter(invoice -> invoice != null)
                 .forEach(invoice -> {
-                    Optional.ofNullable(getSelectionAsInt(invoice.get_ID(), getPrefixAliasForTableSelection() + MInvoice.COLUMNNAME_C_DunningLevel_ID))
-                            .ifPresent(dunningLevelId -> invoice.setC_DunningLevel_ID(dunningLevelId));
-                    Optional.ofNullable(getSelectionAsTimestamp(invoice.get_ID(), getPrefixAliasForTableSelection() + MInvoice.COLUMNNAME_DunningGrace))
-                            .ifPresent(dunningGrace -> invoice.setDunningGrace(dunningGrace));
-                    if (!invoice.isSOTrx())
-                        Optional.ofNullable(getSelectionAsBoolean(invoice.get_ID(), getPrefixAliasForTableSelection() + MInvoice.COLUMNNAME_IsInDispute))
-                                .ifPresent(inDispute -> invoice.setIsInDispute(inDispute));
-                    if (invoice.is_Changed())
-                        invoice.saveEx();
+                    int columns = invoice.get_ColumnCount();
+                    for (int index = 0; index < columns; index++) {
+                        String columnName = invoice.get_ColumnName(index);
+                        Optional.ofNullable(getSelection(invoice.get_ID(), getPrefixAliasForTableSelection() + columnName))
+                                .ifPresent(value -> invoice.set_ValueOfColumn(columnName, value));
+                    }
+                    invoice.saveEx();
                 });
 
 
