@@ -503,14 +503,31 @@ tr.z-row .z-detail-outer {
 	height:20px;
 }
 
-.z-combobox-pp .z-combo-item-seld{
-	background-image : url(../images/zul/common/focusd.png);
+.z-combobox-pp .z-combo-item-over .z-combo-item-inner {
+	color: #FFF !important;
 }
-.z-combobox-pp .z-combo-item-over-seld{
-	background-image : url(../images/zul/common/focusd.png);
+.z-combobox-pp .z-combo-item-over-seld .z-combo-item-text {
+	color: #FFF !important;
+}
+.z-combobox-pp .z-combo-item-over .z-combo-item-text {
+	color: #FFF !important;
+}
+.z-combobox-pp .z-combo-item-seld .z-combo-item-text {
+	color: #FFF !important;
+}
+
+.z-combobox-pp .z-combo-item-seld {
+/*	background-image : url(../images/zul/common/focusd.png); */
+	background: #1F9BDE;
+}
+
+ .z-combobox-pp .z-combo-item-over-seld{
+/*	background-image : url(../images/zul/common/focusd.png);*/
+	background: #1F9BDE;
 }
 .z-combobox-pp .z-combo-item-over{
-	background-image : url(../images/zul/common/focusd.png);
+/*	background-image : url(../images/zul/common/focusd.png);*/
+	background: #1F9BDE;
 }
 
 
@@ -1041,7 +1058,11 @@ span.z-vfiletree-tee, span.z-vfiletree-last {
 
 
 <%-- window.css.dsp - 22 --%>
+.z-window-overlapped-header {
+	color: #FFF !important;
+	font-weight: bold !important;
 
+}
 .z-window-modal,
 .z-window-highlighted,
 .z-window-overlapped,
@@ -1063,7 +1084,8 @@ span.z-vfiletree-tee, span.z-vfiletree-last {
 .z-window-overlapped-tl,
 .z-window-popup-tl
 {
-	background-image: url(../images/zul/wnd/wnd-ol-corner.png);
+/*  background-image: url(../images/zul/wnd/wnd-ol-corner.png);*/
+	background: #1F9BDE;
 }
 
 
@@ -1072,7 +1094,8 @@ span.z-vfiletree-tee, span.z-vfiletree-last {
 .z-window-highlighted-tr,
 .z-window-overlapped-tr,
 .z-window-popup-tr {
-	background-image: url(../images/zul/wnd/wnd-ol-corner.png);
+/*	background-image: url(../images/zul/wnd/wnd-ol-corner.png);*/
+ 	background: #1F9BDE;
 }
 
 
@@ -1081,7 +1104,8 @@ span.z-vfiletree-tee, span.z-vfiletree-last {
 .z-window-highlighted-hl,
 .z-window-overlapped-hl,
 .z-window-popup-hl {
-	background-image: url(../images/zul/wnd/wnd-ol-hl.png);
+/*	background-image: url(../images/zul/wnd/wnd-ol-hl.png);*/
+	background: #1F9BDE;
 }
 
 
@@ -1090,36 +1114,44 @@ span.z-vfiletree-tee, span.z-vfiletree-last {
 .z-window-highlighted-hr,
 .z-window-overlapped-hr,
  .z-window-popup-hr {
-	background-image: url(../images/zul/wnd/wnd-ol-hr.png);
+/*	background-image: url(../images/zul/wnd/wnd-ol-hr.png);*/
+ 	background: #1F9BDE;
 }
 .z-window-embedded-hr, .z-window-embedded-hr-noborder {
-	background-image: url(../images/zul/wnd/wnd-hr.png);
+/*	background-image: url(../images/zul/wnd/wnd-hr.png);*/
+	 background: #1F9BDE;
 }
 .z-window-popup-hr {
-	background-image: url(../images/zul/wnd/wnd-pop-hr.png);
+/*	background-image: url(../images/zul/wnd/wnd-pop-hr.png);*/
+	 background: #1F9BDE;
 }
 .z-window-embedded-hm,
 .z-window-modal-hm,
 .z-window-highlighted-hm,
 .z-window-overlapped-hm,
 .z-window-popup-hm {
-	background-image: url(../images/zul/wnd/wnd-ol-hm.png);
+	/*background-image: url(../images/zul/wnd/wnd-ol-hm.png);*/
+	 background: #1F9BDE;
 }
 .z-window-embedded-hm {
-	background-image: url(../images/zul/wnd/wnd-hm.png);
+/*	background-image: url(../images/zul/wnd/wnd-hm.png);*/
+	 background: #1F9BDE;
 }
 .z-window-popup-hm {
-	background-image: url(../images/zul/wnd/wnd-pop-hm.png);
+/*	background-image: url(../images/zul/wnd/wnd-pop-hm.png);*/
+	 background: #1F9BDE;
 }
 .z-window-modal-cl,
 .z-window-highlighted-cl,
 .z-window-overlapped-cl {
-	background-image: url(../images/zul/wnd/wnd-ol-clr.png);
+/*	background-image: url(../images/zul/wnd/wnd-ol-clr.png);*/
+	 background: #1F9BDE;
 }
 .z-window-modal-cr,
 .z-window-highlighted-cr,
 .z-window-overlapped-cr {
-	background-image: url(../images/zul/wnd/wnd-ol-clr.png);
+/*	background-image: url(../images/zul/wnd/wnd-ol-clr.png);*/
+	 background: #1F9BDE;
 }
 
 
@@ -1130,7 +1162,8 @@ span.z-vfiletree-tee, span.z-vfiletree-last {
 .z-window-overlapped-bl,
 .z-window-popup-bl
 {
-	background-image: url(../images/zul/wnd/wnd-ol-corner.png);
+/*	background-image: url(../images/zul/wnd/wnd-ol-corner.png);*/
+	 background: #1F9BDE;
 }
 
 .z-window-embedded-br,
@@ -1139,7 +1172,8 @@ span.z-vfiletree-tee, span.z-vfiletree-last {
 .z-window-overlapped-br,
 .z-window-popup-br
 {
-	background-image: url(../images/zul/wnd/wnd-ol-corner.png);
+/*	background-image: url(../images/zul/wnd/wnd-ol-corner.png);*/
+	 background: #1F9BDE;
 }
 
 

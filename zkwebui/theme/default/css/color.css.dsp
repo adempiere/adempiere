@@ -123,6 +123,11 @@
   font-style: italic;
 }
 
+.z-column:not(.z-column-over) {
+  background-color: #EBEBEB !important;
+}
+
+
 <%-- OpenUp Ltda. Fin --%>
 
 
