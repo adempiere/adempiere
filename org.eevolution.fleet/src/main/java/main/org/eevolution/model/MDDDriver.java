@@ -63,7 +63,7 @@ public class MDDDriver extends X_DD_Driver {
      */
     public List<MDDLicenseAssignment> getLicenseAssignments()
     {
-        return MDDLicenseAssignment.getLicenseAssignment(this);
+        return MDDLicenseAssignment.getByDriver(this);
     }
 
 }
