@@ -54,7 +54,7 @@ public class MDDDriver extends X_DD_Driver {
      */
     public List<MDDRequirementAssignment> getRequirementAssignments()
     {
-        return MDDRequirementAssignment.getRequirementAssignment(this);
+        return MDDRequirementAssignment.getByDriver(this);
     }
 
     /**
