@@ -64,6 +64,7 @@ import org.apache.ecs.xhtml.th;
 import org.apache.ecs.xhtml.tr;
 import org.compiere.model.MClient;
 import org.compiere.model.MDunningRunEntry;
+import org.compiere.model.MFactAcct;
 import org.compiere.model.MInOut;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MMovement;
@@ -721,19 +722,34 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 									if (cssPrefix != null)
 										href.setClass(cssPrefix + "-href");
 									
-									if (item.getColumnName().equals("Record_ID")
-											&& (m_printData.getTableName().endsWith("Fact_Acct") || m_printData.getTableName().endsWith("TrialBalance")))
+//									if (item.getColumnName().equals("Record_ID")
+//									&& (m_printData.getTableName().endsWith("Fact_Acct") || m_printData.getTableName().endsWith("TrialBalance")))
+									if (item.getColumnName().equals(MFactAcct.COLUMNNAME_Record_ID) || item.getColumnName().equals(MFactAcct.COLUMNNAME_Line_ID) )
 									{
-										String columnName = "Record_ID";
+										String columnName = item.getColumnName();
 										String columnValue = pde.getValueAsString();
 										boolean isZoom = false;
 
 										Object objPDE = m_printData.getNode("AD_Table_ID");
-										if (objPDE != null && objPDE instanceof PrintDataElement)
+										if (objPDE != null)
 										{
-											PrintDataElement pdElement = (PrintDataElement) objPDE;
-											MTable mTable = new MTable(getCtx(), Integer.parseInt(pdElement.getValueAsString()), null);
-											columnName = mTable.getTableName().trim() + "_ID";
+											MTable mTable = null;
+											int AD_Table_ID = 0;
+											if (objPDE instanceof PrintDataElement) {												
+												PrintDataElement pdElement = (PrintDataElement) objPDE;
+												//MTable mTable = new MTable(getCtx(), Integer.parseInt(pdElement.getValueAsString()), null);
+												AD_Table_ID =Integer.parseInt(pdElement.getValueAsString());
+											} else {
+												AD_Table_ID =Integer.parseInt(objPDE.toString());
+											}
+											mTable = MTable.get(getCtx(), AD_Table_ID);
+											if (item.getColumnName().equals(MFactAcct.COLUMNNAME_Record_ID)) {
+												columnName = mTable.getTableName().trim() + "_ID";
+											} else {
+												//line_id
+												String sql = "SELECT DISTINCT(columnname) FROM ad_column where columnname ilike '" + mTable.getTableName().trim() + "%Line_ID'";   
+												columnName =  DB.getSQLValueString(null, sql);
+											}
 											isZoom = true;
 										}
 										else
@@ -781,6 +797,10 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 							{
 								//	ignore contained Data
 							}
+							else if (obj instanceof String)
+							{
+								// ignore contained Data
+							}							
 							else
 								log.log(Level.SEVERE, "Element not PrintData(Element) " + obj.getClass());
 						}

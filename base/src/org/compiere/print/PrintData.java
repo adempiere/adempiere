@@ -129,6 +129,9 @@ public class PrintData implements Serializable
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(PrintData.class);
 	
+	//TableID is added to complete Record_ID and/or Line_ID
+	private boolean hasDummyTableID = false;
+
 	/**
 	 * 	Get Context
 	 * 	@return context
@@ -185,6 +188,22 @@ public class PrintData implements Serializable
 		return m_sql;
 	}	//	getSQL
 
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isHasDummyTableID() {
+		return hasDummyTableID;
+	}
+
+	/**
+	 * manually set that AD_Table_ID column is added for reference without printing
+	 * @param hasDummyTableID
+	 */
+	public void setHasDummyTableID(boolean hasDummyTableID) {
+		this.hasDummyTableID = hasDummyTableID;
+	}
+	
 	/**
 	 * 	Set TableName (optional)
 	 * 	@param TableName TableName
@@ -417,6 +436,21 @@ public class PrintData implements Serializable
 		nodes.add (node);
 	}	//	addNode
 
+	public void addNode(String s)
+	{
+		if (s == null) {
+			//throw new IllegalArgumentException("String Node cannot be null");
+			return;
+		}
+		
+		List<Serializable> nodes = m_matrix.getRowData();
+		if (nodes == null) {
+			nodes = new ArrayList<Serializable>();
+			addRow(false, 0, nodes);
+		}
+		nodes.add (s);
+	}
+
 	/**
 	 * 	Get Node with index in row
 	 * 	@param index index
@@ -503,6 +537,10 @@ public class PrintData implements Serializable
 				if (columnName.equals(((PrintData)o).getName()))
 					return i;
 			}
+			else if (o instanceof String)
+			{
+				return i;
+			}			
 			else
 				log.log(Level.SEVERE, "Element not PrintData(Element) " + o.getClass().getName());
 		}

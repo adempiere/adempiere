@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.compiere.model.MFactAcct;
 import org.compiere.model.MLookupFactory;
 import org.compiere.model.MQuery;
 import org.compiere.model.MRole;
@@ -256,6 +257,10 @@ public class DataEngine
 		StringBuffer sqlSELECT = new StringBuffer("SELECT ");
 		StringBuffer sqlFROM = new StringBuffer(" FROM ").append(tableName);
 		ArrayList<String> groupByColumns = new ArrayList<String>();
+		
+		//Activate when Line_ID or Record_ID is present
+		boolean isTableIDRequired = false;
+		boolean isTableIDPresent = false;
 		//
 		boolean IsGroupedBy = false;
 		//
@@ -336,6 +341,15 @@ public class DataEngine
 					//	RunningTotalLines only once - use max
 					m_runningTotalLines = Math.max(m_runningTotalLines, rs.getInt(21));	
 
+				if (ColumnName.equalsIgnoreCase(MFactAcct.COLUMNNAME_Line_ID) 
+						|| ColumnName.equalsIgnoreCase(MFactAcct.COLUMNNAME_Record_ID)
+						) {
+					isTableIDRequired = true;
+				}
+				
+				if (ColumnName.equalsIgnoreCase(MFactAcct.COLUMNNAME_AD_Table_ID)) {
+					isTableIDPresent = true;
+				}				
 				//	General Info
 				boolean IsPrinted = "Y".equals(rs.getString(15));
 				int SortNo = rs.getInt(16);
@@ -661,6 +675,12 @@ order by 1,2
 				sqlSELECT.append("PA_ReportLine_ID,");
 		}
 
+		//Table ID PrintColumn is needed but not present, manually add a dummy column
+		if (isTableIDRequired && !isTableIDPresent) {
+			sqlSELECT.append(tableName).append(".").append(MFactAcct.COLUMNNAME_AD_Table_ID).append(",");
+		}
+		
+
 		/**
 		 *	Assemble final SQL - delete last SELECT ','
 		 */
@@ -749,7 +769,11 @@ order by 1,2
 		pd.setTableName(tableName);
 		pd.setSQL(finalSQL.toString());
 		pd.setHasLevelNo(hasLevelNo);
-
+		pd.setHasLevelNo(hasLevelNo);
+		if (isTableIDRequired && !isTableIDPresent) {
+			pd.setHasDummyTableID(true);
+		}
+		
 		log.finest (finalSQL.toString ());
 		log.finest ("Group=" + m_group);
 		return pd;
@@ -1085,7 +1109,10 @@ order by 1,2
 						m_group.addValue(pde.getColumnName(), pde.getFunctionValue());
 					}
 				}	//	for all columns
-
+				if (pd.isHasDummyTableID()) {
+					String tableID = rs.getString("AD_Table_ID");
+					pd.addNode(tableID);
+				}
 			}	//	for all rows
 		}
 		catch (SQLException e)
