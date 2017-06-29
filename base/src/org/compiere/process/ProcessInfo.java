@@ -1248,6 +1248,8 @@ public class ProcessInfo implements Serializable
 			return false;
 		if(retValue instanceof Boolean)
 			return (Boolean) retValue;
+		if(retValue instanceof String)
+			return "Y".equals(retValue);
 		//	Default
 		return false;
 	}
