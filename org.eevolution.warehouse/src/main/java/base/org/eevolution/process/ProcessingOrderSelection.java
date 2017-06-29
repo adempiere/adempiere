@@ -61,10 +61,13 @@ public class ProcessingOrderSelection extends ProcessingOrderSelectionAbstract
 	private void updatingOrderProperties(List<MOrder> orders) {
 		orders.stream().filter(order -> order != null)
 				.forEach(order -> {
-					Optional.ofNullable(getSelectionAsTimestamp(order.get_ID(), getPrefixAliasForTableSelection() + MOrder.COLUMNNAME_DatePromised))
-							.ifPresent(datePromised -> order.setDatePromised(datePromised));
-					if (order.is_Changed())
-						order.saveEx();
+					int columns = order.get_ColumnCount();
+					for (int index = 0; index < columns; index++) {
+						String columnName = order.get_ColumnName(index);
+						Optional.ofNullable(getSelection(order.get_ID(), getPrefixAliasForTableSelection() + columnName))
+								.ifPresent(value -> order.set_ValueOfColumn(columnName, value));
+					}
+					order.saveEx();
 				});
 
 
