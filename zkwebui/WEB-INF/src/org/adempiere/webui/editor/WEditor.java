@@ -652,7 +652,7 @@ public abstract class WEditor implements CEditor, EventListener, PropertyChangeL
 	private static final String STYLE_EMPTY_MANDATORY_LABEL = "color: red !important;";
 
 	private void markMandatory(boolean mandatory) {
-		getLabel().setStyle( (getLabel().isZoomable() ? STYLE_ZOOMABLE_LABEL : "") + (mandatory ? STYLE_EMPTY_MANDATORY_LABEL : STYLE_NORMAL_LABEL));
+		getLabel().setStyle( (isZoomable() ? STYLE_ZOOMABLE_LABEL : "") + (mandatory ? STYLE_EMPTY_MANDATORY_LABEL : STYLE_NORMAL_LABEL));
 	}
 
     /**
