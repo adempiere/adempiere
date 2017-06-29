@@ -1269,6 +1269,8 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
         		if (field.isError())
         		{
         			tabPanel.setFocusToField(field.getColumnName());
+        			tabPanel.updateMandatoryLabels();
+        			
         			break;
         		}
         	}
