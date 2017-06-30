@@ -1370,7 +1370,7 @@ public class CPOS {
                 .process(199)
                 .withParameter(MOrder.COLUMNNAME_M_Warehouse_ID, getM_Warehouse_ID())
                 .withParameter("Selection", true)
-                .withSelectedRecordsIds(selectionIds)
+                .withSelectedRecordsIds(MOrder.Table_ID , selectionIds)
                 .withoutTransactionClose()
                 .execute(trxName);
 
@@ -1402,7 +1402,7 @@ public class CPOS {
                        .process(134)
                        .withTitle(processInfo.getTitle())
                        .withParameter("Selection", true)
-                       .withSelectedRecordsIds(selectionIds)
+                       .withSelectedRecordsIds(MOrder.Table_ID , selectionIds)
                        .withParameter(MInvoice.COLUMNNAME_DocAction, MInvoice.DOCACTION_Complete)
                        .withoutTransactionClose()
                        .execute(trxName);
@@ -1459,7 +1459,7 @@ public class CPOS {
 				.withTitle(Msg.parseTranslation(getCtx(), "@InvGenerateGen@"))
 				.withParameter("Selection", true)
 				.withParameter(MInvoice.COLUMNNAME_DocAction, DocAction.ACTION_Complete)
-				.withSelectedRecordsIds(selectionIds)
+				.withSelectedRecordsIds(MOrder.Table_ID , selectionIds)
 				.withoutTransactionClose()
 				.execute(trxName);
 
