@@ -39,6 +39,7 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Secure;
 import org.compiere.util.SecureEngine;
+import org.compiere.util.Util;
 
 /**
  *  User Model
@@ -262,20 +263,6 @@ public class MUser extends X_AD_User
 	/** User Access Rights				*/
 	private X_AD_UserBPAccess[]	m_bpAccess = null;
 	private boolean hashed = false;
-	
-		
-	/**
-	 * 	Get Value - 7 bit lower case alpha numerics max length 8
-	 *	@return value
-	 */
-	public String getValue()
-	{
-		String s = super.getValue();
-		if (s != null)
-			return s;
-		setValue(null);
-		return super.getValue();
-	}	//	getValue
 
 	/**
 	 * 	Set Value - 7 bit lower case alpha numerics max length 8
@@ -284,19 +271,26 @@ public class MUser extends X_AD_User
 	@Override
 	public void setValue(String value)
 	{
-		if (value == null || value.trim().length () == 0)
+		if (Util.isEmpty(value)
+				 && isLoginUser()) {
+			if(isWebstoreUser()) {
+				value = getEMail();
+			}
+			//	Get from Name
+			if(Util.isEmpty(value)
+					&& getName() != null) {
+				value = getName();
+			}	
+		}
+		//	For LDAP User
+		if (Util.isEmpty(value)) {
 			value = getLDAPUser();
-		if ((value == null || value.length () == 0)
-				&& isWebstoreUser())
-			value = getEMail();
-		if((value == null || value.length () == 0)
-				&& getName() != null)
-			value = getName();
-		if (value == null || value.length () == 0)
-			value = "noname";
-		//	
-		value = value.replaceAll(" ", "")
-				.replaceAll("[+^:&áàäéèëíìïóòöúùñÁÀÄÉÈËÍÌÏÓÒÖÚÙÜÑçÇ$#*/]","");
+		}
+		//	Replace bad character
+		if(!Util.isEmpty(value)) {
+			value = value.replaceAll(" ", "")
+					.replaceAll("[+^:&áàäéèëíìïóòöúùñÁÀÄÉÈËÍÌÏÓÒÖÚÙÜÑçÇ$#*/]","");
+		}
 		super.setValue(value);
 	}	//	setValue
 	
@@ -817,8 +811,7 @@ public class MUser extends X_AD_User
 			setValue(super.getValue());
 		if ((newRecord || is_ValueChanged("Password")) && !hashed)
 			setPassword(super.getPassword());                 // needed for updating in User window
-		if((super.getValue() == null
-				|| super.getValue().trim().length() == 0)
+		if(Util.isEmpty(super.getValue())
 				&& isLoginUser())
 			throw new AdempiereException("@Value@ @IsMandatory@");
 		hashed = false;
