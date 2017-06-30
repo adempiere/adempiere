@@ -127,6 +127,14 @@
   background-color: #EBEBEB !important;
 }
 
+.adwindow-nav-content {
+  background-color: #D7D7D7;
+}
+
+.z-list-item-seld *, .z-list-item-over * {
+  color: #FFFFFF !important;
+}
+
 
 <%-- OpenUp Ltda. Fin --%>
 
