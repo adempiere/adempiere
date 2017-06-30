@@ -71,9 +71,9 @@
     <target name="zkcompile" depends="dist"
             description="compile the source " >
         <!-- Compile the zk java code from ${src} into ${zkclasses} -->
-        <javac encoding="UTF-8" debug="true" srcdir="${zksrc}" destdir="${zkclasses}">
+        <!-- javac encoding="UTF-8" debug="true" srcdir="${zksrc}" destdir="${zkclasses}">
             <classpath refid="compile.classpath"/>
-        </javac>
+        </javac-->
     </target>
 
     <target name="zkdist" depends="zkcompile"
