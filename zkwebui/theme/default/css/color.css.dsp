@@ -127,6 +127,10 @@
   background-color: #EBEBEB !important;
 }
 
+.adwindow-nav-content {
+  background-color: #D7D7D7;
+}
+
 
 <%-- OpenUp Ltda. Fin --%>
 
