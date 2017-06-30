@@ -28,6 +28,7 @@ import org.compiere.util.Ini;
 import org.compiere.util.Msg;
 import org.eevolution.form.IPrintDocument;
 import org.eevolution.model.MDDOrder;
+import org.eevolution.model.MDDOrderLine;
 import org.eevolution.service.dsl.ProcessBuilder;
 
 import java.lang.reflect.Constructor;
@@ -58,7 +59,7 @@ public class GenerateMovement extends GenerateMovementAbstract {
         ProcessInfo processInfo = ProcessBuilder.create(getCtx()).process(MovementGenerate.getProcessId())
                 .withTitle(GenerateMovement.getProcessName())
                 .withRecordId(MDDOrder.Table_ID, 0)
-                .withSelectedRecordsIds(getSelectionKeys())
+                .withSelectedRecordsIds(MDDOrderLine.Table_ID , getSelectionKeys())
                 .withParameter(MMovement.COLUMNNAME_MovementDate , getMovementDate())
                 .withParameter(MMovement.COLUMNNAME_DocAction, DocAction.ACTION_Complete)
                 .execute();

@@ -986,7 +986,7 @@ public class MDDOrder extends X_DD_Order implements DocAction
 		ProcessInfo processInfo = ProcessBuilder.create(getCtx()).process(GenerateMovement.getProcessId())
 				.withTitle(GenerateMovement.getProcessName())
 				.withRecordId(MDDOrder.Table_ID, 0)
-				.withSelectedRecordsIds(recordIds)
+				.withSelectedRecordsIds(MDDOrderLine.Table_ID , recordIds)
 				.withParameter(MMovement.COLUMNNAME_MovementDate , today)
 				.withParameter(MMovement.COLUMNNAME_DocAction, DocAction.ACTION_Complete)
 				.withoutTransactionClose()
@@ -1008,7 +1008,7 @@ public class MDDOrder extends X_DD_Order implements DocAction
 		processInfo = ProcessBuilder.create(getCtx()).process(GenerateMovementMaterial.getProcessId())
 				.withTitle(GenerateMovementMaterial.getProcessName())
 				.withRecordId(MDDOrderLine.Table_ID, 0)
-				.withSelectedRecordsIds(orderLinesIds , selection)
+				.withSelectedRecordsIds(MDDOrderLine.Table_ID , orderLinesIds , selection)
 				.withParameter(MMovement.COLUMNNAME_MovementDate , today)
 				.withoutTransactionClose()
 				.execute(get_TrxName());

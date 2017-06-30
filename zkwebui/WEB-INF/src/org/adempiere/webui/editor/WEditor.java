@@ -220,7 +220,6 @@ public abstract class WEditor implements CEditor, EventListener, PropertyChangeL
         label.setTooltiptext(description);
 
         this.setMandatory (mandatory);
-
         if (readOnly || !updateable)
         {
             this.setReadWrite(false);
@@ -648,12 +647,12 @@ public abstract class WEditor implements CEditor, EventListener, PropertyChangeL
 		}
 	}
 
-    private static final String STYLE_ZOOMABLE_LABEL = "cursor: pointer; text-decoration: underline;";
+    private static final String STYLE_ZOOMABLE_LABEL = "cursor: pointer; text-decoration: underline !important;";
 	private static final String STYLE_NORMAL_LABEL = "color:black;";
-	private static final String STYLE_EMPTY_MANDATORY_LABEL = "color: red;";
+	private static final String STYLE_EMPTY_MANDATORY_LABEL = "color: red !important;";
 
 	private void markMandatory(boolean mandatory) {
-		getLabel().setStyle( (getLabel().isZoomable() ? STYLE_ZOOMABLE_LABEL : "") + (mandatory ? STYLE_EMPTY_MANDATORY_LABEL : STYLE_NORMAL_LABEL));
+		getLabel().setStyle( (isZoomable() ? STYLE_ZOOMABLE_LABEL : "") + (mandatory ? STYLE_EMPTY_MANDATORY_LABEL : STYLE_NORMAL_LABEL));
 	}
 
     /**
@@ -689,6 +688,10 @@ public abstract class WEditor implements CEditor, EventListener, PropertyChangeL
                 return false;
     }
 
+    public void setMandatoryStyle() {
+    	getLabel().setStyle(getLabel().getStyle()+STYLE_EMPTY_MANDATORY_LABEL);
+    	getLabel().invalidate();
+    }
     
 	public void updateLabelStyle()
 	{

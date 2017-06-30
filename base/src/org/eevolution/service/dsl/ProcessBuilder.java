@@ -65,6 +65,7 @@ public class ProcessBuilder {
     private MProcess process;
     private ASyncProcess parent;
     private List<Integer> selectedRecordsIds;
+    private int tableSelectionId;
     private boolean isBatch = false;
     private boolean isPrintPreview = false;
 
@@ -85,6 +86,7 @@ public class ProcessBuilder {
         this.tableId = 0;
         this.parent = null;
         this.selectedRecordsIds = new ArrayList<>();
+        this.tableSelectionId = 0;
     }
 
     /**
@@ -184,6 +186,7 @@ public class ProcessBuilder {
         //	FR [ 352 ]
         if (isSelection) {
             processInfo.setSelectionKeys(selectedRecordsIds);
+            processInfo.setTableSelectionId(tableSelectionId);
             if (selection != null && selection.size() > 0) {
                 processInfo.setSelectionValues(selection);
                 //TODO : Need Remove duplicate functionality ProcessCtl , WProcessCtl , ServerProcessCtl
@@ -332,9 +335,10 @@ public class ProcessBuilder {
      * @param selectedRecordsIds
      * @return
      */
-    public ProcessBuilder withSelectedRecordsIds(List<Integer> selectedRecordsIds)
+    public ProcessBuilder withSelectedRecordsIds(int tableSelectionId , List<Integer> selectedRecordsIds)
     {
         this.selectedRecordsIds = selectedRecordsIds;
+        this.tableSelectionId = tableSelectionId;
         return this;
     }
 
@@ -344,10 +348,11 @@ public class ProcessBuilder {
      * @param selection
      * @return
      */
-    public ProcessBuilder withSelectedRecordsIds(List<Integer> selectedRecordsIds, LinkedHashMap<Integer, LinkedHashMap<String, Object>> selection)
+    public ProcessBuilder withSelectedRecordsIds(int tableSelectionId , List<Integer> selectedRecordsIds, LinkedHashMap<Integer, LinkedHashMap<String, Object>> selection)
     {
         this.selectedRecordsIds = selectedRecordsIds;
         this.selection = selection;
+        this.tableSelectionId = tableSelectionId;
         return this;
     }
 

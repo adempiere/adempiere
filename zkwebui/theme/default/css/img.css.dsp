@@ -78,7 +78,7 @@
 
 .mandatory-field-label {
 	text-decoration: none;  vertical-align: top; color:black;
-	font-weight: bold;
+	
 }
 
 .mandatory-field .z-combobox-inp, .mandatory-field .z-datebox-inp,

@@ -1,6 +1,6 @@
-<project name="FreightManagement" default="zkdist" basedir=".">
+<project name="FleetManagement" default="zkdist" basedir=".">
     <description>
-        Building LiberoFreight.jar
+        Building FleetManagement.jar
         by
         Victor Perez 
         http://www.e-evolution.com
@@ -57,23 +57,23 @@
     <mkdir dir="${dist}/lib"/>
 
     <!-- Put everything in ${build} into the MyProject-${DSTAMP}.jar file -->
-    <jar jarfile="${dist}/lib/FreightManagement.jar" basedir="${build}"/>
+    <jar jarfile="${dist}/lib/FleetManagement.jar" basedir="${build}"/>
 
     <!-- Create target Libero deployment -->
-    <mkdir dir="${env.ADEMPIERE_HOME}/packages/FreightManagement/lib"/>
+    <mkdir dir="${env.ADEMPIERE_HOME}/packages/liberoFreight/lib"/>
 
     <!-- Transfer liberoWM.jar -->
-    <copy file="${dist}/lib/FreightManagement.jar" todir="${env.ADEMPIERE_HOME}/packages/FreightManagement/lib"/>
-    <copy file="${dist}/lib/FreightManagement.jar" todir="../packages/"/>
+    <copy file="${dist}/lib/FleetManagement.jar" todir="${env.ADEMPIERE_HOME}/packages/FleetManagement/lib"/>
+    <copy file="${dist}/lib/FleetManagement.jar" todir="../packages/"/>
 
   </target>
 
     <target name="zkcompile" depends="dist"
             description="compile the source " >
         <!-- Compile the zk java code from ${src} into ${zkclasses} -->
-        <javac encoding="UTF-8" debug="true" srcdir="${zksrc}" destdir="${zkclasses}">
+        <!-- javac encoding="UTF-8" debug="true" srcdir="${zksrc}" destdir="${zkclasses}">
             <classpath refid="compile.classpath"/>
-        </javac>
+        </javac-->
     </target>
 
     <target name="zkdist" depends="zkcompile"
@@ -81,14 +81,14 @@
         <!-- Create the distribution directory -->
         <mkdir dir="${dist}/lib"/>
         <!-- Put everything in ${zkclasses} into the MyProject-${DSTAMP}.jar file -->
-        <jar jarfile="${dist}/lib/FreightManagementZk.jar" basedir="${basedir}/build/zkwebui" includes="WEB-INF/"/>
+        <jar jarfile="${dist}/lib/FleetManagementZk.jar" basedir="${basedir}/build/zkwebui" includes="WEB-INF/"/>
 
         <!-- Create target Liberozk deployment -->
-        <mkdir dir="${env.ADEMPIERE_HOME}/zkpackages/FreightManagement/lib"/>
+        <mkdir dir="${env.ADEMPIERE_HOME}/zkpackages/FleetManagement/lib"/>
 
         <!-- Transfer liberozkWM.jar -->
-        <copy file="${dist}/lib/FreightManagementZk.jar" todir="${env.ADEMPIERE_HOME}/zkpackages/FreightManagement/lib"/>
-        <copy file="${dist}/lib/FreightManagementZk.jar" todir="../zkpackages/"/>
+        <copy file="${dist}/lib/FleetManagementZk.jar" todir="${env.ADEMPIERE_HOME}/zkpackages/FleetManagement/lib"/>
+        <copy file="${dist}/lib/FleetManagementZk.jar" todir="../zkpackages/"/>
     </target>
 
 

@@ -32,7 +32,7 @@
 
 
   <path id="base.path">
-    <pathelement path="../org.adempiere.asset/dist/lib/FixedAsset.jar"/>
+    <pathelement path="../org.adempiere.asset/dist/lib/FixedAssetManagement.jar"/>
     <pathelement location="../lib/Adempiere.jar" />
     <pathelement location="../lib/CSTools.jar" />
     <pathelement location="../tools/lib/servlet-api.jar" />

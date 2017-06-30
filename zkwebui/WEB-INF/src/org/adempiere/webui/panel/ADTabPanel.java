@@ -1415,6 +1415,16 @@ public class ADTabPanel extends Div implements Evaluatee, EventListener, DataSta
 		}
 	}
 
+	public void updateMandatoryLabels() {
+		if (formComponent.isVisible()) {
+			
+			for (WEditor editor : editors) {
+				if(editor.isMandatoryStyle())
+					editor.setMandatoryStyle();
+			}
+		} 
+	}
+
 	/**
 	 * @see IADTabPanel#onEnterKey()
 	 */

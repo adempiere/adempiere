@@ -1,4 +1,4 @@
-<project name="LiberoWM" default="zkdist" basedir=".">
+<project name="WarehouseManagement" default="zkdist" basedir=".">
     <description>
         Building Libero liberoWM.jar
         by
@@ -59,14 +59,14 @@
     <mkdir dir="${dist}/lib"/>
 
     <!-- Put everything in ${build} into the MyProject-${DSTAMP}.jar file -->
-    <jar jarfile="${dist}/lib/liberoWM.jar" basedir="${build}"/>
+    <jar jarfile="${dist}/lib/WarehouseManagement.jar" basedir="${build}"/>
 
     <!-- Create target Libero deployment -->
     <mkdir dir="${env.ADEMPIERE_HOME}/packages/liberoWM/lib"/>
 
     <!-- Transfer liberoWM.jar -->
-    <copy file="${dist}/lib/liberoWM.jar" todir="${env.ADEMPIERE_HOME}/packages/liberoWM/lib"/>
-    <copy file="${dist}/lib/liberoWM.jar" todir="${adempiere.trunk}/packages/"/>
+    <copy file="${dist}/lib/WarehouseManagement.jar" todir="${env.ADEMPIERE_HOME}/packages/WarehouseManagement/lib"/>
+    <copy file="${dist}/lib/WarehouseManagement.jar" todir="${adempiere.trunk}/packages/"/>
 
   </target>
 
@@ -83,14 +83,14 @@
         <!-- Create the distribution directory -->
         <mkdir dir="${dist}/lib"/>
         <!-- Put everything in ${zkclasses} into the MyProject-${DSTAMP}.jar file -->
-        <jar jarfile="${dist}/lib/liberozkWM.jar" basedir="${basedir}/build/zkwebui" includes="WEB-INF/"/>
+        <jar jarfile="${dist}/lib/WarehouseManagementZk.jar" basedir="${basedir}/build/zkwebui" includes="WEB-INF/"/>
 
         <!-- Create target Liberozk deployment -->
-        <mkdir dir="${env.ADEMPIERE_HOME}/zkpackages/liberozkWM/lib"/>
+        <mkdir dir="${env.ADEMPIERE_HOME}/zkpackages/liberoWM/lib"/>
 
         <!-- Transfer liberozkWM.jar -->
-        <copy file="${dist}/lib/liberozkWM.jar" todir="${env.ADEMPIERE_HOME}/zkpackages/liberozkWM/lib"/>
-        <copy file="${dist}/lib/liberozkWM.jar" todir="${adempiere.trunk}/zkpackages/"/>
+        <copy file="${dist}/lib/WarehouseManagementZk.jar" todir="${env.ADEMPIERE_HOME}/zkpackages/WarehouseManagement/lib"/>
+        <copy file="${dist}/lib/WarehouseManagementZk.jar" todir="${adempiere.trunk}/zkpackages/"/>
     </target>
 
 

@@ -4,7 +4,7 @@
 <!-- ADempiere Production Ligth -->
 <!-- =============================================== -->
 
-<project name="Production Light" default="productionDistribute" basedir=".">
+<project name="ProductionLight" default="productionDistribute" basedir=".">
 
   <description>
     This buildfile is used to build the client sub project within

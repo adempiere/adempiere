@@ -228,7 +228,7 @@ public class GenerateShipmentOutBound extends GenerateShipmentOutBoundAbstract
 
 			ProcessInfo processInfo = ProcessBuilder.create(getCtx())
 					.process(MovementGenerate.getProcessId())
-					.withSelectedRecordsIds(orderIds)
+					.withSelectedRecordsIds(MWMInOutBound.Table_ID , orderIds)
 					.withParameter(MWMInOutBound.COLUMNNAME_M_Warehouse_ID, distributionOrder.getM_Warehouse_ID())
 					.withParameter(MMovement.COLUMNNAME_MovementDate, getMovementDate())
 					.withoutTransactionClose()
