@@ -196,7 +196,7 @@
 
 	<mkdir dir="${build.dir}/Adempiere/packages/FLeetManagement"/>
 	<mkdir dir="${build.dir}/Adempiere/packages/FLeetManagement/lib"/>
-	<copy file="../packages/FLeetManagement.jar" tofile="${build.dir}/Adempiere/packages/FLeetManagement/lib/FLeetManagement.jar"/>
+	<copy file="../packages/FLeetManagement.jar" tofile="${build.dir}/Adempiere/packages/FLeetManagement/lib/FleetManagement.jar"/>
 
     <mkdir dir="${build.dir}/Adempiere/zkpackages/FleetManagement"/>
     <mkdir dir="${build.dir}/Adempiere/zkpackages/FleetManagement/lib"/>
