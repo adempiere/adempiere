@@ -4,7 +4,7 @@
 <!-- Libero Cashflow Management, www.e-evolution.com -->
 <!-- =============================================== -->
 
-<project name="cashflow" default="cashflowDistribute" basedir=".">
+<project name="CashflowManagement" default="cashflowDistribute" basedir=".">
 
   <description>
     This buildfile is used to build the client subproject within 
@@ -78,7 +78,7 @@
   <target name="cashflowDistribute" depends="cashflowCompile" unless="jar.uptodate">
     <!-- put everything from ${build.dir} into Adempiere.jar file -->
     <jar
-	  jarfile="${dist.dir}/liberoCashflow.jar" 
+	  jarfile="${dist.dir}/CashflowManagement.jar"
 	  basedir="${build.dir}"
 	  duplicate="preserve"
 	  index="yes">
@@ -103,7 +103,7 @@
   <target name="clean">
     <!-- Delete the ${build.dir} directory trees -->
     <delete dir="${build.dir}"/>
-    <delete file="${dist.dir}/liberoCashflow.jar" failonerror="false"/>
+    <delete file="${dist.dir}/CashflowManagement.jar" failonerror="false"/>
   </target>
 
 </project>
