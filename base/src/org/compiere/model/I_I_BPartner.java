@@ -103,6 +103,45 @@ public interface I_I_BPartner
 
 	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException;
 
+    /** Column name BirthCity */
+    public static final String COLUMNNAME_BirthCity = "BirthCity";
+
+	/** Set Birth City.
+	  * Identifies a City of Birth
+	  */
+	public void setBirthCity (String BirthCity);
+
+	/** Get Birth City.
+	  * Identifies a City of Birth
+	  */
+	public String getBirthCity();
+
+    /** Column name BirthCountryCode */
+    public static final String COLUMNNAME_BirthCountryCode = "BirthCountryCode";
+
+	/** Set Birth Country Code.
+	  * Country Code of Place of Birth
+	  */
+	public void setBirthCountryCode (String BirthCountryCode);
+
+	/** Get Birth Country Code.
+	  * Country Code of Place of Birth
+	  */
+	public String getBirthCountryCode();
+
+    /** Column name BirthCountry_ID */
+    public static final String COLUMNNAME_BirthCountry_ID = "BirthCountry_ID";
+
+	/** Set Birth Country.
+	  * Country of Place of Birth
+	  */
+	public void setBirthCountry_ID (int BirthCountry_ID);
+
+	/** Get Birth Country.
+	  * Country of Place of Birth
+	  */
+	public int getBirthCountry_ID();
+
     /** Column name Birthday */
     public static final String COLUMNNAME_Birthday = "Birthday";
 
@@ -115,6 +154,47 @@ public interface I_I_BPartner
 	  * Birthday or Anniversary day
 	  */
 	public Timestamp getBirthday();
+
+    /** Column name BirthPostal */
+    public static final String COLUMNNAME_BirthPostal = "BirthPostal";
+
+	/** Set Birth Postal Zone.
+	  * Postal Zone of Place of Birth
+	  */
+	public void setBirthPostal (String BirthPostal);
+
+	/** Get Birth Postal Zone.
+	  * Postal Zone of Place of Birth
+	  */
+	public String getBirthPostal();
+
+    /** Column name BirthRegion_ID */
+    public static final String COLUMNNAME_BirthRegion_ID = "BirthRegion_ID";
+
+	/** Set Region of Birth.
+	  * Name of the Region of Birth
+	  */
+	public void setBirthRegion_ID (int BirthRegion_ID);
+
+	/** Get Region of Birth.
+	  * Name of the Region of Birth
+	  */
+	public int getBirthRegion_ID();
+
+	public org.compiere.model.I_C_Region getBirthRegion() throws RuntimeException;
+
+    /** Column name BirthRegionName */
+    public static final String COLUMNNAME_BirthRegionName = "BirthRegionName";
+
+	/** Set Region of Birth.
+	  * Name of the Region of Birth
+	  */
+	public void setBirthRegionName (String BirthRegionName);
+
+	/** Get Region of Birth.
+	  * Name of the Region of Birth
+	  */
+	public String getBirthRegionName();
 
     /** Column name BloodGroup */
     public static final String COLUMNNAME_BloodGroup = "BloodGroup";
@@ -574,18 +654,20 @@ public interface I_I_BPartner
 	  */
 	public String getPhone2();
 
-    /** Column name PlaceOfBirth */
-    public static final String COLUMNNAME_PlaceOfBirth = "PlaceOfBirth";
+    /** Column name PlaceOfBirth_ID */
+    public static final String COLUMNNAME_PlaceOfBirth_ID = "PlaceOfBirth_ID";
 
-	/** Set Place of Birth.
-	  * Place of Birth
+	/** Set Place of Birth (Location).
+	  * Place of Birth (Location)
 	  */
-	public void setPlaceOfBirth (String PlaceOfBirth);
+	public void setPlaceOfBirth_ID (int PlaceOfBirth_ID);
 
-	/** Get Place of Birth.
-	  * Place of Birth
+	/** Get Place of Birth (Location).
+	  * Place of Birth (Location)
 	  */
-	public String getPlaceOfBirth();
+	public int getPlaceOfBirth_ID();
+
+	public I_C_Location getPlaceOfBirth() throws RuntimeException;
 
     /** Column name Postal */
     public static final String COLUMNNAME_Postal = "Postal";
