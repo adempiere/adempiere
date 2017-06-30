@@ -237,6 +237,8 @@
     </Step>
     <Step SeqNo="110" StepType="AD">
       <PO AD_Table_ID="752" Action="I" Record_ID="83111" Table="AD_Column_Trl">
+        <Data AD_Column_ID="12952" Column="Updated">2017-04-18 16:17:34.753</Data>
+        <Data AD_Column_ID="12958" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="12961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="12955" Column="AD_Column_ID">83111</Data>
         <Data AD_Column_ID="12953" Column="AD_Language">es_MX</Data>
@@ -246,8 +248,6 @@
         <Data AD_Column_ID="12959" Column="IsActive">true</Data>
         <Data AD_Column_ID="12954" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="12957" Column="Name">Internal User</Data>
-        <Data AD_Column_ID="12952" Column="Updated">2017-04-18 16:17:34.753</Data>
-        <Data AD_Column_ID="12958" Column="UpdatedBy">100</Data>
       </PO>
     </Step>
     <Step SeqNo="130" StepType="AD">
@@ -811,28 +811,6 @@
     </Step>
     <Step SeqNo="1000" StepType="AD">
       <PO AD_Table_ID="107" Action="I" Record_ID="81446" Table="AD_Field">
-        <Data AD_Column_ID="383" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="174" Column="AD_Column_ID">15975</Data>
-        <Data AD_Column_ID="5375" Column="AD_FieldGroup_ID" isNewNull="true"/>
-        <Data AD_Column_ID="167" Column="AD_Field_ID">81446</Data>
-        <Data AD_Column_ID="384" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="15011" Column="AD_Reference_ID" isNewNull="true"/>
-        <Data AD_Column_ID="54356" Column="AD_Reference_Value_ID" isNewNull="true"/>
-        <Data AD_Column_ID="172" Column="AD_Tab_ID">496</Data>
-        <Data AD_Column_ID="54357" Column="AD_Val_Rule_ID" isNewNull="true"/>
-        <Data AD_Column_ID="579" Column="Created">2017-04-18 17:38:30.922</Data>
-        <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="53265" Column="DefaultValue" isNewNull="true"/>
-        <Data AD_Column_ID="169" Column="Description">Search key for the record in the format required - must be unique</Data>
-        <Data AD_Column_ID="180" Column="DisplayLength">0</Data>
-        <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
-        <Data AD_Column_ID="170" Column="Help">A search key allows you a fast method of finding a particular record.
-If you leave the search key empty, the system automatically creates a numeric number.  The document sequence used for this fallback number is defined in the "Maintain Sequence" window with the name "DocumentNo_&lt;TableName&gt;", where TableName is the actual name of the table (e.g. C_Order).</Data>
-        <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
-        <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
-        <Data AD_Column_ID="578" Column="IsActive">true</Data>
-        <Data AD_Column_ID="74868" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="2745" Column="IsCentrallyMaintained">true</Data>
         <Data AD_Column_ID="176" Column="IsDisplayed">true</Data>
         <Data AD_Column_ID="62478" Column="IsDisplayedGrid">true</Data>
@@ -851,6 +829,28 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="182" Column="SortNo">0</Data>
         <Data AD_Column_ID="581" Column="Updated">2017-04-18 17:38:30.922</Data>
         <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="172" Column="AD_Tab_ID">496</Data>
+        <Data AD_Column_ID="54357" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="579" Column="Created">2017-04-18 17:38:30.922</Data>
+        <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="53265" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="169" Column="Description">Search key for the record in the format required - must be unique</Data>
+        <Data AD_Column_ID="180" Column="DisplayLength">0</Data>
+        <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
+        <Data AD_Column_ID="170" Column="Help">A search key allows you a fast method of finding a particular record.
+If you leave the search key empty, the system automatically creates a numeric number.  The document sequence used for this fallback number is defined in the "Maintain Sequence" window with the name "DocumentNo_&lt;TableName&gt;", where TableName is the actual name of the table (e.g. C_Order).</Data>
+        <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="578" Column="IsActive">true</Data>
+        <Data AD_Column_ID="74868" Column="IsAllowCopy">true</Data>
+        <Data AD_Column_ID="383" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="174" Column="AD_Column_ID">15975</Data>
+        <Data AD_Column_ID="5375" Column="AD_FieldGroup_ID" isNewNull="true"/>
+        <Data AD_Column_ID="167" Column="AD_Field_ID">81446</Data>
+        <Data AD_Column_ID="384" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="15011" Column="AD_Reference_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54356" Column="AD_Reference_Value_ID" isNewNull="true"/>
       </PO>
     </Step>
     <Step SeqNo="1010" StepType="AD">
@@ -2275,6 +2275,20 @@ If you leave the search key empty, the system automatically creates a numeric nu
     </Step>
     <Step SeqNo="2920" StepType="AD">
       <PO AD_Table_ID="107" Action="I" Record_ID="81456" Table="AD_Field">
+        <Data AD_Column_ID="186" Column="IsEncrypted">false</Data>
+        <Data AD_Column_ID="185" Column="IsFieldOnly">false</Data>
+        <Data AD_Column_ID="184" Column="IsHeading">false</Data>
+        <Data AD_Column_ID="15013" Column="IsMandatory" isNewNull="true"/>
+        <Data AD_Column_ID="2007" Column="IsReadOnly">false</Data>
+        <Data AD_Column_ID="183" Column="IsSameLine">false</Data>
+        <Data AD_Column_ID="168" Column="Name">Webstore User</Data>
+        <Data AD_Column_ID="9969" Column="ObscureType" isNewNull="true"/>
+        <Data AD_Column_ID="59704" Column="PreferredWidth">0</Data>
+        <Data AD_Column_ID="181" Column="SeqNo">360</Data>
+        <Data AD_Column_ID="62479" Column="SeqNoGrid">360</Data>
+        <Data AD_Column_ID="182" Column="SortNo">0</Data>
+        <Data AD_Column_ID="581" Column="Updated">2017-04-20 12:09:20.376</Data>
+        <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="383" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="174" Column="AD_Column_ID">83176</Data>
         <Data AD_Column_ID="5375" Column="AD_FieldGroup_ID" isNewNull="true"/>
@@ -2300,20 +2314,6 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="176" Column="IsDisplayed">true</Data>
         <Data AD_Column_ID="62478" Column="IsDisplayedGrid">true</Data>
         <Data AD_Column_ID="59703" Column="IsEmbedded">false</Data>
-        <Data AD_Column_ID="186" Column="IsEncrypted">false</Data>
-        <Data AD_Column_ID="185" Column="IsFieldOnly">false</Data>
-        <Data AD_Column_ID="184" Column="IsHeading">false</Data>
-        <Data AD_Column_ID="15013" Column="IsMandatory" isNewNull="true"/>
-        <Data AD_Column_ID="2007" Column="IsReadOnly">false</Data>
-        <Data AD_Column_ID="183" Column="IsSameLine">false</Data>
-        <Data AD_Column_ID="168" Column="Name">Webstore User</Data>
-        <Data AD_Column_ID="9969" Column="ObscureType" isNewNull="true"/>
-        <Data AD_Column_ID="59704" Column="PreferredWidth">0</Data>
-        <Data AD_Column_ID="181" Column="SeqNo">360</Data>
-        <Data AD_Column_ID="62479" Column="SeqNoGrid">360</Data>
-        <Data AD_Column_ID="182" Column="SortNo">0</Data>
-        <Data AD_Column_ID="581" Column="Updated">2017-04-20 12:09:20.376</Data>
-        <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
       </PO>
     </Step>
     <Step SeqNo="2930" StepType="AD">
@@ -2815,7 +2815,15 @@ AND EXISTS(SELECT 1 FROM A_Registration WHERE AD_User_ID = AD_User.AD_User_ID)</
     </Step>
     <Step DBType="Oracle" Parse="N" SeqNo="3600" StepType="SQL">
       <Comments>Index for Value</Comments>
-      <SQLStatement>CREATE UNIQUE INDEX AD_User_Value ON AD_User(AD_Client_ID, Value)</SQLStatement>
+      <SQLStatement>CREATE UNIQUE INDEX AD_User_Value ON AD_User(
+                    (CASE WHEN Value IS NOT NULL 
+                        THEN AD_Client_ID
+                        ELSE NULL
+                    END), 
+                    (CASE WHEN Value IS NOT NULL 
+                        THEN Value
+                        ELSE NULL
+                    END))</SQLStatement>
       <RollbackStatement>DROP INDEX AD_User_Value</RollbackStatement>
     </Step>
   </Migration>
