@@ -40,6 +40,9 @@ import org.compiere.util.Env;
  *    <li>New ADempiere 3.8.0 ZK Theme Light  https://adempiere.atlassian.net/browse/ADEMPIERE-320
  * @date    Feb 25, 2007
  * @version $Revision: 0.10 $
+ * @author Raul Muñoz , http://erpcya.com rmunoz@erpcya.com
+ * 		<li> FR [ 1115 ] Look & Feel Corrections - When field is only read need other background to identify easily this difference
+ *  	@see https://github.com/adempiere/adempiere/issues/1115
  */
 public abstract class AbstractADTab extends AbstractUIPart implements IADTab
 {
@@ -88,7 +91,17 @@ public abstract class AbstractADTab extends AbstractUIPart implements IADTab
     {
     	return true;
     }// isEnabledAt
-
+	
+    /**
+     * Is Read Only
+     * @param index
+     * @return
+     */
+    private boolean isReadOnly(org.adempiere.webui.panel.IADTabPanel newTab)
+    {
+    	return newTab.getGridTab().isReadOnly();
+    }
+    
     private boolean isDisplay(org.adempiere.webui.panel.IADTabPanel newTab)
     {
     	return newTab.getGridTab().isDisplayed();
@@ -199,7 +212,28 @@ public abstract class AbstractADTab extends AbstractUIPart implements IADTab
 	}
 
     protected abstract void doTabSelectionChanged(int oldIndex, int newIndex);
-
+    
+    /**
+     * Is Read Only
+     * @param index
+     * @return
+     */
+	public boolean isReadOnly(int index) {
+		//   FR [ 1115 ]
+		if (index >= tabPanelList.size())
+    		return false;
+    	
+    	org.adempiere.webui.panel.IADTabPanel newTab = tabPanelList.get(index);
+    	if (newTab instanceof ADTabPanel)
+    	{
+	    	if (!isReadOnly(newTab))
+	        {
+	            return false;
+	        }
+    	}
+    	return true;
+	}
+	
     public boolean isDisplay(int index) {
     	if (index >= tabPanelList.size())
     		return false;
