@@ -149,3 +149,10 @@ border-style:outset;
 #imgButtonPressed{
 border-style:inset;
 }
+
+.footer * {
+  color: #FFFFFF;
+}
+.footer a {
+  color: #808080;
+}
