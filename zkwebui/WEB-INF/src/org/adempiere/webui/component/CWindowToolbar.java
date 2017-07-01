@@ -238,7 +238,7 @@ public class CWindowToolbar extends FToolbar implements EventListener
     {
     	ToolBarButton btn = new ToolBarButton("");
         btn.setName("btn"+name);
-        btn.setImage("/images/"+image + (embedded ? "16.png" : "24.png"));
+        btn.setImage("/images/toolbar/"+image + (embedded ? "16.png" : "24.png"));
         btn.setTooltiptext(Msg.getMsg(Env.getCtx(),tooltip));
         if (embedded)
         {
@@ -571,7 +571,7 @@ public class CWindowToolbar extends FToolbar implements EventListener
     {
     	this.btnLock.setPressed(locked);
 
-    	String imgURL = "/images/"+ (this.btnLock.isPressed() ? "LockX" : "Lock") + (embedded ? "16.png" : "24.png");
+    	String imgURL = "/images/toolbar/"+ (this.btnLock.isPressed() ? "LockX" : "Lock") + (embedded ? "16.png" : "24.png");
 		this.btnLock.setImage(imgURL);
     }
 
