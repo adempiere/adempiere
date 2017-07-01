@@ -151,16 +151,6 @@ implements ImportProcess
 		log.config("Invalid Group=" + no);
 
 		//	Set Country
-		/**
-		sql = new StringBuffer ("UPDATE I_BPartner i "
-			+ "SET CountryCode=(SELECT CountryCode FROM C_Country c WHERE c.IsDefault='Y'"
-			+ " AND c.AD_Client_ID IN (0, i.AD_Client_ID) AND ROWNUM=1) "
-			+ "WHERE CountryCode IS NULL AND C_Country_ID IS NULL"
-			+ " AND I_IsImported<>'Y'").append(clientCheck);
-		no = DB.executeUpdateEx(sql.toString(), get_TrxName());
-		log.fine("Set Country Default=" + no);
-		 **/
-		//
 		sql = new StringBuffer ("UPDATE I_BPartner i "
 				+ "SET C_Country_ID=(SELECT C_Country_ID FROM C_Country c"
 				+ " WHERE i.CountryCode=c.CountryCode AND c.AD_Client_ID IN (0, i.AD_Client_ID)) "
@@ -194,6 +184,42 @@ implements ImportProcess
 				+ " AND I_IsImported<>'Y'").append(clientCheck);
 		no = DB.executeUpdateEx(sql.toString(), get_TrxName());
 		log.fine("Set Region=" + no);
+		//	For Place of birth
+		//	Set Country
+		sql = new StringBuffer ("UPDATE I_BPartner i "
+				+ "SET BirthCountry_ID=(SELECT C_Country_ID FROM C_Country c"
+				+ " WHERE i.BirthCountryCode=c.CountryCode AND c.AD_Client_ID IN (0, i.AD_Client_ID)) "
+				+ "WHERE BirthCountry_ID IS NULL"
+				+ " AND I_IsImported<>'Y'").append(clientCheck);
+		no = DB.executeUpdateEx(sql.toString(), get_TrxName());
+		log.fine("Set Country=" + no);
+		//
+		sql = new StringBuffer ("UPDATE I_BPartner "
+				+ "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||'ERR=Invalid Birth Country, ' "
+				+ "WHERE BirthCountry_ID IS NULL AND BirthCity IS NOT NULL"
+				+ " AND I_IsImported<>'Y'").append(clientCheck);
+		no = DB.executeUpdateEx(sql.toString(), get_TrxName());
+		log.config("Invalid Country=" + no);
+
+		//	Set Region
+		sql = new StringBuffer ("UPDATE I_BPartner i "
+				+ "Set BirthRegionName=(SELECT MAX(Name) FROM C_Region r"
+				+ " WHERE r.IsDefault='Y' AND r.C_Country_ID=i.BirthCountry_ID"
+				+ " AND r.AD_Client_ID IN (0, i.AD_Client_ID)) " );
+		sql.append("WHERE BirthRegionName IS NULL AND BirthRegion_ID IS NULL"
+				+ " AND I_IsImported<>'Y'").append(clientCheck);
+		no = DB.executeUpdateEx(sql.toString(), get_TrxName());
+		log.fine("Set Region Default=" + no);
+		//
+		sql = new StringBuffer ("UPDATE I_BPartner i "
+				+ "Set BirthRegion_ID=(SELECT C_Region_ID FROM C_Region r"
+				+ " WHERE r.Name=i.BirthRegionName AND r.C_Country_ID=i.BirthCountry_ID"
+				+ " AND r.AD_Client_ID IN (0, i.AD_Client_ID)) "
+				+ "WHERE BirthRegion_ID IS NULL"
+				+ " AND I_IsImported<>'Y'").append(clientCheck);
+		no = DB.executeUpdateEx(sql.toString(), get_TrxName());
+		log.fine("Set Region=" + no);
+		
 		//
 		sql = new StringBuffer ("UPDATE I_BPartner i "
 				+ "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||'ERR=Invalid Region, ' "
@@ -339,6 +365,7 @@ implements ImportProcess
 						bp = new MBPartner(impBP);
 						ModelValidationEngine.get().fireImportValidate(this, impBP, bp, ImportValidator.TIMING_AFTER_IMPORT);
 						
+						setPlaceOfBirthId(impBP, bp);
 						setTypeOfBPartner(impBP,bp);
 						
 						if (bp.save())
@@ -391,6 +418,7 @@ implements ImportProcess
 						//	
 						ModelValidationEngine.get().fireImportValidate(this, impBP, bp, ImportValidator.TIMING_AFTER_IMPORT);
 						
+						setPlaceOfBirthId(impBP, bp);
 						setTypeOfBPartner(impBP,bp);
 						
 						//
@@ -637,6 +665,31 @@ implements ImportProcess
 	public String getImportTableName()
 	{
 		return X_I_BPartner.Table_Name;
+	}
+	
+	/**
+	 * Get Birth of place
+	 * @param impBP
+	 * @param bPartner
+	 * @return
+	 */
+	private void setPlaceOfBirthId(X_I_BPartner impBP, MBPartner bPartner) {
+		//	****	Create/Update BPartner Location	****
+		int placeOfBirthId = impBP.getPlaceOfBirth_ID();
+		if(placeOfBirthId == 0
+				&& impBP.getC_BPartner_ID() != 0) {
+			placeOfBirthId = bPartner.getPlaceOfBirth_ID();
+		}
+		MLocation location = new MLocation(getCtx(), placeOfBirthId, get_TrxName());
+		location.setC_Country_ID(impBP.getBirthCountry_ID());
+		location.setC_Region_ID(impBP.getBirthRegion_ID());
+		location.setCity(impBP.getBirthCity());
+		location.setPostal(impBP.getBirthPostal());
+		if (!location.save())
+			log.warning("Location not updated");
+		//	return location
+		impBP.setPlaceOfBirth_ID(location.getC_Location_ID());
+		bPartner.setPlaceOfBirth_ID(location.getC_Location_ID());
 	}
 	
 	/**

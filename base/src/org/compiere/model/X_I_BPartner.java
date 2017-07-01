@@ -31,7 +31,7 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170627L;
+	private static final long serialVersionUID = 20170630L;
 
     /** Standard Constructor */
     public X_I_BPartner (Properties ctx, int I_BPartner_ID, String trxName)
@@ -135,6 +135,63 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Birth City.
+		@param BirthCity 
+		Identifies a City of Birth
+	  */
+	public void setBirthCity (String BirthCity)
+	{
+		set_Value (COLUMNNAME_BirthCity, BirthCity);
+	}
+
+	/** Get Birth City.
+		@return Identifies a City of Birth
+	  */
+	public String getBirthCity () 
+	{
+		return (String)get_Value(COLUMNNAME_BirthCity);
+	}
+
+	/** Set Birth Country Code.
+		@param BirthCountryCode 
+		Country Code of Place of Birth
+	  */
+	public void setBirthCountryCode (String BirthCountryCode)
+	{
+		set_Value (COLUMNNAME_BirthCountryCode, BirthCountryCode);
+	}
+
+	/** Get Birth Country Code.
+		@return Country Code of Place of Birth
+	  */
+	public String getBirthCountryCode () 
+	{
+		return (String)get_Value(COLUMNNAME_BirthCountryCode);
+	}
+
+	/** Set Birth Country.
+		@param BirthCountry_ID 
+		Country of Place of Birth
+	  */
+	public void setBirthCountry_ID (int BirthCountry_ID)
+	{
+		if (BirthCountry_ID < 1) 
+			set_Value (COLUMNNAME_BirthCountry_ID, null);
+		else 
+			set_Value (COLUMNNAME_BirthCountry_ID, Integer.valueOf(BirthCountry_ID));
+	}
+
+	/** Get Birth Country.
+		@return Country of Place of Birth
+	  */
+	public int getBirthCountry_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_BirthCountry_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Birthday.
 		@param Birthday 
 		Birthday or Anniversary day
@@ -150,6 +207,68 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	public Timestamp getBirthday () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_Birthday);
+	}
+
+	/** Set Birth Postal Zone.
+		@param BirthPostal 
+		Postal Zone of Place of Birth
+	  */
+	public void setBirthPostal (String BirthPostal)
+	{
+		set_Value (COLUMNNAME_BirthPostal, BirthPostal);
+	}
+
+	/** Get Birth Postal Zone.
+		@return Postal Zone of Place of Birth
+	  */
+	public String getBirthPostal () 
+	{
+		return (String)get_Value(COLUMNNAME_BirthPostal);
+	}
+
+	public org.compiere.model.I_C_Region getBirthRegion() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_Region)MTable.get(getCtx(), org.compiere.model.I_C_Region.Table_Name)
+			.getPO(getBirthRegion_ID(), get_TrxName());	}
+
+	/** Set Region of Birth.
+		@param BirthRegion_ID 
+		Name of the Region of Birth
+	  */
+	public void setBirthRegion_ID (int BirthRegion_ID)
+	{
+		if (BirthRegion_ID < 1) 
+			set_Value (COLUMNNAME_BirthRegion_ID, null);
+		else 
+			set_Value (COLUMNNAME_BirthRegion_ID, Integer.valueOf(BirthRegion_ID));
+	}
+
+	/** Get Region of Birth.
+		@return Name of the Region of Birth
+	  */
+	public int getBirthRegion_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_BirthRegion_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Region of Birth.
+		@param BirthRegionName 
+		Name of the Region of Birth
+	  */
+	public void setBirthRegionName (String BirthRegionName)
+	{
+		set_Value (COLUMNNAME_BirthRegionName, BirthRegionName);
+	}
+
+	/** Get Region of Birth.
+		@return Name of the Region of Birth
+	  */
+	public String getBirthRegionName () 
+	{
+		return (String)get_Value(COLUMNNAME_BirthRegionName);
 	}
 
 	/** BloodGroup AD_Reference_ID=53616 */
@@ -830,21 +949,32 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 		return (String)get_Value(COLUMNNAME_Phone2);
 	}
 
-	/** Set Place of Birth.
-		@param PlaceOfBirth 
-		Place of Birth
+	public I_C_Location getPlaceOfBirth() throws RuntimeException
+    {
+		return (I_C_Location)MTable.get(getCtx(), I_C_Location.Table_Name)
+			.getPO(getPlaceOfBirth_ID(), get_TrxName());	}
+
+	/** Set Place of Birth (Location).
+		@param PlaceOfBirth_ID 
+		Place of Birth (Location)
 	  */
-	public void setPlaceOfBirth (String PlaceOfBirth)
+	public void setPlaceOfBirth_ID (int PlaceOfBirth_ID)
 	{
-		set_Value (COLUMNNAME_PlaceOfBirth, PlaceOfBirth);
+		if (PlaceOfBirth_ID < 1) 
+			set_Value (COLUMNNAME_PlaceOfBirth_ID, null);
+		else 
+			set_Value (COLUMNNAME_PlaceOfBirth_ID, Integer.valueOf(PlaceOfBirth_ID));
 	}
 
-	/** Get Place of Birth.
-		@return Place of Birth
+	/** Get Place of Birth (Location).
+		@return Place of Birth (Location)
 	  */
-	public String getPlaceOfBirth () 
+	public int getPlaceOfBirth_ID () 
 	{
-		return (String)get_Value(COLUMNNAME_PlaceOfBirth);
+		Integer ii = (Integer)get_Value(COLUMNNAME_PlaceOfBirth_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set ZIP.
