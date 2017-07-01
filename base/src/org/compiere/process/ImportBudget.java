@@ -552,8 +552,6 @@ public class ImportBudget extends ImportBudgetAbstract {
             journal.saveEx();
 
             createJournalLine(journal, journalBatch.getDocumentNo(), periodNo);
-            if (noPeriods < glPeriods.size())
-                noPeriods++;
         }
     }
 
