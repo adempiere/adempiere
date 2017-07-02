@@ -1474,17 +1474,14 @@ public abstract class Browser {
 				;
 			
 			ArrayList<ArrayList<Object>> rows = getDataRows(browserTable);
-			
 			if (rows.size() > 1) {
-
 				String path = System.getProperty("java.io.tmpdir");
 				String prefix = makePrefix(m_Browse.getName());
 				if (log.isLoggable(Level.FINE)) {
 					log.log(Level.FINE, "Path=" + path + " Prefix=" + prefix);
 				}
 				file = File.createTempFile(prefix, ".xls", new File(path));
-				ArrayExcelExporter exporter = new ArrayExcelExporter(
-						Env.getCtx(), rows);
+				ArrayExcelExporter exporter = new ArrayExcelExporter(Env.getCtx(), rows);
 				exporter.export(file, m_language, false);
 			}
 		} catch (IOException e) {
