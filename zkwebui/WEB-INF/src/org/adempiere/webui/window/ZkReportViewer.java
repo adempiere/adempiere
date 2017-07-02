@@ -210,7 +210,7 @@ public class ZkReportViewer extends Window implements EventListener {
 		this.appendChild(layout);
 		this.setStyle("width: 100%; height: 100%; position: absolute");
 
-		toolBar.setHeight("26px");
+		toolBar.setHeight("100%");
 		
 		previewType.setMold("select");
 		previewType.appendItem("PDF", "PDF");
@@ -281,8 +281,7 @@ public class ZkReportViewer extends Window implements EventListener {
 				previewType.setSelectedIndex(3);
 			}
 		}
-			
-		
+
 		labelDrill.setValue(Msg.getMsg(Env.getCtx(), "Drill") + ": ");
 		toolBar.appendChild(labelDrill);
 		
@@ -300,9 +299,6 @@ public class ZkReportViewer extends Window implements EventListener {
 		comboReportView.setMold("select");
 		comboReportView.setTooltiptext(Msg.translate(Env.getCtx(), "AD_ReportView_ID"));
 		toolBar.appendChild(comboReportView);
-		
-		summary.setText(Msg.getMsg(Env.getCtx(), "Summary"));
-		toolBar.appendChild(summary);
 		
 		bCustomize.setImage("/images/dark/Preference24.png");
 		bCustomize.setTooltiptext(Msg.getMsg(Env.getCtx(), "PrintCustomize"));
@@ -325,7 +321,7 @@ public class ZkReportViewer extends Window implements EventListener {
 		bArchive.setTooltiptext(Msg.getMsg(Env.getCtx(), "Archive"));
 		toolBar.appendChild(bArchive);
 		bArchive.addEventListener(Events.ON_CLICK, this);
-		
+
 		if (m_isCanExport)
 		{
 			bExport.setImage("/images/dark/ExportX24.png");
@@ -343,15 +339,23 @@ public class ZkReportViewer extends Window implements EventListener {
 		}
 		
 		toolBar.appendChild(new Separator("vertical"));
-		
 		bRefresh.setImage("/images/dark/Refresh24.png");
 		bRefresh.setTooltiptext(Msg.getMsg(Env.getCtx(), "Refresh"));
 		toolBar.appendChild(bRefresh);
 		bRefresh.addEventListener(Events.ON_CLICK, this);
 
+		summary.setText(Msg.getMsg(Env.getCtx(), "Summary"));
+		toolBar.appendChild(summary);
+
 		North north = new North();
-		layout.appendChild(north);
-		north.appendChild(toolBar);
+		north.setParent(layout);
+		north.setCollapsible(false);
+		north.setFlex(true);
+
+		Vbox box = new Vbox();
+		box.setWidth("100%");
+		toolBar.setParent(box);
+		box.setParent(north);
 
 		Center center = new Center();
 		center.setFlex(true);
