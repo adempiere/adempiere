@@ -96,12 +96,12 @@ public class ZkJRViewer extends Window implements EventListener {
 		archive = new Toolbarbutton();
 
 
-		sendMail.setImage("/images/SendMail24.png");
+		sendMail.setImage("/images/dark/SendMail24.png");
 		sendMail.setTooltiptext("Send Mail");
 		toolbar.appendChild(sendMail);
 		sendMail.addEventListener(Events.ON_CLICK, this);
 
-		archive.setImage("/images/Archive24.png");
+		archive.setImage("/images/dark/Archive24.png");
 		archive.setTooltiptext("Archived Documents/Reports");
 		toolbar.appendChild(archive);
 		archive.addEventListener(Events.ON_CLICK, this);

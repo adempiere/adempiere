@@ -304,31 +304,31 @@ public class ZkReportViewer extends Window implements EventListener {
 		summary.setText(Msg.getMsg(Env.getCtx(), "Summary"));
 		toolBar.appendChild(summary);
 		
-		bCustomize.setImage("/images/Preference24.png");
+		bCustomize.setImage("/images/dark/Preference24.png");
 		bCustomize.setTooltiptext(Msg.getMsg(Env.getCtx(), "PrintCustomize"));
 		toolBar.appendChild(bCustomize);
 		bCustomize.addEventListener(Events.ON_CLICK, this);
 		
-		bFind.setImage("/images/Find24.png");
+		bFind.setImage("/images/dark/Find24.png");
 		bFind.setTooltiptext(Msg.getMsg(Env.getCtx(), "Find"));
 		toolBar.appendChild(bFind);
 		bFind.addEventListener(Events.ON_CLICK, this);
 		
 		toolBar.appendChild(new Separator("vertical"));
 		
-		bSendMail.setImage("/images/SendMail24.png");
+		bSendMail.setImage("/images/dark/SendMail24.png");
 		bSendMail.setTooltiptext(Msg.getMsg(Env.getCtx(), "SendMail"));
 		toolBar.appendChild(bSendMail);
 		bSendMail.addEventListener(Events.ON_CLICK, this);
 		
-		bArchive.setImage("/images/Archive24.png");
+		bArchive.setImage("/images/dark/Archive24.png");
 		bArchive.setTooltiptext(Msg.getMsg(Env.getCtx(), "Archive"));
 		toolBar.appendChild(bArchive);
 		bArchive.addEventListener(Events.ON_CLICK, this);
 		
 		if (m_isCanExport)
 		{
-			bExport.setImage("/images/ExportX24.png");
+			bExport.setImage("/images/dark/ExportX24.png");
 			bExport.setTooltiptext(Msg.getMsg(Env.getCtx(), "Export"));
 			toolBar.appendChild(bExport);
 			bExport.addEventListener(Events.ON_CLICK, this);
@@ -336,7 +336,7 @@ public class ZkReportViewer extends Window implements EventListener {
 		
 		//	BR [1019]
 		if (m_IsCanLoad) {
-			bLoad.setImage("/images/Import24.png");
+			bLoad.setImage("/images/dark/Import24.png");
 			bLoad.setTooltiptext(Msg.getMsg(Env.getCtx(), "Load New Report Definition"));
 			toolBar.appendChild(bLoad);
 			bLoad.addEventListener(Events.ON_CLICK, this);
@@ -344,7 +344,7 @@ public class ZkReportViewer extends Window implements EventListener {
 		
 		toolBar.appendChild(new Separator("vertical"));
 		
-		bRefresh.setImage("/images/Refresh24.png");
+		bRefresh.setImage("/images/dark/Refresh24.png");
 		bRefresh.setTooltiptext(Msg.getMsg(Env.getCtx(), "Refresh"));
 		toolBar.appendChild(bRefresh);
 		bRefresh.addEventListener(Events.ON_CLICK, this);
