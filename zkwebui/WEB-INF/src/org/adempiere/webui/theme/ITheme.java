@@ -69,8 +69,8 @@ public interface ITheme {
 	//	General
 	public static final String DASHBOARD_DELETE_IMAGE= "/images/dark/Delete24.png";
 	public static final String DASHBOARD_REFRESH_IMAGE= "/images/dark/Refresh24.png";
-	public static final String IMAGE_FOLDER_DARK= "/images/dark";
-	public static final String IMAGE_FOLDER= "/images";
+	public static final String IMAGE_FOLDER_DARK= "/images/dark/";
+	public static final String IMAGE_FOLDER= "/images/";
 	//	Toolbar
 	public static final String TOOLBAR_FOLDER_IMAGE= "/images/dark";
 	//stylesheet url

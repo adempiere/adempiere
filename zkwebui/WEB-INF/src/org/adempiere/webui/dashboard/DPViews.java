@@ -56,7 +56,7 @@ public class DPViews extends DashboardPanel implements EventListener {
 		{
 			ToolBarButton btnViewItem = new ToolBarButton("InfoProduct");
 			btnViewItem.setLabel(Util.cleanAmp(Msg.getMsg(Env.getCtx(), "InfoProduct")));
-			btnViewItem.setImage(ITheme.IMAGE_FOLDER_DARK + "/InfoProduct16.png");
+			btnViewItem.setImage(ITheme.IMAGE_FOLDER_DARK + "InfoProduct16.png");
 			btnViewItem.addEventListener(Events.ON_CLICK, this);
 			vbox.appendChild(btnViewItem);
 		}
