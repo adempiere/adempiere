@@ -69,13 +69,13 @@ public class DPRecentItems extends DashboardPanel implements EventListener {
 		Toolbar recentItemsToolbar = new Toolbar();
 		this.appendChild(recentItemsToolbar);
 
-		Image imgr = new Image("/images/dark/Refresh24.png");
+		Image imgr = new Image(ITheme.DASHBOARD_REFRESH_IMAGE);
 		recentItemsToolbar.appendChild(imgr);
 		imgr.setAlign("left");
 		imgr.addEventListener(Events.ON_CLICK, this);
 		//
 
-		Image img = new Image("/images/dark/Delete24.png");
+		Image img = new Image(ITheme.DASHBOARD_DELETE_IMAGE);
 		recentItemsToolbar.appendChild(img);
 		img.setAlign("right");
 		img.setDroppable(DELETE_RECENTITEMS_DROPPABLE);

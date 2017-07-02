@@ -29,6 +29,7 @@ import org.adempiere.webui.LayoutUtils;
 import org.adempiere.webui.event.ToolbarListener;
 import org.adempiere.webui.panel.IADTabPanel;
 import org.adempiere.webui.session.SessionManager;
+import org.adempiere.webui.theme.ITheme;
 import org.compiere.model.MRole;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
@@ -238,7 +239,7 @@ public class CWindowToolbar extends FToolbar implements EventListener
     {
     	ToolBarButton btn = new ToolBarButton("");
         btn.setName("btn"+name);
-        btn.setImage("/images/dark/"+image + (embedded ? "16.png" : "24.png"));
+        btn.setImage(ITheme.TOOLBAR_FOLDER_IMAGE + "/"+image + (embedded ? "16.png" : "24.png"));
         btn.setTooltiptext(Msg.getMsg(Env.getCtx(),tooltip));
         if (embedded)
         {

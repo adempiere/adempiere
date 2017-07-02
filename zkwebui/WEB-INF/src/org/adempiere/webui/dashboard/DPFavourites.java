@@ -78,7 +78,7 @@ public class DPFavourites extends DashboardPanel implements EventListener {
 		this.appendChild(favToolbar);
 		
 		// Elaine 2008/07/24
-		Image img = new Image("/images/dark/Delete24.png");
+		Image img = new Image(ITheme.DASHBOARD_DELETE_IMAGE);
 		favToolbar.appendChild(img);
 		img.setAlign("right");
 		img.setDroppable(DELETE_FAV_DROPPABLE);
