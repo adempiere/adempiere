@@ -138,15 +138,15 @@ public class Splash extends Frame
 		//
 		productLabel.setFont(new java.awt.Font("Serif", 2, 10));
 		productLabel.setForeground(Color.blue);
-		productLabel.setText(Adempiere.getSubtitle());
-	//	productLabel.setToolTipText(Adempiere.getURL());
+		//productLabel.setText(Adempiere.getSubtitle());
+		//productLabel.setToolTipText(Adempiere.getURL());
 		//
-		contentPanel.add(cImage,  new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0
-			,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(10, 5, 0, 10), 0, 0));
-		contentPanel.add(productLabel,  new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0
-			,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 5, 0, 10), 0, 0));
-		contentPanel.add(message,  new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0
-			,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(5, 5, 10, 10), 0, 0));
+		//contentPanel.add(cImage,  new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0
+		//	,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(10, 5, 0, 10), 0, 0));
+		//contentPanel.add(productLabel,  new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0
+		//	,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 5, 0, 10), 0, 0));
+		//contentPanel.add(message,  new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0
+		//	,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(5, 5, 10, 10), 0, 0));
 		//
 		this.add(aImage, BorderLayout.WEST);
 		this.add(contentPanel, BorderLayout.EAST);
@@ -231,7 +231,6 @@ public class Splash extends Frame
 			}
 			catch (Exception e)
 			{
-				System.err.println("Splash.CImage");
 				e.printStackTrace();
 			}
 			m_dim = new Dimension (m_image.getWidth(this), m_image.getHeight(this));
@@ -295,7 +294,6 @@ public class Splash extends Frame
 			}
 			catch (Exception e)
 			{
-				System.err.println("Splash.AImage");
 				e.printStackTrace();
 			}
 			m_dim = new Dimension (m_image.getWidth(this)+15, m_image.getHeight(this)+15);
