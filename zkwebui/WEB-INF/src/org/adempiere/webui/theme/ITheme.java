@@ -59,14 +59,20 @@ public interface ITheme {
 	public static final String HEADER_LOGO_IMAGE = "/images/header-logo.png";
 	public static final String BROWSER_ICON_IMAGE= "/images/icon.png";
 	//	Menu image icon
-	public static final String MENU_WINDOW_IMAGE= "/images/mWindow.png";
-	public static final String MENU_PROCESS_IMAGE= "/images/mProcess.png";
-	public static final String MENU_REPORT_IMAGE= "/images/mReport.png";
-	public static final String MENU_WORKFLOW_IMAGE= "/images/mWorkFlow.png";
-	public static final String MENU_BROWSER_IMAGE= "/images/mWindow.png";
-	public static final String MENU_TASK_IMAGE= "/images/mProcess.png";
-	public static final String MENU_WORKBENCH_IMAGE= "/images/mWindow.png";
-
+	public static final String MENU_WINDOW_IMAGE= "/images/dark/mWindow.png";
+	public static final String MENU_PROCESS_IMAGE= "/images/dark/mProcess.png";
+	public static final String MENU_REPORT_IMAGE= "/images/dark/mReport.png";
+	public static final String MENU_WORKFLOW_IMAGE= "/images/dark/mWorkFlow.png";
+	public static final String MENU_BROWSER_IMAGE= "/images/dark/mWindow.png";
+	public static final String MENU_TASK_IMAGE= "/images/dark/mProcess.png";
+	public static final String MENU_WORKBENCH_IMAGE= "/images/dark/mWindow.png";
+	//	General
+	public static final String DASHBOARD_DELETE_IMAGE= "/images/dark/Delete24.png";
+	public static final String DASHBOARD_REFRESH_IMAGE= "/images/dark/Refresh24.png";
+	public static final String IMAGE_FOLDER_DARK= "/images/dark";
+	public static final String IMAGE_FOLDER= "/images";
+	//	Toolbar
+	public static final String TOOLBAR_FOLDER_IMAGE= "/images/dark";
 	//stylesheet url
 	public static final String THEME_STYLESHEET = "/css/theme.css.dsp";
 	public static final String THEME_STYLESHEET_BY_BROWSER = "/css/theme*.css.dsp*";
