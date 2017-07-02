@@ -405,18 +405,18 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
     private void initAdvanced() throws IOException
     {
         ToolBarButton btnNew = new ToolBarButton();
-        btnNew.setImage("/images/New24.png");
+        btnNew.setImage("/images/dark/New24.png");
         btnNew.setAttribute("name", "btnNewAdv");
         btnNew.addEventListener(Events.ON_CLICK, this);
 
         ToolBarButton btnDelete = new ToolBarButton();
         btnDelete.setAttribute("name","btnDeleteAdv");
-        btnDelete.setImage("/images/Delete24.png");
+        btnDelete.setImage("/images/dark/Delete24.png");
         btnDelete.addEventListener(Events.ON_CLICK, this);
 
         ToolBarButton btnSave = new ToolBarButton();
         btnSave.setAttribute("name","btnSaveAdv");
-        btnSave.setImage("/images/Save24.png");
+        btnSave.setImage("/images/dark/Save24.png");
         btnSave.addEventListener(Events.ON_CLICK, this);
 
         fQueryName = new Combobox();
