@@ -24,7 +24,7 @@
 
 <c:set var="ColorWhite" value="#FFFFFF"/>
 <c:set var="ColorBGTree" value="#F7F7F7"/>
-<c:set var="ColorSeld" value="#001DA0"/>
+<c:set var="ColorSeld" value="#0068c5"/>
 <c:set var="ColorGray" value="#FFFFFF"/>
 <c:set var="ColorLightGray" value="#F0F0F0"/>
 <c:set var="ColorBorder" value="#999999"/>
@@ -631,6 +631,7 @@ div.z-listbox-pgi-b, div.z-tree-pgi-b, div.z-grid-pgi-b  {
 .z-datebox-calmon td.z-datebox-seld, .z-datebox-calday td.z-datebox-seld {
 	background-color: ${ColorSeld};
 	border:none;
+	color:#FFF !important;
 }
 .z-calendar-over, .z-datebox-over {
 	background-color: ${ColorSeld};

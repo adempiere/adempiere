@@ -79,7 +79,7 @@ public class AboutWindow extends Window implements EventListener {
 
 	private void init() {
 		this.setWidth("500px");
-		this.setHeight("450px");
+		this.setHeight("490px");
 		this.setPosition("center");
 		this.setTitle(ThemeManager.getBrowserTitle());
 		this.setClosable(true);
@@ -94,7 +94,7 @@ public class AboutWindow extends Window implements EventListener {
 		tabbox = new Tabbox();
 		tabbox.setParent(layout);
 		tabbox.setWidth("480px");
-		tabbox.setHeight("380px");
+		tabbox.setHeight("420px");
 //		tabbox.setSclass("lite");
 		Tabs tabs = new Tabs();
 		tabs.setParent(tabbox);
@@ -286,6 +286,13 @@ public class AboutWindow extends Window implements EventListener {
 		link.setTarget("_blank");
 		link.setParent(content);
 
+		link = new ToolBarButton();
+		link.setLabel("Openup Solutions");
+		link.setHref("http://www.openupsolutions.com/");
+		link.setTarget("_blank");
+		link.setParent(content);
+
+
 		separator = new Separator();
 		separator.setParent(vbox);
 
@@ -363,6 +370,25 @@ public class AboutWindow extends Window implements EventListener {
 		link.setHref("http://wiki.adempiere.net/User:Yamel_Senih");
 		link.setTarget("_blank");
 		link.setParent(content);
+
+		link = new ToolBarButton();
+		link.setLabel("Eduardo López");
+		link.setHref("https://www.linkedin.com/in/eduardo-lopez-vessena-9076951b/");
+		link.setTarget("_blank");
+		link.setParent(content);
+
+		link = new ToolBarButton();
+		link.setLabel("Nicolás López");
+		link.setHref("https://www.linkedin.com/in/nicolas-lopez-94338148/");
+		link.setTarget("_blank");
+		link.setParent(content);
+
+		link = new ToolBarButton();
+		link.setLabel("Raúl Capecce");
+		link.setHref("https://www.linkedin.com/in/rcapecce");
+		link.setTarget("_blank");
+		link.setParent(content);
+
 
 		return tabPanel;
 	}
