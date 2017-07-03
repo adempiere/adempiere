@@ -727,10 +727,9 @@ public class WBrowser extends Browser implements IFormController,
 	private void cmd_Export() {
 		bExport.setEnabled(false);
 		try 
-		{	AMedia media = null;
+		{
 			File file = exportXLS(detail);
-			media = new AMedia(getBrowserName(), "xls",
-					"application/vnd.ms-excel", file, true);
+			AMedia media = new AMedia(file.getName() , "xls", "application/xls", file, true);
 			Filedownload.save(media);
 		} catch (Exception e) {
 			throw new AdempiereException("Failed to render report", e);

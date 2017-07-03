@@ -731,14 +731,19 @@ public abstract class Browser {
 	public  ArrayList<ArrayList<Object>> getDataRows(IBrowserTable browserTable) {
 		ArrayList<ArrayList<Object>> rows = m_rows;
 		if (isShowTotal()) {
-			ArrayList<Object> row = new ArrayList<Object>();
+			ArrayList<Object> row = new ArrayList<Object>(m_rows.size());
+			BrowserRow data = browserTable.getData();
 			int lastRow = browserTable.getRowCount() - 1;
-			for (int column = 0; column <= browserTable.getColumnCount() - 1 ; column++) {
-				Object data = browserTable.getValueAt(lastRow , column);
-				if (data == null)
+			for (int column = 0 ; column < data.getColumnCount() ; column++) {
+				GridField gridField = data.getValue(lastRow , column);
+				Object value = null;
+				if (gridField != null)
+					value = gridField.getValue();
+
+				if (value == null)
 					row.add(null);
 				else
-					row.add(data);
+					row.add(value);
 			}
 			rows.add(row);
 		}
@@ -1474,17 +1479,14 @@ public abstract class Browser {
 				;
 			
 			ArrayList<ArrayList<Object>> rows = getDataRows(browserTable);
-			
 			if (rows.size() > 1) {
-
 				String path = System.getProperty("java.io.tmpdir");
 				String prefix = makePrefix(m_Browse.getName());
 				if (log.isLoggable(Level.FINE)) {
 					log.log(Level.FINE, "Path=" + path + " Prefix=" + prefix);
 				}
 				file = File.createTempFile(prefix, ".xls", new File(path));
-				ArrayExcelExporter exporter = new ArrayExcelExporter(
-						Env.getCtx(), rows);
+				ArrayExcelExporter exporter = new ArrayExcelExporter(Env.getCtx(), rows);
 				exporter.export(file, m_language, false);
 			}
 		} catch (IOException e) {

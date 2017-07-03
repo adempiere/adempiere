@@ -24,7 +24,16 @@ import java.util.HashMap;
 import java.util.Properties;
 import java.util.logging.Level;
 
-import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.DataFormat;
+import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.Footer;
+import org.apache.poi.ss.usermodel.Header;
+import org.apache.poi.ss.usermodel.PrintSetup;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.poi.xssf.streaming.SXSSFSheet;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
@@ -312,14 +321,12 @@ public abstract class AbstractExcelExporter
 		createHeaderFooter(sheet);
 		createTableHeader(sheet);
 		m_sheetCount++;
-		//
 		return sheet;
 	}
 
 	private void createTableHeader(Sheet sheet)
 	{
 		short colnumMax = 0;
-
 		Row row = sheet.createRow(0);
 		//	for all columns
 		short colnum = 0;
@@ -372,8 +379,7 @@ public abstract class AbstractExcelExporter
 	 * @param out
 	 * @throws Exception
 	 */
-	private void export(OutputStream out)
-	throws Exception
+	private void export(OutputStream out) throws Exception
 	{
 		SXSSFSheet sheet= createTableSheet();
 		String sheetName = null;
@@ -381,6 +387,9 @@ public abstract class AbstractExcelExporter
 		int colnumMax = 0;
 		for (int rownum = 0, xls_rownum = 1; rownum < getRowCount(); rownum++, xls_rownum++)
 		{
+			if (rownum == 0) // Titles
+				continue;
+
 			setCurrentRow(rownum);
 
 			boolean isPageBreak = false;
@@ -464,8 +473,7 @@ public abstract class AbstractExcelExporter
 	 * @param language reporting language
 	 * @throws Exception
 	 */
-	public void export(File file, Language language)
-	throws Exception
+	public void export(File file, Language language) throws Exception
 	{
 		export(file, language, true);
 	}
@@ -477,8 +485,7 @@ public abstract class AbstractExcelExporter
 	 * @param autoOpen auto open file after generated
 	 * @throws Exception
 	 */
-	public void export(File file, Language language, boolean autoOpen)
-	throws Exception
+	public void export(File file, Language language, boolean autoOpen) throws Exception
 	{
 		m_lang = language;
 		m_workbook = new SXSSFWorkbook();
@@ -495,8 +502,7 @@ public abstract class AbstractExcelExporter
 	 * Export to file
 	 * @throws Exception
 	 */
-	public File export()
-	throws Exception
+	public File export() throws Exception
 	{
 		m_lang = Env.getLanguage(getCtx());
 		File file = File.createTempFile("Report_", ".xls");
