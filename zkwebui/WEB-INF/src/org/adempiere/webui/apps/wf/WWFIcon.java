@@ -14,7 +14,7 @@
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
  * or via info@compiere.org or http://www.compiere.org/license.html           *
  *****************************************************************************/
-package org.compiere.apps.wf;
+package org.adempiere.webui.apps.wf;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -22,8 +22,12 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 
 import javax.swing.Icon;
+import javax.swing.ImageIcon;
 
-import org.compiere.model.MTreeNode;
+import org.adempiere.webui.apps.AEnv;
+import org.compiere.util.CLogger;
+import org.zkoss.image.AImage;
+import org.zkoss.zk.ui.Executions;
 
 
 /**
@@ -35,24 +39,23 @@ import org.compiere.model.MTreeNode;
  * 		<a href="https://github.com/adempiere/adempiere/issues/1176">
  * 		@see FR [ 1176 ] Look and feel style to ADempiere 390 - Change icons on Work Flow</a>
  */
-public class WFIcon implements Icon
-{
+public class WWFIcon implements Icon {
+	
 	/**
 	 * 	Constructor
 	 *	@param action image indicator
 	 */
-	public WFIcon (String action)
-	{
-		if (action != null)
-			m_type = MTreeNode.getImageIndex(action);
+	public WWFIcon (String action) {
+		this.action= action;
 	}	//	WFIcon
 
 
 	private static int 		WIDTH = 20;		//	Image is 16x16
 	private static int 		HEIGHT = 20;
 
-	/**	Image Index			*/
-	private int				m_type = 0;
+	/**	Action				*/
+	private String			action = null;
+	private static CLogger 	log = CLogger.getCLogger(WWFIcon.class);
 
 	/**
 	 *	Draw the icon at the specified location.  Icon implementations
@@ -65,18 +68,21 @@ public class WFIcon implements Icon
 	 * 	@param y	Y
 	 * @see javax.swing.Icon#paintIcon(Component, Graphics, int, int)
 	 */
-	public void paintIcon (Component c, Graphics g, int x, int y)
-	{
+	public void paintIcon (Component c, Graphics g, int x, int y) {
 		Graphics2D g2D = (Graphics2D)g;
-		Icon icon = MTreeNode.getIcon(m_type);
-		if (icon != null)
-		{
+		AImage image = null;
+		try {
+			image = new AImage(Executions.encodeToURL(AEnv.getMenuIconFile(action)));
+		} catch (Exception e) {
+			log.warning(e.getLocalizedMessage());
+		}
+		//	Edit image
+		if (image != null) {
+			ImageIcon icon = image.toImageIcon();
 			int xI = x + ((WIDTH - icon.getIconWidth()) / 2);
 			int yI = y + ((HEIGHT - icon.getIconHeight()) / 2);
 			icon.paintIcon(c, g, xI, yI);
-		}
-		else	//	draw dot
-		{
+		} else { //	draw dot
 			int size = 10;
 			int xI = x + ((WIDTH - size) / 2);
 			int yI = y + ((HEIGHT - size) / 2);
@@ -90,8 +96,7 @@ public class WFIcon implements Icon
 	 *	@return an int specifying the fixed width of the icon.
 	 * @see javax.swing.Icon#getIconWidth()
 	 */
-	public int getIconWidth()
-	{
+	public int getIconWidth() {
 		return WIDTH;
 	}	//	getIconWidth
 
@@ -100,9 +105,8 @@ public class WFIcon implements Icon
 	 *	@return an int specifying the fixed height of the icon.
 	 * @see javax.swing.Icon#getIconHeight()
 	 */
-	public int getIconHeight()
-	{
+	public int getIconHeight() {
 		return HEIGHT;
 	}	//	getIconHeight
 
-}	//	WFIcon
+}	//	WFFIcon

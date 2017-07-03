@@ -15,6 +15,7 @@ package org.adempiere.webui.dashboard;
 
 import java.util.List;
 
+import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.ToolBarButton;
 import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.theme.ITheme;
@@ -191,7 +192,7 @@ public class DPRecentItems extends DashboardPanel implements EventListener {
 					MMenu menu = MMenu.getFromId(Env.getCtx(), recentItem.getAD_Menu_ID());
 					action = menu.getAction();
 				}
-				btnrecentItem.setImage(getIconFile(action));
+				btnrecentItem.setImage(AEnv.getMenuIconFile(action));
 				bxRecentItems.appendChild(btnrecentItem);
 			}
 		}
@@ -208,30 +209,7 @@ public class DPRecentItems extends DashboardPanel implements EventListener {
 			bxRecentItems.invalidate();
 		}
 	}
-
-	/**
-	 * Get icon from action
-	 * @param action
-	 * @return
-	 */
-	private String getIconFile(String action) {
-		String iconPath = null;
-		if (action.equals(MMenu.ACTION_Report))
-			iconPath = ITheme.MENU_REPORT_IMAGE;
-        else if (action.equals(MMenu.ACTION_Process))
-        	iconPath = ITheme.MENU_PROCESS_IMAGE;
-        else if (action.equals(MMenu.ACTION_WorkFlow))
-        	iconPath = ITheme.MENU_WORKFLOW_IMAGE;
-        else if (action.equals(MMenu.ACTION_Task))
-        	iconPath = ITheme.MENU_TASK_IMAGE;
-        else if (action.equals(MMenu.ACTION_Workbench))
-        	iconPath = ITheme.MENU_WORKBENCH_IMAGE;
-        else
-        	iconPath = ITheme.MENU_WINDOW_IMAGE;
-		//	Default
-		return iconPath;
-	}
-
+	
 	@Override
     public void refresh(ServerPushTemplate template)
 	{			
