@@ -43,12 +43,12 @@ public class ArrayExcelExporter extends AbstractExcelExporter {
 	
 	@Override
 	public int getColumnCount() {
-		return m_data.get(0).size() - 1;
+		return m_data.get(0).size();
 	}
 
 	@Override
 	public int getDisplayType(int row, int col) {
-		ArrayList<Object> dataRow = m_data.get(row+1);
+		ArrayList<Object> dataRow = m_data.get(row);
 		Object value = dataRow.get(col);
 		if (value == null)
 			;
@@ -90,12 +90,12 @@ public class ArrayExcelExporter extends AbstractExcelExporter {
 
 	@Override
 	public int getRowCount() {
-		return m_data.size() - 1;
+		return m_data.size();
 	}
 
 	@Override
 	public Object getValueAt(int row, int col) {
-		ArrayList<Object> dataRow = m_data.get(row+1);
+		ArrayList<Object> dataRow = m_data.get(row);
 		Object value = dataRow.get(col);
 		return value;
 	}

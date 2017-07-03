@@ -731,14 +731,19 @@ public abstract class Browser {
 	public  ArrayList<ArrayList<Object>> getDataRows(IBrowserTable browserTable) {
 		ArrayList<ArrayList<Object>> rows = m_rows;
 		if (isShowTotal()) {
-			ArrayList<Object> row = new ArrayList<Object>();
+			ArrayList<Object> row = new ArrayList<Object>(m_rows.size());
+			BrowserRow data = browserTable.getData();
 			int lastRow = browserTable.getRowCount() - 1;
-			for (int column = 0; column <= browserTable.getColumnCount() - 1 ; column++) {
-				Object data = browserTable.getValueAt(lastRow , column);
-				if (data == null)
+			for (int column = 0 ; column < data.getColumnCount() ; column++) {
+				GridField gridField = data.getValue(lastRow , column);
+				Object value = null;
+				if (gridField != null)
+					value = gridField.getValue();
+
+				if (value == null)
 					row.add(null);
 				else
-					row.add(data);
+					row.add(value);
 			}
 			rows.add(row);
 		}

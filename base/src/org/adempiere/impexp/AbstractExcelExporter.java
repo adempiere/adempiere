@@ -387,6 +387,9 @@ public abstract class AbstractExcelExporter
 		int colnumMax = 0;
 		for (int rownum = 0, xls_rownum = 1; rownum < getRowCount(); rownum++, xls_rownum++)
 		{
+			if (rownum == 0) // Titles
+				continue;
+
 			setCurrentRow(rownum);
 
 			boolean isPageBreak = false;
