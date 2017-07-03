@@ -86,16 +86,16 @@ public class Messagebox extends Window implements EventListener
 	public static final int IGNORE = 0x0400;
 
 	/** A symbol consisting of a question mark in a circle. */
-	public static final String QUESTION = "/images/Question-btn.png";
+	public static final String QUESTION = "/images/dark/Question-btn.png";
 
 	/** A symbol consisting of an exclamation point in a triangle with a yellow background. */
-	public static final String EXCLAMATION  = "/images/Warning-btn.png";
+	public static final String EXCLAMATION  = "/images/dark/Warning-btn.png";
 
 	/** A symbol of a lowercase letter i in a circle. */
-	public static final String INFORMATION = "/images/Info-btn.png";
+	public static final String INFORMATION = "/images/dark/Info-btn.png";
 
 	/** A symbol consisting of a white X in a circle with a red background. */
-	public static final String ERROR = "/images/Stop-btn.png";
+	public static final String ERROR = "/images/dark/Stop-btn.png";
 
 	/** Contains no symbols. */
 	public static final String NONE = null;
