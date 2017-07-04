@@ -133,7 +133,7 @@ public final class ConfirmPanel extends Hbox
         }
         else
         {
-        	button.setImage("images/"+name+"24.png");
+        	button.setImage("images/"+name+"16.png");
         	if (text != null)
         		button.setTooltiptext(text);
         	LayoutUtils.addSclass("action-button", button);

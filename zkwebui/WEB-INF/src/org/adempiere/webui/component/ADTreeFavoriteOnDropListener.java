@@ -172,7 +172,7 @@ public class ADTreeFavoriteOnDropListener implements EventListener
 		Events.sendEvent(tree, new Event(Events.ON_RIGHT_CLICK, tree));
 		
 		Menupopup popup = new Menupopup();
-		Menuitem menuItem = new Menuitem(Msg.getMsg(Env.getCtx() , "delete"), "/images/Delete24.png");
+		Menuitem menuItem = new Menuitem(Msg.getMsg(Env.getCtx() , "delete"), "/images/dark/Delete16.png");
 		menuItem.setValue(MENU_ITEM_DELETE);
 		menuItem.setParent(popup);
 		menuItem.addEventListener(Events.ON_CLICK, new DeleteListener(toNode));

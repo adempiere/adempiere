@@ -250,7 +250,7 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 			}
 			
 			bDelete.setEnabled(false);
-			bDelete.setImage("/images/Delete24.png");
+			bDelete.setImage("/images/Delete16.png");
 			bDelete.setSclass("action-button");
 			bDelete.addActionListener(this);
 			hBox.appendChild(bDelete);
