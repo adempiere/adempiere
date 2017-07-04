@@ -295,7 +295,7 @@ public class ZkReportViewer extends Window implements EventListener {
 		comboReport.setTooltiptext(Msg.translate(Env.getCtx(), "AD_PrintFormat_ID"));
 		toolBar.appendChild(comboReport);
 		//	FR [ 237 ]
-//		toolBar.appendChild(new Separator("vertical"));
+		toolBar.appendChild(new Separator("vertical"));
 		comboReportView.setMold("select");
 		comboReportView.setTooltiptext(Msg.translate(Env.getCtx(), "AD_ReportView_ID"));
 		toolBar.appendChild(comboReportView);
