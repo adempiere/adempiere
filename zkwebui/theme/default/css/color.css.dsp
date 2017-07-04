@@ -80,9 +80,11 @@
 .z-textbox-readonly
 , .z-combobox-inp-readonly
 , .z-decimalbox-readonly
-, .z-datebox-inp-readonly {
-  border: 1px solid #f0f0f0 !important;
-	color: #888888 !important;
+, .z-datebox-inp-readonly
+, .z-combobox-text-disd {
+  background-image: url("../images/zul/misc/text-bg8-dis.gif") !important;
+  background-repeat: repeat !important;
+  color: #282828 !important;
 }
 
 .z-panel-header {
