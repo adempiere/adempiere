@@ -144,6 +144,14 @@
   padding-right: 20px;
 }
 
+.z-north-splt, .z-south-splt {
+  background: #003764;
+  height: 1px;
+}
+.z-border-layout {
+  background: #003764;
+}
+
 
 <%-- OpenUp Ltda. Fin --%>
 
