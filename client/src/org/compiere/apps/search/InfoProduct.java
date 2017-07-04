@@ -338,7 +338,7 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 		p_criteriaGrid.add(checkAND, new ALayoutConstraint(3,5));
 
 		//	Product Attribute Instance
-		m_PAttributeButton = ConfirmPanel.createPAttributeButton(true);
+		m_PAttributeButton = ConfirmPanel.createPAttributeButton(false);
 		confirmPanel.addButton(m_PAttributeButton);
 		m_PAttributeButton.addActionListener(this);
 		m_PAttributeButton.setEnabled(false);
