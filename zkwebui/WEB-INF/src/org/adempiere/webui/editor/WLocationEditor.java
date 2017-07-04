@@ -48,7 +48,12 @@ import org.zkoss.zk.ui.event.Events;
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *		<li> FR [ 146 ] Remove unnecessary class, add support for info to specific column
  *		@see https://github.com/adempiere/adempiere/issues/146
- * 
+ * @author Raul Muñoz, rmunoz@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<a href="https://github.com/adempiere/adempiere/issues/1150">
+ * 		@see FR [ 1150 ] The url location based on google map not work when the location is empty or with data</a>
+ * @author Raul Muñoz, rmunoz@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<a href="https://github.com/adempiere/adempiere/issues/1158">
+ * 		@see FR [ 1158 ] Problems with location address: wrong region and not showing region field</a>
  * This class is based on VLocation written by Jorg Janke
  **/
 public class WLocationEditor extends WEditor implements EventListener, PropertyChangeListener, ContextMenuListener
@@ -175,7 +180,14 @@ public class WLocationEditor extends WEditor implements EventListener, PropertyC
         {
         	if( ((Button)event.getTarget()).getName().equals("bUrl") )
         	{
-        		Env.startBrowser(DefaultContextProvider.GOOGLE_MAPS_URL_PREFIX + m_value.toString().replace(" ", "%"));
+        		String location = ""; 
+        		if (!getComponent().getText().isEmpty()) {
+        			location = getComponent().getText();
+        		}
+        		else if(m_value != null) {
+        			location = m_value.toString().replace(" ", "%"); 
+        		}
+        		Env.startBrowser(DefaultContextProvider.GOOGLE_MAPS_URL_PREFIX +location+"output=embed");
     			return;
         	}
         	else

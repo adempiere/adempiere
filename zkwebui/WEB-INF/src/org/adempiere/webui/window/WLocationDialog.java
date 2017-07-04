@@ -66,7 +66,14 @@ import org.zkoss.zul.Hbox;
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *		<a href="https://github.com/adempiere/adempiere/issues/685">
  * 		@see FR [ 685 ] Location dialog for ZK don't have a Standard ADempiere Buttons Position</a>
+ * @author Raul Muñoz, rmunoz@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<a href="https://github.com/adempiere/adempiere/issues/1150">
+ * 		@see FR [ 1150 ] The url location based on google map not work when the location is empty or with data</a>
+ * @author Raul Muñoz, rmunoz@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<a href="https://github.com/adempiere/adempiere/issues/1158">
+ * 		@see FR [ 1158 ] Problems with location address: wrong region and not showing region field</a>
  **/
+
 public class WLocationDialog extends Window implements EventListener
 {
 	/**
@@ -544,7 +551,7 @@ public class WLocationDialog extends Window implements EventListener
 		}
 		else if (btnUrl.equals(event.getTarget()))
 		{
-			Env.startBrowser(DefaultContextProvider.GOOGLE_MAPS_URL_PREFIX + getCurrentLocation());
+			Env.startBrowser(DefaultContextProvider.GOOGLE_MAPS_URL_PREFIX + getCurrentLocation()+"output=embed");
 			m_change = false;
 			this.dispose();
 		}
