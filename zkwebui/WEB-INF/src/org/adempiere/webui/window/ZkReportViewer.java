@@ -299,32 +299,35 @@ public class ZkReportViewer extends Window implements EventListener {
 		comboReportView.setMold("select");
 		comboReportView.setTooltiptext(Msg.translate(Env.getCtx(), "AD_ReportView_ID"));
 		toolBar.appendChild(comboReportView);
-		
-		bCustomize.setImage("/images/dark/Preference24.png");
+
+		toolBar.appendChild(new Separator("vertical"));
+		bCustomize.setImage("/images/dark/Preference16.png");
 		bCustomize.setTooltiptext(Msg.getMsg(Env.getCtx(), "PrintCustomize"));
 		toolBar.appendChild(bCustomize);
 		bCustomize.addEventListener(Events.ON_CLICK, this);
-		
-		bFind.setImage("/images/dark/Find24.png");
+
+		toolBar.appendChild(new Separator("vertical"));
+		bFind.setImage("/images/dark/Find16.png");
 		bFind.setTooltiptext(Msg.getMsg(Env.getCtx(), "Find"));
 		toolBar.appendChild(bFind);
 		bFind.addEventListener(Events.ON_CLICK, this);
 		
 		toolBar.appendChild(new Separator("vertical"));
-		
-		bSendMail.setImage("/images/dark/SendMail24.png");
+		bSendMail.setImage("/images/dark/SendMail16.png");
 		bSendMail.setTooltiptext(Msg.getMsg(Env.getCtx(), "SendMail"));
 		toolBar.appendChild(bSendMail);
 		bSendMail.addEventListener(Events.ON_CLICK, this);
-		
-		bArchive.setImage("/images/dark/Archive24.png");
+
+		toolBar.appendChild(new Separator("vertical"));
+		bArchive.setImage("/images/dark/Archive16.png");
 		bArchive.setTooltiptext(Msg.getMsg(Env.getCtx(), "Archive"));
 		toolBar.appendChild(bArchive);
 		bArchive.addEventListener(Events.ON_CLICK, this);
 
 		if (m_isCanExport)
 		{
-			bExport.setImage("/images/dark/ExportX24.png");
+			toolBar.appendChild(new Separator("vertical"));
+			bExport.setImage("/images/dark/ExportX16.png");
 			bExport.setTooltiptext(Msg.getMsg(Env.getCtx(), "Export"));
 			toolBar.appendChild(bExport);
 			bExport.addEventListener(Events.ON_CLICK, this);
@@ -332,18 +335,20 @@ public class ZkReportViewer extends Window implements EventListener {
 		
 		//	BR [1019]
 		if (m_IsCanLoad) {
-			bLoad.setImage("/images/dark/Import24.png");
+			toolBar.appendChild(new Separator("vertical"));
+			bLoad.setImage("/images/dark/Import16.png");
 			bLoad.setTooltiptext(Msg.getMsg(Env.getCtx(), "Load New Report Definition"));
 			toolBar.appendChild(bLoad);
 			bLoad.addEventListener(Events.ON_CLICK, this);
 		}
 		
 		toolBar.appendChild(new Separator("vertical"));
-		bRefresh.setImage("/images/dark/Refresh24.png");
+		bRefresh.setImage("/images/dark/Refresh16.png");
 		bRefresh.setTooltiptext(Msg.getMsg(Env.getCtx(), "Refresh"));
 		toolBar.appendChild(bRefresh);
 		bRefresh.addEventListener(Events.ON_CLICK, this);
 
+		toolBar.appendChild(new Separator("vertical"));
 		summary.setText(Msg.getMsg(Env.getCtx(), "Summary"));
 		toolBar.appendChild(summary);
 
