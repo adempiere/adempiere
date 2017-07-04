@@ -137,6 +137,13 @@
   color: #FFFFFF !important;
 }
 
+.adwindow-navbtn-uns
+, .adwindow-navbtn-sel {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-right: 20px;
+}
+
 
 <%-- OpenUp Ltda. Fin --%>
 
