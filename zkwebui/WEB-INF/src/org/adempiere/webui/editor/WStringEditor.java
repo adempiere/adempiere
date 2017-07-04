@@ -107,7 +107,7 @@ public class WStringEditor extends WEditor implements ContextMenuListener
     @Override
     public org.zkoss.zul.Textbox getComponent() {
     	// BR [ 640 ]
-    	if(gridField.isAutocomplete())
+    	if(gridField != null && gridField.isAutocomplete())
     		return (org.zkoss.zul.Textbox) (((Combobox)component));
     	else
     		return (org.zkoss.zul.Textbox) (((StringBox)component).getTextBox());
