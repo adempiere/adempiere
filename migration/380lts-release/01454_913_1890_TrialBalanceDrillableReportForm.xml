@@ -105,7 +105,7 @@
         <Data AD_Column_ID="2823" Column="Description">Is Show Retained Earnings</Data>
         <Data AD_Column_ID="2822" Column="Name">Is Show Retained Earnings</Data>
         <Data AD_Column_ID="4017" Column="ColumnName">isShowRetainedEarnings</Data>
-        <Data AD_Column_ID="2817" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2817" Column="IsActive">false</Data>
         <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="2821" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="2820" Column="Updated">2015-01-31 16:28:54.162</Data>
