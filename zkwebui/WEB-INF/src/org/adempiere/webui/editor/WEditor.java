@@ -263,6 +263,12 @@ public abstract class WEditor implements CEditor, EventListener, PropertyChangeL
         component.addEventListener(Events.ON_BLUR, new EventListener() {
 			public void onEvent(Event event) throws Exception {
 				hasFocus = false;
+				if(isMandatoryStyle()) {
+					setMandatoryStyle();
+				}
+				else {
+					markMandatory(false);
+				}
 			}
 
         });
@@ -399,6 +405,9 @@ public abstract class WEditor implements CEditor, EventListener, PropertyChangeL
                     ((HtmlBasedComponent) component).setSclass("normal-field");
                 }
             }
+            if(isMandatoryStyle()) {
+				setMandatoryStyle();
+			}
         }
     }
 
