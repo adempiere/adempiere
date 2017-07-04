@@ -179,10 +179,10 @@ public class WSortTab extends Panel implements IADTabPanel {
 		yesList.setSeltype("multiple");
 		noList.setSeltype("multiple");
 
-		bAdd.setImage("images/Detail24.png");
+		bAdd.setImage("images/Detail16.png");
 		bAdd.addEventListener(Events.ON_CLICK, actionListener);
 
-		bRemove.setImage("images/Parent24.png");
+		bRemove.setImage("images/Parent16.png");
 		bRemove.addEventListener(Events.ON_CLICK, actionListener);
 
 		EventListener crossListMouseListener = new DragListener();
@@ -198,10 +198,10 @@ public class WSortTab extends Panel implements IADTabPanel {
 			}
 		};
 
-		bUp.setImage("images/Previous24.png");
+		bUp.setImage("images/Previous16.png");
 		bUp.addEventListener(Events.ON_CLICK, actionListener);
 
-		bDown.setImage("images/Next24.png");
+		bDown.setImage("images/Next16.png");
 		bDown.addEventListener(Events.ON_CLICK, actionListener);
 
 		EventListener yesListMouseMotionListener = new EventListener()

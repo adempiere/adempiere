@@ -60,7 +60,7 @@ public class RecordInfo extends RecordInfoController
 {
 	public static final String CHANGE_LOG_COMMAND = "ChangeLog";
 	/** The Menu Icon               */
-	private static Icon s_icon = new ImageIcon(org.compiere.Adempiere.class.getResource("images/ChangeLog16.png"));
+	private static Icon s_icon = new ImageIcon(org.compiere.Adempiere.class.getResource("images/dark/ChangeLog16.png"));
 	/**	Dialog			*/
 	private CDialog m_Dialog = null;
 

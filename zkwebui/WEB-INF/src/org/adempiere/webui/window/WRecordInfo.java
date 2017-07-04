@@ -208,7 +208,7 @@ public class WRecordInfo extends RecordInfoController implements EventListener
 	public static void addMenu(WEditorPopupMenu popupMenu) {
 		Menuitem changeLogItem = new Menuitem();
         changeLogItem.setLabel(Msg.getElement(Env.getCtx(), "AD_ChangeLog_ID"));
-        changeLogItem.setImage("/images/ChangeLog16.png");
+        changeLogItem.setImage("/images/dark/ChangeLog16.png");
         changeLogItem.setAttribute(WEditorPopupMenu.EVENT_ATTRIBUTE, WEditorPopupMenu.CHANGE_LOG_EVENT);
         changeLogItem.addEventListener(Events.ON_CLICK, popupMenu);
         //	Add

@@ -130,7 +130,7 @@ public class WWFActivity extends ADForm implements EventListener
         fAnswerList.setMold("select");
 
     	bZoom.setImage("/images/Zoom16.png");
-    	bOK.setImage("/images/Ok24.png");
+    	bOK.setImage("/images/Ok16.png");
 
         MLookup lookup = MLookupFactory.get(Env.getCtx(), m_WindowNo,
                 0, 10443, DisplayType.Search);

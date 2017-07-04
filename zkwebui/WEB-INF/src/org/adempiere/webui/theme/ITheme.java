@@ -67,8 +67,8 @@ public interface ITheme {
 	public static final String MENU_TASK_IMAGE= "/images/dark/mProcess.png";
 	public static final String MENU_WORKBENCH_IMAGE= "/images/dark/mWindow.png";
 	//	General
-	public static final String DASHBOARD_DELETE_IMAGE= "/images/dark/Delete24.png";
-	public static final String DASHBOARD_REFRESH_IMAGE= "/images/dark/Refresh24.png";
+	public static final String DASHBOARD_DELETE_IMAGE= "/images/dark/Delete16.png";
+	public static final String DASHBOARD_REFRESH_IMAGE= "/images/dark/Refresh16.png";
 	public static final String IMAGE_FOLDER_DARK= "/images/dark/";
 	public static final String IMAGE_FOLDER= "/images/";
 	//	Toolbar
