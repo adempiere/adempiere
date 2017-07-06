@@ -920,7 +920,11 @@ public class MProduction extends X_M_Production implements DocAction {
 	}
 	
 	@Override
-	protected boolean beforeSave(boolean newRecord) {
+	protected boolean beforeSave(boolean newRecord) {		
+		// For reversals, do not change anything
+		if(getReversal_ID()!=0)
+			return true;
+		
 		//	For Document Type
 		if(getC_DocType_ID() == 0) {
 			int C_DocType_ID = MDocType.getDocType(MDocType.DOCBASETYPE_MaterialProduction, getAD_Org_ID());
@@ -930,6 +934,7 @@ public class MProduction extends X_M_Production implements DocAction {
 				throw new AdempiereException("@C_DocType_ID@ @NotFound@");
 			setC_DocType_ID(C_DocType_ID);
 		}
+		
 		//	For Production Batch
 		if(is_ValueChanged(COLUMNNAME_M_ProductionBatch_ID)) {
 			if(!isProcessed()) {
