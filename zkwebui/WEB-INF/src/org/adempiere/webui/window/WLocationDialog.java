@@ -551,7 +551,7 @@ public class WLocationDialog extends Window implements EventListener
 		}
 		else if (btnUrl.equals(event.getTarget()))
 		{
-			Env.startBrowser(DefaultContextProvider.GOOGLE_MAPS_URL_PREFIX + getCurrentLocation()+"output=embed");
+			Env.startBrowser(DefaultContextProvider.GOOGLE_MAPS_URL_PREFIX + getCurrentLocation()+"&output=embed");
 			m_change = false;
 			this.dispose();
 		}
