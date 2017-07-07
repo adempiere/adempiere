@@ -187,7 +187,7 @@ public class WLocationEditor extends WEditor implements EventListener, PropertyC
         		else if(m_value != null) {
         			location = m_value.toString().replace(" ", "%"); 
         		}
-        		Env.startBrowser(DefaultContextProvider.GOOGLE_MAPS_URL_PREFIX +location+"output=embed");
+        		Env.startBrowser(DefaultContextProvider.GOOGLE_MAPS_URL_PREFIX +location+"&output=embed");
     			return;
         	}
         	else

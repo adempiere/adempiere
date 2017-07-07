@@ -445,7 +445,7 @@ div.wc-modal, div.wc-modal-none, div.wc-highlighted, div.wc-highlighted-none {
 
 
 .message-info{
-	background-color:#DDE3EB;
+	background-color:#FFFFFF;
 }
 
 .message-info-text{
@@ -570,7 +570,7 @@ tr.z-row td.z-row-inner{
 
 
 input[type="checkbox"]  {
-	
+
 	border: 1px solid #bbbbbb;
 	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05);
 	padding: 9px;
@@ -578,7 +578,7 @@ input[type="checkbox"]  {
 	position: relative;
 	appearance: none;
 	-webkit-appearance: initial !important;
-	
+
 }
 
 input[type="checkbox"] :active, input[type="checkbox"]:checked :active {
@@ -590,20 +590,20 @@ input[type="checkbox"]:checked  {
 	border: 1px solid #adb8c0;
 	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05), inset 15px 10px -12px rgba(255,255,255,0.1);
 	color: #99a1a7;
-	background   : url('../images/zul/input/check.png') 
-	  
+	background   : url('../images/zul/input/check.png')
+
 }
 input[type="checkbox"]:disabled {
     border: 1px solid #f0f0f0 !important;
     background: f0f0f0;
     }
 input[type="checkbox"]:checked :after {
-	background   : url('../images/zul/input/check.png') 
+	background   : url('../images/zul/input/check.png')
 	font-size: 14px;
 	position: absolute;
 	top: 0px;
 	left: 3px;
-	color: #99a1a7; 
+	color: #99a1a7;
 }
 .z-checkbox-cnt {
 	position: relative;

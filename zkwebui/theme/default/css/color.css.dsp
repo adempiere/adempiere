@@ -130,7 +130,7 @@
 }
 
 .adwindow-nav-content {
-  background-color: #D7D7D7;
+  background-color: #E7E7E7;
 }
 
 .z-list-item-seld *, .z-list-item-over * {
