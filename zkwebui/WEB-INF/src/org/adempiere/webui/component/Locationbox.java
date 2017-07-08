@@ -21,11 +21,13 @@ import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 
 /**
- * 
+ *
  * @author Low Heng Sin
  * @author victor.perez@e-evolution.com, www.e-evolution.com
  * 			<li>BF [ 3294610] The location should allow open a google map
  * 			<li>https://sourceforge.net/tracker/?func=detail&atid=879335&aid=3294610&group_id=176962
+ * 		 	<a href="https://github.com/adempiere/adempiere/issues/886">
+ * 			@see FR [ 886 ] System config Google Map</a>
  *
  */
 public class Locationbox extends EditorBox
@@ -48,6 +50,9 @@ public class Locationbox extends EditorBox
      
      protected Td tdUrl;
      protected Button bUrl;
+
+	protected Td tdRouteUrl;
+	protected Button bRouteUrl;
      
      public void setButtonUrlImage(String imageSrc) {
  		bUrl.setImage(imageSrc);
@@ -90,6 +95,18 @@ public class Locationbox extends EditorBox
  		LayoutUtils.addSclass("editor-button", bUrl);
  		tdUrl.appendChild(bUrl);
 
+ 		tdRouteUrl = new Td();
+ 		tr.appendChild(tdRouteUrl);
+ 		tdRouteUrl.setStyle("border: none; padding: 0px; margin: 0px;");
+ 		tdRouteUrl.setSclass("editor-button");
+ 		bRouteUrl = new Button();
+ 		bRouteUrl.setImage("/images/Route10.png");
+
+ 		bRouteUrl.setName("bRouteUrl");
+ 		bRouteUrl.setTabindex(-1);
+ 		LayoutUtils.addSclass("editor-button", bRouteUrl);
+ 		tdRouteUrl.appendChild(bRouteUrl);
+
 
  		btnColumn = new Td();
  		tr.appendChild(btnColumn);
@@ -115,22 +132,29 @@ public class Locationbox extends EditorBox
   		btn.setVisible(enabled);
   		bUrl.setEnabled(enabled);
   		bUrl.setVisible(enabled);
+		bRouteUrl.setEnabled(enabled);
+		bRouteUrl.setVisible(enabled);
   		btnColumn.setVisible(enabled);
   		if (enabled)
   		{
   			btnColumn.setSclass("editor-button");
-  			tdUrl.setSclass("editor-button");
+			tdUrl.setSclass("editor-button");
+			btnColumn.setSclass("editor-button");
+			tdRouteUrl.setSclass("editor-button");
   		}
   		else
   		{
   			btnColumn.setSclass("");
   			tdUrl.setSclass("");
+			btnColumn.setSclass("editor-button");
+			tdRouteUrl.setSclass("editor-button");
   		}
   	}
      
      public boolean addEventListener(String evtnm, EventListener listener) {
  		if (Events.ON_CLICK.equals(evtnm)) {
  			bUrl.addEventListener(evtnm, listener);
+			bRouteUrl.addEventListener(evtnm, listener);
  			return btn.addEventListener(evtnm, listener);
  			
  		} else {

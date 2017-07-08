@@ -26,13 +26,14 @@ import org.adempiere.webui.component.Locationbox;
 import org.adempiere.webui.event.ContextMenuEvent;
 import org.adempiere.webui.event.ContextMenuListener;
 import org.adempiere.exceptions.ValueChangeEvent;
+import org.adempiere.webui.window.FDialog;
 import org.adempiere.webui.window.WRecordInfo;
 import org.adempiere.webui.window.WLocationDialog;
 import org.compiere.model.GridField;
 import org.compiere.model.MLocation;
 import org.compiere.model.MLocationLookup;
+import org.compiere.model.MOrgInfo;
 import org.compiere.util.CLogger;
-import org.compiere.util.DefaultContextProvider;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.zkoss.zk.ui.event.Event;
@@ -45,6 +46,8 @@ import org.zkoss.zk.ui.event.Events;
  * @author victor.perez@e-evolution.com, www.e-evolution.com
  * 		<li>BF [ 3294610] The location should allow open a google map
  * 		<li>https://sourceforge.net/tracker/?func=detail&atid=879335&aid=3294610&group_id=176962
+ * 		<a href="https://github.com/adempiere/adempiere/issues/886">
+ * 		@see FR [ 886 ] System config Google Map</a>
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *		<li> FR [ 146 ] Remove unnecessary class, add support for info to specific column
  *		@see https://github.com/adempiere/adempiere/issues/146
@@ -180,16 +183,54 @@ public class WLocationEditor extends WEditor implements EventListener, PropertyC
         {
         	if( ((Button)event.getTarget()).getName().equals("bUrl") )
         	{
-        		String location = ""; 
+        		String location = "";
         		if (!getComponent().getText().isEmpty()) {
-        			location = getComponent().getText();
+        			location = getComponent().getText().replace(" ", "+");
         		}
         		else if(m_value != null) {
-        			location = m_value.toString().replace(" ", "%"); 
+        			location = m_value.toString().replace(" ", "+");
         		}
-        		Env.startBrowser(DefaultContextProvider.GOOGLE_MAPS_URL_PREFIX +location+"&output=embed");
+                String urlString = MLocation.LOCATION_MAPS_URL_PREFIX + location;
+                String message = null;
+                try {
+                    //Executions.getCurrent().sendRedirect(urlString, "_blank");
+                    Env.startBrowser(urlString+"&output=embed");
+                }
+                catch (Exception e) {
+                    message = e.getMessage();
+                    FDialog.warn(0, getComponent(), "URLnotValid", message);
+                }
     			return;
         	}
+            else if( ((Button)event.getTarget()).getName().equals("bRouteUrl") )
+            {
+                String location = "";
+                if (!getComponent().getText().isEmpty()) {
+                    location = getComponent().getText().replace(" ", "+");;
+                }
+                else if(m_value != null) {
+                    location = m_value.toString().replace(" ", "+");
+                }
+
+                int orgId = Env.getAD_Org_ID(Env.getCtx());
+                if (orgId != 0){
+                    MOrgInfo orgInfo = 	MOrgInfo.get(Env.getCtx(), orgId,null);
+                    MLocation orgLocation = new MLocation(Env.getCtx(),orgInfo.getC_Location_ID(),null);
+
+                    String urlString = MLocation.LOCATION_MAPS_ROUTE_PREFIX +
+                            MLocation.LOCATION_MAPS_SOURCE_ADDRESS + orgLocation.getMapsLocation() + //org
+                            MLocation.LOCATION_MAPS_DESTINATION_ADDRESS + location; //partner
+                    String message = null;
+                    try {
+                        Env.startBrowser(urlString+"&output=embed");
+                        //Executions.getCurrent().sendRedirect(urlString, "_blank");
+                    }
+                    catch (Exception e) {
+                        message = e.getMessage();
+                        FDialog.warn(0, getComponent(), "URLnotValid", message);
+                    }
+                }
+            }
         	else
         	{	
 	            log.config( "actionPerformed - " + m_value);
