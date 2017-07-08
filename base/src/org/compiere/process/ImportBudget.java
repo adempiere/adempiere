@@ -178,7 +178,7 @@ public class ImportBudget extends ImportBudgetAbstract {
             orgTrxId = getId(MOrg.Table_Name, MOrg.COLUMNNAME_Value + "=?", trxName, importBudget.getOrgTrxValue());
         if (orgTrxId > 0 && importBudget.getAD_OrgTrx_ID() <= 0)
             importBudget.setAD_OrgTrx_ID(orgTrxId);
-       if (importBudget.getAD_Org_ID() <= 0 && importBudget.getOrgTrxValue() != null)
+       if (importBudget.getAD_OrgTrx_ID() <= 0 && importBudget.getOrgTrxValue() != null)
             stringError.append("@AD_OrgTrx_ID@ @NotFound@ ");
 
         // Set Account Schema
