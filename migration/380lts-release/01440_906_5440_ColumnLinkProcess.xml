@@ -1349,7 +1349,7 @@ There are two reasons for de-activating and not deleting records:
       <PO AD_Table_ID="106" Action="I" Record_ID="54181" Table="AD_Tab">
         <Data AD_Column_ID="166" Column="IsSingleRow">false</Data>
         <Data AD_Column_ID="164" Column="AD_Window_ID">100</Data>
-        <Data AD_Column_ID="165" Column="SeqNo">60</Data>
+        <Data AD_Column_ID="165" Column="SeqNo">75</Data>
         <Data AD_Column_ID="163" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="2043" Column="IsTranslationTab">false</Data>
         <Data AD_Column_ID="3374" Column="AD_Process_ID" isNewNull="true"/>
@@ -1380,7 +1380,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="575" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="576" Column="Updated">2016-04-29 10:48:01.054</Data>
         <Data AD_Column_ID="574" Column="Created">2016-04-29 10:48:01.054</Data>
-        <Data AD_Column_ID="573" Column="IsActive">true</Data>
+        <Data AD_Column_ID="573" Column="IsActive">false</Data>
         <Data AD_Column_ID="577" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="160" Column="AD_Tab_ID">54181</Data>
         <Data AD_Column_ID="380" Column="AD_Org_ID">0</Data>
@@ -1756,7 +1756,7 @@ There are two reasons for de-activating and not deleting records:
       <PO AD_Table_ID="106" Action="I" Record_ID="54182" Table="AD_Tab">
         <Data AD_Column_ID="166" Column="IsSingleRow">true</Data>
         <Data AD_Column_ID="164" Column="AD_Window_ID">100</Data>
-        <Data AD_Column_ID="165" Column="SeqNo">70</Data>
+        <Data AD_Column_ID="165" Column="SeqNo">76</Data>
         <Data AD_Column_ID="163" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="2043" Column="IsTranslationTab">false</Data>
         <Data AD_Column_ID="3374" Column="AD_Process_ID" isNewNull="true"/>
@@ -1787,7 +1787,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="575" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="576" Column="Updated">2016-04-29 10:51:26.82</Data>
         <Data AD_Column_ID="574" Column="Created">2016-04-29 10:51:26.82</Data>
-        <Data AD_Column_ID="573" Column="IsActive">true</Data>
+        <Data AD_Column_ID="573" Column="IsActive">false</Data>
         <Data AD_Column_ID="577" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="160" Column="AD_Tab_ID">54182</Data>
         <Data AD_Column_ID="380" Column="AD_Org_ID">0</Data>
