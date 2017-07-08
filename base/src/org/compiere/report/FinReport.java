@@ -825,7 +825,7 @@ public class FinReport extends FinReportAbstract
 			.append(selectForNameAndDesc).append(") "
 			+ "WHERE Fact_Acct_ID <> 0 AND AD_PInstance_ID=")
 			.append(getAD_PInstance_ID());
-		no = DB.executeUpdate(deleteReportLines.toString(), get_TrxName());
+		no = DB.executeUpdate(updateReportLineSeqNo.toString(), get_TrxName());
 		if (CLogMgt.isLevelFinest())
 			log.fine("Trx Name #=" + no + " - " + updateReportLineSeqNo.toString());
 	}	//	insertLineDetail
@@ -936,6 +936,9 @@ public class FinReport extends FinReportAbstract
 			if(!isCombination)
 				whereReportLine.append(variable).append(" IS NOT NULL");
 
+			if (whereReportLine != null && whereReportLine.length() > 0)
+				whereReportLine.append(parameterWhere);
+
 			//	Link
 			StringBuilder whereLink =  new StringBuilder();
 			if(isCombination)
@@ -950,8 +953,8 @@ public class FinReport extends FinReportAbstract
 			else
 				//	FROM .. WHERE
 				insertLineSource.append(" FROM Fact_Acct x WHERE ").append(whereReportLine);
-			//
-			insertLineSource.append(parameterWhere).append(" GROUP BY ");
+
+			insertLineSource.append(" GROUP BY ");
 			if(isCombination)
 			{
 				List <String> colNames = reportLines[line].getCombinationGroupByColumns();
