@@ -131,6 +131,7 @@ public abstract class AbstractExcelExporter
 	private Font m_fontDefault = null;
 	private Language m_lang = null;
 	private int m_sheetCount = 0;
+	protected boolean dataIncludeHeader = false;
 
 	public boolean isXLSX = false;
 
@@ -319,7 +320,9 @@ public abstract class AbstractExcelExporter
 		formatPage(sheet);
 		sheet.trackAllColumnsForAutoSizing();
 		createHeaderFooter(sheet);
-		createTableHeader(sheet);
+		if (!dataIncludeHeader)
+			createTableHeader(sheet);
+
 		m_sheetCount++;
 		return sheet;
 	}
@@ -387,9 +390,6 @@ public abstract class AbstractExcelExporter
 		int colnumMax = 0;
 		for (int rownum = 0, xls_rownum = 1; rownum < getRowCount(); rownum++, xls_rownum++)
 		{
-			if (rownum == 0) // Titles
-				continue;
-
 			setCurrentRow(rownum);
 
 			boolean isPageBreak = false;

@@ -731,7 +731,7 @@ public abstract class Browser {
 	public  ArrayList<ArrayList<Object>> getDataRows(IBrowserTable browserTable) {
 		ArrayList<ArrayList<Object>> rows = m_rows;
 		if (isShowTotal()) {
-			ArrayList<Object> row = new ArrayList<Object>(m_rows.size());
+			ArrayList<Object> row = new ArrayList<Object>(rows.size());
 			BrowserRow data = browserTable.getData();
 			int lastRow = browserTable.getRowCount() - 1;
 			for (int column = 0 ; column < data.getColumnCount() ; column++) {
@@ -1479,14 +1479,14 @@ public abstract class Browser {
 				;
 			
 			ArrayList<ArrayList<Object>> rows = getDataRows(browserTable);
-			if (rows.size() > 1) {
+			if (rows.size() > 0) {
 				String path = System.getProperty("java.io.tmpdir");
 				String prefix = makePrefix(m_Browse.getName());
 				if (log.isLoggable(Level.FINE)) {
 					log.log(Level.FINE, "Path=" + path + " Prefix=" + prefix);
 				}
 				file = File.createTempFile(prefix, ".xls", new File(path));
-				ArrayExcelExporter exporter = new ArrayExcelExporter(Env.getCtx(), rows);
+				ArrayExcelExporter exporter = new ArrayExcelExporter(Env.getCtx(), rows, true);
 				exporter.export(file, m_language, false);
 			}
 		} catch (IOException e) {
