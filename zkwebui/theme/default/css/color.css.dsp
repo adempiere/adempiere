@@ -39,19 +39,24 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans');
 
 .desktop-header-font {
-	font-family: 'Open Sans', sans-serif, Verdana, Arial, Helvetica;
+    font-family: 'Open Sans', sans-serif, Verdana, Arial, Helvetica;
 	font-size: 10px;
 	color: #FFFFFF;
 }
 
 
+<%-- Start e-Evolution --%>
+.z-toolbar-button {
+ color: #282828 !important;
+}
 
-
-
+.z-listbox {
+  color: #282828 !important;
+}
+<%-- End e-Evolution --%>
 
 <%-- OpenUp Ltda. Inicio --%>
 *, .z-label, .z-checkbox {
-  color: #282828 !important;
   font-family: ${WindowFont};
 }
 .mandatory-decorator-text {
@@ -134,7 +139,6 @@
 }
 
 .z-list-item-seld *, .z-list-item-over * {
-  color: #FFFFFF !important;
 }
 
 .adwindow-navbtn-uns
@@ -234,7 +238,7 @@ div.z-progressmeter {
 	background-color: ${ColorSeld};
 }
 
-.z-combobox-pp .z-combo-item-seld .z-combo-item-text{
+.z-combobox-pp .z-combo-item-seld .z-combo-item-text .z-combo-item-inner {
 	color:${ColorWhite};
 }
 .z-combobox-pp .z-combo-item-over-seld .z-combo-item-text{
