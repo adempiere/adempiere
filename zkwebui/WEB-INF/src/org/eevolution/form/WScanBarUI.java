@@ -682,7 +682,7 @@ public class WScanBarUI extends ScanBar implements IFormController, EventListene
 
     public void close()
     {
-        SessionManager.getAppDesktop().closeActiveWindow();
+		form.dispose();
     }
 
 	public ADForm getForm() {
