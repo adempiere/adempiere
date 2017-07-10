@@ -299,9 +299,9 @@ public class Doc_InOut extends Doc
 					dr.setM_Locator_ID(line.getM_Locator_ID());
 					dr.setLocationFromLocator(line.getM_Locator_ID(), true);    // from Loc
 					dr.setLocationFromBPartner(getC_BPartner_Location_ID(), false);  // to Loc
-					dr.addDescription(description);
                     dr.setM_Product_ID(cost.getM_Product_ID());
                     dr.setQty(cost.getQty());
+					dr.addDescription(description);
 					if (m_DocStatus.equals(MInOut.DOCSTATUS_Reversed) 
 							&& m_Reversal_ID !=0 && line.getReversalLine_ID() != 0)
 					{
@@ -393,8 +393,6 @@ public class Doc_InOut extends Doc
 						}
 						dr = fact.createLine(line, assets,
 							C_Currency_ID, costs, null);
-						dr.addDescription(description);
-						//
 						if (dr == null)
 						{
 							p_Error = "DR not created: " + line;
@@ -406,6 +404,7 @@ public class Doc_InOut extends Doc
 						dr.setLocationFromLocator(line.getM_Locator_ID(), false);   // to Loc
                         dr.setM_Product_ID(cost.getM_Product_ID());
                         dr.setQty(cost.getQty());
+						dr.addDescription(description);
 						if (m_DocStatus.equals(MInOut.DOCSTATUS_Reversed) && m_Reversal_ID !=0 && line.getReversalLine_ID() != 0)
 						{
 							//	Set AmtAcctDr from Original Shipment/Receipt
@@ -420,7 +419,6 @@ public class Doc_InOut extends Doc
 						cr = fact.createLine(line,
 							getAccount(Doc.ACCTTYPE_NotInvoicedReceipts, as),
 							C_Currency_ID, null, costs);
-						cr.addDescription(description);
 						//
 						if (cr == null)
 						{
@@ -428,6 +426,7 @@ public class Doc_InOut extends Doc
 							log.log(Level.WARNING, p_Error);
 							return null;
 						}
+						cr.addDescription(description);
 						cr.setM_Locator_ID(line.getM_Locator_ID());
 						cr.setLocationFromBPartner(getC_BPartner_Location_ID(), true);   //  from Loc
 						cr.setLocationFromLocator(line.getM_Locator_ID(), false);   //  to Loc
@@ -483,14 +482,13 @@ public class Doc_InOut extends Doc
 						dr = fact.createLine(line,
 							getAccount(Doc.ACCTTYPE_NotInvoicedReceipts, as),
 							C_Currency_ID, costs , null);
-						dr.addDescription(description);
-						//
 						if (dr == null)
 						{
 							p_Error = "CR not created: " + line;
 							log.log(Level.WARNING, p_Error);
 							return null;
 						}
+						dr.addDescription(description);
 						dr.setM_Locator_ID(line.getM_Locator_ID());
 						dr.setLocationFromBPartner(getC_BPartner_Location_ID(), true);   //  from Loc
 						dr.setLocationFromLocator(line.getM_Locator_ID(), false);   //  to Loc

@@ -467,6 +467,9 @@ public final class FactLine extends X_Fact_Acct
 	 */
 	public void addDescription (String description)
 	{
+		if (description == null)
+			return;
+
 		String original = getDescription();
 		if (original == null || original.trim().length() == 0)
 			super.setDescription(description);
