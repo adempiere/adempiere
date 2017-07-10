@@ -15,9 +15,10 @@
 	text-align:	center;
 	padding: 2px;
 	font-weight: bold;
-	background-color: #D6EAF6;
+	background-color: #1F9BDE;
+	color:#FFF;
 	border-width: 1px;
-	border-color: black;
+	border-color: #FFF;
 	border-width: 2px 1px 2px 0px;
 	border-style: solid;
 }
@@ -30,7 +31,7 @@
 	border-width: 1px;
 	border-color: #BBBBBB;
 	border-style: solid;
-	border-width: 1px 1px 1px 0px;
+	border-width: 1px 1px 1px 1px;
 	padding: 3px;
 	vertical-align: top;
 }
@@ -69,5 +70,5 @@
 }
 
 .rp-odd {
-	background-color: #F1FBFF;
+	background-color: #f7f7f7;
 }
