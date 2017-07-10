@@ -609,3 +609,16 @@ input[type="checkbox"]:checked :after {
 	position: relative;
     bottom: 8px;
 }
+
+.z-tab-close {
+    background-image: url(../images/zul/tab/tab-close.png);
+    background-repeat: no-repeat;
+    cursor: pointer;
+    display: block;
+    width: 12px;
+    height: 22px;
+    position: absolute;
+    right: 1px; 
+    top: 1px;
+    z-index: 15;
+}
