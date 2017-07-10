@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Look and Feel Correction - Change HTML colours #1207" ReleaseNo="3.9.0" SeqNo="2850">
+  <Migration EntityType="D" Name="Look and Feel Correction - Change HTML colours #1207" ReleaseNo="3.9.0" SeqNo="2880">
     <Comments>See: https://github.com/adempiere/adempiere/issues/1207</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="490" Action="I" Record_ID="50000" Table="AD_PrintColor">
