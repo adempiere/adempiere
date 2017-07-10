@@ -40,7 +40,7 @@
         <Data AD_Column_ID="74874" Column="C_Project_ID" isNewNull="true"/>
         <Data AD_Column_ID="74875" Column="Created">2017-04-02 10:58:45.127</Data>
         <Data AD_Column_ID="74876" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="74880" Column="Description">Orders not completed</Data>
+        <Data AD_Column_ID="74880" Column="Description">Sales Orders not completed</Data>
         <Data AD_Column_ID="74883" Column="Name_PrintColor_ID">100</Data>
         <Data AD_Column_ID="74884" Column="Name_PrintFont_ID">129</Data>
         <Data AD_Column_ID="74885" Column="Number_PrintColor_ID">102</Data>
@@ -53,7 +53,7 @@
         <Data AD_Column_ID="74881" Column="IsActive">true</Data>
         <Data AD_Column_ID="74888" Column="WhereClause">C_Order.IsSOTrx='Y' AND C_Order.Processed='N'</Data>
         <Data AD_Column_ID="74890" Column="AD_Form_ID" isNewNull="true"/>
-        <Data AD_Column_ID="74879" Column="Name">Pending Orders</Data>
+        <Data AD_Column_ID="74879" Column="Name">Pending Sales Orders</Data>
       </PO>
     </Step>
   </Migration>
