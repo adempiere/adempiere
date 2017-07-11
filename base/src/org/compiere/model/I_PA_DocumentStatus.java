@@ -20,15 +20,15 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for U_PA_DocumentStatus
+/** Generated Interface for PA_DocumentStatus
  *  @author Adempiere (generated) 
  *  @version Release 3.9.0
  */
-public interface I_U_PA_DocumentStatus 
+public interface I_PA_DocumentStatus 
 {
 
-    /** TableName=U_PA_DocumentStatus */
-    public static final String Table_Name = "U_PA_DocumentStatus";
+    /** TableName=PA_DocumentStatus */
+    public static final String Table_Name = "PA_DocumentStatus";
 
     /** AD_Table_ID=53898 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
@@ -266,14 +266,14 @@ public interface I_U_PA_DocumentStatus
 	  */
 	public int getSeqNo();
 
-    /** Column name U_PA_DocumentStatus_ID */
-    public static final String COLUMNNAME_U_PA_DocumentStatus_ID = "U_PA_DocumentStatus_ID";
+    /** Column name PA_DocumentStatus_ID */
+    public static final String COLUMNNAME_PA_DocumentStatus_ID = "PA_DocumentStatus_ID";
 
 	/** Set Document Status Indicator	  */
-	public void setU_PA_DocumentStatus_ID (int U_PA_DocumentStatus_ID);
+	public void setPA_DocumentStatus_ID (int PA_DocumentStatus_ID);
 
 	/** Get Document Status Indicator	  */
-	public int getU_PA_DocumentStatus_ID();
+	public int getPA_DocumentStatus_ID();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

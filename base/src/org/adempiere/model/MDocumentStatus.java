@@ -24,7 +24,7 @@ public class MDocumentStatus {
 			return new IDocumentStatus[0];
 		
 		ArrayList<IDocumentStatus> list = new ArrayList<IDocumentStatus>();
-		String sql = "SELECT * FROM U_PA_DocumentStatus g "
+		String sql = "SELECT * FROM PA_DocumentStatus g "
 			+ "WHERE IsActive='Y'"
 			+ " AND AD_Client_ID=?"		//	#1
 			+ " AND ((AD_User_ID IS NULL OR AD_User_ID=?) AND " //#2

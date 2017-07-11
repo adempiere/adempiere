@@ -21,10 +21,10 @@ import java.sql.ResultSet;
 import java.util.Properties;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Model for U_PA_DocumentStatus
+/** Generated Model for PA_DocumentStatus
  *  @author Adempiere (generated) 
  *  @version Release 3.9.0 - $Id$ */
-public class X_U_PA_DocumentStatus extends PO implements I_U_PA_DocumentStatus, I_Persistent 
+public class X_PA_DocumentStatus extends PO implements I_PA_DocumentStatus, I_Persistent 
 {
 
 	/**
@@ -33,10 +33,10 @@ public class X_U_PA_DocumentStatus extends PO implements I_U_PA_DocumentStatus, 
 	private static final long serialVersionUID = 20170627L;
 
     /** Standard Constructor */
-    public X_U_PA_DocumentStatus (Properties ctx, int U_PA_DocumentStatus_ID, String trxName)
+    public X_PA_DocumentStatus (Properties ctx, int PA_DocumentStatus_ID, String trxName)
     {
-      super (ctx, U_PA_DocumentStatus_ID, trxName);
-      /** if (U_PA_DocumentStatus_ID == 0)
+      super (ctx, PA_DocumentStatus_ID, trxName);
+      /** if (PA_DocumentStatus_ID == 0)
         {
 			setAD_Table_ID (0);
 			setName (null);
@@ -45,12 +45,12 @@ public class X_U_PA_DocumentStatus extends PO implements I_U_PA_DocumentStatus, 
 			setNumber_PrintColor_ID (0);
 			setNumber_PrintFont_ID (0);
 			setSeqNo (0);
-			setU_PA_DocumentStatus_ID (0);
+			setPA_DocumentStatus_ID (0);
         } */
     }
 
     /** Load Constructor */
-    public X_U_PA_DocumentStatus (Properties ctx, ResultSet rs, String trxName)
+    public X_PA_DocumentStatus (Properties ctx, ResultSet rs, String trxName)
     {
       super (ctx, rs, trxName);
     }
@@ -72,7 +72,7 @@ public class X_U_PA_DocumentStatus extends PO implements I_U_PA_DocumentStatus, 
 
     public String toString()
     {
-      StringBuffer sb = new StringBuffer ("X_U_PA_DocumentStatus[")
+      StringBuffer sb = new StringBuffer ("X_PA_DocumentStatus[")
         .append(get_ID()).append("]");
       return sb.toString();
     }
@@ -408,20 +408,20 @@ public class X_U_PA_DocumentStatus extends PO implements I_U_PA_DocumentStatus, 
 	}
 
 	/** Set Document Status Indicator.
-		@param U_PA_DocumentStatus_ID Document Status Indicator	  */
-	public void setU_PA_DocumentStatus_ID (int U_PA_DocumentStatus_ID)
+		@param PA_DocumentStatus_ID Document Status Indicator	  */
+	public void setPA_DocumentStatus_ID (int PA_DocumentStatus_ID)
 	{
-		if (U_PA_DocumentStatus_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_U_PA_DocumentStatus_ID, null);
+		if (PA_DocumentStatus_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PA_DocumentStatus_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_U_PA_DocumentStatus_ID, Integer.valueOf(U_PA_DocumentStatus_ID));
+			set_ValueNoCheck (COLUMNNAME_PA_DocumentStatus_ID, Integer.valueOf(PA_DocumentStatus_ID));
 	}
 
 	/** Get Document Status Indicator.
 		@return Document Status Indicator	  */
-	public int getU_PA_DocumentStatus_ID () 
+	public int getPA_DocumentStatus_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_U_PA_DocumentStatus_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_PA_DocumentStatus_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

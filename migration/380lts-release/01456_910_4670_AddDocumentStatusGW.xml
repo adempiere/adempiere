@@ -4,8 +4,8 @@
     <Comments>https://github.com/adempiere/adempiere/issues/910</Comments>
     <Step SeqNo="10" StepType="AD">
       <Comments>Add new document status indicator: Pending Customer Shipments</Comments>
-      <PO AD_Table_ID="53898" Action="I" Record_ID="50000" Table="U_PA_DocumentStatus">
-        <Data AD_Column_ID="74869" Column="U_PA_DocumentStatus_ID">50000</Data>
+      <PO AD_Table_ID="53898" Action="I" Record_ID="50000" Table="PA_DocumentStatus">
+        <Data AD_Column_ID="74869" Column="PA_DocumentStatus_ID">50000</Data>
         <Data AD_Column_ID="74870" Column="AD_Client_ID">11</Data>
         <Data AD_Column_ID="74872" Column="AD_Role_ID" isNewNull="true"/>
         <Data AD_Column_ID="74887" Column="AD_Table_ID">319</Data>
@@ -31,10 +31,10 @@
     </Step>
     <Step SeqNo="20" StepType="AD">
       <Comments>Add new document status indicator: Pending Orders</Comments>
-      <PO AD_Table_ID="53898" Action="I" Record_ID="50016" Table="U_PA_DocumentStatus">
+      <PO AD_Table_ID="53898" Action="I" Record_ID="50016" Table="PA_DocumentStatus">
         <Data AD_Column_ID="74870" Column="AD_Client_ID">11</Data>
         <Data AD_Column_ID="74871" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="74869" Column="U_PA_DocumentStatus_ID">50016</Data>
+        <Data AD_Column_ID="74869" Column="PA_DocumentStatus_ID">50016</Data>
         <Data AD_Column_ID="74887" Column="AD_Table_ID">259</Data>
         <Data AD_Column_ID="74873" Column="AD_User_ID" isNewNull="true"/>
         <Data AD_Column_ID="74874" Column="C_Project_ID" isNewNull="true"/>

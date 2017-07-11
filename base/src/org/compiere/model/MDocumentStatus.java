@@ -3,7 +3,7 @@ package org.compiere.model;
 import java.util.List;
 import java.util.Properties;
 
-public class MDocumentStatus extends X_U_PA_DocumentStatus {
+public class MDocumentStatus extends X_PA_DocumentStatus {
 
 	/**
 	 * 
@@ -11,9 +11,9 @@ public class MDocumentStatus extends X_U_PA_DocumentStatus {
 	private static final long serialVersionUID = -987327005668485931L;
 
 
-	public MDocumentStatus(Properties ctx, int U_PA_DocumentStatus_ID,
+	public MDocumentStatus(Properties ctx, int PA_DocumentStatus_ID,
 			String trxName) {
-		super(ctx, U_PA_DocumentStatus_ID, trxName);
+		super(ctx, PA_DocumentStatus_ID, trxName);
 	}
 	
 	
@@ -21,14 +21,14 @@ public class MDocumentStatus extends X_U_PA_DocumentStatus {
 	{
 		String sql = "AD_Client_ID=?";
 		int n = 0;
-		List<X_U_PA_DocumentStatus> docStatusTemplates = new Query(ctx, X_U_PA_DocumentStatus.Table_Name, sql, trxName)
+		List<X_PA_DocumentStatus> docStatusTemplates = new Query(ctx, X_PA_DocumentStatus.Table_Name, sql, trxName)
     		.setParameters(0)
     		.setOnlyActiveRecords(true)
     		.list();
 		
-		for (X_U_PA_DocumentStatus from : docStatusTemplates) {
-			X_U_PA_DocumentStatus to = new X_U_PA_DocumentStatus(ctx, 0, trxName);
-			X_U_PA_DocumentStatus.copyValues(from, to);
+		for (X_PA_DocumentStatus from : docStatusTemplates) {
+			X_PA_DocumentStatus to = new X_PA_DocumentStatus(ctx, 0, trxName);
+			X_PA_DocumentStatus.copyValues(from, to);
 			to.setAD_Client_ID(AD_Client_ID);
 			to.setAD_Org_ID(0);
 			to.saveEx();

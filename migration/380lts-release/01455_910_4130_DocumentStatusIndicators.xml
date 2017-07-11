@@ -54,7 +54,7 @@
         <Data AD_Column_ID="9342" Column="PO_Window_ID" isNewNull="true"/>
         <Data AD_Column_ID="9341" Column="ReplicationType">L</Data>
         <Data AD_Column_ID="64711" Column="SQLStatement" isNewNull="true"/>
-        <Data AD_Column_ID="107" Column="TableName">U_PA_DocumentStatus</Data>
+        <Data AD_Column_ID="107" Column="TableName">PA_DocumentStatus</Data>
         <Data AD_Column_ID="546" Column="Updated">2014-12-15 17:36:22.503</Data>
         <Data AD_Column_ID="547" Column="UpdatedBy">100</Data>
       </PO>
@@ -70,13 +70,13 @@
         <Data AD_Column_ID="3887" Column="CurrentNextSys">50000</Data>
         <Data AD_Column_ID="54272" Column="DateColumn" isNewNull="true"/>
         <Data AD_Column_ID="54309" Column="DecimalPattern" isNewNull="true"/>
-        <Data AD_Column_ID="347" Column="Description">Table U_PA_DocumentStatus</Data>
+        <Data AD_Column_ID="347" Column="Description">Table PA_DocumentStatus</Data>
         <Data AD_Column_ID="2747" Column="IncrementNo">1</Data>
         <Data AD_Column_ID="349" Column="IsActive">true</Data>
         <Data AD_Column_ID="222" Column="IsAudited">false</Data>
         <Data AD_Column_ID="1188" Column="IsAutoSequence">true</Data>
         <Data AD_Column_ID="350" Column="IsTableID">true</Data>
-        <Data AD_Column_ID="216" Column="Name">U_PA_DocumentStatus</Data>
+        <Data AD_Column_ID="216" Column="Name">PA_DocumentStatus</Data>
         <Data AD_Column_ID="223" Column="Prefix" isNewNull="true"/>
         <Data AD_Column_ID="225" Column="StartNewYear">false</Data>
         <Data AD_Column_ID="2746" Column="StartNo">1000000</Data>
@@ -91,7 +91,7 @@
         <Data AD_Column_ID="2595" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="2594" Column="AD_Element_ID">57573</Data>
         <Data AD_Column_ID="2596" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="2602" Column="ColumnName">U_PA_DocumentStatus_ID</Data>
+        <Data AD_Column_ID="2602" Column="ColumnName">PA_DocumentStatus_ID</Data>
         <Data AD_Column_ID="2598" Column="Created">2014-12-15 17:36:25.506</Data>
         <Data AD_Column_ID="2599" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
@@ -154,7 +154,7 @@
         <Data AD_Column_ID="3360" Column="IsUpdateable">false</Data>
         <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
-        <Data AD_Column_ID="116" Column="ColumnName">U_PA_DocumentStatus_ID</Data>
+        <Data AD_Column_ID="116" Column="ColumnName">PA_DocumentStatus_ID</Data>
         <Data AD_Column_ID="112" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="111" Column="Name">Document Status Indicator</Data>
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>

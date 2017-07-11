@@ -2,7 +2,7 @@ package org.adempiere.model;
 
 public interface IDocumentStatus {
 
-	public static final String Table_Name = "U_PA_DocumentStatus";
+	public static final String Table_Name = "PA_DocumentStatus";
 
 	public String getName();
 
