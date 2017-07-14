@@ -126,8 +126,8 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
                 provisionOfPurchaseCost = lastCostDetail.getCostAmt();
 				provisionOfPurchaseCostLL =  lastCostDetail.getCostAmtLL();
 				MMatchInv iMatch =  (MMatchInv) model;
-				lastCostDetail.setC_InvoiceLine_ID(iMatch.getC_InvoiceLine_ID());
-				lastCostDetail.saveEx();
+				//lastCostDetail.setC_InvoiceLine_ID(iMatch.getC_InvoiceLine_ID());
+				//lastCostDetail.saveEx();
                 // reset the accumulated quantity with last cost detail
                 if (lastCostDetail != null && lastCostDetail.getM_CostDetail_ID() > 0)
                     accumulatedQuantity = getNewAccumulatedQuantity(lastCostDetail);

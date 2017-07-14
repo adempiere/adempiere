@@ -170,6 +170,7 @@ public class Doc_MatchInv extends Doc
 			return null;
 		}
         dr.setM_Product_ID(m_receiptLine.getM_Product_ID());
+        dr.setDescription("1. Zeile DR");
 		String documentBaseTypeReceipt = DB.getSQLValueString(m_receiptLine.get_TrxName() , "SELECT DocBaseType FROM C_DocType WHERE C_DocType_ID=?", m_receiptLine.getParent().getC_DocType_ID());
 		BigDecimal quantityReceipt = MDocType.DOCBASETYPE_MaterialReceipt.equals(documentBaseTypeReceipt) ? getQty() : getQty().negate();
 		dr.setQty(quantityReceipt);
@@ -178,8 +179,20 @@ public class Doc_MatchInv extends Doc
 		if (!dr.updateReverseLine (MInOut.Table_ID, 		//	Amt updated
 			m_receiptLine.getM_InOut_ID(), m_receiptLine.getM_InOutLine_ID(), quantityReceipt , multiplier))
 		{
-			p_Error = "Mat.Receipt not posted yet";
-			return null;
+			if (m_receiptLine.getM_InOut().isPosted())
+			{
+				dr.setAmtAcctCr(Env.ZERO);
+				dr.setAmtAcctDr(Env.ZERO);
+				dr.setAmtSourceCr(Env.ZERO);
+				dr.setAmtSourceDr(Env.ZERO);
+				dr.setQty(quantityReceipt);
+			}
+			else
+			{
+				p_Error = "Mat.Receipt not posted yet";
+				return null;
+				
+			}
 		}
 		log.fine("CR - Amt(" + temp + "->" + dr.getAcctBalance() 
 			+ ") - " + dr.toString());
@@ -293,6 +306,7 @@ public class Doc_MatchInv extends Doc
 		cr.setUser2_ID(m_invoiceLine.getUser2_ID());
 		cr.setUser3_ID(m_invoiceLine.getUser3_ID());
 		cr.setUser4_ID(m_invoiceLine.getUser4_ID());
+		cr.setDescription("2. Zeile CR");
 
 		//AZ Goodwill
 		//Desc: Source Not Balanced problem because Currency is Difference - PO=CNY but AP=USD 

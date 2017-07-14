@@ -371,7 +371,9 @@ public class Doc_InOut extends Doc
 				BigDecimal costs = null;
 				MProduct product = line.getProduct();
 				for (MCostDetail cost : line.getCostDetail(as, true))
-				{	
+				{	   
+					if (cost.getC_InvoiceLine_ID() > 0)
+						continue;
 						if (!MCostDetail.existsCost(cost))
 							continue;
 						
