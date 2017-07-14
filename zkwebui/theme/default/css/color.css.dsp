@@ -665,3 +665,12 @@ div.z-listbox-pgi-b, div.z-tree-pgi-b, div.z-grid-pgi-b  {
 	color: ${Color01};
 	background-color: ${Color02};
 }
+.z-datebox-readonly {
+    background-image: url(../images/zul/misc/text-bg8-dis.gif) !important;
+    border-color: #bbbbbb;
+    background-color: #ECEAE4 !important;
+}
+.z-datebox-readonly + span {
+opacity: 0.5;
+}
+
