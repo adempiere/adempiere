@@ -54,6 +54,9 @@ import org.eevolution.model.MPPOrder;
  * 	Client Accounting Processor
  *	
  *  @author Carlos Ruiz
+ *  @author eEvolution author Victor Perez <victor.perez@e-evolution.com>
+ *  @see  [ 1250 ] Client Accounting Processor error to get standard timestamp</a>
+ * 		<a href="https://github.com/adempiere/adempiere/issues/1250">
  */
 public class ClientAcctProcessor extends SvrProcess
 {
@@ -127,7 +130,7 @@ public class ClientAcctProcessor extends SvrProcess
 			listProcessedOn.add(Env.ZERO); // to include potential null values
 
 			//get current time from db
-			Timestamp ts = DB.getSQLValueTS(get_TrxName(), "SELECT CURRENT_TIMESTAMP FROM DUAL");
+			Timestamp ts = DB.getSQLValueTS(get_TrxName(), "SELECT getdate() FROM DUAL");
 			//go back 2 second to be safe (to avoid posting documents being completed at this precise moment)
 			long ms = ts.getTime()- (2 * 1000);
 			ts = new Timestamp(ms);
@@ -298,7 +301,7 @@ public class ClientAcctProcessor extends SvrProcess
 	private List<Timestamp> getListDateAcct()
 	{
 		//get current time from db
-		Timestamp ts = DB.getSQLValueTS(get_TrxName(), "SELECT CURRENT_TIMESTAMP FROM DUAL");
+		Timestamp ts = DB.getSQLValueTS(get_TrxName(), "SELECT getdate() FROM DUAL");
 		//go back 2 second to be safe (to avoid posting documents being completed at this precise moment)
 		long ms = ts.getTime()- (2 * 1000);
 		ts = new Timestamp(ms);
