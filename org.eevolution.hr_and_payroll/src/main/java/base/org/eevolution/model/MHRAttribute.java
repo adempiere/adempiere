@@ -177,9 +177,10 @@ public class MHRAttribute extends X_HR_Attribute
 	 */
 	public static MHRAttribute getByConceptAndEmployee(MHRConcept concept , MHREmployee employee , int payrollId , Timestamp dateFrom, Timestamp dateTo)
 	{
+		String ORDERVALUE = " DESC";
 		List<Object> params = new ArrayList<Object>();
 		StringBuffer whereClause = new StringBuffer();
-		StringBuffer orderByClause = new StringBuffer(MHRAttribute.COLUMNNAME_ValidFrom);
+		StringBuffer orderByClause = new StringBuffer(MHRAttribute.COLUMNNAME_ValidFrom).append(ORDERVALUE);
 		
 		whereClause.append("ValidFrom <= ? AND (ValidTo >= ? OR ValidTo IS NULL)");
 		params.add(dateFrom);
@@ -190,57 +191,57 @@ public class MHRAttribute extends X_HR_Attribute
 		//	For Payroll
 		whereClause.append(" AND (HR_Payroll_ID = ? OR HR_Payroll_ID IS NULL)");
 		params.add(payrollId);
-		orderByClause.append(", " + MHRAttribute.COLUMNNAME_HR_Payroll_ID);
+		orderByClause.append(", " + MHRAttribute.COLUMNNAME_HR_Payroll_ID).append(ORDERVALUE);
 		// Check the concept is within a valid range for the attribute
 		if(employee != null) {
 			if (concept.isEmployee()) {
 				whereClause.append(" AND C_BPartner_ID = ? AND (HR_Employee_ID = ? OR HR_Employee_ID IS NULL)");
 				params.add(employee.getC_BPartner_ID());
 				params.add(employee.get_ID());
-				orderByClause.append(", " + MHRAttribute.COLUMNNAME_C_BPartner_ID);
+				orderByClause.append(", " + MHRAttribute.COLUMNNAME_C_BPartner_ID).append(ORDERVALUE);
 			} else {
 				whereClause.append(" AND C_BPartner_ID IS NULL ");
 			}
 			//	Add support for Department
 			whereClause.append(" AND (HR_Department_ID = ? OR HR_Department_ID IS NULL)");
 			params.add(employee.getHR_Department_ID());
-			orderByClause.append(", " + MHRAttribute.COLUMNNAME_HR_Department_ID);
+			orderByClause.append(", " + MHRAttribute.COLUMNNAME_HR_Department_ID).append(ORDERVALUE);
 			//	Add support for Job
 			whereClause.append(" AND (HR_Job_ID = ? OR HR_Job_ID IS NULL)");
 			params.add(employee.getHR_Job_ID());
-			orderByClause.append(", " + MHRAttribute.COLUMNNAME_HR_Job_ID);
+			orderByClause.append(", " + MHRAttribute.COLUMNNAME_HR_Job_ID).append(ORDERVALUE);
 			//	For Contract
 			MHRPayroll payroll = MHRPayroll.getById(employee.getCtx(), payrollId);
 			whereClause.append(" AND (HR_Contract_ID = ? OR HR_Contract_ID IS NULL)");
 			params.add(payroll.getHR_Contract_ID());
-			orderByClause.append(", " + MHRAttribute.COLUMNNAME_HR_Contract_ID);
+			orderByClause.append(", " + MHRAttribute.COLUMNNAME_HR_Contract_ID).append(ORDERVALUE);
 			//	For Work Group
 			if(employee.getHR_WorkGroup_ID() != 0) {
 				whereClause.append(" AND (HR_WorkGroup_ID = ? OR HR_WorkGroup_ID IS NULL)");
 				params.add(employee.getHR_WorkGroup_ID());
-				orderByClause.append(", " + MHRAttribute.COLUMNNAME_HR_WorkGroup_ID);
+				orderByClause.append(", " + MHRAttribute.COLUMNNAME_HR_WorkGroup_ID).append(ORDERVALUE);
 			}
 			//	For Shift group
 			if(employee.getHR_ShiftGroup_ID() != 0) {
 				whereClause.append(" AND (HR_ShiftGroup_ID = ? OR HR_ShiftGroup_ID IS NULL)");
 				params.add(employee.getHR_ShiftGroup_ID());
-				orderByClause.append(", " + MHRAttribute.COLUMNNAME_HR_ShiftGroup_ID);
+				orderByClause.append(", " + MHRAttribute.COLUMNNAME_HR_ShiftGroup_ID).append(ORDERVALUE);
 			}
 			//	Grade
 			if(employee.getHR_Grade_ID() != 0) {
 				whereClause.append(" AND (HR_Grade_ID = ? OR HR_Grade_ID IS NULL)");
 				params.add(employee.getHR_Grade_ID());
-				orderByClause.append(", " + MHRAttribute.COLUMNNAME_HR_Grade_ID);
+				orderByClause.append(", " + MHRAttribute.COLUMNNAME_HR_Grade_ID).append(ORDERVALUE);
 			}
 			//	Degree
 			if(employee.getHR_Degree_ID() != 0) {
 				whereClause.append(" AND (HR_Degree_ID = ? OR HR_Degree_ID IS NULL)");
 				params.add(employee.getHR_Degree_ID());
-				orderByClause.append(", " + MHRAttribute.COLUMNNAME_HR_Degree_ID);
+				orderByClause.append(", " + MHRAttribute.COLUMNNAME_HR_Degree_ID).append(ORDERVALUE);
 			}
 			//	Race
 			if(employee.getHR_Race_ID() != 0) {
-				whereClause.append(" AND (HR_Race_ID = ? OR HR_Race_ID IS NULL)");
+				whereClause.append(" AND (HR_Race_ID = ? OR HR_Race_ID IS NULL)").append(ORDERVALUE);
 				params.add(employee.getHR_Race_ID());
 				orderByClause.append(", " + MHRAttribute.COLUMNNAME_HR_Race_ID);
 			}
@@ -248,86 +249,86 @@ public class MHRAttribute extends X_HR_Attribute
 			if(employee.getHR_CareerLevel_ID() != 0) {
 				whereClause.append(" AND (HR_CareerLevel_ID = ? OR HR_CareerLevel_ID IS NULL)");
 				params.add(employee.getHR_CareerLevel_ID());
-				orderByClause.append(", " + MHRAttribute.COLUMNNAME_HR_CareerLevel_ID);
+				orderByClause.append(", " + MHRAttribute.COLUMNNAME_HR_CareerLevel_ID).append(ORDERVALUE);
 			}
 			//	Job Education
 			if(employee.getHR_JobEducation_ID() != 0) {
 				whereClause.append(" AND (HR_JobEducation_ID = ? OR HR_JobEducation_ID IS NULL)");
 				params.add(employee.getHR_JobEducation_ID());
-				orderByClause.append(", " + MHRAttribute.COLUMNNAME_HR_JobEducation_ID);
+				orderByClause.append(", " + MHRAttribute.COLUMNNAME_HR_JobEducation_ID).append(ORDERVALUE);
 			}
 			//	Employee Type
 			if(employee.getHR_EmployeeType_ID() != 0) {
 				whereClause.append(" AND (HR_EmployeeType_ID = ? OR HR_EmployeeType_ID IS NULL)");
 				params.add(employee.getHR_EmployeeType_ID());
-				orderByClause.append(", " + MHRAttribute.COLUMNNAME_HR_EmployeeType_ID);
+				orderByClause.append(", " + MHRAttribute.COLUMNNAME_HR_EmployeeType_ID).append(ORDERVALUE);
 			}
 			//	Job Type
 			if(employee.getHR_JobType_ID() != 0) {
 				whereClause.append(" AND (HR_JobType_ID = ? OR HR_JobType_ID IS NULL)");
 				params.add(employee.getHR_JobType_ID());
-				orderByClause.append(", " + MHRAttribute.COLUMNNAME_HR_JobType_ID);
+				orderByClause.append(", " + MHRAttribute.COLUMNNAME_HR_JobType_ID).append(ORDERVALUE);
 			}
 			//	Skill Type
 			if(employee.getHR_SkillType_ID() != 0) {
 				whereClause.append(" AND (HR_SkillType_ID = ? OR HR_SkillType_ID IS NULL)");
 				params.add(employee.getHR_SkillType_ID());
-				orderByClause.append(", " + MHRAttribute.COLUMNNAME_HR_SkillType_ID);
+				orderByClause.append(", " + MHRAttribute.COLUMNNAME_HR_SkillType_ID).append(ORDERVALUE);
 			}
 			//	Designation
 			if(employee.getHR_Designation_ID() != 0) {
 				whereClause.append(" AND (HR_Designation_ID = ? OR HR_Designation_ID IS NULL)");
 				params.add(employee.getHR_Designation_ID());
-				orderByClause.append(", " + MHRAttribute.COLUMNNAME_HR_Designation_ID);
+				orderByClause.append(", " + MHRAttribute.COLUMNNAME_HR_Designation_ID).append(ORDERVALUE);
 			}
 			//	Salary Structure
 			if(employee.getHR_SalaryStructure_ID() != 0) {
 				whereClause.append(" AND (HR_SalaryStructure_ID = ? OR HR_SalaryStructure_ID IS NULL)");
 				params.add(employee.getHR_SalaryStructure_ID());
-				orderByClause.append(", " + MHRAttribute.COLUMNNAME_HR_SalaryStructure_ID);
+				orderByClause.append(", " + MHRAttribute.COLUMNNAME_HR_SalaryStructure_ID).append(ORDERVALUE);
 			}
 			//	Salary Range
 			if(employee.getHR_SalaryRange_ID() != 0) {
 				whereClause.append(" AND (HR_SalaryRange_ID = ? OR HR_SalaryRange_ID IS NULL)");
 				params.add(employee.getHR_SalaryRange_ID());
-				orderByClause.append(", " + MHRAttribute.COLUMNNAME_HR_SalaryRange_ID);
+				orderByClause.append(", " + MHRAttribute.COLUMNNAME_HR_SalaryRange_ID).append(ORDERVALUE);
 			}
 			//	Employee Status
 			if(employee.getEmployeeStatus() != null) {
 				whereClause.append(" AND (EmployeeStatus = ? OR EmployeeStatus IS NULL)");
 				params.add(employee.getEmployeeStatus());
-				orderByClause.append(", " + MHRAttribute.COLUMNNAME_EmployeeStatus);
+				orderByClause.append(", " + MHRAttribute.COLUMNNAME_EmployeeStatus).append(ORDERVALUE);
 			}
 			//	Activity
 			if(employee.getC_Activity_ID() != 0) {
 				whereClause.append(" AND (C_Activity_ID = ? OR C_Activity_ID IS NULL)");
 				params.add(employee.getC_Activity_ID());
-				orderByClause.append(", " + MHRAttribute.COLUMNNAME_C_Activity_ID);
+				orderByClause.append(", " + MHRAttribute.COLUMNNAME_C_Activity_ID).append(ORDERVALUE);
 			}
 			//	Campaign
 			if(employee.getC_Campaign_ID() != 0) {
 				whereClause.append(" AND (C_Campaign_ID = ? OR C_Campaign_ID IS NULL)");
 				params.add(employee.getC_Campaign_ID());
-				orderByClause.append(", " + MHRAttribute.COLUMNNAME_C_Campaign_ID);
+				orderByClause.append(", " + MHRAttribute.COLUMNNAME_C_Campaign_ID).append(ORDERVALUE);
 			}
 			//	Project
 			if(employee.getC_Project_ID() != 0) {
 				whereClause.append(" AND (C_Project_ID = ? OR C_Project_ID IS NULL)");
 				params.add(employee.getC_Project_ID());
-				orderByClause.append(", " + MHRAttribute.COLUMNNAME_C_Project_ID);
+				orderByClause.append(", " + MHRAttribute.COLUMNNAME_C_Project_ID).append(ORDERVALUE);
 			}
 			//	Org Trx
 			if(employee.getAD_OrgTrx_ID() != 0) {
 				whereClause.append(" AND (AD_OrgTrx_ID = ? OR AD_OrgTrx_ID IS NULL)");
 				params.add(employee.getAD_OrgTrx_ID());
-				orderByClause.append(", " + MHRAttribute.COLUMNNAME_AD_OrgTrx_ID);
+				orderByClause.append(", " + MHRAttribute.COLUMNNAME_AD_OrgTrx_ID).append(ORDERVALUE);
 			}
 		}
 		//	
 		MHRAttribute attribute = new Query(concept.getCtx(), MHRAttribute.Table_Name, whereClause.toString(), concept.get_TrxName())
 				.setParameters(params)
 				.setOnlyActiveRecords(true)
-				.setOrderBy(orderByClause.toString() + " DESC")
+				.setOrderBy(orderByClause.toString())
 				.first();
 		return attribute;
 	}
