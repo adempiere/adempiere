@@ -1302,7 +1302,7 @@ public final class APanel extends CPanel
         		MRecentItem.addWindowChange(ctx, currentTab.getAD_Table_ID(),
         					currentTab.getRecord_ID(), currentTab.getAD_Window_ID(),
         					currentTab.getAD_Tab_ID());
-        	} else {
+        	} else if (mainWindow != null){
         		//	when a detail record is modified add header to recent items
         		GridTab mainTab = mainWindow.getTab(0);
         		if (mainTab != null) {
