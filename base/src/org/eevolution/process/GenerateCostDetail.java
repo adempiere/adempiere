@@ -235,29 +235,35 @@ public class GenerateCostDetail extends GenerateCostDetailAbstract {
 
                     productId = transactionProductId;
                     processNewProduct = true;
-
                     //Create new transaction for this product
-                    dbTransaction = Trx.get(productId.toString(), true);
+                    dbTransaction = Trx.get(productId.toString(), true);   
+                    //Delete and reset 
+                    for (MAcctSchema accountSchema : acctSchemas) {
+                        // for each Cost Type
+                        for (MCostType costType : costTypes) {
+                            // for each Cost Element
+                            for (MCostElement costElement : costElements) {
+                                processNewProduct = true;
+                                {
+                                    applyCriteria(accountSchema.getC_AcctSchema_ID(),
+                                            costType.getM_CostType_ID(), costElement.getM_CostElement_ID(),
+                                            productId, getDateAcct(), getDateAcctTo());
+                                    deleteCostDetail(dbTransaction.getTrxName());
+                                    resetCostDimension(costType.getCostingMethod(), dbTransaction.getTrxName());
+                                    generateCostCollectorNotTransaction(accountSchema , costType , productId, dbTransaction.getTrxName());
+                                    processNewProduct = false;
+                                }
+                            }
+                        }
+                    }
                 }
-
-
                 MTransaction transaction = new MTransaction(getCtx(), transactionId, dbTransaction.getTrxName());
-
                 // for each Account Schema
                 for (MAcctSchema accountSchema : acctSchemas) {
                     // for each Cost Type
                     for (MCostType costType : costTypes) {
                         // for each Cost Element
                         for (MCostElement costElement : costElements) {
-                            if (processNewProduct) {
-                                applyCriteria(accountSchema.getC_AcctSchema_ID(),
-                                        costType.getM_CostType_ID(), costElement.getM_CostElement_ID(),
-                                        productId, getDateAcct(), getDateAcctTo());
-                                deleteCostDetail(dbTransaction.getTrxName());
-                                resetCostDimension(costType.getCostingMethod(), dbTransaction.getTrxName());
-                                generateCostCollectorNotTransaction(accountSchema , costType , productId, dbTransaction.getTrxName());
-                                processNewProduct = false;
-                            }
                             generateCostDetail(accountSchema, costType, costElement, transaction);
                         }
                     }
