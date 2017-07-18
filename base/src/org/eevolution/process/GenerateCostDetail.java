@@ -91,14 +91,13 @@ public class GenerateCostDetail extends GenerateCostDetailAbstract {
      *
      * @throws SQLException
      */
-    /*private void deleteCostDetail(String trxName) throws SQLException {
+    private void deleteCostDetail(String trxName) throws SQLException {
         StringBuffer sqlDelete;
         //	BR [ 405 ]
         sqlDelete = new StringBuffer("DELETE FROM M_CostDetail WHERE ");
         sqlDelete.append(deleteCostDetailWhereClause);
-        int i = DB.executeUpdateEx(sqlDelete.toString(), deleteParameters.toArray(), trxName);
-        int j = 2;
-    }*/
+        DB.executeUpdateEx(sqlDelete.toString(), deleteParameters.toArray(), trxName);
+    }
 
     /**
      * Reset Cost Dimension
@@ -210,91 +209,87 @@ public class GenerateCostDetail extends GenerateCostDetailAbstract {
 
     public void generateCostDetail() {
     	//Generate Costdetail
-    	KeyNamePair[] transactions = getTransactionIdsByDateAcct();
-    	// System.out.println("Transaction to process : " + transactions.length);
-    	Integer process = 0;
-    	Integer productId = 0;
-    	boolean processNewProduct = true;
-    	Trx dbTransaction = null;
+        KeyNamePair[] transactions = getTransactionIdsByDateAcct();
+       // System.out.println("Transaction to process : " + transactions.length);
+        Integer process = 0;
+        Integer productId = 0;
+        Trx dbTransaction = null;
 
-    	try {
+        try {
 
-    		//Process transaction
-    		for (KeyNamePair keyNamePair : transactions) {
+            //Process transaction
+            for (KeyNamePair keyNamePair : transactions) {
 
-    			int transactionId = keyNamePair.getKey();
-    			int transactionProductId = new Integer(keyNamePair.getName());
+                int transactionId = keyNamePair.getKey();
+                int transactionProductId = new Integer(keyNamePair.getName());
 
-    			//Detected a new product
-    			if (productId != transactionProductId) {               
+                //Detected a new product
+                if (productId != transactionProductId) {
 
-    				//commit last transaction by product
-    				if (dbTransaction != null) {
-    					dbTransaction.commit(true);
-    					dbTransaction.close();
-    				}
+                    //commit last transaction by product
+                    if (dbTransaction != null) {
+                        dbTransaction.commit(true);
+                        dbTransaction.close();
+                    }
 
-    				productId = transactionProductId;
-    				processNewProduct = true;
-    				//Create new transaction for this product
-    				dbTransaction = Trx.get(productId.toString(), true);   
-    				//Delete and reset 
-    				for (MAcctSchema accountSchema : acctSchemas) {
-    					// for each Cost Type
-    					for (MCostType costType : costTypes) {
-    						// for each Cost Element
-    						for (MCostElement costElement : costElements) {
-    							processNewProduct = true;
-    							{
-    								applyCriteria(accountSchema.getC_AcctSchema_ID(),
-    										costType.getM_CostType_ID(), costElement.getM_CostElement_ID(),
-    										productId, getDateAcct(), getDateAcctTo());
-    								deleteCostDetail(dbTransaction.getTrxName());
-    								resetCostDimension(costType.getCostingMethod(), dbTransaction.getTrxName());
-    								generateCostCollectorNotTransaction(accountSchema , costType , productId, dbTransaction.getTrxName());
-    								processNewProduct = false;
-    							}
-    						}
-    					}
-    				}
-    			}
-    			MTransaction transaction = new MTransaction(getCtx(), transactionId, dbTransaction.getTrxName());
-    			// for each Account Schema
-    			for (MAcctSchema accountSchema : acctSchemas) {
-    				// for each Cost Type
-    				for (MCostType costType : costTypes) {
-    					// for each Cost Element
-    					for (MCostElement costElement : costElements) {
-    						generateCostDetail(accountSchema, costType, costElement, transaction);
-    					}
-    				}
-    			}
+                    productId = transactionProductId;
+                    //Create new transaction for this product
+                    dbTransaction = Trx.get(productId.toString(), true);   
+                    //Delete and reset 
+                    for (MAcctSchema accountSchema : acctSchemas) {
+                        // for each Cost Type
+                        for (MCostType costType : costTypes) {
+                            // for each Cost Element
+                            for (MCostElement costElement : costElements) {
+                                {
+                                    applyCriteria(accountSchema.getC_AcctSchema_ID(),
+                                            costType.getM_CostType_ID(), costElement.getM_CostElement_ID(),
+                                            productId, getDateAcct(), getDateAcctTo());
+                                    deleteCostDetail(dbTransaction.getTrxName());
+                                    resetCostDimension(costType.getCostingMethod(), dbTransaction.getTrxName());
+                                    generateCostCollectorNotTransaction(accountSchema , costType , productId, dbTransaction.getTrxName());
+                                }
+                            }
+                        }
+                    }
+                }
+                MTransaction transaction = new MTransaction(getCtx(), transactionId, dbTransaction.getTrxName());
+                // for each Account Schema
+                for (MAcctSchema accountSchema : acctSchemas) {
+                    // for each Cost Type
+                    for (MCostType costType : costTypes) {
+                        // for each Cost Element
+                        for (MCostElement costElement : costElements) {
+                            generateCostDetail(accountSchema, costType, costElement, transaction);
+                        }
+                    }
+                }
 
-    			process++;
-    			//System.out.println("Transaction : " + transactionId + " Transaction Type :"+ transaction.getMovementType() + " record ..." + process);
-    		}
+                process++;
+                //System.out.println("Transaction : " + transactionId + " Transaction Type :"+ transaction.getMovementType() + " record ..." + process);
+            }
 
-    		if (dbTransaction != null) {
-    			dbTransaction.commit(true);
-    			dbTransaction.close();
-    			dbTransaction = null;
-    		}
+            if (dbTransaction != null) {
+                dbTransaction.commit(true);
+                dbTransaction.close();
+                dbTransaction = null;
+            }
 
-    	} catch (Exception e) {
-    		if (dbTransaction != null) {
-    			dbTransaction.rollback();
-    			dbTransaction.close();
-    			dbTransaction = null;
-    			e.printStackTrace();
-    			addLog(e.getMessage());
-    		}
-    	} finally {
-    		if (dbTransaction != null) {
-    			dbTransaction.commit();
-    			dbTransaction.close();
-    			dbTransaction = null;
-    		}
-    	}
+        } catch (Exception e) {
+            if (dbTransaction != null) {
+                dbTransaction.rollback();
+                dbTransaction.close();
+                dbTransaction = null;
+                e.printStackTrace();
+                addLog(e.getMessage());
+            }
+        } finally {
+            if (dbTransaction != null) {
+                dbTransaction.commit();
+                dbTransaction.close();
+                dbTransaction = null;
+            }
+        }
 
     }
 
@@ -399,41 +394,6 @@ public class GenerateCostDetail extends GenerateCostDetailAbstract {
         //.append(" ORDER BY M_Product_ID , DateAcct , M_Transaction_ID");
         //System.out.append("SQL :" + sql);
         return DB.getKeyNamePairs(get_TrxName(), sql.toString(), false, parameters.toArray());
-    }
-    private KeyNamePair[] getProductByTransactionIdsByDateAcct() {
-        StringBuilder sql = new StringBuilder();
-        List<Object> parameters = new ArrayList<Object>();
-        StringBuilder whereClause = new StringBuilder("WHERE ");
-        whereClause.append(MCostDetail.COLUMNNAME_AD_Client_ID).append("=")
-                .append(getAD_Client_ID()).append(" AND ");
-        if (getProductId() > 0) {
-            whereClause.append(MCostDetail.COLUMNNAME_M_Product_ID)
-                    .append("=?").append(" AND ");
-            parameters.add(getProductId());
-        }
-        whereClause.append("TRUNC(").append(MCostDetail.COLUMNNAME_DateAcct).append(")>=?");
-        parameters.add(getDateAcct());
-
-        if (getDateAcctTo() != null) {
-            whereClause.append(" AND TRUNC(").append(MCostDetail.COLUMNNAME_DateAcct).append(")<=?");
-            parameters.add(getDateAcctTo());
-        }
-
-        sql.append("SELECT distinct M_Product_ID FROM RV_Transaction ")
-                .append(whereClause)
-                .append(" ORDER BY lowlevel desc, M_Product_ID ");
-        //.append(" ORDER BY M_Product_ID , DateAcct , M_Transaction_ID");
-        //System.out.append("SQL :" + sql);
-        return DB.getKeyNamePairs(get_TrxName(), sql.toString(), false, parameters.toArray());
-    }
-    
-    private void deleteCostDetail(String trxName) throws SQLException {
-        StringBuffer sqlDelete;
-        //	BR [ 405 ]
-        sqlDelete = new StringBuffer("DELETE FROM M_CostDetail WHERE ");
-        sqlDelete.append(deleteCostDetailWhereClause);
-        int i = DB.executeUpdateEx(sqlDelete.toString(), deleteParameters.toArray(), trxName);
-        int j = 2;
     }
     
     
