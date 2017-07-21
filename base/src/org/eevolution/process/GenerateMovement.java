@@ -59,7 +59,7 @@ public class GenerateMovement extends GenerateMovementAbstract {
         ProcessInfo processInfo = ProcessBuilder.create(getCtx()).process(MovementGenerate.getProcessId())
                 .withTitle(GenerateMovement.getProcessName())
                 .withRecordId(MDDOrder.Table_ID, 0)
-                .withSelectedRecordsIds(MDDOrderLine.Table_ID , getSelectionKeys())
+                .withSelectedRecordsIds(MDDOrder.Table_ID , getSelectionKeys())
                 .withParameter(MMovement.COLUMNNAME_MovementDate , getMovementDate())
                 .withParameter(MMovement.COLUMNNAME_DocAction, DocAction.ACTION_Complete)
                 .execute();

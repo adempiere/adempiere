@@ -19,15 +19,11 @@ package org.eevolution.model;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
 
-import org.compiere.model.MAttributeSet;
-import org.compiere.model.MCharge;
-import org.compiere.model.MLocator;
-import org.compiere.model.MProduct;
-import org.compiere.model.MStorage;
-import org.compiere.model.MUOM;
+import org.compiere.model.*;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -49,6 +45,8 @@ import org.compiere.util.Msg;
  */
 public class MDDOrderLine extends X_DD_OrderLine
 {
+
+
 	/**
 	 * 
 	 */
@@ -643,5 +641,21 @@ public class MDDOrderLine extends X_DD_OrderLine
 	{
 		return Optional.ofNullable(getProduct().getVolume())
 				.orElse(BigDecimal.ZERO);
+	}
+
+
+	/**
+	 * Get Movement for this line
+	 * @return
+	 */
+	public List<MMovementLine> getMovementLines()
+	{
+		StringBuilder whereClause = new StringBuilder();
+		whereClause.append(MMovementLine.COLUMNNAME_DD_OrderLine_ID).append("=?");
+		return new Query (getCtx() , MMovementLine.Table_Name, whereClause.toString(), get_TrxName())
+				.setClient_ID()
+				.setOrderBy(MMovementLine.COLUMNNAME_Created)
+				.setParameters(getDD_OrderLine_ID())
+				.list();
 	}
 }	//	MDDOrderLine

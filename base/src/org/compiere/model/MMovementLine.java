@@ -391,4 +391,20 @@ public class MMovementLine extends X_M_MovementLine implements IDocumentLine
 	{
 		return  MConversionType.getDefault(getAD_Client_ID());
 	}
+
+
+	/**
+	 * Get Movement Instance
+	 * @return
+	 */
+	public List<MMovementLineMA> getMovementLineMA()
+	{
+		StringBuilder whereClause = new StringBuilder();
+		whereClause.append(MMovementLineMA.COLUMNNAME_M_MovementLine_ID).append("=?");
+		return new Query(getCtx(), MMovementLineMA.Table_Name , whereClause.toString() , get_TableName())
+				.setClient_ID()
+				.setParameters(getM_MovementLine_ID())
+				.setOrderBy(MMovementLineMA.COLUMNNAME_Created)
+				.list();
+	}
 }	//	MMovementLine

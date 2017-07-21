@@ -986,7 +986,7 @@ public class MDDOrder extends X_DD_Order implements DocAction
 		ProcessInfo processInfo = ProcessBuilder.create(getCtx()).process(GenerateMovement.getProcessId())
 				.withTitle(GenerateMovement.getProcessName())
 				.withRecordId(MDDOrder.Table_ID, 0)
-				.withSelectedRecordsIds(MDDOrderLine.Table_ID , recordIds)
+				.withSelectedRecordsIds(MDDOrder.Table_ID , recordIds)
 				.withParameter(MMovement.COLUMNNAME_MovementDate , today)
 				.withParameter(MMovement.COLUMNNAME_DocAction, DocAction.ACTION_Complete)
 				.withoutTransactionClose()
