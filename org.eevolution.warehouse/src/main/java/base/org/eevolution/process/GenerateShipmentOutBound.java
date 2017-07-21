@@ -39,14 +39,13 @@ import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MDocType;
 import org.compiere.model.MInOut;
 import org.compiere.model.MInOutLine;
-import org.compiere.model.MLocator;
 import org.compiere.model.MMovement;
 import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.MStorage;
-import org.compiere.model.MWarehouse;
 import org.compiere.process.ProcessInfo;
 import org.eevolution.model.I_DD_Order;
+import org.eevolution.model.MDDOrder;
 import org.eevolution.model.MDDOrderLine;
 import org.eevolution.model.MPPCostCollector;
 import org.eevolution.model.MPPOrder;
@@ -72,6 +71,7 @@ public class GenerateShipmentOutBound extends GenerateShipmentOutBoundAbstract
 	protected void prepare ()
 	{
 		super.prepare();
+
 	}
 
 	/**
@@ -80,9 +80,11 @@ public class GenerateShipmentOutBound extends GenerateShipmentOutBoundAbstract
 	 */
 	protected String doIt () throws Exception {
 
+		manufacturingIssues = new Hashtable<>();
 		distributionOrders = new Hashtable<Integer, I_DD_Order>();
 		shipments  = new Hashtable<Integer, MInOut>();
-
+		// Overwrite table RV_WM_InOutBoundLine by WM_InOutBoundLine
+		getProcessInfo().setTableSelectionId(MWMInOutBoundLine.Table_ID);
 		List<MWMInOutBoundLine> outBoundLines = (List<MWMInOutBoundLine>) getInstancesForSelection(get_TrxName());
 		outBoundLines.stream()
 				.filter(outBoundLine -> outBoundLine.getQtyToDeliver().signum() > 0 || isIncludeNotAvailable())
@@ -102,52 +104,47 @@ public class GenerateShipmentOutBound extends GenerateShipmentOutBoundAbstract
 
 	/**
 	 * Create Shipment to Out Bound Order
-	 * @param outBoundLine
+	 * @param outboundLine
 	 */
-	public void createShipment(MWMInOutBoundLine outBoundLine)
+	public void createShipment(MWMInOutBoundLine outboundLine)
 	{
 		// Generate Shipment based on Outbound Order
-		if (outBoundLine.getC_OrderLine_ID() > 0) {
-			MOrderLine orderLine = outBoundLine.getOrderLine();
-			if (outBoundLine.getPickedQty().subtract(orderLine.getQtyDelivered()).signum() <= 0 && !isIncludeNotAvailable())
+		if (outboundLine.getC_OrderLine_ID() > 0) {
+			MOrderLine orderLine = outboundLine.getOrderLine();
+			if (outboundLine.getPickedQty().subtract(orderLine.getQtyDelivered()).signum() <= 0 && !isIncludeNotAvailable())
 				return;
 
-			MLocator standing = getStandingLocator(outBoundLine);
-			BigDecimal qtyDelivered = getQtyDelivered(outBoundLine , orderLine.getQtyDelivered());
-
+			BigDecimal qtyDelivered = getQtyDelivered(outboundLine , orderLine.getQtyDelivered());
 			MInOut shipment = getShipment(orderLine);
-
-			MInOutLine shipmentLine = new MInOutLine(outBoundLine.getCtx(), 0 , outBoundLine.get_TrxName());
+			MInOutLine shipmentLine = new MInOutLine(outboundLine.getCtx(), 0 , outboundLine.get_TrxName());
 			shipmentLine.setM_InOut_ID(shipment.getM_InOut_ID());
-			shipmentLine.setM_Locator_ID(standing.getM_Locator_ID());
-			shipmentLine.setM_Product_ID(outBoundLine.getM_Product_ID());
+			shipmentLine.setM_Locator_ID(outboundLine.getM_LocatorTo_ID());
+			shipmentLine.setM_Product_ID(outboundLine.getM_Product_ID());
 			shipmentLine.setQtyEntered(qtyDelivered);
 			shipmentLine.setMovementQty(qtyDelivered);
 			shipmentLine.setC_OrderLine_ID(orderLine.getC_OrderLine_ID());
 			shipmentLine.saveEx();
 		}
 		// Generate Delivery Movement
-		if (outBoundLine.getDD_OrderLine_ID() > 0) {
-			MDDOrderLine distributionOrderLine = (MDDOrderLine) outBoundLine.getDD_OrderLine();
+		if (outboundLine.getDD_OrderLine_ID() > 0) {
+			MDDOrderLine distributionOrderLine = (MDDOrderLine) outboundLine.getDD_OrderLine();
 
 			if (distributionOrders.get(distributionOrderLine.getDD_Order_ID()) == null)
 				distributionOrders.put(distributionOrderLine.getDD_Order_ID() , distributionOrderLine.getDD_Order());
 
-			distributionOrderLine.setConfirmedQty(outBoundLine.getPickedQty());
+			distributionOrderLine.setConfirmedQty(outboundLine.getPickedQty());
 			distributionOrderLine.saveEx();
 		}
 
 		// Generate Delivery Manufacturing Order
-		if (outBoundLine.getPP_Order_BOMLine_ID() > 0) {
-			MPPOrderBOMLine orderBOMLine = (MPPOrderBOMLine) outBoundLine.getPP_Order_BOMLine();
-			if (outBoundLine.getPickedQty().subtract(orderBOMLine.getQtyDelivered()).signum() <= 0 && !isIncludeNotAvailable())
+		if (outboundLine.getPP_Order_BOMLine_ID() > 0) {
+			MPPOrderBOMLine orderBOMLine = (MPPOrderBOMLine) outboundLine.getPP_Order_BOMLine();
+			if (outboundLine.getPickedQty().subtract(orderBOMLine.getQtyDelivered()).signum() <= 0 && !isIncludeNotAvailable())
 				return;
 
-			MLocator standing = getStandingLocator(outBoundLine);
+			MStorage[] storage = MStorage.getAll(getCtx(), orderBOMLine.getM_Product_ID() , outboundLine.getM_LocatorTo_ID() , get_TrxName());
 
-			MStorage[] storage = MStorage.getAll(getCtx(), orderBOMLine.getM_Product_ID() , standing.getM_Locator_ID() , get_TrxName());
-
-			BigDecimal qtyDelivered = getQtyDelivered(outBoundLine , orderBOMLine.getQtyDelivered());
+			BigDecimal qtyDelivered = getQtyDelivered(outboundLine , orderBOMLine.getQtyDelivered());
 			List<MPPCostCollector> issues = MPPOrder.createIssue(
 					orderBOMLine.getParent(),
 					orderBOMLine ,
@@ -165,18 +162,6 @@ public class GenerateShipmentOutBound extends GenerateShipmentOutBoundAbstract
 		}
 	}
 
-	private MLocator getStandingLocator(MWMInOutBoundLine outBoundLine)
-	{
-		MLocator standing;
-
-		if(isIncludeNotAvailable())
-			standing =  MLocator.getDefault((MWarehouse)outBoundLine.getParent().getM_Warehouse());
-		else
-			standing = outBoundLine.getLocator();
-
-		return standing;
-	}
-
 	private BigDecimal getQtyDelivered(MWMInOutBoundLine outBoundLine, BigDecimal qtyDemandDelivered)
 	{
 		BigDecimal qtyDelivered;
@@ -191,7 +176,8 @@ public class GenerateShipmentOutBound extends GenerateShipmentOutBoundAbstract
 
 	public void processingIssues()
 	{
-		manufacturingIssues.entrySet().stream().forEach(entry  -> {
+		manufacturingIssues.entrySet().stream().filter(entry -> entry != null)
+			.forEach(entry  -> {
 			MPPCostCollector issue = entry.getValue();
 			issue.setDocAction(getDocAction());
 			issue.processIt(getDocAction());
@@ -205,7 +191,7 @@ public class GenerateShipmentOutBound extends GenerateShipmentOutBoundAbstract
 
 	public void processingShipments()
 	{
-		shipments.entrySet().stream().forEach(entry -> {
+		shipments.entrySet().stream().filter(entry -> entry != null).forEach(entry -> {
 			MInOut shipment = entry.getValue();
 			shipment.setDocAction(getDocAction());
 			shipment.processIt(getDocAction());
@@ -221,14 +207,14 @@ public class GenerateShipmentOutBound extends GenerateShipmentOutBoundAbstract
 
 	public void processingMovements()
 	{
-		distributionOrders.entrySet().stream().forEach(entry -> {
+		distributionOrders.entrySet().stream().filter(entry -> entry != null).forEach(entry -> {
 			I_DD_Order distributionOrder = entry.getValue();
 			List<Integer> orderIds = new ArrayList<Integer>();
 			orderIds.add(distributionOrder.getDD_Order_ID());
 
 			ProcessInfo processInfo = ProcessBuilder.create(getCtx())
 					.process(MovementGenerate.getProcessId())
-					.withSelectedRecordsIds(MWMInOutBound.Table_ID , orderIds)
+					.withSelectedRecordsIds(MDDOrder.Table_ID , orderIds)
 					.withParameter(MWMInOutBound.COLUMNNAME_M_Warehouse_ID, distributionOrder.getM_Warehouse_ID())
 					.withParameter(MMovement.COLUMNNAME_MovementDate, getMovementDate())
 					.withoutTransactionClose()

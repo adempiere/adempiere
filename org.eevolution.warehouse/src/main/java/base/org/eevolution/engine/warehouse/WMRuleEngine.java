@@ -256,7 +256,7 @@ public final class WMRuleEngine {
 			int warehouseAreaTypeId, int warehouseSectionTypeId) {
 		MWMStrategy strategy = applyDefinition(inOutBoundLine, warehouseAreaTypeId,
 				warehouseSectionTypeId);
-		return getLocator(strategy, inOutBoundLine.getMProduct().getM_Product_ID(),
+		return getLocator(strategy, inOutBoundLine.getProduct().getM_Product_ID(),
 				warehouseSectionTypeId, warehouseSectionTypeId);
 	}
 
@@ -275,7 +275,7 @@ public final class WMRuleEngine {
 			return null;
 		}*/
 
-		return getStorage(strategy, inOutBoundLine.getMProduct().getM_Product_ID(),
+		return getStorage(strategy, inOutBoundLine.getProduct().getM_Product_ID(),
 				inOutBoundLine.getM_AttributeSetInstance_ID(), inOutBoundLine.getMovementQty(),
 				warehouseSectionTypeId, warehouseSectionTypeId);
 	}
@@ -346,7 +346,7 @@ public final class WMRuleEngine {
 		whereClause.append(MWMStrategy.COLUMNNAME_InOutBoundType + "=?");
 		whereClause.append(")");
 
-		MProduct product = inOutBoundLine.getMProduct();
+		MProduct product = inOutBoundLine.getProduct();
 		MBPartner partner = inOutBoundLine.getBPartner();
 
 		MWMDefinition definition = new Query(inOutBoundLine.getCtx(),
@@ -363,9 +363,9 @@ public final class WMRuleEngine {
 								MWMStrategy.INOUTBOUNDTYPE_OutboundOperation)
 				.first();
 
-		if (definition == null) {
+		if (definition == null)
 			throw new AdempiereException("@WM_Definition_ID@ @NotFound@");
-		}
+
 
 		return definition.getWarehouseStrategy();
 	}

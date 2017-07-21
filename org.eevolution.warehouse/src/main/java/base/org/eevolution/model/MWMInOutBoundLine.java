@@ -99,6 +99,7 @@ public class MWMInOutBoundLine extends X_WM_InOutBoundLine
 		super (ctx, M_InOutBoundLine_ID, trxName);
 		if (M_InOutBoundLine_ID == 0)
 		{
+			setProcessed(false);
 		}
 	}
 
@@ -187,7 +188,7 @@ public class MWMInOutBoundLine extends X_WM_InOutBoundLine
 	 * 	Get Product
 	 *	@return product or null
 	 */
-	public MProduct getMProduct()
+	public MProduct getProduct()
 	{
 		if (product == null && getM_Product_ID() != 0)
 		{	
@@ -254,20 +255,7 @@ public class MWMInOutBoundLine extends X_WM_InOutBoundLine
 		MOrderLine oline = getOrderLine();
 		return oline.getQtyOrdered().subtract(oline.getQtyDelivered());
 	}
-	
-	/**
-	 * get MLocator based in Distribution Order Line
-	 * @return MLocator or null
-	 */
-	public MLocator getLocator()
-	{
-		String whereClause =  MWMInOutBoundLine.COLUMNNAME_WM_InOutBoundLine_ID + "=?";
-		MDDOrderLine line = new Query(getCtx(),I_DD_OrderLine.Table_Name,whereClause, get_TrxName())
-		.setClient_ID().setParameters(new Object[]{getWM_InOutBoundLine_ID()})
-		.firstOnly();
-		return (MLocator) line.getM_LocatorTo();
-	}
-	
+
 	/**
 	 * get Warehouse
 	 * @return MWarehouse or null

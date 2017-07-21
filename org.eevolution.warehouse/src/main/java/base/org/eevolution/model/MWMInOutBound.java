@@ -225,7 +225,7 @@ public class MWMInOutBound extends X_WM_InOutBound implements DocAction
 		{
 			for (MWMInOutBoundLine line:lines) 
 			{
-				MProduct product = line.getMProduct();
+				MProduct product = line.getProduct();
 				if (product != null && product.isExcludeAutoDelivery())
 				{
 					m_processMsg = "@M_Product_ID@ "+product.getValue()+" @IsExcludeAutoDelivery@";

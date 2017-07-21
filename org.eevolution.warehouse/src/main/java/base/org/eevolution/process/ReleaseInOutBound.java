@@ -32,7 +32,9 @@ package org.eevolution.process;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Arrays;
+import java.util.Hashtable;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.NoVendorForProductException;
@@ -81,7 +83,6 @@ import org.eevolution.model.X_DD_Order;
  */
 public class ReleaseInOutBound extends ReleaseInOutBoundAbstract
 {
-	private MLocator outBoundLocator ;
 	private Timestamp today = new Timestamp (System.currentTimeMillis());
 	private MDDOrder orderDistribution;
 	
@@ -101,26 +102,48 @@ public class ReleaseInOutBound extends ReleaseInOutBoundAbstract
 	@Override
 	protected String doIt () throws Exception
 	{
-		List<MWMInOutBoundLine> outBoundLines = (List<MWMInOutBoundLine>) getInstancesForSelection(get_TrxName());
-		outBoundLines.stream().forEach(outBoundLine -> {
-			// if the locator is same to pick then the storage are in outbound locator not is necessary create other distribution order
-			if (outBoundLine.getDD_OrderLine_ID() > 0) {
-				MDDOrderLine orderDistributionLine = (MDDOrderLine) outBoundLine.getDD_OrderLine();
+		MLocator outBoundLocator = new MLocator(getCtx(), getLocatorId() , get_TrxName());
+		if (outBoundLocator == null || outBoundLocator.getM_Locator_ID() <= 0)
+			throw new AdempiereException("@M_Locator_ID@ @NotFound@");
 
+		List<MWMInOutBoundLine> outBoundLines = (List<MWMInOutBoundLine>) getInstancesForSelection(get_TrxName());
+		Hashtable<Integer, MWMInOutBound> outboundOrders = new Hashtable<>();
+
+		//Complete Outbound Order
+		outBoundLines.stream().forEach(outboundLine -> {
+						outboundLine.setM_LocatorTo_ID(outBoundLocator.getM_Locator_ID());
+						outboundLine.saveEx();
+						MWMInOutBound outboundOrder = outboundLine.getParent();
+						if (!outboundOrders.contains(outboundOrder.get_ID()))
+							outboundOrders.put(outboundOrder.get_ID(),outboundOrder);
+		});
+
+		// Complete selected order
+		outboundOrders.entrySet().forEach( order ->	{
+			MWMInOutBound outboundOrder = order.getValue();
+			outboundOrder.setDocAction(DocAction.ACTION_Complete);
+			outboundOrder.processIt(DocAction.ACTION_Complete);
+			outboundOrder.saveEx();
+		});
+
+
+
+		outBoundLines.stream().forEach(outboundLine -> {
+			// if the locator is same to pick then the storage are in outbound locator not is necessary create other Distribution Order
+			if (outboundLine.getDD_OrderLine_ID() > 0) {
+				MDDOrderLine orderDistributionLine = (MDDOrderLine) outboundLine.getDD_OrderLine();
 				if (orderDistributionLine.getWM_InOutBoundLine_ID() <= 0) {
 					orderDistributionLine.setWM_InOutBoundLine_ID(orderDistributionLine.getWM_InOutBoundLine_ID());
 					orderDistributionLine.saveEx();
 				}
-
-				if (orderDistributionLine.getM_LocatorTo_ID() == outBoundLocator.getM_Locator_ID())
+				if (orderDistributionLine.getM_LocatorTo_ID() == outboundLine.getM_LocatorTo_ID())
 					return;
 			}
-
-			BigDecimal qtySupply = createDistributionOrder(outBoundLine);
+			BigDecimal qtySupply = createDistributionOrder(outboundLine);
 			if(isCreateSupply() && qtySupply.signum() > 0)
 			{
-				Env.setContext(outBoundLine.getCtx(),"IsCreateSupply", "Y");
-				createSupply(outBoundLine, qtySupply);
+				Env.setContext(outboundLine.getCtx(),"IsCreateSupply", "Y");
+				createSupply(outboundLine, qtySupply);
 			}
 		});
 		
@@ -142,65 +165,44 @@ public class ReleaseInOutBound extends ReleaseInOutBoundAbstract
 			ReportCtl.preview(reportEngine);
 			reportEngine.print(); // prints only original
 		}
-		
-		return "" ;//@DocumentNo@ " + order.getDocumentNo();
+		return "@Ok@ ";
 	}
-
-	/**
-	 * get Out Bound Order Lines from Smart Browser
-	 * @return
-     */
-	/*private List <MWMInOutBoundLine> getOutBoundOrderLine()
-	{
-		StringBuilder whereClause = new StringBuilder();
-		whereClause.append("EXISTS (SELECT 1 FROM WM_InOutBound o WHERE o.WM_InOutBound_ID=WM_InOutBoundLine.WM_InOutBound_ID AND o.Processed='N' AND o.DocAction NOT IN ('CO','CL','VO')) AND ");
-		whereClause.append("EXISTS (SELECT T_Selection_ID FROM T_Selection WHERE  T_Selection.AD_PInstance_ID=? AND T_Selection.T_Selection_ID=WM_InOutBoundLine.WM_InOutboundLine_ID)");
-		return new Query(getCtx(), I_WM_InOutBoundLine.Table_Name, whereClause.toString(), get_TrxName())
-				.setClient_ID()
-				.setParameters(getAD_PInstance_ID())
-				.list();
-	}*/
 	
 	/**
 	 * create Distribution Order to performance a Pick List
-	 * @param outBoundOrderLine Out bound Line
+	 * @param outboundLine Out bound Line
 	 * @return Quantity that was not covert for inventory
 	 */
-	protected BigDecimal createDistributionOrder(MWMInOutBoundLine outBoundOrderLine)
+	protected BigDecimal createDistributionOrder(MWMInOutBoundLine outboundLine)
 	{				
 		WMRuleEngine engineRule = WMRuleEngine.get();
-		List<MStorage> storageList = engineRule.getStorage(outBoundOrderLine, getAreaTypeId(), getSectionTypeId());
-
+		List<MStorage> storageList = engineRule.getStorage(outboundLine, getAreaTypeId(), getSectionTypeId());
 		int shipperId = 0;
-		BigDecimal qtySupply = BigDecimal.ZERO;
+		AtomicReference<BigDecimal> qtySupply = new AtomicReference<>(BigDecimal.ZERO);
 		if(storageList != null && storageList.size() > 0)
 		{	
 			//get the warehouse in transit
-			MWarehouse[] wsts = MWarehouse.getInTransitForOrg(getCtx(), outBoundLocator.getAD_Org_ID());
+			MLocator outboundLocator = MLocator.get(outboundLine.getCtx() , outboundLine.getM_LocatorTo_ID());
+			MWarehouse[] wsts = MWarehouse.getInTransitForOrg(getCtx(), outboundLocator.getAD_Org_ID());
 			if (wsts == null || wsts.length == 0)
 				throw new AdempiereException("@M_Warehouse_ID@ @IsInTransit@ @NotFound@");
 
 			//Org Must be linked to BPartner
-			MOrg org = MOrg.get(getCtx(),  outBoundLocator.getAD_Org_ID());
+			MOrg org = MOrg.get(getCtx(),  outboundLocator.getAD_Org_ID());
 			int partnerId = org.getLinkedC_BPartner_ID(get_TrxName());
 			if (partnerId == 0)
 				throw new NoBPartnerLinkedforOrgException (org);
 				
 			MBPartner partner = MBPartner.get(getCtx(), partnerId);
-			
 			if(orderDistribution == null)
 			{
 				orderDistribution = new MDDOrder(getCtx() , 0 , get_TrxName());
-				orderDistribution.setAD_Org_ID(outBoundLocator.getAD_Org_ID());
+				orderDistribution.setAD_Org_ID(outboundLocator.getAD_Org_ID());
 				orderDistribution.setC_BPartner_ID(partnerId);
 				if(getDocTypeId() > 0)
-				{
 					orderDistribution.setC_DocType_ID(getDocTypeId());
-				}	
 				else
-				{
 					orderDistribution.setC_DocType_ID(MDocType.getDocType(X_C_DocType.DOCBASETYPE_DistributionOrder));
-				}
 
 				orderDistribution.setM_Warehouse_ID(wsts[0].get_ID());
 				if(getDocAction() != null)
@@ -225,21 +227,21 @@ public class ReleaseInOutBound extends ReleaseInOutBoundAbstract
 			storageList.stream().forEach(storage -> {
 				MDDOrderLine orderLine = new MDDOrderLine(orderDistribution);
 				orderLine.setM_Locator_ID(storage.getM_Locator_ID());
-				orderLine.setM_LocatorTo_ID(outBoundLocator.getM_Locator_ID());
-				orderLine.setC_UOM_ID(outBoundOrderLine.getC_UOM_ID());
-				orderLine.setM_Product_ID(outBoundOrderLine.getM_Product_ID());
+				orderLine.setM_LocatorTo_ID(outboundLine.getM_LocatorTo_ID());
+				orderLine.setC_UOM_ID(outboundLine.getC_UOM_ID());
+				orderLine.setM_Product_ID(outboundLine.getM_Product_ID());
 				orderLine.setDateOrdered(getToday());
-				orderLine.setDatePromised(outBoundOrderLine.getPickDate());
-				orderLine.setWM_InOutBoundLine_ID(outBoundOrderLine.getWM_InOutBoundLine_ID());
+				orderLine.setDatePromised(outboundLine.getPickDate());
+				orderLine.setWM_InOutBoundLine_ID(outboundLine.getWM_InOutBoundLine_ID());
 				orderLine.setIsInvoiced(false);
 				
-				/*if (outBoundOrderLine.getQtyToPick().subtract(qtySupply).compareTo(storage.getQtyOnHand()) < 0)
+				if (outboundLine.getQtyToPick().subtract(qtySupply.get()).compareTo(storage.getQtyOnHand()) < 0)
 				{
-					orderLine.setConfirmedQty(outBoundOrderLine.getQtyToPick());
-					orderLine.setQtyEntered(outBoundOrderLine.getQtyToPick());
-					orderLine.setQtyOrdered(outBoundOrderLine.getQtyToPick());
-					orderLine.setTargetQty(outBoundOrderLine.getQtyToPick());
-					//this.qtySupply = this.qtySupply.add(outBoundOrderLine.getQtyToPick());
+					orderLine.setConfirmedQty(outboundLine.getQtyToPick());
+					orderLine.setQtyEntered(outboundLine.getQtyToPick());
+					orderLine.setQtyOrdered(outboundLine.getQtyToPick());
+					orderLine.setTargetQty(outboundLine.getQtyToPick());
+					qtySupply.updateAndGet(supply -> supply.add(outboundLine.getQtyToPick()));
 				}
 				else
 				{
@@ -247,21 +249,27 @@ public class ReleaseInOutBound extends ReleaseInOutBoundAbstract
 					orderLine.setQtyEntered(storage.getQtyOnHand());
 					orderLine.setQtyOrdered(storage.getQtyOnHand());
 					orderLine.setTargetQty(storage.getQtyOnHand());
-					//this.qtySupply = this.qtySupply.add(storage.getQtyOnHand());
-				}*/
-				
+					qtySupply.updateAndGet(supply  -> supply.add(storage.getQtyOnHand()));
+				}
+				if (qtySupply.get().signum() > 0) {
+					//Save the last location from a storage found
+					outboundLine.setM_Locator_ID(storage.getM_Locator_ID());
+					outboundLine.saveEx();
+				}
 				orderLine.saveEx();
+
 			});
 		}
 		else
 		{
-			qtySupply = outBoundOrderLine.getQtyToPick().subtract(qtySupply);
+			qtySupply.updateAndGet(supply ->  outboundLine.getQtyToPick().subtract(supply));
 		}
-		return qtySupply;
+
+		return qtySupply.get();
 	}
 	
 	/**
-	 * Create supply based in Out bound Line 
+	 * Create supply based in Out bound Line
 	 * @param outBoundOrderLine  Out bound Line
 	 * @param qtySupply Quantity Supply
 	 */
@@ -276,11 +284,12 @@ public class ReleaseInOutBound extends ReleaseInOutBoundAbstract
 	
 	/**
 	 * Create Requisition when the Is create supply is define as yes
-	 * @param outBoundOrderLine
+	 * @param outboundLocator
+	 * @param outboundLine
 	 * @param product Product
 	 * @param QtyPlanned Qty Planned
 	 */
-	public  void createRequisition(MWMInOutBoundLine outBoundOrderLine, MProduct product, BigDecimal QtyPlanned)
+	public  void createRequisition(MWMInOutBoundLine outboundLine, MProduct product, BigDecimal QtyPlanned)
 	{
 		//s_log.info("Create Requisition");
 		int partnerId = 0;
@@ -311,13 +320,13 @@ public class ReleaseInOutBound extends ReleaseInOutBoundAbstract
 		+" INNER JOIN C_BP_Group bpg ON (bpg.C_BP_Group_ID=bp.C_BP_Group_ID)"
 		+" WHERE bp.C_BPartner_ID=?";
 		priceListId = DB.getSQLValueEx(get_TrxName(), sql, partnerId);
-
+		MLocator outboundLocator = MLocator.get(outboundLine.getCtx() , outboundLine.getM_LocatorTo_ID());
 		MRequisition requisition = new  MRequisition(getCtx(),0, get_TrxName());
-		requisition.setAD_Org_ID(outBoundLocator.getAD_Org_ID());
+		requisition.setAD_Org_ID(outboundLocator.getAD_Org_ID());
 		requisition.setAD_User_ID(getAD_User_ID());
-		requisition.setDateRequired(outBoundOrderLine.getPickDate());
+		requisition.setDateRequired(outboundLine.getPickDate());
 		requisition.setDescription("Generate from Outbound Order"); // TODO: add translation
-		requisition.setM_Warehouse_ID(outBoundLocator.getM_Warehouse_ID());
+		requisition.setM_Warehouse_ID(outboundLocator.getM_Warehouse_ID());
 		requisition.setC_DocType_ID(MDocType.getDocType(MDocType.DOCBASETYPE_PurchaseRequisition));
 		if (priceListId > 0)
 			requisition.setM_PriceList_ID(priceListId);
@@ -325,7 +334,7 @@ public class ReleaseInOutBound extends ReleaseInOutBoundAbstract
 
 		MRequisitionLine reqline = new  MRequisitionLine(requisition);
 		reqline.setLine(10);
-		reqline.setAD_Org_ID(outBoundLocator.getAD_Org_ID());
+		reqline.setAD_Org_ID(outboundLocator.getAD_Org_ID());
 		reqline.setC_BPartner_ID(partnerId);
 		reqline.setM_Product_ID(product.getM_Product_ID());
 		reqline.setPrice();
@@ -333,7 +342,7 @@ public class ReleaseInOutBound extends ReleaseInOutBoundAbstract
 		reqline.setQty(QtyPlanned);
 		reqline.saveEx();
 		
-		MOrderLine orderLine = new MOrderLine(getCtx(), outBoundOrderLine.getC_OrderLine_ID(), get_TrxName());
+		MOrderLine orderLine = new MOrderLine(getCtx(), outboundLine.getC_OrderLine_ID(), get_TrxName());
 		orderLine.setDescription(orderLine.getDescription()
 				+ " "
 				+ Msg.translate(getCtx(),MRequisition.COLUMNNAME_M_Requisition_ID) 
@@ -341,9 +350,9 @@ public class ReleaseInOutBound extends ReleaseInOutBoundAbstract
 				+ requisition.getDocumentNo());
 		orderLine.saveEx();
 		
-		outBoundOrderLine.setDescription(outBoundOrderLine.getDescription()
+		outboundLine.setDescription(outboundLine.getDescription()
 				+ " "
-				+ Msg.translate(outBoundOrderLine.getCtx(), MRequisition.COLUMNNAME_M_Requisition_ID)
+				+ Msg.translate(outboundLine.getCtx(), MRequisition.COLUMNNAME_M_Requisition_ID)
 				+ " : "
 				+ requisition.getDocumentNo());
 	}
@@ -369,7 +378,7 @@ public class ReleaseInOutBound extends ReleaseInOutBoundAbstract
 					productPlanning = MPPProductPlanning.find(getCtx(), outBoundOrderLine.getAD_Org_ID(), 0, 0, product.getM_Product_ID(), null);
 					if(productPlanning != null)
 					{	
-						bom = (MPPProductBOM) productPlanning.getPP_Product_BOM();
+						bom = productPlanning.getPP_Product_BOM();
 					}
 				}
 				if (bom != null) 
@@ -437,11 +446,6 @@ public class ReleaseInOutBound extends ReleaseInOutBoundAbstract
 					}
 				}	
 			}	
-		}	
-		if(order != null)
-		{	
-			outBoundOrderLine.setProcessed(true);
-			outBoundOrderLine.saveEx();
 		}
 	}
 	

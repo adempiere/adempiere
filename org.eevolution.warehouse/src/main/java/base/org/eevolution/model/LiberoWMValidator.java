@@ -22,6 +22,8 @@ import org.compiere.model.PO;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 
+import java.math.BigDecimal;
+
 /**
  * Libero Validator
  * 
@@ -53,13 +55,14 @@ public class LiberoWMValidator implements ModelValidator {
 		if (po instanceof MDDOrderLine
 		&& (TYPE_AFTER_CHANGE == type && po.is_ValueChanged(MDDOrderLine.COLUMNNAME_QtyDelivered))) {
 			MDDOrderLine orderLine = (MDDOrderLine) po;
-			MWMInOutBoundLine outBoundOrderLine = (MWMInOutBoundLine) orderLine.getWM_InOutBoundLine();
-			if (outBoundOrderLine != null
-			&& outBoundOrderLine.getWM_InOutBoundLine_ID() > 0
+			MWMInOutBoundLine outboundLine = (MWMInOutBoundLine) orderLine.getWM_InOutBoundLine();
+			if (outboundLine != null
+			&& outboundLine.getWM_InOutBoundLine_ID() > 0
 			&& orderLine.getQtyOrdered().compareTo(orderLine.getQtyDelivered()) >= 0) {
-
-				outBoundOrderLine.setPickedQty(orderLine.getQtyDelivered());
-				outBoundOrderLine.saveEx();
+				BigDecimal pickedQuantity = outboundLine.getPickedQty();
+				BigDecimal totalPickedQuantity = pickedQuantity.add(orderLine.getQtyDelivered());
+				outboundLine.setPickedQty(totalPickedQuantity);
+				outboundLine.saveEx();
 			}
 		}
 		return null;
