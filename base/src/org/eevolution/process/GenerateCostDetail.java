@@ -213,6 +213,7 @@ public class GenerateCostDetail extends GenerateCostDetailAbstract {
        // System.out.println("Transaction to process : " + transactions.length);
         Integer process = 0;
         Integer productId = 0;
+        boolean processNewProduct = true;
         Trx dbTransaction = null;
 
         try {
@@ -233,6 +234,7 @@ public class GenerateCostDetail extends GenerateCostDetailAbstract {
                     }
 
                     productId = transactionProductId;
+                    processNewProduct = true;
                     //Create new transaction for this product
                     dbTransaction = Trx.get(productId.toString(), true);   
                     //Delete and reset 
@@ -241,6 +243,7 @@ public class GenerateCostDetail extends GenerateCostDetailAbstract {
                         for (MCostType costType : costTypes) {
                             // for each Cost Element
                             for (MCostElement costElement : costElements) {
+                                processNewProduct = true;
                                 {
                                     applyCriteria(accountSchema.getC_AcctSchema_ID(),
                                             costType.getM_CostType_ID(), costElement.getM_CostElement_ID(),
@@ -248,6 +251,7 @@ public class GenerateCostDetail extends GenerateCostDetailAbstract {
                                     deleteCostDetail(dbTransaction.getTrxName());
                                     resetCostDimension(costType.getCostingMethod(), dbTransaction.getTrxName());
                                     generateCostCollectorNotTransaction(accountSchema , costType , productId, dbTransaction.getTrxName());
+                                    processNewProduct = false;
                                 }
                             }
                         }
