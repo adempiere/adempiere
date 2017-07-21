@@ -146,7 +146,7 @@
 , .adwindow-navbtn-dis {
   padding-top: 8px;
   padding-bottom: 8px;
-  padding-right: 30px;
+  padding-right: 20px;
 }
 
 .z-north-splt, .z-south-splt {
