@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Set PA_DashboardContent Line Reference to int" ReleaseNo="3.9.0"  SeqNo="2900">
+    <Comments>See: https://github.com/adempiere/adempiere/issues/1242</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="51014" Table="AD_Column">
+        <Data AD_Column_ID="226" Column="AD_Reference_ID" oldValue="22">11</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

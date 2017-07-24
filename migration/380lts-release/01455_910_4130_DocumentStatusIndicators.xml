@@ -2615,5 +2615,50 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="6157" Column="SeqNo" oldValue="6">7</Data>
       </PO>
     </Step>   
+    <Step SeqNo="1340" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="74893" Table="AD_Field">
+        <Data AD_Column_ID="62478" Column="IsDisplayedGrid" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1350" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="74894" Table="AD_Field">
+        <Data AD_Column_ID="62478" Column="IsDisplayedGrid" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1360" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="74900" Table="AD_Field">
+        <Data AD_Column_ID="62478" Column="IsDisplayedGrid" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1370" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="74901" Table="AD_Field">
+        <Data AD_Column_ID="62478" Column="IsDisplayedGrid" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1380" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="74902" Table="AD_Field">
+        <Data AD_Column_ID="62478" Column="IsDisplayedGrid" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1390" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="74903" Table="AD_Field">
+        <Data AD_Column_ID="62478" Column="IsDisplayedGrid" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1400" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="74904" Table="AD_Field">
+        <Data AD_Column_ID="62478" Column="IsDisplayedGrid" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1410" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="74905" Table="AD_Field">
+        <Data AD_Column_ID="62478" Column="IsDisplayedGrid" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1420" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="74906" Table="AD_Field">
+        <Data AD_Column_ID="62478" Column="IsDisplayedGrid" oldValue="false">true</Data>
+      </PO>
+    </Step>
   </Migration>
 </Migrations>

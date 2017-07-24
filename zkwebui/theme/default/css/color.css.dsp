@@ -142,7 +142,8 @@
 }
 
 .adwindow-navbtn-uns
-, .adwindow-navbtn-sel {
+, .adwindow-navbtn-sel
+, .adwindow-navbtn-dis {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-right: 20px;
@@ -673,4 +674,3 @@ div.z-listbox-pgi-b, div.z-tree-pgi-b, div.z-grid-pgi-b  {
 .z-datebox-readonly + span {
 opacity: 0.5;
 }
-
