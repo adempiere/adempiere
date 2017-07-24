@@ -659,13 +659,11 @@ public class VBrowserTable extends CTable implements IBrowserTable {
      *
      * @param modelColumnIndex model column sort index
      */
-    /* 
-     *#599
     @Override
     protected void sort(final int modelColumnIndex) {
-        sorting = false;
+      super.sort(modelColumnIndex);
     }   //  sort
-*/
+
     /**
      * Get Fields
      * @return
