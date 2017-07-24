@@ -153,13 +153,13 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 	//saved paramaters
 
 	private Combobox fSavedName=new Combobox();
-	private Button bDelete = new Button("Delete");
+	private Button bDelete = new Button(Msg.getMsg(Env.getCtx(),"delete"));
 	private Label lSaved = new Label(Msg.getMsg(Env.getCtx(), "SavedParameter"));
 
 	// Print Format
 	private WTableDirEditor		fPrintFormat		= null;
 	private Combobox 			fReportType = new Combobox();
-	private Label				lPrintFormat		= new Label(Msg.getMsg(Env.getCtx(),"Print Format"));
+	private Label				lPrintFormat		= new Label(Msg.getMsg(Env.getCtx(),"PrintFormat"));
 	private Label 				lReportType = new Label(Msg.getMsg(Env.getCtx(),"ReportType"));
 
 

@@ -151,8 +151,8 @@ public class ProcessPanel extends ProcessController
 	// Print Format
 	private VLookup 			fPrintFormat		= null;
 	private CComboBox 			fReportType			= new CComboBox();
-	private CLabel 				lPrintFormat		= new CLabel("Print Format:");
-	private CLabel 				lReportType = new CLabel("Report Type:");
+	private CLabel 				lPrintFormat		= new CLabel(Msg.getMsg(Env.getCtx(),"PrintFormat"));
+	private CLabel 				lReportType 		= new CLabel(Msg.getMsg(Env.getCtx(),"ReportType"));
 	
 	private CPanel mainPanel = new CPanel() {
 		/**
