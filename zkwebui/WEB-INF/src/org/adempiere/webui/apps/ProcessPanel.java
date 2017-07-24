@@ -159,8 +159,8 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 	// Print Format
 	private WTableDirEditor		fPrintFormat		= null;
 	private Combobox 			fReportType = new Combobox();
-	private Label				lPrintFormat		= new Label("Print Format:");
-	private Label 				lReportType = new Label("Report Type:");
+	private Label				lPrintFormat		= new Label(Msg.getMsg(Env.getCtx(),"Print Format"));
+	private Label 				lReportType = new Label(Msg.getMsg(Env.getCtx(),"ReportType"));
 
 
 	/**	Logger			*/
