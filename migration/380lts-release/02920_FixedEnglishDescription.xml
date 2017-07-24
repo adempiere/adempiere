@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Fix English description" ReleaseNo="3.9.0" SeqNo="2920">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="105" Action="U" Record_ID="53092" Table="AD_Window">
+        <Data AD_Column_ID="158" Column="Help" oldValue="The Area Type allows to define serveral area types within the Warehouse, according to the use of the space e.g. wether it is for technical purposes or as putaway space:&#10;Open Area&#10;Bulk Materials Area&#10;Gethering Area&#10;Shelves Area&#10;Etc.">The Area Type allows to define several area types within the Warehouse, according to the use of the space e.g. whether it is for technical purposes or as put away space:
+Open Area
+Bulk Materials Area
+Gathering Area
+Shelves Area
+Etc.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="105" Action="U" Record_ID="53092" Table="AD_Window">
+        <Data AD_Column_ID="158" Column="Help" oldValue="The Area Type allows to define several area types within the Warehouse, according to the use of the space e.g. whether it is for technical purposes or as put away space:&#10;Open Area&#10;Bulk Materials Area&#10;Gathering Area&#10;Shelves Area&#10;Etc.">The Warehouse Section Type is necessary to picking and put away the material and can be defined according to:
+
+*Heavy Parts
+*Bulk Materials
+*Slow or Fast moving products
+
+Also, these types allow determining the Operation Type e.g. either picking or putaway within the Warehouse
+
+The Warehouse Section Type also define the Warehouse Section for Inbound or Outbound Operations
+
+Also, the Section Type allows defining the type Warehouse Management operation
+
+Picking Section (Inbound)
+Putaway Section (Outbound)</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="105" Action="U" Record_ID="53091" Table="AD_Window">
+        <Data AD_Column_ID="158" Column="Help" oldValue="In order to Implement the Warehouse Management functionality you need to configure a logical mapping of your warehouse that accurately matches its physical layout. Warehouses are usually subdivided into Areas, Sections and Locations, therefore it has the ability to handle multiple warehouse areas and each can be further divided into different sections as well.&#10;&#10;Finally, warehouse sections can be grouped into different locations and section types.">In order to Implement the Warehouse Management functionality, you need to configure a logical mapping of your warehouse that accurately matches its physical layout. Warehouses are usually subdivided into Areas, Sections, and Locations, therefore it has the ability to handle multiple warehouse areas and each can be further divided into different sections as well.
+
+Finally, warehouse sections can be grouped into different locations and section types.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="105" Action="U" Record_ID="53095" Table="AD_Window">
+        <Data AD_Column_ID="158" Column="Help" oldValue="The Inbound(Putaway) and Outbound(Picking)  Rules define the business logic according to a previously implemented algorithm, these rules are used by the Inbound(Putaway) and Outbound(Picking)  Strategy to determine the business logic and the operation type within the warehouse.&#10;&#10;">The Inbound(Putaway) and Outbound(Picking)  Rules define the business logic according to a previously implemented algorithm, these rules are used by the Inbound(Putaway) and Outbound(Picking)  Strategy to determine the business logic and the operation type within the warehouse.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="105" Action="U" Record_ID="53094" Table="AD_Window">
+        <Data AD_Column_ID="158" Column="Help" oldValue="Inbound/Outbound Definition window allows to define a set of conditions in order to implement a Inbound(Putaway) and Outbound(Picking) Strategy using different criteria such as:&#10;&#10;Product&#10;Product category&#10;Product Group 1&#10;Product Group 2 &#10;Product Classification&#10;Business Partner&#10;Business Partner Group&#10;Warehouse Area Type&#10;Warehouse Section Type&#10;Warehouse Location.&#10;Priority&#10;">Inbound/Outbound Definition window allows defining a set of conditions in order to implement an Inbound(Putaway) and Outbound(Picking) Strategy using different criteria such as:
+
+Product
+Product category
+Product Group 1
+Product Group 2 
+Product Classification
+Business Partner
+Business Partner Group
+Warehouse Area Type
+Warehouse Section Type
+Warehouse Location.
+Priority.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="106" Action="U" Record_ID="53262" Table="AD_Tab">
+        <Data AD_Column_ID="163" Column="Help" oldValue="A Warehouse Section represents another physical warehouse area even more specific than the Warehouse Area itself, therefore it is required to have at least one warehouse section within a warehouse area, furthermore a Warehouse Section is used for grouping several locations.&#10;">A Warehouse Section represents another physical warehouse area even more specific than the Warehouse Area itself, therefore it is required to have at least one warehouse section within a warehouse area, furthermore, a Warehouse Section is used for grouping several locations.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="106" Action="U" Record_ID="53266" Table="AD_Tab">
+        <Data AD_Column_ID="163" Column="Help" oldValue="The Inbound(Putaway) and Outbound(Picking) definition tab allows to define a set of conditions in order to select the Inbound(Putaway) and Outbound(Picking) Strategy from a given sequence ordered by priority.">The Inbound(Putaway) and Outbound(Picking) definition tab allow defining a set of conditions in order to select the Inbound(Putaway) and Outbound(Picking) Strategy from a given sequence ordered by priority.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="53338" Table="AD_Process_Para">
+        <Data AD_Column_ID="2822" Column="Name" oldValue="Locator">Outbound Locator</Data>
+        <Data AD_Column_ID="5819" Column="IsCentrallyMaintained" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <PO AD_Table_ID="116" Action="U" Record_ID="54026" Table="AD_Menu">
+        <Data AD_Column_ID="229" Column="Name" oldValue="Generate Shipments from Outbound Order based on Demands">Generate Shipments from Demands</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="100" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="139" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="5">6</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="139">139</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="110" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="141" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="6">7</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="141">141</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="120" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="589" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="7">8</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="589">589</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="130" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="216" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="8">9</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="216">216</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="140" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="300" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="9">10</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="300">300</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="150" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="140" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="10">11</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="140">140</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="160" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="295" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="11">12</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="295">295</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="170" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="142" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="12">13</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="142">142</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="180" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="53012" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="13">14</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="53012">53012</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="190" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="143" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="14">15</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="143">143</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="200" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="201" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="15">16</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="201">201</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="210" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="53228" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="17">18</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="53228">53228</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="220" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="53086" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="18">19</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="53086">53086</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="230" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="53227" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="19">20</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="53227">53227</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="240" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="239" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="20">21</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="239">239</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="250" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="517" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="21">22</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="517">517</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="260" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="499" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="22">23</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="499">499</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="270" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="53221" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="23">24</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="53221">53221</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="280" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="53222" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="24">25</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="53222">53222</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="290" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="53089" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="25">26</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="53089">53089</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="300" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="53090" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="26">27</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="53090">53090</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="310" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="50001" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="27">28</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="50001">50001</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="320" StepType="AD">
+      <PO AD_Table_ID="106" Action="U" Record_ID="53257" Table="AD_Tab">
+        <Data AD_Column_ID="163" Column="Help" oldValue="The View Column Tab defines the column that are include this view.  Changes made to the Column View Tab become visible after restart due to caching. If the Sequence is negative, the record are ordered descending. Note that the name, description and help is automatically synchronized if centrally maintained.">The View Column Tab defines the column that includes this view.  Changes made to the Column View Tab become visible after restart due to caching. If the Sequence is negative, the records are ordered descending. Note that the name, description, and help is automatically synchronized if centrally maintained.</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>
