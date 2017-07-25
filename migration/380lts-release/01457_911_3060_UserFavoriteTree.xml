@@ -1381,6 +1381,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="611" Column="Updated">2017-07-24 16:41:40.206</Data>
         <Data AD_Column_ID="612" Column="UpdatedBy">100</Data>
       </PO>
+    </Step>
     <Step SeqNo="330" StepType="AD">
       <PO AD_Table_ID="109" Action="I" Record_ID="53278" Table="AD_Message">
         <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
