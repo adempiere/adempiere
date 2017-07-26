@@ -43,8 +43,10 @@ import org.compiere.model.X_A_Asset_Addition;
 import org.compiere.model.X_A_Asset_Disposed;
 import org.compiere.model.X_A_Depreciation_Entry;
 import org.compiere.model.X_M_Production;
+import org.compiere.model.X_M_ProductionBatch;
 import org.compiere.util.DB;
 import org.compiere.util.TimeUtil;
+import org.compiere.util.Trx;
 import org.eevolution.model.X_DD_Order;
 import org.eevolution.model.X_HR_Process;
 import org.eevolution.model.X_PP_Cost_Collector;
@@ -126,12 +128,14 @@ public class FactAcctReset extends SvrProcess
 			{
 				int AD_Table_ID = rs.getInt(1);
 				String TableName = rs.getString(2);
-				if (p_DeletePosting)
-					delete (TableName, AD_Table_ID);
-				else
-					reset (TableName, AD_Table_ID);
-			}
-			rs.close();
+				Trx.run(trxName -> {
+					if (p_DeletePosting)
+						delete(TableName, AD_Table_ID, trxName);
+					else
+						reset(TableName, AD_Table_ID, trxName);
+				});
+             }
+            rs.close();
 			pstmt.close();
 			pstmt = null;
 		}
@@ -155,9 +159,10 @@ public class FactAcctReset extends SvrProcess
 
 	/**
 	 * 	Reset Accounting Table and update count
-	 *	@param TableName table
+	 * @param TableName table
+	 * @param trxName
 	 */
-	private void reset (String TableName , int AD_Table_ID)
+	private void reset(String TableName, int AD_Table_ID, String trxName)
 	{
 		MAcctSchema as = MClient.get(getCtx(), getAD_Client_ID()).getAcctSchema();
 		boolean autoPeriod = as != null && as.isAutoPeriodControl();
@@ -183,7 +188,7 @@ public class FactAcctReset extends SvrProcess
 		resetUpdate.append("UPDATE ").append(TableName).append(" SET Processing='N' WHERE AD_Client_ID=")
 				 .append(p_AD_Client_ID).append(" AND (Processing<>'N' OR Processing IS NULL)");
 
-		int unlocked = DB.executeUpdate(resetUpdate.toString(), get_TrxName());
+		int unlocked = DB.executeUpdate(resetUpdate.toString(), trxName);
 
 		resetUpdate = new StringBuilder();
 		resetUpdate.append("UPDATE ").append(TableName)
@@ -203,7 +208,7 @@ public class FactAcctReset extends SvrProcess
 
 			resetUpdate.append(" AND pc.PeriodStatus = 'O' AND pc.DocBaseType ").append(docBaseType).append("))");
 
-		int invalid = DB.executeUpdate(resetUpdate.toString(), get_TrxName());
+		int invalid = DB.executeUpdate(resetUpdate.toString(), trxName);
 		//
 		if (unlocked + invalid != 0)
 			log.fine(TableName + " - Unlocked=" + unlocked + " - Invalid=" + invalid);
@@ -212,10 +217,11 @@ public class FactAcctReset extends SvrProcess
 
 	/**
 	 * 	Delete Accounting Table where period status is open and update count.
-	 * 	@param TableName table name
+	 * @param TableName table name
 	 *	@param AD_Table_ID table
+	 * @param trxName
 	 */
-	private void delete (String TableName, int AD_Table_ID)
+	private void delete(String TableName, int AD_Table_ID, String trxName)
 	{
 		Timestamp today = TimeUtil.trunc(new Timestamp(System.currentTimeMillis()), TimeUtil.TRUNC_DAY);
 
@@ -235,7 +241,7 @@ public class FactAcctReset extends SvrProcess
 			}
 		}
 
-		reset(TableName, AD_Table_ID);
+		reset(TableName, AD_Table_ID, trxName);
 		m_countReset = 0;
 		//
 		String docBaseType = getDocumentBaseType(AD_Table_ID, TableName);
@@ -269,7 +275,7 @@ public class FactAcctReset extends SvrProcess
 
 		log.log(Level.FINE, sql1);
 
-		int reset = DB.executeUpdate(sql1, get_TrxName()); 
+		int reset = DB.executeUpdate(sql1, trxName);
 		//	Fact
 		String sql2 = "DELETE Fact_Acct "
 			+ "WHERE AD_Client_ID=" + p_AD_Client_ID
@@ -298,91 +304,95 @@ public class FactAcctReset extends SvrProcess
 		m_countDelete += deleted;
 	}	//	delete
 
-	public String getDateAcct(int AD_Table_ID)
+	public String getDateAcct(int tableId)
 	{
 		String docDateField = "DateAcct";
-		if (AD_Table_ID == MProjectIssue.Table_ID)
+		if (tableId == MProjectIssue.Table_ID)
 			docDateField = MProjectIssue.COLUMNNAME_MovementDate;
-		else if (AD_Table_ID == MBankStatement.Table_ID)
+		else if (tableId == MBankStatement.Table_ID)
 			docDateField = MBankStatement.COLUMNNAME_EftStatementDate;
-		else if (AD_Table_ID == MMovement.Table_ID)
+		else if (tableId == MMovement.Table_ID)
 			docDateField = MMovement.COLUMNNAME_MovementDate;
-		else if (AD_Table_ID == MRequisition.Table_ID)
+		else if (tableId == MRequisition.Table_ID)
 			docDateField = MRequisition.COLUMNNAME_DateDoc;
-		else if (AD_Table_ID == MInventory.Table_ID)
+		else if (tableId == MInventory.Table_ID)
 			docDateField = MInventory.COLUMNNAME_MovementDate;
-		else if (AD_Table_ID == X_M_Production.Table_ID)
+		else if (tableId == X_M_Production.Table_ID)
 			docDateField = X_M_Production.COLUMNNAME_MovementDate;
-		else if (AD_Table_ID == MOrder.Table_ID)
+		else if (tableId == MOrder.Table_ID)
 			docDateField = MOrder.COLUMNNAME_DateOrdered;
-		else if (AD_Table_ID == X_PP_Order.Table_ID)
+		else if (tableId == X_PP_Order.Table_ID)
 			docDateField = X_PP_Order.COLUMNNAME_DateOrdered;
-		else if (AD_Table_ID == X_DD_Order.Table_ID)
+		else if (tableId == X_DD_Order.Table_ID)
 			docDateField = X_DD_Order.COLUMNNAME_DateOrdered;
+		else if (tableId == X_M_ProductionBatch.Table_ID)
+			docDateField = X_M_ProductionBatch.COLUMNNAME_MovementDate;
 
 		return docDateField;
 	}
 
-	public String getDocumentBaseType(int AD_Table_ID, String TableName)
+	public String getDocumentBaseType(int tableId, String tableName)
 	{
 		String docBaseType = null;
-		if (AD_Table_ID == MInvoice.Table_ID)
+		if (tableId == MInvoice.Table_ID)
 			docBaseType = "IN ('" + MPeriodControl.DOCBASETYPE_APInvoice
 					+ "','" + MPeriodControl.DOCBASETYPE_APCreditMemo
 					+ "','" + MPeriodControl.DOCBASETYPE_ARInvoice
 					+ "','" + MPeriodControl.DOCBASETYPE_ARCreditMemo
 					+ "','" + MPeriodControl.DOCBASETYPE_ARProFormaInvoice + "')";
-		else if (AD_Table_ID == MInOut.Table_ID)
+		else if (tableId == MInOut.Table_ID)
 			docBaseType = "IN ('" + MPeriodControl.DOCBASETYPE_MaterialDelivery
 					+ "','" + MPeriodControl.DOCBASETYPE_MaterialReceipt + "')";
-		else if (AD_Table_ID == MPayment.Table_ID)
+		else if (tableId == MPayment.Table_ID)
 			docBaseType = "IN ('" + MPeriodControl.DOCBASETYPE_APPayment
 					+ "','" + MPeriodControl.DOCBASETYPE_ARReceipt + "')";
-		else if (AD_Table_ID == MOrder.Table_ID)
+		else if (tableId == MOrder.Table_ID)
 			docBaseType = "IN ('" + MPeriodControl.DOCBASETYPE_SalesOrder
 					+ "','" + MPeriodControl.DOCBASETYPE_PurchaseOrder + "')";
-		else if (AD_Table_ID == MProjectIssue.Table_ID)
+		else if (tableId == MProjectIssue.Table_ID)
 			docBaseType = "= '" + MPeriodControl.DOCBASETYPE_ProjectIssue + "'";
-		else if (AD_Table_ID == MBankStatement.Table_ID)
+		else if (tableId == MBankStatement.Table_ID)
 			docBaseType = "= '" + MPeriodControl.DOCBASETYPE_BankStatement + "'";
-		else if (AD_Table_ID == MCash.Table_ID)
+		else if (tableId == MCash.Table_ID)
 			docBaseType = "= '" + MPeriodControl.DOCBASETYPE_CashJournal + "'";
-		else if (AD_Table_ID == MAllocationHdr.Table_ID)
+		else if (tableId == MAllocationHdr.Table_ID)
 			docBaseType = "= '" + MPeriodControl.DOCBASETYPE_PaymentAllocation + "'";
-		else if (AD_Table_ID == MJournal.Table_ID)
+		else if (tableId == MJournal.Table_ID)
 			docBaseType = "= '" + MPeriodControl.DOCBASETYPE_GLJournal + "'";
 			//	else if (AD_Table_ID == M.Table_ID)
 			//		docBaseType = "= '" + MPeriodControl.DOCBASETYPE_GLDocument + "'";
-		else if (AD_Table_ID == MMovement.Table_ID)
+		else if (tableId == MMovement.Table_ID)
 			docBaseType = "= '" + MPeriodControl.DOCBASETYPE_MaterialMovement + "'";
-		else if (AD_Table_ID == MRequisition.Table_ID)
+		else if (tableId == MRequisition.Table_ID)
 			docBaseType = "= '" + MPeriodControl.DOCBASETYPE_PurchaseRequisition + "'";
-		else if (AD_Table_ID == MInventory.Table_ID)
+		else if (tableId == MInventory.Table_ID)
 			docBaseType = "= '" + MPeriodControl.DOCBASETYPE_MaterialPhysicalInventory + "'";
-		else if (AD_Table_ID == X_M_Production.Table_ID)
+		else if (tableId == X_M_Production.Table_ID)
 			docBaseType = "= '" + MPeriodControl.DOCBASETYPE_MaterialProduction + "'";
-		else if (AD_Table_ID == MMatchInv.Table_ID)
+		else if (tableId == MMatchInv.Table_ID)
 			docBaseType = "= '" + MPeriodControl.DOCBASETYPE_MatchInvoice + "'";
-		else if (AD_Table_ID == MMatchPO.Table_ID)
+		else if (tableId == MMatchPO.Table_ID)
 			docBaseType = "= '" + MPeriodControl.DOCBASETYPE_MatchPO + "'";
-		else if (AD_Table_ID == X_PP_Order.Table_ID)
+		else if (tableId == X_PP_Order.Table_ID)
 			docBaseType = "IN ('" + MPeriodControl.DOCBASETYPE_ManufacturingOrder
 					+ "','" + MPeriodControl.DOCBASETYPE_MaintenanceOrder
 					+ "','" + MPeriodControl.DOCBASETYPE_QualityOrder + "')";
-		else if (AD_Table_ID == X_PP_Cost_Collector.Table_ID)
+		else if (tableId == X_PP_Cost_Collector.Table_ID)
 			docBaseType = "IN ('" + MPeriodControl.DOCBASETYPE_ManufacturingCostCollector+"')";
-		else if (AD_Table_ID == X_DD_Order.Table_ID)
+		else if (tableId == X_DD_Order.Table_ID)
 			docBaseType = "= '" + MPeriodControl.DOCBASETYPE_DistributionOrder+ "'";
-		else if (AD_Table_ID == X_HR_Process.Table_ID)
+		else if (tableId == X_HR_Process.Table_ID)
 			docBaseType = "= '" + MPeriodControl.DOCBASETYPE_Payroll+ "'";
-		else if (AD_Table_ID == X_PP_Cost_Collector.Table_ID)
+		else if (tableId == X_PP_Cost_Collector.Table_ID)
 			docBaseType = "= '" + MPeriodControl.DOCBASETYPE_ManufacturingCostCollector+ "'";
-		else if (AD_Table_ID == X_A_Asset_Addition.Table_ID)
-			docBaseType = "= 'FAA'";
-		else if (AD_Table_ID == X_A_Depreciation_Entry.Table_ID)
-			docBaseType = "= 'FAD'";
-		else if (AD_Table_ID == X_A_Asset_Disposed.Table_ID)
-			docBaseType = "= 'FAP'";
+		else if (tableId == X_A_Asset_Addition.Table_ID)
+			docBaseType = "= '" + MPeriodControl.DOCBASETYPE_FixedAssetsAddition +  "'";
+		else if (tableId == X_A_Depreciation_Entry.Table_ID)
+			docBaseType = "= '" + MPeriodControl.DOCBASETYPE_FixedAssetsDisposal + "'";
+		else if (tableId == X_A_Asset_Disposed.Table_ID)
+			docBaseType = "= '"+ MPeriodControl.DOCBASETYPE_FixedAssetsDepreciation + "'";
+		else if (tableId == X_M_ProductionBatch.Table_ID)
+			docBaseType = "= '" +MPeriodControl.DOCBASETYPE_ManufacturingPlannedOrder + "'";
 		else
 			docBaseType = "IS NOT NULL ";
 
