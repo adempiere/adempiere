@@ -75,6 +75,9 @@ import org.zkoss.zul.Window;
  * @version $Revision: 0.10 $
  *
  * @author hengsin
+ * @author eEvolution author Victor Perez <victor.perez@e-evolution.com>
+ * @see  [ 1258 ]The change role throw exception  </a>
+ *         <a href="https://github.com/adempiere/adempiere/issues/1258">
  */
 public class AdempiereWebUI extends Window implements EventListener, IWebClient
 {
@@ -108,6 +111,8 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 	private static final String SAVED_CONTEXT = "saved.context";
 
 	public static final String APPLICATION_DESKTOP_KEY = "application.desktop";
+
+	public static String typedPassword = null;
 
     public AdempiereWebUI()
     {
@@ -158,10 +163,10 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 	{
 		Locale locale = (Locale) map.get("locale");
 		Properties properties = (Properties) map.get("context");
-
 		SessionManager.setSessionApplication(this);
 		loginDesktop = new WLogin(this);
 		loginDesktop.createPart(this.getPage());
+		loginDesktop.setTypedPassword(typedPassword);
 		loginDesktop.changeRole(locale, properties);
 	}
 
@@ -172,6 +177,7 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
     {
     	if (loginDesktop != null)
     	{
+    		typedPassword = loginDesktop.getTypedPassword();
     		loginDesktop.detach();
     		loginDesktop = null;
     	}
@@ -339,6 +345,7 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 	 */
     public void logout()
     {
+    	typedPassword = null;
     	appDesktop.logout();
     	Executions.getCurrent().getDesktop().getSession().getAttributes().clear();
 

@@ -41,8 +41,9 @@ import org.zkoss.zul.Window;
  *
  * @author  <a href="mailto:agramdass@gmail.com">Ashley G Ramdass</a>
  * @author  Low Heng Sin
- * @date    Mar 3, 2007
- * @version $Revision: 0.10 $
+ * @author eEvolution author Victor Perez <victor.perez@e-evolution.com>
+ * @see  [ 1258 ]The change role throw exception  </a>
+ *         <a href="https://github.com/adempiere/adempiere/issues/1258">
  */
 public class WLogin extends AbstractUIPart
 {
@@ -188,5 +189,15 @@ public class WLogin extends AbstractUIPart
 	
 	public void changeRole(Locale locale, Properties properties) {
 		loginWindow.changeRole(locale, properties);
+	}
+
+	public String getTypedPassword()
+	{
+		return loginWindow.getTypedPassword();
+	}
+
+	public void setTypedPassword(String password)
+	{
+		loginWindow.setTypedPassword(password);
 	}
 }

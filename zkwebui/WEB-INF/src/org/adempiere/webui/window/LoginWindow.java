@@ -42,10 +42,10 @@ import org.zkoss.zk.ui.event.Events;
 /**
  *
  * @author  <a href="mailto:agramdass@gmail.com">Ashley G Ramdass</a>
- * @date    Feb 25, 2007
- * @version $Revision: 0.10 $
  * @author <a href="mailto:sendy.yagambrum@posterita.org">Sendy Yagambrum</a>
- * @date    July 18, 2007
+ * @author eEvolution author Victor Perez <victor.perez@e-evolution.com>
+ * @see  [ 1258 ]The change role throw exception  </a>
+ *         <a href="https://github.com/adempiere/adempiere/issues/1258">
  */
 public class LoginWindow extends FWindow implements EventListener
 {
@@ -130,10 +130,22 @@ public class LoginWindow extends FWindow implements EventListener
 		Locales.setThreadLocal(locale);
 		new Login(Env.getCtx());
 		MUser user = MUser.get(ctx, Env.getAD_User_ID(ctx));
-		String loginName = user.getLDAPUser() != null ? user.getLDAPUser() : user.getName();
-		loginOk(loginName, user.getPassword());
+    	String loginName = user.getLDAPUser() != null ? user.getLDAPUser() : user.getName();
+		loginOk(loginName, getTypedPassword());
 		getDesktop().getSession().setAttribute("Check_AD_User_ID", Env.getAD_User_ID(ctx));
-
 		pnlRole.changeRole(ctx);
 	}
+
+	public String getTypedPassword()
+    {
+        if (pnlLogin != null)
+            return  pnlLogin.getTypedPassword();
+        return null;
+    }
+
+    public void setTypedPassword(String password)
+    {
+        if (pnlLogin != null)
+            pnlLogin.setTypedPassword(password);
+    }
 }
