@@ -914,6 +914,39 @@ public class TimeUtil
         return yearDiff;
 	}
 	
+	/**
+	 * Get Weeks between two dates
+	 * @param from
+	 * @param to
+	 * @return
+	 */
+	public static int getWeeksBetween (Timestamp from, Timestamp to) {
+		//	Set Date From
+		Calendar dateFrom = Calendar.getInstance();
+		dateFrom.set(Calendar.HOUR_OF_DAY, 0);
+		dateFrom.set(Calendar.MINUTE, 0);
+		dateFrom.set(Calendar.SECOND, 0);
+		dateFrom.set(Calendar.MILLISECOND, 0);
+		dateFrom.setTime(from);
+        //	Set Date To
+		Calendar dateTo = Calendar.getInstance();
+		dateTo.set(Calendar.HOUR_OF_DAY, 0);
+		dateTo.set(Calendar.MINUTE, 0);
+		dateTo.set(Calendar.SECOND, 0);
+		dateTo.set(Calendar.MILLISECOND, 0);
+        dateTo.setTime(to);
+        
+        long diff = dateTo.getTimeInMillis() - dateFrom.getTimeInMillis();
+        double longWeeks = ((double)diff / (double)(7 * 24 * 60 * 60 * 1000));
+        int weeks = (int) longWeeks;
+        
+        //	Verify Week
+        if(longWeeks > weeks) {
+        	weeks += 1;
+        }
+        //	Value
+        return weeks;
+	}
 
 	/**
 	 * 	Test

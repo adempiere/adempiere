@@ -30,6 +30,7 @@ import org.compiere.model.Query;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
+import org.compiere.util.Util;
 import org.eevolution.model.I_I_HR_Employee;
 import org.eevolution.model.MHRCareerLevel;
 import org.eevolution.model.MHRDegree;
@@ -439,7 +440,6 @@ public class ImportEmployee extends ImportEmployeeAbstract {
         partner.setBirthday(importEmployee.getBirthday());
         partner.setBloodGroup(importEmployee.getBloodGroup());
         partner.setGender(importEmployee.getGender());
-        //partner.setPlaceOfBirth(importEmployee.getPlaceOfBirth()); // todo : Need be impleented setPlaceOfBirth_ID(impBP.getPlaceOfBirth_ID());
         partner.setFathersName(importEmployee.getFathersName());
         partner.saveEx();
 
@@ -455,13 +455,24 @@ public class ImportEmployee extends ImportEmployeeAbstract {
      */
     private MBPartner updatePartnerFromEmployeeData(X_I_HR_Employee importEmployee) {
         MBPartner partner = (MBPartner) importEmployee.getC_BPartner();
-        partner.setName(importEmployee.getName());
-        partner.setName2(importEmployee.getName2());
-        partner.setBirthday(importEmployee.getBirthday());
-        partner.setBloodGroup(importEmployee.getBloodGroup());
-        partner.setGender(importEmployee.getGender());
-        //partner.setPlaceOfBirth(importEmployee.getPlaceOfBirth()); todo : Need be impleented setPlaceOfBirth_ID(impBP.getPlaceOfBirth_ID());
-        partner.setFathersName(importEmployee.getFathersName());
+        if(!Util.isEmpty(importEmployee.getName())) {
+        	partner.setName(importEmployee.getName());
+        }
+        if(!Util.isEmpty(importEmployee.getName2())) {
+        	partner.setName2(importEmployee.getName2());
+        }
+        if(importEmployee.getBirthday() != null) {
+        	partner.setBirthday(importEmployee.getBirthday());
+        }
+        if(!Util.isEmpty(importEmployee.getBloodGroup())) {
+        	partner.setBloodGroup(importEmployee.getBloodGroup());
+        }
+        if(!Util.isEmpty(importEmployee.getGender())) {
+        	partner.setGender(importEmployee.getGender());
+        }
+        if(!Util.isEmpty(importEmployee.getFathersName())) {
+        	partner.setFathersName(importEmployee.getFathersName());
+        }
         partner.saveEx();
         return partner;
 

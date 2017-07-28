@@ -1,19 +1,32 @@
+/******************************************************************************
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * This program is free software; you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *
+ * Copyright (C) 2016 ADempiere Foundation All Rights Reserved.               *
+ *****************************************************************************/
+
 package org.adempiere.process;
 
-import java.lang.reflect.Method;
 import java.math.BigDecimal;
-import java.sql.Array;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
@@ -22,28 +35,41 @@ import java.util.TreeSet;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.compiere.model.MReplenishPlan;
+import org.compiere.model.I_C_OrderLine;
+import org.compiere.model.I_M_Product_BOM;
+import org.compiere.model.I_M_Production;
+import org.compiere.model.I_M_Replenish;
 import org.compiere.model.MOrder;
+import org.compiere.model.MOrderLine;
 import org.compiere.model.MProduct;
+import org.compiere.model.MProductBOM;
+import org.compiere.model.MProductPO;
+import org.compiere.model.MProductPricing;
 import org.compiere.model.MProduction;
+import org.compiere.model.MReplenish;
+import org.compiere.model.MReplenishPlan;
 import org.compiere.model.MRequisition;
+import org.compiere.model.MStorage;
+import org.compiere.model.Query;
+import org.compiere.model.X_M_Replenish;
 import org.compiere.model.X_M_ReplenishPlanLine;
-import org.compiere.process.ProcessInfoLog;
-import org.compiere.process.SvrProcess;
 import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
-
-import com.mchange.v2.c3p0.C3P0ProxyConnection;
+import org.compiere.util.TimeUtil;
+import org.eevolution.model.MPPProductBOM;
+import org.eevolution.model.MPPProductBOMLine;
 
 /**
  * CalculateReplenishPlan.Java
  * 
  * @author hitesh.panchani, www.logilite.com
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * 		<a href="https://github.com/adempiere/adempiere/issues/789">
+ * 		@see FR [ 789 ] The Calculate Replenish Plan process not support SQL99</a>
  */
-public class CalculateReplenishPlan extends SvrProcess
+public class CalculateReplenishPlan extends CalculateReplenishPlanAbstract
 {
 	private static final String			TYPE_CLOSING_BALANCE_LINE				= "Closing Balance";
 	private static final String			TYPE_OPENING_BALANCE_LINE				= "Opening Balance";
@@ -58,33 +84,28 @@ public class CalculateReplenishPlan extends SvrProcess
 	private static final String			TYPE_TOTAL_SUPPLY_PLANNED_LINE			= "Total Planned Production";
 	private static final String			TYPE_TOTAL_SUPPLY_NONPLANNED_LINE		= "Total Confirmed Production";
 	private static final String			TYPE_PRODUCT_ORDER_DEMAND				= "Demand";
-	private static final String			REPLENISH_TYPE_MRP_CALCULATED			= "4";
 	private static final String			TYPE_RQ									= "RQ";
 	private static final String			TYPE_PO									= "PO";
 	private static final String			TYPE_MO									= "MO";
 	private int							lineNo									= 10;
-	int									countProd								= 0;
-	int									countReq								= 0;
-	private int							mrpRunID								= 0;
-	private int							START_WEEK;
-	private int							END_WEEK;																																											// Week
-	private int							AD_Client_ID;
-	private int							AD_Org_ID;
-	private int							AD_User_ID;
-	private int							M_WarehouseID;
-	private int							M_LocatorID;
-	private int							docType_PlannedOrder;
-	private int							docType_ConfirmedOrder;
-	private int							docType_PurchaseOrder;
-	private int							docType_MRPRequisition;
-	private int							M_PriceList_ID;
+	private int							countProd								= 0;
+	private int							countReq								= 0;
+	private int							clientId;
+	private int							orgId;
+	private int							userId;
+	private int							warehouseId;
+	private int							locatorId;
+	private int							docTypePlannedOrder;
+	private int							docTypeConfirmedOrder;
+	private int							docTypePurchaseOrder;
+	private int							docTypeMRPRequisition;
+	private int							priceListId;
 	private Timestamp					dateFrom;
 	private Timestamp					dateTo;
 	private Calendar					calendar								= Calendar.getInstance();
 
 	private Properties					ctx;
 	private String						trx;
-	private int							p_M_Product_ID =0;
 	
 	// Available Inventory - ProductID, Qty
 	private Map<Integer, BigDecimal>	availableInventory						= new TreeMap<Integer, BigDecimal>();
@@ -95,293 +116,190 @@ public class CalculateReplenishPlan extends SvrProcess
 	// map use for DatePromise for create planned Production, Product reference,
 	// planned qty [ProductID, RequiredDate, DemandQty]
 	Map<Integer, Map<Date, BigDecimal>>	mapRequirePlanningQty					= new TreeMap<Integer, Map<Date, BigDecimal>>();
+	Map<Date, MRequisition> 			mapRequisition = new TreeMap<Date, MRequisition>();
 
 	StringBuilder						infoMsg									= new StringBuilder();
 	StringBuilder						productionDocs							= new StringBuilder();
 	StringBuilder						requisitionDocs							= new StringBuilder();
-
-	private static String				SQL_PRODUCTWISE_CONFIRM_PRODUCTION_QTY	= " SELECT DatePromised, ProductionQty AS Qty, M_Production_ID FROM M_Production "
-																						+ " WHERE Processed = 'N' AND M_Product_ID = ? AND DatePromised BETWEEN ? AND ? AND (C_DocType_ID IS NULL OR C_DocType_ID != ? )"
-																						+ " ORDER BY DatePromised ";
-
-	private static String				SQL_PRODUCTWISE_CONFIRM_PO_RQ_QTY		= " SELECT DateRequired AS DatePromised, SUM(Qty) AS Qty FROM (( "
-																						+ " SELECT ol.DatePromised AS DateRequired, ol.QtyOrdered - QtyDelivered AS Qty	FROM C_Order o "
-																						+ " INNER JOIN C_OrderLine ol ON (ol.C_Order_ID = o.C_Order_ID AND ol.M_Product_ID = ?) "
-																						+ " WHERE o.DocStatus IN ('CO', 'CL') AND o.IsSoTrx = 'N' AND ol.QtyOrdered > ol.QtyDelivered AND o.DatePromised BETWEEN ? AND ? "
-																						+ " ORDER BY o.DatePromised )		UNION ALL	( SELECT r.DateRequired, SUM(rl.Qty) AS QtyOrdered	FROM M_Requisition r "
-																						+ " INNER JOIN M_RequisitionLine rl ON (r.M_Requisition_ID = rl.M_Requisition_ID AND rl.IsActive = 'Y' AND rl.M_Product_ID = ?) "
-																						+ " INNER JOIN M_Product mp ON (mp.M_Product_ID = rl.M_Product_ID AND mp.IsActive = 'Y') "
-																						+ " WHERE r.DocStatus IN ('DR') AND r.DateRequired BETWEEN ? AND ? AND mp.AD_Client_ID = ? AND r.C_DocType_ID = ? "
-																						+ " GROUP BY mp.M_Product_ID, r.M_Requisition_ID	ORDER BY mp.M_Product_ID, r.DateRequired )) AS qtyOrdered	GROUP BY DateRequired ";
-
-	private static String				SQL_GET_PRODUCTION_SUBPRODUCTWISE		= "SELECT DISTINCT p.M_Production_ID		FROM M_Production p "
-																						+ " INNER JOIN M_ProductionLine pl ON (pl.M_Production_ID = p.M_Production_ID AND pl.IsEndProduct = 'N' AND pl.M_Product_ID = ?) "
-																						+ " WHERE p.Processed = 'N' AND p.DatePromised BETWEEN ? AND ? AND (C_DocType_ID IS NULL OR C_DocType_ID != ?) ";
-
-	public static String				SQL_GET_ISO_WEEKNO						= "SELECT ( CASE WHEN TO_CHAR(?::DATE, 'IYYY') <> TO_CHAR(?::DATE, 'IYYY') "
-																						+ "	THEN EXTRACT(WEEK FROM (DATE_TRUNC('YEAR', ?::DATE) + interval '-1 day')) "
-																						+ " ELSE 0 END )	+	EXTRACT(WEEK FROM ?::DATE) ";
-
-	public static String				SQL_GET_PRODUCTIONLINE_INFO				= "SELECT p.M_Product_ID, SUM(QtyUsed) AS QtyUsed, mp.DatePromised	FROM M_Production mp "
-																						+ " INNER JOIN M_ProductionLine pl ON (pl.M_Production_ID = mp.M_Production_ID AND pl.IsEndProduct = 'N') "
-																						+ " INNER JOIN M_Product p ON (p.M_Product_ID = pl.M_Product_ID AND p.IsPhantom = 'N') "
-																						+ " WHERE pl.IsActive='Y' AND pl.M_Production_ID = ? "
-																						+ " GROUP BY mp.M_Production_ID, p.M_Product_ID	ORDER BY p.M_Product_ID ";
-
-	public static String				SQL_PRODUCTWISE_INFO_FROM_PRODUCTION	= "SELECT p.M_Production_ID, p.DocumentNo, p.DatePromised, SUM(QtyUsed) AS QtyUsed	FROM M_Production p "
-																						+ " INNER JOIN M_ProductionLine pl ON (pl.M_Production_ID = p.M_Production_ID AND pl.IsEndProduct = 'N' AND pl.M_Product_ID = ?) "
-																						+ " WHERE p.Processed='N' AND p.C_DocType_ID=? AND DatePromised BETWEEN ? AND ? "
-																						+ " GROUP BY p.M_Production_ID	ORDER BY p.DatePromised ";
-
-	public static String				SQL_GET_BOMLINE_FOR_PROCESS				= "SELECT pb.M_Product_ID, pb.qtybom, p.M_Product_Category_ID, p.Name AS ProductName, p.IsBOM, p.IsVerified, p.IsPurchased, "
-																						+ "		p.IsPhantom, mpo.C_BPartner_ID, COALESCE(ppr.pricelist,  0.00) AS PricePO, mpo.DeliveryTime_Promised, "
-																						+ "		COALESCE(r.QtyBatchSize, 0) AS QtyBatchSize, COALESCE(r.Level_Min, 0) AS Level_Min, r.ReplenishType, SUM(ms.qtyonhand) AS Available "
-																						+ " FROM pp_product_bomline pb "
-																						+ " INNER JOIN pp_product_bom bom on (pb.pp_product_bom_ID = bom.pp_product_bom_ID and bom.isdefault = 'Y' and bom.m_product_ID = ?)"
-																						+ " INNER JOIN M_Product p ON (p.M_Product_ID = pb.M_Product_ID and p.ad_Client_ID =?)"
-																						+ " INNER JOIN M_Replenish r	ON (r.M_Product_ID = p.M_Product_ID AND r.M_Warehouse_ID = ?)  "
-																						+ " LEFT JOIN M_Product_PO mpo ON (mpo.M_Product_ID = p.M_Product_ID AND mpo.C_BPartner_ID = "
-																						+ "		(SELECT po.C_BPartner_ID FROM M_Product_PO po "
-																						+ " WHERE (po.M_Product_ID = p.M_Product_ID) ORDER BY IsCurrentVendor DESC  FETCH FIRST ROW ONLY)) "
-																						+ " LEFT JOIN M_ProductPrice ppr ON  (p.m_product_id = ppr.m_product_id)  AND  ppr.m_pricelist_version_id = "
-																						+ " (SELECT plv.m_pricelist_version_id FROM m_pricelist_version plv "
-																					    + " LEFT JOIN c_bpartner bpx ON plv.m_pricelist_id = bpx.po_pricelist_id "
-																					    + " WHERE (bpx.c_bpartner_id = mpo.c_bpartner_id AND plv.ValidFrom <= now())  ORDER BY plv.m_pricelist_version_id DESC FETCH FIRST ROW ONLY) "
-																					    + " LEFT OUTER JOIN M_Storage ms ON (ms.M_Product_ID = p.M_Product_ID) "
-																						+ " GROUP BY	pb.M_Product_ID, pb.pp_product_bomline_ID, pb.qtybom, p.M_Product_Category_ID, p.Name, p.IsBOM, p.IsVerified, p.IsPurchased, p.IsPhantom, "
-																						+ "		mpo.C_BPartner_ID, mpo.PricePO, mpo.DeliveryTime_Promised, r.M_Product_ID, r.M_Warehouse_ID, ppr.pricelist "
-																						+ " ORDER BY pb.pp_product_bomline_ID ";
-
-	SimpleDateFormat					requiredFormat							= new SimpleDateFormat("dd/MM/yyyy");
-	SimpleDateFormat					sdf										= new SimpleDateFormat("HH:mm:ss.SSS");
-	
-	Map<Date, MRequisition> mapRequisition = new TreeMap<Date, MRequisition>();
 	
 	@Override
-	protected void prepare()
-	{
+	protected void prepare() {
+		super.prepare();
 		ctx = getCtx();
 		trx = get_TrxName();
-		mrpRunID = getRecord_ID();
-
-		AD_Client_ID = Env.getAD_Client_ID(ctx);
-		M_WarehouseID = Env.getContextAsInt(ctx, "M_Warehouse_ID");
-		M_LocatorID = Env.getContextAsInt(ctx, "M_Locator_ID");
-		AD_User_ID = Env.getAD_User_ID(ctx);
-		AD_Org_ID = Env.getAD_Org_ID(ctx);
-		p_M_Product_ID = getParameterAsInt("M_Product_ID");
-
-
+		clientId = Env.getAD_Client_ID(ctx);
+		warehouseId = Env.getContextAsInt(ctx, "M_Warehouse_ID");
+		locatorId = Env.getContextAsInt(ctx, "M_Locator_ID");
+		userId = Env.getAD_User_ID(ctx);
+		orgId = Env.getAD_Org_ID(ctx);
 	}
 
-	@Override
-	protected String doIt() throws Exception
-	{
-		Timestamp t1 = new Timestamp(System.currentTimeMillis());
-		log.config("Start DoIt: " + sdf.format(t1));
 
-		MReplenishPlan run = new MReplenishPlan(ctx, mrpRunID, trx);
+	@Override
+	protected String doIt() throws Exception {
+		MReplenishPlan run = new MReplenishPlan(ctx, getRecord_ID(), trx);
 		StringBuilder error = new StringBuilder();
 		dateFrom = run.getDateStart();
 		dateTo = run.getDateFinish();
-		M_PriceList_ID = run.getM_PriceList_ID();
+		priceListId = run.getM_PriceList_ID();
 
-		docType_PlannedOrder = run.getC_DocType_PlannedOrder();
-		docType_ConfirmedOrder = run.getC_DocType_ConfirmedOrder();
-		docType_PurchaseOrder = run.getC_DocType_PO();
-		docType_MRPRequisition = run.getC_DocType_Requisition();
+		docTypePlannedOrder = run.getC_DocType_PlannedOrder();
+		docTypeConfirmedOrder = run.getC_DocType_ConfirmedOrder();
+		docTypePurchaseOrder = run.getC_DocType_PO();
+		docTypeMRPRequisition = run.getC_DocType_Requisition();
 		
-		if (docType_PlannedOrder <= 0)
-			error.append("No Mfg Planned Order Document set. \n");
-		if (docType_ConfirmedOrder <= 0)
-			error.append("No Confirmed Mfg Order Document set. \n");
-		if (docType_PurchaseOrder <= 0)
-			error.append("No Purchase Order Document set. \n");
-		if (docType_MRPRequisition <= 0)
-			error.append("No MRP Requisition Document set. \n");
-
+		if (docTypePlannedOrder <= 0)
+			error.append("@C_DocType_PlannedOrder@ @NotFound@\n");
+		if (docTypeConfirmedOrder <= 0)
+			error.append("@C_DocType_ConfirmedOrder@ @NotFound@\n");
+		if (docTypePurchaseOrder <= 0)
+			error.append("@C_DocType_PO@ @NotFound@\n");
+		if (docTypeMRPRequisition <= 0)
+			error.append("@C_DocType_Requisition@ @NotFound@\n");
+		//	
 		if (error.length() > 0) {
-			throw new Exception(error.toString());
+			throw new Exception(Msg.parseTranslation(getCtx(), error.toString()));
 		}
-		String sql = "DELETE FROM M_ReplenishPlanLine WHERE M_ReplenishPlan_ID=? AND AD_Client_ID=?";
-		int noOfLinesDeleted = DB.executeUpdateEx(sql, new Object[] { mrpRunID, Env.getAD_Client_ID(ctx) }, trx);
+		//	Delete 
+		String sql = "DELETE FROM M_ReplenishPlanLine WHERE M_ReplenishPlan_ID=?";
+		int noOfLinesDeleted = DB.executeUpdateEx(sql, new Object[] {getRecord_ID()}, trx);
 		log.fine("No. of MRP lines deleted : " + noOfLinesDeleted);
-
 		if (dateFrom == null)
 			throw new IllegalArgumentException(Msg.translate(ctx, "FillMandatory") + Msg.translate(ctx,
 					"DatePosted - From"));
 		if (dateTo == null)
 			throw new IllegalArgumentException(Msg.translate(ctx, "FillMandatory") + Msg.translate(ctx,
 					"DatePosted - To"));
-		if (M_PriceList_ID == 0)
+		if (priceListId == 0)
 			throw new IllegalArgumentException(Msg.translate(ctx, "FillMandatory") + Msg.translate(ctx,
 					"M_PriceList_ID"));
-
-		int isAfterDate = dateTo.compareTo(dateFrom);
-
-		if (isAfterDate > 0)
-		{
-
-			START_WEEK = DB.getSQLValue(trx, "SELECT EXTRACT( WEEK FROM ?::Timestamp )", dateFrom) - 2;
-			END_WEEK = DB.getSQLValue(trx, SQL_GET_ISO_WEEKNO, dateFrom, dateTo, dateTo, dateTo) + 2;
-
-			if (START_WEEK == 0)
-			{
-				START_WEEK = DB.getSQLValue(trx,
-						"SELECT EXTRACT(WEEK FROM (DATE_TRUNC('YEAR', ?::DATE) + interval '-1 day')) ", dateFrom);
-				END_WEEK += START_WEEK;
-			}
-
-			Calendar cal = Calendar.getInstance();
-			cal.setFirstDayOfWeek(Calendar.MONDAY);
-			cal.setTime(dateFrom);
-			cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-			cal.add(Calendar.WEEK_OF_YEAR, -2);
-
-			dateFrom.setTime(cal.getTimeInMillis());
-
-			int weekDifference = END_WEEK - START_WEEK;
-
-			cal.setTime(dateFrom);
-			cal.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
-			cal.add(Calendar.WEEK_OF_YEAR, weekDifference);
-
-			dateTo.setTime(cal.getTimeInMillis());
-
-			if (weekDifference > 24)
-			{
-				throw new IllegalArgumentException(Msg.translate(ctx,
-						"Week difference should not be greater than 20 for selected horizon."));
-			}
+		//	
+		if (run.isDeleteUnconfirmedProduction()) {
+			deleteUnconfirmedProduction();
 		}
-		else
-		{
-			throw new IllegalArgumentException(Msg.translate(ctx, "ToDate must me greater than selected FromDate"));
-		}
-
-		if (run.isDeleteUnconfirmedProduction())
-		{
-			sql = "DELETE FROM M_ProductionLine	 WHERE M_Production_ID IN (SELECT M_Production_ID FROM M_Production WHERE Processed='N' AND C_DocType_ID = ?)";
-			noOfLinesDeleted = DB.executeUpdate(sql, docType_PlannedOrder, trx);
-			log.fine("No. of planned production line deleted : " + noOfLinesDeleted);
-
-			sql = "DELETE FROM M_Production	WHERE Processed='N' AND C_DocType_ID = ? ";
-			noOfLinesDeleted = DB.executeUpdate(sql, docType_PlannedOrder, trx);
-			log.fine("No. of planned production deleted : " + noOfLinesDeleted);
-
-			sql = "DELETE FROM m_productionbatch b  " +
-					"WHERE b.c_doctype_id = ? " +
-		            "AND   NOT EXISTS (SELECT * " +
-		             "                  FROM m_production " +
-		             "                  WHERE m_productionbatch_id = b.m_productionbatch_id)";
-			noOfLinesDeleted = DB.executeUpdate(sql, docType_PlannedOrder, trx);
-			log.fine("No. of Production Batch deleted " + noOfLinesDeleted);
-
-			sql = "DELETE FROM M_MovementLine ml 	USING M_Movement m "
-					+ " WHERE m.M_ProductionBatch_ID IS NOT NULL AND m.Processed = 'N' "
-					+ " AND NOT EXISTS (SELECT * FROM M_ProductionBatch b WHERE b.M_ProductionBatch_ID = m.M_ProductionBatch_ID)";
-			noOfLinesDeleted = DB.executeUpdate(sql, trx);
-			log.fine("No. of Movement Lines cleaned : " + noOfLinesDeleted);
-
-			sql = "DELETE FROM M_Movement m " + " WHERE m.M_ProductionBatch_ID IS NOT NULL AND m.Processed = 'N'"
-					+ "	AND NOT EXISTS (SELECT * FROM M_ProductionBatch b WHERE b.M_ProductionBatch_ID = m.M_ProductionBatch_ID)";
-			noOfLinesDeleted = DB.executeUpdate(sql, trx);
-			log.fine("No. of Inventory Movements cleaned : " + noOfLinesDeleted);
-		}
-
-		if (run.isDeletePlannedPO())
-		{
-			String selectRequisition = " (SELECT M_Requisition_ID FROM M_Requisition WHERE DocStatus IN ('DR') AND Processed='N' AND AD_Client_ID = ? AND C_DocType_ID = ?) ";
-
-			sql = "DELETE FROM PP_MRP	WHERE M_Requisition_ID IN " + selectRequisition;
-			noOfLinesDeleted = DB.executeUpdateEx(sql, new Object[] { AD_Client_ID, docType_MRPRequisition }, trx);
-			log.fine("No. of Material Requirement Planning (PP_MRP) Line deleted : " + noOfLinesDeleted);
-
-			sql = "DELETE FROM M_RequisitionLine	WHERE M_Requisition_ID IN " + selectRequisition;
-			noOfLinesDeleted = DB.executeUpdateEx(sql, new Object[] { AD_Client_ID, docType_MRPRequisition }, trx);
-			log.fine("No. of MRP Requisition Line deleted : " + noOfLinesDeleted);
-
-			sql = "DELETE FROM M_Requisition WHERE DocStatus IN ('DR') AND Processed='N' AND AD_Client_ID = ? AND C_DocType_ID = ? ";
-			noOfLinesDeleted = DB.executeUpdateEx(sql, new Object[] { AD_Client_ID, docType_MRPRequisition }, trx);
-			log.fine("No. of MRP Requisition deleted : " + noOfLinesDeleted);
+		//	
+		if (run.isDeletePlannedPO()) {
+			deletePlannedPO();
 		}
 
 		Map<Integer, MiniMRPProduct> miniMrpProducts = new TreeMap<Integer, MiniMRPProduct>();
 		Set<Integer> productIds = new TreeSet<Integer>();
 
 		// Collect all the Products required to be processed.
-		log.config("START generateProductInfo:" + sdf.format(new Date()));
 		generateProductInfo(miniMrpProducts, productIds);
-		log.config("END generateProductInfo:" + sdf.format(new Date()));
-
 		// Process Demand
-		log.config("START doRunProductsSO:" + sdf.format(new Date()));
 		doRunProductsSO(miniMrpProducts, productIds);
-		log.config("END doRunProductsSO:" + sdf.format(new Date()));
-
 		// Creating Requisition Order and Planned Production Order
-		log.config("START doRunCreatePOandProductionOrder:" + sdf.format(new Date()));
 		doRunCreatePOandProductionOrder(miniMrpProducts);
-		log.config("END doRunCreatePOandProductionOrder:" + sdf.format(new Date()));
-
-		// Save Requisition Lines to Database
-		for (Date date : mapRequisition.keySet())
-		{
-			MRequisition requisition = mapRequisition.get(date);
-			//requisition.saveLineQueue();
-			log.config("START: Write to DB Requisition Line " + requisition.toString() + " " + sdf.format(new Date()));
-			log.config("END: Write to DB Requisition Line " + requisition.toString() + " " + sdf.format(new Date()));
-		}
-
 		// Process Supply
-		log.config("START doRunOpenOrders:TYPE_PO" + sdf.format(new Date()));
+		//	For Orders
 		doRunOpenOrders(miniMrpProducts, productIds, TYPE_PO);
-		log.config("END doRunOpenOrders:TYPE_MO" + sdf.format(new Date()));
-
-		log.config("START doRunOpenOrders:TYPE_MO" + sdf.format(new Date()));
+		//	For Productions
 		doRunOpenOrders(miniMrpProducts, productIds, TYPE_MO);
-		log.config("END doRunOpenOrders:TYPE_MO" + sdf.format(new Date()));
-
-		log.config("START doRunOpenOrders:TYPE_RQ" + sdf.format(new Date()));
+		//	For Requisition
 		doRunOpenOrders(miniMrpProducts, productIds, TYPE_RQ);
-		log.config("END doRunOpenOrders:TYPE_RQ" + sdf.format(new Date()));
-
-		log.config("START renderPeggingReport" + sdf.format(new Date()));
+		//	
 		renderPeggingReport(miniMrpProducts);
-		log.config("END renderPeggingReport" + sdf.format(new Date()));
-
-		log.config("START updateHasSupplyDemand" + sdf.format(new Date()));
+		//	
 		updateHasSupplyDemand();
-		log.config("END updateHasSupplyDemand" + sdf.format(new Date()));
-
-		Timestamp t2 = new Timestamp(System.currentTimeMillis());
-		log.config("END DoIt: " + sdf.format(t2) + "\n\n Time Diff Millis: " + new DecimalFormat("###,###").format(
-				t2.getTime() - t1.getTime()));
-
+		//	
 		return infoMsg.toString();
 	}
+	
+	/**
+	 * Delete unconfirmed productions
+	 */
+	private void deleteUnconfirmedProduction() {
+		String sql = "DELETE FROM M_ProductionLine "
+				+ "WHERE EXISTS(SELECT 1 FROM M_Production "
+				+ "					WHERE M_Production_ID = M_ProductionLine.M_Production_ID "
+				+ "					AND Processed='N' "
+				+ "					AND C_DocType_ID = ?)";
+		int noOfLinesDeleted = DB.executeUpdate(sql, docTypePlannedOrder, trx);
+		log.fine("No. of planned production line deleted : " + noOfLinesDeleted);
 
-	/*
+		sql = "DELETE FROM M_Production	"
+				+ "WHERE Processed='N' "
+				+ "AND C_DocType_ID = ?";
+		noOfLinesDeleted = DB.executeUpdate(sql, docTypePlannedOrder, trx);
+		log.fine("No. of planned production deleted : " + noOfLinesDeleted);
+
+		sql = "DELETE FROM M_ProductionBatch b  " +
+				"WHERE b.C_DocType_ID = ? " +
+	            "AND NOT EXISTS(SELECT 1 " +
+	             "                  FROM M_Production " +
+	             "                  WHERE M_ProductionBatch_ID = b.M_ProductionBatch_ID)";
+		noOfLinesDeleted = DB.executeUpdate(sql, docTypePlannedOrder, trx);
+		log.fine("No. of Production Batch deleted " + noOfLinesDeleted);
+
+		sql = "DELETE FROM M_MovementLine ml "
+				+ "WHERE EXISTS(SELECT 1 FROM M_Movement m "
+				+ "				WHERE m.M_Movement_ID = ml.M_Movement_ID "
+				+ "				AND m.M_ProductionBatch_ID IS NOT NULL "
+				+ "				AND m.Processed = 'N' "
+				+ "					AND NOT EXISTS(SELECT 1 "
+				+ "							FROM M_ProductionBatch b "
+				+ "							WHERE b.M_ProductionBatch_ID = m.M_ProductionBatch_ID))";
+		noOfLinesDeleted = DB.executeUpdate(sql, trx);
+		log.fine("No. of Movement Lines cleaned : " + noOfLinesDeleted);
+
+		sql = "DELETE FROM M_Movement m "
+				+ "WHERE m.M_ProductionBatch_ID IS NOT NULL "
+				+ "AND m.Processed = 'N'"
+				+ "AND NOT EXISTS(SELECT 1 FROM M_ProductionBatch b "
+				+ "				WHERE b.M_ProductionBatch_ID = m.M_ProductionBatch_ID)";
+		noOfLinesDeleted = DB.executeUpdate(sql, trx);
+		log.fine("No. of Inventory Movements cleaned : " + noOfLinesDeleted);
+	}
+	
+	/**
+	 * Delete Planned PO
+	 */
+	private void deletePlannedPO() {
+		String sql = "DELETE FROM PP_MRP "
+				+ "WHERE EXISTS(SELECT 1 FROM M_Requisition "
+				+ "					WHERE M_Requisition_ID = PP_MRP.M_Requisition_ID"
+				+ "					AND DocStatus = 'DR' "
+				+ "					AND Processed='N' "
+				+ "					AND AD_Client_ID = ? "
+				+ "					AND C_DocType_ID = ?)";
+		int noOfLinesDeleted = DB.executeUpdateEx(sql, new Object[] {clientId, docTypeMRPRequisition}, trx);
+		log.fine("No. of Material Requirement Planning (PP_MRP) Line deleted : " + noOfLinesDeleted);
+
+		sql = "DELETE FROM M_RequisitionLine "
+				+ "WHERE EXISTS(SELECT 1 FROM M_Requisition "
+				+ "					WHERE M_Requisition_ID = M_RequisitionLine.M_Requisition_ID"
+				+ "					AND DocStatus = 'DR' "
+				+ "					AND Processed='N' "
+				+ "					AND AD_Client_ID = ? "
+				+ "					AND C_DocType_ID = ?)";
+		noOfLinesDeleted = DB.executeUpdateEx(sql, new Object[] { clientId, docTypeMRPRequisition }, trx);
+		log.fine("No. of MRP Requisition Line deleted : " + noOfLinesDeleted);
+		
+		sql = "DELETE FROM M_Requisition "
+				+ "WHERE DocStatus = 'DR' "
+				+ "AND Processed='N' "
+				+ "AND AD_Client_ID = ? "
+				+ "AND C_DocType_ID = ?";
+		noOfLinesDeleted = DB.executeUpdateEx(sql, new Object[] {clientId, docTypeMRPRequisition}, trx);
+		log.fine("No. of MRP Requisition deleted : " + noOfLinesDeleted);
+	}
+
+	/**
 	 * Set flag to show products where demand and/or supply exists in the MRP
 	 * period, used to filter the MRP report to exclude products with no
 	 * movement
 	 */
-	private void updateHasSupplyDemand()
-	{
-
-		String sql = "WITH HasSupply AS "
-				+ "(SELECT M_Product_ID, M_ReplenishPlan_ID, AD_Client_ID, COUNT (M_Product_ID) "
-				+ " FROM M_ReplenishPlanLine	WHERE M_ReplenishPlan_ID = ? AND AD_Client_ID = ? "
-				+ " GROUP BY AD_Client_ID, M_ReplenishPlan_ID, M_Product_ID "
-				+ " HAVING COUNT (M_Product_ID) > 2	"
-				+ ") "
-				+ "UPDATE M_ReplenishPlanLine rl SET HasSupplyDemand = 'Y' FROM HasSupply hs "
-				+ "WHERE hs.M_ReplenishPlan_ID = rl.M_ReplenishPlan_ID AND hs.AD_Client_ID = rl.AD_Client_ID AND hs.M_Product_ID = rl.M_Product_ID";
-
-		int updated = DB.executeUpdateEx(sql, new Object[] { mrpRunID, Env.getAD_Client_ID(ctx) }, trx);
-
+	private void updateHasSupplyDemand() {
+		String sql = new String("UPDATE M_ReplenishPlanLine SET HasSupplyDemand = 'Y' "
+				+ "WHERE M_ReplenishPlan_ID = ? "
+				+ "	AND EXISTS(SELECT 1 FROM M_ReplenishPlanLine rpl "
+				+ "				WHERE rpl.M_ReplenishPlan_ID = M_ReplenishPlanLine.M_ReplenishPlan_ID "
+				+ "				GROUP BY rpl.AD_Client_ID, rpl.M_ReplenishPlan_ID, rpl.M_Product_ID "
+				+ "				HAVING COUNT(rpl.M_Product_ID) > 2)");
+		int updated = DB.executeUpdateEx(sql, new Object[] {getRecord_ID()}, trx);
+		//	
 		log.fine("Lines with supply/demand updated: " + updated);
-
 	}
 
 	/**
@@ -391,57 +309,44 @@ public class CalculateReplenishPlan extends SvrProcess
 	 * @author Sachin Bhimani
 	 * @param miniMrpProducts
 	 */
-	private void doRunCreatePOandProductionOrder(Map<Integer, MiniMRPProduct> miniMrpProducts)
-	{
+	private void doRunCreatePOandProductionOrder(Map<Integer, MiniMRPProduct> miniMrpProducts) {
 		MRequisition requisition = null;
 
 		// Calculate Required and production QTY
 		runProcessCalculatePlannedQty(miniMrpProducts);
 
 		// Create Requisition Order with Lines
-		for (Integer productID : mapRequirePlanningQty.keySet())
-		{
+		for (Integer productID : mapRequirePlanningQty.keySet()) {
 			MiniMRPProduct mrp = miniMrpProducts.get(productID);
 			Map<Date, BigDecimal> weeklyProductionQty = new TreeMap<Date, BigDecimal>(
 					mapRequirePlanningQty.get(productID));
-			for (Date date : weeklyProductionQty.keySet())
-			{
+			for (Date date : weeklyProductionQty.keySet()) {
 				if (weeklyProductionQty.get(date).compareTo(Env.ZERO) == 0)
 					continue;
 
-				if (!mrp.isBOM() && mrp.isPurchased() && !mrp.isPhantom())
-				{
+				if (!mrp.isBOM() && mrp.isPurchased() && !mrp.isPhantom()) {
 					requisition = createRequisitionHeader(date);
 					createRequisitionLine(requisition, mrp, weeklyProductionQty.get(date));
-				}
-				else if (mrp.isBOM() && !mrp.isPhantom())
-				{
+				} else if (mrp.isBOM() && !mrp.isPhantom()) {
 					createProductionOrder(mrp, weeklyProductionQty.get(date), new Timestamp(date.getTime()));
 				}
 			}
 		}
-
-		infoMsg.append(" No of Docs created: Requisition:" + countReq);
-		infoMsg.append(" and Planned Production:" + countProd);
-		infoMsg.append("\n Requisition Docs List: " + requisitionDocs);
-		infoMsg.append("\n Planned Docs List: " + productionDocs);
-
+		//	
+		infoMsg.append(" @M_Requisition_ID@ @Created@:" + countReq);
+		infoMsg.append(" @M_Production_ID@:" + countProd);
 		log.log(Level.INFO, infoMsg.toString());
 	}
 
-	private void runProcessCalculatePlannedQty(Map<Integer, MiniMRPProduct> miniMrpProducts)
-	{
-		for (Date date : mapDemand.keySet())
-		{
+	private void runProcessCalculatePlannedQty(Map<Integer, MiniMRPProduct> miniMrpProducts) {
+		for (Date date : mapDemand.keySet()) {
 			Map<Integer, BigDecimal> mapOrderQty = mapDemand.get(date);
-			for (Integer productID : mapOrderQty.keySet())
-			{
+			for (Integer productID : mapOrderQty.keySet()) {
 				MProduct product = new MProduct(getCtx(), productID, get_TrxName());
 				if (!product.isStocked())
 					return ;
 				BigDecimal demandQty = mapOrderQty.get(productID);
-				if (demandQty.compareTo(Env.ZERO) != 0)
-				{
+				if (demandQty.compareTo(Env.ZERO) != 0) {
 					MiniMRPProduct mrp = miniMrpProducts.get(productID);
 					if (mrp == null) {
 						MProduct p = MProduct.get(ctx, productID);
@@ -451,7 +356,7 @@ public class CalculateReplenishPlan extends SvrProcess
 					}
 				
 					Integer nonPhantomProduct = (mrp.isPhantom() && mrp.isBOM() ? 0 : productID);
-					createPlannedQtyMap(miniMrpProducts, date, productID, demandQty, 0, nonPhantomProduct); // (MRP,DateOfDemand,PID,DQty,Level,NonPhontomPID)
+					createPlannedQtyMap(miniMrpProducts, date, productID, demandQty, 0, nonPhantomProduct);
 				}
 			}
 		}
@@ -572,11 +477,11 @@ public class CalculateReplenishPlan extends SvrProcess
 	{
 		MProduction mProd = new MProduction(ctx, 0, trx);
 		//mProd.setAD_Client_ID(AD_Client_ID);
-		mProd.setAD_Org_ID(AD_Org_ID);
+		mProd.setAD_Org_ID(orgId);
 		mProd.setM_Product_ID(mrp.getM_Product_ID());
 		mProd.setProductionQty(qty);
-		mProd.setM_Locator_ID(M_LocatorID);
-		mProd.setC_DocType_ID(docType_PlannedOrder);
+		mProd.setM_Locator_ID(locatorId);
+		mProd.setC_DocType_ID(docTypePlannedOrder);
 		mProd.setName("Planned Production Order");
 		mProd.setDescription("Creating from MiniMRP");
 		mProd.setDatePromised(date);
@@ -655,38 +560,29 @@ public class CalculateReplenishPlan extends SvrProcess
 			mapRequirePlanningQty.put(mrp.getM_Product_ID(), weekly);
 		}
 	}
-
+	
 	private void planBOMTree(Map<Integer, MiniMRPProduct> miniMrpProducts, Integer productID, Date date,
-			BigDecimal demandQty, int level, Integer nonPhantomProduct)
-	{
-		String sql = getQueryForBOMProductExplode();
-
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement(sql, trx);
-			pstmt.setBigDecimal(1, demandQty);
-			pstmt.setInt(2, productID);
-			rs = pstmt.executeQuery();
-			while (rs.next())
-			{
-				BigDecimal requiredQty = rs.getBigDecimal("RequiredQty");
-				if (requiredQty.compareTo(Env.ZERO) > 0)
-					createPlannedQtyMap(miniMrpProducts, date, rs.getInt("M_ProductBOM_ID"), requiredQty, level,
-							nonPhantomProduct);
-			}
-		}
-		catch (SQLException e)
-		{
-			throw new AdempiereException("Could not process BOM product explode of requiring Qty.");
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null;
-			pstmt = null;
-		}
+		BigDecimal demandQty, int level, Integer nonPhantomProduct) {
+		//	Get BOM
+		List<MProductBOM> bomList = new Query(getCtx(), I_M_Product_BOM.Table_Name, 
+				I_M_Product_BOM.COLUMNNAME_M_Product_ID + "= ?", get_TrxName())
+				.setParameters(productID)
+				.setClient_ID()
+				.list();
+		//	Iterate
+		bomList.stream()
+				.forEach(productBOM -> {
+					BigDecimal requiredQty = Env.ZERO;
+					if(productBOM.getBOMQty() != null
+							&& demandQty != null) {
+						demandQty.multiply(productBOM.getBOMQty());
+					}
+					//	
+					if(requiredQty.compareTo(Env.ZERO) > 0) {
+						createPlannedQtyMap(miniMrpProducts, date, 
+								productBOM.getM_ProductBOM_ID(), requiredQty, level, nonPhantomProduct);
+					}
+				});
 	}
 
 	/**
@@ -716,18 +612,17 @@ public class CalculateReplenishPlan extends SvrProcess
 	 * @param date
 	 * @return
 	 */
-	private MRequisition createRequisition(Date date)
-	{
+	private MRequisition createRequisition(Date date) {
 		MRequisition requisition;
 		requisition = new MRequisition(ctx, 0, trx);
 		//requisition.setAD_Client_ID(AD_Client_ID);
-		requisition.setM_Warehouse_ID(M_WarehouseID);
-		requisition.setC_DocType_ID(docType_MRPRequisition);
-		requisition.setAD_User_ID(AD_User_ID);
+		requisition.setM_Warehouse_ID(warehouseId);
+		requisition.setC_DocType_ID(docTypeMRPRequisition);
+		requisition.setAD_User_ID(userId);
 		requisition.setDescription("Created from MiniMRP process.");
 		requisition.setDateRequired(new Timestamp(date.getTime()));
 		requisition.setDateDoc(new Timestamp(date.getTime()));
-		requisition.setM_PriceList_ID(M_PriceList_ID);
+		requisition.setM_PriceList_ID(priceListId);
 		requisition.saveEx();
 
 		countReq++;
@@ -736,16 +631,15 @@ public class CalculateReplenishPlan extends SvrProcess
 		return requisition;
 	}
 
-	private void createRequisitionLine(MRequisition requisition, MiniMRPProduct mrp, BigDecimal qty)
-	{
+	private void createRequisitionLine(MRequisition requisition, MiniMRPProduct mrp, BigDecimal qty) {
 		//requisition.addLinetoQueue(mrp.getM_Product_ID(), mrp.getC_BPartner_ID(), qty, mrp.getPriceActual());
-/*		MRequisitionLine rLine = new MRequisitionLine(requisition);
-		rLine.setM_Product_ID(mrp.getM_Product_ID());
-		rLine.setC_BPartner_ID(mrp.getC_BPartner_ID());
-		rLine.setPriceActual(mrp.getPriceActual());
-		rLine.setQty(qty);
-		rLine.saveEx();
-*/	}
+//		MRequisitionLine rLine = new MRequisitionLine(requisition);
+//		rLine.setM_Product_ID(mrp.getM_Product_ID());
+//		rLine.setC_BPartner_ID(mrp.getC_BPartner_ID());
+//		rLine.setPriceActual(mrp.getPriceActual());
+//		rLine.setQty(qty);
+//		rLine.saveEx();
+	}
 
 	/**
 	 * Product wise Get confirmed Qty. If Product is BOM then Production else
@@ -753,93 +647,122 @@ public class CalculateReplenishPlan extends SvrProcess
 	 * 
 	 * @param mrp
 	 */
-	private void setConfirmProductQty(MiniMRPProduct mrp)
-	{
+	private void setConfirmProductQty(MiniMRPProduct mrp) {
 		int productID = mrp.getM_Product_ID();
-		boolean isBOM = mrp.isBOM();
-
 		Map<Date, BigDecimal> mapConfirmQty = new TreeMap<Date, BigDecimal>();
-
-		String sql = (isBOM ? SQL_PRODUCTWISE_CONFIRM_PRODUCTION_QTY : SQL_PRODUCTWISE_CONFIRM_PO_RQ_QTY);
+		String sqlConfirmPORQ = new String(" SELECT DateRequired AS DatePromised, SUM(Qty) AS Qty "
+				+ "FROM ("
+				+ "(SELECT ol.DatePromised AS DateRequired, ol.QtyOrdered - QtyDelivered AS Qty	"
+				+ "		FROM C_Order o "
+				+ " 	INNER JOIN C_OrderLine ol ON (ol.C_Order_ID = o.C_Order_ID) "
+				+ " 	WHERE o.DocStatus IN ('CO', 'CL') "
+				+ "		AND o.IsSoTrx = 'N' "
+				+ "		AND ol.M_Product_ID = ? "
+				+ "		AND ol.QtyOrdered > ol.QtyDelivered "
+				+ "		AND o.DatePromised BETWEEN ? AND ? "
+				+ " ORDER BY o.DatePromised) "
+				+ "UNION ALL	"
+				+ "(SELECT r.DateRequired, SUM(rl.Qty) AS QtyOrdered "
+				+ "		FROM M_Requisition r "
+				+ " 	INNER JOIN M_RequisitionLine rl ON (r.M_Requisition_ID = rl.M_Requisition_ID) "
+				+ " 	INNER JOIN M_Product mp ON (mp.M_Product_ID = rl.M_Product_ID) "
+				+ " 	WHERE r.DocStatus = 'DR' "
+				+ "		AND rl.M_Product_ID = ? "
+				+ "		AND r.DateRequired BETWEEN ? AND ? "
+				+ "		AND rl.IsActive = 'Y' "
+				+ "		AND mp.AD_Client_ID = ? "
+				+ "		AND r.C_DocType_ID = ? "
+				+ "		AND mp.IsActive = 'Y' "
+				+ " GROUP BY mp.M_Product_ID, r.M_Requisition_ID "
+				+ "	ORDER BY mp.M_Product_ID, r.DateRequired)"
+				+ ") AS QtyOrdered	"
+				+ "GROUP BY DateRequired");
+		//	Product quantity
+		String sqlFromProduction = new String("SELECT DatePromised, ProductionQty AS Qty, M_Production_ID "
+				+ " FROM M_Production "
+				+ " WHERE Processed = 'N' "
+				+ "	AND M_Product_ID = ? "
+				+ "	AND DatePromised BETWEEN ? AND ? "
+				+ "	AND (C_DocType_ID IS NULL OR C_DocType_ID != ?)"
+				+ " ORDER BY DatePromised");
+		String sql = (mrp.isBOM() 
+				? sqlFromProduction 
+						: sqlConfirmPORQ);
 
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-
-		try
-		{
+		//	
+		try {
 			pstmt = DB.prepareStatement(sql, trx);
 			pstmt.setInt(1, productID);
 			pstmt.setTimestamp(2, dateFrom);
 			pstmt.setTimestamp(3, dateTo);
-
-			if (isBOM)
-				pstmt.setInt(4, docType_PlannedOrder);
-			else
-			{
+			//	BOM query
+			if (mrp.isBOM()) {
+				pstmt.setInt(4, docTypePlannedOrder);
+			} else {
 				pstmt.setInt(4, productID);
 				pstmt.setTimestamp(5, dateFrom);
 				pstmt.setTimestamp(6, dateTo);
-				pstmt.setInt(7, AD_Client_ID);
-				pstmt.setInt(8, docType_MRPRequisition);
+				pstmt.setInt(7, clientId);
+				pstmt.setInt(8, docTypeMRPRequisition);
 			}
-
+			//	Query
 			rs = pstmt.executeQuery();
-			while (rs.next())
-			{
+			//	
+			String productionsql = new String("SELECT p.M_Product_ID, SUM(QtyUsed) AS QtyUsed, mp.DatePromised "
+					+ "FROM M_Production mp "
+					+ "INNER JOIN M_ProductionLine pl ON (pl.M_Production_ID = mp.M_Production_ID) "
+					+ "INNER JOIN M_Product p ON (p.M_Product_ID = pl.M_Product_ID) "
+					+ "WHERE pl.IsActive='Y' "
+					+ "AND pl.M_Production_ID = ? "
+					+ "AND pl.IsEndProduct = 'N' "
+					+ "AND p.IsPhantom = 'N' "
+					+ "GROUP BY mp.M_Production_ID, p.M_Product_ID "
+					+ "ORDER BY p.M_Product_ID");
+			while (rs.next()) {
 				Date datePromised = rs.getDate("DatePromised");
 				BigDecimal qty = rs.getBigDecimal("Qty");
 
-				if (mapConfirmQty.containsKey(datePromised))
+				if (mapConfirmQty.containsKey(datePromised)) {
 					mapConfirmQty.put(datePromised, mapConfirmQty.get(datePromised).add(qty));
-				else
+				} else {
 					mapConfirmQty.put(datePromised, qty);
-
-				if (mrp.isBOM())
-				{
+				}
+				//	For BOM
+				if (mrp.isBOM()) {
 					PreparedStatement pstatement = null;
 					ResultSet rset = null;
-					try
-					{
-						pstatement = DB.prepareStatement(SQL_GET_PRODUCTIONLINE_INFO, trx);
+					try {
+						pstatement = DB.prepareStatement(productionsql, trx);
 						pstatement.setInt(1, rs.getInt("M_Production_ID"));
-
+						//	
 						rset = pstatement.executeQuery();
-						while (rset.next())
-						{
+						while (rset.next()) {
 							setQtyAsDemand(rset.getInt("M_Product_ID"), rset.getBigDecimal("QtyUsed"),
 									rset.getTimestamp("DatePromised"));
 						}
-					}
-					catch (SQLException e)
-					{
-						throw new AdempiereException("Could not process, Retrieve Confirm production line info.", e);
-					}
-					finally
-					{
+					} catch (SQLException e) {
+						log.severe(e.getLocalizedMessage());
+					} finally {
 						DB.close(rset, pstatement);
 						rset = null;
 						pstatement = null;
 					}
 				}
 			}
-		}
-		catch (SQLException e)
-		{
-			throw new AdempiereException("Could not process, Retrieve weekly confirm production qty of Product:"
-					+ mrp.getName(), e);
-		}
-		finally
-		{
+		} catch (SQLException e) {
+			log.severe(e.getLocalizedMessage());
+		} finally {
 			DB.close(rs, pstmt);
 			rs = null;
 			pstmt = null;
 		}
-
+		//	
 		mrp.setMapConfirmProductQty(mapConfirmQty);
 	}
 
-	public void addAvailableInventory(int mProductId, BigDecimal qty)
-	{
+	public void addAvailableInventory(int mProductId, BigDecimal qty) {
 		availableInventory.put(mProductId, qty);
 	}
 
@@ -850,14 +773,13 @@ public class CalculateReplenishPlan extends SvrProcess
 	 * @param type
 	 * @return miniM_ReplenishPlanLine
 	 */
-	private X_M_ReplenishPlanLine getX_M_ReplenishPlanLine(MiniMRPProduct miniMrpProduct, int line, String type)
-	{
+	private X_M_ReplenishPlanLine getX_M_ReplenishPlanLine(MiniMRPProduct miniMrpProduct, int line, String type) {
 		X_M_ReplenishPlanLine miniMRP = new X_M_ReplenishPlanLine(ctx, 0, trx);
 		miniMRP.setM_Product_ID(miniMrpProduct.getM_Product_ID());
 		miniMRP.setM_Product_Category_ID(miniMrpProduct.getM_Product_Category_ID());
 		miniMRP.setProductName(miniMrpProduct.getName());
 		miniMRP.setLine(line);
-		miniMRP.setM_ReplenishPlan_ID(mrpRunID);
+		miniMRP.setM_ReplenishPlan_ID(getRecord_ID());
 		miniMRP.setRecordType(type);
 		miniMRP.setDateStart(dateFrom);
 		miniMRP.setDateFinish(dateTo);
@@ -867,83 +789,69 @@ public class CalculateReplenishPlan extends SvrProcess
 
 	public void calculateSuggestedOrders(MiniMRPProduct miniMrpProduct, Map<Integer, BigDecimal> totalDemandLine,
 			Map<Integer, BigDecimal> totalSupplyLine, Map<Integer, BigDecimal> openingBalanceLine,
-			Map<Integer, BigDecimal> closingBalanceLine)
-	{
-		int horizon = END_WEEK - START_WEEK + 1;
-
-		for (int i = 0; i < horizon; i++)
-		{
-			int week = START_WEEK + i;
-
+			Map<Integer, BigDecimal> closingBalanceLine) {
+		//	
+		int horizon = TimeUtil.getWeeksBetween(dateFrom, dateTo);
+		//	Loop
+		for (int week = 1; week <= horizon; week++) {
 			BigDecimal totalDemand = Env.ZERO;
 			BigDecimal totalSupply = Env.ZERO;
 			BigDecimal openingBalance = Env.ZERO;
 
-			if (totalDemandLine.containsKey(week))
-			{
+			if (totalDemandLine.containsKey(week)) {
 				totalDemand = totalDemandLine.get(week);
-				if (totalDemand == null)
-				{
+				if (totalDemand == null) {
 					totalDemand = Env.ZERO;
 				}
 			}
-			if (totalSupplyLine.containsKey(week))
-			{
+			if (totalSupplyLine.containsKey(week)) {
 				totalSupply = totalSupplyLine.get(week);
-				if (totalSupply == null)
-				{
+				if (totalSupply == null) {
 					totalSupply = Env.ZERO;
 				}
 			}
-			if (openingBalanceLine.containsKey(week))
-			{
+			if (openingBalanceLine.containsKey(week)) {
 				openingBalance = openingBalanceLine.get(week);
-				if (openingBalance == null)
-				{
+				if (openingBalance == null) {
 					openingBalance = Env.ZERO;
 				}
 			}
 
 			BigDecimal sugQty = totalDemand.subtract((totalSupply.add(openingBalance)));
 
-			if (sugQty.compareTo(Env.ZERO) > 0)
-			{
+			if (sugQty.compareTo(Env.ZERO) > 0) {
 				openingBalanceLine.put(week + 1, Env.ZERO);
 				closingBalanceLine.put(week, Env.ZERO);
-			}
-			else
-			{
+			} else {
 				openingBalanceLine.put(week + 1, (sugQty.negate()));
 				closingBalanceLine.put(week, (sugQty.negate()));
 			}
 		}
 	}
 
-	public Map<Integer, BigDecimal> insertOrderDemands(MiniMRPProduct miniMrpProduct)
-	{
+	/**
+	 * Insert Order Demand
+	 * @param miniMrpProduct
+	 * @return
+	 */
+	public Map<Integer, BigDecimal> insertOrderDemands(MiniMRPProduct miniMrpProduct) {
 		Map<Integer, Map<Integer, BigDecimal>> orderDemands = miniMrpProduct.getDemand();
 		Map<Integer, BigDecimal> totalDemandLine = new HashMap<Integer, BigDecimal>();
+		SimpleDateFormat format = DisplayType.getDateFormat(DisplayType.Date);
 		// From MRP Demand MAP
-		if (!orderDemands.isEmpty())
-		{
-			for (Integer orderId : orderDemands.keySet())
-			{
+		if (!orderDemands.isEmpty()) {
+			for (Integer orderId : orderDemands.keySet()) {
 				Map<Integer, BigDecimal> weeklyDemand = orderDemands.get(orderId);
-				if (weeklyDemand.size() > 0)
-				{
+				if (weeklyDemand.size() > 0) {
 					X_M_ReplenishPlanLine miniMRP = getX_M_ReplenishPlanLine(miniMrpProduct, lineNo, TYPE_PRODUCT_ORDER_DEMAND);
 					miniMRP.setC_Order_ID(orderId);
 					MOrder order = new MOrder(ctx, orderId, trx);
-
-					String datePromised = requiredFormat.format(order.getDatePromised());
-
-					miniMRP.setOrderInfo(order.getDocumentNo() + " - " + datePromised);
-					for (Integer week : weeklyDemand.keySet())
-					{
+					//	
+					miniMRP.setOrderInfo(order.getDocumentNo() + " - " + format.format(order.getDatePromised()));
+					for (Integer week : weeklyDemand.keySet()) {
 						BigDecimal qty = weeklyDemand.get(week);
 						setWeeklyData(miniMRP, week, qty);
-						if (totalDemandLine.containsKey(week))
-						{
+						if (totalDemandLine.containsKey(week)) {
 							qty = qty.add(totalDemandLine.get(week));
 						}
 						totalDemandLine.put(week, qty);
@@ -953,57 +861,69 @@ public class CalculateReplenishPlan extends SvrProcess
 				lineNo += 10;
 			}
 		}
-
 		// Get Planned Production Demand as per product wise.
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		int paramCount = 1;
-		try
-		{
-			pstmt = DB.prepareStatement(SQL_PRODUCTWISE_INFO_FROM_PRODUCTION, trx);
+		try {
+			String sql = new String("SELECT p.M_Production_ID, p.DocumentNo, p.DatePromised, SUM(QtyUsed) AS QtyUsed "
+					+ "FROM M_Production p "
+					+ "INNER JOIN M_ProductionLine pl ON (pl.M_Production_ID = p.M_Production_ID) "
+					+ "WHERE p.Processed='N' "
+					+ "AND pl.IsEndProduct = 'N' "
+					+ "AND pl.M_Product_ID = ?"
+					+ "AND p.C_DocType_ID=? "
+					+ "AND DatePromised BETWEEN ? AND ? "
+					+ "GROUP BY p.M_Production_ID, p.DocumentNo, p.DatePromised "
+					+ "ORDER BY p.DatePromised");
+			//	
+			pstmt = DB.prepareStatement(sql, trx);
 			pstmt.setInt(paramCount++, miniMrpProduct.getM_Product_ID());
-			pstmt.setInt(paramCount++, docType_PlannedOrder);
+			pstmt.setInt(paramCount++, docTypePlannedOrder);
 			pstmt.setTimestamp(paramCount++, dateFrom);
 			pstmt.setTimestamp(paramCount++, dateTo);
 
 			rs = pstmt.executeQuery();
-			while (rs.next())
-			{
+			while (rs.next()) {
 				insertProductionDemand(miniMrpProduct, totalDemandLine, rs.getInt("M_Production_ID"),
 						rs.getString("DocumentNo"), rs.getTimestamp("DatePromised"), rs.getBigDecimal("QtyUsed"),
 						"Planned");
 			}
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, SQL_PRODUCTWISE_INFO_FROM_PRODUCTION, e);
+		} catch (Exception e) {
+			log.severe(e.getLocalizedMessage());
 			throw new AdempiereException(e);
-		}
-		finally
-		{
+		} finally {
 			DB.close(rs, pstmt);
 			rs = null;
 			pstmt = null;
 		}
-
-		// Add demand for SubLevel Product which is Confirmed production.
-		int[] productionID = DB.getIDsEx(trx, SQL_GET_PRODUCTION_SUBPRODUCTWISE,
-				miniMrpProduct.getM_Product_ID(), dateFrom, dateTo, docType_PlannedOrder);
-		for (int mProdID : productionID)
-		{
-			MProduction production = new MProduction(ctx, mProdID, trx);
+		//	
+		List <MProduction> productionList = new Query(getCtx(), I_M_Production.Table_Name, "Processed = 'N' "
+				+ "AND DatePromised BETWEEN ? AND ? "
+				+ "AND (C_DocType_ID IS NULL OR C_DocType_ID != ?) "
+				+ "AND EXISTS(SELECT 1 FROM M_ProductionLine pl "
+				+ "			WHERE pl.M_Production_ID = M_Production.M_Production_ID"
+				+ "			AND pl.IsEndProduct = 'N' "
+				+ "			AND pl.M_Product_ID = ?)", get_TrxName())
+				.setParameters(dateFrom, dateTo, docTypePlannedOrder, miniMrpProduct.getM_Product_ID())
+				.setClient_ID()
+				.list();
+		//	Loop it
+		productionList.stream().forEach(production -> {
 			BigDecimal qty = DB.getSQLValueBD(trx,
-					"SELECT SUM(QtyUsed) FROM M_ProductionLine WHERE M_Production_ID = ? AND M_Product_ID = ? AND AD_Client_ID=?",
-					mProdID, miniMrpProduct.getM_Product_ID(), AD_Client_ID);
-			if (qty == null)
-			{
+					"SELECT SUM(QtyUsed) "
+					+ "FROM M_ProductionLine "
+					+ "WHERE M_Production_ID = ? "
+					+ "AND M_Product_ID = ?",
+					production.getM_Product_ID(), miniMrpProduct.getM_Product_ID(), clientId);
+			if (qty == null) {
 				qty = Env.ZERO;
 			}
 			insertProductionDemand(miniMrpProduct, totalDemandLine, production.getM_Production_ID(),
 					production.getDocumentNo(), production.getDatePromised(), qty, "Confirm");
-		}
-
-		if (totalDemandLine != null && !totalDemandLine.isEmpty())
+		});
+		//	
+		if (!totalDemandLine.isEmpty())
 			insertTotalLine(miniMrpProduct, totalDemandLine, TYPE_TOTAL_DEMAND_LINE);
 
 		return totalDemandLine;
@@ -1019,24 +939,21 @@ public class CalculateReplenishPlan extends SvrProcess
 	 * @param prodType
 	 */
 	private void insertProductionDemand(MiniMRPProduct miniMrpProduct, Map<Integer, BigDecimal> totalDemandLine,
-			int mProduction_ID, String documentNo, Timestamp promisedDate, BigDecimal qtyUsed, String prodType)
-	{
+			int mProduction_ID, String documentNo, Timestamp promisedDate, BigDecimal qtyUsed, String prodType) {
 		X_M_ReplenishPlanLine miniMRP = getX_M_ReplenishPlanLine(miniMrpProduct, lineNo, TYPE_PRODUCT_ORDER_DEMAND);
 		miniMRP.setM_Production_ID(mProduction_ID);
 		String datePromised = null;
 		int week = 0;
 
-		datePromised = requiredFormat.format(promisedDate);
-		week = DB.getSQLValue(trx, SQL_GET_ISO_WEEKNO, dateFrom, promisedDate, promisedDate, promisedDate);
-
+		datePromised = DisplayType.getDateFormat(DisplayType.Date).format(promisedDate);
+		week = TimeUtil.getWeeksBetween(dateFrom, promisedDate);
+		//	
 		miniMRP.setProductionInfo(documentNo + " - " + datePromised + " - " + prodType);
 
 		setWeeklyData(miniMRP, week, qtyUsed);
-		if (totalDemandLine.containsKey(week))
-		{
+		if (totalDemandLine.containsKey(week)) {
 			BigDecimal totalDemand = totalDemandLine.get(week);
-			if (totalDemand == null)
-			{
+			if (totalDemand == null) {
 				totalDemand = Env.ZERO;
 			}
 			qtyUsed = qtyUsed.add(totalDemand);
@@ -1054,13 +971,10 @@ public class CalculateReplenishPlan extends SvrProcess
 	 * @param totalLine
 	 * @param lineType
 	 */
-	public void insertTotalLine(MiniMRPProduct miniMrpProduct, Map<Integer, BigDecimal> totalLine, String lineType)
-	{
-		if (!totalLine.isEmpty())
-		{
+	public void insertTotalLine(MiniMRPProduct miniMrpProduct, Map<Integer, BigDecimal> totalLine, String lineType) {
+		if (!totalLine.isEmpty()) {
 			X_M_ReplenishPlanLine miniMRP = getX_M_ReplenishPlanLine(miniMrpProduct, lineNo, lineType);
-			for (Integer week : totalLine.keySet())
-			{
+			for (Integer week : totalLine.keySet()) {
 				BigDecimal qty = totalLine.get(week);
 				setWeeklyData(miniMRP, week, qty);
 			}
@@ -1076,8 +990,7 @@ public class CalculateReplenishPlan extends SvrProcess
 	 * @param miniMrpProduct
 	 * @return totalSupplyLine
 	 */
-	public Map<Integer, BigDecimal> insertSupplyLines(MiniMRPProduct miniMrpProduct)
-	{
+	public Map<Integer, BigDecimal> insertSupplyLines(MiniMRPProduct miniMrpProduct) {
 		Map<Integer, BigDecimal> totalSupplyLine = new HashMap<Integer, BigDecimal>();
 		Map<Integer, BigDecimal> subTotalSupplyLine = new HashMap<Integer, BigDecimal>();
 
@@ -1101,9 +1014,10 @@ public class CalculateReplenishPlan extends SvrProcess
 		insertTotalSupplyLine(miniMrpProduct, subTotalSupplyLine, false);
 
 		// Insert Total Supply Line
-		if (totalSupplyLine != null && !totalSupplyLine.isEmpty())
+		if (!totalSupplyLine.isEmpty()) {
 			insertTotalLine(miniMrpProduct, totalSupplyLine, TYPE_TOTAL_SUPPLY_LINE);
-
+		}
+		//	
 		return totalSupplyLine;
 	}
 
@@ -1117,42 +1031,32 @@ public class CalculateReplenishPlan extends SvrProcess
 	 * @param isPlannedOrder
 	 */
 	public void insertSupplyLineMO(MiniMRPProduct miniMrpProduct, Map<Integer, BigDecimal> totalSupplyLine,
-			Map<Integer, BigDecimal> subTotalSupplyLine, boolean isPlannedOrder)
-	{
+			Map<Integer, BigDecimal> subTotalSupplyLine, boolean isPlannedOrder) {
 		Map<Integer, Map<Integer, BigDecimal>> supplyLineMO = new TreeMap<Integer, Map<Integer, BigDecimal>>(
 				miniMrpProduct.getSupplyLineMO());
-
-		if (!supplyLineMO.isEmpty())
-		{
-			for (Integer M_Production_ID : supplyLineMO.keySet())
-			{
+		SimpleDateFormat format = DisplayType.getDateFormat(DisplayType.Date);
+		if (!supplyLineMO.isEmpty()) {
+			for (Integer M_Production_ID : supplyLineMO.keySet()) {
 				Map<Integer, BigDecimal> weeklyDemand = supplyLineMO.get(M_Production_ID);
 				MProduction production = new MProduction(ctx, M_Production_ID, trx);
-				if ((isPlannedOrder == false && production.getC_DocType_ID() != docType_PlannedOrder)
-						|| (isPlannedOrder && production.getC_DocType_ID() == docType_PlannedOrder))
-				{
-					if (weeklyDemand.size() > 0)
-					{
+				if ((isPlannedOrder == false && production.getC_DocType_ID() != docTypePlannedOrder)
+						|| (isPlannedOrder && production.getC_DocType_ID() == docTypePlannedOrder)) {
+					if (weeklyDemand.size() > 0) {
 						X_M_ReplenishPlanLine miniMRP = getX_M_ReplenishPlanLine(miniMrpProduct, lineNo, isPlannedOrder
 								? TYPE_SUPPLY_LINE_MO_PLANNED : TYPE_SUPPLY_LINE_MO_NONPLANNED);
 						miniMRP.setM_Production_ID(M_Production_ID);
-
-						String datePromished = requiredFormat.format(production.getDatePromised());
-
-						miniMRP.setProductionInfo(production.getDocumentNo() + " - " + datePromished);
-						for (Integer week : weeklyDemand.keySet())
-						{
+						//	
+						miniMRP.setProductionInfo(production.getDocumentNo() + " - " + format.format(production.getDatePromised()));
+						for (Integer week : weeklyDemand.keySet()) {
 							BigDecimal qty = weeklyDemand.get(week);
 							setWeeklyData(miniMRP, week, qty);
-							if (totalSupplyLine.containsKey(week))
-							{
+							if (totalSupplyLine.containsKey(week)) {
 								qty = qty.add(totalSupplyLine.get(week));
 							}
 							totalSupplyLine.put(week, qty);
 
 							BigDecimal qtyProd = weeklyDemand.get(week);
-							if (subTotalSupplyLine.containsKey(week))
-							{
+							if (subTotalSupplyLine.containsKey(week)) {
 								qtyProd = qtyProd.add(subTotalSupplyLine.get(week));
 							}
 							subTotalSupplyLine.put(week, qtyProd);
@@ -1175,62 +1079,48 @@ public class CalculateReplenishPlan extends SvrProcess
 	 * @param isPO
 	 */
 	public void insertSupplyLinePO(MiniMRPProduct miniMrpProduct, Map<Integer, BigDecimal> totalSupplyLine,
-			Map<Integer, BigDecimal> subTotalSupplyLine, boolean isPO)
-	{
+			Map<Integer, BigDecimal> subTotalSupplyLine, boolean isPO) {
 		Map<Integer, Map<Integer, BigDecimal>> supplyLine;
 		String typeSupply;
-		if (isPO)
-		{
+		if (isPO) {
 			supplyLine = miniMrpProduct.getSupplyLinePO();
 			typeSupply = TYPE_SUPPLY_LINE_PO;
-		}
-		else
-		{
+		} else {
 			supplyLine = miniMrpProduct.getSupplyLineRQ();
 			typeSupply = TYPE_SUPPLY_LINE_RQ;
 		}
-		if (!supplyLine.isEmpty())
-		{
+		SimpleDateFormat format = DisplayType.getDateFormat(DisplayType.Date);
+		if (!supplyLine.isEmpty()) {
 			// columnID is C_Order_ID or M_Requisition_ID
-			for (Integer columnID : supplyLine.keySet())
-			{
+			for (Integer columnID : supplyLine.keySet()) {
 				Map<Integer, BigDecimal> weeklyDemand = supplyLine.get(columnID);
-				if (weeklyDemand.size() > 0)
-				{
+				if (weeklyDemand.size() > 0) {
 					X_M_ReplenishPlanLine miniMRP = getX_M_ReplenishPlanLine(miniMrpProduct, lineNo, typeSupply);
-					Timestamp date1;
+					Timestamp datePromised;
 					String docNo = null;
-					if (isPO)
-					{
+					if (isPO) {
 						miniMRP.setC_Order_ID(columnID);
 						MOrder order = new MOrder(ctx, columnID, trx);
-						date1 = order.getDatePromised();
+						datePromised = order.getDatePromised();
 						docNo = order.getDocumentNo();
-					}
-					else
-					{
+					} else {
 						miniMRP.setM_Requisition_ID(columnID);
 						MRequisition req = new MRequisition(ctx, columnID, trx);
-						date1 = req.getDateRequired();
+						datePromised = req.getDateRequired();
 						docNo = req.getDocumentNo();
 					}
-
-					String datePromised = requiredFormat.format(date1);
-
-					miniMRP.setOrderInfo(docNo + " - " + datePromised);
-					for (Integer week : weeklyDemand.keySet())
-					{
+					//	
+					miniMRP.setOrderInfo(docNo + " - " + format.format(datePromised));
+					for (Integer week : weeklyDemand.keySet()) {
 						BigDecimal qty = weeklyDemand.get(week);
 						setWeeklyData(miniMRP, week, qty);
-						if (totalSupplyLine.containsKey(week))
-						{
+						if (totalSupplyLine.containsKey(week)) {
 							qty = qty.add(totalSupplyLine.get(week));
 						}
 						totalSupplyLine.put(week, qty);
 
 						BigDecimal qtyProd = weeklyDemand.get(week);
-						if (subTotalSupplyLine.containsKey(week))
-						{
+						if (subTotalSupplyLine.containsKey(week)) {
 							qtyProd = qtyProd.add(subTotalSupplyLine.get(week));
 						}
 						subTotalSupplyLine.put(week, qtyProd);
@@ -1252,16 +1142,14 @@ public class CalculateReplenishPlan extends SvrProcess
 	 * @param isPO
 	 */
 	public void insertTotalSupplyLine(MiniMRPProduct miniMrpProduct, Map<Integer, BigDecimal> subTotalSupplyLine,
-			boolean isPO)
-	{
-		if (!subTotalSupplyLine.isEmpty())
-		{
-			X_M_ReplenishPlanLine miniMRP = getX_M_ReplenishPlanLine(miniMrpProduct, lineNo, isPO ? TYPE_TOTAL_SUPPLY_LINE_PO
+			boolean isPO) {
+		if (!subTotalSupplyLine.isEmpty()) {
+			X_M_ReplenishPlanLine miniMRP = getX_M_ReplenishPlanLine(miniMrpProduct, lineNo, isPO 
+					? TYPE_TOTAL_SUPPLY_LINE_PO
 					: TYPE_TOTAL_SUPPLY_LINE_RQ);
 
 			// Insert Total Supply line.
-			for (Integer week : subTotalSupplyLine.keySet())
-			{
+			for (Integer week : subTotalSupplyLine.keySet()) {
 				BigDecimal qty = subTotalSupplyLine.get(week);
 				setWeeklyData(miniMRP, week, qty);
 			}
@@ -1279,16 +1167,13 @@ public class CalculateReplenishPlan extends SvrProcess
 	 * @param isPlanned
 	 */
 	public void insertTotalSupplyProductionLine(MiniMRPProduct miniMrpProduct,
-			Map<Integer, BigDecimal> subTotalSupplyLine, boolean isPlanned)
-	{
-		if (!subTotalSupplyLine.isEmpty())
-		{
+			Map<Integer, BigDecimal> subTotalSupplyLine, boolean isPlanned) {
+		if (!subTotalSupplyLine.isEmpty()) {
 			X_M_ReplenishPlanLine miniMRP = getX_M_ReplenishPlanLine(miniMrpProduct, lineNo, isPlanned ? TYPE_TOTAL_SUPPLY_PLANNED_LINE
 					: TYPE_TOTAL_SUPPLY_NONPLANNED_LINE);
 
 			// Insert Total Supply Production as per docType.
-			for (Integer week : subTotalSupplyLine.keySet())
-			{
+			for (Integer week : subTotalSupplyLine.keySet()) {
 				BigDecimal qty = subTotalSupplyLine.get(week);
 				setWeeklyData(miniMRP, week, qty);
 			}
@@ -1304,14 +1189,11 @@ public class CalculateReplenishPlan extends SvrProcess
 	 * @param miniMrpProduct
 	 * @param openingBalanceLine
 	 */
-	public void insertOpeningBalanceLine(MiniMRPProduct miniMrpProduct, Map<Integer, BigDecimal> openingBalanceLine)
-	{
-		if (!openingBalanceLine.isEmpty())
-		{
+	public void insertOpeningBalanceLine(MiniMRPProduct miniMrpProduct, Map<Integer, BigDecimal> openingBalanceLine) {
+		if (!openingBalanceLine.isEmpty()) {
 			X_M_ReplenishPlanLine miniMRP = getX_M_ReplenishPlanLine(miniMrpProduct, 10, TYPE_OPENING_BALANCE_LINE
 					+ (miniMrpProduct.isPhantom ? " - Phantom Product" : ""));
-			for (Integer week : openingBalanceLine.keySet())
-			{
+			for (Integer week : openingBalanceLine.keySet()) {
 				setWeeklyData(miniMRP, week, openingBalanceLine.get(week));
 			}
 			miniMRP.saveEx();
@@ -1325,13 +1207,10 @@ public class CalculateReplenishPlan extends SvrProcess
 	 * @param miniMrpProduct
 	 * @param closingBalanceLine
 	 */
-	public void insertClosingBalanceLine(MiniMRPProduct miniMrpProduct, Map<Integer, BigDecimal> closingBalanceLine)
-	{
-		if (!closingBalanceLine.isEmpty())
-		{
+	public void insertClosingBalanceLine(MiniMRPProduct miniMrpProduct, Map<Integer, BigDecimal> closingBalanceLine) {
+		if (!closingBalanceLine.isEmpty()) {
 			X_M_ReplenishPlanLine miniMRP = getX_M_ReplenishPlanLine(miniMrpProduct, lineNo, TYPE_CLOSING_BALANCE_LINE);
-			for (Integer week : closingBalanceLine.keySet())
-			{
+			for (Integer week : closingBalanceLine.keySet()) {
 				setWeeklyData(miniMRP, week, closingBalanceLine.get(week));
 			}
 			miniMRP.saveEx();
@@ -1344,18 +1223,14 @@ public class CalculateReplenishPlan extends SvrProcess
 	 * @author Sachin Bhimani
 	 * @param miniMrpProducts
 	 */
-	private void renderPeggingReport(Map<Integer, MiniMRPProduct> miniMrpProducts)
-	{
-
-		for (MiniMRPProduct miniMrpProduct : miniMrpProducts.values())
-		{
+	private void renderPeggingReport(Map<Integer, MiniMRPProduct> miniMrpProducts) {
+		for (MiniMRPProduct miniMrpProduct : miniMrpProducts.values()) {
 			lineNo = 20;
 			Map<Integer, BigDecimal> openingBalanceLine = new HashMap<Integer, BigDecimal>();
 			Map<Integer, BigDecimal> closingBalanceLine = new HashMap<Integer, BigDecimal>();
-			if (availableInventory.containsKey(miniMrpProduct.getM_Product_ID()))
-			{
+			if (availableInventory.containsKey(miniMrpProduct.getM_Product_ID())) {
 				BigDecimal qty = availableInventory.get(miniMrpProduct.getM_Product_ID());
-				openingBalanceLine.put(START_WEEK, qty);
+				openingBalanceLine.put(1, qty);// TODO view it
 			}
 
 			// Insert Demand lines & Calculate Total Demand line.
@@ -1376,107 +1251,161 @@ public class CalculateReplenishPlan extends SvrProcess
 	}
 
 	/**
-	 * @author Sachin Bhimani
+	 * For Production
 	 * @param miniMrpProducts
 	 * @param productIds
-	 * @param type
 	 */
-	private void doRunOpenOrders(Map<Integer, MiniMRPProduct> miniMrpProducts, Set<Integer> productIds, String type)
-	{
-		String sql = null;
-		if (type.equals(TYPE_MO))
-			sql = getQueryForOpenMO();
-		else if (type.equals(TYPE_PO))
-			sql = getQueryForOpenPO();
-		else if (type.equals(TYPE_RQ))
-			sql = getQueryForOpenRequisition();
-
+	private void forOpenMO(Map<Integer, MiniMRPProduct> miniMrpProducts, Set<Integer> productIds) {
+		//	SQL
+		String sql = new String(
+				"SELECT mprod.M_Production_ID, mprod.M_Product_ID, "
+				+ "SUM(mprod.ProductionQty) AS OrderedQty, mprod.DatePromised "
+				+ "FROM M_Production mprod "
+				+ "WHERE mprod.IsActive='Y' "
+				+ "AND mprod.Processed='N' "
+				+ "AND mprod.DatePromised BETWEEN ? AND ? "
+				+ "AND mprod.AD_Client_ID = ? "
+				+ "AND mprod.M_Product_ID IN" + productIds.toString().replace('[','(').replace(']',')') + " "
+				+ "GROUP BY mprod.M_Product_ID, mprod.M_Production_ID, mprod.DatePromised "
+				+ "ORDER BY mprod.M_Product_ID, mprod.DatePromised");
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		int paramCount = 1;
-		try
-		{
+		try {
 			pstmt = DB.prepareStatement(sql, trx);
 			pstmt.setTimestamp(paramCount++, dateFrom);
-			pstmt.setTimestamp(paramCount++, dateFrom);
 			pstmt.setTimestamp(paramCount++, dateTo);
-			pstmt.setInt(paramCount++, AD_Client_ID);
-			pstmt.setArray(paramCount++, getSqlArray(productIds.toArray(), "numeric", DB.getConnectionRW(false))); // Productids
-			if (type.equals(TYPE_RQ))
-				pstmt.setInt(paramCount++, docType_MRPRequisition);
-
+			pstmt.setInt(paramCount++, clientId);
 			rs = pstmt.executeQuery();
-			while (rs.next())
-			{
-				int M_Product_ID = rs.getInt("m_product_id");
-				BigDecimal orderQty = rs.getBigDecimal("orderedqty");
-				int weekPromised = rs.getInt("weekordered");
-
-				MiniMRPProduct product = miniMrpProducts.get(M_Product_ID);
-				if (type.equals(TYPE_PO))
-				{
-					int c_order_id = rs.getInt("c_order_id");
-					product.setSupplyLinePO(c_order_id, weekPromised, orderQty);
-				}
-				else if (type.equals(TYPE_MO))
-				{
-					int m_production_id = rs.getInt("m_production_id");
-					product.setSupplyLineMO(m_production_id, weekPromised, orderQty);
-				}
-				else if (type.equals(TYPE_RQ))
-				{
-					int M_Requisition_ID = rs.getInt("M_Requisition_ID");
-					product.setSupplyLineRQ(M_Requisition_ID, weekPromised, orderQty);
-				}
+			while (rs.next()) {
+				int productionId = rs.getInt("M_Production_ID");
+				int productId = rs.getInt("M_Product_ID");
+				BigDecimal orderQty = rs.getBigDecimal("OrderedQty");
+				Timestamp datePromised = rs.getTimestamp("DatePromised");
+				//	
+				int weekPromised = TimeUtil.getWeeksBetween(dateFrom, datePromised);
+				MiniMRPProduct product = miniMrpProducts.get(productId);
+				product.setSupplyLineMO(productionId, weekPromised, orderQty);
 			}
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			log.log(Level.SEVERE, sql.toString(), e);
-			getProcessInfo().setError(true);
-			getProcessInfo().addLog(
-					new ProcessInfoLog(getProcessInfo().getAD_Process_ID(), new Timestamp(System.currentTimeMillis()),
-							null, "Failed to fetch products for mini MRP >> " + e.getMessage()));
-			throw new AdempiereException(e);
-
-		}
-		finally
-		{
+		} finally {
 			DB.close(rs, pstmt);
 			rs = null;
 			pstmt = null;
 		}
 	}
-
+	
 	/**
-	 * @param data
-	 * @param sqlTypeName
-	 * @param conn
-	 * @return
-	 * @throws SQLException
+	 * For Orders
+	 * @param miniMrpProducts
+	 * @param productIds
 	 */
-	private Array getSqlArray(Object[] data, String sqlTypeName, Connection conn) throws SQLException
-	{
-		Array array;
-		if (conn instanceof C3P0ProxyConnection)
-		{
-			C3P0ProxyConnection proxy = (C3P0ProxyConnection) conn;
-			try
-			{
-				Method m = Connection.class.getMethod("createArrayOf", String.class, Object[].class);
-				Object[] args = { sqlTypeName, data };
-				array = (Array) proxy.rawConnectionOperation(m, C3P0ProxyConnection.RAW_CONNECTION, args);
+	private void forOpenPO(Map<Integer, MiniMRPProduct> miniMrpProducts, Set<Integer> productIds) {
+		//	SQL
+		String sql = new String(
+				"SELECT co.C_Order_ID, col.M_Product_ID, SUM(col.QtyOrdered - col.QtyDelivered) AS OrderedQty, co.DatePromised "
+				+ "FROM C_Order co "
+				+ "INNER JOIN C_OrderLine col ON(co.C_Order_ID = col.C_Order_ID) "
+				+ "WHERE co.IsSOTrx='N' "
+				+ "AND co.DocStatus = 'CO' "
+				+ "AND col.QtyOrdered > col.QtyDelivered "
+				+ "AND col.DatePromised BETWEEN ? AND ? "
+				+ "AND co.AD_Client_ID = ? "
+				+ "AND col.M_Product_ID IN" + productIds.toString().replace('[','(').replace(']',')') + " "
+				+ "GROUP BY col.M_Product_ID, co.C_Order_ID, co.DatePromised "
+				+ "ORDER BY col.M_Product_ID, co.DatePromised");
+		//	
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		int paramCount = 1;
+		try {
+			pstmt = DB.prepareStatement(sql, trx);
+			pstmt.setTimestamp(paramCount++, dateFrom);
+			pstmt.setTimestamp(paramCount++, dateTo);
+			pstmt.setInt(paramCount++, clientId);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				int productId = rs.getInt("M_Product_ID");
+				BigDecimal orderQty = rs.getBigDecimal("OrderedQty");
+				Timestamp datePromised = rs.getTimestamp("DatePromised");
+				//	
+				int weekPromised = TimeUtil.getWeeksBetween(dateFrom, datePromised);
+				MiniMRPProduct product = miniMrpProducts.get(productId);
+				int orderId = rs.getInt("C_Order_ID");
+				product.setSupplyLinePO(orderId, weekPromised, orderQty);
 			}
-			catch (Exception e)
-			{
-				throw new SQLException(e);
+		} catch (Exception e) {
+			log.log(Level.SEVERE, sql.toString(), e);
+		} finally {
+			DB.close(rs, pstmt);
+			rs = null;
+			pstmt = null;
+		}
+	}
+	
+	/**
+	 * For Requisition
+	 * @param miniMrpProducts
+	 * @param productIds
+	 */
+	private void forOpenRQ(Map<Integer, MiniMRPProduct> miniMrpProducts, Set<Integer> productIds) {
+		//	SQL
+		String sql = new String("SELECT r.M_Requisition_ID, rl.M_Product_ID, SUM(rl.Qty) AS OrderedQty, r.DateRequired "
+				+ "FROM M_Requisition r "
+				+ "INNER JOIN M_RequisitionLine rl ON (r.M_Requisition_ID = rl.M_Requisition_ID) "
+				+ "WHERE r.DocStatus = 'DR' "
+				+ "AND r.DateRequired BETWEEN ? AND ? "
+				+ "AND rl.IsActive = 'Y' "
+				+ "AND r.AD_Client_ID = ? "
+				+ "AND rl.M_Product_ID IN" + productIds.toString().replace('[','(').replace(']',')') + " "
+				+ "AND r.C_DocType_ID = ? "
+				+ "GROUP BY rl.M_Product_ID, r.M_Requisition_ID, r.DateRequired "
+				+ "ORDER BY rl.M_Product_ID, r.DateRequired");
+		//	
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		int paramCount = 1;
+		try {
+			pstmt = DB.prepareStatement(sql, trx);
+			pstmt.setTimestamp(paramCount++, dateFrom);
+			pstmt.setTimestamp(paramCount++, dateTo);
+			pstmt.setInt(paramCount++, clientId);
+			pstmt.setInt(paramCount++, docTypeMRPRequisition);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				int productId = rs.getInt("M_Product_ID");
+				BigDecimal orderQty = rs.getBigDecimal("OrderedQty");
+				Timestamp dateRequired = rs.getTimestamp("DateRequired");
+				//	
+				int weekPromised = TimeUtil.getWeeksBetween(dateFrom, dateRequired);
+				MiniMRPProduct product = miniMrpProducts.get(productId);
+				int requisitionId = rs.getInt("M_Requisition_ID");
+				product.setSupplyLineRQ(requisitionId, weekPromised, orderQty);
 			}
+		} catch (Exception e) {
+			log.log(Level.SEVERE, sql.toString(), e);
+		} finally {
+			DB.close(rs, pstmt);
+			rs = null;
+			pstmt = null;
 		}
-		else
-		{
-			array = conn.createArrayOf(sqlTypeName, data);
+	}
+	
+	/**
+	 * @author Sachin Bhimani
+	 * @param miniMrpProducts
+	 * @param productIds
+	 * @param type
+	 */
+	private void doRunOpenOrders(Map<Integer, MiniMRPProduct> miniMrpProducts, Set<Integer> productIds, String type) {
+		if (type.equals(TYPE_MO)) {
+			forOpenMO(miniMrpProducts, productIds);
+		} else if (type.equals(TYPE_PO)) {
+			forOpenPO(miniMrpProducts, productIds);
+		} else if (type.equals(TYPE_RQ)) {
+			forOpenRQ(miniMrpProducts, productIds);
 		}
-		return array;
 	}
 
 	/**
@@ -1484,69 +1413,33 @@ public class CalculateReplenishPlan extends SvrProcess
 	 * @param productIds
 	 * @param productSO
 	 */
-	@SuppressWarnings("resource")
-	private void doRunProductsSO(Map<Integer, MiniMRPProduct> miniMrpProducts, Set<Integer> productIds)
-	{
-		String sql = getQueryForProductSO();
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		int paramCount = 1;
-		try
-		{
-			pstmt = DB.prepareStatement(sql, trx);
-			pstmt.setTimestamp(paramCount++, dateFrom);
-			pstmt.setTimestamp(paramCount++, dateFrom);
-			pstmt.setTimestamp(paramCount++, dateTo);
-			pstmt.setInt(paramCount++, AD_Client_ID);
-			pstmt.setArray(paramCount++, getSqlArray(productIds.toArray(), "numeric", DB.getConnectionRW(false))); // Productids
-			rs = pstmt.executeQuery();
-			while (rs.next())
-			{
-				int mProductID = rs.getInt("m_product_id");
-				int mOrderID = rs.getInt("c_order_id");
-				BigDecimal orderQty = rs.getBigDecimal("orderedqty");
-				int weekPromised = rs.getInt("weekordered");
-				BigDecimal qty = rs.getBigDecimal("orderedqty");
-				Date date = rs.getDate("datepromised");
-
-				if (miniMrpProducts.containsKey(mProductID))
-				{
-					MiniMRPProduct mrpProduct = miniMrpProducts.get(mProductID);
-
-					if (mrpProduct.isPhantom())
-						continue;
-
-					if (!mrpProduct.isPhantom)
-						setQtyAsDemand(mProductID, qty, date);
-
-					mrpProduct.explodeDemand(mOrderID, orderQty, weekPromised, miniMrpProducts);
-				}
-				else
-				{
-					log.log(Level.SEVERE, "Error in miniMrpProducts setup.");
-					getProcessInfo().setError(true);
-					getProcessInfo().addLog(
-							new ProcessInfoLog(getProcessInfo().getAD_Process_ID(), new Timestamp(System
-									.currentTimeMillis()), null, "Error in miniMrpProducts setup.>> "));
-					throw new AdempiereException("Error in miniMrpProducts setup.");
-				}
+	private void doRunProductsSO(Map<Integer, MiniMRPProduct> miniMrpProducts, Set<Integer> productIds) {
+		//	Get promised
+		List<MOrderLine> lines = new Query(getCtx(), I_C_OrderLine.Table_Name, "DatePromised BETWEEN ? AND ?"
+				+ " AND (COALESCE(QtyOrdered, 0) - COALESCE(QtyDelivered, 0)) > 0 "
+				+ " AND M_Product_ID IN" + productIds.toString().replace('[','(').replace(']',')')
+				+ " AND EXISTS(SELECT 1 FROM C_Order o "
+				+ "				WHERE o.C_Order_ID = C_OrderLine.C_Order_ID"
+				+ "				AND o.DocStatus = 'CO'"
+				+ "				AND o.IsSOTrx = 'Y')", get_TrxName())
+				.setParameters(dateFrom, dateTo)
+				.setClient_ID()
+				.setOrderBy(I_C_OrderLine.COLUMNNAME_DatePromised)
+				.list();
+		//	Loop it
+		lines.stream()
+				.filter(orderLinePhantom -> !orderLinePhantom.getM_Product().isPhantom())
+				.forEach(orderLine -> {
+			if (miniMrpProducts.containsKey(orderLine.getM_Product_ID())) {
+				MiniMRPProduct mrpProduct = miniMrpProducts.get(orderLine.getM_Product_ID());
+				//	
+				setQtyAsDemand(orderLine.getM_Product_ID(), orderLine.getQtyReserved(), orderLine.getDatePromised());
+				int weekPromised = TimeUtil.getWeeksBetween(dateFrom, orderLine.getDatePromised());
+				mrpProduct.explodeDemand(orderLine.getC_Order_ID(), orderLine.getQtyReserved(), weekPromised, miniMrpProducts);
+			} else {
+				log.log(Level.SEVERE, "Error in miniMrpProducts setup.");
 			}
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql.toString(), e);
-			getProcessInfo().setError(true);
-			getProcessInfo().addLog(new ProcessInfoLog(getProcessInfo().getAD_Process_ID(), new Timestamp(System
-					.currentTimeMillis()), null, "Failed to fetch products for mini MRP >> " + e.getMessage()));
-			throw new AdempiereException(e);
-
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null;
-			pstmt = null;
-		}
+		});
 	}
 
 	/**
@@ -1573,6 +1466,42 @@ public class CalculateReplenishPlan extends SvrProcess
 			mapDemand.put(date, mapOrderQty);
 		}
 	}
+	
+	/**
+	 * Get Replenish
+	 * @param warehouseId
+	 * @param productId
+	 * @return
+	 */
+	private List<MReplenish> getReplenishList(int warehouseId, int productId) {
+		StringBuffer whereClause = new StringBuffer("AD_Client_ID = ?");
+		ArrayList<Object> param = new ArrayList<Object>();
+		param.add(getAD_Client_ID());
+		//	Warehouse
+		whereClause.append(" AND M_Warehouse_ID = ?");
+		param.add(warehouseId);
+		//	Add Optional
+		if(productId != 0) {
+			whereClause.append(" AND M_Product_ID = ?");
+			param.add(productId);
+		}
+		//	Add Exist for Replenish
+		whereClause.append(" AND EXISTS(SELECT 1 FROM M_Product p "
+				+ "WHERE p.M_Product_ID = M_Replenish.M_Product_ID "
+				+ "AND p.IsActive = ? "
+				+ "AND p.IsStocked = ?)");
+		//	Active
+		param.add("Y");
+		//	Stocked
+		param.add("Y");
+		//	
+		List<MReplenish> productReplenish = new Query(getCtx(), I_M_Replenish.Table_Name, whereClause.toString(), get_TrxName())
+				.setParameters(param)
+				.setOnlyActiveRecords(true)
+				.list();
+		//	Replenish
+		return productReplenish;
+	}
 
 	/**
 	 * This method will fetch all the products based on selected category or the
@@ -1583,115 +1512,84 @@ public class CalculateReplenishPlan extends SvrProcess
 	 * @param miniMrpProducts
 	 * @param productIds
 	 */
-	private void generateProductInfo(Map<Integer, MiniMRPProduct> miniMrpProducts, Set<Integer> productIds)
-	{
-		String sql = getQueryForProductDetails();
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement(sql, trx);
-			pstmt.setInt(1, M_WarehouseID);
-			pstmt.setInt(2, AD_Client_ID);
-			if (p_M_Product_ID !=0)
-				pstmt.setInt(3, p_M_Product_ID);
-			rs = pstmt.executeQuery();
-			while (rs.next())
-			{
-				int mProductID = rs.getInt("m_product_id");
-
-				if (!miniMrpProducts.containsKey(mProductID))
-				{
-					MiniMRPProduct miniMrpProduct = addProductToProcess(mProductID, rs, miniMrpProducts, productIds);
-
-					/* If Product is FG(Finished Goods) calculate it's BOMlines */
-					if (miniMrpProduct.isBOM() && miniMrpProduct.isVerified())
-					{
-						processBOMLines(miniMrpProducts, productIds, miniMrpProduct.getM_Product_ID());
-					}
+	private void generateProductInfo(Map<Integer, MiniMRPProduct> miniMrpProducts, Set<Integer> productIds) {
+		List<MReplenish> productReplenish = getReplenishList(warehouseId, getProductId());
+		//	Validate Replenish
+		if(productReplenish.size() == 0) {
+			throw new AdempiereException("@M_Replenish_ID@ @NotFound@");
+		}
+		//	Add to list
+		productReplenish.stream().forEach(replenish -> {
+			if (!miniMrpProducts.containsKey(replenish.getM_Product_ID())) {
+				MiniMRPProduct miniMrpProduct = addProductToProcess(replenish, miniMrpProducts, productIds);
+				//	If Product is FG(Finished Goods) calculate it's BOMlines
+				if (miniMrpProduct.isBOM() && miniMrpProduct.isVerified()) {
+					processBOMLines(miniMrpProducts, productIds, miniMrpProduct.getM_Product_ID());
 				}
 			}
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql.toString(), e);
-			getProcessInfo().setError(true);
-			getProcessInfo().addLog(new ProcessInfoLog(getProcessInfo().getAD_Process_ID(), new Timestamp(System
-					.currentTimeMillis()), null, "Failed to fetch products for mini MRP >> " + e.getMessage()));
-			throw new AdempiereException(e);
-
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null;
-			pstmt = null;
-		}
+		});
 	}
 
 	/**
-	 * @param mProductID
-	 * @param rs
+	 * @param replenish
 	 * @param miniMrpProducts
-	 * @param productIds
 	 * @return
 	 * @throws SQLException
 	 */
-	private MiniMRPProduct addProductToProcess(int mProductID, ResultSet rs,
-			Map<Integer, MiniMRPProduct> miniMrpProducts, Set<Integer> productIds) throws SQLException
-	{
-		String productName = rs.getString("ProductName");
-		int mProductCategoryID = rs.getInt("M_Product_Category_ID");
-		int projectedLeadTime = 0; // rs.getInt("deliverytime_promised");
-
-		boolean isBOM = "Y".equalsIgnoreCase(rs.getString("IsBOM")) ? true : false;
-		boolean isVerified = "Y".equalsIgnoreCase(rs.getString("IsVerified")) ? true : false;
-		boolean isPurchased = "Y".equalsIgnoreCase(rs.getString("IsPurchased")) ? true : false;
-		boolean isPhantom = "Y".equalsIgnoreCase(rs.getString("IsPhantom")) ? true : false;
-
-		BigDecimal Level_Min = rs.getBigDecimal("Level_Min");
-		BigDecimal availableInventory = rs.getBigDecimal("Available");
-
-		if (availableInventory == null)
-			availableInventory = Env.ZERO;
-
-		if (isPhantom)
-		{
-			Level_Min = Env.ZERO;
+	private MiniMRPProduct addProductToProcess(MReplenish replenish, Map<Integer, MiniMRPProduct> miniMrpProducts, Set<Integer> productIds) {
+		MProduct product = MProduct.get(getCtx(), replenish.getM_Product_ID());
+		//	Get current vendor
+		MProductPO[] productPO = MProductPO.getOfProduct(getCtx(), product.getM_Product_ID(), get_TrxName());
+		int bPartnerId = 0;
+		//	Get Business Partner
+		if(productPO.length > 0) {
+			bPartnerId = productPO[0].getC_BPartner_ID();
+		}
+		BigDecimal levelMin = replenish.getLevel_Min();
+		BigDecimal availableInventory = MStorage.getQtyAvailable(warehouseId, 0, product.getM_Product_ID(), 0, get_TrxName());
+		if (availableInventory == null) {
 			availableInventory = Env.ZERO;
 		}
-
-		MiniMRPProduct miniMrpProduct = new MiniMRPProduct(mProductID);
+		//	Phantom
+		if (product.isPhantom()) {
+			levelMin = Env.ZERO;
+			availableInventory = Env.ZERO;
+		}
+		//	Get Product Price
+		MProductPricing price = new MProductPricing(product.getM_Product_ID(), bPartnerId, levelMin, false, get_TrxName());
+		price.setM_PriceList_ID(priceListId);
+		price.calculatePrice();
+		//	
+		MiniMRPProduct miniMrpProduct = new MiniMRPProduct(product.getM_Product_ID());
 		miniMrpProduct.setAvailableQty(availableInventory);
-		miniMrpProduct.setName(productName);
-		miniMrpProduct.setM_Product_Category_ID(mProductCategoryID);
-		miniMrpProduct.setProjectedLeadTime(projectedLeadTime);
-		miniMrpProduct.setBOM(isBOM);
-		miniMrpProduct.setVerified(isVerified);
-		miniMrpProduct.setPurchased(isPurchased);
-		miniMrpProduct.setPhantom(isPhantom);
-		miniMrpProduct.setC_BPartner_ID(rs.getInt("C_BPartner_ID"));
-		miniMrpProduct.setPriceActual(rs.getBigDecimal("PricePO"));
-		miniMrpProduct.setQtyBatchSize(rs.getBigDecimal("QtyBatchSize"));
-		miniMrpProduct.setLevel_Min(Level_Min);
-		miniMrpProduct.setReplenishTypeMRPCalculated(rs.getString("ReplenishType")
-				.equals(REPLENISH_TYPE_MRP_CALCULATED));
+		miniMrpProduct.setName(product.getName());
+		miniMrpProduct.setM_Product_Category_ID(product.getM_Product_Category_ID());
+		miniMrpProduct.setProjectedLeadTime(0);
+		miniMrpProduct.setBOM(product.isBOM());
+		miniMrpProduct.setVerified(product.isVerified());
+		miniMrpProduct.setPurchased(product.isPurchased());
+		miniMrpProduct.setPhantom(product.isPhantom());
+		miniMrpProduct.setC_BPartner_ID(bPartnerId);
+		miniMrpProduct.setPriceActual(price.getPriceList());
+		miniMrpProduct.setQtyBatchSize(replenish.getQtyBatchSize());
+		miniMrpProduct.setLevel_Min(levelMin);
+		miniMrpProduct.setReplenishTypeMRPCalculated(replenish.getReplenishType()
+				.equals(X_M_Replenish.REPLENISHTYPE_ReplenishPlanCalculated));
 		if (miniMrpProduct.isReplenishTypeMRPCalculated())
-			miniMrpProduct.setQtyOnHand(availableInventory.subtract(Level_Min));
+			miniMrpProduct.setQtyOnHand(availableInventory.subtract(levelMin));
 		else
 			miniMrpProduct.setQtyOnHand(availableInventory);
 
 		// Check product QTY is negative then create demand.
-		if (miniMrpProduct.getQtyOnHand().compareTo(Env.ZERO) < 0 && !isPhantom)
-		{
-			setQtyAsDemand(mProductID, miniMrpProduct.getQtyOnHand().negate(), dateFrom);
+		if (miniMrpProduct.getQtyOnHand().compareTo(Env.ZERO) < 0 && !product.isPhantom()) {
+			setQtyAsDemand(product.getM_Product_ID(), miniMrpProduct.getQtyOnHand().negate(), dateFrom);
 			miniMrpProduct.setQtyOnHand(Env.ZERO);
 		}
 
 		// Manage Inventory & ProductId blueprint here.
-		productIds.add(mProductID);
-		miniMrpProducts.put(mProductID, miniMrpProduct);
-		addAvailableInventory(mProductID, availableInventory);
+		productIds.add(product.getM_Product_ID());
+		miniMrpProducts.put(product.getM_Product_ID(), miniMrpProduct);
+		addAvailableInventory(product.getM_Product_ID(), availableInventory);
 
 		// Retrieve Confirmed Product QTY. If non BOM product then retrieve all
 		// requisition data for docType is 'MRP Requisition'.
@@ -1705,11 +1603,9 @@ public class CalculateReplenishPlan extends SvrProcess
 	 * @param parentProduct
 	 * @param qtyBom
 	 */
-	private void explodeRequiredMaterials(MiniMRPProduct miniMrpProduct, MiniMRPProduct parentProduct, BigDecimal qtyBom)
-	{
+	private void explodeRequiredMaterials(MiniMRPProduct miniMrpProduct, MiniMRPProduct parentProduct, BigDecimal qtyBom) {
 		Map<Integer, BigDecimal> requiredProdMaterials = miniMrpProduct.getRequiredProdMaterials();
-		for (Integer mProdId : requiredProdMaterials.keySet())
-		{
+		for (Integer mProdId : requiredProdMaterials.keySet()) {
 			BigDecimal qty = requiredProdMaterials.get(mProdId);
 			parentProduct.addMatireals(mProdId, qtyBom.multiply(qty));
 		}
@@ -1723,171 +1619,37 @@ public class CalculateReplenishPlan extends SvrProcess
 	 * @param productIds
 	 * @param M_Product_ID
 	 */
-	public void processBOMLines(Map<Integer, MiniMRPProduct> miniMrpProducts, Set<Integer> productIds, int M_Product_ID)
-	{
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			if (M_Product_ID > 0)
-			{
-				MProduct product = new MProduct(getCtx(), M_Product_ID, get_TrxName());
-				if (!product.isStocked())
-					return ;
-				//MPPProductBOM bom = MPPProductBOM.getDefault(finishedProduct, get_TrxName());
-				pstmt = DB.prepareStatement(SQL_GET_BOMLINE_FOR_PROCESS, trx);
-				pstmt.setInt(1, M_Product_ID);
-				pstmt.setInt(2, AD_Client_ID);
-				pstmt.setInt(3, M_WarehouseID);
-
-				rs = pstmt.executeQuery();
-				while (rs.next())
-				{
-					int mProductID = rs.getInt(1);
-					BigDecimal qtyBom = rs.getBigDecimal(2);
+	public void processBOMLines(Map<Integer, MiniMRPProduct> miniMrpProducts, Set<Integer> productIds, int M_Product_ID) {
+		MProduct product = MProduct.get(getCtx(), M_Product_ID);
+		//	
+		List<MPPProductBOM> boms = MPPProductBOM.getProductBOMs(product);
+		if(boms.size() > 0) {
+			for(MPPProductBOMLine line : boms.get(0).getLines()) {
+				List<MReplenish> productReplenish = getReplenishList(warehouseId, getProductId());
+				//	Loop it
+				productReplenish.stream().forEach(repleish -> {
+					BigDecimal qtyBom = line.getQtyBOM();
 
 					MiniMRPProduct parentProduct = miniMrpProducts.get(M_Product_ID);
-					parentProduct.addMatireals(mProductID, qtyBom);
+					parentProduct.addMatireals(line.getM_Product_ID(), qtyBom);
 
 					MiniMRPProduct miniMrpProduct = null;
 
 					// If material is already exploded.
-					if (miniMrpProducts.containsKey(mProductID))
-					{
-						miniMrpProduct = miniMrpProducts.get(mProductID);
+					if (miniMrpProducts.containsKey(line.getM_Product_ID())) {
+						miniMrpProduct = miniMrpProducts.get(line.getM_Product_ID());
 						explodeRequiredMaterials(miniMrpProduct, parentProduct, qtyBom);
-					}
-					else
-					{
-						miniMrpProduct = addProductToProcess(mProductID, rs, miniMrpProducts, productIds);
+					} else {
+						miniMrpProduct = addProductToProcess(repleish, miniMrpProducts, productIds);
 						if (miniMrpProduct.isBOM() && miniMrpProduct.isVerified())
 						{
-							processBOMLines(miniMrpProducts, productIds, mProductID);
+							processBOMLines(miniMrpProducts, productIds, line.getM_Product_ID());
 							explodeRequiredMaterials(miniMrpProduct, parentProduct, qtyBom);
 						}
 					}
-				}
+				});
 			}
 		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, SQL_GET_BOMLINE_FOR_PROCESS, e);
-			getProcessInfo().setError(true);
-			getProcessInfo().addLog(new ProcessInfoLog(getProcessInfo().getAD_Process_ID(), new Timestamp(System
-					.currentTimeMillis()), null, "Failed to process BOMLine : >> " + e.getMessage()));
-			throw new AdempiereException(e);
-
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null;
-			pstmt = null;
-		}
-	}
-
-	/**
-	 * @return
-	 */
-	private String getQueryForProductDetails()
-	{
-		StringBuilder sql = new StringBuilder();
-		sql.append("SELECT	p.M_Product_ID, p.Name AS ProductName, p.M_Product_Category_ID, mpo.DeliveryTime_Promised, p.IsBOM, p.IsVerified, SUM(ms.QtyOnHand) AS Available, p.IsPurchased, "
-				+ " mpo.C_BPartner_ID, COALESCE(ppr.pricelist, 0) AS PricePO, p.IsPhantom, COALESCE(r.QtyBatchSize, 0) AS QtyBatchSize, COALESCE(r.Level_Min, 0) AS Level_Min, r.ReplenishType ");
-		sql.append(" FROM M_Product p ");
-		sql.append(" INNER JOIN M_Product_Category mpc ON (p.M_Product_Category_ID = mpc.M_Product_Category_ID) ");
-		sql.append(" INNER JOIN M_Replenish r ON (r.M_Product_ID = p.M_Product_ID AND r.M_Warehouse_ID = ? )");
-		sql.append(" LEFT JOIN M_Product_PO mpo ON (mpo.M_Product_ID = p.M_Product_ID AND mpo.C_BPartner_ID = ");
-		sql.append("		(SELECT po.C_BPartner_ID FROM M_Product_PO po WHERE po.M_Product_ID=p.M_Product_ID AND po.IsActive = 'Y' ORDER BY IsCurrentVendor Desc FETCH FIRST ROW ONLY)) ");
-		sql.append(" LEFT JOIN M_ProductPrice ppr ON  (p.m_product_id = ppr.m_product_id)  AND  ppr.m_pricelist_version_id = ");
-		sql.append(" (SELECT plv.m_pricelist_version_id FROM m_pricelist_version plv ");
-		sql.append(" LEFT JOIN c_bpartner bpx ON plv.m_pricelist_id = bpx.po_pricelist_id ");
-		sql.append(" WHERE (bpx.c_bpartner_id = mpo.c_bpartner_id AND plv.ValidFrom <= now())  ORDER BY plv.m_pricelist_version_id DESC FETCH FIRST ROW ONLY) ");
-		sql.append(" LEFT OUTER JOIN M_Storage ms ON (ms.M_Product_ID = p.M_Product_ID) ");
-		sql.append(" WHERE p.IsActive='Y' AND p.AD_Client_ID = ?  and p.isstocked = 'Y' ");
-		if (p_M_Product_ID !=0)
-			sql.append(" and p.M_Product_ID=? ");
-		sql.append(" GROUP BY p.M_Product_ID, mpo.DeliveryTime_Promised, mpo.C_BPartner_ID, ppr.pricelist, r.M_Product_ID, r.M_Warehouse_ID ");
-		sql.append(" ORDER BY p.M_Product_ID ");
-
-		return sql.toString();
-	}
-
-	/**
-	 * @return
-	 */
-	private String getQueryForProductSO()
-	{
-		StringBuilder sql = new StringBuilder(
-				"SELECT col.c_order_id, mp.m_product_id, mp.name as productname, (col.qtyordered-col.qtydelivered) as orderedqty,");
-		sql.append("(CASE WHEN TO_CHAR(?::DATE, 'IYYY') <> TO_CHAR(col.datepromised::DATE, 'IYYY')	THEN EXTRACT(WEEK FROM (DATE_TRUNC('YEAR', col.datepromised::DATE) + interval '-1 day')) ELSE 0 END) + EXTRACT(WEEK FROM col.datepromised::DATE) as weekordered,");
-		sql.append(" co.datepromised FROM c_order co JOIN c_orderline col ON (co.c_order_id=col.c_order_id) JOIN m_product mp ON(mp.m_product_id=col.m_product_id) JOIN m_product_category mpc ON mp.m_product_category_id = mpc.m_product_category_id WHERE mp.isactive='Y'  AND co.issotrx='Y' AND col.datepromised BETWEEN ? AND ? ");
-		sql.append(" AND co.DocStatus IN ('CO') ");
-		sql.append(" AND (col.qtyordered - col.qtydelivered) != 0");
-		sql.append(" AND mp.AD_Client_ID=?");
-		sql.append(" AND col.m_product_id = ANY(?)");
-		sql.append(" ORDER BY co.datepromised ");
-		return sql.toString();
-	}
-
-	private String getQueryForOpenPO()
-	{
-		StringBuilder sql = new StringBuilder(
-				"SELECT co.c_order_id,mp.m_product_id,mp.name as productname,sum(col.qtyordered - col.qtydelivered) as orderedqty,");
-		sql.append(" (CASE WHEN TO_CHAR(?::DATE, 'IYYY') <> TO_CHAR(col.datepromised::DATE, 'IYYY')	THEN EXTRACT(WEEK FROM (DATE_TRUNC('YEAR', col.datepromised::DATE) + interval '-1 day')) ELSE 0 END) + EXTRACT(WEEK FROM col.datepromised::DATE) as weekordered ");
-		sql.append(" FROM c_order co JOIN c_orderline col ON (co.c_order_id=col.c_order_id) JOIN m_product mp ON(mp.m_product_id=col.m_product_id) JOIN m_product_category mpc ON mp.m_product_category_id = mpc.m_product_category_id ");
-		sql.append(" WHERE mp.isactive='Y' AND co.issotrx='N' AND docstatus IN ('CO','CL') AND col.qtyordered > col.qtydelivered AND col.datepromised BETWEEN ? AND ? ");
-		sql.append(" AND mp.AD_Client_ID=?");
-		sql.append(" AND col.m_product_id = ANY(?)");
-		sql.append(" GROUP BY weekordered, mp.m_product_id,co.c_order_id");
-		sql.append(" ORDER BY mp.m_product_id, co.datepromised");
-		return sql.toString();
-	}
-
-	private String getQueryForOpenMO()
-	{
-		StringBuilder sql = new StringBuilder(
-				"SELECT mprod.m_production_id, mp.m_product_id, mp.name as productname, sum(mprod.productionqty) as orderedqty, ");
-		sql.append(" (CASE WHEN TO_CHAR(?::DATE, 'IYYY') <> TO_CHAR(mprod.datepromised::DATE, 'IYYY')	THEN EXTRACT(WEEK FROM (DATE_TRUNC('YEAR', mprod.datepromised::DATE) + interval '-1 day')) ELSE 0 END) + EXTRACT(WEEK FROM mprod.datepromised::DATE) as weekordered ");
-		sql.append(" FROM m_production mprod JOIN m_product mp ON(mp.m_product_id=mprod.m_product_id) JOIN m_product_category mpc ON mp.m_product_category_id = mpc.m_product_category_id WHERE mp.isactive='Y' AND mprod.isactive='Y' AND mprod.processed='N'");
-		sql.append(" AND mprod.datepromised BETWEEN ? AND ?");
-		sql.append(" AND mprod.AD_Client_ID = ? AND mprod.m_product_id =ANY(?)");
-		sql.append(" GROUP BY weekordered, mp.m_product_id, mprod.m_production_id");
-		sql.append(" ORDER BY mp.m_product_id, mprod.datepromised ");
-		return sql.toString();
-	}
-
-	private String getQueryForBOMProductExplode()
-	{
-		StringBuilder sql = new StringBuilder("SELECT M_ProductBOM_ID, BOMQty * ?::Numeric AS RequiredQty ")
-				.append("FROM M_Product_BOM WHERE M_Product_ID = ?");
-
-//		StringBuilder sql = new StringBuilder(" WITH RECURSIVE supplytree(M_Product_ID) AS ( ")
-//				.append(" 	SELECT M_Product_ID, M_ProductBOM_ID, BOMQty, BOMQty * ?::Numeric AS RequiredQty, 1 AS Level ")
-//				.append("	FROM M_Product_BOM	WHERE M_Product_ID = ? ")
-//				.append(" UNION ALL ")
-//				.append("	SELECT b.M_Product_ID, b.M_ProductBOM_ID, b.BOMQty, b.BOMQty * sp.RequiredQty AS RequiredQty, Level + 1 ")
-//				.append("	FROM M_Product_BOM AS b INNER JOIN supplytree AS sp ON (sp.M_ProductBOM_ID = b.M_Product_ID)	WHERE b.IsActive='Y' ")
-//				.append(" ) ")
-//				.append(" SELECT  M_Product_ID, M_ProductBOM_ID, BOMQty, RequiredQty, Level		FROM supplytree	WHERE Level = 1ORDER BY Level ");
-
-		return sql.toString();
-	}
-
-
-	private String getQueryForOpenRequisition()
-	{
-		StringBuilder sql = new StringBuilder();
-		sql.append("SELECT r.M_Requisition_ID, mp.M_Product_ID, mp.Name AS ProductName, SUM(rl.Qty) AS OrderedQty,")
-				.append(" (CASE WHEN TO_CHAR(?::DATE, 'IYYY') <> TO_CHAR(r.DateRequired::DATE, 'IYYY')	THEN EXTRACT(WEEK FROM (DATE_TRUNC('YEAR', r.DateRequired::DATE) + interval '-1 day')) ELSE 0 END) + EXTRACT(WEEK FROM r.DateRequired::DATE) as weekordered ")
-				.append(", r.DateRequired ");
-		sql.append(" FROM M_Requisition r ")
-				.append(" INNER JOIN M_RequisitionLine rl ON (r.M_Requisition_ID = rl.M_Requisition_ID AND rl.IsActive = 'Y') ")
-				.append(" INNER JOIN M_Product mp ON (mp.M_Product_ID = rl.M_Product_ID AND mp.IsActive = 'Y') ")
-				.append(" WHERE  r.DocStatus IN ('DR') AND r.DateRequired BETWEEN ? AND ? AND mp.AD_Client_ID = ? AND rl.M_Product_ID =ANY(?) AND r.C_DocType_ID = ? ")
-				.append(" GROUP BY WeekOrdered, mp.M_Product_ID, r.M_Requisition_ID ")
-				.append(" ORDER BY mp.M_Product_ID, r.DateRequired ");
-		return sql.toString();
 	}
 
 	class MiniMRPProduct
@@ -1944,11 +1706,6 @@ public class CalculateReplenishPlan extends SvrProcess
 			return supplyLineRQ;
 		}
 
-		public int hashCode()
-		{
-			return new HashCodeBuilder(17, 31).append(M_Product_ID).toHashCode();
-		}
-
 		public boolean equals(Object obj)
 		{
 			if (!(obj instanceof MiniMRPProduct))
@@ -1957,7 +1714,7 @@ public class CalculateReplenishPlan extends SvrProcess
 				return true;
 
 			MiniMRPProduct rhs = (MiniMRPProduct) obj;
-			return new EqualsBuilder().append(M_Product_ID, rhs.M_Product_ID).isEquals();
+			return M_Product_ID == rhs.M_Product_ID;
 		}
 
 		public void addMatireals(int productId, BigDecimal qty)
@@ -1967,38 +1724,13 @@ public class CalculateReplenishPlan extends SvrProcess
 			requiredProdMaterials.put(productId, qty);
 		}
 
-		/**
-		 * @param weekPromised
-		 * @return
-		 */
-		private int getOrderProjectedWeek(int weekPromised)
-		{
-			int projectdOrderWeek = 0;
-			if (START_WEEK > END_WEEK)
-			{
-				weekPromised = weekPromised + 52;
-			}
-			if (START_WEEK == weekPromised || (weekPromised - getProjectedLeadTimeInWeek()) < START_WEEK)
-			{
-				projectdOrderWeek = START_WEEK;
-			}
-			else
-			{
-				projectdOrderWeek = weekPromised - getProjectedLeadTimeInWeek();
-			}
-
-			return projectdOrderWeek;
-		}
-
-		public void addDemand(int mOrderID, BigDecimal netRequiredQty, int projectdOrderWeek)
-		{
+		public void addDemand(int mOrderID, BigDecimal netRequiredQty, int projectdOrderWeek) {
 			Map<Integer, BigDecimal> weekDemand = getOrderDemand(mOrderID);
 			weekDemand.put(projectdOrderWeek, netRequiredQty);
 		}
 
 		public void explodeDemand(int mOrderID, BigDecimal orderQty, int weekPromised,
-				Map<Integer, MiniMRPProduct> miniMrpProducts)
-		{
+				Map<Integer, MiniMRPProduct> miniMrpProducts) {
 			BigDecimal netRequiredQty = orderQty; // explod(orderQty);
 			// int projectdOrderWeek = getOrderProjectedWeek(weekPromised);
 			addDemand(mOrderID, netRequiredQty, weekPromised);
@@ -2006,54 +1738,41 @@ public class CalculateReplenishPlan extends SvrProcess
 			// miniMrpProducts);
 		}
 
-		public Map<Integer, Map<Integer, BigDecimal>> getDemand()
-		{
+		public Map<Integer, Map<Integer, BigDecimal>> getDemand() {
 			return demand;
 		}
 
-		public Map<Integer, BigDecimal> getOrderDemand(int mOrderID)
-		{
+		public Map<Integer, BigDecimal> getOrderDemand(int mOrderID) {
 			Map<Integer, BigDecimal> weekDemand = null;
-			if (demand.containsKey(mOrderID))
-			{
+			if (demand.containsKey(mOrderID)) {
 				weekDemand = demand.get(mOrderID);
-			}
-			else
-			{
+			} else {
 				weekDemand = new HashMap<Integer, BigDecimal>();
 				demand.put(mOrderID, weekDemand);
 			}
 			return weekDemand;
 		}
-
-		public void setSupplyLinePO(int c_order_id, int week, BigDecimal openPOqty)
-		{
+		
+		public void setSupplyLinePO(int c_order_id, int week, BigDecimal openPOqty) {
 			Map<Integer, BigDecimal> weekDemand = null;
-			if (supplyLinePO.containsKey(c_order_id))
-			{
+			if (supplyLinePO.containsKey(c_order_id)) {
 				weekDemand = supplyLinePO.get(c_order_id);
 				openPOqty = openPOqty.add(weekDemand.get(week));
 				weekDemand.put(week, openPOqty);
-			}
-			else
-			{
+			} else {
 				weekDemand = new HashMap<Integer, BigDecimal>();
 				weekDemand.put(week, openPOqty);
 			}
 			supplyLinePO.put(c_order_id, weekDemand);
 		}
 
-		public void setSupplyLineMO(int m_production_id, int week, BigDecimal openMOqty)
-		{
+		public void setSupplyLineMO(int m_production_id, int week, BigDecimal openMOqty) {
 			Map<Integer, BigDecimal> weekDemand = null;
-			if (supplyLineMO.containsKey(m_production_id))
-			{
+			if (supplyLineMO.containsKey(m_production_id)) {
 				weekDemand = supplyLineMO.get(m_production_id);
 				openMOqty = openMOqty.add(weekDemand.get(week));
 				weekDemand.put(week, openMOqty);
-			}
-			else
-			{
+			} else {
 				weekDemand = new HashMap<Integer, BigDecimal>();
 				weekDemand.put(week, openMOqty);
 			}
@@ -2094,27 +1813,6 @@ public class CalculateReplenishPlan extends SvrProcess
 				}
 			}
 			return totalRequiredQty;
-		}
-
-		/**
-		 * @param mOrderID
-		 * @param orderQty
-		 * @param miniMrpProducts
-		 * @param projectdOrderWeek
-		 */
-		public void explodMaterialDemand(int mOrderID, BigDecimal orderQty, int weekPromised,
-				Map<Integer, MiniMRPProduct> miniMrpProducts)
-		{
-			if (!requiredProdMaterials.isEmpty())
-			{
-				for (Integer productId : requiredProdMaterials.keySet())
-				{
-					MiniMRPProduct materials = miniMrpProducts.get(productId);
-					BigDecimal totalRequiredQty = requiredProdMaterials.get(productId).multiply(orderQty);
-					int projectdOrderWeek = materials.getOrderProjectedWeek(weekPromised);
-					materials.addDemand(mOrderID, totalRequiredQty, projectdOrderWeek);
-				}
-			}
 		}
 
 		public boolean hasParent()
@@ -2339,10 +2037,7 @@ public class CalculateReplenishPlan extends SvrProcess
 	 */
 	public void setWeeklyData(X_M_ReplenishPlanLine miniMRP, int week, BigDecimal qty)
 	{
-		int wk = week - START_WEEK;
-
-		switch (wk)
-		{
+		switch (week) {
 			case 0:
 				miniMRP.setWeek1(qty);
 				break;

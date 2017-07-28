@@ -2,28 +2,25 @@ package org.adempiere.process;
 
 import org.compiere.model.MTable;
 import org.compiere.print.MPrintFormat;
-import org.compiere.process.SvrProcess;
 import org.compiere.util.DB;
 import org.compiere.util.Ini;
 import org.compiere.util.Trx;
 
 /**
  * @author Sachin Bhimani
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * 		<a href="https://github.com/adempiere/adempiere/issues/789">
+ * 		@see FR [ 789 ] The Calculate Replenish Plan process not support SQL99</a>
  */
-public class GenerateReplenishPlanProductionReport extends SvrProcess
-{
-
-	@Override
-	protected void prepare()
-	{
-
-	}
+public class GenerateReplenishPlanProductionReport extends GenerateReplenishPlanProductionReportAbstract {
 
 	@Override
 	protected String doIt() throws Exception
 	{
 		int Table_ID = MTable.getTable_ID("RV_M_ReplenishPlan_Production");
-		String sql = "UPDATE AD_ReportView SET WhereClause='M_ReplenishPlan_ID=" + getRecord_ID() + "' WHERE ad_table_ID = ? ";
+		String sql = "UPDATE AD_ReportView "
+				+ "SET WhereClause='M_ReplenishPlan_ID=" + getRecord_ID() + "' "
+				+ "WHERE AD_Table_ID = ? ";
 		DB.executeUpdate(sql, Table_ID, get_TrxName());
 		Trx.get(get_TrxName(), false).commit();
 

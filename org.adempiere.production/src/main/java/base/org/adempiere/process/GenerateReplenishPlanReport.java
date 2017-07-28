@@ -12,34 +12,34 @@ import org.compiere.model.MTable;
 import org.compiere.model.X_AD_PrintFormatItem;
 import org.compiere.print.MPrintFormat;
 import org.compiere.print.MPrintFormatItem;
-import org.compiere.process.SvrProcess;
 import org.compiere.util.DB;
 import org.compiere.util.Ini;
 import org.compiere.util.Msg;
+import org.compiere.util.TimeUtil;
 
 /**
  * @author Sachin Bhimani
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * 		<a href="https://github.com/adempiere/adempiere/issues/789">
+ * 		@see FR [ 789 ] The Calculate Replenish Plan process not support SQL99</a>
  */
-public class GenerateReplenishPlanReport extends SvrProcess
-{
-	private int						START_WEEK;
-	private int						END_WEEK;
-	private int						RED_AD_PrintColor_ID;
+public class GenerateReplenishPlanReport extends GenerateReplenishPlanReportAbstract {
+	
+	private int						redPrintColorId;
 	private Timestamp				dateFrom;
 	private Timestamp				dateTo;
 	private Calendar				calendar		= Calendar.getInstance();
 	private Map<Integer, String>	weekDateInfo	= new HashMap<Integer, String>();
 
 	@Override
-	protected void prepare()
-	{
-		RED_AD_PrintColor_ID = DB.getSQLValue(get_TrxName(),
+	protected void prepare() {
+		super.prepare();
+		redPrintColorId = DB.getSQLValue(get_TrxName(),
 				"SELECT AD_PrintColor_ID FROM AD_PrintColor WHERE Name ='Red'");
 	}
 
 	@Override
-	protected String doIt() throws Exception
-	{
+	protected String doIt() {
 		MReplenishPlan run = new MReplenishPlan(getCtx(), getRecord_ID(), get_TrxName());
 		dateFrom = run.getDateStart();
 		dateTo = run.getDateFinish();
@@ -50,51 +50,6 @@ public class GenerateReplenishPlanReport extends SvrProcess
 		if (dateTo == null)
 			throw new IllegalArgumentException(Msg.translate(getCtx(), "FillMandatory")
 					+ Msg.translate(getCtx(), "DatePosted - To"));
-
-		int isAfterDate = dateTo.compareTo(dateFrom);
-
-		if (isAfterDate > 0)
-		{
-			START_WEEK = DB.getSQLValue(get_TrxName(), "SELECT EXTRACT( WEEK FROM ?::Timestamp )", dateFrom) - 2;
-			END_WEEK = DB.getSQLValue(get_TrxName(), CalculateReplenishPlan.SQL_GET_ISO_WEEKNO, dateFrom, dateTo, dateTo,
-					dateTo) + 2;
-
-			if (START_WEEK == 0)
-			{
-				START_WEEK = DB.getSQLValue(get_TrxName(),
-						"SELECT EXTRACT(WEEK FROM (DATE_TRUNC('YEAR', ?::DATE) + interval '-1 day')) ", dateFrom);
-				END_WEEK += START_WEEK;
-			}
-
-			Calendar cal = Calendar.getInstance();
-			cal.setFirstDayOfWeek(Calendar.MONDAY);
-			cal.setTime(dateFrom);
-			cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-			cal.add(Calendar.WEEK_OF_YEAR, -2);
-
-			dateFrom.setTime(cal.getTimeInMillis());
-
-			int weekDifference = END_WEEK - START_WEEK;
-
-			cal.setTime(dateFrom);
-			cal.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
-			cal.add(Calendar.WEEK_OF_YEAR, weekDifference);
-
-			dateTo.setTime(cal.getTimeInMillis());
-
-			if (weekDifference > 24)
-			{
-				throw new IllegalArgumentException(Msg.translate(getCtx(),
-						"Week difference should not be greater than 20 for selected horizon.")
-						+ Msg.translate(getCtx(), ""));
-			}
-		}
-		else
-		{
-			throw new IllegalArgumentException(Msg.translate(getCtx(), "ToDate must me greater than selected FromDate")
-					+ Msg.translate(getCtx(), ""));
-		}
-
 		addWeekDateInfo();
 
 		if (Ini.isClient())
@@ -120,24 +75,19 @@ public class GenerateReplenishPlanReport extends SvrProcess
 		}
 			
 		int count = pf.getItemCount();
-		int weeksToDisplay = END_WEEK - START_WEEK + 1;
-		int startIndx = START_WEEK;
-		int endIndx = END_WEEK;
-
-		for (int i = 0; i < count; i++)
-		{
+		int weeksToDisplay = TimeUtil.getWeeksBetween(dateFrom, dateTo);
+		int startIndx = 1;
+		int endIndx = weeksToDisplay;
+		//	
+		for (int i = 0; i < count; i++) {
 			MPrintFormatItem pfi = pf.getItem(i);
 			String columnName = pfi.getColumnName().toLowerCase();
-			if (columnName != null && columnName.startsWith("week"))
-			{
+			if (columnName != null && columnName.startsWith("week")) {
 				int index = Integer.parseInt(columnName.substring(4));
-				if (index > weeksToDisplay)
-				{
+				if (index > weeksToDisplay) {
 					if (pfi.isPrinted())
 						pfi.setIsPrinted(false);
-				}
-				else
-				{
+				} else {
 					int displayWeek = startIndx + (index - 1);
 					String printName = weekDateInfo.get(displayWeek);
 					pfi.setPrintName(printName);
@@ -157,7 +107,7 @@ public class GenerateReplenishPlanReport extends SvrProcess
 					pfi.setSeqNo(50 + index * 10);
 					if (displayWeek > (startIndx + 1) && displayWeek < (endIndx - 1))
 					{
-						pfi.setAD_PrintColor_ID(RED_AD_PrintColor_ID);
+						pfi.setAD_PrintColor_ID(redPrintColorId);
 					}
 					else
 					{
@@ -173,16 +123,13 @@ public class GenerateReplenishPlanReport extends SvrProcess
 																			// cache
 		return pf;
 	}
-
-	private void addWeekDateInfo()
-	{
-		int start = START_WEEK;
-		int end = END_WEEK;
+	
+	private void addWeekDateInfo() {
+		int start = 1;
+		int end = TimeUtil.getWeeksBetween(dateFrom, dateTo);
 		Date dt = dateFrom;
-
-		for (int count = start; count <= end; count++)
-		{
-
+		//	
+		for (int count = start; count <= end; count++) {
 			calendar.setTimeInMillis(dt.getTime());
 			StringBuilder weekStartDate = new StringBuilder(new SimpleDateFormat("dd-").format(dt));
 			calendar.add(Calendar.DAY_OF_WEEK, 6);
