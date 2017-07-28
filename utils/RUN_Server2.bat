@@ -24,6 +24,7 @@
 
 :TOMCAT
 @Set NOPAUSE=Yes
+@Set CATALINA_HOME=..\tomcat
 @Set JAVA_OPTS=-server %ADEMPIERE_JAVA_OPTIONS% %SECURE% -Dorg.adempiere.server.embedded=true
 
 @Echo Start Adempiere Apps Server %ADEMPIERE_HOME% (%ADEMPIERE_DB_NAME%)
