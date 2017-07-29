@@ -28,6 +28,9 @@ import org.compiere.util.Util;
 /**
  * HR Attribute Model
  * @author Cristina Ghita, www.arhipac.ro
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<a href="https://github.com/adempiere/adempiere/issues/1251">
+ * 		@see FR [ 1251 ] Bad sort on get concept for payroll</a>
  *
  */
 public class MHRAttribute extends X_HR_Attribute
@@ -177,7 +180,7 @@ public class MHRAttribute extends X_HR_Attribute
 	 */
 	public static MHRAttribute getByConceptAndEmployee(MHRConcept concept , MHREmployee employee , int payrollId , Timestamp dateFrom, Timestamp dateTo)
 	{
-		String ORDERVALUE = " DESC";
+		String ORDERVALUE = " DESC NULLS LAST";
 		List<Object> params = new ArrayList<Object>();
 		StringBuffer whereClause = new StringBuffer();
 		StringBuffer orderByClause = new StringBuffer(MHRAttribute.COLUMNNAME_ValidFrom).append(ORDERVALUE);
