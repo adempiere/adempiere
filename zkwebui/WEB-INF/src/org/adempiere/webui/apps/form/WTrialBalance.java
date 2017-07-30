@@ -104,7 +104,7 @@ public class WTrialBalance extends TrialBalanceDrill implements IFormController,
 
 	private Label			lBudget			= new Label(Msg.translate(Env.getCtx(), "GL_Budget_ID"));
 	private WTableDirEditor	fieldBudget		= null;
-
+	
 	private Label			lPeriodTo		= new Label(Msg.translate(Env.getCtx(), "Period To") + "*");
 	private WTableDirEditor	fieldPeriod		= null;
 	private Label			lOrg			= new Label(Msg.translate(Env.getCtx(), "AD_Org_ID") + "*");

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
   <Migration EntityType="D" Name="WTrialBalance Translations" ReleaseNo="3.9.0" SeqNo="2960">
+    <Comments>see https://github.com/adempiere/adempiere/issues/1277</Comments>
     <Step SeqNo="50" StepType="AD">
       <PO AD_Table_ID="109" Action="I" Record_ID="53377" Table="AD_Message">
         <Data AD_Column_ID="197" Column="MsgType">I</Data>
