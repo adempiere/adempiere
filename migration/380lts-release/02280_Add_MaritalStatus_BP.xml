@@ -231,6 +231,7 @@
       <PO AD_Table_ID="107" Action="U" Record_ID="70753" Table="AD_Field">
         <Data AD_Column_ID="181" Column="SeqNo" oldValue="200">0</Data>
         <Data AD_Column_ID="176" Column="IsDisplayed" oldValue="true">false</Data>
+        <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
       </PO>
     </Step>
     <Step SeqNo="210" StepType="AD">
@@ -302,6 +303,7 @@
       <PO AD_Table_ID="107" Action="U" Record_ID="71197" Table="AD_Field">
         <Data AD_Column_ID="176" Column="IsDisplayed" oldValue="true">false</Data>
         <Data AD_Column_ID="181" Column="SeqNo" oldValue="200">0</Data>
+        <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
       </PO>
     </Step>
     <Step SeqNo="250" StepType="AD">
