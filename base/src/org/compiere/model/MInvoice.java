@@ -1613,7 +1613,7 @@ public class MInvoice extends X_C_Invoice implements DocAction
   		//	Create Cash
 		if (PAYMENTRULE_Cash.equals(getPaymentRule()) && !fromPOS )
 		{
-			if (MSysConfig.getBooleanValue("CASH_AS_PAYMENT", true , getAD_Client_ID()))
+			if (MSysConfig.getBooleanValue("CASH_AS_PAYMENT", true, getAD_Client_ID()))
 			{
 				String error = payCashWithCashAsPayment();
 				if (error != "")
@@ -2372,12 +2372,19 @@ public class MInvoice extends X_C_Invoice implements DocAction
 			|| DOCSTATUS_Reversed.equals(ds);
 	}	//	isComplete
 	
-	private String payCashWithCashAsPayment()
-	{
-
-		MDocType dt = (MDocType)getC_Order().getC_DocType();
+	/**
+	 * Pay it with cash
+	 * @return
+	 */
+	private String payCashWithCashAsPayment() {
+		int posId = Env.getContextAsInt(getCtx(),Env.POS_ID);
+		if(posId == 0) {
+			return "@C_POS_ID@ @NotFound@";
+		}
+		//	
+		MPOS pos = MPOS.get(getCtx(), posId);
 		MPayment paymentCash = new MPayment(getCtx(), 0 ,  get_TrxName());
-		paymentCash.setC_BankAccount_ID(dt.get_ValueAsInt("C_BankAccount_ID"));
+		paymentCash.setC_BankAccount_ID(pos.getC_BankAccount_ID());
 		paymentCash.setC_DocType_ID(true);
         String value = DB.getDocumentNo(paymentCash.getC_DocType_ID(),get_TrxName(), false,  paymentCash);
         paymentCash.setDocumentNo(value);
@@ -2391,7 +2398,7 @@ public class MInvoice extends X_C_Invoice implements DocAction
         paymentCash.setOverUnderAmt(Env.ZERO);
         paymentCash.setC_Invoice_ID(getC_Invoice_ID());
 		paymentCash.saveEx();
-		if (!paymentCash.processIt("CO"))
+		if (!paymentCash.processIt(X_C_Payment.DOCACTION_Complete))
 			return DOCSTATUS_Invalid;
 		paymentCash.saveEx();
 		MBankStatement.addPayment(paymentCash);
