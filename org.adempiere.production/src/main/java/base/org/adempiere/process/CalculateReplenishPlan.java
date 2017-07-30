@@ -28,7 +28,6 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
@@ -69,43 +68,19 @@ import org.eevolution.model.MPPProductBOMLine;
  * 		<a href="https://github.com/adempiere/adempiere/issues/789">
  * 		@see FR [ 789 ] The Calculate Replenish Plan process not support SQL99</a>
  */
-public class CalculateReplenishPlan extends CalculateReplenishPlanAbstract
-{
-	private static final String			TYPE_CLOSING_BALANCE_LINE				= "Closing Balance";
-	private static final String			TYPE_OPENING_BALANCE_LINE				= "Opening Balance";
-	private static final String			TYPE_SUPPLY_LINE_PO						= "Supply - Purchasing";
-	private static final String			TYPE_SUPPLY_LINE_RQ						= "Supply - Requisition";
-	private static final String			TYPE_SUPPLY_LINE_MO_PLANNED				= "Planned Production";
-	private static final String			TYPE_SUPPLY_LINE_MO_NONPLANNED			= "Confirmed Production";
-	private static final String			TYPE_TOTAL_DEMAND_LINE					= "Total Demand";
-	private static final String			TYPE_TOTAL_SUPPLY_LINE					= "Total Supply";
-	private static final String			TYPE_TOTAL_SUPPLY_LINE_PO				= "Total Supply - PO";
-	private static final String			TYPE_TOTAL_SUPPLY_LINE_RQ				= "Total Supply - Requisition";
-	private static final String			TYPE_TOTAL_SUPPLY_PLANNED_LINE			= "Total Planned Production";
-	private static final String			TYPE_TOTAL_SUPPLY_NONPLANNED_LINE		= "Total Confirmed Production";
-	private static final String			TYPE_PRODUCT_ORDER_DEMAND				= "Demand";
+public class CalculateReplenishPlan extends CalculateReplenishPlanAbstract {
 	private static final String			TYPE_RQ									= "RQ";
 	private static final String			TYPE_PO									= "PO";
 	private static final String			TYPE_MO									= "MO";
 	private int							lineNo									= 10;
 	private int							countProd								= 0;
 	private int							countReq								= 0;
-	private int							clientId;
-	private int							orgId;
-	private int							userId;
-	private int							warehouseId;
-	private int							locatorId;
 	private int							docTypePlannedOrder;
 	private int							docTypeConfirmedOrder;
 	private int							docTypePurchaseOrder;
 	private int							docTypeMRPRequisition;
 	private int							priceListId;
-	private Timestamp					dateFrom;
-	private Timestamp					dateTo;
 	private Calendar					calendar								= Calendar.getInstance();
-
-	private Properties					ctx;
-	private String						trx;
 	
 	// Available Inventory - ProductID, Qty
 	private Map<Integer, BigDecimal>	availableInventory						= new TreeMap<Integer, BigDecimal>();
@@ -121,32 +96,40 @@ public class CalculateReplenishPlan extends CalculateReplenishPlanAbstract
 	StringBuilder						infoMsg									= new StringBuilder();
 	StringBuilder						productionDocs							= new StringBuilder();
 	StringBuilder						requisitionDocs							= new StringBuilder();
+	//	MRP Model
+	private MReplenishPlan 				replenishPlan = null;
 	
 	@Override
 	protected void prepare() {
 		super.prepare();
-		ctx = getCtx();
-		trx = get_TrxName();
-		clientId = Env.getAD_Client_ID(ctx);
-		warehouseId = Env.getContextAsInt(ctx, "M_Warehouse_ID");
-		locatorId = Env.getContextAsInt(ctx, "M_Locator_ID");
-		userId = Env.getAD_User_ID(ctx);
-		orgId = Env.getAD_Org_ID(ctx);
 	}
 
 
 	@Override
 	protected String doIt() throws Exception {
-		MReplenishPlan run = new MReplenishPlan(ctx, getRecord_ID(), trx);
-		StringBuilder error = new StringBuilder();
-		dateFrom = run.getDateStart();
-		dateTo = run.getDateFinish();
-		priceListId = run.getM_PriceList_ID();
+		replenishPlan = new MReplenishPlan(getCtx(), getRecord_ID(), get_TrxName());
+		//	For Date Start
+		if(getDateStart() == null) {
+			setDateStart(replenishPlan.getDateStart());
+		} else {
+			replenishPlan.setDateStart(getDateStart());
+		}
+		//	For Date Finish
+		if(getDateFinish() == null) {
+			setDateFinish(replenishPlan.getDateFinish());
+		} else {
+			replenishPlan.setDateFinish(getDateFinish());
+		}
+		//	
+		priceListId = replenishPlan.getM_PriceList_ID();
 
-		docTypePlannedOrder = run.getC_DocType_PlannedOrder();
-		docTypeConfirmedOrder = run.getC_DocType_ConfirmedOrder();
-		docTypePurchaseOrder = run.getC_DocType_PO();
-		docTypeMRPRequisition = run.getC_DocType_Requisition();
+		docTypePlannedOrder = replenishPlan.getC_DocType_PlannedOrder();
+		docTypeConfirmedOrder = replenishPlan.getC_DocType_ConfirmedOrder();
+		docTypePurchaseOrder = replenishPlan.getC_DocType_PO();
+		docTypeMRPRequisition = replenishPlan.getC_DocType_Requisition();
+		
+		//	Validate
+		StringBuilder error = new StringBuilder();
 		
 		if (docTypePlannedOrder <= 0)
 			error.append("@C_DocType_PlannedOrder@ @NotFound@\n");
@@ -160,25 +143,25 @@ public class CalculateReplenishPlan extends CalculateReplenishPlanAbstract
 		if (error.length() > 0) {
 			throw new Exception(Msg.parseTranslation(getCtx(), error.toString()));
 		}
+		//	Validate Dates
+		if (getDateStart() == null)
+			throw new IllegalArgumentException(Msg.parseTranslation(getCtx(), "@FillMandatory@ @DateStart@"));
+		if (getDateFinish() == null)
+			throw new IllegalArgumentException(Msg.parseTranslation(getCtx(), "@FillMandatory@ @DateFinish@"));
+		if (priceListId == 0)
+			throw new IllegalArgumentException(Msg.parseTranslation(getCtx(), "@FillMandatory@ @M_PriceList_ID@"));
+		//	Save changes
+		replenishPlan.saveEx();
 		//	Delete 
 		String sql = "DELETE FROM M_ReplenishPlanLine WHERE M_ReplenishPlan_ID=?";
-		int noOfLinesDeleted = DB.executeUpdateEx(sql, new Object[] {getRecord_ID()}, trx);
+		int noOfLinesDeleted = DB.executeUpdateEx(sql, new Object[] {getRecord_ID()}, get_TrxName());
 		log.fine("No. of MRP lines deleted : " + noOfLinesDeleted);
-		if (dateFrom == null)
-			throw new IllegalArgumentException(Msg.translate(ctx, "FillMandatory") + Msg.translate(ctx,
-					"DatePosted - From"));
-		if (dateTo == null)
-			throw new IllegalArgumentException(Msg.translate(ctx, "FillMandatory") + Msg.translate(ctx,
-					"DatePosted - To"));
-		if (priceListId == 0)
-			throw new IllegalArgumentException(Msg.translate(ctx, "FillMandatory") + Msg.translate(ctx,
-					"M_PriceList_ID"));
 		//	
-		if (run.isDeleteUnconfirmedProduction()) {
+		if (replenishPlan.isDeleteUnconfirmedProduction()) {
 			deleteUnconfirmedProduction();
 		}
 		//	
-		if (run.isDeletePlannedPO()) {
+		if (replenishPlan.isDeletePlannedPO()) {
 			deletePlannedPO();
 		}
 
@@ -215,13 +198,13 @@ public class CalculateReplenishPlan extends CalculateReplenishPlanAbstract
 				+ "					WHERE M_Production_ID = M_ProductionLine.M_Production_ID "
 				+ "					AND Processed='N' "
 				+ "					AND C_DocType_ID = ?)";
-		int noOfLinesDeleted = DB.executeUpdate(sql, docTypePlannedOrder, trx);
+		int noOfLinesDeleted = DB.executeUpdate(sql, docTypePlannedOrder, get_TrxName());
 		log.fine("No. of planned production line deleted : " + noOfLinesDeleted);
 
 		sql = "DELETE FROM M_Production	"
 				+ "WHERE Processed='N' "
 				+ "AND C_DocType_ID = ?";
-		noOfLinesDeleted = DB.executeUpdate(sql, docTypePlannedOrder, trx);
+		noOfLinesDeleted = DB.executeUpdate(sql, docTypePlannedOrder, get_TrxName());
 		log.fine("No. of planned production deleted : " + noOfLinesDeleted);
 
 		sql = "DELETE FROM M_ProductionBatch b  " +
@@ -229,7 +212,7 @@ public class CalculateReplenishPlan extends CalculateReplenishPlanAbstract
 	            "AND NOT EXISTS(SELECT 1 " +
 	             "                  FROM M_Production " +
 	             "                  WHERE M_ProductionBatch_ID = b.M_ProductionBatch_ID)";
-		noOfLinesDeleted = DB.executeUpdate(sql, docTypePlannedOrder, trx);
+		noOfLinesDeleted = DB.executeUpdate(sql, docTypePlannedOrder, get_TrxName());
 		log.fine("No. of Production Batch deleted " + noOfLinesDeleted);
 
 		sql = "DELETE FROM M_MovementLine ml "
@@ -240,7 +223,7 @@ public class CalculateReplenishPlan extends CalculateReplenishPlanAbstract
 				+ "					AND NOT EXISTS(SELECT 1 "
 				+ "							FROM M_ProductionBatch b "
 				+ "							WHERE b.M_ProductionBatch_ID = m.M_ProductionBatch_ID))";
-		noOfLinesDeleted = DB.executeUpdate(sql, trx);
+		noOfLinesDeleted = DB.executeUpdate(sql, get_TrxName());
 		log.fine("No. of Movement Lines cleaned : " + noOfLinesDeleted);
 
 		sql = "DELETE FROM M_Movement m "
@@ -248,7 +231,7 @@ public class CalculateReplenishPlan extends CalculateReplenishPlanAbstract
 				+ "AND m.Processed = 'N'"
 				+ "AND NOT EXISTS(SELECT 1 FROM M_ProductionBatch b "
 				+ "				WHERE b.M_ProductionBatch_ID = m.M_ProductionBatch_ID)";
-		noOfLinesDeleted = DB.executeUpdate(sql, trx);
+		noOfLinesDeleted = DB.executeUpdate(sql, get_TrxName());
 		log.fine("No. of Inventory Movements cleaned : " + noOfLinesDeleted);
 	}
 	
@@ -263,7 +246,7 @@ public class CalculateReplenishPlan extends CalculateReplenishPlanAbstract
 				+ "					AND Processed='N' "
 				+ "					AND AD_Client_ID = ? "
 				+ "					AND C_DocType_ID = ?)";
-		int noOfLinesDeleted = DB.executeUpdateEx(sql, new Object[] {clientId, docTypeMRPRequisition}, trx);
+		int noOfLinesDeleted = DB.executeUpdateEx(sql, new Object[] {getAD_Client_ID(), docTypeMRPRequisition}, get_TrxName());
 		log.fine("No. of Material Requirement Planning (PP_MRP) Line deleted : " + noOfLinesDeleted);
 
 		sql = "DELETE FROM M_RequisitionLine "
@@ -273,7 +256,7 @@ public class CalculateReplenishPlan extends CalculateReplenishPlanAbstract
 				+ "					AND Processed='N' "
 				+ "					AND AD_Client_ID = ? "
 				+ "					AND C_DocType_ID = ?)";
-		noOfLinesDeleted = DB.executeUpdateEx(sql, new Object[] { clientId, docTypeMRPRequisition }, trx);
+		noOfLinesDeleted = DB.executeUpdateEx(sql, new Object[] {getAD_Client_ID(), docTypeMRPRequisition }, get_TrxName());
 		log.fine("No. of MRP Requisition Line deleted : " + noOfLinesDeleted);
 		
 		sql = "DELETE FROM M_Requisition "
@@ -281,7 +264,7 @@ public class CalculateReplenishPlan extends CalculateReplenishPlanAbstract
 				+ "AND Processed='N' "
 				+ "AND AD_Client_ID = ? "
 				+ "AND C_DocType_ID = ?";
-		noOfLinesDeleted = DB.executeUpdateEx(sql, new Object[] {clientId, docTypeMRPRequisition}, trx);
+		noOfLinesDeleted = DB.executeUpdateEx(sql, new Object[] {getAD_Client_ID(), docTypeMRPRequisition}, get_TrxName());
 		log.fine("No. of MRP Requisition deleted : " + noOfLinesDeleted);
 	}
 
@@ -297,7 +280,7 @@ public class CalculateReplenishPlan extends CalculateReplenishPlanAbstract
 				+ "				WHERE rpl.M_ReplenishPlan_ID = M_ReplenishPlanLine.M_ReplenishPlan_ID "
 				+ "				GROUP BY rpl.AD_Client_ID, rpl.M_ReplenishPlan_ID, rpl.M_Product_ID "
 				+ "				HAVING COUNT(rpl.M_Product_ID) > 2)");
-		int updated = DB.executeUpdateEx(sql, new Object[] {getRecord_ID()}, trx);
+		int updated = DB.executeUpdateEx(sql, new Object[] {getRecord_ID()}, get_TrxName());
 		//	
 		log.fine("Lines with supply/demand updated: " + updated);
 	}
@@ -349,7 +332,7 @@ public class CalculateReplenishPlan extends CalculateReplenishPlanAbstract
 				if (demandQty.compareTo(Env.ZERO) != 0) {
 					MiniMRPProduct mrp = miniMrpProducts.get(productID);
 					if (mrp == null) {
-						MProduct p = MProduct.get(ctx, productID);
+						MProduct p = MProduct.get(getCtx(), productID);
 						String error = "Please check Product=" + p.getValue() + " replenishment parameters may not be setup properly.";
 						log.severe(error);
 						throw new AdempiereException(error);
@@ -440,27 +423,26 @@ public class CalculateReplenishPlan extends CalculateReplenishPlanAbstract
 				calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
 				Timestamp plannedDate = new Timestamp(calendar.getTimeInMillis());
 
-				if (plannedDate.compareTo(dateFrom) < 0)
-					plannedDate = dateFrom;
-
-				if (!mrp.isPhantom() && nonPhantomProduct != 0 && mrp.isBOM())
-				{
-					if (mrp.isReplenishTypeMRPCalculated())
-						demandQty = calculateBatchSizeWiseOrderCreation(mrp, demandQty, plannedDate);
-					else
-						setRequirePlanningQty(mrp, plannedDate, demandQty);
+				if (plannedDate.compareTo(getDateStart()) < 0) {
+					plannedDate = getDateStart();
 				}
 
-				if (mrp.isBOM())
-				{
+				if (!mrp.isPhantom() && nonPhantomProduct != 0 && mrp.isBOM()) {
+					if (mrp.isReplenishTypeMRPCalculated()) {
+						demandQty = calculateBatchSizeWiseOrderCreation(mrp, demandQty, plannedDate);
+					} else {
+						setRequirePlanningQty(mrp, plannedDate, demandQty);
+					}
+				}
+
+				if (mrp.isBOM()) {
 					planBOMTree(miniMrpProducts, productID, date, demandQty, level, nonPhantomProduct);
-				}
-				else if (!mrp.isPhantom())
-				{
-					if (mrp.isReplenishTypeMRPCalculated())
+				} else if (!mrp.isPhantom()) {
+					if (mrp.isReplenishTypeMRPCalculated()) {
 						demandQty = calculateBatchSizeWiseOrderCreation(mrp, demandQty, plannedDate);
-					else
+					} else {
 						setRequirePlanningQty(mrp, plannedDate, demandQty);
+					}
 				}
 			}
 		}
@@ -475,12 +457,12 @@ public class CalculateReplenishPlan extends CalculateReplenishPlanAbstract
 	 */
 	private void createProductionOrder(MiniMRPProduct mrp, BigDecimal qty, Timestamp date)
 	{
-		MProduction mProd = new MProduction(ctx, 0, trx);
+		MProduction mProd = new MProduction(getCtx(), 0, get_TrxName());
 		//mProd.setAD_Client_ID(AD_Client_ID);
-		mProd.setAD_Org_ID(orgId);
+		mProd.setAD_Org_ID(replenishPlan.getAD_Org_ID());
 		mProd.setM_Product_ID(mrp.getM_Product_ID());
 		mProd.setProductionQty(qty);
-		mProd.setM_Locator_ID(locatorId);
+		mProd.setM_Locator_ID(getLocatorId());
 		mProd.setC_DocType_ID(docTypePlannedOrder);
 		mProd.setName("Planned Production Order");
 		mProd.setDescription("Creating from MiniMRP");
@@ -614,12 +596,12 @@ public class CalculateReplenishPlan extends CalculateReplenishPlanAbstract
 	 */
 	private MRequisition createRequisition(Date date) {
 		MRequisition requisition;
-		requisition = new MRequisition(ctx, 0, trx);
+		requisition = new MRequisition(getCtx(), 0, get_TrxName());
 		//requisition.setAD_Client_ID(AD_Client_ID);
-		requisition.setM_Warehouse_ID(warehouseId);
+		requisition.setM_Warehouse_ID(getWarehouseId());
 		requisition.setC_DocType_ID(docTypeMRPRequisition);
-		requisition.setAD_User_ID(userId);
-		requisition.setDescription("Created from MiniMRP process.");
+		requisition.setAD_User_ID(getAD_User_ID());
+		requisition.setDescription(Msg.parseTranslation(getCtx(), "@Created@ @from@ @M_ReplenishPlan_ID@"));
 		requisition.setDateRequired(new Timestamp(date.getTime()));
 		requisition.setDateDoc(new Timestamp(date.getTime()));
 		requisition.setM_PriceList_ID(priceListId);
@@ -693,18 +675,18 @@ public class CalculateReplenishPlan extends CalculateReplenishPlanAbstract
 		ResultSet rs = null;
 		//	
 		try {
-			pstmt = DB.prepareStatement(sql, trx);
+			pstmt = DB.prepareStatement(sql, get_TrxName());
 			pstmt.setInt(1, productID);
-			pstmt.setTimestamp(2, dateFrom);
-			pstmt.setTimestamp(3, dateTo);
+			pstmt.setTimestamp(2, getDateStart());
+			pstmt.setTimestamp(3, getDateFinish());
 			//	BOM query
 			if (mrp.isBOM()) {
 				pstmt.setInt(4, docTypePlannedOrder);
 			} else {
 				pstmt.setInt(4, productID);
-				pstmt.setTimestamp(5, dateFrom);
-				pstmt.setTimestamp(6, dateTo);
-				pstmt.setInt(7, clientId);
+				pstmt.setTimestamp(5, getDateStart());
+				pstmt.setTimestamp(6, getDateFinish());
+				pstmt.setInt(7, getAD_Client_ID());
 				pstmt.setInt(8, docTypeMRPRequisition);
 			}
 			//	Query
@@ -734,7 +716,7 @@ public class CalculateReplenishPlan extends CalculateReplenishPlanAbstract
 					PreparedStatement pstatement = null;
 					ResultSet rset = null;
 					try {
-						pstatement = DB.prepareStatement(productionsql, trx);
+						pstatement = DB.prepareStatement(productionsql, get_TrxName());
 						pstatement.setInt(1, rs.getInt("M_Production_ID"));
 						//	
 						rset = pstatement.executeQuery();
@@ -774,15 +756,15 @@ public class CalculateReplenishPlan extends CalculateReplenishPlanAbstract
 	 * @return miniM_ReplenishPlanLine
 	 */
 	private X_M_ReplenishPlanLine getX_M_ReplenishPlanLine(MiniMRPProduct miniMrpProduct, int line, String type) {
-		X_M_ReplenishPlanLine miniMRP = new X_M_ReplenishPlanLine(ctx, 0, trx);
+		X_M_ReplenishPlanLine miniMRP = new X_M_ReplenishPlanLine(getCtx(), 0, get_TrxName());
 		miniMRP.setM_Product_ID(miniMrpProduct.getM_Product_ID());
 		miniMRP.setM_Product_Category_ID(miniMrpProduct.getM_Product_Category_ID());
 		miniMRP.setProductName(miniMrpProduct.getName());
 		miniMRP.setLine(line);
 		miniMRP.setM_ReplenishPlan_ID(getRecord_ID());
 		miniMRP.setRecordType(type);
-		miniMRP.setDateStart(dateFrom);
-		miniMRP.setDateFinish(dateTo);
+		miniMRP.setDateStart(getDateStart());
+		miniMRP.setDateFinish(getDateFinish());
 		return miniMRP;
 	}
 
@@ -791,7 +773,7 @@ public class CalculateReplenishPlan extends CalculateReplenishPlanAbstract
 			Map<Integer, BigDecimal> totalSupplyLine, Map<Integer, BigDecimal> openingBalanceLine,
 			Map<Integer, BigDecimal> closingBalanceLine) {
 		//	
-		int horizon = TimeUtil.getWeeksBetween(dateFrom, dateTo);
+		int horizon = TimeUtil.getWeeksBetween(getDateStart(), getDateFinish());
 		//	Loop
 		for (int week = 1; week <= horizon; week++) {
 			BigDecimal totalDemand = Env.ZERO;
@@ -843,9 +825,9 @@ public class CalculateReplenishPlan extends CalculateReplenishPlanAbstract
 			for (Integer orderId : orderDemands.keySet()) {
 				Map<Integer, BigDecimal> weeklyDemand = orderDemands.get(orderId);
 				if (weeklyDemand.size() > 0) {
-					X_M_ReplenishPlanLine miniMRP = getX_M_ReplenishPlanLine(miniMrpProduct, lineNo, TYPE_PRODUCT_ORDER_DEMAND);
+					X_M_ReplenishPlanLine miniMRP = getX_M_ReplenishPlanLine(miniMrpProduct, lineNo, X_M_ReplenishPlanLine.RECORDTYPE_Demand);
 					miniMRP.setC_Order_ID(orderId);
-					MOrder order = new MOrder(ctx, orderId, trx);
+					MOrder order = new MOrder(getCtx(), orderId, get_TrxName());
 					//	
 					miniMRP.setOrderInfo(order.getDocumentNo() + " - " + format.format(order.getDatePromised()));
 					for (Integer week : weeklyDemand.keySet()) {
@@ -877,11 +859,11 @@ public class CalculateReplenishPlan extends CalculateReplenishPlanAbstract
 					+ "GROUP BY p.M_Production_ID, p.DocumentNo, p.DatePromised "
 					+ "ORDER BY p.DatePromised");
 			//	
-			pstmt = DB.prepareStatement(sql, trx);
+			pstmt = DB.prepareStatement(sql, get_TrxName());
 			pstmt.setInt(paramCount++, miniMrpProduct.getM_Product_ID());
 			pstmt.setInt(paramCount++, docTypePlannedOrder);
-			pstmt.setTimestamp(paramCount++, dateFrom);
-			pstmt.setTimestamp(paramCount++, dateTo);
+			pstmt.setTimestamp(paramCount++, getDateStart());
+			pstmt.setTimestamp(paramCount++, getDateFinish());
 
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
@@ -905,17 +887,17 @@ public class CalculateReplenishPlan extends CalculateReplenishPlanAbstract
 				+ "			WHERE pl.M_Production_ID = M_Production.M_Production_ID"
 				+ "			AND pl.IsEndProduct = 'N' "
 				+ "			AND pl.M_Product_ID = ?)", get_TrxName())
-				.setParameters(dateFrom, dateTo, docTypePlannedOrder, miniMrpProduct.getM_Product_ID())
+				.setParameters(getDateStart(), getDateFinish(), docTypePlannedOrder, miniMrpProduct.getM_Product_ID())
 				.setClient_ID()
 				.list();
 		//	Loop it
 		productionList.stream().forEach(production -> {
-			BigDecimal qty = DB.getSQLValueBD(trx,
+			BigDecimal qty = DB.getSQLValueBD(get_TrxName(),
 					"SELECT SUM(QtyUsed) "
 					+ "FROM M_ProductionLine "
 					+ "WHERE M_Production_ID = ? "
 					+ "AND M_Product_ID = ?",
-					production.getM_Product_ID(), miniMrpProduct.getM_Product_ID(), clientId);
+					production.getM_Product_ID(), miniMrpProduct.getM_Product_ID(), getAD_Client_ID());
 			if (qty == null) {
 				qty = Env.ZERO;
 			}
@@ -924,7 +906,7 @@ public class CalculateReplenishPlan extends CalculateReplenishPlanAbstract
 		});
 		//	
 		if (!totalDemandLine.isEmpty())
-			insertTotalLine(miniMrpProduct, totalDemandLine, TYPE_TOTAL_DEMAND_LINE);
+			insertTotalLine(miniMrpProduct, totalDemandLine, X_M_ReplenishPlanLine.RECORDTYPE_TotalDemand);
 
 		return totalDemandLine;
 	}
@@ -940,13 +922,13 @@ public class CalculateReplenishPlan extends CalculateReplenishPlanAbstract
 	 */
 	private void insertProductionDemand(MiniMRPProduct miniMrpProduct, Map<Integer, BigDecimal> totalDemandLine,
 			int mProduction_ID, String documentNo, Timestamp promisedDate, BigDecimal qtyUsed, String prodType) {
-		X_M_ReplenishPlanLine miniMRP = getX_M_ReplenishPlanLine(miniMrpProduct, lineNo, TYPE_PRODUCT_ORDER_DEMAND);
+		X_M_ReplenishPlanLine miniMRP = getX_M_ReplenishPlanLine(miniMrpProduct, lineNo, X_M_ReplenishPlanLine.RECORDTYPE_Demand);
 		miniMRP.setM_Production_ID(mProduction_ID);
 		String datePromised = null;
 		int week = 0;
 
 		datePromised = DisplayType.getDateFormat(DisplayType.Date).format(promisedDate);
-		week = TimeUtil.getWeeksBetween(dateFrom, promisedDate);
+		week = TimeUtil.getWeeksBetween(getDateStart(), promisedDate);
 		//	
 		miniMRP.setProductionInfo(documentNo + " - " + datePromised + " - " + prodType);
 
@@ -1015,7 +997,7 @@ public class CalculateReplenishPlan extends CalculateReplenishPlanAbstract
 
 		// Insert Total Supply Line
 		if (!totalSupplyLine.isEmpty()) {
-			insertTotalLine(miniMrpProduct, totalSupplyLine, TYPE_TOTAL_SUPPLY_LINE);
+			insertTotalLine(miniMrpProduct, totalSupplyLine, X_M_ReplenishPlanLine.RECORDTYPE_TotalSupply);
 		}
 		//	
 		return totalSupplyLine;
@@ -1038,12 +1020,12 @@ public class CalculateReplenishPlan extends CalculateReplenishPlanAbstract
 		if (!supplyLineMO.isEmpty()) {
 			for (Integer M_Production_ID : supplyLineMO.keySet()) {
 				Map<Integer, BigDecimal> weeklyDemand = supplyLineMO.get(M_Production_ID);
-				MProduction production = new MProduction(ctx, M_Production_ID, trx);
+				MProduction production = new MProduction(getCtx(), M_Production_ID, get_TrxName());
 				if ((isPlannedOrder == false && production.getC_DocType_ID() != docTypePlannedOrder)
 						|| (isPlannedOrder && production.getC_DocType_ID() == docTypePlannedOrder)) {
 					if (weeklyDemand.size() > 0) {
 						X_M_ReplenishPlanLine miniMRP = getX_M_ReplenishPlanLine(miniMrpProduct, lineNo, isPlannedOrder
-								? TYPE_SUPPLY_LINE_MO_PLANNED : TYPE_SUPPLY_LINE_MO_NONPLANNED);
+								? X_M_ReplenishPlanLine.RECORDTYPE_PlannedProduction : X_M_ReplenishPlanLine.RECORDTYPE_ConfirmedProduction);
 						miniMRP.setM_Production_ID(M_Production_ID);
 						//	
 						miniMRP.setProductionInfo(production.getDocumentNo() + " - " + format.format(production.getDatePromised()));
@@ -1084,10 +1066,10 @@ public class CalculateReplenishPlan extends CalculateReplenishPlanAbstract
 		String typeSupply;
 		if (isPO) {
 			supplyLine = miniMrpProduct.getSupplyLinePO();
-			typeSupply = TYPE_SUPPLY_LINE_PO;
+			typeSupply = X_M_ReplenishPlanLine.RECORDTYPE_Supply_Purchasing;
 		} else {
 			supplyLine = miniMrpProduct.getSupplyLineRQ();
-			typeSupply = TYPE_SUPPLY_LINE_RQ;
+			typeSupply = X_M_ReplenishPlanLine.RECORDTYPE_Supply_Requisition;
 		}
 		SimpleDateFormat format = DisplayType.getDateFormat(DisplayType.Date);
 		if (!supplyLine.isEmpty()) {
@@ -1100,12 +1082,12 @@ public class CalculateReplenishPlan extends CalculateReplenishPlanAbstract
 					String docNo = null;
 					if (isPO) {
 						miniMRP.setC_Order_ID(columnID);
-						MOrder order = new MOrder(ctx, columnID, trx);
+						MOrder order = new MOrder(getCtx(), columnID, get_TrxName());
 						datePromised = order.getDatePromised();
 						docNo = order.getDocumentNo();
 					} else {
 						miniMRP.setM_Requisition_ID(columnID);
-						MRequisition req = new MRequisition(ctx, columnID, trx);
+						MRequisition req = new MRequisition(getCtx(), columnID, get_TrxName());
 						datePromised = req.getDateRequired();
 						docNo = req.getDocumentNo();
 					}
@@ -1145,8 +1127,8 @@ public class CalculateReplenishPlan extends CalculateReplenishPlanAbstract
 			boolean isPO) {
 		if (!subTotalSupplyLine.isEmpty()) {
 			X_M_ReplenishPlanLine miniMRP = getX_M_ReplenishPlanLine(miniMrpProduct, lineNo, isPO 
-					? TYPE_TOTAL_SUPPLY_LINE_PO
-					: TYPE_TOTAL_SUPPLY_LINE_RQ);
+					? X_M_ReplenishPlanLine.RECORDTYPE_TotalSupply_PO
+					: X_M_ReplenishPlanLine.RECORDTYPE_TotalSupply_Requisition);
 
 			// Insert Total Supply line.
 			for (Integer week : subTotalSupplyLine.keySet()) {
@@ -1169,8 +1151,8 @@ public class CalculateReplenishPlan extends CalculateReplenishPlanAbstract
 	public void insertTotalSupplyProductionLine(MiniMRPProduct miniMrpProduct,
 			Map<Integer, BigDecimal> subTotalSupplyLine, boolean isPlanned) {
 		if (!subTotalSupplyLine.isEmpty()) {
-			X_M_ReplenishPlanLine miniMRP = getX_M_ReplenishPlanLine(miniMrpProduct, lineNo, isPlanned ? TYPE_TOTAL_SUPPLY_PLANNED_LINE
-					: TYPE_TOTAL_SUPPLY_NONPLANNED_LINE);
+			X_M_ReplenishPlanLine miniMRP = getX_M_ReplenishPlanLine(miniMrpProduct, lineNo, isPlanned ? X_M_ReplenishPlanLine.RECORDTYPE_TotalPlannedProduction
+					: X_M_ReplenishPlanLine.RECORDTYPE_TotalConfirmedProduction);
 
 			// Insert Total Supply Production as per docType.
 			for (Integer week : subTotalSupplyLine.keySet()) {
@@ -1191,7 +1173,7 @@ public class CalculateReplenishPlan extends CalculateReplenishPlanAbstract
 	 */
 	public void insertOpeningBalanceLine(MiniMRPProduct miniMrpProduct, Map<Integer, BigDecimal> openingBalanceLine) {
 		if (!openingBalanceLine.isEmpty()) {
-			X_M_ReplenishPlanLine miniMRP = getX_M_ReplenishPlanLine(miniMrpProduct, 10, TYPE_OPENING_BALANCE_LINE
+			X_M_ReplenishPlanLine miniMRP = getX_M_ReplenishPlanLine(miniMrpProduct, 10, X_M_ReplenishPlanLine.RECORDTYPE_OpeningBalance
 					+ (miniMrpProduct.isPhantom ? " - Phantom Product" : ""));
 			for (Integer week : openingBalanceLine.keySet()) {
 				setWeeklyData(miniMRP, week, openingBalanceLine.get(week));
@@ -1209,7 +1191,7 @@ public class CalculateReplenishPlan extends CalculateReplenishPlanAbstract
 	 */
 	public void insertClosingBalanceLine(MiniMRPProduct miniMrpProduct, Map<Integer, BigDecimal> closingBalanceLine) {
 		if (!closingBalanceLine.isEmpty()) {
-			X_M_ReplenishPlanLine miniMRP = getX_M_ReplenishPlanLine(miniMrpProduct, lineNo, TYPE_CLOSING_BALANCE_LINE);
+			X_M_ReplenishPlanLine miniMRP = getX_M_ReplenishPlanLine(miniMrpProduct, lineNo, X_M_ReplenishPlanLine.RECORDTYPE_ClosingBalance);
 			for (Integer week : closingBalanceLine.keySet()) {
 				setWeeklyData(miniMRP, week, closingBalanceLine.get(week));
 			}
@@ -1272,10 +1254,10 @@ public class CalculateReplenishPlan extends CalculateReplenishPlanAbstract
 		ResultSet rs = null;
 		int paramCount = 1;
 		try {
-			pstmt = DB.prepareStatement(sql, trx);
-			pstmt.setTimestamp(paramCount++, dateFrom);
-			pstmt.setTimestamp(paramCount++, dateTo);
-			pstmt.setInt(paramCount++, clientId);
+			pstmt = DB.prepareStatement(sql, get_TrxName());
+			pstmt.setTimestamp(paramCount++, getDateStart());
+			pstmt.setTimestamp(paramCount++, getDateFinish());
+			pstmt.setInt(paramCount++, getAD_Client_ID());
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				int productionId = rs.getInt("M_Production_ID");
@@ -1283,7 +1265,7 @@ public class CalculateReplenishPlan extends CalculateReplenishPlanAbstract
 				BigDecimal orderQty = rs.getBigDecimal("OrderedQty");
 				Timestamp datePromised = rs.getTimestamp("DatePromised");
 				//	
-				int weekPromised = TimeUtil.getWeeksBetween(dateFrom, datePromised);
+				int weekPromised = TimeUtil.getWeeksBetween(getDateStart(), datePromised);
 				MiniMRPProduct product = miniMrpProducts.get(productId);
 				product.setSupplyLineMO(productionId, weekPromised, orderQty);
 			}
@@ -1320,17 +1302,17 @@ public class CalculateReplenishPlan extends CalculateReplenishPlanAbstract
 		ResultSet rs = null;
 		int paramCount = 1;
 		try {
-			pstmt = DB.prepareStatement(sql, trx);
-			pstmt.setTimestamp(paramCount++, dateFrom);
-			pstmt.setTimestamp(paramCount++, dateTo);
-			pstmt.setInt(paramCount++, clientId);
+			pstmt = DB.prepareStatement(sql, get_TrxName());
+			pstmt.setTimestamp(paramCount++, getDateStart());
+			pstmt.setTimestamp(paramCount++, getDateFinish());
+			pstmt.setInt(paramCount++, getAD_Client_ID());
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				int productId = rs.getInt("M_Product_ID");
 				BigDecimal orderQty = rs.getBigDecimal("OrderedQty");
 				Timestamp datePromised = rs.getTimestamp("DatePromised");
 				//	
-				int weekPromised = TimeUtil.getWeeksBetween(dateFrom, datePromised);
+				int weekPromised = TimeUtil.getWeeksBetween(getDateStart(), datePromised);
 				MiniMRPProduct product = miniMrpProducts.get(productId);
 				int orderId = rs.getInt("C_Order_ID");
 				product.setSupplyLinePO(orderId, weekPromised, orderQty);
@@ -1367,10 +1349,10 @@ public class CalculateReplenishPlan extends CalculateReplenishPlanAbstract
 		ResultSet rs = null;
 		int paramCount = 1;
 		try {
-			pstmt = DB.prepareStatement(sql, trx);
-			pstmt.setTimestamp(paramCount++, dateFrom);
-			pstmt.setTimestamp(paramCount++, dateTo);
-			pstmt.setInt(paramCount++, clientId);
+			pstmt = DB.prepareStatement(sql, get_TrxName());
+			pstmt.setTimestamp(paramCount++, getDateStart());
+			pstmt.setTimestamp(paramCount++, getDateFinish());
+			pstmt.setInt(paramCount++, getAD_Client_ID());
 			pstmt.setInt(paramCount++, docTypeMRPRequisition);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
@@ -1378,7 +1360,7 @@ public class CalculateReplenishPlan extends CalculateReplenishPlanAbstract
 				BigDecimal orderQty = rs.getBigDecimal("OrderedQty");
 				Timestamp dateRequired = rs.getTimestamp("DateRequired");
 				//	
-				int weekPromised = TimeUtil.getWeeksBetween(dateFrom, dateRequired);
+				int weekPromised = TimeUtil.getWeeksBetween(getDateStart(), dateRequired);
 				MiniMRPProduct product = miniMrpProducts.get(productId);
 				int requisitionId = rs.getInt("M_Requisition_ID");
 				product.setSupplyLineRQ(requisitionId, weekPromised, orderQty);
@@ -1422,7 +1404,7 @@ public class CalculateReplenishPlan extends CalculateReplenishPlanAbstract
 				+ "				WHERE o.C_Order_ID = C_OrderLine.C_Order_ID"
 				+ "				AND o.DocStatus = 'CO'"
 				+ "				AND o.IsSOTrx = 'Y')", get_TrxName())
-				.setParameters(dateFrom, dateTo)
+				.setParameters(getDateStart(), getDateFinish())
 				.setClient_ID()
 				.setOrderBy(I_C_OrderLine.COLUMNNAME_DatePromised)
 				.list();
@@ -1434,7 +1416,7 @@ public class CalculateReplenishPlan extends CalculateReplenishPlanAbstract
 				MiniMRPProduct mrpProduct = miniMrpProducts.get(orderLine.getM_Product_ID());
 				//	
 				setQtyAsDemand(orderLine.getM_Product_ID(), orderLine.getQtyReserved(), orderLine.getDatePromised());
-				int weekPromised = TimeUtil.getWeeksBetween(dateFrom, orderLine.getDatePromised());
+				int weekPromised = TimeUtil.getWeeksBetween(getDateStart(), orderLine.getDatePromised());
 				mrpProduct.explodeDemand(orderLine.getC_Order_ID(), orderLine.getQtyReserved(), weekPromised, miniMrpProducts);
 			} else {
 				log.log(Level.SEVERE, "Error in miniMrpProducts setup.");
@@ -1513,7 +1495,7 @@ public class CalculateReplenishPlan extends CalculateReplenishPlanAbstract
 	 * @param productIds
 	 */
 	private void generateProductInfo(Map<Integer, MiniMRPProduct> miniMrpProducts, Set<Integer> productIds) {
-		List<MReplenish> productReplenish = getReplenishList(warehouseId, getProductId());
+		List<MReplenish> productReplenish = getReplenishList(getWarehouseId(), getProductId());
 		//	Validate Replenish
 		if(productReplenish.size() == 0) {
 			throw new AdempiereException("@M_Replenish_ID@ @NotFound@");
@@ -1546,7 +1528,7 @@ public class CalculateReplenishPlan extends CalculateReplenishPlanAbstract
 			bPartnerId = productPO[0].getC_BPartner_ID();
 		}
 		BigDecimal levelMin = replenish.getLevel_Min();
-		BigDecimal availableInventory = MStorage.getQtyAvailable(warehouseId, 0, product.getM_Product_ID(), 0, get_TrxName());
+		BigDecimal availableInventory = MStorage.getQtyAvailable(getWarehouseId(), 0, product.getM_Product_ID(), 0, get_TrxName());
 		if (availableInventory == null) {
 			availableInventory = Env.ZERO;
 		}
@@ -1582,7 +1564,7 @@ public class CalculateReplenishPlan extends CalculateReplenishPlanAbstract
 
 		// Check product QTY is negative then create demand.
 		if (miniMrpProduct.getQtyOnHand().compareTo(Env.ZERO) < 0 && !product.isPhantom()) {
-			setQtyAsDemand(product.getM_Product_ID(), miniMrpProduct.getQtyOnHand().negate(), dateFrom);
+			setQtyAsDemand(product.getM_Product_ID(), miniMrpProduct.getQtyOnHand().negate(), getDateStart());
 			miniMrpProduct.setQtyOnHand(Env.ZERO);
 		}
 
@@ -1625,7 +1607,7 @@ public class CalculateReplenishPlan extends CalculateReplenishPlanAbstract
 		List<MPPProductBOM> boms = MPPProductBOM.getProductBOMs(product);
 		if(boms.size() > 0) {
 			for(MPPProductBOMLine line : boms.get(0).getLines()) {
-				List<MReplenish> productReplenish = getReplenishList(warehouseId, getProductId());
+				List<MReplenish> productReplenish = getReplenishList(getWarehouseId(), getProductId());
 				//	Loop it
 				productReplenish.stream().forEach(replenish -> {
 					BigDecimal qtyBom = line.getQtyBOM();

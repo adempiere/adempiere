@@ -32,7 +32,7 @@ public class X_M_ReplenishPlanLine extends PO implements I_M_ReplenishPlanLine, 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170627L;
+	private static final long serialVersionUID = 20170730L;
 
     /** Standard Constructor */
     public X_M_ReplenishPlanLine (Properties ctx, int M_ReplenishPlanLine_ID, String trxName)
@@ -380,10 +380,39 @@ public class X_M_ReplenishPlanLine extends PO implements I_M_ReplenishPlanLine, 
 		return (String)get_Value(COLUMNNAME_ProductName);
 	}
 
+	/** RecordType AD_Reference_ID=53930 */
+	public static final int RECORDTYPE_AD_Reference_ID=53930;
+	/** Closing Balance = CB */
+	public static final String RECORDTYPE_ClosingBalance = "CB";
+	/** Opening Balance = OB */
+	public static final String RECORDTYPE_OpeningBalance = "OB";
+	/** Supply - Purchasing = SP */
+	public static final String RECORDTYPE_Supply_Purchasing = "SP";
+	/** Supply - Requisition = SR */
+	public static final String RECORDTYPE_Supply_Requisition = "SR";
+	/** Planned Production = PP */
+	public static final String RECORDTYPE_PlannedProduction = "PP";
+	/** Confirmed Production = CP */
+	public static final String RECORDTYPE_ConfirmedProduction = "CP";
+	/** Total Demand = TD */
+	public static final String RECORDTYPE_TotalDemand = "TD";
+	/** Total Supply = TS */
+	public static final String RECORDTYPE_TotalSupply = "TS";
+	/** Total Supply - PO = TP */
+	public static final String RECORDTYPE_TotalSupply_PO = "TP";
+	/** Total Supply - Requisition = TR */
+	public static final String RECORDTYPE_TotalSupply_Requisition = "TR";
+	/** Total Planned Production = TM */
+	public static final String RECORDTYPE_TotalPlannedProduction = "TM";
+	/** Total Confirmed Production = TC */
+	public static final String RECORDTYPE_TotalConfirmedProduction = "TC";
+	/** Demand = OD */
+	public static final String RECORDTYPE_Demand = "OD";
 	/** Set RecordType.
 		@param RecordType RecordType	  */
 	public void setRecordType (String RecordType)
 	{
+
 		set_Value (COLUMNNAME_RecordType, RecordType);
 	}
 
