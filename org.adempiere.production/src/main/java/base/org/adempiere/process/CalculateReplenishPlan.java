@@ -1607,7 +1607,7 @@ public class CalculateReplenishPlan extends CalculateReplenishPlanAbstract
 		Map<Integer, BigDecimal> requiredProdMaterials = miniMrpProduct.getRequiredProdMaterials();
 		for (Integer mProdId : requiredProdMaterials.keySet()) {
 			BigDecimal qty = requiredProdMaterials.get(mProdId);
-			parentProduct.addMatireals(mProdId, qtyBom.multiply(qty));
+			parentProduct.addMaterials(mProdId, qtyBom.multiply(qty));
 		}
 	}
 
@@ -1627,11 +1627,11 @@ public class CalculateReplenishPlan extends CalculateReplenishPlanAbstract
 			for(MPPProductBOMLine line : boms.get(0).getLines()) {
 				List<MReplenish> productReplenish = getReplenishList(warehouseId, getProductId());
 				//	Loop it
-				productReplenish.stream().forEach(repleish -> {
+				productReplenish.stream().forEach(replenish -> {
 					BigDecimal qtyBom = line.getQtyBOM();
 
 					MiniMRPProduct parentProduct = miniMrpProducts.get(M_Product_ID);
-					parentProduct.addMatireals(line.getM_Product_ID(), qtyBom);
+					parentProduct.addMaterials(line.getM_Product_ID(), qtyBom);
 
 					MiniMRPProduct miniMrpProduct = null;
 
@@ -1640,7 +1640,7 @@ public class CalculateReplenishPlan extends CalculateReplenishPlanAbstract
 						miniMrpProduct = miniMrpProducts.get(line.getM_Product_ID());
 						explodeRequiredMaterials(miniMrpProduct, parentProduct, qtyBom);
 					} else {
-						miniMrpProduct = addProductToProcess(repleish, miniMrpProducts, productIds);
+						miniMrpProduct = addProductToProcess(replenish, miniMrpProducts, productIds);
 						if (miniMrpProduct.isBOM() && miniMrpProduct.isVerified())
 						{
 							processBOMLines(miniMrpProducts, productIds, line.getM_Product_ID());
@@ -1717,7 +1717,7 @@ public class CalculateReplenishPlan extends CalculateReplenishPlanAbstract
 			return M_Product_ID == rhs.M_Product_ID;
 		}
 
-		public void addMatireals(int productId, BigDecimal qty)
+		public void addMaterials(int productId, BigDecimal qty)
 		{
 			if (requiredProdMaterials.containsKey(productId))
 				qty = qty.add(requiredProdMaterials.get(productId));
