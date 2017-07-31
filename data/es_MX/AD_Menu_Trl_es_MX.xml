@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--ADempiere(r) Release 3.7.0LTS_2011-10-15 -Smart Suite ERP,CRM and SCM- (c) 1999-2010 ADempiere(r); Implementation: ADempiere - Supported by ADempiere community-->
-<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.net/dtd/adempiereTrl.dtd">-->
-<adempiereTrl language="es_MX" table="AD_Menu">
+<!--ADempiere(r) Release 3.9.0_2017-07-31 -Smart Suite ERP,CRM and SCM- (c) 1999-2017 ADempiere(r); Implementation: ADempiere - Supported by ADempiere community--><!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.net/dtd/adempiereTrl.dtd">--><adempiereTrl language="es_MX" table="AD_Menu">
  <row id="100" trl="Y">
   <value column="Name" original="Invoice Inquiry">Consulta de Facturas</value>
   <value column="Description" original=""/>
@@ -258,21 +256,13 @@
   <value column="Name" original="Customer Service">Servicio al Cliente</value>
   <value column="Description" original="Customer Related Assets">Activos Relacionados con Clientes</value>
  </row>
- <row id="53134" trl="Y">
-  <value column="Name" original="Fixed Assets">Activos Fijos</value>
-  <value column="Description" original="Applications to setup and maintain fixed assets">Aplicaciónpara configurar y mantener activos fijos</value>
- </row>
- <row id="53135" trl="Y">
-  <value column="Name" original="Processing">Procesamiento</value>
-  <value column="Description" original="Process Fixed Assets">Procesar Activos Fijos</value>
- </row>
  <row id="53136" trl="Y">
   <value column="Name" original="Asset Revaluation">Revaluación Activos</value>
   <value column="Description" original="Process Asset Revaluations">Procesar Revaluación Activos</value>
  </row>
  <row id="53139" trl="Y">
-  <value column="Name" original="Splits Transfers and Disposals">Divisiones, Transferencias y Desechos</value>
-  <value column="Description" original="Process Assets Splits Transfers and Disposals">Procesar Divisiones, Transferencias y Desechos de Activos</value>
+  <value column="Name" original="Asset Transactions ">Transacciones de Activos Fijos</value>
+  <value column="Description" original="Asset Transactions (Addition, Disposal, Split &amp; Transfer)">Procesar Divisiones, Transferencias y Desechos de Activos</value>
  </row>
  <row id="53149" trl="Y">
   <value column="Name" original="Depreciation Processing">Procesamiento de Depreciación</value>
@@ -282,19 +272,11 @@
   <value column="Name" original="Reporting">Informes de Activos Fijos</value>
   <value column="Description" original="Reporting for fixed assets">Informes para activos fijos</value>
  </row>
- <row id="53163" trl="Y">
-  <value column="Name" original="Setup and Maintain">Configuración y Mantenimiento</value>
-  <value column="Description" original="Setup and maintain assets">Configurar y Mantener activos</value>
- </row>
- <row id="53164" trl="Y">
-  <value column="Name" original="Fixed Assets Setup">Configuración de Activos Fijos</value>
-  <value column="Description" original="Setup and Maintain Fixed Assets">Configurar y Mantener activos fijos</value>
- </row>
  <row id="53171" trl="Y">
   <value column="Name" original="Depreciation Setup">Configuración Depreciación</value>
   <value column="Description" original="Applications to setup and maintain depreciation">aplicación para configurar y mantener depreciaciones</value>
  </row>
- <row id="53180" trl="Y">
+ <row id="53180" trl="N">
   <value column="Name" original="Forecast Management">Gestión de Pronóstico</value>
   <value column="Description" original=""/>
  </row>
@@ -305,5 +287,9 @@
  <row id="53247" trl="Y">
   <value column="Name" original="EDI">EDI</value>
   <value column="Description" original=""/>
+ </row>
+ <row id="53912" trl="N">
+  <value column="Name" original="Manufacturing Order Cost">Manufacturing Order Cost</value>
+  <value column="Description" original="Manufacturing Order Cost">Manufacturing Order Cost</value>
  </row>
 </adempiereTrl>
