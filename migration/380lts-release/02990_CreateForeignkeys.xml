@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="U" Name="Create Foreign keys" ReleaseNo="3.9.0" SeqNo="2990">
+  <Migration EntityType="D" Name="Create Foreign keys" ReleaseNo="3.9.0" SeqNo="2990">
     <Comments>https://github.com/adempiere/adempiere/issues/1285</Comments>
     <Step DBType="Postgres" Parse="Y" SeqNo="10" StepType="SQL">
       <SQLStatement>ALTER TABLE AD_Client ADD CONSTRAINT ADEMailConfig_ADClient FOREIGN KEY (AD_EMailConfig_ID) REFERENCES AD_EMailConfig DEFERRABLE INITIALLY DEFERRED;
