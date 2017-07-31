@@ -431,7 +431,7 @@ public class WBrowserTable extends Listbox implements IBrowserTable, TableValueC
 			browserRows.addBrowserField(field , col);
 			if (field.isDisplayed()){
 				// Use get value get from memory entity because field can be calculated
-				addColumn(field.get_ValueAsString(I_AD_Browse_Field.COLUMNNAME_Name));
+				addColumn(field.get_Translation(I_AD_Browse_Field.COLUMNNAME_Name));
 			}
 			//	BR [ 257 ]
 			col++;
