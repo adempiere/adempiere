@@ -35,6 +35,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
@@ -1309,6 +1310,7 @@ public abstract class PO
 					|| colName.equals("AD_Client_ID")
 					|| colName.equals("AD_Org_ID")
 					|| colName.equals("Processing")
+					|| colName.equals("UUID")
 					)
 					;	//	ignore
 				else
@@ -1340,6 +1342,7 @@ public abstract class PO
 					|| colName.equals("AD_Client_ID")
 					|| colName.equals("AD_Org_ID")
 					|| colName.equals("Processing")
+					|| colName.equals("UUID")
 					) {
 					;	//	ignore
 				} else {
@@ -2306,6 +2309,12 @@ public abstract class PO
 			try
 			{
 				success = afterSave (newRecord, success);
+				//Generate UUID
+				if (get_ColumnIndex("UUID") > 0 && get_ValueAsString("UUID") == null)
+				{
+					UUID uuid = UUID.randomUUID();
+					set_CustomColumn("UUID", uuid.toString());
+				}
 			}
 			catch (Exception e)
 			{
