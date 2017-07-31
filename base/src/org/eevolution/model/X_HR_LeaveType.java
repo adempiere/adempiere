@@ -34,7 +34,7 @@ public class X_HR_LeaveType extends PO implements I_HR_LeaveType, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170627L;
+	private static final long serialVersionUID = 20170731L;
 
     /** Standard Constructor */
     public X_HR_LeaveType (Properties ctx, int HR_LeaveType_ID, String trxName)

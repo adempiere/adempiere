@@ -31,7 +31,7 @@ public class X_DD_TransportAssignment extends PO implements I_DD_TransportAssign
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170627L;
+	private static final long serialVersionUID = 20170731L;
 
     /** Standard Constructor */
     public X_DD_TransportAssignment (Properties ctx, int DD_TransportAssignment_ID, String trxName)

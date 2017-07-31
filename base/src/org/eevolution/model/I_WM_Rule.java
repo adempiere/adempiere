@@ -103,19 +103,6 @@ public interface I_WM_Rule
 	  */
 	public String getDescription();
 
-    /** Column name InOutboundClass */
-    public static final String COLUMNNAME_InOutboundClass = "InOutboundClass";
-
-	/** Set Inbound & Outbound Class.
-	  * Custom class to implemeted new Inbound & Outbound Rule logic
-	  */
-	public void setInOutboundClass (String InOutboundClass);
-
-	/** Get Inbound & Outbound Class.
-	  * Custom class to implemeted new Inbound & Outbound Rule logic
-	  */
-	public String getInOutboundClass();
-
     /** Column name InOutBoundRule */
     public static final String COLUMNNAME_InOutBoundRule = "InOutBoundRule";
 
@@ -141,6 +128,19 @@ public interface I_WM_Rule
 	  * Inbound & Outbound Type
 	  */
 	public String getInOutBoundType();
+
+    /** Column name InOutboundClass */
+    public static final String COLUMNNAME_InOutboundClass = "InOutboundClass";
+
+	/** Set Inbound & Outbound Class.
+	  * Custom class to implemeted new Inbound & Outbound Rule logic
+	  */
+	public void setInOutboundClass (String InOutboundClass);
+
+	/** Get Inbound & Outbound Class.
+	  * Custom class to implemeted new Inbound & Outbound Rule logic
+	  */
+	public String getInOutboundClass();
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";

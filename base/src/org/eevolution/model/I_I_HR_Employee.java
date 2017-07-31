@@ -42,15 +42,6 @@ public interface I_I_HR_Employee
 
     /** Load Meta Data */
 
-    /** Column name ActivityValue */
-    public static final String COLUMNNAME_ActivityValue = "ActivityValue";
-
-	/** Set Activity Value	  */
-	public void setActivityValue (String ActivityValue);
-
-	/** Get Activity Value	  */
-	public String getActivityValue();
-
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
 
@@ -58,19 +49,6 @@ public interface I_I_HR_Employee
 	  * Client/Tenant for this installation.
 	  */
 	public int getAD_Client_ID();
-
-    /** Column name AD_Org_ID */
-    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
-
-	/** Set Organization.
-	  * Organizational entity within client
-	  */
-	public void setAD_Org_ID (int AD_Org_ID);
-
-	/** Get Organization.
-	  * Organizational entity within client
-	  */
-	public int getAD_Org_ID();
 
     /** Column name AD_OrgTrx_ID */
     public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
@@ -84,6 +62,19 @@ public interface I_I_HR_Employee
 	  * Performing or initiating organization
 	  */
 	public int getAD_OrgTrx_ID();
+
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
 
     /** Column name AD_User_ID */
     public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
@@ -99,6 +90,28 @@ public interface I_I_HR_Employee
 	public int getAD_User_ID();
 
 	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException;
+
+    /** Column name ActivityValue */
+    public static final String COLUMNNAME_ActivityValue = "ActivityValue";
+
+	/** Set Activity Value	  */
+	public void setActivityValue (String ActivityValue);
+
+	/** Get Activity Value	  */
+	public String getActivityValue();
+
+    /** Column name BPartnerValue */
+    public static final String COLUMNNAME_BPartnerValue = "BPartnerValue";
+
+	/** Set Business Partner Key.
+	  * Key of the Business Partner
+	  */
+	public void setBPartnerValue (String BPartnerValue);
+
+	/** Get Business Partner Key.
+	  * Key of the Business Partner
+	  */
+	public String getBPartnerValue();
 
     /** Column name Birthday */
     public static final String COLUMNNAME_Birthday = "Birthday";
@@ -122,19 +135,6 @@ public interface I_I_HR_Employee
 	/** Get Blood Group	  */
 	public String getBloodGroup();
 
-    /** Column name BPartnerValue */
-    public static final String COLUMNNAME_BPartnerValue = "BPartnerValue";
-
-	/** Set Business Partner Key.
-	  * Key of the Business Partner
-	  */
-	public void setBPartnerValue (String BPartnerValue);
-
-	/** Get Business Partner Key.
-	  * Key of the Business Partner
-	  */
-	public String getBPartnerValue();
-
     /** Column name C_Activity_ID */
     public static final String COLUMNNAME_C_Activity_ID = "C_Activity_ID";
 
@@ -149,6 +149,66 @@ public interface I_I_HR_Employee
 	public int getC_Activity_ID();
 
 	public org.compiere.model.I_C_Activity getC_Activity() throws RuntimeException;
+
+    /** Column name C_BPartner_ID */
+    public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
+
+	/** Set Business Partner .
+	  * Identifies a Business Partner
+	  */
+	public void setC_BPartner_ID (int C_BPartner_ID);
+
+	/** Get Business Partner .
+	  * Identifies a Business Partner
+	  */
+	public int getC_BPartner_ID();
+
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
+
+    /** Column name C_Campaign_ID */
+    public static final String COLUMNNAME_C_Campaign_ID = "C_Campaign_ID";
+
+	/** Set Campaign.
+	  * Marketing Campaign
+	  */
+	public void setC_Campaign_ID (int C_Campaign_ID);
+
+	/** Get Campaign.
+	  * Marketing Campaign
+	  */
+	public int getC_Campaign_ID();
+
+	public org.compiere.model.I_C_Campaign getC_Campaign() throws RuntimeException;
+
+    /** Column name C_Project_ID */
+    public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
+
+	/** Set Project.
+	  * Financial Project
+	  */
+	public void setC_Project_ID (int C_Project_ID);
+
+	/** Get Project.
+	  * Financial Project
+	  */
+	public int getC_Project_ID();
+
+	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException;
+
+    /** Column name C_SalesRegion_ID */
+    public static final String COLUMNNAME_C_SalesRegion_ID = "C_SalesRegion_ID";
+
+	/** Set Sales Region.
+	  * Sales coverage region
+	  */
+	public void setC_SalesRegion_ID (int C_SalesRegion_ID);
+
+	/** Get Sales Region.
+	  * Sales coverage region
+	  */
+	public int getC_SalesRegion_ID();
+
+	public org.compiere.model.I_C_SalesRegion getC_SalesRegion() throws RuntimeException;
 
     /** Column name CampaignValue */
     public static final String COLUMNNAME_CampaignValue = "CampaignValue";
@@ -185,36 +245,6 @@ public interface I_I_HR_Employee
 	  */
 	public String getCareerLevelValue();
 
-    /** Column name C_BPartner_ID */
-    public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
-
-	/** Set Business Partner .
-	  * Identifies a Business Partner
-	  */
-	public void setC_BPartner_ID (int C_BPartner_ID);
-
-	/** Get Business Partner .
-	  * Identifies a Business Partner
-	  */
-	public int getC_BPartner_ID();
-
-	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
-
-    /** Column name C_Campaign_ID */
-    public static final String COLUMNNAME_C_Campaign_ID = "C_Campaign_ID";
-
-	/** Set Campaign.
-	  * Marketing Campaign
-	  */
-	public void setC_Campaign_ID (int C_Campaign_ID);
-
-	/** Get Campaign.
-	  * Marketing Campaign
-	  */
-	public int getC_Campaign_ID();
-
-	public org.compiere.model.I_C_Campaign getC_Campaign() throws RuntimeException;
-
     /** Column name Code */
     public static final String COLUMNNAME_Code = "Code";
 
@@ -227,21 +257,6 @@ public interface I_I_HR_Employee
 	  * Validation Code
 	  */
 	public String getCode();
-
-    /** Column name C_Project_ID */
-    public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
-
-	/** Set Project.
-	  * Financial Project
-	  */
-	public void setC_Project_ID (int C_Project_ID);
-
-	/** Get Project.
-	  * Financial Project
-	  */
-	public int getC_Project_ID();
-
-	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -258,21 +273,6 @@ public interface I_I_HR_Employee
 	  * User who created this records
 	  */
 	public int getCreatedBy();
-
-    /** Column name C_SalesRegion_ID */
-    public static final String COLUMNNAME_C_SalesRegion_ID = "C_SalesRegion_ID";
-
-	/** Set Sales Region.
-	  * Sales coverage region
-	  */
-	public void setC_SalesRegion_ID (int C_SalesRegion_ID);
-
-	/** Get Sales Region.
-	  * Sales coverage region
-	  */
-	public int getC_SalesRegion_ID();
-
-	public org.compiere.model.I_C_SalesRegion getC_SalesRegion() throws RuntimeException;
 
     /** Column name DailySalary */
     public static final String COLUMNNAME_DailySalary = "DailySalary";
@@ -526,17 +526,6 @@ public interface I_I_HR_Employee
 
 	public org.eevolution.model.I_HR_Designation getHR_Designation() throws RuntimeException;
 
-    /** Column name HR_Employee_ID */
-    public static final String COLUMNNAME_HR_Employee_ID = "HR_Employee_ID";
-
-	/** Set Payroll Employee	  */
-	public void setHR_Employee_ID (int HR_Employee_ID);
-
-	/** Get Payroll Employee	  */
-	public int getHR_Employee_ID();
-
-	public org.eevolution.model.I_HR_Employee getHR_Employee() throws RuntimeException;
-
     /** Column name HR_EmployeeType_ID */
     public static final String COLUMNNAME_HR_EmployeeType_ID = "HR_EmployeeType_ID";
 
@@ -551,6 +540,17 @@ public interface I_I_HR_Employee
 	public int getHR_EmployeeType_ID();
 
 	public org.eevolution.model.I_HR_EmployeeType getHR_EmployeeType() throws RuntimeException;
+
+    /** Column name HR_Employee_ID */
+    public static final String COLUMNNAME_HR_Employee_ID = "HR_Employee_ID";
+
+	/** Set Payroll Employee	  */
+	public void setHR_Employee_ID (int HR_Employee_ID);
+
+	/** Get Payroll Employee	  */
+	public int getHR_Employee_ID();
+
+	public org.eevolution.model.I_HR_Employee getHR_Employee() throws RuntimeException;
 
     /** Column name HR_Grade_ID */
     public static final String COLUMNNAME_HR_Grade_ID = "HR_Grade_ID";
@@ -582,17 +582,6 @@ public interface I_I_HR_Employee
 
 	public org.eevolution.model.I_HR_JobEducation getHR_JobEducation() throws RuntimeException;
 
-    /** Column name HR_Job_ID */
-    public static final String COLUMNNAME_HR_Job_ID = "HR_Job_ID";
-
-	/** Set Payroll Job	  */
-	public void setHR_Job_ID (int HR_Job_ID);
-
-	/** Get Payroll Job	  */
-	public int getHR_Job_ID();
-
-	public org.eevolution.model.I_HR_Job getHR_Job() throws RuntimeException;
-
     /** Column name HR_JobType_ID */
     public static final String COLUMNNAME_HR_JobType_ID = "HR_JobType_ID";
 
@@ -607,6 +596,17 @@ public interface I_I_HR_Employee
 	public int getHR_JobType_ID();
 
 	public org.eevolution.model.I_HR_JobType getHR_JobType() throws RuntimeException;
+
+    /** Column name HR_Job_ID */
+    public static final String COLUMNNAME_HR_Job_ID = "HR_Job_ID";
+
+	/** Set Payroll Job	  */
+	public void setHR_Job_ID (int HR_Job_ID);
+
+	/** Get Payroll Job	  */
+	public int getHR_Job_ID();
+
+	public org.eevolution.model.I_HR_Job getHR_Job() throws RuntimeException;
 
     /** Column name HR_Payroll_ID */
     public static final String COLUMNNAME_HR_Payroll_ID = "HR_Payroll_ID";
@@ -709,19 +709,6 @@ public interface I_I_HR_Employee
 
 	public org.eevolution.model.I_HR_WorkGroup getHR_WorkGroup() throws RuntimeException;
 
-    /** Column name IdentificationMark */
-    public static final String COLUMNNAME_IdentificationMark = "IdentificationMark";
-
-	/** Set Identification Mark.
-	  * Identification Mark
-	  */
-	public void setIdentificationMark (String IdentificationMark);
-
-	/** Get Identification Mark.
-	  * Identification Mark
-	  */
-	public String getIdentificationMark();
-
     /** Column name I_ErrorMsg */
     public static final String COLUMNNAME_I_ErrorMsg = "I_ErrorMsg";
 
@@ -756,6 +743,19 @@ public interface I_I_HR_Employee
 	  * Has this import been processed
 	  */
 	public boolean isI_IsImported();
+
+    /** Column name IdentificationMark */
+    public static final String COLUMNNAME_IdentificationMark = "IdentificationMark";
+
+	/** Set Identification Mark.
+	  * Identification Mark
+	  */
+	public void setIdentificationMark (String IdentificationMark);
+
+	/** Get Identification Mark.
+	  * Identification Mark
+	  */
+	public String getIdentificationMark();
 
     /** Column name ImageURL */
     public static final String COLUMNNAME_ImageURL = "ImageURL";
@@ -1118,6 +1118,15 @@ public interface I_I_HR_Employee
 	  */
 	public String getRaceValue();
 
+    /** Column name SSCode */
+    public static final String COLUMNNAME_SSCode = "SSCode";
+
+	/** Set Social Security Code	  */
+	public void setSSCode (String SSCode);
+
+	/** Get Social Security Code	  */
+	public String getSSCode();
+
     /** Column name SalaryRangeValue */
     public static final String COLUMNNAME_SalaryRangeValue = "SalaryRangeValue";
 
@@ -1191,15 +1200,6 @@ public interface I_I_HR_Employee
 	  * Skill Type Value
 	  */
 	public String getSkillTypeValue();
-
-    /** Column name SSCode */
-    public static final String COLUMNNAME_SSCode = "SSCode";
-
-	/** Set Social Security Code	  */
-	public void setSSCode (String SSCode);
-
-	/** Get Social Security Code	  */
-	public String getSSCode();
 
     /** Column name StartDate */
     public static final String COLUMNNAME_StartDate = "StartDate";

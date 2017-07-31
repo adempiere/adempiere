@@ -31,7 +31,7 @@ public class X_DD_CompartmentAssignment extends PO implements I_DD_CompartmentAs
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170627L;
+	private static final long serialVersionUID = 20170731L;
 
     /** Standard Constructor */
     public X_DD_CompartmentAssignment (Properties ctx, int DD_CompartmentAssignment_ID, String trxName)

@@ -107,6 +107,19 @@ public interface I_HR_SalaryStructureLine
 
 	public org.eevolution.model.I_HR_Concept getHR_Concept() throws RuntimeException;
 
+    /** Column name HR_SalaryStructureLine_ID */
+    public static final String COLUMNNAME_HR_SalaryStructureLine_ID = "HR_SalaryStructureLine_ID";
+
+	/** Set Salary Structure Line.
+	  * Salary Structure Line
+	  */
+	public void setHR_SalaryStructureLine_ID (int HR_SalaryStructureLine_ID);
+
+	/** Get Salary Structure Line.
+	  * Salary Structure Line
+	  */
+	public int getHR_SalaryStructureLine_ID();
+
     /** Column name HR_SalaryStructure_ID */
     public static final String COLUMNNAME_HR_SalaryStructure_ID = "HR_SalaryStructure_ID";
 
@@ -121,19 +134,6 @@ public interface I_HR_SalaryStructureLine
 	public int getHR_SalaryStructure_ID();
 
 	public org.eevolution.model.I_HR_SalaryStructure getHR_SalaryStructure() throws RuntimeException;
-
-    /** Column name HR_SalaryStructureLine_ID */
-    public static final String COLUMNNAME_HR_SalaryStructureLine_ID = "HR_SalaryStructureLine_ID";
-
-	/** Set Salary Structure Line.
-	  * Salary Structure Line
-	  */
-	public void setHR_SalaryStructureLine_ID (int HR_SalaryStructureLine_ID);
-
-	/** Get Salary Structure Line.
-	  * Salary Structure Line
-	  */
-	public int getHR_SalaryStructureLine_ID();
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";

@@ -124,32 +124,6 @@ public interface I_DD_Freight
 	  */
 	public int getCreatedBy();
 
-    /** Column name DateDoc */
-    public static final String COLUMNNAME_DateDoc = "DateDoc";
-
-	/** Set Document Date.
-	  * Date of the Document
-	  */
-	public void setDateDoc (Timestamp DateDoc);
-
-	/** Get Document Date.
-	  * Date of the Document
-	  */
-	public Timestamp getDateDoc();
-
-    /** Column name DateOrdered */
-    public static final String COLUMNNAME_DateOrdered = "DateOrdered";
-
-	/** Set Date Ordered.
-	  * Date of Order
-	  */
-	public void setDateOrdered (Timestamp DateOrdered);
-
-	/** Get Date Ordered.
-	  * Date of Order
-	  */
-	public Timestamp getDateOrdered();
-
     /** Column name DD_Driver_ID */
     public static final String COLUMNNAME_DD_Driver_ID = "DD_Driver_ID";
 
@@ -191,6 +165,32 @@ public interface I_DD_Freight
 	public int getDD_Vehicle_ID();
 
 	public org.eevolution.model.I_DD_Vehicle getDD_Vehicle() throws RuntimeException;
+
+    /** Column name DateDoc */
+    public static final String COLUMNNAME_DateDoc = "DateDoc";
+
+	/** Set Document Date.
+	  * Date of the Document
+	  */
+	public void setDateDoc (Timestamp DateDoc);
+
+	/** Get Document Date.
+	  * Date of the Document
+	  */
+	public Timestamp getDateDoc();
+
+    /** Column name DateOrdered */
+    public static final String COLUMNNAME_DateOrdered = "DateOrdered";
+
+	/** Set Date Ordered.
+	  * Date of Order
+	  */
+	public void setDateOrdered (Timestamp DateOrdered);
+
+	/** Get Date Ordered.
+	  * Date of Order
+	  */
+	public Timestamp getDateOrdered();
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";

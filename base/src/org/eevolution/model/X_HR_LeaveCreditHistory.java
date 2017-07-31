@@ -32,7 +32,7 @@ public class X_HR_LeaveCreditHistory extends PO implements I_HR_LeaveCreditHisto
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170627L;
+	private static final long serialVersionUID = 20170731L;
 
     /** Standard Constructor */
     public X_HR_LeaveCreditHistory (Properties ctx, int HR_LeaveCreditHistory_ID, String trxName)

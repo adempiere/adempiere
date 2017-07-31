@@ -33,7 +33,7 @@ public class X_HR_LeaveAssign extends PO implements I_HR_LeaveAssign, I_Persiste
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170627L;
+	private static final long serialVersionUID = 20170731L;
 
     /** Standard Constructor */
     public X_HR_LeaveAssign (Properties ctx, int HR_LeaveAssign_ID, String trxName)

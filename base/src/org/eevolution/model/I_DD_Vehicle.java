@@ -42,21 +42,6 @@ public interface I_DD_Vehicle
 
     /** Load Meta Data */
 
-    /** Column name A_Asset_ID */
-    public static final String COLUMNNAME_A_Asset_ID = "A_Asset_ID";
-
-	/** Set Asset.
-	  * Asset used internally or by customers
-	  */
-	public void setA_Asset_ID (int A_Asset_ID);
-
-	/** Get Asset.
-	  * Asset used internally or by customers
-	  */
-	public int getA_Asset_ID();
-
-	public org.compiere.model.I_A_Asset getA_Asset() throws RuntimeException;
-
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
 
@@ -91,6 +76,21 @@ public interface I_DD_Vehicle
 	  */
 	public int getAD_Org_ID();
 
+    /** Column name A_Asset_ID */
+    public static final String COLUMNNAME_A_Asset_ID = "A_Asset_ID";
+
+	/** Set Asset.
+	  * Asset used internally or by customers
+	  */
+	public void setA_Asset_ID (int A_Asset_ID);
+
+	/** Get Asset.
+	  * Asset used internally or by customers
+	  */
+	public int getA_Asset_ID();
+
+	public org.compiere.model.I_A_Asset getA_Asset() throws RuntimeException;
+
     /** Column name CompartmentsNumber */
     public static final String COLUMNNAME_CompartmentsNumber = "CompartmentsNumber";
 
@@ -113,6 +113,19 @@ public interface I_DD_Vehicle
 	  */
 	public String getCopyFrom();
 
+    /** Column name CreateFrom */
+    public static final String COLUMNNAME_CreateFrom = "CreateFrom";
+
+	/** Set Create lines from.
+	  * Process which will generate a new document lines based on an existing document
+	  */
+	public void setCreateFrom (String CreateFrom);
+
+	/** Get Create lines from.
+	  * Process which will generate a new document lines based on an existing document
+	  */
+	public String getCreateFrom();
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -128,19 +141,6 @@ public interface I_DD_Vehicle
 	  * User who created this records
 	  */
 	public int getCreatedBy();
-
-    /** Column name CreateFrom */
-    public static final String COLUMNNAME_CreateFrom = "CreateFrom";
-
-	/** Set Create lines from.
-	  * Process which will generate a new document lines based on an existing document
-	  */
-	public void setCreateFrom (String CreateFrom);
-
-	/** Get Create lines from.
-	  * Process which will generate a new document lines based on an existing document
-	  */
-	public String getCreateFrom();
 
     /** Column name DD_CompatibilityGroup_ID */
     public static final String COLUMNNAME_DD_CompatibilityGroup_ID = "DD_CompatibilityGroup_ID";
@@ -186,15 +186,6 @@ public interface I_DD_Vehicle
 
 	public org.eevolution.model.I_DD_RequirementAssignment getDD_RequirementAssignment() throws RuntimeException;
 
-    /** Column name DD_Vehicle_ID */
-    public static final String COLUMNNAME_DD_Vehicle_ID = "DD_Vehicle_ID";
-
-	/** Set Vehicle	  */
-	public void setDD_Vehicle_ID (int DD_Vehicle_ID);
-
-	/** Get Vehicle	  */
-	public int getDD_Vehicle_ID();
-
     /** Column name DD_VehicleType_ID */
     public static final String COLUMNNAME_DD_VehicleType_ID = "DD_VehicleType_ID";
 
@@ -205,6 +196,15 @@ public interface I_DD_Vehicle
 	public int getDD_VehicleType_ID();
 
 	public org.eevolution.model.I_DD_VehicleType getDD_VehicleType() throws RuntimeException;
+
+    /** Column name DD_Vehicle_ID */
+    public static final String COLUMNNAME_DD_Vehicle_ID = "DD_Vehicle_ID";
+
+	/** Set Vehicle	  */
+	public void setDD_Vehicle_ID (int DD_Vehicle_ID);
+
+	/** Get Vehicle	  */
+	public int getDD_Vehicle_ID();
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";

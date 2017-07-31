@@ -151,6 +151,15 @@ public interface I_WM_InOutBoundLineMA
 	  */
 	public int getUpdatedBy();
 
+    /** Column name WM_InOutBoundLineMA_ID */
+    public static final String COLUMNNAME_WM_InOutBoundLineMA_ID = "WM_InOutBoundLineMA_ID";
+
+	/** Set Inbound & Outbound Order Line MA ID	  */
+	public void setWM_InOutBoundLineMA_ID (int WM_InOutBoundLineMA_ID);
+
+	/** Get Inbound & Outbound Order Line MA ID	  */
+	public int getWM_InOutBoundLineMA_ID();
+
     /** Column name WM_InOutBoundLine_ID */
     public static final String COLUMNNAME_WM_InOutBoundLine_ID = "WM_InOutBoundLine_ID";
 
@@ -161,13 +170,4 @@ public interface I_WM_InOutBoundLineMA
 	public int getWM_InOutBoundLine_ID();
 
 	public org.eevolution.model.I_WM_InOutBoundLine getWM_InOutBoundLine() throws RuntimeException;
-
-    /** Column name WM_InOutBoundLineMA_ID */
-    public static final String COLUMNNAME_WM_InOutBoundLineMA_ID = "WM_InOutBoundLineMA_ID";
-
-	/** Set Inbound & Outbound Order Line MA ID	  */
-	public void setWM_InOutBoundLineMA_ID (int WM_InOutBoundLineMA_ID);
-
-	/** Get Inbound & Outbound Order Line MA ID	  */
-	public int getWM_InOutBoundLineMA_ID();
 }

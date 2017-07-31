@@ -31,7 +31,7 @@ public class X_DD_Driver extends PO implements I_DD_Driver, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170627L;
+	private static final long serialVersionUID = 20170731L;
 
     /** Standard Constructor */
     public X_DD_Driver (Properties ctx, int DD_Driver_ID, String trxName)

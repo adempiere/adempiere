@@ -31,7 +31,7 @@ public class X_HR_Race extends PO implements I_HR_Race, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170627L;
+	private static final long serialVersionUID = 20170731L;
 
     /** Standard Constructor */
     public X_HR_Race (Properties ctx, int HR_Race_ID, String trxName)

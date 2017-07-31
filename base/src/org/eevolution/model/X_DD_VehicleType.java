@@ -31,7 +31,7 @@ public class X_DD_VehicleType extends PO implements I_DD_VehicleType, I_Persiste
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170627L;
+	private static final long serialVersionUID = 20170731L;
 
     /** Standard Constructor */
     public X_DD_VehicleType (Properties ctx, int DD_VehicleType_ID, String trxName)

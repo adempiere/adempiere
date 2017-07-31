@@ -31,7 +31,7 @@ public class X_HR_EmployeeExperience extends PO implements I_HR_EmployeeExperien
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170627L;
+	private static final long serialVersionUID = 20170731L;
 
     /** Standard Constructor */
     public X_HR_EmployeeExperience (Properties ctx, int HR_EmployeeExperience_ID, String trxName)
