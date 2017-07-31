@@ -33,7 +33,7 @@ public class X_T_ReportStatement extends PO implements I_T_ReportStatement, I_Pe
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170627L;
+	private static final long serialVersionUID = 20170731L;
 
     /** Standard Constructor */
     public X_T_ReportStatement (Properties ctx, int T_ReportStatement_ID, String trxName)

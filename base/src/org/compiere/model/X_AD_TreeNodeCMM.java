@@ -29,7 +29,7 @@ public class X_AD_TreeNodeCMM extends PO implements I_AD_TreeNodeCMM, I_Persiste
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170627L;
+	private static final long serialVersionUID = 20170731L;
 
     /** Standard Constructor */
     public X_AD_TreeNodeCMM (Properties ctx, int AD_TreeNodeCMM_ID, String trxName)

@@ -30,7 +30,7 @@ public class X_W_Click extends PO implements I_W_Click, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170627L;
+	private static final long serialVersionUID = 20170731L;
 
     /** Standard Constructor */
     public X_W_Click (Properties ctx, int W_Click_ID, String trxName)
@@ -71,23 +71,6 @@ public class X_W_Click extends PO implements I_W_Click, I_Persistent
       return sb.toString();
     }
 
-	/** Set Accept Language.
-		@param AcceptLanguage 
-		Language accepted based on browser information
-	  */
-	public void setAcceptLanguage (String AcceptLanguage)
-	{
-		set_Value (COLUMNNAME_AcceptLanguage, AcceptLanguage);
-	}
-
-	/** Get Accept Language.
-		@return Language accepted based on browser information
-	  */
-	public String getAcceptLanguage () 
-	{
-		return (String)get_Value(COLUMNNAME_AcceptLanguage);
-	}
-
 	/** Set User/Contact.
 		@param AD_User_ID 
 		User within the system - Internal or Business Partner Contact
@@ -109,6 +92,23 @@ public class X_W_Click extends PO implements I_W_Click, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Accept Language.
+		@param AcceptLanguage 
+		Language accepted based on browser information
+	  */
+	public void setAcceptLanguage (String AcceptLanguage)
+	{
+		set_Value (COLUMNNAME_AcceptLanguage, AcceptLanguage);
+	}
+
+	/** Get Accept Language.
+		@return Language accepted based on browser information
+	  */
+	public String getAcceptLanguage () 
+	{
+		return (String)get_Value(COLUMNNAME_AcceptLanguage);
 	}
 
 	/** Set EMail Address.

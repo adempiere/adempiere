@@ -146,19 +146,6 @@ public interface I_AD_Memo
 
 	public org.compiere.model.I_C_Campaign getC_Campaign() throws RuntimeException;
 
-    /** Column name Comments */
-    public static final String COLUMNNAME_Comments = "Comments";
-
-	/** Set Comments.
-	  * Comments or additional information
-	  */
-	public void setComments (String Comments);
-
-	/** Get Comments.
-	  * Comments or additional information
-	  */
-	public String getComments();
-
     /** Column name C_Project_ID */
     public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
 
@@ -173,6 +160,19 @@ public interface I_AD_Memo
 	public int getC_Project_ID();
 
 	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException;
+
+    /** Column name Comments */
+    public static final String COLUMNNAME_Comments = "Comments";
+
+	/** Set Comments.
+	  * Comments or additional information
+	  */
+	public void setComments (String Comments);
+
+	/** Get Comments.
+	  * Comments or additional information
+	  */
+	public String getComments();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

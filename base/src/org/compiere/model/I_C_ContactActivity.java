@@ -90,6 +90,17 @@ public interface I_C_ContactActivity
 	  */
 	public int getC_ContactActivity_ID();
 
+    /** Column name C_Opportunity_ID */
+    public static final String COLUMNNAME_C_Opportunity_ID = "C_Opportunity_ID";
+
+	/** Set Sales Opportunity	  */
+	public void setC_Opportunity_ID (int C_Opportunity_ID);
+
+	/** Get Sales Opportunity	  */
+	public int getC_Opportunity_ID();
+
+	public org.compiere.model.I_C_Opportunity getC_Opportunity() throws RuntimeException;
+
     /** Column name Comments */
     public static final String COLUMNNAME_Comments = "Comments";
 
@@ -115,17 +126,6 @@ public interface I_C_ContactActivity
 	  * Type of activity, e.g. task, email, phone call
 	  */
 	public String getContactActivityType();
-
-    /** Column name C_Opportunity_ID */
-    public static final String COLUMNNAME_C_Opportunity_ID = "C_Opportunity_ID";
-
-	/** Set Sales Opportunity	  */
-	public void setC_Opportunity_ID (int C_Opportunity_ID);
-
-	/** Get Sales Opportunity	  */
-	public int getC_Opportunity_ID();
-
-	public org.compiere.model.I_C_Opportunity getC_Opportunity() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

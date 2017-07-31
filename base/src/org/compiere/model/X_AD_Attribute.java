@@ -30,7 +30,7 @@ public class X_AD_Attribute extends PO implements I_AD_Attribute, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170627L;
+	private static final long serialVersionUID = 20170731L;
 
     /** Standard Constructor */
     public X_AD_Attribute (Properties ctx, int AD_Attribute_ID, String trxName)
@@ -550,6 +550,23 @@ public class X_AD_Attribute extends PO implements I_AD_Attribute, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Value Format.
+		@param VFormat 
+		Format of the value; Can contain fixed format elements, Variables: "_lLoOaAcCa09"
+	  */
+	public void setVFormat (String VFormat)
+	{
+		set_Value (COLUMNNAME_VFormat, VFormat);
+	}
+
+	/** Get Value Format.
+		@return Format of the value; Can contain fixed format elements, Variables: "_lLoOaAcCa09"
+	  */
+	public String getVFormat () 
+	{
+		return (String)get_Value(COLUMNNAME_VFormat);
+	}
+
 	/** Set Max. Value.
 		@param ValueMax 
 		Maximum Value for a field
@@ -582,22 +599,5 @@ public class X_AD_Attribute extends PO implements I_AD_Attribute, I_Persistent
 	public String getValueMin () 
 	{
 		return (String)get_Value(COLUMNNAME_ValueMin);
-	}
-
-	/** Set Value Format.
-		@param VFormat 
-		Format of the value; Can contain fixed format elements, Variables: "_lLoOaAcCa09"
-	  */
-	public void setVFormat (String VFormat)
-	{
-		set_Value (COLUMNNAME_VFormat, VFormat);
-	}
-
-	/** Get Value Format.
-		@return Format of the value; Can contain fixed format elements, Variables: "_lLoOaAcCa09"
-	  */
-	public String getVFormat () 
-	{
-		return (String)get_Value(COLUMNNAME_VFormat);
 	}
 }

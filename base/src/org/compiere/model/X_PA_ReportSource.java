@@ -30,7 +30,7 @@ public class X_PA_ReportSource extends PO implements I_PA_ReportSource, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170627L;
+	private static final long serialVersionUID = 20170731L;
 
     /** Standard Constructor */
     public X_PA_ReportSource (Properties ctx, int PA_ReportSource_ID, String trxName)
@@ -59,14 +59,6 @@ public class X_PA_ReportSource extends PO implements I_PA_ReportSource, I_Persis
 // N
 			setIsIncludeNullsSalesRegion (false);
 // N
-			setIsIncludeNullsUserElement1 (false);
-// N
-			setIsIncludeNullsUserElement2 (false);
-// N
-			setIsIncludeNullsUserList1 (false);
-// N
-			setIsIncludeNullsUserList2 (false);
-// N
 			setIsIncludeNullsUser1 (false);
 // N
 			setIsIncludeNullsUser2 (false);
@@ -74,6 +66,14 @@ public class X_PA_ReportSource extends PO implements I_PA_ReportSource, I_Persis
 			setIsIncludeNullsUser3 (false);
 // N
 			setIsIncludeNullsUser4 (false);
+// N
+			setIsIncludeNullsUserElement1 (false);
+// N
+			setIsIncludeNullsUserElement2 (false);
+// N
+			setIsIncludeNullsUserList1 (false);
+// N
+			setIsIncludeNullsUserList2 (false);
 // N
 			setPA_ReportSource_ID (0);
         } */
@@ -649,6 +649,102 @@ public class X_PA_ReportSource extends PO implements I_PA_ReportSource, I_Persis
 		return false;
 	}
 
+	/** Set Include Nulls in User 1.
+		@param IsIncludeNullsUser1 
+		Include nulls in the selection of the user 1
+	  */
+	public void setIsIncludeNullsUser1 (boolean IsIncludeNullsUser1)
+	{
+		set_Value (COLUMNNAME_IsIncludeNullsUser1, Boolean.valueOf(IsIncludeNullsUser1));
+	}
+
+	/** Get Include Nulls in User 1.
+		@return Include nulls in the selection of the user 1
+	  */
+	public boolean isIncludeNullsUser1 () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsIncludeNullsUser1);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Include Nulls in User 2.
+		@param IsIncludeNullsUser2 
+		Include nulls in the selection of the user 2
+	  */
+	public void setIsIncludeNullsUser2 (boolean IsIncludeNullsUser2)
+	{
+		set_Value (COLUMNNAME_IsIncludeNullsUser2, Boolean.valueOf(IsIncludeNullsUser2));
+	}
+
+	/** Get Include Nulls in User 2.
+		@return Include nulls in the selection of the user 2
+	  */
+	public boolean isIncludeNullsUser2 () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsIncludeNullsUser2);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Include Nulls in User 3.
+		@param IsIncludeNullsUser3 
+		Include nulls in the selection of the user 3
+	  */
+	public void setIsIncludeNullsUser3 (boolean IsIncludeNullsUser3)
+	{
+		set_Value (COLUMNNAME_IsIncludeNullsUser3, Boolean.valueOf(IsIncludeNullsUser3));
+	}
+
+	/** Get Include Nulls in User 3.
+		@return Include nulls in the selection of the user 3
+	  */
+	public boolean isIncludeNullsUser3 () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsIncludeNullsUser3);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Include Nulls in User 4.
+		@param IsIncludeNullsUser4 
+		Include nulls in the selection of the user 4
+	  */
+	public void setIsIncludeNullsUser4 (boolean IsIncludeNullsUser4)
+	{
+		set_Value (COLUMNNAME_IsIncludeNullsUser4, Boolean.valueOf(IsIncludeNullsUser4));
+	}
+
+	/** Get Include Nulls in User 4.
+		@return Include nulls in the selection of the user 4
+	  */
+	public boolean isIncludeNullsUser4 () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsIncludeNullsUser4);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Include Nulls in User Element 1.
 		@param IsIncludeNullsUserElement1 
 		Include nulls in the selection of the user element 1
@@ -784,102 +880,6 @@ public class X_PA_ReportSource extends PO implements I_PA_ReportSource, I_Persis
 	public boolean isIncludeNullsUserList4 () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsIncludeNullsUserList4);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
-	/** Set Include Nulls in User 1.
-		@param IsIncludeNullsUser1 
-		Include nulls in the selection of the user 1
-	  */
-	public void setIsIncludeNullsUser1 (boolean IsIncludeNullsUser1)
-	{
-		set_Value (COLUMNNAME_IsIncludeNullsUser1, Boolean.valueOf(IsIncludeNullsUser1));
-	}
-
-	/** Get Include Nulls in User 1.
-		@return Include nulls in the selection of the user 1
-	  */
-	public boolean isIncludeNullsUser1 () 
-	{
-		Object oo = get_Value(COLUMNNAME_IsIncludeNullsUser1);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
-	/** Set Include Nulls in User 2.
-		@param IsIncludeNullsUser2 
-		Include nulls in the selection of the user 2
-	  */
-	public void setIsIncludeNullsUser2 (boolean IsIncludeNullsUser2)
-	{
-		set_Value (COLUMNNAME_IsIncludeNullsUser2, Boolean.valueOf(IsIncludeNullsUser2));
-	}
-
-	/** Get Include Nulls in User 2.
-		@return Include nulls in the selection of the user 2
-	  */
-	public boolean isIncludeNullsUser2 () 
-	{
-		Object oo = get_Value(COLUMNNAME_IsIncludeNullsUser2);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
-	/** Set Include Nulls in User 3.
-		@param IsIncludeNullsUser3 
-		Include nulls in the selection of the user 3
-	  */
-	public void setIsIncludeNullsUser3 (boolean IsIncludeNullsUser3)
-	{
-		set_Value (COLUMNNAME_IsIncludeNullsUser3, Boolean.valueOf(IsIncludeNullsUser3));
-	}
-
-	/** Get Include Nulls in User 3.
-		@return Include nulls in the selection of the user 3
-	  */
-	public boolean isIncludeNullsUser3 () 
-	{
-		Object oo = get_Value(COLUMNNAME_IsIncludeNullsUser3);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
-	/** Set Include Nulls in User 4.
-		@param IsIncludeNullsUser4 
-		Include nulls in the selection of the user 4
-	  */
-	public void setIsIncludeNullsUser4 (boolean IsIncludeNullsUser4)
-	{
-		set_Value (COLUMNNAME_IsIncludeNullsUser4, Boolean.valueOf(IsIncludeNullsUser4));
-	}
-
-	/** Get Include Nulls in User 4.
-		@return Include nulls in the selection of the user 4
-	  */
-	public boolean isIncludeNullsUser4 () 
-	{
-		Object oo = get_Value(COLUMNNAME_IsIncludeNullsUser4);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 
@@ -1064,52 +1064,6 @@ public class X_PA_ReportSource extends PO implements I_PA_ReportSource, I_Persis
 		return ii.intValue();
 	}
 
-	/** Set User Element 1.
-		@param UserElement1_ID 
-		User defined accounting Element
-	  */
-	public void setUserElement1_ID (int UserElement1_ID)
-	{
-		if (UserElement1_ID < 1) 
-			set_Value (COLUMNNAME_UserElement1_ID, null);
-		else 
-			set_Value (COLUMNNAME_UserElement1_ID, Integer.valueOf(UserElement1_ID));
-	}
-
-	/** Get User Element 1.
-		@return User defined accounting Element
-	  */
-	public int getUserElement1_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_UserElement1_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set User Element 2.
-		@param UserElement2_ID 
-		User defined accounting Element
-	  */
-	public void setUserElement2_ID (int UserElement2_ID)
-	{
-		if (UserElement2_ID < 1) 
-			set_Value (COLUMNNAME_UserElement2_ID, null);
-		else 
-			set_Value (COLUMNNAME_UserElement2_ID, Integer.valueOf(UserElement2_ID));
-	}
-
-	/** Get User Element 2.
-		@return User defined accounting Element
-	  */
-	public int getUserElement2_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_UserElement2_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.compiere.model.I_C_ElementValue getUser1() throws RuntimeException
     {
 		return (org.compiere.model.I_C_ElementValue)MTable.get(getCtx(), org.compiere.model.I_C_ElementValue.Table_Name)
@@ -1217,6 +1171,52 @@ public class X_PA_ReportSource extends PO implements I_PA_ReportSource, I_Persis
 	public int getUser4_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_User4_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set User Element 1.
+		@param UserElement1_ID 
+		User defined accounting Element
+	  */
+	public void setUserElement1_ID (int UserElement1_ID)
+	{
+		if (UserElement1_ID < 1) 
+			set_Value (COLUMNNAME_UserElement1_ID, null);
+		else 
+			set_Value (COLUMNNAME_UserElement1_ID, Integer.valueOf(UserElement1_ID));
+	}
+
+	/** Get User Element 1.
+		@return User defined accounting Element
+	  */
+	public int getUserElement1_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_UserElement1_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set User Element 2.
+		@param UserElement2_ID 
+		User defined accounting Element
+	  */
+	public void setUserElement2_ID (int UserElement2_ID)
+	{
+		if (UserElement2_ID < 1) 
+			set_Value (COLUMNNAME_UserElement2_ID, null);
+		else 
+			set_Value (COLUMNNAME_UserElement2_ID, Integer.valueOf(UserElement2_ID));
+	}
+
+	/** Get User Element 2.
+		@return User defined accounting Element
+	  */
+	public int getUserElement2_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_UserElement2_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

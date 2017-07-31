@@ -141,15 +141,6 @@ public interface I_AD_Role
 	/** Get Allow Info BPartner	  */
 	public boolean isAllow_Info_BPartner();
 
-    /** Column name Allow_Info_CashJournal */
-    public static final String COLUMNNAME_Allow_Info_CashJournal = "Allow_Info_CashJournal";
-
-	/** Set Allow Info CashJournal	  */
-	public void setAllow_Info_CashJournal (boolean Allow_Info_CashJournal);
-
-	/** Get Allow Info CashJournal	  */
-	public boolean isAllow_Info_CashJournal();
-
     /** Column name Allow_Info_CRP */
     public static final String COLUMNNAME_Allow_Info_CRP = "Allow_Info_CRP";
 
@@ -158,6 +149,15 @@ public interface I_AD_Role
 
 	/** Get Allow Info CRP	  */
 	public boolean isAllow_Info_CRP();
+
+    /** Column name Allow_Info_CashJournal */
+    public static final String COLUMNNAME_Allow_Info_CashJournal = "Allow_Info_CashJournal";
+
+	/** Set Allow Info CashJournal	  */
+	public void setAllow_Info_CashJournal (boolean Allow_Info_CashJournal);
+
+	/** Get Allow Info CashJournal	  */
+	public boolean isAllow_Info_CashJournal();
 
     /** Column name Allow_Info_InOut */
     public static final String COLUMNNAME_Allow_Info_InOut = "Allow_Info_InOut";

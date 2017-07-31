@@ -33,7 +33,7 @@ public class X_S_TimeExpenseLine extends PO implements I_S_TimeExpenseLine, I_Pe
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170627L;
+	private static final long serialVersionUID = 20170731L;
 
     /** Standard Constructor */
     public X_S_TimeExpenseLine (Properties ctx, int S_TimeExpenseLine_ID, String trxName)
@@ -48,8 +48,8 @@ public class X_S_TimeExpenseLine extends PO implements I_S_TimeExpenseLine, I_Pe
 			setLine (0);
 // @SQL=SELECT NVL(MAX(Line),0)+10 AS DefaultValue FROM S_TimeExpenseLine WHERE S_TimeExpense_ID=@S_TimeExpense_ID@
 			setProcessed (false);
-			setS_TimeExpense_ID (0);
 			setS_TimeExpenseLine_ID (0);
+			setS_TimeExpense_ID (0);
         } */
     }
 
@@ -221,26 +221,6 @@ public class X_S_TimeExpenseLine extends PO implements I_S_TimeExpenseLine, I_Pe
 		return ii.intValue();
 	}
 
-	/** Set Converted Amount.
-		@param ConvertedAmt 
-		Converted Amount
-	  */
-	public void setConvertedAmt (BigDecimal ConvertedAmt)
-	{
-		set_Value (COLUMNNAME_ConvertedAmt, ConvertedAmt);
-	}
-
-	/** Get Converted Amount.
-		@return Converted Amount
-	  */
-	public BigDecimal getConvertedAmt () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ConvertedAmt);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
 	public org.compiere.model.I_C_OrderLine getC_OrderLine() throws RuntimeException
     {
 		return (org.compiere.model.I_C_OrderLine)MTable.get(getCtx(), org.compiere.model.I_C_OrderLine.Table_Name)
@@ -264,34 +244,6 @@ public class X_S_TimeExpenseLine extends PO implements I_S_TimeExpenseLine, I_Pe
 	public int getC_OrderLine_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_OrderLine_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException
-    {
-		return (org.compiere.model.I_C_Project)MTable.get(getCtx(), org.compiere.model.I_C_Project.Table_Name)
-			.getPO(getC_Project_ID(), get_TrxName());	}
-
-	/** Set Project.
-		@param C_Project_ID 
-		Financial Project
-	  */
-	public void setC_Project_ID (int C_Project_ID)
-	{
-		if (C_Project_ID < 1) 
-			set_Value (COLUMNNAME_C_Project_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
-	}
-
-	/** Get Project.
-		@return Financial Project
-	  */
-	public int getC_Project_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Project_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -353,6 +305,62 @@ public class X_S_TimeExpenseLine extends PO implements I_S_TimeExpenseLine, I_Pe
 		return ii.intValue();
 	}
 
+	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_Project)MTable.get(getCtx(), org.compiere.model.I_C_Project.Table_Name)
+			.getPO(getC_Project_ID(), get_TrxName());	}
+
+	/** Set Project.
+		@param C_Project_ID 
+		Financial Project
+	  */
+	public void setC_Project_ID (int C_Project_ID)
+	{
+		if (C_Project_ID < 1) 
+			set_Value (COLUMNNAME_C_Project_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
+	}
+
+	/** Get Project.
+		@return Financial Project
+	  */
+	public int getC_Project_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Project_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_Tax getC_Tax() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_Tax)MTable.get(getCtx(), org.compiere.model.I_C_Tax.Table_Name)
+			.getPO(getC_Tax_ID(), get_TrxName());	}
+
+	/** Set Tax.
+		@param C_Tax_ID 
+		Tax identifier
+	  */
+	public void setC_Tax_ID (int C_Tax_ID)
+	{
+		if (C_Tax_ID < 1) 
+			set_Value (COLUMNNAME_C_Tax_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Tax_ID, Integer.valueOf(C_Tax_ID));
+	}
+
+	/** Get Tax.
+		@return Tax identifier
+	  */
+	public int getC_Tax_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Tax_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_C_UOM getC_UOM() throws RuntimeException
     {
 		return (org.compiere.model.I_C_UOM)MTable.get(getCtx(), org.compiere.model.I_C_UOM.Table_Name)
@@ -379,6 +387,26 @@ public class X_S_TimeExpenseLine extends PO implements I_S_TimeExpenseLine, I_Pe
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Converted Amount.
+		@param ConvertedAmt 
+		Converted Amount
+	  */
+	public void setConvertedAmt (BigDecimal ConvertedAmt)
+	{
+		set_Value (COLUMNNAME_ConvertedAmt, ConvertedAmt);
+	}
+
+	/** Get Converted Amount.
+		@return Converted Amount
+	  */
+	public BigDecimal getConvertedAmt () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ConvertedAmt);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** Set Expense Date.
@@ -530,6 +558,46 @@ public class X_S_TimeExpenseLine extends PO implements I_S_TimeExpenseLine, I_Pe
     {
         return new KeyNamePair(get_ID(), String.valueOf(getLine()));
     }
+
+	/** Set Line Amount.
+		@param LineNetAmt 
+		Line Extended Amount (Quantity * Actual Price) without Freight and Charges
+	  */
+	public void setLineNetAmt (BigDecimal LineNetAmt)
+	{
+		set_Value (COLUMNNAME_LineNetAmt, LineNetAmt);
+	}
+
+	/** Get Line Amount.
+		@return Line Extended Amount (Quantity * Actual Price) without Freight and Charges
+	  */
+	public BigDecimal getLineNetAmt () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_LineNetAmt);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Line Total.
+		@param LineTotalAmt 
+		Total line amount incl. Tax
+	  */
+	public void setLineTotalAmt (BigDecimal LineTotalAmt)
+	{
+		set_Value (COLUMNNAME_LineTotalAmt, LineTotalAmt);
+	}
+
+	/** Get Line Total.
+		@return Total line amount incl. Tax
+	  */
+	public BigDecimal getLineTotalAmt () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_LineTotalAmt);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
 
 	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
     {
@@ -723,6 +791,29 @@ public class X_S_TimeExpenseLine extends PO implements I_S_TimeExpenseLine, I_Pe
 		return ii.intValue();
 	}
 
+	/** Set Expense Line.
+		@param S_TimeExpenseLine_ID 
+		Time and Expense Report Line
+	  */
+	public void setS_TimeExpenseLine_ID (int S_TimeExpenseLine_ID)
+	{
+		if (S_TimeExpenseLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_S_TimeExpenseLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_S_TimeExpenseLine_ID, Integer.valueOf(S_TimeExpenseLine_ID));
+	}
+
+	/** Get Expense Line.
+		@return Time and Expense Report Line
+	  */
+	public int getS_TimeExpenseLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_S_TimeExpenseLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_S_TimeExpense getS_TimeExpense() throws RuntimeException
     {
 		return (org.compiere.model.I_S_TimeExpense)MTable.get(getCtx(), org.compiere.model.I_S_TimeExpense.Table_Name)
@@ -746,29 +837,6 @@ public class X_S_TimeExpenseLine extends PO implements I_S_TimeExpenseLine, I_Pe
 	public int getS_TimeExpense_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_S_TimeExpense_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Expense Line.
-		@param S_TimeExpenseLine_ID 
-		Time and Expense Report Line
-	  */
-	public void setS_TimeExpenseLine_ID (int S_TimeExpenseLine_ID)
-	{
-		if (S_TimeExpenseLine_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_S_TimeExpenseLine_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_S_TimeExpenseLine_ID, Integer.valueOf(S_TimeExpenseLine_ID));
-	}
-
-	/** Get Expense Line.
-		@return Time and Expense Report Line
-	  */
-	public int getS_TimeExpenseLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_S_TimeExpenseLine_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -800,5 +868,25 @@ public class X_S_TimeExpenseLine extends PO implements I_S_TimeExpenseLine, I_Pe
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Tax Amount.
+		@param TaxAmt 
+		Tax Amount for a document
+	  */
+	public void setTaxAmt (BigDecimal TaxAmt)
+	{
+		set_Value (COLUMNNAME_TaxAmt, TaxAmt);
+	}
+
+	/** Get Tax Amount.
+		@return Tax Amount for a document
+	  */
+	public BigDecimal getTaxAmt () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_TaxAmt);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 }

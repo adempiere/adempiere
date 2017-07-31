@@ -62,6 +62,19 @@ public interface I_C_TaxDeclaration
 	  */
 	public int getAD_Org_ID();
 
+    /** Column name C_TaxDeclaration_ID */
+    public static final String COLUMNNAME_C_TaxDeclaration_ID = "C_TaxDeclaration_ID";
+
+	/** Set Tax Declaration.
+	  * Define the declaration to the tax authorities
+	  */
+	public void setC_TaxDeclaration_ID (int C_TaxDeclaration_ID);
+
+	/** Get Tax Declaration.
+	  * Define the declaration to the tax authorities
+	  */
+	public int getC_TaxDeclaration_ID();
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -77,19 +90,6 @@ public interface I_C_TaxDeclaration
 	  * User who created this records
 	  */
 	public int getCreatedBy();
-
-    /** Column name C_TaxDeclaration_ID */
-    public static final String COLUMNNAME_C_TaxDeclaration_ID = "C_TaxDeclaration_ID";
-
-	/** Set Tax Declaration.
-	  * Define the declaration to the tax authorities
-	  */
-	public void setC_TaxDeclaration_ID (int C_TaxDeclaration_ID);
-
-	/** Get Tax Declaration.
-	  * Define the declaration to the tax authorities
-	  */
-	public int getC_TaxDeclaration_ID();
 
     /** Column name DateFrom */
     public static final String COLUMNNAME_DateFrom = "DateFrom";

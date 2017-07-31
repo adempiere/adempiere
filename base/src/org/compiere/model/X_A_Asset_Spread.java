@@ -32,7 +32,7 @@ public class X_A_Asset_Spread extends PO implements I_A_Asset_Spread, I_Persiste
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170627L;
+	private static final long serialVersionUID = 20170731L;
 
     /** Standard Constructor */
     public X_A_Asset_Spread (Properties ctx, int A_Asset_Spread_ID, String trxName)

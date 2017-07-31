@@ -174,17 +174,6 @@ public interface I_WS_WebServiceType
 	  */
 	public String getValue();
 
-    /** Column name WS_WebService_ID */
-    public static final String COLUMNNAME_WS_WebService_ID = "WS_WebService_ID";
-
-	/** Set Web Service	  */
-	public void setWS_WebService_ID (int WS_WebService_ID);
-
-	/** Get Web Service	  */
-	public int getWS_WebService_ID();
-
-	public org.compiere.model.I_WS_WebService getWS_WebService() throws RuntimeException;
-
     /** Column name WS_WebServiceMethod_ID */
     public static final String COLUMNNAME_WS_WebServiceMethod_ID = "WS_WebServiceMethod_ID";
 
@@ -204,4 +193,15 @@ public interface I_WS_WebServiceType
 
 	/** Get Web Service Type	  */
 	public int getWS_WebServiceType_ID();
+
+    /** Column name WS_WebService_ID */
+    public static final String COLUMNNAME_WS_WebService_ID = "WS_WebService_ID";
+
+	/** Set Web Service	  */
+	public void setWS_WebService_ID (int WS_WebService_ID);
+
+	/** Get Web Service	  */
+	public int getWS_WebService_ID();
+
+	public org.compiere.model.I_WS_WebService getWS_WebService() throws RuntimeException;
 }

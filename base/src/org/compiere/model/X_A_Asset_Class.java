@@ -29,7 +29,7 @@ public class X_A_Asset_Class extends PO implements I_A_Asset_Class, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170627L;
+	private static final long serialVersionUID = 20170731L;
 
     /** Standard Constructor */
     public X_A_Asset_Class (Properties ctx, int A_Asset_Class_ID, String trxName)
@@ -93,6 +93,23 @@ public class X_A_Asset_Class extends PO implements I_A_Asset_Class, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Life Periods 2004 (min).
+		@param A_Life_Period_2004 Life Periods 2004 (min)	  */
+	public void setA_Life_Period_2004 (int A_Life_Period_2004)
+	{
+		set_Value (COLUMNNAME_A_Life_Period_2004, Integer.valueOf(A_Life_Period_2004));
+	}
+
+	/** Get Life Periods 2004 (min).
+		@return Life Periods 2004 (min)	  */
+	public int getA_Life_Period_2004 () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_A_Life_Period_2004);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Life periods (max).
 		@param A_Life_Period_Max Life periods (max)	  */
 	public void setA_Life_Period_Max (int A_Life_Period_Max)
@@ -122,23 +139,6 @@ public class X_A_Asset_Class extends PO implements I_A_Asset_Class, I_Persistent
 	public int getA_Life_Period_Min () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Life_Period_Min);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Life Periods 2004 (min).
-		@param A_Life_Period_2004 Life Periods 2004 (min)	  */
-	public void setA_Life_Period_2004 (int A_Life_Period_2004)
-	{
-		set_Value (COLUMNNAME_A_Life_Period_2004, Integer.valueOf(A_Life_Period_2004));
-	}
-
-	/** Get Life Periods 2004 (min).
-		@return Life Periods 2004 (min)	  */
-	public int getA_Life_Period_2004 () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_A_Life_Period_2004);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

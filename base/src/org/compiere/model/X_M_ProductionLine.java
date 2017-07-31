@@ -32,7 +32,7 @@ public class X_M_ProductionLine extends PO implements I_M_ProductionLine, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170627L;
+	private static final long serialVersionUID = 20170731L;
 
     /** Standard Constructor */
     public X_M_ProductionLine (Properties ctx, int M_ProductionLine_ID, String trxName)
@@ -45,10 +45,10 @@ public class X_M_ProductionLine extends PO implements I_M_ProductionLine, I_Pers
 			setM_AttributeSetInstance_ID (0);
 			setM_Locator_ID (0);
 // @M_Locator_ID@
-			setMovementQty (Env.ZERO);
 			setM_Product_ID (0);
-			setM_Production_ID (0);
 			setM_ProductionLine_ID (0);
+			setM_Production_ID (0);
+			setMovementQty (Env.ZERO);
 			setProcessed (false);
         } */
     }
@@ -160,34 +160,6 @@ public class X_M_ProductionLine extends PO implements I_M_ProductionLine, I_Pers
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException
-    {
-		return (org.compiere.model.I_C_Project)MTable.get(getCtx(), org.compiere.model.I_C_Project.Table_Name)
-			.getPO(getC_Project_ID(), get_TrxName());	}
-
-	/** Set Project.
-		@param C_Project_ID 
-		Financial Project
-	  */
-	public void setC_Project_ID (int C_Project_ID)
-	{
-		if (C_Project_ID < 1) 
-			set_Value (COLUMNNAME_C_Project_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
-	}
-
-	/** Get Project.
-		@return Financial Project
-	  */
-	public int getC_Project_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Project_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.compiere.model.I_C_ProjectPhase getC_ProjectPhase() throws RuntimeException
     {
 		return (org.compiere.model.I_C_ProjectPhase)MTable.get(getCtx(), org.compiere.model.I_C_ProjectPhase.Table_Name)
@@ -239,6 +211,34 @@ public class X_M_ProductionLine extends PO implements I_M_ProductionLine, I_Pers
 	public int getC_ProjectTask_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_ProjectTask_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_Project)MTable.get(getCtx(), org.compiere.model.I_C_Project.Table_Name)
+			.getPO(getC_Project_ID(), get_TrxName());	}
+
+	/** Set Project.
+		@param C_Project_ID 
+		Financial Project
+	  */
+	public void setC_Project_ID (int C_Project_ID)
+	{
+		if (C_Project_ID < 1) 
+			set_Value (COLUMNNAME_C_Project_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
+	}
+
+	/** Get Project.
+		@return Financial Project
+	  */
+	public int getC_Project_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Project_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -361,26 +361,6 @@ public class X_M_ProductionLine extends PO implements I_M_ProductionLine, I_Pers
 		return ii.intValue();
 	}
 
-	/** Set Movement Quantity.
-		@param MovementQty 
-		Quantity of a product moved.
-	  */
-	public void setMovementQty (BigDecimal MovementQty)
-	{
-		set_Value (COLUMNNAME_MovementQty, MovementQty);
-	}
-
-	/** Get Movement Quantity.
-		@return Quantity of a product moved.
-	  */
-	public BigDecimal getMovementQty () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_MovementQty);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
 	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
     {
 		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
@@ -408,42 +388,6 @@ public class X_M_ProductionLine extends PO implements I_M_ProductionLine, I_Pers
 			 return 0;
 		return ii.intValue();
 	}
-
-	public org.compiere.model.I_M_Production getM_Production() throws RuntimeException
-    {
-		return (org.compiere.model.I_M_Production)MTable.get(getCtx(), org.compiere.model.I_M_Production.Table_Name)
-			.getPO(getM_Production_ID(), get_TrxName());	}
-
-	/** Set Production.
-		@param M_Production_ID 
-		Plan for producing a product
-	  */
-	public void setM_Production_ID (int M_Production_ID)
-	{
-		if (M_Production_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_M_Production_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_M_Production_ID, Integer.valueOf(M_Production_ID));
-	}
-
-	/** Get Production.
-		@return Plan for producing a product
-	  */
-	public int getM_Production_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_Production_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-    /** Get Record ID/ColumnName
-        @return ID/ColumnName pair
-      */
-    public KeyNamePair getKeyNamePair() 
-    {
-        return new KeyNamePair(get_ID(), String.valueOf(getM_Production_ID()));
-    }
 
 	/** Set Production Line.
 		@param M_ProductionLine_ID 
@@ -494,6 +438,62 @@ public class X_M_ProductionLine extends PO implements I_M_ProductionLine, I_Pers
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	public org.compiere.model.I_M_Production getM_Production() throws RuntimeException
+    {
+		return (org.compiere.model.I_M_Production)MTable.get(getCtx(), org.compiere.model.I_M_Production.Table_Name)
+			.getPO(getM_Production_ID(), get_TrxName());	}
+
+	/** Set Production.
+		@param M_Production_ID 
+		Plan for producing a product
+	  */
+	public void setM_Production_ID (int M_Production_ID)
+	{
+		if (M_Production_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_Production_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Production_ID, Integer.valueOf(M_Production_ID));
+	}
+
+	/** Get Production.
+		@return Plan for producing a product
+	  */
+	public int getM_Production_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_Production_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), String.valueOf(getM_Production_ID()));
+    }
+
+	/** Set Movement Quantity.
+		@param MovementQty 
+		Quantity of a product moved.
+	  */
+	public void setMovementQty (BigDecimal MovementQty)
+	{
+		set_Value (COLUMNNAME_MovementQty, MovementQty);
+	}
+
+	/** Get Movement Quantity.
+		@return Quantity of a product moved.
+	  */
+	public BigDecimal getMovementQty () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_MovementQty);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** Set Picked Qty.

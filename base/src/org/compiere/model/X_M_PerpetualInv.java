@@ -31,7 +31,7 @@ public class X_M_PerpetualInv extends PO implements I_M_PerpetualInv, I_Persiste
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170627L;
+	private static final long serialVersionUID = 20170731L;
 
     /** Standard Constructor */
     public X_M_PerpetualInv (Properties ctx, int M_PerpetualInv_ID, String trxName)
