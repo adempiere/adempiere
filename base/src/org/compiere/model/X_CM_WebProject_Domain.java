@@ -30,7 +30,7 @@ public class X_CM_WebProject_Domain extends PO implements I_CM_WebProject_Domain
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170627L;
+	private static final long serialVersionUID = 20170731L;
 
     /** Standard Constructor */
     public X_CM_WebProject_Domain (Properties ctx, int CM_WebProject_Domain_ID, String trxName)

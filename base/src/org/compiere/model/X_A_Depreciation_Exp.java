@@ -33,7 +33,7 @@ public class X_A_Depreciation_Exp extends PO implements I_A_Depreciation_Exp, I_
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170627L;
+	private static final long serialVersionUID = 20170731L;
 
     /** Standard Constructor */
     public X_A_Depreciation_Exp (Properties ctx, int A_Depreciation_Exp_ID, String trxName)
@@ -452,6 +452,34 @@ public class X_A_Depreciation_Exp extends PO implements I_A_Depreciation_Exp, I_
 		return ii.intValue();
 	}
 
+	public I_C_ValidCombination getDR_Account() throws RuntimeException
+    {
+		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
+			.getPO(getDR_Account_ID(), get_TrxName());	}
+
+	/** Set Account (debit).
+		@param DR_Account_ID 
+		Account used
+	  */
+	public void setDR_Account_ID (int DR_Account_ID)
+	{
+		if (DR_Account_ID < 1) 
+			set_Value (COLUMNNAME_DR_Account_ID, null);
+		else 
+			set_Value (COLUMNNAME_DR_Account_ID, Integer.valueOf(DR_Account_ID));
+	}
+
+	/** Get Account (debit).
+		@return Account used
+	  */
+	public int getDR_Account_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_DR_Account_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Account Date.
 		@param DateAcct 
 		Accounting Date
@@ -484,34 +512,6 @@ public class X_A_Depreciation_Exp extends PO implements I_A_Depreciation_Exp, I_
 	public String getDescription () 
 	{
 		return (String)get_Value(COLUMNNAME_Description);
-	}
-
-	public I_C_ValidCombination getDR_Account() throws RuntimeException
-    {
-		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
-			.getPO(getDR_Account_ID(), get_TrxName());	}
-
-	/** Set Account (debit).
-		@param DR_Account_ID 
-		Account used
-	  */
-	public void setDR_Account_ID (int DR_Account_ID)
-	{
-		if (DR_Account_ID < 1) 
-			set_Value (COLUMNNAME_DR_Account_ID, null);
-		else 
-			set_Value (COLUMNNAME_DR_Account_ID, Integer.valueOf(DR_Account_ID));
-	}
-
-	/** Get Account (debit).
-		@return Account used
-	  */
-	public int getDR_Account_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_DR_Account_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
 	}
 
 	/** Set Expense.

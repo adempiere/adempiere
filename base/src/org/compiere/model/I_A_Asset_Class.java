@@ -41,15 +41,6 @@ public interface I_A_Asset_Class
 
     /** Load Meta Data */
 
-    /** Column name A_Asset_Class_ID */
-    public static final String COLUMNNAME_A_Asset_Class_ID = "A_Asset_Class_ID";
-
-	/** Set Asset class	  */
-	public void setA_Asset_Class_ID (int A_Asset_Class_ID);
-
-	/** Get Asset class	  */
-	public int getA_Asset_Class_ID();
-
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
 
@@ -71,6 +62,24 @@ public interface I_A_Asset_Class
 	  */
 	public int getAD_Org_ID();
 
+    /** Column name A_Asset_Class_ID */
+    public static final String COLUMNNAME_A_Asset_Class_ID = "A_Asset_Class_ID";
+
+	/** Set Asset class	  */
+	public void setA_Asset_Class_ID (int A_Asset_Class_ID);
+
+	/** Get Asset class	  */
+	public int getA_Asset_Class_ID();
+
+    /** Column name A_Life_Period_2004 */
+    public static final String COLUMNNAME_A_Life_Period_2004 = "A_Life_Period_2004";
+
+	/** Set Life Periods 2004 (min)	  */
+	public void setA_Life_Period_2004 (int A_Life_Period_2004);
+
+	/** Get Life Periods 2004 (min)	  */
+	public int getA_Life_Period_2004();
+
     /** Column name A_Life_Period_Max */
     public static final String COLUMNNAME_A_Life_Period_Max = "A_Life_Period_Max";
 
@@ -88,15 +97,6 @@ public interface I_A_Asset_Class
 
 	/** Get Life periods (min)	  */
 	public int getA_Life_Period_Min();
-
-    /** Column name A_Life_Period_2004 */
-    public static final String COLUMNNAME_A_Life_Period_2004 = "A_Life_Period_2004";
-
-	/** Set Life Periods 2004 (min)	  */
-	public void setA_Life_Period_2004 (int A_Life_Period_2004);
-
-	/** Get Life Periods 2004 (min)	  */
-	public int getA_Life_Period_2004();
 
     /** Column name A_Value_2004 */
     public static final String COLUMNNAME_A_Value_2004 = "A_Value_2004";

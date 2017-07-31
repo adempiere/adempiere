@@ -186,15 +186,6 @@ public interface I_M_PriceList
 	  */
 	public boolean isNetPrice();
 
-    /** Column name isPresentForProduct */
-    public static final String COLUMNNAME_isPresentForProduct = "isPresentForProduct";
-
-	/** Set isPresentForProduct	  */
-	public void setisPresentForProduct (boolean isPresentForProduct);
-
-	/** Get isPresentForProduct	  */
-	public boolean isPresentForProduct();
-
     /** Column name IsSOPriceList */
     public static final String COLUMNNAME_IsSOPriceList = "IsSOPriceList";
 
@@ -275,4 +266,13 @@ public interface I_M_PriceList
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name isPresentForProduct */
+    public static final String COLUMNNAME_isPresentForProduct = "isPresentForProduct";
+
+	/** Set isPresentForProduct	  */
+	public void setisPresentForProduct (boolean isPresentForProduct);
+
+	/** Get isPresentForProduct	  */
+	public boolean isPresentForProduct();
 }

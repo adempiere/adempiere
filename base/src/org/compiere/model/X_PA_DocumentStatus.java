@@ -30,7 +30,7 @@ public class X_PA_DocumentStatus extends PO implements I_PA_DocumentStatus, I_Pe
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170627L;
+	private static final long serialVersionUID = 20170731L;
 
     /** Standard Constructor */
     public X_PA_DocumentStatus (Properties ctx, int PA_DocumentStatus_ID, String trxName)
@@ -44,8 +44,8 @@ public class X_PA_DocumentStatus extends PO implements I_PA_DocumentStatus, I_Pe
 			setName_PrintFont_ID (0);
 			setNumber_PrintColor_ID (0);
 			setNumber_PrintFont_ID (0);
-			setSeqNo (0);
 			setPA_DocumentStatus_ID (0);
+			setSeqNo (0);
         } */
     }
 
@@ -387,26 +387,6 @@ public class X_PA_DocumentStatus extends PO implements I_PA_DocumentStatus, I_Pe
 		return ii.intValue();
 	}
 
-	/** Set Sequence.
-		@param SeqNo 
-		Method of ordering records; lowest number comes first
-	  */
-	public void setSeqNo (int SeqNo)
-	{
-		set_Value (COLUMNNAME_SeqNo, Integer.valueOf(SeqNo));
-	}
-
-	/** Get Sequence.
-		@return Method of ordering records; lowest number comes first
-	  */
-	public int getSeqNo () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_SeqNo);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Document Status Indicator.
 		@param PA_DocumentStatus_ID Document Status Indicator	  */
 	public void setPA_DocumentStatus_ID (int PA_DocumentStatus_ID)
@@ -422,6 +402,26 @@ public class X_PA_DocumentStatus extends PO implements I_PA_DocumentStatus, I_Pe
 	public int getPA_DocumentStatus_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PA_DocumentStatus_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Sequence.
+		@param SeqNo 
+		Method of ordering records; lowest number comes first
+	  */
+	public void setSeqNo (int SeqNo)
+	{
+		set_Value (COLUMNNAME_SeqNo, Integer.valueOf(SeqNo));
+	}
+
+	/** Get Sequence.
+		@return Method of ordering records; lowest number comes first
+	  */
+	public int getSeqNo () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_SeqNo);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

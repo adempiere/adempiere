@@ -33,7 +33,7 @@ public class X_M_Movement extends PO implements I_M_Movement, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170627L;
+	private static final long serialVersionUID = 20170731L;
 
     /** Standard Constructor */
     public X_M_Movement (Properties ctx, int M_Movement_ID, String trxName)
@@ -154,6 +154,23 @@ public class X_M_Movement extends PO implements I_M_Movement, I_Persistent
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
+	}
+
+	/** Set Barcode Scanner.
+		@param BarcodeScanner 
+		This form allows processing the transactions of materials by means of a Barcode Scanner.
+	  */
+	public void setBarcodeScanner (String BarcodeScanner)
+	{
+		set_Value (COLUMNNAME_BarcodeScanner, BarcodeScanner);
+	}
+
+	/** Get Barcode Scanner.
+		@return This form allows processing the transactions of materials by means of a Barcode Scanner.
+	  */
+	public String getBarcodeScanner () 
+	{
+		return (String)get_Value(COLUMNNAME_BarcodeScanner);
 	}
 
 	public org.compiere.model.I_C_Activity getC_Activity() throws RuntimeException
@@ -324,26 +341,6 @@ public class X_M_Movement extends PO implements I_M_Movement, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Charge amount.
-		@param ChargeAmt 
-		Charge Amount
-	  */
-	public void setChargeAmt (BigDecimal ChargeAmt)
-	{
-		set_Value (COLUMNNAME_ChargeAmt, ChargeAmt);
-	}
-
-	/** Get Charge amount.
-		@return Charge Amount
-	  */
-	public BigDecimal getChargeAmt () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ChargeAmt);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
 	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException
     {
 		return (org.compiere.model.I_C_Project)MTable.get(getCtx(), org.compiere.model.I_C_Project.Table_Name)
@@ -372,6 +369,26 @@ public class X_M_Movement extends PO implements I_M_Movement, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Charge amount.
+		@param ChargeAmt 
+		Charge Amount
+	  */
+	public void setChargeAmt (BigDecimal ChargeAmt)
+	{
+		set_Value (COLUMNNAME_ChargeAmt, ChargeAmt);
+	}
+
+	/** Get Charge amount.
+		@return Charge Amount
+	  */
+	public BigDecimal getChargeAmt () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ChargeAmt);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
 	/** Set Create lines from.
 		@param CreateFrom 
 		Process which will generate a new document lines based on an existing document
@@ -387,23 +404,6 @@ public class X_M_Movement extends PO implements I_M_Movement, I_Persistent
 	public String getCreateFrom () 
 	{
 		return (String)get_Value(COLUMNNAME_CreateFrom);
-	}
-
-	/** Set Date received.
-		@param DateReceived 
-		Date a product was received
-	  */
-	public void setDateReceived (Timestamp DateReceived)
-	{
-		set_Value (COLUMNNAME_DateReceived, DateReceived);
-	}
-
-	/** Get Date received.
-		@return Date a product was received
-	  */
-	public Timestamp getDateReceived () 
-	{
-		return (Timestamp)get_Value(COLUMNNAME_DateReceived);
 	}
 
 	public org.eevolution.model.I_DD_Order getDD_Order() throws RuntimeException
@@ -429,6 +429,23 @@ public class X_M_Movement extends PO implements I_M_Movement, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Date received.
+		@param DateReceived 
+		Date a product was received
+	  */
+	public void setDateReceived (Timestamp DateReceived)
+	{
+		set_Value (COLUMNNAME_DateReceived, DateReceived);
+	}
+
+	/** Get Date received.
+		@return Date a product was received
+	  */
+	public Timestamp getDateReceived () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_DateReceived);
 	}
 
 	/** DeliveryRule AD_Reference_ID=151 */
@@ -742,23 +759,6 @@ public class X_M_Movement extends PO implements I_M_Movement, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Movement Date.
-		@param MovementDate 
-		Date a product was moved in or out of inventory
-	  */
-	public void setMovementDate (Timestamp MovementDate)
-	{
-		set_Value (COLUMNNAME_MovementDate, MovementDate);
-	}
-
-	/** Get Movement Date.
-		@return Date a product was moved in or out of inventory
-	  */
-	public Timestamp getMovementDate () 
-	{
-		return (Timestamp)get_Value(COLUMNNAME_MovementDate);
-	}
-
 	public org.compiere.model.I_M_ProductionBatch getM_ProductionBatch() throws RuntimeException
     {
 		return (org.compiere.model.I_M_ProductionBatch)MTable.get(getCtx(), org.compiere.model.I_M_ProductionBatch.Table_Name)
@@ -810,6 +810,23 @@ public class X_M_Movement extends PO implements I_M_Movement, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Movement Date.
+		@param MovementDate 
+		Date a product was moved in or out of inventory
+	  */
+	public void setMovementDate (Timestamp MovementDate)
+	{
+		set_Value (COLUMNNAME_MovementDate, MovementDate);
+	}
+
+	/** Get Movement Date.
+		@return Date a product was moved in or out of inventory
+	  */
+	public Timestamp getMovementDate () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_MovementDate);
 	}
 
 	/** Set Order Reference.

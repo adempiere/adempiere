@@ -31,7 +31,7 @@ public class X_DD_RequirementAssignment extends PO implements I_DD_RequirementAs
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170627L;
+	private static final long serialVersionUID = 20170731L;
 
     /** Standard Constructor */
     public X_DD_RequirementAssignment (Properties ctx, int DD_RequirementAssignment_ID, String trxName)

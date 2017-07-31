@@ -92,15 +92,6 @@ public interface I_DD_License
 	  */
 	public int getCreatedBy();
 
-    /** Column name DD_License_ID */
-    public static final String COLUMNNAME_DD_License_ID = "DD_License_ID";
-
-	/** Set License	  */
-	public void setDD_License_ID (int DD_License_ID);
-
-	/** Get License	  */
-	public int getDD_License_ID();
-
     /** Column name DD_LicenseType_ID */
     public static final String COLUMNNAME_DD_LicenseType_ID = "DD_LicenseType_ID";
 
@@ -111,6 +102,15 @@ public interface I_DD_License
 	public int getDD_LicenseType_ID();
 
 	public org.eevolution.model.I_DD_LicenseType getDD_LicenseType() throws RuntimeException;
+
+    /** Column name DD_License_ID */
+    public static final String COLUMNNAME_DD_License_ID = "DD_License_ID";
+
+	/** Set License	  */
+	public void setDD_License_ID (int DD_License_ID);
+
+	/** Get License	  */
+	public int getDD_License_ID();
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";

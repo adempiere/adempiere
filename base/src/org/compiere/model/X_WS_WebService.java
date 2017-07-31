@@ -30,7 +30,7 @@ public class X_WS_WebService extends PO implements I_WS_WebService, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170627L;
+	private static final long serialVersionUID = 20170731L;
 
     /** Standard Constructor */
     public X_WS_WebService (Properties ctx, int WS_WebService_ID, String trxName)

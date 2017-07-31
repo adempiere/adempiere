@@ -85,33 +85,9 @@ public class WDocumentStatusIndicator extends Panel implements EventListener
 	{
 		Label nameLabel = new Label();
 		nameLabel.setText(m_documentStatus.getName());
-		int AD_PrintColor_ID = m_documentStatus.getName_PrintColor_ID();
-		MPrintColor printColor = MPrintColor.get(Env.getCtx(), AD_PrintColor_ID);
-		String color = ZkCssHelper.createHexColorString(printColor.getColor());
-		int AD_PrintFont_ID = m_documentStatus.getName_PrintFont_ID();
-		MPrintFont printFont = MPrintFont.get(AD_PrintFont_ID);
-		String family = printFont.getFont().getFamily();
-		boolean bold = printFont.getFont().isBold();
-		boolean italic = printFont.getFont().isItalic();
-		int pointSize = printFont.getFont().getSize();
-		String fontStyle = "font-family:'"+family+"';font-weight:"+(bold ? "bold" : "normal")+";font-style:"+(italic ? "italic" : "normal")+";font-size:"+pointSize+"pt";
-		nameLabel.setStyle("color:#"+color+";"+fontStyle);
-
+		
+		nameLabel.setStyle("text-decoration: underline;");
 		statusLabel = new Label();
-		AD_PrintColor_ID = m_documentStatus.getNumber_PrintColor_ID();
-		printColor = MPrintColor.get(Env.getCtx(), AD_PrintColor_ID);
-		color = ZkCssHelper.createHexColorString(printColor.getColor());
-		AD_PrintFont_ID = m_documentStatus.getNumber_PrintFont_ID();
-		printFont = MPrintFont.get(AD_PrintFont_ID);
-		family = printFont.getFont().getFamily();
-		bold = printFont.getFont().isBold();
-		italic = printFont.getFont().isItalic();
-		pointSize = printFont.getFont().getSize();
-		fontStyle = "font-family:'"+family+"';font-weight:"+(bold ? "bold" : "normal")+";font-style:"+(italic ? "italic" : "normal")+";font-size:"+pointSize+"pt";
-		int margin = pointSize;
-		String marginStyle = "margin-top:"+margin+"pt;"+"margin-bottom:"+margin+"pt;";
-		statusLabel.setStyle("color:#"+color+";"+fontStyle+";"+marginStyle);
-
 		statusLabel.setWidth("60px");
 		
 		Hbox box = new Hbox();

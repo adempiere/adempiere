@@ -41,6 +41,40 @@ public interface I_I_Budget
 
     /** Load Meta Data */
 
+    /** Column name AD_Client_ID */
+    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
+
+	/** Get Client.
+	  * Client/Tenant for this installation.
+	  */
+	public int getAD_Client_ID();
+
+    /** Column name AD_OrgTrx_ID */
+    public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
+
+	/** Set Trx Organization.
+	  * Performing or initiating organization
+	  */
+	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID);
+
+	/** Get Trx Organization.
+	  * Performing or initiating organization
+	  */
+	public int getAD_OrgTrx_ID();
+
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
+
     /** Column name A_Asset_ID */
     public static final String COLUMNNAME_A_Asset_ID = "A_Asset_ID";
 
@@ -56,6 +90,19 @@ public interface I_I_Budget
 
 	public org.compiere.model.I_A_Asset getA_Asset() throws RuntimeException;
 
+    /** Column name AccountValue */
+    public static final String COLUMNNAME_AccountValue = "AccountValue";
+
+	/** Set Account Key.
+	  * Key of Account Element
+	  */
+	public void setAccountValue (String AccountValue);
+
+	/** Get Account Key.
+	  * Key of Account Element
+	  */
+	public String getAccountValue();
+
     /** Column name Account_ID */
     public static final String COLUMNNAME_Account_ID = "Account_ID";
 
@@ -70,19 +117,6 @@ public interface I_I_Budget
 	public int getAccount_ID();
 
 	public org.compiere.model.I_C_ElementValue getAccount() throws RuntimeException;
-
-    /** Column name AccountValue */
-    public static final String COLUMNNAME_AccountValue = "AccountValue";
-
-	/** Set Account Key.
-	  * Key of Account Element
-	  */
-	public void setAccountValue (String AccountValue);
-
-	/** Get Account Key.
-	  * Key of Account Element
-	  */
-	public String getAccountValue();
 
     /** Column name AcctSchemaName */
     public static final String COLUMNNAME_AcctSchemaName = "AcctSchemaName";
@@ -106,40 +140,6 @@ public interface I_I_Budget
 	/** Get Activity Value	  */
 	public String getActivityValue();
 
-    /** Column name AD_Client_ID */
-    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
-
-	/** Get Client.
-	  * Client/Tenant for this installation.
-	  */
-	public int getAD_Client_ID();
-
-    /** Column name AD_Org_ID */
-    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
-
-	/** Set Organization.
-	  * Organizational entity within client
-	  */
-	public void setAD_Org_ID (int AD_Org_ID);
-
-	/** Get Organization.
-	  * Organizational entity within client
-	  */
-	public int getAD_Org_ID();
-
-    /** Column name AD_OrgTrx_ID */
-    public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
-
-	/** Set Trx Organization.
-	  * Performing or initiating organization
-	  */
-	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID);
-
-	/** Get Trx Organization.
-	  * Performing or initiating organization
-	  */
-	public int getAD_OrgTrx_ID();
-
     /** Column name AssetValue */
     public static final String COLUMNNAME_AssetValue = "AssetValue";
 
@@ -148,19 +148,6 @@ public interface I_I_Budget
 
 	/** Get Asset Value	  */
 	public String getAssetValue();
-
-    /** Column name BatchDocumentNo */
-    public static final String COLUMNNAME_BatchDocumentNo = "BatchDocumentNo";
-
-	/** Set Batch Document No.
-	  * Document Number of the Batch
-	  */
-	public void setBatchDocumentNo (String BatchDocumentNo);
-
-	/** Get Batch Document No.
-	  * Document Number of the Batch
-	  */
-	public String getBatchDocumentNo();
 
     /** Column name BPartnerValue */
     public static final String COLUMNNAME_BPartnerValue = "BPartnerValue";
@@ -174,6 +161,19 @@ public interface I_I_Budget
 	  * Key of the Business Partner
 	  */
 	public String getBPartnerValue();
+
+    /** Column name BatchDocumentNo */
+    public static final String COLUMNNAME_BatchDocumentNo = "BatchDocumentNo";
+
+	/** Set Batch Document No.
+	  * Document Number of the Batch
+	  */
+	public void setBatchDocumentNo (String BatchDocumentNo);
+
+	/** Get Batch Document No.
+	  * Document Number of the Batch
+	  */
+	public String getBatchDocumentNo();
 
     /** Column name BudgetCode */
     public static final String COLUMNNAME_BudgetCode = "BudgetCode";
@@ -213,15 +213,6 @@ public interface I_I_Budget
 	public int getC_Activity_ID();
 
 	public org.compiere.model.I_C_Activity getC_Activity() throws RuntimeException;
-
-    /** Column name CampaignValue */
-    public static final String COLUMNNAME_CampaignValue = "CampaignValue";
-
-	/** Set Campaign Value	  */
-	public void setCampaignValue (String CampaignValue);
-
-	/** Get Campaign Value	  */
-	public String getCampaignValue();
 
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
@@ -298,22 +289,6 @@ public interface I_I_Budget
 
 	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException;
 
-    /** Column name Created */
-    public static final String COLUMNNAME_Created = "Created";
-
-	/** Get Created.
-	  * Date this record was created
-	  */
-	public Timestamp getCreated();
-
-    /** Column name CreatedBy */
-    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
-
-	/** Get Created By.
-	  * User who created this records
-	  */
-	public int getCreatedBy();
-
     /** Column name C_SalesRegion_ID */
     public static final String COLUMNNAME_C_SalesRegion_ID = "C_SalesRegion_ID";
 
@@ -359,6 +334,31 @@ public interface I_I_Budget
 
 	public org.compiere.model.I_C_ValidCombination getC_ValidCombination() throws RuntimeException;
 
+    /** Column name CampaignValue */
+    public static final String COLUMNNAME_CampaignValue = "CampaignValue";
+
+	/** Set Campaign Value	  */
+	public void setCampaignValue (String CampaignValue);
+
+	/** Get Campaign Value	  */
+	public String getCampaignValue();
+
+    /** Column name Created */
+    public static final String COLUMNNAME_Created = "Created";
+
+	/** Get Created.
+	  * Date this record was created
+	  */
+	public Timestamp getCreated();
+
+    /** Column name CreatedBy */
+    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
+
+	/** Get Created By.
+	  * User who created this records
+	  */
+	public int getCreatedBy();
+
     /** Column name GL_Budget_ID */
     public static final String COLUMNNAME_GL_Budget_ID = "GL_Budget_ID";
 
@@ -389,21 +389,6 @@ public interface I_I_Budget
 
 	public org.compiere.model.I_GL_JournalBatch getGL_JournalBatch() throws RuntimeException;
 
-    /** Column name GL_Journal_ID */
-    public static final String COLUMNNAME_GL_Journal_ID = "GL_Journal_ID";
-
-	/** Set Journal.
-	  * General Ledger Journal
-	  */
-	public void setGL_Journal_ID (int GL_Journal_ID);
-
-	/** Get Journal.
-	  * General Ledger Journal
-	  */
-	public int getGL_Journal_ID();
-
-	public org.compiere.model.I_GL_Journal getGL_Journal() throws RuntimeException;
-
     /** Column name GL_JournalLine_ID */
     public static final String COLUMNNAME_GL_JournalLine_ID = "GL_JournalLine_ID";
 
@@ -418,6 +403,21 @@ public interface I_I_Budget
 	public int getGL_JournalLine_ID();
 
 	public org.compiere.model.I_GL_JournalLine getGL_JournalLine() throws RuntimeException;
+
+    /** Column name GL_Journal_ID */
+    public static final String COLUMNNAME_GL_Journal_ID = "GL_Journal_ID";
+
+	/** Set Journal.
+	  * General Ledger Journal
+	  */
+	public void setGL_Journal_ID (int GL_Journal_ID);
+
+	/** Get Journal.
+	  * General Ledger Journal
+	  */
+	public int getGL_Journal_ID();
+
+	public org.compiere.model.I_GL_Journal getGL_Journal() throws RuntimeException;
 
     /** Column name I_Budget_ID */
     public static final String COLUMNNAME_I_Budget_ID = "I_Budget_ID";
@@ -476,6 +476,21 @@ public interface I_I_Budget
 	/** Get Journal Line Description	  */
 	public String getJnl_Line_Description();
 
+    /** Column name M_Product_ID */
+    public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
+
+	/** Set Product.
+	  * Product, Service, Item
+	  */
+	public void setM_Product_ID (int M_Product_ID);
+
+	/** Get Product.
+	  * Product, Service, Item
+	  */
+	public int getM_Product_ID();
+
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
+
     /** Column name Month_0_Amt */
     public static final String COLUMNNAME_Month_0_Amt = "Month_0_Amt";
 
@@ -493,24 +508,6 @@ public interface I_I_Budget
 
 	/** Get Month_0_Qty	  */
 	public BigDecimal getMonth_0_Qty();
-
-    /** Column name Month_1_Amt */
-    public static final String COLUMNNAME_Month_1_Amt = "Month_1_Amt";
-
-	/** Set Month_1_Amt	  */
-	public void setMonth_1_Amt (BigDecimal Month_1_Amt);
-
-	/** Get Month_1_Amt	  */
-	public BigDecimal getMonth_1_Amt();
-
-    /** Column name Month_1_Qty */
-    public static final String COLUMNNAME_Month_1_Qty = "Month_1_Qty";
-
-	/** Set Month_1_Qty	  */
-	public void setMonth_1_Qty (BigDecimal Month_1_Qty);
-
-	/** Get Month_1_Qty	  */
-	public BigDecimal getMonth_1_Qty();
 
     /** Column name Month_10_Amt */
     public static final String COLUMNNAME_Month_10_Amt = "Month_10_Amt";
@@ -547,6 +544,24 @@ public interface I_I_Budget
 
 	/** Get Month_11_Qty	  */
 	public BigDecimal getMonth_11_Qty();
+
+    /** Column name Month_1_Amt */
+    public static final String COLUMNNAME_Month_1_Amt = "Month_1_Amt";
+
+	/** Set Month_1_Amt	  */
+	public void setMonth_1_Amt (BigDecimal Month_1_Amt);
+
+	/** Get Month_1_Amt	  */
+	public BigDecimal getMonth_1_Amt();
+
+    /** Column name Month_1_Qty */
+    public static final String COLUMNNAME_Month_1_Qty = "Month_1_Qty";
+
+	/** Set Month_1_Qty	  */
+	public void setMonth_1_Qty (BigDecimal Month_1_Qty);
+
+	/** Get Month_1_Qty	  */
+	public BigDecimal getMonth_1_Qty();
 
     /** Column name Month_2_Amt */
     public static final String COLUMNNAME_Month_2_Amt = "Month_2_Amt";
@@ -692,21 +707,6 @@ public interface I_I_Budget
 	/** Get Month_9_Qty	  */
 	public BigDecimal getMonth_9_Qty();
 
-    /** Column name M_Product_ID */
-    public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
-
-	/** Set Product.
-	  * Product, Service, Item
-	  */
-	public void setM_Product_ID (int M_Product_ID);
-
-	/** Get Product.
-	  * Product, Service, Item
-	  */
-	public int getM_Product_ID();
-
-	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
-
     /** Column name OrgTrxValue */
     public static final String COLUMNNAME_OrgTrxValue = "OrgTrxValue";
 
@@ -819,110 +819,6 @@ public interface I_I_Budget
 	  */
 	public int getUpdatedBy();
 
-    /** Column name UserElementValue1 */
-    public static final String COLUMNNAME_UserElementValue1 = "UserElementValue1";
-
-	/** Set User Element Value 1.
-	  * User Element Value 1 defined accounting Element
-	  */
-	public void setUserElementValue1 (String UserElementValue1);
-
-	/** Get User Element Value 1.
-	  * User Element Value 1 defined accounting Element
-	  */
-	public String getUserElementValue1();
-
-    /** Column name UserElementValue2 */
-    public static final String COLUMNNAME_UserElementValue2 = "UserElementValue2";
-
-	/** Set User Element Value 2.
-	  * User Element Value 2 defined accounting Element
-	  */
-	public void setUserElementValue2 (String UserElementValue2);
-
-	/** Get User Element Value 2.
-	  * User Element Value 2 defined accounting Element
-	  */
-	public String getUserElementValue2();
-
-    /** Column name UserElement1_ID */
-    public static final String COLUMNNAME_UserElement1_ID = "UserElement1_ID";
-
-	/** Set User Element 1.
-	  * User defined accounting Element
-	  */
-	public void setUserElement1_ID (int UserElement1_ID);
-
-	/** Get User Element 1.
-	  * User defined accounting Element
-	  */
-	public int getUserElement1_ID();
-
-    /** Column name UserElement2_ID */
-    public static final String COLUMNNAME_UserElement2_ID = "UserElement2_ID";
-
-	/** Set User Element 2.
-	  * User defined accounting Element
-	  */
-	public void setUserElement2_ID (int UserElement2_ID);
-
-	/** Get User Element 2.
-	  * User defined accounting Element
-	  */
-	public int getUserElement2_ID();
-
-    /** Column name UserValue1 */
-    public static final String COLUMNNAME_UserValue1 = "UserValue1";
-
-	/** Set User List Value 1.
-	  * User value defined list element #1
-	  */
-	public void setUserValue1 (String UserValue1);
-
-	/** Get User List Value 1.
-	  * User value defined list element #1
-	  */
-	public String getUserValue1();
-
-    /** Column name UserValue2 */
-    public static final String COLUMNNAME_UserValue2 = "UserValue2";
-
-	/** Set User List Value 2.
-	  * User value defined list element #2
-	  */
-	public void setUserValue2 (String UserValue2);
-
-	/** Get User List Value 2.
-	  * User value defined list element #2
-	  */
-	public String getUserValue2();
-
-    /** Column name UserValue3 */
-    public static final String COLUMNNAME_UserValue3 = "UserValue3";
-
-	/** Set User List Value 3.
-	  * User value defined list element #3
-	  */
-	public void setUserValue3 (String UserValue3);
-
-	/** Get User List Value 3.
-	  * User value defined list element #3
-	  */
-	public String getUserValue3();
-
-    /** Column name UserValue4 */
-    public static final String COLUMNNAME_UserValue4 = "UserValue4";
-
-	/** Set User List Value 4.
-	  * User value defined list element #3
-	  */
-	public void setUserValue4 (String UserValue4);
-
-	/** Get User List Value 4.
-	  * User value defined list element #3
-	  */
-	public String getUserValue4();
-
     /** Column name User1_ID */
     public static final String COLUMNNAME_User1_ID = "User1_ID";
 
@@ -982,4 +878,108 @@ public interface I_I_Budget
 	public int getUser4_ID();
 
 	public org.compiere.model.I_C_ElementValue getUser4() throws RuntimeException;
+
+    /** Column name UserElement1_ID */
+    public static final String COLUMNNAME_UserElement1_ID = "UserElement1_ID";
+
+	/** Set User Element 1.
+	  * User defined accounting Element
+	  */
+	public void setUserElement1_ID (int UserElement1_ID);
+
+	/** Get User Element 1.
+	  * User defined accounting Element
+	  */
+	public int getUserElement1_ID();
+
+    /** Column name UserElement2_ID */
+    public static final String COLUMNNAME_UserElement2_ID = "UserElement2_ID";
+
+	/** Set User Element 2.
+	  * User defined accounting Element
+	  */
+	public void setUserElement2_ID (int UserElement2_ID);
+
+	/** Get User Element 2.
+	  * User defined accounting Element
+	  */
+	public int getUserElement2_ID();
+
+    /** Column name UserElementValue1 */
+    public static final String COLUMNNAME_UserElementValue1 = "UserElementValue1";
+
+	/** Set User Element Value 1.
+	  * User Element Value 1 defined accounting Element
+	  */
+	public void setUserElementValue1 (String UserElementValue1);
+
+	/** Get User Element Value 1.
+	  * User Element Value 1 defined accounting Element
+	  */
+	public String getUserElementValue1();
+
+    /** Column name UserElementValue2 */
+    public static final String COLUMNNAME_UserElementValue2 = "UserElementValue2";
+
+	/** Set User Element Value 2.
+	  * User Element Value 2 defined accounting Element
+	  */
+	public void setUserElementValue2 (String UserElementValue2);
+
+	/** Get User Element Value 2.
+	  * User Element Value 2 defined accounting Element
+	  */
+	public String getUserElementValue2();
+
+    /** Column name UserValue1 */
+    public static final String COLUMNNAME_UserValue1 = "UserValue1";
+
+	/** Set User List Value 1.
+	  * User value defined list element #1
+	  */
+	public void setUserValue1 (String UserValue1);
+
+	/** Get User List Value 1.
+	  * User value defined list element #1
+	  */
+	public String getUserValue1();
+
+    /** Column name UserValue2 */
+    public static final String COLUMNNAME_UserValue2 = "UserValue2";
+
+	/** Set User List Value 2.
+	  * User value defined list element #2
+	  */
+	public void setUserValue2 (String UserValue2);
+
+	/** Get User List Value 2.
+	  * User value defined list element #2
+	  */
+	public String getUserValue2();
+
+    /** Column name UserValue3 */
+    public static final String COLUMNNAME_UserValue3 = "UserValue3";
+
+	/** Set User List Value 3.
+	  * User value defined list element #3
+	  */
+	public void setUserValue3 (String UserValue3);
+
+	/** Get User List Value 3.
+	  * User value defined list element #3
+	  */
+	public String getUserValue3();
+
+    /** Column name UserValue4 */
+    public static final String COLUMNNAME_UserValue4 = "UserValue4";
+
+	/** Set User List Value 4.
+	  * User value defined list element #3
+	  */
+	public void setUserValue4 (String UserValue4);
+
+	/** Get User List Value 4.
+	  * User value defined list element #3
+	  */
+	public String getUserValue4();
 }

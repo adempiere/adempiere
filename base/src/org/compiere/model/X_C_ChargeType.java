@@ -30,7 +30,7 @@ public class X_C_ChargeType extends PO implements I_C_ChargeType, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170627L;
+	private static final long serialVersionUID = 20170731L;
 
     /** Standard Constructor */
     public X_C_ChargeType (Properties ctx, int C_ChargeType_ID, String trxName)

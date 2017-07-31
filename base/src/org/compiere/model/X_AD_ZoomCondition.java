@@ -30,7 +30,7 @@ public class X_AD_ZoomCondition extends PO implements I_AD_ZoomCondition, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170627L;
+	private static final long serialVersionUID = 20170731L;
 
     /** Standard Constructor */
     public X_AD_ZoomCondition (Properties ctx, int AD_ZoomCondition_ID, String trxName)

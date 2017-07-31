@@ -33,7 +33,7 @@ public class X_M_Inventory extends PO implements I_M_Inventory, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170627L;
+	private static final long serialVersionUID = 20170731L;
 
     /** Standard Constructor */
     public X_M_Inventory (Properties ctx, int M_Inventory_ID, String trxName)
@@ -49,9 +49,9 @@ public class X_M_Inventory extends PO implements I_M_Inventory, I_Persistent
 			setDocumentNo (null);
 			setIsApproved (false);
 			setM_Inventory_ID (0);
+			setM_Warehouse_ID (0);
 			setMovementDate (new Timestamp( System.currentTimeMillis() ));
 // @#Date@
-			setM_Warehouse_ID (0);
 			setPosted (false);
 			setProcessed (false);
         } */
@@ -126,6 +126,23 @@ public class X_M_Inventory extends PO implements I_M_Inventory, I_Persistent
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
+	}
+
+	/** Set Barcode Scanner.
+		@param BarcodeScanner 
+		This form allows processing the transactions of materials by means of a Barcode Scanner.
+	  */
+	public void setBarcodeScanner (String BarcodeScanner)
+	{
+		set_Value (COLUMNNAME_BarcodeScanner, BarcodeScanner);
+	}
+
+	/** Get Barcode Scanner.
+		@return This form allows processing the transactions of materials by means of a Barcode Scanner.
+	  */
+	public String getBarcodeScanner () 
+	{
+		return (String)get_Value(COLUMNNAME_BarcodeScanner);
 	}
 
 	public org.compiere.model.I_C_Activity getC_Activity() throws RuntimeException
@@ -459,23 +476,6 @@ public class X_M_Inventory extends PO implements I_M_Inventory, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Movement Date.
-		@param MovementDate 
-		Date a product was moved in or out of inventory
-	  */
-	public void setMovementDate (Timestamp MovementDate)
-	{
-		set_Value (COLUMNNAME_MovementDate, MovementDate);
-	}
-
-	/** Get Movement Date.
-		@return Date a product was moved in or out of inventory
-	  */
-	public Timestamp getMovementDate () 
-	{
-		return (Timestamp)get_Value(COLUMNNAME_MovementDate);
-	}
-
 	public org.compiere.model.I_M_PerpetualInv getM_PerpetualInv() throws RuntimeException
     {
 		return (org.compiere.model.I_M_PerpetualInv)MTable.get(getCtx(), org.compiere.model.I_M_PerpetualInv.Table_Name)
@@ -530,6 +530,23 @@ public class X_M_Inventory extends PO implements I_M_Inventory, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Movement Date.
+		@param MovementDate 
+		Date a product was moved in or out of inventory
+	  */
+	public void setMovementDate (Timestamp MovementDate)
+	{
+		set_Value (COLUMNNAME_MovementDate, MovementDate);
+	}
+
+	/** Get Movement Date.
+		@return Date a product was moved in or out of inventory
+	  */
+	public Timestamp getMovementDate () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_MovementDate);
 	}
 
 	/** Set Posted.

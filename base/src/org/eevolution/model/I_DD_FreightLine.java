@@ -63,6 +63,21 @@ public interface I_DD_FreightLine
 	  */
 	public int getAD_Org_ID();
 
+    /** Column name C_Charge_ID */
+    public static final String COLUMNNAME_C_Charge_ID = "C_Charge_ID";
+
+	/** Set Charge.
+	  * Additional document charges
+	  */
+	public void setC_Charge_ID (int C_Charge_ID);
+
+	/** Get Charge.
+	  * Additional document charges
+	  */
+	public int getC_Charge_ID();
+
+	public org.compiere.model.I_C_Charge getC_Charge() throws RuntimeException;
+
     /** Column name C_LocFrom_ID */
     public static final String COLUMNNAME_C_LocFrom_ID = "C_LocFrom_ID";
 
@@ -109,6 +124,15 @@ public interface I_DD_FreightLine
 	  */
 	public int getCreatedBy();
 
+    /** Column name DD_FreightLine_ID */
+    public static final String COLUMNNAME_DD_FreightLine_ID = "DD_FreightLine_ID";
+
+	/** Set Order Freight Line ID	  */
+	public void setDD_FreightLine_ID (int DD_FreightLine_ID);
+
+	/** Get Order Freight Line ID	  */
+	public int getDD_FreightLine_ID();
+
     /** Column name DD_Freight_ID */
     public static final String COLUMNNAME_DD_Freight_ID = "DD_Freight_ID";
 
@@ -119,15 +143,6 @@ public interface I_DD_FreightLine
 	public int getDD_Freight_ID();
 
 	public org.eevolution.model.I_DD_Freight getDD_Freight() throws RuntimeException;
-
-    /** Column name DD_FreightLine_ID */
-    public static final String COLUMNNAME_DD_FreightLine_ID = "DD_FreightLine_ID";
-
-	/** Set Order Freight Line ID	  */
-	public void setDD_FreightLine_ID (int DD_FreightLine_ID);
-
-	/** Get Order Freight Line ID	  */
-	public int getDD_FreightLine_ID();
 
     /** Column name FreightAmt */
     public static final String COLUMNNAME_FreightAmt = "FreightAmt";
@@ -197,6 +212,21 @@ public interface I_DD_FreightLine
 	public int getM_Freight_ID();
 
 	public org.compiere.model.I_M_Freight getM_Freight() throws RuntimeException;
+
+    /** Column name M_Product_ID */
+    public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
+
+	/** Set Product.
+	  * Product, Service, Item
+	  */
+	public void setM_Product_ID (int M_Product_ID);
+
+	/** Get Product.
+	  * Product, Service, Item
+	  */
+	public int getM_Product_ID();
+
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name ShipDate */
     public static final String COLUMNNAME_ShipDate = "ShipDate";

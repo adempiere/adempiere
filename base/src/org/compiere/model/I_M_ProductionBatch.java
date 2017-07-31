@@ -107,15 +107,6 @@ public interface I_M_ProductionBatch
 
 	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException;
 
-    /** Column name CountOrder */
-    public static final String COLUMNNAME_CountOrder = "CountOrder";
-
-	/** Set Order Count	  */
-	public void setCountOrder (int CountOrder);
-
-	/** Get Order Count	  */
-	public int getCountOrder();
-
     /** Column name C_Project_ID */
     public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
 
@@ -130,6 +121,15 @@ public interface I_M_ProductionBatch
 	public int getC_Project_ID();
 
 	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException;
+
+    /** Column name CountOrder */
+    public static final String COLUMNNAME_CountOrder = "CountOrder";
+
+	/** Set Order Count	  */
+	public void setCountOrder (int CountOrder);
+
+	/** Get Order Count	  */
+	public int getCountOrder();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -221,15 +221,6 @@ public interface I_M_ProductionBatch
 	/** Get Automatic Production	  */
 	public boolean isAutoProduction();
 
-    /** Column name IsCreated */
-    public static final String COLUMNNAME_IsCreated = "IsCreated";
-
-	/** Set Records created	  */
-	public void setIsCreated (String IsCreated);
-
-	/** Get Records created	  */
-	public String getIsCreated();
-
     /** Column name IsCreateMove */
     public static final String COLUMNNAME_IsCreateMove = "IsCreateMove";
 
@@ -238,6 +229,15 @@ public interface I_M_ProductionBatch
 
 	/** Get Create Move	  */
 	public boolean isCreateMove();
+
+    /** Column name IsCreated */
+    public static final String COLUMNNAME_IsCreated = "IsCreated";
+
+	/** Set Records created	  */
+	public void setIsCreated (String IsCreated);
+
+	/** Get Records created	  */
+	public String getIsCreated();
 
     /** Column name M_Locator_ID */
     public static final String COLUMNNAME_M_Locator_ID = "M_Locator_ID";
@@ -253,19 +253,6 @@ public interface I_M_ProductionBatch
 	public int getM_Locator_ID();
 
 	public org.compiere.model.I_M_Locator getM_Locator() throws RuntimeException;
-
-    /** Column name MovementDate */
-    public static final String COLUMNNAME_MovementDate = "MovementDate";
-
-	/** Set Movement Date.
-	  * Date a product was moved in or out of inventory
-	  */
-	public void setMovementDate (Timestamp MovementDate);
-
-	/** Get Movement Date.
-	  * Date a product was moved in or out of inventory
-	  */
-	public Timestamp getMovementDate();
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
@@ -290,6 +277,19 @@ public interface I_M_ProductionBatch
 
 	/** Get Production Batch	  */
 	public int getM_ProductionBatch_ID();
+
+    /** Column name MovementDate */
+    public static final String COLUMNNAME_MovementDate = "MovementDate";
+
+	/** Set Movement Date.
+	  * Date a product was moved in or out of inventory
+	  */
+	public void setMovementDate (Timestamp MovementDate);
+
+	/** Get Movement Date.
+	  * Date a product was moved in or out of inventory
+	  */
+	public Timestamp getMovementDate();
 
     /** Column name Posted */
     public static final String COLUMNNAME_Posted = "Posted";

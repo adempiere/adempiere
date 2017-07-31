@@ -49,19 +49,6 @@ public interface I_M_Inventory
 	  */
 	public int getAD_Client_ID();
 
-    /** Column name AD_Org_ID */
-    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
-
-	/** Set Organization.
-	  * Organizational entity within client
-	  */
-	public void setAD_Org_ID (int AD_Org_ID);
-
-	/** Get Organization.
-	  * Organizational entity within client
-	  */
-	public int getAD_Org_ID();
-
     /** Column name AD_OrgTrx_ID */
     public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
 
@@ -75,6 +62,19 @@ public interface I_M_Inventory
 	  */
 	public int getAD_OrgTrx_ID();
 
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
+
     /** Column name ApprovalAmt */
     public static final String COLUMNNAME_ApprovalAmt = "ApprovalAmt";
 
@@ -87,6 +87,19 @@ public interface I_M_Inventory
 	  * Document Approval Amount
 	  */
 	public BigDecimal getApprovalAmt();
+
+    /** Column name BarcodeScanner */
+    public static final String COLUMNNAME_BarcodeScanner = "BarcodeScanner";
+
+	/** Set Barcode Scanner.
+	  * This form allows processing the transactions of materials by means of a Barcode Scanner.
+	  */
+	public void setBarcodeScanner (String BarcodeScanner);
+
+	/** Get Barcode Scanner.
+	  * This form allows processing the transactions of materials by means of a Barcode Scanner.
+	  */
+	public String getBarcodeScanner();
 
     /** Column name C_Activity_ID */
     public static final String COLUMNNAME_C_Activity_ID = "C_Activity_ID";
@@ -277,19 +290,6 @@ public interface I_M_Inventory
 	  */
 	public int getM_Inventory_ID();
 
-    /** Column name MovementDate */
-    public static final String COLUMNNAME_MovementDate = "MovementDate";
-
-	/** Set Movement Date.
-	  * Date a product was moved in or out of inventory
-	  */
-	public void setMovementDate (Timestamp MovementDate);
-
-	/** Get Movement Date.
-	  * Date a product was moved in or out of inventory
-	  */
-	public Timestamp getMovementDate();
-
     /** Column name M_PerpetualInv_ID */
     public static final String COLUMNNAME_M_PerpetualInv_ID = "M_PerpetualInv_ID";
 
@@ -319,6 +319,19 @@ public interface I_M_Inventory
 	public int getM_Warehouse_ID();
 
 	public org.compiere.model.I_M_Warehouse getM_Warehouse() throws RuntimeException;
+
+    /** Column name MovementDate */
+    public static final String COLUMNNAME_MovementDate = "MovementDate";
+
+	/** Set Movement Date.
+	  * Date a product was moved in or out of inventory
+	  */
+	public void setMovementDate (Timestamp MovementDate);
+
+	/** Get Movement Date.
+	  * Date a product was moved in or out of inventory
+	  */
+	public Timestamp getMovementDate();
 
     /** Column name Posted */
     public static final String COLUMNNAME_Posted = "Posted";
@@ -383,22 +396,6 @@ public interface I_M_Inventory
 
 	public org.compiere.model.I_M_Inventory getReversal() throws RuntimeException;
 
-    /** Column name Updated */
-    public static final String COLUMNNAME_Updated = "Updated";
-
-	/** Get Updated.
-	  * Date this record was updated
-	  */
-	public Timestamp getUpdated();
-
-    /** Column name UpdatedBy */
-    public static final String COLUMNNAME_UpdatedBy = "UpdatedBy";
-
-	/** Get Updated By.
-	  * User who updated this records
-	  */
-	public int getUpdatedBy();
-
     /** Column name UpdateQty */
     public static final String COLUMNNAME_UpdateQty = "UpdateQty";
 
@@ -416,6 +413,22 @@ public interface I_M_Inventory
 
 	/** Get Update Quantity Count	  */
 	public String getUpdateQtyCount();
+
+    /** Column name Updated */
+    public static final String COLUMNNAME_Updated = "Updated";
+
+	/** Get Updated.
+	  * Date this record was updated
+	  */
+	public Timestamp getUpdated();
+
+    /** Column name UpdatedBy */
+    public static final String COLUMNNAME_UpdatedBy = "UpdatedBy";
+
+	/** Get Updated By.
+	  * User who updated this records
+	  */
+	public int getUpdatedBy();
 
     /** Column name User1_ID */
     public static final String COLUMNNAME_User1_ID = "User1_ID";

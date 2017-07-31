@@ -251,6 +251,15 @@ public interface I_PA_DocumentStatus
 
 	public org.compiere.model.I_AD_PrintFont getNumber_PrintFont() throws RuntimeException;
 
+    /** Column name PA_DocumentStatus_ID */
+    public static final String COLUMNNAME_PA_DocumentStatus_ID = "PA_DocumentStatus_ID";
+
+	/** Set Document Status Indicator	  */
+	public void setPA_DocumentStatus_ID (int PA_DocumentStatus_ID);
+
+	/** Get Document Status Indicator	  */
+	public int getPA_DocumentStatus_ID();
+
     /** Column name SeqNo */
     public static final String COLUMNNAME_SeqNo = "SeqNo";
 
@@ -265,15 +274,6 @@ public interface I_PA_DocumentStatus
  lowest number comes first
 	  */
 	public int getSeqNo();
-
-    /** Column name PA_DocumentStatus_ID */
-    public static final String COLUMNNAME_PA_DocumentStatus_ID = "PA_DocumentStatus_ID";
-
-	/** Set Document Status Indicator	  */
-	public void setPA_DocumentStatus_ID (int PA_DocumentStatus_ID);
-
-	/** Get Document Status Indicator	  */
-	public int getPA_DocumentStatus_ID();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

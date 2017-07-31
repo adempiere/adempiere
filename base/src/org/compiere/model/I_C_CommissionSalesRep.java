@@ -77,6 +77,15 @@ public interface I_C_CommissionSalesRep
 
 	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
 
+    /** Column name C_CommissionSalesRep_ID */
+    public static final String COLUMNNAME_C_CommissionSalesRep_ID = "C_CommissionSalesRep_ID";
+
+	/** Set Commission Sales Rep ID	  */
+	public void setC_CommissionSalesRep_ID (int C_CommissionSalesRep_ID);
+
+	/** Get Commission Sales Rep ID	  */
+	public int getC_CommissionSalesRep_ID();
+
     /** Column name C_Commission_ID */
     public static final String COLUMNNAME_C_Commission_ID = "C_Commission_ID";
 
@@ -91,15 +100,6 @@ public interface I_C_CommissionSalesRep
 	public int getC_Commission_ID();
 
 	public org.compiere.model.I_C_Commission getC_Commission() throws RuntimeException;
-
-    /** Column name C_CommissionSalesRep_ID */
-    public static final String COLUMNNAME_C_CommissionSalesRep_ID = "C_CommissionSalesRep_ID";
-
-	/** Set Commission Sales Rep ID	  */
-	public void setC_CommissionSalesRep_ID (int C_CommissionSalesRep_ID);
-
-	/** Get Commission Sales Rep ID	  */
-	public int getC_CommissionSalesRep_ID();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

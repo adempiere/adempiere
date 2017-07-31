@@ -49,19 +49,6 @@ public interface I_PA_ReportSource
 	  */
 	public int getAD_Client_ID();
 
-    /** Column name AD_Org_ID */
-    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
-
-	/** Set Organization.
-	  * Organizational entity within client
-	  */
-	public void setAD_Org_ID (int AD_Org_ID);
-
-	/** Get Organization.
-	  * Organizational entity within client
-	  */
-	public int getAD_Org_ID();
-
     /** Column name AD_OrgTrx_ID */
     public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
 
@@ -74,6 +61,19 @@ public interface I_PA_ReportSource
 	  * Performing or initiating organization
 	  */
 	public int getAD_OrgTrx_ID();
+
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
 
     /** Column name C_Activity_ID */
     public static final String COLUMNNAME_C_Activity_ID = "C_Activity_ID";
@@ -165,6 +165,21 @@ public interface I_PA_ReportSource
 
 	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException;
 
+    /** Column name C_SalesRegion_ID */
+    public static final String COLUMNNAME_C_SalesRegion_ID = "C_SalesRegion_ID";
+
+	/** Set Sales Region.
+	  * Sales coverage region
+	  */
+	public void setC_SalesRegion_ID (int C_SalesRegion_ID);
+
+	/** Get Sales Region.
+	  * Sales coverage region
+	  */
+	public int getC_SalesRegion_ID();
+
+	public org.compiere.model.I_C_SalesRegion getC_SalesRegion() throws RuntimeException;
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -180,21 +195,6 @@ public interface I_PA_ReportSource
 	  * User who created this records
 	  */
 	public int getCreatedBy();
-
-    /** Column name C_SalesRegion_ID */
-    public static final String COLUMNNAME_C_SalesRegion_ID = "C_SalesRegion_ID";
-
-	/** Set Sales Region.
-	  * Sales coverage region
-	  */
-	public void setC_SalesRegion_ID (int C_SalesRegion_ID);
-
-	/** Get Sales Region.
-	  * Sales coverage region
-	  */
-	public int getC_SalesRegion_ID();
-
-	public org.compiere.model.I_C_SalesRegion getC_SalesRegion() throws RuntimeException;
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
@@ -365,6 +365,58 @@ public interface I_PA_ReportSource
 	  */
 	public boolean isIncludeNullsSalesRegion();
 
+    /** Column name IsIncludeNullsUser1 */
+    public static final String COLUMNNAME_IsIncludeNullsUser1 = "IsIncludeNullsUser1";
+
+	/** Set Include Nulls in User 1.
+	  * Include nulls in the selection of the user 1
+	  */
+	public void setIsIncludeNullsUser1 (boolean IsIncludeNullsUser1);
+
+	/** Get Include Nulls in User 1.
+	  * Include nulls in the selection of the user 1
+	  */
+	public boolean isIncludeNullsUser1();
+
+    /** Column name IsIncludeNullsUser2 */
+    public static final String COLUMNNAME_IsIncludeNullsUser2 = "IsIncludeNullsUser2";
+
+	/** Set Include Nulls in User 2.
+	  * Include nulls in the selection of the user 2
+	  */
+	public void setIsIncludeNullsUser2 (boolean IsIncludeNullsUser2);
+
+	/** Get Include Nulls in User 2.
+	  * Include nulls in the selection of the user 2
+	  */
+	public boolean isIncludeNullsUser2();
+
+    /** Column name IsIncludeNullsUser3 */
+    public static final String COLUMNNAME_IsIncludeNullsUser3 = "IsIncludeNullsUser3";
+
+	/** Set Include Nulls in User 3.
+	  * Include nulls in the selection of the user 3
+	  */
+	public void setIsIncludeNullsUser3 (boolean IsIncludeNullsUser3);
+
+	/** Get Include Nulls in User 3.
+	  * Include nulls in the selection of the user 3
+	  */
+	public boolean isIncludeNullsUser3();
+
+    /** Column name IsIncludeNullsUser4 */
+    public static final String COLUMNNAME_IsIncludeNullsUser4 = "IsIncludeNullsUser4";
+
+	/** Set Include Nulls in User 4.
+	  * Include nulls in the selection of the user 4
+	  */
+	public void setIsIncludeNullsUser4 (boolean IsIncludeNullsUser4);
+
+	/** Get Include Nulls in User 4.
+	  * Include nulls in the selection of the user 4
+	  */
+	public boolean isIncludeNullsUser4();
+
     /** Column name IsIncludeNullsUserElement1 */
     public static final String COLUMNNAME_IsIncludeNullsUserElement1 = "IsIncludeNullsUserElement1";
 
@@ -442,58 +494,6 @@ public interface I_PA_ReportSource
 	  * Include nulls in the selection of the User List 4
 	  */
 	public boolean isIncludeNullsUserList4();
-
-    /** Column name IsIncludeNullsUser1 */
-    public static final String COLUMNNAME_IsIncludeNullsUser1 = "IsIncludeNullsUser1";
-
-	/** Set Include Nulls in User 1.
-	  * Include nulls in the selection of the user 1
-	  */
-	public void setIsIncludeNullsUser1 (boolean IsIncludeNullsUser1);
-
-	/** Get Include Nulls in User 1.
-	  * Include nulls in the selection of the user 1
-	  */
-	public boolean isIncludeNullsUser1();
-
-    /** Column name IsIncludeNullsUser2 */
-    public static final String COLUMNNAME_IsIncludeNullsUser2 = "IsIncludeNullsUser2";
-
-	/** Set Include Nulls in User 2.
-	  * Include nulls in the selection of the user 2
-	  */
-	public void setIsIncludeNullsUser2 (boolean IsIncludeNullsUser2);
-
-	/** Get Include Nulls in User 2.
-	  * Include nulls in the selection of the user 2
-	  */
-	public boolean isIncludeNullsUser2();
-
-    /** Column name IsIncludeNullsUser3 */
-    public static final String COLUMNNAME_IsIncludeNullsUser3 = "IsIncludeNullsUser3";
-
-	/** Set Include Nulls in User 3.
-	  * Include nulls in the selection of the user 3
-	  */
-	public void setIsIncludeNullsUser3 (boolean IsIncludeNullsUser3);
-
-	/** Get Include Nulls in User 3.
-	  * Include nulls in the selection of the user 3
-	  */
-	public boolean isIncludeNullsUser3();
-
-    /** Column name IsIncludeNullsUser4 */
-    public static final String COLUMNNAME_IsIncludeNullsUser4 = "IsIncludeNullsUser4";
-
-	/** Set Include Nulls in User 4.
-	  * Include nulls in the selection of the user 4
-	  */
-	public void setIsIncludeNullsUser4 (boolean IsIncludeNullsUser4);
-
-	/** Get Include Nulls in User 4.
-	  * Include nulls in the selection of the user 4
-	  */
-	public boolean isIncludeNullsUser4();
 
     /** Column name ListSources */
     public static final String COLUMNNAME_ListSources = "ListSources";
@@ -604,32 +604,6 @@ public interface I_PA_ReportSource
 	  */
 	public int getUpdatedBy();
 
-    /** Column name UserElement1_ID */
-    public static final String COLUMNNAME_UserElement1_ID = "UserElement1_ID";
-
-	/** Set User Element 1.
-	  * User defined accounting Element
-	  */
-	public void setUserElement1_ID (int UserElement1_ID);
-
-	/** Get User Element 1.
-	  * User defined accounting Element
-	  */
-	public int getUserElement1_ID();
-
-    /** Column name UserElement2_ID */
-    public static final String COLUMNNAME_UserElement2_ID = "UserElement2_ID";
-
-	/** Set User Element 2.
-	  * User defined accounting Element
-	  */
-	public void setUserElement2_ID (int UserElement2_ID);
-
-	/** Get User Element 2.
-	  * User defined accounting Element
-	  */
-	public int getUserElement2_ID();
-
     /** Column name User1_ID */
     public static final String COLUMNNAME_User1_ID = "User1_ID";
 
@@ -689,4 +663,30 @@ public interface I_PA_ReportSource
 	public int getUser4_ID();
 
 	public org.compiere.model.I_C_ElementValue getUser4() throws RuntimeException;
+
+    /** Column name UserElement1_ID */
+    public static final String COLUMNNAME_UserElement1_ID = "UserElement1_ID";
+
+	/** Set User Element 1.
+	  * User defined accounting Element
+	  */
+	public void setUserElement1_ID (int UserElement1_ID);
+
+	/** Get User Element 1.
+	  * User defined accounting Element
+	  */
+	public int getUserElement1_ID();
+
+    /** Column name UserElement2_ID */
+    public static final String COLUMNNAME_UserElement2_ID = "UserElement2_ID";
+
+	/** Set User Element 2.
+	  * User defined accounting Element
+	  */
+	public void setUserElement2_ID (int UserElement2_ID);
+
+	/** Get User Element 2.
+	  * User defined accounting Element
+	  */
+	public int getUserElement2_ID();
 }

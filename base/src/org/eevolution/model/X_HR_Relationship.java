@@ -31,7 +31,7 @@ public class X_HR_Relationship extends PO implements I_HR_Relationship, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170627L;
+	private static final long serialVersionUID = 20170731L;
 
     /** Standard Constructor */
     public X_HR_Relationship (Properties ctx, int HR_Relationship_ID, String trxName)

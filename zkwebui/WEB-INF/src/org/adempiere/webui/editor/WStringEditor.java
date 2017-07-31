@@ -159,7 +159,7 @@ public class WStringEditor extends WEditor implements ContextMenuListener
 	        popupMenu = new WEditorPopupMenu(false, false, true);
 	        // BR [ 1066 ]
 	        if(!getComponent().isReadonly()) {
-	        	Menuitem editor = new Menuitem(Msg.getMsg(Env.getCtx(), "Editor"), "images/Editor16.png");
+	        	Menuitem editor = new Menuitem(Msg.getMsg(Env.getCtx(), "Editor"), "images/dark/Editor16.png");
 	        	editor.setAttribute("EVENT", EDITOR_EVENT);
 	        	editor.addEventListener(Events.ON_CLICK, popupMenu);
 	        	popupMenu.appendChild(editor);
