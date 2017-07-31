@@ -145,7 +145,7 @@ Barcode Scanner for all material transaction #1236</Comments>
         <Data AD_Column_ID="127" Column="SeqNo">0</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">84253</Data>
         <Data AD_Column_ID="549" Column="Created">2017-07-09 14:43:10.513</Data>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
         <Data AD_Column_ID="551" Column="Updated">2017-07-09 14:43:10.513</Data>

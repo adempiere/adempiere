@@ -6717,7 +6717,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="3880" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82565" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo">0</Data>
         <Data AD_Column_ID="112" Column="Description">Date of the Document</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82565</Data>
@@ -6787,7 +6787,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="3910" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82566" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo">0</Data>
         <Data AD_Column_ID="112" Column="Description">Last effective date (inclusive)</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82566</Data>
@@ -6866,7 +6866,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">Date of the Document</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">0</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">The Document Date indicates the date the document was generated.  It may or may not be the same as the accounting date.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -6926,7 +6926,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">Last effective date (inclusive)</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">0</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">The End Date indicates the last date in this range.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
