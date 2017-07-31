@@ -19,9 +19,16 @@ package org.compiere.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.compiere.util.CCache;
 
-public class MRefTable extends X_AD_Ref_Table
-{
+/**
+ * 
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<a href="https://github.com/adempiere/adempiere/issues/1281">
+ * 		@see FR [ 1281 ] Error alter table when create Table reference</a>
+ *
+ */
+public class MRefTable extends X_AD_Ref_Table {
 	/**
 	 * 
 	 */
@@ -56,5 +63,42 @@ public class MRefTable extends X_AD_Ref_Table
 	{
 		super (ctx, rs, trxName);
 	}	//	MRefTable
+	
+	/** Value Cache						*/
+	private static CCache<Integer,MRefTable> cache = new CCache<Integer,MRefTable>(Table_Name, 20);
+	
+	
+	/**
+	 * Get reference table
+	 * @param ctx
+	 * @param referenceId
+	 * @return
+	 */
+	public static MRefTable getById(Properties ctx, int referenceId) {
+		MRefTable retValue = cache.get(referenceId);
+		if (retValue != null)
+			return retValue;
+		//	Get from disk
+		retValue = new Query(ctx, Table_Name, "AD_Reference_ID=?", null)
+					.setParameters(referenceId)
+					.first();
+		//	Validate
+		if(retValue != null
+				&& retValue.getAD_Reference_ID() > 0) {
+			cache.put(referenceId, retValue);
+		}
+		//	Default Return
+		return retValue;
+	}	//	get
 
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "MRefTable [getAD_Disp()=" + getAD_Disp() + ", getAD_Key()=" + getAD_Key() + ", getAD_Reference_ID()="
+				+ getAD_Reference_ID() + ", getAD_Table()=" + getAD_Table() + "]";
+	}
+	
 }	//	MRefTable

@@ -632,7 +632,7 @@ public class MColumn extends X_AD_Column
 	{
 		String columnName = getColumnName();
 		int dt = getAD_Reference_ID();
-		return DisplayType.getSQLDataType (dt, columnName, getFieldLength());
+		return DisplayType.getSQLDataType (dt, columnName, getFieldLength(), getAD_Reference_Value_ID());
 	}	//	getSQLDataType
 	
 	/**

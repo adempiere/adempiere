@@ -23,6 +23,9 @@ import java.text.SimpleDateFormat;
 import java.util.Locale;
 import java.util.logging.Level;
 
+import org.compiere.model.MColumn;
+import org.compiere.model.MRefTable;
+
 /**
  *	System Display Types.
  *  <pre>
@@ -448,9 +451,10 @@ public final class DisplayType
 	 *	@param displayType AD_Reference_ID
 	 *	@param columnName name
 	 *	@param fieldLength length
+	 *	@param referenceValueId reference value for column
 	 *	@return SQL Data Type in Oracle Notation
 	 */
-	public static String getSQLDataType (int displayType, String columnName, int fieldLength)
+	public static String getSQLDataType (int displayType, String columnName, int fieldLength, int referenceValueId)
 	{
 		if (columnName.equals("EntityType")
 			|| columnName.equals ("AD_Language"))
@@ -459,17 +463,32 @@ public final class DisplayType
 		if (DisplayType.isID(displayType))
 		{
 			if (displayType == DisplayType.Image 	//	FIXTHIS
-				&& columnName.equals("BinaryData"))
+				&& columnName.equals("BinaryData")) {
 				return "BLOB";
+			} 
+			//	For columns with reference value
+			else if(referenceValueId > 0) {
+				MRefTable reference = MRefTable.getById(Env.getCtx(), referenceValueId);
+				// get Reference
+				if(reference != null) {
+					MColumn column = MColumn.get(Env.getCtx(), reference.getAD_Key());
+					return getSQLDataType(column.getAD_Reference_ID(), 
+							column.getColumnName(), column.getFieldLength(), column.getAD_Reference_Value_ID());
+				}
+			}
 			//	ID, CreatedBy/UpdatedBy, Acct
 			else if (columnName.endsWith("_ID") 
 				|| columnName.endsWith("tedBy") 
-				|| columnName.endsWith("_Acct") )
+				|| columnName.endsWith("_Acct")) {
 				return "NUMBER(10)";
-			else if (fieldLength < 4)
+			}
+			else if (fieldLength < 4) {
 				return "CHAR(" + fieldLength + ")";
-			else	//	EntityType, AD_Language	fallback
+			}
+			//	EntityType, AD_Language	fallback
+			else {
 				return "VARCHAR2(" + fieldLength + ")";
+			}
 		}
 		//
 		if (displayType == DisplayType.Integer)

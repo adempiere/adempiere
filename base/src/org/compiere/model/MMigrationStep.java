@@ -546,7 +546,8 @@ public class MMigrationStep extends X_AD_MigrationStep {
 						oldDataType = DisplayType.getSQLDataType(
 								po.get_ValueAsInt(I_AD_Column.COLUMNNAME_AD_Reference_ID), 
 								column.getColumnName(), 
-								po.get_ValueAsInt(I_AD_Column.COLUMNNAME_FieldLength));
+								po.get_ValueAsInt(I_AD_Column.COLUMNNAME_FieldLength), 
+								po.get_ValueAsInt(I_AD_Column.COLUMNNAME_AD_Reference_Value_ID));
 					}
 					//	Backup value
 					Object backupValue = po.get_Value(column.getColumnName());
@@ -566,7 +567,8 @@ public class MMigrationStep extends X_AD_MigrationStep {
 							String newDataType = DisplayType.getSQLDataType(
 									po.get_ValueAsInt(I_AD_Column.COLUMNNAME_AD_Reference_ID), 
 									column.getColumnName(), 
-									po.get_ValueAsInt(I_AD_Column.COLUMNNAME_FieldLength));
+									po.get_ValueAsInt(I_AD_Column.COLUMNNAME_FieldLength), 
+									po.get_ValueAsInt(I_AD_Column.COLUMNNAME_AD_Reference_Value_ID));
 							//	Validate
 							syncColumn = !oldDataType.equals(newDataType);
 						}
@@ -692,7 +694,8 @@ public class MMigrationStep extends X_AD_MigrationStep {
 						oldDataType = DisplayType.getSQLDataType(
 								po.get_ValueAsInt(I_AD_Column.COLUMNNAME_AD_Reference_ID), 
 								column.getColumnName(), 
-								po.get_ValueAsInt(I_AD_Column.COLUMNNAME_FieldLength));
+								po.get_ValueAsInt(I_AD_Column.COLUMNNAME_FieldLength), 
+								po.get_ValueAsInt(I_AD_Column.COLUMNNAME_AD_Reference_Value_ID));
 					}
                     //	
 					po.set_ValueNoCheck(column.getColumnName(), stringToObject(column, value));
@@ -705,7 +708,8 @@ public class MMigrationStep extends X_AD_MigrationStep {
 							String newDataType = DisplayType.getSQLDataType(
 									po.get_ValueAsInt(I_AD_Column.COLUMNNAME_AD_Reference_ID), 
 									column.getColumnName(), 
-									po.get_ValueAsInt(I_AD_Column.COLUMNNAME_FieldLength));
+									po.get_ValueAsInt(I_AD_Column.COLUMNNAME_FieldLength), 
+									po.get_ValueAsInt(I_AD_Column.COLUMNNAME_AD_Reference_Value_ID));
 							//	Validate
 							syncColumn = !oldDataType.equals(newDataType);
 						}
