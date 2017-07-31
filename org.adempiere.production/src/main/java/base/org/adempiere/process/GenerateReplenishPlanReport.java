@@ -62,11 +62,10 @@ public class GenerateReplenishPlanReport extends GenerateReplenishPlanReportAbst
 		dateTo = run.getDateFinish();
 
 		if (dateFrom == null)
-			throw new IllegalArgumentException(Msg.translate(getCtx(), "FillMandatory")
-					+ Msg.translate(getCtx(), "DatePosted - From"));
+			throw new IllegalArgumentException(Msg.parseTranslation(getCtx(), "@FillMandatory@ @DateStart@"));
 		if (dateTo == null)
-			throw new IllegalArgumentException(Msg.translate(getCtx(), "FillMandatory")
-					+ Msg.translate(getCtx(), "DatePosted - To"));
+			throw new IllegalArgumentException(Msg.parseTranslation(getCtx(), "@FillMandatory@ @DateFinish@"));
+		//	
 		addWeekDateInfo();
 
 		if (Ini.isClient())
@@ -141,6 +140,9 @@ public class GenerateReplenishPlanReport extends GenerateReplenishPlanReportAbst
 		return pf;
 	}
 	
+	/**
+	 * Get Week Info
+	 */
 	private void addWeekDateInfo() {
 		int start = 1;
 		int end = TimeUtil.getWeeksBetween(dateFrom, dateTo);
@@ -151,7 +153,7 @@ public class GenerateReplenishPlanReport extends GenerateReplenishPlanReportAbst
 			StringBuilder weekStartDate = new StringBuilder(new SimpleDateFormat("dd-").format(dt));
 			calendar.add(Calendar.DAY_OF_WEEK, 6);
 			dt = calendar.getTime();
-			weekStartDate.append(new SimpleDateFormat("dd MMM-yy").format(dt));
+			weekStartDate.append(new SimpleDateFormat("dd (MMM yyyy)").format(dt));
 			calendar.add(Calendar.DAY_OF_WEEK, 1);
 			dt.setTime(calendar.getTimeInMillis());
 
