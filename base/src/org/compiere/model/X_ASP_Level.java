@@ -198,6 +198,23 @@ public class X_ASP_Level extends PO implements I_ASP_Level, I_Persistent
 		return false;
 	}
 
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
+	}
+
 	/** Set Search Key.
 		@param Value 
 		Search key for the record in the format required - must be unique

@@ -243,4 +243,21 @@ public class X_AD_WF_Responsible extends PO implements I_AD_WF_Responsible, I_Pe
 	{
 		return (String)get_Value(COLUMNNAME_ResponsibleType);
 	}
+
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
+	}
 }

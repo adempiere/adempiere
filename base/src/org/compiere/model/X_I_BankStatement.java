@@ -1069,6 +1069,23 @@ public class X_I_BankStatement extends PO implements I_I_BankStatement, I_Persis
 		return (String)get_Value(COLUMNNAME_TrxType);
 	}
 
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
+	}
+
 	/** Set Effective date.
 		@param ValutaDate 
 		Date when money is available

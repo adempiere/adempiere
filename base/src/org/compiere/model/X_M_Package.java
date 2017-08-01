@@ -250,4 +250,21 @@ public class X_M_Package extends PO implements I_M_Package, I_Persistent
 	{
 		return (String)get_Value(COLUMNNAME_TrackingInfo);
 	}
+
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
+	}
 }

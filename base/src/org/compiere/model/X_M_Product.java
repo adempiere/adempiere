@@ -1447,6 +1447,23 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 		return (String)get_Value(COLUMNNAME_UPC);
 	}
 
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
+	}
+
 	/** Set UnitsPerPack.
 		@param UnitsPerPack 
 		The Units Per Pack indicates the no of units of a product packed together.

@@ -872,6 +872,19 @@ public interface I_M_Product
 	  */
 	public String getUPC();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name UnitsPerPack */
     public static final String COLUMNNAME_UnitsPerPack = "UnitsPerPack";
 

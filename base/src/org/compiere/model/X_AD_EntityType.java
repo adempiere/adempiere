@@ -226,6 +226,23 @@ public class X_AD_EntityType extends PO implements I_AD_EntityType, I_Persistent
 		return false;
 	}
 
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
+	}
+
 	/** Set Version.
 		@param Version 
 		Version of the table definition

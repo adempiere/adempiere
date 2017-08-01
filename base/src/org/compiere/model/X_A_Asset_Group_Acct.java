@@ -929,6 +929,23 @@ public class X_A_Asset_Group_Acct extends PO implements I_A_Asset_Group_Acct, I_
 		return false;
 	}
 
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
+	}
+
 	/** Set Usable Life - Months.
 		@param UseLifeMonths 
 		Months of the usable life of the asset

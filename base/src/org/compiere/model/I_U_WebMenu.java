@@ -204,6 +204,19 @@ public interface I_U_WebMenu
 	/** Get Sequence	  */
 	public BigDecimal getSequence();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name U_WebMenu_ID */
     public static final String COLUMNNAME_U_WebMenu_ID = "U_WebMenu_ID";
 

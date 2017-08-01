@@ -184,6 +184,19 @@ public interface I_M_ProductOperation
 	  */
 	public BigDecimal getTeardownTime();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name UnitRuntime */
     public static final String COLUMNNAME_UnitRuntime = "UnitRuntime";
 

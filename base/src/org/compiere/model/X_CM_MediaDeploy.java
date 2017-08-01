@@ -209,4 +209,21 @@ public class X_CM_MediaDeploy extends PO implements I_CM_MediaDeploy, I_Persiste
 	{
 		return (Timestamp)get_Value(COLUMNNAME_LastSynchronized);
 	}
+
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
+	}
 }

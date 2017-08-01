@@ -592,6 +592,23 @@ public class X_I_ReportLine extends PO implements I_I_ReportLine, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
+	}
+
 	/** reportlinestyle AD_Reference_ID=53564 */
 	public static final int REPORTLINESTYLE_AD_Reference_ID=53564;
 	/** Blank Line = S */

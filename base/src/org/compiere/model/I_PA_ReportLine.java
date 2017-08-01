@@ -302,6 +302,19 @@ public interface I_PA_ReportLine
 	  */
 	public int getTabLevel();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name UnderlineStrokeType */
     public static final String COLUMNNAME_UnderlineStrokeType = "UnderlineStrokeType";
 

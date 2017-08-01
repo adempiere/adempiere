@@ -343,6 +343,23 @@ public class X_M_Product_BOM extends PO implements I_M_Product_BOM, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
+	}
+
 	/** Set Search Key.
 		@param Value 
 		Search key for the record in the format required - must be unique

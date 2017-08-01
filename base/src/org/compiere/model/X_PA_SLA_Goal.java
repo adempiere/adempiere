@@ -319,6 +319,23 @@ public class X_PA_SLA_Goal extends PO implements I_PA_SLA_Goal, I_Persistent
 		return false;
 	}
 
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
+	}
+
 	/** Set Valid from.
 		@param ValidFrom 
 		Valid from including this date (first day)

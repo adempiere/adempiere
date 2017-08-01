@@ -266,6 +266,19 @@ public interface I_R_Status
 	  */
 	public int getTimeoutDays();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Update_Status_ID */
     public static final String COLUMNNAME_Update_Status_ID = "Update_Status_ID";
 

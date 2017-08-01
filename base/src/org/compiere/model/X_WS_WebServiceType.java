@@ -161,6 +161,23 @@ public class X_WS_WebServiceType extends PO implements I_WS_WebServiceType, I_Pe
         return new KeyNamePair(get_ID(), getName());
     }
 
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
+	}
+
 	/** Set Search Key.
 		@param Value 
 		Search key for the record in the format required - must be unique

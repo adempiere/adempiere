@@ -99,6 +99,23 @@ public class X_WS_WebServiceFieldOutput extends PO implements I_WS_WebServiceFie
 		return ii.intValue();
 	}
 
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
+	}
+
 	/** Set Web Service Field Output.
 		@param WS_WebServiceFieldOutput_ID Web Service Field Output	  */
 	public void setWS_WebServiceFieldOutput_ID (int WS_WebServiceFieldOutput_ID)

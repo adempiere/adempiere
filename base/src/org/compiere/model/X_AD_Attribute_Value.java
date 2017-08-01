@@ -114,6 +114,23 @@ public class X_AD_Attribute_Value extends PO implements I_AD_Attribute_Value, I_
 		return ii.intValue();
 	}
 
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
+	}
+
 	/** Set Date.
 		@param V_Date Date	  */
 	public void setV_Date (Timestamp V_Date)

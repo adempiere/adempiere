@@ -99,6 +99,23 @@ public class X_WS_WebServiceFieldInput extends PO implements I_WS_WebServiceFiel
 		return ii.intValue();
 	}
 
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
+	}
+
 	/** Set Web Service Field Input.
 		@param WS_WebServiceFieldInput_ID Web Service Field Input	  */
 	public void setWS_WebServiceFieldInput_ID (int WS_WebServiceFieldInput_ID)

@@ -63,6 +63,19 @@ public interface I_AD_Attribute_Value
 	  */
 	public int getRecord_ID();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name V_Date */
     public static final String COLUMNNAME_V_Date = "V_Date";
 

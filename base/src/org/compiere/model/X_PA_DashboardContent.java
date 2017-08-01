@@ -379,6 +379,23 @@ public class X_PA_DashboardContent extends PO implements I_PA_DashboardContent, 
 		return bd;
 	}
 
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
+	}
+
 	public org.adempiere.model.I_AD_Browse_Field getZoom_Field() throws RuntimeException
     {
 		return (org.adempiere.model.I_AD_Browse_Field)MTable.get(getCtx(), org.adempiere.model.I_AD_Browse_Field.Table_Name)

@@ -447,6 +447,19 @@ public interface I_U_POSTerminal
 
 	public org.compiere.model.I_AD_User getSalesRep() throws RuntimeException;
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name U_POSTerminal_ID */
     public static final String COLUMNNAME_U_POSTerminal_ID = "U_POSTerminal_ID";
 

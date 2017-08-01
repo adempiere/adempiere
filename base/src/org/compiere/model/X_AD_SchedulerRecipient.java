@@ -185,4 +185,21 @@ public class X_AD_SchedulerRecipient extends PO implements I_AD_SchedulerRecipie
     {
         return new KeyNamePair(get_ID(), String.valueOf(getAD_User_ID()));
     }
+
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
+	}
 }

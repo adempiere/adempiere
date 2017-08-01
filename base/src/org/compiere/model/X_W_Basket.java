@@ -201,6 +201,23 @@ public class X_W_Basket extends PO implements I_W_Basket, I_Persistent
         return new KeyNamePair(get_ID(), String.valueOf(getSession_ID()));
     }
 
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
+	}
+
 	/** Set Basket.
 		@param W_Basket_ID 
 		Web Basket

@@ -247,6 +247,23 @@ public class X_AD_UserMail extends PO implements I_AD_UserMail, I_Persistent
 		return (String)get_Value(COLUMNNAME_Subject);
 	}
 
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
+	}
+
 	public org.compiere.model.I_W_MailMsg getW_MailMsg() throws RuntimeException
     {
 		return (org.compiere.model.I_W_MailMsg)MTable.get(getCtx(), org.compiere.model.I_W_MailMsg.Table_Name)

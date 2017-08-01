@@ -1282,6 +1282,23 @@ public class X_I_Payment extends PO implements I_I_Payment, I_Persistent
 		return (String)get_Value(COLUMNNAME_TrxType);
 	}
 
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
+	}
+
 	/** Set Voice authorization code.
 		@param VoiceAuthCode 
 		Voice Authorization Code from credit card company

@@ -311,6 +311,23 @@ public class X_AD_Package_Exp extends PO implements I_AD_Package_Exp, I_Persiste
 		return (String)get_Value(COLUMNNAME_ReleaseNo);
 	}
 
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
+	}
+
 	/** Set Registered EMail.
 		@param UserName 
 		Email of the responsible for the System

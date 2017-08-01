@@ -378,6 +378,19 @@ public interface I_AD_Client
 	/** Get Store Attachments On File System	  */
 	public boolean isStoreAttachmentsOnFileSystem();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name UnixArchivePath */
     public static final String COLUMNNAME_UnixArchivePath = "UnixArchivePath";
 

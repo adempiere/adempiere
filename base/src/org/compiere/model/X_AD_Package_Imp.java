@@ -284,6 +284,23 @@ public class X_AD_Package_Imp extends PO implements I_AD_Package_Imp, I_Persiste
 		return (String)get_Value(COLUMNNAME_ReleaseNo);
 	}
 
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
+	}
+
 	/** Set Uninstall.
 		@param Uninstall Uninstall	  */
 	public void setUninstall (boolean Uninstall)

@@ -1282,6 +1282,23 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 		return (String)get_Value(COLUMNNAME_SerNo);
 	}
 
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
+	}
+
 	/** Set Usable Life - Months.
 		@param UseLifeMonths 
 		Months of the usable life of the asset

@@ -91,6 +91,19 @@ public interface I_U_Web_Properties
 	  */
 	public boolean isActive();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name U_Key */
     public static final String COLUMNNAME_U_Key = "U_Key";
 

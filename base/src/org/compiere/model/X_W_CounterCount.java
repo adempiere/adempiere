@@ -175,6 +175,23 @@ public class X_W_CounterCount extends PO implements I_W_CounterCount, I_Persiste
 		return (String)get_Value(COLUMNNAME_PageURL);
 	}
 
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
+	}
+
 	/** Set Counter Count.
 		@param W_CounterCount_ID 
 		Web Counter Count Management

@@ -260,6 +260,23 @@ public class X_U_WebMenu extends PO implements I_U_WebMenu, I_Persistent
 		return bd;
 	}
 
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
+	}
+
 	/** Set Web Menu.
 		@param U_WebMenu_ID Web Menu	  */
 	public void setU_WebMenu_ID (int U_WebMenu_ID)

@@ -224,4 +224,21 @@ public class X_R_RequestProcessor_Route extends PO implements I_R_RequestProcess
     {
         return new KeyNamePair(get_ID(), String.valueOf(getSeqNo()));
     }
+
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
+	}
 }

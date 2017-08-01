@@ -414,6 +414,23 @@ public class X_I_Conversion_Rate extends PO implements I_I_Conversion_Rate, I_Pe
 		return false;
 	}
 
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
+	}
+
 	/** Set Valid from.
 		@param ValidFrom 
 		Valid from including this date (first day)

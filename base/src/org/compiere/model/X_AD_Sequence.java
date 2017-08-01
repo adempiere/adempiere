@@ -389,6 +389,23 @@ public class X_AD_Sequence extends PO implements I_AD_Sequence, I_Persistent
 		return (String)get_Value(COLUMNNAME_Suffix);
 	}
 
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
+	}
+
 	/** Set Value Format.
 		@param VFormat 
 		Format of the value; Can contain fixed format elements, Variables: "_lLoOaAcCa09"

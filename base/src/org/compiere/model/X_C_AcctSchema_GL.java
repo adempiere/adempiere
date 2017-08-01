@@ -357,6 +357,23 @@ public class X_C_AcctSchema_GL extends PO implements I_C_AcctSchema_GL, I_Persis
 		return ii.intValue();
 	}
 
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
+	}
+
 	/** Set Use Currency Balancing.
 		@param UseCurrencyBalancing Use Currency Balancing	  */
 	public void setUseCurrencyBalancing (boolean UseCurrencyBalancing)
