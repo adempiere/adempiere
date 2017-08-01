@@ -404,6 +404,23 @@ public class X_I_Forecast extends PO implements I_I_Forecast, I_Persistent
 		return (String)get_Value(COLUMNNAME_SalesRep_Name);
 	}
 
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
+	}
+
 	/** Set Warehouse Key.
 		@param WarehouseValue 
 		Key of the Warehouse

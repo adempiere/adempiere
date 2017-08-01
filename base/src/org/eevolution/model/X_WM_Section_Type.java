@@ -139,6 +139,23 @@ public class X_WM_Section_Type extends PO implements I_WM_Section_Type, I_Persis
         return new KeyNamePair(get_ID(), getName());
     }
 
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
+	}
+
 	/** Set Warehouse Section Type.
 		@param WM_Section_Type_ID Warehouse Section Type	  */
 	public void setWM_Section_Type_ID (int WM_Section_Type_ID)

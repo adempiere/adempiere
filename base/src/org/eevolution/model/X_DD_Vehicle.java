@@ -546,6 +546,23 @@ public class X_DD_Vehicle extends PO implements I_DD_Vehicle, I_Persistent
 		return bd;
 	}
 
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
+	}
+
 	/** Set Unladen Weight.
 		@param UnladenWeight Unladen Weight	  */
 	public void setUnladenWeight (BigDecimal UnladenWeight)

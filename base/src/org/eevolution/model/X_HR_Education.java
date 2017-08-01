@@ -244,6 +244,23 @@ public class X_HR_Education extends PO implements I_HR_Education, I_Persistent
 		return (String)get_Value(COLUMNNAME_SchoolCollegeAddress);
 	}
 
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
+	}
+
 	/** YearOfPassing AD_Reference_ID=53618 */
 	public static final int YEAROFPASSING_AD_Reference_ID=53618;
 	/** 1970 = 1970 */

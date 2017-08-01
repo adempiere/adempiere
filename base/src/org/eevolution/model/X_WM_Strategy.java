@@ -168,6 +168,23 @@ public class X_WM_Strategy extends PO implements I_WM_Strategy, I_Persistent
         return new KeyNamePair(get_ID(), getName());
     }
 
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
+	}
+
 	/** Set Warehouse Managamet Strategy.
 		@param WM_Strategy_ID Warehouse Managamet Strategy	  */
 	public void setWM_Strategy_ID (int WM_Strategy_ID)

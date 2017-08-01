@@ -325,6 +325,19 @@ public interface I_DD_TransportUnit
 	/** Get Transport Width	  */
 	public BigDecimal getTransportWidth();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name UnladenWeight */
     public static final String COLUMNNAME_UnladenWeight = "UnladenWeight";
 

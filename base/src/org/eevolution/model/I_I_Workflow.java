@@ -912,6 +912,19 @@ public interface I_I_Workflow
 	  */
 	public String getTableName();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name UnitsCycles */
     public static final String COLUMNNAME_UnitsCycles = "UnitsCycles";
 

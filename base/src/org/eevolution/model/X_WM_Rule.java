@@ -210,6 +210,23 @@ public class X_WM_Rule extends PO implements I_WM_Rule, I_Persistent
         return new KeyNamePair(get_ID(), getName());
     }
 
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
+	}
+
 	/** Set Inbound & Outbound Rule.
 		@param WM_Rule_ID Inbound & Outbound Rule	  */
 	public void setWM_Rule_ID (int WM_Rule_ID)

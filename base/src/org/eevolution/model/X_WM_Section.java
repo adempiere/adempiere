@@ -116,6 +116,23 @@ public class X_WM_Section extends PO implements I_WM_Section, I_Persistent
         return new KeyNamePair(get_ID(), getName());
     }
 
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
+	}
+
 	public org.eevolution.model.I_WM_Area getWM_Area() throws RuntimeException
     {
 		return (org.eevolution.model.I_WM_Area)MTable.get(getCtx(), org.eevolution.model.I_WM_Area.Table_Name)

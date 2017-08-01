@@ -1227,6 +1227,19 @@ public interface I_I_HR_Employee
 	  */
 	public int getThumbImage_ID();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 

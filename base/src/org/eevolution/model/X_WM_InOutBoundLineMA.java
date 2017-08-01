@@ -149,6 +149,23 @@ public class X_WM_InOutBoundLineMA extends PO implements I_WM_InOutBoundLineMA, 
 		return bd;
 	}
 
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
+	}
+
 	/** Set Inbound & Outbound Order Line MA ID.
 		@param WM_InOutBoundLineMA_ID Inbound & Outbound Order Line MA ID	  */
 	public void setWM_InOutBoundLineMA_ID (int WM_InOutBoundLineMA_ID)

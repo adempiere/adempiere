@@ -90,6 +90,23 @@ public class X_WM_Strategy_Detail extends PO implements I_WM_Strategy_Detail, I_
 		return ii.intValue();
 	}
 
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
+	}
+
 	public org.eevolution.model.I_WM_Rule getWM_Rule() throws RuntimeException
     {
 		return (org.eevolution.model.I_WM_Rule)MTable.get(getCtx(), org.eevolution.model.I_WM_Rule.Table_Name)

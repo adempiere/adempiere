@@ -259,6 +259,23 @@ public class X_PP_WF_Node_Product extends PO implements I_PP_WF_Node_Product, I_
 		return ii.intValue();
 	}
 
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
+	}
+
 	/** Set Yield %.
 		@param Yield 
 		The Yield is the percentage of a lot that is expected to be of acceptable wuality may fall below 100 percent
