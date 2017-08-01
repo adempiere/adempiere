@@ -69,7 +69,7 @@
     <mkdir dir="${env.ADEMPIERE_HOME}/packages/HumanResourceAndPayroll/lib"/>
 
     <!-- Transfer HumanResourceAndPayroll.jar -->
-    <copy file="${dist}/lib/HumanResourceAndPayroll.jar" todir="${env.ADEMPIERE_HOME}/packagesHumanResourceAndPayroll/lib"/>
+    <copy file="${dist}/lib/HumanResourceAndPayroll.jar" todir="${env.ADEMPIERE_HOME}/packages/HumanResourceAndPayroll/lib"/>
     <copy file="${dist}/lib/HumanResourceAndPayroll.jar" todir="${adempiere.trunk}/packages"/>
 
   </target>
