@@ -2310,11 +2310,12 @@ public abstract class PO
 			{
 				success = afterSave (newRecord, success);
 				//Generate UUID
-				if (get_ColumnIndex("UUID") > 0 && get_ValueAsString("UUID") == null)
+				//TODO : Is necessary Generate UUIDs for all records
+				/*if (get_ColumnIndex("UUID") > 0 && get_ValueAsString("UUID") == null)
 				{
 					UUID uuid = UUID.randomUUID();
 					set_CustomColumn("UUID", uuid.toString());
-				}
+				}*/
 			}
 			catch (Exception e)
 			{
