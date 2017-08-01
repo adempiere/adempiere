@@ -489,7 +489,7 @@ public class MMigrationStep extends X_AD_MigrationStep {
 	 * @return
 	 */
 	private String applyPO() {
-
+		boolean syncColumnImmediately = false;
 		if ( getAD_Table_ID() == 0 )
 		{
 			bailout("No table defined");
@@ -529,8 +529,12 @@ public class MMigrationStep extends X_AD_MigrationStep {
 				MColumn column = (MColumn) data.getAD_Column();
 				if(column == null)
 					continue;
+
 				// TODO: option to apply only when existing value equals reference value
 				String value = data.getNewValue();
+				if (column.getColumnName().equals("ColumnName") && value != null && value.equals(MTable.COLUMNNAME_UUID))
+					syncColumnImmediately = true;
+				
 				if (data.isNewNull()) {
 					value = null;
 				}
@@ -623,6 +627,9 @@ public class MMigrationStep extends X_AD_MigrationStep {
 		setApply(MMigrationStep.APPLY_Rollback);
 		setErrorMsg(null);
 		saveEx();
+		if (syncColumnImmediately)
+			getParent().syncColumn();
+
 		return "successfully applied";
 	}
 	
