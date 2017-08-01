@@ -8,7 +8,7 @@
         <Data AD_Column_ID="198" Column="MsgText">Period To</Data>
         <Data AD_Column_ID="590" Column="CreatedBy">0</Data>
         <Data AD_Column_ID="592" Column="UpdatedBy">0</Data>
-        <Data AD_Column_ID="7716" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">D</Data>
         <Data AD_Column_ID="6765" Column="AD_Message_ID">53377</Data>
         <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
@@ -48,7 +48,7 @@
         <Data AD_Column_ID="198" Column="MsgText">Account Key</Data>
         <Data AD_Column_ID="590" Column="CreatedBy">0</Data>
         <Data AD_Column_ID="592" Column="UpdatedBy">0</Data>
-        <Data AD_Column_ID="7716" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">D</Data>
         <Data AD_Column_ID="6765" Column="AD_Message_ID">53378</Data>
         <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>

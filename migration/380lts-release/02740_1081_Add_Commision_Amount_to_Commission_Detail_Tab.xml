@@ -87,7 +87,7 @@
         <Data AD_Column_ID="181" Column="SeqNo">0</Data>
         <Data AD_Column_ID="168" Column="Name">Commission Amount</Data>
         <Data AD_Column_ID="2007" Column="IsReadOnly">false</Data>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">The Commission Amount is the total calculated commission.  It is based on the parameters as defined for this Commission Run.</Data>
         <Data AD_Column_ID="5375" Column="AD_FieldGroup_ID" isNewNull="true"/>
         <Data AD_Column_ID="9969" Column="ObscureType" isNewNull="true"/>

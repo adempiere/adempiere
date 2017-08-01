@@ -10,7 +10,7 @@ Create Inventory Count List also depending on Vendor</Comments>
         <Data AD_Column_ID="192" Column="Type">S</Data>
         <Data AD_Column_ID="193" Column="Code">C_BPartner.IsActive='Y' AND C_BPartner.IsVendor='Y'</Data>
         <Data AD_Column_ID="187" Column="AD_Val_Rule_ID">52520</Data>
-        <Data AD_Column_ID="7715" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7715" Column="EntityType">D</Data>
         <Data AD_Column_ID="586" Column="Updated">2017-05-21 08:57:45.744</Data>
         <Data AD_Column_ID="387" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="585" Column="CreatedBy">100</Data>

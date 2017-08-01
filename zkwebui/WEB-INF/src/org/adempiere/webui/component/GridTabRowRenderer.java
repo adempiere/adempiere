@@ -65,7 +65,7 @@ import org.zkoss.zhtml.Text;
  */
 public class GridTabRowRenderer implements RowRenderer, RowRendererExt, RendererCtrl {
 
-	private static final String CURRENT_ROW_STYLE = "border-top: 2px solid #6f97d2; border-bottom: 2px solid #6f97d2";
+	private static final String CURRENT_ROW_STYLE = "border-top: 2px solid #1f9bde; border-bottom: 2px solid #1f9bde";
 	private static final int MAX_TEXT_LENGTH = 60;
 	private GridTab gridTab;
 	private int windowNo;
