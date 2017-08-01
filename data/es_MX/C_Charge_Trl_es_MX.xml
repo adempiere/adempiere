@@ -8,7 +8,7 @@
   <value column="Name" original="Commissions Paid">Comisiones Pagadas</value>
   <value column="Description" original=""/>
  </row>
- <row id="50007" trl="N">
+ <row id="50007" trl="Y">
   <value column="Name" original="Cash for Store Central In-Transfer">Cash for Store Central In-Transfer</value>
   <value column="Description" original=""/>
  </row>

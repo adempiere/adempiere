@@ -141,58 +141,58 @@
  <row id="50012" trl="Y">
   <value column="Name" original="Logo">Logo</value>
  </row>
- <row id="50013" trl="N">
+ <row id="50013" trl="Y">
   <value column="Name" original="Delivery Rules">Delivery Rules</value>
  </row>
- <row id="50016" trl="N">
+ <row id="50016" trl="Y">
   <value column="Name" original="Location">Location</value>
  </row>
- <row id="50017" trl="N">
+ <row id="50017" trl="Y">
   <value column="Name" original="Fixed Asset">Fixed Asset</value>
  </row>
- <row id="50018" trl="N">
+ <row id="50018" trl="Y">
   <value column="Name" original="Maintenance">Maintenance</value>
  </row>
- <row id="50019" trl="N">
+ <row id="50019" trl="Y">
   <value column="Name" original="Funding">Funding</value>
  </row>
- <row id="50020" trl="N">
+ <row id="50020" trl="Y">
   <value column="Name" original="Depreciation">Depreciation</value>
  </row>
- <row id="50040" trl="N">
+ <row id="50040" trl="Y">
   <value column="Name" original="Job Summary ">Job Summary </value>
  </row>
- <row id="50041" trl="N">
+ <row id="50041" trl="Y">
   <value column="Name" original="Job Detail">Job Detail </value>
  </row>
  <row id="50057" trl="Y">
   <value column="Name" original="Personal Info">información Personal</value>
  </row>
- <row id="50058" trl="N">
+ <row id="50058" trl="Y">
   <value column="Name" original="Education">Educación</value>
  </row>
- <row id="50059" trl="N">
+ <row id="50059" trl="Y">
   <value column="Name" original="Payment Info">Información de Pago</value>
  </row>
- <row id="50060" trl="N">
+ <row id="50060" trl="Y">
   <value column="Name" original="Payroll Info">Información de Nómina</value>
  </row>
- <row id="50061" trl="N">
+ <row id="50061" trl="Y">
   <value column="Name" original="Contact">Contacto</value>
  </row>
- <row id="50062" trl="N">
+ <row id="50062" trl="Y">
   <value column="Name" original="Dimension &amp; Measurements "><![CDATA[Dimension & Measurements ]]></value>
  </row>
- <row id="50066" trl="N">
+ <row id="50066" trl="Y">
   <value column="Name" original="Sequence">Secuencia</value>
  </row>
- <row id="50067" trl="N">
+ <row id="50067" trl="Y">
   <value column="Name" original="Print Format">Formato de Impresión</value>
  </row>
- <row id="50068" trl="N">
+ <row id="50068" trl="Y">
   <value column="Name" original="Behavior">Comportamiento</value>
  </row>
- <row id="50069" trl="N">
+ <row id="50069" trl="Y">
   <value column="Name" original="Column Definition">Definición de Columna</value>
  </row>
 </adempiereTrl>

@@ -145,7 +145,7 @@
   <value column="Description" original="Maintain General Ledger Categories">Mantener Categorías del Libro Mayor</value>
   <value column="Help" original="The GL Category Window allows you to define categories to be used in journals.  These categories provide a method of optionally grouping and reporting on journals.">Esta ventana permite definir categorías para ser usada en los diarios contables. Estas categorías proveen un método de agrupamiento opcional y de Informe para los diarios</value>
  </row>
- <row id="132" trl="N">
+ <row id="132" trl="Y">
   <value column="Name" original="GL Journal Batch">Diario Contable</value>
   <value column="Description" original="Enter and change Manual Journal Entries">Entrar y cambiar entradas de diario manuales</value>
   <value column="Help" original="The GL Journal Window allows you to enter and modify manual journal entries">Esta ventana permite entrar y modificar asientos de diario</value>
@@ -435,7 +435,7 @@
   <value column="Description" original="Select Invoices for Payment">Seleccionar facturas para pago</value>
   <value column="Help" original="The Payment Selection Window allows you to select and process the invoices you want to pay.&#10;(a) You can create a Payment Selection and select the invoices manually or generate the suggestions based on criteria.  You can change the amount to be paid or delete invoices, you do not want to pay.&#10;&#10;(b) If you are happy with the Payment Selection, you create the payments.&#10;&#10;(c) You print or export your payments in the Window Payment Print/Export">Esta ventana permite seleccionar y procesar facturas que se desean pagar. A) Se puede crear una selección de pago y seleccionar las facturas manualmente o generar sugerencias de pago basadas en criterios. Es posible cambiar los totales a ser pagados o borrar facturas que no se desean pagar. B) Si se está satisfecho con la selección, se pueden crear los pagos. C) Se imprimen o exportan los pagos en la ventana de `Imprimir/Exportar Pagos`.</value>
  </row>
- <row id="207" trl="N">
+ <row id="207" trl="Y">
   <value column="Name" original="Commission Definition">Definición de Comisiones</value>
   <value column="Description" original="Maintain Commissions and Royalties">Mantener Comisiones</value>
   <value column="Help" original="Define how and when you want the commissions to be calculated and to whom to pay it.&#10;The Commissions Window allows you define how commissions and royalties will be paid. You can pay multiple commissions for the same order or invoice (e.g. to the person entering the transaction, to the person responsible for sale of the product (category) and or business partner (group).">La ventana permite definir como y cuando se quiere calcular las comisiones y a quien pagarlas. Se pueden pagar múltiples comisiones para la misma orden o factura (ej. a la persona que entra la transacción, a la persona responsable por la venta del producto (categoría))</value>
@@ -1546,7 +1546,7 @@ y otros</value>
   <value column="Description" original="Maintain Payroll Employee">Mantenimiento de empleados de nómina</value>
   <value column="Help" original="The Payroll Employee Window is used to define the Employees into the Organizational">La ventana de empleados de nómina es utilizada para definir los empleados en la organización</value>
  </row>
- <row id="53034" trl="N">
+ <row id="53034" trl="Y">
   <value column="Name" original="Payroll Department">Departamento</value>
   <value column="Description" original="Maintain Payroll Department">Mantenimiento de departamentos de nómina</value>
   <value column="Help" original="The Payroll Departament Window is used to define the Organizational Structure for Company">La ventana de departamentos de nómina es utilizada para definir la estructura organizacional por compañía</value>
@@ -1616,7 +1616,7 @@ y otros</value>
   <value column="Description" original="Split Assets Process">Proceso para Dividir Activos</value>
   <value column="Help" original="The Asset Split window allows you to process asset splits">La ventana Dividir Activo permite procesar la división de activos</value>
  </row>
- <row id="53049" trl="N">
+ <row id="53049" trl="Y">
   <value column="Name" original="Asset Disposal2">Disposición de Activos</value>
   <value column="Description" original="Dispose of Assets">Disposición de Activos</value>
   <value column="Help" original="The Asset Disposal window allows you to create the necessary GL entries to dispose of an asset">La ventana Disposición de Activos le permite crear las condiciones necesarias entradas de GL para disponer de un activo</value>
@@ -1857,12 +1857,12 @@ Prioridad</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
  </row>
- <row id="53102" trl="N">
+ <row id="53102" trl="Y">
   <value column="Name" original="Relation Type">Tipo Relación</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
  </row>
- <row id="53103" trl="N">
+ <row id="53103" trl="Y">
   <value column="Name" original="Payroll Payment Selection">Selección de Pago (RRHH)</value>
   <value column="Description" original="Select Payroll Concept for Payment">Selección de Pago (RRHH)</value>
   <value column="Help" original="The Payroll Payment Selection Window allows you to select and process the Payroll Concepts you want to pay.&#10;(a) You can create a Payment Selection and select the Payroll Concepts or generate based on Payroll Process.  You can change the amount to be paid or delete payroll concept, you do not want to pay.&#10;&#10;(b) If you are happy with the Payment Selection, you create the payments.&#10;&#10;(c) You print or export your payments in the Window Payroll Payment Print/Export">La ventana de selección de pagos de nómina le permite seleccionar y procesar los conceptos de nómina que desea pagar.
@@ -1872,7 +1872,7 @@ Prioridad</value>
 
 (C) Usted imprime o exporta sus pagos en la Ventana Imprimir / Exportar Pago de Nómina</value>
  </row>
- <row id="53104" trl="N">
+ <row id="53104" trl="Y">
   <value column="Name" original="Withholding">Retención</value>
   <value column="Description" original="Define Withholding">Define Retención</value>
   <value column="Help" original="The Withholding Window defines withholding information for business partners.">La ventana retención define la información de retenciones de los Socios del Negocio.</value>
@@ -1882,7 +1882,7 @@ Prioridad</value>
   <value column="Description" original="Import Payroll Movement">Importar Movimientos de Nómina</value>
   <value column="Help" original=""/>
  </row>
- <row id="53109" trl="N">
+ <row id="53109" trl="Y">
   <value column="Name" original="Import Product Planning">Importar Planificación de Producto</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
@@ -1892,32 +1892,32 @@ Prioridad</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
  </row>
- <row id="53114" trl="N">
+ <row id="53114" trl="Y">
   <value column="Name" original="Asset Disposal">Activación o Disposición de Activo</value>
   <value column="Description" original="Dispose of Assets">Activación o Disposición de Activo</value>
   <value column="Help" original=""/>
  </row>
- <row id="53115" trl="N">
+ <row id="53115" trl="Y">
   <value column="Name" original="Asset Change Account">Asset Change Account</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
  </row>
- <row id="53116" trl="N">
+ <row id="53116" trl="Y">
   <value column="Name" original="Asset Class">Asset Class</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
  </row>
- <row id="53117" trl="N">
+ <row id="53117" trl="Y">
   <value column="Name" original="Asset Funding Mode">Asset Funding Mode</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
  </row>
- <row id="53118" trl="N">
+ <row id="53118" trl="Y">
   <value column="Name" original="Revaluation Asset">Revaluation Asset</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
  </row>
- <row id="53119" trl="N">
+ <row id="53119" trl="Y">
   <value column="Name" original="Asset Type">Asset Type</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
@@ -1932,22 +1932,22 @@ Prioridad</value>
   <value column="Description" original="This window allow import Inventory Move transaction">Esta ventana permite importar transaciones de movimientos de Inventario</value>
   <value column="Help" original=""/>
  </row>
- <row id="53124" trl="N">
+ <row id="53124" trl="Y">
   <value column="Name" original="Chart">Chart</value>
   <value column="Description" original="Chart Definition">Chart Definition</value>
   <value column="Help" original=""/>
  </row>
- <row id="53125" trl="N">
+ <row id="53125" trl="Y">
   <value column="Name" original="Fact Reconciliation">Fact Reconciliation</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
  </row>
- <row id="53127" trl="N">
+ <row id="53127" trl="Y">
   <value column="Name" original="Production Order Batch">Producción (Un Solo Producto)</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
  </row>
- <row id="53128" trl="N">
+ <row id="53128" trl="Y">
   <value column="Name" original="Parts and BOMs">Parts and BOMs</value>
   <value column="Description" original="Maintain Bill of Materials">Maintain Bill of Materials</value>
   <value column="Help" original="The Bill of Materials Window defines all product bills of materials used by an organization for light manufacturing.">The Bill of Materials Window defines all product bills of materials used by an organization for light manufacturing.</value>
@@ -1957,17 +1957,17 @@ Prioridad</value>
   <value column="Description" original="Import Product BOM">Importar Lista de Materiales y Fórmulas</value>
   <value column="Help" original=""/>
  </row>
- <row id="53149" trl="N">
+ <row id="53149" trl="Y">
   <value column="Name" original="Quality Test">Prueba de Calidad</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
  </row>
- <row id="53150" trl="N">
+ <row id="53150" trl="Y">
   <value column="Name" original="Part Type">Tipo de Partes</value>
   <value column="Description" original="Manufacturing Part Types">Tipo de Partes de Producción</value>
   <value column="Help" original=""/>
  </row>
- <row id="53151" trl="N">
+ <row id="53151" trl="Y">
   <value column="Name" original="Memo">Memo</value>
   <value column="Description" original="Record memo">Memos against records</value>
   <value column="Help" original=""/>
@@ -2007,17 +2007,17 @@ Prioridad</value>
   <value column="Description" original="Import Workflow">Importar Flujo de Trabajo</value>
   <value column="Help" original="The Import Workflow Window is an interim table which is used when importing external data into the system.  Selecting the 'Process' button will either add or modify the appropriate records.">La ventana de flujo de trabajo de importación es una tabla provisional que se utiliza al importar datos externos al sistema. Si selecciona el botón 'Procesar', podrá añadir o modificar los registros apropiados.</value>
  </row>
- <row id="53176" trl="N">
+ <row id="53176" trl="Y">
   <value column="Name" original="Product Classification">Product Classification</value>
   <value column="Description" original="Maintain Product Classifications">Maintain Product Classifications</value>
   <value column="Help" original="The Product Classification allows you to define different classification of products.">The Product Classification allows you to define different classification of products.</value>
  </row>
- <row id="53177" trl="N">
+ <row id="53177" trl="Y">
   <value column="Name" original="Product Class">Product Class</value>
   <value column="Description" original="Maintain Product Class">Maintain Product Class</value>
   <value column="Help" original="The Product Class allows you to define different groups of products.">The Product Class allows you to define different groups of products.</value>
  </row>
- <row id="53178" trl="N">
+ <row id="53178" trl="Y">
   <value column="Name" original="Product Group">Product Group</value>
   <value column="Description" original="Maintain Product Group">Maintain Product Group</value>
   <value column="Help" original="The Product Group allows you to define different groups of products.">The Product Group allows you to define different groups of products.</value>
@@ -2027,7 +2027,7 @@ Prioridad</value>
   <value column="Description" original="This process allows to import the sales statistics by using a predefined import format,  inside the application.">Importar Historial de Ventas</value>
   <value column="Help" original="The parameters are the default values to import the records.&#10;&lt;br&gt;&#10;&lt;br&gt;&#10;The maintained information inside the sales statistic are: the business partner data, product, sales quantities, prices, costs and reference values.&#10;&lt;br&gt;&#10;&lt;br&gt;&#10;The sales historical information is used to realize the forecast calculus and to get sales statistics reports.">Historial de Ventas para importar</value>
  </row>
- <row id="53181" trl="N">
+ <row id="53181" trl="Y">
   <value column="Name" original="Operational Calendar">Calendario de Operaciones</value>
   <value column="Description" original="The operation calendars are defined to set measurement cycles for planning, forecast calculus and reports.">Los calendarios de operación se definen para establecer ciclos de medición para la planificación, el cálculo de pronósticos y los informes</value>
   <value column="Help" original="With the goal of planning in mind, it is required a correct formation of periods groups, which needs to be measured, the operative calendars allows to set calendars with weekly and monthly periods."/>
@@ -2047,7 +2047,7 @@ Prioridad</value>
   <value column="Description" original="The Forecasting Rules define the business logic to calculate the forecast according with a previously implemented algorithm">Las reglas del pronóstico definen la lógica de negocio de acuerdo con un algoritmo implementado previamente.</value>
   <value column="Help" original="These rules are used in the Forecast Definition to set the rules and forecast calculation ranges.&#10;&lt;br&gt;&#10;&lt;br&gt;&#10;The rules can be identified by a name and a description, to identify the different forecast calculation algorithms.&#10;&lt;br&gt;&#10;&lt;br&gt;&#10;The calculus java class: it’s the implementation of the java interface for each forecast rule.&#10;&lt;br&gt;&#10;&lt;br&gt;&#10;Currently the system supports multiple forecast calculation implementations, which are executed by the forecast engine.">Estas reglas son utilizadas por la definición de Pronóstico para determinar los cálculos de pronóstico.</value>
  </row>
- <row id="53185" trl="N">
+ <row id="53185" trl="Y">
   <value column="Name" original="Forecast Definition">Definición del Pronóstico</value>
   <value column="Description" original="This window allows to define the valid combinations, used to select the historic sales records. The combinations order is determined by the sequence, where the lower sequence has priority over the higher sequence.">La Definición de Pronósticos permite establecer diferentes criterios para calcular el pronostico de ventas.</value>
   <value column="Help" original="The information to define combinations are defined by business partner data (business partner, business partner group, sales region and campaign), Product data (product, category, classification, class and group), factor data for calculus (Alpha Factor, Gamma, Multiplier, Scale).&#10;&lt;br&gt;&#10;&lt;br&gt;&#10;The suitable use of the forecast definition, allows to generate calculus with different factors for each main group of data defined for a business partner or product.&#10;&lt;br&gt;&#10;&lt;br&gt;&#10;In this way is possible to get a forecast for each product category, different from another.&#10;&lt;br&gt;&#10;&lt;br&gt;&#10;To set the sequence of the combinations is possible to use the tab of sequences, with which is possible to define the order of each combination."/>
@@ -2074,7 +2074,7 @@ La información de pronóstico se utiliza para calcular MRP</value>
   <value column="Description" original="Express Receipt allow receiving and putaway the products of Warehouse ">El Recibo Expreso permite la recepción y entrada de los productos del almacén</value>
   <value column="Help" original="The Express Receipt Document will generate the receiving or putaway">El Documento de Recibo Express generará la recepción de materiales.</value>
  </row>
- <row id="53278" trl="N">
+ <row id="53278" trl="Y">
   <value column="Name" original="Stocktake (indirect use)">Stocktake (indirect use)</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
@@ -2084,7 +2084,7 @@ La información de pronóstico se utiliza para calcular MRP</value>
   <value column="Description" original="Import Budget"/>
   <value column="Help" original="The Import Budget Window is an interim table which is used when importing external data into the system.  Selecting the 'Process' button will either add or modify the appropriate records."/>
  </row>
- <row id="53296" trl="N">
+ <row id="53296" trl="Y">
   <value column="Name" original="GL Journal">GL Journal</value>
   <value column="Description" original="Enter and change Manual Journal Entries">Enter and change Manual Journal Entries</value>
   <value column="Help" original="The GL Journal Window allows you to enter and modify manual journal entries">The GL Journal Window allows you to enter and modify manual journal entries</value>
@@ -2134,7 +2134,7 @@ La información de pronóstico se utiliza para calcular MRP</value>
   <value column="Description" original="Maintain Salary Structure">Mantenimiento a la estructura salarial.</value>
   <value column="Help" original="The Salary Structure Window is used to define and maintain the Salary Structure of the a designation.">La Ventana de la Estructura Salarial se utiliza para definir y dar mantenimiento a una estructura salarial designada.</value>
  </row>
- <row id="53311" trl="N">
+ <row id="53311" trl="Y">
   <value column="Name" original="My Employee">Mi Empleado</value>
   <value column="Description" original="Maintain Employee">Mantenimiento de detalles de Empleado</value>
   <value column="Help" original="The Employee Window allows the user to create and manage employee details.">Permite registrar y mantener los detalles del empleado asignado al usuario de inicio de sesión</value>
@@ -2144,22 +2144,22 @@ La información de pronóstico se utiliza para calcular MRP</value>
   <value column="Description" original="Maintain Skill Type">Mantenimiento al Tipo de habilidad.</value>
   <value column="Help" original="The Employee Type Window is used to define the Employee Type">La ventana tipo de empleado se utiliza para definir que tipo de empleado es.</value>
  </row>
- <row id="53313" trl="N">
+ <row id="53313" trl="Y">
   <value column="Name" original="Company Structure">Estructura de la Compañía</value>
   <value column="Description" original="Maintain Company Structure">Mantiene la Estructura de la Compañía</value>
   <value column="Help" original="The Company Structure Window allows review of current company structure.">La Ventana Estructura de la Compañía permite ver la estructura actual de la Compañía</value>
  </row>
- <row id="53314" trl="N">
+ <row id="53314" trl="Y">
   <value column="Name" original="Employee Type">Tipo de Empleado</value>
   <value column="Description" original="Maintain Employee Type">Mantiene el Tipo de Empleado</value>
   <value column="Help" original="The Employee Type Window is used to define the Employee Type">La Ventana Tipo de Empleado permite definir y mantener el Tipo de Empleado</value>
  </row>
- <row id="53315" trl="N">
+ <row id="53315" trl="Y">
   <value column="Name" original="Employee Relation">Relación de Empleado</value>
   <value column="Description" original="Maintain Employee Relation">Mantiene la Relación de Empleado</value>
   <value column="Help" original="The Employee Relation Window is used to define Employee Relation.">La Ventana Relación de Empleado permite definir y mantener la Relación de Empleado (Padre, Madre, Hijo entre otros)</value>
  </row>
- <row id="53316" trl="N">
+ <row id="53316" trl="Y">
   <value column="Name" original="Career Level">Nivel de Profesión</value>
   <value column="Description" original="Maintain Career Level window is used to give the data related to Career Level Definition">Esta ventana es usada para mantenimiento de los datos relacionados con el Nivel de Profesión</value>
   <value column="Help" original="Career Level is used to hold the data related to Career Level definition like&#10;- Beginner&#10;- Has Knowledge&#10;- Expert  etc.">Career Level is used to hold the data related to Career Level definition like
@@ -2167,7 +2167,7 @@ La información de pronóstico se utiliza para calcular MRP</value>
 - Tiene Conocimiento
 - Experto, entre otros.</value>
  </row>
- <row id="53317" trl="N">
+ <row id="53317" trl="Y">
   <value column="Name" original="Job Education">Educación Laboral</value>
   <value column="Description" original="Maintain Job Education Window is used to define the Education details related to a Job Posting">La Ventana Educación mantiene lo relacionado con la educación requerida para un trabajo</value>
   <value column="Help" original="- MCA/B.Tech/Bsc With Excellent Educational Track &#10;- MCA/M.Tech&#10;- B.Tech/MBA/  B.Tech With MBA Will Be Given More Preference.  etc">- MCA / B.Tech / Bsc con una excelente trayectoria educativa
@@ -2179,7 +2179,7 @@ La información de pronóstico se utiliza para calcular MRP</value>
   <value column="Description" original="Maintain Job Application">Mantiene la Solicitud de Empleo</value>
   <value column="Help" original="The Job Application Window is used to define and maintain a Job Application.">La Ventana Solicitud de Empleo permite definir y mantener la Solicitudes de Empleo</value>
  </row>
- <row id="53319" trl="N">
+ <row id="53319" trl="Y">
   <value column="Name" original="Job Type">Tipo de Trabajo</value>
   <value column="Description" original="Maintain Job Type Window is used to define the Job Type details relatd to a Job Posting">La Ventana Tipo de Trabajo permite registrar y mantener los detalles relacionados con un anuncio de trabajo</value>
   <value column="Help" original="The Job Type Window may be  :&#10;&#10;Administration&#10;Advertising, marketing and PR&#10;Animal and plant resources&#10;Charity and voluntary work&#10;Construction and property&#10;Creative arts and design&#10;Education,   etc.">La Ventana Tipo de Trabajo pudiera tener registros como:
@@ -2191,27 +2191,27 @@ La información de pronóstico se utiliza para calcular MRP</value>
 - Arte Creativo y Diseño
 - Educación entre otros.</value>
  </row>
- <row id="53320" trl="N">
+ <row id="53320" trl="Y">
   <value column="Name" original="Job Openings">Oferta de Trabajo</value>
   <value column="Description" original="Maintain Job Openings Window in a particular Department">La Ventana Oferta de Trabajo permite registrar y mantener las Ofertas de Trabajo de un determinado Departamento</value>
   <value column="Help" original="The Job Openings Window in a particular Department">Ofertas de Trabajo para un determinado Departamento</value>
  </row>
- <row id="53321" trl="N">
+ <row id="53321" trl="Y">
   <value column="Name" original="Salary Range">Rango de Salario</value>
   <value column="Description" original="Maintain Salary Range">Mantiene el Rango de Salario</value>
   <value column="Help" original="The Salary Range window for Job Openings">La Ventana Rango de Salario permite definir el Rango de Salario para una Oferta de Trabajo</value>
  </row>
- <row id="53323" trl="N">
+ <row id="53323" trl="Y">
   <value column="Name" original="Employee (All)">Empleado (Todos)</value>
   <value column="Description" original="Maintain All Employee">Mantenimiento de Empleados</value>
   <value column="Help" original="The Employee Window allows the user to create and manage employee details.">La Ventana Empleado permite crear y modificar los empleados</value>
  </row>
- <row id="53324" trl="N">
+ <row id="53324" trl="Y">
   <value column="Name" original="Leave Reasons">Motivo de Permiso</value>
   <value column="Description" original="Maintain Leave Reasons">Mantiene los Motivos de Permiso</value>
   <value column="Help" original="The Leave Reasons Window is used to define reasons of leave  of an employee">La Ventana Motivo de Permiso es usada para registrar y mantener los Motivos de Permiso</value>
  </row>
- <row id="53325" trl="N">
+ <row id="53325" trl="Y">
   <value column="Name" original="Leave Type">Tipo de Permiso</value>
   <value column="Description" original="Maintain Leave Type">Mantiene el Tipo de Permiso</value>
   <value column="Help" original="The Leave Type Window is used to define the leave type for the employees in the organization">La ventana Tipo de Permiso permite registrar y mantener los Tipos de Permiso</value>
@@ -2222,7 +2222,7 @@ La información de pronóstico se utiliza para calcular MRP</value>
   <value column="Help" original="The &quot;Import Products ASI&quot; Window is an interim table which is used when importing Attribute Instance for a product from  external data into the system.  Selecting the 'Process' button will either add or modify the appropriate records.&#10;&#10;If a set of attributes, attribute or attribute search is not found, it is created, then an   attributes use is created based on the attribute's name, which are grouped by the attribute set's name">La ventana "Importar productos ASI" es una tabla provisional que se utiliza al importar la instancia de atributo para un producto de datos externos en el sistema. Si selecciona el botón 'Procesar', podrá añadir o modificar los registros apropiados.
 If a set of attributes, attribute or attribute search is not found, it is created, then an   attributes use is created based on the attribute's name, which are grouped by the attribute set's name</value>
  </row>
- <row id="53386" trl="N">
+ <row id="53386" trl="Y">
   <value column="Name" original="Document Status Indicator">Tareas pendientes</value>
   <value column="Description" original="">Despliega documentos o datos que cumplen ciertos requisitos de búsqueda</value>
   <value column="Help" original=""/>
@@ -2237,7 +2237,7 @@ If a set of attributes, attribute or attribute search is not found, it is create
   <value column="Description" original="">Manejar Plan de Reabastecimiento</value>
   <value column="Help" original="">Se pueden crear, modificar y ejecutar planes de Reabastecimiento.</value>
  </row>
- <row id="53420" trl="N">
+ <row id="53420" trl="Y">
   <value column="Name" original="Payroll Concept Type">Tipo de Concepto</value>
   <value column="Description" original="Maintain Payroll Concept Type">Mantiene el Tipo de Concepto</value>
   <value column="Help" original="The Payroll Concept Type Window is use to define type of concepts">La ventana Tipo de Concepto permite registrar y mantener el Tipo de Concepto</value>
@@ -2257,7 +2257,7 @@ If a set of attributes, attribute or attribute search is not found, it is create
   <value column="Description" original="Import Employee Data">Importar Datos de Empleado</value>
   <value column="Help" original=""/>
  </row>
- <row id="53502" trl="N">
+ <row id="53502" trl="Y">
   <value column="Name" original="Commission Group">Grupo de Comisión</value>
   <value column="Description" original="Maintain Commissions and Royalties Group">Mantiene el Grupo de Comisión</value>
   <value column="Help" original="Define how and when you want the commissions to be calculated and to whom to pay it.&#10;The Commissions Window allows you define how commissions and royalties will be paid. You can pay multiple commissions for the same order or invoice (e.g. to the person entering the transaction, to the person responsible for sale of the product (category) and or business partner (group).">La ventana permite definir como y cuando se quiere calcular las comisiones y a quien pagarlas. Se pueden pagar múltiples comisiones para la misma orden o factura (ej. a la persona que entra la transacción, a la persona responsable por la venta del producto (categoría))</value>
@@ -2267,7 +2267,7 @@ If a set of attributes, attribute or attribute search is not found, it is create
   <value column="Description" original="Enter and change the Budget">Permite introducir y  cambiar el presupuesto</value>
   <value column="Help" original="The Budget Movement Window allows you to enter and modify manual Budget">La ventana Movimiento presupuestario le permite ingresar y modificar el presupuesto manualmente</value>
  </row>
- <row id="53517" trl="N">
+ <row id="53517" trl="Y">
   <value column="Name" original="Transport Requirement">Requisito de Transporte</value>
   <value column="Description" original="Transport Requirement">Requisito de Transporte</value>
   <value column="Help" original=""/>

@@ -193,7 +193,7 @@ Seleccione las ordenes con las cuales desea generar entregas y facturas</value>
   <value column="Description" original="Edit Manufacturing Workflows">Editor de Flujos de Trabajo de Manufactura</value>
   <value column="Help" original="Edit the graphical layout of manufacturing workflows">Edita el esquema gráfico de los flujos de trabajo de manufactura</value>
  </row>
- <row id="53014" trl="N">
+ <row id="53014" trl="Y">
   <value column="Name" original="Payroll Payment Print/Export">Imprimir/Exportar Pagos Nómina</value>
   <value column="Description" original="Payroll Print or export your payments">Con este formulario se pueden Imprimir/Exportar pagos de Nómina</value>
   <value column="Help" original=""/>
@@ -203,7 +203,7 @@ Seleccione las ordenes con las cuales desea generar entregas y facturas</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
  </row>
- <row id="53017" trl="N">
+ <row id="53017" trl="Y">
   <value column="Name" original="BOM Viewer">BOM Viewer</value>
   <value column="Description" original="Shows the parent-component relationship for the product entered in the Product field.">Shows the parent-component relationship for the product entered in the Product field.</value>
   <value column="Help" original="Selecting a product will display a hierarchy of components and sub-BOMs for that product.&#10;&#10;Selecting the &quot;Where Used&quot; check box will display the BOMs that this product is used in.">Selecting a product will display a hierarchy of components and sub-BOMs for that product.
@@ -216,7 +216,7 @@ Selecting the "Where Used" check box will display the BOMs that this product is 
   <value column="Help" original="Generate Invoices from Shipments.  &#10;Select the shipmens to generate the invoice for.">Genera Facturas desde Embarques
  Selecciona Embarques  y Genera Factura</value>
  </row>
- <row id="53029" trl="N">
+ <row id="53029" trl="Y">
   <value column="Name" original="Express Receipt ScanBar Products">Express Receipt ScanBar Products</value>
   <value column="Description" original="Express Receipt ScanBar Products">Express Receipt ScanBar Products</value>
   <value column="Help" original=""/>
@@ -231,27 +231,27 @@ Selecting the "Where Used" check box will display the BOMs that this product is 
   <value column="Description" original="">Eliminar Entidades</value>
   <value column="Help" original=""/>
  </row>
- <row id="53051" trl="N">
+ <row id="53051" trl="Y">
   <value column="Name" original="Trial Balance Drillable Report">Balance de prueba navegable (sólo Web)</value>
   <value column="Description" original="Trial Balance Drillable Report (only for Web)">Balance de prueba navegable (ejecutable sólo por Web)</value>
   <value column="Help" original=""/>
  </row>
- <row id="53060" trl="N">
+ <row id="53060" trl="Y">
   <value column="Name" original="Create From Payments">Create From Payments</value>
   <value column="Description" original="Create Bank Statement from Payments Unreconcilled">Create Bank Statement from Payments Unreconcilled</value>
   <value column="Help" original="You can add the payments to Bank Statement">You can add the payments to Bank Statement</value>
  </row>
- <row id="53061" trl="N">
+ <row id="53061" trl="Y">
   <value column="Name" original="Create From Order/Receipt">Create From Order/Receipt</value>
   <value column="Description" original="Create Invoice from Purchase Order or Receipt">Create Invoice from Purchase Order or Receipt</value>
   <value column="Help" original="You can add the Lines to Invoice from Order or Receipt">You can add the Lines to Invoice from Order or Receipt</value>
  </row>
- <row id="53062" trl="N">
+ <row id="53062" trl="Y">
   <value column="Name" original="Create From Order/RMA">Create From Order/RMA</value>
   <value column="Description" original="Create Receipt from Purchase Order or RMA">Create Receipt from Purchase Order or RMA</value>
   <value column="Help" original="You can add the Lines to Receipt or Return from Order or RMA">You can add the Lines to Receipt or Return from Order or RMA</value>
  </row>
- <row id="53071" trl="N">
+ <row id="53071" trl="Y">
   <value column="Name" original="Barcode Scanner Products">Barcode Scanner Products</value>
   <value column="Description" original="Barcode Scanner Products">Barcode Scanner Products</value>
   <value column="Help" original=""/>

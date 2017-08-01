@@ -70,7 +70,7 @@
   <value column="Description" original=""/>
   <value column="UOMSymbol" original="L">L</value>
  </row>
- <row id="50005" trl="N">
+ <row id="50005" trl="Y">
   <value column="Name" original="Metric Ton">Metric Ton</value>
   <value column="Description" original="A metric ton is 1000 Kg">A metric ton is 1000 Kg</value>
   <value column="UOMSymbol" original="t">t</value>

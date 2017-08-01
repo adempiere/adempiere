@@ -81,7 +81,7 @@ Para saber cómo satisfacen los suministros cada demanda, es posible seleccionar
   <value column="Description" original="Scheduling of the Demands">Programación de las Demandas</value>
   <value column="Help" original="This browser allows to display demands to schedule">Este consulta permite mostrar demandas para programar las fechas</value>
  </row>
- <row id="50016" trl="N">
+ <row id="50016" trl="Y">
   <value column="Name" original="Scheduling of the Supplies">Scheduling of the Supplies</value>
   <value column="Description" original="Scheduling of the Supplies">Scheduling of the Supplies</value>
   <value column="Help" original="This browser allows to display supplies to schedule">This browser allows to display supplies to schedule</value>
@@ -106,12 +106,12 @@ Para saber cómo satisfacen los suministros cada demanda, es posible seleccionar
   <value column="Description" original="Displays the detail of Job Openins">Muestra el detalle de las oportunidades de empleo</value>
   <value column="Help" original=""/>
  </row>
- <row id="50030" trl="N">
+ <row id="50030" trl="Y">
   <value column="Name" original="My Applicants Browser">Consulta de Solicitantes</value>
   <value column="Description" original="Displays the detail of My Applicants">Muestra el detalle de mis solicitantes</value>
   <value column="Help" original=""/>
  </row>
- <row id="50040" trl="N">
+ <row id="50040" trl="Y">
   <value column="Name" original="Generate Landed Cost base on Material Receipts">Generate Landed Cost base on Material Receipts</value>
   <value column="Description" original="This browser allows to display receipts">This browser allows to display receipts</value>
   <value column="Help" original="This browser allows to display receipts">This browser allows to display receipts</value>
@@ -141,27 +141,27 @@ Para saber cómo satisfacen los suministros cada demanda, es posible seleccionar
   <value column="Description" original="This Smart Browse allow select the Outbound Order Lines ready to be to delivery.">Este Consulta permite seleccionar las líneas de las Ordenes de Salida, listas para ser entregadas.</value>
   <value column="Help" original=""/>
  </row>
- <row id="50050" trl="N">
+ <row id="50050" trl="Y">
   <value column="Name" original="Create Parameters">Create Parameters</value>
   <value column="Description" original="Create the Process Parameters from other process or from a Columns of Report View">Create the Process Parameters from other process or from a Columns of Report View</value>
   <value column="Help" original=""/>
  </row>
- <row id="50051" trl="N">
+ <row id="50051" trl="Y">
   <value column="Name" original="Create from Payment Request">Create from Payment Request</value>
   <value column="Description" original="Create Payment Selection lines from Payment Request selected">Create Payment Selection lines from Payment Request selected</value>
   <value column="Help" original=""/>
  </row>
- <row id="50052" trl="N">
+ <row id="50052" trl="Y">
   <value column="Name" original="Create from HR Movement">Create from HR Movement</value>
   <value column="Description" original="Create Payment Selection lines from HR Movements selected">Create Payment Selection lines from HR Movements selected</value>
   <value column="Help" original=""/>
  </row>
- <row id="50053" trl="N">
+ <row id="50053" trl="Y">
   <value column="Name" original="Create from Order">Create from Order</value>
   <value column="Description" original="Create Payment Selection lines from Orders selected">Create Payment Selection lines from Orders selected</value>
   <value column="Help" original=""/>
  </row>
- <row id="50054" trl="N">
+ <row id="50054" trl="Y">
   <value column="Name" original="Create from Invoice">Create from Invoice</value>
   <value column="Description" original="Create Payment Selection lines from Invoices selected">Create Payment Selection lines from Invoices selected</value>
   <value column="Help" original=""/>
@@ -176,17 +176,17 @@ Para saber cómo satisfacen los suministros cada demanda, es posible seleccionar
   <value column="Description" original="This Smart Browser allows to close the statement for POS Terminal">Permite realizar el cierre del Punto de Ventas</value>
   <value column="Help" original=""/>
  </row>
- <row id="50058" trl="N">
+ <row id="50058" trl="Y">
   <value column="Name" original="In Out Create From">In Out Create From</value>
   <value column="Description" original="Create From Order / RMA / Invoice in a Receipt">Create From Order / RMA / Invoice in a Receipt</value>
   <value column="Help" original=""/>
  </row>
- <row id="50060" trl="N">
+ <row id="50060" trl="Y">
   <value column="Name" original="Bank Statement Create From">Crear Desde Estado de Cuenta</value>
   <value column="Description" original="">Smart Browser para Crear Desde Estado de Cuenta</value>
   <value column="Help" original=""/>
  </row>
- <row id="50062" trl="N">
+ <row id="50062" trl="Y">
   <value column="Name" original="Invoice Create From">Crear Desde Factura</value>
   <value column="Description" original="Create From Order / RMA / Invoice / Receipt in a Invoice">Crear Desde una Orden / ADM / Factura / Recepción en una Factura</value>
   <value column="Help" original=""/>
@@ -196,7 +196,7 @@ Para saber cómo satisfacen los suministros cada demanda, es posible seleccionar
   <value column="Description" original="Smart Browser allows for a selection to be processed">Consulta Ordenes de venta permite procesar una selección</value>
   <value column="Help" original=""/>
  </row>
- <row id="50064" trl="N">
+ <row id="50064" trl="Y">
   <value column="Name" original="Generate Payment Selection (From Invoice)">Generar Selección de Pago (Desde Factura)</value>
   <value column="Description" original="Create Payment Selection lines from Invoices selected">Genera una Selección de Pago desde las Facturas seleccionadas</value>
   <value column="Help" original=""/>
@@ -206,12 +206,12 @@ Para saber cómo satisfacen los suministros cada demanda, es posible seleccionar
   <value column="Description" original="Browser Global Concept Payroll">Consulta de conceptos globales de Nómina</value>
   <value column="Help" original=""/>
  </row>
- <row id="50075" trl="N">
+ <row id="50075" trl="Y">
   <value column="Name" original="Process Orders of selection">Procesar Órdenes en Lote</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
  </row>
- <row id="50079" trl="N">
+ <row id="50079" trl="Y">
   <value column="Name" original="Generate Shipment from Order Lines">Generar Entregas desde Linea de Orden</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>

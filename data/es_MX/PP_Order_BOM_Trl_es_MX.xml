@@ -10,7 +10,7 @@
   <value column="Description" original="70 # Bag of Lawn Fertilizer">70 # Bolsa de fertilizante para césped</value>
   <value column="Help" original=""/>
  </row>
- <row id="1000000" trl="N">
+ <row id="1000000" trl="Y">
   <value column="Name" original="Fertilizer #50">Fertilizer #50</value>
   <value column="Description" original="50 # Bag of Lawn Fertilizer">50 # Bag of Lawn Fertilizer</value>
   <value column="Help" original=""/>

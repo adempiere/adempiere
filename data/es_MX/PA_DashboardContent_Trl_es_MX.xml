@@ -20,15 +20,15 @@
   <value column="Name" original="Calendar">Calendario</value>
   <value column="Description" original="Google Calendar">Calendario de Google</value>
  </row>
- <row id="50009" trl="N">
+ <row id="50009" trl="Y">
   <value column="Name" original="User Favorites">User Favorites</value>
   <value column="Description" original="User's Favorites Menu Display">User's Favorites Menu Display</value>
  </row>
- <row id="50014" trl="N">
+ <row id="50014" trl="Y">
   <value column="Name" original="Document tasks">Tareas pendientes</value>
   <value column="Description" original="Pending documents to finish">Documentos pendientes de finalizar</value>
  </row>
- <row id="200000" trl="N">
+ <row id="200000" trl="Y">
   <value column="Name" original="Recent Items">Recent Items</value>
   <value column="Description" original="Recent items">Recent items</value>
  </row>

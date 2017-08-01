@@ -10,7 +10,7 @@
   <value column="Description" original="Production Line to Packing the Fertilizer Bag 50 and 70 kg ">Línea de Producción para empacar las bolsas de fertilizante de 50 y 70kg</value>
   <value column="Help" original=""/>
  </row>
- <row id="1000000" trl="N">
+ <row id="1000000" trl="Y">
   <value column="Name" original="Fertilizer Packing Process">Fertilizer Packing Process</value>
   <value column="Description" original="Production Line to Packing the Fertilizer Bag 50 and 70 kg ">Production Line to Packing the Fertilizer Bag 50 and 70 kg </value>
   <value column="Help" original=""/>

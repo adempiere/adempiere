@@ -225,32 +225,32 @@
   <value column="PrintName" original="Manufacturing Cost Collector">Recolector de Costos de Manufactura</value>
   <value column="DocumentNote" original=""/>
  </row>
- <row id="50031" trl="N">
+ <row id="50031" trl="Y">
   <value column="Name" original="Planned Order">Planned Order</value>
   <value column="PrintName" original="Planned Order">Planned Order</value>
   <value column="DocumentNote" original=""/>
  </row>
- <row id="50036" trl="N">
+ <row id="50036" trl="Y">
   <value column="Name" original="Sales Commission">Commisión de Ventas</value>
   <value column="PrintName" original="Commission">Commisión</value>
   <value column="DocumentNote" original=""/>
  </row>
- <row id="200001" trl="N">
+ <row id="200001" trl="Y">
   <value column="Name" original="Asset Addition">Asset Addition</value>
   <value column="PrintName" original="Asset Addition">Asset Addition</value>
   <value column="DocumentNote" original=""/>
  </row>
- <row id="200002" trl="N">
+ <row id="200002" trl="Y">
   <value column="Name" original="Asset Depreciation">Asset Depreciation</value>
   <value column="PrintName" original="Asset Depreciation">Asset Depreciation</value>
   <value column="DocumentNote" original=""/>
  </row>
- <row id="200003" trl="N">
+ <row id="200003" trl="Y">
   <value column="Name" original="Asset Disposal">Asset Disposal</value>
   <value column="PrintName" original="Asset Disposal">Asset Disposal</value>
   <value column="DocumentNote" original=""/>
  </row>
- <row id="1000000" trl="N">
+ <row id="1000000" trl="Y">
   <value column="Name" original="Warehouse Management Order">Warehouse Management Order</value>
   <value column="PrintName" original="Warehouse Management Order">Warehouse Management Order</value>
   <value column="DocumentNote" original=""/>
