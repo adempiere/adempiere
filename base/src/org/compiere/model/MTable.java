@@ -859,6 +859,8 @@ public class MTable extends X_AD_Table
 		column = new MColumn(this, COLUMNNAME_UpdatedBy	, 22 , DisplayType.Table, "");
 		column.setAD_Reference_Value_ID(110);
 		column.saveEx();
+		column = new MColumn(this, COLUMNNAME_UUID, 36 , DisplayType.String, "");
+		column.saveEx();
 		if(!isView())
 		{	
 			if(getTableName().endsWith("_Trl") || getTableName().endsWith("_Access"))
