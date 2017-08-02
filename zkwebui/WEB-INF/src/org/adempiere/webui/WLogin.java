@@ -14,6 +14,9 @@
 
 package org.adempiere.webui;
 
+import java.util.Locale;
+import java.util.Properties;
+
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.part.AbstractUIPart;
 import org.adempiere.webui.theme.ITheme;
@@ -38,8 +41,9 @@ import org.zkoss.zul.Window;
  *
  * @author  <a href="mailto:agramdass@gmail.com">Ashley G Ramdass</a>
  * @author  Low Heng Sin
- * @date    Mar 3, 2007
- * @version $Revision: 0.10 $
+ * @author eEvolution author Victor Perez <victor.perez@e-evolution.com>
+ * @see  [ 1258 ]The change role throw exception  </a>
+ *         <a href="https://github.com/adempiere/adempiere/issues/1258">
  */
 public class WLogin extends AbstractUIPart
 {
@@ -47,6 +51,7 @@ public class WLogin extends AbstractUIPart
 	private IWebClient app;
 	private Borderlayout layout;
 	private Window browserWarningWindow;
+	private LoginWindow loginWindow;
 
     public WLogin(IWebClient app)
     {
@@ -77,7 +82,7 @@ public class WLogin extends AbstractUIPart
         vb.setAlign("center");
         vb.setStyle("background-color: transparent;");
 
-        LoginWindow loginWindow = new LoginWindow(app);
+        loginWindow = new LoginWindow(app);
         loginWindow.setParent(vb);
 
         if (!AEnv.isBrowserSupported())
@@ -180,5 +185,19 @@ public class WLogin extends AbstractUIPart
 
 	public Component getComponent() {
 		return layout;
+	}
+	
+	public void changeRole(Locale locale, Properties properties) {
+		loginWindow.changeRole(locale, properties);
+	}
+
+	public String getTypedPassword()
+	{
+		return loginWindow.getTypedPassword();
+	}
+
+	public void setTypedPassword(String password)
+	{
+		loginWindow.setTypedPassword(password);
 	}
 }

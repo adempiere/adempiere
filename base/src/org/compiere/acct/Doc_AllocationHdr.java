@@ -229,8 +229,11 @@ public class Doc_AllocationHdr extends Doc
 				//	Payment Only
 				  else if (line.getC_Invoice_ID() == 0 && line.getC_Payment_ID() != 0)
 				  {
-					fl = fact.createLine (line, getPaymentAcct(as, line.getC_Payment_ID()),
-						getC_Currency_ID(), line.getAmtSource(), null);
+					if (line.getAmtSource().signum() >= 0)
+						fl = fact.createLine (line, getPaymentAcct(as, line.getC_Payment_ID()), getC_Currency_ID(), line.getAmtSource(), null);
+					else
+						fl = fact.createLine (line, getPaymentAcct(as, line.getC_Payment_ID()), getC_Currency_ID(), null , line.getAmtSource().negate());
+
 					if (fl != null && payment != null)
 						fl.setAD_Org_ID(payment.getAD_Org_ID());
 				   }
@@ -308,8 +311,11 @@ public class Doc_AllocationHdr extends Doc
 				if (as.isAccrual())
 				{
 					bpAcct = getAccount(Doc.ACCTTYPE_C_Receivable, as);
-					fl = fact.createLine (line, bpAcct,
-						getC_Currency_ID(), null, allocationSource);		//	payment currency 
+					if (allocationSource.signum() >= 0)
+						fl = fact.createLine (line, bpAcct, getC_Currency_ID(), null, allocationSource);		//	payment currency
+					else
+						fl = fact.createLine (line, bpAcct, getC_Currency_ID(), allocationSource.negate() , null);		//	payment currency
+
 					if (fl != null)
 						allocationAccounted = fl.getAcctBalance().negate();
 					if (fl != null && invoice != null)
@@ -361,8 +367,11 @@ public class Doc_AllocationHdr extends Doc
 				if (as.isAccrual())
 				{
 					bpAcct = getAccount(Doc.ACCTTYPE_V_Liability, as);
-					fl = fact.createLine (line, bpAcct,
-						getC_Currency_ID(), allocationSource, null);		//	payment currency
+					if (allocationSource.signum() >= 0)
+						fl = fact.createLine (line, bpAcct, getC_Currency_ID(), allocationSource, null);		//	payment currency
+					else
+						fl = fact.createLine (line, bpAcct, getC_Currency_ID(), null , allocationSource.negate());		//	payment currency
+
 					if (fl != null)
 						allocationAccounted = fl.getAcctBalance();
 					if (fl != null && invoice != null)
@@ -571,7 +580,9 @@ public class Doc_AllocationHdr extends Doc
 				&& factLine.getUserElement1_ID() == prevFactLine.getUserElement1_ID()
 				&& factLine.getUserElement2_ID() == prevFactLine.getUserElement2_ID()
 				&& factLine.getUser1_ID() == prevFactLine.getUser1_ID() 
-				&& factLine.getUser2_ID() == prevFactLine.getUser2_ID());
+				&& factLine.getUser2_ID() == prevFactLine.getUser2_ID()
+				&& factLine.getUser3_ID() == prevFactLine.getUser3_ID()
+				&& factLine.getUser4_ID() == prevFactLine.getUser4_ID());
 	}
 
 	/**

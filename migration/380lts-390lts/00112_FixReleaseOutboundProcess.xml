@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="The release Outbound Order has disordered parameter" ReleaseNo="3.9.0" SeqNo="00112">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="53342" Table="AD_Process_Para">
+        <Data AD_Column_ID="3737" Column="FieldLength" oldValue="11">22</Data>
+        <Data AD_Column_ID="2826" Column="SeqNo" oldValue="140">15</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="53328" Table="AD_Process_Para">
+        <Data AD_Column_ID="5819" Column="IsCentrallyMaintained" oldValue="true">false</Data>
+        <Data AD_Column_ID="2822" Column="Name" oldValue="Locator">Outbound Locator</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="53328" Table="AD_Process_Para">
+        <Data AD_Column_ID="2824" Column="Help" oldValue="The Locator indicates where in a Warehouse a product is located.">The Locator indicates where in a Warehouse a product is located to pick.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="53325" Table="AD_Process_Para">
+        <Data AD_Column_ID="5819" Column="IsCentrallyMaintained" oldValue="true">false</Data>
+        <Data AD_Column_ID="2822" Column="Name" oldValue="IsCreateSupply">Is Create Supply</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="53326" Table="AD_Process_Para">
+        <Data AD_Column_ID="5819" Column="IsCentrallyMaintained" oldValue="true">false</Data>
+        <Data AD_Column_ID="2822" Column="Name" oldValue="IsPrintPickList">Is Print Pick List</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="53327" Table="AD_Process_Para">
+        <Data AD_Column_ID="3739" Column="DefaultValue" isOldNull="true">CO</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="53328" Table="AD_Process_Para">
+        <Data AD_Column_ID="3739" Column="DefaultValue" isOldNull="true">-1</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="53342" Table="AD_Process_Para">
+        <Data AD_Column_ID="2826" Column="SeqNo" oldValue="15">7</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="53326" Table="AD_Process_Para">
+        <Data AD_Column_ID="3739" Column="DefaultValue" isOldNull="true">Y</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="100" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="53330" Table="AD_Process_Para">
+        <Data AD_Column_ID="3739" Column="DefaultValue" isOldNull="true">A</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="110" StepType="AD">
+      <PO AD_Table_ID="116" Action="U" Record_ID="53232" Table="AD_Menu">
+        <Data AD_Column_ID="230" Column="Description" isOldNull="true">This process generates that Distribution Order to pick,   based on the warehouse rules.</Data>
+        <Data AD_Column_ID="229" Column="Name" oldValue="Release Outbound Order">Release Outbound Order to Pick</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="120" StepType="AD">
+      <PO AD_Table_ID="53224" Action="U" Record_ID="50001" Table="AD_Browse">
+        <Data AD_Column_ID="57996" Column="Help" isOldNull="true">This process generates that Distribution Order to pick,   based on the warehouse rules</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

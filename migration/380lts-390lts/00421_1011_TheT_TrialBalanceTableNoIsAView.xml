@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="The T_TrialBalance table no is a view is temporally table." ReleaseNo="3.9.0" SeqNo="421">
+    <Comments>The T_TrialBalance table no is a view is temporally table. #1011</Comments>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="100" Action="U" Record_ID="365" Table="AD_Table">
+        <Data AD_Column_ID="6125" Column="IsView" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="100" Action="U" Record_ID="753" Table="AD_Table">
+        <Data AD_Column_ID="6125" Column="IsView" oldValue="true">false</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

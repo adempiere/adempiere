@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.ref.WeakReference;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.PreparedStatement;
@@ -38,13 +39,16 @@ import javax.servlet.ServletRequest;
 
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.session.SessionManager;
+import org.adempiere.webui.theme.ITheme;
 import org.adempiere.webui.theme.ThemeManager;
 import org.compiere.acct.Doc;
 import org.compiere.model.GridWindowVO;
 import org.compiere.model.Lookup;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MLookup;
+import org.compiere.model.MMenu;
 import org.compiere.model.MQuery;
+import org.compiere.model.MSession;
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
 import org.compiere.util.CacheMgt;
@@ -55,6 +59,7 @@ import org.compiere.util.Ini;
 import org.compiere.util.Language;
 import org.zkoss.web.servlet.Servlets;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Desktop;
 import org.zkoss.zk.ui.Execution;
 import org.zkoss.zk.ui.Executions;
 
@@ -72,6 +77,9 @@ import com.lowagie.text.pdf.PdfWriter;
  *  @version 	$Id: AEnv.java,v 1.2 2006/07/30 00:51:27 jjanke Exp $
  *
  *  Colin Rooney (croo) & kstan_79 RFE#1670185
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * 		<a href="https://github.com/adempiere/adempiere/issues/1176">
+ * 		@see FR [ 1176 ] Look and feel style to ADempiere 390 - Change icons on Work Flow</a>
  */
 public final class AEnv
 {
@@ -517,12 +525,26 @@ public final class AEnv
 	 *  @param fileNameInImageDir full file name in imgaes folder (e.g. Bean16.png)
 	 *  @return image
 	 */
-    public static URI getImage(String fileNameInImageDir)
-    {
+    public static URI getImage(String fileNameInImageDir) {
+        return getImage(fileNameInImageDir, false);
+    }   //  getImageIcon
+    
+    /**
+	 *  Get ImageIcon.
+	 *
+	 *  @param fileNameInImageDir full file name in imgaes folder (e.g. Bean16.png)
+	 *  @param dark if is a dark image
+	 *  @return image
+	 */
+    public static URI getImage(String fileNameInImageDir, boolean dark) {
         URI uri = null;
         try
-        {
-            uri = new URI("/images/" + fileNameInImageDir);
+        {	
+        	String folder = ITheme.IMAGE_FOLDER;
+        	if(dark) {
+        		folder = ITheme.IMAGE_FOLDER_DARK;
+        	}
+            uri = new URI(folder + fileNameInImageDir);
         }
         catch (URISyntaxException exception)
         {
@@ -531,6 +553,7 @@ public final class AEnv
         }
         return uri;
     }   //  getImageIcon
+
 
     /**
      *
@@ -684,6 +707,7 @@ public final class AEnv
 			language = new Language(tmp.getName(), adLanguage, tmp.getLocale(), tmp.isDecimalPoint(),
 	    			tmp.getDateFormat().toPattern(), tmp.getMediaSize());
 		}
+		Env.verifyLanguage(ctx, language);
 		return language;
 	}
 
@@ -736,5 +760,60 @@ public final class AEnv
 		if (header.length() == 0)
 			header = ThemeManager.getBrowserTitle();
 		return header;
+	}
+	
+	/**
+	 * logout AD_Session
+	 */
+	public static void logout0()
+	{
+		String sessionID = Env.getContext(Env.getCtx(), "#AD_Session_ID");
+		windowCache.remove(sessionID);
+		// End Session
+		MSession session = MSession.get(Env.getCtx(), false); // finish
+		if (session != null)
+			session.logout();
+	}
+	
+	/**
+	 * Get current desktop
+	 * 
+	 * @return Desktop
+	 */
+	public static Desktop getDesktop()
+	{
+		boolean inUIThread = Executions.getCurrent() != null;
+		if (inUIThread)
+		{
+			return Executions.getCurrent().getDesktop();
+		}
+		else
+		{
+			WeakReference<Desktop> ref = DesktopRunnable.getThreadLocalDesktop();
+			return ref != null ? ref.get() : null;
+		}
+	}
+	
+	/**
+	 * Get icon from action
+	 * @param action
+	 * @return
+	 */
+	public static String getMenuIconFile(String action) {
+		String iconPath = null;
+		if (action.equals(MMenu.ACTION_Report))
+			iconPath = ITheme.MENU_REPORT_IMAGE;
+        else if (action.equals(MMenu.ACTION_Process))
+        	iconPath = ITheme.MENU_PROCESS_IMAGE;
+        else if (action.equals(MMenu.ACTION_WorkFlow))
+        	iconPath = ITheme.MENU_WORKFLOW_IMAGE;
+        else if (action.equals(MMenu.ACTION_Task))
+        	iconPath = ITheme.MENU_TASK_IMAGE;
+        else if (action.equals(MMenu.ACTION_Workbench))
+        	iconPath = ITheme.MENU_WORKBENCH_IMAGE;
+        else
+        	iconPath = ITheme.MENU_WINDOW_IMAGE;
+		//	Default
+		return iconPath;
 	}
 }	//	AEnv

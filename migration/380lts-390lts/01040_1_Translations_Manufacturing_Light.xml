@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Translations for Manufacturing Light" ReleaseNo="3.9.0" SeqNo="01040">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="120" Action="U" Record_ID="0" Table="AD_Menu_Trl">
+        <Data AD_Column_ID="246" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="245" Column="AD_Menu_ID" oldValue="53350">53350</Data>
+        <Data AD_Column_ID="249" Column="IsTranslated" oldValue="false">true</Data>
+        <Data AD_Column_ID="247" Column="Name" oldValue="Quality Test">Test de calidad</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="120" Action="U" Record_ID="0" Table="AD_Menu_Trl">
+        <Data AD_Column_ID="246" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="245" Column="AD_Menu_ID" oldValue="53351">53351</Data>
+        <Data AD_Column_ID="248" Column="Description" oldValue="Manufacturing Part Types">Producir piezas tipo</Data>
+        <Data AD_Column_ID="247" Column="Name" oldValue="Part Type">Piezas tipo</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="120" Action="U" Record_ID="0" Table="AD_Menu_Trl">
+        <Data AD_Column_ID="246" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="245" Column="AD_Menu_ID" oldValue="53298">53298</Data>
+        <Data AD_Column_ID="248" Column="Description" oldValue="Maintain Bill of Materials">Administrar Listas de MAteriales</Data>
+        <Data AD_Column_ID="247" Column="Name" oldValue="Parts and BOMs">Piezas y LDMs</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="120" Action="U" Record_ID="0" Table="AD_Menu_Trl">
+        <Data AD_Column_ID="246" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="245" Column="AD_Menu_ID" oldValue="53299">53299</Data>
+        <Data AD_Column_ID="248" Column="Description" oldValue="Validate BOM Flags">Validar banderas de Listas de Materiales</Data>
+        <Data AD_Column_ID="247" Column="Name" oldValue="Validate BOM Flags">Validar banderas de LDMs</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="120" Action="U" Record_ID="0" Table="AD_Menu_Trl">
+        <Data AD_Column_ID="246" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="245" Column="AD_Menu_ID" oldValue="53300">53300</Data>
+        <Data AD_Column_ID="248" Column="Description" oldValue="Verify BOM for correctness">Verificar si LDM está correcta</Data>
+        <Data AD_Column_ID="247" Column="Name" oldValue="Verify BOM Structure">Verificar estructura de LDM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="120" Action="U" Record_ID="0" Table="AD_Menu_Trl">
+        <Data AD_Column_ID="246" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="245" Column="AD_Menu_ID" oldValue="53301">53301</Data>
+        <Data AD_Column_ID="248" Column="Description" oldValue="Rollup BOM cost">Calcular costos de Listas de Materiales</Data>
+        <Data AD_Column_ID="247" Column="Name" oldValue="Rollup BOM Cost">Calcular costos de LDM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="120" Action="U" Record_ID="0" Table="AD_Menu_Trl">
+        <Data AD_Column_ID="248" Column="Description" oldValue="Substitute one product for another in all BOMs">Sustituir un producto por otro en todas las LDMs</Data>
+        <Data AD_Column_ID="246" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="245" Column="AD_Menu_ID" oldValue="53352">53352</Data>
+        <Data AD_Column_ID="247" Column="Name" oldValue="Universal substitution">Sustituir producto en LDMs</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="120" Action="U" Record_ID="0" Table="AD_Menu_Trl">
+        <Data AD_Column_ID="246" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="245" Column="AD_Menu_ID" oldValue="53302">53302</Data>
+        <Data AD_Column_ID="248" Column="Description" oldValue="Shows the parent-component relationship for the product entered in the Product field.">Despliega la relación jerárquica del producto requerido</Data>
+        <Data AD_Column_ID="247" Column="Name" oldValue="BOM Viewer">Visor de LDMs</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <PO AD_Table_ID="120" Action="U" Record_ID="0" Table="AD_Menu_Trl">
+        <Data AD_Column_ID="246" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="245" Column="AD_Menu_ID" oldValue="53353">53353</Data>
+        <Data AD_Column_ID="248" Column="Description" oldValue="Indented BOM report">Reporte indentado de LDM</Data>
+        <Data AD_Column_ID="247" Column="Name" oldValue="Indented Bill of Material">LDM indentada</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="100" StepType="AD">
+      <PO AD_Table_ID="120" Action="U" Record_ID="0" Table="AD_Menu_Trl">
+        <Data AD_Column_ID="246" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="245" Column="AD_Menu_ID" oldValue="53354">53354</Data>
+        <Data AD_Column_ID="248" Column="Description" oldValue="Inventory Replenish Report">Reporte de reabastecimiento incluyendo Producción</Data>
+        <Data AD_Column_ID="247" Column="Name" oldValue="Replenish Report incl. Production">Reporte de reabastecimiento</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="110" StepType="AD">
+      <PO AD_Table_ID="120" Action="U" Record_ID="0" Table="AD_Menu_Trl">
+        <Data AD_Column_ID="246" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="245" Column="AD_Menu_ID" oldValue="53297">53297</Data>
+        <Data AD_Column_ID="247" Column="Name" oldValue="Production (Single Product)">Orden de Producción</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="120" StepType="AD">
+      <PO AD_Table_ID="120" Action="U" Record_ID="0" Table="AD_Menu_Trl">
+        <Data AD_Column_ID="246" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="245" Column="AD_Menu_ID" oldValue="54041">54041</Data>
+        <Data AD_Column_ID="247" Column="Name" oldValue="Production Recording">Grabar producción</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="130" StepType="AD">
+      <PO AD_Table_ID="120" Action="U" Record_ID="0" Table="AD_Menu_Trl">
+        <Data AD_Column_ID="246" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="245" Column="AD_Menu_ID" oldValue="53883">53883</Data>
+        <Data AD_Column_ID="248" Column="Description" oldValue="Delete open production orders">Borrar Órdenes de Producción abiertas</Data>
+        <Data AD_Column_ID="247" Column="Name" oldValue="Delete Production">Borrar Producción</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="140" StepType="AD">
+      <PO AD_Table_ID="287" Action="U" Record_ID="0" Table="AD_Process_Trl">
+        <Data AD_Column_ID="2844" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="2843" Column="AD_Process_ID" oldValue="53307">53307</Data>
+        <Data AD_Column_ID="2853" Column="Description" oldValue="Simulated Pick List">Simulación de Pick List</Data>
+        <Data AD_Column_ID="2854" Column="Help" oldValue="This process allows generate a report Simulated Pick List based on the required quantity  to calculate the material consumption of all levels.">Este proceso permite generar una Simulación de Pick List partiendo de la cantidad requerida y de esta forma calcular el consumo de material en todos los niveles.</Data>
+        <Data AD_Column_ID="2852" Column="Name" oldValue="Simulated Pick List">Simulación de Pick List</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="150" StepType="AD">
+      <PO AD_Table_ID="287" Action="U" Record_ID="0" Table="AD_Process_Trl">
+        <Data AD_Column_ID="2844" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="2843" Column="AD_Process_ID" oldValue="53267">53267</Data>
+        <Data AD_Column_ID="2853" Column="Description" oldValue="Inventory Replenish Report">Reporte de reabastecimiento incluyendo Producción</Data>
+        <Data AD_Column_ID="2854" Column="Help" oldValue="Report lists products to be replenished. Note that a product can have only one current vendor. If there are more then vendor per product, both records are reset.  You need to select a current vendor manually.&lt;br&gt;&#10;Movements are only created, if a sourcing warehouse is defined for the warehouse to be replenished.">Despliega los productos que deben ser reabastecidos. Poner atención que un producto puede tener un único proveedor. Si existe más de un proveedor por producto, ambos registros se reininciarán. En ese caso, Ud. deberá seleccionar un proveedor manualmente. &lt;br&gt; Solamente se crearán movimientos de material si el almacén (bodega) de origen es definida como el almacén que deberá ser abastecido.</Data>
+        <Data AD_Column_ID="2852" Column="Name" oldValue="Replenish Report incl. Production">Reporte de reabastecimiento</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

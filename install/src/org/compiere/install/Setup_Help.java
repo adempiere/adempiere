@@ -139,7 +139,7 @@ public class Setup_Help extends JDialog implements ActionListener
 	{
 		try
 		{
-			editorPane.setPage("http://www.adempiere.com/wiki/index.php/ServerSetupHelp");
+			editorPane.setPage("http://wiki.adempiere.net/ServerSetupHelp");
 		}
 		catch (IOException ex)
 		{

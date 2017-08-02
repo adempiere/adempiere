@@ -86,9 +86,9 @@ public class MCommissionAmt extends X_C_CommissionAmt
 	public MCommissionDetail[] getDetails()
 	{
 		final String whereClause = I_C_CommissionDetail.COLUMNNAME_C_CommissionAmt_ID+"=?";
-	List<MCommissionDetail> list = new Query(getCtx(),I_C_CommissionDetail.Table_Name, whereClause, get_TrxName())
-		.setParameters(getC_CommissionAmt_ID())
-		.list();
+		List<MCommissionDetail> list = new Query(getCtx(),I_C_CommissionDetail.Table_Name, whereClause, get_TrxName())
+			.setParameters(getC_CommissionAmt_ID())
+			.list();
 		//	Convert
 		MCommissionDetail[] retValue = new MCommissionDetail[list.size()];
 		list.toArray(retValue);
@@ -98,36 +98,21 @@ public class MCommissionAmt extends X_C_CommissionAmt
 	/**
 	 * 	Calculate Commission
 	 */
-	public void calculateCommission()
-	{
-		MCommissionDetail[] details = getDetails();
-		BigDecimal ConvertedAmt = Env.ZERO;
-		BigDecimal ActualQty = Env.ZERO;
-		for (int i = 0; i < details.length; i++)
-		{
-			MCommissionDetail detail = details[i];
-			BigDecimal amt = detail.getConvertedAmt();
-			if (amt == null)
-				amt = Env.ZERO;
-			ConvertedAmt = ConvertedAmt.add(amt);
-			ActualQty = ActualQty.add(detail.getActualQty());
+	public void updateCommissionAmount() {
+		BigDecimal totalConvertedAmt = Env.ZERO;
+		BigDecimal totalActualQty = Env.ZERO;
+		BigDecimal totalCommissionAmt = Env.ZERO;
+		//	Iterate it
+		for (MCommissionDetail detail : getDetails()) {
+			//	Set totals
+			totalConvertedAmt = totalConvertedAmt.add(detail.getConvertedAmt());
+			totalActualQty = totalActualQty.add(detail.getActualQty());
+			totalCommissionAmt = totalCommissionAmt.add(detail.getCommissionAmt());
 		}
-		setConvertedAmt(ConvertedAmt);
-		setActualQty(ActualQty);
-		//
-		MCommissionLine cl = new MCommissionLine(getCtx(), getC_CommissionLine_ID(), get_TrxName());
-		//	Qty
-		BigDecimal qty = getActualQty().subtract(cl.getQtySubtract());
-		if (cl.isPositiveOnly() && qty.signum() < 0)
-			qty = Env.ZERO;
-		qty = qty.multiply(cl.getQtyMultiplier());
-		//	Amt
-		BigDecimal amt = getConvertedAmt().subtract(cl.getAmtSubtract());
-		if (cl.isPositiveOnly() && amt.signum() < 0)
-			amt = Env.ZERO;
-		amt = amt.multiply(cl.getAmtMultiplier());
-		//
-		setCommissionAmt(amt.add(qty));
+		//	Set Totals to model
+		setConvertedAmt(totalConvertedAmt);
+		setActualQty(totalActualQty);
+		setCommissionAmt(totalCommissionAmt);
 	}	//	calculateCommission
 	
 	

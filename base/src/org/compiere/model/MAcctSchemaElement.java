@@ -116,6 +116,10 @@ public final class MAcctSchemaElement extends X_C_AcctSchema_Element
 			return I_C_ValidCombination.COLUMNNAME_User1_ID;
 		else if (elementType.equals(ELEMENTTYPE_UserList2))
 			return I_C_ValidCombination.COLUMNNAME_User2_ID;
+		else if (elementType.equals(ELEMENTTYPE_UserList3))
+			return I_C_ValidCombination.COLUMNNAME_User3_ID;
+		else if (elementType.equals(ELEMENTTYPE_UserList4))
+			return I_C_ValidCombination.COLUMNNAME_User4_ID;
 		else if (elementType.equals(ELEMENTTYPE_UserElement1))
 			return I_C_ValidCombination.COLUMNNAME_UserElement1_ID;
 		else if (elementType.equals(ELEMENTTYPE_UserElement2))

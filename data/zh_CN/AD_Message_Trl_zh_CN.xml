@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- edited with XMLSPY v2004 rel. 2 U (http://www.xmlspy.com) by sunan (sohu) -->
 <!--Adempiere(tm) Release 2.5.1f_2004-09-09 - Smart ERP & CRM - Copyright (c) 1999-2004 Jorg Janke; Implementation: 2.5.1f 20040910-0117 - Adempiere Inc. (C) 1999-2004 Jorg Janke-->
-<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.org/dtd/adempiereTrl.dtd">-->
+<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.net/dtd/adempiereTrl.dtd">-->
 <adempiereTrl language="zh_CN" table="AD_Message">
  <row id="101" trl="Y">
   <value column="MsgText" original="zero">零</value>
@@ -101,7 +101,7 @@
  </row>
  <row id="125" trl="Y">
   <value column="MsgText" original="© Jorg Janke - ComPiere, Inc. 1999-2002">© Jorg Janke - ComPiere, Inc. 1999-2002</value>
-  <value column="MsgTip" original="http://www.adempiere.org">http:  www.adempiere.org</value>
+  <value column="MsgTip" original="http://www.adempiere.net">http:  www.adempiere.org</value>
  </row>
  <row id="126" trl="Y">
   <value column="MsgText" original="40 Old Tannery Rd Monroe CT 06460 USA">40 Old Tannery Rd Monroe CT 06460 USA</value>

@@ -69,7 +69,8 @@ public class MAccount extends X_C_ValidCombination
 	 *	@return account or null
 	 * @deprecated Use {@link #get(Properties,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,String)} instead
 	 */
-	public static MAccount get (Properties ctx, 
+	@Deprecated
+	public static MAccount get (Properties ctx,
 		int AD_Client_ID, int AD_Org_ID, int C_AcctSchema_ID, 
 		int Account_ID, int C_SubAcct_ID,
 		int M_Product_ID, int C_BPartner_ID, int AD_OrgTrx_ID, 
@@ -80,9 +81,50 @@ public class MAccount extends X_C_ValidCombination
 		return get(ctx, AD_Client_ID, AD_Org_ID, C_AcctSchema_ID, Account_ID,
 				C_SubAcct_ID, M_Product_ID, C_BPartner_ID, AD_OrgTrx_ID,
 				C_LocFrom_ID, C_LocTo_ID, C_SalesRegion_ID, C_Project_ID,
-				C_Campaign_ID, C_Activity_ID, User1_ID, User2_ID,
+				C_Campaign_ID, C_Activity_ID, User1_ID, User2_ID, 0 , 0 ,
 				UserElement1_ID, UserElement2_ID, null);
 	}	//	get
+
+
+	/**
+	 * Get Account
+	 * @param ctx
+	 * @param AD_Client_ID
+	 * @param AD_Org_ID
+	 * @param C_AcctSchema_ID
+	 * @param Account_ID
+	 * @param C_SubAcct_ID
+	 * @param M_Product_ID
+	 * @param C_BPartner_ID
+	 * @param AD_OrgTrx_ID
+	 * @param C_LocFrom_ID
+	 * @param C_LocTo_ID
+	 * @param C_SalesRegion_ID
+	 * @param C_Project_ID
+	 * @param C_Campaign_ID
+	 * @param C_Activity_ID
+	 * @param User1_ID
+	 * @param User2_ID
+	 * @param UserElement1_ID
+	 * @param UserElement2_ID
+	 * @param trxName
+	 * @return
+	 */
+	@Deprecated
+	public static MAccount get (Properties ctx,
+								int AD_Client_ID, int AD_Org_ID, int C_AcctSchema_ID,
+								int Account_ID, int C_SubAcct_ID,
+								int M_Product_ID, int C_BPartner_ID, int AD_OrgTrx_ID,
+								int C_LocFrom_ID, int C_LocTo_ID, int C_SalesRegion_ID,
+								int C_Project_ID, int C_Campaign_ID, int C_Activity_ID,
+								int User1_ID, int User2_ID , int UserElement1_ID, int UserElement2_ID, String trxName)
+	{
+		return MAccount.get(ctx, AD_Client_ID , AD_Org_ID , C_AcctSchema_ID ,
+				Account_ID , C_SubAcct_ID ,
+				M_Product_ID , C_BPartner_ID , AD_OrgTrx_ID ,
+				C_LocFrom_ID , C_LocTo_ID , C_SalesRegion_ID ,
+				C_Project_ID, C_Campaign_ID , C_Activity_ID, User1_ID , User2_ID , 0 , 0 , UserElement1_ID , UserElement2_ID, trxName);
+	}
 
 	/**
 	 * 	Get existing Account or create it 
@@ -103,6 +145,8 @@ public class MAccount extends X_C_ValidCombination
 	 * @param C_Activity_ID
 	 * @param User1_ID
 	 * @param User2_ID
+	 * @param User3_ID
+	 * @param User4_ID
 	 * @param UserElement1_ID
 	 * @param UserElement2_ID
 	 * @param trxName TODO
@@ -114,7 +158,7 @@ public class MAccount extends X_C_ValidCombination
 		int M_Product_ID, int C_BPartner_ID, int AD_OrgTrx_ID, 
 		int C_LocFrom_ID, int C_LocTo_ID, int C_SalesRegion_ID, 
 		int C_Project_ID, int C_Campaign_ID, int C_Activity_ID,
-		int User1_ID, int User2_ID, int UserElement1_ID, int UserElement2_ID, String trxName)
+		int User1_ID, int User2_ID, int User3_ID, int User4_ID , int UserElement1_ID, int UserElement2_ID, String trxName)
 	{
 		StringBuffer info = new StringBuffer();
 		info.append("AD_Client_ID=").append(AD_Client_ID).append(",AD_Org_ID=").append(AD_Org_ID);
@@ -218,6 +262,20 @@ public class MAccount extends X_C_ValidCombination
 			whereClause.append(" AND User2_ID=?");
 			params.add(User2_ID);
 		}
+		if (User3_ID == 0)
+			whereClause.append(" AND User3_ID IS NULL");
+		else
+		{
+			whereClause.append(" AND User3_ID=?");
+			params.add(User3_ID);
+		}
+		if (User4_ID == 0)
+			whereClause.append(" AND User4_ID IS NULL");
+		else
+		{
+			whereClause.append(" AND User4_ID=?");
+			params.add(User4_ID);
+		}
 		if (UserElement1_ID == 0)
 			whereClause.append(" AND UserElement1_ID IS NULL");
 		else
@@ -261,6 +319,8 @@ public class MAccount extends X_C_ValidCombination
 		newAccount.setC_Activity_ID(C_Activity_ID);
 		newAccount.setUser1_ID(User1_ID);
 		newAccount.setUser2_ID(User2_ID);
+		newAccount.setUser3_ID(User3_ID);
+		newAccount.setUser4_ID(User4_ID);
 		newAccount.setUserElement1_ID(UserElement1_ID);
 		newAccount.setUserElement2_ID(UserElement2_ID);
 		//
@@ -302,7 +362,8 @@ public class MAccount extends X_C_ValidCombination
 			fa.getM_Product_ID(), fa.getC_BPartner_ID(), fa.getAD_OrgTrx_ID(), 
 			fa.getC_LocFrom_ID(), fa.getC_LocTo_ID(), fa.getC_SalesRegion_ID(), 
 			fa.getC_Project_ID(), fa.getC_Campaign_ID(), fa.getC_Activity_ID(),
-			fa.getUser1_ID(), fa.getUser2_ID(), fa.getUserElement1_ID(), fa.getUserElement2_ID(), null);
+			fa.getUser1_ID(), fa.getUser2_ID(), fa.getUser3_ID() , fa.getUser4_ID(),
+			fa.getUserElement1_ID(), fa.getUserElement2_ID(), null);
 		return acct;
 	}	//	get
 	
@@ -367,6 +428,10 @@ public class MAccount extends X_C_ValidCombination
 				vc.setUser1_ID(defaultValue);
 			else if (elementType.equals(MAcctSchemaElement.ELEMENTTYPE_UserList2) && setValue)
 				vc.setUser2_ID(defaultValue);
+			else if (elementType.equals(MAcctSchemaElement.ELEMENTTYPE_UserList3) && setValue)
+				vc.setUser3_ID(defaultValue);
+			else if (elementType.equals(MAcctSchemaElement.ELEMENTTYPE_UserList4) && setValue)
+				vc.setUser4_ID(defaultValue);
 			else if (elementType.equals(MAcctSchemaElement.ELEMENTTYPE_UserElement1) && setValue)
 				vc.setUserElement1_ID(defaultValue);
 			else if (elementType.equals(MAcctSchemaElement.ELEMENTTYPE_UserElement2) && setValue)
@@ -500,6 +565,10 @@ public class MAccount extends X_C_ValidCombination
 				sb.append(",User1_ID=").append(getUser1_ID());
 			if (getUser2_ID() != 0)
 				sb.append(",User2_ID=").append(getUser2_ID());
+			if (getUser3_ID() != 0)
+				sb.append(",User3_ID=").append(getUser3_ID());
+			if (getUser4_ID() != 0)
+				sb.append(",User4_ID=").append(getUser4_ID());
 			if (getUserElement1_ID() != 0)
 				sb.append(",UserElement1_ID=").append(getUserElement1_ID());
 			if (getUserElement2_ID() != 0)
@@ -787,6 +856,24 @@ public class MAccount extends X_C_ValidCombination
 					descrStr = ev.getName();
 				}
 			}
+			else if (MAcctSchemaElement.ELEMENTTYPE_UserList3.equals(element.getElementType()))
+			{
+				if (getUser3_ID() != 0)
+				{
+					MElementValue ev = new MElementValue(getCtx(), getUser3_ID(), get_TrxName());
+					combiStr = ev.getValue();
+					descrStr = ev.getName();
+				}
+			}
+			else if (MAcctSchemaElement.ELEMENTTYPE_UserList4.equals(element.getElementType()))
+			{
+				if (getUser4_ID() != 0)
+				{
+					MElementValue ev = new MElementValue(getCtx(), getUser4_ID(), get_TrxName());
+					combiStr = ev.getValue();
+					descrStr = ev.getName();
+				}
+			}
 			else if (MAcctSchemaElement.ELEMENTTYPE_UserElement1.equals(element.getElementType()))
 			{
 				if (getUserElement1_ID() != 0)
@@ -853,13 +940,13 @@ public class MAccount extends X_C_ValidCombination
 	{
 		org.compiere.Adempiere.startup(true);
 		MAccount acct = get (Env.getCtx(), 11, 11, 101, 600, 0,
-			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, null);
+			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 , 0, null);
 		System.out.println(acct);
 		System.out.println(acct.get_xmlString(new StringBuffer ("xxxx")));
 		
 		//
 		MAccount acct2 = get (Env.getCtx(), 11, 12, 101, 600, 0,
-			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, null);
+			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 , null);
 		System.out.println(acct2);
 		
 	}	//	main

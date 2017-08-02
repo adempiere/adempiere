@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--ADempiere(r) Release 3.9.0_2017-08-01 -Smart Suite ERP,CRM and SCM- (c) 1999-2017 ADempiere(r); Implementation: ADempiere - Supported by ADempiere community--><!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.net/dtd/adempiereTrl.dtd">--><adempiereTrl language="es_MX" table="AD_Browse">
+ <row id="50000" trl="Y">
+  <value column="Name" original="Salas Order to Picking">Generar Plan de Recolección basado en ventas</value>
+  <value column="Description" original="This Smart Browse allow select the Sales Order to generate an Outbound Order.">Esta consulta permite seleccionar las orden de venta para generar una Orden de Salida.</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50001" trl="Y">
+  <value column="Name" original="Outbound Order to Release">Liberar Ordenes de Salida</value>
+  <value column="Description" original="This Smart Browse allow select the Outbound Order to release the lines that need be pick.">Esta consulta permite seleccionar la Ordenes de Salida para liberar las líneas que seleccionadas</value>
+  <value column="Help" original="This process generates that Distribution Order to pick,   based on the warehouse rules"/>
+ </row>
+ <row id="50002" trl="Y">
+  <value column="Name" original="Outbound Order Lines to Ship">Generar Entregas des Ordenes de Venta</value>
+  <value column="Description" original="This Smart Browse allow select the Outbound Order Lines ready to be to ship.">Esta Consulta permite seleccionar las líneas de las Ordenes de salida, listas para ser entregadas.</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50004" trl="Y">
+  <value column="Name" original="Forecast Simulation Result">Consulta de resultado de la simulación del pronóstico</value>
+  <value column="Description" original="The forecast simulation browser allows to compare base period data with the simulation result of the target period, after executing a forecast simulation.">La consulta  de simulación de pronóstico permite comparar los datos del período base con el resultado de la simulación del período objetivo, después de ejecutar una simulación de pronóstico.</value>
+  <value column="Help" original="The goal of this query is to validate that the results are considered in the company plans."/>
+ </row>
+ <row id="50007" trl="Y">
+  <value column="Name" original="MRP Action Messages">Mensajes de acción del MRP</value>
+  <value column="Description" original="MRP Action Messages">Mensajes de acción del MRP</value>
+  <value column="Help" original="&#10;&#10;This browser allows to show the action messages created by the Materials Plan process, multiple selection criteria can be defined (Organization, Warehouse, Plant, Planner, Message, Order Type, Priority, Product, Scheduled Start Date)&#10;&#10;To visualize the message detail you can click the zoom button. "/>
+ </row>
+ <row id="50008" trl="Y">
+  <value column="Name" original="Approval Planned Material Requisition">Aprobación de Requisiciones de Material</value>
+  <value column="Description" original="This process allows to show the Material Requisitions planned,  which can be approved, multiple selection criterias can be defined (Warehouse, Planner, Scheduled Start Date, Required Date, Product and Business Partner).">Aprobación de Requisiciones de Material</value>
+  <value column="Help" original="&lt;p&gt;&#10;In the approval process is possible to modify the Scheduled Start Date, Required Date and  Quantity,  by each Material Requisition Line. You can also modify the whole selection by using the Priority and Business Partner parameters.&#10;&lt;p&gt;&#10;&#10;It is possible to convert a Material Requisition in  a Manufacturing Order , changing the Order Type parameter, The Plant, BOM and Workflow parameters. These parameters are shown so it can be defined the Manufacturing Order information.&#10;&lt;p&gt;&#10;It is possible to convert a Material Requisition in a Distribution Order, changing the Order Type, The Business Partner , Warehouse in Transit, Shipper ,  Locator source , Locator Target  parameters. These parameters are shown to define the Distribution Order information.&#10;"><![CDATA[<P>
+En el proceso de aprobación es posible modificar la Fecha de Inicio Programada, la Fecha y la Cantidad Requeridas, por cada Línea de Requisición de Material. También puede modificar toda la selección utilizando los parámetros Prioridad y socio de negocios.
+<P>
+
+Es posible convertir una Requisición de Material en una Orden de Manufactura, cambiando el parámetro Tipo de Orden, los parámetros Planta, BOM y Flujo de Trabajo. Estos parámetros se muestran para que pueda definirse la información de la Orden de Fabricación.
+<P>
+Es posible convertir una Requisición de Material en una Orden de Distribución, cambiando el Tipo de Pedido, el Socio de Negocio, el Almacén en Tránsito, el Embarcador, la Fuente de Localización, los Parámetros de Destino de Localización. Estos parámetros se muestran para definir la información de orden de distribución.]]></value>
+ </row>
+ <row id="50009" trl="Y">
+  <value column="Name" original="Approval Planned Manufacturing Orders">Aprobación de Orden de Manufactura</value>
+  <value column="Description" original="This process allows to show  the Planned Manufacturing Orders which can be approved, it is possible to define multiple selection criteria (Plant, Warehouse, Scheduled Start Date, Promised Date, Planner, BOM and Workflow).">Este proceso permite mostrar las Órdenes de Manufactura Planificadas que pueden ser aprobadas, es posible definir múltiples criterios de selección (Planta, Almacén, Fecha de Inicio Programada, Fecha Prometida, Planificador, Lista de Materias</value>
+  <value column="Help" original="&lt;p&gt;In the approval process is possible to modify on an individual base,  the Scheduled Start Date, Promised Date, and Quantity for each Manufacturing Order. You can also modify the whole selection,  by using the parameters Priority , BOM and Workflow.&#10;&lt;p&gt;&#10;It is possible to convert a Manufacturing Order into a Material Requisition  by using the Order Type and  Business Partner parameters. These parameters  are shown to define the Material Requisition information.&#10;&lt;p&gt;&#10;It is possible to convert a Manufacturing Order into a  Distribution Order by using the Order Type, Business Partner , Warehouse in Transit, Shipper, Source Locator and Target  Locator  parameters. These parameters are shown to define the Distribution Order information.&#10;"><![CDATA[<P> En el proceso de aprobación es posible modificar en una base individual, la Fecha de Inicio Programada, la Fecha Prometida y la Cantidad para cada Orden de Fabricación. También puede modificar toda la selección, utilizando los parámetros Prioridad, Lista de materiales y Flujo de trabajo.
+<P>
+Es posible convertir una Orden de Manufactura en una Requisición de material utilizando los parámetros Tipo de pedido y Parámetro de negocio. Estos parámetros se muestran para definir la información de Requisición de material.
+<P>
+Es posible convertir una Orden de fabricación en una Orden de distribución utilizando los parámetros Tipo de pedido, Socio comercial, Almacén en tránsito, Remitente, localización de origen y localización de destino. Estos parámetros se muestran para definir la información de orden de distribución.]]></value>
+ </row>
+ <row id="50010" trl="Y">
+  <value column="Name" original="Approval  Planned Distribution Orders">Aprobación de Órdenes de Distribución</value>
+  <value column="Description" original="This process allows to show  the planned Distribution Orders which can be approved.">Este proceso permite mostrar las Ordenes de Distribución planificadas que pueden ser aprobadas.</value>
+  <value column="Help" original="&lt;p&gt;Can define multiple selection criteria (Warehouse, Planner, Business Partner, Delivery Via, Delivery Rule, Shipper, Promised Date,  Source Location, Target Location and Product).&#10;&#10;&lt;p&gt; In the approval process is possible to modify on an individual base,  the Promised Date, Quantity and Confirmed Quantity of the Distribution Order Line, it is also possible to modify the whole selection,  by using the parameters Priority, Shipper and Business Partner.&#10;&#10;&lt;p&gt;It is possible to change a Distribution Order into  a Manufacturing  Order, by using the Order Type, Business Partner, Plant, BOM and Workflow parameters. These parameters are shown to define the Manufacturing Order information.&#10;&#10;&lt;p&gt;It is possible to change a Manufacturing Order into a Material Requisition by using the Order Type and Business Partner parameters. These  parameters are shown to define the Material Requisition information."><![CDATA[<P> Puede definir varios criterios de selección (Almacén, Planificador, Socio comercial, Entrega a través, Regla de entrega, Expedidor, Fecha prometida, Ubicación de origen, Ubicación de destino y Producto).
+
+<P> En el proceso de aprobación es posible modificar en una base individual, la Fecha Promesa, la Cantidad y la Cantidad Confirmada de la Línea de Orden de Distribución, también es posible modificar toda la selección, utilizando los parámetros Prioridad, .
+
+<P> Es posible cambiar una orden de distribución en una orden de fabricación, utilizando los parámetros de tipo de pedido, socio comercial, planta, lista de materiales y flujo de trabajo. Estos parámetros se muestran para definir la información de la orden de manufactura.
+
+<P> Es posible cambiar una Orden de fabricación en una Requisición de material utilizando los parámetros Tipo de pedido y Parámetro de negocio. Estos parámetros se muestran para definir la información de Requisición de material.]]></value>
+ </row>
+ <row id="50011" trl="Y">
+  <value column="Name" original="MRP Demands Browse">Consulta de Demandas del MRP</value>
+  <value column="Description" original="MRP Demands Browse">Consulta de Demandas del MRP</value>
+  <value column="Help" original="This browse allows to display independent and dependent demand  for products, to be able to track the supply for each  requirement.&#10;&#10;&lt;p&gt;&#10;To know how the supplies satisfies each demand , it is possible to select and press the zoom icon, to  display the MRP Demands View with details of demand and their supplies.&#10;"><![CDATA[Esta navegación permite mostrar demanda independiente y dependiente de productos, para poder seguir el suministro para cada requisito.
+
+<P>
+Para saber cómo satisfacen los suministros cada demanda, es posible seleccionar y presionar el icono de acercar, para mostrar la Vista de Demandas del MRP con detalles de la demanda y sus suministros.]]></value>
+ </row>
+ <row id="50012" trl="Y">
+  <value column="Name" original="MRP Supplies Browse">Consulta de suministros del MRP</value>
+  <value column="Description" original="MRP Supplies Browse">Consulta de suministros del MRP</value>
+  <value column="Help" original="This browse allows to display supplies, to be able to track each supply of every demand.&#10;&#10;&lt;p&gt;To know how demands is satisfied , it is possible to select and press the zoom icon to display the MRP Supplies View, with supply details and their demands."><![CDATA[Esta consulta  permite mostrar suministros, para poder rastrear cada suministro de cada demanda.
+
+<P> Para saber cómo se satisfacen las demandas, es posible seleccionar y presionar el icono de acercar para mostrar la vista de suministros del MRP, con detalles de suministro y sus demandas.]]></value>
+ </row>
+ <row id="50013" trl="Y">
+  <value column="Name" original="Browser Invoice">Consulta de Facturas</value>
+  <value column="Description" original="Smart Browser allows for a selection to be processed">Consulta permite procesar una selección</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50015" trl="Y">
+  <value column="Name" original="Scheduling of the Demands">Programación de las Demandas</value>
+  <value column="Description" original="Scheduling of the Demands">Programación de las Demandas</value>
+  <value column="Help" original="This browser allows to display demands to schedule">Este consulta permite mostrar demandas para programar las fechas</value>
+ </row>
+ <row id="50016" trl="Y">
+  <value column="Name" original="Scheduling of the Supplies">Scheduling of the Supplies</value>
+  <value column="Description" original="Scheduling of the Supplies">Scheduling of the Supplies</value>
+  <value column="Help" original="This browser allows to display supplies to schedule">This browser allows to display supplies to schedule</value>
+ </row>
+ <row id="50017" trl="Y">
+  <value column="Name" original="Scheduling of the Activities">Programación de actividades</value>
+  <value column="Description" original="Browser for schedule the start and end dates of the activities of manufacturing orders">Consulta para programar las fechas de inicio y fin de las actividades de las órdenes de manufactura</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50018" trl="Y">
+  <value column="Name" original="Activities Progress Monitor">Monitor de Progreso de Actividades</value>
+  <value column="Description" original="">Monitor de Progreso de Actividades</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50019" trl="Y">
+  <value column="Name" original="Activities Progress Control">Control de progreso de las actividades</value>
+  <value column="Description" original="">Control de progreso de las actividades</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50029" trl="Y">
+  <value column="Name" original="Job Openins Browser">Consulta de Ofertas de Trabajo</value>
+  <value column="Description" original="Displays the detail of Job Openins">Muestra el detalle de las oportunidades de empleo</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50030" trl="Y">
+  <value column="Name" original="My Applicants Browser">Consulta de Solicitantes</value>
+  <value column="Description" original="Displays the detail of My Applicants">Muestra el detalle de mis solicitantes</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50040" trl="Y">
+  <value column="Name" original="Generate Landed Cost base on Material Receipts">Generate Landed Cost base on Material Receipts</value>
+  <value column="Description" original="This browser allows to display receipts">This browser allows to display receipts</value>
+  <value column="Help" original="This browser allows to display receipts">This browser allows to display receipts</value>
+ </row>
+ <row id="50045" trl="Y">
+  <value column="Name" original="History Payroll Movement">Historia de movimiento de nómina</value>
+  <value column="Description" original="This browser show the employee history movements for a payroll process  ">Esta consulta muestra los movimientos del historial de empleados para un proceso de nómina</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50046" trl="Y">
+  <value column="Name" original="Generate Movement">Generar Movimiento</value>
+  <value column="Description" original="Generate Movement from Distribution Order">Generar movimiento a partir de la Orden de Distribución</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50047" trl="Y">
+  <value column="Name" original="Material Receipt Distribution Order">Recibos de materiales del la Orden de Distribución</value>
+  <value column="Description" original="Material Receipt Distribution Order">Recibos de materiales del la Orden de Distribución</value>
+  <value column="Help" original="Allows receipt of producto of Distribution Order">Permite recibir los productos de la Orden de Distribución</value>
+ </row>
+ <row id="50048" trl="Y">
+  <value column="Name" original="Demand Order to Picking">Generar Plan de Recolección desde Demandas</value>
+  <value column="Description" original="This Smart Browse allow select the Demand Order to generate an Outbound Order.">Esta consulta permite seleccionar las demandas para generar una Orden de Salida.</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50049" trl="Y">
+  <value column="Name" original="Outbound Order Lines Based on Demands to Delivery">Generar Entregas  basado en demandas</value>
+  <value column="Description" original="This Smart Browse allow select the Outbound Order Lines ready to be to delivery.">Este Consulta permite seleccionar las líneas de las Ordenes de Salida, listas para ser entregadas.</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50050" trl="Y">
+  <value column="Name" original="Create Parameters">Create Parameters</value>
+  <value column="Description" original="Create the Process Parameters from other process or from a Columns of Report View">Create the Process Parameters from other process or from a Columns of Report View</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50051" trl="Y">
+  <value column="Name" original="Create from Payment Request">Create from Payment Request</value>
+  <value column="Description" original="Create Payment Selection lines from Payment Request selected">Create Payment Selection lines from Payment Request selected</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50052" trl="Y">
+  <value column="Name" original="Create from HR Movement">Create from HR Movement</value>
+  <value column="Description" original="Create Payment Selection lines from HR Movements selected">Create Payment Selection lines from HR Movements selected</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50053" trl="Y">
+  <value column="Name" original="Create from Order">Create from Order</value>
+  <value column="Description" original="Create Payment Selection lines from Orders selected">Create Payment Selection lines from Orders selected</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50054" trl="Y">
+  <value column="Name" original="Create from Invoice">Create from Invoice</value>
+  <value column="Description" original="Create Payment Selection lines from Invoices selected">Create Payment Selection lines from Invoices selected</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50056" trl="Y">
+  <value column="Name" original="POS Withdrawal">Retiros de Puntos de Venta</value>
+  <value column="Description" original="This Smart Browser allows withdrawal by tender type">Permite Retiros de Puntos de Venta</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50057" trl="Y">
+  <value column="Name" original="POS Bank Statement Close">Cierre del Punto de Ventas</value>
+  <value column="Description" original="This Smart Browser allows to close the statement for POS Terminal">Permite realizar el cierre del Punto de Ventas</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50058" trl="Y">
+  <value column="Name" original="In Out Create From">In Out Create From</value>
+  <value column="Description" original="Create From Order / RMA / Invoice in a Receipt">Create From Order / RMA / Invoice in a Receipt</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50060" trl="Y">
+  <value column="Name" original="Bank Statement Create From">Crear Desde Estado de Cuenta</value>
+  <value column="Description" original="">Smart Browser para Crear Desde Estado de Cuenta</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50062" trl="Y">
+  <value column="Name" original="Invoice Create From">Crear Desde Factura</value>
+  <value column="Description" original="Create From Order / RMA / Invoice / Receipt in a Invoice">Crear Desde una Orden / ADM / Factura / Recepción en una Factura</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50063" trl="Y">
+  <value column="Name" original="Browser Order">Consultar Ordenes</value>
+  <value column="Description" original="Smart Browser allows for a selection to be processed">Consulta Ordenes de venta permite procesar una selección</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50064" trl="Y">
+  <value column="Name" original="Generate Payment Selection (From Invoice)">Generar Selección de Pago (Desde Factura)</value>
+  <value column="Description" original="Create Payment Selection lines from Invoices selected">Genera una Selección de Pago desde las Facturas seleccionadas</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50066" trl="Y">
+  <value column="Name" original="Browser Global Concept Payroll">Consulta de conceptos globales de Nómina</value>
+  <value column="Description" original="Browser Global Concept Payroll">Consulta de conceptos globales de Nómina</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50075" trl="Y">
+  <value column="Name" original="Process Orders of selection">Procesar Órdenes en Lote</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50079" trl="Y">
+  <value column="Name" original="Generate Shipment from Order Lines">Generar Entregas desde Linea de Orden</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50084" trl="Y">
+  <value column="Name" original="Transport License Browser">Consulta de Licencias de Transporte</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50085" trl="Y">
+  <value column="Name" original="Transport Requirement Browser">Consulta de Requisitos de Transporte</value>
+  <value column="Description" original="Transport Requirement Browser">Consulta de Requisitos de Transporte</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50086" trl="Y">
+  <value column="Name" original="Driver Browser">Consulta de Conductores</value>
+  <value column="Description" original="Define Driver Browser">Define Consulta de Conductores</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50087" trl="Y">
+  <value column="Name" original="Vehicle Browser">Consulta de Vehículos</value>
+  <value column="Description" original="Defines Vehicle Browser">Define Consulta de Vehículos</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50103" trl="Y">
+  <value column="Name" original="Transport Unit Browser">Consulta de Unidades de Transporte</value>
+  <value column="Description" original="Defines Transport Unit Browser">Define la Consulta de unidades de transporte</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="90002" trl="Y">
+  <value column="Name" original="Generate Invoice from Order Line">Generar Factura desde Linea de Orden</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+</adempiereTrl>

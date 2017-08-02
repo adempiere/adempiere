@@ -47,7 +47,6 @@ import org.compiere.grid.ed.VComboBox;
 import org.compiere.grid.ed.VDate;
 import org.compiere.model.MSysConfig;
 import org.compiere.model.MSystem;
-import org.compiere.model.MUser;
 import org.compiere.print.CPrinter;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CDialog;
@@ -148,10 +147,6 @@ public final class ALogin extends CDialog
 	private BorderLayout southLayout = new BorderLayout();
 	private StatusBar statusBar = new StatusBar();
 	private ConfirmPanel confirmPanel = new ConfirmPanel(true, false, false, false, false, false, false);
-	//private OnlineHelp onlineHelp = new OnlineHelp(true);
-	//private CPanel helpPanel = new CPanel();
-	// private JScrollPane helpScrollPane = new JScrollPane();
-	// private BorderLayout helpLayout = new BorderLayout();
 
 	/** Server Connection       */
 	private CConnection 	m_cc;
@@ -324,24 +319,8 @@ public final class ALogin extends CDialog
 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 12, 5, 5), 0, 0));
 		defaultPanel.add(warehouseCombo,   new GridBagConstraints(1, 3, 1, 1, 1.0, 0.0
 			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 12), 0, 0));
-		
-		// @Trifon - begin
-/*		
-		defaultPanel.add(languageLabel, new GridBagConstraints(0, 6, 1, 1, 0.0, 0.0
-				, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 12, 5, 5), 0, 0));
-		defaultPanel.add(languageCombo,    new GridBagConstraints(1, 6, 3, 1, 1.0, 0.0
-				, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 12), 0, 0));
-*/
-		// @Trifon - end
 		//
 		loginTabPane.add(defaultPanel, res.getString("Defaults"));
-
-		//  Help
-		/*
-		helpPanel.setLayout(helpLayout);
-		helpPanel.setPreferredSize(new Dimension (100,100));
-		helpPanel.add(helpScollPane,  BorderLayout.CENTER);
-		loginTabPane.add(helpPanel,  "?");*/
 		//
 		this.getContentPane().add(mainPanel);
 		mainPanel.add(loginTabPane, BorderLayout.CENTER);
@@ -524,9 +503,9 @@ public final class ALogin extends CDialog
 		if (m_connectionOK)			
 		{
 			//  Verify Language & Load Msg
-			Language l = Language.getLoginLanguage();
-			Env.verifyLanguage (m_ctx, l);
-			Env.setContext(m_ctx, Env.LANGUAGE, l.getAD_Language());
+			Language language = Language.getLoginLanguage();
+			Env.verifyLanguage (m_ctx, language);
+			Env.setContext(m_ctx, Env.LANGUAGE, language.getAD_Language());
 			Msg.getMsg(m_ctx, "0");
 			
 			//	Migration

@@ -17,12 +17,12 @@ import org.adempiere.webui.ClientInfo;
 import org.adempiere.webui.apps.ProcessDialog;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.panel.ADForm;
+import org.adempiere.webui.panel.CustomForm;
 import org.adempiere.webui.part.UIPart;
 import org.adempiere.webui.util.ServerPushTemplate;
 import org.adempiere.webui.window.ADWindow;
 import org.compiere.model.MQuery;
 import org.compiere.util.WebDoc;
-import org.eevolution.form.Browser;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Page;
 
@@ -83,7 +83,7 @@ public interface IDesktop extends UIPart {
 	 * @param url
 	 * @param closeable
 	 */
-	public void showURL(String url, boolean closeable);
+	public void showURL(String url, String title, boolean closeable);
 
 	/**
 	 *
@@ -145,8 +145,9 @@ public interface IDesktop extends UIPart {
 	/**
 	 * 
 	 * @param AD_Browse_ID
+	 * @param isSOTrx
 	 */
-	public void openBrowse(int AD_Browse_ID);
+	public CustomForm openBrowse(int AD_Browse_ID, Boolean isSOTrx);
 	
 	/**
 	 *

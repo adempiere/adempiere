@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--ADempiere(r) Release 3.7.0LTS_2011-10-15 -Smart Suite ERP,CRM and SCM- (c) 1999-2010 ADempiere(r); Implementation: ADempiere - Supported by ADempiere community-->
-<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
-<adempiereTrl language="es_MX" table="AD_Menu">
+<!--ADempiere(r) Release 3.9.0_2017-08-01 -Smart Suite ERP,CRM and SCM- (c) 1999-2017 ADempiere(r); Implementation: ADempiere - Supported by ADempiere community--><!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.net/dtd/adempiereTrl.dtd">--><adempiereTrl language="es_MX" table="AD_Menu">
  <row id="100" trl="Y">
   <value column="Name" original="Invoice Inquiry">Consulta de Facturas</value>
   <value column="Description" original=""/>
@@ -65,6 +63,10 @@
  <row id="183" trl="Y">
   <value column="Name" original="Material Management">Gestión de Materiales</value>
   <value column="Description" original=""/>
+ </row>
+ <row id="193" trl="Y">
+  <value column="Name" original="Generate Shipments from Outbound Order">Generar Entregas des Ordenes de Venta</value>
+  <value column="Description" original="">Esta Consulta permite seleccionar las líneas de las Ordenes de salida, listas para ser entregadas.</value>
  </row>
  <row id="203" trl="Y">
   <value column="Name" original="Requisition-to-Invoice">Gestión de Compras</value>
@@ -258,21 +260,13 @@
   <value column="Name" original="Customer Service">Servicio al Cliente</value>
   <value column="Description" original="Customer Related Assets">Activos Relacionados con Clientes</value>
  </row>
- <row id="53134" trl="Y">
-  <value column="Name" original="Fixed Assets">Activos Fijos</value>
-  <value column="Description" original="Applications to setup and maintain fixed assets">Aplicaciónpara configurar y mantener activos fijos</value>
- </row>
- <row id="53135" trl="Y">
-  <value column="Name" original="Processing">Procesamiento</value>
-  <value column="Description" original="Process Fixed Assets">Procesar Activos Fijos</value>
- </row>
  <row id="53136" trl="Y">
   <value column="Name" original="Asset Revaluation">Revaluación Activos</value>
   <value column="Description" original="Process Asset Revaluations">Procesar Revaluación Activos</value>
  </row>
  <row id="53139" trl="Y">
-  <value column="Name" original="Splits Transfers and Disposals">Divisiones, Transferencias y Desechos</value>
-  <value column="Description" original="Process Assets Splits Transfers and Disposals">Procesar Divisiones, Transferencias y Desechos de Activos</value>
+  <value column="Name" original="Asset Transactions ">Transacciones de Activos Fijos</value>
+  <value column="Description" original="Asset Transactions (Addition, Disposal, Split &amp; Transfer)">Procesar Divisiones, Transferencias y Desechos de Activos</value>
  </row>
  <row id="53149" trl="Y">
   <value column="Name" original="Depreciation Processing">Procesamiento de Depreciación</value>
@@ -282,14 +276,6 @@
   <value column="Name" original="Reporting">Informes de Activos Fijos</value>
   <value column="Description" original="Reporting for fixed assets">Informes para activos fijos</value>
  </row>
- <row id="53163" trl="Y">
-  <value column="Name" original="Setup and Maintain">Configuración y Mantenimiento</value>
-  <value column="Description" original="Setup and maintain assets">Configurar y Mantener activos</value>
- </row>
- <row id="53164" trl="Y">
-  <value column="Name" original="Fixed Assets Setup">Configuración de Activos Fijos</value>
-  <value column="Description" original="Setup and Maintain Fixed Assets">Configurar y Mantener activos fijos</value>
- </row>
  <row id="53171" trl="Y">
   <value column="Name" original="Depreciation Setup">Configuración Depreciación</value>
   <value column="Description" original="Applications to setup and maintain depreciation">aplicación para configurar y mantener depreciaciones</value>
@@ -298,6 +284,34 @@
   <value column="Name" original="Forecast Management">Gestión de Pronóstico</value>
   <value column="Description" original=""/>
  </row>
+ <row id="53207" trl="Y">
+  <value column="Name" original="Cash Flow Management">Gestión de Flujo de Efectivo</value>
+  <value column="Description" original="Cash Flow Management">Gestión de Flujo de Efectivo</value>
+ </row>
+ <row id="53229" trl="Y">
+  <value column="Name" original="Warehouse Management">Gestión de Avanzada de Almacenes</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53230" trl="Y">
+  <value column="Name" original="Outbound Operations">Operaciones de Salidas</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53232" trl="Y">
+  <value column="Name" original="Release Outbound Order to Pick">Liberar Ordenes de Salida</value>
+  <value column="Description" original="This process generates that Distribution Order to pick,   based on the warehouse rules.">Esta consulta permite seleccionar la Ordenes de Salida para liberar las líneas que seleccionadas</value>
+ </row>
+ <row id="53233" trl="Y">
+  <value column="Name" original="Generate Outbound Order based on Sales Orders">Generar Plan de Recolección basado en ventas</value>
+  <value column="Description" original="This process allows to generate a new document as the result of gathering Sales Orders based on several criteria such as :">Esta consulta permite seleccionar las orden de venta para generar una Orden de Salida.</value>
+ </row>
+ <row id="53234" trl="Y">
+  <value column="Name" original="Inbound Operations">Operaciones de Entradas</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53235" trl="Y">
+  <value column="Name" original="Warehouse Management Setup">Configuración de Gestión Avanzada de Almacén</value>
+  <value column="Description" original="">Configuración de Gestión de Almacén Avanzada de Almacenes</value>
+ </row>
  <row id="53242" trl="Y">
   <value column="Name" original="Returns">Gestión de Devoluciones</value>
   <value column="Description" original=""/>
@@ -305,5 +319,181 @@
  <row id="53247" trl="Y">
   <value column="Name" original="EDI">EDI</value>
   <value column="Description" original=""/>
+ </row>
+ <row id="53296" trl="Y">
+  <value column="Name" original="Production Light">Producción Ligera</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53363" trl="Y">
+  <value column="Name" original="Sales Management">Gestión de Relaciones con Clientes</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53427" trl="Y">
+  <value column="Name" original="Forecast Simulation Result">Consulta del resultado de la simulación del pronóstico</value>
+  <value column="Description" original="The forecast simulation browser allows to compare base period data with the simulation result of the target period, after executing a forecast simulation. The goal of this query is to validate that the results are considered in the company plans.">La consulta  de simulación de pronóstico permite comparar los datos del período base con el resultado de la simulación del período objetivo, después de ejecutar una simulación de pronóstico.</value>
+ </row>
+ <row id="53451" trl="Y">
+  <value column="Name" original="MRP Action Messages">Mensajes de acción del MRP</value>
+  <value column="Description" original="MRP Action Messages">Mensajes de acción del MRP</value>
+ </row>
+ <row id="53452" trl="Y">
+  <value column="Name" original="Approval Material Requisition">Aprobación de Requisiciones de Material</value>
+  <value column="Description" original="A planned material requisition is a suggested by the MRP process and contains its quantity and its release and promise dates.">Una requisición planificada es sugerida por el proceso MRP y contiene su cantidad y sus fechas de liberación y promesa.</value>
+ </row>
+ <row id="53453" trl="Y">
+  <value column="Name" original="Approval Distribution Order">Aprobación de Órdenes de Distribución</value>
+  <value column="Description" original="A planned distribution order is a suggested by the MRP process and contains its quantity and its release and promise dates.">Una Orden de Distribución planeada es sugerida por el proceso del MRP y contiene su cantidad y sus fechas de liberación y promesa.</value>
+ </row>
+ <row id="53454" trl="Y">
+  <value column="Name" original="Approval Manufacturing Order">Aprobación de Ordenes de Manufactura</value>
+  <value column="Description" original="A planned Manufacturing Order is a suggested by the MRP process and contains its quantity and its release and promise dates.">Una orden de manufactura planeada es sugerida por el proceso de MRP y contiene su cantidad y su fecha de liberación y promesa.</value>
+ </row>
+ <row id="53458" trl="Y">
+  <value column="Name" original="MRP Demands Browse">Consulta de Demandas del MRP</value>
+  <value column="Description" original="MRP Demands Browse">Consulta de Demandas del MRP</value>
+ </row>
+ <row id="53459" trl="Y">
+  <value column="Name" original="MRP Supplies Browse">Consulta de suministros del MRP</value>
+  <value column="Description" original="MRP Supplies Browse">Consulta de suministros del MRP</value>
+ </row>
+ <row id="53497" trl="Y">
+  <value column="Name" original="Scheduling of the Demands">Programación de las Demandas</value>
+  <value column="Description" original="">Programación de las Demandas</value>
+ </row>
+ <row id="53498" trl="Y">
+  <value column="Name" original="Scheduling of the Supplies">Programación de los Suministros</value>
+  <value column="Description" original="">Programación de los Suministros</value>
+ </row>
+ <row id="53499" trl="Y">
+  <value column="Name" original="Activities Scheduling">Programación de actividades</value>
+  <value column="Description" original="">Consulta para programar las fechas de inicio y fin de las actividades de las órdenes de manufactura</value>
+ </row>
+ <row id="53500" trl="Y">
+  <value column="Name" original="Activities Progress Monitor">Activities Progress Monitor</value>
+  <value column="Description" original="Activities Progress Monitor">Activities Progress Monitor</value>
+ </row>
+ <row id="53501" trl="Y">
+  <value column="Name" original="Activities Progress Control">Activities Progress Control</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53697" trl="Y">
+  <value column="Name" original="Employee Setup">Configuración del Empleado</value>
+  <value column="Description" original="Employee Setup">Datos generales para Recursos Humanos y Nómina</value>
+ </row>
+ <row id="53712" trl="Y">
+  <value column="Name" original="Recruitment Management">Gestión del Reclutamiento y Selección</value>
+  <value column="Description" original="Recruitment Management">Gestión del Reclutamiento y Selección</value>
+ </row>
+ <row id="53713" trl="Y">
+  <value column="Name" original="Job Openings Browser">Consulta de de vacantes de trabajo</value>
+  <value column="Description" original="Displays the detail of Job Openins">Muestra el detalle de las oportunidades de empleo</value>
+ </row>
+ <row id="53714" trl="Y">
+  <value column="Name" original="My Applicants Browser">Consulta de mis solicitantes</value>
+  <value column="Description" original="My Applicants Browser">Muestra el detalle de mis solicitantes</value>
+ </row>
+ <row id="53902" trl="Y">
+  <value column="Name" original="History Payroll Movement">Historia de movimiento de nómina</value>
+  <value column="Description" original="History Payroll Movement">Historia de movimiento de nómina</value>
+ </row>
+ <row id="53912" trl="Y">
+  <value column="Name" original="Manufacturing Order Cost">Manufacturing Order Cost</value>
+  <value column="Description" original="Manufacturing Order Cost">Manufacturing Order Cost</value>
+ </row>
+ <row id="53921" trl="Y">
+  <value column="Name" original="Generate Movement Manual">Generar Movimiento</value>
+  <value column="Description" original="Generate Movement to a Order Distribution">Generar movimiento a partir de la Orden de Distribución</value>
+ </row>
+ <row id="53922" trl="Y">
+  <value column="Name" original="Material Receipt Distribution Order">Recibos de materiales del la Orden</value>
+  <value column="Description" original="Material Receipt Distribution Order">Permite recibir los productos de la Orden</value>
+ </row>
+ <row id="54024" trl="Y">
+  <value column="Name" original="Generate Outbound Order based on Demands">Generar Plan de Recolección desde Demandas</value>
+  <value column="Description" original="This process allows to generate a new document as the result of gathering Sales Orders, Manufacture Orders, Distribution Orders based on several criteria such as :">Esta consulta permite seleccionar las demandas para generar una Orden de Salida.</value>
+ </row>
+ <row id="54026" trl="Y">
+  <value column="Name" original="Generate Shipments from Outbound Order based on Demands">Generar Entregas  basado en demandas</value>
+  <value column="Description" original="">Este Consulta permite seleccionar las líneas de las Ordenes de Salida, listas para ser entregadas.</value>
+ </row>
+ <row id="54030" trl="Y">
+  <value column="Name" original="Point of Sales">Punto de Venta</value>
+  <value column="Description" original="The Point of Sales menu">Menú de Puntos de Venta</value>
+ </row>
+ <row id="54045" trl="Y">
+  <value column="Name" original="POS Withdrawal">Permite Retiros de Puntos de Venta</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="54046" trl="Y">
+  <value column="Name" original="POS Bank Statement Close">POS Bank Statement Close</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="54093" trl="Y">
+  <value column="Name" original="Browser Purchase Order">Consulta de Ordenes</value>
+  <value column="Description" original="Smart Browser allows for a selection to be processed">Consulta Ordenes de venta permite procesar una selección</value>
+ </row>
+ <row id="54094" trl="Y">
+  <value column="Name" original="Browser Sales Order">Consulta Ordenes de Venta</value>
+  <value column="Description" original="Smart Browser allows for a selection to be processed">Consulta Ordenes de venta permite procesar una selección</value>
+ </row>
+ <row id="54095" trl="Y">
+  <value column="Name" original="Browser AR Invoice">Consulta de Facturas</value>
+  <value column="Description" original="Smart Browser allows for a selection to be processed">Consulta permite procesar una selección</value>
+ </row>
+ <row id="54096" trl="Y">
+  <value column="Name" original="Browser AP Invoice">Consulta de Facturas</value>
+  <value column="Description" original="Smart Browser allows for a selection to be processed">Consulta permite procesar una selección</value>
+ </row>
+ <row id="54102" trl="Y">
+  <value column="Name" original="Generate Payment Selection (From Invoice)">Generar Selección de Pago (Desde Factura)</value>
+  <value column="Description" original="Create Payment Selection lines from Invoices selected">Genera una Selección de Pago desde las Facturas seleccionadas</value>
+ </row>
+ <row id="54132" trl="Y">
+  <value column="Name" original="Browser Global Payroll Concept">Consulta de conceptos globales de Nómina</value>
+  <value column="Description" original="Browser Global Payroll Concept">Consulta de conceptos globales de Nómina</value>
+ </row>
+ <row id="54137" trl="Y">
+  <value column="Name" original="Process Orders">Procesar Órdenes en Lote</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="54138" trl="Y">
+  <value column="Name" original="Generate Shipment from Order Lines">Generar entrega desde líneas de Orden</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="54139" trl="Y">
+  <value column="Name" original="Generate Invoice From Order Lines">Genera Factura desde Líneas de la Orden</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="54152" trl="Y">
+  <value column="Name" original="Budget Management">Gestión de Presupuesto</value>
+  <value column="Description" original="This functionality allows the management of a budget accounting">Esta funcionalidad permite gestionar una contabilidad presupuestaria</value>
+ </row>
+ <row id="54156" trl="Y">
+  <value column="Name" original="Employee Information">Información de Empleado</value>
+  <value column="Description" original="Employee Information">Información de Empleado</value>
+ </row>
+ <row id="54170" trl="Y">
+  <value column="Name" original="Fleet Management">Gestión de Flota de Transporte</value>
+  <value column="Description" original="Fleet Management">Gestión de Flota de Transporte</value>
+ </row>
+ <row id="54180" trl="Y">
+  <value column="Name" original="Transport Requirement Browser">Consulta de Requisitos de Transporte</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="54181" trl="Y">
+  <value column="Name" original="Transport License Browser">Consulta de Licencias de Transporte</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="54182" trl="Y">
+  <value column="Name" original="Driver Browser">Consulta de Conductores</value>
+  <value column="Description" original="">Define Consulta de Conductores</value>
+ </row>
+ <row id="54183" trl="Y">
+  <value column="Name" original="Vehicle Browser">Consulta de Vehículos</value>
+  <value column="Description" original="">Define Consulta de Vehículos</value>
+ </row>
+ <row id="54193" trl="Y">
+  <value column="Name" original="Transport Unit Browser">Consulta de Unidades de Transporte</value>
+  <value column="Description" original="Transport Unit Browser">Define la Consulta de unidades de transporte</value>
  </row>
 </adempiereTrl>

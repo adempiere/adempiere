@@ -68,7 +68,7 @@ BEGIN
 		FROM	C_AllocationLine al
 		INNER JOIN C_AllocationHdr a ON (al.C_AllocationHdr_ID=a.C_AllocationHdr_ID)
 		WHERE	al.C_Invoice_ID = p_C_Invoice_ID
-          	AND   a.IsActive='Y'
+          	AND   a.DocStatus IN('CO', 'CL')
 	LOOP
         v_Temp := ar.Amount + ar.DisCountAmt + ar.WriteOffAmt;
 		v_PaidAmt := v_PaidAmt

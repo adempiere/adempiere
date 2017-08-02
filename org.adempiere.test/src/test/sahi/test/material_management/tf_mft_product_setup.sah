@@ -1,0 +1,119 @@
+/******************************************************************************
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2011, Michael McKay, All Rights Reserved.                    *
+ * This program is free software; you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ *                                                                            *
+ * @Author Michael McKay (mjmckay)                                            *
+ *                                                                            *
+ ******************************************************************************/
+/**
+ * Test Flow Main Functional Tests
+ * 
+ * Product Setup
+ * 
+ * This test flow creates the products used in the Main
+ * Functional Tests
+ * 
+ * See http://wiki.adempiere.net/Functional_Tests
+ * 
+ **/
+
+var $mft_product_setup_CSVFilePath = "../test/material_management/tf_mft_product_setup.csv";
+var $mft_product_setup_OldValue = "@@@@@@@@@@@@@@@";  // "" is a valid value
+var $mft_product_setup_OldPBPID = "";
+
+function mft_product_setup_detail(
+		$Value,
+		$Name,
+		$Description,
+		$M_Product_Category_ID,
+		$C_TaxCategory_ID,
+		$C_UOM_ID,
+		$ProductType,
+		$IsStocked,
+		$IsPurchased,
+		$IsSold,
+		$M_AttributeSet_ID,
+		$P_C_BPartner_ID,
+		$P_UPC,
+		$P_C_Currency_ID,
+		$P_PriceList,
+		$P_PricePO,
+		$P_VendorProductNo,
+		$P_Manufacturer,
+		$P_Order_Pack,
+		$P_Order_Min
+		){
+	
+	// Main product tab
+	if($mft_product_setup_OldValue!=$Value){
+
+		// New Product
+		wOpenTab("Product");
+		iNewRecord();
+		if ($Value != ""){ // If blank, don't bother to set/test
+			fSetText("Value",$Value);
+			$mft_product_setup_OldValue = $Value;
+			_assertEqual($mft_product_setup_OldValue, $Value, "*** Not Equal!!");
+		}
+		else {
+			// "" is a valid value for multiple products - triggers the sequence
+			$mft_product_setup_OldValue = "@@@@@@@@@@@@@@@";  
+		}
+		fSetText("Name",$Name);
+		fSetText("Description",$Description);
+		fSetList("M_Product_Category_ID",$M_Product_Category_ID);
+		fSetList("C_TaxCategory_ID",$C_TaxCategory_ID);
+		fSetList("C_UOM_ID",$C_UOM_ID);
+		fSetList("ProductType",$ProductType);
+		fSetCheckbox("IsStocked",$IsStocked);
+		fSetCheckbox("IsPurchased",$IsPurchased);
+		fSetCheckbox("IsSold",$IsSold);
+		fSetList("M_AttributeSet_ID",$M_AttributeSet_ID);		
+		iSaveRecord();
+		
+		$mft_product_setup_OldPBPID = "";
+		
+	}
+	
+	// Purchasing tab
+	if($mft_product_setup_OldPBPID != $P_C_BPartner_ID) {
+		wOpenTab("Purchasing");
+		iNewRecord();
+		fSetSearch("C_BPartner_ID",$P_C_BPartner_ID);
+		fSetText("UPC",$P_UPC);
+		fSetList("C_Currency_ID",$P_C_Currency_ID);
+		fSetAmount("PriceList",$P_PriceList);
+		fSetAmount("PricePO",$P_PricePO);
+		fSetText("VendorProductNo",$P_VendorProductNo);
+		fSetText("Manufacturer",$P_Manufacturer);
+		fSetAmount("Order_Min",$P_Order_Min);
+		fSetAmount("Order_Pack",$P_Order_Pack);
+		iSaveRecord();
+		
+		$mft_product_setup_OldPBPID = $P_C_BPartner_ID;
+	}
+
+}
+
+function mft_product_setup(){
+	
+	var $data = _readCSVFile($mft_product_setup_CSVFilePath);
+	
+	wOpenWindow("Product");
+	
+	_dataDrive(mft_product_setup_detail, $data);
+
+	wCloseWindow("Product");
+
+	_log("MFT_Product_Setup completed");
+}
+

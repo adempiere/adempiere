@@ -211,8 +211,10 @@ public class MProcessPara extends X_AD_Process_Para
 	 */
 	public String toString ()
 	{
-		StringBuffer sb = new StringBuffer ("MProcessPara[")
-			.append (get_ID ())
+		StringBuffer sb = new StringBuffer ("MProcessPara[AD_Process_ID = ")
+			.append (get_ID ()).append(", ")
+			.append("ColumnName = ").append(getColumnName()).append(", ")
+			.append("Name = ").append(getName())
 			.append ("]");
 		return sb.toString ();
 	}	//	toString

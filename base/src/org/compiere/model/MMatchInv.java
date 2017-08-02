@@ -332,82 +332,6 @@ public class MMatchInv extends X_M_MatchInv implements IDocumentLine
 		return success;
 	}	//	afterDelete
 	
-
-	// Elaine 2008/6/20	
-	/*private String createMatchInvCostDetail()
-	{
-		MInvoiceLine invoiceLine = new MInvoiceLine (getCtx(), getC_InvoiceLine_ID(), get_TrxName());
-		
-		// Get Account Schemas to create MCostDetail
-		MAcctSchema[] acctschemas = MAcctSchema.getClientAcctSchema(getCtx(), getAD_Client_ID());
-		for(int asn = 0; asn < acctschemas.length; asn++)
-		{
-			MAcctSchema as = acctschemas[asn];
-			
-			if (as.isSkipOrg(getAD_Org_ID()))
-			{
-				continue;
-			}
-			
-			BigDecimal LineNetAmt = invoiceLine.getLineNetAmt();
-			BigDecimal multiplier = getQty()
-				.divide(invoiceLine.getQtyInvoiced(), 12, BigDecimal.ROUND_HALF_UP)
-				.abs();
-			if (multiplier.compareTo(Env.ONE) != 0)
-				LineNetAmt = LineNetAmt.multiply(multiplier);
-
-			// Source from Doc_MatchInv.createFacts(MAcctSchema)
-			//	Cost Detail Record - data from Expense/IncClearing (CR) record
-			// MZ Goodwill
-			// Create Cost Detail Matched Invoice using Total Amount and Total Qty based on InvoiceLine
-			MMatchInv[] mInv = MMatchInv.getInvoiceLine(getCtx(), invoiceLine.getC_InvoiceLine_ID(), get_TrxName());
-			BigDecimal tQty = Env.ZERO;
-			BigDecimal tAmt = Env.ZERO;
-			for (int i = 0 ; i < mInv.length ; i++)
-			{
-				if (mInv[i].isPosted() && mInv[i].getM_MatchInv_ID() != get_ID())
-				{
-					tQty = tQty.add(mInv[i].getQty());
-					multiplier = mInv[i].getQty()
-						.divide(invoiceLine.getQtyInvoiced(), 12, BigDecimal.ROUND_HALF_UP).abs();
-					tAmt = tAmt.add(invoiceLine.getLineNetAmt().multiply(multiplier));
-				}
-			}
-			tAmt = tAmt.add(LineNetAmt); //Invoice Price
-			
-			// 	Different currency
-			MInvoice invoice = invoiceLine.getParent();
-			if (as.getC_Currency_ID() != invoice.getC_Currency_ID())
-			{
-				tAmt = MConversionRate.convert(getCtx(), tAmt, 
-					invoice.getC_Currency_ID(), as.getC_Currency_ID(),
-					invoice.getDateAcct(), invoice.getC_ConversionType_ID(),
-					invoice.getAD_Client_ID(), invoice.getAD_Org_ID());
-				if (tAmt == null)
-				{
-					return "AP Invoice not convertible - " + as.getName();
-				}
-			}			
-			
-			// set Qty to negative value when MovementType is Vendor Returns
-			MInOutLine receiptLine = new MInOutLine (getCtx(),getM_InOutLine_ID(), get_TrxName());
-			MInOut receipt = receiptLine.getParent();
-			if (receipt.getMovementType().equals(MInOut.MOVEMENTTYPE_VendorReturns))
-				tQty = tQty.add(getQty().negate()); //	Qty is set to negative value
-			else
-				tQty = tQty.add(getQty());
-			
-			// Set Total Amount and Total Quantity from Matched Invoice 
-			MCostDetail.createInvoice(as, getAD_Org_ID(), 
-					getM_Product_ID(), getM_AttributeSetInstance_ID(),
-					invoiceLine.getC_InvoiceLine_ID(), 0,		//	No cost element
-					tAmt, tQty,	getDescription(), get_TrxName());
-			// end MZ
-		}
-		
-		return "";
-	}*/
-	
 	//AZ Goodwill
 	private String deleteMatchInvCostDetail()
 	{
@@ -468,44 +392,11 @@ public class MMatchInv extends X_M_MatchInv implements IDocumentLine
 						{
 							final ICostingMethod method = CostingMethodFactory.get().getCostingMethod(ct.getCostingMethod());
 							method.setCostingMethod(as, trx, this, dimension, Env.ZERO, Env.ZERO, false);
-							method.processCostDetail(cd);
+							//method.processCostDetail(cd);
 						}
 					}
 				}
-			}	
-			
-			// update/delete Cost Detail and recalculate Current Cost
-			/*MCostDetail cd = MCostDetail.get (getCtx(), "C_InvoiceLine_ID=?", 
-					getC_InvoiceLine_ID(), getM_AttributeSetInstance_ID(), as.getC_AcctSchema_ID(), get_TrxName());
-			if (cd != null)
-			{
-				MInOut receipt = (new MInOutLine(getCtx(),getM_InOutLine_ID(),get_TrxName())).getParent();
-				BigDecimal qty = getQty();
-				if (receipt.getMovementType().equals(MInOut.MOVEMENTTYPE_VendorReturns))
-					qty = getQty().negate();
-				//
-				BigDecimal price = null;
-				if (cd.getQty().compareTo(Env.ZERO) == 0) // avoid division by zero
-					price = Env.ZERO;
-				else
-					price = cd.getAmt().divide(cd.getQty(),12,BigDecimal.ROUND_HALF_UP);
-				cd.setDeltaAmt(price.multiply(qty.negate()));
-				cd.setDeltaQty(qty.negate());
-				cd.setProcessed(false);
-				//
-				cd.setAmt(price.multiply(cd.getQty().subtract(qty)));
-				cd.setQty(cd.getQty().subtract(qty));
-				if (!cd.isProcessed())
-				{
-					MClient client = MClient.get(getCtx(), getAD_Client_ID());
-					if (client.isCostImmediate())
-						cd.process();
-				}
-				if (cd.getQty().compareTo(Env.ZERO) == 0)
-				{
-					cd.setProcessed(false);
-					cd.delete(true);
-				}*/
+			}
 		}
 		
 		return "";
@@ -549,14 +440,36 @@ public class MMatchInv extends X_M_MatchInv implements IDocumentLine
 	@Override
 	public BigDecimal getPriceActual() {
 
-		MInvoiceLine il = (MInvoiceLine) getC_InvoiceLine();
-		BigDecimal priceActual = MConversionRate.convertBase(getCtx(), il.getPriceActual(), il.getParent().getC_Currency_ID(),
-				 il.getParent().getDateAcct(), il.getParent().getC_ConversionType_ID(),
+		MInvoiceLine invoiceLine = (MInvoiceLine) getC_InvoiceLine();
+		BigDecimal priceActual = MConversionRate.convertBase(getCtx(), invoiceLine.getPriceActual(), getC_Currency_ID(),
+				getDateAcct(), getC_ConversionType_ID(),
 				getAD_Client_ID(), getAD_Org_ID());	
-		if (X_C_DocType.DOCBASETYPE_APCreditMemo.equals(il.getParent().getC_DocType().getDocBaseType()))
-			return priceActual.multiply(new BigDecimal(-1));
+		if (MDocType.DOCBASETYPE_APCreditMemo.equals(invoiceLine.getParent().getC_DocType().getDocBaseType()))
+			return priceActual.negate();
 		else
 			return priceActual;
+	}
+
+	@Override
+	public BigDecimal getPriceActualCurrency() {
+		MInvoiceLine invoiceLine = (MInvoiceLine) getC_InvoiceLine();
+		return invoiceLine.getPriceActual();
+	}
+
+	@Override
+	public int getC_Currency_ID ()
+	{
+		return DB.getSQLValue(get_TrxName() ,
+				"SELECT i.C_Currency_ID FROM C_InvoiceLine il INNER JOIN C_Invoice i ON (il.C_Invoice_ID=i.C_Invoice_ID) WHERE il.C_InvoiceLine_ID = ? ",
+				getC_InvoiceLine_ID());
+	}
+
+	@Override
+	public int getC_ConversionType_ID()
+	{
+		return DB.getSQLValue(get_TrxName() ,
+				"SELECT i.C_ConversionType_ID FROM C_InvoiceLine il INNER JOIN C_Invoice i ON (il.C_Invoice_ID=i.C_Invoice_ID) WHERE il.C_InvoiceLine_ID = ? ",
+				getC_InvoiceLine_ID());
 	}
 
 	@Override

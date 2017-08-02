@@ -32,6 +32,7 @@ import org.compiere.util.Msg;
  *	@author Cristina Ghita
  *  	<li>BF [ 2855807 ] AD_Org_ID from account 
  *  		https://sourceforge.net/tracker/?func=detail&aid=2855807&group_id=176962&atid=879332
+ * 	@author victor.perez@e-evolution.com , wwww.e-evolution.com
  *	@version $Id: MJournalLine.java,v 1.3 2006/07/30 00:51:05 jjanke Exp $
  */
 public class MJournalLine extends X_GL_JournalLine
@@ -44,13 +45,13 @@ public class MJournalLine extends X_GL_JournalLine
 	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
-	 *	@param GL_JournalLine_ID id
+	 *	@param journalLineId id
 	 *	@param trxName transaction
 	 */
-	public MJournalLine (Properties ctx, int GL_JournalLine_ID, String trxName)
+	public MJournalLine (Properties ctx, int journalLineId, String trxName)
 	{
-		super (ctx, GL_JournalLine_ID, trxName);
-		if (GL_JournalLine_ID == 0)
+		super (ctx, journalLineId, trxName);
+		if (journalLineId == 0)
 		{
 		//	setGL_JournalLine_ID (0);		//	PK
 		//	setGL_Journal_ID (0);			//	Parent
@@ -95,7 +96,7 @@ public class MJournalLine extends X_GL_JournalLine
 	}	//	MJournalLine
 
 	/** Parent					*/
-	private MJournal	m_parent = null;
+	private MJournal parentJournal = null;
 	
 	/**
 	 * 	Get Parent
@@ -103,44 +104,44 @@ public class MJournalLine extends X_GL_JournalLine
 	 */
 	public MJournal getParent()
 	{
-		if (m_parent == null)
-			m_parent = new MJournal (getCtx(), getGL_Journal_ID(), get_TrxName());
-		return m_parent;
+		if (parentJournal == null)
+			parentJournal = new MJournal (getCtx(), getGL_Journal_ID(), get_TrxName());
+		return parentJournal;
 	}	//	getParent
 	
 
 	/**	Currency Precision		*/
-	private int					m_precision = 2;
+	private int currencyPrecision = 2;
 	/**	Account Combination		*/
-	private MAccount		 	m_account = null;
+	private MAccount account = null;
 	/** Account Element			*/
-	private MElementValue		m_accountElement = null;
+	private MElementValue accountElement = null;
 	
 	/**
 	 * 	Set Currency Info
-	 *	@param C_Currency_ID currenct
-	 *	@param C_ConversionType_ID type
-	 *	@param CurrencyRate rate
+	 *	@param currencyId currenct
+	 *	@param conversionTypeId type
+	 *	@param currencyRate rate
 	 */
-	public void setCurrency (int C_Currency_ID, int C_ConversionType_ID, BigDecimal CurrencyRate)
+	public void setCurrency (int currencyId, int conversionTypeId, BigDecimal currencyRate)
 	{
-		setC_Currency_ID(C_Currency_ID);
-		if (C_ConversionType_ID != 0)
-			setC_ConversionType_ID(C_ConversionType_ID);
-		if (CurrencyRate != null && CurrencyRate.signum() == 0)
-			setCurrencyRate(CurrencyRate);
+		setC_Currency_ID(currencyId);
+		if (conversionTypeId != 0)
+			setC_ConversionType_ID(conversionTypeId);
+		if (currencyRate != null && currencyRate.signum() == 0)
+			setCurrencyRate(currencyRate);
 	}	//	setCurrency
 
 	/**
 	 * 	Set C_Currency_ID and precision
-	 *	@param C_Currency_ID currency
+	 *	@param currencyId currency
 	 */
-	public void setC_Currency_ID (int C_Currency_ID)
+	public void setC_Currency_ID (int currencyId)
 	{
-		if (C_Currency_ID == 0)
+		if (currencyId == 0)
 			return;
-		super.setC_Currency_ID (C_Currency_ID);
-		m_precision = MCurrency.getStdPrecision(getCtx(), C_Currency_ID);
+		super.setC_Currency_ID (currencyId);
+		currencyPrecision = MCurrency.getStdPrecision(getCtx(), currencyId);
 	}	//	setC_Currency_ID
 	
 	/**
@@ -149,95 +150,95 @@ public class MJournalLine extends X_GL_JournalLine
 	 */
 	public int getPrecision()
 	{
-		return m_precision;
+		return currencyPrecision;
 	}	//	getPrecision
 	
 	/**
 	 * 	Set Currency Rate
-	 *	@param CurrencyRate check for null (->one)
+	 *	@param currencyRate check for null (->one)
 	 */
-	public void setCurrencyRate (BigDecimal CurrencyRate)
+	public void setCurrencyRate (BigDecimal currencyRate)
 	{
-		if (CurrencyRate == null)
+		if (currencyRate == null)
 		{
 			log.warning("was NULL - set to 1");
 			super.setCurrencyRate (Env.ONE);
 		}
-		else if (CurrencyRate.signum() < 0)
+		else if (currencyRate.signum() < 0)
 		{
-			log.warning("negative - " + CurrencyRate + " - set to 1");
+			log.warning("negative - " + currencyRate + " - set to 1");
 			super.setCurrencyRate (Env.ONE);
 		}
 		else
-			super.setCurrencyRate (CurrencyRate);
+			super.setCurrencyRate (currencyRate);
 	}	//	setCurrencyRate
 	
 	/**
 	 * 	Set Accounted Amounts only if not 0.
 	 * 	Amounts overwritten in beforeSave - set conversion rate
-	 *	@param AmtAcctDr Dr
-	 *	@param AmtAcctCr Cr
+	 *	@param amountAccountDebit Dr
+	 *	@param amountAccountCredit Cr
 	 */
-	public void setAmtAcct (BigDecimal AmtAcctDr, BigDecimal AmtAcctCr)
+	public void setAmtAcct (BigDecimal amountAccountDebit, BigDecimal amountAccountCredit)
 	{
 		//	setConversion
-		double rateDR = 0;
-		if (AmtAcctDr != null && AmtAcctDr.signum() != 0)
+		double rateDebit = 0;
+		if (amountAccountDebit != null && amountAccountDebit.signum() != 0)
 		{
-			rateDR = AmtAcctDr.doubleValue() / getAmtSourceDr().doubleValue();
-			super.setAmtAcctDr(AmtAcctDr);
+			rateDebit = amountAccountDebit.doubleValue() / getAmtSourceDr().doubleValue();
+			super.setAmtAcctDr(amountAccountDebit);
 		}
-		double rateCR = 0;
-		if (AmtAcctCr != null && AmtAcctCr.signum() != 0)
+		double rateCredit = 0;
+		if (amountAccountCredit != null && amountAccountCredit.signum() != 0)
 		{
-			rateCR = AmtAcctCr.doubleValue() / getAmtSourceCr().doubleValue();
-			super.setAmtAcctCr(AmtAcctCr);
+			rateCredit = amountAccountCredit.doubleValue() / getAmtSourceCr().doubleValue();
+			super.setAmtAcctCr(amountAccountCredit);
 		}
-		if (rateDR != 0 && rateCR != 0 && rateDR != rateCR)
+		if (rateDebit != 0 && rateCredit != 0 && rateDebit != rateCredit)
 		{
-			log.warning("Rates Different DR=" + rateDR + "(used) <> CR=" + rateCR + "(ignored)");
-			rateCR = 0;
+			log.warning("Rates Different DR=" + rateDebit + "(used) <> CR=" + rateCredit + "(ignored)");
+			rateCredit = 0;
 		}
-		if (rateDR < 0 || Double.isInfinite(rateDR) || Double.isNaN(rateDR))
+		if (rateDebit < 0 || Double.isInfinite(rateDebit) || Double.isNaN(rateDebit))
 		{
-			log.warning("DR Rate ignored - " + rateDR);
+			log.warning("DR Rate ignored - " + rateDebit);
 			return;
 		}
-		if (rateCR < 0 || Double.isInfinite(rateCR) || Double.isNaN(rateCR))
+		if (rateCredit < 0 || Double.isInfinite(rateCredit) || Double.isNaN(rateCredit))
 		{
-			log.warning("CR Rate ignored - " + rateCR);
+			log.warning("CR Rate ignored - " + rateCredit);
 			return;
 		}
 		
-		if (rateDR != 0)
-			setCurrencyRate(new BigDecimal(rateDR));
-		if (rateCR != 0)
-			setCurrencyRate(new BigDecimal(rateCR));
+		if (rateDebit != 0)
+			setCurrencyRate(new BigDecimal(rateDebit));
+		if (rateCredit != 0)
+			setCurrencyRate(new BigDecimal(rateCredit));
 	}	//	setAmtAcct
 
 	
 	/**
 	 * 	Set C_ValidCombination_ID
-	 *	@param C_ValidCombination_ID id
+	 *	@param validCombinationId id
 	 */
-	public void setC_ValidCombination_ID (int C_ValidCombination_ID)
+	public void setC_ValidCombination_ID (int validCombinationId)
 	{
-		super.setC_ValidCombination_ID (C_ValidCombination_ID);
-		m_account = null;
-		m_accountElement = null;
+		super.setC_ValidCombination_ID (validCombinationId);
+		account = null;
+		accountElement = null;
 	}	//	setC_ValidCombination_ID
 	
 	/**
 	 * 	Set C_ValidCombination_ID
-	 *	@param acct account
+	 *	@param account account
 	 */
-	public void setC_ValidCombination_ID (MAccount acct)
+	public void setC_ValidCombination_ID (MAccount account)
 	{
-		if (acct == null)
+		if (account == null)
 			throw new IllegalArgumentException("Account is null");
-		super.setC_ValidCombination_ID (acct.getC_ValidCombination_ID());
-		m_account = acct;
-		m_accountElement = null;
+		super.setC_ValidCombination_ID (account.getC_ValidCombination_ID());
+		this.account = account;
+		accountElement = null;
 	}	//	setC_ValidCombination_ID
 
 	/**
@@ -246,9 +247,9 @@ public class MJournalLine extends X_GL_JournalLine
 	 */
 	public MAccount getAccount_Combi()
 	{
-		if (m_account == null && getC_ValidCombination_ID() != 0)
-			m_account = new MAccount (getCtx(), getC_ValidCombination_ID(), get_TrxName());
-		return m_account;
+		if (account == null && getC_ValidCombination_ID() != 0)
+			account = new MAccount (getCtx(), getC_ValidCombination_ID(), get_TrxName());
+		return account;
 	}	//	getValidCombination
 	
 	/**
@@ -257,13 +258,13 @@ public class MJournalLine extends X_GL_JournalLine
 	 */
 	public MElementValue getAccountElementValue()
 	{
-		if (m_accountElement == null)
+		if (accountElement == null)
 		{
-			MAccount vc = getAccount_Combi();
-			if (vc != null && vc.getAccount_ID() != 0)
-				m_accountElement = new MElementValue (getCtx(), vc.getAccount_ID(), get_TrxName()); 
+			MAccount account = getAccount_Combi();
+			if (account != null && account.getAccount_ID() != 0)
+				accountElement = new MElementValue (getCtx(), account.getAccount_ID(), get_TrxName());
 		}
-		return m_accountElement;
+		return accountElement;
 	}	//	getAccountElement
 	
 	/**
@@ -272,13 +273,13 @@ public class MJournalLine extends X_GL_JournalLine
 	 */
 	public boolean isDocControlled()
 	{
-		MElementValue acct = getAccountElementValue();
-		if (acct == null)
+		MElementValue accountElementValue = getAccountElementValue();
+		if (accountElementValue == null)
 		{
 			log.warning ("Account not found for C_ValidCombination_ID=" + getC_ValidCombination_ID());
 			return false;
 		}
-		return acct.isDocControlled();
+		return accountElementValue.isDocControlled();
 	}	//	isDocControlled
 	
 	
@@ -305,15 +306,15 @@ public class MJournalLine extends X_GL_JournalLine
 		}
 		fillDimensionsFromCombination();
 		//	Acct Amts
-		BigDecimal rate = getCurrencyRate();
-		BigDecimal amt = rate.multiply(getAmtSourceDr());
-		if (amt.scale() > getPrecision())
-			amt = amt.setScale(getPrecision(), BigDecimal.ROUND_HALF_UP);
-		setAmtAcctDr(amt);
-		amt = rate.multiply(getAmtSourceCr());
-		if (amt.scale() > getPrecision())
-			amt = amt.setScale(getPrecision(), BigDecimal.ROUND_HALF_UP);
-		setAmtAcctCr(amt);
+		BigDecimal currencyRate = getCurrencyRate();
+		BigDecimal amountDebit = currencyRate.multiply(getAmtSourceDr());
+		if (amountDebit.scale() > getPrecision())
+			amountDebit = amountDebit.setScale(getPrecision(), BigDecimal.ROUND_HALF_UP);
+		setAmtAcctDr(amountDebit);
+		amountDebit = currencyRate.multiply(getAmtSourceCr());
+		if (amountDebit.scale() > getPrecision())
+			amountDebit = amountDebit.setScale(getPrecision(), BigDecimal.ROUND_HALF_UP);
+		setAmtAcctCr(amountDebit);
 		//	Set Line Org to Acct Org
 	/*	if (newRecord 
 				|| is_ValueChanged("C_ValidCombination_ID")
@@ -403,20 +404,24 @@ public class MJournalLine extends X_GL_JournalLine
 	private boolean getOrCreateCombination()
 	{
 		if (getC_ValidCombination_ID() == 0
-				|| (!is_new() && (is_ValueChanged("Account_ID")
-						|| is_ValueChanged("C_SubAcct_ID")
-						|| is_ValueChanged("M_Product_ID")
-						|| is_ValueChanged("C_BPartner_ID")
-						|| is_ValueChanged("AD_OrgTrx_ID")
-						|| is_ValueChanged("AD_Org_ID")
-						|| is_ValueChanged("C_LocFrom_ID")
-						|| is_ValueChanged("C_LocTo_ID")
-						|| is_ValueChanged("C_SalesRegion_ID")
-						|| is_ValueChanged("C_Project_ID")
-						|| is_ValueChanged("C_Campaign_ID")
-						|| is_ValueChanged("C_Activity_ID")
-						|| is_ValueChanged("User1_ID")
-						|| is_ValueChanged("User2_ID"))))
+				|| (!is_new() && (is_ValueChanged(COLUMNNAME_Account_ID)
+						|| is_ValueChanged(COLUMNNAME_C_SubAcct_ID)
+						|| is_ValueChanged(COLUMNNAME_M_Product_ID)
+						|| is_ValueChanged(COLUMNNAME_C_BPartner_ID)
+						|| is_ValueChanged(COLUMNNAME_AD_OrgTrx_ID)
+						|| is_ValueChanged(COLUMNNAME_AD_Org_ID)
+						|| is_ValueChanged(COLUMNNAME_C_LocFrom_ID)
+						|| is_ValueChanged(COLUMNNAME_C_LocTo_ID)
+						|| is_ValueChanged(COLUMNNAME_C_SalesRegion_ID)
+						|| is_ValueChanged(COLUMNNAME_C_Project_ID)
+						|| is_ValueChanged(COLUMNNAME_C_Campaign_ID)
+						|| is_ValueChanged(COLUMNNAME_C_Activity_ID)
+						|| is_ValueChanged(COLUMNNAME_User1_ID)
+						|| is_ValueChanged(COLUMNNAME_User2_ID)
+						|| is_ValueChanged(COLUMNNAME_User3_ID)
+						|| is_ValueChanged(COLUMNNAME_User4_ID)))
+						|| is_ValueChanged(COLUMNNAME_UserElement1_ID)
+						|| is_ValueChanged(COLUMNNAME_UserElement2_ID))
 		{
 			MJournal gl = new MJournal(getCtx(), getGL_Journal_ID(), get_TrxName());
 
@@ -427,28 +432,36 @@ public class MJournalLine extends X_GL_JournalLine
 				if (! elem.isMandatory())
 					continue;
 				String et = elem.getElementType();
-				if (MAcctSchemaElement.ELEMENTTYPE_Account.equals(et) && get_ValueAsInt("Account_ID") == 0)
-					errorFields += "@" +  "Account_ID" + "@, ";
-				if (MAcctSchemaElement.ELEMENTTYPE_Activity.equals(et) && get_ValueAsInt("C_Activity_ID") == 0)
-					errorFields += "@" + "C_Account_ID" + "@, ";
-				if (MAcctSchemaElement.ELEMENTTYPE_BPartner.equals(et) && get_ValueAsInt("C_BPartner_ID")  == 0)
-					errorFields += "@" + "C_BPartner_ID" + "@, ";
-				if (MAcctSchemaElement.ELEMENTTYPE_Campaign.equals(et) && get_ValueAsInt("C_Campaign_ID") == 0)
-					errorFields += "@" + "C_Campaign_ID" + "@, ";
+				if (MAcctSchemaElement.ELEMENTTYPE_Account.equals(et) && getAccount_ID() == 0)
+					errorFields += "@" +  COLUMNNAME_Account_ID + "@, ";
+				if (MAcctSchemaElement.ELEMENTTYPE_Activity.equals(et) && getC_Activity_ID() == 0)
+					errorFields += "@" + COLUMNNAME_C_Activity_ID + "@, ";
+				if (MAcctSchemaElement.ELEMENTTYPE_BPartner.equals(et) && getC_BPartner_ID()  == 0)
+					errorFields += "@" + COLUMNNAME_C_BPartner_ID + "@, ";
+				if (MAcctSchemaElement.ELEMENTTYPE_Campaign.equals(et) && getC_Campaign_ID() == 0)
+					errorFields += "@" + COLUMNNAME_C_Campaign_ID + "@, ";
 				if (MAcctSchemaElement.ELEMENTTYPE_Organization.equals(et) && getAD_Org_ID() == 0)
 					errorFields += "@" + COLUMNNAME_AD_Org_ID + "@, ";
-				if (MAcctSchemaElement.ELEMENTTYPE_OrgTrx.equals(et) && get_ValueAsInt("AD_OrgTrx_ID")  == 0)
-					errorFields += "@" + "AD_OrgTrx_ID" + "@, ";
-				if (MAcctSchemaElement.ELEMENTTYPE_Product.equals(et) && get_ValueAsInt("M_Product_ID")  == 0)
-					errorFields += "@" + "M_Product_ID" + "@, ";
-				if (MAcctSchemaElement.ELEMENTTYPE_Project.equals(et) && get_ValueAsInt("C_Project_ID")  == 0)
-					errorFields += "@" + "C_Project_ID" + "@, ";
-				if (MAcctSchemaElement.ELEMENTTYPE_SalesRegion.equals(et) && get_ValueAsInt("C_SalesRegion_ID")  == 0)
-					errorFields += "@" + "C_SalesRegion_ID" + "@, ";
-				if (MAcctSchemaElement.ELEMENTTYPE_UserList1.equals(et) && get_ValueAsInt("User1_ID")  == 0)
-					errorFields += "@" + "User1_ID" + "@, ";
-				if (MAcctSchemaElement.ELEMENTTYPE_UserList2.equals(et) && get_ValueAsInt("User2_ID")  == 0)
-					errorFields += "@" + "User2_ID" + "@, ";
+				if (MAcctSchemaElement.ELEMENTTYPE_OrgTrx.equals(et) && getAD_OrgTrx_ID()  == 0)
+					errorFields += "@" + COLUMNNAME_AD_OrgTrx_ID + "@, ";
+				if (MAcctSchemaElement.ELEMENTTYPE_Product.equals(et) && getM_Product_ID()  == 0)
+					errorFields += "@" + COLUMNNAME_M_Product_ID + "@, ";
+				if (MAcctSchemaElement.ELEMENTTYPE_Project.equals(et) && getC_Project_ID()  == 0)
+					errorFields += "@" + COLUMNNAME_C_Project_ID + "@, ";
+				if (MAcctSchemaElement.ELEMENTTYPE_SalesRegion.equals(et) && getC_SalesRegion_ID() == 0)
+					errorFields += "@" + COLUMNNAME_C_SalesRegion_ID + "@, ";
+				if (MAcctSchemaElement.ELEMENTTYPE_UserList1.equals(et) && getUser1_ID()  == 0)
+					errorFields += "@" + COLUMNNAME_User1_ID + "@, ";
+				if (MAcctSchemaElement.ELEMENTTYPE_UserList2.equals(et) && getUser2_ID()  == 0)
+					errorFields += "@" + COLUMNNAME_User2_ID + "@, ";
+				if (MAcctSchemaElement.ELEMENTTYPE_UserList3.equals(et) && getUser3_ID()  == 0)
+					errorFields += "@" + COLUMNNAME_User3_ID + "@, ";
+				if (MAcctSchemaElement.ELEMENTTYPE_UserList4.equals(et) && getUser4_ID()  == 0)
+					errorFields += "@" + COLUMNNAME_User4_ID + "@, ";
+				if (MAcctSchemaElement.ELEMENTTYPE_UserElement1.equals(et) && getUserElement1_ID()  == 0)
+					errorFields += "@" + COLUMNNAME_UserElement1_ID + "@, ";
+				if (MAcctSchemaElement.ELEMENTTYPE_UserElement2.equals(et) && getUserElement2_ID()  == 0)
+					errorFields += "@" + COLUMNNAME_UserElement2_ID + "@, ";
 			}
 			if (errorFields.length() > 0)
 			{
@@ -456,19 +469,37 @@ public class MJournalLine extends X_GL_JournalLine
 				return false;
 			}
 			
-			MAccount acct = MAccount.get(getCtx(), getAD_Client_ID(), getAD_Org_ID(), gl.getC_AcctSchema_ID(), get_ValueAsInt("Account_ID"),
-					get_ValueAsInt("C_SubAcct_ID"),  get_ValueAsInt("M_Product_ID"), get_ValueAsInt("C_BPartner_ID"), get_ValueAsInt("AD_OrgTrx_ID"), get_ValueAsInt("C_LocFrom_ID"),
-					get_ValueAsInt("C_LocTo_ID"), get_ValueAsInt("C_SalesRegion_ID"), get_ValueAsInt("C_Project_ID"), get_ValueAsInt("C_Campaign_ID"), 
-					 get_ValueAsInt("C_Activity_ID"), get_ValueAsInt("User1_ID"),get_ValueAsInt("User2_ID"), 0, 0 );
+			MAccount account = MAccount.get(getCtx(),
+					getAD_Client_ID(),
+					getAD_Org_ID(),
+					gl.getC_AcctSchema_ID(),
+					getAccount_ID(),
+					getC_SubAcct_ID(),
+					getM_Product_ID(),
+					getC_BPartner_ID(),
+					getAD_OrgTrx_ID(),
+					getC_LocFrom_ID(),
+					getC_LocTo_ID(),
+					getC_SalesRegion_ID(),
+					getC_Project_ID(),
+					getC_Campaign_ID(),
+					getC_Activity_ID(),
+					getUser1_ID(),
+					getUser2_ID(),
+					getUser3_ID(),
+					getUser4_ID(),
+					getUserElement1_ID(),
+					getUserElement2_ID() ,
+					null);
 
-			if (acct != null)
+			if (account != null)
 			{
-				acct.saveEx(get_TrxName());	// get ID from transaction
-				setC_ValidCombination_ID(acct.get_ID());
-				if (acct.getAlias() != null && acct.getAlias().length() > 0)
-					set_Value("Alias_ValidCombination_ID", acct.get_ID());
+				account.saveEx(get_TrxName());	// get ID from transaction
+				setC_ValidCombination_ID(account.get_ID());
+				if (account.getAlias() != null && account.getAlias().length() > 0)
+					setAlias_ValidCombination_ID(account.get_ID());
 				else
-					set_Value("Alias_ValidCombination_ID", null);
+					setAlias_ValidCombination_ID(-1);
 			}
 		}
 		return true;
@@ -479,22 +510,25 @@ public class MJournalLine extends X_GL_JournalLine
 	{
 		if (getC_ValidCombination_ID() > 0)
 		{
-			MAccount combi = new MAccount(getCtx(), getC_ValidCombination_ID(), get_TrxName());
-			
-			set_Value("Account_ID", combi.getAccount_ID() > 0 ? combi.getAccount_ID() : null);
-			set_Value("C_SubAcct_ID", combi.getC_SubAcct_ID() > 0 ? combi.getC_SubAcct_ID() : null);
-			set_Value("M_Product_ID", combi.getM_Product_ID() > 0 ? combi.getM_Product_ID() : null);
-			set_Value("C_BPartner_ID", combi.getC_BPartner_ID() > 0 ? combi.getC_BPartner_ID() : null);
-			set_Value("AD_OrgTrx_ID", combi.getAD_OrgTrx_ID() > 0 ? combi.getAD_OrgTrx_ID() : null);
-			setAD_Org_ID(combi.getAD_Org_ID() > 0 ? combi.getAD_Org_ID() : null);
-			set_Value("C_LocFrom_ID", combi.getC_LocFrom_ID() > 0 ? combi.getC_LocFrom_ID() : null);
-			set_Value("C_LocTo_ID", combi.getC_LocTo_ID() > 0 ? combi.getC_LocTo_ID() : null);
-			set_Value("C_SalesRegion_ID", combi.getC_SalesRegion_ID() > 0 ? combi.getC_SalesRegion_ID() : null);
-			set_Value("C_Project_ID", combi.getC_Project_ID() > 0 ? combi.getC_Project_ID() : null);
-			set_Value("C_Campaign_ID", combi.getC_Campaign_ID() > 0 ? combi.getC_Campaign_ID() : null);
-			set_Value("C_Activity_ID", combi.getC_Activity_ID() > 0 ? combi.getC_Activity_ID() : null);
-			set_Value("User1_ID", combi.getUser1_ID() > 0 ? combi.getUser1_ID() : null);
-			set_Value("User2_ID", combi.getUser2_ID() > 0 ? combi.getUser2_ID() : null);
+			MAccount account = new MAccount(getCtx(), getC_ValidCombination_ID(), get_TrxName());
+			setAD_Org_ID(account.getAD_Org_ID());
+			setAccount_ID(account.getAccount_ID());
+			setC_SubAcct_ID( account.getC_SubAcct_ID());
+			setM_Product_ID( account.getM_Product_ID());
+			setC_BPartner_ID( account.getC_BPartner_ID());
+			setAD_OrgTrx_ID(account.getAD_OrgTrx_ID());
+			setC_LocFrom_ID(account.getC_LocFrom_ID());
+			setC_LocTo_ID(account.getC_LocTo_ID());
+			setC_SalesRegion_ID(account.getC_SalesRegion_ID());
+			setC_Project_ID(account.getC_Project_ID());
+			setC_Campaign_ID( account.getC_Campaign_ID());
+			setC_Activity_ID( account.getC_Activity_ID());
+			setUser1_ID(account.getUser1_ID());
+			setUser2_ID(account.getUser2_ID());
+			setUser3_ID(account.getUser3_ID());
+			setUser4_ID(account.getUser4_ID());
+			setUserElement1_ID(account.getUserElement1_ID());
+			setUserElement2_ID( account.getUserElement2_ID());
 		}		
 	}	// fillDimensionsFromCombination
 	

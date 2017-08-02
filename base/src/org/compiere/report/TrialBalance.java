@@ -25,12 +25,12 @@ import java.util.GregorianCalendar;
 import java.util.logging.Level;
 
 import org.compiere.model.MAcctSchemaElement;
-import org.compiere.model.MElementValue;
 import org.compiere.model.MPeriod;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.DB;
 import org.compiere.util.Language;
+import org.compiere.util.Msg;
 
 
 /**
@@ -79,12 +79,15 @@ public class TrialBalance extends SvrProcess
 	private int					p_C_LocTo_ID = 0;
 	private int					p_User1_ID = 0;
 	private int					p_User2_ID = 0;
+	private int					p_User3_ID = 0;
+	private int					p_User4_ID = 0;
 	
+	private String				p_seletedIDs = null;
+	private String				plID = null;
+	private String				bsID = null;
 	
 	/**	Parameter Where Clause			*/
 	private StringBuffer		m_parameterWhere = new StringBuffer();
-	/**	Account							*/ 
-	private MElementValue 		m_acct = null;
 	
 	/**	Start Time						*/
 	private long 				m_start = System.currentTimeMillis();
@@ -99,7 +102,7 @@ public class TrialBalance extends SvrProcess
 		+ " AmtAcctDr, AmtAcctCr, AmtAcctBalance, C_UOM_ID, Qty,"
 		+ " M_Product_ID, C_BPartner_ID, AD_OrgTrx_ID, C_LocFrom_ID,C_LocTo_ID,"
 		+ " C_SalesRegion_ID, C_Project_ID, C_Campaign_ID, C_Activity_ID,"
-		+ " User1_ID, User2_ID, A_Asset_ID, Description)";
+		+ " User1_ID, User2_ID,User3_ID, User4_ID, A_Asset_ID, Description)";
 
 	
 	/**
@@ -150,32 +153,36 @@ public class TrialBalance extends SvrProcess
 				p_C_Campaign_ID = ((BigDecimal)para[i].getParameter()).intValue();
 			else if (name.equals("PostingType"))
 				p_PostingType = (String)para[i].getParameter();
+			else if (name.equals("Period_ID"))
+				p_C_Period_ID = ((BigDecimal)para[i].getParameter()).intValue();
+			else if (name.equals("seletedID"))
+				p_seletedIDs = para[i].getParameterAsString();
 			else
 				log.log(Level.SEVERE, "Unknown Parameter: " + name);
 		}
 		//	Mandatory C_AcctSchema_ID
 		m_parameterWhere.append("C_AcctSchema_ID=").append(p_C_AcctSchema_ID);
 		//	Optional Account_ID
-		if (p_Account_ID != 0)
-			m_parameterWhere.append(" AND ").append(MReportTree.getWhereClause(getCtx(), 
-				p_PA_Hierarchy_ID,MAcctSchemaElement.ELEMENTTYPE_Account, p_Account_ID));
+//		if (p_Account_ID != 0)
+//			m_parameterWhere.append(" AND ").append(MReportTree.getWhereClause(getCtx(), 
+//				p_PA_Hierarchy_ID,MAcctSchemaElement.ELEMENTTYPE_Account, p_Account_ID));
 		if (p_AccountValue_From != null && p_AccountValue_From.length() == 0)
 			p_AccountValue_From = null;
 		if (p_AccountValue_To != null && p_AccountValue_To.length() == 0)
 			p_AccountValue_To = null;
-		if (p_AccountValue_From != null && p_AccountValue_To != null)
-			m_parameterWhere.append(" AND (Account_ID IS NULL OR EXISTS (SELECT * FROM C_ElementValue ev ")
-				.append("WHERE Account_ID=ev.C_ElementValue_ID AND ev.Value >= ")
-				.append(DB.TO_STRING(p_AccountValue_From)).append(" AND ev.Value <= ")
-				.append(DB.TO_STRING(p_AccountValue_To)).append("))");
-		else if (p_AccountValue_From != null && p_AccountValue_To == null)
-			m_parameterWhere.append(" AND (Account_ID IS NULL OR EXISTS (SELECT * FROM C_ElementValue ev ")
-			.append("WHERE Account_ID=ev.C_ElementValue_ID AND ev.Value >= ")
-			.append(DB.TO_STRING(p_AccountValue_From)).append("))");
-		else if (p_AccountValue_From == null && p_AccountValue_To != null)
-			m_parameterWhere.append(" AND (Account_ID IS NULL OR EXISTS (SELECT * FROM C_ElementValue ev ")
-			.append("WHERE Account_ID=ev.C_ElementValue_ID AND ev.Value <= ")
-			.append(DB.TO_STRING(p_AccountValue_To)).append("))");
+//		if (p_AccountValue_From != null && p_AccountValue_To != null)
+//			m_parameterWhere.append(" AND (Account_ID IS NULL OR EXISTS (SELECT * FROM C_ElementValue ev ")
+//				.append("WHERE Account_ID=ev.C_ElementValue_ID AND ev.Value >= ")
+//				.append(DB.TO_STRING(p_AccountValue_From)).append(" AND ev.Value <= ")
+//				.append(DB.TO_STRING(p_AccountValue_To)).append("))");
+//		else if (p_AccountValue_From != null && p_AccountValue_To == null)
+//			m_parameterWhere.append(" AND (Account_ID IS NULL OR EXISTS (SELECT * FROM C_ElementValue ev ")
+//			.append("WHERE Account_ID=ev.C_ElementValue_ID AND ev.Value >= ")
+//			.append(DB.TO_STRING(p_AccountValue_From)).append("))");
+//		else if (p_AccountValue_From == null && p_AccountValue_To != null)
+//			m_parameterWhere.append(" AND (Account_ID IS NULL OR EXISTS (SELECT * FROM C_ElementValue ev ")
+//			.append("WHERE Account_ID=ev.C_ElementValue_ID AND ev.Value <= ")
+//			.append(DB.TO_STRING(p_AccountValue_To)).append("))");
 		//	Optional Org
 		if (p_AD_Org_ID != 0)
 			m_parameterWhere.append(" AND ").append(MReportTree.getWhereClause(getCtx(), 
@@ -209,6 +216,7 @@ public class TrialBalance extends SvrProcess
 		m_parameterWhere.append(" AND PostingType='").append(p_PostingType).append("'");
 		//
 		setDateAcct();
+		setDiffAccountByPlBs();
 		sb.append(" - DateAcct ").append(p_DateAcct_From).append("-").append(p_DateAcct_To);
 		sb.append(" - Where=").append(m_parameterWhere);
 		log.fine(sb.toString());
@@ -276,6 +284,62 @@ public class TrialBalance extends SvrProcess
 		}
 	}	//	setDateAcct
 
+	/**
+	 * Differentiate account element by PL or BS
+	 */
+	private void setDiffAccountByPlBs()
+	{
+		StringBuffer bs = new StringBuffer();
+		StringBuffer pl = new StringBuffer();
+		StringBuffer sql = new StringBuffer("SELECT C_ElementValue_ID, value, AccountType FROM C_ElementValue WHERE AD_Client_ID = ? ");
+		if (p_seletedIDs != null && !p_seletedIDs.isEmpty())
+			sql.append(" AND C_ElementValue_ID IN (").append(p_seletedIDs).append(")");
+		else if (p_Account_ID > 0)
+			sql.append(" AND C_ElementValue_ID = ").append(p_Account_ID);
+		else if (p_AccountValue_From != null && p_AccountValue_To != null)
+			sql.append(" AND value >= ").append(DB.TO_STRING(p_AccountValue_From)).append(" AND Value <= ").append(DB.TO_STRING(p_AccountValue_To));
+		else if (p_AccountValue_From != null && p_AccountValue_To == null)
+			sql.append(" AND Value >= ").append(DB.TO_STRING(p_AccountValue_From));
+		else if (p_AccountValue_From == null && p_AccountValue_To != null)
+			sql.append("Value <= ").append(DB.TO_STRING(p_AccountValue_To));
+		PreparedStatement pstmt = null;
+		try
+		{
+			pstmt = DB.prepareStatement(sql.toString(), null);
+			pstmt.setInt(1, getAD_Client_ID());
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next())
+			{
+				if (rs.getString("AccountType").equals("A") || rs.getString("AccountType").equals("L") || rs.getString("AccountType").equals("O")) // 1 Asset, 2 Liability, 3 Owner's Equity
+					bs.append(rs.getInt("C_ElementValue_ID")).append(",");
+				else
+					pl.append(rs.getInt("C_ElementValue_ID")).append(",");
+			}
+			rs.close();
+			pstmt.close();
+			pstmt = null;
+			
+			if (bs.toString() != null && !bs.toString().isEmpty())
+				bsID = bs.toString().substring(0, bs.lastIndexOf(","));
+			if (pl.toString() != null && !pl.toString().isEmpty())
+				plID = pl.toString().substring(0, pl.lastIndexOf(","));
+		}
+		catch (Exception e)
+		{
+			log.log(Level.SEVERE, sql.toString(), e);
+		}
+		finally
+		{
+			try
+			{
+				if (pstmt != null)
+					pstmt.close();
+			}
+			catch (Exception e)
+			{}
+			pstmt = null;
+		}
+	} // setAccountDiff
 	
 	/**************************************************************************
 	 *  Perform process.
@@ -283,7 +347,11 @@ public class TrialBalance extends SvrProcess
 	 */
 	protected String doIt()
 	{
-		createBalanceLine();
+		if (bsID != null && !bsID.isEmpty())
+			createBalanceLine(false);
+		if (plID != null && !plID.isEmpty())
+			createBalanceLine(true);
+		
 		createDetailLines();
 
 	//	int AD_PrintFormat_ID = 134;
@@ -296,11 +364,11 @@ public class TrialBalance extends SvrProcess
 	/**
 	 * 	Create Beginning Balance Line
 	 */
-	private void createBalanceLine()
+	private void createBalanceLine(boolean isPL_IDs)
 	{
 		StringBuffer sql = new StringBuffer (s_insert);
 		//	(AD_PInstance_ID, Fact_Acct_ID,
-		sql.append("SELECT ").append(getAD_PInstance_ID()).append(",0,");
+		sql.append("SELECT ").append(getAD_PInstance_ID()).append(",-1*Account_ID,");
 		//	AD_Client_ID, AD_Org_ID, Created,CreatedBy, Updated,UpdatedBy,
 		sql.append(getAD_Client_ID()).append(",");
 		if (p_AD_Org_ID == 0)
@@ -312,7 +380,7 @@ public class TrialBalance extends SvrProcess
 		//	C_AcctSchema_ID, Account_ID, AccountValue, DateTrx, DateAcct, C_Period_ID,
 		sql.append(p_C_AcctSchema_ID).append(",");
 		if (p_Account_ID == 0)
-			sql.append ("null");
+			sql.append ("Account_ID");
 		else
 			sql.append (p_Account_ID);
 		if (p_AccountValue_From != null)
@@ -395,24 +463,41 @@ public class TrialBalance extends SvrProcess
 			sql.append ("null");
 		else
 			sql.append (p_User2_ID);
-		sql.append(", null,null");
+		sql.append(",");
+		//	User3_ID, User4_ID, A_Asset_ID, Description)
+		if (p_User3_ID == 0)
+			sql.append ("null");
+		else
+			sql.append (p_User3_ID);
+		sql.append(",");
+		if (p_User4_ID == 0)
+			sql.append ("null");
+		else
+			sql.append (p_User4_ID);
+		
+		sql.append(", null,'");
+		sql.append(Msg.getMsg(getCtx(), "opening.balance") + "'");
 		//
 		sql.append(" FROM Fact_Acct WHERE AD_Client_ID=").append(getAD_Client_ID())
 			.append (" AND ").append(m_parameterWhere)
 			.append(" AND DateAcct < ").append(DB.TO_DATE(p_DateAcct_From, true));
 		//	Start Beginning of Year
-		if (p_Account_ID > 0)
+		if (isPL_IDs)
 		{
-			m_acct = new MElementValue (getCtx(), p_Account_ID, get_TrxName());
-			if (!m_acct.isBalanceSheet())
-			{
-				MPeriod first = MPeriod.getFirstInYear (getCtx(), p_DateAcct_From, p_AD_Org_ID);
-				if (first != null)
-					sql.append(" AND DateAcct >= ").append(DB.TO_DATE(first.getStartDate(), true));
-				else
-					log.log(Level.SEVERE, "first period not found");
-			}
+			MPeriod first = MPeriod.getFirstInYear(getCtx(), p_DateAcct_From, p_AD_Org_ID);
+			if (first != null)
+				sql.append(" AND DateAcct >= ").append(DB.TO_DATE(first.getStartDate(), true));
+			else
+				log.log(Level.SEVERE, "first period not found");
 		}
+		
+		sql.append(" AND Account_ID IN (");
+		if (isPL_IDs)
+			sql.append(plID).append(")");
+		else
+			sql.append(bsID).append(")");
+		
+		sql.append(" GROUP BY Account_ID");
 		//
 		int no = DB.executeUpdate(sql.toString(), get_TrxName());
 		if (no == 0)
@@ -444,14 +529,25 @@ public class TrialBalance extends SvrProcess
 		sql.append ("M_Product_ID, C_BPartner_ID, AD_OrgTrx_ID, C_LocFrom_ID,C_LocTo_ID,");
 		//	C_SalesRegion_ID, C_Project_ID, C_Campaign_ID, C_Activity_ID,
 		sql.append ("C_SalesRegion_ID, C_Project_ID, C_Campaign_ID, C_Activity_ID,");
-		//	User1_ID, User2_ID, A_Asset_ID, Description)
-		sql.append ("User1_ID, User2_ID, A_Asset_ID, Description");
+		//	User1_ID, User2_ID, User3_ID, User4_ID , A_Asset_ID, Description)
+		sql.append ("User1_ID, User2_ID, User3_ID, User4_ID, A_Asset_ID, Description");
 		//
 		sql.append(" FROM Fact_Acct WHERE AD_Client_ID=").append(getAD_Client_ID())
 			.append (" AND ").append(m_parameterWhere)
 			.append(" AND DateAcct >= ").append(DB.TO_DATE(p_DateAcct_From, true))
 			.append(" AND TRUNC(DateAcct, 'DD') <= ").append(DB.TO_DATE(p_DateAcct_To, true));
 		//
+		sql.append(" AND Account_ID IN (");
+		if (plID != null && !plID.isEmpty())
+			sql.append(plID);
+		if (bsID != null && !bsID.isEmpty())
+		{
+			if (plID != null && !plID.isEmpty())
+				sql.append(",");
+			sql.append(bsID);
+		}
+		sql.append(")");
+		
 		int no = DB.executeUpdate(sql.toString(), get_TrxName());
 		if (no == 0)
 			log.fine(sql.toString());

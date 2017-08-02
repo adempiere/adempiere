@@ -38,8 +38,9 @@ import javax.swing.JTextField;
 import javax.swing.LookAndFeel;
 import javax.swing.SwingUtilities;
 
+import org.adempiere.exceptions.ValueChangeListener;
 import org.adempiere.plaf.AdempierePLAF;
-import org.compiere.apps.FieldRecordInfo;
+import org.compiere.apps.RecordInfo;
 import org.compiere.apps.search.InfoPAttribute;
 import org.compiere.apps.search.InfoProduct;
 import org.compiere.model.GridField;
@@ -69,6 +70,9 @@ import org.compiere.util.Msg;
  * @author Michael McKay, 
  * 				<li>ADEMPIERE-72 VLookup and Info Window improvements
  * 					https://adempiere.atlassian.net/browse/ADEMPIERE-72
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 146 ] Remove unnecessary class, add support for info to specific column
+ *		@see https://github.com/adempiere/adempiere/issues/146
  */
 public class VPAttribute extends JComponent
 	implements VEditor, ActionListener
@@ -399,7 +403,7 @@ public class VPAttribute extends JComponent
 		m_GridField = mField;
 		
 		if (m_GridField != null)
-			FieldRecordInfo.addMenu(this, popupMenu);
+			RecordInfo.addMenu(this, popupMenu);
 	}	//	setField
 	
 	@Override
@@ -422,9 +426,9 @@ public class VPAttribute extends JComponent
 	 */
 	public void actionPerformed(ActionEvent e)
 	{
-		if (e.getActionCommand().equals(FieldRecordInfo.CHANGE_LOG_COMMAND))
+		if (e.getActionCommand().equals(RecordInfo.CHANGE_LOG_COMMAND))
 		{
-			FieldRecordInfo.start(m_GridField);
+			RecordInfo.start(m_GridField);
 			return;
 		}
 		
@@ -644,6 +648,12 @@ public class VPAttribute extends JComponent
 		return false;
 
 	
+	}
+
+	@Override
+	public void addValueChangeListener(ValueChangeListener listener) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }	//	VPAttribute

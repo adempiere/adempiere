@@ -26,7 +26,6 @@ import org.compiere.util.CCache;
  *	(see also MTree in project base)
  *	
  *  @author Jorg Janke
- *  @version $Id: MTree_Base.java,v 1.2 2006/07/30 00:58:37 jjanke Exp $
  */
 public class MTree_Base extends X_AD_Tree
 {
@@ -39,13 +38,13 @@ public class MTree_Base extends X_AD_Tree
 
 	/**
 	 * 	Add Node to correct tree
-	 *	@param ctx cpntext
+	 *	@param ctx context
 	 *	@param treeType tree type
-	 *	@param Record_ID id
+	 *	@param recordId id
 	 *	@param trxName transaction
 	 *	@return true if node added
 	 */
-	public static boolean addNode (Properties ctx, String treeType, int Record_ID, String trxName)
+	public static boolean addNode (Properties ctx, String treeType, int recordId, String trxName)
 	{
 		//	Get Tree
 		int AD_Tree_ID = 0;
@@ -85,22 +84,42 @@ public class MTree_Base extends X_AD_Tree
 		boolean saved = false;
 		if (TREETYPE_Menu.equals(treeType))
 		{
-			MTree_NodeMM node = new MTree_NodeMM (tree, Record_ID);
+			MTree_NodeMM node = new MTree_NodeMM (tree, recordId);
 			saved = node.save();
 		}
 		else if  (TREETYPE_BPartner.equals(treeType))
 		{
-			MTree_NodeBP node = new MTree_NodeBP (tree, Record_ID);
+			MTree_NodeBP node = new MTree_NodeBP (tree, recordId);
 			saved = node.save();
 		}
 		else if  (TREETYPE_Product.equals(treeType))
 		{
-			MTree_NodePR node = new MTree_NodePR (tree, Record_ID);
+			MTree_NodePR node = new MTree_NodePR (tree, recordId);
+			saved = node.save();
+		}
+		else if  (TREETYPE_User1.equals(treeType))
+		{
+			MTree_NodeU1 node = new MTree_NodeU1 (tree, recordId);
+			saved = node.save();
+		}
+		else if  (TREETYPE_User2.equals(treeType))
+		{
+			MTree_NodeU2 node = new MTree_NodeU2 (tree, recordId);
+			saved = node.save();
+		}
+		else if  (TREETYPE_User3.equals(treeType))
+		{
+			MTree_NodeU3 node = new MTree_NodeU3 (tree, recordId);
+			saved = node.save();
+		}
+		else if  (TREETYPE_User4.equals(treeType))
+		{
+			MTree_NodeU4 node = new MTree_NodeU4 (tree, recordId);
 			saved = node.save();
 		}
 		else
 		{
-			MTree_Node node = new MTree_Node (tree, Record_ID);
+			MTree_Node node = new MTree_Node (tree, recordId);
 			saved = node.save();
 		}
 		return saved;	
@@ -121,7 +140,6 @@ public class MTree_Base extends X_AD_Tree
 			nodeTableName += "BP";
 		else if  (TREETYPE_Product.equals(treeType))
 			nodeTableName += "PR";
-		//
 		else if  (TREETYPE_CMContainer.equals(treeType))
 			nodeTableName += "CMC";
 		else if  (TREETYPE_CMContainerStage.equals(treeType))
@@ -130,7 +148,6 @@ public class MTree_Base extends X_AD_Tree
 			nodeTableName += "CMM";
 		else if  (TREETYPE_CMTemplate.equals(treeType))
 			nodeTableName += "CMT";
-		//
 		else if  (TREETYPE_User1.equals(treeType))
 			nodeTableName += "U1";
 		else if  (TREETYPE_User2.equals(treeType))
@@ -144,7 +161,7 @@ public class MTree_Base extends X_AD_Tree
 
 	/**
 	 * 	Get Source TableName
-	 *	@param treeType tree typw
+	 *	@param treeType tree type
 	 *	@return source table name, e.g. AD_Org or null 
 	 */
 	public static String getSourceTableName(String treeType)
@@ -183,55 +200,49 @@ public class MTree_Base extends X_AD_Tree
 			sourceTable = "CM_Media";
 		else if (treeType.equals(TREETYPE_CMTemplate))
 			sourceTable = "CM_Template";
-		//	User Trees
 		// afalcone [Bugs #1837219]
 		else if (treeType.equals(TREETYPE_User1) || 
 				 treeType.equals(TREETYPE_User2) || 
 				 treeType.equals(TREETYPE_User3) || 
 				 treeType.equals(TREETYPE_User4))
 			sourceTable = "C_ElementValue";
-
-		//	else if (treeType.equals(TREETYPE_User1))
-		//			sourceTable = "??";
-		// end afalcone
-		
 		return sourceTable;		
 	}	//	getSourceTableName
 
 	/**
 	 * 	Get MTree_Base from Cache
 	 *	@param ctx context
-	 *	@param AD_Tree_ID id
+	 *	@param treeId id
 	 *	@param trxName transaction
 	 *	@return MTree_Base
 	 */
-	public static MTree_Base get (Properties ctx, int AD_Tree_ID, String trxName)
+	public static MTree_Base get (Properties ctx, int treeId, String trxName)
 	{
-		Integer key = new Integer (AD_Tree_ID);
-		MTree_Base retValue = (MTree_Base) s_cache.get (key);
+		Integer key = new Integer (treeId);
+		MTree_Base retValue = (MTree_Base) cacheTree.get (key);
 		if (retValue != null)
 			return retValue;
-		retValue = new MTree_Base (ctx, AD_Tree_ID, trxName);
+		retValue = new MTree_Base (ctx, treeId, trxName);
 		if (retValue.get_ID () != 0)
-			s_cache.put (key, retValue);
+			cacheTree.put (key, retValue);
 		return retValue;
 	}	//	get
 
 	
 	/**	Cache						*/
-	private static CCache<Integer,MTree_Base> s_cache = new CCache<Integer,MTree_Base>("AD_Tree", 10);
+	private static CCache<Integer,MTree_Base> cacheTree = new CCache<>("AD_Tree", 10);
 	
 	
 	/**************************************************************************
 	 * 	Standard Constructor
 	 *	@param ctx context
-	 *	@param AD_Tree_ID id
+	 *	@param treeId id
 	 *	@param trxName transaction
 	 */
-	public MTree_Base (Properties ctx, int AD_Tree_ID, String trxName)
+	public MTree_Base (Properties ctx, int treeId, String trxName)
 	{
-		super(ctx, AD_Tree_ID, trxName);
-		if (AD_Tree_ID == 0)
+		super(ctx, treeId, trxName);
+		if (treeId == 0)
 		{
 		//	setName (null);
 		//	setTreeType (null);
@@ -269,15 +280,14 @@ public class MTree_Base extends X_AD_Tree
 	 * 	Full Constructor
 	 *	@param ctx context
 	 *	@param Name name
-	 *	@param TreeType tree type
+	 *	@param treeType tree type
 	 *	@param trxName transaction
 	 */
-	public MTree_Base (Properties ctx, String Name, String TreeType,  
-		String trxName)
+	public MTree_Base (Properties ctx, String Name, String treeType, String trxName)
 	{
 		super(ctx, 0, trxName);
 		setName (Name);
-		setTreeType (TreeType);
+		setTreeType (treeType);
 		setIsAllNodes (true);	//	complete tree
 		setIsDefault(false);
 	}	//	MTree_Base
@@ -357,23 +367,43 @@ public class MTree_Base extends X_AD_Tree
 		{
 			if (TREETYPE_BPartner.equals(getTreeType()))
 			{
-				MTree_NodeBP ndBP = new MTree_NodeBP(this, 0);
-				ndBP.saveEx();
+				MTree_NodeBP treeNodeBP = new MTree_NodeBP(this, 0);
+				treeNodeBP.saveEx();
 			}
 			else if (TREETYPE_Menu.equals(getTreeType()))
 			{
-				MTree_NodeMM ndMM = new MTree_NodeMM(this, 0);
-				ndMM.saveEx();
+				MTree_NodeMM treeNodeMM = new MTree_NodeMM(this, 0);
+				treeNodeMM.saveEx();
 			}
 			else if (TREETYPE_Product.equals(getTreeType()))
 			{
-				MTree_NodePR ndPR = new MTree_NodePR(this, 0);
-				ndPR.saveEx();
+				MTree_NodePR treeNodePR = new MTree_NodePR(this, 0);
+				treeNodePR.saveEx();
+			}
+			else if  (TREETYPE_User1.equals(getTreeType()))
+			{
+				MTree_NodeU1 treeNodeU1 = new MTree_NodeU1 (this, 0);
+				treeNodeU1.saveEx();
+			}
+			else if  (TREETYPE_User2.equals(getTreeType()))
+			{
+				MTree_NodeU2 treeNodeU2 = new MTree_NodeU2 (this, 0);
+				treeNodeU2.saveEx();
+			}
+			else if  (TREETYPE_User3.equals(getTreeType()))
+			{
+				MTree_NodeU3 treeNodeU3 = new MTree_NodeU3 (this, 0);
+				treeNodeU3.saveEx();
+			}
+			else if  (TREETYPE_User4.equals(getTreeType()))
+			{
+				MTree_NodeU4 treeNodeU4 = new MTree_NodeU4 (this, 0);
+				treeNodeU4.saveEx();
 			}
 			else
 			{
-				MTree_Node nd = new MTree_Node(this, 0);
-				nd.saveEx();
+				MTree_Node treeNode = new MTree_Node(this, 0);
+				treeNode.saveEx();
 			}
 		}
 		

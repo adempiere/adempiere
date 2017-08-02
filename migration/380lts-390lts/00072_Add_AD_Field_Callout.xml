@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Add Callout to field whe AD_Column_ID is changed" ReleaseNo="3.9.0" SeqNo="00072">
+    <Comments>Add default values for Name, Description, Entity Type...
+See: https://adempiere.atlassian.net/browse/ADEMPIERE-449</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="174" Table="AD_Column">
+        <Data AD_Column_ID="1692" Column="Callout" isOldNull="true">org.adempiere.model.CalloutField.column</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

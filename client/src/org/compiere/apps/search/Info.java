@@ -24,7 +24,6 @@ import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
-
 import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -66,6 +65,7 @@ import org.compiere.grid.ed.VLookup;
 import org.compiere.grid.ed.VPAttribute;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.minigrid.MiniTable;
+import org.compiere.model.GridTab;
 import org.compiere.model.MQuery;
 import org.compiere.model.MRole;
 import org.compiere.model.MSysConfig;
@@ -107,6 +107,9 @@ import org.jdesktop.swingx.JXTaskPane;
  * @author Michael McKay, 
  * 				<li>ADEMPIERE-72 VLookup and Info Window improvements
  * 					https://adempiere.atlassian.net/browse/ADEMPIERE-72
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * 		<a href="https://github.com/adempiere/adempiere/issues/508">
+ * 		@see FR [ 508 ] Buttons on VLookup fields in Find window don't work.</a>
  */
 public abstract class Info extends CDialog
 	implements ListSelectionListener, PropertyChangeListener
@@ -342,12 +345,17 @@ public abstract class Info extends CDialog
 		p_keyColumn = keyColumn;
 		p_table.setMultiSelection(multiSelection);
 		p_WindowNo = WindowNo;
+		p_TabNo = 0;
 		//
 		Class<?> frameClass = frame.getClass();
 		if (frameClass == AWindow.class)
 		{
 			//  Activated from a window - find the active tab to limit the context
-			p_TabNo = ((AWindow) frame).getAPanel().getCurrentTab().getTabNo();
+			GridTab tab = ((AWindow) frame).getAPanel().getCurrentTab();
+			//	Validate possible NPE
+			if(tab != null) {
+				p_TabNo = tab.getTabNo();
+			}
 		}
 		//
 		if (whereClause == null || whereClause.indexOf('@') == -1)

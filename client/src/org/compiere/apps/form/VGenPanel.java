@@ -55,7 +55,9 @@ import org.compiere.util.Msg;
 
 /**
  * Generate custom form panel
- * 
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 114 ] Change "Create From" UI for Form like Dialog in window without "hardcode"
+ *		@see https://github.com/adempiere/adempiere/issues/114
  */
 public class VGenPanel extends CPanel implements ActionListener, ChangeListener, TableModelListener, ASyncProcess
 {
@@ -309,10 +311,12 @@ public class VGenPanel extends CPanel implements ActionListener, ChangeListener,
 					ReportCtl.startDocumentPrint(genForm.getReportEngineType(), Record_ID, this, Env.getWindowNo(this), true);
 					
 				}
-				ADialogDialog d = new ADialogDialog (m_frame,
+				//	Yamel Senih 2015-11-23 FR [ 114 ] Add Supoort to dynamic create from
+				ADialogDialog d = new ADialogDialog (m_frame.getCFrame(),
 					Env.getHeader(Env.getCtx(), m_WindowNo),
 					Msg.getMsg(Env.getCtx(), "PrintoutOK?"),
 					JOptionPane.QUESTION_MESSAGE);
+				//	End Yamel Senih
 				retValue = d.getReturnCode();
 			}
 			while (retValue == ADialogDialog.A_CANCEL);

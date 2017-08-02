@@ -1,4 +1,3 @@
-DROP VIEW rv_pp_mrp;
 CREATE OR REPLACE VIEW rv_pp_mrp AS 
 SELECT 
 mrp.pp_mrp_id,
@@ -43,7 +42,15 @@ mrp.typemrp,
 p.LowLevel,
 mrp.C_BPartner_ID,
 mrp.version,
-documentNo(mrp.pp_mrp_id) AS documentNo
+documentNo(mrp.pp_mrp_id) AS documentNo,
+mrp.c_projectphase_id,
+mrp.c_projecttask_id,
+mrp.c_project_id,
+pp.isrequiredmrp,
+pp.isrequireddrp,
+p.ispurchased,
+p.isbom,
+p.m_product_category_id
 FROM pp_mrp mrp
 INNER JOIN M_Product p ON (mrp.M_Product_ID = p.M_Product_ID)
 LEFT JOIN pp_product_planning pp ON (pp.m_product_id = mrp.m_product_id AND mrp.m_warehouse_id = pp.m_warehouse_id)
@@ -92,8 +99,15 @@ CAST('STK' AS nvarchar2(3)), --mrp.ordertype,
 p.LowLevel,
 null, --C_BPartner_ID
 null,
-CAST('Safety Stock' AS nvarchar2(80))   --documentNo(mrp.pp_mrp_id) AS documentNo
+CAST('Safety Stock' AS nvarchar2(80)),   --documentNo(mrp.pp_mrp_id) AS documentNo,
+null, --c_projectphase_id
+null,  --c_projecttask_id
+null,  --c_project_id
+pp.isrequiredmrp,
+pp.isrequireddrp,
+p.ispurchased,
+p.isbom,
+p.m_product_category_id
 FROM pp_product_planning pp 
 INNER JOIN M_Product p ON (pp.M_Product_ID = p.M_Product_ID)
-WHERE bomqtyonhand(pp.M_Product_ID,pp.M_Warehouse_ID, 0) < pp.safetystock 
-;
+WHERE bomqtyonhand(pp.M_Product_ID,pp.M_Warehouse_ID, 0) < pp.safetystock

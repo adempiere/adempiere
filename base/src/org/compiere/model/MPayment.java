@@ -72,6 +72,11 @@ import org.compiere.util.ValueNamePair;
  *			@see http://sourceforge.net/tracker2/?func=detail&atid=879335&aid=2520591&group_id=176962 
  *
  *  @author Carlos Ruiz - globalqss [ 2141475 ] Payment <> allocations must not be completed - implement lots of validations on prepareIt
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 297 ] Payment Selection must be like ADempiere Document
+ *		@see https://github.com/adempiere/adempiere/issues/297
+ *		<a href="https://github.com/adempiere/adempiere/issues/887">
+ * 		@see FR [ 887 ] System Config reversal invoice DocNo</a>
  *  @version 	$Id: MPayment.java,v 1.4 2006/10/02 05:18:39 jjanke Exp $
  */
 public final class MPayment extends X_C_Payment 
@@ -83,6 +88,20 @@ public final class MPayment extends X_C_Payment
      * 
      */
     private static final long serialVersionUID = 6200327948230438741L;
+
+
+	/**
+	 * Get payment for order
+	 * @param order
+	 * @return payments list
+     */
+	public static List<MPayment> getOfOrder(MOrder order)
+	{
+		return new Query(order.getCtx() , MPayment.Table_Name , MOrder.COLUMNNAME_C_Order_ID + "=?", order.get_TrxName())
+				.setClient_ID()
+				.setParameters(order.getC_Order_ID())
+				.list();
+	}
 
 	/**
 	 * 	Get Payments Of BPartner
@@ -271,7 +290,8 @@ public final class MPayment extends X_C_Payment
 		MBPBankAccount ba = new MBPBankAccount (preparedPayment.getCtx(), C_BP_BankAccount_ID, null);
 		setRoutingNo(ba.getRoutingNo());
 		setAccountNo(ba.getAccountNo());
-		setDescription(preparedPayment.getC_PaySelection().getName());
+		//	FR [ 297 ] Change to Description
+		setDescription(preparedPayment.getC_PaySelection().getDescription());
 		setIsReceipt (X_C_Order.PAYMENTRULE_DirectDebit.equals	//	AR only
 				(preparedPayment.getPaymentRule()));
 		if ( MPaySelectionCheck.PAYMENTRULE_DirectDebit.equals(preparedPayment.getPaymentRule()) )
@@ -541,8 +561,7 @@ public final class MPayment extends X_C_Payment
 	protected boolean beforeSave (boolean newRecord)
 	{
 		// @Trifon - CashPayments
-		//if ( getTenderType().equals("X") ) {
-		if ( isCashTrx() && !MSysConfig.getBooleanValue("CASH_AS_PAYMENT", true , getAD_Client_ID())) {
+		if ( isCashTrx() && !MSysConfig.getBooleanValue("CASH_AS_PAYMENT", true, getAD_Client_ID())) {
 			// Cash Book Is mandatory
 			if ( getC_CashBook_ID() <= 0 ) {
 				log.saveError("Error", Msg.parseTranslation(getCtx(), "@Mandatory@: @C_CashBook_ID@"));
@@ -556,7 +575,7 @@ public final class MPayment extends X_C_Payment
 			}
 		}
 		// end @Trifon - CashPayments
-		
+
 		//	We have a charge
 		if (getC_Charge_ID() != 0) 
 		{
@@ -603,7 +622,7 @@ public final class MPayment extends X_C_Payment
 				setOverUnderAmt(Env.ZERO);
 			}
 		}
-		
+
 		//	Document Type/Receipt
 		if (getC_DocType_ID() == 0)
 			setC_DocType_ID();
@@ -691,6 +710,9 @@ public final class MPayment extends X_C_Payment
 		}
 	//	log.fine("getAllocatedAmt - " + retValue);
 		//	? ROUND(NVL(v_AllocatedAmt,0), 2);
+		if (retValue == null)
+			retValue = BigDecimal.ZERO;
+
 		return retValue;
 	}	//	getAllocatedAmt
 
@@ -1980,6 +2002,8 @@ public final class MPayment extends X_C_Payment
 		counter.setC_Project_ID(getC_Project_ID());
 		counter.setUser1_ID(getUser1_ID());
 		counter.setUser2_ID(getUser2_ID());
+		counter.setUser3_ID(getUser3_ID());
+		counter.setUser4_ID(getUser4_ID());
 		counter.saveEx(get_TrxName());
 		log.fine(counter.toString());
 		setRef_Payment_ID(counter.getC_Payment_ID());
@@ -2010,13 +2034,13 @@ public final class MPayment extends X_C_Payment
 		if (getC_Invoice_ID() != 0)
 		{	
 				return allocateInvoice();
-		}	
+		}
+		//	FR [ 297 ]
+		if (getC_Order_ID() != 0)
+			return false;
 		//	Invoices of a AP Payment Selection
 		if (allocatePaySelection())
 			return true;
-		
-		if (getC_Order_ID() != 0)
-			return false;
 			
 		//	Allocate to multiple Payments based on entry
 		MPaymentAllocate[] pAllocs = MPaymentAllocate.get(this);
@@ -2119,7 +2143,8 @@ public final class MPayment extends X_C_Payment
 			+ " psl.PayAmt, psl.DiscountAmt, psl.DifferenceAmt, psl.OpenAmt "
 			+ "FROM C_PaySelectionLine psl"
 			+ " INNER JOIN C_PaySelectionCheck psc ON (psl.C_PaySelectionCheck_ID=psc.C_PaySelectionCheck_ID) "
-			+ "WHERE psc.C_Payment_ID=?";
+			//	Validate if have invoice
+			+ "WHERE psc.C_Payment_ID=? AND psl.C_Invoice_ID IS NOT NULL";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try
@@ -2342,7 +2367,12 @@ public final class MPayment extends X_C_Payment
 		reversal.setC_Invoice_ID(0);
 		reversal.setDateAcct(dateAcct);
 		//
-		reversal.setDocumentNo(getDocumentNo() + REVERSE_INDICATOR);	//	indicate reversals
+		reversal.set_ValueNoCheck("DocumentNo", null);
+		//	Set Document No from flag
+		MDocType docType = MDocType.get(getCtx(), getC_DocType_ID());
+		if(docType.isCopyDocNoOnReversal()) {
+			reversal.setDocumentNo(getDocumentNo() + "^");
+		}
 		reversal.setDocStatus(DOCSTATUS_Drafted);
 		reversal.setDocAction(DOCACTION_Complete);
 		//

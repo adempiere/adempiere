@@ -18,13 +18,14 @@ import java.util.logging.Level;
 
 import org.compiere.grid.ICreateFrom;
 import org.compiere.model.GridTab;
-import org.compiere.model.I_C_BankStatement;
-import org.compiere.model.I_C_Invoice;
-import org.compiere.model.I_M_InOut;
-import org.compiere.model.I_M_RMA;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
-
+/**
+ *	@author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 114 ] Deprecated (Change "Create From" UI for Form like Dialog in window without "hardcode")
+ *		@see https://github.com/adempiere/adempiere/issues/114
+ */
+@Deprecated
 public class WCreateFromFactory
 {
 	/**	Static Logger	*/
@@ -48,11 +49,11 @@ public class WCreateFromFactory
 	{
 		// Register defaults:
 		s_registeredClasses = new HashMap<Integer, Class<? extends ICreateFrom>>();
-		s_registeredClasses.put(I_C_Invoice.Table_ID, WCreateFromInvoiceUI.class);
+//		s_registeredClasses.put(I_C_Invoice.Table_ID, WCreateFromInvoiceUI.class);
 		
-		s_registeredClasses.put(I_C_BankStatement.Table_ID, WCreateFromStatementUI.class);
-		s_registeredClasses.put(I_M_InOut.Table_ID, WCreateFromShipmentUI.class);
-		s_registeredClasses.put(I_M_RMA.Table_ID, WCreateFromRMAUI.class);
+//		s_registeredClasses.put(I_C_BankStatement.Table_ID, WCreateFromStatementUI.class);
+//		s_registeredClasses.put(I_M_InOut.Table_ID, WCreateFromShipmentUI.class);
+//		s_registeredClasses.put(I_M_RMA.Table_ID, WCreateFromRMAUI.class);
 	}
 	
 	/**

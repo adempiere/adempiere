@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Column Link Process #906 contribution #5440(Adaxa)" ReleaseNo="3.9.0" SeqNo="2860">
+    <Comments>https://github.com/adempiere/adempiere/issues/906</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="106" Action="U" Record_ID="54181" Table="AD_Tab">
+        <Data AD_Column_ID="165" Column="SeqNo">75</Data>
+        <Data AD_Column_ID="573" Column="IsActive">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="106" Action="U" Record_ID="54182" Table="AD_Tab">
+        <Data AD_Column_ID="165" Column="SeqNo">76</Data>
+        <Data AD_Column_ID="573" Column="IsActive">false</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

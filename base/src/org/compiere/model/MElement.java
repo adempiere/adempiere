@@ -116,7 +116,7 @@ public class MElement extends X_C_Element
 		String treeType = tree.getTreeType();
 		if (ELEMENTTYPE_UserDefined.equals(elementType))
 		{
-			if (X_AD_Tree.TREETYPE_User1.equals(treeType) || X_AD_Tree.TREETYPE_User2.equals(treeType))
+			if (X_AD_Tree.TREETYPE_User1.equals(treeType) || X_AD_Tree.TREETYPE_User2.equals(treeType) || X_AD_Tree.TREETYPE_User3.equals(treeType) || X_AD_Tree.TREETYPE_User4.equals(treeType) )
 				;
 			else
 			{

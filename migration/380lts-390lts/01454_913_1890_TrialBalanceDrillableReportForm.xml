@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Trial Balance Drillable Report form menu and Is show retained earning flag #913" ReleaseNo="3.9.0" SeqNo="01454">
+    <Comments>https://github.com/adempiere/adempiere/issues/913</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="376" Action="I" Record_ID="53051" Table="AD_Form">
+        <Data AD_Column_ID="5791" Column="AccessLevel">3</Data>
+        <Data AD_Column_ID="4607" Column="Classname">org.adempiere.webui.apps.form.WTrialBalance</Data>
+        <Data AD_Column_ID="4606" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="13022" Column="JSPURL" isNewNull="true"/>
+        <Data AD_Column_ID="12738" Column="IsBetaFunctionality">false</Data>
+        <Data AD_Column_ID="7708" Column="EntityType">D</Data>
+        <Data AD_Column_ID="4605" Column="Description">Trial Balance Drillable Report (only for Web)</Data>
+        <Data AD_Column_ID="4604" Column="Name">Trial Balance Drillable Report</Data>
+        <Data AD_Column_ID="4597" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="4603" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="4601" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="4602" Column="Updated">2015-01-31 16:26:16.206</Data>
+        <Data AD_Column_ID="4599" Column="IsActive">true</Data>
+        <Data AD_Column_ID="4600" Column="Created">2015-01-31 16:26:16.206</Data>
+        <Data AD_Column_ID="4598" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="4596" Column="AD_Form_ID">53051</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="11" StepType="AD">
+      <PO AD_Table_ID="377" Action="I" Record_ID="0" Table="AD_Form_Trl">
+        <Data AD_Column_ID="4613" Column="Created">2017-03-27 11:14:04.484</Data>
+        <Data AD_Column_ID="4610" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="4608" Column="AD_Form_ID">53051</Data>
+        <Data AD_Column_ID="4609" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="4611" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="4614" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="4618" Column="Description">Balance de prueba navegable (ejecutable sólo por Web)</Data>
+        <Data AD_Column_ID="4612" Column="IsActive">true</Data>
+        <Data AD_Column_ID="4620" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="4617" Column="Name">Balance de prueba navegable (sólo Web)</Data>
+        <Data AD_Column_ID="4615" Column="Updated">2017-03-27 11:14:04.484</Data>
+        <Data AD_Column_ID="4616" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="116" Action="I" Record_ID="53935" Table="AD_Menu">
+        <Data AD_Column_ID="233" Column="AD_Window_ID" isNewNull="true"/>
+        <Data AD_Column_ID="234" Column="AD_Workflow_ID" isNewNull="true"/>
+        <Data AD_Column_ID="235" Column="AD_Task_ID" isNewNull="true"/>
+        <Data AD_Column_ID="399" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="400" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="598" Column="IsActive">true</Data>
+        <Data AD_Column_ID="599" Column="Created">2015-01-31 16:27:54.352</Data>
+        <Data AD_Column_ID="228" Column="AD_Menu_ID">53935</Data>
+        <Data AD_Column_ID="230" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="600" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="601" Column="Updated">2015-01-31 16:27:54.352</Data>
+        <Data AD_Column_ID="602" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="57960" Column="AD_Browse_ID" isNewNull="true"/>
+        <Data AD_Column_ID="1169" Column="IsSummary">false</Data>
+        <Data AD_Column_ID="232" Column="Action">X</Data>
+        <Data AD_Column_ID="6297" Column="AD_Workbench_ID" isNewNull="true"/>
+        <Data AD_Column_ID="4426" Column="IsSOTrx">false</Data>
+        <Data AD_Column_ID="6651" Column="IsReadOnly">false</Data>
+        <Data AD_Column_ID="3375" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="4621" Column="AD_Form_ID">53051</Data>
+        <Data AD_Column_ID="7721" Column="EntityType">D</Data>
+        <Data AD_Column_ID="59134" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="229" Column="Name">Trial Balance Drillable Report (only for Web)</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="21" StepType="AD">
+      <PO AD_Table_ID="120" Action="I" Record_ID="0" Table="AD_Menu_Trl">
+        <Data AD_Column_ID="1194" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="246" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="245" Column="AD_Menu_ID">53935</Data>
+        <Data AD_Column_ID="1195" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="637" Column="Created">2017-03-27 11:14:04.484</Data>
+        <Data AD_Column_ID="638" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="248" Column="Description">Balance de prueba navegable (ejecutable sólo por Web)</Data>
+        <Data AD_Column_ID="636" Column="IsActive">true</Data>
+        <Data AD_Column_ID="249" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="247" Column="Name">Balance de prueba navegable (sólo Web)</Data>
+        <Data AD_Column_ID="639" Column="Updated">2017-03-27 11:14:04.484</Data>
+        <Data AD_Column_ID="640" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="285" Action="I" Record_ID="55123" Table="AD_Process_Para">
+        <Data AD_Column_ID="2830" Column="IsRange">false</Data>
+        <Data AD_Column_ID="3737" Column="FieldLength">0</Data>
+        <Data AD_Column_ID="2824" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="2825" Column="AD_Process_ID">310</Data>
+        <Data AD_Column_ID="3742" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="5819" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="5593" Column="DefaultValue2" isNewNull="true"/>
+        <Data AD_Column_ID="3740" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="2827" Column="AD_Reference_ID">20</Data>
+        <Data AD_Column_ID="3741" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2826" Column="SeqNo">140</Data>
+        <Data AD_Column_ID="3738" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="7729" Column="AD_Element_ID" isNewNull="true"/>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
+        <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="2823" Column="Description">Is Show Retained Earnings</Data>
+        <Data AD_Column_ID="2822" Column="Name">Is Show Retained Earnings</Data>
+        <Data AD_Column_ID="4017" Column="ColumnName">isShowRetainedEarnings</Data>
+        <Data AD_Column_ID="2817" Column="IsActive">false</Data>
+        <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2821" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="2820" Column="Updated">2015-01-31 16:28:54.162</Data>
+        <Data AD_Column_ID="2819" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2818" Column="Created">2015-01-31 16:28:54.162</Data>
+        <Data AD_Column_ID="2816" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2814" Column="AD_Process_Para_ID">55123</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <Comments>Add Trial Balance Drillable Report to Menu Tree</Comments>
+      <PO AD_Table_ID="452" Action="I" Record_ID="53935" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6161" Column="Node_ID">53935</Data>
+        <Data AD_Column_ID="6153" Column="Updated">2017-03-27 13:28:39.768</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID">10</Data>
+        <Data AD_Column_ID="6155" Column="Parent_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6157" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="6154" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="6162" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6149" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6152" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="6150" Column="IsActive">true</Data>
+        <Data AD_Column_ID="6151" Column="Created">2017-03-27 13:28:39.768</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="53935" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="53935">53935</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6155" Column="Parent_ID" isOldNull="true">280</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="0">7</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="502" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="502">502</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="7">8</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

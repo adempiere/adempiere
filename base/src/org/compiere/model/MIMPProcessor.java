@@ -43,20 +43,15 @@ import org.compiere.util.DB;
 /**
  * @author Trifon Trifonov
  */
-public class MIMPProcessor
-	extends X_IMP_Processor
-	implements AdempiereProcessor 
+public class MIMPProcessor extends X_IMP_Processor implements AdempiereProcessor 
 {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 8634765494025824138L;
+
 	/**	Static Logger	*/
 	private static CLogger	s_log	= CLogger.getCLogger (MIMPProcessor.class);
-	
-	public MIMPProcessor(Properties ctx,
-			int EXP_ReplicationProcessor_ID, String trxName) 
-	{
+
+
+	public MIMPProcessor(Properties ctx, int EXP_ReplicationProcessor_ID, String trxName) {
 		super(ctx, EXP_ReplicationProcessor_ID, trxName);
 		if (EXP_ReplicationProcessor_ID == 0)
 		{
@@ -65,17 +60,14 @@ public class MIMPProcessor
 			setFrequencyType (FREQUENCYTYPE_Hour);
 			setFrequency (1);
 			setKeepLogDays (7);
-		}	
+		}
 	}
-	
+
 	public MIMPProcessor(Properties ctx, ResultSet rs, String trxName) 
 	{
 		super(ctx, rs, trxName);
 	}
-	
-	/**
-	 * 
-	 */
+
 	public Timestamp getDateNextRun (boolean requery)
 	{
 		if (requery)
@@ -96,31 +88,19 @@ public class MIMPProcessor
 			+ "WHERE " + X_IMP_Processor.COLUMNNAME_IMP_Processor_ID + "=? " // # 1 
 			+ "ORDER BY Created DESC";
 		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, get_TrxName());
-			pstmt.setInt (1, getIMP_Processor_ID());
-			ResultSet rs = pstmt.executeQuery ();
-			while (rs.next ())
-				list.add (new MIMPProcessorLog (getCtx(), rs, get_TrxName()));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
+		ResultSet rs = null;
+		try {
+			pstmt = DB.prepareStatement(sql, get_TrxName());
+			pstmt.setInt(1, getIMP_Processor_ID());
+			rs = pstmt.executeQuery();
+			while (rs.next())
+				list.add(new MIMPProcessorLog(getCtx(), rs, get_TrxName()));
+		} catch (Exception e) {
 			log.log(Level.SEVERE, sql, e);
+		} finally {
+			DB.close(rs, pstmt);
 		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
+
 		MIMPProcessorLog[] retValue = new MIMPProcessorLog[list.size ()];
 		list.toArray (retValue);
 		return retValue;
@@ -144,10 +124,10 @@ public class MIMPProcessor
 	public String getServerID() {
 		return "ReplicationProcessor" + get_ID();
 	}
-	
+
 	public X_IMP_ProcessorParameter[] getIMP_ProcessorParameters(String trxName) {
 		List<X_IMP_ProcessorParameter> resultList = new ArrayList<X_IMP_ProcessorParameter>();
-		                   
+
 		StringBuffer sql = new StringBuffer("SELECT * ")
 			.append(" FROM ").append(X_IMP_ProcessorParameter.Table_Name)
 			.append(" WHERE ").append(X_IMP_ProcessorParameter.COLUMNNAME_IMP_Processor_ID).append("=?") // # 1
@@ -155,64 +135,47 @@ public class MIMPProcessor
 			//.append(" ORDER BY ").append(X_EXP_ProcessorParameter.COLUMNNAME_)
 		;
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		X_IMP_ProcessorParameter processorParameter = null;
 		try {
 			pstmt = DB.prepareStatement (sql.toString(), trxName);
 			pstmt.setInt(1, getIMP_Processor_ID());
 			pstmt.setString(2, "Y");
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while ( rs.next() ) {
 				processorParameter = new X_IMP_ProcessorParameter (getCtx(), rs, trxName);
 				resultList.add(processorParameter);
 			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		} catch (SQLException e) {
 			s_log.log(Level.SEVERE, sql.toString(), e);
 		} finally {
-			try	{
-				if (pstmt != null) pstmt.close ();
-				pstmt = null;
-			} catch (Exception e) {	pstmt = null; }
+			DB.close(rs, pstmt);
 		}
 		X_IMP_ProcessorParameter[] result = (X_IMP_ProcessorParameter[])resultList.toArray( new X_IMP_ProcessorParameter[0]);
 		return result;
 	}
-	
+
 	public static MIMPProcessor[] getActive(Properties ctx)
 	{
 		ArrayList<MIMPProcessor> list = new ArrayList<MIMPProcessor>();
 		String sql = "SELECT * FROM "+X_IMP_Processor.Table_Name+" WHERE IsActive='Y'";
 		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, null);
-			ResultSet rs = pstmt.executeQuery ();
-			while (rs.next ())
-				list.add (new MIMPProcessor (ctx, rs, null));
-			rs.close ();
-			pstmt.close ();
+		ResultSet rs = null;
+		try {
+			pstmt = DB.prepareStatement(sql, null);
+			rs = pstmt.executeQuery();
+			while (rs.next())
+				list.add(new MIMPProcessor(ctx, rs, null));
+		} catch (Exception e) {
+			s_log.log(Level.SEVERE, sql, e);
+		} finally {
+			DB.close(rs, pstmt);
 			pstmt = null;
 		}
-		catch (Exception e)
-		{
-			s_log.log (Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
-		
+
 		MIMPProcessor[] retValue = new MIMPProcessor[list.size()];
 		list.toArray(retValue);
 		return retValue;
-	}	//	getActive
-	
+	}
+
 }

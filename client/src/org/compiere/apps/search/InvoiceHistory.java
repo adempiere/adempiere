@@ -119,6 +119,10 @@ public class InvoiceHistory extends CDialog
 	private MiniTable 			m_tablePrice = new MiniTable();
 	private DefaultTableModel 	m_modelPrice = null;
 	
+	private JScrollPane			orderPricePane		= new JScrollPane();
+	private MiniTable			m_tableOrderPrice	= new MiniTable();
+	private DefaultTableModel	m_modelOrderPrice	= null;
+	
 	private JScrollPane 		reservedPane = new JScrollPane();
 	private MiniTable 			m_tableReserved = new MiniTable();
 	private DefaultTableModel 	m_modelReserved = null;
@@ -152,6 +156,7 @@ public class InvoiceHistory extends CDialog
 		mainPanel.add(centerTabbedPane, BorderLayout.CENTER);
 		centerTabbedPane.addChangeListener(this);
 		centerTabbedPane.add(pricePane,   Msg.getMsg(Env.getCtx(), "PriceHistory"));
+		centerTabbedPane.add(orderPricePane, Msg.getMsg(Env.getCtx(), "OrderPriceHistory"));
 		centerTabbedPane.add(reservedPane, Msg.translate(Env.getCtx(), "QtyReserved"));
 		centerTabbedPane.add(orderedPane, Msg.translate(Env.getCtx(), "QtyOrdered"));
 		centerTabbedPane.add(unconfirmedPane, Msg.getMsg(Env.getCtx(), "QtyUnconfirmed"));
@@ -159,6 +164,7 @@ public class InvoiceHistory extends CDialog
 			centerTabbedPane.add(atpPane, Msg.getMsg(Env.getCtx(), "ATP"));
 		//
 		pricePane.getViewport().add(m_tablePrice, null);
+		orderPricePane.getViewport().add(m_tableOrderPrice, null);
 		reservedPane.getViewport().add(m_tableReserved, null);
 		orderedPane.getViewport().add(m_tableOrdered, null);
 		unconfirmedPane.getViewport().add(m_tableUnconfirmed, null);
@@ -186,9 +192,9 @@ public class InvoiceHistory extends CDialog
 		//	Fill Data
 		Vector<Vector<Object>> data = null;
 		if (m_C_BPartner_ID == 0)
-			data = queryBPartner();		//	BPartner of Product
+			data = queryBPartner(true);		//	BPartner of Product
 		else
-			data = queryProduct();		//	Product of BPartner
+			data = queryProduct(true);		//	Product of BPartner
 
 		//  Table
 		m_modelPrice = new DefaultTableModel(data, columnNames);
@@ -209,22 +215,39 @@ public class InvoiceHistory extends CDialog
 
 
 	/**
-	 *	Get Info for Product for given Business Parner
+	 *	Get Info for Product for given Business Partner
 	 */
-	private Vector<Vector<Object>> queryProduct ()
+	private Vector<Vector<Object>> queryProduct (boolean isInvoicePrice)
 	{
-		String sql = "SELECT p.Name,l.PriceActual,l.PriceList,l.QtyInvoiced,"		//  1,2,3,4
-			+ "i.DateInvoiced,dt.PrintName || ' ' || i.DocumentNo As DocumentNo,"	//  5,6
-			+ "o.Name, "															//  7
-			+ "NULL, i.M_PriceList_ID "												//  8,9
-			+ "FROM C_Invoice i"
-			+ " INNER JOIN C_InvoiceLine l ON (i.C_Invoice_ID=l.C_Invoice_ID)"
-			+ " INNER JOIN C_DocType dt ON (i.C_DocType_ID=dt.C_DocType_ID)"
-			+ " INNER JOIN AD_Org o ON (i.AD_Org_ID=o.AD_Org_ID)"
-			+ " INNER JOIN M_Product p  ON (l.M_Product_ID=p.M_Product_ID) "
-			+ "WHERE i.C_BPartner_ID=? "
-			+ "ORDER BY i.DateInvoiced DESC";
-
+		String sql;
+		if (isInvoicePrice)
+		{
+			// for Invoice Price
+			sql = "SELECT p.Name,l.PriceActual,l.PriceList,l.QtyInvoiced,"		//  1,2,3,4
+				+ "i.DateInvoiced,dt.PrintName || ' ' || i.DocumentNo As DocumentNo,"	//  5,6
+				+ "o.Name, "															//  7
+				+ "NULL, i.M_PriceList_ID "												//  8,9
+				+ "FROM C_Invoice i"
+				+ " INNER JOIN C_InvoiceLine l ON (i.C_Invoice_ID=l.C_Invoice_ID)"
+				+ " INNER JOIN C_DocType dt ON (i.C_DocType_ID=dt.C_DocType_ID)"
+				+ " INNER JOIN AD_Org o ON (i.AD_Org_ID=o.AD_Org_ID)"
+				+ " INNER JOIN M_Product p  ON (l.M_Product_ID=p.M_Product_ID) "
+				+ "WHERE i.C_BPartner_ID=? "
+				+ "ORDER BY i.DateInvoiced DESC";
+		}
+		else
+		{
+			// for Order Price
+			sql = "SELECT p.Name, ol.PriceActual, ol.PriceList, ol.QtyOrdered, o.DateOrdered, " // 1,2,3,4,5
+					+ " dt.PrintName || ' ' || o.DocumentNo As DocumentNo, org.Name, NULL, o.M_PriceList_ID " // 6,7,8,9
+					+ "FROM C_Order o " 
+					+ "INNER JOIN C_OrderLine ol ON (o.C_Order_ID=ol.C_Order_ID) "
+					+ "INNER JOIN C_DocType dt ON (o.C_DocType_ID=dt.C_DocType_ID) "
+					+ "INNER JOIN AD_Org org ON (o.AD_Org_ID=o.AD_Org_ID) "
+					+ "INNER JOIN M_Product p ON (ol.M_Product_ID=p.M_Product_ID) " 
+					+ "WHERE o.C_BPartner_ID=? "
+					+ "ORDER BY o.DateOrdered DESC";
+		}
 		Vector<Vector<Object>> data = fillTable (sql, m_C_BPartner_ID);
 
 		sql = "SELECT Name from C_BPartner WHERE C_BPartner_ID=?";
@@ -235,20 +258,38 @@ public class InvoiceHistory extends CDialog
 	/**
 	 *	Get Info for Business Partners for given Product
 	 */
-	private Vector<Vector<Object>> queryBPartner ()
+	private Vector<Vector<Object>> queryBPartner (boolean isInvoicePrice)
 	{
-		String sql = "SELECT bp.Name,l.PriceActual,l.PriceList,l.QtyInvoiced,"		//	1,2,3,4
-			+ "i.DateInvoiced,dt.PrintName || ' ' || i.DocumentNo As DocumentNo,"	//	5,6
-			+ "o.Name,"																//  7
-			+ "NULL, i.M_PriceList_ID"												//  8,9
-			+ " FROM C_Invoice i"
-			+ " INNER JOIN C_InvoiceLine l ON (i.C_Invoice_ID=l.C_Invoice_ID)"
-			+ " INNER JOIN C_DocType dt ON (i.C_DocType_ID=dt.C_DocType_ID)"
-			+ " INNER JOIN AD_Org o ON (i.AD_Org_ID=o.AD_Org_ID)"
-			+ " INNER JOIN C_BPartner bp ON (i.C_BPartner_ID=bp.C_BPartner_ID) "
-			+ "WHERE l.M_Product_ID=? " 
-			+ "ORDER BY i.DateInvoiced DESC";
-
+		String sql;
+		if (isInvoicePrice)
+		{
+			// for Invoice Price
+			 sql = "SELECT bp.Name,l.PriceActual,l.PriceList,l.QtyInvoiced,"		//	1,2,3,4
+				+ "i.DateInvoiced,dt.PrintName || ' ' || i.DocumentNo As DocumentNo,"	//	5,6
+				+ "o.Name,"																//  7
+				+ "NULL, i.M_PriceList_ID"												//  8,9
+				+ " FROM C_Invoice i"
+				+ " INNER JOIN C_InvoiceLine l ON (i.C_Invoice_ID=l.C_Invoice_ID)"
+				+ " INNER JOIN C_DocType dt ON (i.C_DocType_ID=dt.C_DocType_ID)"
+				+ " INNER JOIN AD_Org o ON (i.AD_Org_ID=o.AD_Org_ID)"
+				+ " INNER JOIN C_BPartner bp ON (i.C_BPartner_ID=bp.C_BPartner_ID) "
+				+ "WHERE l.M_Product_ID=? " 
+				+ "ORDER BY i.DateInvoiced DESC";
+		}
+		else
+		{
+			// for Order Price
+			sql = "SELECT bp.Name, ol.PriceActual, ol.PriceList, ol.QtyOrdered, o.DateOrdered, " // 1,2,3,4,5
+					+ " dt.PrintName || ' ' || o.DocumentNo As DocumentNo, org.Name, NULL, o.M_PriceList_ID " // 6,7,8,9
+					+ "	FROM C_Order o " 
+					+ "	INNER JOIN C_OrderLine ol	ON (o.C_Order_ID = ol.C_Order_ID) "
+					+ " INNER JOIN C_DocType dt		ON (o.C_DocType_ID = dt.C_DocType_ID) "
+					+ " INNER JOIN AD_Org org		ON (o.AD_Org_ID = org.AD_Org_ID) "
+					+ " INNER JOIN C_BPartner bp	ON (o.C_BPartner_ID = bp.C_BPartner_ID) "
+					+ " WHERE ol.M_Product_ID=? " 
+					+ " ORDER BY o.DateOrdered DESC";
+		}
+		
 		Vector<Vector<Object>> data = fillTable (sql, m_M_Product_ID);
 
 		sql = "SELECT Name from M_Product WHERE M_Product_ID=?";
@@ -340,12 +381,14 @@ public class InvoiceHistory extends CDialog
 	public void stateChanged(ChangeEvent e)
 	{
 		if (centerTabbedPane.getSelectedIndex() == 1)
-			initReservedOrderedTab(true);
+			initOrderPriceHistoryTab();
 		else if (centerTabbedPane.getSelectedIndex() == 2)
-			initReservedOrderedTab(false);
+			initReservedOrderedTab(true);
 		else if (centerTabbedPane.getSelectedIndex() == 3)
-			initUnconfirmedTab();
+			initReservedOrderedTab(false);
 		else if (centerTabbedPane.getSelectedIndex() == 4)
+			initUnconfirmedTab();
+		else if (centerTabbedPane.getSelectedIndex() == 5)
 			initAtpTab();
 	}	//	stateChanged
 
@@ -707,5 +750,46 @@ public class InvoiceHistory extends CDialog
 		//
 		table.autoSize();
 	}	//	initAtpTab
+	
+	/**
+	 * Query Order Price History [Sales/Purchase]
+	 */
+	private void initOrderPriceHistoryTab()
+	{
+		// Done already
+		if (m_modelOrderPrice != null)
+			return;
+
+		Vector<String> columnNames = new Vector<String>();
+		columnNames.add(Msg.translate(Env.getCtx(), m_C_BPartner_ID == 0 ? "C_BPartner_ID" : "M_Product_ID"));
+		columnNames.add(Msg.translate(Env.getCtx(), "PriceActual"));
+		columnNames.add(Msg.translate(Env.getCtx(), "QtyOrdered"));
+		columnNames.add(Msg.translate(Env.getCtx(), "Discount"));
+		columnNames.add(Msg.translate(Env.getCtx(), "DocumentNo"));
+		columnNames.add(Msg.translate(Env.getCtx(), "DateOrdered"));
+		columnNames.add(Msg.translate(Env.getCtx(), "AD_Org_ID"));
+
+		// Fill Data
+		Vector<Vector<Object>> data = null;
+		if (m_C_BPartner_ID == 0)
+			data = queryBPartner(false); // BPartner of Product
+		else
+			data = queryProduct(false); // Product of BPartner
+
+		// Table
+		m_modelOrderPrice = new DefaultTableModel(data, columnNames);
+		m_tableOrderPrice.setModel(m_modelOrderPrice);
+		//
+		m_tableOrderPrice.setColumnClass(0, String.class, true); // Product/Partner
+		m_tableOrderPrice.setColumnClass(1, Double.class, true); // Price
+		m_tableOrderPrice.setColumnClass(2, Double.class, true); // Quantity
+		m_tableOrderPrice.setColumnClass(3, BigDecimal.class, true); //  Discount (%) to limit precision
+		m_tableOrderPrice.setColumnClass(4, String.class, true); // DocNo
+		m_tableOrderPrice.setColumnClass(5, Timestamp.class, true); // Date
+		m_tableOrderPrice.setColumnClass(6, String.class, true); // Org
+		//
+		m_tableOrderPrice.autoSize();
+
+	} // initOrderPriceHistoryTab
 	
 }	//	InvoiceHistory

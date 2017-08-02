@@ -81,10 +81,10 @@ import org.zkoss.zul.Image;
 /**
  *
  * @author  <a href="mailto:agramdass@gmail.com">Ashley G Ramdass</a>
- * @date    Feb 25, 2007
- * @version $Revision: 0.10 $
  * @author <a href="mailto:sendy.yagambrum@posterita.org">Sendy Yagambrum</a>
- * @date    July 18, 2007
+ * @author eEvolution author Victor Perez <victor.perez@e-evolution.com>
+ * @see  [ 1258 ]The change role throw exception  </a>
+ *         <a href="https://github.com/adempiere/adempiere/issues/1258">
  */
 public class LoginPanel extends Window implements EventListener
 {
@@ -468,4 +468,17 @@ public class LoginPanel extends Window implements EventListener
 		return s;
 	}
 
+	public String getTypedPassword()
+	{
+		if (txtPassword != null)
+			return txtPassword.getValue();
+
+		return null;
+	}
+
+	public void setTypedPassword(String passwod)
+	{
+		if (txtPassword != null)
+			txtPassword.setValue(passwod);
+	}
 }

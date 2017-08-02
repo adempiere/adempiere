@@ -22,6 +22,7 @@ import java.awt.Frame;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
 import java.lang.reflect.Constructor;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
@@ -35,7 +36,9 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.plaf.TextUI;
 
+import org.adempiere.exceptions.ValueChangeListener;
 import org.adempiere.plaf.AdempierePLAF;
+import org.compiere.model.GridField;
 
 /**
  *  Adempiere Colored Field with external popup editor.
@@ -329,6 +332,21 @@ public class CField extends JComboBox
 	public void setBackground(Color bg)
 	{
 		m_editor.setBackground(bg);
+	}
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void addValueChangeListener(ValueChangeListener listener) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public GridField getField() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }   //  CField

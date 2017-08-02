@@ -107,12 +107,34 @@ public class BrowseElementHandler extends AbstractElementHandler {
 				}
 			}
 
+			if (getStringValue(atts, "ADWindowNameID") != null) {
+
+				name = atts.getValue("ADWindowNameID");
+				if (name != null && name.trim().length() > 0) {
+					id = get_IDWithColumn(ctx, "AD_Window", "Name", name);
+					if (id <= 0) {
+						element.defer = true;
+						element.unresolved = "AD_Window: " + name;
+						return;
+					}
+					m_Browse.setAD_Window_ID(id);
+				}
+			}
+
+
 			m_Browse.setValue(atts.getValue("Value"));
 			m_Browse.setName(atts.getValue("Name"));
 			m_Browse.setDescription(getStringValue(atts, "Description"));
 			m_Browse.setHelp(getStringValue(atts, "Help"));
 			m_Browse.setIsActive(atts.getValue("isActive") != null ? Boolean
 					.valueOf(atts.getValue("isActive")).booleanValue() : true);
+			m_Browse.setIsCollapsibleByDefault(atts.getValue("IsCollapsibleByDefault") != null ? Boolean.valueOf(atts.getValue("IsCollapsibleByDefault")).booleanValue() : true);
+			m_Browse.setIsDeleteable(atts.getValue("IsDeleteable") != null ? Boolean.valueOf(atts.getValue("IsDeleteable")).booleanValue() : true);
+			m_Browse.setIsExecutedQueryByDefault(atts.getValue("IsExecutedQueryByDefault") != null ? Boolean.valueOf(atts.getValue("IsExecutedQueryByDefault")).booleanValue() : true);
+			m_Browse.setIsSelectedByDefault(atts.getValue("IsSelectedByDefault") != null ? Boolean.valueOf(atts.getValue("IsSelectedByDefault")).booleanValue() : true);
+			m_Browse.setIsShowTotal(atts.getValue("IsShowTotal") != null ? Boolean.valueOf(atts.getValue("IsShowTotal")).booleanValue() : true);
+
+
 			m_Browse.setEntityType(atts.getValue("EntityType"));
 			m_Browse.setWhereClause(atts.getValue("WhereClause"));
 			m_Browse.setAccessLevel(atts.getValue("AccessLevel"));
@@ -215,6 +237,25 @@ public class BrowseElementHandler extends AbstractElementHandler {
 				(m_Browse.isBetaFunctionality() == true ? "true" : "false"));
 		atts.addAttribute("", "", "AccessLevel", "CDATA", (m_Browse
 				.getAccessLevel() != null ? m_Browse.getAccessLevel() : ""));
+
+		if (m_Browse.getAD_Window_ID() > 0)
+			atts.addAttribute("", "", "ADWindowNameID", "CDATA", (m_Browse
+					.getAccessLevel() != null ? m_Browse.getAD_Window().getName() : ""));
+
+		atts.addAttribute("", "", "IsCollapsibleByDefault", "CDATA",
+				(m_Browse.isCollapsibleByDefault() == true ? "true" : "false"));
+
+		atts.addAttribute("", "", "IsExecutedQueryByDefault", "CDATA",
+				(m_Browse.isExecutedQueryByDefault() == true ? "true" : "false"));
+
+		atts.addAttribute("", "", "IsSelectedByDefault", "CDATA",
+				(m_Browse.isSelectedByDefault() == true ? "true" : "false"));
+
+		atts.addAttribute("", "", "IsShowTotal", "CDATA",
+				(m_Browse.isShowTotal() == true ? "true" : "false"));
+
+		atts.addAttribute("", "", "IsDeleteable", "CDATA",
+				(m_Browse.isDeleteable() == true ? "true" : "false"));
 
 		if (m_Browse.getAD_Process_ID() > 0) {
 			sql = "SELECT Name FROM AD_Process WHERE AD_Process_ID=?";

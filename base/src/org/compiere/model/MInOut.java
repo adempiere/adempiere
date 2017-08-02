@@ -57,6 +57,11 @@ import org.compiere.util.Msg;
  *  @author Teo Sarca, teo.sarca@gmail.com
  * 			<li>BF [ 2993853 ] Voiding/Reversing Receipt should void confirmations
  * 				https://sourceforge.net/tracker/?func=detail&atid=879332&aid=2993853&group_id=176962
+ * 	@author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com 2015-05-25, 18:20
+ * 			<li>BF [ 9223372036854775807 ] Transaction is generate when shipment is invalid in InOut generate
+ * 			@see https://adempiere.atlassian.net/browse/ADEMPIERE-418
+ * 			<a href="https://github.com/adempiere/adempiere/issues/887">
+ * 			@see FR [ 887 ] System Config reversal invoice DocNo</a>
  */
 public class MInOut extends X_M_InOut implements DocAction
 {
@@ -171,18 +176,29 @@ public class MInOut extends X_M_InOut implements DocAction
 	 * 	@param C_DocType_ID doc type
 	 * 	@param isSOTrx sales order
 	 * 	@param counter create counter links
+	 * 	@param isReversal is a reversal document
 	 * 	@param trxName trx
 	 * 	@param setOrder set the order link
 	 *	@return Shipment
 	 */
 	public static MInOut copyFrom (MInOut from, Timestamp dateDoc, Timestamp dateAcct,
-		int C_DocType_ID, boolean isSOTrx, boolean counter, String trxName, boolean setOrder)
+		int C_DocType_ID, boolean isSOTrx, boolean counter, boolean isReversal, String trxName, boolean setOrder)
 	{
 		MInOut to = new MInOut (from.getCtx(), 0, null);
 		to.set_TrxName(trxName);
 		copyValues(from, to, from.getAD_Client_ID(), from.getAD_Org_ID());
 		to.set_ValueNoCheck ("M_InOut_ID", I_ZERO);
 		to.set_ValueNoCheck ("DocumentNo", null);
+		//	For Reversal
+		if(isReversal) {
+			to.setReversal(true);
+			to.setReversal_ID(from.getC_Invoice_ID());
+			MDocType docType = MDocType.get(from.getCtx(), from.getC_DocType_ID());
+			//	Set Document No from flag
+			if(docType.isCopyDocNoOnReversal()) {
+				to.setDocumentNo(from.getDocumentNo() + "^");
+			}
+		}
 		//
 		to.setDocStatus (DOCSTATUS_Drafted);		//	Draft
 		to.setDocAction(DOCACTION_Complete);
@@ -260,38 +276,16 @@ public class MInOut extends X_M_InOut implements DocAction
 			}
 		}
 		//
-		if (!to.save(trxName))
-			throw new IllegalStateException("Could not create Shipment");
-		if (counter)
+		to.saveEx(trxName);
+		if (counter) {
 			from.setRef_InOut_ID(to.getM_InOut_ID());
-
-		if (to.copyLinesFrom(from, counter, setOrder) <= 0)
+		}
+		
+		if (to.copyLinesFrom(from, counter, setOrder) <= 0) {
 			throw new IllegalStateException("Could not create Shipment Lines");
-
+		}
 		return to;
 	}	//	copyFrom
-
-	/**
-	 *  @deprecated
-	 * 	Create new Shipment by copying
-	 * 	@param from shipment
-	 * 	@param dateDoc date of the document date
-	 * 	@param C_DocType_ID doc type
-	 * 	@param isSOTrx sales order
-	 * 	@param counter create counter links
-	 * 	@param trxName trx
-	 * 	@param setOrder set the order link
-	 *	@return Shipment
-	 */
-	public static MInOut copyFrom (MInOut from, Timestamp dateDoc,
-		int C_DocType_ID, boolean isSOTrx, boolean counter, String trxName, boolean setOrder)
-	{
-		MInOut to = copyFrom ( from, dateDoc, dateDoc,
-				C_DocType_ID, isSOTrx, counter,
-				trxName, setOrder);
-		return to;
-
-	}
 
 	/**************************************************************************
 	 * 	Standard Constructor
@@ -402,6 +396,8 @@ public class MInOut extends X_M_InOut implements DocAction
 		setAD_OrgTrx_ID(order.getAD_OrgTrx_ID());
 		setUser1_ID(order.getUser1_ID());
 		setUser2_ID(order.getUser2_ID());
+		setUser3_ID(order.getUser3_ID());
+		setUser4_ID(order.getUser4_ID());
 		setPriorityRule(order.getPriorityRule());
 		// Drop shipment
 		setIsDropShip(order.isDropShip());
@@ -461,6 +457,8 @@ public class MInOut extends X_M_InOut implements DocAction
 		setAD_OrgTrx_ID(invoice.getAD_OrgTrx_ID());
 		setUser1_ID(invoice.getUser1_ID());
 		setUser2_ID(invoice.getUser2_ID());
+		setUser3_ID(invoice.getUser3_ID());
+		setUser4_ID(invoice.getUser4_ID());
 
 		if (order != null)
 		{
@@ -527,6 +525,8 @@ public class MInOut extends X_M_InOut implements DocAction
 		setAD_OrgTrx_ID(original.getAD_OrgTrx_ID());
 		setUser1_ID(original.getUser1_ID());
 		setUser2_ID(original.getUser2_ID());
+		setUser3_ID(original.getUser3_ID());
+		setUser4_ID(original.getUser4_ID());
 
 		// DropShipment
 		setIsDropShip(original.isDropShip());
@@ -1159,12 +1159,12 @@ public class MInOut extends X_M_InOut implements DocAction
 			//
 			if (line.getM_AttributeSetInstance_ID() != 0)
 				continue;
-			if (product != null && product.isASIMandatory(isSOTrx(),line.getAD_Org_ID()))
+			/*if (product != null && product.isASIMandatory(isSOTrx(),line.getAD_Org_ID()))
 			{
 				m_processMsg = "@M_AttributeSet_ID@ @IsMandatory@ (@Line@ #" + lines[i].getLine() +
 								", @M_Product_ID@=" + product.getValue() + ")";
 				return DocAction.STATUS_Invalid;
-			}
+			}*/
 		}
 		setVolume(Volume);
 		setWeight(Weight);
@@ -1471,12 +1471,15 @@ public class MInOut extends X_M_InOut implements DocAction
 				
 				oLine.setDateDelivered(getMovementDate());	//	overwrite=last
 				
-				if (!oLine.save())
-				{
-					m_processMsg = "Could not update Order Line";
-					return DocAction.STATUS_Invalid;
-				}
-				else
+				//	Yamel Senih BF [ 9223372036854775807 ]
+//				if (!oLine.save())
+//				{
+//					m_processMsg = "Could not update Order Line";
+//					return DocAction.STATUS_Invalid;
+//				}
+//				else
+				oLine.saveEx();
+				//	End Yamel Senih
 					log.fine("OrderLine -> Reserved=" + oLine.getQtyReserved()
 						+ ", Delivered=" + oLine.getQtyDelivered());
 			}
@@ -1703,7 +1706,7 @@ public class MInOut extends X_M_InOut implements DocAction
 
 		//	Deep Copy
 		MInOut dropShipment = copyFrom(this, getMovementDate(), getDateAcct(),
-			C_DocTypeTarget_ID, !isSOTrx(), false, get_TrxName(), true);
+			C_DocTypeTarget_ID, !isSOTrx(), false, false, get_TrxName(), true);
 
 		int linkedOrderID = new MOrder (getCtx(), getC_Order_ID(), get_TrxName()).getLink_Order_ID();
 		if (linkedOrderID != 0)
@@ -1820,6 +1823,7 @@ public class MInOut extends X_M_InOut implements DocAction
 				//always create asi so fifo/lifo work.
 				if (asi == null && line.getM_AttributeSetInstance_ID() == 0)
 				{
+					MAttributeSet.validateAttributeSetInstanceMandatory(product, line.Table_ID , isSOTrx() , line.getM_AttributeSetInstance_ID());
 					asi = MAttributeSetInstance.create(getCtx(), product, get_TrxName());
 					line.setM_AttributeSetInstance_ID(asi.getM_AttributeSetInstance_ID());
 					log.config("New ASI=" + line);
@@ -1862,6 +1866,7 @@ public class MInOut extends X_M_InOut implements DocAction
 				if (qtyToDeliver.signum() != 0)
 				{
 					//deliver using new asi
+					MAttributeSet.validateAttributeSetInstanceMandatory(product, line.Table_ID , isSOTrx() , line.getM_AttributeSetInstance_ID());
 					MAttributeSetInstance asi = MAttributeSetInstance.create(getCtx(), product, get_TrxName());
 					int M_AttributeSetInstance_ID = asi.getM_AttributeSetInstance_ID();
 					MInOutLineMA ma = new MInOutLineMA (line, M_AttributeSetInstance_ID, qtyToDeliver);
@@ -1923,7 +1928,7 @@ public class MInOut extends X_M_InOut implements DocAction
 
 		//	Deep Copy
 		MInOut counter = copyFrom(this, getMovementDate(), getDateAcct(),
-			C_DocTypeTarget_ID, !isSOTrx(), true, get_TrxName(), true);
+			C_DocTypeTarget_ID, !isSOTrx(), true, false, get_TrxName(), true);
 
 		//
 		counter.setAD_Org_ID(counterAD_Org_ID);
@@ -2098,44 +2103,31 @@ public class MInOut extends X_M_InOut implements DocAction
 
 		//	Deep Copy
 		MInOut reversal = copyFrom (this, getMovementDate(), getDateAcct(),
-			getC_DocType_ID(), isSOTrx(), false, get_TrxName(), true);
+			getC_DocType_ID(), isSOTrx(), false, true, get_TrxName(), true);
 		if (reversal == null)
 		{
 			m_processMsg = "Could not create Ship Reversal";
 			return false;
 		}
-		reversal.setReversal(true);
 
 		//	Reverse Line Qty
-		MInOutLine[] sLines = getLines(true);
-		MInOutLine[] rLines = reversal.getLines(true);
-		for (int i = 0; i < rLines.length; i++)
+		MInOutLine[] inOutLines = getLines(true);
+		MInOutLine[] reversalLines = reversal.getLines(true);
+		for (int i = 0; i < reversalLines.length; i++)
 		{
-			MInOutLine rLine = rLines[i];
-			rLine.setQtyEntered(rLine.getQtyEntered().negate());
-			rLine.setMovementQty(rLine.getMovementQty().negate());
-			rLine.setM_AttributeSetInstance_ID(sLines[i].getM_AttributeSetInstance_ID());
+			MInOutLine reversalLine = reversalLines[i];
+			reversalLine.setQtyEntered(reversalLine.getQtyEntered().negate());
+			reversalLine.setMovementQty(reversalLine.getMovementQty().negate());
+			reversalLine.setM_AttributeSetInstance_ID(inOutLines[i].getM_AttributeSetInstance_ID());
 			// Goodwill: store original (voided/reversed) document line
-			rLine.setReversalLine_ID(sLines[i].getM_InOutLine_ID());
-			if (!rLine.save(get_TrxName()))
-			{
-				m_processMsg = "Could not correct Ship Reversal Line";
-				return false;
-			}
+			reversalLine.setReversalLine_ID(inOutLines[i].getM_InOutLine_ID());
+			reversalLine.saveEx();
 			//	We need to copy MA
-			if (rLine.getM_AttributeSetInstance_ID() == 0)
-			{
-				List<MInOutLineMA> mas = MInOutLineMA.get(getCtx(),
-					sLines[i].getM_InOutLine_ID(), get_TrxName());
-				//for (int j = 0; j < mas.length; j++)
-                for (MInOutLineMA ma : mas)
-				{
-					MInOutLineMA reverseLine = new MInOutLineMA (rLine,
-						ma.getM_AttributeSetInstance_ID(),
-						ma.getMovementQty().negate());
-                    reverseLine.saveEx();
-				}
-			}
+			List<MInOutLineMA> mas = MInOutLineMA.get(getCtx(), inOutLines[i].getM_InOutLine_ID(), get_TrxName());
+			mas.forEach(lineMA -> {
+				MInOutLineMA reverseLine = new MInOutLineMA (reversalLine, lineMA.getM_AttributeSetInstance_ID(), lineMA.getMovementQty().negate());
+				reverseLine.saveEx();
+			});
 			//	De-Activate Asset
 			//Move code to model asset validator to solve build dependence
 			/*MAsset asset = MAsset.getFromShipment(getCtx(), sLines[i].getM_InOutLine_ID(), get_TrxName());

@@ -55,21 +55,32 @@ public class MPOS extends X_C_POS
 	} //	get
 
 	/**
-	 * 	Get POSes for passed argument
-	 *	@param ctx context
-	 *	@param C_POS_ID id
-	 *	@return POSes
-	 */
-	public static MPOS[] getAll (Properties ctx, String field, int ID)
+	 * Get POSes for passed argument
+	 * @param ctx
+	 * @param field
+	 * @param id
+	 * @param trxName
+     * @return
+     */
+	public static List<MPOS> getAll (Properties ctx, String field, int id, String trxName)
 	{
 		String whereClause = field+"=?";
-		List<MPOS> list = new Query(ctx, Table_Name, whereClause, null)
-										.setParameters(ID)
+	   return new Query(ctx, Table_Name, whereClause, trxName)
+										.setParameters(id)
 										.setOnlyActiveRecords(true)
 										.setOrderBy(COLUMNNAME_Name)
 										.list();
-		return list.toArray(new MPOS[list.size()]);
 	}	//	get
+
+	public static List<MPOS> getByOrganization(Properties ctx,int   orgId , String trxName)
+	{
+		return new Query(ctx , Table_Name , "AD_Org_ID = ?" , trxName )
+				.setClient_ID()
+				.setOnlyActiveRecords(true)
+				.setParameters(orgId)
+				.setOrderBy(COLUMNNAME_Name)
+				.list();
+	}
 	
 	/**	Cache						*/
 	private static CCache<Integer,MPOS> s_cache = new CCache<Integer,MPOS>("C_POS", 20);

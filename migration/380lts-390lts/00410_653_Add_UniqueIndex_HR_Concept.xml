@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Add constraint of concept #653" ReleaseNo="3.9.0" SeqNo="00410">
+    <Comments>See: https://github.com/adempiere/adempiere/issues/653</Comments>
+    <Step DBType="ALL" Parse="Y" SeqNo="0" StepType="SQL">
+      <SQLStatement>CREATE UNIQUE INDEX UK_HR_Concept_Value ON HR_Concept(AD_Client_ID, Value)</SQLStatement>
+      <RollbackStatement>DROP INDEX UK_HR_Concept_Value</RollbackStatement>
+    </Step>
+  </Migration>
+</Migrations>

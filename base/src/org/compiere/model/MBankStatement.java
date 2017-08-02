@@ -20,15 +20,19 @@ import java.io.File;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Properties;
 
 import org.compiere.process.DocAction;
 import org.compiere.process.DocumentEngine;
 import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
- 
+import org.compiere.util.TimeUtil;
+
+
 /**
 *	Bank Statement Model
 *
@@ -43,11 +47,50 @@ import org.compiere.util.Msg;
 *  @author Teo Sarca, http://www.arhipac.ro
 * 	<li>FR [ 2616330 ] Use MPeriod.testPeriodOpen instead of isOpen
 * 		https://sourceforge.net/tracker/?func=detail&atid=879335&aid=2616330&group_id=176962
+*  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+*		<a href="https://github.com/adempiere/adempiere/issues/983">
+* 		@see FR [ 592 ] Default name for bank statement is necessary</a>
 *  
 *   @version $Id: MBankStatement.java,v 1.3 2006/07/30 00:51:03 jjanke Exp $
 */
 public class MBankStatement extends X_C_BankStatement implements DocAction
 {
+
+	/**
+	 * Add payment to bank statement
+	 * @param payment
+	 */
+	static public MBankStatementLine addPayment(MPayment payment)
+	{
+		StringBuilder whereClause = new StringBuilder();
+		whereClause.append(MBankStatement.COLUMNNAME_C_BankAccount_ID).append("=? AND ")
+				.append("TRUNC(").append(MBankStatement.COLUMNNAME_StatementDate).append(",'DD')=? AND ")
+				.append(MBankStatement.COLUMNNAME_Processed).append("=?");
+		MBankStatement bankStatement = new Query(payment.getCtx() , MBankStatement.Table_Name , whereClause.toString(), payment.get_TrxName())
+				.setClient_ID()
+				.setParameters(payment.getC_BankAccount_ID(), TimeUtil.getDay(payment.getDateTrx()) , false)
+				.first();
+		if (bankStatement == null || bankStatement.get_ID() <= 0)
+		{
+			bankStatement =  new MBankStatement(payment.getCtx() , 0 , payment.get_TrxName());
+			bankStatement.setC_BankAccount_ID(payment.getC_BankAccount_ID());
+			bankStatement.setStatementDate(payment.getDateAcct());
+			if(payment.getDescription() != null) {
+				bankStatement.setName(payment.getDescription());
+			} else {
+				SimpleDateFormat format = DisplayType.getDateFormat(DisplayType.Date);
+				bankStatement.setName(Msg.getMsg(payment.getCtx(), "@Generate@: ") + format.format(payment.getDateAcct()));
+			}
+			bankStatement.saveEx();
+		}
+
+		MBankStatementLine bankStatementLine = new MBankStatementLine(bankStatement);
+		bankStatementLine.setPayment(payment);
+		bankStatementLine.setStatementLineDate(payment.getDateAcct());
+		bankStatementLine.setDateAcct(payment.getDateAcct());
+		bankStatementLine.saveEx();
+		return bankStatementLine;
+	}
 	/**
 	 * 
 	 */

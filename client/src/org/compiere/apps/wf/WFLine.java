@@ -28,7 +28,6 @@ import java.awt.font.TextLayout;
 
 import javax.swing.SwingConstants;
 
-import org.compiere.util.CLogger;
 import org.compiere.wf.MWFNodeNext;
 
 
@@ -68,12 +67,10 @@ public class WFLine extends Component
 	private Rectangle		m_from = null;
 	/**	To Node					*/
 	private Rectangle		m_to = null;
-	/**	Descriprion				*/
+	/**	Description				*/
 	private String 			m_description = null;
 	/** Visited value			*/
 	private boolean			m_visited = false;
-	/**	Logger					*/
-	private static CLogger	log = CLogger.getCLogger(WFLine.class);
 	
 	/**
 	 * 	Get From rectangle

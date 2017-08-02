@@ -525,6 +525,8 @@ public class ImportAccount extends SvrProcess
 								expenseAccount.getC_Activity_ID(),
 								expenseAccount.getUser1_ID(),
 								expenseAccount.getUser2_ID(),
+								expenseAccount.getUser3_ID(),
+								expenseAccount.getUser4_ID(),
 								expenseAccount.getUserElement1_ID(),
 								expenseAccount.getUserElement2_ID(), get_TrxName());
 						
@@ -557,6 +559,8 @@ public class ImportAccount extends SvrProcess
 								revenueAccount.getC_Activity_ID(),
 								revenueAccount.getUser1_ID(),
 								revenueAccount.getUser2_ID(),
+								revenueAccount.getUser3_ID(),
+								revenueAccount.getUser4_ID(),
 								revenueAccount.getUserElement1_ID(),
 								revenueAccount.getUserElement2_ID(), get_TrxName());
 						

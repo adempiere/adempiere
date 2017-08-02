@@ -102,7 +102,7 @@ public class WRequest implements EventListener
 	private void getRequests (Component invoker)
 	{
 		m_new = new Menuitem(Msg.getMsg(Env.getCtx(), "RequestNew"));
-		m_new.setImage("/images/New16.png");
+		m_new.setImage("/images/dark/New16.png");
 		m_new.addEventListener(Events.ON_CLICK, this);
 		m_popup.appendChild(m_new);
 		//

@@ -1,0 +1,51 @@
+// A simple test to show the use of the field functions to abstract
+// the sahi scripts. Creates a PO and orders a Oak Tree.
+// 
+// Start from the webui login
+
+//  Remove if including this in a scenario. The scenario will load the common functions
+//  _include("./lib/common_functions.sah");
+
+// Run the tests - remove if including this in a scenario.  The scenario will make this call.
+// _runUnitTests();  //  Will run all functions with name test_*()
+
+function test_example() {
+	
+	_setStrictVisibilityCheck(true);
+	
+	loginDefault("GardenAdmin","GardenAdmin");
+	
+	wOpenWindow("Business Partner");
+	wCloseWindow("Business Partner");
+	
+	wOpenWindowLookup("Business Partner","new");
+	wCloseWindow("Business Partner");
+	
+	
+	wOpenWindow("Purchase Order");
+	iNewRecord();
+	
+	fSetList("AD_Org_ID", "HQ");
+	fSetList("M_Warehouse_ID", "HQ Warehouse");
+	fSetSearch("C_BPartner_ID","Tree Farm Inc.");
+	fSetList("M_PriceList_ID", "Purchase");
+	fSetText("POReference","Test Order");
+	fSetText("DateOrdered","09/04/2011");  //Date fields are a problem - the format is system dependent
+	var $LongString = "This is an example of a long string.  It can go on and on for a long";
+	$LongString = $LongString + " long time.";
+	fSetTextArea("Description",$LongString);
+	fSetList("SalesRep_ID","GardenAdmin");
+	iSaveRecord();
+	
+	wOpenTab("PO Line"); // Move to the detail tab
+	fSetSearch("M_Product_ID","Oak Tree");
+	iSaveRecord();
+	
+	iParent();
+	fDocActionCheck("Complete","Completed");  
+	
+	wCloseWindow("Purchase Order");
+}
+
+
+

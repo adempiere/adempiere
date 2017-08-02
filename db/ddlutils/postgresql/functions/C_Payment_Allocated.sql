@@ -48,7 +48,7 @@ BEGIN
 			FROM	C_AllocationLine al
 	          INNER JOIN C_AllocationHdr a ON (al.C_AllocationHdr_ID=a.C_AllocationHdr_ID)
 			WHERE	al.C_Payment_ID = p_C_Payment_ID
-          	AND   a.IsActive='Y'
+          	AND   a.DocStatus IN('CO', 'CL')
 	LOOP
 		v_AllocatedAmt := v_AllocatedAmt
 			+ currencyConvert(r.Amount, r.C_Currency_ID, p_C_Currency_ID, r.DateTrx, null, r.AD_Client_ID, r.AD_Org_ID);

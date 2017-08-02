@@ -36,6 +36,9 @@ import org.compiere.util.Env;
  * 
  * @author Teo Sarca, www.arhipac.ro
  * 				<li>BF [ 1836908 ] Report customize NPE when no window access
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * 		<a href="https://github.com/adempiere/adempiere/issues/611">
+ * 		@see BR [ 611 ] Error dialog is showed and lost focus from window</a>
  */
 public class AWindow extends CFrame
 {
@@ -79,14 +82,28 @@ public class AWindow extends CFrame
 	 *  @param AD_Workbench_ID workbench
 	 *  @return true if loaded OK
 	 */
-	protected boolean initWorkbench (int AD_Workbench_ID)
-	{
+	protected boolean initWorkbench (int AD_Workbench_ID) {
+		return initWorkbench(AD_Workbench_ID, true);
+	}   //  initWorkbench
+	
+	/**
+	 *  Dynamic Initialization Workbench
+	 *  @param AD_Workbench_ID workbench
+	 *  @param showError flag or show dialog
+	 *  @return true if loaded OK
+	 */
+	protected boolean initWorkbench (int AD_Workbench_ID, boolean showError) {
 		this.setName("AWindow_WB_" + AD_Workbench_ID);
 		boolean loadedOK = m_APanel.initPanel (AD_Workbench_ID, 0, null);
+		if(!loadedOK
+				&& showError
+				&& m_APanel.getLoadError() != null) {
+			ADialog.warn(0, this, m_APanel.getLoadError(), null);
+		}
 		//
 		commonInit();
 		return loadedOK;
-	}   //  initWorkbench
+	}
 
 	/**
 	 *	Dynamic Initialization Single Window
@@ -94,18 +111,30 @@ public class AWindow extends CFrame
 	 *  @param query query
 	 *  @return true if loaded OK
 	 */
-	public boolean initWindow (int AD_Window_ID, MQuery query)
-	{
+	public boolean initWindow (int AD_Window_ID, MQuery query) {
+		return initWindow(AD_Window_ID, query, true);
+	}	//	initWindow
+	
+	/**
+	 *	Dynamic Initialization Single Window
+	 *  @param AD_Window_ID window
+	 *  @param query query
+	 *  @param showError flag for show dialog
+	 *  @return true if loaded OK
+	 */
+	public boolean initWindow(int AD_Window_ID, MQuery query, boolean showError) {
 		this.setName("AWindow_" + AD_Window_ID);
 		setAD_Window_ID(AD_Window_ID);
 		//
 		boolean loadedOK = m_APanel.initPanel (0, AD_Window_ID, query);
-		if (loadedOK)
-		{
+		if (loadedOK) {
 			commonInit();
+		} else if(showError
+					&& m_APanel.getLoadError() != null){
+			ADialog.warn(0, this, m_APanel.getLoadError(), null);
 		}
 		return loadedOK;
-	}	//	initWindow
+	}
 
 	/**
 	 *  Common Init.

@@ -148,7 +148,7 @@ public class MProjectLine extends X_C_ProjectLine
 			return limitPrice;
 		boolean isSOTrx = true;
 		MProductPricing pp = new MProductPricing (getM_Product_ID(),
-			m_parent.getC_BPartner_ID(), getPlannedQty(), isSOTrx);
+			m_parent.getC_BPartner_ID(), getPlannedQty(), isSOTrx, null);
 		pp.setM_PriceList_ID(m_parent.getM_PriceList_ID());
 		if (pp.calculatePrice())
 			limitPrice = pp.getPriceLimit();

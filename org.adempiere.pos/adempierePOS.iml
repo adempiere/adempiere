@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="false">
+    <output url="file://$MODULE_DIR$/bin" />
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/zkwebui/WEB-INF/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/base/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/client/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/org.adempiere.pos/src/main/java/base" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/org.adempiere.pos/src/main/java/ui/vaadin" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/org.adempiere.pos/src/main/java/ui/zk" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/org.adempiere.pos/src/main/java/ui/swing" isTestSource="false" />
+    </content>
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="jdk" jdkName="1.8" jdkType="JavaSDK" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../adempiere/bin" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../adempiere/zkwebui/WEB-INF/lib" />
+          <root url="file://$MODULE_DIR$/../adempiere/zkwebui/WEB-INF/classes" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="file://$MODULE_DIR$/../adempiere/zkwebui/WEB-INF/lib" />
+        </SOURCES>
+        <jarDirectory url="file://$MODULE_DIR$/../adempiere/zkwebui/WEB-INF/lib" recursive="false" />
+        <jarDirectory url="file://$MODULE_DIR$/../adempiere/zkwebui/WEB-INF/lib" recursive="false" type="SOURCES" />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="tools">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/activemq-core-5.7.0.jar!/" />
+          <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/ant-commons-net.jar!/" />
+          <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/ant-contrib-1.0b1.jar!/" />
+          <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/ant-launcher.jar!/" />
+          <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/ant.jar!/" />
+          <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/barbecue-1.5-beta1.jar!/" />
+          <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/bsh-2.0b6.jar!/" />
+          <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/bsh-engine.jar!/" />
+          <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/c3p0-0.9.1.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/c3p0-oracle-thin-extras-0.9.1.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/cglib.jar!/" />
+          <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/commons-codec.jar!/" />
+          <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/commons-collections-3.1.jar!/" />
+          <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/commons-io.jar!/" />
+          <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/commons-logging.jar!/" />
+          <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/commons-net-1.4.0.jar!/" />
+          <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/cron4j-2.2.1.jar!/" />
+          <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/groovy-all-2.4.7.jar!/" />
+          <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/groovy-engine.jar!/" />
+          <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/iText-2.1.7.jar!/" />
+          <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/javaee.jar!/" />
+          <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/jcommon-1.0.18.jar!/" />
+          <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/jfreechart-1.0.15.jar!/" />
+          <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/jgraph.jar!/" />
+          <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/jnlp.jar!/" />
+          <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/jpayment.jar!/" />
+          <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/jpedal.jar!/" />
+          <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/jsp-api.jar!/" />
+          <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/jstl.jar!/" />
+          <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/junit.jar!/" />
+          <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/jython-engine.jar!/" />
+          <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/lablib-checkboxtree-3.3.jar!/" />
+          <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/log4j.jar!/" />
+          <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/logkit.jar!/" />
+          <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/looks-2.0.4.jar!/" />
+          <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/mail.jar!/" />
+          <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/miglayout-3.7.1-swing.jar!/" />
+          <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/mysql-connector-java-5.1.13-bin.jar!/" />
+          <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/ojdbc6.jar!/" />
+          <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/OpenForecast-0.5.0.jar!/" />
+          <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/payflow.jar!/" />
+          <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/poi-3.9-20121203.jar!/" />
+          <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/postgresql.jar!/" />
+          <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/script-api.jar!/" />
+          <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/servlet-api.jar!/" />
+          <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/standard.jar!/" />
+          <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/swingx-1.6.jar!/" />
+          <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/Verisign.jar!/" />
+          <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/wizard.jar!/" />
+          <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/xercesImpl.jar!/" />
+          <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/xjavadoc-1.1.jar!/" />
+          <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/xml-apis.jar!/" />
+          <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/jython.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/jython.jar!/Lib" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="library" name="scala-sdk-2.11.7" level="project" />
+  </component>
+</module>

@@ -27,6 +27,10 @@ import org.compiere.model.MTree_Node;
 import org.compiere.model.MTree_NodeBP;
 import org.compiere.model.MTree_NodeMM;
 import org.compiere.model.MTree_NodePR;
+import org.compiere.model.MTree_NodeU1;
+import org.compiere.model.MTree_NodeU2;
+import org.compiere.model.MTree_NodeU3;
+import org.compiere.model.MTree_NodeU4;
 import org.compiere.model.PO;
 import org.compiere.util.DB;
 
@@ -88,7 +92,11 @@ public class TreeMaintenance extends SvrProcess
 		String sourceTableKey = sourceTableName + "_ID";
 		int AD_Client_ID = tree.getAD_Client_ID();
 		int C_Element_ID = 0;
-		if (MTree.TREETYPE_ElementValue.equals(tree.getTreeType()))
+		if (MTree.TREETYPE_ElementValue.equals(tree.getTreeType())
+		||	MTree.TREETYPE_User1.equals(tree.getTreeType())
+		||	MTree.TREETYPE_User2.equals(tree.getTreeType())
+		||	MTree.TREETYPE_User3.equals(tree.getTreeType())
+		||	MTree.TREETYPE_User4.equals(tree.getTreeType()))
 		{
 			String sql = "SELECT C_Element_ID FROM C_Element "
 				+ "WHERE AD_Tree_ID=" + tree.getAD_Tree_ID();
@@ -145,6 +153,14 @@ public class TreeMaintenance extends SvrProcess
 					node = new MTree_NodePR(tree, Node_ID);
 				else if (nodeTableName.equals("AD_TreeNodeMM"))
 					node = new MTree_NodeMM(tree, Node_ID);
+				else if (nodeTableName.equals("AD_TreeNodeU1"))
+					node = new MTree_NodeU1(tree, Node_ID);
+				else if (nodeTableName.equals("AD_TreeNodeU2"))
+					node = new MTree_NodeU2(tree, Node_ID);
+				else if (nodeTableName.equals("AD_TreeNodeU3"))
+					node = new MTree_NodeU3(tree, Node_ID);
+				else if (nodeTableName.equals("AD_TreeNodeU4"))
+					node = new MTree_NodeU4(tree, Node_ID);
 				//				
 				if (node == null)
 					log.log(Level.SEVERE, "No Model for " + nodeTableName);

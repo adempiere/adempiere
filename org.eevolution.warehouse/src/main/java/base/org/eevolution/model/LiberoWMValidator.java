@@ -22,6 +22,8 @@ import org.compiere.model.PO;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 
+import java.math.BigDecimal;
+
 /**
  * Libero Validator
  * 
@@ -51,20 +53,16 @@ public class LiberoWMValidator implements ModelValidator {
 			return null;
 
 		if (po instanceof MDDOrderLine
-				&& (TYPE_AFTER_CHANGE == type && po
-						.is_ValueChanged(MDDOrderLine.COLUMNNAME_QtyDelivered))) {
-			MDDOrderLine oline = (MDDOrderLine) po;
-			Integer WM_InOutBoundLine_ID = (Integer) oline
-					.get_Value(MWMInOutBoundLine.COLUMNNAME_WM_InOutBoundLine_ID);
-			if (WM_InOutBoundLine_ID != null
-					&& WM_InOutBoundLine_ID.intValue() > 0
-					&& oline.getQtyOrdered().compareTo(oline.getQtyDelivered()) >= 0) {
-
-				MWMInOutBoundLine obline = new MWMInOutBoundLine(
-						oline.getCtx(), WM_InOutBoundLine_ID,
-						oline.get_TrxName());
-				obline.setPickedQty(oline.getQtyDelivered());
-				obline.saveEx();
+		&& (TYPE_AFTER_CHANGE == type && po.is_ValueChanged(MDDOrderLine.COLUMNNAME_QtyDelivered))) {
+			MDDOrderLine orderLine = (MDDOrderLine) po;
+			MWMInOutBoundLine outboundLine = (MWMInOutBoundLine) orderLine.getWM_InOutBoundLine();
+			if (outboundLine != null
+			&& outboundLine.getWM_InOutBoundLine_ID() > 0
+			&& orderLine.getQtyOrdered().compareTo(orderLine.getQtyDelivered()) >= 0) {
+				BigDecimal pickedQuantity = outboundLine.getPickedQty();
+				BigDecimal totalPickedQuantity = pickedQuantity.add(orderLine.getQtyDelivered());
+				outboundLine.setPickedQty(totalPickedQuantity);
+				outboundLine.saveEx();
 			}
 		}
 		return null;
@@ -77,13 +75,9 @@ public class LiberoWMValidator implements ModelValidator {
 
 	/**
 	 * User Login. Called when preferences are set
-	 * 
-	 * @param AD_Org_ID
-	 *            org
-	 * @param AD_Role_ID
-	 *            role
-	 * @param AD_User_ID
-	 *            user
+	 * @param AD_Org_ID org
+	 * @param AD_Role_ID role
+	 * @param AD_User_ID user
 	 * @return error message or null
 	 */
 	public String login(int AD_Org_ID, int AD_Role_ID, int AD_User_ID) {
@@ -93,7 +87,6 @@ public class LiberoWMValidator implements ModelValidator {
 
 	/**
 	 * Get Client to be monitored
-	 * 
 	 * @return AD_Client_ID client
 	 */
 	public int getAD_Client_ID() {

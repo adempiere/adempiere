@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Change font in Print Format #912" ReleaseNo="3.9.0" SeqNo="01459">
+    <Comments>https://github.com/adempiere/adempiere/issues/912 . Se font of TEMPLATE Print Formats to San Serif bold 10.</Comments>
+    <Step DBType="ALL" SeqNo="10" StepType="SQL">
+      <SQLStatement>UPDATE ad_printformat set AD_PrintFont_ID=161 where ad_client_id=0 and name like '%** TEMPLATE **';</SQLStatement>
+    </Step>
+  </Migration>
+</Migrations>

@@ -1,6 +1,6 @@
-<project name="Libero" default="zkdist" basedir=".">
+<project name="ManufacturingManagement" default="zkdist" basedir=".">
     <description>
-        Building Libero liberoMFG.jar
+        Building ManufacturingManagement.jar
         by
         bcahya
         http://sistematika.web.id
@@ -43,7 +43,7 @@
   <target name="compile" depends="init"
         description="compile the source " >
     <!-- Compile the java code from ${src} into ${build} -->
-    <javac debug="true" srcdir="${src}:${srcSwing}" destdir="${build}">
+    <javac encoding="UTF-8" debug="true" srcdir="${src}:${srcSwing}" destdir="${build}">
       <classpath refid="compile.classpath"/>
     </javac>
   </target>
@@ -54,20 +54,20 @@
     <mkdir dir="${dist}/lib"/>
 
     <!-- Put everything in ${build} into the MyProject-${DSTAMP}.jar file -->
-    <jar jarfile="${dist}/lib/liberoMFG.jar" basedir="${build}"/>
+    <jar jarfile="${dist}/lib/ManufacturingManagement.jar" basedir="${build}"/>
 
     <!-- Create target Libero deployment -->
-    <mkdir dir="${env.ADEMPIERE_HOME}/packages/liberoMFG/lib"/>
+    <mkdir dir="${env.ADEMPIERE_HOME}/packages/ManufacturingManagement/lib"/>
 
-    <!-- Transfer liberoMFG.jar -->
-    <copy file="${dist}/lib/liberoMFG.jar" todir="${env.ADEMPIERE_HOME}/packages/liberoMFG/lib"/>
-    <copy file="${dist}/lib/liberoMFG.jar" todir="${adempiere.trunk}/packages/"/>
+    <!-- Transfer ManufacturingManagement.jar -->
+    <copy file="${dist}/lib/ManufacturingManagement.jar" todir="${env.ADEMPIERE_HOME}/packages/ManufacturingManagement/lib"/>
+    <copy file="${dist}/lib/ManufacturingManagement.jar" todir="${adempiere.trunk}/packages/"/>
   </target>
 
   <target name="zkcompile" depends="dist"
         description="compile the source " >
     <!-- Compile the zk java code from ${src} into ${zkclasses} -->
-    <javac debug="true" srcdir="${zksrc}" destdir="${zkclasses}">
+    <javac encoding="UTF-8" debug="true" srcdir="${zksrc}" destdir="${zkclasses}">
       <classpath refid="compile.classpath"/>
     </javac>
   </target>
@@ -78,14 +78,14 @@
     <mkdir dir="${dist}/lib"/>
 
     <!-- Put everything in ${zkclasses} into the MyProject-${DSTAMP}.jar file -->
-    <jar jarfile="${dist}/lib/liberozkMFG.jar" basedir="${basedir}/build/zkwebui" includes="WEB-INF/"/>
+    <jar jarfile="${dist}/lib/ManufacturingManagementZk.jar" basedir="${basedir}/build/zkwebui" includes="WEB-INF/"/>
 
     <!-- Create target Liberozk deployment -->
-    <mkdir dir="${env.ADEMPIERE_HOME}/zkpackages/liberozkMFG/lib"/>
+    <mkdir dir="${env.ADEMPIERE_HOME}/zkpackages/ManufacturingManagement/lib"/>
 
     <!-- Transfer liberozkMFG.jar -->
-    <copy file="${dist}/lib/liberozkMFG.jar" todir="${env.ADEMPIERE_HOME}/zkpackages/liberozkMFG/lib"/>
-    <copy file="${dist}/lib/liberozkMFG.jar" todir="${adempiere.trunk}/zkpackages/"/>
+    <copy file="${dist}/lib/ManufacturingManagementZk.jar" todir="${env.ADEMPIERE_HOME}/zkpackages/ManufacturingManagement/lib"/>
+    <copy file="${dist}/lib/ManufacturingManagementZk.jar" todir="${adempiere.trunk}/zkpackages/"/>
   </target>
 
   <target name="clean"

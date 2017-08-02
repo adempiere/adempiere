@@ -74,8 +74,6 @@ import org.compiere.model.GridWindow;
 import org.compiere.model.Lookup;
 import org.compiere.model.MLookup;
 import org.compiere.model.MMemo;
-import org.compiere.model.MQuery;
-import org.compiere.model.MTable;
 import org.compiere.model.MTree;
 import org.compiere.model.MTreeNode;
 import org.compiere.swing.CPanel;
@@ -157,6 +155,9 @@ import org.compiere.util.Util;
  * @author Teo Sarca - BF [ 1742159 ], BF [ 1707876 ]
  * @contributor Victor Perez , e-Evolution.SC FR [ 1757088 ]
  * @contributor fer_luck @ centuryon  FR [ 1757088 ]
+ * 
+ * @author mckayERP www.mckayERP.com
+ * 				<li> #283 GridController in swing will not set value to null in vetoableChange 
  */
 public class GridController extends CPanel
 	implements DataStatusListener, ListSelectionListener, Evaluatee,
@@ -451,15 +452,17 @@ public class GridController extends CPanel
 		}   //  Single-Row
 
 		//  Tree Graphics Layout
-		int AD_Tree_ID = 0;
-		if (m_mTab.isTreeTab())
-			AD_Tree_ID = MTree.getDefaultAD_Tree_ID (
-				Env.getAD_Client_ID(Env.getCtx()), m_mTab.getKeyColumnName());
-		if (m_mTab.isTreeTab() && AD_Tree_ID != 0)
+		int treeId = Env.getContextAsInt(Env.getCtx(), m_WindowNo , m_mTab.getTabNo(), "AD_Tree_ID");
+		if (m_mTab.isTreeTab() && treeId == 0)
+			treeId = MTree.getDefaultAD_Tree_ID(Env.getAD_Client_ID(Env.getCtx()), m_mTab.getKeyColumnName());
+			if (treeId > 0)
+				Env.setContext (Env.getCtx(), m_WindowNo, "AD_Tree_ID",  treeId);
+
+		if (m_mTab.isTreeTab() && treeId > 0)
 		{
 			m_tree = new VTreePanel(m_WindowNo, false, true);
-			if (m_mTab.getTabNo() == 0)	//	initialize other tabs later
-				m_tree.initTree(AD_Tree_ID);
+			if (m_mTab.getTabLevel() == 0)	//	initialize other tabs later
+				m_tree.initTree(treeId);
 			m_tree.addPropertyChangeListener(VTreePanel.NODE_SELECTION, this);
 			graphPanel.add(m_tree, BorderLayout.CENTER);
 			splitPane.setDividerLocation(250);
@@ -655,13 +658,18 @@ public class GridController extends CPanel
 				else if (keyColumnName.equals("CM_Media_ID"))
 					treeName = "AD_TreeCMM_ID";
 			}
-			int AD_Tree_ID = Env.getContextAsInt (Env.getCtx(), m_WindowNo, treeName, true);
-			log.config(keyColumnName + " -> " + treeName + " = " + AD_Tree_ID);
-			if (AD_Tree_ID == 0)
-				AD_Tree_ID = MTree.getDefaultAD_Tree_ID (
-					Env.getAD_Client_ID(Env.getCtx()), m_mTab.getKeyColumnName());
-			if (m_tree != null)
-				m_tree.initTree (AD_Tree_ID);
+			int treeId = Env.getContextAsInt (Env.getCtx(), m_WindowNo, treeName, true);
+			log.config(keyColumnName + " -> " + treeName + " = " + treeId);
+			if ((m_mTab.isTreeTab() && treeId == 0) || m_mTab.getTabLevel() == 0)
+				treeId = MTree.getDefaultAD_Tree_ID (Env.getAD_Client_ID(Env.getCtx()), m_mTab.getKeyColumnName());
+
+			if (treeId == 0) {
+				treeId = MTree.getDefaultAD_Tree_ID(Env.getAD_Client_ID(Env.getCtx()), m_mTab.getKeyColumnName());
+				if (treeId > 0 )
+					Env.setContext (Env.getCtx(), m_WindowNo, "AD_Tree_ID",  treeId);
+			}
+			if (m_mTab.isTreeTab() && treeId > 0 &&  m_tree != null && treeId != m_tree.getTreeId())
+				m_tree.initTree (treeId);
 		}
 
 		activateChilds();
@@ -992,7 +1000,7 @@ public class GridController extends CPanel
 			log.config("(" + m_mTab.toString() + ") "
 				+ columnName + " - Dependents=" + dependants.size());
 			//	No Dependents and no Callout - Set just Background
-			if (dependants.size() == 0 && changedField.getCallout().length() > 0)
+			if (dependants.size() == 0 && changedField.getCallout().length() == 0)
 			{
 				Component[] comp = vPanel.getComponentsRecursive();
 				for (int i = 0; i < comp.length; i++)
@@ -1065,7 +1073,8 @@ public class GridController extends CPanel
 							//	log.log(Level.FINEST, "RW=" + rw + " " + mField);
 								boolean manMissing = false;
 							//  least expensive operations first        //  missing mandatory
-								if (rw && mField.getValue() == null && mField.isMandatory(true))    //  check context
+								if (rw && (mField.getValue() == null || mField.getValue().toString().isEmpty()) 
+										&& mField.isMandatory(true))    //  check context. Some fields can return "" instead of null
 									manMissing = true;
 								ve.setBackground(manMissing || mField.isError());
 							}
@@ -1250,9 +1259,15 @@ public class GridController extends CPanel
 		int row = m_mTab.getCurrentRow();
 		int col = mTable.findColumn(e.getPropertyName());
 		//
-		if (e.getNewValue() == null && e.getOldValue() != null
-			&& e.getOldValue().toString().length() > 0)		//	some editors return "" instead of null
+		if ((e.getNewValue() == null || e.getNewValue().toString().isEmpty()) 
+			&& e.getOldValue() != null && e.getOldValue().toString().length() > 0)		//	some editors return "" instead of null
+		{
+			//  #283 Set value to null
+			GridField gridField = m_mTab.getField(col);
+			if (!gridField.getVO().IsMandatory)
+				mTable.setValueAt (null, row, col);	//	-> dataStatusChanged -> dynamicDisplay
 			mTable.setChanged (true);
+		}	
 		else
 		{
 		//	mTable.setValueAt (e.getNewValue(), row, col, true);

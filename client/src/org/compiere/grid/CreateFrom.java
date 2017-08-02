@@ -30,7 +30,12 @@ import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
-
+/**
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 114 ] Change "Create From" UI for Form like Dialog in window without "hardcode"
+ *		@see https://github.com/adempiere/adempiere/issues/114
+ */
+@Deprecated
 public abstract class CreateFrom implements ICreateFrom
 {
 	/**	Logger			*/
@@ -76,6 +81,7 @@ public abstract class CreateFrom implements ICreateFrom
 	 *  Load PBartner dependent Order/Invoice/Shipment Field.
 	 *  @param C_BPartner_ID BPartner
 	 *  @param forInvoice for invoice
+	 *  Yamel Senih FR [ 114 ] moved to org.compiere.apps.form.CreateFromHelper
 	 */
 	protected ArrayList<KeyNamePair> loadOrderData (int C_BPartner_ID, boolean forInvoice, boolean sameWarehouseOnly)
 	{

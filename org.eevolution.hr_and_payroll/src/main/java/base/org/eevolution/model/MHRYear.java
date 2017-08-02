@@ -16,6 +16,7 @@
  *****************************************************************************/
 package org.eevolution.model;
 
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
@@ -23,6 +24,7 @@ import java.util.Properties;
 import org.compiere.model.MCalendar;
 import org.compiere.model.MPeriod;
 import org.compiere.util.DB;
+import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.TimeUtil;
 
@@ -113,6 +115,22 @@ public class MHRYear extends X_HR_Year
 				EndDate   = TimeUtil.getMonthLastDay(StartDate);
 				
 			}	
+			// fortnight payment
+			else if ((24 == getQty())&& (15 == getNetDays() || 16 == getNetDays()))
+			{
+				if (period >1)
+				{
+					StartDate = TimeUtil.addDays(EndDate, 1);
+				}
+				else 
+				{
+					StartDate = TimeUtil.addDays(getStartDate(),0);	
+				}
+				Boolean par = (period % 2) == 0 ? true : false;
+				if (!par)
+					EndDate = TimeUtil.addDays(StartDate, getNetDays()-1);
+				else EndDate   = TimeUtil.getMonthLastDay(StartDate);				
+			}	
 			else
 			{
 				sumDays   =  period == 1 ? 0 : (period-1) * (getNetDays()) ;
@@ -147,4 +165,7 @@ public class MHRYear extends X_HR_Year
 		}
 		return true;
 	}	//	createPeriods
+ 
+	
+
 }	//	HRYear

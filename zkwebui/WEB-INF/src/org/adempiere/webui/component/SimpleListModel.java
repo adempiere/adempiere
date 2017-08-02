@@ -28,6 +28,9 @@ import org.zkoss.zul.event.ListDataEvent;
 /**
  * 
  * @author Low Heng Sin
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<a href="https://github.com/adempiere/adempiere/issues/990">
+ * 		@see FR [ 990 ] Sort Tab is not MVC</a>
  *
  */
 public class SimpleListModel extends AbstractListModel implements ListitemRenderer, ListitemRendererExt {
@@ -156,5 +159,13 @@ public class SimpleListModel extends AbstractListModel implements ListitemRender
 
 	public int indexOf(Object value) {
 		return list.indexOf(value);
+	}
+	
+	/**
+	 * Get List of elements
+	 * @return
+	 */
+	public List getElements() {
+		return list;
 	}
 }

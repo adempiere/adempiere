@@ -55,6 +55,17 @@ public class MReportLineSet extends X_PA_ReportLineSet
 			loadLines();
 	}	//	MReportLineSet
 
+	/**
+	 * Constructor
+	 * @param ctx
+	 * @param rs
+	 * @param trxName
+     */
+	public MReportLineSet (Properties ctx, ResultSet rs, String trxName)
+	{
+		super (ctx, rs,trxName);
+	}
+
 	/**	Contained Lines			*/
 	private MReportLine[]	m_lines = null;
 
@@ -105,7 +116,7 @@ public class MReportLineSet extends X_PA_ReportLineSet
 	 * 	Get Liness
 	 *	@return array of lines
 	 */
-	public MReportLine[] getLiness()
+	public MReportLine[] getLines()
 	{
 		return m_lines;
 	}	//	getLines

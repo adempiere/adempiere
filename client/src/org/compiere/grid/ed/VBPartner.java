@@ -107,12 +107,13 @@ public final class VBPartner extends CDialog implements ActionListener
 	private GridBagConstraints m_gbc = new GridBagConstraints();
 	private int				m_line;
 	private Object[]		m_greeting;
+	private Object[]		m_bpGroup;
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(VBPartner.class);
 	//
-	private VString	fValue, fName, fName2, fContact, fTitle, fPhone, fFax, fPhone2, fEMail;
+	private VString	fValue, fName, fName2, fTaxId , fContact, fTitle, fPhone, fFax, fPhone2, fEMail;
 	private VLocation 		fAddress;
-	private JComboBox 		fGreetingBP, fGreetingC;
+	private JComboBox 		fGreetingBP, fGreetingC,fBPGroup;
 	//
 	private CPanel mainPanel = new CPanel();
 	private BorderLayout mainLayout = new BorderLayout();
@@ -148,6 +149,7 @@ public final class VBPartner extends CDialog implements ActionListener
 	{
 		//	Get Data
 		m_greeting = fillGreeting();
+		m_bpGroup = fillBPGroup();
 
 		//	Display
 		m_gbc.anchor = GridBagConstraints.NORTHWEST;
@@ -168,6 +170,8 @@ public final class VBPartner extends CDialog implements ActionListener
 		//	Greeting Business Partner
 		fGreetingBP = new JComboBox (m_greeting);
 		createLine (fGreetingBP, "Greeting", false);
+		fBPGroup = new JComboBox (m_bpGroup);
+		createLine (fBPGroup, "BP_Group", false);
 		//	Name
 		fName = new VString("Name", true, false, true, 30, 60, "", null);
 		fName.addActionListener(this);
@@ -175,6 +179,10 @@ public final class VBPartner extends CDialog implements ActionListener
 		//	Name2
 		fName2 = new VString("Name2", false, false, true, 30, 60, "", null);
 		createLine (fName2, "Name2", false);
+
+		//	TaxId
+		fTaxId = new VString("TaxID", false, false, true, 30, 60, "", null);
+		createLine (fTaxId, "TaxID", false);
 		
 		//	Contact
 		fContact = new VString("Contact", false, false, true, 30, 60, "", null);
@@ -279,6 +287,34 @@ public final class VBPartner extends CDialog implements ActionListener
 		}
 		return new KeyNamePair(-1, " ");
 	}	//	getGreeting
+	
+	/**
+	 *	Fill BP_Group
+	 * 	@return KeyNamePair Array of BP_Groups
+	 */
+	private Object[] fillBPGroup()
+	{
+		String sql = "SELECT C_BP_Group_ID, Name FROM C_BP_Group WHERE IsActive='Y' ORDER BY 2";
+		sql = MRole.getDefault().addAccessSQL(sql, "C_BP_Group", MRole.SQL_NOTQUALIFIED, MRole.SQL_RO);
+		return DB.getKeyNamePairs(sql, true);
+	}	//	fillGreeting
+
+	/**
+	 *	Search m_bpGroup for key
+	 * 	@param key	C_BP_Group_IF
+	 * 	@return	BP_Group
+	 */
+	private KeyNamePair getBPGroup (int key)
+	{
+		for (int i = 0; i < m_bpGroup.length; i++)
+		{
+			KeyNamePair p = (KeyNamePair)m_bpGroup[i];
+			if (p.getKey() == key)
+				return p;
+		}
+		return new KeyNamePair(-1, " ");
+	}	//	getBP_Group
+
 
 	/**
 	 *	Load BPartner
@@ -309,6 +345,8 @@ public final class VBPartner extends CDialog implements ActionListener
 		fGreetingBP.setSelectedItem(getGreeting(m_partner.getC_Greeting_ID()));
 		fName.setText(m_partner.getName());
 		fName2.setText(m_partner.getName2());
+		fTaxId.setText(m_partner.getTaxID());
+		fBPGroup.setSelectedItem(getBPGroup(m_partner.getC_BP_Group_ID()));
 
 		//	Contact - Load values
 		m_pLocation = m_partner.getLocation(
@@ -415,11 +453,18 @@ public final class VBPartner extends CDialog implements ActionListener
 		//
 		m_partner.setName(fName.getText());
 		m_partner.setName2(fName2.getText());
+		m_partner.setTaxID(fTaxId.getText());
 		KeyNamePair p = (KeyNamePair)fGreetingBP.getSelectedItem();
 		if (p != null && p.getKey() > 0)
 			m_partner.setC_Greeting_ID(p.getKey());
 		else
 			m_partner.setC_Greeting_ID(0);
+
+		 p = (KeyNamePair)fBPGroup.getSelectedItem();
+		if (p != null && p.getKey() > 0)
+			m_partner.setC_BP_Group_ID(p.getKey());
+		else
+			m_partner.setC_BP_Group_ID(0);
 		if (m_partner.save())
 			log.fine("C_BPartner_ID=" + m_partner.getC_BPartner_ID());
 		else
@@ -429,7 +474,7 @@ public final class VBPartner extends CDialog implements ActionListener
 		if (m_pLocation == null)
 			m_pLocation = new MBPartnerLocation(m_partner);
 		m_pLocation.setC_Location_ID(fAddress.getC_Location_ID());
-		//
+		m_pLocation.setEMail(fEMail.getText());
 		m_pLocation.setPhone(fPhone.getText());
 		m_pLocation.setPhone2(fPhone2.getText());
 		m_pLocation.setFax(fFax.getText());

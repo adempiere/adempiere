@@ -697,7 +697,7 @@ public class WFActivity extends CPanel
 		}
 		else if (MWFNode.ACTION_SmartBrowse.equals(node.getAction()))
 		{
-			CFrame ff =  VBrowser.openBrowse(node.getAD_Browse_ID());
+			CFrame ff =  VBrowser.openBrowse(0 , node.getAD_Browse_ID() , "" ,  m_activity.isSOTrx());
 			ff.pack();
 			AEnv.addToWindowManager(ff);
 			AEnv.showCenterScreen(ff);
@@ -807,6 +807,9 @@ public class WFActivity extends CPanel
 		
 		trx.commit();
 		trx.close();
+		this.setCursor(Cursor.getDefaultCursor());
+		ADialog.info(m_WindowNo, this, "WorkflowResult" ,
+				Msg.parseTranslation(Env.getCtx(), "@AD_WF_Node_ID@") + " : "  + m_activity.getNodeName() + " -> " +  m_activity.getTextMsg());
 
 		//	Next
 		loadActivities();

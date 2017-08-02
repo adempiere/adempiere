@@ -28,12 +28,16 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Evaluatee;
+import org.compiere.util.Evaluator;
 
 /**
  *  Model Tab Value Object
  *
  *  @author Jorg Janke
  *  @version  $Id: GridTabVO.java,v 1.4 2006/07/30 00:58:38 jjanke Exp $
+ *  @author Dixon Martinez, dmartinez@erpcya.com, <a href="http://www.erpcya.com">ERPCyA</a>
+ *  	<li> <a href="https://github.com/adempiere/adempiere/issues/162">BR [162]</a> -
+ *  		Readonly Logic for tab does not prevent the data from modifying
  */
 public class GridTabVO implements Evaluatee, Serializable
 {
@@ -160,6 +164,11 @@ public class GridTabVO implements Evaluatee, Serializable
 			if (rs.getString("IsReadOnly").equals("Y"))
 				vo.IsReadOnly = true;
 			vo.ReadOnlyLogic = rs.getString("ReadOnlyLogic");
+			//	BR [162]
+			if(!vo.IsReadOnly && vo.ReadOnlyLogic != null) {
+				vo.IsReadOnly = Evaluator.evaluateLogic(vo, vo.ReadOnlyLogic);
+			}
+			
 			if (rs.getString("IsInsertRecord").equals("N"))
 				vo.IsInsertRecord = false;
 			

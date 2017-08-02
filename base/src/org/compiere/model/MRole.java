@@ -56,6 +56,8 @@ import org.compiere.util.Trace;
  *  	<li>FR [ 3426137 ] Smart Browser
  * 		https://sourceforge.net/tracker/?func=detail&aid=3426137&group_id=176962&atid=879335 
  *  @version $Id: MRole.java,v 1.5 2006/08/09 16:38:47 jjanke Exp $
+ *  @author Dixon Martinez, dmartinez@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li>BR [1019] New Icon to export report definition is show only swing but not ZK https://github.com/adempiere/adempiere/issues/1019
  */
 public final class MRole extends X_AD_Role
 {
@@ -645,7 +647,9 @@ public final class MRole extends X_AD_Role
 	private HashMap<Integer,Boolean>	m_formAccess = null;
 	/**	Smart Browse Access				*/
 	private HashMap<Integer,Boolean>	m_browseAccess = null;
-
+	/**	Info Windows			*/
+	private HashMap<Integer, Boolean>	m_infoAccess = null;
+	
 	/**
 	 * 	Set Logged in user
 	 *	@param AD_User_ID user requesting info
@@ -1255,6 +1259,46 @@ public final class MRole extends X_AD_Role
 		return canExport;
 	}	//	isCanExport
 
+	//	BR [1019]
+	/**
+	 * 	Can Load Table
+	 *	@param AD_Table_ID
+	 *	@return true if access
+	 */
+	public boolean isCanLoad (int AD_Table_ID) {
+		if (!isCanLoad())	{					//	Role Level block
+			log.warning ("Role denied");
+			return false;
+		}
+		if (!isTableAccess(AD_Table_ID, true)){			//	No R/O Access to Table
+			return false;
+		}
+			
+		if (!isCanReport (AD_Table_ID)) {			//	We cannot Load if we cannot report
+			return false;
+		}
+		//
+		boolean canLoad = true;
+		for (int i = 0; i < m_tableAccess.length; i++) {
+			if (!X_AD_Table_Access.ACCESSTYPERULE_Exporting.equals(m_tableAccess[i].getAccessTypeRule())) {
+				continue;
+			}
+			if (m_tableAccess[i].isExclude()) {		//	Exclude
+				canLoad = m_tableAccess[i].isCanExport();
+				log.fine("Exclude " + AD_Table_ID + " - " + canLoad);
+				return canLoad;
+			}else {							//	Include
+				canLoad = false;
+				canLoad = m_tableAccess[i].isCanExport();
+				log.fine("Include " + AD_Table_ID + " - " + canLoad);
+				return canLoad;
+			}
+		}	//	for all Table Access
+		log.fine(AD_Table_ID + " - " + canLoad);
+		return canLoad;
+	}	//	isCanLoad
+
+	
 	/**
 	 * 	Access to Table
 	 *	@param AD_Table_ID table
@@ -2072,9 +2116,15 @@ public final class MRole extends X_AD_Role
 				if (!(charCheck == ',' || charCheck == ' ' || charCheck == ')'))
 					continue;
 			}
-			
-			if (AD_Table_ID != 0 && AD_Table_ID != m_recordDependentAccess[i].getAD_Table_ID())
+			//	
+			if (AD_Table_ID != 0 && AD_Table_ID != m_recordDependentAccess[i].getAD_Table_ID()) {
 				retSQL.append(getDependentAccess(whereColumnName, includes, excludes));
+				//	Yamel Senih
+				//	Initialize values when table is changed
+				includes = new ArrayList<Integer>();
+				excludes = new ArrayList<Integer>();
+				//	End Yamel Senih
+			}
 			
 			AD_Table_ID = m_recordDependentAccess[i].getAD_Table_ID();
 			//	*** we found the column in the main query

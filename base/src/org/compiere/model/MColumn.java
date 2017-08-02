@@ -21,6 +21,9 @@ import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -42,6 +45,18 @@ import org.compiere.util.Util;
  * 		https://sourceforge.net/tracker/?func=detail&aid=3426134&group_id=176962&atid=879335
  * 		<li> Add method that valid if a column is encrypted
  *  @version $Id: MColumn.java,v 1.6 2006/08/09 05:23:49 jjanke Exp $
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *  	<li> BR [ 9223372036854775807 ] Lookup for search view not show button
+ *  	<li> Add default length to Yes No Display Type
+ *  	@see https://adempiere.atlassian.net/browse/ADEMPIERE-447
+ *  	<li> BR [ 185 ] Fixed error with validation in beforeSave method for MColumn 
+ *  	@see https://github.com/adempiere/adempiere/issues/185
+ *  	<a href="https://github.com/adempiere/adempiere/issues/655">
+ * 		@see FR [ 655 ] Bad validation for sequence of identifier columns</a>
+ * 		<a href="https://github.com/adempiere/adempiere/issues/1072">
+ * 		@see BR [ 1072 ] Synchronize Column is unnecessary when it is not apply for DB</a>
+ * 		<a href="https://github.com/adempiere/adempiere/issues/922">
+ * 		@see FR [ 922 ] Is Allow Copy in model</a>
  */
 public class MColumn extends X_AD_Column
 {
@@ -76,8 +91,8 @@ public class MColumn extends X_AD_Column
 		M_Element element =  new M_Element(ctx, column.getAD_Element_ID() , trxName);
 		if(element.getAD_Reference_ID() == DisplayType.ID)
 		{
-			String columnName = table.get_TableName()+"_ID";
-            String tableDir = column.getColumnName().replace("_ID", "");
+			String columnName = table.getTableName()+"_ID";
+            String tableDir = element.getColumnName().replace("_ID", "");
 			if(!columnName.equals(element.getColumnName()) && MTable.getTable_ID(tableDir) > 0)
 			{
 				column.setAD_Reference_ID(DisplayType.TableDir);
@@ -85,6 +100,9 @@ public class MColumn extends X_AD_Column
 		}
 
 		String entityType = column.getAD_Table().getEntityType();
+		if (entityType == null)
+			throw  new AdempiereException("@EntityType@ @@AD_Table_ID@ @NotFound@");
+
 		if(!MTable.ENTITYTYPE_Dictionary.equals(entityType))
 			column.setEntityType(entityType);
 		
@@ -289,8 +307,29 @@ public class MColumn extends X_AD_Column
 	protected boolean beforeSave (boolean newRecord)
 	{
 		//set column default based in element when is a new column FR [ 3426134 ]
-		if(newRecord)
+		if(newRecord) {
 			setAD_Column(getCtx(), this, get_TrxName());
+			//Create Document No or Value sequence
+			if (!isDirectLoad() && "DocumentNo".equals(getColumnName()) || !isDirectLoad() && "Value".equals(getColumnName()))
+			{
+				String tableName = MTable.getTableName(getCtx(), getAD_Table_ID());
+				final String whereClause = MSequence.COLUMNNAME_AD_Client_ID + "=? AND " + MSequence.COLUMNNAME_Name + "=? ";
+				//	Sequence for DocumentNo/Value
+				Arrays.stream(MClient.getAll(getCtx())).forEach( client -> {
+					MSequence sequence = new Query(getCtx(), MSequence.Table_Name, whereClause, get_TrxName())
+							.setParameters(client.getAD_Client_ID() , MSequence.PREFIX_DOCSEQ + tableName )
+							.first();
+					if (sequence == null || sequence.getAD_Sequence_ID() <= 0) {
+						sequence = new MSequence(getCtx(), client.getAD_Client_ID(), tableName , get_TrxName());
+						sequence.saveEx();
+					}
+				});
+			}
+			//	For Is Allow Copy
+			if(!isDirectLoad()) {
+				setIsAllowCopy(MColumn.isAllowCopy(getColumnName(), getAD_Reference_ID()));
+			}
+		}
 
 		int displayType = getAD_Reference_ID();
 		if (DisplayType.isLOB(displayType))	//	LOBs are 0
@@ -306,35 +345,25 @@ public class MColumn extends X_AD_Column
 				setFieldLength(14);
 			else if (DisplayType.isDate (displayType))
 				setFieldLength(7);
-			else
-		{
-			log.saveError("FillMandatory", Msg.getElement(getCtx(), "FieldLength"));
-			return false;
+			else if(displayType == DisplayType.YesNo)
+				setFieldLength(1);
+			else {
+				log.saveError("FillMandatory", Msg.getElement(getCtx(), "FieldLength"));
+				return false;
+			}
 		}
-		}
+		
+		//	BR [ 9223372036854775807 ]
+		//  Skip the validation if this is a Direct Load (from a migration) or the Element is changing.
+		if (!isDirectLoad() 
+		    && (this.get_Value(MColumn.COLUMNNAME_AD_Element_ID).equals(get_ValueOld(MColumn.COLUMNNAME_AD_Element_ID))))
+			validLookup(getColumnName(), getAD_Reference_ID(), getAD_Reference_Value_ID());
 		
 		/** Views are not updateable
 		UPDATE AD_Column c
 		SET IsUpdateable='N', IsAlwaysUpdateable='N'
 		WHERE AD_Table_ID IN (SELECT AD_Table_ID FROM AD_Table WHERE IsView='Y')
 		**/
-		
-		/* Diego Ruiz - globalqss - BF [1651899] - AD_Column: Avoid dup. SeqNo for IsIdentifier='Y' */
-		if (isIdentifier())
-		{
-			int cnt = DB.getSQLValue(get_TrxName(),"SELECT COUNT(*) FROM AD_Column "+
-					"WHERE AD_Table_ID=?"+
-					" AND AD_Column_ID!=?"+
-					" AND IsIdentifier='Y'"+
-					" AND SeqNo=?",
-					new Object[] {getAD_Table_ID(), getAD_Column_ID(), getSeqNo()});
-			if (cnt>0)
-			{
-				log.saveError("SaveErrorNotUnique", Msg.getElement(getCtx(), COLUMNNAME_SeqNo));
-				return false;
-			}
-		}
-		
 		//	Virtual Column
 		if (isVirtualColumn())
 		{
@@ -376,8 +405,44 @@ public class MColumn extends X_AD_Column
 		}
 		return true;
 	}	//	beforeSave
-
 	
+	/**
+	 * Verify if is a lookup valid
+	 * @param p_ColumnName
+	 * @param p_AD_Reference_ID
+	 * @param p_AD_Reference_Value_ID
+	 * @return
+	 */
+	public static void validLookup(String p_ColumnName, int p_AD_Reference_ID, int p_AD_Reference_Value_ID) {
+
+		//	Valid 
+		if(p_ColumnName == null
+				||p_ColumnName.trim().length() == 0
+				|| !DisplayType.isLookup(p_AD_Reference_ID)) {
+			return;
+		} else {
+			String m_TableName = p_ColumnName.replace("_ID", "");
+			//	BR [ 185 ]
+			if(p_AD_Reference_ID == DisplayType.TableDir) {
+				if(!p_ColumnName.endsWith("_ID"))
+					throw new AdempiereException("@Reference@ @of@ @ColumnName@ @NotValid@");
+				//	Valid Table
+				MTable table = MTable.get(Env.getCtx(), m_TableName);
+				//	Valid Exists table
+				if(table == null)
+					throw new AdempiereException("@AD_Table_ID@ @NotFound@");
+			} else if(p_AD_Reference_ID == DisplayType.Table
+					|| p_AD_Reference_ID == DisplayType.Search) {
+				if(p_AD_Reference_Value_ID == 0
+						&& !M_Element.isLookupColumnName(p_ColumnName, p_AD_Reference_ID))
+					throw new AdempiereException("@AD_Reference_Value_ID@ @IsMandatory@");
+			} else if(p_AD_Reference_ID == DisplayType.List) {
+				if(p_AD_Reference_Value_ID == 0) {
+					throw new AdempiereException("@AD_Reference_Value_ID@ @IsMandatory@");
+				}
+			}
+		}
+	}
 	
 	/**
 	 * 	After Save
@@ -394,13 +459,24 @@ public class MColumn extends X_AD_Column
 				|| is_ValueChanged(MColumn.COLUMNNAME_Description)
 				|| is_ValueChanged(MColumn.COLUMNNAME_Help)
 				) {
-				StringBuffer sql = new StringBuffer("UPDATE AD_Field SET Name=")
-					.append(DB.TO_STRING(getName()))
-					.append(", Description=").append(DB.TO_STRING(getDescription()))
-					.append(", Help=").append(DB.TO_STRING(getHelp()))
-					.append(" WHERE AD_Column_ID=").append(get_ID())
-					.append(" AND IsCentrallyMaintained='Y'");
-				int no = DB.executeUpdate(sql.toString(), get_TrxName());
+				StringBuffer whereClause = new StringBuffer("AD_Column_ID=? ")
+												.append(" AND IsCentrallyMaintained=? ");
+				List<Object> parameters = new ArrayList<>();
+				parameters.add(this.getAD_Column_ID());
+				parameters.add(true);
+				List<MField> fields = new Query(getCtx(), MField.Table_Name, whereClause.toString(), get_TrxName())
+						.setParameters(parameters)
+						.list();
+				int no = 0;
+				for (MField field: fields)
+				{
+					field.setName(getName());
+					field.setDescription(getDescription());
+					field.setHelp(getHelp());
+					field.saveEx();
+					no++;
+				}
+				//	
 				log.fine("afterSave - Fields updated #" + no);
 			}
 		}
@@ -556,39 +632,8 @@ public class MColumn extends X_AD_Column
 	{
 		String columnName = getColumnName();
 		int dt = getAD_Reference_ID();
-		return DisplayType.getSQLDataType (dt, columnName, getFieldLength());
+		return DisplayType.getSQLDataType (dt, columnName, getFieldLength(), getAD_Reference_Value_ID());
 	}	//	getSQLDataType
-	
-	/**
-	 * 	Get SQL Data Type
-	 *	@return e.g. NVARCHAR2(60)
-	 */
-	/*
-	private String getSQLDataType()
-	{
-		int dt = getAD_Reference_ID();
-		if (DisplayType.isID(dt) || dt == DisplayType.Integer)
-			return "NUMBER(10)";
-		if (DisplayType.isDate(dt))
-			return "DATE";
-		if (DisplayType.isNumeric(dt))
-			return "NUMBER";
-		if (dt == DisplayType.Binary)
-			return "BLOB";
-		if (dt == DisplayType.TextLong)
-			return "CLOB";
-		if (dt == DisplayType.YesNo)
-			return "CHAR(1)";
-		if (dt == DisplayType.List)
-			return "NVARCHAR2(" + getFieldLength() + ")";
-		if (dt == DisplayType.Button)
-			return "CHAR(" + getFieldLength() + ")";
-		else if (!DisplayType.isText(dt))
-			log.severe("Unhandled Data Type = " + dt);
-			
-		return "NVARCHAR2(" + getFieldLength() + ")";
-	}	//	getSQLDataType
-	*/
 	
 	/**
 	 * 	Get Table Constraint
@@ -627,16 +672,15 @@ public class MColumn extends X_AD_Column
 		sb.append (get_ID()).append ("-").append (getColumnName()).append ("]");
 		return sb.toString ();
 	}	//	toString
-	
-	//begin vpj-cd e-evolution
+
 	/**
 	 * 	get Column ID
-	 *  @param String windowName
-	 *	@param String columnName
-	 *	@return int retValue
-	 */
-	public static int getColumn_ID(String TableName,String columnName) {
-		int m_table_id = MTable.getTable_ID(TableName);
+	 * @param tableName
+	 * @param columnName
+     * @return
+     */
+	public static int getColumn_ID(String tableName,String columnName) {
+		int m_table_id = MTable.getTable_ID(tableName);
 		if (m_table_id == 0)
 			return 0;
 			
@@ -764,8 +808,13 @@ public class MColumn extends X_AD_Column
 		}
 	}
 
-	public static boolean isSuggestSelectionColumn(String columnName, boolean caseSensitive)
-	{
+	/**
+	 * Verify if a columnName is suggested for selection column
+	 * @param columnName
+	 * @param caseSensitive
+	 * @return
+	 */
+	public static boolean isSuggestSelectionColumn(String columnName, boolean caseSensitive) {
 		if (Util.isEmpty(columnName, true))
 			return false;
 		//
@@ -783,4 +832,58 @@ public class MColumn extends X_AD_Column
         else
         	return false;
 	}
+	
+	/**
+	 * Verify if the value changed required a synchronizing on DB
+	 * @param columnName
+	 * @return
+	 */
+	public static boolean isForSynchronizeColumn(String columnName) {
+		if (Util.isEmpty(columnName, true))
+			return false;
+		//	Verify
+		return columnName.equals(I_AD_Column.COLUMNNAME_IsMandatory)
+				|| columnName.equals(I_AD_Column.COLUMNNAME_IsParent)
+				|| columnName.equals(I_AD_Column.COLUMNNAME_ColumnName)
+				|| columnName.equals(I_AD_Column.COLUMNNAME_AD_Reference_ID)
+				|| columnName.equals(I_AD_Column.COLUMNNAME_FieldLength)
+				|| columnName.equals(I_AD_Column.COLUMNNAME_IsKey)
+				|| columnName.equals(I_AD_Column.COLUMNNAME_DefaultValue);
+	}
+	
+	/**
+	 * Verify if column name and display type allow copy
+	 * @param ctx
+	 * @param p_AD_Column_ID
+	 * @return
+	 */
+	public static boolean isAllowCopy(Properties ctx, int p_AD_Column_ID) {
+		MColumn column = MColumn.get(ctx, p_AD_Column_ID);
+		//	Set values from column
+		if(column != null) {
+			//	for Allow copy
+			isAllowCopy(column.getColumnName(), column.getAD_Reference_ID());
+			//	
+			return true;
+		}
+		//	Default return
+		return false;
+	}
+	
+	/**
+	 * Verify if is allow copy of column
+	 * @param columnName
+	 * @param referenceId
+	 * @return
+	 */
+	public static boolean isAllowCopy(String columnName, int referenceId) {
+		if(DisplayType.ID == referenceId
+				|| DisplayType.Location == referenceId
+				|| M_Element.isReservedColumnName(columnName)) {
+			return false;
+		}
+		//	Default
+		return true;
+	}
+	
 }	//	MColumn

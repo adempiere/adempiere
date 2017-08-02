@@ -56,8 +56,12 @@ public class WPrintDocument implements IPrintDocument {
                             document.get_Table_ID(),
                             document.get_ValueAsInt(keyColumnName));
                     ReportEngine re = new ReportEngine(Env.getCtx(), format, query, info);
-                    SimplePDFViewer win = new SimplePDFViewer(printFormantName, new FileInputStream(re.getPDF()));
-                    SessionManager.getAppDesktop().showWindow(win, "center");
+                    if (re != null)
+                    {
+                        SimplePDFViewer win = new SimplePDFViewer(printFormantName, new FileInputStream(re.getPDF()));
+                        SessionManager.getAppDesktop().showWindow(win, "center");
+                    }
+
                 } catch (Exception e) {
 
                 } finally {

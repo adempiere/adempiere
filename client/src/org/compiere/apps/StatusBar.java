@@ -37,6 +37,9 @@ import org.compiere.util.Msg;
  *
  *  @author 	Jorg Janke
  *  @version 	$Id: StatusBar.java,v 1.2 2006/07/30 00:51:27 jjanke Exp $
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 146 ] Added like controller for RecordInfo
+ *		@see https://github.com/adempiere/adempiere/issues/146
  */
 public class StatusBar extends CPanel implements IStatusBar
 {
@@ -263,7 +266,7 @@ public class StatusBar extends CPanel implements IStatusBar
 		//
 		String title = Msg.getMsg(Env.getCtx(), "Who") + m_text;
 		RecordInfo info = new RecordInfo (Env.getFrame(this), title, m_dse);
-		AEnv.showCenterScreen(info);
+		AEnv.showCenterScreen(info.getDialog());
 	}	//	addStatusComponent
 
 }	//	StatusBar

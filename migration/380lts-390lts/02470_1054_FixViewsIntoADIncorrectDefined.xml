@@ -1,0 +1,1537 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Fix Views into AD incorrect defined" ReleaseNo="3.9.0" SeqNo="2470">
+    <Comments>https://github.com/adempiere/adempiere/issues/1054</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="100" Action="U" Record_ID="53339" Table="AD_Table">
+        <Data AD_Column_ID="102" Column="Name" oldValue="Sales Dashboard">Sales Dashboard View</Data>
+        <Data AD_Column_ID="107" Column="TableName" oldValue="C_SalesDashboard">RV_C_SalesDashboard</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="115" Action="U" Record_ID="53460" Table="AD_Sequence">
+        <Data AD_Column_ID="347" Column="Description" oldValue="Table C_SalesDashboard">Table RV_C_SalesDashboard</Data>
+        <Data AD_Column_ID="216" Column="Name" oldValue="C_SalesDashboard">RV_C_SalesDashboard</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="100" Action="U" Record_ID="547" Table="AD_Table">
+        <Data AD_Column_ID="102" Column="Name" oldValue="Fact_Acct_Balance">Fact Acctount Balance View</Data>
+        <Data AD_Column_ID="107" Column="TableName" oldValue="Fact_Acct_Balance">RV_Fact_Acct_Balance</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="746" Action="U" Record_ID="0" Table="AD_Table_Trl">
+        <Data AD_Column_ID="12715" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="12714" Column="AD_Table_ID" oldValue="547">547</Data>
+        <Data AD_Column_ID="12724" Column="IsTranslated" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="115" Action="U" Record_ID="676" Table="AD_Sequence">
+        <Data AD_Column_ID="347" Column="Description" oldValue="Fact_Acct_Balance">Table RV_Fact_Acct_Balance</Data>
+        <Data AD_Column_ID="216" Column="Name" oldValue="Fact_Acct_Balance">RV_Fact_Acct_Balance</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="100" Action="U" Record_ID="53011" Table="AD_Table">
+        <Data AD_Column_ID="107" Column="TableName" oldValue="M_Product_Stock_V">M_Product_Stock_v</Data>
+        <Data AD_Column_ID="727" Column="IsDeleteable" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="115" Action="I" Record_ID="54561" Table="AD_Sequence">
+        <Data AD_Column_ID="2747" Column="IncrementNo">1</Data>
+        <Data AD_Column_ID="225" Column="StartNewYear">false</Data>
+        <Data AD_Column_ID="2746" Column="StartNo">1000000</Data>
+        <Data AD_Column_ID="347" Column="Description">Table M_Product_Stock_v</Data>
+        <Data AD_Column_ID="350" Column="IsTableID">true</Data>
+        <Data AD_Column_ID="216" Column="Name">M_Product_Stock_v</Data>
+        <Data AD_Column_ID="1187" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="1188" Column="IsAutoSequence">true</Data>
+        <Data AD_Column_ID="3887" Column="CurrentNextSys">50000</Data>
+        <Data AD_Column_ID="220" Column="CurrentNext">1000000</Data>
+        <Data AD_Column_ID="1186" Column="AD_Sequence_ID">54561</Data>
+        <Data AD_Column_ID="222" Column="IsAudited">false</Data>
+        <Data AD_Column_ID="223" Column="Prefix" isNewNull="true"/>
+        <Data AD_Column_ID="224" Column="Suffix" isNewNull="true"/>
+        <Data AD_Column_ID="54272" Column="DateColumn" isNewNull="true"/>
+        <Data AD_Column_ID="54309" Column="DecimalPattern" isNewNull="true"/>
+        <Data AD_Column_ID="427" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="426" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="627" Column="Created">2017-05-24 18:25:25.935</Data>
+        <Data AD_Column_ID="628" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="630" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="629" Column="Updated">2017-05-24 18:25:25.935</Data>
+        <Data AD_Column_ID="349" Column="IsActive">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="100" Action="U" Record_ID="53161" Table="AD_Table">
+        <Data AD_Column_ID="102" Column="Name" oldValue="Cost BOM Line">Cost BOM Line View</Data>
+        <Data AD_Column_ID="107" Column="TableName" oldValue="T_BOMLine_Costs">RV_T_BOMLine_Costs</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <PO AD_Table_ID="115" Action="U" Record_ID="53255" Table="AD_Sequence">
+        <Data AD_Column_ID="347" Column="Description" oldValue="Table T_BOMLine_Costs">Table RV_T_BOMLine_Costs</Data>
+        <Data AD_Column_ID="216" Column="Name" oldValue="T_BOMLine_Costs">RV_T_BOMLine_Costs</Data>
+      </PO>
+    </Step>
+    <Step DBType="Oracle" Parse="Y" SeqNo="100" StepType="SQL">
+      <SQLStatement>DROP VIEW C_DUNNING_LINE_V;
+CREATE OR REPLACE VIEW C_DUNNING_LINE_V
+(AD_CLIENT_ID, AD_ORG_ID, ISACTIVE, CREATED, CREATEDBY, 
+ UPDATED, UPDATEDBY, AD_LANGUAGE, C_DUNNINGRUNLINE_ID, C_DUNNINGRUNENTRY_ID, 
+ AMT, CONVERTEDAMT, DAYSDUE, TIMESDUNNED, INTERESTAMT, 
+ FEEAMT, TOTALAMT, C_INVOICE_ID, ISSOTRX, DOCUMENTNO, 
+ DOCSTATUS, DATETRX, C_DOCTYPE_ID, DOCUMENTTYPE, DESCRIPTION, 
+ C_CURRENCY_ID, C_CAMPAIGN_ID, C_PROJECT_ID, C_ACTIVITY_ID,
+ USER1_ID, USER2_ID, USER3_ID, USER4_ID,
+ DATEACCT, C_CONVERSIONTYPE_ID, AD_ORGTRX_ID, POREFERENCE,
+ DATEORDERED, DATEINVOICED, ISINDISPUTE, PAYMENTTERM, C_CHARGE_ID, 
+ CHARGEAMT, TOTALLINES, GRANDTOTAL, AMTINWORDS, M_PRICELIST_ID, 
+ ISPAID, ISALLOCATED, TENDERTYPE, DISCOUNTAMT)
+AS 
+SELECT drl.AD_Client_ID, drl.AD_Org_ID, drl.IsActive, drl.Created, drl.CreatedBy, drl.Updated, drl.UpdatedBy, 
+	cast('en_US' as varchar2(6)) AS AD_Language,
+    drl.C_DunningRunLine_ID, drl.C_DunningRunEntry_ID,
+    drl.Amt, drl.ConvertedAmt, drl.DaysDue, drl.TimesDunned, 
+    drl.InterestAmt, drl.FeeAmt, drl.TotalAmt,
+	drl.C_Invoice_ID, 
+    COALESCE(i.IsSOTrx,p.IsReceipt) AS IsSOTrx,
+    COALESCE(i.DocumentNo,p.DocumentNo) AS DocumentNo,
+    COALESCE(i.DocStatus,p.DocStatus) AS DocStatus, 
+	COALESCE(i.DateInvoiced, p.DateTrx) AS DateTrx,
+    COALESCE(i.C_DocType_ID,p.C_DocType_ID) AS C_DocType_ID,
+    COALESCE(dt.PrintName,dtp.PrintName) AS DocumentType, 
+    COALESCE(i.Description,p.Description) AS Description, 
+	COALESCE(i.C_Currency_ID,p.C_Currency_ID) AS C_Currency_ID, 
+    COALESCE(i.C_Campaign_ID,p.C_Campaign_ID) AS C_Campaign_ID, 
+    COALESCE(i.C_Project_ID,p.C_Project_ID) AS C_Project_ID,
+    COALESCE(i.C_Activity_ID,p.C_Activity_ID) AS C_Activity_ID,
+    COALESCE(i.User1_ID,p.User1_ID) AS User1_ID,
+    COALESCE(i.User2_ID,p.User2_ID) AS User2_ID,
+    COALESCE(i.User3_ID,p.User3_ID) AS User3_ID,
+    COALESCE(i.User4_ID,p.User4_ID) AS User4_ID,
+    COALESCE(i.DateAcct,p.DateAcct) AS DateAcct,
+    COALESCE(i.C_ConversionType_ID,i.C_ConversionType_ID) AS C_ConversionType_ID,
+    COALESCE(i.AD_OrgTrx_ID,p.AD_OrgTrx_ID) AS AD_OrgTrx_ID,
+    i.POReference, i.DateOrdered,
+	i.DateInvoiced, i.IsInDispute,
+	pt.Name AS PaymentTerm,
+    i.C_Charge_ID, i.ChargeAmt,
+	i.TotalLines, i.GrandTotal, i.GrandTotal AS AmtInWords,
+	i.M_PriceList_ID, i.IsPaid,
+    p.IsAllocated, p.TenderType, p.DiscountAmt
+FROM C_DunningRunLine drl
+    LEFT OUTER JOIN C_Invoice i ON (drl.C_Invoice_ID=i.C_Invoice_ID)
+	LEFT OUTER JOIN C_DocType dt ON (i.C_DocType_ID=dt.C_DocType_ID)
+	LEFT OUTER JOIN C_PaymentTerm pt ON (i.C_PaymentTerm_ID=pt.C_PaymentTerm_ID)
+    LEFT OUTER JOIN C_Payment p ON (drl.C_Payment_ID=p.C_Payment_ID)
+	LEFT OUTER JOIN C_DocType dtp ON (p.C_DocType_ID=dtp.C_DocType_ID);
+
+DROP VIEW C_DUNNING_LINE_VT;
+CREATE OR REPLACE VIEW C_DUNNING_LINE_VT
+(AD_CLIENT_ID, AD_ORG_ID, ISACTIVE, CREATED, CREATEDBY, 
+ UPDATED, UPDATEDBY, AD_LANGUAGE, C_DUNNINGRUNLINE_ID, C_DUNNINGRUNENTRY_ID, 
+ AMT, CONVERTEDAMT, DAYSDUE, TIMESDUNNED, INTERESTAMT, 
+ FEEAMT, TOTALAMT, C_INVOICE_ID, ISSOTRX, DOCUMENTNO, 
+ DOCSTATUS, DATETRX, C_DOCTYPE_ID, DOCUMENTTYPE, DESCRIPTION, 
+ C_CURRENCY_ID, C_CAMPAIGN_ID, C_PROJECT_ID, C_ACTIVITY_ID,
+ USER1_ID, USER2_ID,  USER3_ID, USER4_ID,
+ DATEACCT, C_CONVERSIONTYPE_ID, AD_ORGTRX_ID, POREFERENCE,
+ DATEORDERED, DATEINVOICED, ISINDISPUTE, PAYMENTTERM, C_CHARGE_ID, 
+ CHARGEAMT, TOTALLINES, GRANDTOTAL, AMTINWORDS, M_PRICELIST_ID, 
+ ISPAID, ISALLOCATED, TENDERTYPE, DISCOUNTAMT)
+AS 
+SELECT drl.AD_Client_ID, drl.AD_Org_ID, drl.IsActive, drl.Created, drl.CreatedBy, drl.Updated, drl.UpdatedBy, 
+	COALESCE(dt.AD_Language,dtp.AD_Language) AS AD_Language,
+    drl.C_DunningRunLine_ID, drl.C_DunningRunEntry_ID,
+    drl.Amt, drl.ConvertedAmt, drl.DaysDue, drl.TimesDunned, 
+    drl.InterestAmt, drl.FeeAmt, drl.TotalAmt,
+	drl.C_Invoice_ID, 
+    COALESCE(i.IsSOTrx,p.IsReceipt) AS IsSOTrx,
+    COALESCE(i.DocumentNo,p.DocumentNo) AS DocumentNo,
+    COALESCE(i.DocStatus,p.DocStatus) AS DocStatus, 
+	COALESCE(i.DateInvoiced, p.DateTrx) AS DateTrx,
+    COALESCE(i.C_DocType_ID,p.C_DocType_ID) AS C_DocType_ID,
+    COALESCE(dt.PrintName,dtp.PrintName) AS DocumentType, 
+    COALESCE(i.Description,p.Description) AS Description, 
+	COALESCE(i.C_Currency_ID,p.C_Currency_ID) AS C_Currency_ID, 
+    COALESCE(i.C_Campaign_ID,p.C_Campaign_ID) AS C_Campaign_ID, 
+    COALESCE(i.C_Project_ID,p.C_Project_ID) AS C_Project_ID,
+    COALESCE(i.C_Activity_ID,p.C_Activity_ID) AS C_Activity_ID,
+    COALESCE(i.User1_ID,p.User1_ID) AS User1_ID,
+    COALESCE(i.User2_ID,p.User2_ID) AS User2_ID,
+    COALESCE(i.User3_ID,p.User3_ID) AS User3_ID,
+    COALESCE(i.User4_ID,p.User4_ID) AS User4_ID,
+    COALESCE(i.DateAcct,p.DateAcct) AS DateAcct,
+    COALESCE(i.C_ConversionType_ID,i.C_ConversionType_ID) AS C_ConversionType_ID,
+    COALESCE(i.AD_OrgTrx_ID,p.AD_OrgTrx_ID) AS AD_OrgTrx_ID,
+    i.POReference, i.DateOrdered,
+	i.DateInvoiced, i.IsInDispute,
+	pt.Name AS PaymentTerm,
+    i.C_Charge_ID, i.ChargeAmt,
+	i.TotalLines, i.GrandTotal, i.GrandTotal AS AmtInWords,
+	i.M_PriceList_ID, i.IsPaid,
+    p.IsAllocated, p.TenderType, p.DiscountAmt
+FROM C_DunningRunLine drl
+    LEFT OUTER JOIN C_Invoice i ON (drl.C_Invoice_ID=i.C_Invoice_ID)
+	LEFT OUTER JOIN C_DocType_Trl dt ON (i.C_DocType_ID=dt.C_DocType_ID)
+	LEFT OUTER JOIN C_PaymentTerm_Trl pt ON (i.C_PaymentTerm_ID=pt.C_PaymentTerm_ID
+        AND pt.AD_Language=dt.AD_Language)
+    LEFT OUTER JOIN C_Payment p ON (drl.C_Payment_ID=p.C_Payment_ID)
+	LEFT OUTER JOIN C_DocType_Trl dtp ON (p.C_DocType_ID=dtp.C_DocType_ID) 
+WHERE COALESCE(dt.AD_Language,dtp.AD_Language)=COALESCE(dtp.AD_Language,dt.AD_Language);
+
+</SQLStatement>
+      <RollbackStatement>DROP VIEW C_DUNNING_LINE_V;
+CREATE OR REPLACE VIEW C_DUNNING_LINE_V
+(AD_CLIENT_ID, AD_ORG_ID, ISACTIVE, CREATED, CREATEDBY, 
+ UPDATED, UPDATEDBY, AD_LANGUAGE, C_DUNNINGRUNLINE_ID, C_DUNNINGRUNENTRY_ID, 
+ AMT, CONVERTEDAMT, DAYSDUE, TIMESDUNNED, INTERESTAMT, 
+ FEEAMT, TOTALAMT, C_INVOICE_ID, ISSOTRX, DOCUMENTNO, 
+ DOCSTATUS, DATETRX, C_DOCTYPE_ID, DOCUMENTTYPE, DESCRIPTION, 
+ C_CURRENCY_ID, C_CAMPAIGN_ID, C_PROJECT_ID, C_ACTIVITY_ID, USER1_ID, 
+ USER2_ID, DATEACCT, C_CONVERSIONTYPE_ID, AD_ORGTRX_ID, POREFERENCE, 
+ DATEORDERED, DATEINVOICED, ISINDISPUTE, PAYMENTTERM, C_CHARGE_ID, 
+ CHARGEAMT, TOTALLINES, GRANDTOTAL, AMTINWORDS, M_PRICELIST_ID, 
+ ISPAID, ISALLOCATED, TENDERTYPE, DISCOUNTAMT)
+AS 
+SELECT drl.AD_Client_ID, drl.AD_Org_ID, drl.IsActive, drl.Created, drl.CreatedBy, drl.Updated, drl.UpdatedBy, 
+	cast('en_US' as varchar2(6)) AS AD_Language,
+    drl.C_DunningRunLine_ID, drl.C_DunningRunEntry_ID,
+    drl.Amt, drl.ConvertedAmt, drl.DaysDue, drl.TimesDunned, 
+    drl.InterestAmt, drl.FeeAmt, drl.TotalAmt,
+	drl.C_Invoice_ID, 
+    COALESCE(i.IsSOTrx,p.IsReceipt) AS IsSOTrx,
+    COALESCE(i.DocumentNo,p.DocumentNo) AS DocumentNo,
+    COALESCE(i.DocStatus,p.DocStatus) AS DocStatus, 
+	COALESCE(i.DateInvoiced, p.DateTrx) AS DateTrx,
+    COALESCE(i.C_DocType_ID,p.C_DocType_ID) AS C_DocType_ID,
+    COALESCE(dt.PrintName,dtp.PrintName) AS DocumentType, 
+    COALESCE(i.Description,p.Description) AS Description, 
+	COALESCE(i.C_Currency_ID,p.C_Currency_ID) AS C_Currency_ID, 
+    COALESCE(i.C_Campaign_ID,p.C_Campaign_ID) AS C_Campaign_ID, 
+    COALESCE(i.C_Project_ID,p.C_Project_ID) AS C_Project_ID,
+    COALESCE(i.C_Activity_ID,p.C_Activity_ID) AS C_Activity_ID,
+    COALESCE(i.User1_ID,p.User1_ID) AS User1_ID,
+    COALESCE(i.User2_ID,p.User2_ID) AS User2_ID,
+    COALESCE(i.DateAcct,p.DateAcct) AS DateAcct,
+    COALESCE(i.C_ConversionType_ID,i.C_ConversionType_ID) AS C_ConversionType_ID,
+    COALESCE(i.AD_OrgTrx_ID,p.AD_OrgTrx_ID) AS AD_OrgTrx_ID,
+    i.POReference, i.DateOrdered,
+	i.DateInvoiced, i.IsInDispute,
+	pt.Name AS PaymentTerm,
+    i.C_Charge_ID, i.ChargeAmt,
+	i.TotalLines, i.GrandTotal, i.GrandTotal AS AmtInWords,
+	i.M_PriceList_ID, i.IsPaid,
+    p.IsAllocated, p.TenderType, p.DiscountAmt
+FROM C_DunningRunLine drl
+    LEFT OUTER JOIN C_Invoice i ON (drl.C_Invoice_ID=i.C_Invoice_ID)
+	LEFT OUTER JOIN C_DocType dt ON (i.C_DocType_ID=dt.C_DocType_ID)
+	LEFT OUTER JOIN C_PaymentTerm pt ON (i.C_PaymentTerm_ID=pt.C_PaymentTerm_ID)
+    LEFT OUTER JOIN C_Payment p ON (drl.C_Payment_ID=p.C_Payment_ID)
+	LEFT OUTER JOIN C_DocType dtp ON (p.C_DocType_ID=dtp.C_DocType_ID);
+
+DROP VIEW VIEW C_DUNNING_LINE_VT;
+CREATE OR REPLACE VIEW C_DUNNING_LINE_VT
+(AD_CLIENT_ID, AD_ORG_ID, ISACTIVE, CREATED, CREATEDBY, 
+ UPDATED, UPDATEDBY, AD_LANGUAGE, C_DUNNINGRUNLINE_ID, C_DUNNINGRUNENTRY_ID, 
+ AMT, CONVERTEDAMT, DAYSDUE, TIMESDUNNED, INTERESTAMT, 
+ FEEAMT, TOTALAMT, C_INVOICE_ID, ISSOTRX, DOCUMENTNO, 
+ DOCSTATUS, DATETRX, C_DOCTYPE_ID, DOCUMENTTYPE, DESCRIPTION, 
+ C_CURRENCY_ID, C_CAMPAIGN_ID, C_PROJECT_ID, C_ACTIVITY_ID, USER1_ID, 
+ USER2_ID, DATEACCT, C_CONVERSIONTYPE_ID, AD_ORGTRX_ID, POREFERENCE, 
+ DATEORDERED, DATEINVOICED, ISINDISPUTE, PAYMENTTERM, C_CHARGE_ID, 
+ CHARGEAMT, TOTALLINES, GRANDTOTAL, AMTINWORDS, M_PRICELIST_ID, 
+ ISPAID, ISALLOCATED, TENDERTYPE, DISCOUNTAMT)
+AS 
+SELECT drl.AD_Client_ID, drl.AD_Org_ID, drl.IsActive, drl.Created, drl.CreatedBy, drl.Updated, drl.UpdatedBy, 
+	COALESCE(dt.AD_Language,dtp.AD_Language) AS AD_Language,
+    drl.C_DunningRunLine_ID, drl.C_DunningRunEntry_ID,
+    drl.Amt, drl.ConvertedAmt, drl.DaysDue, drl.TimesDunned, 
+    drl.InterestAmt, drl.FeeAmt, drl.TotalAmt,
+	drl.C_Invoice_ID, 
+    COALESCE(i.IsSOTrx,p.IsReceipt) AS IsSOTrx,
+    COALESCE(i.DocumentNo,p.DocumentNo) AS DocumentNo,
+    COALESCE(i.DocStatus,p.DocStatus) AS DocStatus, 
+	COALESCE(i.DateInvoiced, p.DateTrx) AS DateTrx,
+    COALESCE(i.C_DocType_ID,p.C_DocType_ID) AS C_DocType_ID,
+    COALESCE(dt.PrintName,dtp.PrintName) AS DocumentType, 
+    COALESCE(i.Description,p.Description) AS Description, 
+	COALESCE(i.C_Currency_ID,p.C_Currency_ID) AS C_Currency_ID, 
+    COALESCE(i.C_Campaign_ID,p.C_Campaign_ID) AS C_Campaign_ID, 
+    COALESCE(i.C_Project_ID,p.C_Project_ID) AS C_Project_ID,
+    COALESCE(i.C_Activity_ID,p.C_Activity_ID) AS C_Activity_ID,
+    COALESCE(i.User1_ID,p.User1_ID) AS User1_ID,
+    COALESCE(i.User2_ID,p.User2_ID) AS User2_ID,
+    COALESCE(i.DateAcct,p.DateAcct) AS DateAcct,
+    COALESCE(i.C_ConversionType_ID,i.C_ConversionType_ID) AS C_ConversionType_ID,
+    COALESCE(i.AD_OrgTrx_ID,p.AD_OrgTrx_ID) AS AD_OrgTrx_ID,
+    i.POReference, i.DateOrdered,
+	i.DateInvoiced, i.IsInDispute,
+	pt.Name AS PaymentTerm,
+    i.C_Charge_ID, i.ChargeAmt,
+	i.TotalLines, i.GrandTotal, i.GrandTotal AS AmtInWords,
+	i.M_PriceList_ID, i.IsPaid,
+    p.IsAllocated, p.TenderType, p.DiscountAmt
+FROM C_DunningRunLine drl
+    LEFT OUTER JOIN C_Invoice i ON (drl.C_Invoice_ID=i.C_Invoice_ID)
+	LEFT OUTER JOIN C_DocType_Trl dt ON (i.C_DocType_ID=dt.C_DocType_ID)
+	LEFT OUTER JOIN C_PaymentTerm_Trl pt ON (i.C_PaymentTerm_ID=pt.C_PaymentTerm_ID
+        AND pt.AD_Language=dt.AD_Language)
+    LEFT OUTER JOIN C_Payment p ON (drl.C_Payment_ID=p.C_Payment_ID)
+	LEFT OUTER JOIN C_DocType_Trl dtp ON (p.C_DocType_ID=dtp.C_DocType_ID) 
+WHERE COALESCE(dt.AD_Language,dtp.AD_Language)=COALESCE(dtp.AD_Language,dt.AD_Language);
+
+</RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" Parse="Y" SeqNo="110" StepType="SQL">
+      <SQLStatement>DROP VIEW C_DUNNING_LINE_V;
+CREATE OR REPLACE VIEW C_DUNNING_LINE_V
+(AD_CLIENT_ID, AD_ORG_ID, ISACTIVE, CREATED, CREATEDBY, 
+ UPDATED, UPDATEDBY, AD_LANGUAGE, C_DUNNINGRUNLINE_ID, C_DUNNINGRUNENTRY_ID, 
+ AMT, CONVERTEDAMT, DAYSDUE, TIMESDUNNED, INTERESTAMT, 
+ FEEAMT, TOTALAMT, C_INVOICE_ID, ISSOTRX, DOCUMENTNO, 
+ DOCSTATUS, DATETRX, C_DOCTYPE_ID, DOCUMENTTYPE, DESCRIPTION, 
+ C_CURRENCY_ID, C_CAMPAIGN_ID, C_PROJECT_ID, C_ACTIVITY_ID,
+ USER1_ID, USER2_ID, USER3_ID, USER4_ID,
+ DATEACCT, C_CONVERSIONTYPE_ID, AD_ORGTRX_ID, POREFERENCE,
+ DATEORDERED, DATEINVOICED, ISINDISPUTE, PAYMENTTERM, C_CHARGE_ID, 
+ CHARGEAMT, TOTALLINES, GRANDTOTAL, AMTINWORDS, M_PRICELIST_ID, 
+ ISPAID, ISALLOCATED, TENDERTYPE, DISCOUNTAMT)
+AS 
+SELECT drl.AD_Client_ID, drl.AD_Org_ID, drl.IsActive, drl.Created, drl.CreatedBy, drl.Updated, drl.UpdatedBy, 
+	cast('en_US' as varchar) AS AD_Language,
+    drl.C_DunningRunLine_ID, drl.C_DunningRunEntry_ID,
+    drl.Amt, drl.ConvertedAmt, drl.DaysDue, drl.TimesDunned, 
+    drl.InterestAmt, drl.FeeAmt, drl.TotalAmt,
+	drl.C_Invoice_ID, 
+    COALESCE(i.IsSOTrx,p.IsReceipt) AS IsSOTrx,
+    COALESCE(i.DocumentNo,p.DocumentNo) AS DocumentNo,
+    COALESCE(i.DocStatus,p.DocStatus) AS DocStatus, 
+	COALESCE(i.DateInvoiced, p.DateTrx) AS DateTrx,
+    COALESCE(i.C_DocType_ID,p.C_DocType_ID) AS C_DocType_ID,
+    COALESCE(dt.PrintName,dtp.PrintName) AS DocumentType, 
+    COALESCE(i.Description,p.Description) AS Description, 
+	COALESCE(i.C_Currency_ID,p.C_Currency_ID) AS C_Currency_ID, 
+    COALESCE(i.C_Campaign_ID,p.C_Campaign_ID) AS C_Campaign_ID, 
+    COALESCE(i.C_Project_ID,p.C_Project_ID) AS C_Project_ID,
+    COALESCE(i.C_Activity_ID,p.C_Activity_ID) AS C_Activity_ID,
+    COALESCE(i.User1_ID,p.User1_ID) AS User1_ID,
+    COALESCE(i.User2_ID,p.User2_ID) AS User2_ID,
+    COALESCE(i.User3_ID,p.User1_ID) AS User3_ID,
+    COALESCE(i.User4_ID,p.User2_ID) AS User4_ID,
+    COALESCE(i.DateAcct,p.DateAcct) AS DateAcct,
+    COALESCE(i.C_ConversionType_ID,i.C_ConversionType_ID) AS C_ConversionType_ID,
+    COALESCE(i.AD_OrgTrx_ID,p.AD_OrgTrx_ID) AS AD_OrgTrx_ID,
+    i.POReference, i.DateOrdered,
+	i.DateInvoiced, i.IsInDispute,
+	pt.Name AS PaymentTerm,
+    i.C_Charge_ID, i.ChargeAmt,
+	i.TotalLines, i.GrandTotal, i.GrandTotal AS AmtInWords,
+	i.M_PriceList_ID, i.IsPaid,
+    p.IsAllocated, p.TenderType, p.DiscountAmt
+FROM C_DunningRunLine drl
+    LEFT OUTER JOIN C_Invoice i ON (drl.C_Invoice_ID=i.C_Invoice_ID)
+	LEFT OUTER JOIN C_DocType dt ON (i.C_DocType_ID=dt.C_DocType_ID)
+	LEFT OUTER JOIN C_PaymentTerm pt ON (i.C_PaymentTerm_ID=pt.C_PaymentTerm_ID)
+    LEFT OUTER JOIN C_Payment p ON (drl.C_Payment_ID=p.C_Payment_ID)
+	LEFT OUTER JOIN C_DocType dtp ON (p.C_DocType_ID=dtp.C_DocType_ID);
+
+DROP VIEW C_DUNNING_LINE_VT;
+CREATE OR REPLACE VIEW C_DUNNING_LINE_VT
+(AD_CLIENT_ID, AD_ORG_ID, ISACTIVE, CREATED, CREATEDBY, 
+ UPDATED, UPDATEDBY, AD_LANGUAGE, C_DUNNINGRUNLINE_ID, C_DUNNINGRUNENTRY_ID, 
+ AMT, CONVERTEDAMT, DAYSDUE, TIMESDUNNED, INTERESTAMT, 
+ FEEAMT, TOTALAMT, C_INVOICE_ID, ISSOTRX, DOCUMENTNO, 
+ DOCSTATUS, DATETRX, C_DOCTYPE_ID, DOCUMENTTYPE, DESCRIPTION, 
+ C_CURRENCY_ID, C_CAMPAIGN_ID, C_PROJECT_ID, C_ACTIVITY_ID,
+ USER1_ID, USER2_ID,  USER3_ID, USER4_ID,
+ DATEACCT, C_CONVERSIONTYPE_ID, AD_ORGTRX_ID, POREFERENCE,
+ DATEORDERED, DATEINVOICED, ISINDISPUTE, PAYMENTTERM, C_CHARGE_ID, 
+ CHARGEAMT, TOTALLINES, GRANDTOTAL, AMTINWORDS, M_PRICELIST_ID, 
+ ISPAID, ISALLOCATED, TENDERTYPE, DISCOUNTAMT)
+AS 
+SELECT drl.AD_Client_ID, drl.AD_Org_ID, drl.IsActive, drl.Created, drl.CreatedBy, drl.Updated, drl.UpdatedBy, 
+	COALESCE(dt.AD_Language,dtp.AD_Language) AS AD_Language,
+    drl.C_DunningRunLine_ID, drl.C_DunningRunEntry_ID,
+    drl.Amt, drl.ConvertedAmt, drl.DaysDue, drl.TimesDunned, 
+    drl.InterestAmt, drl.FeeAmt, drl.TotalAmt,
+	drl.C_Invoice_ID, 
+    COALESCE(i.IsSOTrx,p.IsReceipt) AS IsSOTrx,
+    COALESCE(i.DocumentNo,p.DocumentNo) AS DocumentNo,
+    COALESCE(i.DocStatus,p.DocStatus) AS DocStatus, 
+	COALESCE(i.DateInvoiced, p.DateTrx) AS DateTrx,
+    COALESCE(i.C_DocType_ID,p.C_DocType_ID) AS C_DocType_ID,
+    COALESCE(dt.PrintName,dtp.PrintName) AS DocumentType, 
+    COALESCE(i.Description,p.Description) AS Description, 
+	COALESCE(i.C_Currency_ID,p.C_Currency_ID) AS C_Currency_ID, 
+    COALESCE(i.C_Campaign_ID,p.C_Campaign_ID) AS C_Campaign_ID, 
+    COALESCE(i.C_Project_ID,p.C_Project_ID) AS C_Project_ID,
+    COALESCE(i.C_Activity_ID,p.C_Activity_ID) AS C_Activity_ID,
+    COALESCE(i.User1_ID,p.User1_ID) AS User1_ID,
+    COALESCE(i.User2_ID,p.User2_ID) AS User2_ID,
+    COALESCE(i.User3_ID,p.User3_ID) AS User1_ID,
+    COALESCE(i.User4_ID,p.User4_ID) AS User2_ID,
+    COALESCE(i.DateAcct,p.DateAcct) AS DateAcct,
+    COALESCE(i.C_ConversionType_ID,i.C_ConversionType_ID) AS C_ConversionType_ID,
+    COALESCE(i.AD_OrgTrx_ID,p.AD_OrgTrx_ID) AS AD_OrgTrx_ID,
+    i.POReference, i.DateOrdered,
+	i.DateInvoiced, i.IsInDispute,
+	pt.Name AS PaymentTerm,
+    i.C_Charge_ID, i.ChargeAmt,
+	i.TotalLines, i.GrandTotal, i.GrandTotal AS AmtInWords,
+	i.M_PriceList_ID, i.IsPaid,
+    p.IsAllocated, p.TenderType, p.DiscountAmt
+FROM C_DunningRunLine drl
+    LEFT OUTER JOIN C_Invoice i ON (drl.C_Invoice_ID=i.C_Invoice_ID)
+	LEFT OUTER JOIN C_DocType_Trl dt ON (i.C_DocType_ID=dt.C_DocType_ID)
+	LEFT OUTER JOIN C_PaymentTerm_Trl pt ON (i.C_PaymentTerm_ID=pt.C_PaymentTerm_ID
+        AND pt.AD_Language=dt.AD_Language)
+    LEFT OUTER JOIN C_Payment p ON (drl.C_Payment_ID=p.C_Payment_ID)
+	LEFT OUTER JOIN C_DocType_Trl dtp ON (p.C_DocType_ID=dtp.C_DocType_ID) 
+WHERE COALESCE(dt.AD_Language,dtp.AD_Language)=COALESCE(dtp.AD_Language,dt.AD_Language);
+
+
+
+</SQLStatement>
+      <RollbackStatement>DROP VIEW C_DUNNING_LINE_V;
+CREATE OR REPLACE VIEW C_DUNNING_LINE_V
+(AD_CLIENT_ID, AD_ORG_ID, ISACTIVE, CREATED, CREATEDBY, 
+ UPDATED, UPDATEDBY, AD_LANGUAGE, C_DUNNINGRUNLINE_ID, C_DUNNINGRUNENTRY_ID, 
+ AMT, CONVERTEDAMT, DAYSDUE, TIMESDUNNED, INTERESTAMT, 
+ FEEAMT, TOTALAMT, C_INVOICE_ID, ISSOTRX, DOCUMENTNO, 
+ DOCSTATUS, DATETRX, C_DOCTYPE_ID, DOCUMENTTYPE, DESCRIPTION, 
+ C_CURRENCY_ID, C_CAMPAIGN_ID, C_PROJECT_ID, C_ACTIVITY_ID, USER1_ID, 
+ USER2_ID, DATEACCT, C_CONVERSIONTYPE_ID, AD_ORGTRX_ID, POREFERENCE, 
+ DATEORDERED, DATEINVOICED, ISINDISPUTE, PAYMENTTERM, C_CHARGE_ID, 
+ CHARGEAMT, TOTALLINES, GRANDTOTAL, AMTINWORDS, M_PRICELIST_ID, 
+ ISPAID, ISALLOCATED, TENDERTYPE, DISCOUNTAMT)
+AS 
+SELECT drl.AD_Client_ID, drl.AD_Org_ID, drl.IsActive, drl.Created, drl.CreatedBy, drl.Updated, drl.UpdatedBy, 
+	cast('en_US' as varchar) AS AD_Language,
+    drl.C_DunningRunLine_ID, drl.C_DunningRunEntry_ID,
+    drl.Amt, drl.ConvertedAmt, drl.DaysDue, drl.TimesDunned, 
+    drl.InterestAmt, drl.FeeAmt, drl.TotalAmt,
+	drl.C_Invoice_ID, 
+    COALESCE(i.IsSOTrx,p.IsReceipt) AS IsSOTrx,
+    COALESCE(i.DocumentNo,p.DocumentNo) AS DocumentNo,
+    COALESCE(i.DocStatus,p.DocStatus) AS DocStatus, 
+	COALESCE(i.DateInvoiced, p.DateTrx) AS DateTrx,
+    COALESCE(i.C_DocType_ID,p.C_DocType_ID) AS C_DocType_ID,
+    COALESCE(dt.PrintName,dtp.PrintName) AS DocumentType, 
+    COALESCE(i.Description,p.Description) AS Description, 
+	COALESCE(i.C_Currency_ID,p.C_Currency_ID) AS C_Currency_ID, 
+    COALESCE(i.C_Campaign_ID,p.C_Campaign_ID) AS C_Campaign_ID, 
+    COALESCE(i.C_Project_ID,p.C_Project_ID) AS C_Project_ID,
+    COALESCE(i.C_Activity_ID,p.C_Activity_ID) AS C_Activity_ID,
+    COALESCE(i.User1_ID,p.User1_ID) AS User1_ID,
+    COALESCE(i.User2_ID,p.User2_ID) AS User2_ID,
+    COALESCE(i.DateAcct,p.DateAcct) AS DateAcct,
+    COALESCE(i.C_ConversionType_ID,i.C_ConversionType_ID) AS C_ConversionType_ID,
+    COALESCE(i.AD_OrgTrx_ID,p.AD_OrgTrx_ID) AS AD_OrgTrx_ID,
+    i.POReference, i.DateOrdered,
+	i.DateInvoiced, i.IsInDispute,
+	pt.Name AS PaymentTerm,
+    i.C_Charge_ID, i.ChargeAmt,
+	i.TotalLines, i.GrandTotal, i.GrandTotal AS AmtInWords,
+	i.M_PriceList_ID, i.IsPaid,
+    p.IsAllocated, p.TenderType, p.DiscountAmt
+FROM C_DunningRunLine drl
+    LEFT OUTER JOIN C_Invoice i ON (drl.C_Invoice_ID=i.C_Invoice_ID)
+	LEFT OUTER JOIN C_DocType dt ON (i.C_DocType_ID=dt.C_DocType_ID)
+	LEFT OUTER JOIN C_PaymentTerm pt ON (i.C_PaymentTerm_ID=pt.C_PaymentTerm_ID)
+    LEFT OUTER JOIN C_Payment p ON (drl.C_Payment_ID=p.C_Payment_ID)
+	LEFT OUTER JOIN C_DocType dtp ON (p.C_DocType_ID=dtp.C_DocType_ID);
+
+DROP VIEW C_DUNNING_LINE_VT;
+CREATE OR REPLACE VIEW C_DUNNING_LINE_VT
+(AD_CLIENT_ID, AD_ORG_ID, ISACTIVE, CREATED, CREATEDBY, 
+ UPDATED, UPDATEDBY, AD_LANGUAGE, C_DUNNINGRUNLINE_ID, C_DUNNINGRUNENTRY_ID, 
+ AMT, CONVERTEDAMT, DAYSDUE, TIMESDUNNED, INTERESTAMT, 
+ FEEAMT, TOTALAMT, C_INVOICE_ID, ISSOTRX, DOCUMENTNO, 
+ DOCSTATUS, DATETRX, C_DOCTYPE_ID, DOCUMENTTYPE, DESCRIPTION, 
+ C_CURRENCY_ID, C_CAMPAIGN_ID, C_PROJECT_ID, C_ACTIVITY_ID, USER1_ID, 
+ USER2_ID, DATEACCT, C_CONVERSIONTYPE_ID, AD_ORGTRX_ID, POREFERENCE, 
+ DATEORDERED, DATEINVOICED, ISINDISPUTE, PAYMENTTERM, C_CHARGE_ID, 
+ CHARGEAMT, TOTALLINES, GRANDTOTAL, AMTINWORDS, M_PRICELIST_ID, 
+ ISPAID, ISALLOCATED, TENDERTYPE, DISCOUNTAMT)
+AS 
+SELECT drl.AD_Client_ID, drl.AD_Org_ID, drl.IsActive, drl.Created, drl.CreatedBy, drl.Updated, drl.UpdatedBy, 
+	COALESCE(dt.AD_Language,dtp.AD_Language) AS AD_Language,
+    drl.C_DunningRunLine_ID, drl.C_DunningRunEntry_ID,
+    drl.Amt, drl.ConvertedAmt, drl.DaysDue, drl.TimesDunned, 
+    drl.InterestAmt, drl.FeeAmt, drl.TotalAmt,
+	drl.C_Invoice_ID, 
+    COALESCE(i.IsSOTrx,p.IsReceipt) AS IsSOTrx,
+    COALESCE(i.DocumentNo,p.DocumentNo) AS DocumentNo,
+    COALESCE(i.DocStatus,p.DocStatus) AS DocStatus, 
+	COALESCE(i.DateInvoiced, p.DateTrx) AS DateTrx,
+    COALESCE(i.C_DocType_ID,p.C_DocType_ID) AS C_DocType_ID,
+    COALESCE(dt.PrintName,dtp.PrintName) AS DocumentType, 
+    COALESCE(i.Description,p.Description) AS Description, 
+	COALESCE(i.C_Currency_ID,p.C_Currency_ID) AS C_Currency_ID, 
+    COALESCE(i.C_Campaign_ID,p.C_Campaign_ID) AS C_Campaign_ID, 
+    COALESCE(i.C_Project_ID,p.C_Project_ID) AS C_Project_ID,
+    COALESCE(i.C_Activity_ID,p.C_Activity_ID) AS C_Activity_ID,
+    COALESCE(i.User1_ID,p.User1_ID) AS User1_ID,
+    COALESCE(i.User2_ID,p.User2_ID) AS User2_ID,
+    COALESCE(i.DateAcct,p.DateAcct) AS DateAcct,
+    COALESCE(i.C_ConversionType_ID,i.C_ConversionType_ID) AS C_ConversionType_ID,
+    COALESCE(i.AD_OrgTrx_ID,p.AD_OrgTrx_ID) AS AD_OrgTrx_ID,
+    i.POReference, i.DateOrdered,
+	i.DateInvoiced, i.IsInDispute,
+	pt.Name AS PaymentTerm,
+    i.C_Charge_ID, i.ChargeAmt,
+	i.TotalLines, i.GrandTotal, i.GrandTotal AS AmtInWords,
+	i.M_PriceList_ID, i.IsPaid,
+    p.IsAllocated, p.TenderType, p.DiscountAmt
+FROM C_DunningRunLine drl
+    LEFT OUTER JOIN C_Invoice i ON (drl.C_Invoice_ID=i.C_Invoice_ID)
+	LEFT OUTER JOIN C_DocType_Trl dt ON (i.C_DocType_ID=dt.C_DocType_ID)
+	LEFT OUTER JOIN C_PaymentTerm_Trl pt ON (i.C_PaymentTerm_ID=pt.C_PaymentTerm_ID
+        AND pt.AD_Language=dt.AD_Language)
+    LEFT OUTER JOIN C_Payment p ON (drl.C_Payment_ID=p.C_Payment_ID)
+	LEFT OUTER JOIN C_DocType_Trl dtp ON (p.C_DocType_ID=dtp.C_DocType_ID) 
+WHERE COALESCE(dt.AD_Language,dtp.AD_Language)=COALESCE(dtp.AD_Language,dt.AD_Language);
+</RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" Parse="Y" SeqNo="120" StepType="SQL">
+      <SQLStatement>DROP VIEW PP_Order_Header_v;
+CREATE OR REPLACE VIEW PP_Order_Header_v
+AS 
+SELECT o.AD_Client_ID, o.AD_Org_ID, o.IsActive, o.Created, o.CreatedBy, o.Updated, o.UpdatedBy,
+	cast('en_US' as varchar2(6)) AS AD_Language,
+	o.PP_Order_ID, o.DocumentNo, o.DocStatus,o.C_DocType_ID,
+	oi.C_Location_ID AS Org_Location_ID, oi.TaxID, 
+	o.M_Warehouse_ID, wh.C_Location_ID AS Warehouse_Location_ID,
+	dt.PrintName AS DocumentType, dt.DocumentNote AS DocumentTypeNote,
+	o.Planner_ID, u.Name AS SalesRep_Name,o.DateStart, o.DateStartSchedule,o.FloatAfter, o.FloatBefored, o.Line, o.Lot, o.SerNo, 
+ 	o.Description,
+	o.M_Product_ID,o.M_AttributeSetInstance_ID,o.C_UOM_ID,o.S_Resource_ID,o.PP_Product_BOM_ID,o.AD_Workflow_ID, o.Assay, o.C_OrderLine_ID, o.PriorityRule , 
+	o.QtyBatchSize , o.QtyBatchs, o.QtyDelivered, o.QtyEntered, o.QtyOrdered, 
+	o.DateConfirm,o.DateDelivered,o.DateFinish, o.DateFinishSchedule,o.DateOrdered, o.DatePromised,o.QtyReject, o.QtyReserved , o.QtyScrap , o.Yield ,
+	o.C_Campaign_ID, o.C_Project_ID, o.C_Activity_ID, o.User1_ID , o.User2_ID , o.User3_ID , o.User4_ID  , o.AD_OrgTrx_ID ,o.C_DocTypeTarget_ID,o.ScheduleType , o.IsApproved , o.DocAction , o.Posted , o.IsPrinted, o.OrderType,
+	COALESCE(oi.Logo_ID, ci.Logo_ID) AS Logo_ID
+FROM PP_Order o
+	INNER JOIN C_DocType dt ON (o.C_DocType_ID=dt.C_DocType_ID)
+	INNER JOIN M_Warehouse wh ON (o.M_Warehouse_ID=wh.M_Warehouse_ID)
+	INNER JOIN AD_OrgInfo oi ON (o.AD_Org_ID=oi.AD_Org_ID)
+	INNER JOIN AD_ClientInfo ci ON (o.AD_Client_ID=ci.AD_Client_ID)
+	LEFT OUTER JOIN AD_User u ON (o.Planner_ID=u.AD_User_ID);
+DROP VIEW PP_Order_Header_vt;
+CREATE OR REPLACE VIEW PP_Order_Header_vt
+AS 
+SELECT o.AD_Client_ID, o.AD_Org_ID, o.IsActive, o.Created, o.CreatedBy, o.Updated, o.UpdatedBy,
+	dt.AD_Language,
+	o.PP_Order_ID, o.DocumentNo, o.DocStatus,o.C_DocType_ID,
+	oi.C_Location_ID AS Org_Location_ID, oi.TaxID, 
+	o.M_Warehouse_ID, wh.C_Location_ID AS Warehouse_Location_ID,
+	dt.PrintName AS DocumentType, dt.DocumentNote AS DocumentTypeNote,
+	o.Planner_ID, u.Name AS SalesRep_Name,o.DateStart, o.DateStartSchedule,o.FloatAfter, o.FloatBefored, o.Line, o.Lot, o.SerNo, 
+ 	o.Description,
+	o.M_Product_ID,o.M_AttributeSetInstance_ID,o.C_UOM_ID,o.S_Resource_ID,o.PP_Product_BOM_ID,o.AD_Workflow_ID, o.Assay, o.C_OrderLine_ID, o.PriorityRule , 
+	o.QtyBatchSize , o.QtyBatchs, o.QtyDelivered, o.QtyEntered, o.QtyOrdered, 
+	o.DateConfirm,o.DateDelivered,o.DateFinish, o.DateFinishSchedule,o.DateOrdered, o.DatePromised,o.QtyReject, o.QtyReserved , o.QtyScrap , o.Yield ,
+	o.C_Campaign_ID, o.C_Project_ID, o.C_Activity_ID, o.User1_ID , o.User2_ID , o.User3_ID , o.User4_ID , o.AD_OrgTrx_ID ,o.C_DocTypeTarget_ID,o.ScheduleType , o.IsApproved , o.DocAction , o.Posted , o.IsPrinted, o.OrderType,
+	COALESCE(oi.Logo_ID, ci.Logo_ID) AS Logo_ID
+FROM PP_Order o
+	INNER JOIN C_DocType_trl dt ON (o.C_DocType_ID=dt.C_DocType_ID)
+	INNER JOIN M_Warehouse wh ON (o.M_Warehouse_ID=wh.M_Warehouse_ID)
+	INNER JOIN AD_OrgInfo oi ON (o.AD_Org_ID=oi.AD_Org_ID)
+	INNER JOIN AD_ClientInfo ci ON (o.AD_Client_ID=ci.AD_Client_ID)
+	LEFT OUTER JOIN AD_User u ON (o.Planner_ID=u.AD_User_ID);</SQLStatement>
+      <RollbackStatement>DROP VIEW PP_Order_Header_v;
+CREATE OR REPLACE VIEW PP_Order_Header_v
+AS 
+SELECT o.AD_Client_ID, o.AD_Org_ID, o.IsActive, o.Created, o.CreatedBy, o.Updated, o.UpdatedBy,
+	cast('en_US' as varchar2(6)) AS AD_Language,
+	o.PP_Order_ID, o.DocumentNo, o.DocStatus,o.C_DocType_ID,
+	oi.C_Location_ID AS Org_Location_ID, oi.TaxID, 
+	o.M_Warehouse_ID, wh.C_Location_ID AS Warehouse_Location_ID,
+	dt.PrintName AS DocumentType, dt.DocumentNote AS DocumentTypeNote,
+	o.Planner_ID, u.Name AS SalesRep_Name,o.DateStart, o.DateStartSchedule,o.FloatAfter, o.FloatBefored, o.Line, o.Lot, o.SerNo, 
+ 	o.Description,
+	o.M_Product_ID,o.M_AttributeSetInstance_ID,o.C_UOM_ID,o.S_Resource_ID,o.PP_Product_BOM_ID,o.AD_Workflow_ID, o.Assay, o.C_OrderLine_ID, o.PriorityRule , 
+	o.QtyBatchSize , o.QtyBatchs, o.QtyDelivered, o.QtyEntered, o.QtyOrdered, 
+	o.DateConfirm,o.DateDelivered,o.DateFinish, o.DateFinishSchedule,o.DateOrdered, o.DatePromised,o.QtyReject, o.QtyReserved , o.QtyScrap , o.Yield ,
+	o.C_Campaign_ID, o.C_Project_ID, o.C_Activity_ID, o.User1_ID , o.User2_ID , o.AD_OrgTrx_ID ,o.C_DocTypeTarget_ID,o.ScheduleType , o.IsApproved , o.DocAction , o.Posted , o.IsPrinted, o.OrderType,
+	COALESCE(oi.Logo_ID, ci.Logo_ID) AS Logo_ID
+FROM PP_Order o
+	INNER JOIN C_DocType dt ON (o.C_DocType_ID=dt.C_DocType_ID)
+	INNER JOIN M_Warehouse wh ON (o.M_Warehouse_ID=wh.M_Warehouse_ID)
+	INNER JOIN AD_OrgInfo oi ON (o.AD_Org_ID=oi.AD_Org_ID)
+	INNER JOIN AD_ClientInfo ci ON (o.AD_Client_ID=ci.AD_Client_ID)
+	LEFT OUTER JOIN AD_User u ON (o.Planner_ID=u.AD_User_ID);
+CREATE OR REPLACE VIEW PP_Order_Header_VT
+AS 
+SELECT o.AD_Client_ID, o.AD_Org_ID, o.IsActive, o.Created, o.CreatedBy, o.Updated, o.UpdatedBy,
+	dt.AD_Language,
+	o.PP_Order_ID, o.DocumentNo, o.DocStatus,o.C_DocType_ID,
+	oi.C_Location_ID AS Org_Location_ID, oi.TaxID, 
+	o.M_Warehouse_ID, wh.C_Location_ID AS Warehouse_Location_ID,
+	dt.PrintName AS DocumentType, dt.DocumentNote AS DocumentTypeNote,
+	o.Planner_ID, u.Name AS SalesRep_Name,o.DateStart, o.DateStartSchedule,o.FloatAfter, o.FloatBefored, o.Line, o.Lot, o.SerNo, 
+ 	o.Description,
+	o.M_Product_ID,o.M_AttributeSetInstance_ID,o.C_UOM_ID,o.S_Resource_ID,o.PP_Product_BOM_ID,o.AD_Workflow_ID, o.Assay, o.C_OrderLine_ID, o.PriorityRule , 
+	o.QtyBatchSize , o.QtyBatchs, o.QtyDelivered, o.QtyEntered, o.QtyOrdered, 
+	o.DateConfirm,o.DateDelivered,o.DateFinish, o.DateFinishSchedule,o.DateOrdered, o.DatePromised,o.QtyReject, o.QtyReserved , o.QtyScrap , o.Yield ,
+	o.C_Campaign_ID, o.C_Project_ID, o.C_Activity_ID, o.User1_ID , o.User2_ID , o.AD_OrgTrx_ID ,o.C_DocTypeTarget_ID,o.ScheduleType , o.IsApproved , o.DocAction , o.Posted , o.IsPrinted, o.OrderType,
+	COALESCE(oi.Logo_ID, ci.Logo_ID) AS Logo_ID
+FROM PP_Order o
+	INNER JOIN C_DocType_trl dt ON (o.C_DocType_ID=dt.C_DocType_ID)
+	INNER JOIN M_Warehouse wh ON (o.M_Warehouse_ID=wh.M_Warehouse_ID)
+	INNER JOIN AD_OrgInfo oi ON (o.AD_Org_ID=oi.AD_Org_ID)
+	INNER JOIN AD_ClientInfo ci ON (o.AD_Client_ID=ci.AD_Client_ID)
+	LEFT OUTER JOIN AD_User u ON (o.Planner_ID=u.AD_User_ID);
+
+DROP VIEW PP_Order_Header_vt;
+CREATE OR REPLACE VIEW PP_Order_Header_vt
+AS 
+SELECT o.AD_Client_ID, o.AD_Org_ID, o.IsActive, o.Created, o.CreatedBy, o.Updated, o.UpdatedBy,
+	dt.AD_Language,
+	o.PP_Order_ID, o.DocumentNo, o.DocStatus,o.C_DocType_ID,
+	oi.C_Location_ID AS Org_Location_ID, oi.TaxID, 
+	o.M_Warehouse_ID, wh.C_Location_ID AS Warehouse_Location_ID,
+	dt.PrintName AS DocumentType, dt.DocumentNote AS DocumentTypeNote,
+	o.Planner_ID, u.Name AS SalesRep_Name,o.DateStart, o.DateStartSchedule,o.FloatAfter, o.FloatBefored, o.Line, o.Lot, o.SerNo, 
+ 	o.Description,
+	o.M_Product_ID,o.M_AttributeSetInstance_ID,o.C_UOM_ID,o.S_Resource_ID,o.PP_Product_BOM_ID,o.AD_Workflow_ID, o.Assay, o.C_OrderLine_ID, o.PriorityRule , 
+	o.QtyBatchSize , o.QtyBatchs, o.QtyDelivered, o.QtyEntered, o.QtyOrdered, 
+	o.DateConfirm,o.DateDelivered,o.DateFinish, o.DateFinishSchedule,o.DateOrdered, o.DatePromised,o.QtyReject, o.QtyReserved , o.QtyScrap , o.Yield ,
+	o.C_Campaign_ID, o.C_Project_ID, o.C_Activity_ID, o.User1_ID , o.User2_ID , o.AD_OrgTrx_ID ,o.C_DocTypeTarget_ID,o.ScheduleType , o.IsApproved , o.DocAction , o.Posted , o.IsPrinted, o.OrderType,
+	COALESCE(oi.Logo_ID, ci.Logo_ID) AS Logo_ID
+FROM PP_Order o
+	INNER JOIN C_DocType_trl dt ON (o.C_DocType_ID=dt.C_DocType_ID)
+	INNER JOIN M_Warehouse wh ON (o.M_Warehouse_ID=wh.M_Warehouse_ID)
+	INNER JOIN AD_OrgInfo oi ON (o.AD_Org_ID=oi.AD_Org_ID)
+	INNER JOIN AD_ClientInfo ci ON (o.AD_Client_ID=ci.AD_Client_ID)
+	LEFT OUTER JOIN AD_User u ON (o.Planner_ID=u.AD_User_ID);
+
+</RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" Parse="Y" SeqNo="140" StepType="SQL">
+      <SQLStatement>DROP VIEW PP_Order_Header_v;	
+
+CREATE OR REPLACE VIEW PP_Order_Header_v
+AS 
+SELECT o.AD_Client_ID, o.AD_Org_ID, o.IsActive, o.Created, o.CreatedBy, o.Updated, o.UpdatedBy,
+	cast('en_US' as varchar) AS AD_Language,
+	o.PP_Order_ID, o.DocumentNo, o.DocStatus,o.C_DocType_ID,
+	oi.C_Location_ID AS Org_Location_ID, oi.TaxID, 
+	o.M_Warehouse_ID, wh.C_Location_ID AS Warehouse_Location_ID,
+	dt.PrintName AS DocumentType, dt.DocumentNote AS DocumentTypeNote,
+	o.Planner_ID, u.Name AS SalesRep_Name,o.DateStart, o.DateStartSchedule,o.FloatAfter, o.FloatBefored, o.Line, o.Lot, o.SerNo, 
+ 	o.Description,
+	o.M_Product_ID,o.M_AttributeSetInstance_ID,o.C_UOM_ID,o.S_Resource_ID,o.PP_Product_BOM_ID,o.AD_Workflow_ID, o.Assay, o.C_OrderLine_ID, o.PriorityRule , 
+	o.QtyBatchSize , o.QtyBatchs, o.QtyDelivered, o.QtyEntered, o.QtyOrdered, 
+	o.DateConfirm,o.DateDelivered,o.DateFinish, o.DateFinishSchedule,o.DateOrdered, o.DatePromised,o.QtyReject, o.QtyReserved , o.QtyScrap , o.Yield ,
+	o.C_Campaign_ID, o.C_Project_ID, o.C_Activity_ID, o.User1_ID , o.User2_ID , o.User3_ID , o.User4_ID  , o.AD_OrgTrx_ID ,o.C_DocTypeTarget_ID,o.ScheduleType , o.IsApproved , o.DocAction , o.Posted , o.IsPrinted, o.OrderType,
+	COALESCE(oi.Logo_ID, ci.Logo_ID) AS Logo_ID
+FROM PP_Order o
+	INNER JOIN C_DocType dt ON (o.C_DocType_ID=dt.C_DocType_ID)
+	INNER JOIN M_Warehouse wh ON (o.M_Warehouse_ID=wh.M_Warehouse_ID)
+	INNER JOIN AD_OrgInfo oi ON (o.AD_Org_ID=oi.AD_Org_ID)
+	INNER JOIN AD_ClientInfo ci ON (o.AD_Client_ID=ci.AD_Client_ID)
+	LEFT OUTER JOIN AD_User u ON (o.Planner_ID=u.AD_User_ID);
+
+DROP VIEW PP_Order_Header_vt;	
+
+CREATE OR REPLACE VIEW PP_Order_Header_vt
+AS 
+SELECT o.AD_Client_ID, o.AD_Org_ID, o.IsActive, o.Created, o.CreatedBy, o.Updated, o.UpdatedBy,
+	dt.AD_Language,
+	o.PP_Order_ID, o.DocumentNo, o.DocStatus,o.C_DocType_ID,
+	oi.C_Location_ID AS Org_Location_ID, oi.TaxID, 
+	o.M_Warehouse_ID, wh.C_Location_ID AS Warehouse_Location_ID,
+	dt.PrintName AS DocumentType, dt.DocumentNote AS DocumentTypeNote,
+	o.Planner_ID, u.Name AS SalesRep_Name,o.DateStart, o.DateStartSchedule,o.FloatAfter, o.FloatBefored, o.Line, o.Lot, o.SerNo, 
+ 	o.Description,
+	o.M_Product_ID,o.M_AttributeSetInstance_ID,o.C_UOM_ID,o.S_Resource_ID,o.PP_Product_BOM_ID,o.AD_Workflow_ID, o.Assay, o.C_OrderLine_ID, o.PriorityRule , 
+	o.QtyBatchSize , o.QtyBatchs, o.QtyDelivered, o.QtyEntered, o.QtyOrdered, 
+	o.DateConfirm,o.DateDelivered,o.DateFinish, o.DateFinishSchedule,o.DateOrdered, o.DatePromised,o.QtyReject, o.QtyReserved , o.QtyScrap , o.Yield ,
+	o.C_Campaign_ID, o.C_Project_ID, o.C_Activity_ID, o.User1_ID , o.User2_ID , o.User3_ID , o.User4_ID , o.AD_OrgTrx_ID ,o.C_DocTypeTarget_ID,o.ScheduleType , o.IsApproved , o.DocAction , o.Posted , o.IsPrinted, o.OrderType,
+	COALESCE(oi.Logo_ID, ci.Logo_ID) AS Logo_ID
+FROM PP_Order o
+	INNER JOIN C_DocType_trl dt ON (o.C_DocType_ID=dt.C_DocType_ID)
+	INNER JOIN M_Warehouse wh ON (o.M_Warehouse_ID=wh.M_Warehouse_ID)
+	INNER JOIN AD_OrgInfo oi ON (o.AD_Org_ID=oi.AD_Org_ID)
+	INNER JOIN AD_ClientInfo ci ON (o.AD_Client_ID=ci.AD_Client_ID)
+	LEFT OUTER JOIN AD_User u ON (o.Planner_ID=u.AD_User_ID);
+</SQLStatement>
+      <RollbackStatement>DROP VIEW PP_Order_Header_v;	
+
+CREATE OR REPLACE VIEW PP_Order_Header_v
+AS 
+SELECT o.AD_Client_ID, o.AD_Org_ID, o.IsActive, o.Created, o.CreatedBy, o.Updated, o.UpdatedBy,
+	cast('en_US' as varchar) AS AD_Language,
+	o.PP_Order_ID, o.DocumentNo, o.DocStatus,o.C_DocType_ID,
+	oi.C_Location_ID AS Org_Location_ID, oi.TaxID, 
+	o.M_Warehouse_ID, wh.C_Location_ID AS Warehouse_Location_ID,
+	dt.PrintName AS DocumentType, dt.DocumentNote AS DocumentTypeNote,
+	o.Planner_ID, u.Name AS SalesRep_Name,o.DateStart, o.DateStartSchedule,o.FloatAfter, o.FloatBefored, o.Line, o.Lot, o.SerNo, 
+ 	o.Description,
+	o.M_Product_ID,o.M_AttributeSetInstance_ID,o.C_UOM_ID,o.S_Resource_ID,o.PP_Product_BOM_ID,o.AD_Workflow_ID, o.Assay, o.C_OrderLine_ID, o.PriorityRule , 
+	o.QtyBatchSize , o.QtyBatchs, o.QtyDelivered, o.QtyEntered, o.QtyOrdered, 
+	o.DateConfirm,o.DateDelivered,o.DateFinish, o.DateFinishSchedule,o.DateOrdered, o.DatePromised,o.QtyReject, o.QtyReserved , o.QtyScrap , o.Yield ,
+	o.C_Campaign_ID, o.C_Project_ID, o.C_Activity_ID, o.User1_ID , o.User2_ID , o.AD_OrgTrx_ID ,o.C_DocTypeTarget_ID,o.ScheduleType , o.IsApproved , o.DocAction , o.Posted , o.IsPrinted, o.OrderType,
+	COALESCE(oi.Logo_ID, ci.Logo_ID) AS Logo_ID
+FROM PP_Order o
+	INNER JOIN C_DocType dt ON (o.C_DocType_ID=dt.C_DocType_ID)
+	INNER JOIN M_Warehouse wh ON (o.M_Warehouse_ID=wh.M_Warehouse_ID)
+	INNER JOIN AD_OrgInfo oi ON (o.AD_Org_ID=oi.AD_Org_ID)
+	INNER JOIN AD_ClientInfo ci ON (o.AD_Client_ID=ci.AD_Client_ID)
+	LEFT OUTER JOIN AD_User u ON (o.Planner_ID=u.AD_User_ID);
+
+DROP VIEW PP_Order_Header_vt;	
+
+CREATE OR REPLACE VIEW PP_Order_Header_vt
+AS 
+SELECT o.AD_Client_ID, o.AD_Org_ID, o.IsActive, o.Created, o.CreatedBy, o.Updated, o.UpdatedBy,
+	dt.AD_Language,
+	o.PP_Order_ID, o.DocumentNo, o.DocStatus,o.C_DocType_ID,
+	oi.C_Location_ID AS Org_Location_ID, oi.TaxID, 
+	o.M_Warehouse_ID, wh.C_Location_ID AS Warehouse_Location_ID,
+	dt.PrintName AS DocumentType, dt.DocumentNote AS DocumentTypeNote,
+	o.Planner_ID, u.Name AS SalesRep_Name,o.DateStart, o.DateStartSchedule,o.FloatAfter, o.FloatBefored, o.Line, o.Lot, o.SerNo, 
+ 	o.Description,
+	o.M_Product_ID,o.M_AttributeSetInstance_ID,o.C_UOM_ID,o.S_Resource_ID,o.PP_Product_BOM_ID,o.AD_Workflow_ID, o.Assay, o.C_OrderLine_ID, o.PriorityRule , 
+	o.QtyBatchSize , o.QtyBatchs, o.QtyDelivered, o.QtyEntered, o.QtyOrdered, 
+	o.DateConfirm,o.DateDelivered,o.DateFinish, o.DateFinishSchedule,o.DateOrdered, o.DatePromised,o.QtyReject, o.QtyReserved , o.QtyScrap , o.Yield ,
+	o.C_Campaign_ID, o.C_Project_ID, o.C_Activity_ID, o.User1_ID , o.User2_ID , o.AD_OrgTrx_ID ,o.C_DocTypeTarget_ID,o.ScheduleType , o.IsApproved , o.DocAction , o.Posted , o.IsPrinted, o.OrderType,
+	COALESCE(oi.Logo_ID, ci.Logo_ID) AS Logo_ID
+FROM PP_Order o
+	INNER JOIN C_DocType_trl dt ON (o.C_DocType_ID=dt.C_DocType_ID)
+	INNER JOIN M_Warehouse wh ON (o.M_Warehouse_ID=wh.M_Warehouse_ID)
+	INNER JOIN AD_OrgInfo oi ON (o.AD_Org_ID=oi.AD_Org_ID)
+	INNER JOIN AD_ClientInfo ci ON (o.AD_Client_ID=ci.AD_Client_ID)
+	LEFT OUTER JOIN AD_User u ON (o.Planner_ID=u.AD_User_ID);
+
+
+		
+</RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" Parse="Y" SeqNo="150" StepType="SQL">
+      <SQLStatement>DROP VIEW fact_acct_balance;
+CREATE OR REPLACE VIEW rv_fact_acct_balance
+AS
+   SELECT   ad_client_id, ad_org_id, c_acctschema_id,
+            TRUNC (dateacct) as dateacct, account_id, postingtype,
+            m_product_id, c_bpartner_id, c_project_id, ad_orgtrx_id,
+            c_salesregion_id, c_activity_id, c_campaign_id, c_locto_id,
+            c_locfrom_id, user1_id, user2_id , user3_id, user4_id , gl_budget_id,
+            COALESCE (SUM (amtacctdr), 0) as amtacctdr,
+            COALESCE (SUM (amtacctcr), 0) as amtacctcr,
+            COALESCE (SUM (qty), 0) as qty, MAX (createdby) as createdby,
+            MAX (created) as created, MAX (updatedby) as updatedby,
+            MAX (updated) as updated, MAX (isactive) as isactive,
+            MAX (c_subacct_id) as c_subacct_id, userelement1_id,
+            userelement2_id, MAX (c_projectphase_id) as c_projectphase_id,
+            MAX (c_projecttask_id) as c_projecttask_id
+       FROM fact_acct a
+   GROUP BY ad_client_id, ad_org_id, c_acctschema_id,
+            TRUNC (dateacct), account_id, postingtype,
+            m_product_id, c_bpartner_id, c_project_id, ad_orgtrx_id,
+            c_salesregion_id, c_activity_id, c_campaign_id, c_locto_id,
+            c_locfrom_id, user1_id, user2_id,user3_id, user4_id,
+            userelement1_id, userelement2_id,
+            gl_budget_id
+;
+</SQLStatement>
+      <RollbackStatement>DROP VIEW rv_fact_acct_balance;
+CREATE OR REPLACE VIEW fact_acct_balance
+AS
+   SELECT   ad_client_id, ad_org_id, c_acctschema_id,
+            TRUNC (dateacct) as dateacct, account_id, postingtype,
+            m_product_id, c_bpartner_id, c_project_id, ad_orgtrx_id,
+            c_salesregion_id, c_activity_id, c_campaign_id, c_locto_id,
+            c_locfrom_id, user1_id, user2_id , user3_id, user4_id , gl_budget_id,
+            COALESCE (SUM (amtacctdr), 0) as amtacctdr,
+            COALESCE (SUM (amtacctcr), 0) as amtacctcr,
+            COALESCE (SUM (qty), 0) as qty, MAX (createdby) as createdby,
+            MAX (created) as created, MAX (updatedby) as updatedby,
+            MAX (updated) as updated, MAX (isactive) as isactive,
+            MAX (c_subacct_id) as c_subacct_id, userelement1_id,
+            userelement2_id, MAX (c_projectphase_id) as c_projectphase_id,
+            MAX (c_projecttask_id) as c_projecttask_id
+       FROM fact_acct a
+   GROUP BY ad_client_id, ad_org_id, c_acctschema_id,
+            TRUNC (dateacct), account_id, postingtype,
+            m_product_id, c_bpartner_id, c_project_id, ad_orgtrx_id,
+            c_salesregion_id, c_activity_id, c_campaign_id, c_locto_id,
+            c_locfrom_id, user1_id, user2_id,user3_id, user4_id,
+            userelement1_id, userelement2_id,
+            gl_budget_id
+;
+</RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" Parse="Y" SeqNo="160" StepType="SQL">
+      <SQLStatement>DROP VIEW fact_acct_balance;
+CREATE OR REPLACE VIEW rv_fact_acct_balance
+AS
+   SELECT   ad_client_id, ad_org_id, c_acctschema_id,
+            TRUNC (dateacct) as dateacct, account_id, postingtype,
+            m_product_id, c_bpartner_id, c_project_id, ad_orgtrx_id,
+            c_salesregion_id, c_activity_id, c_campaign_id, c_locto_id,
+            c_locfrom_id, user1_id, user2_id , user3_id, user4_id, gl_budget_id,
+            COALESCE (SUM (amtacctdr), 0) as amtacctdr,
+            COALESCE (SUM (amtacctcr), 0) as amtacctcr,
+            COALESCE (SUM (qty), 0) as qty, MAX (createdby) as createdby,
+            MAX (created) as created, MAX (updatedby) as updatedby,
+            MAX (updated) as updated, MAX (isactive) as isactive,
+            MAX (c_subacct_id) as c_subacct_id, userelement1_id,
+            userelement2_id, MAX (c_projectphase_id) as c_projectphase_id,
+            MAX (c_projecttask_id) as c_projecttask_id
+       FROM fact_acct a
+   GROUP BY ad_client_id, ad_org_id, c_acctschema_id,
+            TRUNC (dateacct), account_id, postingtype,
+            m_product_id, c_bpartner_id, c_project_id, ad_orgtrx_id,
+            c_salesregion_id, c_activity_id, c_campaign_id, c_locto_id,
+            c_locfrom_id, user1_id, user2_id,user3_id, user4_id,
+            userelement1_id, userelement2_id,
+            gl_budget_id
+;
+</SQLStatement>
+      <RollbackStatement>DROP VIEW rv_fact_acct_balance;
+CREATE OR REPLACE VIEW fact_acct_balance
+AS
+   SELECT   ad_client_id, ad_org_id, c_acctschema_id,
+            TRUNC (dateacct) as dateacct, account_id, postingtype,
+            m_product_id, c_bpartner_id, c_project_id, ad_orgtrx_id,
+            c_salesregion_id, c_activity_id, c_campaign_id, c_locto_id,
+            c_locfrom_id, user1_id, user2_id , user3_id, user4_id, gl_budget_id,
+            COALESCE (SUM (amtacctdr), 0) as amtacctdr,
+            COALESCE (SUM (amtacctcr), 0) as amtacctcr,
+            COALESCE (SUM (qty), 0) as qty, MAX (createdby) as createdby,
+            MAX (created) as created, MAX (updatedby) as updatedby,
+            MAX (updated) as updated, MAX (isactive) as isactive,
+            MAX (c_subacct_id) as c_subacct_id, userelement1_id,
+            userelement2_id, MAX (c_projectphase_id) as c_projectphase_id,
+            MAX (c_projecttask_id) as c_projecttask_id
+       FROM fact_acct a
+   GROUP BY ad_client_id, ad_org_id, c_acctschema_id,
+            TRUNC (dateacct), account_id, postingtype,
+            m_product_id, c_bpartner_id, c_project_id, ad_orgtrx_id,
+            c_salesregion_id, c_activity_id, c_campaign_id, c_locto_id,
+            c_locfrom_id, user1_id, user2_id,user3_id, user4_id,
+            userelement1_id, userelement2_id,
+            gl_budget_id
+;
+</RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" Parse="Y" SeqNo="170" StepType="SQL">
+      <SQLStatement>DROP VIEW RV_INOUTDETAILS;
+CREATE OR REPLACE VIEW RV_INOUTDETAILS
+(AD_CLIENT_ID, AD_ORG_ID, ISACTIVE, CREATED, CREATEDBY, 
+ UPDATED, UPDATEDBY, M_INOUT_ID, ISSOTRX, DOCUMENTNO, 
+ DOCACTION, DOCSTATUS, POSTED, PROCESSED, C_DOCTYPE_ID, 
+ DESCRIPTION, C_ORDER_ID, DATEORDERED, MOVEMENTTYPE, MOVEMENTDATE, 
+ DATEACCT, C_BPARTNER_ID, C_BPARTNER_LOCATION_ID, AD_USER_ID, SALESREP_ID, 
+ M_WAREHOUSE_ID, POREFERENCE, DELIVERYRULE, FREIGHTCOSTRULE, FREIGHTAMT, 
+ DELIVERYVIARULE, M_SHIPPER_ID, PRIORITYRULE, DATEPRINTED, NOPACKAGES, 
+ PICKDATE, SHIPDATE, TRACKINGNO, AD_ORGTRX_ID, C_PROJECT_ID, 
+ C_CAMPAIGN_ID, C_ACTIVITY_ID, USER1_ID, USER2_ID, USER3_ID, USER4_ID ,  DATERECEIVED,
+ ISAPPROVED, ISINDISPUTE, M_INOUTLINE_ID, LINE, LINEDESCRIPTION, 
+ C_ORDERLINE_ID, M_LOCATOR_ID, M_PRODUCT_ID, C_UOM_ID, M_ATTRIBUTESETINSTANCE_ID, 
+ PRODUCTATTRIBUTE, M_ATTRIBUTESET_ID, M_LOT_ID, GUARANTEEDATE, LOT, 
+ SERNO, MOVEMENTQTY, QTYENTERED, ISDESCRIPTION, CONFIRMEDQTY, 
+ PICKEDQTY, SCRAPPEDQTY, TARGETQTY, LOCATORVALUE, X, 
+ Y, Z)
+AS 
+SELECT h.AD_Client_ID, h.AD_Org_ID, l.IsActive, l.Created, l.CreatedBy, l.Updated, l.UpdatedBy,
+  h.M_InOut_ID,
+  h.IsSOTrx, h.DocumentNo, h.DocAction, h.DocStatus, h.Posted, h.Processed,
+  h.C_DocType_ID, h.Description, h.C_Order_ID, h.DateOrdered,
+  h.MovementType, h.MovementDate, h.DateAcct,
+  h.C_BPartner_ID, h.C_BPartner_Location_ID, h.AD_User_ID,
+  h.SalesRep_ID,
+  h.M_Warehouse_ID,
+  h.POReference, h.DeliveryRule, h.FreightCostRule, h.FreightAmt,
+  h.DeliveryViaRule, h.M_Shipper_ID, -- h.C_CHARGE_ID, h.CHARGEAmt,
+  h.PriorityRule, h.DatePrinted,
+  h.NoPackages, h.PickDate, h.ShipDate, h.TrackingNo,
+  h.AD_OrgTrx_ID, h.C_Project_ID, h.C_Campaign_ID, h.C_Activity_ID, h.User1_ID, h.User2_ID,h.User3_ID, h.User4_ID,
+  h.DateReceived, h.IsApproved, h.IsInDispute,
+  l.M_InOutLine_ID, l.Line, l.Description AS LineDescription,
+  l.C_OrderLine_ID, l.M_Locator_ID,
+  l.M_Product_ID, l.C_UOM_ID,
+  l.M_AttributeSetInstance_ID, productAttribute(l.M_AttributeSetInstance_ID) AS ProductAttribute,
+  pasi.M_AttributeSet_ID, pasi.M_Lot_ID, pasi.GuaranteeDate, pasi.Lot, pasi.SerNo,
+  l.MovementQty, l.QtyEntered,
+  l.IsDescription,
+  l.ConfirmedQty, l.PickedQty, l.ScrappedQty, l.TargetQty,
+  loc.Value AS LocatorValue, loc.X, loc.Y, loc.Z
+FROM M_InOut h
+  INNER JOIN M_InOutLine l ON (h.M_InOut_ID=l.M_InOut_ID)
+  LEFT OUTER JOIN M_Locator loc ON (l.M_Locator_ID=loc.M_Locator_ID)
+  LEFT OUTER JOIN M_AttributeSetInstance pasi ON (l.M_AttributeSetInstance_ID=pasi.M_AttributeSetInstance_ID);
+</SQLStatement>
+      <RollbackStatement>DROP VIEW RV_INOUTDETAILS;
+CREATE OR REPLACE VIEW RV_INOUTDETAILS
+(AD_CLIENT_ID, AD_ORG_ID, ISACTIVE, CREATED, CREATEDBY, 
+ UPDATED, UPDATEDBY, M_INOUT_ID, ISSOTRX, DOCUMENTNO, 
+ DOCACTION, DOCSTATUS, POSTED, PROCESSED, C_DOCTYPE_ID, 
+ DESCRIPTION, C_ORDER_ID, DATEORDERED, MOVEMENTTYPE, MOVEMENTDATE, 
+ DATEACCT, C_BPARTNER_ID, C_BPARTNER_LOCATION_ID, AD_USER_ID, SALESREP_ID, 
+ M_WAREHOUSE_ID, POREFERENCE, DELIVERYRULE, FREIGHTCOSTRULE, FREIGHTAMT, 
+ DELIVERYVIARULE, M_SHIPPER_ID, PRIORITYRULE, DATEPRINTED, NOPACKAGES, 
+ PICKDATE, SHIPDATE, TRACKINGNO, AD_ORGTRX_ID, C_PROJECT_ID, 
+ C_CAMPAIGN_ID, C_ACTIVITY_ID, USER1_ID, USER2_ID, DATERECEIVED, 
+ ISAPPROVED, ISINDISPUTE, M_INOUTLINE_ID, LINE, LINEDESCRIPTION, 
+ C_ORDERLINE_ID, M_LOCATOR_ID, M_PRODUCT_ID, C_UOM_ID, M_ATTRIBUTESETINSTANCE_ID, 
+ PRODUCTATTRIBUTE, M_ATTRIBUTESET_ID, M_LOT_ID, GUARANTEEDATE, LOT, 
+ SERNO, MOVEMENTQTY, QTYENTERED, ISDESCRIPTION, CONFIRMEDQTY, 
+ PICKEDQTY, SCRAPPEDQTY, TARGETQTY, LOCATORVALUE, X, 
+ Y, Z)
+AS 
+SELECT h.AD_Client_ID, h.AD_Org_ID, l.IsActive, l.Created, l.CreatedBy, l.Updated, l.UpdatedBy,
+  h.M_InOut_ID,
+  h.IsSOTrx, h.DocumentNo, h.DocAction, h.DocStatus, h.Posted, h.Processed,
+  h.C_DocType_ID, h.Description, h.C_Order_ID, h.DateOrdered,
+  h.MovementType, h.MovementDate, h.DateAcct,
+  h.C_BPartner_ID, h.C_BPartner_Location_ID, h.AD_User_ID,
+  h.SalesRep_ID,
+  h.M_Warehouse_ID,
+  h.POReference, h.DeliveryRule, h.FreightCostRule, h.FreightAmt,
+  h.DeliveryViaRule, h.M_Shipper_ID, -- h.C_CHARGE_ID, h.CHARGEAmt,
+  h.PriorityRule, h.DatePrinted,
+  h.NoPackages, h.PickDate, h.ShipDate, h.TrackingNo,
+  h.AD_OrgTrx_ID, h.C_Project_ID, h.C_Campaign_ID, h.C_Activity_ID, h.User1_ID, h.User2_ID,
+  h.DateReceived, h.IsApproved, h.IsInDispute,
+  l.M_InOutLine_ID, l.Line, l.Description AS LineDescription,
+  l.C_OrderLine_ID, l.M_Locator_ID,
+  l.M_Product_ID, l.C_UOM_ID,
+  l.M_AttributeSetInstance_ID, productAttribute(l.M_AttributeSetInstance_ID) AS ProductAttribute,
+  pasi.M_AttributeSet_ID, pasi.M_Lot_ID, pasi.GuaranteeDate, pasi.Lot, pasi.SerNo,
+  l.MovementQty, l.QtyEntered,
+  l.IsDescription,
+  l.ConfirmedQty, l.PickedQty, l.ScrappedQty, l.TargetQty,
+  loc.Value AS LocatorValue, loc.X, loc.Y, loc.Z
+FROM M_InOut h
+  INNER JOIN M_InOutLine l ON (h.M_InOut_ID=l.M_InOut_ID)
+  LEFT OUTER JOIN M_Locator loc ON (l.M_Locator_ID=loc.M_Locator_ID)
+  LEFT OUTER JOIN M_AttributeSetInstance pasi ON (l.M_AttributeSetInstance_ID=pasi.M_AttributeSetInstance_ID);
+</RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" Parse="Y" SeqNo="180" StepType="SQL">
+      <SQLStatement>DROP VIEW RV_INOUTDETAILS;
+CREATE OR REPLACE VIEW RV_INOUTDETAILS
+(AD_CLIENT_ID, AD_ORG_ID, ISACTIVE, CREATED, CREATEDBY, 
+ UPDATED, UPDATEDBY, M_INOUT_ID, ISSOTRX, DOCUMENTNO, 
+ DOCACTION, DOCSTATUS, POSTED, PROCESSED, C_DOCTYPE_ID, 
+ DESCRIPTION, C_ORDER_ID, DATEORDERED, MOVEMENTTYPE, MOVEMENTDATE, 
+ DATEACCT, C_BPARTNER_ID, C_BPARTNER_LOCATION_ID, AD_USER_ID, SALESREP_ID, 
+ M_WAREHOUSE_ID, POREFERENCE, DELIVERYRULE, FREIGHTCOSTRULE, FREIGHTAMT, 
+ DELIVERYVIARULE, M_SHIPPER_ID, PRIORITYRULE, DATEPRINTED, NOPACKAGES, 
+ PICKDATE, SHIPDATE, TRACKINGNO, AD_ORGTRX_ID, C_PROJECT_ID, 
+ C_CAMPAIGN_ID, C_ACTIVITY_ID, USER1_ID, USER2_ID, USER3_ID, USER4_ID, DATERECEIVED,
+ ISAPPROVED, ISINDISPUTE, M_INOUTLINE_ID, LINE, LINEDESCRIPTION, 
+ C_ORDERLINE_ID, M_LOCATOR_ID, M_PRODUCT_ID, C_UOM_ID, M_ATTRIBUTESETINSTANCE_ID, 
+ PRODUCTATTRIBUTE, M_ATTRIBUTESET_ID, M_LOT_ID, GUARANTEEDATE, LOT, 
+ SERNO, MOVEMENTQTY, QTYENTERED, ISDESCRIPTION, CONFIRMEDQTY, 
+ PICKEDQTY, SCRAPPEDQTY, TARGETQTY, LOCATORVALUE, X, 
+ Y, Z)
+AS 
+SELECT h.AD_Client_ID, h.AD_Org_ID, l.IsActive, l.Created, l.CreatedBy, l.Updated, l.UpdatedBy,
+  h.M_InOut_ID,
+  h.IsSOTrx, h.DocumentNo, h.DocAction, h.DocStatus, h.Posted, h.Processed,
+  h.C_DocType_ID, h.Description, h.C_Order_ID, h.DateOrdered,
+  h.MovementType, h.MovementDate, h.DateAcct,
+  h.C_BPartner_ID, h.C_BPartner_Location_ID, h.AD_User_ID,
+  h.SalesRep_ID,
+  h.M_Warehouse_ID,
+  h.POReference, h.DeliveryRule, h.FreightCostRule, h.FreightAmt,
+  h.DeliveryViaRule, h.M_Shipper_ID, -- h.C_CHARGE_ID, h.CHARGEAmt,
+  h.PriorityRule, h.DatePrinted,
+  h.NoPackages, h.PickDate, h.ShipDate, h.TrackingNo,
+  h.AD_OrgTrx_ID, h.C_Project_ID, h.C_Campaign_ID, h.C_Activity_ID, h.User1_ID, h.User2_ID, h.User3_ID, h.User4_ID,
+  h.DateReceived, h.IsApproved, h.IsInDispute,
+  l.M_InOutLine_ID, l.Line, l.Description AS LineDescription,
+  l.C_OrderLine_ID, l.M_Locator_ID,
+  l.M_Product_ID, l.C_UOM_ID,
+  l.M_AttributeSetInstance_ID, productAttribute(l.M_AttributeSetInstance_ID) AS ProductAttribute,
+  pasi.M_AttributeSet_ID, pasi.M_Lot_ID, pasi.GuaranteeDate, pasi.Lot, pasi.SerNo,
+  l.MovementQty, l.QtyEntered,
+  l.IsDescription,
+  l.ConfirmedQty, l.PickedQty, l.ScrappedQty, l.TargetQty,
+  loc.Value AS LocatorValue, loc.X, loc.Y, loc.Z
+FROM M_InOut h
+  INNER JOIN M_InOutLine l ON (h.M_InOut_ID=l.M_InOut_ID)
+  LEFT OUTER JOIN M_Locator loc ON (l.M_Locator_ID=loc.M_Locator_ID)
+  LEFT OUTER JOIN M_AttributeSetInstance pasi ON (l.M_AttributeSetInstance_ID=pasi.M_AttributeSetInstance_ID);
+
+</SQLStatement>
+      <RollbackStatement>DROP VIEW RV_INOUTDETAILS;
+CREATE OR REPLACE VIEW RV_INOUTDETAILS
+(AD_CLIENT_ID, AD_ORG_ID, ISACTIVE, CREATED, CREATEDBY, 
+ UPDATED, UPDATEDBY, M_INOUT_ID, ISSOTRX, DOCUMENTNO, 
+ DOCACTION, DOCSTATUS, POSTED, PROCESSED, C_DOCTYPE_ID, 
+ DESCRIPTION, C_ORDER_ID, DATEORDERED, MOVEMENTTYPE, MOVEMENTDATE, 
+ DATEACCT, C_BPARTNER_ID, C_BPARTNER_LOCATION_ID, AD_USER_ID, SALESREP_ID, 
+ M_WAREHOUSE_ID, POREFERENCE, DELIVERYRULE, FREIGHTCOSTRULE, FREIGHTAMT, 
+ DELIVERYVIARULE, M_SHIPPER_ID, PRIORITYRULE, DATEPRINTED, NOPACKAGES, 
+ PICKDATE, SHIPDATE, TRACKINGNO, AD_ORGTRX_ID, C_PROJECT_ID, 
+ C_CAMPAIGN_ID, C_ACTIVITY_ID, USER1_ID, USER2_ID, DATERECEIVED, 
+ ISAPPROVED, ISINDISPUTE, M_INOUTLINE_ID, LINE, LINEDESCRIPTION, 
+ C_ORDERLINE_ID, M_LOCATOR_ID, M_PRODUCT_ID, C_UOM_ID, M_ATTRIBUTESETINSTANCE_ID, 
+ PRODUCTATTRIBUTE, M_ATTRIBUTESET_ID, M_LOT_ID, GUARANTEEDATE, LOT, 
+ SERNO, MOVEMENTQTY, QTYENTERED, ISDESCRIPTION, CONFIRMEDQTY, 
+ PICKEDQTY, SCRAPPEDQTY, TARGETQTY, LOCATORVALUE, X, 
+ Y, Z)
+AS 
+SELECT h.AD_Client_ID, h.AD_Org_ID, l.IsActive, l.Created, l.CreatedBy, l.Updated, l.UpdatedBy,
+  h.M_InOut_ID,
+  h.IsSOTrx, h.DocumentNo, h.DocAction, h.DocStatus, h.Posted, h.Processed,
+  h.C_DocType_ID, h.Description, h.C_Order_ID, h.DateOrdered,
+  h.MovementType, h.MovementDate, h.DateAcct,
+  h.C_BPartner_ID, h.C_BPartner_Location_ID, h.AD_User_ID,
+  h.SalesRep_ID,
+  h.M_Warehouse_ID,
+  h.POReference, h.DeliveryRule, h.FreightCostRule, h.FreightAmt,
+  h.DeliveryViaRule, h.M_Shipper_ID, -- h.C_CHARGE_ID, h.CHARGEAmt,
+  h.PriorityRule, h.DatePrinted,
+  h.NoPackages, h.PickDate, h.ShipDate, h.TrackingNo,
+  h.AD_OrgTrx_ID, h.C_Project_ID, h.C_Campaign_ID, h.C_Activity_ID, h.User1_ID, h.User2_ID,
+  h.DateReceived, h.IsApproved, h.IsInDispute,
+  l.M_InOutLine_ID, l.Line, l.Description AS LineDescription,
+  l.C_OrderLine_ID, l.M_Locator_ID,
+  l.M_Product_ID, l.C_UOM_ID,
+  l.M_AttributeSetInstance_ID, productAttribute(l.M_AttributeSetInstance_ID) AS ProductAttribute,
+  pasi.M_AttributeSet_ID, pasi.M_Lot_ID, pasi.GuaranteeDate, pasi.Lot, pasi.SerNo,
+  l.MovementQty, l.QtyEntered,
+  l.IsDescription,
+  l.ConfirmedQty, l.PickedQty, l.ScrappedQty, l.TargetQty,
+  loc.Value AS LocatorValue, loc.X, loc.Y, loc.Z
+FROM M_InOut h
+  INNER JOIN M_InOutLine l ON (h.M_InOut_ID=l.M_InOut_ID)
+  LEFT OUTER JOIN M_Locator loc ON (l.M_Locator_ID=loc.M_Locator_ID)
+  LEFT OUTER JOIN M_AttributeSetInstance pasi ON (l.M_AttributeSetInstance_ID=pasi.M_AttributeSetInstance_ID);</RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" Parse="Y" SeqNo="190" StepType="SQL">
+      <SQLStatement>DROP VIEW T_INVOICEGL_V;
+CREATE OR REPLACE VIEW T_INVOICEGL_V
+(AD_CLIENT_ID, AD_ORG_ID, ISACTIVE, CREATED, CREATEDBY, 
+ UPDATED, UPDATEDBY, C_INVOICE_ID, ISSOTRX, DOCUMENTNO, 
+ DOCSTATUS, C_DOCTYPE_ID, C_ORDER_ID, DESCRIPTION, SALESREP_ID, 
+ DATEINVOICED, DATEACCT, C_PAYMENTTERM_ID, C_BPARTNER_ID, C_BPARTNER_LOCATION_ID, 
+ AD_USER_ID, ISSELFSERVICE, C_CURRENCY_ID, C_CONVERSIONTYPE_ID, GRANDTOTAL, 
+ ISTAXINCLUDED, C_CAMPAIGN_ID, C_PROJECT_ID, C_ACTIVITY_ID, AD_ORGTRX_ID, 
+ USER1_ID, USER2_ID, USER3_ID, USER4_ID, C_LOCFROM_ID, C_LOCTO_ID, C_SALESREGION_ID,
+ FACT_ACCT_ID, C_ACCTSCHEMA_ID, ACCOUNT_ID, C_PERIOD_ID, GL_CATEGORY_ID, 
+ GL_BUDGET_ID, C_TAX_ID, M_LOCATOR_ID, POSTINGTYPE, AMTSOURCEDR, 
+ AMTSOURCECR, AMTACCTDR, AMTACCTCR, C_UOM_ID, QTY, 
+ AD_PINSTANCE_ID, APAR, OPENAMT, PERCENT, AMTREVALDR, 
+ AMTREVALCR, DATEREVAL, C_CONVERSIONTYPEREVAL_ID, AMTSOURCEBALANCE, AMTACCTBALANCE, 
+ C_DOCTYPEREVAL_ID, AMTREVALDRDIFF, AMTREVALCRDIFF, ISALLCURRENCIES, AMTACCTOPENDR, 
+ AMTACCTOPENCR, AMTACCTOPENBALANCE)
+AS 
+SELECT i.AD_Client_ID, i.AD_Org_ID, i.IsActive, i.Created,i.CreatedBy, i.Updated,i.UpdatedBy,
+    i.C_Invoice_ID, i.IsSOTrx, i.DocumentNo, i.DocStatus, i.C_DocType_ID, i.C_Order_ID,
+    i.Description, i.SalesRep_ID, i.DateInvoiced, i.DateAcct, i.C_PaymentTerm_ID,
+    i.C_BPartner_ID, i.C_BPartner_Location_ID, i.AD_User_ID, i.IsSelfService,
+    i.C_Currency_ID, i.C_ConversionType_ID, i.GrandTotal, i.IsTaxIncluded,
+--  References
+    i.C_Campaign_ID, i.C_Project_ID, i.C_Activity_ID,
+    i.AD_OrgTrx_ID, i.User1_ID, i.User2_ID,i.User2_ID, i.User3_ID,
+    fa.C_LocFrom_ID, fa.C_LocTo_ID, fa.C_SalesRegion_ID,
+--  Accounting
+    fa.Fact_Acct_ID, fa.C_AcctSchema_ID, fa.Account_ID, fa.C_Period_ID, fa.GL_Category_ID, fa.GL_Budget_ID,
+    fa.C_Tax_ID, fa.M_Locator_ID,
+    fa.PostingType, fa.AmtSourceDr, fa.AmtSourceCr,
+    fa.AmtAcctDr, fa.AmtAcctCr,
+    fa.C_UOM_ID, fa.Qty,
+--  Gain/Loss
+    gl.AD_PInstance_ID, gl.APAR, gl.OpenAmt, gl.Percent,
+    gl.AmtRevalDr, gl.AmtRevalCr, gl.DateReval, gl.C_ConversionTypeReval_ID,
+    gl.AmtSourceBalance, gl.AmtAcctBalance,
+    gl.C_DocTypeReval_ID,
+    gl.AmtRevalDrDiff, gl.AmtRevalCrDiff, gl.IsAllCurrencies,
+    (fa.AmtAcctDr*gl.Percent/100) AS AmtAcctOpenDr, (fa.AmtAcctCr*gl.Percent/100) AS AmtAcctOpenCr,
+    ((fa.AmtAcctDr-fa.AmtAcctCr)*gl.Percent/100) AS AmtAcctOpenBalance
+FROM T_InvoiceGL gl
+  INNER JOIN C_Invoice i ON (gl.C_Invoice_ID=i.C_Invoice_ID)
+  INNER JOIN Fact_Acct fa ON (gl.Fact_Acct_ID=fa.Fact_Acct_ID);
+
+DROP VIEW T_INVOICEGL_VT;
+CREATE OR REPLACE VIEW T_INVOICEGL_VT
+(AD_CLIENT_ID, AD_ORG_ID, ISACTIVE, CREATED, CREATEDBY, 
+ UPDATED, UPDATEDBY, C_INVOICE_ID, ISSOTRX, DOCUMENTNO, 
+ DOCSTATUS, C_DOCTYPE_ID, C_ORDER_ID, DESCRIPTION, SALESREP_ID, 
+ DATEINVOICED, DATEACCT, C_PAYMENTTERM_ID, C_BPARTNER_ID, C_BPARTNER_LOCATION_ID, 
+ AD_USER_ID, ISSELFSERVICE, C_CURRENCY_ID, C_CONVERSIONTYPE_ID, GRANDTOTAL, 
+ ISTAXINCLUDED, C_CAMPAIGN_ID, C_PROJECT_ID, C_ACTIVITY_ID, AD_ORGTRX_ID, 
+ USER1_ID, USER2_ID,  USER3_ID, USER4_ID, C_LOCFROM_ID, C_LOCTO_ID, C_SALESREGION_ID,
+ FACT_ACCT_ID, C_ACCTSCHEMA_ID, ACCOUNT_ID, C_PERIOD_ID, GL_CATEGORY_ID, 
+ GL_BUDGET_ID, C_TAX_ID, M_LOCATOR_ID, POSTINGTYPE, AMTSOURCEDR, 
+ AMTSOURCECR, AMTACCTDR, AMTACCTCR, C_UOM_ID, QTY, 
+ AD_PINSTANCE_ID, APAR, OPENAMT, PERCENT, AMTREVALDR, 
+ AMTREVALCR, DATEREVAL, C_CONVERSIONTYPEREVAL_ID, AMTSOURCEBALANCE, AMTACCTBALANCE, 
+ C_DOCTYPEREVAL_ID, AMTREVALDRDIFF, AMTREVALCRDIFF, ISALLCURRENCIES, AMTACCTOPENDR, 
+ AMTACCTOPENCR, AMTACCTOPENBALANCE)
+AS 
+SELECT i.AD_Client_ID, i.AD_Org_ID, i.IsActive, i.Created,i.CreatedBy, i.Updated,i.UpdatedBy,
+    i.C_Invoice_ID, i.IsSOTrx, i.DocumentNo, i.DocStatus, i.C_DocType_ID, i.C_Order_ID,
+    i.Description, i.SalesRep_ID, i.DateInvoiced, i.DateAcct, i.C_PaymentTerm_ID,
+    i.C_BPartner_ID, i.C_BPartner_Location_ID, i.AD_User_ID, i.IsSelfService,
+    i.C_Currency_ID, i.C_ConversionType_ID, i.GrandTotal, i.IsTaxIncluded,
+--  References
+    i.C_Campaign_ID, i.C_Project_ID, i.C_Activity_ID,
+    i.AD_OrgTrx_ID, i.User1_ID, i.User2_ID,i.User3_ID, i.User4_ID,
+    fa.C_LocFrom_ID, fa.C_LocTo_ID, fa.C_SalesRegion_ID,
+--  Accounting
+    fa.Fact_Acct_ID, fa.C_AcctSchema_ID, fa.Account_ID, fa.C_Period_ID, fa.GL_Category_ID, fa.GL_Budget_ID,
+    fa.C_Tax_ID, fa.M_Locator_ID,
+    fa.PostingType, fa.AmtSourceDr, fa.AmtSourceCr,
+    fa.AmtAcctDr, fa.AmtAcctCr,
+    fa.C_UOM_ID, fa.Qty,
+--  Gain/Loss
+    gl.AD_PInstance_ID, gl.APAR, gl.OpenAmt, gl.Percent,
+    gl.AmtRevalDr, gl.AmtRevalCr, gl.DateReval, gl.C_ConversionTypeReval_ID,
+    gl.AmtSourceBalance, gl.AmtAcctBalance,
+    gl.C_DocTypeReval_ID,
+    gl.AmtRevalDrDiff, gl.AmtRevalCrDiff, gl.IsAllCurrencies,
+    (fa.AmtAcctDr*gl.Percent/100) AS AmtAcctOpenDr, (fa.AmtAcctCr*gl.Percent/100) AS AmtAcctOpenCr,
+    ((fa.AmtAcctDr-fa.AmtAcctCr)*gl.Percent/100) AS AmtAcctOpenBalance
+FROM T_InvoiceGL gl
+  INNER JOIN C_Invoice i ON (gl.C_Invoice_ID=i.C_Invoice_ID)
+  INNER JOIN Fact_Acct fa ON (gl.Fact_Acct_ID=fa.Fact_Acct_ID);
+</SQLStatement>
+      <RollbackStatement>DROP VIEW T_INVOICEGL_V;
+CREATE OR REPLACE VIEW T_INVOICEGL_V
+(AD_CLIENT_ID, AD_ORG_ID, ISACTIVE, CREATED, CREATEDBY, 
+ UPDATED, UPDATEDBY, C_INVOICE_ID, ISSOTRX, DOCUMENTNO, 
+ DOCSTATUS, C_DOCTYPE_ID, C_ORDER_ID, DESCRIPTION, SALESREP_ID, 
+ DATEINVOICED, DATEACCT, C_PAYMENTTERM_ID, C_BPARTNER_ID, C_BPARTNER_LOCATION_ID, 
+ AD_USER_ID, ISSELFSERVICE, C_CURRENCY_ID, C_CONVERSIONTYPE_ID, GRANDTOTAL, 
+ ISTAXINCLUDED, C_CAMPAIGN_ID, C_PROJECT_ID, C_ACTIVITY_ID, AD_ORGTRX_ID, 
+ USER1_ID, USER2_ID, C_LOCFROM_ID, C_LOCTO_ID, C_SALESREGION_ID, 
+ FACT_ACCT_ID, C_ACCTSCHEMA_ID, ACCOUNT_ID, C_PERIOD_ID, GL_CATEGORY_ID, 
+ GL_BUDGET_ID, C_TAX_ID, M_LOCATOR_ID, POSTINGTYPE, AMTSOURCEDR, 
+ AMTSOURCECR, AMTACCTDR, AMTACCTCR, C_UOM_ID, QTY, 
+ AD_PINSTANCE_ID, APAR, OPENAMT, PERCENT, AMTREVALDR, 
+ AMTREVALCR, DATEREVAL, C_CONVERSIONTYPEREVAL_ID, AMTSOURCEBALANCE, AMTACCTBALANCE, 
+ C_DOCTYPEREVAL_ID, AMTREVALDRDIFF, AMTREVALCRDIFF, ISALLCURRENCIES, AMTACCTOPENDR, 
+ AMTACCTOPENCR, AMTACCTOPENBALANCE)
+AS 
+SELECT i.AD_Client_ID, i.AD_Org_ID, i.IsActive, i.Created,i.CreatedBy, i.Updated,i.UpdatedBy,
+    i.C_Invoice_ID, i.IsSOTrx, i.DocumentNo, i.DocStatus, i.C_DocType_ID, i.C_Order_ID,
+    i.Description, i.SalesRep_ID, i.DateInvoiced, i.DateAcct, i.C_PaymentTerm_ID,
+    i.C_BPartner_ID, i.C_BPartner_Location_ID, i.AD_User_ID, i.IsSelfService,
+    i.C_Currency_ID, i.C_ConversionType_ID, i.GrandTotal, i.IsTaxIncluded,
+--  References
+    i.C_Campaign_ID, i.C_Project_ID, i.C_Activity_ID,
+    i.AD_OrgTrx_ID, i.User1_ID, i.User2_ID,
+    fa.C_LocFrom_ID, fa.C_LocTo_ID, fa.C_SalesRegion_ID,
+--  Accounting
+    fa.Fact_Acct_ID, fa.C_AcctSchema_ID, fa.Account_ID, fa.C_Period_ID, fa.GL_Category_ID, fa.GL_Budget_ID,
+    fa.C_Tax_ID, fa.M_Locator_ID,
+    fa.PostingType, fa.AmtSourceDr, fa.AmtSourceCr,
+    fa.AmtAcctDr, fa.AmtAcctCr,
+    fa.C_UOM_ID, fa.Qty,
+--  Gain/Loss
+    gl.AD_PInstance_ID, gl.APAR, gl.OpenAmt, gl.Percent,
+    gl.AmtRevalDr, gl.AmtRevalCr, gl.DateReval, gl.C_ConversionTypeReval_ID,
+    gl.AmtSourceBalance, gl.AmtAcctBalance,
+    gl.C_DocTypeReval_ID,
+    gl.AmtRevalDrDiff, gl.AmtRevalCrDiff, gl.IsAllCurrencies,
+    (fa.AmtAcctDr*gl.Percent/100) AS AmtAcctOpenDr, (fa.AmtAcctCr*gl.Percent/100) AS AmtAcctOpenCr,
+    ((fa.AmtAcctDr-fa.AmtAcctCr)*gl.Percent/100) AS AmtAcctOpenBalance
+FROM T_InvoiceGL gl
+  INNER JOIN C_Invoice i ON (gl.C_Invoice_ID=i.C_Invoice_ID)
+  INNER JOIN Fact_Acct fa ON (gl.Fact_Acct_ID=fa.Fact_Acct_ID);
+
+
+DROP VIEW T_INVOICEGL_VT;
+CREATE OR REPLACE VIEW T_INVOICEGL_VT
+(AD_CLIENT_ID, AD_ORG_ID, ISACTIVE, CREATED, CREATEDBY, 
+ UPDATED, UPDATEDBY, C_INVOICE_ID, ISSOTRX, DOCUMENTNO, 
+ DOCSTATUS, C_DOCTYPE_ID, C_ORDER_ID, DESCRIPTION, SALESREP_ID, 
+ DATEINVOICED, DATEACCT, C_PAYMENTTERM_ID, C_BPARTNER_ID, C_BPARTNER_LOCATION_ID, 
+ AD_USER_ID, ISSELFSERVICE, C_CURRENCY_ID, C_CONVERSIONTYPE_ID, GRANDTOTAL, 
+ ISTAXINCLUDED, C_CAMPAIGN_ID, C_PROJECT_ID, C_ACTIVITY_ID, AD_ORGTRX_ID, 
+ USER1_ID, USER2_ID, C_LOCFROM_ID, C_LOCTO_ID, C_SALESREGION_ID, 
+ FACT_ACCT_ID, C_ACCTSCHEMA_ID, ACCOUNT_ID, C_PERIOD_ID, GL_CATEGORY_ID, 
+ GL_BUDGET_ID, C_TAX_ID, M_LOCATOR_ID, POSTINGTYPE, AMTSOURCEDR, 
+ AMTSOURCECR, AMTACCTDR, AMTACCTCR, C_UOM_ID, QTY, 
+ AD_PINSTANCE_ID, APAR, OPENAMT, PERCENT, AMTREVALDR, 
+ AMTREVALCR, DATEREVAL, C_CONVERSIONTYPEREVAL_ID, AMTSOURCEBALANCE, AMTACCTBALANCE, 
+ C_DOCTYPEREVAL_ID, AMTREVALDRDIFF, AMTREVALCRDIFF, ISALLCURRENCIES, AMTACCTOPENDR, 
+ AMTACCTOPENCR, AMTACCTOPENBALANCE)
+AS 
+SELECT i.AD_Client_ID, i.AD_Org_ID, i.IsActive, i.Created,i.CreatedBy, i.Updated,i.UpdatedBy,
+    i.C_Invoice_ID, i.IsSOTrx, i.DocumentNo, i.DocStatus, i.C_DocType_ID, i.C_Order_ID,
+    i.Description, i.SalesRep_ID, i.DateInvoiced, i.DateAcct, i.C_PaymentTerm_ID,
+    i.C_BPartner_ID, i.C_BPartner_Location_ID, i.AD_User_ID, i.IsSelfService,
+    i.C_Currency_ID, i.C_ConversionType_ID, i.GrandTotal, i.IsTaxIncluded,
+--  References
+    i.C_Campaign_ID, i.C_Project_ID, i.C_Activity_ID,
+    i.AD_OrgTrx_ID, i.User1_ID, i.User2_ID,
+    fa.C_LocFrom_ID, fa.C_LocTo_ID, fa.C_SalesRegion_ID,
+--  Accounting
+    fa.Fact_Acct_ID, fa.C_AcctSchema_ID, fa.Account_ID, fa.C_Period_ID, fa.GL_Category_ID, fa.GL_Budget_ID,
+    fa.C_Tax_ID, fa.M_Locator_ID,
+    fa.PostingType, fa.AmtSourceDr, fa.AmtSourceCr,
+    fa.AmtAcctDr, fa.AmtAcctCr,
+    fa.C_UOM_ID, fa.Qty,
+--  Gain/Loss
+    gl.AD_PInstance_ID, gl.APAR, gl.OpenAmt, gl.Percent,
+    gl.AmtRevalDr, gl.AmtRevalCr, gl.DateReval, gl.C_ConversionTypeReval_ID,
+    gl.AmtSourceBalance, gl.AmtAcctBalance,
+    gl.C_DocTypeReval_ID,
+    gl.AmtRevalDrDiff, gl.AmtRevalCrDiff, gl.IsAllCurrencies,
+    (fa.AmtAcctDr*gl.Percent/100) AS AmtAcctOpenDr, (fa.AmtAcctCr*gl.Percent/100) AS AmtAcctOpenCr,
+    ((fa.AmtAcctDr-fa.AmtAcctCr)*gl.Percent/100) AS AmtAcctOpenBalance
+FROM T_InvoiceGL gl
+  INNER JOIN C_Invoice i ON (gl.C_Invoice_ID=i.C_Invoice_ID)
+  INNER JOIN Fact_Acct fa ON (gl.Fact_Acct_ID=fa.Fact_Acct_ID);
+
+
+
+
+
+</RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" Parse="Y" SeqNo="200" StepType="SQL">
+      <SQLStatement>DROP VIEW T_INVOICEGL_V;
+CREATE OR REPLACE VIEW T_INVOICEGL_V
+(AD_CLIENT_ID, AD_ORG_ID, ISACTIVE, CREATED, CREATEDBY, 
+ UPDATED, UPDATEDBY, C_INVOICE_ID, ISSOTRX, DOCUMENTNO, 
+ DOCSTATUS, C_DOCTYPE_ID, C_ORDER_ID, DESCRIPTION, SALESREP_ID, 
+ DATEINVOICED, DATEACCT, C_PAYMENTTERM_ID, C_BPARTNER_ID, C_BPARTNER_LOCATION_ID, 
+ AD_USER_ID, ISSELFSERVICE, C_CURRENCY_ID, C_CONVERSIONTYPE_ID, GRANDTOTAL, 
+ ISTAXINCLUDED, C_CAMPAIGN_ID, C_PROJECT_ID, C_ACTIVITY_ID, AD_ORGTRX_ID, 
+ USER1_ID, USER2_ID, USER3_ID, USER4_ID, C_LOCFROM_ID, C_LOCTO_ID, C_SALESREGION_ID,
+ FACT_ACCT_ID, C_ACCTSCHEMA_ID, ACCOUNT_ID, C_PERIOD_ID, GL_CATEGORY_ID, 
+ GL_BUDGET_ID, C_TAX_ID, M_LOCATOR_ID, POSTINGTYPE, AMTSOURCEDR, 
+ AMTSOURCECR, AMTACCTDR, AMTACCTCR, C_UOM_ID, QTY, 
+ AD_PINSTANCE_ID, APAR, OPENAMT, PERCENT, AMTREVALDR, 
+ AMTREVALCR, DATEREVAL, C_CONVERSIONTYPEREVAL_ID, AMTSOURCEBALANCE, AMTACCTBALANCE, 
+ C_DOCTYPEREVAL_ID, AMTREVALDRDIFF, AMTREVALCRDIFF, ISALLCURRENCIES, AMTACCTOPENDR, 
+ AMTACCTOPENCR, AMTACCTOPENBALANCE)
+AS 
+SELECT i.AD_Client_ID, i.AD_Org_ID, i.IsActive, i.Created,i.CreatedBy, i.Updated,i.UpdatedBy,
+    i.C_Invoice_ID, i.IsSOTrx, i.DocumentNo, i.DocStatus, i.C_DocType_ID, i.C_Order_ID,
+    i.Description, i.SalesRep_ID, i.DateInvoiced, i.DateAcct, i.C_PaymentTerm_ID,
+    i.C_BPartner_ID, i.C_BPartner_Location_ID, i.AD_User_ID, i.IsSelfService,
+    i.C_Currency_ID, i.C_ConversionType_ID, i.GrandTotal, i.IsTaxIncluded,
+--  References
+    i.C_Campaign_ID, i.C_Project_ID, i.C_Activity_ID,
+    i.AD_OrgTrx_ID, i.User1_ID, i.User2_ID, i.User3_ID, i.User4_ID,
+    fa.C_LocFrom_ID, fa.C_LocTo_ID, fa.C_SalesRegion_ID,
+--  Accounting
+    fa.Fact_Acct_ID, fa.C_AcctSchema_ID, fa.Account_ID, fa.C_Period_ID, fa.GL_Category_ID, fa.GL_Budget_ID,
+    fa.C_Tax_ID, fa.M_Locator_ID,
+    fa.PostingType, fa.AmtSourceDr, fa.AmtSourceCr,
+    fa.AmtAcctDr, fa.AmtAcctCr,
+    fa.C_UOM_ID, fa.Qty,
+--  Gain/Loss
+    gl.AD_PInstance_ID, gl.APAR, gl.OpenAmt, gl.Percent,
+    gl.AmtRevalDr, gl.AmtRevalCr, gl.DateReval, gl.C_ConversionTypeReval_ID,
+    gl.AmtSourceBalance, gl.AmtAcctBalance,
+    gl.C_DocTypeReval_ID,
+    gl.AmtRevalDrDiff, gl.AmtRevalCrDiff, gl.IsAllCurrencies,
+    (fa.AmtAcctDr*gl.Percent/100) AS AmtAcctOpenDr, (fa.AmtAcctCr*gl.Percent/100) AS AmtAcctOpenCr,
+    ((fa.AmtAcctDr-fa.AmtAcctCr)*gl.Percent/100) AS AmtAcctOpenBalance
+FROM T_InvoiceGL gl
+  INNER JOIN C_Invoice i ON (gl.C_Invoice_ID=i.C_Invoice_ID)
+  INNER JOIN Fact_Acct fa ON (gl.Fact_Acct_ID=fa.Fact_Acct_ID);
+
+DROP VIEW T_INVOICEGL_VT;
+
+CREATE OR REPLACE VIEW T_INVOICEGL_VT
+(AD_CLIENT_ID, AD_ORG_ID, ISACTIVE, CREATED, CREATEDBY, 
+ UPDATED, UPDATEDBY, C_INVOICE_ID, ISSOTRX, DOCUMENTNO, 
+ DOCSTATUS, C_DOCTYPE_ID, C_ORDER_ID, DESCRIPTION, SALESREP_ID, 
+ DATEINVOICED, DATEACCT, C_PAYMENTTERM_ID, C_BPARTNER_ID, C_BPARTNER_LOCATION_ID, 
+ AD_USER_ID, ISSELFSERVICE, C_CURRENCY_ID, C_CONVERSIONTYPE_ID, GRANDTOTAL, 
+ ISTAXINCLUDED, C_CAMPAIGN_ID, C_PROJECT_ID, C_ACTIVITY_ID, AD_ORGTRX_ID, 
+ USER1_ID, USER2_ID, USER3_ID, USER4_ID, C_LOCFROM_ID, C_LOCTO_ID, C_SALESREGION_ID,
+ FACT_ACCT_ID, C_ACCTSCHEMA_ID, ACCOUNT_ID, C_PERIOD_ID, GL_CATEGORY_ID, 
+ GL_BUDGET_ID, C_TAX_ID, M_LOCATOR_ID, POSTINGTYPE, AMTSOURCEDR, 
+ AMTSOURCECR, AMTACCTDR, AMTACCTCR, C_UOM_ID, QTY, 
+ AD_PINSTANCE_ID, APAR, OPENAMT, PERCENT, AMTREVALDR, 
+ AMTREVALCR, DATEREVAL, C_CONVERSIONTYPEREVAL_ID, AMTSOURCEBALANCE, AMTACCTBALANCE, 
+ C_DOCTYPEREVAL_ID, AMTREVALDRDIFF, AMTREVALCRDIFF, ISALLCURRENCIES, AMTACCTOPENDR, 
+ AMTACCTOPENCR, AMTACCTOPENBALANCE)
+AS 
+SELECT i.AD_Client_ID, i.AD_Org_ID, i.IsActive, i.Created,i.CreatedBy, i.Updated,i.UpdatedBy,
+    i.C_Invoice_ID, i.IsSOTrx, i.DocumentNo, i.DocStatus, i.C_DocType_ID, i.C_Order_ID,
+    i.Description, i.SalesRep_ID, i.DateInvoiced, i.DateAcct, i.C_PaymentTerm_ID,
+    i.C_BPartner_ID, i.C_BPartner_Location_ID, i.AD_User_ID, i.IsSelfService,
+    i.C_Currency_ID, i.C_ConversionType_ID, i.GrandTotal, i.IsTaxIncluded,
+--  References
+    i.C_Campaign_ID, i.C_Project_ID, i.C_Activity_ID,
+    i.AD_OrgTrx_ID, i.User1_ID, i.User2_ID, i.User3_ID, i.User4_ID,
+    fa.C_LocFrom_ID, fa.C_LocTo_ID, fa.C_SalesRegion_ID,
+--  Accounting
+    fa.Fact_Acct_ID, fa.C_AcctSchema_ID, fa.Account_ID, fa.C_Period_ID, fa.GL_Category_ID, fa.GL_Budget_ID,
+    fa.C_Tax_ID, fa.M_Locator_ID,
+    fa.PostingType, fa.AmtSourceDr, fa.AmtSourceCr,
+    fa.AmtAcctDr, fa.AmtAcctCr,
+    fa.C_UOM_ID, fa.Qty,
+--  Gain/Loss
+    gl.AD_PInstance_ID, gl.APAR, gl.OpenAmt, gl.Percent,
+    gl.AmtRevalDr, gl.AmtRevalCr, gl.DateReval, gl.C_ConversionTypeReval_ID,
+    gl.AmtSourceBalance, gl.AmtAcctBalance,
+    gl.C_DocTypeReval_ID,
+    gl.AmtRevalDrDiff, gl.AmtRevalCrDiff, gl.IsAllCurrencies,
+    (fa.AmtAcctDr*gl.Percent/100) AS AmtAcctOpenDr, (fa.AmtAcctCr*gl.Percent/100) AS AmtAcctOpenCr,
+    ((fa.AmtAcctDr-fa.AmtAcctCr)*gl.Percent/100) AS AmtAcctOpenBalance
+FROM T_InvoiceGL gl
+  INNER JOIN C_Invoice i ON (gl.C_Invoice_ID=i.C_Invoice_ID)
+  INNER JOIN Fact_Acct fa ON (gl.Fact_Acct_ID=fa.Fact_Acct_ID);
+</SQLStatement>
+      <RollbackStatement>DROP VIEW T_INVOICEGL_V;
+CREATE OR REPLACE VIEW T_INVOICEGL_V
+(AD_CLIENT_ID, AD_ORG_ID, ISACTIVE, CREATED, CREATEDBY, 
+ UPDATED, UPDATEDBY, C_INVOICE_ID, ISSOTRX, DOCUMENTNO, 
+ DOCSTATUS, C_DOCTYPE_ID, C_ORDER_ID, DESCRIPTION, SALESREP_ID, 
+ DATEINVOICED, DATEACCT, C_PAYMENTTERM_ID, C_BPARTNER_ID, C_BPARTNER_LOCATION_ID, 
+ AD_USER_ID, ISSELFSERVICE, C_CURRENCY_ID, C_CONVERSIONTYPE_ID, GRANDTOTAL, 
+ ISTAXINCLUDED, C_CAMPAIGN_ID, C_PROJECT_ID, C_ACTIVITY_ID, AD_ORGTRX_ID, 
+ USER1_ID, USER2_ID, C_LOCFROM_ID, C_LOCTO_ID, C_SALESREGION_ID, 
+ FACT_ACCT_ID, C_ACCTSCHEMA_ID, ACCOUNT_ID, C_PERIOD_ID, GL_CATEGORY_ID, 
+ GL_BUDGET_ID, C_TAX_ID, M_LOCATOR_ID, POSTINGTYPE, AMTSOURCEDR, 
+ AMTSOURCECR, AMTACCTDR, AMTACCTCR, C_UOM_ID, QTY, 
+ AD_PINSTANCE_ID, APAR, OPENAMT, PERCENT, AMTREVALDR, 
+ AMTREVALCR, DATEREVAL, C_CONVERSIONTYPEREVAL_ID, AMTSOURCEBALANCE, AMTACCTBALANCE, 
+ C_DOCTYPEREVAL_ID, AMTREVALDRDIFF, AMTREVALCRDIFF, ISALLCURRENCIES, AMTACCTOPENDR, 
+ AMTACCTOPENCR, AMTACCTOPENBALANCE)
+AS 
+SELECT i.AD_Client_ID, i.AD_Org_ID, i.IsActive, i.Created,i.CreatedBy, i.Updated,i.UpdatedBy,
+    i.C_Invoice_ID, i.IsSOTrx, i.DocumentNo, i.DocStatus, i.C_DocType_ID, i.C_Order_ID,
+    i.Description, i.SalesRep_ID, i.DateInvoiced, i.DateAcct, i.C_PaymentTerm_ID,
+    i.C_BPartner_ID, i.C_BPartner_Location_ID, i.AD_User_ID, i.IsSelfService,
+    i.C_Currency_ID, i.C_ConversionType_ID, i.GrandTotal, i.IsTaxIncluded,
+--  References
+    i.C_Campaign_ID, i.C_Project_ID, i.C_Activity_ID,
+    i.AD_OrgTrx_ID, i.User1_ID, i.User2_ID,
+    fa.C_LocFrom_ID, fa.C_LocTo_ID, fa.C_SalesRegion_ID,
+--  Accounting
+    fa.Fact_Acct_ID, fa.C_AcctSchema_ID, fa.Account_ID, fa.C_Period_ID, fa.GL_Category_ID, fa.GL_Budget_ID,
+    fa.C_Tax_ID, fa.M_Locator_ID,
+    fa.PostingType, fa.AmtSourceDr, fa.AmtSourceCr,
+    fa.AmtAcctDr, fa.AmtAcctCr,
+    fa.C_UOM_ID, fa.Qty,
+--  Gain/Loss
+    gl.AD_PInstance_ID, gl.APAR, gl.OpenAmt, gl.Percent,
+    gl.AmtRevalDr, gl.AmtRevalCr, gl.DateReval, gl.C_ConversionTypeReval_ID,
+    gl.AmtSourceBalance, gl.AmtAcctBalance,
+    gl.C_DocTypeReval_ID,
+    gl.AmtRevalDrDiff, gl.AmtRevalCrDiff, gl.IsAllCurrencies,
+    (fa.AmtAcctDr*gl.Percent/100) AS AmtAcctOpenDr, (fa.AmtAcctCr*gl.Percent/100) AS AmtAcctOpenCr,
+    ((fa.AmtAcctDr-fa.AmtAcctCr)*gl.Percent/100) AS AmtAcctOpenBalance
+FROM T_InvoiceGL gl
+  INNER JOIN C_Invoice i ON (gl.C_Invoice_ID=i.C_Invoice_ID)
+  INNER JOIN Fact_Acct fa ON (gl.Fact_Acct_ID=fa.Fact_Acct_ID);
+
+DROP VIEW T_INVOICEGL_VT;
+CREATE OR REPLACE VIEW T_INVOICEGL_VT
+(AD_CLIENT_ID, AD_ORG_ID, ISACTIVE, CREATED, CREATEDBY, 
+ UPDATED, UPDATEDBY, C_INVOICE_ID, ISSOTRX, DOCUMENTNO, 
+ DOCSTATUS, C_DOCTYPE_ID, C_ORDER_ID, DESCRIPTION, SALESREP_ID, 
+ DATEINVOICED, DATEACCT, C_PAYMENTTERM_ID, C_BPARTNER_ID, C_BPARTNER_LOCATION_ID, 
+ AD_USER_ID, ISSELFSERVICE, C_CURRENCY_ID, C_CONVERSIONTYPE_ID, GRANDTOTAL, 
+ ISTAXINCLUDED, C_CAMPAIGN_ID, C_PROJECT_ID, C_ACTIVITY_ID, AD_ORGTRX_ID, 
+ USER1_ID, USER2_ID, C_LOCFROM_ID, C_LOCTO_ID, C_SALESREGION_ID, 
+ FACT_ACCT_ID, C_ACCTSCHEMA_ID, ACCOUNT_ID, C_PERIOD_ID, GL_CATEGORY_ID, 
+ GL_BUDGET_ID, C_TAX_ID, M_LOCATOR_ID, POSTINGTYPE, AMTSOURCEDR, 
+ AMTSOURCECR, AMTACCTDR, AMTACCTCR, C_UOM_ID, QTY, 
+ AD_PINSTANCE_ID, APAR, OPENAMT, PERCENT, AMTREVALDR, 
+ AMTREVALCR, DATEREVAL, C_CONVERSIONTYPEREVAL_ID, AMTSOURCEBALANCE, AMTACCTBALANCE, 
+ C_DOCTYPEREVAL_ID, AMTREVALDRDIFF, AMTREVALCRDIFF, ISALLCURRENCIES, AMTACCTOPENDR, 
+ AMTACCTOPENCR, AMTACCTOPENBALANCE)
+AS 
+SELECT i.AD_Client_ID, i.AD_Org_ID, i.IsActive, i.Created,i.CreatedBy, i.Updated,i.UpdatedBy,
+    i.C_Invoice_ID, i.IsSOTrx, i.DocumentNo, i.DocStatus, i.C_DocType_ID, i.C_Order_ID,
+    i.Description, i.SalesRep_ID, i.DateInvoiced, i.DateAcct, i.C_PaymentTerm_ID,
+    i.C_BPartner_ID, i.C_BPartner_Location_ID, i.AD_User_ID, i.IsSelfService,
+    i.C_Currency_ID, i.C_ConversionType_ID, i.GrandTotal, i.IsTaxIncluded,
+--  References
+    i.C_Campaign_ID, i.C_Project_ID, i.C_Activity_ID,
+    i.AD_OrgTrx_ID, i.User1_ID, i.User2_ID,
+    fa.C_LocFrom_ID, fa.C_LocTo_ID, fa.C_SalesRegion_ID,
+--  Accounting
+    fa.Fact_Acct_ID, fa.C_AcctSchema_ID, fa.Account_ID, fa.C_Period_ID, fa.GL_Category_ID, fa.GL_Budget_ID,
+    fa.C_Tax_ID, fa.M_Locator_ID,
+    fa.PostingType, fa.AmtSourceDr, fa.AmtSourceCr,
+    fa.AmtAcctDr, fa.AmtAcctCr,
+    fa.C_UOM_ID, fa.Qty,
+--  Gain/Loss
+    gl.AD_PInstance_ID, gl.APAR, gl.OpenAmt, gl.Percent,
+    gl.AmtRevalDr, gl.AmtRevalCr, gl.DateReval, gl.C_ConversionTypeReval_ID,
+    gl.AmtSourceBalance, gl.AmtAcctBalance,
+    gl.C_DocTypeReval_ID,
+    gl.AmtRevalDrDiff, gl.AmtRevalCrDiff, gl.IsAllCurrencies,
+    (fa.AmtAcctDr*gl.Percent/100) AS AmtAcctOpenDr, (fa.AmtAcctCr*gl.Percent/100) AS AmtAcctOpenCr,
+    ((fa.AmtAcctDr-fa.AmtAcctCr)*gl.Percent/100) AS AmtAcctOpenBalance
+FROM T_InvoiceGL gl
+  INNER JOIN C_Invoice i ON (gl.C_Invoice_ID=i.C_Invoice_ID)
+  INNER JOIN Fact_Acct fa ON (gl.Fact_Acct_ID=fa.Fact_Acct_ID);
+</RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" Parse="Y" SeqNo="210" StepType="SQL">
+      <SQLStatement>DROP VIEW T_BOMLINE_COSTS;
+CREATE OR REPLACE VIEW RV_T_BOMLINE_COSTS 
+AS 
+SELECT  t.seqno, t.levelno, t.levels, t.ad_client_id,t.C_AcctSchema_ID,
+	t.ad_org_id, t.createdby, t.updatedby, t.updated,
+	t.created, t.ad_pinstance_id, t.implosion, 
+	t.sel_product_id as m_product_id,
+	t.m_costelement_id, 
+	t.currentcostprice,currentcostpricell,
+	t.futurecostprice,futurecostpricell,
+	t.iscostfrozen,
+	t.QtyBOM,
+	(t.currentcostprice + t.currentcostpricell) * t.QtyBOM as Cost,
+	(t.futurecostprice + t.futurecostpricell) * t.QtyBOM as CostStandard,
+	t.M_CostType_ID,
+	t.CostingMethod,
+	bl.isactive, bl.pp_product_bom_id, bl.pp_product_bomline_id, bl.description, 
+	bl.iscritical, bl.componenttype, t.m_product_id as tm_product_id, bl.c_uom_id,
+	bl.issuemethod, bl.line, bl.m_attributesetinstance_id, bl.scrap,
+	bl.validfrom, bl.validto, bl.isqtypercentage
+FROM t_bomline t
+LEFT OUTER JOIN pp_product_bomline bl ON (t.pp_product_bomline_id = bl.pp_product_bomline_id) 
+;
+</SQLStatement>
+      <RollbackStatement>DROP VIEW RV_T_BOMLINE_COSTS;
+CREATE OR REPLACE VIEW T_BOMLINE_COSTS 
+AS 
+SELECT  t.seqno, t.levelno, t.levels, t.ad_client_id,t.C_AcctSchema_ID,
+	t.ad_org_id, t.createdby, t.updatedby, t.updated,
+	t.created, t.ad_pinstance_id, t.implosion, 
+	t.sel_product_id as m_product_id,
+	t.m_costelement_id, 
+	t.currentcostprice,currentcostpricell,
+	t.futurecostprice,futurecostpricell,
+	t.iscostfrozen,
+	t.QtyBOM,
+	(t.currentcostprice + t.currentcostpricell) * t.QtyBOM as Cost,
+	(t.futurecostprice + t.futurecostpricell) * t.QtyBOM as CostStandard,
+	t.M_CostType_ID,
+	t.CostingMethod,
+	bl.isactive, bl.pp_product_bom_id, bl.pp_product_bomline_id, bl.description, 
+	bl.iscritical, bl.componenttype, t.m_product_id as tm_product_id, bl.c_uom_id,
+	bl.issuemethod, bl.line, bl.m_attributesetinstance_id, bl.scrap,
+	bl.validfrom, bl.validto, bl.isqtypercentage
+FROM t_bomline t
+LEFT OUTER JOIN pp_product_bomline bl ON (t.pp_product_bomline_id = bl.pp_product_bomline_id) 
+;
+</RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" Parse="Y" SeqNo="220" StepType="SQL">
+      <SQLStatement>DROP VIEW T_BOMLINE_COSTS;
+CREATE OR REPLACE VIEW RV_T_BOMLINE_COSTS
+AS 
+SELECT  t.seqno, t.levelno, t.levels, t.ad_client_id,t.C_AcctSchema_ID,
+	t.ad_org_id, t.createdby, t.updatedby, t.updated,
+	t.created, t.ad_pinstance_id, t.implosion, 
+	t.sel_product_id as m_product_id,
+	t.m_costelement_id, 
+	t.currentcostprice,currentcostpricell,
+	t.futurecostprice,futurecostpricell,
+	t.iscostfrozen,
+	t.QtyBOM,
+	(t.currentcostprice + t.currentcostpricell) * t.QtyBOM as Cost,
+	(t.futurecostprice + t.futurecostpricell) * t.QtyBOM as CostStandard,
+	t.M_CostType_ID,
+	t.CostingMethod,
+	bl.isactive, bl.pp_product_bom_id, bl.pp_product_bomline_id, bl.description, 
+	bl.iscritical, bl.componenttype, t.m_product_id as tm_product_id, bl.c_uom_id,
+	bl.issuemethod, bl.line, bl.m_attributesetinstance_id, bl.scrap,
+	bl.validfrom, bl.validto, bl.isqtypercentage
+FROM t_bomline t
+LEFT OUTER JOIN pp_product_bomline bl ON (t.pp_product_bomline_id = bl.pp_product_bomline_id) 
+;
+</SQLStatement>
+      <RollbackStatement>DROP VIEW RV_T_BOMLINE_COSTS;
+CREATE OR REPLACE VIEW T_BOMLINE_COSTS
+AS 
+SELECT  t.seqno, t.levelno, t.levels, t.ad_client_id,t.C_AcctSchema_ID,
+	t.ad_org_id, t.createdby, t.updatedby, t.updated,
+	t.created, t.ad_pinstance_id, t.implosion, 
+	t.sel_product_id as m_product_id,
+	t.m_costelement_id, 
+	t.currentcostprice,currentcostpricell,
+	t.futurecostprice,futurecostpricell,
+	t.iscostfrozen,
+	t.QtyBOM,
+	(t.currentcostprice + t.currentcostpricell) * t.QtyBOM as Cost,
+	(t.futurecostprice + t.futurecostpricell) * t.QtyBOM as CostStandard,
+	t.M_CostType_ID,
+	t.CostingMethod,
+	bl.isactive, bl.pp_product_bom_id, bl.pp_product_bomline_id, bl.description, 
+	bl.iscritical, bl.componenttype, t.m_product_id as tm_product_id, bl.c_uom_id,
+	bl.issuemethod, bl.line, bl.m_attributesetinstance_id, bl.scrap,
+	bl.validfrom, bl.validto, bl.isqtypercentage
+FROM t_bomline t
+LEFT OUTER JOIN pp_product_bomline bl ON (t.pp_product_bomline_id = bl.pp_product_bomline_id) 
+;
+</RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" Parse="Y" SeqNo="230" StepType="SQL">
+      <SQLStatement>DROP VIEW c_salesdashboard;
+
+CREATE OR REPLACE VIEW rv_c_salesdashboard AS
+ SELECT ad_client_id,
+    ad_org_id,
+    created,
+    createdby,
+    updated,
+    updatedby,
+    isactive,
+    ad_user_id,
+    name,
+    0 AS salespipeline
+   FROM ad_user;</SQLStatement>
+      <RollbackStatement>DROP VIEW rv_c_salesdashboard;
+
+CREATE OR REPLACE VIEW c_salesdashboard AS
+ SELECT ad_client_id,
+    ad_org_id,
+    created,
+    createdby,
+    updated,
+    updatedby,
+    isactive,
+    ad_user_id,
+    name,
+    0 AS salespipeline
+   FROM ad_user;</RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" Parse="Y" SeqNo="240" StepType="SQL">
+      <SQLStatement>DROP VIEW c_salesdashboard;
+
+CREATE OR REPLACE VIEW rv_c_salesdashboard AS
+ SELECT ad_client_id,
+    ad_org_id,
+    created,
+    createdby,
+    updated,
+    updatedby,
+    isactive,
+    ad_user_id,
+    name,
+    0 AS salespipeline
+   FROM ad_user;</SQLStatement>
+      <RollbackStatement>DROP VIEW rv_c_salesdashboard;
+
+CREATE OR REPLACE VIEW c_salesdashboard AS
+ SELECT ad_client_id,
+    ad_org_id,
+    created,
+    createdby,
+    updated,
+    updatedby,
+    isactive,
+    ad_user_id,
+    name,
+    0 AS salespipeline
+   FROM ad_user;</RollbackStatement>
+    </Step>
+  </Migration>
+</Migrations>

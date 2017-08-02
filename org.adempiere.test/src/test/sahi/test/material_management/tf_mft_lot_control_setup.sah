@@ -1,0 +1,71 @@
+/******************************************************************************
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2011, Michael McKay, All Rights Reserved.                    *
+ * This program is free software; you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ *                                                                            *
+ * @Author Michael McKay (mjmckay)                                            *
+ *                                                                            *
+ ******************************************************************************/
+/**
+ * Test Flow Main Functional Tests
+ * 
+ * Lot Control Setup
+ * 
+ * This test flow creates the Lot Controls used in the Main
+ * Functional Tests
+ * 
+ * See http://wiki.adempiere.net/Functional_Tests
+ * 
+ **/
+
+// Local test - un-comment if running just this file
+// Includes - common functions
+//var $mft_lot_control_setup_CSVFilePath = "../material_management/tf_mft_lot_control_setup.csv";
+//_include("../../lib/common_functions.sah");
+//mft_lot_control_setup();
+
+// General test - un-comment if including this file in a scenario
+var $mft_lot_control_setup_CSVFilePath = "../test/material_management/tf_mft_lot_control_setup.csv";
+
+function mft_lot_control_setup_detail(
+		$Name,
+		$Description,
+		$StartNo,
+		$IncrementNo,
+		$CurrentNext,
+		$Prefix,
+		$Suffix
+		){
+	
+	iNewRecord();
+	iFormView();
+	fSetText("Name", $Name);
+	fSetText("Description", $Description);
+	fSetAmount("StartNo",$StartNo);
+	fSetAmount("IncrementNo",$IncrementNo);
+	fSetAmount("CurrentNext",$CurrentNext);
+	fSetText("Prefix",$Prefix);
+	fSetText("Suffix",$Suffix);
+	iSaveRecord();
+}
+
+function mft_lot_control_setup(){
+	
+	var $data = _readCSVFile($mft_lot_control_setup_CSVFilePath);
+	
+	wOpenWindow("Lot Control");
+	
+	_dataDrive(mft_lot_control_setup_detail, $data);
+
+	wCloseWindow("Lot Control");
+
+	_log("MFT_Lot_Control_Setup completed");
+}

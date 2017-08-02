@@ -23,6 +23,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.beans.PropertyChangeEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
@@ -31,7 +32,9 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.LookAndFeel;
 
+import org.adempiere.exceptions.ValueChangeListener;
 import org.adempiere.plaf.AdempierePLAF;
+import org.compiere.model.GridField;
 import org.compiere.swing.CEditor;
 import org.compiere.util.DB;
 
@@ -305,5 +308,24 @@ public class CConnectionEditor extends JComponent
 
 		private boolean     m_active = false;
 	}   //  CConnectionExitor_MouseListener
+
+
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addValueChangeListener(ValueChangeListener listener) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public GridField getField() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }   //  CConnectionEditor

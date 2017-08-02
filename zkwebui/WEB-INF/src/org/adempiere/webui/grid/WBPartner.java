@@ -27,8 +27,8 @@ import org.adempiere.webui.component.Textbox;
 import org.adempiere.webui.component.VerticalBox;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.editor.WLocationEditor;
-import org.adempiere.webui.event.ValueChangeEvent;
-import org.adempiere.webui.event.ValueChangeListener;
+import org.adempiere.exceptions.ValueChangeEvent;
+import org.adempiere.exceptions.ValueChangeListener;
 import org.adempiere.webui.window.FDialog;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MBPartnerLocation;
@@ -81,11 +81,14 @@ public class WBPartner extends Window implements EventListener, ValueChangeListe
 	private boolean m_readOnly = false;
 
 	private Object[] m_greeting;
+	private Object[] m_bpgroup;
 	
 	private Textbox fValue = new Textbox();
 	private Listbox fGreetingBP = new Listbox();
+	private Listbox fBPGroup = new Listbox();
 	private Textbox fName = new Textbox();
 	private Textbox fName2 = new Textbox();
+	private Textbox fTaxId = new Textbox();
 	private Textbox fContact = new Textbox();
 	private Listbox fGreetingC = new Listbox();
 	private Textbox fTitle = new Textbox();
@@ -155,18 +158,28 @@ public class WBPartner extends Window implements EventListener, ValueChangeListe
 	{
 		//	Get Data
 		m_greeting = fillGreeting();
+		m_bpgroup = fillBPGroup();
 
 		//	Value
 		fValue.addEventListener(Events.ON_CHANGE , this);
 		createLine (fValue, "Value", true);
 		
 		//	Greeting Business Partner
-		fGreetingBP.setMold("select");
-		fGreetingBP.setRows(0);
+		fBPGroup.setMold("select");
+		fBPGroup.setRows(0);
 		
-		for (int i = 0; i < m_greeting.length; i++)
-			fGreetingBP.appendItem(m_greeting[i].toString(), m_greeting[i]);
-		createLine (fGreetingBP, "Greeting", false);
+		for (int i = 0; i < m_bpgroup.length; i++)
+			fBPGroup.appendItem(m_bpgroup[i].toString(), m_bpgroup[i]);
+		createLine (fBPGroup, "Business Partner Group", false);
+		
+		//BPGroup
+//		Greeting Business Partner
+			fGreetingBP.setMold("select");
+			fGreetingBP.setRows(0);
+			
+			for (int i = 0; i < m_greeting.length; i++)
+				fGreetingBP.appendItem(m_greeting[i].toString(), m_greeting[i]);
+			createLine (fGreetingBP, "Greeting", false);
 		
 		//	Name
 		fName.addEventListener(Events.ON_CLICK, this);
@@ -174,6 +187,8 @@ public class WBPartner extends Window implements EventListener, ValueChangeListe
 
 		//	Name2
 		createLine (fName2, "Name2", false);
+		// TaxId
+		createLine (fTaxId, "TaxID", false);
 		
 		//	Contact
 		createLine (fContact, "Contact", true)/*.setFontBold(true)*/;
@@ -260,6 +275,13 @@ public class WBPartner extends Window implements EventListener, ValueChangeListe
 		
 		return DB.getKeyNamePairs(sql, true);
 	}	//	fillGreeting
+	
+	private Object[] fillBPGroup()
+	{
+		String sql = "SELECT C_BP_Group_ID, Name FROM C_BP_Group WHERE IsActive='Y' ORDER BY 2";
+		sql = MRole.getDefault().addAccessSQL(sql, "C_BP_Group", MRole.SQL_NOTQUALIFIED, MRole.SQL_RO);
+		return DB.getKeyNamePairs(sql, true);
+	}	//	fillBPGroup
 
 	/**
 	 *	Search m_greeting for key
@@ -272,6 +294,18 @@ public class WBPartner extends Window implements EventListener, ValueChangeListe
 		for (int i = 0; i < m_greeting.length; i++)
 		{
 			KeyNamePair p = (KeyNamePair)m_greeting[i];
+			if (p.getKey() == key)
+				return p;
+		}
+		
+		return new KeyNamePair(-1, " ");
+	}	//	getGreeting
+
+	private KeyNamePair getBPGroup(int key)
+	{
+		for (int i = 0; i < m_bpgroup.length; i++)
+		{
+			KeyNamePair p = (KeyNamePair)m_bpgroup[i];
 			if (p.getKey() == key)
 				return p;
 		}
@@ -322,9 +356,21 @@ public class WBPartner extends Window implements EventListener, ValueChangeListe
 				break;
 			}
 		}
+		for (int i = 0; i < fBPGroup.getItemCount(); i++)
+		{
+			ListItem listitem = fBPGroup.getItemAtIndex(i);
+			KeyNamePair compare = (KeyNamePair)listitem.getValue();
+			
+			if (compare == keynamepair)
+			{
+				fBPGroup.setSelectedIndex(i);
+				break;
+			}
+		}
 		
 		fName.setText(m_partner.getName());
 		fName2.setText(m_partner.getName2());
+		fTaxId.setText(m_partner.getTaxID());
 
 		//	Contact - Load values
 		m_pLocation = m_partner.getLocation(
@@ -334,7 +380,6 @@ public class WBPartner extends Window implements EventListener, ValueChangeListe
 		{
 			int location = m_pLocation.getC_Location_ID();
 			fAddress.setValue (new Integer(location));
-			
 			fPhone.setText(m_pLocation.getPhone());
 			fPhone2.setText(m_pLocation.getPhone2());
 			fFax.setText(m_pLocation.getFax());
@@ -418,6 +463,7 @@ public class WBPartner extends Window implements EventListener, ValueChangeListe
 		
 		m_partner.setName(fName.getText());
 		m_partner.setName2(fName2.getText());
+		m_partner.setTaxID(fTaxId.getText());
 		
 		ListItem listitem = fGreetingBP.getSelectedItem();
 		KeyNamePair p = listitem != null ? (KeyNamePair)listitem.getValue() : null;
@@ -426,6 +472,11 @@ public class WBPartner extends Window implements EventListener, ValueChangeListe
 			m_partner.setC_Greeting_ID(p.getKey());
 		else
 			m_partner.setC_Greeting_ID(0);
+		listitem = fBPGroup.getSelectedItem();
+		p = listitem != null ? (KeyNamePair)listitem.getValue() : null;
+		
+		if (p != null && p.getKey() > 0)
+			m_partner.setC_BP_Group_ID(p.getKey());
 		
 		if (m_partner.save())
 			log.fine("C_BPartner_ID=" + m_partner.getC_BPartner_ID());
@@ -438,7 +489,7 @@ public class WBPartner extends Window implements EventListener, ValueChangeListe
 			m_pLocation = new MBPartnerLocation(m_partner);
 		
 		m_pLocation.setC_Location_ID(fAddress.getC_Location_ID());
-
+		m_pLocation.setEMail(fEMail.getText());
 		m_pLocation.setPhone(fPhone.getText());
 		m_pLocation.setPhone2(fPhone2.getText());
 		m_pLocation.setFax(fFax.getText());

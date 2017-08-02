@@ -20,9 +20,9 @@ import java.util.logging.Level;
 import org.adempiere.webui.component.Combinationbox;
 import org.adempiere.webui.event.ContextMenuEvent;
 import org.adempiere.webui.event.ContextMenuListener;
-import org.adempiere.webui.event.ValueChangeEvent;
+import org.adempiere.exceptions.ValueChangeEvent;
 import org.adempiere.webui.window.WAccountDialog;
-import org.adempiere.webui.window.WFieldRecordInfo;
+import org.adempiere.webui.window.WRecordInfo;
 import org.compiere.model.GridField;
 import org.compiere.model.MAccountLookup;
 import org.compiere.model.MRole;
@@ -35,7 +35,9 @@ import org.zkoss.zk.ui.event.Events;
 /**
  *
  * @author Low Heng Sin
- *
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 146 ] Remove unnecessary class, add support for info to specific column
+ *		@see https://github.com/adempiere/adempiere/issues/146
  */
 public class WAccountEditor extends WEditor implements ContextMenuListener
 {
@@ -61,7 +63,7 @@ public class WAccountEditor extends WEditor implements ContextMenuListener
 		popupMenu.addMenuListener(this);
 		if (gridField != null && gridField.getGridTab() != null)
 		{
-			WFieldRecordInfo.addMenu(popupMenu);
+			WRecordInfo.addMenu(popupMenu);
 		}
 		getComponent().setContext(popupMenu.getId());
 	}
@@ -82,6 +84,9 @@ public class WAccountEditor extends WEditor implements ContextMenuListener
 	@Override
 	public Object getValue()
 	{
+		if (m_mAccount == null)
+			return -1;
+
 		return new Integer (m_mAccount.C_ValidCombination_ID);
 	}
 
@@ -214,7 +219,7 @@ public class WAccountEditor extends WEditor implements ContextMenuListener
 	public void onMenu(ContextMenuEvent evt) {
 		if (WEditorPopupMenu.CHANGE_LOG_EVENT.equals(evt.getContextEvent()))
 		{
-			WFieldRecordInfo.start(gridField);
+			WRecordInfo.start(gridField);
 		}
 	}
 

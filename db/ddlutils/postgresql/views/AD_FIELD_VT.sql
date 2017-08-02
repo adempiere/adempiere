@@ -1,4 +1,4 @@
---DROP VIEW AD_FIELD_VT ;
+DROP VIEW AD_FIELD_VT ;
 CREATE OR REPLACE VIEW AD_FIELD_VT (AD_LANGUAGE, AD_WINDOW_ID, AD_TAB_ID, AD_FIELD_ID, AD_TABLE_ID, 
     AD_COLUMN_ID, NAME, DESCRIPTION, HELP, ISDISPLAYED, DISPLAYLOGIC, DISPLAYLENGTH, SEQNO, SORTNO, ISSAMELINE, 
     ISHEADING, ISFIELDONLY, ISREADONLY, ISENCRYPTEDFIELD, OBSCURETYPE, COLUMNNAME, COLUMNSQL, FIELDLENGTH, VFORMAT, 
@@ -23,7 +23,8 @@ CREATE OR REPLACE VIEW AD_FIELD_VT (AD_LANGUAGE, AD_WINDOW_ID, AD_TAB_ID, AD_FIE
    fgt.NAME AS FieldGroup, vr.Code AS ValidationCode,
    f.Included_Tab_ID, fg.FieldGroupType, fg.IsCollapsedByDefault,
    COALESCE(f.InfoFactoryClass, c.InfoFactoryClass) as InfoFactoryClass,
-   c.IsAutocomplete, f.PreferredWidth, c.AD_Chart_ID , f.ISDISPLAYEDGRID, f.SEQNOGRID , f.isEmbedded ,f.IsAllowCopy
+   c.IsAutocomplete, f.PreferredWidth, c.AD_Chart_ID , f.ISDISPLAYEDGRID, f.SEQNOGRID , f.isEmbedded ,
+  COALESCE(f.IsAllowCopy, c.IsAllowCopy) AS IsAllowCopy
   FROM AD_FIELD f 
    INNER JOIN AD_FIELD_TRL trl ON (f.AD_Field_ID = trl.AD_Field_ID)
     INNER JOIN AD_TAB t ON (f.AD_Tab_ID = t.AD_Tab_ID)

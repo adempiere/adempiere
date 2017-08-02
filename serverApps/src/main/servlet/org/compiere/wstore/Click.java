@@ -37,9 +37,9 @@ import org.compiere.util.WebUtil;
  *	Click Counter.
  * 	Counts the click and forwards.
  * 	<code>
-	http://www.adempiere.com/wstore/click?target=www.yahoo.com
-	http://www.adempiere.com/wstore/click/www.yahoo.com
-	http://www.adempiere.com/wstore/click?www.yahoo.com
+	http://www.adempiere.net/wstore/click?target=www.yahoo.com
+	http://www.adempiere.net/wstore/click/www.yahoo.com
+	http://www.adempiere.net/wstore/click?www.yahoo.com
  *  </code>
  *
  *  @author Jorg Janke
@@ -61,7 +61,7 @@ public class Click  extends HttpServlet
 	/** Target Parameter			*/
 	static public final String			PARA_TARGET = "target";
 	/**	Fallback Target				*/
-	static public final String			DEFAULT_TARGET = "http://www.adempiere.org/";
+	static public final String			DEFAULT_TARGET = "http://www.adempiere.net/";
 
 	/**
 	 *	Initialize global variables

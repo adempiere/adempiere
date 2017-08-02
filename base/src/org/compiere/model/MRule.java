@@ -112,18 +112,14 @@ public class MRule extends X_AD_Rule
 	public static List<MRule> getModelValidatorLoginRules (Properties ctx)
 	{
 		final String whereClause = "EventType=?";
-		List<MRule> rules = new Query(ctx,I_AD_Rule.Table_Name,whereClause,null)
+		return new Query(ctx,I_AD_Rule.Table_Name,whereClause,null)
 		.setParameters(EVENTTYPE_ModelValidatorLoginEvent)
 		.setOnlyActiveRecords(true)
 		.list();
-		if (rules != null && rules.size() > 0)
-			return rules;
-		else
-			return null;
 	}	//	getModelValidatorLoginRules
 
 	/**	Cache						*/
-	private static CCache<Integer,MRule> s_cache = new CCache<Integer,MRule>("AD_Rule", 20);
+	private static CCache<Integer,MRule> s_cache = new CCache<Integer,MRule>("AD_Rule", 100);
 	
 	/**	Static Logger	*/
 	private static CLogger	s_log	= CLogger.getCLogger (MRule.class);
@@ -169,7 +165,7 @@ public class MRule extends X_AD_Rule
 			String engineName = getEngineName();
 			if (engineName == null || 
 					(!   (engineName.equalsIgnoreCase("groovy")
-							|| engineName.equalsIgnoreCase("jython") 
+							|| engineName.equalsIgnoreCase("jython")
 							|| engineName.equalsIgnoreCase("beanshell")))) {
 				log.saveError("Error", Msg.getMsg(getCtx(), "WrongScriptValue"));
 				return false;
@@ -197,7 +193,7 @@ public class MRule extends X_AD_Rule
 		factory = new ScriptEngineManager();
 		String engineName = getEngineName();
 		if (engineName != null)
-			engine = factory.getEngineByName(getEngineName());
+			engine = factory.getEngineByName(engineName);
 		return engine;
 	}
 

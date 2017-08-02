@@ -43,7 +43,7 @@ public class MMovementLine extends X_M_MovementLine implements IDocumentLine
 	private static final long serialVersionUID = -4078367839033015886L;
 
 	/**
-	 * 	Standard Cosntructor
+	 * 	Standard Constructor
 	 *	@param ctx context
 	 *	@param M_MovementLine_ID id
 	 *	@param trxName transaction
@@ -212,12 +212,13 @@ public class MMovementLine extends X_M_MovementLine implements IDocumentLine
 		
 		//      Mandatory Instance
 		MProduct product = getProduct();
-		if (getM_AttributeSetInstance_ID() == 0) {
+		MAttributeSet.validateAttributeSetInstanceMandatory(product, Table_ID , isSOTrx() , getM_AttributeSetInstance_ID());
+		/*if (getM_AttributeSetInstance_ID() == 0) {
 			if (product != null && product.isASIMandatory(false, getAD_Org_ID())) {
 				log.saveError("FillMandatory", Msg.getElement(getCtx(), COLUMNNAME_M_AttributeSetInstance_ID));
 				return false;
 			}
-		}
+		}*/
 		if (getM_AttributeSetInstanceTo_ID() == 0)
 		{
 			//instance id default to same for movement between locator 
@@ -226,12 +227,12 @@ public class MMovementLine extends X_M_MovementLine implements IDocumentLine
 				if (getM_AttributeSetInstance_ID() != 0)        //set to from
 					setM_AttributeSetInstanceTo_ID(getM_AttributeSetInstance_ID());
 			}
-			
-			if (product != null && product.isASIMandatory(true, getAD_Org_ID()) && getM_AttributeSetInstanceTo_ID() == 0)
+			MAttributeSet.validateAttributeSetInstanceMandatory(product, Table_ID , isSOTrx() , getM_AttributeSetInstanceTo_ID());
+			/*if (product != null && product.isASIMandatory(true, getAD_Org_ID()) && getM_AttributeSetInstanceTo_ID() == 0)
 			{
 				log.saveError("FillMandatory", Msg.getElement(getCtx(), COLUMNNAME_M_AttributeSetInstanceTo_ID));
 				return false;
-			}
+			}*/
 		}       //      ASI
 
 		return true;
@@ -266,22 +267,20 @@ public class MMovementLine extends X_M_MovementLine implements IDocumentLine
 			// 
 			if (product.isItem()) 
 			{ 
-				MWarehouse w = MWarehouse.get(getCtx(), oLine.getParent().getM_Warehouse_ID());
-				MLocator locator_inTransit = MLocator.getDefault(w);
-				if(locator_inTransit == null)
-				{
-					throw new AdempiereException("Do not exist Locator for the  Warehouse in transit");
-				}
+				MWarehouse warehouse = MWarehouse.get(getCtx(), oLine.getParent().getM_Warehouse_ID());
+				MLocator locator = MLocator.getDefault(warehouse);
+				if(locator == null)
+					throw new AdempiereException("@M_Warehouse_ID@ " + warehouse.getName() + " @M_Locator_ID@ @IsDefault@ @NotFound@");
 				
 				if (isReceipt)
 				{
-					setM_Locator_ID(locator_inTransit.getM_Locator_ID()); 
+					setM_Locator_ID(locator.getM_Locator_ID());
 					setM_LocatorTo_ID(oLine.getM_LocatorTo_ID()); 
 				}
 				else 
 				{
 					setM_Locator_ID(oLine.getM_Locator_ID()); 
-					setM_LocatorTo_ID(locator_inTransit.getM_Locator_ID()); 
+					setM_LocatorTo_ID(locator.getM_Locator_ID());
 				}
 			} 
 			else 
@@ -373,5 +372,39 @@ public class MMovementLine extends X_M_MovementLine implements IDocumentLine
 
 	public boolean isSOTrx(){
 		return false;
-	}	
+	}
+
+	@Override
+	public BigDecimal getPriceActualCurrency() {
+		return BigDecimal.ZERO;
+	}
+
+	@Override
+	public int getC_Currency_ID ()
+	{
+		MClient client  = MClient.get(getCtx());
+		return client.getC_Currency_ID();
+	}
+
+	@Override
+	public int getC_ConversionType_ID()
+	{
+		return  MConversionType.getDefault(getAD_Client_ID());
+	}
+
+
+	/**
+	 * Get Movement Instance
+	 * @return
+	 */
+	public List<MMovementLineMA> getMovementLineMA()
+	{
+		StringBuilder whereClause = new StringBuilder();
+		whereClause.append(MMovementLineMA.COLUMNNAME_M_MovementLine_ID).append("=?");
+		return new Query(getCtx(), MMovementLineMA.Table_Name , whereClause.toString() , get_TableName())
+				.setClient_ID()
+				.setParameters(getM_MovementLine_ID())
+				.setOrderBy(MMovementLineMA.COLUMNNAME_Created)
+				.list();
+	}
 }	//	MMovementLine

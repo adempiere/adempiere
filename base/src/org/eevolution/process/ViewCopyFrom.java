@@ -81,7 +81,7 @@ public class ViewCopyFrom extends SvrProcess {
 			viewDefinitionTo.saveEx();
 
 			for (MViewColumn viewColumnFrom : viewDefinitionFrom
-					.getADViewColunms()) {
+					.getADViewColumns()) {
 				MViewColumn viewColumnTo = new MViewColumn(getCtx(), 0,
 						get_TrxName());
 				viewColumnTo.copyValues(viewColumnFrom, viewColumnTo);

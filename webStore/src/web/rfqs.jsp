@@ -3,13 +3,12 @@
   <c:redirect url='loginServlet?ForwardTo=rfqs.jsp'/>
 </c:if>
 <html>
-<!--
+<%--
   - Author:  Jorg Janke
-  - Version: $Id: rfqs.jsp,v 1.2 2006/05/06 00:41:33 mdeaelfweald Exp $
-  - Adempiere ERP & CRM Smart Business Solution - Copyright (c) 1999-2004 Jorg Janke
+  - ADempiere ERP & CRM Smart Business Solution - Copyright (c) 1999-2004 Jorg Janke
   - - -
   - Web Store RfQs
-  -->
+  --%>
 <head>
 <%@ include file="/WEB-INF/jspf/head.jspf" %>
 <title><c:out value='${ctx.name}'/> - My RfQs</title>
@@ -18,7 +17,7 @@
 <%@ include file="/WEB-INF/jspf/header.jspf" %>
 <div id="main">
 	<%@ include file="/WEB-INF/jspf/menu.jspf" %>
-    <%@ include file="/WEB-INF/jspf/vendor.jspf" %>
+	<%@ include file="/WEB-INF/jspf/vendor.jspf" %>
 	<div id="content"> 
 	<h1>My RfQ's</h1>
 	  <c:if test='${not empty info.info}'>
@@ -27,7 +26,7 @@
       <table class="contentTable">
         <tr> 
           <th>Name</th>
-          <th>Desciption</th>
+          <th>Description</th>
           <th>Details</th>
           <th>Response by</th>
           <th>Work Start</th>

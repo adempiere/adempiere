@@ -1,0 +1,174 @@
+/******************************************************************************
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2011, Michael McKay, All Rights Reserved.                    *
+ * This program is free software; you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ ****************************************************************************** 
+ *
+ * Test Flow Main Functional Tests
+ * 
+ * Payment Term Setup
+ * 
+ * This test flow creates a number of payment terms that are used in the Main
+ * Functional Tests
+ * 
+ * See http://wiki.adempiere.net/Functional_Tests
+ * 
+ **/
+
+$mft_pay_term_setup_CSVFilePath = "../test/customer_relationship_management/tf_mft_payment_term_setup.csv";
+
+function mft_paymtent_term_setup(
+		$Value,
+		$Name,
+		$Description,
+		$DocumentNote,
+		$IsDefault,
+		$IsDueFixed,
+		$AfterDelivery,
+		$IsNextBusinessDay,
+		$FixMonthDay,
+		$FixMonthCutoff,
+		$FixMonthOffset,
+		$NetDays,
+		$NetDay,
+		$DiscountDays,
+		$Discount,
+		$DiscountDays2,
+		$Discount2,
+		$GraceDays,
+		$Schedule,
+		$S1,
+		$S1Days,
+		$S1DisDays,
+		$S1Dis,
+		$S2,
+		$S2Days,
+		$S2DisDays,
+		$S2Dis,
+		$S3,
+		$S3Days,
+		$S3DisDays,
+		$S3Dis,
+		$S4,
+		$S4Days,
+		$S4DisDays,
+		$S4Dis,
+		$S5,
+		$S5Days,
+		$S5DisDays,
+		$S5Dis,
+		$S6,
+		$S6Days,
+		$S6DisDays,
+		$S6Dis
+){
+
+	iNewRecord();
+	fSetText("Value",$Value);
+	fSetText("Name",$Name);
+	fSetText("Description",$Description);
+	fSetTextArea("DocumentNote",$DocumentNote);
+	fSetCheckbox("IsDefault",$IsDefault);
+	fSetCheckbox("IsDueFixed",$IsDueFixed);
+	if($IsDueFixed == "Y"){
+		fSetAmount("FixMonthDay",$FixMonthDay);
+		fSetAmount("FixMonthCutoff",$FixMonthCutoff);
+		fSetAmount("FixMonthOffset",$FixMonthOffset);
+	}
+	fSetCheckbox("AfterDelivery",$AfterDelivery);
+	fSetCheckbox("IsNextBusinessDay",$IsNextBusinessDay);
+	if($NetDays != null && $NetDays != ""){
+		fSetAmount("NetDays",$NetDays);
+	}
+	if($NetDay != null && $NetDay != ""){
+		fSetList("NetDay",$NetDay);
+	}
+	fSetAmount("DiscountDays",$DiscountDays);
+	fSetAmount("Discount",$Discount);
+	fSetAmount("DiscountDays2",$DiscountDays2);
+	fSetAmount("Discount2",$Discount2);
+	fSetAmount("GraceDays",$GraceDays);
+	iSaveRecord();
+	if($Schedule == "Y"){
+		wOpenTab("Schedule");
+		iFormView();
+		if($S1 != null && $S1 != ""){
+			iNewRecord();
+			fSetAmount("Percentage",$S1);
+			fSetAmount("NetDays",$S1Days);
+			fSetAmount("DiscountDays",$S1DisDays);
+			fSetAmount("Discount",$S1Dis);
+			iSaveRecord();
+		}
+		if($S2 != null && $S2 != ""){
+			iNewRecord();
+			fSetAmount("Percentage",$S2);
+			fSetAmount("NetDays",$S2Days);
+			fSetAmount("DiscountDays",$S2DisDays);
+			fSetAmount("Discount",$S2Dis);
+			iSaveRecord();
+		}
+		if($S3 != null && $S3 != ""){
+			iNewRecord();
+			fSetAmount("Percentage",$S3);
+			fSetAmount("NetDays",$S3Days);
+			fSetAmount("DiscountDays",$S3DisDays);
+			fSetAmount("Discount",$S3Dis);
+			iSaveRecord();
+		}
+		if($S4 != null && $S4 != ""){
+			iNewRecord();
+			fSetAmount("Percentage",$S4);
+			fSetAmount("NetDays",$S4Days);
+			fSetAmount("DiscountDays",$S4DisDays);
+			fSetAmount("Discount",$S4Dis);
+			iSaveRecord();
+		}
+		if($S5 != null && $S5 != ""){
+			iNewRecord();
+			fSetAmount("Percentage",$S5);
+			fSetAmount("NetDays",$S5Days);
+			fSetAmount("DiscountDays",$S5DisDays);
+			fSetAmount("Discount",$S5Dis);
+			iSaveRecord();
+		}
+		if($S6 != null && $S6 != ""){
+			iNewRecord();
+			fSetAmount("Percentage",$S6);
+			fSetAmount("NetDays",$S6Days);
+			fSetAmount("DiscountDays",$S6DisDays);
+			fSetAmount("Discount",$S6Dis);
+			iSaveRecord();
+		}
+		wOpenTab("Payment Term");
+		_wait(3000);
+		fClickButton("Processing");
+		iOk(); 
+		_wait(3000);
+		_assertEqual("Y", fGetCheckbox("IsValid"));
+	}
+}
+
+function mft_payment_term_setup(){
+	
+	var $data = _readCSVFile($mft_pay_term_setup_CSVFilePath);
+
+	_log("MFT_Payment_Term_Setup starting");
+
+	// Assume we are logged in as the administrator
+	wOpenWindow("Payment Term");
+
+	_dataDrive(mft_paymtent_term_setup, $data);
+
+	wCloseWindow("Payment Term");
+
+	_log("MFT_Payment_Term_Setup completed");
+}

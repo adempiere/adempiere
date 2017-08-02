@@ -40,9 +40,8 @@ import javax.swing.JScrollPane;
 import org.compiere.apps.ADialog;
 import org.compiere.apps.AEnv;
 import org.compiere.apps.ConfirmPanel;
-import org.compiere.apps.IProcessParameter;
 import org.compiere.apps.ProcessCtl;
-import org.compiere.apps.ProcessParameterPanel;
+import org.compiere.apps.ProcessPanel;
 import org.compiere.grid.ed.VCheckBox;
 import org.compiere.grid.ed.VComboBox;
 import org.compiere.grid.ed.VDate;
@@ -81,7 +80,11 @@ import org.compiere.util.ValueNamePair;
  * 					https://adempiere.atlassian.net/browse/ADEMPIERE-72
  * 				<li>release/380 bug fix - PaySelect behaviour for auto query, window size,
  * 					use of VLookup for BPartner field and better event processing
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *				<li>FR [ 265 ] ProcessParameterPanel is not MVC
+ *				@see https://github.com/adempiere/adempiere/issues/265
  */
+@Deprecated
 public class VPaySelect extends PaySelect implements FormPanel, ActionListener, ASyncProcess, PropertyChangeListener, MiniTableSelectionListener
 {
 	/** @todo withholding */
@@ -521,8 +524,9 @@ public class VPaySelect extends PaySelect implements FormPanel, ActionListener, 
 			return;
 		}
 
+		//	FR [ 297 ]
 		//  Ask to Post it
-		if (!ADialog.ask(m_WindowNo, panel, "VPaySelectGenerate?", "(" + m_ps.getName() + ")"))
+		if (!ADialog.ask(m_WindowNo, panel, "VPaySelectGenerate?", "(" + m_ps.getDocumentNo() + ")"))
 			return;
 		
 		//  Prepare Process
@@ -532,9 +536,10 @@ public class VPaySelect extends PaySelect implements FormPanel, ActionListener, 
 		pi.setAD_User_ID (Env.getAD_User_ID(Env.getCtx()));
 		pi.setAD_Client_ID(Env.getAD_Client_ID(Env.getCtx()));
 		
-		ProcessParameterPanel pp = new ProcessParameterPanel(m_WindowNo, pi);
+		ProcessPanel pp = new ProcessPanel(m_WindowNo, pi);
 		//	Execute Process
-		ProcessCtl.process(this, m_WindowNo, (IProcessParameter) pp, pi, trx);
+		//	BR [ 265 ]
+		ProcessCtl.process(this, m_WindowNo, pp, pi, trx);
 	//	ProcessCtl worker = new ProcessCtl(this, pi, trx);
 	//	worker.start();     //  complete tasks in unlockUI
 	}   //  generatePaySelect

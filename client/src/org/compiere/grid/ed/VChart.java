@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.VetoableChangeListener;
 
+import org.adempiere.exceptions.ValueChangeListener;
 import org.compiere.apps.AEnv;
 import org.compiere.model.GridField;
 import org.compiere.model.MChart;
@@ -179,5 +180,11 @@ public class VChart extends CPanel implements ChartMouseListener, VEditor {
 	
 	@Override
 	public GridField getField() { return null; }
+
+	@Override
+	public void addValueChangeListener(ValueChangeListener listener) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

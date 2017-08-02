@@ -94,15 +94,15 @@ public abstract class TabbedDesktop extends AbstractDesktop {
 		return form;
 	}
 	
-	public void openBrowse(int AD_Browse_ID)
+	public CustomForm openBrowse(int browseId, Boolean isSOTrx)
 	{
-		MBrowse browse = new MBrowse(Env.getCtx() ,AD_Browse_ID, null);
-		CustomForm ff =  WBrowser.openBrowse(AD_Browse_ID);
+		MBrowse browse = new MBrowse(Env.getCtx() ,browseId, null);
+		CustomForm ff =  WBrowser.openBrowse(0 , browseId, "", isSOTrx );
 		DesktopTabpanel tabPanel = new DesktopTabpanel();
         ff.setParent(tabPanel);
         preOpenNewTab();
         windowContainer.addWindow(tabPanel, browse.getTitle(), true);
-		
+		return  ff;
 	}
 
 	/**

@@ -1,8 +1,9 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -11,8 +12,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 package org.compiere.model;
 
@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_CommissionLine
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0
+ *  @version Release 3.9.0
  */
 public interface I_C_CommissionLine 
 {
@@ -118,6 +118,36 @@ public interface I_C_CommissionLine
 
 	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
 
+    /** Column name C_Campaign_ID */
+    public static final String COLUMNNAME_C_Campaign_ID = "C_Campaign_ID";
+
+	/** Set Campaign.
+	  * Marketing Campaign
+	  */
+	public void setC_Campaign_ID (int C_Campaign_ID);
+
+	/** Get Campaign.
+	  * Marketing Campaign
+	  */
+	public int getC_Campaign_ID();
+
+	public org.compiere.model.I_C_Campaign getC_Campaign() throws RuntimeException;
+
+    /** Column name C_Channel_ID */
+    public static final String COLUMNNAME_C_Channel_ID = "C_Channel_ID";
+
+	/** Set Channel.
+	  * Sales Channel
+	  */
+	public void setC_Channel_ID (int C_Channel_ID);
+
+	/** Get Channel.
+	  * Sales Channel
+	  */
+	public int getC_Channel_ID();
+
+	public org.compiere.model.I_C_Channel getC_Channel() throws RuntimeException;
+
     /** Column name C_CommissionLine_ID */
     public static final String COLUMNNAME_C_CommissionLine_ID = "C_CommissionLine_ID";
 
@@ -145,6 +175,47 @@ public interface I_C_CommissionLine
 	public int getC_Commission_ID();
 
 	public org.compiere.model.I_C_Commission getC_Commission() throws RuntimeException;
+
+    /** Column name C_DunningLevel_ID */
+    public static final String COLUMNNAME_C_DunningLevel_ID = "C_DunningLevel_ID";
+
+	/** Set Dunning Level	  */
+	public void setC_DunningLevel_ID (int C_DunningLevel_ID);
+
+	/** Get Dunning Level	  */
+	public int getC_DunningLevel_ID();
+
+	public org.compiere.model.I_C_DunningLevel getC_DunningLevel() throws RuntimeException;
+
+    /** Column name C_PaymentTerm_ID */
+    public static final String COLUMNNAME_C_PaymentTerm_ID = "C_PaymentTerm_ID";
+
+	/** Set Payment Term.
+	  * The terms of Payment (timing, discount)
+	  */
+	public void setC_PaymentTerm_ID (int C_PaymentTerm_ID);
+
+	/** Get Payment Term.
+	  * The terms of Payment (timing, discount)
+	  */
+	public int getC_PaymentTerm_ID();
+
+	public org.compiere.model.I_C_PaymentTerm getC_PaymentTerm() throws RuntimeException;
+
+    /** Column name C_Project_ID */
+    public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
+
+	/** Set Project.
+	  * Financial Project
+	  */
+	public void setC_Project_ID (int C_Project_ID);
+
+	/** Get Project.
+	  * Financial Project
+	  */
+	public int getC_Project_ID();
+
+	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException;
 
     /** Column name C_SalesRegion_ID */
     public static final String COLUMNNAME_C_SalesRegion_ID = "C_SalesRegion_ID";
@@ -190,6 +261,24 @@ public interface I_C_CommissionLine
 	  */
 	public int getCreatedBy();
 
+    /** Column name DaysFrom */
+    public static final String COLUMNNAME_DaysFrom = "DaysFrom";
+
+	/** Set Days From	  */
+	public void setDaysFrom (int DaysFrom);
+
+	/** Get Days From	  */
+	public int getDaysFrom();
+
+    /** Column name DaysTo */
+    public static final String COLUMNNAME_DaysTo = "DaysTo";
+
+	/** Set Days To	  */
+	public void setDaysTo (int DaysTo);
+
+	/** Get Days To	  */
+	public int getDaysTo();
+
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
 
@@ -203,6 +292,19 @@ public interface I_C_CommissionLine
 	  */
 	public String getDescription();
 
+    /** Column name InvoiceCollectionType */
+    public static final String COLUMNNAME_InvoiceCollectionType = "InvoiceCollectionType";
+
+	/** Set Collection Status.
+	  * Invoice Collection Status
+	  */
+	public void setInvoiceCollectionType (String InvoiceCollectionType);
+
+	/** Get Collection Status.
+	  * Invoice Collection Status
+	  */
+	public String getInvoiceCollectionType();
+
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
 
@@ -215,6 +317,19 @@ public interface I_C_CommissionLine
 	  * The record is active in the system
 	  */
 	public boolean isActive();
+
+    /** Column name IsPercentage */
+    public static final String COLUMNNAME_IsPercentage = "IsPercentage";
+
+	/** Set Is Percentage.
+	  * Indicates that Quantity is expressed as Percentage (%)
+	  */
+	public void setIsPercentage (boolean IsPercentage);
+
+	/** Get Is Percentage.
+	  * Indicates that Quantity is expressed as Percentage (%)
+	  */
+	public boolean isPercentage();
 
     /** Column name IsPositiveOnly */
     public static final String COLUMNNAME_IsPositiveOnly = "IsPositiveOnly";
@@ -256,6 +371,51 @@ public interface I_C_CommissionLine
 	public int getM_Product_Category_ID();
 
 	public org.compiere.model.I_M_Product_Category getM_Product_Category() throws RuntimeException;
+
+    /** Column name M_Product_Class_ID */
+    public static final String COLUMNNAME_M_Product_Class_ID = "M_Product_Class_ID";
+
+	/** Set Product Class.
+	  * Class of a Product
+	  */
+	public void setM_Product_Class_ID (int M_Product_Class_ID);
+
+	/** Get Product Class.
+	  * Class of a Product
+	  */
+	public int getM_Product_Class_ID();
+
+	public org.compiere.model.I_M_Product_Class getM_Product_Class() throws RuntimeException;
+
+    /** Column name M_Product_Classification_ID */
+    public static final String COLUMNNAME_M_Product_Classification_ID = "M_Product_Classification_ID";
+
+	/** Set Product Classification.
+	  * Classification of a Product
+	  */
+	public void setM_Product_Classification_ID (int M_Product_Classification_ID);
+
+	/** Get Product Classification.
+	  * Classification of a Product
+	  */
+	public int getM_Product_Classification_ID();
+
+	public org.compiere.model.I_M_Product_Classification getM_Product_Classification() throws RuntimeException;
+
+    /** Column name M_Product_Group_ID */
+    public static final String COLUMNNAME_M_Product_Group_ID = "M_Product_Group_ID";
+
+	/** Set Product Group.
+	  * Group of a Product
+	  */
+	public void setM_Product_Group_ID (int M_Product_Group_ID);
+
+	/** Get Product Group.
+	  * Group of a Product
+	  */
+	public int getM_Product_Group_ID();
+
+	public org.compiere.model.I_M_Product_Group getM_Product_Group() throws RuntimeException;
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
@@ -323,6 +483,19 @@ public interface I_C_CommissionLine
 	  * Quantity to subtract when generating commissions
 	  */
 	public BigDecimal getQtySubtract();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

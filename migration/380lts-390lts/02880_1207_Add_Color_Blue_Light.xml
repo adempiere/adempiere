@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Look and Feel Correction - Change HTML colours #1207" ReleaseNo="3.9.0" SeqNo="2880">
+    <Comments>See: https://github.com/adempiere/adempiere/issues/1207</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="490" Action="I" Record_ID="50000" Table="AD_PrintColor">
+        <Data AD_Column_ID="6972" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="6981" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="6975" Column="AD_PrintColor_ID">50000</Data>
+        <Data AD_Column_ID="6976" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6974" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6973" Column="Created">2017-07-10 13:55:21.059</Data>
+        <Data AD_Column_ID="6980" Column="IsActive">true</Data>
+        <Data AD_Column_ID="6982" Column="Updated">2017-07-10 13:55:21.059</Data>
+        <Data AD_Column_ID="6977" Column="IsDefault">false</Data>
+        <Data AD_Column_ID="6979" Column="Name">Blue Light</Data>
+        <Data AD_Column_ID="6978" Column="Code">-14705698</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="523" Action="U" Record_ID="100" Table="AD_PrintTableFormat">
+        <Data AD_Column_ID="7632" Column="HdrTextBG_PrintColor_ID" oldValue="109">50000</Data>
+        <Data AD_Column_ID="10786" Column="LineStrokeType" oldValue="d">S</Data>
+        <Data AD_Column_ID="7621" Column="HdrTextFG_PrintColor_ID" oldValue="119">108</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="523" Action="U" Record_ID="100" Table="AD_PrintTableFormat">
+        <Data AD_Column_ID="7628" Column="FunctFG_PrintColor_ID" oldValue="116">114</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

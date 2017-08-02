@@ -1,0 +1,70 @@
+/******************************************************************************
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2011, Michael McKay, All Rights Reserved.                    *
+ * This program is free software; you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ *                                                                            *
+ * @Author Michael McKay (mjmckay)                                            *
+ *                                                                            *
+ ******************************************************************************/
+/**
+ * Test Flow Main Functional Tests
+ * 
+ * Product Category Setup
+ * 
+ * This test flow creates the product categories used in the Main
+ * Functional Tests
+ * 
+ * See http://wiki.adempiere.net/Functional_Tests
+ * 
+ **/
+
+var $mft_product_category_setup_CSVFilePath = "../test/material_management/tf_mft_product_category_setup.csv";
+
+function mft_product_category_setup_detail(
+		$Value,
+		$Name,
+		$Description,
+		$M_Product_Category_Parent_ID,
+		$MMPolicy,
+		$IsDefault,
+		$IsSelfService,
+		$PlannedMargin,
+		$A_Asset_Group_ID,
+		$AD_PrintColor_ID
+		){
+	
+	iNewRecord();
+	fSetText("Value",$Value);
+	fSetText("Name", $Name);
+	fSetText("Description", $Description);
+	fSetListRq("M_Product_Category_Parent_ID",$M_Product_Category_Parent_ID, "Y");
+	fSetList("MMPolicy",$MMPolicy);
+	fSetCheckbox("IsDefault",$IsDefault);
+	fSetCheckbox("IsSelfService",$IsSelfService);
+	fSetAmount("PlannedMargin",$PlannedMargin);
+	fSetList("A_Asset_Group_ID",$A_Asset_Group_ID);
+	fSetList("AD_PrintColor_ID",$AD_PrintColor_ID);
+	iSaveRecord();
+}
+
+function mft_product_category_setup(){
+	
+	var $data = _readCSVFile($mft_product_category_setup_CSVFilePath);
+	
+	wOpenWindow("Product Category");
+	
+	_dataDrive(mft_product_category_setup_detail, $data);
+
+	wCloseWindow("Product Category");
+
+	_log("MFT_Product_Category_Setup completed");
+}
+

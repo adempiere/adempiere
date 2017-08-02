@@ -17,9 +17,12 @@
 package org.compiere.model;
 
 import java.sql.ResultSet;
+import java.util.List;
 import java.util.Properties;
+import java.util.stream.Collectors;
 
 import org.compiere.util.CCache;
+import org.compiere.util.Env;
 
 
 /**
@@ -39,37 +42,107 @@ public class MActivity extends X_C_Activity
 	private static final long serialVersionUID = 3014706648686670575L;
 	
 	/** Static Cache */
-	private static CCache<Integer, MActivity> s_cache = new CCache<Integer, MActivity>(Table_Name, 30);
+	private static CCache<Integer, MActivity> activityCacheIds = new CCache<Integer, MActivity>(Table_Name, 30);
+	/** Static Cache */
+	private static CCache<String, MActivity> activityCacheValues = new CCache<String, MActivity>(Table_Name, 30);
+
+	/**
+	 *
+	 * @param ctx
+	 * @param activityId
+	 * @return
+	 */
+	@Deprecated
+	public static MActivity get(Properties ctx, int activityId)
+	{
+		return getById(ctx, activityId);
+	}
 
 	/**
 	 * Get/Load Activity [CACHED]
 	 * @param ctx context
-	 * @param C_Activity_ID
+	 * @param activityId
 	 * @return activity or null
 	 */
-	public static MActivity get(Properties ctx, int C_Activity_ID)
+	public static MActivity getById(Properties ctx, int activityId)
 	{
-		if (C_Activity_ID <= 0)
-		{
+		if (activityId <= 0)
 			return null;
-		}
-		// Try cache
-		MActivity activity = s_cache.get(C_Activity_ID);
-		if (activity != null)
-		{
+
+		MActivity activity = activityCacheIds.get(activityId);
+		if (activity != null && activity.get_ID() > 0)
 			return activity;
-		}
-		// Load from DB
-		activity = new MActivity(ctx, C_Activity_ID, null);
-		if (activity.get_ID() == C_Activity_ID)
+
+		activity = new Query(ctx , Table_Name , COLUMNNAME_C_Activity_ID + "=?" , null)
+				.setClient_ID()
+				.setParameters(activityId)
+				.first();
+		if (activity != null && activity.get_ID() > 0)
 		{
-			s_cache.put(C_Activity_ID, activity);
-		}
-		else
-		{
-			activity = null;
+			int clientId = Env.getAD_Client_ID(ctx);
+			String key = clientId + "#" + activity.getValue();
+			activityCacheValues.put(key, activity);
+			activityCacheIds.put(activity.get_ID(), activity);
 		}
 		return activity;
+	}
+
+	/**
+	 * get Activity By Value [CACHED]
+	 * @param ctx
+	 * @param activityvalue
+	 * @return
+	 */
+	public static MActivity getByValue(Properties ctx , String activityvalue)
+	{
+		if (activityvalue == null)
+			return null;
+		if (activityCacheValues.size() == 0 )
+			getAll(ctx, true);
+
+		int clientId = Env.getAD_Client_ID(ctx);
+		String key = clientId + "#" + activityvalue;
+		MActivity activity = activityCacheValues.get(key);
+		if (activity != null && activity.get_ID() > 0 )
+			return activity;
+
+		activity =  new Query(ctx, Table_Name , COLUMNNAME_Value +  "=?", null)
+				.setClient_ID()
+				.setParameters(activityvalue)
+				.first();
+
+		if (activity != null && activity.get_ID() > 0) {
+			activityCacheValues.put(key, activity);
+			activityCacheIds.put(activity.get_ID() , activity);
+		}
+		return activity;
+	}
+
+	/**
+	 * Get All Activity
+	 * @param ctx
+	 * @param resetCache
+	 * @return
+	 */
+	public static List<MActivity> getAll(Properties ctx, boolean resetCache) {
+		List<MActivity> activitiesList;
+		if (resetCache || activityCacheIds.size() > 0 ) {
+			activitiesList = new Query(Env.getCtx(), Table_Name, null , null)
+					.setClient_ID()
+					.setOrderBy(COLUMNNAME_Name)
+					.list();
+			activitiesList.stream().forEach(activity -> {
+				int clientId = Env.getAD_Client_ID(ctx);
+				String key = clientId + "#" + activity.getValue();
+				activityCacheIds.put(activity.getC_Activity_ID(), activity);
+				activityCacheValues.put(key, activity);
+			});
+			return activitiesList;
+		}
+		activitiesList = activityCacheIds.entrySet().stream()
+				.map(activity -> activity.getValue())
+				.collect(Collectors.toList());
+		return  activitiesList;
 	}
 
 	/**

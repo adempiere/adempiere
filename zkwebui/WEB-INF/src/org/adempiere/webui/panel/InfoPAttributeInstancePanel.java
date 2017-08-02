@@ -262,7 +262,7 @@ public class InfoPAttributeInstancePanel extends Window implements EventListener
 			}
 		}	//	BPartner != 0
 
-		m_sql = m_table.prepareTable (s_layout, s_sqlFrom, s_sqlWhereWithoutWarehouse + s_sqlNonZero, false, "asi")
+		m_sql = m_table.prepareTable (s_layout, s_sqlFrom, s_sqlWhereWithoutWarehouse, false, "asi")
 		+ " ORDER BY asi.GuaranteeDate, s.QtyOnHand";	//	oldest, smallest first
 		//
 		m_table.setMultiSelection(false);
@@ -280,8 +280,7 @@ public class InfoPAttributeInstancePanel extends Window implements EventListener
 		int pos = m_sql.lastIndexOf(" ORDER BY ");
 		if (!showAll.isSelected())
 		{
-			sql = m_sql.substring(0, pos) 
-				+ s_sqlWhereSameWarehouse;
+			sql = m_sql.substring(0, pos) + s_sqlWhereSameWarehouse + s_sqlNonZero;
 			if (s_sqlMinLife.length() > 0)
 				sql += s_sqlMinLife;
 			sql += m_sql.substring(pos);

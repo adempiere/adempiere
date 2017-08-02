@@ -25,17 +25,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MClient;
 import org.compiere.model.MColumn;
-import org.compiere.model.MPeriod;
 import org.compiere.model.MTable;
-import org.compiere.model.PO;
 import org.compiere.model.Query;
 import org.compiere.util.DB;
 
@@ -44,10 +39,11 @@ import org.compiere.util.DB;
  * bring them into recent history
  *  
  * @author Nikunj Panelia
- *
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<a href="https://github.com/adempiere/adempiere/issues/1280">
+ * 		@see FR [ 1280 ] Error CleanUpGW Update Garden World example data</a>
  */
-public class CleanUpGW extends SvrProcess 
-{
+public class CleanUpGW extends SvrProcess  {
 	protected void prepare() {
 		
 		// TODO: add a parameter to make this a dictionary change or user change
@@ -82,10 +78,8 @@ public class CleanUpGW extends SvrProcess
 	
 	private String sqlOrderBy = " ORDER BY t.tablename";
 	
-	protected String doIt() throws Exception 	
-	{		
-		if (!gardenWorldExists())
-		{
+	protected String doIt() {		
+		if (!gardenWorldExists()) {
 			return "Garden World client can't be found.";
 		}
 		
@@ -99,6 +93,11 @@ public class CleanUpGW extends SvrProcess
 		// Determine the time offset
 		determineOffset();
 		
+		if ( m_Offset == 0) {
+			log.config("The GardenWorld data is sufficiently up to date.  No changes were requried.");
+			return "The GardenWorld data is sufficiently up to date.  No changes were requried.";
+		}
+		
 		// Adjust the calendars first
 		adjustCalendarAndPeriods();
 		
@@ -111,79 +110,61 @@ public class CleanUpGW extends SvrProcess
 		// Cleanup
 		cleanUp();
 
+		log.config("Successfully updated Garden World data.");
 		return "Successfully updated Garden World data.";
 	}
 	
-	private void updateDates() 
-	{
+	private void updateDates() {
 		// Update the date columns
 		PreparedStatement pstm=null;
 		ResultSet rs=null;
-		 try
-		 {
+		 try {
 			 pstm = DB.prepareStatement(m_sql+sqlOrderBy, get_TrxName());
 			 rs = pstm.executeQuery();
 			 String tableName=null;
 			 String columnName=null;
-			 ArrayList<String> columnList=new ArrayList<String>();
-			 while(rs.next())
-			 {	
+			 while(rs.next()) {	
 				 tableName=rs.getString(1);
 				 columnName=rs.getString(2);
 				 		
 				 updateTable(tableName,columnName);
-				 
-			 }
-			 			 
-		 }
-		 catch (SQLException e)
-		 {
+			 }		 
+		 } catch (SQLException e) {
 			 log.log(Level.SEVERE, e.getLocalizedMessage());
 			 throw new AdempiereException("", e);	 
-		 }
-		 finally {
+		 } finally {
 			 DB.close(rs, pstm);
 		 }
-
 	}
 
-	private void updatePeriods() 
-	{
+	private void updatePeriods() {
 		// Update the date columns
 		PreparedStatement pstm=null;
 		ResultSet rs=null;
-		 try
-		 {
+		 try {
 			 pstm = DB.prepareStatement(m_sql+sqlOrderBy, get_TrxName());
 			 rs = pstm.executeQuery();
 			 String tableName=null;
 			 String columnName=null;
-			 while(rs.next())
-			 {	
+			 while(rs.next()) {	
 				 tableName=rs.getString(1);
 				 columnName=rs.getString(2);
 				 		
 				 setPeriods(tableName,columnName);
 				 
-			 }
-			 			 
-		 }
-		 catch (SQLException e)
-		 {
+			 } 			 
+		 } catch (SQLException e) {
 			 log.log(Level.SEVERE, e.getLocalizedMessage());
 			 throw new AdempiereException("", e);	 
-		 }
-		 finally {
+		 } finally {
 			 DB.close(rs, pstm);
 		 }
 
 	}
 
-	private void updateTable(String tableName, String columnName)
-	{
+	private void updateTable(String tableName, String columnName) {
 		
-		if ( m_Offset == 0 || tableName.isEmpty() || columnName.isEmpty())
-		{
+		if ( m_Offset == 0 || tableName.isEmpty() || columnName.isEmpty()) {
 			return;  // Nothing to do
 		}
 
@@ -191,73 +172,40 @@ public class CleanUpGW extends SvrProcess
 		long monthOffset = m_Offset/(1000L*60L*60L*24L*30L);  // 30 day months
 
 		// Set only the date fields that have a value.  Leave the rest null.
-		String sql="UPDATE "+ tableName + " SET  " + columnName + " = ("
+		String sql="UPDATE "+ tableName + " SET  " + columnName + " = trunc(("
 				+ " CASE WHEN " + columnName + " > getdate() THEN add_months("+ columnName +", " + monthOffset + ") "  // columnName is already in the future, keep it there.
 				+ "      WHEN add_months("+ columnName +", " + monthOffset + ") > getdate() THEN getdate() "  // columnName will be moved to the future, make it today instead
 				+ "      ELSE add_months("+ columnName +", " + monthOffset + ")"
-				+ " END ) "
+				+ " END ), 'DD') "
 				+ " WHERE " + columnName + " IS NOT NULL "  
 				+ " AND AD_Client_ID=" + gw_client_id;
 		
 		PreparedStatement pstm=null;
-		 try
-		 {
+		 try {
 			 pstm = DB.prepareStatement(sql, get_TrxName());
 			 pstm.executeUpdate();
 			
-		 }
-		 catch (SQLException e)
-		 {
+		 } catch (SQLException e) {
 			 log.log(Level.SEVERE, e.getLocalizedMessage());
 			 throw new AdempiereException("Problem in adding years to date columns", e);
-		 }
-		 finally {
+		 } finally {
 			 DB.close(pstm);
 		 }
-		 
-//		 //check if date less then 2010-01-01
-//		 Timestamp timestamp = Timestamp.valueOf("2010-01-01 00:00:00.0");
-//		 for(int i=0;i<columnList.size();i++)
-//		 {
-//			 StringBuffer sqlCheck=new StringBuffer();			
-//			 sqlCheck.append( columnList.get(i)+ " = " +DB.TO_DATE(timestamp)+ " WHERE "+columnList.get(i)+" < " +DB.TO_DATE(timestamp));
-//			 String sqlCkeck="UPDATE "+ tableName + " SET  " + sqlCheck.toString() + " AND AD_Client_ID=11 ";
-//			
-//			 try
-//			 {
-//				 pstm = DB.prepareStatement(sqlCkeck, null);
-//				 pstm.executeUpdate();
-//				
-//			 }
-//			 catch (SQLException e)
-//			 {
-//				 log.log(Level.SEVERE, e.getLocalizedMessage());
-//				 throw new AdempiereException("Problem in updating date if it is less then 2010-01-01.", e);
-//			 }
-//			 finally {
-//				 DB.close(pstm);
-//			 }
-//		 }
-
-		
 	}
 	
-	private void setPeriods(String tableName, String columnName)
-	{
+	private void setPeriods(String tableName, String columnName) {
 		 //update periods according to the new dates
 		 String dateAcctColumn=null;
 		 MTable table=MTable.get(getCtx(), tableName);
 		 MColumn periodColumn=table.getColumn("C_Period_ID");
-		 if(periodColumn!=null)
-		 {
+		 if(periodColumn!=null) {
 			 MColumn dateaAcctColumn=table.getColumn("DateAcct");
 			 MColumn assetDepDateColumn=table.getColumn("AssetDepreciationDate");
 			 if(dateaAcctColumn!=null)
 				 dateAcctColumn=dateaAcctColumn.getColumnName();
 			 else if(assetDepDateColumn!=null)
 				 dateAcctColumn=assetDepDateColumn.getColumnName();
-			 if(dateAcctColumn != null)
-			 {
+			 if(dateAcctColumn != null) {
 			 
 				 log.fine("Table: " + tableName + " dateAcctColumn: " + dateAcctColumn);
 				String updatePeriodSql="update "+tableName+" set "
@@ -266,106 +214,80 @@ public class CleanUpGW extends SvrProcess
 						+ ") WHERE AD_Client_ID=" + gw_client_id;
 				
 				PreparedStatement pstm = null;
-				try
-				{
+				try {
 					pstm = DB.prepareStatement(updatePeriodSql, get_TrxName());
 					pstm.executeUpdate();
 				
-			 	}
-			 	catch (SQLException e)
-			 	{
+			 	} catch (SQLException e) {
 			 		log.log(Level.SEVERE, e.getLocalizedMessage());
 					throw new AdempiereException("Problem in updating periods according to new accounting values.", e);
-
-			 		
-			 	}
-				finally {
+			 	} finally {
 					DB.close(pstm);
 				}
 			 }
 		 }
-
 	}
-	private void findDateLimits(String tableName, String columnName)
-	{
+	
+	private void findDateLimits(String tableName, String columnName) {
 
 		String sql=	"SELECT MIN(" + columnName + "), MAX(" + columnName + ") from " + tableName 
 					+ " WHERE AD_Client_ID=11 ";
 		
 		PreparedStatement pstm=null;
 		ResultSet rs=null;
-		 try
-		 {
+		 try {
 			 pstm = DB.prepareStatement(sql, get_TrxName());
 			 rs = pstm.executeQuery();
-			 while(rs.next())
-			 {
-				 if (rs.getTimestamp(1) == null || rs.getTimestamp(1).getTime() == 0L)
-				 {
+			 while(rs.next()) {
+				 if (rs.getTimestamp(1) == null || rs.getTimestamp(1).getTime() == 0L) {
 					 // Null or zero. Ignore it.
 					 ;
-				 }
-				 else if (m_minDate.after(rs.getTimestamp(1)))
-				 {
+				 } else if (m_minDate.after(rs.getTimestamp(1))) {
 					 m_minDate = rs.getTimestamp(1);
 					 log.fine("Setting min date to " + m_minDate.toString() + "(" + tableName + "/" + columnName + ")");
 				 }
 				 
-				 if (rs.getTimestamp(2) == null || rs.getTimestamp(2).after(m_currentTime))
-				 {
-					 // Null or in the future. Ignore it.
+				 if (rs.getTimestamp(2) == null || rs.getTimestamp(1).getTime() == 0L || rs.getTimestamp(2).after(m_currentTime)) {
+					 // Null, zero or in the future. Ignore it.
 					 continue;
-				 }
-				 else if (m_maxDate.before(rs.getTimestamp(2)))
-				 {
+				 } else if (m_maxDate.before(rs.getTimestamp(2))) {
 					 m_maxDate = rs.getTimestamp(2);
 					 log.fine("Setting max date to " + m_maxDate.toString() + "(" + tableName + "/" + columnName + ")");
 				 }
 			 }
 			
-		 }
-		 catch (SQLException e)
-		 {
+		 } catch (SQLException e) {
 			 log.log(Level.SEVERE, e.getLocalizedMessage());
-			 throw new AdempiereException("Problem finding the current earliest date", e);
-		 }
-		 finally {
+			 throw new AdempiereException("Problem finding the date limits", e);
+		 } finally {
 			 DB.close(pstm);
 		 }
 	}
 	
 	private void clearSessionLog() {
-
 		String deleteSessionLogSQL = "DELETE FROM AD_Session where AD_Client_ID=" + gw_client_id;
 		PreparedStatement pstm=null;
-		 try
-		 {
+		 try {
 			 pstm = DB.prepareStatement(deleteSessionLogSQL, get_TrxName());
 			 
 			 pstm.executeUpdate();
 			
-		 }
-		 catch (SQLException e)
-		 {
+		 } catch (SQLException e) {
 			 log.log(Level.SEVERE, e.getLocalizedMessage());
 			 throw new AdempiereException("Problem deleting the GardenWorld session log", e);
-		 }
-		 finally {
+		 } finally {
 			 DB.close(pstm);
 		 }
-
 	}
 	
 	private Boolean gardenWorldExists() {
-
 		StringBuilder whereClause = new StringBuilder();
 		whereClause.append("AD_Client_ID=?");          // #1
 
 		MClient gwClient = new Query(getCtx(), MClient.Table_Name, whereClause.toString(), null)
  		.setParameters(new Object[]{gw_client_id})
  		.first();
-		if (gwClient != null && gwClient.getName().equals("GardenWorld"))
-		{
+		if (gwClient != null && gwClient.getName().equals("GardenWorld")) {
 			return true;
 		}
 		return false;
@@ -387,20 +309,16 @@ public class CleanUpGW extends SvrProcess
 				 columnName = rs.getString(2);
 		 		findDateLimits(tableName, columnName);
 			 }
-		 }
-		 catch (SQLException e)
-		 {
+		 } catch (Exception e) {
 			 log.log(Level.SEVERE, e.getLocalizedMessage());
 			 throw new AdempiereException("", e);	 
-		 }
-		 finally {
+		 } finally {
 			 DB.close(rs, pstm);
 		 }
 
 	}
 	
 	private void determineOffset() {
-		
 		// Two years in milliseconds
 		long twoYears = 1000L*60L*60L*24L*365L*2L;
 		
@@ -411,94 +329,88 @@ public class CleanUpGW extends SvrProcess
 		log.fine("Max offset - Years: " + maxOffset/(1000L*60L*60L*24L*365L));
 		log.fine("Min offset - Years: " + minOffset/(1000L*60L*60L*24L*365L));
 		
-		if ( maxOffset < 0 || minOffset < 0 ) 
-		{
+		if ( maxOffset < 0 || minOffset < 0 ) {
 			// We are already exceeding our limits
 			m_Offset = 0;
 			return;
-		}
-		if (maxOffset > minOffset)
-		{
+		} 
+		if (maxOffset > minOffset) {
 			// Move to have the max at today.  The min will be within the two years
 			m_Offset = maxOffset;
-		}
-		else
-		{
+		} else {
 			// Move the min to within two years, the max will exceed today - be in the future
 			// TODO - verify that the max data is possible
 			m_Offset = minOffset;
 		}
-
 	}
 	
-	private void adjustCalendarAndPeriods()
-	{
-		if ( m_Offset == 0)
-		{
-			return; // nothing to do
-		}
-		
-		 // Move the calendars by a year offset in milliseconds
-		 long yearOffset = m_Offset/(1000L*60L*60L*24L*365L);  // round to years.
-		 long monthOffset = yearOffset*12L;
+	private void adjustCalendarAndPeriods() {
+		// Move the calendars by a year offset in milliseconds
+		long yearOffset = m_Offset/(1000L*60L*60L*24L*365L);  // round to years.
+		long monthOffset = yearOffset*12L;
 
-		if ( monthOffset == 0)
-		{
+		if ( monthOffset == 0) {
 			return; // nothing to do
 		}
 
-		 //  Offset the periods 
-		 String updatePeriod = "UPDATE C_Period SET StartDate = add_months(Startdate, " + monthOffset + "), "
+		//  Offset the periods 
+		String updatePeriod = "UPDATE C_Period SET StartDate = add_months(Startdate, " + monthOffset + "), "
 				 			+  "   EndDate = add_months(Enddate, " + monthOffset + "), "
 				 			+  "   Name = to_char(add_months(Enddate, " + monthOffset + "),'YYYY-MM') "
 				 			+  " WHERE ad_client_id=" + gw_client_id;
-		 DB.executeUpdate(updatePeriod, get_TrxName());
-		 
-		 // Offset the year - have to do this twice to avoid a constraint.
-		 String updateYear = "UPDATE C_Year SET fiscalyear=(SELECT max(to_char(p.enddate,'YYYY-MM')) "
+		PreparedStatement pstm = null;
+		try {
+			 pstm = DB.prepareStatement(updatePeriod, get_TrxName());
+			 pstm.executeUpdate();
+		} catch (SQLException e) {
+			log.log(Level.SEVERE, e.getLocalizedMessage());
+			throw new AdempiereException("Problem Offsetting the periods", e);
+		} finally {
+			DB.close(pstm);
+			pstm = null;
+		} 
+		// Offset the year - have to do this twice to avoid a constraint.
+		String updateYear = "UPDATE C_Year SET fiscalyear=(SELECT max(to_char(p.enddate,'YYYY-MM')) "
 				 +  " from c_period p where p.c_year_id=c_year.c_year_id) "
 		 			+  " WHERE ad_client_id=" + gw_client_id;
-		 DB.executeUpdate(updateYear, get_TrxName());
-		 updateYear = "UPDATE C_Year SET fiscalyear=(SELECT max(to_char(p.enddate,'YYYY')) "
+		try {
+			pstm = DB.prepareStatement(updateYear, get_TrxName());
+			pstm.executeUpdate();
+		} catch (SQLException e) {
+			log.log(Level.SEVERE, e.getLocalizedMessage());
+			throw new AdempiereException("Problem offsetting the year - 1st query to YYYY-MM", e);
+		} finally {
+			DB.close(pstm);
+			pstm = null;
+		}	
+		updateYear = "UPDATE C_Year SET fiscalyear=(SELECT max(to_char(p.enddate,'YYYY')) "
 				 +  " from c_period p where p.c_year_id=c_year.c_year_id) "
 		 			+  " WHERE ad_client_id=" + gw_client_id;
-		 DB.executeUpdate(updateYear, get_TrxName());
-		 
-//		 String updatem_Forcast="UPDATE m_forecast as y3 set c_year_id= "
-//				 +  "  (select y1.c_year_id from c_year y1 join c_year y2 on "
-//				 +  "    CAST (y1.fiscalyear as INT)=CAST (y2.fiscalyear as INT)+8 "
-//				 +  "   where Y2.c_year_id=y3.c_year_id and y3.ad_client_id=" + gw_client_id + ")";
-//		 DB.executeUpdate(updatem_Forcast, null);
-//		 String sqlDeletePeriodctrl="DELETE FROM C_PeriodControl  where c_period_id in (select c_period_id from c_period where c_year_id in(select c_year_id from c_year where CAST (fiscalyear as INT) < 2010) ) and ad_client_id=11";
-//		 DB.executeUpdate(sqlDeletePeriodctrl, null);
-//		 String sqlDeletePeriod="DELETE  FROM c_period where c_year_id in(select c_year_id from c_year where CAST (fiscalyear as INT) < 2010)  and ad_client_id=11";
-//		 DB.executeUpdate(sqlDeletePeriod, null);
-//		 String sqlDeleteYear="DELETE  FROM c_year where CAST (fiscalyear as INT) < 2010  and ad_client_id=11";
-//		 DB.executeUpdate(sqlDeleteYear, null);
-
+		try {
+			pstm = DB.prepareStatement(updateYear, get_TrxName());
+			pstm.executeUpdate();
+		} catch (SQLException e) {
+			log.log(Level.SEVERE, e.getLocalizedMessage());
+			throw new AdempiereException("Problem offsetting the year to form YYYY", e);
+		} finally {
+			DB.close(pstm);
+			pstm = null;
+		}
 	}
 	
 	private void cleanUp() {
-
 		// Set bank statement names
 		String deleteSessionLogSQL = "UPDATE C_BankStatement SET NAME = to_char(StatementDate, 'YYYY-MM_DD') where AD_Client_ID=" + gw_client_id;
 		PreparedStatement pstm=null;
-		 try
-		 {
-			 pstm = DB.prepareStatement(deleteSessionLogSQL, get_TrxName());
-			 
-			 pstm.executeUpdate();
+		try {
+			pstm = DB.prepareStatement(deleteSessionLogSQL, get_TrxName()); 
+			pstm.executeUpdate();
 			
-		 }
-		 catch (SQLException e)
-		 {
-			 log.log(Level.SEVERE, e.getLocalizedMessage());
-			 throw new AdempiereException("Problem updating the bank statement names", e);
-		 }
-		 finally {
-			 DB.close(pstm);
-		 }
-
+		} catch (SQLException e) {
+			log.log(Level.SEVERE, e.getLocalizedMessage());
+			throw new AdempiereException("Problem updating the bank statement names", e);
+		} finally {
+			DB.close(pstm);
+		}
 	}
-
 }

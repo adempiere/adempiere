@@ -24,7 +24,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Enumeration;
-import java.util.Properties;
 import java.util.logging.Level;
 
 import javax.mail.Address;
@@ -39,17 +38,21 @@ import javax.mail.Session;
 import javax.mail.Store;
 
 import org.compiere.model.MAttachment;
+import org.compiere.model.MEMailConfig;
 import org.compiere.model.MRequest;
 import org.compiere.model.MUser;
 import org.compiere.util.CLogMgt;
 import org.compiere.util.DB;
-import org.compiere.util.EMailAuthenticator;
+import org.compiere.util.EMail;
 
 /**
  *	Request Email Processor
  *	
  *  @author Carlos Ruiz based on initial work by Jorg Janke - sponsored by DigitalArmour
  *  @version $Id: RequestEMailProcessor.java,v 1.2 2006/10/23 06:01:20 cruiz Exp $
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *			<li> FR [ 402 ] Mail setup is hardcoded
+ *			@see https://github.com/adempiere/adempiere/issues/402
  */
 public class RequestEMailProcessor extends SvrProcess
 {
@@ -66,6 +69,8 @@ public class RequestEMailProcessor extends SvrProcess
 	private int R_RequestType_ID = 0;
 	private String p_DefaultPriority = null;
 	private String p_DefaultConfidentiality = null;
+	/**	Email Configuration		*/
+	private EMail m_email = null;
 
 	private int noProcessed = 0;
 	private int noRequest = 0;
@@ -170,20 +175,15 @@ public class RequestEMailProcessor extends SvrProcess
 	 *	@return Session
 	 *	@throws Exception
 	 */
-	private Session getSession() throws Exception
-	{
+	private Session getSession() throws Exception {
 		if (m_session != null)
 			return m_session;
-		
+		m_email = new EMail(p_IMAPHost, 0, MEMailConfig.PROTOCOL_IMAP, 
+				MEMailConfig.ENCRYPTIONTYPE_None, MEMailConfig.AUTHMECHANISM_Login);
+		m_email.createAuthenticator(p_IMAPUser, p_IMAPPwd);
+		//	FR [ 402 ]
 		//	Session
-		Properties props = System.getProperties();
-		props.put("mail.store.protocol", "smtp");
-		props.put("mail.transport.protocol", "smtp");
-		props.put("mail.host", p_IMAPHost);
-		props.put("mail.smtp.auth","true");
-		EMailAuthenticator auth = new EMailAuthenticator (p_IMAPUser, p_IMAPPwd);
-		//
-		m_session = Session.getDefaultInstance(props, auth);
+		m_session = m_email.getSession();
 		m_session.setDebug(CLogMgt.isLevelFinest());
 		log.fine("getSession - " + m_session);
 		return m_session;
@@ -195,29 +195,27 @@ public class RequestEMailProcessor extends SvrProcess
 	 *	@return Store
 	 *	@throws Exception
 	 */
-	private Store getStore() throws Exception
-	{
+	private Store getStore() throws Exception {
 		if (m_store != null)
 			return m_store;
 		if (getSession() == null)
 			throw new IllegalStateException("No Session");
 		
-		//	Get IMAP Store
-		m_store = m_session.getStore("imap");
+		//	Get Store
+		m_store = m_session.getStore(m_email.getStoreProtocol());
 		//	Connect
 		m_store.connect();
 		//
 		log.fine("getStore - " + m_store);
 		return m_store;
-	}	//	getStore	
+	}	//	getStore
 	
 	/**
 	 * 	Process InBox
 	 *	@return number of processed
 	 *	@throws Exception
 	 */
-	private void processInBox() throws Exception
-	{
+	private void processInBox() throws Exception {
 		//	Folder
 		Folder folder;
 		folder = m_store.getDefaultFolder();
@@ -231,7 +229,9 @@ public class RequestEMailProcessor extends SvrProcess
 		log.fine("processInBox - " + inbox.getName() 
 			+ "; Messages Total=" + inbox.getMessageCount()
 			+ "; New=" + inbox.getNewMessageCount());
-		
+		//	Validate IMAP
+		if(!m_email.getProtocol().equals(MEMailConfig.PROTOCOL_IMAP))
+			return;
 		//	Open Request
 		Folder requestFolder = folder.getFolder(p_RequestFolder);
 		if (!requestFolder.exists() && !requestFolder.create(Folder.HOLDS_MESSAGES))

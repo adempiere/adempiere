@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="adempiere_test_suite" default="sahitests">
+    <description>
+		This builds executes the ADempiere test suite
+		It expects these environmet variables to be set
+		   SAHI_HOME: Local directory where shai is installed. Explample: /opt/sahi_20110525/sahi
+		   SAHI_TARGET_HOST: The host name of the adempiere installation to be tested. Example: asds2.adempiere.de
+	</description>
+	
+	<!--
+	Using documentation and example from http://docs.zkoss.org/wiki/Making_ZK_Functional_Tests_With_Sahi
+	-->
+    <property file="myTest.properties"/>
+	<property file="test.properties"/>
+	<property name="sahi.home" value="${SAHI_HOME}"/>
+	<property name="lib.dir" value="${sahi.home}/lib"/>
+	<property name="user.data" value="${sahi.home}/userdata"/>
+	
+	<property name="urlbase" value="http://${SAHI_TARGET_HOST}/webui"/>
+	<property name="log.dir" value="${basedir}/target/log"/>
+	<property name="suite.file" value="${basedir}/${SUITE_FILE}"/>
+	
+	<target name="prepare">
+	
+		<fail message="Missing system property SAHI_HOME" unless="SAHI_HOME"/>
+		<fail message="Missing system property SAHI_TARGET_HOST" unless="SAHI_TARGET_HOST"/>
+		<echo message="SAHI_HOME = ${SAHI_HOME}"/>
+		<echo message="SAHI_TARGET_HOST = ${SAHI_TARGET_HOST}"/>
+		
+		<taskdef name="sahi" classname="net.sf.sahi.ant.RunSahiTask" classpath="${SAHI_HOME}/lib/ant-sahi.jar"/>
+		
+	</target>
+
+	<target name="sahitests" description="start the server and run sahi tests" depends="prepare">
+   
+		<mkdir dir="${log.dir}" description="creating log directory" />
+		 
+		<parallel>
+		    <antcall target="startsahi"/>
+	    	<sequential>
+                <waitfor maxwait="3" maxwaitunit="minute" checkevery="100">
+                    <http url="${urlbase}"/>
+                </waitfor>
+                <echo message="Starting test suite ${suite.file}"/>
+		
+        		<!-- we are testing with firefox a.k.a. iceweasel -->
+        		<sahi suite="${suite.file}" 
+                            browserType="firefox"
+                            baseurl="${urlbase}"
+                            sahihost="localhost"
+                            sahiport="9999"
+                            failureproperty="sahi.failed"
+                            haltonfailure="true"
+        		/>
+			
+        		<sleep seconds="4"/>
+        		<antcall target="stopsahi"/>
+        		<sleep seconds="4"/>
+                <antcall target="failsahi"/>
+			</sequential>
+		</parallel>
+    </target>
+	
+	<target name="startsahi" description="start sahi proxy">
+        <java classname="net.sf.sahi.Proxy" fork="true" dir="${sahi.home}">
+            <classpath location="${sahi.home}/lib/sahi.jar"/>
+            <env key="MOZ_NO_REMOTE" value="1"/>
+            <classpath location="${sahi.home}/lib/sahi.jar">
+                <fileset dir="${sahi.home}/extlib" includes="**/*.jar"/>
+            </classpath>
+            <arg value="${sahi.home}" id="basePath"/>
+            <arg value="${user.data}" id="userdataPath"/>
+        </java>
+    </target>
+ 
+    <target name="stopsahi" description="stop sahi server" depends="prepare">
+        <sahi stop="true" sahihost="localhost" sahiport="9999"/>
+    </target>
+	
+	<target name="failsahi" if="sahi.failed">
+        <fail message="Sahi tests failed!"/>
+    </target>
+	
+</project>

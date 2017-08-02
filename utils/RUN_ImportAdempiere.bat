@@ -12,7 +12,7 @@ REM FilePerms:	0644
 REM
 
 REM database binaries are expected to be in the PATH
-REM for oracle: sqlplus, imp, loadjava ...
+REM for Oracle: sqlplus, imp, loadjava ...
 REM for postgresql: psql, dropdb, createdb, dropuser ...
 
 SETLOCAL ENABLEDELAYEDEXPANSION
@@ -90,17 +90,17 @@ SET dbSchema=%ADEMPIERE_DB_USER%
 
 REM variables depending on database vendor
 SET unSupportedVendor=0
-IF NOT "%dbVendor%"=="postgresql" GOTO :NOPGSQL
+IF NOT "%dbVendor%"=="PostgreSQL" GOTO :NOPGSQL
 SET dbSeedFile=%ADEMPIERE_HOME%\data\Adempiere_pg.dmp
 SET sysUser=postgres
 GOTO :VENDORSET
 :NOPGSQL
-IF NOT "%dbVendor%"=="oracle" GOTO :NOORACLE
+IF NOT "%dbVendor%"=="Oracle" GOTO :NOORACLE
 SET dbSeedFile=%ADEMPIERE_HOME%\data\Adempiere.dmp
 SET sysUser=system
 GOTO :VENDORSET
 :NOORACLE
-IF NOT "%dbVendor%"=="oracleXE" GOTO :NOXE
+IF NOT "%dbVendor%"=="OracleXE" GOTO :NOXE
 SET dbSeedFile=%ADEMPIERE_HOME%\data\Adempiere.dmp
 SET sysUser=system
 GOTO :VENDORSET
@@ -113,15 +113,15 @@ IF NOT "%importMode%"=="Reference" GOTO :NOREF
 SET dbUser=reference
 SET dbPwd=adempiere
 SET dbSchema=reference
-IF NOT "%dbVendor%"=="postgresql" GOTO :REFNOPG
+IF NOT "%dbVendor%"=="PostgreSQL" GOTO :REFNOPG
 SET dbName=reference
 GOTO :NOREF
 :REFNOPG
-IF NOT "%dbVendor%"=="oracle" GOTO :REFNOORACLE
+IF NOT "%dbVendor%"=="Oracle" GOTO :REFNOORACLE
 SET dbName=%ADEMPIERE_DB_NAME%
 GOTO :NOREF
 :REFNOORACLE
-IF NOT "%dbVendor%"=="oracleXE" GOTO :NOREF 
+IF NOT "%dbVendor%"=="OracleXE" GOTO :NOREF 
 SET dbName=%ADEMPIERE_DB_NAME%
 :NOREF
 
@@ -141,7 +141,7 @@ GOTO :ENVOK
 :ENVNOK
 ECHO Please make sure that the environment variables are set correctly:
 ECHO ADEMPIERE_HOME	e.g. "C:\Adempiere"
-ECHO ADEMPIERE_DB_PATH	e.g. "postgresql" or "oracle"
+ECHO ADEMPIERE_DB_PATH	e.g. "PostgreSQL" or "Oracle"
 ECHO ADEMPIERE_DB_NAME	e.g. "adempiere" or "xe"
 ECHO ADEMPIERE_DB_SERVER	e.g. "dbserver.adempiere.org"
 ECHO ADEMPIERE_DB_PORT	e.g. "5432" or "1521"

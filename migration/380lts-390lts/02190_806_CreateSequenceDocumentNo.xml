@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+    <Migration EntityType="D" Name="Create sequence for tables with a Value or Document No Columns" ReleaseNo="3.9.0" SeqNo="2190">
+        <Comments>https://github.com/adempiere/adempiere/issues/806</Comments>
+        <Step SeqNo="10" StepType="AD">
+            <PO AD_Table_ID="115" Action="I" Record_ID="54480" Table="AD_Sequence">
+                <Data AD_Column_ID="426" Column="AD_Client_ID">0</Data>
+                <Data AD_Column_ID="427" Column="AD_Org_ID">0</Data>
+                <Data AD_Column_ID="1186" Column="AD_Sequence_ID">54480</Data>
+                <Data AD_Column_ID="627" Column="Created">2017-03-30 00:00:00.000</Data>
+                <Data AD_Column_ID="628" Column="CreatedBy">100</Data>
+                <Data AD_Column_ID="220" Column="CurrentNext">1000000</Data>
+                <Data AD_Column_ID="3887" Column="CurrentNextSys">50000</Data>
+                <Data AD_Column_ID="54272" Column="DateColumn" isNewNull="true"/>
+                <Data AD_Column_ID="54309" Column="DecimalPattern" isNewNull="true"/>
+                <Data AD_Column_ID="347" Column="Description">DocumentNo/Value for Table HR_Concept_Type</Data>
+                <Data AD_Column_ID="2747" Column="IncrementNo">1</Data>
+                <Data AD_Column_ID="349" Column="IsActive">true</Data>
+                <Data AD_Column_ID="222" Column="IsAudited">false</Data>
+                <Data AD_Column_ID="1188" Column="IsAutoSequence">true</Data>
+                <Data AD_Column_ID="350" Column="IsTableID">false</Data>
+                <Data AD_Column_ID="216" Column="Name">DocumentNo_HR_Concept_Type</Data>
+                <Data AD_Column_ID="223" Column="Prefix" isNewNull="true"/>
+                <Data AD_Column_ID="225" Column="StartNewYear">false</Data>
+                <Data AD_Column_ID="2746" Column="StartNo">1000000</Data>
+                <Data AD_Column_ID="224" Column="Suffix" isNewNull="true"/>
+                <Data AD_Column_ID="629" Column="Updated">2017-03-30 00:00:00.000</Data>
+                <Data AD_Column_ID="630" Column="UpdatedBy">100</Data>
+                <Data AD_Column_ID="1187" Column="VFormat" isNewNull="true"/>
+            </PO>
+        </Step>
+        <Step SeqNo="20" StepType="AD">
+            <PO AD_Table_ID="115" Action="I" Record_ID="54481" Table="AD_Sequence">
+                <Data AD_Column_ID="426" Column="AD_Client_ID">0</Data>
+                <Data AD_Column_ID="427" Column="AD_Org_ID">0</Data>
+                <Data AD_Column_ID="1186" Column="AD_Sequence_ID">54481</Data>
+                <Data AD_Column_ID="627" Column="Created">2017-03-30 00:00:00.000</Data>
+                <Data AD_Column_ID="628" Column="CreatedBy">100</Data>
+                <Data AD_Column_ID="220" Column="CurrentNext">1000000</Data>
+                <Data AD_Column_ID="3887" Column="CurrentNextSys">50000</Data>
+                <Data AD_Column_ID="54272" Column="DateColumn" isNewNull="true"/>
+                <Data AD_Column_ID="54309" Column="DecimalPattern" isNewNull="true"/>
+                <Data AD_Column_ID="347" Column="Description">DocumentNo/Value for Table C_PaySelection</Data>
+                <Data AD_Column_ID="2747" Column="IncrementNo">1</Data>
+                <Data AD_Column_ID="349" Column="IsActive">true</Data>
+                <Data AD_Column_ID="222" Column="IsAudited">false</Data>
+                <Data AD_Column_ID="1188" Column="IsAutoSequence">true</Data>
+                <Data AD_Column_ID="350" Column="IsTableID">false</Data>
+                <Data AD_Column_ID="216" Column="Name">DocumentNo_C_PaySelection</Data>
+                <Data AD_Column_ID="223" Column="Prefix" isNewNull="true"/>
+                <Data AD_Column_ID="225" Column="StartNewYear">false</Data>
+                <Data AD_Column_ID="2746" Column="StartNo">1000000</Data>
+                <Data AD_Column_ID="224" Column="Suffix" isNewNull="true"/>
+                <Data AD_Column_ID="629" Column="Updated">2017-03-30 00:00:00.000</Data>
+                <Data AD_Column_ID="630" Column="UpdatedBy">100</Data>
+                <Data AD_Column_ID="1187" Column="VFormat" isNewNull="true"/>
+            </PO>
+        </Step>
+        <Step SeqNo="30" StepType="AD">
+            <PO AD_Table_ID="115" Action="I" Record_ID="54482" Table="AD_Sequence">
+                <Data AD_Column_ID="426" Column="AD_Client_ID">0</Data>
+                <Data AD_Column_ID="427" Column="AD_Org_ID">0</Data>
+                <Data AD_Column_ID="1186" Column="AD_Sequence_ID">54482</Data>
+                <Data AD_Column_ID="627" Column="Created">2017-03-30 00:00:00.000</Data>
+                <Data AD_Column_ID="628" Column="CreatedBy">100</Data>
+                <Data AD_Column_ID="220" Column="CurrentNext">1000000</Data>
+                <Data AD_Column_ID="3887" Column="CurrentNextSys">50000</Data>
+                <Data AD_Column_ID="54272" Column="DateColumn" isNewNull="true"/>
+                <Data AD_Column_ID="54309" Column="DecimalPattern" isNewNull="true"/>
+                <Data AD_Column_ID="347" Column="Description">DocumentNo/Value for Table M_ProductionBatch</Data>
+                <Data AD_Column_ID="2747" Column="IncrementNo">1</Data>
+                <Data AD_Column_ID="349" Column="IsActive">true</Data>
+                <Data AD_Column_ID="222" Column="IsAudited">false</Data>
+                <Data AD_Column_ID="1188" Column="IsAutoSequence">true</Data>
+                <Data AD_Column_ID="350" Column="IsTableID">false</Data>
+                <Data AD_Column_ID="216" Column="Name">DocumentNo_M_ProductionBatch</Data>
+                <Data AD_Column_ID="223" Column="Prefix" isNewNull="true"/>
+                <Data AD_Column_ID="225" Column="StartNewYear">false</Data>
+                <Data AD_Column_ID="2746" Column="StartNo">1000000</Data>
+                <Data AD_Column_ID="224" Column="Suffix" isNewNull="true"/>
+                <Data AD_Column_ID="629" Column="Updated">2017-03-30 00:00:00.000</Data>
+                <Data AD_Column_ID="630" Column="UpdatedBy">100</Data>
+                <Data AD_Column_ID="1187" Column="VFormat" isNewNull="true"/>
+            </PO>
+        </Step>
+        <Step SeqNo="40" StepType="AD">
+            <PO AD_Table_ID="115" Action="I" Record_ID="54483" Table="AD_Sequence">
+                <Data AD_Column_ID="426" Column="AD_Client_ID">11</Data>
+                <Data AD_Column_ID="427" Column="AD_Org_ID">0</Data>
+                <Data AD_Column_ID="1186" Column="AD_Sequence_ID">54483</Data>
+                <Data AD_Column_ID="627" Column="Created">2017-03-30 00:00:00.000</Data>
+                <Data AD_Column_ID="628" Column="CreatedBy">100</Data>
+                <Data AD_Column_ID="220" Column="CurrentNext">1000000</Data>
+                <Data AD_Column_ID="3887" Column="CurrentNextSys">50000</Data>
+                <Data AD_Column_ID="54272" Column="DateColumn" isNewNull="true"/>
+                <Data AD_Column_ID="54309" Column="DecimalPattern" isNewNull="true"/>
+                <Data AD_Column_ID="347" Column="Description">DocumentNo/Value for Table HR_Concept_Type</Data>
+                <Data AD_Column_ID="2747" Column="IncrementNo">1</Data>
+                <Data AD_Column_ID="349" Column="IsActive">true</Data>
+                <Data AD_Column_ID="222" Column="IsAudited">false</Data>
+                <Data AD_Column_ID="1188" Column="IsAutoSequence">true</Data>
+                <Data AD_Column_ID="350" Column="IsTableID">false</Data>
+                <Data AD_Column_ID="216" Column="Name">DocumentNo_HR_Concept_Type</Data>
+                <Data AD_Column_ID="223" Column="Prefix" isNewNull="true"/>
+                <Data AD_Column_ID="225" Column="StartNewYear">false</Data>
+                <Data AD_Column_ID="2746" Column="StartNo">1000000</Data>
+                <Data AD_Column_ID="224" Column="Suffix" isNewNull="true"/>
+                <Data AD_Column_ID="629" Column="Updated">2017-03-30 00:00:00.000</Data>
+                <Data AD_Column_ID="630" Column="UpdatedBy">100</Data>
+                <Data AD_Column_ID="1187" Column="VFormat" isNewNull="true"/>
+            </PO>
+        </Step>
+        <Step SeqNo="50" StepType="AD">
+            <PO AD_Table_ID="115" Action="I" Record_ID="54484" Table="AD_Sequence">
+                <Data AD_Column_ID="426" Column="AD_Client_ID">11</Data>
+                <Data AD_Column_ID="427" Column="AD_Org_ID">0</Data>
+                <Data AD_Column_ID="1186" Column="AD_Sequence_ID">54484</Data>
+                <Data AD_Column_ID="627" Column="Created">2017-03-30 00:00:00.000</Data>
+                <Data AD_Column_ID="628" Column="CreatedBy">100</Data>
+                <Data AD_Column_ID="220" Column="CurrentNext">1000000</Data>
+                <Data AD_Column_ID="3887" Column="CurrentNextSys">50000</Data>
+                <Data AD_Column_ID="54272" Column="DateColumn" isNewNull="true"/>
+                <Data AD_Column_ID="54309" Column="DecimalPattern" isNewNull="true"/>
+                <Data AD_Column_ID="347" Column="Description">DocumentNo/Value for Table C_PaySelection</Data>
+                <Data AD_Column_ID="2747" Column="IncrementNo">1</Data>
+                <Data AD_Column_ID="349" Column="IsActive">true</Data>
+                <Data AD_Column_ID="222" Column="IsAudited">false</Data>
+                <Data AD_Column_ID="1188" Column="IsAutoSequence">true</Data>
+                <Data AD_Column_ID="350" Column="IsTableID">false</Data>
+                <Data AD_Column_ID="216" Column="Name">DocumentNo_C_PaySelection</Data>
+                <Data AD_Column_ID="223" Column="Prefix" isNewNull="true"/>
+                <Data AD_Column_ID="225" Column="StartNewYear">false</Data>
+                <Data AD_Column_ID="2746" Column="StartNo">1000000</Data>
+                <Data AD_Column_ID="224" Column="Suffix" isNewNull="true"/>
+                <Data AD_Column_ID="629" Column="Updated">2017-03-30 00:00:00.000</Data>
+                <Data AD_Column_ID="630" Column="UpdatedBy">100</Data>
+                <Data AD_Column_ID="1187" Column="VFormat" isNewNull="true"/>
+            </PO>
+        </Step>
+    </Migration>
+</Migrations>

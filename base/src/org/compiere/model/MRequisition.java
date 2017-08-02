@@ -32,22 +32,22 @@ import org.compiere.util.Msg;
 
 /**
  *	Requisition Model
- *	
+ *
  *  @author Jorg Janke
  *
  *  @author victor.perez@e-evolution.com, e-Evolution http://www.e-evolution.com
- * 			<li> FR [ 2520591 ] Support multiples calendar for Org 
- *			@see http://sourceforge.net/tracker2/?func=detail&atid=879335&aid=2520591&group_id=176962 
+ * 			<li> FR [ 2520591 ] Support multiples calendar for Org
+ *			@see http://sourceforge.net/tracker2/?func=detail&atid=879335&aid=2520591&group_id=176962
  *  @version $Id: MRequisition.java,v 1.2 2006/07/30 00:51:05 jjanke Exp $
  *  @author red1
- *  		<li>FR [ 2214883 ] Remove SQL code and Replace for Query  
+ *  		<li>FR [ 2214883 ] Remove SQL code and Replace for Query
  *  @author Teo Sarca, www.arhipac.ro
  *  		<li>FR [ 2744682 ] Requisition: improve error reporting
  */
 public class MRequisition extends X_M_Requisition implements DocAction
 {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 898606565778668659L;
 
@@ -86,10 +86,10 @@ public class MRequisition extends X_M_Requisition implements DocAction
 	{
 		super(ctx, rs, trxName);
 	}	//	MRequisition
-	
+
 	/** Lines						*/
 	private MRequisitionLine[]		m_lines = null;
-	
+
 	/**
 	 * 	Get Lines
 	 *	@return array of lines
@@ -100,8 +100,8 @@ public class MRequisition extends X_M_Requisition implements DocAction
 			set_TrxName(m_lines, get_TrxName());
 			return m_lines;
 		}
-		
-		//red1 - FR: [ 2214883 ] Remove SQL code and Replace for Query  
+
+		//red1 - FR: [ 2214883 ] Remove SQL code and Replace for Query
  	 	final String whereClause = I_M_RequisitionLine.COLUMNNAME_M_Requisition_ID+"=?";
 	 	List <MRequisitionLine> list = new Query(getCtx(), I_M_RequisitionLine.Table_Name, whereClause, get_TrxName())
 			.setParameters(get_ID())
@@ -113,7 +113,7 @@ public class MRequisition extends X_M_Requisition implements DocAction
 		list.toArray (m_lines);
 		return m_lines;
 	}	//	getLines
-	
+
 	/**
 	 * 	String Representation
 	 *	@return info
@@ -126,7 +126,7 @@ public class MRequisition extends X_M_Requisition implements DocAction
 			.append ("]");
 		return sb.toString ();
 	}	//	toString
-	
+
 	/**
 	 * 	Get Document Info
 	 *	@return document info
@@ -135,7 +135,7 @@ public class MRequisition extends X_M_Requisition implements DocAction
 	{
 		return Msg.getElement(getCtx(), "M_Requisition_ID") + " " + getDocumentNo();
 	}	//	getDocumentInfo
-	
+
 	/**
 	 * 	Create PDF
 	 *	@return File or null
@@ -178,7 +178,7 @@ public class MRequisition extends X_M_Requisition implements DocAction
 		if (defaultPL != null)
 			setM_PriceList_ID(defaultPL.getM_PriceList_ID());
 	}	//	setM_PriceList_ID()
-	
+
 	/**
 	 * 	Before Save
 	 *	@param newRecord new
@@ -190,7 +190,7 @@ public class MRequisition extends X_M_Requisition implements DocAction
 			setM_PriceList_ID();
 		return true;
 	}	//	beforeSave
-	
+
 	@Override
 	protected boolean beforeDelete() {
 		for (MRequisitionLine line : getLines()) {
@@ -210,7 +210,7 @@ public class MRequisition extends X_M_Requisition implements DocAction
 		DocumentEngine engine = new DocumentEngine (this, getDocStatus());
 		return engine.processIt (processAction, getDocAction());
 	}	//	process
-	
+
 	/**	Process Message 			*/
 	private String			m_processMsg = null;
 	/**	Just Prepared Flag			*/
@@ -218,7 +218,7 @@ public class MRequisition extends X_M_Requisition implements DocAction
 
 	/**
 	 * 	Unlock Document.
-	 * 	@return true if success 
+	 * 	@return true if success
 	 */
 	public boolean unlockIt()
 	{
@@ -226,20 +226,20 @@ public class MRequisition extends X_M_Requisition implements DocAction
 		setProcessing(false);
 		return true;
 	}	//	unlockIt
-	
+
 	/**
 	 * 	Invalidate Document
-	 * 	@return true if success 
+	 * 	@return true if success
 	 */
 	public boolean invalidateIt()
 	{
 		log.info("invalidateIt - " + toString());
 		return true;
 	}	//	invalidateIt
-	
+
 	/**
 	 *	Prepare Document
-	 * 	@return new status (In Progress or Invalid) 
+	 * 	@return new status (In Progress or Invalid)
 	 */
 	public String prepareIt()
 	{
@@ -248,23 +248,23 @@ public class MRequisition extends X_M_Requisition implements DocAction
 		if (m_processMsg != null)
 			return DocAction.STATUS_Invalid;
 		MRequisitionLine[] lines = getLines();
-		
+
 		//	Invalid
-		if (getAD_User_ID() == 0 
+		if (getAD_User_ID() == 0
 			|| getM_PriceList_ID() == 0
 			|| getM_Warehouse_ID() == 0)
 		{
 			return DocAction.STATUS_Invalid;
 		}
-		
+
 		if(lines.length == 0)
 		{
 			throw new AdempiereException("@NoLines@");
 		}
-		
+
 		//	Std Period open?
 		MPeriod.testPeriodOpen(getCtx(), getDateDoc(), MDocType.DOCBASETYPE_PurchaseRequisition, getAD_Org_ID());
-		
+
 		//	Add up Amounts
 		int precision = MPriceList.getStandardPrecision(getCtx(), getM_PriceList_ID());
 		BigDecimal totalLines = Env.ZERO;
@@ -285,18 +285,18 @@ public class MRequisition extends X_M_Requisition implements DocAction
 			setTotalLines(totalLines);
 			saveEx();
 		}
-		
+
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_PREPARE);
 		if (m_processMsg != null)
 			return DocAction.STATUS_Invalid;
-		
+
 		m_justPrepared = true;
 		return DocAction.STATUS_InProgress;
 	}	//	prepareIt
-	
+
 	/**
 	 * 	Approve Document
-	 * 	@return true if success 
+	 * 	@return true if success
 	 */
 	public boolean  approveIt()
 	{
@@ -304,10 +304,10 @@ public class MRequisition extends X_M_Requisition implements DocAction
 		setIsApproved(true);
 		return true;
 	}	//	approveIt
-	
+
 	/**
 	 * 	Reject Approval
-	 * 	@return true if success 
+	 * 	@return true if success
 	 */
 	public boolean rejectIt()
 	{
@@ -315,7 +315,7 @@ public class MRequisition extends X_M_Requisition implements DocAction
 		setIsApproved(false);
 		return true;
 	}	//	rejectIt
-	
+
 	/**
 	 * 	Complete Document
 	 * 	@return new status (Complete, In Progress, Invalid, Waiting ..)
@@ -333,12 +333,12 @@ public class MRequisition extends X_M_Requisition implements DocAction
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_COMPLETE);
 		if (m_processMsg != null)
 			return DocAction.STATUS_Invalid;
-		
+
 		//	Implicit Approval
 		if (!isApproved())
 			approveIt();
 		log.info(toString());
-		
+
 		//	User Validation
 		String valid = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_COMPLETE);
 		if (valid != null)
@@ -355,7 +355,7 @@ public class MRequisition extends X_M_Requisition implements DocAction
 		setDocAction(ACTION_Close);
 		return DocAction.STATUS_Completed;
 	}	//	completeIt
-	
+
 	/**
 	 * 	Set the definite document number after completed
 	 */
@@ -374,7 +374,7 @@ public class MRequisition extends X_M_Requisition implements DocAction
 	/**
 	 * 	Void Document.
 	 * 	Same as Close.
-	 * 	@return true if success 
+	 * 	@return true if success
 	 */
 	public boolean voidIt()
 	{
@@ -383,22 +383,22 @@ public class MRequisition extends X_M_Requisition implements DocAction
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_VOID);
 		if (m_processMsg != null)
 			return false;
-		
+
 		if (!closeIt())
 			return false;
-		
+
 		// After Void
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_VOID);
 		if (m_processMsg != null)
 			return false;
-		
+
 		return true;
 	}	//	voidIt
-	
+
 	/**
 	 * 	Close Document.
 	 * 	Cancel not delivered Qunatities
-	 * 	@return true if success 
+	 * 	@return true if success
 	 */
 	public boolean closeIt()
 	{
@@ -407,7 +407,7 @@ public class MRequisition extends X_M_Requisition implements DocAction
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_CLOSE);
 		if (m_processMsg != null)
 			return false;
-		
+
 		//	Close Not delivered Qty
 		MRequisitionLine[] lines = getLines();
 		BigDecimal totalLines = Env.ZERO;
@@ -428,7 +428,7 @@ public class MRequisition extends X_M_Requisition implements DocAction
 				String description = line.getDescription();
 				if (description == null)
 					description = "";
-				description += " [" + line.getQty() + "]"; 
+				description += " [" + line.getQty() + "]";
 				line.setDescription(description);
 				line.setQty(finalQty);
 				line.setLineNetAmt();
@@ -445,13 +445,13 @@ public class MRequisition extends X_M_Requisition implements DocAction
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_CLOSE);
 		if (m_processMsg != null)
 			return false;
-		
+
 		return true;
 	}	//	closeIt
-	
+
 	/**
 	 * 	Reverse Correction
-	 * 	@return true if success 
+	 * 	@return true if success
 	 */
 	public boolean reverseCorrectIt()
 	{
@@ -468,10 +468,10 @@ public class MRequisition extends X_M_Requisition implements DocAction
 
 		return false;
 	}	//	reverseCorrectionIt
-	
+
 	/**
 	 * 	Reverse Accrual - none
-	 * 	@return true if success 
+	 * 	@return true if success
 	 */
 	public boolean reverseAccrualIt()
 	{
@@ -484,14 +484,14 @@ public class MRequisition extends X_M_Requisition implements DocAction
 		// After reverseAccrual
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSEACCRUAL);
 		if (m_processMsg != null)
-			return false;				
-		
+			return false;
+
 		return false;
 	}	//	reverseAccrualIt
-	
-	/** 
+
+	/**
 	 * 	Re-activate
-	 * 	@return true if success 
+	 * 	@return true if success
 	 */
 	public boolean reActivateIt()
 	{
@@ -512,7 +512,7 @@ public class MRequisition extends X_M_Requisition implements DocAction
 
 		return true;
 	}	//	reActivateIt
-	
+
 	/*************************************************************************
 	 * 	Get Summary
 	 *	@return Summary of Document
@@ -532,7 +532,7 @@ public class MRequisition extends X_M_Requisition implements DocAction
 			sb.append(" - ").append(getDescription());
 		return sb.toString();
 	}	//	getSummary
-	
+
 	/**
 	 * 	Get Process Message
 	 *	@return clear text error message
@@ -541,7 +541,7 @@ public class MRequisition extends X_M_Requisition implements DocAction
 	{
 		return m_processMsg;
 	}	//	getProcessMsg
-	
+
 	/**
 	 * 	Get Document Owner
 	 *	@return AD_User_ID
@@ -550,7 +550,7 @@ public class MRequisition extends X_M_Requisition implements DocAction
 	{
 		return getAD_User_ID();
 	}
-	
+
 	/**
 	 * 	Get Document Currency
 	 *	@return C_Currency_ID
@@ -569,7 +569,7 @@ public class MRequisition extends X_M_Requisition implements DocAction
 	{
 		return getTotalLines();
 	}
-	
+
 	/**
 	 * 	Get User Name
 	 *	@return user name
@@ -586,9 +586,9 @@ public class MRequisition extends X_M_Requisition implements DocAction
 	public boolean isComplete()
 	{
 		String ds = getDocStatus();
-		return DOCSTATUS_Completed.equals(ds) 
+		return DOCSTATUS_Completed.equals(ds)
 			|| DOCSTATUS_Closed.equals(ds)
 			|| DOCSTATUS_Reversed.equals(ds);
 	}	//	isComplete
-	
+
 }	//	MRequisition

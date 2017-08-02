@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Remove bad parameter for SB Create Shipment from Order Line " ReleaseNo="3.9.0" SeqNo="2640">
+    <Comments>See: https://github.com/adempiere/adempiere/issues/1069</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="55694" Table="AD_Process_Para">
+        <Data AD_Column_ID="2826" Column="SeqNo" oldValue="50">0</Data>
+        <Data AD_Column_ID="2817" Column="IsActive" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="55695" Table="AD_Process_Para">
+        <Data AD_Column_ID="2826" Column="SeqNo" oldValue="60">40</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="53224" Action="U" Record_ID="50079" Table="AD_Browse">
+        <Data AD_Column_ID="72125" Column="IsCollapsibleByDefault" oldValue="false">true</Data>
+        <Data AD_Column_ID="73086" Column="IsShowTotal" oldValue="false">true</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

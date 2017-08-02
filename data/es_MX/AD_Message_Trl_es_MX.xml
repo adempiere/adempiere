@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--ADempiere(r) Release 3.7.0LTS_2011-10-15 -Smart Suite ERP,CRM and SCM- (c) 1999-2010 ADempiere(r); Implementation: ADempiere - Supported by ADempiere community-->
-<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
-<adempiereTrl language="es_MX" table="AD_Message">
+<!--ADempiere(r) Release 3.9.0_2017-08-01 -Smart Suite ERP,CRM and SCM- (c) 1999-2017 ADempiere(r); Implementation: ADempiere - Supported by ADempiere community--><!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.net/dtd/adempiereTrl.dtd">--><adempiereTrl language="es_MX" table="AD_Message">
  <row id="101" trl="Y">
   <value column="MsgText" original="zero">cero</value>
   <value column="MsgTip" original=""/>
@@ -2746,7 +2744,7 @@ Gracias por utilizar el Administrador de Activos de Cliente de Adempiere
  </row>
  <row id="790" trl="Y">
   <value column="MsgText" original="The Product UoM needs to be the smallest UoM">La UM del producto debe ser la unidad menor</value>
-  <value column="MsgTip" original="Divide Rate  must be &gt;= 1 and always result in a valid UoM unit. &#10;Example: To convert Each to Pair, the Multiply Rate is 0.5"><![CDATA[La tasa de división debe ser >=1 y siempre resultar en una UM válida. 
+  <value column="MsgTip" original="Divide Rate  must be &gt;= 1 and always result in a valid UoM unit. &#10;Example: To convert Each to Pair, the Multiply Rate is 0.5"><![CDATA[La tasa de división debe ser >=1 y siempre resultar en una UM válida.
 Ejemplo: Para convertir Cada a Par, la tasa de multiplicación es 0.5M más pequeña]]></value>
  </row>
  <row id="791" trl="Y">
@@ -2987,7 +2985,7 @@ Compruebe el registro de errores y el formato del archivo Accounting*.cvs - Ning
   <value column="MsgTip" original=""/>
  </row>
  <row id="850" trl="Y">
-  <value column="MsgText" original="You subscribed to this Interest Area. To unsubscribe, log in, go to Interest Area and click Un-subscribe.">Usted esta suscrito a esta Area de interes. Para desinscribirse, ingrese al sistema, vaya a Area de interes y de click en Des-Incribirse  
+  <value column="MsgText" original="You subscribed to this Interest Area. To unsubscribe, log in, go to Interest Area and click Un-subscribe.">Usted esta suscrito a esta Area de interes. Para desinscribirse, ingrese al sistema, vaya a Area de interes y de click en Des-Incribirse
 </value>
   <value column="MsgTip" original=""/>
  </row>
@@ -3141,6 +3139,10 @@ Compruebe el registro de errores y el formato del archivo Accounting*.cvs - Ning
  </row>
  <row id="888" trl="Y">
   <value column="MsgText" original="Select &amp;All">Seleccionar todo</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="20001" trl="Y">
+  <value column="MsgText" original="Asset Depreciation Amount">Asset Depreciation Amount</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="50000" trl="Y">
@@ -5442,31 +5444,31 @@ Por favor contacte al ADMINISTRADOR.</value>
   <value column="MsgText" original="Client Accounting is not enabled">Contabilidad en cliente no habilitada</value>
   <value column="MsgTip" original="In order to run this process you need to enable client accounting, this can be done in window System Configurator, setting the parameter CLIENT_ACCOUNTING to [I]mmediate or [Q]ueue">Para ejecutar este proceso debe habilitar la contabilidad en cliente, esto se hace en la ventana Configurador del Sistema, fijando el parámetro CLIENT_ACCOUNTING en [I] Inmediato, o [Q] En cola</value>
  </row>
- <row id="53084" trl="N">
+ <row id="53084" trl="Y">
   <value column="MsgText" original="Not exists a Business Partner linked for Organization">No existe un tercero asociado para la organización</value>
   <value column="MsgTip" original=""/>
  </row>
- <row id="53085" trl="N">
+ <row id="53085" trl="Y">
   <value column="MsgText" original="Print Movements">Imprime Movimiento</value>
   <value column="MsgTip" original=""/>
  </row>
- <row id="53086" trl="N">
+ <row id="53086" trl="Y">
   <value column="MsgText" original="Select Distribution Orders to generate Inventory Moves">Seleccione órdenes de distribución para generar movimientos de inventario</value>
   <value column="MsgTip" original=""/>
  </row>
- <row id="53087" trl="N">
+ <row id="53087" trl="Y">
   <value column="MsgText" original="Inventory Moves are generated depending on the &quot;Delivery Rule&quot; selection in the Distribution Order">Movimientos de inventario son generados dependiendo de la "Regla de Despacho" seleccionada en la orden de distribución</value>
   <value column="MsgTip" original=""/>
  </row>
- <row id="53088" trl="N">
+ <row id="53088" trl="Y">
   <value column="MsgText" original="PO {0} has {1} key columns. Needs to have exactly one.">PO {0} tiene {1} columna clave. Debe tener exactamente una.</value>
   <value column="MsgTip" original=""/>
  </row>
- <row id="53089" trl="N">
+ <row id="53089" trl="Y">
   <value column="MsgText" original="Neither reference {0} nor table {1} have an AD_Window_ID. IsSOTrx: {2}">Ni la referencia {0} ni la tabla {1} tienen un AD_Window_ID. Es Transacción de Ventas: {2}</value>
   <value column="MsgTip" original=""/>
  </row>
- <row id="53090" trl="N">
+ <row id="53090" trl="Y">
   <value column="MsgText" original="Must be a positive number!">Debe ser un número positivo</value>
   <value column="MsgTip" original=" "> </value>
  </row>
@@ -5474,39 +5476,39 @@ Por favor contacte al ADMINISTRADOR.</value>
   <value column="MsgText" original="Remember Me">Recordar mis datos</value>
   <value column="MsgTip" original=""/>
  </row>
- <row id="53092" trl="N">
+ <row id="53092" trl="Y">
   <value column="MsgText" original="And/Or">Y/O</value>
   <value column="MsgTip" original=""/>
  </row>
- <row id="53093" trl="N">
+ <row id="53093" trl="Y">
   <value column="MsgText" original="AND">Y</value>
   <value column="MsgTip" original=""/>
  </row>
- <row id="53094" trl="N">
+ <row id="53094" trl="Y">
   <value column="MsgText" original="OR">O</value>
   <value column="MsgTip" original=""/>
  </row>
- <row id="53095" trl="N">
+ <row id="53095" trl="Y">
   <value column="MsgText" original="Invalid cron scheduling pattern">Patrón de agendamiento crontab no válido</value>
   <value column="MsgTip" original="Invalid cron scheduling pattern - check syntax">Patrón de agendamiento crontab no válido - chequee la sintaxis</value>
  </row>
- <row id="53096" trl="N">
+ <row id="53096" trl="Y">
   <value column="MsgText" original="Subtotal">Subtotal</value>
   <value column="MsgTip" original=""/>
  </row>
- <row id="53097" trl="N">
+ <row id="53097" trl="Y">
   <value column="MsgText" original="Tender Amount">Tender Amount</value>
   <value column="MsgTip" original=""/>
  </row>
- <row id="53098" trl="N">
+ <row id="53098" trl="Y">
   <value column="MsgText" original="Change">Change</value>
   <value column="MsgTip" original=""/>
  </row>
- <row id="53099" trl="N">
+ <row id="53099" trl="Y">
   <value column="MsgText" original="The page or component you request is no longer available. This is normally caused by timeout or rebooting the server.">La página o componente solicitado no está disponible.  Esto puede ser causado por demasiado tiempo sin utilizar la aplicación o porque se reinició el servidor.</value>
   <value column="MsgTip" original=""/>
  </row>
- <row id="53117" trl="N">
+ <row id="53117" trl="Y">
   <value column="MsgText" original="Cc">Cc</value>
   <value column="MsgTip" original=""/>
  </row>
@@ -5514,7 +5516,7 @@ Por favor contacte al ADMINISTRADOR.</value>
   <value column="MsgText" original="c">b</value>
   <value column="MsgTip" original=""/>
  </row>
- <row id="53121" trl="N">
+ <row id="53121" trl="Y">
   <value column="MsgText" original="Clear">Borrar</value>
   <value column="MsgTip" original=""/>
  </row>
@@ -5542,7 +5544,7 @@ Por favor contacte al ADMINISTRADOR.</value>
   <value column="MsgText" original="Credit">Créditos</value>
   <value column="MsgTip" original=""/>
  </row>
- <row id="53128" trl="N">
+ <row id="53128" trl="Y">
   <value column="MsgText" original="Date/Time">Fecha/Hora</value>
   <value column="MsgTip" original=""/>
  </row>
@@ -5556,6 +5558,278 @@ Por favor contacte al ADMINISTRADOR.</value>
  </row>
  <row id="53131" trl="Y">
   <value column="MsgText" original="Trace">Seguimiento</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53136" trl="Y">
+  <value column="MsgText" original="Total">Total</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53137" trl="Y">
+  <value column="MsgText" original="Charge to apply difference amount to.">Charge to apply difference amount to.</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53141" trl="Y">
+  <value column="MsgText" original="Copy Report">Copy Report</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53235" trl="Y">
+  <value column="MsgText" original="Expected Change">Expected Change</value>
+  <value column="MsgTip" original="The expected change or delta in the amount.">The expected change or delta in the amount.</value>
+ </row>
+ <row id="53236" trl="Y">
+  <value column="MsgText" original="Only Stock">Only Stock</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53237" trl="Y">
+  <value column="MsgText" original="If selected, only display inventory items. Otherwise, display all products.">If selected, only display inventory items. Otherwise, display all products.</value>
+  <value column="MsgTip" original="If selected, only display inventory items. Otherwise, display all products.">If selected, only display inventory items. Otherwise, display all products.</value>
+ </row>
+ <row id="53238" trl="Y">
+  <value column="MsgText" original="Auto Refresh">Auto Refresh</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53239" trl="Y">
+  <value column="MsgText" original="Show Detail">Show Detail</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53240" trl="Y">
+  <value column="MsgText" original="Show Attribute Details">Show Attribute Details</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53241" trl="Y">
+  <value column="MsgText" original="Contact and Address Information">Contact and Address Information</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53242" trl="Y">
+  <value column="MsgText" original="Only Receipts">Only Receipts</value>
+  <value column="MsgTip" original="Allows only receipts"/>
+ </row>
+ <row id="53243" trl="Y">
+  <value column="MsgText" original="Only AP Payments">Only AP Payments</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53244" trl="Y">
+  <value column="MsgText" original="Received">Received</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53255" trl="Y">
+  <value column="MsgText" original="Should not be greater than">Should not be greater than</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53277" trl="Y">
+  <value column="MsgText" original="Product Attribute">Product Attribute</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53278" trl="Y">
+  <value column="MsgText" original="Add As Root">Añadir a raíz</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53279" trl="Y">
+  <value column="MsgText" original="Add Folder">Crear carpeta</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53280" trl="Y">
+  <value column="MsgText" original="Could not create Node.">No se pudo crear la carpeta</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53281" trl="Y">
+  <value column="MsgText" original="Insert After">Colocar atrás</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53282" trl="Y">
+  <value column="MsgText" original="It's already there !">Ya existe</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53283" trl="Y">
+  <value column="MsgText" original="Move Into">Mover a</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53284" trl="Y">
+  <value column="MsgText" original="'Log Migration Script' flag is set.">'Log Migration Script' flag is set.</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53285" trl="Y">
+  <value column="MsgText" original="Migrations can't be applied or rolledback if the 'Log Migration Script' flag is set. Please deselect this flag in Tools-&gt;Preferences and try again."><![CDATA[Migrations can't be applied or rolledback if the 'Log Migration Script' flag is set. Please deselect this flag in Tools->Preferences and try again.]]></value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53286" trl="Y">
+  <value column="MsgText" original="The migration is null or is new and cannot be applied or rolled back.  ">The migration is null or is new and cannot be applied or rolled back.  </value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53287" trl="Y">
+  <value column="MsgText" original="No migration.">No migration.</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53293" trl="Y">
+  <value column="MsgText" original="Last Query">Last Query</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53294" trl="Y">
+  <value column="MsgText" original="New Query">New Query</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53296" trl="Y">
+  <value column="MsgText" original="The parameters could not be saved">No se pueden guardar los parámetros</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53297" trl="Y">
+  <value column="MsgText" original="Saved Parameter">Guardar Parámetro</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53298" trl="Y">
+  <value column="MsgText" original="Last Run">Last Run</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53301" trl="Y">
+  <value column="MsgText" original="Select or enter a name">Select or enter a name</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53302" trl="Y">
+  <value column="MsgText" original="Select a saved query from the list or type a name to save the current query.  Select ** New Query ** to start a new query.  ** Last Query ** will display the last advanced query run.">Select a saved query from the list or type a name to save the current query.  Select ** New Query ** to start a new query.  ** Last Query ** will display the last advanced query run.</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53306" trl="Y">
+  <value column="MsgText" original="Is Backflush">Is Backflush</value>
+  <value column="MsgTip" original="Allows receipts finished product and perform component output">Allows receipts finished product and perform component output</value>
+ </row>
+ <row id="53307" trl="Y">
+  <value column="MsgText" original="Only Issue">Only Issue</value>
+  <value column="MsgTip" original="Allows to perform only component output.">Allows to perform only component output.</value>
+ </row>
+ <row id="53308" trl="Y">
+  <value column="MsgText" original="Only receipts">Only receipts</value>
+  <value column="MsgTip" original="Allows receipts only finished product">Allows receipts only finished product</value>
+ </row>
+ <row id="53309" trl="Y">
+  <value column="MsgText" original="Cancel Order">Cancel Order</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53310" trl="Y">
+  <value column="MsgText" original="You must create an Order first">You must create an Order first</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53311" trl="Y">
+  <value column="MsgText" original="Do you want to delete Order?">Do you want to delete Order?</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53312" trl="Y">
+  <value column="MsgText" original="The order is already completed. Do you want to void it?">The order is already completed. Do you want to void it?</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53313" trl="Y">
+  <value column="MsgText" original="Credit Sale">Credit Sale</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53314" trl="Y">
+  <value column="MsgText" original="Alternate Document Type">Alternate Document Type</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53315" trl="Y">
+  <value column="MsgText" original="Order is not Drafted nor Completed. Try to delete it other way">Order is not Drafted nor Completed. Try to delete it other way</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53316" trl="Y">
+  <value column="MsgText" original="With your current role and settings, you cannot run Process">With your current role and settings, you cannot run Process</value>
+  <value column="MsgTip" original="You don't have the privileges (your Role does not allow to access the information)">You don't have the privileges (your Role does not allow to access the information)</value>
+ </row>
+ <row id="53317" trl="Y">
+  <value column="MsgText" original="Change Role">Cambiar Rol</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53319" trl="Y">
+  <value column="MsgText" original="xlsx - XLSX file">xlsx - XLSX file</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53322" trl="Y">
+  <value column="MsgText" original="Different BPartner for Document and Line">Different BPartner for Document and Line</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53323" trl="Y">
+  <value column="MsgText" original="Already Exists Documents in other Currency Converted to Current Currency">Already Exists Documents in other Currency Converted to Current Currency</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53333" trl="Y">
+  <value column="MsgText" original="You can delete multiple records, only select the records to delete">Puede Eliminar varios Registros, solo seleccione los Registros que desea Eliminar</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53335" trl="Y">
+  <value column="MsgText" original="Order Price History">Bitácora precio órdenes</value>
+  <value column="MsgTip" original="Order Price History">Bitácora precio órdenes</value>
+ </row>
+ <row id="53336" trl="Y">
+  <value column="MsgText" original="Batch having production order not more than one">La Órden de Producción tiene mas de una Producción Automática</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53337" trl="Y">
+  <value column="MsgText" original="Cannot use same Locator. Please Allow Same Locator in Warehouse Settings">No puede usar el mismo Localizador. Por favor cambie las reglas del uso del Localizador en la Configuración del Almacén</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53338" trl="Y">
+  <value column="MsgText" original="Start Expanded">Iniciar desplegado</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53339" trl="Y">
+  <value column="MsgText" original="Start Collapsed">Iniciar colapsado</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53340" trl="Y">
+  <value column="MsgText" original="Select client and base table for cascade delete">Seleccione una Compañía y Tabla Base para Eliminar en Cascada</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53341" trl="Y">
+  <value column="MsgText" original="Records Deleted">Registros Eliminados</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53342" trl="Y">
+  <value column="MsgText" original="Dry Run">Ejecución de Prueba</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53363" trl="Y">
+  <value column="MsgText" original="No Commission Defined">No Hay Comisiones Definidas para el Documento</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53364" trl="Y">
+  <value column="MsgText" original="Commission">Comisión</value>
+  <value column="MsgTip" original=" "> </value>
+ </row>
+ <row id="53365" trl="Y">
+  <value column="MsgText" original="Product">Producto</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53366" trl="Y">
+  <value column="MsgText" original="Compensation for">Compensación por</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53367" trl="Y">
+  <value column="MsgText" original="Qty returned">Cantidad devuelta</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53368" trl="Y">
+  <value column="MsgText" original="Not supported Invoice Rules[Immediate, AfterOrderDelivered]">Regla de facturación de la Orden de Venta no Soportada, solo Inmediato y Después de Entrega</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53369" trl="Y">
+  <value column="MsgText" original="Error while trying to complete invoice">Error al intentar completar factura</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53370" trl="Y">
+  <value column="MsgText" original="Order not completed">La Orden no está Completa</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53371" trl="Y">
+  <value column="MsgText" original="Ordered quantity already shipped">La Línea de la Orden ya está completamente Entregada</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53372" trl="Y">
+  <value column="MsgText" original="Refresh Bar">Refrescar Barra</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="200001" trl="Y">
+  <value column="MsgText" original="Map">Mapa</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="200002" trl="Y">
+  <value column="MsgText" original="Route">Ruta</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="520010" trl="Y">

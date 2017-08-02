@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--ADempiere(r) Release 3.7.0LTS_2011-10-15 -Smart Suite ERP,CRM and SCM- (c) 1999-2010 ADempiere(r); Implementation: ADempiere - Supported by ADempiere community-->
-<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
-<adempiereTrl language="es_MX" table="AD_Process">
+<!--ADempiere(r) Release 3.9.0_2017-08-01 -Smart Suite ERP,CRM and SCM- (c) 1999-2017 ADempiere(r); Implementation: ADempiere - Supported by ADempiere community--><!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.net/dtd/adempiereTrl.dtd">--><adempiereTrl language="es_MX" table="AD_Process">
  <row id="100" trl="Y">
   <value column="Name" original="Create Periods ">Crear Períodos</value>
   <value column="Description" original="Create 12 standard calendar periods.">Crear 12 períodos de calendario estándar (Ene-Dic)</value>
-  <value column="Help" original="Creates 12 calendar month long standard periods from the specified start date.  If no start date is specified, 1st of Jan will be used.  The period name will be generated from the start date of each period using the java SimpleDateFormat pattern provided. "/>
+  <value column="Help" original="Creates 12 calendar month long standard periods from the specified start date.  If no start date is specified, 1st of Jan will be used.  The period name will be generated from the start date of each period using the java SimpleDateFormat pattern provided."/>
  </row>
  <row id="101" trl="Y">
   <value column="Name" original="Renumber">Renumerar</value>
@@ -134,38 +132,38 @@
  </row>
  <row id="127" trl="Y">
   <value column="Name" original="Invoice Transactions (Acct)">Transacciones de Facturas</value>
-  <value column="Description" original="Invoice Transactions by Accounting Date"/>
-  <value column="Help" original="The report lists the invoice transactions by accounting date"/>
+  <value column="Description" original="Invoice Transactions by Accounting Date">Reportar facturación según fecha contable</value>
+  <value column="Help" original="The report lists the invoice transactions by accounting date">Cantidad facturada ordenada por fecha contable</value>
  </row>
  <row id="128" trl="Y">
   <value column="Name" original="Daily Invoice">Facturación Diaria</value>
-  <value column="Description" original="Invoice Report per Day"/>
-  <value column="Help" original="Invoiced amount by Organization and Sales Rep"/>
+  <value column="Description" original="Invoice Report per Day">Reportar facturación diaria</value>
+  <value column="Help" original="Invoiced amount by Organization and Sales Rep">Cantidad facturada por organización y representante de ventas</value>
  </row>
  <row id="129" trl="Y">
   <value column="Name" original="Monthly Invoice">Facturación Mensual</value>
-  <value column="Description" original="Invoice Report per Month"/>
-  <value column="Help" original="Invoiced amount by Organization and Sales Rep"/>
+  <value column="Description" original="Invoice Report per Month">Reportar facturación mensual</value>
+  <value column="Help" original="Invoiced amount by Organization and Sales Rep">Cantidad facturada por organización y representante de ventas</value>
  </row>
  <row id="130" trl="Y">
   <value column="Name" original="Weekly Invoice">Facturación Semanal</value>
-  <value column="Description" original="Invoice Report per Week"/>
-  <value column="Help" original="Invoiced amount by Organization and Sales Rep"/>
+  <value column="Description" original="Invoice Report per Week">Reportar facturación semanal</value>
+  <value column="Help" original="Invoiced amount by Organization and Sales Rep">Cantidad facturada por organización y representante de ventas</value>
  </row>
  <row id="131" trl="Y">
   <value column="Name" original="Weekly Invoice Prod Cat">Facturación Semanal de Producto</value>
-  <value column="Description" original="Invoice Report by Product Category per Week"/>
-  <value column="Help" original="Invoiced Amount by Product Category"/>
+  <value column="Description" original="Invoice Report by Product Category per Week">Reportar facturación semanal por categoría de producto</value>
+  <value column="Help" original="Invoiced Amount by Product Category">Cantidad facturada por categoría de producto</value>
  </row>
  <row id="132" trl="Y">
   <value column="Name" original="Monthly Invoice Prod Cat">Facturación Mensual de Producto</value>
-  <value column="Description" original="Invoice Report by Product Category per Month"/>
-  <value column="Help" original="Invoiced Amount by Product Category"/>
+  <value column="Description" original="Invoice Report by Product Category per Month">Reportar facturación mensual por categoría de producto</value>
+  <value column="Help" original="Invoiced Amount by Product Category">Cantidad facturada por categoría de producto</value>
  </row>
  <row id="133" trl="Y">
   <value column="Name" original="Monthly Invoice Vendor">Facturación Mensual de Proveedor</value>
-  <value column="Description" original="Invoice Report by Product Vendor per Month"/>
-  <value column="Help" original="Invoiced Amount by Vendor and Product Category"/>
+  <value column="Description" original="Invoice Report by Product Vendor per Month">Reportar facturación mensual por proveedor</value>
+  <value column="Help" original="Invoiced Amount by Vendor and Product Category">Cantidad facturada por proveedor y categoría de producto</value>
  </row>
  <row id="134" trl="Y">
   <value column="Name" original="Generate Invoices (manual) ">Generar Facturas (Lote)</value>
@@ -189,13 +187,13 @@
  </row>
  <row id="138" trl="Y">
   <value column="Name" original="Quarterly Invoice Customer by Product">Facturación Trimestral a Clientes por Producto</value>
-  <value column="Description" original="Invoice Report by Customer and Product Category per Quarter"/>
-  <value column="Help" original="Invoiced Amount by Customer and Product Category"/>
+  <value column="Description" original="Invoice Report by Customer and Product Category per Quarter">Reportar Facturación trimestral por cliente y categoría de  producto</value>
+  <value column="Help" original="Invoiced Amount by Customer and Product Category">Cantidad facturada por cliente y categoría de producto</value>
  </row>
  <row id="139" trl="Y">
   <value column="Name" original="Quarterly Invoice Customer by Vendor">Facturación Trimestral a Clientes por Proveedor</value>
-  <value column="Description" original="Invoice Report by Customer and Product Vendor per Quarter"/>
-  <value column="Help" original="Invoiced Amount by Customer and Vendor (what customer bought from which vendor)"/>
+  <value column="Description" original="Invoice Report by Customer and Product Vendor per Quarter">Reportar Facturación trimestral por cliente y proveedor</value>
+  <value column="Help" original="Invoiced Amount by Customer and Vendor (what customer bought from which vendor)">Cantidad facturada por cliente y proveedor (qué cliente compró de qué proveedor)</value>
  </row>
  <row id="140" trl="Y">
   <value column="Name" original="Copy Accounts">Copiar Cuentas</value>
@@ -244,13 +242,13 @@
  </row>
  <row id="151" trl="Y">
   <value column="Name" original="Invoice Transactions (Doc)">Resumen de Facturas</value>
-  <value column="Description" original="Invoice Transactions by Invoice Date"/>
-  <value column="Help" original="The report lists the invoice transactiobs by invoice date"/>
+  <value column="Description" original="Invoice Transactions by Invoice Date">Reportar facturación según fecha de facturación</value>
+  <value column="Help" original="The report lists the invoice transactiobs by invoice date">Cantidad facturada ordenada por fecha de facturación</value>
  </row>
  <row id="152" trl="Y">
   <value column="Name" original="Invoice Detail &amp; Margin">Detalles de Facturas y Margen</value>
-  <value column="Description" original="Invoice (Line) Detail and Margin Report"/>
-  <value column="Help" original="The Report lists Customer and Vendor Invoice Details with Margines."/>
+  <value column="Description" original="Invoice (Line) Detail and Margin Report">Reportar líneas de facturación y margen</value>
+  <value column="Help" original="The Report lists Customer and Vendor Invoice Details with Margines.">Cantidad facturada y margen por clientes y proveedores</value>
  </row>
  <row id="153" trl="Y">
   <value column="Name" original="Online Process">Procesar en Línea</value>
@@ -269,7 +267,7 @@
  </row>
  <row id="156" trl="Y">
   <value column="Name" original="Create From ...">Crear Desde</value>
-  <value column="Description" original=""/>
+  <value column="Description" original="Deprecated"/>
   <value column="Help" original=""/>
  </row>
  <row id="159" trl="Y">
@@ -584,10 +582,10 @@ El usuario para enviar emails de necesidades para tener valida la información d
   <value column="Help" original="The report lists the details of Asset Deliveries for the records selected."/>
  </row>
  <row id="224" trl="Y">
-  <value column="Name" original="Issue to Project">Edición del Proyecto</value>
-  <value column="Description" original="Issue Material to Project from Receipt or manual Inventory Location">Publique el material para proyectar el recibo o la localización manual del inventario.</value>
-  <value column="Help" original="Select a Project and either&#10;&lt;br&gt;- Material Receipt&#10;&lt;br&gt;- Expense Report&#10;&lt;br&lt;- Inventory Location and Project Line not issued yet&#10;&lt;br&gt;- Inventory Location, Product and Quantity&#10;The default Movement Date is today's date."><![CDATA[Seleccione un proyecto cualquiera
-<br>- Recibo de Material 
+  <value column="Name" original="Issue to Project">Salidas del Proyecto</value>
+  <value column="Description" original="Issue Material to Project from Receipt or manual Inventory Location">Salidas de material a proyecto desde el recibo o la ubicación de inventario manual</value>
+  <value column="Help" original="Seleccione un proyecto y&#10;&lt;br&gt; - Recibo de materiales&#10;&lt;br&gt; - Reporte de Gastos&#10;&lt;Br &lt;- La ubicación del inventario y la línea del proyecto aún no se han emitido&#10;&lt;br&gt; - Ubicación del inventario, producto y cantidad&#10;La Fecha de Movimiento predeterminada es la fecha de hoy."><![CDATA[Seleccione un proyecto cualquiera
+<br>- Recibo de Material
 <br>- Informe del Costo
 <br<- Inventory Location and Project Line not issued yet
 <br>- Inventory Location, Product and Quantity
@@ -600,8 +598,8 @@ The default Movement Date is today's date.]]></value>
 </value>
  </row>
  <row id="226" trl="Y">
-  <value column="Name" original="Project Detail Accounting Report">Informe Detallado del Proyecto de Contabilidad</value>
-  <value column="Description" original="Accounting Fact Details of Project">Informe a detalle de la contabilidad del proyecto.</value>
+  <value column="Name" original="Project Detail Accounting Report">Informe Detallado de registros contables del Proyecto</value>
+  <value column="Description" original="Accounting Fact Details of Project">Informe Detallado de registros contables del Proyecto</value>
   <value column="Help" original=""/>
  </row>
  <row id="227" trl="Y">
@@ -610,13 +608,13 @@ The default Movement Date is today's date.]]></value>
   <value column="Help" original=""/>
  </row>
  <row id="228" trl="Y">
-  <value column="Name" original="Project Lines not Issued">Líneas del Proyecto no Publicadas</value>
-  <value column="Description" original="Lists Project Lines of a Work Order or Asset Project, which are not issued to the Project">Las listas proyectan las líneas de una orden de trabajo o de un proyecto del activo, que no se publican al proyecto</value>
+  <value column="Name" original="Project Lines not Issued">Líneas del Proyecto no entregadqs</value>
+  <value column="Description" original="Lists Project Lines of a Work Order or Asset Project, which are not issued to the Project">Las listas proyectan las líneas de una orden de trabajo o de un proyecto del activo, que no se han entregado al proyecto</value>
   <value column="Help" original=""/>
  </row>
  <row id="229" trl="Y">
-  <value column="Name" original="Project POs not Issued">Posición del Proyecto no Publicada</value>
-  <value column="Description" original="Lists Project Lines with generated Purchase Orders of a Work Order or Asset Project, which are not issued to the Project">Proyecte las líneas con las ordenes de compra generadas de una orden de trabajo o de un proyecto del activo, que no se publican al proyecto.</value>
+  <value column="Name" original="Project POs not Issued">Salidas del Proyecto no entregadas</value>
+  <value column="Description" original="Lists Project Lines with generated Purchase Orders of a Work Order or Asset Project, which are not issued to the Project">Proyecte las líneas con las ordenes de compra generadas de una orden de trabajo o de un proyecto del activo, aun no entregadas al proyecto.</value>
   <value column="Help" original=""/>
  </row>
  <row id="230" trl="Y">
@@ -643,7 +641,7 @@ Cra los controles que faltan del periodo para el tipo de documento (Usted debe t
  <row id="234" trl="Y">
   <value column="Name" original="Project Margin (Work Order)">Margen del Proyecto (Orden de Trabajo)</value>
   <value column="Description" original="Work Order Project Lines (planned revenue) vs. Project Issues (costs)">El proyecto de la orden de trabajo alinea (rédito previsto) contra las ediciones del proyecto (costos)</value>
-  <value column="Help" original="The Project Margin Report for Work Orders compares the Project lines (planned revenue) against the Project issues (actual effort and costs). The margin amount is calculated by subtracting the costs (issue) from the revenue (line).&#10;The costs are in the currency of the Accounting Schema - the lines are in the currency of the price list of the project.">El informe del margen del proyecto para las ordenes de trabajo compara las líneas de proyecto (rédito previsto) contra las ediciones del proyecto (esfuerzo y los costos reales). La cantidad del margen es calculada restando los costos (edición) del redito (línea). 
+  <value column="Help" original="The Project Margin Report for Work Orders compares the Project lines (planned revenue) against the Project issues (actual effort and costs). The margin amount is calculated by subtracting the costs (issue) from the revenue (line).&#10;The costs are in the currency of the Accounting Schema - the lines are in the currency of the price list of the project.">El informe del margen del proyecto para las ordenes de trabajo compara las líneas de proyecto (rédito previsto) contra las ediciones del proyecto (esfuerzo y los costos reales). La cantidad del margen es calculada restando los costos (edición) del redito (línea).
 Los costos estan en el actual esquema contable - Las líneas estan en la actual lista de precios del proyecto.</value>
  </row>
  <row id="235" trl="Y">
@@ -664,7 +662,7 @@ Los costos estan en el actual esquema contable - Las líneas estan en la actual 
  <row id="238" trl="Y">
   <value column="Name" original="Aging">Antigüedad</value>
   <value column="Description" original="Aging Report">Informe Antiguedad</value>
-  <value column="Help" original="The aging report allows you to report on Open Items (Invoices). Select the aging buckets, you want to have in your report. If you select a currency, you get only invoices of that currency, otherwise the amounts are converted to your primary accounting currency. If you do not select a Statement Date, the system date is used to calculate the buckets. If you do not list the individual invoices, the Due Date is the earliest due date for the business partner and the Due Days are the average due days of all invoices.&lt;br&gt;&#10;&lt;br&gt;&#10;If you select an Account Date the report will generate the Aging as of that date. The report will exclude documents after the selected date.&lt;br&gt;&#10;&lt;br&gt;&#10;For example: A customer has one invoice for $100 with the Account Date of 03/31/08 and one payment for $100 with the Account Date of 05/01/08. The report will show the following balances based on the Account Date selected: 03/15/08= 0; 04/15/08=100; 05/15/08 = 0.&#10;">El informe de la antiguedad permite que usted Informe sobre los item´s abiertos (facturas). Seleccione los cubos de la antiguedad, que usted desea tener en su informe.</value>
+  <value column="Help" original="The aging report allows you to report on Open Items (Invoices). Select the aging buckets, you want to have in your report. If you select a currency, you get only invoices of that currency, otherwise the amounts are converted to your primary accounting currency. If you do not select a Statement Date, the system date is used to calculate the buckets. If you do not list the individual invoices, the Due Date is the earliest due date for the business partner and the Due Days are the average due days of all invoices.&lt;br&gt;&#10;&lt;br&gt;&#10;If you select an Account Date the report will generate the Aging as of that date. The report will exclude documents after the selected date.&lt;br&gt;&#10;&lt;br&gt;&#10;For example: A customer has one invoice for $100 with the Account Date of 03/31/08 and one payment for $100 with the Account Date of 05/01/08. The report will show the following balances based on the Account Date selected: 03/15/08= 0; 04/15/08=100; 05/15/08 = 0.">El informe de la antiguedad permite que usted Informe sobre los item´s abiertos (facturas). Seleccione los cubos de la antiguedad, que usted desea tener en su informe.</value>
  </row>
  <row id="239" trl="Y">
   <value column="Name" original="Clicks Monthy">Clic's Mensuales</value>
@@ -726,7 +724,7 @@ Seleccione cualquier grupo de Socios del Negocio o un Socio del Negocio especifi
  <row id="250" trl="Y">
   <value column="Name" original="Register Now!">Registrarce Ahora!!!</value>
   <value column="Description" original="Registrations help us to better serve the Adempiere User Base.">Los registros nos ayudan a mejorar servicio de la base de usuario de Adempiere.</value>
-  <value column="Help" original="We will NOT make the data available to any third party or use the information for other than statistical purposes.  &#10;It will help us, if you would allow to publish your use of Adempiere. We will contact you directly before we publish any information.&#10;">No pondremos los datos a disposición de Socios del Negocio ni utilizaremos la información para propósitos estadísticos.  
+  <value column="Help" original="We will NOT make the data available to any third party or use the information for other than statistical purposes.  &#10;It will help us, if you would allow to publish your use of Adempiere. We will contact you directly before we publish any information.&#10;">No pondremos los datos a disposición de Socios del Negocio ni utilizaremos la información para propósitos estadísticos.
 Nos ayudará, si usted permitirá publicar su uso en Adempiere. Nos pondremos en contacto directamente antes de que publiquemos cualquier información.</value>
  </row>
  <row id="251" trl="Y">
@@ -1020,9 +1018,9 @@ Si está funcionando para el sistema, todos los roles de todos los clientes son 
   <value column="Help" original="You can reapply certain changes.">Usted puede replicar ciertos cambios.</value>
  </row>
  <row id="308" trl="Y">
-  <value column="Name" original="Reapply Customizations">Replica Personalización</value>
-  <value column="Description" original="If you identified customizations in the Change Log, you can reapply them">Si usted identificó personalización en el log de cambios, puede reaplicarlos</value>
-  <value column="Help" original="The migration &quot;resets&quot; the system to the current/original setting.  If selected in the Change Log, you can save the customization and re-apply them.  Please note that you need to check, if your customization has no negative side effect in the new release. &lt;br&gt;&#10;Shut down the Application Server before running this process and set the Trace level (in Preference) higher or equals  WARNING.">The migration "resets" the system to the current/original setting. If selected in the Change Log, you can save the customization and re-apply them. Please note that you need to check, if your customization has no negative side effect in the new release.</value>
+  <value column="Name" original="Reapply Customizations">Aplicar Personalización</value>
+  <value column="Description" original="If you identified customizations in the Change Log, you can reapply them">Si usted identificó personalización en el log de cambios, puede aplicarlos nuevamente</value>
+  <value column="Help" original="The migration &quot;resets&quot; the system to the current/original setting.  If selected in the Change Log, you can save the customization and re-apply them.  Please note that you need to check, if your customization has no negative side effect in the new release. &lt;br&gt;&#10;Shut down the Application Server before running this process and set the Trace level (in Preference) higher or equals  WARNING.">La migración "restablece" el sistema a la configuración actual / original. Si está seleccionado en el registro de cambios, puede guardar la personalización y volver a aplicarlos. Tenga en cuenta que debe comprobar si su personalización no tiene ningún efecto secundario negativo en la nueva versión.</value>
  </row>
  <row id="309" trl="Y">
   <value column="Name" original="Workflow to Client">Mover Flujo de Trabajo</value>
@@ -1032,7 +1030,7 @@ Si está funcionando para el sistema, todos los roles de todos los clientes son 
  <row id="310" trl="Y">
   <value column="Name" original="Trial Balance">Balance de Prueba</value>
   <value column="Description" original="Trial Balance for a period or date range">Balance de Prueba para un Periodo o un Rango de Fechas</value>
-  <value column="Help" original="Select a Period (current period if empty) or enter a Account Date Range. If an account is selected, the balance is calculated based on the account type and the primary calendar of the client (i.e. for revenue/expense accounts from the beginning of the year). If no account is selected, the balance is the sum of all transactions before the selected account range or first day of the period selected. You can select an alternative Reporting Hierarchy.">Seleccione un período (Campo vacío toma período actual) o indique un rango de fechas, 
+  <value column="Help" original="Select a Period (current period if empty) or enter a Account Date Range. If an account is selected, the balance is calculated based on the account type and the primary calendar of the client (i.e. for revenue/expense accounts from the beginning of the year). If no account is selected, the balance is the sum of all transactions before the selected account range or first day of the period selected. You can select an alternative Reporting Hierarchy.">Seleccione un período (Campo vacío toma período actual) o indique un rango de fechas,
 
 
 Si se selecciona una cuenta, el balance es calculado en base al  tipo de cuenta y el calendario contable (Ejm. Ingresos/Gastos considerados desde el principio del año). Si no se selecciona ninguna cuenta, el balance es la suma de todas las transacciones antes de la selección de cuenta o el primer día del período seleccionado.</value>
@@ -1189,13 +1187,13 @@ y Recibi/Línea o directamente para el producto.</value>
  </row>
  <row id="340" trl="Y">
   <value column="Name" original="Monthly Invoice Product">Producto Facturado Mensualmente</value>
-  <value column="Description" original="Invoice Report by Product per Month">Informe de Factura por Producto por Més</value>
-  <value column="Help" original="Invoiced Amount by Product and Month">Cantidad Facturada por Producto y Més.</value>
+  <value column="Description" original="Invoice Report by Product per Month">Informe de Factura por Producto por Mes</value>
+  <value column="Help" original="Invoiced Amount by Product and Month">Cantidad Facturada por Producto y Mes.</value>
  </row>
  <row id="341" trl="Y">
   <value column="Name" original="Quarter Invoice Product">Facturación Trimestral por Producto</value>
-  <value column="Description" original="Invoice Report by Product per Quarter">Reportar Facturación por Producto por Trimestre</value>
-  <value column="Help" original="Invoiced Amount by Product and Quarter">Cantidad Factirada por Producto y Més.
+  <value column="Description" original="Invoice Report by Product per Quarter">Reportar Facturación trimestral por producto</value>
+  <value column="Help" original="Invoiced Amount by Product and Quarter">Cantidad Factirada por Producto.
 </value>
  </row>
  <row id="342" trl="Y">
@@ -1350,14 +1348,14 @@ Debe indicar los parámetros de Planificación definidos en la última sección 
 Generalmente, este proceso es ejecutado únicamente durante la implementación de MRP</value>
  </row>
  <row id="53016" trl="Y">
-  <value column="Name" original="Calculate Material Plan">Calcular Plan de Materiales</value>
+  <value column="Name" original="Regenerative Material Plan">Calcular Plan de Materiales</value>
   <value column="Description" original="This process calcualte the demand, approved and open orders for a product.">Este proceso calcula la demanda, órdenes aprobadas y abiertas para un producto.</value>
-  <value column="Help" original="This process calcualte the demand, approved and open orders for a product.">Este proceso calcula la demanda, órdenes aprobadas y abiertas para un producto.</value>
+  <value column="Help" original="The regenerative material plan process calculates the demands and supply for every product of the organization, warehouse and plant. This process generates a material plan even if there is no changes, since the last time it was executed.&#10;&#10;&lt;p&gt;The process check modifications in the lower levels codes, calculate the net requirements, generates planned orders and its corresponding action messages">Este proceso calcula la demanda, órdenes aprobadas y abiertas para un producto.</value>
  </row>
  <row id="53018" trl="Y">
-  <value column="Name" original="MRP Details">Detalles MRP</value>
-  <value column="Description" original="Show the detail of MRP calculation">Muestra el detalle de cálculos de MRP</value>
-  <value column="Help" original="Show the detail of MRP calculation">Muestra el detalle de cálculos de MRP</value>
+  <value column="Name" original="MRP Details">Detalles del MRP</value>
+  <value column="Description" original="Show the detail of MRP calculation">Muestra el detalle de cálculos del MRP</value>
+  <value column="Help" original="Show the detail of MRP calculation">Muestra el detalle de cálculos del MRP</value>
  </row>
  <row id="53020" trl="Y">
   <value column="Name" original="Calculate Capacity Plan">Calcular Plan de Capacidad</value>
@@ -1367,7 +1365,7 @@ Generalmente, este proceso es ejecutado únicamente durante la implementación d
  <row id="53022" trl="Y">
   <value column="Name" original="Calculate Distribution Plan">Calcular Plan de Distribución</value>
   <value column="Description" original="Distribution Resource Planning (DRP) is a method used in business administration for planning orders within a supply chain. ">Planificación de Distribución de Recursos (DRP) es un método usado en administración de negocios para Planificación de órdenes dentro de una cadena de suministros. </value>
-  <value column="Help" original="Distribution Resource Planning (DRP) is a method used in business administration for planning orders within a supply chain. &#10;&#10;DRP enables the user to set certain inventory control parameters (like a safety stock) and calculate the time-phased inventory requirements.&#10;&#10;DRP uses several variables:&#10;the on-hand inventory at the end of a period.&#10;the backordered demand at the end of a period.&#10;the required quantity of product needed at the beginning of a period.&#10;the constrained quantity of product available at the beginning of a period.&#10;the recommended order quantity at the beginning of a period.&#10;&#10;DRP needs the following information:&#10;the demand in a future period.&#10;the scheduled receipts at the beginning of a period.&#10;the safety stock requirement for a period.&#10;the on-hand inventory at the beginning of a period.&#10;">Planificación de Distribución de Recursos (DRP) es un método usado en administración de negocios para Planificación de órdenes dentro de una cadena de suministros.
+  <value column="Help" original="Distribution Resource Planning (DRP) is a method used in business administration for planning orders within a supply chain. &#10;&#10;DRP enables the user to set certain inventory control parameters (like a safety stock) and calculate the time-phased inventory requirements.&#10;&#10;DRP uses several variables:&#10;the on-hand inventory at the end of a period.&#10;the backordered demand at the end of a period.&#10;the required quantity of product needed at the beginning of a period.&#10;the constrained quantity of product available at the beginning of a period.&#10;the recommended order quantity at the beginning of a period.&#10;&#10;DRP needs the following information:&#10;the demand in a future period.&#10;the scheduled receipts at the beginning of a period.&#10;the safety stock requirement for a period.&#10;the on-hand inventory at the beginning of a period.">Planificación de Distribución de Recursos (DRP) es un método usado en administración de negocios para Planificación de órdenes dentro de una cadena de suministros.
 
 DRP habilita al usuario para fijar ciertos parámetros de control de inventarios (como una existencia de seguridad) y calcular los requerimientos de inventarios por fases de tiempo.
 
@@ -1382,8 +1380,7 @@ DRP necesita la siguiente información:
 la demanda e un período futuro.
 los recibos agendados al inicio del período.
 el requerimiento de existencia de seguridad para un período.
-el inventario existente al inicio del período.
-</value>
+el inventario existente al inicio del período.</value>
  </row>
  <row id="53024" trl="Y">
   <value column="Name" original="DRP Details">Detalles DRP</value>
@@ -1424,11 +1421,6 @@ Otro Informe que es parte de Imprimir y Liberar Orden es el de Flujo de Trabajo 
 Puede imprimir este Informe chequeando la bandera de Imprimir Flujo de Trabajo y muestra al personal de control de piso los pasos necesarios para manufacturar el producto.
 
 Este Informe contiene el lugar donde el producto debe ser hecho, los tiempos estándar, las herramientas y dispositivos necesarios.</value>
- </row>
- <row id="53036" trl="Y">
-  <value column="Name" original="Inventory in Process">Informe de Inventario en Proceso</value>
-  <value column="Description" original="This report show the inventory in process">Este Informe muestra el inventario en proceso</value>
-  <value column="Help" original="This report show the inventory in process">Este Informe muestra el inventario en proceso</value>
  </row>
  <row id="53038" trl="Y">
   <value column="Name" original="Process Cost Collector">Procesar Colector de Costos</value>
@@ -1485,7 +1477,7 @@ Puede también incluir órdenes de distribución que tienen confirmaciones pendi
  <row id="53058" trl="Y">
   <value column="Name" original="Workflow Cost Roll-Up">Integración de  Costo de FT de Manufactura</value>
   <value column="Description" original="This Process allow integrate Labor and Overhead Cost to a Manufacturing Workflow ">Este proceso integra los costos de Labor y Costos Generales a un Flujo de Trabajo de Manufactura</value>
-  <value column="Help" original="This Process allow integrate Labor and Overhead Cost to a Manufacturing Workflow &#10;&#10;Labor Cost Operation = (Setup Time / Qty Batch Size) * Duration * Labor Rate to this Resource &#10;Overhead Cost Operation =  (Setup Time / Qty Batch Size) * Duration * Overhead Rate to this Resource &#10;&#10;Labor Cost Workflow = Sum of every the Labor Cost Operation&#10;Overhead Cost Workflow = Sum of every the Overhead Cost Operation&#10;&#10;Cost Workflow = Labor Cost Workflow + Overhead Cost Workflow&#10;">Este proceso integra los costos de Labor y Costos Generales a un Flujo de Trabajo de Manufactura
+  <value column="Help" original="This Process allow integrate Labor and Overhead Cost to a Manufacturing Workflow &#10;&#10;Labor Cost Operation = (Setup Time / Qty Batch Size) * Duration * Labor Rate to this Resource &#10;Overhead Cost Operation =  (Setup Time / Qty Batch Size) * Duration * Overhead Rate to this Resource &#10;&#10;Labor Cost Workflow = Sum of every the Labor Cost Operation&#10;Overhead Cost Workflow = Sum of every the Overhead Cost Operation&#10;&#10;Cost Workflow = Labor Cost Workflow + Overhead Cost Workflow">Este proceso integra los costos de Labor y Costos Generales a un Flujo de Trabajo de Manufactura
 
 Costo Labor Operación = ( Tiempo Configuración / Tamaño Cantidad Lote ) * Duración * Tasa Labor para este recurso
 Costo General Operación = ( Tiempo Configuración / Tamaño Cantidad Lote ) * Duración * Tasa Costo General para este recurso
@@ -1493,8 +1485,7 @@ Costo General Operación = ( Tiempo Configuración / Tamaño Cantidad Lote ) * D
 Costo Labor Flujo Trabajo = Suma de cada Costo Labor Operación
 Costo General Flujo Trabajo = Suma de cada Costo General Operación
 
-Costo Flujo Trabajo = Costo Labor Flujo Trabajo + Costo General Flujo Trabajo
-</value>
+Costo Flujo Trabajo = Costo Labor Flujo Trabajo + Costo General Flujo Trabajo</value>
  </row>
  <row id="53060" trl="Y">
   <value column="Name" original="Cost Workflow &amp; Process Details"><![CDATA[Costo Flujo Trabajo & Detalles Proceso]]></value>
@@ -1631,8 +1622,8 @@ Costo Total LDM = Suma de cada Elemento de Costo]]></value>
   <value column="Help" original=""/>
  </row>
  <row id="53109" trl="Y">
-  <value column="Name" original="Depreciation Expense Entry">Entrada de Gasto de Depreciación</value>
-  <value column="Description" original="Used to review Depreciation Expense Entry not yet booked">Usada para revisar Entrada Gasto Depreciación no asignada</value>
+  <value column="Name" original="Depreciation Expense Entry">Depreciación acumulada de Activos Fijos</value>
+  <value column="Description" original="Used to review Depreciation Expense Entry not yet booked">Usada para revisar la depreciación acumulada de Activos Fijos</value>
   <value column="Help" original=""/>
  </row>
  <row id="53111" trl="Y">
@@ -1646,12 +1637,12 @@ Costo Total LDM = Suma de cada Elemento de Costo]]></value>
   <value column="Help" original=""/>
  </row>
  <row id="53115" trl="Y">
-  <value column="Name" original="RV_Asset_Parent_Report">Informe Padre de Activo</value>
+  <value column="Name" original="Asset Parent Report">Informe Padre de Activo</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
  </row>
  <row id="53117" trl="Y">
-  <value column="Name" original="RV_Depreciation_Table">Tabla Depreciación</value>
+  <value column="Name" original="Depreciation Table">Tabla Depreciación</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
  </row>
@@ -1661,7 +1652,7 @@ Costo Total LDM = Suma de cada Elemento de Costo]]></value>
   <value column="Help" original=""/>
  </row>
  <row id="53121" trl="Y">
-  <value column="Name" original="RV_Asset_Depreciation_Method">Método de Deprecicación del Activo</value>
+  <value column="Name" original="Asset Depreciation Method">Método de Deprecicación del Activo</value>
   <value column="Description" original="List Depreciation Methods">Lista Métodos de Depreciación Activos</value>
   <value column="Help" original=""/>
  </row>
@@ -1671,7 +1662,7 @@ Costo Total LDM = Suma de cada Elemento de Costo]]></value>
   <value column="Help" original=""/>
  </row>
  <row id="53125" trl="Y">
-  <value column="Name" original="RV_Asset_Convention_Rpt">Informe de Convención de Activo</value>
+  <value column="Name" original="Asset Convention Report">Informe de Convención de Activo</value>
   <value column="Description" original="Asset Convention Report">Informe de Convención de Activo</value>
   <value column="Help" original=""/>
  </row>
@@ -1681,29 +1672,14 @@ Costo Total LDM = Suma de cada Elemento de Costo]]></value>
   <value column="Help" original=""/>
  </row>
  <row id="53129" trl="Y">
-  <value column="Name" original="RV_Depreciation_Calculation_Methods">Métodos de Cálculo de Depreciación</value>
+  <value column="Name" original="Depreciation Calculation Methods">Métodos de Cálculo de Depreciación</value>
   <value column="Description" original="List Depreciation Calculation Methods Available">Lista los Métodos de Cálculo de Depreciación disponibles</value>
   <value column="Help" original=""/>
  </row>
  <row id="53131" trl="Y">
-  <value column="Name" original="RV_Asset_Group_Defaults">Valores por Defecto de Grupo de Activos</value>
+  <value column="Name" original="Asset Group Defaults">Valores por Defecto de Grupo de Activos</value>
   <value column="Description" original="Lists Asset Group Settings &amp; Defaults">Lista la configuración de grupos de activos y valores por defecto</value>
   <value column="Help" original=""/>
- </row>
- <row id="53133" trl="Y">
-  <value column="Name" original="Inbound Charges for GL">Cargos Internos para Contabilidad</value>
-  <value column="Description" original="Process invoice charges from GL">Procesa cargos internos para contabilidad</value>
-  <value column="Help" original="This process processes charges to Fixed Assets from GL">Procesa los cargos de activos fijos para contabilidad</value>
- </row>
- <row id="53135" trl="Y">
-  <value column="Name" original="Inbound Charge Entry Report">Informe Entrada Cargos Internos</value>
-  <value column="Description" original="Used to review Assets Inbound Entry ">Usado para revisar Entrada Cargos Internos</value>
-  <value column="Help" original=""/>
- </row>
- <row id="53137" trl="Y">
-  <value column="Name" original="Inbound Charges for AP">Cargos Internos para AP</value>
-  <value column="Description" original="Process invoice charges from AP">Procesa cargos internos para AP</value>
-  <value column="Help" original="This process processes charges to Fixed Assets from AP">Procesa cargos internos para AP</value>
  </row>
  <row id="53139" trl="Y">
   <value column="Name" original="Import Asset ">Importa Activos</value>
@@ -1711,19 +1687,47 @@ Costo Total LDM = Suma de cada Elemento de Costo]]></value>
   <value column="Help" original="Import Asset will bring a file of Asset in a predefined format into the application.&lt;p&gt;&#10;The Parameters are default values for null import record values they do not overwrite any data.">Importa Activos traerá un archivo de Activos en un formato predefinido en el aplicativo.</value>
  </row>
  <row id="53144" trl="Y">
-  <value column="Name" original="Forecast Report">Informe de Pronóstico</value>
-  <value column="Description" original="Forecast Report">Informe de Pronóstico</value>
-  <value column="Help" original="Forecast Report">Informe de Pronóstico</value>
+  <value column="Name" original="Forecast Report">Informe de Pronóstico de Venta</value>
+  <value column="Description" original="This process generates a sales forecast detailed report, classified by sales representative, product warehouse, period and promised date, these parameters can be used to create filters at the report result.">Este proceso genera un informe detallado de pronóstico de ventas, clasificado por representante de ventas, almacén de producto, período y fecha prometida, estos parámetros se pueden utilizar para crear filtros en el resultado del informe.</value>
+  <value column="Help" original="El principal objetivo de este informe es analizar el plan de ventas, considerando cantidades y montos.">Informe de Pronóstico de Venta</value>
  </row>
  <row id="53146" trl="Y">
   <value column="Name" original="Forecast Report by Period">Informe de Pronóstico por Período</value>
-  <value column="Description" original="Forecast Report by Period">nforme de Pronóstico por Período</value>
-  <value column="Help" original="Forecast Report by Period">nforme de Pronóstico por Período</value>
+  <value column="Description" original="This process generates a report summarized by forecast period , some parameters can be used to filtrate the report results.">nforme de Pronóstico por Período</value>
+  <value column="Help" original="The main goal of this report is to analyze the sales plan, considering quantities and amounts by an specific period.">nforme de Pronóstico por Período</value>
  </row>
  <row id="53148" trl="Y">
-  <value column="Name" original="Calculate Forecast">Calcular Pronóstico</value>
-  <value column="Description" original="Calculate Forecast">Calcular Pronóstico</value>
-  <value column="Help" original="Calculate Forecast">Calcular Pronóstico</value>
+  <value column="Name" original="Generate Forecast">Calcular Pronóstico</value>
+  <value column="Description" original="This process allows to generate a forecast based on the forecast simulation calculation.">Este proceso permite generar un pronóstico basado en el cálculo de la simulación de pronóstico.</value>
+  <value column="Help" original="The process uses the resulting simulation values ​ to generate a new forecast.&#10;&lt;br&gt;&#10;&lt;br&gt;&#10;&lt;b&gt;Action Type of the forecast:&lt;/b&gt;  It Indicates how the forecast will be generated&#10;&lt;br&gt;&#10;&lt;br&gt;&#10;If the action type is &lt;b&gt;&quot;Replace&quot;&lt;/b&gt; all lines of this forecast are going to be  eliminated and will be generated again, based on the simulation products and the selection criteria.&#10;&lt;br&gt;&#10;&lt;br&gt;&#10;If the action type  is &lt;b&gt;&quot;Merge&quot;&lt;/b&gt; all lines of this forecast will be combined, based on the unique combination of product, warehouse and period. Therefore, if the combination exists, the forecast quantities are accumulated.&#10;&lt;br&gt;&#10;&lt;br&gt;&#10;&lt;b&gt;The Load Type of forecast: &lt;/b&gt;Indicates which date of the period will be used to determine the forecast line promised date.&#10;&lt;br&gt;&#10;&lt;br&gt;&#10;&lt;b&gt;Options:&lt;/b&gt;&#10;&lt;br&gt;&#10;&lt;br&gt;&#10;&lt;b&gt;To Use the Period Start Date: &lt;/b&gt;The due date is set  based on the period start date &#10;&lt;b&gt;To Use the Period End Date:  &lt;/b&gt;The due date is set based on the period end date.&#10;&lt;br&gt;&#10;&lt;br&gt;&#10;&lt;b&gt;Days after the due date: &lt;/b&gt; Indicates the number of days to be added or subtracted to the due date. If the value is negative, the days are subtracted.&#10;&lt;br&gt;&#10;&lt;br&gt;&#10;&lt;b&gt;Selection Criteria:&lt;/b&gt;&#10;&lt;br&gt;&#10;It is possible to use the category, classification, class and group of the product to get the products to be included in the new forecast."><![CDATA[El proceso utiliza los valores de simulación resultantes para generar un nuevo pronóstico.
+<br>
+<br>
+<B> Tipo de acción de la previsión: </ b> Indica cómo se generará el pronóstico
+<br>
+<br>
+Si el tipo de acción es <b> "Reemplazar" </ b> todas las líneas de este pronóstico se van a eliminar y se generarán de nuevo basándose en los productos de simulación y los criterios de selección.
+<br>
+<br>
+Si el tipo de acción es <b> "Combinar" </ b> todas las líneas de este pronóstico se combinarán, basándose en la combinación única de producto, almacén y período. Por lo tanto, si la combinación existe, las cantidades previstas se acumulan.
+<br>
+<br>
+<B> El tipo de carga de pronóstico: </ b> Indica qué fecha del período se utilizará para determinar la fecha prometida de la línea de pronóstico.
+<br>
+<br>
+<B> Opciones: </ b>
+<br>
+<br>
+<B> Para utilizar la fecha de inicio del período: </ b> La fecha de vencimiento se establece en función de la fecha de inicio del período
+<B> Para utilizar la fecha de finalización del período: </ b> La fecha de vencimiento se establece en función de la fecha de finalización del período.
+<br>
+<br>
+<B> Días después de la fecha de vencimiento: </ b> Indica el número de días que se deben sumar o restar a la fecha de vencimiento. Si el valor es negativo, los días se restan.
+<br>
+<br>
+<B> Criterios de selección: </ b>
+<br>
+Es posible utilizar la categoría, clasificación, clase y grupo del producto para obtener los productos que se incluirán en el nuevo pronóstico.
+]]></value>
  </row>
  <row id="53150" trl="Y">
   <value column="Name" original="Distribution Run Orders">Ejecución de Órdenes de Distribución</value>
@@ -1786,9 +1790,34 @@ Debe ser implementado cuando no haya usuarios conectados.</value>
   <value column="Description" original="Imports price lists from a file into the application">Importa listas de precio desde un archivo hacia el aplicativo</value>
   <value column="Help" original=""/>
  </row>
+ <row id="53165" trl="Y">
+  <value column="Name" original="Review CashFlow">Detalle de Flujo de Efectivo</value>
+  <value column="Description" original="Review CashFlow">Detalle de Flujo de Efectivo</value>
+  <value column="Help" original=""/>
+ </row>
  <row id="53166" trl="Y">
   <value column="Name" original="Recalculate Cube">Recalcular Cubo</value>
   <value column="Description" original="Recalculate summary facts based on report cube definitions.">Recalcula el cubo basado en la definición de cubos.</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53172" trl="Y">
+  <value column="Name" original="Export migration to XML">Export migration to XML</value>
+  <value column="Description" original="Export migration to XML file">Export migration to XML file</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53173" trl="Y">
+  <value column="Name" original="Apply migration">Apply migration</value>
+  <value column="Description" original="Apply or rollback migration">Apply or rollback migration</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53174" trl="Y">
+  <value column="Name" original="Apply migration step">Apply migration step</value>
+  <value column="Description" original="Apply or rollback a single migration step">Apply or rollback a single migration step</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53175" trl="Y">
+  <value column="Name" original="Import migration from XML">Importar archivo XML de migración </value>
+  <value column="Description" original="Import migration from XML file">Importar archivo XML de migración </value>
   <value column="Help" original=""/>
  </row>
  <row id="53176" trl="Y">
@@ -1801,6 +1830,55 @@ Debe ser implementado cuando no haya usuarios conectados.</value>
   <value column="Description" original="Copy settings from one report and process to another.">Copia los parámetros de un Informe o proceso en otro.</value>
   <value column="Help" original="Copy the settings from the selected report and process to the current one.  This overwrites existing settings and translations.">Copia los parámetros de un Informe o proceso en otro.  Sobreescribe los parámetros actuales y traducciones.</value>
  </row>
+ <row id="53180" trl="Y">
+  <value column="Name" original="Smart Browse Create Fields">Smart Browse Create Fields</value>
+  <value column="Description" original="Creates the fields of Browser based on the View Columns."/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53181" trl="Y">
+  <value column="Name" original="Create Columns">Create Column</value>
+  <value column="Description" original="Creates the columns of View based on the table columns."/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53182" trl="Y">
+  <value column="Name" original="Process In/Out Bound">Process In/Out Bound</value>
+  <value column="Description" original="Process In/Out Bound">Process In/Out Bound</value>
+  <value column="Help" original="Process In/Out Bound will create the Picking or Putaway  Order to pick or put the products into of Locators">Process In/Out Bound will create the Picking or Putaway  Order to pick or put the products into of Locators</value>
+ </row>
+ <row id="53183" trl="Y">
+  <value column="Name" original="Picking Order Print">Picking Order Print</value>
+  <value column="Description" original="** Special ** Do not change **">** Special ** Do not change **</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53184" trl="Y">
+  <value column="Name" original="Release &amp; Print Outbound Order"><![CDATA[Release & Print Outbound Order]]></value>
+  <value column="Description" original="This process generate the Picking lists in order to prepare for shipping, thus allowing one or serveral distribution orders to be generated as a result of the Inbound/Outbound Strategies previously defined in the Inbound/Outbound Definition window.">This process generate the Picking lists in order to prepare for shipping, thus allowing one or serveral distribution orders to be generated as a result of the Inbound/Outbound Strategies previously defined in the Inbound/Outbound Definition window.</value>
+  <value column="Help" original="Those Distribuition Orders are generated from different locations based on the Picking rules from the Inbound/Outbound Strategy.&#10;&#10;Once the Picking process is completed the process to generate shipments can be fulfilled.">Those Distribuition Orders are generated from different locations based on the Picking rules from the Inbound/Outbound Strategy.
+
+Once the Picking process is completed the process to generate shipments can be fulfilled.</value>
+ </row>
+ <row id="53185" trl="Y">
+  <value column="Name" original="Generate Shipments from Outbound Order">Generate Shipments from Outbound Order</value>
+  <value column="Description" original="These process allows to generate multiple shipments for products that were succesfuly picked from an Outbound Order.">These process allows to generate multiple shipments for products that were succesfuly picked from an Outbound Order.</value>
+  <value column="Help" original="&#10;&#10;Once the Picking process is completed the process to generate shipments can be fulfilled.">
+
+Once the Picking process is completed the process to generate shipments can be fulfilled.</value>
+ </row>
+ <row id="53186" trl="Y">
+  <value column="Name" original="Generare Outbound Order">Generar Orden de Salida</value>
+  <value column="Description" original="This process allows to generate a new document as the result of gathering Sales Orders, Manufacture Orders, Distribution Orders based on several criteria such as :">Este proceso permite generar un nuevo documento como resultado de la recopilación de órdenes de venta, ordenes de manufactura, ordenes de distribución basados en varios criterios como:</value>
+  <value column="Help" original="Warehouse, Order, Document Type, Promised Date range, Ordered Dates, Business Partner, Country, Zip Code, Product and Shipper, these parameters can be configured leveraging the Smart Browse artifact.&#10;&#10;Thus, it is required to previously define those parameters to be used in orther to determine wich products are to be included in the Picking Orders, these paraneters are:&#10;&#10;*Area Type&#10;*Section type&#10;*Overwrite Delivery Rule&#10;*Generate Picking List&#10;*Print Picking List&#10;*Stand-by Location&#10;*Document Status for the Picking Order">Almacén, Pedido, Tipo de documento, Intervalo de fechas prometidas, Fechas ordenadas, Socio de Negocio, País, Código Postal, Producto y Transportista, estos parámetros se pueden configurar utilizando los filtros de esta consulta.
+
+Por lo tanto, es necesario definir previamente los parámetros que se utilizarán para determinar qué productos deben incluirse en las Ordenes de Salida, Los parámetros son:
+
+* Tipo de área
+* Tipo de sección
+* Sobrescribir regla de entrega
+* Generar lista de recolleción
+* Imprimir lista de empaque
+* Ubicación de espera
+* Estado del documento para la Orden de Salida</value>
+ </row>
  <row id="53187" trl="Y">
   <value column="Name" original="Client Accounting Processor">Procesador Contabilidad (Cliente)</value>
   <value column="Description" original="Client Accounting Processor">Procesador Contabilidad (Cliente)</value>
@@ -1811,22 +1889,32 @@ Debe ser implementado cuando no haya usuarios conectados.</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
  </row>
- <row id="53197" trl="N">
-  <value column="Name" original="Import Payroll Movement">Import Payroll Movement</value>
-  <value column="Description" original="Import Payroll Movement">Import Payroll Movement</value>
+ <row id="53190" trl="Y">
+  <value column="Name" original="Create From ...">Create From ...</value>
+  <value column="Description" original=""/>
   <value column="Help" original=""/>
  </row>
- <row id="53199" trl="N">
+ <row id="53191" trl="Y">
+  <value column="Name" original="Payroll Prepare Payment">Payroll Prepare Payment</value>
+  <value column="Description" original="Create Prepared Payments (Checks) to be paid">Create Prepared Payments (Checks) to be paid</value>
+  <value column="Help" original="You create the actual Payments via Payroll Payment Print/Export">You create the actual Payments via Payroll Payment Print/Export</value>
+ </row>
+ <row id="53197" trl="Y">
+  <value column="Name" original="Import Payroll Movements">Import Payroll Movement</value>
+  <value column="Description" original="Import Payroll Movements">Import Payroll Movement</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53199" trl="Y">
   <value column="Name" original="Reset Allocation Direct">Restaura Asignación Directa</value>
   <value column="Description" original="Reset (delete) allocation of invoices to payments">Restaura (borra) asignación de facturas a pagos</value>
   <value column="Help" original="Delete individual allocation. In contrast to &quot;Reverse&quot;, the allocation is deleted (no trace), if the period is open.">Borra asignaciones individuales.  En contraste a "Reversar", la asignación es borrada (no se guarda log), si el período está abierto.</value>
  </row>
- <row id="53200" trl="N">
+ <row id="53200" trl="Y">
   <value column="Name" original="Import Product Planning and Forecast">Importa Planificación de Productos y Pronóstico</value>
   <value column="Description" original="Import Product Planning and Forecast">Importa Planificación de Productos y Pronóstico</value>
   <value column="Help" original="Import and update  product planning data and forecast">Importa y Actualiza Planificación de Productos y Pronóstico</value>
  </row>
- <row id="53202" trl="N">
+ <row id="53202" trl="Y">
   <value column="Name" original="POS Key Generate">Generar Llave Punto de Venta</value>
   <value column="Description" original="Generate POS Keys from products.">Generate POS Keys from products.</value>
   <value column="Help" original=""/>
@@ -1836,14 +1924,712 @@ Debe ser implementado cuando no haya usuarios conectados.</value>
   <value column="Description" original="Copy prices etc from other product">Copia precios, etc desde otro product</value>
   <value column="Help" original=""/>
  </row>
- <row id="53216" trl="N">
+ <row id="53207" trl="Y">
+  <value column="Name" original="Update depreciation">Update depreciation</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53208" trl="Y">
+  <value column="Name" original="Asset Addition Process">Asset Addition Process</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53210" trl="Y">
+  <value column="Name" original="Asset Disposed Process">Asset Disposed Process</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53211" trl="Y">
+  <value column="Name" original="Process Depreciation Expense">Process Depreciation Expense</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53212" trl="Y">
+  <value column="Name" original="Asset Transfer Process">Asset Transfer Process</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53213" trl="Y">
+  <value column="Name" original="Asset Reval Process">Asset Reval Process</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53214" trl="Y">
+  <value column="Name" original="Process Depreciation Entry">Process Depreciation Entry</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53215" trl="Y">
+  <value column="Name" original="Import Fixed Assets">Import Fixed Assets</value>
+  <value column="Description" original=""/>
+  <value column="Help" original="Import All Fixed Assets">Import All Fixed Assets</value>
+ </row>
+ <row id="53216" trl="Y">
   <value column="Name" original="ImportInventoryMovement">ImportInventoryMovement</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
  </row>
- <row id="53231" trl="N">
+ <row id="53220" trl="Y">
+  <value column="Name" original="Unreconciled accounting facts">Registros contables no conciliados</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53221" trl="Y">
+  <value column="Name" original="Automatic account reconciliation">Reconciliación automática de cuentas</value>
+  <value column="Description" original="Reconcile account transactions according to standard rules"> 58/5000 Reconciliar transacciones de cuentas de acuerdo con las reglas estándar</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53222" trl="Y">
+  <value column="Name" original="Valuation Effective Date">Valoración de inventario a fecha efectiva</value>
+  <value column="Description" original="Valuation Effective Date">Valoración de inventario a fecha efectiva</value>
+  <value column="Help" original="This report shows the amount in stock for each product and its values to an effective date, you can use any defined cost , as such Standard, Average, FIFO and LIFO">Este informe muestra la cantidad en stock de cada producto y sus valores a una fecha de vigencia, puede utilizar cualquier tipo de costo definido, como costo estándar, promedio , PEPS  y UEPS</value>
+ </row>
+ <row id="53223" trl="Y">
+  <value column="Name" original="Generate Cost Transaction">Generar transacciones de costo</value>
+  <value column="Description" original="Generate Cost Transaction">Generar transacciones de costo</value>
+  <value column="Help" original="The Generate Cost Transaction process allows the detailed cost calculation and cost generation  beginning from a date. If you have not yet set COGs Adjustment, you should execute this process before a period's end in order to fix the cost layers.">El proceso Generar transacciones de costo permite el cálculo detallado del costo y la generación de costos a partir de una fecha.  Si aún no ha configurado el ajuste de Costo de Venta, debe ejecutar este proceso antes del final de un período para fijar las capas de costo.</value>
+ </row>
+ <row id="53224" trl="Y">
+  <value column="Name" original="Transaction Valuation">Transaction Valuation</value>
+  <value column="Description" original="Transaction Valuation">Transaction Valuation</value>
+  <value column="Help" original="This report shows the history  transactions with quantities and cost for each product for any Cost Type, such as Standard, Average, FIFO / LIFO&#10;">This report shows the history  transactions with quantities and cost for each product for any Cost Type, such as Standard, Average, FIFO / LIFO
+</value>
+ </row>
+ <row id="53227" trl="Y">
+  <value column="Name" original="Post Production">Post Production</value>
+  <value column="Description" original="Process the production">Process the production</value>
+  <value column="Help" original="Post Production will process the production.">Post Production will process the production.</value>
+ </row>
+ <row id="53228" trl="Y">
+  <value column="Name" original="Validate BOM Flags">Validar banderas de LDMs</value>
+  <value column="Description" original="Validate BOM Flags">Validar banderas de Listas de Materiales</value>
+  <value column="Help" original="The Validate BOM Flags process checks that all Products with bills of materials are correctly flagged."/>
+ </row>
+ <row id="53229" trl="Y">
+  <value column="Name" original="Verify BOM Structure">Verificar Estructura de LDM</value>
+  <value column="Description" original="Verify BOM for correctness">Verifica los LDM's para Corregir</value>
+  <value column="Help" original="The Verify BOM process checks for circular BOMs (unsupported).">El proceso verifica la lista de materiales para listas de materiales circulares (no soportado).</value>
+ </row>
+ <row id="53230" trl="Y">
+  <value column="Name" original="Rollup BOM Cost">Rollup BOM Cost</value>
+  <value column="Description" original="Rollup BOM cost">Rollup BOM cost</value>
+  <value column="Help" original="Rollup BOM costs from the lowest level recursively.">Rollup BOM costs from the lowest level recursively.</value>
+ </row>
+ <row id="53231" trl="Y">
   <value column="Name" original="Import Product BOM">Import Product BOM</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
+ </row>
+ <row id="53259" trl="Y">
+  <value column="Name" original="Convert passwords to hashes">Convertir contraseá a hashes</value>
+  <value column="Description" original="Convert existing plain text/encrypted user passwords to one way hash">Convierte las contraseñas de usuario de texto plano / encriptadas existentes en una forma Hash</value>
+  <value column="Help" original="This process will overwrite existing user passwords with a salted SHA-512 hash of the password so that they cannot be recovered if your database is compromised.&#10;&#10;(Note: If your password column is currently encrypted, the hash will also be encrypted.)">Este proceso sobre escribirá las contraseñas de usuario existentes con un hash SHA-512 salado de la contraseña para que no puedan recuperarse si su base de datos está comprometida.
+(Nota: si su  contraseña está actualmente cifrada, el hash también se cifrará.)</value>
+ </row>
+ <row id="53264" trl="Y">
+  <value column="Name" original="Production Plan">Production Plan</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53265" trl="Y">
+  <value column="Name" original="Universal substitution">Sustitución Universal</value>
+  <value column="Description" original="Substitute one product for another in all BOMs">Sustituye un Producto por Otro en todos los LDM's</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53266" trl="Y">
+  <value column="Name" original="Indented Bill of Material">Indented Bill of Material</value>
+  <value column="Description" original="Indented BOM report">Indented BOM report</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53267" trl="Y">
+  <value column="Name" original="Replenish Report incl. Production">Reporte de reabastecimiento</value>
+  <value column="Description" original="Inventory Replenish Report">Reporte de reabastecimiento incluyendo Producción</value>
+  <value column="Help" original="Report lists products to be replenished. Note that a product can have only one current vendor. If there are more then vendor per product, both records are reset.  You need to select a current vendor manually.&lt;br&gt;&#10;Movements are only created, if a sourcing warehouse is defined for the warehouse to be replenished."><![CDATA[Despliega los productos que deben ser reabastecidos. Poner atención que un producto puede tener un único proveedor. Si existe más de un proveedor por producto, ambos registros se reininciarán. En ese caso, Ud. deberá seleccionar un proveedor manualmente. <br> Solamente se crearán movimientos de material si el almacén (bodega) de origen es definida como el almacén que deberá ser abastecido.]]></value>
+ </row>
+ <row id="53269" trl="Y">
+  <value column="Name" original="Merge migration">Merge migration</value>
+  <value column="Description" original="Append migration steps from another migration to this one">Append migration steps from another migration to this one</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53276" trl="Y">
+  <value column="Name" original="Convert Lead">Convert Lead</value>
+  <value column="Description" original="Convert Lead to BP and Opportunity">Convert Lead to BP and Opportunity</value>
+  <value column="Help" original="Convert Lead into a Business Partner and (optional) Sales Opportunity">Convert Lead into a Business Partner and (optional) Sales Opportunity</value>
+ </row>
+ <row id="53296" trl="Y">
+  <value column="Name" original="Import Workflow">Import Workflow</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53298" trl="Y">
+  <value column="Name" original="Import Sales History">Import Sales History</value>
+  <value column="Description" original="Imports Sales History from a file into the application">Imports Sales History from a file into the application</value>
+  <value column="Help" original="Import Sales History will bring a file of sales history, in a predefined format into the application.&lt;p&gt; The Parameters are default values for null import record values, they do not overwrite any data.&lt;p&gt;"><![CDATA[Import Sales History will bring a file of sales history, in a predefined format into the application.<p> The Parameters are default values for null import record values, they do not overwrite any data.<p>]]></value>
+ </row>
+ <row id="53299" trl="Y">
+  <value column="Name" original="Processing a forecast">Processing a forecast</value>
+  <value column="Description" original="Forecast process generates demands for MRP, the demand can be deactivate.">Forecast process generates demands for MRP, the demand can be deactivate.</value>
+  <value column="Help" original="To disable a specific demand only deactivate the line desired">To disable a specific demand only deactivate the line desired</value>
+ </row>
+ <row id="53300" trl="Y">
+  <value column="Name" original="Create Periods ">Create Periods </value>
+  <value column="Description" original="Create calendar periods.">Create calendar periods.</value>
+  <value column="Help" original="This process creates the calendar periods, based on the period definition with an start date specified, if this date is not recorded, then Jan 01 will be the default. The period name is created based on the start date of each period using the Java SimpleDataFormat pattern.">Creates period calendar based on the Period Definition using the specified start date. if start date is not specified, 1st of Jan will be used. The period name will be generated from the start date of each period using the Java SimpleDataFormat pattern provided.</value>
+ </row>
+ <row id="53301" trl="Y">
+  <value column="Name" original="PP_Calculate Forecast">PP_Calculate Forecast</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53302" trl="Y">
+  <value column="Name" original="Generate Sales History">Generar historial de ventas</value>
+  <value column="Description" original="This process allows to generate the sales historical based on the invoicing history.">Generar historial de ventas desde el historial de facturación.</value>
+  <value column="Help" original="It is possible to use the business partner, business partner group, business partner location, product category, product classification, product class, product group, warehouse, sales region and project , to generate the records for the sales historical.&#10;&lt;br&gt;&#10;&lt;br&gt;&#10;It is possible to use the option To import the sales history to load the sales statistics from the legacy systems.">Generar historial de ventas utilizando el historial de facturas.</value>
+ </row>
+ <row id="53303" trl="Y">
+  <value column="Name" original="Forecast Simulation Report">Resultados de la simulación de pronóstico</value>
+  <value column="Description" original="This process generates a report containing the result of the forecast calculation, parameters can be used to filter the result of the report. ">Este proceso genera un informe que contiene el resultado del cálculo de pronóstico, los parámetros se pueden utilizar para filtrar el resultado del informe.</value>
+  <value column="Help" original="El objetivo principal de este informe es evaluar y analizar el resultado de múltiples simulaciones para determinar el más adecuado, para poder generar el pronóstico."/>
+ </row>
+ <row id="53307" trl="Y">
+  <value column="Name" original="Simulated Pick List">Simulación de Lista de Recoleción</value>
+  <value column="Description" original="Simulated Pick List">Simulación de Lista de Recoleción</value>
+  <value column="Help" original="This process allows generate a report Simulated Pick List based on the required quantity  to calculate the material consumption of all levels.">Este proceso permite generar una Simulación de Pick List partiendo de la cantidad requerida y de esta forma calcular el consumo de material en todos los niveles.</value>
+ </row>
+ <row id="53308" trl="Y">
+  <value column="Name" original="Import Forecast">Import Forecast</value>
+  <value column="Description" original="Imports Forecast from a file into the application">Imports Forecast from a file into the application</value>
+  <value column="Help" original="The parameters are the default values to import the records.&#10;&lt;br&gt;&#10;&lt;br&gt;&#10;The maintained information inside the forecast are: the Forecast ID , product , warehouse ,  quantities, promised data&#10;&lt;br&gt;&#10;&lt;br&gt;&#10;The forecast information is used to MRP calculus"><![CDATA[The parameters are the default values to import the records.
+<br>
+<br>
+The maintained information inside the forecast are: the Forecast ID , product , warehouse ,  quantities, promised data
+<br>
+<br>
+The forecast information is used to MRP calculus]]></value>
+ </row>
+ <row id="53313" trl="Y">
+  <value column="Name" original="Selective Material Plan">Plan Selectivo de Material</value>
+  <value column="Description" original="The process of Selective Material Plan calculates the demands and supplies for the selected products.">El proceso dePlan Selectivo de Material calcula las demandas y los suministros de los productos seleccionados.</value>
+  <value column="Help" original="This process can be executed in net change mode if you select the products with the MRP required flag, or in regenerative mode if you do not select any criteria. This process may be also  selected to figure out the Master production Schedule, selecting the master production planning products, it can be selected a product category, for  purchasing or manufacturing products or for a specific planner.">Este proceso se puede ejecutar en modo de cambio neto si selecciona los productos con el indicador MRP requerido o en modo regenerativo si no selecciona ningún criterio. Este proceso también se puede seleccionar para determinar el programa maestro de producción, seleccionar los productos maestros de planificación de producción, se puede seleccionar una categoría de producto, para comprar o fabricar productos o para un planificador específico.</value>
+ </row>
+ <row id="53320" trl="Y">
+  <value column="Name" original="Net Change Material Plan">Plan de Material de Cambio Neto</value>
+  <value column="Description" original="This process calcualte the demand, approved and open orders for a product.">Este proceso calcula la demanda, aprobado y órdenes abiertas para un producto.</value>
+  <value column="Help" original="The net change materials plan calculates demands and supplies for every product which has had changes in:&#10;&lt;br&gt;&#10;&lt;br&gt;Product&#10;&lt;br&gt;Product BOM &amp; Formula&#10;&lt;br&gt;Forecast&#10;&lt;br&gt;Sales Order &#10;&lt;br&gt;Distribution Order &#10;&lt;br&gt;Purchase Order&#10;&lt;br&gt;Inventory&#10;&#10;&#10;&lt;p&gt;The process check changes in the lower level codes, calculates the net requirements, generates planned orders with its corresponding action messages.&#10;&#10;&lt;p&gt;This process gets the same result than the Regenerative Material Plan, but is faster because &#10;just considers the products that has had some changes. ">Este proceso calcula la demanda, aprobado y órdenes abiertas para un producto.</value>
+ </row>
+ <row id="53321" trl="Y">
+  <value column="Name" original="Requisition Approval">Requisition Approval</value>
+  <value column="Description" original="This process allows to show the Material Requisitions planned,  which can be approved, multiple selection criterias can be defined (Warehouse, Planner, Scheduled Start Date, Required Date, Product and Business Partner)."/>
+  <value column="Help" original="&lt;p&gt;&#10;In the approval process is possible to modify the Scheduled Start Date, Required Date and  Quantity,  by each Material Requisition Line. You can also modify the whole selection by using the Priority and Business Partner parameters.&#10;&lt;p&gt;&#10;&#10;It is possible to convert a Material Requisition in  a Manufacturing Order , changing the Order Type parameter, The Plant, BOM and Workflow parameters. These parameters are shown so it can be defined the Manufacturing Order information.&#10;&lt;p&gt;&#10;It is possible to convert a Material Requisition in a Distribution Order, changing the Order Type, The Business Partner , Warehouse in Transit, Shipper ,  Locator source , Locator Target  parameters. These parameters are shown to define the Distribution Order information.&#10;"/>
+ </row>
+ <row id="53322" trl="Y">
+  <value column="Name" original="Manufacturing Order Approval">Manufacturing Order Approval</value>
+  <value column="Description" original="This process allows to show  the Planned Manufacturing Orders which can be approved, it is possible to define multiple selection criteria (Plant, Warehouse, Scheduled Start Date, Promised Date, Planner, BOM and Workflow)."/>
+  <value column="Help" original="&lt;p&gt;In the approval process is possible to modify on an individual base,  the Scheduled Start Date, Promised Date, and Quantity for each Manufacturing Order. You can also modify the whole selection,  by using the parameters Priority , BOM and Workflow.&#10;&lt;p&gt;&#10;It is possible to convert a Manufacturing Order into a Material Requisition  by using the Order Type and  Business Partner parameters. These parameters  are shown to define the Material Requisition information.&#10;&lt;p&gt;&#10;It is possible to convert a Manufacturing Order into a  Distribution Order by using the Order Type, Business Partner , Warehouse in Transit, Shipper, Source Locator and Target  Locator  parameters. These parameters are shown to define the Distribution Order information.&#10;"/>
+ </row>
+ <row id="53323" trl="Y">
+  <value column="Name" original="Distribution Order Approval">Distribution Order Approval</value>
+  <value column="Description" original="This process allows to show  the planned Distribution Orders which can be approved."/>
+  <value column="Help" original="&lt;p&gt;Can define multiple selection criteria (Warehouse, Planner, Business Partner, Delivery Via, Delivery Rule, Shipper, Promised Date,  Source Location, Target Location and Product).&#10;&#10;&lt;p&gt; In the approval process is possible to modify on an individual base,  the Promised Date, Quantity and Confirmed Quantity of the Distribution Order Line, it is also possible to modify the whole selection,  by using the parameters Priority, Shipper and Business Partner.&#10;&#10;&lt;p&gt;It is possible to change a Distribution Order into  a Manufacturing  Order, by using the Order Type, Business Partner, Plant, BOM and Workflow parameters. These parameters are shown to define the Manufacturing Order information.&#10;&#10;&lt;p&gt;It is possible to change a Manufacturing Order into a Material Requisition by using the Order Type and Business Partner parameters. These  parameters are shown to define the Material Requisition information."/>
+ </row>
+ <row id="53345" trl="Y">
+  <value column="Name" original="Generate Invoices from Shipments">Genera Factura desde Embarques</value>
+  <value column="Description" original="Generate Invoices from Shipments">Genera Factura desde Embarques</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53349" trl="Y">
+  <value column="Name" original="Express Receipt Scan Bar Products">Express Receipt Scan Bar Products</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53350" trl="Y">
+  <value column="Name" original="Invoice Selection">Invoice Selection</value>
+  <value column="Description" original="Allows processing the Invoice Selection">Allows processing the Invoice Selection</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53351" trl="Y">
+  <value column="Name" original="Express Receipt from POs">Express Receipt from POs</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53352" trl="Y">
+  <value column="Name" original="Express Receipt from Supplier Invoice">Express Receipt from Supplier Invoice</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53356" trl="Y">
+  <value column="Name" original="Aging with payments (revalued)">Antigüedad con pagos (revalorizado)</value>
+  <value column="Description" original="Aging Report with payments (revalued)">Informe Antigüedad con pagos (revalorizado)</value>
+  <value column="Help" original="The aging report allows you to report on Open Items (Invoices and Payments) as at the date selected. Select the aging buckets, you want to have in your report. All amounts are converted to the currency of the select accounting schema, using the rate for the selected currency conversion type and as at the statement date. If you do not select a Statement Date, the system date is used. If you do not list the individual invoices, the Due Date is the earliest due date for the business partner and the Due Days are the average due days of all invoices.&lt;br&gt;">El informe de antigüedad le permite obtener los saldos abiertos (facturas y pagos) a la fecha seleccionada. Seleccione los cubos de la  antigüedad que desea incluir en su informe. Todas las cantidades se convierten en la moneda del esquema de contable seleccionado, utilizando la tasa para el tipo de cambio de moneda seleccionado y la fecha del estado de cuenta. Si no selecciona una Fecha del estado de cuneta, se utiliza la fecha del sistema. Si no se enumeran las facturas individuales, la Fecha de vencimiento es la fecha de vencimiento más temprana para el socio de negocios y los días de vencimiento son el promedio de vencimientos de todas las facturas.</value>
+ </row>
+ <row id="53359" trl="Y">
+  <value column="Name" original="View Copy From">View Copy From</value>
+  <value column="Description" original="Copy a View From other View.">Copy a View From other View.</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53360" trl="Y">
+  <value column="Name" original="Copy from Browse">Copy Browse</value>
+  <value column="Description" original="Copy from Browse from other Browse.">Copy a Browse from other Browse.</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53369" trl="Y">
+  <value column="Name" original="Demands and Supplies to schedule">Demands and Supplies to schedule</value>
+  <value column="Description" original="Demands and Supplies to schedule">Demands and Supplies to schedule</value>
+  <value column="Help" original="Can define multiple selection criteria (Order Type,Document Status ,  Planner, Priority , Date Ordered, Business Partner, Project , Resource , Warehouse, Doument No, Product ,  Promised Date, Is MPS , Is Bill of Material, Is Sold , Is Purchase).&#10;&#10;&lt;p&gt; In the schedule process is possible to modify on an individual base,  Date Start Schedule , Date Finish Schedule , Promised Date, it is also possible to modify the whole selection,  by using the parameters Planner and Priority"><![CDATA[Can define multiple selection criteria (Order Type,Document Status ,  Planner, Priority , Date Ordered, Business Partner, Project , Resource , Warehouse, Doument No, Product ,  Promised Date, Is MPS , Is Bill of Material, Is Sold , Is Purchase).
+
+<p> In the schedule process is possible to modify on an individual base,  Date Start Schedule , Date Finish Schedule , Promised Date, it is also possible to modify the whole selection,  by using the parameters Planner and Priority]]></value>
+ </row>
+ <row id="53370" trl="Y">
+  <value column="Name" original="Manufacturing Scheduling Activities">Manufacturing Scheduling Activities</value>
+  <value column="Description" original="This process allows to schedule the start and end dates of the activities of manufacturing orders">This process allows to schedule the start and end dates of the activities of manufacturing orders</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53371" trl="Y">
+  <value column="Name" original="Activities Progress Control">Activities Progress Control</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53477" trl="Y">
+  <value column="Name" original="Create Production Order">Create Production Order</value>
+  <value column="Description" original="Create Production Order from Order Line">Create Production Order</value>
+  <value column="Help" original="Create Production Order">Create Production Order</value>
+ </row>
+ <row id="53487" trl="Y">
+  <value column="Name" original="Import Budget">Import Budget</value>
+  <value column="Description" original="Import Budget"/>
+  <value column="Help" original="This process allows importing the budget for accounting"/>
+ </row>
+ <row id="53501" trl="Y">
+  <value column="Name" original="Create Shipment">CreateShipment</value>
+  <value column="Description" original="Create the shipment for Sales Order">Create the shipment for Sales Order</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53521" trl="Y">
+  <value column="Name" original="Cash Flow Processing">Cash Flow Processing</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53538" trl="Y">
+  <value column="Name" original="Credit Leave Manual Process">Credit Leave Manual Process</value>
+  <value column="Description" original="Credit Leave Manual Process">Credit Leave Manual Process</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53540" trl="Y">
+  <value column="Name" original="Job Openings Process">Job Openings Process</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53541" trl="Y">
+  <value column="Name" original="UpdateQtyCount">UpdateQtyCount</value>
+  <value column="Description" original=""/>
+  <value column="Help" original="Set Quantity Count to Second Count or if null First Count, plus Picked Quantity">Set Quantity Count to Second Count or if null First Count, plus Picked Quantity</value>
+ </row>
+ <row id="53596" trl="Y">
+  <value column="Name" original="Import Product ASI">Import Product ASI</value>
+  <value column="Description" original="Imports Product Attribute Set Instance  from a file into the application">Imports Product Attribute Set Instance  from a file into the application</value>
+  <value column="Help" original="The parameters are the default values to import the records.&#10;">The parameters are the default values to import the records.
+</value>
+ </row>
+ <row id="53629" trl="Y">
+  <value column="Name" original="Cost Transaction Detail">Detalle de la transacción de costos</value>
+  <value column="Description" original="This report show the transaction cost detail by product">Este informe muestra el detalle de transacción con costo por producto</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53685" trl="Y">
+  <value column="Name" original="Replenish Plan Report">Plan de Reabastecimiento</value>
+  <value column="Description" original="Replenish Plan Report">Informe de Plan de Reabastecimiento</value>
+  <value column="Help" original="Replenish Plan Calculation">Calcula el Plan de Reabastecimiento</value>
+ </row>
+ <row id="53690" trl="Y">
+  <value column="Name" original="Landed Cost Generate to based on Receipts">Landed Cost Generate to based on Receipts</value>
+  <value column="Description" original="Process to generating landed costs based on materials receipts">Process to generating landed costs based on materials receipts</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53691" trl="Y">
+  <value column="Name" original="C_LandedCost Create from">C_LandedCost Create from</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53724" trl="Y">
+  <value column="Name" original="Import Employee Attribute">Import Employee Attribute</value>
+  <value column="Description" original="Import Employee Attribute">Import Employee Attribute</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53728" trl="Y">
+  <value column="Name" original="Manufacturing Order Cost">Costo de la Orden de Manufactura</value>
+  <value column="Description" original="">Costo de la Orden de Manufactura</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53733" trl="Y">
+  <value column="Name" original="Clean Up Garden World">Limpiar Garden World</value>
+  <value column="Description" original="Advance the Dates in Garden World">Avanzad las Fechas en Garden World</value>
+  <value column="Help" original="Brings all GardenWorld activity into the last two years.  Calendars need to exist.">Añade 96 meses  a las Fechasen GW. Los calendarios deben existir</value>
+ </row>
+ <row id="53735" trl="Y">
+  <value column="Name" original="Generate Movement from Distribution Order">Generate Movement from Distribution Order</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53736" trl="Y">
+  <value column="Name" original="Movement Material Receipt from Distribution Order">Movement Material Receipt from Distribution Order</value>
+  <value column="Description" original="Allows to process the materials receipt from the Distribution Order">Allows to process material receipt from Distribution Order</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53752" trl="Y">
+  <value column="Name" original="AP Trial balance">AP Trial balance</value>
+  <value column="Description" original="Trial Balance for a period or date range">Trial Balance for a period or date range</value>
+  <value column="Help" original="Select a Period (current period if empty) or enter a Account Date Range. If an account is selected, the balance is calculated based on the account type and the primary calendar of the client (i.e. for revenue/expense accounts from the beginning of the year). If no account is selected, the balance is the sum of all transactions before the selected account range or first day of the period selected. You can select an alternative Reporting Hierarchy.">Select a Period (current period if empty) or enter a Account Date Range. If an account is selected, the balance is calculated based on the account type and the primary calendar of the client (i.e. for revenue/expense accounts from the beginning of the year). If no account is selected, the balance is the sum of all transactions before the selected account range or first day of the period selected. You can select an alternative Reporting Hierarchy.</value>
+ </row>
+ <row id="53753" trl="Y">
+  <value column="Name" original="AR Trial balance">AR Trial balance</value>
+  <value column="Description" original="Trial Balance for a period or date range">Trial Balance for a period or date range</value>
+  <value column="Help" original="Select a Period (current period if empty) or enter a Account Date Range. If an account is selected, the balance is calculated based on the account type and the primary calendar of the client (i.e. for revenue/expense accounts from the beginning of the year). If no account is selected, the balance is the sum of all transactions before the selected account range or first day of the period selected. You can select an alternative Reporting Hierarchy.">Select a Period (current period if empty) or enter a Account Date Range. If an account is selected, the balance is calculated based on the account type and the primary calendar of the client (i.e. for revenue/expense accounts from the beginning of the year). If no account is selected, the balance is the sum of all transactions before the selected account range or first day of the period selected. You can select an alternative Reporting Hierarchy.</value>
+ </row>
+ <row id="53754" trl="Y">
+  <value column="Name" original="Unapplied AR Payments">Unapplied AR Payments</value>
+  <value column="Description" original="Payment Detail Report">Payment Detail Report</value>
+  <value column="Help" original="Type adjusted payments (receipts positive, payments negative) with allocated and available amounts">Type adjusted payments (receipts positive, payments negative) with allocated and available amounts</value>
+ </row>
+ <row id="53755" trl="Y">
+  <value column="Name" original="Open Invoices">Open Invoices</value>
+  <value column="Description" original="Open Item (Invoice) List">Open Item (Invoice) List</value>
+  <value column="Help" original="Displays all unpaid invoices for a given Business Partner and date range. Please note that Invoices paid in Cash will appear in Open Items until the Cash Journal is processed.">Displays all unpaid invoices for a given Business Partner and date range. Please note that Invoices paid in Cash will appear in Open Items until the Cash Journal is processed.</value>
+ </row>
+ <row id="53756" trl="Y">
+  <value column="Name" original="Not Posted Invoice">Not Posted Invoice</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53757" trl="Y">
+  <value column="Name" original="Open Invoices">Open Invoices</value>
+  <value column="Description" original="Open Item (Invoice) List">Open Item (Invoice) List</value>
+  <value column="Help" original="Displays all unpaid invoices for a given Business Partner and date range. Please note that Invoices paid in Cash will appear in Open Items until the Cash Journal is processed.">Displays all unpaid invoices for a given Business Partner and date range. Please note that Invoices paid in Cash will appear in Open Items until the Cash Journal is processed.</value>
+ </row>
+ <row id="53778" trl="Y">
+  <value column="Name" original="Replenish Plan Generate Report">Generar Reporte de Planificar Reabastecimiento</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53809" trl="Y">
+  <value column="Name" original="Process Production">Process Production</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53815" trl="Y">
+  <value column="Name" original="Create Production from Batch">Create Production from Batch</value>
+  <value column="Description" original="Create production from Batch">Create production from Batch</value>
+  <value column="Help" original="Create Production from Batch will generate production header and lines">Create Production from Batch will generate production header and lines</value>
+ </row>
+ <row id="53817" trl="Y">
+  <value column="Name" original="Create From Payments">Create From Payments</value>
+  <value column="Description" original="Create Bank Statement from Payments Unreconcilled">Create Bank Statement from Payments Unreconcilled</value>
+  <value column="Help" original="You can add the payments to Bank Statement">You can add the payments to Bank Statement</value>
+ </row>
+ <row id="53818" trl="Y">
+  <value column="Name" original="Create From Order/Receipt">Create From Order/Receipt</value>
+  <value column="Description" original="Create Invoice from Purchase Order or Receipt">Create Invoice from Purchase Order or Receipt</value>
+  <value column="Help" original="You can add the Lines to Invoice from Order or Receipt">You can add the Lines to Invoice from Order or Receipt</value>
+ </row>
+ <row id="53819" trl="Y">
+  <value column="Name" original="Create From Order/RMA">Create From Order/RMA</value>
+  <value column="Description" original="Create Receipt from Purchase Order or RMA">Create Receipt from Purchase Order or RMA</value>
+  <value column="Help" original="You can add the Lines to Receipt or Return from Order or RMA">You can add the Lines to Receipt or Return from Order or RMA</value>
+ </row>
+ <row id="53820" trl="Y">
+  <value column="Name" original="Replenish Plan Production Report">Plan de Reabastecimiento de Producción</value>
+  <value column="Description" original="Showing report of Planned Production generated from current Replenish Plan Run.">Reporte del Plan de Reabastecimiento de Producción según última ejecución.</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53821" trl="Y">
+  <value column="Name" original="Replenish Plan Requisition Report">Generar Requisiciones sugeridas</value>
+  <value column="Description" original="Showing report of Suggested Requisition generated from current Replenish Plan Run.">Requisiciones sugeridas generadas por la ejecución del Plan de Reabastecimiento</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53822" trl="Y">
+  <value column="Name" original="Create Order based on another">Create Order based on another</value>
+  <value column="Description" original="This process allows generate a new order on a new business partner.">This process allows generate a new order on a new business partner.</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53823" trl="Y">
+  <value column="Name" original="Generate Immediate Invoice">Generar factura inmediata</value>
+  <value column="Description" original="This process allows generate immediate invoice based on a new business partner.">Este proceso permite generar facturas inmediatas basadas en un nuevo socio de negocio.</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53824" trl="Y">
+  <value column="Name" original="Reverse The Sales Transaction">Invertir la transacción de venta</value>
+  <value column="Description" original="This process allows reverse the sales transaction">Este proceso permite revertir la transacción de venta</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53827" trl="Y">
+  <value column="Name" original="Process Production Batch">Process Production Batch</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53829" trl="Y">
+  <value column="Name" original="The Bank Statement Report">Informe del Estado de Cuenta</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53832" trl="Y">
+  <value column="Name" original="Create Parameters">Create Parameters</value>
+  <value column="Description" original="Copy settings from one report and process to another or create parameters from a Report View Columns">Copy settings from one report and process to another or create parameters from a Report View Columns</value>
+  <value column="Help" original="You can select the parameters to copy or create in the current process">You can select the parameters to copy or create in the current process</value>
+ </row>
+ <row id="53833" trl="Y">
+  <value column="Name" original="Process Payment Selection">Process Payment Selection</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53834" trl="Y">
+  <value column="Name" original="Create From HR Movement">Create From HR Movement</value>
+  <value column="Description" original="Process for call Smart Browse">Process for call Smart Browse</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53835" trl="Y">
+  <value column="Name" original="Create From Invoice">Create From Invoice</value>
+  <value column="Description" original="Process for call Smart Browse">Process for call Smart Browse</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53836" trl="Y">
+  <value column="Name" original="Create From Order">Create From Order</value>
+  <value column="Description" original="Process for call Smart Browse">Process for call Smart Browse</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53837" trl="Y">
+  <value column="Name" original="Create From Payment Selection">Create From Payment Selection</value>
+  <value column="Description" original="Process for call Smart Browse">Process for call Smart Browse</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53838" trl="Y">
+  <value column="Name" original="Create from HR Movement">Create from HR Movement</value>
+  <value column="Description" original="Process for create lines of Payment Selection from Payroll Movements">Process for create lines of Payment Selection from Payroll Movements</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53839" trl="Y">
+  <value column="Name" original="Create from Invoice">Create from Invoice</value>
+  <value column="Description" original="Process for create lines of Payment Selection from Invoice">Process for create lines of Payment Selection from Invoice</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53840" trl="Y">
+  <value column="Name" original="Create from Order">Create from Order</value>
+  <value column="Description" original="Process for create lines of Payment Selection from Order">Process for create lines of Payment Selection from Order</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53841" trl="Y">
+  <value column="Name" original="Create from Payment Selection">Create from Payment Selection</value>
+  <value column="Description" original="Process for create lines of Payment Selection from Payment Request">Process for create lines of Payment Selection from Payment Request</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53842" trl="Y">
+  <value column="Name" original="Generate Class from Process">Generate Class from Process</value>
+  <value column="Description" original="Generate a class for process when is own java">Generate a class for process when is own java</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53846" trl="Y">
+  <value column="Name" original="POS Withdrawal">POS Withdrawal</value>
+  <value column="Description" original="This Smart Browser allows withdrawal by tender type">This Smart Browser allows withdrawal by tender type</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53847" trl="Y">
+  <value column="Name" original="POS Bank Statement Close">POS Bank Statement Close</value>
+  <value column="Description" original="This process allow close an Bank Statement">This process allow close an Bank Statement</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53851" trl="Y">
+  <value column="Name" original="In Out Create From">In Out Create From</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53858" trl="Y">
+  <value column="Name" original="Demand delivery planning">Plan de Entrega basado en demandas</value>
+  <value column="Description" original="The demand delivery planning report">Informe de Plan de Entrega basado en demandas</value>
+  <value column="Help" original="The demand delivery planning report shows the demands that must be delivered to the promised date">El informe de plan de entrega basado en demandas muestra las demandas que debe ser entregadas en la fecha prometida</value>
+ </row>
+ <row id="53859" trl="Y">
+  <value column="Name" original="Outbound Order delivery schedule">Programa de Ordenes de Salida para entregar</value>
+  <value column="Description" original="The outbound order delivery schedule report">Informe Programa de Ordenes de Salida para entregar</value>
+  <value column="Help" original="This report show all information necesesary to a delivery schedule based on Outbound Order">Este informe muestra toda la información necesaria para un programa de entrega basado en las Ordenes de Salida</value>
+ </row>
+ <row id="53870" trl="Y">
+  <value column="Name" original="Replenish Plan Initial Setup">Configuración inicial Plan Reabastecimiento</value>
+  <value column="Description" original="Initial setup to get you started in Replenish Plan">Configuración inicial Plan Reabastecimiento para poder iniciar</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53877" trl="Y">
+  <value column="Name" original="Create From Statement (Process)">Crear Desde Estado de Cuenta (Proceso)</value>
+  <value column="Description" original="Process for create lines of Bank Statement from Payments">Proceso para Crear Lineas del Estado de Cuenta Desde los Pagos</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53879" trl="Y">
+  <value column="Name" original="Invoice Create From">Crear Desde Factura</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53885" trl="Y">
+  <value column="Name" original="Purchase Order Selection">Purchase Order Selection</value>
+  <value column="Description" original="Allows processing the Purchase Order Selection">Allows processing the Purchase Order Selection</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53887" trl="Y">
+  <value column="Name" original="Copy Cost Type to other Cost Type">Copiar un Tipo de Costo a el Estándar</value>
+  <value column="Description" original="This process allow copy a cost type from cost element to other cost type">Este proceso permite copiar un Tipo de Costo desde otr elemento de costo al coste estándar</value>
+  <value column="Help" original="If the field Update Cost is on then,  the current cost price is overwritten or created">Este proceso permite copiar un Tipo de Costo desde otr elemento de costo al coste estándar</value>
+ </row>
+ <row id="53889" trl="Y">
+  <value column="Name" original="Payroll Create Invoice">Crear Factura desde Nómina</value>
+  <value column="Description" original="Allows generate invoice for payroll process of the concepts set as invoiced.">Permite crear Facturas desde un Proceso de Nómina para los Conceptos Marcados como Facturados </value>
+  <value column="Help" original="">Deberá seleccionar el Proceso de Nómina y si lo desea también puede seleccionar la fecha de facturación</value>
+ </row>
+ <row id="53890" trl="Y">
+  <value column="Name" original="Payment Selection Generate (From Invoice)">Generar Selección de Pago (Desde Factura)</value>
+  <value column="Description" original="Generate Payment Selection from selected invoices">Genera una Selección de Pago desde las Facturas Seleccionadas</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53909" trl="Y">
+  <value column="Name" original="Browser Global Payroll Concept">Browser Global Payroll Concept</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53910" trl="Y">
+  <value column="Name" original="Import Employee Data">Import Employee Data</value>
+  <value column="Description" original="Import Employee Data">Import Employee Data</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53924" trl="Y">
+  <value column="Name" original="SB_C_Order_Process">SB_C_Order_Process</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53925" trl="Y">
+  <value column="Name" original="SB_InOutGenerateFromOrderLine">SB_InOutGenerateFromOrderLine</value>
+  <value column="Description" original="Generate and print Shipments from open Orders">Generate and print Shipments from open Orders</value>
+  <value column="Help" original="Shipments for open Orders are created based on the delivery rule of the Order and the relative order priority.  If a Promise Date is selected only orders up to (including) the date are selected.&lt;br&gt;&#10;If several Orders of a business partner have the same location, the orders can be consolidated into one Shipment.&lt;br&gt;&#10;You can also include orders who have outstanding confirmations (e.g. ordered=10 - not confirmed shipments=4 - would create a new shipment of 6 if available)."><![CDATA[Shipments for open Orders are created based on the delivery rule of the Order and the relative order priority.  If a Promise Date is selected only orders up to (including) the date are selected.<br>
+If several Orders of a business partner have the same location, the orders can be consolidated into one Shipment.<br>
+You can also include orders who have outstanding confirmations (e.g. ordered=10 - not confirmed shipments=4 - would create a new shipment of 6 if available).]]></value>
+ </row>
+ <row id="53933" trl="Y">
+  <value column="Name" original="Process Commission Run">Process Commission Run</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53934" trl="Y">
+  <value column="Name" original="Not Posted Invoice">Not Posted Invoice</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53936" trl="Y">
+  <value column="Name" original="Generate Manufacturing Order Cost">Generar Costo de la Orden</value>
+  <value column="Description" original="This process allows to re-create the costs of the Manufacturing Order that was completed">Este proceso permite volver a crear los costos de la Orden de Manufactura que ya se completó</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53939" trl="Y">
+  <value column="Name" original="Employee Detail">Detalle de Empleado</value>
+  <value column="Description" original="Show all detail about employee">Muestra el detalle del Empleado</value>
+  <value column="Help" original="You can see attributes like Name, Taxt ID, Gender, Monthly Salary and others">Puede ver atributos de empleado como Nombre, Número de Identificación, Género, Salario Mensual, entre otros</value>
+ </row>
+ <row id="53940" trl="Y">
+  <value column="Name" original="Employee Detail (Bank Account)">Detalle de Empleado (Cuenta Bancaria)</value>
+  <value column="Description" original="Show all detail about employe bank account">Muestra el detalle de empleado y sus datos bancarios</value>
+  <value column="Help" original="You can see attributes like Name, Taxt ID, Gender, Monthly Salary and Bank account information">Puede ver atributos como Nombre, Número de Identificación, Género, Salario Mensual y Otros</value>
+ </row>
+ <row id="53941" trl="Y">
+  <value column="Name" original="Employee Detail (Dependent)">Detalle de Empleado (Dependientes)</value>
+  <value column="Description" original="Show all detail about employee dependents">Muestra el Detalle de los Empleados y sus Dependientes</value>
+  <value column="Help" original="You can see attributes like Name, Taxt ID, Gender, Monthly Salary and dependents">Puede visualizar los atributos como Nombre, Número de Identificación, Género, Salario Mensual y Dependientes</value>
+ </row>
+ <row id="53943" trl="Y">
+  <value column="Name" original="Employee Detail (Salary Change)">Detalles del Empleado (Cambio de Salario)</value>
+  <value column="Description" original="Show all detail about employee and Salary Change">Mostrar todos los detalles sobre el cambio del sueldo de un empleado</value>
+  <value column="Help" original="You can see attributes like Name, Taxt ID, Gender, Monthly Salary and Salary Change">Puede ver atributos como nombre, identificación fiscal, sexo, salario mensual y cambio de sueldo</value>
+ </row>
+ <row id="53949" trl="Y">
+  <value column="Name" original="GL Distribution Copy From">GL Distribution Copy From</value>
+  <value column="Description" original="Copy from GL Distribution to other GL Distribution.">Copy from GL Distribution to other GL Distribution.</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53952" trl="Y">
+  <value column="Name" original="Requirement Assignment">Asignación de Requisitos</value>
+  <value column="Description" original="Allows Requirement Assignment">Permite la Asignación de Requisitos</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53953" trl="Y">
+  <value column="Name" original="Assignment License">Asignación de Licencias</value>
+  <value column="Description" original="Allows License Assignment">Permite la Asignación de Licencias</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53954" trl="Y">
+  <value column="Name" original="Process Order Freight">Process Order Freight</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53955" trl="Y">
+  <value column="Name" original="Driver Copy">Copiar Conductor</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53956" trl="Y">
+  <value column="Name" original="Vehicle Copy">Copiar Vehículo</value>
+  <value column="Description" original="">Copiar Vehículo</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53957" trl="Y">
+  <value column="Name" original="Driver Selection">Driver Selection</value>
+  <value column="Description" original="Allows processing the Driver Selection">Allows processing the Driver Selection</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53958" trl="Y">
+  <value column="Name" original="Vehicle Selection">Driver Selection</value>
+  <value column="Description" original="Allows processing the Vehicle Selection">Allows processing the Vehicle Selection</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53959" trl="Y">
+  <value column="Name" original="Transport License Selection">Transport License Selection</value>
+  <value column="Description" original="Allows processing the Transport License Selection">Allows processing the Transport License Selection</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53960" trl="Y">
+  <value column="Name" original="Transport Requirement Selection">Transport Requirement Selection</value>
+  <value column="Description" original="Allows processing the Transport Requirement Selection">Allows processing the Transport Requirement Selection</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53976" trl="Y">
+  <value column="Name" original="Commission Run (Summary)">Resumen de Comisión</value>
+  <value column="Description" original="Commission Summary">Resumen de Comisión sobre Documentos</value>
+  <value column="Help" original="It report allow show all commission from a commission run">Permite mostrar todas las comisiones desde una o varias corridas de comisión</value>
+ </row>
+ <row id="53998" trl="Y">
+  <value column="Name" original="Open Items To Date">Saldos Abiertos a la Fecha</value>
+  <value column="Description" original="Open Item (Invoice) List to Date">Muestra las Facturas Abiertas a una Fecha</value>
+  <value column="Help" original="Displays all unpaid invoices for a given Business Partner and date range. Please note that Invoices paid in Cash will appear in Open Items until the Cash Journal is processed.">Puede consultar los documentos que se encuentran pendientes a una fecha, tambien puede realizar filtros por Días de Vencimiento, Fecha de Vencimiento y Socio de Negocio</value>
+ </row>
+ <row id="53999" trl="Y">
+  <value column="Name" original="Transport Unit Selection">Transport Unit Selection</value>
+  <value column="Description" original="Allows processing the Transport Unit Selection">Allows processing the Transport Unit Selection</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="54000" trl="Y">
+  <value column="Name" original="Transport Unit Copy">Copiar la unidad de transporte</value>
+  <value column="Description" original="Allows Copy other Transport Unit">Permite copiar desde otra Unidad de Transporte</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="54002" trl="Y">
+  <value column="Name" original="Barcode Scanner Products">Barcode Scanner Products</value>
+  <value column="Description" original="Call the form allows processing the transactions of materials by means of a Barcode Scanner.">Call the form allows processing the transactions of materials by means of a Barcode Scanner.</value>
+  <value column="Help" original="Call the form allows processing the transactions of materials by means of a Barcode Scanner.">Call the form allows processing the transactions of materials by means of a Barcode Scanner.</value>
+ </row>
+ <row id="90001" trl="Y">
+  <value column="Name" original="SB_InvoiceGenerateFromOrderLine">SB_InvoiceGenerateFromOrderLine</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="200000" trl="Y">
+  <value column="Name" original="FA_ProjectCreateAsset">Crear un Activo fijo desde un Proyecto</value>
+  <value column="Description" original="This process creates asset from project and automatically close the project">Este proceso crea el activo fijo desde un proyecto y cierra automáticamente el proyecto</value>
+  <value column="Help" original="There are four parameters:&#10;a. Project, is the Project that will be converted to asset. This project will be closed after this process completes&#10;b. Product, is the asset product that will be act as the base for the newly created asset&#10;c. UseLifeYears, is an optional parameter. Use this if you want a different use life years for the newly created asset, instead of the default uselifeyears from asset group accounting.&#10;d. Transaction Date, will become in-service-date for the newly created asset.">Hay cuatro parámetros:
+
+a. Un Proyecto, es el Proyecto que se convertirá en activo. Este proyecto se cerrará una vez concluido este proceso
+b. Un producto es el producto del activo que actuará como base para el activo recién creado
+c. Años d vida, es un parámetro opcional. Use esto si desea un año de vida de uso diferente para el activo fijo recién creado, en lugar del años de vida usados predeterminado de la contabilidad del grupo de activos fijo.
+d. La fecha de transacción se convertirá en la fecha de servicio para el activo recién creado.</value>
  </row>
 </adempiereTrl>

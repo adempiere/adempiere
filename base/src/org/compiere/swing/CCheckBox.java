@@ -27,6 +27,7 @@ package org.compiere.swing;
 
 import java.awt.Color;
 import java.awt.event.InputEvent;
+import java.beans.PropertyChangeEvent;
 
 import javax.swing.Action;
 import javax.swing.Icon;
@@ -36,6 +37,9 @@ import javax.swing.JComponent;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.plaf.ComponentInputMapUIResource;
+
+import org.adempiere.exceptions.ValueChangeListener;
+import org.compiere.model.GridField;
 
 /**
  * Adempiere CheckBox
@@ -343,5 +347,23 @@ public class CCheckBox extends JCheckBox implements CEditor {
 		map.put(KeyStroke.getKeyStroke(mnemonic, 0, true), "released");
 		setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, map);
 	} // setMnemonic
+
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		// Not used
+		
+	}
+
+	@Override
+	public void addValueChangeListener(ValueChangeListener listener) {
+		// Not used
+		
+	}
+
+	@Override
+	public GridField getField() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 } // CCheckBox

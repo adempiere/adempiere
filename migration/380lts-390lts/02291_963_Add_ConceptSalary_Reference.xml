@@ -1,0 +1,898 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Concept Salary don't have a reference on payroll #963" ReleaseNo="3.8.0" SeqNo="2291">
+    <Comments>See: https://github.com/adempiere/adempiere/issues/963</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="102" Action="I" Record_ID="53887" Table="AD_Reference">
+        <Data AD_Column_ID="363" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="364" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="129" Column="AD_Reference_ID">53887</Data>
+        <Data AD_Column_ID="554" Column="Created">2017-04-10 21:58:26.828</Data>
+        <Data AD_Column_ID="555" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="131" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="6486" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="132" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="553" Column="IsActive">true</Data>
+        <Data AD_Column_ID="54355" Column="IsOrderByValue">false</Data>
+        <Data AD_Column_ID="130" Column="Name">HR_Concept reference</Data>
+        <Data AD_Column_ID="556" Column="Updated">2017-04-10 21:58:26.828</Data>
+        <Data AD_Column_ID="557" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="139" Column="ValidationType">T</Data>
+        <Data AD_Column_ID="1180" Column="VFormat" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="126" Action="I" Record_ID="0" Table="AD_Reference_Trl">
+        <Data AD_Column_ID="1202" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="279" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="1203" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="278" Column="AD_Reference_ID">53887</Data>
+        <Data AD_Column_ID="667" Column="Created">2017-04-10 21:58:28.172</Data>
+        <Data AD_Column_ID="668" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="281" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="282" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="666" Column="IsActive">true</Data>
+        <Data AD_Column_ID="283" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="280" Column="Name">HR_Concept reference</Data>
+        <Data AD_Column_ID="669" Column="Updated">2017-04-10 21:58:28.172</Data>
+        <Data AD_Column_ID="670" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="103" Action="I" Record_ID="53887" Table="AD_Ref_Table">
+        <Data AD_Column_ID="367" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="368" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="142" Column="AD_Reference_ID">53887</Data>
+        <Data AD_Column_ID="57270" Column="AD_Window_ID" isNewNull="true"/>
+        <Data AD_Column_ID="559" Column="Created">2017-04-10 21:59:37.073</Data>
+        <Data AD_Column_ID="560" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="62121" Column="DisplaySQL" isNewNull="true"/>
+        <Data AD_Column_ID="7711" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="558" Column="IsActive">true</Data>
+        <Data AD_Column_ID="62120" Column="IsAlert">false</Data>
+        <Data AD_Column_ID="62122" Column="IsDisplayIdentifier">false</Data>
+        <Data AD_Column_ID="2377" Column="IsValueDisplayed">true</Data>
+        <Data AD_Column_ID="147" Column="OrderByClause" isNewNull="true"/>
+        <Data AD_Column_ID="561" Column="Updated">2017-04-10 21:59:37.073</Data>
+        <Data AD_Column_ID="562" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="146" Column="WhereClause" isNewNull="true"/>
+        <Data AD_Column_ID="143" Column="AD_Table_ID">53090</Data>
+        <Data AD_Column_ID="145" Column="AD_Display">54819</Data>
+        <Data AD_Column_ID="144" Column="AD_Key">54821</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="276" Action="I" Record_ID="59324" Table="AD_Element">
+        <Data AD_Column_ID="2595" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2594" Column="AD_Element_ID">59324</Data>
+        <Data AD_Column_ID="2596" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58588" Column="AD_Reference_ID">18</Data>
+        <Data AD_Column_ID="58590" Column="AD_Reference_Value_ID">53887</Data>
+        <Data AD_Column_ID="2602" Column="ColumnName">MonthlySalary_ID</Data>
+        <Data AD_Column_ID="2598" Column="Created">2017-04-10 22:01:08.694</Data>
+        <Data AD_Column_ID="2599" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="6484" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="58589" Column="FieldLength">10</Data>
+        <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="2597" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2603" Column="Name">Monthly Salary (Concept)</Data>
+        <Data AD_Column_ID="6283" Column="PO_Description" isNewNull="true"/>
+        <Data AD_Column_ID="6284" Column="PO_Help" isNewNull="true"/>
+        <Data AD_Column_ID="6285" Column="PO_Name" isNewNull="true"/>
+        <Data AD_Column_ID="6286" Column="PO_PrintName" isNewNull="true"/>
+        <Data AD_Column_ID="4299" Column="PrintName">Monthly Salary (Concept)</Data>
+        <Data AD_Column_ID="2600" Column="Updated">2017-04-10 22:01:08.695</Data>
+        <Data AD_Column_ID="2601" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="277" Action="I" Record_ID="59324" Table="AD_Element_Trl">
+        <Data AD_Column_ID="2639" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2637" Column="AD_Element_ID">59324</Data>
+        <Data AD_Column_ID="2638" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="2640" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2642" Column="Created">2017-04-10 22:01:10.091</Data>
+        <Data AD_Column_ID="2643" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2647" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="2648" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="2641" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2649" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="2646" Column="Name">Monthly Salary (Concept)</Data>
+        <Data AD_Column_ID="6448" Column="PO_Description" isNewNull="true"/>
+        <Data AD_Column_ID="6449" Column="PO_Help" isNewNull="true"/>
+        <Data AD_Column_ID="6450" Column="PO_Name" isNewNull="true"/>
+        <Data AD_Column_ID="6451" Column="PO_PrintName" isNewNull="true"/>
+        <Data AD_Column_ID="4300" Column="PrintName">Monthly Salary (Concept)</Data>
+        <Data AD_Column_ID="2644" Column="Updated">2017-04-10 22:01:10.091</Data>
+        <Data AD_Column_ID="2645" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="277" Action="U" Record_ID="59324" Table="AD_Element_Trl">
+        <Data AD_Column_ID="2637" Column="AD_Element_ID" oldValue="59324">59324</Data>
+        <Data AD_Column_ID="2638" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="2647" Column="Description" isOldNull="true">Referencia a un concepto del tipo salario mensual</Data>
+        <Data AD_Column_ID="2646" Column="Name" oldValue="Monthly Salary (Concept)">Salario Mensual (Concepto)</Data>
+        <Data AD_Column_ID="4300" Column="PrintName" oldValue="Monthly Salary (Concept)">Salario Mensual (Concepto)</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="276" Action="U" Record_ID="59324" Table="AD_Element">
+        <Data AD_Column_ID="2604" Column="Description" isOldNull="true">Reference to concept used for monthly salary</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="276" Action="I" Record_ID="59325" Table="AD_Element">
+        <Data AD_Column_ID="2595" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2594" Column="AD_Element_ID">59325</Data>
+        <Data AD_Column_ID="2596" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58588" Column="AD_Reference_ID">18</Data>
+        <Data AD_Column_ID="58590" Column="AD_Reference_Value_ID">53887</Data>
+        <Data AD_Column_ID="2602" Column="ColumnName">DailySalary_ID</Data>
+        <Data AD_Column_ID="2598" Column="Created">2017-04-10 22:02:51.695</Data>
+        <Data AD_Column_ID="2599" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2604" Column="Description">Reference to concept used for daily salary</Data>
+        <Data AD_Column_ID="6484" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="58589" Column="FieldLength">10</Data>
+        <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="2597" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2603" Column="Name">Daily Salary (Concept)</Data>
+        <Data AD_Column_ID="6283" Column="PO_Description" isNewNull="true"/>
+        <Data AD_Column_ID="6284" Column="PO_Help" isNewNull="true"/>
+        <Data AD_Column_ID="6285" Column="PO_Name" isNewNull="true"/>
+        <Data AD_Column_ID="6286" Column="PO_PrintName" isNewNull="true"/>
+        <Data AD_Column_ID="4299" Column="PrintName">Daily Salary (Concept)</Data>
+        <Data AD_Column_ID="2600" Column="Updated">2017-04-10 22:02:51.695</Data>
+        <Data AD_Column_ID="2601" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <PO AD_Table_ID="277" Action="I" Record_ID="59325" Table="AD_Element_Trl">
+        <Data AD_Column_ID="2639" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2637" Column="AD_Element_ID">59325</Data>
+        <Data AD_Column_ID="2638" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="2640" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2642" Column="Created">2017-04-10 22:02:52.934</Data>
+        <Data AD_Column_ID="2643" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2647" Column="Description">Reference to concept used for daily salary</Data>
+        <Data AD_Column_ID="2648" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="2641" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2649" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="2646" Column="Name">Daily Salary (Concept)</Data>
+        <Data AD_Column_ID="6448" Column="PO_Description" isNewNull="true"/>
+        <Data AD_Column_ID="6449" Column="PO_Help" isNewNull="true"/>
+        <Data AD_Column_ID="6450" Column="PO_Name" isNewNull="true"/>
+        <Data AD_Column_ID="6451" Column="PO_PrintName" isNewNull="true"/>
+        <Data AD_Column_ID="4300" Column="PrintName">Daily Salary (Concept)</Data>
+        <Data AD_Column_ID="2644" Column="Updated">2017-04-10 22:02:52.934</Data>
+        <Data AD_Column_ID="2645" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="100" StepType="AD">
+      <PO AD_Table_ID="277" Action="U" Record_ID="59325" Table="AD_Element_Trl">
+        <Data AD_Column_ID="2637" Column="AD_Element_ID" oldValue="59325">59325</Data>
+        <Data AD_Column_ID="2638" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="2647" Column="Description" oldValue="Reference to concept used for daily salary">Referencia a un concepto utilizado como salario diario</Data>
+        <Data AD_Column_ID="2646" Column="Name" oldValue="Daily Salary (Concept)">Salario Diario (Concepto)</Data>
+        <Data AD_Column_ID="4300" Column="PrintName" oldValue="Daily Salary (Concept)">Salario Diario (Concepto)</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="110" StepType="AD">
+      <PO AD_Table_ID="101" Action="I" Record_ID="82799" Table="AD_Column">
+        <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
+        <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="109" Column="AD_Column_ID">82799</Data>
+        <Data AD_Column_ID="2608" Column="AD_Element_ID">59324</Data>
+        <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="3369" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID">18</Data>
+        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID">53887</Data>
+        <Data AD_Column_ID="114" Column="AD_Table_ID">53085</Data>
+        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="116" Column="ColumnName">MonthlySalary_ID</Data>
+        <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
+        <Data AD_Column_ID="549" Column="Created">2017-04-10 22:03:32.529</Data>
+        <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="112" Column="Description">Reference to concept used for monthly salary</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">EE02</Data>
+        <Data AD_Column_ID="118" Column="FieldLength">10</Data>
+        <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="113" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="548" Column="IsActive">true</Data>
+        <Data AD_Column_ID="56187" Column="IsAllowLogging">true</Data>
+        <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
+        <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
+        <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
+        <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="119" Column="IsKey">false</Data>
+        <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="120" Column="IsParent">false</Data>
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
+        <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
+        <Data AD_Column_ID="6483" Column="IsSyncDatabase">N</Data>
+        <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="3360" Column="IsUpdateable">true</Data>
+        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
+        <Data AD_Column_ID="111" Column="Name">Monthly Salary (Concept)</Data>
+        <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="127" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="551" Column="Updated">2017-04-10 22:03:32.529</Data>
+        <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="110" Column="Version">0</Data>
+        <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="120" StepType="AD">
+      <PO AD_Table_ID="752" Action="I" Record_ID="82799" Table="AD_Column_Trl">
+        <Data AD_Column_ID="12961" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="12955" Column="AD_Column_ID">82799</Data>
+        <Data AD_Column_ID="12953" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="12951" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="12960" Column="Created">2017-04-10 22:03:34.076</Data>
+        <Data AD_Column_ID="12956" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="12959" Column="IsActive">true</Data>
+        <Data AD_Column_ID="12954" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="12957" Column="Name">Monthly Salary (Concept)</Data>
+        <Data AD_Column_ID="12952" Column="Updated">2017-04-10 22:03:34.076</Data>
+        <Data AD_Column_ID="12958" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="130" StepType="AD">
+      <PO AD_Table_ID="101" Action="I" Record_ID="82800" Table="AD_Column">
+        <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
+        <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="109" Column="AD_Column_ID">82800</Data>
+        <Data AD_Column_ID="2608" Column="AD_Element_ID">59325</Data>
+        <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="3369" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID">18</Data>
+        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID">53887</Data>
+        <Data AD_Column_ID="114" Column="AD_Table_ID">53085</Data>
+        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="116" Column="ColumnName">DailySalary_ID</Data>
+        <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
+        <Data AD_Column_ID="549" Column="Created">2017-04-10 22:03:49.172</Data>
+        <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="112" Column="Description">Reference to concept used for daily salary</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">EE02</Data>
+        <Data AD_Column_ID="118" Column="FieldLength">10</Data>
+        <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="113" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="548" Column="IsActive">true</Data>
+        <Data AD_Column_ID="56187" Column="IsAllowLogging">true</Data>
+        <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
+        <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
+        <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
+        <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="119" Column="IsKey">false</Data>
+        <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="120" Column="IsParent">false</Data>
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
+        <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
+        <Data AD_Column_ID="6483" Column="IsSyncDatabase">N</Data>
+        <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="3360" Column="IsUpdateable">true</Data>
+        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
+        <Data AD_Column_ID="111" Column="Name">Daily Salary (Concept)</Data>
+        <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="127" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="551" Column="Updated">2017-04-10 22:03:49.172</Data>
+        <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="110" Column="Version">0</Data>
+        <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="140" StepType="AD">
+      <PO AD_Table_ID="752" Action="I" Record_ID="82800" Table="AD_Column_Trl">
+        <Data AD_Column_ID="12961" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="12955" Column="AD_Column_ID">82800</Data>
+        <Data AD_Column_ID="12953" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="12951" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="12960" Column="Created">2017-04-10 22:03:50.617</Data>
+        <Data AD_Column_ID="12956" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="12959" Column="IsActive">true</Data>
+        <Data AD_Column_ID="12954" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="12957" Column="Name">Daily Salary (Concept)</Data>
+        <Data AD_Column_ID="12952" Column="Updated">2017-04-10 22:03:50.617</Data>
+        <Data AD_Column_ID="12958" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="150" StepType="AD">
+      <PO AD_Table_ID="107" Action="I" Record_ID="81414" Table="AD_Field">
+        <Data AD_Column_ID="383" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="174" Column="AD_Column_ID">82799</Data>
+        <Data AD_Column_ID="5375" Column="AD_FieldGroup_ID" isNewNull="true"/>
+        <Data AD_Column_ID="167" Column="AD_Field_ID">81414</Data>
+        <Data AD_Column_ID="384" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="15011" Column="AD_Reference_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54356" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="172" Column="AD_Tab_ID">53100</Data>
+        <Data AD_Column_ID="54357" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="579" Column="Created">2017-04-10 22:04:12.193</Data>
+        <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="53265" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="169" Column="Description">Reference to concept used for monthly salary</Data>
+        <Data AD_Column_ID="180" Column="DisplayLength">0</Data>
+        <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="7714" Column="EntityType">EE02</Data>
+        <Data AD_Column_ID="170" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="578" Column="IsActive">true</Data>
+        <Data AD_Column_ID="74868" Column="IsAllowCopy">true</Data>
+        <Data AD_Column_ID="2745" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="176" Column="IsDisplayed">true</Data>
+        <Data AD_Column_ID="62478" Column="IsDisplayedGrid">true</Data>
+        <Data AD_Column_ID="59703" Column="IsEmbedded">false</Data>
+        <Data AD_Column_ID="186" Column="IsEncrypted">false</Data>
+        <Data AD_Column_ID="185" Column="IsFieldOnly">false</Data>
+        <Data AD_Column_ID="184" Column="IsHeading">false</Data>
+        <Data AD_Column_ID="15013" Column="IsMandatory" isNewNull="true"/>
+        <Data AD_Column_ID="2007" Column="IsReadOnly">false</Data>
+        <Data AD_Column_ID="183" Column="IsSameLine">false</Data>
+        <Data AD_Column_ID="168" Column="Name">Monthly Salary (Concept)</Data>
+        <Data AD_Column_ID="9969" Column="ObscureType" isNewNull="true"/>
+        <Data AD_Column_ID="59704" Column="PreferredWidth">0</Data>
+        <Data AD_Column_ID="181" Column="SeqNo">120</Data>
+        <Data AD_Column_ID="62479" Column="SeqNoGrid">120</Data>
+        <Data AD_Column_ID="182" Column="SortNo">0</Data>
+        <Data AD_Column_ID="581" Column="Updated">2017-04-10 22:04:12.194</Data>
+        <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="160" StepType="AD">
+      <PO AD_Table_ID="127" Action="I" Record_ID="81414" Table="AD_Field_Trl">
+        <Data AD_Column_ID="1204" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="284" Column="AD_Field_ID">81414</Data>
+        <Data AD_Column_ID="285" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="1205" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="672" Column="Created">2017-04-10 22:04:14.544</Data>
+        <Data AD_Column_ID="673" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="287" Column="Description">Reference to concept used for monthly salary</Data>
+        <Data AD_Column_ID="288" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="671" Column="IsActive">true</Data>
+        <Data AD_Column_ID="289" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="286" Column="Name">Monthly Salary (Concept)</Data>
+        <Data AD_Column_ID="674" Column="Updated">2017-04-10 22:04:14.544</Data>
+        <Data AD_Column_ID="675" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="170" StepType="AD">
+      <PO AD_Table_ID="107" Action="I" Record_ID="81415" Table="AD_Field">
+        <Data AD_Column_ID="383" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="174" Column="AD_Column_ID">82800</Data>
+        <Data AD_Column_ID="5375" Column="AD_FieldGroup_ID" isNewNull="true"/>
+        <Data AD_Column_ID="167" Column="AD_Field_ID">81415</Data>
+        <Data AD_Column_ID="384" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="15011" Column="AD_Reference_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54356" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="172" Column="AD_Tab_ID">53100</Data>
+        <Data AD_Column_ID="54357" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="579" Column="Created">2017-04-10 22:04:20.723</Data>
+        <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="53265" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="169" Column="Description">Reference to concept used for daily salary</Data>
+        <Data AD_Column_ID="180" Column="DisplayLength">0</Data>
+        <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="7714" Column="EntityType">EE02</Data>
+        <Data AD_Column_ID="170" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="578" Column="IsActive">true</Data>
+        <Data AD_Column_ID="74868" Column="IsAllowCopy">true</Data>
+        <Data AD_Column_ID="2745" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="176" Column="IsDisplayed">true</Data>
+        <Data AD_Column_ID="62478" Column="IsDisplayedGrid">true</Data>
+        <Data AD_Column_ID="59703" Column="IsEmbedded">false</Data>
+        <Data AD_Column_ID="186" Column="IsEncrypted">false</Data>
+        <Data AD_Column_ID="185" Column="IsFieldOnly">false</Data>
+        <Data AD_Column_ID="184" Column="IsHeading">false</Data>
+        <Data AD_Column_ID="15013" Column="IsMandatory" isNewNull="true"/>
+        <Data AD_Column_ID="2007" Column="IsReadOnly">false</Data>
+        <Data AD_Column_ID="183" Column="IsSameLine">false</Data>
+        <Data AD_Column_ID="168" Column="Name">Daily Salary (Concept)</Data>
+        <Data AD_Column_ID="9969" Column="ObscureType" isNewNull="true"/>
+        <Data AD_Column_ID="59704" Column="PreferredWidth">0</Data>
+        <Data AD_Column_ID="181" Column="SeqNo">130</Data>
+        <Data AD_Column_ID="62479" Column="SeqNoGrid">130</Data>
+        <Data AD_Column_ID="182" Column="SortNo">0</Data>
+        <Data AD_Column_ID="581" Column="Updated">2017-04-10 22:04:20.723</Data>
+        <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="180" StepType="AD">
+      <PO AD_Table_ID="127" Action="I" Record_ID="81415" Table="AD_Field_Trl">
+        <Data AD_Column_ID="1204" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="284" Column="AD_Field_ID">81415</Data>
+        <Data AD_Column_ID="285" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="1205" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="672" Column="Created">2017-04-10 22:04:22.234</Data>
+        <Data AD_Column_ID="673" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="287" Column="Description">Reference to concept used for daily salary</Data>
+        <Data AD_Column_ID="288" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="671" Column="IsActive">true</Data>
+        <Data AD_Column_ID="289" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="286" Column="Name">Daily Salary (Concept)</Data>
+        <Data AD_Column_ID="674" Column="Updated">2017-04-10 22:04:22.234</Data>
+        <Data AD_Column_ID="675" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="190" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="81414" Table="AD_Field">
+        <Data AD_Column_ID="183" Column="IsSameLine" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="200" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="81415" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="130">120</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="210" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="81414" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="120">130</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="220" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="81415" Table="AD_Field">
+        <Data AD_Column_ID="5375" Column="AD_FieldGroup_ID" isOldNull="true">50059</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="230" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="82799" Table="AD_Column">
+        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isOldNull="true">52267</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="240" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="82800" Table="AD_Column">
+        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isOldNull="true">52267</Data>
+      </PO>
+    </Step>
+    <Step DBType="Postgres" Parse="N" SeqNo="250" StepType="SQL">
+      <Comments>monthlySalaryToDate function</Comments>
+      <SQLStatement>CREATE OR REPLACE FUNCTION monthlySalaryToDate(p_C_BPartner_ID numeric, DateTo timestamp with time zone)
+  RETURNS numeric AS
+$BODY$
+/******************************************************************************
+ * Product: Adempiere ERP &amp; CRM Smart Business Solution                       *
+ * This program is free software; you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *
+ * Copyright (C) 2003-2015 E.R.P. Consultores y Asociados, C.A.               *
+ * All Rights Reserved.                                                       *
+ * Contributor(s): Yamel Senih www.erpcya.com                                 *
+ *****************************************************************************
+ ***
+ * Title:	Get Monthly Salary 
+ * Description:
+ *	Get Monthly Salary for a business partner flagged as employee, it search on 
+ * employee detail for get result if the column MonthlySalary not is zero or null, else
+ * get a concept for Monthly Salary
+ *
+ * Test:
+ * 	SELECT monthlySalaryToDate (113, null); - Get monthly salary for GardenAdmin BP now
+ * 	SELECT monthlySalaryToDate (113, now()); - Get monthly salary for GardenAdmin BP now
+ ************************************************************************/
+DECLARE
+	v_MonthlySalary  	NUMERIC := 0;
+	v_HR_Employee_ID	NUMERIC := 0;
+BEGIN
+	SELECT e.MonthlySalary, e.HR_Employee_ID 
+	INTO v_MonthlySalary, v_HR_Employee_ID
+	FROM HR_Employee e
+	WHERE e.C_BPartner_ID = p_C_BPartner_ID
+	AND e.IsActive = 'Y'
+	AND e.StartDate &lt;= COALESCE(DateTo, now())
+	ORDER BY e.StartDate DESC
+	LIMIT 1;
+
+	--  Do we have a Payment Schedule ?
+	IF (v_MonthlySalary IS NULL OR v_MonthlySalary = 0) THEN --   if it don't have employee salary
+		SELECT ca.Amount INTO v_MonthlySalary
+		FROM HR_Attribute ca
+		WHERE ca.C_BPartner_ID = p_C_BPartner_ID
+		AND ca.IsActive = 'Y'
+		AND ca.ValidFrom &lt;= COALESCE(DateTo, now())
+		AND EXISTS(SELECT 1 
+				FROM HR_Employee e 
+				INNER JOIN HR_Payroll p ON(p.HR_Payroll_ID = e.HR_Payroll_ID)
+				INNER JOIN HR_Contract c ON(c.HR_Contract_ID = p.HR_Contract_ID)
+				WHERE e.HR_Employee_ID = v_HR_Employee_ID
+				AND c.MonthlySalary_ID = ca.HR_Concept_ID)
+		ORDER BY ca.ValidFrom DESC
+		LIMIT 1;
+	END IF;
+
+	RETURN v_MonthlySalary;
+END;
+
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;</SQLStatement>
+      <RollbackStatement>DROP FUNCTION monthlySalaryToDate</RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" Parse="N" SeqNo="250" StepType="SQL">
+      <Comments>monthlySalaryToDate function</Comments>
+      <SQLStatement>CREATE OR REPLACE FUNCTION monthlySalaryToDate
+(
+  p_C_BPartner_ID IN NUMBER, 
+  DateTo DATE
+)
+/******************************************************************************
+ * Product: Adempiere ERP &amp; CRM Smart Business Solution                       *
+ * This program is free software; you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *
+ * Copyright (C) 2003-2015 E.R.P. Consultores y Asociados, C.A.               *
+ * All Rights Reserved.                                                       *
+ * Contributor(s): Yamel Senih www.erpcya.com                                 *
+ *****************************************************************************
+ ***
+ * Title:	Get Monthly Salary 
+ * Description:
+ *	Get Monthly Salary for a business partner flagged as employee, it search on 
+ * employee detail for get result if the column MonthlySalary not is zero or null, else
+ * get a concept for Monthly Salary
+ *
+ * Test:
+ * 	SELECT monthlySalaryToDate (113, null) FROM DUAL; - Get monthly salary for GardenAdmin BP now
+ * 	SELECT monthlySalaryToDate (113, SYSDATE) FROM DUAL; - Get monthly salary for GardenAdmin BP now
+ ************************************************************************/
+RETURN NUMBER AS
+	v_MonthlySalary  	NUMBER := 0;
+	v_HR_Employee_ID	NUMBER := 0;
+BEGIN
+	SELECT e.MonthlySalary, e.HR_Employee_ID 
+	INTO v_MonthlySalary, v_HR_Employee_ID
+	FROM HR_Employee e
+	WHERE e.C_BPartner_ID = p_C_BPartner_ID
+	AND e.IsActive = 'Y'
+	AND e.StartDate &lt;= COALESCE(DateTo, SYSDATE)
+	AND ROWNUM &lt;= 1
+	ORDER BY e.StartDate DESC;
+
+	--  Do we have a Payment Schedule ?
+	IF (v_MonthlySalary IS NULL OR v_MonthlySalary = 0) THEN --   if it don't have employee salary
+		SELECT ca.Amount INTO v_MonthlySalary
+		FROM HR_Attribute ca
+		WHERE ca.C_BPartner_ID = p_C_BPartner_ID
+		AND ca.IsActive = 'Y'
+		AND ca.ValidFrom &lt;= COALESCE(DateTo, SYSDATE)
+		AND EXISTS(SELECT 1 
+				FROM HR_Employee e 
+				INNER JOIN HR_Payroll p ON(p.HR_Payroll_ID = e.HR_Payroll_ID)
+				INNER JOIN HR_Contract c ON(c.HR_Contract_ID = p.HR_Contract_ID)
+				WHERE e.HR_Employee_ID = v_HR_Employee_ID
+				AND c.MonthlySalary_ID = ca.HR_Concept_ID)
+		AND ROWNUM &lt;= 1
+		ORDER BY ca.ValidFrom DESC;
+	END IF;
+
+	RETURN v_MonthlySalary;
+END monthlySalaryToDate;</SQLStatement>
+      <RollbackStatement>DROP FUNCTION monthlySalaryToDate</RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" Parse="N" SeqNo="260" StepType="SQL">
+      <Comments>dailySalaryToDate function</Comments>
+      <SQLStatement>CREATE OR REPLACE FUNCTION dailySalaryToDate
+(
+  p_C_BPartner_ID IN NUMBER, 
+  DateTo DATE
+)
+/******************************************************************************
+ * Product: Adempiere ERP &amp; CRM Smart Business Solution                       *
+ * This program is free software; you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *
+ * Copyright (C) 2003-2015 E.R.P. Consultores y Asociados, C.A.               *
+ * All Rights Reserved.                                                       *
+ * Contributor(s): Yamel Senih www.erpcya.com                                 *
+ *****************************************************************************
+ ***
+ * Title:	Get Daily Salary 
+ * Description:
+ *	Get Monthly Salary for a business partner flagged as employee, it search on 
+ * employee detail for get result if the column MonthlySalary not is zero or null, else
+ * get a concept for Monthly Salary
+ *
+ * Test:
+ * 	SELECT dailySalaryToDate (113, null) FROM DUAL; - Get monthly salary for GardenAdmin BP now
+ * 	SELECT dailySalaryToDate (113, SYSDATE) FROM DUAL; - Get monthly salary for GardenAdmin BP now
+ ************************************************************************/
+RETURN NUMBER AS
+	v_DailySalary  	NUMBER := 0;
+	v_HR_Employee_ID	NUMBER := 0;
+BEGIN
+	SELECT e.DailySalary, e.HR_Employee_ID 
+	INTO v_DailySalary, v_HR_Employee_ID
+	FROM HR_Employee e
+	WHERE e.C_BPartner_ID = p_C_BPartner_ID
+	AND e.IsActive = 'Y'
+	AND e.StartDate &lt;= COALESCE(DateTo, SYSDATE)
+    AND ROWNUM &lt;= 1
+	ORDER BY e.StartDate DESC;
+
+	--  Do we have a Payment Schedule ?
+	IF (v_DailySalary IS NULL OR v_DailySalary = 0) THEN --   if it don't have employee salary
+		SELECT ca.Amount INTO v_DailySalary
+		FROM HR_Attribute ca
+		WHERE ca.C_BPartner_ID = p_C_BPartner_ID
+		AND ca.IsActive = 'Y'
+		AND ca.ValidFrom &lt;= COALESCE(DateTo, SYSDATE)
+		AND EXISTS(SELECT 1 
+				FROM HR_Employee e 
+				INNER JOIN HR_Payroll p ON(p.HR_Payroll_ID = e.HR_Payroll_ID)
+				INNER JOIN HR_Contract c ON(c.HR_Contract_ID = p.HR_Contract_ID)
+				WHERE e.HR_Employee_ID = v_HR_Employee_ID
+				AND c.DailySalary_ID = ca.HR_Concept_ID)
+                AND ROWNUM &lt;= 1
+		ORDER BY ca.ValidFrom DESC;
+	END IF;
+
+	RETURN v_DailySalary;
+END dailySalaryToDate;</SQLStatement>
+      <RollbackStatement>DROP FUNCTION dailySalaryToDate</RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" Parse="N" SeqNo="260" StepType="SQL">
+      <Comments>dailySalaryToDate function</Comments>
+      <SQLStatement>CREATE OR REPLACE FUNCTION dailySalaryToDate(p_C_BPartner_ID numeric, DateTo timestamp with time zone)
+  RETURNS numeric AS
+$BODY$
+/******************************************************************************
+ * Product: Adempiere ERP &amp; CRM Smart Business Solution                       *
+ * This program is free software; you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *
+ * Copyright (C) 2003-2015 E.R.P. Consultores y Asociados, C.A.               *
+ * All Rights Reserved.                                                       *
+ * Contributor(s): Yamel Senih www.erpcya.com                                 *
+ *****************************************************************************
+ ***
+ * Title:	Get Monthly Salary 
+ * Description:
+ *	Get Monthly Salary for a business partner flagged as employee, it search on 
+ * employee detail for get result if the column MonthlySalary not is zero or null, else
+ * get a concept for Monthly Salary
+ *
+ * Test:
+ * 	SELECT dailySalaryToDate (113, null); - Get monthly salary for GardenAdmin BP now
+ * 	SELECT dailySalaryToDate (113, now()); - Get monthly salary for GardenAdmin BP now
+ ************************************************************************/
+DECLARE
+	v_DailySalary  	NUMERIC := 0;
+	v_HR_Employee_ID	NUMERIC := 0;
+BEGIN
+	SELECT e.DailySalary, e.HR_Employee_ID 
+	INTO v_DailySalary, v_HR_Employee_ID
+	FROM HR_Employee e
+	WHERE e.C_BPartner_ID = p_C_BPartner_ID
+	AND e.IsActive = 'Y'
+	AND e.StartDate &lt;= COALESCE(DateTo, now())
+	ORDER BY e.StartDate DESC
+	LIMIT 1;
+
+	--  Do we have a Payment Schedule ?
+	IF (v_DailySalary IS NULL OR v_DailySalary = 0) THEN --   if it don't have employee salary
+		SELECT ca.Amount INTO v_DailySalary
+		FROM HR_Attribute ca
+		WHERE ca.C_BPartner_ID = p_C_BPartner_ID
+		AND ca.IsActive = 'Y'
+		AND ca.ValidFrom &lt;= COALESCE(DateTo, now())
+		AND EXISTS(SELECT 1 
+				FROM HR_Employee e 
+				INNER JOIN HR_Payroll p ON(p.HR_Payroll_ID = e.HR_Payroll_ID)
+				INNER JOIN HR_Contract c ON(c.HR_Contract_ID = p.HR_Contract_ID)
+				WHERE e.HR_Employee_ID = v_HR_Employee_ID
+				AND c.DailySalary_ID = ca.HR_Concept_ID)
+		ORDER BY ca.ValidFrom DESC
+		LIMIT 1;
+	END IF;
+
+	RETURN v_DailySalary;
+END;
+
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;</SQLStatement>
+      <RollbackStatement>DROP FUNCTION dailySalaryToDate</RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" Parse="N" SeqNo="270" StepType="SQL">
+      <Comments>monthlySalary function</Comments>
+      <SQLStatement>CREATE OR REPLACE FUNCTION monthlySalary(p_C_BPartner_ID numeric)
+  RETURNS numeric AS
+$BODY$
+/******************************************************************************
+ * Product: Adempiere ERP &amp; CRM Smart Business Solution                       *
+ * This program is free software; you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *
+ * Copyright (C) 2003-2015 E.R.P. Consultores y Asociados, C.A.               *
+ * All Rights Reserved.                                                       *
+ * Contributor(s): Yamel Senih www.erpcya.com                                 *
+ *****************************************************************************
+ ***
+ * Title:	Get Monthly Salary 
+ * Description:
+ *	Get Monthly Salary for a business partner flagged as employee, it search on 
+ * employee detail for get result if the column MonthlySalary not is zero or null, else
+ * get a concept for Monthly Salary
+ *
+ * Test:
+ * 	SELECT monthlySalary (113); - Get monthly salary for GardenAdmin BP now
+ * 	SELECT monthlySalary (113); - Get monthly salary for GardenAdmin BP now
+ ************************************************************************/
+BEGIN
+	RETURN monthlySalaryToDate(p_C_BPartner_ID, now());
+END;
+
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;</SQLStatement>
+      <RollbackStatement>DROP FUNCTION monthlySalary</RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" Parse="N" SeqNo="270" StepType="SQL">
+      <Comments>monthlySalary function</Comments>
+      <SQLStatement>CREATE OR REPLACE FUNCTION monthlySalary
+(
+	p_C_BPartner_ID IN NUMBER
+)
+/******************************************************************************
+ * Product: Adempiere ERP &amp; CRM Smart Business Solution                       *
+ * This program is free software; you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *
+ * Copyright (C) 2003-2015 E.R.P. Consultores y Asociados, C.A.               *
+ * All Rights Reserved.                                                       *
+ * Contributor(s): Yamel Senih www.erpcya.com                                 *
+ *****************************************************************************
+ ***
+ * Title:	Get Monthly Salary 
+ * Description:
+ *	Get Monthly Salary for a business partner flagged as employee, it search on 
+ * employee detail for get result if the column MonthlySalary not is zero or null, else
+ * get a concept for Monthly Salary
+ *
+ * Test:
+ * 	SELECT monthlySalary (113) FROM DUAL; - Get monthly salary for GardenAdmin BP now
+ * 	SELECT monthlySalary (113) FROM DUAL; - Get monthly salary for GardenAdmin BP now
+ ************************************************************************/
+RETURN NUMBER AS
+BEGIN
+	RETURN monthlySalaryToDate(p_C_BPartner_ID, SYSDATE);
+END monthlySalary;</SQLStatement>
+      <RollbackStatement>DROP FUNCTION monthlySalary</RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" Parse="N" SeqNo="280" StepType="SQL">
+      <Comments>dailySalary function</Comments>
+      <SQLStatement>CREATE OR REPLACE FUNCTION dailySalary(p_C_BPartner_ID numeric)
+  RETURNS numeric AS
+$BODY$
+/******************************************************************************
+ * Product: Adempiere ERP &amp; CRM Smart Business Solution                       *
+ * This program is free software; you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *
+ * Copyright (C) 2003-2015 E.R.P. Consultores y Asociados, C.A.               *
+ * All Rights Reserved.                                                       *
+ * Contributor(s): Yamel Senih www.erpcya.com                                 *
+ *****************************************************************************
+ ***
+ * Title:	Get Daily Salary 
+ * Description:
+ *	Get Daily Salary for a business partner flagged as employee, it search on 
+ * employee detail for get result if the column DailySalary not is zero or null, else
+ * get a concept for Daily Salary
+ *
+ * Test:
+ * 	SELECT dailySalary (113); - Get daily salary for GardenAdmin BP now
+ * 	SELECT dailySalary (113); - Get daily salary for GardenAdmin BP now
+ ************************************************************************/
+BEGIN
+	RETURN dailySalaryToDate(p_C_BPartner_ID, now());
+END;
+
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;</SQLStatement>
+      <RollbackStatement>DROP FUNCTION dailySalary</RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" Parse="N" SeqNo="280" StepType="SQL">
+      <Comments>dailySalary function</Comments>
+      <SQLStatement>CREATE OR REPLACE FUNCTION dailySalary
+(
+	p_C_BPartner_ID NUMBER
+)
+/******************************************************************************
+ * Product: Adempiere ERP &amp; CRM Smart Business Solution                       *
+ * This program is free software; you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *
+ * Copyright (C) 2003-2015 E.R.P. Consultores y Asociados, C.A.               *
+ * All Rights Reserved.                                                       *
+ * Contributor(s): Yamel Senih www.erpcya.com                                 *
+ *****************************************************************************
+ ***
+ * Title:	Get Daily Salary 
+ * Description:
+ *	Get Daily Salary for a business partner flagged as employee, it search on 
+ * employee detail for get result if the column DailySalary not is zero or null, else
+ * get a concept for Daily Salary
+ *
+ * Test:
+ * 	SELECT dailySalary (113) FROM DUAL; - Get daily salary for GardenAdmin BP now
+ * 	SELECT dailySalary (113) FROM DUAL; - Get daily salary for GardenAdmin BP now
+ ************************************************************************/
+RETURN NUMBER AS
+BEGIN
+	RETURN dailySalaryToDate(p_C_BPartner_ID, SYSDATE);
+END dailySalary;</SQLStatement>
+      <RollbackStatement>DROP FUNCTION dailySalary</RollbackStatement>
+    </Step>
+  </Migration>
+</Migrations>

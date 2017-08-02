@@ -369,8 +369,8 @@ public class WGenForm extends ADForm implements EventListener, WTableModelListen
 			{	
 				re = ReportEngine.get (Env.getCtx(), genForm.getReportEngineType(), RecordID);
 			}	
-			
-			pdfList.add(re.getPDF());				
+			if (re != null)
+				pdfList.add(re.getPDF());
 		}
 		
 		if (pdfList.size() > 1) {

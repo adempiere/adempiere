@@ -90,11 +90,7 @@ public final class ForecastEngine {
 		// Ini.setProperty(Ini.P_PRINTER,"MyPrinter");
 		Login login = new Login(Env.getCtx());
 		login.batchLogin();
-		// MWMInOutBoundLine line = new MWMInOutBoundLine(Env.getCtx(), 1000006,
-		// null);
 		ForecastEngine engine = ForecastEngine.get();
-		// MWMInOutBound order = line.getParent();
-		// engine.getMLocator(line, 0 , 0 );
 	}
 
 	/** Logger */

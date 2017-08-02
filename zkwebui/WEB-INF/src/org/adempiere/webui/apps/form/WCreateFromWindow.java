@@ -36,6 +36,12 @@ import org.zkoss.zkex.zul.North;
 import org.zkoss.zkex.zul.South;
 import org.zkoss.zul.Separator;
 
+/**
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 114 ] Deprecated (Change "Create From" UI for Form like Dialog in window without "hardcode")
+ *		@see https://github.com/adempiere/adempiere/issues/114
+ */
+@Deprecated
 public class WCreateFromWindow extends Window implements EventListener, WTableModelListener
 {
 	private static final long serialVersionUID = 1L;

@@ -28,7 +28,6 @@ import org.adempiere.model.MBrowseField;
 import org.adempiere.model.X_AD_Browse_Field;
 import org.adempiere.pipo.AbstractElementHandler;
 import org.adempiere.pipo.Element;
-import org.adempiere.pipo.PackIn;
 import org.adempiere.pipo.PackOut;
 import org.adempiere.pipo.exception.POSaveFailedException;
 import org.compiere.model.X_AD_Element;
@@ -41,13 +40,14 @@ import org.xml.sax.helpers.AttributesImpl;
 /**
  * 
  * @author victor.perez@e-evoluton.com, www.e-evolution.com
- * 
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * 		<li><a href="https://github.com/adempiere/adempiere/issues/556">
+ * 		FR [ 556 ] Criteria Search on SB don't have a parameter like only information</a>
  */
 public class BrowseFieldElementHandler extends AbstractElementHandler {
 	public void startElement(Properties ctx, Element element)
 			throws SAXException {
 
-		PackIn packIn = (PackIn) ctx.get("PackInProcess");
 		String elementValue = element.getElementValue();
 		Attributes atts = element.attributes;
 		log.info(elementValue + " " + atts.getValue("Name"));
@@ -59,7 +59,7 @@ public class BrowseFieldElementHandler extends AbstractElementHandler {
 				element.defer = true;
 				return;
 			}
-			String name = atts.getValue("Name");
+			
 			String browsename = atts.getValue("ADBrowseNameID");
 			String colviewname = atts.getValue("ADViewColumnNameID");
 			String viewName = atts.getValue("ADViewNameID");
@@ -150,10 +150,13 @@ public class BrowseFieldElementHandler extends AbstractElementHandler {
 				id = get_IDWithColumn(ctx, "AD_Val_Rule", "Name", Name);
 				m_BrowseField.setAD_Val_Rule_ID(id);
 
-				 m_BrowseField
-				 .setSeqNo(Integer.parseInt(atts.getValue("SeqNo")));
-				 m_BrowseField
-				 .setSortNo(Integer.parseInt(atts.getValue("SortNo")));				
+				 m_BrowseField.setSeqNo(Integer.parseInt(atts.getValue("SeqNo")));
+
+				 m_BrowseField.setSeqNoGrid(Integer.parseInt(atts.getValue("SeqNoGrid")));
+				 //	Is Information Only #556
+				 m_BrowseField.setIsInfoOnly(Boolean.valueOf(atts.getValue("IsInfoOnly")).booleanValue());
+
+				 m_BrowseField.setSortNo(Integer.parseInt(atts.getValue("SortNo")));
 				 m_BrowseField
 				 .setIsOrderBy(Boolean.valueOf(
 						 atts.getValue("IsOrderBy")).booleanValue());
@@ -387,13 +390,18 @@ public class BrowseFieldElementHandler extends AbstractElementHandler {
 				(m_BrowseField.isQueryCriteria() == true ? "true" : "false"));
 		atts.addAttribute("", "", "isIdentifier", "CDATA",
 				(m_BrowseField.isIdentifier() == true ? "true" : "false"));
+		//	Is Information Only #556
+		atts.addAttribute("", "", "IsInfoOnly", "CDATA",
+				(m_BrowseField.isInfoOnly() == true ? "true" : "false"));
 		atts.addAttribute("", "", "isReadOnly", "CDATA", 
 				(m_BrowseField.isReadOnly() == true ? "true" : "false"));
+		atts.addAttribute("", "", "SeqNoGrid", "CDATA",
+				"" + (m_BrowseField.getSeqNoGrid()));
 		atts.addAttribute("", "", "SeqNo", "CDATA",
 				"" + (m_BrowseField.getSeqNo()));
 		atts.addAttribute("", "", "SortNo", "CDATA",
 				"" + (m_BrowseField.getSortNo()));
-		atts.addAttribute("", "", "isOrderBy", "CDATA",
+		atts.addAttribute("", "", "IsOrderBy", "CDATA",
 				(m_BrowseField.isOrderBy() == true ? "true" : "false"));
 		
 		atts.addAttribute("", "", "DisplayLogic", "CDATA", (m_BrowseField.

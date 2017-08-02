@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--ADempiere(r) Release 3.7.0LTS_2011-10-15 -Smart Suite ERP,CRM and SCM- (c) 1999-2010 ADempiere(r); Implementation: ADempiere - Supported by ADempiere community-->
-<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
-<adempiereTrl language="es_MX" table="AD_Form">
+<!--ADempiere(r) Release 3.9.0_2017-08-01 -Smart Suite ERP,CRM and SCM- (c) 1999-2017 ADempiere(r); Implementation: ADempiere - Supported by ADempiere community--><!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.net/dtd/adempiereTrl.dtd">--><adempiereTrl language="es_MX" table="AD_Form">
  <row id="100" trl="Y">
   <value column="Name" original="Generate Invoices (manual)">Generar Facturas (Manual)</value>
   <value column="Description" original="Select and generate invoices">Seleccionar y Generar Facturas</value>
@@ -66,7 +64,7 @@
   <value column="Name" original="Merge Entities">Mezclar Entidades</value>
   <value column="Description" original="Merge From Entity to To Entity - Delete From">Mezclar de Entidad Origen a Entidad Destino - Borrar Desde</value>
   <value column="Help" original="&lt;i&gt;Dangerous - Please are aware of what you are doing!&lt;/i&gt;&#10;All instances of the From entity (e.g. Customer A) are changed to the To entity (e.g. Customer B). &#10;The From entity (e.g. Customer A) is deleted. &#10;&lt;p&gt;&lt;b&gt;There is NO undo nor trace !  Please do a backup first&lt;/b&gt; Please be aware that you may be changing history records (e.g. invoices, etc.) ! &lt;/p&gt;&#10;&lt;p&gt;&lt;b&gt;Side effects:&lt;/b&gt; Merging Products are likely to distort product costs; Merging Business Partners may result in incorrect open item balance. Check with support on remedies.&#10;&lt;p&gt;&lt;b&gt;Restrictions:&lt;/b&gt; Accounting and Inventory conflicts are not resolved in this version."><![CDATA[<i>Peligroso - Por favor esté bien consciente de lo que está haciendo!</i>
-Todos los registros relacionados con la entidad origen (ej. Cliente A) son cambiados hacia la entidad destino (ej. Clientes B). 
+Todos los registros relacionados con la entidad origen (ej. Cliente A) son cambiados hacia la entidad destino (ej. Clientes B).
 <p><b>No hay forma de deshacer esta operación! Por favor haga una copia de respaldo</b> Es importante anotar que puede estar cambiando datos históricos (ej. facturas, etc.)!
 <p><b>Efectos Secundarios:</b> combinándose los productos es problable dañar costos del producto: La combinación de terceros puede dar lugar a un saldo incorrecto del tercero.]]></value>
  </row>
@@ -134,7 +132,7 @@ La configuración de LDM es utilizada para crear dinámicamente "items-finales" 
   <value column="Help" original="Show the detail of MRP calculation">Muestra el detalle del cálculo de MRP (Planificación de requerimientos de materiales)</value>
  </row>
  <row id="53004" trl="Y">
-  <value column="Name" original="Planned Order Approval ">Aprobación de Orden Planeada</value>
+  <value column="Name" original="Planned Order Approval ">Aprobación de Orden Planeadas</value>
   <value column="Description" original="A planned manufacturing order is a manufacturing order suggested by the MRP process and contains its quantity and its release and promise dates.">Una orden de manufactura planeada es una orden de manufactura sugerida por el proceso MRP y contiene las cantidades y las fechas de entrega y promesa.</value>
   <value column="Help" original="A planned manufacturing order is a manufacturing order suggested by the MRP process and contains its quantity and its release and promise dates. when you approve a manufacturing planned order you convert it in a manufacturing order with the status of In Process.&#10;&#10;When you approve a planned order you are telling the system that the manufacturing order is ready to start its process with the approval you change the order status from Draft to In Process.">Una orden de manufactura planeada es una orden de manufactura sugerida por el proceso MRP y contiene las cantidades y las fechas de entrega y promesa.  Cuando aprueba una orden de manufactura planeada se convierte en una orden de manufactura con el estado En Proceso.
 
@@ -153,7 +151,7 @@ Cuando aprueba una orden planeada le está diciendo al sistema que la orden de m
  <row id="53007" trl="Y">
   <value column="Name" original="Order Receipt &amp; Issue">Recibo Orden y Salida de Componentes</value>
   <value column="Description" original="Order Receipt &amp; Issue">Recibo Orden y Salida de Componentes</value>
-  <value column="Help" original="The form shows at the upper side static information around the product and the manufacturing resource where it has to be made, it also shows a summary of the quantities to be controlled in the MO such as the Original and delivered quantities and the Quantity to deliver for the MO up to date.&#10;&#10;If the production process requires production in batch, then the Qty Batchs shows the Number of batches the shop floor needs to do and the Qty Batch Size contains the size of every batch to be produced.&#10;&#10;&#10;If you want to issue the MO components before you receive the finished product you should tick the checkbox Is Delivery, this case is recommended when you have a long to medium lead time and you want to have the inventory quantities as reliable as possible at every moment.&#10;&#10;If you have small lead time and you wish to save clerk time then you must tick Is Backflush checkbox and you will receive the finished product at the same time you issue automatically the components&#10;&#10;The Backflush Group field is used when you want to issue just components belonging to this group. (This characteristic could not be included in the current version).&#10;&#10;At the lower part of the window you can find the list of every MO component, this can be modified according with the real products and quantities given to the shop floor.&#10;&#10;The quantities to be issued are selected with the checkbox at the first column of the list of components. If the actual quantity is different from the standard quantity showed in the column Qty to deliver you should edit this field to enter the right quantity to be issued.&#10;&#10;Finally a message box asks if you want to close the OM document, you should click the ok button if this MO does not have any more transactions and has to be closed.&#10;&#10;">La forma muestra en la parte superior información estática acerca del producto y el recurso de manufactura donde debe ser hecho, también muestra un resumen de las cantidades a ser controladas en la Orden de Manufactura tal como las cantidades original y despachadas y la cantidad a despachar para la OM a la fecha.
+  <value column="Help" original="The form shows at the upper side static information around the product and the manufacturing resource where it has to be made, it also shows a summary of the quantities to be controlled in the MO such as the Original and delivered quantities and the Quantity to deliver for the MO up to date.&#10;&#10;If the production process requires production in batch, then the Qty Batchs shows the Number of batches the shop floor needs to do and the Qty Batch Size contains the size of every batch to be produced.&#10;&#10;&#10;If you want to issue the MO components before you receive the finished product you should tick the checkbox Is Delivery, this case is recommended when you have a long to medium lead time and you want to have the inventory quantities as reliable as possible at every moment.&#10;&#10;If you have small lead time and you wish to save clerk time then you must tick Is Backflush checkbox and you will receive the finished product at the same time you issue automatically the components&#10;&#10;The Backflush Group field is used when you want to issue just components belonging to this group. (This characteristic could not be included in the current version).&#10;&#10;At the lower part of the window you can find the list of every MO component, this can be modified according with the real products and quantities given to the shop floor.&#10;&#10;The quantities to be issued are selected with the checkbox at the first column of the list of components. If the actual quantity is different from the standard quantity showed in the column Qty to deliver you should edit this field to enter the right quantity to be issued.&#10;&#10;Finally a message box asks if you want to close the OM document, you should click the ok button if this MO does not have any more transactions and has to be closed.">La forma muestra en la parte superior información estática acerca del producto y el recurso de manufactura donde debe ser hecho, también muestra un resumen de las cantidades a ser controladas en la Orden de Manufactura tal como las cantidades original y despachadas y la cantidad a despachar para la OM a la fecha.
 
 Si el proceso de producción requiere producción en lote, entonces las cantidades de lote muestran el número de lotes que el control de piso necesita hacer y el tamaño de la cantidad lote contiene el tamaño de cada lote a producir.
 
@@ -194,5 +192,68 @@ Seleccione las ordenes con las cuales desea generar entregas y facturas</value>
   <value column="Name" original="Manufacturing Workflow Editor">Editor de Flujo de Trabajo de Manufactura</value>
   <value column="Description" original="Edit Manufacturing Workflows">Editor de Flujos de Trabajo de Manufactura</value>
   <value column="Help" original="Edit the graphical layout of manufacturing workflows">Edita el esquema gráfico de los flujos de trabajo de manufactura</value>
+ </row>
+ <row id="53014" trl="Y">
+  <value column="Name" original="Payroll Payment Print/Export">Imprimir/Exportar Pagos Nómina</value>
+  <value column="Description" original="Payroll Print or export your payments">Con este formulario se pueden Imprimir/Exportar pagos de Nómina</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53016" trl="Y">
+  <value column="Name" original="Accounting Fact Reconcilation (manual)">Reconciliación de registros contables  (manual)</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53017" trl="Y">
+  <value column="Name" original="BOM Viewer">BOM Viewer</value>
+  <value column="Description" original="Shows the parent-component relationship for the product entered in the Product field.">Shows the parent-component relationship for the product entered in the Product field.</value>
+  <value column="Help" original="Selecting a product will display a hierarchy of components and sub-BOMs for that product.&#10;&#10;Selecting the &quot;Where Used&quot; check box will display the BOMs that this product is used in.">Selecting a product will display a hierarchy of components and sub-BOMs for that product.
+
+Selecting the "Where Used" check box will display the BOMs that this product is used in.</value>
+ </row>
+ <row id="53027" trl="Y">
+  <value column="Name" original="Generate Invoices from Shipments (manual)">Genera Facturas desde Embarques (Manual)</value>
+  <value column="Description" original="Select shipments and generate invoices"> Selecciona Embarques  y Genera Factura</value>
+  <value column="Help" original="Generate Invoices from Shipments.  &#10;Select the shipmens to generate the invoice for.">Genera Facturas desde Embarques
+ Selecciona Embarques  y Genera Factura</value>
+ </row>
+ <row id="53029" trl="Y">
+  <value column="Name" original="Express Receipt ScanBar Products">Express Receipt ScanBar Products</value>
+  <value column="Description" original="Express Receipt ScanBar Products">Express Receipt ScanBar Products</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53037" trl="Y">
+  <value column="Name" original="Stocktake">Levantamiento de Inventario</value>
+  <value column="Description" original="Physical Inventory stock count form">Toma de inventario físico</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53039" trl="Y">
+  <value column="Name" original="Delete Entities">Eliminar Entidades</value>
+  <value column="Description" original="">Eliminar Entidades</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53051" trl="Y">
+  <value column="Name" original="Trial Balance Drillable Report">Balance de prueba navegable (sólo Web)</value>
+  <value column="Description" original="Trial Balance Drillable Report (only for Web)">Balance de prueba navegable (ejecutable sólo por Web)</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53060" trl="Y">
+  <value column="Name" original="Create From Payments">Create From Payments</value>
+  <value column="Description" original="Create Bank Statement from Payments Unreconcilled">Create Bank Statement from Payments Unreconcilled</value>
+  <value column="Help" original="You can add the payments to Bank Statement">You can add the payments to Bank Statement</value>
+ </row>
+ <row id="53061" trl="Y">
+  <value column="Name" original="Create From Order/Receipt">Create From Order/Receipt</value>
+  <value column="Description" original="Create Invoice from Purchase Order or Receipt">Create Invoice from Purchase Order or Receipt</value>
+  <value column="Help" original="You can add the Lines to Invoice from Order or Receipt">You can add the Lines to Invoice from Order or Receipt</value>
+ </row>
+ <row id="53062" trl="Y">
+  <value column="Name" original="Create From Order/RMA">Create From Order/RMA</value>
+  <value column="Description" original="Create Receipt from Purchase Order or RMA">Create Receipt from Purchase Order or RMA</value>
+  <value column="Help" original="You can add the Lines to Receipt or Return from Order or RMA">You can add the Lines to Receipt or Return from Order or RMA</value>
+ </row>
+ <row id="53071" trl="Y">
+  <value column="Name" original="Barcode Scanner Products">Barcode Scanner Products</value>
+  <value column="Description" original="Barcode Scanner Products">Barcode Scanner Products</value>
+  <value column="Help" original=""/>
  </row>
 </adempiereTrl>

@@ -29,11 +29,6 @@ import java.net.URLConnection;
 import java.util.Properties;
 import java.util.logging.Level;
 
-import javax.mail.Folder;
-import javax.mail.MessagingException;
-import javax.mail.NoSuchProviderException;
-import javax.mail.Session;
-import javax.mail.Store;
 import javax.mail.internet.InternetAddress;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
@@ -43,11 +38,11 @@ import javax.swing.SwingUtilities;
 import org.compiere.Adempiere;
 import org.compiere.db.CConnection;
 import org.compiere.db.Database;
-import org.compiere.util.CLogMgt;
+import org.compiere.model.MEMailConfig;
 import org.compiere.util.CLogger;
 import org.compiere.util.EMail;
-import org.compiere.util.EMailAuthenticator;
 import org.compiere.util.Ini;
+import org.compiere.util.SecureEngine;
 
 
 /**
@@ -55,6 +50,11 @@ import org.compiere.util.Ini;
  *	
  *  @author Jorg Janke
  *  @version $Id: ConfigurationData.java,v 1.4 2006/07/30 00:57:42 jjanke Exp $
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 402 ] Mail setup is hardcoded
+ *		@see https://github.com/adempiere/adempiere/issues/402
+ *		<li> FR [ 391 ] Add connection support to MariaDB
+ *		@see https://github.com/adempiere/adempiere/issues/464
  */
 public class ConfigurationData
 {
@@ -161,7 +161,15 @@ public class ConfigurationData
 	public static final String	ADEMPIERE_ADMIN_EMAIL	= "ADEMPIERE_ADMIN_EMAIL";
 	/** 				*/
 	public static final String	ADEMPIERE_MAIL_UPDATED	= "ADEMPIERE_MAIL_UPDATED";
-
+	//	FR [ 402 ]
+	/** 				*/
+	public static final String	ADEMPIERE_MAIL_PORT 	= "ADEMPIERE_MAIL_PORT";
+	/** 				*/
+	public static final String	ADEMPIERE_MAIL_PT 		= "ADEMPIERE_MAIL_PROTOCOL";
+	/** 				*/
+	public static final String	ADEMPIERE_MAIL_ET 		= "ADEMPIERE_MAIL_ENCRYPTION_TYPE";
+	/** 				*/
+	public static final String	ADEMPIERE_MAIL_AM 		= "ADEMPIERE_MAIL_AUTHENTICATION_MECHANISM";
 	/** 				*/
 	public static final String	ADEMPIERE_FTP_SERVER	= "ADEMPIERE_FTP_SERVER";
 	/** 				*/
@@ -267,6 +275,11 @@ public class ConfigurationData
 				p_panel.fMailUser.setText((String)p_properties.get(ADEMPIERE_MAIL_USER));
 				p_panel.fMailPassword.setText((String)p_properties.get(ADEMPIERE_MAIL_PASSWORD));
 				p_panel.fAdminEMail.setText((String)p_properties.get(ADEMPIERE_ADMIN_EMAIL));
+				//	Add new Values
+				p_panel.fMailPort.setText((String) p_properties.get(ADEMPIERE_MAIL_PORT));
+				setEncryptionType((String) p_properties.get(ADEMPIERE_MAIL_ET));
+				setAuthMechanism((String) p_properties.get(ADEMPIERE_MAIL_AM));
+				setProtocol((String) p_properties.get(ADEMPIERE_MAIL_PT));
 			}
 		}
 
@@ -496,7 +509,25 @@ public class ConfigurationData
 			return error;
 		}
 		p_properties.setProperty(ADEMPIERE_MAIL_SERVER, mailServer.getHostName());
-
+		//	FR [ 402 ]
+		//	Mail Port
+		String mailPort = p_panel != null 
+				? p_panel.fMailPort.getText()
+				: (String)p_properties.get(ADEMPIERE_MAIL_PORT);
+		int port = 25;
+		if(mailPort != null) {
+			try {
+				port = Integer.parseInt(mailPort);
+			} catch(Exception e) {
+				
+			}
+		}
+		//	Mail Protocol
+		String mailProtocol = getProtocol();
+		//	Mail Encryption Type
+		String mailEncryptionType = getEncryptionType();
+		//	Mail Authentication Mechanism
+		String mailAuthMechanism = getAuthMechanism();
 		//	Mail User
 		String mailUser = p_panel != null 
 			? p_panel.fMailUser.getText()
@@ -504,7 +535,6 @@ public class ConfigurationData
 		String mailPassword = p_panel != null
 			? new String(p_panel.fMailPassword.getPassword())
 			: (String)p_properties.get(ADEMPIERE_MAIL_PASSWORD);
-	//	m_errorString = "ErrorMailUser";
 	//	log.config("Mail User = " + mailUser + "/" + mailPassword);
 
 		//	Mail Address
@@ -525,26 +555,32 @@ public class ConfigurationData
 		if (pass)
 		{
 			error = "Not verified EMail = " + adminEMail;
-			pass = testMailServer(mailServer, adminEMail, mailUser, mailPassword);
+			pass = testMailServer(mailServer, adminEMail, mailUser, mailPassword, 
+					port, mailProtocol, mailEncryptionType, mailAuthMechanism);
 		}
 		if (p_panel != null)
 			p_panel.signalOK(p_panel.okMailUser, "ErrorMail", 
 					pass, false, error);
-		if (pass)
-		{
+		if (pass) {
 			log.info("OK: EMail = " + adminEMail);
 			p_properties.setProperty(ADEMPIERE_ADMIN_EMAIL, adminEMail.toString());
 			p_properties.setProperty(ADEMPIERE_MAIL_USER, mailUser);
 			p_properties.setProperty(ADEMPIERE_MAIL_PASSWORD, mailPassword);
 			p_properties.setProperty(ADEMPIERE_MAIL_UPDATED, "No");
-		}
-		else
-		{
+			p_properties.setProperty(ADEMPIERE_MAIL_PORT, mailPort);
+			p_properties.setProperty(ADEMPIERE_MAIL_PT, mailProtocol);
+			p_properties.setProperty(ADEMPIERE_MAIL_ET, mailEncryptionType);
+			p_properties.setProperty(ADEMPIERE_MAIL_AM, mailAuthMechanism);
+		} else {
 			log.warning(error);
 			p_properties.setProperty(ADEMPIERE_ADMIN_EMAIL, "");
 			p_properties.setProperty(ADEMPIERE_MAIL_USER, "");
 			p_properties.setProperty(ADEMPIERE_MAIL_PASSWORD, "");
 			p_properties.setProperty(ADEMPIERE_MAIL_UPDATED, "");
+			p_properties.setProperty(ADEMPIERE_MAIL_PORT, "");
+			p_properties.setProperty(ADEMPIERE_MAIL_PT, "");
+			p_properties.setProperty(ADEMPIERE_MAIL_ET, "");
+			p_properties.setProperty(ADEMPIERE_MAIL_AM, "");
 		}
 		return null;
 	}	//	testMail
@@ -555,36 +591,55 @@ public class ConfigurationData
 	 * 	@param adminEMail email of admin
 	 * 	@param mailUser user ID
 	 * 	@param mailPassword password
+	 * 	@param port
+	 * 	@param protocol
+	 * 	@param encryptionType
+	 * 	@param authMechanism
 	 *  @return true of OK
 	 */
 	private boolean testMailServer(InetAddress	mailServer, InternetAddress adminEMail,
-		String mailUser, String mailPassword)
-	{
-		boolean isGmail = mailServer.getHostName().equalsIgnoreCase("smtp.gmail.com");
+		String mailUser, String mailPassword, int port, String protocol, String encryptionType, String authMechanism) {
 		boolean smtpOK = false;
 		boolean imapOK = false;
-		if (testPort (mailServer, isGmail ? 587 : 25, true))
-		{
+		//	Change Protocol
+		if(protocol == null) {
+			protocol = MEMailConfig.PROTOCOL_SMTP;
+		} else {
+			if(protocol.length() > 1) {
+				protocol = protocol.substring(0, 1);
+			}
+		}
+		//	Change Encryption Type
+		if(encryptionType == null) {
+			encryptionType = MEMailConfig.ENCRYPTIONTYPE_None;
+		} else {
+			if(encryptionType.length() > 1) {
+				encryptionType = encryptionType.substring(0, 1);
+			}
+		}
+		//	Change Authentication Mechanism
+		if(authMechanism == null) {
+			authMechanism = MEMailConfig.AUTHMECHANISM_Login;
+		} else {
+			if(authMechanism.length() > 1) {
+				authMechanism = authMechanism.substring(0, 1);
+			}
+		}
+		if (testPort (mailServer, port, true)) {
 			log.config("OK: SMTP Server contacted");
 			smtpOK = true;
-		}
-		else
+		} else {
 			log.info("SMTP Server NOT available");
-		//
-		if (testPort (mailServer, isGmail ? 995 : 110, true))
-			log.config("OK: POP3 Server contacted");
-		else
-			log.info("POP3 Server NOT available");
-		if (testPort (mailServer, isGmail ? 993 : 143, true))
-		{
+		}
+		//	For IMAP
+		if (testPort (mailServer, port, true)) {
 			log.config("OK: IMAP4 Server contacted");
 			imapOK = true;
-		}
-		else
+		} else {
 			log.info("IMAP4 Server NOT available");
+		}
 		//
-		if (!smtpOK)
-		{
+		if (!smtpOK) {
 			String error = "No active Mail Server";
 			if (p_panel != null)
 				p_panel.signalOK (p_panel.okMailServer, "ErrorMailServer",
@@ -593,25 +648,19 @@ public class ConfigurationData
 			return false;
 		}
 		//
-		try
-		{
-			EMail email = new EMail (new Properties(),
-					mailServer.getHostName (),
-					adminEMail.toString (), adminEMail.toString(),
-					"Adempiere Server Setup Test", 
-					"Test: " + getProperties());
+		try {
+			//	FR [ 402 ]
+			//	Add support to send mail without context
+			EMail email = new EMail (mailServer.getHostName(), port, protocol, encryptionType, authMechanism, 
+					adminEMail.toString(), adminEMail.toString(), 
+					"Adempiere Server Setup Test", "Test: " + getProperties(), false);
 			email.createAuthenticator (mailUser, mailPassword);
-			if (EMail.SENT_OK.equals (email.send ()))
-			{
+			if (EMail.SENT_OK.equals (email.send ())) {
 				log.info("OK: Send Test Email to " + adminEMail);
-			}
-			else
-			{
+			} else {
 				log.warning("Could NOT send Email to " + adminEMail);
 			}
-		}
-		catch (Exception ex)
-		{
+		} catch (Exception ex) {
 			log.severe(ex.getLocalizedMessage());
 			return false;
 		}
@@ -619,58 +668,7 @@ public class ConfigurationData
 		//
 		if (!imapOK)
 			return false;
-
-		//	Test Read Mail Access
-		Properties props = new Properties();
-		props.put("mail.store.protocol", "smtp");
-		props.put("mail.transport.protocol", "smtp");
-		props.put("mail.host", mailServer.getHostName());
-		props.put("mail.user", mailUser);
-		props.put("mail.smtp.auth", "true");
-		if (isGmail) {
-			props.put("impa.smtp.port", "993");
-			props.put("mail.store.protocol", "imaps");
-		}
-
-		log.config("Connecting to " + mailServer.getHostName());
-		//
-		Session session = null;
-		Store store = null;
-		try
-		{
-			EMailAuthenticator auth = new EMailAuthenticator (mailUser, mailPassword);
-			session = Session.getDefaultInstance(props, auth);
-			session.setDebug (CLogMgt.isLevelFinest());
-			log.config("Session=" + session);
-			//	Connect to Store
-			store = session.getStore(isGmail ? "imaps" : "imap");
-			log.config("Store=" + store);
-		}
-		catch (NoSuchProviderException nsp)
-		{
-			log.warning("Mail IMAP Provider - " + nsp.getMessage());
-			return false;
-		}
-		catch (Exception e)
-		{
-			log.warning("Mail IMAP - " + e.getMessage());
-			return false;
-		}
-		try
-		{
-			store.connect(mailServer.getHostName(), mailUser, mailPassword);
-			log.config("Store - connected");
-			Folder folder = store.getDefaultFolder();
-			Folder inbox = folder.getFolder("INBOX");
-			log.info("OK: Mail Connect to " + inbox.getFullName() + " #Msg=" + inbox.getMessageCount());
-			//
-			store.close();
-		}
-		catch (MessagingException mex)
-		{
-			log.severe("Mail Connect " + mex.getMessage());
-			return false;
-		}
+		//	
 		return true;
 	}	//	testMailServer
 	
@@ -791,6 +789,32 @@ public class ConfigurationData
 		p_properties.setProperty("ADEMPIERE_DATE_VERSION", Adempiere.DATE_VERSION);
 		p_properties.setProperty("ADEMPIERE_DB_VERSION", Adempiere.DB_VERSION);
 
+		//		Create Connection
+		String ccType = Database.DB_ORACLE;
+		for (String dbType : DBTYPE)
+		{
+			if (getDatabaseType().equals(DBTYPE))
+				ccType = dbType;
+		}
+		CConnection cc = null;
+		try
+		{
+			cc = CConnection.get (ccType,
+					getDatabaseServer(), getDatabasePort(), getDatabaseName(),
+					getDatabaseUser(), getDatabasePassword());
+			cc.setAppsHost(getAppsServer());
+			cc.setAppsPort(getAppsServerJNPPort());
+			cc.setConnectionProfile(CConnection.PROFILE_LAN);
+		}
+		catch(Exception e)
+		{
+			log.log(Level.SEVERE, "connection", e);
+			return false;
+		}
+
+		p_properties.setProperty(Ini.P_CONNECTION, SecureEngine.encrypt(cc.toStringLong()));
+
+
 		log.finest(p_properties.toString());
 		
 		//	Before we save, load Ini
@@ -839,37 +863,33 @@ public class ConfigurationData
 	 * 	Synchronize and save Connection Info in Ini
 	 * 	@return true 
 	 */
-	private boolean saveIni()
-	{
+	private boolean saveIni() {
 		Ini.setAdempiereHome(m_adempiereHome.getAbsolutePath());
-
 		//	Create Connection
-		String ccType = Database.DB_ORACLE;
-		if (getDatabaseType().equals(DBTYPE_POSTGRESQL))
-			ccType = Database.DB_POSTGRESQL;
-		else if(getDatabaseType().equals(DBTYPE_MYSQL))
-			ccType = Database.DB_MYSQL;
-		CConnection cc = null;
-		try
-		{
-			cc = CConnection.get (ccType,
+		String url = null;
+		try {
+			String ccType = Database.DB_ORACLE;
+			//	For others
+			if (!getDatabaseType().equals(Database.DB_ORACLE)) {
+				ccType = getDatabaseType();
+			}
+			//	
+			CConnection cc = CConnection.get (ccType,
 				getDatabaseServer(), getDatabasePort(), getDatabaseName(),
 				getDatabaseUser(), getDatabasePassword());
 			cc.setAppsHost(getAppsServer());
 			cc.setAppsPort(getAppsServerJNPPort());
 			cc.setConnectionProfile(CConnection.PROFILE_LAN);
-		}
-		catch(Exception e)
-		{
+			url = cc.toStringLong();
+		} catch(Exception e) {
 			log.log(Level.SEVERE, "connection", e);
 			return false;
 		}
-		if (cc == null)
-		{
+		if (url == null) {
 			log.warning("No Connection");
 			return false;
 		}
-		Ini.setProperty(Ini.P_CONNECTION, cc.toStringLong());
+		Ini.setProperty(Ini.P_CONNECTION, url);
 		Ini.saveProperties(false);
 		return true;
 	}	//	saveIni
@@ -947,6 +967,40 @@ public class ConfigurationData
 	/** Java VM Types		*/
 	static String[]	JAVATYPE = new String[]
 		{JAVATYPE_SUN, JAVATYPE_OPENJDK, JAVATYPE_MAC, JAVATYPE_IBM};
+	//	FR [ 402 ]
+	/** None = N */
+	private static final String ENCRYPTIONTYPE_None = "None";
+	/** SSL = S */
+	private static final String ENCRYPTIONTYPE_SSL = "SSL";
+	/** TLS = T */
+	private static final String ENCRYPTIONTYPE_TLS = "TLS";
+	/** Encryption Type		*/
+	static String[]	ENCRYPTIONTYPE = new String[]
+		{ENCRYPTIONTYPE_None, ENCRYPTIONTYPE_SSL, ENCRYPTIONTYPE_TLS};
+	
+	/** Login = L */
+	private static final String AUTHMECHANISM_LOGIN = "Login";
+	/** Plain = P */
+	private static final String AUTHMECHANISM_PLAIN = "Plain";
+	/** Digest-MD5 = D */
+	private static final String AUTHMECHANISM_DIGEST_MD5 = "Digest-MD5";
+	/** NTLM = N */
+	private static final String AUTHMECHANISM_NTLM = "NTLM";
+	/** NTLM = N */
+	private static final String AUTHMECHANISM_OAUTH = "OAUTH2";
+	/** Authentication Mechanism		*/
+	static String[]	AUTHMECHANISMS = new String[]
+		{AUTHMECHANISM_LOGIN, AUTHMECHANISM_PLAIN, AUTHMECHANISM_DIGEST_MD5, AUTHMECHANISM_NTLM, AUTHMECHANISM_OAUTH};
+	
+	/** SMTP = S */
+	private static final String PROTOCOL_SMTP = "SMTP";
+	/** POP3 = P */
+	//private static final String PROTOCOL_POP3 = "POP3";
+	/** IMAP = I */
+	private static final String PROTOCOL_IMAP = "IMAP";
+	/** Authentication Mechanism		*/
+	static String[]	EMAIL_PROTOCOL = new String[]
+		{PROTOCOL_SMTP, PROTOCOL_IMAP};
 	
 	/** Virtual machine Configurations	*/
 	private Config[] m_javaConfig = new Config[]
@@ -1059,14 +1113,19 @@ public class ConfigurationData
 	protected static String	APPSTYPE_JBOSS = "jboss";
 	/** GlassFish            */
     protected static String APPSTYPE_GLASSFISH = "glassfish";
+	/** Tomcat            */
+	protected static String APPSTYPE_TOMCAT = "tomcat";
+
 	/** Application Server Type		*/
 	static String[]	APPSTYPE = new String[]
-		{ APPSTYPE_JBOSS
+		{ APPSTYPE_TOMCAT
+		, APPSTYPE_JBOSS
 		, APPSTYPE_GLASSFISH
 		};
 	/** Database Configs	*/
 	private Config[] m_appsConfig = new Config[]
-	    { new ConfigJBoss(this)
+	    { new ConfigTomcat( this )
+		, new ConfigJBoss(this)
 	    , new ConfigGlassfish( this )
 	    };
 
@@ -1312,27 +1371,16 @@ public class ConfigurationData
 	/**************************************************************************
 	 * 	Database Settings
 	 *************************************************************************/
-	
-	/** Oracle directory	*/
-	private static String	DBTYPE_ORACLE = "oracle";
-	/** Oracle XP	*/
-	private static String	DBTYPE_ORACLEXE = "oracleXE";
-        
-	/** PostgreSQL          */
-	private static String	DBTYPE_POSTGRESQL = "postgresql";
-	
-    /** MySQL          */
-	private static String	DBTYPE_MYSQL = "mysql";
-	
+	//	end e-evolution vpj-cd 02/07/2005 PostgreSQL
 	/** Database Types		*/
-	static String[]	DBTYPE = new String[]
-	{	DBTYPE_ORACLEXE,
-		DBTYPE_ORACLE, 
-        //begin e-evolution vpj-cd 02/07/2005 PostgreSQL
-        DBTYPE_POSTGRESQL,
-		DBTYPE_MYSQL
+	public static String[]	DBTYPE = new String[] {	
+		Database.DB_ORACLE,
+		Database.DB_ORACLE + "XE",
+		Database.DB_POSTGRESQL,
+		Database.DB_MYSQL,
+		Database.DB_MARIADB
     };
-	    //end e-evolution vpj-cd 02/07/2005 PostgreSQL
+	//	end e-evolution vpj-cd 02/07/2005 PostgreSQL
 		
 	/** Database Configs	*/
 	private Config[] m_databaseConfig = new Config[]
@@ -1340,7 +1388,8 @@ public class ConfigurationData
 		new ConfigOracle(this,true),
 		new ConfigOracle(this,false),
 		new ConfigPostgreSQL(this),
-        new ConfigMySQL(this)
+        new ConfigMySQL(this),
+		new ConfigMariaDB(this)
 		};
 
 	/**
@@ -1400,19 +1449,16 @@ public class ConfigurationData
 	 * 	Set Database Type
 	 *	@param databaseType The databaseType to set.
 	 */
-	public int setDatabaseType (String databaseType)
-	{
+	public int setDatabaseType (String databaseType) {
 		int index = -1;
-		for (int i = 0; i < DBTYPE.length; i++)
-		{
-			if (DBTYPE[i].equals(databaseType))
-			{
+		for (int i = 0; i < DBTYPE.length; i++) {
+			if (DBTYPE[i].equalsIgnoreCase(databaseType)) {
+				databaseType = DBTYPE[i];
 				index = i;
 				break;
 			}
 		}
-		if (index == -1)
-		{
+		if (index == -1) {
 			index = 0;
 			log.warning("Invalid DatabaseType=" + databaseType);
 		}
@@ -1433,6 +1479,109 @@ public class ConfigurationData
 			? (String)p_panel.fDatabaseType.getSelectedItem()
 			: (String)p_properties.get(ADEMPIERE_DB_TYPE);
 	}
+	
+	/**
+	 * Set Encryption Type
+	 * @param encryptionType
+	 * @return
+	 */
+	public int setEncryptionType(String encryptionType){
+		int index = -1;
+		for (int i = 0; i < ENCRYPTIONTYPE.length; i++) {
+			if (ENCRYPTIONTYPE[i].equals(encryptionType)) {
+				index = i;
+				break;
+			}
+		}
+		if (index == -1) {
+			index = 0;
+			log.warning("Invalid EncryptionType=" + encryptionType);
+		}
+		if (p_panel != null)
+			p_panel.fEncryptionType.setSelectedIndex(index);
+		else
+			updateProperty(ADEMPIERE_MAIL_ET, encryptionType);
+		
+		return index;
+	}	//	setDatabaseType
+	
+	/**
+	 * @return Returns the encryptionType.
+	 */
+	public String getEncryptionType(){
+		return p_panel != null
+			? (String)p_panel.fEncryptionType.getSelectedItem()
+			: (String)p_properties.get(ADEMPIERE_MAIL_ET);
+	}
+	
+	/**
+	 * Set Protocol
+	 * @param protocol
+	 * @return
+	 */
+	public int setProtocol(String protocol){
+		int index = -1;
+		for (int i = 0; i < EMAIL_PROTOCOL.length; i++) {
+			if (EMAIL_PROTOCOL[i].equals(protocol)) {
+				index = i;
+				break;
+			}
+		}
+		if (index == -1) {
+			index = 0;
+			log.warning("Invalid Protocol=" + protocol);
+		}
+		if (p_panel != null)
+			p_panel.fMailProtocol.setSelectedIndex(index);
+		else
+			updateProperty(ADEMPIERE_MAIL_PT, protocol);
+		
+		return index;
+	}	//	setDatabaseType
+	
+	/**
+	 * @return Returns the Protocol.
+	 */
+	public String getProtocol(){
+		return p_panel != null
+			? (String)p_panel.fMailProtocol.getSelectedItem()
+			: (String)p_properties.get(ADEMPIERE_MAIL_PT);
+	}
+	
+	/**
+	 * Set Authentication Mechanism
+	 * @param authMechanism
+	 * @return
+	 */
+	public int setAuthMechanism(String authMechanism) {
+		int index = -1;
+		for (int i = 0; i < AUTHMECHANISMS.length; i++) {
+			if (AUTHMECHANISMS[i].equals(authMechanism)) {
+				index = i;
+				break;
+			}
+		}
+		if (index == -1) {
+			index = 0;
+			log.warning("Invalid AuthenticationMechanism=" + authMechanism);
+		}
+		if (p_panel != null)
+			p_panel.fAuthMechanism.setSelectedIndex(index);
+		else
+			updateProperty(ADEMPIERE_MAIL_AM, authMechanism);
+		
+		return index;
+	}	//	setDatabaseType
+	
+	/**
+	 * @return Returns the encryptionType.
+	 */
+	public String getAuthMechanism() {
+		return p_panel != null
+			? (String)p_panel.fAuthMechanism.getSelectedItem()
+			: (String)p_properties.get(ADEMPIERE_MAIL_AM);
+	}
+	
 	/**
 	 * @return Returns the database Discovered.
 	 */

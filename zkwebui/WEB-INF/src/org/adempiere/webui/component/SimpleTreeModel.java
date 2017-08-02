@@ -80,11 +80,13 @@ public class SimpleTreeModel extends org.zkoss.zul.SimpleTreeModel implements Tr
 		SimpleTreeModel treeModel = SimpleTreeModel.createFrom(root);
 		treeModel.setItemDraggable(true);
 		treeModel.addOnDropEventListener(new ADTreeOnDropListener(tree, treeModel, vTree, windowNo));
-		
-		Treecols treeCols = new Treecols();
-		tree.appendChild(treeCols);
-		Treecol treeCol = new Treecol();
-		treeCols.appendChild(treeCol);
+
+		if (tree.getTreecols() == null) {
+			Treecols treeCols = new Treecols();
+			tree.appendChild(treeCols);
+			Treecol treeCol = new Treecol();
+			treeCols.appendChild(treeCol);
+		}
 		tree.setPageSize(-1);
 		try {
 			tree.setTreeitemRenderer(treeModel);
@@ -92,7 +94,6 @@ public class SimpleTreeModel extends org.zkoss.zul.SimpleTreeModel implements Tr
 		} catch (Exception e) {
 			logger.log(Level.SEVERE, "Failed to setup tree");
 		}
-		
 		return treeModel;
 	}
 	
@@ -104,7 +105,6 @@ public class SimpleTreeModel extends org.zkoss.zul.SimpleTreeModel implements Tr
 	public static SimpleTreeModel createFrom(MTreeNode root) {
 		SimpleTreeModel model = null;
 		Enumeration nodeEnum = root.children();
-	    
 		SimpleTreeNode stRoot = new SimpleTreeNode(root, new ArrayList());
         while(nodeEnum.hasMoreElements()) {
         	MTreeNode childNode = (MTreeNode)nodeEnum.nextElement();

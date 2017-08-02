@@ -42,6 +42,9 @@ import org.compiere.util.Msg;
  *  @author Armen Rizal, Goodwill Consulting
  * 			<li>BF [ 1745154 ] Cost in Reversing Material Related Docs
  *  @see http://sourceforge.net/tracker/?func=detail&atid=879335&aid=1948157&group_id=176962
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com 2015-05-25, 18:20
+ * 			<a href="https://github.com/adempiere/adempiere/issues/887">
+ * 			@see FR [ 887 ] System Config reversal invoice DocNo</a>
  */
 public class MInventory extends X_M_Inventory implements DocAction
 {
@@ -606,6 +609,7 @@ public class MInventory extends X_M_Inventory implements DocAction
 				}
 				if (asi == null)
 				{
+					MAttributeSet.validateAttributeSetInstanceMandatory(product,MInventoryLine.Table_ID , false , line.getM_AttributeSetInstance_ID());
 					asi = MAttributeSetInstance.create(getCtx(), product, get_TrxName());
 				}
 				line.setM_AttributeSetInstance_ID(asi.getM_AttributeSetInstance_ID());
@@ -646,6 +650,7 @@ public class MInventory extends X_M_Inventory implements DocAction
 				//	No AttributeSetInstance found for remainder
 				if (qtyToDeliver.signum() != 0)
 				{
+					MAttributeSet.validateAttributeSetInstanceMandatory(product, MInventoryLine.Table_ID , false , line.getM_AttributeSetInstance_ID());
 					//deliver using new asi
 					MAttributeSetInstance asi = MAttributeSetInstance.create(getCtx(), product, get_TrxName());
 					int M_AttributeSetInstance_ID = asi.getM_AttributeSetInstance_ID();
@@ -760,6 +765,11 @@ public class MInventory extends X_M_Inventory implements DocAction
 		//	Deep Copy
 		MInventory reversal = new MInventory(getCtx(), 0, get_TrxName());
 		copyValues(this, reversal, getAD_Client_ID(), getAD_Org_ID());
+		reversal.set_ValueNoCheck("DocumentNo", null);
+		//	Set Document No from flag
+		if(dt.isCopyDocNoOnReversal()) {
+			reversal.setDocumentNo(getDocumentNo() + "^");
+		}
 		reversal.setDocStatus(DOCSTATUS_Drafted);
 		reversal.setDocAction(DOCACTION_Complete);
 		reversal.setIsApproved (false);
@@ -996,7 +1006,7 @@ public class MInventory extends X_M_Inventory implements DocAction
 
 	//if isReversal CostDetail is created from CostDetail of original document 
 	// is made a new CostDetail where Amt and Qty are negate
-	private void createCostDetail(MTransaction trx, int reversalLine_ID) {
+	/*private void createCostDetail(MTransaction trx, int reversalLine_ID) {
 			
 		String whereClause = MCostDetail.COLUMNNAME_M_InventoryLine_ID+"=?"
 		                                 +" AND "+MCostDetail.COLUMNNAME_M_AttributeSetInstance_ID+"=?";
@@ -1019,7 +1029,7 @@ public class MInventory extends X_M_Inventory implements DocAction
 			cdnew.process();
 		}
 		
-	}
+	}*/
 
 	/**
 	 * 	Document Status is Complete or Closed
