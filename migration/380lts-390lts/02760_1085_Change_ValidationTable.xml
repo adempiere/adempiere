@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Error with Production Plan lookup #1085" ReleaseNo="3.9.0" SeqNo="2760">
+    <Comments>See: https://github.com/adempiere/adempiere/issues/1085</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="108" Action="U" Record_ID="52496" Table="AD_Val_Rule">
+        <Data AD_Column_ID="188" Column="Name" oldValue="M_Production_Batch complete and open">M_ProductionBatch complete and open</Data>
+        <Data AD_Column_ID="193" Column="Code" oldValue="M_Production_Batch.DocStatus = 'CO'  AND M_Production_Batch.TargetQty - M_Production_Batch.QtyCompleted &gt; 0">M_ProductionBatch.DocStatus = 'CO'  AND M_ProductionBatch.TargetQty - M_ProductionBatch.QtyCompleted &gt; 0</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

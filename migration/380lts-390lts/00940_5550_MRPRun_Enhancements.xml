@@ -1,0 +1,501 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="ReplenishPlanRun_Enhancements" ReleaseNo="3.9.0" SeqNo="00940">
+    <Step DBType="Postgres" Parse="Y" SeqNo="10" StepType="SQL">
+      <SQLStatement>DROP VIEW rv_m_replenishplan_production;
+  CREATE OR REPLACE VIEW rv_m_replenishplan_production AS
+ SELECT mrl.ad_client_id,
+    mrl.ad_org_id,
+    mrl.M_ReplenishPlan_id,
+    p.m_product_id,
+    pd.m_production_id,
+    pd.productionqty,
+    pd.datepromised,
+    pd.movementdate,
+    pd.isactive,
+    p.m_product_category_id,
+    trunc(c.currentcostprice, 6) AS currentcostprice,
+    trunc(c.currentcostprice, 6)*pd.productionqty AS currentcostvalue
+   FROM m_replenishplanline mrl
+     JOIN m_production pd ON pd.m_production_id = mrl.m_production_id
+     JOIN m_product p ON p.m_product_id = pd.m_product_id
+     LEFT OUTER JOIN m_cost c ON c.m_product_id = p.m_product_id 
+  WHERE mrl.recordtype::text = 'Planned Production'::text
+  AND c.m_costelement_id = ( SELECT m_costelement.m_costelement_id
+           FROM m_costelement
+          WHERE m_costelement.ad_client_id = p.ad_client_id AND m_costelement.costingmethod = 'S'::bpchar AND m_costelement.costelementtype = 'M'::bpchar)
+  ORDER BY pd.m_production_id;
+
+ALTER TABLE rv_m_replenishplan_production
+  OWNER TO adempiere;
+</SQLStatement>
+      <RollbackStatement>DROP VIEW rv_m_replenishplan_production;
+CREATE OR REPLACE VIEW rv_m_replenishplan_production AS    
+ SELECT mrl.ad_client_id, mrl.ad_org_id, mrl.m_replenishplan_id, p.m_product_id, pd.m_production_id, pd.productionqty, pd.datepromised, pd.movementdate,   pd.isactive, 0 AS currentcostprice      
+ FROM m_replenishplanline mrl      
+ JOIN m_production pd ON pd.m_production_id = mrl.m_production_id      
+ JOIN m_product p ON p.m_product_id = pd.m_product_id           
+ WHERE mrl.recordtype= 'Planned Production'  ORDER BY pd.m_production_id;</RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" Parse="Y" SeqNo="20" StepType="SQL">
+      <SQLStatement>DROP VIEW rv_m_replenishplan_production ;
+CREATE VIEW rv_m_replenishplan_production 
+(
+AD_CLIENT_ID,
+AD_ORG_ID,
+M_REPLENISHPLAN_ID,
+M_PRODUCT_ID,
+M_PRODUCTION_ID,
+PRODUCTIONQTY,
+DATEPROMISED,
+MOVEMENTDATE,
+ISACTIVE,
+M_PRODUCT_CATEGORY_ID,
+CURRENTCOSTPRICE,
+CURRENTCOSTVALUE
+)
+AS
+ SELECT mrl.ad_client_id,
+    mrl.ad_org_id,
+    mrl.M_ReplenishPlan_id,
+    p.m_product_id,
+    pd.m_production_id,
+    pd.productionqty,
+    pd.datepromised,
+    pd.movementdate,
+    pd.isactive,
+    p.m_product_category_id,
+    trunc(c.currentcostprice, 6) AS currentcostprice,
+    trunc(c.currentcostprice, 6)*pd.productionqty AS currentcostvalue
+   FROM m_replenishplanline mrl
+   INNER JOIN m_production pd ON pd.m_production_id = mrl.m_production_id
+   INNER JOIN m_product p ON p.m_product_id = pd.m_product_id
+     LEFT OUTER JOIN m_cost c ON c.m_product_id = p.m_product_id 
+  WHERE mrl.recordtype = 'Planned Production'
+  AND c.m_costelement_id = ( SELECT m_costelement.m_costelement_id
+           FROM m_costelement
+          WHERE m_costelement.ad_client_id = p.ad_client_id AND m_costelement.costingmethod = 'S' AND m_costelement.costelementtype = 'M')
+  ORDER BY pd.m_production_id;
+  </SQLStatement>
+      <RollbackStatement>DROP VIEW rv_m_replenishplan_production ;
+CREATE VIEW rv_m_replenishplan_production 
+( AD_CLIENT_ID, AD_ORG_ID, M_REPLENISHPLAN_ID, M_PRODUCT_ID, M_PRODUCTION_ID, 
+PRODUCTIONQTY, DATEPROMISED, MOVEMENTDATE, ISACTIVE, CURRENTCOSTPRICE 
+)
+AS    
+ SELECT mrl.ad_client_id, mrl.ad_org_id, mrl.m_replenishplan_id, p.m_product_id, pd.m_production_id, 
+pd.productionqty, 
+pd.datepromised, pd.movementdate,   pd.isactive, 0 AS currentcostprice      
+ FROM m_replenishplanline mrl      
+ INNER JOIN m_production pd ON pd.m_production_id = mrl.m_production_id      
+ INNER JOIN m_product p ON p.m_product_id = pd.m_product_id           
+ WHERE mrl.recordtype= 'Planned Production'  
+ORDER BY pd.m_production_id;</RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" Parse="Y" SeqNo="30" StepType="SQL">
+      <SQLStatement>DROP VIEW IF EXISTS rv_m_replenishplan_requisition;
+CREATE OR REPLACE VIEW rv_m_replenishplan_requisition AS
+ SELECT mrl.ad_client_id,
+    mrl.ad_org_id,
+    mrl.m_replenishplanline_id,
+    mrl.m_replenishplan_id,
+    r.m_requisition_id,
+    r.documentno,
+    rl.line,
+    p.m_product_id,
+    po.vendorproductno,
+    rl.c_bpartner_id,
+    rl.qty,
+    rl.priceactual,
+    rl.isactive,
+    r.daterequired,
+    p.m_product_category_id,
+    rl.priceactual * rl.qty as amount
+   FROM m_replenishplanline mrl
+     JOIN m_requisitionline rl ON rl.m_requisition_id = mrl.m_requisition_id AND rl.m_product_id = mrl.m_product_id
+     JOIN m_requisition r ON r.m_requisition_id = rl.m_requisition_id
+     JOIN m_product p ON p.m_product_id = rl.m_product_id
+     LEFT OUTER JOIN m_product_po po ON po.m_product_id = p.m_product_id AND po.c_bpartner_id = rl.c_bpartner_id
+  ORDER BY r.m_requisition_id, rl.line;
+
+ALTER TABLE rv_m_replenishplan_requisition
+  OWNER TO adempiere;
+</SQLStatement>
+      <RollbackStatement>DROP VIEW IF EXISTS rv_m_replenishplan_requisition;
+
+CREATE OR REPLACE VIEW rv_m_replenishplan_requisition AS
+ SELECT mrl.ad_client_id, mrl.ad_org_id, mrl.m_replenishplanline_id, mrl.m_replenishplan_id, r.m_requisition_id, r.documentno, rl.line, p.m_product_id, po.vendorproductno, rl.c_bpartner_id, rl.qty, rl.priceactual, rl.isactive
+ , r.daterequired
+   FROM m_replenishplanline mrl
+   JOIN m_requisitionline rl ON rl.m_requisition_id = mrl.m_requisition_id AND rl.m_product_id = mrl.m_product_id
+   JOIN m_requisition r ON r.m_requisition_id = rl.m_requisition_id
+   JOIN m_product p ON p.m_product_id = rl.m_product_id
+   LEFT JOIN m_product_po po ON po.m_product_id = p.m_product_id AND po.c_bpartner_id = rl.c_bpartner_id
+  ORDER BY r.m_requisition_id, rl.line;
+
+ALTER TABLE rv_m_replenishplan_requisition
+  OWNER TO adempiere;
+</RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" Parse="Y" SeqNo="40" StepType="SQL">
+      <SQLStatement>DROP VIEW rv_m_replenishplan_requisition;
+CREATE VIEW rv_m_replenishplan_requisition 
+(
+AD_CLIENT_ID,
+AD_ORG_ID,
+M_REPLENISHPLANLINE_ID,
+M_REPLENISHPLAN_ID,
+M_REQUISITION_ID,
+DOCUMENTNO,
+LINE,
+M_PRODUCT_ID,
+VENDORPRODUCTNO,
+C_BPARTNER_ID,
+QTY,
+PRICEACTUAL,
+ISACTIVE,
+DATEREQUIRED,
+M_PRODUCT_CATEGORY_ID,
+AMOUNT
+)
+AS
+ SELECT mrl.ad_client_id,
+    mrl.ad_org_id,
+    mrl.m_replenishplanline_id,
+    mrl.m_replenishplan_id,
+    r.m_requisition_id,
+    r.documentno,
+    rl.line,
+    p.m_product_id,
+    po.vendorproductno,
+    rl.c_bpartner_id,
+    rl.qty,
+    rl.priceactual,
+    rl.isactive,
+    r.daterequired,
+    p.m_product_category_id,
+    rl.priceactual * rl.qty as amount
+   FROM m_replenishplanline mrl
+     INNER JOIN m_requisitionline rl ON rl.m_requisition_id = mrl.m_requisition_id AND rl.m_product_id = mrl.m_product_id
+     INNER JOIN m_requisition r ON r.m_requisition_id = rl.m_requisition_id
+     INNER JOIN m_product p ON p.m_product_id = rl.m_product_id
+     LEFT OUTER JOIN m_product_po po ON po.m_product_id = p.m_product_id AND po.c_bpartner_id = rl.c_bpartner_id
+  ORDER BY r.m_requisition_id, rl.line;</SQLStatement>
+      <RollbackStatement>DROP rv_m_replenishplan_requisition;
+CREATE VIEW rv_m_replenishplan_requisition 
+(
+AD_CLIENT_ID, AD_ORG_ID, M_REPLENISHPLANLINE_ID, M_REPLENISHPLAN_ID, M_REQUISITION_ID, 
+DOCUMENTNO, LINE, M_PRODUCT_ID, VENDORPRODUCTNO, 
+C_BPARTNER_ID, QTY, PRICEACTUAL, ISACTIVE
+)
+AS
+ SELECT mrl.ad_client_id, mrl.ad_org_id, mrl.m_replenishplanline_id, mrl.m_replenishplan_id, r.m_requisition_id, r.documentno, rl.line, p.m_product_id, po.vendorproductno, rl.c_bpartner_id, rl.qty, rl.priceactual, rl.isactive
+   FROM m_replenishplanline mrl
+   INNER JOIN m_requisitionline rl ON rl.m_requisition_id = mrl.m_requisition_id AND rl.m_product_id = mrl.m_product_id
+   INNER JOIN m_requisition r ON r.m_requisition_id = rl.m_requisition_id
+   INNER JOIN m_product p ON p.m_product_id = rl.m_product_id
+   LEFT OUTER JOIN m_product_po po ON po.m_product_id = p.m_product_id AND po.c_bpartner_id = rl.c_bpartner_id
+  ORDER BY r.m_requisition_id, rl.line;</RollbackStatement>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="101" Action="I" Record_ID="80525" Table="AD_Column">
+        <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
+        <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="114" Column="AD_Table_ID">54054</Data>
+        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
+        <Data AD_Column_ID="110" Column="Version">0</Data>
+        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID">163</Data>
+        <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
+        <Data AD_Column_ID="113" Column="Help">Identifies the category which this product belongs to.  Product categories are used for pricing and selection.</Data>
+        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="120" Column="IsParent">false</Data>
+        <Data AD_Column_ID="118" Column="FieldLength">10</Data>
+        <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID">19</Data>
+        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="119" Column="IsKey">false</Data>
+        <Data AD_Column_ID="2608" Column="AD_Element_ID">453</Data>
+        <Data AD_Column_ID="3369" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
+        <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="56149" Column="IsAutocomplete" isNewNull="true"/>
+        <Data AD_Column_ID="56187" Column="IsAllowLogging" isNewNull="true"/>
+        <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
+        <Data AD_Column_ID="3360" Column="IsUpdateable">false</Data>
+        <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
+        <Data AD_Column_ID="116" Column="ColumnName">M_Product_Category_ID</Data>
+        <Data AD_Column_ID="112" Column="Description">Category of a Product</Data>
+        <Data AD_Column_ID="111" Column="Name">Product Category</Data>
+        <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6483" Column="IsSyncDatabase" isNewNull="true"/>
+        <Data AD_Column_ID="109" Column="AD_Column_ID">80525</Data>
+        <Data AD_Column_ID="62199" Column="IsAllowCopy" isNewNull="true"/>
+        <Data AD_Column_ID="551" Column="Updated">2016-05-27 17:03:28.272</Data>
+        <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="548" Column="IsActive">true</Data>
+        <Data AD_Column_ID="549" Column="Created">2016-05-27 17:03:28.272</Data>
+        <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="101" Action="I" Record_ID="80526" Table="AD_Column">
+        <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
+        <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="114" Column="AD_Table_ID">54055</Data>
+        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
+        <Data AD_Column_ID="110" Column="Version">0</Data>
+        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID">163</Data>
+        <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
+        <Data AD_Column_ID="113" Column="Help">Identifies the category which this product belongs to.  Product categories are used for pricing and selection.</Data>
+        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="120" Column="IsParent">false</Data>
+        <Data AD_Column_ID="118" Column="FieldLength">10</Data>
+        <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID">19</Data>
+        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="119" Column="IsKey">false</Data>
+        <Data AD_Column_ID="2608" Column="AD_Element_ID">453</Data>
+        <Data AD_Column_ID="3369" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
+        <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="56149" Column="IsAutocomplete" isNewNull="true"/>
+        <Data AD_Column_ID="56187" Column="IsAllowLogging" isNewNull="true"/>
+        <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
+        <Data AD_Column_ID="3360" Column="IsUpdateable">false</Data>
+        <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
+        <Data AD_Column_ID="116" Column="ColumnName">M_Product_Category_ID</Data>
+        <Data AD_Column_ID="112" Column="Description">Category of a Product</Data>
+        <Data AD_Column_ID="111" Column="Name">Product Category</Data>
+        <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6483" Column="IsSyncDatabase" isNewNull="true"/>
+        <Data AD_Column_ID="109" Column="AD_Column_ID">80526</Data>
+        <Data AD_Column_ID="62199" Column="IsAllowCopy" isNewNull="true"/>
+        <Data AD_Column_ID="551" Column="Updated">2016-05-27 17:04:14.668</Data>
+        <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="548" Column="IsActive">true</Data>
+        <Data AD_Column_ID="549" Column="Created">2016-05-27 17:04:14.668</Data>
+        <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="101" Action="I" Record_ID="80527" Table="AD_Column">
+        <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
+        <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="114" Column="AD_Table_ID">54054</Data>
+        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
+        <Data AD_Column_ID="110" Column="Version">0</Data>
+        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
+        <Data AD_Column_ID="113" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="120" Column="IsParent">false</Data>
+        <Data AD_Column_ID="118" Column="FieldLength">131089</Data>
+        <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID">22</Data>
+        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="119" Column="IsKey">false</Data>
+        <Data AD_Column_ID="2608" Column="AD_Element_ID">58925</Data>
+        <Data AD_Column_ID="3369" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
+        <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="56187" Column="IsAllowLogging" isNewNull="true"/>
+        <Data AD_Column_ID="56149" Column="IsAutocomplete" isNewNull="true"/>
+        <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
+        <Data AD_Column_ID="3360" Column="IsUpdateable">false</Data>
+        <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
+        <Data AD_Column_ID="116" Column="ColumnName">CurrentCostValue</Data>
+        <Data AD_Column_ID="112" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="111" Column="Name">Current Cost Value</Data>
+        <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6483" Column="IsSyncDatabase" isNewNull="true"/>
+        <Data AD_Column_ID="109" Column="AD_Column_ID">80527</Data>
+        <Data AD_Column_ID="62199" Column="IsAllowCopy" isNewNull="true"/>
+        <Data AD_Column_ID="551" Column="Updated">2016-05-30 10:13:12.833</Data>
+        <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="548" Column="IsActive">true</Data>
+        <Data AD_Column_ID="549" Column="Created">2016-05-30 10:13:12.833</Data>
+        <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="101" Action="I" Record_ID="80528" Table="AD_Column">
+        <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
+        <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="114" Column="AD_Table_ID">54055</Data>
+        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
+        <Data AD_Column_ID="110" Column="Version">0</Data>
+        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
+        <Data AD_Column_ID="113" Column="Help">The Amount indicates the amount for this document line.</Data>
+        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="120" Column="IsParent">false</Data>
+        <Data AD_Column_ID="118" Column="FieldLength">131089</Data>
+        <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID">22</Data>
+        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="119" Column="IsKey">false</Data>
+        <Data AD_Column_ID="2608" Column="AD_Element_ID">1367</Data>
+        <Data AD_Column_ID="3369" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
+        <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="56187" Column="IsAllowLogging" isNewNull="true"/>
+        <Data AD_Column_ID="56149" Column="IsAutocomplete" isNewNull="true"/>
+        <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
+        <Data AD_Column_ID="3360" Column="IsUpdateable">false</Data>
+        <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
+        <Data AD_Column_ID="116" Column="ColumnName">Amount</Data>
+        <Data AD_Column_ID="112" Column="Description">Amount in a defined currency</Data>
+        <Data AD_Column_ID="111" Column="Name">Amount</Data>
+        <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6483" Column="IsSyncDatabase" isNewNull="true"/>
+        <Data AD_Column_ID="109" Column="AD_Column_ID">80528</Data>
+        <Data AD_Column_ID="62199" Column="IsAllowCopy" isNewNull="true"/>
+        <Data AD_Column_ID="551" Column="Updated">2016-05-30 10:13:30.525</Data>
+        <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="548" Column="IsActive">true</Data>
+        <Data AD_Column_ID="549" Column="Created">2016-05-30 10:13:30.525</Data>
+        <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <PO AD_Table_ID="101" Action="I" Record_ID="80527" Table="AD_Column">
+        <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
+        <Data AD_Column_ID="120" Column="IsParent">false</Data>
+        <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="114" Column="AD_Table_ID">54054</Data>
+        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
+        <Data AD_Column_ID="110" Column="Version">0</Data>
+        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
+        <Data AD_Column_ID="113" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="118" Column="FieldLength">131089</Data>
+        <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID">22</Data>
+        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="119" Column="IsKey">false</Data>
+        <Data AD_Column_ID="2608" Column="AD_Element_ID">58925</Data>
+        <Data AD_Column_ID="3369" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
+        <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="56187" Column="IsAllowLogging" isNewNull="true"/>
+        <Data AD_Column_ID="56149" Column="IsAutocomplete" isNewNull="true"/>
+        <Data AD_Column_ID="62199" Column="IsAllowCopy" isNewNull="true"/>
+        <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
+        <Data AD_Column_ID="3360" Column="IsUpdateable">false</Data>
+        <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
+        <Data AD_Column_ID="116" Column="ColumnName">CurrentCostValue</Data>
+        <Data AD_Column_ID="112" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="111" Column="Name">Current Cost Value</Data>
+        <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6483" Column="IsSyncDatabase" isNewNull="true"/>
+        <Data AD_Column_ID="109" Column="AD_Column_ID">80527</Data>
+        <Data AD_Column_ID="551" Column="Updated">2016-05-30 10:13:12.833</Data>
+        <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="548" Column="IsActive">true</Data>
+        <Data AD_Column_ID="549" Column="Created">2016-05-30 10:13:12.833</Data>
+        <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="100" StepType="AD">
+      <PO AD_Table_ID="101" Action="I" Record_ID="80528" Table="AD_Column">
+        <Data AD_Column_ID="62199" Column="IsAllowCopy" isNewNull="true"/>
+        <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
+        <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="114" Column="AD_Table_ID">54055</Data>
+        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
+        <Data AD_Column_ID="110" Column="Version">0</Data>
+        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
+        <Data AD_Column_ID="113" Column="Help">The Amount indicates the amount for this document line.</Data>
+        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="120" Column="IsParent">false</Data>
+        <Data AD_Column_ID="118" Column="FieldLength">131089</Data>
+        <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID">22</Data>
+        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="119" Column="IsKey">false</Data>
+        <Data AD_Column_ID="2608" Column="AD_Element_ID">1367</Data>
+        <Data AD_Column_ID="3369" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
+        <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="56187" Column="IsAllowLogging" isNewNull="true"/>
+        <Data AD_Column_ID="56149" Column="IsAutocomplete" isNewNull="true"/>
+        <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
+        <Data AD_Column_ID="3360" Column="IsUpdateable">false</Data>
+        <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
+        <Data AD_Column_ID="116" Column="ColumnName">Amount</Data>
+        <Data AD_Column_ID="112" Column="Description">Amount in a defined currency</Data>
+        <Data AD_Column_ID="111" Column="Name">Amount</Data>
+        <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6483" Column="IsSyncDatabase" isNewNull="true"/>
+        <Data AD_Column_ID="109" Column="AD_Column_ID">80528</Data>
+        <Data AD_Column_ID="551" Column="Updated">2016-05-30 10:13:30.525</Data>
+        <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="548" Column="IsActive">true</Data>
+        <Data AD_Column_ID="549" Column="Created">2016-05-30 10:13:30.525</Data>
+        <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

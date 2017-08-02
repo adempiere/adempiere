@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="DocType Production Batch" ReleaseNo="3.9.0" SeqNo="00970">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="108" Action="I" Record_ID="300000" Table="AD_Val_Rule">
+        <Data AD_Column_ID="7715" Column="EntityType">D</Data>
+        <Data AD_Column_ID="387" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="388" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="187" Column="AD_Val_Rule_ID">300000</Data>
+        <Data AD_Column_ID="193" Column="Code">C_DocType.DocBaseType IN ('MPO')</Data>
+        <Data AD_Column_ID="584" Column="Created">2016-10-04 11:02:18.955</Data>
+        <Data AD_Column_ID="585" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="189" Column="Description">Document Type for Production Order</Data>
+        <Data AD_Column_ID="583" Column="IsActive">true</Data>
+        <Data AD_Column_ID="188" Column="Name">C_DocTypePO Production Light</Data>
+        <Data AD_Column_ID="192" Column="Type">S</Data>
+        <Data AD_Column_ID="586" Column="Updated">2016-10-04 11:02:18.955</Data>
+        <Data AD_Column_ID="587" Column="UpdatedBy">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="78218" Table="AD_Column">
+        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" oldValue="52437">300000</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

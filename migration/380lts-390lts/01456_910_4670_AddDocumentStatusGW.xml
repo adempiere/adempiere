@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Document Status Indicators Dashboard GW" ReleaseNo="3.9.0" SeqNo="01456">
+    <Comments>https://github.com/adempiere/adempiere/issues/910</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <Comments>Add new document status indicator: Pending Customer Shipments</Comments>
+      <PO AD_Table_ID="53898" Action="I" Record_ID="50000" Table="PA_DocumentStatus">
+        <Data AD_Column_ID="74869" Column="PA_DocumentStatus_ID">50000</Data>
+        <Data AD_Column_ID="74870" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="74872" Column="AD_Role_ID" isNewNull="true"/>
+        <Data AD_Column_ID="74887" Column="AD_Table_ID">319</Data>
+        <Data AD_Column_ID="74873" Column="AD_User_ID" isNewNull="true"/>
+        <Data AD_Column_ID="74889" Column="AD_Window_ID">169</Data>
+        <Data AD_Column_ID="74874" Column="C_Project_ID" isNewNull="true"/>
+        <Data AD_Column_ID="74875" Column="Created">2015-07-27 18:17:21.759</Data>
+        <Data AD_Column_ID="74876" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="74883" Column="Name_PrintColor_ID">100</Data>
+        <Data AD_Column_ID="74871" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="74880" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="74881" Column="IsActive">true</Data>
+        <Data AD_Column_ID="74879" Column="Name">Pending Customer Shipments</Data>
+        <Data AD_Column_ID="74884" Column="Name_PrintFont_ID">129</Data>
+        <Data AD_Column_ID="74885" Column="Number_PrintColor_ID">102</Data>
+        <Data AD_Column_ID="74886" Column="Number_PrintFont_ID">129</Data>
+        <Data AD_Column_ID="74882" Column="SeqNo">1</Data>
+        <Data AD_Column_ID="74877" Column="Updated">2015-07-27 18:17:21.759</Data>
+        <Data AD_Column_ID="74878" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="74888" Column="WhereClause">M_InOut.IsSOTrx='Y' AND M_InOut.Processed='N'</Data>
+        <Data AD_Column_ID="74890" Column="AD_Form_ID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <Comments>Add new document status indicator: Pending Orders</Comments>
+      <PO AD_Table_ID="53898" Action="I" Record_ID="50016" Table="PA_DocumentStatus">
+        <Data AD_Column_ID="74870" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="74871" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="74869" Column="PA_DocumentStatus_ID">50016</Data>
+        <Data AD_Column_ID="74887" Column="AD_Table_ID">259</Data>
+        <Data AD_Column_ID="74873" Column="AD_User_ID" isNewNull="true"/>
+        <Data AD_Column_ID="74874" Column="C_Project_ID" isNewNull="true"/>
+        <Data AD_Column_ID="74875" Column="Created">2017-04-02 10:58:45.127</Data>
+        <Data AD_Column_ID="74876" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="74880" Column="Description">Sales Orders not completed</Data>
+        <Data AD_Column_ID="74883" Column="Name_PrintColor_ID">100</Data>
+        <Data AD_Column_ID="74884" Column="Name_PrintFont_ID">129</Data>
+        <Data AD_Column_ID="74885" Column="Number_PrintColor_ID">102</Data>
+        <Data AD_Column_ID="74886" Column="Number_PrintFont_ID">129</Data>
+        <Data AD_Column_ID="74882" Column="SeqNo">1</Data>
+        <Data AD_Column_ID="74877" Column="Updated">2017-04-02 10:58:45.127</Data>
+        <Data AD_Column_ID="74878" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="74872" Column="AD_Role_ID" isNewNull="true"/>
+        <Data AD_Column_ID="74889" Column="AD_Window_ID">143</Data>
+        <Data AD_Column_ID="74881" Column="IsActive">true</Data>
+        <Data AD_Column_ID="74888" Column="WhereClause">C_Order.IsSOTrx='Y' AND C_Order.Processed='N'</Data>
+        <Data AD_Column_ID="74890" Column="AD_Form_ID" isNewNull="true"/>
+        <Data AD_Column_ID="74879" Column="Name">Pending Sales Orders</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

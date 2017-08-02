@@ -1,0 +1,825 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Some changes on Manufactury Light" ReleaseNo="3.9.0" SeqNo="2970">
+    <Comments>See: https://github.com/adempiere/adempiere/issues/789</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="55638" Table="AD_Process_Para">
+        <Data AD_Column_ID="3738" Column="IsMandatory" oldValue="false">true</Data>
+        <Data AD_Column_ID="2827" Column="AD_Reference_ID" oldValue="19">30</Data>
+        <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID" isOldNull="true">231</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="285" Action="I" Record_ID="55954" Table="AD_Process_Para">
+        <Data AD_Column_ID="2814" Column="AD_Process_Para_ID">55954</Data>
+        <Data AD_Column_ID="2822" Column="Name">Warehouse</Data>
+        <Data AD_Column_ID="2817" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2820" Column="Updated">2017-07-30 17:41:49.825</Data>
+        <Data AD_Column_ID="2816" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2818" Column="Created">2017-07-30 17:41:49.825</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
+        <Data AD_Column_ID="3738" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="3737" Column="FieldLength">22</Data>
+        <Data AD_Column_ID="3742" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="4017" Column="ColumnName">M_Warehouse_ID</Data>
+        <Data AD_Column_ID="2823" Column="Description">Storage Warehouse and Service Point</Data>
+        <Data AD_Column_ID="2824" Column="Help">The Warehouse identifies a unique Warehouse where products are stored or Services are provided.</Data>
+        <Data AD_Column_ID="2825" Column="AD_Process_ID">53685</Data>
+        <Data AD_Column_ID="2830" Column="IsRange">false</Data>
+        <Data AD_Column_ID="2819" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2827" Column="AD_Reference_ID">19</Data>
+        <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2826" Column="SeqNo">40</Data>
+        <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="2821" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="5819" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="5593" Column="DefaultValue2" isNewNull="true"/>
+        <Data AD_Column_ID="3740" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="3741" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="3739" Column="DefaultValue">-1</Data>
+        <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="7729" Column="AD_Element_ID">459</Data>
+        <Data AD_Column_ID="81287" Column="IsInfoOnly">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="286" Action="I" Record_ID="0" Table="AD_Process_Para_Trl">
+        <Data AD_Column_ID="2836" Column="Created">2017-07-30 17:41:52.006</Data>
+        <Data AD_Column_ID="2833" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2838" Column="Updated">2017-07-30 17:41:52.006</Data>
+        <Data AD_Column_ID="2834" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2835" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2842" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="2840" Column="Name">Warehouse</Data>
+        <Data AD_Column_ID="2837" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2832" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="2841" Column="Description">Storage Warehouse and Service Point</Data>
+        <Data AD_Column_ID="3743" Column="Help">The Warehouse identifies a unique Warehouse where products are stored or Services are provided.</Data>
+        <Data AD_Column_ID="2831" Column="AD_Process_Para_ID">55954</Data>
+        <Data AD_Column_ID="2839" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="285" Action="I" Record_ID="55955" Table="AD_Process_Para">
+        <Data AD_Column_ID="2814" Column="AD_Process_Para_ID">55955</Data>
+        <Data AD_Column_ID="2822" Column="Name">Locator</Data>
+        <Data AD_Column_ID="2817" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2820" Column="Updated">2017-07-30 17:43:04.683</Data>
+        <Data AD_Column_ID="2816" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2818" Column="Created">2017-07-30 17:43:04.683</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
+        <Data AD_Column_ID="3738" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="3737" Column="FieldLength">22</Data>
+        <Data AD_Column_ID="3742" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="4017" Column="ColumnName">M_Locator_ID</Data>
+        <Data AD_Column_ID="2823" Column="Description">Warehouse Locator</Data>
+        <Data AD_Column_ID="2824" Column="Help">The Locator indicates where in a Warehouse a product is located.</Data>
+        <Data AD_Column_ID="2825" Column="AD_Process_ID">53685</Data>
+        <Data AD_Column_ID="2830" Column="IsRange">false</Data>
+        <Data AD_Column_ID="2819" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2827" Column="AD_Reference_ID">19</Data>
+        <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID">127</Data>
+        <Data AD_Column_ID="2826" Column="SeqNo">50</Data>
+        <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="2821" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="5819" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="5593" Column="DefaultValue2" isNewNull="true"/>
+        <Data AD_Column_ID="3740" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="3741" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="3739" Column="DefaultValue">-1</Data>
+        <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="7729" Column="AD_Element_ID">448</Data>
+        <Data AD_Column_ID="81287" Column="IsInfoOnly">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="286" Action="I" Record_ID="0" Table="AD_Process_Para_Trl">
+        <Data AD_Column_ID="2836" Column="Created">2017-07-30 17:43:05.947</Data>
+        <Data AD_Column_ID="2833" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2838" Column="Updated">2017-07-30 17:43:05.947</Data>
+        <Data AD_Column_ID="2834" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2835" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2842" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="2840" Column="Name">Locator</Data>
+        <Data AD_Column_ID="2837" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2832" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="2841" Column="Description">Warehouse Locator</Data>
+        <Data AD_Column_ID="3743" Column="Help">The Locator indicates where in a Warehouse a product is located.</Data>
+        <Data AD_Column_ID="2831" Column="AD_Process_Para_ID">55955</Data>
+        <Data AD_Column_ID="2839" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="285" Action="I" Record_ID="55956" Table="AD_Process_Para">
+        <Data AD_Column_ID="2814" Column="AD_Process_Para_ID">55956</Data>
+        <Data AD_Column_ID="2822" Column="Name">Date Start</Data>
+        <Data AD_Column_ID="2817" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2820" Column="Updated">2017-07-30 17:44:11.477</Data>
+        <Data AD_Column_ID="2816" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2818" Column="Created">2017-07-30 17:44:11.477</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
+        <Data AD_Column_ID="3738" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="3737" Column="FieldLength">29</Data>
+        <Data AD_Column_ID="3742" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="4017" Column="ColumnName">DateStart</Data>
+        <Data AD_Column_ID="2823" Column="Description">Date Start for this Order</Data>
+        <Data AD_Column_ID="2824" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="2825" Column="AD_Process_ID">53685</Data>
+        <Data AD_Column_ID="2830" Column="IsRange">false</Data>
+        <Data AD_Column_ID="2819" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2827" Column="AD_Reference_ID">15</Data>
+        <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2826" Column="SeqNo">60</Data>
+        <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="2821" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="5819" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="5593" Column="DefaultValue2" isNewNull="true"/>
+        <Data AD_Column_ID="3740" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="3741" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="7729" Column="AD_Element_ID">53280</Data>
+        <Data AD_Column_ID="81287" Column="IsInfoOnly">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="286" Action="I" Record_ID="0" Table="AD_Process_Para_Trl">
+        <Data AD_Column_ID="2836" Column="Created">2017-07-30 17:44:12.707</Data>
+        <Data AD_Column_ID="2833" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2838" Column="Updated">2017-07-30 17:44:12.707</Data>
+        <Data AD_Column_ID="2834" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2835" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2842" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="2840" Column="Name">Date Start</Data>
+        <Data AD_Column_ID="2837" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2832" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="2841" Column="Description">Date Start for this Order</Data>
+        <Data AD_Column_ID="3743" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="2831" Column="AD_Process_Para_ID">55956</Data>
+        <Data AD_Column_ID="2839" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="285" Action="I" Record_ID="55957" Table="AD_Process_Para">
+        <Data AD_Column_ID="2814" Column="AD_Process_Para_ID">55957</Data>
+        <Data AD_Column_ID="2822" Column="Name">Finish Date</Data>
+        <Data AD_Column_ID="2817" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2820" Column="Updated">2017-07-30 17:44:21.655</Data>
+        <Data AD_Column_ID="2816" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2818" Column="Created">2017-07-30 17:44:21.655</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
+        <Data AD_Column_ID="3738" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="3737" Column="FieldLength">7</Data>
+        <Data AD_Column_ID="3742" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="4017" Column="ColumnName">DateFinish</Data>
+        <Data AD_Column_ID="2823" Column="Description">Finish or (planned) completion date</Data>
+        <Data AD_Column_ID="2824" Column="Help">The finish date is used to indicate when the project is expected to be completed or has been completed.</Data>
+        <Data AD_Column_ID="2825" Column="AD_Process_ID">53685</Data>
+        <Data AD_Column_ID="2830" Column="IsRange">false</Data>
+        <Data AD_Column_ID="2819" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2827" Column="AD_Reference_ID">15</Data>
+        <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2826" Column="SeqNo">70</Data>
+        <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="2821" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="5819" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="5593" Column="DefaultValue2" isNewNull="true"/>
+        <Data AD_Column_ID="3740" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="3741" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="7729" Column="AD_Element_ID">1557</Data>
+        <Data AD_Column_ID="81287" Column="IsInfoOnly">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <PO AD_Table_ID="286" Action="I" Record_ID="0" Table="AD_Process_Para_Trl">
+        <Data AD_Column_ID="2836" Column="Created">2017-07-30 17:44:22.795</Data>
+        <Data AD_Column_ID="2833" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2838" Column="Updated">2017-07-30 17:44:22.795</Data>
+        <Data AD_Column_ID="2834" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2835" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2842" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="2840" Column="Name">Finish Date</Data>
+        <Data AD_Column_ID="2837" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2832" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="2841" Column="Description">Finish or (planned) completion date</Data>
+        <Data AD_Column_ID="3743" Column="Help">The finish date is used to indicate when the project is expected to be completed or has been completed.</Data>
+        <Data AD_Column_ID="2831" Column="AD_Process_Para_ID">55957</Data>
+        <Data AD_Column_ID="2839" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="100" StepType="AD">
+      <PO AD_Table_ID="102" Action="I" Record_ID="53930" Table="AD_Reference">
+        <Data AD_Column_ID="556" Column="Updated">2017-07-30 17:54:00.369</Data>
+        <Data AD_Column_ID="129" Column="AD_Reference_ID">53930</Data>
+        <Data AD_Column_ID="363" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="364" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="553" Column="IsActive">true</Data>
+        <Data AD_Column_ID="554" Column="Created">2017-07-30 17:54:00.369</Data>
+        <Data AD_Column_ID="6486" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="139" Column="ValidationType">L</Data>
+        <Data AD_Column_ID="132" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="557" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="54355" Column="IsOrderByValue">false</Data>
+        <Data AD_Column_ID="1180" Column="VFormat">LL</Data>
+        <Data AD_Column_ID="130" Column="Name">M_ReplenishPlanLine RelationType</Data>
+        <Data AD_Column_ID="131" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="555" Column="CreatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="110" StepType="AD">
+      <PO AD_Table_ID="126" Action="I" Record_ID="0" Table="AD_Reference_Trl">
+        <Data AD_Column_ID="666" Column="IsActive">true</Data>
+        <Data AD_Column_ID="667" Column="Created">2017-07-30 17:54:02.29</Data>
+        <Data AD_Column_ID="1203" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="669" Column="Updated">2017-07-30 17:54:02.29</Data>
+        <Data AD_Column_ID="1202" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="670" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="280" Column="Name">M_ReplenishPlanLine RelationType</Data>
+        <Data AD_Column_ID="279" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="283" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="281" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="278" Column="AD_Reference_ID">53930</Data>
+        <Data AD_Column_ID="668" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="282" Column="Help" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="120" StepType="AD">
+      <PO AD_Table_ID="102" Action="U" Record_ID="53930" Table="AD_Reference">
+        <Data AD_Column_ID="130" Column="Name" oldValue="M_ReplenishPlanLine RelationType">M_ReplenishPlanLine RecordType</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="130" StepType="AD">
+      <PO AD_Table_ID="104" Action="I" Record_ID="54990" Table="AD_Ref_List">
+        <Data AD_Column_ID="200" Column="Value">CB</Data>
+        <Data AD_Column_ID="564" Column="Created">2017-07-30 17:57:15.445</Data>
+        <Data AD_Column_ID="566" Column="Updated">2017-07-30 17:57:15.445</Data>
+        <Data AD_Column_ID="7712" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="148" Column="AD_Ref_List_ID">54990</Data>
+        <Data AD_Column_ID="372" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="563" Column="IsActive">true</Data>
+        <Data AD_Column_ID="371" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="151" Column="AD_Reference_ID">53930</Data>
+        <Data AD_Column_ID="565" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="567" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="150" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="152" Column="ValidFrom" isNewNull="true"/>
+        <Data AD_Column_ID="149" Column="Name">Closing Balance</Data>
+        <Data AD_Column_ID="153" Column="ValidTo" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="140" StepType="AD">
+      <PO AD_Table_ID="136" Action="I" Record_ID="54990" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="340" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="1216" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1215" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="706" Column="IsActive">true</Data>
+        <Data AD_Column_ID="707" Column="Created">2017-07-30 17:57:16.479</Data>
+        <Data AD_Column_ID="709" Column="Updated">2017-07-30 17:57:16.479</Data>
+        <Data AD_Column_ID="710" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="338" Column="Name">Closing Balance</Data>
+        <Data AD_Column_ID="708" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="339" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID">54990</Data>
+        <Data AD_Column_ID="337" Column="AD_Language">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="150" StepType="AD">
+      <PO AD_Table_ID="136" Action="U" Record_ID="54990" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="338" Column="Name" oldValue="Closing Balance">Saldo de Cierre</Data>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID" oldValue="54990">54990</Data>
+        <Data AD_Column_ID="337" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="160" StepType="AD">
+      <PO AD_Table_ID="104" Action="I" Record_ID="54991" Table="AD_Ref_List">
+        <Data AD_Column_ID="200" Column="Value">OB</Data>
+        <Data AD_Column_ID="564" Column="Created">2017-07-30 17:58:09.57</Data>
+        <Data AD_Column_ID="566" Column="Updated">2017-07-30 17:58:09.57</Data>
+        <Data AD_Column_ID="7712" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="148" Column="AD_Ref_List_ID">54991</Data>
+        <Data AD_Column_ID="372" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="563" Column="IsActive">true</Data>
+        <Data AD_Column_ID="371" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="151" Column="AD_Reference_ID">53930</Data>
+        <Data AD_Column_ID="565" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="567" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="150" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="152" Column="ValidFrom" isNewNull="true"/>
+        <Data AD_Column_ID="149" Column="Name">Opening Balance</Data>
+        <Data AD_Column_ID="153" Column="ValidTo" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="170" StepType="AD">
+      <PO AD_Table_ID="136" Action="I" Record_ID="54991" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="340" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="1216" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1215" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="706" Column="IsActive">true</Data>
+        <Data AD_Column_ID="707" Column="Created">2017-07-30 17:58:14.251</Data>
+        <Data AD_Column_ID="709" Column="Updated">2017-07-30 17:58:14.251</Data>
+        <Data AD_Column_ID="710" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="338" Column="Name">Opening Balance</Data>
+        <Data AD_Column_ID="708" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="339" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID">54991</Data>
+        <Data AD_Column_ID="337" Column="AD_Language">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="180" StepType="AD">
+      <PO AD_Table_ID="136" Action="U" Record_ID="54991" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="338" Column="Name" oldValue="Opening Balance">Saldo de Apertura</Data>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID" oldValue="54991">54991</Data>
+        <Data AD_Column_ID="337" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="190" StepType="AD">
+      <PO AD_Table_ID="104" Action="I" Record_ID="54992" Table="AD_Ref_List">
+        <Data AD_Column_ID="200" Column="Value">10000000</Data>
+        <Data AD_Column_ID="564" Column="Created">2017-07-30 17:59:05.147</Data>
+        <Data AD_Column_ID="566" Column="Updated">2017-07-30 17:59:05.147</Data>
+        <Data AD_Column_ID="7712" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="148" Column="AD_Ref_List_ID">54992</Data>
+        <Data AD_Column_ID="372" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="563" Column="IsActive">true</Data>
+        <Data AD_Column_ID="371" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="151" Column="AD_Reference_ID">53930</Data>
+        <Data AD_Column_ID="565" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="567" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="150" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="152" Column="ValidFrom" isNewNull="true"/>
+        <Data AD_Column_ID="149" Column="Name">Supply - Purchasing</Data>
+        <Data AD_Column_ID="153" Column="ValidTo" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="200" StepType="AD">
+      <PO AD_Table_ID="136" Action="I" Record_ID="54992" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="340" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="1216" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1215" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="706" Column="IsActive">true</Data>
+        <Data AD_Column_ID="707" Column="Created">2017-07-30 17:59:10.01</Data>
+        <Data AD_Column_ID="709" Column="Updated">2017-07-30 17:59:10.01</Data>
+        <Data AD_Column_ID="710" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="338" Column="Name">Supply - Purchasing</Data>
+        <Data AD_Column_ID="708" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="339" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID">54992</Data>
+        <Data AD_Column_ID="337" Column="AD_Language">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="210" StepType="AD">
+      <PO AD_Table_ID="104" Action="U" Record_ID="54992" Table="AD_Ref_List">
+        <Data AD_Column_ID="200" Column="Value" oldValue="10000000">SP</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="220" StepType="AD">
+      <PO AD_Table_ID="136" Action="U" Record_ID="54992" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="338" Column="Name" oldValue="Supply - Purchasing">Suministro - Compra</Data>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID" oldValue="54992">54992</Data>
+        <Data AD_Column_ID="337" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="230" StepType="AD">
+      <PO AD_Table_ID="104" Action="I" Record_ID="54993" Table="AD_Ref_List">
+        <Data AD_Column_ID="200" Column="Value">SR</Data>
+        <Data AD_Column_ID="564" Column="Created">2017-07-30 18:00:28.552</Data>
+        <Data AD_Column_ID="566" Column="Updated">2017-07-30 18:00:28.552</Data>
+        <Data AD_Column_ID="7712" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="148" Column="AD_Ref_List_ID">54993</Data>
+        <Data AD_Column_ID="372" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="563" Column="IsActive">true</Data>
+        <Data AD_Column_ID="371" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="151" Column="AD_Reference_ID">53930</Data>
+        <Data AD_Column_ID="565" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="567" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="150" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="152" Column="ValidFrom" isNewNull="true"/>
+        <Data AD_Column_ID="149" Column="Name">Supply - Requisition</Data>
+        <Data AD_Column_ID="153" Column="ValidTo" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="240" StepType="AD">
+      <PO AD_Table_ID="136" Action="I" Record_ID="54993" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="340" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="1216" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1215" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="706" Column="IsActive">true</Data>
+        <Data AD_Column_ID="707" Column="Created">2017-07-30 18:00:29.63</Data>
+        <Data AD_Column_ID="709" Column="Updated">2017-07-30 18:00:29.63</Data>
+        <Data AD_Column_ID="710" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="338" Column="Name">Supply - Requisition</Data>
+        <Data AD_Column_ID="708" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="339" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID">54993</Data>
+        <Data AD_Column_ID="337" Column="AD_Language">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="250" StepType="AD">
+      <PO AD_Table_ID="136" Action="U" Record_ID="54993" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="338" Column="Name" oldValue="Supply - Requisition">Suministro - Requisición</Data>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID" oldValue="54993">54993</Data>
+        <Data AD_Column_ID="337" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="260" StepType="AD">
+      <PO AD_Table_ID="104" Action="I" Record_ID="54994" Table="AD_Ref_List">
+        <Data AD_Column_ID="200" Column="Value">PP</Data>
+        <Data AD_Column_ID="564" Column="Created">2017-07-30 18:01:23.5</Data>
+        <Data AD_Column_ID="566" Column="Updated">2017-07-30 18:01:23.5</Data>
+        <Data AD_Column_ID="7712" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="148" Column="AD_Ref_List_ID">54994</Data>
+        <Data AD_Column_ID="372" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="563" Column="IsActive">true</Data>
+        <Data AD_Column_ID="371" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="151" Column="AD_Reference_ID">53930</Data>
+        <Data AD_Column_ID="565" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="567" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="150" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="152" Column="ValidFrom" isNewNull="true"/>
+        <Data AD_Column_ID="149" Column="Name">Planned Production</Data>
+        <Data AD_Column_ID="153" Column="ValidTo" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="270" StepType="AD">
+      <PO AD_Table_ID="136" Action="I" Record_ID="54994" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="340" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="1216" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1215" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="706" Column="IsActive">true</Data>
+        <Data AD_Column_ID="707" Column="Created">2017-07-30 18:01:24.56</Data>
+        <Data AD_Column_ID="709" Column="Updated">2017-07-30 18:01:24.56</Data>
+        <Data AD_Column_ID="710" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="338" Column="Name">Planned Production</Data>
+        <Data AD_Column_ID="708" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="339" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID">54994</Data>
+        <Data AD_Column_ID="337" Column="AD_Language">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="280" StepType="AD">
+      <PO AD_Table_ID="136" Action="U" Record_ID="54994" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="338" Column="Name" oldValue="Planned Production">Producción Planificada</Data>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID" oldValue="54994">54994</Data>
+        <Data AD_Column_ID="337" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="290" StepType="AD">
+      <PO AD_Table_ID="104" Action="I" Record_ID="54995" Table="AD_Ref_List">
+        <Data AD_Column_ID="200" Column="Value">CP</Data>
+        <Data AD_Column_ID="564" Column="Created">2017-07-30 18:01:49.887</Data>
+        <Data AD_Column_ID="566" Column="Updated">2017-07-30 18:01:49.887</Data>
+        <Data AD_Column_ID="7712" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="148" Column="AD_Ref_List_ID">54995</Data>
+        <Data AD_Column_ID="372" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="563" Column="IsActive">true</Data>
+        <Data AD_Column_ID="371" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="151" Column="AD_Reference_ID">53930</Data>
+        <Data AD_Column_ID="565" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="567" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="150" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="152" Column="ValidFrom" isNewNull="true"/>
+        <Data AD_Column_ID="149" Column="Name">Confirmed Production</Data>
+        <Data AD_Column_ID="153" Column="ValidTo" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="300" StepType="AD">
+      <PO AD_Table_ID="136" Action="I" Record_ID="54995" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="340" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="1216" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1215" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="706" Column="IsActive">true</Data>
+        <Data AD_Column_ID="707" Column="Created">2017-07-30 18:01:51.041</Data>
+        <Data AD_Column_ID="709" Column="Updated">2017-07-30 18:01:51.041</Data>
+        <Data AD_Column_ID="710" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="338" Column="Name">Confirmed Production</Data>
+        <Data AD_Column_ID="708" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="339" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID">54995</Data>
+        <Data AD_Column_ID="337" Column="AD_Language">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="310" StepType="AD">
+      <PO AD_Table_ID="136" Action="U" Record_ID="54995" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="338" Column="Name" oldValue="Confirmed Production">Producción Confirmada</Data>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID" oldValue="54995">54995</Data>
+        <Data AD_Column_ID="337" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="320" StepType="AD">
+      <PO AD_Table_ID="104" Action="I" Record_ID="54996" Table="AD_Ref_List">
+        <Data AD_Column_ID="200" Column="Value">10000001</Data>
+        <Data AD_Column_ID="564" Column="Created">2017-07-30 18:03:16.169</Data>
+        <Data AD_Column_ID="566" Column="Updated">2017-07-30 18:03:16.169</Data>
+        <Data AD_Column_ID="7712" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="148" Column="AD_Ref_List_ID">54996</Data>
+        <Data AD_Column_ID="372" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="563" Column="IsActive">true</Data>
+        <Data AD_Column_ID="371" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="151" Column="AD_Reference_ID">53930</Data>
+        <Data AD_Column_ID="565" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="567" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="150" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="152" Column="ValidFrom" isNewNull="true"/>
+        <Data AD_Column_ID="149" Column="Name">Total Demand</Data>
+        <Data AD_Column_ID="153" Column="ValidTo" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="330" StepType="AD">
+      <PO AD_Table_ID="136" Action="I" Record_ID="54996" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="340" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="1216" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1215" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="706" Column="IsActive">true</Data>
+        <Data AD_Column_ID="707" Column="Created">2017-07-30 18:03:17.168</Data>
+        <Data AD_Column_ID="709" Column="Updated">2017-07-30 18:03:17.168</Data>
+        <Data AD_Column_ID="710" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="338" Column="Name">Total Demand</Data>
+        <Data AD_Column_ID="708" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="339" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID">54996</Data>
+        <Data AD_Column_ID="337" Column="AD_Language">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="340" StepType="AD">
+      <PO AD_Table_ID="104" Action="U" Record_ID="54996" Table="AD_Ref_List">
+        <Data AD_Column_ID="200" Column="Value" oldValue="10000001">TD</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="350" StepType="AD">
+      <PO AD_Table_ID="136" Action="U" Record_ID="54996" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="338" Column="Name" oldValue="Total Demand">Total (Demanda)</Data>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID" oldValue="54996">54996</Data>
+        <Data AD_Column_ID="337" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="360" StepType="AD">
+      <PO AD_Table_ID="104" Action="I" Record_ID="54997" Table="AD_Ref_List">
+        <Data AD_Column_ID="200" Column="Value">TS</Data>
+        <Data AD_Column_ID="564" Column="Created">2017-07-30 18:04:00.476</Data>
+        <Data AD_Column_ID="566" Column="Updated">2017-07-30 18:04:00.476</Data>
+        <Data AD_Column_ID="7712" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="148" Column="AD_Ref_List_ID">54997</Data>
+        <Data AD_Column_ID="372" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="563" Column="IsActive">true</Data>
+        <Data AD_Column_ID="371" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="151" Column="AD_Reference_ID">53930</Data>
+        <Data AD_Column_ID="565" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="567" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="150" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="152" Column="ValidFrom" isNewNull="true"/>
+        <Data AD_Column_ID="149" Column="Name">Total Supply</Data>
+        <Data AD_Column_ID="153" Column="ValidTo" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="370" StepType="AD">
+      <PO AD_Table_ID="136" Action="I" Record_ID="54997" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="340" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="1216" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1215" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="706" Column="IsActive">true</Data>
+        <Data AD_Column_ID="707" Column="Created">2017-07-30 18:04:02.763</Data>
+        <Data AD_Column_ID="709" Column="Updated">2017-07-30 18:04:02.763</Data>
+        <Data AD_Column_ID="710" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="338" Column="Name">Total Supply</Data>
+        <Data AD_Column_ID="708" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="339" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID">54997</Data>
+        <Data AD_Column_ID="337" Column="AD_Language">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="380" StepType="AD">
+      <PO AD_Table_ID="136" Action="U" Record_ID="54997" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="338" Column="Name" oldValue="Total Supply">Total (Suministro)</Data>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID" oldValue="54997">54997</Data>
+        <Data AD_Column_ID="337" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="390" StepType="AD">
+      <PO AD_Table_ID="104" Action="I" Record_ID="54998" Table="AD_Ref_List">
+        <Data AD_Column_ID="200" Column="Value">TP</Data>
+        <Data AD_Column_ID="564" Column="Created">2017-07-30 18:04:50.094</Data>
+        <Data AD_Column_ID="566" Column="Updated">2017-07-30 18:04:50.094</Data>
+        <Data AD_Column_ID="7712" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="148" Column="AD_Ref_List_ID">54998</Data>
+        <Data AD_Column_ID="372" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="563" Column="IsActive">true</Data>
+        <Data AD_Column_ID="371" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="151" Column="AD_Reference_ID">53930</Data>
+        <Data AD_Column_ID="565" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="567" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="150" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="152" Column="ValidFrom" isNewNull="true"/>
+        <Data AD_Column_ID="149" Column="Name">Total Supply - PO</Data>
+        <Data AD_Column_ID="153" Column="ValidTo" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="400" StepType="AD">
+      <PO AD_Table_ID="136" Action="I" Record_ID="54998" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="340" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="1216" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1215" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="706" Column="IsActive">true</Data>
+        <Data AD_Column_ID="707" Column="Created">2017-07-30 18:04:55.395</Data>
+        <Data AD_Column_ID="709" Column="Updated">2017-07-30 18:04:55.395</Data>
+        <Data AD_Column_ID="710" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="338" Column="Name">Total Supply - PO</Data>
+        <Data AD_Column_ID="708" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="339" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID">54998</Data>
+        <Data AD_Column_ID="337" Column="AD_Language">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="410" StepType="AD">
+      <PO AD_Table_ID="136" Action="U" Record_ID="54998" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="338" Column="Name" oldValue="Total Supply - PO">Total (Suministro - Compras)</Data>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID" oldValue="54998">54998</Data>
+        <Data AD_Column_ID="337" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="420" StepType="AD">
+      <PO AD_Table_ID="104" Action="I" Record_ID="54999" Table="AD_Ref_List">
+        <Data AD_Column_ID="200" Column="Value">TR</Data>
+        <Data AD_Column_ID="564" Column="Created">2017-07-30 18:05:31.48</Data>
+        <Data AD_Column_ID="566" Column="Updated">2017-07-30 18:05:31.48</Data>
+        <Data AD_Column_ID="7712" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="148" Column="AD_Ref_List_ID">54999</Data>
+        <Data AD_Column_ID="372" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="563" Column="IsActive">true</Data>
+        <Data AD_Column_ID="371" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="151" Column="AD_Reference_ID">53930</Data>
+        <Data AD_Column_ID="565" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="567" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="150" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="152" Column="ValidFrom" isNewNull="true"/>
+        <Data AD_Column_ID="149" Column="Name">Total Supply - Requisition</Data>
+        <Data AD_Column_ID="153" Column="ValidTo" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="430" StepType="AD">
+      <PO AD_Table_ID="136" Action="I" Record_ID="54999" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="340" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="1216" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1215" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="706" Column="IsActive">true</Data>
+        <Data AD_Column_ID="707" Column="Created">2017-07-30 18:05:40.528</Data>
+        <Data AD_Column_ID="709" Column="Updated">2017-07-30 18:05:40.528</Data>
+        <Data AD_Column_ID="710" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="338" Column="Name">Total Supply - Requisition</Data>
+        <Data AD_Column_ID="708" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="339" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID">54999</Data>
+        <Data AD_Column_ID="337" Column="AD_Language">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="440" StepType="AD">
+      <PO AD_Table_ID="136" Action="U" Record_ID="54999" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="338" Column="Name" oldValue="Total Supply - Requisition">Total (Suministro - Requisición)</Data>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID" oldValue="54999">54999</Data>
+        <Data AD_Column_ID="337" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="450" StepType="AD">
+      <PO AD_Table_ID="104" Action="I" Record_ID="55000" Table="AD_Ref_List">
+        <Data AD_Column_ID="200" Column="Value">TM</Data>
+        <Data AD_Column_ID="564" Column="Created">2017-07-30 18:06:20.623</Data>
+        <Data AD_Column_ID="566" Column="Updated">2017-07-30 18:06:20.623</Data>
+        <Data AD_Column_ID="7712" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="148" Column="AD_Ref_List_ID">55000</Data>
+        <Data AD_Column_ID="372" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="563" Column="IsActive">true</Data>
+        <Data AD_Column_ID="371" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="151" Column="AD_Reference_ID">53930</Data>
+        <Data AD_Column_ID="565" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="567" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="150" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="152" Column="ValidFrom" isNewNull="true"/>
+        <Data AD_Column_ID="149" Column="Name">Total Planned Production</Data>
+        <Data AD_Column_ID="153" Column="ValidTo" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="460" StepType="AD">
+      <PO AD_Table_ID="136" Action="I" Record_ID="55000" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="340" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="1216" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1215" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="706" Column="IsActive">true</Data>
+        <Data AD_Column_ID="707" Column="Created">2017-07-30 18:06:21.695</Data>
+        <Data AD_Column_ID="709" Column="Updated">2017-07-30 18:06:21.695</Data>
+        <Data AD_Column_ID="710" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="338" Column="Name">Total Planned Production</Data>
+        <Data AD_Column_ID="708" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="339" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID">55000</Data>
+        <Data AD_Column_ID="337" Column="AD_Language">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="470" StepType="AD">
+      <PO AD_Table_ID="136" Action="U" Record_ID="55000" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="338" Column="Name" oldValue="Total Planned Production">Total (Producción Planificada)</Data>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID" oldValue="55000">55000</Data>
+        <Data AD_Column_ID="337" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="480" StepType="AD">
+      <PO AD_Table_ID="104" Action="I" Record_ID="55001" Table="AD_Ref_List">
+        <Data AD_Column_ID="200" Column="Value">TC</Data>
+        <Data AD_Column_ID="564" Column="Created">2017-07-30 18:07:06.576</Data>
+        <Data AD_Column_ID="566" Column="Updated">2017-07-30 18:07:06.576</Data>
+        <Data AD_Column_ID="7712" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="148" Column="AD_Ref_List_ID">55001</Data>
+        <Data AD_Column_ID="372" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="563" Column="IsActive">true</Data>
+        <Data AD_Column_ID="371" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="151" Column="AD_Reference_ID">53930</Data>
+        <Data AD_Column_ID="565" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="567" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="150" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="152" Column="ValidFrom" isNewNull="true"/>
+        <Data AD_Column_ID="149" Column="Name">Total Confirmed Production</Data>
+        <Data AD_Column_ID="153" Column="ValidTo" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="490" StepType="AD">
+      <PO AD_Table_ID="136" Action="I" Record_ID="55001" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="340" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="1216" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1215" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="706" Column="IsActive">true</Data>
+        <Data AD_Column_ID="707" Column="Created">2017-07-30 18:07:07.776</Data>
+        <Data AD_Column_ID="709" Column="Updated">2017-07-30 18:07:07.776</Data>
+        <Data AD_Column_ID="710" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="338" Column="Name">Total Confirmed Production</Data>
+        <Data AD_Column_ID="708" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="339" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID">55001</Data>
+        <Data AD_Column_ID="337" Column="AD_Language">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="500" StepType="AD">
+      <PO AD_Table_ID="136" Action="U" Record_ID="55001" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="338" Column="Name" oldValue="Total Confirmed Production">Total (Producción Confirmada)</Data>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID" oldValue="55001">55001</Data>
+        <Data AD_Column_ID="337" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="510" StepType="AD">
+      <PO AD_Table_ID="104" Action="I" Record_ID="55002" Table="AD_Ref_List">
+        <Data AD_Column_ID="200" Column="Value">OD</Data>
+        <Data AD_Column_ID="564" Column="Created">2017-07-30 18:08:00.266</Data>
+        <Data AD_Column_ID="566" Column="Updated">2017-07-30 18:08:00.266</Data>
+        <Data AD_Column_ID="7712" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="148" Column="AD_Ref_List_ID">55002</Data>
+        <Data AD_Column_ID="372" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="563" Column="IsActive">true</Data>
+        <Data AD_Column_ID="371" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="151" Column="AD_Reference_ID">53930</Data>
+        <Data AD_Column_ID="565" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="567" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="150" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="152" Column="ValidFrom" isNewNull="true"/>
+        <Data AD_Column_ID="149" Column="Name">Demand</Data>
+        <Data AD_Column_ID="153" Column="ValidTo" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="520" StepType="AD">
+      <PO AD_Table_ID="136" Action="I" Record_ID="55002" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="340" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="1216" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1215" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="706" Column="IsActive">true</Data>
+        <Data AD_Column_ID="707" Column="Created">2017-07-30 18:08:01.265</Data>
+        <Data AD_Column_ID="709" Column="Updated">2017-07-30 18:08:01.265</Data>
+        <Data AD_Column_ID="710" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="338" Column="Name">Demand</Data>
+        <Data AD_Column_ID="708" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="339" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID">55002</Data>
+        <Data AD_Column_ID="337" Column="AD_Language">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="530" StepType="AD">
+      <PO AD_Table_ID="136" Action="U" Record_ID="55002" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="338" Column="Name" oldValue="Demand">Demanda</Data>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID" oldValue="55002">55002</Data>
+        <Data AD_Column_ID="337" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="540" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="76559" Table="AD_Column">
+        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isOldNull="true">53930</Data>
+        <Data AD_Column_ID="118" Column="FieldLength" oldValue="50">2</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID" oldValue="10">17</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

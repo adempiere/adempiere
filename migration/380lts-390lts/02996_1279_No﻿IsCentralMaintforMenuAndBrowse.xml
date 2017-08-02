@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Set No ﻿Is Centrally Maintained for Menus and Browse" ReleaseNo="3.9.0" SeqNo="2996">
+    <Comments>https://github.com/adempiere/adempiere/issues/1279</Comments>
+    <Step DBType="ALL" Parse="Y" SeqNo="10" StepType="SQL">
+      <SQLStatement>UPDATE AD_Menu SET IsCentrallyMaintained='N' WHERE IsSummary='Y';
+UPDATE AD_Menu SET IsCentrallyMaintained='N' WHERE AD_Browse_ID &gt; 0;</SQLStatement>
+    </Step>
+  </Migration>
+</Migrations>

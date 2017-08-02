@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Dynamic Zoom #1441" ReleaseNo="3.9.0" SeqNo="2850">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="106" Action="U" Record_ID="54175" Table="AD_Tab">
+        <Data AD_Column_ID="573" Column="IsActive">false</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

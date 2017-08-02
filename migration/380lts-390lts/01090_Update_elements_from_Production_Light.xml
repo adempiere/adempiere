@@ -1,0 +1,915 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Update elements from Production Light" ReleaseNo="3.9.0" SeqNo="01090">
+    <Comments>Some obsolete elements have to be deleted, some missing elements have to be duspplayed. 
+Leave Production as to be compatible with Adaxa.</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="452" Action="I" Record_ID="10" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6155" Column="Parent_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6157" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID">54029</Data>
+        <Data AD_Column_ID="6162" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6149" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID">10</Data>
+        <Data AD_Column_ID="6151" Column="Created">2016-11-16 14:10:25.868</Data>
+        <Data AD_Column_ID="6152" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="6150" Column="IsActive">true</Data>
+        <Data AD_Column_ID="6153" Column="Updated">2016-11-16 14:10:25.868</Data>
+        <Data AD_Column_ID="6154" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="10" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="54029">54029</Data>
+        <Data AD_Column_ID="6155" Column="Parent_ID" isOldNull="true">53296</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="0">12</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <Comments>No button Close Batch needed as Production is now a document with an action for closing</Comments>
+      <PO AD_Table_ID="127" Action="D" Record_ID="78277" Table="AD_Field_Trl">
+        <Data AD_Column_ID="672" Column="Created" isNewNull="true" oldValue="2016-11-08 17:59:18.0"/>
+        <Data AD_Column_ID="674" Column="Updated" isNewNull="true" oldValue="2016-11-08 17:59:18.0"/>
+        <Data AD_Column_ID="1204" Column="AD_Client_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="284" Column="AD_Field_ID" oldValue="78277">78277</Data>
+        <Data AD_Column_ID="285" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="1205" Column="AD_Org_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="673" Column="CreatedBy" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="287" Column="Description" isNewNull="true" oldValue="Close Batch - no further production can be made"/>
+        <Data AD_Column_ID="288" Column="Help" isNewNull="true" oldValue="Cleanup open production order"/>
+        <Data AD_Column_ID="671" Column="IsActive" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="289" Column="IsTranslated" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="286" Column="Name" isNewNull="true" oldValue="Close Batch"/>
+        <Data AD_Column_ID="675" Column="UpdatedBy" isNewNull="true" oldValue="0"/>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <Comments>No button Close Batch needed as Production is now a document with an action for closing</Comments>
+      <PO AD_Table_ID="107" Action="D" Record_ID="78277" Table="AD_Field">
+        <Data AD_Column_ID="54356" Column="AD_Reference_Value_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="169" Column="Description" isNewNull="true" oldValue="Close Batch - no further production can be made"/>
+        <Data AD_Column_ID="383" Column="AD_Client_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="174" Column="AD_Column_ID" isNewNull="true" oldValue="78210"/>
+        <Data AD_Column_ID="5375" Column="AD_FieldGroup_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="167" Column="AD_Field_ID" isNewNull="true" oldValue="78277"/>
+        <Data AD_Column_ID="384" Column="AD_Org_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="15011" Column="AD_Reference_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="172" Column="AD_Tab_ID" isNewNull="true" oldValue="54161"/>
+        <Data AD_Column_ID="54357" Column="AD_Val_Rule_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="579" Column="Created" isNewNull="true" oldValue="2016-01-19 15:27:50.0"/>
+        <Data AD_Column_ID="580" Column="CreatedBy" isNewNull="true" oldValue="100"/>
+        <Data AD_Column_ID="53265" Column="DefaultValue" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="180" Column="DisplayLength" isNewNull="true" oldValue="1"/>
+        <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="7714" Column="EntityType" isNewNull="true" oldValue="D"/>
+        <Data AD_Column_ID="170" Column="Help" isNewNull="true" oldValue="Cleanup open production order"/>
+        <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="578" Column="IsActive" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="74868" Column="IsAllowCopy" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="2745" Column="IsCentrallyMaintained" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="176" Column="IsDisplayed" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="62478" Column="IsDisplayedGrid" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="59703" Column="IsEmbedded" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="186" Column="IsEncrypted" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="185" Column="IsFieldOnly" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="184" Column="IsHeading" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="15013" Column="IsMandatory" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="2007" Column="IsReadOnly" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="183" Column="IsSameLine" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="168" Column="Name" isNewNull="true" oldValue="Close Batch"/>
+        <Data AD_Column_ID="9969" Column="ObscureType" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="59704" Column="PreferredWidth" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="181" Column="SeqNo" isNewNull="true" oldValue="130"/>
+        <Data AD_Column_ID="62479" Column="SeqNoGrid" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="182" Column="SortNo" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="581" Column="Updated" isNewNull="true" oldValue="2016-01-19 15:27:50.0"/>
+        <Data AD_Column_ID="582" Column="UpdatedBy" isNewNull="true" oldValue="100"/>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <Comments>No button Close Batch needed as Production is now a document with an action for closing</Comments>
+      <PO AD_Table_ID="287" Action="D" Record_ID="0" Table="AD_Process_Trl">
+        <Data AD_Column_ID="2848" Column="Created" isNewNull="true" oldValue="2016-11-08 17:56:52.0"/>
+        <Data AD_Column_ID="2854" Column="Help" isNewNull="true" oldValue="Complete Production Batch will mark this batch as processed"/>
+        <Data AD_Column_ID="2845" Column="AD_Client_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="2844" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="2846" Column="AD_Org_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="2843" Column="AD_Process_ID" oldValue="53814">53814</Data>
+        <Data AD_Column_ID="2849" Column="CreatedBy" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="2853" Column="Description" isNewNull="true" oldValue="Complete the production batch"/>
+        <Data AD_Column_ID="2847" Column="IsActive" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="2855" Column="IsTranslated" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="2852" Column="Name" isNewNull="true" oldValue="Complete Production Batch"/>
+        <Data AD_Column_ID="2850" Column="Updated" isNewNull="true" oldValue="2016-11-08 17:56:52.0"/>
+        <Data AD_Column_ID="2851" Column="UpdatedBy" isNewNull="true" oldValue="0"/>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <Comments>No button Close Batch needed as Production is now a document with an action for closing</Comments>
+      <PO AD_Table_ID="284" Action="D" Record_ID="53814" Table="AD_Process">
+        <Data AD_Column_ID="2811" Column="Help" isNewNull="true" oldValue="Complete Production Batch will mark this batch as processed"/>
+        <Data AD_Column_ID="50181" Column="ShowHelp" isNewNull="true" oldValue="Y"/>
+        <Data AD_Column_ID="4023" Column="Value" isNewNull="true" oldValue="M_ProductionBatch_Complete"/>
+        <Data AD_Column_ID="5790" Column="AccessLevel" isNewNull="true" oldValue="3"/>
+        <Data AD_Column_ID="63488" Column="AD_Browse_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="2802" Column="AD_Client_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="56515" Column="AD_Form_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="2803" Column="AD_Org_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="7752" Column="AD_PrintFormat_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="2801" Column="AD_Process_ID" isNewNull="true" oldValue="53814"/>
+        <Data AD_Column_ID="4374" Column="AD_ReportView_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="11834" Column="AD_Workflow_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="4656" Column="Classname" isNewNull="true" oldValue="org.compiere.process.ProductionBatchComplete"/>
+        <Data AD_Column_ID="57920" Column="CopyFromProcess" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="2805" Column="Created" isNewNull="true" oldValue="2015-11-20 16:46:18.0"/>
+        <Data AD_Column_ID="2806" Column="CreatedBy" isNewNull="true" oldValue="100"/>
+        <Data AD_Column_ID="2810" Column="Description" isNewNull="true" oldValue="Complete the production batch"/>
+        <Data AD_Column_ID="6485" Column="EntityType" isNewNull="true" oldValue="D"/>
+        <Data AD_Column_ID="78843" Column="GenerateClass" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="2804" Column="IsActive" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="12458" Column="IsBetaFunctionality" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="4214" Column="IsDirectPrint" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="3371" Column="IsReport" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="14084" Column="IsServerProcess" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="50182" Column="JasperReport" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="2809" Column="Name" isNewNull="true" oldValue="Complete Production Batch"/>
+        <Data AD_Column_ID="2813" Column="ProcedureName" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="6652" Column="Statistic_Count" isNewNull="true" oldValue="5"/>
+        <Data AD_Column_ID="6653" Column="Statistic_Seconds" isNewNull="true" oldValue="10"/>
+        <Data AD_Column_ID="2807" Column="Updated" isNewNull="true" oldValue="2015-11-20 16:46:18.0"/>
+        <Data AD_Column_ID="2808" Column="UpdatedBy" isNewNull="true" oldValue="100"/>
+        <Data AD_Column_ID="11563" Column="WorkflowValue" isNewNull="true" isOldNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <Comments>No button Close Batch needed as Production is now a document with an action for closing</Comments>
+      <PO AD_Table_ID="752" Action="D" Record_ID="78210" Table="AD_Column_Trl">
+        <Data AD_Column_ID="12961" Column="AD_Client_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="12955" Column="AD_Column_ID" oldValue="78210">78210</Data>
+        <Data AD_Column_ID="12953" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="12951" Column="AD_Org_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="12960" Column="Created" isNewNull="true" oldValue="2016-11-08 17:56:50.0"/>
+        <Data AD_Column_ID="12956" Column="CreatedBy" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="12959" Column="IsActive" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="12954" Column="IsTranslated" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="12957" Column="Name" isNewNull="true" oldValue="Completo"/>
+        <Data AD_Column_ID="12952" Column="Updated" isNewNull="true" oldValue="2016-11-08 17:56:50.0"/>
+        <Data AD_Column_ID="12958" Column="UpdatedBy" isNewNull="true" oldValue="0"/>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <Comments>No button Close Batch needed as Production is now a document with an action for closing</Comments>
+      <PO AD_Table_ID="101" Action="D" Record_ID="78210" Table="AD_Column">
+        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="113" Column="Help" isNewNull="true" oldValue="Indication that this is complete"/>
+        <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="359" Column="AD_Client_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="109" Column="AD_Column_ID" isNewNull="true" oldValue="78210"/>
+        <Data AD_Column_ID="2608" Column="AD_Element_ID" isNewNull="true" oldValue="2047"/>
+        <Data AD_Column_ID="360" Column="AD_Org_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="3369" Column="AD_Process_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID" isNewNull="true" oldValue="28"/>
+        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="114" Column="AD_Table_ID" isNewNull="true" oldValue="54052"/>
+        <Data AD_Column_ID="1692" Column="Callout" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="116" Column="ColumnName" isNewNull="true" oldValue="IsComplete"/>
+        <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="549" Column="Created" isNewNull="true" oldValue="2015-11-20 15:23:21.0"/>
+        <Data AD_Column_ID="550" Column="CreatedBy" isNewNull="true" oldValue="100"/>
+        <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="112" Column="Description" isNewNull="true" oldValue="It is complete"/>
+        <Data AD_Column_ID="6482" Column="EntityType" isNewNull="true" oldValue="D"/>
+        <Data AD_Column_ID="118" Column="FieldLength" isNewNull="true" oldValue="1"/>
+        <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="548" Column="IsActive" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="56187" Column="IsAllowLogging" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="56149" Column="IsAutocomplete" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="128" Column="IsEncrypted" isNewNull="true" oldValue="N"/>
+        <Data AD_Column_ID="126" Column="IsIdentifier" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="119" Column="IsKey" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="124" Column="IsMandatory" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="120" Column="IsParent" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="68024" Column="IsRange" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="6244" Column="IsSelectionColumn" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="6483" Column="IsSyncDatabase" isNewNull="true" oldValue="N"/>
+        <Data AD_Column_ID="125" Column="IsTranslated" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="3360" Column="IsUpdateable" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="111" Column="Name" isNewNull="true" oldValue="Complete"/>
+        <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="551" Column="Updated" isNewNull="true" oldValue="2016-11-08 17:56:52.0"/>
+        <Data AD_Column_ID="552" Column="UpdatedBy" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="110" Column="Version" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true" isOldNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <Comments>No button Close Batch needed as Production is now a document with an action for closing</Comments>
+      <PO AD_Table_ID="107" Action="U" Record_ID="78279" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="150">130</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="100" StepType="AD">
+      <Comments>Default value for field Document Type in window Planned Manufacturing Order</Comments>
+      <PO AD_Table_ID="107" Action="U" Record_ID="78267" Table="AD_Field">
+        <Data AD_Column_ID="53265" Column="DefaultValue" isOldNull="true">50031</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="110" StepType="AD">
+      <Comments>Replenishment window and report into menu tree</Comments>
+      <PO AD_Table_ID="452" Action="I" Record_ID="10" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6162" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6149" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID">10</Data>
+        <Data AD_Column_ID="6151" Column="Created">2016-11-23 15:36:31.451</Data>
+        <Data AD_Column_ID="6152" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="6150" Column="IsActive">true</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID">53868</Data>
+        <Data AD_Column_ID="6155" Column="Parent_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6157" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="6153" Column="Updated">2016-11-23 15:36:31.451</Data>
+        <Data AD_Column_ID="6154" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="120" StepType="AD">
+      <Comments>Replenishment window and report into menu tree</Comments>
+      <PO AD_Table_ID="452" Action="I" Record_ID="10" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6162" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6149" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID">10</Data>
+        <Data AD_Column_ID="6151" Column="Created">2016-11-23 15:36:40.945</Data>
+        <Data AD_Column_ID="6152" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="6150" Column="IsActive">true</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID">53987</Data>
+        <Data AD_Column_ID="6155" Column="Parent_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6157" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="6153" Column="Updated">2016-11-23 15:36:40.945</Data>
+        <Data AD_Column_ID="6154" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="130" StepType="AD">
+      <Comments>Convert Planned Order to Manufacturing Order</Comments>
+      <PO AD_Table_ID="120" Action="D" Record_ID="0" Table="AD_Menu_Trl">
+        <Data AD_Column_ID="1194" Column="AD_Client_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="637" Column="Created" isNewNull="true" oldValue="2016-11-08 17:58:29.0"/>
+        <Data AD_Column_ID="246" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="245" Column="AD_Menu_ID" oldValue="54028">54028</Data>
+        <Data AD_Column_ID="1195" Column="AD_Org_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="638" Column="CreatedBy" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="248" Column="Description" isNewNull="true" oldValue="Convert Planned Order to Manufacturing Order"/>
+        <Data AD_Column_ID="636" Column="IsActive" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="249" Column="IsTranslated" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="247" Column="Name" isNewNull="true" oldValue="Replenish Plan Convert Document"/>
+        <Data AD_Column_ID="639" Column="Updated" isNewNull="true" oldValue="2016-11-08 17:58:29.0"/>
+        <Data AD_Column_ID="640" Column="UpdatedBy" isNewNull="true" oldValue="0"/>
+      </PO>
+    </Step>
+    <Step SeqNo="140" StepType="AD">
+      <Comments>Convert Planned Order to Manufacturing Order</Comments>
+      <PO AD_Table_ID="116" Action="D" Record_ID="54028" Table="AD_Menu">
+        <Data AD_Column_ID="599" Column="Created" isNewNull="true" oldValue="2016-01-05 11:37:16.0"/>
+        <Data AD_Column_ID="232" Column="Action" isNewNull="true" oldValue="X"/>
+        <Data AD_Column_ID="57960" Column="AD_Browse_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="399" Column="AD_Client_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="4621" Column="AD_Form_ID" isNewNull="true" oldValue="53063"/>
+        <Data AD_Column_ID="228" Column="AD_Menu_ID" isNewNull="true" oldValue="54028"/>
+        <Data AD_Column_ID="400" Column="AD_Org_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="3375" Column="AD_Process_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="235" Column="AD_Task_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="233" Column="AD_Window_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="6297" Column="AD_Workbench_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="234" Column="AD_Workflow_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="600" Column="CreatedBy" isNewNull="true" oldValue="100"/>
+        <Data AD_Column_ID="230" Column="Description" isNewNull="true" oldValue="Convert Planned Order to Manufacturing Order"/>
+        <Data AD_Column_ID="7721" Column="EntityType" isNewNull="true" oldValue="D"/>
+        <Data AD_Column_ID="598" Column="IsActive" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="59134" Column="IsCentrallyMaintained" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="6651" Column="IsReadOnly" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="4426" Column="IsSOTrx" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="1169" Column="IsSummary" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="229" Column="Name" isNewNull="true" oldValue="Replenish Plan Convert Document"/>
+        <Data AD_Column_ID="601" Column="Updated" isNewNull="true" oldValue="2016-01-05 11:37:16.0"/>
+        <Data AD_Column_ID="602" Column="UpdatedBy" isNewNull="true" oldValue="100"/>
+      </PO>
+    </Step>
+    <Step SeqNo="150" StepType="AD">
+      <Comments>Convert Planned Order to Manufacturing Order</Comments>
+      <PO AD_Table_ID="377" Action="D" Record_ID="53063" Table="AD_Form_Trl">
+        <Data AD_Column_ID="4613" Column="Created" isNewNull="true" oldValue="2016-11-08 17:58:29.0"/>
+        <Data AD_Column_ID="4610" Column="AD_Client_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="4608" Column="AD_Form_ID" oldValue="53063">53063</Data>
+        <Data AD_Column_ID="4609" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="4611" Column="AD_Org_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="4614" Column="CreatedBy" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="4618" Column="Description" isNewNull="true" oldValue="Convert Planned Order to Manufacturing Order"/>
+        <Data AD_Column_ID="4619" Column="Help" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="4612" Column="IsActive" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="4620" Column="IsTranslated" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="4617" Column="Name" isNewNull="true" oldValue="Replenish Plan Convert Document"/>
+        <Data AD_Column_ID="4615" Column="Updated" isNewNull="true" oldValue="2016-11-08 17:58:29.0"/>
+        <Data AD_Column_ID="4616" Column="UpdatedBy" isNewNull="true" oldValue="0"/>
+      </PO>
+    </Step>
+    <Step SeqNo="160" StepType="AD">
+      <Comments>Convert Planned Order to Manufacturing Order</Comments>
+      <PO AD_Table_ID="376" Action="D" Record_ID="53063" Table="AD_Form">
+        <Data AD_Column_ID="4607" Column="Classname" isNewNull="true" oldValue="org.adaxa.form.VReplenishPlanConvertForm"/>
+        <Data AD_Column_ID="4605" Column="Description" isNewNull="true" oldValue="Convert Planned Order to Manufacturing Order"/>
+        <Data AD_Column_ID="5791" Column="AccessLevel" isNewNull="true" oldValue="3"/>
+        <Data AD_Column_ID="4597" Column="AD_Client_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="4596" Column="AD_Form_ID" isNewNull="true" oldValue="53063"/>
+        <Data AD_Column_ID="4598" Column="AD_Org_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="4600" Column="Created" isNewNull="true" oldValue="2016-01-05 11:36:22.0"/>
+        <Data AD_Column_ID="4601" Column="CreatedBy" isNewNull="true" oldValue="100"/>
+        <Data AD_Column_ID="7708" Column="EntityType" isNewNull="true" oldValue="D"/>
+        <Data AD_Column_ID="4606" Column="Help" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="4599" Column="IsActive" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="12738" Column="IsBetaFunctionality" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="13022" Column="JSPURL" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="4604" Column="Name" isNewNull="true" oldValue="Replenish Plan Convert Document"/>
+        <Data AD_Column_ID="4602" Column="Updated" isNewNull="true" oldValue="2016-01-05 11:36:22.0"/>
+        <Data AD_Column_ID="4603" Column="UpdatedBy" isNewNull="true" oldValue="100"/>
+      </PO>
+    </Step>
+    <Step SeqNo="170" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="10" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="53868">53868</Data>
+        <Data AD_Column_ID="6155" Column="Parent_ID" isOldNull="true">53296</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="0">13</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="180" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="10" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6155" Column="Parent_ID" isOldNull="true">53296</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="53987">53987</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="0">14</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="190" StepType="AD">
+      <Comments>Replenish Plan Production Report</Comments>
+      <PO AD_Table_ID="116" Action="I" Record_ID="54120" Table="AD_Menu">
+        <Data AD_Column_ID="232" Column="Action">R</Data>
+        <Data AD_Column_ID="57960" Column="AD_Browse_ID" isNewNull="true"/>
+        <Data AD_Column_ID="399" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="4621" Column="AD_Form_ID" isNewNull="true"/>
+        <Data AD_Column_ID="228" Column="AD_Menu_ID">54120</Data>
+        <Data AD_Column_ID="400" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="3375" Column="AD_Process_ID">53820</Data>
+        <Data AD_Column_ID="235" Column="AD_Task_ID" isNewNull="true"/>
+        <Data AD_Column_ID="233" Column="AD_Window_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6297" Column="AD_Workbench_ID" isNewNull="true"/>
+        <Data AD_Column_ID="234" Column="AD_Workflow_ID" isNewNull="true"/>
+        <Data AD_Column_ID="599" Column="Created">2016-11-23 15:51:35.866</Data>
+        <Data AD_Column_ID="600" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="230" Column="Description">Showing report of Planned Production generated from current Replenish Plan Run.</Data>
+        <Data AD_Column_ID="7721" Column="EntityType">D</Data>
+        <Data AD_Column_ID="598" Column="IsActive">true</Data>
+        <Data AD_Column_ID="59134" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="6651" Column="IsReadOnly">false</Data>
+        <Data AD_Column_ID="4426" Column="IsSOTrx">false</Data>
+        <Data AD_Column_ID="1169" Column="IsSummary">false</Data>
+        <Data AD_Column_ID="229" Column="Name">Replenish Plan Production Report</Data>
+        <Data AD_Column_ID="601" Column="Updated">2016-11-23 15:51:35.866</Data>
+        <Data AD_Column_ID="602" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="200" StepType="AD">
+      <Comments>Replenish Plan Production Report</Comments>
+      <PO AD_Table_ID="120" Action="I" Record_ID="0" Table="AD_Menu_Trl">
+        <Data AD_Column_ID="248" Column="Description">Showing report of Planned Production generated from current Replenish Plan Run.</Data>
+        <Data AD_Column_ID="1194" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="246" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="245" Column="AD_Menu_ID">54120</Data>
+        <Data AD_Column_ID="1195" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="637" Column="Created">2016-11-23 15:51:36.565</Data>
+        <Data AD_Column_ID="638" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="636" Column="IsActive">true</Data>
+        <Data AD_Column_ID="249" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="247" Column="Name">Replenish Plan Production Report</Data>
+        <Data AD_Column_ID="639" Column="Updated">2016-11-23 15:51:36.565</Data>
+        <Data AD_Column_ID="640" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="210" StepType="AD">
+      <PO AD_Table_ID="452" Action="I" Record_ID="10" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6162" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6149" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID">10</Data>
+        <Data AD_Column_ID="6151" Column="Created">2016-11-23 15:51:36.718</Data>
+        <Data AD_Column_ID="6152" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="6150" Column="IsActive">true</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID">54120</Data>
+        <Data AD_Column_ID="6155" Column="Parent_ID">0</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo">999</Data>
+        <Data AD_Column_ID="6153" Column="Updated">2016-11-23 15:51:36.718</Data>
+        <Data AD_Column_ID="6154" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="220" StepType="AD">
+      <PO AD_Table_ID="120" Action="U" Record_ID="0" Table="AD_Menu_Trl">
+        <Data AD_Column_ID="248" Column="Description" oldValue="Showing report of Planned Production generated from current Replenish Plan Run.">Partiendo del los datos de la última corrida desplegar la producción planeada</Data>
+        <Data AD_Column_ID="246" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="245" Column="AD_Menu_ID" oldValue="54120">54120</Data>
+        <Data AD_Column_ID="247" Column="Name" oldValue="Replenish Plan Production Report">Reporte de reabastecimiento del plan de producción</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="230" StepType="AD">
+      <PO AD_Table_ID="287" Action="U" Record_ID="0" Table="AD_Process_Trl">
+        <Data AD_Column_ID="2853" Column="Description" oldValue="Showing report of Planned Production generated from current Replenish Plan Run.">Partiendo de los datos de la última corrida desplegar la producción planeada</Data>
+        <Data AD_Column_ID="2843" Column="AD_Process_ID" oldValue="53820">53820</Data>
+        <Data AD_Column_ID="2844" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="2852" Column="Name" oldValue="Replenish Plan Production Report">Reporte de reabastecimiento del plan de producción</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="240" StepType="AD">
+      <PO AD_Table_ID="120" Action="U" Record_ID="0" Table="AD_Menu_Trl">
+        <Data AD_Column_ID="248" Column="Description" oldValue="Partiendo del los datos de la última corrida desplegar la producción planeada">Partiendo de los datos de la última corrida desplegar la producción planeada</Data>
+        <Data AD_Column_ID="246" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="245" Column="AD_Menu_ID" oldValue="54120">54120</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="250" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="10" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="54120">54120</Data>
+        <Data AD_Column_ID="6155" Column="Parent_ID" oldValue="0">53296</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="999">15</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="260" StepType="AD">
+      <Comments>Replenish Plan Generate Report</Comments>
+      <PO AD_Table_ID="284" Action="U" Record_ID="53778" Table="AD_Process">
+        <Data AD_Column_ID="2809" Column="Name" oldValue="Generate Replenish Plan Report">Replenish Plan Generate Report</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="270" StepType="AD">
+      <PO AD_Table_ID="116" Action="I" Record_ID="54121" Table="AD_Menu">
+        <Data AD_Column_ID="232" Column="Action">R</Data>
+        <Data AD_Column_ID="57960" Column="AD_Browse_ID" isNewNull="true"/>
+        <Data AD_Column_ID="399" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="4621" Column="AD_Form_ID" isNewNull="true"/>
+        <Data AD_Column_ID="228" Column="AD_Menu_ID">54121</Data>
+        <Data AD_Column_ID="400" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="3375" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="235" Column="AD_Task_ID" isNewNull="true"/>
+        <Data AD_Column_ID="233" Column="AD_Window_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6297" Column="AD_Workbench_ID" isNewNull="true"/>
+        <Data AD_Column_ID="234" Column="AD_Workflow_ID" isNewNull="true"/>
+        <Data AD_Column_ID="599" Column="Created">2016-11-23 16:54:46.844</Data>
+        <Data AD_Column_ID="600" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="230" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="7721" Column="EntityType">D</Data>
+        <Data AD_Column_ID="598" Column="IsActive">true</Data>
+        <Data AD_Column_ID="59134" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="6651" Column="IsReadOnly">false</Data>
+        <Data AD_Column_ID="4426" Column="IsSOTrx">false</Data>
+        <Data AD_Column_ID="1169" Column="IsSummary">false</Data>
+        <Data AD_Column_ID="229" Column="Name">Replenish Plan Generate Report</Data>
+        <Data AD_Column_ID="601" Column="Updated">2016-11-23 16:54:46.844</Data>
+        <Data AD_Column_ID="602" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="280" StepType="AD">
+      <PO AD_Table_ID="120" Action="I" Record_ID="0" Table="AD_Menu_Trl">
+        <Data AD_Column_ID="1194" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="246" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="245" Column="AD_Menu_ID">54121</Data>
+        <Data AD_Column_ID="1195" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="637" Column="Created">2016-11-23 16:54:47.537</Data>
+        <Data AD_Column_ID="638" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="248" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="636" Column="IsActive">true</Data>
+        <Data AD_Column_ID="249" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="247" Column="Name">Replenish Plan Generate Report</Data>
+        <Data AD_Column_ID="639" Column="Updated">2016-11-23 16:54:47.537</Data>
+        <Data AD_Column_ID="640" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="290" StepType="AD">
+      <PO AD_Table_ID="452" Action="I" Record_ID="10" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6162" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6149" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID">10</Data>
+        <Data AD_Column_ID="6151" Column="Created">2016-11-23 16:54:47.715</Data>
+        <Data AD_Column_ID="6152" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="6150" Column="IsActive">true</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID">54121</Data>
+        <Data AD_Column_ID="6155" Column="Parent_ID">0</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo">999</Data>
+        <Data AD_Column_ID="6153" Column="Updated">2016-11-23 16:54:47.715</Data>
+        <Data AD_Column_ID="6154" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="300" StepType="AD">
+      <PO AD_Table_ID="120" Action="U" Record_ID="0" Table="AD_Menu_Trl">
+        <Data AD_Column_ID="246" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="245" Column="AD_Menu_ID" oldValue="54121">54121</Data>
+        <Data AD_Column_ID="247" Column="Name" oldValue="Replenish Plan Generate Report">Generar Reporte de Abastecimiento</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="310" StepType="AD">
+      <PO AD_Table_ID="287" Action="U" Record_ID="0" Table="AD_Process_Trl">
+        <Data AD_Column_ID="2844" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="2843" Column="AD_Process_ID" oldValue="53778">53778</Data>
+        <Data AD_Column_ID="2852" Column="Name" oldValue="Generate MiniERP Report">Generar Reporte de Abastecimiento</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="320" StepType="AD">
+      <Comments>Replenish Plan Requisition Report</Comments>
+      <PO AD_Table_ID="116" Action="I" Record_ID="54122" Table="AD_Menu">
+        <Data AD_Column_ID="232" Column="Action">R</Data>
+        <Data AD_Column_ID="57960" Column="AD_Browse_ID" isNewNull="true"/>
+        <Data AD_Column_ID="399" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="4621" Column="AD_Form_ID" isNewNull="true"/>
+        <Data AD_Column_ID="228" Column="AD_Menu_ID">54122</Data>
+        <Data AD_Column_ID="400" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="3375" Column="AD_Process_ID">53821</Data>
+        <Data AD_Column_ID="235" Column="AD_Task_ID" isNewNull="true"/>
+        <Data AD_Column_ID="233" Column="AD_Window_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6297" Column="AD_Workbench_ID" isNewNull="true"/>
+        <Data AD_Column_ID="234" Column="AD_Workflow_ID" isNewNull="true"/>
+        <Data AD_Column_ID="599" Column="Created">2016-11-23 16:56:16.321</Data>
+        <Data AD_Column_ID="600" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="230" Column="Description">Showing report of Suggested Requisition generated from current Replenish Plan Run.</Data>
+        <Data AD_Column_ID="7721" Column="EntityType">D</Data>
+        <Data AD_Column_ID="598" Column="IsActive">true</Data>
+        <Data AD_Column_ID="59134" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="6651" Column="IsReadOnly">false</Data>
+        <Data AD_Column_ID="4426" Column="IsSOTrx">false</Data>
+        <Data AD_Column_ID="1169" Column="IsSummary">false</Data>
+        <Data AD_Column_ID="229" Column="Name">Replenish Plan Requisition Report</Data>
+        <Data AD_Column_ID="601" Column="Updated">2016-11-23 16:56:16.321</Data>
+        <Data AD_Column_ID="602" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="330" StepType="AD">
+      <PO AD_Table_ID="120" Action="I" Record_ID="0" Table="AD_Menu_Trl">
+        <Data AD_Column_ID="245" Column="AD_Menu_ID">54122</Data>
+        <Data AD_Column_ID="248" Column="Description">Showing report of Suggested Requisition generated from current Replenish Plan Run.</Data>
+        <Data AD_Column_ID="1194" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="246" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="1195" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="637" Column="Created">2016-11-23 16:56:16.947</Data>
+        <Data AD_Column_ID="638" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="636" Column="IsActive">true</Data>
+        <Data AD_Column_ID="249" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="247" Column="Name">Replenish Plan Requisition Report</Data>
+        <Data AD_Column_ID="639" Column="Updated">2016-11-23 16:56:16.947</Data>
+        <Data AD_Column_ID="640" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="340" StepType="AD">
+      <PO AD_Table_ID="452" Action="I" Record_ID="10" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6162" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6149" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID">10</Data>
+        <Data AD_Column_ID="6151" Column="Created">2016-11-23 16:56:17.094</Data>
+        <Data AD_Column_ID="6152" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="6150" Column="IsActive">true</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID">54122</Data>
+        <Data AD_Column_ID="6155" Column="Parent_ID">0</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo">999</Data>
+        <Data AD_Column_ID="6153" Column="Updated">2016-11-23 16:56:17.094</Data>
+        <Data AD_Column_ID="6154" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="350" StepType="AD">
+      <PO AD_Table_ID="120" Action="U" Record_ID="0" Table="AD_Menu_Trl">
+        <Data AD_Column_ID="248" Column="Description" oldValue="Showing report of Suggested Requisition generated from current Replenish Plan Run.">Report de requisiciones sugeridas a partir del último plan de reabastecimiento</Data>
+        <Data AD_Column_ID="246" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="245" Column="AD_Menu_ID" oldValue="54122">54122</Data>
+        <Data AD_Column_ID="247" Column="Name" oldValue="Replenish Plan Requisition Report">Reporte de Requisición de Reabastecimiento</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="360" StepType="AD">
+      <PO AD_Table_ID="287" Action="U" Record_ID="0" Table="AD_Process_Trl">
+        <Data AD_Column_ID="2844" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="2843" Column="AD_Process_ID" oldValue="53821">53821</Data>
+        <Data AD_Column_ID="2853" Column="Description" oldValue="Showing report of Suggested Requisition generated from current Replenish Plan Run.">Report de requisiciones sugeridas a partir del último plan de reabastecimiento</Data>
+        <Data AD_Column_ID="2852" Column="Name" oldValue="Replenish Plan Requisition Report">Reporte de Requisición de Reabastecimiento</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="370" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="10" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="54121">54121</Data>
+        <Data AD_Column_ID="6155" Column="Parent_ID" oldValue="0">53296</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="999">16</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="380" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="10" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="54122">54122</Data>
+        <Data AD_Column_ID="6155" Column="Parent_ID" oldValue="0">53296</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="999">17</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="390" StepType="AD">
+      <Comments>Button Create Production Lines is not needed as Production is now a document  and this can be achieved with the Prepare action</Comments>
+      <PO AD_Table_ID="127" Action="D" Record_ID="78298" Table="AD_Field_Trl">
+        <Data AD_Column_ID="1204" Column="AD_Client_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="284" Column="AD_Field_ID" oldValue="78298">78298</Data>
+        <Data AD_Column_ID="285" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="1205" Column="AD_Org_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="673" Column="CreatedBy" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="288" Column="Help" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="671" Column="IsActive" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="289" Column="IsTranslated" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="286" Column="Name" isNewNull="true" oldValue="Create/Update Production lines"/>
+        <Data AD_Column_ID="674" Column="Updated" isNewNull="true" oldValue="2016-11-08 17:59:21.0"/>
+        <Data AD_Column_ID="675" Column="UpdatedBy" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="672" Column="Created" isNewNull="true" oldValue="2016-11-08 17:59:21.0"/>
+        <Data AD_Column_ID="287" Column="Description" isNewNull="true" oldValue="Process which will create production lines based on BOM, or recreate with an optional adjusted quantity"/>
+      </PO>
+    </Step>
+    <Step SeqNo="400" StepType="AD">
+      <Comments>Button Create Production Lines is not needed as Production is now a document  and this can be achieved with the Prepare action</Comments>
+      <PO AD_Table_ID="107" Action="D" Record_ID="78298" Table="AD_Field">
+        <Data AD_Column_ID="383" Column="AD_Client_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="174" Column="AD_Column_ID" isNewNull="true" oldValue="61943"/>
+        <Data AD_Column_ID="5375" Column="AD_FieldGroup_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="167" Column="AD_Field_ID" isNewNull="true" oldValue="78298"/>
+        <Data AD_Column_ID="384" Column="AD_Org_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="15011" Column="AD_Reference_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="54356" Column="AD_Reference_Value_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="172" Column="AD_Tab_ID" isNewNull="true" oldValue="54162"/>
+        <Data AD_Column_ID="54357" Column="AD_Val_Rule_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="579" Column="Created" isNewNull="true" oldValue="2016-01-19 15:28:15.0"/>
+        <Data AD_Column_ID="580" Column="CreatedBy" isNewNull="true" oldValue="100"/>
+        <Data AD_Column_ID="53265" Column="DefaultValue" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="180" Column="DisplayLength" isNewNull="true" oldValue="1"/>
+        <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="7714" Column="EntityType" isNewNull="true" oldValue="D"/>
+        <Data AD_Column_ID="170" Column="Help" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="578" Column="IsActive" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="74868" Column="IsAllowCopy" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="2745" Column="IsCentrallyMaintained" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="176" Column="IsDisplayed" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="62478" Column="IsDisplayedGrid" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="59703" Column="IsEmbedded" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="186" Column="IsEncrypted" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="185" Column="IsFieldOnly" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="184" Column="IsHeading" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="15013" Column="IsMandatory" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="2007" Column="IsReadOnly" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="183" Column="IsSameLine" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="168" Column="Name" isNewNull="true" oldValue="Create/Update Production lines"/>
+        <Data AD_Column_ID="9969" Column="ObscureType" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="59704" Column="PreferredWidth" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="181" Column="SeqNo" isNewNull="true" oldValue="130"/>
+        <Data AD_Column_ID="62479" Column="SeqNoGrid" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="182" Column="SortNo" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="581" Column="Updated" isNewNull="true" oldValue="2016-01-19 15:28:15.0"/>
+        <Data AD_Column_ID="582" Column="UpdatedBy" isNewNull="true" oldValue="100"/>
+        <Data AD_Column_ID="169" Column="Description" isNewNull="true" oldValue="Process which will create production lines based on BOM, or recreate with an optional adjusted quantity"/>
+      </PO>
+    </Step>
+    <Step SeqNo="410" StepType="AD">
+      <Comments>Button Create Production Lines is not needed as Production is now a document  and this can be achieved with the Prepare action</Comments>
+      <PO AD_Table_ID="752" Action="D" Record_ID="61943" Table="AD_Column_Trl">
+        <Data AD_Column_ID="12961" Column="AD_Client_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="12955" Column="AD_Column_ID" oldValue="61943">61943</Data>
+        <Data AD_Column_ID="12953" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="12951" Column="AD_Org_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="12960" Column="Created" isNewNull="true" oldValue="2011-07-27 15:14:53.0"/>
+        <Data AD_Column_ID="12956" Column="CreatedBy" isNewNull="true" oldValue="100"/>
+        <Data AD_Column_ID="12959" Column="IsActive" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="12954" Column="IsTranslated" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="12957" Column="Name" isNewNull="true" oldValue="Crear Desde"/>
+        <Data AD_Column_ID="12952" Column="Updated" isNewNull="true" oldValue="2011-07-27 15:14:53.0"/>
+        <Data AD_Column_ID="12958" Column="UpdatedBy" isNewNull="true" oldValue="100"/>
+      </PO>
+    </Step>
+    <Step SeqNo="420" StepType="AD">
+      <Comments>Button Create Production Lines is not needed as Production is now a document  and this can be achieved with the Prepare action</Comments>
+      <PO AD_Table_ID="101" Action="D" Record_ID="61943" Table="AD_Column">
+        <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="359" Column="AD_Client_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="109" Column="AD_Column_ID" isNewNull="true" oldValue="61943"/>
+        <Data AD_Column_ID="2608" Column="AD_Element_ID" isNewNull="true" oldValue="1490"/>
+        <Data AD_Column_ID="360" Column="AD_Org_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="3369" Column="AD_Process_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID" isNewNull="true" oldValue="28"/>
+        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="1692" Column="Callout" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="116" Column="ColumnName" isNewNull="true" oldValue="CreateFrom"/>
+        <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="550" Column="CreatedBy" isNewNull="true" oldValue="100"/>
+        <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true" oldValue="N"/>
+        <Data AD_Column_ID="6482" Column="EntityType" isNewNull="true" oldValue="D"/>
+        <Data AD_Column_ID="118" Column="FieldLength" isNewNull="true" oldValue="1"/>
+        <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="548" Column="IsActive" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="56187" Column="IsAllowLogging" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="56149" Column="IsAutocomplete" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="128" Column="IsEncrypted" isNewNull="true" oldValue="N"/>
+        <Data AD_Column_ID="126" Column="IsIdentifier" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="119" Column="IsKey" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="124" Column="IsMandatory" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="120" Column="IsParent" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="68024" Column="IsRange" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="6244" Column="IsSelectionColumn" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="6483" Column="IsSyncDatabase" isNewNull="true" oldValue="Y"/>
+        <Data AD_Column_ID="125" Column="IsTranslated" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="3360" Column="IsUpdateable" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="111" Column="Name" isNewNull="true" oldValue="Create lines from"/>
+        <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="551" Column="Updated" isNewNull="true" oldValue="2011-07-27 15:14:53.0"/>
+        <Data AD_Column_ID="552" Column="UpdatedBy" isNewNull="true" oldValue="100"/>
+        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="110" Column="Version" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="114" Column="AD_Table_ID" isNewNull="true" oldValue="325"/>
+        <Data AD_Column_ID="549" Column="Created" isNewNull="true" oldValue="2011-07-27 15:14:53.0"/>
+        <Data AD_Column_ID="112" Column="Description" isNewNull="true" oldValue="Process which will generate a new document lines based on an existing document"/>
+        <Data AD_Column_ID="113" Column="Help" isNewNull="true" oldValue="The Create From process will create a new document based on information in an existing document selected by the user."/>
+      </PO>
+    </Step>
+    <Step SeqNo="430" StepType="AD">
+      <Comments>Button Create Production Lines is not needed as Production is now a document  and this can be achieved with the Prepare action</Comments>
+      <PO AD_Table_ID="286" Action="D" Record_ID="0" Table="AD_Process_Para_Trl">
+        <Data AD_Column_ID="2833" Column="AD_Client_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="2832" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="2834" Column="AD_Org_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="2831" Column="AD_Process_Para_ID" oldValue="53516">53516</Data>
+        <Data AD_Column_ID="2836" Column="Created" isNewNull="true" oldValue="2011-07-27 15:14:51.0"/>
+        <Data AD_Column_ID="2837" Column="CreatedBy" isNewNull="true" oldValue="100"/>
+        <Data AD_Column_ID="2841" Column="Description" isNewNull="true" oldValue="Overwrite existing production lines"/>
+        <Data AD_Column_ID="3743" Column="Help" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="2835" Column="IsActive" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="2842" Column="IsTranslated" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="2840" Column="Name" isNewNull="true" oldValue="Recreate"/>
+        <Data AD_Column_ID="2838" Column="Updated" isNewNull="true" oldValue="2011-07-27 15:14:51.0"/>
+        <Data AD_Column_ID="2839" Column="UpdatedBy" isNewNull="true" oldValue="100"/>
+      </PO>
+    </Step>
+    <Step SeqNo="440" StepType="AD">
+      <Comments>Button Create Production Lines is not needed as Production is now a document  and this can be achieved with the Prepare action</Comments>
+      <PO AD_Table_ID="285" Action="D" Record_ID="53516" Table="AD_Process_Para">
+        <Data AD_Column_ID="2815" Column="AD_Client_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="7729" Column="AD_Element_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="2816" Column="AD_Org_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="2825" Column="AD_Process_ID" isNewNull="true" oldValue="53226"/>
+        <Data AD_Column_ID="2814" Column="AD_Process_Para_ID" isNewNull="true" oldValue="53516"/>
+        <Data AD_Column_ID="2827" Column="AD_Reference_ID" isNewNull="true" oldValue="20"/>
+        <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="4017" Column="ColumnName" isNewNull="true" oldValue="Recreate"/>
+        <Data AD_Column_ID="2818" Column="Created" isNewNull="true" oldValue="2011-07-27 15:14:51.0"/>
+        <Data AD_Column_ID="2819" Column="CreatedBy" isNewNull="true" oldValue="100"/>
+        <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true" oldValue="'N'"/>
+        <Data AD_Column_ID="5593" Column="DefaultValue2" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="7728" Column="EntityType" isNewNull="true" oldValue="D"/>
+        <Data AD_Column_ID="3737" Column="FieldLength" isNewNull="true" oldValue="1"/>
+        <Data AD_Column_ID="2824" Column="Help" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="2817" Column="IsActive" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="5819" Column="IsCentrallyMaintained" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="81287" Column="IsInfoOnly" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="3738" Column="IsMandatory" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="2830" Column="IsRange" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="2822" Column="Name" isNewNull="true" oldValue="Recreate"/>
+        <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="2826" Column="SeqNo" isNewNull="true" oldValue="10"/>
+        <Data AD_Column_ID="2821" Column="UpdatedBy" isNewNull="true" oldValue="100"/>
+        <Data AD_Column_ID="3742" Column="ValueMax" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="3741" Column="ValueMin" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="3740" Column="VFormat" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="2823" Column="Description" isNewNull="true" oldValue="Overwrite existing production lines"/>
+        <Data AD_Column_ID="2820" Column="Updated" isNewNull="true" oldValue="2011-07-27 15:14:51.0"/>
+      </PO>
+    </Step>
+    <Step SeqNo="450" StepType="AD">
+      <Comments>Button Create Production Lines is not needed as Production is now a document  and this can be achieved with the Prepare action</Comments>
+      <PO AD_Table_ID="285" Action="D" Record_ID="53517" Table="AD_Process_Para">
+        <Data AD_Column_ID="2815" Column="AD_Client_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="7729" Column="AD_Element_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="2816" Column="AD_Org_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="2825" Column="AD_Process_ID" isNewNull="true" oldValue="53226"/>
+        <Data AD_Column_ID="2814" Column="AD_Process_Para_ID" isNewNull="true" oldValue="53517"/>
+        <Data AD_Column_ID="2827" Column="AD_Reference_ID" isNewNull="true" oldValue="12"/>
+        <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="4017" Column="ColumnName" isNewNull="true" oldValue="ProductionQty"/>
+        <Data AD_Column_ID="2818" Column="Created" isNewNull="true" oldValue="2011-07-27 15:14:52.0"/>
+        <Data AD_Column_ID="2819" Column="CreatedBy" isNewNull="true" oldValue="100"/>
+        <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true" oldValue="@ProductionQty@"/>
+        <Data AD_Column_ID="5593" Column="DefaultValue2" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="2823" Column="Description" isNewNull="true" oldValue="Quantity of products to produce"/>
+        <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="7728" Column="EntityType" isNewNull="true" oldValue="D"/>
+        <Data AD_Column_ID="3737" Column="FieldLength" isNewNull="true" oldValue="10"/>
+        <Data AD_Column_ID="2817" Column="IsActive" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="5819" Column="IsCentrallyMaintained" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="81287" Column="IsInfoOnly" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="3738" Column="IsMandatory" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="2830" Column="IsRange" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="2822" Column="Name" isNewNull="true" oldValue="Production Quantity"/>
+        <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="2826" Column="SeqNo" isNewNull="true" oldValue="20"/>
+        <Data AD_Column_ID="2820" Column="Updated" isNewNull="true" oldValue="2011-07-27 15:14:52.0"/>
+        <Data AD_Column_ID="2821" Column="UpdatedBy" isNewNull="true" oldValue="100"/>
+        <Data AD_Column_ID="3742" Column="ValueMax" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="3741" Column="ValueMin" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="3740" Column="VFormat" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="2824" Column="Help" isNewNull="true" oldValue="The Production Quantity identifies the number of products to produce"/>
+      </PO>
+    </Step>
+    <Step SeqNo="450" StepType="AD">
+      <Comments>Button Create Production Lines is not needed as Production is now a document  and this can be achieved with the Prepare action</Comments>
+      <PO AD_Table_ID="286" Action="D" Record_ID="0" Table="AD_Process_Para_Trl">
+        <Data AD_Column_ID="2833" Column="AD_Client_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="2834" Column="AD_Org_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="2831" Column="AD_Process_Para_ID" oldValue="53517">53517</Data>
+        <Data AD_Column_ID="2836" Column="Created" isNewNull="true" oldValue="2011-07-27 15:14:52.0"/>
+        <Data AD_Column_ID="2837" Column="CreatedBy" isNewNull="true" oldValue="100"/>
+        <Data AD_Column_ID="2841" Column="Description" isNewNull="true" oldValue="Cantidad del producto a producir"/>
+        <Data AD_Column_ID="2835" Column="IsActive" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="2842" Column="IsTranslated" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="2840" Column="Name" isNewNull="true" oldValue="Cantidad a Producir"/>
+        <Data AD_Column_ID="2838" Column="Updated" isNewNull="true" oldValue="2015-02-25 23:34:56.161576"/>
+        <Data AD_Column_ID="2839" Column="UpdatedBy" isNewNull="true" oldValue="100"/>
+        <Data AD_Column_ID="2832" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="3743" Column="Help" isNewNull="true" oldValue="La Cantidad de Producción identifica el número de productos a producir"/>
+      </PO>
+    </Step>
+    <Step SeqNo="470" StepType="AD">
+      <Comments>Button Create Production Lines is not needed as Production is now a document  and this can be achieved with the Prepare action</Comments>
+      <PO AD_Table_ID="287" Action="D" Record_ID="0" Table="AD_Process_Trl">
+        <Data AD_Column_ID="2845" Column="AD_Client_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="2844" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="2846" Column="AD_Org_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="2843" Column="AD_Process_ID" oldValue="53226">53226</Data>
+        <Data AD_Column_ID="2848" Column="Created" isNewNull="true" oldValue="2011-07-27 15:14:50.0"/>
+        <Data AD_Column_ID="2849" Column="CreatedBy" isNewNull="true" oldValue="100"/>
+        <Data AD_Column_ID="2853" Column="Description" isNewNull="true" oldValue="Create production lines"/>
+        <Data AD_Column_ID="2847" Column="IsActive" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="2855" Column="IsTranslated" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="2852" Column="Name" isNewNull="true" oldValue="Create Production"/>
+        <Data AD_Column_ID="2850" Column="Updated" isNewNull="true" oldValue="2011-07-27 15:14:50.0"/>
+        <Data AD_Column_ID="2851" Column="UpdatedBy" isNewNull="true" oldValue="100"/>
+        <Data AD_Column_ID="2854" Column="Help" isNewNull="true" oldValue="Create Production will generate the production lines."/>
+      </PO>
+    </Step>
+    <Step SeqNo="480" StepType="AD">
+      <Comments>Button Create Production Lines is not needed as Production is now a document  and this can be achieved with the Prepare action</Comments>
+      <PO AD_Table_ID="284" Action="D" Record_ID="53226" Table="AD_Process">
+        <Data AD_Column_ID="5790" Column="AccessLevel" isNewNull="true" oldValue="3"/>
+        <Data AD_Column_ID="63488" Column="AD_Browse_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="2802" Column="AD_Client_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="56515" Column="AD_Form_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="2803" Column="AD_Org_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="7752" Column="AD_PrintFormat_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="2801" Column="AD_Process_ID" isNewNull="true" oldValue="53226"/>
+        <Data AD_Column_ID="4374" Column="AD_ReportView_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="11834" Column="AD_Workflow_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="4656" Column="Classname" isNewNull="true" oldValue="org.compiere.process.ProductionCreate"/>
+        <Data AD_Column_ID="57920" Column="CopyFromProcess" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="2805" Column="Created" isNewNull="true" oldValue="2011-07-27 15:14:50.0"/>
+        <Data AD_Column_ID="2806" Column="CreatedBy" isNewNull="true" oldValue="100"/>
+        <Data AD_Column_ID="2810" Column="Description" isNewNull="true" oldValue="Create production lines"/>
+        <Data AD_Column_ID="6485" Column="EntityType" isNewNull="true" oldValue="D"/>
+        <Data AD_Column_ID="78843" Column="GenerateClass" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="2811" Column="Help" isNewNull="true" oldValue="Create Production will generate the production lines."/>
+        <Data AD_Column_ID="2804" Column="IsActive" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="12458" Column="IsBetaFunctionality" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="4214" Column="IsDirectPrint" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="3371" Column="IsReport" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="14084" Column="IsServerProcess" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="50182" Column="JasperReport" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="2809" Column="Name" isNewNull="true" oldValue="Create Production"/>
+        <Data AD_Column_ID="2813" Column="ProcedureName" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="50181" Column="ShowHelp" isNewNull="true" oldValue="Y"/>
+        <Data AD_Column_ID="6652" Column="Statistic_Count" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="6653" Column="Statistic_Seconds" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="2807" Column="Updated" isNewNull="true" oldValue="2011-07-27 15:14:50.0"/>
+        <Data AD_Column_ID="2808" Column="UpdatedBy" isNewNull="true" oldValue="100"/>
+        <Data AD_Column_ID="4023" Column="Value" isNewNull="true" oldValue="M_Production_Create"/>
+        <Data AD_Column_ID="11563" Column="WorkflowValue" isNewNull="true" isOldNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="490" StepType="AD">
+      <PO AD_Table_ID="116" Action="U" Record_ID="54121" Table="AD_Menu">
+        <Data AD_Column_ID="3375" Column="AD_Process_ID" isOldNull="true">53778</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="DocType planned Production for Garden World" ReleaseNo="3.9.0" SeqNo="00990">
+    <Comments>Avoid using ID greater than or equal 1000000. See: https://github.com/SusanneCalderon/productionLight/issues/22</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="217" Action="I" Record_ID="50031" Table="C_DocType">
+        <Data AD_Column_ID="1502" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="1503" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="8761" Column="AD_PrintFormat_ID" isNewNull="true"/>
+        <Data AD_Column_ID="1501" Column="C_DocType_ID">50031</Data>
+        <Data AD_Column_ID="12404" Column="C_DocTypeDifference_ID" isNewNull="true"/>
+        <Data AD_Column_ID="3916" Column="C_DocTypeInvoice_ID" isNewNull="true"/>
+        <Data AD_Column_ID="3914" Column="C_DocTypeProforma_ID" isNewNull="true"/>
+        <Data AD_Column_ID="3915" Column="C_DocTypeShipment_ID" isNewNull="true"/>
+        <Data AD_Column_ID="1505" Column="Created">2016-10-05 10:56:07.812</Data>
+        <Data AD_Column_ID="1506" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="54088" Column="DefiniteSequence_ID" isNewNull="true"/>
+        <Data AD_Column_ID="1510" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="3024" Column="DocBaseType">MPO</Data>
+        <Data AD_Column_ID="1522" Column="DocNoSequence_ID" isNewNull="true"/>
+        <Data AD_Column_ID="3392" Column="DocSubTypeSO" isNewNull="true"/>
+        <Data AD_Column_ID="4205" Column="DocumentCopies">1</Data>
+        <Data AD_Column_ID="3025" Column="DocumentNote" isNewNull="true"/>
+        <Data AD_Column_ID="1527" Column="GL_Category_ID">108</Data>
+        <Data AD_Column_ID="3697" Column="HasCharges">false</Data>
+        <Data AD_Column_ID="3913" Column="HasProforma">false</Data>
+        <Data AD_Column_ID="1504" Column="IsActive">true</Data>
+        <Data AD_Column_ID="12417" Column="IsCreateCounter">true</Data>
+        <Data AD_Column_ID="4204" Column="IsDefault">false</Data>
+        <Data AD_Column_ID="12075" Column="IsDefaultCounterDoc">false</Data>
+        <Data AD_Column_ID="1521" Column="IsDocNoControlled">true</Data>
+        <Data AD_Column_ID="15806" Column="IsIndexed">true</Data>
+        <Data AD_Column_ID="12112" Column="IsInTransit">false</Data>
+        <Data AD_Column_ID="54089" Column="IsOverwriteDateOnComplete">false</Data>
+        <Data AD_Column_ID="54087" Column="IsOverwriteSeqOnComplete">false</Data>
+        <Data AD_Column_ID="12080" Column="IsPickQAConfirm">false</Data>
+        <Data AD_Column_ID="59148" Column="IsPrepareSplitDocument">true</Data>
+        <Data AD_Column_ID="12081" Column="IsShipConfirm">false</Data>
+        <Data AD_Column_ID="4428" Column="IsSOTrx">false</Data>
+        <Data AD_Column_ID="12405" Column="IsSplitWhenDifference">false</Data>
+        <Data AD_Column_ID="1509" Column="Name">Planned Order</Data>
+        <Data AD_Column_ID="3023" Column="PrintName">Planned Order</Data>
+        <Data AD_Column_ID="1507" Column="Updated">2016-10-05 10:56:07.813</Data>
+        <Data AD_Column_ID="1508" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="300" Action="I" Record_ID="0" Table="C_DocType_Trl">
+        <Data AD_Column_ID="3127" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="3126" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="3128" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="3125" Column="C_DocType_ID">50031</Data>
+        <Data AD_Column_ID="3130" Column="Created">2016-10-05 10:56:08.375</Data>
+        <Data AD_Column_ID="3131" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="3135" Column="DocumentNote" isNewNull="true"/>
+        <Data AD_Column_ID="3129" Column="IsActive">true</Data>
+        <Data AD_Column_ID="3136" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="4322" Column="Name">Planned Order</Data>
+        <Data AD_Column_ID="3134" Column="PrintName">Planned Order</Data>
+        <Data AD_Column_ID="3132" Column="Updated">2016-10-05 10:56:08.375</Data>
+        <Data AD_Column_ID="3133" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="115" Action="I" Record_ID="54343" Table="AD_Sequence">
+        <Data AD_Column_ID="426" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="427" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1186" Column="AD_Sequence_ID">54343</Data>
+        <Data AD_Column_ID="627" Column="Created">2016-10-05 10:56:26.978</Data>
+        <Data AD_Column_ID="628" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="220" Column="CurrentNext">1000000</Data>
+        <Data AD_Column_ID="3887" Column="CurrentNextSys">50000</Data>
+        <Data AD_Column_ID="54272" Column="DateColumn" isNewNull="true"/>
+        <Data AD_Column_ID="54309" Column="DecimalPattern" isNewNull="true"/>
+        <Data AD_Column_ID="347" Column="Description">DocumentNo/Value for Table M_ProductionBatch</Data>
+        <Data AD_Column_ID="2747" Column="IncrementNo">1</Data>
+        <Data AD_Column_ID="349" Column="IsActive">true</Data>
+        <Data AD_Column_ID="222" Column="IsAudited">false</Data>
+        <Data AD_Column_ID="1188" Column="IsAutoSequence">true</Data>
+        <Data AD_Column_ID="350" Column="IsTableID">false</Data>
+        <Data AD_Column_ID="216" Column="Name">DocumentNo_M_ProductionBatch</Data>
+        <Data AD_Column_ID="223" Column="Prefix" isNewNull="true"/>
+        <Data AD_Column_ID="225" Column="StartNewYear">false</Data>
+        <Data AD_Column_ID="2746" Column="StartNo">1000000</Data>
+        <Data AD_Column_ID="224" Column="Suffix" isNewNull="true"/>
+        <Data AD_Column_ID="629" Column="Updated">2016-10-05 10:56:26.978</Data>
+        <Data AD_Column_ID="630" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="1187" Column="VFormat" isNewNull="true"/>
+      </PO>
+    </Step>
+    <!-- Not included because of ID=1000000
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="54052" Action="I" Record_ID="50000" Table="M_ProductionBatch">
+        <Data AD_Column_ID="78192" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="78193" Column="AD_Org_ID">50001</Data>
+        <Data AD_Column_ID="78218" Column="C_DocType_ID">50031</Data>
+        <Data AD_Column_ID="78213" Column="CountOrder">0</Data>
+        <Data AD_Column_ID="78195" Column="Created">2016-10-05 10:56:26.949</Data>
+        <Data AD_Column_ID="78197" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="78200" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="78425" Column="DocAction">CO</Data>
+        <Data AD_Column_ID="78426" Column="DocStatus">DR</Data>
+        <Data AD_Column_ID="78207" Column="DocumentNo">50000</Data>
+        <Data AD_Column_ID="78194" Column="IsActive">true</Data>
+        <Data AD_Column_ID="78210" Column="IsComplete" isNewNull="true"/>
+        <Data AD_Column_ID="78202" Column="IsCreated">false</Data>
+        <Data AD_Column_ID="78849" Column="IsCreateMove">false</Data>
+        <Data AD_Column_ID="78209" Column="M_Locator_ID">50001</Data>
+        <Data AD_Column_ID="78208" Column="M_Product_ID">50008</Data>
+        <Data AD_Column_ID="78199" Column="M_ProductionBatch_ID">50000</Data>
+        <Data AD_Column_ID="78201" Column="MovementDate">2016-10-05 00:00:00.0</Data>
+        <Data AD_Column_ID="78203" Column="Posted">false</Data>
+        <Data AD_Column_ID="78204" Column="Processed">false</Data>
+        <Data AD_Column_ID="78206" Column="ProcessedOn">0</Data>
+        <Data AD_Column_ID="78205" Column="Processing">false</Data>
+        <Data AD_Column_ID="78214" Column="QtyCompleted">0</Data>
+        <Data AD_Column_ID="78212" Column="QtyOrdered">0</Data>
+        <Data AD_Column_ID="78427" Column="QtyReserved">0</Data>
+        <Data AD_Column_ID="78211" Column="TargetQty">0</Data>
+        <Data AD_Column_ID="78196" Column="Updated">2016-10-05 10:56:26.949</Data>
+        <Data AD_Column_ID="78198" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="54052" Action="U" Record_ID="50000" Table="M_ProductionBatch">
+        <Data AD_Column_ID="78211" Column="TargetQty" oldValue="0">100.000000000000</Data>
+      </PO>
+    </Step>
+    -->
+  </Migration>
+</Migrations>

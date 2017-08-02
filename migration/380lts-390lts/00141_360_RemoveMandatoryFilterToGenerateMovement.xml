@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Remove mandatory filter to generate Movement from filte #360" ReleaseNo="3.9.0" SeqNo="00141">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="54255" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57985" Column="IsMandatory" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="54255" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="0">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="54254" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="0">20</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="54245" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="0">30</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="54246" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="0">40</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="54250" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="0">50</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="54266" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="0">60</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="54308" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="0">70</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="54321" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="0">80</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="100" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="54295" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="0">90</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="110" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="54305" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="0">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="120" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="54269" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="0">110</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="130" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="54245" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57970" Column="AD_Reference_ID" oldValue="19">30</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="140" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="54321" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="80">70</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="150" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="54308" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="70">80</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="160" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="54305" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="100">90</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="170" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="54269" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="110">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="180" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="54295" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="90">110</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="190" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="54300" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57979" Column="IsQueryCriteria" oldValue="false">true</Data>
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="0">120</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="200" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="53081" Table="AD_Process_Para">
+        <Data AD_Column_ID="3738" Column="IsMandatory" oldValue="true">false</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>
