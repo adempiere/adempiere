@@ -160,7 +160,7 @@
       <src_folder value="file://$MODULE_DIR$/org.adempiere.test/src/main/scala" expected_position="32" />
     </src_description>
   </component>
-  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8" inherit-compiler-output="false">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
     <output url="file://$MODULE_DIR$/bin" />
     <output-test url="file://$MODULE_DIR$/test" />
     <exclude-output />
@@ -200,6 +200,12 @@
       <sourceFolder url="file://$MODULE_DIR$/org.adempiere.test/src/main/scala" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/org.eevolution.warehouse/src/main/java/ui/zk" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/org.adempiere.production/src/main/java/base" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/org.eevolution.fleet /src/main/java/main" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/org.eevolution.fleet/src/main/java/base" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/org.eevolution.fleet/src/main/java/ui/zk" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/org.adempiere.pos/src/main/java/base" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/org.adempiere.pos/src/main/java/ui/swing" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/org.adempiere.pos/src/main/java/ui/zk" isTestSource="false" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="inheritedJdk" />
@@ -1147,28 +1153,6 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
-      <library name="liberoHR.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/packages/liberoHR.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="file:///adempiereLiberoHR" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="liberoMFG.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/packages/liberoMFG.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="file:///adempiereLibero" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
       <library name="iText-2.1.7.jar">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/tools/lib/iText-2.1.7.jar!/" />
@@ -1244,15 +1228,6 @@
       <library name="OpenForecast-0.5.0.jar">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/tools/lib/OpenForecast-0.5.0.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library name="liberoWM.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/packages/liberoWM.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -1358,6 +1333,88 @@
       <library>
         <CLASSES>
           <root url="jar://$MODULE_DIR$/tools/lib/poi-3.14-20160307.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="library" name="xmlbeans-2.6.0" level="project" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/packages/ADempierePOS.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/packages/CashflowManagement.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/packages/FixedAssetManagement.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/packages/FleetManagement.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/packages/FreightManagement.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/packages/HumanResourceAndPayroll.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/packages/ManufacturingManagement.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/packages/ProductionLight.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/packages/WarehouseManagement.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
