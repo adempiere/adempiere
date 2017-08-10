@@ -47,6 +47,9 @@ import org.compiere.util.Env;
  *			@see http://sourceforge.net/tracker2/?func=detail&atid=879335&aid=2520591&group_id=176962 
  * @author Bayu Cahya, Sistematika
  * 			<li>BF [ 2240484 ] Re MatchingPO, MMatchPO doesn't contains Invoice info
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * 		<a href="https://github.com/adempiere/adempiere/issues/1292">
+ * 		@see BR [ 1292 ] Accouting Date is the now instead of invoice date</a>
  * 
  */
 public class MMatchInv extends X_M_MatchInv implements IDocumentLine
@@ -197,14 +200,15 @@ public class MMatchInv extends X_M_MatchInv implements IDocumentLine
 	 *	@param dateTrx optional date
 	 *	@param qty matched quantity
 	 */
-	public MMatchInv (MInvoiceLine iLine, Timestamp dateTrx, BigDecimal qty)
-	{
+	public MMatchInv (MInvoiceLine iLine, Timestamp dateTrx, BigDecimal qty) {
 		this (iLine.getCtx(), 0, iLine.get_TrxName());
 		setClientOrg(iLine);
 		setC_InvoiceLine_ID(iLine.getC_InvoiceLine_ID());
 		setM_InOutLine_ID(iLine.getM_InOutLine_ID());
-		if (dateTrx != null)
-			setDateTrx (dateTrx);
+		if (dateTrx != null) {
+			setDateTrx(dateTrx);
+			setDateAcct(dateTrx);
+		}
 		setM_Product_ID (iLine.getM_Product_ID());
 		setM_AttributeSetInstance_ID(iLine.getM_AttributeSetInstance_ID());
 		setQty (qty);
