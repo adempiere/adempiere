@@ -52,7 +52,10 @@ import org.compiere.util.Env;
  *
  *  @author victor.perez@e-evolution.com, e-Evolution http://www.e-evolution.com
  * 			<li> FR [ 2520591 ] Support multiples calendar for Org 
- *			@see http://sourceforge.net/tracker2/?func=detail&atid=879335&aid=2520591&group_id=176962 
+ *			@see http://sourceforge.net/tracker2/?func=detail&atid=879335&aid=2520591&group_id=176962
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * 		<a href="https://github.com/adempiere/adempiere/issues/1292">
+ * 		@see BR [ 1292 ] Accouting Date is the now instead of invoice date</a>
  */
 public class MMatchPO extends X_M_MatchPO implements IDocumentLine
 {
@@ -397,8 +400,10 @@ public class MMatchPO extends X_M_MatchPO implements IDocumentLine
 		setClientOrg(sLine);
 		setM_InOutLine_ID (sLine.getM_InOutLine_ID());
 		setC_OrderLine_ID (sLine.getC_OrderLine_ID());
-		if (dateTrx != null)
-			setDateTrx (dateTrx);
+		if (dateTrx != null) {
+			setDateTrx(dateTrx);
+			setDateAcct(dateTrx);
+		}
 		setM_Product_ID (sLine.getM_Product_ID());
 		setM_AttributeSetInstance_ID(sLine.getM_AttributeSetInstance_ID());
 		setQty (qty);
