@@ -271,16 +271,6 @@
 	<classpathentry exported="true" kind="lib" path="tools/lib/junit.jar"/>
 	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/zweb.jar"/>
 	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/zkplus-sources.jar"/>
-	<!--classpathentry exported="true" kind="lib" path="packages/HumanResourceAndPayroll.jar" sourcepath="/adempiereLiberoHR">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
-		</attributes>
-	</classpathentry-->
-	<!--classpathentry exported="true" kind="lib" path="packages/ManufacturingManagement.jar" sourcepath="/adempiereLibero">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
-		</attributes>
-	</classpathentry-->
 	<classpathentry exported="true" kind="lib" path="tools/lib/iText-2.1.7.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
@@ -337,7 +327,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="tools/lib/OpenForecast-0.5.0.jar"/>
-	<!--classpathentry kind="lib" path="packages/WarehouseManagement.jar"/-->
 	<classpathentry kind="lib" path="tools/lib/commons-io.jar"/>
 	<classpathentry kind="lib" path="tools/lib/ooxml-schemas-1.3.jar">
 		<attributes>
