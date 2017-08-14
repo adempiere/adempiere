@@ -356,6 +356,7 @@ public abstract class FileImportController {
 		int row = 0;
 		int imported = 0;
 		for(String line : data) {
+			row++;
 			if (format.updateDB(Env.getCtx(), line, null)) {
 				imported++;
 			}
