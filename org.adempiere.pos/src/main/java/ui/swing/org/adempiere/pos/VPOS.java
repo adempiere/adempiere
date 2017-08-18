@@ -421,7 +421,7 @@ public class VPOS extends CPOS implements FormPanel, POSPanelInterface, POSScale
 		if (lineError != null) {
 			logger.warning("POS Error " + lineError);
 			ADialog.error(getWindowNo(),
-					mainPanel, Msg.parseTranslation(ctx, lineError));
+					mainPanel, Msg.parseTranslation(getCtx(), lineError));
 		}
 		refreshPanel();
 	}

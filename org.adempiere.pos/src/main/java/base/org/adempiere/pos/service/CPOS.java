@@ -109,7 +109,7 @@ public class CPOS {
 	/**	Price List Id		*/
 	private int 				priceListId;
 	/** Context					*/
-	protected Properties 		ctx;
+	private Properties 		ctx;
 	/**	Today's (login) date	*/
 	private Timestamp 			today;
 	/**	Order List				*/
@@ -1709,7 +1709,7 @@ public class CPOS {
 	 * @return
 	 * @return MPriceListVersion
 	 */
-	protected MPriceListVersion loadPriceListVersion(int priceListId) {
+	public MPriceListVersion loadPriceListVersion(int priceListId) {
 		priceListVersionId = 0;
 		this.priceListId = priceListId;
 		MPriceList priceList = MPriceList.get(ctx, priceListId, null);
@@ -2277,7 +2277,8 @@ public class CPOS {
 		ArrayList<Vector<Object>> rows = new ArrayList<>();
 		StringBuilder sql = new StringBuilder();
 		sql.append("SELECT DISTINCT ON ( ProductPricing.M_Product_ID , p.Value, p.Name ) ProductPricing.M_Product_ID , p.Value, p.Name,")
-				.append("   BomQtyAvailable(ProductPricing.M_Product_ID, ? , 0 ) AS QtyAvailable , PriceStd , PriceList FROM M_Product p INNER JOIN (")
+				.append("   BomQtyAvailable(ProductPricing.M_Product_ID, ? , 0 ) AS QtyAvailable , PriceStd , PriceList")
+					.append(" FROM M_Product p INNER JOIN (")
 					.append("	SELECT pl.M_PriceList_ID , ValidFrom , 0 AS BreakValue , null AS C_BPartner_ID,")
 					.append("   p.M_Product_ID,")
 					.append("	bomPriceStd(p.M_Product_ID,plv.M_PriceList_Version_ID) AS PriceStd,")
@@ -2287,7 +2288,7 @@ public class CPOS {
 					.append("	INNER JOIN M_ProductPrice pp ON (p.M_Product_ID=pp.M_Product_ID)")
 					.append("	INNER JOIN M_PriceList_Version plv ON (pp.M_PriceList_Version_ID=plv.M_PriceList_Version_ID)")
 					.append("	INNER JOIN M_PriceList pl ON (plv.M_PriceList_ID=pl.M_PriceList_ID)")
-					.append("	WHERE pl.M_PriceList_ID=? AND plv.IsActive='Y'AND pp.IsActive='Y'")
+					.append("	WHERE pl.M_PriceList_ID=? AND plv.IsActive='Y' AND pp.IsActive='Y' ")
 				.append("	UNION	")
 					.append("	SELECT pl.M_PriceList_ID , plv.ValidFrom , pp.BreakValue , pp.C_BPartner_ID,")
 					.append("   p.M_Product_ID,")
@@ -2306,10 +2307,13 @@ public class CPOS {
 					sql.append( "AND C_BPartner_ID IS NULL ");
 
 				sql.append("AND p.AD_Client_ID=? AND p.IsSold=? AND p.Discontinued=? ")
-				.append("AND UPPER(p.Name)  LIKE UPPER('").append("%").append(productCode.replace(" ","%")).append("%").append("')")
+				.append("AND ")
+				.append("(")
+				.append("UPPER(p.Name)  LIKE UPPER('").append("%").append(productCode.replace(" ","%")).append("%").append("')")
 				.append(" OR UPPER(p.Value) LIKE UPPER('").append("%").append(productCode.replace(" ","%")).append("%").append("')")
 				.append(" OR UPPER(p.UPC)   LIKE UPPER('").append("%").append(productCode.replace(" ","%")).append("%").append("')")
-				.append(" OR UPPER(p.SKU)   LIKE UPPER('").append("%").append(productCode.replace(" ","%")).append("%").append("')");
+				.append(" OR UPPER(p.SKU)   LIKE UPPER('").append("%").append(productCode.replace(" ","%")).append("%").append("')")
+				.append(")");
 		PreparedStatement statement = null;
 		try{
 			statement = DB.prepareStatement(sql.toString(), null);
