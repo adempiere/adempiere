@@ -906,10 +906,15 @@ public class AcctViewer extends CFrame
 	{
 		if(displayDocumentInfo.isSelected() && table.getSelectedRow() >= 0)
 		{
-			KeyNamePair tableKeyPair = (KeyNamePair) table.getValueAt(table.getSelectedRow(), 12);
-			Integer recordId = (Integer) table.getValueAt(table.getSelectedRow(), 13);
-			if (tableKeyPair != null && recordId != null)
-				AEnv.zoom(tableKeyPair.getKey(), Integer.valueOf(recordId));
+			RModel model = accountViewerData.getRModel();
+			int columnTableId = model.getColumnIndex("AD_Table_ID");
+			int columnRecordId = model.getColumnIndex("Record_ID");
+			if (columnRecordId >= 0 && columnRecordId >= 0 ) {
+				KeyNamePair tableKeyPair = (KeyNamePair) table.getValueAt(table.getSelectedRow(), columnTableId);
+				Integer recordId = (Integer) table.getValueAt(table.getSelectedRow(), columnRecordId);
+				if (tableKeyPair != null && recordId != null)
+					AEnv.zoom(tableKeyPair.getKey(), recordId);
+			}
 		}
 	}
 
