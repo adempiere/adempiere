@@ -21,7 +21,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -54,7 +53,9 @@ import org.compiere.util.TimeUtil;
  *  @author Jorg Janke
  *	@author Armen Rizal, Goodwill Consulting
  *			<li>FR [2857076] User Element 1 and 2 completion - https://sourceforge.net/tracker/?func=detail&aid=2857076&group_id=176962&atid=879335
- *
+ *	@author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<a href="https://github.com/adempiere/adempiere/issues/1298">
+ * 		@see BR [ 1298 ] Financial Report throw a error when is launched</a>
  *  @version $Id: FinReport.java,v 1.2 2006/07/30 00:51:05 jjanke Exp $
  */
 public class FinReport extends FinReportAbstract
@@ -156,13 +157,6 @@ public class FinReport extends FinReportAbstract
 			+ " INNER JOIN C_Year y ON (p.C_Year_ID=y.C_Year_ID),"
 			+ " C_Period p1 "
 			+ "WHERE y.C_Calendar_ID=?"
-			/*
-			 * adaxa -- all finReportPeriods should be reported, even inactive
-			 * 
-			// globalqss - cruiz - Bug [ 1577712 ] Financial Period Bug
-			+ " AND p.IsActive='Y'"
-			+ " AND p.PeriodType='S' "
-			*/
 			+ " AND p1.C_Year_ID=y.C_Year_ID AND p1.PeriodType='S' "
 			+ "GROUP BY p.C_Period_ID, p.Name, p.StartDate, p.EndDate "
 			+ "ORDER BY p.StartDate";
@@ -246,7 +240,7 @@ public class FinReport extends FinReportAbstract
 			if (reportLines[line].isLineTypeSegmentValue())
 				insertLine (line);
 		}	//	for all lines
-
+		updateAccountType();
 		insertLineDetail();
 		doCalculations();
 		deleteUnprintedLines();
@@ -319,35 +313,36 @@ public class FinReport extends FinReportAbstract
 				log.log(Level.SEVERE, "#=" + no + " for " + sqlStatementReport);
 			log.finest(sqlStatementReport.toString());
 		}
-		
-		//Add extra columns for account type and balancesheet/Pl flag.
-		Arrays.stream(reportLines[line].getSources()).forEach(reportSourceLine -> {
-			StringBuffer updateAccountType = new StringBuffer("UPDATE T_Report SET AccountType=accounttype1 ,ax_case=ax_case1 "
-												+ "FROM (SELECT ev.AccountType AS AccountType1 ,"
-					+ "CASE ev.accounttype " 
-					+ " WHEN 'A' THEN 'B' "
-					+ " WHEN 'C' THEN 'P' "
-					+ " WHEN 'E' THEN 'P' "
-					+ " WHEN 'F' THEN 'P' "
-					+ " WHEN 'L' THEN 'B' "
-					+ " WHEN 'M' THEN 'B' "
-					+ " WHEN 'O' THEN 'B' "
-					+ " WHEN 'P' THEN 'P' "
-					+ " WHEN 'R' THEN 'P' "
-					+ " WHEN 'T' THEN 'P' "
-					+ " ELSE '9'  END   "
-					+ "as ax_case1 FROM Fact_Acct f "
-					+ "RIGHT  JOIN C_ElementValue ev  ON  f.Account_id = ev.C_ElementValue_ID WHERE ev.C_ElementValue_ID= ")
-					.append(reportSourceLine.getC_ElementValue_ID())
-					.append(") t  " ).append(" WHERE AD_PInstance_ID = ")
-					.append(getAD_PInstance_ID())
-					.append(" AND PA_ReportLine_ID= ")
-					.append(reportLines[line].getPA_ReportLine_ID());
-			int no = DB.executeUpdate(updateAccountType .toString(), get_TrxName());
-			log.log(Level.INFO, "#=" + no + " for " + sqlStatementReport);
-		});
 	}	//	insertLine
-
+	
+	/**
+	 * Update Account Type
+	 */
+	private void updateAccountType() {
+		//	Update Account Type and Ax Case
+		String updateAccountType = new String("UPDATE T_Report "
+				+ "SET AccountType = AccountType1, "
+				+ "Ax_Case = Ax_Case1 "
+				+ "FROM (SELECT ev.AccountType AS AccountType1, "
+				+ "		CASE WHEN ev.AccountType IN('A', 'L', 'M', 'O') THEN 'B' "
+				+ " 		WHEN ev.AccountType IN('C', 'E', 'F', 'P', 'R', 'T') THEN 'P' "
+				+ " 		ELSE '9' "
+				+ "		END AS Ax_Case1 "
+				+ "		FROM Fact_Acct f "
+				+ "		INNER JOIN C_ElementValue ev ON(f.Account_ID = ev.C_ElementValue_ID) "
+				+ "		WHERE EXISTS(SELECT 1 FROM "
+				+ "						PA_ReportSource rs "
+				+ "						INNER JOIN PA_ReportLine rl ON(rl.PA_ReportLine_ID = rs.PA_ReportLine_ID) "
+				+ "						WHERE rs.C_ElementValue_ID = ev.C_ElementValue_ID"
+				+ "						AND rl.PA_ReportLineSet_ID = ?"
+				+ "						AND rl.LineType = ?"
+				+ "		)"
+				+ ") t WHERE AD_PInstance_ID = ?");
+		//	Execute
+		Object[] parameters = new Object[]{finReport.getPA_ReportLineSet_ID(), MReportLine.LINETYPE_SegmentValue, getAD_PInstance_ID()};
+		int no = DB.executeUpdate(updateAccountType, parameters, true, get_TrxName());
+		log.log(Level.INFO, "#=" + no + " for " + updateAccountType);
+	}
 
 	/**************************************************************************
 	 *	Line + Column calculation
