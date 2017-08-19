@@ -1424,9 +1424,9 @@ public class WAcctViewer extends Window implements EventListener
 	{
 		if (displayDocumentInfo.isChecked() && table.getSelectedRow() >= 0) {
 			KeyNamePair tableKeyPair = (KeyNamePair) table.getValueAt(table.getSelectedRow(), 12);
-			String recordId = (String) table.getValueAt(table.getSelectedRow(), 13);
+			Integer recordId = (Integer) table.getValueAt(table.getSelectedRow(), 13);
 			if (tableKeyPair != null && recordId != null)
-				AEnv.zoom(tableKeyPair.getKey(), Integer.valueOf(recordId));
+				AEnv.zoom(tableKeyPair.getKey(), recordId);
 		}
 
 
