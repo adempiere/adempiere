@@ -276,7 +276,6 @@ public class FinReport extends FinReportAbstract {
 				insertLine(reportLine);
 			}
 		}	//	for all lines
-		updateAccountType();
 		insertLineDetail();
 		doCalculations();
 		deleteUnprintedLines();
@@ -348,35 +347,6 @@ public class FinReport extends FinReportAbstract {
 		}
 	}	//	insertLine
 	
-	/**
-	 * Update Account Type
-	 */
-	private void updateAccountType() {
-		//	Update Account Type and Ax Case
-		String updateAccountType = new String("UPDATE T_Report "
-				+ "SET AccountType = AccountType1, "
-				+ "Ax_Case = Ax_Case1 "
-				+ "FROM (SELECT ev.AccountType AS AccountType1, "
-				+ "		CASE WHEN ev.AccountType IN('A', 'L', 'M', 'O') THEN 'B' "
-				+ " 		WHEN ev.AccountType IN('C', 'E', 'F', 'P', 'R', 'T') THEN 'P' "
-				+ " 		ELSE '9' "
-				+ "		END AS Ax_Case1 "
-				+ "		FROM Fact_Acct f "
-				+ "		INNER JOIN C_ElementValue ev ON(f.Account_ID = ev.C_ElementValue_ID) "
-				+ "		WHERE EXISTS(SELECT 1 FROM "
-				+ "						PA_ReportSource rs "
-				+ "						INNER JOIN PA_ReportLine rl ON(rl.PA_ReportLine_ID = rs.PA_ReportLine_ID) "
-				+ "						WHERE rs.C_ElementValue_ID = ev.C_ElementValue_ID"
-				+ "						AND rl.PA_ReportLineSet_ID = ?"
-				+ "						AND rl.LineType = ?"
-				+ "		)"
-				+ ") t WHERE AD_PInstance_ID = ?");
-		//	Execute
-		Object[] parameters = new Object[]{finReport.getPA_ReportLineSet_ID(), MReportLine.LINETYPE_SegmentValue, getAD_PInstance_ID()};
-		int no = DB.executeUpdate(updateAccountType, parameters, true, get_TrxName());
-		log.log(Level.INFO, "#=" + no + " for " + updateAccountType);
-	}
-
 	/**************************************************************************
 	 *	Line + Column calculation
 	 */
@@ -731,10 +701,8 @@ public class FinReport extends FinReportAbstract {
 	 * 	@param reportColumnId PA_ReportColumn_ID
 	 * 	@return zero based index or if not found
 	 */
-	private int getColumnIndex (int reportColumnId)
-	{
-		for (int i = 0; i < reportColumns.length; i++)
-		{
+	private int getColumnIndex (int reportColumnId) {
+		for (int i = 0; i < reportColumns.length; i++) {
 			if (reportColumns[i].getPA_ReportColumn_ID() == reportColumnId)
 				return i;
 		}
@@ -747,8 +715,7 @@ public class FinReport extends FinReportAbstract {
 	 * 	@param relativeOffset offset
 	 * 	@return reporting period
 	 */
-	private FinReportPeriod getPeriod (BigDecimal relativeOffset)
-	{
+	private FinReportPeriod getPeriod (BigDecimal relativeOffset) {
 		if (relativeOffset == null)
 			return getPeriod(0);
 		return getPeriod(relativeOffset.intValue());
