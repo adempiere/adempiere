@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 
+import org.compiere.model.I_PA_Report;
 import org.compiere.model.MAccount;
 import org.compiere.model.MAcctSchemaElement;
 import org.compiere.model.MAttachment;
@@ -46,6 +47,7 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.TimeUtil;
+import org.compiere.util.Util;
 
 /**
  *  Financial Report Engine
@@ -81,38 +83,38 @@ public class FinReport extends FinReportAbstract {
 		super.prepare();
 		StringBuffer sb = new StringBuffer ("Record_ID=").append(getRecord_ID());
 		//	Optional Org
-		if (getOrganizationId() != 0)
-			parameterWhere.append(" AND ").append(MReportTree.getWhereClause(getCtx(), getReportingHierarchyId(), MAcctSchemaElement.ELEMENTTYPE_Organization, getOrganizationId()));
+		if (getOrgId() != 0)
+			parameterWhere.append(" AND ").append(MReportTree.getWhereClause(getCtx(), getHierarchyId(), MAcctSchemaElement.ELEMENTTYPE_Organization, getOrgId()));
 		//	Optional BPartner
-		if (getBusinessPartnerId() != 0)
-			parameterWhere.append(" AND ").append(MReportTree.getWhereClause(getCtx(), getReportingHierarchyId(), MAcctSchemaElement.ELEMENTTYPE_BPartner, getBusinessPartnerId()));
+		if (getBPartnerId() != 0)
+			parameterWhere.append(" AND ").append(MReportTree.getWhereClause(getCtx(), getHierarchyId(), MAcctSchemaElement.ELEMENTTYPE_BPartner, getBPartnerId()));
 		//	Optional Product
 		if (getProductId() != 0)
-			parameterWhere.append(" AND ").append(MReportTree.getWhereClause(getCtx(), getReportingHierarchyId(), MAcctSchemaElement.ELEMENTTYPE_Product, getProductId()));
+			parameterWhere.append(" AND ").append(MReportTree.getWhereClause(getCtx(), getHierarchyId(), MAcctSchemaElement.ELEMENTTYPE_Product, getProductId()));
 		//	Optional Project
 		if (getProjectId() != 0)
-			parameterWhere.append(" AND ").append(MReportTree.getWhereClause(getCtx(), getReportingHierarchyId(), MAcctSchemaElement.ELEMENTTYPE_Project, getProjectId()));
+			parameterWhere.append(" AND ").append(MReportTree.getWhereClause(getCtx(), getHierarchyId(), MAcctSchemaElement.ELEMENTTYPE_Project, getProjectId()));
 		//	Optional Activity
 		if (getActivityId() != 0)
-			parameterWhere.append(" AND ").append(MReportTree.getWhereClause(getCtx(), getReportingHierarchyId(), MAcctSchemaElement.ELEMENTTYPE_Activity, getActivityId()));
+			parameterWhere.append(" AND ").append(MReportTree.getWhereClause(getCtx(), getHierarchyId(), MAcctSchemaElement.ELEMENTTYPE_Activity, getActivityId()));
 		//	Optional Campaign
 		if (getCampaignId() != 0)
 			parameterWhere.append(" AND C_Campaign_ID=").append(getCampaignId());
 		//	Optional Sales Region
 		if (getSalesRegionId() != 0)
-			parameterWhere.append(" AND ").append(MReportTree.getWhereClause(getCtx(), getReportingHierarchyId(), MAcctSchemaElement.ELEMENTTYPE_SalesRegion, getSalesRegionId()));
+			parameterWhere.append(" AND ").append(MReportTree.getWhereClause(getCtx(), getHierarchyId(), MAcctSchemaElement.ELEMENTTYPE_SalesRegion, getSalesRegionId()));
 		//	Optional User1_ID
-		if (getUserList1Id() != 0)
-			parameterWhere.append(" AND ").append(MReportTree.getWhereClause(getCtx(), getReportingHierarchyId(), MAcctSchemaElement.ELEMENTTYPE_UserList1, getUserList1Id()));
+		if (getUser1Id() != 0)
+			parameterWhere.append(" AND ").append(MReportTree.getWhereClause(getCtx(), getHierarchyId(), MAcctSchemaElement.ELEMENTTYPE_UserList1, getUser1Id()));
 		//  Optional User2_ID
-		if (getUserList2Id() != 0)
-			parameterWhere.append(" AND ").append(MReportTree.getWhereClause(getCtx(), getReportingHierarchyId(), MAcctSchemaElement.ELEMENTTYPE_UserList2, getUserList2Id()));
+		if (getUser2Id() != 0)
+			parameterWhere.append(" AND ").append(MReportTree.getWhereClause(getCtx(), getHierarchyId(), MAcctSchemaElement.ELEMENTTYPE_UserList2, getUser2Id()));
 		//	Optional User1_ID
-		if (getUserList3Id() != 0)
-			parameterWhere.append(" AND ").append(MReportTree.getWhereClause(getCtx(), getReportingHierarchyId(), MAcctSchemaElement.ELEMENTTYPE_UserList3, getUserList3Id()));
+		if (getUser3Id() != 0)
+			parameterWhere.append(" AND ").append(MReportTree.getWhereClause(getCtx(), getHierarchyId(), MAcctSchemaElement.ELEMENTTYPE_UserList3, getUser3Id()));
 		//  Optional User2_ID
-		if (getUserList4Id() != 0)
-			parameterWhere.append(" AND ").append(MReportTree.getWhereClause(getCtx(), getReportingHierarchyId(), MAcctSchemaElement.ELEMENTTYPE_UserList4, getUserList4Id()));
+		if (getUser4Id() != 0)
+			parameterWhere.append(" AND ").append(MReportTree.getWhereClause(getCtx(), getHierarchyId(), MAcctSchemaElement.ELEMENTTYPE_UserList4, getUser4Id()));
 		//	Optional UserElement1_ID
 		if (getUserElement1Id() != 0)
 			parameterWhere.append(" AND UserElement1_ID=").append(getUserElement1Id());
@@ -156,6 +158,33 @@ public class FinReport extends FinReportAbstract {
 	private String getWhereClauseForTrx() {
 		//	Return
 		return parameterWhere.toString();
+	}
+	
+	/**
+	 * Get Where clause for posting type
+	 * @param withAND
+	 * @return
+	 */
+	private String getWherePostingType(boolean withAND) {
+		//	PostingType
+		String postingType = getPostingType();
+		int budgetId = getBudgetId();
+		StringBuffer whereClause = new StringBuffer();
+		//	Not is overwrite with parameter
+		//	
+		if (!Util.isEmpty(postingType)) {
+			if(withAND) {
+				whereClause.append(" AND ");
+			}
+			whereClause.append("PostingType='").append(postingType).append("' ");
+			if (postingType.equals(MReportColumn.POSTINGTYPE_Budget)) {
+				if(budgetId > 0) {
+					whereClause.append(" AND GL_Budget_ID=" + budgetId);
+				}
+			}
+		}
+		//	Default return
+		return whereClause.toString();
 	}
 
 	/**
@@ -291,7 +320,7 @@ public class FinReport extends FinReportAbstract {
 
 		StringBuilder whereClause = new StringBuilder();
 		//	Line Where
-		String whereReportLine = reportLine.getWhereClause(getReportingHierarchyId());	//	(sources, posting type)
+		String whereReportLine = reportLine.getWhereClause(getHierarchyId(), getWherePostingType(false));	//	(sources, posting type)
 		if (whereReportLine != null && whereReportLine.length() > 0)
 			whereClause.append(whereReportLine);
 
@@ -307,8 +336,7 @@ public class FinReport extends FinReportAbstract {
 		StringBuilder sqlStatementReport = new StringBuilder("UPDATE T_Report SET ");
 
 		//	Update Line Values
-		if (sqlStatementColumn.length() > 0)
-		{
+		if (sqlStatementColumn.length() > 0) {
 			sqlStatementColumn.append(" WHERE AD_PInstance_ID=").append(getAD_PInstance_ID())
 				.append(" AND PA_ReportLine_ID=").append(reportLine.getPA_ReportLine_ID())
 				.append(" AND ABS(LevelNo)<2");		//	0=Line 1=Acct
@@ -354,19 +382,19 @@ public class FinReport extends FinReportAbstract {
 	 */
 	private void doCalculations() {
 		//	for all lines	***************************************************
-		for (int line = 0; line < reportLines.length; line++) {
-			if (!reportLines[line].isLineTypeCalculation ())
+		for (MReportLine reportLine : reportLines) {
+			if (!reportLine.isLineTypeCalculation ())
 				continue;
 
-			int operation_1 = reportLines[line].getOper_1_ID();
-			int operation_2 = reportLines[line].getOper_2_ID();
+			int operation_1 = reportLine.getOper_1_ID();
+			int operation_2 = reportLine.getOper_2_ID();
 
-			log.fine("Line " + line + " = #" + operation_1 + " "
-				+ reportLines[line].getCalculationType() + " #" + operation_2);
+			log.fine("Line " + reportLine.getSeqNo() + " = #" + operation_1 + " "
+				+ reportLine.getCalculationType() + " #" + operation_2);
 
 			//	Adding
-			if (reportLines[line].isCalculationTypeAdd()
-				|| reportLines[line].isCalculationTypeRange()) {
+			if (reportLine.isCalculationTypeAdd()
+				|| reportLine.isCalculationTypeRange()) {
 				//	Reverse range
 				if (operation_1 > operation_2) {
 					int temp = operation_1;
@@ -389,21 +417,21 @@ public class FinReport extends FinReportAbstract {
 				}
 				updateReportLine.append(" FROM T_Report r2 WHERE r2.AD_PInstance_ID=").append(getAD_PInstance_ID())
 					.append(" AND r2.PA_ReportLine_ID IN (");
-				if (reportLines[line].isCalculationTypeAdd()) {
+				if (reportLine.isCalculationTypeAdd()) {
 					updateReportLine.append(operation_1).append(",").append(operation_2);
 				} else {
 					updateReportLine.append(getLineIds(operation_1, operation_2));		//	list of columns to add up
 				}
 				updateReportLine.append(") AND ABS(r2.LevelNo)<1) "		//	0=Line 1=Acct
 					+ "WHERE AD_PInstance_ID=").append(getAD_PInstance_ID())
-					.append(" AND PA_ReportLine_ID=").append(reportLines[line].getPA_ReportLine_ID())
+					.append(" AND PA_ReportLine_ID=").append(reportLine.getPA_ReportLine_ID())
 					.append(" AND ABS(LevelNo)<1");		//	not trx
 				int no = DB.executeUpdate(updateReportLine.toString(), get_TrxName());
 				if (no != 1)
-					log.log(Level.SEVERE, "(+) #=" + no + " for " + reportLines[line] + " - " + updateReportLine.toString());
+					log.log(Level.SEVERE, "(+) #=" + no + " for " + reportLine + " - " + updateReportLine.toString());
 				else
 				{
-					log.fine("(+) Line=" + line + " - " + reportLines[line]);
+					log.fine("(+) Line=" + reportLine.getSeqNo() + " - " + reportLine);
 					log.finest ("(+) " + updateReportLine.toString ());
 				}
 			} else {	//	No Add (subtract, percent)
@@ -427,11 +455,11 @@ public class FinReport extends FinReportAbstract {
 					.append(" AND r2.Record_ID=0 AND r2.Fact_Acct_ID=0) "
 				//
 					+ "WHERE AD_PInstance_ID=").append(getAD_PInstance_ID())
-					   .append(" AND PA_ReportLine_ID=").append(reportLines[line].getPA_ReportLine_ID())
+					   .append(" AND PA_ReportLine_ID=").append(reportLine.getPA_ReportLine_ID())
 					.append(" AND ABS(LevelNo)<1");			//	0=Line 1=Acct
 				int no = DB.executeUpdate(updateReportLine.toString(), get_TrxName());
 				if (no != 1) {
-					log.info ("(x) #=" + no + " for " + reportLines[line] + " - " + updateReportLine.toString ());
+					log.info ("(x) #=" + no + " for " + reportLine + " - " + updateReportLine.toString ());
 					continue;
 				}
 
@@ -452,7 +480,7 @@ public class FinReport extends FinReportAbstract {
 					updateReportLine.append ("COALESCE(r1.Col_").append (col).append(",0)");
 					// fix bug [ 1563664 ] Errors in values shown in Financial Reports
 					// Carlos Ruiz - globalqss
-					if (reportLines[line].isCalculationTypeSubtract()) {
+					if (reportLine.isCalculationTypeSubtract()) {
 						updateReportLine.append("-");
 						// Solution, for subtraction replace the null with 0, instead of 0.000000001 
 						updateReportLine.append ("COALESCE(r2.Col_").append (col).append(",0)");
@@ -462,9 +490,9 @@ public class FinReport extends FinReportAbstract {
 						updateReportLine.append ("DECODE (r2.Col_").append (col).append(", 0, NULL, r2.Col_").append (col).append(")");
 					}
 					// end fix bug [ 1563664 ]
-					if (reportLines[line].isCalculationTypePercent()) {
+					if (reportLine.isCalculationTypePercent()) {
 						updateReportLine.append(" *100");
-						Float fixedPercentage = getFixedPercentage(get_TrxName(), getAD_PInstance_ID(), reportLines[line].getPA_ReportLine_ID(),"Col_"+col);
+						Float fixedPercentage = getFixedPercentage(get_TrxName(), getAD_PInstance_ID(), reportLine.getPA_ReportLine_ID(),"Col_"+col);
 						if (fixedPercentage >0) 
 							fixPercentage = true;
 						if (col > 0){
@@ -474,16 +502,16 @@ public class FinReport extends FinReportAbstract {
 					}
 				}
 				updateReportLine.append(" FROM T_Report r2 WHERE r2.AD_PInstance_ID=").append(getAD_PInstance_ID())
-				.append(" AND r2.PA_ReportLine_ID=").append(operation_2)
-				.append(" AND r2.Record_ID=0 AND r2.Fact_Acct_ID=0) "
+					.append(" AND r2.PA_ReportLine_ID=").append(operation_2)
+					.append(" AND r2.Record_ID=0 AND r2.Fact_Acct_ID=0) "
 						//
 						+ "WHERE AD_PInstance_ID=").append(getAD_PInstance_ID())
-						.append(" AND PA_ReportLine_ID=").append(reportLines[line].getPA_ReportLine_ID())
+						.append(" AND PA_ReportLine_ID=").append(reportLine.getPA_ReportLine_ID())
 						.append(" AND ABS(LevelNo)<1");			//	0=Line 1=Acct
 
 				updateFixPorcentage.append(" WHERE AD_PInstance_ID = "+getAD_PInstance_ID())
-				.append(" AND PA_ReportLine_ID= "+ reportLines[line].getPA_ReportLine_ID())
-				.append(" AND ABS(LevelNo) < 1   "); // 0=Line 1=Acct
+					.append(" AND PA_ReportLine_ID= "+ reportLine.getPA_ReportLine_ID())
+					.append(" AND ABS(LevelNo) < 1   "); // 0=Line 1=Acct
 				if (fixPercentage) {
 					try{
 						no = DB.executeUpdate(updateFixPorcentage.toString(), get_TrxName());
@@ -491,54 +519,50 @@ public class FinReport extends FinReportAbstract {
 						log.log (Level.SEVERE, updateFixPorcentage.toString(), e);
 					}
 					if (no != 1)
-						log.severe ("(x) #=" + no + " for " + reportLines[line] + " - " + updateReportLine.toString ());
+						log.severe ("(x) #=" + no + " for " + reportLine + " - " + updateReportLine.toString ());
 					else
 					{
-						log.fine("(x) Line=" + line + " - " + reportLines[line]);
+						log.fine("(x) Line=" + reportLine.getSeqNo() + " - " + reportLine);
 						log.finest (updateReportLine.toString());
 					}
 				} else {
 					no = DB.executeUpdate(updateReportLine.toString(), get_TrxName());
-					if (no != 1)
-						log.severe("(x) #=" + no + " for " + reportLines[line] + " - "
+					if (no != 1) {
+						log.severe("(x) #=" + no + " for " + reportLine + " - "
 								+ updateReportLine.toString());
-					else {
-						log.fine("(x) Line=" + line + " - " + reportLines[line]);
+					} else {
+						log.fine("(x) Line=" + reportLine.getSeqNo() + " - " + reportLine);
 						log.finest(updateReportLine.toString());
 					}
 				}
 			}
 		}	//	for all lines
 
-
+		int column = 0;
 		//	for all columns		***********************************************
-		for (int col = 0; col < reportColumns.length; col++)
-		{
+		for (MReportColumn reportColumn : reportColumns) {
 			//	Only Calculations
-			if (!reportColumns[col].isColumnTypeCalculation ())
+			if (!reportColumn.isColumnTypeCalculation ())
 				continue;
 
 			StringBuffer updateCalculationColumn = new StringBuffer ("UPDATE T_Report SET ");
 			//	Column to set
-			updateCalculationColumn.append ("Col_").append (col).append("=");
+			updateCalculationColumn.append ("Col_").append (column).append("=");
 			//	First Operand
-			int firstOperator_1 = getColumnIndex(reportColumns[col].getOper_1_ID());
-			if (firstOperator_1 < 0)
-			{
-				log.log(Level.SEVERE, "Column Index for Operator 1 not found - " + reportColumns[col]);
+			int firstOperator_1 = getColumnIndex(reportColumn.getOper_1_ID());
+			if (firstOperator_1 < 0) {
+				log.log(Level.SEVERE, "Column Index for Operator 1 not found - " + reportColumn);
 				continue;
 			}
 			//	Second Operand
-			int secondOperator_2 = getColumnIndex(reportColumns[col].getOper_2_ID());
-			if (secondOperator_2 < 0)
-			{
-				log.log(Level.SEVERE, "Column Index for Operator 2 not found - " + reportColumns[col]);
+			int secondOperator_2 = getColumnIndex(reportColumn.getOper_2_ID());
+			if (secondOperator_2 < 0) {
+				log.log(Level.SEVERE, "Column Index for Operator 2 not found - " + reportColumn);
 				continue;
 			}
-			log.fine("Column " + col + " = #" + firstOperator_1 + " " + reportColumns[col].getCalculationType() + " #" + secondOperator_2);
+			log.fine("Column " + column + " = #" + firstOperator_1 + " " + reportColumn.getCalculationType() + " #" + secondOperator_2);
 			//	Reverse Range
-			if (firstOperator_1 > secondOperator_2 && reportColumns[col].isCalculationTypeRange())
-			{
+			if (firstOperator_1 > secondOperator_2 && reportColumn.isCalculationTypeRange()) {
 				log.fine("Swap operands from " + firstOperator_1 + " op " + secondOperator_2);
 				int temp = firstOperator_1;
 				firstOperator_1 = secondOperator_2;
@@ -546,26 +570,24 @@ public class FinReport extends FinReportAbstract {
 			}
 
 			//	+
-			if (reportColumns[col].isCalculationTypeAdd())
+			if (reportColumn.isCalculationTypeAdd())
 				updateCalculationColumn.append ("COALESCE(Col_").append (firstOperator_1).append(",0)")
 					.append("+")
 					.append ("COALESCE(Col_").append (secondOperator_2).append(",0)");
 			//	-
-			else if (reportColumns[col].isCalculationTypeSubtract())
+			else if (reportColumn.isCalculationTypeSubtract())
 				updateCalculationColumn.append ("COALESCE(Col_").append (firstOperator_1).append(",0)")
 					.append("-")
 					.append ("COALESCE(Col_").append (secondOperator_2).append(",0)");
 			//	/
-			if (reportColumns[col].isCalculationTypePercent())
+			if (reportColumn.isCalculationTypePercent()) {
 				updateCalculationColumn.append ("CASE WHEN COALESCE(Col_").append(secondOperator_2)
-					.append(",0)=0 THEN NULL ELSE ")
-					.append("COALESCE(Col_").append (firstOperator_1).append(",0)")
-					.append("/")
-					.append ("Col_").append (secondOperator_2)
-					.append("*100 END");	//	Zero Divide
-			//	Range
-			else if (reportColumns[col].isCalculationTypeRange())
-			{
+				.append(",0)=0 THEN NULL ELSE ")
+				.append("COALESCE(Col_").append (firstOperator_1).append(",0)")
+				.append("/")
+				.append ("Col_").append (secondOperator_2)
+				.append("*100 END");	//	Zero Divide
+			} else if (reportColumn.isCalculationTypeRange()) {	//	Range
 				updateCalculationColumn.append ("COALESCE(Col_").append (firstOperator_1).append(",0)");
 				for (int ii = firstOperator_1+1; ii <= secondOperator_2; ii++)
 					updateCalculationColumn.append("+COALESCE(Col_").append (ii).append(",0)");
@@ -574,14 +596,15 @@ public class FinReport extends FinReportAbstract {
 			updateCalculationColumn.append(" WHERE AD_PInstance_ID=").append(getAD_PInstance_ID())
 				.append(" AND ABS(LevelNo)<2");			//	0=Line 1=Acct
 			int no = DB.executeUpdate(updateCalculationColumn.toString(), get_TrxName());
-			if (no < 1)
-				log.severe ("#=" + no + " for " + reportColumns[col]
-					+ " - " + updateCalculationColumn.toString());
-			else
-			{
-				log.fine("Col=" + col + " - " + reportColumns[col]);
+			if (no < 1) {
+				log.severe ("#=" + no + " for " + reportColumn
+						+ " - " + updateCalculationColumn.toString());
+			} else {
+				log.fine("Col=" + column + " - " + reportColumn);
 				log.finest (updateCalculationColumn.toString ());
 			}
+			//	Add Column
+			column++;
 		} 	//	{for all columns
 		
 
@@ -836,18 +859,19 @@ public class FinReport extends FinReportAbstract {
 		if (variable == null)
 			return;
 		log.fine("Variable=" + variable);
-
-		MReportSource[] sources = reportLine.getSources();
-		boolean isCombination = sources[0].getElementType().equals("CO");
-		for(int i = 0 ; i < sources.length; i++) {
-			if ((finReport.isListSources() && sources[i].isListSources())
-					||	(finReport.isListSources() && !sources[i].isListSources())
-					||	(!finReport.isListSources() && sources[i].isListSources())) {
-				
-			} else {
+		for(MReportSource source : reportLine.getSources()) {
+			if(!Util.isEmpty(getListSources()) && getListSources().equals(MReport.LISTSOURCES_No)) {
 				continue;
+			} else if(Util.isEmpty(getListSources())) {
+				if(!Util.isEmpty(finReport.getListSources()) && !finReport.get_ValueAsBoolean(I_PA_Report.COLUMNNAME_ListSources)) {
+					continue;
+				} else if(Util.isEmpty(finReport.getListSources())
+						&& !source.isListSources()) {
+					continue;
+				}
 			}
-
+			//	For Combination
+			boolean isCombination = source.getElementType().equals(MReportSource.ELEMENTTYPE_Combination);
 			//	Insert
 			StringBuffer insertLineSource = new StringBuffer("INSERT INTO T_Report "
 					+ "(AD_PInstance_ID, PA_ReportLine_ID, Record_ID,Fact_Acct_ID,LevelNo ");
@@ -874,43 +898,32 @@ public class FinReport extends FinReportAbstract {
 			if(isCombination) {  
 				combinationId = MAccount.get(getCtx(), 
 						getAD_Client_ID(), 
-						sources[i].getAD_Org_ID(), 
+						source.getAD_Org_ID(), 
 						Env.getContextAsInt(getCtx(), "$C_AcctSchema_ID"),
-						sources[i].getC_ElementValue_ID(), 0,
-						sources[i].getM_Product_ID(),
-						sources[i].getC_BPartner_ID(),
-						sources[i].getAD_OrgTrx_ID(),
-						sources[i].getC_Location_ID(), 0,
-						sources[i].getC_SalesRegion_ID(),
-						sources[i].getC_Project_ID(),
-						sources[i].getC_Campaign_ID(),
-						sources[i].getC_Activity_ID(),
-						sources[i].getUser1_ID(),
-						sources[i].getUser2_ID(),
-						sources[i].getUser3_ID(),
-						sources[i].getUser4_ID(),
-						sources[i].getUserElement1_ID(),
-						sources[i].getUserElement2_ID(), get_TrxName()).getC_ValidCombination_ID();
+						source.getC_ElementValue_ID(), 0,
+						source.getM_Product_ID(),
+						source.getC_BPartner_ID(),
+						source.getAD_OrgTrx_ID(),
+						source.getC_Location_ID(), 0,
+						source.getC_SalesRegion_ID(),
+						source.getC_Project_ID(),
+						source.getC_Campaign_ID(),
+						source.getC_Activity_ID(),
+						source.getUser1_ID(),
+						source.getUser2_ID(),
+						source.getUser3_ID(),
+						source.getUser4_ID(),
+						source.getUserElement1_ID(),
+						source.getUserElement2_ID(), get_TrxName()).getC_ValidCombination_ID();
 				insertLineSource.append(","+ combinationId +" ");
 			}
 			//	WHERE (sources, posting type)
 			StringBuffer whereReportLine = new StringBuffer("");
 			if(isCombination) {
-				whereReportLine.append(sources[i].getWhereClause(getReportingHierarchyId()));
-				String PostingType = reportLine.getPostingType();
-				if (PostingType != null && PostingType.length() > 0) {
-					if (whereReportLine.length() > 0)
-						whereReportLine.append(" AND ");
-					whereReportLine.append("PostingType='").append(PostingType).append("'");
-					// globalqss - CarlosRuiz
-					if (PostingType.equals(MReportLine.POSTINGTYPE_Budget)) {
-						if (reportLine.getGL_Budget_ID() > 0)
-							whereReportLine.append(" AND GL_Budget_ID=").append(reportLine.getGL_Budget_ID());
-					}
-					// end globalqss
-				}
+				whereReportLine.append(source.getWhereClause(getHierarchyId()));
+				whereReportLine.append(getWherePostingType(true));
 			} else {
-				whereReportLine.append(reportLine.getWhereClause(getReportingHierarchyId()));
+				whereReportLine.append(reportLine.getWhereClause(getHierarchyId(), getWherePostingType(false)));
 			}
 
 			String whereReport = finReport.getWhereClause();
@@ -928,10 +941,11 @@ public class FinReport extends FinReportAbstract {
 			}
 			//	Link
 			StringBuilder whereLink =  new StringBuilder();
-			if(isCombination)
+			if(isCombination) {
 				whereLink.append(reportLine.getSelectClauseCombination());
-			else
+			} else {
 				whereLink.append(" AND fb.").append(variable).append("=x.").append(variable);
+			}
 
 			insertLineSource.append(",").append(getColumnStatement(INSERT, reportLine, whereReportLine + getWhereClause() + whereLink, false));
 
@@ -976,12 +990,14 @@ public class FinReport extends FinReportAbstract {
 			if (CLogMgt.isLevelFinest())
 				log.fine("Name #=" + no + " - " + updateNameAndDesc.toString());
 			//	
-			if ((finReport.isListTrx() && sources[i].isListTrx())
-					||	(finReport.isListTrx() && !sources[i].isListTrx())
-					||	(!finReport.isListTrx() && sources[i].isListTrx())) {
+			if(!Util.isEmpty(getListTrx()) && getListTrx().equals(MReport.LISTTRX_Yes)) {
+				insertLineTrx(reportLine, variable, combinationId, whereReportLine + getWhereClauseForTrx());
+			} else if(Util.isEmpty(getListTrx()) && (!Util.isEmpty(finReport.getListTrx()) && finReport.getListTrx().equals(MReport.LISTTRX_Yes))) {
+				insertLineTrx(reportLine, variable, combinationId, whereReportLine + getWhereClauseForTrx());
+			} else if(Util.isEmpty(getListTrx()) && Util.isEmpty(finReport.getListTrx()) && source.isListTrx()) {
 				insertLineTrx(reportLine, variable, combinationId, whereReportLine + getWhereClauseForTrx());
 			}
-
+			//	
 			if(!isCombination)
 				break;
 		}
@@ -1162,18 +1178,33 @@ public class FinReport extends FinReportAbstract {
 				}
 			}
 			//	PostingType
-			if (!reportLine.isPostingType()) {		//	only if not defined on line
-				String postingType = reportColumns[col].getPostingType();
-				if (postingType != null && postingType.length() > 0)
-					whereColumn.append(" AND PostingType='").append(postingType).append("' ");
-				if (postingType.equals(MReportColumn.POSTINGTYPE_Budget)) {
-					if (reportColumns[col].getGL_Budget_ID() > 0)
-						whereColumn.append(" AND GL_Budget_ID=" + reportColumns[col].getGL_Budget_ID());
+			String postingTypeWhereClause = getWherePostingType(true);
+			if(Util.isEmpty(postingTypeWhereClause)) {
+				String postingType = reportLine.getPostingType();
+				int budgetId = reportLine.getGL_Budget_ID();
+				//	For column
+				if(Util.isEmpty(postingType)) {
+					postingType = reportColumns[col].getPostingType();
+					budgetId = reportColumns[col].getGL_Budget_ID();
 				}
+				//	
+				if (!Util.isEmpty(postingType)) {
+					postingTypeWhereClause = " AND PostingType='" + postingType + "' ";
+					if (postingType.equals(MReportColumn.POSTINGTYPE_Budget)) {
+						if(budgetId > 0) {
+							postingTypeWhereClause += (" AND GL_Budget_ID = " + budgetId);
+						}
+					}
+				}
+				if(!Util.isEmpty(postingTypeWhereClause)) {
+					whereColumn.append(postingTypeWhereClause);
+				}
+			} else {
+				whereColumn.append(postingTypeWhereClause);
 			}
 			// Column Where
 			if (reportColumns[col].isColumnTypeSegmentValue() || reportColumns[col].isWithSources()) {
-				whereColumn.append(reportColumns[col].getWhereClause(getReportingHierarchyId()));
+				whereColumn.append(reportColumns[col].getWhereClause(getHierarchyId()));
 			}
 			if (whereClause != null && whereClause.length() > 0) {
 				whereColumn.append(" AND ").append(whereClause);
@@ -1446,7 +1477,7 @@ public class FinReport extends FinReportAbstract {
 				printFormatItem.setAD_PrintFormatChild_ID(printFormat.get_ID());
 			}
 			if(name.contains("@Organization@")) {
-				if (getOrganizationId() != 0) {
+				if (getOrgId() != 0) {
 					if (!printFormatItem.isPrinted()) {
 						printFormatItem.setIsPrinted(true);
 					}
@@ -1456,7 +1487,7 @@ public class FinReport extends FinReportAbstract {
 					if (printFormatItem.getSortNo() != 0) {
 						printFormatItem.setSortNo(0);
 					}
-					MOrg org = new MOrg(getCtx(), getOrganizationId(), get_TrxName());
+					MOrg org = new MOrg(getCtx(), getOrgId(), get_TrxName());
 					printFormatItem.setPrintName(name.replaceFirst("@Organization@", org.getName()));
 				}
 				else
@@ -1492,7 +1523,7 @@ public class FinReport extends FinReportAbstract {
 				}
 			}
 			if(name.contains("@Business Partner@")) {
-				if ( getBusinessPartnerId() !=0 ) {
+				if ( getOrgId() !=0 ) {
 					if (!printFormatItem.isPrinted()) {
 						printFormatItem.setIsPrinted(true);
 					}
@@ -1502,7 +1533,7 @@ public class FinReport extends FinReportAbstract {
 					if (printFormatItem.getSortNo() != 0) {
 						printFormatItem.setSortNo(0);
 					}
-					MBPartner bpartner=MBPartner.get(getCtx(), getBusinessPartnerId());
+					MBPartner bpartner=MBPartner.get(getCtx(), getBPartnerId());
 					printFormatItem.setPrintName(name.replaceFirst("@Business Partner@", bpartner.getName()));
 				} else {
 					printFormatItem.setIsPrinted(false);
@@ -1520,8 +1551,8 @@ public class FinReport extends FinReportAbstract {
 				}		
 				MImage image = null;
 				
-				if (getOrganizationId() != 0) {
-					MOrgInfo orgInfo = MOrgInfo.get(Env.getCtx(), getOrganizationId(), null);
+				if (getOrgId() != 0) {
+					MOrgInfo orgInfo = MOrgInfo.get(Env.getCtx(), getOrgId(), null);
 					if (orgInfo.getLogo_ID() > 0) {
 						image = MImage.get(Env.getCtx(), orgInfo.getLogo_ID());
 					}
@@ -1547,7 +1578,7 @@ public class FinReport extends FinReportAbstract {
 			}
 			
 			if(name.contains("@City@")) {
-				if(getOrganizationId() !=0) {
+				if(getOrgId() !=0) {
 					if (!printFormatItem.isPrinted()) {
 						printFormatItem.setIsPrinted(true);
 					}
@@ -1558,8 +1589,8 @@ public class FinReport extends FinReportAbstract {
 						printFormatItem.setSortNo(0);
 					}
 					int ordId=0;
-					if(getOrganizationId() != 0) {
-						ordId= getOrganizationId();
+					if(getOrgId() != 0) {
+						ordId= getOrgId();
 					} else {
 						ordId=Env.getAD_Org_ID(Env.getCtx());
 					}

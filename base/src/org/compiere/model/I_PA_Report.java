@@ -190,12 +190,12 @@ public interface I_PA_Report
 	/** Set List Sources.
 	  * List Report Line Sources
 	  */
-	public void setListSources (boolean ListSources);
+	public void setListSources (String ListSources);
 
 	/** Get List Sources.
 	  * List Report Line Sources
 	  */
-	public boolean isListSources();
+	public String getListSources();
 
     /** Column name ListTrx */
     public static final String COLUMNNAME_ListTrx = "ListTrx";
@@ -203,12 +203,12 @@ public interface I_PA_Report
 	/** Set List Transactions.
 	  * List the report transactions
 	  */
-	public void setListTrx (boolean ListTrx);
+	public void setListTrx (String ListTrx);
 
 	/** Get List Transactions.
 	  * List the report transactions
 	  */
-	public boolean isListTrx();
+	public String getListTrx();
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
@@ -253,17 +253,6 @@ public interface I_PA_Report
 
 	public org.compiere.model.I_PA_ReportCube getPA_ReportCube() throws RuntimeException;
 
-    /** Column name PA_ReportLineSet_ID */
-    public static final String COLUMNNAME_PA_ReportLineSet_ID = "PA_ReportLineSet_ID";
-
-	/** Set Report Line Set	  */
-	public void setPA_ReportLineSet_ID (int PA_ReportLineSet_ID);
-
-	/** Get Report Line Set	  */
-	public int getPA_ReportLineSet_ID();
-
-	public org.compiere.model.I_PA_ReportLineSet getPA_ReportLineSet() throws RuntimeException;
-
     /** Column name PA_Report_ID */
     public static final String COLUMNNAME_PA_Report_ID = "PA_Report_ID";
 
@@ -276,6 +265,17 @@ public interface I_PA_Report
 	  * Financial Report
 	  */
 	public int getPA_Report_ID();
+
+    /** Column name PA_ReportLineSet_ID */
+    public static final String COLUMNNAME_PA_ReportLineSet_ID = "PA_ReportLineSet_ID";
+
+	/** Set Report Line Set	  */
+	public void setPA_ReportLineSet_ID (int PA_ReportLineSet_ID);
+
+	/** Get Report Line Set	  */
+	public int getPA_ReportLineSet_ID();
+
+	public org.compiere.model.I_PA_ReportLineSet getPA_ReportLineSet() throws RuntimeException;
 
     /** Column name PosPeriodName */
     public static final String COLUMNNAME_PosPeriodName = "PosPeriodName";
@@ -304,19 +304,6 @@ public interface I_PA_Report
 	/** Get Process Now	  */
 	public boolean isProcessing();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -332,4 +319,17 @@ public interface I_PA_Report
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 }
