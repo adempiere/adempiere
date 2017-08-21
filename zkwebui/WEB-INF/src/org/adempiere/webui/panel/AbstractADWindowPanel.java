@@ -2385,6 +2385,10 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		if (logInfo.length() > 0)
 			FDialog.info(curWindowNo, this.getComponent(), Env.getHeader(ctx, curWindowNo),
 				pi.getTitle() + "<br>" + logInfo);
+		// BR[ 1306 ] Get Log Error 
+		Boolean logError = pi.isError();
+		if (logError)
+			FDialog.error(curWindowNo, this.getComponent(), pi.getSummary());
 	}
 
 	/**
