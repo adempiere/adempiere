@@ -76,10 +76,7 @@ import javax.script.ScriptEngine;
  * 		<a href="https://github.com/adempiere/adempiere/issues/766">
  * 		@see FR [ 766 ] Improve Commission Calculation</a>
  */
-public class MHRProcess extends X_HR_Process implements DocAction
-{
-	
-
+public class MHRProcess extends X_HR_Process implements DocAction {
 	/**
 	 * 
 	 */
@@ -778,7 +775,9 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		}
 		catch (Exception e)
 		{
-			throw new AdempiereException("@HR_Employee_ID@ : " + employee.getName() + " " + employee.getName2() + " @HR_Concept_ID@ " + concept.getValue() + " -> "+ concept.getName() + " @AD_Rule_ID@=" + rule.getValue() + " Execution error " + e.getLocalizedMessage());
+			throw new AdempiereException("@HR_Employee_ID@ : " + employee.getC_BPartner().getName() + " " + employee.getC_BPartner().getName2() 
+			+ " @HR_Concept_ID@ " + concept.getValue() + " -> " + concept.getName() 
+			+ " @AD_Rule_ID@=" + rule.getValue() + " Execution error " + e.getLocalizedMessage());
 		}
 		return result;
 	}
@@ -1008,7 +1007,9 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	 */
 	private void  calculateMovements(MBPartner partner, MHRPeriod payrollPeriod)
 	{
-		logger.info(Msg.parseTranslation(getCtx() , "@HR_Employee_ID@ # ") + Msg.parseTranslation(getCtx() , " @BPValue@ ") + partner.getValue() +  Msg.parseTranslation(getCtx(), " @BPName@ ") + partner.getName() +  " " + partner.getName2());
+		logger.info(Msg.parseTranslation(getCtx() , "@HR_Employee_ID@ # ") 
+				+ Msg.parseTranslation(getCtx() , " @BPValue@ ") + partner.getValue() 
+				+  Msg.parseTranslation(getCtx(), " @BPName@ ") + partner.getName() +  " " + partner.getName2());
 		partnerId = partner.get_ID();
 		employee = MHREmployee.getActiveEmployee(getCtx(), partnerId, null);
 		String employeePayrollValue = null;
@@ -1135,7 +1136,10 @@ public class MHRProcess extends X_HR_Process implements DocAction
 
 
 	/**
-	 * Method use to create a movement
+	 * Method use to create a movemeningBuffer whereClause = new StringBuffer();
+		StringBuffer orderByClause = new StringBuffer(MHRAttribute.COLUMNNAME_ValidFrom).append(ORDERVALUE);
+		//	Add for updated
+		orderByClause.append(", " + MHRAttribute.COLUMNNAME_Updated).append(ORDERVALUE);t
 	 * @param concept
 	 * @param isPrinted
 	 * @return
@@ -1250,8 +1254,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	 * @param isPrinted
 	 * @return
 	 */
-	private MHRMovement createMovement(MHRConcept concept, MHRAttribute attribute, boolean isPrinted)
-	{
+	private MHRMovement createMovement(MHRConcept concept, MHRAttribute attribute, boolean isPrinted) {
 		I_HR_Period payrollPeriod = getHR_Period();
 		MHRMovement movement = new MHRMovement (getCtx(), 0, null);
 		movement.setAD_Org_ID(employee.getAD_Org_ID());
@@ -1270,8 +1273,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		movement.setValidTo(dateTo);
 		movement.setIsPrinted(isPrinted);
 		movement.setIsManual(concept.isManual());
-		int bpGroupId = DB.getSQLValue(null, "SELECT C_BP_Group_ID FROM C_BPartner WHERE C_BPartner_ID=?", partnerId);
-		movement.setC_BP_Group_ID(bpGroupId);
+		movement.setC_BP_Group_ID(employee.getC_BPartner().getC_BP_Group_ID());
 		movement.setEmployee(employee);
 		return movement;
 
