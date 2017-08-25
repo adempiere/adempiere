@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 
-import org.compiere.model.I_PA_Report;
 import org.compiere.model.MAccount;
 import org.compiere.model.MAcctSchemaElement;
 import org.compiere.model.MAttachment;
@@ -827,10 +826,12 @@ public class FinReport extends FinReportAbstract {
 			return;
 		log.fine("Variable=" + variable);
 		for(MReportSource source : reportLine.getSources()) {
-			if(!Util.isEmpty(getListSources()) && getListSources().equals(MReport.LISTSOURCES_No)) {
+			if(!Util.isEmpty(getListSources()) 
+					&& getListSources().equals(MReport.LISTSOURCES_No)) {
 				continue;
 			} else if(Util.isEmpty(getListSources())) {
-				if(!Util.isEmpty(finReport.getListSources()) && !finReport.get_ValueAsBoolean(I_PA_Report.COLUMNNAME_ListSources)) {
+				if(!Util.isEmpty(finReport.getListSources()) 
+						&& finReport.getListSources().equals(MReport.LISTSOURCES_No)) {
 					continue;
 				} else if(Util.isEmpty(finReport.getListSources())
 						&& !source.isListSources()) {
@@ -957,11 +958,16 @@ public class FinReport extends FinReportAbstract {
 			if (CLogMgt.isLevelFinest())
 				log.fine("Name #=" + no + " - " + updateNameAndDesc.toString());
 			//	
-			if(!Util.isEmpty(getListTrx()) && getListTrx().equals(MReport.LISTTRX_Yes)) {
+			if(!Util.isEmpty(getListTrx()) 
+					&& getListTrx().equals(MReport.LISTTRX_Yes)) {
 				insertLineTrx(reportLine, variable, combinationId, whereReportLine + getWhereClauseForTrx());
-			} else if(Util.isEmpty(getListTrx()) && (!Util.isEmpty(finReport.getListTrx()) && finReport.getListTrx().equals(MReport.LISTTRX_Yes))) {
+			} else if(Util.isEmpty(getListTrx()) 
+					&& (!Util.isEmpty(finReport.getListTrx()) 
+							&& finReport.getListTrx().equals(MReport.LISTTRX_Yes))) {
 				insertLineTrx(reportLine, variable, combinationId, whereReportLine + getWhereClauseForTrx());
-			} else if(Util.isEmpty(getListTrx()) && Util.isEmpty(finReport.getListTrx()) && source.isListTrx()) {
+			} else if(Util.isEmpty(getListTrx()) 
+					&& Util.isEmpty(finReport.getListTrx()) 
+					&& source.isListTrx()) {
 				insertLineTrx(reportLine, variable, combinationId, whereReportLine + getWhereClauseForTrx());
 			}
 			//	
