@@ -412,7 +412,7 @@ public class WPOSDocumentPanel extends WPOSSubPanel implements POSKeyListener, P
 			//	Document Info
 			String currencyISOCode = posPanel.getCurSymbol();
 			v_TitleBorder.setLabel(Msg.getMsg(Env.getCtx(), "Totals") + " (" +currencyISOCode + ")");
-			salesRep.setText(posPanel.getOrder().getSalesRep().getName());
+			salesRep.setText(posPanel.getSalesRepName());
 			documentType.setText(posPanel.getDocumentTypeName());
 			documentNo.setText(posPanel.getDocumentNo());
 			documentStatus.setText(posPanel.getOrder().getDocStatusName());
