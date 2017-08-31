@@ -1214,7 +1214,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 	}	//	layoutForm
 
 	
-	private boolean isDisplayed(MPrintFormatItem item) {
+	public boolean isDisplayed(MPrintFormatItem item) {
 		if ( Util.isEmpty(item.getDisplayLogic() ))
 			return true;
 		boolean display = Evaluator.evaluateLogic(new Evaluatee() {
@@ -1862,6 +1862,10 @@ public class LayoutEngine implements Pageable, Printable, Doc
 						else
 							log.log(Level.SEVERE, "Element not PrintDataElement " + obj.getClass());
 						columnElement = dataElement;
+					}
+					else if (item.isTypePrintFormat())
+					{
+						m_currPage.addElement (includeFormat(item, printData)) ;
 					}
 					else if (item.isTypeBox())
 					{
