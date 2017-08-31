@@ -1312,7 +1312,9 @@ public class Migrate {
 
 		// exclude ad_system from being purged
 		m_trackingList.add("AD_SYSTEM");
-
+		// exclude ad_attachment for jasper report attachment included
+		m_trackingList.add("AD_ATTACHMENT");
+		m_trackingList.add("AD_ATTACHMENTNOTE");
 		// exclude ad_user from being purged
 		// (we need to preserve the system passwords)
 		m_trackingList.add("AD_USER");
@@ -1465,7 +1467,7 @@ public class Migrate {
 				String sqlCommand = s_dbEngine.sqlADAction_purgeSystemRecords(vendor, catalog, schema, localTableName, localColumnNames, foreignTableNames, foreignColumnNames, hasClientID, customEntities, specialClause);
 				Integer sqlResult = m_target.executeUpdate(stmt, sqlCommand, false, false);
 				if (sqlResult != null) {
-					logDropDetail(sqlResult, null);
+					logDropDetail(sqlResult, sqlCommand);
 					m_counterPrg = new Integer(m_counterPrg.intValue() + 1);
 				}
 				m_target.releaseStatement(stmt);
@@ -1852,7 +1854,7 @@ public class Migrate {
 					Integer sqlResult = m_target.executeUpdate(stmt,
 							sqlCommand, false, false);
 					if (sqlResult != null) {
-						logDropDetail(sqlResult, null);
+						logDropDetail(sqlResult, sqlCommand);
 						result = true;
 					}
 					m_target.releaseStatement(stmt);
@@ -1977,7 +1979,7 @@ public class Migrate {
 				Integer sqlResult = m_target.executeUpdate(stmt, sql, false,
 						false);
 				if (sqlResult != null) {
-					logDropDetail(sqlResult, null);
+					logDropDetail(sqlResult, sql);
 					m_trackingList.add(table.toUpperCase());
 					m_counterPrg = new Integer(m_counterPrg.intValue() + 1);
 				}
@@ -3288,8 +3290,8 @@ public class Migrate {
 			Statement stmt = m_target.setStatement();
 			Integer sqlResult = m_target.executeUpdate(stmt, sqlCommand, false,
 					false);
-			if (sqlResult != null) {
-				logDropDetail(sqlResult, null);
+			if (sqlResult != null && sqlResult > 0 ) {
+				logDropDetail(sqlResult, sqlCommand);
 				m_counterPrg = new Integer(m_counterPrg.intValue() + 1);
 			}
 			m_target.releaseStatement(stmt);
@@ -3928,7 +3930,7 @@ public class Migrate {
 						Integer sqlResult = m_target.executeUpdate(stmt,
 								sqlCommand, false, false);
 						if (sqlResult != null) {
-							logDropDetail(sqlResult, null);
+							logDropDetail(sqlResult, sqlCommand);
 							m_counterDrp = new Integer(
 									m_counterDrp.intValue() + 1);
 						}
@@ -4659,14 +4661,14 @@ public class Migrate {
 								for (Iterator<Integer> roleIterator = vRoles
 										.iterator(); roleIterator.hasNext();) {
 									int ad_role_id = roleIterator.next();
-
+									String deleteRoleAccess = s_dbEngine
+											.sql_deleteByCondition(
+													vendor, catalog,
+													schema, tableName,
+													"ad_role_id = ?");
 									// delete existing access records
 									PreparedStatementWrapper stmtDeleteRoleAccess = m_target
-											.setPreparedStatement(s_dbEngine
-													.sql_deleteByCondition(
-															vendor, catalog,
-															schema, tableName,
-															"ad_role_id = ?"));
+											.setPreparedStatement(deleteRoleAccess);
 
 									m_target
 											.setPreparedStatementInt(
@@ -4675,8 +4677,8 @@ public class Migrate {
 
 									Integer sqlResult = m_target.executeUpdate(
 											stmtDeleteRoleAccess, false);
-									if (sqlResult != null) {
-										logDropDetail(sqlResult, null);
+									if (sqlResult != null && sqlResult > 0) {
+										logDropDetail(sqlResult, deleteRoleAccess);
 									}
 
 									m_target
@@ -5652,7 +5654,7 @@ public class Migrate {
 		stmt = m_target.setStatement();
 		sqlResult = m_target.executeUpdate(stmt, sqlCommand, false, false);
 		if (sqlResult != null) {
-			logDropDetail(sqlResult, null);
+			logDropDetail(sqlResult, sqlCommand);
 		}
 		m_target.releaseStatement(stmt);
 
@@ -5661,7 +5663,7 @@ public class Migrate {
 		stmt = m_target.setStatement();
 		sqlResult = m_target.executeUpdate(stmt, sqlCommand, false, false);
 		if (sqlResult != null) {
-			logDropDetail(sqlResult, null);
+			logDropDetail(sqlResult, sqlCommand);
 		}
 		m_target.releaseStatement(stmt);
 
