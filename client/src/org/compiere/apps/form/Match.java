@@ -348,7 +348,7 @@ public class Match
 				+ " FULL JOIN ")
 				.append(matchToType == MATCH_ORDER ? "M_MatchPO" : "M_MatchInv")
 				.append(" m ON (lin.M_InOutLine_ID=m.M_InOutLine_ID) "
-				+ "WHERE hdr.DocStatus IN ('CO','CL')");
+				+ "WHERE hdr.DocStatus IN ('CO','CL') and dt.issotrx = 'N' ");
 			m_groupBy = " GROUP BY hdr.M_InOut_ID,hdr.DocumentNo,hdr.MovementDate,bp.Name,hdr.C_BPartner_ID,"
 				+ " lin.Line,lin.M_InOutLine_ID,p.Name,lin.M_Product_ID,lin.MovementQty, org.Name, hdr.AD_Org_ID " //JAVIER
 				+ "HAVING "
