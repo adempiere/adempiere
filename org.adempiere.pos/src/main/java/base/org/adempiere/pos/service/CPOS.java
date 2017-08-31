@@ -829,9 +829,7 @@ public class CPOS {
 					currentOrder.setPaymentRule(MOrder.PAYMENTRULE_Cash);
 			}
 			//	Set Sales Representative
-			if (currentOrder.getC_BPartner().getSalesRep_ID() == 0||
-					!entityPOS.get_ValueAsBoolean("IsChangeSalesRep"))
-					currentOrder.setSalesRep_ID(entityPOS.getSalesRep_ID());
+			currentOrder.setSalesRep_ID(entityPOS.getSalesRep_ID());
 			//	Save Header
 			currentOrder.saveEx();
 			//	Load Price List Version
