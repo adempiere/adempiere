@@ -675,7 +675,7 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 								hasAction.add(item.getAD_PrintFormatItem_ID());
 							}
 						}
-						else
+						else if (m_layout.isDisplayed(item))
 						{
 							td td = new td();
 							tr.addElement(td);
@@ -941,7 +941,7 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 						if (row == -1)
 							createCSVvalue (sb, delimiter,
 								m_printFormat.getItem(col).getPrintName(language));
-						else
+						else if (m_layout.isDisplayed(item))
 						{
 							Object obj = m_printData.getNode(new Integer(item.getAD_Column_ID()));
 							String data = "";
@@ -950,7 +950,7 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 							else if (obj instanceof PrintDataElement)
 							{
 								PrintDataElement pde = (PrintDataElement)obj;
-								if ( item.isTypePrintFormat() ) 
+								if ( item.isTypePrintFormat() )
 								{
 									writer.write(sb.toString());
 									sb = new StringBuffer();
