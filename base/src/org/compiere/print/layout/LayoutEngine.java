@@ -1100,7 +1100,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 				
 				//	Type
 				PrintElement element = null;
-				if ( !isDisplayed(item) )
+				if ( !item.isDisplayed(m_data) )
 				{
 					;
 				}
@@ -1212,27 +1212,6 @@ public class LayoutEngine implements Pageable, Printable, Doc
 			}	//	for every item
 		}	//	for every row
 	}	//	layoutForm
-
-	
-	public boolean isDisplayed(MPrintFormatItem item) {
-		if ( Util.isEmpty(item.getDisplayLogic() ))
-			return true;
-		boolean display = Evaluator.evaluateLogic(new Evaluatee() {
-			
-			@Override
-			public String get_ValueAsString(String variableName) {
-				Object obj = m_data.getNode(variableName);
-				if ( obj == null || !(obj instanceof PrintDataElement))
-					return "";
-				PrintDataElement data = (PrintDataElement) obj;
-				if (data.isNull() )
-					return "";
-				return data.getValueAsString();
-			}
-		}, item.getDisplayLogic());
-		
-		return display;
-	}
 
 	/**
 	 * 	Include Table Format
@@ -1764,7 +1743,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 					if ( rLine != null && levelNo == 0 && item.getColumnName().startsWith("Col_"))
 						rowColReportLine.put(new Point(row, colPositions.get(item.getPrintName())), rLine);
 					
-					if ( !isDisplayed(item) )
+					if (!item.isDisplayed(m_data) )
 					{
 						;
 					}
@@ -2081,10 +2060,10 @@ public class LayoutEngine implements Pageable, Printable, Doc
 	{
 		return null;
 	}	//	getStreamForBytes
-	
+
 	/**
-	 * 
-	 * @param PrintInfo info
+	 *
+	 * @param info
 	 */
 	public void setPrintInfo(PrintInfo info)
 	{

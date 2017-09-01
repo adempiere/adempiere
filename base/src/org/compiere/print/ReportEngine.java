@@ -675,7 +675,7 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 								hasAction.add(item.getAD_PrintFormatItem_ID());
 							}
 						}
-						else if (m_layout.isDisplayed(item))
+						else
 						{
 							td td = new td();
 							tr.addElement(td);
@@ -698,6 +698,9 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 							td.setStyle( style );
 							
 							Object obj = m_printData.getNode(new Integer(item.getAD_Column_ID()));
+							if (!item.isDisplayed(m_printData))
+								obj = null;
+
 							if (obj == null)
 								td.addElement("&nbsp;");
 							else if (obj instanceof PrintDataElement)
@@ -941,9 +944,12 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 						if (row == -1)
 							createCSVvalue (sb, delimiter,
 								m_printFormat.getItem(col).getPrintName(language));
-						else if (m_layout.isDisplayed(item))
+						else
 						{
 							Object obj = m_printData.getNode(new Integer(item.getAD_Column_ID()));
+							if (!item.isDisplayed(m_printData))
+								obj = null;
+
 							String data = "";
 							if (obj == null)
 								;
