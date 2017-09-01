@@ -349,7 +349,9 @@ public class Migrate {
 			}
 
 			// drop GardenWorld
-			dropSystemClients();
+			if (!isPreserveGardenWorld()) {
+				dropSystemClients();
+			}
 
 			// create temporary indexes (for speeding up WHERE clauses):
 			createTemporaryTargetIndexes();
@@ -519,6 +521,34 @@ public class Migrate {
 	 */
 	private boolean isCopy() {
 		return !s_parameters.isUpgrade();
+	}
+
+	/**
+	 * @return whether or not Garden World data should be preserved
+	 */
+	private boolean isPreserveGardenWorld() {
+		return s_parameters.isPreserveGardenWorld();
+	}
+
+	/**
+	 * @return whether or not temporary table preserved
+	 */
+	private boolean isTruncateTemporaryTable() {
+		return s_parameters.isTruncateTemporaryTables();
+	}
+
+	/**
+	 * @return whether or not logs should be preserved
+	 */
+	private boolean isPreserveLogs() {
+		return s_parameters.isPreserveLogs();
+	}
+
+	/**
+	 * @return whether or not days logs should be preserved
+	 */
+	private Integer getPreserveDays() {
+		return s_parameters.getPreserveDays();
 	}
 
 	/**
@@ -1919,28 +1949,31 @@ public class Migrate {
 			String table = obj.getName();
 			String sql = null;
 
-			// temporary tables
-			if (table.toUpperCase().startsWith("T_"))
-				sql = s_dbEngine.sql_delete(vendor, catalog, schema, table);
-			// imported records from import tables
-			else if (table.toUpperCase().startsWith("I_"))
-				sql = s_dbEngine.sql_deleteByCondition(vendor, catalog, schema,
-						table, "I_IsImported='Y'");
-			// test table
-			else if (table.equalsIgnoreCase("Test"))
-				sql = s_dbEngine.sql_delete(vendor, catalog, schema, table);
-			// processes and errors
-			else if (table.toUpperCase().startsWith("AD_PINSTANCE")
-					|| table.equalsIgnoreCase("AD_Find")
-					|| table.equalsIgnoreCase("AD_Error")
-					|| table.equalsIgnoreCase("AD_Issue"))
-				sql = s_dbEngine.sql_delete(vendor, catalog, schema, table);
-			// changes which are not customizations
-			else if (table.equalsIgnoreCase("AD_ChangeLog"))
-				sql = s_dbEngine.sql_deleteByCondition(vendor, catalog, schema,
-						table, "IsCustomization != 'Y'");
+			if (isTruncateTemporaryTable()) {
+				// temporary tables
+				if (table.toUpperCase().startsWith("T_"))
+					sql = s_dbEngine.sql_delete(vendor, catalog, schema, table);
+					// imported records from import tables
+				else if (table.toUpperCase().startsWith("I_"))
+					sql = s_dbEngine.sql_deleteByCondition(vendor, catalog, schema,
+							table, "I_IsImported='Y'");
+					// test table
+				else if (table.equalsIgnoreCase("Test"))
+					sql = s_dbEngine.sql_delete(vendor, catalog, schema, table);
+					// processes and errors
+				else if (table.toUpperCase().startsWith("AD_PINSTANCE")
+						|| table.equalsIgnoreCase("AD_Find")
+						|| table.equalsIgnoreCase("AD_Error")
+						|| table.equalsIgnoreCase("AD_Issue"))
+					sql = s_dbEngine.sql_delete(vendor, catalog, schema, table);
+					// changes which are not customizations
+			}
+			else if (table.equalsIgnoreCase("AD_ChangeLog") && isPreserveLogs()) {
+				sql = s_dbEngine.sql_deleteByConditionAndAge(vendor, catalog, schema,
+						table, "IsCustomization != 'Y'", getPreserveDays());
+			}
 			// sessions older than a week
-			else if (table.equalsIgnoreCase("AD_Session")) {
+			else if (table.equalsIgnoreCase("AD_Session") && isPreserveLogs()) {
 				if (hasTableColumn(obj, "updated"))
 					sql = s_dbEngine
 							.sql_delete(
@@ -1949,24 +1982,26 @@ public class Migrate {
 									schema,
 									table,
 									"AD_Session_ID NOT IN (SELECT AD_Session_ID FROM AD_ChangeLog)",
-									7);
+									getPreserveDays());
 				else
 					sql = s_dbEngine
-							.sql_deleteByCondition(vendor, catalog, schema,
+							.sql_deleteByConditionAndAge(vendor, catalog, schema,
 									table,
-									"AD_Session_ID NOT IN (SELECT AD_Session_ID FROM AD_ChangeLog)");
+									"AD_Session_ID NOT IN (SELECT AD_Session_ID FROM AD_ChangeLog)",
+									getPreserveDays());
 			}
 			// notes which have been processed
-			else if (table.equalsIgnoreCase("AD_Note"))
-				sql = s_dbEngine.sql_deleteByCondition(vendor, catalog, schema,
-						table, "Processed='Y'");
+			else if (table.equalsIgnoreCase("AD_Note") && isPreserveLogs())
+				sql = s_dbEngine.sql_deleteByConditionAndAge(vendor, catalog, schema,
+						table, "Processed='Y'", getPreserveDays());
 			// log entries older than a week
-			else if (table.toUpperCase().endsWith("LOG")) {
+			else if (table.toUpperCase().endsWith("LOG") && isPreserveLogs()) {
 				if (hasTableColumn(obj, "updated"))
 					sql = s_dbEngine.sql_deleteByAge(vendor, catalog, schema,
-							table, 7);
+							table, getPreserveDays());
 				else
-					sql = s_dbEngine.sql_delete(vendor, catalog, schema, table);
+					sql = s_dbEngine.sql_deleteByAge(vendor, catalog, schema,
+							table , getPreserveDays());
 			}
 
 			if (sql != null) {

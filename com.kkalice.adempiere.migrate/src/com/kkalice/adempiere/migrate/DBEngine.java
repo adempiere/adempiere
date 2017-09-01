@@ -4032,6 +4032,20 @@ public class DBEngine {
 	}
 
 	/**
+	 * gets the database specific SQL command to delete records of a condition and specified age
+	 * @param vendorName the database vendor
+	 * @param catalogName the catalog to use
+	 * @param schemaName the schema to use
+	 * @param tableName the table to use
+	 * @param condition WHERE clause
+	 * @param daysOld minimum age of records to delete
+	 * @return SQL command to delete records of a specified age
+	 */
+	public String sql_deleteByConditionAndAge (String vendorName, String catalogName, String schemaName, String tableName, String condition , Integer daysOld) {
+		return sql_delete (vendorName, catalogName, schemaName, tableName, condition, daysOld);
+	}
+
+	/**
 	 * gets the database specific SQL command to insert records
 	 * @param vendorName the database vendor
 	 * @param catalogName the catalog to use
