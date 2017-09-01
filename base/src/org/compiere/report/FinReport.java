@@ -507,33 +507,32 @@ public class FinReport extends FinReportAbstract {
 			}
 		}	//	for all lines
 
-		int column = 0;
+
 		//	for all columns		***********************************************
-		for (MReportColumn reportColumn : reportColumns) {
-			//	Add Column
-			column++;
+		for (int col = 0; col < reportColumns.length; col++)
+		{
 			//	Only Calculations
-			if (!reportColumn.isColumnTypeCalculation ())
+			if (!reportColumns[col].isColumnTypeCalculation ())
 				continue;
 
 			StringBuffer updateCalculationColumn = new StringBuffer ("UPDATE T_Report SET ");
 			//	Column to set
-			updateCalculationColumn.append ("Col_").append (column).append("=");
+			updateCalculationColumn.append ("Col_").append (col).append("=");
 			//	First Operand
-			int firstOperator_1 = getColumnIndex(reportColumn.getOper_1_ID());
+			int firstOperator_1 = getColumnIndex(reportColumns[col].getOper_1_ID());
 			if (firstOperator_1 < 0) {
-				log.log(Level.SEVERE, "Column Index for Operator 1 not found - " + reportColumn);
+				log.log(Level.SEVERE, "Column Index for Operator 1 not found - " + reportColumns[col]);
 				continue;
 			}
 			//	Second Operand
-			int secondOperator_2 = getColumnIndex(reportColumn.getOper_2_ID());
+			int secondOperator_2 = getColumnIndex(reportColumns[col].getOper_2_ID());
 			if (secondOperator_2 < 0) {
-				log.log(Level.SEVERE, "Column Index for Operator 2 not found - " + reportColumn);
+				log.log(Level.SEVERE, "Column Index for Operator 2 not found - " + reportColumns[col]);
 				continue;
 			}
-			log.fine("Column " + column + " = #" + firstOperator_1 + " " + reportColumn.getCalculationType() + " #" + secondOperator_2);
+			log.fine("Column " + col + " = #" + firstOperator_1 + " " + reportColumns[col].getCalculationType() + " #" + secondOperator_2);
 			//	Reverse Range
-			if (firstOperator_1 > secondOperator_2 && reportColumn.isCalculationTypeRange()) {
+			if (firstOperator_1 > secondOperator_2 && reportColumns[col].isCalculationTypeRange()) {
 				log.fine("Swap operands from " + firstOperator_1 + " op " + secondOperator_2);
 				int temp = firstOperator_1;
 				firstOperator_1 = secondOperator_2;
@@ -541,24 +540,24 @@ public class FinReport extends FinReportAbstract {
 			}
 
 			//	+
-			if (reportColumn.isCalculationTypeAdd())
+			if (reportColumns[col].isCalculationTypeAdd())
 				updateCalculationColumn.append ("COALESCE(Col_").append (firstOperator_1).append(",0)")
 					.append("+")
 					.append ("COALESCE(Col_").append (secondOperator_2).append(",0)");
 			//	-
-			else if (reportColumn.isCalculationTypeSubtract())
+			else if (reportColumns[col].isCalculationTypeSubtract())
 				updateCalculationColumn.append ("COALESCE(Col_").append (firstOperator_1).append(",0)")
 					.append("-")
 					.append ("COALESCE(Col_").append (secondOperator_2).append(",0)");
 			//	/
-			if (reportColumn.isCalculationTypePercent()) {
+			if (reportColumns[col].isCalculationTypePercent()) {
 				updateCalculationColumn.append ("CASE WHEN COALESCE(Col_").append(secondOperator_2)
 				.append(",0)=0 THEN NULL ELSE ")
 				.append("COALESCE(Col_").append (firstOperator_1).append(",0)")
 				.append("/")
 				.append ("Col_").append (secondOperator_2)
 				.append("*100 END");	//	Zero Divide
-			} else if (reportColumn.isCalculationTypeRange()) {	//	Range
+			} else if (reportColumns[col].isCalculationTypeRange()) {	//	Range
 				updateCalculationColumn.append ("COALESCE(Col_").append (firstOperator_1).append(",0)");
 				for (int ii = firstOperator_1+1; ii <= secondOperator_2; ii++)
 					updateCalculationColumn.append("+COALESCE(Col_").append (ii).append(",0)");
@@ -568,10 +567,10 @@ public class FinReport extends FinReportAbstract {
 				.append(" AND ABS(LevelNo)<2");			//	0=Line 1=Acct
 			int no = DB.executeUpdate(updateCalculationColumn.toString(), get_TrxName());
 			if (no < 1) {
-				log.severe ("#=" + no + " for " + reportColumn
+				log.severe ("#=" + no + " for " + reportColumns[col]
 						+ " - " + updateCalculationColumn.toString());
 			} else {
-				log.fine("Col=" + column + " - " + reportColumn);
+				log.fine("Col=" + col + " - " + reportColumns[col]);
 				log.finest (updateCalculationColumn.toString ());
 			}
 		} 	//	{for all columns
