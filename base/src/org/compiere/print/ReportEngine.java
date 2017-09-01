@@ -2060,24 +2060,4 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 	public ProcessInfo getProcessInfo() {
 		return processInfo;
 	}
-	public File getXLSX (File file) throws Exception
-	{
-		try
-		{
-			if (file == null)
-				file = File.createTempFile ("ReportEngine", ".xlsx");
-
-			//ordinary temp file - rename it
-			if (!(file.getName().contains("_") || file.getName().contains("-"))) {
-				file = rename(file);
-			}
-		}
-		catch (IOException e)
-		{
-			log.log(Level.SEVERE, "", e);
-		}
-		PrintDataExcelExporter exp = new PrintDataExcelExporter(getPrintData(), getPrintFormat(), true);
-		exp.export(file, getPrintFormat().getLanguage(), false);
-		return file;
-	}	//	getPDF
 }	//	ReportEngine
