@@ -510,6 +510,8 @@ public class FinReport extends FinReportAbstract {
 		int column = 0;
 		//	for all columns		***********************************************
 		for (MReportColumn reportColumn : reportColumns) {
+			//	Add Column
+			column++;
 			//	Only Calculations
 			if (!reportColumn.isColumnTypeCalculation ())
 				continue;
@@ -572,8 +574,6 @@ public class FinReport extends FinReportAbstract {
 				log.fine("Col=" + column + " - " + reportColumn);
 				log.finest (updateCalculationColumn.toString ());
 			}
-			//	Add Column
-			column++;
 		} 	//	{for all columns
 		
 
