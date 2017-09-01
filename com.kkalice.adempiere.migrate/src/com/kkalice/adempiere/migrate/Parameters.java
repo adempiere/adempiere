@@ -78,8 +78,17 @@ public class Parameters {
 	private final static Level s_defaultLogLevel = Level.CONFIG;
 	/** default translation mode */
 	private final static boolean s_defaultAttemptTranslation = true;
+	/** default Garden World preservation */
+	private final static boolean s_defaultPreserveGardenWorld = true;
+	/** default temporary table  */
+	private final static boolean s_defaultTruncateTemporaryTables = true;
+	/** default logs preservation */
+	private final static boolean s_defaultPreserveLogs = true;
+	/** default preserve days */
+	private final static Integer s_defaultPreserveDays = 365;
 	/** default table ID preservation */
 	private final static boolean s_defaultPreserveTableID = true;
+
 	/** default drop source */
 	private final static boolean s_defaultDropSource = false;
 	/** default optimization */
@@ -212,11 +221,60 @@ public class Parameters {
 	 * Currently, only translation of views is implemented.<br>
 	 */
 	private static boolean param_attemptTranslation = s_defaultAttemptTranslation;
-	
+
+	/**
+	 * Preserve Garden World through migration
+	 * <p>
+	 * When running an upgrade, all system information is dropped.
+	 * Indicate whether to preserve Garden World data
+	 * <dl>
+	 * <dt>true</dt><dd>preserve Garden World data through migration</dd>
+	 * <dt>false</dt><dd>preserve Garden World data</dd>
+	 * </dl>
+	 */
+	private static boolean param_preserveGradenWorld = s_defaultPreserveGardenWorld;
+
+	/**
+	 * Truncate Temporary Tables through migration
+	 * <p>
+	 * When running an upgrade, all system information is dropped.
+	 * Temporary Tables data can be preserve.
+	 * <dl>
+	 * <dt>true</dt><dd>preserve temporary table  through migration</dd>
+	 * <dt>false</dt><dd>preserve temporary table after migration</dd>
+	 * </dl>
+	 */
+	private static boolean param_TruncateTemporaryTable= s_defaultTruncateTemporaryTables;
+
+	/**
+	 * Preserve logs through migration
+	 * <p>
+	 * When running an upgrade, all system information is dropped.
+	 * Table Logs data can be preserve based on history days number.
+	 * <dl>
+	 * <dt>true</dt><dd>preserve table logs through migration</dd>
+	 * <dt>false</dt><dd>preserve table logs after migration</dd>
+	 * </dl>
+	 */
+	private static boolean param_preserveLogs = s_defaultPreserveLogs;
+
+	/**
+	 * Preserve days through migration
+	 * <p>
+	 * When running an upgrade, all system information is dropped.
+	 * Table Logs data can be preserve based on history days number.
+	 * <dl>
+	 * <dt>true</dt><dd>preserve table logs through migration</dd>
+	 * <dt>false</dt><dd>preserve table logs after migration</dd>
+	 * </dl>
+	 */
+	private static Integer param_preserveDays = s_defaultPreserveDays;
+
+
 	/**
 	 * Preserve table IDs through migration
 	 * <p>
-	 * When running an upgrade, all system information is dropped. 
+	 * When running an upgrade, all system information is dropped.
 	 * Table IDs therefore restart with the highest used sequence number available after migration.
 	 * It may be beneficial, however, to remember higher ID numbers used before migration to ensure
 	 * consistency over different versions.
@@ -226,6 +284,9 @@ public class Parameters {
 	 * </dl>
 	 */
 	private static boolean param_preserveTableID = s_defaultPreserveTableID;
+
+
+
 	
 	/**
 	 * Drop source after migration
@@ -999,6 +1060,71 @@ public class Parameters {
 	}
 
 	/**
+	 * @return Preserve Garden World are preserved
+	 * @see #param_preserveGradenWorld
+	 */
+	public static boolean isPreserveGardenWorld() {
+		return param_preserveGradenWorld;
+	}
+
+	/**
+	 * @return Truncate Temporary Tables
+	 * @see #param_preserveLogs
+	 */
+	public static boolean isTruncateTemporaryTables() {
+		return param_TruncateTemporaryTable;
+	}
+
+	/**
+	 * @return table logs are preserved
+	 * @see #param_preserveLogs
+	 */
+	public static boolean isPreserveLogs() {
+		return param_preserveTableID;
+	}
+
+	/**
+	 * @return days are preserved
+	 * @see #param_preserveDays
+	 */
+	public static Integer getPreserveDays() {
+		return param_preserveDays;
+	}
+
+
+	/**
+	 * @param preserveGardedWorld Garden World data are preserved
+	 * @see #param_preserveGradenWorld
+	 */
+	public static void setPreserveGardedWorld(boolean preserveGardedWorld) {
+		param_preserveGradenWorld = preserveGardedWorld;
+	}
+
+	/**
+	 * @param preserveLogs logs data are preserved
+	 * @see #param_preserveLogs
+	 */
+	public static void setPreserveLogs(boolean preserveLogs) {
+		param_preserveLogs = preserveLogs;
+	}
+
+	/**
+	 * @param preserveDays logs data are preserved
+	 * @see #param_preserveDays
+	 */
+	public static void setPreserveDays(Integer preserveDays) {
+		param_preserveDays = preserveDays;
+	}
+
+	/**
+	 * @param truncateTemporaryTables logs data are preserved
+	 * @see #param_TruncateTemporaryTable
+	 */
+	public static void setTruncateTemporaryTables(boolean truncateTemporaryTables) {
+		param_TruncateTemporaryTable = truncateTemporaryTables;
+	}
+
+	/**
 	 * @param preserveTableID table IDs are preserved
 	 * @see #param_preserveTableID
 	 */
@@ -1543,6 +1669,28 @@ public class Parameters {
 	 */
 	public static boolean isDefaultAttemptTranslation() {
 		return s_defaultAttemptTranslation;
+	}
+
+	/**
+	 * @return the defaultpreserveGardenWorld
+	 */
+	public static boolean isDefaultPreserveGardenWorld() {
+		return s_defaultPreserveGardenWorld;
+	}
+
+	/**
+	 * @return the defaultpreserveLogs
+	 */
+	public static boolean isDefaultPreserveLogs() {
+		return s_defaultPreserveLogs;
+	}
+
+	/**
+	 *
+	 * @return the default preserve days
+	 */
+	public static Integer getDefaultPreserveDays() {
+		return s_defaultPreserveDays;
 	}
 
 	/**
