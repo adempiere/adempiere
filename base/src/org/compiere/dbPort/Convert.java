@@ -53,6 +53,9 @@ import org.compiere.util.Ini;
  *  @author Teo Sarca
  *  		<li>BF [ 3137355 ] PG query not valid when contains quotes and backslashes
  *  			https://sourceforge.net/tracker/?func=detail&aid=3137355&group_id=176962&atid=879332	
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<a href="https://github.com/adempiere/adempiere/issues/1324">
+ * 		@see BR [ 1324 ] Convert class save AD_RecentItem table</a>
  */
 public abstract class Convert
 {
@@ -529,7 +532,8 @@ public abstract class Convert
 				"AD_FORM_ACCESS",
 				"AD_MIGRATION",
 				"AD_MIGRATIONSTEP",
-				"AD_MIGRATIONDATA"
+				"AD_MIGRATIONDATA", 
+				"AD_RECENTITEM"
 				//
 			};
 		String uppStmt = statement.toUpperCase().trim();
