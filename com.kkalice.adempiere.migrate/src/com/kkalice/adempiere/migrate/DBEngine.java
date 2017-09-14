@@ -4797,7 +4797,7 @@ public class DBEngine {
 		if (customEntities != null && customEntities.size()>0) {
 			for (int i = 0; i < customEntities.size(); i++) {
 				if (i==0)
-					entityClause.append("c.entitytype NOT IN (");
+					entityClause.append("UPPER(c.entitytype) NOT IN ("); // Entitytypes are already converted to uppercase
 				else
 					entityClause.append(", ");
 				entityClause.append("'").append(customEntities.get(i)).append("'");
@@ -4852,7 +4852,7 @@ public class DBEngine {
 		if (customEntities != null && customEntities.size()>0) {
 			for (int i = 0; i < customEntities.size(); i++) {
 				if (i==0)
-					entityClause.append("c.entitytype IN (");
+					entityClause.append("UPPER(c.entitytype) IN ("); // Entitytypes are already converted to uppercase
 				else
 					entityClause.append(", ");
 				entityClause.append("'").append(customEntities.get(i)).append("'");
@@ -4907,7 +4907,7 @@ public class DBEngine {
 		if (customEntities != null && customEntities.size()>0) {
 			for (int i = 0; i < customEntities.size(); i++) {
 				if (i==0)
-					entityClause.append("c.entitytype NOT IN (");
+					entityClause.append("UPPER(c.entitytype) NOT IN ("); // Entitytypes are already converted to uppercase
 				else
 					entityClause.append(", ");
 				entityClause.append("'").append(customEntities.get(i)).append("'");
@@ -4962,7 +4962,7 @@ public class DBEngine {
 		if (customEntities != null && customEntities.size()>0) {
 			for (int i = 0; i < customEntities.size(); i++) {
 				if (i==0)
-					entityClause.append("c.entitytype IN (");
+					entityClause.append("UPPER(c.entitytype) IN ("); // Entitytypes are already converted to uppercase
 				else
 					entityClause.append(", ");
 				entityClause.append("'").append(customEntities.get(i)).append("'");
