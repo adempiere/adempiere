@@ -2173,9 +2173,9 @@ public class Gui implements ActionListener, FocusListener {
 		if (databaseCatalogs != null && databaseCatalogs.size()>0) {
 			for (String databaseCatalog : databaseCatalogs) {
 				if (isSource) {
-					m_sourceCatalog.addItem(databaseCatalog.toLowerCase());
+					m_sourceCatalog.addItem(databaseCatalog);
 				} else {
-					m_targetCatalog.addItem(databaseCatalog.toLowerCase());
+					m_targetCatalog.addItem(databaseCatalog);
 				}
 			}
 		} 
