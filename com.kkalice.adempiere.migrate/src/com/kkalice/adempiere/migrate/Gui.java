@@ -181,16 +181,18 @@ public class Gui implements ActionListener, FocusListener {
 	private JComboBox m_optionLogLevel = new JComboBox();
 	/** attempt translations */
 	private JCheckBox m_optionAttemptTranslations = new JCheckBox();
-	/** preserve table IDs */
+	/** preserve Garden World */
 	private JCheckBox optionPreserveGardenWorld = new JCheckBox();
 	/** preserve truncate temporary tables */
 	private JCheckBox optionTruncateTemporaryTables = new JCheckBox();
-	/** preserve table IDs */
+	/** preserve logs */
 	private JCheckBox optionPreserveLogs = new JCheckBox();
 	/** days logs label */
 	private JLabel labelDays= new JLabel();
 	/** days logs */
 	private JTextField preserveDays = new JTextField();
+	/** preserve unreferenced elements */
+	private JCheckBox optionPreserveUnreferencedElements = new JCheckBox();
 	/** preserve table IDs */
 	private JCheckBox m_optionPreserveTableIDs = new JCheckBox();
 	/** drop source */
@@ -672,6 +674,10 @@ public class Gui implements ActionListener, FocusListener {
 		optionTruncateTemporaryTables.setMnemonic(new Integer(s_logger.localizeMessage("guiOptionTruncateTemporaryTablesMnemonic")));
 		optionTruncateTemporaryTables.setToolTipText(s_logger.localizeMessage("guiOptionTruncateTemporaryTablesTip"));
 
+		optionPreserveUnreferencedElements = new JCheckBox(s_logger.localizeMessage("guiOptionPreserveUnreferencedElements"));
+		optionPreserveUnreferencedElements.setMnemonic(new Integer(s_logger.localizeMessage("guiOptionPreserveUnreferencedElementsMnemonic")));
+		optionPreserveUnreferencedElements.setToolTipText(s_logger.localizeMessage("guiOptionPreserveUnreferencedElementsTip"));
+
 		m_optionPreserveTableIDs = new JCheckBox(s_logger.localizeMessage("guiOptionPreserveTableIDs"));
 		m_optionPreserveTableIDs.setMnemonic(new Integer(s_logger.localizeMessage("guiOptionPreserveTableIDsMnemonic")));
 		m_optionPreserveTableIDs.setToolTipText(s_logger.localizeMessage("guiOptionPreserveTableIDsTip"));
@@ -690,9 +696,10 @@ public class Gui implements ActionListener, FocusListener {
 		panelOptions.add(optionTruncateTemporaryTables, getFieldConstraints(0, 3));
 		panelOptions.add(optionPreserveLogs, getFieldConstraints(0, 4));
 		panelOptions.add(panelDays, getFieldConstraints(0, 5));
-		panelOptions.add(m_optionPreserveTableIDs, getFieldConstraints(0, 6));
-		panelOptions.add(m_optionDropSource, getFieldConstraints(0, 7));
-		panelOptions.add(m_optionOptimizeDatabase, getFieldConstraints(0, 8));
+		panelOptions.add(optionPreserveUnreferencedElements, getFieldConstraints(0, 6));
+		panelOptions.add(m_optionPreserveTableIDs, getFieldConstraints(0, 7));
+		panelOptions.add(m_optionDropSource, getFieldConstraints(0, 8));
+		panelOptions.add(m_optionOptimizeDatabase, getFieldConstraints(0, 9));
 		
 		
 		// label DO NOT INTERRUPT warning
@@ -831,6 +838,7 @@ public class Gui implements ActionListener, FocusListener {
 		order.add(optionTruncateTemporaryTables);
 		order.add(optionPreserveLogs);
 		order.add(preserveDays);
+		order.add(optionPreserveUnreferencedElements);
 		order.add(m_optionPreserveTableIDs);
 		order.add(m_optionDropSource);
 		order.add(m_optionOptimizeDatabase);
@@ -2847,6 +2855,7 @@ public class Gui implements ActionListener, FocusListener {
 			optionTruncateTemporaryTables.setEnabled(true);
 			optionPreserveLogs.setEnabled(true);
 			preserveDays.setEnabled(true);
+			optionPreserveUnreferencedElements.setEnabled(true);
 			m_optionPreserveTableIDs.setEnabled(true);
 			m_optionDropSource.setEnabled(true);
 		} else {
@@ -2855,6 +2864,7 @@ public class Gui implements ActionListener, FocusListener {
 			optionTruncateTemporaryTables.setEnabled(true);
 			optionPreserveLogs.setEnabled(true);
 			preserveDays.setEnabled(true);
+			optionPreserveUnreferencedElements.setEnabled(true);
 			m_optionPreserveTableIDs.setEnabled(false);
 			m_optionDropSource.setEnabled(false);
 		}
@@ -2902,6 +2912,14 @@ public class Gui implements ActionListener, FocusListener {
 	}
 
 	/**
+	 * preserve unreferenced elements checkbox
+	 */
+	@SuppressWarnings("static-access")
+	private void resetOptionPreserveUnreferencedElements () {
+		optionPreserveUnreferencedElements.setSelected(s_parameters.isPreserveUnreferencedElements());
+	}
+
+	/**
 	 * resets the preserve table IDs checkbox
 	 */
 	@SuppressWarnings("static-access")
@@ -2935,6 +2953,7 @@ public class Gui implements ActionListener, FocusListener {
 		resetOptionTruncateTemporaryTables();
 		resetOptionPreserveLogs();
 		restPreserveDays();
+		resetOptionPreserveUnreferencedElements();
 		resetOptionPreserveTableIDs();
 		resetOptionDropSource();
 		resetOptionOptimizeDatabase();
@@ -3214,6 +3233,7 @@ public class Gui implements ActionListener, FocusListener {
 			m_componentStatus.put(optionPreserveLogs, optionPreserveLogs.isEnabled());
 			m_componentStatus.put(labelDays, labelDays.isEnabled());
 			m_componentStatus.put(preserveDays, preserveDays.isEnabled());
+			m_componentStatus.put(optionPreserveUnreferencedElements, optionPreserveUnreferencedElements.isEnabled());
 			m_componentStatus.put(m_optionPreserveTableIDs, m_optionPreserveTableIDs.isEnabled());
 			m_componentStatus.put(m_optionDropSource, m_optionDropSource.isEnabled());
 			m_componentStatus.put(m_optionOptimizeDatabase, m_optionOptimizeDatabase.isEnabled());
@@ -3251,6 +3271,7 @@ public class Gui implements ActionListener, FocusListener {
 			optionPreserveLogs.setEnabled(false);
 			labelDays.setEnabled(false);
 			preserveDays.setEnabled(false);
+			optionPreserveUnreferencedElements.setEnabled(false);
 			m_optionPreserveTableIDs.setEnabled(false);
 			m_optionDropSource.setEnabled(false);
 			m_optionOptimizeDatabase.setEnabled(false);
@@ -3292,6 +3313,7 @@ public class Gui implements ActionListener, FocusListener {
 			optionPreserveLogs.setEnabled(m_componentStatus.get(optionPreserveLogs));
 			labelDays.setEnabled(m_componentStatus.get(labelDays));
 			preserveDays.setEnabled(m_componentStatus.get(preserveDays));
+			optionPreserveUnreferencedElements.setEnabled(m_componentStatus.get(optionPreserveUnreferencedElements));
 			m_optionPreserveTableIDs.setEnabled(m_componentStatus.get(m_optionPreserveTableIDs));
 			m_optionDropSource.setEnabled(m_componentStatus.get(m_optionDropSource));
 			m_optionOptimizeDatabase.setEnabled(m_componentStatus.get(m_optionOptimizeDatabase));
@@ -3333,6 +3355,7 @@ public class Gui implements ActionListener, FocusListener {
 		 s_parameters.setTruncateTemporaryTables(optionTruncateTemporaryTables.isSelected());
 		 s_parameters.setPreserveLogs(optionPreserveLogs.isSelected());
 		 s_parameters.setPreserveDays(preserveDays.getText() != null && preserveDays.getText().length() > 0 ? Integer.valueOf(preserveDays.getText()) : new Integer(0));
+		 s_parameters.setPreserveUnreferencedElements(optionPreserveUnreferencedElements.isSelected());
 		 s_parameters.setPreserveTableID(m_optionPreserveTableIDs.isSelected());
 		 s_parameters.setDropSource(m_optionDropSource.isSelected());
 		 s_parameters.setOptimizeDatabase(m_optionOptimizeDatabase.isSelected());
