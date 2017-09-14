@@ -5693,6 +5693,9 @@ public class Migrate {
 		}
 		m_target.releaseStatement(stmt);
 
+
+		/* There is no reason for deleting not yet used AD_Elements.
+		 * Even System Elements may be only defined now for later use
 		sqlCommand = s_dbEngine.sqlADAction_deleteUnusedElements(vendor,
 				catalog, schema);
 		stmt = m_target.setStatement();
@@ -5700,7 +5703,7 @@ public class Migrate {
 		if (sqlResult != null) {
 			logDropDetail(sqlResult, sqlCommand);
 		}
-		m_target.releaseStatement(stmt);
+		m_target.releaseStatement(stmt);*/
 
 		// close prepared statements
 		m_target.releasePreparedStatement(stmtLoadSequence);
