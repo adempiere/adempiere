@@ -1477,10 +1477,14 @@ public class DBConnection {
 		if (objectMap!=null && objectMap.size()>0) {
 			for (Iterator<String> it = objectMap.keySet().iterator(); it.hasNext();) {
 				String key = it.next();
-				if (key.equalsIgnoreCase(objectName))
+				if (key.equalsIgnoreCase(objectName)) {
 					result = true;
-				else if (objectMap.get(key).isName(objectName))
+					break;
+				}
+				else if (objectMap.get(key).isName(objectName)) {
 					result = true;
+					break;
+				}
 			}
 		}
 
