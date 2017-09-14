@@ -5119,8 +5119,8 @@ public class Migrate {
 			description = m_target.getResultSetString(rs, "Description");
 			help = m_target.getResultSetString(rs, "Help");
 			entityType = m_target.getResultSetString(rs, "EntityType");
-			if (!createdElements.contains(columnName)) {
-				createdElements.add(columnName);
+			if (!createdElements.contains(columnName.toLowerCase())) {
+				createdElements.add(columnName.toLowerCase());
 				// get next AD_Element_ID
 				ResultSet rsLoadSequence = m_target
 						.executeQuery(stmtLoadSequence);
@@ -5242,8 +5242,8 @@ public class Migrate {
 			help = m_target.getResultSetString(rs, "Help");
 			entityType = m_target.getResultSetString(rs, "EntityType");
 
-			if (!createdElements.contains(columnName)) {
-				createdElements.add(columnName);
+			if (!createdElements.contains(columnName.toLowerCase())) {
+				createdElements.add(columnName.toLowerCase());
 				// get next AD_Element_ID
 				ResultSet rsLoadSequence = m_target
 						.executeQuery(stmtLoadSequence);
@@ -5363,8 +5363,8 @@ public class Migrate {
 			description = m_target.getResultSetString(rs, "Description");
 			help = m_target.getResultSetString(rs, "Help");
 			entityType = m_target.getResultSetString(rs, "EntityType");
-			if (!createdElements.contains(columnName)) {
-				createdElements.add(columnName);
+			if (!createdElements.contains(columnName.toLowerCase())) {
+				createdElements.add(columnName.toLowerCase());
 				// get next AD_Element_ID
 				ResultSet rsLoadSequence = m_target
 						.executeQuery(stmtLoadSequence);
@@ -5485,8 +5485,8 @@ public class Migrate {
 			description = m_target.getResultSetString(rs, "Description");
 			help = m_target.getResultSetString(rs, "Help");
 			entityType = m_target.getResultSetString(rs, "EntityType");
-			if (!createdElements.contains(columnName)) {
-				createdElements.add(columnName);
+			if (!createdElements.contains(columnName.toLowerCase())) {
+				createdElements.add(columnName.toLowerCase());
 				// get next AD_Element_ID
 				ResultSet rsLoadSequence = m_target
 						.executeQuery(stmtLoadSequence);
