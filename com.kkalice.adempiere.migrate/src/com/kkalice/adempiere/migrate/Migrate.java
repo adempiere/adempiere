@@ -972,8 +972,11 @@ public class Migrate {
 			// be dropped
 			if (targetObj != null && sourceObj == null) {
 				if (targetObj.getCustomizationLevel() == s_parameters.CUSTOMNONE) {
-					if (targetObj.drop())
+					if (targetObj.drop()){
 						m_counterDrp = new Integer(m_counterDrp.intValue() + 1);
+						s_logger.log(Level.WARNING, "droppingCustomizedTable",
+								new Object[] { m_objectType, targetObj.getName() });
+					}
 					m_totalDrp = new Integer(m_totalDrp.intValue() + 1);
 				} else {
 					s_logger.log(Level.WARNING, "notDroppingCustomizedTable",

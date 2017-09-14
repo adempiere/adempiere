@@ -471,6 +471,7 @@ public class Messages extends ListResourceBundle {
 				{"cleanupTerminology", "Synchronizing terminology in {0}"},
 				{"cleanupSecurity", "Setting security in {0}"},
 				{"bumpVersionInfo", "Updating version information in {0}"},
+				{"DroppingCustomizedTable", "dropping customized {0} {1}"},
 
 				// specifics
 				{"commitChanges", "Committing changes in {0}"},
