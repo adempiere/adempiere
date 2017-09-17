@@ -552,6 +552,13 @@ public class Migrate {
 	}
 
 	/**
+	 * @return whether or not unreferenced elements should be preserved
+	 */
+	private boolean isPreserveUnreferencedElements() {
+		return s_parameters.isPreserveUnreferencedElements();
+	}
+
+	/**
 	 * @return whether or not table IDs should be preserved
 	 */
 	private boolean isPreserveTableIDs() {
@@ -5686,7 +5693,7 @@ public class Migrate {
 		}
 		m_target.releaseStatement(stmt);
 
-		// delete unused elements
+		// delete unused element translations
 		sqlCommand = s_dbEngine.sqlADAction_deleteUnusedElementTranslations(
 				vendor, catalog, schema);
 		stmt = m_target.setStatement();
@@ -5696,17 +5703,18 @@ public class Migrate {
 		}
 		m_target.releaseStatement(stmt);
 
-
-		/* There is no reason for deleting not yet used AD_Elements.
-		 * Even System Elements may be only defined now for later use
-		sqlCommand = s_dbEngine.sqlADAction_deleteUnusedElements(vendor,
-				catalog, schema);
-		stmt = m_target.setStatement();
-		sqlResult = m_target.executeUpdate(stmt, sqlCommand, false, false);
-		if (sqlResult != null) {
-			logDropDetail(sqlResult, sqlCommand);
+		// delete unreferenced elements
+		// It is good practice to have only Elements that are actually referenced.
+		if (!isPreserveUnreferencedElements()) {
+			sqlCommand = s_dbEngine.sqlADAction_deleteUnusedElements(vendor,
+					catalog, schema);
+			stmt = m_target.setStatement();
+			sqlResult = m_target.executeUpdate(stmt, sqlCommand, false, false);
+			if (sqlResult != null) {
+				logDropDetail(sqlResult, sqlCommand);
+			}
+			m_target.releaseStatement(stmt);
 		}
-		m_target.releaseStatement(stmt);*/
 
 		// close prepared statements
 		m_target.releasePreparedStatement(stmtLoadSequence);

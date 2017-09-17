@@ -164,6 +164,11 @@ public class Messages extends ListResourceBundle {
 				{"guiPreserveDaysHelp", "days logs.\n"
 						+ "When running an upgrade, Logs data can be dropped.\n"
 						+ "det preserve days, The logs data are preserved through migration"},
+				{"guiOptionPreserveUnreferencedElements", "preserve unreferenced elements"},
+				{"guiOptionPreserveUnreferencedElementsTip", "Elements not referenced can be deleted"},
+				{"guiOptionPreserveUnreferencedElementsHelp", "Preserve unreferenced elements .\n"
+						+ "When running an upgrade, unreferenced elements can be deleted (good practice).\n"
+						+ "If selected, unreferenced elements can be deleted."},
 				{"guiOptionPreserveTableIDs", "preserve table IDs"},
 				{"guiOptionPreserveTableIDsTip", "Remember ID number of tables"},
 				{"guiOptionPreserveTableIDsHelp", "Only available in upgrade mode.\n"
@@ -304,6 +309,7 @@ public class Messages extends ListResourceBundle {
 				{"guiOptionPreserveTableIDsMnemonic", new Integer(KeyEvent.VK_C).toString()},
 				{"guiOptionPreserveGardenWorldMnemonic", new Integer(KeyEvent.VK_Z).toString()},
 				{"guiOptionTruncateTemporaryTablesMnemonic", new Integer(KeyEvent.VK_R).toString()},
+				{"guiOptionPreserveUnreferencedElementsMnemonic", new Integer(KeyEvent.VK_P).toString()},
 				{"guiOptionPreserveLogsMnemonic", new Integer(KeyEvent.VK_H).toString()},
 				{"guiDaysMnemonic", new Integer(KeyEvent.VK_N).toString()},
 				{"guiOptionDropSourceMnemonic", new Integer(KeyEvent.VK_D).toString()},

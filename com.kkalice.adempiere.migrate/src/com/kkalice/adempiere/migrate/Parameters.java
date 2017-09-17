@@ -86,6 +86,8 @@ public class Parameters {
 	private final static boolean s_defaultPreserveLogs = true;
 	/** default preserve days */
 	private final static Integer s_defaultPreserveDays = 365;
+	/** default unreferenced elements preservation */
+	private final static boolean s_defaultPreserveUnreferencedElements = false;
 	/** default table ID preservation */
 	private final static boolean s_defaultPreserveTableID = true;
 
@@ -269,6 +271,18 @@ public class Parameters {
 	 * </dl>
 	 */
 	private static Integer param_preserveDays = s_defaultPreserveDays;
+
+	/**
+	 * Preserve unreferenced elements through migration
+	 * <p>
+	 * When running an upgrade, Elements that are not referenced by Columns or Process parameters can be found.
+	 * It can be decided whether these Elements are to be preserved or deleted.
+	 * <dl>
+	 * <dt>true</dt><dd>preserve unreferenced elements through migration</dd>
+	 * <dt>false</dt><dd>delete unreferenced elements after migration</dd>
+	 * </dl>
+	 */
+	private static boolean param_PreserveUnreferencedElements = s_defaultPreserveUnreferencedElements;
 
 
 	/**
@@ -1091,6 +1105,14 @@ public class Parameters {
 		return param_preserveDays;
 	}
 
+	/**
+	 * @return Preserve unreferenced elements
+	 * @see #param_PreserveUnreferencedElements
+	 */
+	public static boolean isPreserveUnreferencedElements() {
+		return param_PreserveUnreferencedElements;
+	}
+
 
 	/**
 	 * @param preserveGardedWorld Garden World data are preserved
@@ -1122,6 +1144,14 @@ public class Parameters {
 	 */
 	public static void setTruncateTemporaryTables(boolean truncateTemporaryTables) {
 		param_TruncateTemporaryTable = truncateTemporaryTables;
+	}
+
+	/**
+	 * @param preserveUnreferencedElements logs data are preserved
+	 * @see #param_PreserveUnreferencedElements
+	 */
+	public static void setPreserveUnreferencedElements(boolean preserveUnreferencedElements) {
+		param_PreserveUnreferencedElements = preserveUnreferencedElements;
 	}
 
 	/**
@@ -1691,6 +1721,14 @@ public class Parameters {
 	 */
 	public static Integer getDefaultPreserveDays() {
 		return s_defaultPreserveDays;
+	}
+
+	/**
+	 *
+	 * @return defaultPreserveUnreferencedElements
+	 */
+	public static  boolean isDefaultPreserveUnreferencedElements() {
+		return s_defaultPreserveUnreferencedElements;
 	}
 
 	/**
