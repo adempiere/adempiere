@@ -4800,7 +4800,7 @@ public class DBEngine {
 					entityClause.append("UPPER(c.entitytype) NOT IN ("); // Entitytypes are already converted to uppercase
 				else
 					entityClause.append(", ");
-				entityClause.append("'").append(customEntities.get(i)).append("'");
+				entityClause.append("'").append(customEntities.get(i).toUpperCase()).append("'");
 			}
 			entityClause.append(")");
 		}
@@ -4855,7 +4855,7 @@ public class DBEngine {
 					entityClause.append("UPPER(c.entitytype) IN ("); // Entitytypes are already converted to uppercase
 				else
 					entityClause.append(", ");
-				entityClause.append("'").append(customEntities.get(i)).append("'");
+				entityClause.append("'").append(customEntities.get(i).toUpperCase()).append("'");
 			}
 			entityClause.append(")");
 		}
@@ -4910,7 +4910,7 @@ public class DBEngine {
 					entityClause.append("UPPER(c.entitytype) NOT IN ("); // Entitytypes are already converted to uppercase
 				else
 					entityClause.append(", ");
-				entityClause.append("'").append(customEntities.get(i)).append("'");
+				entityClause.append("'").append(customEntities.get(i).toUpperCase()).append("'");
 			}
 			entityClause.append(")");
 		}
@@ -4965,7 +4965,7 @@ public class DBEngine {
 					entityClause.append("UPPER(c.entitytype) IN ("); // Entitytypes are already converted to uppercase
 				else
 					entityClause.append(", ");
-				entityClause.append("'").append(customEntities.get(i)).append("'");
+				entityClause.append("'").append(customEntities.get(i).toUpperCase()).append("'");
 			}
 			entityClause.append(")");
 		}
@@ -5111,10 +5111,10 @@ public class DBEngine {
 			StringBuffer entityClause = new StringBuffer();
 			for (int i = 0; i < customEntities.size(); i++) {
 				if (i==0)
-					entityClause.append("entitytype NOT IN (");
+					entityClause.append("UPPER(entitytype) NOT IN (");
 				else
 					entityClause.append(", ");
-				entityClause.append("'").append(customEntities.get(i)).append("'");
+				entityClause.append("'").append(customEntities.get(i).toUpperCase()).append("'");
 			}
 			entityClause.append(") ");
 			conditions.add(entityClause.toString());
