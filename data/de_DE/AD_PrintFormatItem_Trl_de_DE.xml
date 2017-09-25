@@ -587,9 +587,4 @@
   <value column="PrintNameSuffix" original=""/>
   <value column="UUID" original=""/>
  </row>
- <row id="1000081" trl="N">
-  <value column="PrintName" original="VendorProductNo">VendorProductNo</value>
-  <value column="PrintNameSuffix" original=""/>
-  <value column="UUID" original=""/>
- </row>
 </adempiereTrl>
