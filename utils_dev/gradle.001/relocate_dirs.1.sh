@@ -5,7 +5,7 @@
 
 # Reworking Base
 echo "Relocating base..."
-cd ./base
+cd ../../base
 
 mkdir -p ./src/main/java
 mkdir -p ./src/main/resources
@@ -106,4 +106,16 @@ mv ./index.zul ./src/main/webapp
 mv ./timeout.zul ./src/main/webapp
 mv ./theme.zs ./src/main/webapp
 
+# Copy updated build scripts
 
+cd ../utils_dev/gradle.001
+cp ./etc/base.build.xml ../../base/build.xml
+cp ./etc/client.build.xml ../../client/build.xml
+cp ./etc/org.adempiere.asset.build.xml ../../org.adempiere.asset/build.xml
+cp ./etc/org.adempiere.pos.build.xml ../../org.adempiere.pos/build.xml
+cp ./etc/org.eevolution.fleet.build.xml ../../org.eevolution.fleet/build.xml
+cp ./etc/org.eevolution.freight.build.xml ../../org.eevolution.freight/build.xml
+cp ./etc/org.eevolution.hr_and_payroll.build.xml ../../org.eevolution.hr_and_payroll/build.xml
+cp ./etc/org.eevolution.manufacturing.build.xml ../../org.eevolution.manufacturing/build.xml
+cp ./etc/org.eevolution.warehouse.build.xml ../../org.eevolution.warehouse/build.xml
+cp ./etc/zkwebui.build.xml ../../zkwebui/build.xml
