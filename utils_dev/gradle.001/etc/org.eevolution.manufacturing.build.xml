@@ -1,0 +1,98 @@
+<project name="ManufacturingManagement" default="zkdist" basedir=".">
+    <description>
+        Building ManufacturingManagement.jar
+        by
+        bcahya
+        http://sistematika.web.id
+    </description>
+  <!-- set global properties for this build -->
+  <property file="build.properties"/>
+  <import file="${adempiere.trunk}/utils_dev/properties.xml"/>
+  <property name="src" location="${basedir}/src/main/java/base"/>
+  <property name="srcSwing" location="${basedir}/src/main/java/ui/swing"/>
+  <property name="build" location="${basedir}/build"/>
+  <property name="dist"  location="${basedir}/dist"/>
+  <property name="zksrc" value="${basedir}/src/main/java/ui/zk"/>
+  <property name="zkclasses" value="${basedir}/build/zkwebui/WEB-INF/classes"/>
+
+  <path id="compile.classpath">
+    <pathelement location="${basedir}/build"/>
+    <pathelement location="${adempiere.trunk}/zkwebui/build/classes"/>
+    <fileset dir="${adempiere.trunk}/lib">
+      <include name="*.jar"/>
+    </fileset>
+  	 <fileset dir="${adempiere.trunk}/tools/lib">
+  	      <include name="OpenForecast-0.5.0.jar"/>
+  	 </fileset>
+    <fileset dir="${adempiere.trunk}/zkwebui/lib">
+      <include name="*.jar"/>
+    </fileset>
+  </path>
+
+  <target name="init" depends="clean">
+    <echo message="Trunk location: ${adempiere.trunk}"/>
+    <echo message="ADempiere home: ${env.ADEMPIERE_HOME}"/>
+    <!-- Create the time stamp -->
+    <tstamp/>
+    <!-- Create the build directory structure used by compile -->
+    <mkdir dir="${build}"/>
+    <!-- Create the classes directory structure used by compile -->
+    <mkdir dir="${zkclasses}"/>
+  </target>
+
+  <target name="compile" depends="init"
+        description="compile the source " >
+    <!-- Compile the java code from ${src} into ${build} -->
+    <javac encoding="UTF-8" debug="true" srcdir="${src}:${srcSwing}" destdir="${build}">
+      <classpath refid="compile.classpath"/>
+    </javac>
+  </target>
+
+  <target name="dist" depends="compile"
+        description="generate the distribution" >
+    <!-- Create the distribution directory -->
+    <mkdir dir="${dist}/lib"/>
+
+    <!-- Put everything in ${build} into the MyProject-${DSTAMP}.jar file -->
+    <jar jarfile="${dist}/lib/ManufacturingManagement.jar" basedir="${build}"/>
+
+    <!-- Create target Libero deployment -->
+    <mkdir dir="${env.ADEMPIERE_HOME}/packages/ManufacturingManagement/lib"/>
+
+    <!-- Transfer ManufacturingManagement.jar -->
+    <copy file="${dist}/lib/ManufacturingManagement.jar" todir="${env.ADEMPIERE_HOME}/packages/ManufacturingManagement/lib"/>
+    <copy file="${dist}/lib/ManufacturingManagement.jar" todir="${adempiere.trunk}/packages/"/>
+  </target>
+
+  <target name="zkcompile" depends="dist"
+        description="compile the source " >
+    <!-- Compile the zk java code from ${src} into ${zkclasses} -->
+    <javac encoding="UTF-8" debug="true" srcdir="${zksrc}" destdir="${zkclasses}">
+      <classpath refid="compile.classpath"/>
+    </javac>
+  </target>
+
+  <target name="zkdist" depends="zkcompile"
+        description="generate the distribution" >
+    <!-- Create the distribution directory -->
+    <mkdir dir="${dist}/lib"/>
+
+    <!-- Put everything in ${zkclasses} into the MyProject-${DSTAMP}.jar file -->
+    <jar jarfile="${dist}/lib/ManufacturingManagementZk.jar" basedir="${basedir}/build/zkwebui" includes="WEB-INF/"/>
+
+    <!-- Create target Liberozk deployment -->
+    <mkdir dir="${env.ADEMPIERE_HOME}/zkpackages/ManufacturingManagement/lib"/>
+
+    <!-- Transfer liberozkMFG.jar -->
+    <copy file="${dist}/lib/ManufacturingManagementZk.jar" todir="${env.ADEMPIERE_HOME}/zkpackages/ManufacturingManagement/lib"/>
+    <copy file="${dist}/lib/ManufacturingManagementZk.jar" todir="${adempiere.trunk}/zkpackages/"/>
+  </target>
+
+  <target name="clean"
+        description="clean up" >
+    <!-- Delete the ${build}, ${dist} and ${zkclasses} directory trees -->
+    <delete dir="${build}"/>
+    <delete dir="${dist}"/>
+    <delete dir="${zkclasses}"/>
+  </target>
+</project>
