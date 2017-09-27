@@ -12,7 +12,7 @@
   </description>
 
   <!-- set global properties for this build -->
-  <property name="src" value="src"/>
+  <property name="src" value="src/main/java"/>
   <property name="looksSrc" value="../looks/src"/>
   <property name="build.dir" value="build"/>
   <property name="dist.dir" value="."/>
