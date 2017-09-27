@@ -2,13 +2,13 @@
     <description>
         Building FixedAsset.jar
         by
-        Victor Perez 
+        Victor Perez
         http://www.e-evolution.com
     </description>
   <!-- set global properties for this build -->
   <property file="build.properties"/>
-  <import file="${adempiere.source}/utils_dev/properties.xml"/>	
-  <property name="src" location="src/main/java/base"/>
+  <import file="${adempiere.source}/utils_dev/properties.xml"/>
+  <property name="src" location="src/main/java"/>
   <property name="build" location="build"/>
   <property name="dist"  location="dist"/>
 
