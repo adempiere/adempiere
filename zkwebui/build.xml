@@ -9,10 +9,11 @@
   	</description>
 	<!-- set global properties for this build -->
 	<!--<property environment="env"/>-->
-	<property name="src.dir" value="${basedir}/WEB-INF/src"/>
-	<property name="classes.dir" value="${basedir}/WEB-INF/classes"/>
+	<property name="src.dir" value="${basedir}/src/main/java"/>
+	<property name="resources.dir" value="${basedir}/src/main/resources"/>
+	<property name="classes.dir" value="${basedir}/build/classes"/>
 	<property name="dist.dir" value="${basedir}/dist"/>
-	<property name="WEBINF.dir" value="${basedir}/WEB-INF"/>
+	<property name="WEBINF.dir" value="${basedir}/src/main/webapp/WEB-INF"/>
 	<property name="Adempiere.dir" value="${basedir}/../lib"></property>
 
 	<property name="war.name"	value="webui"/>
@@ -22,8 +23,8 @@
 
 	<path id="compile.classpath">
 		<pathelement location="${basedir}"/>
-	  	<pathelement location="${basedir}/WEB-INF/classes"/>
-	  	<pathelement location="${basedir}/WEB-INF/src"/>
+	  	<pathelement location="${classes.dir}"/>
+	  	<pathelement location="${src.dir}"/>
 
 		<pathelement location="${Adempiere.dir}/../base/build"/>
 		<pathelement location="${Adempiere.dir}/../client/build"/>
@@ -33,7 +34,7 @@
 	    </fileset>
 
 	    <pathelement location="${Adempiere.dir}/../tools/lib/servlet-api.jar"/>
-	    <fileset dir="${basedir}/WEB-INF/lib">
+	    <fileset dir="${basedir}/lib">
 	    	<include name="*.jar"/>
 	    </fileset>
 	</path>
@@ -46,7 +47,7 @@
 	<target name="compile" depends="clean" description="Compile Java sources">
 	    <mkdir dir="${classes.dir}"/>
 	    <javac  target="1.8" encoding="UTF-8"
-	    	   srcdir="WEB-INF/src"
+	    	   srcdir="${src.dir}"
 	           destdir="${classes.dir}"
 	           debug="${compile.debug}"
 	     	   deprecation="${compile.deprecation}"
@@ -54,7 +55,7 @@
 	        <classpath refid="compile.classpath"/>
 	    </javac>
 		<copy  todir="${classes.dir}" overwrite="true">
-			<fileset dir="WEB-INF/src">
+			<fileset dir="${resources.dir}">
 				<include name="**/*.xml" />
 			</fileset>
 		</copy>
@@ -75,10 +76,10 @@
 											      	dist/**,
 											      	.*,
 											      	work/**,
-											      	WEB-INF/src/**,
+											      	src/**,
 		      										**/web.xml,
 		      										**/test/**,
-		      										WEB-INF/lib/*-sources.jar,
+		      										lib/*-sources.jar,
 		      										**/test.zul"
 		      									>
 

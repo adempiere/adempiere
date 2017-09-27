@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: activities.zul 1015 2012-02-09 11:28:22Z  $ -->
+<window use="org.adempiere.webui.dashboard.DynamicDashBoard"/>

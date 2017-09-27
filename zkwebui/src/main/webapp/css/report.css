@@ -1,0 +1,74 @@
+.rp-href {
+	color: #000000;
+}
+.rp-table {
+	border-width: 1px;
+	border-color: #BBBBBB;
+	border-style: solid;
+	border-collapse: collapse;
+	width: 90%;
+	border-width: 0px;
+	font-family: sans-serif;
+	font-size: smaller;
+}
+.rp-table th {
+	text-align:	center;
+	padding: 2px;
+	font-weight: bold;
+	background-color: #1F9BDE;
+	color:#FFF;
+	border-width: 1px;
+	border-color: #FFF;
+	border-width: 2px 1px 2px 0px;
+	border-style: solid;
+}
+
+.rp-table th:last-child {
+	border-width: 2px 0px 2px 0px;
+}
+
+.rp-table td {
+	border-width: 1px;
+	border-color: #BBBBBB;
+	border-style: solid;
+	border-width: 1px 1px 1px 1px;
+	padding: 3px;
+	vertical-align: top;
+}
+
+.rp-table td:last-child {
+	border-width: 1px 0px 1px 0px;
+}
+
+.rp-number {
+	text-align: right !important;
+	padding: 3px;
+}
+.rp-text, .rp-date {
+	text-align: left;
+	padding: 3px;
+}
+
+.rp-lastgrouprow td {
+	border-width: 0px 1px 2px 0px;
+	border-color: white #BBBBBB black white;
+}
+
+.rp-lastgrouprow td:last-child {
+	border-width: 0px 0px 2px 0px;
+	border-color: white #BBBBBB black white;
+}
+
+.rp-functionrow td {
+	background-color: #D6EAF6;
+	font-weight: bold;
+	border-width: 0px 1px 0px 0px;
+}
+
+.rp-functionrow td:last-child {
+	border-width: 0px 0px 0px 0px;
+}
+
+.rp-odd {
+	background-color: #f7f7f7;
+}
