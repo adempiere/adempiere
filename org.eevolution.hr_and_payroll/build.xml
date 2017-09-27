@@ -21,17 +21,17 @@
   	           <include name="*.jar"/>
   	 </fileset>
   </path>
-	
+
  <path id="compile.classpath">
     <pathelement location="${basedir}/build"/>
-    <pathelement location="${adempiere.trunk}/zkwebui/WEB-INF/classes"/>
+    <pathelement location="${adempiere.trunk}/zkwebui/build/classes"/>
  	 <fileset dir="${adempiere.trunk}/packages">
  	       <include name="*.jar"/>
  	 </fileset>
     <fileset dir="${adempiere.trunk}/lib">
       <include name="*.jar"/>
     </fileset>
-    <fileset dir="${adempiere.trunk}/zkwebui/WEB-INF/lib">
+    <fileset dir="${adempiere.trunk}/zkwebui/lib">
       <include name="*.jar"/>
     </fileset>
 	<fileset dir="${dist}/lib">
@@ -55,7 +55,7 @@
       <exclude name="**/org/eevolution/plugin/*.java"/>
       <classpath refid="lib.class.path"/>
     </javac>
-  </target> 	
+  </target>
 
   <target name="dist" depends="compile"
         description="generate the distribution" >
@@ -69,7 +69,7 @@
     <mkdir dir="${env.ADEMPIERE_HOME}/packages/HumanResourceAndPayroll/lib"/>
 
     <!-- Transfer HumanResourceAndPayroll.jar -->
-    <copy file="${dist}/lib/HumanResourceAndPayroll.jar" todir="${env.ADEMPIERE_HOME}/packages/HumanResourceAndPayroll/lib"/>
+    <copy file="${dist}/lib/HumanResourceAndPayroll.jar" todir="${env.ADEMPIERE_HOME}/packagesHumanResourceAndPayroll/lib"/>
     <copy file="${dist}/lib/HumanResourceAndPayroll.jar" todir="${adempiere.trunk}/packages"/>
 
   </target>
@@ -97,10 +97,10 @@
     <!-- Transfer HumanResourceAndPayrollZk.jar -->
     <copy file="${dist}/lib/HumanResourceAndPayrollZk.jar" todir="${env.ADEMPIERE_HOME}/zkpackages/liberozkHR/lib"/>
     <copy file="${dist}/lib/HumanResourceAndPayrollZk.jar" todir="${adempiere.trunk}/zkpackages"/>
-      
+
     <delete dir="${build}"/>
   </target>
-	
+
   <target name="clean"
         description="clean up" >
     <!-- Delete the ${build} and ${dist} directory trees -->

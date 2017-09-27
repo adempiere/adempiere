@@ -3,7 +3,7 @@
         Building ADempierePOS ADempierePOS.jar
         raulmunozn@gmail.com
         @raulmunozn
-        @Carlos Parada 
+        @Carlos Parada
         @Mario Calderon
         victor.perez@e-evolution.com
     </description>
@@ -21,21 +21,21 @@
   <property name="patches" value="${basedir}/patches"/>
 
   <path id="compile.classpath">
-      
+
     <!--fileset dir="${project.trunk}/packages/ADempierePOS/lib">
       <include name="*.jar"/>
     </fileset-->
-    
+
     <pathelement location="../zkwebui/WEB-INF/classes"/>
-   
+
     <fileset dir="../lib">
       <include name="*.jar"/>
     </fileset>
-    
-    <fileset dir="../zkwebui/WEB-INF/lib">
+
+    <fileset dir="../zkwebui/lib">
       <include name="*.jar"/>
     </fileset>
-    
+
     <fileset dir="../zkwebui/dist">
       <include name="*.war"/>
     </fileset>
@@ -47,19 +47,19 @@
   </path>
 
   <path id="compilezk.classpath">
-	
-	
-    <pathelement location="../zkwebui/WEB-INF/classes"/>
-    
+
+
+    <pathelement location="../zkwebui/build/classes"/>
+
     <fileset dir="${project.trunk}/packages/ADempierePOS/lib">
       <include name="*.jar"/>
     </fileset>
-    
+
     <fileset dir="../lib">
       <include name="*.jar"/>
     </fileset>
-    
-    <fileset dir="../zkwebui/WEB-INF/lib">
+
+    <fileset dir="../zkwebui/lib">
       <include name="*.jar"/>
     </fileset>
 
@@ -67,17 +67,17 @@
       <include name="*.war"/>
     </fileset>
   </path>
-  <!-- Compile ZK Directory --> 
+  <!-- Compile ZK Directory -->
   <target name="compileZkView" depends="init_zk, compileDomainModel"
         description="compile the source zk" >
     <!-- Compile the zk java code from ${src} into ${zkclasses} -->
-    
+
     <echo message="Compile ZK Classes "/>
     <javac encoding="UTF-8" srcdir="${zk_view}" destdir="${zk_classes}" includeantruntime="false" >
       <classpath refid="compile.domain.classpath"/>
       <classpath refid="compilezk.classpath"/>
     </javac>
-    
+
     <echo message="Create jar file "/>
     <jar jarfile="../zkpackages/${project.name}zk.jar" basedir="${zkjar}"/>
   </target>
@@ -93,8 +93,8 @@
     <echo message="Create jar file "/>
     <jar jarfile="../packages/${project.name}.jar" basedir="${domain_model_classes}"/>
   </target>
-  
-  <!-- Compile Class Directory --> 	
+
+  <!-- Compile Class Directory -->
   <target name="compileSwingView" depends="init_class , compileDomainModel"
         description="compile the source " >
     <echo message="Compile Swing Classes "/>
@@ -106,34 +106,34 @@
     <echo message="Create jar file "/>
     <jar jarfile="../packages/${project.name}.jar" basedir="${swing_classes}"/>
   </target>
-    
-	
-  <!-- Compile All Class Directory --> 
+
+
+  <!-- Compile All Class Directory -->
   <target name="compileall" depends="compileSwingView,compileZkView" >
     <echo message="Compile All Project"/>
   	<echo message="Compile All Project"/>
   </target>
-	
-  <!-- Remove All Class Directory --> 
+
+  <!-- Remove All Class Directory -->
   <target name="clean" depends="clean_class,clean_zk"
         description="clean up" >
   	<echo message="Remove Classes Directory"/>
     <delete dir="${domain_model_classes}"/>
   </target>
-	
+
   <!-- Remove Class Directory -->
   <target name="clean_class" description="clean up class" >
 	<echo message="Remove Class Directory"/>
   	<delete dir="${swing_classes}"/>
   </target>
-	
+
   <!-- Remove Class ZK Directory -->
   <target name="clean_zk" description="clean up class" >
 	<echo message="Remove Class ZK Directory"/>
     <delete dir="${zk_classes}"/>
   	<delete dir="${zkjar}"/>
   </target>
-	
+
   <!-- Create Class Directory -->
   <target name="init_class" depends="clean_class" description="clean up class" >
 	<echo message="Create Class Directory"/>
@@ -142,7 +142,7 @@
     <mkdir dir="${domain_model_classes}"/>
 	<mkdir dir="${swing_classes}"/>
   </target>
-	
+
   <!-- Create ZK Directory -->
   <target name="init_zk" depends="clean_zk" description="clean up class" >
 	<echo message="Create Class ZK Directory"/>
@@ -151,13 +151,13 @@
 	<mkdir dir="${zkjar}"/>
   	<mkdir dir="${zkjar}/WEB-INF"/>
   	<mkdir dir="${zk_classes}"/>
-  </target>	
-  
+  </target>
+
   <!-- Create Class And ZK Directory -->
   <target name="init" depends="clean,init_class,init_zk">
 	<echo message="Initialize Folders "/>
   </target>
-  
+
 
     <!-- Copy necessary files to Adempiere trunk BEFORE build of Adempiere -->
 	<target name="package_dist(BEFORE Adempiere build)" depends="" description="Copies file(s) to Adempiere trunk BEFORE build of Adempiere">
@@ -166,16 +166,16 @@
 		<copy todir="../zkwebui/js">
 			<fileset dir="src/main/js" includes="text_action.js"/>
 		</copy>
-		
+
   		<delete file="../zkwebui/WEB-INF/src/metainfo/zk/lang-addon.xml"/>
 		<copy todir="../zkwebui/WEB-INF/src/metainfo/zk">
 			<fileset dir="${zk_view}" includes="lang-addon.xml"/>
 		</copy>
-		
+
 		<echo message="=========== Deploy files END"/>
-	</target>  
-	
-   
+	</target>
+
+
     <!-- Deploys WebUI package, model package and webui.jar to Adempiere installation  AFTER build of ADempierePOS -->
 	<target name="package_dist(AFTER Adempiere build)" depends="" description="Deploy files to Adempiere installation AFTER build of Adempiere">
 		<echo message="=========== Copying WebUI package to Adempiere installation-START"/>
@@ -187,8 +187,8 @@
 		<mkdir dir="${adempiere.installation}/zkpackages/${project.name}/lib"/>
 		<copy todir="${adempiere.installation}/zkpackages/${project.name}/lib">
 			<fileset dir="${basedir}/zkpackages/${project.name}/lib" includes="*.jar"/>
-		</copy>	
-				
+		</copy>
+
 		<echo message="=============== Delete ${adempiere.installation}/packages/${project.name}"/>
   		<delete dir="${adempiere.installation}/packages/${project.name}"/>
 		<echo message="=============== Create ${adempiere.installation}/packages/${project.name}"/>
@@ -197,7 +197,7 @@
 		<mkdir dir="${adempiere.installation}/packages/${project.name}/lib"/>
 		<copy todir="${adempiere.installation}/packages/${project.name}/lib">
 			<fileset dir="${basedir}/packages/${project.name}/lib" includes="*.jar"/>
-		</copy>		
+		</copy>
 
 		<echo message="=============== Deploy webuiOriginal.war BEGIN"/>
   		<delete file="${adempiere.installation}/lib/webuiOriginal.war"/>
@@ -205,7 +205,7 @@
 			<fileset dir="../lib" includes="webui.war"/>
 		</copy>
 		<echo message="=========== Deploy webui.war END"/>
-				
+
 		<echo message="=========== Copying WebUI package to Adempiere installation-END"/>
 	</target>
 </project>

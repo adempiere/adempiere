@@ -21,7 +21,12 @@ mv ./src/org ./src/main/java
 rm ./*.launch
 rm ./Base.html
 rm ./documentation.bat
-rm ./.project ./.packaging ./.xdoclet ./.classpath
+rm ./Swingset.bat
+rm ./swing.properties
+rm ./packages.txt
+rm ./packaging-build.xml
+rm ./xdoclet-build.xml
+rm ./.project ./.packaging ./.xdoclet ./.classpath ./.settings
 
 # Reworking Client
 echo "Relocating client..."
@@ -40,7 +45,8 @@ mv ./src/de ./src/main/java
 mv ./src/org ./src/main/java
 
 rm ./.project ./.classpath
-rm ./documentation.bat
+rm ./packages.txt
+rm ./documentation.bat ./.settings
 
 # Reworking org.adempiere.asset
 echo "Relocating org.adempiere.asset ..."
@@ -71,8 +77,7 @@ touch ./src/test/resources/.gitkeep
 
 mv ./src/org ./src/main/java
 
-rm ./documentation.bat
-rm ./packages.txt
+rm ./.settings ./.classpath ./.project ./documentation.bat ./packages.txt
 
 # Reworking zkwebui
 echo "Relocating zkwebui..."
@@ -106,8 +111,14 @@ mv ./index.zul ./src/main/webapp
 mv ./timeout.zul ./src/main/webapp
 mv ./theme.zs ./src/main/webapp
 
-# Copy updated build scripts
+rm ./.settings ./.classpath ./.project ./.tomcatplugin
 
+
+# Cleanup things in project's root
+cd ..
+rm ./.settings ./.flow ./.classpath ./.project ./testTemplate.properties
+
+# Copy updated build scripts
 cd ../utils_dev/gradle.001
 cp ./etc/base.build.xml ../../base/build.xml
 cp ./etc/client.build.xml ../../client/build.xml

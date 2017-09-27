@@ -17,14 +17,14 @@
 
   <path id="compile.classpath">
     <pathelement location="${basedir}/build"/>
-    <pathelement location="${adempiere.trunk}/zkwebui/WEB-INF/classes"/>
+    <pathelement location="${adempiere.trunk}/zkwebui/build/classes"/>
     <fileset dir="${adempiere.trunk}/lib">
       <include name="*.jar"/>
     </fileset>
   	 <fileset dir="${adempiere.trunk}/tools/lib">
   	      <include name="OpenForecast-0.5.0.jar"/>
   	 </fileset>
-    <fileset dir="${adempiere.trunk}/zkwebui/WEB-INF/lib">
+    <fileset dir="${adempiere.trunk}/zkwebui/lib">
       <include name="*.jar"/>
     </fileset>
   </path>
