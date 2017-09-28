@@ -13,7 +13,6 @@
 
   <!-- set global properties for this build -->
   <property name="src" value="src/main/java"/>
-  <property name="looksSrc" value="../looks/src"/>
   <property name="build.dir" value="build"/>
   <property name="dist.dir" value="."/>
   <property name="jar.path" value="../lib"/>
@@ -59,7 +58,6 @@
     <!-- compile the java code from ${src} into ${build.dir} -->
     <javac target="1.8" encoding="UTF-8" fork="true" destdir="${build.dir}" deprecation="on" debug="on" memoryinitialsize="512m" memorymaximumsize="512m">
       <src path="${src}"/>
-      <src path="${looksSrc}"/>
       <src path="../glassfishfacet/src"/>
       <src path="../jbossfacet/src"/>
       <classpath refid="project.class.path"/>
@@ -67,20 +65,6 @@
     <!-- copy all image & sound files from src to the build directory -->
     <copy todir="${build.dir}">
       <fileset dir="${src}">
-        <include name="**/images/*"/>
-        <include name="**/*.gif"/>
-        <include name="**/*.jpg"/>
-        <include name="**/*.png"/>
-        <include name="**/*.wav"/>
-        <include name="**/*.htm"/>
-        <include name="**/*.html"/>
-        <include name="**/*.properties"/>
-        <exclude name="**/package.html"/>
-      </fileset>
-    </copy>
-    <!-- copy all image & sound files from looksSrc to the build directory -->
-    <copy todir="${build.dir}">
-      <fileset dir="${looksSrc}">
         <include name="**/images/*"/>
         <include name="**/*.gif"/>
         <include name="**/*.jpg"/>

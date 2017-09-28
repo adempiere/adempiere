@@ -26,7 +26,7 @@ rm ./swing.properties
 rm ./packages.txt
 rm ./packaging-build.xml
 rm ./xdoclet-build.xml
-rm ./.project ./.packaging ./.xdoclet ./.classpath ./.settings
+rm -Rf ./.project ./.packaging ./.xdoclet ./.classpath ./.settings
 
 # Reworking Client
 echo "Relocating client..."
@@ -46,7 +46,7 @@ mv ./src/org ./src/main/java
 
 rm ./.project ./.classpath
 rm ./packages.txt
-rm ./documentation.bat ./.settings
+rm -Rf ./documentation.bat ./.settings
 
 # Reworking org.adempiere.asset
 echo "Relocating org.adempiere.asset ..."
@@ -77,7 +77,7 @@ touch ./src/test/resources/.gitkeep
 
 mv ./src/org ./src/main/java
 
-rm ./.settings ./.classpath ./.project ./documentation.bat ./packages.txt
+rm -Rf ./.settings ./.classpath ./.project ./documentation.bat ./packages.txt
 
 # Reworking zkwebui
 echo "Relocating zkwebui..."
@@ -113,10 +113,13 @@ mv ./theme.zs ./src/main/webapp
 
 rm ./.settings ./.classpath ./.project ./.tomcatplugin
 
-
 # Cleanup things in project's root
 cd ..
-rm ./.settings ./.flow ./.classpath ./.project ./testTemplate.properties
+
+rm -Rf ./looks
+rm -Rf ./nbproject
+
+rm -Rf ./.settings ./.flow ./.classpath ./.project ./testTemplate.properties
 
 # Copy updated build scripts
 cd ../utils_dev/gradle.001

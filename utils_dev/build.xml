@@ -23,7 +23,7 @@
 		<ant inheritAll="false" dir="extend"/>
 		<ant inheritAll="false" dir="client"/>
 		<ant inheritAll="false" dir="JasperReports"/>
-		<ant inheritAll="false" dir="JasperReportsWebApp"/>
+		<!-- ant inheritAll="false" dir="JasperReportsWebApp"/ -->
 		<ant inheritAll="false" dir="org.adempiere.webservice"/>
 		<ant inheritAll="false" dir="serverRoot"/>
 		<ant inheritAll="false" dir="serverApps"/>
@@ -55,7 +55,7 @@
 		<ant inheritAll="false" dir="extend" target="clean"/>
 		<ant inheritAll="false" dir="org.eevolution.cashflow" target="clean"/>
 		<ant inheritAll="false" dir="JasperReports" target="clean"/>
-		<ant inheritAll="false" dir="JasperReportsWebApp" target="clean"/>
+		<!-- ant inheritAll="false" dir="JasperReportsWebApp" target="clean"/ -->
 		<ant inheritAll="false" dir="client" target="clean"/>
 		<ant inheritAll="false" dir="serverRoot" target="clean"/>
 		<ant inheritAll="false" dir="serverApps" target="clean"/>

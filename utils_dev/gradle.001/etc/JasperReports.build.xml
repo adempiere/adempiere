@@ -1,0 +1,245 @@
+<!-- ============================================= -->
+<!-- jasperreport                                  -->
+<!-- ============================================= -->
+
+
+<project name="JasperReports" default="dist" basedir=".">
+
+  <description>
+    Build the UI subproject within the Compiere project.
+  </description>
+
+  <!-- set global properties for this build -->
+  <property name="src" value="src/main/java"/>
+  <property name="build.dir" value="build"/>
+  <property name="needed.dir" value="needed"/>
+  <property name="dist.dir" value="."/>
+  <property name="jar.path" value="../lib"/>
+  <property name="jar.name" value="CompiereJasper"/>
+  <property name="needed.jar.name" value="CompiereJasperReqs"/>
+  <property name="version" value="_1"/>
+  <!--<property environment="env"/>-->
+  <import file="../utils_dev/properties.xml"/>
+
+  <!-- set path to include the necessary jar files for javac -->
+  <path id="project.class.path">
+    <pathelement path="${classpath}"/>
+  </path>
+
+  <patternset id="manifest.exclude">
+	<exclude name="META-INF/*.DSA"/>
+	<exclude name="META-INF/*.RSA"/>
+	<exclude name="META-INF/*.SF"/>
+	<exclude name="META-INF/MANIFEST.MF"/>
+	<exclude name="META-INF/INDEX.LIST"/>
+  </patternset>
+
+  <target name="init" description="initialization target">
+    <echo message="=========== Build JasperReport"/>
+
+    <!-- create the time stamp -->
+    <tstamp/>
+    <!-- create the build directory structure used by compile -->
+    <mkdir dir="${build.dir}"/>
+
+    <!-- check for the distribution directory -->
+    <available file="${dist.dir}" type="dir" property="dist.dir.exists"/>
+  </target>
+
+  <target name="makedir" depends="init" unless="dist.dir.exists">
+    <!-- create the distribution directory if not available -->
+    <mkdir dir="${dist}/${dist.dir}"/>
+  	<mkdir dir="${dist}/${needed.dir}"/>
+  </target>
+
+
+  <target name="compile" depends="makedir">
+    <!-- compile the java code from ${src} into ${build.dir} -->
+    <javac target="1.8" encoding="UTF-8" srcdir="${src}" destdir="${build.dir}" deprecation="on"  debug="on">
+      <classpath>
+	      <pathelement path="${classpath}"/>
+		  <pathelement path="../client/build"/>
+	      <pathelement path="../base/Base.jar"/>
+	      <pathelement path="../extend/Extend.jar"/>
+	      <pathelement path="../lib/CSTools.jar"/>
+	      <pathelement path="../lib/oracle.jar"/>
+      	<!-- SHW: old Lib <pathelement path="../JasperReportsTools/lib/jasperreports-3.7.3.jar"/>--> 
+      	  <pathelement path="../JasperReportsTools/lib/jasperreports-6.3.1.jar"/>
+      	  <!-- SHW: old Lib <pathelement path="../JasperReportsTools/lib/commons-digester-1.7.jar"/> -->
+      	  <pathelement path="../JasperReportsTools/lib/commons-digester-2.1.jar"/>
+	      <pathelement path="../tools/lib/commons-logging-1.2.jar"/>
+      	  <!-- SHW: old Lib <pathelement path="../JasperReportsTools/lib/commons-beanutils-1.7.jar"/>  -->  
+      	  <pathelement path="../JasperReportsTools/lib/commons-beanutils-1.8.0.jar"/>
+	      <!-- SHW:new library  --> 
+	      <pathelement path="../JasperReportsTools/lib/jasperreports-fonts-6.3.1.jar"/> 	
+      	  <pathelement path="../tools/lib/xercesImpl.jar"/>
+      	  <pathelement path="../tools/lib/xml-apis.jar"/>
+      	  <pathelement path="../tools/lib/postgresql.jar"/>  
+		  <pathelement path="../tools/lib/iText-2.1.7.jar"/>
+      	  <fileset dir="../jboss/client" includes="*.jar"/>
+      </classpath>
+    </javac>
+    <!-- copy all image & sound files from src to the build directory -->
+    <copy todir="${build.dir}">
+      <fileset dir="${src}">
+	    <include name="**/images/*"/>
+        <include name="**/*.gif"/>
+        <include name="**/*.jpg"/>
+        <include name="**/*.wav"/>
+        <include name="**/*.htm"/>
+        <include name="**/*.html"/>
+        <include name="**/*.properties"/>
+        <exclude name="**/package.html"/>
+      </fileset>
+    </copy>
+  </target>
+
+
+  <!-- =========================================== -->
+  <!-- Distribution                                -->
+  <!-- =========================================== -->
+  <target name="dist" depends="compile" description="Create JasperReport.jar and JasperNeeded.jar">
+    <!-- put everything from ${build.dir} into the ${jar.name}.jar file -->
+    <jar jarfile="${dist.dir}/${jar.name}.jar"
+	  excludes="**/*.jbx"
+	  index="yes">
+      <fileset dir="${build.dir}"/>
+      <manifest>
+	    <attribute name="Specification-Title" value="Add-on for Jasper Reports integration on org.compiere.report.ReportStarter"/>
+        <attribute name="Specification-Version" value="${env.ADEMPIERE_VERSION}${version}"/>
+        <attribute name="Specification-Vendor" value="Adempiere.org"/>
+        <attribute name="Implementation-Title" value="CompiereJasper ${env.ADEMPIERE_VERSION}${version}"/>
+        <attribute name="Implementation-Version" value="${env.ADEMPIERE_VERSION}${version} ${DSTAMP}-${TSTAMP}"/>
+        <attribute name="Implementation-Vendor" value="${env.ADEMPIERE_VENDOR}"/>
+        <attribute name="Implementation-URL" value="http://www.adempiere.org"/>
+        <attribute name="Main-Class" value="org.compiere.report.ReportStarter"/>
+      </manifest>
+    </jar>
+
+  	<unjar src="../JasperReportsTools/lib/iReport.jar" dest="${needed.dir}">
+  		<!-- producing an iReport runTime -->
+  	    <patternset> 
+  	        <exclude name="**/*.class"/>
+  	  	  	<!-- SHW: iReport not needed
+  	        <include name="it/businesslogic/ireport/barcode/*.class"/>
+  	    	<include name="it/businesslogic/ireport/chart/*.class"/>
+  	        <include name="it/businesslogic/ireport/util/*.class"/>
+  	        <include name="it/businesslogic/ireport/*Element.class"/>
+  	    	<include name="it/businesslogic/dtds/*"/>
+  	     -->
+  	    </patternset>
+	</unjar>
+  	
+  	<!-- futur dev jfree chart but it needs scriptlets
+  	<unjar src="../tools/lib/jfreechart-1.0.13.jar" dest="${needed.dir}" />
+  	-->
+  	<jar jarfile="${dist.dir}/${needed.jar.name}.jar"
+	  excludes="**/*.jbx"
+	  index="yes"
+  	  duplicate="preserve">
+      <fileset dir="${needed.dir}"/>
+  	  <!-- SHW: old Lib <zipfileset src="../JasperReportsTools/lib/jasperreports-3.7.3.jar" > -->
+  	  <zipfileset src="../JasperReportsTools/lib/jasperreports-6.3.1.jar" >
+		<patternset refid="manifest.exclude"/>
+	  </zipfileset>
+  	  <!-- SHW: old Lib <zipfileset src="../JasperReportsTools/lib/commons-digester-1.7.jar" > -->
+  	  <zipfileset src="../JasperReportsTools/lib/commons-digester-2.1.jar" >
+		<patternset refid="manifest.exclude"/>
+	  </zipfileset>
+  	  <zipfileset src="../tools/lib/commons-logging-1.2.jar" >
+		<patternset refid="manifest.exclude"/>
+	  </zipfileset>
+  		<!-- SHW: old Lib <zipfileset src="../JasperReportsTools/lib/commons-beanutils-1.7.jar" > -->
+  	  <zipfileset src="../JasperReportsTools/lib/commons-beanutils-1.8.0.jar" >
+		<patternset refid="manifest.exclude"/>
+	  </zipfileset>
+      <!-- SHW: new lib--> 
+      <zipfileset src="../JasperReportsTools/lib/jasperreports-fonts-6.3.1.jar" >
+  		<patternset refid="manifest.exclude"/>
+  	  </zipfileset>
+  	  <zipfileset src="../tools/lib/xercesImpl.jar" >
+		<patternset refid="manifest.exclude"/>
+	  </zipfileset>
+  	  <zipfileset src="../tools/lib/xml-apis.jar" >
+		<patternset refid="manifest.exclude"/>
+	  </zipfileset>
+      <manifest>
+	<attribute name="Specification-Title" value="Needed libraries for Jasper Reports integration on org.compiere.report.ReportStarter"/>
+	<attribute name="Specification-Version" value="${env.ADEMPIERE_VERSION}${version}"/>
+	<attribute name="Specification-Vendor" value="Adempiere.org"/>
+	<attribute name="Implementation-Title" value="CTools ${env.ADEMPIERE_VERSION}${version}"/>
+	<attribute name="Implementation-Version" value="${env.ADEMPIERE_VERSION}${version} ${DSTAMP}-${TSTAMP}"/>
+	<attribute name="Implementation-Vendor" value="${env.ADEMPIERE_VENDOR}"/>
+	<attribute name="Implementation-URL" value="http://www.adempiere.org"/>
+      </manifest>
+    </jar>
+	<copy file="${dist.dir}/${needed.jar.name}.jar" todir="../lib">
+		</copy>
+  </target>
+
+
+  <!-- =========================================== -->
+  <!-- Clean up                                    -->
+  <!-- =========================================== -->
+  <target name="clean">
+    <!-- Delete the ${build.dir} directory trees -->
+    <delete dir="${build.dir}"/>
+    <!-- Delete the Doc/Source files -->
+    <delete file="${dist.dir}/${jar.name}.jar" failonerror="false"/>
+    <delete file="${dist.dir}/${jar.name}Doc.jar" failonerror="false"/>
+    <delete file="${dist.dir}/${jar.name}Source.jar" failonerror="false"/>
+    <delete dir="${needed.dir}"/>
+    <delete file="./CompiereJasperReqs.jar"/>
+    <delete file="${jar.path}/CompiereJasperReqs.jar"/>
+  </target>
+
+
+  <!-- =========================================== -->
+  <!-- Documentation                               -->
+  <!-- =========================================== -->
+  <target name="doc">
+    <javadoc packageList="packages.txt"
+      sourcepath="src"
+      excludepackagenames=""
+      defaultexcludes="yes"
+      destdir="doc"
+      author="true" version="true" use="true"
+      windowtitle="Compiere JasperReport Integration Documentation"
+      overview="overview.html">
+      <doctitle><![CDATA[Compiere<sup>TM</sup> Looks API Documentation]]></doctitle>
+      <header><![CDATA[<b>Compiere JasperReports Integration 1.0</b>]]></header>
+      <bottom><![CDATA[<i>Copyright (c) 1999-2005 ComPiere, Inc. - Author: Ronan LE MEILLAT based on rus.jar</i>]]></bottom>
+      <link href="http://java.sun.com/j2se/1.5.0/docs/api"/>
+    </javadoc>
+  </target>
+
+
+  <!-- =========================================== -->
+  <!-- Release                                     -->
+  <!-- =========================================== -->
+  <target name="release">
+    <!-- Create Release Jar Files -->
+    <jar
+	  jarfile="${dist.dir}/${jar.name}Doc${version}.jar"
+	  basedir="doc"/>
+    <jar
+	  jarfile="${dist.dir}/${jar.name}Source${version}.jar"
+	  basedir="src"/>
+    <copy
+	  file="${dist.dir}/${jar.name}.jar"
+	  tofile="${dist.dir}/${jar.name}${version}.jar" />
+
+    <!-- Sign Jar -->
+    <signjar
+	  jar="${dist.dir}/${jar.name}${version}.jar"
+	  alias="compiere"
+	  storepass="${password}"
+	  keystore="../keystore/myKeystore"/>
+    <signjar
+	  jar="${dist.dir}/${needed.jar.name}${version}.jar"
+	  alias="compiere"
+	  storepass="${password}"
+	  keystore="../keystore/myKeystore"/>  	
+  </target>
+
+</project>
