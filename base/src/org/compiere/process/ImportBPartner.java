@@ -291,6 +291,8 @@ implements ImportProcess
 				+ " WHERE i.C_BPartner_ID=bpl.C_BPartner_ID AND bpl.AD_Client_ID=i.AD_Client_ID"
 				+ " AND (i.Address1=l.Address1 OR (i.Address1 IS NULL AND l.Address1 IS NULL))"
 				+ " AND (i.Address2=l.Address2 OR (i.Address2 IS NULL AND l.Address2 IS NULL))"
+				+ " AND (i.Address3=l.Address3 OR (i.Address3 IS NULL AND l.Address3 IS NULL))"
+				+ " AND (i.Address4=l.Address4 OR (i.Address4 IS NULL AND l.Address4 IS NULL))"
 				+ " AND (i.City=l.City OR (i.City IS NULL AND l.City IS NULL))"
 				+ " AND (i.Postal=l.Postal OR (i.Postal IS NULL AND l.Postal IS NULL))"
 				+ " AND (i.Postal_Add=l.Postal_Add OR (l.Postal_Add IS NULL AND l.Postal_Add IS NULL))"
@@ -452,6 +454,8 @@ implements ImportProcess
 						location.setCity(impBP.getCity());
 						location.setAddress1(impBP.getAddress1());
 						location.setAddress2(impBP.getAddress2());
+						location.setAddress3(impBP.getAddress3());
+						location.setAddress4(impBP.getAddress4());
 						location.setPostal(impBP.getPostal());
 						location.setPostal_Add(impBP.getPostal_Add());
 						if (!location.save())
@@ -476,6 +480,8 @@ implements ImportProcess
 									impBP.getC_Region_ID(), impBP.getCity(), get_TrxName());
 							location.setAddress1(impBP.getAddress1());
 							location.setAddress2(impBP.getAddress2());
+							location.setAddress3(impBP.getAddress3());
+							location.setAddress4(impBP.getAddress4());
 							location.setPostal(impBP.getPostal());
 							location.setPostal_Add(impBP.getPostal_Add());
 							if (location.save())
