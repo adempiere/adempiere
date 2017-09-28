@@ -50,7 +50,10 @@ import org.compiere.util.DB;
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *		<a href="https://github.com/adempiere/adempiere/issues/752">
  * 		@see FR [ 752 ] Blood group should be a BP attribute</a>
- */
+ * @author Victor Perez, victor.perez@e-evolution.com, e-Evolution www.e-evolution.com
+ * 		<a href="https://github.com/adempiere/adempiere/issues/1345">
+ * 		@see BF [ 1345 ] Error when try import Business Partner</a>
+ * */
 public class ImportBPartner extends SvrProcess
 implements ImportProcess
 {
@@ -364,8 +367,8 @@ implements ImportProcess
 					{
 						bp = new MBPartner(impBP);
 						ModelValidationEngine.get().fireImportValidate(this, impBP, bp, ImportValidator.TIMING_AFTER_IMPORT);
-						
-						setPlaceOfBirthId(impBP, bp);
+						if (impBP.getBirthCountry_ID() > 0)
+							setPlaceOfBirthId(impBP, bp);
 						setTypeOfBPartner(impBP,bp);
 						
 						if (bp.save())
@@ -417,8 +420,8 @@ implements ImportProcess
 							bp.setGender(impBP.getGender());
 						//	
 						ModelValidationEngine.get().fireImportValidate(this, impBP, bp, ImportValidator.TIMING_AFTER_IMPORT);
-						
-						setPlaceOfBirthId(impBP, bp);
+						if (impBP.getBirthCountry_ID() > 0)
+							setPlaceOfBirthId(impBP, bp);
 						setTypeOfBPartner(impBP,bp);
 						
 						//
@@ -670,15 +673,15 @@ implements ImportProcess
 	/**
 	 * Get Birth of place
 	 * @param impBP
-	 * @param bPartner
+	 * @param partner
 	 * @return
 	 */
-	private void setPlaceOfBirthId(X_I_BPartner impBP, MBPartner bPartner) {
+	private void setPlaceOfBirthId(X_I_BPartner impBP, MBPartner partner) {
 		//	****	Create/Update BPartner Location	****
 		int placeOfBirthId = impBP.getPlaceOfBirth_ID();
 		if(placeOfBirthId == 0
-				&& impBP.getC_BPartner_ID() != 0) {
-			placeOfBirthId = bPartner.getPlaceOfBirth_ID();
+		&& impBP.getC_BPartner_ID() > 0) {
+			placeOfBirthId = partner.getPlaceOfBirth_ID();
 		}
 		MLocation location = new MLocation(getCtx(), placeOfBirthId, get_TrxName());
 		location.setC_Country_ID(impBP.getBirthCountry_ID());
@@ -689,7 +692,7 @@ implements ImportProcess
 			log.warning("Location not updated");
 		//	return location
 		impBP.setPlaceOfBirth_ID(location.getC_Location_ID());
-		bPartner.setPlaceOfBirth_ID(location.getC_Location_ID());
+		partner.setPlaceOfBirth_ID(location.getC_Location_ID());
 	}
 	
 	/**
