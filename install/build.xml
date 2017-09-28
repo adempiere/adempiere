@@ -22,7 +22,7 @@
   <property name="migration.dir" value="../migration"/>
   <property name="jboss.dir" value="../jboss"/>
 
-  <property name="src" value="src"/>
+  <property name="src" value="src/main/java"/>
   <property name="compile.dir" value="lib"/>
 
   <property name="src.dir" value="${basedir}/Adempiere"/>
