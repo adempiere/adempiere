@@ -10,7 +10,7 @@
   </description>
 
   <!-- set global properties for this build -->
-  <property name="src" value="src"/>
+  <property name="src" value="src/main/java"/>
   <property name="build.dir" value="build"/>
   <property name="needed.dir" value="needed"/>
   <property name="dist.dir" value="."/>
