@@ -1475,6 +1475,10 @@ public class GridTable extends AbstractTableModel
 		}
 		catch (Throwable e)
 		{
+			//Openup Solutions - 02/10/2017. #1350.
+			fireDataStatusEEvent("SaveErrorNoChange", e.getLocalizedMessage(), true);
+			//fin #1350.
+
 			if (e instanceof ClassNotFoundException)
 				log.warning(m_tableName + " - " + e.getLocalizedMessage());
 			else
