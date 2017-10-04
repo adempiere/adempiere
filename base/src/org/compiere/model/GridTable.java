@@ -90,6 +90,10 @@ import org.compiere.util.ValueNamePair;
  *			@see https://adempiere.atlassian.net/browse/ADEMPIERE-449
  *			<li> FR [ 392 ] Translation method does not use PO class
  *			@see https://github.com/adempiere/adempiere/issues/392
+ *  @author Nicolas Sarlabos, nicolas.sarlabos@openupsolutions.com, http://www.openupsolutions.com
+ **			<li> FR [ 1350 ] Return customized message in model validator
+ *			@see https://github.com/adempiere/adempiere/issues/1350
+ *
  */
 public class GridTable extends AbstractTableModel
 	implements Serializable
@@ -1475,9 +1479,7 @@ public class GridTable extends AbstractTableModel
 		}
 		catch (Throwable e)
 		{
-			//Openup Solutions - 02/10/2017. #1350.
 			fireDataStatusEEvent("SaveErrorNoChange", e.getLocalizedMessage(), true);
-			//fin #1350.
 
 			if (e instanceof ClassNotFoundException)
 				log.warning(m_tableName + " - " + e.getLocalizedMessage());
