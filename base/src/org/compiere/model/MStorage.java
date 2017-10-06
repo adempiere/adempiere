@@ -326,7 +326,7 @@ public class MStorage extends X_M_Storage
 		//	Specific Attribute Set Instance
 		String sql = "SELECT s.M_Product_ID,s.M_Locator_ID,s.M_AttributeSetInstance_ID,"
 			+ "s.AD_Client_ID,s.AD_Org_ID,s.IsActive,s.Created,s.CreatedBy,s.Updated,s.UpdatedBy,"
-			+ "s.QtyOnHand,s.QtyReserved,s.QtyOrdered,s.DateLastInventory "
+			+ "s.QtyOnHand,s.QtyReserved,s.QtyOrdered,s.DateLastInventory,s.UUID "
 			+ "FROM M_Storage s"
 			+ " INNER JOIN M_Locator l ON (l.M_Locator_ID=s.M_Locator_ID) ";
 		if (M_Locator_ID > 0)
@@ -351,7 +351,7 @@ public class MStorage extends X_M_Storage
 		{
 			sql = "SELECT s.M_Product_ID,s.M_Locator_ID,s.M_AttributeSetInstance_ID,"
 				+ "s.AD_Client_ID,s.AD_Org_ID,s.IsActive,s.Created,s.CreatedBy,s.Updated,s.UpdatedBy,"
-				+ "s.QtyOnHand,s.QtyReserved,s.QtyOrdered,s.DateLastInventory "
+				+ "s.QtyOnHand,s.QtyReserved,s.QtyOrdered,s.DateLastInventory,s.UUID "
 				+ "FROM M_Storage s"
 				+ " INNER JOIN M_Locator l ON (l.M_Locator_ID=s.M_Locator_ID)"
 				+ " LEFT OUTER JOIN M_AttributeSetInstance asi ON (s.M_AttributeSetInstance_ID=asi.M_AttributeSetInstance_ID) ";
