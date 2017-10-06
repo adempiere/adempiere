@@ -128,6 +128,7 @@ public abstract class Doc
 	 *  GL_Journal:         GLJ
 	 *  C_ProjectIssue		PJI
 	 *  M_Requisition		POR
+	 *  M_ProductionBatch	MPO
 	 **************************************************************************/
 
 	/**	AR Invoices - ARI       */
@@ -174,6 +175,8 @@ public abstract class Doc
 	public static final String	DOCTYPE_ProjectIssue	= "PJI";
 	/** Purchase Requisition    */
 	public static final String	DOCTYPE_PurchaseRequisition	= "POR";
+	/** Planned Manufacturing Order    */
+	public static final String	DOCTYPE_ManufacturingPlannedOrder = MDocType.DOCBASETYPE_ManufacturingPlannedOrder;
 
 		
 	//  Posting Status - AD_Reference_ID=234     //
