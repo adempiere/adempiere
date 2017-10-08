@@ -1352,6 +1352,8 @@ public class Migrate {
 
 		// exclude ad_system from being purged
 		m_trackingList.add("AD_SYSTEM");
+		// exclude ad_printformat for print format added in system
+		m_trackingList.add("AD_PrintFormat");
 		// exclude ad_attachment for jasper report attachment included
 		m_trackingList.add("AD_ATTACHMENT");
 		m_trackingList.add("AD_ATTACHMENTNOTE");
@@ -1520,7 +1522,7 @@ public class Migrate {
 
 	/**
 	 * check whether at least one record fulfilling the condition exists
-	 * @param tableNametable in which to check for the existing record
+	 * @param tableName in which to check for the existing record
 	 * @param columnName column to use in WHERE clause
 	 * @param checkCondition condition to use in where clause
 	 * @return at least one record exists
