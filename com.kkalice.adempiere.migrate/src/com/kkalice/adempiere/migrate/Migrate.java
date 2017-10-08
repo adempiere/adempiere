@@ -1981,7 +1981,8 @@ public class Migrate {
 					sql = s_dbEngine.sql_delete(vendor, catalog, schema, table);
 					// changes which are not customizations
 			}
-			else if (table.equalsIgnoreCase("AD_ChangeLog") && isPreserveLogs()) {
+
+			if (table.equalsIgnoreCase("AD_ChangeLog") && isPreserveLogs()) {
 				sql = s_dbEngine.sql_deleteByConditionAndAge(vendor, catalog, schema,
 						table, "IsCustomization != 'Y'", getPreserveDays());
 			}
