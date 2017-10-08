@@ -1463,7 +1463,10 @@ public class MInOut extends X_M_InOut implements DocAction
 				if (isSOTrx()							//	PO is done by Matching
 					|| sLine.getM_Product_ID() == 0)	//	PO Charges, empty lines
 				{
+					if (isSOTrx())
 					oLine.setQtyDelivered(oLine.getQtyDelivered().subtract(Qty));
+					else 
+						oLine.setQtyDelivered(oLine.getQtyDelivered().add(Qty));						
 				}
 				//Update by PO Match created Auto
 				//else 
