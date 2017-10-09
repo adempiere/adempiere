@@ -34,8 +34,9 @@ import java.util.stream.Collectors;
  * Created victor.perez@e-evolution.com, by e-Evolution on 04/12/13.
  */
 public class MHRRace extends X_HR_Race {
-
-    private static CCache<Integer, MHRRace> raceCacheIds = new CCache<Integer, MHRRace>(Table_Name, 10, 0);
+	
+	private static final long serialVersionUID = -3538768176497234268L;
+	private static CCache<Integer, MHRRace> raceCacheIds = new CCache<Integer, MHRRace>(Table_Name, 10, 0);
     private static CCache<String, MHRRace> raceCacheValues = new CCache<String, MHRRace>(Table_Name, 10, 0);
 
     /**
