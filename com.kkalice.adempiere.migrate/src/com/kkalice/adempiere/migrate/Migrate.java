@@ -1353,8 +1353,8 @@ public class Migrate {
 		// exclude ad_system from being purged
 		m_trackingList.add("AD_SYSTEM");
 		// exclude ad_printformat for print format added in system
-		m_trackingList.add("AD_PrintFormat");
-		m_trackingList.add("AD_PrintFormatItem");
+		m_trackingList.add("AD_PRINTFORMAT");
+		m_trackingList.add("AD_PRINTFORMATITEM");
 		// exclude ad_attachment for jasper report attachment included
 		m_trackingList.add("AD_ATTACHMENT");
 		m_trackingList.add("AD_ATTACHMENTNOTE");
