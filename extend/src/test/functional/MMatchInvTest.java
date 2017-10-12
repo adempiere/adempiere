@@ -26,9 +26,9 @@ public class MMatchInvTest extends AdempiereTestCase
 		int M_InOutLine_ID = 100;
 		//
 		MMatchInv.get(ctx, M_InOutLine_ID, C_InvoiceLine_ID, trxName);
-		MMatchInv.getInvoice(ctx, C_Invoice_ID, trxName);
+		MMatchInv.getByInvoiceId(ctx, C_Invoice_ID, trxName);
 		MMatchInv.getInvoiceLine(ctx, C_InvoiceLine_ID, trxName);
-		MMatchInv.getInOut(ctx, M_InOut_ID, trxName);
+		MMatchInv.getByInOut(ctx, M_InOut_ID, trxName);
 		MMatchInv.getInOutLine( new org.compiere.model.MInOutLine(ctx, M_InOutLine_ID, trxName));
 
 	}

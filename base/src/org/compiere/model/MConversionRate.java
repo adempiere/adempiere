@@ -465,5 +465,15 @@ public class MConversionRate extends X_C_Conversion_Rate
 		
 		return true;
 	}	//	beforeSave
+
+	/** Return the message to show when no exchange rate is found */
+	public static String getErrorMessage(Properties ctx, String adMessage, int currencyFromID, int currencyToID, int convertionTypeId, Timestamp date, String trxName)
+	{
+		if (convertionTypeId == 0)
+			convertionTypeId = MConversionType.getDefault(Env.getAD_Client_ID(ctx));
+		String retValue = Msg.getMsg(ctx, adMessage,
+				new Object[] {MCurrency.get(ctx, currencyFromID).getISO_Code(), MCurrency.get(ctx, currencyToID).getISO_Code(), new MConversionType(ctx, convertionTypeId, trxName).getName(), date});
+		return retValue;
+	}
 	
 }	//	MConversionRate

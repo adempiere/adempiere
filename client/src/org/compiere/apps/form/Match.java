@@ -39,6 +39,10 @@ import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
 
+/**
+ *  @author eEvolution author Victor Perez <victor.perez@e-evolution.com>
+ *			<li>Implement Reverse Accrual for all document https://github.com/adempiere/adempiere/issues/1348</>
+ */
 public class Match
 {
 
@@ -430,7 +434,7 @@ public class Match
 			//	Create PO - Invoice Link = corrects PO
 			if (iLine.getC_OrderLine_ID() != 0 && iLine.getM_Product_ID() != 0)
 			{
-				MMatchPO matchPO = MMatchPO.create(iLine, sLine, null, qty);
+				MMatchPO matchPO = new MMatchPO(iLine, iLine.getParent().getDateAcct() , qty);
 				matchPO.setC_InvoiceLine_ID(iLine);
 				matchPO.setM_InOutLine_ID(M_InOutLine_ID);
 				if (!matchPO.save())

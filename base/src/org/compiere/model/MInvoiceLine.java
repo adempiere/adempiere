@@ -26,6 +26,7 @@ import java.util.Properties;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
+import org.compiere.process.DocumentReversalLineEnable;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -47,7 +48,7 @@ import org.compiere.util.Msg;
  * 				incorrectly calculated.
  * @author red1 FR: [ 2214883 ] Remove SQL code and Replace for Query
  */
-public class MInvoiceLine extends X_C_InvoiceLine
+public class MInvoiceLine extends X_C_InvoiceLine implements DocumentReversalLineEnable
 {
 	/**
 	 * 

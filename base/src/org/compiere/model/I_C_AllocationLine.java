@@ -283,18 +283,20 @@ public interface I_C_AllocationLine
 	  */
 	public BigDecimal getOverUnderAmt();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
+    /** Column name ReversalLine_ID */
+    public static final String COLUMNNAME_ReversalLine_ID = "ReversalLine_ID";
 
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
+	/** Set Reversal Line.
+	  * Use to keep the reversal line ID for reversing costing purpose
 	  */
-	public void setUUID (String UUID);
+	public void setReversalLine_ID (int ReversalLine_ID);
 
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
+	/** Get Reversal Line.
+	  * Use to keep the reversal line ID for reversing costing purpose
 	  */
-	public String getUUID();
+	public int getReversalLine_ID();
+
+	public org.compiere.model.I_C_AllocationLine getReversalLine() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -311,6 +313,19 @@ public interface I_C_AllocationLine
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 
     /** Column name WriteOffAmt */
     public static final String COLUMNNAME_WriteOffAmt = "WriteOffAmt";
