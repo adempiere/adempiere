@@ -1353,7 +1353,8 @@ public class Migrate {
 		// exclude ad_system from being purged
 		m_trackingList.add("AD_SYSTEM");
 		// exclude ad_printformat for print format added in system
-		m_trackingList.add("AD_PrintFormat");
+		m_trackingList.add("AD_PRINTFORMAT");
+		m_trackingList.add("AD_PRINTFORMATITEM");
 		// exclude ad_attachment for jasper report attachment included
 		m_trackingList.add("AD_ATTACHMENT");
 		m_trackingList.add("AD_ATTACHMENTNOTE");
@@ -1980,7 +1981,8 @@ public class Migrate {
 					sql = s_dbEngine.sql_delete(vendor, catalog, schema, table);
 					// changes which are not customizations
 			}
-			else if (table.equalsIgnoreCase("AD_ChangeLog") && isPreserveLogs()) {
+
+			if (table.equalsIgnoreCase("AD_ChangeLog") && isPreserveLogs()) {
 				sql = s_dbEngine.sql_deleteByConditionAndAge(vendor, catalog, schema,
 						table, "IsCustomization != 'Y'", getPreserveDays());
 			}

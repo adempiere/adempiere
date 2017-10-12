@@ -1469,6 +1469,10 @@ public class MInOut extends X_M_InOut implements DocAction , DocumentReversalEna
 					|| inOutLine.getM_Product_ID() == 0)	//	PO Charges, empty lines
 				{
 					orderLine.setQtyDelivered(orderLine.getQtyDelivered().subtract(quantity));
+					if (isSOTrx())
+						orderLine.setQtyDelivered(orderLine.getQtyDelivered().subtract(quantity));
+					else
+						orderLine.setQtyDelivered(orderLine.getQtyDelivered().add(quantity));
 				}
 				//Update by PO Match created Auto
 				//else 
