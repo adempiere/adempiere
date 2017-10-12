@@ -45,7 +45,6 @@ import org.compiere.model.MOrder;
 import org.compiere.model.MPayment;
 import org.compiere.model.MProduction;
 import org.compiere.model.MProductionBatch;
-import org.compiere.model.MRMA;
 import org.compiere.model.MRequisition;
 import org.compiere.model.MRole;
 import org.compiere.model.MTable;
@@ -53,9 +52,7 @@ import org.compiere.model.PO;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
-import org.compiere.util.Msg;
 import org.eevolution.model.I_DD_Order;
-import org.eevolution.model.I_HR_Process;
 import org.eevolution.model.I_PP_Cost_Collector;
 import org.eevolution.model.I_PP_Order;
 
@@ -65,6 +62,7 @@ import org.eevolution.model.I_PP_Order;
  *  @author Jorg Janke 
  *  @author Karsten Thiemann FR [ 1782412 ]
  *  @author victor.perez@e-evolution.com www.e-evolution.com FR [ 1866214 ]  http://sourceforge.net/tracker/index.php?func=detail&aid=1866214&group_id=176962&atid=879335
+ *			<li>Implement Reverse Accrual for all document https://github.com/adempiere/adempiere/issues/1348</>
  *  @version $Id: DocumentEngine.java,v 1.2 2006/07/30 00:54:44 jjanke Exp $
  */
 public class DocumentEngine implements DocAction
@@ -321,7 +319,7 @@ public class DocumentEngine implements DocAction
 				if (STATUS_Completed.equals(status) && MClient.isClientAccountingImmediate())
 				{
 					m_document.saveEx();
-					postIt();
+						postIt();
 					
 					if (m_document instanceof PO && docsPostProcess.size() > 0) {
 						for (PO docafter : docsPostProcess) {
@@ -989,6 +987,7 @@ public class DocumentEngine implements DocAction
 			{
 				options[index++] = DocumentEngine.ACTION_Void;
 				options[index++] = DocumentEngine.ACTION_Reverse_Correct;
+				options[index++] = DocumentEngine.ACTION_Reverse_Accrual;
 			}
 		}
 		/********************
@@ -1001,6 +1000,7 @@ public class DocumentEngine implements DocAction
 			{
 				options[index++] = DocumentEngine.ACTION_Void;
 				options[index++] = DocumentEngine.ACTION_Reverse_Correct;
+				options[index++] = DocumentEngine.ACTION_Reverse_Accrual;
 			}
 		}
 		/********************
@@ -1013,6 +1013,7 @@ public class DocumentEngine implements DocAction
 			{
 				options[index++] = DocumentEngine.ACTION_Void;
 				options[index++] = DocumentEngine.ACTION_Reverse_Correct;
+				options[index++] = DocumentEngine.ACTION_Reverse_Accrual;
 			}
 		}
 		/********************
@@ -1038,6 +1039,7 @@ public class DocumentEngine implements DocAction
 			{
 				options[index++] = DocumentEngine.ACTION_Void;
 				options[index++] = DocumentEngine.ACTION_Reverse_Correct;
+				options[index++] = DocumentEngine.ACTION_Reverse_Accrual;
 			}
 		}
 		//[ 1782412 ]
@@ -1074,6 +1076,7 @@ public class DocumentEngine implements DocAction
 			{
 				options[index++] = DocumentEngine.ACTION_Void;
 				options[index++] = DocumentEngine.ACTION_Reverse_Correct;
+				options[index++] = DocumentEngine.ACTION_Reverse_Accrual;
 			}
 		}
 		/********************
@@ -1093,6 +1096,7 @@ public class DocumentEngine implements DocAction
 			{
 				options[index++] = DocumentEngine.ACTION_Void;
 				options[index++] = DocumentEngine.ACTION_Reverse_Correct;
+				options[index++] = DocumentEngine.ACTION_Reverse_Accrual;
 			}
 
 		}
@@ -1181,9 +1185,10 @@ public class DocumentEngine implements DocAction
 				//	Complete                    ..  CO
 				else if (docStatus.equals(DocumentEngine.STATUS_Completed))
 				{
-					options[index++] = DocumentEngine.ACTION_Reverse_Correct;
 					options[index++] = DocumentEngine.ACTION_Void;
 					options[index++] = DocumentEngine.ACTION_ReActivate;
+					options[index++] = DocumentEngine.ACTION_Reverse_Correct;
+					options[index++] = DocumentEngine.ACTION_Reverse_Accrual;
 				}
 		}
 		return index;
@@ -1314,4 +1319,19 @@ public class DocumentEngine implements DocAction
 		
 		return error;
 	}	//	postImmediate
+
+	/**
+	 * Process document.  This replaces DocAction.processIt().
+	 * @param doc
+	 * @param processAction
+	 * @return true if performed
+	 */
+	public static boolean processIt(DocAction doc, String processAction) {
+		boolean success = false;
+
+		DocumentEngine engine = new DocumentEngine(doc, doc.getDocStatus());
+		success = engine.processIt(processAction, doc.getDocAction());
+
+		return success;
+	}
 }	//	DocumentEnine

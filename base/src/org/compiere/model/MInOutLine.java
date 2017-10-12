@@ -25,6 +25,7 @@ import java.util.Properties;
 import org.adempiere.engine.IDocumentLine;
 import org.adempiere.exceptions.FillMandatoryException;
 import org.adempiere.exceptions.WarehouseLocatorConflictException;
+import org.compiere.process.DocumentReversalLineEnable;
 import org.compiere.util.CCache;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -42,9 +43,11 @@ import org.compiere.util.Util;
  *  			https://sourceforge.net/tracker/?func=detail&aid=2784194&group_id=176962&atid=879332
  *  		<li>BF [ 2797938 ] Receipt should not allow lines with Qty=0
  *  			https://sourceforge.net/tracker/?func=detail&atid=879332&aid=2797938&group_id=176962
+ *  @author eEvolution author Victor Perez <victor.perez@e-evolution.com>
+ *			<li>Implement Reverse Accrual for all document https://github.com/adempiere/adempiere/issues/1348</>
  */
 public class MInOutLine extends X_M_InOutLine
-implements IDocumentLine
+implements IDocumentLine , DocumentReversalLineEnable
 {
 	/**
 	 *
