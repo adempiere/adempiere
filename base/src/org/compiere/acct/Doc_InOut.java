@@ -192,8 +192,7 @@ public class Doc_InOut extends Doc
                     dr.setM_Product_ID(cost.getM_Product_ID());
 					dr.setQty(cost.getQty().negate());
 					dr.addDescription(description);
-					if (m_DocStatus.equals(MInOut.DOCSTATUS_Reversed) 
-							&& m_Reversal_ID !=0 && line.getReversalLine_ID() != 0)
+					if (m_Reversal_ID !=0 && line.getReversalLine_ID() != 0)
 					{
 						//	Set AmtAcctDr from Original Shipment/Receipt
 						if (!dr.updateReverseLine (MInOut.Table_ID, 
@@ -220,8 +219,7 @@ public class Doc_InOut extends Doc
 					cr.addDescription(description);
                     cr.setM_Product_ID(cost.getM_Product_ID());
                     cr.setQty(cost.getQty());
-					if (m_DocStatus.equals(MInOut.DOCSTATUS_Reversed) 
-							&& m_Reversal_ID !=0 && line.getReversalLine_ID() != 0)
+					if (m_Reversal_ID !=0 && line.getReversalLine_ID() != 0)
 					{
 						//	Set AmtAcctCr from Original Shipment/Receipt
 						if (!cr.updateReverseLine (MInOut.Table_ID, 
@@ -302,8 +300,7 @@ public class Doc_InOut extends Doc
                     dr.setM_Product_ID(cost.getM_Product_ID());
                     dr.setQty(cost.getQty());
 					dr.addDescription(description);
-					if (m_DocStatus.equals(MInOut.DOCSTATUS_Reversed) 
-							&& m_Reversal_ID !=0 && line.getReversalLine_ID() != 0)
+					if (m_Reversal_ID !=0 && line.getReversalLine_ID() != 0)
 					{
 						//	Set AmtAcctDr from Original Shipment/Receipt
 						if (!dr.updateReverseLine (MInOut.Table_ID, 
@@ -331,8 +328,7 @@ public class Doc_InOut extends Doc
                     cr.setM_Product_ID(cost.getM_Product_ID());
 					cr.setQty(cost.getQty().negate());
 					cr.addDescription(description);
-					if (m_DocStatus.equals(MInOut.DOCSTATUS_Reversed) 
-							&& m_Reversal_ID !=0 && line.getReversalLine_ID() != 0)
+					if (m_Reversal_ID !=0 && line.getReversalLine_ID() != 0)
 					{
 						//	Set AmtAcctCr from Original Shipment/Receipt
 						if (!cr.updateReverseLine (MInOut.Table_ID, 
@@ -380,7 +376,7 @@ public class Doc_InOut extends Doc
 						costs = MCostDetail.getTotalCost(cost, as);
 						
 						total = total.add(costs);
-						
+
 						String description = cost.getM_CostElement().getName() +" "+ cost.getM_CostType().getName();						
 						//  Inventory/Asset			DR
 						MAccount assets = line.getAccount(ProductCost.ACCTTYPE_P_Asset, as);
@@ -407,7 +403,7 @@ public class Doc_InOut extends Doc
                         dr.setM_Product_ID(cost.getM_Product_ID());
                         dr.setQty(cost.getQty());
 						dr.addDescription(description);
-						if (m_DocStatus.equals(MInOut.DOCSTATUS_Reversed) && m_Reversal_ID !=0 && line.getReversalLine_ID() != 0)
+						if (m_Reversal_ID !=0 && line.getReversalLine_ID() != 0)
 						{
 							//	Set AmtAcctDr from Original Shipment/Receipt
 							if (!dr.updateReverseLine (MInOut.Table_ID, 
@@ -434,7 +430,7 @@ public class Doc_InOut extends Doc
 						cr.setLocationFromLocator(line.getM_Locator_ID(), false);   //  to Loc
                         cr.setM_Product_ID(cost.getM_Product_ID());
 						cr.setQty(cost.getQty().negate());
-						if (m_DocStatus.equals(MInOut.DOCSTATUS_Reversed) && m_Reversal_ID !=0 && line.getReversalLine_ID() != 0)
+						if (m_Reversal_ID !=0 && line.getReversalLine_ID() != 0)
 						{
 							//	Set AmtAcctCr from Original Shipment/Receipt
 							if (!cr.updateReverseLine (MInOut.Table_ID, 
@@ -496,7 +492,7 @@ public class Doc_InOut extends Doc
 						dr.setLocationFromLocator(line.getM_Locator_ID(), false);   //  to Loc
                         dr.setM_Product_ID(cost.getM_Product_ID());
 						dr.setQty(cost.getQty().negate());
-						if (m_DocStatus.equals(MInOut.DOCSTATUS_Reversed) && m_Reversal_ID !=0 && line.getReversalLine_ID() != 0)
+						if (m_Reversal_ID !=0 && line.getReversalLine_ID() != 0)
 						{
 							//	Set AmtAcctDr from Original Shipment/Receipt
 							if (!dr.updateReverseLine (MInOut.Table_ID, 
@@ -526,7 +522,7 @@ public class Doc_InOut extends Doc
 						cr.addDescription(description);
                         cr.setM_Product_ID(cost.getM_Product_ID());
                         cr.setQty(cost.getQty());
-						if (m_DocStatus.equals(MInOut.DOCSTATUS_Reversed) && m_Reversal_ID !=0 && line.getReversalLine_ID() != 0)
+						if (m_Reversal_ID !=0 && line.getReversalLine_ID() != 0)
 						{
 							//	Set AmtAcctCr from Original Shipment/Receipt
 							if (!cr.updateReverseLine (MInOut.Table_ID, 

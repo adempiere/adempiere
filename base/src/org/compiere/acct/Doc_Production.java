@@ -224,7 +224,7 @@ public class Doc_Production extends Doc
 				factLine = fact.createLine(line, acct, acct,as.getC_Currency_ID() , totalCosts);
 				factLine.setM_Product_ID(line.getM_Product_ID());
 				factLine.setM_Locator_ID(line.getM_LocatorTo_ID());
-				if (m_DocStatus.equals(MProduction.DOCSTATUS_Reversed) && m_Reversal_ID !=0 && line.getReversalLine_ID() != 0)
+				if (m_Reversal_ID !=0 && line.getReversalLine_ID() != 0)
 				{
 					//	Set AmtAcctDr from Original Phys.Inventory
 					if (!factLine.updateReverseLine (MProduction.Table_ID, 
