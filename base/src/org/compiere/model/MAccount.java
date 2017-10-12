@@ -293,6 +293,7 @@ public class MAccount extends X_C_ValidCombination
 		//	whereClause.append(" ORDER BY IsFullyQualified DESC");
 		
 		MAccount existingAccount = new Query(ctx, MAccount.Table_Name, whereClause.toString(), trxName)
+										.setClient_ID()
 										.setParameters(params)
 										.setOnlyActiveRecords(true)
 										.firstOnly();
