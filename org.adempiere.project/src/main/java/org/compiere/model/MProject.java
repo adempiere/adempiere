@@ -461,19 +461,19 @@ public class MProject extends X_C_Project
 			return;
 		setC_ProjectType_ID(type.getC_ProjectType_ID());
 		setProjectCategory(type.getProjectCategory());
-		createRequest();
+		//createRequest();
 		if (PROJECTCATEGORY_ServiceChargeProject.equals(getProjectCategory()))
 			copyPhasesFrom(type);
 	}	//	setProjectType
 
-	private List<MRequest> createRequest()
+	/*private List<MRequest> createRequest()
 	{
 		List<MRequest> requests = new ArrayList<>();
 		MStandardRequestType.getByTable(this).stream().forEach(standardRequestType -> {
 			requests.addAll(standardRequestType.createStandardRequest(this));
 		});
 		return requests;
-	}
+	}*/
 
 	/**
 	 *	Copy Phases from Type
