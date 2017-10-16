@@ -3859,24 +3859,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="84323" Column="UUID" isNewNull="true"/>
       </PO>
     </Step>
-    <Step SeqNo="3680" StepType="AD">
-      <PO AD_Table_ID="127" Action="I" Record_ID="83078" Table="AD_Field_Trl">
-        <Data AD_Column_ID="1205" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="674" Column="Updated">2017-10-09 00:19:42.048</Data>
-        <Data AD_Column_ID="1204" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="671" Column="IsActive">true</Data>
-        <Data AD_Column_ID="672" Column="Created">2017-10-09 00:19:42.048</Data>
-        <Data AD_Column_ID="284" Column="AD_Field_ID">83078</Data>
-        <Data AD_Column_ID="289" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="287" Column="Description">Client/Tenant for this installation.</Data>
-        <Data AD_Column_ID="673" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="675" Column="UpdatedBy">100</Data>
-        <Data AD_Column_ID="285" Column="AD_Language">es_MX</Data>
-        <Data AD_Column_ID="286" Column="Name">Client</Data>
-        <Data AD_Column_ID="288" Column="Help">A Client is a company or a legal entity. You cannot share data between Clients. Tenant is a synonym for Client.</Data>
-        <Data AD_Column_ID="84323" Column="UUID" isNewNull="true"/>
-      </PO>
-    </Step>
     <Step SeqNo="3690" StepType="AD">
       <PO AD_Table_ID="107" Action="I" Record_ID="83079" Table="AD_Field">
         <Data AD_Column_ID="384" Column="AD_Org_ID">0</Data>
