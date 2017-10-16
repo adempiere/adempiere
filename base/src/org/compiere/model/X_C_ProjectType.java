@@ -30,7 +30,7 @@ public class X_C_ProjectType extends PO implements I_C_ProjectType, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170731L;
+	private static final long serialVersionUID = 20171016L;
 
     /** Standard Constructor */
     public X_C_ProjectType (Properties ctx, int C_ProjectType_ID, String trxName)
@@ -181,6 +181,31 @@ public class X_C_ProjectType extends PO implements I_C_ProjectType, I_Persistent
 	public String getProjectCategory () 
 	{
 		return (String)get_Value(COLUMNNAME_ProjectCategory);
+	}
+
+	public org.compiere.model.I_R_StandardRequestType getR_StandardRequestType() throws RuntimeException
+    {
+		return (org.compiere.model.I_R_StandardRequestType)MTable.get(getCtx(), org.compiere.model.I_R_StandardRequestType.Table_Name)
+			.getPO(getR_StandardRequestType_ID(), get_TrxName());	}
+
+	/** Set Standard Request Type ID.
+		@param R_StandardRequestType_ID Standard Request Type ID	  */
+	public void setR_StandardRequestType_ID (int R_StandardRequestType_ID)
+	{
+		if (R_StandardRequestType_ID < 1) 
+			set_Value (COLUMNNAME_R_StandardRequestType_ID, null);
+		else 
+			set_Value (COLUMNNAME_R_StandardRequestType_ID, Integer.valueOf(R_StandardRequestType_ID));
+	}
+
+	/** Get Standard Request Type ID.
+		@return Standard Request Type ID	  */
+	public int getR_StandardRequestType_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_R_StandardRequestType_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Immutable Universally Unique Identifier.

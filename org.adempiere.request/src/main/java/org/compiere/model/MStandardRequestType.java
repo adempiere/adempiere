@@ -17,7 +17,9 @@
 
 package org.compiere.model;
 
+import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
+import org.compiere.util.Msg;
 
 import java.sql.ResultSet;
 import java.sql.Timestamp;
@@ -106,13 +108,20 @@ public class MStandardRequestType extends X_R_StandardRequestType {
                     columns.keySet().stream()
                             .filter(columnName -> columns.get(columnName))
                             .forEach(columnName -> {
-                                if (entity.get_ColumnIndex(columnName) > 0)
+                            if (!DisplayType.isID(entity.get_ColumnDisplayType(entity.get_ColumnIndex(columnName)))
+                                        && entity.get_ColumnIndex(columnName) > 0
+                                        && entity.get_Value(columnName) != null)
                                     request.set_Value(columnName, entity.get_Value(columnName));
+                             else if (DisplayType.isID(entity.get_ColumnDisplayType(entity.get_ColumnIndex(columnName)))
+                                 && entity.get_ValueAsInt(columnName) > 0)
+                                    request.set_Value(columnName, entity.get_ValueAsInt(columnName));
+
                             });
                     // Define Standad setting for Request
                     request.setR_RequestType_ID(standardRequest.getR_RequestType_ID());
                     request.setAD_Table_ID(entity.get_Table_ID());
                     request.setRecord_ID(entity.get_ID());
+                    request.setResult(Msg.parseTranslation(entity.getCtx(),"@Generate@ @From@ " + getName()));
                     request.setR_Group_ID(standardRequest.getR_Group_ID());
                     request.setR_Category_ID(standardRequest.getR_Category_ID());
                     request.setDueType(standardRequest.getDueType());
@@ -122,7 +131,7 @@ public class MStandardRequestType extends X_R_StandardRequestType {
                     request.setSummary(standardRequest.getSummary());
                     request.setPriority(standardRequest.getPriority());
                     // Set Entity Link Reference
-                    if (request.get_ColumnIndex(entity.get_TableName() + "_ID") > 0)
+                    if (request.get_ColumnIndex(entity.get_TableName() + "_ID") > 0 && entity.get_ID() > 0)
                         request.set_Value(entity.get_TableName() + "_ID", entity.get_ID());
 
                     //Set Tanant Agent

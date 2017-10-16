@@ -787,6 +787,21 @@ public class MRequest extends X_R_Request
 
 		//	Importance / Priority
 		setPriority();
+
+		if (getC_ProjectPhase_ID() > 0 )
+		{
+			I_C_ProjectPhase projectPhase = getC_ProjectPhase();
+			if (projectPhase != null && getC_Project_ID() <= 0)
+				setC_Project_ID(projectPhase.getC_Project_ID());
+
+		}
+
+		if (getC_ProjectTask_ID() > 0)
+		{
+			I_C_ProjectTask projectTask =  getC_ProjectTask();
+			if (projectTask != null && getC_ProjectPhase_ID() <= 0)
+				setC_ProjectPhase_ID(projectTask.getC_ProjectPhase_ID());
+		}
 				
 		//	New
 		if (newRecord)

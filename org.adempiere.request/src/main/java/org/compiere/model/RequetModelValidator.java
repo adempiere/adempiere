@@ -30,7 +30,7 @@ public class RequetModelValidator implements ModelValidator {
     public void initialize(ModelValidationEngine engine, MClient client) {
         List<MStandardRequestType> standardRequestTypes = new ArrayList<>();
         StringBuilder whereClause = new StringBuilder();
-        standardRequestTypes = new Query(Env.getCtx(), MStandardRequestType.Table_Name, null,null)
+        standardRequestTypes = new Query(Env.getCtx(), MStandardRequestType.Table_Name, null, null)
                 .setClient_ID()
                 .setOrderBy(MStandardRequestType.COLUMNNAME_AD_Table_ID + "," + MStandardRequestType.COLUMNNAME_C_DocType_ID)
                 .list();
@@ -44,10 +44,14 @@ public class RequetModelValidator implements ModelValidator {
         standardRequestTypes.stream()
                 .filter(standardRequestType ->
                         standardRequestType.getEventModelValidator().startsWith("D")
-                     && standardRequestType.getC_DocType_ID() > 0 && standardRequestType.getDocStatus() != null)
+                                && standardRequestType.getC_DocType_ID() > 0 && standardRequestType.getDocStatus() != null)
                 .forEach(standardRequestType -> {
                     engine.addDocValidate(standardRequestType.getAD_Table().getTableName(), this);
                 });
+
+        engine.addModelChange(MProject.Table_Name, this);
+        engine.addModelChange(MProjectPhase.Table_Name, this);
+        engine.addModelChange(MProjectTask.Table_Name, this);
 
     }
 
@@ -63,12 +67,44 @@ public class RequetModelValidator implements ModelValidator {
 
     @Override
     public String modelChange(PO entity, int type) throws Exception {
+        // Create Request for Project Phase
+        if (MProjectPhase.Table_ID == entity.get_Table_ID()) {
+            MProjectPhase projectPhase = (MProjectPhase) entity;
+            if (projectPhase != null && projectPhase.getC_Phase_ID() > 0) {
+                MProjectTypePhase projectTypePhase = new MProjectTypePhase(projectPhase.getCtx(), projectPhase.getC_Phase_ID(), projectPhase.get_TrxName());
+                MStandardRequestType.getByTable(entity).stream()
+                        .filter(standardRequestType -> standardRequestType.get_ID() == projectTypePhase.getR_StandardRequestType_ID()
+                             && standardRequestType.getEventModelValidator().equals(tableEventValidators[type]))
+                        .forEach(standardRequestType -> {
+                            standardRequestType.createStandardRequest(entity);
+                        });
+                return "";
+
+            }
+        }
+        // Create Request for Project Task
+        if (MProjectTask.Table_ID == entity.get_Table_ID()) {
+            MProjectTask projectTask = (MProjectTask) entity;
+            if (projectTask != null && projectTask.getC_Task_ID() > 0) {
+                MProjectTypeTask projectTypeTask = new MProjectTypeTask(projectTask.getCtx(), projectTask.getC_Task_ID(), projectTask.get_TrxName());
+                MStandardRequestType.getByTable(entity).stream()
+                        .filter(standardRequestType -> standardRequestType.get_ID() == projectTypeTask.getR_StandardRequestType_ID()
+                             && standardRequestType.getEventModelValidator().equals(tableEventValidators[type]))
+                        .forEach(standardRequestType -> {
+                            standardRequestType.createStandardRequest(entity);
+
+                        });
+                return "";
+
+            }
+        }
+        // Create Request for an Entity
         MStandardRequestType.getByTable(entity).stream()
+                .filter(standardRequestType -> standardRequestType.getEventModelValidator().equals(tableEventValidators[type]))
                 .forEach(standardRequestType -> {
-                    if (standardRequestType.getEventModelValidator().equals(tableEventValidators[type])) {
-                        standardRequestType.createStandardRequest(entity);
-                    }
+                    standardRequestType.createStandardRequest(entity);
                 });
+
         return null;
     }
 
@@ -80,12 +116,11 @@ public class RequetModelValidator implements ModelValidator {
                 entity.get_ValueAsInt(MStandardRequestType.COLUMNNAME_C_DocType_ID) : null;
         if (documentTypeId > 0 && documentStatus != null) {
             MStandardRequestType.getByTable(entity).stream()
+                    .filter(standardRequestType -> standardRequestType.getEventModelValidator().equals(documentEventValidators[timing])
+                         && standardRequestType.getAD_Table_ID() == entity.get_Table_ID()
+                         && standardRequestType.getC_DocType_ID() == documentTypeId)
                     .forEach(standardRequestType -> {
-                        if (standardRequestType.getEventModelValidator().equals(documentEventValidators[timing])
-                        &&  entity.get_Table_ID() == standardRequestType.getAD_Table_ID()
-                        && standardRequestType.getC_DocType_ID() == documentTypeId) {
-                           standardRequestType.createStandardRequest(entity);
-                        }
+                            standardRequestType.createStandardRequest(entity);
                     });
         }
         return null;
