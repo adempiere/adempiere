@@ -169,6 +169,19 @@ public interface I_R_StandardRequestType
 	  */
 	public boolean isActive();
 
+    /** Column name IsSOTrx */
+    public static final String COLUMNNAME_IsSOTrx = "IsSOTrx";
+
+	/** Set Sales Transaction.
+	  * This is a Sales Transaction
+	  */
+	public void setIsSOTrx (String IsSOTrx);
+
+	/** Get Sales Transaction.
+	  * This is a Sales Transaction
+	  */
+	public String getIsSOTrx();
+
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
 
@@ -182,26 +195,17 @@ public interface I_R_StandardRequestType
 	  */
 	public String getName();
 
-    /** Column name Record_ID */
-    public static final String COLUMNNAME_Record_ID = "Record_ID";
-
-	/** Set Record ID.
-	  * Direct internal record ID
-	  */
-	public void setRecord_ID (int Record_ID);
-
-	/** Get Record ID.
-	  * Direct internal record ID
-	  */
-	public int getRecord_ID();
-
     /** Column name R_StandardRequestType_ID */
     public static final String COLUMNNAME_R_StandardRequestType_ID = "R_StandardRequestType_ID";
 
-	/** Set Standard Request Type ID	  */
+	/** Set Standard Request Type.
+	  * Standard Request Type
+	  */
 	public void setR_StandardRequestType_ID (int R_StandardRequestType_ID);
 
-	/** Get Standard Request Type ID	  */
+	/** Get Standard Request Type.
+	  * Standard Request Type
+	  */
 	public int getR_StandardRequestType_ID();
 
     /** Column name Updated */

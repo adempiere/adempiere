@@ -234,19 +234,27 @@ public interface I_R_StandardRequest
     /** Column name R_StandardRequest_ID */
     public static final String COLUMNNAME_R_StandardRequest_ID = "R_StandardRequest_ID";
 
-	/** Set Standard Request ID	  */
+	/** Set Standard Request.
+	  * Standard Request
+	  */
 	public void setR_StandardRequest_ID (int R_StandardRequest_ID);
 
-	/** Get Standard Request ID	  */
+	/** Get Standard Request.
+	  * Standard Request
+	  */
 	public int getR_StandardRequest_ID();
 
     /** Column name R_StandardRequestType_ID */
     public static final String COLUMNNAME_R_StandardRequestType_ID = "R_StandardRequestType_ID";
 
-	/** Set Standard Request Type ID	  */
+	/** Set Standard Request Type.
+	  * Standard Request Type
+	  */
 	public void setR_StandardRequestType_ID (int R_StandardRequestType_ID);
 
-	/** Get Standard Request Type ID	  */
+	/** Get Standard Request Type.
+	  * Standard Request Type
+	  */
 	public int getR_StandardRequestType_ID();
 
     /** Column name R_Status_ID */
