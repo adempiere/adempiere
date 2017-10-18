@@ -31,7 +31,7 @@ public class X_R_StandardRequestType extends PO implements I_R_StandardRequestTy
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20171012L;
+	private static final long serialVersionUID = 20171017L;
 
     /** Standard Constructor */
     public X_R_StandardRequestType (Properties ctx, int R_StandardRequestType_ID, String trxName)
@@ -275,6 +275,30 @@ public class X_R_StandardRequestType extends PO implements I_R_StandardRequestTy
 		return (String)get_Value(COLUMNNAME_Help);
 	}
 
+	/** IsSOTrx AD_Reference_ID=319 */
+	public static final int ISSOTRX_AD_Reference_ID=319;
+	/** Yes = Y */
+	public static final String ISSOTRX_Yes = "Y";
+	/** No = N */
+	public static final String ISSOTRX_No = "N";
+	/** Set Sales Transaction.
+		@param IsSOTrx 
+		This is a Sales Transaction
+	  */
+	public void setIsSOTrx (String IsSOTrx)
+	{
+
+		set_Value (COLUMNNAME_IsSOTrx, IsSOTrx);
+	}
+
+	/** Get Sales Transaction.
+		@return This is a Sales Transaction
+	  */
+	public String getIsSOTrx () 
+	{
+		return (String)get_Value(COLUMNNAME_IsSOTrx);
+	}
+
 	/** Set Name.
 		@param Name 
 		Alphanumeric identifier of the entity
@@ -292,31 +316,10 @@ public class X_R_StandardRequestType extends PO implements I_R_StandardRequestTy
 		return (String)get_Value(COLUMNNAME_Name);
 	}
 
-	/** Set Record ID.
-		@param Record_ID 
-		Direct internal record ID
+	/** Set Standard Request Type.
+		@param R_StandardRequestType_ID 
+		Standard Request Type
 	  */
-	public void setRecord_ID (int Record_ID)
-	{
-		if (Record_ID < 0) 
-			set_Value (COLUMNNAME_Record_ID, null);
-		else 
-			set_Value (COLUMNNAME_Record_ID, Integer.valueOf(Record_ID));
-	}
-
-	/** Get Record ID.
-		@return Direct internal record ID
-	  */
-	public int getRecord_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_Record_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Standard Request Type ID.
-		@param R_StandardRequestType_ID Standard Request Type ID	  */
 	public void setR_StandardRequestType_ID (int R_StandardRequestType_ID)
 	{
 		if (R_StandardRequestType_ID < 1) 
@@ -325,8 +328,9 @@ public class X_R_StandardRequestType extends PO implements I_R_StandardRequestTy
 			set_ValueNoCheck (COLUMNNAME_R_StandardRequestType_ID, Integer.valueOf(R_StandardRequestType_ID));
 	}
 
-	/** Get Standard Request Type ID.
-		@return Standard Request Type ID	  */
+	/** Get Standard Request Type.
+		@return Standard Request Type
+	  */
 	public int getR_StandardRequestType_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_R_StandardRequestType_ID);

@@ -53,6 +53,7 @@ public class MStandardRequestType extends X_R_StandardRequestType {
         whereClause.append(MStandardRequestType.COLUMNNAME_AD_Table_ID).append("=? ");
         return new Query(model.getCtx(), Table_Name, whereClause.toString(), model.get_TrxName())
                 .setClient_ID()
+                .setOnlyActiveRecords(true)
                 .setParameters(model.get_Table_ID())
                 .setOrderBy(MStandardRequestType.COLUMNNAME_AD_Table_ID + "," + MStandardRequestType.COLUMNNAME_C_DocType_ID)
                 .list();
@@ -67,6 +68,7 @@ public class MStandardRequestType extends X_R_StandardRequestType {
 
         standardRequests = new Query(getCtx(), MStandardRequest.Table_Name, whereClause.toString(), get_TrxName())
                 .setClient_ID()
+                .setOnlyActiveRecords(true)
                 .setParameters(getR_StandardRequestType_ID())
                 .list();
         return standardRequests;
