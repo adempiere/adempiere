@@ -640,7 +640,7 @@ public final class DisplayType
 			return 0;
 		if (displayType == DisplayType.TextLong 
 			|| (displayType == DisplayType.Text && fieldLength >= 4000))
-			return 0;
+			return fieldLength;
 		if (displayType == DisplayType.YesNo)
 			return 1;
 		if (displayType == DisplayType.List) {
