@@ -22,6 +22,7 @@ import java.awt.event.ActionListener;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.logging.Level;
+import java.util.ArrayList;
 
 import javax.swing.JComponent;
 import javax.swing.JPopupMenu;
@@ -50,7 +51,6 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 
-
 /**
  *	Request Button Action.
  *	Popup Menu
@@ -60,6 +60,10 @@ import org.compiere.util.Msg;
  * 
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 			<li>BF [ 1904928 ] Request: Related Request field not filled
+ *
+ * @author OpenUp Solutions Sylvie Bouissa, sylvie.bouissa@openupsolutions.com, http://www.openupsolutions.com
+ *			#1394 Add a submenu with details of each request, in the request icon on the window toolbar
+ *			Reference to issue https://github.com/adempiere/adempiere/issues/1394
  */
 public class ARequest implements ActionListener
 {
@@ -94,6 +98,7 @@ public class ARequest implements ActionListener
 	private CMenuItem 	m_active = null;
 	private CMenuItem 	m_all = null;
 	private GraphicsConfiguration m_graphicsconfig = null;
+	private ArrayList<CMenuItem> m_reqList = new ArrayList<CMenuItem>();
 	/** Where Clause					*/
 	StringBuffer 		m_where = null;
 	
@@ -140,7 +145,7 @@ public class ARequest implements ActionListener
 			m_where.append(" OR A_Asset_ID=").append(m_Record_ID);
 		//
 		String sql = "SELECT Processed, COUNT(*) "
-			+ "FROM R_Request WHERE " + m_where 
+			+ "FROM R_Request WHERE " + m_where
 			+ " GROUP BY Processed "
 			+ "ORDER BY Processed DESC";
 		PreparedStatement pstmt = null;
@@ -164,27 +169,80 @@ public class ARequest implements ActionListener
 		finally
 		{
 			DB.close(rs, pstmt);
-			rs = null; 
+			rs = null;
 			pstmt = null;
 		}
 		//
 		if (activeCount > 0)
 		{
-			m_active = new CMenuItem(Msg.getMsg(Env.getCtx(), "RequestActive") 
+			m_active = new CMenuItem(Msg.getMsg(Env.getCtx(), "RequestActive")
 				+ " (" + activeCount + ")");
 			m_popup.add(m_active).addActionListener(this);
+
+			listRequests(false);
 		}
 		if (inactiveCount > 0)
 		{
-			m_all = new CMenuItem(Msg.getMsg(Env.getCtx(), "RequestAll") 
+			m_all = new CMenuItem(Msg.getMsg(Env.getCtx(), "RequestAll")
 				+ " (" + (activeCount + inactiveCount) + ")");
 			m_popup.add(m_all).addActionListener(this);
+
+			listRequests(true);
 		}
 		//
 		if (invoker.isShowing())
 			m_popup.show(invoker, 0, invoker.getHeight());	//	below button
 	}	//	getZoomTargets
-	
+
+	/**
+	 * Add each request on the menu
+	 * @param processed
+	 */
+	private void listRequests(boolean processed) {
+
+		m_popup.addSeparator();
+
+		String sql = "SELECT r.R_Request_ID,r.DocumentNo,coalesce  (r.Summary,'')," +
+				"coalesce (rt.Name,' '),coalesce (rg.Name,' '),coalesce (rc.Name,' '), coalesce (rs.Name,' ')," +
+				"coalesce (rrep.Name,' ') "+
+				"FROM R_Request r " +
+				"JOIN R_RequestType rt ON (r.R_RequestType_ID = rt.R_RequestType_ID) " +
+				"LEFT JOIN R_Group rg ON (r.R_Group_ID = rg.R_Group_ID) " +
+				"LEFT JOIN R_Category rc ON (r.R_Category_ID = rc.R_Category_ID) " +
+				"LEFT JOIN R_Status rs ON (r.R_Status_ID = rs.R_Status_ID) " +
+				"LEFT JOIN AD_User rrep ON (r.SalesRep_ID = rrep.AD_User_ID) " +
+				"WHERE "+ m_where+" AND Processed = "+((processed)? "'Y'":"'N'") + " Order BY R_Request_ID";
+
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try{
+			pstmt = DB.prepareStatement(sql,null);
+			rs = pstmt.executeQuery();
+
+			CMenuItem aux = null;
+
+			while (rs.next()){
+
+				aux = new CMenuItem(rs.getString(2)+"-"+rs.getString(3)+"-"+rs.getString(4)+"-"+rs.getString(5)
+						+"-"+rs.getString(6)+"-"+rs.getString(7)+"-"+rs.getString(8));
+
+				aux.setName("R_Request_ID = "+String.valueOf(rs.getInt(1)));
+
+				m_reqList.add(aux);
+				m_popup.add(aux).addActionListener(this);
+
+			}
+
+			m_popup.addSeparator();
+
+		}catch (Exception e){
+			log.log(Level.SEVERE, sql, e);
+		}finally {
+			DB.close(rs,pstmt);
+		}
+
+	}
+
 	/**
 	 * 	Listner
 	 *	@param e event
@@ -210,6 +268,15 @@ public class ARequest implements ActionListener
 			query = new MQuery("");
 			query.addRestriction("1=2");
 			query.setRecordCount(0);
+		}
+		else if (m_reqList.contains(e.getSource()) )
+		{
+			CMenuItem aux = (CMenuItem)e.getSource();
+			query = new MQuery("");
+			String where = "(" + m_where + ") AND " + aux.getName();
+			query.addRestriction(where);
+			query.setRecordCount(0);
+
 		}
 		//
 		int AD_Window_ID = 232;		//	232=all - 201=my
