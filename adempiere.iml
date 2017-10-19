@@ -206,8 +206,10 @@
       <sourceFolder url="file://$MODULE_DIR$/org.adempiere.pos/src/main/java/base" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/org.adempiere.pos/src/main/java/ui/swing" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/org.adempiere.pos/src/main/java/ui/zk" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/org.adempiere.project/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/org.adempiere.request/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/org.adempiere.project/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/org.adempiere.request/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/org.adempiere.project/src/main/java" isTestSource="false" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="inheritedJdk" />
@@ -1280,11 +1282,8 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="SBT: org.scala-lang:scala-library:2.11.8:jar" level="project" />
     <orderEntry type="library" name="SBT: javax.servlet:javax.servlet-api:3.0.1:jar" level="project" />
-    <orderEntry type="library" name="SBT: org.scalatest:scalatest_2.11:2.2.6:jar" level="project" />
     <orderEntry type="library" name="SBT: com.typesafe:config:1.2.0:jar" level="project" />
-    <orderEntry type="library" name="SBT: org.scala-lang.modules:scala-xml_2.11:1.0.2:jar" level="project" />
     <orderEntry type="module-library">
       <library>
         <CLASSES>
@@ -1339,7 +1338,6 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="xmlbeans-2.6.0" level="project" />
     <orderEntry type="module-library">
       <library>
         <CLASSES>
@@ -1421,5 +1419,8 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="scala-sdk-2.12.3" level="application" />
+    <orderEntry type="library" name="customization" level="project" />
+    <orderEntry type="library" name="org.scalatest:scalatest_2.12:3.0.2" level="project" />
   </component>
 </module>

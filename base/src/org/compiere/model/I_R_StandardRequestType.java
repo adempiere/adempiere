@@ -20,24 +20,24 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for C_ProjectType
+/** Generated Interface for R_StandardRequestType
  *  @author Adempiere (generated) 
  *  @version Release 3.9.0
  */
-public interface I_C_ProjectType 
+public interface I_R_StandardRequestType 
 {
 
-    /** TableName=C_ProjectType */
-    public static final String Table_Name = "C_ProjectType";
+    /** TableName=R_StandardRequestType */
+    public static final String Table_Name = "R_StandardRequestType";
 
-    /** AD_Table_ID=575 */
+    /** AD_Table_ID=54287 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
-    /** AccessLevel = 3 - Client - Org 
+    /** AccessLevel = 6 - System - Client 
      */
-    BigDecimal accessLevel = BigDecimal.valueOf(3);
+    BigDecimal accessLevel = BigDecimal.valueOf(6);
 
     /** Load Meta Data */
 
@@ -62,18 +62,35 @@ public interface I_C_ProjectType
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name C_ProjectType_ID */
-    public static final String COLUMNNAME_C_ProjectType_ID = "C_ProjectType_ID";
+    /** Column name AD_Table_ID */
+    public static final String COLUMNNAME_AD_Table_ID = "AD_Table_ID";
 
-	/** Set Project Type.
-	  * Type of the project
+	/** Set Table.
+	  * Database Table information
 	  */
-	public void setC_ProjectType_ID (int C_ProjectType_ID);
+	public void setAD_Table_ID (int AD_Table_ID);
 
-	/** Get Project Type.
-	  * Type of the project
+	/** Get Table.
+	  * Database Table information
 	  */
-	public int getC_ProjectType_ID();
+	public int getAD_Table_ID();
+
+	public org.compiere.model.I_AD_Table getAD_Table() throws RuntimeException;
+
+    /** Column name C_DocType_ID */
+    public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
+
+	/** Set Document Type.
+	  * Document type or rules
+	  */
+	public void setC_DocType_ID (int C_DocType_ID);
+
+	/** Get Document Type.
+	  * Document type or rules
+	  */
+	public int getC_DocType_ID();
+
+	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -104,6 +121,28 @@ public interface I_C_ProjectType
 	  */
 	public String getDescription();
 
+    /** Column name DocStatus */
+    public static final String COLUMNNAME_DocStatus = "DocStatus";
+
+	/** Set Document Status.
+	  * The current status of the document
+	  */
+	public void setDocStatus (String DocStatus);
+
+	/** Get Document Status.
+	  * The current status of the document
+	  */
+	public String getDocStatus();
+
+    /** Column name EventModelValidator */
+    public static final String COLUMNNAME_EventModelValidator = "EventModelValidator";
+
+	/** Set Event Model Validator	  */
+	public void setEventModelValidator (String EventModelValidator);
+
+	/** Get Event Model Validator	  */
+	public String getEventModelValidator();
+
     /** Column name Help */
     public static final String COLUMNNAME_Help = "Help";
 
@@ -130,6 +169,19 @@ public interface I_C_ProjectType
 	  */
 	public boolean isActive();
 
+    /** Column name IsSOTrx */
+    public static final String COLUMNNAME_IsSOTrx = "IsSOTrx";
+
+	/** Set Sales Transaction.
+	  * This is a Sales Transaction
+	  */
+	public void setIsSOTrx (String IsSOTrx);
+
+	/** Get Sales Transaction.
+	  * This is a Sales Transaction
+	  */
+	public String getIsSOTrx();
+
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
 
@@ -143,29 +195,18 @@ public interface I_C_ProjectType
 	  */
 	public String getName();
 
-    /** Column name ProjectCategory */
-    public static final String COLUMNNAME_ProjectCategory = "ProjectCategory";
-
-	/** Set Project Category.
-	  * Project Category
-	  */
-	public void setProjectCategory (String ProjectCategory);
-
-	/** Get Project Category.
-	  * Project Category
-	  */
-	public String getProjectCategory();
-
     /** Column name R_StandardRequestType_ID */
     public static final String COLUMNNAME_R_StandardRequestType_ID = "R_StandardRequestType_ID";
 
-	/** Set Standard Request Type ID	  */
+	/** Set Standard Request Type.
+	  * Standard Request Type
+	  */
 	public void setR_StandardRequestType_ID (int R_StandardRequestType_ID);
 
-	/** Get Standard Request Type ID	  */
+	/** Get Standard Request Type.
+	  * Standard Request Type
+	  */
 	public int getR_StandardRequestType_ID();
-
-	public org.compiere.model.I_R_StandardRequestType getR_StandardRequestType() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -195,4 +236,43 @@ public interface I_C_ProjectType
 	  * Immutable Universally Unique Identifier
 	  */
 	public String getUUID();
+
+    /** Column name ValidFrom */
+    public static final String COLUMNNAME_ValidFrom = "ValidFrom";
+
+	/** Set Valid from.
+	  * Valid from including this date (first day)
+	  */
+	public void setValidFrom (Timestamp ValidFrom);
+
+	/** Get Valid from.
+	  * Valid from including this date (first day)
+	  */
+	public Timestamp getValidFrom();
+
+    /** Column name ValidTo */
+    public static final String COLUMNNAME_ValidTo = "ValidTo";
+
+	/** Set Valid to.
+	  * Valid to including this date (last day)
+	  */
+	public void setValidTo (Timestamp ValidTo);
+
+	/** Get Valid to.
+	  * Valid to including this date (last day)
+	  */
+	public Timestamp getValidTo();
+
+    /** Column name Value */
+    public static final String COLUMNNAME_Value = "Value";
+
+	/** Set Search Key.
+	  * Search key for the record in the format required - must be unique
+	  */
+	public void setValue (String Value);
+
+	/** Get Search Key.
+	  * Search key for the record in the format required - must be unique
+	  */
+	public String getValue();
 }
