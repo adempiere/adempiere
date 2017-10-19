@@ -118,6 +118,9 @@ import org.eevolution.model.X_PP_Order;  // to be changed by MPPOrder
  * 		@see https://github.com/adempiere/adempiere/issues/295
  * 		<li>FR [ 238 ] Is Summary property by default in Print Format (Set default summary property from print format)
  * 		@see https://github.com/adempiere/adempiere/issues/238
+ * 	@author Raul Capecce
+ * 	    <li>FR [ 1305 ] Setting zoom glass to a dark theme resource</li>
+ * 	    @see https://github.com/adempiere/adempiere/issues/1305
  */
 public class ReportEngine implements PrintServiceAttributeListener
 {
@@ -715,7 +718,7 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 									td.addElement(href);
 									if (item.getColumnName().equals("Record_ID"))
 									{
-										img image = new img("/webui/images/Find16.png");
+										img image = new img("/webui/images/dark/Find16.png");
 										image.setAlign("middle");
 										href.addElement(image);
 										td.setStyle("text-align:center");
