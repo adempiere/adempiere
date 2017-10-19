@@ -26,6 +26,7 @@ import javax.swing.JPopupMenu;
 
 import org.compiere.model.MQuery;
 import org.compiere.swing.CMenuItem;
+import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.ValueNamePair;
@@ -48,6 +49,7 @@ import org.compiere.util.ValueNamePair;
  *      <li>Reference to issue https://github.com/adempiere/adempiere/issues/1394
  */
 public class ARequest extends Request implements ActionListener {
+
     /**
      * The Popup
      */
@@ -57,6 +59,8 @@ public class ARequest extends Request implements ActionListener {
     private CMenuItem allMenuItem = null;
     private GraphicsConfiguration graphicsConfiguration = null;
     private ArrayList<CMenuItem> menuItems = new ArrayList<CMenuItem>();
+
+    protected static CLogger log = CLogger.getCLogger(ARequest.class);
 
     /**
      * Constructor
