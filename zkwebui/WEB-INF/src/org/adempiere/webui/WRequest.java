@@ -16,6 +16,7 @@ package org.adempiere.webui;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.logging.Level;
 
 import org.adempiere.webui.session.SessionManager;
@@ -47,6 +48,7 @@ import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zul.Menuitem;
 import org.zkoss.zul.Menupopup;
+import org.zkoss.zul.Menuseparator;
 
 /**
  *	Request Button Action.
@@ -57,6 +59,10 @@ import org.zkoss.zul.Menupopup;
  * 
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 			<li>BF [ 1904928 ] Request: Related Request field not filled
+ *
+ * @author OpenUp Solutions Sylvie Bouissa, sylvie.bouissa@openupsolutions.com, http://www.openupsolutions.com
+ *			#1394 Add a submenu with details of each request, in the request icon on the window toolbar
+ *			Reference to issue https://github.com/adempiere/adempiere/issues/1394
  */
 public class WRequest implements EventListener
 {
@@ -89,6 +95,8 @@ public class WRequest implements EventListener
 	private Menuitem 	m_new = null;
 	private Menuitem 	m_active = null;
 	private Menuitem 	m_all = null;
+	private ArrayList<Menuitem> m_reqList = new ArrayList<Menuitem>();
+
 	/** Where Clause					*/
 	StringBuffer 		m_where = null;
 	
@@ -134,7 +142,7 @@ public class WRequest implements EventListener
 			m_where.append(" OR A_Asset_ID=").append(m_Record_ID);
 		//
 		String sql = "SELECT Processed, COUNT(*) "
-			+ "FROM R_Request WHERE " + m_where 
+			+ "FROM R_Request WHERE " + m_where
 			+ " GROUP BY Processed "
 			+ "ORDER BY Processed DESC";
 		PreparedStatement pstmt = null;
@@ -168,6 +176,8 @@ public class WRequest implements EventListener
 					+ " (" + activeCount + ")");
 			m_active.addEventListener(Events.ON_CLICK, this);
 			m_popup.appendChild(m_active);
+
+			listRequests(false);
 		}
 		if (inactiveCount > 0)
 		{
@@ -175,12 +185,62 @@ public class WRequest implements EventListener
 					+ " (" + (activeCount + inactiveCount) + ")");
 			m_all.addEventListener(Events.ON_CLICK, this);
 			m_popup.appendChild(m_all);
+
+			listRequests(true);
 		}
 		
 		m_popup.setPage(invoker.getPage());
 		m_popup.open(invoker);
 	}	//	getZoomTargets
-	
+
+	/**
+	 * Add each request on the menu
+	 * @param processed
+	 */
+	private void listRequests(boolean processed){
+
+		m_popup.appendChild(new Menuseparator());
+
+		String sql = "SELECT r.R_Request_ID,r.DocumentNo,coalesce  (r.Summary,'')," +
+				"coalesce (rt.Name,' '),coalesce (rg.Name,' '),coalesce (rc.Name,' '), coalesce (rs.Name,' ')," +
+				"coalesce (rrep.Name,' ') "+
+				"FROM R_Request r " +
+				"JOIN R_RequestType rt ON (r.R_RequestType_ID = rt.R_RequestType_ID) " +
+				"LEFT JOIN R_Group rg ON (r.R_Group_ID = rg.R_Group_ID) " +
+				"LEFT JOIN R_Category rc ON (r.R_Category_ID = rc.R_Category_ID) " +
+				"LEFT JOIN R_Status rs ON (r.R_Status_ID = rs.R_Status_ID) " +
+				"LEFT JOIN AD_User rrep ON (r.SalesRep_ID = rrep.AD_User_ID) " +
+				"WHERE "+ m_where+" AND Processed = "+((processed)? "'Y'":"'N'") + " Order BY R_Request_ID";
+		;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try{
+			pstmt = DB.prepareStatement(sql,null);
+			rs = pstmt.executeQuery();
+
+			Menuitem aux = null;
+			while (rs.next()){
+
+				aux = new Menuitem(rs.getString(2)+"-"+rs.getString(3)+"-"+rs.getString(4)+"-"+rs.getString(5)
+						+"-"+rs.getString(6)+"-"+rs.getString(7)+"-"+rs.getString(8));
+
+				aux.setAttribute("Name", "R_Request_ID = "+String.valueOf(rs.getInt(1)));
+				aux.addEventListener(Events.ON_CLICK, this);
+
+				m_reqList.add(aux);
+				m_popup.appendChild(aux);
+
+			}
+			m_popup.appendChild(new Menuseparator());
+
+		}catch (Exception e){
+			log.log(Level.SEVERE, sql, e);
+		}finally {
+			DB.close(rs,pstmt);
+		}
+
+	}
+
 	public void onEvent(Event e) throws Exception 
 	{
 		if (e.getTarget() instanceof Menuitem) 
@@ -203,6 +263,14 @@ public class WRequest implements EventListener
 			{
 				query = new MQuery("");
 				query.addRestriction("1=2");
+				query.setRecordCount(0);
+			}
+			else if (m_reqList.contains(e.getTarget()))
+			{
+				Menuitem aux = (Menuitem)e.getTarget();
+				query = new MQuery("");
+				String where = "(" + m_where + ") AND " +aux.getAttribute("Name").toString();
+				query.addRestriction(where);
 				query.setRecordCount(0);
 			}
 			
