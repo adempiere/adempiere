@@ -246,10 +246,6 @@ public class MReportColumn extends X_PA_ReportColumn
 		
 		if (m_sources == null && !isColumnTypeSegmentValue())
 			return "";
-
-		String et = getElementType();
-		if (et == null)
-			return "";
 		
 		if (m_whereClause == null)
 		{
