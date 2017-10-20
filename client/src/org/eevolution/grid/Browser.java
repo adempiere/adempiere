@@ -1560,9 +1560,14 @@ public abstract class Browser {
 
 						Object data = null;
 						int colIndex = col + colOffset;
-						if(field.isKey() && !field.getName().equals(field.getAD_View_Column().getColumnSQL().equals("'Row' AS \"Row\"")))
+						if(field.isKey() && 
+								(DisplayType.isID(field.getAD_Reference_ID())
+								|| DisplayType.Integer == field.getAD_Reference_ID()))
 							data = new IDColumn(m_rs.getInt(colIndex));
-						else if (field.isKey() && field.getName().equals(field.getAD_View_Column().getColumnSQL().equals("'Row' AS \"Row\"")))
+						else if (field.isKey() 
+								&& (field.getName().equals(field.getAD_View_Column().getColumnSQL().equals("'Row' AS \"Row\""))
+										|| (!DisplayType.isID(field.getAD_Reference_ID()) 
+												&& DisplayType.Integer != field.getAD_Reference_ID())))
 							data = new IDColumn(no);
 						else if (DisplayType.YesNo == field.getAD_Reference_ID())
 							data = new Boolean("Y".equals(m_rs
@@ -1574,12 +1579,7 @@ public abstract class Browser {
 							data = new Integer(m_rs.getInt(colIndex));
 						else if (DisplayType.isNumeric(field.getAD_Reference_ID()))
 							data = m_rs.getBigDecimal(colIndex);
-						/*else if (c == KeyNamePair.class) {
-							String display = m_rs.getString(colIndex);
-							int key = m_rs.getInt(colIndex + 1);
-							data = new KeyNamePair(key, display);
-							colOffset++;
-						}*/ else
+						else
 							data = m_rs.getString(colIndex);
 
 						row.add(data);
