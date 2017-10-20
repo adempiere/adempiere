@@ -44,6 +44,7 @@ import java.util.HashMap;
 import java.util.logging.Level;
 
 /**
+ * Request Controller
  * @author eEvolution author Victor Perez <victor.perez@e-evolution.com>, http://www.e-evolution.com
  *      <li>#1394 Add a submenu with details of each request, in the request icon on the window toolbar
  *      <li>Reference to issue https://github.com/adempiere/adempiere/issues/1394
@@ -70,7 +71,7 @@ public class Request {
     /**
      * Logger
      */
-    protected static CLogger log = CLogger.getCLogger(ARequest.class);
+    protected static CLogger log = CLogger.getCLogger(Request.class);
 
     protected void buildWhereClause()
     {
