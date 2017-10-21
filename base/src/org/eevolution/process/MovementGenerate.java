@@ -519,7 +519,7 @@ public class MovementGenerate extends MovementGenerateAbstract
 				if (!movement.processIt(getDocAction()))
 					log.warning("Failed: " + this.movement);
 				movement.saveEx();
-                addLog(movement.getM_Movement_ID() , movement.getMovementDate() , null , movement.getDocumentInfo());
+                addLog(0 , movement.getMovementDate() , null , movement.getDocumentInfo());
                 createdCount++;
                 storage = new HashMap<SParameter,MStorage[]>();
                 lastParameter = null;

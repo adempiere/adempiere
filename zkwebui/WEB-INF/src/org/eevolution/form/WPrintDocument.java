@@ -16,34 +16,31 @@
  * Sponsors: e-Evolution Consultants (http://www.e-evolution.com/)            *
  *****************************************************************************/
 
+
 package org.eevolution.form;
 
 import org.compiere.process.IPrintDocument;
-import org.compiere.apps.ADialog;
-import org.compiere.apps.ADialogDialog;
+import org.adempiere.webui.session.SessionManager;
+import org.adempiere.webui.window.FDialog;
+import org.adempiere.webui.window.SimplePDFViewer;
 import org.compiere.model.MQuery;
 import org.compiere.model.PO;
 import org.compiere.model.PrintInfo;
 import org.compiere.print.MPrintFormat;
 import org.compiere.print.ReportEngine;
-import org.compiere.print.Viewer;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import java.awt.Cursor;
+import java.io.FileInputStream;
 
 /**
  * Created by eEvolution author Victor Perez <victor.perez@e-evolution.com> on 25/01/15.
  */
-public class VPrintDocument implements IPrintDocument {
-    @Override
+public class WPrintDocument implements IPrintDocument {
+
     public void print(PO document, String printFormantName, int windowNo) {
-        JFrame window = Env.getWindow(windowNo);
-        if (ADialog.ask(windowNo, window, "PrintShipments")) {
-            window.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-            int retValue = ADialogDialog.A_CANCEL;    //	see also ProcessDialog.printShipments/Invoices
+        boolean retValue = true;
+        if (FDialog.ask(windowNo, SessionManager.getAppDesktop().getComponent(), "PrintShipments")) {
             do {
                 try {
                     String keyColumnName = document.get_KeyColumns()[0];
@@ -55,22 +52,23 @@ public class VPrintDocument implements IPrintDocument {
                     query.addRestriction(keyColumnName, MQuery.EQUAL, document.get_ValueAsInt(keyColumnName));
 
                     //	Engine
-                    PrintInfo info = new PrintInfo(document.get_TableName(), document.get_Table_ID(), document.get_ValueAsInt(keyColumnName));
+                    PrintInfo info = new PrintInfo(
+                            document.get_TableName(),
+                            document.get_Table_ID(),
+                            document.get_ValueAsInt(keyColumnName));
                     ReportEngine re = new ReportEngine(Env.getCtx(), format, query, info);
-                    re.print();
-                    new Viewer(re);
+                    if (re != null) {
+                        SimplePDFViewer win = new SimplePDFViewer(printFormantName, new FileInputStream(re.getPDF()));
+                        SessionManager.getAppDesktop().showWindow(win, "center");
+                    }
+
                 } catch (Exception e) {
 
                 } finally {
-                    ADialogDialog d = new ADialogDialog(window,
-                            Env.getHeader(Env.getCtx(), windowNo),
-                            Msg.getMsg(Env.getCtx(), "PrintoutOK?"),
-                            JOptionPane.QUESTION_MESSAGE);
-                    retValue = d.getReturnCode();
+                    retValue = FDialog.ask(windowNo, SessionManager.getAppDesktop().getComponent(), Msg.getMsg(Env.getCtx(), "PrintoutOK?"));
                 }
-            }
-            while (retValue == ADialogDialog.A_CANCEL);
-            window.setCursor(Cursor.getDefaultCursor());
+
+            } while (!retValue);
         }
     }
 }

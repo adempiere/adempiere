@@ -226,7 +226,7 @@ public class GenerateShipmentOutBound extends GenerateShipmentOutBoundAbstract
 			Arrays.stream(processInfo.getIDs()).forEach(recordId -> {
 				MMovement movement = new MMovement(getCtx(), recordId, get_TrxName());
 				if (movement != null && movement.get_ID() > 0)
-					GenerateMovement.printDocument(movement, "Inventory Move Hdr (Example)", processInfo.getWindowNo());
+					printDocument(movement, "Inventory Move Hdr (Example)");
 				else
 					throw new AdempiereException("@M_Movement_ID@ @NotFound@");
 			});
