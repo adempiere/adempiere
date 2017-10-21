@@ -22,14 +22,8 @@ import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MDocType;
 import org.compiere.model.MMovement;
 import org.compiere.model.MMovementLine;
-import org.compiere.model.PO;
-import org.compiere.util.Env;
-import org.compiere.util.Ini;
-import org.compiere.util.Msg;
-import org.eevolution.form.IPrintDocument;
 import org.eevolution.model.MDDOrderLine;
 
-import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -57,10 +51,10 @@ public class GenerateMovementMaterial extends GenerateMovementMaterialAbstract {
     protected String doIt() throws Exception {
 
         List<MDDOrderLine> orderLines = (List<MDDOrderLine>) getInstancesForSelection(get_TrxName());
-        orderLines.stream().filter(orderLine -> orderLine != null).forEach( orderLine -> {
+        orderLines.stream().filter(orderLine -> orderLine != null).forEach(orderLine -> {
             createMovement(orderLine);
             MMovementLine line = new MMovementLine(movement);
-            BigDecimal qtyDeliver = getSelectionAsBigDecimal(orderLine.get_ID(), "LINE_"+ MDDOrderLine.COLUMNNAME_QtyInTransit);
+            BigDecimal qtyDeliver = getSelectionAsBigDecimal(orderLine.get_ID(), "LINE_" + MDDOrderLine.COLUMNNAME_QtyInTransit);
             if (qtyDeliver == null | qtyDeliver.compareTo(orderLine.getQtyInTransit()) > 0)
                 throw new AdempiereException("Error @QtyInTransit@");
 
@@ -78,7 +72,7 @@ public class GenerateMovementMaterial extends GenerateMovementMaterialAbstract {
         if (movement != null && movement.get_ID() > 0)
             return;
 
-        movement = new MMovement(orderLine.getParent() , getMovementDate());
+        movement = new MMovement(orderLine.getParent(), getMovementDate());
         //Look the document type for the organization
         int docTypeDO_ID = MDocType.getDocType(MDocType.DOCBASETYPE_MaterialMovement, orderLine.getAD_Org_ID());
         if (docTypeDO_ID > 0)
@@ -88,40 +82,5 @@ public class GenerateMovementMaterial extends GenerateMovementMaterialAbstract {
         movement.saveEx();
     }
 
-    /**
-     * Print Document
-     *
-     * @param document
-     * @param printFormantName
-     */
-    private void printDocument(PO document, String printFormantName) {
-        //  Switch Tabs
-        StringBuffer resultText = new StringBuffer(Msg.translate(Env.getCtx(), "DocumentNo") + " : " + document.get_ValueAsString("DocumentNo"));
-        result = resultText.toString();
-
-        IPrintDocument IPrintDocument;
-
-        //	OK to print shipments
-        if (Ini.isClient())
-            IPrintDocument = getPrintDocument("org.eevolution.form.VPrintDocument");
-        else
-            IPrintDocument = getPrintDocument("org.eevolution.form.WPrintDocument");
-
-        IPrintDocument.print(document, printFormantName, getProcessInfo().getWindowNo());
-    }
-
-    public IPrintDocument getPrintDocument(String className) throws RuntimeException {
-        Class<?> clazz;
-        IPrintDocument result = null;
-        try {
-            clazz = Class.forName(className);
-            Constructor<?> constructor = null;
-            constructor = clazz.getDeclaredConstructor();
-            result = (IPrintDocument) constructor.newInstance();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        return result;
-    }
 
 }
