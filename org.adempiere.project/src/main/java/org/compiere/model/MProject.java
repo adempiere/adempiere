@@ -462,8 +462,7 @@ public class MProject extends X_C_Project
 		setC_ProjectType_ID(Integer.toString(type.getC_ProjectType_ID()));
 		setProjectCategory(type.getProjectCategory());
 		createProjectRequest(type);
-		if (PROJECTCATEGORY_ServiceChargeProject.equals(getProjectCategory()))
-			copyPhasesFrom(type);
+		copyPhasesFrom(type);
 	}	//	setProjectType
 
 	/**
