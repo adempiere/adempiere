@@ -14,23 +14,25 @@
  * For the text or an alternative of this public license, you may reach us    *
  * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
-package org.compiere.model;
+package org.eevolution.model;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for C_ProjectType
+/** Generated Interface for C_ProjectCategory
  *  @author Adempiere (generated) 
  *  @version Release 3.9.0
  */
-public interface I_C_ProjectType 
+public interface I_C_ProjectCategory 
 {
 
-    /** TableName=C_ProjectType */
-    public static final String Table_Name = "C_ProjectType";
+    /** TableName=C_ProjectCategory */
+    public static final String Table_Name = "C_ProjectCategory";
 
-    /** AD_Table_ID=575 */
+    /** AD_Table_ID=54292 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
@@ -62,33 +64,33 @@ public interface I_C_ProjectType
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name C_ProjectStatusCategory_ID */
-    public static final String COLUMNNAME_C_ProjectStatusCategory_ID = "C_ProjectStatusCategory_ID";
+    /** Column name AD_PrintColor_ID */
+    public static final String COLUMNNAME_AD_PrintColor_ID = "AD_PrintColor_ID";
 
-	/** Set Project Status Category.
-	  * Project Status Category
+	/** Set Print Color.
+	  * Color used for printing and display
 	  */
-	public void setC_ProjectStatusCategory_ID (int C_ProjectStatusCategory_ID);
+	public void setAD_PrintColor_ID (int AD_PrintColor_ID);
 
-	/** Get Project Status Category.
-	  * Project Status Category
+	/** Get Print Color.
+	  * Color used for printing and display
 	  */
-	public int getC_ProjectStatusCategory_ID();
+	public int getAD_PrintColor_ID();
 
-	public org.eevolution.model.I_C_ProjectStatusCategory getC_ProjectStatusCategory() throws RuntimeException;
+	public org.compiere.model.I_AD_PrintColor getAD_PrintColor() throws RuntimeException;
 
-    /** Column name C_ProjectType_ID */
-    public static final String COLUMNNAME_C_ProjectType_ID = "C_ProjectType_ID";
+    /** Column name C_ProjectCategory_ID */
+    public static final String COLUMNNAME_C_ProjectCategory_ID = "C_ProjectCategory_ID";
 
-	/** Set Project Type.
-	  * Type of the project
+	/** Set Project Category.
+	  * Project Category
 	  */
-	public void setC_ProjectType_ID (int C_ProjectType_ID);
+	public void setC_ProjectCategory_ID (int C_ProjectCategory_ID);
 
-	/** Get Project Type.
-	  * Type of the project
+	/** Get Project Category.
+	  * Project Category
 	  */
-	public int getC_ProjectType_ID();
+	public int getC_ProjectCategory_ID();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -119,19 +121,6 @@ public interface I_C_ProjectType
 	  */
 	public String getDescription();
 
-    /** Column name Help */
-    public static final String COLUMNNAME_Help = "Help";
-
-	/** Set Comment/Help.
-	  * Comment or Hint
-	  */
-	public void setHelp (String Help);
-
-	/** Get Comment/Help.
-	  * Comment or Hint
-	  */
-	public String getHelp();
-
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
 
@@ -144,6 +133,19 @@ public interface I_C_ProjectType
 	  * The record is active in the system
 	  */
 	public boolean isActive();
+
+    /** Column name IsDefault */
+    public static final String COLUMNNAME_IsDefault = "IsDefault";
+
+	/** Set Default.
+	  * Default value
+	  */
+	public void setIsDefault (boolean IsDefault);
+
+	/** Get Default.
+	  * Default value
+	  */
+	public boolean isDefault();
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
@@ -171,20 +173,20 @@ public interface I_C_ProjectType
 	  */
 	public String getProjectCategory();
 
-    /** Column name R_StandardRequestType_ID */
-    public static final String COLUMNNAME_R_StandardRequestType_ID = "R_StandardRequestType_ID";
+    /** Column name ProjectCategoryParent_ID */
+    public static final String COLUMNNAME_ProjectCategoryParent_ID = "ProjectCategoryParent_ID";
 
-	/** Set Standard Request Type.
-	  * Standard Request Type
+	/** Set Project Category Parent.
+	  * Project Category Parent
 	  */
-	public void setR_StandardRequestType_ID (int R_StandardRequestType_ID);
+	public void setProjectCategoryParent_ID (int ProjectCategoryParent_ID);
 
-	/** Get Standard Request Type.
-	  * Standard Request Type
+	/** Get Project Category Parent.
+	  * Project Category Parent
 	  */
-	public int getR_StandardRequestType_ID();
+	public int getProjectCategoryParent_ID();
 
-	public org.compiere.model.I_R_StandardRequestType getR_StandardRequestType() throws RuntimeException;
+	public org.eevolution.model.I_C_ProjectCategory getProjectCategoryParent() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -214,4 +216,17 @@ public interface I_C_ProjectType
 	  * Immutable Universally Unique Identifier
 	  */
 	public String getUUID();
+
+    /** Column name Value */
+    public static final String COLUMNNAME_Value = "Value";
+
+	/** Set Search Key.
+	  * Search key for the record in the format required - must be unique
+	  */
+	public void setValue (String Value);
+
+	/** Get Search Key.
+	  * Search key for the record in the format required - must be unique
+	  */
+	public String getValue();
 }

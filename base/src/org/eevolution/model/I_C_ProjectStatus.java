@@ -14,23 +14,25 @@
  * For the text or an alternative of this public license, you may reach us    *
  * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
-package org.compiere.model;
+package org.eevolution.model;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for C_ProjectType
+/** Generated Interface for C_ProjectStatus
  *  @author Adempiere (generated) 
  *  @version Release 3.9.0
  */
-public interface I_C_ProjectType 
+public interface I_C_ProjectStatus 
 {
 
-    /** TableName=C_ProjectType */
-    public static final String Table_Name = "C_ProjectType";
+    /** TableName=C_ProjectStatus */
+    public static final String Table_Name = "C_ProjectStatus";
 
-    /** AD_Table_ID=575 */
+    /** AD_Table_ID=54294 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
@@ -77,18 +79,18 @@ public interface I_C_ProjectType
 
 	public org.eevolution.model.I_C_ProjectStatusCategory getC_ProjectStatusCategory() throws RuntimeException;
 
-    /** Column name C_ProjectType_ID */
-    public static final String COLUMNNAME_C_ProjectType_ID = "C_ProjectType_ID";
+    /** Column name C_ProjectStatus_ID */
+    public static final String COLUMNNAME_C_ProjectStatus_ID = "C_ProjectStatus_ID";
 
-	/** Set Project Type.
-	  * Type of the project
+	/** Set Project Status.
+	  * Project Status
 	  */
-	public void setC_ProjectType_ID (int C_ProjectType_ID);
+	public void setC_ProjectStatus_ID (int C_ProjectStatus_ID);
 
-	/** Get Project Type.
-	  * Type of the project
+	/** Get Project Status.
+	  * Project Status
 	  */
-	public int getC_ProjectType_ID();
+	public int getC_ProjectStatus_ID();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -145,6 +147,58 @@ public interface I_C_ProjectType
 	  */
 	public boolean isActive();
 
+    /** Column name IsClosed */
+    public static final String COLUMNNAME_IsClosed = "IsClosed";
+
+	/** Set Closed Status.
+	  * The status is closed
+	  */
+	public void setIsClosed (boolean IsClosed);
+
+	/** Get Closed Status.
+	  * The status is closed
+	  */
+	public boolean isClosed();
+
+    /** Column name IsDefault */
+    public static final String COLUMNNAME_IsDefault = "IsDefault";
+
+	/** Set Default.
+	  * Default value
+	  */
+	public void setIsDefault (boolean IsDefault);
+
+	/** Get Default.
+	  * Default value
+	  */
+	public boolean isDefault();
+
+    /** Column name IsFinalClose */
+    public static final String COLUMNNAME_IsFinalClose = "IsFinalClose";
+
+	/** Set Final Close.
+	  * Entries with Final Close cannot be re-opened
+	  */
+	public void setIsFinalClose (boolean IsFinalClose);
+
+	/** Get Final Close.
+	  * Entries with Final Close cannot be re-opened
+	  */
+	public boolean isFinalClose();
+
+    /** Column name IsOpen */
+    public static final String COLUMNNAME_IsOpen = "IsOpen";
+
+	/** Set Open Status.
+	  * The status is closed
+	  */
+	public void setIsOpen (boolean IsOpen);
+
+	/** Get Open Status.
+	  * The status is closed
+	  */
+	public boolean isOpen();
+
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
 
@@ -158,33 +212,35 @@ public interface I_C_ProjectType
 	  */
 	public String getName();
 
-    /** Column name ProjectCategory */
-    public static final String COLUMNNAME_ProjectCategory = "ProjectCategory";
+    /** Column name Next_Status_ID */
+    public static final String COLUMNNAME_Next_Status_ID = "Next_Status_ID";
 
-	/** Set Project Category.
-	  * Project Category
+	/** Set Next Status.
+	  * Move to next status automatically after timeout
 	  */
-	public void setProjectCategory (String ProjectCategory);
+	public void setNext_Status_ID (int Next_Status_ID);
 
-	/** Get Project Category.
-	  * Project Category
+	/** Get Next Status.
+	  * Move to next status automatically after timeout
 	  */
-	public String getProjectCategory();
+	public int getNext_Status_ID();
 
-    /** Column name R_StandardRequestType_ID */
-    public static final String COLUMNNAME_R_StandardRequestType_ID = "R_StandardRequestType_ID";
+	public org.eevolution.model.I_C_ProjectStatus getNext_Status() throws RuntimeException;
 
-	/** Set Standard Request Type.
-	  * Standard Request Type
+    /** Column name SeqNo */
+    public static final String COLUMNNAME_SeqNo = "SeqNo";
+
+	/** Set Sequence.
+	  * Method of ordering records;
+ lowest number comes first
 	  */
-	public void setR_StandardRequestType_ID (int R_StandardRequestType_ID);
+	public void setSeqNo (int SeqNo);
 
-	/** Get Standard Request Type.
-	  * Standard Request Type
+	/** Get Sequence.
+	  * Method of ordering records;
+ lowest number comes first
 	  */
-	public int getR_StandardRequestType_ID();
-
-	public org.compiere.model.I_R_StandardRequestType getR_StandardRequestType() throws RuntimeException;
+	public int getSeqNo();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -214,4 +270,17 @@ public interface I_C_ProjectType
 	  * Immutable Universally Unique Identifier
 	  */
 	public String getUUID();
+
+    /** Column name Value */
+    public static final String COLUMNNAME_Value = "Value";
+
+	/** Set Search Key.
+	  * Search key for the record in the format required - must be unique
+	  */
+	public void setValue (String Value);
+
+	/** Get Search Key.
+	  * Search key for the record in the format required - must be unique
+	  */
+	public String getValue();
 }

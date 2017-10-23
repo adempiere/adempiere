@@ -14,23 +14,25 @@
  * For the text or an alternative of this public license, you may reach us    *
  * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
-package org.compiere.model;
+package org.eevolution.model;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for C_ProjectType
+/** Generated Interface for C_ProjectStatusCategory
  *  @author Adempiere (generated) 
  *  @version Release 3.9.0
  */
-public interface I_C_ProjectType 
+public interface I_C_ProjectStatusCategory 
 {
 
-    /** TableName=C_ProjectType */
-    public static final String Table_Name = "C_ProjectType";
+    /** TableName=C_ProjectStatusCategory */
+    public static final String Table_Name = "C_ProjectStatusCategory";
 
-    /** AD_Table_ID=575 */
+    /** AD_Table_ID=54295 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
@@ -74,21 +76,6 @@ public interface I_C_ProjectType
 	  * Project Status Category
 	  */
 	public int getC_ProjectStatusCategory_ID();
-
-	public org.eevolution.model.I_C_ProjectStatusCategory getC_ProjectStatusCategory() throws RuntimeException;
-
-    /** Column name C_ProjectType_ID */
-    public static final String COLUMNNAME_C_ProjectType_ID = "C_ProjectType_ID";
-
-	/** Set Project Type.
-	  * Type of the project
-	  */
-	public void setC_ProjectType_ID (int C_ProjectType_ID);
-
-	/** Get Project Type.
-	  * Type of the project
-	  */
-	public int getC_ProjectType_ID();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -145,6 +132,19 @@ public interface I_C_ProjectType
 	  */
 	public boolean isActive();
 
+    /** Column name IsDefault */
+    public static final String COLUMNNAME_IsDefault = "IsDefault";
+
+	/** Set Default.
+	  * Default value
+	  */
+	public void setIsDefault (boolean IsDefault);
+
+	/** Get Default.
+	  * Default value
+	  */
+	public boolean isDefault();
+
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
 
@@ -157,34 +157,6 @@ public interface I_C_ProjectType
 	  * Alphanumeric identifier of the entity
 	  */
 	public String getName();
-
-    /** Column name ProjectCategory */
-    public static final String COLUMNNAME_ProjectCategory = "ProjectCategory";
-
-	/** Set Project Category.
-	  * Project Category
-	  */
-	public void setProjectCategory (String ProjectCategory);
-
-	/** Get Project Category.
-	  * Project Category
-	  */
-	public String getProjectCategory();
-
-    /** Column name R_StandardRequestType_ID */
-    public static final String COLUMNNAME_R_StandardRequestType_ID = "R_StandardRequestType_ID";
-
-	/** Set Standard Request Type.
-	  * Standard Request Type
-	  */
-	public void setR_StandardRequestType_ID (int R_StandardRequestType_ID);
-
-	/** Get Standard Request Type.
-	  * Standard Request Type
-	  */
-	public int getR_StandardRequestType_ID();
-
-	public org.compiere.model.I_R_StandardRequestType getR_StandardRequestType() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -214,4 +186,17 @@ public interface I_C_ProjectType
 	  * Immutable Universally Unique Identifier
 	  */
 	public String getUUID();
+
+    /** Column name Value */
+    public static final String COLUMNNAME_Value = "Value";
+
+	/** Set Search Key.
+	  * Search key for the record in the format required - must be unique
+	  */
+	public void setValue (String Value);
+
+	/** Get Search Key.
+	  * Search key for the record in the format required - must be unique
+	  */
+	public String getValue();
 }
