@@ -15,36 +15,40 @@
  * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
-package org.compiere.model;
+package org.eevolution.model;
 
 import java.sql.ResultSet;
 import java.util.Properties;
+
+import org.compiere.model.I_Persistent;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Model for C_ProjectType
+/** Generated Model for C_ProjectStatusCategory
  *  @author Adempiere (generated) 
  *  @version Release 3.9.0 - $Id$ */
-public class X_C_ProjectType extends PO implements I_C_ProjectType, I_Persistent 
+public class X_C_ProjectStatusCategory extends PO implements I_C_ProjectStatusCategory, I_Persistent
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20171023L;
+	private static final long serialVersionUID = 20171022L;
 
     /** Standard Constructor */
-    public X_C_ProjectType (Properties ctx, int C_ProjectType_ID, String trxName)
+    public X_C_ProjectStatusCategory (Properties ctx, int C_ProjectStatusCategory_ID, String trxName)
     {
-      super (ctx, C_ProjectType_ID, trxName);
-      /** if (C_ProjectType_ID == 0)
+      super (ctx, C_ProjectStatusCategory_ID, trxName);
+      /** if (C_ProjectStatusCategory_ID == 0)
         {
-			setC_ProjectType_ID (0);
+			setC_ProjectStatusCategory_ID (0);
 			setName (null);
         } */
     }
 
     /** Load Constructor */
-    public X_C_ProjectType (Properties ctx, ResultSet rs, String trxName)
+    public X_C_ProjectStatusCategory (Properties ctx, ResultSet rs, String trxName)
     {
       super (ctx, rs, trxName);
     }
@@ -66,15 +70,10 @@ public class X_C_ProjectType extends PO implements I_C_ProjectType, I_Persistent
 
     public String toString()
     {
-      StringBuffer sb = new StringBuffer ("X_C_ProjectType[")
+      StringBuffer sb = new StringBuffer ("X_C_ProjectStatusCategory[")
         .append(get_ID()).append("]");
       return sb.toString();
     }
-
-	public org.eevolution.model.I_C_ProjectStatusCategory getC_ProjectStatusCategory() throws RuntimeException
-    {
-		return (org.eevolution.model.I_C_ProjectStatusCategory)MTable.get(getCtx(), org.eevolution.model.I_C_ProjectStatusCategory.Table_Name)
-			.getPO(getC_ProjectStatusCategory_ID(), get_TrxName());	}
 
 	/** Set Project Status Category.
 		@param C_ProjectStatusCategory_ID 
@@ -83,9 +82,9 @@ public class X_C_ProjectType extends PO implements I_C_ProjectType, I_Persistent
 	public void setC_ProjectStatusCategory_ID (int C_ProjectStatusCategory_ID)
 	{
 		if (C_ProjectStatusCategory_ID < 1) 
-			set_Value (COLUMNNAME_C_ProjectStatusCategory_ID, null);
+			set_ValueNoCheck (COLUMNNAME_C_ProjectStatusCategory_ID, null);
 		else 
-			set_Value (COLUMNNAME_C_ProjectStatusCategory_ID, Integer.valueOf(C_ProjectStatusCategory_ID));
+			set_ValueNoCheck (COLUMNNAME_C_ProjectStatusCategory_ID, Integer.valueOf(C_ProjectStatusCategory_ID));
 	}
 
 	/** Get Project Status Category.
@@ -94,29 +93,6 @@ public class X_C_ProjectType extends PO implements I_C_ProjectType, I_Persistent
 	public int getC_ProjectStatusCategory_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_ProjectStatusCategory_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Project Type.
-		@param C_ProjectType_ID 
-		Type of the project
-	  */
-	public void setC_ProjectType_ID (int C_ProjectType_ID)
-	{
-		if (C_ProjectType_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_ProjectType_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_ProjectType_ID, Integer.valueOf(C_ProjectType_ID));
-	}
-
-	/** Get Project Type.
-		@return Type of the project
-	  */
-	public int getC_ProjectType_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_ProjectType_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -156,6 +132,30 @@ public class X_C_ProjectType extends PO implements I_C_ProjectType, I_Persistent
 		return (String)get_Value(COLUMNNAME_Help);
 	}
 
+	/** Set Default.
+		@param IsDefault 
+		Default value
+	  */
+	public void setIsDefault (boolean IsDefault)
+	{
+		set_Value (COLUMNNAME_IsDefault, Boolean.valueOf(IsDefault));
+	}
+
+	/** Get Default.
+		@return Default value
+	  */
+	public boolean isDefault () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsDefault);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Name.
 		@param Name 
 		Alphanumeric identifier of the entity
@@ -171,70 +171,6 @@ public class X_C_ProjectType extends PO implements I_C_ProjectType, I_Persistent
 	public String getName () 
 	{
 		return (String)get_Value(COLUMNNAME_Name);
-	}
-
-    /** Get Record ID/ColumnName
-        @return ID/ColumnName pair
-      */
-    public KeyNamePair getKeyNamePair() 
-    {
-        return new KeyNamePair(get_ID(), getName());
-    }
-
-	/** ProjectCategory AD_Reference_ID=288 */
-	public static final int PROJECTCATEGORY_AD_Reference_ID=288;
-	/** General = N */
-	public static final String PROJECTCATEGORY_General = "N";
-	/** Asset Project = A */
-	public static final String PROJECTCATEGORY_AssetProject = "A";
-	/** Work Order (Job) = W */
-	public static final String PROJECTCATEGORY_WorkOrderJob = "W";
-	/** Service (Charge) Project = S */
-	public static final String PROJECTCATEGORY_ServiceChargeProject = "S";
-	/** Set Project Category.
-		@param ProjectCategory 
-		Project Category
-	  */
-	public void setProjectCategory (String ProjectCategory)
-	{
-
-		set_ValueNoCheck (COLUMNNAME_ProjectCategory, ProjectCategory);
-	}
-
-	/** Get Project Category.
-		@return Project Category
-	  */
-	public String getProjectCategory () 
-	{
-		return (String)get_Value(COLUMNNAME_ProjectCategory);
-	}
-
-	public org.compiere.model.I_R_StandardRequestType getR_StandardRequestType() throws RuntimeException
-    {
-		return (org.compiere.model.I_R_StandardRequestType)MTable.get(getCtx(), org.compiere.model.I_R_StandardRequestType.Table_Name)
-			.getPO(getR_StandardRequestType_ID(), get_TrxName());	}
-
-	/** Set Standard Request Type.
-		@param R_StandardRequestType_ID 
-		Standard Request Type
-	  */
-	public void setR_StandardRequestType_ID (int R_StandardRequestType_ID)
-	{
-		if (R_StandardRequestType_ID < 1) 
-			set_Value (COLUMNNAME_R_StandardRequestType_ID, null);
-		else 
-			set_Value (COLUMNNAME_R_StandardRequestType_ID, Integer.valueOf(R_StandardRequestType_ID));
-	}
-
-	/** Get Standard Request Type.
-		@return Standard Request Type
-	  */
-	public int getR_StandardRequestType_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_R_StandardRequestType_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
 	}
 
 	/** Set Immutable Universally Unique Identifier.
@@ -253,4 +189,29 @@ public class X_C_ProjectType extends PO implements I_C_ProjectType, I_Persistent
 	{
 		return (String)get_Value(COLUMNNAME_UUID);
 	}
+
+	/** Set Search Key.
+		@param Value 
+		Search key for the record in the format required - must be unique
+	  */
+	public void setValue (String Value)
+	{
+		set_Value (COLUMNNAME_Value, Value);
+	}
+
+	/** Get Search Key.
+		@return Search key for the record in the format required - must be unique
+	  */
+	public String getValue () 
+	{
+		return (String)get_Value(COLUMNNAME_Value);
+	}
+
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), getValue());
+    }
 }

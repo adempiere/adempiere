@@ -77,21 +77,6 @@ public interface I_C_Project
 
 	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException;
 
-    /** Column name C_BPartnerSR_ID */
-    public static final String COLUMNNAME_C_BPartnerSR_ID = "C_BPartnerSR_ID";
-
-	/** Set BPartner (Agent).
-	  * Business Partner (Agent or Sales Rep)
-	  */
-	public void setC_BPartnerSR_ID (int C_BPartnerSR_ID);
-
-	/** Get BPartner (Agent).
-	  * Business Partner (Agent or Sales Rep)
-	  */
-	public int getC_BPartnerSR_ID();
-
-	public org.compiere.model.I_C_BPartner getC_BPartnerSR() throws RuntimeException;
-
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 
@@ -122,6 +107,21 @@ public interface I_C_Project
 
 	public org.compiere.model.I_C_BPartner_Location getC_BPartner_Location() throws RuntimeException;
 
+    /** Column name C_BPartnerSR_ID */
+    public static final String COLUMNNAME_C_BPartnerSR_ID = "C_BPartnerSR_ID";
+
+	/** Set BPartner (Agent).
+	  * Business Partner (Agent or Sales Rep)
+	  */
+	public void setC_BPartnerSR_ID (int C_BPartnerSR_ID);
+
+	/** Get BPartner (Agent).
+	  * Business Partner (Agent or Sales Rep)
+	  */
+	public int getC_BPartnerSR_ID();
+
+	public org.compiere.model.I_C_BPartner getC_BPartnerSR() throws RuntimeException;
+
     /** Column name C_Campaign_ID */
     public static final String COLUMNNAME_C_Campaign_ID = "C_Campaign_ID";
 
@@ -151,62 +151,6 @@ public interface I_C_Project
 	public int getC_Currency_ID();
 
 	public org.compiere.model.I_C_Currency getC_Currency() throws RuntimeException;
-
-    /** Column name C_PaymentTerm_ID */
-    public static final String COLUMNNAME_C_PaymentTerm_ID = "C_PaymentTerm_ID";
-
-	/** Set Payment Term.
-	  * The terms of Payment (timing, discount)
-	  */
-	public void setC_PaymentTerm_ID (int C_PaymentTerm_ID);
-
-	/** Get Payment Term.
-	  * The terms of Payment (timing, discount)
-	  */
-	public int getC_PaymentTerm_ID();
-
-	public org.compiere.model.I_C_PaymentTerm getC_PaymentTerm() throws RuntimeException;
-
-    /** Column name C_Phase_ID */
-    public static final String COLUMNNAME_C_Phase_ID = "C_Phase_ID";
-
-	/** Set Standard Phase.
-	  * Standard Phase of the Project Type
-	  */
-	public void setC_Phase_ID (int C_Phase_ID);
-
-	/** Get Standard Phase.
-	  * Standard Phase of the Project Type
-	  */
-	public int getC_Phase_ID();
-
-	public org.compiere.model.I_C_Phase getC_Phase() throws RuntimeException;
-
-    /** Column name C_ProjectType_ID */
-    public static final String COLUMNNAME_C_ProjectType_ID = "C_ProjectType_ID";
-
-	/** Set Project Type.
-	  * Type of the project
-	  */
-	public void setC_ProjectType_ID (String C_ProjectType_ID);
-
-	/** Get Project Type.
-	  * Type of the project
-	  */
-	public String getC_ProjectType_ID();
-
-    /** Column name C_Project_ID */
-    public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
-
-	/** Set Project.
-	  * Financial Project
-	  */
-	public void setC_Project_ID (int C_Project_ID);
-
-	/** Get Project.
-	  * Financial Project
-	  */
-	public int getC_Project_ID();
 
     /** Column name CommittedAmt */
     public static final String COLUMNNAME_CommittedAmt = "CommittedAmt";
@@ -246,6 +190,122 @@ public interface I_C_Project
 	  * Copy From Record
 	  */
 	public String getCopyFrom();
+
+    /** Column name C_PaymentTerm_ID */
+    public static final String COLUMNNAME_C_PaymentTerm_ID = "C_PaymentTerm_ID";
+
+	/** Set Payment Term.
+	  * The terms of Payment (timing, discount)
+	  */
+	public void setC_PaymentTerm_ID (int C_PaymentTerm_ID);
+
+	/** Get Payment Term.
+	  * The terms of Payment (timing, discount)
+	  */
+	public int getC_PaymentTerm_ID();
+
+	public org.compiere.model.I_C_PaymentTerm getC_PaymentTerm() throws RuntimeException;
+
+    /** Column name C_Phase_ID */
+    public static final String COLUMNNAME_C_Phase_ID = "C_Phase_ID";
+
+	/** Set Standard Phase.
+	  * Standard Phase of the Project Type
+	  */
+	public void setC_Phase_ID (int C_Phase_ID);
+
+	/** Get Standard Phase.
+	  * Standard Phase of the Project Type
+	  */
+	public int getC_Phase_ID();
+
+	public org.compiere.model.I_C_Phase getC_Phase() throws RuntimeException;
+
+    /** Column name C_ProjectCategory_ID */
+    public static final String COLUMNNAME_C_ProjectCategory_ID = "C_ProjectCategory_ID";
+
+	/** Set Project Category.
+	  * Project Category
+	  */
+	public void setC_ProjectCategory_ID (int C_ProjectCategory_ID);
+
+	/** Get Project Category.
+	  * Project Category
+	  */
+	public int getC_ProjectCategory_ID();
+
+	public org.eevolution.model.I_C_ProjectCategory getC_ProjectCategory() throws RuntimeException;
+
+    /** Column name C_ProjectClass_ID */
+    public static final String COLUMNNAME_C_ProjectClass_ID = "C_ProjectClass_ID";
+
+	/** Set Project Class.
+	  * Project Class
+	  */
+	public void setC_ProjectClass_ID (int C_ProjectClass_ID);
+
+	/** Get Project Class.
+	  * Project Class
+	  */
+	public int getC_ProjectClass_ID();
+
+	public org.eevolution.model.I_C_ProjectClass getC_ProjectClass() throws RuntimeException;
+
+    /** Column name C_ProjectGroup_ID */
+    public static final String COLUMNNAME_C_ProjectGroup_ID = "C_ProjectGroup_ID";
+
+	/** Set Project Group.
+	  * Project Group
+	  */
+	public void setC_ProjectGroup_ID (int C_ProjectGroup_ID);
+
+	/** Get Project Group.
+	  * Project Group
+	  */
+	public int getC_ProjectGroup_ID();
+
+	public org.eevolution.model.I_C_ProjectGroup getC_ProjectGroup() throws RuntimeException;
+
+    /** Column name C_Project_ID */
+    public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
+
+	/** Set Project.
+	  * Financial Project
+	  */
+	public void setC_Project_ID (int C_Project_ID);
+
+	/** Get Project.
+	  * Financial Project
+	  */
+	public int getC_Project_ID();
+
+    /** Column name C_ProjectStatus_ID */
+    public static final String COLUMNNAME_C_ProjectStatus_ID = "C_ProjectStatus_ID";
+
+	/** Set Project Status.
+	  * Project Status
+	  */
+	public void setC_ProjectStatus_ID (int C_ProjectStatus_ID);
+
+	/** Get Project Status.
+	  * Project Status
+	  */
+	public int getC_ProjectStatus_ID();
+
+	public org.eevolution.model.I_C_ProjectStatus getC_ProjectStatus() throws RuntimeException;
+
+    /** Column name C_ProjectType_ID */
+    public static final String COLUMNNAME_C_ProjectType_ID = "C_ProjectType_ID";
+
+	/** Set Project Type.
+	  * Type of the project
+	  */
+	public void setC_ProjectType_ID (String C_ProjectType_ID);
+
+	/** Get Project Type.
+	  * Type of the project
+	  */
+	public String getC_ProjectType_ID();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -449,19 +509,6 @@ public interface I_C_Project
 	  */
 	public String getNote();
 
-    /** Column name POReference */
-    public static final String COLUMNNAME_POReference = "POReference";
-
-	/** Set Order Reference.
-	  * Transaction Reference Number (Sales Order, Purchase Order) of your Business Partner
-	  */
-	public void setPOReference (String POReference);
-
-	/** Get Order Reference.
-	  * Transaction Reference Number (Sales Order, Purchase Order) of your Business Partner
-	  */
-	public String getPOReference();
-
     /** Column name PlannedAmt */
     public static final String COLUMNNAME_PlannedAmt = "PlannedAmt";
 
@@ -501,6 +548,19 @@ public interface I_C_Project
 	  */
 	public BigDecimal getPlannedQty();
 
+    /** Column name POReference */
+    public static final String COLUMNNAME_POReference = "POReference";
+
+	/** Set Order Reference.
+	  * Transaction Reference Number (Sales Order, Purchase Order) of your Business Partner
+	  */
+	public void setPOReference (String POReference);
+
+	/** Get Order Reference.
+	  * Transaction Reference Number (Sales Order, Purchase Order) of your Business Partner
+	  */
+	public String getPOReference();
+
     /** Column name Processed */
     public static final String COLUMNNAME_Processed = "Processed";
 
@@ -522,19 +582,6 @@ public interface I_C_Project
 
 	/** Get Process Now	  */
 	public boolean isProcessing();
-
-    /** Column name ProjInvoiceRule */
-    public static final String COLUMNNAME_ProjInvoiceRule = "ProjInvoiceRule";
-
-	/** Set Invoice Rule.
-	  * Invoice Rule for the project
-	  */
-	public void setProjInvoiceRule (String ProjInvoiceRule);
-
-	/** Get Invoice Rule.
-	  * Invoice Rule for the project
-	  */
-	public String getProjInvoiceRule();
 
     /** Column name ProjectBalanceAmt */
     public static final String COLUMNNAME_ProjectBalanceAmt = "ProjectBalanceAmt";
@@ -575,6 +622,19 @@ public interface I_C_Project
 	  */
 	public String getProjectLineLevel();
 
+    /** Column name ProjInvoiceRule */
+    public static final String COLUMNNAME_ProjInvoiceRule = "ProjInvoiceRule";
+
+	/** Set Invoice Rule.
+	  * Invoice Rule for the project
+	  */
+	public void setProjInvoiceRule (String ProjInvoiceRule);
+
+	/** Get Invoice Rule.
+	  * Invoice Rule for the project
+	  */
+	public String getProjInvoiceRule();
+
     /** Column name SalesRep_ID */
     public static final String COLUMNNAME_SalesRep_ID = "SalesRep_ID";
 
@@ -589,19 +649,6 @@ public interface I_C_Project
 	public int getSalesRep_ID();
 
 	public org.compiere.model.I_AD_User getSalesRep() throws RuntimeException;
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -618,6 +665,19 @@ public interface I_C_Project
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 
     /** Column name Value */
     public static final String COLUMNNAME_Value = "Value";
