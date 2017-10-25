@@ -77,17 +77,6 @@ public interface I_C_Charge
 
 	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
 
-    /** Column name C_ChargeType_ID */
-    public static final String COLUMNNAME_C_ChargeType_ID = "C_ChargeType_ID";
-
-	/** Set Charge Type	  */
-	public void setC_ChargeType_ID (int C_ChargeType_ID);
-
-	/** Get Charge Type	  */
-	public int getC_ChargeType_ID();
-
-	public org.compiere.model.I_C_ChargeType getC_ChargeType() throws RuntimeException;
-
     /** Column name C_Charge_ID */
     public static final String COLUMNNAME_C_Charge_ID = "C_Charge_ID";
 
@@ -101,20 +90,16 @@ public interface I_C_Charge
 	  */
 	public int getC_Charge_ID();
 
-    /** Column name C_TaxCategory_ID */
-    public static final String COLUMNNAME_C_TaxCategory_ID = "C_TaxCategory_ID";
+    /** Column name C_ChargeType_ID */
+    public static final String COLUMNNAME_C_ChargeType_ID = "C_ChargeType_ID";
 
-	/** Set Tax Category.
-	  * Tax Category
-	  */
-	public void setC_TaxCategory_ID (int C_TaxCategory_ID);
+	/** Set Charge Type	  */
+	public void setC_ChargeType_ID (int C_ChargeType_ID);
 
-	/** Get Tax Category.
-	  * Tax Category
-	  */
-	public int getC_TaxCategory_ID();
+	/** Get Charge Type	  */
+	public int getC_ChargeType_ID();
 
-	public org.compiere.model.I_C_TaxCategory getC_TaxCategory() throws RuntimeException;
+	public org.compiere.model.I_C_ChargeType getC_ChargeType() throws RuntimeException;
 
     /** Column name ChargeAmt */
     public static final String COLUMNNAME_ChargeAmt = "ChargeAmt";
@@ -144,6 +129,36 @@ public interface I_C_Charge
 	  * User who created this records
 	  */
 	public int getCreatedBy();
+
+    /** Column name C_TaxCategory_ID */
+    public static final String COLUMNNAME_C_TaxCategory_ID = "C_TaxCategory_ID";
+
+	/** Set Tax Category.
+	  * Tax Category
+	  */
+	public void setC_TaxCategory_ID (int C_TaxCategory_ID);
+
+	/** Get Tax Category.
+	  * Tax Category
+	  */
+	public int getC_TaxCategory_ID();
+
+	public org.compiere.model.I_C_TaxCategory getC_TaxCategory() throws RuntimeException;
+
+    /** Column name C_TaxType_ID */
+    public static final String COLUMNNAME_C_TaxType_ID = "C_TaxType_ID";
+
+	/** Set Tax Type.
+	  * Tax Type
+	  */
+	public void setC_TaxType_ID (int C_TaxType_ID);
+
+	/** Get Tax Type.
+	  * Tax Type
+	  */
+	public int getC_TaxType_ID();
+
+	public org.eevolution.model.I_C_TaxType getC_TaxType() throws RuntimeException;
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
@@ -219,19 +234,6 @@ public interface I_C_Charge
 	  */
 	public String getName();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -247,4 +249,17 @@ public interface I_C_Charge
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 }
