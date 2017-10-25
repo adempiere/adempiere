@@ -323,6 +323,11 @@ public class MProduct extends X_M_Product
 			setC_TaxCategory_ID(parent.getC_TaxCategory_ID());
 			changed = true;
 		}
+		if (parent.getC_TaxType_ID() != getC_TaxType_ID())
+		{
+			setC_TaxType_ID(parent.getC_TaxType_ID());
+			changed = true;
+		}
 		//
 		return changed;
 	}	//	setExpenseType
@@ -398,6 +403,11 @@ public class MProduct extends X_M_Product
 		if (parent.getC_TaxCategory_ID() != getC_TaxCategory_ID())
 		{
 			setC_TaxCategory_ID(parent.getC_TaxCategory_ID());
+			changed = true;
+		}
+		if (parent.getC_TaxType_ID() != getC_TaxType_ID())
+		{
+			setC_TaxType_ID(parent.getC_TaxType_ID());
 			changed = true;
 		}
 		//
