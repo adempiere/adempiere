@@ -228,6 +228,9 @@ implements IDocumentLine , DocumentReversalLineEnable
 		setC_Charge_ID(oLine.getC_Charge_ID());
 		setDescription(oLine.getDescription());
 		setIsDescription(oLine.isDescription());
+		setM_Shipper_ID(oLine.getM_Shipper_ID());
+		setM_FreightCategory_ID(oLine.getM_FreightCategory_ID());
+		setFreightAmt(oLine.getFreightAmt());
 		//
 		setC_Project_ID(oLine.getC_Project_ID());
 		setC_ProjectPhase_ID(oLine.getC_ProjectPhase_ID());
