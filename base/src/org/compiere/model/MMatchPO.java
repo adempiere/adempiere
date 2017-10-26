@@ -712,8 +712,7 @@ public class MMatchPO extends X_M_MatchPO implements IDocumentLine
 					orderLine.setQtyDelivered(orderLine.getQtyDelivered().subtract(getQty()));
 				orderLine.setDateDelivered(getDateTrx());    //	overwrite=last
 			}
-
-			if (getC_InvoiceLine_ID() > 0 && newRecord)                        //	first time
+			
 			if (getC_InvoiceLine_ID() > 0 && newRecord)                        //	first time
 			{
 				orderLine.setQtyInvoiced(orderLine.getQtyInvoiced().add(getQty()));
