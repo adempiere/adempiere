@@ -19,6 +19,7 @@ package org.compiere.model;
 
 import org.compiere.util.Env;
 
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,9 +29,11 @@ import java.util.Optional;
  * Request Model Validator
  */
 public class RequestModelValidator implements ModelValidator {
+
+    Timestamp currentDate;
+
     @Override
     public void initialize(ModelValidationEngine engine, MClient client) {
-
 
         List<MStandardRequestType> standardRequestTypes = new ArrayList<>();
 
@@ -50,12 +53,21 @@ public class RequestModelValidator implements ModelValidator {
 
         standardRequestTypes.stream()
                 .filter(standardRequestType ->
-                        isValidFromTo(standardRequestType.getValidFrom(), standardRequestType.getValidTo())
+                        isValidFromTo( standardRequestType.getValidFrom(), standardRequestType.getValidTo())
                      && standardRequestType.getEventModelValidator().startsWith("D")
                      && standardRequestType.getC_DocType_ID() > 0 && standardRequestType.getDocStatus() != null)
                 .forEach(standardRequestType -> {
                     engine.addDocValidate(standardRequestType.getAD_Table().getTableName(), this);
                 });
+    }
+
+    public Timestamp getCurrentDate()
+    {
+        if (currentDate != null)
+            return currentDate;
+
+        currentDate = new Timestamp(System.currentTimeMillis());
+        return currentDate;
     }
 
     @Override
@@ -78,7 +90,7 @@ public class RequestModelValidator implements ModelValidator {
                 MProjectTypePhase projectTypePhase = new MProjectTypePhase(projectPhase.getCtx(), projectPhase.getC_Phase_ID(), projectPhase.get_TrxName());
                 MStandardRequestType.getByTable(entity).stream()
                         .filter(standardRequestType -> standardRequestType.get_ID() == projectTypePhase.getR_StandardRequestType_ID()
-                             && isValidFromTo(standardRequestType.getValidFrom(), standardRequestType.getValidTo())
+                             && isValidFromTo( standardRequestType.getValidFrom(), standardRequestType.getValidTo())
                              && standardRequestType.getEventModelValidator().equals(tableEventValidators[type]))
                         .forEach(standardRequestType -> {
                             standardRequestType.createStandardRequest(entity);
@@ -191,13 +203,10 @@ public class RequestModelValidator implements ModelValidator {
      */
     private Boolean isValidFromTo(Timestamp validFrom, Timestamp validTo)
     {
-        Timestamp currentDate = new Timestamp(System.currentTimeMillis());
-        Optional<Timestamp> loginDateOptional = Optional.of(Env.getContextAsDate(Env.getCtx(),"#Date"));
-        Timestamp date = loginDateOptional.orElse(currentDate);
 
-        if (validFrom != null && date.before(validFrom))
+        if (validFrom != null && getCurrentDate().before(validFrom))
             return false;
-        if (validTo != null && date.after(validTo))
+        if (validTo != null && getCurrentDate().after(validTo))
             return false;
         return true;
     }

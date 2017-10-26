@@ -1589,22 +1589,21 @@ public class MInOut extends X_M_InOut implements DocAction , DocumentReversalEna
 					{
 						//	Invoice is created before  Shipment
 						log.fine("PO(Inv) Matching");
-						//	Ship - Invoice
+						inOutLine.setC_OrderLine_ID(invoiceLine.getC_OrderLine_ID());
 						MMatchPO matchPO = new MMatchPO(inOutLine, getMovementDate(), matchQty);
 						matchPO.save(get_TrxName());
-						addDocsPostProcess(matchPO);
 						//	Update PO with ASI
 						orderLine = new MOrderLine (getCtx(), matchPO.getC_OrderLine_ID(), get_TrxName());
 						if (   orderLine != null && orderLine.getM_AttributeSetInstance_ID() == 0
-							&& inOutLine.getMovementQty().compareTo(orderLine.getQtyOrdered()) == 0) //  just if full match [ 1876965 ]
+								&& inOutLine.getMovementQty().compareTo(orderLine.getQtyOrdered()) == 0) //  just if full match [ 1876965 ]
 						{
 							orderLine.setM_AttributeSetInstance_ID(inOutLine.getM_AttributeSetInstance_ID());
 							orderLine.save(get_TrxName());
 						}
+						addDocsPostProcess(matchPO);
 					}
 				}	//	No Order
 			}	//	PO Matching
-
 		}	//	for all lines
 
 		//	Counter Documents
