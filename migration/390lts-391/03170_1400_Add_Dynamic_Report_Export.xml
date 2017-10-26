@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Dynamic report export #1400" ReleaseNo="3.9.1" SeqNo="3140">
+  <Migration EntityType="D" Name="Dynamic report export #1400" ReleaseNo="3.9.1" SeqNo="3170">
     <Comments>See: https://github.com/adempiere/adempiere/issues/1400</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="85531" Table="AD_Column">
