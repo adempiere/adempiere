@@ -20,7 +20,6 @@ import javax.print.attribute.standard.MediaSizeName;
 
 import org.adempiere.impexp.AbstractExcelExporter;
 import org.apache.poi.hssf.usermodel.HSSFPrintSetup;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.ss.usermodel.PrintSetup;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.compiere.print.MPrintFormat;
@@ -32,6 +31,12 @@ import org.compiere.print.PrintDataElement;
 /**
  * Export PrintData to Excel (XLS) file
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+//		else if (MediaSizeName..equals(mediaSizeName)) {
+//			paperSize = HSSFPrintSetup.ENVELOPE_DL_PAPERSIZE;
+//		}
+//		else if (MediaSizeName..equals(mediaSizeName)) {
+//			paperSize = HSSFPrintSetup.ENVELOPE_CS_PAPERSIZE;
+//		}
  * 			<li>BF [ 1939010 ] Excel Export ERROR - java.sql.Date - integrated Mario Grigioni's fix
  * 			<li>BF [ 1974309 ] Exporting a report to XLS is not setting page format
  */
@@ -179,12 +184,6 @@ extends AbstractExcelExporter
 		else if (MediaSizeName.NA_NUMBER_10_ENVELOPE.equals(mediaSizeName)) {
 			paperSize = PrintSetup.ENVELOPE_10_PAPERSIZE;
 		}
-//		else if (MediaSizeName..equals(mediaSizeName)) {
-//			paperSize = HSSFPrintSetup.ENVELOPE_DL_PAPERSIZE;
-//		}
-//		else if (MediaSizeName..equals(mediaSizeName)) {
-//			paperSize = HSSFPrintSetup.ENVELOPE_CS_PAPERSIZE;
-//		}
 		else if (MediaSizeName.MONARCH_ENVELOPE.equals(mediaSizeName)) {
 			paperSize = HSSFPrintSetup.ENVELOPE_MONARCH_PAPERSIZE;
 		}
