@@ -346,9 +346,9 @@ public class MInOut extends X_M_InOut implements DocAction , DocumentReversalEna
 	 * 	Order Constructor - create header only
 	 *	@param order order
 	 *	@param movementDate optional movement date (default today)
-	 *	@param C_DocTypeShipment_ID document type or 0
+	 *	@param docTypeShipmentId document type or 0
 	 */
-	public MInOut (MOrder order, int C_DocTypeShipment_ID, Timestamp movementDate)
+	public MInOut (MOrder order, int docTypeShipmentId, Timestamp movementDate)
 	{
 		this (order.getCtx(), 0, order.get_TrxName());
 		setClientOrg(order);
@@ -358,16 +358,16 @@ public class MInOut extends X_M_InOut implements DocAction , DocumentReversalEna
 		//
 		setM_Warehouse_ID (order.getM_Warehouse_ID());
 		setIsSOTrx (order.isSOTrx());
-		if (C_DocTypeShipment_ID == 0)
-			C_DocTypeShipment_ID = DB.getSQLValue(null,
+		if (docTypeShipmentId == 0)
+			docTypeShipmentId = DB.getSQLValue(null,
 				"SELECT C_DocTypeShipment_ID FROM C_DocType WHERE C_DocType_ID=?",
 				order.getC_DocType_ID());
-		setC_DocType_ID (C_DocTypeShipment_ID);
+		setC_DocType_ID (docTypeShipmentId);
 
 		// patch suggested by Armen
 		// setMovementType (order.isSOTrx() ? MOVEMENTTYPE_CustomerShipment : MOVEMENTTYPE_VendorReceipts);
 		String movementTypeShipment = null;
-		MDocType dtShipment = new MDocType(order.getCtx(), C_DocTypeShipment_ID, order.get_TrxName()); 
+		MDocType dtShipment = new MDocType(order.getCtx(), docTypeShipmentId, order.get_TrxName());
 		if (dtShipment.getDocBaseType().equals(MDocType.DOCBASETYPE_MaterialDelivery)) 
 			movementTypeShipment = dtShipment.isSOTrx() ? MOVEMENTTYPE_CustomerShipment : MOVEMENTTYPE_VendorReturns; 
 		else if (dtShipment.getDocBaseType().equals(MDocType.DOCBASETYPE_MaterialReceipt)) 
@@ -386,6 +386,7 @@ public class MInOut extends X_M_InOut implements DocAction , DocumentReversalEna
 		setM_Shipper_ID(order.getM_Shipper_ID());
 		setFreightCostRule (order.getFreightCostRule());
 		setFreightAmt(order.getFreightAmt());
+		setM_FreightCategory_ID(order.getM_FreightCategory_ID());
 		setSalesRep_ID(order.getSalesRep_ID());
 		//
 		setC_Activity_ID(order.getC_Activity_ID());
