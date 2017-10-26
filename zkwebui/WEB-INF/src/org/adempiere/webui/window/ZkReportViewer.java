@@ -21,7 +21,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.StringWriter;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -62,6 +61,8 @@ import org.compiere.util.Env;
 import org.compiere.util.ImpExpUtil;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
+import org.spin.util.AbstractExportFormat;
+import org.spin.util.ReportExportHandler;
 import org.zkoss.util.media.AMedia;
 import org.zkoss.util.media.Media;
 import org.zkoss.zk.ui.Component;
@@ -126,7 +127,9 @@ public class ZkReportViewer extends Window implements EventListener {
 	private int					m_AD_Table_ID = 0;
 	private boolean				m_isCanExport;
 	private boolean 			m_isAllowHTMLView;
-	private boolean 			m_isAllowXLSView;	
+	private boolean 			m_isAllowXLSView;
+	/**	Export Handler			*/
+	private ReportExportHandler	exportHandler = null;
 	
 	private MQuery 		m_ddQ = null;
 	private MQuery 		m_daQ = null;
@@ -190,6 +193,8 @@ public class ZkReportViewer extends Window implements EventListener {
 		try
 		{
 			m_ctx = m_reportEngine.getCtx();
+			//	Load export
+			exportHandler = new ReportExportHandler(m_ctx, m_reportEngine);
 			init();
 			dynInit();
 			
@@ -451,7 +456,7 @@ public class ZkReportViewer extends Window implements EventListener {
 				log.log(Level.FINE, "Path="+path + " Prefix="+prefix);
 			}
 			File file = File.createTempFile(prefix, ".html", new File(path));
-			m_reportEngine.createHTML(file, false, AEnv.getLanguage(Env.getCtx()), new HTMLExtension(Executions.getCurrent().getContextPath(), "rp", this.getUuid()));
+			m_reportEngine.createHTML(file, false, new HTMLExtension(Executions.getCurrent().getContextPath(), "rp", this.getUuid()));
 			media = new AMedia(getTitle(), "html", "text/html", file, false);
 		} else if ("XLS".equals(previewType.getSelectedItem().getValue())) {
 			String path = System.getProperty("java.io.tmpdir");
@@ -461,7 +466,7 @@ public class ZkReportViewer extends Window implements EventListener {
 				log.log(Level.FINE, "Path="+path + " Prefix="+prefix);
 			}
 			File file = File.createTempFile(prefix, ".xls", new File(path));
-			m_reportEngine.createXLS(file, AEnv.getLanguage(Env.getCtx()));
+			m_reportEngine.createXLS(file);
 			media = new AMedia(getTitle(), "xls", "application/vnd.ms-excel", file, true);
 		} else if ("XLSX".equals(previewType.getSelectedItem().getValue())) {
 			String path = System.getProperty("java.io.tmpdir");
@@ -471,7 +476,7 @@ public class ZkReportViewer extends Window implements EventListener {
 				log.log(Level.FINE, "Path="+path + " Prefix="+prefix);
 			}
 			File file = File.createTempFile(prefix, ".xls", new File(path));
-			m_reportEngine.createXLSX(file, AEnv.getLanguage(Env.getCtx()));
+			m_reportEngine.createXLSX(file);
 			media = new AMedia(prefix, "xlsx", "application/vnd.ms-excel", file, true);
 		}
 		iframe.setContent(media);
@@ -870,21 +875,25 @@ public class ZkReportViewer extends Window implements EventListener {
 
 			cboType.setMold("select");
 			
-			cboType.getItems().clear();			
-			cboType.appendItem("ps" + " - " + Msg.getMsg(Env.getCtx(), "FilePS"), "ps");
-			cboType.appendItem("xml" + " - " + Msg.getMsg(Env.getCtx(), "FileXML"), "xml");
-			ListItem li = cboType.appendItem("pdf" + " - " + Msg.getMsg(Env.getCtx(), "FilePDF"), "pdf");
-			cboType.appendItem("html" + " - " + Msg.getMsg(Env.getCtx(), "FileHTML"), "html");
-			cboType.appendItem("txt" + " - " + Msg.getMsg(Env.getCtx(), "FileTXT"), "txt");
-			cboType.appendItem("ssv" + " - " + Msg.getMsg(Env.getCtx(), "FileSSV"), "ssv");
-			cboType.appendItem("csv" + " - " + Msg.getMsg(Env.getCtx(), "FileCSV"), "csv");
-			cboType.appendItem("xls" + " - " + Msg.getMsg(Env.getCtx(), "FileXLS"), "xls");
-			//	BR [1019]
-			if (m_IsCanLoad) {
-				cboType.appendItem("arxml" + " - " + Msg.getMsg(Env.getCtx(), "Adempiere Report Definition"), "arxml");
+			cboType.getItems().clear();
+			//	
+			int defaultItem = 0;
+			if(exportHandler.getExportFormatList() != null) {
+				for(AbstractExportFormat exportFormat : exportHandler.getExportFormatList()) {
+					if(exportFormat.getExtension().equals("arxml")
+							&& !m_IsCanLoad) {
+						continue;
+					}
+					//	For all
+					cboType.appendItem(exportFormat.getExtension() + " - " + exportFormat.getName(), exportFormat.getExtension());
+					//	For default
+					if(exportFormat.getExtension().equals("pdf")) {
+						defaultItem = cboType.getItemCount() - 1;
+					}
+				}
 			}
-			cboType.setSelectedItem(li);
-			
+			//	Set Default
+			cboType.setSelectedIndex(defaultItem);
 			Hbox hb = new Hbox();
 			Div div = new Div();
 			div.setAlign("right");
@@ -965,82 +974,25 @@ public class ZkReportViewer extends Window implements EventListener {
 		
 	}
 	
-	private void exportFile()
-	{
-		try
-		{
+	/**
+	 * Export to file
+	 */
+	private void exportFile() {
+		try {
 			ListItem li = cboType.getSelectedItem();
-			if(li == null || li.getValue() == null)
-			{
+			if(li == null || li.getValue() == null) {
 				FDialog.error(m_WindowNo, winExportFile, "FileInvalidExtension");
 				return;
 			}
-			
+			//	
 			String ext = li.getValue().toString();
-			
-			byte[] data = null;
-			File inputFile = null;
-									
-			if (ext.equals("pdf"))
-			{
-				data = m_reportEngine.createPDFData();
-			}
-			else if (ext.equals("ps"))
-			{
-				ByteArrayOutputStream baos = new ByteArrayOutputStream();
-				m_reportEngine.createPS(baos);
-				data = baos.toByteArray();
-			}
-			else if (ext.equals("xml"))
-			{
-				StringWriter sw = new StringWriter();							
-				m_reportEngine.createXML(sw);
-				data = sw.getBuffer().toString().getBytes();
-			}
-			else if (ext.equals("csv") || ext.equals("ssv"))
-			{
-				StringWriter sw = new StringWriter();							
-				m_reportEngine.createCSV(sw, ',', m_reportEngine.getPrintFormat().getLanguage());
-				data = sw.getBuffer().toString().getBytes();
-			}
-			else if (ext.equals("txt"))
-			{
-				StringWriter sw = new StringWriter();							
-				m_reportEngine.createCSV(sw, '\t', m_reportEngine.getPrintFormat().getLanguage());
-				data = sw.getBuffer().toString().getBytes();							
-			}
-			else if (ext.equals("html") || ext.equals("htm"))
-			{
-				StringWriter sw = new StringWriter();							
-				m_reportEngine.createHTML(sw, false, m_reportEngine.getPrintFormat().getLanguage());
-				data = sw.getBuffer().toString().getBytes();	
-			}
-			else if (ext.equals("xls"))
-			{
-				inputFile = File.createTempFile("Export", ".xls");							
-				m_reportEngine.createXLS(inputFile, m_reportEngine.getPrintFormat().getLanguage());
-			} 
-			//	BR [1019]
-			else if (ext.equals("arxml")){
-				inputFile = File.createTempFile("Export", ".arxml");	
-				ImpExpUtil.exportPrintFormat(inputFile, m_reportEngine);
-			}
-			else
-			{
-				FDialog.error(m_WindowNo, winExportFile, "FileInvalidExtension");
-				return;
-			}
-
+			File inputFile = File.createTempFile("Export", "." + ext);
+			exportHandler.exportToFile(ext, inputFile);
 			winExportFile.onClose();
 			AMedia media = null;
-			if (data != null)
-				media = new AMedia(m_reportEngine.getPrintFormat().getName() + "." + ext, null, "application/octet-stream", data);
-			else
-				media = new AMedia(m_reportEngine.getPrintFormat().getName() + "." + ext, null, "application/octet-stream", inputFile, true);
+			media = new AMedia(m_reportEngine.getPrintFormat().getName() + "." + ext, null, "application/octet-stream", inputFile, true);
 			Filedownload.save(media, m_reportEngine.getPrintFormat().getName() + "." + ext);
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			log.log(Level.SEVERE, "Failed to export content.", e);
 		}
 	}
