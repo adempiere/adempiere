@@ -22,12 +22,14 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.PeriodClosedException;
 import org.compiere.process.DocAction;
+import org.compiere.process.DocumentReversalEnabled;
 import org.compiere.process.DocumentEngine;
 import org.compiere.process.ProcessInfo;
 import org.compiere.util.AdempiereUserError;
@@ -49,7 +51,7 @@ import org.eevolution.service.dsl.ProcessBuilder;
  * 		<a href="https://github.com/adempiere/adempiere/issues/887">
  * 		@see FR [ 887 ] System Config reversal invoice DocNo</a>	
  */
-public class MProduction extends X_M_Production implements DocAction {
+public class MProduction extends X_M_Production implements DocAction , DocumentReversalEnabled {
 
 	/**
 	 * 
@@ -609,6 +611,102 @@ public class MProduction extends X_M_Production implements DocAction {
 		return true;
 	}
 
+	/**
+	 * Reverse it
+	 * @param isAccrual
+	 * @return
+	 */
+	public MProduction reverseIt(boolean isAccrual)
+	{
+		Timestamp currentDate = new Timestamp(System.currentTimeMillis());
+		Optional<Timestamp> loginDateOptional = Optional.of(Env.getContextAsDate(getCtx(),"#Date"));
+		Timestamp reversalDate =  isAccrual ? loginDateOptional.orElse(currentDate) : getMovementDate();
+		MPeriod.testPeriodOpen(getCtx(), reversalDate , getC_DocType_ID(), getAD_Org_ID());
+		MProduction reversal = null;
+		reversal = copyFrom(reversalDate);
+		MDocType docType = MDocType.get(getCtx(), getC_DocType_ID());
+		if(docType.isCopyDocNoOnReversal()) {
+			reversal.setDocumentNo(getDocumentNo() + "^");
+		}
+
+		StringBuilder msgadd = new StringBuilder("{->").append(getDocumentNo()).append(")");
+		reversal.addDescription(msgadd.toString());
+		reversal.setReversal_ID(getM_Production_ID());
+		reversal.saveEx(get_TrxName());
+
+		if (!reversal.processIt(DocAction.ACTION_Complete))
+		{
+			m_processMsg = "Reversal ERROR: " + reversal.getProcessMsg();
+			return null;
+		}
+
+		reversal.closeIt();
+		reversal.setProcessing(false);
+		reversal.setDocStatus(DOCSTATUS_Reversed);
+		reversal.setDocAction(DOCACTION_None);
+		reversal.saveEx(get_TrxName());
+
+		msgadd = new StringBuilder("(").append(reversal.getDocumentNo()).append("<-)");
+		addDescription(msgadd.toString());
+
+		setProcessed(true);
+		setReversal_ID(reversal.getM_Production_ID());
+		setDocStatus(DOCSTATUS_Reversed); // may come from void
+		setDocAction(DOCACTION_None);
+
+		MProductionBatch pBatch = getParent();
+		pBatch.saveEx(get_TrxName());
+
+		return reversal;
+	}
+
+	/**
+	 * Copy from other
+	 * @param reversalDate
+	 * @return
+	 */
+	private MProduction copyFrom(Timestamp reversalDate)
+	{
+		MProduction to = new MProduction(getCtx(), 0, get_TrxName());
+		PO.copyValues(this, to, getAD_Client_ID(), getAD_Org_ID());
+		to.set_ValueNoCheck("DocumentNo", null);
+		//
+		to.setDocStatus(DOCSTATUS_Drafted); // Draft
+		to.setDocAction(DOCACTION_Complete);
+		to.setMovementDate(reversalDate);
+		to.setIsComplete("N");
+		to.setIsCreated(true);
+		to.setPosted(false);
+		to.setProcessing(false);
+		to.setProcessed(false);
+		to.setProductionQty(getProductionQty().negate());
+		to.saveEx();
+		for (MProductionLine fline : getLines())
+		{
+			MProductionLine tline = new MProductionLine(to);
+			PO.copyValues(fline, tline, getAD_Client_ID(), getAD_Org_ID());
+			tline.setM_Production_ID(to.getM_Production_ID());
+			tline.setMovementQty(fline.getMovementQty().negate());
+			tline.setPlannedQty(fline.getPlannedQty().negate());
+			tline.setQtyUsed(fline.getQtyUsed().negate());
+			tline.setReversalLine_ID(fline.getM_ProductionLine_ID());
+			tline.saveEx();
+			//We need to copy MA
+			if (tline.getM_AttributeSetInstance_ID() == 0)
+			{
+				MProductionLineMA mas[] = MProductionLineMA.get(getCtx(), fline.getM_ProductionLine_ID(), get_TrxName());
+				for (int j = 0; j < mas.length; j++)
+				{
+					MProductionLineMA ma = new MProductionLineMA (tline,
+							mas[j].getM_AttributeSetInstance_ID(),
+							mas[j].getMovementQty().negate());
+					ma.saveEx();
+				}
+			}
+		}
+		return to;
+	}
+
 	@Override
 	public boolean reverseCorrectIt()
 	{
@@ -619,7 +717,11 @@ public class MProduction extends X_M_Production implements DocAction {
 		if (m_processMsg != null)
 			return false;
 
-		MProduction reversal = new MProduction(getCtx(), 0, get_TrxName());
+		MProduction reversal = reverseIt(false);
+		if (reversal == null)
+			return false;
+
+/*		MProduction reversal = new MProduction(getCtx(), 0, get_TrxName());
 		copyValues(this, reversal, getAD_Client_ID(), getAD_Org_ID());
 		reversal.set_ValueNoCheck("DocumentNo", null);
 		//	Set Document No from flag
@@ -679,7 +781,8 @@ public class MProduction extends X_M_Production implements DocAction {
 		m_processMsg = reversal.getDocumentNo();
 
 		//	Update Reversed (this)
-		addDescription("(" + reversal.getDocumentNo() + "<-)");
+		addDescription("(" + reversal.getDocumentNo() + "<-)");*/
+
 		// After reverseCorrect
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_REVERSECORRECT);
 		if (m_processMsg != null)
@@ -690,90 +793,28 @@ public class MProduction extends X_M_Production implements DocAction {
 		return true;
 	}
 
-	/**
-	 * Reverse it
-	 * @param accrual
-	 * @return
-	 */
-	private MProduction reverse(boolean accrual)
+	@Override
+	public boolean reverseAccrualIt()
 	{
-		Timestamp reversalDate = accrual ? Env.getContextAsDate(getCtx(), "#Date") : getMovementDate();
-		if (reversalDate == null)
-		{
-			reversalDate = new Timestamp(System.currentTimeMillis());
-		}
+		if (log.isLoggable(Level.INFO))
+			log.info(toString());
+		// Before reverseAccrual
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_REVERSEACCRUAL);
+		if (m_processMsg != null)
+			return false;
 
-		MPeriod.testPeriodOpen(getCtx(), reversalDate, MDocType.DOCBASETYPE_ManufacturingOrder, getAD_Org_ID());
-		MProduction reversal = null;
-		reversal = copyFrom(reversalDate);
+		MProduction reversal = reverseIt(true);
+		if (reversal == null)
+			return false;
 
-		StringBuilder msgadd = new StringBuilder("{->").append(getDocumentNo()).append(")");
-		reversal.addDescription(msgadd.toString());
-		reversal.setReversal_ID(getM_Production_ID());
-		reversal.saveEx(get_TrxName());
+		// After reverseAccrual
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_REVERSEACCRUAL);
+		if (m_processMsg != null)
+			return false;
 
-		if (!reversal.processIt(DocAction.ACTION_Complete))
-		{
-			m_processMsg = "Reversal ERROR: " + reversal.getProcessMsg();
-			return null;
-		}
+		m_processMsg = reversal.getDocumentNo();
 
-		reversal.closeIt();
-		reversal.setProcessing(false);
-		reversal.setDocStatus(DOCSTATUS_Reversed);
-		reversal.setDocAction(DOCACTION_None);
-		reversal.saveEx(get_TrxName());
-
-		msgadd = new StringBuilder("(").append(reversal.getDocumentNo()).append("<-)");
-		addDescription(msgadd.toString());
-
-		setProcessed(true);
-		setReversal_ID(reversal.getM_Production_ID());
-		setDocStatus(DOCSTATUS_Reversed); // may come from void
-		setDocAction(DOCACTION_None);
-		
-		MProductionBatch pBatch = getParent();
-		//pBatch.reserveStock((MProduct)reversal.getM_Product(), getProductionQty(), getM_Production_ID());
-		//pBatch.orderedStock(reversal.getM_Product(), getProductionQty());
-		pBatch.saveEx(get_TrxName());
-		
-		return reversal;
-	}
-
-	/**
-	 * Copy from other
-	 * @param reversalDate
-	 * @return
-	 */
-	private MProduction copyFrom(Timestamp reversalDate)
-	{
-		MProduction to = new MProduction(getCtx(), 0, get_TrxName());
-		PO.copyValues(this, to, getAD_Client_ID(), getAD_Org_ID());
-
-		to.setDocumentNo(null);
-		//
-		to.setDocStatus(DOCSTATUS_Drafted); // Draft
-		to.setDocAction(DOCACTION_Complete);
-		to.setMovementDate(reversalDate);
-		to.setIsComplete("N");
-		to.setIsCreated(true);
-		to.setProcessing(false);
-		to.setProcessed(false);
-		to.setProductionQty(getProductionQty().negate());
-		to.saveEx();
-		MProductionLine[] flines = getLines();
-		for (MProductionLine fline : flines)
-		{
-			MProductionLine tline = new MProductionLine(to);
-			PO.copyValues(fline, tline, getAD_Client_ID(), getAD_Org_ID());
-			tline.setM_Production_ID(to.getM_Production_ID());
-			tline.setMovementQty(fline.getMovementQty().negate());
-			tline.setPlannedQty(fline.getPlannedQty().negate());
-			tline.setQtyUsed(fline.getQtyUsed().negate());
-			tline.saveEx();
-		}
-
-		return to;
+		return true;
 	}
 
 	/**
@@ -846,30 +887,6 @@ public class MProduction extends X_M_Production implements DocAction {
 			setDescription(msgd.toString());
 		}
 	} // addDescription
-
-	@Override
-	public boolean reverseAccrualIt()
-	{
-		if (log.isLoggable(Level.INFO))
-			log.info(toString());
-		// Before reverseAccrual
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_REVERSEACCRUAL);
-		if (m_processMsg != null)
-			return false;
-
-		MProduction reversal = reverse(true);
-		if (reversal == null)
-			return false;
-
-		// After reverseAccrual
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_REVERSEACCRUAL);
-		if (m_processMsg != null)
-			return false;
-
-		m_processMsg = reversal.getDocumentNo();
-
-		return true;
-	}
 
 	@Override
 	public boolean reActivateIt()
@@ -984,7 +1001,7 @@ public class MProduction extends X_M_Production implements DocAction {
 	 * 	Set Reversal
 	 *	@param reversal reversal
 	 */
-	private void setReversal(boolean reversal)
+	public void setReversal(boolean reversal)
 	{
 		m_reversal = reversal;
 	}	//	setReversal
