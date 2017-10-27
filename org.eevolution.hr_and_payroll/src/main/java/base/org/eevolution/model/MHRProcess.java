@@ -31,6 +31,7 @@ import java.util.Properties;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
+import org.adempiere.exceptions.PeriodClosedException;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MCommission;
 import org.compiere.model.MDocType;
@@ -46,6 +47,7 @@ import org.compiere.model.Scriptlet;
 import org.compiere.print.ReportEngine;
 import org.compiere.process.DocAction;
 import org.compiere.process.DocumentEngine;
+import org.compiere.process.DocumentReversalEnabled;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -76,7 +78,8 @@ import javax.script.ScriptEngine;
  * 		<a href="https://github.com/adempiere/adempiere/issues/766">
  * 		@see FR [ 766 ] Improve Commission Calculation</a>
  */
-public class MHRProcess extends X_HR_Process implements DocAction {
+public class MHRProcess extends X_HR_Process implements DocAction , DocumentReversalEnabled {
+
 	/**
 	 * 
 	 */
@@ -195,15 +198,15 @@ public class MHRProcess extends X_HR_Process implements DocAction {
 	 */
 	public boolean processIt (String processAction)
 	{
-		m_processMsg = null;
+		processMsg = null;
 		DocumentEngine engine = new DocumentEngine (this, getDocStatus());
 		return engine.processIt (processAction, getDocAction());
 	}	//	processIt
 
 	/**	Process Message 			*/
-	private String		m_processMsg = null;
+	private String processMsg = null;
 	/**	Just Prepared Flag			*/
-	private boolean		m_justPrepared = false;
+	private boolean justPrepared = false;
 
 	/**
 	 * 	Unlock Document.
@@ -236,8 +239,8 @@ public class MHRProcess extends X_HR_Process implements DocAction {
 	{
 		logger.info("prepareIt - " + toString());
 
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_PREPARE);
-		if (m_processMsg != null)
+		processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_PREPARE);
+		if (processMsg != null)
 			return DocAction.STATUS_Invalid;
 
 		reActivateIt();
@@ -264,11 +267,11 @@ public class MHRProcess extends X_HR_Process implements DocAction {
 			throw new AdempiereException(exception);
 		}
 		
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_PREPARE);
-		if (m_processMsg != null)
+		processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_PREPARE);
+		if (processMsg != null)
 			return DocAction.STATUS_Invalid;
 		//
-		m_justPrepared = true;
+		justPrepared = true;
 		if (!DOCACTION_Complete.equals(getDocAction()))
 			setDocAction(DOCACTION_Complete);
 		return DocAction.STATUS_InProgress;
@@ -282,20 +285,20 @@ public class MHRProcess extends X_HR_Process implements DocAction {
 	public String completeIt()
 	{
 		//	Re-Check
-		if (!m_justPrepared)
+		if (!justPrepared)
 		{
 			String status = prepareIt();
 			if (!DocAction.STATUS_InProgress.equals(status))
 				return status;
 		}
 
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_COMPLETE);
-		if (m_processMsg != null)
+		processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_COMPLETE);
+		if (processMsg != null)
 			return DocAction.STATUS_Invalid;
 
 		//	User Validation
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_COMPLETE);
-		if (m_processMsg != null)
+		processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_COMPLETE);
+		if (processMsg != null)
 		{
 			return DocAction.STATUS_Invalid;
 		}
@@ -343,8 +346,8 @@ public class MHRProcess extends X_HR_Process implements DocAction {
 
 		logger.info("voidIt - " + toString());
 		// Before Void
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_VOID);
-		if (m_processMsg != null)
+		processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_VOID);
+		if (processMsg != null)
 			return false;
 	
 	
@@ -353,7 +356,7 @@ public class MHRProcess extends X_HR_Process implements DocAction {
 		|| DOCSTATUS_Reversed.equals(getDocStatus())
 		|| DOCSTATUS_Voided.equals(getDocStatus()))
 		{
-			m_processMsg = "Document Closed: " + getDocStatus();
+			processMsg = "Document Closed: " + getDocStatus();
 			return false;
 		}
 	
@@ -386,11 +389,25 @@ public class MHRProcess extends X_HR_Process implements DocAction {
 		}
 		else
 		{
-			return reverseCorrectIt();
+
+			boolean isAccrual = false;
+			try
+			{
+				MPeriod.testPeriodOpen(getCtx(), getDateAcct(), getC_DocType_ID(), getAD_Org_ID());
+			}
+			catch (PeriodClosedException periodClosedException)
+			{
+				isAccrual = true;
+			}
+
+			if (isAccrual)
+				return reverseAccrualIt();
+			else
+				return reverseCorrectIt();
 		}
 		// After Void
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_VOID);
-		if (m_processMsg != null)
+		processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_VOID);
+		if (processMsg != null)
 			return false;
 
 		return true;
@@ -409,16 +426,16 @@ public class MHRProcess extends X_HR_Process implements DocAction {
 			logger.info(toString());
 			
 			// Before Close
-			m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_CLOSE);
-			if (m_processMsg != null)
+			processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_CLOSE);
+			if (processMsg != null)
 				return false;
 			
 			setProcessed(true);
 			setDocAction(DOCACTION_None);
 			
 			// After Close
-			m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_CLOSE);
-			if (m_processMsg != null)
+			processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_CLOSE);
+			if (processMsg != null)
 				return false;
 				
 			return true;	
@@ -429,24 +446,23 @@ public class MHRProcess extends X_HR_Process implements DocAction {
 
 
 	/**
-	 * 	Reverse Correction - same void
-	 * 	@return true if success
+	 *
+	 * @param isAccrual
+	 * @return
 	 */
-	public boolean reverseCorrectIt() {
-		logger.info("reverseCorrectIt - " + toString());
-		// Before reverseCorrect
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REVERSECORRECT);
-		if (m_processMsg != null)
-			return false;
-
-		MPeriod.testPeriodOpen(getCtx(), getDateAcct(), MPeriodControl.DOCBASETYPE_Payroll, getAD_Org_ID());
-		
+	public MHRProcess reverseIt(boolean isAccrual)
+	{
+		Timestamp currentDate = new Timestamp(System.currentTimeMillis());
+		Optional<Timestamp> loginDateOptional = Optional.of(Env.getContextAsDate(getCtx(),"#Date"));
+		Timestamp reversalDate =  isAccrual ? loginDateOptional.orElse(currentDate) : getDateAcct();
+		MPeriod.testPeriodOpen(getCtx(), reversalDate , getC_DocType_ID(), getAD_Org_ID());
 		MHRProcess reversal = copyFrom (this, getDateAcct(), getC_DocType_ID(), false, null , true);
 		if (reversal == null)
 		{
-			m_processMsg = "Could not create Payroll Process Reversal";
-			return false;
+			processMsg = "Could not create Payroll Process Reversal";
+			return null;
 		}
+
 		reversal.setReversal_ID(getHR_Process_ID());
 		reversal.setProcessing (false);
 		reversal.setDocStatus(DOCSTATUS_Reversed);
@@ -454,8 +470,8 @@ public class MHRProcess extends X_HR_Process implements DocAction {
 		reversal.setProcessed(true);
 		reversal.setName("("+reversal.getDocumentNo()+" -> "+getDocumentNo()+")");
 		reversal.saveEx(null);
-		
-		m_processMsg = reversal.getDocumentNo();
+
+		processMsg = reversal.getDocumentNo();
 		setProcessed(true);
 		setReversal_ID(reversal.getHR_Process_ID());
 		setDocStatus(DOCSTATUS_Reversed);	//	may come from void
@@ -465,9 +481,27 @@ public class MHRProcess extends X_HR_Process implements DocAction {
 		setName("(" + getName() + " <- "+reversal.getDocumentNo() + ")");
 		saveEx();
 
+		return  reversal;
+	}
+
+	/**
+	 * 	Reverse Correction - same void
+	 * 	@return true if success
+	 */
+	public boolean reverseCorrectIt() {
+		logger.info("reverseCorrectIt - " + toString());
+		// Before reverseCorrect
+		processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REVERSECORRECT);
+		if (processMsg != null)
+			return false;
+
+		MHRProcess reversal = reverseIt(false);
+		if (reversal == null)
+			return false;
+
 		// After reverseCorrect
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSECORRECT);
-		if (m_processMsg != null)
+		processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSECORRECT);
+		if (processMsg != null)
 			return false;
 		
 				return true;
@@ -482,16 +516,20 @@ public class MHRProcess extends X_HR_Process implements DocAction {
 	public boolean reverseAccrualIt() {
 		logger.info("reverseAccrualIt - " + toString());
 		// Before reverseAccrual
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REVERSEACCRUAL);
-		if (m_processMsg != null)
+		processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REVERSEACCRUAL);
+		if (processMsg != null)
 			return false;
-		
+
+		MHRProcess reversal = reverseIt(true);
+		if (reversal == null)
+			return false;
+
 		// After reverseAccrual
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSEACCRUAL);
-		if (m_processMsg != null)
+		processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSEACCRUAL);
+		if (processMsg != null)
 			return false;
 		
-		return false;
+		return true;
 	}	//	reverseAccrualIt
 
 
@@ -503,8 +541,8 @@ public class MHRProcess extends X_HR_Process implements DocAction {
 		logger.info("reActivateIt - " + toString());
 
 		// Before reActivate
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REACTIVATE);
-		if (m_processMsg != null)
+		processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REACTIVATE);
+		if (processMsg != null)
 			return false;
 		
 		//	Can we delete posting
@@ -522,8 +560,8 @@ public class MHRProcess extends X_HR_Process implements DocAction {
 		setDocAction(DOCACTION_Complete);
 				
 		// After reActivate
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REACTIVATE);
-		if (m_processMsg != null)
+		processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REACTIVATE);
+		if (processMsg != null)
 			return false;
 
 		return true;
@@ -558,7 +596,7 @@ public class MHRProcess extends X_HR_Process implements DocAction {
 
 	public String getProcessMsg() 
 	{
-		return m_processMsg;
+		return processMsg;
 	}
 
 	public String getSummary()
@@ -2166,6 +2204,7 @@ public class MHRProcess extends X_HR_Process implements DocAction {
 	{
 		MHRProcess to = new MHRProcess (from.getCtx(), 0, trxName);		
 		PO.copyValues (from, to, from.getAD_Client_ID(), from.getAD_Org_ID());
+		to.setReversal(true);
 		to.set_ValueNoCheck ("DocumentNo", null);
 		//
 		to.setDocStatus (DOCSTATUS_Drafted);		//	Draft
@@ -2209,6 +2248,7 @@ public class MHRProcess extends X_HR_Process implements DocAction {
 		{
 			MHRMovement toMovement = new MHRMovement (getCtx(), 0, null);
 			PO.copyValues (fromMovement, toMovement, fromMovement.getAD_Client_ID(), fromMovement.getAD_Org_ID());
+			//toMovement
 			toMovement.setIsManual(fromMovement.isManual());
 			toMovement.setHR_Concept_Category_ID(fromMovement.getHR_Concept_Category_ID());
 			toMovement.setHR_Process_ID(getHR_Process_ID());
@@ -2399,5 +2439,26 @@ public class MHRProcess extends X_HR_Process implements DocAction {
 	public double getCommissionAmt() {
 		return getCommissionAmt(null);
 	}
+
+	/** Reversal Flag		*/
+	private boolean isReversal = false;
+
+	/**
+	 * 	Set Reversal
+	 *	@param isReversal reversal
+	 */
+	public void setReversal(boolean isReversal)
+	{
+		this.isReversal = isReversal;
+	}	//	setReversal
+
+	/**
+	 * 	Is Reversal
+	 *	@return reversal
+	 */
+	public boolean isReversal()
+	{
+		return isReversal;
+	}	//	isReversal
 	
 }	//	MHRProcess
