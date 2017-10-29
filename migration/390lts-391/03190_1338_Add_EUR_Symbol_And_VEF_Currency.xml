@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Symbol for EUR is not € #1338" ReleaseNo="3.9.1" SeqNo="3190">
+    <Comments>See: https://github.com/adempiere/adempiere/issues/1338</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="141" Action="U" Record_ID="102" Table="C_Currency">
+        <Data AD_Column_ID="796" Column="CurSymbol" oldValue="E">€</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="617" Action="U" Record_ID="102" Table="C_Currency_Trl">
+        <Data AD_Column_ID="9628" Column="IsTranslated" oldValue="true">false</Data>
+        <Data AD_Column_ID="9631" Column="C_Currency_ID" oldValue="102">102</Data>
+        <Data AD_Column_ID="9627" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="141" Action="I" Record_ID="50000" Table="C_Currency">
+        <Data AD_Column_ID="457" Column="C_Currency_ID">50000</Data>
+        <Data AD_Column_ID="794" Column="Updated">2017-10-29 13:57:37.643</Data>
+        <Data AD_Column_ID="792" Column="Created">2017-10-29 13:57:37.643</Data>
+        <Data AD_Column_ID="789" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="790" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="791" Column="IsActive">true</Data>
+        <Data AD_Column_ID="461" Column="CostingPrecision">4</Data>
+        <Data AD_Column_ID="459" Column="StdPrecision">2</Data>
+        <Data AD_Column_ID="460" Column="Description">Bolivar</Data>
+        <Data AD_Column_ID="458" Column="ISO_Code">VEF</Data>
+        <Data AD_Column_ID="797" Column="IsEuro">false</Data>
+        <Data AD_Column_ID="793" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="796" Column="CurSymbol">Bs</Data>
+        <Data AD_Column_ID="798" Column="IsEMUMember">false</Data>
+        <Data AD_Column_ID="462" Column="EMUEntryDate" isNewNull="true"/>
+        <Data AD_Column_ID="463" Column="EMURate">0</Data>
+        <Data AD_Column_ID="795" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="52074" Column="RoundOffFactor">1</Data>
+        <Data AD_Column_ID="84646" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="617" Action="I" Record_ID="50000" Table="C_Currency_Trl">
+        <Data AD_Column_ID="9625" Column="IsActive">true</Data>
+        <Data AD_Column_ID="9626" Column="Updated">2017-10-29 13:57:38.702</Data>
+        <Data AD_Column_ID="9624" Column="Created">2017-10-29 13:57:38.702</Data>
+        <Data AD_Column_ID="9633" Column="CurSymbol">Bs</Data>
+        <Data AD_Column_ID="9628" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="9632" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="9634" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="9631" Column="C_Currency_ID">50000</Data>
+        <Data AD_Column_ID="9627" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="9623" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="9629" Column="Description">Bolivar</Data>
+        <Data AD_Column_ID="9630" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84648" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="141" Action="U" Record_ID="205" Table="C_Currency">
+        <Data AD_Column_ID="791" Column="IsActive" oldValue="true">false</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>
