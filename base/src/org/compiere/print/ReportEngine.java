@@ -67,6 +67,7 @@ import org.spin.util.ExportFormatPDF;
 import org.spin.util.ExportFormatPS;
 import org.spin.util.ExportFormatXLS;
 import org.spin.util.ExportFormatXLSX;
+import org.spin.util.ExportFormatXML;
 
 /**
  *	Report Engine.
@@ -532,6 +533,7 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 	 *  @param language optional language - if null the default language is used to format nubers/dates
 	 * 	@return true if success
 	 */
+	@Deprecated
 	public boolean createHTML (File file, boolean onlyTable) {
 		return new ExportFormatHTML(getCtx(), this).createHTML(file, onlyTable, null);
 	}
@@ -544,6 +546,7 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 	 *  @param extension optional extension for html output
 	 * 	@return true if success
 	 */
+	@Deprecated
 	public boolean createHTML (File file, boolean onlyTable, IHTMLExtension extension) {
 		return new ExportFormatHTML(m_ctx, this).createHTML(file, onlyTable, extension);
 	}	//	createHTML
@@ -555,6 +558,7 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 	 *  @param language translation language
 	 * 	@return true if success
 	 */
+	@Deprecated
 	public boolean createCSV (File file, char delimiter) {
 		return new ExportFormatCSV(getCtx(), this).createCSV(file, delimiter, null);
 	}	//	createCSV
@@ -566,6 +570,7 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 	 *  @param language translation language
 	 * 	@return true if success
 	 */
+	@Deprecated
 	public boolean createCSV (Writer writer, char delimiter, Language language) {
 		return  createCSV(writer, delimiter, language, true);
 	}	//	createCSV
@@ -578,9 +583,41 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 	 *  @param printHeader include column headers
 	 * 	@return true if success
 	 */
+	@Deprecated
 	public boolean createCSV (Writer writer, char delimiter, Language language, boolean printHeader) {
 		return new ExportFormatCSV(getCtx(), this).createCSV(writer, delimiter, language, printHeader);
 	}	//	createCSV
+	
+	/**
+	 * Create XML from File
+	 */
+	@Deprecated
+	public boolean createXML(File file) {
+		return new ExportFormatXML(getCtx(), this).exportToFile(file);
+	}
+	
+	/**
+	 * Create XML from Writer
+	 */
+	@Deprecated
+	public boolean createXML(Writer writer) {
+		return new ExportFormatXML(getCtx(), this).createXML(writer);
+	}
+	
+	/**
+	 * 	Write delimited file to writer
+	 * 	@param writer writer
+	 *  @param delimiter delimiter, e.g. comma, tab
+	 *  @param language translation language
+	 *  @param printHeader if you want a row with column names included
+	 *  try
+	 * 	@return true if success
+	 */
+	@Deprecated
+	public boolean createDelimitedFile (Writer writer, char delimiter, Language language, boolean printHeader) {
+		return new ExportFormatXML(getCtx(), this).createDelimitedFile(writer, delimiter, language, printHeader);
+	}
+	
 	/**************************************************************************
 	 * 	Create PDF file.
 	 * 	(created in temporary storage)
