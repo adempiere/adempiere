@@ -49,6 +49,9 @@ import org.compiere.util.Util;
  * 
  * @author Tobias Schoeneberg, www.metas.de - FR [ 2897194 ] Advanced Zoom and
  *         RelationTypes
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * 		<a href="https://github.com/adempiere/adempiere/issues/1427">
+ * 		@see FR [ 1427 ] SQL Error when a column don't have a value</a>
  */
 public class MRelationType extends X_AD_RelationType implements IZoomProvider {
 
@@ -412,21 +415,28 @@ public class MRelationType extends X_AD_RelationType implements IZoomProvider {
 		return refTable;
 	}
 
+	/**
+	 * Evaluate Query
+	 * @param query
+	 */
 	private static void evaluateQuery(final MQuery query) {
-
-		final String sqlCommon = " FROM " + query.getZoomTableName()
-				+ " WHERE " + query.getWhereClause(false);
-
-		final String sqlCount = "SELECT COUNT(*) " + sqlCommon;
-
-		final int count = DB.getSQLValueEx(null, sqlCount);
+		String sqlCommon = null;
+		String whereClause = query.getWhereClause(false);
+		int count = 0;
+		//	Validate if it is parsed
+		if(!Util.isEmpty(whereClause)) {
+			sqlCommon = " FROM " + query.getZoomTableName()
+			+ " WHERE " + whereClause;
+			String sqlCount = "SELECT COUNT(*) " + sqlCommon;
+			count = DB.getSQLValueEx(null, sqlCount);
+		}
+		//	
 		query.setRecordCount(count);
 
 		if (count > 0) {
-
 			final String sqlFirstKey = "SELECT " + query.getZoomColumnName()
 					+ sqlCommon;
-
+			
 			final int firstKey = DB.getSQLValueEx(null, sqlFirstKey);
 			query.setZoomValue(firstKey);
 		}
