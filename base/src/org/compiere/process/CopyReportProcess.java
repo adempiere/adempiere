@@ -23,6 +23,7 @@ import org.compiere.model.MColumn;
 import org.compiere.model.MProcess;
 import org.compiere.model.MProcessPara;
 import org.compiere.model.PO;
+import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 
 /**
@@ -40,12 +41,21 @@ public class CopyReportProcess extends CopyReportProcessAbstract {
 	/**	SQL					*/
 	private StringBuffer	sql = new StringBuffer();
 	/**	Sequence			*/
-	private int				m_SeqNo = 10;
+	private int				seqNo = 0;
 	
 	@Override
 	protected String doIt() throws Exception {
 		//	Instance current process
 		MProcess process = MProcess.get(getCtx(), getRecord_ID());
+		//	Get Last Sequence No
+		seqNo = DB.getSQLValueEx(get_TrxName(), "SELECT MAX(SeqNo) "
+				+ "FROM AD_Process_Para WHERE AD_Process_ID = ?", getRecord_ID());
+		//	
+		if(seqNo == -1) {
+			seqNo = 10;
+		} else {
+			seqNo += 10;
+		}
 		//	
 		List<Integer> keys = getSelectionKeys();
 		for(Integer key : keys) {
@@ -107,11 +117,11 @@ public class CopyReportProcess extends CopyReportProcessAbstract {
 		newParameter.setIsRange(isRange);
 		newParameter.setDefaultValue(defaultValue);
 		newParameter.setDefaultValue2(defaultValue2);
-		newParameter.setSeqNo(m_SeqNo);
+		newParameter.setSeqNo(seqNo);
 		//	Save
 		newParameter.saveEx();
 		//	Add new Sequence
-		m_SeqNo += 10;
+		seqNo += 10;
 		addLog("@AD_Process_Para_ID@ @" + newParameter.getColumnName() + "@ @Added@");
 	}
 	
