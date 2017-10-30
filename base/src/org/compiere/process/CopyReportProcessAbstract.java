@@ -30,24 +30,9 @@ public abstract class CopyReportProcessAbstract extends SvrProcess {
 	private static final String NAME_FOR_PROCESS = "Copy From Report and Process";
 	/** Process Id 	*/
 	private static final int ID_FOR_PROCESS = 53179;
-	/**	Parameter Name for Process	*/
-	private static final String AD_PROCESS_ID = "AD_Process_ID";
-	/**	Parameter Value for Process	*/
-	private int aDProcessId;
 
 	@Override
 	protected void prepare() {
-		aDProcessId = getParameterAsInt(AD_PROCESS_ID);
-	}
-
-	/**	 Getter Parameter Value for Process	*/
-	protected int getADProcessId() {
-		return aDProcessId;
-	}
-
-	/**	 Setter Parameter Value for Process	*/
-	protected void setADProcessId(int aDProcessId) {
-		this.aDProcessId = aDProcessId;
 	}
 
 	/**	 Getter Parameter Value for Process ID	*/
