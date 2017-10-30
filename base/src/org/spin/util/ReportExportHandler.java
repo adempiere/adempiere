@@ -25,6 +25,7 @@ import java.util.logging.Level;
 import org.compiere.model.MReportView;
 import org.compiere.print.ReportEngine;
 import org.compiere.util.CLogger;
+import org.compiere.util.Util;
 
 /**
  * 	@author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
@@ -65,6 +66,10 @@ public class ReportExportHandler {
 			return null;
 		}
 		String className = reportView.getClassname();
+		//	Validate null values
+		if(Util.isEmpty(className)) {
+			return null;
+		}
 		try {
 			Class<?> clazz = Class.forName(className);
 			//	Make sure that it is a PO class
