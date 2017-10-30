@@ -63,24 +63,24 @@ public class CopyReportProcess extends CopyReportProcessAbstract {
 	 */
 	private void copyFrom(MProcess process, int key) throws SQLException {
 		//	Get Values
-		int m_AD_Column_ID = getSelectionAsInt(key, "PARAMETER_AD_Column_ID");
-		int m_AD_ReportView_ID = getSelectionAsInt(key, "PARAMETER_AD_ReportView_ID");
-		int m_AD_Process_Para_ID = getSelectionAsInt(key, "PARAMETER_AD_Process_Para_ID");
-		boolean m_IsMandatory = getSelectionAsBoolean(key, "PARAMETER_IsMandatory");
-		boolean m_IsRange = getSelectionAsBoolean(key, "PARAMETER_IsRange");
-		String m_DefaultValue = getSelectionAsString(key, "PARAMETER_DefaultValue");
-		String m_DefaultValue2 = getSelectionAsString(key, "PARAMETER_DefaultValue2");
+		int columnId = getSelectionAsInt(key, "PARAMETER_AD_Column_ID");
+		int reportViewId = getSelectionAsInt(key, "PARAMETER_AD_ReportView_ID");
+		int processParaId = getSelectionAsInt(key, "PARAMETER_AD_Process_Para_ID");
+		boolean isMandatory = getSelectionAsBoolean(key, "PARAMETER_IsMandatory");
+		boolean isRange = getSelectionAsBoolean(key, "PARAMETER_IsRange");
+		String defaultValue = getSelectionAsString(key, "PARAMETER_DefaultValue");
+		String defaultValue2 = getSelectionAsString(key, "PARAMETER_DefaultValue2");
 		//	Do it
 		MProcessPara newParameter = new MProcessPara(process);
-		if(m_AD_ReportView_ID != 0) {	//	For Create from View
-			MColumn column = MColumn.get(getCtx(), m_AD_Column_ID);
+		if(reportViewId != 0) {	//	For Create from View
+			MColumn column = MColumn.get(getCtx(), columnId);
 			//	
 			if (column.getAD_Reference_ID() == DisplayType.ID) {
 				return;
 			}
 			//	For Process
-			if(process.getAD_ReportView_ID() != m_AD_ReportView_ID) {
-				process.setAD_ReportView_ID(m_AD_ReportView_ID);
+			if(process.getAD_ReportView_ID() != reportViewId) {
+				process.setAD_ReportView_ID(reportViewId);
 				process.saveEx();
 			}
 			//	Set Values
@@ -95,17 +95,18 @@ public class CopyReportProcess extends CopyReportProcessAbstract {
 			newParameter.setFieldLength(column.getFieldLength());
 			newParameter.setHelp(column.getHelp());
 			newParameter.setIsCentrallyMaintained(true);
-		} else if(m_AD_Process_Para_ID != 0) {	//	For Copy from Process
-			MProcessPara fromParameter = new MProcessPara(getCtx(), m_AD_Process_Para_ID, get_TrxName());
+		} else if(processParaId != 0) {	//	For Copy from Process
+			MProcessPara fromParameter = new MProcessPara(getCtx(), processParaId, get_TrxName());
 			PO.copyValues(fromParameter, newParameter);
+			newParameter.setAD_Process_ID(process.getAD_Process_ID());
 		} else {
 			return;
 		}
 		//	Fill values
-		newParameter.setIsMandatory(m_IsMandatory);
-		newParameter.setIsRange(m_IsRange);
-		newParameter.setDefaultValue(m_DefaultValue);
-		newParameter.setDefaultValue2(m_DefaultValue2);
+		newParameter.setIsMandatory(isMandatory);
+		newParameter.setIsRange(isRange);
+		newParameter.setDefaultValue(defaultValue);
+		newParameter.setDefaultValue2(defaultValue2);
 		newParameter.setSeqNo(m_SeqNo);
 		//	Save
 		newParameter.saveEx();
