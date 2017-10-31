@@ -575,9 +575,12 @@ public class MMovement extends X_M_Movement implements DocAction , DocumentRever
 			setMovementDate(new Timestamp (System.currentTimeMillis()));
 		}
 		if (docType.isOverwriteSeqOnComplete()) {
-			String value = DB.getDocumentNo(getC_DocType_ID(), get_TrxName(), true, this);
-			if (value != null)
-				setDocumentNo(value);
+			Boolean isOverwrite = !isReversal() || (isReversal() && !docType.isCopyDocNoOnReversal());
+			if (isOverwrite){String value = DB.getDocumentNo(getC_DocType_ID(), get_TrxName(), true, this);
+				if (value != null)
+					setDocumentNo(value);
+			}
+
 		}
 	}
 
@@ -751,7 +754,7 @@ public class MMovement extends X_M_Movement implements DocAction , DocumentRever
 		reversalMovement.setReversal(true);
 		//	Set Document No from flag
 		if(docType.isCopyDocNoOnReversal()) {
-			reversalMovement.setDocumentNo(getDocumentNo() + "^");
+			reversalMovement.setDocumentNo(getDocumentNo()+ Msg.getMsg(reversalMovement.getCtx(), "^"));
 		}
 		//
 		if (!reversalMovement.save())

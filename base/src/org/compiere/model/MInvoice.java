@@ -116,7 +116,7 @@ public class MInvoice extends X_C_Invoice implements DocAction , DocumentReversa
 			MDocType docType = MDocType.get(from.getCtx(), from.getC_DocType_ID());
 			//	Set Document No from flag
 			if(docType.isCopyDocNoOnReversal()) {
-				to.setDocumentNo(from.getDocumentNo() + "^");
+				to.setDocumentNo(from.getDocumentNo() + Msg.getMsg(from.getCtx(), "^"));
 			}
 		}
 		//
@@ -1710,18 +1710,14 @@ public class MInvoice extends X_C_Invoice implements DocAction , DocumentReversa
 			}
 
 			MOrderLine orderLine = null;
+			BigDecimal multiplier = getC_DocTypeTarget().getDocBaseType().contains("C")?Env.ONE.negate():Env.ONE;
 			if (invoiceLine.getC_OrderLine_ID() != 0)
 			{
 				if (isSOTrx()
 				|| invoiceLine.getM_Product_ID() == 0) {
-					orderLine = new MOrderLine (getCtx(), invoiceLine.getC_OrderLine_ID(), get_TrxName());
-					//increase invoice quantity
-					if ((isSOTrx() && MDocType.DOCBASETYPE_ARInvoice.equals(docBaseType)        && invoiceLine.getQtyInvoiced().signum() > 0)  // Quantity invoiced
-							||	(isSOTrx() && MDocType.DOCBASETYPE_ARCreditMemo.equals(docBaseType)     && invoiceLine.getQtyInvoiced().signum() < 0)) // Revert AR Credit Memo
-						orderLine.setQtyInvoiced(orderLine.getQtyInvoiced().add(invoiceLine.getQtyInvoiced().abs()));
-					else if ((isSOTrx() && MDocType.DOCBASETYPE_ARInvoice.equals(docBaseType)   && invoiceLine.getQtyInvoiced().signum() < 0) // Revert Invoiced
-							|| (isSOTrx() && MDocType.DOCBASETYPE_ARCreditMemo.equals(docBaseType)      && invoiceLine.getQtyInvoiced().signum() > 0)) // AR Credit Memo
-						orderLine.setQtyInvoiced(orderLine.getQtyInvoiced().add(invoiceLine.getQtyInvoiced().abs().negate()));
+					BigDecimal qtyInvoiced = invoiceLine.getQtyInvoiced().multiply(multiplier);
+					orderLine = (MOrderLine)invoiceLine.getC_OrderLine();
+					orderLine.setQtyInvoiced(orderLine.getQtyInvoiced().add(qtyInvoiced));
 					orderLine.saveEx();
 				}
 				//	Order Invoiced Qty updated via Matching Inv-PO
@@ -1900,10 +1896,13 @@ public class MInvoice extends X_C_Invoice implements DocAction , DocumentReversa
 		if (dt.isOverwriteDateOnComplete()) {
 			setDateInvoiced(new Timestamp (System.currentTimeMillis()));
 		}
-		if (dt.isOverwriteSeqOnComplete()) {
-			String value = DB.getDocumentNo(getC_DocType_ID(), get_TrxName(), true, this);
-			if (value != null)
-				setDocumentNo(value);
+		if (dt.isOverwriteSeqOnComplete()){
+			Boolean isOverwrite = !isReversal() || (isReversal() && !dt.isCopyDocNoOnReversal());
+			if (isOverwrite){String value = DB.getDocumentNo(getC_DocType_ID(), get_TrxName(), true, this);
+				if (value != null)
+					setDocumentNo(value);
+			}
+
 		}
 	}
 

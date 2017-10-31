@@ -647,7 +647,7 @@ public class MProduction extends X_M_Production implements DocAction , DocumentR
 		reversal = copyFrom(reversalDate);
 		MDocType docType = MDocType.get(getCtx(), getC_DocType_ID());
 		if(docType.isCopyDocNoOnReversal()) {
-			reversal.setDocumentNo(getDocumentNo() + "^");
+			reversal.setDocumentNo(getDocumentNo() + Msg.getMsg(getCtx(), "^"));
 		}
 
 		StringBuilder msgadd = new StringBuilder("{->").append(getDocumentNo()).append(")");

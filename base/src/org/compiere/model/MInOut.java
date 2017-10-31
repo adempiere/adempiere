@@ -201,7 +201,7 @@ public class MInOut extends X_M_InOut implements DocAction , DocumentReversalEna
 			MDocType docType = MDocType.get(inOutfrom.getCtx(), inOutfrom.getC_DocType_ID());
 			//	Set Document No from flag
 			if(docType.isCopyDocNoOnReversal()) {
-				inOutTo.setDocumentNo(inOutfrom.getDocumentNo() + "^");
+				inOutTo.setDocumentNo(inOutfrom.getDocumentNo() + Msg.getMsg(inOutfrom.getCtx(), "^"));
 			}
 		}
 		//
@@ -1469,7 +1469,10 @@ public class MInOut extends X_M_InOut implements DocAction , DocumentReversalEna
 				if (isSOTrx()							//	PO is done by Matching
 					|| inOutLine.getM_Product_ID() == 0)	//	PO Charges, empty lines
 				{
-					orderLine.setQtyDelivered(orderLine.getQtyDelivered().subtract(quantity));
+					if (isSOTrx())
+						orderLine.setQtyDelivered(orderLine.getQtyDelivered().subtract(quantity));
+					else
+						orderLine.setQtyDelivered(orderLine.getQtyDelivered().add(quantity));
 				}
 				//Update by PO Match created Auto
 				//else 
@@ -1743,9 +1746,12 @@ public class MInOut extends X_M_InOut implements DocAction , DocumentReversalEna
 			setMovementDate(new Timestamp (System.currentTimeMillis()));
 		}
 		if (dt.isOverwriteSeqOnComplete()) {
-			String value = DB.getDocumentNo(getC_DocType_ID(), get_TrxName(), true, this);
-			if (value != null)
-				setDocumentNo(value);
+			Boolean isOverwrite = !isReversal() || (isReversal() && !dt.isCopyDocNoOnReversal());
+			if (isOverwrite){String value = DB.getDocumentNo(getC_DocType_ID(), get_TrxName(), true, this);
+				if (value != null)
+					setDocumentNo(value);
+			}
+
 		}
 	}
 

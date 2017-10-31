@@ -610,9 +610,12 @@ public class MJournal extends X_GL_Journal implements DocAction , DocumentRevers
 			setDateDoc(new Timestamp (System.currentTimeMillis()));
 		}
 		if (dt.isOverwriteSeqOnComplete()) {
-			String value = DB.getDocumentNo(getC_DocType_ID(), get_TrxName(), true, this);
-			if (value != null)
-				setDocumentNo(value);
+			Boolean isOverwrite = !isReversal() || (isReversal() && !dt.isCopyDocNoOnReversal());
+			if (isOverwrite){String value = DB.getDocumentNo(getC_DocType_ID(), get_TrxName(), true, this);
+				if (value != null)
+					setDocumentNo(value);
+			}
+
 		}
 	}
 
@@ -706,7 +709,7 @@ public class MJournal extends X_GL_Journal implements DocAction , DocumentRevers
 		MDocType docType = MDocType.get(getCtx(), getC_DocType_ID());
 		//	Set Document No from flag
 		if(docType.isCopyDocNoOnReversal()) {
-			reverse.setDocumentNo(getDocumentNo() + "^");
+			reverse.setDocumentNo(getDocumentNo() + Msg.getMsg(getCtx(), "^"));
 		}
 		reverse.saveEx();
 
@@ -830,7 +833,7 @@ public class MJournal extends X_GL_Journal implements DocAction , DocumentRevers
 		MDocType docType = MDocType.get(getCtx(), getC_DocType_ID());
 		//	Set Document No from flag
 		if(docType.isCopyDocNoOnReversal()) {
-			reverse.setDocumentNo(getDocumentNo() + "^");
+			reverse.setDocumentNo(getDocumentNo() + Msg.getMsg(getCtx(), "Cancelled"));
 		}
 		reverse.saveEx();
 
