@@ -1924,9 +1924,12 @@ public final class MPayment extends X_C_Payment
 			setDateTrx(new Timestamp (System.currentTimeMillis()));
 		}
 		if (dt.isOverwriteSeqOnComplete()) {
-			String value = DB.getDocumentNo(getC_DocType_ID(), get_TrxName(), true, this);
-			if (value != null)
-				setDocumentNo(value);
+			Boolean isOverwrite = !isReversal() || (isReversal() && !dt.isCopyDocNoOnReversal());
+			if (isOverwrite){String value = DB.getDocumentNo(getC_DocType_ID(), get_TrxName(), true, this);
+				if (value != null)
+					setDocumentNo(value);
+			}
+
 		}
 	}
 
@@ -2396,7 +2399,7 @@ public final class MPayment extends X_C_Payment
 		//	Set Document No from flag
 		MDocType docType = MDocType.get(getCtx(), getC_DocType_ID());
 		if(docType.isCopyDocNoOnReversal()) {
-			reversal.setDocumentNo(getDocumentNo() + "^");
+			reversal.setDocumentNo(getDocumentNo()+ Msg.getMsg(getCtx(), "^"));
 		}
 		reversal.setDocStatus(DOCSTATUS_Drafted);
 		reversal.setDocAction(DOCACTION_Complete);

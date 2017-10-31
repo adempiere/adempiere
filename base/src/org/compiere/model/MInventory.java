@@ -575,9 +575,12 @@ public class MInventory extends X_M_Inventory implements DocAction, DocumentReve
 			setMovementDate(new Timestamp (System.currentTimeMillis()));
 		}
 		if (dt.isOverwriteSeqOnComplete()) {
-			String value = DB.getDocumentNo(getC_DocType_ID(), get_TrxName(), true, this);
-			if (value != null)
-				setDocumentNo(value);
+			Boolean isOverwrite = !isReversal() || (isReversal() && !dt.isCopyDocNoOnReversal());
+			if (isOverwrite){String value = DB.getDocumentNo(getC_DocType_ID(), get_TrxName(), true, this);
+				if (value != null)
+					setDocumentNo(value);
+			}
+
 		}
 	}
 
@@ -778,7 +781,7 @@ public class MInventory extends X_M_Inventory implements DocAction, DocumentReve
 		reversal.set_ValueNoCheck("DocumentNo", null);
 		//	Set Document No from flag
 		if(dt.isCopyDocNoOnReversal()) {
-			reversal.setDocumentNo(getDocumentNo() + "^");
+			reversal.setDocumentNo(getDocumentNo() + Msg.getMsg(getCtx(), "^"));
 		}
 		reversal.setDocStatus(DOCSTATUS_Drafted);
 		reversal.setDocAction(DOCACTION_Complete);
