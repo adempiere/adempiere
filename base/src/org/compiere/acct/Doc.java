@@ -25,6 +25,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -33,12 +34,14 @@ import org.compiere.model.MAccount;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MConversionRate;
 import org.compiere.model.MDocType;
+import org.compiere.model.MFactAcct;
 import org.compiere.model.MNote;
 import org.compiere.model.MPeriod;
 import org.compiere.model.MTable;
 import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.ModelValidator;
 import org.compiere.model.PO;
+import org.compiere.model.Query;
 import org.compiere.process.DocumentEngine;
 import org.compiere.util.AdempiereUserError;
 import org.compiere.util.CLogger;
@@ -103,8 +106,9 @@ import org.compiere.util.Trx;
  *  @author Jorg Janke
  *  @author victor.perez@e-evolution.com, e-Evolution http://www.e-evolution.com
  * 				<li>FR [ 2520591 ] Support multiples calendar for Org 
- *				@see http://sourceforge.net/tracker2/?func=detail&atid=879335&aid=2520591&group_id=176962 
- *  @version  $Id: Doc.java,v 1.6 2006/07/30 00:53:33 jjanke Exp $
+ *				@see http://sourceforge.net/tracker2/?func=detail&atid=879335&aid=2520591&group_id=176962
+ *				<li>#1439 Reversed based on the accounting of the original document
+ *				@see https://github.com/adempiere/adempiere/issues/1439
  */
 public abstract class Doc
 {
@@ -394,9 +398,10 @@ public abstract class Doc
 		}
 		
 		//	DocStatus
-		int index = p_po.get_ColumnIndex("DocStatus");
-		if (index != -1)
-			m_DocStatus = (String)p_po.get_Value(index);
+		//int index = p_po.get_ColumnIndex("DocStatus");
+		//if (index != -1)
+		//	m_DocStatus = (String)p_po.get_Value(index);
+		getDocStatus();
 		
 		//	Document Type
 		setDocumentType (defaultDocumentType);
@@ -543,15 +548,15 @@ public abstract class Doc
 	 */
 	public final String post (boolean force, boolean repost)
 	{
-		if (m_DocStatus == null)
+		if (getDocStatus() == null)
 			;	//	return "No DocStatus for DocumentNo=" + getDocumentNo();
-		else if (m_DocStatus.equals(DocumentEngine.STATUS_Completed)
-			|| m_DocStatus.equals(DocumentEngine.STATUS_Closed)
-			|| m_DocStatus.equals(DocumentEngine.STATUS_Voided)
-			|| m_DocStatus.equals(DocumentEngine.STATUS_Reversed))
+		else if (getDocStatus().equals(DocumentEngine.STATUS_Completed)
+			|| getDocStatus().equals(DocumentEngine.STATUS_Closed)
+			|| getDocStatus().equals(DocumentEngine.STATUS_Voided)
+			|| getDocStatus().equals(DocumentEngine.STATUS_Reversed))
 			;
 		else
-			return "Invalid DocStatus='" + m_DocStatus + "' for DocumentNo=" + getDocumentNo();
+			return "Invalid DocStatus='" + getDocStatus() + "' for DocumentNo=" + getDocumentNo();
 		//
 		if (p_po.getAD_Client_ID() != m_ass[0].getAD_Client_ID())
 		{
@@ -757,6 +762,9 @@ public abstract class Doc
 		//  rejectPeriodClosed
 		if (!isPeriodOpen())
 			return STATUS_PeriodClosed;
+
+		if (isReversed() && IsReverseGenerated() && isReverseWithOriginalAccounting())
+			return generateReverseWithOriginalAccounting();
 
 		//  createFacts
 		ArrayList<Fact> facts = createFacts (m_ass[index]);
@@ -2417,5 +2425,107 @@ public abstract class Doc
 			}
 		}
 	}
-	
+
+	/**
+	 * get Document Status
+	 * @return
+	 */
+	public String getDocStatus()
+	{
+		if (m_DocStatus != null)
+			return m_DocStatus;
+
+		//	DocStatus
+		int index = p_po.get_ColumnIndex("DocStatus");
+		if (index != -1)
+			m_DocStatus = (String)p_po.get_Value(index);
+
+		return m_DocStatus;
+	}
+
+	/** get Reversal Id for this Document
+	 * @return
+	 */
+	public int getReversalId()
+	{
+
+		int index = p_po.get_ColumnIndex("Reversal_ID");
+		if (index != -1)
+		{
+			Integer ii = (Integer)p_po.get_Value(index);
+			if (ii != null)
+				return ii.intValue();
+		}
+		return 0;
+	}
+
+	/**
+	 * Return true if document is reverted
+	 * @return
+	 */
+	public Boolean isReversed()
+	{
+		if (getReversalId() > 0)
+			return true;
+		else
+			return false;
+	}
+
+	/**
+	 * Return true if the document is the reverse generated
+	 * @return
+	 */
+	public Boolean IsReverseGenerated()
+	{
+		return getReversalId() < getPO().get_ID();
+	}
+
+	/**
+	 * Return value from Document Type
+	 * @return
+	 */
+	public Boolean isReverseWithOriginalAccounting()
+	{
+		String isReverseWithOriginalAccounting = DB.getSQLValueString(getPO().get_TrxName() , "SELECT IsReversedWithOriginalAcct FROM C_DocType WHERE C_DocType_ID=?", getC_DocType_ID());
+		if (isReverseWithOriginalAccounting != null && "Y".equals(isReverseWithOriginalAccounting))
+			return true;
+		else
+			return false;
+	}
+
+	/**
+	 * Generate Reverse using Orginal Accounting
+	 * @return
+	 */
+	private String generateReverseWithOriginalAccounting() {
+		getReversalFactAcct().stream().forEach(factAcct -> {
+			MFactAcct reverseFactAcct = new MFactAcct(getPO().getCtx() , 0 , getPO().get_TrxName());
+			reverseFactAcct.copyValues(factAcct, reverseFactAcct);
+			reverseFactAcct.setAD_Table_ID(getPO().get_Table_ID());
+			reverseFactAcct.setDateAcct(getDateAcct());
+			reverseFactAcct.setRecord_ID(getPO().get_ID());
+			reverseFactAcct.setQty(factAcct.getQty().negate());
+			reverseFactAcct.setAmtSourceDr(factAcct.getAmtSourceDr().negate());
+			reverseFactAcct.setAmtSourceCr(factAcct.getAmtSourceCr().negate());
+			reverseFactAcct.setAmtAcctDr(factAcct.getAmtAcctDr().negate());
+			reverseFactAcct.setAmtAcctCr(factAcct.getAmtAcctCr().negate());
+			reverseFactAcct.saveEx();
+		});
+		return STATUS_Posted;
+	}
+
+	/**
+	 * get Reversal Fact Accounts
+	 * @return
+	 */
+	private List<MFactAcct> getReversalFactAcct()
+	{
+		StringBuilder whereClause = new StringBuilder();
+		whereClause.append(MFactAcct.COLUMNNAME_AD_Table_ID).append("=? AND ");
+		whereClause.append(MFactAcct.COLUMNNAME_Record_ID).append("=?");
+		return new Query(getCtx(), MFactAcct.Table_Name , whereClause.toString() , getPO().get_TrxName())
+				.setClient_ID()
+				.setParameters(getPO().get_Table_ID(), getReversalId())
+				.list();
+	}
 }   //  Doc
