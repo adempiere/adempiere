@@ -662,7 +662,7 @@ public class MJournalBatch extends X_GL_JournalBatch implements DocAction
 		MDocType docType = MDocType.get(getCtx(), getC_DocType_ID());
 		//	Set Document No from flag
 		if(docType.isCopyDocNoOnReversal()) {
-			reverse.setDocumentNo(getDocumentNo() + "^");
+			reverse.setDocumentNo(getDocumentNo() + Msg.getMsg(reverse.getCtx(), "^"));
 		}
 		reverse.saveEx();
 		//
