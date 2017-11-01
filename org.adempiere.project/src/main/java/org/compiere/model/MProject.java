@@ -18,9 +18,9 @@ package org.compiere.model;
 
 import java.sql.ResultSet;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
@@ -292,54 +292,42 @@ public class MProject extends X_C_Project
 	 * 	Get Project Lines
 	 *	@return Array of lines
 	 */
-	public MProjectLine[] getLines()
+	public List<MProjectLine> getLines()
 	{
 		//FR: [ 2214883 ] Remove SQL code and Replace for Query - red1
 		final String whereClause = "C_Project_ID=?";
-		List <MProjectLine> list = new Query(getCtx(), I_C_ProjectLine.Table_Name, whereClause, get_TrxName())
+		return new Query(getCtx(), I_C_ProjectLine.Table_Name, whereClause, get_TrxName())
 			.setParameters(getC_Project_ID())
 			.setOrderBy("Line")
 			.list();
-		//
-		MProjectLine[] retValue = new MProjectLine[list.size()];
-		list.toArray(retValue);
-		return retValue;
 	}	//	getLines
 
 	/**
 	 * 	Get Project Issues
 	 *	@return Array of issues
 	 */
-	public MProjectIssue[] getIssues()
+	public List<MProjectIssue> getIssues()
 	{
 		//FR: [ 2214883 ] Remove SQL code and Replace for Query - red1
 		String whereClause = "C_Project_ID=?";
-		List <MProjectIssue> list = new Query(getCtx(), I_C_ProjectIssue.Table_Name, whereClause, get_TrxName())
+		return new Query(getCtx(), I_C_ProjectIssue.Table_Name, whereClause, get_TrxName())
 			.setParameters(getC_Project_ID())
 			.setOrderBy("Line")
 			.list();
-		//
-		MProjectIssue[] retValue = new MProjectIssue[list.size()];
-		list.toArray(retValue);
-		return retValue;
 	}	//	getIssues
 
 	/**
 	 * 	Get Project Phases
 	 *	@return Array of phases
 	 */
-	public MProjectPhase[] getPhases()
+	public List<MProjectPhase> getPhases()
 	{
 		//FR: [ 2214883 ] Remove SQL code and Replace for Query - red1
 		String whereClause = "C_Project_ID=?";
-		List <MProjectPhase> list = new Query(getCtx(), I_C_ProjectPhase.Table_Name, whereClause, get_TrxName())
+		return new Query(getCtx(), I_C_ProjectPhase.Table_Name, whereClause, get_TrxName())
 			.setParameters(getC_Project_ID())
 			.setOrderBy("SeqNo")
 			.list();
-		//
-		MProjectPhase[] retValue = new MProjectPhase[list.size()];
-		list.toArray(retValue);
-		return retValue;
 	}	//	getPhases
 
 	
@@ -366,29 +354,28 @@ public class MProject extends X_C_Project
 	{
 		if (isProcessed() || project == null)
 			return 0;
-		int count = 0;
-		MProjectLine[] fromLines = project.getLines();
-		for (int i = 0; i < fromLines.length; i++)
-		{
-			//BF 3067850 - monhate
-			if((fromLines[i].getC_ProjectPhase_ID() != 0)||
-			   (fromLines[i].getC_ProjectTask_ID() != 0)) continue;
-			
-			MProjectLine line = new MProjectLine (getCtx(), 0, project.get_TrxName());
-			PO.copyValues(fromLines[i], line, getAD_Client_ID(), getAD_Org_ID());
-			line.setC_Project_ID(getC_Project_ID());
-			line.setInvoicedAmt(Env.ZERO);
-			line.setInvoicedQty(Env.ZERO);
-			line.setC_OrderPO_ID(0);
-			line.setC_Order_ID(0);
-			line.setProcessed(false);
-			if (line.save())
-				count++;
-		}
-		if (fromLines.length != count)
-			log.log(Level.SEVERE, "Lines difference - Project=" + fromLines.length + " <> Saved=" + count);
+		AtomicInteger count = new AtomicInteger(0);
+		List<MProjectLine> fromProjectLines = project.getLines();
+		fromProjectLines.stream()
+				.filter(fromProjectLine ->
+						fromProjectLine.getC_ProjectPhase_ID() <= 0
+					 || fromProjectLine.getC_ProjectTask_ID() <= 0)
+				.forEach(fromProjectLine -> {
+					MProjectLine toProjectLine = new MProjectLine(getCtx(), 0, project.get_TrxName());
+					PO.copyValues(fromProjectLine, toProjectLine, getAD_Client_ID(), getAD_Org_ID());
+					toProjectLine.setC_Project_ID(getC_Project_ID());
+					toProjectLine.setInvoicedAmt(Env.ZERO);
+					toProjectLine.setInvoicedQty(Env.ZERO);
+					toProjectLine.setC_OrderPO_ID(0);
+					toProjectLine.setC_Order_ID(0);
+					toProjectLine.setProcessed(false);
+					toProjectLine.saveEx();
+					count.getAndUpdate(no -> no + 1);
+				});
 
-		return count;
+		if (fromProjectLines.size() != count.get())
+			log.log(Level.SEVERE, "Lines difference - Project=" + fromProjectLines.size() + " <> Saved=" + count);
+		return count.get();
 	}	//	copyLinesFrom
 
 	/**
@@ -400,53 +387,35 @@ public class MProject extends X_C_Project
 	{
 		if (isProcessed() || fromProject == null)
 			return 0;
-		int count = 0;
-		int taskCount = 0, lineCount = 0;
+		AtomicInteger count = new AtomicInteger(0);
+		AtomicInteger taskCount = new AtomicInteger(0);
+		AtomicInteger lineCount = new AtomicInteger(0);
 		//	Get Phases
-		MProjectPhase[] myPhases = getPhases();
-		MProjectPhase[] fromPhases = fromProject.getPhases();
-		//	Copy Phases
-		for (int i = 0; i < fromPhases.length; i++)
-		{
-			//	Check if Phase already exists
-			int C_Phase_ID = fromPhases[i].getC_Phase_ID();
-			boolean exists = false;
-			if (C_Phase_ID == 0)
-				exists = false;
-			else
-			{
-				for (int ii = 0; ii < myPhases.length; ii++)
-				{
-					if (myPhases[ii].getC_Phase_ID() == C_Phase_ID)
-					{
-						exists = true;
-						break;
+		List<MProjectPhase> toPhases = getPhases();
+		List<MProjectPhase> fromPhases = fromProject.getPhases();
+		fromPhases.stream()
+				.forEach(fromPhase -> {
+					//	Check if Phase already exists
+					Boolean exists = toPhases.stream().anyMatch(toPhase -> toPhase.getC_Phase_ID() == fromPhase.getC_Phase_ID());
+					//	Phase exist
+					if (exists)
+						log.info("Phase already exists here, ignored - " + fromPhase);
+					else {
+						MProjectPhase toPhase = new MProjectPhase(getCtx(), 0, get_TrxName());
+						PO.copyValues(fromPhase, toPhase, getAD_Client_ID(), getAD_Org_ID());
+						toPhase.setC_Project_ID(getC_Project_ID());
+						toPhase.setC_Order_ID(0);
+						toPhase.setIsComplete(false);
+						toPhase.saveEx();
+						count.getAndUpdate(no -> no + 1);
+						taskCount.getAndUpdate(taskNo -> taskNo + toPhase.copyTasksFrom(fromPhase));
+						lineCount.getAndUpdate(lineNo -> lineNo + toPhase.copyLinesFrom(fromPhase));
 					}
-				}
-			}
-			//	Phase exist
-			if (exists)
-				log.info("Phase already exists here, ignored - " + fromPhases[i]);
-			else
-			{
-				MProjectPhase toPhase = new MProjectPhase (getCtx (), 0, get_TrxName());
-				PO.copyValues (fromPhases[i], toPhase, getAD_Client_ID (), getAD_Org_ID ());
-				toPhase.setC_Project_ID (getC_Project_ID ());
-				toPhase.setC_Order_ID (0);
-				toPhase.setIsComplete (false);
-				if (toPhase.save ())
-				{
-					count++;
-					taskCount += toPhase.copyTasksFrom (fromPhases[i]);
-					//BF 3067850 - monhate
-					lineCount += toPhase.copyLinesFrom(fromPhases[i]);
-				}
-			}
-		}
-		if (fromPhases.length != count)
-			log.warning("Count difference - Project=" + fromPhases.length + " <> Saved=" + count);
+				});
+		if (fromPhases.size() != count.get())
+			log.warning("Count difference - Project=" + fromPhases.size() + " <> Saved=" + count.get());
 
-		return count + taskCount + lineCount;
+		return count.get() + taskCount.get() + lineCount.get();
 	}	//	copyPhasesFrom
 
 
@@ -488,23 +457,21 @@ public class MProject extends X_C_Project
 	public int copyPhasesFrom (MProjectType type)
 	{
 		//	create phases
-		int count = 0;
-		int taskCount = 0;
-		MProjectTypePhase[] typePhases = type.getPhases();
-		for (int i = 0; i < typePhases.length; i++)
-		{
-			MProjectPhase toPhase = new MProjectPhase (this, typePhases[i]);
-			if (toPhase.save())
-			{
-				count++;
-				taskCount += toPhase.copyTasksFrom(typePhases[i]);
-			}
-		}
-		log.fine("#" + count + "/" + taskCount 
+		AtomicInteger count = new AtomicInteger(0);
+		AtomicInteger taskCount = new AtomicInteger(0);
+		List<MProjectTypePhase> typePhases = type.getPhases();
+		typePhases.stream()
+				.forEach(fromPhase -> {
+					MProjectPhase toPhase = new MProjectPhase(this, fromPhase);
+					toPhase.saveEx();
+					count.getAndUpdate(no -> no + 1);
+					taskCount.getAndUpdate(no -> no + toPhase.copyTasksFrom(fromPhase));
+				});
+		log.fine("#" + count.get() + "/" + taskCount.get()
 			+ " - " + type);
-		if (typePhases.length != count)
-			log.log(Level.SEVERE, "Count difference - Type=" + typePhases.length + " <> Saved=" + count);
-		return count;
+		if (typePhases.size() != count.get())
+			log.log(Level.SEVERE, "Count difference - Type=" + typePhases.size() + " <> Saved=" + count.get());
+		return count.get();
 	}	//	copyPhasesFrom
 
 	/**

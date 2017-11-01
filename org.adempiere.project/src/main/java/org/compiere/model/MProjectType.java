@@ -21,6 +21,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -106,45 +107,18 @@ public class MProjectType extends X_C_ProjectType
 		return sb.toString();
 	}	//	toString
 
-	
-	/**************************************************************************
-	 * 	Get Project Type Phases
-	 *	@return Array of phases
+	/**
+	 * Get Project Type Phases
+	 * @return list of Phases
 	 */
-	public MProjectTypePhase[] getPhases()
-	{
-		ArrayList<MProjectTypePhase> list = new ArrayList<MProjectTypePhase>();
-		String sql = "SELECT * FROM C_Phase WHERE C_ProjectType_ID=? ORDER BY SeqNo";
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement(sql, get_TrxName());
-			pstmt.setInt(1, getC_ProjectType_ID());
-			ResultSet rs = pstmt.executeQuery();
-			while (rs.next())
-				list.add(new MProjectTypePhase (getCtx(), rs, get_TrxName()));
-			rs.close();
-			pstmt.close();
-			pstmt = null;
-		}
-		catch (SQLException ex)
-		{
-			log.log(Level.SEVERE, sql, ex);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close();
-		}
-		catch (SQLException ex1)
-		{
-		}
-		pstmt = null;
-		//
-		MProjectTypePhase[] retValue = new MProjectTypePhase[list.size()];
-		list.toArray(retValue);
-		return retValue;
-	}	//	getPhases
+	public List<MProjectTypePhase> getPhases(){
+		return new Query(getCtx(), MProjectTypePhase.Table_Name , MProjectTypePhase.COLUMNNAME_C_ProjectType_ID + "=?", get_TrxName())
+				.setClient_ID()
+				.setParameters(getC_ProjectType_ID())
+				.setOrderBy(MProjectTypePhase.COLUMNNAME_SeqNo)
+				.list();
+
+	}
 
 	/**
 	 * 	Get Sql to return single value for the Performance Indicator

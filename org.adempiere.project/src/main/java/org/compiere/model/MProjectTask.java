@@ -152,6 +152,21 @@ public class MProjectTask extends X_C_ProjectTask
 	}
 
 	/**
+	 * Get Order based on this project Task
+	 * @return
+	 */
+	public List<MOrder> getOrders()
+	{
+		StringBuilder whereClause = new StringBuilder();
+		whereClause.append("EXISTS (SELECT 1 FROM C_OrderLine ol WHERE ol.C_Order_ID = C_Order.C_Order_ID AND ol.C_ProjectTask_ID=?)");
+		return new Query(getCtx(), MOrder.Table_Name, whereClause.toString(), get_TrxName())
+				.setClient_ID()
+				.setParameters(getC_ProjectTask_ID())
+				.list();
+	}
+
+
+	/**
 	 * 	String Representation
 	 *	@return info
 	 */

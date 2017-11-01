@@ -18,6 +18,9 @@ package org.compiere.process;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 
 import org.compiere.model.MInOut;
@@ -36,34 +39,9 @@ import org.compiere.util.Env;
  *	@author Jorg Janke
  *	@version $Id: ProjectIssue.java,v 1.2 2006/07/30 00:51:02 jjanke Exp $
  */
-public class ProjectIssue extends SvrProcess
+public class ProjectIssue extends ProjectIssueAbstract
 {
-	/**	Project - Mandatory Parameter		*/
-	private int 		m_C_Project_ID = 0;
-	/**	Receipt - Option 1					*/
-	private int 		m_M_InOut_ID = 0;
-	/**	Expenses - Option 2					*/
-	private int 		m_S_TimeExpense_ID = 0;
-	/** Locator - Option 3,4				*/
-	private int			m_M_Locator_ID = 0;
-	/** Project Line - Option 3				*/
-	private int 		m_C_ProjectLine_ID = 0;
-	/** Product - Option 4					*/
-	private int 		m_M_Product_ID = 0;
-	/** Attribute - Option 4				*/
-	@SuppressWarnings("unused")
-	private int 		m_M_AttributeSetInstance_ID = 0;
-	/** Qty - Option 4						*/
-	private BigDecimal	m_MovementQty = null;
-	/** Date - Option						*/
-	private Timestamp	m_MovementDate = null;
-	/** Description - Option				*/
-	private String		m_Description = null;
-
-	/**	The Project to be received			*/
-	private MProject		m_project = null;
-	/**	The Project to be received			*/
-	private MProjectIssue[]	m_projectIssues = null;
+	private List<MProjectIssue>	projectIssues = null;
 
 
 	/**
@@ -71,35 +49,7 @@ public class ProjectIssue extends SvrProcess
 	 */
 	protected void prepare()
 	{
-		ProcessInfoParameter[] para = getParameter();
-		for (int i = 0; i < para.length; i++)
-		{
-			String name = para[i].getParameterName();
-			if (para[i].getParameter() == null)
-				;
-			else if (name.equals("C_Project_ID"))
-				m_C_Project_ID = ((BigDecimal)para[i].getParameter()).intValue();
-			else if (name.equals("M_InOut_ID"))
-				m_M_InOut_ID = ((BigDecimal)para[i].getParameter()).intValue();
-			else if (name.equals("S_TimeExpense_ID"))
-				m_S_TimeExpense_ID = ((BigDecimal)para[i].getParameter()).intValue();
-			else if (name.equals("M_Locator_ID"))
-				m_M_Locator_ID = ((BigDecimal)para[i].getParameter()).intValue();
-			else if (name.equals("C_ProjectLine_ID"))
-				m_C_ProjectLine_ID = ((BigDecimal)para[i].getParameter()).intValue();
-			else if (name.equals("M_Product_ID"))
-				m_M_Product_ID = ((BigDecimal)para[i].getParameter()).intValue();
-			else if (name.equals("M_AttributeSetInstance_ID"))
-				m_M_AttributeSetInstance_ID = ((BigDecimal)para[i].getParameter()).intValue();
-			else if (name.equals("MovementQty"))
-				m_MovementQty = (BigDecimal)para[i].getParameter();
-			else if (name.equals("MovementDate"))
-				m_MovementDate = (Timestamp)para[i].getParameter();
-			else if (name.equals("Description"))
-				m_Description = (String)para[i].getParameter();
-			else
-				log.log(Level.SEVERE, "Unknown Parameter: " + name);
-		  }
+		super.prepare();
 	}	//	prepare
 
 	/**
@@ -110,30 +60,31 @@ public class ProjectIssue extends SvrProcess
 	protected String doIt() throws Exception
 	{
 		//	Check Parameter
-		m_project = new MProject (getCtx(), m_C_Project_ID, get_TrxName());
-		if (!(MProject.PROJECTCATEGORY_WorkOrderJob.equals(m_project.getProjectCategory())
-			|| MProject.PROJECTCATEGORY_AssetProject.equals(m_project.getProjectCategory())))
-			throw new IllegalArgumentException("Project not Work Order or Asset =" + m_project.getProjectCategory());
-		log.info(m_project.toString());
+		MProject project = new MProject (getCtx(), getProjectId(), get_TrxName());
+		if (!(MProject.PROJECTCATEGORY_WorkOrderJob.equals(project.getProjectCategory())
+			|| MProject.PROJECTCATEGORY_AssetProject.equals(project.getProjectCategory())))
+			throw new IllegalArgumentException("Project not Work Order or Asset =" + project.getProjectCategory());
+		log.info(project.toString());
 		//
-		if (m_M_InOut_ID != 0)
-			return issueReceipt();
-		if (m_S_TimeExpense_ID != 0)
-			return issueExpense();
-		if (m_M_Locator_ID == 0)
+		if (getInOutId() != 0)
+			return issueReceipt(project);
+		if (getTimeExpenseId() != 0)
+			return issueExpense(project);
+		if (getLocatorId() == 0)
 			throw new IllegalArgumentException("Locator missing");
-		if (m_C_ProjectLine_ID != 0)
-			return issueProjectLine();
-		return issueInventory();
+		if (getProjectLineId() != 0)
+			return issueProjectLine(project);
+		return issueInventory(project);
 	}	//	doIt
 
 	/**
 	 *	Issue Receipt
+	 *	@param project Project
 	 *	@return Message (clear text)
 	 */
-	private String issueReceipt()
+	private String issueReceipt(MProject project)
 	{
-		MInOut inOut = new MInOut (getCtx(), m_M_InOut_ID, null);
+		MInOut inOut = new MInOut (getCtx(), getInOutId(), null);
 		if (inOut.isSOTrx() || !inOut.isProcessed()
 			|| !(MInOut.DOCSTATUS_Completed.equals(inOut.getDocStatus()) || MInOut.DOCSTATUS_Closed.equals(inOut.getDocStatus())))
 			throw new IllegalArgumentException ("Receipt not valid - " + inOut);
@@ -141,125 +92,104 @@ public class ProjectIssue extends SvrProcess
 		//	Set Project of Receipt
 		if (inOut.getC_Project_ID() == 0)
 		{
-			inOut.setC_Project_ID(m_project.getC_Project_ID());
+			inOut.setC_Project_ID(project.getC_Project_ID());
 			inOut.saveEx();
 		}
-		else if (inOut.getC_Project_ID() != m_project.getC_Project_ID())
+		else if (inOut.getC_Project_ID() != project.getC_Project_ID())
 			throw new IllegalArgumentException ("Receipt for other Project (" 
 				+ inOut.getC_Project_ID() + ")");
 
 		MInOutLine[] inOutLines = inOut.getLines(false);
-		int counter = 0;
-		for (int i = 0; i < inOutLines.length; i++)
-		{
-			//	Need to have a Product
-			if (inOutLines[i].getM_Product_ID() == 0)
-				continue;
-			//	Need to have Quantity
-			if (inOutLines[i].getMovementQty() == null || inOutLines[i].getMovementQty().signum() == 0)
-				continue;
-			//	not issued yet
-			if (projectIssueHasReceipt(inOutLines[i].getM_InOutLine_ID()))
-				continue;
-			//	Create Issue
-			MProjectIssue pi = new MProjectIssue (m_project);
-			pi.setMandatory (inOutLines[i].getM_Locator_ID(), inOutLines[i].getM_Product_ID(), inOutLines[i].getMovementQty());
-			if (m_MovementDate != null)		//	default today
-				pi.setMovementDate(m_MovementDate);
-			if (m_Description != null && m_Description.length() > 0)
-				pi.setDescription(m_Description);
-			else if (inOutLines[i].getDescription() != null)
-				pi.setDescription(inOutLines[i].getDescription());
-			else if (inOut.getDescription() != null)
-				pi.setDescription(inOut.getDescription());
-			pi.setM_InOutLine_ID(inOutLines[i].getM_InOutLine_ID());
-			pi.process();
+		AtomicInteger counter = new AtomicInteger(0);
+		Arrays.stream(inOut.getLines(false))
+				.filter(inOutLine ->
+						inOutLine.getM_Product_ID() != 0  // Need to have a Product
+					&& (inOutLine.getMovementQty() != null || inOutLine.getMovementQty().signum() != 0) // Need to have Quantity
+					&& (!projectIssueHasReceipt(project, inOutLine.getM_InOutLine_ID()))) // not issued yet
+				.forEach(inOutLine -> {
+					//	Create Issue
+					MProjectIssue projectIssue = new MProjectIssue(project);
+					projectIssue.setMandatory(inOutLine.getM_Locator_ID(), inOutLine.getM_Product_ID(), inOutLine.getMovementQty());
+					if (getMovementDate() != null)        //	default today
+						projectIssue.setMovementDate(getMovementDate());
+					if (getDescription() != null && getDescription().length() > 0)
+						projectIssue.setDescription(getDescription());
+					else if (inOutLine.getDescription() != null)
+						projectIssue.setDescription(inOutLine.getDescription());
+					else if (inOut.getDescription() != null)
+						projectIssue.setDescription(inOut.getDescription());
+					projectIssue.setM_InOutLine_ID(inOutLine.getM_InOutLine_ID());
+					projectIssue.process();
 
-			//	Find/Create Project Line
-			MProjectLine pl = null;
-			MProjectLine[] pls = m_project.getLines();
-			for (int ii = 0; ii < pls.length; ii++)
-			{
-				//	The Order we generated is the same as the Order of the receipt
-				if (pls[ii].getC_OrderPO_ID() == inOut.getC_Order_ID()
-					&& pls[ii].getM_Product_ID() == inOutLines[i].getM_Product_ID()
-					&& pls[ii].getC_ProjectIssue_ID() == 0)		//	not issued
-				{
-					pl = pls[ii];
-					break;
-				}
-			}
-			if (pl == null)
-				pl = new MProjectLine(m_project);
-			pl.setMProjectIssue(pi);		//	setIssue
-			pl.saveEx();
-			addLog(pi.getLine(), pi.getMovementDate(), pi.getMovementQty(), null);
-			counter++;
-		}	//	all InOutLines
-
-		return "@Created@ " + counter;
+					//	Find/Create Project Line
+					MProjectLine firstProjectLine = project.getLines().stream()
+							.filter(projectLine -> projectLine.getC_OrderPO_ID() == inOut.getC_Order_ID()
+								 && projectLine.getM_Product_ID() == inOutLine.getM_Product_ID()
+								 && projectLine.getC_ProjectIssue_ID() == 0)
+							.findFirst().get();
+					if (firstProjectLine == null)
+						firstProjectLine = new MProjectLine(project);
+					firstProjectLine.setMProjectIssue(projectIssue);        //	setIssue
+					firstProjectLine.saveEx();
+					addLog(projectIssue.getLine(), projectIssue.getMovementDate(), projectIssue.getMovementQty(), null);
+					counter.getAndUpdate(no -> no + 1);
+				});
+		return "@Created@ " + counter.get();
 	}	//	issueReceipt
 
 
 	/**
 	 *	Issue Expense Report
+	 *  @param project
 	 *	@return Message (clear text)
 	 */
-	private String issueExpense()
+	private String issueExpense(MProject project)
 	{
 		//	Get Expense Report
-		MTimeExpense expense = new MTimeExpense (getCtx(), m_S_TimeExpense_ID, get_TrxName());
+		MTimeExpense expense = new MTimeExpense (getCtx(), getTimeExpenseId(), get_TrxName());
 		if (!expense.isProcessed())
 		  throw new IllegalArgumentException ("Time+Expense not processed - " + expense);
 
 		//	for all expense lines
 		MTimeExpenseLine[] expenseLines = expense.getLines(false);
-		int counter = 0;
-		for (int i = 0; i < expenseLines.length; i++)
-		{
-			//	Need to have a Product
-			if (expenseLines[i].getM_Product_ID() == 0)
-				continue;
-			//	Need to have Quantity
-			if (expenseLines[i].getQty() == null || expenseLines[i].getQty().signum() == 0)
-				continue;
-			//	Need to the same project
-			if (expenseLines[i].getC_Project_ID() != m_project.getC_Project_ID())
-				continue;
-			//	not issued yet
-			if (projectIssueHasExpense(expenseLines[i].getS_TimeExpenseLine_ID()))
-				continue;
-
+		AtomicInteger counter = new AtomicInteger(0);
+		//for (int i = 0; i < expenseLines.length; i++)
+		Arrays.stream(expenseLines)
+				.filter(expenseLine ->
+				expenseLine.getM_Product_ID() != 0 // Need to have a Product
+			 && (expenseLine.getQty() != null || expenseLine.getQty().signum() != 0) //	Need to have Quantity
+			 &&	(expenseLine.getC_Project_ID() == project.getC_Project_ID()) // Need to the same project
+			 &&	(!projectIssueHasExpense(project, expenseLine.getS_TimeExpenseLine_ID()))) // not issued yet
+				.forEach(expenseLine -> {
 			//	Find Location
-			int M_Locator_ID = 0;
+			int locatorId = 0;
 		//	MProduct product = new MProduct (getCtx(), expenseLines[i].getM_Product_ID());
 		//	if (product.isStocked())
-				M_Locator_ID = MStorage.getM_Locator_ID(expense.getM_Warehouse_ID(), 
-					expenseLines[i].getM_Product_ID(), 0, 	//	no ASI
-					expenseLines[i].getQty(), null);
-			if (M_Locator_ID == 0)	//	Service/Expense - get default (and fallback)
-				M_Locator_ID = expense.getM_Locator_ID();
+				locatorId = MStorage.getM_Locator_ID(expense.getM_Warehouse_ID(),
+					expenseLine.getM_Product_ID(), 0, 	//	no ASI
+					expenseLine.getQty(), null);
+			if (locatorId == 0)	//	Service/Expense - get default (and fallback)
+				locatorId = expense.getM_Locator_ID();
 
 			//	Create Issue
-			MProjectIssue pi = new MProjectIssue (m_project);
-			pi.setMandatory (M_Locator_ID, expenseLines[i].getM_Product_ID(), expenseLines[i].getQty());
-			if (m_MovementDate != null)		//	default today
-				pi.setMovementDate(m_MovementDate);
-			if (m_Description != null && m_Description.length() > 0)
-				pi.setDescription(m_Description);
-			else if (expenseLines[i].getDescription() != null)
-				pi.setDescription(expenseLines[i].getDescription());
-			pi.setS_TimeExpenseLine_ID(expenseLines[i].getS_TimeExpenseLine_ID());
-			pi.process();
+			MProjectIssue projectIssue = new MProjectIssue (project);
+			projectIssue.setMandatory (locatorId, expenseLine.getM_Product_ID(), expenseLine.getQty());
+			if (getMovementDate() != null)		//	default today
+				projectIssue.setMovementDate(getMovementDate());
+			if (getDescription() != null && getDescription().length() > 0)
+				projectIssue.setDescription(getDescription());
+			else if (expenseLine.getDescription() != null)
+				projectIssue.setDescription(expenseLine.getDescription());
+			projectIssue.setS_TimeExpenseLine_ID(expenseLine.getS_TimeExpenseLine_ID());
+			projectIssue.process();
 			//	Find/Create Project Line
-			MProjectLine pl = new MProjectLine(m_project);
-			pl.setMProjectIssue(pi);		//	setIssue
-			pl.saveEx();
-			addLog(pi.getLine(), pi.getMovementDate(), pi.getMovementQty(), null);
-			counter++;
-		}	//	allExpenseLines
-		
-		return "@Created@ " + counter;
+			MProjectLine projectLine = new MProjectLine(project);
+			projectLine.setMProjectIssue(projectIssue);		//	setIssue
+			projectLine.saveEx();
+			addLog(projectIssue.getLine(), projectIssue.getMovementDate(), projectIssue.getMovementQty(), null);
+			counter.getAndUpdate(no -> no + 1);
+		});	//	allExpenseLines
+		return "@Created@ " + counter.get();
 	}	//	issueExpense
 
 
@@ -267,33 +197,33 @@ public class ProjectIssue extends SvrProcess
 	 *	Issue Project Line
 	 *	@return Message (clear text)
 	 */
-	private String issueProjectLine()
+	private String issueProjectLine(MProject project)
 	{
-		MProjectLine pl = new MProjectLine(getCtx(), m_C_ProjectLine_ID, get_TrxName());
-		if (pl.getM_Product_ID() == 0)
+		MProjectLine projectLine = new MProjectLine(getCtx(), getProjectLineId(), get_TrxName());
+		if (projectLine.getM_Product_ID() == 0)
 			throw new IllegalArgumentException("Projet Line has no Product");
-		if (pl.getC_ProjectIssue_ID() != 0)
+		if (projectLine.getC_ProjectIssue_ID() != 0)
 			throw new IllegalArgumentException("Projet Line already been issued");
-		if (m_M_Locator_ID == 0)
+		if (getLocatorId() == 0)
 			throw new IllegalArgumentException("No Locator");
 		//	Set to Qty 1
-		if (pl.getPlannedQty() == null || pl.getPlannedQty().signum() == 0)
-			pl.setPlannedQty(Env.ONE);
+		if (projectLine.getPlannedQty() == null || projectLine.getPlannedQty().signum() == 0)
+			projectLine.setPlannedQty(Env.ONE);
 		//
-		MProjectIssue pi = new MProjectIssue (m_project);
-		pi.setMandatory (m_M_Locator_ID, pl.getM_Product_ID(), pl.getPlannedQty());
-		if (m_MovementDate != null)		//	default today
-			pi.setMovementDate(m_MovementDate);
-		if (m_Description != null && m_Description.length() > 0)
-			pi.setDescription(m_Description);
-		else if (pl.getDescription() != null)
-			pi.setDescription(pl.getDescription());
-		pi.process();
+		MProjectIssue projectIssue = new MProjectIssue (project);
+		projectIssue.setMandatory (getLocatorId(), projectLine.getM_Product_ID(), projectLine.getPlannedQty());
+		if (getMovementDate() != null)		//	default today
+			projectIssue.setMovementDate(getMovementDate());
+		if (getDescription() != null && getDescription().length() > 0)
+			projectIssue.setDescription(getDescription());
+		else if (projectLine.getDescription() != null)
+			projectIssue.setDescription(projectLine.getDescription());
+		projectIssue.process();
 
 		//	Update Line
-		pl.setMProjectIssue(pi);
-		pl.saveEx();
-		addLog(pi.getLine(), pi.getMovementDate(), pi.getMovementQty(), null);
+		projectLine.setMProjectIssue(projectIssue);
+		projectLine.saveEx();
+		addLog(projectIssue.getLine(), projectIssue.getMovementDate(), projectIssue.getMovementQty(), null);
 		return "@Created@ 1";
 	}	//	issueProjectLine
 
@@ -302,64 +232,59 @@ public class ProjectIssue extends SvrProcess
 	 *	Issue from Inventory
 	 *	@return Message (clear text)
 	 */
-	private String issueInventory()
+	private String issueInventory(MProject project)
 	{
-		if (m_M_Locator_ID == 0)
+		if (getLocatorId() == 0)
 			throw new IllegalArgumentException("No Locator");
-		if (m_M_Product_ID == 0)
+		if (getProductId() == 0)
 			throw new IllegalArgumentException("No Product");
-		//	Set to Qty 1
-		if (m_MovementQty == null || m_MovementQty.signum() == 0)
-			m_MovementQty = Env.ONE;
 		//
-		MProjectIssue pi = new MProjectIssue (m_project);
-		pi.setMandatory (m_M_Locator_ID, m_M_Product_ID, m_MovementQty);
-		if (m_MovementDate != null)		//	default today
-			pi.setMovementDate(m_MovementDate);
-		if (m_Description != null && m_Description.length() > 0)
-			pi.setDescription(m_Description);
-		pi.process();
+		MProjectIssue projectIssue = new MProjectIssue (project);
+		projectIssue.setMandatory (getLocatorId(), getProductId(), getMovementQty());
+		if (getMovementDate() != null)		//	default today
+			projectIssue.setMovementDate(getMovementDate());
+		if (getDescription() != null && getDescription().length() > 0)
+			projectIssue.setDescription(getDescription());
+		projectIssue.process();
 
 		//	Create Project Line
-		MProjectLine pl = new MProjectLine(m_project);
-		pl.setMProjectIssue(pi);
-		pl.saveEx();
-		addLog(pi.getLine(), pi.getMovementDate(), pi.getMovementQty(), null);
+		MProjectLine projectLine = new MProjectLine(project);
+		projectLine.setMProjectIssue(projectIssue);
+		projectLine.saveEx();
+		addLog(projectIssue.getLine(), projectIssue.getMovementDate(), projectIssue.getMovementQty(), null);
 		return "@Created@ 1";
 	}	//	issueInventory
 
 	/**
 	 * 	Check if Project Issue already has Expense
-	 *	@param S_TimeExpenseLine_ID line
+	 * 	@param project Project
+	 *	@param timeExpenseLineId line
 	 *	@return true if exists
 	 */
-	private boolean projectIssueHasExpense (int S_TimeExpenseLine_ID)
+	private boolean projectIssueHasExpense (MProject project , int timeExpenseLineId)
 	{
-		if (m_projectIssues == null)
-			m_projectIssues = m_project.getIssues();
-		for (int i = 0; i < m_projectIssues.length; i++)
-		{
-			if (m_projectIssues[i].getS_TimeExpenseLine_ID() == S_TimeExpenseLine_ID)
+		if (projectIssues == null)
+			projectIssues = project.getIssues();
+		Boolean exists = projectIssues.stream().allMatch(projectIssue -> projectIssue.getS_TimeExpenseLine_ID() == timeExpenseLineId);
+		if (exists)
 				return true;
-		}
 		return false;
 	}	//	projectIssueHasExpense
 
 	/**
 	 * 	Check if Project Issue already has Receipt
-	 *	@param M_InOutLine_ID line
+	 * 	@param project Project
+	 *	@param inOutLineId line
 	 *	@return true if exists
 	 */
-	private boolean projectIssueHasReceipt (int M_InOutLine_ID)
+	private boolean projectIssueHasReceipt (MProject project , int inOutLineId)
 	{
-		if (m_projectIssues == null)
-			m_projectIssues = m_project.getIssues();
-		for (int i = 0; i < m_projectIssues.length; i++)
-		{
-			if (m_projectIssues[i].getM_InOutLine_ID() == M_InOutLine_ID)
-				return true;
-		}
-		return false;
+		if (projectIssues == null)
+			projectIssues = project.getIssues();
+		Boolean exists = projectIssues.stream().allMatch(projectIssue -> projectIssue.getM_InOutLine_ID() == inOutLineId);
+		if (exists)
+			return true;
+		else
+			return false;
 	}	//	projectIssueHasReceipt
-
 }	//	ProjectIssue
