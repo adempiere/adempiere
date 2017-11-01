@@ -17,6 +17,7 @@
 package org.compiere.process;
 
 
+import java.util.List;
 import java.util.logging.Level;
 
 import org.compiere.model.MProject;
@@ -64,7 +65,7 @@ public class ProjectClose extends SvrProcess
 		MProject project = new MProject (getCtx(), m_C_Project_ID, get_TrxName());
 		log.info("doIt - " + project);
 
-		MProjectLine[] projectLines = project.getLines();
+		List<MProjectLine> projectLines = project.getLines();
 		if (MProject.PROJECTCATEGORY_WorkOrderJob.equals(project.getProjectCategory())
 			|| MProject.PROJECTCATEGORY_AssetProject.equals(project.getProjectCategory()))
 		{
@@ -72,11 +73,10 @@ public class ProjectClose extends SvrProcess
 		}
 
 		//	Close lines
-		for (int line = 0; line < projectLines.length; line++)
-		{
-			projectLines[line].setProcessed(true);
-			projectLines[line].saveEx();
-		}
+		projectLines.stream().forEach( projectLine ->{
+			projectLine.setProcessed(true);
+			projectLine.saveEx();
+		});
 
 		project.setProcessed(true);
 		project.saveEx();

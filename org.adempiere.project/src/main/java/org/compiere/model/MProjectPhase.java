@@ -22,6 +22,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 
 import org.compiere.util.DB;
@@ -108,39 +109,13 @@ public class MProjectPhase extends X_C_ProjectPhase
 	 * 	Get Project Phase Tasks.
 	 *	@return Array of tasks
 	 */
-	public MProjectTask[] getTasks()
+	public List<MProjectTask> getTasks()
 	{
-		ArrayList<MProjectTask> list = new ArrayList<MProjectTask>();
-		String sql = "SELECT * FROM C_ProjectTask WHERE C_ProjectPhase_ID=? ORDER BY SeqNo";
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement(sql, get_TrxName());
-			pstmt.setInt(1, getC_ProjectPhase_ID());
-			ResultSet rs = pstmt.executeQuery();
-			while (rs.next())
-				list.add(new MProjectTask (getCtx(), rs, get_TrxName()));
-			rs.close();
-			pstmt.close();
-			pstmt = null;
-		}
-		catch (SQLException ex)
-		{
-			log.log(Level.SEVERE, sql, ex);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close();
-		}
-		catch (SQLException ex1)
-		{
-		}
-		pstmt = null;
-		//
-		MProjectTask[] retValue = new MProjectTask[list.size()];
-		list.toArray(retValue);
-		return retValue;
+		return  new Query(getCtx(), MProjectTask.Table_Name , COLUMNNAME_C_ProjectPhase_ID + "=?", get_TrxName())
+				.setClient_ID()
+				.setParameters(getC_ProjectPhase_ID())
+				.setOrderBy(COLUMNNAME_SeqNo)
+				.list();
 	}	//	getTasks
 
 	/**
@@ -153,121 +128,97 @@ public class MProjectPhase extends X_C_ProjectPhase
 	{
 		if (fromPhase == null)
 			return 0;
-		int count = 0;
-		//
-		MProjectLine[] fromLines = fromPhase.getLines();
-		//	Copy Project Lines
-		for (int i = 0; i < fromLines.length; i++)
-		{
-				if(fromLines[i].getC_ProjectTask_ID() != 0) continue;
-				MProjectLine toLine = new MProjectLine(getCtx (), 0, get_TrxName());
-				PO.copyValues (fromLines[i], toLine, getAD_Client_ID (), getAD_Org_ID ());
-				toLine.setC_Project_ID(getC_Project_ID ());
-				toLine.setC_ProjectPhase_ID (getC_ProjectPhase_ID ());
-				if (toLine.save ())
-					count++;
-		}
-		if (fromLines.length != count)
-			log.warning("Count difference - ProjectLine=" + fromLines.length + " <> Saved=" + count);
+		AtomicInteger count = new AtomicInteger(0);
+		List<MProjectLine> fromProjectLines = fromPhase.getLines();
+		fromProjectLines.stream()
+				.filter(fromProjectLine -> fromProjectLine.getC_ProjectTask_ID() <= 0)
+				.forEach(fromProjectLine -> {
+					MProjectLine toProjectline = new MProjectLine(getCtx(), 0, get_TrxName());
+					PO.copyValues(fromProjectLine, toProjectline, getAD_Client_ID(), getAD_Org_ID());
+					toProjectline.setC_Project_ID(getC_Project_ID());
+					toProjectline.setC_ProjectPhase_ID(getC_ProjectPhase_ID());
+					toProjectline.saveEx();
+					count.getAndUpdate(no -> no + 1);
+				});
 
-		return count;		
+		if (fromProjectLines.size() != count.get())
+			log.warning("Count difference - ProjectLine=" + fromProjectLines.size() + " <> Saved=" + count);
+
+		return count.get();
 	}
 	
 	
 	/**
 	 * 	Copy Tasks from other Phase
 	 *  BF 3067850 - monhate
-	 *	@param fromPhase from phase
+	 *	@param fromProjectPhase from phase
 	 *	@return number of tasks copied
 	 */
-	public int copyTasksFrom (MProjectPhase fromPhase)
+	public int copyTasksFrom (MProjectPhase fromProjectPhase)
 	{
-		if (fromPhase == null)
+		if (fromProjectPhase == null)
 			return 0;
-		int count = 0, countLine = 0;
-		//
-		MProjectTask[] myTasks = getTasks();
-		MProjectTask[] fromTasks = fromPhase.getTasks();
-		//	Copy Project Tasks
-		for (int i = 0; i < fromTasks.length; i++)
-		{
-			//	Check if Task already exists
-			int C_Task_ID = fromTasks[i].getC_Task_ID();
-			boolean exists = false;
-			if (C_Task_ID == 0)
-				exists = false;
-			else
-			{
-				for (int ii = 0; ii < myTasks.length; ii++)
-				{
-					if (myTasks[ii].getC_Task_ID() == C_Task_ID)
-					{
-						exists = true;
-						break;
-					}
-				}
+		AtomicInteger count = new AtomicInteger(0);
+		AtomicInteger countLine = new AtomicInteger(0);
+		List<MProjectTask> toProjectTasks = getTasks();
+		List<MProjectTask> fromProjectTasks = fromProjectPhase.getTasks();
+		fromProjectTasks.stream().forEach(fromProjectTask -> {
+			Boolean exists = toProjectTasks.stream().anyMatch(taskTo -> taskTo.getC_Task_ID() == fromProjectTask.getC_Task_ID());
+			if (exists) {
+				log.info("Task already exists here, ignored - " + fromProjectTask);
+			} else {
+				MProjectTask toProjectTask = new MProjectTask(getCtx(), 0, get_TrxName());
+				PO.copyValues(fromProjectTask, toProjectTask, getAD_Client_ID(), getAD_Org_ID());
+				toProjectTask.setC_ProjectPhase_ID(getC_ProjectPhase_ID());
+				toProjectTask.saveEx();
+				count.getAndUpdate(no -> no + 1);
+				countLine.getAndUpdate(no -> no + toProjectTask.copyLinesFrom(fromProjectTask));
 			}
-			//	Phase exist
-			if (exists)
-				log.info("Task already exists here, ignored - " + fromTasks[i]);
-			else
-			{
-				MProjectTask toTask = new MProjectTask (getCtx (), 0, get_TrxName());
-				PO.copyValues (fromTasks[i], toTask, getAD_Client_ID (), getAD_Org_ID ());
-				toTask.setC_ProjectPhase_ID (getC_ProjectPhase_ID ());
-				if (toTask.save ()){
-					count++;
-					//BF 3067850 - monhate
-					countLine += toTask.copyLinesFrom(fromTasks[i]);
-				}
-			}
-		}
-		if (fromTasks.length != count)
-			log.warning("Count difference - ProjectPhase=" + fromTasks.length + " <> Saved=" + count);
+		});
 
-		return count + countLine;
+		if (fromProjectTasks.size() != count.get())
+			log.warning("Count difference - ProjectPhase=" + fromProjectTasks.size() + " <> Saved=" + count.get());
+
+		return count.get() + countLine.get();
 	}	//	copyTasksFrom
 
 	/**
 	 * 	Copy Tasks from other Phase
-	 *	@param fromPhase from phase
+	 *	@param fromProjectPhase from phase
 	 *	@return number of tasks copied
 	 */
-	public int copyTasksFrom (MProjectTypePhase fromPhase)
+	public int copyTasksFrom (MProjectTypePhase fromProjectPhase)
 	{
-		if (fromPhase == null)
+		if (fromProjectPhase == null)
 			return 0;
-		int count = 0;
+		AtomicInteger count = new AtomicInteger(0);
 		//	Copy Type Tasks
-		MProjectTypeTask[] fromTasks = fromPhase.getTasks();
-		for (int i = 0; i < fromTasks.length; i++)
-		{
-			MProjectTask toTask = new MProjectTask (this, fromTasks[i]);
-			if (toTask.save())
-				count++;
-		}
-		log.fine("#" + count + " - " + fromPhase);
-		if (fromTasks.length != count)
-			log.log(Level.SEVERE, "Count difference - TypePhase=" + fromTasks.length + " <> Saved=" + count);
+		List<MProjectTypeTask> fromProjectTasks = fromProjectPhase.getTasks();
+		fromProjectTasks.stream()
+				.forEach(fromProjectTask -> {
+					MProjectTask toProjectTask = new MProjectTask (this, fromProjectTask);
+					toProjectTask.saveEx();
+					count.getAndUpdate(no -> no + 1);
+				});
+		log.fine("#" + count.get() + " - " + fromProjectPhase);
+		if (fromProjectTasks.size() != count.get())
+			log.log(Level.SEVERE, "Count difference - TypePhase=" + fromProjectTasks.size() + " <> Saved=" + count.get());
 
-		return count;
+		return count.get();
 	}	//	copyTasksFrom
 	
 	/**************************************************************************
 	 * 	Get Project Lines
 	 * 	BF 3067850 - monhate
 	 *	@return Array of lines
-	 */	public MProjectLine[] getLines()
+	 */	public List<MProjectLine> getLines()
 	{
 		final String whereClause = "C_Project_ID=? and C_ProjectPhase_ID=?";
-		List <MProjectLine> list = new Query(getCtx(), I_C_ProjectLine.Table_Name, whereClause, get_TrxName())
+		return new Query(getCtx(), I_C_ProjectLine.Table_Name, whereClause, get_TrxName())
+			.setClient_ID()
 			.setParameters(getC_Project_ID(), getC_ProjectPhase_ID())
 			.setOrderBy("Line")
 			.list();
-		//
-		MProjectLine[] retValue = new MProjectLine[list.size()];
-		list.toArray(retValue);
-		return retValue;
 	}
 
 	/**
@@ -283,5 +234,19 @@ public class MProjectPhase extends X_C_ProjectPhase
 			.append ("]");
 		return sb.toString ();
 	}	//	toString
-	
+
+
+	/**
+	 * Get Order based on Project Phase
+	 * @return
+	 */
+	public List<MOrder> getOrders()
+	{
+		StringBuilder whereClause = new StringBuilder();
+		whereClause.append("EXISTS (SELECT 1 FROM C_OrderLine ol WHERE ol.C_Order_ID = C_Order.C_Order_ID AND ol.C_ProjectPhase_ID=?)");
+		return new Query(getCtx(), MOrder.Table_Name, whereClause.toString(), get_TrxName())
+				.setClient_ID()
+				.setParameters(getC_ProjectPhase_ID())
+				.list();
+	}
 }	//	MProjectPhase

@@ -17,6 +17,8 @@
 package org.compiere.process;
 
 
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 
 import org.compiere.model.MOrder;
@@ -34,24 +36,14 @@ import org.compiere.util.Env;
  *	@author Jorg Janke
  *	@version $Id: ProjectPhaseGenOrder.java,v 1.2 2006/07/30 00:51:01 jjanke Exp $
  */
-public class ProjectPhaseGenOrder  extends SvrProcess
+public class ProjectPhaseGenOrder  extends ProjectPhaseGenOrderAbstract
 {
-	private int		m_C_ProjectPhase_ID = 0;
-
 	/**
 	 *  Prepare - e.g., get Parameters.
 	 */
 	protected void prepare()
 	{
-		ProcessInfoParameter[] para = getParameter();
-		for (int i = 0; i < para.length; i++)
-		{
-			String name = para[i].getParameterName();
-			if (para[i].getParameter() == null)
-				;
-			else
-				log.log(Level.SEVERE, "prepare - Unknown Parameter: " + name);
-		}
+		super.prepare();
 	}	//	prepare
 
 	/**
@@ -61,80 +53,85 @@ public class ProjectPhaseGenOrder  extends SvrProcess
 	 */
 	protected String doIt() throws Exception
 	{
-		m_C_ProjectPhase_ID = getRecord_ID();
-		log.info("doIt - C_ProjectPhase_ID=" + m_C_ProjectPhase_ID);
-		if (m_C_ProjectPhase_ID == 0)
+		log.info("doIt - C_ProjectPhase_ID=" + getRecord_ID());
+		if (getRecord_ID() == 0)
 			throw new IllegalArgumentException("C_ProjectPhase_ID == 0");
-		MProjectPhase fromPhase = new MProjectPhase (getCtx(), m_C_ProjectPhase_ID, get_TrxName());
+		MProjectPhase fromPhase = new MProjectPhase (getCtx(), getRecord_ID(), get_TrxName());
 		MProject fromProject = ProjectGenOrder.getProject (getCtx(), fromPhase.getC_Project_ID(), get_TrxName());
 		MOrder order = new MOrder (fromProject, true, MOrder.DocSubTypeSO_OnCredit);
 		order.setDescription(order.getDescription() + " - " + fromPhase.getName());
-		if (!order.save())
-			throw new Exception("Could not create Order");
+		order.saveEx();
 
 		//	Create an order on Phase Level
-		if (fromPhase.getM_Product_ID() != 0)
-		{
-			MOrderLine ol = new MOrderLine(order);
-			ol.setLine(fromPhase.getSeqNo());
-			StringBuffer sb = new StringBuffer (fromPhase.getName());
+		if (fromPhase.getM_Product_ID() != 0) {
+			MOrderLine orderLine = new MOrderLine(order);
+			orderLine.setLine(fromPhase.getSeqNo());
+			StringBuilder stringBuilder = new StringBuilder(fromPhase.getName());
 			if (fromPhase.getDescription() != null && fromPhase.getDescription().length() > 0)
-				sb.append(" - ").append(fromPhase.getDescription());
-			ol.setDescription(sb.toString());
+				stringBuilder.append(" - ").append(fromPhase.getDescription());
+			orderLine.setDescription(stringBuilder.toString());
 			//
-			ol.setM_Product_ID(fromPhase.getM_Product_ID(), true);
-			ol.setQty(fromPhase.getQty());
-			ol.setPrice();
+			orderLine.setM_Product_ID(fromPhase.getM_Product_ID(), true);
+			orderLine.setQty(fromPhase.getQty());
+			orderLine.setC_Project_ID(fromProject.getC_Project_ID());
+			orderLine.setC_ProjectPhase_ID(fromPhase.getC_ProjectPhase_ID());
+			orderLine.setPrice();
 			if (fromPhase.getPriceActual() != null && fromPhase.getPriceActual().compareTo(Env.ZERO) != 0)
-				ol.setPrice(fromPhase.getPriceActual());
-			ol.setTax();
-			if (!ol.save())
+				orderLine.setPrice(fromPhase.getPriceActual());
+			orderLine.setTax();
+			if (!orderLine.save())
 				log.log(Level.SEVERE, "doIt - Lines not generated");
 			return "@C_Order_ID@ " + order.getDocumentNo() + " (1)";
 		}
-		
+
 		//	Project Phase Lines
-		int count = 0;
-		MProjectLine[] lines = fromPhase.getLines();
-		for (int i = 0; i < lines.length; i++)
-		{
-			MOrderLine ol = new MOrderLine(order);
-			ol.setLine(lines[i].getLine());
-			ol.setDescription(lines[i].getDescription());
-			//
-			ol.setM_Product_ID(lines[i].getM_Product_ID(), true);
-			ol.setQty(lines[i].getPlannedQty().subtract(lines[i].getInvoicedQty()));
-			ol.setPrice();
-			if (lines[i].getPlannedPrice() != null && lines[i].getPlannedPrice().compareTo(Env.ZERO) != 0)
-				ol.setPrice(lines[i].getPlannedPrice());
-			ol.setDiscount();
-			ol.setTax();
-			if (ol.save())
-				count++;
-		}	//	for all lines
-		if (lines.length != count)
-			log.log(Level.SEVERE, "Lines difference - ProjectLines=" + lines.length + " <> Saved=" + count);
+		AtomicInteger count = new AtomicInteger(0);
+		List<MProjectLine> projectLines = fromPhase.getLines();
+		projectLines.stream()
+				.forEach(projectLine -> {
+					MOrderLine orderLine = new MOrderLine(order);
+					orderLine.setLine(projectLine.getLine());
+					orderLine.setDescription(projectLine.getDescription());
+					//
+					orderLine.setM_Product_ID(projectLine.getM_Product_ID(), true);
+					orderLine.setQty(projectLine.getPlannedQty().subtract(projectLine.getInvoicedQty()));
+					orderLine.setPrice();
+					if (projectLine.getPlannedPrice() != null && projectLine.getPlannedPrice().compareTo(Env.ZERO) != 0)
+						orderLine.setPrice(projectLine.getPlannedPrice());
+					orderLine.setDiscount();
+					orderLine.setTax();
+					orderLine.setC_Project_ID(fromProject.getC_Project_ID());
+					orderLine.setC_ProjectPhase_ID(projectLine.getC_ProjectPhase_ID());
+					orderLine.saveEx();
+					count.getAndUpdate(no -> no + 1);
+				});    //	for all lines
+		if (projectLines.size() != count.get())
+			log.log(Level.SEVERE, "Lines difference - ProjectLines=" + projectLines.size() + " <> Saved=" + count.get());
 
 		//	Project Tasks
-		MProjectTask[] tasks = fromPhase.getTasks ();
-		for (int i = 0; i < tasks.length; i++)
-		{
-			MOrderLine ol = new MOrderLine(order);
-			ol.setLine(tasks[i].getSeqNo());
-			StringBuffer sb = new StringBuffer (tasks[i].getName());
-			if (tasks[i].getDescription() != null && tasks[i].getDescription().length() > 0)
-				sb.append(" - ").append(tasks[i].getDescription());
-			ol.setDescription(sb.toString());
-			//
-			ol.setM_Product_ID(tasks[i].getM_Product_ID(), true);
-			ol.setQty(tasks[i].getQty());
-			ol.setPrice();
-			ol.setTax();
-			if (ol.save())
-				count++;
-		}	//	for all lines
-		if (tasks.length != count - lines.length)
-			log.log(Level.SEVERE, "doIt - Lines difference - ProjectTasks=" + tasks.length + " <> Saved=" + count);
+		List<MProjectTask> tasks = fromPhase.getTasks();
+		tasks.stream()
+				.forEach(fromTask -> {
+					{
+						MOrderLine orderLine = new MOrderLine(order);
+						orderLine.setLine(fromTask.getSeqNo());
+						StringBuilder stringBuilder = new StringBuilder(fromTask.getName());
+						if (fromTask.getDescription() != null && fromTask.getDescription().length() > 0)
+							stringBuilder.append(" - ").append(fromTask.getDescription());
+						orderLine.setDescription(stringBuilder.toString());
+						orderLine.setM_Product_ID(fromTask.getM_Product_ID(), true);
+						orderLine.setQty(fromTask.getQty());
+						orderLine.setPrice();
+						orderLine.setC_Project_ID(fromProject.getC_Project_ID());
+						orderLine.setC_ProjectPhase_ID(fromTask.getC_ProjectPhase_ID());
+						orderLine.setC_ProjectTask_ID(fromTask.getC_ProjectTask_ID());
+						orderLine.setTax();
+						orderLine.saveEx();
+						count.getAndUpdate(no -> no + 1);
+					}
+				});    //	for all lines
+		if (tasks.size() != count.get() - projectLines.size())
+			log.log(Level.SEVERE, "doIt - Lines difference - ProjectTasks=" + tasks.size() + " <> Saved=" + count.get());
 
 		return "@C_Order_ID@ " + order.getDocumentNo() + " (" + count + ")";
 	}	//	doIt

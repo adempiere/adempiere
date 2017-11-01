@@ -16,7 +16,9 @@
  *****************************************************************************/
 package org.compiere.process;
 
+import java.util.List;
 import java.util.Properties;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 
 import org.compiere.model.MOrder;
@@ -31,26 +33,14 @@ import org.compiere.util.Env;
  *	@author Jorg Janke
  *	@version $Id: ProjectGenOrder.java,v 1.3 2006/07/30 00:51:01 jjanke Exp $
  */
-public class ProjectGenOrder extends SvrProcess
+public class ProjectGenOrder extends ProjectGenOrderAbstract
 {
-	/**	Project ID from project directly		*/
-	private int		m_C_Project_ID = 0;
-
 	/**
 	 *  Prepare - e.g., get Parameters.
 	 */
 	protected void prepare()
 	{
-		ProcessInfoParameter[] para = getParameter();
-		for (int i = 0; i < para.length; i++)
-		{
-			String name = para[i].getParameterName();
-			if (para[i].getParameter() == null)
-				;
-			else
-				log.log(Level.SEVERE, "Unknown Parameter: " + name);
-		}
-		m_C_Project_ID = getRecord_ID();
+		super.prepare();
 	}	//	prepare
 
 	/**
@@ -60,10 +50,10 @@ public class ProjectGenOrder extends SvrProcess
 	 */
 	protected String doIt() throws Exception
 	{
-		log.info("C_Project_ID=" + m_C_Project_ID);
-		if (m_C_Project_ID == 0)
+		log.info("C_Project_ID=" + getRecord_ID());
+		if (getRecord_ID() == 0)
 			throw new IllegalArgumentException("C_Project_ID == 0");
-		MProject fromProject = getProject (getCtx(), m_C_Project_ID, get_TrxName());
+		MProject fromProject = getProject (getCtx(), getRecord_ID(), get_TrxName());
 		Env.setSOTrx(getCtx(), true);	//	Set SO context
 
 		/** @todo duplicate invoice prevention */
@@ -73,8 +63,7 @@ public class ProjectGenOrder extends SvrProcess
 			throw new Exception("Could not create Order");
 
 		//	***	Lines ***
-		int count = 0;
-		
+		AtomicInteger count = new AtomicInteger(0);
 		//	Service Project	
 		if (MProject.PROJECTCATEGORY_ServiceChargeProject.equals(fromProject.getProjectCategory()))
 		{
@@ -84,25 +73,22 @@ public class ProjectGenOrder extends SvrProcess
 
 		else	//	Order Lines
 		{
-			MProjectLine[] lines = fromProject.getLines ();
-			for (int i = 0; i < lines.length; i++)
-			{
-				MOrderLine ol = new MOrderLine(order);
-				ol.setLine(lines[i].getLine());
-				ol.setDescription(lines[i].getDescription());
-				//
-				ol.setM_Product_ID(lines[i].getM_Product_ID(), true);
-				ol.setQty(lines[i].getPlannedQty().subtract(lines[i].getInvoicedQty()));
-				ol.setPrice();
-				if (lines[i].getPlannedPrice() != null && lines[i].getPlannedPrice().compareTo(Env.ZERO) != 0)
-					ol.setPrice(lines[i].getPlannedPrice());
-				ol.setDiscount();
-				ol.setTax();
-				if (ol.save())
-					count++;
-			}	//	for all lines
-			if (lines.length != count)
-				log.log(Level.SEVERE, "Lines difference - ProjectLines=" + lines.length + " <> Saved=" + count);
+			List<MProjectLine> fromProjectLines = fromProject.getLines();
+			fromProjectLines.stream().forEach(fromProjectLine -> {
+				MOrderLine orderLine = new MOrderLine(order);
+				orderLine.setLine(fromProjectLine.getLine());
+				orderLine.setDescription(fromProjectLine.getDescription());
+				orderLine.setM_Product_ID(fromProjectLine.getM_Product_ID(), true);
+				orderLine.setQty(fromProjectLine.getPlannedQty().subtract(fromProjectLine.getInvoicedQty()));
+				orderLine.setPrice();
+				if (fromProjectLine.getPlannedPrice() != null && fromProjectLine.getPlannedPrice().compareTo(Env.ZERO) != 0)
+					orderLine.setPrice(fromProjectLine.getPlannedPrice());
+				orderLine.setDiscount();
+				orderLine.setTax();
+				count.getAndUpdate(no -> no + 1);
+			});
+			if (fromProjectLines.size() != count.get())
+				log.log(Level.SEVERE, "Lines difference - ProjectLines=" + fromProjectLines.size() + " <> Saved=" + count.get());
 		}	//	Order Lines
 
 		return "@C_Order_ID@ " + order.getDocumentNo() + " (" + count + ")";
@@ -111,15 +97,15 @@ public class ProjectGenOrder extends SvrProcess
 	/**
 	 * 	Get and validate Project
 	 * 	@param ctx context
-	 * 	@param C_Project_ID id
+	 * 	@param projectId Project Id
 	 * 	@return valid project
 	 * 	@param trxName transaction
 	 */
-	static protected MProject getProject (Properties ctx, int C_Project_ID, String trxName)
+	static protected MProject getProject (Properties ctx, int projectId, String trxName)
 	{
-		MProject fromProject = new MProject (ctx, C_Project_ID, trxName);
+		MProject fromProject = new MProject (ctx, projectId, trxName);
 		if (fromProject.getC_Project_ID() == 0)
-			throw new IllegalArgumentException("Project not found C_Project_ID=" + C_Project_ID);
+			throw new IllegalArgumentException("Project not found C_Project_ID=" + projectId);
 		if (fromProject.getM_PriceList_Version_ID() == 0)
 			throw new IllegalArgumentException("Project has no Price List");
 		if (fromProject.getM_Warehouse_ID() == 0)

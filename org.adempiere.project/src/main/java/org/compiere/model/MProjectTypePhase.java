@@ -20,6 +20,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -35,7 +36,7 @@ import org.compiere.util.Env;
 public class MProjectTypePhase extends X_C_Phase
 {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -5111329904215151458L;
 
@@ -70,42 +71,16 @@ public class MProjectTypePhase extends X_C_Phase
 	}	//	MProjectTypePhase
 
 	/**
-	 * 	Get Project Type Phases
-	 *	@return Array of phases
+	 * get Project Type Tasks
+	 * @return list task
 	 */
-	public MProjectTypeTask[] getTasks()
-	{
-		ArrayList<MProjectTypeTask> list = new ArrayList<MProjectTypeTask>();
-		String sql = "SELECT * FROM C_Task WHERE C_Phase_ID=? ORDER BY SeqNo";
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement(sql, get_TrxName());
-			pstmt.setInt(1, getC_Phase_ID());
-			ResultSet rs = pstmt.executeQuery();
-			while (rs.next())
-				list.add(new MProjectTypeTask (getCtx(), rs, get_TrxName()));
-			rs.close();
-			pstmt.close();
-			pstmt = null;
-		}
-		catch (SQLException ex)
-		{
-			log.log(Level.SEVERE, sql, ex);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close();
-		}
-		catch (SQLException ex1)
-		{
-		}
-		pstmt = null;
-		//
-		MProjectTypeTask[] retValue = new MProjectTypeTask[list.size()];
-		list.toArray(retValue);
-		return retValue;
-	}	//	getPhases
+	public List<MProjectTypeTask> getTasks() {
+		return new Query(getCtx(), MProjectTypeTask.Table_Name, MProjectTypeTask.COLUMNNAME_C_Phase_ID + "=?", get_TrxName())
+				.setClient_ID()
+				.setParameters(getC_Phase_ID())
+				.setOrderBy(COLUMNNAME_SeqNo)
+				.list();
+	}
+
 
 }	//	MProjectTypePhase
