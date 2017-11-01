@@ -19,7 +19,7 @@
         <Data AD_Column_ID="15606" Column="Classpath" isNewNull="true"/>
         <Data AD_Column_ID="15603" Column="Help">Project Management allows tracking of the project with planning, execution, control stage, allowing allocation of resources and dates of compliance.</Data>
         <Data AD_Column_ID="15598" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="15601" Column="Name">Project Management</Data>
+        <Data AD_Column_ID="15601" Column="Name">e-Evolution Project Management</Data>
         <Data AD_Column_ID="84318" Column="UUID" isNewNull="true"/>
       </PO>
     </Step>
