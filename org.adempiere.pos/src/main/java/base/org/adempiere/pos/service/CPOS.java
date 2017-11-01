@@ -614,6 +614,11 @@ public class CPOS {
 	 * @return String
 	 */
 	public String getSalesRepName() {
+		if (currentOrder != null && currentOrder.getC_BPartner().getSalesRep_ID() !=0)
+		{
+			String salesRepName = currentOrder.getC_BPartner().getSalesRep().getName();
+			return salesRepName;
+		}
 		MUser salesRep = MUser.get(ctx);
 		if(salesRep == null) {
 			return null;
@@ -629,6 +634,9 @@ public class CPOS {
 	 * @return int
 	 */
 	public int getSalesRep_ID() {
+
+		if (currentOrder != null && currentOrder.getC_BPartner().getSalesRep_ID() !=0)
+			return currentOrder.getC_BPartner().getSalesRep_ID();
 		return entityPOS.getSalesRep_ID();
 	}
 	
@@ -829,7 +837,10 @@ public class CPOS {
 					currentOrder.setPaymentRule(MOrder.PAYMENTRULE_Cash);
 			}
 			//	Set Sales Representative
-			currentOrder.setSalesRep_ID(entityPOS.getSalesRep_ID());
+			if (currentOrder.getC_BPartner().getSalesRep_ID()!=0)
+				currentOrder.setSalesRep_ID(currentOrder.getC_BPartner().getSalesRep_ID());
+			else
+				currentOrder.setSalesRep_ID(entityPOS.getSalesRep_ID());
 			//	Save Header
 			currentOrder.saveEx();
 			//	Load Price List Version
