@@ -19,6 +19,7 @@ package org.compiere.model;
 
 import java.math.BigDecimal;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.Properties;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
@@ -32,7 +33,7 @@ public class X_C_ProjectTask extends PO implements I_C_ProjectTask, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170731L;
+	private static final long serialVersionUID = 20171102L;
 
     /** Standard Constructor */
     public X_C_ProjectTask (Properties ctx, int C_ProjectTask_ID, String trxName)
@@ -40,9 +41,9 @@ public class X_C_ProjectTask extends PO implements I_C_ProjectTask, I_Persistent
       super (ctx, C_ProjectTask_ID, trxName);
       /** if (C_ProjectTask_ID == 0)
         {
+			setCommittedAmt (Env.ZERO);
 			setC_ProjectPhase_ID (0);
 			setC_ProjectTask_ID (0);
-			setCommittedAmt (Env.ZERO);
 			setName (null);
 			setPlannedAmt (Env.ZERO);
 			setProjInvoiceRule (null);
@@ -80,6 +81,105 @@ public class X_C_ProjectTask extends PO implements I_C_ProjectTask, I_Persistent
       return sb.toString();
     }
 
+	/** Set Trx Organization.
+		@param AD_OrgTrx_ID 
+		Performing or initiating organization
+	  */
+	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID)
+	{
+		if (AD_OrgTrx_ID < 1) 
+			set_Value (COLUMNNAME_AD_OrgTrx_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_OrgTrx_ID, Integer.valueOf(AD_OrgTrx_ID));
+	}
+
+	/** Get Trx Organization.
+		@return Performing or initiating organization
+	  */
+	public int getAD_OrgTrx_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_OrgTrx_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_Activity getC_Activity() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_Activity)MTable.get(getCtx(), org.compiere.model.I_C_Activity.Table_Name)
+			.getPO(getC_Activity_ID(), get_TrxName());	}
+
+	/** Set Activity.
+		@param C_Activity_ID 
+		Business Activity
+	  */
+	public void setC_Activity_ID (int C_Activity_ID)
+	{
+		if (C_Activity_ID < 1) 
+			set_Value (COLUMNNAME_C_Activity_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Activity_ID, Integer.valueOf(C_Activity_ID));
+	}
+
+	/** Get Activity.
+		@return Business Activity
+	  */
+	public int getC_Activity_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Activity_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_Campaign getC_Campaign() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_Campaign)MTable.get(getCtx(), org.compiere.model.I_C_Campaign.Table_Name)
+			.getPO(getC_Campaign_ID(), get_TrxName());	}
+
+	/** Set Campaign.
+		@param C_Campaign_ID 
+		Marketing Campaign
+	  */
+	public void setC_Campaign_ID (int C_Campaign_ID)
+	{
+		if (C_Campaign_ID < 1) 
+			set_Value (COLUMNNAME_C_Campaign_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Campaign_ID, Integer.valueOf(C_Campaign_ID));
+	}
+
+	/** Get Campaign.
+		@return Marketing Campaign
+	  */
+	public int getC_Campaign_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Campaign_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Committed Amount.
+		@param CommittedAmt 
+		The (legal) commitment amount
+	  */
+	public void setCommittedAmt (BigDecimal CommittedAmt)
+	{
+		set_Value (COLUMNNAME_CommittedAmt, CommittedAmt);
+	}
+
+	/** Get Committed Amount.
+		@return The (legal) commitment amount
+	  */
+	public BigDecimal getCommittedAmt () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CommittedAmt);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
 	public org.compiere.model.I_C_ProjectPhase getC_ProjectPhase() throws RuntimeException
     {
 		return (org.compiere.model.I_C_ProjectPhase)MTable.get(getCtx(), org.compiere.model.I_C_ProjectPhase.Table_Name)
@@ -108,6 +208,62 @@ public class X_C_ProjectTask extends PO implements I_C_ProjectTask, I_Persistent
 		return ii.intValue();
 	}
 
+	public org.eevolution.model.I_C_ProjectStatus getC_ProjectStatus() throws RuntimeException
+    {
+		return (org.eevolution.model.I_C_ProjectStatus)MTable.get(getCtx(), org.eevolution.model.I_C_ProjectStatus.Table_Name)
+			.getPO(getC_ProjectStatus_ID(), get_TrxName());	}
+
+	/** Set Project Status.
+		@param C_ProjectStatus_ID 
+		Status for Project, Phase or Task
+	  */
+	public void setC_ProjectStatus_ID (int C_ProjectStatus_ID)
+	{
+		if (C_ProjectStatus_ID < 1) 
+			set_Value (COLUMNNAME_C_ProjectStatus_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_ProjectStatus_ID, Integer.valueOf(C_ProjectStatus_ID));
+	}
+
+	/** Get Project Status.
+		@return Status for Project, Phase or Task
+	  */
+	public int getC_ProjectStatus_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_ProjectStatus_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.eevolution.model.I_C_ProjectTaskCategory getC_ProjectTaskCategory() throws RuntimeException
+    {
+		return (org.eevolution.model.I_C_ProjectTaskCategory)MTable.get(getCtx(), org.eevolution.model.I_C_ProjectTaskCategory.Table_Name)
+			.getPO(getC_ProjectTaskCategory_ID(), get_TrxName());	}
+
+	/** Set Project Task Category.
+		@param C_ProjectTaskCategory_ID 
+		Set Category for project task
+	  */
+	public void setC_ProjectTaskCategory_ID (int C_ProjectTaskCategory_ID)
+	{
+		if (C_ProjectTaskCategory_ID < 1) 
+			set_Value (COLUMNNAME_C_ProjectTaskCategory_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_ProjectTaskCategory_ID, Integer.valueOf(C_ProjectTaskCategory_ID));
+	}
+
+	/** Get Project Task Category.
+		@return Set Category for project task
+	  */
+	public int getC_ProjectTaskCategory_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_ProjectTaskCategory_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Project Task.
 		@param C_ProjectTask_ID 
 		Actual Project Task in a Phase
@@ -126,6 +282,34 @@ public class X_C_ProjectTask extends PO implements I_C_ProjectTask, I_Persistent
 	public int getC_ProjectTask_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_ProjectTask_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_SalesRegion getC_SalesRegion() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_SalesRegion)MTable.get(getCtx(), org.compiere.model.I_C_SalesRegion.Table_Name)
+			.getPO(getC_SalesRegion_ID(), get_TrxName());	}
+
+	/** Set Sales Region.
+		@param C_SalesRegion_ID 
+		Sales coverage region
+	  */
+	public void setC_SalesRegion_ID (int C_SalesRegion_ID)
+	{
+		if (C_SalesRegion_ID < 1) 
+			set_Value (COLUMNNAME_C_SalesRegion_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_SalesRegion_ID, Integer.valueOf(C_SalesRegion_ID));
+	}
+
+	/** Get Sales Region.
+		@return Sales coverage region
+	  */
+	public int getC_SalesRegion_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_SalesRegion_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -159,24 +343,89 @@ public class X_C_ProjectTask extends PO implements I_C_ProjectTask, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Committed Amount.
-		@param CommittedAmt 
-		The (legal) commitment amount
+	/** Set Deadline.
+		@param DateDeadline 
+		Deadline
 	  */
-	public void setCommittedAmt (BigDecimal CommittedAmt)
+	public void setDateDeadline (Timestamp DateDeadline)
 	{
-		set_Value (COLUMNNAME_CommittedAmt, CommittedAmt);
+		set_Value (COLUMNNAME_DateDeadline, DateDeadline);
 	}
 
-	/** Get Committed Amount.
-		@return The (legal) commitment amount
+	/** Get Deadline.
+		@return Deadline
 	  */
-	public BigDecimal getCommittedAmt () 
+	public Timestamp getDateDeadline () 
 	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CommittedAmt);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
+		return (Timestamp)get_Value(COLUMNNAME_DateDeadline);
+	}
+
+	/** Set Finish Date.
+		@param DateFinish 
+		Finish or (planned) completion date
+	  */
+	public void setDateFinish (Timestamp DateFinish)
+	{
+		set_Value (COLUMNNAME_DateFinish, DateFinish);
+	}
+
+	/** Get Finish Date.
+		@return Finish or (planned) completion date
+	  */
+	public Timestamp getDateFinish () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_DateFinish);
+	}
+
+	/** Set Date Finish Schedule.
+		@param DateFinishSchedule 
+		Scheduled Finish date for this Order
+	  */
+	public void setDateFinishSchedule (Timestamp DateFinishSchedule)
+	{
+		set_Value (COLUMNNAME_DateFinishSchedule, DateFinishSchedule);
+	}
+
+	/** Get Date Finish Schedule.
+		@return Scheduled Finish date for this Order
+	  */
+	public Timestamp getDateFinishSchedule () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_DateFinishSchedule);
+	}
+
+	/** Set Date Start.
+		@param DateStart 
+		Date Start for this Order
+	  */
+	public void setDateStart (Timestamp DateStart)
+	{
+		set_Value (COLUMNNAME_DateStart, DateStart);
+	}
+
+	/** Get Date Start.
+		@return Date Start for this Order
+	  */
+	public Timestamp getDateStart () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_DateStart);
+	}
+
+	/** Set Date Start Schedule.
+		@param DateStartSchedule 
+		Scheduled start date for this Order
+	  */
+	public void setDateStartSchedule (Timestamp DateStartSchedule)
+	{
+		set_Value (COLUMNNAME_DateStartSchedule, DateStartSchedule);
+	}
+
+	/** Get Date Start Schedule.
+		@return Scheduled start date for this Order
+	  */
+	public Timestamp getDateStartSchedule () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_DateStartSchedule);
 	}
 
 	/** Set Description.
@@ -196,6 +445,75 @@ public class X_C_ProjectTask extends PO implements I_C_ProjectTask, I_Persistent
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
+	/** Set Estimated Duration.
+		@param DurationEstimated 
+		Estimated Duration
+	  */
+	public void setDurationEstimated (BigDecimal DurationEstimated)
+	{
+		set_Value (COLUMNNAME_DurationEstimated, DurationEstimated);
+	}
+
+	/** Get Estimated Duration.
+		@return Estimated Duration
+	  */
+	public BigDecimal getDurationEstimated () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_DurationEstimated);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Duration Real.
+		@param DurationReal Duration Real	  */
+	public void setDurationReal (int DurationReal)
+	{
+		set_Value (COLUMNNAME_DurationReal, Integer.valueOf(DurationReal));
+	}
+
+	/** Get Duration Real.
+		@return Duration Real	  */
+	public int getDurationReal () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_DurationReal);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** DurationUnit AD_Reference_ID=299 */
+	public static final int DURATIONUNIT_AD_Reference_ID=299;
+	/** Year = Y */
+	public static final String DURATIONUNIT_Year = "Y";
+	/** Month = M */
+	public static final String DURATIONUNIT_Month = "M";
+	/** Day = D */
+	public static final String DURATIONUNIT_Day = "D";
+	/** hour = h */
+	public static final String DURATIONUNIT_Hour = "h";
+	/** minute = m */
+	public static final String DURATIONUNIT_Minute = "m";
+	/** second = s */
+	public static final String DURATIONUNIT_Second = "s";
+	/** Set Duration Unit.
+		@param DurationUnit 
+		Unit of Duration
+	  */
+	public void setDurationUnit (String DurationUnit)
+	{
+
+		set_Value (COLUMNNAME_DurationUnit, DurationUnit);
+	}
+
+	/** Get Duration Unit.
+		@return Unit of Duration
+	  */
+	public String getDurationUnit () 
+	{
+		return (String)get_Value(COLUMNNAME_DurationUnit);
+	}
+
 	/** Set Comment/Help.
 		@param Help 
 		Comment or Hint
@@ -211,6 +529,51 @@ public class X_C_ProjectTask extends PO implements I_C_ProjectTask, I_Persistent
 	public String getHelp () 
 	{
 		return (String)get_Value(COLUMNNAME_Help);
+	}
+
+	/** Set Complete.
+		@param IsComplete 
+		It is complete
+	  */
+	public void setIsComplete (boolean IsComplete)
+	{
+		set_Value (COLUMNNAME_IsComplete, Boolean.valueOf(IsComplete));
+	}
+
+	/** Get Complete.
+		@return It is complete
+	  */
+	public boolean isComplete () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsComplete);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Is Milestone.
+		@param IsMilestone Is Milestone	  */
+	public void setIsMilestone (boolean IsMilestone)
+	{
+		set_Value (COLUMNNAME_IsMilestone, Boolean.valueOf(IsMilestone));
+	}
+
+	/** Get Is Milestone.
+		@return Is Milestone	  */
+	public boolean isMilestone () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsMilestone);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
 	}
 
 	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
@@ -258,6 +621,26 @@ public class X_C_ProjectTask extends PO implements I_C_ProjectTask, I_Persistent
 		return (String)get_Value(COLUMNNAME_Name);
 	}
 
+	/** Set Percentage completed.
+		@param PercentageCompleted 
+		Percentage completed
+	  */
+	public void setPercentageCompleted (BigDecimal PercentageCompleted)
+	{
+		set_Value (COLUMNNAME_PercentageCompleted, PercentageCompleted);
+	}
+
+	/** Get Percentage completed.
+		@return Percentage completed
+	  */
+	public BigDecimal getPercentageCompleted () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_PercentageCompleted);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
 	/** Set Planned Amount.
 		@param PlannedAmt 
 		Planned amount for this project
@@ -276,6 +659,36 @@ public class X_C_ProjectTask extends PO implements I_C_ProjectTask, I_Persistent
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
+	}
+
+	/** PriorityRule AD_Reference_ID=154 */
+	public static final int PRIORITYRULE_AD_Reference_ID=154;
+	/** High = 3 */
+	public static final String PRIORITYRULE_High = "3";
+	/** Medium = 5 */
+	public static final String PRIORITYRULE_Medium = "5";
+	/** Low = 7 */
+	public static final String PRIORITYRULE_Low = "7";
+	/** Urgent = 1 */
+	public static final String PRIORITYRULE_Urgent = "1";
+	/** Minor = 9 */
+	public static final String PRIORITYRULE_Minor = "9";
+	/** Set Priority.
+		@param PriorityRule 
+		Priority of a document
+	  */
+	public void setPriorityRule (String PriorityRule)
+	{
+
+		set_Value (COLUMNNAME_PriorityRule, PriorityRule);
+	}
+
+	/** Get Priority.
+		@return Priority of a document
+	  */
+	public String getPriorityRule () 
+	{
+		return (String)get_Value(COLUMNNAME_PriorityRule);
 	}
 
 	/** ProjInvoiceRule AD_Reference_ID=383 */
@@ -328,6 +741,34 @@ public class X_C_ProjectTask extends PO implements I_C_ProjectTask, I_Persistent
 		return bd;
 	}
 
+	public org.compiere.model.I_AD_User getResponsible() throws RuntimeException
+    {
+		return (org.compiere.model.I_AD_User)MTable.get(getCtx(), org.compiere.model.I_AD_User.Table_Name)
+			.getPO(getResponsible_ID(), get_TrxName());	}
+
+	/** Set Responsible.
+		@param Responsible_ID 
+		Responsible
+	  */
+	public void setResponsible_ID (int Responsible_ID)
+	{
+		if (Responsible_ID < 1) 
+			set_Value (COLUMNNAME_Responsible_ID, null);
+		else 
+			set_Value (COLUMNNAME_Responsible_ID, Integer.valueOf(Responsible_ID));
+	}
+
+	/** Get Responsible.
+		@return Responsible
+	  */
+	public int getResponsible_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Responsible_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Sequence.
 		@param SeqNo 
 		Method of ordering records; lowest number comes first
@@ -355,6 +796,118 @@ public class X_C_ProjectTask extends PO implements I_C_ProjectTask, I_Persistent
     {
         return new KeyNamePair(get_ID(), String.valueOf(getSeqNo()));
     }
+
+	public org.compiere.model.I_C_ElementValue getUser1() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_ElementValue)MTable.get(getCtx(), org.compiere.model.I_C_ElementValue.Table_Name)
+			.getPO(getUser1_ID(), get_TrxName());	}
+
+	/** Set User List 1.
+		@param User1_ID 
+		User defined list element #1
+	  */
+	public void setUser1_ID (int User1_ID)
+	{
+		if (User1_ID < 1) 
+			set_Value (COLUMNNAME_User1_ID, null);
+		else 
+			set_Value (COLUMNNAME_User1_ID, Integer.valueOf(User1_ID));
+	}
+
+	/** Get User List 1.
+		@return User defined list element #1
+	  */
+	public int getUser1_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_User1_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_ElementValue getUser2() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_ElementValue)MTable.get(getCtx(), org.compiere.model.I_C_ElementValue.Table_Name)
+			.getPO(getUser2_ID(), get_TrxName());	}
+
+	/** Set User List 2.
+		@param User2_ID 
+		User defined list element #2
+	  */
+	public void setUser2_ID (int User2_ID)
+	{
+		if (User2_ID < 1) 
+			set_Value (COLUMNNAME_User2_ID, null);
+		else 
+			set_Value (COLUMNNAME_User2_ID, Integer.valueOf(User2_ID));
+	}
+
+	/** Get User List 2.
+		@return User defined list element #2
+	  */
+	public int getUser2_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_User2_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_ElementValue getUser3() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_ElementValue)MTable.get(getCtx(), org.compiere.model.I_C_ElementValue.Table_Name)
+			.getPO(getUser3_ID(), get_TrxName());	}
+
+	/** Set User List 3.
+		@param User3_ID 
+		User defined list element #3
+	  */
+	public void setUser3_ID (int User3_ID)
+	{
+		if (User3_ID < 1) 
+			set_Value (COLUMNNAME_User3_ID, null);
+		else 
+			set_Value (COLUMNNAME_User3_ID, Integer.valueOf(User3_ID));
+	}
+
+	/** Get User List 3.
+		@return User defined list element #3
+	  */
+	public int getUser3_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_User3_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_ElementValue getUser4() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_ElementValue)MTable.get(getCtx(), org.compiere.model.I_C_ElementValue.Table_Name)
+			.getPO(getUser4_ID(), get_TrxName());	}
+
+	/** Set User List 4.
+		@param User4_ID 
+		User defined list element #4
+	  */
+	public void setUser4_ID (int User4_ID)
+	{
+		if (User4_ID < 1) 
+			set_Value (COLUMNNAME_User4_ID, null);
+		else 
+			set_Value (COLUMNNAME_User4_ID, Integer.valueOf(User4_ID));
+	}
+
+	/** Get User List 4.
+		@return User defined list element #4
+	  */
+	public int getUser4_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_User4_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	/** Set Immutable Universally Unique Identifier.
 		@param UUID 

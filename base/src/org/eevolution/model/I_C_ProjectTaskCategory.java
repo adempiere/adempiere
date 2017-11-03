@@ -14,23 +14,24 @@
  * For the text or an alternative of this public license, you may reach us    *
  * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
-package org.compiere.model;
+package org.eevolution.model;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for C_Phase
+/** Generated Interface for C_ProjectTaskCategory
  *  @author Adempiere (generated) 
  *  @version Release 3.9.0
  */
-public interface I_C_Phase 
+public interface I_C_ProjectTaskCategory 
 {
 
-    /** TableName=C_Phase */
-    public static final String Table_Name = "C_Phase";
+    /** TableName=C_ProjectTaskCategory */
+    public static final String Table_Name = "C_ProjectTaskCategory";
 
-    /** AD_Table_ID=577 */
+    /** AD_Table_ID=54300 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
@@ -62,33 +63,18 @@ public interface I_C_Phase
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name C_Phase_ID */
-    public static final String COLUMNNAME_C_Phase_ID = "C_Phase_ID";
+    /** Column name C_ProjectTaskCategory_ID */
+    public static final String COLUMNNAME_C_ProjectTaskCategory_ID = "C_ProjectTaskCategory_ID";
 
-	/** Set Standard Phase.
-	  * Standard Phase of the Project Type
+	/** Set Project Task Category.
+	  * Set Category for project task
 	  */
-	public void setC_Phase_ID (int C_Phase_ID);
+	public void setC_ProjectTaskCategory_ID (int C_ProjectTaskCategory_ID);
 
-	/** Get Standard Phase.
-	  * Standard Phase of the Project Type
+	/** Get Project Task Category.
+	  * Set Category for project task
 	  */
-	public int getC_Phase_ID();
-
-    /** Column name C_ProjectType_ID */
-    public static final String COLUMNNAME_C_ProjectType_ID = "C_ProjectType_ID";
-
-	/** Set Project Type.
-	  * Type of the project
-	  */
-	public void setC_ProjectType_ID (int C_ProjectType_ID);
-
-	/** Get Project Type.
-	  * Type of the project
-	  */
-	public int getC_ProjectType_ID();
-
-	public org.compiere.model.I_C_ProjectType getC_ProjectType() throws RuntimeException;
+	public int getC_ProjectTaskCategory_ID();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -119,45 +105,6 @@ public interface I_C_Phase
 	  */
 	public String getDescription();
 
-    /** Column name DurationEstimated */
-    public static final String COLUMNNAME_DurationEstimated = "DurationEstimated";
-
-	/** Set Estimated Duration.
-	  * Estimated Duration
-	  */
-	public void setDurationEstimated (BigDecimal DurationEstimated);
-
-	/** Get Estimated Duration.
-	  * Estimated Duration
-	  */
-	public BigDecimal getDurationEstimated();
-
-    /** Column name DurationUnit */
-    public static final String COLUMNNAME_DurationUnit = "DurationUnit";
-
-	/** Set Duration Unit.
-	  * Unit of Duration
-	  */
-	public void setDurationUnit (String DurationUnit);
-
-	/** Get Duration Unit.
-	  * Unit of Duration
-	  */
-	public String getDurationUnit();
-
-    /** Column name Help */
-    public static final String COLUMNNAME_Help = "Help";
-
-	/** Set Comment/Help.
-	  * Comment or Hint
-	  */
-	public void setHelp (String Help);
-
-	/** Get Comment/Help.
-	  * Comment or Hint
-	  */
-	public String getHelp();
-
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
 
@@ -171,29 +118,18 @@ public interface I_C_Phase
 	  */
 	public boolean isActive();
 
-    /** Column name IsMilestone */
-    public static final String COLUMNNAME_IsMilestone = "IsMilestone";
+    /** Column name IsDefault */
+    public static final String COLUMNNAME_IsDefault = "IsDefault";
 
-	/** Set Is Milestone	  */
-	public void setIsMilestone (boolean IsMilestone);
-
-	/** Get Is Milestone	  */
-	public boolean isMilestone();
-
-    /** Column name M_Product_ID */
-    public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
-
-	/** Set Product.
-	  * Product, Service, Item
+	/** Set Default.
+	  * Default value
 	  */
-	public void setM_Product_ID (int M_Product_ID);
+	public void setIsDefault (boolean IsDefault);
 
-	/** Get Product.
-	  * Product, Service, Item
+	/** Get Default.
+	  * Default value
 	  */
-	public int getM_Product_ID();
-
-	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
+	public boolean isDefault();
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
@@ -208,61 +144,20 @@ public interface I_C_Phase
 	  */
 	public String getName();
 
-    /** Column name PriorityRule */
-    public static final String COLUMNNAME_PriorityRule = "PriorityRule";
+    /** Column name ProjectTaskCategoryParent_ID */
+    public static final String COLUMNNAME_ProjectTaskCategoryParent_ID = "ProjectTaskCategoryParent_ID";
 
-	/** Set Priority.
-	  * Priority of a document
+	/** Set Parent Task Category.
+	  * Parent Task Category
 	  */
-	public void setPriorityRule (String PriorityRule);
+	public void setProjectTaskCategoryParent_ID (int ProjectTaskCategoryParent_ID);
 
-	/** Get Priority.
-	  * Priority of a document
+	/** Get Parent Task Category.
+	  * Parent Task Category
 	  */
-	public String getPriorityRule();
+	public int getProjectTaskCategoryParent_ID();
 
-    /** Column name R_StandardRequestType_ID */
-    public static final String COLUMNNAME_R_StandardRequestType_ID = "R_StandardRequestType_ID";
-
-	/** Set Standard Request Type.
-	  * Standard Request Type
-	  */
-	public void setR_StandardRequestType_ID (int R_StandardRequestType_ID);
-
-	/** Get Standard Request Type.
-	  * Standard Request Type
-	  */
-	public int getR_StandardRequestType_ID();
-
-	public org.compiere.model.I_R_StandardRequestType getR_StandardRequestType() throws RuntimeException;
-
-    /** Column name SeqNo */
-    public static final String COLUMNNAME_SeqNo = "SeqNo";
-
-	/** Set Sequence.
-	  * Method of ordering records;
- lowest number comes first
-	  */
-	public void setSeqNo (int SeqNo);
-
-	/** Get Sequence.
-	  * Method of ordering records;
- lowest number comes first
-	  */
-	public int getSeqNo();
-
-    /** Column name StandardQty */
-    public static final String COLUMNNAME_StandardQty = "StandardQty";
-
-	/** Set Standard Quantity.
-	  * Standard Quantity
-	  */
-	public void setStandardQty (BigDecimal StandardQty);
-
-	/** Get Standard Quantity.
-	  * Standard Quantity
-	  */
-	public BigDecimal getStandardQty();
+	public org.eevolution.model.I_C_ProjectTaskCategory getProjectTaskCategoryParent() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -292,4 +187,17 @@ public interface I_C_Phase
 	  * Immutable Universally Unique Identifier
 	  */
 	public String getUUID();
+
+    /** Column name Value */
+    public static final String COLUMNNAME_Value = "Value";
+
+	/** Set Search Key.
+	  * Search key for the record in the format required - must be unique
+	  */
+	public void setValue (String Value);
+
+	/** Get Search Key.
+	  * Search key for the record in the format required - must be unique
+	  */
+	public String getValue();
 }

@@ -119,6 +119,32 @@ public interface I_C_Task
 	  */
 	public String getDescription();
 
+    /** Column name DurationEstimated */
+    public static final String COLUMNNAME_DurationEstimated = "DurationEstimated";
+
+	/** Set Estimated Duration.
+	  * Estimated Duration
+	  */
+	public void setDurationEstimated (BigDecimal DurationEstimated);
+
+	/** Get Estimated Duration.
+	  * Estimated Duration
+	  */
+	public BigDecimal getDurationEstimated();
+
+    /** Column name DurationUnit */
+    public static final String COLUMNNAME_DurationUnit = "DurationUnit";
+
+	/** Set Duration Unit.
+	  * Unit of Duration
+	  */
+	public void setDurationUnit (String DurationUnit);
+
+	/** Get Duration Unit.
+	  * Unit of Duration
+	  */
+	public String getDurationUnit();
+
     /** Column name Help */
     public static final String COLUMNNAME_Help = "Help";
 
@@ -144,6 +170,15 @@ public interface I_C_Task
 	  * The record is active in the system
 	  */
 	public boolean isActive();
+
+    /** Column name IsMilestone */
+    public static final String COLUMNNAME_IsMilestone = "IsMilestone";
+
+	/** Set Is Milestone	  */
+	public void setIsMilestone (boolean IsMilestone);
+
+	/** Get Is Milestone	  */
+	public boolean isMilestone();
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
@@ -173,13 +208,30 @@ public interface I_C_Task
 	  */
 	public String getName();
 
+    /** Column name PriorityRule */
+    public static final String COLUMNNAME_PriorityRule = "PriorityRule";
+
+	/** Set Priority.
+	  * Priority of a document
+	  */
+	public void setPriorityRule (String PriorityRule);
+
+	/** Get Priority.
+	  * Priority of a document
+	  */
+	public String getPriorityRule();
+
     /** Column name R_StandardRequestType_ID */
     public static final String COLUMNNAME_R_StandardRequestType_ID = "R_StandardRequestType_ID";
 
-	/** Set Standard Request Type ID	  */
+	/** Set Standard Request Type.
+	  * Standard Request Type
+	  */
 	public void setR_StandardRequestType_ID (int R_StandardRequestType_ID);
 
-	/** Get Standard Request Type ID	  */
+	/** Get Standard Request Type.
+	  * Standard Request Type
+	  */
 	public int getR_StandardRequestType_ID();
 
 	public org.compiere.model.I_R_StandardRequestType getR_StandardRequestType() throws RuntimeException;

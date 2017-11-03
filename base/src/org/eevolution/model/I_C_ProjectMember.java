@@ -14,23 +14,24 @@
  * For the text or an alternative of this public license, you may reach us    *
  * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
-package org.compiere.model;
+package org.eevolution.model;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for C_ProjectType
+/** Generated Interface for C_ProjectMember
  *  @author Adempiere (generated) 
  *  @version Release 3.9.0
  */
-public interface I_C_ProjectType 
+public interface I_C_ProjectMember 
 {
 
-    /** TableName=C_ProjectType */
-    public static final String Table_Name = "C_ProjectType";
+    /** TableName=C_ProjectMember */
+    public static final String Table_Name = "C_ProjectMember";
 
-    /** AD_Table_ID=575 */
+    /** AD_Table_ID=54301 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
@@ -62,46 +63,48 @@ public interface I_C_ProjectType
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name CopyFrom */
-    public static final String COLUMNNAME_CopyFrom = "CopyFrom";
+    /** Column name AD_User_ID */
+    public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
 
-	/** Set Copy From.
-	  * Copy From Record
+	/** Set User/Contact.
+	  * User within the system - Internal or Business Partner Contact
 	  */
-	public void setCopyFrom (String CopyFrom);
+	public void setAD_User_ID (int AD_User_ID);
 
-	/** Get Copy From.
-	  * Copy From Record
+	/** Get User/Contact.
+	  * User within the system - Internal or Business Partner Contact
 	  */
-	public String getCopyFrom();
+	public int getAD_User_ID();
 
-    /** Column name C_ProjectStatusCategory_ID */
-    public static final String COLUMNNAME_C_ProjectStatusCategory_ID = "C_ProjectStatusCategory_ID";
+	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException;
 
-	/** Set Project Status Category.
-	  * Project Status Category
+    /** Column name C_Project_ID */
+    public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
+
+	/** Set Project.
+	  * Financial Project
 	  */
-	public void setC_ProjectStatusCategory_ID (int C_ProjectStatusCategory_ID);
+	public void setC_Project_ID (int C_Project_ID);
 
-	/** Get Project Status Category.
-	  * Project Status Category
+	/** Get Project.
+	  * Financial Project
 	  */
-	public int getC_ProjectStatusCategory_ID();
+	public int getC_Project_ID();
 
-	public org.eevolution.model.I_C_ProjectStatusCategory getC_ProjectStatusCategory() throws RuntimeException;
+	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException;
 
-    /** Column name C_ProjectType_ID */
-    public static final String COLUMNNAME_C_ProjectType_ID = "C_ProjectType_ID";
+    /** Column name C_ProjectMember_ID */
+    public static final String COLUMNNAME_C_ProjectMember_ID = "C_ProjectMember_ID";
 
-	/** Set Project Type.
-	  * Type of the project
+	/** Set Project Member.
+	  * Project Member
 	  */
-	public void setC_ProjectType_ID (int C_ProjectType_ID);
+	public void setC_ProjectMember_ID (int C_ProjectMember_ID);
 
-	/** Get Project Type.
-	  * Type of the project
+	/** Get Project Member.
+	  * Project Member
 	  */
-	public int getC_ProjectType_ID();
+	public int getC_ProjectMember_ID();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -119,32 +122,6 @@ public interface I_C_ProjectType
 	  */
 	public int getCreatedBy();
 
-    /** Column name Description */
-    public static final String COLUMNNAME_Description = "Description";
-
-	/** Set Description.
-	  * Optional short description of the record
-	  */
-	public void setDescription (String Description);
-
-	/** Get Description.
-	  * Optional short description of the record
-	  */
-	public String getDescription();
-
-    /** Column name Help */
-    public static final String COLUMNNAME_Help = "Help";
-
-	/** Set Comment/Help.
-	  * Comment or Hint
-	  */
-	public void setHelp (String Help);
-
-	/** Get Comment/Help.
-	  * Comment or Hint
-	  */
-	public String getHelp();
-
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
 
@@ -158,46 +135,18 @@ public interface I_C_ProjectType
 	  */
 	public boolean isActive();
 
-    /** Column name Name */
-    public static final String COLUMNNAME_Name = "Name";
+    /** Column name NotificationType */
+    public static final String COLUMNNAME_NotificationType = "NotificationType";
 
-	/** Set Name.
-	  * Alphanumeric identifier of the entity
+	/** Set Notification Type.
+	  * Type of Notifications
 	  */
-	public void setName (String Name);
+	public void setNotificationType (String NotificationType);
 
-	/** Get Name.
-	  * Alphanumeric identifier of the entity
+	/** Get Notification Type.
+	  * Type of Notifications
 	  */
-	public String getName();
-
-    /** Column name ProjectCategory */
-    public static final String COLUMNNAME_ProjectCategory = "ProjectCategory";
-
-	/** Set Project Category.
-	  * Project Category
-	  */
-	public void setProjectCategory (String ProjectCategory);
-
-	/** Get Project Category.
-	  * Project Category
-	  */
-	public String getProjectCategory();
-
-    /** Column name R_StandardRequestType_ID */
-    public static final String COLUMNNAME_R_StandardRequestType_ID = "R_StandardRequestType_ID";
-
-	/** Set Standard Request Type.
-	  * Standard Request Type
-	  */
-	public void setR_StandardRequestType_ID (int R_StandardRequestType_ID);
-
-	/** Get Standard Request Type.
-	  * Standard Request Type
-	  */
-	public int getR_StandardRequestType_ID();
-
-	public org.compiere.model.I_R_StandardRequestType getR_StandardRequestType() throws RuntimeException;
+	public String getNotificationType();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

@@ -27,6 +27,7 @@ import java.util.stream.Collectors;
 import org.compiere.util.CCache;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.eevolution.model.MProjectMember;
 
 /**
  * 	Project Model
@@ -513,6 +514,13 @@ public class MProject extends X_C_Project
 		if (success && !newRecord 
 			&& (is_ValueChanged("Value") || is_ValueChanged("Name")))
 			MAccount.updateValueDescription(getCtx(), "C_Project_ID=" + getC_Project_ID(), get_TrxName());
+
+		if (getSalesRep_ID() > 0 && !MProjectMember.memberExists(this, getSalesRep_ID()))
+			MProjectMember.addMember(this, getSalesRep_ID());
+		if (getProjectManager_ID() > 0 && !MProjectMember.memberExists(this, getProjectManager_ID()))
+			MProjectMember.addMember(this, getProjectManager_ID());
+		if (getAD_User_ID() > 0 && !MProjectMember.memberExists(this, getAD_User_ID()))
+			MProjectMember.addMember(this, getAD_User_ID());
 
 		return success;
 	}	//	afterSave
