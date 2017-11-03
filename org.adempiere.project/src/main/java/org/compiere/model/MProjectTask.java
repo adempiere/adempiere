@@ -93,6 +93,10 @@ public class MProjectTask extends X_C_ProjectTask
 		setHelp(task.getHelp());
 		if (task.getM_Product_ID() != 0)
 			setM_Product_ID(task.getM_Product_ID());
+		setPriorityRule(phase.getPriorityRule());
+		setIsMilestone(phase.isMilestone());
+		setDurationUnit(phase.getDurationUnit());
+		setDurationEstimated(phase.getDurationEstimated());
 		setQty(task.getStandardQty());
 	}	//	MProjectTask
 	

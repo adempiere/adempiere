@@ -33,7 +33,7 @@ public class X_C_Project extends PO implements I_C_Project, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20171023L;
+	private static final long serialVersionUID = 20171102L;
 
     /** Standard Constructor */
     public X_C_Project (Properties ctx, int C_Project_ID, String trxName)
@@ -92,6 +92,57 @@ public class X_C_Project extends PO implements I_C_Project, I_Persistent
       return sb.toString();
     }
 
+	public org.compiere.model.I_AD_Color getAD_Color() throws RuntimeException
+    {
+		return (org.compiere.model.I_AD_Color)MTable.get(getCtx(), org.compiere.model.I_AD_Color.Table_Name)
+			.getPO(getAD_Color_ID(), get_TrxName());	}
+
+	/** Set System Color.
+		@param AD_Color_ID 
+		Color for backgrounds or indicators
+	  */
+	public void setAD_Color_ID (int AD_Color_ID)
+	{
+		if (AD_Color_ID < 1) 
+			set_Value (COLUMNNAME_AD_Color_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Color_ID, Integer.valueOf(AD_Color_ID));
+	}
+
+	/** Get System Color.
+		@return Color for backgrounds or indicators
+	  */
+	public int getAD_Color_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Color_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Trx Organization.
+		@param AD_OrgTrx_ID 
+		Performing or initiating organization
+	  */
+	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID)
+	{
+		if (AD_OrgTrx_ID < 1) 
+			set_Value (COLUMNNAME_AD_OrgTrx_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_OrgTrx_ID, Integer.valueOf(AD_OrgTrx_ID));
+	}
+
+	/** Get Trx Organization.
+		@return Performing or initiating organization
+	  */
+	public int getAD_OrgTrx_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_OrgTrx_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException
     {
 		return (org.compiere.model.I_AD_User)MTable.get(getCtx(), org.compiere.model.I_AD_User.Table_Name)
@@ -115,6 +166,34 @@ public class X_C_Project extends PO implements I_C_Project, I_Persistent
 	public int getAD_User_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_User_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_Activity getC_Activity() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_Activity)MTable.get(getCtx(), org.compiere.model.I_C_Activity.Table_Name)
+			.getPO(getC_Activity_ID(), get_TrxName());	}
+
+	/** Set Activity.
+		@param C_Activity_ID 
+		Business Activity
+	  */
+	public void setC_Activity_ID (int C_Activity_ID)
+	{
+		if (C_Activity_ID < 1) 
+			set_Value (COLUMNNAME_C_Activity_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Activity_ID, Integer.valueOf(C_Activity_ID));
+	}
+
+	/** Get Activity.
+		@return Business Activity
+	  */
+	public int getC_Activity_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Activity_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -487,7 +566,7 @@ public class X_C_Project extends PO implements I_C_Project, I_Persistent
 
 	/** Set Project Status.
 		@param C_ProjectStatus_ID 
-		Project Status
+		Status for Project, Phase or Task
 	  */
 	public void setC_ProjectStatus_ID (int C_ProjectStatus_ID)
 	{
@@ -498,7 +577,7 @@ public class X_C_Project extends PO implements I_C_Project, I_Persistent
 	}
 
 	/** Get Project Status.
-		@return Project Status
+		@return Status for Project, Phase or Task
 	  */
 	public int getC_ProjectStatus_ID () 
 	{
@@ -525,6 +604,34 @@ public class X_C_Project extends PO implements I_C_Project, I_Persistent
 		return (String)get_Value(COLUMNNAME_C_ProjectType_ID);
 	}
 
+	public org.compiere.model.I_C_SalesRegion getC_SalesRegion() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_SalesRegion)MTable.get(getCtx(), org.compiere.model.I_C_SalesRegion.Table_Name)
+			.getPO(getC_SalesRegion_ID(), get_TrxName());	}
+
+	/** Set Sales Region.
+		@param C_SalesRegion_ID 
+		Sales coverage region
+	  */
+	public void setC_SalesRegion_ID (int C_SalesRegion_ID)
+	{
+		if (C_SalesRegion_ID < 1) 
+			set_Value (COLUMNNAME_C_SalesRegion_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_SalesRegion_ID, Integer.valueOf(C_SalesRegion_ID));
+	}
+
+	/** Get Sales Region.
+		@return Sales coverage region
+	  */
+	public int getC_SalesRegion_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_SalesRegion_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Contract Date.
 		@param DateContract 
 		The (planned) effective date of this document.
@@ -540,6 +647,23 @@ public class X_C_Project extends PO implements I_C_Project, I_Persistent
 	public Timestamp getDateContract () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_DateContract);
+	}
+
+	/** Set Deadline.
+		@param DateDeadline 
+		Deadline
+	  */
+	public void setDateDeadline (Timestamp DateDeadline)
+	{
+		set_Value (COLUMNNAME_DateDeadline, DateDeadline);
+	}
+
+	/** Get Deadline.
+		@return Deadline
+	  */
+	public Timestamp getDateDeadline () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_DateDeadline);
 	}
 
 	/** Set Finish Date.
@@ -559,6 +683,57 @@ public class X_C_Project extends PO implements I_C_Project, I_Persistent
 		return (Timestamp)get_Value(COLUMNNAME_DateFinish);
 	}
 
+	/** Set Date Finish Schedule.
+		@param DateFinishSchedule 
+		Scheduled Finish date for this Order
+	  */
+	public void setDateFinishSchedule (Timestamp DateFinishSchedule)
+	{
+		set_Value (COLUMNNAME_DateFinishSchedule, DateFinishSchedule);
+	}
+
+	/** Get Date Finish Schedule.
+		@return Scheduled Finish date for this Order
+	  */
+	public Timestamp getDateFinishSchedule () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_DateFinishSchedule);
+	}
+
+	/** Set Date Start.
+		@param DateStart 
+		Date Start for this Order
+	  */
+	public void setDateStart (Timestamp DateStart)
+	{
+		set_Value (COLUMNNAME_DateStart, DateStart);
+	}
+
+	/** Get Date Start.
+		@return Date Start for this Order
+	  */
+	public Timestamp getDateStart () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_DateStart);
+	}
+
+	/** Set Date Start Schedule.
+		@param DateStartSchedule 
+		Scheduled start date for this Order
+	  */
+	public void setDateStartSchedule (Timestamp DateStartSchedule)
+	{
+		set_Value (COLUMNNAME_DateStartSchedule, DateStartSchedule);
+	}
+
+	/** Get Date Start Schedule.
+		@return Scheduled start date for this Order
+	  */
+	public Timestamp getDateStartSchedule () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_DateStartSchedule);
+	}
+
 	/** Set Description.
 		@param Description 
 		Optional short description of the record
@@ -574,6 +749,38 @@ public class X_C_Project extends PO implements I_C_Project, I_Persistent
 	public String getDescription () 
 	{
 		return (String)get_Value(COLUMNNAME_Description);
+	}
+
+	/** DurationUnit AD_Reference_ID=299 */
+	public static final int DURATIONUNIT_AD_Reference_ID=299;
+	/** Year = Y */
+	public static final String DURATIONUNIT_Year = "Y";
+	/** Month = M */
+	public static final String DURATIONUNIT_Month = "M";
+	/** Day = D */
+	public static final String DURATIONUNIT_Day = "D";
+	/** hour = h */
+	public static final String DURATIONUNIT_Hour = "h";
+	/** minute = m */
+	public static final String DURATIONUNIT_Minute = "m";
+	/** second = s */
+	public static final String DURATIONUNIT_Second = "s";
+	/** Set Duration Unit.
+		@param DurationUnit 
+		Unit of Duration
+	  */
+	public void setDurationUnit (String DurationUnit)
+	{
+
+		set_Value (COLUMNNAME_DurationUnit, DurationUnit);
+	}
+
+	/** Get Duration Unit.
+		@return Unit of Duration
+	  */
+	public String getDurationUnit () 
+	{
+		return (String)get_Value(COLUMNNAME_DurationUnit);
 	}
 
 	/** Set Generate To.
@@ -672,6 +879,30 @@ public class X_C_Project extends PO implements I_C_Project, I_Persistent
 	public boolean isCommitment () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsCommitment);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Indefinite.
+		@param IsIndefinite 
+		Indefinite
+	  */
+	public void setIsIndefinite (boolean IsIndefinite)
+	{
+		set_Value (COLUMNNAME_IsIndefinite, Boolean.valueOf(IsIndefinite));
+	}
+
+	/** Get Indefinite.
+		@return Indefinite
+	  */
+	public boolean isIndefinite () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsIndefinite);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 
@@ -872,6 +1103,36 @@ public class X_C_Project extends PO implements I_C_Project, I_Persistent
 		return (String)get_Value(COLUMNNAME_POReference);
 	}
 
+	/** PriorityRule AD_Reference_ID=154 */
+	public static final int PRIORITYRULE_AD_Reference_ID=154;
+	/** High = 3 */
+	public static final String PRIORITYRULE_High = "3";
+	/** Medium = 5 */
+	public static final String PRIORITYRULE_Medium = "5";
+	/** Low = 7 */
+	public static final String PRIORITYRULE_Low = "7";
+	/** Urgent = 1 */
+	public static final String PRIORITYRULE_Urgent = "1";
+	/** Minor = 9 */
+	public static final String PRIORITYRULE_Minor = "9";
+	/** Set Priority.
+		@param PriorityRule 
+		Priority of a document
+	  */
+	public void setPriorityRule (String PriorityRule)
+	{
+
+		set_Value (COLUMNNAME_PriorityRule, PriorityRule);
+	}
+
+	/** Get Priority.
+		@return Priority of a document
+	  */
+	public String getPriorityRule () 
+	{
+		return (String)get_Value(COLUMNNAME_PriorityRule);
+	}
+
 	/** Set Processed.
 		@param Processed 
 		The document has been processed
@@ -991,6 +1252,34 @@ public class X_C_Project extends PO implements I_C_Project, I_Persistent
 		return (String)get_Value(COLUMNNAME_ProjectLineLevel);
 	}
 
+	public org.compiere.model.I_AD_User getProjectManager() throws RuntimeException
+    {
+		return (org.compiere.model.I_AD_User)MTable.get(getCtx(), org.compiere.model.I_AD_User.Table_Name)
+			.getPO(getProjectManager_ID(), get_TrxName());	}
+
+	/** Set Project Manager.
+		@param ProjectManager_ID 
+		Project Manager
+	  */
+	public void setProjectManager_ID (int ProjectManager_ID)
+	{
+		if (ProjectManager_ID < 1) 
+			set_Value (COLUMNNAME_ProjectManager_ID, null);
+		else 
+			set_Value (COLUMNNAME_ProjectManager_ID, Integer.valueOf(ProjectManager_ID));
+	}
+
+	/** Get Project Manager.
+		@return Project Manager
+	  */
+	public int getProjectManager_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_ProjectManager_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** ProjInvoiceRule AD_Reference_ID=383 */
 	public static final int PROJINVOICERULE_AD_Reference_ID=383;
 	/** None = - */
@@ -1044,6 +1333,118 @@ public class X_C_Project extends PO implements I_C_Project, I_Persistent
 	public int getSalesRep_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_SalesRep_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_ElementValue getUser1() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_ElementValue)MTable.get(getCtx(), org.compiere.model.I_C_ElementValue.Table_Name)
+			.getPO(getUser1_ID(), get_TrxName());	}
+
+	/** Set User List 1.
+		@param User1_ID 
+		User defined list element #1
+	  */
+	public void setUser1_ID (int User1_ID)
+	{
+		if (User1_ID < 1) 
+			set_Value (COLUMNNAME_User1_ID, null);
+		else 
+			set_Value (COLUMNNAME_User1_ID, Integer.valueOf(User1_ID));
+	}
+
+	/** Get User List 1.
+		@return User defined list element #1
+	  */
+	public int getUser1_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_User1_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_ElementValue getUser2() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_ElementValue)MTable.get(getCtx(), org.compiere.model.I_C_ElementValue.Table_Name)
+			.getPO(getUser2_ID(), get_TrxName());	}
+
+	/** Set User List 2.
+		@param User2_ID 
+		User defined list element #2
+	  */
+	public void setUser2_ID (int User2_ID)
+	{
+		if (User2_ID < 1) 
+			set_Value (COLUMNNAME_User2_ID, null);
+		else 
+			set_Value (COLUMNNAME_User2_ID, Integer.valueOf(User2_ID));
+	}
+
+	/** Get User List 2.
+		@return User defined list element #2
+	  */
+	public int getUser2_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_User2_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_ElementValue getUser3() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_ElementValue)MTable.get(getCtx(), org.compiere.model.I_C_ElementValue.Table_Name)
+			.getPO(getUser3_ID(), get_TrxName());	}
+
+	/** Set User List 3.
+		@param User3_ID 
+		User defined list element #3
+	  */
+	public void setUser3_ID (int User3_ID)
+	{
+		if (User3_ID < 1) 
+			set_Value (COLUMNNAME_User3_ID, null);
+		else 
+			set_Value (COLUMNNAME_User3_ID, Integer.valueOf(User3_ID));
+	}
+
+	/** Get User List 3.
+		@return User defined list element #3
+	  */
+	public int getUser3_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_User3_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_ElementValue getUser4() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_ElementValue)MTable.get(getCtx(), org.compiere.model.I_C_ElementValue.Table_Name)
+			.getPO(getUser4_ID(), get_TrxName());	}
+
+	/** Set User List 4.
+		@param User4_ID 
+		User defined list element #4
+	  */
+	public void setUser4_ID (int User4_ID)
+	{
+		if (User4_ID < 1) 
+			set_Value (COLUMNNAME_User4_ID, null);
+		else 
+			set_Value (COLUMNNAME_User4_ID, Integer.valueOf(User4_ID));
+	}
+
+	/** Get User List 4.
+		@return User defined list element #4
+	  */
+	public int getUser4_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_User4_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

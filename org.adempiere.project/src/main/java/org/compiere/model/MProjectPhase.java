@@ -100,6 +100,10 @@ public class MProjectPhase extends X_C_ProjectPhase
 		setSeqNo (phase.getSeqNo());
 		setDescription(phase.getDescription());
 		setHelp(phase.getHelp());
+		setPriorityRule(phase.getPriorityRule());
+		setIsMilestone(phase.isMilestone());
+		setDurationUnit(phase.getDurationUnit());
+		setDurationEstimated(phase.getDurationEstimated());
 		if (phase.getM_Product_ID() != 0)
 			setM_Product_ID(phase.getM_Product_ID());
 		setQty(phase.getStandardQty());

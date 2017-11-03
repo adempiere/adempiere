@@ -32,7 +32,7 @@ public class X_C_Task extends PO implements I_C_Task, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20171016L;
+	private static final long serialVersionUID = 20171102L;
 
     /** Standard Constructor */
     public X_C_Task (Properties ctx, int C_Task_ID, String trxName)
@@ -146,6 +146,58 @@ public class X_C_Task extends PO implements I_C_Task, I_Persistent
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
+	/** Set Estimated Duration.
+		@param DurationEstimated 
+		Estimated Duration
+	  */
+	public void setDurationEstimated (BigDecimal DurationEstimated)
+	{
+		set_Value (COLUMNNAME_DurationEstimated, DurationEstimated);
+	}
+
+	/** Get Estimated Duration.
+		@return Estimated Duration
+	  */
+	public BigDecimal getDurationEstimated () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_DurationEstimated);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** DurationUnit AD_Reference_ID=299 */
+	public static final int DURATIONUNIT_AD_Reference_ID=299;
+	/** Year = Y */
+	public static final String DURATIONUNIT_Year = "Y";
+	/** Month = M */
+	public static final String DURATIONUNIT_Month = "M";
+	/** Day = D */
+	public static final String DURATIONUNIT_Day = "D";
+	/** hour = h */
+	public static final String DURATIONUNIT_Hour = "h";
+	/** minute = m */
+	public static final String DURATIONUNIT_Minute = "m";
+	/** second = s */
+	public static final String DURATIONUNIT_Second = "s";
+	/** Set Duration Unit.
+		@param DurationUnit 
+		Unit of Duration
+	  */
+	public void setDurationUnit (String DurationUnit)
+	{
+
+		set_Value (COLUMNNAME_DurationUnit, DurationUnit);
+	}
+
+	/** Get Duration Unit.
+		@return Unit of Duration
+	  */
+	public String getDurationUnit () 
+	{
+		return (String)get_Value(COLUMNNAME_DurationUnit);
+	}
+
 	/** Set Comment/Help.
 		@param Help 
 		Comment or Hint
@@ -161,6 +213,27 @@ public class X_C_Task extends PO implements I_C_Task, I_Persistent
 	public String getHelp () 
 	{
 		return (String)get_Value(COLUMNNAME_Help);
+	}
+
+	/** Set Is Milestone.
+		@param IsMilestone Is Milestone	  */
+	public void setIsMilestone (boolean IsMilestone)
+	{
+		set_Value (COLUMNNAME_IsMilestone, Boolean.valueOf(IsMilestone));
+	}
+
+	/** Get Is Milestone.
+		@return Is Milestone	  */
+	public boolean isMilestone () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsMilestone);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
 	}
 
 	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
@@ -216,13 +289,45 @@ public class X_C_Task extends PO implements I_C_Task, I_Persistent
         return new KeyNamePair(get_ID(), getName());
     }
 
+	/** PriorityRule AD_Reference_ID=154 */
+	public static final int PRIORITYRULE_AD_Reference_ID=154;
+	/** High = 3 */
+	public static final String PRIORITYRULE_High = "3";
+	/** Medium = 5 */
+	public static final String PRIORITYRULE_Medium = "5";
+	/** Low = 7 */
+	public static final String PRIORITYRULE_Low = "7";
+	/** Urgent = 1 */
+	public static final String PRIORITYRULE_Urgent = "1";
+	/** Minor = 9 */
+	public static final String PRIORITYRULE_Minor = "9";
+	/** Set Priority.
+		@param PriorityRule 
+		Priority of a document
+	  */
+	public void setPriorityRule (String PriorityRule)
+	{
+
+		set_Value (COLUMNNAME_PriorityRule, PriorityRule);
+	}
+
+	/** Get Priority.
+		@return Priority of a document
+	  */
+	public String getPriorityRule () 
+	{
+		return (String)get_Value(COLUMNNAME_PriorityRule);
+	}
+
 	public org.compiere.model.I_R_StandardRequestType getR_StandardRequestType() throws RuntimeException
     {
 		return (org.compiere.model.I_R_StandardRequestType)MTable.get(getCtx(), org.compiere.model.I_R_StandardRequestType.Table_Name)
 			.getPO(getR_StandardRequestType_ID(), get_TrxName());	}
 
-	/** Set Standard Request Type ID.
-		@param R_StandardRequestType_ID Standard Request Type ID	  */
+	/** Set Standard Request Type.
+		@param R_StandardRequestType_ID 
+		Standard Request Type
+	  */
 	public void setR_StandardRequestType_ID (int R_StandardRequestType_ID)
 	{
 		if (R_StandardRequestType_ID < 1) 
@@ -231,8 +336,9 @@ public class X_C_Task extends PO implements I_C_Task, I_Persistent
 			set_Value (COLUMNNAME_R_StandardRequestType_ID, Integer.valueOf(R_StandardRequestType_ID));
 	}
 
-	/** Get Standard Request Type ID.
-		@return Standard Request Type ID	  */
+	/** Get Standard Request Type.
+		@return Standard Request Type
+	  */
 	public int getR_StandardRequestType_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_R_StandardRequestType_ID);
