@@ -2501,6 +2501,7 @@ public abstract class Doc
 		getReversalFactAcct().stream().forEach(factAcct -> {
 			MFactAcct reverseFactAcct = new MFactAcct(getPO().getCtx() , 0 , getPO().get_TrxName());
 			reverseFactAcct.copyValues(factAcct, reverseFactAcct);
+			reverseFactAcct.setAD_Org_ID(factAcct.getAD_Org_ID());
 			reverseFactAcct.setAD_Table_ID(getPO().get_Table_ID());
 			reverseFactAcct.setDateAcct(getDateAcct());
 			reverseFactAcct.setRecord_ID(getPO().get_ID());
@@ -2526,6 +2527,7 @@ public abstract class Doc
 		return new Query(getCtx(), MFactAcct.Table_Name , whereClause.toString() , getPO().get_TrxName())
 				.setClient_ID()
 				.setParameters(getPO().get_Table_ID(), getReversalId())
+				.setOrderBy(MFactAcct.COLUMNNAME_Fact_Acct_ID)
 				.list();
 	}
 }   //  Doc
