@@ -30,7 +30,7 @@ public class X_C_Bank extends PO implements I_C_Bank, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170731L;
+	private static final long serialVersionUID = 20171105L;
 
     /** Standard Constructor */
     public X_C_Bank (Properties ctx, int C_Bank_ID, String trxName)
@@ -73,6 +73,30 @@ public class X_C_Bank extends PO implements I_C_Bank, I_Persistent
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	/** BankType AD_Reference_ID=53978 */
+	public static final int BANKTYPE_AD_Reference_ID=53978;
+	/** Bank = B */
+	public static final String BANKTYPE_Bank = "B";
+	/** Cash Journal = C */
+	public static final String BANKTYPE_CashJournal = "C";
+	/** Set Bank Type.
+		@param BankType 
+		Bank Type define a type of bank or behavior
+	  */
+	public void setBankType (String BankType)
+	{
+
+		set_Value (COLUMNNAME_BankType, BankType);
+	}
+
+	/** Get Bank Type.
+		@return Bank Type define a type of bank or behavior
+	  */
+	public String getBankType () 
+	{
+		return (String)get_Value(COLUMNNAME_BankType);
+	}
 
 	/** Set Bank.
 		@param C_Bank_ID 

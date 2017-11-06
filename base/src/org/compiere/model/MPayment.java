@@ -41,6 +41,7 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
+import org.compiere.util.Util;
 import org.compiere.util.ValueNamePair;
 
 /**
@@ -82,6 +83,8 @@ import org.compiere.util.ValueNamePair;
  *		@see https://github.com/adempiere/adempiere/issues/297
  *		<a href="https://github.com/adempiere/adempiere/issues/887">
  * 		@see FR [ 887 ] System Config reversal invoice DocNo</a>
+ * 		<a href="https://github.com/adempiere/adempiere/issues/1446">
+ * 		@see FR [ 1446 ] Smart Browse for Deposit from cash</a>
  *  @version 	$Id: MPayment.java,v 1.4 2006/10/02 05:18:39 jjanke Exp $
  */
 public final class MPayment extends X_C_Payment 
@@ -2502,7 +2505,9 @@ public final class MPayment extends X_C_Payment
 
 		if (reverseIt(false) == null)
 			return false;
-
+		//	Reverse all deposit from cash
+		reverseGeneratedPayments();
+		//	
 		StringBuilder info = new StringBuilder(processMsg);
 		// After reverseCorrect
 		processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSECORRECT);
@@ -2512,6 +2517,32 @@ public final class MPayment extends X_C_Payment
 		processMsg = info.toString();
 		return true;
 	}	//	reverseCorrectionIt
+	
+	/**
+	 * Reverse all deposit generated from cash
+	 */
+	private void reverseGeneratedPayments() {
+		//	For Cash Payment
+		MBankAccount bankAccount = MBankAccount.get(getCtx(), getC_BankAccount_ID());
+		MBank bank = MBank.get(getCtx(), bankAccount.getC_Bank_ID());
+		if(!Util.isEmpty(bank.getBankType())
+				&& bank.getBankType().equals(MBank.BANKTYPE_CashJournal)
+				&& !isReceipt()) {
+			new Query(getCtx(), Table_Name, 
+					"Ref_Payment_ID = ? "
+						+ "AND DocStatus = ? "
+						+ "AND IsReceipt = 'Y'"
+						+ "AND EXISTS(SELECT 1 FROM C_Bank b"
+						+ "					INNER JOIN C_BankAccount ba ON(ba.C_Bank_ID = b.C_Bank_ID)"
+						+ "				WHERE ba.C_BankAccount_ID = C_Payment.C_BankAccount_ID"
+						+ "				AND b.BankType = ?)", get_TrxName())
+			.setParameters(getC_Payment_ID(), MPayment.DOCSTATUS_Completed, MBank.BANKTYPE_Bank)
+			.<MPayment>list().stream().forEach(deposit -> {
+				deposit.processIt(MPayment.DOCACTION_Reverse_Correct);
+				deposit.saveEx();
+			});
+		}
+	}
 
 	/**
 	 * 	Reverse Accrual - none
