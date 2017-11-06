@@ -32,7 +32,7 @@ public class X_C_BankAccount extends PO implements I_C_BankAccount, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170731L;
+	private static final long serialVersionUID = 20171105L;
 
     /** Standard Constructor */
     public X_C_BankAccount (Properties ctx, int C_BankAccount_ID, String trxName)
@@ -96,23 +96,6 @@ public class X_C_BankAccount extends PO implements I_C_BankAccount, I_Persistent
 		return (String)get_Value(COLUMNNAME_AccountNo);
 	}
 
-	/** Set BBAN.
-		@param BBAN 
-		Basic Bank Account Number
-	  */
-	public void setBBAN (String BBAN)
-	{
-		set_Value (COLUMNNAME_BBAN, BBAN);
-	}
-
-	/** Get BBAN.
-		@return Basic Bank Account Number
-	  */
-	public String getBBAN () 
-	{
-		return (String)get_Value(COLUMNNAME_BBAN);
-	}
-
 	/** BankAccountType AD_Reference_ID=216 */
 	public static final int BANKACCOUNTTYPE_AD_Reference_ID=216;
 	/** Checking = C */
@@ -135,6 +118,23 @@ public class X_C_BankAccount extends PO implements I_C_BankAccount, I_Persistent
 	public String getBankAccountType () 
 	{
 		return (String)get_Value(COLUMNNAME_BankAccountType);
+	}
+
+	/** Set BBAN.
+		@param BBAN 
+		Basic Bank Account Number
+	  */
+	public void setBBAN (String BBAN)
+	{
+		set_Value (COLUMNNAME_BBAN, BBAN);
+	}
+
+	/** Get BBAN.
+		@return Basic Bank Account Number
+	  */
+	public String getBBAN () 
+	{
+		return (String)get_Value(COLUMNNAME_BBAN);
 	}
 
 	/** Set Bank Account.
@@ -313,6 +313,30 @@ public class X_C_BankAccount extends PO implements I_C_BankAccount, I_Persistent
 	public boolean isDefault () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsDefault);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Sales Transaction.
+		@param IsSOTrx 
+		This is a Sales Transaction
+	  */
+	public void setIsSOTrx (boolean IsSOTrx)
+	{
+		set_Value (COLUMNNAME_IsSOTrx, Boolean.valueOf(IsSOTrx));
+	}
+
+	/** Get Sales Transaction.
+		@return This is a Sales Transaction
+	  */
+	public boolean isSOTrx () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsSOTrx);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 
