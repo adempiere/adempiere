@@ -24,6 +24,7 @@ import org.adempiere.print.export.PrintDataExcelExporter;
 import org.compiere.print.ReportEngine;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
+import org.compiere.util.Language;
 import org.compiere.util.Msg;
 
 /**
@@ -53,6 +54,17 @@ public class ExportFormatXLSX extends AbstractExportFormat {
 	
 	@Override
 	public boolean exportToFile(File file) {
+		return exportToFile(file, null);
+	}
+	
+	/**
+	 * For old compatibility
+	 * @param file
+	 * @param languageInfo
+	 * @return
+	 */
+	@Deprecated
+	public boolean exportToFile(File file, Language language) {
 		if(getReportEngine() == null
 				|| getCtx() == null) {
 			return false;
@@ -60,7 +72,10 @@ public class ExportFormatXLSX extends AbstractExportFormat {
 		//	
 		try {
 			PrintDataExcelExporter exp = new PrintDataExcelExporter(getPrintData(), getPrintFormat(), true);
-			exp.export(file, Env.getLanguage(getCtx()));
+			if(language == null) {
+				language = getLanguage();
+			}
+			exp.export(file, language);
 		} catch (Exception e) {
 			log.log(Level.SEVERE, e.getLocalizedMessage());
 			return false;
