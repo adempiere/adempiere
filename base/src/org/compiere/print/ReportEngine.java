@@ -707,10 +707,36 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 		new ExportFormatXLS(m_ctx, this).exportToFile(outFile);
 	}
 	
+	/**
+	 * Create Excel file
+	 * @param outFile
+	 */
 	public void createXLSX(File outFile) {
 		new ExportFormatXLSX(m_ctx, this).exportToFile(outFile);
 	}
-
+	
+	/**
+	 * Create Excel file
+	 * @param outFile output file
+	 * @param language
+	 * @throws Exception if error
+	 */
+	@Deprecated
+	public void createXLS(File outFile, Language language) throws Exception {
+		new ExportFormatXLS(m_ctx, this).exportToFile(outFile, language);
+	}
+	
+	/**
+	 * 
+	 * @param outFile
+	 * @param language
+	 * @throws Exception
+	 */
+	@Deprecated
+	public void createXLSX(File outFile, Language language) throws Exception {
+		new ExportFormatXLSX(m_ctx, this).exportToFile(outFile, language);
+	}
+	
 	/**************************************************************************
 	 * 	Get Report Engine for process info 
 	 *	@param ctx context
