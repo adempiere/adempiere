@@ -1026,7 +1026,7 @@ public class WBrowserTable extends Listbox implements IBrowserTable, TableValueC
 	private void setKey(int col)
 	{
 		m_keyColumnIndex = col;
-		browser.m_keyColumnIndex=col;
+		browser.keyColumnIndex=col;
 	}//setKey
 	
 	public void setColumnClass (int index, GridField gridField, int displayType ,boolean readOnly, String header)

@@ -650,7 +650,7 @@ public class VBrowserTable extends CTable implements IBrowserTable {
      */
     private void setKey(int col) {
         p_keyColumnIndex = col;
-        browser.m_keyColumnIndex = col;
+        browser.keyColumnIndex = col;
     }//setKey
 
     /**
