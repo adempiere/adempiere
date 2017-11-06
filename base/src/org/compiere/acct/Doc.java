@@ -2504,6 +2504,7 @@ public abstract class Doc
 			reverseFactAcct.setAD_Org_ID(factAcct.getAD_Org_ID());
 			reverseFactAcct.setAD_Table_ID(getPO().get_Table_ID());
 			reverseFactAcct.setDateAcct(getDateAcct());
+			reverseFactAcct.setC_Period_ID(getC_Period_ID());
 			reverseFactAcct.setRecord_ID(getPO().get_ID());
 			reverseFactAcct.setQty(factAcct.getQty().negate());
 			reverseFactAcct.setAmtSourceDr(factAcct.getAmtSourceDr().negate());
