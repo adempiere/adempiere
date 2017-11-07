@@ -1163,7 +1163,8 @@ public class Viewer extends CFrame
 		//
 		if (chooser.showSaveDialog(this) != JFileChooser.APPROVE_OPTION)
 			return;
-
+		//	
+		String exportName = chooser.getFileFilter().getDescription();
 		//	Create File
 		File outFile = ExtensionFileFilter.getFile(chooser.getSelectedFile(), chooser.getFileFilter());
 		try
@@ -1188,7 +1189,7 @@ public class Viewer extends CFrame
 		log.config( "File=" + outFile.getPath() + "; Type=" + ext);
 
 		setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-		exportHandler.exportToFile(ext, outFile);
+		exportHandler.exportToFile(exportName, outFile);
 		cmd_drill();	//	setCursor
 	}	//	cmd_export
 

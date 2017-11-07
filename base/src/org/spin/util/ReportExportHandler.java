@@ -131,18 +131,18 @@ public class ReportExportHandler {
 	
 	/**
 	 * Export to file
-	 * @param extension
+	 * @param exportName
 	 * @param file
 	 * @return
 	 */
-	public boolean exportToFile(String extension, File file) {
+	public boolean exportToFile(String exportName, File file) {
 		
 		if(reportExport == null) {
 			return false;
 		}
 		//	
 		for(AbstractExportFormat exportFormat : getExportFormatList()) {
-			if(exportFormat.getExtension().equals(extension)) {
+			if(exportFormat.getName().equals(exportName)) {
 				return exportFormat.exportToFile(file);
 			}
 		}
