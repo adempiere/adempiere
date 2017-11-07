@@ -50,7 +50,7 @@ public class ExportFormatXML extends AbstractExportFormat {
 
 	@Override
 	public String getName() {
-		return Msg.getMsg(Env.getCtx(), "FileCSV");
+		return Msg.getMsg(Env.getCtx(), "FileXML");
 	}
 	
 	@Override
