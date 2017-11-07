@@ -885,7 +885,7 @@ public class ZkReportViewer extends Window implements EventListener {
 						continue;
 					}
 					//	For all
-					cboType.appendItem(exportFormat.getExtension() + " - " + exportFormat.getName(), exportFormat.getExtension());
+					cboType.appendItem(exportFormat.getName(), exportFormat.getExtension());
 					//	For default
 					if(exportFormat.getExtension().equals("pdf")) {
 						defaultItem = cboType.getItemCount() - 1;
@@ -986,8 +986,9 @@ public class ZkReportViewer extends Window implements EventListener {
 			}
 			//	
 			String ext = li.getValue().toString();
+			String exportName = li.getLabel();
 			File inputFile = File.createTempFile("Export", "." + ext);
-			exportHandler.exportToFile(ext, inputFile);
+			exportHandler.exportToFile(exportName, inputFile);
 			winExportFile.onClose();
 			AMedia media = null;
 			media = new AMedia(m_reportEngine.getPrintFormat().getName() + "." + ext, null, "application/octet-stream", inputFile, true);
