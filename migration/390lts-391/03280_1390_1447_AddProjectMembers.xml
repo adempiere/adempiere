@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Add Project Members" ReleaseNo="" SeqNo="3280">
+  <Migration EntityType="D" Name="Add Project Members" ReleaseNo="3.9.1" SeqNo="3280">
     <Comments>https://github.com/adempiere/adempiere/issues/1390
 https://github.com/adempiere/adempiere/issues/1447</Comments>
     <Step SeqNo="10" StepType="AD">
