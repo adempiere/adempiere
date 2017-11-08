@@ -17,6 +17,8 @@
 
 package org.compiere.model;
 
+import org.adempiere.exceptions.AdempiereException;
+
 import java.sql.ResultSet;
 import java.util.Properties;
 
@@ -27,5 +29,13 @@ public class MStandardRequest extends X_R_StandardRequest{
 
     public MStandardRequest(Properties ctx, ResultSet rs, String trxName) {
         super(ctx, rs, trxName);
+    }
+
+    protected boolean beforeSave (boolean newRecord)
+    {
+        if (getR_RequestRelated_ID() > 0 && getR_RequestRelated_ID() == getR_StandardRequest_ID())
+            throw new AdempiereException("@R_RequestRelated_ID@ @NotValid@");
+
+        return true;
     }
 }
