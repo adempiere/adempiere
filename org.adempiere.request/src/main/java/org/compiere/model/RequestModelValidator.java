@@ -120,7 +120,7 @@ public class RequestModelValidator implements ModelValidator {
         MStandardRequestType.getByTable(entity).stream()
                 .filter(standardRequestType ->
                         isValidFromTo(standardRequestType.getValidFrom(), standardRequestType.getValidTo())
-                     && isValidSOTrx(standardRequestType.getIsSOTrx())
+                     && isValidSOTrx(entity , standardRequestType.getIsSOTrx())
                      && standardRequestType.getEventModelValidator().equals(tableEventValidators[type]))
                 .forEach(standardRequestType -> {
                     standardRequestType.createStandardRequest(entity);
@@ -144,7 +144,7 @@ public class RequestModelValidator implements ModelValidator {
             MStandardRequestType.getByTable(entity).stream()
                     .filter(standardRequestType ->
                             isValidFromTo(standardRequestType.getValidFrom(), standardRequestType.getValidTo())
-                         && isValidSOTrx(standardRequestType.getIsSOTrx())
+                         && isValidSOTrx(entity , standardRequestType.getIsSOTrx())
                          && isValidDocument(standardRequestType, timing , entity.get_Table_ID() , documentTypeId , documentStatus))
                     .forEach(standardRequestType -> {
                             standardRequestType.createStandardRequest(entity);
@@ -177,15 +177,21 @@ public class RequestModelValidator implements ModelValidator {
 
     /**
      * Valid IsSOTrx with context
+     * @param entity
      * @param standardRequestIsSOTrx
      * @return
      */
-    private Boolean isValidSOTrx(String standardRequestIsSOTrx)
+    private Boolean isValidSOTrx(PO entity , String standardRequestIsSOTrx)
     {
         if (standardRequestIsSOTrx == null)
             return true;
 
-        Boolean isSoTrx = Env.isSOTrx(Env.getCtx());
+        Boolean isSoTrx;
+        if (entity.get_ColumnIndex("IsSOTrx") > 0)
+            isSoTrx = entity.get_ValueAsBoolean("IsSOTrx");
+        else
+            isSoTrx = Env.isSOTrx(Env.getCtx());
+
         if (isSoTrx == "Y".equals(standardRequestIsSOTrx))
             return true;
         else if (isSoTrx == "N".equals(standardRequestIsSOTrx))
@@ -203,7 +209,6 @@ public class RequestModelValidator implements ModelValidator {
      */
     private Boolean isValidFromTo(Timestamp validFrom, Timestamp validTo)
     {
-
         if (validFrom != null && getCurrentDate().before(validFrom))
             return false;
         if (validTo != null && getCurrentDate().after(validTo))

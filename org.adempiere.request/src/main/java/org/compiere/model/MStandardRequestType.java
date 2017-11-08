@@ -75,7 +75,8 @@ public class MStandardRequestType extends X_R_StandardRequestType {
     }
 
     public List<MRequest> createStandardRequest(PO entity) {
-
+        // Related requests
+        HashMap<Integer, MRequest> relatedRequests = new HashMap<>();
         // Load Request Columms
         if (columns.size() <= 0) {
             MTable requestTableInfo = MTable.get(entity.getCtx(), MRequest.Table_ID);
@@ -85,7 +86,8 @@ public class MStandardRequestType extends X_R_StandardRequestType {
 
         Timestamp today = new Timestamp(System.currentTimeMillis());
         List<MRequest> requests = new ArrayList<>();
-        getStandardRequest(true).stream()
+        List<MStandardRequest> standardRequests = getStandardRequest(true);
+        standardRequests.stream()
                 .forEach(standardRequest -> {
                     GregorianCalendar calendar = new GregorianCalendar();
                     calendar.setTime(today);
@@ -105,10 +107,10 @@ public class MStandardRequestType extends X_R_StandardRequestType {
                         calendar.add(Calendar.MONTH, standardRequest.getDuration());
 
                     Timestamp dateNextAction = new Timestamp(calendar.getTimeInMillis());
-                    MRequest request = new MRequest(standardRequest.getCtx(), 0, standardRequest.get_TrxName());
+                    MRequest request = new MRequest(entity.getCtx(), 0, entity.get_TrxName());
                     // Set column based current context
                     columns.keySet().stream()
-                            .filter(columnName -> columns.get(columnName))
+                            .filter(columnName -> columns.get(columnName) && !columnName.equals(MRequest.COLUMNNAME_DocumentNo))
                             .forEach(columnName -> {
                             if (!DisplayType.isID(entity.get_ColumnDisplayType(entity.get_ColumnIndex(columnName)))
                                         && entity.get_ColumnIndex(columnName) > 0
@@ -137,19 +139,33 @@ public class MStandardRequestType extends X_R_StandardRequestType {
                         request.set_Value(entity.get_TableName() + "_ID", entity.get_ID());
 
                     //Set Tanant Agent
-                    if (standardRequest.getSalesRep_ID() > 0)
+                    if (standardRequest.getSalesRep_ID() > 0) {
                         request.setSalesRep_ID(standardRequest.getSalesRep_ID());
-                    else
-                        request.setSalesRep_ID(Env.getAD_User_ID(Env.getCtx()));
-
+                    }
+                    else {
+                        int salesRepId = Env.getAD_User_ID(Env.getCtx());
+                        if (salesRepId > 0)
+                            request.setSalesRep_ID(salesRepId);
+                    }
 
                     if (dateNextAction != null)
                         request.setDateNextAction(dateNextAction);
                     if (standardRequest.getConfidentialTypeEntry() != null)
                         request.setConfidentialTypeEntry(standardRequest.getConfidentialTypeEntry());
                     request.saveEx();
+                    relatedRequests.put(standardRequest.getR_StandardRequest_ID(), request);
                     requests.add(request);
                 });
+        // setting related request
+        standardRequests.stream()
+                .filter(standardRequest -> standardRequest.getR_RequestRelated_ID() > 0)
+                .forEach(standardRequest -> {
+                    MRequest relatedRequest = relatedRequests.get(standardRequest.getR_RequestRelated_ID());
+                    MRequest request = relatedRequests.get(standardRequest.getR_StandardRequest_ID());
+                    request.setR_RequestRelated_ID(relatedRequest.getR_Request_ID());
+                    request.saveEx();
+                });
+
         return requests;
     }
 }
