@@ -55,7 +55,8 @@ import org.compiere.util.Msg;
  *				<li> http://sourceforge.net/tracker2/?func=detail&atid=879335&aid=2520591&group_id=176962 
  *				<li>BF [ 2880182 ] Error you can allocate a payment to invoice that was paid
  *				<li> https://sourceforge.net/tracker/index.php?func=detail&aid=2880182&group_id=176962&atid=879332
- *				<li>Implement Reverse Accrual for all document https://github.com/adempiere/adempiere/issues/1348</>
+ *				<li>Implement Reverse Accrual for all document https://github.com/adempiere/adempiere/issues/1348
+ *				<li>Add document type for Payment Allocation #1469 https://github.com/adempiere/adempiere/issues/1469
 */
 public final class MAllocationHdr extends X_C_AllocationHdr implements DocAction , DocumentReversalEnabled
 {
@@ -303,6 +304,17 @@ public final class MAllocationHdr extends X_C_AllocationHdr implements DocAction
 	 */
 	protected boolean beforeSave (boolean newRecord)
 	{
+		if (getC_DocType_ID() <= 0)
+		{
+			Optional<MDocType> doctypeOptional = Arrays.stream(MDocType.getOfDocBaseType(getCtx(), MDocType.DOCBASETYPE_PaymentAllocation))
+					.sorted((docType1, docType2) -> Boolean.compare(docType2.isDefault(), docType1.isDefault()))
+					.findFirst();
+			doctypeOptional.ifPresent(docType -> setC_DocType_ID(docType.getC_DocType_ID()));
+			if (getC_DocType_ID() <= 0)
+				throw new AdempiereException("@C_DocType_ID@ @FillMandatory@");
+
+		}
+
 		//	Changed from Not to Active
 		if (!newRecord && is_ValueChanged("IsActive") && isActive())
 		{
@@ -842,8 +854,6 @@ public final class MAllocationHdr extends X_C_AllocationHdr implements DocAction
 				processMsg = "Could not create Payment Allocation Reversal";
 				return null;
 			}
-			reversalAllocationHdr.setReversal_ID(getC_AllocationHdr_ID());
-
 			//	Reverse Line Amt
 			Arrays.stream(reversalAllocationHdr.getLines(false))
 					.forEach(reverseAllocationLine -> {
@@ -857,6 +867,8 @@ public final class MAllocationHdr extends X_C_AllocationHdr implements DocAction
 			reversalAllocationHdr.setReversal(true);
 			reversalAllocationHdr.setDocumentNo(getDocumentNo()+"^");
 			reversalAllocationHdr.addDescription("{->" + getDocumentNo() + ")");
+			reversalAllocationHdr.setReversal_ID(getC_AllocationHdr_ID());
+			reversalAllocationHdr.saveEx();
 			//
 			if (!DocumentEngine.processIt(reversalAllocationHdr, DocAction.ACTION_Complete))
 			{
@@ -869,6 +881,7 @@ public final class MAllocationHdr extends X_C_AllocationHdr implements DocAction
 			reversalAllocationHdr.setDocStatus(DOCSTATUS_Reversed);
 			reversalAllocationHdr.setDocAction(DOCACTION_None);
 			reversalAllocationHdr.saveEx();
+
 			processMsg = reversalAllocationHdr.getDocumentNo();
 			addDescription("(" + reversalAllocationHdr.getDocumentNo() + "<-)");
 			addDescription(Msg.getMsg(getCtx(), "Voided"));
@@ -1233,8 +1246,8 @@ public final class MAllocationHdr extends X_C_AllocationHdr implements DocAction
 					if (allocationHdrFrom.isReversal()) {
 						allocationLineTo.setReversalLine_ID(allocationLineFrom.get_ID());
 						allocationLineTo.saveEx();
-						allocationHdrFrom.setReversal_ID(allocationLineTo.get_ID());
-						allocationLineTo.saveEx();
+						allocationLineFrom.setReversalLine_ID(allocationLineTo.get_ID());
+						allocationLineFrom.saveEx();
 					}
 					lines.updateAndGet(count -> count + 1);
 				});
