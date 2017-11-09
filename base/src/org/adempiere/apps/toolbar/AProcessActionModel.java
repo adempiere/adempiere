@@ -30,11 +30,11 @@ import java.util.logging.Level;
 
 import org.adempiere.ad.process.ISvrProcessPrecondition;
 import org.adempiere.ad.service.IDeveloperModeBL;
-import org.adempiere.model.POWrapper;
 import org.adempiere.util.Check;
 import org.adempiere.util.Services;
 import org.compiere.model.GridTab;
 import org.compiere.model.I_AD_Process;
+import org.compiere.model.MProcess;
 import org.compiere.model.I_AD_Table_Process;
 import org.compiere.model.MRole;
 import org.compiere.model.Query;
@@ -60,9 +60,9 @@ public class AProcessActionModel
 		return ACTION_Name;
 	}
 
-	public List<I_AD_Process> fetchProcesses(Properties ctx, GridTab gridTab)
+	public List<MProcess> fetchProcesses(Properties ctx, GridTab gridTab)
 	{
-		final List<I_AD_Process> emptyList = Collections.unmodifiableList(new ArrayList<I_AD_Process>());
+		final List<MProcess> emptyList = Collections.unmodifiableList(new ArrayList<MProcess>());
 		if (gridTab == null)
 		{
 			return emptyList;
@@ -70,11 +70,11 @@ public class AProcessActionModel
 
 		final MRole role = MRole.getDefault(ctx, false);
 		Check.assumeNotNull(role, "No role found for {0}", ctx);
-		final List<I_AD_Process> list = fetchProcessesForTab(ctx, gridTab);
+		final List<MProcess> list = fetchProcessesForTab(ctx, gridTab);
 
-		for (Iterator<I_AD_Process> it = list.iterator(); it.hasNext();)
+		for (Iterator<MProcess> it = list.iterator(); it.hasNext();)
 		{
-			final I_AD_Process process = it.next();
+			final MProcess process = it.next();
 
 			// Filter out processes on which we don't have access
 			final Boolean accessRW = role.checkProcessAccess(process.getAD_Process_ID());
@@ -109,14 +109,11 @@ public class AProcessActionModel
 	 * @param process
 	 * @return process display name
 	 */
-	public String getDisplayName(final I_AD_Process process)
-	{
-		final I_AD_Process processTrl = POWrapper.translate(process, I_AD_Process.class);
-		String name = processTrl.getName();
+	public String getDisplayName(final MProcess process) {
+		String name = process.get_Translation(I_AD_Process.COLUMNNAME_Name);
 
 		final IDeveloperModeBL developerModeBL = Services.get(IDeveloperModeBL.class);
-		if (developerModeBL != null && developerModeBL.isEnabled())
-		{
+		if (developerModeBL != null && developerModeBL.isEnabled()) {
 			name += "/" + process.getValue();
 		}
 
@@ -129,10 +126,8 @@ public class AProcessActionModel
 	 * @param process
 	 * @return description/tooltip
 	 */
-	public String getDescription(final I_AD_Process process)
-	{
-		final I_AD_Process processTrl = POWrapper.translate(process, I_AD_Process.class);
-		String description = processTrl.getDescription();
+	public String getDescription(final MProcess process) {
+		String description = process.get_Translation(I_AD_Process.COLUMNNAME_Description);
 
 		final IDeveloperModeBL developerModeBL = Services.get(IDeveloperModeBL.class);
 		if (developerModeBL != null && developerModeBL.isEnabled())
@@ -151,7 +146,7 @@ public class AProcessActionModel
 		return description;
 	}
 
-	private boolean isPreconditionApplicable(I_AD_Process process, GridTab gridTab)
+	private boolean isPreconditionApplicable(MProcess process, GridTab gridTab)
 	{
 		if (Check.isEmpty(process.getClassname(), true))
 		{
@@ -193,7 +188,7 @@ public class AProcessActionModel
 		}
 	}
 
-	private List<I_AD_Process> fetchProcessesForTab(final Properties ctx, GridTab gridTab)
+	private List<MProcess> fetchProcessesForTab(final Properties ctx, GridTab gridTab)
 	{
 		final List<Integer> processIds = staticRegisteredProcesses.get(gridTab.getAD_Table_ID());
 
@@ -207,7 +202,7 @@ public class AProcessActionModel
 						+ " WHERE tp." + I_AD_Table_Process.COLUMNNAME_AD_Table_ID + "=?"
 						+ "	AND tp." + I_AD_Table_Process.COLUMNNAME_IsActive + "='Y'"
 						+ " AND tp." + I_AD_Table_Process.COLUMNNAME_AD_Process_ID + "=" 
-						+ I_AD_Process.Table_Name + "." + I_AD_Process.COLUMNNAME_AD_Process_ID
+						+ MProcess.Table_Name + "." + MProcess.COLUMNNAME_AD_Process_ID
 						+ ")"
 						+ " OR EXISTS("
 						+ "			SELECT 1 "
@@ -217,13 +212,13 @@ public class AProcessActionModel
 						+ "			AND c.AD_Process_ID = AD_Process.AD_Process_ID"
 						+ ")"
 						// ... or AD_Process_ID was statically registered
-						+ " OR " + I_AD_Process.COLUMNNAME_AD_Process_ID + " IN " + DB.buildSqlList(processIds, params);
+						+ " OR " + MProcess.COLUMNNAME_AD_Process_ID + " IN " + DB.buildSqlList(processIds, params);
 
-		final List<I_AD_Process> list = new Query(ctx, I_AD_Process.Table_Name, whereClause, Trx.TRXNAME_None)
+		final List<MProcess> list = new Query(ctx, MProcess.Table_Name, whereClause, Trx.TRXNAME_None)
 				.setParameters(params)
 				.setOnlyActiveRecords(true)
-				.setOrderBy(I_AD_Process.COLUMNNAME_Name)
-				.list(I_AD_Process.class);
+				.setOrderBy(MProcess.COLUMNNAME_Name)
+				.list(MProcess.class);
 
 		return list;
 	}

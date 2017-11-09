@@ -18,12 +18,12 @@
 package org.adempiere.webui.panel;
 
 import org.adempiere.apps.toolbar.AProcessActionModel;
-import org.adempiere.model.POWrapper;
 import org.adempiere.webui.editor.WButtonEditor;
 import org.adempiere.webui.editor.WebEditorFactory;
 import org.compiere.model.GridField;
 import org.compiere.model.GridFieldVO;
 import org.compiere.model.I_AD_Process;
+import org.compiere.model.MProcess;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.zkoss.zk.ui.Component;
@@ -49,7 +49,7 @@ public class WProcessAction {
         //	Add Options
         model = new AProcessActionModel();
         //	
-        for(I_AD_Process process : model.fetchProcesses(Env.getCtx(), parent.getToolbar().getCurrentPanel().getGridTab())) {
+        for(MProcess process : model.fetchProcesses(Env.getCtx(), parent.getToolbar().getCurrentPanel().getGridTab())) {
         	addMenuItem(process);
         }
 	}
@@ -62,7 +62,7 @@ public class WProcessAction {
 	 * Add menu Item
 	 * @param optionName
 	 */
-	private void addMenuItem(I_AD_Process process) {
+	private void addMenuItem(MProcess process) {
         Menuitem menuItem =  new Menuitem(model.getDisplayName(process));
         menuItem.addEventListener(Events.ON_CLICK, new EventListener() {
 			@Override
@@ -78,8 +78,7 @@ public class WProcessAction {
 	 * Start Process
 	 * @param process
 	 */
-	private void startProcess(I_AD_Process process) {
-		I_AD_Process processTrl = POWrapper.translate(process, I_AD_Process.class);
+	private void startProcess(MProcess process) {
 		GridFieldVO fieldVO = GridFieldVO.createStdField(Env.getCtx(), 
 				parent.getWindowNo(), 0, 
 				parent.getActiveGridTab().getAD_Window_ID(), 
@@ -89,9 +88,9 @@ public class WProcessAction {
 				false);
 		//	Set
 		fieldVO.ColumnName = "StartProcess";
-		fieldVO.Description = processTrl.getDescription();
-		fieldVO.AD_Process_ID = processTrl.getAD_Process_ID();
-		fieldVO.Help = processTrl.getHelp();
+		fieldVO.Description = process.get_Translation(I_AD_Process.COLUMNNAME_Description);
+		fieldVO.AD_Process_ID = process.getAD_Process_ID();
+		fieldVO.Help = process.get_Translation(I_AD_Process.COLUMNNAME_Description);
 		fieldVO.isProcess = true;
 		fieldVO.displayType = DisplayType.Button;
 		//	
