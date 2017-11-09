@@ -264,5 +264,9 @@
         <Data AD_Column_ID="15013" Column="IsMandatory" isOldNull="true">Y</Data>
       </PO>
     </Step>
+    <Step DBType="ALL" Parse="Y" SeqNo="260" StepType="SQL">
+      <Comments>Set Document Type</Comments>
+      <SQLStatement>UPDATE C_AllocationHdr SET C_DocType_ID = (SELECT MAX(C_DocType_ID) FROM C_DocType WHERE C_AllocationHdr.AD_Client_ID=C_DocType.AD_Client_ID AND C_DocType.DocBaseType='CMA');</SQLStatement>
+    </Step>
   </Migration>
 </Migrations>
