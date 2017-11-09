@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Commission functions linenetamtreal" ReleaseNo="3.9.0" SeqNo="3360">
+    <Comments>https://github.com/adempiere/adempiere/issues/1465</Comments>
+    <Step DBType="Postgres" Parse="Y" SeqNo="20" StepType="SQL">
+      <SQLStatement>-- Function: linenetamtrealinvoiceline(numeric)
+-- DROP FUNCTION linenetamtrealinvoiceline(numeric);
+CREATE OR REPLACE FUNCTION linenetamtrealinvoiceline(p_c_invoiceline_id numeric)
+  RETURNS numeric AS
+$BODY$
+DECLARE
+          v_amt numeric;  
+
+BEGIN
+	select case when pl.istaxincluded = 'Y' AND t.rate &lt;&gt; 0 then round(ivl.linenetamt/(1+(t.rate/100)),cur.stdprecision) else linenetamt end  into v_amt
+	from c_Invoiceline ivl
+	inner join c_invoice i on ivl.c_invoice_ID = i.c_invoice_ID
+	inner join m_pricelist pl on i.m_pricelist_ID = pl.m_pricelist_ID
+	inner join c_Tax t on ivl.c_tax_ID = t.c_tax_ID
+	inner join c_currency cur on i.c_currency_ID = cur.c_Currency_ID
+	where ivl.c_invoiceline_ID=p_c_invoiceLine_ID;
+
+    RETURN coalesce(v_amt,0);
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION linenetamtrealinvoiceline(numeric)
+  OWNER TO adempiere;
+</SQLStatement>
+      <RollbackStatement>DROP FUNCTION linenetamtrealinvoiceline(numeric);</RollbackStatement>
+    </Step>
+    <Step DBType="ALL" Parse="Y" SeqNo="30" StepType="SQL">
+      <SQLStatement>-- Function: linenetamtrealorderline(numeric)
+-- DROP FUNCTION linenetamtrealorderline(numeric);
+CREATE OR REPLACE FUNCTION linenetamtrealorderline(p_c_orderline_id numeric)
+  RETURNS numeric AS
+$BODY$
+DECLARE
+          v_amt numeric;  
+BEGIN
+
+select  
+	case when pl.istaxincluded = 'Y' AND t.rate &lt;&gt; 0 then round(ol.linenetamt/(1+(t.rate/100)),cur.stdprecision) else linenetamt end as linenetamtreal  into v_amt 
+	from c_Orderline ol
+	inner join c_order o on ol.c_order_ID = o.c_order_ID
+	inner join m_pricelist pl on o.m_pricelist_ID = pl.m_pricelist_ID
+	inner join c_Tax t on ol.c_tax_ID = t.c_tax_ID
+	inner join c_currency cur on o.c_currency_ID = cur.c_Currency_ID
+	where ol.c_OrderLine_ID = p_c_orderline_id;
+
+    RETURN coalesce(v_amt,0);
+END;
+
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION linenetamtrealorderline(numeric)
+  OWNER TO adempiere;
+</SQLStatement>
+      <RollbackStatement>DROP FUNCTION linenetamtrealorderline(numeric);</RollbackStatement>
+    </Step>
+  </Migration>
+</Migrations>
