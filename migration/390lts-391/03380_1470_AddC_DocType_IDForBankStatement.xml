@@ -458,9 +458,13 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isOldNull="true">52547</Data>
       </PO>
     </Step>
-    <Step DBType="ALL" Parse="Y" SeqNo="5" StepType="SQL">
+    <Step DBType="ALL" Parse="Y" SeqNo="350" StepType="SQL">
       <Comments>Set Document No</Comments>
       <SQLStatement>UPDATE C_BankStatement SET DocumentNo = C_BankStatement_ID WHERE DocumentNo IS NULL;</SQLStatement>
+    </Step>
+    <Step DBType="ALL" Parse="Y" SeqNo="360" StepType="SQL">
+      <Comments>Set Document Type</Comments>
+      <SQLStatement>UPDATE C_BankStatement SET C_DocType_ID = (SELECT MAX(C_DocType_ID) FROM C_DocType WHERE C_BankStatement.AD_Client_ID=C_DocType.AD_Client_ID AND C_DocType.DocBaseType='CMB');</SQLStatement>
     </Step>
   </Migration>
 </Migrations>
