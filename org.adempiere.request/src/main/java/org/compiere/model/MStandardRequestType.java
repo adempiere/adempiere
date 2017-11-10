@@ -20,13 +20,12 @@ package org.compiere.model;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.compiere.util.TimeUtil;
 
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
@@ -89,24 +88,7 @@ public class MStandardRequestType extends X_R_StandardRequestType {
         List<MStandardRequest> standardRequests = getStandardRequest(true);
         standardRequests.stream()
                 .forEach(standardRequest -> {
-                    GregorianCalendar calendar = new GregorianCalendar();
-                    calendar.setTime(today);
-                    calendar.set(Calendar.HOUR_OF_DAY, 0);
-                    calendar.set(Calendar.MINUTE, 0);
-                    calendar.set(Calendar.SECOND, 0);
-                    calendar.set(Calendar.MILLISECOND, 0);
-                    if (MStandardRequest.DURATIONUNIT_Day.equals(standardRequest.getDurationUnit()))
-                        calendar.add(Calendar.DAY_OF_YEAR, standardRequest.getDuration());
-                    else if (MStandardRequest.DURATIONUNIT_Second.equals(standardRequest.getDurationUnit()))
-                        calendar.add(Calendar.SECOND, standardRequest.getDuration());
-                    else if (MStandardRequest.DURATIONUNIT_Minute.equals(standardRequest.getDurationUnit()))
-                        calendar.add(Calendar.MINUTE, standardRequest.getDuration());
-                    else if (MStandardRequest.DURATIONUNIT_Hour.equals(standardRequest.getDurationUnit()))
-                        calendar.add(Calendar.HOUR_OF_DAY, standardRequest.getDuration());
-                    else if (MStandardRequest.DURATIONUNIT_Month.equals(standardRequest.getDurationUnit()))
-                        calendar.add(Calendar.MONTH, standardRequest.getDuration());
-
-                    Timestamp dateNextAction = new Timestamp(calendar.getTimeInMillis());
+                    Timestamp dateNextAction = TimeUtil.addDuration(today,standardRequest.getDurationUnit(), standardRequest.getDuration());
                     MRequest request = new MRequest(entity.getCtx(), 0, entity.get_TrxName());
                     // Set column based current context
                     columns.keySet().stream()

@@ -31,8 +31,6 @@ import java.util.GregorianCalendar;
  *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *		<a href="https://github.com/adempiere/adempiere/issues/764">
  * 		@see FR [ 764 ] Add hepler method to TimeUtil class</a>
- * 		<a href="https://github.com/adempiere/adempiere/issues/1526">
- * 		@see FR [ 1526 ] TimeUtil class have a method non static</a>
  *  @author Víctor Pérez Juárez , victor.perez@e-evolution.com , http://www.e-evolution.com
  *  <a href="https://github.com/adempiere/adempiere/issues/1478">
  *  <li>Add support to create request based on Standard Request Type setting on Project Type #1478
@@ -408,11 +406,7 @@ public class TimeUtil
 	 * 	@param end end date
 	 * 	@return number of days (0 = same)
 	 */
-	public static int getDaysBetween (Timestamp start, Timestamp end, int... matchingDay) {
-		if(start == null
-				|| end == null) {
-			return 0;
-		}
+	static public int getDaysBetween (Timestamp start, Timestamp end, int... matchingDay) {
 		boolean negative = false;
 		if (end.before(start))
 		{
@@ -818,7 +812,7 @@ public class TimeUtil
 	 * @param years
 	 * @return Timestamp
 	 */
-	public static Timestamp addYears (Timestamp from, int offset) {
+	public Timestamp addYears (Timestamp from, int offset) {
 		if(from == null)
 			return from;
 		GregorianCalendar cal = new GregorianCalendar();

@@ -33,6 +33,9 @@ import org.eevolution.model.MProjectMember;
  * 	Project Model
  *
  *	@author Jorg Janke
+ *  @author Víctor Pérez Juárez , victor.perez@e-evolution.com , http://www.e-evolution.com
+ *  <a href="https://github.com/adempiere/adempiere/issues/1478">
+ *  <li>Add support to create request based on Standard Request Type setting on Project Type #1478
  *	@version $Id: MProject.java,v 1.2 2006/07/30 00:51:02 jjanke Exp $
  */
 public class MProject extends X_C_Project
@@ -431,24 +434,10 @@ public class MProject extends X_C_Project
 			return;
 		setC_ProjectType_ID(Integer.toString(type.getC_ProjectType_ID()));
 		setProjectCategory(type.getProjectCategory());
-		createProjectRequest(type);
+		createRequest(type);
 		copyPhasesFrom(type);
 	}	//	setProjectType
 
-	/**
-	 * create Request Project
-	 */
-	public void createProjectRequest(MProjectType projectType)
-	{
-		// Create Request for Project funcionality
-		if (getC_ProjectType_ID() != null) {
-			MStandardRequestType.getByTable(this).stream()
-					.filter(standardRequestType -> standardRequestType.get_ID() == projectType.getR_StandardRequestType_ID())
-					.forEach(standardRequestType -> {
-						standardRequestType.createStandardRequest(this);
-					});
-		}
-	}
 
 	/**
 	 *	Copy Phases from Type
@@ -464,6 +453,8 @@ public class MProject extends X_C_Project
 		typePhases.stream()
 				.forEach(fromPhase -> {
 					MProjectPhase toPhase = new MProjectPhase(this, fromPhase);
+					toPhase.setC_Project_ID(getC_Project_ID());
+					toPhase.setProjInvoiceRule(getProjInvoiceRule());
 					toPhase.saveEx();
 					count.getAndUpdate(no -> no + 1);
 					taskCount.getAndUpdate(no -> no + toPhase.copyTasksFrom(fromPhase));
@@ -474,6 +465,23 @@ public class MProject extends X_C_Project
 			log.log(Level.SEVERE, "Count difference - Type=" + typePhases.size() + " <> Saved=" + count.get());
 		return count.get();
 	}	//	copyPhasesFrom
+
+
+	/**
+	 * create Request Project
+	 */
+	public void createRequest(MProjectType projectType)
+	{
+		if (projectType.getR_StandardRequestType_ID() > 0)
+		{
+			MStandardRequestType standardRequestType = (MStandardRequestType) projectType.getR_StandardRequestType();
+			List<MRequest> requests =  standardRequestType.createStandardRequest(this);
+			requests.stream().forEach(request -> {
+				request.setC_Project_ID(getC_Project_ID());
+				request.saveEx();
+			});
+		}
+	}
 
 	/**
 	 * 	Before Save
