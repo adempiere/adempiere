@@ -19,8 +19,6 @@ package org.compiere.process;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Enumeration;
@@ -34,16 +32,15 @@ import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.Part;
-import javax.mail.Session;
-import javax.mail.Store;
 
 import org.compiere.model.MAttachment;
+import org.compiere.model.MClient;
 import org.compiere.model.MEMailConfig;
 import org.compiere.model.MRequest;
 import org.compiere.model.MUser;
-import org.compiere.util.CLogMgt;
 import org.compiere.util.DB;
 import org.compiere.util.EMail;
+import org.compiere.util.Util;
 
 /**
  *	Request Email Processor
@@ -53,162 +50,44 @@ import org.compiere.util.EMail;
  *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *			<li> FR [ 402 ] Mail setup is hardcoded
  *			@see https://github.com/adempiere/adempiere/issues/402
+ *			<li> FR [ 1308 ] Unable To send test mail
+ *			@see https://github.com/adempiere/adempiere/issues/1308
  */
-public class RequestEMailProcessor extends SvrProcess
-{
-	private String	p_IMAPHost = null;
-	private String	p_IMAPUser = null;
-	private String	p_IMAPPwd = null;
-	private String	p_RequestFolder = null;
-	private String	p_InboxFolder = null;
-	private String	p_ErrorFolder = null;
-	private int C_BPartner_ID = 0;
-	private int AD_User_ID = 0;
-	private int AD_Role_ID = 0;
-	private int SalesRep_ID = 0;
-	private int R_RequestType_ID = 0;
-	private String p_DefaultPriority = null;
-	private String p_DefaultConfidentiality = null;
+public class RequestEMailProcessor extends RequestEMailProcessorAbstract {
 	/**	Email Configuration		*/
-	private EMail m_email = null;
+	private EMail email = null;
 
 	private int noProcessed = 0;
 	private int noRequest = 0;
 	private int noError = 0;
-	/**	Session				*/
-	private Session 	m_session = null;
-	/**	Store				*/
-	private Store 		m_store = null;
 	/**	Process Error				*/
 	private static final int		ERROR = 0;
 	/**	Process Request				*/
 	private static final int		REQUEST = 1;
-	/**	Process Workflow			*/
-	// private static final int		WORKFLOW = 2;
-	/**	Process Delivery Confirm	*/
-	// private static final int		DELIVERY = 9;
-	
-	/**
-	 *  Prepare - e.g., get Parameters.
-	 */
-	protected void prepare()
-	{
-		ProcessInfoParameter[] para = getParameter();
-		for (int i = 0; i < para.length; i++)
-		{
-			String name = para[i].getParameterName();
-			if (para[i].getParameter() == null)
-				;
-			else if (name.equals("p_IMAPHost"))
-				p_IMAPHost = ((String)para[i].getParameter());
-			else if (name.equals("p_IMAPUser"))
-				p_IMAPUser = ((String)para[i].getParameter());
-			else if (name.equals("p_IMAPPwd"))
-				p_IMAPPwd = ((String)para[i].getParameter());
-			else if (name.equals("p_RequestFolder"))
-				p_RequestFolder = ((String)para[i].getParameter());
-			else if (name.equals("p_InboxFolder"))
-				p_InboxFolder = ((String)para[i].getParameter());
-			else if (name.equals("p_ErrorFolder"))
-				p_ErrorFolder = ((String)para[i].getParameter());
-			else if (name.equals("C_BPartner_ID"))
-				C_BPartner_ID = para[i].getParameterAsInt();
-			else if (name.equals("AD_User_ID"))
-				AD_User_ID = para[i].getParameterAsInt();
-			else if (name.equals("AD_Role_ID"))
-				AD_Role_ID = para[i].getParameterAsInt();
-			else if (name.equals("SalesRep_ID"))
-				SalesRep_ID = para[i].getParameterAsInt();
-			else if (name.equals("R_RequestType_ID"))
-				R_RequestType_ID = para[i].getParameterAsInt();
-			else if (name.equals("p_DefaultPriority"))
-				p_DefaultPriority = ((String)para[i].getParameter());
-			else if (name.equals("p_DefaultConfidentiality"))
-				p_DefaultConfidentiality = ((String)para[i].getParameter());
-			else
-				log.log(Level.SEVERE, "prepare - Unknown Parameter: " + name);
-		}
-		
-	}	//	prepare
 
 	/**
 	 *  Perform process.
 	 *  @return Message (clear text)
 	 *  @throws Exception if not successful
 	 */
-	protected String doIt() throws Exception
-	{
-		log.info("doIt - IMAPHost=" + p_IMAPHost +
-				       " IMAPUser=" + p_IMAPUser  +
-				       // " IMAPPwd=" + p_IMAPPwd +
-				       " RequestFolder=" + p_RequestFolder +
-				       " InboxFolder=" + p_InboxFolder +
-				       " ErrorFolder=" + p_ErrorFolder);
+	protected String doIt() throws Exception {
+		log.info("doIt - IMAPHost=" + getRequestUser() +
+				       " IMAPPwd=" + getRequestUserPW()  +
+				       " RequestFolder=" + getRequestFolder() +
+				       " InboxFolder=" + getInboxFolder() +
+				       " ErrorFolder=" + getErrorFolder());
 		
-		try
-		{
-			getSession();
-			getStore();
+		try {
 			processInBox();
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			log.log(Level.SEVERE, "processInBox", e);
 		}
-		//	Cleanup
-		try
-		{
-			if (m_store.isConnected())
-				m_store.close();
-		}
-		catch (Exception e)
-		{
-		}
-		
-		return "processInBox - Total=" + noProcessed + 
-				" - Requests=" + noRequest + 
-				" - Errors=" + noError;
+		addLog("@Total@=" + noProcessed);
+		addLog("@R_Request_ID@=" + noRequest);
+		addLog("@Error@=" + noError);
+		//	
+		return "Ok";
 	}	//	doIt
-	
-	/**************************************************************************
-	 * 	Get Session
-	 *	@return Session
-	 *	@throws Exception
-	 */
-	private Session getSession() throws Exception {
-		if (m_session != null)
-			return m_session;
-		m_email = new EMail(p_IMAPHost, 0, MEMailConfig.PROTOCOL_IMAP, 
-				MEMailConfig.ENCRYPTIONTYPE_None, MEMailConfig.AUTHMECHANISM_Login);
-		m_email.createAuthenticator(p_IMAPUser, p_IMAPPwd);
-		//	FR [ 402 ]
-		//	Session
-		m_session = m_email.getSession();
-		m_session.setDebug(CLogMgt.isLevelFinest());
-		log.fine("getSession - " + m_session);
-		return m_session;
-	}	//	getSession
-	
-	
-	/**
-	 * 	Get Store
-	 *	@return Store
-	 *	@throws Exception
-	 */
-	private Store getStore() throws Exception {
-		if (m_store != null)
-			return m_store;
-		if (getSession() == null)
-			throw new IllegalStateException("No Session");
-		
-		//	Get Store
-		m_store = m_session.getStore(m_email.getStoreProtocol());
-		//	Connect
-		m_store.connect();
-		//
-		log.fine("getStore - " + m_store);
-		return m_store;
-	}	//	getStore
 	
 	/**
 	 * 	Process InBox
@@ -216,57 +95,43 @@ public class RequestEMailProcessor extends SvrProcess
 	 *	@throws Exception
 	 */
 	private void processInBox() throws Exception {
+		//	
+		email = new EMail(MClient.get(getCtx()), getEMailConfigId());
+		email.createAuthenticator (getRequestUser(), getRequestUserPW());
 		//	Folder
 		Folder folder;
-		folder = m_store.getDefaultFolder();
+		folder = email.getDefaultFolder();
 		if (folder == null)
-			throw new IllegalStateException("No default folder");
+			throw new IllegalStateException("@DefaultFolder@ @NotFound@");
 		//	Open Inbox
-		Folder inbox = folder.getFolder(p_InboxFolder);
+		Folder inbox = folder.getFolder(getInboxFolder());
 		if (!inbox.exists())
-			throw new IllegalStateException("No Inbox");
+			throw new IllegalStateException("@InboxFolder@ @NotFound@");
+		//	
 		inbox.open(Folder.READ_WRITE);
 		log.fine("processInBox - " + inbox.getName() 
 			+ "; Messages Total=" + inbox.getMessageCount()
 			+ "; New=" + inbox.getNewMessageCount());
 		//	Validate IMAP
-		if(!m_email.getProtocol().equals(MEMailConfig.PROTOCOL_IMAP))
+		if(!email.getProtocol().equals(MEMailConfig.PROTOCOL_IMAP))
 			return;
 		//	Open Request
-		Folder requestFolder = folder.getFolder(p_RequestFolder);
+		Folder requestFolder = folder.getFolder(getRequestFolder());
 		if (!requestFolder.exists() && !requestFolder.create(Folder.HOLDS_MESSAGES))
 			throw new IllegalStateException("Cannot create Request Folder");
 		requestFolder.open(Folder.READ_WRITE);
-
-		//	Open Workflow
-		// Folder workflowFolder = folder.getFolder("CWorkflow");
-		// if (!workflowFolder.exists() && !workflowFolder.create(Folder.HOLDS_MESSAGES))
-			// throw new IllegalStateException("Cannot create Workflow Folder");
-		// workflowFolder.open(Folder.READ_WRITE);
-		
 		//	Open Error
-		Folder errorFolder = folder.getFolder(p_ErrorFolder);
+		Folder errorFolder = folder.getFolder(getErrorFolder());
 		if (!errorFolder.exists() && !errorFolder.create(Folder.HOLDS_MESSAGES))
 			throw new IllegalStateException("Cannot create Error Folder");
 		errorFolder.open(Folder.READ_WRITE);
 		
 		//	Messages
 		Message[] messages = inbox.getMessages();
-		/**
-		FetchProfile fp = new FetchProfile();
-		fp.add(FetchProfile.Item.ENVELOPE);
-		fp.add(FetchProfile.Item.FLAGS);
-		fp.add("X-Mailer");
-		inbox.fetch(messages, fp);
-		**/
 		//
-		for (int i = 0; i < messages.length; i++)
-//		for (int i = messages.length-1; i >= 0; i--)	//	newest first
-		{
-			Message msg = messages[i];
+		for (Message msg : messages) {
 			int result = processMessage (msg);
-			if (result == REQUEST)
-			{
+			if (result == REQUEST) {
 				String[] hdrs = msg.getHeader("Message-ID");
 				//	Copy to processed
 				try {
@@ -275,36 +140,20 @@ public class RequestEMailProcessor extends SvrProcess
 						msg.setFlag(Flags.Flag.ANSWERED, true);
 						requestFolder.appendMessages(new Message[]{msg});
 						// log movement
-						log.info("message " + hdrs[0] + " moved to " + p_RequestFolder + " folder");
+						log.info("message " + hdrs[0] + " moved to " + getRequestFolder() + " folder");
 						log.info("message info: Sent -> " + msg.getSentDate() + " From -> " + msg.getFrom()[0].toString());
 						// Delete in InBox
 						msg.setFlag(Flags.Flag.DELETED, true);
-						Message[] deleted = inbox.expunge();
-						
+						inbox.expunge();
 						noRequest++;
 					}
 				} catch (Exception e) {
 					log.info("message " + hdrs[0] + " threw error");
-					e.printStackTrace();
 				}
-			}
-//			else if (result == WORKFLOW)
-//			{
-//				msg.setFlag(Flags.Flag.SEEN, true);
-//				msg.setFlag(Flags.Flag.ANSWERED, true);
-//				//	Copy to processed
-//				workflowFolder.appendMessages(new Message[]{msg});
-//			}
-//			else if (result == DELIVERY)
-//			{
-//				msg.setFlag(Flags.Flag.SEEN, true);
-//				msg.setFlag(Flags.Flag.ANSWERED, true);
-//			}
-			else	//	error
-			{
+			} else {	//	error
 				errorFolder.appendMessages(new Message[]{msg});
 				String[] hdrs = msg.getHeader("Message-ID");
-				log.warning("message " + hdrs[0] + " moved to " + p_ErrorFolder + " folder");
+				log.warning("message " + hdrs[0] + " moved to " + getErrorFolder() + " folder");
 				log.warning("message info: Sent -> " + msg.getSentDate() + " From -> " + msg.getFrom()[0].toString());
 				noError++;
 			}
@@ -333,6 +182,10 @@ public class RequestEMailProcessor extends SvrProcess
 		// Assign from variable
 		Address[] from = msg.getFrom();
 		String fromAddress;
+		if(from == null
+				|| from.length == 0) {
+			return false;
+		}
 		// Carlos Ruiz <c_ruiz@myrealbox.com>
 		if (from[0].toString().indexOf('<')!= -1 && from[0].toString().indexOf('>')!= -1) {
 			fromAddress = from[0].toString().substring(from[0].toString().indexOf('<')+1, from[0].toString().indexOf('>'));
@@ -342,36 +195,42 @@ public class RequestEMailProcessor extends SvrProcess
 		}
 		// Message-ID as documentNo
 		String[] hdrs = msg.getHeader("Message-ID");
-		
+		String firstHeader = "";
+		String documentNo = "";
+		//	Get first
+		if(hdrs != null
+				&& hdrs.length > 0) {
+			firstHeader = hdrs[0];
+		}
+		//	
+		if(!Util.isEmpty(firstHeader)) {
+			if(firstHeader.length() >= 30) {
+				documentNo = firstHeader.substring(0, 30);
+			} else {
+				documentNo = firstHeader;
+			}
+		}
 		// Review if the e-mail was already created, comparing Message-ID+From+body
 		int retValuedup = 0;
-		String sqldup = "select r_request_id from r_request "
-			 + "where ad_client_id = ? "
-			 + "and documentno = ? "
-			 + "and startdate = ?";
-		PreparedStatement pstmtdup = null;
-			pstmtdup = DB.prepareStatement (sqldup, null);
-			pstmtdup.setInt(1, getAD_Client_ID());
-			pstmtdup.setString(2, hdrs[0].substring(0,30));
-			pstmtdup.setTimestamp(3, new Timestamp(msg.getSentDate().getTime()));
-			ResultSet rsdup = pstmtdup.executeQuery ();
-			if (rsdup.next ())
-				retValuedup = rsdup.getInt(1);
-			rsdup.close ();
-			pstmtdup.close ();
-			pstmtdup = null;
+		String sqldup = "SELECT R_Request_ID FROM R_Request "
+			 + "where AD_Client_ID = ? "
+			 + "AND DocumentNo = ? "
+			 + "AND StartDate = ?";
+		retValuedup = DB.getSQLValue(get_TrxName(), sqldup, 
+				getAD_Client_ID(), 
+				documentNo, 
+				new Timestamp(msg.getSentDate().getTime()));
 		if (retValuedup > 0) {
-			log.info("request already existed for msg -> " + hdrs[0]);
+			log.info("request already existed for msg -> " + firstHeader);
 			return true;
 		}
-		
 		// Analyze subject if Re: find the original request by subject + e-mail and add an action
 		int request_upd = 0;
-		String sqlupd = "SELECT r_request_id "
-			 + "  FROM r_request "
-			 + " WHERE ad_client_id = ? "
-			 + "   AND summary LIKE 'FROM: ' || ? || '%' "
-			 + "   AND (   documentno = "
+		String sqlupd = "SELECT R_Request_ID "
+			 + "  FROM R_Request "
+			 + " WHERE AD_Client_ID = ? "
+			 + "   AND Summary LIKE 'FROM: ' || ? || '%' "
+			 + "   AND (   DocumentNo = "
 			 + "              SUBSTR "
 			 + "                 (?, "
 			 + "                  INSTR "
@@ -380,113 +239,92 @@ public class RequestEMailProcessor extends SvrProcess
 			 + "                      ) "
 			 + "                 ) "
 			 + "        OR (    ? LIKE 'Re: %' "
-			 + "            AND summary = "
+			 + "            AND Summary = "
 			 + "                      'FROM: ' "
 			 + "                   || ? "
 			 + "                   || CHR (10) "
 			 + "                   || SUBSTR (?, 5) "
 			 + "           ) "
 			 + "       ) ";
-		PreparedStatement pstmtupd = null;
-			pstmtupd = DB.prepareStatement (sqlupd, null);
-			pstmtupd.setInt(1, getAD_Client_ID());
-			pstmtupd.setString(2, fromAddress);
-			pstmtupd.setString(3, msg.getSubject());
-			pstmtupd.setString(4, msg.getSubject());
-			pstmtupd.setString(5, msg.getSubject());
-			pstmtupd.setString(6, fromAddress);
-			pstmtupd.setString(7, msg.getSubject());
-			ResultSet rsupd = pstmtupd.executeQuery ();
-			if (rsupd.next ())
-				request_upd = rsupd.getInt(1);
-			rsupd.close ();
-			pstmtupd.close ();
-			pstmtupd = null;
-		if (request_upd > 0) {
-			log.info("msg -> " + hdrs[0] + " is an answer for req " + request_upd);
+		request_upd = DB.getSQLValue(get_TrxName(), sqlupd, 
+				getAD_Client_ID(), 
+				fromAddress, 
+				msg.getSubject(), 
+				msg.getSubject(), 
+				msg.getSubject(), 
+				fromAddress, 
+				msg.getSubject());
+			if (request_upd > 0) {
+			log.info("msg -> " + firstHeader + " is an answer for req " + request_upd);
 			return updateRequest(request_upd, msg);
 		}
 		
-		MRequest req = new MRequest(getCtx(), 0, get_TrxName());
+		MRequest request = new MRequest(getCtx(), 0, get_TrxName());
 		// Subject as summary
-		req.setSummary("FROM: " + fromAddress + "\n" + msg.getSubject());
+		request.setSummary("FROM: " + fromAddress + "\n" + msg.getSubject());
 		// Body as result
-		req.setResult("FROM: " + from[0].toString() + "\n" + getMessage(msg));
+		request.setResult("FROM: " + from[0].toString() + "\n" + getMessage(msg));
 		// Message-ID as documentNo
-		if (hdrs != null)
-			req.setDocumentNo(hdrs[0].substring(0,30));
-
+		if (documentNo != null) {
+			request.setDocumentNo(documentNo);
+		}
 		// Default request type for this process
-		if (R_RequestType_ID > 0)
-			req.setR_RequestType_ID(R_RequestType_ID);
-		else
-			req.setR_RequestType_ID();
-			
+		if (getRequestTypeId() > 0) {
+			request.setR_RequestType_ID(getRequestTypeId());
+		} else {
+			request.setR_RequestType_ID();
+		}
 		// set Default sales representative 
-		if (SalesRep_ID > 0)
-			req.setSalesRep_ID(SalesRep_ID);
-		
+		if (getSalesRepId() > 0) {
+			request.setSalesRep_ID(getSalesRepId());
+		}
 		// set Default role
-		if (AD_Role_ID > 0)
-			req.setAD_Role_ID(AD_Role_ID);
-
+		if (getRoleId() > 0) {
+			request.setAD_Role_ID(getRoleId());
+		}
 		// Look for user via e-mail
-		if (from != null)
-		{
-			int retValueu = -1;
-			String sqlu = "SELECT ad_user_id "
-				+ "  FROM ad_user "
-				+ " WHERE UPPER (email) = UPPER (?) "
-				+ "   AND ad_client_id = ?";
-			PreparedStatement pstmtu = null;
-				pstmtu = DB.prepareStatement (sqlu, null);
-				pstmtu.setString(1, fromAddress);
-				pstmtu.setInt(2, getAD_Client_ID());
-				ResultSet rsu = pstmtu.executeQuery ();
-				if (rsu.next ())
-					retValueu = rsu.getInt(1);
-				rsu.close ();
-				pstmtu.close ();
-				pstmtu = null;
-			if (retValueu > 0) {
-				req.setAD_User_ID(retValueu);
-			} else {
-				// set default user
-				if (AD_User_ID > 0)
-					req.setAD_User_ID(AD_User_ID);
+		String sqlu = "SELECT AD_User_ID "
+			+ "  FROM AD_User "
+			+ " WHERE UPPER (EMail) = UPPER (?) "
+			+ "   AND AD_Client_ID = ?";
+		int retValueUserId = DB.getSQLValue(get_TrxName(), sqlu, fromAddress, getAD_Client_ID());
+		if (retValueUserId > 0) {
+			request.setAD_User_ID(retValueUserId);
+		} else {
+			// set default user
+			if (getUserId() > 0) {
+				request.setAD_User_ID(getUserId());
 			}
 		}
 		// Look BP
-		if (req.getAD_User_ID() > 0) {
-			MUser us = new MUser(getCtx(), req.getAD_User_ID(), get_TrxName());
-			if (us.getC_BPartner_ID() > 0)
-				req.setC_BPartner_ID(us.getC_BPartner_ID());
+		if (request.getAD_User_ID() > 0) {
+			MUser us = new MUser(getCtx(), request.getAD_User_ID(), get_TrxName());
+			if (us.getC_BPartner_ID() > 0) {
+				request.setC_BPartner_ID(us.getC_BPartner_ID());
+			}
 		}
-		if (req.getC_BPartner_ID() <= 0 && C_BPartner_ID > 0) {
+		if (request.getC_BPartner_ID() <= 0 && getBPartnerId() > 0) {
 			// set default business partner
-			req.setC_BPartner_ID(C_BPartner_ID);
+			request.setC_BPartner_ID(getBPartnerId());
 		}
 		
 		// Set start date as sent date of e-mail
-		req.setStartDate(new Timestamp(msg.getSentDate().getTime()));
+		request.setStartDate(new Timestamp(msg.getSentDate().getTime()));
 		
 		// defaults priority Medium, confidentiality partner
-		if (p_DefaultConfidentiality != null) {
-			req.setConfidentialType (p_DefaultConfidentiality);
-			req.setConfidentialTypeEntry (p_DefaultConfidentiality);
+		if (getConfidentialType() != null) {
+			request.setConfidentialType (getConfidentialType());
+			request.setConfidentialTypeEntry (getConfidentialType());
 		}
-		if (p_DefaultPriority != null) {
-			req.setPriority(p_DefaultPriority);
-			req.setPriorityUser(p_DefaultPriority);
+		if (getPriorityRule() != null) {
+			request.setPriority(getPriorityRule());
+			request.setPriorityUser(getPriorityRule());
 		}
 		
-		if (req.save(get_TrxName())) {
-			log.info("created request " + req.getR_Request_ID() + " from msg -> " + hdrs[0]);
-			
-
+		if (request.save(get_TrxName())) {
+			log.info("created request " + request.getR_Request_ID() + " from msg -> " + firstHeader);
 			// get simple attachments and attach to request
-			if ( msg.isMimeType("multipart/*" ) )
-			{
+			if (msg.isMimeType("multipart/*" )) {
 				try {
 					Multipart mp = (Multipart) msg.getContent();
 
@@ -499,7 +337,7 @@ public class RequestEMailProcessor extends SvrProcess
 								((disposition.equals(Part.ATTACHMENT) || 
 										(disposition.equals(Part.INLINE))))) {
 
-							MAttachment attach = req.createAttachment();
+							MAttachment attach = request.createAttachment();
 
 							InputStream in = part.getInputStream();
 
@@ -523,7 +361,6 @@ public class RequestEMailProcessor extends SvrProcess
 					log.log(Level.FINE, "Error extracting attachments", e);
 				}
 			}
-
 			return true;
 		} else {
 			return false;
@@ -548,18 +385,14 @@ public class RequestEMailProcessor extends SvrProcess
 	{
 		dumpEnvelope (msg);
 		dumpBody (msg);
-		printOut (":::::::::::::::");
-		printOut (getSubject(msg));
-		printOut (":::::::::::::::");
-		printOut (getMessage(msg));
-		printOut (":::::::::::::::");
+		log.finer(":::::::::::::::");
+		log.finer(getSubject(msg));
+		log.finer(":::::::::::::::");
+		log.finer(getMessage(msg));
+		log.finer(":::::::::::::::");
 		String delivery = getDeliveryReport(msg);
-		printOut (delivery);
-		printOut (":::::::::::::::");
-		
-	//	if (delivery != null)
-	//		return DELIVERY;
-		
+		log.finer(delivery);
+		log.finer(":::::::::::::::");
 		Address[] from;
 		// FROM
 		if ((from = msg.getFrom()) != null)
@@ -788,28 +621,28 @@ public class RequestEMailProcessor extends SvrProcess
 	 */
 	private void dumpEnvelope(Message m) throws Exception
 	{
-		printOut("-----------------------------------------------------------------");
+		log.finer("-----------------------------------------------------------------");
 		Address[] a;
 		// FROM
 		if ((a = m.getFrom()) != null)
 		{ 
 			for (int j = 0; j < a.length; j++)
-				printOut("FROM: " + a[j].toString());
+				log.finer("FROM: " + a[j].toString());
 		}
 
 		// TO
 		if ((a = m.getRecipients(Message.RecipientType.TO)) != null)
 		{
 			for (int j = 0; j < a.length; j++)
-				printOut("TO: " + a[j].toString());
+				log.finer("TO: " + a[j].toString());
 		}
 
 		// SUBJECT
-		printOut("SUBJECT: " + m.getSubject());
+		log.finer("SUBJECT: " + m.getSubject());
 
 		// DATE
 		java.util.Date d = m.getSentDate();
-		printOut("SendDate: " + (d != null ? d.toString() : "UNKNOWN"));
+		log.finer("SendDate: " + (d != null ? d.toString() : "UNKNOWN"));
 
 		// FLAGS
 		Flags flags = m.getFlags();
@@ -851,7 +684,7 @@ public class RequestEMailProcessor extends SvrProcess
 				sb.append(' ');
 			sb.append(uf[i]);
 		}
-		printOut("FLAGS: " + sb.toString());
+		log.finer("FLAGS: " + sb.toString());
 
 		// X-MAILER
 		String[] hdrs = m.getHeader("X-Mailer");
@@ -860,10 +693,10 @@ public class RequestEMailProcessor extends SvrProcess
 			StringBuffer sb1 = new StringBuffer("X-Mailer: ");
 			for (int i = 0; i < hdrs.length; i++)
 				sb1.append(hdrs[i]).append("  ");
-			printOut(sb1.toString());
+			log.finer(sb1.toString());
 		}
 		else
-			printOut("X-Mailer NOT available");
+			log.finer("X-Mailer NOT available");
 		
 		//	Message ID
 		hdrs = m.getHeader("Message-ID");
@@ -872,22 +705,22 @@ public class RequestEMailProcessor extends SvrProcess
 			StringBuffer sb1 = new StringBuffer("Message-ID: ");
 			for (int i = 0; i < hdrs.length; i++)
 				sb1.append(hdrs[i]).append("  ");
-			printOut(sb1.toString());
+			log.finer(sb1.toString());
 		}
 		else
-			printOut("Message-ID NOT available");
+			log.finer("Message-ID NOT available");
 		
 		//	All
-		printOut("ALL HEADERs:");
+		log.finer("ALL HEADERs:");
 		Enumeration en = m.getAllHeaders();
 		while (en.hasMoreElements())
 		{
 			Header hdr = (Header)en.nextElement();
-			printOut ("  " + hdr.getName() + " = " + hdr.getValue());
+			log.finer("  " + hdr.getName() + " = " + hdr.getValue());
 		}
 		
 		
-		printOut("-----------------------------------------------------------------");
+		log.finer("-----------------------------------------------------------------");
 	}	//	printEnvelope
 
 	/**
@@ -898,84 +731,58 @@ public class RequestEMailProcessor extends SvrProcess
 	private void dumpBody (Part p) throws Exception
 	{
 		//	http://www.iana.org/assignments/media-types/
-		printOut("=================================================================");
-		printOut("CONTENT-TYPE: " + p.getContentType());
+		log.finer("=================================================================");
+		log.finer("CONTENT-TYPE: " + p.getContentType());
 		/**
 		Enumeration en = p.getAllHeaders();
 		while (en.hasMoreElements())
 		{
 			Header hdr = (Header)en.nextElement();
-			printOut ("  " + hdr.getName() + " = " + hdr.getValue());
+			log.finer("  " + hdr.getName() + " = " + hdr.getValue());
 		}
-		printOut("= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =");
+		log.finer("= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =");
 		/** **/
 		
 		/**
 		 * Using isMimeType to determine the content type avoids
 		 * fetching the actual content data until we need it.
 		 */
-		if (p.isMimeType("text/plain"))
-		{
-			printOut("Plain text ---------------------------");
-			printOut((String)p.getContent());
-		}
-		else if (p.getContentType().toUpperCase().startsWith("TEXT"))
-		{
-			printOut("Other text ---------------------------");
-			printOut((String)p.getContent());
-		}
-		else if (p.isMimeType("multipart/*"))
-		{
-			printOut("Multipart ---------------------------");
+		if (p.isMimeType("text/plain")) {
+			log.finer("Plain text ---------------------------");
+			log.finer((String)p.getContent());
+		} else if (p.getContentType().toUpperCase().startsWith("TEXT")) {
+			log.finer("Other text ---------------------------");
+			log.finer((String)p.getContent());
+		} else if (p.isMimeType("multipart/*")) {
+			log.finer("Multipart ---------------------------");
 			Multipart mp = (Multipart)p.getContent();
 			int count = mp.getCount();
 			for (int i = 0; i < count; i++)
 				dumpBody(mp.getBodyPart(i));
-		}
-		else if (p.isMimeType("message/rfc822"))
-		{
-			printOut("Nested ---------------------------");
+		} else if (p.isMimeType("message/rfc822")) {
+			log.finer("Nested ---------------------------");
 			dumpBody((Part)p.getContent());
-		}
-		else
-		{
+		} else {
 			/*
 			 * If we actually want to see the data, and it's not a
 			 * MIME type we know, fetch it and check its Java type.
 			 */
 			Object o = p.getContent();
-			if (o instanceof String)
-			{
-				printOut("This is a string ---------------------------");
-				printOut((String)o);
-			}
-			else if (o instanceof InputStream)
-			{
-				printOut("This is just an input stream ---------------------------");
+			if (o instanceof String) {
+				log.finer("This is a string ---------------------------");
+				log.finer((String)o);
+			} else if (o instanceof InputStream) {
+				log.finer("This is just an input stream ---------------------------");
 				// TODO: process attachment
 				// InputStream is = (InputStream)o;
 				// int c;
 				// while ((c = is.read()) != -1)
 					// System.out.write(c);  // must be log. ??
-			}
-			else
-			{
-				printOut("This is an unknown type ---------------------------");
-				printOut(o.toString());
+			} else {
+				log.finer("This is an unknown type ---------------------------");
+				log.finer(o.toString());
 			}
 		}
-		printOut("=================================================================");
+		log.finer("=================================================================");
 	}	//	printBody
-
-	/**
-	 * 	Print
-	 *	@param s string
-	 */
-	private void printOut(String s)
-	{
-	//    System.out.print(indentStr.substring(0, level * 2));
-		// System.out.println(s);
-		log.finer(s);
-	}	
-
 }	//	RequestEMailProcessor
