@@ -89,7 +89,7 @@ public class MigrationLoader {
 			log.log(Level.CONFIG, "Process=" + processInfo.getTitle() + " Error="+processInfo.isError() + " Summary=" + processInfo.getSummary());
 
 			processInfo = ProcessBuilder.create(context)
-					.process(org.compiere.process.CleanUpGW.class)
+					.process(org.compiere.process.GardenWorldCleanUp.class)
 					.withTitle("Updating Garden World")
 					.executeUsingSystemRole();
 			log.log(Level.CONFIG, "Process=" + processInfo.getTitle() + " Error="+processInfo.isError() + " Summary=" + processInfo.getSummary());
