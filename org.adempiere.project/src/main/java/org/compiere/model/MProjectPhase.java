@@ -16,23 +16,24 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 
-import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.compiere.util.TimeUtil;
 
 /**
  * 	Project Phase Model
  *
  *	@author Jorg Janke
- *	@version $Id: MProjectPhase.java,v 1.3 2006/07/30 00:51:03 jjanke Exp $
+ *  @author Víctor Pérez Juárez , victor.perez@e-evolution.com , http://www.e-evolution.com
+ *  <a href="https://github.com/adempiere/adempiere/issues/1478">
+ *  <li>Add support to create request based on Standard Request Type setting on Project Type #1478
+ *	@
  */
 public class MProjectPhase extends X_C_ProjectPhase
 {
@@ -104,10 +105,84 @@ public class MProjectPhase extends X_C_ProjectPhase
 		setIsMilestone(phase.isMilestone());
 		setDurationUnit(phase.getDurationUnit());
 		setDurationEstimated(phase.getDurationEstimated());
-		if (phase.getM_Product_ID() != 0)
+		if (phase.getM_Product_ID() > 0)
 			setM_Product_ID(phase.getM_Product_ID());
+		if (project.getC_Campaign_ID() > 0)
+			setC_Campaign_ID(project.getC_Campaign_ID());
+		if (project.getC_Activity_ID() > 0)
+			setC_Activity_ID(project.getC_Activity_ID());
+		if (project.getC_SalesRegion_ID() > 0)
+			setC_SalesRegion_ID(project.getC_SalesRegion_ID());
+		if (project.getAD_OrgTrx_ID() > 0)
+			setAD_OrgTrx_ID(project.getAD_OrgTrx_ID());
+		if (project.getUser1_ID() > 0)
+			setUser1_ID(project.getUser1_ID());
+		if (project.getUser2_ID() > 0)
+			setUser2_ID(project.getUser2_ID());
+		if (project.getUser3_ID() > 0)
+			setUser3_ID(project.getUser3_ID());
+		if (project.getUser4_ID() > 0)
+			setUser4_ID(project.getUser4_ID());
+
 		setQty(phase.getStandardQty());
 	}	//	MProjectPhase
+
+
+	/**
+	 * 	Before Save
+	 *	@param newRecord new
+	 *	@return true
+	 */
+	protected boolean beforeSave (boolean newRecord)
+	{
+		// set date dead line if is empty
+		if (getDateDeadline() == null)
+		{
+			Timestamp projectStartDate = getC_Project().getDateStart();
+			if (projectStartDate != null &&  getDurationUnit() != null)
+			{
+				Timestamp deadLine = TimeUtil.addDuration(projectStartDate, getDurationUnit() , getDurationEstimated());
+				setDateDeadline(deadLine);
+			}
+		}
+		// Set Date finish Schedule if is empty using date dead line
+		if (getDateFinishSchedule() == null && getDateDeadline() != null)
+			setDateFinishSchedule(getDateDeadline());
+
+		return true;
+	}	//	beforeSave
+
+	/**
+	 * 	After Save
+	 *	@param newRecord new
+	 *	@param success success
+	 *	@return success
+	 */
+	protected boolean afterSave (boolean newRecord, boolean success)
+	{
+		//Create Request
+		if (newRecord)
+			createRequest();
+
+		return true;
+	}
+
+	/**
+	 * create Request Project
+	 */
+	public void createRequest()
+	{
+		if (getC_Phase_ID() > 0 && getC_Phase().getR_StandardRequestType_ID() > 0)
+		{
+			MStandardRequestType standardRequestType = (MStandardRequestType) getC_Phase().getR_StandardRequestType();
+			List<MRequest> requests =  standardRequestType.createStandardRequest(this);
+			requests.stream().forEach(request -> {
+				request.setC_Project_ID(getC_Project_ID());
+				request.setC_ProjectPhase_ID(getC_ProjectPhase_ID());
+				request.saveEx();
+			});
+		}
+	}
 
 	/**
 	 * 	Get Project Phase Tasks.
@@ -174,6 +249,8 @@ public class MProjectPhase extends X_C_ProjectPhase
 				MProjectTask toProjectTask = new MProjectTask(getCtx(), 0, get_TrxName());
 				PO.copyValues(fromProjectTask, toProjectTask, getAD_Client_ID(), getAD_Org_ID());
 				toProjectTask.setC_ProjectPhase_ID(getC_ProjectPhase_ID());
+				toProjectTask.setC_Task_ID(fromProjectTask.getC_Task_ID());
+				toProjectTask.setProjInvoiceRule(getProjInvoiceRule());
 				toProjectTask.saveEx();
 				count.getAndUpdate(no -> no + 1);
 				countLine.getAndUpdate(no -> no + toProjectTask.copyLinesFrom(fromProjectTask));
@@ -201,6 +278,8 @@ public class MProjectPhase extends X_C_ProjectPhase
 		fromProjectTasks.stream()
 				.forEach(fromProjectTask -> {
 					MProjectTask toProjectTask = new MProjectTask (this, fromProjectTask);
+					toProjectTask.setC_ProjectPhase_ID(getC_ProjectPhase_ID());
+					toProjectTask.setProjInvoiceRule(getProjInvoiceRule());
 					toProjectTask.saveEx();
 					count.getAndUpdate(no -> no + 1);
 				});

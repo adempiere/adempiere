@@ -110,7 +110,6 @@ public class RequestModelValidator implements ModelValidator {
                              && standardRequestType.getEventModelValidator().equals(tableEventValidators[type]))
                         .forEach(standardRequestType -> {
                             standardRequestType.createStandardRequest(entity);
-
                         });
                 return "";
 

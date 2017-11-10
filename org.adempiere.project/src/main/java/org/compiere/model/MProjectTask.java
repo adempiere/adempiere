@@ -17,16 +17,20 @@
 package org.compiere.model;
 
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Properties;
 
 import org.compiere.util.Env;
+import org.compiere.util.TimeUtil;
 
 /**
  * 	Project Phase Task Model
  *
  *	@author Jorg Janke
- *	@version $Id: MProjectTask.java,v 1.3 2006/07/30 00:51:05 jjanke Exp $
+ *  @author Víctor Pérez Juárez , victor.perez@e-evolution.com , http://www.e-evolution.com
+ *  <a href="https://github.com/adempiere/adempiere/issues/1478">
+ *  <li>Add support to create request based on Standard Request Type setting on Project Type #1478
  */
 public class MProjectTask extends X_C_ProjectTask
 {
@@ -93,13 +97,82 @@ public class MProjectTask extends X_C_ProjectTask
 		setHelp(task.getHelp());
 		if (task.getM_Product_ID() != 0)
 			setM_Product_ID(task.getM_Product_ID());
+		if (phase.getC_Campaign_ID() > 0)
+			setC_Campaign_ID(phase.getC_Campaign_ID());
+		if (phase.getC_Activity_ID() > 0)
+			setC_Activity_ID(phase.getC_Activity_ID());
+		if (phase.getC_SalesRegion_ID() > 0)
+			setC_SalesRegion_ID(phase.getC_SalesRegion_ID());
+		if (phase.getAD_OrgTrx_ID() > 0)
+			setAD_OrgTrx_ID(phase.getAD_OrgTrx_ID());
+		if (phase.getUser1_ID() > 0)
+			setUser1_ID(phase.getUser1_ID());
+		if (phase.getUser2_ID() > 0)
+			setUser2_ID(phase.getUser2_ID());
+		if (phase.getUser3_ID() > 0)
+			setUser3_ID(phase.getUser3_ID());
+		if (phase.getUser4_ID() > 0)
+			setUser4_ID(phase.getUser4_ID());
+
+
 		setPriorityRule(phase.getPriorityRule());
 		setIsMilestone(phase.isMilestone());
 		setDurationUnit(phase.getDurationUnit());
 		setDurationEstimated(phase.getDurationEstimated());
 		setQty(task.getStandardQty());
 	}	//	MProjectTask
-	
+
+	/**
+	 * 	Before Save
+	 *	@param newRecord new
+	 *	@return true
+	 */
+	protected boolean beforeSave (boolean newRecord)
+	{
+		if (getDateDeadline() == null)
+		{
+			Timestamp phaseStartDate = getC_ProjectPhase().getStartDate();
+			if (phaseStartDate != null &&  getDurationUnit() != null)
+			{
+				Timestamp deadLine = TimeUtil.addDuration(phaseStartDate, getDurationUnit() , getDurationEstimated());
+				setDateDeadline(deadLine);
+			}
+		}
+		return true;
+	}	//	beforeSave
+
+	/**
+	 * 	After Save
+	 *	@param newRecord new
+	 *	@param success success
+	 *	@return success
+	 */
+	protected boolean afterSave (boolean newRecord, boolean success)
+	{
+		//Create Request
+		if (newRecord)
+			createRequest();
+
+		return true;
+	}
+
+	/**
+	 * create Request Project
+	 */
+	public void createRequest()
+	{
+		if (getC_Task_ID() > 0 && getC_Task().getR_StandardRequestType_ID() > 0) {
+			MStandardRequestType standardRequestType = (MStandardRequestType)getC_Task().getR_StandardRequestType();
+			List<MRequest> requests =  standardRequestType.createStandardRequest(this);
+			requests.stream().forEach(request -> {
+				request.setC_Project_ID(getC_Project_ID(false));
+				request.setC_ProjectPhase_ID(getC_ProjectPhase_ID());
+				request.setC_ProjectTask_ID(getC_ProjectTask_ID());
+				request.saveEx();
+			});
+		}
+	}
+
 	/**************************************************************************
 	 * 	Get Project Lines
 	 * 	BF 3067850 - monhate
