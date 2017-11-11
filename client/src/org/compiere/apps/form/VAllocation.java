@@ -73,27 +73,29 @@ public class VAllocation extends Allocation
 	 *  @param WindowNo window
 	 *  @param frame frame
 	 */
-	public void init (int WindowNo, FormFrame frame)
-	{
+	public void init (int WindowNo, FormFrame frame) {
 		setWindowNo(WindowNo);
-		m_frame = frame;
-		try
-		{
+		this.frame = frame;
+		try {
 			super.dynInit();
+			setFromPO(frame.getProcessInfo());
 			dynInit();
 			jbInit();
-			calculate();
+			if(isFromParent()) {
+				loadBPartner();
+				setDefaultRecord(paymentTable, invoiceTable);
+			} else {
+				calculate();
+			}
 			frame.getContentPane().add(mainPanel, BorderLayout.CENTER);
 			frame.getContentPane().add(statusBar, BorderLayout.SOUTH);
-		}
-		catch(Exception e)
-		{
+		} catch(Exception e) {
 			log.log(Level.SEVERE, "", e);
 		}
 	}	//	init
 
 	/**	FormFrame			*/
-	private FormFrame 	m_frame;
+	private FormFrame 	frame;
 
 	private CPanel mainPanel = new CPanel();
 	private BorderLayout mainLayout = new BorderLayout();
@@ -189,6 +191,7 @@ public class VAllocation extends Allocation
 		differenceField.setHorizontalAlignment(SwingConstants.RIGHT);
 		currencyLabel.setText(Msg.translate(Env.getCtx(), "C_Currency_ID"));
 		multiCurrency.setText(Msg.getMsg(Env.getCtx(), "MultiCurrency"));
+		multiCurrency.setSelected(isDefaultMultiCurrency());
 		multiCurrency.addActionListener(this);
 		allocCurrencyLabel.setText(".");
 		invoiceScrollPane.setPreferredSize(new Dimension(200, 200));
@@ -272,9 +275,9 @@ public class VAllocation extends Allocation
 	 */
 	public void dispose()
 	{
-		if (m_frame != null)
-			m_frame.dispose();
-		m_frame = null;
+		if (frame != null)
+			frame.dispose();
+		frame = null;
 	}	//	dispose
 
 	/**
@@ -283,18 +286,19 @@ public class VAllocation extends Allocation
 	 */
 	public void dynInit() throws Exception
 	{
+		
 		//  Currency
 		int AD_Column_ID = 3505;    //  C_Invoice.C_Currency_ID
 		MLookup lookupCur = MLookupFactory.get (Env.getCtx(), getWindowNo(), 0, AD_Column_ID, DisplayType.TableDir);
 		currencyPick = new VLookup("C_Currency_ID", true, false, true, lookupCur);
-		currencyPick.setValue(new Integer(currencyId));
+		currencyPick.setValue(currencyId);
 		currencyPick.addVetoableChangeListener(this);
 
 		// Organization filter selection
 		AD_Column_ID = 839; //C_Period.AD_Org_ID (needed to allow org 0)
 		MLookup lookupOrg = MLookupFactory.get(Env.getCtx(), getWindowNo(), 0, AD_Column_ID, DisplayType.TableDir);
 		organizationPick = new VLookup("AD_Org_ID", true, false, true, lookupOrg);
-		organizationPick.setValue(Env.getAD_Org_ID(Env.getCtx()));
+		organizationPick.setValue(orgId);
 		organizationPick.addVetoableChangeListener(this);
 
 		//  BPartner
@@ -302,7 +306,12 @@ public class VAllocation extends Allocation
 		MLookup lookupBP = MLookupFactory.get (Env.getCtx(), getWindowNo(), 0, AD_Column_ID, DisplayType.Search);
 		bpartnerSearch = new VLookup("C_BPartner_ID", true, false, true, lookupBP);
 		bpartnerSearch.addVetoableChangeListener(this);
-
+		if(bPartnerId > 0) {
+			bpartnerSearch.setValue(bPartnerId);
+		}
+		if(isFromParent()) {
+			bpartnerSearch.setReadWrite(false);
+		}
 		//  Translation
 		statusBar.setStatusLine(Msg.getMsg(Env.getCtx(), "AllocateStatus"));
 		statusBar.setStatusDB("");
