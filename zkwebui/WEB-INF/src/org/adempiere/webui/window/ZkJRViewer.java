@@ -248,8 +248,6 @@ public class ZkJRViewer extends Window implements EventListener {
 		String message = "";
 		File attachment = file;
 		new WEMailDialog (this, Msg.getMsg(Env.getCtx(), "SendMail"), from, to, subject, message, attachment);
-
-
 	}	//	cmd_sendMail
 
 	/**

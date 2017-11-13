@@ -1082,16 +1082,12 @@ public class Viewer extends CFrame
 		String message = "";
 		File attachment = null;
 		
-		try
-		{
-			//attachment = File.createTempFile("mail", ".pdf");
+		try {
 			attachment = m_reportEngine.getPDF(null);
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			log.log(Level.SEVERE, "", e);
 		}
-
+		//	Send it
 		new EMailDialog (this,
 			Msg.getMsg(Env.getCtx(), "SendMail"),
 			from, to, subject, message, attachment);
