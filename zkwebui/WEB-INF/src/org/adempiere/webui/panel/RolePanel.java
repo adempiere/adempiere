@@ -40,7 +40,6 @@ import org.adempiere.webui.util.UserPreference;
 import org.adempiere.webui.window.LoginWindow;
 import org.compiere.model.MRole;
 import org.compiere.model.MSysConfig;
-import org.compiere.model.MUser;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Language;
