@@ -822,14 +822,9 @@ public class ZkReportViewer extends Window implements EventListener {
 		String subject = m_reportEngine.getName();
 		String message = "";
 		File attachment = null;
-		
-		try
-		{
-			attachment = File.createTempFile("mail", ".pdf");
-			m_reportEngine.getPDF(attachment);
-		}
-		catch (Exception e)
-		{
+		try {
+			attachment = m_reportEngine.getPDF(null);
+		} catch (Exception e) {
 			log.log(Level.SEVERE, "", e);
 		}
 
