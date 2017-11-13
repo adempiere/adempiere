@@ -31,7 +31,7 @@ public class X_R_StandardRequestType extends PO implements I_R_StandardRequestTy
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20171017L;
+	private static final long serialVersionUID = 20171113L;
 
     /** Standard Constructor */
     public X_R_StandardRequestType (Properties ctx, int R_StandardRequestType_ID, String trxName)
@@ -74,9 +74,9 @@ public class X_R_StandardRequestType extends PO implements I_R_StandardRequestTy
       return sb.toString();
     }
 
-	public org.compiere.model.I_AD_Table getAD_Table() throws RuntimeException
+	public I_AD_Table getAD_Table() throws RuntimeException
     {
-		return (org.compiere.model.I_AD_Table)MTable.get(getCtx(), org.compiere.model.I_AD_Table.Table_Name)
+		return (I_AD_Table)MTable.get(getCtx(), I_AD_Table.Table_Name)
 			.getPO(getAD_Table_ID(), get_TrxName());	}
 
 	/** Set Table.
@@ -102,9 +102,9 @@ public class X_R_StandardRequestType extends PO implements I_R_StandardRequestTy
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException
+	public I_C_DocType getC_DocType() throws RuntimeException
     {
-		return (org.compiere.model.I_C_DocType)MTable.get(getCtx(), org.compiere.model.I_C_DocType.Table_Name)
+		return (I_C_DocType)MTable.get(getCtx(), I_C_DocType.Table_Name)
 			.getPO(getC_DocType_ID(), get_TrxName());	}
 
 	/** Set Document Type.
@@ -414,4 +414,21 @@ public class X_R_StandardRequestType extends PO implements I_R_StandardRequestTy
     {
         return new KeyNamePair(get_ID(), getValue());
     }
+
+	/** Set Sql WHERE.
+		@param WhereClause 
+		Fully qualified SQL WHERE clause
+	  */
+	public void setWhereClause (String WhereClause)
+	{
+		set_Value (COLUMNNAME_WhereClause, WhereClause);
+	}
+
+	/** Get Sql WHERE.
+		@return Fully qualified SQL WHERE clause
+	  */
+	public String getWhereClause () 
+	{
+		return (String)get_Value(COLUMNNAME_WhereClause);
+	}
 }

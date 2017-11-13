@@ -272,4 +272,31 @@ public class Evaluator
 		}
 	}   //  parseDepends
 
+
+	/**
+	 * Replace @parameter@ whit ?
+	 * @param logic
+	 * @return
+	 */
+	public static String adaptSQL(String logic) {
+		String sql = "";
+		if(logic.startsWith("@")){
+			s_log.log(Level.INFO, "Logic tuple does not comply with format "
+					+ "select or something + '@context@=value' or value = @conext@" + logic);
+			return sql;
+		}
+		StringTokenizer st = new StringTokenizer(logic, "@", false);
+		int count = 1;
+		while (st.hasMoreElements()) {
+			if (count % 2 == 0) {
+				sql += " ? ";
+				st.nextToken();
+			} else {
+				sql += st.nextToken();
+			}
+			count++;
+		}
+		return sql;
+	}
+
 }	//	Evaluator
