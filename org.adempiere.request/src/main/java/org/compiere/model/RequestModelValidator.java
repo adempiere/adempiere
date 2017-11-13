@@ -17,20 +17,27 @@
 
 package org.compiere.model;
 
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.compiere.util.Evaluator;
 
-import java.sql.Time;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 /**
  * Request Model Validator
+ *
+ *  @author OpenUp Solutions Sylvie Bouissa, sylvie.bouissa@openupsolutions.com, http://www.openupsolutions.com
+ *      <li>#1451 Add additional condition to an Standard Request
+ *      <li>Reference to issue https://github.com/adempiere/adempiere/issues/1451
  */
 public class RequestModelValidator implements ModelValidator {
 
     Timestamp currentDate;
+    private static CLogger log = CLogger.getCLogger(RequestModelValidator.class);
 
     @Override
     public void initialize(ModelValidationEngine engine, MClient client) {
@@ -91,7 +98,8 @@ public class RequestModelValidator implements ModelValidator {
                 MStandardRequestType.getByTable(entity).stream()
                         .filter(standardRequestType -> standardRequestType.get_ID() == projectTypePhase.getR_StandardRequestType_ID()
                              && isValidFromTo( standardRequestType.getValidFrom(), standardRequestType.getValidTo())
-                             && standardRequestType.getEventModelValidator().equals(tableEventValidators[type]))
+                             && standardRequestType.getEventModelValidator().equals(tableEventValidators[type])
+                             && isValidWhereCondition(standardRequestType,entity))
                         .forEach(standardRequestType -> {
                             standardRequestType.createStandardRequest(entity);
                         });
@@ -107,7 +115,8 @@ public class RequestModelValidator implements ModelValidator {
                 MStandardRequestType.getByTable(entity).stream()
                         .filter(standardRequestType -> standardRequestType.get_ID() == projectTypeTask.getR_StandardRequestType_ID()
                              && isValidFromTo(standardRequestType.getValidFrom(), standardRequestType.getValidTo())
-                             && standardRequestType.getEventModelValidator().equals(tableEventValidators[type]))
+                             && standardRequestType.getEventModelValidator().equals(tableEventValidators[type])
+                             && isValidWhereCondition(standardRequestType,entity))
                         .forEach(standardRequestType -> {
                             standardRequestType.createStandardRequest(entity);
                         });
@@ -120,7 +129,8 @@ public class RequestModelValidator implements ModelValidator {
                 .filter(standardRequestType ->
                         isValidFromTo(standardRequestType.getValidFrom(), standardRequestType.getValidTo())
                      && isValidSOTrx(entity , standardRequestType.getIsSOTrx())
-                     && standardRequestType.getEventModelValidator().equals(tableEventValidators[type]))
+                     && standardRequestType.getEventModelValidator().equals(tableEventValidators[type])
+                     && isValidWhereCondition(standardRequestType,entity))
                 .forEach(standardRequestType -> {
                     standardRequestType.createStandardRequest(entity);
                 });
@@ -144,7 +154,8 @@ public class RequestModelValidator implements ModelValidator {
                     .filter(standardRequestType ->
                             isValidFromTo(standardRequestType.getValidFrom(), standardRequestType.getValidTo())
                          && isValidSOTrx(entity , standardRequestType.getIsSOTrx())
-                         && isValidDocument(standardRequestType, timing , entity.get_Table_ID() , documentTypeId , documentStatus))
+                         && isValidDocument(standardRequestType, timing , entity.get_Table_ID() , documentTypeId , documentStatus)
+                         && isValidWhereCondition(standardRequestType,entity))
                     .forEach(standardRequestType -> {
                             standardRequestType.createStandardRequest(entity);
                     });
@@ -213,5 +224,101 @@ public class RequestModelValidator implements ModelValidator {
         if (validTo != null && getCurrentDate().after(validTo))
             return false;
         return true;
+    }
+
+    /**
+     * Validate additional condition if it's stablish in the standard request type
+     * @param standardRequestType
+     * @param document
+     * @return
+     */
+    private boolean isValidWhereCondition(MStandardRequestType standardRequestType, PO document) {
+
+        if (standardRequestType.getWhereClause().isEmpty()) return true;
+        //	Check Logic
+        String logic = standardRequestType
+                .getWhereClause()
+                .replaceAll("[\n\r]", "")
+                .replaceAll("sql=","SQL=");
+
+        boolean sql = logic.startsWith("SQL=");
+        boolean sql2 = logic.startsWith("@SQL=");
+
+        if (sql && !sql2 && !validateQueryObject(standardRequestType, document, logic)) {//SQL
+            log.severe("SQL Logic evaluated to false (" + logic + ")");
+            return false;
+        }
+        if (!sql && !sql2 && !Evaluator.evaluateLogic(document, logic)) {
+            log.severe("Logic evaluated to false (" + logic + ")");
+            return false;
+        }
+        if (sql2 && !validtComplexQuery(document, logic)) { //@SQL
+            log.severe("Logic evaluated to false (" + logic + ")");
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Test simple condition
+     * @param standardRequestType
+     * @param document
+     * @return
+     */
+    private boolean validateQueryObject(MStandardRequestType standardRequestType, PO document, String logic) {
+        String where = logic.replaceFirst("SQL=", "");
+
+        String tableName = document.get_TableName();
+        String[] keyColumns = document.get_KeyColumns();
+        if (keyColumns.length != 1) {
+            log.severe("Tables with more then one key column not supported - "
+                    + tableName + " = " + keyColumns.length);
+            return false;
+        }
+
+        PO object = new Query(document.getCtx(), tableName, " AD_Client_ID = "+document.getAD_Client_ID()+
+                " AND "+keyColumns[0] + "=" + document.get_ID() + " AND " + where, document.get_TrxName())
+                .first();
+
+        if(object!=null && object.get_ID()>0)
+            return true;
+
+        return false;
+    }
+
+    /**
+     * Analize complex query getting parameters from PO object by @@
+     * @param document
+     * @return
+     */
+    private boolean validtComplexQuery(PO document, String logic) {
+        String where = logic.replaceFirst("@SQL=", "");
+
+        ArrayList<String> lst = new ArrayList<>();
+        //Get columns in @'s
+        Evaluator.parseDepends(lst, where);
+        //Get values from columns in @@
+        List<Object> parameters = new ArrayList<Object>();
+        lst.stream().forEach(column -> {
+            parameters.add(document.get_ValueE(column));
+        });
+        //Get sql with ? intead of @parameter@
+        String sql = Evaluator.adaptSQL(where);
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            pstmt = DB.prepareStatement(sql, document.get_TrxName());
+            DB.setParameters(pstmt, parameters);
+            rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return true;
+            }
+
+        } catch (SQLException e) {
+            log.severe("Logic evaluated with error (" + logic + ")"+ e.getMessage());
+        } finally {
+            DB.close(rs, pstmt);
+        }
+        return false;
     }
 }

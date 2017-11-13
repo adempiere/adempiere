@@ -55,7 +55,7 @@ public interface I_R_StandardRequestType
 	/** Set Organization.
 	  * Organizational entity within client
 	  */
-	public void setAD_Org_ID (int AD_Org_ID);
+	public void setAD_Org_ID(int AD_Org_ID);
 
 	/** Get Organization.
 	  * Organizational entity within client
@@ -68,14 +68,14 @@ public interface I_R_StandardRequestType
 	/** Set Table.
 	  * Database Table information
 	  */
-	public void setAD_Table_ID (int AD_Table_ID);
+	public void setAD_Table_ID(int AD_Table_ID);
 
 	/** Get Table.
 	  * Database Table information
 	  */
 	public int getAD_Table_ID();
 
-	public org.compiere.model.I_AD_Table getAD_Table() throws RuntimeException;
+	public I_AD_Table getAD_Table() throws RuntimeException;
 
     /** Column name C_DocType_ID */
     public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
@@ -83,14 +83,14 @@ public interface I_R_StandardRequestType
 	/** Set Document Type.
 	  * Document type or rules
 	  */
-	public void setC_DocType_ID (int C_DocType_ID);
+	public void setC_DocType_ID(int C_DocType_ID);
 
 	/** Get Document Type.
 	  * Document type or rules
 	  */
 	public int getC_DocType_ID();
 
-	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException;
+	public I_C_DocType getC_DocType() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -114,7 +114,7 @@ public interface I_R_StandardRequestType
 	/** Set Description.
 	  * Optional short description of the record
 	  */
-	public void setDescription (String Description);
+	public void setDescription(String Description);
 
 	/** Get Description.
 	  * Optional short description of the record
@@ -127,7 +127,7 @@ public interface I_R_StandardRequestType
 	/** Set Document Status.
 	  * The current status of the document
 	  */
-	public void setDocStatus (String DocStatus);
+	public void setDocStatus(String DocStatus);
 
 	/** Get Document Status.
 	  * The current status of the document
@@ -138,7 +138,7 @@ public interface I_R_StandardRequestType
     public static final String COLUMNNAME_EventModelValidator = "EventModelValidator";
 
 	/** Set Event Model Validator	  */
-	public void setEventModelValidator (String EventModelValidator);
+	public void setEventModelValidator(String EventModelValidator);
 
 	/** Get Event Model Validator	  */
 	public String getEventModelValidator();
@@ -149,7 +149,7 @@ public interface I_R_StandardRequestType
 	/** Set Comment/Help.
 	  * Comment or Hint
 	  */
-	public void setHelp (String Help);
+	public void setHelp(String Help);
 
 	/** Get Comment/Help.
 	  * Comment or Hint
@@ -162,7 +162,7 @@ public interface I_R_StandardRequestType
 	/** Set Active.
 	  * The record is active in the system
 	  */
-	public void setIsActive (boolean IsActive);
+	public void setIsActive(boolean IsActive);
 
 	/** Get Active.
 	  * The record is active in the system
@@ -175,7 +175,7 @@ public interface I_R_StandardRequestType
 	/** Set Sales Transaction.
 	  * This is a Sales Transaction
 	  */
-	public void setIsSOTrx (String IsSOTrx);
+	public void setIsSOTrx(String IsSOTrx);
 
 	/** Get Sales Transaction.
 	  * This is a Sales Transaction
@@ -188,7 +188,7 @@ public interface I_R_StandardRequestType
 	/** Set Name.
 	  * Alphanumeric identifier of the entity
 	  */
-	public void setName (String Name);
+	public void setName(String Name);
 
 	/** Get Name.
 	  * Alphanumeric identifier of the entity
@@ -201,7 +201,7 @@ public interface I_R_StandardRequestType
 	/** Set Standard Request Type.
 	  * Standard Request Type
 	  */
-	public void setR_StandardRequestType_ID (int R_StandardRequestType_ID);
+	public void setR_StandardRequestType_ID(int R_StandardRequestType_ID);
 
 	/** Get Standard Request Type.
 	  * Standard Request Type
@@ -230,7 +230,7 @@ public interface I_R_StandardRequestType
 	/** Set Immutable Universally Unique Identifier.
 	  * Immutable Universally Unique Identifier
 	  */
-	public void setUUID (String UUID);
+	public void setUUID(String UUID);
 
 	/** Get Immutable Universally Unique Identifier.
 	  * Immutable Universally Unique Identifier
@@ -243,7 +243,7 @@ public interface I_R_StandardRequestType
 	/** Set Valid from.
 	  * Valid from including this date (first day)
 	  */
-	public void setValidFrom (Timestamp ValidFrom);
+	public void setValidFrom(Timestamp ValidFrom);
 
 	/** Get Valid from.
 	  * Valid from including this date (first day)
@@ -256,7 +256,7 @@ public interface I_R_StandardRequestType
 	/** Set Valid to.
 	  * Valid to including this date (last day)
 	  */
-	public void setValidTo (Timestamp ValidTo);
+	public void setValidTo(Timestamp ValidTo);
 
 	/** Get Valid to.
 	  * Valid to including this date (last day)
@@ -269,10 +269,23 @@ public interface I_R_StandardRequestType
 	/** Set Search Key.
 	  * Search key for the record in the format required - must be unique
 	  */
-	public void setValue (String Value);
+	public void setValue(String Value);
 
 	/** Get Search Key.
 	  * Search key for the record in the format required - must be unique
 	  */
 	public String getValue();
+
+    /** Column name WhereClause */
+    public static final String COLUMNNAME_WhereClause = "WhereClause";
+
+	/** Set Sql WHERE.
+	  * Fully qualified SQL WHERE clause
+	  */
+	public void setWhereClause(String WhereClause);
+
+	/** Get Sql WHERE.
+	  * Fully qualified SQL WHERE clause
+	  */
+	public String getWhereClause();
 }
