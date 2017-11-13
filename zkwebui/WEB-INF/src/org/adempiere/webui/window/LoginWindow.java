@@ -30,7 +30,9 @@ import org.adempiere.webui.IWebClient;
 import org.adempiere.webui.component.FWindow;
 import org.adempiere.webui.panel.LoginPanel;
 import org.adempiere.webui.panel.RolePanel;
+import org.compiere.model.I_AD_User;
 import org.compiere.model.MUser;
+import org.compiere.model.M_Element;
 import org.compiere.util.Env;
 import org.compiere.util.Login;
 import org.zkoss.util.Locales;
@@ -46,6 +48,9 @@ import org.zkoss.zk.ui.event.Events;
  * @author eEvolution author Victor Perez <victor.perez@e-evolution.com>
  * @see  [ 1258 ]The change role throw exception  </a>
  *         <a href="https://github.com/adempiere/adempiere/issues/1258">
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<a href="https://github.com/adempiere/adempiere/issues/1347">
+ * 		@see FR [ 1347 ] HTTP Status 500 when a ROLE is changed.</a>
  */
 public class LoginWindow extends FWindow implements EventListener
 {
@@ -123,14 +128,21 @@ public class LoginWindow extends FWindow implements EventListener
        }
     }
 
-	public void changeRole(Locale locale, Properties ctx)
-	{
+	public void changeRole(Locale locale, Properties ctx) {
 		Env.setCtx(ctx);
 		getDesktop().getSession().setAttribute(Attributes.PREFERRED_LOCALE, locale);
 		Locales.setThreadLocal(locale);
 		new Login(Env.getCtx());
 		MUser user = MUser.get(ctx, Env.getAD_User_ID(ctx));
-    	String loginName = user.getLDAPUser() != null ? user.getLDAPUser() : user.getName();
+		boolean loginWithValue = M_Element.get(Env.getCtx(), I_AD_User.COLUMNNAME_IsLoginUser) != null;
+		String loginName = null;
+		if(user.getLDAPUser() != null) {
+			loginName = user.getLDAPUser();
+		} else if(loginWithValue) {
+			loginName = user.getValue();
+		} else {
+			loginName = user.getName();
+		}
 		loginOk(loginName, getTypedPassword());
 		getDesktop().getSession().setAttribute("Check_AD_User_ID", Env.getAD_User_ID(ctx));
 		pnlRole.changeRole(ctx);
