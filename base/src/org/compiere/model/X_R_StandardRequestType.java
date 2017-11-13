@@ -31,7 +31,7 @@ public class X_R_StandardRequestType extends PO implements I_R_StandardRequestTy
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20171017L;
+	private static final long serialVersionUID = 20171113L;
 
     /** Standard Constructor */
     public X_R_StandardRequestType (Properties ctx, int R_StandardRequestType_ID, String trxName)
@@ -414,4 +414,21 @@ public class X_R_StandardRequestType extends PO implements I_R_StandardRequestTy
     {
         return new KeyNamePair(get_ID(), getValue());
     }
+
+	/** Set Sql WHERE.
+		@param WhereClause 
+		Fully qualified SQL WHERE clause
+	  */
+	public void setWhereClause (String WhereClause)
+	{
+		set_Value (COLUMNNAME_WhereClause, WhereClause);
+	}
+
+	/** Get Sql WHERE.
+		@return Fully qualified SQL WHERE clause
+	  */
+	public String getWhereClause () 
+	{
+		return (String)get_Value(COLUMNNAME_WhereClause);
+	}
 }

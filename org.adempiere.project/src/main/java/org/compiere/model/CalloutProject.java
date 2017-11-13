@@ -17,8 +17,10 @@
 package org.compiere.model;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 import java.util.Properties;
 
+import org.adempiere.model.GridTabWrapper;
 import org.compiere.util.Env;
 
 
@@ -67,4 +69,42 @@ public class CalloutProject extends CalloutEngine
 		return "";
 	}	//	planned
 
+	public String projectPhase(Properties ctx, int windowNo, GridTab gridTab, GridField gridField, Object value)
+	{
+		Optional<I_C_ProjectPhase> standardProjectPhaseOptional = Optional.of(GridTabWrapper.create(gridTab, I_C_ProjectPhase.class));
+		standardProjectPhaseOptional.ifPresent(projectPhase -> {
+			MProjectTypePhase projectTypePhase = (MProjectTypePhase) projectPhase.getC_Phase();
+			if (projectPhase.getC_Phase_ID() > 0) {
+				projectPhase.setName(projectTypePhase.getName());
+				projectPhase.setDescription(projectTypePhase.getDescription());
+				projectPhase.setHelp(projectTypePhase.getHelp());
+				projectPhase.setPriorityRule(projectTypePhase.getPriorityRule());
+				projectPhase.setIsMilestone(projectTypePhase.isMilestone());
+				projectPhase.setDurationUnit(projectTypePhase.getDurationUnit());
+				projectPhase.setDurationEstimated(projectTypePhase.getDurationEstimated());
+				projectPhase.setM_Product_ID(projectTypePhase.getM_Product_ID());
+				projectPhase.setQty(projectTypePhase.getStandardQty());
+			}
+		});
+		return "";
+	}
+
+	public String projectTask(Properties ctx, int windowNo, GridTab gridTab, GridField gridField, Object value)
+	{
+		Optional<I_C_ProjectTask> standardProjectTaskOptional = Optional.of(GridTabWrapper.create(gridTab, I_C_ProjectTask.class));
+		standardProjectTaskOptional.ifPresent(projectTask -> {
+			MProjectTypeTask projectTypeTask = (MProjectTypeTask) projectTask.getC_Task();
+			if (projectTask.getC_Task_ID() > 0) {
+				projectTask.setName(projectTypeTask.getName());
+				projectTask.setDescription(projectTypeTask.getDescription());
+				projectTask.setHelp(projectTypeTask.getHelp());
+				projectTask.setPriorityRule(projectTypeTask.getPriorityRule());
+				projectTask.setIsMilestone(projectTypeTask.isMilestone());
+				projectTask.setDurationUnit(projectTypeTask.getDurationUnit());
+				projectTask.setDurationEstimated(projectTypeTask.getDurationEstimated());
+				projectTask.setM_Product_ID(projectTypeTask.getM_Product_ID());
+			}
+		});
+		return "";
+	}
 }	//	CalloutProject
