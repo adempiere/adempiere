@@ -43,7 +43,7 @@ import org.compiere.util.DB;
  *		<a href="https://github.com/adempiere/adempiere/issues/1280">
  * 		@see FR [ 1280 ] Error CleanUpGW Update Garden World example data</a>
  */
-public class CleanUpGW extends SvrProcess  {
+public class GardenWorldCleanUp extends SvrProcess 
 	protected void prepare() {
 		
 		// TODO: add a parameter to make this a dictionary change or user change
