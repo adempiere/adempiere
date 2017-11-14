@@ -43,13 +43,14 @@ import org.compiere.util.DB;
  *		<a href="https://github.com/adempiere/adempiere/issues/1280">
  * 		@see FR [ 1280 ] Error CleanUpGW Update Garden World example data</a>
  */
-public class GardenWorldCleanUp extends SvrProcess 
+public class GardenWorldCleanUp extends SvrProcess
+{
 	protected void prepare() {
-		
+
 		// TODO: add a parameter to make this a dictionary change or user change
 		// TODO: add a parameter for the number of months to advance the dates
 		// TODO: add a parameter to delete calendar years earlier than the earliest transaction
-		
+
 	}
 	
 	private Timestamp m_currentTime = new Timestamp(System.currentTimeMillis());
