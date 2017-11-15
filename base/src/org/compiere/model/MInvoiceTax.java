@@ -35,7 +35,11 @@ import org.compiere.util.Env;
  *  
  *  @author Teo Sarca, www.arhipac.ro
  *  		<li>FR [ 2214883 ] Remove SQL code and Replace for Query
- */
+ *  @author Nicolas Sarlabos, nicolas.sarlabos@openupsolutions.com, http://www.openupsolutions.com
+ *			<li> FR [ 1459 ] Invoice with price list that includes taxes
+ *			@see https://github.com/adempiere/adempiere/issues/1459
+ **/
+
 public class MInvoiceTax extends X_C_InvoiceTax
 {
 	/**
@@ -209,12 +213,12 @@ public class MInvoiceTax extends X_C_InvoiceTax
 				//
 				// phib [ 1702807 ]: manual tax should never be amended
 				// on line level taxes
-				if (!documentLevel && amt.signum() != 0 && !isSOTrx)	//	manually entered
+				if (!documentLevel && amt.signum() != 0)	//	manually entered
 					;
 				else if (documentLevel || baseAmt.signum() == 0)
 					amt = Env.ZERO;
-
-				else if (!isTaxIncluded()) amt = tax.calculateTax(baseAmt, isTaxIncluded(), getPrecision());
+				else	// calculate line tax
+					amt = tax.calculateTax(baseAmt, isTaxIncluded(), getPrecision());
 				//
 				taxAmt = taxAmt.add(amt);
 			}
@@ -235,13 +239,11 @@ public class MInvoiceTax extends X_C_InvoiceTax
 		setTaxAmt(taxAmt);
 
 		//	Set Base
-        //OpenUp. Nicolas Sarlabos. 06/11/2017. #9858.
 		setTaxBaseAmt (taxBaseAmt);
 		/*if (isTaxIncluded())
 			setTaxBaseAmt (taxBaseAmt.subtract(taxAmt));
 		else
 			setTaxBaseAmt (taxBaseAmt);*/
-		//Fin #9858.
 		return true;
 	}	//	calculateTaxFromLines
 

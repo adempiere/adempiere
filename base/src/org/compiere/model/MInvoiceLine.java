@@ -26,6 +26,7 @@ import java.util.Properties;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
+import org.compiere.process.DocumentReversalLineEnable;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -46,8 +47,12 @@ import org.compiere.util.Msg;
  * 				invoice line for a product on a price list that includes tax, the net amount is
  * 				incorrectly calculated.
  * @author red1 FR: [ 2214883 ] Remove SQL code and Replace for Query
- */
-public class MInvoiceLine extends X_C_InvoiceLine
+ * @author Nicolas Sarlabos, nicolas.sarlabos@openupsolutions.com, http://www.openupsolutions.com
+ *			<li> FR [ 1459 ] Invoice with price list that includes taxes
+ *			@see https://github.com/adempiere/adempiere/issues/1459
+ **/
+
+public class MInvoiceLine extends X_C_InvoiceLine implements DocumentReversalLineEnable
 {
 	/**
 	 * 
@@ -488,18 +493,16 @@ public class MInvoiceLine extends X_C_InvoiceLine
 				
 				log.fine("stdTax rate is " + stdTax.getRate());
 				log.fine("invoiceTax rate is " + invoiceTax.getRate());
-
+				
 				taxThisAmt = taxThisAmt.add(invoiceTax.calculateTax(bd, isTaxIncluded(), getPrecision()));
 				taxStdAmt = taxStdAmt.add(stdTax.calculateTax(bd, isTaxIncluded(), getPrecision()));
 
-                //OpenUp. Nicolas Sarlabos. 06/11/2017. #9858.
 				if(isTaxIncluded()) taxThisAmt=Env.ZERO;
-				//Fin #9858.
 
 				bd = bd.subtract(taxStdAmt).add(taxThisAmt);
-
-				log.fine("Price List includes Tax and Tax Changed on Invoice Line: New Tax Amt: "
-						+ taxThisAmt + " Standard Tax Amt: " + taxStdAmt + " Line Net Amt: " + bd);
+				
+				log.fine("Price List includes Tax and Tax Changed on Invoice Line: New Tax Amt: " 
+						+ taxThisAmt + " Standard Tax Amt: " + taxStdAmt + " Line Net Amt: " + bd);	
 			}
 		}
 		
@@ -952,7 +955,6 @@ public class MInvoiceLine extends X_C_InvoiceLine
 			log.warning("(1) #" + no);
 
 		if (isTaxIncluded())
-            //OpenUp. Nicolas Sarlabos. 06/11/2017. #9858.
 			/*sql = "UPDATE C_Invoice i "
 				+ " SET GrandTotal=TotalLines "
 				+ "WHERE C_Invoice_ID=?";*/
@@ -961,10 +963,9 @@ public class MInvoiceLine extends X_C_InvoiceLine
 					+ " SET GrandTotal="
 					+ "(SELECT COALESCE(SUM(LineTotalAmt),0) FROM C_InvoiceLine il WHERE i.C_Invoice_ID=il.C_Invoice_ID) "
 					+ "WHERE C_Invoice_ID=?";
-			//Fin #9858.
 		else
 			sql = "UPDATE C_Invoice i "
-				+ " SET GrandTotal=TotalLines+"
+					+ " SET GrandTotal=TotalLines+"
 					+ "(SELECT COALESCE(SUM(TaxAmt),0) FROM C_InvoiceTax it WHERE i.C_Invoice_ID=it.C_Invoice_ID) "
 					+ "WHERE C_Invoice_ID=?";
 		no = DB.executeUpdateEx(sql, new Object[]{getC_Invoice_ID()}, get_TrxName());
