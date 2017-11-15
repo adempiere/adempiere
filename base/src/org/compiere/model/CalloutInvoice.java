@@ -16,6 +16,12 @@
  *****************************************************************************/
 package org.compiere.model;
 
+import org.adempiere.exceptions.AdempiereException;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
+
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -23,11 +29,6 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Properties;
 import java.util.logging.Level;
-
-import org.compiere.util.CLogger;
-import org.compiere.util.DB;
-import org.compiere.util.DisplayType;
-import org.compiere.util.Env;
 
 /**
  *	Invoice Callouts	
@@ -94,10 +95,18 @@ public class CalloutInvoice extends CalloutEngine
 				String s = rs.getString(5);
 				Env.setContext(ctx, WindowNo, "DocBaseType", s);
 				//  AP Check & AR Credit Memo
-				if (s.startsWith("AP"))
-					mTab.setValue("PaymentRule", "S");    //  Check
-				else if (s.endsWith("C"))
-					mTab.setValue("PaymentRule", "P");    //  OnCredit
+				if(!s.equalsIgnoreCase("APD")){
+					if (s.startsWith("AP"))
+						mTab.setValue("PaymentRule", "S");    //  Check
+					else if (s.endsWith("C"))
+						mTab.setValue("PaymentRule", "P");    //  OnCredit				
+				}
+				
+				//OpenUp. Nicolas Sarlabos. 31/05/2017. #9249.
+				if(s.equalsIgnoreCase("DPI"))
+					this.setCurrency(ctx, mTab, C_DocType_ID);
+				//Fin #9249.
+				
 			}
 		}
 		catch (SQLException e)
@@ -111,6 +120,28 @@ public class CalloutInvoice extends CalloutEngine
 		}
 		return "";
 	}	//	docType
+
+	/**
+	 *  Metodo que setea la moneda en ventana de cheque diferido, 
+	 *  desde la cuenta bancaria asociada a la libreta/resma
+	 *	@param ctx context
+	 *	@param mTab tab
+	 *	@param int C_DocType_ID
+	 *	@return null or error message
+	 */
+	private void setCurrency(Properties ctx, GridTab mTab, Integer C_DocType_ID) {
+		
+		MDocType doc = new MDocType(ctx, C_DocType_ID, null);
+
+		if(doc.get_ValueAsInt("C_BankAccount_ID") > 0){
+			//Se modifica ya que en instalacion balsa no esta el metodo get_C_BanckAccount_ID()
+			MBankAccount account = new  MBankAccount(ctx,doc.get_ValueAsInt("C_BankAccount_ID"),null);
+			
+			mTab.setValue("C_Currency_ID", account.getC_Currency_ID());		
+			
+		} else throw new AdempiereException("No se obtuvo cuenta bancaria desde la libreta/resma seleccionada");
+		
+	}
 
 	/**
 	 *	Invoice Header- BPartner.
@@ -652,6 +683,30 @@ public class CalloutInvoice extends CalloutEngine
 
 		//	Line Net Amt
 		BigDecimal LineNetAmt = QtyInvoiced.multiply(PriceActual);
+
+		//OpenUp. Nicolas Sarlabos. 06/11/2017. #9858.
+		if (isTaxIncluded(WindowNo))
+		{
+
+			int tax_ID = 0;
+
+			if (mTab.getValue("C_Tax_ID") != null){
+				tax_ID = (Integer)mTab.getValue("C_Tax_ID");
+			}
+
+			if(tax_ID > 0){
+
+				MTax Tax = new MTax(ctx,tax_ID,null);
+
+				BigDecimal multiplier = Tax.getRate().divide(Env.ONEHUNDRED, 12, BigDecimal.ROUND_HALF_UP);
+
+				multiplier = multiplier.add(Env.ONE);
+				LineNetAmt = LineNetAmt.divide(multiplier, 12, BigDecimal.ROUND_HALF_UP);
+
+			}
+		}
+		//Fin OpenUp.
+
 		if (LineNetAmt.scale() > StdPrecision)
 			LineNetAmt = LineNetAmt.setScale(StdPrecision, BigDecimal.ROUND_HALF_UP);
 		log.info("amt = LineNetAmt=" + LineNetAmt);
@@ -673,7 +728,13 @@ public class CalloutInvoice extends CalloutEngine
 				{
 					int C_Tax_ID = taxID.intValue();
 					MTax tax = new MTax (ctx, C_Tax_ID, null);
-					TaxAmt = tax.calculateTax(LineNetAmt, isTaxIncluded(WindowNo), StdPrecision);
+                    //OpenUp. Nicolas Sarlabos. 06/11/2017. #9858.
+					if(isTaxIncluded(WindowNo)){
+						TaxAmt = tax.calculateTax(QtyInvoiced.multiply(PriceActual), isTaxIncluded(WindowNo), StdPrecision);
+					} else{
+						TaxAmt = tax.calculateTax(LineNetAmt, isTaxIncluded(WindowNo), StdPrecision);
+					}
+                    //Fin #9858.
 					mTab.setValue("TaxAmt", TaxAmt);
 				}
 			}

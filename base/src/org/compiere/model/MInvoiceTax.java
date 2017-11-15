@@ -209,12 +209,12 @@ public class MInvoiceTax extends X_C_InvoiceTax
 				//
 				// phib [ 1702807 ]: manual tax should never be amended
 				// on line level taxes
-				if (!documentLevel && amt.signum() != 0)	//	manually entered
+				if (!documentLevel && amt.signum() != 0 && !isSOTrx)	//	manually entered
 					;
 				else if (documentLevel || baseAmt.signum() == 0)
 					amt = Env.ZERO;
-				else	// calculate line tax
-					amt = tax.calculateTax(baseAmt, isTaxIncluded(), getPrecision());
+
+				else if (!isTaxIncluded()) amt = tax.calculateTax(baseAmt, isTaxIncluded(), getPrecision());
 				//
 				taxAmt = taxAmt.add(amt);
 			}
@@ -235,10 +235,13 @@ public class MInvoiceTax extends X_C_InvoiceTax
 		setTaxAmt(taxAmt);
 
 		//	Set Base
-		if (isTaxIncluded())
+        //OpenUp. Nicolas Sarlabos. 06/11/2017. #9858.
+		setTaxBaseAmt (taxBaseAmt);
+		/*if (isTaxIncluded())
 			setTaxBaseAmt (taxBaseAmt.subtract(taxAmt));
 		else
-			setTaxBaseAmt (taxBaseAmt);
+			setTaxBaseAmt (taxBaseAmt);*/
+		//Fin #9858.
 		return true;
 	}	//	calculateTaxFromLines
 
