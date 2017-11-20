@@ -16,6 +16,8 @@
  *****************************************************************************/
 package org.compiere.util;
 
+import org.compiere.model.PO;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
@@ -274,29 +276,44 @@ public class Evaluator
 
 
 	/**
-	 * Replace @parameter@ whit ?
-	 * @param logic
+	 * Replace context parameters with values (@#parameter@)
+	 * and objects parameter like @parameter@ with the name of the parameter
+	 * @param sql
+	 * @param doc
 	 * @return
 	 */
-	public static String adaptSQL(String logic) {
-		String sql = "";
-		if(logic.startsWith("@")){
-			s_log.log(Level.INFO, "Logic tuple does not comply with format "
-					+ "select or something + '@context@=value' or value = @conext@" + logic);
-			return sql;
-		}
-		StringTokenizer st = new StringTokenizer(logic, "@", false);
-		int count = 1;
-		while (st.hasMoreElements()) {
-			if (count % 2 == 0) {
-				sql += " ? ";
-				st.nextToken();
-			} else {
-				sql += st.nextToken();
+	public static String parseContext(String sql,PO doc) {
+
+		StringBuffer outStr = new StringBuffer();
+
+		int i = sql.indexOf('@');
+		while (i != -1)
+		{
+			outStr.append(sql.substring(0, i));
+            sql = sql.substring(i+1, sql.length());
+
+			int j = sql.indexOf('@');
+			if (j < 0)
+			{
+				return "";
 			}
-			count++;
+			String token;
+			token = sql.substring(0, j);
+			String ctxInfo = "";
+			if ((token.startsWith("#") || token.startsWith("$")) )
+				ctxInfo = Env.getContext(doc.getCtx(), token);
+			if (ctxInfo.length() == 0)
+				outStr.append(token);
+			else
+				outStr.append(ctxInfo);
+
+            sql = sql.substring(j+1, sql.length());
+			i = sql.indexOf('@');
 		}
-		return sql;
+		outStr.append(sql);
+
+		return outStr.toString();
 	}
+
 
 }	//	Evaluator

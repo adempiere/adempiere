@@ -18,13 +18,9 @@
 package org.compiere.model;
 
 import org.compiere.util.CLogger;
-import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Evaluator;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -242,48 +238,35 @@ public class RequestModelValidator implements ModelValidator {
     private boolean isValidWhereCondition(PO document, String whereClause) {
 
         if (whereClause == null || whereClause.isEmpty()) return true;
-        //	Check Logic
-        //String logic = standardRequestType
-        //        .getWhereClause()
-        //        .replaceAll("[\n\r]", "")
-        //        .replaceAll("sql=","SQL=");
 
-        boolean sql = whereClause.startsWith("SQL=");
-        boolean sql2 = whereClause.startsWith("@SQL=");
-
-        if (sql && !sql2 && !validateQueryObject(document, whereClause)) {
-            log.severe("SQL Logic evaluated to false (" + whereClause + ")");
-            return false;
-        }
-        if (!sql && !sql2 && !Evaluator.evaluateLogic(document, whereClause)) {
-            log.severe("Logic evaluated to false (" + whereClause + ")");
-            return false;
-        }
-        if (sql2 && !validtComplexQuery(document, whereClause)) { //@SQL
-            log.severe("Logic evaluated to false (" + whereClause + ")");
+        if (!validateQueryObject(document, whereClause)) {
+            log.severe("SQL logic evaluated to false ("+whereClause+")");
             return false;
         }
         return true;
     }
 
     /**
-     * Test simple condition
-     * @param document
+     * Test condition
+     * @param entity
      * @return
      */
-    private boolean validateQueryObject(PO document, String whereClause) {
-        String where = whereClause.replaceFirst("SQL=", "");
+    private boolean validateQueryObject(PO entity, String whereClause) {
 
-        String tableName = document.get_TableName();
-        String[] keyColumns = document.get_KeyColumns();
+        String tableName = entity.get_TableName();
+        String[] keyColumns = entity.get_KeyColumns();
+        String whereConditions =  "";
         if (keyColumns.length != 1) {
             log.severe("Tables with more then one key column not supported - "
                     + tableName + " = " + keyColumns.length);
             return false;
         }
+        if ((whereClause.indexOf('@') > -1)){
+            whereConditions = Evaluator.parseContext(whereClause,entity);
+        }
 
-        PO instance = new Query(document.getCtx(), tableName, " AD_Client_ID = "+document.getAD_Client_ID()+
-                " AND "+keyColumns[0] + "=" + document.get_ID() + " AND " + where, document.get_TrxName())
+        PO instance = new Query(entity.getCtx(), tableName, (whereConditions.isEmpty())?whereClause:whereConditions +
+                " AND "+keyColumns[0] + "=" + entity.get_ID(), entity.get_TrxName())
                 .first();
 
         if(instance !=null && instance.get_ID() > 0)
@@ -292,39 +275,5 @@ public class RequestModelValidator implements ModelValidator {
         return false;
     }
 
-    /**
-     * Analize complex query getting parameters from PO object by @@
-     * @param document
-     * @return
-     */
-    private boolean validtComplexQuery(PO document, String whereClause) {
-        String where = whereClause.replaceFirst("@SQL=", "");
 
-        ArrayList<String> columnsName = new ArrayList<>();
-        //Get columns in @'s
-        Evaluator.parseDepends(columnsName, where);
-        //Get values from columns in @@
-        List<Object> parameters = new ArrayList<Object>();
-        columnsName.stream().forEach(columnName -> {
-            parameters.add(document.get_ValueE(columnName));
-        });
-        //Get sql with ? intead of @parameter@
-        String sql = Evaluator.adaptSQL(where);
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-        try {
-            pstmt = DB.prepareStatement(sql, document.get_TrxName());
-            DB.setParameters(pstmt, parameters);
-            rs = pstmt.executeQuery();
-            if (rs.next()) {
-                return true;
-            }
-
-        } catch (SQLException e) {
-            log.severe("Logic evaluated with error (" + whereClause + ")"+ e.getMessage());
-        } finally {
-            DB.close(rs, pstmt);
-        }
-        return false;
-    }
 }
