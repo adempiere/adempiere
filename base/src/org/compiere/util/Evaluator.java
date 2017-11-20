@@ -17,6 +17,7 @@
 package org.compiere.util;
 
 import org.compiere.model.PO;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
@@ -273,31 +274,31 @@ public class Evaluator
 		}
 	}   //  parseDepends
 
+
 	/**
 	 * Replace context parameters with values (@#parameter@)
 	 * and objects parameter like @parameter@ with the name of the parameter
-	 * @param whereClause
+	 * @param sql
 	 * @param doc
 	 * @return
 	 */
-	public static String parseContext(String whereClause,PO doc) {
+	public static String parseContext(String sql,PO doc) {
 
-		String inStr = new String(whereClause);
 		StringBuffer outStr = new StringBuffer();
 
-		int i = inStr.indexOf('@');
+		int i = sql.indexOf('@');
 		while (i != -1)
 		{
-			outStr.append(inStr.substring(0, i));
-			inStr = inStr.substring(i+1, inStr.length());
+			outStr.append(sql.substring(0, i));
+            sql = sql.substring(i+1, sql.length());
 
-			int j = inStr.indexOf('@');
+			int j = sql.indexOf('@');
 			if (j < 0)
 			{
 				return "";
 			}
 			String token;
-			token = inStr.substring(0, j);
+			token = sql.substring(0, j);
 			String ctxInfo = "";
 			if ((token.startsWith("#") || token.startsWith("$")) )
 				ctxInfo = Env.getContext(doc.getCtx(), token);
@@ -306,12 +307,13 @@ public class Evaluator
 			else
 				outStr.append(ctxInfo);
 
-			inStr = inStr.substring(j+1, inStr.length());
-			i = inStr.indexOf('@');
+            sql = sql.substring(j+1, sql.length());
+			i = sql.indexOf('@');
 		}
-		outStr.append(inStr);
+		outStr.append(sql);
 
 		return outStr.toString();
 	}
+
 
 }	//	Evaluator

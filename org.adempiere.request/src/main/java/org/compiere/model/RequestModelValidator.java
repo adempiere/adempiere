@@ -18,13 +18,9 @@
 package org.compiere.model;
 
 import org.compiere.util.CLogger;
-import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Evaluator;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -252,25 +248,25 @@ public class RequestModelValidator implements ModelValidator {
 
     /**
      * Test condition
-     * @param document
+     * @param entity
      * @return
      */
-    private boolean validateQueryObject(PO document, String whereClause) {
+    private boolean validateQueryObject(PO entity, String whereClause) {
 
-        String tableName = document.get_TableName();
-        String[] keyColumns = document.get_KeyColumns();
-
+        String tableName = entity.get_TableName();
+        String[] keyColumns = entity.get_KeyColumns();
+        String whereConditions =  "";
         if (keyColumns.length != 1) {
             log.severe("Tables with more then one key column not supported - "
                     + tableName + " = " + keyColumns.length);
             return false;
         }
         if ((whereClause.indexOf('@') > -1)){
-            whereClause = Evaluator.parseContext(whereClause,document);
+            whereConditions = Evaluator.parseContext(whereClause,entity);
         }
 
-        PO instance = new Query(document.getCtx(), tableName, whereClause +
-                " AND "+keyColumns[0] + "=" + document.get_ID(), document.get_TrxName())
+        PO instance = new Query(entity.getCtx(), tableName, (whereConditions.isEmpty())?whereClause:whereConditions +
+                " AND "+keyColumns[0] + "=" + entity.get_ID(), entity.get_TrxName())
                 .first();
 
         if(instance !=null && instance.get_ID() > 0)
@@ -278,5 +274,6 @@ public class RequestModelValidator implements ModelValidator {
 
         return false;
     }
+
 
 }
