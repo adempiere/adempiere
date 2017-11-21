@@ -279,10 +279,10 @@ public class Evaluator
 	 * Replace context parameters with values (@#parameter@)
 	 * and objects parameter like @parameter@ with the name of the parameter
 	 * @param sql
-	 * @param doc
+	 * @param entity
 	 * @return
 	 */
-	public static String parseContext(String sql,PO doc) {
+	public static String parseContext(String sql,PO entity) {
 
 		StringBuffer outStr = new StringBuffer();
 
@@ -301,9 +301,9 @@ public class Evaluator
 			token = sql.substring(0, j);
 			String ctxInfo = "";
 			if ((token.startsWith("#") || token.startsWith("$")) )
-				ctxInfo = Env.getContext(doc.getCtx(), token);
+				ctxInfo = Env.getContext(entity.getCtx(), token);
 			if (ctxInfo.length() == 0)
-				outStr.append(token);
+				outStr.append(entity.get_TableName()+"."+token);
 			else
 				outStr.append(ctxInfo);
 
