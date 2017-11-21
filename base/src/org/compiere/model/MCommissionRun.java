@@ -465,7 +465,8 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 				+ " LEFT JOIN (  SELECT al2.C_Invoice_ID, sum(al2.amount) as payedSum "
 				+ "              FROM C_AllocationLine al2 "
 				+ "              INNER JOIN C_AllocationHdr ah on (al2.c_allocationhdr_id=ah.c_allocationhdr_id) "
-				+ "              WHERE al2.C_Charge_ID IS NULL AND ah.docstatus<>'RE' "
+				+ " 			 INNER JOIN c_Payment p on al2.c_Payment_ID = p.c_Payment_ID  "
+				+ "              WHERE al2.C_Charge_ID IS NULL AND ah.docstatus<>'RE' and p.datetrx <=?"
 				+ "              GROUP BY al2.C_Invoice_ID "
 				+ "            ) al1 on (i.C_Invoice_ID = al1.C_Invoice_ID) "
 				+ " WHERE il.C_InvoiceLine_ID=" + C_IvoiceLine_ID 
@@ -475,7 +476,8 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 		
 		try {
 			pstmt = DB.prepareStatement(sql.toString(), get_TrxName());
-			pstmt.setInt(1, getAD_Client_ID());
+			pstmt.setTimestamp(1, getEndDate());
+			pstmt.setInt(2, getAD_Client_ID());
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				payedSum = rs.getBigDecimal(1);
@@ -550,7 +552,9 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 		//	
 		MCommissionLine[] commissionLines = commission.getLines();
 		List<Integer> salesRegion;
-		String sqlAppend = " AND p.DateTrx BETWEEN ? AND ? ";	
+		String sqlAppend = "";
+		if (commission.isTotallyPaid()) sqlAppend = " AND (p.DateTrx <? or  p.DateTrx <?)";
+		else sqlAppend = " AND p.DateTrx BETWEEN ? AND ? ";
 		m_comissionLog.append("<h4>" + "Processing Commission line" + "</h4>");
 		for (MCommissionLine commissionLine : commissionLines) {
 			m_comissionLog.append("Commission Line No: " + "<b>" + commissionLine.getLine() + "</b><br>");
@@ -571,7 +575,8 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 				if (commission.isListDetails())
 				{
 					//	the view must be change
-					sql.append("SELECT h.C_Currency_ID, (l.LineNetAmt*al.Amount/h.GrandTotal) AS Amt,"
+					sql.append("SELECT h.C_Currency_ID,"
+						+ " (linenetamtrealinvoiceline(l.c_Invoiceline_ID) *(al.Amount/h.GrandTotal)) AS Amt,"
 						+ " (l.QtyInvoiced*al.Amount/h.GrandTotal) AS Qty,"
 						+ " NULL, l.C_InvoiceLine_ID, p.DocumentNo||'_'||h.DocumentNo,"
 						+ " COALESCE(prd.Value,l.Description), h.DateInvoiced "
@@ -588,7 +593,8 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 				}
 				else
 				{
-					sql.append("SELECT h.C_Currency_ID, SUM(l.LineNetAmt*al.Amount/h.GrandTotal) AS Amt,"
+					sql.append("SELECT h.C_Currency_ID, "
+							+ "SUM(linenetamtrealinvoiceline(l.c_Invoiceline_ID) *(al.Amount/h.GrandTotal)) AS Amt,"
 							+ " SUM(l.QtyInvoiced*al.Amount/h.GrandTotal) AS Qty,"
 							+ " NULL, NULL, NULL, NULL, MAX(h.DateInvoiced) "
 							+ "FROM C_Payment p"
@@ -613,7 +619,7 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 			{
 				if (commission.isListDetails())
 				{
-					sql.append("SELECT h.C_Currency_ID, l.LineNetAmt, l.QtyOrdered, "
+					sql.append("SELECT h.C_Currency_ID, linenetamtrealorderline(l.c_OrderLine_ID), l.QtyOrdered, "
 						+ "l.C_OrderLine_ID, NULL, h.DocumentNo,"
 						+ " COALESCE(prd.Value,l.Description),h.DateOrdered "
 						+ "FROM C_Order h"
@@ -626,7 +632,7 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 				}
 				else
 				{
-					sql.append("SELECT h.C_Currency_ID, SUM(l.LineNetAmt) AS Amt,"
+					sql.append("SELECT h.C_Currency_ID, SUM(linenetamtrealorderline(l.c_OrderLine_ID)) AS Amt,"
 						+ " SUM(l.QtyOrdered) AS Qty, "
 						+ "NULL, NULL, NULL, NULL, MAX(h.DateOrdered) "
 						+ "FROM C_Order h"
@@ -641,7 +647,7 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 			{
 				if (commission.isListDetails())
 				{
-					sql.append("SELECT h.C_Currency_ID, l.LineNetAmt, l.QtyInvoiced, "
+					sql.append("SELECT h.C_Currency_ID, linenetamtrealinvoiceline(l.c_Invoiceline_ID), l.QtyInvoiced, "
 						+ "NULL, l.C_InvoiceLine_ID, h.DocumentNo,"
 						+ " COALESCE(prd.Value,l.Description),h.DateInvoiced "
 						+ "FROM C_Invoice h"
@@ -654,7 +660,7 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 				}
 				else
 				{
-					sql.append("SELECT h.C_Currency_ID, SUM(l.LineNetAmt) AS Amt,"
+					sql.append("SELECT h.C_Currency_ID, SUM(linenetamtrealinvoiceline(l.c_Invoiceline_ID)) AS Amt,"
 						+ " SUM(l.QtyInvoiced) AS Qty, "
 						+ "NULL, NULL, NULL, NULL, MAX(h.DateInvoiced) "
 						+ "FROM C_Invoice h"
@@ -758,6 +764,11 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 			//	Payment Rule
 			if (commissionLine.getPaymentRule() != null) {
 				sql.append(" AND h.PaymentRule='").append(commissionLine.getPaymentRule()).append("'");
+			}
+
+			//	Payment Term
+			if (commissionLine.getC_PaymentTerm_ID() != 0) {
+				sql.append(" AND h.C_PaymentTerm_ID= ").append(commissionLine.getC_PaymentTerm_ID());
 			}
 			sql.append(getExclusionWhere(commission.getDocBasisType(), commissionLine, commissionLines));
 			if (!commission.isListDetails()) {
