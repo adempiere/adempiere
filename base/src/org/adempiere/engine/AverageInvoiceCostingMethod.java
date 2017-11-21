@@ -245,6 +245,9 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 			
 			accumulatedAmountLowerLevel = getNewAccumulatedAmountLowerLevel(lastCostDetail);
 			accumulatedAmountLowerLevel = accumulatedQuantity.signum() > 0 ? accumulatedAmountLowerLevel.add(amountLowerLevel) : accumulatedAmountLowerLevel.add(amountLowerLevel.negate());
+			if (model instanceof MMovementLine && costDetail!=null){
+				costDetail.setAmt(amount);
+			}
 		}
 		else if (transaction.getMovementType().endsWith("-")) {
 			// Use the last current cost price for out transaction			
