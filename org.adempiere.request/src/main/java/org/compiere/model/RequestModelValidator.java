@@ -231,15 +231,15 @@ public class RequestModelValidator implements ModelValidator {
 
     /**
      * Validate additional condition if it's stablish in the standard request type
-     * @param document
-     * @param whereClause
-     * @return
+     * @param entity PO object
+     * @param whereClause condition
+     * @return boolean
      */
-    private boolean isValidWhereCondition(PO document, String whereClause) {
+    private boolean isValidWhereCondition(PO entity, String whereClause) {
 
         if (whereClause == null || whereClause.isEmpty()) return true;
 
-        if (!validateQueryObject(document, whereClause)) {
+        if (!validateQueryObject(entity, whereClause)) {
             log.severe("SQL logic evaluated to false ("+whereClause+")");
             return false;
         }
@@ -248,8 +248,9 @@ public class RequestModelValidator implements ModelValidator {
 
     /**
      * Test condition
-     * @param entity
-     * @return
+     * @param entity PO object
+     * @param  whereClause  condition
+     * @return boolean
      */
     private boolean validateQueryObject(PO entity, String whereClause) {
 
@@ -262,17 +263,16 @@ public class RequestModelValidator implements ModelValidator {
             return false;
         }
         if ((whereClause.indexOf('@') > -1)){
-            whereConditions = Evaluator.parseContext(whereClause,entity);
+            whereConditions = Evaluator.parseContext(entity,whereClause);
         }
 
-        PO instance = new Query(entity.getCtx(), tableName, (whereConditions.isEmpty())?whereClause:whereConditions +
-                " AND "+keyColumns[0] + "=" + entity.get_ID(), entity.get_TrxName())
+        PO instance = new Query(entity.getCtx(), tableName,
+                (whereConditions.isEmpty())? whereClause:whereConditions +" AND "+keyColumns[0] + "=" + entity.get_ID(),
+                entity.get_TrxName())
                 .first();
 
-        if(instance !=null && instance.get_ID() > 0)
-            return true;
+        return instance != null && instance.get_ID() > 0;
 
-        return false;
     }
 
 
