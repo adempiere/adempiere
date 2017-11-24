@@ -278,39 +278,41 @@ public class Evaluator
 	/**
 	 * Replace context parameters with values (@#parameter@)
 	 * and objects parameter like @parameter@ with the name of the parameter
-	 * @param sql
-	 * @param entity
-	 * @return
+	 * in the sentenceSql recived
+	 * @param entity PO object
+	 * @param sentenceSql Sentence SQL to be replaced
+	 * @return String with the parameters replaced
 	 */
-	public static String parseContext(String sql,PO entity) {
+	public static String parseContext(PO entity,String sentenceSql) {
 
-		StringBuffer outStr = new StringBuffer();
+		StringBuilder outStr = new StringBuilder();
 
-		int i = sql.indexOf('@');
+		int i = sentenceSql.indexOf('@');
 		while (i != -1)
 		{
-			outStr.append(sql.substring(0, i));
-            sql = sql.substring(i+1, sql.length());
+			outStr.append(sentenceSql.substring(0, i));
+			sentenceSql = sentenceSql.substring(i+1, sentenceSql.length());
 
-			int j = sql.indexOf('@');
+			int j = sentenceSql.indexOf('@');
 			if (j < 0)
 			{
 				return "";
 			}
 			String token;
-			token = sql.substring(0, j);
+			token = sentenceSql.substring(0, j);
 			String ctxInfo = "";
-			if ((token.startsWith("#") || token.startsWith("$")) )
+			if ((token.startsWith("#") || token.startsWith("$")) ){
 				ctxInfo = Env.getContext(entity.getCtx(), token);
-			if (ctxInfo.length() == 0)
-				outStr.append(entity.get_TableName()+"."+token);
-			else
+			}
+			if (ctxInfo.length() == 0) {
+				outStr.append(entity.get_TableName()).append(".").append(token);
+			} else
 				outStr.append(ctxInfo);
 
-            sql = sql.substring(j+1, sql.length());
-			i = sql.indexOf('@');
+			sentenceSql = sentenceSql.substring(j+1, sentenceSql.length());
+			i = sentenceSql.indexOf('@');
 		}
-		outStr.append(sql);
+		outStr.append(sentenceSql);
 
 		return outStr.toString();
 	}
