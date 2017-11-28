@@ -2,21 +2,6 @@
 <Migrations>
   <Migration EntityType="D" Name="Create new Smart Browser for Project Task" ReleaseNo="3.9.1" SeqNo="3460">
     <Comments>https://github.com/adempiere/adempiere/issues/1485</Comments>
-    <Step SeqNo="10" StepType="AD">
-      <PO AD_Table_ID="50009" Action="U" Record_ID="50001" Table="AD_SysConfig">
-        <Data AD_Column_ID="50196" Column="Value" oldValue="globalqss">vpj-cd</Data>
-      </PO>
-    </Step>
-    <Step SeqNo="20" StepType="AD">
-      <PO AD_Table_ID="50009" Action="U" Record_ID="50002" Table="AD_SysConfig">
-        <Data AD_Column_ID="50196" Column="Value" oldValue="vpj-cd">zAk3W7st </Data>
-      </PO>
-    </Step>
-    <Step SeqNo="30" StepType="AD">
-      <PO AD_Table_ID="50009" Action="U" Record_ID="50002" Table="AD_SysConfig">
-        <Data AD_Column_ID="50196" Column="Value" oldValue="zAk3W7st ">zAk3W7st</Data>
-      </PO>
-    </Step>
     <Step SeqNo="40" StepType="AD">
       <PO AD_Table_ID="53230" Action="I" Record_ID="50102" Table="AD_View">
         <Data AD_Column_ID="58068" Column="IsActive">true</Data>
