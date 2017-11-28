@@ -66,8 +66,10 @@ public class DunningRunCreate extends DunningRunCreateAbstract {
 		//
 		for (MDunningLevel level : run.getLevels()) {
 			addInvoices(level);
-			addPayments(level);
-
+			if(level.isIncludePayments()) {
+				addPayments(level);
+			}
+			//	
 			if (level.isChargeFee ()) {
 				addFees(level);
 			}
@@ -93,7 +95,7 @@ public class DunningRunCreate extends DunningRunCreateAbstract {
 			+ " i.GrandTotal*i.MultiplierAP,"
 			+ " invoiceOpen(i.C_Invoice_ID,i.C_InvoicePaySchedule_ID)*MultiplierAP,"
 			+ " COALESCE(daysBetween(?,ips.DueDate),paymentTermDueDays(i.C_PaymentTerm_ID,i.DateInvoiced,?))," // ##1/2
-			+ " i.IsInDispute, i.C_BPartner_ID, i.C_InvoicePaySchedule_ID "
+			+ " i.IsInDispute, i.C_BPartner_ID, i.C_InvoicePaySchedule_ID, i.C_Order_ID "
 			+ "FROM C_Invoice_v i "
 			+ " LEFT OUTER JOIN C_InvoicePaySchedule ips ON (i.C_InvoicePaySchedule_ID=ips.C_InvoicePaySchedule_ID) "
 			+ "WHERE i.IsPaid='N' AND i.AD_Client_ID=?"				//	##3
@@ -170,33 +172,34 @@ public class DunningRunCreate extends DunningRunCreateAbstract {
 			//
 			rs = pstmt.executeQuery ();
 			while (rs.next()) {
-				int C_Invoice_ID = rs.getInt(1);
-				int C_Currency_ID = rs.getInt(2);
-				BigDecimal GrandTotal = rs.getBigDecimal(3);
-				BigDecimal Open = rs.getBigDecimal(4);
-				int DaysDue = rs.getInt(5);
-				boolean IsInDispute = "Y".equals(rs.getString(6));
-				int C_BPartner_ID = rs.getInt(7);
-				int C_InvoicePaySchedule_ID = rs.getInt(8);
+				int invoiceId = rs.getInt(1);
+				int currencyId = rs.getInt(2);
+				BigDecimal grandTotal = rs.getBigDecimal(3);
+				BigDecimal open = rs.getBigDecimal(4);
+				int daysDue = rs.getInt(5);
+				boolean isInDispute = "Y".equals(rs.getString(6));
+				int bPartnerId = rs.getInt(7);
+				int invoicePayScheduleId = rs.getInt(8);
+				int orderId = rs.getInt(9);
 				log.fine("DaysAfterDue: " + DaysAfterDue.intValue() + " isShowAllDue: " + level.isShowAllDue());
-				log.fine("C_Invoice_ID - DaysDue - GrandTotal: " + C_Invoice_ID + " - " + DaysDue + " - " + GrandTotal);
-				log.fine("C_InvoicePaySchedule_ID: " + C_InvoicePaySchedule_ID);
+				log.fine("C_Invoice_ID - DaysDue - GrandTotal: " + invoiceId + " - " + daysDue + " - " + grandTotal);
+				log.fine("C_InvoicePaySchedule_ID: " + invoicePayScheduleId);
 				//
 				// Check for Dispute
-				if (!isIncludeInDispute() && IsInDispute)
+				if (!isIncludeInDispute() && isInDispute)
 					continue;
 				// Check the day again based on rulesets
-				if (DaysDue > 0 && DaysDue < DaysAfterDue.intValue() && !level.isShowAllDue ())
+				if (daysDue > 0 && daysDue < DaysAfterDue.intValue() && !level.isShowAllDue ())
 					continue;
 				// Check for an open amount
-				if (Env.ZERO.compareTo(Open) == 0)
+				if (Env.ZERO.compareTo(open) == 0)
 					continue;
 				//
 				int TimesDunned = 0;
 				int DaysAfterLast = 0;
 				//	SubQuery
 				pstmt2.setInt (1, run.get_ID ());
-				pstmt2.setInt (2, C_Invoice_ID);
+				pstmt2.setInt (2, invoiceId);
 				ResultSet rs2 = pstmt2.executeQuery ();
 				if (rs2.next()) {
 					TimesDunned = rs2.getInt(1);
@@ -213,7 +216,7 @@ public class DunningRunCreate extends DunningRunCreateAbstract {
 					continue;
 				
 				// We don't want to show non due documents
-				if (DaysDue<0 && !level.isShowNotDue ())
+				if (daysDue<0 && !level.isShowNotDue ())
 					continue;
 							
 				// We will minus the timesDunned if this is the DaysBetweenDunning is not fullfilled.
@@ -222,22 +225,17 @@ public class DunningRunCreate extends DunningRunCreateAbstract {
 				if (DaysAfterLast < DaysBetweenDunning)
 					TimesDunned = TimesDunned*-1;
 				//
-				if (createInvoiceLine(C_Invoice_ID, C_InvoicePaySchedule_ID, C_Currency_ID, GrandTotal, Open,
-						DaysDue, IsInDispute, C_BPartner_ID, 
-						TimesDunned, DaysAfterLast, level.getC_DunningLevel_ID()))
-				{
+				if (createInvoiceLine(invoiceId, invoicePayScheduleId, currencyId, grandTotal, open,
+						daysDue, isInDispute, bPartnerId, 
+						TimesDunned, DaysAfterLast, level.getC_DunningLevel_ID(), orderId)) {
 					count++;
 				}
 			}
  
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			log.log(Level.SEVERE, "addInvoices", e);
 			getProcessInfo().addLog(getProcessInfo().getAD_PInstance_ID(), null, null, e.getLocalizedMessage());
-		}
-		finally
-		{
+		} finally {
 			DB.close(rs, pstmt);
 			rs = null; pstmt = null; pstmt2 = null;
 		}
@@ -246,27 +244,29 @@ public class DunningRunCreate extends DunningRunCreateAbstract {
 
 	/**
 	 * 	Create Invoice Line
-	 *	@param C_Invoice_ID
-	 *	@param C_Currency_ID
-	 *	@param GrandTotal
-	 *	@param Open
-	 *	@param DaysDue
-	 *	@param IsInDispute
-	 *	@param C_BPartner_ID
-	 *	@param TimesDunned
-	 *	@param DaysAfterLast
-	 *  @param c_DunningLevel_ID 
+	 *	@param invoiceId
+	 *	@param currencyId
+	 *	@param grandTotal
+	 *	@param open
+	 *	@param daysDue
+	 *	@param isInDispute
+	 *	@param bPartnerId
+	 *	@param timesDunned
+	 *	@param daysAfterLast
+	 *  @param dunningLevelId 
+	 *  @param invoicePayScheduleId
+	 *  @param orderId order reference
 	 */
-	private boolean createInvoiceLine (int C_Invoice_ID, int C_InvoicePaySchedule_ID, int C_Currency_ID, 
-		BigDecimal GrandTotal, BigDecimal Open, 
-		int DaysDue, boolean IsInDispute, 
-		int C_BPartner_ID, int TimesDunned, int DaysAfterLast, int c_DunningLevel_ID) {
+	private boolean createInvoiceLine (int invoiceId, int invoicePayScheduleId, int currencyId, 
+		BigDecimal grandTotal, BigDecimal open, 
+		int daysDue, boolean isInDispute, 
+		int bPartnerId, int timesDunned, int daysAfterLast, int dunningLevelId, int orderId) {
 		MDunningRunEntry entry = null;
 		try  {
-			entry = run.getEntry (C_BPartner_ID, getCurrencyId(), getSalesRepId(), c_DunningLevel_ID);
+			entry = run.getEntry(bPartnerId, getCurrencyId(), getSalesRepId(), dunningLevelId);
 		}  catch (BPartnerNoAddressException e) {
-			String msg = "@Skip@ @C_Invoice_ID@ " + MInvoice.get(getCtx(), C_Invoice_ID).getDocumentInfo()
-				+ ", @C_BPartner_ID@ " + MBPartner.get(getCtx(), C_BPartner_ID).getName()
+			String msg = "@Skip@ @C_Invoice_ID@ " + MInvoice.get(getCtx(), invoiceId).getDocumentInfo()
+				+ ", @C_BPartner_ID@ " + MBPartner.get(getCtx(), bPartnerId).getName()
 				+ " @No@ @IsActive@ @C_BPartner_Location_ID@";
 			getProcessInfo().addLog(getProcessInfo().getAD_PInstance_ID(), null, null, msg);
 			return false;
@@ -277,10 +277,13 @@ public class DunningRunCreate extends DunningRunCreateAbstract {
 		}
 		//
 		MDunningRunLine line = new MDunningRunLine (entry);
-		line.setInvoice(C_Invoice_ID, C_Currency_ID, GrandTotal, Open, 
-			new BigDecimal(0), DaysDue, IsInDispute, TimesDunned, 
-			DaysAfterLast);
-		line.setC_InvoicePaySchedule_ID(C_InvoicePaySchedule_ID);
+		line.setInvoice(invoiceId, currencyId, grandTotal, open, 
+			Env.ZERO, daysDue, isInDispute, timesDunned, 
+			daysAfterLast, orderId);
+		line.setC_InvoicePaySchedule_ID(invoicePayScheduleId);
+		if(orderId != 0) {
+			line.setC_Order_ID(orderId);
+		}
 		line.saveEx();
 		return true;
 	}	//	createInvoiceLine
@@ -292,8 +295,8 @@ public class DunningRunCreate extends DunningRunCreateAbstract {
 	 *	@return no of payments
 	 */
 	private int addPayments(MDunningLevel level) {
-		String sql = "SELECT C_Payment_ID, C_Currency_ID, PayAmt,"
-			+ " paymentAvailable(C_Payment_ID), C_BPartner_ID "
+		String sql = "SELECT p.C_Payment_ID, p.C_Currency_ID, p.PayAmt,"
+			+ " paymentAvailable(p.C_Payment_ID), p.C_BPartner_ID, p.C_Order_ID "
 			+ "FROM C_Payment_v p "
 			+ "WHERE AD_Client_ID=?"			//	##1
 			+ " AND IsAllocated='N' AND C_BPartner_ID IS NOT NULL"
@@ -325,8 +328,7 @@ public class DunningRunCreate extends DunningRunCreateAbstract {
 		int count = 0;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		try
-		{
+		try {
 			pstmt = DB.prepareStatement (sql, get_TrxName());
 			pstmt.setInt (1, getAD_Client_ID());
 			pstmt.setInt (2, level.getC_DunningLevel_ID());
@@ -336,19 +338,19 @@ public class DunningRunCreate extends DunningRunCreateAbstract {
 				pstmt.setInt (3, getBPGroupId());
 
 			rs = pstmt.executeQuery ();
-			while (rs.next ())
-			{
-				int C_Payment_ID = rs.getInt(1);
-				int C_Currency_ID = rs.getInt(2);
-				BigDecimal PayAmt = rs.getBigDecimal(3).negate();
-				BigDecimal OpenAmt = rs.getBigDecimal(4).negate();
-				int C_BPartner_ID = rs.getInt(5);
+			while (rs.next ()) {
+				int paymentId = rs.getInt(1);
+				int currencyId = rs.getInt(2);
+				BigDecimal payAmt = rs.getBigDecimal(3).negate();
+				BigDecimal openAmt = rs.getBigDecimal(4).negate();
+				int bPartnerId = rs.getInt(5);
+				int orderId = rs.getInt(6);
 				//
-				if (Env.ZERO.compareTo(OpenAmt) == 0)
+				if (Env.ZERO.compareTo(openAmt) == 0)
 					continue;
 				//
-				if (createPaymentLine (C_Payment_ID, C_Currency_ID, PayAmt, OpenAmt,
-						C_BPartner_ID, level.getC_DunningLevel_ID())) {
+				if (createPaymentLine(paymentId, currencyId, payAmt, openAmt,
+						bPartnerId, level.getC_DunningLevel_ID(), orderId)) {
 					count++;
 				}
 			}
@@ -364,34 +366,34 @@ public class DunningRunCreate extends DunningRunCreateAbstract {
 
 	/**
 	 * 	Create Payment Line
-	 *	@param C_Payment_ID
-	 *	@param C_Currency_ID
-	 *	@param PayAmt
-	 *	@param OpenAmt
-	 *	@param C_BPartner_ID
-	 *  @param c_DunningLevel_ID 
+	 *	@param paymentId
+	 *	@param currencyId
+	 *	@param payAmt
+	 *	@param openAmt
+	 *	@param bPartnerId
+	 *  @param dunningLevelId 
+	 *  @param orderId
 	 */
-	private boolean createPaymentLine (int C_Payment_ID, int C_Currency_ID, 
-		BigDecimal PayAmt, BigDecimal OpenAmt, int C_BPartner_ID, int c_DunningLevel_ID) {
+	private boolean createPaymentLine (int paymentId, int currencyId, 
+		BigDecimal payAmt, BigDecimal openAmt, int bPartnerId, int dunningLevelId, int orderId) {
 		MDunningRunEntry entry = null;
 		try {
-			entry = run.getEntry (C_BPartner_ID, getCurrencyId(), getSalesRepId(), c_DunningLevel_ID);
+			entry = run.getEntry(bPartnerId, getCurrencyId(), getSalesRepId(), dunningLevelId);
 		} catch (BPartnerNoAddressException e) {
-			MPayment payment = new MPayment(getCtx(), C_Payment_ID, null);
+			MPayment payment = new MPayment(getCtx(), paymentId, null);
 			String msg = "@Skip@ @C_Payment_ID@ " + payment.getDocumentInfo()
-				+ ", @C_BPartner_ID@ " + MBPartner.get(getCtx(), C_BPartner_ID).getName()
+				+ ", @C_BPartner_ID@ " + MBPartner.get(getCtx(), bPartnerId).getName()
 				+ " @No@ @IsActive@ @C_BPartner_Location_ID@";
 			getProcessInfo().addLog(getProcessInfo().getAD_PInstance_ID(), null, null, msg);
 			return false;
 		}
-		if (entry.get_ID() == 0)
-			if (!entry.save())
-				throw new IllegalStateException("Cannot save MDunningRunEntry");
+		if (entry.get_ID() == 0) {
+			entry.saveEx();
+		}
 		//
-		MDunningRunLine line = new MDunningRunLine (entry);
-		line.setPayment(C_Payment_ID, C_Currency_ID, PayAmt, OpenAmt);
-		if (!line.save())
-			throw new IllegalStateException("Cannot save MDunningRunLine");
+		MDunningRunLine line = new MDunningRunLine(entry);
+		line.setPayment(paymentId, currencyId, payAmt, openAmt, orderId);
+		line.saveEx();
 		return true;
 	}	//	createPaymentLine
 
