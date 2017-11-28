@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
 
 /**
@@ -88,7 +89,6 @@ public class MStandardRequestType extends X_R_StandardRequestType {
         List<MStandardRequest> standardRequests = getStandardRequest(true);
         standardRequests.stream()
                 .forEach(standardRequest -> {
-                    Timestamp dateNextAction = TimeUtil.addDuration(today,standardRequest.getDurationUnit(), standardRequest.getDuration());
                     MRequest request = new MRequest(entity.getCtx(), 0, entity.get_TrxName());
                     // Set column based current context
                     columns.keySet().stream()
@@ -117,6 +117,29 @@ public class MStandardRequestType extends X_R_StandardRequestType {
                     request.setSummary(standardRequest.getSummary());
                     request.setPriority(standardRequest.getPriority());
                     request.setDateStartPlan(today);
+
+                    if (entity.get_ColumnIndex(MOrder.COLUMNNAME_DateOrdered) >  0) {
+                        Optional<Timestamp> startPlanOptinal = Optional.of((Timestamp) entity.get_Value(MOrder.COLUMNNAME_DateOrdered));
+                        startPlanOptinal.ifPresent(startPlan -> request.setDateStartPlan(startPlan));
+                    }
+                    else if (entity.get_ColumnIndex(MInventory.COLUMNNAME_MovementDate) >  0) {
+                        Optional<Timestamp> startPlanOptinal = Optional.of((Timestamp) entity.get_Value(MInventory.COLUMNNAME_MovementDate));
+                        startPlanOptinal.ifPresent(startPlan -> request.setDateStartPlan(startPlan));
+                    }
+                    else if (entity.get_ColumnIndex(MPayment.COLUMNNAME_DateTrx) >  0) {
+                        Optional<Timestamp> startPlanOptinal = Optional.of((Timestamp) entity.get_Value(MPayment.COLUMNNAME_DateTrx));
+                        startPlanOptinal.ifPresent(startPlan -> request.setDateStartPlan(startPlan));
+                    }
+                    else if (entity.get_ColumnIndex(MBankStatement.COLUMNNAME_StatementDate) >  0) {
+                        Optional<Timestamp> startPlanOptinal = Optional.of((Timestamp) entity.get_Value(MBankStatement.COLUMNNAME_StatementDate));
+                        startPlanOptinal.ifPresent(startPlan -> request.setDateStartPlan(startPlan));
+                    }
+                    else if (entity.get_ColumnIndex(MProject.COLUMNNAME_DateStart) >  0)
+                    {
+                        Optional<Timestamp> startPlanOptinal = Optional.of((Timestamp) entity.get_Value(MProject.COLUMNNAME_DateStart));
+                        startPlanOptinal.ifPresent(startPlan -> request.setDateStartPlan(startPlan));
+                    }
+
                     // Set Entity Link Reference
                     if (request.get_ColumnIndex(entity.get_TableName() + "_ID") > 0 && entity.get_ID() > 0)
                         request.set_Value(entity.get_TableName() + "_ID", entity.get_ID());
@@ -130,7 +153,7 @@ public class MStandardRequestType extends X_R_StandardRequestType {
                         if (salesRepId > 0)
                             request.setSalesRep_ID(salesRepId);
                     }
-
+                    Timestamp dateNextAction = TimeUtil.addDuration(request.getDateStartPlan() != null ? request.getDateStartPlan() : today ,standardRequest.getDurationUnit(), standardRequest.getDuration());
                     if (dateNextAction != null) {
                         request.setDateNextAction(dateNextAction);
                         request.setDateCompletePlan(dateNextAction);
