@@ -29,8 +29,7 @@ import org.compiere.util.Env;
  *  @author Jorg Janke
  *  @version $Id: MDunningRunLine.java,v 1.3 2006/07/30 00:51:02 jjanke Exp $
  */
-public class MDunningRunLine extends X_C_DunningRunLine
-{
+public class MDunningRunLine extends X_C_DunningRunLine {
 	/**
 	 * 
 	 */
@@ -42,11 +41,9 @@ public class MDunningRunLine extends X_C_DunningRunLine
 	 *	@param C_DunningRunLine_ID id
 	 *	@param trxName transaction
 	 */
-	public MDunningRunLine (Properties ctx, int C_DunningRunLine_ID, String trxName)
-	{
+	public MDunningRunLine (Properties ctx, int C_DunningRunLine_ID, String trxName) {
 		super (ctx, C_DunningRunLine_ID, trxName);
-		if (C_DunningRunLine_ID == 0)
-		{
+		if (C_DunningRunLine_ID == 0) {
 			setAmt (Env.ZERO);
 			setOpenAmt(Env.ZERO);
 			setConvertedAmt (Env.ZERO);
@@ -66,8 +63,7 @@ public class MDunningRunLine extends X_C_DunningRunLine
 	 *	@param rs result set
 	 *	@param trxName transaction
 	 */
-	public MDunningRunLine (Properties ctx, ResultSet rs, String trxName)
-	{
+	public MDunningRunLine (Properties ctx, ResultSet rs, String trxName) {
 		super(ctx, rs, trxName);
 	}	//	MDunningRunLine
 
@@ -75,64 +71,57 @@ public class MDunningRunLine extends X_C_DunningRunLine
 	 * 	Parent Constructor
 	 *	@param parent parent
 	 */
-	public MDunningRunLine (MDunningRunEntry parent)
-	{
+	public MDunningRunLine (MDunningRunEntry parent) {
 		this(parent.getCtx(), 0, parent.get_TrxName());
 		setClientOrg(parent);
 		setC_DunningRunEntry_ID(parent.getC_DunningRunEntry_ID());
 		//
-		m_parent = parent;
-		m_C_CurrencyTo_ID = parent.getC_Currency_ID();
+		this.parent = parent;
+		currencyToId = parent.getC_Currency_ID();
 	}	//	MDunningRunLine
 
-	private MDunningRunEntry	m_parent = null;
-	private MInvoice			m_invoice = null;
-	private MPayment			m_payment = null;
-	private int					m_C_CurrencyFrom_ID = 0;
-	private int					m_C_CurrencyTo_ID = 0;
+	private MDunningRunEntry	parent = null;
+	private MInvoice			invoice = null;
+	private MPayment			payment = null;
+	private int					currencyFromId = 0;
+	private int					currencyToId = 0;
 	
 	/**
 	 * 	Get Parent 
 	 *	@return parent
 	 */
-	public MDunningRunEntry getParent()
-	{
-		if (m_parent == null)
-			m_parent = new MDunningRunEntry (getCtx(), getC_DunningRunEntry_ID(), get_TrxName());
-		return m_parent;
+	public MDunningRunEntry getParent() {
+		if (parent == null)
+			parent = new MDunningRunEntry (getCtx(), getC_DunningRunEntry_ID(), get_TrxName());
+		return parent;
 	}	//	getParent
 	
 	/**
 	 * 	Get Invoice
 	 *	@return Returns the invoice.
 	 */
-	public MInvoice getInvoice ()
-	{
+	public MInvoice getInvoice () {
 		if (getC_Invoice_ID() == 0)
-			m_invoice = null;
-		else if (m_invoice == null)
-			m_invoice = new MInvoice (getCtx(), getC_Invoice_ID(), get_TrxName());
-		return m_invoice;
+			invoice = null;
+		else if (invoice == null)
+			invoice = new MInvoice (getCtx(), getC_Invoice_ID(), get_TrxName());
+		return invoice;
 	}	//	getInvoice
 	
 	/**
 	 * 	Set Invoice
 	 *	@param invoice The invoice to set.
 	 */
-	public void setInvoice (MInvoice invoice)
-	{
-		m_invoice = invoice;
-		if (invoice != null)
-		{
-			m_C_CurrencyFrom_ID = invoice.getC_Currency_ID();
+	public void setInvoice (MInvoice invoice) {
+		this.invoice = invoice;
+		if (invoice != null) {
+			currencyFromId = invoice.getC_Currency_ID();
 			setAmt(invoice.getGrandTotal());
 			setOpenAmt(getAmt());	//	not correct
 			setConvertedAmt (MConversionRate.convert(getCtx(), getOpenAmt(), 
 				getC_CurrencyFrom_ID(), getC_CurrencyTo_ID(), getAD_Client_ID(), getAD_Org_ID()));
-		}
-		else
-		{
-			m_C_CurrencyFrom_ID = 0;
+		} else {
+			currencyFromId = 0;
 			setAmt(Env.ZERO);
 			setOpenAmt(Env.ZERO);
 			setConvertedAmt(Env.ZERO);
@@ -155,10 +144,9 @@ public class MDunningRunLine extends X_C_DunningRunLine
 		BigDecimal GrandTotal, BigDecimal Open, 
 		BigDecimal FeeAmount, 
 		int DaysDue, boolean IsInDispute, 
-		int TimesDunned, int DaysAfterLast)
-	{
+		int TimesDunned, int DaysAfterLast) {
 		setC_Invoice_ID(C_Invoice_ID);
-		m_C_CurrencyFrom_ID = C_Currency_ID;
+		currencyFromId = C_Currency_ID;
 		setAmt (GrandTotal);
 		setOpenAmt (Open);
 		setFeeAmt (FeeAmount);
@@ -178,7 +166,7 @@ public class MDunningRunLine extends X_C_DunningRunLine
 	public void setFee (int C_Currency_ID, 
 		BigDecimal FeeAmount)
 	{
-		m_C_CurrencyFrom_ID = C_Currency_ID;
+		currencyFromId = C_Currency_ID;
 		setAmt (FeeAmount);
 		setOpenAmt (FeeAmount);
 		setFeeAmt (FeeAmount);
@@ -193,33 +181,11 @@ public class MDunningRunLine extends X_C_DunningRunLine
 	public MPayment getPayment ()
 	{
 		if (getC_Payment_ID() == 0)
-			m_payment = null;
-		else if (m_payment == null)
-			m_payment = new MPayment (getCtx(), getC_Payment_ID(), get_TrxName());
-		return m_payment;
+			payment = null;
+		else if (payment == null)
+			payment = new MPayment (getCtx(), getC_Payment_ID(), get_TrxName());
+		return payment;
 	}	//	getPayment
-	
-	/**
-	 * 	Set Payment
-	 *
-	public void setPayment (MPayment payment)
-	{
-		m_payment = payment;
-		if (payment != null)
-		{
-			m_C_CurrencyFrom_ID = payment.getC_Currency_ID();
-			setAmt(payment.getPayAmt());	//	need to reverse
-			setOpenAmt(getAmt());	//	not correct
-			setConvertedAmt (MConversionRate.convert(getCtx(), getOpenAmt(), 
-				getC_CurrencyFrom_ID(), getC_CurrencyTo_ID(), getAD_Client_ID(), getAD_Org_ID()));
-		}
-		else
-		{
-			m_C_CurrencyFrom_ID = 0;
-			setAmt(Env.ZERO);
-			setConvertedAmt(Env.ZERO);
-		}
-	}	//	setPayment
 	
 	/**
 	 * 	Set Payment
@@ -229,10 +195,9 @@ public class MDunningRunLine extends X_C_DunningRunLine
 	 *	@param OpenAmt
 	 */
 	public void setPayment (int C_Payment_ID, int C_Currency_ID, 
-		BigDecimal PayAmt, BigDecimal OpenAmt)
-	{
+		BigDecimal PayAmt, BigDecimal OpenAmt) {
 		setC_Payment_ID(C_Payment_ID);
-		m_C_CurrencyFrom_ID = C_Currency_ID;
+		currencyFromId = C_Currency_ID;
 		setAmt (PayAmt);
 		setOpenAmt (OpenAmt);
 		setConvertedAmt (MConversionRate.convert(getCtx(), getOpenAmt(), 
@@ -244,27 +209,26 @@ public class MDunningRunLine extends X_C_DunningRunLine
 	 * 	Get Currency From (Invoice/Payment)
 	 *	@return Returns the Currency From
 	 */
-	public int getC_CurrencyFrom_ID ()
-	{
-		if (m_C_CurrencyFrom_ID == 0)
-		{
-			if (getC_Invoice_ID() != 0)
-				m_C_CurrencyFrom_ID = getInvoice().getC_Currency_ID();
-			else if (getC_Payment_ID() != 0)
-				m_C_CurrencyFrom_ID = getPayment().getC_Currency_ID();
+	public int getC_CurrencyFrom_ID() {
+		if (currencyFromId == 0) {
+			if (getC_Invoice_ID() != 0) {
+				currencyFromId = getInvoice().getC_Currency_ID();
+			} else if (getC_Payment_ID() != 0) {
+				currencyFromId = getPayment().getC_Currency_ID();
+			}
 		}
-		return m_C_CurrencyFrom_ID;
+		return currencyFromId;
 	}	//	getC_CurrencyFrom_ID
 	
 	/**
 	 * 	Get Currency To from Parent
 	 *	@return Returns the Currency To
 	 */
-	public int getC_CurrencyTo_ID ()
-	{
-		if (m_C_CurrencyTo_ID == 0)
-			m_C_CurrencyTo_ID = getParent().getC_Currency_ID();
-		return m_C_CurrencyTo_ID;
+	public int getC_CurrencyTo_ID() {
+		if (currencyToId == 0) {
+			currencyToId = getParent().getC_Currency_ID();
+		}
+		return currencyToId;
 	}	//	getC_CurrencyTo_ID
 	
 	/**
@@ -273,25 +237,23 @@ public class MDunningRunLine extends X_C_DunningRunLine
 	 *	@return true
 	 */
 	@Override
-	protected boolean beforeSave (boolean newRecord)
-	{
+	protected boolean beforeSave (boolean newRecord) {
 		//	Set Amt
-		if (getC_Invoice_ID() == 0 && getC_Payment_ID() == 0)
-		{
+		if (getC_Invoice_ID() == 0 && getC_Payment_ID() == 0) {
 			setAmt(Env.ZERO);
 			setOpenAmt(Env.ZERO);
 		}
 		//	Converted Amt
-		if (Env.ZERO.compareTo(getOpenAmt()) == 0)
+		if (Env.ZERO.compareTo(getOpenAmt()) == 0) {
 			setConvertedAmt (Env.ZERO);
-		else if (Env.ZERO.compareTo(getConvertedAmt()) == 0)
+		} else if (Env.ZERO.compareTo(getConvertedAmt()) == 0) {
 			setConvertedAmt (MConversionRate.convert(getCtx(), getOpenAmt(), 
 				getC_CurrencyFrom_ID(), getC_CurrencyTo_ID(), getAD_Client_ID(), getAD_Org_ID()));
+		}
 		//	Total
 		setTotalAmt(getConvertedAmt().add(getFeeAmt()).add(getInterestAmt()));
 		//	Set Collection Status
-		if (isProcessed() && getInvoice() != null)
-		{
+		if (isProcessed() && getInvoice() != null) {
 			I_C_DunningLevel level = getParent().getC_DunningLevel();
 			if (level != null) {
 				getInvoice().setC_DunningLevel_ID(level.getC_DunningLevel_ID());
@@ -327,8 +289,7 @@ public class MDunningRunLine extends X_C_DunningRunLine
 	 *	@param success success
 	 *	@return success
 	 */
-	protected boolean afterDelete (boolean success)
-	{
+	protected boolean afterDelete (boolean success) {
 		updateEntry();
 		return success;
 	}	//	afterDelete
@@ -337,8 +298,7 @@ public class MDunningRunLine extends X_C_DunningRunLine
 	 * 	Update Entry.
 	 *	Calculate/update Amt/Qty 
 	 */
-	private void updateEntry()
-	{
+	private void updateEntry() {
 		// we do not count the fee line as an item, but it sum it up.
 		String sql = "UPDATE C_DunningRunEntry e "
 			+ "SET Amt=NVL((SELECT SUM(ConvertedAmt)+SUM(FeeAmt)+SUM(InterestAmt)"
