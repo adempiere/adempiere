@@ -116,6 +116,7 @@ public class MStandardRequestType extends X_R_StandardRequestType {
                     request.setAD_Role_ID(standardRequest.getAD_Role_ID());
                     request.setSummary(standardRequest.getSummary());
                     request.setPriority(standardRequest.getPriority());
+                    request.setDateStartPlan(today);
                     // Set Entity Link Reference
                     if (request.get_ColumnIndex(entity.get_TableName() + "_ID") > 0 && entity.get_ID() > 0)
                         request.set_Value(entity.get_TableName() + "_ID", entity.get_ID());
@@ -130,8 +131,10 @@ public class MStandardRequestType extends X_R_StandardRequestType {
                             request.setSalesRep_ID(salesRepId);
                     }
 
-                    if (dateNextAction != null)
+                    if (dateNextAction != null) {
                         request.setDateNextAction(dateNextAction);
+                        request.setDateCompletePlan(dateNextAction);
+                    }
                     if (standardRequest.getConfidentialTypeEntry() != null)
                         request.setConfidentialTypeEntry(standardRequest.getConfidentialTypeEntry());
                     request.saveEx();
