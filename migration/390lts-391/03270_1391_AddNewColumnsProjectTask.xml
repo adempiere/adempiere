@@ -460,7 +460,7 @@
         <Data AD_Column_ID="111" Column="Name">Percentage completed</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
         <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="117" Column="DefaultValue">0</Data>
         <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
         <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="120" Column="IsParent">false</Data>
@@ -6083,7 +6083,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="111" Column="Name">Percentage completed</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
         <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="117" Column="DefaultValue">0</Data>
         <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
         <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="120" Column="IsParent">false</Data>
