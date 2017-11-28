@@ -130,31 +130,35 @@ public class MDunningRunLine extends X_C_DunningRunLine {
 	
 	/**
 	 * 	Set Invoice
-	 *	@param C_Invoice_ID
-	 *	@param C_Currency_ID
-	 *	@param GrandTotal 
-	 *	@param Open
-	 *  @param FeeAmount 
-	 *	@param DaysDue
-	 *	@param IsInDispute 
-	 *	@param TimesDunned
-	 *	@param DaysAfterLast not used
+	 *	@param invoiceId
+	 *	@param currencyId
+	 *	@param grandTotal 
+	 *	@param open
+	 *  @param feeAmount 
+	 *	@param daysDue
+	 *	@param isInDispute 
+	 *	@param timesDunned
+	 *	@param daysAfterLast not used
+	 *	@param orderId order reference
 	 */
-	public void setInvoice (int C_Invoice_ID, int C_Currency_ID, 
-		BigDecimal GrandTotal, BigDecimal Open, 
-		BigDecimal FeeAmount, 
-		int DaysDue, boolean IsInDispute, 
-		int TimesDunned, int DaysAfterLast) {
-		setC_Invoice_ID(C_Invoice_ID);
-		currencyFromId = C_Currency_ID;
-		setAmt (GrandTotal);
-		setOpenAmt (Open);
-		setFeeAmt (FeeAmount);
+	public void setInvoice (int invoiceId, int currencyId, 
+		BigDecimal grandTotal, BigDecimal open, 
+		BigDecimal feeAmount, 
+		int daysDue, boolean isInDispute, 
+		int timesDunned, int daysAfterLast, int orderId) {
+		setC_Invoice_ID(invoiceId);
+		currencyFromId = currencyId;
+		setAmt (grandTotal);
+		setOpenAmt (open);
+		setFeeAmt (feeAmount);
 		setConvertedAmt (MConversionRate.convert(getCtx(), getOpenAmt(), 
-			C_Currency_ID, getC_CurrencyTo_ID(), getAD_Client_ID(), getAD_Org_ID()));
-		setIsInDispute(IsInDispute);
-		setDaysDue(DaysDue);
-		setTimesDunned(TimesDunned);
+			currencyId, getC_CurrencyTo_ID(), getAD_Client_ID(), getAD_Org_ID()));
+		setIsInDispute(isInDispute);
+		setDaysDue(daysDue);
+		setTimesDunned(timesDunned);
+		if(orderId != 0) {
+			setC_Order_ID(orderId);
+		}
 	}	//	setInvoice
 	
 	
@@ -164,8 +168,7 @@ public class MDunningRunLine extends X_C_DunningRunLine {
 	 *  @param FeeAmount 
 	 */
 	public void setFee (int C_Currency_ID, 
-		BigDecimal FeeAmount)
-	{
+		BigDecimal FeeAmount) {
 		currencyFromId = C_Currency_ID;
 		setAmt (FeeAmount);
 		setOpenAmt (FeeAmount);
@@ -189,19 +192,24 @@ public class MDunningRunLine extends X_C_DunningRunLine {
 	
 	/**
 	 * 	Set Payment
-	 *	@param C_Payment_ID
-	 *	@param C_Currency_ID
-	 *	@param PayAmt
-	 *	@param OpenAmt
+	 *	@param paymentId
+	 *	@param currencyId
+	 *	@param payAmt
+	 *	@param openAmt
+	 *	@param orderId order reference
 	 */
-	public void setPayment (int C_Payment_ID, int C_Currency_ID, 
-		BigDecimal PayAmt, BigDecimal OpenAmt) {
-		setC_Payment_ID(C_Payment_ID);
-		currencyFromId = C_Currency_ID;
-		setAmt (PayAmt);
-		setOpenAmt (OpenAmt);
+	public void setPayment (int paymentId, int currencyId, 
+		BigDecimal payAmt, BigDecimal openAmt, int orderId) {
+		setC_Payment_ID(paymentId);
+		currencyFromId = currencyId;
+		setAmt (payAmt);
+		setOpenAmt (openAmt);
 		setConvertedAmt (MConversionRate.convert(getCtx(), getOpenAmt(), 
-			C_Currency_ID, getC_CurrencyTo_ID(), getAD_Client_ID(), getAD_Org_ID()));
+			currencyId, getC_CurrencyTo_ID(), getAD_Client_ID(), getAD_Org_ID()));
+		//	Set Order
+		if(orderId != 0) {
+			setC_Order_ID(orderId);
+		}
 	}	//	setPayment
 
 	
