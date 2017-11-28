@@ -147,5 +147,20 @@
         <Data AD_Column_ID="2007" Column="IsReadOnly" oldValue="false">true</Data>
       </PO>
     </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="127" Action="U" Record_ID="84430" Table="AD_Field_Trl">
+        <Data AD_Column_ID="287" Column="Description" oldValue="Fully qualified SQL WHERE clause">Condicion adicional</Data>
+        <Data AD_Column_ID="286" Column="Name" oldValue="Sql WHERE">Condicion adicional</Data>
+        <Data AD_Column_ID="284" Column="AD_Field_ID" oldValue="84430">84430</Data>
+        <Data AD_Column_ID="285" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <PO AD_Table_ID="127" Action="U" Record_ID="84430" Table="AD_Field_Trl">
+        <Data AD_Column_ID="288" Column="Help" isNewNull="true" oldValue="The Where Clause indicates the SQL WHERE clause to use for record selection. The WHERE clause is added to the query. Fully qualified means &quot;tablename.columnname&quot;."/>
+        <Data AD_Column_ID="284" Column="AD_Field_ID" oldValue="84430">84430</Data>
+        <Data AD_Column_ID="285" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+      </PO>
+    </Step>
   </Migration>
 </Migrations>
