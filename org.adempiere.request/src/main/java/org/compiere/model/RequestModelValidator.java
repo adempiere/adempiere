@@ -263,7 +263,7 @@ public class RequestModelValidator implements ModelValidator {
             return false;
         }
         if ((whereClause.indexOf('@') > -1)){
-            whereConditions = Evaluator.parseContext(entity,whereClause);
+            whereConditions = Env.parseVariable(whereClause, entity, entity.get_TrxName(), false);
         }
 
         PO instance = new Query(entity.getCtx(), tableName,
