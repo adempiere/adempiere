@@ -3354,7 +3354,7 @@ For Multi-Lingual systems, the template is translated based on the Business Part
         <Data AD_Column_ID="57989" Column="Created">2017-11-28 12:00:51.187</Data>
         <Data AD_Column_ID="57990" Column="Updated">2017-11-28 12:00:51.187</Data>
         <Data AD_Column_ID="58001" Column="Processing">false</Data>
-        <Data AD_Column_ID="73086" Column="IsShowTotal">true</Data>
+        <Data AD_Column_ID="73086" Column="IsShowTotal">false</Data>
         <Data AD_Column_ID="57994" Column="Description">Smart Browser allows the revision of the requests of a Project</Data>
         <Data AD_Column_ID="57996" Column="Help">In this Smart Browser, it is possible to update the request data of a Project</Data>
         <Data AD_Column_ID="64854" Column="CopyFrom" isNewNull="true"/>
