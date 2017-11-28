@@ -478,6 +478,8 @@ public class MProject extends X_C_Project
 			List<MRequest> requests =  standardRequestType.createStandardRequest(this);
 			requests.stream().forEach(request -> {
 				request.setC_Project_ID(getC_Project_ID());
+				request.setDateStartPlan(getDateStartSchedule());
+				request.setDateCompletePlan(getDateFinishSchedule());
 				request.saveEx();
 			});
 		}
