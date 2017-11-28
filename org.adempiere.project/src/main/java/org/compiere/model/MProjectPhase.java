@@ -179,6 +179,8 @@ public class MProjectPhase extends X_C_ProjectPhase
 			requests.stream().forEach(request -> {
 				request.setC_Project_ID(getC_Project_ID());
 				request.setC_ProjectPhase_ID(getC_ProjectPhase_ID());
+				request.setDateStartPlan(getDateStartSchedule());
+				request.setDateCompletePlan(getDateFinishSchedule());
 				request.saveEx();
 			});
 		}

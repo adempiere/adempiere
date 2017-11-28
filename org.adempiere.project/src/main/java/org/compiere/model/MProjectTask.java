@@ -168,6 +168,8 @@ public class MProjectTask extends X_C_ProjectTask
 				request.setC_Project_ID(getC_Project_ID(false));
 				request.setC_ProjectPhase_ID(getC_ProjectPhase_ID());
 				request.setC_ProjectTask_ID(getC_ProjectTask_ID());
+				request.setDateStartPlan(getDateStartSchedule());
+				request.setDateCompletePlan(getDateFinishSchedule());
 				request.saveEx();
 			});
 		}
