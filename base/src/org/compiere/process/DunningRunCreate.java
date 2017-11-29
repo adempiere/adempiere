@@ -19,6 +19,7 @@ package org.compiere.process;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -60,8 +61,29 @@ public class DunningRunCreate extends DunningRunCreateAbstract {
 			+ ", C_BP_Group_ID=" + getBPGroupId()
 			+ ", C_BPartner_ID=" + getBPartnerId());
 		run = new MDunningRun (getCtx(), getRecord_ID(), get_TrxName());
-		if (run.get_ID() == 0)
-			throw new IllegalArgumentException ("@C_Dunning_ID@ @NotFound@");
+		if (run.getC_DunningRun_ID() == 0) {
+			if(getDunningId() == 0) {
+				throw new IllegalArgumentException ("@C_Dunning_ID@ @NotFound@");
+			}
+			//	Set Date
+			if(getDunningDate() == null) {
+				run.setDunningDate(new Timestamp(System.currentTimeMillis()));
+			}
+		}
+		//	set dunning
+		if(getDunningId() != 0) {
+			run.setC_Dunning_ID(getDunningId());
+		}
+		//	set dunning level
+		if(getDunningLevelId() != 0) {
+			run.setC_DunningLevel_ID(getDunningLevelId());
+		}
+		//	set dunning date
+		if(getDunningDate() != null) {
+			run.setDunningDate(getDunningDate());
+		}
+		//	Save if exists changes
+		run.saveEx();
 		run.deleteEntries(true);
 		//
 		for (MDunningLevel level : run.getLevels()) {
@@ -121,7 +143,6 @@ public class DunningRunCreate extends DunningRunCreateAbstract {
 			sql += " AND i.C_Currency_ID=" + getCurrencyId();
 		if ( getOrgId() != 0 )
 			sql += " AND i.AD_Org_ID=" + getOrgId();
-	//	log.info(sql);
 		
 		String sql2=null;
 		

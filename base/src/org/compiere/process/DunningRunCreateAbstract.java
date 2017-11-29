@@ -17,7 +17,7 @@
 
 package org.compiere.process;
 
-
+import java.sql.Timestamp;
 
 /** Generated Process for (Create Dunning Run)
  *  @author ADempiere (generated) 
@@ -46,6 +46,12 @@ public abstract class DunningRunCreateAbstract extends SvrProcess {
 	public static final String C_BPARTNER_ID = "C_BPartner_ID";
 	/**	Parameter Name for Business Partner Group	*/
 	public static final String C_BP_GROUP_ID = "C_BP_Group_ID";
+	/**	Parameter Name for Dunning Date	*/
+	public static final String DUNNINGDATE = "DunningDate";
+	/**	Parameter Name for Dunning	*/
+	public static final String C_DUNNING_ID = "C_Dunning_ID";
+	/**	Parameter Name for Dunning Level	*/
+	public static final String C_DUNNINGLEVEL_ID = "C_DunningLevel_ID";
 	/**	Parameter Value for Organization	*/
 	private int orgId;
 	/**	Parameter Value for Include Disputed	*/
@@ -62,6 +68,12 @@ public abstract class DunningRunCreateAbstract extends SvrProcess {
 	private int bPartnerId;
 	/**	Parameter Value for Business Partner Group	*/
 	private int bPGroupId;
+	/**	Parameter Value for Dunning Date	*/
+	private Timestamp dunningDate;
+	/**	Parameter Value for Dunning	*/
+	private int dunningId;
+	/**	Parameter Value for Dunning Level	*/
+	private int dunningLevelId;
 
 	@Override
 	protected void prepare() {
@@ -73,6 +85,9 @@ public abstract class DunningRunCreateAbstract extends SvrProcess {
 		isAllCurrencies = getParameterAsBoolean(ISALLCURRENCIES);
 		bPartnerId = getParameterAsInt(C_BPARTNER_ID);
 		bPGroupId = getParameterAsInt(C_BP_GROUP_ID);
+		dunningDate = getParameterAsTimestamp(DUNNINGDATE);
+		dunningId = getParameterAsInt(C_DUNNING_ID);
+		dunningLevelId = getParameterAsInt(C_DUNNINGLEVEL_ID);
 	}
 
 	/**	 Getter Parameter Value for Organization	*/
@@ -153,6 +168,36 @@ public abstract class DunningRunCreateAbstract extends SvrProcess {
 	/**	 Setter Parameter Value for Business Partner Group	*/
 	protected void setBPGroupId(int bPGroupId) {
 		this.bPGroupId = bPGroupId;
+	}
+
+	/**	 Getter Parameter Value for Dunning Date	*/
+	protected Timestamp getDunningDate() {
+		return dunningDate;
+	}
+
+	/**	 Setter Parameter Value for Dunning Date	*/
+	protected void setDunningDate(Timestamp dunningDate) {
+		this.dunningDate = dunningDate;
+	}
+
+	/**	 Getter Parameter Value for Dunning	*/
+	protected int getDunningId() {
+		return dunningId;
+	}
+
+	/**	 Setter Parameter Value for Dunning	*/
+	protected void setDunningId(int dunningId) {
+		this.dunningId = dunningId;
+	}
+
+	/**	 Getter Parameter Value for Dunning Level	*/
+	protected int getDunningLevelId() {
+		return dunningLevelId;
+	}
+
+	/**	 Setter Parameter Value for Dunning Level	*/
+	protected void setDunningLevelId(int dunningLevelId) {
+		this.dunningLevelId = dunningLevelId;
 	}
 
 	/**	 Getter Parameter Value for Process ID	*/
