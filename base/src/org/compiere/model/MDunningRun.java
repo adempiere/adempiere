@@ -155,7 +155,7 @@ public class MDunningRun extends X_C_DunningRun
 		return new Query(
 				ctx,
 				I_C_DunningRun.Table_Name,
-				(onlyUnprocessed? "Processed = 'Y'": ""),
+				(onlyUnprocessed? "Processed = 'N'": ""),
 				null)
 		.setOnlyActiveRecords(true)
 		.setClient_ID()
