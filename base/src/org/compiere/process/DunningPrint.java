@@ -17,6 +17,7 @@
 package org.compiere.process;
 
 import java.io.File;
+import java.util.List;
 
 import org.compiere.model.MBPartner;
 import org.compiere.model.MClient;
@@ -45,6 +46,11 @@ import org.compiere.util.EMail;
  * 		@see FR [ 1494 ] Translation is not considerated for Dunning Run</a>
  */
 public class DunningPrint extends DunningPrintAbstract {
+	/**	Count			*/
+	private int count = 0;
+	/**	Errors			*/
+	private int errors = 0;
+	
 	/**
 	 * Process
 	 * @return info
@@ -66,15 +72,37 @@ public class DunningPrint extends DunningPrintAbstract {
 			if (isEMailPDF() && text.get_ID() == 0)
 				throw new AdempiereUserError ("@NotFound@: @R_MailText_ID@ - " + getMailTextId());
 		}
-		//
-		MDunningRun run = new MDunningRun (getCtx(), getDunningRunId(), get_TrxName());
-		if (run.get_ID() == 0)
-			throw new AdempiereUserError ("@NotFound@: @C_DunningRun_ID@ - " + getDunningRunId());
+		//	get Dunning
+		if(getDunningRunId() != 0) {
+			MDunningRun dunningRun = new MDunningRun (getCtx(), getDunningRunId(), get_TrxName());
+			if (dunningRun.get_ID() == 0) {
+				throw new AdempiereUserError ("@NotFound@: @C_DunningRun_ID@ - " + getDunningRunId());
+			}
+			//	Process
+			processDunning(dunningRun, text);
+		} else {
+			List<MDunningRun> dunningList = MDunningRun.getDunningRunList(getCtx(), isPrintUnprocessedOnly());
+			if(dunningList != null) {
+				for(MDunningRun dunningRun : dunningList) {
+					processDunning(dunningRun, text);
+				}
+			}
+		}
+		//	
+		if (isEMailPDF()) {
+			return "@Sent@=" + count + " - @Errors@=" + errors;
+		}
+		return "@Printed@=" + count;
+	}	//	doIt
+	
+	/**
+	 * Process Dunning for send or print
+	 * @param dunningRun
+	 * @param text
+	 */
+	private void processDunning(MDunningRun dunningRun, MMailText text) {
 		MClient client = MClient.get(getCtx());
-		
-		int count = 0;
-		int errors = 0;
-		for(MDunningRunEntry entry : run.getEntries(false)) {
+		for(MDunningRunEntry entry : dunningRun.getEntries(false)) {
 			//	Print Format on Dunning Level
 			MDunningLevel level = new MDunningLevel (getCtx(), entry.getC_DunningLevel_ID(), get_TrxName());
 			MPrintFormat format = null;
@@ -179,12 +207,9 @@ public class DunningPrint extends DunningPrintAbstract {
 			}
 		}	//	for all dunning letters
 		if (errors==0) {
-			run.setProcessed(true);
-			run.saveEx();
+			dunningRun.setProcessed(true);
+			dunningRun.saveEx();
 		}
-		if (isEMailPDF()) {
-			return "@Sent@=" + count + " - @Errors@=" + errors;
-		}
-		return "@Printed@=" + count;
-	}	//	doIt
+	}
+	
 }	//	DunningPrint

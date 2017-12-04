@@ -145,6 +145,25 @@ public class MDunningRun extends X_C_DunningRun
 	}	//	getEntries
 	
 	/**
+	 * Get dunning run
+	 * @param onlyUnprocessed unprocessed dunning
+	 * @param ctx
+	 * @return
+	 */
+	public static List<MDunningRun> getDunningRunList(Properties ctx, boolean onlyUnprocessed) {
+		//	Search Dunning Run Entry
+		return new Query(
+				ctx,
+				I_C_DunningRun.Table_Name,
+				(onlyUnprocessed? "Processed = 'Y'": ""),
+				null)
+		.setOnlyActiveRecords(true)
+		.setClient_ID()
+		.setOrderBy(I_C_DunningRun.COLUMNNAME_DunningDate)
+		.<MDunningRun>list();
+	}	//	getEntries
+	
+	/**
 	 * 	Delete all Entries
 	 * 	@param force delete also processed records
 	 *	@return true if deleted
