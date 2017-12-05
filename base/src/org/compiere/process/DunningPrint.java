@@ -101,6 +101,7 @@ public class DunningPrint extends DunningPrintAbstract {
 	 * @param text
 	 */
 	private void processDunning(MDunningRun dunningRun, MMailText text) {
+		int internalError = 0;
 		MClient client = MClient.get(getCtx());
 		for(MDunningRunEntry entry : dunningRun.getEntries(false)) {
 			//	Print Format on Dunning Level
@@ -158,7 +159,7 @@ public class DunningPrint extends DunningPrintAbstract {
 				if (!email.isValid()) {
 					addLog (entry.get_ID(), null, null, 
 						"@RequestActionEMailError@ Invalid EMail: " + to);
-					errors++;
+					internalError++;
 					continue;
 				}
 				if(text == null) {
@@ -192,7 +193,7 @@ public class DunningPrint extends DunningPrintAbstract {
 				} else {
 					addLog (entry.get_ID(), null, null,
 						bp.getName() + " @RequestActionEMailError@ " + msg);
-					errors++;
+					internalError++;
 				}
 			} else {
 				if (re != null) {
@@ -206,7 +207,9 @@ public class DunningPrint extends DunningPrintAbstract {
 				entry.save ();
 			}
 		}	//	for all dunning letters
-		if (errors==0) {
+		//	Add Errors
+		errors += internalError;
+		if (internalError == 0) {
 			dunningRun.setProcessed(true);
 			dunningRun.saveEx();
 		}
