@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Improve Window definition #1516" ReleaseNo="3.9.1" SeqNo="3520">
+    <Comments>See: https://github.com/adempiere/adempiere/issues/1516</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="83995" Table="AD_Field">
+        <Data AD_Column_ID="176" Column="IsDisplayed" oldValue="true">false</Data>
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="100">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="84007" Table="AD_Field">
+        <Data AD_Column_ID="176" Column="IsDisplayed" oldValue="true">false</Data>
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="100">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="84005" Table="AD_Field">
+        <Data AD_Column_ID="53265" Column="DefaultValue" isOldNull="true">--</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="84005" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="80">0</Data>
+        <Data AD_Column_ID="176" Column="IsDisplayed" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="84006" Table="AD_Field">
+        <Data AD_Column_ID="176" Column="IsDisplayed" oldValue="true">false</Data>
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="90">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="84013" Table="AD_Field">
+        <Data AD_Column_ID="176" Column="IsDisplayed" oldValue="true">false</Data>
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="60">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="84014" Table="AD_Field">
+        <Data AD_Column_ID="176" Column="IsDisplayed" oldValue="true">false</Data>
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="70">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="84015" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="80">60</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="84016" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="90">70</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="100" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="84017" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="100">80</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="110" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="84018" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="110">90</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="120" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="84019" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="120">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="130" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="84020" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="130">110</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="140" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="84021" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="140">120</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="150" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="84022" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="150">130</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="160" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="84019" Table="AD_Field">
+        <Data AD_Column_ID="176" Column="IsDisplayed" oldValue="true">false</Data>
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="100">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="170" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="84020" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="110">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="180" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="84021" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="120">110</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="190" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="84022" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="130">120</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="200" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="3040" Table="AD_Column">
+        <Data AD_Column_ID="6244" Column="IsSelectionColumn" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="210" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="3042" Table="AD_Column">
+        <Data AD_Column_ID="6244" Column="IsSelectionColumn" oldValue="false">true</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>
