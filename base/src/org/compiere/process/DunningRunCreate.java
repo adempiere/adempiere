@@ -24,13 +24,16 @@ import java.util.List;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.BPartnerNoAddressException;
+import org.compiere.model.I_C_Dunning;
 import org.compiere.model.MBPartner;
+import org.compiere.model.MDunning;
 import org.compiere.model.MDunningLevel;
 import org.compiere.model.MDunningRun;
 import org.compiere.model.MDunningRunEntry;
 import org.compiere.model.MDunningRunLine;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MPayment;
+import org.compiere.model.Query;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 
@@ -48,8 +51,7 @@ import org.compiere.util.Env;
  */
 public class DunningRunCreate extends DunningRunCreateAbstract {	
 	
-	private MDunningRun run = null;
-	
+	private int entries = 0;
 	/**
 	 * 	Process
 	 *	@return message
@@ -60,50 +62,81 @@ public class DunningRunCreate extends DunningRunCreateAbstract {
 			+ ", Dispute=" + isIncludeInDispute()
 			+ ", C_BP_Group_ID=" + getBPGroupId()
 			+ ", C_BPartner_ID=" + getBPartnerId());
-		run = new MDunningRun (getCtx(), getRecord_ID(), get_TrxName());
-		if (run.getC_DunningRun_ID() == 0) {
-			if(getDunningId() == 0) {
-				throw new IllegalArgumentException ("@C_Dunning_ID@ @NotFound@");
+		if(getRecord_ID() != 0) {
+			MDunningRun dunningRun = new MDunningRun(getCtx(), getRecord_ID(), get_TrxName());
+			processDunningRun(new MDunning(getCtx(), getDunningId(), get_TrxName()), dunningRun);
+		} else {
+			if(getDunningId() != 0) {
+				MDunningRun dunningRun = new MDunningRun(getCtx(), 0, get_TrxName());
+				processDunningRun(new MDunning(getCtx(), getDunningId(), get_TrxName()), dunningRun);
+			} else {
+				new Query(
+						getCtx(),
+						I_C_Dunning.Table_Name,
+						null,
+						get_TrxName())
+				.setOnlyActiveRecords(true)
+				.setClient_ID()
+				.<MDunning>list().stream().forEach(dunning -> {
+					processDunningRun(dunning, new MDunningRun(getCtx(), 0, get_TrxName()));
+				});
 			}
+		}
+		//	
+		return "@C_DunningRunEntry_ID@ #" + entries;
+	}	//	doIt
+	
+	/**
+	 * Process dunning run
+	 * @param dunning
+	 * @param dunningRun
+	 */
+	private void processDunningRun(MDunning dunning, MDunningRun dunningRun) {
+		if (dunningRun.getC_DunningRun_ID() == 0) {
 			//	Set Date
 			if(getDunningDate() == null) {
-				run.setDunningDate(new Timestamp(System.currentTimeMillis()));
+				dunningRun.setDunningDate(new Timestamp(System.currentTimeMillis()));
 			}
 		}
 		//	set dunning
-		if(getDunningId() != 0) {
-			run.setC_Dunning_ID(getDunningId());
+		if(dunning.getC_Dunning_ID() != 0) {
+			dunningRun.setC_Dunning_ID(dunning.getC_Dunning_ID());
 		}
 		//	set dunning level
 		if(getDunningLevelId() != 0) {
-			run.setC_DunningLevel_ID(getDunningLevelId());
+			dunningRun.setC_DunningLevel_ID(getDunningLevelId());
+			if(dunning.getC_Dunning_ID() == 0) {
+				MDunningLevel level = new MDunningLevel(getCtx(), getDunningLevelId(), get_TrxName());
+				dunningRun.setC_Dunning_ID(level.getC_Dunning_ID());
+			}
 		}
 		//	set dunning date
 		if(getDunningDate() != null) {
-			run.setDunningDate(getDunningDate());
+			dunningRun.setDunningDate(getDunningDate());
 		}
 		//	Save if exists changes
-		run.saveEx();
-		run.deleteEntries(true);
+		dunningRun.saveEx();
+		dunningRun.deleteEntries(true);
 		//
-		for (MDunningLevel level : run.getLevels()) {
-			addInvoices(level);
+		for (MDunningLevel level : dunningRun.getLevels()) {
+			addInvoices(dunningRun, level);
 			if(level.isIncludePayments()) {
-				addPayments(level);
+				addPayments(dunningRun, level);
 			}
 			//	
 			if (level.isChargeFee ()) {
-				addFees(level);
+				addFees(dunningRun, level);
 			}
 
 			// we need to check whether this is a statement or not and some other rules
-			checkDunningEntry(level);
+			checkDunningEntry(dunningRun, level);
 		}
 
-		int entries = DB.getSQLValue(get_TrxName(), "SELECT COUNT(*) FROM C_DunningRunEntry WHERE C_DunningRun_ID=?", run.get_ID());
+		int localEntries = DB.getSQLValue(get_TrxName(), "SELECT COUNT(*) FROM C_DunningRunEntry WHERE C_DunningRun_ID=?", dunningRun.get_ID());
 		
-		return "@C_DunningRunEntry_ID@ #" + entries;
-	}	//	doIt
+		entries += localEntries;
+		addLog("@C_DunningRunEntry_ID@ #" + localEntries);
+	}
 
 	
 	/**************************************************************************
@@ -111,7 +144,7 @@ public class DunningRunCreate extends DunningRunCreateAbstract {
 	 *  @param level  the Dunning level
 	 *  @return no of invoices
 	 */
-	private int addInvoices(MDunningLevel level) {
+	private int addInvoices(MDunningRun run, MDunningLevel level) {
 		int count = 0;
 		String sql = "SELECT i.C_Invoice_ID, i.C_Currency_ID,"
 			+ " i.GrandTotal*i.MultiplierAP,"
@@ -246,7 +279,7 @@ public class DunningRunCreate extends DunningRunCreateAbstract {
 				if (DaysAfterLast < DaysBetweenDunning)
 					TimesDunned = TimesDunned*-1;
 				//
-				if (createInvoiceLine(invoiceId, invoicePayScheduleId, currencyId, grandTotal, open,
+				if (createInvoiceLine(run, invoiceId, invoicePayScheduleId, currencyId, grandTotal, open,
 						daysDue, isInDispute, bPartnerId, 
 						TimesDunned, DaysAfterLast, level.getC_DunningLevel_ID(), orderId)) {
 					count++;
@@ -278,7 +311,7 @@ public class DunningRunCreate extends DunningRunCreateAbstract {
 	 *  @param invoicePayScheduleId
 	 *  @param orderId order reference
 	 */
-	private boolean createInvoiceLine (int invoiceId, int invoicePayScheduleId, int currencyId, 
+	private boolean createInvoiceLine (MDunningRun run, int invoiceId, int invoicePayScheduleId, int currencyId, 
 		BigDecimal grandTotal, BigDecimal open, 
 		int daysDue, boolean isInDispute, 
 		int bPartnerId, int timesDunned, int daysAfterLast, int dunningLevelId, int orderId) {
@@ -315,7 +348,7 @@ public class DunningRunCreate extends DunningRunCreateAbstract {
 	 *  @param level  the Dunning level
 	 *	@return no of payments
 	 */
-	private int addPayments(MDunningLevel level) {
+	private int addPayments(MDunningRun run, MDunningLevel level) {
 		String sql = "SELECT p.C_Payment_ID, p.C_Currency_ID, p.PayAmt,"
 			+ " paymentAvailable(p.C_Payment_ID), p.C_BPartner_ID, p.C_Order_ID "
 			+ "FROM C_Payment_v p "
@@ -339,7 +372,7 @@ public class DunningRunCreate extends DunningRunCreateAbstract {
 		// If it is not a statement we will add lines only if InvoiceLines exists,
 		// because we do not want to dunn for money we owe the customer!
 		if (!level.isStatement())
-			sql += " AND C_BPartner_ID IN (SELECT C_BPartner_ID FROM C_DunningRunEntry WHERE C_DunningRun_ID=" + run.get_ID () + ")";
+			sql += " AND C_BPartner_ID IN (SELECT C_BPartner_ID FROM C_DunningRunEntry WHERE C_DunningRun_ID=" + run.get_ID() + ")";
 		// show only receipts / if only Sales
 		if (isOnlySOTrx())
 			sql += " AND IsReceipt='Y'";
@@ -370,7 +403,7 @@ public class DunningRunCreate extends DunningRunCreateAbstract {
 				if (Env.ZERO.compareTo(openAmt) == 0)
 					continue;
 				//
-				if (createPaymentLine(paymentId, currencyId, payAmt, openAmt,
+				if (createPaymentLine(run, paymentId, currencyId, payAmt, openAmt,
 						bPartnerId, level.getC_DunningLevel_ID(), orderId)) {
 					count++;
 				}
@@ -395,7 +428,7 @@ public class DunningRunCreate extends DunningRunCreateAbstract {
 	 *  @param dunningLevelId 
 	 *  @param orderId
 	 */
-	private boolean createPaymentLine (int paymentId, int currencyId, 
+	private boolean createPaymentLine (MDunningRun run, int paymentId, int currencyId, 
 		BigDecimal payAmt, BigDecimal openAmt, int bPartnerId, int dunningLevelId, int orderId) {
 		MDunningRunEntry entry = null;
 		try {
@@ -421,7 +454,7 @@ public class DunningRunCreate extends DunningRunCreateAbstract {
 	/**
 	 * 	Add Fees for every line
 	 */
-	private void addFees(MDunningLevel level) {
+	private void addFees(MDunningRun run, MDunningLevel level) {
 		// Only add a fee if it contains InvoiceLines and is not a statement
 		boolean onlyInvoices = level.isStatement();
 		List<MDunningRunEntry> entries = run.getEntries (true, onlyInvoices);
@@ -441,7 +474,7 @@ public class DunningRunCreate extends DunningRunCreateAbstract {
 	 * 	Check the dunning run
 	 *  1) Check for following Rule: ShowAll should produce only a record if at least one new line is found
 	 */
-	private void checkDunningEntry(MDunningLevel level) {
+	private void checkDunningEntry(MDunningRun run, MDunningLevel level) {
 		// Check rule 1)
 		if (level.isShowAllDue ()) {
 			for(MDunningRunEntry entry : run.getEntries(true)) {
