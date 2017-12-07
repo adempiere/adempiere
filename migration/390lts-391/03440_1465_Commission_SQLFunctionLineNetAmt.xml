@@ -62,12 +62,6 @@ select
 
     RETURN coalesce(v_amt,0);
 END;
-
-$BODY$
-  LANGUAGE plpgsql VOLATILE
-  COST 100;
-ALTER FUNCTION linenetamtrealorderline(numeric)
-  OWNER TO adempiere;
 </SQLStatement>
       <RollbackStatement>DROP FUNCTION linenetamtrealorderline(numeric);</RollbackStatement>
     </Step>
