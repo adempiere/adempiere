@@ -101,6 +101,8 @@ public class ReportExport {
 		addExportFormat(new ExportFormatXLS(getCtx(), getReportEngine()));
 		//	XLSX
 		addExportFormat(new ExportFormatXLSX(getCtx(), getReportEngine()));
+		//	ARXML
+		addExportFormat(new ExportFormatARXML(getCtx(), getReportEngine()));
 	}
 	
 }	//	AbstractReportExport
