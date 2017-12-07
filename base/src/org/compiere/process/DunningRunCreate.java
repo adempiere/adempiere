@@ -114,6 +114,10 @@ public class DunningRunCreate extends DunningRunCreateAbstract {
 		if(getDunningDate() != null) {
 			dunningRun.setDunningDate(getDunningDate());
 		}
+		//	Set org
+		if(getOrgId() != 0) {
+			dunningRun.setAD_Org_ID(getOrgId());
+		}
 		//	Save if exists changes
 		dunningRun.saveEx();
 		dunningRun.deleteEntries(true);
