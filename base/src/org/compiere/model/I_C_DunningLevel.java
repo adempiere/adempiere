@@ -169,6 +169,24 @@ public interface I_C_DunningLevel
 	  */
 	public int getDaysBetweenDunning();
 
+    /** Column name DaysFrom */
+    public static final String COLUMNNAME_DaysFrom = "DaysFrom";
+
+	/** Set Days From	  */
+	public void setDaysFrom (int DaysFrom);
+
+	/** Get Days From	  */
+	public int getDaysFrom();
+
+    /** Column name DaysTo */
+    public static final String COLUMNNAME_DaysTo = "DaysTo";
+
+	/** Set Days To	  */
+	public void setDaysTo (int DaysTo);
+
+	/** Get Days To	  */
+	public int getDaysTo();
+
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
 
@@ -261,6 +279,19 @@ public interface I_C_DunningLevel
 	  * Include payments in the aging report
 	  */
 	public boolean isIncludePayments();
+
+    /** Column name IsRange */
+    public static final String COLUMNNAME_IsRange = "IsRange";
+
+	/** Set Range.
+	  * The parameter is a range of values
+	  */
+	public void setIsRange (boolean IsRange);
+
+	/** Get Range.
+	  * The parameter is a range of values
+	  */
+	public boolean isRange();
 
     /** Column name IsSetCreditStop */
     public static final String COLUMNNAME_IsSetCreditStop = "IsSetCreditStop";
