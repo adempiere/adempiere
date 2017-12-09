@@ -19,6 +19,7 @@ package org.compiere.process;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.logging.Level;
@@ -36,6 +37,7 @@ import org.compiere.model.MPayment;
 import org.compiere.model.Query;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.compiere.util.ValueNamePair;
 
 
 /**
@@ -181,8 +183,6 @@ public class DunningRunCreate extends DunningRunCreateAbstract {
 		if ( getOrgId() != 0 )
 			sql += " AND i.AD_Org_ID=" + getOrgId();
 		
-		String sql2=null;
-		
 		// if sequentially we must check for other levels with smaller days for
 		// which this invoice is not yet included!
 		if (level.getParent().isCreateLevelsSequentially()) {
@@ -200,18 +200,11 @@ public class DunningRunCreate extends DunningRunCreateAbstract {
 			}
 			sql += sqlAppend;
 		}
-		// ensure that we do only dunn what's not yet dunned, so we lookup the max of last Dunn Date which was processed
-		sql2 = "SELECT COUNT(*), COALESCE(DAYSBETWEEN(MAX(dr2.DunningDate), MAX(dr.DunningDate)),0)"		
-			+ "FROM C_DunningRun dr2, C_DunningRun dr"
-			+ " INNER JOIN C_DunningRunEntry dre ON (dr.C_DunningRun_ID=dre.C_DunningRun_ID)"
-			+ " INNER JOIN C_DunningRunLine drl ON (dre.C_DunningRunEntry_ID=drl.C_DunningRunEntry_ID) "
-			+ "WHERE dr2.C_DunningRun_ID=? AND drl.C_Invoice_ID=?"; // ##1 ##2
 		
-		BigDecimal DaysAfterDue = level.getDaysAfterDue();
-		int DaysBetweenDunning = level.getDaysBetweenDunning();
+		BigDecimal daysAfterDue = level.getDaysAfterDue();
+		int daysBetweenDunning = level.getDaysBetweenDunning();
 		
 		PreparedStatement pstmt = null;
-		PreparedStatement pstmt2 = null;
 		ResultSet rs = null;
 		try {
 			pstmt = DB.prepareStatement (sql, get_TrxName());
@@ -226,8 +219,6 @@ public class DunningRunCreate extends DunningRunCreateAbstract {
 			else if (getBPGroupId() != 0)
 				pstmt.setInt (7, getBPGroupId());
 			//
-			pstmt2 = DB.prepareStatement (sql2, get_TrxName());
-			//
 			rs = pstmt.executeQuery ();
 			while (rs.next()) {
 				int invoiceId = rs.getInt(1);
@@ -239,7 +230,7 @@ public class DunningRunCreate extends DunningRunCreateAbstract {
 				int bPartnerId = rs.getInt(7);
 				int invoicePayScheduleId = rs.getInt(8);
 				int orderId = rs.getInt(9);
-				log.fine("DaysAfterDue: " + DaysAfterDue.intValue() + " isShowAllDue: " + level.isShowAllDue());
+				log.fine("DaysAfterDue: " + daysAfterDue.intValue() + " isShowAllDue: " + level.isShowAllDue());
 				log.fine("C_Invoice_ID - DaysDue - GrandTotal: " + invoiceId + " - " + daysDue + " - " + grandTotal);
 				log.fine("C_InvoicePaySchedule_ID: " + invoicePayScheduleId);
 				//
@@ -247,45 +238,49 @@ public class DunningRunCreate extends DunningRunCreateAbstract {
 				if (!isIncludeInDispute() && isInDispute)
 					continue;
 				// Check the day again based on rulesets
-				if (daysDue > 0 && daysDue < DaysAfterDue.intValue() && !level.isShowAllDue ())
+				if (daysDue > 0 && daysDue < daysAfterDue.intValue() && !level.isShowAllDue ())
 					continue;
 				// Check for an open amount
 				if (Env.ZERO.compareTo(open) == 0)
 					continue;
 				//
-				int TimesDunned = 0;
-				int DaysAfterLast = 0;
-				//	SubQuery
-				pstmt2.setInt (1, run.get_ID ());
-				pstmt2.setInt (2, invoiceId);
-				ResultSet rs2 = pstmt2.executeQuery ();
-				if (rs2.next()) {
-					TimesDunned = rs2.getInt(1);
-					DaysAfterLast = rs2.getInt(2);
+				int timesDunned = 0;
+				int daysAfterLast = 0;
+				if(level.isRange()) {
+					//	if it don't have days from to
+					if(level.getDaysFrom() == 0 && level.getDaysTo() == 0 && !level.isShowAllDue())
+						continue;
+					//	Days due are < that Days due from
+					if(daysDue < level.getDaysFrom() && !level.isShowAllDue())
+						continue;
+					//	Days due are > that days to
+					if(daysDue > level.getDaysTo() && level.getDaysTo() != 0 && !level.isShowAllDue())
+						continue;
+				} else {
+					int []values = getDunningTime(run.getC_DunningRun_ID(), invoiceId);
+					timesDunned = values[0];
+					daysAfterLast = values[1];
+					// Ensure that Daysbetween Dunning is enforced
+					// Ensure Not ShowAllDue and Not ShowNotDue is selected
+					// PROBLEM: If you have ShowAll activated then DaysBetweenDunning is not working, because we don't know whether
+					//          there is something which we really must Dunn.
+					if (daysBetweenDunning != 0 && timesDunned > 0 && daysAfterLast < daysBetweenDunning && !level.isShowAllDue () && !level.isShowNotDue ())
+						continue;
+					
+					// We don't want to show non due documents
+					if (daysDue<0 && !level.isShowNotDue ())
+						continue;
+								
+					// We will minus the timesDunned if this is the DaysBetweenDunning is not fullfilled.
+					// Remember in checkup later we must reset them!
+					// See also checkDunningEntry()
+					if (daysAfterLast < daysBetweenDunning)
+						timesDunned = timesDunned*-1;
 				}
-				rs2.close();
-				//	SubQuery
-				
-				// Ensure that Daysbetween Dunning is enforced
-				// Ensure Not ShowAllDue and Not ShowNotDue is selected
-				// PROBLEM: If you have ShowAll activated then DaysBetweenDunning is not working, because we don't know whether
-				//          there is something which we really must Dunn.
-				if (DaysBetweenDunning != 0 && TimesDunned > 0 && DaysAfterLast < DaysBetweenDunning && !level.isShowAllDue () && !level.isShowNotDue ())
-					continue;
-				
-				// We don't want to show non due documents
-				if (daysDue<0 && !level.isShowNotDue ())
-					continue;
-							
-				// We will minus the timesDunned if this is the DaysBetweenDunning is not fullfilled.
-				// Remember in checkup later we must reset them!
-				// See also checkDunningEntry()
-				if (DaysAfterLast < DaysBetweenDunning)
-					TimesDunned = TimesDunned*-1;
 				//
 				if (createInvoiceLine(run, invoiceId, invoicePayScheduleId, currencyId, grandTotal, open,
 						daysDue, isInDispute, bPartnerId, 
-						TimesDunned, DaysAfterLast, level.getC_DunningLevel_ID(), orderId)) {
+						timesDunned, daysAfterLast, level.getC_DunningLevel_ID(), orderId)) {
 					count++;
 				}
 			}
@@ -295,11 +290,40 @@ public class DunningRunCreate extends DunningRunCreateAbstract {
 			getProcessInfo().addLog(getProcessInfo().getAD_PInstance_ID(), null, null, e.getLocalizedMessage());
 		} finally {
 			DB.close(rs, pstmt);
-			rs = null; pstmt = null; pstmt2 = null;
+			rs = null; pstmt = null;
 		}
 		return count;
 	}	//	addInvoices
-
+	
+	/**
+	 * Get from dunning time
+	 * @param dunningRunId
+	 * @param invoiceId
+	 * @return
+	 * @throws SQLException 
+	 */
+	private int[] getDunningTime(int dunningRunId, int invoiceId) throws SQLException {
+		int values[] = new int[]{0, 0};
+		// ensure that we do only dunn what's not yet dunned, so we lookup the max of last Dunn Date which was processed
+		String sql = "SELECT COUNT(*), COALESCE(DAYSBETWEEN(MAX(dr2.DunningDate), MAX(dr.DunningDate)),0)"		
+			+ "FROM C_DunningRun dr2, C_DunningRun dr"
+			+ " INNER JOIN C_DunningRunEntry dre ON (dr.C_DunningRun_ID=dre.C_DunningRun_ID)"
+			+ " INNER JOIN C_DunningRunLine drl ON (dre.C_DunningRunEntry_ID=drl.C_DunningRunEntry_ID) "
+			+ "WHERE dr2.C_DunningRun_ID=? AND drl.C_Invoice_ID=?"; // ##1 ##2
+		PreparedStatement pstmt = DB.prepareStatement (sql, get_TrxName());
+		//	SubQuery
+		pstmt.setInt (1, dunningRunId);
+		pstmt.setInt (2, invoiceId);
+		ResultSet rs = pstmt.executeQuery ();
+		if (rs.next()) {
+			values[0] = rs.getInt(1);
+			values[1] = rs.getInt(2);
+		}
+		DB.close(rs, pstmt);
+		//	
+		return values;
+	}
+	
 	/**
 	 * 	Create Invoice Line
 	 *	@param invoiceId
