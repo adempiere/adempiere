@@ -388,6 +388,8 @@ public class MJournalBatch extends X_GL_JournalBatch implements DocAction
 					MJournalLine line = lines[j];
 					if (journal.getC_Currency_ID() == line.getC_Currency_ID())
 						line.setCurrencyRate(journal.getCurrencyRate());
+					else
+						getDoc().setIsMultiCurrency(true);
 
 					line.saveEx();
 				}
