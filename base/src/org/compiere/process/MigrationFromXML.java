@@ -77,7 +77,7 @@ public class MigrationFromXML extends MigrationFromXMLAbstract {
 		dbf.setIgnoringElementContentWhitespace(true);
 
 		// file can be a file or directory
-		File file = new File(getFileName());		
+		File file = new File(getFilePathOrName());
 
 		try {
 			builder = dbf.newDocumentBuilder();
@@ -174,7 +174,7 @@ public class MigrationFromXML extends MigrationFromXMLAbstract {
 
 	private void applyMigration(Properties ctx  , int migrationId, String trxName) throws AdempiereException {
 		ProcessInfo processInfo = ProcessBuilder.create(ctx)
-				.process(53173)
+				.process(MigrationApply.getProcessId())
 				.withTitle("Apply migration")
 				.withRecordId(MMigration.Table_ID , migrationId)
 				.withParameter("FailOnError",true)
