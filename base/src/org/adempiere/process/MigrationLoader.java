@@ -6,6 +6,7 @@ import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.Adempiere;
+import org.compiere.process.MigrationFromXML;
 import org.compiere.process.ProcessInfo;
 import org.compiere.process.SynchronizeTerminology;
 import org.compiere.util.CLogMgt;
@@ -57,8 +58,8 @@ public class MigrationLoader {
 			.process(org.compiere.process.MigrationFromXML.class)
 			.withTitle("Import Migration from XML")
 			.withParameter("FailOnError",failOnError)
-			.withParameter("FileName", fileName)
-			.withParameter("Apply", apply)
+			.withParameter(MigrationFromXML.FILEPATHORNAME, fileName)
+			.withParameter(MigrationFromXML.APPLY, apply)
 			.withParameter("Clean", clean)
 			.execute();
 

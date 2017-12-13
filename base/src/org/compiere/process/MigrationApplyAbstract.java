@@ -31,7 +31,7 @@ public abstract class MigrationApplyAbstract extends SvrProcess {
 	/** Process Id 	*/
 	private static final int ID_FOR_PROCESS = 53173;
 	/**	Parameter Name for Force	*/
-	private static final String ISFORCE = "IsForce";
+	public static final String ISFORCE = "IsForce";
 	/**	Parameter Value for Force	*/
 	private boolean isForce;
 
