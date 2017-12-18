@@ -119,24 +119,24 @@ public class MStandardRequestType extends X_R_StandardRequestType {
                     request.setDateStartPlan(today);
 
                     if (entity.get_ColumnIndex(MOrder.COLUMNNAME_DateOrdered) >  0) {
-                        Optional<Timestamp> startPlanOptinal = Optional.of((Timestamp) entity.get_Value(MOrder.COLUMNNAME_DateOrdered));
+                        Optional<Timestamp> startPlanOptinal = Optional.ofNullable((Timestamp) entity.get_Value(MOrder.COLUMNNAME_DateOrdered));
                         startPlanOptinal.ifPresent(startPlan -> request.setDateStartPlan(startPlan));
                     }
                     else if (entity.get_ColumnIndex(MInventory.COLUMNNAME_MovementDate) >  0) {
-                        Optional<Timestamp> startPlanOptinal = Optional.of((Timestamp) entity.get_Value(MInventory.COLUMNNAME_MovementDate));
+                        Optional<Timestamp> startPlanOptinal = Optional.ofNullable((Timestamp) entity.get_Value(MInventory.COLUMNNAME_MovementDate));
                         startPlanOptinal.ifPresent(startPlan -> request.setDateStartPlan(startPlan));
                     }
                     else if (entity.get_ColumnIndex(MPayment.COLUMNNAME_DateTrx) >  0) {
-                        Optional<Timestamp> startPlanOptinal = Optional.of((Timestamp) entity.get_Value(MPayment.COLUMNNAME_DateTrx));
+                        Optional<Timestamp> startPlanOptinal = Optional.ofNullable((Timestamp) entity.get_Value(MPayment.COLUMNNAME_DateTrx));
                         startPlanOptinal.ifPresent(startPlan -> request.setDateStartPlan(startPlan));
                     }
                     else if (entity.get_ColumnIndex(MBankStatement.COLUMNNAME_StatementDate) >  0) {
-                        Optional<Timestamp> startPlanOptinal = Optional.of((Timestamp) entity.get_Value(MBankStatement.COLUMNNAME_StatementDate));
+                        Optional<Timestamp> startPlanOptinal = Optional.ofNullable((Timestamp) entity.get_Value(MBankStatement.COLUMNNAME_StatementDate));
                         startPlanOptinal.ifPresent(startPlan -> request.setDateStartPlan(startPlan));
                     }
                     else if (entity.get_ColumnIndex(MProject.COLUMNNAME_DateStart) >  0)
                     {
-                        Optional<Timestamp> startPlanOptinal = Optional.of((Timestamp) entity.get_Value(MProject.COLUMNNAME_DateStart));
+                        Optional<Timestamp> startPlanOptinal = Optional.ofNullable((Timestamp) entity.get_Value(MProject.COLUMNNAME_DateStart));
                         startPlanOptinal.ifPresent(startPlan -> request.setDateStartPlan(startPlan));
                     }
 
