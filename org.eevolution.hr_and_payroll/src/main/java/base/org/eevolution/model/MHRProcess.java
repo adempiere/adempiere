@@ -691,13 +691,18 @@ public class MHRProcess extends X_HR_Process implements DocAction {
 						.replace(".process.get", ".get");
 			}
 			String resultType = "double";
-			if  (MHRAttribute.COLUMNTYPE_Date.equals(columnType))
+			//	Yamel Senih Add DefValue to another Types
+			String defValue = "0";
+			if  (MHRAttribute.COLUMNTYPE_Date.equals(columnType)) {
 				resultType = "Timestamp";
-			else if  (MHRAttribute.COLUMNTYPE_Text.equals(columnType))
+				defValue = "null";
+			} else if  (MHRAttribute.COLUMNTYPE_Text.equals(columnType)) {
 				resultType = "String";
+				defValue = "null";
+			}
 			final String script =
 					s_scriptImport.toString()
-							+ Env.NL + resultType + " result = 0;"
+							+ Env.NL + resultType + " result = "+ defValue +";"
 							+ Env.NL + "String description = null;"
 							+ Env.NL + text;
 
