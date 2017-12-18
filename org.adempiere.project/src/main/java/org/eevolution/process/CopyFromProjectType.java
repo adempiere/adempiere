@@ -42,6 +42,7 @@ public class CopyFromProjectType extends CopyFromProjectTypeAbstract
 			projectTypeFrom.getPhases().stream().forEach(fromPhase -> {
 					MProjectTypePhase projectTypePhase = new MProjectTypePhase(getCtx(), 0, get_TrxName());
 					projectTypePhase.setC_ProjectType_ID(getRecord_ID());
+					projectTypePhase.setSeqNo(fromPhase.getSeqNo());
 					projectTypePhase.setName(fromPhase.getName());
 					projectTypePhase.setDescription(fromPhase.getDescription());
 					projectTypePhase.setHelp(fromPhase.getHelp());
@@ -52,6 +53,7 @@ public class CopyFromProjectType extends CopyFromProjectTypeAbstract
 					fromPhase.getTasks().stream().forEach(task -> {
 						MProjectTypeTask projectTypeTask = new MProjectTypeTask(getCtx(), 0, get_TrxName());
 						projectTypeTask.setC_Phase_ID(projectTypePhase.getC_Phase_ID());
+						projectTypeTask.setSeqNo(task.getSeqNo());
 						projectTypeTask.setName(task.getName());
 						projectTypeTask.setDescription(task.getDescription());
 						projectTypeTask.setHelp(task.getHelp());
