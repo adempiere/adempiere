@@ -1394,7 +1394,7 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 		}
 
 		String type = concept.getColumnType();
-		if (MHRConcept.COLUMNTYPE_Text.equals(type))
+		if (MHRConcept.COLUMNTYPE_Date.equals(type))
 			return movement.getServiceDate();
 		else
 			return null;
