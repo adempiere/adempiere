@@ -408,7 +408,11 @@ public class TimeUtil
 	 * 	@param end end date
 	 * 	@return number of days (0 = same)
 	 */
-	static public int getDaysBetween (Timestamp start, Timestamp end, int... matchingDay) {
+	public static int getDaysBetween (Timestamp start, Timestamp end, int... matchingDay) {
+		if(start == null
+				|| end == null) {
+			return 0;
+		}
 		boolean negative = false;
 		if (end.before(start))
 		{
