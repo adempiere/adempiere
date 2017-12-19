@@ -16,6 +16,7 @@
  *****************************************************************************/
 package org.compiere.util;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.BitSet;
 import java.util.Calendar;
@@ -30,6 +31,12 @@ import java.util.GregorianCalendar;
  *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *		<a href="https://github.com/adempiere/adempiere/issues/764">
  * 		@see FR [ 764 ] Add hepler method to TimeUtil class</a>
+ * 		<a href="https://github.com/adempiere/adempiere/issues/1526">
+ * 		@see FR [ 1526 ] TimeUtil class have a method non static</a>
+ *  @author Víctor Pérez Juárez , victor.perez@e-evolution.com , http://www.e-evolution.com
+ *  <a href="https://github.com/adempiere/adempiere/issues/1478">
+ *  <li>Add support to create request based on Standard Request Type setting on Project Type #1478
+ *
  */
 public class TimeUtil
 {
@@ -807,7 +814,7 @@ public class TimeUtil
 	 * @param years
 	 * @return Timestamp
 	 */
-	public Timestamp addYears (Timestamp from, int offset) {
+	public static Timestamp addYears (Timestamp from, int offset) {
 		if(from == null)
 			return from;
 		GregorianCalendar cal = new GregorianCalendar();
@@ -820,6 +827,58 @@ public class TimeUtil
 			return new Timestamp (cal.getTimeInMillis());
 		cal.add(Calendar.YEAR, offset);
 		return new Timestamp (cal.getTimeInMillis());
+	}
+
+	public static final String DURATIONUNIT_Year = "Y";
+	/** Month = M */
+	public static final String DURATIONUNIT_Month = "M";
+	/** Day = D */
+	public static final String DURATIONUNIT_Day = "D";
+	/** hour = h */
+	public static final String DURATIONUNIT_Hour = "h";
+	/** minute = m */
+	public static final String DURATIONUNIT_Minute = "m";
+	/** second = s */
+	public static final String DURATIONUNIT_Second = "s";
+
+	/**
+	 * Get Timestamp based on Duration Unit and Duration
+	 * @param date
+	 * @param durationUnit
+	 * @param duration
+	 * @return
+	 */
+	public static Timestamp addDuration(Timestamp date , String durationUnit , BigDecimal duration)
+	{
+		return addDuration(date, durationUnit , duration.intValue());
+	}
+
+	/**
+	 * Get Timestamp based on Duration Unit and Duration
+	 * @param date
+	 * @param durationUnit
+	 * @param duration
+	 * @return
+	 */
+	public static Timestamp addDuration(Timestamp date , String durationUnit , int duration)
+	{
+		GregorianCalendar calendar = new GregorianCalendar();
+		calendar.setTime(date);
+		calendar.set(Calendar.HOUR_OF_DAY, 0);
+		calendar.set(Calendar.MINUTE, 0);
+		calendar.set(Calendar.SECOND, 0);
+		calendar.set(Calendar.MILLISECOND, 0);
+		if (DURATIONUNIT_Day.equals(durationUnit))
+			calendar.add(Calendar.DAY_OF_YEAR, duration);
+		else if (DURATIONUNIT_Second.equals(durationUnit))
+			calendar.add(Calendar.SECOND, duration);
+		else if (DURATIONUNIT_Minute.equals(durationUnit))
+			calendar.add(Calendar.MINUTE, duration);
+		else if (DURATIONUNIT_Hour.equals(durationUnit))
+			calendar.add(Calendar.HOUR_OF_DAY, duration);
+		else if (DURATIONUNIT_Month.equals(durationUnit))
+			calendar.add(Calendar.MONTH, duration);
+		return new Timestamp(calendar.getTimeInMillis());
 	}
 
 	/**
