@@ -359,7 +359,7 @@ public class MHRMovement extends X_HR_Movement
 	} // getConcept
 	
 	/**
-	 * Get a amount from the last concept
+	 * Get Last Movement for a concept value and a break date
 	 * @param ctx
 	 * @param conceptValue
 	 * @param payroll_id
@@ -367,20 +367,11 @@ public class MHRMovement extends X_HR_Movement
 	 * @param breakDate
 	 * @return
 	 */
-	public static double getLastConcept(Properties ctx, String conceptValue, int payroll_id, int partnerId, Timestamp breakDate) {
+	public static MHRMovement getLastMovement(Properties ctx, String conceptValue, int payroll_id, int partnerId, Timestamp breakDate) {
 		MHRConcept concept = MHRConcept.getByValue(ctx, conceptValue);
 		if (concept == null)
-			return 0.0;
-		//
-		// Detect field name
-		final String fieldName;
-		if (MHRConcept.COLUMNTYPE_Quantity.equals(concept.getColumnType())) {
-			fieldName = MHRMovement.COLUMNNAME_Qty;
-		} else if (MHRConcept.COLUMNTYPE_Amount.equals(concept.getColumnType())) {
-			fieldName = MHRMovement.COLUMNNAME_Amount;
-		} else {
-			return 0; // TODO: throw exception?
-		}
+			return null;
+		//	
 		//
 		ArrayList<Object> params = new ArrayList<Object>();
 		StringBuffer whereClause = new StringBuffer();
@@ -403,14 +394,76 @@ public class MHRMovement extends X_HR_Movement
 		params.add(payroll_id);
 		
 		whereClause.append(")");
+		//	return
+		return new Query(ctx, I_HR_Movement.Table_Name, whereClause.toString(), null)
+			.setParameters(params)
+			.setOrderBy(I_HR_Movement.COLUMNNAME_ValidFrom + " DESC")
+			.<MHRMovement>first();
+	}
+	
+	/**
+	 * Get a amount from the last concept
+	 * @param ctx
+	 * @param conceptValue
+	 * @param payroll_id
+	 * @param partnerId
+	 * @param breakDate
+	 * @return
+	 */
+	public static double getLastConcept(Properties ctx, String conceptValue, int payroll_id, int partnerId, Timestamp breakDate) {
+		MHRConcept concept = MHRConcept.getByValue(ctx, conceptValue);
+		if (concept == null)
+			return 0.0;
 		//
-		StringBuffer sql = new StringBuffer("SELECT COALESCE(").append(fieldName).append(", 0) FROM ").append(MHRMovement.Table_Name)
-								.append(" WHERE ").append(whereClause).append(" ORDER BY " + I_HR_Movement.COLUMNNAME_ValidFrom + " DESC");
-		BigDecimal value = DB.getSQLValueBDEx(null, sql.toString(), params);
-		if(value != null)
-			return value.doubleValue();
+		// Detect field name
+		if (!MHRConcept.COLUMNTYPE_Quantity.equals(concept.getColumnType())
+				&& !MHRConcept.COLUMNTYPE_Amount.equals(concept.getColumnType())) {
+			return 0.0;
+		}
+		//	
+		MHRMovement lastMovement = getLastMovement(ctx, conceptValue, payroll_id, partnerId, breakDate);
+		if(lastMovement == null) {
+			return 0.0;
+		}
+		//	
+		if(MHRConcept.COLUMNTYPE_Quantity.equals(concept.getColumnType())) {
+			if(lastMovement.getQty() != null) {
+				return lastMovement.getQty().doubleValue();
+			}
+		} else if(MHRConcept.COLUMNTYPE_Amount.equals(concept.getColumnType())) {
+			if(lastMovement.getAmount() != null) {
+				return lastMovement.getAmount().doubleValue();
+			}
+		}
 		//	Default
 		return 0.0;
+	}
+	
+	/**
+	 * Get a date from the last concept
+	 * @param ctx
+	 * @param conceptValue
+	 * @param payroll_id
+	 * @param partnerId
+	 * @param breakDate
+	 * @return
+	 */
+	public static Timestamp getLastConceptDate(Properties ctx, String conceptValue, int payroll_id, int partnerId, Timestamp breakDate) {
+		MHRConcept concept = MHRConcept.getByValue(ctx, conceptValue);
+		if (concept == null)
+			return null;
+		//
+		// Detect field name
+		if (!MHRConcept.COLUMNTYPE_Date.equals(concept.getColumnType())) {
+			return null;
+		}
+		//	
+		MHRMovement lastMovement = getLastMovement(ctx, conceptValue, payroll_id, partnerId, breakDate);
+		if(lastMovement == null) {
+			return null;
+		}
+		//	Default
+		return lastMovement.getServiceDate();
 	}
 	
 	/**
