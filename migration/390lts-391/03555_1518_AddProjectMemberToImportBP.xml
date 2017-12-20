@@ -1221,7 +1221,7 @@
     </Step>
     <Step SeqNo="890" StepType="AD">
       <PO AD_Table_ID="103" Action="U" Record_ID="53994" Table="AD_Ref_Table">
-        <Data AD_Column_ID="62121" Column="DisplaySQL" isOldNull="true">﻿AD_User.Name || '_' || COALESCE((SELECT COALESCE(Name,'') || '_' || COALESCE(Name2,'') FROM C_BPartner bp WHERE bp.C_BPartner_ID=AD_User.C_BPartner_ID),'')</Data>
+        <Data AD_Column_ID="62121" Column="DisplaySQL" isOldNull="true">AD_User.Name || '_' || COALESCE((SELECT COALESCE(Name,'') || '_' || COALESCE(Name2,'') FROM C_BPartner bp WHERE bp.C_BPartner_ID=AD_User.C_BPartner_ID),'')</Data>
       </PO>
     </Step>
     <Step SeqNo="900" StepType="AD">
@@ -1319,7 +1319,7 @@
         <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
         <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
         <Data AD_Column_ID="110" Column="Version">0</Data>
-        <Data AD_Column_ID="13448" Column="ColumnSQL">(SELECT COALESCE(Name,'') || '_' || COALESCE(Name2,'') FROM C_BPartner bp WHERE bp.C_BPartner_ID=AD_User.C_BPartner_ID)</Data>
+        <Data AD_Column_ID="13448" Column="ColumnSQL">(SELECT COALESCE(Name,'') || '_' || COALESCE(Name2,'') FROM C_BPartner bp WHERE EXISTS (SELECT 1 FROM AD_User u WHERE C_ProjectMember.AD_User_ID=u.AD_User_ID AND u.C_BPartner_ID=bp.C_BPartner_ID))</Data>
         <Data AD_Column_ID="116" Column="ColumnName">BPName</Data>
         <Data AD_Column_ID="113" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="3360" Column="IsUpdateable">false</Data>
