@@ -21,17 +21,17 @@ import java.sql.Timestamp;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for C_ProjectMember
+/** Generated Interface for C_ProjectMemberType
  *  @author Adempiere (generated) 
  *  @version Release 3.9.0
  */
-public interface I_C_ProjectMember 
+public interface I_C_ProjectMemberType 
 {
 
-    /** TableName=C_ProjectMember */
-    public static final String Table_Name = "C_ProjectMember";
+    /** TableName=C_ProjectMemberType */
+    public static final String Table_Name = "C_ProjectMemberType";
 
-    /** AD_Table_ID=54301 */
+    /** AD_Table_ID=54314 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
@@ -63,72 +63,14 @@ public interface I_C_ProjectMember
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name AD_User_ID */
-    public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
-
-	/** Set User/Contact.
-	  * User within the system - Internal or Business Partner Contact
-	  */
-	public void setAD_User_ID (int AD_User_ID);
-
-	/** Get User/Contact.
-	  * User within the system - Internal or Business Partner Contact
-	  */
-	public int getAD_User_ID();
-
-	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException;
-
-    /** Column name BPName */
-    public static final String COLUMNNAME_BPName = "BPName";
-
-	/** Set BP Name	  */
-	public void setBPName (String BPName);
-
-	/** Get BP Name	  */
-	public String getBPName();
-
-    /** Column name C_Project_ID */
-    public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
-
-	/** Set Project.
-	  * Financial Project
-	  */
-	public void setC_Project_ID (int C_Project_ID);
-
-	/** Get Project.
-	  * Financial Project
-	  */
-	public int getC_Project_ID();
-
-	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException;
-
-    /** Column name C_ProjectMember_ID */
-    public static final String COLUMNNAME_C_ProjectMember_ID = "C_ProjectMember_ID";
-
-	/** Set Project Member.
-	  * Project Members
-	  */
-	public void setC_ProjectMember_ID (int C_ProjectMember_ID);
-
-	/** Get Project Member.
-	  * Project Members
-	  */
-	public int getC_ProjectMember_ID();
-
     /** Column name C_ProjectMemberType_ID */
     public static final String COLUMNNAME_C_ProjectMemberType_ID = "C_ProjectMemberType_ID";
 
-	/** Set Project Member Type.
-	  * Define the Member Type for a Project
-	  */
+	/** Set Project Member Type ID	  */
 	public void setC_ProjectMemberType_ID (int C_ProjectMemberType_ID);
 
-	/** Get Project Member Type.
-	  * Define the Member Type for a Project
-	  */
+	/** Get Project Member Type ID	  */
 	public int getC_ProjectMemberType_ID();
-
-	public org.eevolution.model.I_C_ProjectMemberType getC_ProjectMemberType() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -146,6 +88,32 @@ public interface I_C_ProjectMember
 	  */
 	public int getCreatedBy();
 
+    /** Column name Description */
+    public static final String COLUMNNAME_Description = "Description";
+
+	/** Set Description.
+	  * Optional short description of the record
+	  */
+	public void setDescription (String Description);
+
+	/** Get Description.
+	  * Optional short description of the record
+	  */
+	public String getDescription();
+
+    /** Column name Help */
+    public static final String COLUMNNAME_Help = "Help";
+
+	/** Set Comment/Help.
+	  * Comment or Hint
+	  */
+	public void setHelp (String Help);
+
+	/** Get Comment/Help.
+	  * Comment or Hint
+	  */
+	public String getHelp();
+
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
 
@@ -159,18 +127,31 @@ public interface I_C_ProjectMember
 	  */
 	public boolean isActive();
 
-    /** Column name NotificationType */
-    public static final String COLUMNNAME_NotificationType = "NotificationType";
+    /** Column name IsDefault */
+    public static final String COLUMNNAME_IsDefault = "IsDefault";
 
-	/** Set Notification Type.
-	  * Type of Notifications
+	/** Set Default.
+	  * Default value
 	  */
-	public void setNotificationType (String NotificationType);
+	public void setIsDefault (boolean IsDefault);
 
-	/** Get Notification Type.
-	  * Type of Notifications
+	/** Get Default.
+	  * Default value
 	  */
-	public String getNotificationType();
+	public boolean isDefault();
+
+    /** Column name Name */
+    public static final String COLUMNNAME_Name = "Name";
+
+	/** Set Name.
+	  * Alphanumeric identifier of the entity
+	  */
+	public void setName (String Name);
+
+	/** Get Name.
+	  * Alphanumeric identifier of the entity
+	  */
+	public String getName();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -200,4 +181,17 @@ public interface I_C_ProjectMember
 	  * Immutable Universally Unique Identifier
 	  */
 	public String getUUID();
+
+    /** Column name Value */
+    public static final String COLUMNNAME_Value = "Value";
+
+	/** Set Search Key.
+	  * Search key for the record in the format required - must be unique
+	  */
+	public void setValue (String Value);
+
+	/** Get Search Key.
+	  * Search key for the record in the format required - must be unique
+	  */
+	public String getValue();
 }
