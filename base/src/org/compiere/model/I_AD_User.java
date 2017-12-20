@@ -60,19 +60,6 @@ public interface I_AD_User
 
 	public org.compiere.model.I_AD_EMailConfig getAD_EMailConfig() throws RuntimeException;
 
-    /** Column name AD_OrgTrx_ID */
-    public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
-
-	/** Set Trx Organization.
-	  * Performing or initiating organization
-	  */
-	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID);
-
-	/** Get Trx Organization.
-	  * Performing or initiating organization
-	  */
-	public int getAD_OrgTrx_ID();
-
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
 
@@ -85,6 +72,19 @@ public interface I_AD_User
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
+
+    /** Column name AD_OrgTrx_ID */
+    public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
+
+	/** Set Trx Organization.
+	  * Performing or initiating organization
+	  */
+	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID);
+
+	/** Get Trx Organization.
+	  * Performing or initiating organization
+	  */
+	public int getAD_OrgTrx_ID();
 
     /** Column name AD_User_ID */
     public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
@@ -99,14 +99,18 @@ public interface I_AD_User
 	  */
 	public int getAD_User_ID();
 
-    /** Column name BPName */
-    public static final String COLUMNNAME_BPName = "BPName";
+    /** Column name Birthday */
+    public static final String COLUMNNAME_Birthday = "Birthday";
 
-	/** Set BP Name	  */
-	public void setBPName (String BPName);
+	/** Set Birthday.
+	  * Birthday or Anniversary day
+	  */
+	public void setBirthday (Timestamp Birthday);
 
-	/** Get BP Name	  */
-	public String getBPName();
+	/** Get Birthday.
+	  * Birthday or Anniversary day
+	  */
+	public Timestamp getBirthday();
 
     /** Column name BP_Location_ID */
     public static final String COLUMNNAME_BP_Location_ID = "BP_Location_ID";
@@ -123,18 +127,14 @@ public interface I_AD_User
 
 	public I_C_Location getBP_Location() throws RuntimeException;
 
-    /** Column name Birthday */
-    public static final String COLUMNNAME_Birthday = "Birthday";
+    /** Column name BPName */
+    public static final String COLUMNNAME_BPName = "BPName";
 
-	/** Set Birthday.
-	  * Birthday or Anniversary day
-	  */
-	public void setBirthday (Timestamp Birthday);
+	/** Set BP Name	  */
+	public void setBPName (String BPName);
 
-	/** Get Birthday.
-	  * Birthday or Anniversary day
-	  */
-	public Timestamp getBirthday();
+	/** Get BP Name	  */
+	public String getBPName();
 
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
@@ -433,6 +433,32 @@ public interface I_AD_User
 	/** Get Login User	  */
 	public boolean isLoginUser();
 
+    /** Column name IsProjectManager */
+    public static final String COLUMNNAME_IsProjectManager = "IsProjectManager";
+
+	/** Set Is Project Manager.
+	  * Is Project Manager
+	  */
+	public void setIsProjectManager (boolean IsProjectManager);
+
+	/** Get Is Project Manager.
+	  * Is Project Manager
+	  */
+	public boolean isProjectManager();
+
+    /** Column name IsProjectMember */
+    public static final String COLUMNNAME_IsProjectMember = "IsProjectMember";
+
+	/** Set Is Project Member.
+	  * Is Project Member
+	  */
+	public void setIsProjectMember (boolean IsProjectMember);
+
+	/** Get Is Project Member.
+	  * Is Project Member
+	  */
+	public boolean isProjectMember();
+
     /** Column name IsSalesLead */
     public static final String COLUMNNAME_IsSalesLead = "IsSalesLead";
 
@@ -459,19 +485,6 @@ public interface I_AD_User
 	  */
 	public boolean isWebstoreUser();
 
-    /** Column name LDAPUser */
-    public static final String COLUMNNAME_LDAPUser = "LDAPUser";
-
-	/** Set LDAP User Name.
-	  * User Name used for authorization via LDAP (directory) services
-	  */
-	public void setLDAPUser (String LDAPUser);
-
-	/** Get LDAP User Name.
-	  * User Name used for authorization via LDAP (directory) services
-	  */
-	public String getLDAPUser();
-
     /** Column name LastContact */
     public static final String COLUMNNAME_LastContact = "LastContact";
 
@@ -497,6 +510,19 @@ public interface I_AD_User
 	  * Result of last contact
 	  */
 	public String getLastResult();
+
+    /** Column name LDAPUser */
+    public static final String COLUMNNAME_LDAPUser = "LDAPUser";
+
+	/** Set LDAP User Name.
+	  * User Name used for authorization via LDAP (directory) services
+	  */
+	public void setLDAPUser (String LDAPUser);
+
+	/** Get LDAP User Name.
+	  * User Name used for authorization via LDAP (directory) services
+	  */
+	public String getLDAPUser();
 
     /** Column name LeadSource */
     public static final String COLUMNNAME_LeadSource = "LeadSource";
@@ -698,19 +724,6 @@ public interface I_AD_User
 	  */
 	public String getTitle();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -735,6 +748,19 @@ public interface I_AD_User
 
 	/** Get User PIN	  */
 	public String getUserPIN();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 
     /** Column name Value */
     public static final String COLUMNNAME_Value = "Value";
