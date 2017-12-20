@@ -384,6 +384,36 @@ public interface I_I_BPartner
 	  */
 	public String getCountryCode();
 
+    /** Column name C_Project_ID */
+    public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
+
+	/** Set Project.
+	  * Financial Project
+	  */
+	public void setC_Project_ID (int C_Project_ID);
+
+	/** Get Project.
+	  * Financial Project
+	  */
+	public int getC_Project_ID();
+
+	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException;
+
+    /** Column name C_ProjectMemberType_ID */
+    public static final String COLUMNNAME_C_ProjectMemberType_ID = "C_ProjectMemberType_ID";
+
+	/** Set Project Member Type.
+	  * Define the Member Type for a Project
+	  */
+	public void setC_ProjectMemberType_ID (int C_ProjectMemberType_ID);
+
+	/** Get Project Member Type.
+	  * Define the Member Type for a Project
+	  */
+	public int getC_ProjectMemberType_ID();
+
+	public org.eevolution.model.I_C_ProjectMemberType getC_ProjectMemberType() throws RuntimeException;
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -589,6 +619,32 @@ public interface I_I_BPartner
 	  */
 	public boolean isEmployee();
 
+    /** Column name IsProjectManager */
+    public static final String COLUMNNAME_IsProjectManager = "IsProjectManager";
+
+	/** Set Is Project Manager.
+	  * Is Project Manager
+	  */
+	public void setIsProjectManager (boolean IsProjectManager);
+
+	/** Get Is Project Manager.
+	  * Is Project Manager
+	  */
+	public boolean isProjectManager();
+
+    /** Column name IsProjectMember */
+    public static final String COLUMNNAME_IsProjectMember = "IsProjectMember";
+
+	/** Set Is Project Member.
+	  * Is Project Member
+	  */
+	public void setIsProjectMember (boolean IsProjectMember);
+
+	/** Get Is Project Member.
+	  * Is Project Member
+	  */
+	public boolean isProjectMember();
+
     /** Column name IsVendor */
     public static final String COLUMNNAME_IsVendor = "IsVendor";
 
@@ -742,6 +798,32 @@ public interface I_I_BPartner
 
 	/** Get Process Now	  */
 	public boolean isProcessing();
+
+    /** Column name ProjectMemberTypeValue */
+    public static final String COLUMNNAME_ProjectMemberTypeValue = "ProjectMemberTypeValue";
+
+	/** Set Project Member Type Value.
+	  * Define the Search Key of Project Member Type
+	  */
+	public void setProjectMemberTypeValue (String ProjectMemberTypeValue);
+
+	/** Get Project Member Type Value.
+	  * Define the Search Key of Project Member Type
+	  */
+	public String getProjectMemberTypeValue();
+
+    /** Column name ProjectValue */
+    public static final String COLUMNNAME_ProjectValue = "ProjectValue";
+
+	/** Set Project Key.
+	  * Key of the Project
+	  */
+	public void setProjectValue (String ProjectValue);
+
+	/** Get Project Key.
+	  * Key of the Project
+	  */
+	public String getProjectValue();
 
     /** Column name RegionName */
     public static final String COLUMNNAME_RegionName = "RegionName";
