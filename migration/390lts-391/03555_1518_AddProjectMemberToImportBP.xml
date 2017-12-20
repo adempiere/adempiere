@@ -564,7 +564,7 @@
         <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="181" Column="SeqNo">580</Data>
-        <Data AD_Column_ID="5375" Column="AD_FieldGroup_ID" isNewNull="true"/>
+        <Data AD_Column_ID="5375" Column="AD_FieldGroup_ID">112</Data>
         <Data AD_Column_ID="174" Column="AD_Column_ID">86136</Data>
         <Data AD_Column_ID="54356" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="62479" Column="SeqNoGrid">580</Data>
@@ -626,7 +626,7 @@
         <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="181" Column="SeqNo">590</Data>
-        <Data AD_Column_ID="5375" Column="AD_FieldGroup_ID" isNewNull="true"/>
+        <Data AD_Column_ID="5375" Column="AD_FieldGroup_ID">112</Data>
         <Data AD_Column_ID="174" Column="AD_Column_ID">86137</Data>
         <Data AD_Column_ID="54356" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="62479" Column="SeqNoGrid">590</Data>
@@ -688,7 +688,7 @@
         <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="181" Column="SeqNo">600</Data>
-        <Data AD_Column_ID="5375" Column="AD_FieldGroup_ID" isNewNull="true"/>
+        <Data AD_Column_ID="5375" Column="AD_FieldGroup_ID">112</Data>
         <Data AD_Column_ID="174" Column="AD_Column_ID">86138</Data>
         <Data AD_Column_ID="54356" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="62479" Column="SeqNoGrid">600</Data>
@@ -750,7 +750,7 @@
         <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="181" Column="SeqNo">610</Data>
-        <Data AD_Column_ID="5375" Column="AD_FieldGroup_ID" isNewNull="true"/>
+        <Data AD_Column_ID="5375" Column="AD_FieldGroup_ID">112</Data>
         <Data AD_Column_ID="174" Column="AD_Column_ID">86139</Data>
         <Data AD_Column_ID="54356" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="62479" Column="SeqNoGrid">610</Data>
@@ -1221,7 +1221,7 @@
     </Step>
     <Step SeqNo="890" StepType="AD">
       <PO AD_Table_ID="103" Action="U" Record_ID="53994" Table="AD_Ref_Table">
-        <Data AD_Column_ID="62121" Column="DisplaySQL" isOldNull="true">﻿AD_User.Name || '_' || COALESCE((SELECT COALESCE(Name,'') || '_' || COALESCE(Name2,'') FROM C_BPartner bp WHERE bp.C_BPartner_ID=AD_User.C_BPartner_ID),'') </Data>
+        <Data AD_Column_ID="62121" Column="DisplaySQL" isOldNull="true">﻿AD_User.Name || '_' || COALESCE((SELECT COALESCE(Name,'') || '_' || COALESCE(Name2,'') FROM C_BPartner bp WHERE bp.C_BPartner_ID=AD_User.C_BPartner_ID),'')</Data>
       </PO>
     </Step>
     <Step SeqNo="900" StepType="AD">
@@ -1276,7 +1276,7 @@
         <Data AD_Column_ID="147" Column="OrderByClause" isNewNull="true"/>
         <Data AD_Column_ID="146" Column="WhereClause">AD_User.IsProjectMember='Y'</Data>
         <Data AD_Column_ID="62120" Column="IsAlert">false</Data>
-        <Data AD_Column_ID="62121" Column="DisplaySQL">﻿AD_User.Name || '_' || COALESCE((SELECT COALESCE(Name,'') || '_' || COALESCE(Name2,'') FROM C_BPartner bp WHERE bp.C_BPartner_ID=AD_User.C_BPartner_ID),'') </Data>
+        <Data AD_Column_ID="62121" Column="DisplaySQL">AD_User.Name || '_' || COALESCE((SELECT COALESCE(Name,'') || '_' || COALESCE(Name2,'') FROM C_BPartner bp WHERE bp.C_BPartner_ID=AD_User.C_BPartner_ID),'')</Data>
         <Data AD_Column_ID="62122" Column="IsDisplayIdentifier">false</Data>
         <Data AD_Column_ID="145" Column="AD_Display">213</Data>
         <Data AD_Column_ID="7711" Column="EntityType">EE09</Data>
@@ -1319,7 +1319,7 @@
         <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
         <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
         <Data AD_Column_ID="110" Column="Version">0</Data>
-        <Data AD_Column_ID="13448" Column="ColumnSQL">(﻿SELECT COALESCE(Name,'') || '_' || COALESCE(Name2,'') FROM C_BPartner bp WHERE bp.C_BPartner_ID=AD_User.C_BPartner_ID)</Data>
+        <Data AD_Column_ID="13448" Column="ColumnSQL">(SELECT COALESCE(Name,'') || '_' || COALESCE(Name2,'') FROM C_BPartner bp WHERE bp.C_BPartner_ID=AD_User.C_BPartner_ID)</Data>
         <Data AD_Column_ID="116" Column="ColumnName">BPName</Data>
         <Data AD_Column_ID="113" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="3360" Column="IsUpdateable">false</Data>
