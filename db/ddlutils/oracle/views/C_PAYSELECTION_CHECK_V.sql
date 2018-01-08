@@ -6,7 +6,7 @@ CREATE OR REPLACE VIEW C_PAYSELECTION_CHECK_V
  NAME2, C_LOCATION_ID, REFERENCENO, POREFERENCE, PAYDATE, 
  PAYAMT, AMTINWORDS, QTY, PAYMENTRULE, DOCUMENTNO, LOGO_ID,
  DOCUMENTTYPE, DOCUMENTTYPENOTE, DESCRIPTION ,
- HR_PAYSELECTION_ID , HR_PAYSELECTIONCHECK_ID, C_Payment_ID , C_BankAccount_ID , C_Bank_ID)
+ HR_PAYSELECTION_ID , HR_PAYSELECTIONCHECK_ID, C_Payment_ID , C_BankAccount_ID , C_Bank_ID, C_Currency_ID)
 AS 
 SELECT psc.AD_Client_ID, psc.AD_Org_ID, 
 	cast('en_US' as varchar2(6)) AS AD_Language,
@@ -21,7 +21,7 @@ SELECT psc.AD_Client_ID, psc.AD_Org_ID,
 	psc.PayAmt, psc.PayAmt AS AmtInWords,
 	psc.Qty, psc.PaymentRule, psc.DocumentNo, NVL(oi.Logo_ID, ci.Logo_ID) AS Logo_ID,
 dt.PrintName AS DocumentType, dt.DocumentNote AS DocumentTypeNote, p.Description , 
-0 AS HR_PaySelection_ID , 0 AS HR_PaySelectionCheck_ID , p.C_Payment_ID , p.C_BankAccount_ID , b.C_Bank_ID
+0 AS HR_PaySelection_ID , 0 AS HR_PaySelectionCheck_ID , p.C_Payment_ID , p.C_BankAccount_ID , b.C_Bank_ID , p.C_Currency_ID
 FROM C_PaySelectionCheck psc
 	INNER JOIN C_PaySelection ps ON (psc.C_PaySelection_ID=ps.C_PaySelection_ID)
 	LEFT JOIN C_Payment p ON (psc.C_Payment_id = p.C_Payment_ID)
@@ -45,7 +45,7 @@ SELECT psc.AD_Client_ID, psc.AD_Org_ID,
 	ps.PayDate, psc.Payamt, psc.PayAmt AS AmtInWords, 
 	psc.Qty, psc.PaymentRule, psc.DocumentNo, NVL(oi.Logo_ID, ci.Logo_ID) AS Logo_ID,
 	dt.PrintName AS DocumentType, dt.DocumentNote AS DocumentTypeNote, p.Description, 
-	psc.HR_PaySelection_ID , HR_PaySelectionCheck_ID , p.C_Payment_ID , p.C_BankAccount_ID , b.C_Bank_ID
+	psc.HR_PaySelection_ID , HR_PaySelectionCheck_ID , p.C_Payment_ID , p.C_BankAccount_ID , b.C_Bank_ID ,  p.C_Currency_ID
 FROM HR_PayselectionCheck psc
    INNER JOIN HR_PaySelection ps ON (psc.HR_PaySelection_ID = ps.HR_PaySelection_ID)
    LEFT JOIN C_Payment p ON (psc.C_Payment_id = p.C_Payment_ID)
@@ -57,4 +57,3 @@ FROM HR_PayselectionCheck psc
    INNER JOIN AD_OrgInfo oi ON (psc.AD_Org_ID = oi.AD_Org_ID)
    INNER JOIN AD_ClientInfo ci ON (psc.AD_Client_ID=ci.AD_Client_ID)
    ;
-
