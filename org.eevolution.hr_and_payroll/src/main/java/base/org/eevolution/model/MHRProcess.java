@@ -1757,6 +1757,7 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 		MHRAttribute attribute = new Query(getCtx(), MHRAttribute.Table_Name, whereClause.toString(), null)
 			.setParameters(params)
 			.setOrderBy(MHRAttribute.COLUMNNAME_ValidFrom + " DESC")
+			.setOnlyActiveRecords(true)
 			.first();
 		//	Return
 		return attribute;

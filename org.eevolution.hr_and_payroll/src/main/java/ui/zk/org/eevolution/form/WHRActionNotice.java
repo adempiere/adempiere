@@ -427,7 +427,6 @@ public class WHRActionNotice extends HRActionNotice implements IFormController,
 				description = (String) fieldDescription.getValue();
 				validFrom = (Timestamp) fieldValidFrom.getValue();
 				validTo =  (Timestamp) fieldValidFrom.getValue();
-
 			if (conceptId <= 0
 					|| fieldProcess.getSelectedItem().getValue() == null
 					|| ((KeyNamePair) fieldProcess.getSelectedItem().getValue()).getKey() <= 0
