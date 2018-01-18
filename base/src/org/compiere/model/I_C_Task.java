@@ -145,6 +145,32 @@ public interface I_C_Task
 	  */
 	public String getDurationUnit();
 
+    /** Column name Frequency */
+    public static final String COLUMNNAME_Frequency = "Frequency";
+
+	/** Set Frequency.
+	  * Frequency of events
+	  */
+	public void setFrequency (int Frequency);
+
+	/** Get Frequency.
+	  * Frequency of events
+	  */
+	public int getFrequency();
+
+    /** Column name FrequencyType */
+    public static final String COLUMNNAME_FrequencyType = "FrequencyType";
+
+	/** Set Frequency Type.
+	  * Frequency of event
+	  */
+	public void setFrequencyType (String FrequencyType);
+
+	/** Get Frequency Type.
+	  * Frequency of event
+	  */
+	public String getFrequencyType();
+
     /** Column name Help */
     public static final String COLUMNNAME_Help = "Help";
 
@@ -171,6 +197,19 @@ public interface I_C_Task
 	  */
 	public boolean isActive();
 
+    /** Column name IsIndefinite */
+    public static final String COLUMNNAME_IsIndefinite = "IsIndefinite";
+
+	/** Set Indefinite.
+	  * Indefinite
+	  */
+	public void setIsIndefinite (boolean IsIndefinite);
+
+	/** Get Indefinite.
+	  * Indefinite
+	  */
+	public boolean isIndefinite();
+
     /** Column name IsMilestone */
     public static final String COLUMNNAME_IsMilestone = "IsMilestone";
 
@@ -179,6 +218,19 @@ public interface I_C_Task
 
 	/** Get Is Milestone	  */
 	public boolean isMilestone();
+
+    /** Column name IsRecurrent */
+    public static final String COLUMNNAME_IsRecurrent = "IsRecurrent";
+
+	/** Set Is Recurrent.
+	  * The flag Is Recurrent, indicates if a project task is recurring
+	  */
+	public void setIsRecurrent (boolean IsRecurrent);
+
+	/** Get Is Recurrent.
+	  * The flag Is Recurrent, indicates if a project task is recurring
+	  */
+	public boolean isRecurrent();
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
@@ -235,6 +287,19 @@ public interface I_C_Task
 	public int getR_StandardRequestType_ID();
 
 	public org.compiere.model.I_R_StandardRequestType getR_StandardRequestType() throws RuntimeException;
+
+    /** Column name RunsMax */
+    public static final String COLUMNNAME_RunsMax = "RunsMax";
+
+	/** Set Maximum Runs.
+	  * Number of recurring runs
+	  */
+	public void setRunsMax (int RunsMax);
+
+	/** Get Maximum Runs.
+	  * Number of recurring runs
+	  */
+	public int getRunsMax();
 
     /** Column name SeqNo */
     public static final String COLUMNNAME_SeqNo = "SeqNo";
