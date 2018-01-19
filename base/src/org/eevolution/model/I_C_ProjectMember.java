@@ -78,6 +78,15 @@ public interface I_C_ProjectMember
 
 	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException;
 
+    /** Column name BPName */
+    public static final String COLUMNNAME_BPName = "BPName";
+
+	/** Set BP Name	  */
+	public void setBPName (String BPName);
+
+	/** Get BP Name	  */
+	public String getBPName();
+
     /** Column name C_Project_ID */
     public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
 
@@ -97,14 +106,29 @@ public interface I_C_ProjectMember
     public static final String COLUMNNAME_C_ProjectMember_ID = "C_ProjectMember_ID";
 
 	/** Set Project Member.
-	  * Project Member
+	  * Project Members
 	  */
 	public void setC_ProjectMember_ID (int C_ProjectMember_ID);
 
 	/** Get Project Member.
-	  * Project Member
+	  * Project Members
 	  */
 	public int getC_ProjectMember_ID();
+
+    /** Column name C_ProjectMemberType_ID */
+    public static final String COLUMNNAME_C_ProjectMemberType_ID = "C_ProjectMemberType_ID";
+
+	/** Set Project Member Type.
+	  * Define the Member Type for a Project
+	  */
+	public void setC_ProjectMemberType_ID (int C_ProjectMemberType_ID);
+
+	/** Get Project Member Type.
+	  * Define the Member Type for a Project
+	  */
+	public int getC_ProjectMemberType_ID();
+
+	public org.eevolution.model.I_C_ProjectMemberType getC_ProjectMemberType() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

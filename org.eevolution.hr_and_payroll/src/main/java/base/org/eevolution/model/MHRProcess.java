@@ -53,6 +53,7 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.TimeUtil;
+import org.compiere.util.Util;
 import org.eevolution.service.HRProcessActionMsg;
 
 import javax.script.ScriptEngine;
@@ -729,13 +730,18 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 						.replace(".process.get", ".get");
 			}
 			String resultType = "double";
-			if  (MHRAttribute.COLUMNTYPE_Date.equals(columnType))
+			//	Yamel Senih Add DefValue to another Types
+			String defValue = "0";
+			if  (MHRAttribute.COLUMNTYPE_Date.equals(columnType)) {
 				resultType = "Timestamp";
-			else if  (MHRAttribute.COLUMNTYPE_Text.equals(columnType))
+				defValue = "null";
+			} else if  (MHRAttribute.COLUMNTYPE_Text.equals(columnType)) {
 				resultType = "String";
+				defValue = "null";
+			}
 			final String script =
 					s_scriptImport.toString()
-							+ Env.NL + resultType + " result = 0;"
+							+ Env.NL + resultType + " result = "+ defValue +";"
 							+ Env.NL + "String description = null;"
 							+ Env.NL + text;
 
@@ -1389,7 +1395,7 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 		}
 
 		String type = concept.getColumnType();
-		if (MHRConcept.COLUMNTYPE_Text.equals(type))
+		if (MHRConcept.COLUMNTYPE_Date.equals(type))
 			return movement.getServiceDate();
 		else
 			return null;
@@ -1751,6 +1757,7 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 		MHRAttribute attribute = new Query(getCtx(), MHRAttribute.Table_Name, whereClause.toString(), null)
 			.setParameters(params)
 			.setOrderBy(MHRAttribute.COLUMNNAME_ValidFrom + " DESC")
+			.setOnlyActiveRecords(true)
 			.first();
 		//	Return
 		return attribute;
@@ -2023,6 +2030,120 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 		//	Get from Movement helper method
 		return MHRMovement.getLastConcept(getCtx(), conceptValue, payrollId, 
 				partnerId, breakDate);
+	} // getConcept
+	
+	/**
+	 * Get Last concept date for a employee
+	 * @param conceptValue
+	 * @param payrollValue
+	 * @param breakDate
+	 * @return
+	 */
+	public Timestamp getLastConceptDate(String conceptValue, String payrollValue, Timestamp breakDate) {
+		int payrollId;
+		if (payrollValue == null) {
+			payrollId = getHR_Payroll_ID();
+		} else {
+			MHRPayroll payroll = MHRPayroll.getByValue(getCtx(), payrollValue);
+			if(payroll == null)
+				return null;
+			//	
+			payrollId = payroll.get_ID();
+		}
+		//	Get from Movement helper method
+		return MHRMovement.getLastConceptDate(getCtx(), conceptValue, payrollId, 
+				partnerId, breakDate);
+	} // getConcept
+	
+	/**
+	 * Get Last concept String for a employee
+	 * @param conceptValue
+	 * @param payrollValue
+	 * @param breakDate
+	 * @return
+	 */
+	public String getLastConceptString(String conceptValue, String payrollValue, Timestamp breakDate) {
+		int payrollId;
+		if (payrollValue == null) {
+			payrollId = getHR_Payroll_ID();
+		} else {
+			MHRPayroll payroll = MHRPayroll.getByValue(getCtx(), payrollValue);
+			if(payroll == null)
+				return null;
+			//	
+			payrollId = payroll.get_ID();
+		}
+		//	Get from Movement helper method
+		MHRMovement lastMovement = MHRMovement.getLastMovement(getCtx(), conceptValue, payrollId, 
+				partnerId, breakDate);
+		//	
+		if(lastMovement == null) {
+			return null;
+		}
+		//	For all
+		if(!Util.isEmpty(lastMovement.getTextMsg())) {
+			return lastMovement.getTextMsg();
+		}
+		//	For Description (optional)
+		return lastMovement.getDescription();
+	} // getConcept
+	
+	/**
+	 * Get Last concept Valid From for a employee
+	 * @param conceptValue
+	 * @param payrollValue
+	 * @param breakDate
+	 * @return
+	 */
+	public Timestamp getLastConceptValidFrom(String conceptValue, String payrollValue, Timestamp breakDate) {
+		int payrollId;
+		if (payrollValue == null) {
+			payrollId = getHR_Payroll_ID();
+		} else {
+			MHRPayroll payroll = MHRPayroll.getByValue(getCtx(), payrollValue);
+			if(payroll == null)
+				return null;
+			//	
+			payrollId = payroll.get_ID();
+		}
+		//	Get from Movement helper method
+		MHRMovement lastMovement = MHRMovement.getLastMovement(getCtx(), conceptValue, payrollId, 
+				partnerId, breakDate);
+		//	
+		if(lastMovement == null) {
+			return null;
+		}
+		//	Default
+		return lastMovement.getValidFrom();
+	} // getConcept
+	
+	/**
+	 * Get Last concept Valid To for a employee
+	 * @param conceptValue
+	 * @param payrollValue
+	 * @param breakDate
+	 * @return
+	 */
+	public Timestamp getLastConceptValidTo(String conceptValue, String payrollValue, Timestamp breakDate) {
+		int payrollId;
+		if (payrollValue == null) {
+			payrollId = getHR_Payroll_ID();
+		} else {
+			MHRPayroll payroll = MHRPayroll.getByValue(getCtx(), payrollValue);
+			if(payroll == null)
+				return null;
+			//	
+			payrollId = payroll.get_ID();
+		}
+		//	Get from Movement helper method
+		MHRMovement lastMovement = MHRMovement.getLastMovement(getCtx(), conceptValue, payrollId, 
+				partnerId, breakDate);
+		//	
+		if(lastMovement == null) {
+			return null;
+		}
+		//	Default
+		return lastMovement.getValidTo();
 	} // getConcept
 	
 	/**

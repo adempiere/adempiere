@@ -238,25 +238,51 @@ public interface I_C_ProjectPhase
     /** Column name DateFinishSchedule */
     public static final String COLUMNNAME_DateFinishSchedule = "DateFinishSchedule";
 
-	/** Set Date Finish Schedule.
+	/** Set Finish Schedule.
 	  * Scheduled Finish date for this Order
 	  */
 	public void setDateFinishSchedule (Timestamp DateFinishSchedule);
 
-	/** Get Date Finish Schedule.
+	/** Get Finish Schedule.
 	  * Scheduled Finish date for this Order
 	  */
 	public Timestamp getDateFinishSchedule();
 
+    /** Column name DateLastRun */
+    public static final String COLUMNNAME_DateLastRun = "DateLastRun";
+
+	/** Set Date last run.
+	  * Date the process was last run.
+	  */
+	public void setDateLastRun (Timestamp DateLastRun);
+
+	/** Get Date last run.
+	  * Date the process was last run.
+	  */
+	public Timestamp getDateLastRun();
+
+    /** Column name DateNextRun */
+    public static final String COLUMNNAME_DateNextRun = "DateNextRun";
+
+	/** Set Date next run.
+	  * Date the process will run next
+	  */
+	public void setDateNextRun (Timestamp DateNextRun);
+
+	/** Get Date next run.
+	  * Date the process will run next
+	  */
+	public Timestamp getDateNextRun();
+
     /** Column name DateStartSchedule */
     public static final String COLUMNNAME_DateStartSchedule = "DateStartSchedule";
 
-	/** Set Date Start Schedule.
+	/** Set Start Schedule.
 	  * Scheduled start date for this Order
 	  */
 	public void setDateStartSchedule (Timestamp DateStartSchedule);
 
-	/** Get Date Start Schedule.
+	/** Get Start Schedule.
 	  * Scheduled start date for this Order
 	  */
 	public Timestamp getDateStartSchedule();
@@ -321,6 +347,32 @@ public interface I_C_ProjectPhase
 	  * Last effective date (inclusive)
 	  */
 	public Timestamp getEndDate();
+
+    /** Column name Frequency */
+    public static final String COLUMNNAME_Frequency = "Frequency";
+
+	/** Set Frequency.
+	  * Frequency of events
+	  */
+	public void setFrequency (int Frequency);
+
+	/** Get Frequency.
+	  * Frequency of events
+	  */
+	public int getFrequency();
+
+    /** Column name FrequencyType */
+    public static final String COLUMNNAME_FrequencyType = "FrequencyType";
+
+	/** Set Frequency Type.
+	  * Frequency of event
+	  */
+	public void setFrequencyType (String FrequencyType);
+
+	/** Get Frequency Type.
+	  * Frequency of event
+	  */
+	public String getFrequencyType();
 
     /** Column name GenerateOrder */
     public static final String COLUMNNAME_GenerateOrder = "GenerateOrder";
@@ -387,6 +439,19 @@ public interface I_C_ProjectPhase
 	  */
 	public boolean isComplete();
 
+    /** Column name IsIndefinite */
+    public static final String COLUMNNAME_IsIndefinite = "IsIndefinite";
+
+	/** Set Indefinite.
+	  * Indefinite
+	  */
+	public void setIsIndefinite (boolean IsIndefinite);
+
+	/** Get Indefinite.
+	  * Indefinite
+	  */
+	public boolean isIndefinite();
+
     /** Column name IsMilestone */
     public static final String COLUMNNAME_IsMilestone = "IsMilestone";
 
@@ -395,6 +460,19 @@ public interface I_C_ProjectPhase
 
 	/** Get Is Milestone	  */
 	public boolean isMilestone();
+
+    /** Column name IsRecurrent */
+    public static final String COLUMNNAME_IsRecurrent = "IsRecurrent";
+
+	/** Set Is Recurrent.
+	  * The flag Is Recurrent, indicates if a project task is recurring
+	  */
+	public void setIsRecurrent (boolean IsRecurrent);
+
+	/** Get Is Recurrent.
+	  * The flag Is Recurrent, indicates if a project task is recurring
+	  */
+	public boolean isRecurrent();
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
@@ -516,6 +594,32 @@ public interface I_C_ProjectPhase
 	public int getResponsible_ID();
 
 	public org.compiere.model.I_AD_User getResponsible() throws RuntimeException;
+
+    /** Column name RunsMax */
+    public static final String COLUMNNAME_RunsMax = "RunsMax";
+
+	/** Set Maximum Runs.
+	  * Number of recurring runs
+	  */
+	public void setRunsMax (int RunsMax);
+
+	/** Get Maximum Runs.
+	  * Number of recurring runs
+	  */
+	public int getRunsMax();
+
+    /** Column name RunsRemaining */
+    public static final String COLUMNNAME_RunsRemaining = "RunsRemaining";
+
+	/** Set Remaining Runs.
+	  * Number of recurring runs remaining
+	  */
+	public void setRunsRemaining (int RunsRemaining);
+
+	/** Get Remaining Runs.
+	  * Number of recurring runs remaining
+	  */
+	public int getRunsRemaining();
 
     /** Column name SeqNo */
     public static final String COLUMNNAME_SeqNo = "SeqNo";

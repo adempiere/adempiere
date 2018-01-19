@@ -28,6 +28,7 @@ import org.compiere.util.CCache;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.eevolution.model.MProjectMember;
+import org.eevolution.model.X_I_Project;
 
 /**
  * 	Project Model
@@ -205,6 +206,64 @@ public class MProject extends X_C_Project
 			setProcessed (false);
 		}
 	}	//	MProject
+
+	public MProject (X_I_Project projectImport)
+	{
+		super(projectImport.getCtx() , 0 , projectImport.get_TrxName());
+		setAD_Org_ID(projectImport.getAD_Org_ID());
+		setM_PriceList_Version_ID(projectImport.getM_PriceList_Version_ID());
+		setAD_Color_ID(projectImport.getAD_Color_ID());
+		setAD_OrgTrx_ID(projectImport.getAD_OrgTrx_ID());
+		setAD_User_ID(projectImport.getAD_User_ID());
+		setC_Activity_ID(projectImport.getC_Activity_ID());
+		setC_BPartner_ID(projectImport.getC_BPartner_ID());
+		setC_BPartner_Location_ID(projectImport.getC_BPartner_Location_ID());
+		setC_BPartnerSR_ID(projectImport.getC_BPartnerSR_ID());
+		setC_Campaign_ID(projectImport.getC_Campaign_ID());
+		setC_Currency_ID(projectImport.getC_Currency_ID());
+		setC_PaymentTerm_ID(projectImport.getC_PaymentTerm_ID());
+		setC_PaymentTerm_ID(projectImport.getC_PaymentTerm_ID());
+		setC_ProjectCategory_ID(projectImport.getC_ProjectCategory_ID());
+		setC_ProjectClass_ID(projectImport.getC_ProjectClass_ID());
+		setC_ProjectGroup_ID(projectImport.getC_ProjectGroup_ID());
+		setC_ProjectStatus_ID(projectImport.getC_ProjectStatus_ID());
+		setC_SalesRegion_ID(projectImport.getC_SalesRegion_ID());
+		setCommittedAmt(projectImport.getCommittedAmt());
+		setCommittedQty(projectImport.getCommittedQty());
+		setDateContract(projectImport.getDateContract());
+		setDateDeadline(projectImport.getDateDeadline());
+		setDateFinish(projectImport.getDateFinish());
+		setDateStart(projectImport.getDateStart());
+		setDateFinishSchedule(projectImport.getDateFinishSchedule());
+		setDateStartSchedule(projectImport.getDateStartSchedule());
+		setDescription(projectImport.getDescription());
+		setDurationUnit(projectImport.getDurationUnit());
+		setInvoicedAmt(projectImport.getInvoicedAmt());
+		setInvoicedQty(projectImport.getInvoicedQty());
+		setIsCommitCeiling(projectImport.isCommitCeiling());
+		setIsCommitment(isCommitment());
+		setIsIndefinite(projectImport.isIndefinite());
+		setIsSummary(projectImport.isSummary());
+		setM_Warehouse_ID(projectImport.getM_Warehouse_ID());
+		setName(projectImport.getName());
+		setNote(projectImport.getNote());
+		setPlannedAmt(projectImport.getPlannedAmt());
+		setPlannedMarginAmt(projectImport.getPlannedMarginAmt());
+		setPlannedQty(projectImport.getPlannedQty());
+		setPOReference(projectImport.getPOReference());
+		setPriorityRule(projectImport.getPriorityRule());
+		setProjectBalanceAmt(projectImport.getProjectBalanceAmt());
+		setProjectLineLevel(projectImport.getProjectLineLevel());
+		setProjectManager_ID(projectImport.getProjectManager_ID());
+		setProjInvoiceRule(projectImport.getProjInvoiceRule());
+		setSalesRep_ID(projectImport.getSalesRep_ID());
+		setUser1_ID(projectImport.getUser1_ID());
+		setUser2_ID(projectImport.getUser2_ID());
+		setUser3_ID(projectImport.getUser3_ID());
+		setUser4_ID(projectImport.getUser4_ID());
+		setValue(projectImport.getValue());
+	}
+
 
 	/**
 	 * 	Load Constructor
@@ -478,6 +537,8 @@ public class MProject extends X_C_Project
 			List<MRequest> requests =  standardRequestType.createStandardRequest(this);
 			requests.stream().forEach(request -> {
 				request.setC_Project_ID(getC_Project_ID());
+				request.setDateStartPlan(getDateStartSchedule());
+				request.setDateCompletePlan(getDateFinishSchedule());
 				request.saveEx();
 			});
 		}

@@ -362,7 +362,10 @@ public class MColumn extends X_AD_Column
 		if ((newRecord || is_ValueChanged ("AD_Element_ID")) 
 			&& getAD_Element_ID() != 0)
 		{
-			M_Element element = new M_Element (getCtx(), getAD_Element_ID (), get_TrxName());
+			M_Element element = new M_Element (getCtx(), getAD_Element_ID(), get_TrxName());
+			if(element.is_new()) {
+				throw new AdempiereException("@AD_Element_ID@ " + getAD_Element_ID () + " @NotFound@");
+			}
 			setColumnName (element.getColumnName());
 			setName (element.getName());
 			setDescription (element.getDescription());

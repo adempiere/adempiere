@@ -33,7 +33,7 @@ public class X_C_ProjectTask extends PO implements I_C_ProjectTask, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20171102L;
+	private static final long serialVersionUID = 20180118L;
 
     /** Standard Constructor */
     public X_C_ProjectTask (Properties ctx, int C_ProjectTask_ID, String trxName)
@@ -377,7 +377,7 @@ public class X_C_ProjectTask extends PO implements I_C_ProjectTask, I_Persistent
 		return (Timestamp)get_Value(COLUMNNAME_DateFinish);
 	}
 
-	/** Set Date Finish Schedule.
+	/** Set Finish Schedule.
 		@param DateFinishSchedule 
 		Scheduled Finish date for this Order
 	  */
@@ -386,12 +386,46 @@ public class X_C_ProjectTask extends PO implements I_C_ProjectTask, I_Persistent
 		set_Value (COLUMNNAME_DateFinishSchedule, DateFinishSchedule);
 	}
 
-	/** Get Date Finish Schedule.
+	/** Get Finish Schedule.
 		@return Scheduled Finish date for this Order
 	  */
 	public Timestamp getDateFinishSchedule () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_DateFinishSchedule);
+	}
+
+	/** Set Date last run.
+		@param DateLastRun 
+		Date the process was last run.
+	  */
+	public void setDateLastRun (Timestamp DateLastRun)
+	{
+		set_Value (COLUMNNAME_DateLastRun, DateLastRun);
+	}
+
+	/** Get Date last run.
+		@return Date the process was last run.
+	  */
+	public Timestamp getDateLastRun () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_DateLastRun);
+	}
+
+	/** Set Date next run.
+		@param DateNextRun 
+		Date the process will run next
+	  */
+	public void setDateNextRun (Timestamp DateNextRun)
+	{
+		set_Value (COLUMNNAME_DateNextRun, DateNextRun);
+	}
+
+	/** Get Date next run.
+		@return Date the process will run next
+	  */
+	public Timestamp getDateNextRun () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_DateNextRun);
 	}
 
 	/** Set Date Start.
@@ -411,7 +445,7 @@ public class X_C_ProjectTask extends PO implements I_C_ProjectTask, I_Persistent
 		return (Timestamp)get_Value(COLUMNNAME_DateStart);
 	}
 
-	/** Set Date Start Schedule.
+	/** Set Start Schedule.
 		@param DateStartSchedule 
 		Scheduled start date for this Order
 	  */
@@ -420,7 +454,7 @@ public class X_C_ProjectTask extends PO implements I_C_ProjectTask, I_Persistent
 		set_Value (COLUMNNAME_DateStartSchedule, DateStartSchedule);
 	}
 
-	/** Get Date Start Schedule.
+	/** Get Start Schedule.
 		@return Scheduled start date for this Order
 	  */
 	public Timestamp getDateStartSchedule () 
@@ -514,6 +548,54 @@ public class X_C_ProjectTask extends PO implements I_C_ProjectTask, I_Persistent
 		return (String)get_Value(COLUMNNAME_DurationUnit);
 	}
 
+	/** Set Frequency.
+		@param Frequency 
+		Frequency of events
+	  */
+	public void setFrequency (int Frequency)
+	{
+		set_Value (COLUMNNAME_Frequency, Integer.valueOf(Frequency));
+	}
+
+	/** Get Frequency.
+		@return Frequency of events
+	  */
+	public int getFrequency () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Frequency);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** FrequencyType AD_Reference_ID=283 */
+	public static final int FREQUENCYTYPE_AD_Reference_ID=283;
+	/** Daily = D */
+	public static final String FREQUENCYTYPE_Daily = "D";
+	/** Weekly = W */
+	public static final String FREQUENCYTYPE_Weekly = "W";
+	/** Monthly = M */
+	public static final String FREQUENCYTYPE_Monthly = "M";
+	/** Quarterly = Q */
+	public static final String FREQUENCYTYPE_Quarterly = "Q";
+	/** Set Frequency Type.
+		@param FrequencyType 
+		Frequency of event
+	  */
+	public void setFrequencyType (String FrequencyType)
+	{
+
+		set_Value (COLUMNNAME_FrequencyType, FrequencyType);
+	}
+
+	/** Get Frequency Type.
+		@return Frequency of event
+	  */
+	public String getFrequencyType () 
+	{
+		return (String)get_Value(COLUMNNAME_FrequencyType);
+	}
+
 	/** Set Comment/Help.
 		@param Help 
 		Comment or Hint
@@ -555,6 +637,30 @@ public class X_C_ProjectTask extends PO implements I_C_ProjectTask, I_Persistent
 		return false;
 	}
 
+	/** Set Indefinite.
+		@param IsIndefinite 
+		Indefinite
+	  */
+	public void setIsIndefinite (boolean IsIndefinite)
+	{
+		set_Value (COLUMNNAME_IsIndefinite, Boolean.valueOf(IsIndefinite));
+	}
+
+	/** Get Indefinite.
+		@return Indefinite
+	  */
+	public boolean isIndefinite () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsIndefinite);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Is Milestone.
 		@param IsMilestone Is Milestone	  */
 	public void setIsMilestone (boolean IsMilestone)
@@ -567,6 +673,30 @@ public class X_C_ProjectTask extends PO implements I_C_ProjectTask, I_Persistent
 	public boolean isMilestone () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsMilestone);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Is Recurrent.
+		@param IsRecurrent 
+		The flag Is Recurrent, indicates if a project task is recurring
+	  */
+	public void setIsRecurrent (boolean IsRecurrent)
+	{
+		set_Value (COLUMNNAME_IsRecurrent, Boolean.valueOf(IsRecurrent));
+	}
+
+	/** Get Is Recurrent.
+		@return The flag Is Recurrent, indicates if a project task is recurring
+	  */
+	public boolean isRecurrent () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsRecurrent);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 
@@ -764,6 +894,46 @@ public class X_C_ProjectTask extends PO implements I_C_ProjectTask, I_Persistent
 	public int getResponsible_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_Responsible_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Maximum Runs.
+		@param RunsMax 
+		Number of recurring runs
+	  */
+	public void setRunsMax (int RunsMax)
+	{
+		set_Value (COLUMNNAME_RunsMax, Integer.valueOf(RunsMax));
+	}
+
+	/** Get Maximum Runs.
+		@return Number of recurring runs
+	  */
+	public int getRunsMax () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_RunsMax);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Remaining Runs.
+		@param RunsRemaining 
+		Number of recurring runs remaining
+	  */
+	public void setRunsRemaining (int RunsRemaining)
+	{
+		set_Value (COLUMNNAME_RunsRemaining, Integer.valueOf(RunsRemaining));
+	}
+
+	/** Get Remaining Runs.
+		@return Number of recurring runs remaining
+	  */
+	public int getRunsRemaining () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_RunsRemaining);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

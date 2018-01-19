@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Dunning Run create from Menu #1511" ReleaseNo="3.9.1" SeqNo="3500">
+    <Comments>See: https://github.com/adempiere/adempiere/issues/1511</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="578" Table="AD_Process_Para">
+        <Data AD_Column_ID="3738" Column="IsMandatory" oldValue="true">false</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

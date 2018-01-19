@@ -18,6 +18,7 @@ import org.compiere.model.MInOutLine;
 import org.compiere.model.MLandedCostAllocation;
 import org.compiere.model.MMatchInv;
 import org.compiere.model.MMatchPO;
+import org.compiere.model.MMovementLine;
 import org.compiere.model.MPeriod;
 import org.compiere.model.MProduct;
 import org.compiere.model.MTransaction;
@@ -245,6 +246,9 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 			
 			accumulatedAmountLowerLevel = getNewAccumulatedAmountLowerLevel(lastCostDetail);
 			accumulatedAmountLowerLevel = accumulatedQuantity.signum() > 0 ? accumulatedAmountLowerLevel.add(amountLowerLevel) : accumulatedAmountLowerLevel.add(amountLowerLevel.negate());
+			if (model instanceof MMovementLine && costDetail!=null){
+				costDetail.setAmt(amount);
+			}
 		}
 		else if (transaction.getMovementType().endsWith("-")) {
 			// Use the last current cost price for out transaction			

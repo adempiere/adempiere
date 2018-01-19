@@ -2,7 +2,7 @@
  * Copyright (C) 2003-2017, e-Evolution Consultants S.A. , http://www.e-evolution.com
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 2 of the License, or
  * (at your option) any later version.
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -42,6 +42,7 @@ public class CopyFromProjectType extends CopyFromProjectTypeAbstract
 			projectTypeFrom.getPhases().stream().forEach(fromPhase -> {
 					MProjectTypePhase projectTypePhase = new MProjectTypePhase(getCtx(), 0, get_TrxName());
 					projectTypePhase.setC_ProjectType_ID(getRecord_ID());
+					projectTypePhase.setSeqNo(fromPhase.getSeqNo());
 					projectTypePhase.setName(fromPhase.getName());
 					projectTypePhase.setDescription(fromPhase.getDescription());
 					projectTypePhase.setHelp(fromPhase.getHelp());
@@ -52,6 +53,7 @@ public class CopyFromProjectType extends CopyFromProjectTypeAbstract
 					fromPhase.getTasks().stream().forEach(task -> {
 						MProjectTypeTask projectTypeTask = new MProjectTypeTask(getCtx(), 0, get_TrxName());
 						projectTypeTask.setC_Phase_ID(projectTypePhase.getC_Phase_ID());
+						projectTypeTask.setSeqNo(task.getSeqNo());
 						projectTypeTask.setName(task.getName());
 						projectTypeTask.setDescription(task.getDescription());
 						projectTypeTask.setHelp(task.getHelp());

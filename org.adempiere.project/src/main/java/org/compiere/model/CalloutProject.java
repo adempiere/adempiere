@@ -69,42 +69,120 @@ public class CalloutProject extends CalloutEngine
 		return "";
 	}	//	planned
 
+	/**
+	 * Fill Project Standard Phase
+	 * @param ctx
+	 * @param windowNo
+	 * @param gridTab
+	 * @param gridField
+	 * @param value
+	 * @return
+	 */
 	public String projectPhase(Properties ctx, int windowNo, GridTab gridTab, GridField gridField, Object value)
 	{
-		Optional<I_C_ProjectPhase> standardProjectPhaseOptional = Optional.of(GridTabWrapper.create(gridTab, I_C_ProjectPhase.class));
-		standardProjectPhaseOptional.ifPresent(projectPhase -> {
+		Optional<I_C_ProjectPhase> projectPhaseOptional = Optional.of(GridTabWrapper.create(gridTab, I_C_ProjectPhase.class));
+		projectPhaseOptional.ifPresent(projectPhase -> {
 			MProjectTypePhase projectTypePhase = (MProjectTypePhase) projectPhase.getC_Phase();
 			if (projectPhase.getC_Phase_ID() > 0) {
-				projectPhase.setName(projectTypePhase.getName());
-				projectPhase.setDescription(projectTypePhase.getDescription());
-				projectPhase.setHelp(projectTypePhase.getHelp());
-				projectPhase.setPriorityRule(projectTypePhase.getPriorityRule());
+				if (projectPhase.getName() == null || projectPhase.getName().isEmpty())
+					projectPhase.setName(projectTypePhase.getName());
+				if (projectPhase.getDescription() == null || projectPhase.getDescription().isEmpty())
+					projectPhase.setDescription(projectTypePhase.getDescription());
+				if (projectPhase.getHelp() == null || projectPhase.getHelp().isEmpty())
+					projectPhase.setHelp(projectTypePhase.getHelp());
+				if (projectPhase.getPriorityRule() == null || projectPhase.getPriorityRule().isEmpty())
+					projectPhase.setPriorityRule(projectTypePhase.getPriorityRule());
+
 				projectPhase.setIsMilestone(projectTypePhase.isMilestone());
-				projectPhase.setDurationUnit(projectTypePhase.getDurationUnit());
-				projectPhase.setDurationEstimated(projectTypePhase.getDurationEstimated());
-				projectPhase.setM_Product_ID(projectTypePhase.getM_Product_ID());
-				projectPhase.setQty(projectTypePhase.getStandardQty());
+
+				if(projectPhase.getDurationUnit() == null || projectPhase.getDurationUnit().isEmpty())
+					projectPhase.setDurationUnit(projectTypePhase.getDurationUnit());
+				if (projectPhase.getDurationEstimated().signum() == 0)
+					projectPhase.setDurationEstimated(projectTypePhase.getDurationEstimated());
+
+				if (projectPhase.getM_Product_ID() <=0 )
+					projectPhase.setM_Product_ID(projectTypePhase.getM_Product_ID());
+				if (projectPhase.getQty().signum() == 0)
+					projectPhase.setQty(projectTypePhase.getStandardQty());
+
+				projectPhase.setIsIndefinite(projectTypePhase.isIndefinite());
+				projectPhase.setIsRecurrent(projectTypePhase.isRecurrent());
+				projectPhase.setFrequencyType(projectTypePhase.getFrequencyType());
+				projectPhase.setFrequency(projectTypePhase.getFrequency());
+				projectPhase.setRunsMax(projectTypePhase.getRunsMax());
 			}
 		});
 		return "";
 	}
 
+	/**
+	 * Fill Project Task from Project Standard Task
+	 * @param ctx
+	 * @param windowNo
+	 * @param gridTab
+	 * @param gridField
+	 * @param value
+	 * @return
+	 */
 	public String projectTask(Properties ctx, int windowNo, GridTab gridTab, GridField gridField, Object value)
 	{
-		Optional<I_C_ProjectTask> standardProjectTaskOptional = Optional.of(GridTabWrapper.create(gridTab, I_C_ProjectTask.class));
-		standardProjectTaskOptional.ifPresent(projectTask -> {
+		Optional<I_C_ProjectTask> projectTaskOptional = Optional.of(GridTabWrapper.create(gridTab, I_C_ProjectTask.class));
+		projectTaskOptional.ifPresent(projectTask -> {
 			MProjectTypeTask projectTypeTask = (MProjectTypeTask) projectTask.getC_Task();
 			if (projectTask.getC_Task_ID() > 0) {
-				projectTask.setName(projectTypeTask.getName());
-				projectTask.setDescription(projectTypeTask.getDescription());
-				projectTask.setHelp(projectTypeTask.getHelp());
-				projectTask.setPriorityRule(projectTypeTask.getPriorityRule());
+				if (projectTask.getName() == null || projectTask.getName().isEmpty())
+					projectTask.setName(projectTypeTask.getName());
+				if (projectTask.getDescription() == null || projectTask.getDescription().isEmpty())
+					projectTask.setDescription(projectTypeTask.getDescription());
+				if (projectTask.getHelp() == null || projectTask.getHelp().isEmpty())
+					projectTask.setHelp(projectTypeTask.getHelp());
+				if (projectTask.getPriorityRule() == null || projectTask.getPriorityRule().isEmpty())
+					projectTask.setPriorityRule(projectTypeTask.getPriorityRule());
+
 				projectTask.setIsMilestone(projectTypeTask.isMilestone());
-				projectTask.setDurationUnit(projectTypeTask.getDurationUnit());
-				projectTask.setDurationEstimated(projectTypeTask.getDurationEstimated());
-				projectTask.setM_Product_ID(projectTypeTask.getM_Product_ID());
+
+				if (projectTask.getDurationUnit() == null || projectTask.getDurationUnit().isEmpty())
+					projectTask.setDurationUnit(projectTypeTask.getDurationUnit());
+				if (projectTask.getDurationEstimated().signum() == 0 )
+					projectTask.setDurationEstimated(projectTypeTask.getDurationEstimated());
+				if (projectTask.getM_Product_ID() <= 0)
+					projectTask.setM_Product_ID(projectTypeTask.getM_Product_ID());
+
+				projectTask.setIsIndefinite(projectTypeTask.isIndefinite());
+				projectTask.setIsRecurrent(projectTypeTask.isRecurrent());
+				projectTask.setFrequencyType(projectTypeTask.getFrequencyType());
+				projectTask.setFrequency(projectTypeTask.getFrequency());
+				projectTask.setRunsMax(projectTypeTask.getRunsMax());
 			}
 		});
 		return "";
+	}
+
+	/**
+	 * Complete percentage or complete flag
+	 * @param ctx
+	 * @param windowNo
+	 * @param gridTab
+	 * @param gridField
+	 * @param value
+	 * @return
+	 */
+	public String completeTask (Properties ctx, int windowNo, GridTab gridTab, GridField gridField, Object value)
+	{
+		Optional<I_C_ProjectTask> projectTaskOptional = Optional.of(GridTabWrapper.create(gridTab, I_C_ProjectTask.class));
+		projectTaskOptional.ifPresent(projectTask -> {
+			if (projectTask.getPercentageCompleted().compareTo( new BigDecimal(100)) == 0)
+			{
+				if (!projectTask.isComplete())
+					projectTask.setIsComplete(true);
+			}
+			if (projectTask.isComplete())
+			{
+				if (projectTask.getPercentageCompleted().compareTo(new BigDecimal(100)) <= 0)
+					projectTask.setPercentageCompleted(new BigDecimal(100));
+			}
+
+		});
+		return null;
 	}
 }	//	CalloutProject

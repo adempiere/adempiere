@@ -115,10 +115,15 @@ public class MProjectTask extends X_C_ProjectTask
 			setUser4_ID(phase.getUser4_ID());
 
 
-		setPriorityRule(phase.getPriorityRule());
-		setIsMilestone(phase.isMilestone());
-		setDurationUnit(phase.getDurationUnit());
-		setDurationEstimated(phase.getDurationEstimated());
+		setPriorityRule(task.getPriorityRule());
+		setIsMilestone(task.isMilestone());
+		setIsIndefinite(task.isIndefinite());
+		setIsRecurrent(task.isRecurrent());
+		setFrequencyType(task.getFrequencyType());
+		setFrequency(task.getFrequency());
+		setRunsMax(task.getRunsMax());
+		setDurationUnit(task.getDurationUnit());
+		setDurationEstimated(task.getDurationEstimated());
 		setQty(task.getStandardQty());
 	}	//	MProjectTask
 
@@ -168,6 +173,8 @@ public class MProjectTask extends X_C_ProjectTask
 				request.setC_Project_ID(getC_Project_ID(false));
 				request.setC_ProjectPhase_ID(getC_ProjectPhase_ID());
 				request.setC_ProjectTask_ID(getC_ProjectTask_ID());
+				request.setDateStartPlan(getDateStartSchedule());
+				request.setDateCompletePlan(getDateFinishSchedule());
 				request.saveEx();
 			});
 		}

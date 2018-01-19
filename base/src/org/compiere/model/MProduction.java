@@ -21,6 +21,7 @@ import java.math.RoundingMode;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
@@ -170,6 +171,26 @@ public class MProduction extends X_M_Production implements DocAction , DocumentR
 						&& line.getM_AttributeSetInstance_ID() == 0) {
 					errors.append("@M_AttributeSet_ID@ @IsMandatory@ (@Line@ #" + line.getLine() +
 							", @M_Product_ID@ = " + product.getValue() + ")").append(Env.NL);
+				}
+			}
+			// Check if Production only possible when sufficient quantity in stock
+			if (isMustBeStocked() && !line.isEndProduct() && getReversal_ID()==0 
+					 && product.isStocked() && line.isActive()){
+				String whereClause = "M_Product_ID=? and M_Locator_ID=? and Movementdate<=? ";
+				ArrayList <Object> params = new ArrayList<>();
+				params.add(product.getM_Product_ID());
+				params.add(getM_Locator_ID());
+				params.add(getMovementDate());
+				if (line.getM_AttributeSetInstance_ID()!=0){
+					whereClause = whereClause + " and M_AttributesetInstance_ID=? ";
+					params.add(line.getM_AttributeSetInstance_ID());
+				}
+				BigDecimal qtyOnHand = new Query(getCtx(), MTransaction.Table_Name, whereClause, get_TrxName())
+						.setParameters(params)
+						.aggregate(MTransaction.COLUMNNAME_MovementQty, Query.AGGREGATE_SUM);
+				if (qtyOnHand.compareTo(line.getMovementQty().abs())<0){
+					errors.append(Msg.translate(getCtx(), "NotEnoughStocked") + " " + product.getName()
+					+ ": " + Msg.translate(getCtx(), "QtyAvailable") + " " + qtyOnHand.toString() + ".\n" );
 				}
 			}
 		}
