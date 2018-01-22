@@ -27,6 +27,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
@@ -1501,44 +1502,66 @@ public class MInvoice extends X_C_Invoice implements DocAction
 		}
 
 		//	Taxes
-		BigDecimal grandTotal = totalLines;
-		MInvoiceTax[] taxes = getTaxes(true);
-		for (int i = 0; i < taxes.length; i++)
-		{
-			MInvoiceTax iTax = taxes[i];
-			MTax tax = iTax.getTax();
-			if (tax.isSummary())
-			{
-				MTax[] cTaxes = tax.getChildTaxes(false);	//	Multiple taxes
-				for (int j = 0; j < cTaxes.length; j++)
-				{
-					MTax cTax = cTaxes[j];
-					BigDecimal taxAmt = cTax.calculateTax(iTax.getTaxBaseAmt(), isTaxIncluded(), getPrecision());
-					//
+		AtomicReference<BigDecimal> grandTotal = new AtomicReference<>(totalLines);
+		Arrays.stream(getTaxes(true)).forEach(invoiceTax -> {
+			MTax taxParent = invoiceTax.getTax();
+			if (taxParent.isSummary()) {
+				Arrays.stream(taxParent.getChildTaxes(false)).forEach(taxChild -> {
+					boolean documentLevel = taxChild.isDocumentLevel();
+					AtomicReference<BigDecimal> taxBaseAmt = new AtomicReference(Env.ZERO);
+					AtomicReference<BigDecimal> taxAmt = new AtomicReference(Env.ZERO);
+					Arrays.stream(getLines(false))
+							.filter(invoiceLine -> invoiceLine.getC_Tax_ID() == taxParent.get_ID())
+							.forEach(invoiceLine -> {
+								//	BaseAmt
+								BigDecimal baseAmt = invoiceLine.getLineNetAmt();
+								taxBaseAmt.getAndUpdate(taxBaseAmount -> taxBaseAmount.add(baseAmt));
+								//	TaxAmt
+								BigDecimal amt = taxChild.calculateTax(baseAmt, isTaxIncluded(), getPrecision());
+								if (amt == null)
+									amt = Env.ZERO;
+								if (!documentLevel && amt.signum() != 0)    //	manually entered
+									;
+								else if (documentLevel || baseAmt.signum() == 0)
+									amt = Env.ZERO;
+
+								BigDecimal finalAmt = amt;
+								taxAmt.getAndUpdate(taxAmount -> taxAmount.add(finalAmt));
+							});
+
+					//	Calculate Tax
+					if (documentLevel || taxAmt.get().signum() == 0)
+						taxAmt.set(taxParent.calculateTax(taxBaseAmt.get(), isTaxIncluded(), getPrecision()));
+
 					MInvoiceTax newITax = new MInvoiceTax(getCtx(), 0, get_TrxName());
 					newITax.setClientOrg(this);
 					newITax.setC_Invoice_ID(getC_Invoice_ID());
-					newITax.setC_Tax_ID(cTax.getC_Tax_ID());
+					newITax.setC_Tax_ID(taxChild.getC_Tax_ID());
 					newITax.setPrecision(getPrecision());
 					newITax.setIsTaxIncluded(isTaxIncluded());
-					newITax.setTaxBaseAmt(iTax.getTaxBaseAmt());
-					newITax.setTaxAmt(taxAmt);
+
+					//	Set Base
+					if (isTaxIncluded())
+						newITax.setTaxBaseAmt (taxBaseAmt.get().subtract(taxAmt.get()));
+					else
+						newITax.setTaxBaseAmt (taxBaseAmt.get());
+
+					newITax.setTaxAmt(taxAmt.get());
 					newITax.saveEx(get_TrxName());
 					//
 					if (!isTaxIncluded())
-						grandTotal = grandTotal.add(taxAmt);
-				}
-				iTax.deleteEx(true, get_TrxName());
-			}
-			else
-			{
+						grandTotal.getAndUpdate(total -> total.add(taxAmt.get()));
+
+				});
+				invoiceTax.deleteEx(true, get_TrxName());
+			} else {
 				if (!isTaxIncluded())
-					grandTotal = grandTotal.add(iTax.getTaxAmt());
+					grandTotal.getAndUpdate(total -> total.add(invoiceTax.getTaxAmt()));
 			}
-		}
+		});
 		//
 		setTotalLines(totalLines);
-		setGrandTotal(grandTotal);
+		setGrandTotal(grandTotal.get());
 		return true;
 	}	//	calculateTaxTotal
 
@@ -2378,13 +2401,15 @@ public class MInvoice extends X_C_Invoice implements DocAction
 	 */
 	private String payCashWithCashAsPayment() {
 		int posId = Env.getContextAsInt(getCtx(),Env.POS_ID);
-		if(posId == 0) {
-			return "@C_POS_ID@ @NotFound@";
-		}
-		//	
-		MPOS pos = MPOS.get(getCtx(), posId);
 		MPayment paymentCash = new MPayment(getCtx(), 0 ,  get_TrxName());
-		paymentCash.setC_BankAccount_ID(pos.getC_BankAccount_ID());
+		if (posId > 0) {
+			MPOS pos = MPOS.get(getCtx(), posId);
+			paymentCash.setC_BankAccount_ID(pos.getC_BankAccount_ID());
+		} else {
+			MDocType dt = (MDocType)getC_Order().getC_DocType();
+			paymentCash.setC_BankAccount_ID(dt.get_ValueAsInt("C_BankAccount_ID"));
+		}
+
 		paymentCash.setC_DocType_ID(true);
         String value = DB.getDocumentNo(paymentCash.getC_DocType_ID(),get_TrxName(), false,  paymentCash);
         paymentCash.setDocumentNo(value);
