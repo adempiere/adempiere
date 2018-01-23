@@ -3046,10 +3046,10 @@ If the document type of your document has no automatic document sequence defined
       </PO>
     </Step>
     <Step SeqNo="2260" StepType="AD">
-      <PO AD_Table_ID="108" Action="I" Record_ID="1000000" Table="AD_Val_Rule">
+      <PO AD_Table_ID="108" Action="I" Record_ID="52558" Table="AD_Val_Rule">
         <Data AD_Column_ID="387" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="388" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="187" Column="AD_Val_Rule_ID">1000000</Data>
+        <Data AD_Column_ID="187" Column="AD_Val_Rule_ID">52558</Data>
         <Data AD_Column_ID="584" Column="Created">2016-04-11 05:29:45.657</Data>
         <Data AD_Column_ID="585" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="189" Column="Description" isNewNull="true"/>
@@ -3064,7 +3064,7 @@ If the document type of your document has no automatic document sequence defined
     </Step>
     <Step SeqNo="2280" StepType="AD">
       <PO AD_Table_ID="101" Action="U" Record_ID="7670" Table="AD_Column">
-        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isOldNull="true">1000000</Data>
+        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isOldNull="true">52558</Data>
       </PO>
     </Step>
     <Step SeqNo="2290" StepType="AD">
