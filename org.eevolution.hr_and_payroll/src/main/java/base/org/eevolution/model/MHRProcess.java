@@ -714,7 +714,7 @@ public class MHRProcess extends X_HR_Process implements DocAction {
 				throw new AdempiereException("@AD_Rule_ID@ @Error@" + result);
 			}
 			//	
-			description = rule.getValue();
+			description = engine.get("description");
 
 		}
 		catch (Exception e)
@@ -735,8 +735,7 @@ public class MHRProcess extends X_HR_Process implements DocAction {
 		MRule rule = MRule.get(getCtx(), ruleId);
 		Object result = null;
 		description = null;
-		try
-		{
+		try {
 			if (rule == null) {
 				logger.log(Level.WARNING, " @AD_Rule_ID@ @NotFound@");
 			}
@@ -749,8 +748,7 @@ public class MHRProcess extends X_HR_Process implements DocAction {
 				return  executeScriptEngine(concept, rule , columnType);
 
 			String text = "";
-			if (rule.getScript() != null)
-			{
+			if (rule.getScript() != null) {
 				text = rule.getScript().trim().replaceAll("\\bget", "process.get")
 				.replace(".process.get", ".get");
 			}
@@ -765,21 +763,18 @@ public class MHRProcess extends X_HR_Process implements DocAction {
 				defValue = "null";
 			}
 			final String script =
-				s_scriptImport.toString()
-				+" " + resultType + " result = " + defValue + ";"
-				+" String description = null;"
-				+ text;
+					s_scriptImport.toString()
+							+ Env.NL + resultType + " result = "+ defValue +";"
+							+ Env.NL + "String description = null;"
+							+ Env.NL + text;
 			Scriptlet engine = new Scriptlet (Scriptlet.VARIABLE, script, scriptCtx);
 			Exception ex = engine.execute();
-			if (ex != null)
-			{
+			if (ex != null) {
 				throw ex;
 			}
 			result = engine.getResult(false);
 			description = engine.getDescription();
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			throw new AdempiereException("@HR_Employee_ID@ : " + employee.getC_BPartner().getName() + " " + employee.getC_BPartner().getName2() 
 			+ " @HR_Concept_ID@ " + concept.getValue() + " -> " + concept.getName() 
 			+ " @AD_Rule_ID@=" + rule.getValue() + " Execution error " + e.getLocalizedMessage());
@@ -857,28 +852,19 @@ public class MHRProcess extends X_HR_Process implements DocAction {
 		.setOnlyActiveRecords(true)
 		.setOrderBy(MHRAttribute.COLUMNNAME_ValidFrom + " DESC")
 		.first();
-		if (attribute == null)
-		{
+		if (attribute == null) {
 			throw new AdempiereException(); // TODO ?? is necessary
 		}
 
-		if (MHRConcept.TYPE_RuleEngine.equals(concept.getType()))
-		{
+		if (MHRConcept.TYPE_RuleEngine.equals(concept.getType())) {
 			Object result;
 			scriptCtx.put("_CostCollector", costCollector);
-			try
-			{
+			try {
 				result = executeScript(concept , attribute.getAD_Rule_ID(), attribute.getColumnType());
 				logger.info(Msg.parseTranslation(getCtx(), "@ScriptResult@ -> @HR_Concept_ID@ @Name@ ") + concept.getName() + " = " + result);
 			}
-			finally
-			{
+			finally {
 				scriptCtx.remove("_CostCollector");
-			}
-			if(result == null)
-			{
-				// TODO: throw exception ???
-				logger.warning("Variable (result) is null");
 			}
 
 			//get employee
@@ -1171,12 +1157,6 @@ public class MHRProcess extends X_HR_Process implements DocAction {
 			Object result = executeScript(concept , attribute.getAD_Rule_ID(), attribute.getColumnType());
 			logger.info(Msg.parseTranslation(getCtx(), "@ScriptResult@ -> @HR_Concept_ID@ @Name@ ") + concept.getName() + " = " + result);
 			activeConceptRule.remove(concept);
-			if (result == null)
-			{
-				// TODO: throw exception ???
-				logger.warning("Variable (result) is null");
-				return;
-			}
 			movement.setColumnValue(result); // double rounded in MHRMovement.setColumnValue
 			if (description != null)
 				movement.setDescription(description.toString());
