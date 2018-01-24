@@ -631,7 +631,8 @@ public class MHRMovement extends X_HR_Movement
 	{
 		return getQty().signum() == 0
 				&& getAmount().signum() == 0
-				&& Util.isEmpty(getTextMsg());		
+				&& Util.isEmpty(getTextMsg())
+				&& getServiceDate() == null;		
 	}
 	
 	/**
@@ -639,6 +640,9 @@ public class MHRMovement extends X_HR_Movement
 	 * @param value
 	 */
 	public void setColumnValue(Object value) {
+		if(value == null) {
+			return;
+		}
 		try {
 			//	Get column Type from concept
 			MHRConcept concept = MHRConcept.get(getCtx(), getHR_Concept_ID());
