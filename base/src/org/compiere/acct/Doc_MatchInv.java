@@ -262,6 +262,7 @@ public class Doc_MatchInv extends Doc
 						diffline.setUser2_ID(m_invoiceLine.getUser2_ID());
 						diffline.setUser3_ID(m_invoiceLine.getUser3_ID());
 						diffline.setUser4_ID(m_invoiceLine.getUser4_ID());
+						diffline.setQty(Env.ZERO);
 					}
 				}
 				log.fine("IPV=" + ipv + "; Balance=" + fact.getSourceBalance());
@@ -385,6 +386,7 @@ public class Doc_MatchInv extends Doc
 				pv.setUser2_ID(m_invoiceLine.getUser2_ID());
 				pv.setUser3_ID(m_invoiceLine.getUser3_ID());
 				pv.setUser4_ID(m_invoiceLine.getUser4_ID());
+				pv.setQty(Env.ZERO);
 			}
 			
 			BigDecimal diff = ipv.subtract(costs);
@@ -404,6 +406,7 @@ public class Doc_MatchInv extends Doc
 					diffline.setUser2_ID(m_invoiceLine.getUser2_ID());
 					diffline.setUser3_ID(m_invoiceLine.getUser3_ID());
 					diffline.setUser4_ID(m_invoiceLine.getUser4_ID());
+					diffline.setQty(Env.ZERO);
 				}
 			}
 		}
