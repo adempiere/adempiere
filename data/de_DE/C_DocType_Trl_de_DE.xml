@@ -186,9 +186,9 @@
   <value column="PrintName" original="Vendor Return Material Authorization">Vendor Return Material Authorization</value>
   <value column="DocumentNote" original=""/>
  </row>
- <row id="151" trl="N">
-  <value column="Name" original="MM Vendor Return">MM Vendor Return</value>
-  <value column="PrintName" original="Vendor Return Material">Warenrückgabe Lieferant</value>
+ <row id="151" trl="Y">
+  <value column="Name" original="MM Vendor Return">Warenrückgabe an Lieferant</value>
+  <value column="PrintName" original="Vendor Return Material">Warenrückgabe</value>
   <value column="DocumentNote" original=""/>
  </row>
  <row id="50000" trl="N">
