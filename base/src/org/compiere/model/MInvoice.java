@@ -1699,12 +1699,21 @@ public class MInvoice extends X_C_Invoice implements DocAction , DocumentReversa
 			{
 				MInOutLine receiptLine = new MInOutLine (getCtx(),invoiceLine.getM_InOutLine_ID(), get_TrxName());
 				BigDecimal matchQty = invoiceLine.getQtyInvoiced();
+				Boolean useReceiptDateAcct = MSysConfig.getBooleanValue("MatchInv_Use_DateAcct_From_Receipt",
+						false, getAD_Client_ID());
 
 				if (receiptLine.getMovementQty().compareTo(matchQty) < 0)
 					matchQty = receiptLine.getMovementQty();
+				MMatchInv matchInvoice = null;
+				Boolean isReceiptPeriodOpen = MPeriod.isOpen(getCtx(), receiptLine.getParent().getDateAcct(),
+						receiptLine.getParent().getC_DocType().getDocBaseType(), receiptLine.getParent().getAD_Org_ID());
 
-				//TODO parameter dateTrx should be dateacct from Material Receipt when its period is open
-				MMatchInv matchInvoice = new MMatchInv(invoiceLine, getDateInvoiced(), matchQty);
+				if (useReceiptDateAcct & isReceiptPeriodOpen ) {
+					matchInvoice = new MMatchInv(invoiceLine,receiptLine.getParent().getDateAcct() , matchQty);
+				}
+				else {
+					matchInvoice = new MMatchInv(invoiceLine, getDateAcct(), matchQty);
+				}
 				matchInvoice.saveEx();
 				matchInvoices.getAndUpdate( record -> record + 1);
 				addDocsPostProcess(matchInvoice);

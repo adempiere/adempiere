@@ -23,14 +23,7 @@ import java.util.logging.Level;
 
 import org.compiere.minigrid.IDColumn;
 import org.compiere.minigrid.IMiniTable;
-import org.compiere.model.MClient;
-import org.compiere.model.MInOutLine;
-import org.compiere.model.MInvoiceLine;
-import org.compiere.model.MMatchInv;
-import org.compiere.model.MMatchPO;
-import org.compiere.model.MOrderLine;
-import org.compiere.model.MRole;
-import org.compiere.model.MStorage;
+import org.compiere.model.*;
 import org.compiere.process.DocumentEngine;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -418,7 +411,23 @@ public class Match
 			//	Create Shipment - Invoice Link
 			if (iLine.getM_Product_ID() != 0)
 			{
-				MMatchInv match = new MMatchInv (iLine, null, qty);
+				Boolean useReceiptDateAcct = MSysConfig.getBooleanValue("MatchInv_Use_DateAcct_From_Receipt",
+						false, iLine.getAD_Client_ID());
+				MMatchInv match = null;
+				Boolean isreceiptPeriodOpen = MPeriod.isOpen(Env.getCtx(), sLine.getParent().getDateAcct(),
+						sLine.getParent().getC_DocType().getDocBaseType(), sLine.getParent().getAD_Org_ID());
+				Boolean isInvoicePeriodOpen = MPeriod.isOpen(Env.getCtx(), iLine.getParent().getDateAcct(),
+						iLine.getParent().getC_DocType().getDocBaseType(), iLine.getParent().getAD_Org_ID());
+
+				if (useReceiptDateAcct & isreceiptPeriodOpen) {
+					match= new MMatchInv(iLine,sLine.getParent().getDateAcct() , qty);
+				}
+				else if (isInvoicePeriodOpen){
+					match = new MMatchInv(iLine, iLine.getParent().getDateAcct(), qty);
+				}
+				else {
+					match = new MMatchInv(iLine, null, qty);
+				}
 				match.setM_InOutLine_ID(M_InOutLine_ID);
 				if (match.save()) {
 					success = true;
