@@ -16,21 +16,20 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.math.BigDecimal;
-import java.sql.ResultSet;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
-
 import org.adempiere.engine.CostEngineFactory;
 import org.adempiere.engine.IDocumentLine;
-import org.adempiere.engine.CostingMethodFactory;
-import org.adempiere.engine.ICostingMethod;
-
+import org.adempiere.exceptions.AdempiereException;
+import org.compiere.process.ProcessInfo;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.eevolution.process.GenerateCostDetail;
+
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.List;
+import java.util.Properties;
 
 /**
  *	Match Invoice (Receipt<>Invoice) Model.
@@ -372,6 +371,7 @@ public class MMatchInv extends X_M_MatchInv implements IDocumentLine
 				else
 				{
 					mPO[i].setC_InvoiceLine_ID(null);
+					mPO[i].setQty(Env.ZERO);
 					mPO[i].saveEx();
 				}
 			}
@@ -424,7 +424,8 @@ public class MMatchInv extends X_M_MatchInv implements IDocumentLine
 					.list();
 					for (MCostDetail cd:cds)
 					{
-						//cd.setDeltaAmt(cd.getAmt().negate());
+						cd.delete(true);
+						/*cd.setDeltaAmt(cd.getAmt().negate());
 						cd.setCostAdjustment(Env.ZERO);
 						cd.setCostAdjustmentLL(Env.ZERO);
 						cd.saveEx();
@@ -440,7 +441,7 @@ public class MMatchInv extends X_M_MatchInv implements IDocumentLine
 							final ICostingMethod method = CostingMethodFactory.get().getCostingMethod(ct.getCostingMethod());
 							method.setCostingMethod(as, trx, this, dimension, Env.ZERO, Env.ZERO, false);
 							//method.processCostDetail(cd);
-						}
+						}*/
 					}
 				}
 			}
@@ -506,7 +507,7 @@ public class MMatchInv extends X_M_MatchInv implements IDocumentLine
 
 	@Override
 	public int getReversalLine_ID() {
-		return 0;
+		return getReversal_ID();
 	}
 
 	@Override
@@ -575,4 +576,7 @@ public class MMatchInv extends X_M_MatchInv implements IDocumentLine
 		}
 		return null;
 	}
+
+
+
 }	//	MMatchInv

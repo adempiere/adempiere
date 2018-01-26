@@ -1703,6 +1703,7 @@ public class MInvoice extends X_C_Invoice implements DocAction , DocumentReversa
 				if (receiptLine.getMovementQty().compareTo(matchQty) < 0)
 					matchQty = receiptLine.getMovementQty();
 
+				//TODO parameter dateTrx should be dateacct from Material Receipt when its period is open
 				MMatchInv matchInvoice = new MMatchInv(invoiceLine, getDateInvoiced(), matchQty);
 				matchInvoice.saveEx();
 				matchInvoices.getAndUpdate( record -> record + 1);
@@ -2229,15 +2230,24 @@ public class MInvoice extends X_C_Invoice implements DocAction , DocumentReversa
 	 */
 	protected boolean reverseMatching(Timestamp reversalDate) {
 		// Remove Match Invoice
+		ArrayList<PO> deleteList = new ArrayList<>();
 		MMatchInv.getByInvoiceId(getCtx(), getC_Invoice_ID(), get_TrxName()).stream()
 				.filter(matchInv -> matchInv.getReversal_ID() <= 0)
 				.forEach(matchInv -> {
-					MMatchInv matchInvReverse = matchInv.reverseIt(reversalDate);
-					if (matchInvReverse == null) {
-						processMsg = "Could not Reverse MatchInv";
-						throw new AdempiereException(processMsg);
+					if (MPeriod.isOpen(getCtx(), matchInv.getDateAcct(), MDocType.DOCBASETYPE_MatchInvoice,
+							matchInv.getAD_Org_ID()) && getDocAction().equals(MInvoice.DOCACTION_Reverse_Correct))
+					{
+						deleteList.add(matchInv);
 					}
-					addDocsPostProcess(matchInvReverse);
+					else
+					{
+						MMatchInv matchInvReverse = matchInv.reverseIt(reversalDate);
+						if (matchInvReverse == null) {
+							processMsg = "Could not Reverse MatchInv";
+							throw new AdempiereException(processMsg);
+						}
+						addDocsPostProcess(matchInvReverse);
+					}
 				});
 
 		// Remove Match PO
@@ -2253,9 +2263,14 @@ public class MInvoice extends X_C_Invoice implements DocAction , DocumentReversa
 						addDocsPostProcess(matchPOReverse);
 					} else {
 						matchPO.setC_InvoiceLine_ID(null);
+						matchPO.setQty(Env.ZERO);
 						matchPO.saveEx(get_TrxName());
 					}
 				});
+		for (PO po:deleteList)
+		{
+			po.deleteEx(true);
+		}
 		return true;
 	}
 
