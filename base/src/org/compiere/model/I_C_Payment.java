@@ -41,40 +41,6 @@ public interface I_C_Payment
 
     /** Load Meta Data */
 
-    /** Column name AD_Client_ID */
-    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
-
-	/** Get Client.
-	  * Client/Tenant for this installation.
-	  */
-	public int getAD_Client_ID();
-
-    /** Column name AD_OrgTrx_ID */
-    public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
-
-	/** Set Trx Organization.
-	  * Performing or initiating organization
-	  */
-	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID);
-
-	/** Get Trx Organization.
-	  * Performing or initiating organization
-	  */
-	public int getAD_OrgTrx_ID();
-
-    /** Column name AD_Org_ID */
-    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
-
-	/** Set Organization.
-	  * Organizational entity within client
-	  */
-	public void setAD_Org_ID (int AD_Org_ID);
-
-	/** Get Organization.
-	  * Organizational entity within client
-	  */
-	public int getAD_Org_ID();
-
     /** Column name A_City */
     public static final String COLUMNNAME_A_City = "A_City";
 
@@ -205,6 +171,40 @@ public interface I_C_Payment
 	  */
 	public String getAccountNo();
 
+    /** Column name AD_Client_ID */
+    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
+
+	/** Get Client.
+	  * Client/Tenant for this installation.
+	  */
+	public int getAD_Client_ID();
+
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
+
+    /** Column name AD_OrgTrx_ID */
+    public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
+
+	/** Set Trx Organization.
+	  * Performing or initiating organization
+	  */
+	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID);
+
+	/** Get Trx Organization.
+	  * Performing or initiating organization
+	  */
+	public int getAD_OrgTrx_ID();
+
     /** Column name C_Activity_ID */
     public static final String COLUMNNAME_C_Activity_ID = "C_Activity_ID";
 
@@ -219,6 +219,21 @@ public interface I_C_Payment
 	public int getC_Activity_ID();
 
 	public org.compiere.model.I_C_Activity getC_Activity() throws RuntimeException;
+
+    /** Column name C_BankAccount_ID */
+    public static final String COLUMNNAME_C_BankAccount_ID = "C_BankAccount_ID";
+
+	/** Set Bank Account.
+	  * Account at the Bank
+	  */
+	public void setC_BankAccount_ID (int C_BankAccount_ID);
+
+	/** Get Bank Account.
+	  * Account at the Bank
+	  */
+	public int getC_BankAccount_ID();
+
+	public org.compiere.model.I_C_BankAccount getC_BankAccount() throws RuntimeException;
 
     /** Column name C_BP_BankAccount_ID */
     public static final String COLUMNNAME_C_BP_BankAccount_ID = "C_BP_BankAccount_ID";
@@ -249,21 +264,6 @@ public interface I_C_Payment
 	public int getC_BPartner_ID();
 
 	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
-
-    /** Column name C_BankAccount_ID */
-    public static final String COLUMNNAME_C_BankAccount_ID = "C_BankAccount_ID";
-
-	/** Set Bank Account.
-	  * Account at the Bank
-	  */
-	public void setC_BankAccount_ID (int C_BankAccount_ID);
-
-	/** Get Bank Account.
-	  * Account at the Bank
-	  */
-	public int getC_BankAccount_ID();
-
-	public org.compiere.model.I_C_BankAccount getC_BankAccount() throws RuntimeException;
 
     /** Column name C_Campaign_ID */
     public static final String COLUMNNAME_C_Campaign_ID = "C_Campaign_ID";
@@ -385,20 +385,18 @@ public interface I_C_Payment
 
 	public org.compiere.model.I_C_Order getC_Order() throws RuntimeException;
 
-    /** Column name C_POS_ID */
-    public static final String COLUMNNAME_C_POS_ID = "C_POS_ID";
+    /** Column name C_Payment_ID */
+    public static final String COLUMNNAME_C_Payment_ID = "C_Payment_ID";
 
-	/** Set POS Terminal.
-	  * Point of Sales Terminal
+	/** Set Payment.
+	  * Payment identifier
 	  */
-	public void setC_POS_ID (int C_POS_ID);
+	public void setC_Payment_ID (int C_Payment_ID);
 
-	/** Get POS Terminal.
-	  * Point of Sales Terminal
+	/** Get Payment.
+	  * Payment identifier
 	  */
-	public int getC_POS_ID();
-
-	public org.compiere.model.I_C_POS getC_POS() throws RuntimeException;
+	public int getC_Payment_ID();
 
     /** Column name C_PaymentBatch_ID */
     public static final String COLUMNNAME_C_PaymentBatch_ID = "C_PaymentBatch_ID";
@@ -415,18 +413,31 @@ public interface I_C_Payment
 
 	public org.compiere.model.I_C_PaymentBatch getC_PaymentBatch() throws RuntimeException;
 
-    /** Column name C_Payment_ID */
-    public static final String COLUMNNAME_C_Payment_ID = "C_Payment_ID";
+    /** Column name C_PaymentRelated_ID */
+    public static final String COLUMNNAME_C_PaymentRelated_ID = "C_PaymentRelated_ID";
 
-	/** Set Payment.
-	  * Payment identifier
-	  */
-	public void setC_Payment_ID (int C_Payment_ID);
+	/** Set Payment Related	  */
+	public void setC_PaymentRelated_ID (int C_PaymentRelated_ID);
 
-	/** Get Payment.
-	  * Payment identifier
+	/** Get Payment Related	  */
+	public int getC_PaymentRelated_ID();
+
+	public org.compiere.model.I_C_Payment getC_PaymentRelated() throws RuntimeException;
+
+    /** Column name C_POS_ID */
+    public static final String COLUMNNAME_C_POS_ID = "C_POS_ID";
+
+	/** Set POS Terminal.
+	  * Point of Sales Terminal
 	  */
-	public int getC_Payment_ID();
+	public void setC_POS_ID (int C_POS_ID);
+
+	/** Get POS Terminal.
+	  * Point of Sales Terminal
+	  */
+	public int getC_POS_ID();
+
+	public org.compiere.model.I_C_POS getC_POS() throws RuntimeException;
 
     /** Column name C_Project_ID */
     public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
@@ -758,6 +769,19 @@ public interface I_C_Payment
 	  */
 	public boolean isReconciled();
 
+    /** Column name IsReversal */
+    public static final String COLUMNNAME_IsReversal = "IsReversal";
+
+	/** Set Reversal.
+	  * This is a reversing transaction
+	  */
+	public void setIsReversal (boolean IsReversal);
+
+	/** Get Reversal.
+	  * This is a reversing transaction
+	  */
+	public boolean isReversal();
+
     /** Column name IsSelfService */
     public static final String COLUMNNAME_IsSelfService = "IsSelfService";
 
@@ -770,6 +794,15 @@ public interface I_C_Payment
 	  * This is a Self-Service entry or this entry can be changed via Self-Service
 	  */
 	public boolean isSelfService();
+
+    /** Column name IsVoidRelatedDocument */
+    public static final String COLUMNNAME_IsVoidRelatedDocument = "IsVoidRelatedDocument";
+
+	/** Set IsVoidRelatedDocument	  */
+	public void setIsVoidRelatedDocument (boolean IsVoidRelatedDocument);
+
+	/** Get IsVoidRelatedDocument	  */
+	public boolean isVoidRelatedDocument();
 
     /** Column name Micr */
     public static final String COLUMNNAME_Micr = "Micr";
@@ -823,19 +856,6 @@ public interface I_C_Payment
 	  */
 	public BigDecimal getOverUnderAmt();
 
-    /** Column name PONum */
-    public static final String COLUMNNAME_PONum = "PONum";
-
-	/** Set PO Number.
-	  * Purchase Order Number
-	  */
-	public void setPONum (String PONum);
-
-	/** Get PO Number.
-	  * Purchase Order Number
-	  */
-	public String getPONum();
-
     /** Column name PayAmt */
     public static final String COLUMNNAME_PayAmt = "PayAmt";
 
@@ -848,6 +868,19 @@ public interface I_C_Payment
 	  * Amount being paid
 	  */
 	public BigDecimal getPayAmt();
+
+    /** Column name PONum */
+    public static final String COLUMNNAME_PONum = "PONum";
+
+	/** Set PO Number.
+	  * Purchase Order Number
+	  */
+	public void setPONum (String PONum);
+
+	/** Get PO Number.
+	  * Purchase Order Number
+	  */
+	public String getPONum();
 
     /** Column name Posted */
     public static final String COLUMNNAME_Posted = "Posted";
@@ -1118,19 +1151,6 @@ public interface I_C_Payment
 	  */
 	public String getTrxType();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -1206,6 +1226,19 @@ public interface I_C_Payment
 	public int getUser4_ID();
 
 	public org.compiere.model.I_C_ElementValue getUser4() throws RuntimeException;
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 
     /** Column name VoiceAuthCode */
     public static final String COLUMNNAME_VoiceAuthCode = "VoiceAuthCode";
