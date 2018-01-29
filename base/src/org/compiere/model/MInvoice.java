@@ -29,6 +29,7 @@ import java.util.Optional;
 import java.util.Properties;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.BiFunction;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
@@ -1875,6 +1876,10 @@ public class MInvoice extends X_C_Invoice implements DocAction , DocumentReversa
 
 		// Set the definite document number after completed (if needed)
 		setDefiniteDocumentNo();
+		// allocate prepaid Orders
+		if (isAllocateImmediate() && getC_Order_ID() > 0 && getC_Order().getC_POS_ID() == 0) {
+			allocatePrepayments();
+		}
 
 		//	Counter Documents
 		MInvoice counter = createCounterDoc();
@@ -2482,6 +2487,49 @@ public class MInvoice extends X_C_Invoice implements DocAction , DocumentReversa
 		paymentCash.saveEx();
 		MBankStatement.addPayment(paymentCash);
 		return "";
+	}
+    /**
+     * 	Create Allocation of the invoice to prepayments of the same Order
+     *	@return void
+     */
+	private void allocatePrepayments()
+	{
+		BiFunction<BigDecimal, BigDecimal, BigDecimal> getMaxPayAmt     = (t1, t2)  -> {
+			return t1.abs().compareTo(t2.abs()) <=0? t1:t2;
+		};
+		BiFunction<BigDecimal, BigDecimal, BigDecimal> getOverUnderAmt    = ( payamt,  openamt)  -> {
+			return payamt.abs().compareTo(openamt.abs()) >=0? Env.ZERO:openamt.subtract(payamt);};
+
+		BiFunction<BigDecimal, Boolean, BigDecimal> getAmtIsreceipt    = ( amt,  isReceipt)  -> {
+			return isReceipt?amt:amt.negate();};
+
+		String whereClause = "C_ORDER_ID=? and docstatus in ('CO','CL') and isallocated = 'N'";
+		List<MPayment> prepayments = new Query(getCtx(), MPayment.Table_Name, whereClause, get_TrxName())
+				.setParameters(getC_Order_ID())
+				.setOrderBy(MPayment.COLUMNNAME_DateTrx + ", " + MPayment.COLUMNNAME_C_Payment_ID )
+				.list();
+		BigDecimal openAmt = getOpenAmt();
+		for (MPayment pay:prepayments)
+		{
+			MAllocationHdr alloc = new MAllocationHdr (Env.getCtx(), true,	//	manual
+					getDateInvoiced()	, getC_Currency_ID(), Env.getContext(Env.getCtx(), "#AD_User_Name"),
+					get_TrxName());
+			alloc.setAD_Org_ID(getAD_Org_ID());
+			alloc.saveEx();
+			BigDecimal aLineAmount = getMaxPayAmt.apply(openAmt,pay.getPayAmt().subtract(pay.getAllocatedAmt().negate()));
+			BigDecimal overUnderAmt = getOverUnderAmt.apply(aLineAmount, openAmt);
+			//	Allocation Line
+			MAllocationLine aLine = new MAllocationLine (alloc, getAmtIsreceipt.apply(aLineAmount, isSOTrx()) ,
+					Env.ZERO, Env.ZERO, getAmtIsreceipt.apply(overUnderAmt, isSOTrx()));
+			aLine.setDocInfo(getC_BPartner_ID(), getC_Order_ID(), getC_Invoice_ID());
+			aLine.setPaymentInfo(pay.getC_Payment_ID(), 0);
+			aLine.saveEx();
+			if (!alloc.processIt(DocAction.ACTION_Complete)) //@Trifon
+				throw new AdempiereException("Cannot complete allocation: " + alloc.getProcessMsg()); //@Trifon
+			alloc.saveEx();
+			openAmt = openAmt.subtract(aLineAmount);
+		}
+		return ;
 	}
 
 
