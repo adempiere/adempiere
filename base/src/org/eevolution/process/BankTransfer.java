@@ -22,7 +22,6 @@ import org.compiere.model.MBankAccount;
 import org.compiere.model.MBankStatement;
 import org.compiere.model.MBankStatementLine;
 import org.compiere.model.MPayment;
-import org.compiere.sqlj.Payment;
 import org.compiere.util.Env;
  
 /**
