@@ -691,23 +691,23 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	public org.compiere.model.I_C_Payment getC_PaymentRelated() throws RuntimeException
     {
 		return (org.compiere.model.I_C_Payment)MTable.get(getCtx(), org.compiere.model.I_C_Payment.Table_Name)
-			.getPO(getC_PaymentRelated_ID(), get_TrxName());	}
+			.getPO(getPaymentRelated_ID(), get_TrxName());	}
 
 	/** Set Payment Related.
-		@param C_PaymentRelated_ID Payment Related	  */
-	public void setC_PaymentRelated_ID (int C_PaymentRelated_ID)
+		@param PaymentRelated_ID Payment Related	  */
+	public void setPaymentRelated_ID (int PaymentRelated_ID)
 	{
-		if (C_PaymentRelated_ID < 1) 
-			set_Value (COLUMNNAME_C_PaymentRelated_ID, null);
+		if (PaymentRelated_ID < 1) 
+			set_Value (COLUMNNAME_PaymentRelated_ID, null);
 		else 
-			set_Value (COLUMNNAME_C_PaymentRelated_ID, Integer.valueOf(C_PaymentRelated_ID));
+			set_Value (COLUMNNAME_PaymentRelated_ID, Integer.valueOf(PaymentRelated_ID));
 	}
 
 	/** Get Payment Related.
 		@return Payment Related	  */
-	public int getC_PaymentRelated_ID () 
+	public int getPaymentRelated_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_PaymentRelated_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_PaymentRelated_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
