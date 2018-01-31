@@ -44,6 +44,7 @@ import org.eevolution.model.MHRProcess;
 import org.spin.model.I_HR_ProcessReport;
 import org.spin.model.I_RV_HR_ProcessDetail;
 import org.spin.model.MHRProcessReport;
+import org.spin.model.MHRProcessReportTemplate;
 import org.spin.model.X_RV_HR_ProcessDetail;
 import org.spin.util.AbstractPayrollReportExport;
 
@@ -56,6 +57,8 @@ import org.spin.util.AbstractPayrollReportExport;
  *
  */
 public class PayrollProcessReport extends PayrollProcessReportAbstract {
+	/**	Default Print Format	*/
+	private int printFormatId = 0;
 	
 	@Override
 	protected void prepare() {
@@ -79,22 +82,29 @@ public class PayrollProcessReport extends PayrollProcessReportAbstract {
 			//	Do It
 			return exportToFile(pReport);
 		}
+		//	For template
+		if(getProcessReportTemplateId() != 0) {
+			MHRProcessReportTemplate template = MHRProcessReportTemplate.get(getCtx(), getProcessReportTemplateId());
+			if(template != null) {
+				printFormatId = template.getAD_PrintFormat_ID();
+			}
+		}
 		//	Valid from Parameter
-		if(getPrintFormatId() == 0) {
-			setPrintFormatId(pReport.getAD_PrintFormat_ID());
+		if(printFormatId == 0) {
+			printFormatId = pReport.getAD_PrintFormat_ID();
 		}
 		//	Get from Payroll
-		if(getPrintFormatId() == 0) {
+		if(printFormatId == 0) {
 			//	Valid Payroll
 			if(getPayrollId() != 0) {
 				MHRPayroll payroll = MHRPayroll.getById(getCtx(), getPayrollId());
-				setPrintFormatId(payroll.getAD_PrintFormat_ID());
+				printFormatId = payroll.getAD_PrintFormat_ID();
 				//	Log
 				log.info("Print Format from Payroll");
 			}
 		}
 		//	Get From Process
-		if(getPrintFormatId() == 0) {
+		if(printFormatId == 0) {
 			//	Valid Process
 			if(getHRProcessId() != 0) { 
 				//	Get Process
@@ -102,17 +112,16 @@ public class PayrollProcessReport extends PayrollProcessReportAbstract {
 				//	Get Payroll from Process
 				MHRPayroll payroll = MHRPayroll.getById(getCtx(), process.getHR_Payroll_ID());
 				//	Get Print Format
-				setPrintFormatId(payroll.getAD_PrintFormat_ID());
+				printFormatId = payroll.getAD_PrintFormat_ID();
 				//	Log
 				log.info("Print Format from Process");
 			}
 		}
 		//	Valid Print Format
-		if(getPrintFormatId() == 0)
+		if(printFormatId == 0)
 			throw new AdempiereException("@AD_PrintFormat_ID@ @NotFound@");
 		//	Get Format & Data
-		MPrintFormat format = 
-				MPrintFormat.get (getCtx(), getPrintFormatId(), false);
+		MPrintFormat format = MPrintFormat.get (getCtx(), printFormatId, false);
 		//	Get Print Format
 		MQuery query = new MQuery(I_HR_ProcessReport.Table_Name);
 			
@@ -168,7 +177,7 @@ public class PayrollProcessReport extends PayrollProcessReportAbstract {
 		for(ProcessInfoParameter parameter : getParameter()) {
 			if(parameter.getParameter() == null
 					&& parameter.getParameter_To() == null
-					|| parameter.getParameterName().equals(AD_PRINTFORMAT_ID)) {
+					|| parameter.getParameterName().equals(HR_PROCESSREPORTTEMPLATE_ID)) {
 				continue;
 			}
 			//	

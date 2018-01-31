@@ -53,8 +53,8 @@ public abstract class PayrollProcessReportAbstract extends SvrProcess {
 	public static final String DOCSTATUS = "DocStatus";
 	/**	Parameter Name for Payroll Process Report	*/
 	public static final String HR_PROCESSREPORT_ID = "HR_ProcessReport_ID";
-	/**	Parameter Name for Print Format	*/
-	public static final String AD_PRINTFORMAT_ID = "AD_PrintFormat_ID";
+	/**	Parameter Name for Payroll Process Report Template ID	*/
+	public static final String HR_PROCESSREPORTTEMPLATE_ID = "HR_ProcessReportTemplate_ID";
 	/**	Parameter Value for Organization	*/
 	private int orgId;
 	/**	Parameter Value for Payroll Contract	*/
@@ -79,8 +79,8 @@ public abstract class PayrollProcessReportAbstract extends SvrProcess {
 	private String docStatus;
 	/**	Parameter Value for Payroll Process Report	*/
 	private int processReportId;
-	/**	Parameter Value for Print Format	*/
-	private int printFormatId;
+	/**	Parameter Value for Payroll Process Report Template ID	*/
+	private int processReportTemplateId;
 
 	@Override
 	protected void prepare() {
@@ -96,7 +96,7 @@ public abstract class PayrollProcessReportAbstract extends SvrProcess {
 		dateAcctTo = getParameterToAsTimestamp(DATEACCT);
 		docStatus = getParameterAsString(DOCSTATUS);
 		processReportId = getParameterAsInt(HR_PROCESSREPORT_ID);
-		printFormatId = getParameterAsInt(AD_PRINTFORMAT_ID);
+		processReportTemplateId = getParameterAsInt(HR_PROCESSREPORTTEMPLATE_ID);
 	}
 
 	/**	 Getter Parameter Value for Organization	*/
@@ -219,14 +219,14 @@ public abstract class PayrollProcessReportAbstract extends SvrProcess {
 		this.processReportId = processReportId;
 	}
 
-	/**	 Getter Parameter Value for Print Format	*/
-	protected int getPrintFormatId() {
-		return printFormatId;
+	/**	 Getter Parameter Value for Payroll Process Report Template ID	*/
+	protected int getProcessReportTemplateId() {
+		return processReportTemplateId;
 	}
 
-	/**	 Setter Parameter Value for Print Format	*/
-	protected void setPrintFormatId(int printFormatId) {
-		this.printFormatId = printFormatId;
+	/**	 Setter Parameter Value for Payroll Process Report Template ID	*/
+	protected void setProcessReportTemplateId(int processReportTemplateId) {
+		this.processReportTemplateId = processReportTemplateId;
 	}
 
 	/**	 Getter Parameter Value for Process ID	*/
