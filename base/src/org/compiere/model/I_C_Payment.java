@@ -413,14 +413,14 @@ public interface I_C_Payment
 
 	public org.compiere.model.I_C_PaymentBatch getC_PaymentBatch() throws RuntimeException;
 
-    /** Column name C_PaymentRelated_ID */
-    public static final String COLUMNNAME_C_PaymentRelated_ID = "C_PaymentRelated_ID";
+    /** Column name PaymentRelated_ID */
+    public static final String COLUMNNAME_PaymentRelated_ID = "PaymentRelated_ID";
 
 	/** Set Payment Related	  */
-	public void setC_PaymentRelated_ID (int C_PaymentRelated_ID);
+	public void setPaymentRelated_ID (int PaymentRelated_ID);
 
 	/** Get Payment Related	  */
-	public int getC_PaymentRelated_ID();
+	public int getPaymentRelated_ID();
 
 	public org.compiere.model.I_C_Payment getC_PaymentRelated() throws RuntimeException;
 

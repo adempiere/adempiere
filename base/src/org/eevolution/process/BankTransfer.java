@@ -22,7 +22,6 @@ import org.compiere.model.MBankAccount;
 import org.compiere.model.MBankStatement;
 import org.compiere.model.MBankStatementLine;
 import org.compiere.model.MPayment;
-import org.compiere.sqlj.Payment;
 import org.compiere.util.Env;
  
 /**
@@ -113,7 +112,7 @@ public class BankTransfer extends BankTransferAbstract {
 		paymentBankTo.setC_Charge_ID(getChargeId());
 		paymentBankTo.saveEx();
 
-		paymentBankFrom.setC_PaymentRelated_ID(paymentBankTo.getC_Payment_ID());
+		paymentBankFrom.setPaymentRelated_ID(paymentBankTo.getC_Payment_ID());
 		paymentBankFrom.saveEx();
 		paymentBankFrom.processIt(MPayment.DOCACTION_Complete);
 		paymentBankFrom.saveEx();
@@ -126,7 +125,7 @@ public class BankTransfer extends BankTransferAbstract {
 						+ " @C_BankStatement_ID@ " + bsl.getC_BankStatement().getName() + "]");
 			}
 		}
-		paymentBankTo.setC_PaymentRelated_ID(paymentBankFrom.getC_Payment_ID());
+		paymentBankTo.setPaymentRelated_ID(paymentBankFrom.getC_Payment_ID());
 		paymentBankTo.saveEx();
 		paymentBankTo.processIt(MPayment.DOCACTION_Complete);
 		paymentBankTo.saveEx();
