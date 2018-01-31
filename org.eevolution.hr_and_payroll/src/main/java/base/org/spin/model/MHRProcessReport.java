@@ -16,13 +16,19 @@
  *****************************************************************************/
 package org.spin.model;
 
+import java.io.File;
+import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.List;
 import java.util.Properties;
+import java.util.logging.Level;
 
 import org.compiere.model.PO;
 import org.compiere.model.Query;
 import org.compiere.util.CCache;
+import org.compiere.util.Util;
+import org.spin.util.AbstractPayrollReportExport;
+import org.spin.util.GenericPayrollExport;
 
 /**
  * Process Report for Payroll Movements: it allows create dynamic reports from templates of iReport and ADempiere
@@ -51,6 +57,8 @@ public class MHRProcessReport extends X_HR_ProcessReport {
 	
 	/**	Lines	*/
 	private List<MHRProcessReportLine> lines = null;
+	/**	Export class	*/
+	private AbstractPayrollReportExport reportExport = null;
 	
 	/**
 	 * Get Optional Cache
@@ -123,6 +131,86 @@ public class MHRProcessReport extends X_HR_ProcessReport {
 			count++;			
 		}
 		return count;
+	}
+	
+	/**
+	 * Get Class from device type, used for handler
+	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+	 * @return
+	 * @return Class<?>
+	 */
+	private Class<?> getHandlerClass() {
+		String className = getFileExportClass();
+		//	Validate null values
+		if(Util.isEmpty(className)) {
+			return null;
+		}
+		try {
+			Class<?> clazz = Class.forName(className);
+			//	Make sure that it is a PO class
+			Class<?> superClazz = clazz.getSuperclass();
+			//	Validate super class
+			while (superClazz != null) {
+				if (superClazz == AbstractPayrollReportExport.class) {
+					log.fine("Use: " + className);
+					return clazz;
+				}
+				//	Get Super Class
+				superClazz = superClazz.getSuperclass();
+			}
+		} catch (Exception e) {
+			log.severe(e.getMessage());
+		}
+		//	
+		log.finest("Not found: " + className);
+		return null;
+	}	//	getHandlerClass
+	
+	/**
+	 * Load class for export
+	 * @throws Exception
+	 */
+	private void loadExportClass() throws Exception {
+		if(reportExport != null) {
+			return;
+		}
+		//	Load it
+		//	Get class from parent
+		Class<?> clazz = getHandlerClass();
+		//	Not yet implemented
+		if (clazz == null) {
+			log.log(Level.INFO, "Using Standard Report Export");
+			reportExport = new GenericPayrollExport(getCtx());
+			return;
+		}
+		//	
+		Constructor<?> constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class});
+		//	new instance
+		reportExport = (AbstractPayrollReportExport) constructor.newInstance(new Object[] {getCtx()});
+	}
+	
+	/**
+	 * Get Report export instance
+	 * @return
+	 */
+	public AbstractPayrollReportExport getPayrollReportExport() throws Exception {
+		loadExportClass();
+		return reportExport;
+	}
+	
+	/**
+	 * Load Default class
+	 * @throws Exception 
+	 */
+	public boolean exportToFile(File file, List<X_RV_HR_ProcessDetail> detail) throws Exception {
+		loadExportClass();
+		//	
+		if(reportExport != null) {
+			reportExport.setDetail(detail);
+			return reportExport.exportToFile(file);
+		}
+		//	default
+		return false;
 	}
 	
 	@Override
