@@ -23,7 +23,16 @@ import java.util.logging.Level;
 
 import org.compiere.minigrid.IDColumn;
 import org.compiere.minigrid.IMiniTable;
-import org.compiere.model.*;
+import org.compiere.model.MClient;
+import org.compiere.model.MInOutLine;
+import org.compiere.model.MInvoiceLine;
+import org.compiere.model.MMatchInv;
+import org.compiere.model.MMatchPO;
+import org.compiere.model.MOrderLine;
+import org.compiere.model.MPeriod;
+import org.compiere.model.MRole;
+import org.compiere.model.MStorage;
+import org.compiere.model.MSysConfig;
 import org.compiere.process.DocumentEngine;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -411,7 +420,7 @@ public class Match
 			//	Create Shipment - Invoice Link
 			if (iLine.getM_Product_ID() != 0)
 			{
-				Boolean useReceiptDateAcct = MSysConfig.getBooleanValue("MatchInv_Use_DateAcct_From_Receipt",
+				Boolean useReceiptDateAcct = MSysConfig.getBooleanValue("MATCHINV_USE_DATEACCT_FROM_RECEIPT",
 						false, iLine.getAD_Client_ID());
 				MMatchInv match = null;
 				Boolean isreceiptPeriodOpen = MPeriod.isOpen(Env.getCtx(), sLine.getParent().getDateAcct(),
