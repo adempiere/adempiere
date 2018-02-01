@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="U" Name="SB_HHRR_CreateInvoice_SmartBrowser" ReleaseNo="3.9.1" SeqNo="3660">
+  <Migration EntityType="D" Name="SB_HHRR_CreateInvoice_SmartBrowser" ReleaseNo="3.9.1" SeqNo="3660">
     <Comments>https://github.com/adempiere/adempiere/issues/1553
 #1553 HHRR: New SmartBrowser to generate invoices for accumulated HR_Movements</Comments>
     <Step SeqNo="10" StepType="AD">
