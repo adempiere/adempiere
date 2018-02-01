@@ -94,7 +94,7 @@ CREATE OR REPLACE VIEW RV_HR_ProcessDetail AS
     pyr.Value AS PayrollValue,
     pyr.Name AS PayrollName,
     pr.Name AS ProcessReport,
-    pr.Description AS DocumentNote,
+    COALESCE(pr.TextMsg, pr.Description) AS DocumentNote,
     pr.PrintName AS HeaderPrintName,
     pr.ReceiptFooterMsg,
     pr.HR_ProcessReport_ID
