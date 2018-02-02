@@ -573,6 +573,67 @@ public class TimeUtil
 	}	//	getDaysBetween
 	
 	/**
+	 * Return next date with current date
+	 * @param day Current date
+	 * @param offset Days offset:
+	 * 	<li> Calendar.SUNDAY
+	 *  <li> Calendar.MONDAY
+	 *  <li> Calendar.TUESDAY
+	 *  <li> Calendar.WEDNESDAY
+	 *  <li> Calendar.THURSDAY
+	 *  <li> Calendar.FRIDAY
+	 *  <li> Calendar.SATURDAY
+	 * @param includeDay Days included
+	 * @return
+	 */
+	public static Timestamp addBusinessDays(Timestamp day, int offset, int... includeDay) {
+		return addDays(day, offset, false, includeDay);
+	}
+	
+	/**
+	 * 	Return Day + offset (truncates)
+	 * 	@param day Day
+	 * 	@param offset day offset
+	 * 	@param onlyMatchWithCalendar
+	 * 	@param includeDay
+	 * 	@return Day + offset at 00:00
+	 */
+	private static Timestamp addDays(Timestamp day, int offset, boolean onlyMatchWithCalendar, int... includeDay) {
+		Calendar cal = Calendar.getInstance();
+		//	Valid From .. To
+		if(day == null)
+			return day;
+		
+		int days = 0;
+		
+		cal.setTimeInMillis(day.getTime());
+		//	Get Calendar
+	    MCalendar clientCalendar = MCalendar.getDefault(Env.getCtx());
+		//	Get Business Days
+	    while (days < offset
+	    		|| (days == offset 
+	    			&& (isMatchingDay(cal.get(Calendar.DAY_OF_WEEK), includeDay)) 
+	    				|| (clientCalendar.isNonBusinessDay(cal.getTime()) && onlyMatchWithCalendar))) {
+	    	boolean match = isMatchingDay(cal.get(Calendar.DAY_OF_WEEK), includeDay);
+			boolean isNonBusinessDay = clientCalendar.isNonBusinessDay(cal.getTime());
+			if(match) {
+				days++;
+			} else {
+				cal.add(Calendar.DATE, 1);
+				continue;
+			}
+			//	
+			if(isNonBusinessDay && !onlyMatchWithCalendar) {
+				days--;
+			}
+	    	//	Add Day
+	    	cal.add(Calendar.DATE, 1);
+	    }
+	    //	log
+	    return new Timestamp(cal.getTimeInMillis());
+	}	//	addDays
+	
+	/**
 	 * 	Return Day + offset (truncates)
 	 * 	@param day Day
 	 * 	@param offset day offset
