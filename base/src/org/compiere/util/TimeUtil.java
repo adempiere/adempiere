@@ -606,7 +606,7 @@ public class TimeUtil
 		//	Get Business Days
 	    while (days < offset
 	    		|| (days == offset 
-	    			&& (isMatchingDay(cal.get(Calendar.DAY_OF_WEEK), includeDay)) 
+	    			&& (!isMatchingDay(cal.get(Calendar.DAY_OF_WEEK), includeDay)) 
 	    				|| (clientCalendar.isNonBusinessDay(cal.getTime()) && onlyMatchWithCalendar))) {
 	    	boolean match = isMatchingDay(cal.get(Calendar.DAY_OF_WEEK), includeDay);
 			boolean isNonBusinessDay = clientCalendar.isNonBusinessDay(cal.getTime());
