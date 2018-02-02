@@ -123,7 +123,8 @@ public class MHREmployee extends X_HR_Employee
 			whereClause.append(" AND (e.HR_Payroll_ID IS NULL OR e.HR_Payroll_ID=?) " );
 			params.add(process.getHR_Payroll_ID());
 		}
-		
+		//	Active Record
+		whereClause.append(" AND e.IsActive = 'Y' " );
 		// HR Period
 		if(process.getHR_Period_ID() == 0)
 		{
