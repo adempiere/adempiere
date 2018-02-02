@@ -19,6 +19,7 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
 
 import org.adempiere.exceptions.AdempiereException;
@@ -651,16 +652,18 @@ public class MHRMovement extends X_HR_Movement
 			}
 			//	
 			final String columnType = concept.getColumnType();
+			int currencyPrecision = MCurrency.getStdPrecision(getCtx(), Env.getContextAsInt(p_ctx, "#C_Currency_ID"));
+			Optional<Integer> conceptStandardPrecisionOptional = Optional.ofNullable((Integer)concept.get_Value("StdPrecision"));
 			if (MHRConcept.COLUMNTYPE_Quantity.equals(columnType))
 			{
-				BigDecimal qty = new BigDecimal(value.toString()); 
+				BigDecimal qty = new BigDecimal(value.toString());
 				setQty(qty);
 				setAmount(Env.ZERO);
 			} 
 			else if(MHRConcept.COLUMNTYPE_Amount.equals(columnType))
 			{
-					int precision = MCurrency.getStdPrecision(getCtx(), Env.getContextAsInt(p_ctx, "#C_Currency_ID"));				
-					BigDecimal amount = new BigDecimal(value.toString()).setScale(precision, BigDecimal.ROUND_HALF_UP);
+				BigDecimal amount = new BigDecimal(value.toString())
+						.setScale(conceptStandardPrecisionOptional.orElse(currencyPrecision),BigDecimal.ROUND_HALF_UP);
 				setAmount(amount);
 				setQty(Env.ZERO);
 			} 
