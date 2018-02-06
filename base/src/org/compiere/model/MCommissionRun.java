@@ -370,6 +370,11 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 			pstmt.setInt(1, getAD_Client_ID());
 			pstmt.setTimestamp(2, getStartDate());
 			pstmt.setTimestamp(3, getEndDate());
+            if (commission.isTotallyPaid()){
+            	// Last payment must be within commission period 
+                pstmt.setTimestamp(4, getStartDate());
+                pstmt.setTimestamp(5, getEndDate());
+            }
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				m_comissionLog.append("------------One match found start: try to create a Commission detail");	
@@ -553,8 +558,12 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 		MCommissionLine[] commissionLines = commission.getLines();
 		List<Integer> salesRegion;
 		String sqlAppend = "";
-		if (commission.isTotallyPaid()) sqlAppend = " AND (p.DateTrx <? or  p.DateTrx <?)";
-		else sqlAppend = " AND p.DateTrx BETWEEN ? AND ? ";
+		if (commission.isTotallyPaid()) 
+        	// Last payment must be within commission period 
+			sqlAppend = " AND (p.DateTrx <? or  p.DateTrx <?) AND maxPayDate(h.c_Invoice_ID) between ? AND ? ";
+		else 
+			sqlAppend = " AND p.DateTrx BETWEEN ? AND ? ";
+		
 		m_comissionLog.append("<h4>" + "Processing Commission line" + "</h4>");
 		for (MCommissionLine commissionLine : commissionLines) {
 			m_comissionLog.append("Commission Line No: " + "<b>" + commissionLine.getLine() + "</b><br>");
