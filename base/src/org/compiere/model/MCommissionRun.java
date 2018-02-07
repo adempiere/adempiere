@@ -616,13 +616,19 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 							+ " AND al.C_Charge_ID IS NULL "
 							+ sqlAppend);
 				}
-				//	Days Due
-				if (commissionLine.get_ValueAsInt(MCommissionLine.COLUMNNAME_DaysFrom) != 0)
-					// sql.append(" AND h.DaysDue >= ").append(commissionLine.get_ValueAsInt(MCommissionLine.COLUMNNAME_DaysFrom));
-					sql.append(" AND paymenttermduedays(h.C_PaymentTerm_ID, h.DateInvoiced, p.DateTrx) >= ").append(commissionLine.get_ValueAsInt(MCommissionLine.COLUMNNAME_DaysFrom));
-				if (commissionLine.get_ValueAsInt(MCommissionLine.COLUMNNAME_DaysTo) != 0)
-					//sql.append(" AND h.DaysDue <= ").append(commissionLine.get_ValueAsInt(MCommissionLine.COLUMNNAME_DaysTo));
-					sql.append("  AND paymenttermduedays(h.C_PaymentTerm_ID, h.DateInvoiced, p.DateTrx) <= ").append(commissionLine.get_ValueAsInt(MCommissionLine.COLUMNNAME_DaysTo));
+				//	Days Due: obtain days due either from payment term or from invoice date
+				if (commissionLine.get_ValueAsInt(MCommissionLine.COLUMNNAME_DaysFrom) != 0) {
+					if(commission.isDaysDueFromPaymentTerm())
+						sql.append(" AND paymenttermduedays(h.C_PaymentTerm_ID, h.DateInvoiced, p.DateTrx) >= ").append(commissionLine.get_ValueAsInt(MCommissionLine.COLUMNNAME_DaysFrom));
+					else
+						sql.append(" AND daysbetween(p.DateTrx, h.DateInvoiced) >= ").append(commissionLine.get_ValueAsInt(MCommissionLine.COLUMNNAME_DaysFrom));
+				}
+				if (commissionLine.get_ValueAsInt(MCommissionLine.COLUMNNAME_DaysTo) != 0) {
+					if(commission.isDaysDueFromPaymentTerm())
+						sql.append("  AND paymenttermduedays(h.C_PaymentTerm_ID, h.DateInvoiced, p.DateTrx) <= ").append(commissionLine.get_ValueAsInt(MCommissionLine.COLUMNNAME_DaysTo));
+					else
+						sql.append(" AND daysbetween(p.DateTrx, h.DateInvoiced) <= ").append(commissionLine.get_ValueAsInt(MCommissionLine.COLUMNNAME_DaysTo));
+				}
 			}
 			else if (MCommission.DOCBASISTYPE_Order.equals(commission.getDocBasisType()))
 			{

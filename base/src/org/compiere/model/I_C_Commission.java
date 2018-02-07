@@ -92,17 +92,6 @@ public interface I_C_Commission
 
 	public org.compiere.model.I_C_Charge getC_Charge() throws RuntimeException;
 
-    /** Column name C_CommissionGroup_ID */
-    public static final String COLUMNNAME_C_CommissionGroup_ID = "C_CommissionGroup_ID";
-
-	/** Set Commission Group	  */
-	public void setC_CommissionGroup_ID (int C_CommissionGroup_ID);
-
-	/** Get Commission Group	  */
-	public int getC_CommissionGroup_ID();
-
-	public org.compiere.model.I_C_CommissionGroup getC_CommissionGroup() throws RuntimeException;
-
     /** Column name C_Commission_ID */
     public static final String COLUMNNAME_C_Commission_ID = "C_Commission_ID";
 
@@ -115,6 +104,17 @@ public interface I_C_Commission
 	  * Commission
 	  */
 	public int getC_Commission_ID();
+
+    /** Column name C_CommissionGroup_ID */
+    public static final String COLUMNNAME_C_CommissionGroup_ID = "C_CommissionGroup_ID";
+
+	/** Set Commission Group	  */
+	public void setC_CommissionGroup_ID (int C_CommissionGroup_ID);
+
+	/** Get Commission Group	  */
+	public int getC_CommissionGroup_ID();
+
+	public org.compiere.model.I_C_CommissionGroup getC_CommissionGroup() throws RuntimeException;
 
     /** Column name C_Currency_ID */
     public static final String COLUMNNAME_C_Currency_ID = "C_Currency_ID";
@@ -131,19 +131,6 @@ public interface I_C_Commission
 
 	public org.compiere.model.I_C_Currency getC_Currency() throws RuntimeException;
 
-    /** Column name CreateFrom */
-    public static final String COLUMNNAME_CreateFrom = "CreateFrom";
-
-	/** Set Create lines from.
-	  * Process which will generate a new document lines based on an existing document
-	  */
-	public void setCreateFrom (String CreateFrom);
-
-	/** Get Create lines from.
-	  * Process which will generate a new document lines based on an existing document
-	  */
-	public String getCreateFrom();
-
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -159,6 +146,19 @@ public interface I_C_Commission
 	  * User who created this records
 	  */
 	public int getCreatedBy();
+
+    /** Column name CreateFrom */
+    public static final String COLUMNNAME_CreateFrom = "CreateFrom";
+
+	/** Set Create lines from.
+	  * Process which will generate a new document lines based on an existing document
+	  */
+	public void setCreateFrom (String CreateFrom);
+
+	/** Get Create lines from.
+	  * Process which will generate a new document lines based on an existing document
+	  */
+	public String getCreateFrom();
 
     /** Column name DateLastRun */
     public static final String COLUMNNAME_DateLastRun = "DateLastRun";
@@ -238,6 +238,15 @@ public interface I_C_Commission
 	  */
 	public boolean isAllowRMA();
 
+    /** Column name IsDaysDueFromPaymentTerm */
+    public static final String COLUMNNAME_IsDaysDueFromPaymentTerm = "IsDaysDueFromPaymentTerm";
+
+	/** Set IsDaysDueFromPaymentTerm	  */
+	public void setIsDaysDueFromPaymentTerm (boolean IsDaysDueFromPaymentTerm);
+
+	/** Get IsDaysDueFromPaymentTerm	  */
+	public boolean isDaysDueFromPaymentTerm();
+
     /** Column name IsTotallyPaid */
     public static final String COLUMNNAME_IsTotallyPaid = "IsTotallyPaid";
 
@@ -286,19 +295,6 @@ public interface I_C_Commission
 	/** Get Process Now	  */
 	public boolean isProcessing();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -314,4 +310,17 @@ public interface I_C_Commission
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 }
