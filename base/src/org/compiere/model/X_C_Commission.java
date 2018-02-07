@@ -31,7 +31,7 @@ public class X_C_Commission extends PO implements I_C_Commission, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170731L;
+	private static final long serialVersionUID = 20180206L;
 
     /** Standard Constructor */
     public X_C_Commission (Properties ctx, int C_Commission_ID, String trxName)
@@ -46,6 +46,8 @@ public class X_C_Commission extends PO implements I_C_Commission, I_Persistent
 // I
 			setFrequencyType (null);
 // M
+			setIsDaysDueFromPaymentTerm (true);
+// Y
 			setListDetails (false);
 			setName (null);
         } */
@@ -135,6 +137,29 @@ public class X_C_Commission extends PO implements I_C_Commission, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Commission.
+		@param C_Commission_ID 
+		Commission
+	  */
+	public void setC_Commission_ID (int C_Commission_ID)
+	{
+		if (C_Commission_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Commission_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Commission_ID, Integer.valueOf(C_Commission_ID));
+	}
+
+	/** Get Commission.
+		@return Commission
+	  */
+	public int getC_Commission_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Commission_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_C_CommissionGroup getC_CommissionGroup() throws RuntimeException
     {
 		return (org.compiere.model.I_C_CommissionGroup)MTable.get(getCtx(), org.compiere.model.I_C_CommissionGroup.Table_Name)
@@ -155,29 +180,6 @@ public class X_C_Commission extends PO implements I_C_Commission, I_Persistent
 	public int getC_CommissionGroup_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_CommissionGroup_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Commission.
-		@param C_Commission_ID 
-		Commission
-	  */
-	public void setC_Commission_ID (int C_Commission_ID)
-	{
-		if (C_Commission_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_Commission_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_Commission_ID, Integer.valueOf(C_Commission_ID));
-	}
-
-	/** Get Commission.
-		@return Commission
-	  */
-	public int getC_Commission_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Commission_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -331,6 +333,27 @@ public class X_C_Commission extends PO implements I_C_Commission, I_Persistent
 	public boolean isAllowRMA () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsAllowRMA);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set IsDaysDueFromPaymentTerm.
+		@param IsDaysDueFromPaymentTerm IsDaysDueFromPaymentTerm	  */
+	public void setIsDaysDueFromPaymentTerm (boolean IsDaysDueFromPaymentTerm)
+	{
+		set_Value (COLUMNNAME_IsDaysDueFromPaymentTerm, Boolean.valueOf(IsDaysDueFromPaymentTerm));
+	}
+
+	/** Get IsDaysDueFromPaymentTerm.
+		@return IsDaysDueFromPaymentTerm	  */
+	public boolean isDaysDueFromPaymentTerm () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsDaysDueFromPaymentTerm);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 
