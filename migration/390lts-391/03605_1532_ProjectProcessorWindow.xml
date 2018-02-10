@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Project Processor Window #1532" ReleaseNo="3.9.1" SeqNo="3600">
+  <Migration EntityType="D" Name="Project Processor Window #1532" ReleaseNo="3.9.1" SeqNo="3605">
     <Comments>https://github.com/adempiere/adempiere/issues/1532</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="100" Action="I" Record_ID="54315" Table="AD_Table">
