@@ -7051,46 +7051,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="84463" Column="UUID" isNewNull="true"/>
       </PO>
     </Step>
-    <Step SeqNo="3530" StepType="AD">
-      <PO AD_Table_ID="53232" Action="I" Record_ID="62488" Table="AD_View_Column">
-        <Data AD_Column_ID="58095" Column="IsActive">true</Data>
-        <Data AD_Column_ID="58096" Column="Created">2018-01-27 09:14:37.394</Data>
-        <Data AD_Column_ID="58097" Column="Updated">2018-01-27 09:14:37.394</Data>
-        <Data AD_Column_ID="58104" Column="Help">The Reversal check box indicates if this is a reversal of a prior transaction.</Data>
-        <Data AD_Column_ID="58106" Column="ColumnSQL">hrp.IsReversal</Data>
-        <Data AD_Column_ID="58105" Column="Name">Reversal</Data>
-        <Data AD_Column_ID="58107" Column="ColumnName">HRP_IsReversal</Data>
-        <Data AD_Column_ID="58102" Column="Description">This is a reversing transaction</Data>
-        <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62488</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">EE02</Data>
-        <Data AD_Column_ID="58099" Column="UpdatedBy">0</Data>
-        <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50302</Data>
-        <Data AD_Column_ID="58108" Column="AD_View_ID">50105</Data>
-        <Data AD_Column_ID="58109" Column="AD_Column_ID">86594</Data>
-        <Data AD_Column_ID="58098" Column="CreatedBy">0</Data>
-        <Data AD_Column_ID="84462" Column="UUID" isNewNull="true"/>
-      </PO>
-    </Step>
-    <Step SeqNo="3540" StepType="AD">
-      <PO AD_Table_ID="53228" Action="I" Record_ID="62488" Table="AD_View_Column_Trl">
-        <Data AD_Column_ID="58042" Column="IsActive">true</Data>
-        <Data AD_Column_ID="58043" Column="Created">2018-01-27 09:14:38.878</Data>
-        <Data AD_Column_ID="58044" Column="Updated">2018-01-27 09:14:38.878</Data>
-        <Data AD_Column_ID="58049" Column="Description">This is a reversing transaction</Data>
-        <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
-        <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="58052" Column="Name">Reversal</Data>
-        <Data AD_Column_ID="58047" Column="AD_View_Column_ID">62488</Data>
-        <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="58045" Column="CreatedBy">0</Data>
-        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
-        <Data AD_Column_ID="58046" Column="UpdatedBy">0</Data>
-        <Data AD_Column_ID="84463" Column="UUID" isNewNull="true"/>
-      </PO>
-    </Step>
     <Step SeqNo="3550" StepType="AD">
       <PO AD_Table_ID="53232" Action="I" Record_ID="62489" Table="AD_View_Column">
         <Data AD_Column_ID="58095" Column="IsActive">true</Data>
