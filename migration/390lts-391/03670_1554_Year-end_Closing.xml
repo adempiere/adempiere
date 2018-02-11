@@ -757,7 +757,7 @@ Luego de completar el lote, el saldo de todas las cuentas de costo/gasto es cero
     </Step>
     <Step SeqNo="380" StepType="AD">
       <PO AD_Table_ID="120" Action="U" Record_ID="54257" Table="AD_Menu_Trl">
-        <Data AD_Column_ID="247" Column="Name" oldValue="Year-end Closing">Liquidaci�n de cuentas costos/ingresos</Data>
+        <Data AD_Column_ID="247" Column="Name" oldValue="Year-end Closing">Liquidacion de cuentas costos/ingresos</Data>
         <Data AD_Column_ID="245" Column="AD_Menu_ID" oldValue="54257">54257</Data>
         <Data AD_Column_ID="246" Column="AD_Language" oldValue="es_MX">es_MX</Data>
       </PO>
@@ -774,13 +774,6 @@ Luego de completar el lote, el saldo de todas las cuentas de costo/gasto es cero
         <Data AD_Column_ID="6161" Column="Node_ID" oldValue="54257">54257</Data>
         <Data AD_Column_ID="6155" Column="Parent_ID" oldValue="0">278</Data>
         <Data AD_Column_ID="6157" Column="SeqNo" oldValue="999">7</Data>
-        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
-      </PO>
-    </Step>
-    <Step SeqNo="410" StepType="AD">
-      <PO AD_Table_ID="452" Action="U" Record_ID="54254" Table="AD_TreeNodeMM">
-        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="54254">54254</Data>
-        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="7">8</Data>
         <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
       </PO>
     </Step>
