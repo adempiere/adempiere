@@ -21,7 +21,7 @@ import java.net.URI;
 import java.util.Properties;
 import java.util.logging.Level;
 
-import org.adempiere.pdf.Document;
+import org.adempiere.pdf.ITextDocument;
 import org.compiere.print.ArchiveEngine;
 import org.compiere.print.ReportEngine;
 import org.compiere.util.CLogger;
@@ -90,7 +90,7 @@ public class ExportFormatPDF extends AbstractExportFormat {
 		try {
 			getReportEngine().getView();
 			ArchiveEngine.get().archive(getLayoutEngine(), getPrintInfo());
-			Document.getPDFAsFile(fileName, getReportEngine().getLayout().getPageable(false));
+			new ITextDocument().getPDFAsFile(fileName, getReportEngine().getLayout().getPageable(false));
 		} catch (Exception e) {
 			log.log(Level.SEVERE, "PDF", e);
 			return false;

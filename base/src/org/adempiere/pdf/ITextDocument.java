@@ -54,6 +54,7 @@ import io.konik.harness.FileExtractor;
  *   copy javax.inject-1.jar to tools/lib 
  *   copy kernel-7.1.1.jar , pdfa-7.1.1.jar , io-7.1.1.jar , layout-7.1.1.jar to tools/lib 
  *  
+<<<<<<< HEAD
  * TODO:
  * Referenzen zu Document:
  *  base org.compiere.print.ArchiveEngine 2x
@@ -65,6 +66,19 @@ import io.konik.harness.FileExtractor;
  *        
  * wo werden com.lowagie.* Packages verwendet?
  *  org.adempiere.pdf.Document
+=======
+ * Referenzen zu Document:
+ *  base org.compiere.print.ArchiveEngine 2x
+ *                          ReportEngine + org.spin.util.ExportFormatPDF
+ *  client org.compiere.apps.Attachment  
+ *                          .form.ArchiveViewer 
+ *         org.compiere.print.Viewer
+ *  zkwebui org.adempiere.webui.window.ZkReportViwer
+ *        
+ * TODO:
+ * wo werden com.lowagie.* Packages verwendet?
+ *  org.adempiere.pdf.Document - deprecated
+>>>>>>> refs/heads/b1400
  *  org.adempiere.pdf.SmjPdfReport
  *  org.compiere.grid.VPanel
  *  org.adempiere.webui.apps.AEnv
