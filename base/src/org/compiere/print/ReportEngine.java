@@ -16,16 +16,9 @@
  *****************************************************************************/
 package org.compiere.print;
 
-import java.awt.Font;
 import java.awt.print.PrinterJob;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
 import java.io.Writer;
 import java.net.URI;
 import java.sql.PreparedStatement;
@@ -33,38 +26,21 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.Properties;
 import java.util.logging.Level;
 
-import javax.print.DocFlavor;
-import javax.print.StreamPrintService;
-import javax.print.StreamPrintServiceFactory;
-import javax.print.attribute.HashPrintRequestAttributeSet;
 import javax.print.attribute.PrintRequestAttributeSet;
 import javax.print.attribute.standard.Copies;
 import javax.print.attribute.standard.JobName;
 import javax.print.attribute.standard.JobPriority;
 import javax.print.event.PrintServiceAttributeEvent;
 import javax.print.event.PrintServiceAttributeListener;
-import javax.xml.transform.stream.StreamResult;
 
-import org.adempiere.pdf.Document;
-import org.adempiere.print.export.PrintDataExcelExporter;
-import org.apache.ecs.XhtmlDocument;
-import org.apache.ecs.xhtml.a;
-import org.apache.ecs.xhtml.img;
-import org.apache.ecs.xhtml.link;
-import org.apache.ecs.xhtml.script;
-import org.apache.ecs.xhtml.table;
-import org.apache.ecs.xhtml.td;
-import org.apache.ecs.xhtml.th;
-import org.apache.ecs.xhtml.tr;
+import org.adempiere.pdf.ITextDocument;
 import org.compiere.model.MClient;
 import org.compiere.model.MDunningRunEntry;
-import org.compiere.model.MFactAcct;
 import org.compiere.model.MInOut;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MMovement;
@@ -79,14 +55,19 @@ import org.compiere.print.layout.LayoutEngine;
 import org.compiere.process.ProcessInfo;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
-import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.Language;
-import org.compiere.util.Util;
 import org.eevolution.model.MDDOrder;
 import org.eevolution.model.X_HR_PaySelectionCheck;
 import org.eevolution.model.X_PP_Order;  // to be changed by MPPOrder
+import org.spin.util.ExportFormatCSV;
+import org.spin.util.ExportFormatHTML;
+import org.spin.util.ExportFormatPDF;
+import org.spin.util.ExportFormatPS;
+import org.spin.util.ExportFormatXLS;
+import org.spin.util.ExportFormatXLSX;
+import org.spin.util.ExportFormatXML;
 
 /**
  *	Report Engine.
@@ -118,6 +99,11 @@ import org.eevolution.model.X_PP_Order;  // to be changed by MPPOrder
  * 		@see https://github.com/adempiere/adempiere/issues/295
  * 		<li>FR [ 238 ] Is Summary property by default in Print Format (Set default summary property from print format)
  * 		@see https://github.com/adempiere/adempiere/issues/238
+ * 		<a href="https://github.com/adempiere/adempiere/issues/1400">
+ * 		@see FR [ 1400 ] Dynamic report export</a>
+ * 	@author Raul Capecce
+ * 	    <li>FR [ 1305 ] Setting zoom glass to a dark theme resource</li>
+ * 	    @see https://github.com/adempiere/adempiere/issues/1305
  */
 public class ReportEngine implements PrintServiceAttributeListener
 {
@@ -406,7 +392,6 @@ public class ReportEngine implements PrintServiceAttributeListener
 			m_view = new View (m_layout);
 		return m_view;
 	}	//	getView
-
 	
 	/**************************************************************************
 	 * 	Print Report
@@ -548,9 +533,9 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 	 *  @param language optional language - if null the default language is used to format nubers/dates
 	 * 	@return true if success
 	 */
-	public boolean createHTML (File file, boolean onlyTable, Language language)
-	{
-		return createHTML(file, onlyTable, language, null);
+	@Deprecated
+	public boolean createHTML (File file, boolean onlyTable) {
+		return new ExportFormatHTML(getCtx(), this).createHTML(file, onlyTable, null);
 	}
 	
 	/**************************************************************************
@@ -561,27 +546,12 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 	 *  @param extension optional extension for html output
 	 * 	@return true if success
 	 */
-	public boolean createHTML (File file, boolean onlyTable, Language language, IHTMLExtension extension)
-	{
-		try
-		{
-			Language lang = language;
-			if (lang == null)
-				lang = Language.getLoginLanguage();
-			Writer fw = new OutputStreamWriter(new FileOutputStream(file, false), Ini.getCharset()); // teo_sarca: save using adempiere charset [ 1658127 ]
-			return createHTML (new BufferedWriter(fw), onlyTable, lang, extension);
-		}
-		catch (FileNotFoundException fnfe)
-		{
-			log.log(Level.SEVERE, "(f) - " + fnfe.toString());
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, "(f)", e);
-		}
-		return false;
+	@Deprecated
+	public boolean createHTML (File file, boolean onlyTable, IHTMLExtension extension) {
+		return new ExportFormatHTML(m_ctx, this).createHTML(file, onlyTable, extension);
 	}	//	createHTML
 
+<<<<<<< HEAD
 	/**
 	 * 	Write HTML to writer
 	 * 	@param writer writer
@@ -844,6 +814,8 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 	}	//	createHTML
 
 
+=======
+>>>>>>> f197122... issue #1567 use ITextDocument instead deprecated Document 
 	/**************************************************************************
 	 * 	Create CSV File
 	 * 	@param file file
@@ -851,22 +823,9 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 	 *  @param language translation language
 	 * 	@return true if success
 	 */
-	public boolean createCSV (File file, char delimiter, Language language)
-	{
-		try
-		{
-			Writer fw = new OutputStreamWriter(new FileOutputStream(file, false), Ini.getCharset()); // teo_sarca: save using adempiere charset [ 1658127 ]
-			return createCSV (new BufferedWriter(fw), delimiter, language);
-		}
-		catch (FileNotFoundException fnfe)
-		{
-			log.log(Level.SEVERE, "(f) - " + fnfe.toString());
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, "(f)", e);
-		}
-		return false;
+	@Deprecated
+	public boolean createCSV (File file, char delimiter) {
+		return new ExportFormatCSV(getCtx(), this).createCSV(file, delimiter, null);
 	}	//	createCSV
 
 	/**
@@ -876,8 +835,8 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 	 *  @param language translation language
 	 * 	@return true if success
 	 */
-	public boolean createCSV (Writer writer, char delimiter, Language language)
-	{
+	@Deprecated
+	public boolean createCSV (Writer writer, char delimiter, Language language) {
 		return  createCSV(writer, delimiter, language, true);
 	}	//	createCSV
 	
@@ -889,28 +848,15 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 	 *  @param printHeader include column headers
 	 * 	@return true if success
 	 */
-	public boolean createCSV (Writer writer, char delimiter, Language language, boolean printHeader)
-	{
-		boolean retValue = createDelimitedFile(writer, delimiter, language, printHeader);
-		try {
-			writer.close();
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, "(w)", e);
-		}
-		return retValue;
+	@Deprecated
+	public boolean createCSV (Writer writer, char delimiter, Language language, boolean printHeader) {
+		return new ExportFormatCSV(getCtx(), this).createCSV(writer, delimiter, language, printHeader);
 	}	//	createCSV
 	
 	/**
-	 * 	Write delimited file to writer
-	 * 	@param writer writer
-	 *  @param delimiter delimiter, e.g. comma, tab
-	 *  @param language translation language
-	 *  @param printHeader if you want a row with column names included
-	 *  try
-	 * 	@return true if success
+	 * Create XML from File
 	 */
+<<<<<<< HEAD
 	public boolean createDelimitedFile (Writer writer, char delimiter, Language language, boolean printHeader)
 	{
 		
@@ -1016,94 +962,34 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 		return true;
 	}	//	createDelimitedFile
 
-	/**
-	 * 	Add Content to CSV string.
-	 *  Encapsulate/mask content in " if required
-	 * 	@param sb StringBuffer to add to
-	 * 	@param delimiter delimiter
-	 * 	@param content column value
-	 */
-	private void createCSVvalue (StringBuffer sb, char delimiter, String content)
-	{
-		//	nothing to add
-		if (content == null || content.length() == 0)
-			return;
-
-		// don't quote tab-delimited file
-		if ( delimiter == '\t' )
-		{
-			sb.append(content);
-			return;
-		}		
-		//
-		boolean needMask = false;
-		StringBuffer buff = new StringBuffer();
-		char chars[] = content.toCharArray();
-		for (int i = 0; i < chars.length; i++)
-		{
-			char c = chars[i];
-			if (c == '"')
-			{
-				needMask = true;
-				buff.append(c);		//	repeat twice
-			}	//	mask if any control character
-			else if (!needMask && (c == delimiter || !Character.isLetterOrDigit(c)))
-				needMask = true;
-			buff.append(c);
-		}
-
-		//	Optionally mask value
-		if (needMask)
-			sb.append('"').append(buff).append('"');
-		else
-			sb.append(buff);
-	}	//	addCSVColumnValue
-
+=======
+	@Deprecated
+	public boolean createXML(File file) {
+		return new ExportFormatXML(getCtx(), this).exportToFile(file);
+	}
 	
-	/**************************************************************************
-	 * 	Create XML File
-	 * 	@param file file
-	 * 	@return true if success
-	 */
-	public boolean createXML (File file)
-	{
-		try
-		{
-			Writer fw = new OutputStreamWriter(new FileOutputStream(file, false), Ini.getCharset()); // teo_sarca: save using adempiere charset [ 1658127 ]
-			return createXML (new BufferedWriter(fw));
-		}
-		catch (FileNotFoundException fnfe)
-		{
-			log.log(Level.SEVERE, "(f) - " + fnfe.toString());
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, "(f)", e);
-		}
-		return false;
-	}	//	createXML
-
+>>>>>>> f197122... issue #1567 use ITextDocument instead deprecated Document 
 	/**
-	 * 	Write XML to writer
+	 * Create XML from Writer
+	 */
+	@Deprecated
+	public boolean createXML(Writer writer) {
+		return new ExportFormatXML(getCtx(), this).createXML(writer);
+	}
+	
+	/**
+	 * 	Write delimited file to writer
 	 * 	@param writer writer
+	 *  @param delimiter delimiter, e.g. comma, tab
+	 *  @param language translation language
+	 *  @param printHeader if you want a row with column names included
+	 *  try
 	 * 	@return true if success
 	 */
-	public boolean createXML (Writer writer)
-	{
-		try
-		{
-			m_printData.createXML(new StreamResult(writer));
-			writer.flush();
-			writer.close();
-			return true;
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, "(w)", e);
-		}
-		return false;
-	}	//	createXML
-
+	@Deprecated
+	public boolean createDelimitedFile (Writer writer, char delimiter, Language language, boolean printHeader) {
+		return new ExportFormatXML(getCtx(), this).createDelimitedFile(writer, delimiter, language, printHeader);
+	}
 	
 	/**************************************************************************
 	 * 	Create PDF file.
@@ -1120,20 +1006,16 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 	 * 	@param file file
 	 *	@return PDF file
 	 */
-	public File getPDF (File file)
-	{
-		try
-		{
-			if (file == null)
+	public File getPDF (File file) {
+		try {
+			if (file == null) {
 				file = File.createTempFile ("ReportEngine", ".pdf");
-
+			}
 			//ordinary temp file - rename it
 			if (!(file.getName().contains("_") || file.getName().contains("-"))) {
 				file = rename(file);
 			}
-		}
-		catch (IOException e)
-		{
+		} catch (IOException e) {
 			log.log(Level.SEVERE, "", e);
 		}
 		if (createPDF (file))
@@ -1146,61 +1028,34 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 	 * 	@param file file
 	 * 	@return true if success
 	 */
-	public boolean createPDF (File file)
-	{
-		String fileName = null;
+	public boolean createPDF (File file) {
 		URI uri = null;
-
-		try
-		{
-			if (file == null)
+		try {
+			if (file == null) {
 				file = File.createTempFile ("ReportEngine", ".pdf");
-			fileName = file.getAbsolutePath();
+			}
 			uri = file.toURI();
-			if (file.exists())
+			if (file.exists()) {
 				file.delete();
-
-		}
-		catch (Exception e)
-		{
+			}
+		} catch (Exception e) {
 			log.log(Level.SEVERE, "file", e);
 			return false;
 		}
-			
 		log.fine(uri.toString());
-
-		try
-		{
-			if (m_layout == null)
-				layout ();
-			ArchiveEngine.get().archive(m_layout, m_info);
-			Document.getPDFAsFile(fileName, m_layout.getPageable(false));
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, "PDF", e);
-			return false;
-		}
-
-		File file2 = new File(fileName);
-		log.info(file2.getAbsolutePath() + " - " + file2.length());
-		return file2.exists();
+		return new ExportFormatPDF(m_ctx, this).createPDF(file);
 	}	//	createPDF
 
 	/**
 	 * 	Create PDF as Data array
 	 *	@return pdf data
 	 */
-	public byte[] createPDFData ()
-	{
-		try
-		{
+	public byte[] createPDFData () {
+		try {
 			if (m_layout == null)
 				layout ();
-			return Document.getPDFAsArray(m_layout.getPageable(false));
-		}
-		catch (Exception e)
-		{
+			return new ITextDocument().getPDFAsArray(m_layout.getPageable(false));
+		} catch (Exception e) {
 			log.log(Level.SEVERE, "PDF", e);
 		}
 		return null;
@@ -1211,83 +1066,50 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 	 * 	@param file file
 	 * 	@return true if success
 	 */
-	public boolean createPS (File file)
-	{
-		try
-		{
-			return createPS (new FileOutputStream(file));
-		}
-		catch (FileNotFoundException fnfe)
-		{
-			log.log(Level.SEVERE, "(f) - " + fnfe.toString());
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, "(f)", e);
-		}
-		return false;
+	public boolean createPS (File file) {
+		return new ExportFormatPS(m_ctx, this).exportToFile(file);
 	}	//	createPS
-
-	/**
-	 * 	Write PostScript to writer
-	 * 	@param os output stream
-	 * 	@return true if success
-	 */
-	public boolean createPS (OutputStream os)
-	{
-		try
-		{
-			String outputMimeType = DocFlavor.BYTE_ARRAY.POSTSCRIPT.getMimeType();
-			DocFlavor docFlavor = DocFlavor.SERVICE_FORMATTED.PAGEABLE;
-			StreamPrintServiceFactory[] spsfactories =
-				StreamPrintServiceFactory.lookupStreamPrintServiceFactories(docFlavor, outputMimeType);
-			if (spsfactories.length == 0)
-			{
-				log.log(Level.SEVERE, "(fos) - No StreamPrintService");
-				return false;
-			}
-			//	just use first one - sun.print.PSStreamPrinterFactory
-			//	System.out.println("- " + spsfactories[0]);
-			StreamPrintService sps = spsfactories[0].getPrintService(os);
-			//	get format
-			if (m_layout == null)
-				layout();
-			//	print it
-			sps.createPrintJob().print(m_layout.getPageable(false), 
-				new HashPrintRequestAttributeSet());
-			//
-			os.flush();
-			//following 2 line for backward compatibility
-			if (os instanceof FileOutputStream)
-				((FileOutputStream)os).close();
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, "(fos)", e);
-		}
-		return false;
-	}	//	createPS
-
+	
 	/**
 	 * Create Excel file
 	 * @param outFile output file
 	 * @param language
 	 * @throws Exception if error
 	 */
-	public void createXLS(File outFile, Language language)
-	throws Exception
-	{
-		PrintDataExcelExporter exp = new PrintDataExcelExporter(getPrintData(), getPrintFormat());
-		exp.export(outFile, language);
+	public void createXLS(File outFile) {
+		new ExportFormatXLS(m_ctx, this).exportToFile(outFile);
 	}
 	
-	public void createXLSX(File outFile, Language language)
-	throws Exception
-	{
-		PrintDataExcelExporter exp = new PrintDataExcelExporter(getPrintData(), getPrintFormat(), true);
-		exp.export(outFile, language);
+	/**
+	 * Create Excel file
+	 * @param outFile
+	 */
+	public void createXLSX(File outFile) {
+		new ExportFormatXLSX(m_ctx, this).exportToFile(outFile);
 	}
-
+	
+	/**
+	 * Create Excel file
+	 * @param outFile output file
+	 * @param language
+	 * @throws Exception if error
+	 */
+	@Deprecated
+	public void createXLS(File outFile, Language language) throws Exception {
+		new ExportFormatXLS(m_ctx, this).exportToFile(outFile, language);
+	}
+	
+	/**
+	 * 
+	 * @param outFile
+	 * @param language
+	 * @throws Exception
+	 */
+	@Deprecated
+	public void createXLSX(File outFile, Language language) throws Exception {
+		new ExportFormatXLSX(m_ctx, this).exportToFile(outFile, language);
+	}
+	
 	/**************************************************************************
 	 * 	Get Report Engine for process info 
 	 *	@param ctx context
