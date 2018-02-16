@@ -28,7 +28,7 @@ import java.util.Properties;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
-import org.adempiere.pdf.Document;
+import org.adempiere.pdf.ITextDocument;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.apps.ProcessModalDialog;
 import org.adempiere.webui.apps.WReport;
@@ -839,7 +839,7 @@ public class ZkReportViewer extends Window implements EventListener {
 	private void cmd_archive ()
 	{
 		boolean success = false;
-		byte[] data = Document.getPDFAsArray(m_reportEngine.getLayout().getPageable(false));	//	No Copy
+		byte[] data = new ITextDocument().getPDFAsArray(m_reportEngine.getLayout().getPageable(false));	//	No Copy
 		if (data != null)
 		{
 			MArchive archive = new MArchive (Env.getCtx(), m_reportEngine.getPrintInfo(), null);
