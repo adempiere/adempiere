@@ -52,6 +52,7 @@ public class IText7Document implements FileAppender  {
 
     private final static String ICC_URL = "images/sRGBColorSpaceProfile.icm"; // from pdfa/src/test/resources
     private final static String DEFAULT_TITLE = "PDF/A-3 by klst.com";
+    private boolean debugMode = false;
     
     /**
      * sets WriterProperties debugMode
@@ -62,7 +63,6 @@ public class IText7Document implements FileAppender  {
     public void setDebugMode(boolean debugMode) {
     	this.debugMode = debugMode;
     }
-    private boolean debugMode = false;
     
 	private PdfADocument merge7(OutputStream result, final InputStream origin, final String title) throws IOException {
         WriterProperties props = new WriterProperties(); 

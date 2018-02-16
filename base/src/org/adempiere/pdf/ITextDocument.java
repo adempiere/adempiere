@@ -54,17 +54,17 @@ import io.konik.harness.FileExtractor;
  *   copy javax.inject-1.jar to tools/lib 
  *   copy kernel-7.1.1.jar , pdfa-7.1.1.jar , io-7.1.1.jar , layout-7.1.1.jar to tools/lib 
  *  
- * TODO:
+ *  org.adempiere.pdf.Document - deprecated
  * Referenzen zu Document:
  *  base org.compiere.print.ArchiveEngine 2x
- *                          ReportEngine 
+ *                          ReportEngine + org.spin.util.ExportFormatPDF
  *  client org.compiere.apps.Attachment  
  *                          .form.ArchiveViewer 
  *         org.compiere.print.Viewer
- *  zkwebui org.adempiere.webui.windoe.ZkReportViwer
+ *  zkwebui org.adempiere.webui.window.ZkReportViwer
  *        
+ * TODO:
  * wo werden com.lowagie.* Packages verwendet?
- *  org.adempiere.pdf.Document
  *  org.adempiere.pdf.SmjPdfReport
  *  org.compiere.grid.VPanel
  *  org.adempiere.webui.apps.AEnv
@@ -108,7 +108,7 @@ public class ITextDocument implements FileExtractor, FileAppender  {
 	private void writePDF(Pageable pageable, OutputStream output) throws DocumentException, IndexOutOfBoundsException, PrinterException {
 		log.info("pageable:"+pageable);
 		final PageFormat pf = pageable.getPageFormat(0);
-		final Document document = new com.itextpdf.text.Document(); // A4
+		final com.itextpdf.text.Document document = new com.itextpdf.text.Document(); // A4
 		// dies ist nicht pdfA:
         final PdfWriter writer = PdfWriter.getInstance(document, output); // throws DocumentException
 //		final PdfWriter writer = PdfAWriter.getInstance(document, output, PdfAConformanceLevel.PDF_A_3B);
