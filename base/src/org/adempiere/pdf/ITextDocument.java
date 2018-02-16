@@ -34,6 +34,7 @@ import org.compiere.util.CLogger;
 import com.itextpdf.awt.PdfGraphics2D;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfTemplate;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -44,25 +45,8 @@ import io.konik.harness.AppendParameter;
 import io.konik.harness.FileAppender;
 import io.konik.harness.FileExtractor;
 
-/* done:
- *   copy harness-1.0.0.jar to tools/lib 
- *   copy harness-1.0.0-sources.jar to tools/lib/testing
- *   copy http://central.maven.org/maven2/io/konik/itext-carriage/0.8.0/itext-carriage-0.8.0.jar to tools/lib 
- *   copy itextpdf-5.5.2.jar to tools/lib ,  itext-carriage-0.8.0.jar depents on it
- *   copy itextpdf-5.5.2-sources.jar to tools/lib/testing
- *   copy itext-pdfa-5.5.2.jar to tools/lib ,  itext-carriage-0.8.0.jar depents on it com.itextpdf.text.pdf.PdfAStamper
- *   copy javax.inject-1.jar to tools/lib 
- *   copy kernel-7.1.1.jar , pdfa-7.1.1.jar , io-7.1.1.jar , layout-7.1.1.jar to tools/lib 
- *  
- *  org.adempiere.pdf.Document - deprecated
- * Referenzen zu Document:
- *  base org.compiere.print.ArchiveEngine 2x
- *                          ReportEngine + org.spin.util.ExportFormatPDF
- *  client org.compiere.apps.Attachment  
- *                          .form.ArchiveViewer 
- *         org.compiere.print.Viewer
- *  zkwebui org.adempiere.webui.window.ZkReportViwer
- *        
+/* @see https://github.com/adempiere/adempiere/pull/1576
+ * 
  * TODO:
  * wo werden com.lowagie.* Packages verwendet?
  *  org.adempiere.pdf.SmjPdfReport
@@ -106,16 +90,17 @@ public class ITextDocument implements FileExtractor, FileAppender  {
 	private static final IText7Document itext7 = new IText7Document();
 	
 	private void writePDF(Pageable pageable, OutputStream output) throws DocumentException, IndexOutOfBoundsException, PrinterException {
-		log.info("pageable:"+pageable);
-		final PageFormat pf = pageable.getPageFormat(0);
-		final com.itextpdf.text.Document document = new com.itextpdf.text.Document(); // A4
+		final PageFormat pf = pageable.getPageFormat(0); // of the first page
+		log.config("pageable PageFormat.Height (in DTP points) ="+pf.getHeight());
+		Rectangle pageSize = new Rectangle((int) pf.getWidth(), (int) pf.getHeight());
+		final Document document = new Document(pageSize); 
 		// dies ist nicht pdfA:
         final PdfWriter writer = PdfWriter.getInstance(document, output); // throws DocumentException
 //		final PdfWriter writer = PdfAWriter.getInstance(document, output, PdfAConformanceLevel.PDF_A_3B);
         writer.setPdfVersion(PdfWriter.PDF_VERSION_1_7);
         
         document.open();
-		log.info("done document.open() PDFXConformance:"+writer.getPDFXConformance());
+		log.config("PDFXConformance:"+writer.getPDFXConformance());
         PdfContentByte contentByte = writer.getDirectContent();
         
         final float width = (float) pf.getWidth();
