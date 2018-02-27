@@ -223,7 +223,6 @@ public class MHRMovement extends X_HR_Movement
 		//
 		//check process and payroll
 		whereClause.append(" AND EXISTS (SELECT 1 FROM HR_Process p"
-							+" INNER JOIN HR_Period pr ON (pr.HR_Period_id=p.HR_Period_ID)"
 							+" WHERE HR_Movement.HR_Process_ID = p.HR_Process_ID" 
 							+" AND p.DocStatus IN('CO', 'CL')"
 							+" AND p.HR_Payroll_ID=?");
@@ -279,7 +278,6 @@ public class MHRMovement extends X_HR_Movement
 		//
 		//check process and payroll
 		whereClause.append(" AND EXISTS (SELECT 1 FROM HR_Process p"
-							+" INNER JOIN HR_Period pr ON (pr.HR_Period_id=p.HR_Period_ID)"
 							+" WHERE HR_Movement.HR_Process_ID = p.HR_Process_ID" 
 							+" AND p.DocStatus IN('CO', 'CL')"
 							+" AND p.HR_Payroll_ID=?");
