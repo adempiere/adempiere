@@ -2,14 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6ea42611-0cd8-47e7-b2d3-d009fb0e3735" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/org_scalatest_scalatest_2_12_3_0_5.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/scala_sdk_2_12_4.xml" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" afterPath="$PROJECT_DIR$/.idea/compiler.xml" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/SBT__org_scala_lang_modules_scala_xml_2_11_1_0_2_jar.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/SBT__org_scala_lang_scala_library_2_11_8_jar.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/SBT__org_scalatest_scalatest_2_11_2_2_6_jar.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/adempiere.iml" afterPath="$PROJECT_DIR$/adempiere.iml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/org.adempiere.test/src/test/scala/org/eevolution/test/AdempiereStartup.scala" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/org.adempiere.test/src/test/scala/org/eevolution/test/AdempiereTestCase.scala" />
       <change beforePath="$PROJECT_DIR$/base/src/org/compiere/process/RequestEMailProcessor.java" afterPath="$PROJECT_DIR$/org.adempiere.request/src/main/java/org/compiere/process/RequestEMailProcessor.java" />
       <change beforePath="$PROJECT_DIR$/build.sbt" afterPath="$PROJECT_DIR$/build.sbt" />
       <change beforePath="$PROJECT_DIR$/org.adempiere.test/build.sbt" afterPath="$PROJECT_DIR$/org.adempiere.test/build.sbt" />
