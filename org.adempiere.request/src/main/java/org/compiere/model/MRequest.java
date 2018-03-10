@@ -16,6 +16,9 @@
  *****************************************************************************/
 package org.compiere.model;
 
+import org.adempiere.exceptions.DBException;
+import org.compiere.util.*;
+
 import java.io.File;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -24,13 +27,6 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-
-import org.adempiere.exceptions.DBException;
-import org.compiere.util.CLogger;
-import org.compiere.util.DB;
-import org.compiere.util.Env;
-import org.compiere.util.Msg;
-import org.compiere.util.TimeUtil;
 
 /**
  * 	Request Model
@@ -76,7 +72,7 @@ public class MRequest extends X_R_Request
 	}	//	getR_Request_ID
 
 	/**	Static Logger					*/
-	private static CLogger	s_log	= CLogger.getCLogger (MRequest.class);
+	private static CLogger s_log	= CLogger.getCLogger (MRequest.class);
 	/** Request Tag Start				*/
 	private static final String		TAG_START = "[Req#";
 	/** Request Tag End					*/
@@ -151,13 +147,13 @@ public class MRequest extends X_R_Request
 	}	//	MRequest
 
 	/** Request Type				*/
-	private MRequestType	m_requestType = null;
+	private MRequestType m_requestType = null;
 	/**	Changed						*/
 	private boolean			m_changed = false;
 	/**	BPartner					*/
-	private MBPartner		m_partner = null;
+	private MBPartner m_partner = null;
 	/** User/Contact				*/
-	private MUser			m_user = null;
+	private MUser m_user = null;
 	/** List of EMail Notices		*/
 	private StringBuffer	m_emailTo = new StringBuffer();
 
@@ -549,7 +545,7 @@ public class MRequest extends X_R_Request
 		if (m_user != null && m_user.getAD_User_ID() != getAD_User_ID())
 			m_user = null;
 		if (m_user == null)
-			m_user = new MUser (getCtx(), getAD_User_ID(), get_TrxName());
+			m_user = new MUser(getCtx(), getAD_User_ID(), get_TrxName());
 		return m_user;
 	}	//	getUser
 	
@@ -564,7 +560,7 @@ public class MRequest extends X_R_Request
 		if (m_partner != null && m_partner.getC_BPartner_ID() != getC_BPartner_ID())
 			m_partner = null;
 		if (m_partner == null)
-			m_partner = new MBPartner (getCtx(), getC_BPartner_ID(), get_TrxName());
+			m_partner = new MBPartner(getCtx(), getC_BPartner_ID(), get_TrxName());
 		return m_partner;
 	}	//	getBPartner
 
@@ -731,7 +727,7 @@ public class MRequest extends X_R_Request
 				if (isInvoiced() != m_requestType.isInvoiced())
 					setIsInvoiced(m_requestType.isInvoiced());
 				if (getDateNextAction() == null && m_requestType.getAutoDueDateDays() > 0)
-					setDateNextAction(TimeUtil.addDays(new Timestamp(System.currentTimeMillis()), 
+					setDateNextAction(TimeUtil.addDays(new Timestamp(System.currentTimeMillis()),
 						m_requestType.getAutoDueDateDays()));
 			}
 			//	Is Status Valid
@@ -838,7 +834,7 @@ public class MRequest extends X_R_Request
 			{
 				//  RequestActionTransfer - Request {0} was transfered by {1} from {2} to {3}
 				Object[] args = new Object[] {getDocumentNo(), 
-					MUser.getNameOfUser(AD_User_ID), 
+					MUser.getNameOfUser(AD_User_ID),
 					MUser.getNameOfUser(oldSalesRep_ID),
 					MUser.getNameOfUser(getSalesRep_ID())
 					};
@@ -1090,7 +1086,7 @@ public class MRequest extends X_R_Request
 	public void sendNotices(ArrayList<String> list)
 	{
 		//	Subject
-		String subject = Msg.translate(getCtx(), "R_Request_ID") 
+		String subject = Msg.translate(getCtx(), "R_Request_ID")
 			+ " " + Msg.getMsg(getCtx(), "Updated") + ": " + getDocumentNo();
 		//	Message
 		StringBuffer message = new StringBuffer();
@@ -1229,7 +1225,7 @@ public class MRequest extends X_R_Request
 				{
 					int AD_Message_ID = 834;
 					MNote note = new MNote(getCtx(), AD_Message_ID, AD_User_ID,
-						X_R_Request.Table_ID, getR_Request_ID(), 
+						X_R_Request.Table_ID, getR_Request_ID(),
 						subject, message.toString(), get_TrxName());
 					if (note.save())
 						notices++;
