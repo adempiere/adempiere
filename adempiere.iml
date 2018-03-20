@@ -196,6 +196,8 @@
       <sourceFolder url="file://$MODULE_DIR$/org.adempiere.asset/src/main/java/base" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/org.adempiere.webservice/WEB-INF/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/com.kkalice.adempiere.migrate/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/org.adempiere.test/src/test/scala" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/org.adempiere.test/src/main/scala" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/org.eevolution.warehouse/src/main/java/ui/zk" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/org.adempiere.production/src/main/java/base" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/org.eevolution.fleet /src/main/java/main" isTestSource="false" />
@@ -205,9 +207,6 @@
       <sourceFolder url="file://$MODULE_DIR$/org.adempiere.pos/src/main/java/ui/swing" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/org.adempiere.pos/src/main/java/ui/zk" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/org.adempiere.request/src/main/java" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/org.adempiere.project/src/main/java" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/org.adempiere.test/src/test/scala" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/org.adempiere.test/src/main/scala" isTestSource="false" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="inheritedJdk" />
@@ -341,6 +340,15 @@
       <library name="commons-collections-3.1.jar">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/tools/lib/commons-collections-3.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library name="commons-logging.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/commons-logging.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -975,78 +983,6 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
-      <library name="aspectjlib.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/posterita/reference/aspectJ/aspectjlib.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="aspectjtools.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/posterita/reference/aspectJ/aspectjtools.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="aspectjweaver.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/posterita/reference/aspectJ/aspectjweaver.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="struts.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/posterita/posterita/web/WEB-INF/lib/struts.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="aop.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/posterita/posterita/web/WEB-INF/lib/aop.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="aspectjrt.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/posterita/posterita/web/WEB-INF/lib/aspectjrt.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="barcode4j.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/posterita/posterita/web/WEB-INF/lib/barcode4j.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="commons-validator.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/posterita/posterita/web/WEB-INF/lib/commons-validator.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
       <library name="spiffy-with_source-all-0.05.jar">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/tools/lib/testing/spiffy-with_source-all-0.05.jar!/" />
@@ -1372,7 +1308,5 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="scala-sdk-2.12.4" level="project" />
-    <orderEntry type="library" name="org.scalatest:scalatest_2.12:3.0.5" level="project" />
   </component>
 </module>
