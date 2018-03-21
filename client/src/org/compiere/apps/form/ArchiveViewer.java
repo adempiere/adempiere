@@ -260,8 +260,6 @@ public class ArchiveViewer extends Archive
 		//
 		confirmPanel.addActionListener(this);
 		updateQDisplay();
-		//
-		panel.setPreferredSize(new Dimension (720,500));
 	}	//	jbInit
 	
 	/**
