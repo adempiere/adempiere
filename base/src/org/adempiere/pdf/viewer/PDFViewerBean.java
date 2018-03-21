@@ -15,19 +15,15 @@
  */
 package org.adempiere.pdf.viewer;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
+import java.util.ResourceBundle;
 
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import org.compiere.util.CLogger;
 import org.icepdf.ri.common.SwingController;
 import org.icepdf.ri.common.SwingViewBuilder;
+import org.icepdf.ri.util.PropertiesManager;
 
 /**
  * PDF Viewer using icepdf
@@ -35,112 +31,65 @@ import org.icepdf.ri.common.SwingViewBuilder;
 public class PDFViewerBean extends JPanel {
 
 	private static final long serialVersionUID = -365936659584244L;
-	private static CLogger log	= CLogger.getCLogger(PDFViewerBean.class);
+//	private static CLogger log	= CLogger.getCLogger(PDFViewerBean.class);
 	
+    PropertiesManager properties = new PropertiesManager(System.getProperties()
+    		, ResourceBundle.getBundle(PropertiesManager.DEFAULT_MESSAGE_BUNDLE));
+    
     // build a component controller
 	private final SwingController controller = new SwingController();
-	private final SwingViewBuilder factory = new SwingViewBuilder(controller);
-	private final JPanel viewerComponentPanel = factory.buildViewerPanel();
-
-    private final JScrollPane center = new JScrollPane(viewerComponentPanel); 
-//    private final JLabel pageCountLabel = new JLabel("00");
-
-//    private int currentPage = 1;
-    private String filename = null;
-	private File tmpFile = null;
-
+	private final SwingViewBuilder factory;
+	private final JPanel viewerComponentPanel;
+	private final JScrollPane pdfPane;
+	
     public PDFViewerBean() {
     	
+    	// while testing I detect that FitWidthButton-action runs out of memory - maybe there is a bug in icepdf
+    	// so I do not show the fit-Buttons
+    	properties.setBoolean(PropertiesManager.PROPERTY_SHOW_TOOLBAR_FIT, false);
+    	properties.setBoolean(PropertiesManager.PROPERTY_SHOW_TOOLBAR_ANNOTATION, false); // not used
+    	
     	controller.setIsEmbeddedComponent(true);
-    	this.add(center);
+    	factory = new SwingViewBuilder(controller, properties);
+    	
+        // add interactive mouse link annotation support via callback
+//        controller.getDocumentViewController().setAnnotationCallback(
+//                new org.icepdf.ri.common.MyAnnotationCallback(controller.getDocumentViewController()));
+    	viewerComponentPanel = factory.buildViewerPanel();
+    	pdfPane = new JScrollPane(viewerComponentPanel);
+    	this.add(pdfPane);
 
     }
     
 
-    public void loadPDF(String filename) {
-        this.filename = filename;
-        try {
-            // try openning a PDF
-        	controller.closeDocument();
-            controller.openDocument(filename);
-            int numPages = controller.getPageTree().getNumberOfPages();
-            int pageNum = controller.getCurrentPageNumber();
-            log.info("@@@EUG ------------------------- numPages="+numPages + " pageNum="+pageNum);
-//            pageCountLabel.setText(pageNum + " ");
-//            setCurrentPage(1);
-            controller.showPage(0);
-//            log.info("@@@EUG ------------------------- DocumentViewToolMode="+controller.getDocumentViewToolMode() + " DISPLAY_TOOL_NONE="+DocumentViewModelImpl.DISPLAY_TOOL_NONE);
-//            //controller.setPageFitMode(DocumentViewController.PAGE_FIT_ACTUAL_SIZE, true);
-//            controller.setPageFitMode(DocumentViewController.PAGE_FIT_ACTUAL_SIZE, false);
-//            //controller.setDisplayTool(DocumentViewModelImpl.DISPLAY_TOOL_NONE);
-//            controller.setDisplayTool(controller.getDocumentViewToolMode());
-//            //center.setVisible(true);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    
-
-//    public int getCurrentPage() {
-//        return currentPage;
-//    }
-    
     public void clearDocument() {
     	controller.closeDocument();
-    	if (tmpFile != null) {
-    		tmpFile.delete();
-    		tmpFile = null;
-    	}
     }
     
 
     @Deprecated
+    // only for compatibility
     public void setScale(int percent) {
-//        int step;
-//        for (step = 0; step < zoomFactors.length - 1; step++) {
-//            if (zoomFactors[step] * 100 >= percent) {
-//                break;
-//            }
-//        }
-//    	setScaleStep(step);
+
     }
     
+    /**
+     * Opens a Document via the specified InputStream
+     * @param inputStream InputStream containing a valid PDF document.
+     * @param description When in the GUI for describing this document.
+     * @param pathOrURL   Either a file path, or file name, or URL, describing the
+     *                    origin of the PDF file. This is typically null. If non-null, it is
+     *                    used to populate the default file name in the File..Save a Copy
+     *                    dialog summoned in saveFile()
+     */
     public void loadPDF(InputStream is) {
-    	if (tmpFile != null) {
-    		tmpFile.delete();
-    	}
     	
-        try {
-            tmpFile = File.createTempFile("adempiere", ".pdf");
-            tmpFile.deleteOnExit();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return;
-        }
-        
-        try {
-			final OutputStream os = new FileOutputStream(tmpFile);
-            try {
-                final byte[] buffer = new byte[32768];
-                for (int read; (read = is.read(buffer)) != -1; ) {
-                    os.write(buffer, 0, read);
-                }
-            } catch (IOException e) {
-				e.printStackTrace();
-			} finally {
-                os.close();
-            }
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		loadPDF(tmpFile.getAbsolutePath());
+    	String description = "";
+    	controller.openDocument(is, description, null);
+    	
     }
 
 	protected void finalize() throws Throwable {
-    	if (tmpFile != null) {
-    		tmpFile.delete();
-    	}
     	controller.closeDocument();
 	}
 }
