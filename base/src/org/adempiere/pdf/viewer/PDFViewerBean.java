@@ -52,7 +52,68 @@ import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
 import javax.swing.filechooser.FileFilter;
 
-import org.jpedal.PdfDecoder;
+import org.compiere.util.CLogger;
+/* wg
+18:17:11.223 Archive.updateVDisplay: Index=0, Length=1 [16]
+java.lang.NumberFormatException: For input string: ".5.2"
+	at java.lang.NumberFormatException.forInputString(NumberFormatException.java:65)
+	at java.lang.Integer.parseInt(Integer.java:569)
+	at java.lang.Integer.parseInt(Integer.java:615)
+	at org.jpedal.io.PdfReader.readLegacyReferenceTable(Unknown Source)
+	at org.jpedal.io.PdfReader.readReferenceTable(Unknown Source)
+	at org.jpedal.PdfDecoder.openPdfFile(Unknown Source)
+	at org.jpedal.PdfDecoder.openPdfFile(Unknown Source)
+	at org.adempiere.pdf.viewer.PDFViewerBean.loadPDF(PDFViewerBean.java:465)    <=================
+	at org.adempiere.pdf.viewer.PDFViewerBean.loadPDF(PDFViewerBean.java:605)
+	at org.compiere.apps.form.ArchiveViewer.updateVDisplay(ArchiveViewer.java:376)
+	at org.compiere.apps.form.ArchiveViewer.cmd_query(ArchiveViewer.java:459)
+	at org.compiere.apps.form.ArchiveViewer.query(ArchiveViewer.java:433)
+	at org.compiere.apps.AArchive.actionPerformed(AArchive.java:177)
+	at javax.swing.AbstractButton.fireActionPerformed(AbstractButton.java:2022)
+	at javax.swing.AbstractButton$Handler.actionPerformed(AbstractButton.java:2348)
+	at javax.swing.DefaultButtonModel.fireActionPerformed(DefaultButtonModel.java:402)
+	at javax.swing.DefaultButtonModel.setPressed(DefaultButtonModel.java:259)
+	at javax.swing.AbstractButton.doClick(AbstractButton.java:376)
+	at javax.swing.plaf.basic.BasicMenuItemUI.doClick(BasicMenuItemUI.java:833)
+	at javax.swing.plaf.basic.BasicMenuItemUI$Handler.mouseReleased(BasicMenuItemUI.java:877)
+	at java.awt.Component.processMouseEvent(Component.java:6533)
+	at javax.swing.JComponent.processMouseEvent(JComponent.java:3324)
+	at java.awt.Component.processEvent(Component.java:6298)
+	at java.awt.Container.processEvent(Container.java:2236)
+	at java.awt.Component.dispatchEventImpl(Component.java:4889)
+	at java.awt.Container.dispatchEventImpl(Container.java:2294)
+	at java.awt.Component.dispatchEvent(Component.java:4711)
+	at java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4888)
+	at java.awt.LightweightDispatcher.processMouseEvent(Container.java:4525)
+	at java.awt.LightweightDispatcher.dispatchEvent(Container.java:4466)
+	at java.awt.Container.dispatchEventImpl(Container.java:2280)
+	at java.awt.Window.dispatchEventImpl(Window.java:2746)
+	at java.awt.Component.dispatchEvent(Component.java:4711)
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758)
+	at java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.awt.EventQueue$3.run(EventQueue.java:709)
+	at java.awt.EventQueue$3.run(EventQueue.java:703)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:80)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:90)
+	at java.awt.EventQueue$4.run(EventQueue.java:731)
+	at java.awt.EventQueue$4.run(EventQueue.java:729)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:80)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:201)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
+
+ */
+//import org.jpedal.PdfDecoder; // @@@EUG dieser viewer aus jpedal.jar ist version = "3.00b21STD" von 30.01.2007 und kann keine ".5.2" - siehe exception
+// alternativen: OpenViewerFX-7.12.28.jar -> javaFX
+//               icepdf-core-6.1.2.jar + icepdf-viewer-6.1.2.jar
+import org.icepdf.ri.common.SwingController;
+import org.icepdf.ri.common.SwingViewBuilder;
 
 /**
  * PDF Viewer using jpedal
@@ -64,9 +125,33 @@ public class PDFViewerBean extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = -365936659584244L;
+	private static CLogger log	= CLogger.getCLogger(PDFViewerBean.class);
 	
-	private final PdfDecoder decoder = new PdfDecoder();
-    private final JScrollPane center = new JScrollPane(decoder);
+//	private final PdfDecoder decoder = new PdfDecoder();
+    // build a component controller
+	private final SwingController controller = new SwingController();
+	private final SwingViewBuilder factory = new SwingViewBuilder(controller);
+	private final JPanel viewerComponentPanel = factory.buildViewerPanel();
+/*
+        // add interactive mouse link annotation support via callback
+        controller.getDocumentViewController().setAnnotationCallback(
+                new org.icepdf.ri.common.MyAnnotationCallback(
+                        controller.getDocumentViewController()));
+
+        JFrame applicationFrame = new JFrame();
+        applicationFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        applicationFrame.getContentPane().add(viewerComponentPanel);
+
+        // Now that the GUI is all in place, we can try openning a PDF
+        controller.openDocument(filePath);
+
+        // show the component
+        applicationFrame.pack();
+        applicationFrame.setVisible(true);
+
+ */
+	//private final Pane decoder = new PdfDecoderFX();
+    private final JScrollPane center = new JScrollPane(viewerComponentPanel); // = new JScrollPane(decoder);
     private final JTextField pageField = new JTextField(2);
     private final JLabel pageCountLabel = new JLabel("00");
     private final JComboBox rotationSelect = new JComboBox(new String[] {
@@ -230,7 +315,7 @@ public class PDFViewerBean extends JPanel {
         });
         
         setLayout(new BorderLayout());
-        createToolBar();
+        //createToolBar();	// @@EUG icepdf hat eigene Toolbar
         add(BorderLayout.CENTER, center);
         pageField.addFocusListener(new FocusAdapter() {        
             public void focusGained(FocusEvent e) {
@@ -244,7 +329,7 @@ public class PDFViewerBean extends JPanel {
             }
         });
         
-        setPreferredSize(new Dimension(480, 0));
+        //setPreferredSize(new Dimension(480, 0)); //@@@EUG die feste Größe is nicht gut
     }
     
     public void setRotation(int rotation) {
@@ -266,32 +351,34 @@ public class PDFViewerBean extends JPanel {
     }
 
     public void goLast() {
-        setCurrentPage(decoder.getPageCount());
+//        setCurrentPage(decoder.getPageCount()); // TODO:
+    	setCurrentPage(controller.getCurrentPageNumber());
     }
     
     public void setCurrentPage(int page) {
-        if (page < 1 || page > decoder.getPageCount()) {
-            return;
-        }
-        
-        final Cursor oldCursor = getCursor();
-        try {
-            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-            decoder.setPageParameters(zoomFactors[scaleStep], page);
-            decoder.decodePage(page);
-            setRotation(decoder.getPdfPageData().getRotation(page));
-            currentPage = page;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return;
-        } finally {
-            setCursor(oldCursor);
-        }
-        
-        goFirstAction.setEnabled(currentPage > 1);
-        goPreviousAction.setEnabled(currentPage > 1);
-        goNextAction.setEnabled(currentPage < decoder.getPageCount());
-        goLastAction.setEnabled(currentPage < decoder.getPageCount());
+    	// TODO
+//        if (page < 1 || page > decoder.getPageCount()) {
+//            return;
+//        }
+//        
+//        final Cursor oldCursor = getCursor();
+//        try {
+//            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+//            decoder.setPageParameters(zoomFactors[scaleStep], page);
+//            decoder.decodePage(page);
+//            setRotation(decoder.getPdfPageData().getRotation(page));
+//            currentPage = page;
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return;
+//        } finally {
+//            setCursor(oldCursor);
+//        }
+//        
+//        goFirstAction.setEnabled(currentPage > 1);
+//        goPreviousAction.setEnabled(currentPage > 1);
+//        goNextAction.setEnabled(currentPage < decoder.getPageCount());
+//        goLastAction.setEnabled(currentPage < decoder.getPageCount());
         
         pageField.setText(Integer.toString(currentPage));
     }
@@ -369,11 +456,12 @@ public class PDFViewerBean extends JPanel {
     public void print() {
         PrinterJob printJob = PrinterJob.getPrinterJob();
         //decoder.enableScaledPrinting(false);
-        printJob.setPageable(decoder);
+// TODO ersetzen:
+//        printJob.setPageable(decoder);
         final PageFormat pf = printJob.defaultPage();
-        decoder.setPageFormat(pf);
-        decoder.setTextPrint(PdfDecoder.TEXTGLYPHPRINT);
-        printJob.setPrintable(decoder, pf);
+//        decoder.setPageFormat(pf);
+//        decoder.setTextPrint(PdfDecoder.TEXTGLYPHPRINT);
+//        printJob.setPrintable(decoder, pf);
         if (printJob.printDialog()) {
             final Cursor oldCursor = getCursor();
             try {
@@ -461,10 +549,26 @@ public class PDFViewerBean extends JPanel {
     public void loadPDF(String filename) {
         this.filename = filename;
         try {
-        	decoder.closePdfFile();
-            decoder.openPdfFile(filename);
-            pageCountLabel.setText(decoder.getPageCount() + " ");
+            // try openning a PDF
+        	controller.closeDocument();
+            controller.openDocument(filename);
+            int numPages = controller.getPageTree().getNumberOfPages();
+            int pageNum = controller.getCurrentPageNumber();
+            log.info("@@@EUG ------------------------- numPages="+numPages + " pageNum="+pageNum);
+// TODO löschen:
+// das alte aus jpedal:
+//        	decoder.closePdfFile();
+//            decoder.openPdfFile(filename);
+//            pageCountLabel.setText(decoder.getPageCount() + " ");
+            pageCountLabel.setText(pageNum + " ");
             setCurrentPage(1);
+            controller.showPage(0);
+//            log.info("@@@EUG ------------------------- DocumentViewToolMode="+controller.getDocumentViewToolMode() + " DISPLAY_TOOL_NONE="+DocumentViewModelImpl.DISPLAY_TOOL_NONE);
+//            //controller.setPageFitMode(DocumentViewController.PAGE_FIT_ACTUAL_SIZE, true);
+//            controller.setPageFitMode(DocumentViewController.PAGE_FIT_ACTUAL_SIZE, false);
+//            //controller.setDisplayTool(DocumentViewModelImpl.DISPLAY_TOOL_NONE);
+//            controller.setDisplayTool(controller.getDocumentViewToolMode());
+//            //center.setVisible(true);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -530,7 +634,8 @@ public class PDFViewerBean extends JPanel {
     }
     
     public void clearDocument() {
-    	decoder.closePdfFile();
+    	controller.closeDocument();
+//    	decoder.closePdfFile(); // TODO raus
     	if (tmpFile != null) {
     		tmpFile.delete();
     		tmpFile = null;
@@ -551,11 +656,12 @@ public class PDFViewerBean extends JPanel {
         final Cursor oldCursor = getCursor();
         try {
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-            decoder.setPageParameters(zoomFactors[scaleStep],
-                                      currentPage,
-                                      rotation);
-            decoder.invalidate();
-            decoder.repaint();
+// TODO: ersetzen
+//            decoder.setPageParameters(zoomFactors[scaleStep],
+//                                      currentPage,
+//                                      rotation);
+//            decoder.invalidate();
+//            decoder.repaint();
             zoomInAction.setEnabled(scaleStep < zoomFactors.length - 1);
             zoomOutAction.setEnabled(scaleStep > 0);
         } finally {
@@ -609,6 +715,7 @@ public class PDFViewerBean extends JPanel {
     	if (tmpFile != null) {
     		tmpFile.delete();
     	}
-    	decoder.closePdfFile();
+    	controller.closeDocument();
+//    	decoder.closePdfFile(); // TODO raus
 	}
 }
