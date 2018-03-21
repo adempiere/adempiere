@@ -331,12 +331,6 @@ public final class Attachment extends CDialog
 		}
 
 		log.config("Size=" + size);
-	//	graphPanel.setPreferredSize(size);
-	//	centerPane.setDividerLocation(size.width+30);
-	//	size.width += 100;
-	//	size.height += 100;
-	//	centerPane.setPreferredSize(size);
-		pack();
 	}   //  displayData
 
 
