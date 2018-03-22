@@ -92,10 +92,11 @@ sourceDirectory in webappPrepare := (sourceDirectory in Compile).value / "zkwebu
 
 webappPostProcess := {
   webappDir: File =>
+    IO.copyDirectory(baseDirectory.value / "zkwebui", webappDir)
     IO.copyDirectory(baseDirectory.value / "bin", webappDir / "WEB-INF" / "classes")
     IO.copyDirectory(baseDirectory.value / "org.eevolution.manufacturing/src/main/java/ui/zk",webappDir / "WEB-INF" / "classes")
     IO.copyDirectory(baseDirectory.value / "org.eevolution.hr_and_payroll/src/main/java/ui/zk",webappDir / "WEB-INF" / "classes")
-    IO.copyDirectory(baseDirectory.value / "zkwebui", webappDir)
+    //IO.copyDirectory(baseDirectory.value / "serverRoot" / "src" / "web", webappDir)
     IO.copyDirectory(baseDirectory.value / "serverRoot" / "src" / "web", webappDir)
     IO.copyDirectory(baseDirectory.value / "lib", webappDir / "WEB-INF" / "lib")
     IO.copyDirectory(baseDirectory.value / "packages", webappDir / "WEB-INF" / "lib")
