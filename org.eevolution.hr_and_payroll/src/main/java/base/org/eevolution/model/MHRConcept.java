@@ -19,6 +19,7 @@ package org.eevolution.model;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -216,6 +217,46 @@ public class MHRConcept extends X_HR_Concept {
     			"HR_Concept_ID = ? AND C_AcctSchema_ID = ?", get_TrxName())
     		.setParameters(getHR_Concept_ID(), acctSchemaId)
     		.first();
+    }
+
+    /**
+     * Get Account configuration
+     * @param optionalAcctSchemaId
+     * @param optionalPayrollId
+     * @param optionalPartnerGroupId
+     * @return
+     */
+    public X_HR_Concept_Acct getConceptAcct(Optional<Integer> optionalAcctSchemaId,
+                                            Optional<Integer> optionalPayrollId,
+                                            Optional<Integer> optionalPartnerGroupId) {
+        StringBuilder whereClause = new StringBuilder();
+        ArrayList<Object> paramenters =  new ArrayList<>();
+        whereClause.append(I_HR_Concept_Acct.COLUMNNAME_HR_Concept_ID).append("=? AND ");
+        paramenters.add(getHR_Concept_ID());
+        optionalAcctSchemaId.ifPresent(accountSchemaId -> {
+            whereClause.append(I_HR_Concept_Acct.COLUMNNAME_C_AcctSchema_ID).append("=? AND ");
+            paramenters.add(accountSchemaId);
+        });
+        optionalPayrollId.ifPresent(payrollId -> {
+            whereClause.append("(")
+                    .append(I_HR_Concept_Acct.COLUMNNAME_HR_Payroll_ID).append("=? OR  ")
+                    .append(I_HR_Concept_Acct.COLUMNNAME_HR_Payroll_ID).append(" IS NULL) AND ");
+            paramenters.add(payrollId);
+        });
+
+        optionalPartnerGroupId.ifPresent(partnerGroupId -> {
+                whereClause.append("(").append(I_HR_Concept_Acct.COLUMNNAME_C_BP_Group_ID).append("=? OR  ")
+                                       .append(I_HR_Concept_Acct.COLUMNNAME_C_BP_Group_ID).append(" IS NULL)");
+                paramenters.add(partnerGroupId);
+        });
+
+        return new Query(getCtx(), I_HR_Concept_Acct.Table_Name, whereClause.toString(), get_TrxName())
+                .setParameters(paramenters)
+                .setOrderBy(
+                        I_HR_Concept_Acct.COLUMNNAME_C_AcctSchema_ID + " DESC , " +
+                        I_HR_Concept_Acct.COLUMNNAME_HR_Payroll_ID + " DESC , " +
+                        I_HR_Concept_Acct.COLUMNNAME_C_BP_Group_ID + " DESC ")
+                .first();
     }
 
     /**
