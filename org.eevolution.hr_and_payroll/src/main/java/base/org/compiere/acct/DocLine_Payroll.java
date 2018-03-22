@@ -51,6 +51,7 @@ public class DocLine_Payroll extends DocLine
 		//	Reference
 		bPartnerId = C_BPartner_ID;
 		departmentId = movement.getHR_Department_ID();
+		payrollId = movement.getHR_Payroll_ID();
 		bPGroupId = movement.getC_BP_Group_ID();
 		if(bPGroupId == 0) {
 			bPGroupId = DB.getSQLValue(doc.getTrxName(), 
@@ -91,6 +92,7 @@ public class DocLine_Payroll extends DocLine
 	private BigDecimal amount  = Env.ZERO;
 	private int departmentId = 0;
 	private int bPGroupId = 0;
+	private int payrollId = 0;
 	
 	public int getHR_Process_ID(){
 		return processId;
@@ -163,11 +165,30 @@ public class DocLine_Payroll extends DocLine
 	public int getC_BP_Group_ID()	{
 		return bPGroupId;
 	}
-	
+
+	public int getHR_Payroll_ID()	{
+		return payrollId;
+	}
+
+	public Integer getAccountSchemaId()
+	{
+		return getC_AcctSchema_ID() > 0 ? getC_AcctSchema_ID() : null;
+	}
+
+	public Integer getPartnerGroupId ()
+	{
+		return getC_BP_Group_ID() > 0 ? getC_BP_Group_ID() : null;
+	}
+
+	public Integer getPayrollId() {
+		return getHR_Payroll_ID() > 0 ? getHR_Payroll_ID() : null;
+	}
+
 	/**
 	 * Get Concept Account
 	 * @param acctSchemaId
 	 * @return
+	 * @deprecated
 	 */
 	public X_HR_Concept_Acct getConceptAcct(int acctSchemaId) {
 		MHRConcept concept = MHRConcept.get(Env.getCtx(), getHR_Concept_ID());
@@ -177,5 +198,4 @@ public class DocLine_Payroll extends DocLine
 		//	Default null
 		return null;
 	}
-
 }   //  DocLine_Payroll
