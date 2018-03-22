@@ -19,6 +19,7 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.compiere.model.MAccount;
 import org.compiere.model.MAcctSchema;
@@ -119,8 +120,13 @@ public class   Doc_HRProcess extends Doc
 			BigDecimal sumAmount = line.getAmtSource();
 			// round amount according to currency
 			sumAmount = sumAmount.setScale(as.getStdPrecision(), BigDecimal.ROUND_HALF_UP);
+			MHRConcept concept = MHRConcept.get(Env.getCtx(), payrollDocLine.getHR_Concept_ID());
 			//	Get Concept Account
-			X_HR_Concept_Acct conceptAcct = payrollDocLine.getConceptAcct(as.getC_AcctSchema_ID());
+			X_HR_Concept_Acct conceptAcct = concept.getConceptAcct(
+					Optional.ofNullable(payrollDocLine.getAccountSchemaId()),
+					Optional.ofNullable(payrollDocLine.getPayrollId()),
+					Optional.ofNullable(payrollDocLine.getPayrollId()));
+
 			if(conceptAcct == null) {
 				continue;
 			}
@@ -130,17 +136,25 @@ public class   Doc_HRProcess extends Doc
 							|| MHRConcept.ACCOUNTSIGN_Credit.equals(payrollDocLine.getAccountSign()))) {
 				if (conceptAcct.isBalancing()) {
 					MAccount accountBPD = MAccount.get (getCtx(), conceptAcct.getHR_Expense_Acct());
-					fact.createLine(line, accountBPD, as.getC_Currency_ID(),sumAmount, null);
+					FactLine debitLine = fact.createLine(line, accountBPD, as.getC_Currency_ID(),sumAmount, null);
+					debitLine.setDescription(process.getName() + " " + concept.getValue() + " " + concept.getName());
+					debitLine.saveEx();
 					MAccount accountBPC = MAccount.get (getCtx(), conceptAcct.getHR_Revenue_Acct());
-					fact.createLine(line,accountBPC, as.getC_Currency_ID(),null,sumAmount);
+					FactLine creditLine = fact.createLine(line,accountBPC, as.getC_Currency_ID(),null,sumAmount);
+					creditLine.setDescription(process.getName() + " " + concept.getValue() + " " + concept.getName());
+					creditLine.saveEx();
 				} else {
 					if (MHRConcept.ACCOUNTSIGN_Debit.equals(payrollDocLine.getAccountSign())) {
 						MAccount accountBPD = MAccount.get (getCtx(), conceptAcct.getHR_Expense_Acct());
-						fact.createLine(line, accountBPD, as.getC_Currency_ID(),sumAmount, null);
+						FactLine debitLine = fact.createLine(line, accountBPD, as.getC_Currency_ID(),sumAmount, null);
+						debitLine.setDescription(process.getName() + " " + concept.getValue() + " " + concept.getName());
+						debitLine.saveEx();
 						totalDebit = totalDebit.add(sumAmount);
 					} else if (MHRConcept.ACCOUNTSIGN_Credit.equals(payrollDocLine.getAccountSign())) {
 						MAccount accountBPC = MAccount.get (getCtx(), conceptAcct.getHR_Revenue_Acct());
-						fact.createLine(line,accountBPC, as.getC_Currency_ID(),null,sumAmount);
+						FactLine creditLine = fact.createLine(line,accountBPC, as.getC_Currency_ID(),null,sumAmount);
+						creditLine.setDescription(process.getName() + " " + concept.getValue() + " " + concept.getName());
+						creditLine.saveEx();
 						totalCredit = totalCredit.add(sumAmount);
 					}
 				}
@@ -155,8 +169,12 @@ public class   Doc_HRProcess extends Doc
 				FactLine regTotal = null;
 				if(totalDebit.abs().compareTo(totalCredit.abs()) > 0) {
 					regTotal = fact.createLine(null, acct, as.getC_Currency_ID(), null, totalDebit.subtract(totalCredit));
+					regTotal.setDescription(process.getName());
+					regTotal.saveEx();
 				} else {
 					regTotal = fact.createLine(null, acct, as.getC_Currency_ID(), totalCredit.abs().subtract(totalDebit.abs()), null);
+					regTotal.setDescription(process.getName());
+					regTotal.saveEx();
 				}
 				regTotal.setAD_Org_ID(getAD_Org_ID());
 			}
