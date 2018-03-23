@@ -1877,7 +1877,8 @@ public class MInvoice extends X_C_Invoice implements DocAction , DocumentReversa
 		// Set the definite document number after completed (if needed)
 		setDefiniteDocumentNo();
 		// allocate prepaid Orders
-		if (isAllocateImmediate() && getC_Order_ID() > 0 && getC_Order().getC_POS_ID() == 0) {
+		if (isAllocateImmediate() && getC_Order_ID() > 0 && getC_Order().getC_POS_ID() == 0
+				&& getReversal_ID() ==0) {
 			allocatePrepayments();
 		}
 
