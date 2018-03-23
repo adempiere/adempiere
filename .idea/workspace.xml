@@ -2,12 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6ea42611-0cd8-47e7-b2d3-d009fb0e3735" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/org_scalatest_scalatest_2_12_3_0_5.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/scala_sdk_2_12_4.xml" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" afterPath="$PROJECT_DIR$/.idea/compiler.xml" />
-      <change beforePath="$PROJECT_DIR$/.idea/scala_settings.xml" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/.idea/scala_settings.xml" afterPath="$PROJECT_DIR$/.idea/scala_settings.xml" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/adempiere.iml" afterPath="$PROJECT_DIR$/adempiere.iml" />
     </list>
     <ignored path="extension_apparel_management.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -692,6 +688,14 @@
       <option name="presentableId" value="Default" />
       <updated>1464635426385</updated>
     </task>
+    <task id="LOCAL-00001" summary="#1294 Add to support ZK Web debugging using IntelliJ https://github.com/adempiere/adempiere/issues/1294&#10;&#10;(cherry picked from commit 6db1dc348ae634023ae8f64b3b567f41b26b9a19)">
+      <created>1521830462658</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1521830462658</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -844,6 +848,17 @@
               <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
                 <collection />
               </option>
+              <option name="FILTERS">
+                <map>
+                  <entry key="text">
+                    <value>
+                      <list>
+                        <option value="7043d6eddea11c4196e7a80b107729ee3d7b9a55" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
               <option name="COLUMN_ORDER">
                 <list>
                   <option value="0" />
@@ -868,6 +883,12 @@
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="CHECK_NEW_TODO" value="false" />
+    <MESSAGE value="#1294 Add to support ZK Web debugging using IntelliJ https://github.com/adempiere/adempiere/issues/1294&#10;&#10;(cherry picked from commit 6db1dc348ae634023ae8f64b3b567f41b26b9a19)" />
+    <option name="LAST_COMMIT_MESSAGE" value="#1294 Add to support ZK Web debugging using IntelliJ https://github.com/adempiere/adempiere/issues/1294&#10;&#10;(cherry picked from commit 6db1dc348ae634023ae8f64b3b567f41b26b9a19)" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
