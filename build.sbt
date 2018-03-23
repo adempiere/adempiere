@@ -72,7 +72,7 @@ unmanagedJars in Compile ++= (file(sourceAdempiere + "/lib") * "*.jar").classpat
 unmanagedJars in Compile ++= (file(sourceAdempiere + "/packages") * "*.jar").classpath
 unmanagedJars in Compile ++= (file(sourceAdempiere + "/zkpackages") * "*.jar").classpath
 unmanagedJars in Compile ++= (file("/Users/e-Evolution/Develop/ADempiere/GRP/target/scala-2.12") * "*.jar").classpath
-unmanagedJars in Compile ++= (file("/Users/e-Evolution/Develop/ADempiere/org.eevolution.LMX//target/scala-2.12") * "*.jar").classpath
+unmanagedJars in Compile ++= (file("/Users/e-Evolution/Develop/ADempiere/org.eevolution.LMX/target/scala-2.12") * "*.jar").classpath
 
 testOptions in Test += Tests.Argument("-oD")
 
@@ -95,11 +95,12 @@ webappPostProcess := {
     IO.copyDirectory(baseDirectory.value / "bin", webappDir / "WEB-INF" / "classes")
     IO.copyDirectory(baseDirectory.value / "org.eevolution.manufacturing/src/main/java/ui/zk",webappDir / "WEB-INF" / "classes")
     IO.copyDirectory(baseDirectory.value / "org.eevolution.hr_and_payroll/src/main/java/ui/zk",webappDir / "WEB-INF" / "classes")
-    //IO.copyDirectory(baseDirectory.value / "zkwebui", webappDir)
+    IO.copyDirectory(baseDirectory.value / "zkwebui", webappDir)
     IO.copyDirectory(baseDirectory.value / "serverRoot" / "src" / "web", webappDir)
     IO.copyDirectory(baseDirectory.value / "lib", webappDir / "WEB-INF" / "lib")
     IO.copyDirectory(baseDirectory.value / "packages", webappDir / "WEB-INF" / "lib")
     IO.copyDirectory(baseDirectory.value / "zkpackages", webappDir / "WEB-INF" / "lib")
     IO.copyDirectory(baseDirectory.value / "zkwebui/WEB-INF/classes", webappDir / "WEB-INF" / "classes")
+    IO.copyDirectory(file("/Users/e-Evolution/Develop/ADempiere/org.eevolution.LMX/target/scala-2.12"), webappDir / "WEB-INF" / "lib")
     IO.copyDirectory(file("/Users/e-Evolution/Develop/ADempiere/org.eevolution.LMX/target/scala-2.12/classes"), webappDir / "WEB-INF" / "classes")
 }

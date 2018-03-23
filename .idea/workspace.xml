@@ -2,19 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6ea42611-0cd8-47e7-b2d3-d009fb0e3735" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/org.adempiere.test/src/test/scala/org/eevolution/test/AdempiereStartup.scala" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/org.adempiere.test/src/test/scala/org/eevolution/test/AdempiereTestCase.scala" />
-      <change beforePath="$PROJECT_DIR$/.idea/scala_settings.xml" afterPath="" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/build.sbt" afterPath="$PROJECT_DIR$/build.sbt" />
-      <change beforePath="$PROJECT_DIR$/org.adempiere.test/build.sbt" afterPath="$PROJECT_DIR$/org.adempiere.test/build.sbt" />
-      <change beforePath="$PROJECT_DIR$/org.adempiere.test/project/build.properties" afterPath="$PROJECT_DIR$/org.adempiere.test/project/build.properties" />
-      <change beforePath="$PROJECT_DIR$/org.adempiere.test/project/plugins.sbt" afterPath="$PROJECT_DIR$/org.adempiere.test/project/plugins.sbt" />
-      <change beforePath="$PROJECT_DIR$/org.adempiere.test/src/main/scala/org/eevolution/test/AdempiereStartup.scala" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/org.adempiere.test/src/main/scala/org/eevolution/test/AdempiereTestCase.scala" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/org.adempiere.test/src/test/scala/org/eevolution/test/CreateSalesOrder.scala" afterPath="$PROJECT_DIR$/org.adempiere.test/src/test/scala/org/eevolution/test/CreateSalesOrder.scala" />
-      <change beforePath="$PROJECT_DIR$/project/build.properties" afterPath="$PROJECT_DIR$/project/build.properties" />
-      <change beforePath="$PROJECT_DIR$/project/plugins.sbt" afterPath="$PROJECT_DIR$/project/plugins.sbt" />
+      <change beforePath="$PROJECT_DIR$/org.adempiere.test/src/test/scala/org/eevolution/test/AdempiereStartup.scala" afterPath="$PROJECT_DIR$/org.adempiere.test/src/test/scala/org/eevolution/test/AdempiereStartup.scala" />
+      <change beforePath="$PROJECT_DIR$/org.adempiere.test/src/test/scala/org/eevolution/test/AdempiereTestCase.scala" afterPath="$PROJECT_DIR$/org.adempiere.test/src/test/scala/org/eevolution/test/AdempiereTestCase.scala" />
     </list>
     <ignored path="extension_apparel_management.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -193,6 +184,7 @@
     <panes>
       <pane id="Scratches" />
       <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -204,7 +196,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -713,10 +704,10 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.41409692" sideWeight="0.5428714" order="12" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.20226936" sideWeight="0.49393415" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5431338" sideWeight="0.68494517" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.38867924" sideWeight="0.6296112" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.38867924" sideWeight="0.6296112" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.48396227" sideWeight="0.8968096" order="17" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28381255" sideWeight="0.5" order="6" side_tool="true" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28647497" sideWeight="0.5" order="6" side_tool="true" content_ui="combo" />
       <window_info id="sbt-shell-toolwindow" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32924527" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Learn" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4775673" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -850,6 +841,17 @@
               </option>
               <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
                 <collection />
+              </option>
+              <option name="FILTERS">
+                <map>
+                  <entry key="text">
+                    <value>
+                      <list>
+                        <option value="c31ceae27bd1c3b72354a8bf746af5536950c147" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
               </option>
               <option name="COLUMN_ORDER">
                 <list>
@@ -1561,13 +1563,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/org.adempiere.request/src/main/java/org/compiere/process/RequestEMailProcessorAbstract.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="34" column="42" lean-forward="true" selection-start-line="34" selection-start-column="42" selection-end-line="34" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/org.adempiere.request/src/main/java/org/compiere/process/RequestEMailProcessorAbstract.java" />
     <entry file="file://$PROJECT_DIR$/serverRoot/src/main/server/org/compiere/server/ProjectProcessor.java" />
     <entry file="file://$PROJECT_DIR$/project/plugins.sbt">
       <provider selected="true" editor-type-id="text-editor">
