@@ -743,16 +743,20 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 				if(commissionLine.getMinCompliance() != null
 						&& commissionLine.getMinCompliance().compareTo(Env.ZERO) > 0) {
 					sql.append(" AND EXISTS(SELECT 1 "
-						+ "FROM C_InvoiceLine il "
-						+ "	INNER JOIN (SELECT fl.M_Product_ID, fl.SalesRep_ID, pd.PP_Period_ID, " 
+						+ "FROM C_Invoice i "
+						+ "INNER JOIN C_InvoiceLine il ON(il.C_Invoice_ID = i.C_Invoice_ID)	"
+						+ "INNER JOIN (SELECT fl.M_Product_ID, fl.SalesRep_ID, pd.PP_Period_ID, " 
 						+ "	            pd.Name, pd.StartDate, pd.EndDate, SUM(fl.Qty) ForecastQty " 
 						+ "		FROM M_Forecast f "
 						+ "		INNER JOIN M_ForecastLine fl ON(fl.M_Forecast_ID = f.M_Forecast_ID) "
 						+ "		INNER JOIN PP_Period pd ON(pd.PP_Period_ID = fl.PP_Period_ID) "
 						+ "	    GROUP BY fl.M_Product_ID, fl.SalesRep_ID, pd.PP_Period_ID, pd.Name, pd.StartDate, pd.EndDate "
-						+ "	) fl ON(fl.M_Product_ID = il.M_Product_ID AND fl.SalesRep_ID = h.SalesRep_ID "
-						+ "	        AND h.DateInvoiced BETWEEN fl.StartDate AND fl.EndDate) "
+						+ "	) fl ON(fl.M_Product_ID = il.M_Product_ID AND fl.SalesRep_ID = i.SalesRep_ID "
+						+ "	        AND i.DateInvoiced BETWEEN fl.StartDate AND fl.EndDate"
+						+ "			AND h.DateInvoiced BETWEEN fl.StartDate AND fl.EndDate) "
 						+ "WHERE il.M_Product_ID = l.M_Product_ID "
+						+ "AND i.DocStatus IN('CL','CO') "
+						+ "AND i.SalesRep_ID = h.SalesRep_ID "
 						+ "GROUP BY l.M_Product_ID, fl.ForecastQty "
 						+ "HAVING(((SUM(il.QtyInvoiced) / fl.ForecastQty) * 100) >= " + DB.TO_NUMBER(commissionLine.getMinCompliance(), DisplayType.Amount) + ")");
 						//	For Max Compliance
@@ -765,16 +769,20 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 				} else if(commissionLine.getMaxCompliance() != null
 						&& commissionLine.getMaxCompliance().compareTo(Env.ZERO) > 0) {
 					sql.append(" AND EXISTS(SELECT 1 "
-							+ "FROM C_InvoiceLine il "
+							+ "FROM C_Invoice i "
+							+ "INNER JOIN C_InvoiceLine il ON(il.C_Invoice_ID = i.C_Invoice_ID)	"
 							+ "	INNER JOIN (SELECT fl.M_Product_ID, fl.SalesRep_ID, pd.PP_Period_ID, " 
 							+ "	            pd.Name, pd.StartDate, pd.EndDate, SUM(fl.Qty) ForecastQty " 
 							+ "		FROM M_Forecast f "
 							+ "		INNER JOIN M_ForecastLine fl ON(fl.M_Forecast_ID = f.M_Forecast_ID) "
 							+ "		INNER JOIN PP_Period pd ON(pd.PP_Period_ID = fl.PP_Period_ID) "
 							+ "	    GROUP BY fl.M_Product_ID, fl.SalesRep_ID, pd.PP_Period_ID, pd.Name, pd.StartDate, pd.EndDate "
-							+ "	) fl ON(fl.M_Product_ID = il.M_Product_ID AND fl.SalesRep_ID = h.SalesRep_ID "
-							+ "	        AND h.DateInvoiced BETWEEN fl.StartDate AND fl.EndDate) "
+							+ "	) fl ON(fl.M_Product_ID = il.M_Product_ID AND fl.SalesRep_ID = i.SalesRep_ID "
+							+ "	        AND i.DateInvoiced BETWEEN fl.StartDate AND fl.EndDate"
+							+ "			AND h.DateInvoiced BETWEEN fl.StartDate AND fl.EndDate) "
 							+ "WHERE il.M_Product_ID = l.M_Product_ID "
+							+ "AND i.DocStatus IN('CL','CO') "
+							+ "AND i.SalesRep_ID = h.SalesRep_ID "
 							+ "GROUP BY l.M_Product_ID, fl.ForecastQty "
 							+ "HAVING(((SUM(il.QtyInvoiced) / fl.ForecastQty) * 100) <= " + DB.TO_NUMBER(commissionLine.getMaxCompliance(), DisplayType.Amount) + ")"
 							+ ")");
