@@ -1113,7 +1113,8 @@ public class TimeUtil
 			counter++;
 			//	Yamel Senih 2014-09-04, 17:15:35
 			//	Add Break on equals values
-			if(calEnd.get(Calendar.MONTH) == cal.get(Calendar.MONTH))
+			if(calEnd.get(Calendar.MONTH) == cal.get(Calendar.MONTH)
+					&& cal.get(Calendar.YEAR) == calEnd.get(Calendar.YEAR))
 				break;
 			//	End Yamel Senih
 		}
@@ -1195,7 +1196,10 @@ public class TimeUtil
 	{
 		Adempiere.startup(true);
 		Timestamp t1 = getDay(2018, 01, 01);
-		Timestamp t2 = getDay(2018, 01, 31);
+		Timestamp t2 = getDay(2019, 05, 31);
+		System.out.println("(t1 - t2)=" + t1 + " - " + t2);
+		System.out.println("getMonthsBetween(t1, t2)=" + TimeUtil.getMonthsBetween(t1, t2));
+		
 		Timestamp t3 = getDay(03, 03, 03);
 		
 		Timestamp t4 = getDay(01, 01, 01);

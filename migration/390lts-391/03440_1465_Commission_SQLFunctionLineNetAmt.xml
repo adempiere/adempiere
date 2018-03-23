@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Commission functions linenetamtreal" ReleaseNo="3.9.1" SeqNo="3440">
+  <Migration EntityType="D" Name="Commission functions linenetamtreal" ReleaseNo="3.9.0.a" SeqNo="3440">
     <Comments>https://github.com/adempiere/adempiere/issues/1465</Comments>
     <Step DBType="Postgres" Parse="N" SeqNo="10" StepType="SQL">
       <SQLStatement>-- Function: linenetamtrealinvoiceline(numeric)
