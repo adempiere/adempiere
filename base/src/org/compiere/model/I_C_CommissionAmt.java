@@ -41,6 +41,19 @@ public interface I_C_CommissionAmt
 
     /** Load Meta Data */
 
+    /** Column name ActualQty */
+    public static final String COLUMNNAME_ActualQty = "ActualQty";
+
+	/** Set Actual Quantity.
+	  * The actual quantity
+	  */
+	public void setActualQty (BigDecimal ActualQty);
+
+	/** Get Actual Quantity.
+	  * The actual quantity
+	  */
+	public BigDecimal getActualQty();
+
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
 
@@ -61,19 +74,6 @@ public interface I_C_CommissionAmt
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
-
-    /** Column name ActualQty */
-    public static final String COLUMNNAME_ActualQty = "ActualQty";
-
-	/** Set Actual Quantity.
-	  * The actual quantity
-	  */
-	public void setActualQty (BigDecimal ActualQty);
-
-	/** Get Actual Quantity.
-	  * The actual quantity
-	  */
-	public BigDecimal getActualQty();
 
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
@@ -188,18 +188,31 @@ public interface I_C_CommissionAmt
 	  */
 	public boolean isActive();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
+    /** Column name MaxPercentage */
+    public static final String COLUMNNAME_MaxPercentage = "MaxPercentage";
 
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
+	/** Set Maximum Percentage.
+	  * Maximum Percentage of the entire amount
 	  */
-	public void setUUID (String UUID);
+	public void setMaxPercentage (BigDecimal MaxPercentage);
 
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
+	/** Get Maximum Percentage.
+	  * Maximum Percentage of the entire amount
 	  */
-	public String getUUID();
+	public BigDecimal getMaxPercentage();
+
+    /** Column name Percentage */
+    public static final String COLUMNNAME_Percentage = "Percentage";
+
+	/** Set Percentage.
+	  * Percent of the entire amount
+	  */
+	public void setPercentage (BigDecimal Percentage);
+
+	/** Get Percentage.
+	  * Percent of the entire amount
+	  */
+	public BigDecimal getPercentage();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -216,4 +229,17 @@ public interface I_C_CommissionAmt
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 }
