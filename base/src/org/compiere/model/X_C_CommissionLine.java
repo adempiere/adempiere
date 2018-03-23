@@ -528,6 +528,30 @@ public class X_C_CommissionLine extends PO implements I_C_CommissionLine, I_Pers
 		return false;
 	}
 
+	/** Set Percentage From Price.
+		@param IsPercentageFromPrice 
+		Percentage From Price is for calculate % of compliance from price instead quantity
+	  */
+	public void setIsPercentageFromPrice (boolean IsPercentageFromPrice)
+	{
+		set_Value (COLUMNNAME_IsPercentageFromPrice, Boolean.valueOf(IsPercentageFromPrice));
+	}
+
+	/** Get Percentage From Price.
+		@return Percentage From Price is for calculate % of compliance from price instead quantity
+	  */
+	public boolean isPercentageFromPrice () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsPercentageFromPrice);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Positive only.
 		@param IsPositiveOnly 
 		Do not generate negative commissions

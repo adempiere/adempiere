@@ -331,6 +331,19 @@ public interface I_C_CommissionLine
 	  */
 	public boolean isPercentage();
 
+    /** Column name IsPercentageFromPrice */
+    public static final String COLUMNNAME_IsPercentageFromPrice = "IsPercentageFromPrice";
+
+	/** Set Percentage From Price.
+	  * Percentage From Price is for calculate % of compliance from price instead quantity
+	  */
+	public void setIsPercentageFromPrice (boolean IsPercentageFromPrice);
+
+	/** Get Percentage From Price.
+	  * Percentage From Price is for calculate % of compliance from price instead quantity
+	  */
+	public boolean isPercentageFromPrice();
+
     /** Column name IsPositiveOnly */
     public static final String COLUMNNAME_IsPositiveOnly = "IsPositiveOnly";
 
