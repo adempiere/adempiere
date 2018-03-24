@@ -87,7 +87,8 @@ public class MStandardRequestType extends X_R_StandardRequestType {
         Timestamp today = new Timestamp(System.currentTimeMillis());
         List<MRequest> requests = new ArrayList<>();
         List<MStandardRequest> standardRequests = getStandardRequest(true);
-        standardRequests.forEach(standardRequest -> {
+        standardRequests.stream()
+                .forEach(standardRequest -> {
                     MRequest request = new MRequest(entity.getCtx(), 0, entity.get_TrxName());
                     // Set column based current context
                     columns.keySet().stream()
@@ -174,121 +175,5 @@ public class MStandardRequestType extends X_R_StandardRequestType {
                 });
 
         return requests;
-    }
-
-    public boolean isValid(PO entity)
-    {
-        if (isValidFromTo()         // Valid the Effective Date
-        &&  isValidSOTrx(entity , getIsSOTrx())                 // Valid Sales Transaction context
-        &&  isValidWhereCondition(entity, getWhereClause()))    // Valid Where Condition
-            return true;
-        else
-            return false;
-    }
-
-    /**
-     * Validate if Create Request for Document
-     * @param entity
-     * @param documentTypeId
-     * @param documentStatus
-     * @return
-     */
-    public boolean isValidDocument(PO entity , int documentTypeId , String documentStatus)
-    {
-        if (isValid(entity)
-        && getAD_Table_ID() == entity.get_Table_ID()
-        && getC_DocType_ID() == documentTypeId
-        && (getDocStatus() == null || getDocStatus().equals(documentStatus)))
-            return true;
-        else
-            return false;
-    }
-
-
-    /**
-     * Valid IsSOTrx with context
-     * @param entity
-     * @param standardRequestIsSOTrx
-     * @return
-     */
-    private Boolean isValidSOTrx(PO entity , String standardRequestIsSOTrx)
-    {
-        if (standardRequestIsSOTrx == null)
-            return true;
-
-        Boolean isSoTrx;
-        if (entity.get_ColumnIndex("IsSOTrx") > 0)
-            isSoTrx = entity.get_ValueAsBoolean("IsSOTrx");
-        else
-            isSoTrx = Env.isSOTrx(Env.getCtx());
-
-        if (isSoTrx == "Y".equals(standardRequestIsSOTrx))
-            return true;
-        else if (isSoTrx == "N".equals(standardRequestIsSOTrx))
-            return false;
-        else
-            return false;
-
-    }
-
-    /**
-     * Get if range date is valid vs current date
-     * @return
-     */
-    public Boolean isValidFromTo()
-    {
-        Timestamp currentDate = new Timestamp(System.currentTimeMillis());
-
-        if (getValidFrom() != null && currentDate.before(getValidFrom()))
-            return false;
-        if (getValidTo() != null && currentDate.after(getValidTo()))
-            return false;
-        return true;
-    }
-
-    /**
-     * Validate additional condition if it's stablish in the standard request type
-     * @param entity PO object
-     * @param whereClause condition
-     * @return boolean
-     */
-    private boolean isValidWhereCondition(PO entity, String whereClause) {
-
-        if (whereClause == null || whereClause.isEmpty()) return true;
-
-        if (!validateQueryObject(entity, whereClause)) {
-            log.severe("SQL logic evaluated to false ("+whereClause+")");
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * Test condition
-     * @param entity PO object
-     * @param  whereClause  condition
-     * @return boolean
-     */
-    private boolean validateQueryObject(PO entity, String whereClause) {
-
-        String tableName = entity.get_TableName();
-        String[] keyColumns = entity.get_KeyColumns();
-        String whereConditions =  "";
-        if (keyColumns.length != 1) {
-            log.severe("Tables with more then one key column not supported - "
-                    + tableName + " = " + keyColumns.length);
-            return false;
-        }
-        if ((whereClause.indexOf('@') > -1)){
-            whereConditions = Env.parseVariable(whereClause, entity, entity.get_TrxName(), false);
-        }
-
-        PO instance = new Query(entity.getCtx(), tableName,
-                (whereConditions.isEmpty())? whereClause:whereConditions +" AND "+keyColumns[0] + "=" + entity.get_ID(),
-                entity.get_TrxName())
-                .first();
-
-        return instance != null && instance.get_ID() > 0;
-
     }
 }
