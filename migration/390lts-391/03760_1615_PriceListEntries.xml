@@ -1603,11 +1603,11 @@ If you leave the search key empty, the system automatically creates a numeric nu
     </Step>
     <Step SeqNo="1230" StepType="AD">
       <PO AD_Table_ID="53232" Action="I" Record_ID="62875" Table="AD_View_Column">
+        <Data AD_Column_ID="58106" Column="ColumnSQL">p.IsSold</Data>
         <Data AD_Column_ID="58095" Column="IsActive">true</Data>
         <Data AD_Column_ID="58096" Column="Created">2018-03-22 11:49:42.847</Data>
         <Data AD_Column_ID="58097" Column="Updated">2018-03-22 11:49:42.847</Data>
         <Data AD_Column_ID="58104" Column="Help">The Sold check box indicates if this product is sold by this organization.</Data>
-        <Data AD_Column_ID="58106" Column="ColumnSQL">p.IsSold</Data>
         <Data AD_Column_ID="58105" Column="Name">Sold</Data>
         <Data AD_Column_ID="58107" Column="ColumnName">P_IsSold</Data>
         <Data AD_Column_ID="58102" Column="Description">Organization sells this product</Data>
@@ -1683,6 +1683,8 @@ If you leave the search key empty, the system automatically creates a numeric nu
     </Step>
     <Step SeqNo="1290" StepType="AD">
       <PO AD_Table_ID="53232" Action="I" Record_ID="62877" Table="AD_View_Column">
+        <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58095" Column="IsActive">true</Data>
         <Data AD_Column_ID="58096" Column="Created">2018-03-22 11:49:47.595</Data>
         <Data AD_Column_ID="58097" Column="Updated">2018-03-22 11:49:47.595</Data>
@@ -1691,8 +1693,6 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="58105" Column="Name">Units Per Pallet</Data>
         <Data AD_Column_ID="58107" Column="ColumnName">P_UnitsPerPallet</Data>
         <Data AD_Column_ID="58102" Column="Description">Units Per Pallet</Data>
-        <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62877</Data>
         <Data AD_Column_ID="58103" Column="EntityType">C</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
@@ -3085,7 +3085,6 @@ For Multi-Lingual systems, the template is translated based on the Business Part
     </Step>
     <Step SeqNo="2400" StepType="AD">
       <PO AD_Table_ID="53224" Action="I" Record_ID="50120" Table="AD_Browse">
-        <Data AD_Column_ID="58000" Column="WhereClause" isNewNull="true"/>
         <Data AD_Column_ID="58003" Column="IsBetaFunctionality">false</Data>
         <Data AD_Column_ID="85781" Column="AD_Table_ID" isNewNull="true"/>
         <Data AD_Column_ID="85782" Column="IsUpdateable">false</Data>
@@ -3114,6 +3113,7 @@ For Multi-Lingual systems, the template is translated based on the Business Part
         <Data AD_Column_ID="57999" Column="AD_View_ID">50111</Data>
         <Data AD_Column_ID="84294" Column="UUID" isNewNull="true"/>
         <Data AD_Column_ID="58002" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="58000" Column="WhereClause">(pp.M_Pricelist_Version_ID = @M_PriceList_Version_ID@ or pp.m_Pricelist_Version_ID is null)</Data>
       </PO>
     </Step>
     <Step SeqNo="2410" StepType="AD">
@@ -5590,6 +5590,8 @@ If you leave the search key empty, the system automatically creates a numeric nu
     </Step>
     <Step SeqNo="3540" StepType="AD">
       <PO AD_Table_ID="53223" Action="I" Record_ID="60778" Table="AD_Browse_Field">
+        <Data AD_Column_ID="64222" Column="IsOrderBy">false</Data>
+        <Data AD_Column_ID="64355" Column="DefaultValue2" isNewNull="true"/>
         <Data AD_Column_ID="57964" Column="Created">2018-03-22 12:03:20.85</Data>
         <Data AD_Column_ID="57963" Column="IsActive">true</Data>
         <Data AD_Column_ID="57965" Column="Updated">2018-03-22 12:03:20.85</Data>
@@ -5606,8 +5608,6 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="57981" Column="Name">Sold</Data>
         <Data AD_Column_ID="63579" Column="IsReadOnly">true</Data>
         <Data AD_Column_ID="57975" Column="IsCentrallyMaintained">true</Data>
-        <Data AD_Column_ID="64222" Column="IsOrderBy">false</Data>
-        <Data AD_Column_ID="64355" Column="DefaultValue2" isNewNull="true"/>
         <Data AD_Column_ID="64356" Column="DisplayLogic" isNewNull="true"/>
         <Data AD_Column_ID="64358" Column="ReadOnlyLogic" isNewNull="true"/>
         <Data AD_Column_ID="64359" Column="VFormat" isNewNull="true"/>
@@ -6382,6 +6382,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
     </Step>
     <Step SeqNo="3900" StepType="AD">
       <PO AD_Table_ID="53223" Action="I" Record_ID="60790" Table="AD_Browse_Field">
+        <Data AD_Column_ID="64359" Column="VFormat" isNewNull="true"/>
         <Data AD_Column_ID="57964" Column="Created">2018-03-22 12:03:51.44</Data>
         <Data AD_Column_ID="57963" Column="IsActive">true</Data>
         <Data AD_Column_ID="57965" Column="Updated">2018-03-22 12:03:51.44</Data>
@@ -6402,7 +6403,6 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="64355" Column="DefaultValue2" isNewNull="true"/>
         <Data AD_Column_ID="64356" Column="DisplayLogic" isNewNull="true"/>
         <Data AD_Column_ID="64358" Column="ReadOnlyLogic" isNewNull="true"/>
-        <Data AD_Column_ID="64359" Column="VFormat" isNewNull="true"/>
         <Data AD_Column_ID="64360" Column="ValueMax" isNewNull="true"/>
         <Data AD_Column_ID="64361" Column="ValueMin" isNewNull="true"/>
         <Data AD_Column_ID="67114" Column="Callout" isNewNull="true"/>
@@ -6778,6 +6778,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
     </Step>
     <Step SeqNo="4080" StepType="AD">
       <PO AD_Table_ID="53223" Action="I" Record_ID="60796" Table="AD_Browse_Field">
+        <Data AD_Column_ID="64358" Column="ReadOnlyLogic" isNewNull="true"/>
         <Data AD_Column_ID="57964" Column="Created">2018-03-22 12:04:06.766</Data>
         <Data AD_Column_ID="57963" Column="IsActive">true</Data>
         <Data AD_Column_ID="57965" Column="Updated">2018-03-22 12:04:06.766</Data>
@@ -6797,7 +6798,6 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="64222" Column="IsOrderBy">false</Data>
         <Data AD_Column_ID="64355" Column="DefaultValue2" isNewNull="true"/>
         <Data AD_Column_ID="64356" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="64358" Column="ReadOnlyLogic" isNewNull="true"/>
         <Data AD_Column_ID="64359" Column="VFormat" isNewNull="true"/>
         <Data AD_Column_ID="64360" Column="ValueMax" isNewNull="true"/>
         <Data AD_Column_ID="64361" Column="ValueMin" isNewNull="true"/>
@@ -8395,8 +8395,8 @@ For Multi-Lingual systems, the template is translated based on the Business Part
     </Step>
     <Step SeqNo="5360" StepType="AD">
       <PO AD_Table_ID="53223" Action="U" Record_ID="60787" Table="AD_Browse_Field">
-        <Data AD_Column_ID="57976" Column="IsDisplayed" oldValue="false">true</Data>
         <Data AD_Column_ID="57982" Column="SeqNo" oldValue="56">50</Data>
+        <Data AD_Column_ID="57976" Column="IsDisplayed" oldValue="false">true</Data>
       </PO>
     </Step>
     <Step SeqNo="5370" StepType="AD">
@@ -8407,8 +8407,8 @@ For Multi-Lingual systems, the template is translated based on the Business Part
     </Step>
     <Step SeqNo="5380" StepType="AD">
       <PO AD_Table_ID="53223" Action="U" Record_ID="60777" Table="AD_Browse_Field">
-        <Data AD_Column_ID="57982" Column="SeqNo" oldValue="46">70</Data>
         <Data AD_Column_ID="57976" Column="IsDisplayed" oldValue="false">true</Data>
+        <Data AD_Column_ID="57982" Column="SeqNo" oldValue="46">70</Data>
       </PO>
     </Step>
     <Step SeqNo="5400" StepType="AD">
@@ -10868,8 +10868,8 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="7060" StepType="AD">
       <PO AD_Table_ID="53223" Action="I" Record_ID="60833" Table="AD_Browse_Field">
-        <Data AD_Column_ID="57964" Column="Created">2018-03-22 15:11:17.853</Data>
         <Data AD_Column_ID="57963" Column="IsActive">true</Data>
+        <Data AD_Column_ID="57964" Column="Created">2018-03-22 15:11:17.853</Data>
         <Data AD_Column_ID="57965" Column="Updated">2018-03-22 15:11:17.853</Data>
         <Data AD_Column_ID="57980" Column="IsRange">false</Data>
         <Data AD_Column_ID="57979" Column="IsQueryCriteria">false</Data>
@@ -11660,8 +11660,8 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="7420" StepType="AD">
       <PO AD_Table_ID="53223" Action="I" Record_ID="60845" Table="AD_Browse_Field">
-        <Data AD_Column_ID="57964" Column="Created">2018-03-22 15:11:41.828</Data>
         <Data AD_Column_ID="57963" Column="IsActive">true</Data>
+        <Data AD_Column_ID="57964" Column="Created">2018-03-22 15:11:41.828</Data>
         <Data AD_Column_ID="57965" Column="Updated">2018-03-22 15:11:41.828</Data>
         <Data AD_Column_ID="57980" Column="IsRange">false</Data>
         <Data AD_Column_ID="57979" Column="IsQueryCriteria">false</Data>
@@ -11991,7 +11991,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="551" Column="Updated">2018-03-22 15:29:07.895</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="111" Column="Name">Create lines from</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
         <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
@@ -12033,6 +12032,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="226" Column="AD_Reference_ID">28</Data>
         <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="84306" Column="UUID" isNewNull="true"/>
+        <Data AD_Column_ID="111" Column="Name">Generate Prices</Data>
       </PO>
     </Step>
     <Step SeqNo="7620" StepType="AD">
@@ -12041,7 +12041,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="12959" Column="IsActive">true</Data>
         <Data AD_Column_ID="12952" Column="Updated">2018-03-22 15:29:09.048</Data>
         <Data AD_Column_ID="12954" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="12957" Column="Name">Create lines from</Data>
         <Data AD_Column_ID="12961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="12951" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="12958" Column="UpdatedBy">100</Data>
@@ -12049,6 +12048,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="12953" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="12955" Column="AD_Column_ID">87574</Data>
         <Data AD_Column_ID="84310" Column="UUID" isNewNull="true"/>
+        <Data AD_Column_ID="12957" Column="Name">Generate Prices</Data>
       </PO>
     </Step>
     <Step SeqNo="7640" StepType="AD">
@@ -12063,7 +12063,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="185" Column="IsFieldOnly">false</Data>
         <Data AD_Column_ID="182" Column="SortNo" isNewNull="true"/>
         <Data AD_Column_ID="2745" Column="IsCentrallyMaintained">true</Data>
-        <Data AD_Column_ID="168" Column="Name">Create lines from</Data>
         <Data AD_Column_ID="2007" Column="IsReadOnly">false</Data>
         <Data AD_Column_ID="170" Column="Help">The Create From process will create a new document based on information in an existing document selected by the user.</Data>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -12093,6 +12092,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="172" Column="AD_Tab_ID">238</Data>
         <Data AD_Column_ID="54357" Column="AD_Val_Rule_ID" isNewNull="true"/>
         <Data AD_Column_ID="84320" Column="UUID" isNewNull="true"/>
+        <Data AD_Column_ID="168" Column="Name">Generate Prices</Data>
       </PO>
     </Step>
     <Step SeqNo="7650" StepType="AD">
@@ -12102,7 +12102,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="672" Column="Created">2018-03-22 15:29:44.841</Data>
         <Data AD_Column_ID="289" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="287" Column="Description">Process which will generate a new document lines based on an existing document</Data>
-        <Data AD_Column_ID="286" Column="Name">Create lines from</Data>
         <Data AD_Column_ID="288" Column="Help">The Create From process will create a new document based on information in an existing document selected by the user.</Data>
         <Data AD_Column_ID="1205" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="1204" Column="AD_Client_ID">0</Data>
@@ -12111,6 +12110,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="675" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="285" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="84323" Column="UUID" isNewNull="true"/>
+        <Data AD_Column_ID="286" Column="Name">Generate Prices</Data>
       </PO>
     </Step>
     <Step SeqNo="7670" StepType="AD">
@@ -12424,6 +12424,7 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="7980" StepType="AD">
       <PO AD_Table_ID="53232" Action="I" Record_ID="62949" Table="AD_View_Column">
+        <Data AD_Column_ID="58102" Column="Description">Lowest price for a product</Data>
         <Data AD_Column_ID="58095" Column="IsActive">true</Data>
         <Data AD_Column_ID="58096" Column="Created">2018-03-22 15:46:25.779</Data>
         <Data AD_Column_ID="58097" Column="Updated">2018-03-22 15:46:25.779</Data>
@@ -12431,7 +12432,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58106" Column="ColumnSQL">pp.PriceLimit</Data>
         <Data AD_Column_ID="58105" Column="Name">Limit Price</Data>
         <Data AD_Column_ID="58107" Column="ColumnName">PP_PriceLimit</Data>
-        <Data AD_Column_ID="58102" Column="Description">Lowest price for a product</Data>
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62949</Data>
@@ -13384,6 +13384,7 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="8520" StepType="AD">
       <PO AD_Table_ID="53223" Action="I" Record_ID="60858" Table="AD_Browse_Field">
+        <Data AD_Column_ID="64360" Column="ValueMax" isNewNull="true"/>
         <Data AD_Column_ID="57964" Column="Created">2018-03-22 15:47:13.562</Data>
         <Data AD_Column_ID="57963" Column="IsActive">true</Data>
         <Data AD_Column_ID="57965" Column="Updated">2018-03-22 15:47:13.562</Data>
@@ -13405,7 +13406,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="64356" Column="DisplayLogic" isNewNull="true"/>
         <Data AD_Column_ID="64358" Column="ReadOnlyLogic" isNewNull="true"/>
         <Data AD_Column_ID="64359" Column="VFormat" isNewNull="true"/>
-        <Data AD_Column_ID="64360" Column="ValueMax" isNewNull="true"/>
         <Data AD_Column_ID="64361" Column="ValueMin" isNewNull="true"/>
         <Data AD_Column_ID="67114" Column="Callout" isNewNull="true"/>
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
@@ -13853,14 +13853,14 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="9050" StepType="AD">
       <PO AD_Table_ID="53223" Action="U" Record_ID="60854" Table="AD_Browse_Field">
-        <Data AD_Column_ID="57982" Column="SeqNo" oldValue="15">40</Data>
         <Data AD_Column_ID="57976" Column="IsDisplayed" oldValue="false">true</Data>
+        <Data AD_Column_ID="57982" Column="SeqNo" oldValue="15">40</Data>
       </PO>
     </Step>
     <Step SeqNo="9060" StepType="AD">
       <PO AD_Table_ID="53223" Action="U" Record_ID="60852" Table="AD_Browse_Field">
-        <Data AD_Column_ID="57976" Column="IsDisplayed" oldValue="false">true</Data>
         <Data AD_Column_ID="57982" Column="SeqNo" oldValue="13">50</Data>
+        <Data AD_Column_ID="57976" Column="IsDisplayed" oldValue="false">true</Data>
       </PO>
     </Step>
     <Step SeqNo="9070" StepType="AD">
@@ -13918,6 +13918,11 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="9170" StepType="AD">
       <PO AD_Table_ID="53224" Action="U" Record_ID="50120" Table="AD_Browse">
         <Data AD_Column_ID="58002" Column="AD_Process_ID" isOldNull="true">54060</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="9180" StepType="AD">
+      <PO AD_Table_ID="53224" Action="U" Record_ID="50120" Table="AD_Browse">
+        <Data AD_Column_ID="58000" Column="WhereClause" oldValue="(pp.M_Pricelist_Version_ID = @M_PriceList_Version_ID@ or pp.m_Pricelist_Version_ID)">(pp.M_Pricelist_Version_ID = @M_PriceList_Version_ID@ or pp.m_Pricelist_Version_ID is null)</Data>
       </PO>
     </Step>
   </Migration>
