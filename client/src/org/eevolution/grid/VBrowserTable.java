@@ -34,6 +34,7 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 
 import org.adempiere.model.I_AD_Browse_Field;
+import org.adempiere.model.MBrowse;
 import org.adempiere.model.MBrowseField;
 import org.adempiere.model.MViewColumn;
 import org.compiere.grid.ed.VCellRenderer;
@@ -661,7 +662,10 @@ public class VBrowserTable extends CTable implements IBrowserTable {
      */
     @Override
     protected void sort(final int modelColumnIndex) {
-      super.sort(modelColumnIndex);
+        MBrowse browse = new MBrowse(Env.getCtx(),this.browser.getAD_Browse_ID(), null);
+
+        if (browse.get_ValueAsBoolean("IsAllowSort"))
+            super.sort(modelColumnIndex);
     }   //  sort
 
     /**
