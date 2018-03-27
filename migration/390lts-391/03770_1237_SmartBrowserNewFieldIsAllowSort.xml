@@ -3,11 +3,7 @@
   <Migration EntityType="D" Name="SmartBrowserNewFieldIsAllowSort" ReleaseNo="" SeqNo="3770">
     <Comments>#1237 Smart Browser: Editable fields are not saved correctly in ordered tables 
 https://github.com/adempiere/adempiere/issues/1237</Comments>
-    <Step SeqNo="10" StepType="AD">
-      <PO AD_Table_ID="50009" Action="U" Record_ID="50001" Table="AD_SysConfig">
-        <Data AD_Column_ID="50196" Column="Value" oldValue="globalqss">scalderon</Data>
-      </PO>
-    </Step>
+
     <Step SeqNo="20" StepType="AD">
       <PO AD_Table_ID="276" Action="I" Record_ID="59932" Table="AD_Element">
         <Data AD_Column_ID="2603" Column="Name">Allow Sort</Data>
