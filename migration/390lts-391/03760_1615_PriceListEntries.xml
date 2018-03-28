@@ -38,7 +38,7 @@ New Smartbrowser in Pricelist Version to edit and generate  entries in Product P
         <Data AD_Column_ID="6652" Column="Statistic_Count">0</Data>
         <Data AD_Column_ID="84383" Column="UUID" isNewNull="true"/>
         <Data AD_Column_ID="2801" Column="AD_Process_ID">54060</Data>
-        <Data AD_Column_ID="6485" Column="EntityType">A</Data>
+        <Data AD_Column_ID="6485" Column="EntityType">D</Data>
       </PO>
     </Step>
     <Step SeqNo="20" StepType="AD">
@@ -67,7 +67,7 @@ New Smartbrowser in Pricelist Version to edit and generate  entries in Product P
         <Data AD_Column_ID="58078" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="64855" Column="CopyFrom">N</Data>
         <Data AD_Column_ID="58073" Column="AD_View_ID">50111</Data>
-        <Data AD_Column_ID="58077" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58077" Column="EntityType">D</Data>
         <Data AD_Column_ID="58067" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58066" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58071" Column="CreatedBy">100</Data>
@@ -128,7 +128,7 @@ New Smartbrowser in Pricelist Version to edit and generate  entries in Product P
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62838</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50312</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -168,7 +168,7 @@ New Smartbrowser in Pricelist Version to edit and generate  entries in Product P
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62839</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50312</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -211,7 +211,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62840</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50312</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -251,7 +251,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62841</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50312</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -291,7 +291,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62842</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50312</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -331,7 +331,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62843</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50312</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -371,7 +371,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62844</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50312</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -411,7 +411,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62845</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50312</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -451,7 +451,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62846</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50312</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -491,7 +491,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62847</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50312</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -531,7 +531,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62848</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50312</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -571,7 +571,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62849</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50312</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -611,7 +611,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62850</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50312</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -651,7 +651,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62851</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50312</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -691,7 +691,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62852</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50312</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -731,7 +731,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62853</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50312</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -771,7 +771,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62854</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50312</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -811,7 +811,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62855</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50312</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -851,7 +851,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62856</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50312</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -891,7 +891,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62857</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50312</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -931,7 +931,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62858</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50312</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -971,7 +971,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62859</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50312</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -1011,7 +1011,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62860</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50312</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -1051,7 +1051,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62861</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50312</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -1091,7 +1091,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62862</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50312</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -1131,7 +1131,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62863</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50312</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -1173,7 +1173,7 @@ This allows finer granularity of the Delivery Rule Manual.</Data>
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62864</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50312</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -1213,7 +1213,7 @@ This allows finer granularity of the Delivery Rule Manual.</Data>
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62865</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50312</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -1253,7 +1253,7 @@ This allows finer granularity of the Delivery Rule Manual.</Data>
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62866</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50312</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -1293,7 +1293,7 @@ This allows finer granularity of the Delivery Rule Manual.</Data>
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62867</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50312</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -1333,7 +1333,7 @@ This allows finer granularity of the Delivery Rule Manual.</Data>
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62868</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50312</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -1373,7 +1373,7 @@ This allows finer granularity of the Delivery Rule Manual.</Data>
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62869</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50312</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -1413,7 +1413,7 @@ This allows finer granularity of the Delivery Rule Manual.</Data>
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62870</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50312</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -1453,7 +1453,7 @@ This allows finer granularity of the Delivery Rule Manual.</Data>
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62871</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50312</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -1493,7 +1493,7 @@ This allows finer granularity of the Delivery Rule Manual.</Data>
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62872</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50312</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -1533,7 +1533,7 @@ This allows finer granularity of the Delivery Rule Manual.</Data>
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62873</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50312</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -1574,7 +1574,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62874</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50312</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -1614,7 +1614,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62875</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50312</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -1654,7 +1654,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62876</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50312</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -1694,7 +1694,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="58107" Column="ColumnName">P_UnitsPerPallet</Data>
         <Data AD_Column_ID="58102" Column="Description">Units Per Pallet</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62877</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50312</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -1734,7 +1734,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62878</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50312</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -1774,7 +1774,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62879</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50312</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -1814,7 +1814,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62880</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50312</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -1854,7 +1854,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62881</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50312</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -1894,7 +1894,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62882</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50312</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -1934,7 +1934,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62883</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50312</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -1974,7 +1974,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62884</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50312</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -2014,7 +2014,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62885</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50312</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -2054,7 +2054,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62886</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50312</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -2094,7 +2094,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62887</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50312</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -2134,7 +2134,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62888</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50312</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -2174,7 +2174,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62889</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50312</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -2214,7 +2214,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62890</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50312</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -2254,7 +2254,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62891</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50312</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -2294,7 +2294,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62892</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50312</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -2334,7 +2334,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62893</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50312</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -2374,7 +2374,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62894</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50312</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -2414,7 +2414,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62895</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50312</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -2454,7 +2454,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62896</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50312</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -2496,7 +2496,7 @@ For Multi-Lingual systems, the template is translated based on the Business Part
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62897</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50312</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -2536,7 +2536,7 @@ For Multi-Lingual systems, the template is translated based on the Business Part
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62898</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50312</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -2576,7 +2576,7 @@ For Multi-Lingual systems, the template is translated based on the Business Part
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62899</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50312</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -2616,7 +2616,7 @@ For Multi-Lingual systems, the template is translated based on the Business Part
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62900</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50312</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -2656,7 +2656,7 @@ For Multi-Lingual systems, the template is translated based on the Business Part
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62901</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50312</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -2696,7 +2696,7 @@ For Multi-Lingual systems, the template is translated based on the Business Part
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62902</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50312</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -2736,7 +2736,7 @@ For Multi-Lingual systems, the template is translated based on the Business Part
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62903</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50312</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -2776,7 +2776,7 @@ For Multi-Lingual systems, the template is translated based on the Business Part
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62904</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50312</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -2816,7 +2816,7 @@ For Multi-Lingual systems, the template is translated based on the Business Part
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62905</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50312</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -2856,7 +2856,7 @@ For Multi-Lingual systems, the template is translated based on the Business Part
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62906</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50312</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -2896,7 +2896,7 @@ For Multi-Lingual systems, the template is translated based on the Business Part
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62907</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50312</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -2936,7 +2936,7 @@ For Multi-Lingual systems, the template is translated based on the Business Part
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62908</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50312</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -2976,7 +2976,7 @@ For Multi-Lingual systems, the template is translated based on the Business Part
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62909</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50312</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -3016,7 +3016,7 @@ For Multi-Lingual systems, the template is translated based on the Business Part
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62910</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50312</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -3056,7 +3056,7 @@ For Multi-Lingual systems, the template is translated based on the Business Part
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62911</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50312</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -3105,7 +3105,7 @@ For Multi-Lingual systems, the template is translated based on the Business Part
         <Data AD_Column_ID="58110" Column="AccessLevel">3</Data>
         <Data AD_Column_ID="57986" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57993" Column="AD_Browse_ID">50120</Data>
-        <Data AD_Column_ID="57995" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57995" Column="EntityType">D</Data>
         <Data AD_Column_ID="57987" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="57991" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="57992" Column="UpdatedBy">100</Data>
@@ -3163,7 +3163,7 @@ For Multi-Lingual systems, the template is translated based on the Business Part
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60741</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">10</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -3229,7 +3229,7 @@ For Multi-Lingual systems, the template is translated based on the Business Part
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60742</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">11</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -3298,7 +3298,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60743</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">12</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -3367,7 +3367,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60744</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">13</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -3433,7 +3433,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60745</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">14</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -3499,7 +3499,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60746</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">15</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -3565,7 +3565,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60747</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">16</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -3631,7 +3631,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60748</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">17</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -3697,7 +3697,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60749</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">18</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -3763,7 +3763,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60750</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">19</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -3829,7 +3829,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60751</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">20</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -3895,7 +3895,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60752</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">21</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -3961,7 +3961,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60753</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">22</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -4027,7 +4027,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60754</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">23</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -4093,7 +4093,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60755</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">24</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -4159,7 +4159,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60756</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">25</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -4225,7 +4225,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60757</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">26</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -4291,7 +4291,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60758</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">27</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -4357,7 +4357,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60759</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">28</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -4423,7 +4423,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60760</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">29</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -4489,7 +4489,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60761</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">30</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -4555,7 +4555,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60762</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">31</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -4621,7 +4621,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60763</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">32</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -4687,7 +4687,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60764</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">33</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -4753,7 +4753,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60765</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">34</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID">270</Data>
@@ -4819,7 +4819,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60766</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">35</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -4887,7 +4887,7 @@ This allows finer granularity of the Delivery Rule Manual.</Data>
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60767</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">36</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -4956,7 +4956,7 @@ This allows finer granularity of the Delivery Rule Manual.</Data>
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60768</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">37</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -5021,7 +5021,7 @@ This allows finer granularity of the Delivery Rule Manual.</Data>
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60769</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">38</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -5087,7 +5087,7 @@ This allows finer granularity of the Delivery Rule Manual.</Data>
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60770</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">39</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -5153,7 +5153,7 @@ This allows finer granularity of the Delivery Rule Manual.</Data>
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60771</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">40</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -5219,7 +5219,7 @@ This allows finer granularity of the Delivery Rule Manual.</Data>
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60772</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">41</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -5285,7 +5285,7 @@ This allows finer granularity of the Delivery Rule Manual.</Data>
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60773</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">42</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -5351,7 +5351,7 @@ This allows finer granularity of the Delivery Rule Manual.</Data>
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60774</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">43</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -5417,7 +5417,7 @@ This allows finer granularity of the Delivery Rule Manual.</Data>
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60775</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">44</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -5483,7 +5483,7 @@ This allows finer granularity of the Delivery Rule Manual.</Data>
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60776</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">45</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -5550,7 +5550,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60777</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">46</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -5617,7 +5617,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60778</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">47</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -5683,7 +5683,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60779</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">48</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -5749,7 +5749,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60780</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">49</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -5815,7 +5815,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60781</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">50</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -5881,7 +5881,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60782</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">51</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -5947,7 +5947,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60783</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">52</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -6013,7 +6013,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60784</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">53</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -6079,7 +6079,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60785</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">54</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -6145,7 +6145,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60786</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">55</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -6211,7 +6211,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60787</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">56</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -6277,7 +6277,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60788</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">57</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -6343,7 +6343,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60789</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">58</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -6409,7 +6409,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60790</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">59</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -6475,7 +6475,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60791</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">60</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -6541,7 +6541,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60792</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">61</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID">110</Data>
@@ -6607,7 +6607,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60793</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">62</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID">110</Data>
@@ -6673,7 +6673,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60794</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">63</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID">190</Data>
@@ -6739,7 +6739,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60795</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">64</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -6805,7 +6805,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60796</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">65</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -6871,7 +6871,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60797</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">66</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -6937,7 +6937,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60798</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">67</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -7003,7 +7003,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60799</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">68</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -7071,7 +7071,7 @@ For Multi-Lingual systems, the template is translated based on the Business Part
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60800</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">69</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -7139,7 +7139,7 @@ For Multi-Lingual systems, the template is translated based on the Business Part
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60801</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">70</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -7205,7 +7205,7 @@ For Multi-Lingual systems, the template is translated based on the Business Part
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60802</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">71</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -7271,7 +7271,7 @@ For Multi-Lingual systems, the template is translated based on the Business Part
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60803</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">72</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -7337,7 +7337,7 @@ For Multi-Lingual systems, the template is translated based on the Business Part
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60804</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">73</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID">163</Data>
@@ -7403,7 +7403,7 @@ For Multi-Lingual systems, the template is translated based on the Business Part
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60805</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">74</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -7469,7 +7469,7 @@ For Multi-Lingual systems, the template is translated based on the Business Part
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60806</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">75</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -7535,7 +7535,7 @@ For Multi-Lingual systems, the template is translated based on the Business Part
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60807</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">76</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -7601,7 +7601,7 @@ For Multi-Lingual systems, the template is translated based on the Business Part
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60808</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">77</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -7667,7 +7667,7 @@ For Multi-Lingual systems, the template is translated based on the Business Part
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60809</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">78</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -7733,7 +7733,7 @@ For Multi-Lingual systems, the template is translated based on the Business Part
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60810</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">79</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -7799,7 +7799,7 @@ For Multi-Lingual systems, the template is translated based on the Business Part
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60811</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">80</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -7865,7 +7865,7 @@ For Multi-Lingual systems, the template is translated based on the Business Part
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60812</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">81</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -7931,7 +7931,7 @@ For Multi-Lingual systems, the template is translated based on the Business Part
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60813</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">82</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -7997,7 +7997,7 @@ For Multi-Lingual systems, the template is translated based on the Business Part
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60814</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">83</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -8499,7 +8499,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62913</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50313</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -8539,7 +8539,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62914</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50313</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -8579,7 +8579,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62915</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50313</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -8619,7 +8619,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62916</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50313</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -8659,7 +8659,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62917</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50313</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -8699,7 +8699,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62918</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50313</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -8739,7 +8739,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62919</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50313</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -8779,7 +8779,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62920</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50313</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -8819,7 +8819,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62921</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50313</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -8859,7 +8859,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62922</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50313</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -8899,7 +8899,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62923</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50313</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -8939,7 +8939,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62924</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50313</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -8979,7 +8979,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62925</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50313</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -9019,7 +9019,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62926</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50313</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -9059,7 +9059,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62927</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50313</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -9099,7 +9099,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62928</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50313</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -9139,7 +9139,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62929</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50313</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -9179,7 +9179,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62930</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50313</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -9219,7 +9219,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62931</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50313</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -9259,7 +9259,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62932</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50313</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -9299,7 +9299,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62933</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50313</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -9339,7 +9339,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62934</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50313</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -9379,7 +9379,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62935</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50313</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -9419,7 +9419,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62936</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50313</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -9459,7 +9459,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62937</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50313</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -9499,7 +9499,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62938</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50313</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -9539,7 +9539,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62939</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50313</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -9579,7 +9579,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62940</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50313</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -9619,7 +9619,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62941</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50313</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -9659,7 +9659,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62942</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50313</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -9699,7 +9699,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62943</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50313</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -9739,7 +9739,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62944</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50313</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -9836,7 +9836,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60817</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">10</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -9906,7 +9906,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60818</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">11</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -9971,7 +9971,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60819</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">12</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -10037,7 +10037,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60820</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">13</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -10103,7 +10103,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60821</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">14</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -10169,7 +10169,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60822</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">15</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -10235,7 +10235,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60823</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">16</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -10301,7 +10301,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60824</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">17</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -10367,7 +10367,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60825</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">18</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -10433,7 +10433,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60826</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">19</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -10499,7 +10499,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60827</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">20</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -10565,7 +10565,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60828</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">21</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -10631,7 +10631,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60829</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">22</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -10697,7 +10697,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60830</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">23</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -10763,7 +10763,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60831</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">24</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -10829,7 +10829,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60832</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">25</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -10895,7 +10895,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60833</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">26</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -10961,7 +10961,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60834</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">27</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -11027,7 +11027,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60835</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">28</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -11093,7 +11093,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60836</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">29</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -11159,7 +11159,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60837</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">30</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -11225,7 +11225,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60838</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">31</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID">110</Data>
@@ -11291,7 +11291,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60839</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">32</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -11357,7 +11357,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60840</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">33</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -11423,7 +11423,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60841</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">34</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -11489,7 +11489,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60842</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">35</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID">110</Data>
@@ -11555,7 +11555,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60843</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">36</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -11621,7 +11621,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60844</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">37</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -11687,7 +11687,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60845</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">38</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -11753,7 +11753,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60846</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">39</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -11819,7 +11819,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60847</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">40</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -11885,7 +11885,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60848</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">41</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -11932,7 +11932,7 @@ There are two reasons for de-activating and not deleting records:
       <PO AD_Table_ID="284" Action="I" Record_ID="54061" Table="AD_Process">
         <Data AD_Column_ID="63488" Column="AD_Browse_ID">50120</Data>
         <Data AD_Column_ID="4374" Column="AD_ReportView_ID" isNewNull="true"/>
-        <Data AD_Column_ID="6485" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6485" Column="EntityType">D</Data>
         <Data AD_Column_ID="2810" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="2805" Column="Created">2018-03-22 15:28:46.887</Data>
         <Data AD_Column_ID="2807" Column="Updated">2018-03-22 15:28:46.887</Data>
@@ -12018,7 +12018,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="127" Column="SeqNo">0</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">87574</Data>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
@@ -12080,7 +12080,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="384" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="383" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="167" Column="AD_Field_ID">86270</Data>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="181" Column="SeqNo">0</Data>
@@ -12272,7 +12272,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62945</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50314</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -12315,7 +12315,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62946</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50314</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -12355,7 +12355,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62947</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50314</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -12395,7 +12395,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62948</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50314</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -12435,7 +12435,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62949</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50314</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -12475,7 +12475,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62950</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50314</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -12515,7 +12515,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62951</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50314</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -12555,7 +12555,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62952</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50314</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -12595,7 +12595,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62953</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50314</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -12635,7 +12635,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62954</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50314</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -12675,7 +12675,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62955</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50314</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -12715,7 +12715,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62956</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50314</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -12755,7 +12755,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">62957</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">C</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50314</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50111</Data>
@@ -12811,7 +12811,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60849</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">10</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -12880,7 +12880,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60850</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">11</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -12954,7 +12954,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60851</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">12</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -13015,7 +13015,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60852</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">13</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -13081,7 +13081,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60853</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">14</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -13147,7 +13147,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60854</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">15</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -13213,7 +13213,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60855</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">16</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -13279,7 +13279,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60856</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">17</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -13345,7 +13345,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60857</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">18</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -13411,7 +13411,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60858</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">19</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID">110</Data>
@@ -13477,7 +13477,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60859</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">20</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -13543,7 +13543,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60860</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">21</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID">110</Data>
@@ -13609,7 +13609,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">C</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">60861</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">22</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
