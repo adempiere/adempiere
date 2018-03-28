@@ -16,10 +16,10 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.util.logging.Level;
-
 import org.compiere.model.MRequest;
 import org.compiere.util.AdempiereUserError;
+
+import java.util.logging.Level;
 
 
 /**
@@ -58,7 +58,7 @@ public class RequestReOpen extends SvrProcess
 	 */
 	protected String doIt () throws Exception
 	{
-		MRequest request = new MRequest (getCtx(), p_R_Request_ID, get_TrxName());
+		MRequest request = new MRequest(getCtx(), p_R_Request_ID, get_TrxName());
 		log.info(request.toString());
 		if (request.get_ID() == 0)
 			throw new AdempiereUserError("@NotFound@ @R_Request_ID@ " + p_R_Request_ID);

@@ -16,10 +16,10 @@
  *****************************************************************************/
 package org.compiere.model;
 
+import org.compiere.util.CCache;
+
 import java.sql.ResultSet;
 import java.util.Properties;
-
-import org.compiere.util.CCache;
 
 /**
  * 	Request Category Model
@@ -46,14 +46,14 @@ public class MRequestCategory extends X_R_Category
 		MRequestCategory retValue = (MRequestCategory) s_cache.get (key);
 		if (retValue != null)
 			return retValue;
-		retValue = new MRequestCategory (ctx, R_Category_ID, null);
+		retValue = new MRequestCategory(ctx, R_Category_ID, null);
 		if (retValue.get_ID () != 0)
 			s_cache.put (key, retValue);
 		return retValue;
 	} //	get
 
 	/**	Cache						*/
-	private static CCache<Integer,MRequestCategory>	s_cache	
+	private static CCache<Integer,MRequestCategory> s_cache
 		= new CCache<Integer,MRequestCategory>("R_Category", 20);
 	
 	

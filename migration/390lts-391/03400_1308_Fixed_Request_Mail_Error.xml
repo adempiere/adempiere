@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Unable To send test mail #1308" ReleaseNo="3.9.1" SeqNo="3400">
+  <Migration EntityType="D" Name="Unable To send test mail #1308" ReleaseNo="3.9.0.a" SeqNo="3400">
     <Comments>See: https://github.com/adempiere/adempiere/issues/1308</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="285" Action="U" Record_ID="50006" Table="AD_Process_Para">

@@ -120,6 +120,21 @@ public interface I_C_DocType
 
 	public org.compiere.model.I_C_DocType getC_DocTypeInvoice() throws RuntimeException;
 
+    /** Column name C_DocTypePayment_ID */
+    public static final String COLUMNNAME_C_DocTypePayment_ID = "C_DocTypePayment_ID";
+
+	/** Set Document Type for Payment.
+	  * Document type used for Payments generated from this Pay Selection document
+	  */
+	public void setC_DocTypePayment_ID (int C_DocTypePayment_ID);
+
+	/** Get Document Type for Payment.
+	  * Document type used for Payments generated from this Pay Selection document
+	  */
+	public int getC_DocTypePayment_ID();
+
+	public org.compiere.model.I_C_DocType getC_DocTypePayment() throws RuntimeException;
+
     /** Column name C_DocTypeProforma_ID */
     public static final String COLUMNNAME_C_DocTypeProforma_ID = "C_DocTypeProforma_ID";
 
@@ -445,19 +460,6 @@ public interface I_C_DocType
 	  * Prepare generated split shipment/receipt document
 	  */
 	public boolean isPrepareSplitDocument();
-
-    /** Column name IsReversedWithOriginalAcct */
-    public static final String COLUMNNAME_IsReversedWithOriginalAcct = "IsReversedWithOriginalAcct";
-
-	/** Set Is Reversed with original Accounting.
-	  * Is Reversed with original Accounting
-	  */
-	public void setIsReversedWithOriginalAcct (boolean IsReversedWithOriginalAcct);
-
-	/** Get Is Reversed with original Accounting.
-	  * Is Reversed with original Accounting
-	  */
-	public boolean isReversedWithOriginalAcct();
 
     /** Column name IsShipConfirm */
     public static final String COLUMNNAME_IsShipConfirm = "IsShipConfirm";

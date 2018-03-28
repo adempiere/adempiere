@@ -18,7 +18,8 @@ package org.eevolution.test
 
 import org.compiere.model._
 import org.eevolution.services.ProductService
-import org.scalatest.{GivenWhenThen, FeatureSpec}
+import org.scalatest.{FeatureSpec, GivenWhenThen}
+
 
 /**
   * Test to validate process of  Sales in POS

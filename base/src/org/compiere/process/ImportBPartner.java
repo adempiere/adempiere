@@ -99,7 +99,7 @@ implements ImportProcess
 	 *  @return Message
 	 *  @throws Exception
 	 */
-	protected String doIt() throws java.lang.Exception
+	protected String doIt() throws Exception
 	{
 		StringBuilder sql = null;
 		int no = 0;
@@ -257,7 +257,8 @@ implements ImportProcess
 		sql = new StringBuilder ("UPDATE I_BPartner i "
 				+ "SET C_BPartner_ID="
 				+ "(SELECT C_BPartner_ID FROM AD_User u "
-				+ "WHERE i.EMail=u.EMail AND u.AD_Client_ID=i.AD_Client_ID) "
+				+ "WHERE i.EMail=u.EMail AND u.AD_Client_ID=i.AD_Client_ID "
+				+ "AND EXISTS (SELECT 1 FROM C_BPartner bp WHERE pb.C_BPartner_ID = u.C_BPartner_ID AND bp.Value = i.Value)) "
 				+ "WHERE i.EMail IS NOT NULL AND I_IsImported='N'").append(clientCheck);
 		no = DB.executeUpdateEx(sql.toString(), get_TrxName());
 		log.fine("Found EMail User=" + no);
