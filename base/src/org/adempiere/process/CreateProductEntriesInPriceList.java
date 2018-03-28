@@ -21,6 +21,7 @@ import org.compiere.model.MProductPrice;
 import org.compiere.util.Env;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 
 /** Generated Process for (CreateProductEntriesInPriceList)
  *  @author Systemhaus Westfalia
@@ -38,9 +39,10 @@ public class CreateProductEntriesInPriceList extends CreateProductEntriesInPrice
 	protected String doIt() throws Exception
 	{
 			getSelectionKeys().stream().forEach( key -> {
-				MProductPrice productPrice = MProductPrice.get(getCtx(), getRecord_ID(), key, get_TrxName());
-				if (productPrice == null)
-					productPrice = new MProductPrice(getCtx(), getRecord_ID(), key, get_TrxName());
+				Optional<MProductPrice> productPriceOptional =
+						Optional.ofNullable(MProductPrice.get(getCtx(), getRecord_ID(), key, get_TrxName()) );
+				MProductPrice productPrice = productPriceOptional
+						.orElse(new MProductPrice(getCtx(), getRecord_ID(), key, get_TrxName()));
 				productPrice.setAD_Org_ID(productPrice.getM_PriceList_Version().getAD_Org_ID());
 				BigDecimal priceList = getSelectionAsBigDecimal(key, "PP_PriceList");
 				BigDecimal priceStd = getSelectionAsBigDecimal(key, "PP_PriceStd");
