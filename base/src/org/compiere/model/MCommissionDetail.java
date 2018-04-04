@@ -157,6 +157,7 @@ public class MCommissionDetail extends X_C_CommissionDetail
 		}
 		//	Validate Max Percentage
 		if(parent.getMaxPercentage() != null
+				&& !parent.getMaxPercentage().equals(Env.ZERO)
 				&& parent.getPercentage() != null
 				&& parent.getPercentage().compareTo(parent.getMaxPercentage()) > 0) {
 			//	Go to Forecast
