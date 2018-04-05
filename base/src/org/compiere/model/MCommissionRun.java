@@ -283,6 +283,7 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 	 */
 	private void deleteMovements() {
 		// RE-Process, delete old movements
+		m_comissionLog = new StringBuffer();
 		m_comissionLog.append("<br>" + "----Delete old Commission calculations: start");
 		int no = DB.executeUpdateEx("DELETE FROM C_CommissionAmt c "
 				+ "WHERE C_CommissionRun_ID = ?", new Object[]{getC_CommissionRun_ID()}, get_TrxName());
