@@ -18,7 +18,8 @@
 package org.adempiere.process;
 
 import org.compiere.model.*;
-import org.compiere.print.ReportCtl;
+import org.compiere.print.ReportEngine;
+import org.compiere.util.Env;
 
 /** Generated Process for (Invoice Complete And Pay)
  *  @author ADempiere (generated) 
@@ -68,8 +69,10 @@ public class InvoiceCompleteAndPay extends InvoiceCompleteAndPayAbstract
 		payment.saveEx();
 		if (isPrinted()){
 			commitEx();
-			ReportCtl.startCheckPrint(payment.getC_Payment_ID(),isDirectPrint());
-
+			MPaySelectionCheck paySelectionCheck = MPaySelectionCheck.createForPayment(Env.getCtx(), payment.getC_Payment_ID(), get_TrxName());
+			ReportEngine reportEngine = ReportEngine.get(getCtx(), ReportEngine.CHECK, paySelectionCheck.getC_PaySelectionCheck_ID(),
+					get_TrxName());
+			reportEngine.print();
 		}
 
 		return "";
