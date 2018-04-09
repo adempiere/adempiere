@@ -30,7 +30,7 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20180312L;
+	private static final long serialVersionUID = 20180409L;
 
     /** Standard Constructor */
     public X_C_DocType (Properties ctx, int C_DocType_ID, String trxName)
@@ -843,6 +843,30 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 	public boolean isPrepareSplitDocument () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsPrepareSplitDocument);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Is Reversed with original Accounting.
+		@param IsReversedWithOriginalAcct 
+		Is Reversed with original Accounting
+	  */
+	public void setIsReversedWithOriginalAcct (boolean IsReversedWithOriginalAcct)
+	{
+		set_Value (COLUMNNAME_IsReversedWithOriginalAcct, Boolean.valueOf(IsReversedWithOriginalAcct));
+	}
+
+	/** Get Is Reversed with original Accounting.
+		@return Is Reversed with original Accounting
+	  */
+	public boolean isReversedWithOriginalAcct () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsReversedWithOriginalAcct);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 
