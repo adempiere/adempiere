@@ -175,6 +175,15 @@ public class OrderPOCreate extends SvrProcess
 	private int createPOFromSO (MOrder so) throws Exception
 	{
 		log.info(so.toString());
+		
+		// see https://github.com/adempiere/adempiere/issues/1649
+		if(DocAction.STATUS_InProgress.equals(so.getDocStatus()) || DocAction.STATUS_Completed.equals(so.getDocStatus())) {
+			// OK - continue 
+		} else {
+			log.warning("DocStatus is " + so.getDocStatus());
+			return 0;
+		}
+		
 		MOrderLine[] soLines = so.getLines(true, null);
 		if (soLines == null || soLines.length == 0)
 		{
