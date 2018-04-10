@@ -20,14 +20,20 @@ import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Level;
 
 import org.compiere.model.MBPartner;
 import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.MOrgInfo;
+import org.compiere.model.MProduct;
+import org.compiere.model.MStorage;
 import org.compiere.util.AdempiereUserError;
 import org.compiere.util.DB;
+import org.eevolution.model.MPPProductBOM;
+import org.eevolution.model.MPPProductBOMLine;
 
 /**
  *	Generate PO from Sales Order
@@ -53,6 +59,36 @@ public class OrderPOCreate extends SvrProcess
 	/** Drop Ship			*/
 	private boolean		p_IsDropShip = false;
 	
+	private int m_explosion_level = 0;
+	private Set<MPPProductBOMLine> bomSet = new HashSet<MPPProductBOMLine>(); 
+	private int explosion(MPPProductBOM bom) throws AdempiereUserError {
+		if(bom == null) return 0;
+		
+		MPPProductBOMLine[] bom_lines = bom.getLines(new Timestamp(System.currentTimeMillis()));
+		for(MPPProductBOMLine bomline : bom_lines) {
+			MProduct component = MProduct.get(getCtx(), bomline.getM_Product_ID());
+
+			if(component.isBOM() && !component.isStocked()) { // recursion for intermediate products
+				explosion(MPPProductBOM.getDefault(component, this.get_TrxName()));
+			} 
+			else if(MProduct.PRODUCTTYPE_Item.equals(component.getProductType()) ||
+					MProduct.PRODUCTTYPE_Service.equals(component.getProductType())
+					) { // nicht BOM 
+				log.config("m_explosion_level="+m_explosion_level + " components="+bomSet.size() 
+						+ " "+component.getProductType() + " component="+component
+						+ (component.isStocked()   ? " isStocked"   : " notStocked")
+						+ (component.isPurchased() ? " isPurchased" : " notPurchased")
+						+ " bomline.getQty()="+bomline.getQty()
+						);
+				bomSet.add(bomline);  
+			} else {
+				throw new AdempiereUserError("PRODUCTTYPE="+component.getProductType());
+			}			
+		}
+		
+		return bomSet.size();
+	}
+
 	/**
 	 *  Prepare - e.g., get Parameters.
 	 */
@@ -225,23 +261,75 @@ public class OrderPOCreate extends SvrProcess
 				int M_Product_ID = rs.getInt(2);
 				for (int i = 0; i < soLines.length; i++)
 				{
-					if (soLines[i].getM_Product_ID() == M_Product_ID)
-					{
-						MOrderLine poLine = new MOrderLine (po);
-						poLine.setLink_OrderLine_ID(soLines[i].getC_OrderLine_ID());
-						poLine.setM_Product_ID(soLines[i].getM_Product_ID());
-						poLine.setC_Charge_ID(soLines[i].getC_Charge_ID());
-						poLine.setM_AttributeSetInstance_ID(soLines[i].getM_AttributeSetInstance_ID());
-						poLine.setC_UOM_ID(soLines[i].getC_UOM_ID());
-						poLine.setQtyEntered(soLines[i].getQtyEntered());
-						poLine.setQtyOrdered(soLines[i].getQtyOrdered());
-						poLine.setDescription(soLines[i].getDescription());
-						poLine.setDatePromised(soLines[i].getDatePromised());
-						poLine.setPrice();
-						poLine.saveEx();
+					if (soLines[i].getM_Product_ID() == M_Product_ID) {
 						
-						soLines[i].setLink_OrderLine_ID(poLine.getC_OrderLine_ID());
-						soLines[i].saveEx();
+						// see https://github.com/adempiere/adempiere/issues/1649
+						boolean purchaseProduct = true;
+						MProduct mProduct = soLines[i].getProduct();
+						log.config("so OrderLine="+soLines[i] + " mProduct="+mProduct
+								+ (mProduct.isStocked()   ? " isStocked"   : " notStocked")
+								+ (mProduct.isPurchased() ? " isPurchased" : " notPurchased")
+								+ (mProduct.isBOM()       ? " isBOM"       : " notBOM")
+								+ (mProduct.isVerified()  ? " isVerified"  : " notVerified")
+								);
+						if(!mProduct.isPurchased()) { // the product cannot be purchased
+							log.warning("cannot be purchased " + mProduct);
+							purchaseProduct = false;
+						}
+						
+						if(purchaseProduct && mProduct.isStocked()) { // check whether the product is onHand
+							MStorage[] mStorages = MStorage.getOfProduct(getCtx(), M_Product_ID, get_TrxName());
+							for(int s = 0; s < mStorages.length; s++) {
+								log.config("mStorage="+mStorages[s]);
+								if(mStorages[s].getQtyOnHand().compareTo(soLines[i].getQtyOrdered()) > -1 ) {
+									log.warning(mProduct.toString() + " is onHand, will not be purchased");
+									purchaseProduct = false;
+								}
+							}
+						}
+
+						MPPProductBOM bom = null;
+						if(purchaseProduct && mProduct.isBOM()) { // this is a BOM product, must be verified!
+							if(mProduct.isVerified()) {
+								// Get BOM with Default Logic (Product = BOM Product and BOM Value = Product Value)
+								bom = MPPProductBOM.getDefault(mProduct, this.get_TrxName());
+								log.config("bom="+bom);
+								
+								// private members m_explosion_level , bomSet used in explosion method
+								m_explosion_level = 0;
+								bomSet = new HashSet<MPPProductBOMLine>(); 
+								if(explosion(bom)>0) {
+									// TODO purchase component and prepare BOM production
+									log.warning(mProduct.toString() + " is BOM product, will not be purchased (not implemented)");
+									purchaseProduct = false;
+								} else {
+									throw new AdempiereUserError("No BOM Lines. Check BOM definition for "+mProduct);
+								}
+
+							} else {
+								// rs , pstmt will be closed at finally
+								throw new AdempiereUserError("BOM not verified for "+mProduct+" - use verify Button to fix the problem");
+							}
+						}
+						
+						if(purchaseProduct) {
+							MOrderLine poLine = new MOrderLine (po);
+							poLine.setLink_OrderLine_ID(soLines[i].getC_OrderLine_ID());
+							poLine.setM_Product_ID(soLines[i].getM_Product_ID());
+							poLine.setC_Charge_ID(soLines[i].getC_Charge_ID());
+							poLine.setM_AttributeSetInstance_ID(soLines[i].getM_AttributeSetInstance_ID());
+							poLine.setC_UOM_ID(soLines[i].getC_UOM_ID());
+							poLine.setQtyEntered(soLines[i].getQtyEntered());
+							poLine.setQtyOrdered(soLines[i].getQtyOrdered());
+							poLine.setDescription(soLines[i].getDescription());
+							poLine.setDatePromised(soLines[i].getDatePromised());
+							poLine.setPrice();
+							poLine.saveEx();
+							
+							soLines[i].setLink_OrderLine_ID(poLine.getC_OrderLine_ID());
+							soLines[i].saveEx();
+						}
+						
 					}
 				}
 			}
@@ -278,6 +366,7 @@ public class OrderPOCreate extends SvrProcess
 		po.setIsSOTrx(false);
 		po.setC_DocTypeTarget_ID();
 		//
+		po.setC_OrderSource_ID(so.getC_OrderSource_ID());
 		po.setDescription(so.getDescription());
 		po.setPOReference(so.getDocumentNo());
 		po.setPriorityRule(so.getPriorityRule());
