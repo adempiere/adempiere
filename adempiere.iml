@@ -206,11 +206,7 @@
       <sourceFolder url="file://$MODULE_DIR$/org.adempiere.pos/src/main/java/base" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/org.adempiere.pos/src/main/java/ui/swing" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/org.adempiere.pos/src/main/java/ui/zk" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/org.adempiere.request/main/java" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/org.adempiere.project/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/org.adempiere.request/src/main/java" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/org.adempiere.project/src/main/java" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/org.adempiere.crm/src/main/java" isTestSource="false" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="inheritedJdk" />
@@ -987,78 +983,6 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
-      <library name="aspectjlib.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/posterita/reference/aspectJ/aspectjlib.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="aspectjtools.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/posterita/reference/aspectJ/aspectjtools.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="aspectjweaver.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/posterita/reference/aspectJ/aspectjweaver.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="struts.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/posterita/posterita/web/WEB-INF/lib/struts.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="aop.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/posterita/posterita/web/WEB-INF/lib/aop.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="aspectjrt.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/posterita/posterita/web/WEB-INF/lib/aspectjrt.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="barcode4j.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/posterita/posterita/web/WEB-INF/lib/barcode4j.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="commons-validator.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/posterita/posterita/web/WEB-INF/lib/commons-validator.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
       <library name="spiffy-with_source-all-0.05.jar">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/tools/lib/testing/spiffy-with_source-all-0.05.jar!/" />
@@ -1104,15 +1028,6 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
-      <library name="displaytag-1.1.1.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/posterita/posterita/web/WEB-INF/lib/displaytag-1.1.1.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
       <library name="zweb.jar">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/zkwebui/WEB-INF/lib/zweb.jar!/" />
@@ -1125,33 +1040,6 @@
       <library name="zkplus-sources.jar">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/zkwebui/WEB-INF/lib/zkplus-sources.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="displaytag-export-poi-1.1.1.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/posterita/posterita/web/WEB-INF/lib/displaytag-export-poi-1.1.1.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="log4j-1.2.13.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/posterita/posterita/web/WEB-INF/lib/log4j-1.2.13.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="servlet.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/posterita/posterita/web/WEB-INF/lib/servlet.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -1420,8 +1308,5 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="scala-sdk-2.12.3" level="application" />
-    <orderEntry type="library" name="customization" level="project" />
-    <orderEntry type="library" name="org.scalatest:scalatest_2.12:3.0.2" level="project" />
   </component>
 </module>

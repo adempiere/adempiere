@@ -16,17 +16,17 @@
  *****************************************************************************/
 package org.compiere.model;
 
+import org.compiere.util.CCache;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
-
-import org.compiere.util.CCache;
-import org.compiere.util.CLogger;
-import org.compiere.util.DB;
-import org.compiere.util.Env;
 
 /**
  *	Request Type Model
@@ -56,7 +56,7 @@ public class MRequestType extends X_R_RequestType
 		MRequestType retValue = (MRequestType)s_cache.get(key);
 		if (retValue == null)
 		{
-			retValue = new MRequestType (ctx, R_RequestType_ID, null);
+			retValue = new MRequestType(ctx, R_RequestType_ID, null);
 			s_cache.put(key, retValue);
 		}
 		return retValue;
@@ -256,7 +256,7 @@ public class MRequestType extends X_R_RequestType
 			pstmt.setInt (1, getR_RequestType_ID());
 			ResultSet rs = pstmt.executeQuery ();
 			while (rs.next ())
-				list.add (new MRequest (getCtx(), rs, null));
+				list.add (new MRequest(getCtx(), rs, null));
 			rs.close ();
 			pstmt.close ();
 			pstmt = null;
@@ -349,7 +349,7 @@ public class MRequestType extends X_R_RequestType
 	 *	@param role role
 	 *	@return sql for performance indicator
 	 */
-	public String getSqlPI (MGoalRestriction[] restrictions, 
+	public String getSqlPI (MGoalRestriction[] restrictions,
 		String MeasureScope, String MeasureDataType, Timestamp reportDate, MRole role)
 	{
 		String dateColumn = "Created";
@@ -384,7 +384,7 @@ public class MRequestType extends X_R_RequestType
 				.append(DB.TO_DATE(reportDate)).append(",'").append(trunc).append("')");
 		}	//	date
 		//
-		String sql = MMeasureCalc.addRestrictions(sb.toString(), false, restrictions, role, 
+		String sql = MMeasureCalc.addRestrictions(sb.toString(), false, restrictions, role,
 			"R_Request", orgColumn, bpColumn, pColumn);
 		
 		log.fine(sql);
@@ -400,7 +400,7 @@ public class MRequestType extends X_R_RequestType
 	 *	@param role role
 	 *	@return sql for Bar Chart
 	 */
-	public String getSqlBarChart (MGoalRestriction[] restrictions, 
+	public String getSqlBarChart (MGoalRestriction[] restrictions,
 		String MeasureDisplay, String MeasureDataType, 
 		Timestamp startDate, MRole role)
 	{
@@ -452,7 +452,7 @@ public class MRequestType extends X_R_RequestType
 				.append(">=").append(dateString);
 		}	//	date
 		//
-		String sql = MMeasureCalc.addRestrictions(sb.toString(), false, restrictions, role, 
+		String sql = MMeasureCalc.addRestrictions(sb.toString(), false, restrictions, role,
 			"R_Request", orgColumn, bpColumn, pColumn);
 		if (groupBy != null)
 			sql += " GROUP BY " + groupBy + " ORDER BY " + orderBy;
@@ -470,8 +470,8 @@ public class MRequestType extends X_R_RequestType
 	 * 	@param role role
 	 *	@return query
 	 */
-	public MQuery getQuery(MGoalRestriction[] restrictions, 
-		String MeasureDisplay, Timestamp date, int R_Status_ID, MRole role)
+	public MQuery getQuery(MGoalRestriction[] restrictions,
+                           String MeasureDisplay, Timestamp date, int R_Status_ID, MRole role)
 	{
 		String dateColumn = "Created";
 		String orgColumn = "AD_Org_ID";
