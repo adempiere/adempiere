@@ -16,6 +16,12 @@
  *****************************************************************************/
 package org.compiere.process;
 
+import org.compiere.model.*;
+import org.compiere.util.DB;
+import org.compiere.util.EMail;
+import org.compiere.util.Util;
+
+import javax.mail.*;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,24 +29,6 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Enumeration;
 import java.util.logging.Level;
-
-import javax.mail.Address;
-import javax.mail.Flags;
-import javax.mail.Folder;
-import javax.mail.Header;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Multipart;
-import javax.mail.Part;
-
-import org.compiere.model.MAttachment;
-import org.compiere.model.MClient;
-import org.compiere.model.MEMailConfig;
-import org.compiere.model.MRequest;
-import org.compiere.model.MUser;
-import org.compiere.util.DB;
-import org.compiere.util.EMail;
-import org.compiere.util.Util;
 
 /**
  *	Request Email Processor
@@ -176,7 +164,7 @@ public class RequestEMailProcessor extends RequestEMailProcessorAbstract {
 	 *	@param msg message
 	 * @return 
 	 *	@return Type of Message
-	 * @throws MessagingException 
+	 * @throws MessagingException
 	 */
 	private boolean createRequest(Message msg) throws MessagingException, SQLException {
 		// Assign from variable
@@ -216,7 +204,7 @@ public class RequestEMailProcessor extends RequestEMailProcessorAbstract {
 			 + "where AD_Client_ID = ? "
 			 + "AND DocumentNo = ? "
 			 + "AND StartDate = ?";
-		retValuedup = DB.getSQLValue(get_TrxName(), sqldup, 
+		retValuedup = DB.getSQLValue(get_TrxName(), sqldup,
 				getAD_Client_ID(), 
 				documentNo, 
 				new Timestamp(msg.getSentDate().getTime()));
@@ -246,7 +234,7 @@ public class RequestEMailProcessor extends RequestEMailProcessorAbstract {
 			 + "                   || SUBSTR (?, 5) "
 			 + "           ) "
 			 + "       ) ";
-		request_upd = DB.getSQLValue(get_TrxName(), sqlupd, 
+		request_upd = DB.getSQLValue(get_TrxName(), sqlupd,
 				getAD_Client_ID(), 
 				fromAddress, 
 				msg.getSubject(), 
@@ -334,7 +322,7 @@ public class RequestEMailProcessor extends RequestEMailProcessorAbstract {
 						String disposition = part.getDisposition();
 
 						if ((disposition != null) && 
-								((disposition.equals(Part.ATTACHMENT) || 
+								((disposition.equals(Part.ATTACHMENT) ||
 										(disposition.equals(Part.INLINE))))) {
 
 							MAttachment attach = request.createAttachment();

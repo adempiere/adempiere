@@ -16,6 +16,10 @@
  *****************************************************************************/
 package org.compiere.model;
 
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Msg;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
@@ -23,17 +27,13 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
 
-import org.compiere.util.CLogger;
-import org.compiere.util.DB;
-import org.compiere.util.Msg;
-
 /**
  *	Request Processor Model
  *	
  *  @author Jorg Janke
  *  @version $Id: MRequestProcessor.java,v 1.2 2006/07/30 00:51:02 jjanke Exp $
  */
-public class MRequestProcessor extends X_R_RequestProcessor 
+public class MRequestProcessor extends X_R_RequestProcessor
 	implements AdempiereProcessor
 {
 	/**
@@ -57,7 +57,7 @@ public class MRequestProcessor extends X_R_RequestProcessor
 			pstmt = DB.prepareStatement (sql, null);
 			ResultSet rs = pstmt.executeQuery ();
 			while (rs.next ())
-				list.add (new MRequestProcessor (ctx, rs, null));
+				list.add (new MRequestProcessor(ctx, rs, null));
 			rs.close ();
 			pstmt.close ();
 			pstmt = null;
@@ -82,7 +82,7 @@ public class MRequestProcessor extends X_R_RequestProcessor
 	}	//	getActive
 	
 	/**	Static Logger	*/
-	private static CLogger	s_log	= CLogger.getCLogger (MRequestProcessor.class);
+	private static CLogger s_log	= CLogger.getCLogger (MRequestProcessor.class);
 
 	
 	/**************************************************************************
@@ -153,7 +153,7 @@ public class MRequestProcessor extends X_R_RequestProcessor
 			pstmt.setInt (1, getR_RequestProcessor_ID());
 			ResultSet rs = pstmt.executeQuery ();
 			while (rs.next ())
-				list.add (new MRequestProcessorRoute (getCtx(), rs, get_TrxName()));
+				list.add (new MRequestProcessorRoute(getCtx(), rs, get_TrxName()));
 			rs.close ();
 			pstmt.close ();
 			pstmt = null;
@@ -196,7 +196,7 @@ public class MRequestProcessor extends X_R_RequestProcessor
 			pstmt.setInt (1, getR_RequestProcessor_ID());
 			ResultSet rs = pstmt.executeQuery ();
 			while (rs.next ())
-				list.add (new MRequestProcessorLog (getCtx(), rs, get_TrxName()));
+				list.add (new MRequestProcessorLog(getCtx(), rs, get_TrxName()));
 			rs.close ();
 			pstmt.close ();
 			pstmt = null;
