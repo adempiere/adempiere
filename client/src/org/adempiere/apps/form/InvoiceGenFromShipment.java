@@ -208,9 +208,20 @@ public class InvoiceGenFromShipment extends GenForm {
         
         if (docTypeKNPair.getKey() == MInOut.Table_ID) {
         	AD_Process_ID = 53345;  // HARDCODED- AD_Process.Value=C_Invoice_Generate_from_Shipment; class=org.adempiere.process.InvoiceGenerateFromShipment
+/* params:       	
+o DateInvoiced
+m AD_Org_ID
+o M_InOut_ID
+o C_BPartner_ID
+m DocAction
+o ConsolidateDocument
+o AD_OrgTrx_ID
+o IsAddInvoiceReferenceLine
+ */
         } else {
 //        	AD_Process_ID = 52002; // AD_Process.Value=C_Invoice_GenerateRMA (Manual); class=org.adempiere.process.InvoiceGenerateRMA
         }
+        log.config("AD_Process_ID:"+AD_Process_ID + " m_AD_Org_ID:"+m_AD_Org_ID);
 		MPInstance instance = new MPInstance(Env.getCtx(), AD_Process_ID, 0);
 		if (!instance.save()) {
 			info = Msg.getMsg(Env.getCtx(), "ProcessNoInstance");
@@ -274,6 +285,32 @@ public class InvoiceGenFromShipment extends GenForm {
 			info = msg;
 			log.log(Level.SEVERE, msg);
 			return info;
+		}
+		
+		if(m_AD_Org_ID==null) {
+			// ??? TODO 
+		} else { // damit werden aber Re für alle DB erstellt! wenn kein m_C_BPartner_ID
+			para = new MPInstancePara(instance, 30);
+			para.setParameter("AD_Org_ID", (Integer)m_AD_Org_ID); // eigentlich int 
+			if (!para.save()) {
+				String msg = "No AD_Org_ID Parameter added";  //  not translated
+				info = msg;
+				log.log(Level.SEVERE, msg);
+				return info;
+			}
+		}
+		
+		if(m_C_BPartner_ID==null) {
+			// ??? TODO 
+		} else { 
+			para = new MPInstancePara(instance, 40);
+			para.setParameter("C_BPartner_ID", (Integer)m_C_BPartner_ID); // eigentlich int 
+			if (!para.save()) {
+				String msg = "No C_BPartner_ID Parameter added";  //  not translated
+				info = msg;
+				log.log(Level.SEVERE, msg);
+				return info;
+			}
 		}
 		
 		setTrx(trx);

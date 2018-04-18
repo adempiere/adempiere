@@ -64,6 +64,7 @@ public class InvoiceGenerateFromShipment extends InvoiceGenerateFromShipmentAbst
 	 *  Prepare - e.g., get Parameters.
 	 */
 	protected void prepare() {
+		log.config("");
 		super.prepare();
 		//	Login Date
 		if(getDateInvoiced() == null) {
@@ -78,6 +79,9 @@ public class InvoiceGenerateFromShipment extends InvoiceGenerateFromShipmentAbst
 		} else if(!DocAction.ACTION_Complete.equals(getDocAction())) {
 			setDocAction(DocAction.ACTION_Prepare);
 		}
+		log.config("DocAction:"+this.getDocAction()
+			+ " OrgId:"+this.getOrgId()
+		);
 	}
 
 	/**
