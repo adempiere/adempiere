@@ -125,6 +125,7 @@ public class VInvoiceGenFromShipment extends InvoiceGenFromShipment implements F
 	 *	Fill Picks.
 	 *		Column_ID from C_Order
 	 *  @throws Exception if Lookups cannot be initialized
+	 *  
 	 */
 	public void dynInit() throws Exception {
 		MLookup orgL = MLookupFactory.get (Env.getCtx(), m_WindowNo, 0, 2163, DisplayType.TableDir);
@@ -153,6 +154,22 @@ public class VInvoiceGenFromShipment extends InvoiceGenFromShipment implements F
         cmbDocType.addActionListener(this);
         
         panel.getStatusBar().setStatusLine(Msg.getMsg(Env.getCtx(), "InvGenerateSel"));//@@
+/*
+		// set default from ctx @@@EUG 
+		fWarehouse.set_oldValue();
+		fWarehouse.setValue(Env.getCtx().get("#M_Warehouse_ID"));
+//		fWarehouse.notifyAll(); // fWarehouse wird nicht angezeigt
+//		fWarehouse.notify();
+//		fWarehouse.refresh();
+//		validate(); // fWarehouse wird nicht angezeigt - dieses zeigt sofort die Kandidaten:
+		// wie in vetoableChange(PropertyChangeEvent e):
+		setM_Warehouse_ID(fWarehouse.getValue());
+		executeQuery();
+ */
+        fOrg.set_oldValue();
+        fOrg.setValue(Env.getCtx().get("#AD_Org_ID"));
+        m_AD_Org_ID = fOrg.getValue();
+        executeQuery();
 	}
 	
 	public void executeQuery() {
@@ -186,6 +203,7 @@ public class VInvoiceGenFromShipment extends InvoiceGenFromShipment implements F
 	/**
 	 *	Vetoable Change Listener - requery
 	 *  @param e event
+	 *  
 	 */
 	public void vetoableChange(PropertyChangeEvent e) {
 		log.info(e.getPropertyName() + "=" + e.getNewValue());
