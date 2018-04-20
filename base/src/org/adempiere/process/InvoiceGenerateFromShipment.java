@@ -87,6 +87,8 @@ public class InvoiceGenerateFromShipment extends SvrProcess {
 	
 	/**
 	 *  Prepare - e.g., get Parameters.
+	 *  <br/>
+	 *  implemets abstract SvrProcess.prepare()
 	 */
 	protected void prepare() {
 		log.config("");
@@ -116,6 +118,8 @@ public class InvoiceGenerateFromShipment extends SvrProcess {
 	 * 	Generate Invoices from Shipments
 	 *	@return info
 	 *	@throws Exception
+	 *  <br/>
+	 *  implemets abstract SvrProcess.prepare()
 	 */
 	protected String doIt () throws Exception {
 		log.info("Selection=" + p_Selection + ", DateInvoiced=" + p_DateInvoiced
