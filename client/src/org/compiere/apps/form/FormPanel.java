@@ -16,6 +16,9 @@
  *****************************************************************************/
 package org.compiere.apps.form;
 
+import org.compiere.model.MSysConfig;
+import org.compiere.util.Env;
+
 /**
  *	Form Panel Interface.
  *	for communicating between FormFrame and JPanel
@@ -35,5 +38,17 @@ public interface FormPanel
 	 * 	Dispose - Free Resources
 	 */
 	public void dispose();
+	
+	static String SYSCONFIG_INFO_AUTO_QUERY = "INFO_AUTO_QUERY";
+	
+	/**
+	 * get SYSCONFIG_INFO_AUTO_QUERY value as boolean
+	 * @return true if SYSCONFIG_INFO_AUTO_QUERY=="Y" or null
+	 */
+	default boolean autoQuery() {
+		return MSysConfig.getValue(SYSCONFIG_INFO_AUTO_QUERY,"Y",Env.getAD_Client_ID(Env.getCtx())).equals("Y");
+	}
+	
+
 
 }	//	FormPanel
