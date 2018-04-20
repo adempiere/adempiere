@@ -270,16 +270,6 @@
 	<classpathentry exported="true" kind="lib" path="tools/lib/junit.jar"/>
 	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/zweb.jar"/>
 	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/zkplus-sources.jar"/>
-	<!--classpathentry exported="true" kind="lib" path="packages/HumanResourceAndPayroll.jar" sourcepath="/adempiereLiberoHR">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
-		</attributes>
-	</classpathentry-->
-	<!--classpathentry exported="true" kind="lib" path="packages/ManufacturingManagement.jar" sourcepath="/adempiereLibero">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
-		</attributes>
-	</classpathentry-->
 	<classpathentry exported="true" kind="lib" path="tools/lib/iText-2.1.7.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
@@ -336,7 +326,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="tools/lib/OpenForecast-0.5.0.jar"/>
-	<!--classpathentry kind="lib" path="packages/WarehouseManagement.jar"/-->
 	<classpathentry kind="lib" path="tools/lib/commons-io.jar"/>
 	<classpathentry kind="lib" path="tools/lib/ooxml-schemas-1.3.jar">
 		<attributes>
@@ -360,5 +349,16 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/SBT: org.scalatest:scalatest_2.11:2.2.4:jar"/>
 	<classpathentry kind="lib" path="tools/lib/mariadb-java-client.jar"/>
 	<classpathentry kind="lib" path="tools/lib/slf4j-api-1.6.0.jar"/>
+	<classpathentry kind="lib" path="/tools/lib/icepdf-core-6.2.2.jar"/>
+	<classpathentry kind="lib" path="/tools/lib/icepdf-viewer-6.2.2.jar"/>
+	<classpathentry kind="lib" path="/tools/lib/javax.inject-1.jar"/>
+	<classpathentry kind="lib" path="/tools/lib/harness-1.0.0.jar"/>
+	<classpathentry kind="lib" path="/tools/lib/io-7.1.1.jar"/>
+	<classpathentry kind="lib" path="/tools/lib/itext-carriage-0.8.0.jar"/>
+	<classpathentry kind="lib" path="/tools/lib/itext-pdfa-5.5.2.jar"/>
+	<classpathentry kind="lib" path="/tools/lib/itextpdf-5.5.2.jar"/>
+	<classpathentry kind="lib" path="/tools/lib/kernel-7.1.1.jar"/>
+	<classpathentry kind="lib" path="/tools/lib/layout-7.1.1.jar"/>
+	<classpathentry kind="lib" path="/tools/lib/pdfa-7.1.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
