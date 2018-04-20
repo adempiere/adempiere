@@ -40,6 +40,8 @@ import org.compiere.util.Trx;
 /**
  * "Generate Invoices from Shipments (manual)" - controller class
  * 
+ *	@see <a href="https://github.com/adempiere/adempiere/issues/1657"> 
+ * 		  bug in swing client "Generate Invoices from Shipments (manual)"</a>
  */
 public class InvoiceGenFromShipment extends GenForm {
 	/**	Logger			*/
@@ -57,24 +59,18 @@ public class InvoiceGenFromShipment extends GenForm {
 	public void configureMiniTable(IMiniTable miniTable) {
 		//  create Columns
 		miniTable.addColumn("M_InOut_ID");
-//		miniTable.addColumn("QtyToInvoice"); // @Trifon
 		miniTable.addColumn("DocumentNo");
 		miniTable.addColumn("C_BPartner_ID");
 		miniTable.addColumn("DateDelivered"); // @Trifon old:DateOrdered
-//		miniTable.addColumn("AD_Org_ID");     // @Trifon
-//		miniTable.addColumn("C_DocType_ID");  // @Trifon
 		miniTable.addColumn("Description");   // @Trifon
 		//
 		miniTable.setMultiSelection(true);
 		//  set details
 		int i = 0;
 		miniTable.setColumnClass(i++, IDColumn.class, false, " ");
-//		miniTable.setColumnClass(i++, BigDecimal.class, true, Msg.translate(Env.getCtx(), "QtyToInvoice")); // @Trifon
 		miniTable.setColumnClass(i++, String.class, true, Msg.translate(Env.getCtx(), "DocumentNo"));
 		miniTable.setColumnClass(i++, String.class, true, Msg.translate(Env.getCtx(), "C_BPartner_ID"));
 		miniTable.setColumnClass(i++, Timestamp.class, true, Msg.translate(Env.getCtx(), "DateDelivered")); // @trifon
-//		miniTable.setColumnClass(i++, String.class, true, Msg.translate(Env.getCtx(), "AD_Org_ID"));        // @Trifon
-//		miniTable.setColumnClass(i++, String.class, true, Msg.translate(Env.getCtx(), "C_DocType_ID"));     // @Trifon
 		miniTable.setColumnClass(i++, String.class, true, Msg.translate(Env.getCtx(), "Description"));     // @Trifon
 		//
 		miniTable.autoSize();
@@ -124,8 +120,6 @@ public class InvoiceGenFromShipment extends GenForm {
         
         if (docTypeKNPair.getKey() == MInOut.Table_ID) { //@Trifon old: MOrder.Table_ID
             sql = getInOutSQL();
-        } else {
-//            sql = getRMASql();
         }
 
 		//  reset table
@@ -145,12 +139,9 @@ public class InvoiceGenFromShipment extends GenForm {
 				int i = 0;
 				//  set values
 				miniTable.setValueAt(new IDColumn(rs.getInt(1)), row, i++);   //  M_InOut_ID @Trifon
-//				miniTable.setValueAt(rs.getBigDecimal(7), row, i++);          //  TotalQty @Trifon
 				miniTable.setValueAt(rs.getString(4), row, i++);              //  Doc No
 				miniTable.setValueAt(rs.getString(5), row, i++);              //  BPartner
 				miniTable.setValueAt(rs.getTimestamp(6), row, i++);           //  MovementDate @Trifon
-//				miniTable.setValueAt(rs.getString(2), row, i++);              //  Org
-//				miniTable.setValueAt(rs.getString(3), row, i++);              //  DocType
 				miniTable.setValueAt(rs.getString(8), row, i++);              //  Description
 				//  prepare next
 				row++;
@@ -160,9 +151,8 @@ public class InvoiceGenFromShipment extends GenForm {
 		} finally {
 			DB.close(rs, pstmt);
 		}
-		//
+
 		miniTable.autoSize();
-		//statusBar.setStatusDB(String.valueOf(miniTable.getRowCount()));
 	}
 	
 	/**
@@ -207,7 +197,8 @@ public class InvoiceGenFromShipment extends GenForm {
 		int AD_Process_ID = 0;
         
         if (docTypeKNPair.getKey() == MInOut.Table_ID) {
-        	AD_Process_ID = 53345;  // HARDCODED- AD_Process.Value=C_Invoice_Generate_from_Shipment; class=org.adempiere.process.InvoiceGenerateFromShipment
+        	AD_Process_ID = 53345;  
+        	// HARDCODED- AD_Process.Value=C_Invoice_Generate_from_Shipment; class=org.adempiere.process.InvoiceGenerateFromShipment
 /* params:       	
 o DateInvoiced
 m AD_Org_ID
@@ -218,10 +209,8 @@ o ConsolidateDocument
 o AD_OrgTrx_ID
 o IsAddInvoiceReferenceLine
  */
-        } else {
-//        	AD_Process_ID = 52002; // AD_Process.Value=C_Invoice_GenerateRMA (Manual); class=org.adempiere.process.InvoiceGenerateRMA
+
         }
-        log.config("AD_Process_ID:"+AD_Process_ID + " m_AD_Org_ID:"+m_AD_Org_ID);
 		MPInstance instance = new MPInstance(Env.getCtx(), AD_Process_ID, 0);
 		if (!instance.save()) {
 			info = Msg.getMsg(Env.getCtx(), "ProcessNoInstance");
@@ -267,7 +256,7 @@ o IsAddInvoiceReferenceLine
 		
 		ProcessInfo pi = new ProcessInfo ("", AD_Process_ID);
 		pi.setAD_PInstance_ID (instance.getAD_PInstance_ID());
-
+		
 		//	Add Parameters
 		MPInstancePara para = new MPInstancePara(instance, 10);
 		para.setParameter("Selection", "Y");
@@ -288,7 +277,10 @@ o IsAddInvoiceReferenceLine
 		}
 		
 		if(m_AD_Org_ID==null) {
-			// ??? TODO 
+			String msg = "Missing mandatory AD_Org_ID Parameter";  //  not translated
+			info = msg;
+			log.log(Level.SEVERE, msg);
+			return info;
 		} else { // damit werden aber Re für alle DB erstellt! wenn kein m_C_BPartner_ID
 			para = new MPInstancePara(instance, 30);
 			para.setParameter("AD_Org_ID", (Integer)m_AD_Org_ID); // eigentlich int 
@@ -300,9 +292,7 @@ o IsAddInvoiceReferenceLine
 			}
 		}
 		
-		if(m_C_BPartner_ID==null) {
-			// ??? TODO 
-		} else { 
+		if(m_C_BPartner_ID!=null) {
 			para = new MPInstancePara(instance, 40);
 			para.setParameter("C_BPartner_ID", (Integer)m_C_BPartner_ID); // eigentlich int 
 			if (!para.save()) {
