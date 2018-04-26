@@ -1378,6 +1378,13 @@ public class DBEngine_Oracle implements DBEngineInterface {
 	}
 
 	/* (non-Javadoc)
+	 * @see com.kkalice.adempiere.migrate.DBEngineInterface#sqlMetadata_sequenceDefinitions(com.kkalice.adempiere.migrate.Parameters, com.kkalice.adempiere.migrate.Logger, com.kkalice.adempiere.migrate.DBEngine, java.lang.String, java.lang.String, java.lang.String)
+	 */
+	public String sqlMetadata_sequenceDefinitions(String produtVersion , String catalogName, String schemaName, String sequenceName) {
+		return sqlMetadata_sequenceDefinitions(null, catalogName , schemaName, sequenceName);
+	}
+
+	/* (non-Javadoc)
 	 * @see com.kkalice.adempiere.migrate.DBEngineInterface#sqlMetdata_primaryKeyNames(com.kkalice.adempiere.migrate.Parameters, com.kkalice.adempiere.migrate.Logger, com.kkalice.adempiere.migrate.DBEngine, java.lang.String, java.lang.String)
 	 */
 	public String sqlMetadata_primaryKeyNames(String catalogName, String schemaName) {
