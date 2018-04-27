@@ -91,7 +91,7 @@ public class DBObject_Sequence_Counter extends DBObjectDefinition {
 		m_increment = Long.parseLong(increment);
 		m_isCycled = isCycled;
 		m_cached = Long.parseLong(cacheSize);
-		m_current = Long.parseLong(Optional.ofNullable(lastValue).orElse("0"));
+		m_current = Long.parseLong(Optional.ofNullable(lastValue).orElse(minValue));
 
 		s_logger.log(Level.FINEST, toString());
 	}
