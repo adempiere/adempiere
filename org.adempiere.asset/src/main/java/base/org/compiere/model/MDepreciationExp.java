@@ -27,9 +27,9 @@ public class MDepreciationExp extends X_A_Depreciation_Exp
 	private CLogger log = CLogger.getCLogger(this.getClass());
 	
 	/** Standard Constructor */
-	public MDepreciationExp(Properties ctx, int A_Depreciation_Exp_ID, String trxName)
+	public MDepreciationExp(Properties ctx, int depreciationExpId, String trxName)
 	{
-		super (ctx, A_Depreciation_Exp_ID, trxName);
+		super (ctx, depreciationExpId, trxName);
 		/** 
 		if (A_Depreciation_Exp_ID == 0)
 		{
@@ -54,42 +54,55 @@ public class MDepreciationExp extends X_A_Depreciation_Exp
 	
 	/** Gets depreciation expense 
 	 *	@param ctx	context
-	 *	@param A_Depreciation_Exp_ID	depreciation expense id
+	 *	@param depreciationExpId	depreciation expense id
 	 *	@return depreciation expense or null if A_Depreciation_Exp_ID=0 or not found
 	 */
-	public static MDepreciationExp get(Properties ctx, int A_Depreciation_Exp_ID) {
-		if (A_Depreciation_Exp_ID <= 0) {
+	public static MDepreciationExp get(Properties ctx, int depreciationExpId) {
+		if (depreciationExpId <= 0) {
 			return null;
 		}
-		MDepreciationExp depexp = new MDepreciationExp(ctx, A_Depreciation_Exp_ID, null);
-		if (depexp.get_ID() != A_Depreciation_Exp_ID) {
+		MDepreciationExp depexp = new MDepreciationExp(ctx, depreciationExpId, null);
+		if (depexp.get_ID() != depreciationExpId) {
 			depexp = null;
 		}
 		return depexp;
 	}
-	
-	/**	Create entry
+
+	/**
+	 *
+	 * @param ctx
+	 * @param entryType
+	 * @param assetId
+	 * @param assetPeriod
+	 * @param dateAcct
+	 * @param postingType
+	 * @param debitAcct
+	 * @param creditAcct
+	 * @param expense
+	 * @param description
+	 * @param assetBalanace
+	 * @return
 	 */
-	public static MDepreciationExp createEntry (Properties ctx, String entryType, int A_Asset_ID
-				, int A_Period, Timestamp DateAcct, String postingType
-				, int drAcct, int crAcct, BigDecimal expense
+	public static MDepreciationExp createEntry (Properties ctx, String entryType, int assetId
+				, int assetPeriod, Timestamp dateAcct, String postingType
+				, int debitAcct, int creditAcct, BigDecimal expense
 				, String description
-				, MDepreciationWorkfile assetwk)
+				, MDepreciationWorkfile assetBalanace)
 	{
 		MDepreciationExp depexp = new MDepreciationExp(ctx, 0, null);
 		depexp.setA_Entry_Type(entryType);
-		depexp.setA_Asset_ID(A_Asset_ID);
-		depexp.setDR_Account_ID(drAcct);
-		depexp.setCR_Account_ID(crAcct);
-		depexp.setA_Account_Number_Acct(drAcct);	// TODO: DELETEME
+		depexp.setA_Asset_ID(assetId);
+		depexp.setDR_Account_ID(debitAcct);
+		depexp.setCR_Account_ID(creditAcct);
+		depexp.setA_Account_Number_Acct(debitAcct);	// TODO: DELETEME
 		depexp.setPostingType(postingType);
 		depexp.setExpense(expense);
 		depexp.setDescription(Msg.parseTranslation(ctx, description));
-		depexp.setA_Period(A_Period);
+		depexp.setA_Period(assetPeriod);
 		depexp.setIsDepreciated(true);
-		depexp.setDateAcct(DateAcct);
+		depexp.setDateAcct(dateAcct);
 		//
-		depexp.updateFrom(assetwk);
+		depexp.updateFrom(assetBalanace);
 		//
 		s_log.fine("depexp=" + depexp);
 		return depexp;
@@ -97,17 +110,17 @@ public class MDepreciationExp extends X_A_Depreciation_Exp
 	
 	/**
 	 * Update fields from asset workfile
-	 * @param wk asset workfile
+	 * @param assetBalance asset workfile
 	 */
-	public void updateFrom(MDepreciationWorkfile wk)
+	public void updateFrom(MDepreciationWorkfile assetBalance)
 	{
-		setA_Asset_Cost(wk.getA_Asset_Cost());
-		setA_Accumulated_Depr(wk.getA_Accumulated_Depr());
-		setA_Accumulated_Depr_F(wk.getA_Accumulated_Depr_F());
-		setUseLifeMonths(wk.getUseLifeMonths());
-		setUseLifeMonths_F(wk.getUseLifeMonths_F());
-		setA_Asset_Remaining(wk.getA_Asset_Remaining());
-		setA_Asset_Remaining_F(wk.getA_Asset_Remaining_F());
+		setA_Asset_Cost(assetBalance.getA_Asset_Cost());
+		setA_Accumulated_Depr(assetBalance.getA_Accumulated_Depr());
+		setA_Accumulated_Depr_F(assetBalance.getA_Accumulated_Depr_F());
+		setUseLifeMonths(assetBalance.getUseLifeMonths());
+		setUseLifeMonths_F(assetBalance.getUseLifeMonths_F());
+		setA_Asset_Remaining(assetBalance.getA_Asset_Remaining());
+		setA_Asset_Remaining_F(assetBalance.getA_Asset_Remaining_F());
 	}
 	
 	private MDepreciationWorkfile getA_Depreciation_Workfile()
@@ -122,34 +135,34 @@ public class MDepreciationExp extends X_A_Depreciation_Exp
 	 *	</pre>
 	 */
 	public static Collection<MDepreciationExp> createDepreciation ( 
-				MDepreciationWorkfile assetwk,
-				int PeriodNo, Timestamp dateAcct,
-				BigDecimal amt, BigDecimal amt_F,
-				BigDecimal accumAmt, BigDecimal accumAmt_F,
+				MDepreciationWorkfile assetBalance,
+				int periodNo, Timestamp dateAcct,
+				BigDecimal amt, BigDecimal amtFiscal,
+				BigDecimal accumAmt, BigDecimal accumAmtFiscal,
 				String help, String trxName)
 	{
 		ArrayList<MDepreciationExp> list = new ArrayList<MDepreciationExp>();
-		Properties ctx = assetwk.getCtx();
-		MAssetAcct assetAcct = assetwk.getA_AssetAcct(dateAcct, trxName);
+		Properties ctx = assetBalance.getCtx();
+		MAssetAcct assetAcct = assetBalance.getA_AssetAcct(dateAcct, trxName);
 		MDepreciationExp depexp = null;
 		
-		depexp = createEntry (ctx, A_ENTRY_TYPE_Depreciation, assetwk.getA_Asset_ID(), PeriodNo, dateAcct, assetwk.getPostingType()
+		depexp = createEntry (ctx, A_ENTRY_TYPE_Depreciation, assetBalance.getA_Asset_ID(), periodNo, dateAcct, assetBalance.getPostingType()
 			, assetAcct.getA_Depreciation_Acct(), assetAcct.getA_Accumdepreciation_Acct()
 			, amt
 			, "@AssetDepreciationAmt@"
-			, assetwk);
+			, assetBalance);
 		if(depexp != null) {
-			depexp.setAD_Org_ID(assetwk.getA_Asset().getAD_Org_ID()); // added by zuhri
+			depexp.setAD_Org_ID(assetBalance.getA_Asset().getAD_Org_ID()); // added by zuhri
 			if (accumAmt != null)
 				depexp.setA_Accumulated_Depr(accumAmt);
-			if (accumAmt_F != null)
-				depexp.setA_Accumulated_Depr_F(accumAmt_F);
+			if (accumAmtFiscal != null)
+				depexp.setA_Accumulated_Depr_F(accumAmtFiscal);
 			if (help != null && help.length() > 0)
 				depexp.setHelp(help);
-			depexp.setExpense_F(amt_F);
+			depexp.setExpense_F(amtFiscal);
 			depexp.setA_Accumulated_Depr_Delta(amt);
-			depexp.setA_Accumulated_Depr_F_Delta(amt_F);
-			depexp.saveEx(assetwk.get_TrxName());
+			depexp.setA_Accumulated_Depr_F_Delta(amtFiscal);
+			depexp.saveEx(assetBalance.get_TrxName());
 			list.add(depexp);
 		}
 		return list;
@@ -167,8 +180,8 @@ public class MDepreciationExp extends X_A_Depreciation_Exp
 		}
 		
 		//
-		MDepreciationWorkfile assetwk = getA_Depreciation_Workfile();
-		if (assetwk == null)
+		MDepreciationWorkfile assetBalance = getA_Depreciation_Workfile();
+		if (assetBalance == null)
 		{
 			throw new AssetException("@NotFound@ @A_Depreciation_Workfile_ID@");
 		}
@@ -179,13 +192,13 @@ public class MDepreciationExp extends X_A_Depreciation_Exp
 			checkExistsNotProcessedEntries(getCtx(), getA_Asset_ID(), getDateAcct(), getPostingType(), get_TrxName());
 			//
 			// Check if the asset is Active:
-			if (!assetwk.getAsset().getA_Asset_Status().equals(MAsset.A_ASSET_STATUS_Activated))
+			if (!assetBalance.getAsset().getA_Asset_Status().equals(MAsset.A_ASSET_STATUS_Activated))
 			{
-				throw new AssetNotActiveException(assetwk.getAsset().get_ID());
+				throw new AssetNotActiveException(assetBalance.getAsset().get_ID());
 			}
 			//
-			setDateAcct(assetwk.getDateAcct());
-			assetwk.adjustAccumulatedDepr(getExpense(), getExpense_F(), false);
+			setDateAcct(assetBalance.getDateAcct());
+			assetBalance.adjustAccumulatedDepr(getExpense(), getExpense_F(), false);
 		}
 		else
 		{
@@ -193,13 +206,13 @@ public class MDepreciationExp extends X_A_Depreciation_Exp
 		}
 		//
 		setProcessed(true);
-		updateFrom(assetwk);
+		updateFrom(assetBalance);
 		saveEx();
 
 		//
 		// Update workfile
-		assetwk.setA_Current_Period();
-		assetwk.saveEx();
+		assetBalance.setA_Current_Period();
+		assetBalance.saveEx();
 	}
 	
 	
@@ -244,36 +257,75 @@ public class MDepreciationExp extends X_A_Depreciation_Exp
 	{
 		return isProcessed() && getA_Depreciation_Entry_ID() > 0;
 	}
-	
-	public static void checkExistsNotProcessedEntries(Properties ctx,
-													int A_Asset_ID, Timestamp dateAcct, String postingType,
-													String trxName)
+
+	/**
+	 *
+	 * @param ctx
+	 * @param assetId
+	 * @param dateAcct
+	 * @param postingType
+	 * @param trxName
+	 */
+	public static void checkExistsNotProcessedEntries(
+			Properties ctx,
+			int assetId,
+			Timestamp dateAcct,
+			String postingType,
+			String trxName)
 	{
 		final String whereClause = MDepreciationExp.COLUMNNAME_A_Asset_ID+"=?"
 								+" AND TRUNC("+MDepreciationExp.COLUMNNAME_DateAcct+",'MONTH')<?"
 								+" AND "+MDepreciationExp.COLUMNNAME_PostingType+"=?"
 								+" AND "+MDepreciationExp.COLUMNNAME_Processed+"=?";
 		boolean match = new Query(ctx, MDepreciationExp.Table_Name, whereClause, trxName)
-					.setParameters(new Object[]{A_Asset_ID, TimeUtil.getMonthFirstDay(dateAcct), postingType, false})
+					.setParameters(assetId, TimeUtil.getMonthFirstDay(dateAcct), postingType, false)
 					.match();
 		if (match)
-		{
 			throw new AssetException("There are unprocessed records to date");
-		}
 	}
-	
-	public static List<MDepreciationExp> getNotProcessedEntries(Properties ctx,
-			int A_Asset_ID, String postingType,
+
+	/**
+	 *
+	 * @param ctx
+	 * @param assetId
+	 * @param postingType
+	 * @param trxName
+	 * @return
+	 */
+	public static List<MDepreciationExp> getNotProcessedEntries(
+			Properties ctx,
+			int assetId,
+			String postingType,
 			String trxName)
 	{
 		final String whereClause = MDepreciationExp.COLUMNNAME_A_Asset_ID+"=?"
 		              +" AND "+MDepreciationExp.COLUMNNAME_PostingType+"=?"
 	             	  +" AND "+MDepreciationExp.COLUMNNAME_Processed+"=?";
 		List<MDepreciationExp> list = new Query(ctx, MDepreciationExp.Table_Name, whereClause, trxName)
-	                      	.setParameters(new Object[]{A_Asset_ID, postingType, false})
+	                      	.setParameters(new Object[]{assetId, postingType, false})
 		                    .list();
 		return list;
-}
+	}
+
+	/**
+	 * Get Depreciation
+	 * @param ctx
+	 * @param assetId
+	 * @param postingType
+	 * @param trxName
+	 * @return
+	 */
+	public static List<MDepreciationExp> getEntries(Properties ctx,
+													int assetId, String postingType,
+													String trxName)
+	{
+		final String whereClause = MDepreciationExp.COLUMNNAME_A_Asset_ID+"=?"
+				+" AND "+MDepreciationExp.COLUMNNAME_PostingType+"=?";
+		return new Query(ctx, MDepreciationExp.Table_Name, whereClause, trxName)
+				.setParameters(assetId, postingType)
+				.setOrderBy(MDepreciationExp.COLUMNNAME_A_Period)
+				.list();
+	}
 
 	
 	public void setProcessed(boolean Processed)
