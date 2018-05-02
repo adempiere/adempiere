@@ -243,7 +243,7 @@
         <Data AD_Column_ID="2007" Column="IsReadOnly">true</Data>
         <Data AD_Column_ID="170" Column="Help">The Purchased check box indicates if this product is purchased by this organization.</Data>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
-        <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="177" Column="DisplayLogic">@M_Product_ID@ &gt; 0</Data>
         <Data AD_Column_ID="15011" Column="AD_Reference_ID" isNewNull="true"/>
         <Data AD_Column_ID="15013" Column="IsMandatory" isNewNull="true"/>
         <Data AD_Column_ID="59704" Column="PreferredWidth">0</Data>
@@ -457,7 +457,7 @@
       <PO AD_Table_ID="107" Action="I" Record_ID="87375" Table="AD_Field">
         <Data AD_Column_ID="578" Column="IsActive">true</Data>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
-        <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="177" Column="DisplayLogic">@M_Product_ID@ &gt; 0</Data>
         <Data AD_Column_ID="15011" Column="AD_Reference_ID" isNewNull="true"/>
         <Data AD_Column_ID="15013" Column="IsMandatory" isNewNull="true"/>
         <Data AD_Column_ID="59704" Column="PreferredWidth">0</Data>
@@ -683,7 +683,7 @@
         <Data AD_Column_ID="2007" Column="IsReadOnly">true</Data>
         <Data AD_Column_ID="170" Column="Help">The Purchased check box indicates if this product is purchased by this organization.</Data>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
-        <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="177" Column="DisplayLogic">@M_Product_ID@ &gt; 0</Data>
         <Data AD_Column_ID="15011" Column="AD_Reference_ID" isNewNull="true"/>
         <Data AD_Column_ID="15013" Column="IsMandatory" isNewNull="true"/>
         <Data AD_Column_ID="59704" Column="PreferredWidth">0</Data>
@@ -897,7 +897,7 @@
         <Data AD_Column_ID="2007" Column="IsReadOnly">true</Data>
         <Data AD_Column_ID="170" Column="Help">The Purchased check box indicates if this product is purchased by this organization.</Data>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
-        <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="177" Column="DisplayLogic">@M_Product_ID@ &gt; 0</Data>
         <Data AD_Column_ID="15011" Column="AD_Reference_ID" isNewNull="true"/>
         <Data AD_Column_ID="15013" Column="IsMandatory" isNewNull="true"/>
         <Data AD_Column_ID="59704" Column="PreferredWidth">0</Data>

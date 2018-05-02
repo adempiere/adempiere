@@ -17,7 +17,6 @@
 package org.compiere.process;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -154,13 +153,9 @@ public class ProjectGenPO extends ProjectGenPOAbstract
                     projectTask.getUser3_ID(),
                     projectTask.getUser4_ID());
         });
-        
-        Timestamp ts = project.getDateContract();
-        if (ts != null)
-            order.setDateOrdered(ts);
-        ts = project.getDateFinish();
-        if (ts != null)
-            order.setDatePromised(ts);
+        order.setPriorityRule(projectLine.getPriorityRule());
+        order.setDateOrdered(projectLine.getDateOrdered());
+        order.setDatePromised(projectLine.getDatePromised());
         //
         order.setBPartner(vendor);
         if (order.getM_PriceList_ID() <= 0) {
