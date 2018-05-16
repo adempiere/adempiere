@@ -170,18 +170,18 @@ public class ProductCost
 	/**
 	 *  Line Account from Product
 	 *
-	 *  @param  AcctType see ACCTTYPE_* (1..8)
-	 *  @param as Accounting Schema
+	 *  @param  acctType see ACCTTYPE_* (1..8)
+	 *  @param acctSchema Accounting Schema
 	 *  @return Requested Product Account
 	 */
-	public MAccount getAccount(int AcctType, MAcctSchema as)
+	public MAccount getAccount(int acctType, MAcctSchema acctSchema)
 	{
-		if (AcctType < 1 || AcctType > 23)
+		if (acctType < 1 || acctType > 23)
 			return null;
 
 		//  No Product - get Default from Product Category
 		if (m_M_Product_ID == 0)
-			return getAccountDefault(AcctType, as);
+			return getAccountDefault(acctType, acctSchema);
 
 		String sql = "SELECT P_Revenue_Acct, P_Expense_Acct, P_Asset_Acct, P_Cogs_Acct, "	//	1..4
 			+ "P_PurchasePriceVariance_Acct, P_InvoicePriceVariance_Acct, "	//	5..6
@@ -194,17 +194,17 @@ public class ProductCost
 			+ "FROM M_Product_Acct "
 			+ "WHERE M_Product_ID=? AND C_AcctSchema_ID=?";
 		//
-		int validCombination_ID = 0;
+		int validCombinationId = 0;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try
 		{
-			pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, acctSchema.get_TrxName());
 			pstmt.setInt(1, m_M_Product_ID);
-			pstmt.setInt(2, as.getC_AcctSchema_ID());
+			pstmt.setInt(2, acctSchema.getC_AcctSchema_ID());
 			rs = pstmt.executeQuery();
 			if (rs.next())
-				validCombination_ID = rs.getInt(AcctType);
+				validCombinationId = rs.getInt(acctType);
 		}
 		catch (SQLException e)
 		{
@@ -214,26 +214,26 @@ public class ProductCost
 			DB.close(rs, pstmt);
 			rs = null; pstmt = null;
 		}
-		if (validCombination_ID == 0)
+		if (validCombinationId == 0)
 			return null;
-		return MAccount.get(as.getCtx(), validCombination_ID);
+		return MAccount.getValidCombination(acctSchema.getCtx(), validCombinationId, acctSchema.get_TrxName());
 	}   //  getAccount
 	
 	/**
 	 *  Line Account from Product
 	 *
-	 *  @param  AcctType see ACCTTYPE_* (1..8)
-	 *  @param as Accounting Schema
+	 *  @param  acctType see ACCTTYPE_* (1..8)
+	 *  @param acctSchema Accounting Schema
 	 *  @return Requested Product Account
 	 */
-	public MAccount getAccount(int AcctType, MAcctSchema as , int AD_Org_ID)
+	public MAccount getAccount(int acctType, MAcctSchema acctSchema , int orgId)
 	{
-		if (AcctType < 1 || AcctType > 22)
+		if (acctType < 1 || acctType > 22)
 			return null;
 
 		//  No Product - get Default from Product Category
 		if (m_M_Product_ID == 0)
-			return getAccountDefault(AcctType, as, AD_Org_ID);
+			return getAccountDefault(acctType, acctSchema, orgId);
 
 		String sql = "SELECT P_Revenue_Acct, P_Expense_Acct, P_Asset_Acct, P_Cogs_Acct, "	//	1..4
 			+ "P_PurchasePriceVariance_Acct, P_InvoicePriceVariance_Acct, "	//	5..6
@@ -246,18 +246,18 @@ public class ProductCost
 			+ "FROM M_Product_Acct "
 			+ "WHERE M_Product_ID=? AND C_AcctSchema_ID=? AND (AD_Org_ID=? OR AD_Org_ID=0) ORDER BY AD_Org_ID DESC";
 		//
-		int validCombination_ID = 0;
+		int validCombinationId = 0;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try
 		{
-			pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, acctSchema.get_TrxName());
 			pstmt.setInt(1, m_M_Product_ID);
-			pstmt.setInt(2, as.getC_AcctSchema_ID());
-			pstmt.setInt(3, AD_Org_ID);
+			pstmt.setInt(2, acctSchema.getC_AcctSchema_ID());
+			pstmt.setInt(3, orgId);
 			rs = pstmt.executeQuery();
 			if (rs.next())
-				validCombination_ID = rs.getInt(AcctType);
+				validCombinationId = rs.getInt(acctType);
 		}
 		catch (SQLException e)
 		{
@@ -267,21 +267,21 @@ public class ProductCost
 			DB.close(rs, pstmt);
 			rs = null; pstmt = null;
 		}
-		if (validCombination_ID == 0)
+		if (validCombinationId == 0)
 			return null;
-		return MAccount.get(as.getCtx(), validCombination_ID);
+		return MAccount.getValidCombination(acctSchema.getCtx(), validCombinationId, acctSchema.get_TrxName());
 	}   //  getAccount
 
 	/**
 	 *  Account from Default Product Category
 	 *
-	 *  @param  AcctType see ACCTTYPE_* (1..8)
-	 *  @param as accounting schema
+	 *  @param  acctType see ACCTTYPE_* (1..8)
+	 *  @param acctSchema accounting schema
 	 *  @return Requested Product Account
 	 */
-	public MAccount getAccountDefault (int AcctType, MAcctSchema as)
+	public MAccount getAccountDefault (int acctType, MAcctSchema acctSchema)
 	{
-		if (AcctType < 1 || AcctType > 23)
+		if (acctType < 1 || acctType > 23)
 			return null;
 
 		String sql = "SELECT P_Revenue_Acct, P_Expense_Acct, P_Asset_Acct, P_Cogs_Acct, "
@@ -297,16 +297,16 @@ public class ProductCost
 			+ " AND pca.C_AcctSchema_ID=? "
 			+ "ORDER BY pc.IsDefault DESC, pc.Created";
 		//
-		int validCombination_ID = 0;
+		int validCombinationId = 0;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try
 		{
-			pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, as.getC_AcctSchema_ID());
+			pstmt = DB.prepareStatement(sql, acctSchema.get_TrxName());
+			pstmt.setInt(1, acctSchema.getC_AcctSchema_ID());
 			rs = pstmt.executeQuery();
 			if (rs.next())
-				validCombination_ID = rs.getInt(AcctType);
+				validCombinationId = rs.getInt(acctType);
 		}
 		catch (SQLException e)
 		{
@@ -316,21 +316,21 @@ public class ProductCost
 			DB.close(rs, pstmt);
 			rs = null; pstmt = null;
 		}
-		if (validCombination_ID == 0)
+		if (validCombinationId == 0)
 			return null;
-		return MAccount.get(as.getCtx(), validCombination_ID);
+		return MAccount.getValidCombination(acctSchema.getCtx(), validCombinationId, acctSchema.get_TrxName());
 	}   //  getAccountDefault
 	
 	/**
 	 *  Account from Default Product Category
 	 *
-	 *  @param  AcctType see ACCTTYPE_* (1..8)
-	 *  @param as accounting schema
+	 *  @param  acctType see ACCTTYPE_* (1..8)
+	 *  @param acctSchema accounting schema
 	 *  @return Requested Product Account
 	 */
-	public MAccount getAccountDefault (int AcctType, MAcctSchema as, int AD_Org_ID)
+	public MAccount getAccountDefault (int acctType, MAcctSchema acctSchema, int orgId)
 	{
-		if (AcctType < 1 || AcctType > 22)
+		if (acctType < 1 || acctType > 22)
 			return null;
 
 		String sql = "SELECT P_Revenue_Acct, P_Expense_Acct, P_Asset_Acct, P_Cogs_Acct, "
@@ -346,17 +346,17 @@ public class ProductCost
 			+ " AND pca.C_AcctSchema_ID=? AND (pca.AD_Org_ID=? OR pca.AD_Org_ID=0)"
 			+ " ORDER BY pca.AD_Org_ID DESC , pc.IsDefault DESC, pc.Created ";
 		//
-		int validCombination_ID = 0;
+		int validCombinationId = 0;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try
 		{
-			pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, as.getC_AcctSchema_ID());
-			pstmt.setInt(2, AD_Org_ID);
+			pstmt = DB.prepareStatement(sql, acctSchema.get_TrxName());
+			pstmt.setInt(1, acctSchema.getC_AcctSchema_ID());
+			pstmt.setInt(2, orgId);
 			rs = pstmt.executeQuery();
 			if (rs.next())
-				validCombination_ID = rs.getInt(AcctType);
+				validCombinationId = rs.getInt(acctType);
 		}
 		catch (SQLException e)
 		{
@@ -366,9 +366,9 @@ public class ProductCost
 			DB.close(rs, pstmt);
 			rs = null; pstmt = null;
 		}
-		if (validCombination_ID == 0)
+		if (validCombinationId == 0)
 			return null;
-		return MAccount.get(as.getCtx(), validCombination_ID);
+		return MAccount.getValidCombination(acctSchema.getCtx(), validCombinationId, acctSchema.get_TrxName());
 	}   //  getAccountDefault
 	
 	

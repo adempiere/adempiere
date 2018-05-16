@@ -129,17 +129,17 @@ public class   Doc_HRProcess extends Doc
 					&& (MHRConcept.ACCOUNTSIGN_Debit.equals(payrollDocLine.getAccountSign()) 
 							|| MHRConcept.ACCOUNTSIGN_Credit.equals(payrollDocLine.getAccountSign()))) {
 				if (conceptAcct.isBalancing()) {
-					MAccount accountBPD = MAccount.get (getCtx(), conceptAcct.getHR_Expense_Acct());
+					MAccount accountBPD = MAccount.getValidCombination (getCtx(), conceptAcct.getHR_Expense_Acct() , getTrxName());
 					fact.createLine(line, accountBPD, as.getC_Currency_ID(),sumAmount, null);
-					MAccount accountBPC = MAccount.get (getCtx(), conceptAcct.getHR_Revenue_Acct());
+					MAccount accountBPC = MAccount.getValidCombination (getCtx(), conceptAcct.getHR_Revenue_Acct() , getTrxName());
 					fact.createLine(line,accountBPC, as.getC_Currency_ID(),null,sumAmount);
 				} else {
 					if (MHRConcept.ACCOUNTSIGN_Debit.equals(payrollDocLine.getAccountSign())) {
-						MAccount accountBPD = MAccount.get (getCtx(), conceptAcct.getHR_Expense_Acct());
+						MAccount accountBPD = MAccount.getValidCombination (getCtx(), conceptAcct.getHR_Expense_Acct(), getTrxName());
 						fact.createLine(line, accountBPD, as.getC_Currency_ID(),sumAmount, null);
 						totalDebit = totalDebit.add(sumAmount);
 					} else if (MHRConcept.ACCOUNTSIGN_Credit.equals(payrollDocLine.getAccountSign())) {
-						MAccount accountBPC = MAccount.get (getCtx(), conceptAcct.getHR_Revenue_Acct());
+						MAccount accountBPC = MAccount.getValidCombination (getCtx(), conceptAcct.getHR_Revenue_Acct(), getTrxName());
 						fact.createLine(line,accountBPC, as.getC_Currency_ID(),null,sumAmount);
 						totalCredit = totalCredit.add(sumAmount);
 					}
