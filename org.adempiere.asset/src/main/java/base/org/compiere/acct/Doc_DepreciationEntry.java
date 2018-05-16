@@ -31,24 +31,24 @@ public class Doc_DepreciationEntry extends Doc
 	}	//	Doc_A_Depreciation_Entry
 
 	/** Posting Type				*/
-	private String						m_PostingType = null;
-	private int							m_C_AcctSchema_ID = 0;
+	private String postingType = null;
+	private int acctSchemaId = 0;
 	
 	
 	protected String loadDocumentDetails ()
 	{
 		MDepreciationEntry entry = (MDepreciationEntry)getPO();
-		m_PostingType = entry.getPostingType();
-		m_C_AcctSchema_ID = entry.getC_AcctSchema_ID();
+		postingType = entry.getPostingType();
+		acctSchemaId = entry.getC_AcctSchema_ID();
 		
 		return null;
 	}
 	
-	private DocLine createLine(MDepreciationExp depexp)
+	private DocLine createLine(MDepreciationExp depreciationExp)
 	{
-		if (!depexp.isProcessed())
+		if (!depreciationExp.isProcessed())
 			return null;
-		DocLine docLine = new DocLine (depexp, this);
+		DocLine docLine = new DocLine (depreciationExp, this);
 		return docLine;
 	}
 	
@@ -59,28 +59,32 @@ public class Doc_DepreciationEntry extends Doc
 		return retValue;
 	}   //  getBalance
 
-	
-	public ArrayList<Fact> createFacts (MAcctSchema as)
+	/**
+	 * Create Facts
+	 * @param acctSchema
+	 * @return
+	 */
+	public ArrayList<Fact> createFacts (MAcctSchema acctSchema)
 	{
 		ArrayList<Fact> facts = new ArrayList<Fact>();
 		//	Other Acct Schema
-		if (as.getC_AcctSchema_ID() != m_C_AcctSchema_ID)
+		if (acctSchema.getC_AcctSchema_ID() != acctSchemaId)
 			return facts;
 		
 		//  create Fact Header
-		Fact fact = new Fact (this, as, m_PostingType);
+		Fact fact = new Fact (this, acctSchema, postingType);
 
 		MDepreciationEntry entry = (MDepreciationEntry)getPO();
 		Iterator<MDepreciationExp> it = entry.getLinesIterator(false);
 		while(it.hasNext())
 		{
-			MDepreciationExp depexp = it.next();
-			DocLine line = createLine(depexp);
-			BigDecimal expenseAmt = depexp.getExpense();
+			MDepreciationExp depreciationExp = it.next();
+			DocLine docLine = createLine(depreciationExp);
+			BigDecimal expenseAmt = depreciationExp.getExpense();
 			//
-			MAccount dr_acct = MAccount.get(getCtx(), depexp.getDR_Account_ID());
-			MAccount cr_acct = MAccount.get(getCtx(), depexp.getCR_Account_ID());
-			FactUtil.createSimpleOperation(fact, line, dr_acct, cr_acct, as.getC_Currency_ID(), expenseAmt, false);
+			MAccount drAccounting = MAccount.getValidCombination(getCtx(), depreciationExp.getDR_Account_ID(), getTrxName());
+			MAccount crAccounting = MAccount.getValidCombination(getCtx(), depreciationExp.getCR_Account_ID() ,getTrxName());
+			FactUtil.createSimpleOperation(fact, docLine, drAccounting, crAccounting, acctSchema.getC_Currency_ID(), expenseAmt, false);
 		}
 		//
 		facts.add(fact);
