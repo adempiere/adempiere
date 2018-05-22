@@ -357,12 +357,12 @@ public class WPayPrint extends PayPrint implements IFormController, EventListene
 			try
 			{
 				Class<?> clazz = Class.forName(paymentExportClass);
-				if (clazz.isInstance(PaymentExportList.class))
+				if (PaymentExportList.class.isAssignableFrom(clazz))
 				{
 					PaymentExportList custom = (PaymentExportList)clazz.newInstance();
 					no = custom.exportToFile(paySelectionChecks, tempFile, error);
 				}
-				else if (clazz.isInstance(PaymentExport.class))
+				else if (PaymentExport.class.isAssignableFrom(clazz))
 				{
 					PaymentExport custom = (PaymentExport)clazz.newInstance();
 					no = custom.exportToFile(paySelectionChecks.toArray(new MPaySelectionCheck[paySelectionChecks.size()]), tempFile, error);
