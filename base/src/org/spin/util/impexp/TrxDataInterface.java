@@ -16,58 +16,91 @@
  *************************************************************************************/
 package org.spin.util.impexp;
 
-import java.util.Locale;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
 
 /**
- * Generic Bank Transaction implementation
+ * Interface for content data from transaction
  * @author Yamel Senih, ysenih@erpya.com , http://www.erpya.com
  * <li> FR [ 1700 ] Add Quicken Interchange Format support
  * @see https://github.com/adempiere/adempiere/issues/1700
  */
-public class GenericQIFBankTransaction extends QIFBankTransaction {
-
-	public GenericQIFBankTransaction() {
-		setFileType(HEAD_TYPE_Bank);
-	}
+public interface TrxDataInterface {
+	/**
+	 * Get Bank Transaction Date
+	 * @return
+	 */
+	public Timestamp getTrxDate();
 	
-	@Override
-	public Locale getLocale() {
-		return Locale.US;
-	}
+	/**
+	 * Get Value Date
+	 * @return
+	 */
+	public Timestamp getValueDate();
+	
+	/**
+	 * Get Statement Date
+	 * @return
+	 */
+	public Timestamp getStatementDate();
+	
+	/**
+	 * Get Amount of transaction
+	 * @return
+	 */
+	public BigDecimal getAmount();
 
-	@Override
-	public String getDatePattern() {
-		return "dd/MM/yyyy";
-	}
-
-	@Override
-	public String getDecimalSeparator() {
-		return ".";
-	}
-
-	@Override
-	protected String processValue(String value) {
-		return value.replaceAll("[	+^:&áàäéèëíìïóòöúùñÁÀÄÉÈËÍÌÏÓÒÖÚÙÜÑçÇ$]", "");
-	}
-
-	@Override
-	public String getDecimalPattern() {
-		return "###,###,###,###,###,###,###.########";
-	}
-
-	@Override
-	public boolean isCompleteData() {
-		return true;
-	}
-
-	@Override
-	public String getPayeeName() {
-		return null;
-	}
-
-	@Override
-	public String getPayeeDescription() {
-		// TODO Auto-generated method stub
-		return null;
-	}	
+	/**
+	 * Get Payee Account
+	 * @return
+	 */
+	public String getPayeeAccountNo();
+	
+	/**
+	 * Get Payee Name
+	 * @return
+	 */
+	public String getPayeeName();
+	
+	/**
+	 * Get Payee Description
+	 * @return
+	 */
+	public String getPayeeDescription();
+	
+	/**
+	 * Get Memo of Transaction
+	 * @return
+	 */
+	public String getMemo();
+	
+	/**
+	 * Get Trx Type (Debit or Credit)
+	 * @return
+	 */
+	public String getTrxType();
+	
+	/**
+	 * Get Charge type or transactio code
+	 * @return
+	 */
+	public String getTrxCode();
+	
+	/**
+	 * Get Check Numbers
+	 * @return
+	 */
+	public String getCheckNo();
+	
+	/**
+	 * Get Reference No
+	 * @return
+	 */
+	public String getReferenceNo();
+	
+	/**
+	 * Currency
+	 * @return
+	 */
+	public String getCurrency();
 }
