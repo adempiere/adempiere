@@ -37,20 +37,20 @@ import org.compiere.util.Env;
  * <li> FR [ 1700 ] Add Quicken Interchange Format support
  * @see https://github.com/adempiere/adempiere/issues/1700
  */
-public abstract class QIFBankStatementHandler implements BankStatementLoaderInterface {
+public class BankStatementHandler implements BankStatementLoaderInterface {
 	/**	Controller for import	*/
 	private MBankStatementLoader controller = null;
 	/**	List of bank transactions	*/
-	private List<QIFBankTransaction> transactionList = new ArrayList<QIFBankTransaction>();
+	private List<BankTransactionAbstract> transactionList = new ArrayList<BankTransactionAbstract>();
 	/**	Current Transaction	*/
-	private QIFBankTransaction bankTransaction = null;
+	private BankTransactionAbstract bankTransaction = null;
 	/**	Bank Account	*/
 	private MBankAccount bankAccount = null;
 	/**	Last Error	*/
 	private String lastError = null;
 	
 	/** Static Logger					*/
-	private CLogger	log = CLogger.getCLogger (QIFBankStatementHandler.class);
+	private CLogger	log = CLogger.getCLogger (BankStatementHandler.class);
 	
 	@Override
 	public boolean init(MBankStatementLoader controller) {
@@ -95,18 +95,19 @@ public abstract class QIFBankStatementHandler implements BankStatementLoaderInte
 			String line = null;
 			bankTransaction = getBankTransactionInstance();
 			while ((line = reader.readLine()) != null) {
-				//	Add to List
-				if(QIFBankTransaction.isEndLine(line)) {
-					transactionList.add(bankTransaction);
-					//	Save
-					if(!controller.saveLine()) {
-						log.severe("Bank Statement Loader Error: " + controller.getErrorMessage());
-					}
-					bankTransaction = getBankTransactionInstance();
-					continue;
-				}
 				//	Set value for transaction
 				bankTransaction.parseLine(line);
+				//	Add to List
+				if(bankTransaction.isEndTransactionLine(line)) {
+					if(bankTransaction.isCompleteData()) {
+						transactionList.add(bankTransaction);
+						//	Save
+						if(!controller.saveLine()) {
+							log.severe("Bank Statement Loader Error: " + controller.getErrorMessage());
+						}
+					}
+					bankTransaction = getBankTransactionInstance();
+				}
 			}
 			//	Close
 			reader.close();
@@ -122,7 +123,7 @@ public abstract class QIFBankStatementHandler implements BankStatementLoaderInte
 	 * it allow define distint format for each locale
 	 * @return
 	 */
-	protected QIFBankTransaction getBankTransactionInstance() {
+	protected BankTransactionAbstract getBankTransactionInstance() {
 		return new GenericQIFBankTransaction();
 	}
 	
@@ -163,42 +164,42 @@ public abstract class QIFBankStatementHandler implements BankStatementLoaderInte
 	
 	@Override
 	public String getTrxID() {
-		return bankTransaction.getBankTrxCheckNo();
+		return bankTransaction.getCheckNo();
 	}
 	
 	@Override
 	public String getReference() {
-		return bankTransaction.getBankTrxCheckNo();
+		return bankTransaction.getCheckNo();
 	}
 	
 	@Override
 	public String getCheckNo() {
-		return bankTransaction.getBankTrxCheckNo();
+		return bankTransaction.getCheckNo();
 	}
 	
 	@Override
 	public String getPayeeName() {
-		return null;
+		return bankTransaction.getPayeeName();
 	}
 	
 	@Override
 	public String getPayeeAccountNo() {
-		return bankTransaction.getBankTrxPayeeAccountNo();
+		return bankTransaction.getPayeeAccountNo();
 	}
 	
 	@Override
 	public Timestamp getStatementLineDate() {
-		return bankTransaction.getBankTrxDate();
+		return bankTransaction.getTrxDate();
 	}
 	
 	@Override
 	public Timestamp getValutaDate() {
-		return bankTransaction.getBankTrxDate();
+		return bankTransaction.getValueDate();
 	}
 	
 	@Override
 	public String getTrxType() {
-		return bankTransaction.getBankTrxCategory();
+		return bankTransaction.getTrxType();
 	}
 
 	@Override
@@ -208,17 +209,17 @@ public abstract class QIFBankStatementHandler implements BankStatementLoaderInte
 	
 	@Override
 	public String getCurrency() {
-		return null;
+		return bankTransaction.getCurrency();
 	}
 	
 	@Override
 	public BigDecimal getStmtAmt() {
-		return bankTransaction.getBankTrxAmount();
+		return bankTransaction.getAmount();
 	}
 	
 	@Override
 	public BigDecimal getTrxAmt() {
-		return bankTransaction.getBankTrxAmount();
+		return bankTransaction.getAmount();
 	}
 	
 	@Override
@@ -228,16 +229,16 @@ public abstract class QIFBankStatementHandler implements BankStatementLoaderInte
 	
 	@Override
 	public String getMemo() {
-		return bankTransaction.getBankTrxMemo();
+		return bankTransaction.getMemo();
 	}
 	
 	@Override
 	public String getChargeName() {
-		return bankTransaction.getBankTrxMemo();
+		return bankTransaction.getMemo();
 	}
 	
 	@Override
 	public BigDecimal getChargeAmt() {
-		return bankTransaction.getBankTrxAmount();
+		return bankTransaction.getAmount();
 	}
 }

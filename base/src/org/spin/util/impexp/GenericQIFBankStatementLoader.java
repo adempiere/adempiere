@@ -16,19 +16,16 @@
  *************************************************************************************/
 package org.spin.util.impexp;
 
-import org.compiere.impexp.BankStatementLoaderInterface;
-
 /**
- * Implementation of bank statement loader for QIF format
+ * Class used for Load and parse data from QIF file
+ * It class must be implemented for a Bank or type
  * @author Yamel Senih, ysenih@erpya.com , http://www.erpya.com
  * <li> FR [ 1700 ] Add Quicken Interchange Format support
  * @see https://github.com/adempiere/adempiere/issues/1700
  */
-public final class GenericQIFBankStatementLoader extends QIFBankStatementHandler implements BankStatementLoaderInterface {
-	
+public final class GenericQIFBankStatementLoader extends BankStatementHandler {
 	@Override
-	protected QIFBankTransaction getBankTransactionInstance() {
+	protected BankTransactionAbstract getBankTransactionInstance() {
 		return new GenericQIFBankTransaction();
 	}
-	
 }

@@ -16,58 +16,15 @@
  *************************************************************************************/
 package org.spin.util.impexp;
 
-import java.util.Locale;
-
 /**
- * Generic Bank Transaction implementation
+ * Class used for Load and parse data from MT940 file
  * @author Yamel Senih, ysenih@erpya.com , http://www.erpya.com
- * <li> FR [ 1700 ] Add Quicken Interchange Format support
- * @see https://github.com/adempiere/adempiere/issues/1700
+ * <li> FR [ 1701 ] Add support to MT940 format
+ * @see https://github.com/adempiere/adempiere/issues/1701
  */
-public class GenericQIFBankTransaction extends QIFBankTransaction {
-
-	public GenericQIFBankTransaction() {
-		setFileType(HEAD_TYPE_Bank);
-	}
-	
+public final class GenericMT940BankStatementLoader extends BankStatementHandler {
 	@Override
-	public Locale getLocale() {
-		return Locale.US;
+	protected BankTransactionAbstract getBankTransactionInstance() {
+		return new TestMT940BankTransaction();
 	}
-
-	@Override
-	public String getDatePattern() {
-		return "dd/MM/yyyy";
-	}
-
-	@Override
-	public String getDecimalSeparator() {
-		return ".";
-	}
-
-	@Override
-	protected String processValue(String value) {
-		return value.replaceAll("[	+^:&áàäéèëíìïóòöúùñÁÀÄÉÈËÍÌÏÓÒÖÚÙÜÑçÇ$]", "");
-	}
-
-	@Override
-	public String getDecimalPattern() {
-		return "###,###,###,###,###,###,###.########";
-	}
-
-	@Override
-	public boolean isCompleteData() {
-		return true;
-	}
-
-	@Override
-	public String getPayeeName() {
-		return null;
-	}
-
-	@Override
-	public String getPayeeDescription() {
-		// TODO Auto-generated method stub
-		return null;
-	}	
 }

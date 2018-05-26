@@ -18,17 +18,8 @@ package org.spin.util.impexp;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.text.NumberFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.Locale;
 
-import org.compiere.util.Env;
 import org.compiere.util.Util;
 
 /**
@@ -44,7 +35,7 @@ import org.compiere.util.Util;
  * <li> FR [ 1700 ] Add Quicken Interchange Format support
  * @see https://github.com/adempiere/adempiere/issues/1700
  */
-public abstract class QIFBankTransaction {
+public abstract class QIFBankTransaction extends BankTransactionAbstract {
 	/**	Start file text	*/
 	public static final String FILE_START = "!Type:";
 	/**	End Line	*/
@@ -177,15 +168,8 @@ public abstract class QIFBankTransaction {
 			LINE_TYPE_Invoices_Line_Item_Category
 	};
 	
-	/**	Type of transaction	*/
-	private String type = null;
-	
-	/**	Decimal Format	*/
-	private DecimalFormat decimalFormat = null;
-	/**	Date Format	*/
-	private DateFormat dateFormat = null;
-	/**	Values from file	*/
-	private HashMap<String, Object> values = new HashMap<>();
+	/**	File Type	*/
+	private String type;
 	
 	/**	
 	 * Get Locale, it handle the parse of date and date format
@@ -194,63 +178,22 @@ public abstract class QIFBankTransaction {
 	public abstract Locale getLocale();
 	
 	/**
-	 * Get Date Format for parse Dates
+	 * Get Date Pattern
 	 * @return Date Format
 	 */
-	public abstract String getDateFormat();
+	public abstract String getDatePattern();
+	
+	/**
+	 * Get Decimal Pattern
+	 * @return Decimal Pattern
+	 */
+	public abstract String getDecimalPattern();
 	
 	/**
 	 * Get Decimal Separator for parse String
 	 * @return
 	 */
 	public abstract String getDecimalSeparator();
-	
-	/**
-	 * Helper method for get Amount
-	 * @param key
-	 * @return
-	 */
-	protected BigDecimal getAmount(String key) {
-		Object value = values.get(key);
-		BigDecimal bigDecimalValue = Env.ZERO;
-        if (value != null) {
-            if (value instanceof BigDecimal) {
-            	bigDecimalValue = (BigDecimal) value;
-            } else if(value instanceof Double) {
-            	bigDecimalValue = new BigDecimal((Double) value);
-            } else if(value instanceof Float) {
-            	bigDecimalValue = new BigDecimal((Float) value);
-            } else if(value instanceof Integer) {
-            	bigDecimalValue = new BigDecimal((Integer) value);
-            }
-        }
-        //  Default
-        return bigDecimalValue;
-	}
-	
-	/**
-	 * Helper method for get date from key
-	 * @param key
-	 * @return
-	 */
-	protected Timestamp getDate(String key) {
-		Object value = values.get(key);
-		if (value == null)
-            return null;
-        return (Timestamp) value;
-	}
-	
-	/**
-	 * Helper method for get string
-	 * @param key
-	 * @return
-	 */
-	protected String getString(String key) {
-		Object value = values.get(key);
-		if (value == null)
-            return null;
-        return value.toString();
-	}
 	
 	/**
 	 * Parse Line
@@ -275,7 +218,7 @@ public abstract class QIFBankTransaction {
 				continue;
 			}
 			index = line.indexOf(prefix) + prefix.length();
-			setAmount(prefix, line.substring(index));
+			addValue(prefix, getNumber(getDecimalSeparator().charAt(0), getDecimalPattern(), line.substring(index)));
 			return;
 		}
 		//	For Date
@@ -284,7 +227,7 @@ public abstract class QIFBankTransaction {
 				continue;
 			}
 			index = line.indexOf(prefix) + prefix.length();
-			setDate(prefix, line.substring(index));
+			addValue(prefix, getDate(getDatePattern(), line.substring(index)));
 			return;
 		}
 		//	For All
@@ -293,53 +236,9 @@ public abstract class QIFBankTransaction {
 				continue;
 			}
 			index = line.indexOf(prefix) + prefix.length();
-			values.put(prefix, line.substring(index));
+			addValue(prefix, line.substring(index));
 			return;
 		}
-	}
-	
-	/**
-	 * Set Amount
-	 * @param key
-	 * @param value
-	 * @throws ParseException
-	 */
-	private void setAmount(String key, String value) throws ParseException {
-		if(decimalFormat == null) {
-			if(!Util.isEmpty(getDecimalSeparator())) {
-				DecimalFormatSymbols symbols = new DecimalFormatSymbols();
-				char separator = getDecimalSeparator().charAt(0);
-				symbols.setGroupingSeparator(separator);
-				if(separator == '.') {
-					symbols.setDecimalSeparator(',');
-				} else {
-					symbols.setDecimalSeparator('.');
-				}
-				//	Instance it
-				decimalFormat = new DecimalFormat("###,###,###,###,###,###.########", symbols);
-				decimalFormat.setParseBigDecimal(true);
-			} else if(getLocale() != null) {
-				decimalFormat = (DecimalFormat) NumberFormat.getNumberInstance(getLocale());
-				decimalFormat.setParseBigDecimal(true);
-			}
-		}
-		//	Parse
-		values.put(key, (BigDecimal)decimalFormat.parse(value));
-	}
-	
-	/**
-	 * Set Date
-	 * @param key
-	 * @param value
-	 * @throws ParseException 
-	 */
-	private void setDate(String key, String value) throws ParseException {
-		if(dateFormat == null) {
-			dateFormat = new SimpleDateFormat(getDateFormat());
-		}
-		//	Parse
-		Date date = dateFormat.parse(value);
-		values.put(key, new Timestamp(date.getTime()));
 	}
 	
 	/**
@@ -347,7 +246,7 @@ public abstract class QIFBankTransaction {
 	 * @param line
 	 * @return
 	 */
-	public static boolean isEndLine(String line) {
+	public boolean isEndTransactionLine(String line) {
 		if(Util.isEmpty(line)) {
 			return false;
 		}
@@ -375,7 +274,7 @@ public abstract class QIFBankTransaction {
 	 * Get Bank Transaction Date
 	 * @return
 	 */
-	public Timestamp getBankTrxDate() {
+	public Timestamp getTrxDate() {
 		return getDate(LINE_TYPE_All_Date);
 	}
 	
@@ -383,15 +282,15 @@ public abstract class QIFBankTransaction {
 	 * Get Amount of transaction
 	 * @return
 	 */
-	public BigDecimal getBankTrxAmount() {
-		return getAmount(LINE_TYPE_All_Amount);
+	public BigDecimal getAmount() {
+		return getNumber(LINE_TYPE_All_Amount);
 	}
 
 	/**
 	 * Get Payee Account
 	 * @return
 	 */
-	public String getBankTrxPayeeAccountNo() {
+	public String getPayeeAccountNo() {
 		return getString(LINE_TYPE_Banking_Payee);
 	}
 	
@@ -399,7 +298,7 @@ public abstract class QIFBankTransaction {
 	 * Get Memo of Transaction
 	 * @return
 	 */
-	public String getBankTrxMemo() {
+	public String getMemo() {
 		return getString(LINE_TYPE_All_Memo);
 	}
 	
@@ -407,15 +306,20 @@ public abstract class QIFBankTransaction {
 	 * Get Category
 	 * @return
 	 */
-	public String getBankTrxCategory() {
-		return getString(LINE_TYPE_Banking_Category);
+	public String getTrxType() {
+		return null;
 	}
 	
 	/**
 	 * Get Check Numbers
 	 * @return
 	 */
-	public String getBankTrxCheckNo() {
+	public String getCheckNo() {
+		return getReferenceNo();
+	}
+	
+	@Override
+	public String getReferenceNo() {
 		return getString(LINE_TYPE_Banking_Check_Number);
 	}
 	
@@ -426,4 +330,24 @@ public abstract class QIFBankTransaction {
 	 * @return
 	 */
 	protected abstract String processValue(String value);
+
+	@Override
+	public Timestamp getValueDate() {
+		return getDate(LINE_TYPE_All_Date);
+	}
+
+	@Override
+	public Timestamp getStatementDate() {
+		return getDate(LINE_TYPE_All_Date);
+	}
+
+	@Override
+	public String getCurrency() {
+		return null;
+	}
+	
+	@Override
+	public String getTrxCode() {
+		return getString(LINE_TYPE_Banking_Category);
+	}
 }
