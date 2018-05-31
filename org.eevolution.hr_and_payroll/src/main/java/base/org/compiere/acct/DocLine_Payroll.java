@@ -42,7 +42,7 @@ public class DocLine_Payroll extends DocLine
 	public DocLine_Payroll (MHRMovement movement, Doc_HRProcess doc) {
 		super (movement, doc);
 		int C_BPartner_ID = movement.getC_BPartner_ID();
-		MHRConcept concept = MHRConcept.get(Env.getCtx(), movement.getHR_Concept_ID()); 
+		MHRConcept concept = MHRConcept.getById(Env.getCtx(), movement.getHR_Concept_ID() , getTrxName());
 		//
 		conceptId = concept.getHR_Concept_ID();
 		processId = movement.getHR_Process_ID();
@@ -170,7 +170,7 @@ public class DocLine_Payroll extends DocLine
 	 * @return
 	 */
 	public X_HR_Concept_Acct getConceptAcct(int acctSchemaId) {
-		MHRConcept concept = MHRConcept.get(Env.getCtx(), getHR_Concept_ID());
+		MHRConcept concept = MHRConcept.getById(Env.getCtx(), getHR_Concept_ID() , getTrxName());
 		if(concept != null) {
 			return concept.getConceptAcct(acctSchemaId);
 		}

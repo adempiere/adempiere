@@ -41,9 +41,10 @@ public class MHRSalaryRange extends X_HR_SalaryRange {
      * Get Salary Range by Id
      * @param ctx
      * @param salaryRangeId
+     * @param trxName
      * @return
      */
-    public static MHRSalaryRange getById(Properties ctx, int salaryRangeId) {
+    public static MHRSalaryRange getById(Properties ctx, int salaryRangeId, String trxName) {
         if (salaryRangeId <= 0)
             return null;
 
@@ -54,7 +55,7 @@ public class MHRSalaryRange extends X_HR_SalaryRange {
         if (salaryRange != null && salaryRange.get_ID() > 0)
             return salaryRange;
 
-        salaryRange = new Query(ctx , Table_Name , COLUMNNAME_HR_SalaryRange_ID +  "=?", null)
+        salaryRange = new Query(ctx , Table_Name , COLUMNNAME_HR_SalaryRange_ID +  "=?", trxName)
                 .setClient_ID()
                 .setParameters(salaryRangeId)
                 .first();
@@ -72,9 +73,10 @@ public class MHRSalaryRange extends X_HR_SalaryRange {
      * Get Salary Range by search key
      * @param ctx
      * @param value
+     * @param trxName
      * @return
      */
-    public static MHRSalaryRange getByValue(Properties ctx, String value) {
+    public static MHRSalaryRange getByValue(Properties ctx, String value, String trxName) {
         if (value == null)
             return null;
         if (salaryRangeCacheValues.size() == 0)
@@ -87,7 +89,7 @@ public class MHRSalaryRange extends X_HR_SalaryRange {
         if (salaryRange != null && salaryRange.get_ID() > 0)
             return salaryRange;
 
-        salaryRange = new Query(ctx, Table_Name, COLUMNNAME_Value + "=?", null)
+        salaryRange = new Query(ctx, Table_Name, COLUMNNAME_Value + "=?", trxName)
                 .setClient_ID()
                 .setParameters(value)
                 .first();
