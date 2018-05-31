@@ -214,7 +214,7 @@ public class HRActionNotice
 		if (process == null)
 			return new KeyNamePair[]{new KeyNamePair(0, "")};
 		//	Get Payroll attribute
-		MHRPayroll payroll = MHRPayroll.getById(Env.getCtx(), process.getHR_Payroll_ID());
+		MHRPayroll payroll = MHRPayroll.getById(Env.getCtx(), process.getHR_Payroll_ID(), process.getName());
 		
 		KeyNamePair pp = new KeyNamePair(0, "");
 		list.add(pp);
@@ -393,7 +393,7 @@ public class HRActionNotice
 	 * @return
 	 */
 	public MHRMovement saveMovement() {
-		MHRConcept concept = MHRConcept.get(Env.getCtx(), getConceptId());
+		MHRConcept concept = MHRConcept.getById(Env.getCtx(), getConceptId() , null);
 		MHRMovement movement = new MHRMovement(Env.getCtx(), movementId, null);
 		I_HR_Period payrollPeriod = getPayrollProcess().getHR_Period();
 		movement.setSeqNo(concept.getSeqNo());
@@ -411,7 +411,7 @@ public class HRActionNotice
 		movement.setValidTo(getValidTo());
 		MHREmployee employee = MHREmployee.getActiveEmployee(Env.getCtx(), movement.getC_BPartner_ID(), null);
 		if (employee != null) {
-			MHRPayroll payroll = MHRPayroll.getById(Env.getCtx(), payrollProcess.getHR_Payroll_ID());
+			MHRPayroll payroll = MHRPayroll.getById(Env.getCtx(), payrollProcess.getHR_Payroll_ID(),null);
 			movement.setAD_Org_ID(employee.getAD_Org_ID());
 			movement.setHR_Department_ID(employee.getHR_Department_ID());
 			movement.setHR_Job_ID(employee.getHR_Job_ID());

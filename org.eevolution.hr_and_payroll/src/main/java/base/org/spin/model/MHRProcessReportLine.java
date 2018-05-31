@@ -47,7 +47,7 @@ public class MHRProcessReportLine extends X_HR_ProcessReportLine {
 	protected boolean beforeSave(boolean newRecord) {
 		super.beforeSave(newRecord);
 		if(getPrintName() == null){
-			MHRConcept concept = MHRConcept.get(getCtx(), getHR_Concept_ID());
+			MHRConcept concept = MHRConcept.getById(getCtx(), getHR_Concept_ID() , get_TrxName());
 			if(concept != null) {
 				setPrintName(concept.getName());
 			}

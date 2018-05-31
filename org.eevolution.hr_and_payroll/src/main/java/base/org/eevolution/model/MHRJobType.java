@@ -47,20 +47,21 @@ public class MHRJobType extends X_HR_JobType {
      * Get Job Type by Id
      * @param ctx
      * @param jobTypeId
+     * @param trxName
      * @return
      */
-    public static MHRJobType getById(Properties ctx, int jobTypeId) {
+    public static MHRJobType getById(Properties ctx, int jobTypeId, String trxName) {
         if (jobTypeId <= 0)
             return null;
 
         if (jobTypeCacheIds.size() == 0)
-            getAll(ctx, true);
+            getAll(ctx, true, trxName);
 
         MHRJobType jobType = jobTypeCacheIds.get(jobTypeId);
         if (jobType != null && jobType.get_ID() > 0)
             return jobType;
 
-        jobType = new Query(ctx , Table_Name , MHRJobType.COLUMNNAME_HR_JobType_ID +  "=?", null )
+        jobType = new Query(ctx , Table_Name , MHRJobType.COLUMNNAME_HR_JobType_ID +  "=?", trxName )
                 .setClient_ID()
                 .setParameters(jobTypeId)
                 .first();
@@ -77,13 +78,14 @@ public class MHRJobType extends X_HR_JobType {
      * Get Job Type by search key
      * @param ctx
      * @param value
+     * @param trxName
      * @return
      */
-    public static MHRJobType getByValue(Properties ctx, String value) {
+    public static MHRJobType getByValue(Properties ctx, String value, String trxName) {
         if (value == null)
             return null;
         if (jobTypeCacheValues.size() == 0)
-            getAll(ctx, true);
+            getAll(ctx, true, trxName);
 
         int clientId = Env.getAD_Client_ID(ctx);
         String key = clientId +"#"+ value;
@@ -91,7 +93,7 @@ public class MHRJobType extends X_HR_JobType {
         if (jobType != null && jobType.get_ID() > 0)
             return jobType;
 
-        jobType = new Query(ctx, Table_Name, COLUMNNAME_Value + "=?", null)
+        jobType = new Query(ctx, Table_Name, COLUMNNAME_Value + "=?", trxName)
                 .setClient_ID()
                 .setParameters(value)
                 .first();
@@ -107,12 +109,13 @@ public class MHRJobType extends X_HR_JobType {
      * Get all Job Types and create cache
      * @param ctx
      * @param resetCache
+     * @param trxName
      * @return
      */
-    public static List<MHRJobType> getAll(Properties ctx, boolean resetCache) {
+    public static List<MHRJobType> getAll(Properties ctx, boolean resetCache, String trxName) {
         List<MHRJobType> jobTypeList;
         if (resetCache || jobTypeCacheIds.size() > 0) {
-            jobTypeList = new Query(Env.getCtx(), Table_Name, null, null)
+            jobTypeList = new Query(Env.getCtx(), Table_Name, null, trxName)
                     .setClient_ID()
                     .setOrderBy(COLUMNNAME_Name)
                     .list();
