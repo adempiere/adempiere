@@ -45,10 +45,11 @@ public class MSalesRegion extends X_C_SalesRegion
 	 *	@param salesRegionId id
 	 *	@return MSalesRegion
 	 */
-	@Deprecated
+	/*@Deprecated
 	public static MSalesRegion get (Properties ctx, int salesRegionId) {
-		return getById(ctx, salesRegionId);
+		return getById(ctx, salesRegionId, );
 	}	//	get
+	*/
 
 	/** Static Cache */
 	private static CCache<Integer, MSalesRegion> salesRegionCacheIds = new CCache<Integer, MSalesRegion>(Table_Name, 30);
@@ -59,9 +60,10 @@ public class MSalesRegion extends X_C_SalesRegion
 	 * Get/Load Campaign [CACHED]
 	 * @param ctx context
 	 * @param salesRegionId
+	 * @param trxName
 	 * @return activity or null
 	 */
-	public static MSalesRegion getById(Properties ctx, int salesRegionId) {
+	public static MSalesRegion getById(Properties ctx, int salesRegionId, String trxName) {
 		if (salesRegionId <= 0)
 			return null;
 
@@ -69,7 +71,7 @@ public class MSalesRegion extends X_C_SalesRegion
 		if (salesRegion != null && salesRegion.get_ID() > 0)
 			return salesRegion;
 
-		salesRegion = new Query(ctx , Table_Name , COLUMNNAME_C_SalesRegion_ID + "=?" , null)
+		salesRegion = new Query(ctx , Table_Name , COLUMNNAME_C_SalesRegion_ID + "=?" , trxName)
 				.setClient_ID()
 				.setParameters(salesRegionId)
 				.first();
@@ -87,13 +89,14 @@ public class MSalesRegion extends X_C_SalesRegion
 	 * get Activity By Value [CACHED]
 	 * @param ctx
 	 * @param salesRegionValue
+	 * @param trxName
 	 * @return
 	 */
-	public static MSalesRegion getByValue(Properties ctx , String salesRegionValue) {
+	public static MSalesRegion getByValue(Properties ctx, String salesRegionValue, String trxName) {
 		if (salesRegionValue == null)
 			return null;
 		if (salesRegionCacheValues.size() == 0 )
-			getAll(ctx, true);
+			getAll(ctx, true, trxName);
 
 		int clientId = Env.getAD_Client_ID(ctx);
 		String key = clientId + "#" + salesRegionValue;
@@ -101,7 +104,7 @@ public class MSalesRegion extends X_C_SalesRegion
 		if (salesRegion != null && salesRegion.get_ID() > 0 )
 			return salesRegion;
 
-		salesRegion =  new Query(ctx, Table_Name , COLUMNNAME_Value +  "=?", null)
+		salesRegion =  new Query(ctx, Table_Name , COLUMNNAME_Value +  "=?", trxName)
 				.setClient_ID()
 				.setParameters(salesRegionValue)
 				.first();
@@ -117,12 +120,13 @@ public class MSalesRegion extends X_C_SalesRegion
 	 * Get All Campaign
 	 * @param ctx
 	 * @param resetCache
+	 * @param trxName
 	 * @return
 	 */
-	public static List<MSalesRegion> getAll(Properties ctx, boolean resetCache) {
+	public static List<MSalesRegion> getAll(Properties ctx, boolean resetCache, String trxName) {
 		List<MSalesRegion> salesRegionList;
 		if (resetCache || salesRegionCacheIds.size() > 0 ) {
-			salesRegionList = new Query(Env.getCtx(), Table_Name, null , null)
+			salesRegionList = new Query(Env.getCtx(), Table_Name, null , trxName)
 					.setClient_ID()
 					.setOrderBy(COLUMNNAME_Name)
 					.list();

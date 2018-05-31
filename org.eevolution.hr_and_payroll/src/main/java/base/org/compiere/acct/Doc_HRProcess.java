@@ -131,7 +131,7 @@ public class   Doc_HRProcess extends Doc
 			BigDecimal sumAmount = line.getAmtSource();
 			// round amount according to currency
 			sumAmount = sumAmount.setScale(as.getStdPrecision(), BigDecimal.ROUND_HALF_UP);
-			MHRConcept concept = MHRConcept.get(Env.getCtx(), payrollDocLine.getHR_Concept_ID());
+			MHRConcept concept = MHRConcept.getById(as.getCtx(), payrollDocLine.getHR_Concept_ID() , getTrxName());
 			//	Get Concept Account
 			X_HR_Concept_Acct conceptAcct = concept.getConceptAcct(
 					Optional.ofNullable(payrollDocLine.getAccountSchemaId()),

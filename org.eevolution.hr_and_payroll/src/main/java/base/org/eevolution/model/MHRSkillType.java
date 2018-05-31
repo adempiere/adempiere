@@ -42,21 +42,22 @@ public class MHRSkillType extends X_HR_SkillType {
      * Get Skill Type by Id
      * @param ctx
      * @param skillTypeId
+     * @param trxName
      * @return
      */
-    public static MHRSkillType getById(Properties ctx, int skillTypeId)
+    public static MHRSkillType getById(Properties ctx, int skillTypeId, String trxName)
     {
         if (skillTypeId <= 0)
             return null;
 
         if (skillTypeCacheIds.size() == 0)
-            getAll(ctx, true);
+            getAll(ctx, true, trxName);
 
         MHRSkillType skillType = skillTypeCacheIds.get(skillTypeId);
         if (skillType != null && skillType.get_ID() > 0)
             return skillType;
 
-        skillType = new Query(ctx , Table_Name , MHRSkillType.COLUMNNAME_HR_SkillType_ID + "=?", null)
+        skillType = new Query(ctx , Table_Name , MHRSkillType.COLUMNNAME_HR_SkillType_ID + "=?", trxName)
                 .setClient_ID()
                 .setParameters(skillTypeId)
                 .first();
@@ -74,15 +75,16 @@ public class MHRSkillType extends X_HR_SkillType {
      * Get Skill Type by search key
      * @param ctx
      * @param value
+     * @param trxName
      * @return
      */
-    public static MHRSkillType getByValue(Properties ctx , String value)
+    public static MHRSkillType getByValue(Properties ctx, String value, String trxName)
     {
         if (value == null)
             return null;
 
         if (skillTypeCacheValues.size() == 0)
-            getAll(ctx, true);
+            getAll(ctx, true, trxName);
 
         int clientId = Env.getAD_Client_ID(ctx);
         String key = clientId + "#" + value;
@@ -90,7 +92,7 @@ public class MHRSkillType extends X_HR_SkillType {
         if (skillType != null && skillType.get_ID() > 0 )
             return  skillType;
 
-        skillType =  new Query(ctx, Table_Name , COLUMNNAME_Value +  "=?", null)
+        skillType =  new Query(ctx, Table_Name , COLUMNNAME_Value +  "=?", trxName)
                 .setClient_ID()
                 .setParameters(value)
                 .first();
@@ -106,13 +108,14 @@ public class MHRSkillType extends X_HR_SkillType {
      * Get all Skill Types and create cache
      * @param ctx
      * @param resetCache
+     * @param trxName
      * @return
      */
-    public static List<MHRSkillType> getAll(Properties ctx, boolean resetCache)
+    public static List<MHRSkillType> getAll(Properties ctx, boolean resetCache, String trxName)
     {
         List<MHRSkillType> skillTypeList;
         if (resetCache || skillTypeCacheIds.size() > 0 ) {
-            skillTypeList = new Query(Env.getCtx(), Table_Name, null, null)
+            skillTypeList = new Query(Env.getCtx(), Table_Name, null, trxName)
                     .setClient_ID()
                     .setOrderBy(COLUMNNAME_Name)
                     .list();
