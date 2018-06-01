@@ -2,6 +2,6 @@
 <classpath>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="src" path="src/main/java/base"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/adempiereDevelop"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/adempiere"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
