@@ -338,15 +338,5 @@ https://github.com/adempiere/adempiere/issues/1370</Comments>
         <Data AD_Column_ID="183" Column="IsSameLine" oldValue="false">true</Data>
       </PO>
     </Step>
-    <Step SeqNo="270" StepType="AD">
-      <PO AD_Table_ID="101" Action="U" Record_ID="86715" Table="AD_Column">
-        <Data AD_Column_ID="548" Column="IsActive" oldValue="true">false</Data>
-      </PO>
-    </Step>
-    <Step SeqNo="280" StepType="AD">
-      <PO AD_Table_ID="101" Action="U" Record_ID="86588" Table="AD_Column">
-        <Data AD_Column_ID="548" Column="IsActive" oldValue="true">false</Data>
-      </PO>
-    </Step>
   </Migration>
 </Migrations>
