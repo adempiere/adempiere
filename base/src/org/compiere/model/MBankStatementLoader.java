@@ -266,6 +266,7 @@ import org.compiere.util.Util;
 		try {
 			imp.saveEx();
 			loadCount ++;
+			result = true;
 		} catch (Exception e) {
 			errorMessage = e.getLocalizedMessage();
 		}
