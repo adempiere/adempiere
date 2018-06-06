@@ -32,6 +32,7 @@ import org.compiere.minigrid.IDColumn;
 import org.compiere.minigrid.IMiniTable;
 import org.compiere.model.MBankAccount;
 import org.compiere.model.MBankStatement;
+import org.compiere.model.MBankStatementLine;
 import org.compiere.model.MBankStatementMatcher;
 import org.compiere.model.MRole;
 import org.compiere.model.X_I_BankStatement;
@@ -84,6 +85,8 @@ public class BankStatementMatchController {
 	private Timestamp dateTo = null;
 	/** Business Partner	*/
 	private int bpartnerId = 0;
+	/**	Import Matched	*/
+	private boolean isImportMatched = false;
 	/** Matched	*/
 	private int matchMode = -1;
 	/** Match Mode              	*/
@@ -131,7 +134,7 @@ public class BankStatementMatchController {
 	 * @return
 	 */
 	public String getButtonMatchMessage() {
-		if(isMatched()) {
+		if(isMatchedMode()) {
 			return Msg.translate(Env.getCtx(), "BankStatementMatch.SimulateUnMatch");
 		}
 		//	Default
@@ -143,7 +146,7 @@ public class BankStatementMatchController {
 	 * @return
 	 */
 	public String getAskMatchMessage() {
-		if(isMatched()) {
+		if(isMatchedMode()) {
 			return Msg.translate(Env.getCtx(), "BankStatementMatch.AskUnMatch");
 		}
 		//	Default
@@ -154,8 +157,8 @@ public class BankStatementMatchController {
 	 * Is Matched
 	 * @return
 	 */
-	public boolean isMatched() {
-		return getMatchMode() == MODE_MATCHED;
+	public boolean isMatchedMode() {
+		return getMatchedMode() == MODE_MATCHED;
 	}
 	
 	/**
@@ -274,14 +277,14 @@ public class BankStatementMatchController {
 		//	Where Clause
 		sql.append("WHERE p.C_BankAccount_ID = ? ");
 		if(bankStatement != null) {
-			sql.append("AND EXISTS(SELECT 1 FROM C_BankStatement bs "
+			sql.append("AND NOT EXISTS(SELECT 1 FROM C_BankStatement bs "
 					+ "INNER JOIN C_BankStatementLine bsl ON(bsl.C_BankStatement_ID = bs.C_BankStatement_ID) "
 					+ "WHERE bsl.C_Payment_ID = p.C_Payment_ID "
 					+ "AND bs.DocStatus IN('CO', 'CL') "
 					+ "AND bsl.C_BankStatement_ID <> ").append(bankStatement.getC_BankStatement_ID()).append(") ");
 		}
 		//	Match
-		if(isMatched()) {
+		if(isMatchedMode()) {
 			sql.append("AND EXISTS(SELECT 1 FROM I_BankStatement ibs "
 					+ "WHERE (ibs.C_Payment_ID = p.C_Payment_ID))");
 		} else {
@@ -347,9 +350,7 @@ public class BankStatementMatchController {
 				line.add(rs.getString("ISO_Code"));      				//  6-Currency
 				line.add(rs.getBigDecimal("PayAmt"));					//  7-PayAmt
 				line.add(rs.getString("Description")); 					// 	8-Description
-				if(!isMatched()) {
-					paymentData.add(line);
-				}
+				paymentData.add(line);
 			}
 		} catch (SQLException e) {
 			log.log(Level.SEVERE, sql.toString(), e);
@@ -413,7 +414,7 @@ public class BankStatementMatchController {
 		//	Where Clause
 		sql.append("WHERE p.C_BankAccount_ID = ? ");
 		//	Match
-		if(isMatched()) {
+		if(isMatchedMode()) {
 			sql.append("AND (p.C_Payment_ID IS NOT NULL OR p.C_BPartner_ID IS NOT NULL OR p.C_Invoice_ID IS NOT NULL) ");
 		} else {
 			sql.append("AND (p.C_Payment_ID IS NULL OR p.C_BPartner_ID IS NULL OR p.C_Invoice_ID IS NULL) ");
@@ -472,11 +473,8 @@ public class BankStatementMatchController {
 				line.add(rs.getBigDecimal("TrxAmt"));					//  6-TrxAmt
 				line.add(rs.getString("Memo")); 						// 	7-Memo
 				data.add(line);
-				int paymentId = rs.getInt("C_Payment_ID");
 				//	Add model class
-				if(paymentId <= 0) {
-					importedPaymentHashMap.put(rs.getInt("I_BankStatement_ID"), new X_I_BankStatement(Env.getCtx(), rs, null));
-				}
+				importedPaymentHashMap.put(rs.getInt("I_BankStatement_ID"), new X_I_BankStatement(Env.getCtx(), rs, null));
 			}
 		} catch (SQLException e) {
 			log.log(Level.SEVERE, sql.toString(), e);
@@ -531,26 +529,75 @@ public class BankStatementMatchController {
 	}
 	
 	/**
-	 * Find a match between imported payment and ADempiere payments
-	 * @return matched payment count
+	 * Action for button
+	 * @return
 	 */
-	public int findMatch() {
-		int bankId = 0;
-		if(account != null) {
-			bankId = account.getC_Bank_ID();
-		}
+	public int actionMatchUnMatch() {
+		int processed = 0;
 		//	Instance
 		matchedPaymentHashMap = new HashMap<Integer, X_I_BankStatement>();
-		//	
-		List<MBankStatementMatcher> matchersList = MBankStatementMatcher.getMatchersList(Env.getCtx(), bankId);
-		if(matchersList == null) {
-			return 0;
-		}
 		//	For all
 		if(importedPaymentHashMap.isEmpty()) {
 			return 0;
 		}
+		//	Apply
+		if(!isMatchedMode()) {
+			processed = findMatch();
+		} else {
+			processed = unMatch();
+		}
+		//	
+		return processed;
+	}
+	
+	/**
+	 * Unmatch records
+	 * @return
+	 */
+	private int unMatch() {
 		int matched = 0;
+		//	
+		for(Map.Entry<Integer, X_I_BankStatement> entry : importedPaymentHashMap.entrySet()) {
+			X_I_BankStatement currentpayment = entry.getValue();
+			if(currentpayment.getC_Payment_ID() == 0
+					&& currentpayment.getC_BPartner_ID() == 0
+					&& currentpayment.getC_Invoice_ID() == 0) {
+				continue;
+			}
+			//	put on hash
+			matchedPaymentHashMap.put(entry.getValue().getC_Payment_ID(), currentpayment);
+			//	remove payment
+			if(currentpayment.getC_Payment_ID() != 0) {
+				currentpayment.setC_Payment_ID(-1);
+			}
+			//	Remove BPartner
+			if(currentpayment.getC_BPartner_ID() != 0) {
+				currentpayment.setC_BPartner_ID(-1);
+			}
+			//	Invoice
+			if(currentpayment.getC_Invoice_ID() != 0) {
+				currentpayment.setC_Invoice_ID(-1);
+			}
+			matched++;
+		}
+		//	Return
+		return matched;
+	}
+	
+	/**
+	 * Find a match between imported payment and ADempiere payments
+	 * @return matched payment count
+	 */
+	private int findMatch() {
+		int matched = 0;
+		int bankId = 0;
+		if(account != null) {
+			bankId = account.getC_Bank_ID();
+		}
+		List<MBankStatementMatcher> matchersList = MBankStatementMatcher.getMatchersList(Env.getCtx(), bankId);
+		if(matchersList == null) {
+			return 0;
+		}
 		//	
 		for(Map.Entry<Integer, X_I_BankStatement> entry : importedPaymentHashMap.entrySet()) {
 			X_I_BankStatement currentpayment = entry.getValue();
@@ -617,9 +664,15 @@ public class BankStatementMatchController {
 	 */
 	public String saveData(int m_WindowNo, String trxName) {
 		if(matchedPaymentHashMap.isEmpty()) {
-			return Msg.parseTranslation(Env.getCtx(), "@BankStatementMatch.NoMatchedFound@");
+			return Msg.translate(Env.getCtx(), "BankStatementMatch.NoMatchedFound");
 		}
 		int processed = 0;
+		int lineNo = 10;
+		int defaultChargeId = DB.getSQLValue(null, "SELECT MAX(C_Charge_ID) FROM C_Charge WHERE AD_Client_ID = ?", Env.getAD_Client_ID(Env.getCtx()));
+		if(defaultChargeId <= 0) {
+			return Msg.parseTranslation(Env.getCtx(), "@C_Charge_ID@ @NotFound@");
+		}
+		setImportMatched(isFromStatement());
 		//	
 		for(Map.Entry<Integer, X_I_BankStatement> entry : matchedPaymentHashMap.entrySet()) {
 			X_I_BankStatement currentpayment = entry.getValue();
@@ -629,11 +682,38 @@ public class BankStatementMatchController {
 			}
 			//	Save It
 			currentpayment.saveEx();
+			if(isImportMatched()) {
+				if(currentpayment.getC_Payment_ID() <= 0
+						&& currentpayment.getC_Charge_ID() <= 0) {
+					currentpayment.setC_Charge_ID(defaultChargeId);
+				}
+				importMatched(currentpayment, lineNo);
+				lineNo += 10;
+			}
 			processed++;
 		}
 		//	Return processed
-		return Msg.translate(Env.getCtx(), "@BankStatementMatch.MatchedProcessed@") + ": " + processed;
+		return Msg.translate(Env.getCtx(), "BankStatementMatch.MatchedProcessed") + ": " + processed;
 	}   //  saveData
+	
+	/**
+	 * Import Matched Line
+	 * @param toBeImport
+	 * @param lineNo
+	 */
+	private void importMatched(X_I_BankStatement toBeImport, int lineNo) {
+		if(!isFromStatement()) {
+			return;
+		}
+		//	
+		MBankStatementLine lineToImport = new MBankStatementLine(bankStatement, toBeImport, lineNo);
+		lineToImport.saveEx();
+		toBeImport.setC_BankStatement_ID(bankStatement.getC_BankStatement_ID());
+		toBeImport.setC_BankStatementLine_ID(lineToImport.getC_BankStatementLine_ID());
+		toBeImport.setI_IsImported(true);
+		toBeImport.setProcessed(true);
+		toBeImport.saveEx();
+	}
 	
 	/**
 	 * Validate parameters, it return null is nothing happens, else return a translated message
@@ -708,11 +788,20 @@ public class BankStatementMatchController {
 		this.bpartnerId = bpartnerId;
 	}
 	
-	public int getMatchMode() {
+	public int getMatchedMode() {
 		return matchMode;
 	}
 
 	public void setMatchMode(int matchMode) {
 		this.matchMode = matchMode;
 	}
+
+	public boolean isImportMatched() {
+		return isImportMatched;
+	}
+
+	public void setImportMatched(boolean importMatched) {
+		this.isImportMatched = importMatched;
+	}
+	
 }
