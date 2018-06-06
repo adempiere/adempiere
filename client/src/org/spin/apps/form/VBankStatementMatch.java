@@ -315,9 +315,12 @@ public class VBankStatementMatch extends BankStatementMatchController
 			log.config("search");
 			refresh();
 		} else if(e.getSource().equals(simulateMatchButton)) {
-			statusBar.setStatusLine(Msg.translate(Env.getCtx(), "BankStatementMatch.Matched") + ": " + findMatch());
+			statusBar.setStatusLine(Msg.translate(Env.getCtx(), "BankStatementMatch.Matched") + ": " + actionMatchUnMatch());
 			loadMatchedPaymentsFromMatch();
 		} else if(e.getActionCommand().equals(ConfirmPanel.A_OK)) {
+			if(!isAvailableForSave()) {
+				return;
+			}
 			if(ADialog.ask(getWindowNo(), frame.getContainer(), "SaveChanges?", getAskMatchMessage())) {
 				saveData();
 			}
@@ -364,11 +367,13 @@ public class VBankStatementMatch extends BankStatementMatchController
 		//	Disable account
 		if(isFromStatement()) {
 			bankAccountField.setEnabled(false);
+			bankAccountField.setReadWrite(false);
 			if(dateToField.getValue() == null) {
 				dateToField.setValue(getStatementDate());
 			}
 		} else {
 			bankAccountField.setEnabled(true);
+			bankAccountField.setReadWrite(true);
 		}
 		simulateMatchButton.setText(getButtonMatchMessage());
 		simulateMatchButton.setToolTipText(getButtonMatchMessage());
