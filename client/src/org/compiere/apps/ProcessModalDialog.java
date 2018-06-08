@@ -221,4 +221,12 @@ public class ProcessModalDialog extends CDialog implements IProcessDialog {
 	public Object getParentContainer() {
 		return this;
 	}
+	
+	/**
+	 * Return true when is auto start process
+	 * @return
+	 */
+	public boolean isAutoStart() {
+		return processPanel.isAutoStart();
+	}
 }	//	ProcessDialog
