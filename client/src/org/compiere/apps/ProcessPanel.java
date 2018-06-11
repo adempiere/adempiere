@@ -349,18 +349,7 @@ public class ProcessPanel extends ProcessController
 	 */
 	public void afterInit() {
 		//	BR [ 265 ]
-		if (!hasParameters()) {
-			if (getShowHelp() != null 
-					&& getShowHelp().equals("N")) {
-				setAutoStart(true);    // don't ask first click
-				// anyway show resulting window
-			}
-		}
-		// Check if the process is a silent one
-		if(getShowHelp() != null 
-				&& getShowHelp().equals("S")) {
-			setAutoStart(true);
-		}
+		validateAutoStart();
 		//	
 		mainPanel.validate();
 		//	If is Auto Start
