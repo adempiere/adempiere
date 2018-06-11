@@ -16,11 +16,11 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.ResultSet;
-import java.util.Properties;
-
 import org.compiere.util.Msg;
 import org.eevolution.model.MPPProductBOM;
+
+import java.sql.ResultSet;
+import java.util.Properties;
 
 /**
  * 	Change Request Model
