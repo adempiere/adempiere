@@ -326,6 +326,15 @@ public interface I_C_DocType
 	  */
 	public boolean isActive();
 
+    /** Column name IsAllocateImmediate */
+    public static final String COLUMNNAME_IsAllocateImmediate = "IsAllocateImmediate";
+
+	/** Set IsAllocateImmediate	  */
+	public void setIsAllocateImmediate (boolean IsAllocateImmediate);
+
+	/** Get IsAllocateImmediate	  */
+	public boolean isAllocateImmediate();
+
     /** Column name IsCopyDocNoOnReversal */
     public static final String COLUMNNAME_IsCopyDocNoOnReversal = "IsCopyDocNoOnReversal";
 
@@ -580,4 +589,6 @@ public interface I_C_DocType
 	  * Immutable Universally Unique Identifier
 	  */
 	public String getUUID();
+
+
 }

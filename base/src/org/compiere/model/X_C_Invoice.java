@@ -33,7 +33,7 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20180128L;
+	private static final long serialVersionUID = 20171001L;
 
     /** Standard Constructor */
     public X_C_Invoice (Properties ctx, int C_Invoice_ID, String trxName)
@@ -60,8 +60,6 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 // DR
 			setDocumentNo (null);
 			setGrandTotal (Env.ZERO);
-			setIsAllocateImmediate (false);
-// N
 			setIsApproved (false);
 // @IsApproved@
 			setIsDiscountPrinted (false);
@@ -93,7 +91,7 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
     }
 
     /** AccessLevel
-      * @return 1 - Org 
+      * @return 1 - Org
       */
     protected int get_AccessLevel()
     {
@@ -115,21 +113,21 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
     }
 
 	/** Set Trx Organization.
-		@param AD_OrgTrx_ID 
+		@param AD_OrgTrx_ID
 		Performing or initiating organization
 	  */
 	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID)
 	{
-		if (AD_OrgTrx_ID < 1) 
+		if (AD_OrgTrx_ID < 1)
 			set_Value (COLUMNNAME_AD_OrgTrx_ID, null);
-		else 
+		else
 			set_Value (COLUMNNAME_AD_OrgTrx_ID, Integer.valueOf(AD_OrgTrx_ID));
 	}
 
 	/** Get Trx Organization.
 		@return Performing or initiating organization
 	  */
-	public int getAD_OrgTrx_ID () 
+	public int getAD_OrgTrx_ID ()
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_OrgTrx_ID);
 		if (ii == null)
@@ -143,21 +141,21 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 			.getPO(getAD_User_ID(), get_TrxName());	}
 
 	/** Set User/Contact.
-		@param AD_User_ID 
+		@param AD_User_ID
 		User within the system - Internal or Business Partner Contact
 	  */
 	public void setAD_User_ID (int AD_User_ID)
 	{
-		if (AD_User_ID < 1) 
+		if (AD_User_ID < 1)
 			set_Value (COLUMNNAME_AD_User_ID, null);
-		else 
+		else
 			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
 	}
 
 	/** Get User/Contact.
 		@return User within the system - Internal or Business Partner Contact
 	  */
-	public int getAD_User_ID () 
+	public int getAD_User_ID ()
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_User_ID);
 		if (ii == null)
@@ -171,21 +169,21 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 			.getPO(getC_Activity_ID(), get_TrxName());	}
 
 	/** Set Activity.
-		@param C_Activity_ID 
+		@param C_Activity_ID
 		Business Activity
 	  */
 	public void setC_Activity_ID (int C_Activity_ID)
 	{
-		if (C_Activity_ID < 1) 
+		if (C_Activity_ID < 1)
 			set_Value (COLUMNNAME_C_Activity_ID, null);
-		else 
+		else
 			set_Value (COLUMNNAME_C_Activity_ID, Integer.valueOf(C_Activity_ID));
 	}
 
 	/** Get Activity.
 		@return Business Activity
 	  */
-	public int getC_Activity_ID () 
+	public int getC_Activity_ID ()
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_Activity_ID);
 		if (ii == null)
@@ -199,21 +197,21 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 			.getPO(getC_BPartner_ID(), get_TrxName());	}
 
 	/** Set Business Partner .
-		@param C_BPartner_ID 
+		@param C_BPartner_ID
 		Identifies a Business Partner
 	  */
 	public void setC_BPartner_ID (int C_BPartner_ID)
 	{
-		if (C_BPartner_ID < 1) 
+		if (C_BPartner_ID < 1)
 			set_Value (COLUMNNAME_C_BPartner_ID, null);
-		else 
+		else
 			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
 	}
 
 	/** Get Business Partner .
 		@return Identifies a Business Partner
 	  */
-	public int getC_BPartner_ID () 
+	public int getC_BPartner_ID ()
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartner_ID);
 		if (ii == null)
@@ -227,21 +225,21 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 			.getPO(getC_BPartner_Location_ID(), get_TrxName());	}
 
 	/** Set Partner Location.
-		@param C_BPartner_Location_ID 
+		@param C_BPartner_Location_ID
 		Identifies the (ship to) address for this Business Partner
 	  */
 	public void setC_BPartner_Location_ID (int C_BPartner_Location_ID)
 	{
-		if (C_BPartner_Location_ID < 1) 
+		if (C_BPartner_Location_ID < 1)
 			set_Value (COLUMNNAME_C_BPartner_Location_ID, null);
-		else 
+		else
 			set_Value (COLUMNNAME_C_BPartner_Location_ID, Integer.valueOf(C_BPartner_Location_ID));
 	}
 
 	/** Get Partner Location.
 		@return Identifies the (ship to) address for this Business Partner
 	  */
-	public int getC_BPartner_Location_ID () 
+	public int getC_BPartner_Location_ID ()
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartner_Location_ID);
 		if (ii == null)
@@ -255,21 +253,21 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 			.getPO(getC_Campaign_ID(), get_TrxName());	}
 
 	/** Set Campaign.
-		@param C_Campaign_ID 
+		@param C_Campaign_ID
 		Marketing Campaign
 	  */
 	public void setC_Campaign_ID (int C_Campaign_ID)
 	{
-		if (C_Campaign_ID < 1) 
+		if (C_Campaign_ID < 1)
 			set_Value (COLUMNNAME_C_Campaign_ID, null);
-		else 
+		else
 			set_Value (COLUMNNAME_C_Campaign_ID, Integer.valueOf(C_Campaign_ID));
 	}
 
 	/** Get Campaign.
 		@return Marketing Campaign
 	  */
-	public int getC_Campaign_ID () 
+	public int getC_Campaign_ID ()
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_Campaign_ID);
 		if (ii == null)
@@ -283,21 +281,21 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 			.getPO(getC_CashLine_ID(), get_TrxName());	}
 
 	/** Set Cash Journal Line.
-		@param C_CashLine_ID 
+		@param C_CashLine_ID
 		Cash Journal Line
 	  */
 	public void setC_CashLine_ID (int C_CashLine_ID)
 	{
-		if (C_CashLine_ID < 1) 
+		if (C_CashLine_ID < 1)
 			set_Value (COLUMNNAME_C_CashLine_ID, null);
-		else 
+		else
 			set_Value (COLUMNNAME_C_CashLine_ID, Integer.valueOf(C_CashLine_ID));
 	}
 
 	/** Get Cash Journal Line.
 		@return Cash Journal Line
 	  */
-	public int getC_CashLine_ID () 
+	public int getC_CashLine_ID ()
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_CashLine_ID);
 		if (ii == null)
@@ -311,21 +309,21 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 			.getPO(getC_Charge_ID(), get_TrxName());	}
 
 	/** Set Charge.
-		@param C_Charge_ID 
+		@param C_Charge_ID
 		Additional document charges
 	  */
 	public void setC_Charge_ID (int C_Charge_ID)
 	{
-		if (C_Charge_ID < 1) 
+		if (C_Charge_ID < 1)
 			set_Value (COLUMNNAME_C_Charge_ID, null);
-		else 
+		else
 			set_Value (COLUMNNAME_C_Charge_ID, Integer.valueOf(C_Charge_ID));
 	}
 
 	/** Get Charge.
 		@return Additional document charges
 	  */
-	public int getC_Charge_ID () 
+	public int getC_Charge_ID ()
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_Charge_ID);
 		if (ii == null)
@@ -339,21 +337,21 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 			.getPO(getC_ConversionType_ID(), get_TrxName());	}
 
 	/** Set Currency Type.
-		@param C_ConversionType_ID 
+		@param C_ConversionType_ID
 		Currency Conversion Rate Type
 	  */
 	public void setC_ConversionType_ID (int C_ConversionType_ID)
 	{
-		if (C_ConversionType_ID < 1) 
+		if (C_ConversionType_ID < 1)
 			set_Value (COLUMNNAME_C_ConversionType_ID, null);
-		else 
+		else
 			set_Value (COLUMNNAME_C_ConversionType_ID, Integer.valueOf(C_ConversionType_ID));
 	}
 
 	/** Get Currency Type.
 		@return Currency Conversion Rate Type
 	  */
-	public int getC_ConversionType_ID () 
+	public int getC_ConversionType_ID ()
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_ConversionType_ID);
 		if (ii == null)
@@ -367,21 +365,21 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 			.getPO(getC_Currency_ID(), get_TrxName());	}
 
 	/** Set Currency.
-		@param C_Currency_ID 
+		@param C_Currency_ID
 		The Currency for this record
 	  */
 	public void setC_Currency_ID (int C_Currency_ID)
 	{
-		if (C_Currency_ID < 1) 
+		if (C_Currency_ID < 1)
 			set_Value (COLUMNNAME_C_Currency_ID, null);
-		else 
+		else
 			set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
 	}
 
 	/** Get Currency.
 		@return The Currency for this record
 	  */
-	public int getC_Currency_ID () 
+	public int getC_Currency_ID ()
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_Currency_ID);
 		if (ii == null)
@@ -395,21 +393,21 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 			.getPO(getC_DocType_ID(), get_TrxName());	}
 
 	/** Set Document Type.
-		@param C_DocType_ID 
+		@param C_DocType_ID
 		Document type or rules
 	  */
 	public void setC_DocType_ID (int C_DocType_ID)
 	{
-		if (C_DocType_ID < 0) 
+		if (C_DocType_ID < 0)
 			set_ValueNoCheck (COLUMNNAME_C_DocType_ID, null);
-		else 
+		else
 			set_ValueNoCheck (COLUMNNAME_C_DocType_ID, Integer.valueOf(C_DocType_ID));
 	}
 
 	/** Get Document Type.
 		@return Document type or rules
 	  */
-	public int getC_DocType_ID () 
+	public int getC_DocType_ID ()
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocType_ID);
 		if (ii == null)
@@ -423,21 +421,21 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 			.getPO(getC_DocTypeTarget_ID(), get_TrxName());	}
 
 	/** Set Target Document Type.
-		@param C_DocTypeTarget_ID 
+		@param C_DocTypeTarget_ID
 		Target document type for conversing documents
 	  */
 	public void setC_DocTypeTarget_ID (int C_DocTypeTarget_ID)
 	{
-		if (C_DocTypeTarget_ID < 1) 
+		if (C_DocTypeTarget_ID < 1)
 			set_Value (COLUMNNAME_C_DocTypeTarget_ID, null);
-		else 
+		else
 			set_Value (COLUMNNAME_C_DocTypeTarget_ID, Integer.valueOf(C_DocTypeTarget_ID));
 	}
 
 	/** Get Target Document Type.
 		@return Target document type for conversing documents
 	  */
-	public int getC_DocTypeTarget_ID () 
+	public int getC_DocTypeTarget_ID ()
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocTypeTarget_ID);
 		if (ii == null)
@@ -454,15 +452,15 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 		@param C_DunningLevel_ID Dunning Level	  */
 	public void setC_DunningLevel_ID (int C_DunningLevel_ID)
 	{
-		if (C_DunningLevel_ID < 1) 
+		if (C_DunningLevel_ID < 1)
 			set_Value (COLUMNNAME_C_DunningLevel_ID, null);
-		else 
+		else
 			set_Value (COLUMNNAME_C_DunningLevel_ID, Integer.valueOf(C_DunningLevel_ID));
 	}
 
 	/** Get Dunning Level.
 		@return Dunning Level	  */
-	public int getC_DunningLevel_ID () 
+	public int getC_DunningLevel_ID ()
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_DunningLevel_ID);
 		if (ii == null)
@@ -470,27 +468,64 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Charge amount.
+		@param ChargeAmt
+		Charge Amount
+	  */
+	public void setChargeAmt (BigDecimal ChargeAmt)
+	{
+		set_Value (COLUMNNAME_ChargeAmt, ChargeAmt);
+	}
+
+	/** Get Charge amount.
+		@return Charge Amount
+	  */
+	public BigDecimal getChargeAmt ()
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ChargeAmt);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
 	/** Set Invoice.
-		@param C_Invoice_ID 
+		@param C_Invoice_ID
 		Invoice Identifier
 	  */
 	public void setC_Invoice_ID (int C_Invoice_ID)
 	{
-		if (C_Invoice_ID < 1) 
+		if (C_Invoice_ID < 1)
 			set_ValueNoCheck (COLUMNNAME_C_Invoice_ID, null);
-		else 
+		else
 			set_ValueNoCheck (COLUMNNAME_C_Invoice_ID, Integer.valueOf(C_Invoice_ID));
 	}
 
 	/** Get Invoice.
 		@return Invoice Identifier
 	  */
-	public int getC_Invoice_ID () 
+	public int getC_Invoice_ID ()
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_Invoice_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Copy From.
+		@param CopyFrom
+		Copy From Record
+	  */
+	public void setCopyFrom (String CopyFrom)
+	{
+		set_Value (COLUMNNAME_CopyFrom, CopyFrom);
+	}
+
+	/** Get Copy From.
+		@return Copy From Record
+	  */
+	public String getCopyFrom ()
+	{
+		return (String)get_Value(COLUMNNAME_CopyFrom);
 	}
 
 	public org.compiere.model.I_C_Order getC_Order() throws RuntimeException
@@ -499,21 +534,21 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 			.getPO(getC_Order_ID(), get_TrxName());	}
 
 	/** Set Order.
-		@param C_Order_ID 
+		@param C_Order_ID
 		Order
 	  */
 	public void setC_Order_ID (int C_Order_ID)
 	{
-		if (C_Order_ID < 1) 
+		if (C_Order_ID < 1)
 			set_ValueNoCheck (COLUMNNAME_C_Order_ID, null);
-		else 
+		else
 			set_ValueNoCheck (COLUMNNAME_C_Order_ID, Integer.valueOf(C_Order_ID));
 	}
 
 	/** Get Order.
 		@return Order
 	  */
-	public int getC_Order_ID () 
+	public int getC_Order_ID ()
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_Order_ID);
 		if (ii == null)
@@ -527,21 +562,21 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 			.getPO(getC_Payment_ID(), get_TrxName());	}
 
 	/** Set Payment.
-		@param C_Payment_ID 
+		@param C_Payment_ID
 		Payment identifier
 	  */
 	public void setC_Payment_ID (int C_Payment_ID)
 	{
-		if (C_Payment_ID < 1) 
+		if (C_Payment_ID < 1)
 			set_Value (COLUMNNAME_C_Payment_ID, null);
-		else 
+		else
 			set_Value (COLUMNNAME_C_Payment_ID, Integer.valueOf(C_Payment_ID));
 	}
 
 	/** Get Payment.
 		@return Payment identifier
 	  */
-	public int getC_Payment_ID () 
+	public int getC_Payment_ID ()
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_Payment_ID);
 		if (ii == null)
@@ -555,21 +590,21 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 			.getPO(getC_PaymentTerm_ID(), get_TrxName());	}
 
 	/** Set Payment Term.
-		@param C_PaymentTerm_ID 
+		@param C_PaymentTerm_ID
 		The terms of Payment (timing, discount)
 	  */
 	public void setC_PaymentTerm_ID (int C_PaymentTerm_ID)
 	{
-		if (C_PaymentTerm_ID < 1) 
+		if (C_PaymentTerm_ID < 1)
 			set_Value (COLUMNNAME_C_PaymentTerm_ID, null);
-		else 
+		else
 			set_Value (COLUMNNAME_C_PaymentTerm_ID, Integer.valueOf(C_PaymentTerm_ID));
 	}
 
 	/** Get Payment Term.
 		@return The terms of Payment (timing, discount)
 	  */
-	public int getC_PaymentTerm_ID () 
+	public int getC_PaymentTerm_ID ()
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_PaymentTerm_ID);
 		if (ii == null)
@@ -583,21 +618,21 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 			.getPO(getC_POS_ID(), get_TrxName());	}
 
 	/** Set POS Terminal.
-		@param C_POS_ID 
+		@param C_POS_ID
 		Point of Sales Terminal
 	  */
 	public void setC_POS_ID (int C_POS_ID)
 	{
-		if (C_POS_ID < 1) 
+		if (C_POS_ID < 1)
 			set_Value (COLUMNNAME_C_POS_ID, null);
-		else 
+		else
 			set_Value (COLUMNNAME_C_POS_ID, Integer.valueOf(C_POS_ID));
 	}
 
 	/** Get POS Terminal.
 		@return Point of Sales Terminal
 	  */
-	public int getC_POS_ID () 
+	public int getC_POS_ID ()
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_POS_ID);
 		if (ii == null)
@@ -611,21 +646,21 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 			.getPO(getC_Project_ID(), get_TrxName());	}
 
 	/** Set Project.
-		@param C_Project_ID 
+		@param C_Project_ID
 		Financial Project
 	  */
 	public void setC_Project_ID (int C_Project_ID)
 	{
-		if (C_Project_ID < 1) 
+		if (C_Project_ID < 1)
 			set_Value (COLUMNNAME_C_Project_ID, null);
-		else 
+		else
 			set_Value (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
 	}
 
 	/** Get Project.
 		@return Financial Project
 	  */
-	public int getC_Project_ID () 
+	public int getC_Project_ID ()
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_Project_ID);
 		if (ii == null)
@@ -633,45 +668,8 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Charge amount.
-		@param ChargeAmt 
-		Charge Amount
-	  */
-	public void setChargeAmt (BigDecimal ChargeAmt)
-	{
-		set_Value (COLUMNNAME_ChargeAmt, ChargeAmt);
-	}
-
-	/** Get Charge amount.
-		@return Charge Amount
-	  */
-	public BigDecimal getChargeAmt () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ChargeAmt);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
-	/** Set Copy From.
-		@param CopyFrom 
-		Copy From Record
-	  */
-	public void setCopyFrom (String CopyFrom)
-	{
-		set_Value (COLUMNNAME_CopyFrom, CopyFrom);
-	}
-
-	/** Get Copy From.
-		@return Copy From Record
-	  */
-	public String getCopyFrom () 
-	{
-		return (String)get_Value(COLUMNNAME_CopyFrom);
-	}
-
 	/** Set Create lines from.
-		@param CreateFrom 
+		@param CreateFrom
 		Process which will generate a new document lines based on an existing document
 	  */
 	public void setCreateFrom (String CreateFrom)
@@ -682,13 +680,13 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 	/** Get Create lines from.
 		@return Process which will generate a new document lines based on an existing document
 	  */
-	public String getCreateFrom () 
+	public String getCreateFrom ()
 	{
 		return (String)get_Value(COLUMNNAME_CreateFrom);
 	}
 
 	/** Set Account Date.
-		@param DateAcct 
+		@param DateAcct
 		Accounting Date
 	  */
 	public void setDateAcct (Timestamp DateAcct)
@@ -699,13 +697,13 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 	/** Get Account Date.
 		@return Accounting Date
 	  */
-	public Timestamp getDateAcct () 
+	public Timestamp getDateAcct ()
 	{
 		return (Timestamp)get_Value(COLUMNNAME_DateAcct);
 	}
 
 	/** Set Date Invoiced.
-		@param DateInvoiced 
+		@param DateInvoiced
 		Date printed on Invoice
 	  */
 	public void setDateInvoiced (Timestamp DateInvoiced)
@@ -716,13 +714,13 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 	/** Get Date Invoiced.
 		@return Date printed on Invoice
 	  */
-	public Timestamp getDateInvoiced () 
+	public Timestamp getDateInvoiced ()
 	{
 		return (Timestamp)get_Value(COLUMNNAME_DateInvoiced);
 	}
 
 	/** Set Date Ordered.
-		@param DateOrdered 
+		@param DateOrdered
 		Date of Order
 	  */
 	public void setDateOrdered (Timestamp DateOrdered)
@@ -733,13 +731,13 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 	/** Get Date Ordered.
 		@return Date of Order
 	  */
-	public Timestamp getDateOrdered () 
+	public Timestamp getDateOrdered ()
 	{
 		return (Timestamp)get_Value(COLUMNNAME_DateOrdered);
 	}
 
 	/** Set Date printed.
-		@param DatePrinted 
+		@param DatePrinted
 		Date the document was printed.
 	  */
 	public void setDatePrinted (Timestamp DatePrinted)
@@ -750,13 +748,13 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 	/** Get Date printed.
 		@return Date the document was printed.
 	  */
-	public Timestamp getDatePrinted () 
+	public Timestamp getDatePrinted ()
 	{
 		return (Timestamp)get_Value(COLUMNNAME_DatePrinted);
 	}
 
 	/** Set Description.
-		@param Description 
+		@param Description
 		Optional short description of the record
 	  */
 	public void setDescription (String Description)
@@ -767,7 +765,7 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 	/** Get Description.
 		@return Optional short description of the record
 	  */
-	public String getDescription () 
+	public String getDescription ()
 	{
 		return (String)get_Value(COLUMNNAME_Description);
 	}
@@ -803,7 +801,7 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 	/** Wait Complete = WC */
 	public static final String DOCACTION_WaitComplete = "WC";
 	/** Set Document Action.
-		@param DocAction 
+		@param DocAction
 		The targeted status of the document
 	  */
 	public void setDocAction (String DocAction)
@@ -815,7 +813,7 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 	/** Get Document Action.
 		@return The targeted status of the document
 	  */
-	public String getDocAction () 
+	public String getDocAction ()
 	{
 		return (String)get_Value(COLUMNNAME_DocAction);
 	}
@@ -847,7 +845,7 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 	/** Waiting Confirmation = WC */
 	public static final String DOCSTATUS_WaitingConfirmation = "WC";
 	/** Set Document Status.
-		@param DocStatus 
+		@param DocStatus
 		The current status of the document
 	  */
 	public void setDocStatus (String DocStatus)
@@ -859,13 +857,13 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 	/** Get Document Status.
 		@return The current status of the document
 	  */
-	public String getDocStatus () 
+	public String getDocStatus ()
 	{
 		return (String)get_Value(COLUMNNAME_DocStatus);
 	}
 
 	/** Set Document No.
-		@param DocumentNo 
+		@param DocumentNo
 		Document sequence number of the document
 	  */
 	public void setDocumentNo (String DocumentNo)
@@ -876,7 +874,7 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 	/** Get Document No.
 		@return Document sequence number of the document
 	  */
-	public String getDocumentNo () 
+	public String getDocumentNo ()
 	{
 		return (String)get_Value(COLUMNNAME_DocumentNo);
 	}
@@ -884,7 +882,7 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
     /** Get Record ID/ColumnName
         @return ID/ColumnName pair
       */
-    public KeyNamePair getKeyNamePair() 
+    public KeyNamePair getKeyNamePair()
     {
         return new KeyNamePair(get_ID(), getDocumentNo());
     }
@@ -898,13 +896,13 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 
 	/** Get Dunning Grace Date.
 		@return Dunning Grace Date	  */
-	public Timestamp getDunningGrace () 
+	public Timestamp getDunningGrace ()
 	{
 		return (Timestamp)get_Value(COLUMNNAME_DunningGrace);
 	}
 
 	/** Set Generate To.
-		@param GenerateTo 
+		@param GenerateTo
 		Generate To
 	  */
 	public void setGenerateTo (String GenerateTo)
@@ -915,13 +913,13 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 	/** Get Generate To.
 		@return Generate To
 	  */
-	public String getGenerateTo () 
+	public String getGenerateTo ()
 	{
 		return (String)get_Value(COLUMNNAME_GenerateTo);
 	}
 
 	/** Set Grand Total.
-		@param GrandTotal 
+		@param GrandTotal
 		Total amount of document
 	  */
 	public void setGrandTotal (BigDecimal GrandTotal)
@@ -932,7 +930,7 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 	/** Get Grand Total.
 		@return Total amount of document
 	  */
-	public BigDecimal getGrandTotal () 
+	public BigDecimal getGrandTotal ()
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_GrandTotal);
 		if (bd == null)
@@ -951,7 +949,7 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 	/** Uncollectable = U */
 	public static final String INVOICECOLLECTIONTYPE_Uncollectable = "U";
 	/** Set Collection Status.
-		@param InvoiceCollectionType 
+		@param InvoiceCollectionType
 		Invoice Collection Status
 	  */
 	public void setInvoiceCollectionType (String InvoiceCollectionType)
@@ -963,30 +961,9 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 	/** Get Collection Status.
 		@return Invoice Collection Status
 	  */
-	public String getInvoiceCollectionType () 
+	public String getInvoiceCollectionType ()
 	{
 		return (String)get_Value(COLUMNNAME_InvoiceCollectionType);
-	}
-
-	/** Set IsAllocateImmediate.
-		@param IsAllocateImmediate IsAllocateImmediate	  */
-	public void setIsAllocateImmediate (boolean IsAllocateImmediate)
-	{
-		set_Value (COLUMNNAME_IsAllocateImmediate, Boolean.valueOf(IsAllocateImmediate));
-	}
-
-	/** Get IsAllocateImmediate.
-		@return IsAllocateImmediate	  */
-	public boolean isAllocateImmediate () 
-	{
-		Object oo = get_Value(COLUMNNAME_IsAllocateImmediate);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
 	}
 
 	/** Set Approved.
