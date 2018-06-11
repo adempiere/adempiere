@@ -118,10 +118,10 @@ public class WTreeMaintenance extends TreeMaintenance implements IFormController
 	 */
 	private void jbInit () throws Exception
 	{
-		bAddAll.setSrc("images/FastBack16.png");
-		bAdd.setSrc("images/StepBack16.png");
-		bDelete.setSrc("images/StepForward16.png");
-		bDeleteAll.setSrc("images/FastForward16.png");
+		bAddAll.setSrc("images/FastBack24.png");
+		bAdd.setSrc("images/StepBack24.png");
+		bDelete.setSrc("images/StepForward24.png");
+		bDeleteAll.setSrc("images/FastForward24.png");
 		
 		form.setWidth("99%");
 		form.setHeight("100%");
