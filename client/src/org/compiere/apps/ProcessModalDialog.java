@@ -170,8 +170,8 @@ public class ProcessModalDialog extends CDialog implements IProcessDialog {
 		processInfo.setAD_Client_ID(Env.getAD_Client_ID(Env.getCtx()));
 		processPanel = new ProcessPanel(this, windowNo, processInfo, ProcessPanel.COLUMNS_1);
 		processPanel.setIsOnlyPanel(isOnlyPanel);
-		processPanel.setAutoStart(autoStart);
 		processPanel.createFieldsAndEditors();
+		autoStart = processPanel.isAutoStart();
 		//	Set Default
 		getContentPane().add(processPanel.getPanel());
 		setTitle(processPanel.getName());
