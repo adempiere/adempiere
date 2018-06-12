@@ -18,7 +18,8 @@
 package org.compiere.model;
 
 import org.compiere.util.CLogger;
-import org.compiere.util.Env;;
+import org.compiere.util.Env;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
