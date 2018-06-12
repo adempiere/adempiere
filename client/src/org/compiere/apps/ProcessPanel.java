@@ -611,9 +611,10 @@ public class ProcessPanel extends ProcessController
 					if(saveOrUpdateParameters(saveName) == null) {
 						ProcessCtl.process(parent.getParentProcess(), getWindowNo(), this, getProcessInfo(), null);
 					}
-				}
-				if(parent.isEmbedded()) {
-					dispose();
+					//	
+					if(parent.isEmbedded()) {
+						dispose();
+					}
 				}
 			}
 			
@@ -747,6 +748,16 @@ public class ProcessPanel extends ProcessController
 			retValue = d.getReturnCode();
 		}
 		while (retValue == ADialogDialog.A_CANCEL);
+	}	//	printInvoices
+	
+	@Override
+	public String validateParameters() {
+		String validError = super.validateParameters();
+		if(validError != null) {
+			ADialog.error(getWindowNo(), getPanel(), "FillMandatory", validError);
+		}
+		//	
+		return validError;
 	}	//	printInvoices
 
 }	//	ProcessParameterPanel

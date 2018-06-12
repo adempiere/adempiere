@@ -573,10 +573,8 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 							getProcessInfo().setSerializableObject(format);
 					}
 				}
-
-
 				//	BR [ 265 ]
-					process(saveName);
+				process(saveName);
 			}
 		} else if (event.getTarget().equals(bCancel)) {
 			dispose();
