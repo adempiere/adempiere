@@ -103,7 +103,7 @@ public class MBrowseField extends X_AD_Browse_Field {
 			valueObject.Header = field.getName();
 		}
 		catch (IllegalArgumentException e) {
-			valueObject.Header = (String) field.get_Value("Name");;
+			valueObject.Header = (String) field.get_Value("Name");
 		}		
 		valueObject.Callout = field.getCallout();
 		valueObject.initFinish();
