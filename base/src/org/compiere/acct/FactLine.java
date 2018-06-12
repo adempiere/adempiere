@@ -713,6 +713,9 @@ public final class FactLine extends X_Fact_Acct
 			setAmtAcctCr (getAmtSourceCr());
 			return true;
 		}
+
+		m_doc.setIsMultiCurrency(true);
+
 		//	Get Conversion Type from Line or Header
 		int C_ConversionType_ID = 0;
 		int AD_Org_ID = 0;

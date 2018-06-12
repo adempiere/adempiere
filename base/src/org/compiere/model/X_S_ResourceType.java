@@ -31,7 +31,7 @@ public class X_S_ResourceType extends PO implements I_S_ResourceType, I_Persiste
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170731L;
+	private static final long serialVersionUID = 20171024L;
 
     /** Standard Constructor */
     public X_S_ResourceType (Properties ctx, int S_ResourceType_ID, String trxName)
@@ -117,6 +117,23 @@ public class X_S_ResourceType extends PO implements I_S_ResourceType, I_Persiste
 		return false;
 	}
 
+	/** Set Chargeable Quantity.
+		@param ChargeableQty Chargeable Quantity	  */
+	public void setChargeableQty (int ChargeableQty)
+	{
+		set_Value (COLUMNNAME_ChargeableQty, Integer.valueOf(ChargeableQty));
+	}
+
+	/** Get Chargeable Quantity.
+		@return Chargeable Quantity	  */
+	public int getChargeableQty () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_ChargeableQty);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_C_TaxCategory getC_TaxCategory() throws RuntimeException
     {
 		return (org.compiere.model.I_C_TaxCategory)MTable.get(getCtx(), org.compiere.model.I_C_TaxCategory.Table_Name)
@@ -145,6 +162,34 @@ public class X_S_ResourceType extends PO implements I_S_ResourceType, I_Persiste
 		return ii.intValue();
 	}
 
+	public org.eevolution.model.I_C_TaxType getC_TaxType() throws RuntimeException
+    {
+		return (org.eevolution.model.I_C_TaxType)MTable.get(getCtx(), org.eevolution.model.I_C_TaxType.Table_Name)
+			.getPO(getC_TaxType_ID(), get_TrxName());	}
+
+	/** Set Tax Type.
+		@param C_TaxType_ID 
+		Tax Type
+	  */
+	public void setC_TaxType_ID (int C_TaxType_ID)
+	{
+		if (C_TaxType_ID < 1) 
+			set_Value (COLUMNNAME_C_TaxType_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_TaxType_ID, Integer.valueOf(C_TaxType_ID));
+	}
+
+	/** Get Tax Type.
+		@return Tax Type
+	  */
+	public int getC_TaxType_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_TaxType_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_C_UOM getC_UOM() throws RuntimeException
     {
 		return (org.compiere.model.I_C_UOM)MTable.get(getCtx(), org.compiere.model.I_C_UOM.Table_Name)
@@ -168,23 +213,6 @@ public class X_S_ResourceType extends PO implements I_S_ResourceType, I_Persiste
 	public int getC_UOM_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_UOM_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Chargeable Quantity.
-		@param ChargeableQty Chargeable Quantity	  */
-	public void setChargeableQty (int ChargeableQty)
-	{
-		set_Value (COLUMNNAME_ChargeableQty, Integer.valueOf(ChargeableQty));
-	}
-
-	/** Get Chargeable Quantity.
-		@return Chargeable Quantity	  */
-	public int getChargeableQty () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_ChargeableQty);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

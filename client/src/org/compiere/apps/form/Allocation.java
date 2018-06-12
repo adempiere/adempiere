@@ -26,13 +26,18 @@ import java.util.logging.Level;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.minigrid.IMiniTable;
+import org.compiere.model.I_C_Invoice;
+import org.compiere.model.I_C_Payment;
 import org.compiere.model.MAllocationHdr;
 import org.compiere.model.MAllocationLine;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MOrg;
 import org.compiere.model.MPayment;
 import org.compiere.model.MRole;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
 import org.compiere.process.DocAction;
+import org.compiere.process.ProcessInfo;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
@@ -58,12 +63,13 @@ public class Allocation
 	/**	Logger			*/
 	public static CLogger log = CLogger.getCLogger(Allocation.class);
 
-	private boolean     m_calculating = false;
+	private boolean     calculating = false;
 	public int         	currencyId = 0;
 	public int         	bPartnerId = 0;
 	public int          chargeId = 0;
 	public int         	orgWriteId = 0;
 	public String		description = null;
+	private boolean		isSOTrx = false;
 	private int         noInvoices = 0;
 	private int         noPayments = 0;
 	public BigDecimal	totalInv = new BigDecimal(0.0);
@@ -82,10 +88,12 @@ public class Allocation
 	private int         invoiceAppliedIndex = 9;
 	private int 		invoiceOverUnderIndex = 10;
 	
-	private int         orgId = 0;
+	public int         	orgId = 0;
 	public String		apar = null;
 	//	Window No
 	private int			windowNo = 0;
+	/**	From PO				*/
+	private PO			poFrom = null;
 	
 	/**	Receivables & Payables	*/
 	public static final String 	APAR_A = "A";
@@ -93,19 +101,124 @@ public class Allocation
 	public static final String 	APAR_P = "P";
 	/**	Receivables only		*/
 	public static final String 	APAR_R = "R";
+	private ArrayList<Integer>	bpartnerCheck = new ArrayList<Integer>();
 	
-
-	private ArrayList<Integer>	m_bpartnerCheck = new ArrayList<Integer>(); 
-
-	public void dynInit() throws Exception
-	{
-		currencyId = Env.getContextAsInt(Env.getCtx(), "$C_Currency_ID");   //  default
+	/**
+	 * 
+	 * @param tableId
+	 * @param recordId
+	 * @throws Exception
+	 */
+	public void dynInit() throws Exception {
+		setFromPO(null);
 		//
 		log.info("Currency=" + currencyId);
-		
-		orgId = Env.getAD_Org_ID(Env.getCtx());
+	}
+	
+	/**
+	 * Set from PO
+	 * @param processInfo
+	 */
+	public void setFromPO(ProcessInfo processInfo) {
+		if(processInfo != null
+				&& processInfo.getTable_ID() > 0
+				&& processInfo.getRecord_ID() > 0) {
+			poFrom = MTable.get(Env.getCtx(), processInfo.getTable_ID())
+				.getPO(processInfo.getRecord_ID(), null);
+			//	
+			bPartnerId = getDefaultBPartnerId();
+			orgId = getDefaultOrgId();
+			currencyId = getDefaultCurrencyId();
+			//	
+			isSOTrx = isDefaultSOTrx();
+		} else {
+			bPartnerId = -1;
+			orgId = Env.getAD_Org_ID(Env.getCtx());
+			currencyId = Env.getContextAsInt(Env.getCtx(), "$C_Currency_ID");   //  default
+		}
 		//	
-		Env.setContext(Env.getCtx(), getWindowNo(), "IsSOTrx", "Y");   //  defaults to no
+		Env.setContext(Env.getCtx(), getWindowNo(), "IsSOTrx", isSOTrx? "Y": "N");   //  defaults to no
+	}
+	
+	/**
+	 * Get Default BPartner
+	 * @return
+	 */
+	private int getDefaultBPartnerId() {
+		if(poFrom == null) {
+			return -1;
+		}
+		//	
+		return poFrom.get_ValueAsInt(I_C_Payment.COLUMNNAME_C_BPartner_ID);
+	}
+	
+	/**
+	 * Get Default Org
+	 * @return
+	 */
+	private int getDefaultOrgId() {
+		if(poFrom == null) {
+			return -1;
+		}
+		//	
+		return poFrom.get_ValueAsInt(I_C_Payment.COLUMNNAME_AD_Org_ID);
+	}
+	
+	/**
+	 * Get Default Currency
+	 * @return
+	 */
+	private int getDefaultCurrencyId() {
+		if(poFrom == null) {
+			return -1;
+		}
+		//	
+		return poFrom.get_ValueAsInt(I_C_Payment.COLUMNNAME_C_Currency_ID);
+	}
+	
+	/**
+	 * Is Sales Trx
+	 * @return
+	 */
+	private boolean isDefaultSOTrx() {
+		if(poFrom == null) {
+			return false;
+		}
+		//	
+		int index = poFrom.get_ColumnIndex(I_C_Payment.COLUMNNAME_IsReceipt);
+		if(index > 0) {
+			return poFrom.get_ValueAsBoolean(I_C_Payment.COLUMNNAME_IsReceipt);
+		} else {
+			index = poFrom.get_ColumnIndex(I_C_Invoice.COLUMNNAME_IsSOTrx);
+		}
+		//	get
+		if(index > 0) {
+			return poFrom.get_ValueAsBoolean(I_C_Invoice.COLUMNNAME_IsSOTrx);
+		}
+		//	Default
+		return false;
+	}
+	
+	/**
+	 * Is Default Multi currency
+	 * @return
+	 */
+	public boolean isDefaultMultiCurrency() {
+		int defaultCurrencyId = getDefaultCurrencyId();
+		if(defaultCurrencyId > 0) {
+			int currencyId = Env.getContextAsInt(Env.getCtx(), "$C_Currency_ID");
+			return currencyId != defaultCurrencyId;
+		}
+		//	Default Return
+		return false;
+	}
+	
+	/**
+	 * Is generated from parent
+	 * @return
+	 */
+	public boolean isFromParent() {
+		return poFrom != null;
 	}
 	
 	/**
@@ -151,6 +264,33 @@ public class Allocation
 	}
 	
 	/**
+	 * Ser DEfault Records
+	 * @param payment
+	 * @param invoice
+	 */
+	public void setDefaultRecord(IMiniTable payment, IMiniTable invoice) {
+		if(!isFromParent()) {
+			return;
+		}
+		//	
+		if(poFrom.get_Table_ID() == I_C_Payment.Table_ID) {
+			for(int row = 0; row < payment.getRowCount(); row++) {
+				int paymentId = payment.getRowKey(row);
+				if(paymentId == poFrom.get_ID()) {
+					payment.setRowChecked(row, true);
+				}
+			}
+		} else if(poFrom.get_Table_ID() == I_C_Invoice.Table_ID) {
+			for(int row = 0; row < invoice.getRowCount(); row++) {
+				int invoiceId = invoice.getRowKey(row);
+				if(invoiceId == poFrom.get_ID()) {
+					invoice.setRowChecked(row, true);
+				}
+			}
+		}
+	}
+	
+	/**
 	 *  Load Business Partner Info
 	 *  - Payments
 	 *  - Invoices
@@ -164,7 +304,7 @@ public class Allocation
 
 		//	Async BPartner Test
 		Integer key = new Integer(bPartnerId);
-		if (!m_bpartnerCheck.contains(key))
+		if (!bpartnerCheck.contains(key))
 		{
 			new Thread()
 			{
@@ -174,7 +314,7 @@ public class Allocation
 					MInvoice.setIsPaid (Env.getCtx(), bPartnerId, null);
 				}
 			}.start();
-			m_bpartnerCheck.add(key);
+			bpartnerCheck.add(key);
 		}
 	}
 	
@@ -497,9 +637,9 @@ public class Allocation
 		/**
 		 *  Setting defaults
 		 */
-		if (m_calculating)  //  Avoid recursive calls
+		if (calculating)  //  Avoid recursive calls
 			return msg;
-		m_calculating = true;
+		calculating = true;
 		
 		log.config("Row=" + row 
 			+ ", Col=" + col + ", InvoiceTable=" + isInvoice);
@@ -644,7 +784,7 @@ public class Allocation
 			//invoice.repaint(); //  update r/o
 		}
 
-		m_calculating = false;
+		calculating = false;
 		
 		return msg;
 	}
@@ -736,13 +876,13 @@ public class Allocation
 		{
 			if (payment.isRowChecked(i))
 			{
-				BigDecimal PaymentAmt = (BigDecimal)payment.getValueAt(i, paymentPaidIndex);  //  Applied Payment
-				amountList.add(PaymentAmt);
+				BigDecimal paymentAmt = (BigDecimal)payment.getValueAt(i, paymentPaidIndex);  //  Applied Payment
+				amountList.add(paymentAmt);
 				//
-				paymentAppliedAmt = paymentAppliedAmt.add(PaymentAmt);
+				paymentAppliedAmt = paymentAppliedAmt.add(paymentAmt);
 				//
 				log.fine("C_Payment_ID=" + payment.getRowKey(i) 
-					+ " - PaymentAmt=" + PaymentAmt); // + " * " + Multiplier + " = " + PaymentAmtAbs);
+					+ " - PaymentAmt=" + paymentAmt); // + " * " + Multiplier + " = " + PaymentAmtAbs);
 			}
 		}
 		log.config("Number of Payments=" + paymentList.size() + " - Total=" + paymentAppliedAmt);
@@ -781,14 +921,14 @@ public class Allocation
 				for (int j = 0; j < paymentList.size() && AppliedAmt.signum() != 0; j++)
 				{
 					int paymentId = ((Integer)paymentList.get(j)).intValue();
-					BigDecimal PaymentAmt = (BigDecimal)amountList.get(j);
-					if (PaymentAmt.signum() == AppliedAmt.signum())	// only match same sign (otherwise appliedAmt increases)
+					BigDecimal paymentAmt = (BigDecimal)amountList.get(j);
+					if (paymentAmt.signum() == AppliedAmt.signum())	// only match same sign (otherwise appliedAmt increases)
 					{												// and not zero (appliedAmt was checked earlier)
-						log.config(".. with payment #" + j + ", Amt=" + PaymentAmt);
+						log.config(".. with payment #" + j + ", Amt=" + paymentAmt);
 						
 						BigDecimal amount = AppliedAmt;
-						if (amount.abs().compareTo(PaymentAmt.abs()) > 0)  // if there's more open on the invoice
-							amount = PaymentAmt;							// than left in the payment
+						if (amount.abs().compareTo(paymentAmt.abs()) > 0)  // if there's more open on the invoice
+							amount = paymentAmt;							// than left in the payment
 						
 						//	Allocation Line
 						MAllocationLine aLine = new MAllocationLine (alloc, amount, 
@@ -802,9 +942,9 @@ public class Allocation
 						WriteOffAmt = Env.ZERO;
 						//  subtract amount from Payment/Invoice
 						AppliedAmt = AppliedAmt.subtract(amount);
-						PaymentAmt = PaymentAmt.subtract(amount);
-						log.fine("Allocation Amount=" + amount + " - Remaining  Applied=" + AppliedAmt + ", Payment=" + PaymentAmt);
-						amountList.set(j, PaymentAmt);  //  update
+						paymentAmt = paymentAmt.subtract(amount);
+						log.fine("Allocation Amount=" + amount + " - Remaining  Applied=" + AppliedAmt + ", Payment=" + paymentAmt);
+						amountList.set(j, paymentAmt);  //  update
 					}	//	for all applied amounts
 				}	//	loop through payments for invoice
 				

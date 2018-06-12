@@ -62,6 +62,19 @@ public interface I_C_Bank
 	  */
 	public int getAD_Org_ID();
 
+    /** Column name BankType */
+    public static final String COLUMNNAME_BankType = "BankType";
+
+	/** Set Bank Type.
+	  * Bank Type define a type of bank or behavior
+	  */
+	public void setBankType (String BankType);
+
+	/** Get Bank Type.
+	  * Bank Type define a type of bank or behavior
+	  */
+	public String getBankType();
+
     /** Column name C_Bank_ID */
     public static final String COLUMNNAME_C_Bank_ID = "C_Bank_ID";
 
@@ -184,19 +197,6 @@ public interface I_C_Bank
 	  */
 	public String getSwiftCode();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -212,4 +212,17 @@ public interface I_C_Bank
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 }

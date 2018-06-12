@@ -4,7 +4,7 @@ CREATE OR REPLACE VIEW RV_OPENITEM
  DUEDATE, DAYSDUE, DISCOUNTDATE, DISCOUNTAMT, GRANDTOTAL, 
  PAIDAMT, OPENAMT, C_CURRENCY_ID, C_CONVERSIONTYPE_ID, C_PAYMENTTERM_ID, 
  ISPAYSCHEDULEVALID, C_INVOICEPAYSCHEDULE_ID, INVOICECOLLECTIONTYPE, C_CAMPAIGN_ID, C_PROJECT_ID, 
- C_ACTIVITY_ID)
+ C_ACTIVITY_ID, SalesRep_ID, Description, C_DocType_ID)
 AS 
 SELECT i.AD_Org_ID, i.AD_Client_ID,
 	i.DocumentNo, i.C_Invoice_ID, i.C_Order_ID, i.C_BPartner_ID, i.IsSOTrx,
@@ -20,7 +20,7 @@ SELECT i.AD_Org_ID, i.AD_Client_ID,
     i.C_Currency_ID, i.C_ConversionType_ID,
     i.C_PaymentTerm_ID,
     i.IsPayScheduleValid, cast(null as number) AS C_InvoicePaySchedule_ID, i.InvoiceCollectionType,
-    i.C_Campaign_ID, i.C_Project_ID, i.C_Activity_ID
+    i.C_Campaign_ID, i.C_Project_ID, i.C_Activity_ID, i.SalesRep_ID, i.Description, i.C_DocType_ID
 FROM RV_C_Invoice i
     INNER JOIN C_PaymentTerm p ON (i.C_PaymentTerm_ID=p.C_PaymentTerm_ID)
 WHERE --    i.IsPaid='N'
@@ -42,7 +42,7 @@ SELECT i.AD_Org_ID, i.AD_Client_ID,
     i.C_Currency_ID, i.C_ConversionType_ID,
     i.C_PaymentTerm_ID,
     i.IsPayScheduleValid, ips.C_InvoicePaySchedule_ID, i.InvoiceCollectionType,
-    i.C_Campaign_ID, i.C_Project_ID, i.C_Activity_ID
+    i.C_Campaign_ID, i.C_Project_ID, i.C_Activity_ID, i.SalesRep_ID, i.Description, i.C_DocType_ID
 FROM RV_C_Invoice i
     INNER JOIN C_InvoicePaySchedule ips ON (i.C_Invoice_ID=ips.C_Invoice_ID)
 WHERE  --   i.IsPaid='N'
@@ -50,6 +50,3 @@ WHERE  --   i.IsPaid='N'
     AND i.IsPayScheduleValid='Y'
     AND i.DocStatus IN ('CO','CL')
     AND ips.IsValid='Y';
-
-
-

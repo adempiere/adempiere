@@ -21,9 +21,12 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.process.DocAction;
 import org.compiere.process.DocumentEngine;
 import org.compiere.util.DB;
@@ -44,6 +47,7 @@ import org.compiere.util.TimeUtil;
 *	@see http://sourceforge.net/tracker2/?func=detail&atid=879335&aid=2520591&group_id=176962
 * 	<li> BF [ 2824951 ] The payments is not release when Bank Statement is void 
 *	@see http://sourceforge.net/tracker/?func=detail&aid=2824951&group_id=176962&atid=879332
+ *	<li> Add document type for Bank Statement #1470 https://github.com/adempiere/adempiere/issues/1470
 *  @author Teo Sarca, http://www.arhipac.ro
 * 	<li>FR [ 2616330 ] Use MPeriod.testPeriodOpen instead of isOpen
 * 		https://sourceforge.net/tracker/?func=detail&atid=879335&aid=2616330&group_id=176962
@@ -221,16 +225,7 @@ public class MBankStatement extends X_C_BankStatement implements DocAction
 	{
 		return MBankAccount.get(getCtx(), getC_BankAccount_ID());
 	}	//	getBankAccount
-	
-	/**
-	 * 	Get Document No 
-	 *	@return name
-	 */
-	public String getDocumentNo()
-	{
-		return getName();
-	}	//	getDocumentNo
-	
+
 	/**
 	 * 	Get Document Info
 	 *	@return document info (untranslated)
@@ -279,6 +274,17 @@ public class MBankStatement extends X_C_BankStatement implements DocAction
 	 */
 	protected boolean beforeSave (boolean newRecord)
 	{
+		if (getC_DocType_ID() <= 0)
+		{
+			Optional<MDocType> doctypeOptional = Arrays.stream(MDocType.getOfDocBaseType(getCtx(), MDocType.DOCBASETYPE_BankStatement))
+					.sorted((docType1, dt2) -> Boolean.compare(dt2.isDefault(), docType1.isDefault()))
+					.findFirst();
+			doctypeOptional.ifPresent(docType -> setC_DocType_ID(docType.getC_DocType_ID()));
+			if (getC_DocType_ID() <= 0)
+				throw new AdempiereException("@C_DocType_ID@ @FillMandatory@");
+
+		}
+
 		if (! isProcessed() && getBeginningBalance().compareTo(Env.ZERO) == 0)
 		{
 			MBankAccount ba = getBankAccount();
@@ -288,6 +294,21 @@ public class MBankStatement extends X_C_BankStatement implements DocAction
 		setEndingBalance(getBeginningBalance().add(getStatementDifference()));
 		return true;
 	}	//	beforeSave
+
+	/**
+	 * 	After Save
+	 *	@param newRecord new
+	 *	@param success success
+	 *	@return true if can be saved
+	 */
+	protected boolean afterSave (boolean newRecord, boolean success)
+	{
+		if (getDocumentNo() == null || getDocumentNo().isEmpty()) {
+			setDocumentNo(String.valueOf(getC_BankStatement_ID()));
+			saveEx();
+		}
+		return true;
+	}
 	
 	/**************************************************************************
 	 * 	Process document

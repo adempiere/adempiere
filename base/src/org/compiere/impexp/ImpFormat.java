@@ -29,6 +29,7 @@ import java.util.Properties;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
+import org.adempiere.util.AbstractBatchImport;
 import org.compiere.model.I_AD_ImpFormat;
 import org.compiere.model.X_AD_ImpFormat;
 import org.compiere.model.X_I_GLJournal;
@@ -46,20 +47,25 @@ import org.compiere.util.Util;
  *				<li>FR [ 3010957 ] Custom Separator Character, http://sourceforge.net/tracker/?func=detail&aid=3010957&group_id=176962&atid=879335 </li>
 
  *  @version $Id: ImpFormat.java,v 1.3 2006/07/30 00:51:05 jjanke Exp $
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * 		<a href="https://github.com/adempiere/adempiere/issues/1295">
+ * 		@see FR [ 1295 ] File Loader can be improvement from connection</a>
  */
 public final class ImpFormat
 {
 	/**
 	 *	Format
 	 *  @param name name
-	 *  @param AD_Table_ID table
+	 *  @param tableId table
 	 *  @param formatType format type
+	 *  @param optional connection class
 	 */
-	public ImpFormat (String name, int AD_Table_ID, String formatType)
+	public ImpFormat (String name, int tableId, String formatType, String connectionClass)
 	{
 		setName(name);
-		setTable(AD_Table_ID);
+		setTable(tableId);
 		setFormatType(formatType);
+		setConnectionClassName(connectionClass);
 	}	//	ImpFormat
 	
 	/**	Logger			*/
@@ -76,6 +82,7 @@ public final class ImpFormat
 	private String 		m_tableUnique2;
 	private String 		m_tableUniqueParent;
 	private String 		m_tableUniqueChild;
+	private String		connectionClass;
 	//
 	private String 		m_BPartner;
 	private ArrayList<ImpFormatRow>	m_rows	= new ArrayList<ImpFormatRow>();
@@ -84,6 +91,33 @@ public final class ImpFormat
 	
 	private int m_AD_Client_ID = 0;
 	private int m_AD_Org_ID = 0;
+	
+	/**
+	 * Get instance class for connection
+	 * @return
+	 */
+	public Class<?> getConnectionClass() {
+		String className = getConnectionClassName();
+		try {
+			Class<?> clazz = Class.forName(className);
+			//	Make sure that it is a PO class
+			Class<?> superClazz = clazz.getSuperclass();
+			//	Validate super class
+			while (superClazz != null) {
+				if (superClazz == AbstractBatchImport.class) {
+					log.fine("Use: " + className);
+					return clazz;
+				}
+				//	Get Supert Class
+				superClazz = superClazz.getSuperclass();
+			}
+		} catch (Exception e) {
+			log.severe(e.getMessage());
+		}
+		//	
+		log.finest("Not found: " + className);
+		return null;
+	}	//	getHandlerClass
 	
 	/**
 	 *	Set Name
@@ -95,6 +129,29 @@ public final class ImpFormat
 			throw new IllegalArgumentException("Name must be at least 1 char");
 		else
 			m_name = newName;
+	}
+	
+	/**
+	 * Set Connection Class
+	 * @param connectionClass
+	 */
+	public void setConnectionClassName(String connectionClass) {
+		this.connectionClass = connectionClass;
+	}
+	
+	/**
+	 * get Connection class for external
+	 */
+	public String getConnectionClassName() {
+		return connectionClass;
+	}
+	
+	/**
+	 * Verify if it have a class name
+	 * @return
+	 */
+	public boolean isFromConnection() {
+		return !Util.isEmpty(getConnectionClassName());
 	}
 
 	/**
@@ -268,29 +325,25 @@ public final class ImpFormat
 	 *  @param name name
 	 *  @return Import Format
 	 */
-	public static ImpFormat load (String name)
-	{
+	public static ImpFormat load (String name) {
 		log.config(name);
 		ImpFormat retValue = null;
 		String sql = "SELECT * FROM AD_ImpFormat WHERE Name=?";
 		int ID = 0;
-		try
-		{
+		try {
 			PreparedStatement pstmt = DB.prepareStatement(sql, null);
 			pstmt.setString (1, name);
 			ResultSet rs = pstmt.executeQuery();
-			if (rs.next())
-			{
-				retValue = new ImpFormat (name, rs.getInt("AD_Table_ID"), rs.getString("FormatType"));
+			if (rs.next()) {
+				retValue = new ImpFormat (name, rs.getInt("AD_Table_ID"), rs.getString("FormatType"), rs.getString("Classname"));
 				ID = rs.getInt ("AD_ImpFormat_ID");
-				if (X_AD_ImpFormat.FORMATTYPE_CustomSeparatorChar.equals(rs.getString(I_AD_ImpFormat.COLUMNNAME_FormatType)))
+				if (X_AD_ImpFormat.FORMATTYPE_CustomSeparatorChar.equals(rs.getString(I_AD_ImpFormat.COLUMNNAME_FormatType))) {
 					retValue.setSeparatorChar(rs.getString(I_AD_ImpFormat.COLUMNNAME_SeparatorChar));
+				}
 			}
 			rs.close();
 			pstmt.close();
-		}
-		catch (SQLException e)
-		{
+		} catch (SQLException e) {
 			log.log(Level.SEVERE, sql, e);
 			return null;
 		}
@@ -298,6 +351,36 @@ public final class ImpFormat
 		return retValue;
 	}	//	getFormat
 
+	/**
+	 * Load Import Format from Identifier
+	 * @param impFormatId
+	 * @return
+	 */
+	public static ImpFormat load(int impFormatId) {
+		log.config("AD_ImpFormat_ID = " + impFormatId);
+		ImpFormat retValue = null;
+		String sql = "SELECT * FROM AD_ImpFormat WHERE Name=?";
+		try {
+			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			pstmt.setInt(1, impFormatId);
+			ResultSet rs = pstmt.executeQuery();
+			if (rs.next()) {
+				retValue = new ImpFormat(rs.getString("Name"), rs.getInt("AD_Table_ID"), rs.getString("FormatType"), rs.getString("Classname"));
+				if (X_AD_ImpFormat.FORMATTYPE_CustomSeparatorChar.equals(rs.getString(I_AD_ImpFormat.COLUMNNAME_FormatType))) {
+					retValue.setSeparatorChar(rs.getString(I_AD_ImpFormat.COLUMNNAME_SeparatorChar));
+				}
+			}
+			rs.close();
+			pstmt.close();
+		} catch (SQLException e) {
+			log.log(Level.SEVERE, sql, e);
+			return null;
+		}
+		loadRows(retValue, impFormatId);
+		return retValue;
+	}	//	getFormat
+
+	
 	/**
 	 *	Load Format Rows with ID
 	 *  @param format format

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Rename CleanGW class to GardenWorldCleanup" ReleaseNo="3.9.1" SeqNo="3405">
+    <Comments>#1480 - Change the name of the class that modifies the gardenworld data to something more readable.</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="53733" Table="AD_Process">
+        <Data AD_Column_ID="78843" Column="GenerateClass" isOldNull="true">N</Data>
+        <Data AD_Column_ID="4656" Column="Classname" oldValue="org.compiere.process.CleanUpGW">org.compiere.process.GardenWorldCleanUp</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

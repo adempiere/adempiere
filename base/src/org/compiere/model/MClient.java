@@ -791,7 +791,7 @@ public class MClient extends X_AD_Client
 		//	FR [ 402 ]
 		//	Constructor is changed
 		if (email == null)
-			email = new EMail(this, 0, getRequestEMail(), to, subject, message, html);
+			email = new EMail(this, getAD_EMailConfig_ID(), getRequestEMail(), to, subject, message, html);
 		if (isSmtpAuthorization())
 			email.createAuthenticator (getRequestUser(), getRequestUserPW());
 		return email;

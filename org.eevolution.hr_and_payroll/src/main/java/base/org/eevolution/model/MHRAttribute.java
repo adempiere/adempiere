@@ -183,8 +183,7 @@ public class MHRAttribute extends X_HR_Attribute
 		String ORDERVALUE = " DESC NULLS LAST";
 		List<Object> params = new ArrayList<Object>();
 		StringBuffer whereClause = new StringBuffer();
-		StringBuffer orderByClause = new StringBuffer(MHRAttribute.COLUMNNAME_ValidFrom).append(ORDERVALUE);
-		
+		StringBuffer orderByClause = new StringBuffer(MHRAttribute.COLUMNNAME_ValidFrom).append(ORDERVALUE);		
 		whereClause.append("ValidFrom <= ? AND (ValidTo >= ? OR ValidTo IS NULL)");
 		params.add(dateFrom);
 		params.add(dateTo);
@@ -244,9 +243,9 @@ public class MHRAttribute extends X_HR_Attribute
 			}
 			//	Race
 			if(employee.getHR_Race_ID() != 0) {
-				whereClause.append(" AND (HR_Race_ID = ? OR HR_Race_ID IS NULL)").append(ORDERVALUE);
+				whereClause.append(" AND (HR_Race_ID = ? OR HR_Race_ID IS NULL)");
 				params.add(employee.getHR_Race_ID());
-				orderByClause.append(", " + MHRAttribute.COLUMNNAME_HR_Race_ID);
+				orderByClause.append(", " + MHRAttribute.COLUMNNAME_HR_Race_ID).append(ORDERVALUE);
 			}
 			//	Career Level
 			if(employee.getHR_CareerLevel_ID() != 0) {
@@ -327,6 +326,8 @@ public class MHRAttribute extends X_HR_Attribute
 				orderByClause.append(", " + MHRAttribute.COLUMNNAME_AD_OrgTrx_ID).append(ORDERVALUE);
 			}
 		}
+		//	Add for updated
+		orderByClause.append(", " + MHRAttribute.COLUMNNAME_Updated).append(ORDERVALUE);
 		//	
 		MHRAttribute attribute = new Query(concept.getCtx(), MHRAttribute.Table_Name, whereClause.toString(), concept.get_TrxName())
 				.setParameters(params)

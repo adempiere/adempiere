@@ -37,6 +37,7 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
+import org.compiere.util.Util;
 import org.compiere.util.ValueNamePair;
 import org.eevolution.model.*;
 
@@ -404,8 +405,8 @@ public class HRActionNotice
 		movement.setHR_Concept_Category_ID(concept.getHR_Concept_Category_ID());
 		Optional.ofNullable(getQuantity()).ifPresent(qty -> movement.setQty((BigDecimal) qty));
 		Optional.ofNullable(getAmount()).ifPresent(amount -> movement.setAmount((BigDecimal) amount));
-		Optional.ofNullable(getText()).ifPresent(msg -> movement.setTextMsg((String) msg.toString()));
-		Optional.ofNullable(getServiceDate()).ifPresent(date -> movement.setServiceDate((Timestamp) date));
+		movement.setTextMsg(getText());
+		movement.setServiceDate(getServiceDate());
 		movement.setValidFrom(getValidFrom());
 		movement.setValidTo(getValidTo());
 		MHREmployee employee = MHREmployee.getActiveEmployee(Env.getCtx(), movement.getC_BPartner_ID(), null);
@@ -424,10 +425,10 @@ public class HRActionNotice
 		movement.setIsManual(true);
 		movement.saveEx();
 		// check if user saved an empty record and delete it
-		if ((movement.getAmount() == null || Env.ZERO.compareTo(movement.getAmount()) == 0)
-				&& (movement.getQty() == null || Env.ZERO.compareTo(movement.getQty()) == 0)
+		if ((movement.getAmount() == null || movement.getAmount().equals(Env.ZERO))
+				&& (movement.getQty() == null || movement.getQty().equals(Env.ZERO))
 				&& (movement.getServiceDate() == null)
-				&& (movement.getTextMsg() == null || movement.getTextMsg().trim().length() == 0)) {
+				&& (movement.getTextMsg() == null || Util.isEmpty(movement.getTextMsg()))) {
 			movement.deleteEx(false);
 		}
 		//	Duplicate movement when is saved on first

@@ -117,8 +117,9 @@ public class WAcctViewer extends Window implements EventListener
 	private Button bQuery = new Button();
 	private Button bRePost = new Button();
 	private Button bPrint = new Button();
-	//FR[3435028]
 	private Button bExport = new Button();
+	private Button bZoom = new Button();
+
 	private Button sel1 = new Button();
 	private Button sel2 = new Button();
 	private Button sel3 = new Button();
@@ -322,6 +323,7 @@ public class WAcctViewer extends Window implements EventListener
 		selDocument.setLabel(Msg.getMsg(Env.getCtx(), "SelectDocument"));
 		selDocument.setAttribute("zk_component_ID", "Lookup_Criteria_selDocument");
 		selDocument.addEventListener(Events.ON_CHECK, this);
+
 		selTable.setMold("select");
 		selTable.setRows(1);
 		selTable.setAttribute("zk_component_ID", "Lookup_Criteria_selTable");
@@ -510,12 +512,14 @@ public class WAcctViewer extends Window implements EventListener
 		// Display Panel
 		// Display Document Info
 		displayDocumentInfo.setLabel(Util.cleanAmp(Msg.getMsg(Env.getCtx(), "DisplayDocumentInfo")));
-		displayDocumentInfo.addEventListener(Events.ON_CLICK, this);
+		displayDocumentInfo.addEventListener(Events.ON_CHECK, this);
+		displayDocumentInfo.setSelected(true);
 
 			// Display Source Info
 
 		displaySourceAmt.setLabel(Util.cleanAmp(Msg.getMsg(Env.getCtx(), "DisplaySourceInfo")));
 		displaySourceAmt.addEventListener(Events.ON_CHECK, this);
+
 
 			// Display Quantity
 
@@ -620,21 +624,25 @@ public class WAcctViewer extends Window implements EventListener
 		bQuery.setTooltiptext(Util.cleanAmp(Msg.getMsg(Env.getCtx(), "Refresh")));
 		bQuery.addEventListener(Events.ON_CLICK, this);
 
-		//FR[3435028]
+		bZoom.setImage("/images/Zoom16.png");
+		bZoom.setTooltiptext(Util.cleanAmp(Msg.getMsg(Env.getCtx(), "Zoom")));
+		bZoom.setVisible(displayDocumentInfo.isSelected());
+		bZoom.addEventListener(Events.ON_CLICK, this);
+
 		bExport.setImage("/images/Export16.png");
 		bExport.setTooltiptext(Util.cleanAmp(Msg.getMsg(Env.getCtx(), "Export")));
 		bExport.addEventListener(Events.ON_CLICK, this);
-		
+
 		bPrint.setImage("/images/Print16.png");
 		bPrint.setTooltiptext(Util.cleanAmp(Msg.getMsg(Env.getCtx(), "Print")));
 		bPrint.addEventListener(Events.ON_CLICK, this);
 		
 		southPanel.setWidth("100%");
-		southPanel.setWidths("2%, 12%, 82%, 2%, 2%");
+		southPanel.setWidths("2%, 12%, 82%, 2% , 2%, 2%");
 		southPanel.appendChild(bRePost);
 		southPanel.appendChild(forcePost);
 		southPanel.appendChild(statusLine);
-		//FR[3435028]
+		southPanel.appendChild(bZoom);
 		southPanel.appendChild(bExport);
 		southPanel.appendChild(bPrint);
 		southPanel.appendChild(bQuery);
@@ -781,6 +789,7 @@ public class WAcctViewer extends Window implements EventListener
 		
 		// Display quantity as default
 		displayQty.setSelected(true);
+		displayDocumentInfo.setSelected(true);
 	} // dynInit
 
 	/**
@@ -802,9 +811,7 @@ public class WAcctViewer extends Window implements EventListener
 	{
 	//	log.info( "AcctViewer.stateChanged");
 		iframe.setContent(null);
-		
 		boolean visible = accountViewerData.documentQuery && tabResult.isSelected();
-
 		bRePost.setVisible(visible);
 
 		if (Ini.isPropertyBool(Ini.P_SHOW_ADVANCED))
@@ -825,6 +832,13 @@ public class WAcctViewer extends Window implements EventListener
 
 		if (source == tabResult)
 			stateChanged();
+		if (source == displayDocumentInfo)
+		{
+			if (displayDocumentInfo.isChecked())
+				bZoom.setVisible(true);
+			else
+				bZoom.setVisible(false);
+		}
 		else if (source == tabQuery)
 			stateChanged();
 		else if (source == selAcctSchema)
@@ -837,7 +851,9 @@ public class WAcctViewer extends Window implements EventListener
 			actionTable();
 		else if (source == bRePost)
 			actionRePost();
-		else if  (source == bExport) //FR[3435028]
+		else if (source == bZoom)
+			actionZoom();
+		else if  (source == bExport)
 			actionExportExcel();
 		else if  (source == bPrint)
 			;//PrintScreenPainter.printScreen(this);
@@ -1402,9 +1418,28 @@ public class WAcctViewer extends Window implements EventListener
 	} // actionButton
 
 	/**
+	 *  Action Zoom
+	 */
+	private void actionZoom()
+	{
+		if (displayDocumentInfo.isChecked() && table.getSelectedRow() >= 0) {
+			RModel model = accountViewerData.getRModel();
+			int columnTableId = model.getColumnIndex("AD_Table_ID");
+			int columnRecordId =model.getColumnIndex("Record_ID");
+			if (columnTableId >=0 && columnRecordId >= 0) {
+				KeyNamePair tableKeyPair = (KeyNamePair) table.getValueAt(table.getSelectedRow(), columnTableId);
+				Integer recordId = (Integer) table.getValueAt(table.getSelectedRow(), columnRecordId);
+				if (tableKeyPair != null && recordId != null)
+					AEnv.zoom(tableKeyPair.getKey(), recordId);
+			}
+		}
+
+
+	} // actionRePost
+
+	/**
 	 *  RePost Record
 	 */
-
 	private void actionRePost()
 	{
 		if (accountViewerData.documentQuery

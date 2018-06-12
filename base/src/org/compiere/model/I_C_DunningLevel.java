@@ -62,15 +62,6 @@ public interface I_C_DunningLevel
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name C_DunningLevel_ID */
-    public static final String COLUMNNAME_C_DunningLevel_ID = "C_DunningLevel_ID";
-
-	/** Set Dunning Level	  */
-	public void setC_DunningLevel_ID (int C_DunningLevel_ID);
-
-	/** Get Dunning Level	  */
-	public int getC_DunningLevel_ID();
-
     /** Column name C_Dunning_ID */
     public static final String COLUMNNAME_C_Dunning_ID = "C_Dunning_ID";
 
@@ -86,20 +77,14 @@ public interface I_C_DunningLevel
 
 	public org.compiere.model.I_C_Dunning getC_Dunning() throws RuntimeException;
 
-    /** Column name C_PaymentTerm_ID */
-    public static final String COLUMNNAME_C_PaymentTerm_ID = "C_PaymentTerm_ID";
+    /** Column name C_DunningLevel_ID */
+    public static final String COLUMNNAME_C_DunningLevel_ID = "C_DunningLevel_ID";
 
-	/** Set Payment Term.
-	  * The terms of Payment (timing, discount)
-	  */
-	public void setC_PaymentTerm_ID (int C_PaymentTerm_ID);
+	/** Set Dunning Level	  */
+	public void setC_DunningLevel_ID (int C_DunningLevel_ID);
 
-	/** Get Payment Term.
-	  * The terms of Payment (timing, discount)
-	  */
-	public int getC_PaymentTerm_ID();
-
-	public org.compiere.model.I_C_PaymentTerm getC_PaymentTerm() throws RuntimeException;
+	/** Get Dunning Level	  */
+	public int getC_DunningLevel_ID();
 
     /** Column name ChargeFee */
     public static final String COLUMNNAME_ChargeFee = "ChargeFee";
@@ -126,6 +111,21 @@ public interface I_C_DunningLevel
 	  * Indicates if interest will be charged on overdue invoices
 	  */
 	public boolean isChargeInterest();
+
+    /** Column name C_PaymentTerm_ID */
+    public static final String COLUMNNAME_C_PaymentTerm_ID = "C_PaymentTerm_ID";
+
+	/** Set Payment Term.
+	  * The terms of Payment (timing, discount)
+	  */
+	public void setC_PaymentTerm_ID (int C_PaymentTerm_ID);
+
+	/** Get Payment Term.
+	  * The terms of Payment (timing, discount)
+	  */
+	public int getC_PaymentTerm_ID();
+
+	public org.compiere.model.I_C_PaymentTerm getC_PaymentTerm() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -168,6 +168,24 @@ public interface I_C_DunningLevel
 	  * Days between sending dunning notices
 	  */
 	public int getDaysBetweenDunning();
+
+    /** Column name DaysFrom */
+    public static final String COLUMNNAME_DaysFrom = "DaysFrom";
+
+	/** Set Days From	  */
+	public void setDaysFrom (int DaysFrom);
+
+	/** Get Days From	  */
+	public int getDaysFrom();
+
+    /** Column name DaysTo */
+    public static final String COLUMNNAME_DaysTo = "DaysTo";
+
+	/** Set Days To	  */
+	public void setDaysTo (int DaysTo);
+
+	/** Get Days To	  */
+	public int getDaysTo();
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
@@ -248,6 +266,32 @@ public interface I_C_DunningLevel
 	  * The record is active in the system
 	  */
 	public boolean isActive();
+
+    /** Column name IsIncludePayments */
+    public static final String COLUMNNAME_IsIncludePayments = "IsIncludePayments";
+
+	/** Set Include Payments.
+	  * Include payments in the aging report
+	  */
+	public void setIsIncludePayments (boolean IsIncludePayments);
+
+	/** Get Include Payments.
+	  * Include payments in the aging report
+	  */
+	public boolean isIncludePayments();
+
+    /** Column name IsRange */
+    public static final String COLUMNNAME_IsRange = "IsRange";
+
+	/** Set Range.
+	  * The parameter is a range of values
+	  */
+	public void setIsRange (boolean IsRange);
+
+	/** Get Range.
+	  * The parameter is a range of values
+	  */
+	public boolean isRange();
 
     /** Column name IsSetCreditStop */
     public static final String COLUMNNAME_IsSetCreditStop = "IsSetCreditStop";
@@ -353,19 +397,6 @@ public interface I_C_DunningLevel
 	  */
 	public String getPrintName();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -381,4 +412,17 @@ public interface I_C_DunningLevel
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 }

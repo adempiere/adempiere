@@ -268,6 +268,12 @@ public class MTable extends X_AD_Table
 					s_classCache.put(tableName, clazz);
 					return clazz;
 				}
+				//Allows extend core clase based original table
+				clazz = getPOclass(etmodelpackage + ".M" + tableName.substring(tableName.indexOf("_") + 1 ), tableName);
+				if (clazz != null) {
+					s_classCache.put(tableName, clazz);
+					return clazz;
+				}
 				clazz = getPOclass(etmodelpackage + ".X_" + tableName, tableName);
 				if (clazz != null) {
 					s_classCache.put(tableName, clazz);
@@ -860,6 +866,7 @@ public class MTable extends X_AD_Table
 		column.setAD_Reference_Value_ID(110);
 		column.saveEx();
 		column = new MColumn(this, COLUMNNAME_UUID, 36 , DisplayType.String, "");
+		column.setIsMandatory(false);
 		column.saveEx();
 		if(!isView())
 		{	

@@ -16,15 +16,11 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-import java.util.logging.Level;
-
-import org.compiere.util.DB;
 
 /**
  *	Dunning Run Model
@@ -33,6 +29,9 @@ import org.compiere.util.DB;
  *  @version $Id: MDunningRun.java,v 1.2 2006/07/30 00:51:03 jjanke Exp $
  *  
  *  FR 2872010 - Dunning Run for a complete Dunning (not just level) - Developer: Carlos Ruiz - globalqss - Sponsor: Metas
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * 		<a href="https://github.com/adempiere/adempiere/issues/1494">
+ * 		@see FR [ 1494 ] Translation is not considerated for Dunning Run</a>
  */
 public class MDunningRun extends X_C_DunningRun
 {
@@ -69,18 +68,18 @@ public class MDunningRun extends X_C_DunningRun
 		super(ctx, rs, trxName);
 	}	//	MDunningRun
 
-	private MDunningRunEntry[]	m_entries = null;
-	private MDunningLevel[] m_levels = null;
+	private List<MDunningRunEntry>	runEntries = new ArrayList<MDunningRunEntry>();
+	private List<MDunningLevel> levels = new ArrayList<MDunningLevel>();
 	
 	/**
 	 * 	Get Dunning Levels
 	 *	@return array of level
 	 */
-	public MDunningLevel[] getLevels() {
-		if (m_levels != null)
-			return m_levels;
+	public List<MDunningLevel> getLevels() {
+		if (levels != null
+				&& levels.size() > 0)
+			return levels;
 
-		List<MDunningLevel> levels;
 		if (getC_DunningLevel_ID() > 0) {
 			// just one level
 			levels = new Query(
@@ -104,9 +103,8 @@ public class MDunningRun extends X_C_DunningRun
 			.setOrderBy("DaysAfterDue DESC, C_DunningLevel_ID")
 			.list();
 		}
-		m_levels = new MDunningLevel[levels.size()];
-		levels.toArray (m_levels);
-		return m_levels;
+		//	Return levels list
+		return levels;
 	}
 	
 	/**
@@ -114,8 +112,7 @@ public class MDunningRun extends X_C_DunningRun
 	 * 	@param requery requery
 	 *	@return entries
 	 */
-	public MDunningRunEntry[] getEntries (boolean requery)
-	{
+	public List<MDunningRunEntry> getEntries (boolean requery) {
 		return getEntries(requery, false);
 	}
 	
@@ -125,46 +122,45 @@ public class MDunningRun extends X_C_DunningRun
 	 *  @param onlyInvoices only invoices
 	 *	@return entries
 	 */
-	public MDunningRunEntry[] getEntries (boolean requery, boolean onlyInvoices)
-	{
-		if (m_entries != null && !requery)
-			return m_entries;
-		
-		String sql = "SELECT * FROM C_DunningRunEntry WHERE C_DunningRun_ID=? ORDER BY C_DunningLevel_ID, C_DunningRunEntry_ID";
-		ArrayList<MDunningRunEntry> list = new ArrayList<MDunningRunEntry>();
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, get_TrxName());
-			pstmt.setInt (1, getC_DunningRun_ID());
-			ResultSet rs = pstmt.executeQuery ();
-			while (rs.next ())
-			{
-				MDunningRunEntry thisEntry = new MDunningRunEntry(getCtx(), rs, get_TrxName());
-				if (!(onlyInvoices && thisEntry.hasInvoices()))
-				list.add (new MDunningRunEntry(getCtx(), rs, get_TrxName()));
+	public List<MDunningRunEntry> getEntries (boolean requery, boolean onlyInvoices) {
+		if (runEntries != null
+				&& runEntries.size() > 0
+				&& !requery)
+			return runEntries;
+		//	Search Dunning Run Entry
+		new Query(
+				getCtx(),
+				I_C_DunningRunEntry.Table_Name,
+				"C_DunningRun_ID=?",
+				get_TrxName())
+		.setOnlyActiveRecords(true)
+		.setParameters(getC_DunningRun_ID())
+		.setOrderBy("C_DunningLevel_ID, C_DunningRunEntry_ID")
+		.<MDunningRunEntry>list().stream().forEach(entry -> {
+			if (!(onlyInvoices && entry.hasInvoices())) {
+				runEntries.add(entry);
 			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
-		m_entries = new MDunningRunEntry[list.size ()];
-		list.toArray (m_entries);
-		return m_entries;
+		});
+		return runEntries;
+	}	//	getEntries
+	
+	/**
+	 * Get dunning run
+	 * @param onlyUnprocessed unprocessed dunning
+	 * @param ctx
+	 * @return
+	 */
+	public static List<MDunningRun> getDunningRunList(Properties ctx, boolean onlyUnprocessed) {
+		//	Search Dunning Run Entry
+		return new Query(
+				ctx,
+				I_C_DunningRun.Table_Name,
+				(onlyUnprocessed? "Processed = 'N'": ""),
+				null)
+		.setOnlyActiveRecords(true)
+		.setClient_ID()
+		.setOrderBy(I_C_DunningRun.COLUMNNAME_DunningDate)
+		.<MDunningRun>list();
 	}	//	getEntries
 	
 	/**
@@ -172,49 +168,48 @@ public class MDunningRun extends X_C_DunningRun
 	 * 	@param force delete also processed records
 	 *	@return true if deleted
 	 */
-	public boolean deleteEntries(boolean force)
-	{
+	public boolean deleteEntries(boolean force) {
 		getEntries(true);
-		for (MDunningRunEntry entry : m_entries) {
-			entry.delete(force);
+		for (MDunningRunEntry entry : runEntries) {
+			entry.deleteEx(force);
 		}
-		boolean ok = getEntries(true).length == 0;
+		boolean ok = getEntries(true).size() == 0;
 		if (ok)
-			m_entries = null;
+			runEntries = new ArrayList<MDunningRunEntry>();
 		return ok;
 	}	//	deleteEntries
 	
 	/**
 	 * 	Get/Create Entry for BPartner
-	 *	@param C_BPartner_ID business partner
-	 *	@param C_Currency_ID currency
-	 *	@param SalesRep_ID sales rep
-	 *	@param C_DunningLevel_ID dunning level
+	 *	@param bPartnerId business partner
+	 *	@param currencyId currency
+	 *	@param salesRepId sales rep
+	 *	@param dunningLevelId dunning level
 	 *	@return entry
 	 */
-	public MDunningRunEntry getEntry (int C_BPartner_ID, int C_Currency_ID, int SalesRep_ID, int C_DunningLevel_ID)
-	{
+	public MDunningRunEntry getEntry (int bPartnerId, int currencyId, int salesRepId, int dunningLevelId) {
 		// TODO: Related BP
-		int C_BPartnerRelated_ID = C_BPartner_ID;
+		int bPartnerRelatedId = bPartnerId;
 		//
 		getEntries(false);
-		for (int i = 0; i < m_entries.length; i++)
-		{
-			MDunningRunEntry entry = m_entries[i];
-			if (entry.getC_BPartner_ID() == C_BPartnerRelated_ID && entry.getC_DunningLevel_ID() == C_DunningLevel_ID)
+		for (MDunningRunEntry entry : runEntries) {
+			if (entry.getC_BPartner_ID() == bPartnerRelatedId 
+					&& entry.getC_DunningLevel_ID() == dunningLevelId) {
 				return entry;
+			}
 		}
 		//	New Entry
 		MDunningRunEntry entry = new MDunningRunEntry (this);
-		MBPartner bp = new MBPartner (getCtx(), C_BPartnerRelated_ID, get_TrxName());
+		MBPartner bp = new MBPartner (getCtx(), bPartnerRelatedId, get_TrxName());
 		entry.setBPartner(bp, true);	//	AR hardcoded
 		//
-		if (entry.getSalesRep_ID() == 0)
-			entry.setSalesRep_ID (SalesRep_ID);
-		entry.setC_Currency_ID (C_Currency_ID);
-		entry.setC_DunningLevel_ID(C_DunningLevel_ID);
+		if (entry.getSalesRep_ID() == 0) {
+			entry.setSalesRep_ID (salesRepId);
+		}
+		entry.setC_Currency_ID (currencyId);
+		entry.setC_DunningLevel_ID(dunningLevelId);
 		//
-		m_entries = null;
+		runEntries = new ArrayList<MDunningRunEntry>();
 		return entry;
 	}	//	getEntry
 

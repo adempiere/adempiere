@@ -219,8 +219,10 @@ public class DBObject_View implements DBObjectInterface {
 				ResultSet rs = parent.executeQuery(stmt, sql);
 				while (parent.getResultSetNext(rs)) {
 					String s = parent.getResultSetString(rs, "ENTITY_TYPE");
-					if (parent.isCustomEntityType(s))
+					if (parent.isCustomEntityType(s)) {
 						result = true;
+						break;
+					}
 				}
 				parent.releaseResultSet(rs);
 				parent.releaseStatement(stmt);

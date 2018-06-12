@@ -93,17 +93,6 @@ public class BankTransfer extends BankTransferAbstract {
 		paymentBankFrom.setC_DocType_ID(false);
 		paymentBankFrom.setC_Charge_ID(getChargeId());
 		paymentBankFrom.saveEx();
-		paymentBankFrom.processIt(MPayment.DOCACTION_Complete);
-		paymentBankFrom.saveEx();
-		//	Add to current bank statement for account
-		if(isReconcileAutomatically()) {
-			MBankStatementLine bsl = MBankStatement.addPayment(paymentBankFrom);
-			if(bsl != null) {
-				addLog("@C_Payment_ID@: " + paymentBankFrom.getDocumentNo() 
-						+ " @Added@ @to@ [@AccountNo@ " + paymentBankFrom.getC_BankAccount().getAccountNo() 
-						+ " @C_BankStatement_ID@ " + bsl.getC_BankStatement().getName() + "]");
-			}
-		}
 		//	
 		MPayment paymentBankTo = new MPayment(getCtx(), 0 ,  get_TrxName());
 		paymentBankTo.setC_BankAccount_ID(mBankTo.getC_BankAccount_ID());
@@ -121,6 +110,22 @@ public class BankTransfer extends BankTransferAbstract {
 		paymentBankTo.setOverUnderAmt(Env.ZERO);
 		paymentBankTo.setC_DocType_ID(true);
 		paymentBankTo.setC_Charge_ID(getChargeId());
+		paymentBankTo.saveEx();
+
+		paymentBankFrom.setPaymentRelated_ID(paymentBankTo.getC_Payment_ID());
+		paymentBankFrom.saveEx();
+		paymentBankFrom.processIt(MPayment.DOCACTION_Complete);
+		paymentBankFrom.saveEx();
+		//	Add to current bank statement for account
+		if(isReconcileAutomatically()) {
+			MBankStatementLine bsl = MBankStatement.addPayment(paymentBankFrom);
+			if(bsl != null) {
+				addLog("@C_Payment_ID@: " + paymentBankFrom.getDocumentNo()
+						+ " @Added@ @to@ [@AccountNo@ " + paymentBankFrom.getC_BankAccount().getAccountNo()
+						+ " @C_BankStatement_ID@ " + bsl.getC_BankStatement().getName() + "]");
+			}
+		}
+		paymentBankTo.setPaymentRelated_ID(paymentBankFrom.getC_Payment_ID());
 		paymentBankTo.saveEx();
 		paymentBankTo.processIt(MPayment.DOCACTION_Complete);
 		paymentBankTo.saveEx();

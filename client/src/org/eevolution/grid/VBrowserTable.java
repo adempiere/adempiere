@@ -650,7 +650,7 @@ public class VBrowserTable extends CTable implements IBrowserTable {
      */
     private void setKey(int col) {
         p_keyColumnIndex = col;
-        browser.m_keyColumnIndex = col;
+        browser.keyColumnIndex = col;
     }//setKey
 
     /**
@@ -691,12 +691,14 @@ public class VBrowserTable extends CTable implements IBrowserTable {
 				for (MBrowseField field : getFields()) {
 					Object value = null;
 					if (field.isKey()
-                    && DisplayType.isID(field.getAD_Reference_ID())
-                    && !field.getAD_View_Column().getColumnSQL().equals("'Row' AS \"Row\""))
+							&& DisplayType.isID(field.getAD_Reference_ID())
+							&& !field.getAD_View_Column().getColumnSQL().equals("'Row' AS \"Row\""))
                         value = new IDColumn(rs.getInt(column + colOffset));
 					else if (field.isKey()
-                    &&  DisplayType.isNumeric(field.getAD_Reference_ID())
-                    && field.getAD_View_Column().getColumnSQL().equals("'Row' AS \"Row\""))
+							&&  (DisplayType.isNumeric(field.getAD_Reference_ID())
+									&& field.getAD_View_Column().getColumnSQL().equals("'Row' AS \"Row\"")
+									|| (!DisplayType.isID(field.getAD_Reference_ID()) 
+											&& DisplayType.Integer != field.getAD_Reference_ID())))
 						value  = new IDColumn(no);
 					else if (DisplayType.isID(field.getAD_Reference_ID())
 							|| field.getAD_Reference_ID() == DisplayType.Integer) {

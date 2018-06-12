@@ -17,6 +17,7 @@
 package org.compiere.model;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
@@ -153,6 +154,15 @@ public class MCommissionDetail extends X_C_CommissionDetail
 		commissionAmt = convertedAmt.subtract(commissionLine.getAmtSubtract());
 		if (commissionLine.isPositiveOnly() && commissionAmt.signum() < 0) {
 			commissionAmt = Env.ZERO;
+		}
+		//	Validate Max Percentage
+		if(parent.getMaxPercentage() != null
+				&& !parent.getMaxPercentage().equals(Env.ZERO)
+				&& parent.getPercentage() != null
+				&& parent.getPercentage().compareTo(parent.getMaxPercentage()) > 0) {
+			//	Go to Forecast
+			commissionAmt = commissionAmt.multiply(Env.ONE.divide(parent.getPercentage(), MathContext.DECIMAL128)).multiply(Env.ONEHUNDRED);
+			commissionAmt = commissionAmt.multiply(parent.getMaxPercentage().divide(Env.ONEHUNDRED, MathContext.DECIMAL128));
 		}
 		commissionAmt = commissionAmt.multiply(commissionLine.getAmtMultiplier());
 		//	Scale
@@ -312,5 +322,4 @@ public class MCommissionDetail extends X_C_CommissionDetail
 		setConvertedAmt(getConvertedAmt().multiply(percentage).setScale(2, BigDecimal.ROUND_HALF_UP).negate());
 		return;		
 	}  // correctForRMA
-	
 }	//	MCommissionDetail

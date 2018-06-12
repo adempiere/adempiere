@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Fix Sales Rep Dashbord" ReleaseNo="3.9.0.a" SeqNo="3090">
+    <Comments>https://github.com/adempiere/adempiere/issues/1361</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="106" Action="U" Record_ID="53434" Table="AD_Tab">
+        <Data AD_Column_ID="2741" Column="WhereClause" oldValue="C_SalesDashboard.AD_User_ID=@#AD_User_ID@">AD_User_ID=@#AD_User_ID@</Data>
+        <Data AD_Column_ID="1183" Column="HasTree" oldValue="false">true</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

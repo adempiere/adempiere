@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="ECA02" Name="Synchronize Column is unnecessary when it is not apply" ReleaseNo="3.9.0.a" SeqNo="3005">
+    <Comments>See: https://github.com/adempiere/adempiere/issues/1072</Comments>
+    <Step DBType="ALL" Parse="N" SeqNo="0" StepType="SQL">
+      <Comments>Update bad definition for field length</Comments>
+      <SQLStatement>UPDATE AD_Column
+SET FieldLength = 10
+WHERE (AD_Reference_ID IN(13, 19, 30, 21, 31, 25, 33, 35, 11)
+      OR (AD_Reference_ID = 32 AND ColumnName &lt;&gt; 'BinaryData')
+      OR (AD_Reference_ID = 27 AND ColumnName LIKE '%_ID')
+      OR ColumnName LIKE '%_ID'
+      OR ColumnName LIKE '%tedBy'
+      OR ColumnName LIKE '%_Acct'
+      OR (AD_Reference_ID IN(30, 18) AND EXISTS(SELECT 1 FROM AD_Ref_Table rt 
+                                                INNER JOIN AD_Column c ON(c.AD_Column_ID = rt.AD_Key)
+                                                WHERE c.AD_Reference_ID IN(13, 19, 21, 31, 25, 33, 35, 27))))
+AND FieldLength &lt;&gt; 10</SQLStatement>
+    </Step>
+  </Migration>
+</Migrations>

@@ -32,7 +32,7 @@ public class X_C_DunningLevel extends PO implements I_C_DunningLevel, I_Persiste
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170731L;
+	private static final long serialVersionUID = 20171208L;
 
     /** Standard Constructor */
     public X_C_DunningLevel (Properties ctx, int C_DunningLevel_ID, String trxName)
@@ -40,8 +40,8 @@ public class X_C_DunningLevel extends PO implements I_C_DunningLevel, I_Persiste
       super (ctx, C_DunningLevel_ID, trxName);
       /** if (C_DunningLevel_ID == 0)
         {
-			setC_DunningLevel_ID (0);
 			setC_Dunning_ID (0);
+			setC_DunningLevel_ID (0);
 			setChargeFee (false);
 			setChargeInterest (false);
 			setDaysAfterDue (Env.ZERO);
@@ -85,26 +85,6 @@ public class X_C_DunningLevel extends PO implements I_C_DunningLevel, I_Persiste
       return sb.toString();
     }
 
-	/** Set Dunning Level.
-		@param C_DunningLevel_ID Dunning Level	  */
-	public void setC_DunningLevel_ID (int C_DunningLevel_ID)
-	{
-		if (C_DunningLevel_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_DunningLevel_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_DunningLevel_ID, Integer.valueOf(C_DunningLevel_ID));
-	}
-
-	/** Get Dunning Level.
-		@return Dunning Level	  */
-	public int getC_DunningLevel_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_DunningLevel_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.compiere.model.I_C_Dunning getC_Dunning() throws RuntimeException
     {
 		return (org.compiere.model.I_C_Dunning)MTable.get(getCtx(), org.compiere.model.I_C_Dunning.Table_Name)
@@ -133,29 +113,21 @@ public class X_C_DunningLevel extends PO implements I_C_DunningLevel, I_Persiste
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_PaymentTerm getC_PaymentTerm() throws RuntimeException
-    {
-		return (org.compiere.model.I_C_PaymentTerm)MTable.get(getCtx(), org.compiere.model.I_C_PaymentTerm.Table_Name)
-			.getPO(getC_PaymentTerm_ID(), get_TrxName());	}
-
-	/** Set Payment Term.
-		@param C_PaymentTerm_ID 
-		The terms of Payment (timing, discount)
-	  */
-	public void setC_PaymentTerm_ID (int C_PaymentTerm_ID)
+	/** Set Dunning Level.
+		@param C_DunningLevel_ID Dunning Level	  */
+	public void setC_DunningLevel_ID (int C_DunningLevel_ID)
 	{
-		if (C_PaymentTerm_ID < 1) 
-			set_Value (COLUMNNAME_C_PaymentTerm_ID, null);
+		if (C_DunningLevel_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_DunningLevel_ID, null);
 		else 
-			set_Value (COLUMNNAME_C_PaymentTerm_ID, Integer.valueOf(C_PaymentTerm_ID));
+			set_ValueNoCheck (COLUMNNAME_C_DunningLevel_ID, Integer.valueOf(C_DunningLevel_ID));
 	}
 
-	/** Get Payment Term.
-		@return The terms of Payment (timing, discount)
-	  */
-	public int getC_PaymentTerm_ID () 
+	/** Get Dunning Level.
+		@return Dunning Level	  */
+	public int getC_DunningLevel_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_PaymentTerm_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_DunningLevel_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -209,6 +181,34 @@ public class X_C_DunningLevel extends PO implements I_C_DunningLevel, I_Persiste
 		return false;
 	}
 
+	public org.compiere.model.I_C_PaymentTerm getC_PaymentTerm() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_PaymentTerm)MTable.get(getCtx(), org.compiere.model.I_C_PaymentTerm.Table_Name)
+			.getPO(getC_PaymentTerm_ID(), get_TrxName());	}
+
+	/** Set Payment Term.
+		@param C_PaymentTerm_ID 
+		The terms of Payment (timing, discount)
+	  */
+	public void setC_PaymentTerm_ID (int C_PaymentTerm_ID)
+	{
+		if (C_PaymentTerm_ID < 1) 
+			set_Value (COLUMNNAME_C_PaymentTerm_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_PaymentTerm_ID, Integer.valueOf(C_PaymentTerm_ID));
+	}
+
+	/** Get Payment Term.
+		@return The terms of Payment (timing, discount)
+	  */
+	public int getC_PaymentTerm_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_PaymentTerm_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Days after due date.
 		@param DaysAfterDue 
 		Days after due date to dun (if negative days until due)
@@ -244,6 +244,40 @@ public class X_C_DunningLevel extends PO implements I_C_DunningLevel, I_Persiste
 	public int getDaysBetweenDunning () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_DaysBetweenDunning);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Days From.
+		@param DaysFrom Days From	  */
+	public void setDaysFrom (int DaysFrom)
+	{
+		set_Value (COLUMNNAME_DaysFrom, Integer.valueOf(DaysFrom));
+	}
+
+	/** Get Days From.
+		@return Days From	  */
+	public int getDaysFrom () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_DaysFrom);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Days To.
+		@param DaysTo Days To	  */
+	public void setDaysTo (int DaysTo)
+	{
+		set_Value (COLUMNNAME_DaysTo, Integer.valueOf(DaysTo));
+	}
+
+	/** Get Days To.
+		@return Days To	  */
+	public int getDaysTo () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_DaysTo);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -360,6 +394,54 @@ public class X_C_DunningLevel extends PO implements I_C_DunningLevel, I_Persiste
 	public String getInvoiceCollectionType () 
 	{
 		return (String)get_Value(COLUMNNAME_InvoiceCollectionType);
+	}
+
+	/** Set Include Payments.
+		@param IsIncludePayments 
+		Include payments in the aging report
+	  */
+	public void setIsIncludePayments (boolean IsIncludePayments)
+	{
+		set_Value (COLUMNNAME_IsIncludePayments, Boolean.valueOf(IsIncludePayments));
+	}
+
+	/** Get Include Payments.
+		@return Include payments in the aging report
+	  */
+	public boolean isIncludePayments () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsIncludePayments);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Range.
+		@param IsRange 
+		The parameter is a range of values
+	  */
+	public void setIsRange (boolean IsRange)
+	{
+		set_Value (COLUMNNAME_IsRange, Boolean.valueOf(IsRange));
+	}
+
+	/** Get Range.
+		@return The parameter is a range of values
+	  */
+	public boolean isRange () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsRange);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
 	}
 
 	/** Set Credit Stop.

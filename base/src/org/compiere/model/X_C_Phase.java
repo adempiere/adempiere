@@ -32,7 +32,7 @@ public class X_C_Phase extends PO implements I_C_Phase, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170731L;
+	private static final long serialVersionUID = 20180118L;
 
     /** Standard Constructor */
     public X_C_Phase (Properties ctx, int C_Phase_ID, String trxName)
@@ -146,6 +146,106 @@ public class X_C_Phase extends PO implements I_C_Phase, I_Persistent
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
+	/** Set Estimated Duration.
+		@param DurationEstimated 
+		Estimated Duration
+	  */
+	public void setDurationEstimated (BigDecimal DurationEstimated)
+	{
+		set_Value (COLUMNNAME_DurationEstimated, DurationEstimated);
+	}
+
+	/** Get Estimated Duration.
+		@return Estimated Duration
+	  */
+	public BigDecimal getDurationEstimated () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_DurationEstimated);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** DurationUnit AD_Reference_ID=299 */
+	public static final int DURATIONUNIT_AD_Reference_ID=299;
+	/** Year = Y */
+	public static final String DURATIONUNIT_Year = "Y";
+	/** Month = M */
+	public static final String DURATIONUNIT_Month = "M";
+	/** Day = D */
+	public static final String DURATIONUNIT_Day = "D";
+	/** hour = h */
+	public static final String DURATIONUNIT_Hour = "h";
+	/** minute = m */
+	public static final String DURATIONUNIT_Minute = "m";
+	/** second = s */
+	public static final String DURATIONUNIT_Second = "s";
+	/** Set Duration Unit.
+		@param DurationUnit 
+		Unit of Duration
+	  */
+	public void setDurationUnit (String DurationUnit)
+	{
+
+		set_Value (COLUMNNAME_DurationUnit, DurationUnit);
+	}
+
+	/** Get Duration Unit.
+		@return Unit of Duration
+	  */
+	public String getDurationUnit () 
+	{
+		return (String)get_Value(COLUMNNAME_DurationUnit);
+	}
+
+	/** Set Frequency.
+		@param Frequency 
+		Frequency of events
+	  */
+	public void setFrequency (int Frequency)
+	{
+		set_Value (COLUMNNAME_Frequency, Integer.valueOf(Frequency));
+	}
+
+	/** Get Frequency.
+		@return Frequency of events
+	  */
+	public int getFrequency () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Frequency);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** FrequencyType AD_Reference_ID=283 */
+	public static final int FREQUENCYTYPE_AD_Reference_ID=283;
+	/** Daily = D */
+	public static final String FREQUENCYTYPE_Daily = "D";
+	/** Weekly = W */
+	public static final String FREQUENCYTYPE_Weekly = "W";
+	/** Monthly = M */
+	public static final String FREQUENCYTYPE_Monthly = "M";
+	/** Quarterly = Q */
+	public static final String FREQUENCYTYPE_Quarterly = "Q";
+	/** Set Frequency Type.
+		@param FrequencyType 
+		Frequency of event
+	  */
+	public void setFrequencyType (String FrequencyType)
+	{
+
+		set_Value (COLUMNNAME_FrequencyType, FrequencyType);
+	}
+
+	/** Get Frequency Type.
+		@return Frequency of event
+	  */
+	public String getFrequencyType () 
+	{
+		return (String)get_Value(COLUMNNAME_FrequencyType);
+	}
+
 	/** Set Comment/Help.
 		@param Help 
 		Comment or Hint
@@ -161,6 +261,75 @@ public class X_C_Phase extends PO implements I_C_Phase, I_Persistent
 	public String getHelp () 
 	{
 		return (String)get_Value(COLUMNNAME_Help);
+	}
+
+	/** Set Indefinite.
+		@param IsIndefinite 
+		Indefinite
+	  */
+	public void setIsIndefinite (boolean IsIndefinite)
+	{
+		set_Value (COLUMNNAME_IsIndefinite, Boolean.valueOf(IsIndefinite));
+	}
+
+	/** Get Indefinite.
+		@return Indefinite
+	  */
+	public boolean isIndefinite () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsIndefinite);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Is Milestone.
+		@param IsMilestone Is Milestone	  */
+	public void setIsMilestone (boolean IsMilestone)
+	{
+		set_Value (COLUMNNAME_IsMilestone, Boolean.valueOf(IsMilestone));
+	}
+
+	/** Get Is Milestone.
+		@return Is Milestone	  */
+	public boolean isMilestone () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsMilestone);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Is Recurrent.
+		@param IsRecurrent 
+		The flag Is Recurrent, indicates if a project task is recurring
+	  */
+	public void setIsRecurrent (boolean IsRecurrent)
+	{
+		set_Value (COLUMNNAME_IsRecurrent, Boolean.valueOf(IsRecurrent));
+	}
+
+	/** Get Is Recurrent.
+		@return The flag Is Recurrent, indicates if a project task is recurring
+	  */
+	public boolean isRecurrent () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsRecurrent);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
 	}
 
 	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
@@ -215,6 +384,84 @@ public class X_C_Phase extends PO implements I_C_Phase, I_Persistent
     {
         return new KeyNamePair(get_ID(), getName());
     }
+
+	/** PriorityRule AD_Reference_ID=154 */
+	public static final int PRIORITYRULE_AD_Reference_ID=154;
+	/** High = 3 */
+	public static final String PRIORITYRULE_High = "3";
+	/** Medium = 5 */
+	public static final String PRIORITYRULE_Medium = "5";
+	/** Low = 7 */
+	public static final String PRIORITYRULE_Low = "7";
+	/** Urgent = 1 */
+	public static final String PRIORITYRULE_Urgent = "1";
+	/** Minor = 9 */
+	public static final String PRIORITYRULE_Minor = "9";
+	/** Set Priority.
+		@param PriorityRule 
+		Priority of a document
+	  */
+	public void setPriorityRule (String PriorityRule)
+	{
+
+		set_Value (COLUMNNAME_PriorityRule, PriorityRule);
+	}
+
+	/** Get Priority.
+		@return Priority of a document
+	  */
+	public String getPriorityRule () 
+	{
+		return (String)get_Value(COLUMNNAME_PriorityRule);
+	}
+
+	public org.compiere.model.I_R_StandardRequestType getR_StandardRequestType() throws RuntimeException
+    {
+		return (org.compiere.model.I_R_StandardRequestType)MTable.get(getCtx(), org.compiere.model.I_R_StandardRequestType.Table_Name)
+			.getPO(getR_StandardRequestType_ID(), get_TrxName());	}
+
+	/** Set Standard Request Type.
+		@param R_StandardRequestType_ID 
+		Standard Request Type
+	  */
+	public void setR_StandardRequestType_ID (int R_StandardRequestType_ID)
+	{
+		if (R_StandardRequestType_ID < 1) 
+			set_Value (COLUMNNAME_R_StandardRequestType_ID, null);
+		else 
+			set_Value (COLUMNNAME_R_StandardRequestType_ID, Integer.valueOf(R_StandardRequestType_ID));
+	}
+
+	/** Get Standard Request Type.
+		@return Standard Request Type
+	  */
+	public int getR_StandardRequestType_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_R_StandardRequestType_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Maximum Runs.
+		@param RunsMax 
+		Number of recurring runs
+	  */
+	public void setRunsMax (int RunsMax)
+	{
+		set_Value (COLUMNNAME_RunsMax, Integer.valueOf(RunsMax));
+	}
+
+	/** Get Maximum Runs.
+		@return Number of recurring runs
+	  */
+	public int getRunsMax () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_RunsMax);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	/** Set Sequence.
 		@param SeqNo 

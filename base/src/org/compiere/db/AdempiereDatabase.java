@@ -25,6 +25,7 @@ import java.sql.Timestamp;
 import javax.sql.DataSource;
 
 import org.compiere.dbPort.Convert;
+import org.compiere.model.PO;
 
 //import org.compiere.util.CPreparedStatement;
 
@@ -36,6 +37,10 @@ import org.compiere.dbPort.Convert;
  */
 public interface AdempiereDatabase
 {
+
+	/** default lock timeout, 60 seconds **/
+	static final int LOCK_TIME_OUT = 60;
+
 	/**
 	 *  Get Database Name
 	 *  @return database short name
@@ -316,6 +321,16 @@ public interface AdempiereDatabase
 	 * @return
 	 */
 	public String addPagingSQL(String sql, int start, int end);
+
+	/**
+	 * Lock PO for update
+	 * @param po
+	 * @param timeout
+	 * @return true if lock is granted
+	 */
+	public boolean forUpdate(PO po, int timeout);
+
+	public String getNameOfUniqueConstraintError(Exception e);
 
 }   //  AdempiereDatabase
 

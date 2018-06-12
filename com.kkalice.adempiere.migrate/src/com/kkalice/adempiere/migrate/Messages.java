@@ -144,15 +144,40 @@ public class Messages extends ListResourceBundle {
 										+ "If selected, the migrator will attempt to translate views and functions, "
 										+ "otherwise they will be replaced with a compilable stub.\n"
 										+ "(Currently only translation of views is implemented)."},
+				{"guiOptionPreserveGardenWorld", "preserve Garden World"},
+				{"guiOptionPreserveGardenWorldTip", "preserve Garden World Data"},
+				{"guiOptionPreserveGardenWorldHelp", "preserve Garden World Data.\n"
+						+ "When running an upgrade, Garden World data can be dropped.\n"
+						+ "If selected, Garden World data are preserved through migration"},
+				{"guiOptionTruncateTemporaryTables", "truncate temporary tables"},
+				{"guiOptionTruncateTemporaryTablesTip", "truncate temporary Find, Error, Issue and Temporary tables"},
+				{"guiOptionTruncateTemporaryTablesHelp", "truncate temporary Find, Error, Issue and Temporary tables .\n"
+						+ "When running an upgrade, Logs data can be dropped.\n"
+						+ "If selected, The logs data are preserved through migration"},
+				{"guiOptionPreserveLogs", "preserve logs"},
+				{"guiOptionPreserveLogsTip", "preserve logs"},
+				{"guiOptionPreserveLogsHelp", "preserve logs.\n"
+						+ "When running an upgrade, Logs data can be dropped.\n"
+						+ "If selected, The logs data are preserved through migration"},
+				{"guiPreserveDays", "days logs"},
+				{"guiPreserveDaysTip", "days logs"},
+				{"guiPreserveDaysHelp", "days logs.\n"
+						+ "When running an upgrade, Logs data can be dropped.\n"
+						+ "det preserve days, The logs data are preserved through migration"},
+				{"guiOptionPreserveUnreferencedElements", "preserve unreferenced elements"},
+				{"guiOptionPreserveUnreferencedElementsTip", "Elements not referenced can be deleted"},
+				{"guiOptionPreserveUnreferencedElementsHelp", "Preserve unreferenced elements .\n"
+						+ "When running an upgrade, unreferenced elements can be deleted (good practice).\n"
+						+ "If selected, unreferenced elements can be deleted."},
 				{"guiOptionPreserveTableIDs", "preserve table IDs"},
 				{"guiOptionPreserveTableIDsTip", "Remember ID number of tables"},
 				{"guiOptionPreserveTableIDsHelp", "Only available in upgrade mode.\n"
-										+ "When running an upgrade, all system information is dropped.\n"
-										+ "Table IDs therefore restart with the highest used sequence number available after migration. "
-										+ "It may be beneficial, however, to remember higher ID numbers used before migration to ensure "
-										+ "consistency over different versions.\n"
-										+ "If selected, table ID numbers are preserved through migration, "
-										+ "otherwise the migrator restarts counting after migration"},
+						+ "When running an upgrade, all system information is dropped.\n"
+						+ "Table IDs therefore restart with the highest used sequence number available after migration. "
+						+ "It may be beneficial, however, to remember higher ID numbers used before migration to ensure "
+						+ "consistency over different versions.\n"
+						+ "If selected, table ID numbers are preserved through migration, "
+						+ "otherwise the migrator restarts counting after migration"},
 				{"guiOptionDropSource", "drop source"},
 				{"guiOptionDropSourceTip" ,"Drop source database after migration"},
 				{"guiOptionDropSourceHelp" ,"Only available in upgrade mode.\n"
@@ -281,7 +306,12 @@ public class Messages extends ListResourceBundle {
 				{"guiModeTransferMnemonic", new Integer(KeyEvent.VK_R).toString()},
 				{"guiOptionLogLevelMnemonic", new Integer(KeyEvent.VK_G).toString()},
 				{"guiOptionAttemptTranslationsMnemonic", new Integer(KeyEvent.VK_A).toString()},
-				{"guiOptionPreserveTableIDsMnemonic", new Integer(KeyEvent.VK_P).toString()},
+				{"guiOptionPreserveTableIDsMnemonic", new Integer(KeyEvent.VK_C).toString()},
+				{"guiOptionPreserveGardenWorldMnemonic", new Integer(KeyEvent.VK_Z).toString()},
+				{"guiOptionTruncateTemporaryTablesMnemonic", new Integer(KeyEvent.VK_R).toString()},
+				{"guiOptionPreserveUnreferencedElementsMnemonic", new Integer(KeyEvent.VK_P).toString()},
+				{"guiOptionPreserveLogsMnemonic", new Integer(KeyEvent.VK_H).toString()},
+				{"guiDaysMnemonic", new Integer(KeyEvent.VK_N).toString()},
 				{"guiOptionDropSourceMnemonic", new Integer(KeyEvent.VK_D).toString()},
 				{"guiOptionOptimizeDatabaseMnemonic", new Integer(KeyEvent.VK_O).toString()},
 				{"guiButtonStartMnemonic", new Integer(KeyEvent.VK_M).toString()},
@@ -447,6 +477,7 @@ public class Messages extends ListResourceBundle {
 				{"cleanupTerminology", "Synchronizing terminology in {0}"},
 				{"cleanupSecurity", "Setting security in {0}"},
 				{"bumpVersionInfo", "Updating version information in {0}"},
+				{"droppingCustomizedTable", "dropping customized {0} {1}"},
 
 				// specifics
 				{"commitChanges", "Committing changes in {0}"},

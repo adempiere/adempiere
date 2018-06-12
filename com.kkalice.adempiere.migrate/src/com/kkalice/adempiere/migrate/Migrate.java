@@ -349,7 +349,9 @@ public class Migrate {
 			}
 
 			// drop GardenWorld
-			dropSystemClients();
+			if (!isPreserveGardenWorld()) {
+				dropSystemClients();
+			}
 
 			// create temporary indexes (for speeding up WHERE clauses):
 			createTemporaryTargetIndexes();
@@ -519,6 +521,41 @@ public class Migrate {
 	 */
 	private boolean isCopy() {
 		return !s_parameters.isUpgrade();
+	}
+
+	/**
+	 * @return whether or not Garden World data should be preserved
+	 */
+	private boolean isPreserveGardenWorld() {
+		return s_parameters.isPreserveGardenWorld();
+	}
+
+	/**
+	 * @return whether or not temporary table preserved
+	 */
+	private boolean isTruncateTemporaryTable() {
+		return s_parameters.isTruncateTemporaryTables();
+	}
+
+	/**
+	 * @return whether or not logs should be preserved
+	 */
+	private boolean isPreserveLogs() {
+		return s_parameters.isPreserveLogs();
+	}
+
+	/**
+	 * @return whether or not days logs should be preserved
+	 */
+	private Integer getPreserveDays() {
+		return s_parameters.getPreserveDays();
+	}
+
+	/**
+	 * @return whether or not unreferenced elements should be preserved
+	 */
+	private boolean isPreserveUnreferencedElements() {
+		return s_parameters.isPreserveUnreferencedElements();
 	}
 
 	/**
@@ -942,8 +979,11 @@ public class Migrate {
 			// be dropped
 			if (targetObj != null && sourceObj == null) {
 				if (targetObj.getCustomizationLevel() == s_parameters.CUSTOMNONE) {
-					if (targetObj.drop())
+					if (targetObj.drop()){
 						m_counterDrp = new Integer(m_counterDrp.intValue() + 1);
+						s_logger.log(Level.WARNING, "droppingCustomizedTable",
+								new Object[] { m_objectType, targetObj.getName() });
+					}
 					m_totalDrp = new Integer(m_totalDrp.intValue() + 1);
 				} else {
 					s_logger.log(Level.WARNING, "notDroppingCustomizedTable",
@@ -1312,7 +1352,12 @@ public class Migrate {
 
 		// exclude ad_system from being purged
 		m_trackingList.add("AD_SYSTEM");
-
+		// exclude ad_printformat for print format added in system
+		m_trackingList.add("AD_PRINTFORMAT");
+		m_trackingList.add("AD_PRINTFORMATITEM");
+		// exclude ad_attachment for jasper report attachment included
+		m_trackingList.add("AD_ATTACHMENT");
+		m_trackingList.add("AD_ATTACHMENTNOTE");
 		// exclude ad_user from being purged
 		// (we need to preserve the system passwords)
 		m_trackingList.add("AD_USER");
@@ -1465,7 +1510,7 @@ public class Migrate {
 				String sqlCommand = s_dbEngine.sqlADAction_purgeSystemRecords(vendor, catalog, schema, localTableName, localColumnNames, foreignTableNames, foreignColumnNames, hasClientID, customEntities, specialClause);
 				Integer sqlResult = m_target.executeUpdate(stmt, sqlCommand, false, false);
 				if (sqlResult != null) {
-					logDropDetail(sqlResult, null);
+					logDropDetail(sqlResult, sqlCommand);
 					m_counterPrg = new Integer(m_counterPrg.intValue() + 1);
 				}
 				m_target.releaseStatement(stmt);
@@ -1478,7 +1523,7 @@ public class Migrate {
 
 	/**
 	 * check whether at least one record fulfilling the condition exists
-	 * @param tableNametable in which to check for the existing record
+	 * @param tableName in which to check for the existing record
 	 * @param columnName column to use in WHERE clause
 	 * @param checkCondition condition to use in where clause
 	 * @return at least one record exists
@@ -1852,7 +1897,7 @@ public class Migrate {
 					Integer sqlResult = m_target.executeUpdate(stmt,
 							sqlCommand, false, false);
 					if (sqlResult != null) {
-						logDropDetail(sqlResult, null);
+						logDropDetail(sqlResult, sqlCommand);
 						result = true;
 					}
 					m_target.releaseStatement(stmt);
@@ -1917,28 +1962,32 @@ public class Migrate {
 			String table = obj.getName();
 			String sql = null;
 
-			// temporary tables
-			if (table.toUpperCase().startsWith("T_"))
-				sql = s_dbEngine.sql_delete(vendor, catalog, schema, table);
-			// imported records from import tables
-			else if (table.toUpperCase().startsWith("I_"))
-				sql = s_dbEngine.sql_deleteByCondition(vendor, catalog, schema,
-						table, "I_IsImported='Y'");
-			// test table
-			else if (table.equalsIgnoreCase("Test"))
-				sql = s_dbEngine.sql_delete(vendor, catalog, schema, table);
-			// processes and errors
-			else if (table.toUpperCase().startsWith("AD_PINSTANCE")
-					|| table.equalsIgnoreCase("AD_Find")
-					|| table.equalsIgnoreCase("AD_Error")
-					|| table.equalsIgnoreCase("AD_Issue"))
-				sql = s_dbEngine.sql_delete(vendor, catalog, schema, table);
-			// changes which are not customizations
-			else if (table.equalsIgnoreCase("AD_ChangeLog"))
-				sql = s_dbEngine.sql_deleteByCondition(vendor, catalog, schema,
-						table, "IsCustomization != 'Y'");
+			if (isTruncateTemporaryTable()) {
+				// temporary tables
+				if (table.toUpperCase().startsWith("T_"))
+					sql = s_dbEngine.sql_delete(vendor, catalog, schema, table);
+					// imported records from import tables
+				else if (table.toUpperCase().startsWith("I_"))
+					sql = s_dbEngine.sql_deleteByCondition(vendor, catalog, schema,
+							table, "I_IsImported='Y'");
+					// test table
+				else if (table.equalsIgnoreCase("Test"))
+					sql = s_dbEngine.sql_delete(vendor, catalog, schema, table);
+					// processes and errors
+				else if (table.toUpperCase().startsWith("AD_PINSTANCE")
+						|| table.equalsIgnoreCase("AD_Find")
+						|| table.equalsIgnoreCase("AD_Error")
+						|| table.equalsIgnoreCase("AD_Issue"))
+					sql = s_dbEngine.sql_delete(vendor, catalog, schema, table);
+					// changes which are not customizations
+			}
+
+			if (table.equalsIgnoreCase("AD_ChangeLog") && isPreserveLogs()) {
+				sql = s_dbEngine.sql_deleteByConditionAndAge(vendor, catalog, schema,
+						table, "IsCustomization != 'Y'", getPreserveDays());
+			}
 			// sessions older than a week
-			else if (table.equalsIgnoreCase("AD_Session")) {
+			else if (table.equalsIgnoreCase("AD_Session") && isPreserveLogs()) {
 				if (hasTableColumn(obj, "updated"))
 					sql = s_dbEngine
 							.sql_delete(
@@ -1947,24 +1996,26 @@ public class Migrate {
 									schema,
 									table,
 									"AD_Session_ID NOT IN (SELECT AD_Session_ID FROM AD_ChangeLog)",
-									7);
+									getPreserveDays());
 				else
 					sql = s_dbEngine
-							.sql_deleteByCondition(vendor, catalog, schema,
+							.sql_deleteByConditionAndAge(vendor, catalog, schema,
 									table,
-									"AD_Session_ID NOT IN (SELECT AD_Session_ID FROM AD_ChangeLog)");
+									"AD_Session_ID NOT IN (SELECT AD_Session_ID FROM AD_ChangeLog)",
+									getPreserveDays());
 			}
 			// notes which have been processed
-			else if (table.equalsIgnoreCase("AD_Note"))
-				sql = s_dbEngine.sql_deleteByCondition(vendor, catalog, schema,
-						table, "Processed='Y'");
+			else if (table.equalsIgnoreCase("AD_Note") && isPreserveLogs())
+				sql = s_dbEngine.sql_deleteByConditionAndAge(vendor, catalog, schema,
+						table, "Processed='Y'", getPreserveDays());
 			// log entries older than a week
-			else if (table.toUpperCase().endsWith("LOG")) {
+			else if (table.toUpperCase().endsWith("LOG") && isPreserveLogs()) {
 				if (hasTableColumn(obj, "updated"))
 					sql = s_dbEngine.sql_deleteByAge(vendor, catalog, schema,
-							table, 7);
+							table, getPreserveDays());
 				else
-					sql = s_dbEngine.sql_delete(vendor, catalog, schema, table);
+					sql = s_dbEngine.sql_deleteByAge(vendor, catalog, schema,
+							table , getPreserveDays());
 			}
 
 			if (sql != null) {
@@ -1977,7 +2028,7 @@ public class Migrate {
 				Integer sqlResult = m_target.executeUpdate(stmt, sql, false,
 						false);
 				if (sqlResult != null) {
-					logDropDetail(sqlResult, null);
+					logDropDetail(sqlResult, sql);
 					m_trackingList.add(table.toUpperCase());
 					m_counterPrg = new Integer(m_counterPrg.intValue() + 1);
 				}
@@ -3288,8 +3339,8 @@ public class Migrate {
 			Statement stmt = m_target.setStatement();
 			Integer sqlResult = m_target.executeUpdate(stmt, sqlCommand, false,
 					false);
-			if (sqlResult != null) {
-				logDropDetail(sqlResult, null);
+			if (sqlResult != null && sqlResult > 0 ) {
+				logDropDetail(sqlResult, sqlCommand);
 				m_counterPrg = new Integer(m_counterPrg.intValue() + 1);
 			}
 			m_target.releaseStatement(stmt);
@@ -3928,7 +3979,7 @@ public class Migrate {
 						Integer sqlResult = m_target.executeUpdate(stmt,
 								sqlCommand, false, false);
 						if (sqlResult != null) {
-							logDropDetail(sqlResult, null);
+							logDropDetail(sqlResult, sqlCommand);
 							m_counterDrp = new Integer(
 									m_counterDrp.intValue() + 1);
 						}
@@ -4659,14 +4710,14 @@ public class Migrate {
 								for (Iterator<Integer> roleIterator = vRoles
 										.iterator(); roleIterator.hasNext();) {
 									int ad_role_id = roleIterator.next();
-
+									String deleteRoleAccess = s_dbEngine
+											.sql_deleteByCondition(
+													vendor, catalog,
+													schema, tableName,
+													"ad_role_id = ?");
 									// delete existing access records
 									PreparedStatementWrapper stmtDeleteRoleAccess = m_target
-											.setPreparedStatement(s_dbEngine
-													.sql_deleteByCondition(
-															vendor, catalog,
-															schema, tableName,
-															"ad_role_id = ?"));
+											.setPreparedStatement(deleteRoleAccess);
 
 									m_target
 											.setPreparedStatementInt(
@@ -4675,8 +4726,8 @@ public class Migrate {
 
 									Integer sqlResult = m_target.executeUpdate(
 											stmtDeleteRoleAccess, false);
-									if (sqlResult != null) {
-										logDropDetail(sqlResult, null);
+									if (sqlResult != null && sqlResult > 0) {
+										logDropDetail(sqlResult, deleteRoleAccess);
 									}
 
 									m_target
@@ -5082,8 +5133,8 @@ public class Migrate {
 			description = m_target.getResultSetString(rs, "Description");
 			help = m_target.getResultSetString(rs, "Help");
 			entityType = m_target.getResultSetString(rs, "EntityType");
-			if (!createdElements.contains(columnName)) {
-				createdElements.add(columnName);
+			if (!createdElements.contains(columnName.toUpperCase())) {
+				createdElements.add(columnName.toUpperCase());
 				// get next AD_Element_ID
 				ResultSet rsLoadSequence = m_target
 						.executeQuery(stmtLoadSequence);
@@ -5205,8 +5256,8 @@ public class Migrate {
 			help = m_target.getResultSetString(rs, "Help");
 			entityType = m_target.getResultSetString(rs, "EntityType");
 
-			if (!createdElements.contains(columnName)) {
-				createdElements.add(columnName);
+			if (!createdElements.contains(columnName.toUpperCase())) {
+				createdElements.add(columnName.toUpperCase());
 				// get next AD_Element_ID
 				ResultSet rsLoadSequence = m_target
 						.executeQuery(stmtLoadSequence);
@@ -5326,8 +5377,8 @@ public class Migrate {
 			description = m_target.getResultSetString(rs, "Description");
 			help = m_target.getResultSetString(rs, "Help");
 			entityType = m_target.getResultSetString(rs, "EntityType");
-			if (!createdElements.contains(columnName)) {
-				createdElements.add(columnName);
+			if (!createdElements.contains(columnName.toUpperCase())) {
+				createdElements.add(columnName.toUpperCase());
 				// get next AD_Element_ID
 				ResultSet rsLoadSequence = m_target
 						.executeQuery(stmtLoadSequence);
@@ -5448,8 +5499,8 @@ public class Migrate {
 			description = m_target.getResultSetString(rs, "Description");
 			help = m_target.getResultSetString(rs, "Help");
 			entityType = m_target.getResultSetString(rs, "EntityType");
-			if (!createdElements.contains(columnName)) {
-				createdElements.add(columnName);
+			if (!createdElements.contains(columnName.toLowerCase())) {
+				createdElements.add(columnName.toLowerCase());
 				// get next AD_Element_ID
 				ResultSet rsLoadSequence = m_target
 						.executeQuery(stmtLoadSequence);
@@ -5646,24 +5697,28 @@ public class Migrate {
 		}
 		m_target.releaseStatement(stmt);
 
-		// delete unused elements
+		// delete unused element translations
 		sqlCommand = s_dbEngine.sqlADAction_deleteUnusedElementTranslations(
 				vendor, catalog, schema);
 		stmt = m_target.setStatement();
 		sqlResult = m_target.executeUpdate(stmt, sqlCommand, false, false);
 		if (sqlResult != null) {
-			logDropDetail(sqlResult, null);
+			logDropDetail(sqlResult, sqlCommand);
 		}
 		m_target.releaseStatement(stmt);
 
-		sqlCommand = s_dbEngine.sqlADAction_deleteUnusedElements(vendor,
-				catalog, schema);
-		stmt = m_target.setStatement();
-		sqlResult = m_target.executeUpdate(stmt, sqlCommand, false, false);
-		if (sqlResult != null) {
-			logDropDetail(sqlResult, null);
+		// delete unreferenced elements
+		// It is good practice to have only Elements that are actually referenced.
+		if (!isPreserveUnreferencedElements()) {
+			sqlCommand = s_dbEngine.sqlADAction_deleteUnusedElements(vendor,
+					catalog, schema);
+			stmt = m_target.setStatement();
+			sqlResult = m_target.executeUpdate(stmt, sqlCommand, false, false);
+			if (sqlResult != null) {
+				logDropDetail(sqlResult, sqlCommand);
+			}
+			m_target.releaseStatement(stmt);
 		}
-		m_target.releaseStatement(stmt);
 
 		// close prepared statements
 		m_target.releasePreparedStatement(stmtLoadSequence);

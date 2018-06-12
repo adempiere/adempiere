@@ -21,11 +21,13 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.process.DocAction;
+import org.compiere.process.DocumentReversalEnabled;
 import org.compiere.process.DocumentEngine;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -51,7 +53,7 @@ import org.compiere.util.Msg;
  * 			<a href="https://github.com/adempiere/adempiere/issues/887">
  * 			@see FR [ 887 ] System Config reversal invoice DocNo</a>
  */
-public class MJournal extends X_GL_Journal implements DocAction
+public class MJournal extends X_GL_Journal implements DocAction , DocumentReversalEnabled
 {
 	/**
 	 * 
@@ -450,8 +452,8 @@ public class MJournal extends X_GL_Journal implements DocAction
 		}
 		
 		//	Add up Amounts
-		BigDecimal AmtSourceDr = Env.ZERO;
-		BigDecimal AmtSourceCr = Env.ZERO;
+		BigDecimal amtAcctDr = Env.ZERO;
+		BigDecimal amtAcctCr = Env.ZERO;
 		for (int i = 0; i < lines.length; i++)
 		{
 			MJournalLine line = lines[i];
@@ -467,10 +469,10 @@ public class MJournal extends X_GL_Journal implements DocAction
 			}
 			
 			// Michael Judd (mjudd) BUG: [ 2678088 ] Allow posting to system accounts for non-actual postings
-			if (line.isDocControlled() && 
-					( getPostingType().equals(POSTINGTYPE_Actual)) ||
+			if (line.isDocControlled() && !getGL_JournalBatch().isIsYearEndClosing() &&
+					( getPostingType().equals(POSTINGTYPE_Actual) ||
 					  getPostingType().equals(POSTINGTYPE_Commitment) ||
-					  getPostingType().equals(POSTINGTYPE_Reservation)
+					  getPostingType().equals(POSTINGTYPE_Reservation))
 					 )
 			{
 				m_processMsg = "@DocControlledError@ - @Line@=" + line.getLine()
@@ -502,11 +504,11 @@ public class MJournal extends X_GL_Journal implements DocAction
 			}
 			// end BF [2789319] No check of Actual, Budget, Statistical attribute
 			
-			AmtSourceDr = AmtSourceDr.add(line.getAmtSourceDr());
-			AmtSourceCr = AmtSourceCr.add(line.getAmtSourceCr());
+			amtAcctDr = amtAcctDr.add(line.getAmtAcctDr());
+			amtAcctCr = amtAcctCr.add(line.getAmtAcctCr());
 		}
-		setTotalDr(AmtSourceDr);
-		setTotalCr(AmtSourceCr);
+		setTotalDr(amtAcctDr);
+		setTotalCr(amtAcctCr);
 
 		//	Control Amount
 		if (Env.ZERO.compareTo(getControlAmt()) != 0
@@ -517,7 +519,7 @@ public class MJournal extends X_GL_Journal implements DocAction
 		}
 		
 		//	Unbalanced Jornal & Not Suspense
-		if (AmtSourceDr.compareTo(AmtSourceCr) != 0)
+		if (amtAcctDr.compareTo(amtAcctCr) != 0)
 		{
 			MAcctSchemaGL gl = MAcctSchemaGL.get(getCtx(), getC_AcctSchema_ID());
 			if (gl == null || !gl.isUseSuspenseBalancing())
@@ -608,9 +610,12 @@ public class MJournal extends X_GL_Journal implements DocAction
 			setDateDoc(new Timestamp (System.currentTimeMillis()));
 		}
 		if (dt.isOverwriteSeqOnComplete()) {
-			String value = DB.getDocumentNo(getC_DocType_ID(), get_TrxName(), true, this);
-			if (value != null)
-				setDocumentNo(value);
+			Boolean isOverwrite = !isReversal() || (isReversal() && !dt.isCopyDocNoOnReversal());
+			if (isOverwrite){String value = DB.getDocumentNo(getC_DocType_ID(), get_TrxName(), true, this);
+				if (value != null)
+					setDocumentNo(value);
+			}
+
 		}
 	}
 
@@ -675,7 +680,63 @@ public class MJournal extends X_GL_Journal implements DocAction
 
 		return ok_to_close;
 	}	//	closeIt
-	
+
+	/**
+	 * Reverse It based on is accrual or not
+	 * @param isAccrual
+	 * @return
+	 */
+	public MJournal reverseIt(boolean isAccrual)
+	{
+		Timestamp currentDate = new Timestamp(System.currentTimeMillis());
+		Optional<Timestamp> loginDateOptional = Optional.of(Env.getContextAsDate(getCtx(),"#Date"));
+		Timestamp reversalDate =  isAccrual ? loginDateOptional.orElse(currentDate) : getDateAcct();
+		MPeriod.testPeriodOpen(getCtx(), reversalDate , getC_DocType_ID(), getAD_Org_ID());
+
+		log.info(toString());
+		//	Journal
+		MJournal reverse = new MJournal (this);
+		reverse.setGL_JournalBatch_ID(getGL_JournalBatch_ID());
+		reverse.setDateDoc(reversalDate);
+		reverse.set_ValueNoCheck ("C_Period_ID", null);		//	reset
+		reverse.setDateAcct(reversalDate);
+		reverse.setControlAmt(getControlAmt().negate());
+		//	Reverse indicator
+		reverse.addDescription("(->" + getDocumentNo() + ")");
+		//FR [ 1948157  ]
+		reverse.setReversal_ID(getGL_Journal_ID());
+		reverse.set_ValueNoCheck("DocumentNo", null);
+		MDocType docType = MDocType.get(getCtx(), getC_DocType_ID());
+		//	Set Document No from flag
+		if(docType.isCopyDocNoOnReversal()) {
+			reverse.setDocumentNo(getDocumentNo() + Msg.getMsg(getCtx(), "^"));
+		}
+		reverse.saveEx();
+
+		addDescription("(" + reverse.getDocumentNo() + "<-)");
+		//	Lines
+		reverse.copyLinesFrom(this, reversalDate, 'R');
+		//	Add support for process journal to reverse
+		boolean sucess = reverse.processIt(DOCACTION_Complete);
+		if(!sucess) {
+			throw new AdempiereException(reverse.getProcessMsg());
+		}
+		reverse.closeIt();
+		reverse.setProcessing(false);
+		reverse.setDocStatus(DOCSTATUS_Reversed);
+		reverse.setDocAction(DOCACTION_None);
+		reverse.saveEx(get_TrxName());
+		//
+		setProcessed(true);
+		//FR [ 1948157  ]
+		setReversal_ID(reverse.getGL_Journal_ID());
+		setDocAction(DOCACTION_None);
+		setDocStatus(DOCSTATUS_Reversed);
+		return reverse;
+
+	}
+
+
 	/**
 	 * 	Reverse Correction (in same batch).
 	 * 	As if nothing happened - same date
@@ -687,19 +748,66 @@ public class MJournal extends X_GL_Journal implements DocAction
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REVERSECORRECT);
 		if (m_processMsg != null)
 			return false;
-		
-		boolean ok_correct = (reverseCorrectIt(getGL_JournalBatch_ID()) != null);
-		
-		if (! ok_correct)
+
+		MJournal reversal = reverseIt(false);
+		if (reversal == null)
 			return false;
+
+		m_processMsg = reversal.getDocumentInfo();
 
 		// After reverseCorrect
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSECORRECT);
 		if (m_processMsg != null)
 			return false;
 		
-		return ok_correct;
+		return true;
 	}	//	reverseCorrectIt
+
+	/**
+	 * 	Reverse Accrual (sane batch).
+	 * 	Flip Dr/Cr - Use Today's date
+	 * 	@return true if success
+	 */
+	public boolean reverseAccrualIt()
+	{
+		// Before reverseAccrual
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REVERSEACCRUAL);
+		if (m_processMsg != null)
+			return false;
+
+
+		MJournal reversal = reverseIt(true);
+		if (reversal == null)
+			return false;
+
+		m_processMsg = reversal.getDocumentInfo();
+
+		// After reverseAccrual
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSEACCRUAL);
+		if (m_processMsg != null)
+			return false;
+
+		return true;
+	}	//	reverseAccrualIt
+
+	/** Reversal Flag		*/
+	private boolean isReversal = false;
+	/**
+	 * 	Set Reversal
+	 *	@param isReversal reversal
+	 */
+	public void setReversal(boolean isReversal)
+	{
+		this.isReversal = isReversal;
+	}	//	setReversal
+	/**
+	 * 	Is Reversal
+	 *	@return isReversal
+	 */
+	public boolean isReversal()
+	{
+		return isReversal;
+	}	//	isReversal
 
 	/**
 	 * 	Reverse Correction.
@@ -725,7 +833,7 @@ public class MJournal extends X_GL_Journal implements DocAction
 		MDocType docType = MDocType.get(getCtx(), getC_DocType_ID());
 		//	Set Document No from flag
 		if(docType.isCopyDocNoOnReversal()) {
-			reverse.setDocumentNo(getDocumentNo() + "^");
+			reverse.setDocumentNo(getDocumentNo() + Msg.getMsg(getCtx(), "Cancelled"));
 		}
 		reverse.saveEx();
 
@@ -748,31 +856,6 @@ public class MJournal extends X_GL_Journal implements DocAction
 		setDocStatus(DOCSTATUS_Reversed);
 		return reverse;
 	}	//	reverseCorrectionIt
-	
-	/**
-	 * 	Reverse Accrual (sane batch).
-	 * 	Flip Dr/Cr - Use Today's date
-	 * 	@return true if success 
-	 */
-	public boolean reverseAccrualIt()
-	{
-		// Before reverseAccrual
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REVERSEACCRUAL);
-		if (m_processMsg != null)
-			return false;
-		
-		boolean ok_reverse = (reverseAccrualIt (getGL_JournalBatch_ID()) != null);
-		
-		if (! ok_reverse)
-			return false;
-
-		// After reverseAccrual
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSEACCRUAL);
-		if (m_processMsg != null)
-			return false;
-		
-		return ok_reverse;
-	}	//	reverseAccrualIt
 	
 	/**
 	 * 	Reverse Accrual.

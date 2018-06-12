@@ -315,7 +315,42 @@ public class HelpInfo extends JDialog implements ActionListener {
     		doc.append(getLogicalDefaultStatement(s_parameters.isDefaultAttemptTranslation()));
     		doc.append("<p>").append(getHtmlMessage("guiOptionAttemptTranslationsHelp")).append("</p>");
     		doc.append("</dd>");
-    	// preserve table IDs
+		// preserve Garden World
+		doc.append("<dt><b>").append(getHtmlMessage("guiOptionPreserveGardenWord")).append("</b></dt>");
+			doc.append("<dd>");
+			doc.append("<b>").append(getHtmlMessage("guiOptionPreserveGardenWorldTip")).append("</b>");
+			doc.append(getLogicalDefaultStatement(s_parameters.isDefaultPreserveGardenWorld()));
+			doc.append("<p>").append(getHtmlMessage("guiOptionPreserveGardenWorldHelp")).append("</p>");
+			doc.append("</dd>");
+		// truncate temporary tables
+		doc.append("<dt><b>").append(getHtmlMessage("guiOptionTruncateTemporaryTables")).append("</b></dt>");
+			doc.append("<dd>");
+			doc.append("<b>").append(getHtmlMessage("guiOptionTruncateTemporaryTablesTip")).append("</b>");
+			doc.append(getLogicalDefaultStatement(s_parameters.isTruncateTemporaryTables()));
+			doc.append("<p>").append(getHtmlMessage("guiOptionTruncateTemporaryTablesHelp")).append("</p>");
+			doc.append("</dd>");
+		// preserve Log data
+		doc.append("<dt><b>").append(getHtmlMessage("guiOptionPreserveLogs")).append("</b></dt>");
+			doc.append("<dd>");
+			doc.append("<b>").append(getHtmlMessage("guiOptionPreserveLogsTip")).append("</b>");
+			doc.append(getLogicalDefaultStatement(s_parameters.isDefaultPreserveLogs()));
+			doc.append("<p>").append(getHtmlMessage("guiOptionPreserveLogsHelp")).append("</p>");
+			doc.append("</dd>");			
+		// preserve unreferenced Elements
+		doc.append("<dt><b>").append(getHtmlMessage("guiOptionPreserveUnreferencedElements")).append("</b></dt>");
+			doc.append("<dd>");
+			doc.append("<b>").append(getHtmlMessage("guiOptionPreserveUnreferencedElementsTip")).append("</b>");
+			doc.append(getLogicalDefaultStatement(s_parameters.isDefaultPreserveUnreferencedElements()));
+			doc.append("<p>").append(getHtmlMessage("guiOptionPreserveUnreferencedElementsHelp")).append("</p>");
+			doc.append("</dd>");			
+		// preserve days
+		doc.append("<dt><b>").append(getHtmlMessage("guiOptionPreserveDays")).append("</b></dt>");
+			doc.append("<dd>");
+			doc.append("<b>").append(getHtmlMessage("guiOptionPreserveDaysTip")).append("</b>");
+			doc.append(getHtmlMessage(String.valueOf(s_parameters.getDefaultPreserveDays())));
+			doc.append("<p>").append(getHtmlMessage("guiOptionPreserveDaysHelp")).append("</p>");
+			doc.append("</dd>");
+		// preserve table IDs
     	doc.append("<dt><b>").append(getHtmlMessage("guiOptionPreserveTableIDs")).append("</b></dt>");
    			doc.append("<dd>");
     		doc.append("<b>").append(getHtmlMessage("guiOptionPreserveTableIDsTip")).append("</b>");

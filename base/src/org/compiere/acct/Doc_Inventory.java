@@ -177,7 +177,7 @@ public class Doc_Inventory extends Doc
 					dr.addDescription(description);
                     dr.setM_Product_ID(cost.getM_Product_ID());
 					dr.setQty(cost.getQty());
-					if (m_DocStatus.equals(MInventory.DOCSTATUS_Reversed) && m_Reversal_ID !=0 && line.getReversalLine_ID() != 0)
+					if (m_Reversal_ID !=0 && line.getReversalLine_ID() != 0)
 					{
 						//	Set AmtAcctDr from Original Phys.Inventory
 						if (!dr.updateReverseLine (MInventory.Table_ID, 
@@ -212,7 +212,7 @@ public class Doc_Inventory extends Doc
 					if (line.getC_Charge_ID() != 0)	//	explicit overwrite for charge
 						cr.setAD_Org_ID(line.getAD_Org_ID());
 		
-					if (m_DocStatus.equals(MInventory.DOCSTATUS_Reversed) && m_Reversal_ID !=0 && line.getReversalLine_ID() != 0)
+					if (m_Reversal_ID !=0 && line.getReversalLine_ID() != 0)
 					{
 						//	Set AmtAcctCr from Original Phys.Inventory
 						if (!cr.updateReverseLine (MInventory.Table_ID, 

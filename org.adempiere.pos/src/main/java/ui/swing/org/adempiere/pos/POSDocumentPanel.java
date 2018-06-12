@@ -459,7 +459,7 @@ public class POSDocumentPanel extends POSSubPanel
 			//	Document Info
 			String currencyISOCode = posPanel.getCurSymbol();
 			totalTitle.setTitle(Msg.getMsg(Env.getCtx(), "Totals") + " (" +currencyISOCode + ")");
-			fieldSalesRep.setText(posPanel.getSalesRepName());
+			fieldSalesRep.setText(posPanel.getOrder().getSalesRep().getName());
 			fieldDocumentType.setText(posPanel.getDocumentTypeName());
 			fieldDocumentNo.setText(posPanel.getDocumentNo());
 			fieldDocumentStatus.setText(posPanel.getOrder().getDocStatusName());

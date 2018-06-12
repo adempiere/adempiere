@@ -1,7 +1,7 @@
 CREATE OR REPLACE VIEW RV_C_INVOICE_DAY
 (AD_CLIENT_ID, AD_ORG_ID, SALESREP_ID, DATEINVOICED, LINENETAMT, 
  LINELISTAMT, LINELIMITAMT, LINEDISCOUNTAMT, LINEDISCOUNT, LINEOVERLIMITAMT, 
- LINEOVERLIMIT, ISSOTRX)
+ LINEOVERLIMIT, ISSOTRX, C_BPartner_ID, C_BP_Group_ID, C_DocTypeTarget_ID, DocStatus)
 AS 
 SELECT AD_Client_ID, AD_Org_ID, SalesRep_ID,
 	firstOf(DateInvoiced, 'DD') AS DateInvoiced,	--	DD Day, DY Week, MM Month
@@ -14,10 +14,7 @@ SELECT AD_Client_ID, AD_Org_ID, SalesRep_ID,
 	SUM(LineOverLimitAmt) AS LineOverLimitAmt,
 	CASE WHEN SUM(LineNetAmt)=0 THEN 0 ELSE
 	  100-ROUND((SUM(LineNetAmt)-SUM(LineOverLimitAmt))/SUM(LineNetAmt)*100,2) END AS LineOverLimit,
-    IsSOTrx
+    IsSOTrx, C_BPartner_ID, C_BP_Group_ID, C_DocTypeTarget_ID, DocStatus
 FROM RV_C_InvoiceLine
 GROUP BY AD_Client_ID, AD_Org_ID, SalesRep_ID,
-	firstOf(DateInvoiced, 'DD'), IsSOTrx;
-
-
-
+	firstOf(DateInvoiced, 'DD'), IsSOTrx, C_BPartner_ID, C_BP_Group_ID, C_DocTypeTarget_ID, DocStatus;

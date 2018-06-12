@@ -490,4 +490,21 @@ public class X_M_MatchPO extends PO implements I_M_MatchPO, I_Persistent
 	{
 		return (String)get_Value(COLUMNNAME_UUID);
 	}
+
+
+	/** Get Product.
+	 @return Product, Service, Item
+	 */
+	public int getReversal_ID ()
+	{
+		Integer ii = (Integer)get_Value("Reversal_ID");
+		if (ii == null)
+			return 0;
+		return ii.intValue();
+	}
+
+	public void setReversal_ID(int reversalId)
+	{
+		set_Value("Reversal_ID", reversalId);
+	}
 }

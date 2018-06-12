@@ -73,6 +73,8 @@ import org.compiere.util.ValueNamePair;
  * 			@see https://github.com/adempiere/adempiere/issues/236
  * 		<li>BR [ 237 ] Same Print format but distinct report view
  * 			@see https://github.com/adempiere/adempiere/issues/237
+ *		<a href="https://github.com/adempiere/adempiere/issues/1539">
+ * 		@see FR [ 1539 ] Add Process for Reporting</a>
  */
 public class DataEngine
 {
@@ -656,7 +658,8 @@ order by 1,2
 			pstmt = null;
 		}
 
-		if (columns.size() == 0)
+		if (columns.size() == 0
+				&& format.getJasperProcess_ID() == 0)
 		{
 			log.log(Level.SEVERE, "No Colums - Delete Report Format " + reportName + " and start again");
 			log.finest("No Colums - SQL=" + sql + " - ID=" + format.get_ID());

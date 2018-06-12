@@ -33,7 +33,6 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
-import org.compiere.util.Msg;
 import org.compiere.util.Util;
 
 /**
@@ -120,14 +119,6 @@ public class MColumn extends X_AD_Column
 			column.setDescription(element.getDescription());
 		if(column.getHelp() == null || column.getHelp().length() <= 0)
 			column.setHelp(element.getHelp());
-		/*if(column.getColumnName().equals("Name") || column.getColumnName().equals("Value"))
-		{	
-			column.setIsIdentifier(true);
-			int seqNo = DB.getSQLValue(trxName,"SELECT MAX(SeqNo) FROM AD_Column "+
-					"WHERE AD_Table_ID=?"+
-					" AND IsIdentifier='Y'",column.getAD_Table_ID());
-			column.setSeqNo(seqNo + 1);
-		}*/
 		return column;	
 	}
 	/**
@@ -330,40 +321,14 @@ public class MColumn extends X_AD_Column
 				setIsAllowCopy(MColumn.isAllowCopy(getColumnName(), getAD_Reference_ID()));
 			}
 		}
-
-		int displayType = getAD_Reference_ID();
-		if (DisplayType.isLOB(displayType))	//	LOBs are 0
-		{
-			if (getFieldLength() != 0)
-				setFieldLength(0);
-		}
-		else if (getFieldLength() == 0) 
-		{
-			if (DisplayType.isID(displayType))
-				setFieldLength(10);
-			else if (DisplayType.isNumeric (displayType))
-				setFieldLength(14);
-			else if (DisplayType.isDate (displayType))
-				setFieldLength(7);
-			else if(displayType == DisplayType.YesNo)
-				setFieldLength(1);
-			else {
-				log.saveError("FillMandatory", Msg.getElement(getCtx(), "FieldLength"));
-				return false;
-			}
-		}
+		//	Set field Length
+		setFieldLength(DisplayType.getDBDataLength(this));
 		
 		//	BR [ 9223372036854775807 ]
 		//  Skip the validation if this is a Direct Load (from a migration) or the Element is changing.
 		if (!isDirectLoad() 
 		    && (this.get_Value(MColumn.COLUMNNAME_AD_Element_ID).equals(get_ValueOld(MColumn.COLUMNNAME_AD_Element_ID))))
 			validLookup(getColumnName(), getAD_Reference_ID(), getAD_Reference_Value_ID());
-		
-		/** Views are not updateable
-		UPDATE AD_Column c
-		SET IsUpdateable='N', IsAlwaysUpdateable='N'
-		WHERE AD_Table_ID IN (SELECT AD_Table_ID FROM AD_Table WHERE IsView='Y')
-		**/
 		//	Virtual Column
 		if (isVirtualColumn())
 		{
@@ -397,7 +362,10 @@ public class MColumn extends X_AD_Column
 		if ((newRecord || is_ValueChanged ("AD_Element_ID")) 
 			&& getAD_Element_ID() != 0)
 		{
-			M_Element element = new M_Element (getCtx(), getAD_Element_ID (), get_TrxName());
+			M_Element element = new M_Element (getCtx(), getAD_Element_ID(), get_TrxName());
+			if(element.is_new()) {
+				throw new AdempiereException("@AD_Element_ID@ " + getAD_Element_ID () + " @NotFound@");
+			}
 			setColumnName (element.getColumnName());
 			setName (element.getName());
 			setDescription (element.getDescription());
@@ -555,21 +523,10 @@ public class MColumn extends X_AD_Column
 	}	//	getSQLDDL	
 	
 	/**
-	 * 	Get SQL Modify command
-	 *	@param table table
-	 *	@param setNullOption generate null / not null statement
-	 *	@return sql separated by ;
+	 * Get Default Value for SQL
+	 * @return
 	 */
-	public String getSQLModify (MTable table, boolean setNullOption)
-	{
-		StringBuffer sql = new StringBuffer();
-		StringBuffer sqlBase = new StringBuffer ("ALTER TABLE ")
-			.append(table.getTableName())
-			.append(" MODIFY ").append(getColumnName());
-		
-		//	Default
-		StringBuffer sqlDefault = new StringBuffer(sqlBase)
-			.append(" ").append(getSQLDataType());
+	private String getDefaultValueSQL() {
 		String defaultValue = getDefaultValue();
 		if (defaultValue != null 
 			&& defaultValue.length() > 0
@@ -587,13 +544,35 @@ public class MColumn extends X_AD_Column
 				if (!defaultValue.startsWith("'") && !defaultValue.endsWith("'"))
 					defaultValue = DB.TO_STRING(defaultValue);
 			}
-			sqlDefault.append(" DEFAULT ").append(defaultValue);
+			//	
+			return defaultValue;
 		}
-		else
-		{
-			if (! isMandatory())
+		//	default
+		return null;
+	}
+	
+	/**
+	 * 	Get SQL Modify command
+	 *	@param table table
+	 *	@param setNullOption generate null / not null statement
+	 *	@return sql separated by ;
+	 */
+	public String getSQLModify (MTable table, boolean setNullOption) {
+		StringBuffer sql = new StringBuffer();
+		StringBuffer sqlBase = new StringBuffer ("ALTER TABLE ")
+			.append(table.getTableName())
+			.append(" MODIFY ").append(getColumnName());
+		
+		//	Default
+		StringBuffer sqlDefault = new StringBuffer(sqlBase)
+			.append(" ").append(getSQLDataType());
+		String defaultValue = getDefaultValueSQL();
+		if (defaultValue != null) {
+			sqlDefault.append(" DEFAULT ").append(defaultValue);
+		} else {
+			if (!isMandatory()) {
 				sqlDefault.append(" DEFAULT NULL ");
-			defaultValue = null;
+			}
 		}
 		sql.append(sqlDefault);
 		
@@ -750,6 +729,7 @@ public class MColumn extends X_AD_Column
 				tableName = tableName.toLowerCase();
 			}
 			int noColumns = 0;
+			boolean existsColumn = false;
 			String sql = null;
 			//
 			ResultSet rs = md.getColumns(catalog, schema, tableName, null);
@@ -759,10 +739,21 @@ public class MColumn extends X_AD_Column
 				String columnName = rs.getString ("COLUMN_NAME");
 				if (!columnName.equalsIgnoreCase(getColumnName()))
 					continue;
-
+				//	
+				existsColumn = true;
 				//	update existing column
-				boolean notNull = DatabaseMetaData.columnNoNulls == rs.getInt("NULLABLE");
-				sql = getSQLModify(table, isMandatory() != notNull);
+				boolean currentNotNull = DatabaseMetaData.columnNoNulls == rs.getInt("NULLABLE");
+				int currentDataType = rs.getInt("DATA_TYPE");
+				int currentColumnSize = rs.getInt("COLUMN_SIZE");
+				String currentColumnDef = rs.getString("COLUMN_DEF");
+				String columnDef = getDefaultValueSQL();
+				if(!DisplayType.isSameType(this, currentDataType, currentColumnSize)
+						|| isMandatory() != currentNotNull
+						|| (currentColumnDef != null 
+							&& columnDef != null 
+							&& !currentColumnDef.startsWith(columnDef))) {
+					sql = getSQLModify(table, isMandatory() != currentNotNull);
+				}
 				break;
 			}
 			rs.close();
@@ -772,11 +763,12 @@ public class MColumn extends X_AD_Column
 			if (noColumns == 0)
 				sql = table.getSQLCreate ();
 			//	No existing column
-			else if (sql == null)
+			else if (sql == null
+					&& !existsColumn)
 				sql = getSQLAdd(table);
 			
 			if ( sql == null )
-				return "No sql";
+				return "OK";
 			
 			if (sql.indexOf(DB.SQLSTATEMENT_SEPARATOR) == -1)
 			{

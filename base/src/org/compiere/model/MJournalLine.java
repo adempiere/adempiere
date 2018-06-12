@@ -21,6 +21,7 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
 
+import org.compiere.process.DocumentReversalLineEnable;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
@@ -35,7 +36,7 @@ import org.compiere.util.Msg;
  * 	@author victor.perez@e-evolution.com , wwww.e-evolution.com
  *	@version $Id: MJournalLine.java,v 1.3 2006/07/30 00:51:05 jjanke Exp $
  */
-public class MJournalLine extends X_GL_JournalLine
+public class MJournalLine extends X_GL_JournalLine implements DocumentReversalLineEnable
 {
 	/**
 	 * 
@@ -490,7 +491,7 @@ public class MJournalLine extends X_GL_JournalLine
 					getUser4_ID(),
 					getUserElement1_ID(),
 					getUserElement2_ID() ,
-					null);
+					get_TrxName());
 
 			if (account != null)
 			{

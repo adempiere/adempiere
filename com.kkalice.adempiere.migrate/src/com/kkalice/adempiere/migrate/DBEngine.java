@@ -4032,6 +4032,20 @@ public class DBEngine {
 	}
 
 	/**
+	 * gets the database specific SQL command to delete records of a condition and specified age
+	 * @param vendorName the database vendor
+	 * @param catalogName the catalog to use
+	 * @param schemaName the schema to use
+	 * @param tableName the table to use
+	 * @param condition WHERE clause
+	 * @param daysOld minimum age of records to delete
+	 * @return SQL command to delete records of a specified age
+	 */
+	public String sql_deleteByConditionAndAge (String vendorName, String catalogName, String schemaName, String tableName, String condition , Integer daysOld) {
+		return sql_delete (vendorName, catalogName, schemaName, tableName, condition, daysOld);
+	}
+
+	/**
 	 * gets the database specific SQL command to insert records
 	 * @param vendorName the database vendor
 	 * @param catalogName the catalog to use
@@ -4783,10 +4797,10 @@ public class DBEngine {
 		if (customEntities != null && customEntities.size()>0) {
 			for (int i = 0; i < customEntities.size(); i++) {
 				if (i==0)
-					entityClause.append("c.entitytype NOT IN (");
+					entityClause.append("UPPER(c.entitytype) NOT IN ("); // Entitytypes are already converted to uppercase
 				else
 					entityClause.append(", ");
-				entityClause.append("'").append(customEntities.get(i)).append("'");
+				entityClause.append("'").append(customEntities.get(i).toUpperCase()).append("'");
 			}
 			entityClause.append(")");
 		}
@@ -4838,10 +4852,10 @@ public class DBEngine {
 		if (customEntities != null && customEntities.size()>0) {
 			for (int i = 0; i < customEntities.size(); i++) {
 				if (i==0)
-					entityClause.append("c.entitytype IN (");
+					entityClause.append("UPPER(c.entitytype) IN ("); // Entitytypes are already converted to uppercase
 				else
 					entityClause.append(", ");
-				entityClause.append("'").append(customEntities.get(i)).append("'");
+				entityClause.append("'").append(customEntities.get(i).toUpperCase()).append("'");
 			}
 			entityClause.append(")");
 		}
@@ -4893,10 +4907,10 @@ public class DBEngine {
 		if (customEntities != null && customEntities.size()>0) {
 			for (int i = 0; i < customEntities.size(); i++) {
 				if (i==0)
-					entityClause.append("c.entitytype NOT IN (");
+					entityClause.append("UPPER(c.entitytype) NOT IN ("); // Entitytypes are already converted to uppercase
 				else
 					entityClause.append(", ");
-				entityClause.append("'").append(customEntities.get(i)).append("'");
+				entityClause.append("'").append(customEntities.get(i).toUpperCase()).append("'");
 			}
 			entityClause.append(")");
 		}
@@ -4948,10 +4962,10 @@ public class DBEngine {
 		if (customEntities != null && customEntities.size()>0) {
 			for (int i = 0; i < customEntities.size(); i++) {
 				if (i==0)
-					entityClause.append("c.entitytype IN (");
+					entityClause.append("UPPER(c.entitytype) IN ("); // Entitytypes are already converted to uppercase
 				else
 					entityClause.append(", ");
-				entityClause.append("'").append(customEntities.get(i)).append("'");
+				entityClause.append("'").append(customEntities.get(i).toUpperCase()).append("'");
 			}
 			entityClause.append(")");
 		}
@@ -5097,10 +5111,10 @@ public class DBEngine {
 			StringBuffer entityClause = new StringBuffer();
 			for (int i = 0; i < customEntities.size(); i++) {
 				if (i==0)
-					entityClause.append("entitytype NOT IN (");
+					entityClause.append("UPPER(entitytype) NOT IN (");
 				else
 					entityClause.append(", ");
-				entityClause.append("'").append(customEntities.get(i)).append("'");
+				entityClause.append("'").append(customEntities.get(i).toUpperCase()).append("'");
 			}
 			entityClause.append(") ");
 			conditions.add(entityClause.toString());

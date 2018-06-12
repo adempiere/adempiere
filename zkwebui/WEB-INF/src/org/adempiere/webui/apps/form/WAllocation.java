@@ -86,7 +86,27 @@ public class WAllocation extends Allocation
 	@SuppressWarnings("unused")
 	private static final long serialVersionUID = 7806119329546820204L;
 	
-	private CustomForm form = new CustomForm();
+	private CustomForm form = new CustomForm(){
+		public void setProcessInfo(org.compiere.process.ProcessInfo pi) {
+			setFromPO(pi);
+			if(bPartnerId > 0) {
+				bpartnerSearch.setValue(bPartnerId);
+			}
+			if(currencyId > 0) {
+				currencyPick.setValue(currencyId);
+			}
+			if(orgId > 0) {
+				organizationPick.setValue(orgId);
+			}
+			if(isFromParent()) {
+				bpartnerSearch.setReadWrite(false);
+				loadBPartner();
+				setDefaultRecord(paymentTable, invoiceTable);
+			} else {
+				calculate();
+			}
+		};
+	};
 
 	/**
 	 *	Initialize Panel
@@ -101,7 +121,6 @@ public class WAllocation extends Allocation
 			super.dynInit();
 			dynInit();
 			zkInit();
-			calculate();
 			southPanel.appendChild(new Separator());
 			southPanel.appendChild(statusBar);
 		}
@@ -190,6 +209,7 @@ public class WAllocation extends Allocation
 		confirmPanel.addActionListener(this);
 		currencyLabel.setText(Msg.translate(Env.getCtx(), "C_Currency_ID"));
 		multiCurrency.setText(Msg.getMsg(Env.getCtx(), "MultiCurrency"));
+		multiCurrency.setSelected(isDefaultMultiCurrency());
 		multiCurrency.addActionListener(this);
 		allocCurrencyLabel.setText(".");
 		
@@ -337,14 +357,14 @@ public class WAllocation extends Allocation
 		int AD_Column_ID = 3505;    //  C_Invoice.C_Currency_ID
 		MLookup lookupCur = MLookupFactory.get (Env.getCtx(), getWindowNo(), 0, AD_Column_ID, DisplayType.TableDir);
 		currencyPick = new WTableDirEditor("C_Currency_ID", true, false, true, lookupCur);
-		currencyPick.setValue(new Integer(currencyId));
+		currencyPick.setValue(currencyId);
 		currencyPick.addValueChangeListener(this);
 
 		// Organization filter selection
 		AD_Column_ID = 839; //C_Period.AD_Org_ID (needed to allow org 0)
 		MLookup lookupOrg = MLookupFactory.get(Env.getCtx(), getWindowNo(), 0, AD_Column_ID, DisplayType.TableDir);
 		organizationPick = new WTableDirEditor("AD_Org_ID", true, false, true, lookupOrg);
-		organizationPick.setValue(Env.getAD_Org_ID(Env.getCtx()));
+		organizationPick.setValue(orgId);
 		organizationPick.addValueChangeListener(this);
 		
 		//  BPartner
@@ -405,7 +425,11 @@ public class WAllocation extends Allocation
 	 * 	Dispose
 	 */
 	public void dispose() {
-		SessionManager.getAppDesktop().closeActiveWindow();
+		if(isFromParent()) {
+			form.dispose();
+		} else {
+			SessionManager.getAppDesktop().closeActiveWindow();
+		}
 	}	//	dispose
 
 	/**
@@ -641,8 +665,7 @@ public class WAllocation extends Allocation
 	 * Called by org.adempiere.webui.panel.ADForm.openForm(int)
 	 * @return
 	 */
-	public ADForm getForm()
-	{
+	public ADForm getForm() {
 		return form;
 	}
 }   //  WAllocation
