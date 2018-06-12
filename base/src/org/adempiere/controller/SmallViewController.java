@@ -38,6 +38,7 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.compiere.util.Util;
 
 /**
  * The SmallViewController provides an generic MVC connection between the "view" of editor fields
@@ -52,6 +53,9 @@ import org.compiere.util.Msg;
  * View displays that contain fields should implement the SmallViewEditable interface.  
  *  
  * @author mckayERP michael.mckay@mckayerp.com
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpya.com
+ * 		<li>FR [ 1742 ] Dependent field do not refresh automatically
+ * 		@see https://github.com/adempiere/adempiere/issues/1742
  *
  */
 public abstract class SmallViewController implements SmallViewEditable, VetoableChangeListener, PropertyChangeListener, ValueChangeListener {
@@ -650,7 +654,7 @@ public abstract class SmallViewController implements SmallViewEditable, Vetoable
 	 *  @param changedField changed field
 	 */
 	private void processDependencies (GridField changedField) {
-		String columnName = changedField.getColumnName();
+		String columnName = Util.isEmpty(changedField.getColumnNameAlias()) ? changedField.getColumnName() : changedField.getColumnNameAlias();
 
 		for (GridField field : fields) {
 			if (field == null || field == changedField)
@@ -844,13 +848,11 @@ public abstract class SmallViewController implements SmallViewEditable, Vetoable
 		//	Set GridField
 		if (evt.getSource() instanceof GridField) {
 			changedField = ((GridField) evt.getSource());
-		}
-		else
+		} else {
 			return;
-		
+		}
 		//	Change Dependents
 		fieldChange(changedField, evt.getNewValue(), evt.getPropertyName());
-		
 	}
 	
 	/**
