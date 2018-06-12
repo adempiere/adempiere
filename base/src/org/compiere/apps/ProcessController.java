@@ -41,7 +41,6 @@ import org.compiere.process.ProcessInfoUtil;
 import org.compiere.util.CLogger;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
-import org.compiere.util.Ini;
 import org.compiere.util.Msg;
 
 /**
@@ -738,6 +737,24 @@ public abstract class ProcessController extends SmallViewController {
 		.setClient_ID().setParameters(getReportProcess().getAD_Process_ID(), Env.getContextAsInt(Env.getCtx(), "#AD_User_ID")).setOrderBy("Created DESC").first();
 		
 		return lastProcessInstance;
+	}
+	
+	/**
+	 * Validate if process is auto start
+	 */
+	public void validateAutoStart() {
+		if (!hasParameters()) {
+			if (getShowHelp() != null 
+					&& getShowHelp().equals("N")) {
+				setAutoStart(true);    // don't ask first click
+				// anyway show resulting window
+			}
+		}
+		// Check if the process is a silent one
+		if(getShowHelp() != null 
+				&& getShowHelp().equals("S")) {
+			setAutoStart(true);
+		}
 	}
 
 }	//	ProcessParameterPanel

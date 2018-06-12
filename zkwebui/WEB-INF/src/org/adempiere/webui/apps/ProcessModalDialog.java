@@ -23,7 +23,6 @@ import org.compiere.process.ProcessInfo;
 import org.compiere.util.ASyncProcess;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
-import org.compiere.util.Msg;
 
 /**
  * 
@@ -101,7 +100,6 @@ public class ProcessModalDialog extends Window implements IZKProcessDialog {
 	private int 			windowNo;
 	private boolean 		onlyPanel;
 	private boolean 		autoStart;
-	private boolean			isDefaultLastRun;
 	private boolean 		isValid = true;
 	
 	/**	Logger			*/
@@ -163,9 +161,8 @@ public class ProcessModalDialog extends Window implements IZKProcessDialog {
 		processInfo.setAD_Client_ID(Env.getAD_Client_ID(Env.getCtx()));
 		processPanel = new ProcessPanel(this, windowNo, processInfo, "100%");
 		processPanel.setIsOnlyPanel(onlyPanel);
-		processPanel.setAutoStart(autoStart);
 		isValid = processPanel.createFieldsAndEditors();
-		
+		autoStart = processPanel.isAutoStart();
 		setTitle(processPanel.getName());
 		//  BR [ 1004 ]
 		if(!autoStart) {
