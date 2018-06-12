@@ -481,6 +481,8 @@ public abstract class SmallViewController implements SmallViewEditable, Vetoable
 		voBase.Help = field.getHelp();
 		voBase.Header = isTo? Msg.getMsg(Env.getCtx(), "To"): field.getName();
 		voBase.IsColumnSQLReference = true;
+		voBase.FieldLength = field.getFieldLength();
+		voBase.DisplayLength = field.getFieldLength();
 		voBase.initFinish();
 		//	Return 
 		return voBase;
