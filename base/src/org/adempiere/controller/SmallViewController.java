@@ -714,7 +714,9 @@ public abstract class SmallViewController implements SmallViewEditable, Vetoable
 		for (int i = 0; i < size; i++) {
 			GridField field = fields.get(i);
 			//	FR [ 566 ] Only Information
-			if(field == null || field.isInfoOnly())
+			if(field == null 
+					|| field.isInfoOnly()
+					|| !field.isDisplayed(true))
 				continue;
 			// field.validateValue tests for mandatory values and correct lookup selection
 			// if there is an error, the field's error flag will be set
