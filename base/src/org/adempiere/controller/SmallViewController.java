@@ -115,6 +115,8 @@ public abstract class SmallViewController implements SmallViewEditable, Vetoable
 	private boolean m_HasParameters = false;
 
 	private CLogger log = CLogger.getCLogger(this.getClass());
+	/** Max Display Length = 60		*/
+	public static final int MAXDISPLAY_LENGTH = 30;
 	
 	// Abstract methods
 	
@@ -472,7 +474,11 @@ public abstract class SmallViewController implements SmallViewEditable, Vetoable
 		voBase.DefaultValue = isTo? field.getDefaultValue2(): field.getDefaultValue();
 		voBase.DefaultValue2 = field.getDefaultValue2();
 		voBase.InfoFactoryClass = field.getInfoFactoryClass();
+		if(field.getFieldLength() == 0) {
+			field.setFieldLength(MAXDISPLAY_LENGTH);
+		}
 		voBase.FieldLength = field.getFieldLength();
+		voBase.DisplayLength = field.getFieldLength();
 		voBase.ReadOnlyLogic = field.getReadOnlyLogic();
 		voBase.DisplayLogic = field.getDisplayLogic();
 		voBase.VFormat = field.getVFormat();
