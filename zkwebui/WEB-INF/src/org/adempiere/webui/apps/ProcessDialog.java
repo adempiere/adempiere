@@ -73,7 +73,6 @@ public class ProcessDialog extends Window implements IZKProcessDialog {
 	private ASyncProcess 	aSyncProcess;
 	private int 			windowNo;
 	private boolean 		valid = true;
-	private boolean 		autoStart;
 	private WProcessInfo 	processInfo;
 	
 	/**	Logger			*/
