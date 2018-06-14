@@ -743,6 +743,9 @@ public abstract class ProcessController extends SmallViewController {
 	 * Validate if process is auto start
 	 */
 	public void validateAutoStart() {
+		if(isAutoStart()) {
+			return;
+		}
 		if (!hasParameters()) {
 			if (getShowHelp() != null 
 					&& getShowHelp().equals("N")) {
