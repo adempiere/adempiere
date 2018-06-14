@@ -23,7 +23,8 @@ import org.compiere.util.Env;
  *	Form Panel Interface.
  *	for communicating between FormFrame and JPanel
  * 	@author 	Jorg Janke
- * 	@version 	$Id: FormPanel.java,v 1.2 2006/07/30 00:51:28 jjanke Exp $
+ *  @author https://github.com/homebeaver
+ *	@see <a href="https://github.com/adempiere/adempiere/issues/1657"> Java 8 default autoQuery</a>
  */
 public interface FormPanel
 {
