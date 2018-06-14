@@ -254,14 +254,14 @@ public class InvoiceGenFromShipment extends GenForm {
 		para = new MPInstancePara(instance, 20);
 		para.setParameter("DocAction", docActionSelected);
 		if (!para.save()) {
-			String msg = Msg.getMsg(getCtx(), "ParameterMissing") + " DocAction";
+			String msg = Msg.getMsg(Env.getCtx(), "ParameterMissing") + " DocAction";
 			info = msg;
 			log.log(Level.SEVERE, msg);
 			return info;
 		}
 
 		if(m_AD_Org_ID==null) {
-			String msg = Msg.getMsg(getCtx(), "ParameterMissing") + " AD_Org_ID";
+			String msg = Msg.getMsg(Env.getCtx(), "ParameterMissing") + " AD_Org_ID";
 			info = msg;
 			log.log(Level.SEVERE, msg);
 			return info;
@@ -269,7 +269,7 @@ public class InvoiceGenFromShipment extends GenForm {
 			para = new MPInstancePara(instance, 30);
 			para.setParameter("AD_Org_ID", (Integer)m_AD_Org_ID);
 			if (!para.save()) {
-				String msg = Msg.getMsg(getCtx(), "ParameterMissing") + " AD_Org_ID";
+				String msg = Msg.getMsg(Env.getCtx(), "ParameterMissing") + " AD_Org_ID";
 				info = msg;
 				log.log(Level.SEVERE, msg);
 				return info;
@@ -280,7 +280,7 @@ public class InvoiceGenFromShipment extends GenForm {
 			para = new MPInstancePara(instance, 40);
 			para.setParameter("C_BPartner_ID", (Integer)m_C_BPartner_ID);
 			if (!para.save()) {
-				String msg = Msg.getMsg(getCtx(), "ParameterMissing") + " C_BPartner_ID";
+				String msg = Msg.getMsg(Env.getCtx(), "ParameterMissing") + " C_BPartner_ID";
 				info = msg;
 				log.log(Level.SEVERE, msg);
 				return info;
