@@ -20,6 +20,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.logging.Level;
 
+import org.adempiere.process.InvoiceGenerateFromShipmentAbstract;
 import org.compiere.apps.IStatusBar;
 import org.compiere.apps.form.GenForm;
 import org.compiere.minigrid.IDColumn;
@@ -169,7 +170,7 @@ public class InvoiceGenFromShipment extends GenForm {
 		int rows = miniTable.getRowCount();
 		for (int i = 0; i < rows; i++) {
 			IDColumn id = (IDColumn)miniTable.getValueAt(i, 0);     //  ID in column 0
-			//log.fine( "Row=" + i + " - " + id);
+			log.config( "Row=" + i + " - " + id);
 			if (id != null && id.isSelected())
 				results.add(id.getRecord_ID());
 		}
@@ -185,6 +186,7 @@ public class InvoiceGenFromShipment extends GenForm {
 	 *	Generate Invoices
 	 */
 	public String generate(IStatusBar statusBar, KeyNamePair docTypeKNPair, String docActionSelected) {
+		log.info("docTypeKNPair "+docTypeKNPair.toStringX()+" , docActionSelected="+docActionSelected);
 		String info = "";
 		String trxName = Trx.createTrxName("IVG");
 		Trx trx = Trx.get(trxName, true);	//trx needs to be committed too
@@ -197,7 +199,7 @@ public class InvoiceGenFromShipment extends GenForm {
 		int AD_Process_ID = 0;
         
         if (docTypeKNPair.getKey() == MInOut.Table_ID) {
-        	AD_Process_ID = 53345;  
+        	AD_Process_ID = InvoiceGenerateFromShipmentAbstract.getProcessId(); 
         	// HARDCODED- AD_Process.Value=C_Invoice_Generate_from_Shipment; class=org.adempiere.process.InvoiceGenerateFromShipment
 /* params:       	
 o DateInvoiced
@@ -259,13 +261,14 @@ o IsAddInvoiceReferenceLine
 		
 		//	Add Parameters
 		MPInstancePara para = new MPInstancePara(instance, 10);
-		para.setParameter("Selection", "Y");
-		if (!para.save()) {
-			String msg = "No Selection Parameter added";  //  not translated
-			info = msg;
-			log.log(Level.SEVERE, msg);
-			return info;
-		}
+		pi.setIsSelection(true);
+//		para.setParameter("Selection", "Y");  // obsolet!
+//		if (!para.save()) {
+//			String msg = "No Selection Parameter added";  //  not translated
+//			info = msg;
+//			log.log(Level.SEVERE, msg);
+//			return info;
+//		}
 		
 		para = new MPInstancePara(instance, 20);
 		para.setParameter("DocAction", docActionSelected);
