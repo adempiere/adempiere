@@ -58,11 +58,7 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.compiere.apps.form.TrialBalanceDrill;
 import org.compiere.minigrid.IDColumn;
-import org.compiere.model.MLookup;
-import org.compiere.model.MLookupFactory;
-import org.compiere.model.MLookupInfo;
-import org.compiere.model.MPeriod;
-import org.compiere.model.MReportCube;
+import org.compiere.model.*;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
@@ -323,11 +319,20 @@ public class WTrialBalance extends TrialBalanceDrill implements IFormController,
 		
 		if (fReportCube.getValue() !=null)
 			pa_ReportCube_ID = (Integer)fReportCube.getValue();
-		
-		//pa_ReportCube_ID = 1000000;		
-		if (pa_ReportCube_ID == 0 || c_PeriodTo_ID == 0 || m_AD_Org_ID == 0)
-		{
-			FDialog.error(form.getWindowNo(), "Please fill mandatory fields (Cube, Period, Organization).");
+
+		//pa_ReportCube_ID = 1000000;
+
+		MAcctSchema acctSchema = MAcctSchema.getClientAcctSchema(Env.getCtx(), Env.getAD_Client_ID(Env.getCtx()))[0];
+		if (acctSchema == null)
+			FDialog.error(form.getWindowNo(), "@No Acctschema@");
+		MAcctSchemaElement acctElementOrg = acctSchema.getAcctSchemaElement(MAcctSchemaElement.ELEMENTTYPE_Organization);
+		Boolean orgMandatory = acctElementOrg.isBalanced()?true:false;
+
+		if (pa_ReportCube_ID == 0 || c_PeriodTo_ID == 0 || (orgMandatory && m_AD_Org_ID == 0)){
+			String errorMsg = orgMandatory?
+					"@Please fill mandatory fields (Cube, Period, Organization).@"
+					:"@Please fill mandatory fields (Cube, Period).@";
+			FDialog.error(form.getWindowNo(), errorMsg);
 			return;
 		}
 
@@ -693,10 +698,18 @@ public class WTrialBalance extends TrialBalanceDrill implements IFormController,
 	 * Set style on organization Label
 	 */
 	private void setOrgStyle()
-	{
-		if (fieldOrg.getValue() == null)
+	{MAcctSchema acctSchema = MAcctSchema.getClientAcctSchema(Env.getCtx(), Env.getAD_Client_ID(Env.getCtx()))[0];
+		if (acctSchema == null)
+			FDialog.error(form.getWindowNo(), "@No Acctschema@");
+		MAcctSchemaElement acctElementOrg = acctSchema.getAcctSchemaElement(MAcctSchemaElement.ELEMENTTYPE_Organization);
+		Boolean orgMandatory = acctElementOrg.isBalanced()?true:false;
+
+
+		if (orgMandatory)
 			lOrg.setStyle("color : red");
 		else
 			lOrg.setStyle("color : black");
+		lPeriodTo.setStyle("color:red");
+		lCube.setStyle("color:red");
 	}
 }
