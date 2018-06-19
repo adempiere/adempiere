@@ -29,14 +29,18 @@ import java.util.Properties;
 import org.adempiere.webui.IWebClient;
 import org.adempiere.webui.component.FWindow;
 import org.adempiere.webui.panel.LoginPanel;
+import org.adempiere.webui.panel.NewPassPanel;
+import org.adempiere.webui.panel.PassResetPanel;
 import org.adempiere.webui.panel.RolePanel;
 import org.compiere.model.I_AD_User;
+import org.compiere.model.MSession;
 import org.compiere.model.MUser;
 import org.compiere.model.M_Element;
 import org.compiere.util.Env;
 import org.compiere.util.Login;
 import org.zkoss.util.Locales;
 import org.zkoss.web.Attributes;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
@@ -62,6 +66,9 @@ public class LoginWindow extends FWindow implements EventListener
     private Properties ctx;
     private LoginPanel pnlLogin;
     private RolePanel pnlRole;
+    private PassResetPanel pnlResetPass;
+    private NewPassPanel pnlNewPass;
+    private boolean isPassReset;
 
     public LoginWindow(IWebClient app)
     {
@@ -75,8 +82,13 @@ public class LoginWindow extends FWindow implements EventListener
 
     private void init()
     {
-        this.appendChild(pnlLogin);
-        this.setStyle("background-color: transparent");
+    	 String token = Executions.getCurrent().getParameter("token");
+    	if(token != null)
+    		this.newPassword(); 		
+    	else
+    		this.appendChild(pnlLogin);
+        
+    	this.setStyle("background-color: transparent");
     }
 
     private void initComponents()
@@ -89,6 +101,20 @@ public class LoginWindow extends FWindow implements EventListener
         pnlRole = new RolePanel(ctx, this, userName, password);
         this.getChildren().clear();
         this.appendChild(pnlRole);
+    }
+
+    public void resetPassword()
+    {
+        pnlResetPass = new PassResetPanel(ctx, this);
+        this.getChildren().clear();
+        this.appendChild(pnlResetPass);
+    }
+
+    public void newPassword()
+    {
+        pnlNewPass = new NewPassPanel(ctx, this);
+        this.getChildren().clear();
+        this.appendChild(pnlNewPass);
     }
 
     public void loginCompleted()
@@ -125,6 +151,18 @@ public class LoginWindow extends FWindow implements EventListener
            {
                loginPanel.validateLogin();
            }
+           
+           NewPassPanel newPassPanel = (NewPassPanel)this.getFellowIfAny("NewPassPanel");
+           if (newPassPanel != null)
+           {
+        	   newPassPanel.validateLogin();
+           }
+           
+           PassResetPanel passResetPanel = (PassResetPanel)this.getFellowIfAny("PassResetPanel");
+           if (passResetPanel != null)
+           {
+        	   passResetPanel.validatePassReset();
+           }
        }
     }
 
@@ -159,5 +197,13 @@ public class LoginWindow extends FWindow implements EventListener
     {
         if (pnlLogin != null)
             pnlLogin.setTypedPassword(password);
+    }
+
+    public void setPassReset(boolean isPassReset) {
+    	this.isPassReset = isPassReset;
+    }
+
+    public boolean isPassReset() {
+    	return isPassReset;
     }
 }
