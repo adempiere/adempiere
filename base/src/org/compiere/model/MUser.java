@@ -149,6 +149,22 @@ public class MUser extends X_AD_User
 		}
 		return retValue;
 	}	//	get
+	
+
+	/**
+	 * 	Get User (cached)
+	 * 	Also loads Admninistrator (0)
+	 *	@param ctx context
+	 *	@param AD_User_ID id
+	 *	@return user
+	 */
+	public static MUser getUser (Properties ctx, String userName)
+	{
+		MUser retValue = new Query(ctx, MUser.Table_Name, "Value='"+userName+"'",null).first();
+		
+		
+		return retValue;
+	}	//	get
 
 	/**
 	 * 	Get Current User (cached)
