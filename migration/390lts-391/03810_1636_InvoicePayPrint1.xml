@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="InvoiceCompletePayPrint" ReleaseNo="3.9.1" SeqNo="3770">
+  <Migration EntityType="D" Name="InvoiceCompletePayPrint1" ReleaseNo="3.9.1" SeqNo="3810">
     <Comments>https://github.com/adempiere/adempiere/issues/1636</Comments>
     <Step SeqNo="150" StepType="AD">
       <PO AD_Table_ID="102" Action="I" Record_ID="54030" Table="AD_Reference">
@@ -103,10 +103,8 @@ and paymentrule =  '@Para_PaymentRule@' </Data>
     </Step>
     <Step SeqNo="200" StepType="AD">
       <PO AD_Table_ID="284" Action="I" Record_ID="54064" Table="AD_Process">
-        <Data AD_Column_ID="4374" Column="AD_ReportView_ID" isNewNull="true"/>
         <Data AD_Column_ID="6485" Column="EntityType">D</Data>
         <Data AD_Column_ID="2810" Column="Description" isNewNull="true"/>
-        <Data AD_Column_ID="2807" Column="Updated">2018-04-02 18:51:04.107</Data>
         <Data AD_Column_ID="2804" Column="IsActive">true</Data>
         <Data AD_Column_ID="2809" Column="Name">Invoice Complete And Pay</Data>
         <Data AD_Column_ID="4656" Column="Classname">org.adempiere.process.InvoiceCompleteAndPay</Data>
@@ -122,7 +120,6 @@ and paymentrule =  '@Para_PaymentRule@' </Data>
         <Data AD_Column_ID="57920" Column="CopyFromProcess" isNewNull="true"/>
         <Data AD_Column_ID="78843" Column="GenerateClass" isNewNull="true"/>
         <Data AD_Column_ID="5790" Column="AccessLevel">3</Data>
-        <Data AD_Column_ID="12458" Column="IsBetaFunctionality">false</Data>
         <Data AD_Column_ID="3371" Column="IsReport">false</Data>
         <Data AD_Column_ID="2802" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="2803" Column="AD_Org_ID">0</Data>
@@ -136,6 +133,9 @@ and paymentrule =  '@Para_PaymentRule@' </Data>
         <Data AD_Column_ID="63488" Column="AD_Browse_ID" isNewNull="true"/>
         <Data AD_Column_ID="2805" Column="Created">2018-04-02 18:51:04.107</Data>
         <Data AD_Column_ID="2801" Column="AD_Process_ID">54064</Data>
+        <Data AD_Column_ID="4374" Column="AD_ReportView_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2807" Column="Updated">2018-04-02 18:51:04.107</Data>
+        <Data AD_Column_ID="12458" Column="IsBetaFunctionality">false</Data>
       </PO>
     </Step>
     <Step SeqNo="210" StepType="AD">
@@ -163,9 +163,9 @@ and paymentrule =  '@Para_PaymentRule@' </Data>
     </Step>
     <Step SeqNo="230" StepType="AD">
       <PO AD_Table_ID="126" Action="U" Record_ID="0" Table="AD_Reference_Trl">
+        <Data AD_Column_ID="279" Column="AD_Language" oldValue="es_MX">es_MX</Data>
         <Data AD_Column_ID="278" Column="AD_Reference_ID" oldValue="17">17</Data>
         <Data AD_Column_ID="283" Column="IsTranslated" oldValue="true">false</Data>
-        <Data AD_Column_ID="279" Column="AD_Language" oldValue="es_MX">es_MX</Data>
       </PO>
     </Step>
     <Step SeqNo="240" StepType="AD">
@@ -187,9 +187,9 @@ and paymentrule =  '@Para_PaymentRule@' </Data>
     </Step>
     <Step SeqNo="270" StepType="AD">
       <PO AD_Table_ID="136" Action="U" Record_ID="332" Table="AD_Ref_List_Trl">
-        <Data AD_Column_ID="340" Column="IsTranslated" oldValue="true">false</Data>
         <Data AD_Column_ID="336" Column="AD_Ref_List_ID" oldValue="332">332</Data>
         <Data AD_Column_ID="337" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="340" Column="IsTranslated" oldValue="true">false</Data>
       </PO>
     </Step>
     <Step SeqNo="280" StepType="AD">
@@ -211,9 +211,9 @@ and paymentrule =  '@Para_PaymentRule@' </Data>
     </Step>
     <Step SeqNo="310" StepType="AD">
       <PO AD_Table_ID="136" Action="U" Record_ID="333" Table="AD_Ref_List_Trl">
-        <Data AD_Column_ID="340" Column="IsTranslated" oldValue="true">false</Data>
         <Data AD_Column_ID="336" Column="AD_Ref_List_ID" oldValue="333">333</Data>
         <Data AD_Column_ID="337" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="340" Column="IsTranslated" oldValue="true">false</Data>
       </PO>
     </Step>
     <Step SeqNo="320" StepType="AD">
@@ -223,9 +223,9 @@ and paymentrule =  '@Para_PaymentRule@' </Data>
     </Step>
     <Step SeqNo="330" StepType="AD">
       <PO AD_Table_ID="136" Action="U" Record_ID="52000" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="340" Column="IsTranslated" oldValue="true">false</Data>
         <Data AD_Column_ID="336" Column="AD_Ref_List_ID" oldValue="52000">52000</Data>
         <Data AD_Column_ID="337" Column="AD_Language" oldValue="es_MX">es_MX</Data>
-        <Data AD_Column_ID="340" Column="IsTranslated" oldValue="true">false</Data>
       </PO>
     </Step>
     <Step SeqNo="340" StepType="AD">
@@ -248,8 +248,8 @@ and paymentrule =  '@Para_PaymentRule@' </Data>
     <Step SeqNo="370" StepType="AD">
       <PO AD_Table_ID="136" Action="U" Record_ID="335" Table="AD_Ref_List_Trl">
         <Data AD_Column_ID="340" Column="IsTranslated" oldValue="true">false</Data>
-        <Data AD_Column_ID="337" Column="AD_Language" oldValue="es_MX">es_MX</Data>
         <Data AD_Column_ID="336" Column="AD_Ref_List_ID" oldValue="335">335</Data>
+        <Data AD_Column_ID="337" Column="AD_Language" oldValue="es_MX">es_MX</Data>
       </PO>
     </Step>
     <Step SeqNo="380" StepType="AD">
@@ -259,9 +259,9 @@ and paymentrule =  '@Para_PaymentRule@' </Data>
     </Step>
     <Step SeqNo="390" StepType="AD">
       <PO AD_Table_ID="136" Action="U" Record_ID="334" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="340" Column="IsTranslated" oldValue="true">false</Data>
         <Data AD_Column_ID="336" Column="AD_Ref_List_ID" oldValue="334">334</Data>
         <Data AD_Column_ID="337" Column="AD_Language" oldValue="es_MX">es_MX</Data>
-        <Data AD_Column_ID="340" Column="IsTranslated" oldValue="true">false</Data>
       </PO>
     </Step>
     <Step SeqNo="395" StepType="AD">
@@ -315,7 +315,7 @@ and paymentrule =  '@Para_PaymentRule@' </Data>
         <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID">195</Data>
         <Data AD_Column_ID="7729" Column="AD_Element_ID">1143</Data>
         <Data AD_Column_ID="84385" Column="UUID" isNewNull="true"/>
-        <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID">52586</Data>
+        <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID" isNewNull="true"/>
       </PO>
     </Step>
     <Step SeqNo="410" StepType="AD">
@@ -344,8 +344,8 @@ and paymentrule =  '@Para_PaymentRule@' </Data>
     <Step SeqNo="430" StepType="AD">
       <PO AD_Table_ID="126" Action="U" Record_ID="0" Table="AD_Reference_Trl">
         <Data AD_Column_ID="279" Column="AD_Language" oldValue="es_MX">es_MX</Data>
-        <Data AD_Column_ID="283" Column="IsTranslated" oldValue="true">false</Data>
         <Data AD_Column_ID="278" Column="AD_Reference_ID" oldValue="18">18</Data>
+        <Data AD_Column_ID="283" Column="IsTranslated" oldValue="true">false</Data>
       </PO>
     </Step>
     <Step SeqNo="440" StepType="AD">
@@ -423,60 +423,6 @@ and paymentrule =  '@Para_PaymentRule@' </Data>
     <Step SeqNo="490" StepType="AD">
       <PO AD_Table_ID="108" Action="U" Record_ID="52582" Table="AD_Val_Rule">
         <Data AD_Column_ID="189" Column="Description" isNewNull="true" isOldNull="true"/>
-      </PO>
-    </Step>
-    <Step SeqNo="500" StepType="AD">
-      <PO AD_Table_ID="285" Action="I" Record_ID="56317" Table="AD_Process_Para">
-        <Data AD_Column_ID="2822" Column="Name">Bank Account Document</Data>
-        <Data AD_Column_ID="2817" Column="IsActive">true</Data>
-        <Data AD_Column_ID="2820" Column="Updated">2018-04-02 18:51:23.553</Data>
-        <Data AD_Column_ID="2818" Column="Created">2018-04-02 18:51:23.553</Data>
-        <Data AD_Column_ID="3738" Column="IsMandatory">true</Data>
-        <Data AD_Column_ID="3742" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="4017" Column="ColumnName">C_BankAccountDoc_ID</Data>
-        <Data AD_Column_ID="2823" Column="Description">Checks, Transfers, etc.</Data>
-        <Data AD_Column_ID="2824" Column="Help">Bank documents, you generate or track</Data>
-        <Data AD_Column_ID="2830" Column="IsRange">false</Data>
-        <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
-        <Data AD_Column_ID="5819" Column="IsCentrallyMaintained">true</Data>
-        <Data AD_Column_ID="5593" Column="DefaultValue2" isNewNull="true"/>
-        <Data AD_Column_ID="3740" Column="VFormat" isNewNull="true"/>
-        <Data AD_Column_ID="3741" Column="ValueMin" isNewNull="true"/>
-        <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
-        <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="81287" Column="IsInfoOnly">false</Data>
-        <Data AD_Column_ID="2814" Column="AD_Process_Para_ID">56317</Data>
-        <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="2816" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
-        <Data AD_Column_ID="3737" Column="FieldLength">22</Data>
-        <Data AD_Column_ID="2825" Column="AD_Process_ID">54064</Data>
-        <Data AD_Column_ID="2819" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="2827" Column="AD_Reference_ID">18</Data>
-        <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID">52582</Data>
-        <Data AD_Column_ID="2826" Column="SeqNo">30</Data>
-        <Data AD_Column_ID="2821" Column="UpdatedBy">100</Data>
-        <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID">54030</Data>
-        <Data AD_Column_ID="7729" Column="AD_Element_ID">1632</Data>
-        <Data AD_Column_ID="84385" Column="UUID" isNewNull="true"/>
-      </PO>
-    </Step>
-    <Step SeqNo="510" StepType="AD">
-      <PO AD_Table_ID="286" Action="I" Record_ID="0" Table="AD_Process_Para_Trl">
-        <Data AD_Column_ID="2836" Column="Created">2018-04-02 18:51:24.729</Data>
-        <Data AD_Column_ID="2838" Column="Updated">2018-04-02 18:51:24.729</Data>
-        <Data AD_Column_ID="2835" Column="IsActive">true</Data>
-        <Data AD_Column_ID="2842" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="2840" Column="Name">Bank Account Document</Data>
-        <Data AD_Column_ID="2841" Column="Description">Checks, Transfers, etc.</Data>
-        <Data AD_Column_ID="3743" Column="Help">Bank documents, you generate or track</Data>
-        <Data AD_Column_ID="2833" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="2834" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="2837" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="2832" Column="AD_Language">es_MX</Data>
-        <Data AD_Column_ID="2831" Column="AD_Process_Para_ID">56317</Data>
-        <Data AD_Column_ID="2839" Column="UpdatedBy">100</Data>
-        <Data AD_Column_ID="84386" Column="UUID" isNewNull="true"/>
       </PO>
     </Step>
     <Step SeqNo="520" StepType="AD">
@@ -684,9 +630,9 @@ and paymentrule =  '@Para_PaymentRule@' </Data>
     </Step>
     <Step SeqNo="670" StepType="AD">
       <PO AD_Table_ID="136" Action="U" Record_ID="210" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="340" Column="IsTranslated" oldValue="true">false</Data>
         <Data AD_Column_ID="336" Column="AD_Ref_List_ID" oldValue="210">210</Data>
         <Data AD_Column_ID="337" Column="AD_Language" oldValue="es_MX">es_MX</Data>
-        <Data AD_Column_ID="340" Column="IsTranslated" oldValue="true">false</Data>
       </PO>
     </Step>
     <Step SeqNo="680" StepType="AD">
@@ -696,9 +642,9 @@ and paymentrule =  '@Para_PaymentRule@' </Data>
     </Step>
     <Step SeqNo="690" StepType="AD">
       <PO AD_Table_ID="136" Action="U" Record_ID="213" Table="AD_Ref_List_Trl">
-        <Data AD_Column_ID="337" Column="AD_Language" oldValue="es_MX">es_MX</Data>
         <Data AD_Column_ID="340" Column="IsTranslated" oldValue="true">false</Data>
         <Data AD_Column_ID="336" Column="AD_Ref_List_ID" oldValue="213">213</Data>
+        <Data AD_Column_ID="337" Column="AD_Language" oldValue="es_MX">es_MX</Data>
       </PO>
     </Step>
     <Step SeqNo="700" StepType="AD">
@@ -709,8 +655,8 @@ and paymentrule =  '@Para_PaymentRule@' </Data>
     <Step SeqNo="710" StepType="AD">
       <PO AD_Table_ID="136" Action="U" Record_ID="417" Table="AD_Ref_List_Trl">
         <Data AD_Column_ID="340" Column="IsTranslated" oldValue="true">false</Data>
-        <Data AD_Column_ID="337" Column="AD_Language" oldValue="es_MX">es_MX</Data>
         <Data AD_Column_ID="336" Column="AD_Ref_List_ID" oldValue="417">417</Data>
+        <Data AD_Column_ID="337" Column="AD_Language" oldValue="es_MX">es_MX</Data>
       </PO>
     </Step>
     <Step SeqNo="720" StepType="AD">
@@ -885,7 +831,6 @@ and paymentrule =  '@Para_PaymentRule@' </Data>
     </Step>
     <Step SeqNo="830" StepType="AD">
       <PO AD_Table_ID="277" Action="I" Record_ID="0" Table="AD_Element_Trl">
-        <Data AD_Column_ID="2640" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="2641" Column="IsActive">true</Data>
         <Data AD_Column_ID="2642" Column="Created">2018-04-02 18:54:57.874</Data>
         <Data AD_Column_ID="2644" Column="Updated">2018-04-02 18:54:57.874</Data>
@@ -896,6 +841,7 @@ and paymentrule =  '@Para_PaymentRule@' </Data>
         <Data AD_Column_ID="2649" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="6451" Column="PO_PrintName" isNewNull="true"/>
         <Data AD_Column_ID="6448" Column="PO_Description" isNewNull="true"/>
+        <Data AD_Column_ID="2640" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="2639" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="2645" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="2643" Column="CreatedBy">100</Data>
@@ -1064,20 +1010,6 @@ and paymentrule =  '@Para_PaymentRule@' </Data>
     <Step SeqNo="950" StepType="AD">
       <PO AD_Table_ID="107" Action="U" Record_ID="86286" Table="AD_Field">
         <Data AD_Column_ID="5375" Column="AD_FieldGroup_ID" isOldNull="true">101</Data>
-      </PO>
-    </Step>
-    <Step SeqNo="960" StepType="AD">
-      <PO AD_Table_ID="284" Action="U" Record_ID="54064" Table="AD_Process">
-        <Data AD_Column_ID="2810" Column="Description" isOldNull="true">A process which completes the invoice, generates the payment and prints the document. For cash payments the process needs the configuration "Cash as Payment".</Data>
-      </PO>
-    </Step>
-    <Step SeqNo="970" StepType="AD">
-      <PO AD_Table_ID="287" Action="U" Record_ID="0" Table="AD_Process_Trl">
-        <Data AD_Column_ID="2853" Column="Description" isOldNull="true">Un proceso que completa la factura, genera el pago e imprime el documento.</Data>
-        <Data AD_Column_ID="2854" Column="Help" isOldNull="true">El pago al contado necesita la configuración "Cash as Payment" en el configurador de sistema.</Data>
-        <Data AD_Column_ID="2852" Column="Name" oldValue="Invoice Complete And Pay">Competar Pagar e Imprimir</Data>
-        <Data AD_Column_ID="2844" Column="AD_Language" oldValue="es_MX">es_MX</Data>
-        <Data AD_Column_ID="2843" Column="AD_Process_ID" oldValue="54064">54064</Data>
       </PO>
     </Step>
   </Migration>

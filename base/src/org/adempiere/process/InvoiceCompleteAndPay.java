@@ -18,8 +18,12 @@
 package org.adempiere.process;
 
 import org.compiere.model.*;
-import org.compiere.print.ReportEngine;
+import org.compiere.print.MPrintFormat;
+import org.compiere.print.ServerReportCtl;
+import org.compiere.process.ProcessInfo;
 import org.compiere.util.Env;
+
+import java.math.BigDecimal;
 
 /** Generated Process for (Invoice Complete And Pay)
  *  @author ADempiere (generated) 
@@ -32,10 +36,10 @@ public class InvoiceCompleteAndPay extends InvoiceCompleteAndPayAbstract
 	protected void prepare()
 	{
 		super.prepare();
-		if (getCheckNo().length()<=0){
+		if (getCheckNo()==0){
             X_C_BankAccountDoc cBankAccountDoc = new X_C_BankAccountDoc(getCtx(),getBankAccountDocId(), get_TrxName());
             Integer checkNo = cBankAccountDoc.getCurrentNext();
-            setCheckNo(checkNo.toString());
+            setCheckNo(checkNo);
         }
 	}
 
@@ -43,25 +47,49 @@ public class InvoiceCompleteAndPay extends InvoiceCompleteAndPayAbstract
 	protected String doIt() throws Exception
 	{
 		MInvoice invoice = new MInvoice(getCtx(), getRecord_ID(), get_TrxName());
-		if (!(invoice.getDocStatus().equals("DR") || invoice.getDocStatus().equals("IP")))
+		MPaymentTerm paymentTerm = (MPaymentTerm)invoice.getC_PaymentTerm();
+		Boolean notappropriate = false;
+		if (paymentTerm.getSchedule(true).length>0 || paymentTerm.getDiscount().compareTo(Env.ZERO) != 0
+                || paymentTerm.getDiscount2().compareTo(Env.ZERO) != 0)
+		    notappropriate = true;
+		if (notappropriate)
+		    return "@An Invoice with a payment Schedule or a discount cannot be used is this process";
+
+        if (!(invoice.getDocStatus().equals("DR") || invoice.getDocStatus().equals("IP")))
 			return "";
 		if (!invoice.processIt("CO"))
 			return "Could not complete Invoice";
 		invoice.saveEx();
+		MBankAccount bankAccount = new MBankAccount(getCtx(), getCBankAccountId(), get_TrxName());
+		BigDecimal payAmount = getPayAmt();
+		BigDecimal convertedAmount=payAmount;
+
+		if (bankAccount.getC_Currency_ID() !=  invoice.getC_Currency_ID()){
+			convertedAmount = MConversionRate.convert(getCtx(), payAmount, invoice.getC_Currency_ID(),
+					bankAccount.getC_Currency_ID(), invoice.getDateInvoiced(),
+					getConversionTypeId(), invoice.getAD_Client_ID(),
+					invoice.getAD_Org_ID());
+			if (convertedAmount == null)
+				return "@No ConversionRate@";
+	}
 		MPayment payment = new MPayment(getCtx(), 0, get_TrxName());
 		payment.setC_Invoice_ID(invoice.getC_Invoice_ID());
-		payment.setC_DocType_ID(invoice.isSOTrx());
+		payment.setC_DocType_ID(getDocTypeId());
 		payment.setC_BPartner_ID(invoice.getC_BPartner_ID());
-		payment.setPayAmt(invoice.getGrandTotal());
+		payment.setPayAmt(convertedAmount);
 		payment.setC_BankAccount_ID(getCBankAccountId());
 		payment.setC_Currency_ID(invoice.getC_Currency_ID());
 		payment.setTenderType(paymentRuleConvertTenderType(getPaymentRule()));
+		payment.setDescription(getDescription());
+        X_C_BankAccountDoc bankAccountDoc = new X_C_BankAccountDoc(getCtx(), getBankAccountDocId(), null);
 		if (MPayment.TENDERTYPE_CreditCard.equals(payment.getTenderType())){
 			payment.setCreditCardNumber(getCreditCardNumber());
 			payment.setCreditCardType(getCreditCardType());
 		}
         if (MPayment.TENDERTYPE_Check.equals(payment.getTenderType())){
-		    payment.setCheckNo(getCheckNo());
+		    if (getCheckNo()> 0)
+		        payment.setCheckNo(((Integer)getCheckNo()).toString());
+		    else payment.setCheckNo(((Integer)bankAccountDoc.getCurrentNext()).toString());
         }
 		payment.saveEx();
 		if (!payment.processIt("CO"))
@@ -69,10 +97,15 @@ public class InvoiceCompleteAndPay extends InvoiceCompleteAndPayAbstract
 		payment.saveEx();
 		if (isPrinted()){
 			commitEx();
-			MPaySelectionCheck paySelectionCheck = MPaySelectionCheck.createForPayment(Env.getCtx(), payment.getC_Payment_ID(), get_TrxName());
-			ReportEngine reportEngine = ReportEngine.get(getCtx(), ReportEngine.CHECK, paySelectionCheck.getC_PaySelectionCheck_ID(),
-					get_TrxName());
-			reportEngine.print();
+            ProcessInfo processInfo = getProcessInfo();
+			MPaySelectionCheck paySelectionCheck =
+                    MPaySelectionCheck.createForPayment(getCtx(), payment.getC_Payment_ID(), get_TrxName());
+			commitEx();
+            ServerReportCtl.startDocumentPrint(6,
+                    (MPrintFormat) bankAccountDoc.getCheck_PrintFormat(),
+                   paySelectionCheck.getC_PaySelectionCheck_ID(),null,processInfo );
+            bankAccountDoc.setCurrentNext(getCheckNo()+1);
+            bankAccountDoc.saveEx();
 		}
 
 		return "";
