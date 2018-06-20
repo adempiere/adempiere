@@ -150,24 +150,30 @@ public class MMenu extends X_AD_Menu
 	 *	@param success success
 	 *	@return success
 	 */
-	protected boolean afterSave (boolean newRecord, boolean success)
-	{
-		if (newRecord)
-			insert_Tree(MTree_Base.TREETYPE_Menu);
-		return success;
-	}	//	afterSave
+	//	Yamel Senih [ 9223372036854775807 ]
+	//	Change to PO
+//	protected boolean afterSave (boolean newRecord, boolean success)
+//	{
+//		if (newRecord)
+//			insert_Tree(MTree.TREETYPE_Menu);
+//		return success;
+//	}	//	afterSave
+	//	End Yamel Senih
 
 	/**
 	 * 	After Delete
 	 *	@param success
 	 *	@return deleted
 	 */
-	protected boolean afterDelete (boolean success)
-	{
-		if (success)
-			delete_Tree(MTree_Base.TREETYPE_Menu);
-		return success;
-	}	//	afterDelete
+	//	Yamel Senih [ 9223372036854775807 ]
+	//	Change to PO
+//	protected boolean afterDelete (boolean success)
+//	{
+//		if (success)
+//			delete_Tree(MTree.TREETYPE_Menu);
+//		return success;
+//	}	//	afterDelete
+	//	End Yamel Senih
 	
 	/**
 	 *  FR [ 1966326 ]
