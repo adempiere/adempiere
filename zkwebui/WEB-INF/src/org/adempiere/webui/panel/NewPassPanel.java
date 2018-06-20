@@ -138,7 +138,7 @@ public class NewPassPanel extends Window implements EventListener
     		lblMsgToken = new Label();
 			lblMsgToken.setId("lblMsgToken");
 			lblMsgToken.setStyle("Color:red; text-align:center;");
-			lblMsgToken.setValue("Token is Not Valid");
+			lblMsgToken.setValue("Token Not Valid");
 			String token = Executions.getCurrent().getParameter("token");
 	 		String userId = Executions.getCurrent().getParameter("userId");
 	    	if(userId != null) {

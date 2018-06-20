@@ -16,6 +16,8 @@
  *****************************************************************************/
 package org.spin.process;
 
+import java.util.List;
+
 import org.compiere.model.MClient;
 import org.compiere.model.MMailText;
 import org.compiere.model.MSysConfig;
@@ -28,15 +30,30 @@ import org.compiere.util.Env;
 
 /**
  * @author Raul Muñoz, rMunoz@erpcya.com, ERPCyA http://www.erpcya.com
- *		<a href="https://github.com/adempiere/adempiere/issues/1446">
- * 		@see FR [ 1446 ] Smart Browse for Deposit from cash</a>
+ * <li> FR [ 1769 ] Add option to restore the password from the login
+ * @see https://github.com/adempiere/adempiere/issues/1769
  *
  */
 public class GeneratePassword  {
 
-	public String doIt(String userName) throws Exception {
-		MClient client = MClient.get(Env.getCtx());
-		MUser user = MUser.getUser(Env.getCtx(), userName);
+	StringBuffer msg = new StringBuffer();
+	StringBuffer msgException = new StringBuffer();
+	
+	public String doIt(String userName) {
+		List<MUser> users = MUser.getUsers(Env.getCtx(), userName);
+		users.forEach(user -> {
+						try {
+							msg.append(generateToken(user));
+						} catch (Exception e) {
+							msg.append(e.getLocalizedMessage());
+						}
+		});
+		return msg.toString();
+		
+	}
+	public String generateToken(MUser user) throws Exception {
+		MClient client = MClient.get(user.getCtx());
+		
 		String msg = null;
 		if(user != null) {
 			TokenGeneratorHandler.getInstance().generateToken(user.getAD_User_ID());
