@@ -406,7 +406,7 @@ public class BankStatementMatchController {
 		Vector<Vector<Object>> data = new Vector<Vector<Object>>();
 		//	
 		StringBuffer sql = new StringBuffer("SELECT p.I_BankStatement_ID, p.StatementLineDate, (CASE WHEN p.TrxAmt < 0 THEN 'N' ELSE 'Y' END) AS IsReceipt, "
-				+ "p.ReferenceNo, p.C_BPartner_ID, (CASE WHEN p.C_BPartner_ID IS NULL THEN BPartnerValue ELSE bp.Name || COALESCE(' ' || bp.Name2, '') END) BPName, "
+				+ "p.ReferenceNo, p.C_BPartner_ID, (CASE WHEN p.C_BPartner_ID IS NULL THEN BPartnerValue ELSE bp.Name END) BPName, "
 				+ "COALESCE(p.ISO_Code, c.ISO_Code) AS ISO_Code, p.TrxAmt, p.Memo, p.* "
 				+ "FROM I_BankStatement p "
 				+ "LEFT JOIN C_BPartner bp ON(bp.C_BPartner_ID = p.C_BPartner_ID) "
