@@ -146,11 +146,14 @@ public class PassResetPanel extends Window implements EventListener
 
     	div = new Div();
     	div.setSclass(ITheme.LOGIN_BOX_FOOTER_CLASS);
-        ConfirmPanel pnlButtons = new ConfirmPanel(false);
+        ConfirmPanel pnlButtons = new ConfirmPanel(true);
         pnlButtons.addActionListener(this);
         LayoutUtils.addSclass(ITheme.LOGIN_BOX_FOOTER_PANEL_CLASS, pnlButtons);
         pnlButtons.setWidth(null);
+
         pnlButtons.getButton(ConfirmPanel.A_OK).setSclass(ITheme.LOGIN_BUTTON_CLASS);
+        pnlButtons.getButton(ConfirmPanel.A_CANCEL).setSclass(ITheme.LOGIN_BUTTON_CLASS);
+        
         div.appendChild(pnlButtons);
         this.appendChild(div);
 
@@ -184,17 +187,13 @@ public class PassResetPanel extends Window implements EventListener
     public void validatePassReset()
     {
     	GeneratePassword pass = new GeneratePassword();
-		try {
-			String msg = pass.doIt(txtUserId.getValue());
-			if(msg.equals(EMail.SENT_OK)) {
-	        	Executions.sendRedirect("index.zul");
-			}
-				
-		} catch (Exception e) {
-				lblMsg.setValue(Msg.parseTranslation(ctx,e.getLocalizedMessage()));
-				lblMsg.setStyle("Color:Red; text-align:center;");
-				lblMsg.setVisible(true);
-			e.printStackTrace();
+		String msg = pass.doIt(txtUserId.getValue());
+		if(msg.equals(EMail.SENT_OK)) {
+        	Executions.sendRedirect("index.zul");
+		} else {
+			lblMsg.setValue(Msg.parseTranslation(ctx,msg));
+			lblMsg.setStyle("Color:Red; text-align:center;");
+			lblMsg.setVisible(true);
 		}
     }
     public void onEvent(Event event)
@@ -202,6 +201,10 @@ public class PassResetPanel extends Window implements EventListener
         if (event.getTarget().getId().equals(ConfirmPanel.A_OK))
         {
         	validatePassReset();
+        }
+        else if (event.getTarget().getId().equals(ConfirmPanel.A_CANCEL))
+        {
+        	wndLogin.loginCancelled();
         }
     }
 
