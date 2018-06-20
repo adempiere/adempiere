@@ -1341,7 +1341,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
         <Data AD_Column_ID="6483" Column="IsSyncDatabase">N</Data>
-        <Data AD_Column_ID="119" Column="IsKey">false</Data>
+        <Data AD_Column_ID="119" Column="IsKey">true</Data>
         <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isNewNull="true"/>
         <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
         <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
@@ -1390,11 +1390,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="12953" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="12955" Column="AD_Column_ID">88762</Data>
         <Data AD_Column_ID="84310" Column="UUID" isNewNull="true"/>
-      </PO>
-    </Step>
-    <Step SeqNo="550" StepType="AD">
-      <PO AD_Table_ID="101" Action="U" Record_ID="88762" Table="AD_Column">
-        <Data AD_Column_ID="119" Column="IsKey" oldValue="false">true</Data>
       </PO>
     </Step>
     <Step SeqNo="580" StepType="AD">
