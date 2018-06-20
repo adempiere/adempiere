@@ -188,7 +188,7 @@ public class PassResetPanel extends Window implements EventListener
     {
     	GeneratePassword pass = new GeneratePassword();
 		String msg = pass.doIt(txtUserId.getValue());
-		if(msg.equals(EMail.SENT_OK)) {
+		if(msg.contains(EMail.SENT_OK)) {
         	Executions.sendRedirect("index.zul");
 		} else {
 			lblMsg.setValue(Msg.parseTranslation(ctx,msg));
