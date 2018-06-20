@@ -265,7 +265,7 @@ public class BankStatementMatchController {
 		paymentData = new Vector<Vector<Object>>();
 		//	
 		StringBuffer sql = new StringBuffer("SELECT p.C_Payment_ID, p.DateTrx, p.IsReceipt, p.DocumentNo, "
-				+ "p.C_BPartner_ID, (bp.Name || COALESCE(' ' || bp.Name2, '')) BPName, tt.TenderTypeName AS TenderType, "
+				+ "p.C_BPartner_ID, bp.Name BPName, tt.TenderTypeName AS TenderType, "
 				+ "c.ISO_Code, p.PayAmt, p.Description "
 				+ "FROM C_Payment p "
 				+ "INNER JOIN C_BPartner bp ON(bp.C_BPartner_ID = p.C_BPartner_ID) "
