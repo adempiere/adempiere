@@ -167,8 +167,8 @@ public class VBankStatementMatch extends BankStatementMatchController
 		bankAccountLabel.setText(Msg.translate(Env.getCtx(), "C_BankAccount_ID"));
     	
 		importedPaymentLabel.setText(Msg.translate(Env.getCtx(), "BankStatementMatch.Imported"));
-		currentPaymentLabel.setText("BankStatementMatch.Current");
-		matchedPaymentLabel.setText("BankStatementMatch.Matched");
+		currentPaymentLabel.setText(Msg.translate(Env.getCtx(), "BankStatementMatch.Current"));
+		matchedPaymentLabel.setText(Msg.translate(Env.getCtx(), "BankStatementMatch.Matched"));
     	
     	dateFromLabel.setLabelFor(dateFromField);
     	dateFromField.setToolTipText(Msg.translate(Env.getCtx(), "DateFrom"));
