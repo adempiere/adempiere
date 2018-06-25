@@ -266,7 +266,7 @@ public class BankStatementMatchController {
 		//	
 		StringBuffer sql = new StringBuffer("SELECT p.C_Payment_ID, p.DateTrx, p.IsReceipt, p.DocumentNo, "
 				+ "p.C_BPartner_ID, bp.Name BPName, tt.TenderTypeName AS TenderType, "
-				+ "c.ISO_Code, p.PayAmt, p.Description "
+				+ "c.ISO_Code, (p.PayAmt * CASE WHEN p.IsReceipt = 'Y' THEN 1 ELSE -1 END) AS PayAmt, p.Description "
 				+ "FROM C_Payment p "
 				+ "INNER JOIN C_BPartner bp ON(bp.C_BPartner_ID = p.C_BPartner_ID) "
 				+ "INNER JOIN C_Currency c ON(c.C_Currency_ID = p.C_Currency_ID) "
