@@ -48,6 +48,7 @@ import org.compiere.util.Evaluator;
 import org.compiere.util.Msg;
 import org.compiere.util.Util;
 import org.compiere.util.ValueNamePair;
+import org.spin.model.MADStatusBar;
 
 /**
  *	Tab Model.
@@ -1706,230 +1707,42 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	 *	Depending on Table returns transaction info
 	 *  @return info
 	 */
-	public String getTrxInfo()
-	{
-		//	InvoiceBatch
-		if (m_vo.TableName.startsWith("C_InvoiceBatch"))
-		{
-			int Record_ID = Env.getContextAsInt(m_vo.ctx, m_vo.WindowNo, "C_InvoiceBatch_ID");
-			log.fine(m_vo.TableName + " - " + Record_ID);
-			MessageFormat mf = null;
-			try
-			{
-				mf = new MessageFormat(Msg.getMsg(Env.getAD_Language(m_vo.ctx), "InvoiceBatchSummary"), Env.getLanguage(m_vo.ctx).getLocale());
-			}
-			catch (Exception e)
-			{
-				log.log(Level.SEVERE, "InvoiceBatchSummary=" + Msg.getMsg(Env.getAD_Language(m_vo.ctx), "InvoiceBatchSummary"), e);
-			}
-			if (mf == null)
-				return " ";
-			/**********************************************************************
-			 *	** Message: ExpenseSummary **
-			 *	{0} Line(s) {1,number,#,##0.00}  - Total: {2,number,#,##0.00}
-			 *
-			 *	{0} - Number of lines
-			 *	{1} - Total
-			 *	{2} - Currency
-			 */
-			Object[] arguments = new Object[3];
-			boolean filled = false;
-			//
-			String sql = "SELECT COUNT(*), NVL(SUM(LineNetAmt),0), NVL(SUM(LineTotalAmt),0) "
-				+ "FROM C_InvoiceBatchLine "
-				+ "WHERE C_InvoiceBatch_ID=? AND IsActive='Y'";
-			//
-			try
-			{
-				PreparedStatement pstmt = DB.prepareStatement(sql, null);
-				pstmt.setInt(1, Record_ID);
-				ResultSet rs = pstmt.executeQuery();
-				if (rs.next())
-				{
-					//	{0} - Number of lines
-					Integer lines = new Integer(rs.getInt(1));
-					arguments[0] = lines;
-					//	{1} - Line net
-					Double net = new Double(rs.getDouble(2));
-					arguments[1] = net;
-					//	{2} - Line net
-					Double total = new Double(rs.getDouble(3));
-					arguments[2] = total;
-					filled = true;
-				}
-				rs.close();
-				pstmt.close();
-			}
-			catch (SQLException e)
-			{
-				log.log(Level.SEVERE, m_vo.TableName + "\nSQL=" + sql, e);
-			}
-			if (filled)
-				return mf.format (arguments);
+	public String getTrxInfo() {
+		//	From Tab
+		MADStatusBar statusBar = MADStatusBar.getFromTabId(m_vo.ctx, m_vo.AD_Tab_ID);
+		//	From Window
+		if(statusBar == null) {
+			statusBar = MADStatusBar.getFromWindowId(m_vo.ctx, m_vo.AD_Window_ID);
+		}
+		//	From Table
+		if(statusBar == null) {
+			statusBar = MADStatusBar.getFromTableId(m_vo.ctx, m_vo.AD_Table_ID);
+		}
+		//	Validate Status Bar
+		if(statusBar == null) {
 			return " ";
-		}	//	InvoiceBatch
-
-		//	Order || Invoice
-		else if (m_vo.TableName.startsWith("C_Order") || m_vo.TableName.startsWith("C_Invoice"))
-		{
-			int Record_ID;
-			boolean isOrder = m_vo.TableName.startsWith("C_Order");
-			//
-			StringBuffer sql = new StringBuffer("SELECT COUNT(*) AS Lines,c.ISO_Code,o.TotalLines,o.GrandTotal,"
-				+ "currencyBase(o.GrandTotal,o.C_Currency_ID,o.DateAcct, o.AD_Client_ID,o.AD_Org_ID) AS ConvAmt ");
-			if (isOrder)
-			{
-				Record_ID = Env.getContextAsInt(m_vo.ctx, m_vo.WindowNo, "C_Order_ID");
-				sql.append("FROM C_Order o"
-					+ " INNER JOIN C_Currency c ON (o.C_Currency_ID=c.C_Currency_ID)"
-					+ " INNER JOIN C_OrderLine l ON (o.C_Order_ID=l.C_Order_ID) "
-					+ "WHERE o.C_Order_ID=? ");
-			}
-			else
-			{
-				Record_ID = Env.getContextAsInt(m_vo.ctx, m_vo.WindowNo, "C_Invoice_ID");
-				sql.append("FROM C_Invoice o"
-					+ " INNER JOIN C_Currency c ON (o.C_Currency_ID=c.C_Currency_ID)"
-					+ " INNER JOIN C_InvoiceLine l ON (o.C_Invoice_ID=l.C_Invoice_ID) "
-					+ "WHERE o.C_Invoice_ID=? ");
-			}
-			sql.append("GROUP BY o.C_Currency_ID, c.ISO_Code, o.TotalLines, o.GrandTotal, o.DateAcct, o.AD_Client_ID, o.AD_Org_ID");
-
-			log.fine(m_vo.TableName + " - " + Record_ID);
-			MessageFormat mf = null;
-			try
-			{
-				mf = new MessageFormat(Msg.getMsg(Env.getAD_Language(m_vo.ctx), "OrderSummary"), Env.getLanguage(m_vo.ctx).getLocale());
-			}
-			catch (Exception e)
-			{
-				log.log(Level.SEVERE, "OrderSummary=" + Msg.getMsg(Env.getAD_Language(m_vo.ctx), "OrderSummary"), e);
-			}
-			if (mf == null)
-				return " ";
-			/**********************************************************************
-			 *	** Message: OrderSummary **
-			 *	{0} Line(s) - {1,number,#,##0.00} - Total: {2,number,#,##0.00} {3} = {4,number,#,##0.00}
-			 *
-			 *	{0} - Number of lines
-			 *	{1} - Line total
-			 *	{2} - Grand total (including tax, etc.)
-			 *	{3} - Currency
-			 *	(4) - Grand total converted to local currency
-			 */
-			Object[] arguments = new Object[5];
-			boolean filled = false;
-			PreparedStatement pstmt = null;
-			ResultSet rs = null;
-			//
-			try
-			{
-				pstmt = DB.prepareStatement(sql.toString(), null);
-				pstmt.setInt(1, Record_ID);
-				rs = pstmt.executeQuery();
-				if (rs.next())
-				{
-					//	{0} - Number of lines
-					Integer lines = new Integer(rs.getInt(1));
-					arguments[0] = lines;
-					//	{1} - Line toral
-					Double lineTotal = new Double(rs.getDouble(3));
-					arguments[1] = lineTotal;
-					//	{2} - Grand total (including tax, etc.)
-					Double grandTotal = new Double(rs.getDouble(4));
-					arguments[2] = grandTotal;
-					//	{3} - Currency
-					String currency = rs.getString(2);
-					arguments[3] = currency;
-					//	(4) - Grand total converted to Euro
-					Double grandEuro = new Double(rs.getDouble(5));
-					arguments[4] = grandEuro;
-					filled = true;
+		}
+		//	
+		MessageFormat messageFormat = null;
+		try {
+			MMessage message = MMessage.get(m_vo.ctx, statusBar.getAD_Message_ID());
+			if(message != null) {
+				messageFormat = new MessageFormat(message.getMsgText(), Env.getLanguage(m_vo.ctx).getLocale());
+				//	Parse
+				Object[] arguments = statusBar.getArguments(getWindowNo());
+				if(arguments == null) {
+					return null;
 				}
+				//	
+				return messageFormat.format(arguments);
 			}
-			catch (SQLException e)
-			{
-				log.log(Level.SEVERE, m_vo.TableName + "\nSQL=" + sql, e);
-			}
-			finally
-			{
-				DB.close(rs, pstmt);
-				rs = null; pstmt = null;
-			}
-	
-			if (filled)
-				return mf.format (arguments);
+		} catch (Exception e) {
+			log.log(Level.WARNING, e.getLocalizedMessage());
+		}
+		//	
+		if (messageFormat == null) {
 			return " ";
-		}	//	Order || Invoice
-
-		//	Expense Report
-		else if (m_vo.TableName.startsWith("S_TimeExpense") && m_vo.TabNo == 0)
-		{
-			int Record_ID = Env.getContextAsInt(m_vo.ctx, m_vo.WindowNo, "S_TimeExpense_ID");
-			log.fine(m_vo.TableName + " - " + Record_ID);
-			MessageFormat mf = null;
-			try
-			{
-				mf = new MessageFormat(Msg.getMsg(Env.getAD_Language(m_vo.ctx), "ExpenseSummary"), Env.getLanguage(m_vo.ctx).getLocale());
-			}
-			catch (Exception e)
-			{
-				log.log(Level.SEVERE, "ExpenseSummary=" + Msg.getMsg(Env.getAD_Language(m_vo.ctx), "ExpenseSummary"), e);
-			}
-			if (mf == null)
-				return " ";
-			/**********************************************************************
-			 *	** Message: ExpenseSummary **
-			 *	{0} Line(s) - Total: {1,number,#,##0.00} {2}
-			 *
-			 *	{0} - Number of lines
-			 *	{1} - Total
-			 *	{2} - Currency
-			 */
-			Object[] arguments = new Object[3];
-			boolean filled = false;
-			//
-			String SQL = "SELECT COUNT(*) AS Lines, SUM(ConvertedAmt*Qty) "
-				+ "FROM S_TimeExpenseLine "
-				+ "WHERE S_TimeExpense_ID=?";
-
-			//
-			PreparedStatement pstmt = null;
-			ResultSet rs = null;
-			try
-			{
-				pstmt = DB.prepareStatement(SQL, null);
-				pstmt.setInt(1, Record_ID);
-				rs = pstmt.executeQuery();
-				if (rs.next())
-				{
-					//	{0} - Number of lines
-					Integer lines = new Integer(rs.getInt(1));
-					arguments[0] = lines;
-					//	{1} - Line total
-					Double total = new Double(rs.getDouble(2));
-					arguments[1] = total;
-					//	{3} - Currency
-					arguments[2] = " ";
-					filled = true;
-				}
-			}
-			catch (SQLException e)
-			{
-				log.log(Level.SEVERE, m_vo.TableName + "\nSQL=" + SQL, e);
-			}
-			finally
-			{
-				DB.close(rs, pstmt);
-				rs = null; pstmt = null;
-			}
-	
-			if (filled)
-				return mf.format (arguments);
-			return " ";
-		}	//	S_TimeExpense
-
-
+		}
 		//	Default - No Trx Info
 		return null;
 	}	//	getTrxInfo
