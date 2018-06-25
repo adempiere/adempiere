@@ -178,6 +178,7 @@ public class MigrationFromXML extends MigrationFromXMLAbstract {
 				.withTitle("Apply migration")
 				.withRecordId(MMigration.Table_ID , migrationId)
 				.withParameter("FailOnError",true)
+				.withParameter(ISFORCE, isForce())
 				.execute(trxName);
 
 		log.log(Level.CONFIG, "Process=" + processInfo.getTitle() + " Error="+processInfo.isError() + " Summary=" + processInfo.getSummary());
