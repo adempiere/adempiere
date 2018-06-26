@@ -52,12 +52,11 @@ public class MActivity extends X_C_Activity
 	 * @param activityId
 	 * @return
 	 */
-	/*
 	@Deprecated
 	public static MActivity get(Properties ctx, int activityId)
 	{
 		return getById(ctx, activityId, null);
-	}*/
+	}
 
 	/**
 	 * Get/Load Activity [CACHED]

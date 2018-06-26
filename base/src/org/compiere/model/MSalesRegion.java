@@ -45,11 +45,11 @@ public class MSalesRegion extends X_C_SalesRegion
 	 *	@param salesRegionId id
 	 *	@return MSalesRegion
 	 */
-	/*@Deprecated
+	@Deprecated
 	public static MSalesRegion get (Properties ctx, int salesRegionId) {
-		return getById(ctx, salesRegionId, );
+		return getById(ctx, salesRegionId, null);
 	}	//	get
-	*/
+
 
 	/** Static Cache */
 	private static CCache<Integer, MSalesRegion> salesRegionCacheIds = new CCache<Integer, MSalesRegion>(Table_Name, 30);

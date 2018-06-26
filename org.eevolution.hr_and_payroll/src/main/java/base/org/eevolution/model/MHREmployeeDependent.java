@@ -67,10 +67,34 @@ public class MHREmployeeDependent extends X_HR_EmployeeDependent {
 	 * @param onlyDepending
 	 * @param onlyScholarship
 	 * @param onlyActiveStudent
+	 * @return
+	 */
+	@Deprecated
+	public static MHREmployeeDependent[] getEmployeeDependents(
+			Properties ctx,
+			int bpartnerId,
+			String relationshipValue,
+			String gradeValue,
+			boolean onlyDepending,
+			boolean onlyScholarship,
+			boolean onlyActiveStudent) {
+		return getEmployeeDependents(ctx, bpartnerId, relationshipValue, gradeValue, onlyDepending, onlyDepending, onlyActiveStudent, null).toArray(new MHREmployeeDependent[0]);
+	}
+
+	/**
+	 * Get Dependents of Business Partner
+	 *
+	 * @param ctx
+	 * @param bpartnerId
+	 * @param relationshipValue
+	 * @param gradeValue
+	 * @param onlyDepending
+	 * @param onlyScholarship
+	 * @param onlyActiveStudent
 	 * @param trxName
 	 * @return
 	 */
-	public static MHREmployeeDependent[] getEmployeeDependents(
+	public static List<MHREmployeeDependent> getEmployeeDependents(
 			Properties ctx,
 			int bpartnerId,
 			String relationshipValue,
@@ -118,15 +142,10 @@ public class MHREmployeeDependent extends X_HR_EmployeeDependent {
 			params.add(true);
 		}
 		//	Get Family
-		List<MHREmployeeDependent> list = new Query(ctx, I_HR_EmployeeDependent.Table_Name, whereClause.toString(), trxName)
+		return new Query(ctx, I_HR_EmployeeDependent.Table_Name, whereClause.toString(), trxName)
 				.setParameters(params)
 				.setOnlyActiveRecords(true)
 				.<MHREmployeeDependent>list();
-		//	Convert to Array
-		MHREmployeeDependent [] dependents = new MHREmployeeDependent[list.size()];
-		list.toArray(dependents);
-		//	
-		return dependents;
 	}
 	
 	/**
