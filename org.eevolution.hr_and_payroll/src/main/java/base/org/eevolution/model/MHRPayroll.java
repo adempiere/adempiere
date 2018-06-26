@@ -83,10 +83,10 @@ public class MHRPayroll extends X_HR_Payroll {
         setClientOrg(calendar);
     }    //	HRPayroll
 
-    /*@Deprecated
+    @Deprecated
     public static MHRPayroll forValue(Properties ctx, String payrollValue) {
         return getByValue(ctx, payrollValue, null);
-    }*/
+    }
 
     /**
      * Get payroll by search key
@@ -116,10 +116,10 @@ public class MHRPayroll extends X_HR_Payroll {
         return payroll;
     }
 
-    /*@Deprecated
+    @Deprecated
     public static MHRPayroll get(Properties ctx, int payrollId) {
         return getById(ctx, payrollId, null);
-    }*/
+    }
 
     /**
      * Get Payroll by Id

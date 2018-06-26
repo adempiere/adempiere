@@ -32,11 +32,11 @@ public class MHRConceptCategory extends X_HR_Concept_Category
 	 * @param conceptCategoryId
 	 * @return
 	 */
-	/*	@Deprecated
+	@Deprecated
 	public static MHRConceptCategory get(Properties ctx, int conceptCategoryId)
 	{
-		return getById(ctx, HR_Concept_Category_ID, null);
-	}*/
+		return getById(ctx, conceptCategoryId, null);
+	}
 
 	/**
 	 * Get Payroll Concpet Category
@@ -71,12 +71,11 @@ public class MHRConceptCategory extends X_HR_Concept_Category
 	 * @param value
 	 * @return
 	 */
-	/*
 	@Deprecated
 	public static MHRConceptCategory forValue(Properties ctx, String value)
 	{
 		return getByValue(ctx, value , null);
-	}*/
+	}
 
 	/**
 	 * Ger Concept Category by Value
