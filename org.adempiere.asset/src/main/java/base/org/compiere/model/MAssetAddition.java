@@ -123,9 +123,10 @@ public class MAssetAddition extends X_A_Asset_Addition
 	 */
 	public static MAssetAddition createAsset(MMatchInv matchInvoice)
 	{
+		MInvoiceLine invoiceLine = (MInvoiceLine) matchInvoice.getC_InvoiceLine();
 		MAssetAddition assetAddition = new MAssetAddition(matchInvoice);
 		assetAddition.dump();
-		if (matchInvoice.getC_InvoiceLine().getA_Asset_ID() == 0 && assetAddition.isA_CreateAsset())
+		if (invoiceLine.getA_Asset_ID() == 0 && invoiceLine.isA_CreateAsset())
 		{
 			MAsset asset = assetAddition.createAsset();
 			asset.dump();
@@ -133,10 +134,9 @@ public class MAssetAddition extends X_A_Asset_Addition
 			assetAddition.setDeltaUseLifeYears(assetGroupAcct.getUseLifeYears());
 			assetAddition.setDeltaUseLifeYears_F(assetGroupAcct.getUseLifeYears_F());
 		}
-		else {
+		else
 			assetAddition.setA_Asset_ID(matchInvoice.getC_InvoiceLine().getA_Asset_ID());
-			assetAddition.setA_CreateAsset(false);
-		}
+
 		assetAddition.saveEx();
 		return assetAddition;
 	}
@@ -364,65 +364,63 @@ public class MAssetAddition extends X_A_Asset_Addition
 		return m_cacheMatchInv.get(requery);
 	}
 	
-	private void setM_MatchInv(MMatchInv mi)
+	private void setM_MatchInv(MMatchInv matchInvoice)
 	{
-		MInvoiceLine iLine = new MInvoiceLine(getCtx(), mi.getC_InvoiceLine_ID(), get_TrxName());
-		
-		mi.load(get_TrxName());
-		setAD_Org_ID(mi.getAD_Org_ID());
+		MInvoiceLine invoiceLine = new MInvoiceLine(getCtx(), matchInvoice.getC_InvoiceLine_ID(), get_TrxName());
+		matchInvoice.load(get_TrxName());
+		setAD_Org_ID(matchInvoice.getAD_Org_ID());
 		setPostingType(POSTINGTYPE_Actual);
 		setA_SourceType(A_SOURCETYPE_Invoice);
-		setM_MatchInv_ID(mi.get_ID());
-		
-		if (MAssetAddition.A_CAPVSEXP_Capital.equals(mi.getC_InvoiceLine().getA_CapvsExp()))
+		setM_MatchInv_ID(matchInvoice.get_ID());
+		setA_CreateAsset(invoiceLine.isA_CreateAsset());
+		if (MAssetAddition.A_CAPVSEXP_Capital.equals(invoiceLine.getA_CapvsExp()))
 		{
-			if (mi.getC_InvoiceLine().getA_Asset_ID() == 0)
+			if (matchInvoice.getC_InvoiceLine().getA_Asset_ID() == 0)
 				setA_CreateAsset(true);
-			if (mi.getC_InvoiceLine().getA_Asset_ID() > 0)
+			if (matchInvoice.getC_InvoiceLine().getA_Asset_ID() > 0)
 				setA_CreateAsset(false);
 		}
-		else 
-			setA_CreateAsset(false);
 		 
-		setC_Invoice_ID(mi.getC_InvoiceLine().getC_Invoice_ID());
-		setC_InvoiceLine_ID(mi.getC_InvoiceLine_ID());
-		setM_InOutLine_ID(mi.getM_InOutLine_ID());
-		setM_Product_ID(mi.getM_Product_ID());
-		setM_AttributeSetInstance_ID(mi.getM_AttributeSetInstance_ID());
-		setLine(mi.getC_InvoiceLine().getLine());
-		setM_Locator_ID(mi.getM_InOutLine().getM_Locator_ID());
-		setA_CapvsExp(mi.getC_InvoiceLine().getA_CapvsExp());
-		setC_Currency_ID(mi.getC_InvoiceLine().getC_Invoice().getC_Currency_ID());
-        if (mi.getC_InvoiceLine().getC_Invoice().getC_ConversionType_ID() > 0)
-		    setC_ConversionType_ID(mi.getC_InvoiceLine().getC_Invoice().getC_ConversionType_ID());
+		setC_Invoice_ID(invoiceLine.getC_Invoice_ID());
+		setC_InvoiceLine_ID(invoiceLine.getC_InvoiceLine_ID());
 
-		setDateDoc(mi.getM_InOutLine().getM_InOut().getMovementDate());
-		setDateAcct(mi.getM_InOutLine().getM_InOut().getMovementDate());
+		setM_InOutLine_ID(matchInvoice.getM_InOutLine_ID());
+		setM_Product_ID(matchInvoice.getM_Product_ID());
+		setM_AttributeSetInstance_ID(matchInvoice.getM_AttributeSetInstance_ID());
+		setLine(invoiceLine.getLine());
+		setM_Locator_ID(matchInvoice.getM_InOutLine().getM_Locator_ID());
+		setA_CapvsExp(invoiceLine.getA_CapvsExp());
+		setC_Currency_ID(invoiceLine.getC_Invoice().getC_Currency_ID());
+        if (invoiceLine.getC_Invoice().getC_ConversionType_ID() > 0)
+		    setC_ConversionType_ID(invoiceLine.getC_Invoice().getC_ConversionType_ID());
+
+		setDateDoc(matchInvoice.getM_InOutLine().getM_InOut().getMovementDate());
+		setDateAcct(matchInvoice.getM_InOutLine().getM_InOut().getMovementDate());
 		
 		//Goodwill - If the quantities were collective 
-		if (MInvoiceLine.A_CAPVSEXP_Capital.equals(iLine.getA_CapvsExp()) && iLine.get_ValueAsBoolean("IsCollectiveAsset"))
+		if (MInvoiceLine.A_CAPVSEXP_Capital.equals(invoiceLine.getA_CapvsExp()) && invoiceLine.isCollectiveAsset())
 		{
-			setA_QTY_Current(mi.getQty());
-			setAssetAmtEntered(mi.getC_InvoiceLine().getLineNetAmt());
-			setAssetSourceAmt(mi.getC_InvoiceLine().getLineNetAmt());		
+			setA_QTY_Current(matchInvoice.getQty());
+			setAssetAmtEntered(invoiceLine.getLineNetAmt());
+			setAssetSourceAmt(invoiceLine.getLineNetAmt());
 		}
 		//Goodwill - If the quantities were not collective
-		if (MInvoiceLine.A_CAPVSEXP_Capital.equals(iLine.getA_CapvsExp()) && !iLine.get_ValueAsBoolean("IsCollectiveAsset") && iLine.getA_Asset_ID() <= 0)
+		if (MInvoiceLine.A_CAPVSEXP_Capital.equals(invoiceLine.getA_CapvsExp()) && !invoiceLine.isCollectiveAsset() && invoiceLine.getA_Asset_ID() <= 0)
 		{
 			setA_QTY_Current(Env.ONE);
-			setAssetAmtEntered(mi.getC_InvoiceLine().getLineNetAmt().divide(mi.getQty()));
-			setAssetSourceAmt(mi.getC_InvoiceLine().getLineNetAmt().divide(mi.getQty()));
+			setAssetAmtEntered(invoiceLine.getLineNetAmt().divide(matchInvoice.getQty()));
+			setAssetSourceAmt(matchInvoice.getC_InvoiceLine().getLineNetAmt().divide(matchInvoice.getQty()));
 		}
 		//Goodwill - If the invoice not create new asset
 		// or if the invoice is an expense type
-		if ((MInvoiceLine.A_CAPVSEXP_Capital.equals(iLine.getA_CapvsExp()) && iLine.getA_Asset_ID() > 0) ||
-				MInvoiceLine.A_CAPVSEXP_Expense.equals(iLine.getA_CapvsExp()))
+		if ((MInvoiceLine.A_CAPVSEXP_Capital.equals(invoiceLine.getA_CapvsExp()) && invoiceLine.getA_Asset_ID() > 0) ||
+				MInvoiceLine.A_CAPVSEXP_Expense.equals(invoiceLine.getA_CapvsExp()))
 		{
 			setA_QTY_Current(Env.ZERO);
-			setAssetAmtEntered(mi.getC_InvoiceLine().getLineNetAmt());
-			setAssetSourceAmt(mi.getC_InvoiceLine().getLineNetAmt());
+			setAssetAmtEntered(invoiceLine.getLineNetAmt());
+			setAssetSourceAmt(invoiceLine.getLineNetAmt());
 		}
-		m_cacheMatchInv.set(mi);
+		m_cacheMatchInv.set(matchInvoice);
 	}
 	
 	/**
