@@ -44,12 +44,10 @@ public class MHRConceptType extends X_HR_Concept_Type {
      * @param value
      * @return
      */
-    /*
-    @Deprecated
     public static MHRConceptType forValue(Properties ctx, String value)
     {
         return getByValue(ctx, value , null);
-    }*/
+    }
 
     /**
      * get Concept Type by Value

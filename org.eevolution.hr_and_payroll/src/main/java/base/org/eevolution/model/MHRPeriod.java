@@ -19,12 +19,12 @@ public class MHRPeriod extends X_HR_Period
 	private static final long serialVersionUID = -7787966459848200539L;
 	private static CCache<Integer, MHRPeriod> s_cache = new CCache<Integer, MHRPeriod>(Table_Name, 20);
 
-	/*
+	
 	@Deprecated
 	public static MHRPeriod get(Properties ctx, int periodId)
 	{
 		return getById(ctx, periodId , null);
-	}*/
+	}
 
 	public static MHRPeriod getById(Properties ctx, int periodId, String trxName)
 	{
