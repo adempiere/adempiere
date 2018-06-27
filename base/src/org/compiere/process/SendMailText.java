@@ -275,7 +275,13 @@ public class SendMailText extends SvrProcess
 		//
 		EMail email = m_client.createEMail(m_from, to, m_MailText.getMailHeader(), message);
 		if (email == null) {
-			addLog(0, null, null, "@RequestActionEMailError@" + " @From@ " + m_from.getEMail() +" @To@ " + to.getEMail());
+			String errorMessage = "@RequestActionEMailError@ ";
+			if (m_from != null && m_from.getEMail() != null)
+				errorMessage =  errorMessage + " @From@ " + m_from.getEMail();
+			if (to != null && to.getEMail() != null)
+				errorMessage = errorMessage + " @To@ " + to.getEMail();
+
+			addLog(0, null, null, errorMessage);
 			return false;
 		}
 
