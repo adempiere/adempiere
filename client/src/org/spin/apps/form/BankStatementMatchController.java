@@ -276,6 +276,8 @@ public class BankStatementMatchController {
 				+ "				WHERE tt.AD_Reference_ID=214) tt ON(tt.TenderType = p.TenderType) ");
 		//	Where Clause
 		sql.append("WHERE p.C_BankAccount_ID = ? ");
+		sql.append(" AND p.DocStatus NOT IN('IP', 'DR') ");
+		sql.append(" AND p.IsReconciled = 'N' ");
 		if(bankStatement != null) {
 			sql.append("AND NOT EXISTS(SELECT 1 FROM C_BankStatement bs "
 					+ "INNER JOIN C_BankStatementLine bsl ON(bsl.C_BankStatement_ID = bs.C_BankStatement_ID) "

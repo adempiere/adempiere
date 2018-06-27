@@ -30,6 +30,7 @@ import org.compiere.impexp.BankStatementMatcherInterface;
 import org.compiere.model.MBankStatementLine;
 import org.compiere.model.X_I_BankStatement;
 import org.compiere.util.DB;
+import org.compiere.util.Env;
 import org.compiere.util.Util;
 
 public class GenericBankMatcher implements BankStatementMatcherInterface {
@@ -124,8 +125,15 @@ public class GenericBankMatcher implements BankStatementMatcherInterface {
 		if(where.length() > 0) {
 			where.append(" AND ");
 		}
-		where.append("(p.PayAmt = ?)");
-		params.add(ibs.getTrxAmt());
+		//	Validate amount for it
+		boolean isReceipt = ibs.getTrxAmt().compareTo(Env.ZERO) > 0;
+		where.append("(p.PayAmt = ? ");
+		params.add(isReceipt
+				? ibs.getTrxAmt()
+						: ibs.getTrxAmt().negate());
+		//	Add Receipt
+		where.append("AND p.IsReceipt = ? )");
+		params.add(isReceipt);
 		//	For Account
 		if(where.length() > 0) {
 			where.append(" AND ");
