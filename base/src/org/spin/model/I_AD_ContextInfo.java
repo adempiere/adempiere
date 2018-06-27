@@ -21,15 +21,15 @@ import java.sql.Timestamp;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for AD_StatusBar
+/** Generated Interface for AD_ContextInfo
  *  @author Adempiere (generated) 
  *  @version Release 3.9.0
  */
-public interface I_AD_StatusBar 
+public interface I_AD_ContextInfo 
 {
 
-    /** TableName=AD_StatusBar */
-    public static final String Table_Name = "AD_StatusBar";
+    /** TableName=AD_ContextInfo */
+    public static final String Table_Name = "AD_ContextInfo";
 
     /** AD_Table_ID=54438 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
@@ -49,6 +49,15 @@ public interface I_AD_StatusBar
 	  * Client/Tenant for this installation.
 	  */
 	public int getAD_Client_ID();
+
+    /** Column name AD_ContextInfo_ID */
+    public static final String COLUMNNAME_AD_ContextInfo_ID = "AD_ContextInfo_ID";
+
+	/** Set Context Info Maintaining ID	  */
+	public void setAD_ContextInfo_ID (int AD_ContextInfo_ID);
+
+	/** Get Context Info Maintaining ID	  */
+	public int getAD_ContextInfo_ID();
 
     /** Column name AD_Message_ID */
     public static final String COLUMNNAME_AD_Message_ID = "AD_Message_ID";
@@ -77,15 +86,6 @@ public interface I_AD_StatusBar
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
-
-    /** Column name AD_StatusBar_ID */
-    public static final String COLUMNNAME_AD_StatusBar_ID = "AD_StatusBar_ID";
-
-	/** Set Status Bar Maintaining ID	  */
-	public void setAD_StatusBar_ID (int AD_StatusBar_ID);
-
-	/** Get Status Bar Maintaining ID	  */
-	public int getAD_StatusBar_ID();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

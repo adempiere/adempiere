@@ -36,25 +36,25 @@ import org.compiere.util.Util;
  * <li> FR [ 1784 ]
  * @see https://github.com/adempiere/adempiere/issues/1784
  */
-public class MADStatusBar extends X_AD_StatusBar {
+public class MADContextInfo extends X_AD_ContextInfo {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -9157152272245789095L;
 	
-	public MADStatusBar(Properties ctx, int AD_StatusBar_ID, String trxName) {
-		super(ctx, AD_StatusBar_ID, trxName);
+	public MADContextInfo(Properties ctx, int contextInfoId, String trxName) {
+		super(ctx, contextInfoId, trxName);
 	}
 	
-	public MADStatusBar(Properties ctx, ResultSet rs, String trxName) {
+	public MADContextInfo(Properties ctx, ResultSet rs, String trxName) {
       super (ctx, rs, trxName);
     }
 	
 	/** Static Cache */
-	private static CCache<Integer, MADStatusBar> statusBarCacheIds = new CCache<Integer, MADStatusBar>(Table_Name, 30);
+	private static CCache<Integer, MADContextInfo> contextInfoCacheIds = new CCache<Integer, MADContextInfo>(Table_Name, 30);
 	/** Static Cache */
-	private static CCache<String, MADStatusBar> statusBarCacheFromIds = new CCache<String, MADStatusBar>(Table_Name, 30);
+	private static CCache<String, MADContextInfo> contextInfoCacheFromIds = new CCache<String, MADContextInfo>(Table_Name, 30);
 	
 	/**
 	 * Get/Load Status Bar [CACHED]
@@ -62,21 +62,21 @@ public class MADStatusBar extends X_AD_StatusBar {
 	 * @param statusBarId
 	 * @return status bar or null
 	 */
-	public static MADStatusBar getById(Properties ctx, int statusBarId) {
+	public static MADContextInfo getById(Properties ctx, int statusBarId) {
 		if (statusBarId <= 0)
 			return null;
 
-		MADStatusBar statusBar = statusBarCacheIds.get(statusBarId);
-		if (statusBar != null && statusBar.get_ID() > 0)
-			return statusBar;
+		MADContextInfo contextInfo = contextInfoCacheIds.get(statusBarId);
+		if (contextInfo != null && contextInfo.get_ID() > 0)
+			return contextInfo;
 
-		statusBar = new Query(ctx , Table_Name , COLUMNNAME_AD_StatusBar_ID + "=?" , null)
+		contextInfo = new Query(ctx , Table_Name , COLUMNNAME_AD_ContextInfo_ID + "=?" , null)
 				.setParameters(statusBarId)
 				.first();
-		if (statusBar != null && statusBar.get_ID() > 0) {
-			statusBarCacheIds.put(statusBar.get_ID(), statusBar);
+		if (contextInfo != null && contextInfo.get_ID() > 0) {
+			contextInfoCacheIds.put(contextInfo.get_ID(), contextInfo);
 		}
-		return statusBar;
+		return contextInfo;
 	}
 	
 	/**
@@ -85,21 +85,21 @@ public class MADStatusBar extends X_AD_StatusBar {
 	 * @param tabId
 	 * @return
 	 */
-	public static MADStatusBar getFromTabId(Properties ctx, int tabId) {
+	public static MADContextInfo getFromTabId(Properties ctx, int tabId) {
 		if (tabId <= 0)
 			return null;
 		String key = "Tab|" + tabId;
-		MADStatusBar statusBar = statusBarCacheFromIds.get(key);
+		MADContextInfo statusBar = contextInfoCacheFromIds.get(key);
 		if (statusBar != null && statusBar.get_ID() > 0)
 			return statusBar;
 
 		statusBar = new Query(ctx , Table_Name , "EXISTS(SELECT 1 FROM AD_Tab t "
 				+ "WHERE t.AD_Tab_ID = ? "
-				+ "AND t.AD_StatusBar_ID = AD_StatusBar.AD_StatusBar_ID)" , null)
+				+ "AND t.AD_ContextInfo_ID = AD_ContextInfo.AD_ContextInfo_ID)" , null)
 				.setParameters(tabId)
 				.first();
 		if (statusBar != null && statusBar.get_ID() > 0) {
-			statusBarCacheFromIds.put(key, statusBar);
+			contextInfoCacheFromIds.put(key, statusBar);
 		}
 		return statusBar;
 	}
@@ -110,21 +110,21 @@ public class MADStatusBar extends X_AD_StatusBar {
 	 * @param tableId
 	 * @return
 	 */
-	public static MADStatusBar getFromTableId(Properties ctx, int tableId) {
+	public static MADContextInfo getFromTableId(Properties ctx, int tableId) {
 		if (tableId <= 0)
 			return null;
 		String key = "Table|" + tableId;
-		MADStatusBar statusBar = statusBarCacheFromIds.get(key);
+		MADContextInfo statusBar = contextInfoCacheFromIds.get(key);
 		if (statusBar != null && statusBar.get_ID() > 0)
 			return statusBar;
 
 		statusBar = new Query(ctx , Table_Name , "EXISTS(SELECT 1 FROM AD_Table t "
 				+ "WHERE t.AD_Table_ID = ? "
-				+ "AND t.AD_StatusBar_ID = AD_StatusBar.AD_StatusBar_ID)" , null)
+				+ "AND t.AD_ContextInfo_ID = AD_ContextInfo.AD_ContextInfo_ID)" , null)
 				.setParameters(tableId)
 				.first();
 		if (statusBar != null && statusBar.get_ID() > 0) {
-			statusBarCacheFromIds.put(key, statusBar);
+			contextInfoCacheFromIds.put(key, statusBar);
 		}
 		return statusBar;
 	}
@@ -135,21 +135,21 @@ public class MADStatusBar extends X_AD_StatusBar {
 	 * @param windowId
 	 * @return
 	 */
-	public static MADStatusBar getFromWindowId(Properties ctx, int windowId) {
+	public static MADContextInfo getFromWindowId(Properties ctx, int windowId) {
 		if (windowId <= 0)
 			return null;
 		String key = "Window|" + windowId;
-		MADStatusBar statusBar = statusBarCacheFromIds.get(key);
+		MADContextInfo statusBar = contextInfoCacheFromIds.get(key);
 		if (statusBar != null && statusBar.get_ID() > 0)
 			return statusBar;
 
 		statusBar = new Query(ctx , Table_Name , "EXISTS(SELECT 1 FROM AD_Window w "
 				+ "WHERE w.AD_Window_ID = ? "
-				+ "AND w.AD_StatusBar_ID = AD_StatusBar.AD_StatusBar_ID)" , null)
+				+ "AND w.AD_ContextInfo_ID = AD_ContextInfo.AD_ContextInfo_ID)" , null)
 				.setParameters(windowId)
 				.first();
 		if (statusBar != null && statusBar.get_ID() > 0) {
-			statusBarCacheFromIds.put(key, statusBar);
+			contextInfoCacheFromIds.put(key, statusBar);
 		}
 		return statusBar;
 	}
@@ -218,7 +218,7 @@ public class MADStatusBar extends X_AD_StatusBar {
 
 	@Override
 	public String toString() {
-		return "MADStatusBar [getAD_StatusBar_ID()=" + getAD_StatusBar_ID() + ", getName()=" + getName()
+		return "MADContextInfo [getAD_ContextInfo_ID()=" + getAD_ContextInfo_ID() + ", getName()=" + getName()
 				+ ", getValue()=" + getValue() + "]";
 	}
 	

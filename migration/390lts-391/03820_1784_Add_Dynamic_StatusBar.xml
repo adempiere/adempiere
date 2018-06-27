@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Add dynamic status bar info #1784" ReleaseNo="3.9.1" SeqNo="3820">
+  <Migration EntityType="D" Name="Add dynamic Context Info info #1784" ReleaseNo="3.9.1" SeqNo="3820">
     <Comments>See: https://github.com/adempiere/adempiere/issues/1784</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="100" Action="I" Record_ID="54438" Table="AD_Table">
@@ -9,12 +9,12 @@
         <Data AD_Column_ID="546" Column="Updated">2018-06-24 23:07:19.713</Data>
         <Data AD_Column_ID="544" Column="Created">2018-06-24 23:07:19.713</Data>
         <Data AD_Column_ID="6489" Column="ImportTable">N</Data>
-        <Data AD_Column_ID="102" Column="Name">Status Bar Maintaining</Data>
-        <Data AD_Column_ID="103" Column="Description">Used for create Status Bar based on SQL</Data>
+        <Data AD_Column_ID="102" Column="Name">Context Info Maintaining</Data>
+        <Data AD_Column_ID="103" Column="Description">Used for create Context Info based on SQL</Data>
         <Data AD_Column_ID="726" Column="IsSecurityEnabled">false</Data>
         <Data AD_Column_ID="354" Column="AccessLevel">4</Data>
         <Data AD_Column_ID="104" Column="Help" isNewNull="true"/>
-        <Data AD_Column_ID="107" Column="TableName">AD_StatusBar</Data>
+        <Data AD_Column_ID="107" Column="TableName">AD_ContextInfo</Data>
         <Data AD_Column_ID="727" Column="IsDeleteable">true</Data>
         <Data AD_Column_ID="6125" Column="IsView">false</Data>
         <Data AD_Column_ID="9341" Column="ReplicationType">L</Data>
@@ -43,7 +43,7 @@
         <Data AD_Column_ID="12723" Column="Updated">2018-06-24 23:07:26.467</Data>
         <Data AD_Column_ID="12721" Column="IsActive">true</Data>
         <Data AD_Column_ID="12724" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="12716" Column="Name">Status Bar Maintaining</Data>
+        <Data AD_Column_ID="12716" Column="Name">Context Info Maintaining</Data>
         <Data AD_Column_ID="12715" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="12718" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="12717" Column="CreatedBy">100</Data>
@@ -602,14 +602,14 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="190" StepType="AD">
       <PO AD_Table_ID="276" Action="I" Record_ID="60088" Table="AD_Element">
-        <Data AD_Column_ID="4299" Column="PrintName">Status Bar Maintaining ID</Data>
+        <Data AD_Column_ID="4299" Column="PrintName">Context Info Maintaining ID</Data>
         <Data AD_Column_ID="2598" Column="Created">2018-06-24 23:07:46.965</Data>
         <Data AD_Column_ID="2600" Column="Updated">2018-06-24 23:07:46.965</Data>
         <Data AD_Column_ID="2597" Column="IsActive">true</Data>
         <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
-        <Data AD_Column_ID="2603" Column="Name">Status Bar Maintaining ID</Data>
+        <Data AD_Column_ID="2603" Column="Name">Context Info Maintaining ID</Data>
         <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
-        <Data AD_Column_ID="2602" Column="ColumnName">AD_StatusBar_ID</Data>
+        <Data AD_Column_ID="2602" Column="ColumnName">AD_ContextInfo_ID</Data>
         <Data AD_Column_ID="6286" Column="PO_PrintName" isNewNull="true"/>
         <Data AD_Column_ID="6283" Column="PO_Description" isNewNull="true"/>
         <Data AD_Column_ID="6284" Column="PO_Help" isNewNull="true"/>
@@ -632,11 +632,11 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="2641" Column="IsActive">true</Data>
         <Data AD_Column_ID="2642" Column="Created">2018-06-24 23:07:48.357</Data>
         <Data AD_Column_ID="2644" Column="Updated">2018-06-24 23:07:48.357</Data>
-        <Data AD_Column_ID="2646" Column="Name">Status Bar Maintaining ID</Data>
+        <Data AD_Column_ID="2646" Column="Name">Context Info Maintaining ID</Data>
         <Data AD_Column_ID="6450" Column="PO_Name" isNewNull="true"/>
         <Data AD_Column_ID="2647" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="2649" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="4300" Column="PrintName">Status Bar Maintaining ID</Data>
+        <Data AD_Column_ID="4300" Column="PrintName">Context Info Maintaining ID</Data>
         <Data AD_Column_ID="2648" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="6451" Column="PO_PrintName" isNewNull="true"/>
         <Data AD_Column_ID="6448" Column="PO_Description" isNewNull="true"/>
@@ -651,7 +651,7 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="210" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="88908" Table="AD_Column">
-        <Data AD_Column_ID="111" Column="Name">Status Bar Maintaining ID</Data>
+        <Data AD_Column_ID="111" Column="Name">Context Info Maintaining ID</Data>
         <Data AD_Column_ID="113" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
@@ -664,7 +664,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="124" Column="IsMandatory">true</Data>
         <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
-        <Data AD_Column_ID="116" Column="ColumnName">AD_StatusBar_ID</Data>
+        <Data AD_Column_ID="116" Column="ColumnName">AD_ContextInfo_ID</Data>
         <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
         <Data AD_Column_ID="120" Column="IsParent">false</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
@@ -703,7 +703,7 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="220" StepType="AD">
       <PO AD_Table_ID="752" Action="I" Record_ID="0" Table="AD_Column_Trl">
-        <Data AD_Column_ID="12957" Column="Name">Status Bar Maintaining ID</Data>
+        <Data AD_Column_ID="12957" Column="Name">Context Info Maintaining ID</Data>
         <Data AD_Column_ID="12960" Column="Created">2018-06-24 23:07:50.79</Data>
         <Data AD_Column_ID="12959" Column="IsActive">true</Data>
         <Data AD_Column_ID="12952" Column="Updated">2018-06-24 23:07:50.79</Data>
@@ -724,8 +724,8 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="629" Column="Updated">2018-06-24 23:07:51.083</Data>
         <Data AD_Column_ID="349" Column="IsActive">true</Data>
         <Data AD_Column_ID="225" Column="StartNewYear">false</Data>
-        <Data AD_Column_ID="347" Column="Description">Table AD_StatusBar</Data>
-        <Data AD_Column_ID="216" Column="Name">AD_StatusBar</Data>
+        <Data AD_Column_ID="347" Column="Description">Table AD_ContextInfo</Data>
+        <Data AD_Column_ID="216" Column="Name">AD_ContextInfo</Data>
         <Data AD_Column_ID="1187" Column="VFormat" isNewNull="true"/>
         <Data AD_Column_ID="222" Column="IsAudited">false</Data>
         <Data AD_Column_ID="223" Column="Prefix" isNewNull="true"/>
@@ -749,28 +749,28 @@ There are two reasons for de-activating and not deleting records:
       <PO AD_Table_ID="746" Action="U" Record_ID="0" Table="AD_Table_Trl">
         <Data AD_Column_ID="12714" Column="AD_Table_ID" oldValue="54438">54438</Data>
         <Data AD_Column_ID="12715" Column="AD_Language" oldValue="es_MX">es_MX</Data>
-        <Data AD_Column_ID="12716" Column="Name" oldValue="Status Bar Maintaining">Barra de Estado</Data>
+        <Data AD_Column_ID="12716" Column="Name" oldValue="Context Info Maintaining">Información de Contexto</Data>
       </PO>
     </Step>
     <Step SeqNo="250" StepType="AD">
       <PO AD_Table_ID="100" Action="U" Record_ID="54438" Table="AD_Table">
-        <Data AD_Column_ID="102" Column="Name" oldValue="Status Bar Maintaining">Status Bar</Data>
+        <Data AD_Column_ID="102" Column="Name" oldValue="Context Info Maintaining">Context Info</Data>
       </PO>
     </Step>
     <Step SeqNo="260" StepType="AD">
       <PO AD_Table_ID="276" Action="U" Record_ID="60088" Table="AD_Element">
-        <Data AD_Column_ID="4299" Column="PrintName" oldValue="Status Bar Maintaining ID">Status Bar</Data>
-        <Data AD_Column_ID="2604" Column="Description" isOldNull="true">Status Bar Maintainig</Data>
+        <Data AD_Column_ID="4299" Column="PrintName" oldValue="Context Info Maintaining ID">Context Info</Data>
+        <Data AD_Column_ID="2604" Column="Description" isOldNull="true">Context Info Maintainig</Data>
         <Data AD_Column_ID="58589" Column="FieldLength" isOldNull="true">10</Data>
         <Data AD_Column_ID="58588" Column="AD_Reference_ID" isOldNull="true">19</Data>
-        <Data AD_Column_ID="2603" Column="Name" oldValue="Status Bar Maintaining ID">Status Bar</Data>
+        <Data AD_Column_ID="2603" Column="Name" oldValue="Context Info Maintaining ID">Context Info</Data>
       </PO>
     </Step>
     <Step SeqNo="270" StepType="AD">
       <PO AD_Table_ID="277" Action="U" Record_ID="0" Table="AD_Element_Trl">
-        <Data AD_Column_ID="2646" Column="Name" oldValue="Status Bar Maintaining ID">Barra de Estado</Data>
-        <Data AD_Column_ID="2647" Column="Description" isOldNull="true">Mantenimiento de Barra de Estado</Data>
-        <Data AD_Column_ID="4300" Column="PrintName" oldValue="Status Bar Maintaining ID">Barra de Estado</Data>
+        <Data AD_Column_ID="2646" Column="Name" oldValue="Context Info Maintaining ID">Información de Contexto</Data>
+        <Data AD_Column_ID="2647" Column="Description" isOldNull="true">Mantenimiento de Información de Contexto</Data>
+        <Data AD_Column_ID="4300" Column="PrintName" oldValue="Context Info Maintaining ID">Información de Contexto</Data>
         <Data AD_Column_ID="2638" Column="AD_Language" oldValue="es_MX">es_MX</Data>
         <Data AD_Column_ID="2637" Column="AD_Element_ID" oldValue="60088">60088</Data>
       </PO>
@@ -782,8 +782,8 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="629" Column="Updated">2018-06-24 23:09:32.509</Data>
         <Data AD_Column_ID="349" Column="IsActive">true</Data>
         <Data AD_Column_ID="225" Column="StartNewYear">false</Data>
-        <Data AD_Column_ID="347" Column="Description">DocumentNo/Value for Table AD_StatusBar</Data>
-        <Data AD_Column_ID="216" Column="Name">DocumentNo_AD_StatusBar</Data>
+        <Data AD_Column_ID="347" Column="Description">DocumentNo/Value for Table AD_ContextInfo</Data>
+        <Data AD_Column_ID="216" Column="Name">DocumentNo_AD_ContextInfo</Data>
         <Data AD_Column_ID="1187" Column="VFormat" isNewNull="true"/>
         <Data AD_Column_ID="222" Column="IsAudited">false</Data>
         <Data AD_Column_ID="223" Column="Prefix" isNewNull="true"/>
@@ -810,8 +810,8 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="629" Column="Updated">2018-06-24 23:09:34.03</Data>
         <Data AD_Column_ID="349" Column="IsActive">true</Data>
         <Data AD_Column_ID="225" Column="StartNewYear">false</Data>
-        <Data AD_Column_ID="347" Column="Description">DocumentNo/Value for Table AD_StatusBar</Data>
-        <Data AD_Column_ID="216" Column="Name">DocumentNo_AD_StatusBar</Data>
+        <Data AD_Column_ID="347" Column="Description">DocumentNo/Value for Table AD_ContextInfo</Data>
+        <Data AD_Column_ID="216" Column="Name">DocumentNo_AD_ContextInfo</Data>
         <Data AD_Column_ID="1187" Column="VFormat" isNewNull="true"/>
         <Data AD_Column_ID="222" Column="IsAudited">false</Data>
         <Data AD_Column_ID="223" Column="Prefix" isNewNull="true"/>
@@ -1133,9 +1133,9 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="569" Column="Created">2018-06-24 23:15:21.028</Data>
         <Data AD_Column_ID="568" Column="IsActive">true</Data>
         <Data AD_Column_ID="4198" Column="Processing">false</Data>
-        <Data AD_Column_ID="156" Column="Name">Status Bar</Data>
+        <Data AD_Column_ID="156" Column="Name">Context Info</Data>
         <Data AD_Column_ID="158" Column="Help" isNewNull="true"/>
-        <Data AD_Column_ID="157" Column="Description">Status Bar Maintaining</Data>
+        <Data AD_Column_ID="157" Column="Description">Context Info Maintaining</Data>
         <Data AD_Column_ID="6769" Column="IsSOTrx">true</Data>
         <Data AD_Column_ID="9766" Column="IsDefault">false</Data>
         <Data AD_Column_ID="12457" Column="IsBetaFunctionality">false</Data>
@@ -1158,9 +1158,9 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="699" Column="Updated">2018-06-24 23:15:22.725</Data>
         <Data AD_Column_ID="696" Column="IsActive">true</Data>
         <Data AD_Column_ID="309" Column="Help" isNewNull="true"/>
-        <Data AD_Column_ID="310" Column="Name">Status Bar</Data>
+        <Data AD_Column_ID="310" Column="Name">Context Info</Data>
         <Data AD_Column_ID="311" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="308" Column="Description">Status Bar Maintaining</Data>
+        <Data AD_Column_ID="308" Column="Description">Context Info Maintaining</Data>
         <Data AD_Column_ID="698" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="700" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="1211" Column="AD_Client_ID">0</Data>
@@ -1174,14 +1174,14 @@ If you leave the search key empty, the system automatically creates a numeric nu
       <PO AD_Table_ID="132" Action="U" Record_ID="53596" Table="AD_Window_Trl">
         <Data AD_Column_ID="306" Column="AD_Window_ID" oldValue="53596">53596</Data>
         <Data AD_Column_ID="307" Column="AD_Language" oldValue="es_MX">es_MX</Data>
-        <Data AD_Column_ID="310" Column="Name" oldValue="Status Bar">Barra de Estado</Data>
-        <Data AD_Column_ID="308" Column="Description" oldValue="Status Bar Maintaining">Mantenimiento de Barra de Estado</Data>
+        <Data AD_Column_ID="310" Column="Name" oldValue="Context Info">Información de Contexto</Data>
+        <Data AD_Column_ID="308" Column="Description" oldValue="Context Info Maintaining">Mantenimiento de Información de Contexto</Data>
       </PO>
     </Step>
     <Step SeqNo="450" StepType="AD">
       <PO AD_Table_ID="106" Action="I" Record_ID="54559" Table="AD_Tab">
         <Data AD_Column_ID="166" Column="IsSingleRow">true</Data>
-        <Data AD_Column_ID="161" Column="Name">Status Bar</Data>
+        <Data AD_Column_ID="161" Column="Name">Context Info</Data>
         <Data AD_Column_ID="1183" Column="HasTree">false</Data>
         <Data AD_Column_ID="2044" Column="IsReadOnly">false</Data>
         <Data AD_Column_ID="13995" Column="IsAdvancedTab">false</Data>
@@ -1190,7 +1190,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="573" Column="IsActive">true</Data>
         <Data AD_Column_ID="4207" Column="Processing">false</Data>
         <Data AD_Column_ID="2742" Column="OrderByClause" isNewNull="true"/>
-        <Data AD_Column_ID="162" Column="Description">Status Bar Definition</Data>
+        <Data AD_Column_ID="162" Column="Description">Context Info Definition</Data>
         <Data AD_Column_ID="163" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="2043" Column="IsTranslationTab">false</Data>
         <Data AD_Column_ID="2741" Column="WhereClause" isNewNull="true"/>
@@ -1227,10 +1227,10 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="652" Column="Created">2018-06-24 23:17:53.497</Data>
         <Data AD_Column_ID="654" Column="Updated">2018-06-24 23:17:53.497</Data>
         <Data AD_Column_ID="3376" Column="CommitWarning" isNewNull="true"/>
-        <Data AD_Column_ID="266" Column="Name">Status Bar</Data>
+        <Data AD_Column_ID="266" Column="Name">Context Info</Data>
         <Data AD_Column_ID="268" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="269" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="267" Column="Description">Status Bar Definition</Data>
+        <Data AD_Column_ID="267" Column="Description">Context Info Definition</Data>
         <Data AD_Column_ID="655" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="653" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="1198" Column="AD_Client_ID">0</Data>
@@ -1751,7 +1751,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
     </Step>
     <Step SeqNo="640" StepType="AD">
       <PO AD_Table_ID="107" Action="I" Record_ID="87937" Table="AD_Field">
-        <Data AD_Column_ID="169" Column="Description">Status Bar Maintainig</Data>
+        <Data AD_Column_ID="169" Column="Description">Context Info Maintainig</Data>
         <Data AD_Column_ID="185" Column="IsFieldOnly">false</Data>
         <Data AD_Column_ID="578" Column="IsActive">true</Data>
         <Data AD_Column_ID="579" Column="Created">2018-06-24 23:18:21.173</Data>
@@ -1764,7 +1764,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="184" Column="IsHeading">false</Data>
         <Data AD_Column_ID="182" Column="SortNo" isNewNull="true"/>
         <Data AD_Column_ID="2745" Column="IsCentrallyMaintained">true</Data>
-        <Data AD_Column_ID="168" Column="Name">Status Bar</Data>
+        <Data AD_Column_ID="168" Column="Name">Context Info</Data>
         <Data AD_Column_ID="2007" Column="IsReadOnly">false</Data>
         <Data AD_Column_ID="170" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="9969" Column="ObscureType" isNewNull="true"/>
@@ -1800,8 +1800,8 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="671" Column="IsActive">true</Data>
         <Data AD_Column_ID="672" Column="Created">2018-06-24 23:18:22.112</Data>
         <Data AD_Column_ID="289" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="286" Column="Name">Status Bar</Data>
-        <Data AD_Column_ID="287" Column="Description">Status Bar Maintainig</Data>
+        <Data AD_Column_ID="286" Column="Name">Context Info</Data>
+        <Data AD_Column_ID="287" Column="Description">Context Info Maintainig</Data>
         <Data AD_Column_ID="675" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="673" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="1205" Column="AD_Org_ID">0</Data>
@@ -1814,9 +1814,9 @@ If you leave the search key empty, the system automatically creates a numeric nu
     <Step SeqNo="660" StepType="AD">
       <PO AD_Table_ID="123" Action="U" Record_ID="0" Table="AD_Tab_Trl">
         <Data AD_Column_ID="264" Column="AD_Tab_ID" oldValue="54559">54559</Data>
-        <Data AD_Column_ID="267" Column="Description" oldValue="Status Bar Definition">Definición de Barra de Estado</Data>
+        <Data AD_Column_ID="267" Column="Description" oldValue="Context Info Definition">Definición de Información de Contexto</Data>
         <Data AD_Column_ID="265" Column="AD_Language" oldValue="es_MX">es_MX</Data>
-        <Data AD_Column_ID="266" Column="Name" oldValue="Status Bar">Barra de Estado</Data>
+        <Data AD_Column_ID="266" Column="Name" oldValue="Context Info">Información de Contexto</Data>
       </PO>
     </Step>
     <Step SeqNo="670" StepType="AD">
@@ -1877,7 +1877,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="598" Column="IsActive">true</Data>
         <Data AD_Column_ID="599" Column="Created">2018-06-24 23:20:39.101</Data>
         <Data AD_Column_ID="601" Column="Updated">2018-06-24 23:20:39.101</Data>
-        <Data AD_Column_ID="229" Column="Name">Status Bar</Data>
+        <Data AD_Column_ID="229" Column="Name">Context Info</Data>
         <Data AD_Column_ID="1169" Column="IsSummary">false</Data>
         <Data AD_Column_ID="230" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="232" Column="Action">W</Data>
@@ -1902,7 +1902,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="637" Column="Created">2018-06-24 23:20:40.958</Data>
         <Data AD_Column_ID="636" Column="IsActive">true</Data>
         <Data AD_Column_ID="639" Column="Updated">2018-06-24 23:20:40.958</Data>
-        <Data AD_Column_ID="247" Column="Name">Status Bar</Data>
+        <Data AD_Column_ID="247" Column="Name">Context Info</Data>
         <Data AD_Column_ID="248" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="249" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="638" Column="CreatedBy">100</Data>
@@ -1989,20 +1989,20 @@ If you leave the search key empty, the system automatically creates a numeric nu
     </Step>
     <Step SeqNo="900" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="88914" Table="AD_Column">
-        <Data AD_Column_ID="111" Column="Name">Status Bar</Data>
+        <Data AD_Column_ID="111" Column="Name">Context Info</Data>
         <Data AD_Column_ID="113" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="549" Column="Created">2018-06-24 23:23:15.824</Data>
         <Data AD_Column_ID="551" Column="Updated">2018-06-24 23:23:15.824</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="112" Column="Description">Status Bar Maintainig</Data>
+        <Data AD_Column_ID="112" Column="Description">Context Info Maintainig</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
         <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
-        <Data AD_Column_ID="116" Column="ColumnName">AD_StatusBar_ID</Data>
+        <Data AD_Column_ID="116" Column="ColumnName">AD_ContextInfo_ID</Data>
         <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
         <Data AD_Column_ID="120" Column="IsParent">false</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
@@ -2041,7 +2041,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
     </Step>
     <Step SeqNo="910" StepType="AD">
       <PO AD_Table_ID="752" Action="I" Record_ID="0" Table="AD_Column_Trl">
-        <Data AD_Column_ID="12957" Column="Name">Status Bar</Data>
+        <Data AD_Column_ID="12957" Column="Name">Context Info</Data>
         <Data AD_Column_ID="12960" Column="Created">2018-06-24 23:23:17.303</Data>
         <Data AD_Column_ID="12959" Column="IsActive">true</Data>
         <Data AD_Column_ID="12952" Column="Updated">2018-06-24 23:23:17.303</Data>
@@ -2057,20 +2057,20 @@ If you leave the search key empty, the system automatically creates a numeric nu
     </Step>
     <Step SeqNo="920" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="88915" Table="AD_Column">
-        <Data AD_Column_ID="111" Column="Name">Status Bar</Data>
+        <Data AD_Column_ID="111" Column="Name">Context Info</Data>
         <Data AD_Column_ID="113" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="549" Column="Created">2018-06-24 23:24:18.711</Data>
         <Data AD_Column_ID="551" Column="Updated">2018-06-24 23:24:18.711</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="112" Column="Description">Status Bar Maintainig</Data>
+        <Data AD_Column_ID="112" Column="Description">Context Info Maintainig</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
         <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
-        <Data AD_Column_ID="116" Column="ColumnName">AD_StatusBar_ID</Data>
+        <Data AD_Column_ID="116" Column="ColumnName">AD_ContextInfo_ID</Data>
         <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
         <Data AD_Column_ID="120" Column="IsParent">false</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
@@ -2109,7 +2109,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
     </Step>
     <Step SeqNo="930" StepType="AD">
       <PO AD_Table_ID="752" Action="I" Record_ID="0" Table="AD_Column_Trl">
-        <Data AD_Column_ID="12957" Column="Name">Status Bar</Data>
+        <Data AD_Column_ID="12957" Column="Name">Context Info</Data>
         <Data AD_Column_ID="12960" Column="Created">2018-06-24 23:24:20.342</Data>
         <Data AD_Column_ID="12959" Column="IsActive">true</Data>
         <Data AD_Column_ID="12952" Column="Updated">2018-06-24 23:24:20.342</Data>
@@ -2193,20 +2193,20 @@ If you leave the search key empty, the system automatically creates a numeric nu
     </Step>
     <Step SeqNo="933" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="88913" Table="AD_Column">
-        <Data AD_Column_ID="111" Column="Name">Status Bar</Data>
+        <Data AD_Column_ID="111" Column="Name">Context Info</Data>
         <Data AD_Column_ID="113" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="549" Column="Created">2018-06-24 23:22:43.256</Data>
         <Data AD_Column_ID="551" Column="Updated">2018-06-24 23:22:43.256</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="112" Column="Description">Status Bar Maintainig</Data>
+        <Data AD_Column_ID="112" Column="Description">Context Info Maintainig</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
         <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
-        <Data AD_Column_ID="116" Column="ColumnName">AD_StatusBar_ID</Data>
+        <Data AD_Column_ID="116" Column="ColumnName">AD_ContextInfo_ID</Data>
         <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
         <Data AD_Column_ID="120" Column="IsParent">false</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
@@ -2245,7 +2245,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
     </Step>
     <Step SeqNo="934" StepType="AD">
       <PO AD_Table_ID="752" Action="I" Record_ID="0" Table="AD_Column_Trl">
-        <Data AD_Column_ID="12957" Column="Name">Status Bar</Data>
+        <Data AD_Column_ID="12957" Column="Name">Context Info</Data>
         <Data AD_Column_ID="12960" Column="Created">2018-06-24 23:22:46.808</Data>
         <Data AD_Column_ID="12959" Column="IsActive">true</Data>
         <Data AD_Column_ID="12952" Column="Updated">2018-06-24 23:22:46.808</Data>
@@ -2261,7 +2261,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
     </Step>
     <Step SeqNo="940" StepType="AD">
       <PO AD_Table_ID="107" Action="I" Record_ID="87938" Table="AD_Field">
-        <Data AD_Column_ID="169" Column="Description">Status Bar Maintainig</Data>
+        <Data AD_Column_ID="169" Column="Description">Context Info Maintainig</Data>
         <Data AD_Column_ID="185" Column="IsFieldOnly">false</Data>
         <Data AD_Column_ID="578" Column="IsActive">true</Data>
         <Data AD_Column_ID="579" Column="Created">2018-06-24 23:25:26.062</Data>
@@ -2274,7 +2274,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="184" Column="IsHeading">false</Data>
         <Data AD_Column_ID="182" Column="SortNo">0</Data>
         <Data AD_Column_ID="2745" Column="IsCentrallyMaintained">true</Data>
-        <Data AD_Column_ID="168" Column="Name">Status Bar</Data>
+        <Data AD_Column_ID="168" Column="Name">Context Info</Data>
         <Data AD_Column_ID="2007" Column="IsReadOnly">false</Data>
         <Data AD_Column_ID="170" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="9969" Column="ObscureType" isNewNull="true"/>
@@ -2310,8 +2310,8 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="671" Column="IsActive">true</Data>
         <Data AD_Column_ID="672" Column="Created">2018-06-24 23:25:29.517</Data>
         <Data AD_Column_ID="289" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="286" Column="Name">Status Bar</Data>
-        <Data AD_Column_ID="287" Column="Description">Status Bar Maintainig</Data>
+        <Data AD_Column_ID="286" Column="Name">Context Info</Data>
+        <Data AD_Column_ID="287" Column="Description">Context Info Maintainig</Data>
         <Data AD_Column_ID="675" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="673" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="1205" Column="AD_Org_ID">0</Data>
@@ -2323,7 +2323,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
     </Step>
     <Step SeqNo="960" StepType="AD">
       <PO AD_Table_ID="107" Action="I" Record_ID="87939" Table="AD_Field">
-        <Data AD_Column_ID="169" Column="Description">Status Bar Maintainig</Data>
+        <Data AD_Column_ID="169" Column="Description">Context Info Maintainig</Data>
         <Data AD_Column_ID="185" Column="IsFieldOnly">false</Data>
         <Data AD_Column_ID="578" Column="IsActive">true</Data>
         <Data AD_Column_ID="579" Column="Created">2018-06-24 23:27:02.673</Data>
@@ -2336,7 +2336,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="184" Column="IsHeading">false</Data>
         <Data AD_Column_ID="182" Column="SortNo">0</Data>
         <Data AD_Column_ID="2745" Column="IsCentrallyMaintained">true</Data>
-        <Data AD_Column_ID="168" Column="Name">Status Bar</Data>
+        <Data AD_Column_ID="168" Column="Name">Context Info</Data>
         <Data AD_Column_ID="2007" Column="IsReadOnly">false</Data>
         <Data AD_Column_ID="170" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="9969" Column="ObscureType" isNewNull="true"/>
@@ -2372,8 +2372,8 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="671" Column="IsActive">true</Data>
         <Data AD_Column_ID="672" Column="Created">2018-06-24 23:27:03.606</Data>
         <Data AD_Column_ID="289" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="286" Column="Name">Status Bar</Data>
-        <Data AD_Column_ID="287" Column="Description">Status Bar Maintainig</Data>
+        <Data AD_Column_ID="286" Column="Name">Context Info</Data>
+        <Data AD_Column_ID="287" Column="Description">Context Info Maintainig</Data>
         <Data AD_Column_ID="675" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="673" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="1205" Column="AD_Org_ID">0</Data>
@@ -2450,7 +2450,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
     </Step>
     <Step SeqNo="1110" StepType="AD">
       <PO AD_Table_ID="107" Action="I" Record_ID="87940" Table="AD_Field">
-        <Data AD_Column_ID="169" Column="Description">Status Bar Maintainig</Data>
+        <Data AD_Column_ID="169" Column="Description">Context Info Maintainig</Data>
         <Data AD_Column_ID="185" Column="IsFieldOnly">false</Data>
         <Data AD_Column_ID="578" Column="IsActive">true</Data>
         <Data AD_Column_ID="579" Column="Created">2018-06-24 23:27:24.031</Data>
@@ -2463,7 +2463,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="184" Column="IsHeading">false</Data>
         <Data AD_Column_ID="182" Column="SortNo">0</Data>
         <Data AD_Column_ID="2745" Column="IsCentrallyMaintained">true</Data>
-        <Data AD_Column_ID="168" Column="Name">Status Bar</Data>
+        <Data AD_Column_ID="168" Column="Name">Context Info</Data>
         <Data AD_Column_ID="2007" Column="IsReadOnly">false</Data>
         <Data AD_Column_ID="170" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="9969" Column="ObscureType" isNewNull="true"/>
@@ -2499,8 +2499,8 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="671" Column="IsActive">true</Data>
         <Data AD_Column_ID="672" Column="Created">2018-06-24 23:27:25.954</Data>
         <Data AD_Column_ID="289" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="286" Column="Name">Status Bar</Data>
-        <Data AD_Column_ID="287" Column="Description">Status Bar Maintainig</Data>
+        <Data AD_Column_ID="286" Column="Name">Context Info</Data>
+        <Data AD_Column_ID="287" Column="Description">Context Info Maintainig</Data>
         <Data AD_Column_ID="675" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="673" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="1205" Column="AD_Org_ID">0</Data>

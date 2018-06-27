@@ -22,25 +22,25 @@ import java.util.Properties;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Model for AD_StatusBar
+/** Generated Model for AD_ContextInfo
  *  @author Adempiere (generated) 
  *  @version Release 3.9.0 - $Id$ */
-public class X_AD_StatusBar extends PO implements I_AD_StatusBar, I_Persistent 
+public class X_AD_ContextInfo extends PO implements I_AD_ContextInfo, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20180625L;
+	private static final long serialVersionUID = 20180626L;
 
     /** Standard Constructor */
-    public X_AD_StatusBar (Properties ctx, int AD_StatusBar_ID, String trxName)
+    public X_AD_ContextInfo (Properties ctx, int AD_ContextInfo_ID, String trxName)
     {
-      super (ctx, AD_StatusBar_ID, trxName);
-      /** if (AD_StatusBar_ID == 0)
+      super (ctx, AD_ContextInfo_ID, trxName);
+      /** if (AD_ContextInfo_ID == 0)
         {
+			setAD_ContextInfo_ID (0);
 			setAD_Message_ID (0);
-			setAD_StatusBar_ID (0);
 			setName (null);
 			setSQLStatement (null);
 			setValue (null);
@@ -48,7 +48,7 @@ public class X_AD_StatusBar extends PO implements I_AD_StatusBar, I_Persistent
     }
 
     /** Load Constructor */
-    public X_AD_StatusBar (Properties ctx, ResultSet rs, String trxName)
+    public X_AD_ContextInfo (Properties ctx, ResultSet rs, String trxName)
     {
       super (ctx, rs, trxName);
     }
@@ -70,10 +70,30 @@ public class X_AD_StatusBar extends PO implements I_AD_StatusBar, I_Persistent
 
     public String toString()
     {
-      StringBuffer sb = new StringBuffer ("X_AD_StatusBar[")
+      StringBuffer sb = new StringBuffer ("X_AD_ContextInfo[")
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	/** Set Context Info Maintaining ID.
+		@param AD_ContextInfo_ID Context Info Maintaining ID	  */
+	public void setAD_ContextInfo_ID (int AD_ContextInfo_ID)
+	{
+		if (AD_ContextInfo_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_ContextInfo_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_ContextInfo_ID, Integer.valueOf(AD_ContextInfo_ID));
+	}
+
+	/** Get Context Info Maintaining ID.
+		@return Context Info Maintaining ID	  */
+	public int getAD_ContextInfo_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_ContextInfo_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	public org.compiere.model.I_AD_Message getAD_Message() throws RuntimeException
     {
@@ -98,26 +118,6 @@ public class X_AD_StatusBar extends PO implements I_AD_StatusBar, I_Persistent
 	public int getAD_Message_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Message_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Status Bar Maintaining ID.
-		@param AD_StatusBar_ID Status Bar Maintaining ID	  */
-	public void setAD_StatusBar_ID (int AD_StatusBar_ID)
-	{
-		if (AD_StatusBar_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_StatusBar_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_AD_StatusBar_ID, Integer.valueOf(AD_StatusBar_ID));
-	}
-
-	/** Get Status Bar Maintaining ID.
-		@return Status Bar Maintaining ID	  */
-	public int getAD_StatusBar_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_StatusBar_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
