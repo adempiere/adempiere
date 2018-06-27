@@ -70,7 +70,7 @@ public class MAccount extends X_C_ValidCombination
 	 * @deprecated Use {@link #get(Properties,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,String)} instead
 	 */
 	@Deprecated
-	/*public static MAccount get (Properties ctx,
+	public static MAccount get (Properties ctx,
 		int AD_Client_ID, int AD_Org_ID, int C_AcctSchema_ID, 
 		int Account_ID, int C_SubAcct_ID,
 		int M_Product_ID, int C_BPartner_ID, int AD_OrgTrx_ID, 
@@ -84,7 +84,6 @@ public class MAccount extends X_C_ValidCombination
 				C_Campaign_ID, C_Activity_ID, User1_ID, User2_ID, 0 , 0 ,
 				UserElement1_ID, UserElement2_ID, null);
 	}	//	get
-	*/
 
 	/**
 	 * Get Account
@@ -110,7 +109,8 @@ public class MAccount extends X_C_ValidCombination
 	 * @param trxName
 	 * @return
 	 */
-	/*public static MAccount get (Properties ctx,
+	@Deprecated
+	public static MAccount get (Properties ctx,
 								int AD_Client_ID, int AD_Org_ID, int C_AcctSchema_ID,
 								int Account_ID, int C_SubAcct_ID,
 								int M_Product_ID, int C_BPartner_ID, int AD_OrgTrx_ID,
@@ -123,7 +123,7 @@ public class MAccount extends X_C_ValidCombination
 				M_Product_ID , C_BPartner_ID , AD_OrgTrx_ID ,
 				C_LocFrom_ID , C_LocTo_ID , C_SalesRegion_ID ,
 				C_Project_ID, C_Campaign_ID , C_Activity_ID, User1_ID , User2_ID , 0 , 0 , UserElement1_ID , UserElement2_ID, trxName);
-	}*/
+	}
 
 	/**
 	 * 	Get existing Account or create it 
@@ -340,7 +340,8 @@ public class MAccount extends X_C_ValidCombination
  	 *	@param alias alias
 	 *	@return account
 	 */
-	/*public static MAccount get (Properties ctx, int C_AcctSchema_ID, String alias)
+	@Deprecated
+	public static MAccount get (Properties ctx, int C_AcctSchema_ID, String alias)
 	{
 		final String whereClause = "C_AcctSchema_ID=? AND Alias=?";
 		MAccount retValue =  new Query(ctx,I_C_ValidCombination.Table_Name,whereClause,null)
@@ -348,7 +349,6 @@ public class MAccount extends X_C_ValidCombination
 		.firstOnly();
 		return retValue;
 	}	//	get
-	*/
 
 	/**
 	 * 	Get from existing Accounting fact
@@ -451,12 +451,13 @@ public class MAccount extends X_C_ValidCombination
 	 *  @param C_ValidCombination_ID combination
 	 *  @return Account
 	 */
-	/*public static MAccount get (Properties ctx, int C_ValidCombination_ID)
+	@Deprecated
+	public static MAccount get (Properties ctx, int C_ValidCombination_ID)
 	{
 		//	Maybe later cache
 		return new MAccount(ctx, C_ValidCombination_ID, null);
 	}   //  getAccount
-	*/
+
 
 	/**
 	 * Get Valid Combination
