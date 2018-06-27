@@ -36,6 +36,8 @@ import org.compiere.model.GridTab;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.NamePair;
+import org.spin.model.FieldCondition;
+import org.spin.model.FieldDefinition;
 import org.zkoss.xml.XMLs;
 import org.zkoss.zk.au.out.AuFocus;
 import org.zkoss.zk.ui.Component;
@@ -62,6 +64,10 @@ import org.zkoss.zhtml.Text;
  * @author Teo Sarca, teo.sarca@gmail.com
  * 		<li>BF [ 2996608 ] GridPanel is not displaying time
  * 			https://sourceforge.net/tracker/?func=detail&aid=2996608&group_id=176962&atid=955896
+ * @author Raul Muñoz, rMunoz@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<a href="https://github.com/adempiere/adempiere/issues/1697">
+ * 		@see FR [ 1697 ] Add definition for change style</a>
+ *
  */
 public class GridTabRowRenderer implements RowRenderer, RowRendererExt, RendererCtrl {
 
@@ -75,7 +81,6 @@ public class GridTabRowRenderer implements RowRenderer, RowRendererExt, Renderer
 
 	private Map<String, Map<Object, String>> lookupCache = null;
 	private RowListener rowListener;
-
 	private Grid grid = null;
 	private GridPanel gridPanel = null;
 	private Row currentRow;
@@ -335,7 +340,7 @@ public class GridTabRowRenderer implements RowRenderer, RowRendererExt, Renderer
 
 		if (rowListener == null)
 			rowListener = new RowListener((Grid)row.getParent().getParent());
-
+		
 		currentValues = (Object[])data;
 		int columnCount = gridTab.getTableModel().getColumnCount();
 		GridField[] gridField = gridTab.getFields();
@@ -346,7 +351,12 @@ public class GridTabRowRenderer implements RowRenderer, RowRendererExt, Renderer
 		if (paging != null && paging.getPageSize() > 0) {
 			rowIndex = (paging.getActivePage() * paging.getPageSize()) + rowIndex;
 		}
-
+		 //	FR [ 1697 ] 
+		 HashMap<String, Object> columnValues = new  HashMap<String, Object>();
+		
+		for (int i = 0; i < columnCount; i++) {
+			columnValues.put(gridField[i].getColumnName(), currentValues[i]);
+		}
 		int colIndex = -1;
 		int compCount = 0;
 		for (int i = 0; i < columnCount; i++) {
@@ -374,7 +384,14 @@ public class GridTabRowRenderer implements RowRenderer, RowRendererExt, Renderer
 					divStyle += "text-align:right; ";
 				}
 			}
+			//	FR [ 1697 ]
+			FieldDefinition definition = FieldDefinition.getInstance(gridField[i].getVO());
+			FieldCondition condition = definition.getConditionValid(columnValues);
 			div.setStyle(divStyle);
+			if(condition != null && condition.isValid()) {
+				div.setStyle(divStyle+condition.getStyleSheet());
+			}
+			
 			div.setAttribute("columnName", gridField[i].getColumnName());
 			div.addEventListener(Events.ON_CLICK, rowListener);
 			div.addEventListener(Events.ON_DOUBLE_CLICK, rowListener);

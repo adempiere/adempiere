@@ -1,6 +1,19 @@
-/**
- * 
- */
+/******************************************************************************
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * This program is free software; you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *
+ * Copyright (C) 2012-2018 E.R.P. Consultores y Asociados, S.A. 			  *
+ * All Rights Reserved. 													  *
+ * Contributor(s): Raul Muñoz www.erpya.com				  		          	  *
+ ******************************************************************************/
 package org.spin.model;
 
 import java.io.Serializable;
@@ -12,23 +25,23 @@ import org.compiere.util.Env;
 import org.compiere.util.Evaluatee;
 import org.compiere.util.Evaluator;
 
+
 /**
- * @author tt-02
+ * @author Raul Muñoz, rMunoz@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<a href="https://github.com/adempiere/adempiere/issues/1697">
+ * 		@see FR [ 1697 ] Add definition for change style</a>
  *
  */
 public class FieldCondition 
 implements Serializable, Evaluatee {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -3514057815991979828L;
 
 	private String styleSheet;
 
 	private String condition;
 	
-	private HashMap<String,String> value;
+	private HashMap<String,Object> value;
 	
 	private GridFieldVO gridFieldVO;
 	
@@ -41,6 +54,7 @@ implements Serializable, Evaluatee {
 	}
 
 	/**
+	 * Get Style Sheet
 	 * @return the styleSheet
 	 */
 	public String getStyleSheet() {
@@ -48,6 +62,7 @@ implements Serializable, Evaluatee {
 	}
 
 	/**
+	 * Set Style Sheet
 	 * @param styleSheet the styleSheet to set
 	 */
 	public void setStyleSheet(String styleSheet) {
@@ -55,6 +70,7 @@ implements Serializable, Evaluatee {
 	}
 
 	/**
+	 * Get Condition
 	 * @return the condition
 	 */
 	public String getCondition() {
@@ -62,13 +78,18 @@ implements Serializable, Evaluatee {
 	}
 
 	/**
+	 * Set Condition
 	 * @param condition the condition to set
 	 */
 	public void setCondition(String condition) {
 		this.condition = condition;
 	}
 	
-	public void setValue(HashMap<String,String> value) {
+	/**
+	 * Set Value
+	 * @param value
+	 */
+	public void setValue(HashMap<String,Object> value) {
 		this.value = value;
 	}
 
@@ -80,12 +101,12 @@ implements Serializable, Evaluatee {
 	@Override
 	public String get_ValueAsString (String variableName) {
 		if(value != null) {
-			return value.get(variableName);
+			return String.valueOf(value.get(variableName));
 		}
 	   if( gridFieldVO.TabNo == 0)
 	    	return Env.getContext (gridFieldVO.ctx, gridFieldVO.WindowNo, variableName, true);
 	    else
-		return Env.getContext (gridFieldVO.ctx, gridFieldVO.WindowNo, gridFieldVO.TabNo, variableName, false, true);
+	    	return Env.getContext (gridFieldVO.ctx, gridFieldVO.WindowNo, gridFieldVO.TabNo, variableName, false, true);
 	}	//	get_ValueAsString
 
 
@@ -105,7 +126,7 @@ implements Serializable, Evaluatee {
      * Process Condition for Style Definition
      * @return
      */
-    public boolean isValid(HashMap<String, String> value) {
+    public boolean isValid(HashMap<String, Object> value) {
     	setValue(value);
     	if(gridFieldVO == null)
     		return false;
