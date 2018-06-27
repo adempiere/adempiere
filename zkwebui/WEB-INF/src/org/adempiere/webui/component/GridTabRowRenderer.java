@@ -88,6 +88,9 @@ public class GridTabRowRenderer implements RowRenderer, RowRendererExt, Renderer
 	private boolean editing = false;
 	private int currentRowIndex = -1;
 	private AbstractADWindowPanel m_windowPanel;
+	//	FR [ 1697 ]
+	FieldDefinition definition = null;
+	private static final String DIVSTYLE = "border: none; width: 100%; height: 100%;";
 
 	/**
 	 *
@@ -366,7 +369,7 @@ public class GridTabRowRenderer implements RowRenderer, RowRendererExt, Renderer
 			colIndex ++;
 
 			Div div = new Div();
-			String divStyle = "border: none; width: 100%; height: 100%;";
+			String divStyle = DIVSTYLE;
 			org.zkoss.zul.Column column = (org.zkoss.zul.Column) columns.getChildren().get(colIndex);
 			if (column.isVisible()) {
 				compCount++;
@@ -384,8 +387,9 @@ public class GridTabRowRenderer implements RowRenderer, RowRendererExt, Renderer
 					divStyle += "text-align:right; ";
 				}
 			}
+
 			//	FR [ 1697 ]
-			FieldDefinition definition = FieldDefinition.getInstance(gridField[i].getVO());
+			definition = FieldDefinition.getInstance(gridField[i].getVO());
 			FieldCondition condition = definition.getConditionValid(columnValues);
 			div.setStyle(divStyle);
 			if(condition != null && condition.isValid()) {
@@ -632,5 +636,39 @@ public class GridTabRowRenderer implements RowRenderer, RowRendererExt, Renderer
 	 */
 	public void setADWindowPanel(AbstractADWindowPanel windowPanel) {
 		this.m_windowPanel = windowPanel;
+	}
+	
+	/**
+	 * Valid Condition for Change Div Style
+	 */
+	public void validCondition() {
+				FieldCondition condition = definition.processCondition();
+				Row currentRow = getCurrentRow();
+
+				String divStyle = DIVSTYLE;
+				GridField[] gridField = gridTab.getFields();
+				
+				for(int i=0; i < gridField.length; i++) {
+					if(gridField[i].getAD_FieldDefinition_ID() != 0) {
+						if(condition.isValid()) {
+							if (DisplayType.YesNo == gridField[i].getDisplayType() || DisplayType.Image == gridField[i].getDisplayType()) {
+								divStyle += "text-align:center; ";
+							}
+							else if (DisplayType.isNumeric(gridField[i].getDisplayType())) {
+								divStyle += "text-align:right; ";
+							}
+							List divList = currentRow.getChildren();
+							for(int j=0; j< divList.size(); j++ ) {
+								if(divList.get(j) instanceof Div) {
+									Div div = (Div)divList.get(j);
+									if(div.getAttribute("columnName").equals(gridField[i].getColumnName())) {
+										div.setStyle(divStyle+condition.getStyleSheet());
+										div.invalidate();
+									}
+								}
+							}
+						}
+					}
+				}
 	}
 }

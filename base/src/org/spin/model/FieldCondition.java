@@ -115,6 +115,7 @@ implements Serializable, Evaluatee {
      * @return
      */
     public boolean isValid() {
+    	setValue(null);
     	if(gridFieldVO == null)
     		return false;
     	if(Evaluator.evaluateLogic(this, condition)) 
