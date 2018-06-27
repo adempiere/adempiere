@@ -26,7 +26,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -48,7 +47,7 @@ import org.compiere.util.Evaluator;
 import org.compiere.util.Msg;
 import org.compiere.util.Util;
 import org.compiere.util.ValueNamePair;
-import org.spin.model.MADStatusBar;
+import org.spin.util.ContextInfo;
 
 /**
  *	Tab Model.
@@ -1708,43 +1707,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	 *  @return info
 	 */
 	public String getTrxInfo() {
-		//	From Tab
-		MADStatusBar statusBar = MADStatusBar.getFromTabId(m_vo.ctx, m_vo.AD_Tab_ID);
-		//	From Window
-		if(statusBar == null) {
-			statusBar = MADStatusBar.getFromWindowId(m_vo.ctx, m_vo.AD_Window_ID);
-		}
-		//	From Table
-		if(statusBar == null) {
-			statusBar = MADStatusBar.getFromTableId(m_vo.ctx, m_vo.AD_Table_ID);
-		}
-		//	Validate Status Bar
-		if(statusBar == null) {
-			return " ";
-		}
-		//	
-		MessageFormat messageFormat = null;
-		try {
-			MMessage message = MMessage.get(m_vo.ctx, statusBar.getAD_Message_ID());
-			if(message != null) {
-				messageFormat = new MessageFormat(message.getMsgText(), Env.getLanguage(m_vo.ctx).getLocale());
-				//	Parse
-				Object[] arguments = statusBar.getArguments(getWindowNo());
-				if(arguments == null) {
-					return null;
-				}
-				//	
-				return messageFormat.format(arguments);
-			}
-		} catch (Exception e) {
-			log.log(Level.WARNING, e.getLocalizedMessage());
-		}
-		//	
-		if (messageFormat == null) {
-			return " ";
-		}
-		//	Default - No Trx Info
-		return null;
+		return ContextInfo.getInfoForWindow(this);
 	}	//	getTrxInfo
 
 	/**

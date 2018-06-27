@@ -135,7 +135,7 @@
 			</connections>
 			<display>false</display>
 			<creation_date>2018-06-22 19:11:11</creation_date>
-			<updated_date>2018-06-24 23:00:54</updated_date>
+			<updated_date>2018-06-26 20:05:10</updated_date>
 			<model_property>
 				<name>Project Name</name>
 				<value></value>
@@ -180,8 +180,8 @@
 			<args></args>
 			<char_semantics>false</char_semantics>
 			<description></description>
-			<logical_name>AD_Message_ID</logical_name>
-			<physical_name>AD_Message_ID</physical_name>
+			<logical_name>AD_ContextInfo_ID</logical_name>
+			<physical_name>AD_ContextInfo_ID</physical_name>
 			<type>numeric</type>
 		</word>
 		<word>
@@ -196,8 +196,8 @@
 			<args></args>
 			<char_semantics>false</char_semantics>
 			<description></description>
-			<logical_name>AD_StatusBar_ID</logical_name>
-			<physical_name>AD_StatusBar_ID</physical_name>
+			<logical_name>AD_Message_ID</logical_name>
+			<physical_name>AD_Message_ID</physical_name>
 			<type>numeric</type>
 		</word>
 		<word>
@@ -339,7 +339,7 @@
 			<option></option>
 			<columns>
 				<normal_column>
-					<word_id>0</word_id>
+					<word_id>1</word_id>
 					<id>0</id>
 					<description></description>
 					<unique_key_name></unique_key_name>
@@ -417,15 +417,15 @@
 					<referenced_complex_unique_key>null</referenced_complex_unique_key>
 				</relation>
 			</connections>
-			<physical_name>AD_StatusBar</physical_name>
-			<logical_name>AD_StatusBar</logical_name>
+			<physical_name>AD_ContextInfo</physical_name>
+			<logical_name>AD_ContextInfo</logical_name>
 			<description></description>
 			<constraint></constraint>
 			<primary_key_name></primary_key_name>
 			<option></option>
 			<columns>
 				<normal_column>
-					<word_id>1</word_id>
+					<word_id>0</word_id>
 					<id>1</id>
 					<description></description>
 					<unique_key_name></unique_key_name>
