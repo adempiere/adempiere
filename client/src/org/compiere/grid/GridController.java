@@ -33,12 +33,14 @@ import java.beans.PropertyVetoException;
 import java.beans.VetoableChangeListener;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import java.util.logging.Level;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.KeyStroke;
@@ -1078,6 +1080,8 @@ public class GridController extends CPanel
 									manMissing = true;
 								ve.setBackground(manMissing || mField.isError());
 							}
+			                //	Change Context info
+			                reloadFieldTrxInfo(ve);
 						}
 					}
 					else
@@ -1514,4 +1518,28 @@ public class GridController extends CPanel
 			}
 		}
 	}
+	
+	/**
+     * Change label for each field if it has context info configured
+     */
+    private void reloadFieldTrxInfo(VEditor editor) {
+    	if(!(editor instanceof JComponent)) {
+    		return;
+    	}
+    	//	
+    	Map<String, String> contextValues = m_mTab.getFieldTrxInfo();
+		if(contextValues == null 
+				|| contextValues.size() == 0) {
+			return;
+		}
+		//	change fields
+		GridField field = editor.getField();
+		//	Get trx info
+		String messageValue = contextValues.get(field.getColumnName());
+		if(Util.isEmpty(messageValue)) {
+			return;
+		}
+		//	Set Context info
+		((JComponent) editor).setToolTipText(messageValue);
+    }
 }   //  GridController
