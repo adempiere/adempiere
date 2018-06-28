@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
@@ -209,6 +210,9 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	private long m_lastDataStatusEventTime;
 
 	private DataStatusEvent m_lastDataStatusEvent;
+	
+	/**	Context Info for fields	*/
+	private Map<String, String> fieldContextInfoValues;
 	
 	// Context property names:
 	public static final String CTX_KeyColumnName = "_TabInfo_KeyColumnName";
@@ -1707,8 +1711,17 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	 *  @return info
 	 */
 	public String getTrxInfo() {
+		fieldContextInfoValues = ContextInfo.getInfoForFiels(this);
 		return ContextInfo.getInfoForWindow(this);
 	}	//	getTrxInfo
+	
+	/**
+	 * Get Trx Info for fields
+	 * @return
+	 */
+	public Map<String, String> getFieldTrxInfo() {
+		return fieldContextInfoValues;
+	}
 
 	/**
 	 *  Load Dependent Information

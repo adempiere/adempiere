@@ -21,9 +21,14 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.compiere.model.I_AD_Field;
+import org.compiere.model.MField;
 import org.compiere.model.Query;
 import org.compiere.util.CCache;
 import org.compiere.util.DB;
@@ -55,6 +60,8 @@ public class MADContextInfo extends X_AD_ContextInfo {
 	private static CCache<Integer, MADContextInfo> contextInfoCacheIds = new CCache<Integer, MADContextInfo>(Table_Name, 30);
 	/** Static Cache */
 	private static CCache<String, MADContextInfo> contextInfoCacheFromIds = new CCache<String, MADContextInfo>(Table_Name, 30);
+	/** Static Cache */
+	private static CCache<String, Map<String, MADContextInfo>> contextInfoCacheFielsIds = new CCache<String, Map<String, MADContextInfo>>(Table_Name, 30);
 	
 	/**
 	 * Get/Load Status Bar [CACHED]
@@ -152,6 +159,40 @@ public class MADContextInfo extends X_AD_ContextInfo {
 			contextInfoCacheFromIds.put(key, statusBar);
 		}
 		return statusBar;
+	}
+	
+	/**
+	 * Get List of context info for tab
+	 * @param ctx
+	 * @param tabId
+	 * @return
+	 */
+	public static Map<String, MADContextInfo> getFromTabIdForField(Properties ctx, int tabId) {
+		if (tabId <= 0)
+			return null;
+		String key = "TabField|" + tabId;
+		Map<String, MADContextInfo> contextInfoHash = contextInfoCacheFielsIds.get(key);
+		if (contextInfoHash != null && contextInfoHash.size() > 0)
+			return contextInfoHash;
+		//	
+		List<MField> fieldList = new Query(ctx , I_AD_Field.Table_Name , "AD_Tab_ID = ? "
+				+ "AND AD_ContextInfo_ID IS NOT NULL" , null)
+				.setParameters(tabId)
+				.<MField>list();
+		//	Clear
+		if(fieldList != null
+				&& fieldList.size() > 0) {
+			contextInfoHash = new HashMap<String, MADContextInfo>();
+			//	Get
+			for(MField field : fieldList) {
+				contextInfoHash.put(field.getAD_Column().getColumnName(), MADContextInfo.getById(field.getCtx(), field.get_ValueAsInt("AD_ContextInfo_ID")));
+			}
+			if (contextInfoHash != null && contextInfoHash.size() > 0) {
+				contextInfoCacheFielsIds.put(key, contextInfoHash);
+			}
+		}
+		//	
+		return contextInfoHash;
 	}
 	
 	

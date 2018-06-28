@@ -15,13 +15,16 @@
  *************************************************************************************/
 package org.spin.util;
 
-import java.text.MessageFormat;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.logging.Level;
 
 import org.compiere.model.GridTab;
 import org.compiere.model.MMessage;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
+import org.compiere.util.Msg;
 import org.spin.model.MADContextInfo;
 
 /**
@@ -56,6 +59,25 @@ public class ContextInfo {
 	}
 	
 	/**
+	 * Get Info for fields
+	 * @param gridTab
+	 * @return HashMap with Name of field and Context Info
+	 */
+	public static Map<String, String> getInfoForFiels(GridTab gridTab) {
+		Map<String, MADContextInfo> contextInfoHash = MADContextInfo.getFromTabIdForField(Env.getCtx(), gridTab.getAD_Tab_ID());
+		Map<String, String> values = null;
+		if(contextInfoHash != null
+				&& contextInfoHash.size() > 0) {
+			values = new HashMap<String, String>();
+			for(Entry<String, MADContextInfo> entry : contextInfoHash.entrySet()) {
+				values.put(entry.getKey(), getContextInfoMessage(entry.getValue(), gridTab.getWindowNo()));
+			}
+		}
+		//	
+		return values;
+	}
+	
+	/**
 	 * Get Context Info Message from Context Info model
 	 * @param contextInfo
 	 * @param windowNo
@@ -67,18 +89,16 @@ public class ContextInfo {
 			return " ";
 		}
 		//	
-		MessageFormat messageFormat = null;
 		try {
 			MMessage message = MMessage.get(Env.getCtx(), contextInfo.getAD_Message_ID());
 			if(message != null) {
-				messageFormat = new MessageFormat(message.getMsgText(), Env.getLanguage(Env.getCtx()).getLocale());
 				//	Parse
 				Object[] arguments = contextInfo.getArguments(windowNo);
 				if(arguments == null) {
 					return null;
 				}
 				//	
-				return messageFormat.format(arguments);
+				return Msg.getMsg(Env.getAD_Language(Env.getCtx()), message.getValue(), arguments);
 			}
 		} catch (Exception e) {
 			log.log(Level.WARNING, e.getLocalizedMessage());
