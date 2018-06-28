@@ -419,8 +419,9 @@ public class BankStatementMatchController {
 		if(isMatchedMode()) {
 			sql.append("AND (p.C_Payment_ID IS NOT NULL OR p.C_BPartner_ID IS NOT NULL OR p.C_Invoice_ID IS NOT NULL) ");
 		} else {
-			sql.append("AND (p.C_Payment_ID IS NULL OR p.C_BPartner_ID IS NULL OR p.C_Invoice_ID IS NULL) ");
+			sql.append("AND (p.C_Payment_ID IS NULL AND p.C_BPartner_ID IS NULL AND p.C_Invoice_ID IS NULL) ");
 		}
+		
 		//	For parameters
 		//	Date Trx
 		if(getDateFrom() != null) {
