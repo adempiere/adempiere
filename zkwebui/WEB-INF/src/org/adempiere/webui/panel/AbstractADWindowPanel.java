@@ -37,6 +37,7 @@ import org.adempiere.webui.apps.form.WCreateFromFactory;
 import org.adempiere.webui.apps.form.WPayment;
 import org.adempiere.webui.component.AbstractADTab;
 import org.adempiere.webui.component.CWindowToolbar;
+import org.adempiere.webui.component.GridPanel;
 import org.adempiere.webui.component.IADTab;
 import org.adempiere.webui.component.IADTabList;
 import org.adempiere.webui.component.Window;
@@ -1656,6 +1657,9 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 	        //curTabPanel.afterSave(onSaveEvent);
 	        toolbar.getCurrentPanel().dynamicDisplay(0);
 	        toolbar.getCurrentPanel().afterSave(onSaveEvent);
+	        GridPanel gridPanel = toolbar.getCurrentPanel().getListPanel();
+	        if(gridPanel != null)
+	        	gridPanel.updateCellStyle();
 
 	        if (wasChanged) {
 		        addToRecentItems();

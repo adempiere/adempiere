@@ -642,7 +642,7 @@ public class GridTabRowRenderer implements RowRenderer, RowRendererExt, Renderer
 	 * Valid Condition for Change Div Style
 	 */
 	public void validCondition() {
-				FieldCondition condition = definition.processCondition();
+				FieldCondition condition = definition.getConditionValid(null);
 				Row currentRow = getCurrentRow();
 
 				String divStyle = DIVSTYLE;
@@ -650,7 +650,7 @@ public class GridTabRowRenderer implements RowRenderer, RowRendererExt, Renderer
 				
 				for(int i=0; i < gridField.length; i++) {
 					if(gridField[i].getAD_FieldDefinition_ID() != 0) {
-						if(condition.isValid()) {
+						if(condition.isValid(null)) {
 							if (DisplayType.YesNo == gridField[i].getDisplayType() || DisplayType.Image == gridField[i].getDisplayType()) {
 								divStyle += "text-align:center; ";
 							}

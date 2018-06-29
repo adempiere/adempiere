@@ -639,8 +639,6 @@ public class GridPanel extends Borderlayout implements EventListener
                 comp.repaintComponent(true);
             }
         }   //  all components
-        if(renderer != null && renderer.getCurrentRow() != null)
-        	renderer.validCondition();
 	}
 
 	public void repaintComponents()
@@ -702,5 +700,9 @@ public class GridPanel extends Borderlayout implements EventListener
 		windowPanel = winPanel;
 		if (renderer != null)
 			renderer.setADWindowPanel(windowPanel);
+	}
+	
+	public void updateCellStyle() {
+		renderer.validCondition();
 	}
 }
