@@ -249,10 +249,10 @@ public class MADContextInfo extends X_AD_ContextInfo {
 				//	Return
 				return arguments;
 			}
-			DB.close(rs, pstmt);
 		} catch (SQLException e) {
-			DB.close(rs, pstmt);
 			log.log(Level.WARNING, "\nSQL=" + sql, e);
+		} finally {
+			DB.close(rs, pstmt);
 		}
 		return null;
 	}
