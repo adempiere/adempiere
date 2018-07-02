@@ -1080,8 +1080,6 @@ public class GridController extends CPanel
 									manMissing = true;
 								ve.setBackground(manMissing || mField.isError());
 							}
-			                //	Change Context info
-			                reloadFieldTrxInfo(ve);
 						}
 					}
 					else
@@ -1517,6 +1515,29 @@ public class GridController extends CPanel
 				}
 			}
 		}
+	}
+	
+	/**
+	 * Change label for each field if it has context info configured
+	 */
+	public void reloadFieldTrxInfo() {
+		Component[] comps = vPanel.getComponentsRecursive();
+		for (int i = 0; i < comps.length; i++) {
+			Component comp = comps[i];
+			String columnName = comp.getName();
+			if (columnName != null && columnName.length() > 0) {
+				GridField mField = m_mTab.getField(columnName);
+				if (mField != null) {
+					if (mField.isDisplayed(true)) {		//  check context
+						//End Feature Request [1707462]
+						if (comp instanceof VEditor) {
+			                //	Change Context info
+			                reloadFieldTrxInfo(((VEditor) comp));
+						}
+					}
+				}
+			}
+		}   //  all components
 	}
 	
 	/**
