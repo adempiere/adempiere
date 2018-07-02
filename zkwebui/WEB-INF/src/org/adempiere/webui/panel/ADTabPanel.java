@@ -628,8 +628,6 @@ public class ADTabPanel extends Div implements Evaluatee, EventListener, DataSta
                 {
                     comp.setVisible(false);
                 }
-                //	Change Context info
-                reloadFieldTrxInfo(comp);
             }
         }   //  all components
 
@@ -1920,6 +1918,21 @@ public class ADTabPanel extends Div implements Evaluatee, EventListener, DataSta
         // Returning the tabbox
         return tabBox;
 
+    }
+    
+    /**
+     * Change label for each field if it has context info configured
+     */
+    public void reloadFieldTrxInfo() {
+    	for (WEditor comp : editors) {
+            GridField mField = comp.getGridField();
+            if (mField != null && mField.getIncluded_Tab_ID() <= 0) {
+                if (mField.isDisplayed(true)) {       //  check context
+                    //	Change Context info
+                    reloadFieldTrxInfo(comp);
+                }
+            }
+        }   //  all components
     }
     
     /**
