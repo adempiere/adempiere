@@ -1343,7 +1343,9 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
         //	reload Field
         if(getADTab() != null) {
         	ADTabPanel tabPanel = (ADTabPanel) getADTab().getSelectedTabpanel();
-        	tabPanel.reloadFieldTrxInfo();
+        	if(tabPanel != null) {
+        		tabPanel.reloadFieldTrxInfo();
+        	}
         }
         //  Check Attachment
         boolean canHaveAttachment = currentTab.canHaveAttachment();       //  not single _ID column
