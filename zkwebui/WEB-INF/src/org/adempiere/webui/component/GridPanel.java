@@ -703,6 +703,7 @@ public class GridPanel extends Borderlayout implements EventListener
 	}
 	
 	public void updateCellStyle() {
-		renderer.validCondition();
+		if(renderer != null)
+			renderer.validCondition();
 	}
 }
