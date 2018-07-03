@@ -861,6 +861,8 @@ public class ADTabPanel extends Div implements Evaluatee, EventListener, DataSta
         		setFocusToField();
         	}
         }
+        //	Load Trx Info
+        reloadFieldTrxInfo();
     }
 
 	private void activateChild(boolean activate, EmbeddedPanel panel) {
