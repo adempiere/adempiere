@@ -31,6 +31,7 @@ import javax.xml.parsers.SAXParserFactory;
 
 import org.compiere.model.MBankStatementLoader;
 import org.compiere.util.Env;
+import org.compiere.util.Util;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -750,6 +751,13 @@ public abstract class OFXBankStatementHandler extends DefaultHandler
 	{
 		try
 		{
+			if(Util.isEmpty(value)) {
+				return null;
+			}
+			//	Validate length
+			if(value.length() > 8) {
+				value = value.substring(0, 8);
+			}
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 			sdf.setLenient(false);
 			return new Timestamp (sdf.parse(value).getTime());
