@@ -728,6 +728,7 @@ CASE
 	WHEN TreeType = 'PC' THEN 209
 	WHEN TreeType = 'BB' THEN 798
 	WHEN TreeType = 'SR' THEN 230
+	WHEN TreeType = 'MM' THEN 116
 	ELSE NULL 
 END
 WHERE AD_Table_ID IS NULL</SQLStatement>
