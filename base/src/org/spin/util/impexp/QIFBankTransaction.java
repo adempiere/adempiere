@@ -307,7 +307,7 @@ public abstract class QIFBankTransaction extends BankTransactionAbstract {
 	 * @return
 	 */
 	public String getTrxType() {
-		return null;
+		return getString(LINE_TYPE_Banking_Category);
 	}
 	
 	/**
