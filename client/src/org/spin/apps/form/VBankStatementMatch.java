@@ -295,6 +295,9 @@ public class VBankStatementMatch extends BankStatementMatchController
 		bankAccountField = new VLookup("C_BankAccount_ID", true,false, true, lookup);
 		bankAccountField.addActionListener(this);
 		bankAccountField.setSize(bankAccountField.getWidth() + 10, bankAccountField.getHeight() + 10);
+		if(getBankAccountId() > 0) {
+			bankAccountField.setValue(getBankAccountId());
+		}
 		
 		bPartnerLookup = new VLookup("C_BPartner_ID", false, false, true,
 				MLookupFactory.get (Env.getCtx(), getWindowNo(), 0, 3499, DisplayType.Search));

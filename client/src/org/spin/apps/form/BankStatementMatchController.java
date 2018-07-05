@@ -205,6 +205,8 @@ public class BankStatementMatchController {
 				&& processInfo.getTable_ID() > 0
 				&& processInfo.getRecord_ID() > 0) {
 			bankStatement = new MBankStatement(Env.getCtx(), processInfo.getRecord_ID(), processInfo.getTransactionName());
+			bankAccountId = bankStatement.getC_BankAccount_ID();
+			setBankAccountId(bankAccountId);
 		}
 	}
 	
@@ -805,6 +807,10 @@ public class BankStatementMatchController {
 
 	public void setImportMatched(boolean importMatched) {
 		this.isImportMatched = importMatched;
+	}
+	
+	public int getBankAccountId() {
+		return bankAccountId;
 	}
 	
 }
