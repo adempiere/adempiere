@@ -48,74 +48,52 @@ public class GenericBankMatcher implements BankStatementMatcherInterface {
 	@Override
 	public BankStatementMatchInfo findMatch(X_I_BankStatement ibs) {
 		BankStatementMatchInfo info = new BankStatementMatchInfo();
+		String ORDERVALUE = " DESC NULLS LAST";
 		StringBuffer sql = new StringBuffer("SELECT p.C_Payment_ID "
 				+ "FROM C_Payment p "
 				+ "WHERE p.AD_Client_ID = ? ");
 		//	Were
 		StringBuffer where = new StringBuffer();
+		StringBuffer orderByClause = new StringBuffer(" ORDER BY ");
 		//	Search criteria
 		List<Object> params = new ArrayList<Object>();
 		//	Client
 		params.add(ibs.getAD_Client_ID());
 		//	For reference
 		if(!Util.isEmpty(ibs.getReferenceNo())) {
-			where.append("p.CheckNo LIKE ? ");
-			where.append("OR p.DocumentNo LIKE ? ");
-			where.append("OR p.Description LIKE ? ");
-			params.add("%" + ibs.getReferenceNo().trim() + "%");
-			params.add("%" + ibs.getReferenceNo().trim() + "%");
-			params.add("%" + ibs.getReferenceNo().trim() + "%");
+			where.append("? LIKE '%' || p.CheckNo || '%' ");
+			where.append("OR ? LIKE '%' || p.DocumentNo || '%' ");
+			where.append("OR ? LIKE '%' || p.Description || '%' ");
+			where.append("OR 1 = 1 ");
+			params.add(ibs.getReferenceNo().trim());
+			params.add(ibs.getReferenceNo().trim());
+			params.add(ibs.getReferenceNo().trim());
 		}
 		//	For Description
 		if(!Util.isEmpty(ibs.getDescription())) {
 			if(where.length() > 0) {
 				where.append(" OR ");
 			}
-			where.append("p.CheckNo LIKE ? ");
-			where.append("OR p.DocumentNo LIKE ? ");
-			where.append("OR p.Description LIKE ? ");
-			params.add("%" + ibs.getDescription().trim() + "%");
-			params.add("%" + ibs.getDescription().trim() + "%");
-			params.add("%" + ibs.getDescription().trim() + "%");
+			where.append("? LIKE '%' || p.CheckNo || '%' ");
+			where.append("OR ? LIKE '%' || p.DocumentNo || '%' ");
+			where.append("OR ? LIKE '%' || p.Description || '%' ");
+			where.append("OR 1 = 1 ");
+			params.add(ibs.getDescription().trim());
+			params.add(ibs.getDescription().trim());
+			params.add(ibs.getDescription().trim());
 		}
 		//	For Memo
 		if(!Util.isEmpty(ibs.getMemo())) {
 			if(where.length() > 0) {
 				where.append(" OR ");
 			}
-			where.append("p.CheckNo LIKE ? ");
-			where.append("OR p.DocumentNo LIKE ? ");
-			where.append("OR p.Description LIKE ? ");
-			params.add("%" + ibs.getMemo().trim() + "%");
-			params.add("%" + ibs.getMemo().trim() + "%");
-			params.add("%" + ibs.getMemo().trim() + "%");
-		}
-		//	Date Trx
-		if(ibs.getStatementDate() != null) {
-			if(where.length() > 0) {
-				where.append(" OR ");
-			}
-			//	
-			where.append("(? BETWEEN p.DateTrx -5 AND p.DateTrx +5)");
-			params.add(ibs.getStatementDate());
-		}
-		//	Statement Line Date
-		if(ibs.getStatementLineDate() != null) {
-			if(where.length() > 0) {
-				where.append(" OR ");
-			}
-			//	
-			where.append("(? BETWEEN p.DateTrx -5 AND p.DateTrx +5)");
-			params.add(ibs.getStatementLineDate());
-		}
-		//	Value Date
-		if(ibs.getValutaDate() != null) {
-			if(where.length() > 0) {
-				where.append(" OR ");
-			}
-			//	
-			where.append("(? BETWEEN p.DateTrx -5 AND p.DateTrx +5)");
-			params.add(ibs.getValutaDate());
+			where.append("? LIKE '%' || p.CheckNo || '%' ");
+			where.append("OR ? LIKE '%' || p.DocumentNo || '%' ");
+			where.append("OR ? LIKE '%' || p.Description || '%' ");
+			where.append("OR 1 = 1 ");
+			params.add(ibs.getMemo().trim());
+			params.add(ibs.getMemo().trim());
+			params.add(ibs.getMemo().trim());
 		}
 		//	Add
 		if(where.length() > 0) {
@@ -140,8 +118,15 @@ public class GenericBankMatcher implements BankStatementMatcherInterface {
 		}
 		where.append("(p.C_BankAccount_ID = ?)");
 		params.add(ibs.getC_BankAccount_ID());
+		//	Add Order By
+		orderByClause.append("p.DateTrx ASC");
+		orderByClause.append(", p.DocumentNo ").append(ORDERVALUE);
+		orderByClause.append(", p.CheckNo ").append(ORDERVALUE);
+		orderByClause.append(", p.Description ").append(ORDERVALUE);
 		//	Add where
 		sql.append(where);
+		//	Add Order By
+		sql.append(orderByClause);
 		//	Find payment
 		int paymentId = DB.getSQLValue(ibs.get_TrxName(), sql.toString(), params);
 		//	set if exits
