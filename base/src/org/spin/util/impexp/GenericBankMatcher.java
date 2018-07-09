@@ -64,7 +64,6 @@ public class GenericBankMatcher implements BankStatementMatcherInterface {
 			where.append("? LIKE '%' || p.CheckNo || '%' ");
 			where.append("OR ? LIKE '%' || p.DocumentNo || '%' ");
 			where.append("OR ? LIKE '%' || p.Description || '%' ");
-			where.append("OR 1 = 1 ");
 			params.add(ibs.getReferenceNo().trim());
 			params.add(ibs.getReferenceNo().trim());
 			params.add(ibs.getReferenceNo().trim());
@@ -77,7 +76,6 @@ public class GenericBankMatcher implements BankStatementMatcherInterface {
 			where.append("? LIKE '%' || p.CheckNo || '%' ");
 			where.append("OR ? LIKE '%' || p.DocumentNo || '%' ");
 			where.append("OR ? LIKE '%' || p.Description || '%' ");
-			where.append("OR 1 = 1 ");
 			params.add(ibs.getDescription().trim());
 			params.add(ibs.getDescription().trim());
 			params.add(ibs.getDescription().trim());
@@ -90,7 +88,6 @@ public class GenericBankMatcher implements BankStatementMatcherInterface {
 			where.append("? LIKE '%' || p.CheckNo || '%' ");
 			where.append("OR ? LIKE '%' || p.DocumentNo || '%' ");
 			where.append("OR ? LIKE '%' || p.Description || '%' ");
-			where.append("OR 1 = 1 ");
 			params.add(ibs.getMemo().trim());
 			params.add(ibs.getMemo().trim());
 			params.add(ibs.getMemo().trim());
@@ -118,11 +115,14 @@ public class GenericBankMatcher implements BankStatementMatcherInterface {
 		}
 		where.append("(p.C_BankAccount_ID = ?)");
 		params.add(ibs.getC_BankAccount_ID());
+		//	Additional validation
+		where.append(" AND p.DocStatus IN('CO', 'CL') ");
+		where.append(" AND NOT EXISTS(SELECT 1 FROM I_BankStatement i WHERE i.C_Payment_ID = p.C_Payment_ID) ");
 		//	Add Order By
 		orderByClause.append("p.DateTrx ASC");
-		orderByClause.append(", p.DocumentNo ").append(ORDERVALUE);
-		orderByClause.append(", p.CheckNo ").append(ORDERVALUE);
-		orderByClause.append(", p.Description ").append(ORDERVALUE);
+		orderByClause.append(", p.DocumentNo").append(ORDERVALUE);
+		orderByClause.append(", p.CheckNo").append(ORDERVALUE);
+		orderByClause.append(", p.Description").append(ORDERVALUE);
 		//	Add where
 		sql.append(where);
 		//	Add Order By
