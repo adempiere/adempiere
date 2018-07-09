@@ -197,7 +197,7 @@ public abstract class PaymentExportList implements PaymentExport {
 		if(!left) {
 			format = "%1$";
 		}
-		return String.format(format + length + "s", text);
+		return String.format(format + length + "s", text).replace(" ","0");
 	}
 	
 	/**
