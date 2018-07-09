@@ -115,7 +115,9 @@ import org.compiere.util.Msg;
 		setDescription(imp.getLineDescription());
 		setStatementLineDate(imp.getStatementLineDate());
 		setDateAcct(imp.getStatementLineDate());
-		setValutaDate(imp.getValutaDate());
+		if(imp.getValutaDate() != null) {
+			setValutaDate(imp.getValutaDate());
+		}
 		setIsReversal(imp.isReversal());
 		if(imp.getC_Currency_ID() != 0) {
 			setC_Currency_ID(imp.getC_Currency_ID());
