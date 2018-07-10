@@ -174,6 +174,10 @@ public class MT940BankTransaction extends BankTransactionAbstract {
 	public static final String LINE_AVAILABLE_BALANCE_Amount = LINE_AVAILABLE_BALANCE + "|Amount";
 	/**	Additional information [6*65x]	*/	
 	public static final String LINE_TYPE_ADDITIONAL_INFORMATION = ":86:";
+	/**	Debt Constant	*/
+	public static final String DEBT = "D";
+	/**	Credit Constant	*/
+	public static final String CREDIT = "C";
 	/**	Amount Type */
 	public static String[] TAGS = {
 			HEAD_STATEMENT_DATE,
@@ -366,7 +370,7 @@ public class MT940BankTransaction extends BankTransactionAbstract {
 	 * @return
 	 */
 	public String getTrxType() {
-		return getString(HEAD_OPENING_BALANCE_Type);
+		return getString(LINE_TRANSACTION_Type);
 	}
 	
 	/**

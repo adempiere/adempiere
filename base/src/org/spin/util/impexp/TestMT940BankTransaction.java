@@ -16,7 +16,10 @@
  *************************************************************************************/
 package org.spin.util.impexp;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
+
+import org.compiere.util.Util;
 
 /**
  * Parse String line from file to values of transaction
@@ -94,9 +97,18 @@ public class TestMT940BankTransaction extends MT940BankTransaction {
 			//	Booking Date
 			addValue(LINE_TRANSACTION_Booking_Date, getDate("MMdd", subString(value, index, index += 4)));
 			//	Type
-			addValue(LINE_TRANSACTION_Type, subString(value, index, index +=1));
+			String trxType = subString(value, index, index +=1);
+			addValue(LINE_TRANSACTION_Type, trxType);
+			//	Currency
+			// addValue(LINE_TRANSACTION_Currency_Char, subString(value, index, index += 1));
 			//	Amount
-			addValue(LINE_TRANSACTION_Amount, getNumber(',', "########.##", subString(value, index, value.indexOf(LINE_TRANSACTION_NMSCNONREF))));
+			BigDecimal amount = getNumber(',', "########.##", subString(value, index, value.indexOf(LINE_TRANSACTION_NMSCNONREF)));
+			if(!Util.isEmpty(trxType)
+					&& trxType.equals(DEBT)
+					&& amount != null) {
+				amount = amount.negate();
+			}
+			addValue(LINE_TRANSACTION_Amount, amount);
 			//	Add Transaction number
 			addValue(LINE_TRANSACTION_DETAIL_Reference_Number, subString(value, value.indexOf(LINE_TRANSACTION_NMSCNONREF) + LINE_TRANSACTION_NMSCNONREF.length(), value.length()));
 		} else if(LINE_BOOKING_TIME.equals(key)) {
