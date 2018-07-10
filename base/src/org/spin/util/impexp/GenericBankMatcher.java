@@ -96,6 +96,14 @@ public class GenericBankMatcher implements BankStatementMatcherInterface {
 		if(where.length() > 0) {
 			where.insert(0, "AND (").append(")");
 		}
+		//	Add Currency
+		if(!Util.isEmpty(ibs.getISO_Code())) {
+			where.append(" AND EXISTS(SELECT 1 FROM C_Currency c WHERE c.C_Currency_ID = p.C_Currency_ID AND c.ISO_Code = ?) ");
+			params.add(ibs.getISO_Code());
+		} else if(ibs.getC_Currency_ID() != 0){
+			where.append(" AND p.C_Currency_ID = ? ");
+			params.add(ibs.getC_Currency_ID());
+		}
 		//	For Amount
 		if(where.length() > 0) {
 			where.append(" AND ");
