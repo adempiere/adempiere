@@ -63,8 +63,6 @@ public class ReferenceNo_BankMatcher implements BankStatementMatcherInterface {
 		if(!Util.isEmpty(ibs.getReferenceNo())) {
 			where.append("? = TRIM(p.CheckNo) ");
 			where.append("OR ? = TRIM(p.DocumentNo) ");
-			where.append("OR ? LIKE '%' || p.Description || '%' ");
-			params.add(ibs.getReferenceNo().trim());
 			params.add(ibs.getReferenceNo().trim());
 			params.add(ibs.getReferenceNo().trim());
 		}
