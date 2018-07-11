@@ -357,16 +357,26 @@ public class WPayPrint extends PayPrint implements IFormController, EventListene
 			try
 			{
 				Class<?> clazz = Class.forName(paymentExportClass);
-				if (clazz.isInstance(PaymentExportList.class))
-				{
-					PaymentExportList custom = (PaymentExportList)clazz.newInstance();
-					no = custom.exportToFile(paySelectionChecks, tempFile, error);
-				}
-				else if (clazz.isInstance(PaymentExport.class))
-				{
+				if (clazz.isInstance(PaymentExport.class)) {
 					PaymentExport custom = (PaymentExport)clazz.newInstance();
 					no = custom.exportToFile(paySelectionChecks.toArray(new MPaySelectionCheck[paySelectionChecks.size()]), tempFile, error);
-				}
+				} else if(PaymentExportList.class.isAssignableFrom(clazz)) {
+					PaymentExportList custom = (PaymentExportList)clazz.newInstance();
+					no = custom.exportToFile(paySelectionChecks, tempFile, error);
+	            } else {
+	                //	Make sure that it is a PaymentExportList class
+	                Class<?> superClazz = clazz.getSuperclass();
+	                //	Validate super class
+	                while (superClazz != null) {
+	                    if (superClazz == PaymentExportList.class) {
+	                    	PaymentExportList custom = (PaymentExportList)clazz.newInstance();
+	        				no = custom.exportToFile(paySelectionChecks, tempFile, error);
+	        				break;
+	                    }
+	                    //	Get Super Class
+	                    superClazz = superClazz.getSuperclass();
+	                }
+	            }
 			}
 			catch (ClassNotFoundException e)
 			{
