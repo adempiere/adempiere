@@ -157,6 +157,10 @@ public abstract class PaymentExportList implements PaymentExport {
 		return exportedPayments;
 	}
 	
+	public void setExportedPayments(int exportedPayments) {
+		this.exportedPayments = exportedPayments;
+	}
+	
 	/**
 	 * Add left padding
 	 * @param text
