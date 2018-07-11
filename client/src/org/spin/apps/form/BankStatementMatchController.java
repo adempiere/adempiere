@@ -34,6 +34,7 @@ import org.compiere.model.MBankAccount;
 import org.compiere.model.MBankStatement;
 import org.compiere.model.MBankStatementLine;
 import org.compiere.model.MBankStatementMatcher;
+import org.compiere.model.MPayment;
 import org.compiere.model.MRole;
 import org.compiere.model.X_I_BankStatement;
 import org.compiere.process.ProcessInfo;
@@ -67,6 +68,8 @@ public class BankStatementMatchController {
 	private String languageValue = null;
 	/**	Imported Bank Statement to match	*/
 	private Map<Integer, X_I_BankStatement> importedPaymentHashMap = new HashMap<Integer, X_I_BankStatement>();
+	/**	Payment Bank Statement to match	*/
+	private Map<Integer, MPayment> currentPaymentHashMap = new HashMap<Integer, MPayment>();
 	/**	Imported Bank Statement matched	*/
 	private Map<Integer, X_I_BankStatement> matchedPaymentHashMap = new HashMap<Integer, X_I_BankStatement>();
 	/**	Payment list	*/
@@ -89,6 +92,12 @@ public class BankStatementMatchController {
 	private boolean isImportMatched = false;
 	/** Matched	*/
 	private int matchMode = -1;
+	/**	Current Selected Payment	*/
+	private int currentSelectedPaymentId = 0;
+	/**	Current Selected Imported Payment	*/
+	private int currentSelectedImportedPaymentId = 0;
+	/**	Has matched selected	*/
+	private boolean hasSelection = false;
 	/** Match Mode              	*/
 	public String[] m_matchMode = new String[] {
 		Msg.translate(Env.getCtx(), "NotMatched"),
@@ -107,6 +116,14 @@ public class BankStatementMatchController {
 		//	
 		this.windowNo = windowNo;
 		languageValue = Env.getAD_Language(Env.getCtx());
+	}
+	
+	/**
+	 * Clear values
+	 */
+	public void clear() {
+		matchedPaymentHashMap = new HashMap<Integer, X_I_BankStatement>();
+		resetManualMatch();
 	}
 	
 	/**
@@ -131,16 +148,24 @@ public class BankStatementMatchController {
 	
 	/**
 	 * Message for match button
+	 * @param isMatchMode
 	 * @return
 	 */
-	public String getButtonMatchMessage() {
-		if(isMatchedMode()) {
+	public String getButtonMatchMessage(boolean isMatchMode) {
+		if(isMatchMode) {
 			return Msg.translate(Env.getCtx(), "BankStatementMatch.SimulateUnMatch");
 		}
 		//	Default
 		return Msg.translate(Env.getCtx(), "BankStatementMatch.SimulateMatch");
 	}
 	
+	/**
+	 * Get Button Message
+	 * @return
+	 */
+	public String getButtonMatchMessage() {
+		return getButtonMatchMessage(isMatchedMode());
+	}
 	/**
 	 * Message for match button
 	 * @return
@@ -268,7 +293,7 @@ public class BankStatementMatchController {
 		//	
 		StringBuffer sql = new StringBuffer("SELECT p.C_Payment_ID, p.DateTrx, p.IsReceipt, p.DocumentNo, "
 				+ "p.C_BPartner_ID, bp.Name BPName, tt.TenderTypeName AS TenderType, "
-				+ "c.ISO_Code, (p.PayAmt * CASE WHEN p.IsReceipt = 'Y' THEN 1 ELSE -1 END) AS PayAmt, p.Description "
+				+ "c.ISO_Code, (p.PayAmt * CASE WHEN p.IsReceipt = 'Y' THEN 1 ELSE -1 END) AS PayAmt, p.Description, p.* "
 				+ "FROM C_Payment p "
 				+ "INNER JOIN C_BPartner bp ON(bp.C_BPartner_ID = p.C_BPartner_ID) "
 				+ "INNER JOIN C_Currency c ON(c.C_Currency_ID = p.C_Currency_ID) "
@@ -322,6 +347,8 @@ public class BankStatementMatchController {
 		//	
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
+		//	fill hash
+		currentPaymentHashMap = new HashMap<Integer, MPayment>();
 		try {
 			int i= 1;
 			pstmt = DB.prepareStatement(sql.toString(), null);
@@ -354,6 +381,8 @@ public class BankStatementMatchController {
 				line.add(rs.getString("ISO_Code"));      				//  6-Currency
 				line.add(rs.getBigDecimal("PayAmt"));					//  7-PayAmt
 				line.add(rs.getString("Description")); 					// 	8-Description
+				//	Add model class
+				currentPaymentHashMap.put(rs.getInt("C_Payment_ID"), new MPayment(Env.getCtx(), rs, null));
 				paymentData.add(line);
 			}
 		} catch (SQLException e) {
@@ -556,6 +585,46 @@ public class BankStatementMatchController {
 	}
 	
 	/**
+	 * Action for button
+	 * @return
+	 */
+	public int actionUnMatchSelected(IMiniTable matched) {
+		int processed = 0;
+		int rows = matched.getRowCount();
+		for (int i = 0; i < rows; i++) {
+			IDColumn selection = (IDColumn) matched.getValueAt(i, 0);
+			if (selection.isSelected()) {
+				matchedPaymentHashMap.remove(selection.getRecord_ID());
+				processed++;
+			}
+		}
+		//	
+		return processed;
+	}
+	
+	/**
+	 * Match two records manual
+	 * @param paymentId
+	 * @param bankStatementId
+	 * @return
+	 */
+	public boolean actionFindManualMatch(int paymentId, int bankStatementId) {
+		boolean processed = false;
+		//	For all
+		if(importedPaymentHashMap.isEmpty()) {
+			return processed;
+		}
+		//	Apply
+		if(!isMatchedMode()) {
+			processed = findManualMatch(0,0);
+		} else {
+			processed = findManualUnMatch(paymentId, bankStatementId);
+		}
+		//	
+		return processed;
+	}
+	
+	/**
 	 * Unmatch records
 	 * @return
 	 */
@@ -590,6 +659,113 @@ public class BankStatementMatchController {
 	}
 	
 	/**
+	 * Find match between two records (Manual)
+	 * @param paymentId
+	 * @param bankStatementId
+	 * @return true if exist a possible match
+	 */
+	public boolean findManualMatch(int paymentId, int bankStatementId) {
+		X_I_BankStatement importedPayment = importedPaymentHashMap.get(bankStatementId);
+		MPayment currentPayment = currentPaymentHashMap.get(paymentId);
+		boolean processed = false;
+		if(importedPayment != null
+				&& currentPayment != null) {
+			//	Validate amount
+			if(currentPayment.getPayAmt().doubleValue() == importedPayment.getTrxAmt().doubleValue()) {
+				importedPayment.setC_Payment_ID(paymentId);
+				matchedPaymentHashMap.put(paymentId, importedPayment);
+				processed = true;
+			}
+			resetManualMatch();
+		}
+		//	
+		return processed;
+	}
+	
+	/**
+	 * Add Payment to apply match
+	 * @param paymentId
+	 * @return truen if match is done
+	 */
+	public boolean paymentApplyForMatch(int paymentId) {
+		currentSelectedPaymentId = paymentId;
+		return applyManualMatch();
+	}
+	
+	/**
+	 * Apply Imported Payment to Match
+	 * @param importedPaymentId
+	 * @return truen if match is done
+	 */
+	public boolean importedPaymentApplyForMatch(int importedPaymentId) {
+		currentSelectedImportedPaymentId = importedPaymentId;
+		return applyManualMatch();
+	}
+	
+	/**
+	 * Apply a manual match from selected
+	 * @return true when match is done
+	 */
+	private boolean applyManualMatch() {
+		boolean ok = false;
+		if(currentSelectedImportedPaymentId > 0
+				&& currentSelectedPaymentId > 0) {
+			ok = findManualMatch(currentSelectedPaymentId, currentSelectedImportedPaymentId);
+		}
+		return ok;
+	}
+	
+	/**
+	 * Get imported payment from matched payments
+	 * @param paymentId
+	 * @return
+	 */
+	public int getImportedPaymentId(int paymentId) {
+		X_I_BankStatement currentPayment = matchedPaymentHashMap.get(paymentId);
+		if(currentPayment != null) {
+			return currentPayment.getI_BankStatement_ID();
+		}
+		//	
+		return -1;
+	}
+	
+	/**
+	 * Reset current index for math
+	 */
+	public void resetManualMatch() {
+		currentSelectedPaymentId = 0;
+		currentSelectedImportedPaymentId = 0;
+	}
+	
+	/**
+	 * Unmatch payment (Manual)
+	 * @param paymentId
+	 * @param bankStatementId
+	 * @return
+	 */
+	private boolean findManualUnMatch(int paymentId, int bankStatementId) {
+		X_I_BankStatement currentPayment = importedPaymentHashMap.get(bankStatementId);
+		if(currentPayment != null) {
+			//	remove payment
+			if(currentPayment.getC_Payment_ID() != 0) {
+				currentPayment.setC_Payment_ID(-1);
+			}
+			//	Remove BPartner
+			if(currentPayment.getC_BPartner_ID() != 0) {
+				currentPayment.setC_BPartner_ID(-1);
+			}
+			//	Invoice
+			if(currentPayment.getC_Invoice_ID() != 0) {
+				currentPayment.setC_Invoice_ID(-1);
+			}
+			matchedPaymentHashMap.put(paymentId, currentPayment);
+			return true;
+		}
+		//	Return
+		return false;
+	}
+	
+	/**
 	 * Find a match between imported payment and ADempiere payments
 	 * @return matched payment count
 	 */
@@ -605,30 +781,30 @@ public class BankStatementMatchController {
 		}
 		//	
 		for(Map.Entry<Integer, X_I_BankStatement> entry : importedPaymentHashMap.entrySet()) {
-			X_I_BankStatement currentpayment = entry.getValue();
-			if(currentpayment.getC_Payment_ID() != 0
-					|| currentpayment.getC_BPartner_ID() != 0
-					|| currentpayment.getC_Invoice_ID() != 0) {
+			X_I_BankStatement currentPayment = entry.getValue();
+			if(currentPayment.getC_Payment_ID() != 0
+					|| currentPayment.getC_BPartner_ID() != 0
+					|| currentPayment.getC_Invoice_ID() != 0) {
 				//	put on hash
-				matchedPaymentHashMap.put(entry.getValue().getC_Payment_ID(), currentpayment);
+				matchedPaymentHashMap.put(entry.getValue().getC_Payment_ID(), currentPayment);
 				matched++;
 				continue;
 			}
 			for (MBankStatementMatcher matcher : matchersList) {
 				if (matcher.isMatcherValid()) {
-					BankStatementMatchInfo info = matcher.getMatcher().findMatch(currentpayment);
+					BankStatementMatchInfo info = matcher.getMatcher().findMatch(currentPayment);
 					if (info != null && info.isMatched()) {
 						if (info.getC_Payment_ID() > 0) {
-							currentpayment.setC_Payment_ID(info.getC_Payment_ID());
+							currentPayment.setC_Payment_ID(info.getC_Payment_ID());
 						}
 						if (info.getC_Invoice_ID() > 0) {
-							currentpayment.setC_Invoice_ID(info.getC_Invoice_ID());
+							currentPayment.setC_Invoice_ID(info.getC_Invoice_ID());
 						}
 						if (info.getC_BPartner_ID() > 0) {
-							currentpayment.setC_BPartner_ID(info.getC_BPartner_ID());
+							currentPayment.setC_BPartner_ID(info.getC_BPartner_ID());
 						}
 						//	put on hash
-						matchedPaymentHashMap.put(entry.getValue().getC_Payment_ID(), currentpayment);
+						matchedPaymentHashMap.put(entry.getValue().getC_Payment_ID(), currentPayment);
 						matched++;
 						break;
 					}
@@ -656,6 +832,7 @@ public class BankStatementMatchController {
 				//	Add Memo
 				row.add(matched.getMemo());
 				//	
+				key.setSelected(false);
 				data.add(row);
 			}
 		}
@@ -812,5 +989,12 @@ public class BankStatementMatchController {
 	public int getBankAccountId() {
 		return bankAccountId;
 	}
-	
+
+	public boolean isHasSelection() {
+		return hasSelection;
+	}
+
+	public void setHasSelection(boolean hasSelection) {
+		this.hasSelection = hasSelection;
+	}
 }

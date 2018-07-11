@@ -14,6 +14,7 @@
 package org.spin.apps.form;
 
 import java.awt.BorderLayout;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
@@ -46,6 +47,7 @@ import org.compiere.apps.form.FormPanel;
 import org.compiere.grid.ed.VDate;
 import org.compiere.grid.ed.VLookup;
 import org.compiere.grid.ed.VNumber;
+import org.compiere.minigrid.IDColumn;
 import org.compiere.minigrid.MiniTable;
 import org.compiere.model.MLookup;
 import org.compiere.model.MLookupFactory;
@@ -91,7 +93,6 @@ public class VBankStatementMatch extends BankStatementMatchController
 
 	/**	FormFrame			*/
 	private FormFrame 	frame;
-	private CPanel panel = new CPanel();
 	private MiniTable currentPaymentTable = new MiniTable();
 	private CPanel currentPaymentPanel = new CPanel();
 	private JLabel currentPaymentLabel = new JLabel();
@@ -154,13 +155,15 @@ public class VBankStatementMatch extends BankStatementMatchController
 	 *  @throws Exception
 	 */
 	private void jbInit() throws Exception {
-		CompiereColor.setBackground(panel);
+		CompiereColor.setBackground(mainPanel);
 		searchButton = ConfirmPanel.createRefreshButton(true);
 		simulateMatchButton = ConfirmPanel.createProcessButton(true);
 		simulateMatchButton.setText(getButtonMatchMessage());
 		simulateMatchButton.setToolTipText(getButtonMatchMessage());
 		rightProcessPanel.setOKVisible(true);
 		rightProcessPanel.setCancelVisible(true);
+		
+		matchedPaymentTable.setMultiSelection(true);
 		
 		mainPanel.setLayout(mainLayout);
 		centerPanel.setLayout(centerLayout);
@@ -318,14 +321,23 @@ public class VBankStatementMatch extends BankStatementMatchController
 			log.config("search");
 			refresh();
 		} else if(e.getSource().equals(simulateMatchButton)) {
-			statusBar.setStatusLine(Msg.translate(Env.getCtx(), "BankStatementMatch.Matched") + ": " + actionMatchUnMatch());
+			mainPanel.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+			if(!isHasSelection()) {
+				statusBar.setStatusLine(Msg.translate(Env.getCtx(), "BankStatementMatch.Matched") + ": " + actionMatchUnMatch());
+			} else {
+				statusBar.setStatusLine(Msg.translate(Env.getCtx(), "BankStatementMatch.UnMatched") + ": " + actionUnMatchSelected(matchedPaymentTable));
+			}
 			loadMatchedPaymentsFromMatch();
+			changeMessageButton();
+			mainPanel.setCursor(Cursor.getDefaultCursor());
 		} else if(e.getActionCommand().equals(ConfirmPanel.A_OK)) {
 			if(!isAvailableForSave()) {
 				return;
 			}
 			if(ADialog.ask(getWindowNo(), frame.getContainer(), "SaveChanges?", getAskMatchMessage())) {
+				mainPanel.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 				saveData();
+				mainPanel.setCursor(Cursor.getDefaultCursor());
 			}
 		} else if(e.getActionCommand().equals(ConfirmPanel.A_CANCEL)) {
 			dispose();
@@ -336,6 +348,7 @@ public class VBankStatementMatch extends BankStatementMatchController
 	 * Refresh Data
 	 */
 	private void refresh() {
+		clear();
 		setIsAvailableForSave(false);
 		getParameters();
 		String message = validateParameters();
@@ -455,6 +468,7 @@ public class VBankStatementMatch extends BankStatementMatchController
 		matchedPaymentTable.setModel(model);
 		// 
 		configureMatchedPaymentTable(matchedPaymentTable);
+		matchedPaymentTable.clearSelection();
 		//	
 	}
 	
@@ -465,13 +479,100 @@ public class VBankStatementMatch extends BankStatementMatchController
 	 */
 	public void tableChanged(TableModelEvent e) {
 		boolean isUpdate = (e.getType() == TableModelEvent.UPDATE);
+		int row = e.getFirstRow();
 		//  Not a table update
 		if (!isUpdate) {
 			return;
 		}
-		
+		//	
+		boolean isMatched = false;
+		if(e.getSource().equals(currentPaymentTable.getModel())) {
+			int matchedRow = currentPaymentTable.getSelectedRow();
+			if(matchedRow != row) {
+				return;
+			}
+			if(matchedRow >= 0) {
+				IDColumn paymentIdColumn = (IDColumn) currentPaymentTable.getValueAt(matchedRow, 0);
+				isMatched = paymentApplyForMatch(paymentIdColumn.getRecord_ID());
+			}
+		} else if(e.getSource().equals(importedPaymentTable.getModel())) {
+			int matchedRow = importedPaymentTable.getSelectedRow();
+			if(matchedRow != row) {
+				return;
+			}
+			if(matchedRow >= 0) {
+				IDColumn importedPaymentIdColumn = (IDColumn) importedPaymentTable.getValueAt(matchedRow, 0);
+				isMatched = importedPaymentApplyForMatch(importedPaymentIdColumn.getRecord_ID());
+			}
+		} else if(e.getSource().equals(matchedPaymentTable.getModel())) {
+			int matchedRow = matchedPaymentTable.getSelectedRow();
+			if(matchedRow != row) {
+				return;
+			}
+			if(matchedRow >= 0) {
+				IDColumn matchedPaymentIdColumn = (IDColumn) matchedPaymentTable.getValueAt(matchedRow, 0);
+				selectFromMatch(matchedPaymentIdColumn.getRecord_ID());
+				changeMessageButton();
+			}
+		}
+		//	Validate screen
+		if(isMatched) {
+			clearSelection();
+			loadMatchedPaymentsFromMatch();
+		}
 	}   //  tableChanged
 
+	/**
+	 * Select source from match
+	 * @param paymentId
+	 */
+	private void selectFromMatch(int paymentId) {
+		for (int row = 0; row < currentPaymentTable.getRowCount(); row++) {
+			IDColumn record = (IDColumn) currentPaymentTable.getValueAt(row, 0);
+			if(record != null
+					&& record.getRecord_ID() == paymentId) {
+				currentPaymentTable.setRowSelectionInterval(row, row);
+			}
+		}
+		int importedPaymentId = getImportedPaymentId(paymentId);
+		if(importedPaymentId > 0) {
+			for (int row = 0; row < importedPaymentTable.getRowCount(); row++) {
+				IDColumn record = (IDColumn) importedPaymentTable.getValueAt(row, 0);
+				if(record != null
+						&& record.getRecord_ID() == importedPaymentId) {
+					importedPaymentTable.setRowSelectionInterval(row, row);
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Change Message from selection
+	 */
+	private void changeMessageButton() {
+		boolean deleteAllocation = false;
+		for (int row = 0; row < matchedPaymentTable.getRowCount(); row++) {
+			IDColumn record = (IDColumn) matchedPaymentTable.getValueAt(row, 0);
+			if(record != null
+					&& record.isSelected()) {
+				deleteAllocation = true;
+				break;
+			}
+		}
+		setHasSelection(deleteAllocation);
+		//	change button
+		simulateMatchButton.setText(getButtonMatchMessage(deleteAllocation));
+		simulateMatchButton.setToolTipText(getButtonMatchMessage(deleteAllocation));
+	}
+	
+	/**
+	 * CLear table selection for payments and imported payments
+	 */
+	private void clearSelection() {
+//		currentPaymentTable.setRowSelectionInterval(0, 0);
+//		importedPaymentTable.setRowSelectionInterval(0, 0);
+	}
+	
 	/**
 	 *  Vetoable Change Listener.
 	 *  - Business Partner
@@ -504,7 +605,7 @@ public class VBankStatementMatch extends BankStatementMatchController
 			//	If Ok
 			refresh();
 		} catch (Exception e) {
-			ADialog.error(getWindowNo(), panel, "Error", e.getLocalizedMessage());
+			ADialog.error(getWindowNo(), mainPanel, "Error", e.getLocalizedMessage());
 		} finally {
 			//	
 		}
