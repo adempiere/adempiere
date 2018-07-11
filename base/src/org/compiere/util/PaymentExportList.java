@@ -157,6 +157,10 @@ public abstract class PaymentExportList implements PaymentExport {
 		return exportedPayments;
 	}
 	
+	public void setExportedPayments(int exportedPayments) {
+		this.exportedPayments = exportedPayments;
+	}
+	
 	/**
 	 * Add left padding
 	 * @param text
@@ -197,7 +201,7 @@ public abstract class PaymentExportList implements PaymentExport {
 		if(!left) {
 			format = "%1$";
 		}
-		return String.format(format + length + "s", text).replace(" ","0");
+		return String.format(format + length + "s", text).replace(" ", padd);
 	}
 	
 	/**
