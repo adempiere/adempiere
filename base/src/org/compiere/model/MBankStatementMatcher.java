@@ -71,7 +71,7 @@ public class MBankStatementMatcher extends X_C_BankStatementMatcher {
 			s_log.fine("Not from cache");
 			StringBuffer whereClause = new StringBuffer("AD_Client_ID = " + Env.getAD_Client_ID(ctx));
 			if(bankId > 0) {
-				whereClause.append(" AND C_Bank_ID = ").append(bankId);
+				whereClause.append(" AND (C_Bank_ID = ").append(bankId).append(" OR C_Bank_ID IS NULL)");
 			}
 			//	
 			matcherList = new Query(ctx, Table_Name, whereClause.toString(), null)
