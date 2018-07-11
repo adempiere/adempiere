@@ -32,15 +32,16 @@ import org.compiere.model.X_I_BankStatement;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Util;
+
 /**
- * Add matcher by reference
+ * Add matcher by reference with like
  * @author Yamel Senih, ysenih@erpya.com , http://www.erpya.com
  * <li> FR [ 1807 ] Add Match class for Reference No
  * @see https://github.com/adempiere/adempiere/issues/1807
  */
-public class ReferenceNo_BankMatcher implements BankStatementMatcherInterface {
+public class ReferenceNoLike_BankMatcher implements BankStatementMatcherInterface {
 
-	public ReferenceNo_BankMatcher() {
+	public ReferenceNoLike_BankMatcher() {
 		
 	}
 
@@ -70,8 +71,8 @@ public class ReferenceNo_BankMatcher implements BankStatementMatcherInterface {
 		params.add(ibs.getAD_Client_ID());
 		//	For reference
 		if(!Util.isEmpty(ibs.getReferenceNo())) {
-			where.append("? = TRIM(p.CheckNo) ");
-			where.append("OR ? = TRIM(p.DocumentNo) ");
+			where.append("? LIKE '%' || p.CheckNo || '%' ");
+			where.append("OR ? LIKE '%' || p.DocumentNo || '%' ");
 			params.add(ibs.getReferenceNo().trim());
 			params.add(ibs.getReferenceNo().trim());
 		}
