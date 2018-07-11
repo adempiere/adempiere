@@ -73,8 +73,12 @@ public class ReferenceNoLike_BankMatcher implements BankStatementMatcherInterfac
 		if(!Util.isEmpty(ibs.getReferenceNo())) {
 			where.append("? LIKE '%' || p.CheckNo || '%' ");
 			where.append("OR ? LIKE '%' || p.DocumentNo || '%' ");
+			where.append("OR p.CheckNo LIKE ? ");
+			where.append("OR p.DocumentNo LIKE ?");
 			params.add(ibs.getReferenceNo().trim());
 			params.add(ibs.getReferenceNo().trim());
+			params.add("%" + ibs.getReferenceNo().trim() + "%");
+			params.add("%" + ibs.getReferenceNo().trim() + "%");
 		}
 		//	Add
 		if(where.length() > 0) {
