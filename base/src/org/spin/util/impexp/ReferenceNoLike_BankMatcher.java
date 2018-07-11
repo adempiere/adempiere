@@ -112,7 +112,8 @@ public class ReferenceNoLike_BankMatcher implements BankStatementMatcherInterfac
 		where.append("(p.C_BankAccount_ID = ?)");
 		params.add(ibs.getC_BankAccount_ID());
 		//	Additional validation
-		where.append(" AND p.DocStatus IN('CO', 'CL') ");
+		where.append(" AND p.DocStatus IN('CO', 'CL')");
+		where.append(" AND p.IsReconciled = 'N'");
 		where.append(" AND NOT EXISTS(SELECT 1 FROM I_BankStatement i WHERE i.C_Payment_ID = p.C_Payment_ID) ");
 		//	Add Order By
 		orderByClause.append("p.DateTrx ASC");
