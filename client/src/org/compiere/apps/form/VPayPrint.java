@@ -333,7 +333,6 @@ public class VPayPrint extends PayPrint implements FormPanel, ActionListener, Ve
 			ADialog.error(windowNo, panel, msg);
 	}   //  loadPaymentRuleInfo
 
-
 	/**************************************************************************
 	 *  Export payments to file
 	 */
@@ -366,16 +365,26 @@ public class VPayPrint extends PayPrint implements FormPanel, ActionListener, Ve
 		try
 		{
 			Class<?> clazz = Class.forName(paymentExportClass);
-			if (clazz.isInstance(PaymentExportList.class))
-			{
-				PaymentExportList custom = (PaymentExportList)clazz.newInstance();
-				no = custom.exportToFile(paySelectionChecks, fc.getSelectedFile(), error);
-			}
-			else if (clazz.isInstance(PaymentExport.class))
-			{
+			if (clazz.isInstance(PaymentExport.class)) {
 				PaymentExport custom = (PaymentExport)clazz.newInstance();
 				no = custom.exportToFile(paySelectionChecks.toArray(new MPaySelectionCheck[paySelectionChecks.size()]), fc.getSelectedFile(), error);
-			}
+			} else if(PaymentExportList.class.isAssignableFrom(clazz)) {
+				PaymentExportList custom = (PaymentExportList)clazz.newInstance();
+				no = custom.exportToFile(paySelectionChecks, fc.getSelectedFile(), error);
+            } else {
+                //	Make sure that it is a PaymentExportList class
+                Class<?> superClazz = clazz.getSuperclass();
+                //	Validate super class
+                while (superClazz != null) {
+                    if (superClazz == PaymentExportList.class) {
+                    	PaymentExportList custom = (PaymentExportList)clazz.newInstance();
+        				no = custom.exportToFile(paySelectionChecks, fc.getSelectedFile(), error);
+        				break;
+                    }
+                    //	Get Super Class
+                    superClazz = superClazz.getSuperclass();
+                }
+            }
 		}
 		catch (ClassNotFoundException e)
 		{
