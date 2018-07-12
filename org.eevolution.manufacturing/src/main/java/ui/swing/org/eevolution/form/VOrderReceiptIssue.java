@@ -271,11 +271,11 @@ public class VOrderReceiptIssue extends OrderReceiptIssue implements FormPanel,
 		rejectQty.setValue(Env.ZERO);
 		// 4Layers - end
 		pickcombo.addItem(new KeyNamePair(1, Msg.parseTranslation(Env.getCtx(),
-				"@IsBackflush@")));
+				"@IsBackflush@").replaceAll("\n","")));
 		pickcombo.addItem(new KeyNamePair(2, Msg.parseTranslation(Env.getCtx(),
-				"@OnlyIssue@")));
+				"@OnlyIssue@").replaceAll("\n","")));
 		pickcombo.addItem(new KeyNamePair(3, Msg.parseTranslation(Env.getCtx(),
-				"@OnlyReceiptProduct@")));
+				"@OnlyReceiptProduct@").replaceAll("\n","")));
 		pickcombo.addActionListener(this);
 		Process.addActionListener(this);
 		toDeliverQty.addActionListener(this);
