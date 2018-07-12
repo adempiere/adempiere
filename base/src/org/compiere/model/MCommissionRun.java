@@ -370,7 +370,8 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 			pstmt.setInt(1, getAD_Client_ID());
 			pstmt.setTimestamp(2, getStartDate());
 			pstmt.setTimestamp(3, getEndDate());
-            if (commission.isTotallyPaid()){
+            if (commission.getDocBasisType().equals(MCommission.DOCBASISTYPE_Receipt)
+					&& commission.isTotallyPaid()){
             	// Last payment must be within commission period 
                 pstmt.setTimestamp(4, getStartDate());
                 pstmt.setTimestamp(5, getEndDate());
