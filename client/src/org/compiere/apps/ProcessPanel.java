@@ -349,18 +349,7 @@ public class ProcessPanel extends ProcessController
 	 */
 	public void afterInit() {
 		//	BR [ 265 ]
-		if (!hasParameters()) {
-			if (getShowHelp() != null 
-					&& getShowHelp().equals("N")) {
-				setAutoStart(true);    // don't ask first click
-				// anyway show resulting window
-			}
-		}
-		// Check if the process is a silent one
-		if(getShowHelp() != null 
-				&& getShowHelp().equals("S")) {
-			setAutoStart(true);
-		}
+		validateAutoStart();
 		//	
 		mainPanel.validate();
 		//	If is Auto Start
@@ -622,9 +611,10 @@ public class ProcessPanel extends ProcessController
 					if(saveOrUpdateParameters(saveName) == null) {
 						ProcessCtl.process(parent.getParentProcess(), getWindowNo(), this, getProcessInfo(), null);
 					}
-				}
-				if(parent.isEmbedded()) {
-					dispose();
+					//	
+					if(parent.isEmbedded()) {
+						dispose();
+					}
 				}
 			}
 			
@@ -758,6 +748,16 @@ public class ProcessPanel extends ProcessController
 			retValue = d.getReturnCode();
 		}
 		while (retValue == ADialogDialog.A_CANCEL);
+	}	//	printInvoices
+	
+	@Override
+	public String validateParameters() {
+		String validError = super.validateParameters();
+		if(validError != null) {
+			ADialog.error(getWindowNo(), getPanel(), "FillMandatory", validError);
+		}
+		//	
+		return validError;
 	}	//	printInvoices
 
 }	//	ProcessParameterPanel

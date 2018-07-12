@@ -56,6 +56,7 @@ public class ProcessDialog extends Window implements IZKProcessDialog {
      * @param isSOTrx
      */
 	public ProcessDialog (int processId, boolean isSOTrx) {
+		super();
 		log.info("Process=" + processId);
 		windowNo = SessionManager.getAppDesktop().registerWindow(this);
 		setAttribute(IDesktop.WINDOWNO_ATTRIBUTE, windowNo);
@@ -72,7 +73,6 @@ public class ProcessDialog extends Window implements IZKProcessDialog {
 	private ASyncProcess 	aSyncProcess;
 	private int 			windowNo;
 	private boolean 		valid = true;
-	private boolean 		autoStart;
 	private WProcessInfo 	processInfo;
 	
 	/**	Logger			*/
@@ -95,7 +95,6 @@ public class ProcessDialog extends Window implements IZKProcessDialog {
 		processInfo.setAD_User_ID (Env.getAD_User_ID(Env.getCtx()));
 		processInfo.setAD_Client_ID(Env.getAD_Client_ID(Env.getCtx()));
 		processPanel = new ProcessPanel(this, windowNo, processInfo, "70%");
-		processPanel.setAutoStart(autoStart);
 		//	BR[ 265 ]
 		processPanel.init();
 		appendChild(processPanel.getPanel());
@@ -153,5 +152,12 @@ public class ProcessDialog extends Window implements IZKProcessDialog {
 	@Override
 	public void runProcess() {
 		processPanel.runProcess();
+	}
+	
+	/**
+	 * Run it after init
+	 */
+	public void afterInit() {
+		processPanel.afterInit();
 	}
 }	//	ProcessDialog

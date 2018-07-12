@@ -2695,7 +2695,8 @@ public final class APanel extends CPanel
 					record_ID, startWOasking);
 			//	FR [ 265 ]
 			//	BR [ 323 ]
-			if(!startWOasking) {
+			if(!startWOasking
+					&& !dialog.isAutoStart()) {
 				dialog.validate();
 				dialog.pack();
 				AEnv.showCenterWindow(Env.getWindow(m_curWindowNo), dialog);

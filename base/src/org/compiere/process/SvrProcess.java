@@ -40,6 +40,7 @@ import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
+import org.compiere.util.Util;
 import org.eevolution.process.GenerateMovement;
 
 /**
@@ -210,7 +211,7 @@ public abstract class SvrProcess implements ProcessCall
 		StringBuffer errorMsg = new StringBuffer();
 		//	Loop over parameter, find a mandatory parameter
 		for(MProcessPara parameter : parameters) {
-			if(parameter.isMandatory() && parameter.isActive()) {
+			if(parameter.isMandatory() && parameter.isActive() && Util.isEmpty(parameter.getDisplayLogic())) {
 				ProcessInfoParameter infoParameter = getInfoParameter(parameter.getColumnName());
 				if(infoParameter == null
 						|| infoParameter.getParameter() == null

@@ -116,7 +116,7 @@ public class DBObject_Sequence implements DBObjectInterface {
 	 */
 	public void loadContents(HashMap<Integer, DBObjectDefinition> contentMap, Parameters parameters, MigrateLogger logger, DBEngine dbEngine, DBConnection parent, String name, HashMap<Integer, DBObjectDefinition> headerMap, PreparedStatementWrapper statement) {
 
-		String sql = dbEngine.sqlMetadata_sequenceDefinitions(parent.getVendor(), parent.getCatalog(), parent.getSchema(), name);
+		String sql = dbEngine.sqlMetadata_sequenceDefinitions( parent.getVendor(), parent.getProductVersion() , parent.getCatalog(), parent.getSchema(), name);
 		Statement stmt = parent.setStatement();
 		ResultSet rs = parent.executeQuery(stmt, sql);
 		int counter=0;
