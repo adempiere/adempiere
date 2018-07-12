@@ -14,6 +14,7 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
+import org.compiere.util.Util;
 import org.eevolution.service.dsl.ProcessBuilder;
 
 public class MigrationLoader {
@@ -25,11 +26,24 @@ public class MigrationLoader {
 	public static void main(String[] args) {
 		
 		boolean clean_arg = false;
+		boolean force_arg = false;
 		// If called with the argument "clean", the loader will apply any
 		// outstanding migrations, mark ALL applied dictionary migrations as processed
 		// and delete all the steps and data to save space.
-		if (args.length > 0)
-		 clean_arg = args[0].equals("clean");
+		//	Get Parameters
+		if(args != null) {
+			for(String arg : args) {
+				if(Util.isEmpty(arg)) {
+					continue;
+				}
+				//	
+				if(arg.equals("clean")) {
+					clean_arg = true;
+				} else if(arg.equals("force")) {
+					force_arg = true;
+				}
+ 			}
+		}
 		
 		Adempiere.startupEnvironment(false);
 		CLogMgt.setLevel(Level.CONFIG);
@@ -60,6 +74,7 @@ public class MigrationLoader {
 			.withParameter("FailOnError",failOnError)
 			.withParameter(MigrationFromXML.FILEPATHORNAME, fileName)
 			.withParameter(MigrationFromXML.APPLY, apply)
+			.withParameter(MigrationFromXML.ISFORCE, force_arg)
 			.withParameter("Clean", clean)
 			.execute();
 
