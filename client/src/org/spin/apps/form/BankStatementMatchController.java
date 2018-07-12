@@ -671,7 +671,8 @@ public class BankStatementMatchController {
 		if(importedPayment != null
 				&& currentPayment != null) {
 			//	Validate amount
-			if(currentPayment.getPayAmt().doubleValue() == importedPayment.getTrxAmt().doubleValue()) {
+			if(currentPayment.getPayAmt().doubleValue() == importedPayment.getTrxAmt().doubleValue()
+					&& currentPayment.getC_Currency_ID() == importedPayment.getC_Currency_ID()) {
 				importedPayment.setC_Payment_ID(paymentId);
 				matchedPaymentHashMap.put(paymentId, importedPayment);
 				processed = true;
