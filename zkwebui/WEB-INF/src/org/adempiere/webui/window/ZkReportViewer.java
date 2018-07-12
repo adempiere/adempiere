@@ -1213,7 +1213,9 @@ public class ZkReportViewer extends Window implements EventListener {
 				return;
 			}
 		} else {
-            FindWindow find = new FindWindow(m_WindowNo, title, AD_Table_ID, tableName,"", findFields, 1, AD_Tab_ID);
+			String whereExtended = "";
+			whereExtended = m_reportEngine.getWhereExtended();
+            FindWindow find = new FindWindow(m_WindowNo, title, AD_Table_ID, tableName,whereExtended, findFields, 1, AD_Tab_ID);
             if (!find.isCancel())
             {
             	m_reportEngine.setQuery(find.getQuery());
