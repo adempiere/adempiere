@@ -374,6 +374,8 @@ public class VBankStatementMatch extends BankStatementMatchController
 		setMatchMode(matchMode.getSelectedIndex());
 		//	
 		chageLayout();
+		//	
+		setHasSelection(false);
 	}
 	
 	/**
