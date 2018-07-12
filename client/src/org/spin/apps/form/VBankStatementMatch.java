@@ -470,7 +470,9 @@ public class VBankStatementMatch extends BankStatementMatchController
 		matchedPaymentTable.setModel(model);
 		// 
 		configureMatchedPaymentTable(matchedPaymentTable);
-		matchedPaymentTable.clearSelection();
+//		for (int row = 0; row < matchedPaymentTable.getRowCount(); row++) {
+//			matchedPaymentTable.setRowChecked(row, false);
+//		}
 		//	
 	}
 	
@@ -480,6 +482,10 @@ public class VBankStatementMatch extends BankStatementMatchController
 	 *  @param e event
 	 */
 	public void tableChanged(TableModelEvent e) {
+		if (e.getColumn() != 0)
+			return;
+		log.config("Row=" + e.getFirstRow() + "-" + e.getLastRow() + ", Col=" + e.getColumn()
+			+ ", Type=" + e.getType());
 		boolean isUpdate = (e.getType() == TableModelEvent.UPDATE);
 		int row = e.getFirstRow();
 		//  Not a table update
@@ -519,7 +525,6 @@ public class VBankStatementMatch extends BankStatementMatchController
 		}
 		//	Validate screen
 		if(isMatched) {
-			clearSelection();
 			loadMatchedPaymentsFromMatch();
 		}
 	}   //  tableChanged
@@ -565,14 +570,6 @@ public class VBankStatementMatch extends BankStatementMatchController
 		//	change button
 		simulateMatchButton.setText(getButtonMatchMessage(deleteAllocation));
 		simulateMatchButton.setToolTipText(getButtonMatchMessage(deleteAllocation));
-	}
-	
-	/**
-	 * CLear table selection for payments and imported payments
-	 */
-	private void clearSelection() {
-//		currentPaymentTable.setRowSelectionInterval(0, 0);
-//		importedPaymentTable.setRowSelectionInterval(0, 0);
 	}
 	
 	/**

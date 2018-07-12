@@ -680,7 +680,32 @@ public class BankStatementMatchController {
 			resetManualMatch();
 		}
 		//	
+		if(processed) {
+			deleteOldMatchedImportedPayment(paymentId, bankStatementId);
+		}
+		//	
 		return processed;
+	}
+	
+	/**
+	 * Delete Old Imported
+	 * @param paymentId
+	 * @param importedPaymentId
+	 */
+	private void deleteOldMatchedImportedPayment(int paymentId, int importedPaymentId) {
+		int oldpaymentId = 0;
+		for(Map.Entry<Integer, X_I_BankStatement> entry : matchedPaymentHashMap.entrySet()) {
+			X_I_BankStatement currentPayment = entry.getValue();
+			if(currentPayment.getI_BankStatement_ID() == importedPaymentId) {
+				oldpaymentId = entry.getKey();
+				break;
+			}
+		}
+		//	Validate
+		if(oldpaymentId > 0
+				&& paymentId != oldpaymentId) {
+			matchedPaymentHashMap.remove(oldpaymentId);
+		}
 	}
 	
 	/**
@@ -832,13 +857,22 @@ public class BankStatementMatchController {
 				row.add(matched.getReferenceNo());
 				//	Add Memo
 				row.add(matched.getMemo());
-				//	
-				key.setSelected(false);
 				data.add(row);
 			}
 		}
 		//	
 		return data;
+	}
+	
+	/**
+	 * Clear selection
+	 * @param table
+	 */
+	public void clearSelection(IMiniTable table) {
+		for (int row = 0; row < table.getRowCount(); row++) {
+			IDColumn id = (IDColumn) table.getValueAt(row, 0);
+			id.setSelected(false);
+		}
 	}
 	
 	
