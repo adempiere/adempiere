@@ -2626,6 +2626,7 @@ public class DBEngine {
 	/**
 	 * gets the database specific SQL command to find sequence definitions
 	 * @param vendorName the database vendor
+	 * @param productVersion the product version
 	 * @param catalogName the catalog to use
 	 * @param schemaName the schema to use
 	 * @param sequenceName the sequence to use
@@ -2640,8 +2641,8 @@ public class DBEngine {
 	 * <tr><td><code>LAST_VALUE</code></td><td>last used value</td></tr>
 	 * </table>
 	 */
-	public String sqlMetadata_sequenceDefinitions (String vendorName, String catalogName, String schemaName, String sequenceName) {
-		return m_interfaces.get(getDBVendorID(vendorName)).sqlMetadata_sequenceDefinitions(catalogName, schemaName, sequenceName);
+	public String sqlMetadata_sequenceDefinitions (String vendorName, String productVersion , String catalogName, String schemaName, String sequenceName) {
+		return m_interfaces.get(getDBVendorID(vendorName)).sqlMetadata_sequenceDefinitions(productVersion , catalogName, schemaName, sequenceName);
 	}
 
 	/**
