@@ -70,9 +70,10 @@ public class MCampaign extends X_C_Campaign
 	 * Get/Load Activity [CACHED]
 	 * @param ctx context
 	 * @param campaignId
+	 * @param trxName
 	 * @return activity or null
 	 */
-	public static MCampaign getById(Properties ctx, int campaignId) {
+	public static MCampaign getById(Properties ctx, int campaignId, String trxName) {
 		if (campaignId <= 0)
 			return null;
 
@@ -80,7 +81,7 @@ public class MCampaign extends X_C_Campaign
 		if (campaign != null && campaign.get_ID() > 0)
 			return campaign;
 
-		campaign = new Query(ctx , Table_Name , COLUMNNAME_C_Campaign_ID + "=?" , null)
+		campaign = new Query(ctx , Table_Name , COLUMNNAME_C_Campaign_ID + "=?" , trxName)
 				.setClient_ID()
 				.setParameters(campaignId)
 				.first();
@@ -98,9 +99,10 @@ public class MCampaign extends X_C_Campaign
 	 * get Activity By Value [CACHED]
 	 * @param ctx
 	 * @param campaignValue
+	 * @param trxName
 	 * @return
 	 */
-	public static MCampaign getByValue(Properties ctx , String campaignValue) {
+	public static MCampaign getByValue(Properties ctx, String campaignValue, String trxName) {
 		if (campaignValue == null)
 			return null;
 		if (campaignCacheValues.size() == 0 )
@@ -112,7 +114,7 @@ public class MCampaign extends X_C_Campaign
 		if (campaign != null && campaign.get_ID() > 0 )
 			return campaign;
 
-		campaign =  new Query(ctx, Table_Name , COLUMNNAME_Value +  "=?", null)
+		campaign =  new Query(ctx, Table_Name , COLUMNNAME_Value +  "=?", trxName)
 				.setClient_ID()
 				.setParameters(campaignValue)
 				.first();
