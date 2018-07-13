@@ -230,7 +230,7 @@ public abstract class PaymentExportList implements PaymentExport {
 		}
 		//	Get any bp account
 		if(defaultWhenNull) {
-			List<MBPBankAccount> bpAccountList = MBPBankAccount.getByPartner(check.getCtx(), check.getC_BP_BankAccount_ID());
+			List<MBPBankAccount> bpAccountList = MBPBankAccount.getByPartner(check.getCtx(), check.getC_BPartner_ID());
 			if(bpAccountList == null
 					|| bpAccountList.size() == 0) {
 				return null;
