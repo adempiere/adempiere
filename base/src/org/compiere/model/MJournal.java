@@ -450,8 +450,8 @@ public class MJournal extends X_GL_Journal implements DocAction
 		}
 		
 		//	Add up Amounts
-		BigDecimal amtAcctDr = Env.ZERO;
-		BigDecimal amtAcctCr = Env.ZERO;
+		BigDecimal AmtSourceDr = Env.ZERO;
+		BigDecimal AmtSourceCr = Env.ZERO;
 		for (int i = 0; i < lines.length; i++)
 		{
 			MJournalLine line = lines[i];
@@ -502,11 +502,11 @@ public class MJournal extends X_GL_Journal implements DocAction
 			}
 			// end BF [2789319] No check of Actual, Budget, Statistical attribute
 			
-			amtAcctDr = amtAcctDr.add(line.getAmtAcctDr());
-			amtAcctCr = amtAcctCr.add(line.getAmtAcctCr());
+			AmtSourceDr = AmtSourceDr.add(line.getAmtSourceDr());
+			AmtSourceCr = AmtSourceCr.add(line.getAmtSourceCr());
 		}
-		setTotalDr(amtAcctDr);
-		setTotalCr(amtAcctCr);
+		setTotalDr(AmtSourceDr);
+		setTotalCr(AmtSourceCr);
 
 		//	Control Amount
 		if (Env.ZERO.compareTo(getControlAmt()) != 0
@@ -517,7 +517,7 @@ public class MJournal extends X_GL_Journal implements DocAction
 		}
 		
 		//	Unbalanced Jornal & Not Suspense
-		if (amtAcctDr.compareTo(amtAcctCr) != 0)
+		if (AmtSourceDr.compareTo(AmtSourceCr) != 0)
 		{
 			MAcctSchemaGL gl = MAcctSchemaGL.get(getCtx(), getC_AcctSchema_ID());
 			if (gl == null || !gl.isUseSuspenseBalancing())
