@@ -558,12 +558,6 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 		//	
 		MCommissionLine[] commissionLines = commission.getLines();
 		List<Integer> salesRegion;
-		String sqlAppend = "";
-		if (commission.isTotallyPaid()) 
-        	// Last payment must be within commission period 
-			sqlAppend = " AND (p.DateTrx <? or  p.DateTrx <?) AND maxPayDate(h.c_Invoice_ID) between ? AND ? ";
-		else 
-			sqlAppend = " AND p.DateTrx BETWEEN ? AND ? ";
 		
 		m_comissionLog.append("<h4>" + "Processing Commission line" + "</h4>");
 		for (MCommissionLine commissionLine : commissionLines) {
@@ -581,7 +575,14 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 			//
 			StringBuffer sql = new StringBuffer();
 			if (MCommission.DOCBASISTYPE_Receipt.equals(commission.getDocBasisType()))
-			{			
+			{		
+				String sqlAppend = "";
+				if (commission.isTotallyPaid()) 
+		        	// Last payment must be within commission period 
+					sqlAppend = " AND (p.DateTrx <? or  p.DateTrx <?) AND maxPayDate(h.c_Invoice_ID) between ? AND ? ";
+				else 
+					sqlAppend = " AND p.DateTrx BETWEEN ? AND ? ";
+				
 				if (commission.isListDetails())
 				{
 					//	the view must be change
