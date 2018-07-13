@@ -88,8 +88,6 @@ public class BankStatementMatchController {
 	private Timestamp dateTo = null;
 	/** Business Partner	*/
 	private int bpartnerId = 0;
-	/**	Import Matched	*/
-	private boolean isImportMatched = false;
 	/** Matched	*/
 	private int matchMode = -1;
 	/**	Current Selected Payment	*/
@@ -446,6 +444,10 @@ public class BankStatementMatchController {
 				+ "LEFT JOIN C_Currency c ON(c.C_Currency_ID = p.C_Currency_ID) ");
 		//	Where Clause
 		sql.append("WHERE p.C_BankAccount_ID = ? ");
+		if(bankStatement == null
+				|| (!bankStatement.isProcessed() && !isMatchedMode())) {
+			sql.append("AND p.I_IsImported = 'N' ");
+		}
 		//	Match
 		if(isMatchedMode()) {
 			sql.append("AND (p.C_Payment_ID IS NOT NULL OR p.C_BPartner_ID IS NOT NULL OR p.C_Invoice_ID IS NOT NULL) ");
@@ -698,7 +700,9 @@ public class BankStatementMatchController {
 			X_I_BankStatement currentPayment = entry.getValue();
 			if(currentPayment.getI_BankStatement_ID() == importedPaymentId) {
 				oldpaymentId = entry.getKey();
-				break;
+				if(oldpaymentId != paymentId) {
+					break;
+				}
 			}
 		}
 		//	Validate
@@ -889,23 +893,39 @@ public class BankStatementMatchController {
 		if(defaultChargeId <= 0) {
 			return Msg.parseTranslation(Env.getCtx(), "@C_Charge_ID@ @NotFound@");
 		}
-		setImportMatched(isFromStatement());
 		//	
-		for(Map.Entry<Integer, X_I_BankStatement> entry : matchedPaymentHashMap.entrySet()) {
-			X_I_BankStatement currentpayment = entry.getValue();
+		for(Vector<Object> row : paymentData) {
+			IDColumn key = (IDColumn) row.get(0);	
+			X_I_BankStatement currentBankStatementImport = matchedPaymentHashMap.get(key.getRecord_ID());
 			//	Validate if it have a change
-			if(!currentpayment.is_Changed()) {
+			if(currentBankStatementImport == null
+					|| !currentBankStatementImport.is_Changed()) {
 				continue;
 			}
+			//	Set trx
+			currentBankStatementImport.set_TrxName(trxName);
 			//	Save It
-			currentpayment.saveEx();
-			if(isImportMatched()) {
-				if(currentpayment.getC_Payment_ID() <= 0
-						&& currentpayment.getC_Charge_ID() <= 0) {
-					currentpayment.setC_Charge_ID(defaultChargeId);
+			currentBankStatementImport.saveEx();
+			//	For Bank Statement
+			if(bankStatement != null
+					&& !bankStatement.isProcessed()) {
+				if(!isMatchedMode()) {
+					if(currentBankStatementImport.getC_Payment_ID() <= 0
+							&& currentBankStatementImport.getC_Charge_ID() <= 0) {
+						currentBankStatementImport.setC_Charge_ID(defaultChargeId);
+					}
+					importMatched(currentBankStatementImport, lineNo);
+					lineNo += 10;
+				} else if(currentBankStatementImport.getC_BankStatementLine_ID() > 0) {
+					MBankStatementLine lineToDelete = new MBankStatementLine(Env.getCtx(), currentBankStatementImport.getC_BankStatementLine_ID(), trxName);
+					lineToDelete.deleteEx(true);
+					//	Change Imported
+					currentBankStatementImport.setC_BankStatement_ID(-1);
+					currentBankStatementImport.setC_BankStatementLine_ID(-1);
+					currentBankStatementImport.setI_IsImported(false);
+					currentBankStatementImport.setProcessed(false);
+					currentBankStatementImport.saveEx();
 				}
-				importMatched(currentpayment, lineNo);
-				lineNo += 10;
 			}
 			processed++;
 		}
@@ -1011,14 +1031,6 @@ public class BankStatementMatchController {
 
 	public void setMatchMode(int matchMode) {
 		this.matchMode = matchMode;
-	}
-
-	public boolean isImportMatched() {
-		return isImportMatched;
-	}
-
-	public void setImportMatched(boolean importMatched) {
-		this.isImportMatched = importMatched;
 	}
 	
 	public int getBankAccountId() {
