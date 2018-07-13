@@ -1537,7 +1537,7 @@ public class MInvoice extends X_C_Invoice implements DocAction , DocumentReversa
 
 					//	Calculate Tax
 					if (documentLevel || taxAmt.get().signum() == 0)
-						taxAmt.set(taxParent.calculateTax(taxBaseAmt.get(), isTaxIncluded(), getPrecision()));
+						taxAmt.set(taxChild.calculateTax(taxBaseAmt.get(), isTaxIncluded(), getPrecision()));
 
 					MInvoiceTax newITax = new MInvoiceTax(getCtx(), 0, get_TrxName());
 					newITax.setClientOrg(this);
