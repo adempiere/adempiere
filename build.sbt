@@ -52,7 +52,7 @@ test in assembly := {}
 assemblyOption in assembly := (assemblyOption in assembly).value.copy(includeScala = true, includeDependency =false)
 
 val sourceDirectoryTest = "org.adempiere.test"
-val sourceAdempiere = "/Users/e-Evolution/Develop/ADempiere/390a"
+val sourceAdempiere = "/Users/e-Evolution/Develop/ADempiere/391"
 
 //javaSource in Compile := baseDirectory.value  / sourceDirectoryTest / "src" / "main" / "java"
 //javaSource in Test := baseDirectory.value  / sourceDirectoryTest / "src" / "test" / "java"

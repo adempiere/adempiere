@@ -51,3 +51,4 @@ migration/postgresql.properties
 /packages/
 /posterita/
 /zkpackages/
+/org.compiere.mobile/
