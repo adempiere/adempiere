@@ -319,7 +319,9 @@ public class VBankStatementMatch extends BankStatementMatchController
 		log.config("");
 		if(e.getSource().equals(searchButton)) {
 			log.config("search");
+			mainPanel.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			refresh();
+			mainPanel.setCursor(Cursor.getDefaultCursor());
 		} else if(e.getSource().equals(simulateMatchButton)) {
 			mainPanel.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			if(!isHasSelection()) {
@@ -376,6 +378,7 @@ public class VBankStatementMatch extends BankStatementMatchController
 		chageLayout();
 		//	
 		setHasSelection(false);
+		statusBar.setStatusLine("");
 	}
 	
 	/**
@@ -470,9 +473,6 @@ public class VBankStatementMatch extends BankStatementMatchController
 		matchedPaymentTable.setModel(model);
 		// 
 		configureMatchedPaymentTable(matchedPaymentTable);
-//		for (int row = 0; row < matchedPaymentTable.getRowCount(); row++) {
-//			matchedPaymentTable.setRowChecked(row, false);
-//		}
 		//	
 	}
 	
