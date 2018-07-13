@@ -281,6 +281,33 @@
 			<zipfileset src="lib/iText-2.1.7.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
+			<zipfileset src="lib/icepdf-core-6.2.2.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/icepdf-viewer-6.2.2.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/itextpdf-5.5.2.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/pdfa-7.1.1.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/harness-1.0.0.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/itext-carriage-0.8.0.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/io-7.1.1.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/javax.inject-1.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/kernel-7.1.1.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
 			<!-- JFreeChart			-->
 			<zipfileset src="lib/jfreechart-1.0.15.jar">
 				<patternset refid="manifest.exclude" />
@@ -463,10 +490,37 @@
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- PDF -->
-			<zipfileset src="lib/jpedal.jar">
+ 			<zipfileset src="lib/jpedal.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<zipfileset src="lib/iText-2.1.7.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/icepdf-core-6.2.2.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/icepdf-viewer-6.2.2.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/itextpdf-5.5.2.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/pdfa-7.1.1.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/harness-1.0.0.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/itext-carriage-0.8.0.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/io-7.1.1.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/javax.inject-1.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/kernel-7.1.1.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<zipfileset src="lib/swingx-1.6.jar">
