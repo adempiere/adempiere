@@ -715,6 +715,7 @@ public class MHRMovement extends X_HR_Movement
 		setHR_EmployeeType_ID(employee.getHR_EmployeeType_ID());
 		setHR_SkillType_ID(employee.getHR_SkillType_ID());
 		setHR_Payroll_ID(employee.getHR_Payroll_ID());
+		setC_Project_ID(employee.getC_Project_ID());
 		if (employee.getHR_Payroll_ID() > 0)
 			setHR_Contract_ID(employee.getHR_Payroll().getHR_Contract_ID());
 	}
