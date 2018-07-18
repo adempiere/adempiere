@@ -1501,7 +1501,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 		if (!keyColumn.endsWith("_ID"))
 			keyColumn += "_ID";			//	AD_Language_ID
 		int tableId = m_vo.AD_Table_ID;
-		if (!MRole.getDefault(m_vo.ctx, false).canUpdate(
+		if (MRole.getDefault(m_vo.ctx, false).canUpdate(
 			clientId, orgId, tableId, 0, false))
 			return false;
 		//	Default

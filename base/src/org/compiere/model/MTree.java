@@ -321,7 +321,7 @@ public class MTree extends X_AD_Tree
 	//	Yamel Senih [ 9223372036854775807 ]
 	//	Change by Table Identifier
 	public static String getNodeTableName(int tableId) {
-		String	nodeTableName = "AD_TreeNode";
+		String	nodeTableName = tableId == 0? null: "AD_TreeNode";
 		if (X_AD_Menu.Table_ID == tableId)
 			nodeTableName += "MM";
 		else if  (X_C_BPartner.Table_ID == tableId)
@@ -471,7 +471,7 @@ public class MTree extends X_AD_Tree
 		s_TableIDs_U3 = new ArrayList<Integer>();
 		s_TableIDs_U4 = new ArrayList<Integer>();
 		//	
-		boolean withTable = M_Element.get(Env.getCtx(), I_AD_Tree.COLUMNNAME_AD_Table_ID) != null;
+		boolean withTable = MColumn.getColumn_ID(I_AD_Tree.Table_Name, I_AD_Tree.COLUMNNAME_AD_Table_ID) > 0;
 		if(!withTable) {
 			return;
 		}
