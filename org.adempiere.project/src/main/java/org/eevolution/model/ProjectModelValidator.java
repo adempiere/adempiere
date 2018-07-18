@@ -17,6 +17,7 @@
 package org.eevolution.model;
 
 import org.compiere.model.MClient;
+import org.compiere.model.MConversionRate;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MInvoiceLine;
 import org.compiere.model.MOrder;
@@ -27,6 +28,8 @@ import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.ModelValidator;
 import org.compiere.model.PO;
 import org.compiere.util.Env;
+
+import java.math.BigDecimal;
 
 /**
  * Project Model Validator
@@ -110,22 +113,33 @@ public class ProjectModelValidator implements ModelValidator {
         //Update Project Balance When Payment is receipt increase project balance when payment is not receipt decrease project balance
         if (MPayment.Table_ID == entity.get_Table_ID() && entity.get_ValueAsInt(MProject.COLUMNNAME_C_Project_ID) > 0) {
             MPayment payment = (MPayment) entity;
+            MProject project = (MProject) payment.getC_Project();
+            BigDecimal paymentAmount = payment.getPayAmt();
+            if (payment.getC_Currency_ID() != project.getC_Currency_ID()) {
+                paymentAmount = MConversionRate.convert(
+                        entity.getCtx(),
+                        paymentAmount,
+                        project.getC_Currency_ID(),
+                        payment.getC_Currency_ID(),
+                        payment.getDateAcct(),
+                        payment.getC_ConversionType_ID(),
+                        getAD_Client_ID(),
+                        payment.getAD_Org_ID());
+            }
             // get payment with project link
             if (ModelValidator.TIMING_AFTER_COMPLETE == timing && payment.getReversal_ID() <= 0) {
-                MProject project = (MProject) payment.getC_Project();
                 if (payment.isReceipt())
-                    project.setProjectBalanceAmt(project.getProjectBalanceAmt().add(payment.getPayAmt()));
+                    project.setProjectBalanceAmt(project.getProjectBalanceAmt().add(paymentAmount));
                 else
-                    project.setProjectBalanceAmt(project.getProjectBalanceAmt().subtract(payment.getPayAmt()));
+                    project.setProjectBalanceAmt(project.getProjectBalanceAmt().subtract(paymentAmount));
 
                 project.saveEx();
             }
             if (payment.getReversal_ID() > 0 && (ModelValidator.TIMING_AFTER_REVERSECORRECT == timing || ModelValidator.TIMING_AFTER_REVERSEACCRUAL == timing)) {
-                MProject project = (MProject) payment.getC_Project();
                 if (payment.isReceipt())
-                    project.setProjectBalanceAmt(project.getProjectBalanceAmt().subtract(payment.getPayAmt()));
+                    project.setProjectBalanceAmt(project.getProjectBalanceAmt().subtract(paymentAmount));
                 else
-                    project.setProjectBalanceAmt(project.getProjectBalanceAmt().add(payment.getPayAmt()));
+                    project.setProjectBalanceAmt(project.getProjectBalanceAmt().add(paymentAmount));
 
                 project.saveEx();
             }
