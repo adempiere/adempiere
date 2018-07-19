@@ -412,6 +412,13 @@ public class Parameters {
 	 */
 	private static String param_sourceDB_systemPasswd = null;
 
+	/**
+	 * Source database product version
+	 * <p>
+	 * Product Version of the source database<br>
+	 */
+	private static String param_sourceDB_productVersion = null;
+
 	
 	// Target Database Settings
 
@@ -488,6 +495,14 @@ public class Parameters {
 	 * (Some databases require a system user for certain operations)<br>
 	 */
 	private static String param_targetDB_systemPasswd = null;
+
+
+	/**
+	 * Target database product version
+	 * <p>
+	 * Product Version of the target database<br>
+	 */
+	private static String param_targetDB_productVersion = null;
 
 	
 	// Constants for determining Direction
@@ -569,6 +584,7 @@ public class Parameters {
 		setOptimizeDatabase(s_defaultOptimizeDatabase);
 		
 		setTargetVendor(null);
+		setTargetProductVersion(null);
 		setTargetHost(null);
 		setTargetPort(null);
 		setTargetName(null);
@@ -580,6 +596,7 @@ public class Parameters {
 		setTargetSystemPasswd(null);
 
 		setSourceVendor(null);
+		setSourceProductVersion(null);
 		setSourceHost(null);
 		setSourcePort(null);
 		setSourceName(null);
@@ -868,6 +885,8 @@ public class Parameters {
 			setOptimizeDatabase(stringToBoolean(value));
 		} else if (key.equalsIgnoreCase("param_sourceDB_vendor")) {
 			setSourceVendor(value);
+		} else if (key.equalsIgnoreCase("param_sourceDB_productVersion")) {
+			setSourceProductVersion(value);
 		} else if (key.equalsIgnoreCase("param_sourceDB_host")) {
 			setSourceHost(value);
 		} else if (key.equalsIgnoreCase("param_sourceDB_port")) {
@@ -888,6 +907,8 @@ public class Parameters {
 			setSourceSystemPasswd(value);
 		} else if (key.equalsIgnoreCase("param_targetDB_vendor")) {
 			setTargetVendor(value);
+		} else if (key.equalsIgnoreCase("param_targetDB_productVersion")) {
+			setTargetProductVersion(value);
 		} else if (key.equalsIgnoreCase("param_targetDB_host")) {
 			setTargetHost(value);
 		} else if (key.equalsIgnoreCase("param_targetDB_port")) {
@@ -1216,6 +1237,27 @@ public class Parameters {
 	}
 
 	/**
+	 * @return the source database product version
+	 * @see #param_sourceDB_productVersion
+	 */
+	public static String getSourceProductVersion() {
+
+		// if source product version is not defined, default to target product version
+		if (param_sourceDB_productVersion==null || param_sourceDB_productVersion.length()==0)
+			param_sourceDB_productVersion = getTargetProductVersion();
+
+		return param_sourceDB_productVersion;
+	}
+
+	/**
+	 * @param sourceProductVersion the source database product version
+	 * @see #param_sourceDB_productVersion
+	 */
+	public static void setSourceProductVersion(String sourceProductVersion) {
+		param_sourceDB_productVersion = sourceProductVersion;
+	}
+
+	/**
 	 * @return the source database host
 	 * @see #param_sourceDB_host
 	 */
@@ -1461,6 +1503,28 @@ public class Parameters {
 	 */
 	public static void setTargetVendor(String targetVendor) {
 		param_targetDB_vendor = targetVendor;
+	}
+
+
+	/**
+	 * @return the target database vendor
+	 * @see #param_targetDB_productVersion
+	 */
+	public static String getTargetProductVersion() {
+
+		// if target product version is not defined, default to source product version
+		if (param_targetDB_productVersion==null || param_targetDB_productVersion.length()==0)
+			param_targetDB_productVersion = getSourceProductVersion();
+
+		return param_targetDB_productVersion;
+	}
+
+	/**
+	 * @param targetProductVersion the target database product version
+	 * @see #param_targetDB_productVersion
+	 */
+	public static void setTargetProductVersion(String targetProductVersion) {
+		param_targetDB_productVersion = targetProductVersion;
 	}
 
 	/**

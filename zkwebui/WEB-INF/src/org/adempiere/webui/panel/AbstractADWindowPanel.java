@@ -1833,7 +1833,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 					infoName, infoDisplay);
 		}
 
-		new WReport (currentTab.getAD_Table_ID(), query, toolbar.getEvent().getTarget(), curWindowNo);
+		new WReport (currentTab.getAD_Table_ID(), query, toolbar.getEvent().getTarget(), curWindowNo , currentTab.getWhereExtended());
 
 	}
 

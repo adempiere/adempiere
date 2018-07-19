@@ -1913,9 +1913,20 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 	 * @param conceptValue concept key(value)
 	 * @param period search is done by the period value, it helps to search from previous years
 	 */
-	public double getConcept (String conceptValue, int period)
-	{
-		return getConcept(conceptValue, null, period,period);
+	public double getConcept (String conceptValue, int period) {
+		return getConcept(conceptValue, null, period,period, true);
+	} // getConcept
+	
+	/**
+	 * Helper Method : Concept for a period.
+	 * Periods with values of 0 -1 1, etc. actual previous one period, next period
+	 * 0 corresponds to actual period.
+	 * @param conceptValue concept key(value)
+	 * @param period search is done by the period value, it helps to search from previous years
+	 * @param includeInProcess
+	 */
+	public double getConcept (String conceptValue, int period, boolean includeInProcess) {
+		return getConcept(conceptValue, null, period,period, includeInProcess);
 	} // getConcept
 
 
@@ -1927,9 +1938,21 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 	 * @param periodFrom the search is done by the period value, it helps to search from previous years
 	 * @param periodTo
 	 */
-	public double getConcept (String conceptValue, int periodFrom, int periodTo)
-	{
-		return getConcept(conceptValue, null, periodFrom,periodTo);
+	public double getConcept (String conceptValue, int periodFrom, int periodTo) {
+		return getConcept(conceptValue, null, periodFrom,periodTo, true);
+	} // getConcept
+	
+	/**
+	 * Helper Method : Concept for a range from-to in periods.
+	 * Periods with values of 0 -1 1, etc. actual previous one period, next period
+	 * 0 corresponds to actual period.
+	 * @param conceptValue concept key(value)
+	 * @param periodFrom the search is done by the period value, it helps to search from previous years
+	 * @param periodTo
+	 * @param includeInProcess
+	 */
+	public double getConcept (String conceptValue, int periodFrom, int periodTo, boolean includeInProcess) {
+		return getConcept(conceptValue, null, periodFrom,periodTo, includeInProcess);
 	} // getConcept
 
 	/**
@@ -1939,9 +1962,23 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 	 *  @param conceptValue
 	 *  @param payrollValue is the value of the payroll.
 	 *  @param periodFrom
-	 *  @param periodTo the search is done by the period value, it helps to search from previous years
+	 *  @param periodTo the search is done by the period value, it helps to search from previous years\
 	 */
 	public double getConcept(String conceptValue, String payrollValue,int periodFrom, int periodTo) {
+		return getConcept(conceptValue, payrollValue, periodFrom, periodTo, true);
+	}
+	
+	/**
+	 *  Helper Method : Concept by range from-to in periods from a different payroll
+	 *  periods with values 0 -1 1, etc. actual previous one period, next period
+	 *  0 corresponds to actual period
+	 *  @param conceptValue
+	 *  @param payrollValue is the value of the payroll.
+	 *  @param periodFrom
+	 *  @param periodTo the search is done by the period value, it helps to search from previous years
+	 *  @param includeInProcess
+	 */
+	public double getConcept(String conceptValue, String payrollValue,int periodFrom, int periodTo, boolean includeInProcess) {
 		int payrollId;
 		if (payrollValue == null) {
 			payrollId = getHR_Payroll_ID();
@@ -1954,7 +1991,7 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 		}
 		//	Get from Movement helper method
 		return MHRMovement.getConceptSum(getCtx(), conceptValue, payrollId, 
-				partnerId, getHR_Period_ID(), periodFrom, periodTo);
+				partnerId, getHR_Period_ID(), periodFrom, periodTo, includeInProcess);
 	} // getConcept
 
 	/**
@@ -1967,6 +2004,20 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 	 *  @param periodTo the search is done by the period value, it helps to search from previous years
 	 */
 	public double getConceptAvg(String conceptValue, String payrollValue,int periodFrom, int periodTo) {
+		return getConceptAvg(conceptValue, payrollValue, periodFrom, periodTo, true);
+	}
+	
+	/**
+	 *  Helper Method : Concept Average by range from-to in periods from a different payroll
+	 *  periods with values 0 -1 1, etc. actual previous one period, next period
+	 *  0 corresponds to actual period
+	 *  @param conceptValue
+	 *  @param payrollValue is the value of the payroll.
+	 *  @param periodFrom
+	 *  @param periodTo the search is done by the period value, it helps to search from previous years
+	 *  @param includeInProcess
+	 */
+	public double getConceptAvg(String conceptValue, String payrollValue,int periodFrom, int periodTo, boolean includeInProcess) {
 		int payrollId;
 		if (payrollValue == null) {
 			payrollId = getHR_Payroll_ID();
@@ -1979,7 +2030,7 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 		}
 		//	Get from Movement helper method
 		return MHRMovement.getConceptAvg(getCtx(), conceptValue, payrollId, 
-				partnerId, getHR_Period_ID(), periodFrom, periodTo);
+				partnerId, getHR_Period_ID(), periodFrom, periodTo, includeInProcess);
 	} // getConcept
 	
 	/**
@@ -2140,16 +2191,28 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 	{
 		return getConcept(conceptValue, null , from , to);
 	}
-
-
+	
 	/**
-	 * Helper Method: gets Concept value of a payrroll between 2 dates
+	 * Helper Method: gets Concept value of a payroll between 2 dates
 	 * @param conceptValue
 	 * @param payrollValue
 	 * @param from
 	 * @param to
-	 * */
+	 * @return
+	 */
 	public double getConcept (String conceptValue, String payrollValue,Timestamp from,Timestamp to) {
+		return getConcept(conceptValue, payrollValue, from, to, true);
+	}
+	
+	/**
+	 * Helper Method: gets Concept value of a payroll between 2 dates
+	 * @param conceptValue
+	 * @param payrollValue
+	 * @param from
+	 * @param to
+	 * @param includeInProcess
+	 * */
+	public double getConcept (String conceptValue, String payrollValue,Timestamp from,Timestamp to, boolean includeInProcess) {
 		int payrollId;
 		if (payrollValue == null) {
 			payrollId = getHR_Payroll_ID();
@@ -2161,7 +2224,7 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 			payrollId = payroll.get_ID();
 		}
 		//	Get from Movement helper method
-		return MHRMovement.getConceptSum(getCtx(), conceptValue, payrollId, partnerId, from, to);
+		return MHRMovement.getConceptSum(getCtx(), conceptValue, payrollId, partnerId, from, to, includeInProcess);
 	} // getConcept
 
 	/**
@@ -2170,8 +2233,21 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 	 * @param payrollValue
 	 * @param from
 	 * @param to
-	 * */
+	 * @return
+	 */
 	public double getConceptAvg(String conceptValue, String payrollValue,Timestamp from,Timestamp to) {
+		return getConceptAvg(conceptValue, payrollValue, from, to, true);
+	}
+	
+	/**
+	 * Helper Method: gets Concept Average value of a payrroll between 2 dates
+	 * @param conceptValue
+	 * @param payrollValue
+	 * @param from
+	 * @param to
+	 * @param includeInProcess
+	 * */
+	public double getConceptAvg(String conceptValue, String payrollValue,Timestamp from,Timestamp to, boolean includeInProcess) {
 		int payrollId;
 		if (payrollValue == null) {
 			payrollId = getHR_Payroll_ID();
