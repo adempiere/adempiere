@@ -19,6 +19,7 @@ package org.compiere.grid.ed;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyListener;
 import java.beans.PropertyChangeListener;
 import java.beans.VetoableChangeListener;
 
@@ -68,6 +69,7 @@ public interface VEditor extends CEditor, PropertyChangeListener
 	public void addActionListener(ActionListener listener);
 //	public void removeActionListener(ActionListener listener);
 
+	public void addKeyListener(KeyListener listener);
 	/**
 	 *  Used to set border for table editors
 	 *  @param border

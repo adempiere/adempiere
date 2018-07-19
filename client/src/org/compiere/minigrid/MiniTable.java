@@ -163,7 +163,7 @@ public class MiniTable extends CTable implements IMiniTable
 		this.getInputMap().put(KeyStroke.getKeyStroke("ctrl SPACE"), "doToggleID");
 		this.getInputMap().put(KeyStroke.getKeyStroke("ctrl shift SPACE"), "doToggleBySelection");
 		//  Disable column selections
-		this.getInputMap().put(KeyStroke.getKeyStroke("RIGHT"), "doNothing");
+		this.getInputMap().put(KeyStroke.getKeyStroke("RIGHT"), "doSelectRowRight");
 		this.getInputMap().put(KeyStroke.getKeyStroke("KP_RIGHT"), "doNothing");
 		this.getInputMap().put(KeyStroke.getKeyStroke("ctrl RIGHT"), "doNothing");
 		this.getInputMap().put(KeyStroke.getKeyStroke("ctrl KP_RIGHT"), "doNothing");
@@ -171,7 +171,7 @@ public class MiniTable extends CTable implements IMiniTable
 		this.getInputMap().put(KeyStroke.getKeyStroke("shift KP_RIGHT"), "doNothing");
 		this.getInputMap().put(KeyStroke.getKeyStroke("ctrl shift RIGHT"), "doNothing");
 		this.getInputMap().put(KeyStroke.getKeyStroke("ctrl shift KP_RIGHT"), "doNothing");
-		this.getInputMap().put(KeyStroke.getKeyStroke("LEFT"), "doNothing");
+		this.getInputMap().put(KeyStroke.getKeyStroke("LEFT"), "doSelectRowLeft");
 		this.getInputMap().put(KeyStroke.getKeyStroke("KP_LEFT"), "doNothing");
 		this.getInputMap().put(KeyStroke.getKeyStroke("ctrl LEFT"), "doNothing");
 		this.getInputMap().put(KeyStroke.getKeyStroke("ctrl KP_LEFT"), "doNothing");
@@ -193,6 +193,8 @@ public class MiniTable extends CTable implements IMiniTable
 		this.getActionMap().put("doSelectAll", doSelectAll);
 		this.getActionMap().put("doSelectRowDown", doSelectRowDown);
 		this.getActionMap().put("doSelectRowUp", doSelectRowUp);
+		this.getActionMap().put("doSelectRowLeft", doSelectRowLeft);
+		this.getActionMap().put("doSelectRowRight", doSelectRowRight);
 		this.getActionMap().put("doAddRowDown", doAddRowDown);
 		this.getActionMap().put("doAddRowUp", doAddRowUp);
 		this.getActionMap().put("doAddRowDownExtend", doAddRowDownExtend);
@@ -1620,8 +1622,17 @@ public class MiniTable extends CTable implements IMiniTable
         		//  Check the limit at the bottom
                 leadRow = Math.min(Math.max(index+dy, 0), compare-1);        		
         	}
-        	
-        	if (actionName.equals("SelectRowUp") ||
+
+        	if (actionName.equals("SelectRowLeft") ||
+    			actionName.equals("SelectRowRight"))
+        	{
+
+        		rsm.clearSelection();
+        		rsm.addSelectionInterval(leadRow, leadRow);
+        		matchCheckWithSelectedRows();
+        		
+        	}
+        	else if (actionName.equals("SelectRowUp") ||
     			actionName.equals("SelectRowDown"))
         	{
         		rsm.clearSelection();
@@ -1728,6 +1739,25 @@ public class MiniTable extends CTable implements IMiniTable
         {
             int dy = -1;
         	String actionName = "SelectRowUp";
+            doAction(e, actionName, dy);
+        }            
+    };
+
+    @SuppressWarnings("serial")
+	private Action doSelectRowLeft = new AbstractAction() {
+        public void actionPerformed(ActionEvent e) 
+        {
+            int dy = -1;
+        	String actionName = "SelectRowLeft";
+            doAction(e, actionName, dy);
+        }            
+    };
+    @SuppressWarnings("serial")
+	private Action doSelectRowRight = new AbstractAction() {
+        public void actionPerformed(ActionEvent e) 
+        {
+            int dy = -1;
+        	String actionName = "SelectRowRight";
             doAction(e, actionName, dy);
         }            
     };

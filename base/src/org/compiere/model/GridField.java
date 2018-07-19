@@ -2092,4 +2092,12 @@ public class GridField
     public boolean isInfoOnly() {
     	return m_vo.IsInfoOnly;
     }
+    
+    /** Is Quick Entry
+	 * @return true if displayed in Quick Entry Form
+	 */
+	public boolean isQuickEntry()
+	{
+		return m_vo.IsQuickEntry;
+	}
 }   //  MField

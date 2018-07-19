@@ -19,6 +19,8 @@ package org.compiere.grid.ed;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.VetoableChangeListener;
@@ -50,7 +52,7 @@ import org.compiere.util.CLogger;
  *  @version 	$Id: VCellEditor.java,v 1.2 2006/07/30 00:51:28 jjanke Exp $
  */
 public final class VCellEditor extends AbstractCellEditor
-	implements TableCellEditor, VetoableChangeListener, ActionListener
+	implements TableCellEditor, VetoableChangeListener, ActionListener, KeyListener
 {
 
 	/**
@@ -92,7 +94,18 @@ public final class VCellEditor extends AbstractCellEditor
 		m_editor = VEditorFactory.getEditor(m_mField, true);
 		m_editor.addVetoableChangeListener(this);
 		m_editor.addActionListener(this);
-				
+		m_editor.addKeyListener(this);
+		if (m_editor instanceof VLookup) {
+			VLookup lookup = (VLookup)m_editor;
+			if (lookup.getComponents()[0] instanceof JComboBox) {
+				lookup.setBorder(BorderFactory.createEmptyBorder());
+				((JComboBox)lookup.getComponents()[0]).getEditor().getEditorComponent().addKeyListener(this);
+			}
+		}
+		else if (m_editor instanceof VDate) {
+			VDate lookup = (VDate)m_editor;
+			lookup.getComponent(0).addKeyListener(this);
+		}
 	}   //  createEditor
 
 	/**
@@ -224,11 +237,21 @@ public final class VCellEditor extends AbstractCellEditor
 	 */
 	public void actionPerformed (ActionEvent e)
 	{
+		
 		log.finer(m_mField.getColumnName() + ": Value=" + m_editor.getValue());
 		if (e.getSource() == m_editor && actionListener != null)
 			actionListener.actionPerformed(e);
+		
 	}   //  actionPerformed
 
+	@Override
+	public void keyPressed(KeyEvent e) {
+	    if (e.getKeyCode()==KeyEvent.VK_ENTER){
+	    	stopCellEditing();   
+	    }
+
+	}
+	
 	/**
 	 * 	Dispose
 	 */
@@ -261,5 +284,17 @@ public final class VCellEditor extends AbstractCellEditor
 
 	public void setActionListener(ActionListener listener) {
 		actionListener = listener;
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }	//	VCellEditor

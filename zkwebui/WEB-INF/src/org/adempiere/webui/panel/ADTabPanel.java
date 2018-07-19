@@ -148,6 +148,8 @@ public class ADTabPanel extends Div implements Evaluatee, EventListener, DataSta
     
 	private int INC = 30;
 
+	private GridPanel quickPanel;
+
 	public CWindowToolbar getGlobalToolbar()
 	{
 		return globalToolbar;
@@ -559,7 +561,7 @@ public class ADTabPanel extends Div implements Evaluatee, EventListener, DataSta
 				rowList.add(row);
         }
 
-        if (!gridTab.isSingleRow() && !isGridView())
+        if (!gridTab.isSingleRow() && !isGridView() && !gridTab.isQuickEntry())
         	switchRowPresentation();
 
     }
@@ -785,6 +787,11 @@ public class ADTabPanel extends Div implements Evaluatee, EventListener, DataSta
         	gridTab.getTableModel().fireTableDataChanged();
     }
 
+    public void setGridTab(GridTab gridTab)
+    {
+		this.gridTab = gridTab;
+	}
+
     /**
      * @return GridTab
      */
@@ -959,7 +966,7 @@ public class ADTabPanel extends Div implements Evaluatee, EventListener, DataSta
 		else if (event.getTarget() == listPanel.getListbox())
     	{
 			//	BR [ 1063 ]
-    		if(isSwitchRowPresentation())
+    		if(isSwitchRowPresentation() && !gridTab.isQuickEntry())
     			this.switchRowPresentation();
     	}
 
@@ -1135,7 +1142,7 @@ public class ADTabPanel extends Div implements Evaluatee, EventListener, DataSta
 			treeId = MTree.getDefaultAD_Tree_ID (Env.getAD_Client_ID(Env.getCtx()), gridTab.getKeyColumnName());
 		if (gridTab.isTreeTab() && treeId > 0 && treePanel != null && treeId != treePanel.getTreeId()) {
 			treePanel.initTree(treeId, windowNo);
-			if (!gridTab.isSingleRow() && !isGridView())
+			if (!gridTab.isSingleRow() && !isGridView() && !gridTab.isQuickEntry())
 				switchRowPresentation();
 		}
 
@@ -1921,7 +1928,15 @@ public class ADTabPanel extends Div implements Evaluatee, EventListener, DataSta
         return tabBox;
 
     }
-    
+
+    public void setQuickPanel(GridPanel gridPanel) {
+        quickPanel=gridPanel;
+    }
+    public GridPanel getQuickPanel() {
+        return quickPanel;
+    }
+
+
     /**
      * Change label for each field if it has context info configured
      */
@@ -1936,13 +1951,13 @@ public class ADTabPanel extends Div implements Evaluatee, EventListener, DataSta
             }
         }   //  all components
     }
-    
+
     /**
      * Change label for each field if it has context info configured
      */
     private void reloadFieldTrxInfo(WEditor editor) {
     	Map<String, String> contextValues = gridTab.getFieldTrxInfo();
-		if(contextValues == null 
+		if(contextValues == null
 				|| contextValues.size() == 0) {
 			return;
 		}
@@ -1955,6 +1970,6 @@ public class ADTabPanel extends Div implements Evaluatee, EventListener, DataSta
 		}
 		//	Set Context info
 		((HtmlBasedComponent) editor.getComponent()).setTooltiptext(messageValue);
-    }
+
 }
 
