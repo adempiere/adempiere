@@ -56,11 +56,13 @@ import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.Msg;
 import org.compiere.util.Util;
+import org.zkforge.keylistener.Keylistener;
 import org.zkoss.zk.au.out.AuEcho;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zk.ui.event.KeyEvent;
 import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zkex.zul.Center;
 import org.zkoss.zkex.zul.North;
@@ -162,7 +164,10 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 	private Label				lPrintFormat		= new Label(Msg.getMsg(Env.getCtx(),"PrintFormat"));
 	private Label 				lReportType = new Label(Msg.getMsg(Env.getCtx(),"ReportType"));
 
-
+	private Keylistener keyListener;
+	
+	private static final int KEYBOARD_KEY_RETURN = 13;
+	
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(ProcessPanel.class);
 	
@@ -320,6 +325,13 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 		//
 		loadQuerySaved();
 		fSavedName.addEventListener(Events.ON_CHANGE, this);
+		
+		keyListener = new Keylistener();
+		
+		keyListener.setCtrlKeys("#enter");
+		keyListener.addEventListener(Events.ON_CTRL_KEY, this);
+		mainPanel.addEventListener(Events.ON_CANCEL, this);
+		mainPanel.appendChild(keyListener);
 	}
 	
 	/**
@@ -542,12 +554,18 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 	public void onEvent(Event event) throws Exception {
 		String saveName = null;
 		boolean lastRun = false;
+		int code= 0;
 		if(fSavedName.getRawText() != null) {
 			saveName = fSavedName.getRawText();
 			lastRun = ("** " + Msg.getMsg(Env.getCtx(), "LastRun") + " **").equals(saveName);
 		}
+		if (event.getName().equals(Events.ON_CTRL_KEY) && event.getTarget() == keyListener) {
+			
+			KeyEvent keyEvent = (KeyEvent) event;
+			code = keyEvent.getKeyCode();
+		}
 		//	Ok
-		if (event.getTarget().equals(bOK)) {
+		if (event.getTarget().equals(bOK) || code == KEYBOARD_KEY_RETURN) {
 			setIsOkPressed(true);
 			if(isOnlyPanel()) {
 				//	check if saving parameters is complete
@@ -576,7 +594,7 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 				//	BR [ 265 ]
 				process(saveName);
 			}
-		} else if (event.getTarget().equals(bCancel)) {
+		} else if (event.getTarget().equals(bCancel) || event.getName().equals(Events.ON_CANCEL)) {
 			dispose();
 		}  else if(event.getTarget().equals(bDelete) 
 				&& fSavedName != null && !lastRun) {

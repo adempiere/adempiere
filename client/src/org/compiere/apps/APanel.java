@@ -30,6 +30,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -152,7 +153,7 @@ import org.eevolution.form.VBrowser;
  *  @sponsor www.metas.de
  */
 public final class APanel extends CPanel
-	implements DataStatusListener, ChangeListener, ActionListener, ASyncProcess
+	implements DataStatusListener, ChangeListener, ActionListener, KeyListener, ASyncProcess
 {
 	/**
 	 *
@@ -307,6 +308,7 @@ public final class APanel extends CPanel
 		toolBar.setBorderPainted(false);
 		toolBar.setFloatable(false); // teo_sarca, [ 1666591 ] Toolbar should not be floatable
 		northPanel.add(toolBar, null);
+		
 	}	//	jbInit
 
 	private AppsAction 		aPrevious, aNext, aParent, aDetail, aFirst, aLast,
@@ -543,6 +545,8 @@ public final class APanel extends CPanel
 		//
 		if (CLogMgt.isLevelAll())
 			Util.printActionInputMap(this);
+		
+		
 	}	//	createMenu
 
 
@@ -1643,6 +1647,8 @@ public final class APanel extends CPanel
 					m_curGC.getTable().removeEditor();
 					m_curGC.acceptEditorChanges();
 					tabPane.setSelectedIndex(index);
+
+					m_curGC.getTable().addKeyListener(this);
 					break;
 				}
 				else
@@ -1654,6 +1660,8 @@ public final class APanel extends CPanel
 			m_curGC.getTable().removeEditor();
 			m_curGC.acceptEditorChanges();
 			m_curWinTab.setSelectedIndex(index+1);
+
+			m_curGC.getTable().addKeyListener(this);
 		}
 
 	}	//	navigateDetail
@@ -2912,6 +2920,26 @@ public final class APanel extends CPanel
 
 	public boolean isNested() {
 		return isNested;
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		if(e.getKeyCode() == KeyEvent.VK_DOWN) {
+			System.out.println("TEST");
+			currentTab.dataNew(false);
+		}
+				
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }	//	APanel

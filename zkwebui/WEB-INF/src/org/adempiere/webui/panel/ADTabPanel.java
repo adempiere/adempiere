@@ -146,6 +146,8 @@ public class ADTabPanel extends Div implements Evaluatee, EventListener, DataSta
     private boolean isSwitchRow = true;	
     
 	private int INC = 30;
+	
+	private GridPanel quickPanel;
 
 	public CWindowToolbar getGlobalToolbar()
 	{
@@ -558,7 +560,7 @@ public class ADTabPanel extends Div implements Evaluatee, EventListener, DataSta
 				rowList.add(row);
         }
 
-        if (!gridTab.isSingleRow() && !isGridView())
+        if (!gridTab.isSingleRow() && !isGridView() && !gridTab.isQuickEntry())
         	switchRowPresentation();
 
     }
@@ -785,6 +787,11 @@ public class ADTabPanel extends Div implements Evaluatee, EventListener, DataSta
         	gridTab.getTableModel().fireTableDataChanged();
     }
 
+    public void setGridTab(GridTab gridTab) 
+    {
+		this.gridTab = gridTab;
+	}
+    
     /**
      * @return GridTab
      */
@@ -957,7 +964,7 @@ public class ADTabPanel extends Div implements Evaluatee, EventListener, DataSta
 		else if (event.getTarget() == listPanel.getListbox())
     	{
 			//	BR [ 1063 ]
-    		if(isSwitchRowPresentation())
+    		if(isSwitchRowPresentation() && !gridTab.isQuickEntry())
     			this.switchRowPresentation();
     	}
 
@@ -1133,7 +1140,7 @@ public class ADTabPanel extends Div implements Evaluatee, EventListener, DataSta
 			treeId = MTree.getDefaultAD_Tree_ID (Env.getAD_Client_ID(Env.getCtx()), gridTab.getKeyColumnName());
 		if (gridTab.isTreeTab() && treeId > 0 && treePanel != null && treeId != treePanel.getTreeId()) {
 			treePanel.initTree(treeId, windowNo);
-			if (!gridTab.isSingleRow() && !isGridView())
+			if (!gridTab.isSingleRow() && !isGridView() && !gridTab.isQuickEntry())
 				switchRowPresentation();
 		}
 
@@ -1918,6 +1925,13 @@ public class ADTabPanel extends Div implements Evaluatee, EventListener, DataSta
         // Returning the tabbox
         return tabBox;
 
+    }
+
+    public void setQuickPanel(GridPanel gridPanel) {
+    	quickPanel=gridPanel;
+    }
+    public GridPanel getQuickPanel() {
+    	return quickPanel;
     }
 }
 
