@@ -643,6 +643,9 @@ public class GridTabRowRenderer implements RowRenderer, RowRendererExt, Renderer
 	 */
 	public void validCondition() {
 				FieldCondition condition = definition.getConditionValid(null);
+				if(condition == null)
+					return;
+				
 				Row currentRow = getCurrentRow();
 
 				String divStyle = DIVSTYLE;
