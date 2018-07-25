@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="QuickEntry" ReleaseNo="" SeqNo="5280">
+  <Migration EntityType="D" Name="QuickEntry" ReleaseNo="3.9.1" SeqNo="3920">
+ 	<Comments>See: https://github.com/adempiere/adempiere/issues/1088</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="276" Action="I" Record_ID="58384" Table="AD_Element">
         <Data AD_Column_ID="6285" Column="PO_Name" isNewNull="true"/>
@@ -102,7 +103,7 @@
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
         <Data AD_Column_ID="15013" Column="IsMandatory" isNewNull="true"/>
         <Data AD_Column_ID="7714" Column="EntityType">D</Data>
-        <Data AD_Column_ID="53265" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="53265" Column="DefaultValue" isNewNull="true">N</Data>
         <Data AD_Column_ID="54356" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="54357" Column="AD_Val_Rule_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
