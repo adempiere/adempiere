@@ -1267,7 +1267,11 @@ public final class APanel extends CPanel
 		String trxInfo = currentTab.getTrxInfo();
 		if (trxInfo != null)
 			statusBar.setInfo(trxInfo);
-
+		//	Reload Field
+		if (m_curWinTab.getSelectedComponent() instanceof GridController) {
+			GridController gridController = (GridController)m_curWinTab.getSelectedComponent();
+			gridController.reloadFieldTrxInfo();
+		}
 		//	Check Attachment
 		boolean canHaveAttachment = currentTab.canHaveAttachment();		//	not single _ID column
 		//
