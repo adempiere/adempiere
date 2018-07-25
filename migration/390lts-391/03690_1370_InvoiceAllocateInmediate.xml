@@ -54,14 +54,11 @@ https://github.com/adempiere/adempiere/issues/1370</Comments>
     </Step>
     <Step SeqNo="30" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="86860" Table="AD_Column">
-        <Data AD_Column_ID="111" Column="Name">IsAllocateImmediate</Data>
         <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
         <Data AD_Column_ID="120" Column="IsParent">false</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
-        <Data AD_Column_ID="124" Column="IsMandatory">true</Data>
-        <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="549" Column="Created">2018-01-28 16:35:05.441</Data>
         <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
@@ -75,7 +72,6 @@ https://github.com/adempiere/adempiere/issues/1370</Comments>
         <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
-        <Data AD_Column_ID="116" Column="ColumnName">IsAllocateImmediate</Data>
         <Data AD_Column_ID="113" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="3360" Column="IsUpdateable">true</Data>
         <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
@@ -86,8 +82,8 @@ https://github.com/adempiere/adempiere/issues/1370</Comments>
         <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
         <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
+        <Data AD_Column_ID="117" Column="DefaultValue">N</Data>
         <Data AD_Column_ID="127" Column="SeqNo">0</Data>
-        <Data AD_Column_ID="109" Column="AD_Column_ID">86860</Data>
         <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
@@ -102,6 +98,10 @@ https://github.com/adempiere/adempiere/issues/1370</Comments>
         <Data AD_Column_ID="84306" Column="UUID" isNewNull="true"/>
         <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="114" Column="AD_Table_ID">217</Data>
+        <Data AD_Column_ID="111" Column="Name">IsAllocateImmediate</Data>
+        <Data AD_Column_ID="116" Column="ColumnName">IsAllocateImmediate</Data>
+        <Data AD_Column_ID="109" Column="AD_Column_ID">86860</Data>
+        <Data AD_Column_ID="124" Column="IsMandatory">true</Data>
       </PO>
     </Step>
     <Step SeqNo="40" StepType="AD">
