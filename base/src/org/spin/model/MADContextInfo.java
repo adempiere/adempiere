@@ -31,7 +31,6 @@ import org.compiere.model.I_AD_Field;
 import org.compiere.model.MField;
 import org.compiere.model.Query;
 import org.compiere.util.CCache;
-import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Util;
@@ -50,7 +49,7 @@ public class MADContextInfo extends X_AD_ContextInfo {
 	private static final long serialVersionUID = -9157152272245789095L;
 	/**	Logger			*/
 	private static CLogger	log = CLogger.getCLogger(MADContextInfo.class);
-	
+
 	public MADContextInfo(Properties ctx, int contextInfoId, String trxName) {
 		super(ctx, contextInfoId, trxName);
 	}
@@ -102,16 +101,12 @@ public class MADContextInfo extends X_AD_ContextInfo {
 		MADContextInfo statusBar = contextInfoCacheFromIds.get(key);
 		if (statusBar != null && statusBar.get_ID() > 0)
 			return statusBar;
-		try {
-			statusBar = new Query(ctx , Table_Name , "EXISTS(SELECT 1 FROM AD_Tab t "
-					+ "WHERE t.AD_Tab_ID = ? "
-					+ "AND t.AD_ContextInfo_ID = AD_ContextInfo.AD_ContextInfo_ID)" , null)
-					.setParameters(tabId)
-					.first();
-		} catch(Exception e) {
-			log.severe("getFromTabId: " + e.getLocalizedMessage());
-		}
-		
+
+		statusBar = new Query(ctx , Table_Name , "EXISTS(SELECT 1 FROM AD_Tab t "
+				+ "WHERE t.AD_Tab_ID = ? "
+				+ "AND t.AD_ContextInfo_ID = AD_ContextInfo.AD_ContextInfo_ID)" , null)
+				.setParameters(tabId)
+				.first();
 		if (statusBar != null && statusBar.get_ID() > 0) {
 			contextInfoCacheFromIds.put(key, statusBar);
 		}
@@ -131,16 +126,12 @@ public class MADContextInfo extends X_AD_ContextInfo {
 		MADContextInfo statusBar = contextInfoCacheFromIds.get(key);
 		if (statusBar != null && statusBar.get_ID() > 0)
 			return statusBar;
-		try {
-			statusBar = new Query(ctx , Table_Name , "EXISTS(SELECT 1 FROM AD_Table t "
-					+ "WHERE t.AD_Table_ID = ? "
-					+ "AND t.AD_ContextInfo_ID = AD_ContextInfo.AD_ContextInfo_ID)" , null)
-					.setParameters(tableId)
-					.first();
-		} catch(Exception e) {
-			log.severe("getFromTableId: " + e.getLocalizedMessage());
-		}
-		
+
+		statusBar = new Query(ctx , Table_Name , "EXISTS(SELECT 1 FROM AD_Table t "
+				+ "WHERE t.AD_Table_ID = ? "
+				+ "AND t.AD_ContextInfo_ID = AD_ContextInfo.AD_ContextInfo_ID)" , null)
+				.setParameters(tableId)
+				.first();
 		if (statusBar != null && statusBar.get_ID() > 0) {
 			contextInfoCacheFromIds.put(key, statusBar);
 		}
@@ -160,16 +151,12 @@ public class MADContextInfo extends X_AD_ContextInfo {
 		MADContextInfo statusBar = contextInfoCacheFromIds.get(key);
 		if (statusBar != null && statusBar.get_ID() > 0)
 			return statusBar;
-		try {
-			statusBar = new Query(ctx , Table_Name , "EXISTS(SELECT 1 FROM AD_Window w "
-					+ "WHERE w.AD_Window_ID = ? "
-					+ "AND w.AD_ContextInfo_ID = AD_ContextInfo.AD_ContextInfo_ID)" , null)
-					.setParameters(windowId)
-					.first();	
-		} catch(Exception e) {
-			log.severe("getFromWindowId: " + e.getLocalizedMessage());
-		}
-		
+
+		statusBar = new Query(ctx , Table_Name , "EXISTS(SELECT 1 FROM AD_Window w "
+				+ "WHERE w.AD_Window_ID = ? "
+				+ "AND w.AD_ContextInfo_ID = AD_ContextInfo.AD_ContextInfo_ID)" , null)
+				.setParameters(windowId)
+				.first();
 		if (statusBar != null && statusBar.get_ID() > 0) {
 			contextInfoCacheFromIds.put(key, statusBar);
 		}
@@ -190,16 +177,10 @@ public class MADContextInfo extends X_AD_ContextInfo {
 		if (contextInfoHash != null && contextInfoHash.size() > 0)
 			return contextInfoHash;
 		//	
-		List<MField> fieldList = null;
-		//	
-		try {
-			fieldList = new Query(ctx , I_AD_Field.Table_Name , "AD_Tab_ID = ? "
-					+ "AND AD_ContextInfo_ID IS NOT NULL" , null)
-					.setParameters(tabId)
-					.<MField>list();
-		} catch(Exception e) {
-			log.severe("getFromTabIdForField: " + e.getLocalizedMessage());
-		}
+		List<MField> fieldList = new Query(ctx , I_AD_Field.Table_Name , "AD_Tab_ID = ? "
+				+ "AND AD_ContextInfo_ID IS NOT NULL" , null)
+				.setParameters(tabId)
+				.<MField>list();
 		//	Clear
 		if(fieldList != null
 				&& fieldList.size() > 0) {

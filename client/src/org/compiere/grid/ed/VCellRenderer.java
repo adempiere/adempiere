@@ -146,7 +146,6 @@ public final class VCellRenderer extends DefaultTableCellRenderer
 			if (isSelected && !hasFocus)
 				bg = bg.darker();
 		}
-
 		
 		//  Foreground
 		int cCode = 0;
@@ -182,9 +181,6 @@ public final class VCellRenderer extends DefaultTableCellRenderer
 	//		"sel=" + isSelected + ", focus=" + hasFocus + ", edit=" + table.isCellEditable(row, col));
 	//	Log.trace(7, "BG=" + (bg.equals(Color.white) ? "white" : bg.toString()), "FG=" + (fg.equals(Color.black) ? "black" : fg.toString()));
 
-//		  if(hasFocus)
-//		       (c).setBackground(Color.GREEN);
-//		  c.
 		//  Format it
 		setValue(value);
 		return c;
