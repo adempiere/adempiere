@@ -16,17 +16,17 @@ https://github.com/adempiere/adempiere/issues/1370</Comments>
         <Data AD_Column_ID="2601" Column="UpdatedBy">0</Data>
         <Data AD_Column_ID="84316" Column="UUID" isNewNull="true"/>
         <Data AD_Column_ID="6484" Column="EntityType">D</Data>
-        <Data AD_Column_ID="2603" Column="Name">IsAllocateImmediate</Data>
         <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="2598" Column="Created">2018-01-28 16:34:03.846</Data>
         <Data AD_Column_ID="2600" Column="Updated">2018-01-28 16:34:03.846</Data>
         <Data AD_Column_ID="2597" Column="IsActive">true</Data>
         <Data AD_Column_ID="6284" Column="PO_Help" isNewNull="true"/>
         <Data AD_Column_ID="6285" Column="PO_Name" isNewNull="true"/>
-        <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="2602" Column="ColumnName">IsAllocateImmediate</Data>
-        <Data AD_Column_ID="4299" Column="PrintName">IsAllocateImmediate</Data>
         <Data AD_Column_ID="6286" Column="PO_PrintName" isNewNull="true"/>
+        <Data AD_Column_ID="2603" Column="Name">Allocate Prepayments</Data>
+        <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="4299" Column="PrintName">Allocate Prepayments on corresponding Orders</Data>
       </PO>
     </Step>
     <Step SeqNo="20" StepType="AD">
@@ -38,7 +38,6 @@ https://github.com/adempiere/adempiere/issues/1370</Comments>
         <Data AD_Column_ID="2644" Column="Updated">2018-01-28 16:34:05.563</Data>
         <Data AD_Column_ID="6449" Column="PO_Help" isNewNull="true"/>
         <Data AD_Column_ID="6450" Column="PO_Name" isNewNull="true"/>
-        <Data AD_Column_ID="2648" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="2647" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="2649" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="6451" Column="PO_PrintName" isNewNull="true"/>
@@ -48,8 +47,9 @@ https://github.com/adempiere/adempiere/issues/1370</Comments>
         <Data AD_Column_ID="2645" Column="UpdatedBy">0</Data>
         <Data AD_Column_ID="2643" Column="CreatedBy">0</Data>
         <Data AD_Column_ID="2638" Column="AD_Language">es_MX</Data>
-        <Data AD_Column_ID="4300" Column="PrintName">Asignar automaticamente</Data>
-        <Data AD_Column_ID="2646" Column="Name">Asignar automaticamente</Data>
+        <Data AD_Column_ID="4300" Column="PrintName">Asignar Prepagos</Data>
+        <Data AD_Column_ID="2646" Column="Name">Asignar Prepagos</Data>
+        <Data AD_Column_ID="2648" Column="Help">Asignar  Prepagos de Ordenes correspondientes</Data>
       </PO>
     </Step>
     <Step SeqNo="30" StepType="AD">
@@ -98,10 +98,10 @@ https://github.com/adempiere/adempiere/issues/1370</Comments>
         <Data AD_Column_ID="84306" Column="UUID" isNewNull="true"/>
         <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="114" Column="AD_Table_ID">217</Data>
-        <Data AD_Column_ID="111" Column="Name">IsAllocateImmediate</Data>
         <Data AD_Column_ID="116" Column="ColumnName">IsAllocateImmediate</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">86860</Data>
-        <Data AD_Column_ID="124" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="111" Column="Name">Allocate Prepayments</Data>
       </PO>
     </Step>
     <Step SeqNo="40" StepType="AD">
@@ -110,7 +110,6 @@ https://github.com/adempiere/adempiere/issues/1370</Comments>
         <Data AD_Column_ID="12959" Column="IsActive">true</Data>
         <Data AD_Column_ID="12952" Column="Updated">2018-01-28 16:35:07.533</Data>
         <Data AD_Column_ID="12954" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="12957" Column="Name">IsAllocateImmediate</Data>
         <Data AD_Column_ID="12961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="12951" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="12958" Column="UpdatedBy">0</Data>
@@ -118,6 +117,7 @@ https://github.com/adempiere/adempiere/issues/1370</Comments>
         <Data AD_Column_ID="12953" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="12955" Column="AD_Column_ID">86860</Data>
         <Data AD_Column_ID="84310" Column="UUID" isNewNull="true"/>
+        <Data AD_Column_ID="12957" Column="Name">Asignar Prepagos</Data>
       </PO>
     </Step>
     <Step SeqNo="50" StepType="AD">
@@ -132,7 +132,6 @@ https://github.com/adempiere/adempiere/issues/1370</Comments>
         <Data AD_Column_ID="185" Column="IsFieldOnly">false</Data>
         <Data AD_Column_ID="182" Column="SortNo">0</Data>
         <Data AD_Column_ID="2745" Column="IsCentrallyMaintained">true</Data>
-        <Data AD_Column_ID="168" Column="Name">IsAllocateImmediate</Data>
         <Data AD_Column_ID="2007" Column="IsReadOnly">false</Data>
         <Data AD_Column_ID="170" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -162,6 +161,7 @@ https://github.com/adempiere/adempiere/issues/1370</Comments>
         <Data AD_Column_ID="172" Column="AD_Tab_ID">167</Data>
         <Data AD_Column_ID="54357" Column="AD_Val_Rule_ID" isNewNull="true"/>
         <Data AD_Column_ID="84320" Column="UUID" isNewNull="true"/>
+        <Data AD_Column_ID="168" Column="Name">Allocate Prepayments</Data>
       </PO>
     </Step>
     <Step SeqNo="60" StepType="AD">
@@ -171,7 +171,6 @@ https://github.com/adempiere/adempiere/issues/1370</Comments>
         <Data AD_Column_ID="672" Column="Created">2018-06-11 03:43:01.387</Data>
         <Data AD_Column_ID="289" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="287" Column="Description" isNewNull="true"/>
-        <Data AD_Column_ID="286" Column="Name">IsAllocateImmediate</Data>
         <Data AD_Column_ID="288" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="1205" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="1204" Column="AD_Client_ID">0</Data>
@@ -180,6 +179,7 @@ https://github.com/adempiere/adempiere/issues/1370</Comments>
         <Data AD_Column_ID="675" Column="UpdatedBy">0</Data>
         <Data AD_Column_ID="285" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="84323" Column="UUID" isNewNull="true"/>
+        <Data AD_Column_ID="286" Column="Name">Asignar Prepagos</Data>
       </PO>
     </Step>
     <Step SeqNo="70" StepType="AD">
@@ -416,6 +416,10 @@ https://github.com/adempiere/adempiere/issues/1370</Comments>
       <PO AD_Table_ID="107" Action="U" Record_ID="3075" Table="AD_Field">
         <Data AD_Column_ID="181" Column="SeqNo" oldValue="330">350</Data>
       </PO>
+    </Step>
+    <Step DBType="ALL" Parse="Y" SeqNo="590" StepType="SQL">
+      <SQLStatement>DELETE FROM AD_Field WHERE AD_Field_ID = 85508 AND AD_Tab_ID = 263;</SQLStatement>
+      <RollbackStatement>UPDATE AD_Field set isactive = 'N' WHERE AD_Field_ID = 85508 AND AD_Tab_ID = 263;</RollbackStatement>
     </Step>
   </Migration>
 </Migrations>
