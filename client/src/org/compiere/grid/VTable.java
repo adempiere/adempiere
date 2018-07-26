@@ -18,15 +18,10 @@ package org.compiere.grid;
 
 import java.awt.Component;
 import java.awt.Rectangle;
-import java.awt.event.ActionEvent;
-import java.awt.event.InputEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import javax.swing.AbstractAction;
 import javax.swing.Action;
-import javax.swing.JTable;
-import javax.swing.KeyStroke;
 import javax.swing.table.TableModel;
 
 import org.compiere.grid.ed.VCellEditor;
@@ -37,8 +32,6 @@ import org.compiere.swing.CColumnControlButton;
 import org.compiere.swing.CTable;
 import org.compiere.util.CLogger;
 import org.jdesktop.swingx.action.BoundAction;
-
-import com.sun.glass.events.KeyEvent;
 
 /**
  * Table Grid based on CTable.
@@ -68,12 +61,6 @@ public final class VTable extends CTable
 		super();
 		setAutoscrolls(true);
 		putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
-        getInputMap(JTable.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER,0), "editColumnCell");
-        getInputMap(JTable.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN,0), "moveDown");
-        getInputMap(JTable.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke(KeyEvent.VK_UP,0), "moveUp");
-		this.getActionMap().put("editColumnCell", editColumnCell);
-		this.getActionMap().put("moveDown", moveDown);
-		this.getActionMap().put("moveUp", moveUp);
 		new VTableExcelAdapter(this); // teo_sarca - FR [ 1753943 ]
 		
 		getActionMap().put(PACK_ALL_COMMAND, createPackAllAction());
@@ -176,47 +163,6 @@ public final class VTable extends CTable
 		//  table model fires "Sorted" DataStatus event which causes MTab to position to row 0
 	}   //  sort
 
-	@SuppressWarnings("serial")
-	private Action editColumnCell = new AbstractAction() {
-        public void actionPerformed(ActionEvent e) 
-        {
-			int rowIndex = getSelectedRow();
-	        int colIndex = getSelectedColumn();
-	        if (isCellEditable(rowIndex, colIndex)) {
-	        if(isEditing())
-	        	stopEditor(true);
-	        else 
-	        	editCellAt(rowIndex, colIndex, e);
-	        
-	        }
-	        	
-        }
-	};
-	@SuppressWarnings("serial")
-	private Action moveDown = new AbstractAction() {
-        public void actionPerformed(ActionEvent e) 
-        {
-			int rowIndex = getSelectedRow();
-	        int colIndex = getSelectedColumn();
-	        
-	        System.out.println(getRowCount()+"-"+getSelectedRow()+"-"+e.getSource());
-	        changeSelection(rowIndex+1, colIndex, false, false);
-	        
-        }
-	};
-	@SuppressWarnings("serial")
-	private Action moveUp = new AbstractAction() {
-        public void actionPerformed(ActionEvent e) 
-        {
-			int rowIndex = getSelectedRow();
-	        int colIndex = getSelectedColumn();
-	        
-	        System.out.println(getRowCount()+"-"+getSelectedRow()+"-"+e.getSource());
-	        changeSelection(rowIndex-1, colIndex, false, false);
-	        	
-        }
-	};
-	
 	/**
 	 *  Transfer focus explicitly to editor due to editors with multiple components
 	 *
@@ -255,9 +201,9 @@ public final class VTable extends CTable
 	public void changeSelection(final int row, final int column, boolean toggle, boolean extend)
     {
         super.changeSelection(row, column, toggle, extend);
-//        if (isCellEditable(row, column)) {
-//        	this.editCellAt(row, column);
-//        	this.transferFocus();
-//        }
+        if (isCellEditable(row, column)) {
+        	this.editCellAt(row, column);
+        	this.transferFocus();
+        }
     }
 }	//	VTable
