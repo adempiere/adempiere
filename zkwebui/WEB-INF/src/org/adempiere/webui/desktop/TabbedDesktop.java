@@ -71,6 +71,7 @@ public abstract class TabbedDesktop extends AbstractDesktop {
 			pd.setTitle(null);
 			preOpenNewTab();
 			windowContainer.addWindow(tabPanel, title, true);
+			pd.afterInit();
 		}
 		return pd;
 	}
