@@ -16,11 +16,15 @@
  *****************************************************************************/
 package org.compiere.apps.form;
 
+import org.compiere.model.MSysConfig;
+import org.compiere.util.Env;
+
 /**
  *	Form Panel Interface.
  *	for communicating between FormFrame and JPanel
  * 	@author 	Jorg Janke
- * 	@version 	$Id: FormPanel.java,v 1.2 2006/07/30 00:51:28 jjanke Exp $
+ *  @author https://github.com/homebeaver
+ *	@see <a href="https://github.com/adempiere/adempiere/issues/1657"> Java 8 default autoQuery</a>
  */
 public interface FormPanel
 {
@@ -35,5 +39,17 @@ public interface FormPanel
 	 * 	Dispose - Free Resources
 	 */
 	public void dispose();
+	
+	static String SYSCONFIG_INFO_AUTO_QUERY = "INFO_AUTO_QUERY";
+	
+	/**
+	 * get SYSCONFIG_INFO_AUTO_QUERY value as boolean
+	 * @return true if SYSCONFIG_INFO_AUTO_QUERY=="Y" or null
+	 */
+	default boolean autoQuery() {
+		return MSysConfig.getValue(SYSCONFIG_INFO_AUTO_QUERY,"Y",Env.getAD_Client_ID(Env.getCtx())).equals("Y");
+	}
+	
+
 
 }	//	FormPanel

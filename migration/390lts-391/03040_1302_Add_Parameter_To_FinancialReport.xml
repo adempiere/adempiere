@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Financial Report not have a Posting Type as parameter #1302" ReleaseNo="3.9.1" SeqNo="3040">
+  <Migration EntityType="D" Name="Financial Report not have a Posting Type as parameter #1302" ReleaseNo="3.9.0.a" SeqNo="3040">
     <Comments>See: https://github.com/adempiere/adempiere/issues/1302</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="101" Action="U" Record_ID="6012" Table="AD_Column">
