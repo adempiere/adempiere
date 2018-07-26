@@ -16,7 +16,7 @@
 			</arguments>
 		</buildCommand>
 	</buildSpec>
-	<natures>
+		<natures>
 		<nature>org.eclipse.wst.common.modulecore.ModuleCoreNature</nature>
 		<nature>com.quest.toadext.ToadextNature</nature>
 		<nature>org.eclipse.jem.workbench.JavaEMFNature</nature>
