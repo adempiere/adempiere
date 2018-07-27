@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Ax_Case must be deleted on Financial Report #1307" ReleaseNo="3.9.1" SeqNo="3050">
+  <Migration EntityType="D" Name="Ax_Case must be deleted on Financial Report #1307" ReleaseNo="3.9.0.a" SeqNo="3050">
     <Comments>See: https://github.com/adempiere/adempiere/issues/1307</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="752" Action="D" Record_ID="0" Table="AD_Column_Trl">

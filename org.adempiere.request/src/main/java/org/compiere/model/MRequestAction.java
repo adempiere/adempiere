@@ -16,10 +16,10 @@
  *****************************************************************************/
 package org.compiere.model;
 
+import org.compiere.util.Msg;
+
 import java.sql.ResultSet;
 import java.util.Properties;
-
-import org.compiere.util.Msg;
 
 /**
  *	Request History Model

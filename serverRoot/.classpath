@@ -10,5 +10,6 @@
 	<classpathentry kind="lib" path="/tools/lib/activemq-core-5.7.0.jar"/>
 	<classpathentry kind="lib" path="/tools/lib/cron4j-2.2.1.jar"/>
 	<classpathentry kind="src" path="/serverApps"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/org.adempiere.request"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

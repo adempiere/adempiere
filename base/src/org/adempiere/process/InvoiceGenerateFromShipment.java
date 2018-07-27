@@ -42,7 +42,7 @@ import org.compiere.util.Msg;
 
 /**
  *	Generate Invoices
- *	
+ *
  *  @author Jorg Janke
  *  @author Trifon Trifonov
  *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
@@ -50,7 +50,7 @@ import org.compiere.util.Msg;
  * 		@see FR [ 514 ] Error in process to Generate invoices from shipments</a>
  */
 public class InvoiceGenerateFromShipment extends InvoiceGenerateFromShipmentAbstract {
-	
+
 	/**	The current Shipment	*/
 	private MInOut	 	m_ship = null;
 	/** Number of Invoices		*/
@@ -59,7 +59,7 @@ public class InvoiceGenerateFromShipment extends InvoiceGenerateFromShipmentAbst
 	private int			m_line = 0;
 	/**	Business Partner		*/
 	private MBPartner	m_bp = null;
-	
+
 	/**
 	 *  Prepare - e.g., get Parameters.
 	 */
@@ -73,7 +73,7 @@ public class InvoiceGenerateFromShipment extends InvoiceGenerateFromShipmentAbst
 			}
 		}
 		//	DocAction check
-		if (getDocAction() == null) { 
+		if (getDocAction() == null) {
 			setDocAction(DocAction.ACTION_Complete);
 		} else if(!DocAction.ACTION_Complete.equals(getDocAction())) {
 			setDocAction(DocAction.ACTION_Prepare);
@@ -116,7 +116,7 @@ public class InvoiceGenerateFromShipment extends InvoiceGenerateFromShipmentAbst
 				+ "ORDER BY M_InOut_ID";
 				//+ "ORDER BY M_Warehouse_ID, PriorityRule, C_BPartner_ID, C_BPartner_Location_ID, M_InOut_ID";
 		}
-		
+
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = DB.prepareStatement (sql, get_TrxName());
@@ -136,33 +136,44 @@ public class InvoiceGenerateFromShipment extends InvoiceGenerateFromShipmentAbst
 		} catch (Exception e) {
 			log.log(Level.SEVERE, sql, e);
 		}
+		log.config(sql);
 		return generate( pstmt );
 	}
-	
+
 	//@Trifon
 	private String generate (PreparedStatement pstmt) {
+		int rs_cnt = 0;
 		ResultSet rs = null;
 		MInvoice invoice = null;
 		try {
 			rs = pstmt.executeQuery ();
 			while (rs.next ()) {
+				rs_cnt++;
 				MInOut inOut = new MInOut(getCtx(), rs, get_TrxName());
-				if (!inOut.isComplete()		//	ignore incomplete or reversals 
+				if (!inOut.isComplete()		//	ignore incomplete or reversals
 					|| inOut.getDocStatus().equals(MInOut.DOCSTATUS_Reversed)
 				) {
 					continue;
 				}
 				MOrder order = new MOrder(getCtx(), inOut.getC_Order_ID(), get_TrxName());
-				
+				log.config("inOut "+inOut);
+				log.config("order "+order + " InvoiceRule="+order.getInvoiceRule());
+
 				//	New Invoice Location
-				if (!isConsolidateDocument() 
-					|| (invoice != null && invoice.getC_BPartner_Location_ID() != order.getBill_Location_ID()) 
+				if (!isConsolidateDocument()
+					|| (invoice != null && invoice.getC_BPartner_Location_ID() != order.getBill_Location_ID())
 				) {
 					invoice = completeInvoice( invoice );
 				}
-				
+/* Info INVOICERULEs:
+		INVOICERULE_AfterOrderDelivered = "O";
+		INVOICERULE_AfterDelivery = "D";
+		INVOICERULE_CustomerScheduleAfterDelivery = "S";
+		INVOICERULE_Immediate = "I";
+ */
 				//	Schedule After Delivery
 				boolean doInvoice = false;
+				log.config("InvoiceRule="+order.getInvoiceRule() + " order "+order);
 				if (MOrder.INVOICERULE_CustomerScheduleAfterDelivery.equals(order.getInvoiceRule())) {
 					m_bp = new MBPartner (getCtx(), order.getBill_BPartner_ID(), null);
 					if (m_bp.getC_InvoiceSchedule_ID() == 0) {
@@ -178,7 +189,7 @@ public class InvoiceGenerateFromShipment extends InvoiceGenerateFromShipmentAbst
 						}
 					}
 				} // CustomerScheduleAfterDelivery
-				
+
 				//	After Delivery - Invoice per Delivery
 				if (doInvoice || MOrder.INVOICERULE_AfterDelivery.equals( order.getInvoiceRule() ) ) {
 					MInOutLine[] shipLines = inOut.getLines(false);
@@ -203,7 +214,7 @@ public class InvoiceGenerateFromShipment extends InvoiceGenerateFromShipmentAbst
 		}
 
 		completeInvoice( invoice );
-		return "@Created@ = " + m_created;
+		return "@Created@ = " + m_created + " @of@ " + rs_cnt;
 	}
 
 	/**
@@ -226,7 +237,7 @@ public class InvoiceGenerateFromShipment extends InvoiceGenerateFromShipmentAbst
 			MDocType dt = MDocType.get(getCtx(), inOut.getC_DocType_ID());
 			if (m_bp == null || m_bp.getC_BPartner_ID() != inOut.getC_BPartner_ID())
 				m_bp = new MBPartner (getCtx(), inOut.getC_BPartner_ID(), get_TrxName());
-			
+
 			//	Reference: Delivery: 12345 - 12.12.12
 			MClient client = MClient.get(getCtx(), order.getAD_Client_ID ());
 			String AD_Language = client.getAD_Language();
@@ -234,7 +245,7 @@ public class InvoiceGenerateFromShipment extends InvoiceGenerateFromShipmentAbst
 				AD_Language = m_bp.getAD_Language();
 			if (AD_Language == null)
 				AD_Language = Language.getBaseAD_Language();
-			//	
+			//
 			SimpleDateFormat format = DisplayType.getDateFormat (DisplayType.Date, Language.getLanguage(AD_Language));
 			String referenceDescr = dt.getPrintName(m_bp.getAD_Language()) + ": " + inOut.getDocumentNo() + " - " + format.format(inOut.getMovementDate());
 			m_ship = inOut;
@@ -254,7 +265,7 @@ public class InvoiceGenerateFromShipment extends InvoiceGenerateFromShipmentAbst
 				descInvLine.saveEx();
 			}
 		}
-		//	
+		//
 		MInvoiceLine invLine = new MInvoiceLine( invoice );
 		invLine.setShipLine( inOutLine );
 		if (inOutLine.sameOrderLineUOM()) {
@@ -281,7 +292,7 @@ public class InvoiceGenerateFromShipment extends InvoiceGenerateFromShipmentAbst
 		log.fine(invLine.toString());
 		return invoice;
 	}
-	
+
 	/**
 	 * 	Complete Invoice
 	 */
@@ -299,7 +310,7 @@ public class InvoiceGenerateFromShipment extends InvoiceGenerateFromShipmentAbst
 		invoice = null;
 		m_ship = null;
 		m_line = 0;
-		
+
 		return invoice;
 	}
 
