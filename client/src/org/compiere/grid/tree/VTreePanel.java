@@ -1062,6 +1062,13 @@ public final class VTreePanel extends CPanel
 	private void addToBar(MRecentItem recentItem, JToolBar currentToolBar, boolean isLabel) {
 		//	Only first word of Label
 		String label = recentItem.getLabel();
+		
+		// Item in the meantime not existent ?
+		if (label == null) {
+			recentItem.deleteEx(true);
+			return; // record could have been deleted
+		}
+		
 		if (!isLabel) {
 			//	Validate only menu option
 			if(recentItem.getAD_Menu_ID() == 0)

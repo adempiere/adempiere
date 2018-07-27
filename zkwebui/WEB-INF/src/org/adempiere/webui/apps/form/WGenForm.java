@@ -313,8 +313,8 @@ public class WGenForm extends ADForm implements EventListener, WTableModelListen
 		
 		//  Switch Tabs
 		tabbedPane.setSelectedIndex(1);
-		//
-		ProcessInfoUtil.setLogFromDB(genForm.getProcessInfo());
+		// commented by reason of "prints result twice":
+		//ProcessInfoUtil.setLogFromDB(genForm.getProcessInfo());
 		StringBuffer iText = new StringBuffer();
 		iText.append("<b>").append(genForm.getProcessInfo().getSummary())
 			.append("</b><br>(")
