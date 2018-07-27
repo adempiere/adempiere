@@ -314,9 +314,11 @@ public final class MPaySelectionCheck extends X_C_PaySelectionCheck
 			}
 			else	//	New Payment
 			{
+				I_C_PaySelection paySelection =  paySelectionCheck.getC_PaySelection();
+				Integer docTypeId = paySelection.getC_DocType().getC_DocTypePayment_ID();
+
 				payment = new MPayment(paySelectionCheck.getCtx(), 0, paySelectionCheck.get_TrxName());
 				payment.setAD_Org_ID(paySelectionCheck.getAD_Org_ID());
-				//
 				if (paySelectionCheck.getPaymentRule().equals(PAYMENTRULE_Check))
 					payment.setBankCheck (paySelectionCheck.getParent().getC_BankAccount_ID(), false, paySelectionCheck.getDocumentNo());
 				else if (paySelectionCheck.getPaymentRule().equals(PAYMENTRULE_CreditCard))
@@ -330,7 +332,11 @@ public final class MPaySelectionCheck extends X_C_PaySelectionCheck
 					throw  new AdempiereException("Unsupported Payment Rule=" + paySelectionCheck.getPaymentRule());
 					//continue;
 				}
+
 				payment.setTrxType(X_C_Payment.TRXTYPE_CreditPayment);
+				if (docTypeId != null && docTypeId > 0)
+					payment.setC_DocType_ID(docTypeId);
+
 				payment.setAmount(paySelectionCheck.getParent().getC_Currency_ID(), paySelectionCheck.getPayAmt());
 				payment.setDiscountAmt(paySelectionCheck.getDiscountAmt());
 				payment.setDateTrx(paySelectionCheck.getParent().getPayDate());
@@ -357,8 +363,12 @@ public final class MPaySelectionCheck extends X_C_PaySelectionCheck
 						payment.setC_Order_ID (paySelectionLine.getC_Order_ID());
 					}
 					//	For Charge
-					if(paySelectionLine.getC_Charge_ID() != 0) {
-						payment.setC_Charge_ID (paySelectionLine.getC_Charge_ID());
+					if (paySelectionLine.getC_Charge_ID() != 0) {
+						payment.setC_Charge_ID(paySelectionLine.getC_Charge_ID());
+						if (paySelectionLine.getHR_Movement_ID() > 0) {
+							payment.setC_Project_ID(paySelectionLine.getHRMovement().getC_Project_ID());
+						}
+
 					}
 					//	For Conversion Type
 					if(paySelectionLine.getC_ConversionType_ID() != 0) {

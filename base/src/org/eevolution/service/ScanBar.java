@@ -165,7 +165,7 @@ public abstract class ScanBar {
 			if (product.getM_AttributeSet_ID() > 0) {
 				attributeSet = (MAttributeSet) product.getM_AttributeSet();
 				isLot = attributeSet.isLot();
-				boolean isExcludeEntry = attributeSet.excludeEntry(getTable().getAD_Table_ID(), Env.isSOTrx(product.getCtx()));
+				boolean isExcludeEntry = attributeSet.excludeEntry(getTableLine().getAD_Table_ID(), Env.isSOTrx(product.getCtx()));
 				if (isExcludeEntry)
 					isLot = false;
 			} else
@@ -182,7 +182,7 @@ public abstract class ScanBar {
 				attributeSet = (MAttributeSet) product.getM_AttributeSet();
 				isSerNo = attributeSet.isSerNo();
 				isSerNoMandotory = attributeSet.isSerNoMandatory();
-				boolean isExcludeEntry = attributeSet.excludeEntry(getTable().getAD_Table_ID(), Env.isSOTrx(product.getCtx()));
+				boolean isExcludeEntry = attributeSet.excludeEntry(getTableLine().getAD_Table_ID(), Env.isSOTrx(product.getCtx()));
 				if (isExcludeEntry)
 					isSerNo = false;
 			} else

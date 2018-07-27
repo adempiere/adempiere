@@ -1,5 +1,5 @@
 CREATE OR REPLACE FUNCTION maxpaydate(p_c_invoice_id IN NUMBER)
-RETURN NUMBER 
+RETURN DATE
 AS
           o_MaxPayDate  DATE;
 BEGIN

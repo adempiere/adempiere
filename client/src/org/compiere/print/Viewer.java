@@ -1311,7 +1311,6 @@ public class Viewer extends CFrame
 		
 		String title = null; 
 		String tableName = null;
-		boolean IsInheritFiltertoReports = true;
 
 		//	Get Find Tab Info
 		String sql = "SELECT t.AD_Tab_ID "
@@ -1361,7 +1360,7 @@ public class Viewer extends CFrame
 				+ "             AND ce.ASP_Status = 'H')"; // Hide
 		//
 		//jobriant - Feature #544
-		sql = "SELECT Name, TableName, IsInheritFiltertoReports FROM AD_Tab_v WHERE AD_Tab_ID=? " + ASPFilter;
+		sql = "SELECT Name, TableName FROM AD_Tab_v WHERE AD_Tab_ID=? " + ASPFilter;
 		
 		if (!Env.isBaseLanguage(Env.getCtx(), "AD_Tab"))
 			sql = "SELECT Name, TableName FROM AD_Tab_vt WHERE AD_Tab_ID=?"
@@ -1376,7 +1375,6 @@ public class Viewer extends CFrame
 			{
 				title = rs.getString(1);				
 				tableName = rs.getString(2);
-				IsInheritFiltertoReports = rs.getString(3).equals("Y");
 			}
 			//
 			rs.close();
@@ -1400,15 +1398,9 @@ public class Viewer extends CFrame
 			}
 		} else
 		{
-			/*ASearch search = new ASearch (bFind,this, title,AD_Tab_ID, AD_Table_ID, tableName, m_reportEngine ,findFields, 1);
-			search = null;*/ // Adempiere approach . This time discarded...
-			//jobriant - Inherit filter to reports
 			String whereExtended = "";
-			if (IsInheritFiltertoReports) {
-				whereExtended = m_reportEngine.getWhereExtended();
-			}
-			Find find = new Find (this, m_reportEngine.getWindowNo(), title,
-					AD_Tab_ID, AD_Table_ID, tableName, whereExtended, findFields, 1);
+			whereExtended = m_reportEngine.getWhereExtended();
+			Find find = new Find (this, m_reportEngine.getWindowNo(), title, AD_Tab_ID, AD_Table_ID, tableName, whereExtended, findFields, 1);
 			m_reportEngine.setQuery(find.getQuery());
 			find.dispose();
 			find = null;

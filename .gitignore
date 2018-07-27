@@ -50,3 +50,6 @@ migration/postgresql.properties
 /packages/
 /posterita/
 /zkpackages/
+/.metadata/
+/.recommenders/
+/RemoteSystemsTempFiles/
