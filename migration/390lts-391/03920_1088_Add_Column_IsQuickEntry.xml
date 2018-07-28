@@ -30,7 +30,7 @@
     <Step SeqNo="20" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="78493" Table="AD_Column">
         <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
-        <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="117" Column="DefaultValue">N</Data>
         <Data AD_Column_ID="114" Column="AD_Table_ID">107</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
         <Data AD_Column_ID="6482" Column="EntityType">U</Data>
