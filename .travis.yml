@@ -4,6 +4,9 @@ jdk:
 os:
 - linux
 sudo: required
+before_install:
+- echo "utils_dev";
+- cd utils_dev
 jobs:
   include:
   - stage: Main Build Test
