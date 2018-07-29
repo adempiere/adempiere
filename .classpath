@@ -358,5 +358,7 @@
 	<classpathentry kind="lib" path="tools/lib/itext-carriage-0.8.0.jar"/>
 	<classpathentry kind="lib" path="tools/lib/kernel-7.1.1.jar"/>
 	<classpathentry kind="lib" path="tools/lib/pdfa-7.1.1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/icepdf-core-6.2.2.jar"/>
+	<classpathentry kind="lib" path="tools/lib/icepdf-viewer-6.2.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
