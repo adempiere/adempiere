@@ -18,8 +18,7 @@ package org.eevolution.model;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-
-import org.compiere.model.MTable;
+import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for HR_Process
@@ -268,32 +267,6 @@ public interface I_HR_Process
 	  * The record is active in the system
 	  */
 	public boolean isActive();
-
-    /** Column name IsPostPerEmployee */
-    public static final String COLUMNNAME_IsPostPerEmployee = "IsPostPerEmployee";
-
-	/** Set IsPostPerEmployee.
-	  * A Payroll is posted per employee when the value is Yes, it is posted accumulated when the value is N
-	  */
-	public void setIsPostPerEmployee (boolean IsPostPerEmployee);
-
-	/** Get IsPostPerEmployee.
-	  * A Payroll is posted per employee when the value is Yes, it is posted accumulated when the value is N
-	  */
-	public boolean isPostPerEmployee();
-
-    /** Column name IsReversal */
-    public static final String COLUMNNAME_IsReversal = "IsReversal";
-
-	/** Set Reversal.
-	  * This is a reversing transaction
-	  */
-	public void setIsReversal (boolean IsReversal);
-
-	/** Get Reversal.
-	  * This is a reversing transaction
-	  */
-	public boolean isReversal();
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
