@@ -14,31 +14,31 @@
  * For the text or an alternative of this public license, you may reach us    *
  * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
-package org.eevolution.model;
+package org.spin.model;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for HR_Payroll
+/** Generated Interface for AD_ContextInfo
  *  @author Adempiere (generated) 
  *  @version Release 3.9.0
  */
-public interface I_HR_Payroll 
+public interface I_AD_ContextInfo 
 {
 
-    /** TableName=HR_Payroll */
-    public static final String Table_Name = "HR_Payroll";
+    /** TableName=AD_ContextInfo */
+    public static final String Table_Name = "AD_ContextInfo";
 
-    /** AD_Table_ID=53093 */
+    /** AD_Table_ID=54438 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
-    /** AccessLevel = 3 - Client - Org 
+    /** AccessLevel = 4 - System 
      */
-    BigDecimal accessLevel = BigDecimal.valueOf(3);
+    BigDecimal accessLevel = BigDecimal.valueOf(4);
 
     /** Load Meta Data */
 
@@ -49,6 +49,30 @@ public interface I_HR_Payroll
 	  * Client/Tenant for this installation.
 	  */
 	public int getAD_Client_ID();
+
+    /** Column name AD_ContextInfo_ID */
+    public static final String COLUMNNAME_AD_ContextInfo_ID = "AD_ContextInfo_ID";
+
+	/** Set Context Info Maintaining ID	  */
+	public void setAD_ContextInfo_ID (int AD_ContextInfo_ID);
+
+	/** Get Context Info Maintaining ID	  */
+	public int getAD_ContextInfo_ID();
+
+    /** Column name AD_Message_ID */
+    public static final String COLUMNNAME_AD_Message_ID = "AD_Message_ID";
+
+	/** Set Message.
+	  * System Message
+	  */
+	public void setAD_Message_ID (int AD_Message_ID);
+
+	/** Get Message.
+	  * System Message
+	  */
+	public int getAD_Message_ID();
+
+	public org.compiere.model.I_AD_Message getAD_Message() throws RuntimeException;
 
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
@@ -62,36 +86,6 @@ public interface I_HR_Payroll
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
-
-    /** Column name AD_PrintFormat_ID */
-    public static final String COLUMNNAME_AD_PrintFormat_ID = "AD_PrintFormat_ID";
-
-	/** Set Print Format.
-	  * Data Print Format
-	  */
-	public void setAD_PrintFormat_ID (int AD_PrintFormat_ID);
-
-	/** Get Print Format.
-	  * Data Print Format
-	  */
-	public int getAD_PrintFormat_ID();
-
-	public org.compiere.model.I_AD_PrintFormat getAD_PrintFormat() throws RuntimeException;
-
-    /** Column name C_Charge_ID */
-    public static final String COLUMNNAME_C_Charge_ID = "C_Charge_ID";
-
-	/** Set Charge.
-	  * Additional document charges
-	  */
-	public void setC_Charge_ID (int C_Charge_ID);
-
-	/** Get Charge.
-	  * Additional document charges
-	  */
-	public int getC_Charge_ID();
-
-	public org.compiere.model.I_C_Charge getC_Charge() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -122,26 +116,6 @@ public interface I_HR_Payroll
 	  */
 	public String getDescription();
 
-    /** Column name HR_Contract_ID */
-    public static final String COLUMNNAME_HR_Contract_ID = "HR_Contract_ID";
-
-	/** Set Payroll Contract	  */
-	public void setHR_Contract_ID (int HR_Contract_ID);
-
-	/** Get Payroll Contract	  */
-	public int getHR_Contract_ID();
-
-	public org.eevolution.model.I_HR_Contract getHR_Contract() throws RuntimeException;
-
-    /** Column name HR_Payroll_ID */
-    public static final String COLUMNNAME_HR_Payroll_ID = "HR_Payroll_ID";
-
-	/** Set Payroll	  */
-	public void setHR_Payroll_ID (int HR_Payroll_ID);
-
-	/** Get Payroll	  */
-	public int getHR_Payroll_ID();
-
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
 
@@ -154,32 +128,6 @@ public interface I_HR_Payroll
 	  * The record is active in the system
 	  */
 	public boolean isActive();
-
-    /** Column name IsIgnoreDefaultPayroll */
-    public static final String COLUMNNAME_IsIgnoreDefaultPayroll = "IsIgnoreDefaultPayroll";
-
-	/** Set Ignore Default Payroll.
-	  * Ignore Default Payroll for Employee
-	  */
-	public void setIsIgnoreDefaultPayroll (boolean IsIgnoreDefaultPayroll);
-
-	/** Get Ignore Default Payroll.
-	  * Ignore Default Payroll for Employee
-	  */
-	public boolean isIgnoreDefaultPayroll();
-
-    /** Column name IsPostPerEmployee */
-    public static final String COLUMNNAME_IsPostPerEmployee = "IsPostPerEmployee";
-
-	/** Set IsPostPerEmployee.
-	  * A Payroll is posted per employee when the value is Yes, it is posted accumulated when the value is N
-	  */
-	public void setIsPostPerEmployee (boolean IsPostPerEmployee);
-
-	/** Get IsPostPerEmployee.
-	  * A Payroll is posted per employee when the value is Yes, it is posted accumulated when the value is N
-	  */
-	public boolean isPostPerEmployee();
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
@@ -194,40 +142,14 @@ public interface I_HR_Payroll
 	  */
 	public String getName();
 
-    /** Column name PaymentRule */
-    public static final String COLUMNNAME_PaymentRule = "PaymentRule";
+    /** Column name SQLStatement */
+    public static final String COLUMNNAME_SQLStatement = "SQLStatement";
 
-	/** Set Payment Rule.
-	  * How you pay the invoice
-	  */
-	public void setPaymentRule (String PaymentRule);
+	/** Set SQLStatement	  */
+	public void setSQLStatement (String SQLStatement);
 
-	/** Get Payment Rule.
-	  * How you pay the invoice
-	  */
-	public String getPaymentRule();
-
-    /** Column name Processed */
-    public static final String COLUMNNAME_Processed = "Processed";
-
-	/** Set Processed.
-	  * The document has been processed
-	  */
-	public void setProcessed (boolean Processed);
-
-	/** Get Processed.
-	  * The document has been processed
-	  */
-	public boolean isProcessed();
-
-    /** Column name Processing */
-    public static final String COLUMNNAME_Processing = "Processing";
-
-	/** Set Process Now	  */
-	public void setProcessing (boolean Processing);
-
-	/** Get Process Now	  */
-	public boolean isProcessing();
+	/** Get SQLStatement	  */
+	public String getSQLStatement();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

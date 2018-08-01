@@ -1337,11 +1337,16 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 
         //  Transaction info
         String trxInfo = currentTab.getTrxInfo();
-        if (trxInfo != null)
-        {
+        if (trxInfo != null) {
             statusBar.setInfo(trxInfo);
         }
-
+        //	reload Field
+        if(getADTab() != null) {
+        	ADTabPanel tabPanel = (ADTabPanel) getADTab().getSelectedTabpanel();
+        	if(tabPanel != null) {
+        		tabPanel.reloadFieldTrxInfo();
+        	}
+        }
         //  Check Attachment
         boolean canHaveAttachment = currentTab.canHaveAttachment();       //  not single _ID column
         //

@@ -405,7 +405,7 @@ public class MRecentItem extends X_AD_RecentItem
 			PO po = table.getPO(getRecord_ID(), null);
 			//	Validate PO
 			if(po == null) {
-				return optionName + identifier;
+				return null;
 			}
 			identifier.append(": ");
 			//	
