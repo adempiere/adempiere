@@ -662,9 +662,14 @@ public class VBrowserTable extends CTable implements IBrowserTable {
      */
     @Override
     protected void sort(final int modelColumnIndex) {
-        MBrowse browse = new MBrowse(Env.getCtx(),this.browser.getAD_Browse_ID(), null);
-
-        if (browse.get_ValueAsBoolean("IsAllowSort"))
+        Boolean isCanSort = true;
+        for (MBrowseField browseField :getFields()){
+            if (!browseField.isReadOnly()){
+                isCanSort=false;
+                break;
+            }
+        }
+        if (isCanSort)
             super.sort(modelColumnIndex);
     }   //  sort
 
