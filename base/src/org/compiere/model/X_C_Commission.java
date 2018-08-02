@@ -31,7 +31,7 @@ public class X_C_Commission extends PO implements I_C_Commission, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20180206L;
+	private static final long serialVersionUID = 20180323L;
 
     /** Standard Constructor */
     public X_C_Commission (Properties ctx, int C_Commission_ID, String trxName)
@@ -137,29 +137,6 @@ public class X_C_Commission extends PO implements I_C_Commission, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Commission.
-		@param C_Commission_ID 
-		Commission
-	  */
-	public void setC_Commission_ID (int C_Commission_ID)
-	{
-		if (C_Commission_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_Commission_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_Commission_ID, Integer.valueOf(C_Commission_ID));
-	}
-
-	/** Get Commission.
-		@return Commission
-	  */
-	public int getC_Commission_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Commission_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.compiere.model.I_C_CommissionGroup getC_CommissionGroup() throws RuntimeException
     {
 		return (org.compiere.model.I_C_CommissionGroup)MTable.get(getCtx(), org.compiere.model.I_C_CommissionGroup.Table_Name)
@@ -180,6 +157,29 @@ public class X_C_Commission extends PO implements I_C_Commission, I_Persistent
 	public int getC_CommissionGroup_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_CommissionGroup_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Commission.
+		@param C_Commission_ID 
+		Commission
+	  */
+	public void setC_Commission_ID (int C_Commission_ID)
+	{
+		if (C_Commission_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Commission_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Commission_ID, Integer.valueOf(C_Commission_ID));
+	}
+
+	/** Get Commission.
+		@return Commission
+	  */
+	public int getC_Commission_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Commission_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -272,6 +272,10 @@ public class X_C_Commission extends PO implements I_C_Commission, I_Persistent
 	public static final String DOCBASISTYPE_Invoice = "I";
 	/** Receipt = R */
 	public static final String DOCBASISTYPE_Receipt = "R";
+	/** Forecast vs Invoice = F */
+	public static final String DOCBASISTYPE_ForecastVsInvoice = "F";
+	/** Forecast vs Order = G */
+	public static final String DOCBASISTYPE_ForecastVsOrder = "G";
 	/** Set Calculation Basis.
 		@param DocBasisType 
 		Basis for the calculation the commission

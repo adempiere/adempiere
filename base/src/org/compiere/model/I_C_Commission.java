@@ -92,6 +92,17 @@ public interface I_C_Commission
 
 	public org.compiere.model.I_C_Charge getC_Charge() throws RuntimeException;
 
+    /** Column name C_CommissionGroup_ID */
+    public static final String COLUMNNAME_C_CommissionGroup_ID = "C_CommissionGroup_ID";
+
+	/** Set Commission Group	  */
+	public void setC_CommissionGroup_ID (int C_CommissionGroup_ID);
+
+	/** Get Commission Group	  */
+	public int getC_CommissionGroup_ID();
+
+	public org.compiere.model.I_C_CommissionGroup getC_CommissionGroup() throws RuntimeException;
+
     /** Column name C_Commission_ID */
     public static final String COLUMNNAME_C_Commission_ID = "C_Commission_ID";
 
@@ -104,17 +115,6 @@ public interface I_C_Commission
 	  * Commission
 	  */
 	public int getC_Commission_ID();
-
-    /** Column name C_CommissionGroup_ID */
-    public static final String COLUMNNAME_C_CommissionGroup_ID = "C_CommissionGroup_ID";
-
-	/** Set Commission Group	  */
-	public void setC_CommissionGroup_ID (int C_CommissionGroup_ID);
-
-	/** Get Commission Group	  */
-	public int getC_CommissionGroup_ID();
-
-	public org.compiere.model.I_C_CommissionGroup getC_CommissionGroup() throws RuntimeException;
 
     /** Column name C_Currency_ID */
     public static final String COLUMNNAME_C_Currency_ID = "C_Currency_ID";

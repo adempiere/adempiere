@@ -16,19 +16,14 @@
  *****************************************************************************/
 package org.compiere.process;
 
+import org.compiere.model.*;
+import org.compiere.util.AdempiereSystemError;
+import org.compiere.util.DB;
+
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.logging.Level;
-
-import org.compiere.model.MBPartner;
-import org.compiere.model.MInvoice;
-import org.compiere.model.MInvoiceLine;
-import org.compiere.model.MRequest;
-import org.compiere.model.MRequestType;
-import org.compiere.model.MRequestUpdate;
-import org.compiere.util.AdempiereSystemError;
-import org.compiere.util.DB;
 
 /**
  * 	Create Invoices for Requests
@@ -130,7 +125,7 @@ public class RequestInvoice extends SvrProcess
 			int oldC_BPartner_ID = 0;
 			while (rs.next ())
 			{
-				MRequest request = new MRequest (getCtx(), rs, get_TrxName());
+				MRequest request = new MRequest(getCtx(), rs, get_TrxName());
 				if (!request.isInvoiced())
 					continue;
 				if (oldC_BPartner_ID != request.getC_BPartner_ID())
@@ -192,10 +187,10 @@ public class RequestInvoice extends SvrProcess
 	 */
 	private void invoiceNew (MRequest request)
 	{
-		m_invoice = new MInvoice (getCtx(), 0, get_TrxName());
+		m_invoice = new MInvoice(getCtx(), 0, get_TrxName());
 		m_invoice.setIsSOTrx(true);
 		
-		MBPartner partner = new MBPartner (getCtx(), request.getC_BPartner_ID(), null);
+		MBPartner partner = new MBPartner(getCtx(), request.getC_BPartner_ID(), null);
 		m_invoice.setBPartner(partner);
 		
 		m_invoice.saveEx();
