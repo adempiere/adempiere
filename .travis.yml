@@ -4,19 +4,24 @@ jdk:
 os:
 - linux
 sudo: required
+services:
+  - postgresql
+addons:
+  postgresql: "10"
+  apt:
+    packages:
+    - postgresql-10
+    - postgresql-client-10
 before_install:
 - echo "utils_dev";
-- cd utils_dev
 jobs:
   include:
   - stage: Main Build Test
-    script: ant build
+    script: ant utils_dev/build
+  - stage: Run Silest Setup
+    script: bash adempiere/Adempiere/RUN_silentsetup.sh
 notifications:
   email:
     recipients:
     - ysenih@erpya.com
-    - victor.perez@e-evolution.com
-    - mario.calderon@westfalia-it.com
-    - susanne.de.calderon@westfalia-it.com
-    on_success: always
     on_failure: always
