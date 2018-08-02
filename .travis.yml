@@ -20,7 +20,8 @@ jobs:
     script: cd utils_dev
     script: ant build
   - stage: Run Silest Setup
-    script: bash adempiere/Adempiere/RUN_silentsetup.sh
+    script: cd adempiere/Adempiere
+    script: ./RUN_silentsetup.sh
 notifications:
   email:
     recipients:
