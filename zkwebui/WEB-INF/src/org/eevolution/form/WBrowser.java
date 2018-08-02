@@ -836,7 +836,8 @@ public class WBrowser extends Browser implements IFormController,
 
 	@Override
 	public void unlockUI(ProcessInfo pi) {
-		
+		parameterPanel.setProcessInfo(pi);
+		parameterPanel.openResult();
 	}
 
 	@Override

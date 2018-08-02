@@ -175,6 +175,8 @@ public class ProcessInfo implements Serializable
 	 */
 	// 03152: motivation to add this is that now in ait we can assert that a certain exception was thrown.
 	private Throwable 			throwable = null;
+	/**	Table Name for open window after running	*/
+	private String 				resultTableName = null;
 	
 	/**
 	 *  String representation
@@ -1333,6 +1335,30 @@ public class ProcessInfo implements Serializable
 
 	public void setDrillSource(String drillSource) {
 		this.drillSource = drillSource;
+	}
+	
+	/**
+	 * Open result from a table and IDs of process info
+	 * @param tableName
+	 */
+	public void openResult(String tableName) {
+		resultTableName = tableName;
+	}
+	
+	/**
+	 * Get result table Name
+	 * @return
+	 */
+	public String getResultTableName() {
+		return resultTableName;
+	}
+	
+	/**
+	 * Validate if result can be open
+	 * @return
+	 */
+	public boolean isOpenResult() {
+		return !Util.isEmpty(getResultTableName());
 	}
 	
 }   //  ProcessInfo
