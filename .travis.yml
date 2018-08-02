@@ -17,7 +17,7 @@ before_install:
 jobs:
   include:
   - stage: Main Build Test
-    script: bash utils_dev/RUN_build.sh
+    script: ant utils_dev/build.xml
   - stage: Run Silest Setup
     script: bash adempiere/Adempiere/RUN_silentsetup.sh
 notifications:
