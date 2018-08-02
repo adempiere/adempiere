@@ -670,7 +670,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
     private MQuery initialQuery(MQuery query, GridTab mTab)
     {
         // We have a (Zoom) query
-        if (query != null && query.isActive() && query.getRecordCount() < 10)
+        if (query != null && query.isActive())
             return query;
         //
         StringBuffer where = new StringBuffer(Env.parseContext(ctx, curWindowNo, mTab.getWhereExtended(), false));
