@@ -45,6 +45,7 @@ import org.compiere.apps.ProcessCtl;
 import org.compiere.model.GridField;
 import org.compiere.model.Lookup;
 import org.compiere.model.MPInstance;
+import org.compiere.model.MQuery;
 import org.compiere.model.MRole;
 import org.compiere.model.MSysConfig;
 import org.compiere.print.MPrintFormat;
@@ -522,6 +523,8 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 		}
 		//	
 		hideBusyDialog();
+		//	Show Result
+		openResult();
 		//	Hide
 		if(isReport() && !pi.isError()) {
 			dispose();
@@ -705,5 +708,10 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 	 */
 	public int getQtyRow() {
 		return qtyRow;
+	}
+
+	@Override
+	public void openResult(MQuery query) {
+		AEnv.zoom(query);
 	}
 }	//	ProcessParameterPanel

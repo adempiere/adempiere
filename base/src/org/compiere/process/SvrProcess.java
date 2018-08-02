@@ -23,20 +23,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
-import org.compiere.apps.AEnv;
 import org.compiere.model.MPInstance;
 import org.compiere.model.MProcess;
 import org.compiere.model.MProcessPara;
-import org.compiere.model.MQuery;
-import org.compiere.model.MTable;
 import org.compiere.model.PO;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -949,43 +944,6 @@ public abstract class SvrProcess implements ProcessCall
 	 * @param tableName
 	 */
 	public void openResult(String tableName) {
-		List<Integer> keys = new ArrayList<Integer>();
-		for(int key : getProcessInfo().getIDs()) {
-			keys.add(key);
-		}
-		//	Add
-		openResult(tableName, keys);
-	}
-	
-	/**
-	 * Open a window with result of record ids and table name
-	 * @param tableName
-	 * @param recordIdAsList
-	 */
-	public void openResult(String tableName, List<Integer> recordIdAsList) {
-		if(Util.isEmpty(tableName)) {
-			return;
-		}
-		//	
-		if(recordIdAsList == null
-				|| recordIdAsList.isEmpty()) {
-			return;
-		}
-		//	Not have a key column
-		MTable table = MTable.get(getCtx(), tableName);
-		if(table.getKeyColumns() == null
-				|| table.getKeyColumns().length == 0) {
-			return;
-		}
-		String keyColumn = table.getKeyColumns()[0];
-		String whereClause = new String(keyColumn + " IN" + recordIdAsList.toString().replace('[','(').replace(']',')'));
-		MQuery query = new MQuery(tableName);
-		query.addRestriction(whereClause);
-		//	For Swing
-		if (Ini.isClient()) {
-			AEnv.zoom(query);
-		} else {
-			org.adempiere.webui.apps.AEnv.zoom(query);
-		}
+		processInfo.openResult(tableName);
 	}
 }   //  SvrProcess
