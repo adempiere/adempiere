@@ -12,9 +12,14 @@ addons:
     packages:
     - postgresql-10
     - postgresql-client-10
+before_script:
+  - psql -c "ALTER USER postgres WITH PASSWORD 'postgres';"
 before_install:
 - echo "utils_dev";
 - echo "Test";
+- sudo sed -i -e '/local.*peer/s/postgres/all/' -e 's/peer\|md5/trust/g' /etc/postgresql/*/main/pg_hba.conf
+- sudo service postgresql restart
+- sleep 1
 jobs:
   include:
   - stage: Main Build Test

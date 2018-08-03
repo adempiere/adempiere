@@ -23,21 +23,25 @@
 	<echo message="Copy myEnvironment_CI to myEnvironment"/>
   	<copy file="${myEnvironment_CI}"
 			tofile="${myEnvironment}" filtering="yes" overwrite="yes" />
+  	<fail message="**** myEnvironment_CI is missing please re-run ****"" />
   	
   	<echo message="Run Import Adempiere"/>
   	<exec dir="${env_directory}" executable="/bin/bash">
     	<arg value="${RUN_ImportAdempiere}"/>
   	</exec>
+  	<fail message="**** Error running RUN_ImportAdempiere.sh please re-run ****"" />
   	
   	<echo message="Run DB Restore Adempiere"/>
 	<exec dir="${env_directory}" executable="/bin/bash">
     	<arg value="${RUN_DBRestore}"/>
   	</exec>
+  	<fail message="**** Error running RUN_DBRestore.sh please re-run ****"" />
   	
   	<echo message="Run Migrate XML"/>
   	<chmod file="${RUN_DBRestore}" perm="ugo+rx"/>
 	<exec dir="${env_directory}" executable="/bin/bash">
     	<arg value="${RUN_MigrateXML}"/>
   	</exec>
+  	<fail message="**** Error running RUN_MigrateXML.sh please re-run ****"" />
   </target>
 </project>
