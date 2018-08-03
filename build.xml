@@ -1,0 +1,36 @@
+<project name="Adempiere Build Travis" default="init" basedir=".">
+    <description>
+        Building ADempiere
+        by
+        Yamel Senih
+        http://www.erpya.com
+    </description>
+  <!-- set global properties for this build -->
+  <property name="env_directory" location="adempiere/Adempiere/utils"/>
+  <property name="adempiere_build" location="utils_dev/build.xml"/>
+  <property name="myEnvironment_CI" location="adempiere/Adempiere/utils/myEnvironment_CI.sh"/>
+  <property name="myEnvironment" location="adempiere/Adempiere/utils/myEnvironment.sh"/>
+  <property name="RUN_DBRestore" location="adempiere/Adempiere/utils/RUN_DBRestore.sh"/>
+  <property name="RUN_ImportAdempiere" location="adempiere/Adempiere/utils/RUN_ImportAdempiere.sh"/>
+  <property name="RUN_MigrateXML" location="adempiere/Adempiere/utils/RUN_MigrateXML.sh"/>
+  <target name="init">
+    <echo message="Building ADempiere"/>
+	<ant antfile="${adempiere_build}" target="complete"/>
+	<echo message="Deploy ADempiere"/>
+	<echo message="Copy myEnvironment_CI to myEnvironment"/>
+  	<copy file="${myEnvironment_CI}"
+			tofile="${myEnvironment}" filtering="yes" overwrite="yes" />
+  	<echo message="Run Import Adempiere"/>
+  	<exec dir="${env_directory}" executable="/bin/bash">
+    	<arg value="${RUN_ImportAdempiere}"/>
+  	</exec>
+  	<echo message="Run DB Restore Adempiere"/>
+	<exec dir="${env_directory}" executable="/bin/bash">
+    	<arg value="${RUN_DBRestore}"/>
+  	</exec>
+  	<echo message="Run Migrate XML"/>
+	<exec dir="${env_directory}" executable="/bin/bash">
+    	<arg value="${RUN_MigrateXML}"/>
+  	</exec>
+  </target>
+</project>
