@@ -45,11 +45,6 @@
 	<echo message="Copy myEnvironment_CI to myEnvironment"/>
   	<copy file="${AdempierePropertiesFrom}"
 			tofile="${AdempierePropertiesTo}" filtering="yes" overwrite="yes" />
-	
-  	<echo message="Run Silent Setup"/>
-  	<exec dir="${env_directory}" executable="/bin/bash">
-    	<arg value="${RUN_silentsetup}"/>
-  	</exec>
   	
   	<echo message="Run Migrate XML"/>
 	<exec dir="${AD_directory}" executable="/bin/bash">
