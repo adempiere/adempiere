@@ -12,6 +12,9 @@ addons:
     packages:
     - postgresql-10
     - postgresql-client-10
+env:
+  global:
+  - PGPORT=5433
 before_script:
   - psql -c "ALTER USER postgres WITH PASSWORD 'postgres';"
 before_install:
