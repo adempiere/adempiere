@@ -17,10 +17,10 @@ before_install:
 jobs:
   include:
   - stage: Main Build Test
-    script: cd utils_dev
+    before_script: cd utils_dev
     script: ant build
   - stage: Run Silest Setup
-    script: cd adempiere/Adempiere
+    before_script: cd adempiere/Adempiere
     script: ./RUN_silentsetup.sh
 notifications:
   email:
