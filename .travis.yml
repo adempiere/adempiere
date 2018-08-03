@@ -14,14 +14,10 @@ addons:
     - postgresql-client-10
 before_install:
 - echo "utils_dev";
-jobs:
-  include:
-  - stage: Main Build Test
-    before_script: cd utils_dev
-    script: ant build
-  - stage: Run Silest Setup
-    before_script: cd adempiere/Adempiere
-    script: ./RUN_silentsetup.sh
+before_script: cd utils_dev
+script: ant build
+before_script: cd adempiere/Adempiere
+script: ./RUN_silentsetup.sh
 notifications:
   email:
     recipients:
