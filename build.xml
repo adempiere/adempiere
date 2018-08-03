@@ -21,14 +21,17 @@
   	<copy file="${myEnvironment_CI}"
 			tofile="${myEnvironment}" filtering="yes" overwrite="yes" />
   	<echo message="Run Import Adempique pensa conere"/>
+  	<chmod file="${RUN_ImportAdempiere}" perm="ugo+rx"/>
   	<exec dir="${env_directory}" executable="/bin/bash">
     	<arg value="${RUN_ImportAdempiere}"/>
   	</exec>
   	<echo message="Run DB Restore Adempiere"/>
+  	<chmod file="${RUN_DBRestore}" perm="ugo+rx"/>
 	<exec dir="${env_directory}" executable="/bin/bash">
     	<arg value="${RUN_DBRestore}"/>
   	</exec>
   	<echo message="Run Migrate XML"/>
+  	<chmod file="${RUN_DBRestore}" perm="ugo+rx"/>
 	<exec dir="${env_directory}" executable="/bin/bash">
     	<arg value="${RUN_MigrateXML}"/>
   	</exec>
