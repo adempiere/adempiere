@@ -770,9 +770,9 @@ public class MClient extends X_AD_Client
 		EMail email = null;
 		if (isServerEMail() && Ini.isClient())
 		{
-			Server server = CConnection.get().getServer();
 			try
 			{
+				Server server = CConnection.get().getServer();
 				if (server != null)
 				{	//	See ServerBean
 					if (html && message != null)
@@ -882,9 +882,9 @@ public class MClient extends X_AD_Client
 		EMail email = null;
 		if (isServerEMail() && Ini.isClient())
 		{
-			Server server = CConnection.get().getServer();
 			try
 			{
+				Server server = CConnection.get().getServer();
 				if (server != null)
 				{	//	See ServerBean
 					if (html && message != null)

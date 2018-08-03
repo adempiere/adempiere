@@ -1018,7 +1018,7 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 			{
 				MClient client = MClient.get(getCtx(), getAD_Client_ID());
 				MMailText mailtext = new MMailText(getCtx(),getNode().getR_MailText_ID(),null);
-
+				mailtext.setPO(getPO() , true);
 				String subject = getNode().getDescription()
 				+ ": " + mailtext.getMailHeader();
 

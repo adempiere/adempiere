@@ -802,10 +802,9 @@ public class WBrowser extends Browser implements IFormController,
 			detail.setFocus(true);
 		}
 		
-		if(isSelectedByDefault())
-		{	
-			isAllSelected = false;
-			selectedRows();			
+		isAllSelected = isSelectedByDefault();
+		if(isAllSelected) {
+			selectedRows();
 		}
 	} // run
 
@@ -870,8 +869,7 @@ public class WBrowser extends Browser implements IFormController,
 	/**
 	 * Selected Rows
 	 */
-	private void selectedRows()
-	{
+	private void selectedRows() {
 		int topIndex = detail.isShowTotals() ? 2 : 1;
 		int rows = detail.getRowCount();
 		int selectedList[] = new int[rows];
