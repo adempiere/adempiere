@@ -16,7 +16,7 @@ before_install:
 - echo "utils_dev";
 before_script: cd utils_dev
 script: ant build
-before_script: cd adempiere/Adempiere
+script: cd adempiere/Adempiere
 script: ./RUN_silentsetup.sh
 notifications:
   email:
