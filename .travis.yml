@@ -15,7 +15,7 @@ addons:
 before_install:
 - echo "utils_dev";
 jobs:
-  include:
+  include: 
   - stage: Main Build Test
     before_script: cd utils_dev
     - script: ant build
