@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="InvoiceCompletePayPrint" ReleaseNo="3.9.1" SeqNo="3800">
+  <Migration EntityType="D" Name="InvoiceCompletePayPrint0" ReleaseNo="3.9.1" SeqNo="3930">
     <Comments>https://github.com/adempiere/adempiere/issues/1636</Comments>
     <Step DBType="Oracle" Parse="Y" SeqNo="0" StepType="SQL">
       <SQLStatement>create or replace view RV_BankInfo as select b.ad_client_ID, b.ad_Org_ID, b.name, ba.accountno, bd.paymentrule, ba.c_bankaccount_ID, ba.created, ba.createdby, ba.updated, ba.updatedby, ba.UUID, ba.isactive, b.banktype, ba.c_bank_ID, bd.currentnext,     ba.accountNo AS info,     bd.c_bankaccountdoc_id from c_bankaccount ba  inner join c_bank b on ba.c_bank_ID = b.c_bank_ID left join c_bankaccountdoc bd on ba.c_bankaccount_ID = bd.c_bankaccount_ID</SQLStatement>
@@ -129,6 +129,7 @@
     </Step>
     <Step SeqNo="50" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="87689" Table="AD_Column">
+        <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="112" Column="Description">Organizational entity within client</Data>
         <Data AD_Column_ID="549" Column="Created">2018-04-02 18:01:30.207</Data>
         <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
@@ -141,7 +142,6 @@
         <Data AD_Column_ID="117" Column="DefaultValue">@#AD_Org_ID@</Data>
         <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
         <Data AD_Column_ID="120" Column="IsParent">false</Data>
-        <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
         <Data AD_Column_ID="6483" Column="IsSyncDatabase" isNewNull="true"/>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
@@ -268,6 +268,9 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="90" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="87691" Table="AD_Column">
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
+        <Data AD_Column_ID="62199" Column="IsAllowCopy">false</Data>
+        <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">Date this record was created</Data>
         <Data AD_Column_ID="549" Column="Created">2018-04-02 18:01:33.609</Data>
         <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
@@ -298,9 +301,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
         <Data AD_Column_ID="56187" Column="IsAllowLogging">true</Data>
         <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
-        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy">false</Data>
-        <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="109" Column="AD_Column_ID">87691</Data>
         <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>

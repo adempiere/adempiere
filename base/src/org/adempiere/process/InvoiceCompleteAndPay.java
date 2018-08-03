@@ -55,11 +55,10 @@ public class InvoiceCompleteAndPay extends InvoiceCompleteAndPayAbstract
 		if (notappropriate)
 		    return "@An Invoice with a payment Schedule or a discount cannot be used is this process";
 
-        if (!(invoice.getDocStatus().equals("DR") || invoice.getDocStatus().equals("IP")))
-			return "";
-		if (!invoice.processIt("CO"))
-			return "Could not complete Invoice";
-		invoice.saveEx();
+		if ((invoice.getDocStatus().equals("DR") || invoice.getDocStatus().equals("IP"))){
+			if (!invoice.processIt("CO")) return "@Could not complete Invoice";
+			invoice.saveEx();
+		}
 		MBankAccount bankAccount = new MBankAccount(getCtx(), getCBankAccountId(), get_TrxName());
 		BigDecimal payAmount = getPayAmt();
 		BigDecimal convertedAmount=payAmount;
