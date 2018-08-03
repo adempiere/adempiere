@@ -18,18 +18,18 @@
 	<ant antfile="${adempiere_build}" target="complete"/>
 	
 	<echo message="Deploy ADempiere"/>
+	<chmod dir="${env_directory}" perm="ugo+rx" includes="**/*.sh"/>
+	<chmod dir="${env_directory}/PostgreSQL" perm="ugo+rx" includes="**/*.sh"/>
 	<echo message="Copy myEnvironment_CI to myEnvironment"/>
   	<copy file="${myEnvironment_CI}"
 			tofile="${myEnvironment}" filtering="yes" overwrite="yes" />
   	
   	<echo message="Run Import Adempiere"/>
-  	<chmod file="${RUN_ImportAdempiere}" perm="ugo+rx"/>
   	<exec dir="${env_directory}" executable="/bin/bash">
     	<arg value="${RUN_ImportAdempiere}"/>
   	</exec>
   	
   	<echo message="Run DB Restore Adempiere"/>
-  	<chmod file="${RUN_DBRestore}" perm="ugo+rx"/>
 	<exec dir="${env_directory}" executable="/bin/bash">
     	<arg value="${RUN_DBRestore}"/>
   	</exec>
