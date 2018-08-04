@@ -33,12 +33,12 @@
 			tofile="${myEnvironment}" filtering="yes" overwrite="yes" />
   	
   	<echo message="Run Import Adempiere"/>
-  	<exec dir="${env_directory}" executable="/bin/bash">
+  	<exec dir="${env_directory}" executable="/bin/bash" failonerror="true">
     	<arg value="${RUN_ImportAdempiere}"/>
   	</exec>
   	
   	<echo message="Run DB Restore Adempiere"/>
-	<exec dir="${env_directory}" executable="/bin/bash">
+	<exec dir="${env_directory}" executable="/bin/bash" failonerror="true">
     	<arg value="${RUN_DBRestore}"/>
   	</exec>
   	
@@ -47,7 +47,7 @@
 			tofile="${AdempierePropertiesTo}" filtering="yes" overwrite="yes" />
   	
   	<echo message="Run Migrate XML"/>
-	<exec dir="${AD_directory}" executable="/bin/bash">
+	<exec dir="${AD_directory}" executable="/bin/bash" failonerror="true">
     	<arg value="${RUN_MigrateXML}"/>
   	</exec>
   </target>
