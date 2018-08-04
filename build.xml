@@ -32,10 +32,6 @@
   	<copy file="${myEnvironment_CI}"
 			tofile="${myEnvironment}" filtering="yes" overwrite="yes" />
   	
-  	<echo message="Copy myEnvironment_CI to myEnvironment"/>
-  	<copy file="${AdempierePropertiesFrom}"
-			tofile="${AdempierePropertiesTo}" filtering="yes" overwrite="yes" />
-  	
   	<echo message="Run Import Adempiere"/>
   	<exec dir="${env_directory}" executable="/bin/bash" failonerror="true">
     	<arg value="${RUN_ImportAdempiere}"/>
@@ -45,6 +41,10 @@
 	<exec dir="${env_directory}" executable="/bin/bash" failonerror="true">
     	<arg value="${RUN_DBRestore}"/>
   	</exec>
+  	
+	<echo message="Copy myEnvironment_CI to myEnvironment"/>
+  	<copy file="${AdempierePropertiesFrom}"
+			tofile="${AdempierePropertiesTo}" filtering="yes" overwrite="yes" />
   	
   	<echo message="Run Migrate XML"/>
 	<exec dir="${AD_directory}" executable="/bin/bash" failonerror="true">
