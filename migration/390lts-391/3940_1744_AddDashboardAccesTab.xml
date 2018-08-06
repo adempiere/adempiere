@@ -3,7 +3,7 @@
   <Migration EntityType="D" Name="Add Dashboard Acces Tab" ReleaseNo="3.9.1" SeqNo="3940">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="100" Action="I" Record_ID="54428" Table="AD_Table">
-        <Data AD_Column_ID="102" Column="Name">Dasboard Access</Data>
+        <Data AD_Column_ID="102" Column="Name">Dashboard Access</Data>
         <Data AD_Column_ID="543" Column="IsActive">true</Data>
         <Data AD_Column_ID="546" Column="Updated">2018-06-12 11:36:36.513</Data>
         <Data AD_Column_ID="544" Column="Created">2018-06-12 11:36:36.513</Data>
@@ -11,7 +11,7 @@
         <Data AD_Column_ID="103" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="354" Column="AccessLevel">6</Data>
         <Data AD_Column_ID="104" Column="Help" isNewNull="true"/>
-        <Data AD_Column_ID="107" Column="TableName">AD_Dasboard_Access</Data>
+        <Data AD_Column_ID="107" Column="TableName">AD_Dashboard_Access</Data>
         <Data AD_Column_ID="9341" Column="ReplicationType">L</Data>
         <Data AD_Column_ID="8564" Column="IsChangeLog">false</Data>
         <Data AD_Column_ID="65574" Column="ACTriggerLength">0</Data>
@@ -42,7 +42,7 @@
         <Data AD_Column_ID="12723" Column="Updated">2018-06-12 11:36:39.332</Data>
         <Data AD_Column_ID="12724" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="12721" Column="IsActive">true</Data>
-        <Data AD_Column_ID="12716" Column="Name">Dasboard Access</Data>
+        <Data AD_Column_ID="12716" Column="Name">Dashboard Access</Data>
         <Data AD_Column_ID="12720" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="12719" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="12715" Column="AD_Language">es_MX</Data>
@@ -605,7 +605,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="629" Column="Updated">2018-06-12 11:37:08.559</Data>
         <Data AD_Column_ID="349" Column="IsActive">true</Data>
         <Data AD_Column_ID="225" Column="StartNewYear">false</Data>
-        <Data AD_Column_ID="347" Column="Description">Table AD_Dasboard_Access</Data>
+        <Data AD_Column_ID="347" Column="Description">Table AD_Dashboard_Access</Data>
         <Data AD_Column_ID="1187" Column="VFormat" isNewNull="true"/>
         <Data AD_Column_ID="1188" Column="IsAutoSequence">true</Data>
         <Data AD_Column_ID="222" Column="IsAudited">false</Data>
@@ -613,7 +613,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="224" Column="Suffix" isNewNull="true"/>
         <Data AD_Column_ID="54272" Column="DateColumn" isNewNull="true"/>
         <Data AD_Column_ID="54309" Column="DecimalPattern" isNewNull="true"/>
-        <Data AD_Column_ID="216" Column="Name">AD_Dasboard_Access</Data>
+        <Data AD_Column_ID="216" Column="Name">AD_Dashboard_Access</Data>
         <Data AD_Column_ID="427" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="426" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="1186" Column="AD_Sequence_ID">54805</Data>
@@ -625,25 +625,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="628" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="630" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="84417" Column="UUID" isNewNull="true"/>
-      </PO>
-    </Step>
-    <Step SeqNo="200" StepType="AD">
-      <PO AD_Table_ID="100" Action="U" Record_ID="54428" Table="AD_Table">
-        <Data AD_Column_ID="102" Column="Name" oldValue="Dasboard Access">Dashboard Access</Data>
-        <Data AD_Column_ID="107" Column="TableName" oldValue="AD_Dasboard_Access">AD_Dashboard_Access</Data>
-      </PO>
-    </Step>
-    <Step SeqNo="210" StepType="AD">
-      <PO AD_Table_ID="115" Action="U" Record_ID="54805" Table="AD_Sequence">
-        <Data AD_Column_ID="347" Column="Description" oldValue="Table AD_Dasboard_Access">Table AD_Dashboard_Access</Data>
-        <Data AD_Column_ID="216" Column="Name" oldValue="AD_Dasboard_Access">AD_Dashboard_Access</Data>
-      </PO>
-    </Step>
-    <Step SeqNo="220" StepType="AD">
-      <PO AD_Table_ID="746" Action="U" Record_ID="0" Table="AD_Table_Trl">
-        <Data AD_Column_ID="12716" Column="Name" oldValue="Dasboard Access">Acceso a Tablero</Data>
-        <Data AD_Column_ID="12715" Column="AD_Language" oldValue="es_MX">es_MX</Data>
-        <Data AD_Column_ID="12714" Column="AD_Table_ID" oldValue="54428">54428</Data>
       </PO>
     </Step>
     <Step SeqNo="230" StepType="AD">
