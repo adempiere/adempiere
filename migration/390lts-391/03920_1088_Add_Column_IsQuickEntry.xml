@@ -438,5 +438,9 @@ CREATE OR REPLACE VIEW AD_FIELD_VT (AD_LANGUAGE, AD_WINDOW_ID, AD_TAB_ID, AD_FIE
 
 </SQLStatement>
     </Step>
+    <Step DBType="ALL" Parse="Y" SeqNo="80" StepType="SQL">
+      <SQLStatement>UPDATE AD_Field SET IsQuickEntry='Y' WHERE IsMandatory='Y';</SQLStatement>
+      <RollbackStatement>UPDATE AD_Field SET IsQuickEntry='N' WHERE IsMandatory='Y';</RollbackStatement>
+    </Step>
   </Migration>
 </Migrations>
