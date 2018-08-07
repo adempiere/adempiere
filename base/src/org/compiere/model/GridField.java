@@ -591,7 +591,7 @@ public class GridField
 		 */
 
 		//	No defaults for these fields
-		if (m_vo.IsKey || m_vo.displayType == DisplayType.RowID 
+		if ((m_vo.IsKey && getColumnNameAlias() == null) || m_vo.displayType == DisplayType.RowID
 			|| DisplayType.isLOB(m_vo.displayType))
 			return null;
 		//	Set Parent to context if not explitly set
