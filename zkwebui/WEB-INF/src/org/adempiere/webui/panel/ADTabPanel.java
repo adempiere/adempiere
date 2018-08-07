@@ -45,6 +45,7 @@ import org.compiere.model.*;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Evaluatee;
+import org.compiere.util.Util;
 import org.zkoss.zk.au.out.AuFocus;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
@@ -582,7 +583,6 @@ public class ADTabPanel extends Div implements Evaluatee, EventListener, DataSta
         {
         	comp.setMandatoryLabels();
         }
-
         //  Selective
         if (col > 0)
         {
@@ -861,6 +861,8 @@ public class ADTabPanel extends Div implements Evaluatee, EventListener, DataSta
         		setFocusToField();
         	}
         }
+        //	Load Trx Info
+        reloadFieldTrxInfo();
     }
 
 	private void activateChild(boolean activate, EmbeddedPanel panel) {
@@ -1918,6 +1920,41 @@ public class ADTabPanel extends Div implements Evaluatee, EventListener, DataSta
         // Returning the tabbox
         return tabBox;
 
+    }
+    
+    /**
+     * Change label for each field if it has context info configured
+     */
+    public void reloadFieldTrxInfo() {
+    	for (WEditor comp : editors) {
+            GridField mField = comp.getGridField();
+            if (mField != null && mField.getIncluded_Tab_ID() <= 0) {
+                if (mField.isDisplayed(true)) {       //  check context
+                    //	Change Context info
+                    reloadFieldTrxInfo(comp);
+                }
+            }
+        }   //  all components
+    }
+    
+    /**
+     * Change label for each field if it has context info configured
+     */
+    private void reloadFieldTrxInfo(WEditor editor) {
+    	Map<String, String> contextValues = gridTab.getFieldTrxInfo();
+		if(contextValues == null 
+				|| contextValues.size() == 0) {
+			return;
+		}
+		//	change fields
+		GridField field = editor.getField();
+		//	Get trx info
+		String messageValue = contextValues.get(field.getColumnName());
+		if(Util.isEmpty(messageValue)) {
+			return;
+		}
+		//	Set Context info
+		((HtmlBasedComponent) editor.getComponent()).setTooltiptext(messageValue);
     }
 }
 

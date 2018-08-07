@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="ECA02" Name="Add dynamic status bar info Add Data #1784" ReleaseNo="3.9.1" SeqNo="3830">
+    <Comments>See: https://github.com/adempiere/adempiere/issues/1784</Comments>
+    <Step SeqNo="1190" StepType="AD">
+      <PO AD_Table_ID="54438" Action="I" Record_ID="50000" Table="AD_ContextInfo">
+        <Data AD_Column_ID="88900" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="88901" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="88902" Column="IsActive">true</Data>
+        <Data AD_Column_ID="88903" Column="Created">2018-06-25 02:08:47.54</Data>
+        <Data AD_Column_ID="88904" Column="Updated">2018-06-25 02:08:47.54</Data>
+        <Data AD_Column_ID="88905" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="88906" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="88907" Column="UUID" isNewNull="true"/>
+        <Data AD_Column_ID="88908" Column="AD_ContextInfo_ID">50000</Data>
+        <Data AD_Column_ID="88909" Column="Value">OrderStatus</Data>
+        <Data AD_Column_ID="88910" Column="Name">Order Status</Data>
+        <Data AD_Column_ID="88911" Column="Description">Used for show a Status of Order</Data>
+        <Data AD_Column_ID="88912" Column="SQLStatement">SELECT COUNT(*) AS Lines, o.TotalLines, o.GrandTotal, c.ISO_Code,  currencyBase(o.GrandTotal,o.C_Currency_ID,o.DateAcct, o.AD_Client_ID,o.AD_Org_ID) AS ConvAmt 
+FROM C_Order o 
+INNER JOIN C_Currency c ON (o.C_Currency_ID=c.C_Currency_ID) 
+INNER JOIN C_OrderLine l ON (o.C_Order_ID=l.C_Order_ID) 
+WHERE o.C_Order_ID=@C_Order_ID@
+GROUP BY o.C_Currency_ID, c.ISO_Code, o.TotalLines, o.GrandTotal, o.DateAcct, o.AD_Client_ID, o.AD_Org_ID</Data>
+        <Data AD_Column_ID="88916" Column="AD_Message_ID">377</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1200" StepType="AD">
+      <PO AD_Table_ID="105" Action="U" Record_ID="143" Table="AD_Window">
+        <Data AD_Column_ID="88915" Column="AD_ContextInfo_ID" isOldNull="true">50000</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1210" StepType="AD">
+      <PO AD_Table_ID="105" Action="U" Record_ID="181" Table="AD_Window">
+        <Data AD_Column_ID="88915" Column="AD_ContextInfo_ID" isOldNull="true">50000</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1220" StepType="AD">
+      <PO AD_Table_ID="100" Action="U" Record_ID="259" Table="AD_Table">
+        <Data AD_Column_ID="88913" Column="AD_ContextInfo_ID" isOldNull="true">50000</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1230" StepType="AD">
+      <PO AD_Table_ID="54438" Action="I" Record_ID="50001" Table="AD_ContextInfo">
+        <Data AD_Column_ID="88900" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="88901" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="88902" Column="IsActive">true</Data>
+        <Data AD_Column_ID="88903" Column="Created">2018-06-25 02:17:05.611</Data>
+        <Data AD_Column_ID="88904" Column="Updated">2018-06-25 02:17:05.611</Data>
+        <Data AD_Column_ID="88905" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="88906" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="88907" Column="UUID" isNewNull="true"/>
+        <Data AD_Column_ID="88908" Column="AD_ContextInfo_ID">50001</Data>
+        <Data AD_Column_ID="88909" Column="Value">ExpenseSummary</Data>
+        <Data AD_Column_ID="88910" Column="Name">Expense Summary</Data>
+        <Data AD_Column_ID="88911" Column="Description">Used for show a Status of Expense Summary</Data>
+        <Data AD_Column_ID="88912" Column="SQLStatement">SELECT COUNT(*), NVL(SUM(LineNetAmt),0), NVL(SUM(LineTotalAmt),0) 
+FROM C_InvoiceBatchLine 
+WHERE C_InvoiceBatch_ID=@C_InvoiceBatch_ID@ 
+AND IsActive='Y'</Data>
+        <Data AD_Column_ID="88916" Column="AD_Message_ID">623</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1240" StepType="AD">
+      <PO AD_Table_ID="100" Action="U" Record_ID="767" Table="AD_Table">
+        <Data AD_Column_ID="88913" Column="AD_ContextInfo_ID" isOldNull="true">50001</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1250" StepType="AD">
+      <PO AD_Table_ID="105" Action="U" Record_ID="342" Table="AD_Window">
+        <Data AD_Column_ID="88915" Column="AD_ContextInfo_ID" isOldNull="true">50001</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1260" StepType="AD">
+      <PO AD_Table_ID="109" Action="I" Record_ID="53460" Table="AD_Message">
+        <Data AD_Column_ID="197" Column="MsgType">I</Data>
+        <Data AD_Column_ID="198" Column="MsgText">{0} Line(s) - {1,number,#,##0.00} -  Total: {2,number,#,##0.00}  {3}  =  {4,number,#,##0.00}</Data>
+        <Data AD_Column_ID="591" Column="Updated">2018-06-25 02:20:42.251</Data>
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="589" Column="Created">2018-06-25 02:20:42.251</Data>
+        <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="6766" Column="Value">InvoiceSummary</Data>
+        <Data AD_Column_ID="590" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53460</Data>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="84346" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="1270" StepType="AD">
+      <PO AD_Table_ID="119" Action="I" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="342" Column="MsgText">{0} Line(s) - {1,number,#,##0.00} -  Total: {2,number,#,##0.00}  {3}  =  {4,number,#,##0.00}</Data>
+        <Data AD_Column_ID="609" Column="Created">2018-06-25 02:20:44.63</Data>
+        <Data AD_Column_ID="611" Column="Updated">2018-06-25 02:20:44.63</Data>
+        <Data AD_Column_ID="608" Column="IsActive">true</Data>
+        <Data AD_Column_ID="344" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="343" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="341" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID">53460</Data>
+        <Data AD_Column_ID="610" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="612" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="1192" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="1193" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="84347" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="1280" StepType="AD">
+      <PO AD_Table_ID="119" Action="U" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="341" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID" oldValue="53460">53460</Data>
+        <Data AD_Column_ID="342" Column="MsgText" oldValue="{0} Line(s) - {1,number,#,##0.00} -  Total: {2,number,#,##0.00}  {3}  =  {4,number,#,##0.00}">{0} Línea(s) - {1,number,#,##0.00} -  Total: {2,number,#,##0.00}  {3} =  {4,number,#,##0.00}</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1290" StepType="AD">
+      <PO AD_Table_ID="54438" Action="I" Record_ID="50002" Table="AD_ContextInfo">
+        <Data AD_Column_ID="88900" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="88901" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="88902" Column="IsActive">true</Data>
+        <Data AD_Column_ID="88903" Column="Created">2018-06-25 02:21:16.395</Data>
+        <Data AD_Column_ID="88904" Column="Updated">2018-06-25 02:21:16.395</Data>
+        <Data AD_Column_ID="88905" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="88906" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="88907" Column="UUID" isNewNull="true"/>
+        <Data AD_Column_ID="88908" Column="AD_ContextInfo_ID">50002</Data>
+        <Data AD_Column_ID="88909" Column="Value">InvoiceStatus</Data>
+        <Data AD_Column_ID="88910" Column="Name">Invoice Status</Data>
+        <Data AD_Column_ID="88911" Column="Description">Used for show a Status of Invoice</Data>
+        <Data AD_Column_ID="88912" Column="SQLStatement">SELECT COUNT(*) AS Lines, o.TotalLines, o.GrandTotal, c.ISO_Code,  currencyBase(o.GrandTotal,o.C_Currency_ID,o.DateAcct, o.AD_Client_ID,o.AD_Org_ID) AS ConvAmt 
+FROM C_Invoice o 
+INNER JOIN C_Currency c ON (o.C_Currency_ID=c.C_Currency_ID) 
+INNER JOIN C_InvoiceLine l ON (o.C_Invoice_ID=l.C_Invoice_ID)  
+WHERE o.C_Invoice_ID=@C_Invoice_ID@
+GROUP BY o.C_Currency_ID, c.ISO_Code, o.TotalLines, o.GrandTotal, o.DateAcct, o.AD_Client_ID, o.AD_Org_ID</Data>
+        <Data AD_Column_ID="88916" Column="AD_Message_ID">53460</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1300" StepType="AD">
+      <PO AD_Table_ID="100" Action="U" Record_ID="318" Table="AD_Table">
+        <Data AD_Column_ID="88913" Column="AD_ContextInfo_ID" isOldNull="true">50002</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1310" StepType="AD">
+      <PO AD_Table_ID="105" Action="U" Record_ID="167" Table="AD_Window">
+        <Data AD_Column_ID="88915" Column="AD_ContextInfo_ID" isOldNull="true">50002</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1320" StepType="AD">
+      <PO AD_Table_ID="105" Action="U" Record_ID="183" Table="AD_Window">
+        <Data AD_Column_ID="88915" Column="AD_ContextInfo_ID" isOldNull="true">50002</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1330" StepType="AD">
+      <PO AD_Table_ID="54438" Action="I" Record_ID="50003" Table="AD_ContextInfo">
+        <Data AD_Column_ID="88900" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="88901" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="88902" Column="IsActive">true</Data>
+        <Data AD_Column_ID="88903" Column="Created">2018-06-25 02:25:42.078</Data>
+        <Data AD_Column_ID="88904" Column="Updated">2018-06-25 02:25:42.078</Data>
+        <Data AD_Column_ID="88905" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="88906" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="88907" Column="UUID" isNewNull="true"/>
+        <Data AD_Column_ID="88908" Column="AD_ContextInfo_ID">50003</Data>
+        <Data AD_Column_ID="88909" Column="Value">TimeExpenseStatus</Data>
+        <Data AD_Column_ID="88910" Column="Name">Expense Status</Data>
+        <Data AD_Column_ID="88911" Column="Description">Used for show a Status of Expense</Data>
+        <Data AD_Column_ID="88912" Column="SQLStatement">SELECT COUNT(*) AS Lines, SUM(ConvertedAmt*Qty) 
+FROM S_TimeExpenseLine 
+WHERE S_TimeExpense_ID=@S_TimeExpense_ID@</Data>
+        <Data AD_Column_ID="88916" Column="AD_Message_ID">623</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1340" StepType="AD">
+      <PO AD_Table_ID="100" Action="U" Record_ID="486" Table="AD_Table">
+        <Data AD_Column_ID="88913" Column="AD_ContextInfo_ID" isOldNull="true">50003</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1350" StepType="AD">
+      <PO AD_Table_ID="105" Action="U" Record_ID="235" Table="AD_Window">
+        <Data AD_Column_ID="88915" Column="AD_ContextInfo_ID" isOldNull="true">50003</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1360" StepType="AD">
+      <PO AD_Table_ID="54438" Action="U" Record_ID="50001" Table="AD_ContextInfo">
+        <Data AD_Column_ID="88909" Column="Value" oldValue="ExpenseSummary">ExpenseSummaryStatus</Data>
+        <Data AD_Column_ID="88910" Column="Name" oldValue="Expense Summary">Expense Summary Status</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

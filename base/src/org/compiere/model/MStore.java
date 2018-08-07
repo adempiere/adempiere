@@ -360,9 +360,9 @@ public class MStore extends X_W_Store
 		MClient client = MClient.get(getCtx(), getAD_Client_ID());
 		if (client.isServerEMail() && Ini.isClient())
 		{
-			Server server = CConnection.get().getServer();
 			try
 			{
+				Server server = CConnection.get().getServer();
 				if (server != null)
 				{	//	See ServerBean
 					email = server.createEMail(Env.getRemoteCallCtx(getCtx()), getAD_Client_ID(), 
