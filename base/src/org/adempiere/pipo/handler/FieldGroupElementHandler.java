@@ -58,6 +58,7 @@ public class FieldGroupElementHandler extends AbstractElementHandler {
 
 			X_AD_FieldGroup fieldGroup = new X_AD_FieldGroup(ctx, id,
 					getTrxName(ctx));
+			fieldGroup.setIsDirectLoad(true);
 			if (id <= 0 && atts.getValue("AD_FieldGroup_ID") != null && Integer.parseInt(atts.getValue("AD_FieldGroup_ID")) <= PackOut.MAX_OFFICIAL_ID)
 				fieldGroup.setAD_FieldGroup_ID(Integer.parseInt(atts.getValue("AD_FieldGroup_ID")));
 			if (id > 0) {

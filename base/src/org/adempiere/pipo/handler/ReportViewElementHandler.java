@@ -90,7 +90,7 @@ public class ReportViewElementHandler extends AbstractElementHandler {
 			}
 			id = get_IDWithColumn(ctx, "AD_Table", "TableName", Name);
 		}
-
+		m_Reportview.setIsDirectLoad(true);
 		m_Reportview.setAD_Table_ID(id);
 		m_Reportview.setDescription(getStringValue(atts,"Description"));
 		m_Reportview.setEntityType(atts.getValue("EntityType"));

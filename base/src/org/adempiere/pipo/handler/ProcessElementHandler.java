@@ -75,7 +75,7 @@ public class ProcessElementHandler extends AbstractElementHandler {
 
 			String name = atts.getValue("Name");
 			m_Process.setName(name);
-
+			m_Process.setIsDirectLoad(true);
 			name = atts.getValue("ADWorkflowNameID");
 			if (name != null && name.trim().length() > 0) {
 				    id = get_IDWithColumn(ctx, "AD_Workflow", "Name", name);

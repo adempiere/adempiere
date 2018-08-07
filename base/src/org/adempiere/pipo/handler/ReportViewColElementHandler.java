@@ -81,6 +81,7 @@ public class ReportViewColElementHandler extends AbstractElementHandler {
 			if (id < 0) id = 0;
 			X_AD_ReportView_Col m_Reportview_Col = new X_AD_ReportView_Col(ctx,
 					id, getTrxName(ctx));
+			m_Reportview_Col.setIsDirectLoad(true);
 			if (id <= 0 && atts.getValue("AD_ReportView_Col_ID") != null && Integer.parseInt(atts.getValue("AD_ReportView_Col_ID")) <= PackOut.MAX_OFFICIAL_ID)
 				m_Reportview_Col.setAD_ReportView_Col_ID(Integer.parseInt(atts.getValue("AD_ReportView_Col_ID")));
 			if (id > 0) {

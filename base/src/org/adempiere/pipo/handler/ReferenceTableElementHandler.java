@@ -130,6 +130,7 @@ public class ReferenceTableElementHandler extends AbstractElementHandler {
 
             if (refTable != null)
             {
+            		refTable.setIsDirectLoad(true);
                     refTable.setAD_Table_ID(tableId);
                     refTable.setAD_Display(displayId);
                     refTable.setAD_Key(keyId);

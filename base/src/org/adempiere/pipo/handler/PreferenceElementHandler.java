@@ -53,6 +53,7 @@ public class PreferenceElementHandler extends AbstractElementHandler {
 				" and AD_Window_ID = ?");
 		int id = DB.getSQLValue(getTrxName(ctx), sqlB.toString(), windowid);
 		MPreference m_Preference = new MPreference(ctx, id, getTrxName(ctx));
+		m_Preference.setIsDirectLoad(true);
 		int AD_Backup_ID = -1;
 		String Object_Status = null;
 		if (id <= 0 && atts.getValue("AD_Preference_ID") != null && Integer.parseInt(atts.getValue("AD_Preference_ID")) <= PackOut.MAX_OFFICIAL_ID)

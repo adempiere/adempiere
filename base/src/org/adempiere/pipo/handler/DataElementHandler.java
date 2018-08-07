@@ -198,6 +198,7 @@ public class DataElementHandler extends AbstractElementHandler {
 			if (d_rowname != null && !d_rowname.equals("") && ((Integer)(genericPO.get_Value(d_tablename+"_ID"))).intValue() == 0) {
 				log.info("new genericPO, table: "+d_tablename+" name:"+d_rowname);
 				genericPO.set_ValueOfColumn("Name", d_rowname);
+				genericPO.setIsDirectLoad(true);
 				// Set defaults.
 				//TODO: get defaults from configuration
 				HashMap defaults = new HashMap();

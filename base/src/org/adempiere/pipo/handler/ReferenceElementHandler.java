@@ -64,6 +64,7 @@ public class ReferenceElementHandler extends AbstractElementHandler {
 
 			X_AD_Reference m_Reference = new X_AD_Reference(ctx, id,
 					getTrxName(ctx));
+			m_Reference.setIsDirectLoad(true);
 			if (id <= 0 && atts.getValue("AD_Reference_ID") != null && Integer.parseInt(atts.getValue("AD_Reference_ID")) <= PackOut.MAX_OFFICIAL_ID)
 				m_Reference.setAD_Reference_ID(Integer.parseInt(atts.getValue("AD_Reference_ID")));
 			if (id > 0) {

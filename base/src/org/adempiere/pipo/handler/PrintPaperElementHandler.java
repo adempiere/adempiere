@@ -101,6 +101,7 @@ public class PrintPaperElementHandler extends AbstractElementHandler
 		final String strIdentifier = atts.getValue(getIdentifierColumnName());
 		final int id = get_IDWithColumn(ctx, getTableName(), getIdentifierColumnName(), strIdentifier);
 		final PO po = getCreatePO(ctx, id, getTrxName(ctx));
+		po.setIsDirectLoad(true);
 		final String keyColumnName = getKeyColumnName();
 		log.info(elementValue+" "+strIdentifier+"["+id+"]");
 
