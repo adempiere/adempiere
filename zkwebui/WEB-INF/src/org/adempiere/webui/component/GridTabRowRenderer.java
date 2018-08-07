@@ -642,6 +642,8 @@ public class GridTabRowRenderer implements RowRenderer, RowRendererExt, Renderer
 	 * Valid Condition for Change Div Style
 	 */
 	public void validCondition() {
+				if(definition == null)
+					return;
 				FieldCondition condition = definition.getConditionValid(null);
 				if(condition == null)
 					return;
