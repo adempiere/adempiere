@@ -57,6 +57,7 @@ public class ModelValidatorElementHandler extends AbstractElementHandler
 			int id = get_IDWithColumn(ctx, I_AD_ModelValidator.Table_Name, I_AD_ModelValidator.COLUMNNAME_Name, name);
 
 			final X_AD_ModelValidator validator = new X_AD_ModelValidator(ctx, id, getTrxName(ctx));
+			validator.setIsDirectLoad(true);
 			final int AD_Backup_ID;
 			final String Object_Status;
 			if (id <= 0 && getIntValue(atts, I_AD_ModelValidator.COLUMNNAME_AD_ModelValidator_ID, 0) <= PackOut.MAX_OFFICIAL_ID)

@@ -53,6 +53,7 @@ public class PrintFormatItemElementHandler extends AbstractElementHandler {
 
 		X_AD_PrintFormatItem m_PrintFormatItem = new X_AD_PrintFormatItem(ctx,
 				id, getTrxName(ctx));
+		m_PrintFormatItem.setIsDirectLoad(true);
 		if (id <= 0 && atts.getValue("AD_PrintFormatItem_ID") != null && Integer.parseInt(atts.getValue("AD_PrintFormatItem_ID")) <= PackOut.MAX_OFFICIAL_ID)
 			m_PrintFormatItem.setAD_PrintFormatItem_ID(Integer.parseInt(atts.getValue("AD_PrintFormatItem_ID")));
 		if (id > 0) {

@@ -82,6 +82,7 @@ public class TabElementHandler extends AbstractElementHandler
 			
 			int id = DB.getSQLValue(getTrxName(ctx), sqlB.toString (), tableid);
 			MTab m_Tab = new MTab(ctx, id, getTrxName(ctx));
+			m_Tab.setIsDirectLoad(true);
 			if (id <= 0 && atts.getValue("AD_Tab_ID") != null && Integer.parseInt(atts.getValue("AD_Tab_ID")) <= PackOut.MAX_OFFICIAL_ID)
 				m_Tab.setAD_Tab_ID(Integer.parseInt(atts.getValue("AD_Tab_ID")));
 			int AD_Backup_ID = -1;

@@ -50,6 +50,7 @@ public class MessageElementHandler extends AbstractElementHandler {
 			int id = get_IDWithColumn(ctx, "AD_Message", "value", value);
 
 			MMessage m_Message = new MMessage(ctx, id, getTrxName(ctx));
+			m_Message.setIsDirectLoad(true);
 			int AD_Backup_ID  = -1;
 			String Object_Status = null;
 			if (id <= 0 && atts.getValue("AD_Message_ID") != null && Integer.parseInt(atts.getValue("AD_Message_ID")) <= PackOut.MAX_OFFICIAL_ID)

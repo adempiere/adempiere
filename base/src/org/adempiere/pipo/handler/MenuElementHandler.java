@@ -56,6 +56,7 @@ public class MenuElementHandler extends AbstractElementHandler {
 		name = atts.getValue("ADMenuNameID");
 		int menuid = get_IDWithColumn(ctx, "AD_Menu", "Name", name);
 		X_AD_Menu m_Menu = new X_AD_Menu(ctx, menuid, getTrxName(ctx));
+		m_Menu.setIsDirectLoad(true);
 		if (menuid <= 0 && atts.getValue("AD_Menu_ID") != null && Integer.parseInt(atts.getValue("AD_Menu_ID")) <= PackOut.MAX_OFFICIAL_ID)
 			m_Menu.setAD_Menu_ID(Integer.parseInt(atts.getValue("AD_Menu_ID")));
 		if (menuid > 0) {

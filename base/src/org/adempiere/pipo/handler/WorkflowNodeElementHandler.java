@@ -81,6 +81,7 @@ public class WorkflowNodeElementHandler extends AbstractElementHandler {
 					workflowId, workflowNodeName);
 
 			X_AD_WF_Node m_WFNode = new X_AD_WF_Node(ctx, id, getTrxName(ctx));
+			m_WFNode.setIsDirectLoad(true);
 			int AD_Backup_ID = -1;
 			String Object_Status = null;
 			if (id <= 0 && atts.getValue("AD_WF_Node_ID") != null && Integer.parseInt(atts.getValue("AD_WF_Node_ID")) <= PackOut.MAX_OFFICIAL_ID)

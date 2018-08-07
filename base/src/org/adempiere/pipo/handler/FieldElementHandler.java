@@ -114,6 +114,7 @@ public class FieldElementHandler extends AbstractElementHandler
 						.append(" and AD_Tab_ID = ?");
 				int id = DB.getSQLValue(getTrxName(ctx), sqlB.toString(), tabid);
 				final MField m_Field = new MField(ctx, id, getTrxName(ctx));
+				m_Field.setIsDirectLoad(true);
 				if (id <= 0 && atts.getValue("AD_Field_ID") != null && Integer.parseInt(atts.getValue("AD_Field_ID")) <= PackOut.MAX_OFFICIAL_ID)
 					m_Field.setAD_Field_ID(Integer.parseInt(atts.getValue("AD_Field_ID")));
 				int AD_Backup_ID = -1;

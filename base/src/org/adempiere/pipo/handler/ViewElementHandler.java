@@ -67,6 +67,7 @@ public class ViewElementHandler extends AbstractElementHandler {
 				return;
 			}
 			MView m_View = new MView(ctx, id, getTrxName(ctx));
+			m_View.setIsDirectLoad(true);
 			if (id <= 0
 					&& atts.getValue("AD_View_ID") != null
 					&& Integer.parseInt(atts.getValue("AD_View_ID")) <= PackOut.MAX_OFFICIAL_ID)

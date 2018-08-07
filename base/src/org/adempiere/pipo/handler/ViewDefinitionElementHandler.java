@@ -95,6 +95,7 @@ public class ViewDefinitionElementHandler extends AbstractElementHandler {
 			int id = DB.getSQLValue(getTrxName(ctx), sqlB.toString(), tableid);
 			MViewDefinition m_View_Definition = new MViewDefinition(ctx, id,
 					getTrxName(ctx));
+			m_View_Definition.setIsDirectLoad(true);
 			if (id <= 0
 					&& atts.getValue("AD_View_Definition_ID") != null
 					&& Integer.parseInt(atts.getValue("AD_View_Definition_ID")) <= PackOut.MAX_OFFICIAL_ID)

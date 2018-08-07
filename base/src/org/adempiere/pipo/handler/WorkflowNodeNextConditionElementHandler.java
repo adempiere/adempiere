@@ -103,6 +103,7 @@ public class WorkflowNodeNextConditionElementHandler extends
 
 			MWFNextCondition m_WFNodeNextCondition = new MWFNextCondition(ctx,
 					id, getTrxName(ctx));
+			m_WFNodeNextCondition.setIsDirectLoad(true);
 			int AD_Backup_ID = -1;
 			String Object_Status = null;
 			if (id <= 0 && atts.getValue("AD_WF_NextCondition_ID") != null && Integer.parseInt(atts.getValue("AD_WF_NextCondition_ID")) <= PackOut.MAX_OFFICIAL_ID)

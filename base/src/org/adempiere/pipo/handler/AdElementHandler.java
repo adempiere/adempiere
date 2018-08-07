@@ -137,7 +137,7 @@ public class AdElementHandler extends AbstractElementHandler {
 		processedElements.add(adElement_id);
 		
 		X_AD_Element m_AdElement = new X_AD_Element(ctx, adElement_id, null);
-		
+		m_AdElement.setIsDirectLoad(true);
 		AttributesImpl atts = new AttributesImpl();
 		createAdElementBinding(atts, m_AdElement);
 		

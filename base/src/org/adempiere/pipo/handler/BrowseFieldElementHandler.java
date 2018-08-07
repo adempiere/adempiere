@@ -104,6 +104,7 @@ public class BrowseFieldElementHandler extends AbstractElementHandler {
 						browseid);
 				final MBrowseField m_BrowseField = new MBrowseField(ctx, id,
 						getTrxName(ctx));
+				m_BrowseField.setIsDirectLoad(true);
 				if (id <= 0
 						&& atts.getValue("AD_Browse_Field_ID") != null
 						&& Integer

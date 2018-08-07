@@ -115,6 +115,7 @@ public class ViewColumnElementHandler extends AbstractElementHandler {
 						viewColumnName, viewdefinitionid);
 				final MViewColumn m_ColumnView = new MViewColumn(ctx, id,
 						getTrxName(ctx));
+				m_ColumnView.setIsDirectLoad(true);
 				if (id <= 0
 						&& atts.getValue("AD_View_Column_ID") != null
 						&& Integer.parseInt(atts.getValue("AD_View_Column_ID")) <= PackOut.MAX_OFFICIAL_ID)

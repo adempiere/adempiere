@@ -84,6 +84,7 @@ public class ColumnElementHandler extends AbstractElementHandler {
 				}
 			}
 			MColumn m_Column = new MColumn(ctx, id, getTrxName(ctx));
+			m_Column.setIsDirectLoad(true);
 			if (id <= 0 && atts.getValue("AD_Column_ID") != null && Integer.parseInt(atts.getValue("AD_Column_ID")) <= PackOut.MAX_OFFICIAL_ID)
 				m_Column.setAD_Column_ID(Integer.parseInt(atts.getValue("AD_Column_ID")));
 			int AD_Backup_ID = -1;
