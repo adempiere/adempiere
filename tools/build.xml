@@ -274,6 +274,7 @@
 			<zipfileset src="lib/looks-2.0.4.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
+			<!-- PDF -->
 			<zipfileset src="lib/iText-2.1.7.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
