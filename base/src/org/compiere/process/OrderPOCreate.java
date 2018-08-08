@@ -14,20 +14,26 @@
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
  * or via info@compiere.org or http://www.compiere.org/license.html           *
  *****************************************************************************/
+
 package org.compiere.process;
 
-import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Level;
 
 import org.compiere.model.MBPartner;
 import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.MOrgInfo;
+import org.compiere.model.MProduct;
+import org.compiere.model.MStorage;
 import org.compiere.util.AdempiereUserError;
 import org.compiere.util.DB;
+import org.eevolution.model.MPPProductBOM;
+import org.eevolution.model.MPPProductBOMLine;
 
 /**
  *	Generate PO from Sales Order
@@ -38,54 +44,50 @@ import org.compiere.util.DB;
  *  Contributor: Carlos Ruiz - globalqss
  *      Fix [1709952] - Process: "Generate PO from Sales order" bug
  */
-public class OrderPOCreate extends SvrProcess
+public class OrderPOCreate extends OrderPOCreateAbstract
 {
-	/**	Order Date From		*/
-	private Timestamp	p_DateOrdered_From;
-	/**	Order Date To		*/
-	private Timestamp	p_DateOrdered_To;
-	/**	Customer			*/
-	private int			p_C_BPartner_ID;
-	/**	Vendor				*/
-	private int			p_Vendor_ID;
-	/**	Sales Order			*/
-	private int			p_C_Order_ID;
-	/** Drop Ship			*/
-	private boolean		p_IsDropShip = false;
 	
+	private int m_explosion_level = 0;
+	private Set<MPPProductBOMLine> bomSet = new HashSet<MPPProductBOMLine>(); 
+	private int explosion(MPPProductBOM bom) throws AdempiereUserError {
+		if(bom == null) return 0;
+		
+		MPPProductBOMLine[] bom_lines = bom.getLines(new Timestamp(System.currentTimeMillis()));
+		for(MPPProductBOMLine bomline : bom_lines) {
+			MProduct component = MProduct.get(getCtx(), bomline.getM_Product_ID());
+
+			if(component.isBOM() && !component.isStocked()) { // recursion for intermediate products
+				explosion(MPPProductBOM.getDefault(component, this.get_TrxName()));
+			} 
+			else if(MProduct.PRODUCTTYPE_Item.equals(component.getProductType()) ||
+					MProduct.PRODUCTTYPE_Service.equals(component.getProductType())
+					) { // nicht BOM 
+				log.config("m_explosion_level="+m_explosion_level + " components="+bomSet.size() 
+						+ " "+component.getProductType() + " component="+component
+						+ (component.isStocked()   ? " isStocked"   : " notStocked")
+						+ (component.isPurchased() ? " isPurchased" : " notPurchased")
+						+ " bomline.getQty()="+bomline.getQty()
+						);
+				bomSet.add(bomline);  
+			} else {
+				throw new AdempiereUserError("PRODUCTTYPE="+component.getProductType());
+			}			
+		}
+		
+		return bomSet.size();
+	}
+
 	/**
 	 *  Prepare - e.g., get Parameters.
 	 */
 	protected void prepare()
 	{
-		ProcessInfoParameter[] para = getParameter();
-		for (int i = 0; i < para.length; i++)
-		{
-			String name = para[i].getParameterName();
-			if (para[i].getParameter() == null)
-				;
-			else if (name.equals("DateOrdered"))
-			{
-				p_DateOrdered_From = (Timestamp)para[i].getParameter();
-				p_DateOrdered_To = (Timestamp)para[i].getParameter_To();
-			}
-			else if (name.equals("C_BPartner_ID"))
-				p_C_BPartner_ID = ((BigDecimal)para[i].getParameter()).intValue();
-			else if (name.equals("Vendor_ID"))
-				p_Vendor_ID = ((BigDecimal)para[i].getParameter()).intValue();
-			else if (name.equals("C_Order_ID"))
-				p_C_Order_ID = ((BigDecimal)para[i].getParameter()).intValue();
-			else if (name.equals("IsDropShip"))
-				p_IsDropShip = ((String) para[i].getParameter()).equals("Y");
-			else
-				log.log(Level.SEVERE, "Unknown Parameter: " + name);
+		super.prepare();		
+		// called from order window without parameters
+		if ( getTable_ID() == MOrder.Table_ID && getRecord_ID() > 0 ) {
+			super.setOrderId(getRecord_ID());		
 		}
-		
-		// called from order window w/o parameters
-		if ( getTable_ID() == MOrder.Table_ID && getRecord_ID() > 0 )
-			p_C_Order_ID = getRecord_ID();
-		
-	}	//	prepare
+	}
 
 	/**
 	 *  Perform process.
@@ -94,12 +96,15 @@ public class OrderPOCreate extends SvrProcess
 	 */
 	protected String doIt() throws Exception
 	{
-		log.info("DateOrdered=" + p_DateOrdered_From + " - " + p_DateOrdered_To 
-			+ " - C_BPartner_ID=" + p_C_BPartner_ID + " - Vendor_ID=" + p_Vendor_ID
-			+ " - IsDropShip=" + p_IsDropShip + " - C_Order_ID=" + p_C_Order_ID);
-		if (p_C_Order_ID == 0
-			&& p_DateOrdered_From == null && p_DateOrdered_To == null
-			&& p_C_BPartner_ID == 0 && p_Vendor_ID == 0)
+		log.info(super.DATEORDERED+":"+super.getDateOrdered()+" - "+super.getDateOrderedTo()
+			+", "+super.C_BPARTNER_ID+":"+super.getBPartnerId()
+			+", "+super.VENDOR_ID+":"+super.getVendorId()
+			+", "+super.ISDROPSHIP+":"+super.getIsDropShip()
+			+", "+super.C_ORDER_ID+":"+super.getOrderId()
+			);
+		if (getOrderId() == 0
+			&& getDateOrdered() == null && getDateOrderedTo() == null
+			&& getBPartnerId() == 0 && getVendorId() == 0)
 			throw new AdempiereUserError("You need to restrict selection");
 		//
 		String sql = "SELECT * FROM C_Order o "
@@ -108,21 +113,21 @@ public class OrderPOCreate extends SvrProcess
 			//	" AND o.Link_Order_ID IS NULL"
 			+ " AND NOT EXISTS (SELECT * FROM C_OrderLine ol WHERE o.C_Order_ID=ol.C_Order_ID AND ol.Link_OrderLine_ID IS NOT NULL)"
 			; 
-		if (p_C_Order_ID != 0)
+		if (getOrderId() != 0)
 			sql += " AND o.C_Order_ID=?";
 		else
 		{
-			if (p_C_BPartner_ID != 0)
+			if (getBPartnerId() != 0)
 				sql += " AND o.C_BPartner_ID=?";
-			if (p_Vendor_ID != 0)
+			if (getVendorId() != 0)
 				sql += " AND EXISTS (SELECT * FROM C_OrderLine ol"
 					+ " INNER JOIN M_Product_PO po ON (ol.M_Product_ID=po.M_Product_ID) "
 						+ "WHERE o.C_Order_ID=ol.C_Order_ID AND po.C_BPartner_ID=?)"; 
-			if (p_DateOrdered_From != null && p_DateOrdered_To != null)
+			if (getDateOrdered() != null && getDateOrderedTo() != null)
 				sql += "AND TRUNC(o.DateOrdered, 'DD') BETWEEN ? AND ?";
-			else if (p_DateOrdered_From != null && p_DateOrdered_To == null)
+			else if (getDateOrdered() != null && getDateOrderedTo() == null)
 				sql += "AND TRUNC(o.DateOrdered, 'DD') >= ?";
-			else if (p_DateOrdered_From == null && p_DateOrdered_To != null)
+			else if (getDateOrdered() == null && getDateOrderedTo() != null)
 				sql += "AND TRUNC(o.DateOrdered, 'DD') <= ?";
 		}
 		PreparedStatement pstmt = null;
@@ -131,24 +136,24 @@ public class OrderPOCreate extends SvrProcess
 		try
 		{
 			pstmt = DB.prepareStatement (sql, get_TrxName());
-			if (p_C_Order_ID != 0)
-				pstmt.setInt (1, p_C_Order_ID);
+			if (getOrderId() != 0)
+				pstmt.setInt (1, getOrderId());
 			else
 			{
 				int index = 1;
-				if (p_C_BPartner_ID != 0)
-					pstmt.setInt (index++, p_C_BPartner_ID);
-				if (p_Vendor_ID != 0)
-					pstmt.setInt (index++, p_Vendor_ID);
-				if (p_DateOrdered_From != null && p_DateOrdered_To != null)
+				if (getBPartnerId() != 0)
+					pstmt.setInt (index++, getBPartnerId());
+				if (getVendorId() != 0)
+					pstmt.setInt (index++, getVendorId());
+				if (getDateOrdered() != null && getDateOrderedTo() != null)
 				{
-					pstmt.setTimestamp(index++, p_DateOrdered_From);
-					pstmt.setTimestamp(index++, p_DateOrdered_To);
+					pstmt.setTimestamp(index++, getDateOrdered());
+					pstmt.setTimestamp(index++, getDateOrderedTo());
 				}
-				else if (p_DateOrdered_From != null && p_DateOrdered_To == null)
-					pstmt.setTimestamp(index++, p_DateOrdered_From);
-				else if (p_DateOrdered_From == null && p_DateOrdered_To != null)
-					pstmt.setTimestamp(index++, p_DateOrdered_To);
+				else if (getDateOrdered() != null && getDateOrderedTo() == null)
+					pstmt.setTimestamp(index++, getDateOrdered());
+				else if (getDateOrdered() == null && getDateOrderedTo() != null)
+					pstmt.setTimestamp(index++, getDateOrderedTo());
 			}
 			rs = pstmt.executeQuery ();
 			while (rs.next ())
@@ -175,6 +180,15 @@ public class OrderPOCreate extends SvrProcess
 	private int createPOFromSO (MOrder so) throws Exception
 	{
 		log.info(so.toString());
+		
+		// see https://github.com/adempiere/adempiere/issues/1649
+		if(DocAction.STATUS_InProgress.equals(so.getDocStatus()) || DocAction.STATUS_Completed.equals(so.getDocStatus())) {
+			// OK - continue 
+		} else {
+			log.warning("DocStatus is " + so.getDocStatus());
+			return 0;
+		}
+		
 		MOrderLine[] soLines = so.getLines(true, null);
 		if (soLines == null || soLines.length == 0)
 		{
@@ -188,7 +202,7 @@ public class OrderPOCreate extends SvrProcess
 			+ "FROM M_Product_PO po"
 			+ " INNER JOIN C_OrderLine ol ON (po.M_Product_ID=ol.M_Product_ID) "
 			+ "WHERE ol.C_Order_ID=? AND po.IsCurrentVendor='Y' "
-			+ ((p_Vendor_ID > 0) ? " AND po.C_BPartner_ID=? " : "")
+			+ ((getVendorId() > 0) ? " AND po.C_BPartner_ID=? " : "")
 			+ "GROUP BY po.M_Product_ID "
 			+ "ORDER BY 1";
 		PreparedStatement pstmt = null;
@@ -198,8 +212,8 @@ public class OrderPOCreate extends SvrProcess
 		{
 			pstmt = DB.prepareStatement (sql, get_TrxName());
 			pstmt.setInt (1, so.getC_Order_ID());
-			if (p_Vendor_ID != 0)
-				pstmt.setInt (2, p_Vendor_ID);
+			if (getVendorId() != 0)
+				pstmt.setInt (2, getVendorId());
 			rs = pstmt.executeQuery ();
 			while (rs.next ())
 			{
@@ -216,23 +230,75 @@ public class OrderPOCreate extends SvrProcess
 				int M_Product_ID = rs.getInt(2);
 				for (int i = 0; i < soLines.length; i++)
 				{
-					if (soLines[i].getM_Product_ID() == M_Product_ID)
-					{
-						MOrderLine poLine = new MOrderLine (po);
-						poLine.setLink_OrderLine_ID(soLines[i].getC_OrderLine_ID());
-						poLine.setM_Product_ID(soLines[i].getM_Product_ID());
-						poLine.setC_Charge_ID(soLines[i].getC_Charge_ID());
-						poLine.setM_AttributeSetInstance_ID(soLines[i].getM_AttributeSetInstance_ID());
-						poLine.setC_UOM_ID(soLines[i].getC_UOM_ID());
-						poLine.setQtyEntered(soLines[i].getQtyEntered());
-						poLine.setQtyOrdered(soLines[i].getQtyOrdered());
-						poLine.setDescription(soLines[i].getDescription());
-						poLine.setDatePromised(soLines[i].getDatePromised());
-						poLine.setPrice();
-						poLine.saveEx();
+					if (soLines[i].getM_Product_ID() == M_Product_ID) {
 						
-						soLines[i].setLink_OrderLine_ID(poLine.getC_OrderLine_ID());
-						soLines[i].saveEx();
+						// see https://github.com/adempiere/adempiere/issues/1649
+						boolean purchaseProduct = true;
+						MProduct mProduct = soLines[i].getProduct();
+						log.config("so OrderLine="+soLines[i] + " mProduct="+mProduct
+								+ (mProduct.isStocked()   ? " isStocked"   : " notStocked")
+								+ (mProduct.isPurchased() ? " isPurchased" : " notPurchased")
+								+ (mProduct.isBOM()       ? " isBOM"       : " notBOM")
+								+ (mProduct.isVerified()  ? " isVerified"  : " notVerified")
+								);
+						if(!mProduct.isPurchased()) { // the product cannot be purchased
+							log.warning("cannot be purchased " + mProduct);
+							purchaseProduct = false;
+						}
+						
+						if(purchaseProduct && mProduct.isStocked()) { // check whether the product is onHand
+							MStorage[] mStorages = MStorage.getOfProduct(getCtx(), M_Product_ID, get_TrxName());
+							for(int s = 0; s < mStorages.length; s++) {
+								log.config("mStorage="+mStorages[s]);
+								if(mStorages[s].getQtyOnHand().compareTo(soLines[i].getQtyOrdered()) > -1 ) {
+									log.warning(mProduct.toString() + " is onHand, will not be purchased");
+									purchaseProduct = false;
+								}
+							}
+						}
+
+						MPPProductBOM bom = null;
+						if(purchaseProduct && mProduct.isBOM()) { // this is a BOM product, must be verified!
+							if(mProduct.isVerified()) {
+								// Get BOM with Default Logic (Product = BOM Product and BOM Value = Product Value)
+								bom = MPPProductBOM.getDefault(mProduct, this.get_TrxName());
+								log.config("bom="+bom);
+								
+								// private members m_explosion_level , bomSet used in explosion method
+								m_explosion_level = 0;
+								bomSet = new HashSet<MPPProductBOMLine>(); 
+								if(explosion(bom)>0) {
+									// TODO purchase component and prepare BOM production
+									log.warning(mProduct.toString() + " is BOM product, will not be purchased (not implemented)");
+									purchaseProduct = false;
+								} else {
+									throw new AdempiereUserError("No BOM Lines. Check BOM definition for "+mProduct);
+								}
+
+							} else {
+								// rs , pstmt will be closed at finally
+								throw new AdempiereUserError("BOM not verified for "+mProduct+" - use verify Button to fix the problem");
+							}
+						}
+						
+						if(purchaseProduct) {
+							MOrderLine poLine = new MOrderLine (po);
+							poLine.setLink_OrderLine_ID(soLines[i].getC_OrderLine_ID());
+							poLine.setM_Product_ID(soLines[i].getM_Product_ID());
+							poLine.setC_Charge_ID(soLines[i].getC_Charge_ID());
+							poLine.setM_AttributeSetInstance_ID(soLines[i].getM_AttributeSetInstance_ID());
+							poLine.setC_UOM_ID(soLines[i].getC_UOM_ID());
+							poLine.setQtyEntered(soLines[i].getQtyEntered());
+							poLine.setQtyOrdered(soLines[i].getQtyOrdered());
+							poLine.setDescription(soLines[i].getDescription());
+							poLine.setDatePromised(soLines[i].getDatePromised());
+							poLine.setPrice();
+							poLine.saveEx();
+							
+							soLines[i].setLink_OrderLine_ID(poLine.getC_OrderLine_ID());
+							soLines[i].saveEx();
+						}
+						
 					}
 				}
 			}
@@ -269,6 +335,7 @@ public class OrderPOCreate extends SvrProcess
 		po.setIsSOTrx(false);
 		po.setC_DocTypeTarget_ID();
 		//
+		po.setC_OrderSource_ID(so.getC_OrderSource_ID());
 		po.setDescription(so.getDescription());
 		po.setPOReference(so.getDocumentNo());
 		po.setPriorityRule(so.getPriorityRule());
@@ -278,9 +345,9 @@ public class OrderPOCreate extends SvrProcess
 		MBPartner vendor = new MBPartner (getCtx(), C_BPartner_ID, get_TrxName());
 		po.setBPartner(vendor);
 		//	Drop Ship
-		if ( p_IsDropShip )
+		if ( "Y".equals(getIsDropShip()) )
 		{
-			po.setIsDropShip(p_IsDropShip);
+			po.setIsDropShip(true);
 			
 			if (so.isDropShip() && so.getDropShip_BPartner_ID() != 0 )	{
 				po.setDropShip_BPartner_ID(so.getDropShip_BPartner_ID());
