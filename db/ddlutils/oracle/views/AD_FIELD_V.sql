@@ -25,7 +25,8 @@
  f.Included_Tab_ID, fg.FieldGroupType, fg.IsCollapsedByDefault,
  COALESCE(f.InfoFactoryClass, c.InfoFactoryClass) as InfoFactoryClass,
  c.IsAutocomplete, f.PreferredWidth, c.AD_Chart_ID , f.ISDISPLAYEDGRID, f.SEQNOGRID , f.isEmbedded , 
- COALESCE(f.IsAllowCopy, c.IsAllowCopy) AS IsAllowCopy
+ COALESCE(f.IsAllowCopy, c.IsAllowCopy) AS IsAllowCopy,
+ f.AD_FieldDefinition_ID
 FROM AD_FIELD f 
   INNER JOIN AD_TAB t ON (f.AD_Tab_ID = t.AD_Tab_ID)
   LEFT OUTER JOIN AD_FIELDGROUP fg ON (f.AD_FieldGroup_ID = fg.AD_FieldGroup_ID) 

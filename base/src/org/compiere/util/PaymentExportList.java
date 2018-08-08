@@ -219,6 +219,93 @@ public abstract class PaymentExportList implements PaymentExport {
 	}
 	
 	/**
+	 * Left padding optional fixed length
+	 * @param text
+	 * @param length
+	 * @param padding
+	 * @param isFixedLength
+	 * @return
+	 */
+	public String leftPadding(String text, int length, String padding, boolean isFixedLength) {
+		return leftPadding(text, length, padding, isFixedLength, false, null);
+	}
+	
+	/**
+	 * Right padding optional fixed length
+	 * @param text
+	 * @param length
+	 * @param padding
+	 * @param isFixedLength
+	 * @return
+	 */
+	public String rightPadding(String text, int length, String padding, boolean isFixedLength) {
+		return rightPadding(text, length, padding, isFixedLength, false, null);
+	}
+	
+	/**
+	 * Left padding, it also cut text if it is necessary
+	 * @param text
+	 * @param length
+	 * @param padding
+	 * @param isFixedLength
+	 * @param isMandatory
+	 * @param mandatoryMessage
+	 * @return
+	 */
+	public String leftPadding(String text, int length, String padding, boolean isFixedLength, boolean isMandatory, String mandatoryMessage) {
+		return addPadding(text, length, padding, isFixedLength, isMandatory, mandatoryMessage, true);
+	}
+	
+	/**
+	 * Right padding, it also cut text if it is necessary
+	 * @param text
+	 * @param length
+	 * @param padding
+	 * @param isFixedLength
+	 * @param isMandatory
+	 * @param mandatoryMessage
+	 * @return
+	 */
+	public String rightPadding(String text, int length, String padding, boolean isFixedLength, boolean isMandatory, String mandatoryMessage) {
+		return addPadding(text, length, padding, isFixedLength, isMandatory, mandatoryMessage, false);
+	}
+	
+	/**
+	 * Add Padding, for using internal
+	 * @param text
+	 * @param length
+	 * @param padding
+	 * @param isFixedLength
+	 * @param isMandatory
+	 * @param mandatoryMessage
+	 * @param isLeft
+	 * @return
+	 */
+	private String addPadding(String text, int length, String padding, boolean isFixedLength, boolean isMandatory, String mandatoryMessage, boolean isLeft) {
+		if(Util.isEmpty(text)) {
+			if(isMandatory
+					&& !Util.isEmpty(mandatoryMessage)) {
+				addError(mandatoryMessage);
+			}
+			//	Return void text
+			return text;
+		}
+		String processedText = text;
+		//	Process it
+		if(isFixedLength) {
+			processedText = processedText.substring(0, processedText.length() >= length? length: processedText.length());
+		}
+		//	For padding 
+		if(isLeft) {
+			processedText = leftPadding(processedText, length, padding);
+		} else {
+			processedText = rightPadding(processedText, length, padding);
+		}
+		//	Return
+		return processedText;
+	}
+	
+	/**
 	 * Get business partner account information as PO
 	 * @param check
 	 * @param defaultWhenNull if payment selection account is null try get a account of bp
