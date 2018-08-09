@@ -42,7 +42,7 @@
         <Data AD_Column_ID="12723" Column="Updated">2018-06-12 11:36:39.332</Data>
         <Data AD_Column_ID="12724" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="12721" Column="IsActive">true</Data>
-        <Data AD_Column_ID="12716" Column="Name">Dashboard Access</Data>
+        <Data AD_Column_ID="12716" Column="Name">Acceso a Tablero</Data>
         <Data AD_Column_ID="12720" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="12719" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="12715" Column="AD_Language">es_MX</Data>
@@ -811,7 +811,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="8547" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="6654" Column="TabLevel">1</Data>
         <Data AD_Column_ID="164" Column="AD_Window_ID">111</Data>
-        <Data AD_Column_ID="2740" Column="AD_Column_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2740" Column="AD_Column_ID" isNewNull="true">88752</Data>
         <Data AD_Column_ID="7029" Column="AD_ColumnSortOrder_ID" isNewNull="true"/>
         <Data AD_Column_ID="84423" Column="UUID" isNewNull="true"/>
       </PO>
@@ -822,9 +822,9 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="652" Column="Created">2018-06-12 11:45:25.212</Data>
         <Data AD_Column_ID="654" Column="Updated">2018-06-12 11:45:25.212</Data>
         <Data AD_Column_ID="3376" Column="CommitWarning" isNewNull="true"/>
-        <Data AD_Column_ID="266" Column="Name">Dashboard Access</Data>
-        <Data AD_Column_ID="268" Column="Help">TheDashboard Access Tab defines the Dashboard and type of access that this Role is granted.</Data>
-        <Data AD_Column_ID="267" Column="Description">Dashboard</Data>
+        <Data AD_Column_ID="266" Column="Name">Acceso a Tablero</Data>
+        <Data AD_Column_ID="268" Column="Help">La pestaña de acceso a tablero define el tablero de control y el  acceso al que se concede este rol.</Data>
+        <Data AD_Column_ID="267" Column="Description">Tablero</Data>
         <Data AD_Column_ID="269" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="1198" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="1199" Column="AD_Org_ID">0</Data>
@@ -1424,7 +1424,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="672" Column="Created">2018-06-12 12:11:41.222</Data>
         <Data AD_Column_ID="289" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="287" Column="Description" isNewNull="true"/>
-        <Data AD_Column_ID="286" Column="Name">Dashboard Access</Data>
+        <Data AD_Column_ID="286" Column="Name">Acceso a Tablero</Data>
         <Data AD_Column_ID="288" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="1205" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="1204" Column="AD_Client_ID">0</Data>
