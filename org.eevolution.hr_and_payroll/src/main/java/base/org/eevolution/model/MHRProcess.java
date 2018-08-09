@@ -277,7 +277,7 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 		justPrepared = true;
 		if (!DOCACTION_Complete.equals(getDocAction()))
 			setDocAction(DOCACTION_Complete);
-		commit();
+
 		return DocAction.STATUS_InProgress;
 	}	//	prepareIt
 
@@ -567,7 +567,6 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 		processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REACTIVATE);
 		if (processMsg != null)
 			return false;
-
 		return true;
 	}	//	reActivateIt
 
@@ -1007,7 +1006,6 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 		//	
 		for(MBPartner employee : MHREmployee.getEmployees(this)) {
 			calculateMovements(employee, payrollPeriod);
-			//commit();
 			//	Validate action
 			if(actionScope.isProcessScope()
 					&& actionScope.isBreakRunning()) {
@@ -1287,7 +1285,7 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 	 */
 	private MHRMovement createMovement(MHRConcept concept, MHRAttribute attribute, boolean isPrinted) {
 		I_HR_Period payrollPeriod = getHR_Period();
-		MHRMovement movement = new MHRMovement (getCtx(), 0, concept.get_TrxName());
+		MHRMovement movement = new MHRMovement (getCtx(), 0, get_TrxName());
 		movement.setAD_Org_ID(employee.getAD_Org_ID());
 		movement.setSeqNo(concept.getSeqNo());
 		movement.setHR_Attribute_ID(attribute.getHR_Attribute_ID());
@@ -1308,15 +1306,6 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 		movement.setEmployee(employee);
 		return movement;
 
-	}
-
-	private void commit()
-	{
-		try {
-			Trx.get(get_TrxName(), false).commit(true);
-		} catch (SQLException e) {
-			new AdempiereException(e.getMessage());
-		}
 	}
 
 	// Helper methods -------------------------------------------------------------------------------
