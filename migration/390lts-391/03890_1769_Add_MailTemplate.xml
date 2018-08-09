@@ -45,7 +45,7 @@
 
 &lt;div class="m_102215442800384201cta-button-wrap m_102215442800384201cta-button-wrap-centered" style="color:#ffffff;padding:20px 0 33px;text-align:center" align="center"&gt;
 
-    &lt;a class="" href="http://localhost:8080/webui/passwordreset.zul?token=@Value@&amp;userId=@AD_User_ID@" style="background:#4183c4;border-radius:3px;color:#ffffff;display:inline-block;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:17px;font-weight:bold;letter-spacing:normal;margin:0 auto;padding:12px 24px;text-align:center;text-decoration:none;width:auto!important" target="_blank"&gt;Verify Token&lt;/a&gt;
+    &lt;a class="" href="http://localhost:8080/webui/index.zul?token=@Value@&amp;userId=@AD_User_ID@" style="background:#4183c4;border-radius:3px;color:#ffffff;display:inline-block;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:17px;font-weight:bold;letter-spacing:normal;margin:0 auto;padding:12px 24px;text-align:center;text-decoration:none;width:auto!important" target="_blank"&gt;Verify Token&lt;/a&gt;
 
 &lt;/div&gt;
 &lt;hr style="background:#d9d9d9;border:none;color:#d9d9d9;height:1px;margin:10px 0 20px"&gt;

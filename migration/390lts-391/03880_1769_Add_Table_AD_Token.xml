@@ -158,6 +158,34 @@
         <Data AD_Column_ID="12716" Column="Name">Token</Data>
       </PO>
     </Step>
+    <Step SeqNo="105" StepType="AD">
+	  <PO AD_Table_ID="115" Action="I" Record_ID="54819" Table="AD_Sequence">
+		<Data AD_Column_ID="627" Column="Created">2018-08-09 15:57:04.111</Data>
+		<Data AD_Column_ID="629" Column="Updated">2018-08-09 15:57:04.111</Data>
+		<Data AD_Column_ID="349" Column="IsActive">true</Data>
+		<Data AD_Column_ID="225" Column="StartNewYear">false</Data>
+		<Data AD_Column_ID="347" Column="Description">Table AD_Token</Data>
+		<Data AD_Column_ID="1187" Column="VFormat" isNewNull="true"/>
+		<Data AD_Column_ID="1188" Column="IsAutoSequence">true</Data>
+		<Data AD_Column_ID="222" Column="IsAudited">false</Data>
+		<Data AD_Column_ID="223" Column="Prefix" isNewNull="true"/>
+		<Data AD_Column_ID="224" Column="Suffix" isNewNull="true"/>
+		<Data AD_Column_ID="54272" Column="DateColumn" isNewNull="true"/>
+		<Data AD_Column_ID="54309" Column="DecimalPattern" isNewNull="true"/>
+		<Data AD_Column_ID="216" Column="Name">AD_Token</Data>
+		<Data AD_Column_ID="427" Column="AD_Org_ID">0</Data>
+		<Data AD_Column_ID="426" Column="AD_Client_ID">0</Data>
+		<Data AD_Column_ID="1186" Column="AD_Sequence_ID">54819</Data>
+		<Data AD_Column_ID="2747" Column="IncrementNo">1</Data>
+		<Data AD_Column_ID="2746" Column="StartNo">1000000</Data>
+		<Data AD_Column_ID="350" Column="IsTableID">true</Data>
+		<Data AD_Column_ID="3887" Column="CurrentNextSys">100</Data>
+		<Data AD_Column_ID="220" Column="CurrentNext">1000000</Data>
+		<Data AD_Column_ID="628" Column="CreatedBy">100</Data>
+		<Data AD_Column_ID="630" Column="UpdatedBy">100</Data>
+		<Data AD_Column_ID="84417" Column="UUID" isNewNull="true"/>
+	  </PO>
+	</Step>
     <Step SeqNo="110" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="88764" Table="AD_Column">
         <Data AD_Column_ID="112" Column="Description">Client/Tenant for this installation.</Data>
