@@ -19,6 +19,7 @@ package org.eevolution.model;
 import java.io.File;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -53,6 +54,7 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.TimeUtil;
+import org.compiere.util.Trx;
 import org.compiere.util.Util;
 import org.eevolution.service.HRProcessActionMsg;
 
@@ -271,12 +273,11 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 		processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_PREPARE);
 		if (processMsg != null)
 			return DocAction.STATUS_Invalid;
-
-		//commit();
 		//
 		justPrepared = true;
 		if (!DOCACTION_Complete.equals(getDocAction()))
 			setDocAction(DOCACTION_Complete);
+		commit();
 		return DocAction.STATUS_InProgress;
 	}	//	prepareIt
 
@@ -305,7 +306,6 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 		{
 			return DocAction.STATUS_Invalid;
 		}
-		//commit();
 		//
 		setProcessed(true);	
 		setDocAction(DOCACTION_Close);
@@ -562,7 +562,6 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 
 		setProcessed(false);
 		setDocAction(DOCACTION_Complete);
-		//commit();
 				
 		// After reActivate
 		processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REACTIVATE);
@@ -754,7 +753,7 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 			scriptCtx.entrySet().stream().forEach( entry -> engine.put(entry.getKey(), entry.getValue()));
 			result = engine.eval(script);
 			if (result != null && "@Error@".equals(result.toString())) {
-				throw new AdempiereException("@AD_Rule_ID@ @Error@" + result);
+				throw new AdempiereException("@AD_Rule_ID@ @HR_Concept_ID@ "+ concept.getValue() + "" + concept.getName()+ "	 @@Error@ " + result);
 			}
 			//	
 			description = engine.get("description");
@@ -819,8 +818,8 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 			description = engine.getDescription();
 		} catch (Exception e) {
 			throw new AdempiereException("@HR_Employee_ID@ : " + employee.getC_BPartner().getName() + " " + employee.getC_BPartner().getName2() 
-			+ " @HR_Concept_ID@ " + concept.getValue() + " -> " + concept.getName() 
-			+ " @AD_Rule_ID@=" + rule.getValue() + " Execution error " + e.getLocalizedMessage());
+			+ " \n @HR_Concept_ID@ " + concept.getValue() + " -> " + concept.getName()
+			+ " \n @AD_Rule_ID@=" + rule.getValue() + "\n  Script : " + rule.getScript() + " \n Execution error : \n" + e.getLocalizedMessage());
 		}
 		return result;
 	}
@@ -1311,14 +1310,14 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 
 	}
 
-	/*private void commit()
+	private void commit()
 	{
 		try {
 			Trx.get(get_TrxName(), false).commit(true);
 		} catch (SQLException e) {
 			new AdempiereException(e.getMessage());
 		}
-	}*/
+	}
 
 	// Helper methods -------------------------------------------------------------------------------
 
@@ -1928,7 +1927,7 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 	 */
 	public double getConcept (String conceptValue, int period)
 	{
-		return getConcept(conceptValue, null, period,period, false);
+		return getConcept(conceptValue, null, period,period, true);
 	} // getConcept
 
 
@@ -1942,7 +1941,7 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 	 */
 	public double getConcept (String conceptValue, int periodFrom, int periodTo)
 	{
-		return getConcept(conceptValue, null, periodFrom,periodTo, false);
+		return getConcept(conceptValue, null, periodFrom,periodTo, true);
 	} // getConcept
 
 	/**
@@ -1955,7 +1954,7 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 	 * @param periodTo the search is done by the period value, it helps to search from previous years
 	 */
 	public double getConcept(String conceptValue, String payrollValue, int periodFrom, int periodTo) {
-		return getConcept(conceptValue, payrollValue, periodFrom , periodTo , false);
+		return getConcept(conceptValue, payrollValue, periodFrom , periodTo , true);
 	}
 	/**
 	 *  Helper Method : Concept by range from-to in periods from a different payroll
@@ -1965,9 +1964,9 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 	 *  @param payrollValue is the value of the payroll.
 	 * @param periodFrom
 	 * @param periodTo the search is done by the period value, it helps to search from previous years
-	 * @param processed
+	 * @param includeInProcess
 	 */
-	public double getConcept(String conceptValue, String payrollValue, int periodFrom, int periodTo, boolean processed) {
+	public double getConcept(String conceptValue, String payrollValue, int periodFrom, int periodTo, boolean includeInProcess) {
 		int payrollId;
 		if (payrollValue == null) {
 			payrollId = getHR_Payroll_ID();
@@ -1980,7 +1979,7 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 		}
 		//	Get from Movement helper method
 		return MHRMovement.getConceptSum(getCtx(), conceptValue, payrollId,
-				partnerId, getHR_Period_ID(), periodFrom, periodTo, processed, get_TrxName());
+				partnerId, getHR_Period_ID(), periodFrom, periodTo, includeInProcess, get_TrxName());
 	} // getConcept
 
 	/**
@@ -2004,9 +2003,9 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 	 * @param payrollValue is the value of the payroll.
 	 * @param periodFrom
 	 * @param periodTo the search is done by the period value, it helps to search from previous years
-	 * @param processed
+	 * @param includeInProcess
 	 */
-	public double getConceptAvg(String conceptValue, String payrollValue, int periodFrom, int periodTo, boolean processed) {
+	public double getConceptAvg(String conceptValue, String payrollValue, int periodFrom, int periodTo, boolean includeInProcess) {
 		int payrollId;
 		if (payrollValue == null) {
 			payrollId = getHR_Payroll_ID();
@@ -2019,7 +2018,7 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 		}
 		//	Get from Movement helper method
 		return MHRMovement.getConceptAvg(getCtx(), conceptValue, payrollId, 
-				partnerId, getHR_Period_ID(), periodFrom, periodTo, processed, get_TrxName());
+				partnerId, getHR_Period_ID(), periodFrom, periodTo, includeInProcess, get_TrxName());
 	} // getConcept
 	
 	/**
@@ -2189,7 +2188,7 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 	 * @param to
 	 * */
 	public double getConcept(String conceptValue, String payrollValue, Timestamp from, Timestamp to) {
-		return getConcept(conceptValue, payrollValue , from , to , false);
+		return getConcept(conceptValue, payrollValue , from , to , true);
 	}
 
 	/**
@@ -2198,8 +2197,8 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 	 * @param payrollValue
 	 * @param from
 	 * @param to
-	 * @param processed      */
-	public double getConcept(String conceptValue, String payrollValue, Timestamp from, Timestamp to, boolean processed) {
+	 * @param includeInProcess      */
+	public double getConcept(String conceptValue, String payrollValue, Timestamp from, Timestamp to, boolean includeInProcess) {
 		int payrollId;
 		if (payrollValue == null) {
 			payrollId = getHR_Payroll_ID();
@@ -2211,7 +2210,7 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 			payrollId = payroll.get_ID();
 		}
 		//	Get from Movement helper method
-		return MHRMovement.getConceptSum(getCtx(), conceptValue, payrollId, partnerId, from, to, processed, get_TrxName());
+		return MHRMovement.getConceptSum(getCtx(), conceptValue, payrollId, partnerId, from, to, includeInProcess, get_TrxName());
 	} // getConcept
 
 	/**
@@ -2221,7 +2220,7 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 	 * @param from
 	 */
 	public double getConceptAvg(String conceptValue, String payrollValue, Timestamp from, Timestamp to) {
-		return getConceptAvg(conceptValue, payrollValue , from , to , false);
+		return getConceptAvg(conceptValue, payrollValue , from , to , true);
 	}
 
 	/**
@@ -2230,8 +2229,8 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 	 * @param payrollValue
 	 * @param from
 	 * @param to
-	 * @param processed      */
-	public double getConceptAvg(String conceptValue, String payrollValue, Timestamp from, Timestamp to, boolean processed) {
+	 * @param includeInProcess      */
+	public double getConceptAvg(String conceptValue, String payrollValue, Timestamp from, Timestamp to, boolean includeInProcess) {
 		int payrollId;
 		if (payrollValue == null) {
 			payrollId = getHR_Payroll_ID();
@@ -2243,7 +2242,7 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 			payrollId = payroll.get_ID();
 		}
 		//	Get from Movement helper method
-		return MHRMovement.getConceptAvg(getCtx(), conceptValue, payrollId, partnerId, from, to , processed, get_TrxName());
+		return MHRMovement.getConceptAvg(getCtx(), conceptValue, payrollId, partnerId, from, to , includeInProcess, get_TrxName());
 	} // getConcept
 	
 	

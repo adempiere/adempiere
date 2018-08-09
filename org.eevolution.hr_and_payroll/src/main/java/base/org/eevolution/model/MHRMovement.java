@@ -249,7 +249,7 @@ public class MHRMovement extends X_HR_Movement
 	 * @param partnerId business partner for search
 	 * @param from
 	 * @param to
-	 * @param processed
+	 * @param includeInProcess
 	 * @param trxName      */
 	public static double getConceptSum(
 			Properties ctx,
@@ -258,7 +258,7 @@ public class MHRMovement extends X_HR_Movement
 			int partnerId,
 			Timestamp from,
 			Timestamp to,
-			boolean processed,
+			boolean includeInProcess,
 			String trxName) {
 		
 		MHRConcept concept = MHRConcept.getByValue(ctx, conceptValue, trxName);
@@ -291,7 +291,7 @@ public class MHRMovement extends X_HR_Movement
 		//check process and payroll
 		whereClause.append(" AND EXISTS (SELECT 1 FROM HR_Process p"
 							+" WHERE HR_Movement.HR_Process_ID = p.HR_Process_ID"
-							+" AND " + ( processed ? "p.Processed='Y'" : "p.Processed='N'")
+							+" AND " + (includeInProcess ? "p.DocStatus IN('DR','IP', 'CO', 'CL')" : "p.DocStatus IN('CO', 'CL')")
 							+" AND p.HR_Payroll_ID=?");
 
 		params.add(payrollId);
@@ -323,7 +323,7 @@ public class MHRMovement extends X_HR_Movement
 			Timestamp from,
 			Timestamp to,
 			String trxName) {
-		return getConceptAvg(ctx,conceptValue,payrollId,partnerId,from,to,false,trxName);
+		return getConceptAvg(ctx,conceptValue,payrollId,partnerId,from,to,true,trxName);
 	}
 
 		/**
@@ -333,7 +333,7 @@ public class MHRMovement extends X_HR_Movement
 		 * @param partnerId business partner for search
 		 * @param from
 		 * @param to
-		 * @param processed
+		 * @param includeInProcess
 		 * @param trxName               */
 	public static double getConceptAvg(
 			Properties ctx,
@@ -342,7 +342,7 @@ public class MHRMovement extends X_HR_Movement
 			int partnerId,
 			Timestamp from,
 			Timestamp to,
-			boolean processed,
+			boolean includeInProcess,
 			String trxName) {
 		
 		MHRConcept concept = MHRConcept.getByValue(ctx, conceptValue, trxName);
@@ -375,7 +375,7 @@ public class MHRMovement extends X_HR_Movement
 		//check process and payroll
 		whereClause.append(" AND EXISTS (SELECT 1 FROM HR_Process p"
 							+" WHERE HR_Movement.HR_Process_ID = p.HR_Process_ID"
-							+" AND " + ( processed ? "p.Processed='Y'" : "p.Processed='N'")
+							+" AND " + (includeInProcess? "p.DocStatus IN('DR', 'IP', 'CO', 'CL')" : "p.DocStatus IN('CO', 'CL')")
 							+" AND p.HR_Payroll_ID=?");
 
 		params.add(payrollId);
@@ -411,7 +411,7 @@ public class MHRMovement extends X_HR_Movement
 			int periodFrom,
 			int periodTo,
 			String trxName) {
-		return getConceptSum(ctx,conceptValue,payrollId,partnerId,periodId,periodFrom,periodTo,false,trxName);
+		return getConceptSum(ctx,conceptValue,payrollId,partnerId,periodId,periodFrom,periodTo,true,trxName);
 	}
 
 	/**
@@ -424,7 +424,7 @@ public class MHRMovement extends X_HR_Movement
 	 * @param periodId period ID
 	 * @param periodFrom
 	 * @param periodTo the search is done by the period value, it helps to search from previous years
-	 * @param processed
+	 * @param includeInProcess
 	 * @param trxName
 	 */
 	public static double getConceptSum(
@@ -435,7 +435,7 @@ public class MHRMovement extends X_HR_Movement
 			int periodId,
 			int periodFrom,
 			int periodTo,
-			boolean processed,
+			boolean includeInProcess,
 			String trxName) {
 		MHRConcept concept = MHRConcept.getByValue(ctx, conceptValue, trxName);
 		if (concept == null)
@@ -465,7 +465,7 @@ public class MHRMovement extends X_HR_Movement
 		whereClause.append(" AND EXISTS (SELECT 1 FROM HR_Process p"
 				+" INNER JOIN HR_Period pr ON (pr.HR_Period_id=p.HR_Period_ID)"
 				+" WHERE HR_Movement.HR_Process_ID = p.HR_Process_ID"
-				+" AND " + ( processed ? "p.Processed='Y'" :"p.Processed='N'")
+				+" AND " + (includeInProcess? "p.DocStatus IN('DR', 'IP', 'CO', 'CL')" : "p.DocStatus IN('CO', 'CL')")
 				+" AND p.HR_Payroll_ID=?");
 
 		params.add(payrollId);
@@ -634,7 +634,7 @@ public class MHRMovement extends X_HR_Movement
 			int periodFrom,
 			int periodTo,
 			String trxName) {
-		return getConceptAvg(ctx,conceptValue,payrollId,partnerId,periodId ,periodFrom,periodTo,false,trxName);
+		return getConceptAvg(ctx,conceptValue,payrollId,partnerId,periodId ,periodFrom,periodTo,true,trxName);
 	}
 
 	/**
@@ -658,7 +658,7 @@ public class MHRMovement extends X_HR_Movement
 			int periodId,
 			int periodFrom,
 			int periodTo,
-			boolean processed,
+			boolean includeInProcess,
 			String trxName) {
 		MHRConcept concept = MHRConcept.getByValue(ctx, conceptValue, trxName);
 		if (concept == null)
@@ -688,7 +688,7 @@ public class MHRMovement extends X_HR_Movement
 		whereClause.append(" AND EXISTS (SELECT 1 FROM HR_Process p"
 				+" INNER JOIN HR_Period pr ON (pr.HR_Period_id=p.HR_Period_ID)"
 				+" WHERE HR_Movement.HR_Process_ID = p.HR_Process_ID"
-				+" AND " + ( processed ? "p.Processed = 'Y'" : "p.Processed = 'N'")
+				+" AND " + (includeInProcess? "p.DocStatus IN('DR', 'IP', 'CO', 'CL')" : "p.DocStatus IN('CO', 'CL')")
 				+" AND p.HR_Payroll_ID=?");
 
 		params.add(payrollId);
