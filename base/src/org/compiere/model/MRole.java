@@ -649,6 +649,8 @@ public final class MRole extends X_AD_Role
 	private HashMap<Integer,Boolean>	m_browseAccess = null;
 	/**	Info Windows			*/
 	private HashMap<Integer, Boolean>	m_infoAccess = null;
+	/**	DashBoard Browse Access				*/
+	private HashMap<Integer,Boolean>	m_dashboardAccess = null;
 	
 	/**
 	 * 	Set Logged in user
@@ -688,6 +690,7 @@ public final class MRole extends X_AD_Role
 			m_workflowAccess = null;
 			m_formAccess = null;
 			m_browseAccess = null;
+			m_dashboardAccess = null;
 		}
 
 		loadIncludedRoles(reload); // Load/Reload included roles - metas-2009_0021_AP1_G94
@@ -1962,6 +1965,41 @@ public final class MRole extends X_AD_Role
 		return retValue;
 	}	//	getTaskAccess
 
+	/**
+	 * 	Get Process Access
+	 *	@param PA_DashboardContent_ID process
+	 *	@return null in no access, TRUE if r/w and FALSE if r/o
+	 */
+	public Boolean getDashboardAccess (int PA_DashboardContent_ID) {
+		if (m_dashboardAccess == null)
+		{
+			m_dashboardAccess = new HashMap<Integer, Boolean>(50);
+			
+			
+			String sql = "SELECT PA_DashboardContent_ID, IsActive FROM AD_Dashboard_Access WHERE AD_Role_ID=? AND IsActive='Y'" ;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			try
+			{
+				pstmt = DB.prepareStatement(sql, get_TrxName());
+				pstmt.setInt(1, getAD_Role_ID());
+				rs = pstmt.executeQuery();
+				while (rs.next())
+					m_dashboardAccess.put(new Integer(rs.getInt(1)), new Boolean("Y".equals(rs.getString(2))));
+			}
+			catch (Exception e)
+			{
+				log.log(Level.SEVERE, sql, e);
+			}
+			finally
+			{
+				DB.close(rs, pstmt);
+			}
+			mergeIncludedAccess("m_dashboardAccess"); // Load included accesses - metas-2009_0021_AP1_G94
+		}	//	reload
+		Boolean retValue = m_dashboardAccess.get(PA_DashboardContent_ID) == null ? false : m_dashboardAccess.get(PA_DashboardContent_ID);
+		return retValue;
+	}	//	getProcessAccess
 	
 	/*************************************************************************
 	 *	Appends where clause to SQL statement for Table
@@ -3039,6 +3077,11 @@ public final class MRole extends X_AD_Role
 			getFormAccess(-1);
 			return m_formAccess;
 		}
+		else if ("m_dashboardAccess".equals(varname))
+		{
+			getDashboardAccess(-1);
+			return m_dashboardAccess;
+		}
 		else
 		{
 			throw new IllegalArgumentException("varname not supported - "+varname);
@@ -3065,6 +3108,10 @@ public final class MRole extends X_AD_Role
 		else if ("m_formAccess".equals(varname))
 		{
 			m_formAccess = map;
+		}
+		else if ("m_dashboardAccess".equals(varname))
+		{
+			m_dashboardAccess = map;
 		}
 		else
 		{
