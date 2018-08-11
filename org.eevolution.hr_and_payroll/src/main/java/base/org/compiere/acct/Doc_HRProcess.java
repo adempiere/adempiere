@@ -119,7 +119,7 @@ public class   Doc_HRProcess extends Doc
 			if (C_BPartner_ID == 0)
 				C_BPartner_ID = line.getC_BPartner_ID();
 			//Close every employee
-			if (line.getC_BPartner_ID() != 0 && line.getC_BPartner_ID() != C_BPartner_ID && process.isPostPerEmployee()) {
+			if (line.getC_BPartner_ID() != 0 && line.getC_BPartner_ID() != C_BPartner_ID && process.getHR_Payroll().isPostPerEmployee()) {
 				closeBPartner(totalDebit, totalCredit, fact, as, C_BPartner_ID);
 				C_BPartner_ID = line.getC_BPartner_ID();
 				totalDebit = Env.ZERO;
@@ -157,7 +157,7 @@ public class   Doc_HRProcess extends Doc
 				}
 			}
 		}
-		if (process.isPostPerEmployee()) {
+		if (process.getHR_Payroll().isPostPerEmployee()) {
 			closeBPartner(totalDebit, totalCredit, fact, as, C_BPartner_ID);
 		} else {
 			if (totalDebit.signum() != 0
