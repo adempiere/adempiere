@@ -1060,7 +1060,7 @@ public class TimeUtil
 			calendar.add(Calendar.MONTH, duration);
 		return new Timestamp(calendar.getTimeInMillis());
 	}
-	
+
     /**
      * Get Time from duration and time unit
      * It is supported for Day, Hour, Minute and second
@@ -1074,9 +1074,9 @@ public class TimeUtil
     			|| dateTo == null) {
 			return 0;
 		}
-    	//	
+    	//
     	double time = 0;
-    	long durationInMillis = dateTo.getTime() - dateFrom.getTime();
+    	long durationInMillis = getMillisecondsBetween(dateFrom, dateTo);
     	if (DURATIONUNIT_Day.equals(durationUnit)) {
     		time = (durationInMillis / (double)(1000 * 60 * 60 * 24));
     	} else if (DURATIONUNIT_Hour.equals(durationUnit)) {
@@ -1089,7 +1089,7 @@ public class TimeUtil
 		//	Return
 		return time;
     }
-    
+
     /**
      * Get Hours between two dates
      * @param dateFrom
@@ -1099,7 +1099,7 @@ public class TimeUtil
     public static int getHoursBetween(Timestamp dateFrom, Timestamp dateTo) {
     	return (int) getTimeBetween(dateFrom, dateTo, DURATIONUNIT_Hour);
     }
-    
+
     /**
      * Get Minutes between two dates
      * @param dateFrom
@@ -1109,7 +1109,7 @@ public class TimeUtil
     public static int getMinutesBetween(Timestamp dateFrom, Timestamp dateTo) {
     	return (int) getTimeBetween(dateFrom, dateTo, DURATIONUNIT_Minute);
     }
-    
+
     /**
      * Get Seconds between two dates
      * @param dateFrom
@@ -1119,14 +1119,14 @@ public class TimeUtil
     public static int getSecondsBetween(Timestamp dateFrom, Timestamp dateTo) {
     	return (int) getTimeBetween(dateFrom, dateTo, DURATIONUNIT_Second);
     }
-    
+
     /**
      * Get Duration between two dates
      * @param dateFrom
      * @param dateTo
      * @return
      */
-    public static long getDurationBetween(Timestamp dateFrom, Timestamp dateTo) {
+    public static long getMillisecondsBetween(Timestamp dateFrom, Timestamp dateTo) {
     	if(dateFrom == null
     			|| dateTo == null) {
 			return 0;
@@ -1286,6 +1286,11 @@ public class TimeUtil
 		System.out.println(isSameDay(t3, t5) + " == false");
 		//	All days between
 		System.out.println("getDaysBetween(t1, t2)=" + getDaysBetween(t1, t2));
+		//	For Time
+		System.out.println("getHoursBetween(t1, t2)=" + getHoursBetween(t1, t2));
+		System.out.println("getMinutesBetween(t1, t2)=" + getMinutesBetween(t1, t2));
+		System.out.println("getSecondsBetween(t1, t2)=" + getSecondsBetween(t1, t2));
+		System.out.println("getMillisecondsBetween(t1, t2)=" + getMillisecondsBetween(t1, t2));
 		//	Just Saturday and Sunday between
 		System.out.println("getDaysBetween(t1, t2, Calendar.SATURDAY, Calendar.SUNDAY)=" + getDaysBetween(t1, t2, Calendar.SATURDAY, Calendar.SUNDAY));
 		//	Get Non business days between using calendar match, also include as non business days (Saturday and Sunday)
