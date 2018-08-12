@@ -1060,6 +1060,80 @@ public class TimeUtil
 			calendar.add(Calendar.MONTH, duration);
 		return new Timestamp(calendar.getTimeInMillis());
 	}
+	
+    /**
+     * Get Time from duration and time unit
+     * It is supported for Day, Hour, Minute and second
+     * @param timeUnit
+     * @param durationInMillis
+     * @return
+     */
+    public static double getTimeBetween(Timestamp dateFrom, Timestamp dateTo, String durationUnit) {
+    	if(Util.isEmpty(durationUnit)
+    			|| dateFrom == null
+    			|| dateTo == null) {
+			return 0;
+		}
+    	//	
+    	double time = 0;
+    	long durationInMillis = dateTo.getTime() - dateFrom.getTime();
+    	if (DURATIONUNIT_Day.equals(durationUnit)) {
+    		time = (durationInMillis / (double)(1000 * 60 * 60 * 24));
+    	} else if (DURATIONUNIT_Hour.equals(durationUnit)) {
+    		time = (durationInMillis / (double)(1000 * 60 * 60));
+    	} else if (DURATIONUNIT_Minute.equals(durationUnit)) {
+    		time = (durationInMillis / (double)(1000 * 60));
+    	} else if (DURATIONUNIT_Second.equals(durationUnit)) {
+    		time = (durationInMillis / (double)(1000));
+    	}
+		//	Return
+		return time;
+    }
+    
+    /**
+     * Get Hours between two dates
+     * @param dateFrom
+     * @param dateTo
+     * @return
+     */
+    public static int getHoursBetween(Timestamp dateFrom, Timestamp dateTo) {
+    	return (int) getTimeBetween(dateFrom, dateTo, DURATIONUNIT_Hour);
+    }
+    
+    /**
+     * Get Minutes between two dates
+     * @param dateFrom
+     * @param dateTo
+     * @return
+     */
+    public static int getMinutesBetween(Timestamp dateFrom, Timestamp dateTo) {
+    	return (int) getTimeBetween(dateFrom, dateTo, DURATIONUNIT_Minute);
+    }
+    
+    /**
+     * Get Seconds between two dates
+     * @param dateFrom
+     * @param dateTo
+     * @return
+     */
+    public static int getSecondsBetween(Timestamp dateFrom, Timestamp dateTo) {
+    	return (int) getTimeBetween(dateFrom, dateTo, DURATIONUNIT_Second);
+    }
+    
+    /**
+     * Get Duration between two dates
+     * @param dateFrom
+     * @param dateTo
+     * @return
+     */
+    public static long getDurationBetween(Timestamp dateFrom, Timestamp dateTo) {
+    	if(dateFrom == null
+    			|| dateTo == null) {
+			return 0;
+		}
+    	//	Return
+    	return dateTo.getTime() - dateFrom.getTime();
+    }
 
 	/**
 	 * 
