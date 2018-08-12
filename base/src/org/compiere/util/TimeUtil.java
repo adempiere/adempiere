@@ -1076,7 +1076,7 @@ public class TimeUtil
 		}
     	//	
     	double time = 0;
-    	long durationInMillis = dateTo.getTime() - dateFrom.getTime();
+    	long durationInMillis = getMillisecondsBetween(dateFrom, dateTo);
     	if (DURATIONUNIT_Day.equals(durationUnit)) {
     		time = (durationInMillis / (double)(1000 * 60 * 60 * 24));
     	} else if (DURATIONUNIT_Hour.equals(durationUnit)) {
@@ -1126,7 +1126,7 @@ public class TimeUtil
      * @param dateTo
      * @return
      */
-    public static long getDurationBetween(Timestamp dateFrom, Timestamp dateTo) {
+    public static long getMillisecondsBetween(Timestamp dateFrom, Timestamp dateTo) {
     	if(dateFrom == null
     			|| dateTo == null) {
 			return 0;
@@ -1286,6 +1286,11 @@ public class TimeUtil
 		System.out.println(isSameDay(t3, t5) + " == false");
 		//	All days between
 		System.out.println("getDaysBetween(t1, t2)=" + getDaysBetween(t1, t2));
+		//	For Time
+		System.out.println("getHoursBetween(t1, t2)=" + getHoursBetween(t1, t2));
+		System.out.println("getMinutesBetween(t1, t2)=" + getMinutesBetween(t1, t2));
+		System.out.println("getSecondsBetween(t1, t2)=" + getSecondsBetween(t1, t2));
+		System.out.println("getMillisecondsBetween(t1, t2)=" + getMillisecondsBetween(t1, t2));
 		//	Just Saturday and Sunday between
 		System.out.println("getDaysBetween(t1, t2, Calendar.SATURDAY, Calendar.SUNDAY)=" + getDaysBetween(t1, t2, Calendar.SATURDAY, Calendar.SUNDAY));
 		//	Get Non business days between using calendar match, also include as non business days (Saturday and Sunday)
@@ -1293,7 +1298,6 @@ public class TimeUtil
 		//	Get business days between using calendar match, also include as non business days (from Monday to Friday)
 		System.out.println("getBusinessDaysBetween(t1, t2, Calendar.MONDAY, Calendar.TUESDAY, Calendar.WEDNESDAY, Calendar.THURSDAY, Calendar.FRIDAY)=" + getBusinessDaysBetween(t1, t2, Calendar.MONDAY, Calendar.TUESDAY, Calendar.WEDNESDAY, Calendar.THURSDAY, Calendar.FRIDAY));
 		System.out.println("getYearsBetween(t1, t2)=" + getYearsBetween(t1, t2));
-		
 	}	//	main
 	
 }	//	TimeUtil
