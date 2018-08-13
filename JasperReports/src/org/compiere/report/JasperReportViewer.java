@@ -18,7 +18,7 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.export.JRRtfExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
-import net.sf.jasperreports.view.JRViewer;
+import net.sf.jasperreports.swing.JRViewer;
 import org.compiere.apps.EMailDialog;
 import org.compiere.model.MUser;
 import org.compiere.util.CLogger;
@@ -63,8 +63,8 @@ public class JasperReportViewer extends JRViewer {
 		tlbToolBar.add(comboBox);
 
 		// Set default viewer zoom level
-		btnFitPage.setSelected(true);
-		setZooms();
+		setFitWidthZoomRatio();
+		setFitPageZoomRatio();
 	}
 
 	public JasperPrint getJasperPrint() {

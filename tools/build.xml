@@ -327,10 +327,10 @@
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- POI -->
-			<zipfileset src="lib/poi-3.14-20160307.jar">
+			<zipfileset src="lib/poi-3.17.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
-			<zipfileset src="lib/poi-ooxml-3.14-20160307.jar">
+			<zipfileset src="lib/poi-ooxml-3.17.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- CGLib -->
@@ -352,6 +352,9 @@
 			</manifest>
 			<!-- Commons -->
 			<zipfileset src="lib/commons-collections-3.1.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/commons-collections4-4.1.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<zipfileset src="lib/commons-codec-1.10.jar">
@@ -535,10 +538,10 @@
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- POI -->
-			<zipfileset src="lib/poi-3.14-20160307.jar">
+			<zipfileset src="lib/poi-3.17.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
-			<zipfileset src="lib/poi-ooxml-3.14-20160307.jar">
+			<zipfileset src="lib/poi-ooxml-3.17.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- Open Forecast -->
@@ -556,6 +559,9 @@
 			</manifest>
 			<!-- Commons -->
 			<zipfileset src="lib/commons-collections-3.1.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/commons-collections4-4.1.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<zipfileset src="lib/commons-codec-1.10.jar">
