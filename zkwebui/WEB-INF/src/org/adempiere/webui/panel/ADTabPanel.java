@@ -147,6 +147,8 @@ public class ADTabPanel extends Div implements Evaluatee, EventListener, DataSta
     private boolean isSwitchRow = true;	
     
 	private int INC = 30;
+	
+	private GridPanel quickPanel;
 
 	public CWindowToolbar getGlobalToolbar()
 	{
@@ -209,7 +211,7 @@ public class ADTabPanel extends Div implements Evaluatee, EventListener, DataSta
 
         int treeId = Env.getContextAsInt(Env.getCtx(), windowNo , gridTab.getTabNo() , "AD_Tree_ID" );
 		if (gridTab.isTreeTab() && treeId == 0) {
-			treeId = MTree.getDefaultTreeIdFromTableId(Env.getAD_Client_ID(Env.getCtx()), gridTab.getAD_Table_ID());
+			treeId = MTree.getDefaultAD_Tree_ID(Env.getAD_Client_ID(Env.getCtx()), gridTab.getKeyColumnName());
 			if (treeId > 0)
 				Env.setContext (Env.getCtx(), windowNo, "AD_Tree_ID",  treeId);
 		}
@@ -218,9 +220,9 @@ public class ADTabPanel extends Div implements Evaluatee, EventListener, DataSta
 			Borderlayout layout = new Borderlayout();
 			layout.setParent(this);
 			layout.setStyle("width: 100%; height: 100%; position: absolute;");
-			treePanel = new ADTreePanel(windowNo, !gridTab.isReadOnly() && !gridTab.isReadOnlyFromContext());
+			treePanel = new ADTreePanel();
 			if (gridTab.getTabLevel() == 0)	//	initialize other tabs later
-				treePanel.initTree(treeId, gridTab.getWhereExtended());
+				treePanel.initTree(treeId, windowNo);
 
 			West west = new West();
 			west.appendChild(treePanel);
@@ -558,28 +560,10 @@ public class ADTabPanel extends Div implements Evaluatee, EventListener, DataSta
             if (rowList != null)
 				rowList.add(row);
         }
-        //create tree
-		//	Yamel Senih [ 9223372036854775807 ]
-		//	Add support to dynamic tree
-//        if (gridTab.isTreeTab() && treePanel != null) {
-//			int AD_Tree_ID = MTree.getDefaultAD_Tree_ID (
-//				Env.getAD_Client_ID(Env.getCtx()), gridTab.getKeyColumnName());
-//			treePanel.initTree(AD_Tree_ID, windowNo);
-//        }
-        if (gridTab.isTreeTab() && treePanel != null) {
-        	String treeName = "AD_Tree_ID";
-        	int treeId = Env.getContextAsInt (Env.getCtx(), windowNo, treeName, true);
-        	//	Valid Tree Value from context
-        	if(treeId == 0) {
-        		treeId = MTree.getDefaultTreeIdFromTableId(Env.getAD_Client_ID(Env.getCtx()), gridTab.getAD_Table_ID());
-        	}
-			//	Where
-        	treePanel.initTree(treeId, gridTab.getWhereExtended());
-        }
-        //	End Yamel Senih
-        if (!gridTab.isSingleRow() && !isGridView())
+
+        if (!gridTab.isSingleRow() && !isGridView() && !gridTab.isQuickEntry())
         	switchRowPresentation();
-        dynamicDisplay(-1);
+
     }
 
 	private Component createSpacer() {
@@ -601,6 +585,7 @@ public class ADTabPanel extends Div implements Evaluatee, EventListener, DataSta
         {
         	comp.setMandatoryLabels();
         }
+
         //  Selective
         if (col > 0)
         {
@@ -803,6 +788,11 @@ public class ADTabPanel extends Div implements Evaluatee, EventListener, DataSta
         	gridTab.getTableModel().fireTableDataChanged();
     }
 
+    public void setGridTab(GridTab gridTab) 
+    {
+		this.gridTab = gridTab;
+	}
+    
     /**
      * @return GridTab
      */
@@ -879,8 +869,6 @@ public class ADTabPanel extends Div implements Evaluatee, EventListener, DataSta
         		setFocusToField();
         	}
         }
-        //	Load Trx Info
-        reloadFieldTrxInfo();
     }
 
 	private void activateChild(boolean activate, EmbeddedPanel panel) {
@@ -977,7 +965,7 @@ public class ADTabPanel extends Div implements Evaluatee, EventListener, DataSta
 		else if (event.getTarget() == listPanel.getListbox())
     	{
 			//	BR [ 1063 ]
-    		if(isSwitchRowPresentation())
+    		if(isSwitchRowPresentation() && !gridTab.isQuickEntry())
     			this.switchRowPresentation();
     	}
 
@@ -1150,10 +1138,10 @@ public class ADTabPanel extends Div implements Evaluatee, EventListener, DataSta
 
 		int treeId = Env.getContextAsInt(Env.getCtx(), windowNo , gridTab.getTabNo(), "AD_Tree_ID");
 		if ((gridTab.isTreeTab() && treeId == 0) || (gridTab.isTreeTab() && gridTab.getTabLevel() == 0))
-			treeId = MTree.getDefaultTreeIdFromTableId(Env.getAD_Client_ID(Env.getCtx()), gridTab.getAD_Table_ID());
-		if (gridTab.isTreeTab() && treeId > 0 && treePanel != null) {
-			treePanel.initTree(treeId, gridTab.getWhereExtended());
-			if (!gridTab.isSingleRow() && !isGridView())
+			treeId = MTree.getDefaultAD_Tree_ID (Env.getAD_Client_ID(Env.getCtx()), gridTab.getKeyColumnName());
+		if (gridTab.isTreeTab() && treeId > 0 && treePanel != null && treeId != treePanel.getTreeId()) {
+			treePanel.initTree(treeId, windowNo);
+			if (!gridTab.isSingleRow() && !isGridView() && !gridTab.isQuickEntry())
 				switchRowPresentation();
 		}
 
@@ -1938,6 +1926,13 @@ public class ADTabPanel extends Div implements Evaluatee, EventListener, DataSta
         // Returning the tabbox
         return tabBox;
 
+    }
+
+    public void setQuickPanel(GridPanel gridPanel) {
+    	quickPanel=gridPanel;
+    }
+    public GridPanel getQuickPanel() {
+    	return quickPanel;
     }
     
     /**
