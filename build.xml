@@ -26,6 +26,7 @@
 	
 	<echo message="Deploy ADempiere"/>
 	<chmod dir="${AD_directory}" perm="ugo+rx" includes="**/*.sh"/>
+	<chmod dir="${AD_directory}/data" perm="ugo+rx" includes="**/*.dmp"/>
 	<chmod dir="${env_directory}" perm="ugo+rx" includes="**/*.sh"/>
 	<chmod dir="${env_directory}/PostgreSQL" perm="ugo+rx" includes="**/*.sh"/>
 	<echo message="Copy myEnvironment_CI to myEnvironment"/>
