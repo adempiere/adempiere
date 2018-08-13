@@ -29,6 +29,11 @@ import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 
+/**  @author Nicolas Sarlabos, nicolas.sarlabos@openupsolutions.com, http://www.openupsolutions.com
+*			<li> FR [ 1459 ] Invoice with price list that includes taxes
+*			@see https://github.com/adempiere/adempiere/issues/1459
+**/
+
 /**
  *	Invoice Callouts	
  *	
@@ -652,6 +657,28 @@ public class CalloutInvoice extends CalloutEngine
 
 		//	Line Net Amt
 		BigDecimal LineNetAmt = QtyInvoiced.multiply(PriceActual);
+
+		if (isTaxIncluded(WindowNo))
+		{
+
+			int tax_ID = 0;
+
+			if (mTab.getValue("C_Tax_ID") != null){
+				tax_ID = (Integer)mTab.getValue("C_Tax_ID");
+			}
+
+			if(tax_ID > 0){
+
+				MTax Tax = new MTax(ctx,tax_ID,null);
+
+				BigDecimal multiplier = Tax.getRate().divide(Env.ONEHUNDRED, 12, BigDecimal.ROUND_HALF_UP);
+
+				multiplier = multiplier.add(Env.ONE);
+				LineNetAmt = LineNetAmt.divide(multiplier, 12, BigDecimal.ROUND_HALF_UP);
+
+			}
+		}
+
 		if (LineNetAmt.scale() > StdPrecision)
 			LineNetAmt = LineNetAmt.setScale(StdPrecision, BigDecimal.ROUND_HALF_UP);
 		log.info("amt = LineNetAmt=" + LineNetAmt);
@@ -673,7 +700,13 @@ public class CalloutInvoice extends CalloutEngine
 				{
 					int C_Tax_ID = taxID.intValue();
 					MTax tax = new MTax (ctx, C_Tax_ID, null);
-					TaxAmt = tax.calculateTax(LineNetAmt, isTaxIncluded(WindowNo), StdPrecision);
+
+					if(isTaxIncluded(WindowNo)){
+						TaxAmt = tax.calculateTax(QtyInvoiced.multiply(PriceActual), isTaxIncluded(WindowNo), StdPrecision);
+					} else{
+						TaxAmt = tax.calculateTax(LineNetAmt, isTaxIncluded(WindowNo), StdPrecision);
+					}
+
 					mTab.setValue("TaxAmt", TaxAmt);
 				}
 			}

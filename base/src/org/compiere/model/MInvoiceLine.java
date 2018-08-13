@@ -47,7 +47,11 @@ import org.compiere.util.Msg;
  * 				invoice line for a product on a price list that includes tax, the net amount is
  * 				incorrectly calculated.
  * @author red1 FR: [ 2214883 ] Remove SQL code and Replace for Query
- */
+ * @author Nicolas Sarlabos, nicolas.sarlabos@openupsolutions.com, http://www.openupsolutions.com
+ *			<li> FR [ 1459 ] Invoice with price list that includes taxes
+ *			@see https://github.com/adempiere/adempiere/issues/1459
+ **/
+
 public class MInvoiceLine extends X_C_InvoiceLine implements DocumentReversalLineEnable
 {
 	/**
@@ -492,7 +496,9 @@ public class MInvoiceLine extends X_C_InvoiceLine implements DocumentReversalLin
 				
 				taxThisAmt = taxThisAmt.add(invoiceTax.calculateTax(bd, isTaxIncluded(), getPrecision()));
 				taxStdAmt = taxStdAmt.add(stdTax.calculateTax(bd, isTaxIncluded(), getPrecision()));
-				
+
+				if(isTaxIncluded()) taxThisAmt=Env.ZERO;
+
 				bd = bd.subtract(taxStdAmt).add(taxThisAmt);
 				
 				log.fine("Price List includes Tax and Tax Changed on Invoice Line: New Tax Amt: " 
@@ -949,12 +955,17 @@ public class MInvoiceLine extends X_C_InvoiceLine implements DocumentReversalLin
 			log.warning("(1) #" + no);
 
 		if (isTaxIncluded())
-			sql = "UPDATE C_Invoice i "
+			/*sql = "UPDATE C_Invoice i "
 				+ " SET GrandTotal=TotalLines "
-				+ "WHERE C_Invoice_ID=?";
+				+ "WHERE C_Invoice_ID=?";*/
+
+			sql = "UPDATE C_Invoice i"
+					+ " SET GrandTotal="
+					+ "(SELECT COALESCE(SUM(LineTotalAmt),0) FROM C_InvoiceLine il WHERE i.C_Invoice_ID=il.C_Invoice_ID) "
+					+ "WHERE C_Invoice_ID=?";
 		else
 			sql = "UPDATE C_Invoice i "
-				+ " SET GrandTotal=TotalLines+"
+					+ " SET GrandTotal=TotalLines+"
 					+ "(SELECT COALESCE(SUM(TaxAmt),0) FROM C_InvoiceTax it WHERE i.C_Invoice_ID=it.C_Invoice_ID) "
 					+ "WHERE C_Invoice_ID=?";
 		no = DB.executeUpdateEx(sql, new Object[]{getC_Invoice_ID()}, get_TrxName());

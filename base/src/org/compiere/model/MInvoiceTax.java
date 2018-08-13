@@ -35,7 +35,11 @@ import org.compiere.util.Env;
  *  
  *  @author Teo Sarca, www.arhipac.ro
  *  		<li>FR [ 2214883 ] Remove SQL code and Replace for Query
- */
+ *  @author Nicolas Sarlabos, nicolas.sarlabos@openupsolutions.com, http://www.openupsolutions.com
+ *			<li> FR [ 1459 ] Invoice with price list that includes taxes
+ *			@see https://github.com/adempiere/adempiere/issues/1459
+ **/
+
 public class MInvoiceTax extends X_C_InvoiceTax
 {
 	/**
@@ -235,10 +239,11 @@ public class MInvoiceTax extends X_C_InvoiceTax
 		setTaxAmt(taxAmt);
 
 		//	Set Base
-		if (isTaxIncluded())
+		setTaxBaseAmt (taxBaseAmt);
+		/*if (isTaxIncluded())
 			setTaxBaseAmt (taxBaseAmt.subtract(taxAmt));
 		else
-			setTaxBaseAmt (taxBaseAmt);
+			setTaxBaseAmt (taxBaseAmt);*/
 		return true;
 	}	//	calculateTaxFromLines
 
