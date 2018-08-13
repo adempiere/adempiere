@@ -22,7 +22,6 @@ import java.util.BitSet;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import org.compiere.Adempiere;
 import org.compiere.model.MCalendar;
 
 
@@ -1273,43 +1272,4 @@ public class TimeUtil
         //	Value
         return weeks;
 	}
-
-	/**
-	 * 	Test
-	 *	@param args ignored
-	 */
-	public static void main (String[] args)
-	{
-		Adempiere.startup(true);
-		Timestamp t1 = getDay(2018, 01, 01);
-		Timestamp t2 = getDay(2019, 05, 31);
-		System.out.println("(t1 - t2)=" + t1 + " - " + t2);
-		System.out.println("getMonthsBetween(t1, t2)=" + TimeUtil.getMonthsBetween(t1, t2));
-		
-		Timestamp t3 = getDay(03, 03, 03);
-		
-		Timestamp t4 = getDay(01, 01, 01);
-		Timestamp t5 = getDay(02, 02, 02);
-		
-		System.out.println(t1 + " - " + t3);
-		System.out.println(t2 + " - " + isValid (t1,t3, t2));
-		System.out.println(isSameDay(t1, t4) + " == true" );
-		System.out.println(isSameDay(t2, t5) + " == true");
-		System.out.println(isSameDay(t3, t5) + " == false");
-		//	All days between
-		System.out.println("getDaysBetween(t1, t2)=" + getDaysBetween(t1, t2));
-		//	For Time
-		System.out.println("getHoursBetween(t1, t2)=" + getHoursBetween(t1, t2));
-		System.out.println("getMinutesBetween(t1, t2)=" + getMinutesBetween(t1, t2));
-		System.out.println("getSecondsBetween(t1, t2)=" + getSecondsBetween(t1, t2));
-		System.out.println("getMillisecondsBetween(t1, t2)=" + getMillisecondsBetween(t1, t2));
-		//	Just Saturday and Sunday between
-		System.out.println("getDaysBetween(t1, t2, Calendar.SATURDAY, Calendar.SUNDAY)=" + getDaysBetween(t1, t2, Calendar.SATURDAY, Calendar.SUNDAY));
-		//	Get Non business days between using calendar match, also include as non business days (Saturday and Sunday)
-		System.out.println("getNonBusinessDaysBetween(t1, t2, Calendar.SATURDAY, Calendar.SUNDAY)=" + getNonBusinessDaysBetween(t1, t2, Calendar.SATURDAY, Calendar.SUNDAY));
-		//	Get business days between using calendar match, also include as non business days (from Monday to Friday)
-		System.out.println("getBusinessDaysBetween(t1, t2, Calendar.MONDAY, Calendar.TUESDAY, Calendar.WEDNESDAY, Calendar.THURSDAY, Calendar.FRIDAY)=" + getBusinessDaysBetween(t1, t2, Calendar.MONDAY, Calendar.TUESDAY, Calendar.WEDNESDAY, Calendar.THURSDAY, Calendar.FRIDAY));
-		System.out.println("getYearsBetween(t1, t2)=" + getYearsBetween(t1, t2));
-	}	//	main
-	
 }	//	TimeUtil
