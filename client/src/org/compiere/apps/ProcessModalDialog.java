@@ -45,7 +45,7 @@ import org.compiere.util.Env;
  *		<a href="https://github.com/adempiere/adempiere/issues/571">
  * 		@see FR [ 571 ] Process Dialog is not MVC</a>
  */
-public class ProcessModalDialog extends CDialog implements IProcessDialog {
+public class ProcessModalDialog extends CDialog implements IProcessDialog, ASyncProcess {
 	
 	/**
 	 * 
@@ -207,7 +207,7 @@ public class ProcessModalDialog extends CDialog implements IProcessDialog {
 	
 	@Override
 	public ASyncProcess getParentProcess() {
-		return aSyncProcess;
+		return this;
 	}
 
 
@@ -228,5 +228,39 @@ public class ProcessModalDialog extends CDialog implements IProcessDialog {
 	 */
 	public boolean isAutoStart() {
 		return processPanel.isAutoStart();
+	}
+	
+	@Override
+	public void lockUI(ProcessInfo pi) {
+		if(aSyncProcess != null) {
+			aSyncProcess.lockUI(pi);
+		}
+	}
+
+
+	@Override
+	public void unlockUI(ProcessInfo pi) {
+		if(aSyncProcess != null) {
+			aSyncProcess.unlockUI(pi);
+		}
+		//	
+		processPanel.openResult();
+	}
+
+
+	@Override
+	public boolean isUILocked() {
+		if(aSyncProcess != null) {
+			return aSyncProcess.isUILocked();
+		}
+		return false;
+	}
+
+
+	@Override
+	public void executeASync(ProcessInfo pi) {
+		if(aSyncProcess != null) {
+			aSyncProcess.executeASync(pi);
+		}
 	}
 }	//	ProcessDialog

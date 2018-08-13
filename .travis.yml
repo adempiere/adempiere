@@ -1,0 +1,22 @@
+language: java
+jdk:
+- oraclejdk8
+os:
+- linux
+sudo: required
+before_install:
+- echo "utils_dev";
+- cd utils_dev
+jobs:
+  include:
+  - stage: Main Build Test
+    script: ant build
+notifications:
+  email:
+    recipients:
+    - ysenih@erpya.com
+    - victor.perez@e-evolution.com
+    - mario.calderon@westfalia-it.com
+    - susanne.de.calderon@westfalia-it.com
+    on_success: always
+    on_failure: always

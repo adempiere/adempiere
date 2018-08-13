@@ -3,10 +3,15 @@
   <Migration EntityType="D" Name="HHRR_FlagPostIndividually" ReleaseNo="3.9.1" SeqNo="3630">
     <Comments>https://github.com/adempiere/adempiere/issues/1552
 HRProcess: flag to post individually for every employee</Comments>
+    <Step DBType="ALL" Parse="Y" SeqNo="0" StepType="SQL">
+      <Comments>Delete for old implementations</Comments>
+      <SQLStatement>DELETE FROM AD_Field_Trl WHERE AD_Field_ID = 85495;
+DELETE FROM AD_Field WHERE AD_Field_ID = 85495;
+DELETE FROM AD_Column_Trl WHERE AD_Column_ID = 86835;
+DELETE FROM AD_Column WHERE AD_Column_ID = 86835;</SQLStatement>
+    </Step>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="276" Action="I" Record_ID="59806" Table="AD_Element">
-        <Data AD_Column_ID="2603" Column="Name">IsPostPerEmployee</Data>
-        <Data AD_Column_ID="2604" Column="Description">A Payroll is posted per employee when the value is Yes, it is posted accumulated when the value is N</Data>
         <Data AD_Column_ID="2598" Column="Created">2018-01-26 15:40:17.406</Data>
         <Data AD_Column_ID="2600" Column="Updated">2018-01-26 15:40:17.406</Data>
         <Data AD_Column_ID="2597" Column="IsActive">true</Data>
@@ -14,7 +19,6 @@ HRProcess: flag to post individually for every employee</Comments>
         <Data AD_Column_ID="6285" Column="PO_Name" isNewNull="true"/>
         <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="2602" Column="ColumnName">IsPostPerEmployee</Data>
-        <Data AD_Column_ID="4299" Column="PrintName">IsPostPerEmployee</Data>
         <Data AD_Column_ID="6286" Column="PO_PrintName" isNewNull="true"/>
         <Data AD_Column_ID="6283" Column="PO_Description" isNewNull="true"/>
         <Data AD_Column_ID="58589" Column="FieldLength">1</Data>
@@ -27,6 +31,9 @@ HRProcess: flag to post individually for every employee</Comments>
         <Data AD_Column_ID="58590" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="2601" Column="UpdatedBy">0</Data>
         <Data AD_Column_ID="84316" Column="UUID" isNewNull="true"/>
+        <Data AD_Column_ID="4299" Column="PrintName">Post Per Employee</Data>
+        <Data AD_Column_ID="2604" Column="Description">A Payroll is posted per employee when the value is Yes, it is posted accumulated when the value is N</Data>
+        <Data AD_Column_ID="2603" Column="Name">Post Per Employee</Data>
       </PO>
     </Step>
     <Step SeqNo="20" StepType="AD">
@@ -38,7 +45,6 @@ HRProcess: flag to post individually for every employee</Comments>
         <Data AD_Column_ID="2646" Column="Name">IsPostPerEmployee</Data>
         <Data AD_Column_ID="6450" Column="PO_Name" isNewNull="true"/>
         <Data AD_Column_ID="2648" Column="Help" isNewNull="true"/>
-        <Data AD_Column_ID="2647" Column="Description">A Payroll is posted per employee when the value is Yes, it is posted accumulated when the value is N</Data>
         <Data AD_Column_ID="2649" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="4300" Column="PrintName">IsPostPerEmployee</Data>
         <Data AD_Column_ID="6451" Column="PO_PrintName" isNewNull="true"/>
@@ -50,15 +56,16 @@ HRProcess: flag to post individually for every employee</Comments>
         <Data AD_Column_ID="2638" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="2637" Column="AD_Element_ID">59806</Data>
         <Data AD_Column_ID="84317" Column="UUID" isNewNull="true"/>
+        <Data AD_Column_ID="2647" Column="Description">A Payroll is posted per employee when the value is Yes, it is posted accumulated when the value is N</Data>
       </PO>
     </Step>
     <Step SeqNo="30" StepType="AD">
       <PO AD_Table_ID="277" Action="U" Record_ID="0" Table="AD_Element_Trl">
         <Data AD_Column_ID="2646" Column="Name" oldValue="IsPostPerEmployee">Posteo por empleado</Data>
-        <Data AD_Column_ID="2647" Column="Description" oldValue="A Payroll is posted per employee when the value is Yes, it is posted accumulated when the value is N">Si el valor es Y la nomina sera aplicada por empleado, de lo contrario sera acumulada</Data>
         <Data AD_Column_ID="4300" Column="PrintName" oldValue="IsPostPerEmployee">Posteo por empleado</Data>
         <Data AD_Column_ID="2638" Column="AD_Language" oldValue="es_MX">es_MX</Data>
         <Data AD_Column_ID="2637" Column="AD_Element_ID" oldValue="59806">59806</Data>
+        <Data AD_Column_ID="2647" Column="Description" oldValue="A Payroll is posted per employee when the value is Yes, it is posted accumulated when the value is N">Si el valor es Y la nomina sera aplicada por empleado, de lo contrario sera acumulada</Data>
       </PO>
     </Step>
     <Step SeqNo="40" StepType="AD">
@@ -108,7 +115,6 @@ HRProcess: flag to post individually for every employee</Comments>
         <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
-        <Data AD_Column_ID="114" Column="AD_Table_ID">53092</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">59806</Data>
         <Data AD_Column_ID="3369" Column="AD_Process_ID" isNewNull="true"/>
@@ -118,6 +124,7 @@ HRProcess: flag to post individually for every employee</Comments>
         <Data AD_Column_ID="226" Column="AD_Reference_ID">20</Data>
         <Data AD_Column_ID="552" Column="UpdatedBy">0</Data>
         <Data AD_Column_ID="84306" Column="UUID" isNewNull="true"/>
+        <Data AD_Column_ID="114" Column="AD_Table_ID">53093</Data>
       </PO>
     </Step>
     <Step SeqNo="60" StepType="AD">
@@ -152,7 +159,6 @@ HRProcess: flag to post individually for every employee</Comments>
         <Data AD_Column_ID="2007" Column="IsReadOnly">false</Data>
         <Data AD_Column_ID="170" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
-        <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
         <Data AD_Column_ID="15011" Column="AD_Reference_ID" isNewNull="true"/>
         <Data AD_Column_ID="15013" Column="IsMandatory" isNewNull="true"/>
         <Data AD_Column_ID="59704" Column="PreferredWidth">0</Data>
@@ -175,9 +181,10 @@ HRProcess: flag to post individually for every employee</Comments>
         <Data AD_Column_ID="54356" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="62479" Column="SeqNoGrid">180</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">0</Data>
-        <Data AD_Column_ID="172" Column="AD_Tab_ID">53114</Data>
         <Data AD_Column_ID="54357" Column="AD_Val_Rule_ID" isNewNull="true"/>
         <Data AD_Column_ID="84320" Column="UUID" isNewNull="true"/>
+        <Data AD_Column_ID="172" Column="AD_Tab_ID">53115</Data>
+        <Data AD_Column_ID="177" Column="DisplayLogic">@#ShowAcct@=Y</Data>
       </PO>
     </Step>
     <Step SeqNo="80" StepType="AD">

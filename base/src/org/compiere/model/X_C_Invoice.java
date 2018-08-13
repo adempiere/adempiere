@@ -60,7 +60,6 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 // DR
 			setDocumentNo (null);
 			setGrandTotal (Env.ZERO);
-			setIsAllocateImmediate (false);
 // N
 			setIsApproved (false);
 // @IsApproved@
@@ -968,26 +967,7 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 		return (String)get_Value(COLUMNNAME_InvoiceCollectionType);
 	}
 
-	/** Set IsAllocateImmediate.
-		@param IsAllocateImmediate IsAllocateImmediate	  */
-	public void setIsAllocateImmediate (boolean IsAllocateImmediate)
-	{
-		set_Value (COLUMNNAME_IsAllocateImmediate, Boolean.valueOf(IsAllocateImmediate));
-	}
 
-	/** Get IsAllocateImmediate.
-		@return IsAllocateImmediate	  */
-	public boolean isAllocateImmediate () 
-	{
-		Object oo = get_Value(COLUMNNAME_IsAllocateImmediate);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
 
 	/** Set Approved.
 		@param IsApproved 

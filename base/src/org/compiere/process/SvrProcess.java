@@ -915,7 +915,6 @@ public abstract class SvrProcess implements ProcessCall
 		//	OK to print shipments
 		if (Ini.isClient()) {
 			Class<?> clazz;
-			IPrintDocument result = null;
 			try {
 				clazz = Class.forName("org.eevolution.form.VPrintDocument");
 				Constructor<?> constructor = null;
@@ -925,7 +924,6 @@ public abstract class SvrProcess implements ProcessCall
 				throw new RuntimeException(e);
 			}
 		} else {
-			IPrintDocument result = null;
 			try {
 				ClassLoader loader = Thread.currentThread().getContextClassLoader();
 				if (loader == null)
@@ -939,5 +937,13 @@ public abstract class SvrProcess implements ProcessCall
 			}
 		}
 		printDocument.print(document, printFormantName, getProcessInfo().getWindowNo());
+	}
+	
+	/**
+	 * Open result from a table and IDs of process info
+	 * @param tableName
+	 */
+	public void openResult(String tableName) {
+		processInfo.openResult(tableName);
 	}
 }   //  SvrProcess

@@ -594,6 +594,27 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 		return false;
 	}
 
+	/** Set IsAllocateImmediate.
+		@param IsAllocateImmediate IsAllocateImmediate	  */
+	public void setIsAllocateImmediate (boolean IsAllocateImmediate)
+	{
+		set_Value (COLUMNNAME_IsAllocateImmediate, Boolean.valueOf(IsAllocateImmediate));
+	}
+
+	/** Get IsAllocateImmediate.
+		@return IsAllocateImmediate	  */
+	public boolean isAllocateImmediate ()
+	{
+		Object oo = get_Value(COLUMNNAME_IsAllocateImmediate);
+		if (oo != null)
+		{
+			 if (oo instanceof Boolean)
+				 return ((Boolean)oo).booleanValue();
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Copy Document No On Reversal.
 		@param IsCopyDocNoOnReversal 
 		It Copy the Document No on Reversal Document instead of generate a new Sequence

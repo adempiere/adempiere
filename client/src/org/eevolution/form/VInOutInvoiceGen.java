@@ -271,9 +271,11 @@ public class VInOutInvoiceGen extends CPanel
 		// Create SQL
 		StringBuffer sql = new StringBuffer(
 				"SELECT C_Order_ID, o.Name, dt.Name, DocumentNo, bp.Name, DateOrdered, TotalLines "
-						+ "FROM M_InOut_Candidate_v ic, AD_Org o, C_BPartner bp, C_DocType dt "
-						+ "WHERE ic.AD_Org_ID=o.AD_Org_ID" + " AND ic.C_BPartner_ID=bp.C_BPartner_ID"
-						+ " AND ic.C_DocType_ID=dt.C_DocType_ID" + " AND ic.AD_Client_ID=?");
+			            + "FROM M_InOut_Candidate_v ic, AD_Org o, C_BPartner bp, C_DocType dt "
+			            + "WHERE ic.AD_Org_ID=o.AD_Org_ID"
+			            + " AND ic.C_BPartner_ID=bp.C_BPartner_ID"
+			            + " AND ic.C_DocType_ID=dt.C_DocType_ID"
+			            + " AND ic.AD_Client_ID=?");
 
 		if (m_M_Warehouse_ID != null)
 			sql.append(" AND ic.M_Warehouse_ID=").append(m_M_Warehouse_ID);
@@ -591,10 +593,12 @@ public class VInOutInvoiceGen extends CPanel
 		// Switch Tabs
 		tabbedPane.setSelectedIndex(1);
 		// StringBuffer iText = new StringBuffer();
-		iText.append("<b>").append(pi.getSummary()).append("</b><br>(")
-				.append(Msg.getMsg(Env.getCtx(), "InOutGenerateInfo"))
-				// Shipments are generated depending on the Delivery Rule selection in the Order
-				.append(")<br>").append(pi.getLogInfo(true));
+		iText.append("<b>").append(pi.getSummary())
+			.append("</b><br>(")
+			.append(Msg.getMsg(Env.getCtx(), "InOutGenerateInfo"))
+		//  Shipments are generated depending on the Delivery Rule selection in the Order
+			.append(")<br>")
+			.append(pi.getLogInfo(true));
 		info.setText(iText.toString());
 
 		// Reset Selection
@@ -622,8 +626,10 @@ public class VInOutInvoiceGen extends CPanel
 					ReportCtl.startDocumentPrint(ReportEngine.SHIPMENT, M_InOut_ID, this, Env.getWindowNo(this), true);
 				}
 				// Yamel Senih 2015-11-23 FR [ 114 ] Add support to dynamic create from
-				ADialogDialog d = new ADialogDialog(m_frame.getCFrame(), Env.getHeader(Env.getCtx(), m_WindowNo),
-						Msg.getMsg(Env.getCtx(), "PrintoutOK?"), JOptionPane.QUESTION_MESSAGE);
+				ADialogDialog d = new ADialogDialog (m_frame.getCFrame(),
+						Env.getHeader(Env.getCtx(), m_WindowNo),
+						Msg.getMsg(Env.getCtx(), "PrintoutOK?"),
+						JOptionPane.QUESTION_MESSAGE);
 				// End Yamel Senih
 				retValue = d.getReturnCode();
 			} while (retValue == ADialogDialog.A_CANCEL);
@@ -735,10 +741,12 @@ public class VInOutInvoiceGen extends CPanel
 		// Switch Tabs
 		tabbedPane.setSelectedIndex(1);
 		// StringBuffer iText = new StringBuffer();
-		iText.append("<b>").append(pi.getSummary()).append("</b><br>(")
-				.append(Msg.getMsg(Env.getCtx(), "InvGenerateInfo"))
-				// Invoices are generated depending on the Invoicing Rule selection in the Order
-				.append(")<br>").append(pi.getLogInfo(true));
+		iText.append("<b>").append(pi.getSummary())
+			.append("</b><br>(")
+			.append(Msg.getMsg(Env.getCtx(), "InvGenerateInfo"))
+		//Invoices are generated depending on the Invoicing Rule selection in the Order
+			.append(")<br>")
+			.append(pi.getLogInfo(true));
 		info.setText(iText.toString());
 
 		// Get results
@@ -759,8 +767,10 @@ public class VInOutInvoiceGen extends CPanel
 					ReportCtl.startDocumentPrint(ReportEngine.INVOICE, C_Invoice_ID, this, Env.getWindowNo(this), true);
 				}
 				// Yamel Senih 2015-11-23 FR [ 114 ] Add support to dynamic create from
-				ADialogDialog d = new ADialogDialog(m_frame.getCFrame(), Env.getHeader(Env.getCtx(), m_WindowNo),
-						Msg.getMsg(Env.getCtx(), "PrintoutOK?"), JOptionPane.QUESTION_MESSAGE);
+				ADialogDialog d = new ADialogDialog (m_frame.getCFrame(),
+						Env.getHeader(Env.getCtx(), m_WindowNo),
+						Msg.getMsg(Env.getCtx(), "PrintoutOK?"),
+						JOptionPane.QUESTION_MESSAGE);
 				// End Yamel Senih
 				retValue = d.getReturnCode();
 			} while (retValue == ADialogDialog.A_CANCEL);
