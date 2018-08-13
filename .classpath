@@ -352,5 +352,7 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/SBT: org.scalatest:scalatest_2.11:2.2.4:jar"/>
 	<classpathentry kind="lib" path="tools/lib/mariadb-java-client.jar"/>
 	<classpathentry kind="lib" path="tools/lib/slf4j-api-1.6.0.jar"/>
+	<classpathentry kind="lib" path="tools/lib/icepdf-core-6.2.2.jar"/>
+	<classpathentry kind="lib" path="tools/lib/icepdf-viewer-6.2.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

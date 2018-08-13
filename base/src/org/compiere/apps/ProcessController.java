@@ -18,6 +18,7 @@ package org.compiere.apps;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
@@ -32,6 +33,7 @@ import org.compiere.model.MPInstance;
 import org.compiere.model.MPInstancePara;
 import org.compiere.model.MProcess;
 import org.compiere.model.MProcessPara;
+import org.compiere.model.MQuery;
 import org.compiere.model.MRole;
 import org.compiere.model.MTable;
 import org.compiere.model.X_AD_ReportView;
@@ -42,6 +44,7 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.compiere.util.Util;
 
 /**
  *	Controller for Process Parameter, it allow to developer create different views from it
@@ -759,5 +762,42 @@ public abstract class ProcessController extends SmallViewController {
 			setAutoStart(true);
 		}
 	}
+	
+	/**
+	 * Open result from a table and IDs of process info
+	 * @param tableName
+	 */
+	public void openResult() {
+		if(!getProcessInfo().isOpenResult()) {
+			return;
+		}
+		List<Integer> keys = new ArrayList<Integer>();
+		for(int key : getProcessInfo().getIDs()) {
+			keys.add(key);
+		}
+		//	
+		String tableName = getProcessInfo().getResultTableName();
+		if(Util.isEmpty(tableName)) {
+			return;
+		}
+		//	
+		if(keys == null
+				|| keys.isEmpty()) {
+			return;
+		}
+		//	Not have a key column
+		MTable table = MTable.get(Env.getCtx(), tableName);
+		if(table.getKeyColumns() == null
+				|| table.getKeyColumns().length == 0) {
+			return;
+		}
+		String keyColumn = table.getKeyColumns()[0];
+		String whereClause = new String(keyColumn + " IN" + keys.toString().replace('[','(').replace(']',')'));
+		MQuery query = new MQuery(tableName);
+		query.addRestriction(whereClause);
+		openResult(query);
+	}
+	
+	public abstract void openResult(MQuery query);
 
 }	//	ProcessParameterPanel
