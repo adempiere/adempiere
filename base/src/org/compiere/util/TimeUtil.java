@@ -1134,6 +1134,18 @@ public class TimeUtil
     	//	Return
     	return dateTo.getTime() - dateFrom.getTime();
     }
+    
+	/**
+	 * Get Day of Week
+	 * @param attendanceTime
+	 * @return
+	 */
+	public static int getDayOfWeek(Timestamp attendanceTime) {
+		Timestamp truncatedDay = TimeUtil.getDay(attendanceTime);
+		Calendar calendar = TimeUtil.getCalendar(truncatedDay);
+		//	Get
+		return calendar.get(Calendar.DAY_OF_WEEK);
+	}
 
 	/**
 	 * 
