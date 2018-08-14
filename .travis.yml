@@ -4,9 +4,25 @@ jdk:
 os:
 - linux
 sudo: required
+services:
+  - postgresql
+addons:
+  postgresql: "10"
+  apt:
+    packages:
+    - postgresql-10
+    - postgresql-client-10
+env:
+  global:
+  - PGPORT=5433
+before_script:
+  - psql -c "ALTER USER postgres WITH PASSWORD 'postgres';"
 before_install:
 - echo "utils_dev";
-- cd utils_dev
+- echo "Test";
+- sudo sed -i -e '/local.*peer/s/postgres/all/' -e 's/peer\|md5/trust/g' /etc/postgresql/*/main/pg_hba.conf
+- sudo service postgresql restart
+- sleep 1
 jobs:
   include:
   - stage: Main Build Test
@@ -18,5 +34,4 @@ notifications:
     - victor.perez@e-evolution.com
     - mario.calderon@westfalia-it.com
     - susanne.de.calderon@westfalia-it.com
-    on_success: always
     on_failure: always

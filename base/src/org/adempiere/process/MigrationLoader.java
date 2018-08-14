@@ -110,6 +110,7 @@ public class MigrationLoader {
 			log.log(Level.CONFIG, "Process=" + processInfo.getTitle() + " Error="+processInfo.isError() + " Summary=" + processInfo.getSummary());
 		} catch (AdempiereException e) {
 			e.printStackTrace();
+			System.exit(1);
 		}
 	}
 }
