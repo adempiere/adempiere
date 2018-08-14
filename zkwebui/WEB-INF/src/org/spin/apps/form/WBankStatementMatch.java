@@ -28,11 +28,13 @@ import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.GridFactory;
 import org.adempiere.webui.component.Label;
+import org.adempiere.webui.component.ListModelTable;
 import org.adempiere.webui.component.Listbox;
 import org.adempiere.webui.component.ListboxFactory;
 import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
+import org.adempiere.webui.component.SimpleListModel;
 import org.adempiere.webui.component.WListbox;
 import org.adempiere.webui.editor.WDateEditor;
 import org.adempiere.webui.editor.WNumberEditor;
@@ -158,9 +160,12 @@ public class WBankStatementMatch extends BankStatementMatchController
 	private Panel matchedPaymentPanel = new Panel();
 	
 	private Panel centerPanel = new Panel();
+	private Borderlayout centerPanelLayout = new Borderlayout();
 	
 	private Label matchedPaymentLabel = new Label();
 	private Label importedPaymentLabel = new Label();
+	private Label currentPaymentLabel = new Label();
+
 	private Borderlayout matchedPaymentLayout = new Borderlayout();
 	private Borderlayout importedPaymentLayout = new Borderlayout();
 	private Borderlayout centerPaymentLayout = new Borderlayout();
@@ -203,6 +208,7 @@ public class WBankStatementMatch extends BankStatementMatchController
 		bpartnerLabel.setText(Msg.translate(Env.getCtx(), "C_BPartner_ID"));
 		
 		matchedPaymentLabel.setText(Msg.translate(Env.getCtx(), "BankStatementMatch.Imported"));
+		currentPaymentLabel.setText(Msg.translate(Env.getCtx(), "BankStatementMatch.Current"));
 		importedPaymentLabel.setText(Msg.translate(Env.getCtx(), "BankStatementMatch.Matched"));
 		importedPaymentPanel.appendChild(matchedPaymentLayout);
 		matchedPaymentPanel.appendChild(importedPaymentLayout);
@@ -263,110 +269,51 @@ public class WBankStatementMatch extends BankStatementMatchController
 		Center center = new Center();
 		center.appendChild(centerPanel);
 		//	
-		Panel northCenterPanel = new Panel();
-		northCenterPanel.appendChild(centerPaymentLayout);
+		Panel importedPaymentPanel = new Panel();
+
 		East east = new East();
-		east.appendChild(currentPaymentTable);
+		east.appendChild(importedPaymentPanel);
+		importedPaymentPanel.appendChild(currentPaymentLabel);
+		importedPaymentPanel.appendChild(currentPaymentTable);
+		east.setWidth("70%");
+		east.setSplittable(true);
+		east.setStyle("border: none");
+		centerPaymentLayout.appendChild(east);
+		centerPaymentLayout.setStyle("border: none");
+		Center paymentTableCenter = new Center();
+
+		Panel paymentTablePanel = new Panel();
+		paymentTableCenter.appendChild(paymentTablePanel);
+		paymentTablePanel.appendChild(importedPaymentLabel);
+		paymentTablePanel.appendChild(importedPaymentTable);
+		paymentTableCenter.setStyle("border: none");
 		
-		northCenterPanel.appendChild(east);
-		West west = new West();
+		centerPaymentLayout.appendChild(paymentTableCenter);
+		centerPaymentLayout.setWidth("100%");
+
+		Panel northCenter = new Panel();
+		northCenter.setStyle("border: 1px solid #000; height:200px");
+		northCenter.appendChild(centerPaymentLayout);
+		//
 		
-		northCenterPanel.appendChild(west);
-		west.appendChild(importedPaymentTable);
+		matchedPaymentPanel.setWidth("100%");
+		matchedPaymentPanel.setHeight("100%");
+		importedPaymentLayout.setWidth("100%");
+		importedPaymentLayout.setHeight("100%");
+		importedPaymentLayout.setStyle("border: none");
+
+		matchedPaymentPanel.appendChild(matchedPaymentLabel);
+		matchedPaymentPanel.appendChild(matchedPaymentTable);
 		
-		North northCenter = new North();
-		northCenter.appendChild(northCenterPanel);
-		//	
-		South southCenter = new South();
-		southCenter.appendChild(matchedPaymentPanel);
-		//	
 		centerPanel.appendChild(northCenter);
-		centerPanel.appendChild(southCenter);
+		centerPanel.appendChild(matchedPaymentPanel);
 		
 		
 		mainLayout.appendChild(north);
 		mainLayout.appendChild(center);
 		mainLayout.appendChild(south);
 		
-//		importedPaymentPanel.appendChild(matchedPaymentLayout);
-//		importedPaymentPanel.setWidth("100%");
-//		importedPaymentPanel.setHeight("100%");
-//		matchedPaymentLayout.setWidth("100%");
-//		matchedPaymentLayout.setHeight("100%");
-//		matchedPaymentLayout.setStyle("border: none");
-//		
-//		matchedPaymentPanel.appendChild(importedPaymentLayout);
-//		matchedPaymentPanel.setWidth("100%");
-//		matchedPaymentPanel.setHeight("100%");
-//		importedPaymentLayout.setWidth("100%");
-//		importedPaymentLayout.setHeight("100%");
-//		importedPaymentLayout.setStyle("border: none");
-//		
-//		north = new North();
-//		north.setStyle("border: none");
-//		matchedPaymentLayout.appendChild(north);
-//		north.appendChild(matchedPaymentLabel);
-//		
-//		north = new North();
-//		north.setStyle("border: none");
-//		importedPaymentLayout.appendChild(north);
-//		north.appendChild(importedPaymentLabel);
-//		
-//		
-//		
-//		
-//		south = new South();
-//		south.setStyle("border: none");
-//		matchedPaymentLayout.appendChild(south);
-//		south.appendChild(paymentInfo.rightAlign());
-//		Center center = new Center();
-//		
-//		matchedPaymentLayout.appendChild(center);
-//		center.appendChild(importedPaymentTable);
-//		importedPaymentTable.setWidth("99%");
-//		importedPaymentTable.setHeight("100%");
-//		importedPaymentTable.setMultiSelection(true);
-//		center.setStyle("border: none");
-//		
-//		currentPaymentTable.setWidth("99%");
-//		currentPaymentTable.setHeight("99%");
-//		currentPaymentTable.setMultiSelection(true);
-//		
-//		
-//		
-//		south = new South();
-//		south.setStyle("border: none");
-//		importedPaymentLayout.appendChild(south);
-//		south.appendChild(invoiceInfo.rightAlign());
-//		center = new Center();
-//		importedPaymentLayout.appendChild(center);
-//		
-//		matchedPaymentTable.setWidth("99%");
-//		matchedPaymentTable.setHeight("99%");
-//		matchedPaymentTable.setMultiSelection(true);
-//		
-//		center.setStyle("border: none");
-//		//
-//		center = new Center();
-//		center.setFlex(true);
-//		mainLayout.appendChild(center);
-//		center.appendChild(infoPanel);
-//		
-//		infoPanel.setStyle("border: none");
-//		infoPanel.setWidth("100%");
-//		infoPanel.setHeight("100%");
-//		
-//		north = new North();
-//		north.setStyle("border: none");
-//		north.setHeight("49%");
-//		infoPanel.appendChild(north);
-//		north.appendChild(importedPaymentPanel);
-//		north.setSplittable(true);
-//		center = new Center();
-//		center.setStyle("border: none");
-//		center.setFlex(true);
-//		infoPanel.appendChild(center);
-//		center.appendChild(matchedPaymentPanel);
+//		import
 	}   //  jbInit
 
 	/**
@@ -611,13 +558,13 @@ public class WBankStatementMatch extends BankStatementMatchController
 	 */
 	private void fillPayments(Vector<Vector<Object>> data) {
 		//  Remove previous listeners
-//		currentPaymentTable.getModel().removeTableModelListener(this);
-//		//  Set Model
-//		DefaultTableModel model = new DefaultTableModel(data, getPaymentColumnNames());
-//		model.addTableModelListener(this);
-//		currentPaymentTable.setModel(model);
-//		// 
-//		configurePaymentTable(currentPaymentTable);
+		currentPaymentTable.getModel().removeTableModelListener(this);
+		//  Set Model
+		ListModelTable model = new ListModelTable(data);
+		model.addTableModelListener(this);
+		currentPaymentTable.setModel(model);
+		// 
+		configurePaymentTable(currentPaymentTable);
 	}
 	
 	/**
@@ -633,13 +580,13 @@ public class WBankStatementMatch extends BankStatementMatchController
 	 */
 	private void fillImportedPayments(Vector<Vector<Object>> data) {
 		//  Remove previous listeners
-//		importedPaymentTable.getModel().removeTableModelListener(this);
-//		//  Set Model
-//		DefaultTableModel model = new DefaultTableModel(data, getImportedPaymentColumnNames());
-//		model.addTableModelListener(this);
-//		importedPaymentTable.setModel(model);
-//		// 
-//		configureImportedPaymentTable(importedPaymentTable);
+		importedPaymentTable.getModel().removeTableModelListener(this);
+		//  Set Model
+		ListModelTable model = new ListModelTable(data);
+		model.addTableModelListener(this);
+		importedPaymentTable.setModel(model);
+		// 
+		configureImportedPaymentTable(importedPaymentTable);
 	}
 	
 	/**
@@ -664,13 +611,13 @@ public class WBankStatementMatch extends BankStatementMatchController
 	 */
 	private void fillMatchedPayments(Vector<Vector<Object>> data) {
 		//  Remove previous listeners
-//		matchedPaymentTable.getModel().removeTableModelListener(this);
-//		//  Set Model
-//		DefaultTableModel model = new DefaultTableModel(data, getMatchedPaymentColumnNames());
-//		model.addTableModelListener(this);
-//		matchedPaymentTable.setModel(model);
-//		// 
-//		configureMatchedPaymentTable(matchedPaymentTable);
+		matchedPaymentTable.getModel().removeTableModelListener(this);
+		//  Set Model
+		ListModelTable model = new ListModelTable(data);
+		model.addTableModelListener(this);
+		matchedPaymentTable.setModel(model);
+		// 
+		configureMatchedPaymentTable(matchedPaymentTable);
 		//	
 	}
 	
