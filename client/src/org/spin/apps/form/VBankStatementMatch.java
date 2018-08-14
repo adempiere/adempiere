@@ -64,6 +64,12 @@ import org.compiere.util.Trx;
 import org.compiere.util.TrxRunnable;
 import org.compiere.util.Util;
 
+/**
+ * Controller class for handle all method of Bank Statement Matcher
+ * @author Yamel Senih, ysenih@erpya.com , http://www.erpya.com
+ * <li> FR [ 1699 ] Add support view for Bank Statement
+ * @see https://github.com/adempiere/adempiere/issues/1699
+ */
 public class VBankStatementMatch extends BankStatementMatchController 
 	implements FormPanel, ActionListener, TableModelListener, VetoableChangeListener {
 

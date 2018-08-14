@@ -56,7 +56,7 @@ public class BankStatementMatchController {
 	 *  @param WindowNo window
 	 *  @param frame frame
 	 */
-	private CLogger log = CLogger.getCLogger(BankStatementMatchController.class);
+	public CLogger log = CLogger.getCLogger(BankStatementMatchController.class);
 	
 	/**	Bank Account	*/
 	private int bankAccountId;
@@ -206,6 +206,14 @@ public class BankStatementMatchController {
 	 */
 	public int getWindowNo() {
 		return windowNo;
+	}
+	
+	/**
+	 * Set Window No
+	 * @param windowNo
+	 */
+	public void setWindowNo(int windowNo) {
+		this.windowNo = windowNo;
 	}
 	
 	/**
