@@ -53,51 +53,11 @@ import java.util.logging.Level;
 public class FinStatement extends FinStatementAbstract
 {
 	/** AcctSchame Parameter			*/
-	private int					p_C_AcctSchema_ID = 0;
-	/** Posting Type					*/
-	private String				p_PostingType = "A";
-	/**	Period Parameter				*/
-	private int					p_C_Period_ID = 0;
-	private Timestamp			p_DateAcct_From = null;
-	private Timestamp			p_DateAcct_To = null;
-	/**	Org Parameter					*/
-	private int					p_AD_Org_ID = 0;
-	/**	Account Parameter				*/
-	private int					p_Account_ID = 0;
-	/**	BPartner Parameter				*/
-	private int					p_C_BPartner_ID = 0;
-	/**	Product Parameter				*/
-	private int					p_M_Product_ID = 0;
-	/**	Project Parameter				*/
-	private int					p_C_Project_ID = 0;
-	/**	Activity Parameter				*/
-	private int					p_C_Activity_ID = 0;
-	/**	SalesRegion Parameter			*/
-	private int					p_C_SalesRegion_ID = 0;
-	/**	Campaign Parameter				*/
-	private int					p_C_Campaign_ID = 0;
-	/** User List 1 Parameter			*/
-	private int					p_User1_ID = 0;
-	/** User List 2 Parameter			*/
-	private int					p_User2_ID = 0;
-	/** User List 3 Parameter			*/
-	private int					p_User3_ID = 0;
-	/** User List 4 Parameter			*/
-	private int					p_User4_ID = 0;
-	/** User Element 1 Parameter		*/
-	private int					p_UserElement1_ID = 0;
-	/** User Element 2 Parameter		*/
-	private int					p_UserElement2_ID = 0;
-	/** Hierarchy						*/
-	private int					p_PA_Hierarchy_ID = 0;
-
 	/**	Parameter Where Clause			*/
 	private StringBuffer		parameterWhere = new StringBuffer();
 	/**	Account							*/ 
 	private MElementValue 		m_acct = null;
 
-	private String 				accountValueFrom = "";
-	private String				accountValueTo   = "";
 
 	/**	Start Time						*/
 	private long 				m_start = System.currentTimeMillis();
@@ -127,20 +87,10 @@ public class FinStatement extends FinStatementAbstract
 		parameterWhere.append("C_AcctSchema_ID=").append(getAcctSchemaId())
 				.append(" AND PostingType='").append(getPostingType()).append("'");
 		//	Optional Account_ID
-		if (getAccountId() != 0 && getAccountIdTo() != 0 && getAccountIdTo()==getAccountId())
+		if (getAccountId() >0)
 			parameterWhere.append(" AND ").append(MReportTree.getWhereClause(getCtx(),
 					getHierarchyId(), MAcctSchemaElement.ELEMENTTYPE_Account, getAccountId()));
-		if (getAccountId() != 0 && getAccountIdTo() != 0 && getAccountIdTo()!=getAccountId())
-		{
-			MElementValue account = new MElementValue(getCtx(),getAccountId(),get_TrxName());
-			accountValueFrom = account.getValue();
-			account = new MElementValue(getCtx(),getAccountIdTo(),get_TrxName());
-			accountValueTo = account.getValue();
-			parameterWhere.append(" AND (fact_Acct.Account_ID IS NULL OR EXISTS (SELECT * FROM C_ElementValue ev ")
-					.append("WHERE fact_acct.Account_ID=ev.C_ElementValue_ID AND ev.Value >= ")
-					.append(DB.TO_STRING(accountValueFrom)).append(" AND ev.Value <= ")
-					.append(DB.TO_STRING(accountValueTo)).append("))");
-		}
+
 		//	Optional Org
 		if (getOrgId() != 0)
 			parameterWhere.append(" AND ").append(MReportTree.getWhereClause(getCtx(),
@@ -178,21 +128,6 @@ public class FinStatement extends FinStatementAbstract
 		if (getUser2Id() != 0)
 			parameterWhere.append(" AND ").append(MReportTree.getWhereClause(getCtx(),
 					getHierarchyId(), MAcctSchemaElement.ELEMENTTYPE_UserList2, getUser2Id()));
-		//	Optional User3_ID
-		if (getUser3Id() != 0)
-			parameterWhere.append(" AND ").append(MReportTree.getWhereClause(getCtx(),
-					getHierarchyId(), MAcctSchemaElement.ELEMENTTYPE_UserList3, getUser3Id()));
-		//  Optional User4_ID
-		if (getUser4Id() != 0)
-			parameterWhere.append(" AND ").append(MReportTree.getWhereClause(getCtx(),
-					getHierarchyId(), MAcctSchemaElement.ELEMENTTYPE_UserList4, getUser4Id()));
-		//	Optional UserElement1_ID
-		if (getUserElement1Id() != 0)
-			parameterWhere.append(" AND UserElement1_ID=").append(getUserElement1Id());
-		//  Optional UserElement2_ID
-		if (getUserElement2Id() != 0)
-			parameterWhere.append(" AND UserElement2_ID=").append(getUserElement2Id());
-		//
 		setDateAcct();
 		StringBuffer sb = new StringBuffer();
 		sb.append(" - DateAcct ").append(getDateAcct()).append("-").append(getDateAcctTo());
@@ -240,9 +175,9 @@ public class FinStatement extends FinStatementAbstract
 			.append(DB.TO_DATE(getDateAcct(), true)).append(",")
 			.append(DB.TO_STRING(Msg.getMsg(Env.getCtx(), "BeginningBalance"))).append(",NULL,"
 			+ "COALESCE(SUM(AmtAcctDr),0), COALESCE(SUM(AmtAcctCr),0), COALESCE(SUM(AmtAcctDr-AmtAcctCr),0), COALESCE(SUM(Qty),0) "
-			+ ", ACCOUNT_ID, ev.value, ev.name "
-			+ "FROM Fact_Acct fa "
-			+ " INNER JOIN C_ElementValue ev on fa.account_ID = ev.c_Elementvalue_ID "
+			+ ", fact_Acct.ACCOUNT_ID, ev.value, ev.name "
+			+ "FROM Fact_Acct "
+			+ " INNER JOIN C_ElementValue ev on fact_Acct.account_ID = ev.c_Elementvalue_ID "
 			+ "WHERE ").append(parameterWhere)
 			.append(" AND TRUNC(DateAcct, 'DD') < ").append(DB.TO_DATE(getDateAcct()))
 			.append(" GROUP BY ACCOUNT_ID , ev.value, ev.name ");
@@ -276,11 +211,11 @@ public class FinStatement extends FinStatementAbstract
 			+ "(AD_PInstance_ID, Fact_Acct_ID, LevelNo,"
 			+ "DateAcct, Name, Description,"
 			+ "AmtAcctDr, AmtAcctCr, Balance, Qty, ACCOUNT_ID , accountvalue, account) ");
-		sb.append("SELECT ").append(getAD_PInstance_ID()).append(",fa.Fact_Acct_ID,1,")
-			.append("TRUNC(fa.DateAcct, 'DD'),NULL,NULL,"
-			+ "AmtAcctDr, AmtAcctCr, AmtAcctDr-AmtAcctCr, Qty, ACCOUNT_ID, ev.value, ev.name "
-			+ "FROM Fact_Acct fa "
-			+ " INNER JOIN C_Elementvalue ev on fa.account_ID = ev.c_ElementValue_ID "
+		sb.append("SELECT ").append(getAD_PInstance_ID()).append(",fact_Acct.Fact_Acct_ID,1,")
+			.append("TRUNC(fact_Acct.DateAcct, 'DD'),NULL,NULL,"
+			+ "AmtAcctDr, AmtAcctCr, AmtAcctDr-AmtAcctCr, Qty, fact_Acct.ACCOUNT_ID, ev.value, ev.name "
+			+ "FROM Fact_Acct "
+			+ " INNER JOIN C_Elementvalue ev on fact_Acct.account_ID = ev.c_ElementValue_ID "
 			+ "WHERE ").append(parameterWhere)
 			.append(" AND TRUNC(DateAcct, 'DD') BETWEEN ").append(DB.TO_DATE(getDateAcct()))
 			.append(" AND ").append(DB.TO_DATE(getDateAcctTo()));
