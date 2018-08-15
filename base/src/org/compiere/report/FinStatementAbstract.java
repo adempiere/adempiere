@@ -61,14 +61,6 @@ public abstract class FinStatementAbstract extends SvrProcess {
 	public static final String USER2_ID = "User2_ID";
 	/**	Parameter Name for Reporting Hierarchy	*/
 	public static final String PA_HIERARCHY_ID = "PA_Hierarchy_ID";
-	/**	Parameter Name for User List 3	*/
-	public static final String USER3_ID = "User3_ID";
-	/**	Parameter Name for User List 4	*/
-	public static final String USER4_ID = "User4_ID";
-	/**	Parameter Name for User Element 1	*/
-	public static final String USERELEMENT1_ID = "UserElement1_ID";
-	/**	Parameter Name for User Element 2	*/
-	public static final String USERELEMENT2_ID = "UserElement2_ID";
 	/**	Parameter Value for Accounting Schema	*/
 	private int acctSchemaId;
 	/**	Parameter Value for Posting Type	*/
@@ -83,8 +75,6 @@ public abstract class FinStatementAbstract extends SvrProcess {
 	private int orgId;
 	/**	Parameter Value for Account	*/
 	private int accountId;
-	/**	Parameter Value for Account(To)	*/
-	private int accountIdTo;
 	/**	Parameter Value for Business Partner 	*/
 	private int bPartnerId;
 	/**	Parameter Value for Product	*/
@@ -103,14 +93,6 @@ public abstract class FinStatementAbstract extends SvrProcess {
 	private int user2Id;
 	/**	Parameter Value for Reporting Hierarchy	*/
 	private int hierarchyId;
-	/**	Parameter Value for User List 3	*/
-	private int user3Id;
-	/**	Parameter Value for User List 4	*/
-	private int user4Id;
-	/**	Parameter Value for User Element 1	*/
-	private int userElement1Id;
-	/**	Parameter Value for User Element 2	*/
-	private int userElement2Id;
 
 	@Override
 	protected void prepare() {
@@ -121,7 +103,6 @@ public abstract class FinStatementAbstract extends SvrProcess {
 		dateAcctTo = getParameterToAsTimestamp(DATEACCT);
 		orgId = getParameterAsInt(AD_ORG_ID);
 		accountId = getParameterAsInt(ACCOUNT_ID);
-		accountIdTo = getParameterToAsInt(ACCOUNT_ID);
 		bPartnerId = getParameterAsInt(C_BPARTNER_ID);
 		productId = getParameterAsInt(M_PRODUCT_ID);
 		projectId = getParameterAsInt(C_PROJECT_ID);
@@ -131,10 +112,6 @@ public abstract class FinStatementAbstract extends SvrProcess {
 		user1Id = getParameterAsInt(USER1_ID);
 		user2Id = getParameterAsInt(USER2_ID);
 		hierarchyId = getParameterAsInt(PA_HIERARCHY_ID);
-		user3Id = getParameterAsInt(USER3_ID);
-		user4Id = getParameterAsInt(USER4_ID);
-		userElement1Id = getParameterAsInt(USERELEMENT1_ID);
-		userElement2Id = getParameterAsInt(USERELEMENT2_ID);
 	}
 
 	/**	 Getter Parameter Value for Accounting Schema	*/
@@ -205,16 +182,6 @@ public abstract class FinStatementAbstract extends SvrProcess {
 	/**	 Setter Parameter Value for Account	*/
 	protected void setAccountId(int accountId) {
 		this.accountId = accountId;
-	}
-
-	/**	 Getter Parameter Value for Account(To)	*/
-	protected int getAccountIdTo() {
-		return accountIdTo;
-	}
-
-	/**	 Setter Parameter Value for Account(To)	*/
-	protected void setAccountIdTo(int accountIdTo) {
-		this.accountIdTo = accountIdTo;
 	}
 
 	/**	 Getter Parameter Value for Business Partner 	*/
@@ -305,46 +272,6 @@ public abstract class FinStatementAbstract extends SvrProcess {
 	/**	 Setter Parameter Value for Reporting Hierarchy	*/
 	protected void setHierarchyId(int hierarchyId) {
 		this.hierarchyId = hierarchyId;
-	}
-
-	/**	 Getter Parameter Value for User List 3	*/
-	protected int getUser3Id() {
-		return user3Id;
-	}
-
-	/**	 Setter Parameter Value for User List 3	*/
-	protected void setUser3Id(int user3Id) {
-		this.user3Id = user3Id;
-	}
-
-	/**	 Getter Parameter Value for User List 4	*/
-	protected int getUser4Id() {
-		return user4Id;
-	}
-
-	/**	 Setter Parameter Value for User List 4	*/
-	protected void setUser4Id(int user4Id) {
-		this.user4Id = user4Id;
-	}
-
-	/**	 Getter Parameter Value for User Element 1	*/
-	protected int getUserElement1Id() {
-		return userElement1Id;
-	}
-
-	/**	 Setter Parameter Value for User Element 1	*/
-	protected void setUserElement1Id(int userElement1Id) {
-		this.userElement1Id = userElement1Id;
-	}
-
-	/**	 Getter Parameter Value for User Element 2	*/
-	protected int getUserElement2Id() {
-		return userElement2Id;
-	}
-
-	/**	 Setter Parameter Value for User Element 2	*/
-	protected void setUserElement2Id(int userElement2Id) {
-		this.userElement2Id = userElement2Id;
 	}
 
 	/**	 Getter Parameter Value for Process ID	*/
