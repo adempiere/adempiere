@@ -51,7 +51,7 @@
     </Step>
     <Step SeqNo="350" StepType="AD">
       <PO AD_Table_ID="376" Action="U" Record_ID="53077" Table="AD_Form">
-        <Data AD_Column_ID="4605" Column="Description" isOldNull="true">Make a Match between bank statement and ADempiere Pauyments</Data>
+        <Data AD_Column_ID="4605" Column="Description" isOldNull="true">Make a Match between bank statement and ADempiere Payments</Data>
       </PO>
     </Step>
     <Step SeqNo="360" StepType="AD">
@@ -153,7 +153,7 @@
     </Step>
     <Step SeqNo="440" StepType="AD">
       <PO AD_Table_ID="376" Action="U" Record_ID="53077" Table="AD_Form">
-        <Data AD_Column_ID="4605" Column="Description" oldValue="Make a Match between bank statement and ADempiere Pauyments">Make a Match between bank statement and ADempiere Payments</Data>
+        <Data AD_Column_ID="4605" Column="Description" oldValue="Make a Match between bank statement and ADempiere Payments">Make a Match between bank statement and ADempiere Payments</Data>
       </PO>
     </Step>
     <Step SeqNo="450" StepType="AD">
