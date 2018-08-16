@@ -36,6 +36,7 @@ import org.compiere.grid.ed.VLookup;
 import org.compiere.model.GridField;
 import org.compiere.model.Lookup;
 import org.compiere.model.MPInstance;
+import org.compiere.model.MQuery;
 import org.compiere.model.MRole;
 import org.compiere.model.MSysConfig;
 import org.compiere.print.MPrintFormat;
@@ -546,8 +547,9 @@ public class ProcessPanel extends ProcessController
 		
 		// If the process is a silent one and no errors occured, close the dialog
 		if(getShowHelp() != null 
-				&& getShowHelp().equals("S"))
+				&& getShowHelp().equals("S")) {
 			dispose();
+		}
 	}
 
 	@Override
@@ -677,6 +679,8 @@ public class ProcessPanel extends ProcessController
 			else if (getProcessInfo().getAD_Process_ID() == 118)
 				printShipments();
 		}
+		//	Show Result
+		openResult();
 	}	//	afterProcessTask
 	
 	/**************************************************************************
@@ -759,5 +763,10 @@ public class ProcessPanel extends ProcessController
 		//	
 		return validError;
 	}	//	printInvoices
+
+	@Override
+	public void openResult(MQuery query) {
+		AEnv.zoom(query);
+	}
 
 }	//	ProcessParameterPanel
