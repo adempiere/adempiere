@@ -334,4 +334,10 @@ public class MProjectPhase extends X_C_ProjectPhase
 				.setParameters(getC_ProjectPhase_ID())
 				.list();
 	}
+
+	public Integer getBPartnerId()
+	{
+		return getC_Project().getC_BPartner_ID();
+	}
+
 }	//	MProjectPhase

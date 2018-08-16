@@ -38,9 +38,11 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.wf.MWFActivity;
+import org.zkforge.keylistener.Keylistener;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zk.ui.event.KeyEvent;
 import org.zkoss.zul.Label;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Listitem;
@@ -68,8 +70,10 @@ public class WDocActionPanel extends Window implements EventListener
 	private int m_AD_Table_ID;
 	private boolean m_OKpressed;
     private ConfirmPanel confirmPanel;
-
-	private static final CLogger logger;
+    private Keylistener keyListener;
+	
+    private static final CLogger logger;
+	private static final int KEYBOARD_KEY_RETURN = 13;
 
     static
     {
@@ -277,7 +281,14 @@ public class WDocActionPanel extends Window implements EventListener
 	    this.setWidth("410px");
 	    this.setBorder("normal");
 	    this.appendChild(grid);
+	    
 
+		keyListener = new Keylistener();
+		
+		keyListener.setCtrlKeys("#enter");
+		keyListener.addEventListener(Events.ON_CTRL_KEY, this);
+		appendChild(keyListener);
+		addEventListener(Events.ON_CANCEL, this);
 	}
 
 	/**
@@ -291,20 +302,24 @@ public class WDocActionPanel extends Window implements EventListener
 
 	public void onEvent(Event event)
 	{
-
-		if (Events.ON_CLICK.equals(event.getName()))
+		if (Events.ON_CLICK.equals(event.getName()) || event.getTarget() == keyListener)
 		{
-			if (confirmPanel.getButton("Ok").equals(event.getTarget()))
+			int code = 0;
+			if(Events.ON_CTRL_KEY.equals(event.getName())){
+				KeyEvent keyEvent = (KeyEvent) event;
+				code = keyEvent.getKeyCode();
+			}
+			if (confirmPanel.getButton("Ok").equals(event.getTarget()) 
+					|| code == KEYBOARD_KEY_RETURN)
 			{
 				m_OKpressed = true;
 				setValue();
 				this.detach();
 			}
-			else if (confirmPanel.getButton("Cancel").equals(event.getTarget()))
-			{
-				m_OKpressed = false;
-				this.detach();
-			}
+		}
+		if(confirmPanel.getButton("Cancel").equals(event.getTarget()) || event.getName().equals(Events.ON_CANCEL)) {
+			m_OKpressed = false;
+			this.detach();
 		}
 		else if (Events.ON_SELECT.equals(event.getName()))
 		{

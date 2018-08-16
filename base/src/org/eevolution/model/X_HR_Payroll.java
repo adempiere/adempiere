@@ -31,7 +31,7 @@ public class X_HR_Payroll extends PO implements I_HR_Payroll, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170731L;
+	private static final long serialVersionUID = 20180728L;
 
     /** Standard Constructor */
     public X_HR_Payroll (Properties ctx, int HR_Payroll_ID, String trxName)
@@ -42,6 +42,8 @@ public class X_HR_Payroll extends PO implements I_HR_Payroll, I_Persistent
 			setC_Charge_ID (0);
 			setHR_Contract_ID (0);
 			setHR_Payroll_ID (0);
+			setIsPostPerEmployee (false);
+// N
 			setName (null);
 			setPaymentRule (null);
         } */
@@ -208,6 +210,30 @@ public class X_HR_Payroll extends PO implements I_HR_Payroll, I_Persistent
 	public boolean isIgnoreDefaultPayroll () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsIgnoreDefaultPayroll);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set IsPostPerEmployee.
+		@param IsPostPerEmployee 
+		A Payroll is posted per employee when the value is Yes, it is posted accumulated when the value is N
+	  */
+	public void setIsPostPerEmployee (boolean IsPostPerEmployee)
+	{
+		set_Value (COLUMNNAME_IsPostPerEmployee, Boolean.valueOf(IsPostPerEmployee));
+	}
+
+	/** Get IsPostPerEmployee.
+		@return A Payroll is posted per employee when the value is Yes, it is posted accumulated when the value is N
+	  */
+	public boolean isPostPerEmployee () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsPostPerEmployee);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 

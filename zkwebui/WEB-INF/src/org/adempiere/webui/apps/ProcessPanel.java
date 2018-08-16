@@ -45,6 +45,7 @@ import org.compiere.apps.ProcessCtl;
 import org.compiere.model.GridField;
 import org.compiere.model.Lookup;
 import org.compiere.model.MPInstance;
+import org.compiere.model.MQuery;
 import org.compiere.model.MRole;
 import org.compiere.model.MSysConfig;
 import org.compiere.print.MPrintFormat;
@@ -56,11 +57,13 @@ import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.Msg;
 import org.compiere.util.Util;
+import org.zkforge.keylistener.Keylistener;
 import org.zkoss.zk.au.out.AuEcho;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zk.ui.event.KeyEvent;
 import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zkex.zul.Center;
 import org.zkoss.zkex.zul.North;
@@ -162,7 +165,10 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 	private Label				lPrintFormat		= new Label(Msg.getMsg(Env.getCtx(),"PrintFormat"));
 	private Label 				lReportType = new Label(Msg.getMsg(Env.getCtx(),"ReportType"));
 
-
+	private Keylistener keyListener;
+	
+	private static final int KEYBOARD_KEY_RETURN = 13;
+	
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(ProcessPanel.class);
 	
@@ -320,6 +326,13 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 		//
 		loadQuerySaved();
 		fSavedName.addEventListener(Events.ON_CHANGE, this);
+		
+		keyListener = new Keylistener();
+		
+		keyListener.setCtrlKeys("#enter");
+		keyListener.addEventListener(Events.ON_CTRL_KEY, this);
+		mainPanel.addEventListener(Events.ON_CANCEL, this);
+		mainPanel.appendChild(keyListener);
 	}
 	
 	/**
@@ -522,6 +535,8 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 		}
 		//	
 		hideBusyDialog();
+		//	Show Result
+		openResult();
 		//	Hide
 		if(isReport() && !pi.isError()) {
 			dispose();
@@ -542,12 +557,18 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 	public void onEvent(Event event) throws Exception {
 		String saveName = null;
 		boolean lastRun = false;
+		int code= 0;
 		if(fSavedName.getRawText() != null) {
 			saveName = fSavedName.getRawText();
 			lastRun = ("** " + Msg.getMsg(Env.getCtx(), "LastRun") + " **").equals(saveName);
 		}
+		if (event.getName().equals(Events.ON_CTRL_KEY) && event.getTarget() == keyListener) {
+			
+			KeyEvent keyEvent = (KeyEvent) event;
+			code = keyEvent.getKeyCode();
+		}
 		//	Ok
-		if (event.getTarget().equals(bOK)) {
+		if (event.getTarget().equals(bOK) || code == KEYBOARD_KEY_RETURN) {
 			setIsOkPressed(true);
 			if(isOnlyPanel()) {
 				//	check if saving parameters is complete
@@ -573,12 +594,10 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 							getProcessInfo().setSerializableObject(format);
 					}
 				}
-
-
 				//	BR [ 265 ]
-					process(saveName);
+				process(saveName);
 			}
-		} else if (event.getTarget().equals(bCancel)) {
+		} else if (event.getTarget().equals(bCancel) || event.getName().equals(Events.ON_CANCEL)) {
 			dispose();
 		}  else if(event.getTarget().equals(bDelete) 
 				&& fSavedName != null && !lastRun) {
@@ -627,23 +646,11 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 	@Override
 	public void afterInit() {
 		//	BR [ 265 ]
-		if (!hasParameters()) {
-			if (getShowHelp() != null 
-					&& getShowHelp().equals("N")) {
-				setAutoStart(true);    // don't ask first click
-				// anyway show resulting window
-			}
-		}
-		// Check if the process is a silent one
-		if(getShowHelp() != null 
-				&& getShowHelp().equals("S")) {
-			setAutoStart(true);
-		}
+		validateAutoStart();
 		//	
 		if(!isAutoStart()) {
 			loadQuerySaved();
 		} else if(parent.getParentProcess() == null) {
-			process();
 			Events.postEvent("onClick", bOK, null);
 		}
 	}
@@ -719,5 +726,10 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 	 */
 	public int getQtyRow() {
 		return qtyRow;
+	}
+
+	@Override
+	public void openResult(MQuery query) {
+		AEnv.zoom(query);
 	}
 }	//	ProcessParameterPanel
