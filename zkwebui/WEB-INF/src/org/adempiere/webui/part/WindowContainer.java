@@ -13,20 +13,27 @@
 
 package org.adempiere.webui.part;
 
+import java.util.List;
+
 import org.adempiere.webui.component.Tab;
 import org.adempiere.webui.component.Tabbox;
 import org.adempiere.webui.component.Tabpanel;
 import org.adempiere.webui.component.Tabpanels;
 import org.adempiere.webui.component.Tabs;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zul.Menuitem;
+import org.zkoss.zul.Menupopup;
 
 /**
  * 
  * @author Low Heng Sin
- *
+ * @author Raul Munoz, rmunoz@erpcya.com, ERPCyA http://www.erpcya.com
+ *    <li>  FR [ 1711 ] Add popup to close tabs on zk 
  */
 public class WindowContainer extends AbstractUIPart 
 {
@@ -118,6 +125,71 @@ public class WindowContainer extends AbstractUIPart
         }
         tab.setClosable(closeable);
         
+        //	FR [ 1711 ] Add popup to close tabs on zk
+        Menupopup popupClose = new Menupopup();
+        Menuitem item;
+        if(tab.getIndex()!=0){
+        	item = new Menuitem(Msg.getMsg(Env.getCtx(), "Close"));
+        	popupClose.appendChild(item);
+        	item.addEventListener(Events.ON_CLICK, new EventListener() {
+        		public void onEvent(Event event) throws Exception {
+        			int currentTabIndex = tab.getIndex();
+        			int tabsSizeBeforeClose = tabbox.getTabs().getChildren().size();
+
+        			if (tabsSizeBeforeClose == currentTabIndex + 1) {
+        				currentTabIndex--;
+        			}
+        			if ( tab.getPreviousSibling() != null ) {
+        				tab.onClose();
+        				// Update the current tab index.
+        				if ( tabsSizeBeforeClose != tabbox.getTabs().getChildren().size() )
+        					tabbox.setSelectedIndex( currentTabIndex );
+        			}
+        		}
+        	});
+
+        	item = new Menuitem(Msg.getMsg(Env.getCtx(), "CloseOtherWindows"));
+        	popupClose.appendChild(item);
+        	item.addEventListener(Events.ON_CLICK, new EventListener() {
+        		public void onEvent(Event event) throws Exception {
+        			int focusTabIndex = 1;
+        			List<Component> tabs = tabbox.getTabs().getChildren();
+        			for ( int i = tabs.size() - 1; i > 0; i-- ) {
+        				if(!((Tab)tabs.get( i )).equals(tab)){
+        					((Tab)tabs.get( i )).setSelected(false);
+
+        					((Tab)tabs.get( i )).onClose();
+        				}
+        			}
+        			tabbox.setSelectedIndex(focusTabIndex);
+        		}
+        	});
+        }
+
+		item = new Menuitem(Msg.getMsg(Env.getCtx(), "CloseAllWindows"));
+		item.addEventListener(Events.ON_CLICK, new EventListener() {
+			public void onEvent(Event event) throws Exception {
+				int focusTabIndex = 0;
+				List<Component> tabs = tabbox.getTabs().getChildren();
+				for ( int i = tabs.size() - 1; i > 0; i-- ) {
+					((Tab)tabs.get( i )).setSelected(false);
+					((Tab)tabs.get( i )).onClose();
+				}
+				tabbox.setSelectedIndex( focusTabIndex );
+			}
+		});
+		popupClose.appendChild(item);
+		popupClose.setWidth("auto");
+		tab.setContext(popupClose);
+		
+		tab.addEventListener(Events.ON_RIGHT_CLICK, new EventListener() {
+			public void onEvent(Event event) throws Exception {
+				popupClose.setPage(tab.getPage());
+				popupClose.open((Tab)event.getTarget());
+			}
+    });
+		// FR [ 1711 ] End
+		
         // fix scroll position lost coming back into a grid view tab
         tab.addEventListener(Events.ON_SELECT, new EventListener() {
 			public void onEvent(Event event) throws Exception {

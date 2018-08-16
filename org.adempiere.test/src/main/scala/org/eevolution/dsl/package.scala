@@ -20,7 +20,7 @@ import java.sql.Timestamp
 
 import org.compiere.model._
 import org.compiere.util.Trx
-import org.eevolution.model.{MDDOrderLine, MPPOrder, MDDOrder}
+import org.eevolution.model._
 
 /*
 * eEvolution author Victor Perez <victor.perez@e-evolution.com>, Created by e-Evolution on 06/01/16.
@@ -62,6 +62,13 @@ package object dsl {
   type Amount = BigDecimal
   type YesNo = Boolean
   type Date = Timestamp
+  type Project = MProject
+  type ProjectPhase = MProjectPhase
+  type ProjectTask = MProjectTask
+  type ProjectGroup = MProjectGroup
+  type ProjectCategory = MProjectCategory
+  type ProjectClass = MProjectClass
+  type ProjectType  = MProjectType
   type SystemConfig = MSysConfig
 
   sealed trait Optional

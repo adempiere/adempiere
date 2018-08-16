@@ -36,9 +36,12 @@ import org.compiere.util.Msg;
 /**
  * Generate Invoice (manual) view class
  * 
+ *  @author https://github.com/homebeaver
+ *	@see <a href="https://github.com/adempiere/adempiere/pull/1664">
+ *       autoQuery()</a>
  */
-public class VInvoiceGen extends InvoiceGen implements FormPanel, ActionListener, VetoableChangeListener
-{
+public class VInvoiceGen extends InvoiceGen implements FormPanel, ActionListener, VetoableChangeListener {
+	
 	private VGenPanel panel;
 	
 	/**	Window No			*/
@@ -48,12 +51,11 @@ public class VInvoiceGen extends InvoiceGen implements FormPanel, ActionListener
 
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(VInvoiceGen.class);
-	//
 
-	private CLabel lOrg = new CLabel();
-	private VLookup fOrg;
-	private CLabel lBPartner = new CLabel();
-	private VLookup fBPartner;	
+	private CLabel     lOrg = new CLabel();
+	private VLookup    fOrg;
+	private CLabel     lBPartner = new CLabel();
+	private VLookup    fBPartner;	
 	private CLabel     lDocType = new CLabel();
 	private VComboBox  cmbDocType = new VComboBox();
 	private CLabel     lDocAction = new CLabel();
@@ -64,8 +66,7 @@ public class VInvoiceGen extends InvoiceGen implements FormPanel, ActionListener
 	 *  @param WindowNo window
 	 *  @param frame frame
 	 */
-	public void init (int WindowNo, FormFrame frame)
-	{
+	public void init(int WindowNo, FormFrame frame) {
 		log.info("");
 		m_WindowNo = WindowNo;
 		m_frame = frame;
@@ -73,27 +74,23 @@ public class VInvoiceGen extends InvoiceGen implements FormPanel, ActionListener
 
 		panel = new VGenPanel(this, WindowNo, frame);
 
-		try
-		{
+		try {
 			super.dynInit();
 			dynInit();
 			jbInit();
-		}
-		catch(Exception ex)
-		{
+		} catch (Exception ex) {
 			log.log(Level.SEVERE, "init", ex);
 		}
-	}	//	init
+	} // init
 	
 	/**
 	 * 	Dispose
 	 */
-	public void dispose()
-	{
+	public void dispose() {
 		if (m_frame != null)
 			m_frame.dispose();
 		m_frame = null;
-	}	//	dispose
+	} // dispose
 	
 	/**
 	 *	Static Init.
@@ -106,8 +103,7 @@ public class VInvoiceGen extends InvoiceGen implements FormPanel, ActionListener
 	 *  </pre>
 	 *  @throws Exception
 	 */
-	void jbInit() throws Exception
-	{
+	void jbInit() throws Exception {
 		lOrg.setLabelFor(fOrg);
 		lOrg.setText(Msg.translate(Env.getCtx(), "AD_Org_ID"));
 		lBPartner.setLabelFor(fBPartner);
@@ -131,8 +127,7 @@ public class VInvoiceGen extends InvoiceGen implements FormPanel, ActionListener
 	 *		Column_ID from C_Order
 	 *  @throws Exception if Lookups cannot be initialized
 	 */
-	public void dynInit() throws Exception
-	{
+	public void dynInit() throws Exception {
 		MLookup orgL = MLookupFactory.get (Env.getCtx(), m_WindowNo, 0, 2163, DisplayType.TableDir);
 		fOrg = new VLookup ("AD_Org_ID", false, false, true, orgL);
 		//	lOrg.setText(Msg.translate(Env.getCtx(), "AD_Org_ID"));
@@ -146,7 +141,6 @@ public class VInvoiceGen extends InvoiceGen implements FormPanel, ActionListener
 		docAction.addVetoableChangeListener(this);
 		docAction.setValue( "PR" );//@Trifon - Pre-select "Prepare"
 		
-		//
 		MLookup bpL = MLookupFactory.get (Env.getCtx(), m_WindowNo, 0, 2762, DisplayType.Search);
 		fBPartner = new VLookup ("C_BPartner_ID", false, false, true, bpL);
 	//	lBPartner.setText(Msg.translate(Env.getCtx(), "C_BPartner_ID"));
@@ -158,11 +152,19 @@ public class VInvoiceGen extends InvoiceGen implements FormPanel, ActionListener
         cmbDocType.addItem(new KeyNamePair(MRMA.Table_ID, Msg.translate(Env.getCtx(), "CustomerRMA")));
         cmbDocType.addActionListener(this);
         
-        panel.getStatusBar().setStatusLine(Msg.getMsg(Env.getCtx(), "InvGenerateSel"));//@@
+        panel.getStatusBar().setStatusLine(Msg.getMsg(Env.getCtx(), "InvGenerateSel"));
+        
+		// AutoQuery with default from ctx:
+		if(autoQuery()) {
+			fOrg.set_oldValue();
+			fOrg.setValue(Env.getCtx().get("#AD_Org_ID "));
+			m_AD_Org_ID = fOrg.getValue();
+			executeQuery();
+		}
+
 	}	//	fillPicks
 	
-	public void executeQuery()
-	{
+	public void executeQuery() {
 		KeyNamePair docTypeKNPair = (KeyNamePair)cmbDocType.getSelectedItem();
 		executeQuery(docTypeKNPair, panel.getMiniTable());
 	}   //  executeQuery
@@ -171,19 +173,16 @@ public class VInvoiceGen extends InvoiceGen implements FormPanel, ActionListener
 	 *	Action Listener
 	 *  @param e event
 	 */
-	public void actionPerformed(ActionEvent e)
-	{
-		if (cmbDocType.equals(e.getSource()))
-		{
-		   executeQuery();
-		    return;
+	public void actionPerformed(ActionEvent e) {
+		if (cmbDocType.equals(e.getSource())) {
+			executeQuery();
+			return;
 		}
-		
+
 		validate();
-	}	//	actionPerformed
+	} // actionPerformed
 	
-	public void validate()
-	{
+	public void validate() {
 		panel.saveSelection();
 		
 		ArrayList<Integer> selection = getSelection();
@@ -197,24 +196,21 @@ public class VInvoiceGen extends InvoiceGen implements FormPanel, ActionListener
 	 *	Vetoable Change Listener - requery
 	 *  @param e event
 	 */
-	public void vetoableChange(PropertyChangeEvent e)
-	{
+	public void vetoableChange(PropertyChangeEvent e) {
 		log.info(e.getPropertyName() + "=" + e.getNewValue());
 		if (e.getPropertyName().equals("AD_Org_ID"))
 			m_AD_Org_ID = e.getNewValue();
-		if (e.getPropertyName().equals("C_BPartner_ID"))
-		{
+		if (e.getPropertyName().equals("C_BPartner_ID")) {
 			m_C_BPartner_ID = e.getNewValue();
-			fBPartner.setValue(m_C_BPartner_ID);	//	display value
+			fBPartner.setValue(m_C_BPartner_ID); // display value
 		}
 		executeQuery();
-	}	//	vetoableChange
+	} // vetoableChange
 	
 	/**************************************************************************
 	 *	Generate Shipments
 	 */
-	public String generate()
-	{
+	public String generate() {
 		KeyNamePair docTypeKNPair = (KeyNamePair)cmbDocType.getSelectedItem();
 		String docActionSelected = (String)docAction.getValue();	
 		return generate(panel.getStatusBar(), docTypeKNPair, docActionSelected);

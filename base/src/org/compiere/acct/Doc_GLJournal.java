@@ -153,7 +153,7 @@ public class Doc_GLJournal extends Doc
 				{
 					FactLine line = fact.createLine (p_lines[i],
 									p_lines[i].getAccount (),
-									p_lines[i].getC_Currency_ID(),
+									getC_Currency_ID(),
 									p_lines[i].getAmtSourceDr (),
 									p_lines[i].getAmtSourceCr ());
 				}

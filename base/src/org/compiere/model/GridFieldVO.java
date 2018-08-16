@@ -212,6 +212,8 @@ public class GridFieldVO implements Serializable
 					vo.AD_Field_ID = rs.getInt(i);
 				else if (columnName.equalsIgnoreCase("IsAllowNewAttributeInstance"))
 					vo.IsAllowNewAttributeInstance  = "Y".equals(rs.getString(i));
+				else if (columnName.equalsIgnoreCase("IsQuickEntry"))
+					vo.IsQuickEntry = "Y".equals(rs.getString (i));
 			}
 			if (vo.Header == null)
 				vo.Header = vo.ColumnName;
@@ -433,6 +435,8 @@ public class GridFieldVO implements Serializable
 	public boolean      IsDisplayed = false;
 	/**	Displayed Grid		*/
 	public boolean      IsDisplayedGrid = true;
+	/**	Displayed in Quick Entry Form		*/
+	public boolean      IsQuickEntry = false;
 	/** Grid Display sequence	*/
 	public int	SeqNoGrid = 0;
 	/** Preferred size in list view */
@@ -672,6 +676,8 @@ public class GridFieldVO implements Serializable
 		clone.ColumnNameAlias = ColumnNameAlias;		
 		//	FR [ 566 ]
 		clone.IsInfoOnly = IsInfoOnly;
+		// IsQuickEntry
+		clone.IsQuickEntry = IsQuickEntry;
 
 		return clone;
 	}	//	clone

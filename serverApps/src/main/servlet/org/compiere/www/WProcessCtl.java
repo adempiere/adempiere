@@ -364,9 +364,9 @@ public class WProcessCtl extends Thread
 		if (DB.isRemoteProcess())
 		{
 			log.info("trying to running on the server");
-			Server server = CConnection.get().getServer();
 			try
 			{
+				Server server = CConnection.get().getServer();
 				if (server != null)
 				{	//	See ServerBean
 					log.info("running on the server");
@@ -411,9 +411,9 @@ public class WProcessCtl extends Thread
 		boolean started = false;
 		if (DB.isRemoteProcess())
 		{
-			Server server = CConnection.get().getServer();
 			try
 			{
+				Server server = CConnection.get().getServer();
 				if (server != null)
 				{	//	See ServerBean
 					m_pi = server.process (m_wscctx, m_pi);

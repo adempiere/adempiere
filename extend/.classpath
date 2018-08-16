@@ -9,5 +9,8 @@
 	<classpathentry exported="true" kind="lib" path="/tools/lib/testing/SuperCSV-with_src-1.52.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/org.adempiere.asset"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/org.adempiere.project"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/org.adempiere.request"/>
 	<classpathentry kind="output" path="build"/>
 </classpath>
