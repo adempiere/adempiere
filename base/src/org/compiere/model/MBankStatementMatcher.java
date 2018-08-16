@@ -40,6 +40,8 @@ public class MBankStatementMatcher extends X_C_BankStatementMatcher {
 	
 	/**	Cache						*/
 	private static CCache<String, List<MBankStatementMatcher>> cache = new CCache<String, List<MBankStatementMatcher>>(Table_Name, 40, 5);	//	5 minutes
+	/** Static Cache */
+	private static CCache<Integer, MBankStatementMatcher> matchersCacheIds = new CCache<Integer, MBankStatementMatcher>(Table_Name, 30);
 
 	/**
 	 * 	Get Bank Statement Matcher Algorithms
@@ -71,7 +73,8 @@ public class MBankStatementMatcher extends X_C_BankStatementMatcher {
 			s_log.fine("Not from cache");
 			StringBuffer whereClause = new StringBuffer();
 			if(bankId > 0) {
-				whereClause.append("(C_Bank_ID = ").append(bankId).append(" OR C_Bank_ID IS NULL)");
+				whereClause.append("EXISTS(SELECT 1 FROM C_BankMatcher bm WHERE bm.C_Bank_ID = ")
+					.append(bankId).append(" AND bm.C_BankStatementMatcher_ID = C_BankStatementMatcher.C_BankStatementMatcher_ID)");
 			}
 			//	
 			matcherList = new Query(ctx, Table_Name, whereClause.toString(), null)
@@ -155,6 +158,28 @@ public class MBankStatementMatcher extends X_C_BankStatementMatcher {
 		}
 		return m_matcher;
 	}	//	getMatcher
+	
+	/**
+	 * Get/Load Matcher [CACHED]
+	 * @param ctx context
+	 * @param matcherId
+	 * @return matcher or null
+	 */
+	public static MBankStatementMatcher getById(Properties ctx, int matcherId) {
+		if (matcherId <= 0)
+			return null;
 
+		MBankStatementMatcher matcher = matchersCacheIds.get(matcherId);
+		if (matcher != null && matcher.get_ID() > 0)
+			return matcher;
 
+		matcher = new Query(ctx , Table_Name , COLUMNNAME_C_BankStatementMatcher_ID + "=?" , null)
+				.setClient_ID()
+				.setParameters(matcherId)
+				.first();
+		if (matcher != null && matcher.get_ID() > 0) {
+			matchersCacheIds.put(matcher.get_ID(), matcher);
+		}
+		return matcher;
+	}
 }	//	MBankStatementMatcher

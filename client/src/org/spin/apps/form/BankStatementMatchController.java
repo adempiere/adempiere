@@ -253,44 +253,6 @@ public class BankStatementMatchController {
 	}
 	
 	/**
-	 * Get payments columns
-	 * @return
-	 */
-	public Vector<String> getPaymentColumnNames() {
-		//  Header Info
-		Vector<String> columnNames = new Vector<String>(6);
-		columnNames.add(Msg.getMsg(Env.getCtx(), "Select"));
-		columnNames.add(Msg.translate(Env.getCtx(), "DateTrx"));
-		columnNames.add(Msg.translate(Env.getCtx(), "IsReceipt"));
-		columnNames.add(Msg.translate(Env.getCtx(), "DocumentNo"));
-		columnNames.add(Msg.translate(Env.getCtx(), "C_BPartner_ID"));
-		columnNames.add(Msg.translate(Env.getCtx(), "TenderType"));
-		columnNames.add(Msg.translate(Env.getCtx(), "C_Currency_ID"));
-		columnNames.add(Msg.translate(Env.getCtx(), "Amount"));
-		columnNames.add(Msg.translate(Env.getCtx(), "Description"));
-		return columnNames;
-	}
-	
-	/**
-	 * Configure payment table
-	 * @param miniTable
-	 */
-	public void configurePaymentTable(IMiniTable miniTable) {
-		miniTable.setKeyColumnIndex(0);
-		miniTable.setColumnClass(0, IDColumn.class, true, getPaymentColumnNames().get(0));     //  0-Selection
-		miniTable.setColumnClass(1, Timestamp.class, true);     //  1-TrxDate
-		miniTable.setColumnClass(2, Boolean.class, true);       //  2-IsCollect
-		miniTable.setColumnClass(3, String.class, true);    	//  3-DocumentNo
-		miniTable.setColumnClass(4, String.class, true);    	//  4-C_BPartner_ID
-		miniTable.setColumnClass(5, String.class, true);    	//  5-TenderType
-		miniTable.setColumnClass(6, String.class, true);    	//  4-C_Currency_ID
-		miniTable.setColumnClass(7, BigDecimal.class, true);    //  6-Amount
-		miniTable.setColumnClass(8, String.class, true);        //  7-Description
-		//  Table UI
-		miniTable.autoSize();
-	}
-	
-	/**
 	 * Get Payment Data for show on two tables
 	 * @return
 	 */
@@ -407,7 +369,7 @@ public class BankStatementMatchController {
 	 */
 	public Vector<String> getImportedPaymentColumnNames() {
 		//  Header Info
-		Vector<String> columnNames = new Vector<String>(6);
+		Vector<String> columnNames = new Vector<String>(8);
 		columnNames.add(Msg.getMsg(Env.getCtx(), "Select"));
 		columnNames.add(Msg.translate(Env.getCtx(), "DateTrx"));
 		columnNames.add(Msg.translate(Env.getCtx(), "IsReceipt"));
@@ -425,7 +387,7 @@ public class BankStatementMatchController {
 	 */
 	public void configureImportedPaymentTable(IMiniTable miniTable) {
 		miniTable.setKeyColumnIndex(0);
-		miniTable.setColumnClass(0, IDColumn.class, true, getPaymentColumnNames().get(0));     //  0-Selection
+		miniTable.setColumnClass(0, IDColumn.class, true, getImportedPaymentColumnNames().get(0));     //  0-Selection
 		miniTable.setColumnClass(1, Timestamp.class, true);     //  1-TrxDate
 		miniTable.setColumnClass(2, Boolean.class, true);       //  2-IsReceipt
 		miniTable.setColumnClass(3, String.class, true);    	//  3-ReferenceNo
@@ -433,6 +395,86 @@ public class BankStatementMatchController {
 		miniTable.setColumnClass(5, String.class, true);    	//  4-C_Currency_ID
 		miniTable.setColumnClass(6, BigDecimal.class, true);    //  5-Amount
 		miniTable.setColumnClass(7, String.class, true);        //  6-Description
+		//  Table UI
+		miniTable.autoSize();
+	}
+	
+	/**
+	 * Get payments columns
+	 * @return
+	 */
+	public Vector<String> getCurrentPaymentColumnNames() {
+		//  Header Info
+		Vector<String> columnNames = new Vector<String>(9);
+		columnNames.add(Msg.getMsg(Env.getCtx(), "Select"));
+		columnNames.add(Msg.translate(Env.getCtx(), "DateTrx"));
+		columnNames.add(Msg.translate(Env.getCtx(), "IsReceipt"));
+		columnNames.add(Msg.translate(Env.getCtx(), "DocumentNo"));
+		columnNames.add(Msg.translate(Env.getCtx(), "C_BPartner_ID"));
+		columnNames.add(Msg.translate(Env.getCtx(), "TenderType"));
+		columnNames.add(Msg.translate(Env.getCtx(), "C_Currency_ID"));
+		columnNames.add(Msg.translate(Env.getCtx(), "Amount"));
+		columnNames.add(Msg.translate(Env.getCtx(), "Description"));
+		return columnNames;
+	}
+	
+	/**
+	 * Configure payment table
+	 * @param miniTable
+	 */
+	public void configureCurrentPaymentTable(IMiniTable miniTable) {
+		miniTable.setKeyColumnIndex(0);
+		miniTable.setColumnClass(0, IDColumn.class, true, getCurrentPaymentColumnNames().get(0));     //  0-Selection
+		miniTable.setColumnClass(1, Timestamp.class, true);     //  1-TrxDate
+		miniTable.setColumnClass(2, Boolean.class, true);       //  2-IsCollect
+		miniTable.setColumnClass(3, String.class, true);    	//  3-DocumentNo
+		miniTable.setColumnClass(4, String.class, true);    	//  4-C_BPartner_ID
+		miniTable.setColumnClass(5, String.class, true);    	//  5-TenderType
+		miniTable.setColumnClass(6, String.class, true);    	//  4-C_Currency_ID
+		miniTable.setColumnClass(7, BigDecimal.class, true);    //  6-Amount
+		miniTable.setColumnClass(8, String.class, true);        //  7-Description
+		//  Table UI
+		miniTable.autoSize();
+	}
+	
+	/**
+	 * Get matched columns
+	 * @return
+	 */
+	public Vector<String> getMatchedPaymentColumnNames() {
+		//  Header Info
+		Vector<String> columnNames = new Vector<String>(11);
+		columnNames.add(Msg.getMsg(Env.getCtx(), "Select"));
+		columnNames.add(Msg.translate(Env.getCtx(), "DateTrx"));
+		columnNames.add(Msg.translate(Env.getCtx(), "IsReceipt"));
+		columnNames.add(Msg.translate(Env.getCtx(), "DocumentNo"));
+		columnNames.add(Msg.translate(Env.getCtx(), "C_BPartner_ID"));
+		columnNames.add(Msg.translate(Env.getCtx(), "TenderType"));
+		columnNames.add(Msg.translate(Env.getCtx(), "C_Currency_ID"));
+		columnNames.add(Msg.translate(Env.getCtx(), "Amount"));
+		columnNames.add(Msg.translate(Env.getCtx(), "Description"));
+		columnNames.add(Msg.translate(Env.getCtx(), "ReferenceNo"));
+		columnNames.add(Msg.translate(Env.getCtx(), "Memo"));
+		return columnNames;
+	}
+	
+	/**
+	 * Configure matched payments table
+	 * @param miniTable
+	 */
+	public void configureMatchedPaymentTable(IMiniTable miniTable) {
+		miniTable.setKeyColumnIndex(0);
+		miniTable.setColumnClass(0, IDColumn.class, true, getMatchedPaymentColumnNames().get(0));     //  0-Selection
+		miniTable.setColumnClass(1, Timestamp.class, true);     //  1-TrxDate
+		miniTable.setColumnClass(2, Boolean.class, true);       //  2-IsCollect
+		miniTable.setColumnClass(3, String.class, true);    	//  3-DocumentNo
+		miniTable.setColumnClass(4, String.class, true);    	//  4-C_BPartner_ID
+		miniTable.setColumnClass(5, String.class, true);    	//  5-TenderType
+		miniTable.setColumnClass(6, String.class, true);        //  6-C_Currency_ID
+		miniTable.setColumnClass(7, BigDecimal.class, true);    //  7-Amount
+		miniTable.setColumnClass(8, String.class, true);        //  8-Description
+		miniTable.setColumnClass(9, String.class, true);        //  9-Description
+		miniTable.setColumnClass(10, String.class, true);       //  10-Memo
 		//  Table UI
 		miniTable.autoSize();
 	}
@@ -528,48 +570,6 @@ public class BankStatementMatchController {
 		}
 		//	
 		return data;
-	}
-	
-	/**
-	 * Get matched columns
-	 * @return
-	 */
-	public Vector<String> getMatchedPaymentColumnNames() {
-		//  Header Info
-		Vector<String> columnNames = new Vector<String>(6);
-		columnNames.add(Msg.getMsg(Env.getCtx(), "Select"));
-		columnNames.add(Msg.translate(Env.getCtx(), "DateTrx"));
-		columnNames.add(Msg.translate(Env.getCtx(), "IsReceipt"));
-		columnNames.add(Msg.translate(Env.getCtx(), "DocumentNo"));
-		columnNames.add(Msg.translate(Env.getCtx(), "C_BPartner_ID"));
-		columnNames.add(Msg.translate(Env.getCtx(), "TenderType"));
-		columnNames.add(Msg.translate(Env.getCtx(), "C_Currency_ID"));
-		columnNames.add(Msg.translate(Env.getCtx(), "Amount"));
-		columnNames.add(Msg.translate(Env.getCtx(), "Description"));
-		columnNames.add(Msg.translate(Env.getCtx(), "ReferenceNo"));
-		columnNames.add(Msg.translate(Env.getCtx(), "Memo"));
-		return columnNames;
-	}
-	
-	/**
-	 * Configure matched payments table
-	 * @param miniTable
-	 */
-	public void configureMatchedPaymentTable(IMiniTable miniTable) {
-		miniTable.setKeyColumnIndex(0);
-		miniTable.setColumnClass(0, IDColumn.class, true, getPaymentColumnNames().get(0));     //  0-Selection
-		miniTable.setColumnClass(1, Timestamp.class, true);     //  1-TrxDate
-		miniTable.setColumnClass(2, Boolean.class, true);       //  2-IsCollect
-		miniTable.setColumnClass(3, String.class, true);    	//  3-DocumentNo
-		miniTable.setColumnClass(4, String.class, true);    	//  4-C_BPartner_ID
-		miniTable.setColumnClass(5, String.class, true);    	//  5-TenderType
-		miniTable.setColumnClass(6, String.class, true);        //  7-C_Currency_ID
-		miniTable.setColumnClass(7, BigDecimal.class, true);    //  6-Amount
-		miniTable.setColumnClass(8, String.class, true);        //  7-Description
-		miniTable.setColumnClass(9, String.class, true);        //  8-Description
-		miniTable.setColumnClass(10, String.class, true);       //  9-Memo
-		//  Table UI
-		miniTable.autoSize();
 	}
 	
 	/**
@@ -958,6 +958,32 @@ public class BankStatementMatchController {
 		toBeImport.setI_IsImported(true);
 		toBeImport.setProcessed(true);
 		toBeImport.saveEx();
+	}
+	
+	/**
+	 * Select source from match
+	 * @param currentPaymentTable
+	 * @param importedPaymentTable
+	 * @param paymentId
+	 */
+	public void selectFromMatch(IMiniTable currentPaymentTable, IMiniTable importedPaymentTable, int paymentId) {
+		for (int row = 0; row < currentPaymentTable.getRowCount(); row++) {
+			IDColumn record = (IDColumn) currentPaymentTable.getValueAt(row, 0);
+			if(record != null
+					&& record.getRecord_ID() == paymentId) {
+				currentPaymentTable.setRowChecked(row, true);
+			}
+		}
+		int importedPaymentId = getImportedPaymentId(paymentId);
+		if(importedPaymentId > 0) {
+			for (int row = 0; row < importedPaymentTable.getRowCount(); row++) {
+				IDColumn record = (IDColumn) importedPaymentTable.getValueAt(row, 0);
+				if(record != null
+						&& record.getRecord_ID() == importedPaymentId) {
+					importedPaymentTable.setRowChecked(row, true);
+				}
+			}
+		}
 	}
 	
 	/**

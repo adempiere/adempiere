@@ -21,6 +21,7 @@ import java.sql.Timestamp;
 import java.util.Vector;
 import java.util.logging.Level;
 
+
 import org.adempiere.exceptions.ValueChangeEvent;
 import org.adempiere.exceptions.ValueChangeListener;
 import org.adempiere.webui.component.Button;
@@ -34,7 +35,6 @@ import org.adempiere.webui.component.ListboxFactory;
 import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
-import org.adempiere.webui.component.SimpleListModel;
 import org.adempiere.webui.component.WListbox;
 import org.adempiere.webui.editor.WDateEditor;
 import org.adempiere.webui.editor.WNumberEditor;
@@ -48,6 +48,7 @@ import org.adempiere.webui.panel.IFormController;
 import org.adempiere.webui.panel.StatusBarPanel;
 import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.window.FDialog;
+import org.compiere.minigrid.IDColumn;
 import org.compiere.model.MLookup;
 import org.compiere.model.MLookupFactory;
 import org.compiere.util.DisplayType;
@@ -64,7 +65,6 @@ import org.zkoss.zkex.zul.Center;
 import org.zkoss.zkex.zul.East;
 import org.zkoss.zkex.zul.North;
 import org.zkoss.zkex.zul.South;
-import org.zkoss.zkex.zul.West;
 import org.zkoss.zul.Separator;
 import org.zkoss.zul.Space;
 
@@ -85,26 +85,19 @@ public class WBankStatementMatch extends BankStatementMatchController
 	private static final long serialVersionUID = 7806119329546820204L;
 	
 	private CustomForm form = new CustomForm(){
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 835032945941924591L;
+
 		public void setProcessInfo(org.compiere.process.ProcessInfo pi) {
 			setFromPO(pi);
 			setWindowNo(pi.getWindowNo());
-			
-//			if(bPartnerId > 0) {
-//				bpartnerSearch.setValue(bPartnerId);
-//			}
-//			if(currencyId > 0) {
-//				currencyPick.setValue(currencyId);
-//			}
-//			if(orgId > 0) {
-//				organizationPick.setValue(orgId);
-//			}
-//			if(isFromParent()) {
-//				bpartnerSearch.setReadWrite(false);
-//				loadBPartner();
-//				setDefaultRecord(paymentTable, invoiceTable);
-//			} else {
-//				calculate();
-//			}
+			if(getBankAccountId() > 0
+					&& bankAccountField != null) {
+				bankAccountField.setValue(getBankAccountId());
+				bankAccountField.setReadWrite(false);
+			}
 		};
 	};
 
@@ -155,12 +148,10 @@ public class WBankStatementMatch extends BankStatementMatchController
 	private WListbox matchedPaymentTable = ListboxFactory.newDataTable();
 	private WListbox currentPaymentTable = ListboxFactory.newDataTable();
 	private WListbox importedPaymentTable = ListboxFactory.newDataTable();
-	private Borderlayout infoPanel = new Borderlayout();
 	private Panel importedPaymentPanel = new Panel();
 	private Panel matchedPaymentPanel = new Panel();
 	
 	private Panel centerPanel = new Panel();
-	private Borderlayout centerPanelLayout = new Borderlayout();
 	
 	private Label matchedPaymentLabel = new Label();
 	private Label importedPaymentLabel = new Label();
@@ -207,11 +198,11 @@ public class WBankStatementMatch extends BankStatementMatchController
 		actionPanel.appendChild(actionLayout);
 		bpartnerLabel.setText(Msg.translate(Env.getCtx(), "C_BPartner_ID"));
 		
-		matchedPaymentLabel.setText(Msg.translate(Env.getCtx(), "BankStatementMatch.Imported"));
+		matchedPaymentLabel.setText(Msg.translate(Env.getCtx(), "BankStatementMatch.Matched"));
 		currentPaymentLabel.setText(Msg.translate(Env.getCtx(), "BankStatementMatch.Current"));
-		importedPaymentLabel.setText(Msg.translate(Env.getCtx(), "BankStatementMatch.Matched"));
-		importedPaymentPanel.appendChild(matchedPaymentLayout);
-		matchedPaymentPanel.appendChild(importedPaymentLayout);
+		importedPaymentLabel.setText(Msg.translate(Env.getCtx(), "BankStatementMatch.Imported"));
+		importedPaymentPanel.appendChild(importedPaymentLayout);
+		matchedPaymentPanel.appendChild(matchedPaymentLayout);
 		invoiceInfo.setText(".");
 		paymentInfo.setText(".");
 		confirmPanel.addActionListener(this);
@@ -295,25 +286,24 @@ public class WBankStatementMatch extends BankStatementMatchController
 		northCenter.setStyle("border: 1px solid #000; height:200px");
 		northCenter.appendChild(centerPaymentLayout);
 		//
-		
-		matchedPaymentPanel.setWidth("100%");
-		matchedPaymentPanel.setHeight("100%");
 		importedPaymentLayout.setWidth("100%");
 		importedPaymentLayout.setHeight("100%");
 		importedPaymentLayout.setStyle("border: none");
 
+		
+		matchedPaymentPanel.setWidth("100%");
+		matchedPaymentPanel.setHeight("100%");
 		matchedPaymentPanel.appendChild(matchedPaymentLabel);
 		matchedPaymentPanel.appendChild(matchedPaymentTable);
 		
 		centerPanel.appendChild(northCenter);
 		centerPanel.appendChild(matchedPaymentPanel);
 		
+		matchedPaymentTable.setMultiSelection(true);
 		
 		mainLayout.appendChild(north);
 		mainLayout.appendChild(center);
 		mainLayout.appendChild(south);
-		
-//		import
 	}   //  jbInit
 
 	/**
@@ -325,21 +315,11 @@ public class WBankStatementMatch extends BankStatementMatchController
 		int columnId = 4917;    //  C_BankStatement.C_BankAccount_ID
 		MLookup lookupCur = MLookupFactory.get (Env.getCtx(), getWindowNo(), 0, columnId, DisplayType.TableDir);
 		bankAccountField = new WTableDirEditor("C_BankAccount_ID", true, false, true, lookupCur);
-		if(getBankAccountId() > 0) {
-			bankAccountField.setValue(getBankAccountId());
-		}
-		bankAccountField.addValueChangeListener(this);
-
+		bankAccountField.setMandatory(true);
 		//  BPartner
 		columnId = 3499;        //  C_Invoice.C_BPartner_ID
 		MLookup lookupBP = MLookupFactory.get (Env.getCtx(), getWindowNo(), 0, columnId, DisplayType.Search);
 		bpartnerSearch = new WSearchEditor("C_BPartner_ID", true, false, true, lookupBP);
-		bpartnerSearch.addValueChangeListener(this);
-		//	For other
-		dateFromField.addValueChangeListener(this);
-		dateToField.addValueChangeListener(this);
-		amtFromField.addValueChangeListener(this);
-		amtToField.addValueChangeListener(this);
 		//  Translation
 		statusBar.setStatusLine("");
 		statusBar.setStatusDB("");
@@ -354,11 +334,8 @@ public class WBankStatementMatch extends BankStatementMatchController
 	public void onEvent(Event e) {
 		log.config("");
 		if (e.getTarget().getId().equals(ConfirmPanel.A_REFRESH)) {
-			Clients.showBusy(null, true);
 			refresh();
-			Clients.showBusy(null, false);
 		} else if (e.getTarget().getId().equals(ConfirmPanel.A_PROCESS)) {
-			Clients.showBusy(null, true);
 			if(!isHasSelection()) {
 				statusBar.setStatusLine(Msg.translate(Env.getCtx(), "BankStatementMatch.Matched") + ": " + actionMatchUnMatch());
 			} else {
@@ -366,13 +343,10 @@ public class WBankStatementMatch extends BankStatementMatchController
 			}
 			loadMatchedPaymentsFromMatch();
 			changeMessageButton();
-			Clients.showBusy(null, false);
 		} else if (e.getTarget().getId().equals(ConfirmPanel.A_CANCEL)) {
 			dispose();
 		} else if (e.getTarget().getId().equals(ConfirmPanel.A_OK)) {
-			Clients.showBusy(null, true);
 			saveData();
-			Clients.showBusy(null, false);
 		}
 	}   //  actionPerformed
 	
@@ -393,28 +367,47 @@ public class WBankStatementMatch extends BankStatementMatchController
 	 *  @param e event
 	 */
 	public void tableChanged(WTableModelEvent e) {
-//		boolean isUpdate = (e.getType() == WTableModelEvent.CONTENTS_CHANGED);
-//		//  Not a table update
-//		if (!isUpdate) {
-//			return;
-//		}
-//
-//		// The writeoff() function causes additional tableChanged events which can be ignored.  
-//		if(m_isCalculating)
-//			return;
-//		m_isCalculating = true;
-//		Clients.showBusy(null,true);
-//		
-//		int row = e.getFirstRow();
-//		int col = e.getColumn();
-//		boolean isInvoice = (e.getModel().equals(matchedPaymentTable.getModel()));
-//		
-////		String msg = writeOff(row, col, isInvoice, paymentTable, invoiceTable, isAutoWriteOff);
-////		if(msg != null && msg.length() > 0)
-////			FDialog.warn(getWindowNo(), "AllocationWriteOffWarn");
-//
-//		Clients.showBusy(null,false);
-//		m_isCalculating = false;
+		boolean isUpdate = (e.getType() == WTableModelEvent.CONTENTS_CHANGED);
+		//  Not a table update
+		if (!isUpdate) {
+			return;
+		}
+		//	
+		boolean isMatched = false;
+		int row = e.getFirstRow();
+		if(e.getModel().equals(currentPaymentTable.getModel())) {
+			int matchedRow = currentPaymentTable.getSelectedRow();
+			if(matchedRow != row) {
+				return;
+			}
+			if(matchedRow >= 0) {
+				IDColumn paymentIdColumn = (IDColumn) currentPaymentTable.getValueAt(matchedRow, 0);
+				isMatched = paymentApplyForMatch(paymentIdColumn.getRecord_ID());
+			}
+		} else if(e.getModel().equals(importedPaymentTable.getModel())) {
+			int matchedRow = importedPaymentTable.getSelectedRow();
+			if(matchedRow != row) {
+				return;
+			}
+			if(matchedRow >= 0) {
+				IDColumn importedPaymentIdColumn = (IDColumn) importedPaymentTable.getValueAt(matchedRow, 0);
+				isMatched = importedPaymentApplyForMatch(importedPaymentIdColumn.getRecord_ID());
+			}
+		} else if(e.getModel().equals(matchedPaymentTable.getModel())) {
+			int matchedRow = matchedPaymentTable.getSelectedRow();
+			if(matchedRow != row) {
+				return;
+			}
+			if(matchedRow >= 0) {
+				IDColumn matchedPaymentIdColumn = (IDColumn) matchedPaymentTable.getValueAt(matchedRow, 0);
+				selectFromMatch(currentPaymentTable, importedPaymentTable, matchedPaymentIdColumn.getRecord_ID());
+				changeMessageButton();
+			}
+		}
+		//	Validate screen
+		if(isMatched) {
+			loadMatchedPaymentsFromMatch();
+		}
 	}   //  tableChanged
 
 	/**
@@ -428,43 +421,6 @@ public class WBankStatementMatch extends BankStatementMatchController
 		String name = e.getPropertyName();
 		Object value = e.getNewValue();
 		log.config(name + "=" + value);
-		if (name.equals("C_BankAccount_ID")) {
-			if (value == null) {
-				setBankAccountId(0);
-			} else {
-				setBankAccountId((int) value);
-			}
-		} else if(name.equals("C_BPartner_ID")) {
-			if (value == null) {
-				setBpartnerId(0);
-			} else {
-				setBpartnerId((int) value);
-			}
-		} else if(name.equals("AmtFrom")) {
-			if (value == null) {
-				setAmtFrom(null);
-			} else {
-				setAmtFrom((BigDecimal) value);
-			}
-		} else if(name.equals("AmtTo")) {
-			if (value == null) {
-				setAmtTo(null);
-			} else {
-				setAmtTo((BigDecimal) value);
-			}
-		} else if(name.equals("DateFrom")) {
-			if (value == null) {
-				setDateFrom(null);
-			} else {
-				setDateFrom((Timestamp) value);
-			}
-		} else if(name.equals("DateTo")) {
-			if (value == null) {
-				setDateTo(null);
-			} else {
-				setDateTo((Timestamp) value);
-			}
-		}
 	}   //  vetoableChange
 	
 	
@@ -487,7 +443,9 @@ public class WBankStatementMatch extends BankStatementMatchController
 			FDialog.error(getWindowNo(), "Error", e.getLocalizedMessage());
 			Clients.showBusy(null, false);
 		} finally {
-			//	
+			if(isFromStatement()) {
+				dispose();
+			}
 		}
 	}   //  saveData
 	
@@ -500,11 +458,13 @@ public class WBankStatementMatch extends BankStatementMatchController
 		getParameters();
 		String message = validateParameters();
 		if(Util.isEmpty(message)) {
+			Clients.showBusy(null, true);
 			loadPayments();
 			loadImportedPayments();
 			loadMatchedPayments();
+			Clients.showBusy(null, false);
 		} else {
-//			ADialog.error(getWindowNo(), null, "ValidationError", Msg.parseTranslation(Env.getCtx(), message));
+			FDialog.error(getWindowNo(), getForm(), "ValidationError", Msg.parseTranslation(Env.getCtx(), message));
 		}
 	}
 	
@@ -512,12 +472,12 @@ public class WBankStatementMatch extends BankStatementMatchController
 	 * Get parameters for search
 	 */
 	private void getParameters() {
-//		setBankAccountId((int) (bankAccountField.getValue() != null? bankAccountField.getValue(): 0));
-//		setAmtFrom((amtFromField.getValue() != null? (BigDecimal) amtFromField.getValue(): null));
-//		setAmtTo((amtToField.getValue() != null? (BigDecimal) amtToField.getValue(): null));
-//		setDateFrom((dateFromField.getValue() != null? (Timestamp) dateFromField.getValue(): null));
-//		setDateTo((dateToField.getValue() != null? (Timestamp) dateToField.getValue(): null));
-//		//	Get for matched
+		setBankAccountId((int) (bankAccountField.getValue() != null? bankAccountField.getValue(): 0));
+		setAmtFrom((amtFromField.getValue() != null? (BigDecimal) amtFromField.getValue(): null));
+		setAmtTo((amtToField.getValue() != null? (BigDecimal) amtToField.getValue(): null));
+		setDateFrom((dateFromField.getValue() != null? (Timestamp) dateFromField.getValue(): null));
+		setDateTo((dateToField.getValue() != null? (Timestamp) dateToField.getValue(): null));
+		//	Get for matched
 		setMatchMode(matchMode.getSelectedIndex());
 		//	
 		chageLayout();
@@ -532,17 +492,14 @@ public class WBankStatementMatch extends BankStatementMatchController
 	private void chageLayout() {
 		//	Disable account
 		if(isFromStatement()) {
-//			bankAccountField.setEnabled(false);
-//			bankAccountField.setReadWrite(false);
-//			if(dateToField.getValue() == null) {
-//				dateToField.setValue(getStatementDate());
-//			}
+			bankAccountField.setReadWrite(false);
+			if(dateToField.getValue() == null) {
+				dateToField.setValue(getStatementDate());
+			}
 		} else {
-//			bankAccountField.setEnabled(true);
-//			bankAccountField.setReadWrite(true);
+			bankAccountField.setReadWrite(true);
 		}
-//		simulateMatchButton.setText(getButtonMatchMessage());
-//		simulateMatchButton.setToolTipText(getButtonMatchMessage());
+		simulateMatchButton.setLabel(getButtonMatchMessage());
 	}
 	
 	/**
@@ -562,9 +519,9 @@ public class WBankStatementMatch extends BankStatementMatchController
 		//  Set Model
 		ListModelTable model = new ListModelTable(data);
 		model.addTableModelListener(this);
-		currentPaymentTable.setModel(model);
+		currentPaymentTable.setData(model, getCurrentPaymentColumnNames());
 		// 
-		configurePaymentTable(currentPaymentTable);
+		configureCurrentPaymentTable(currentPaymentTable);
 	}
 	
 	/**
@@ -584,7 +541,7 @@ public class WBankStatementMatch extends BankStatementMatchController
 		//  Set Model
 		ListModelTable model = new ListModelTable(data);
 		model.addTableModelListener(this);
-		importedPaymentTable.setModel(model);
+		importedPaymentTable.setData(model, getImportedPaymentColumnNames());
 		// 
 		configureImportedPaymentTable(importedPaymentTable);
 	}
@@ -615,7 +572,7 @@ public class WBankStatementMatch extends BankStatementMatchController
 		//  Set Model
 		ListModelTable model = new ListModelTable(data);
 		model.addTableModelListener(this);
-		matchedPaymentTable.setModel(model);
+		matchedPaymentTable.setData(model, getMatchedPaymentColumnNames());
 		// 
 		configureMatchedPaymentTable(matchedPaymentTable);
 		//	
@@ -625,19 +582,18 @@ public class WBankStatementMatch extends BankStatementMatchController
 	 * Change Message from selection
 	 */
 	private void changeMessageButton() {
-//		boolean deleteAllocation = false;
-//		for (int row = 0; row < matchedPaymentTable.getRowCount(); row++) {
-//			IDColumn record = (IDColumn) matchedPaymentTable.getValueAt(row, 0);
-//			if(record != null
-//					&& record.isSelected()) {
-//				deleteAllocation = true;
-//				break;
-//			}
-//		}
-//		setHasSelection(deleteAllocation);
-//		//	change button
-//		simulateMatchButton.setText(getButtonMatchMessage(deleteAllocation));
-//		simulateMatchButton.setToolTipText(getButtonMatchMessage(deleteAllocation));
+		boolean deleteAllocation = false;
+		for (int row = 0; row < matchedPaymentTable.getRowCount(); row++) {
+			IDColumn record = (IDColumn) matchedPaymentTable.getValueAt(row, 0);
+			if(record != null
+					&& record.isSelected()) {
+				deleteAllocation = true;
+				break;
+			}
+		}
+		setHasSelection(deleteAllocation);
+		//	change button
+		simulateMatchButton.setLabel(getButtonMatchMessage(deleteAllocation));
 	}
 	
 	/**

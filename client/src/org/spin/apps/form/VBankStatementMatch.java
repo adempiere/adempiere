@@ -298,8 +298,8 @@ public class VBankStatementMatch extends BankStatementMatchController
 	 */
 	public void dynInit() throws Exception {
 		
-		int AD_Column_ID = 4917;        //  C_BankStatement.C_BankAccount_ID
-		MLookup lookup = MLookupFactory.get (Env.getCtx(), getWindowNo(), 0, AD_Column_ID, DisplayType.TableDir);
+		int columnId = 4917;        //  C_BankStatement.C_BankAccount_ID
+		MLookup lookup = MLookupFactory.get (Env.getCtx(), getWindowNo(), 0, columnId, DisplayType.TableDir);
 		
 		bankAccountField = new VLookup("C_BankAccount_ID", true,false, true, lookup);
 		bankAccountField.addActionListener(this);
@@ -421,11 +421,11 @@ public class VBankStatementMatch extends BankStatementMatchController
 		//  Remove previous listeners
 		currentPaymentTable.getModel().removeTableModelListener(this);
 		//  Set Model
-		DefaultTableModel model = new DefaultTableModel(data, getPaymentColumnNames());
+		DefaultTableModel model = new DefaultTableModel(data, getCurrentPaymentColumnNames());
 		model.addTableModelListener(this);
 		currentPaymentTable.setModel(model);
 		// 
-		configurePaymentTable(currentPaymentTable);
+		configureCurrentPaymentTable(currentPaymentTable);
 	}
 	
 	/**
@@ -612,7 +612,9 @@ public class VBankStatementMatch extends BankStatementMatchController
 		} catch (Exception e) {
 			ADialog.error(getWindowNo(), mainPanel, "Error", e.getLocalizedMessage());
 		} finally {
-			//	
+			if(isFromStatement()) {
+				dispose();
+			}
 		}
 	}   //  saveData
 }
