@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Create collect from Invoice list #1616" ReleaseNo="3.9.1" SeqNo="3800">
+  <Migration EntityType="D" Name="Create collect from Invoice list #1616" ReleaseNo="3.9.1" SeqNo="3901">
     <Comments>See: https://github.com/adempiere/adempiere/issues/1616</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="53224" Action="I" Record_ID="50121" Table="AD_Browse">
@@ -62,12 +62,12 @@ AND inv.IsPaid = 'N'</Data>
     <Step SeqNo="40" StepType="AD">
       <PO AD_Table_ID="53224" Action="U" Record_ID="50121" Table="AD_Browse">
         <Data AD_Column_ID="57994" Column="Description" oldValue="Create Payment / Receipt from Invoices selected">Create Payment Selection lines from Invoices selected</Data>
-        <Data AD_Column_ID="58000" Column="WhereClause" oldValue="inv.DocStatus IN('CO', 'CL') &#10;AND inv.IsPaid = 'N'">inv.DocStatus IN('CO', 'CL') AND inv.IsPaid = 'N' AND inv.IsSOTrx = 'N'
-AND NOT EXISTS(SELECT 1 FROM C_PaySelection ps INNER JOIN C_PaySelectionLine psl ON(psl.C_PaySelection_ID = ps.C_PaySelection_ID) 
-		WHERE ps.DocStatus IN('CO', 'CL') AND psl.C_Invoice_ID = inv.C_Invoice_ID)</Data>
         <Data AD_Column_ID="57995" Column="EntityType" oldValue="ECA02">D</Data>
         <Data AD_Column_ID="72128" Column="AD_Window_ID" oldValue="167">183</Data>
         <Data AD_Column_ID="58002" Column="AD_Process_ID" isOldNull="true">53890</Data>
+        <Data AD_Column_ID="58000" Column="WhereClause" oldValue="inv.DocStatus IN('CO', 'CL') &#10;AND inv.IsPaid = 'N'">inv.DocStatus IN('CO', 'CL') AND inv.IsPaid = 'N' AND inv.IsSOTrx = 'N'
+AND NOT EXISTS(SELECT 1 FROM C_PaySelection ps INNER JOIN C_PaySelectionLine psl ON(psl.C_PaySelection_ID = ps.C_PaySelection_ID) 
+		WHERE ps.DocStatus IN('CO', 'CL') AND psl.C_Invoice_ID = inv.C_Invoice_ID)</Data>
       </PO>
     </Step>
     <Step SeqNo="50" StepType="AD">
@@ -1458,9 +1458,9 @@ AND NOT EXISTS(SELECT 1 FROM C_PaySelection ps INNER JOIN C_PaySelectionLine psl
     </Step>
     <Step SeqNo="470" StepType="AD">
       <PO AD_Table_ID="53223" Action="I" Record_ID="60885" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57965" Column="Updated">2018-03-28 18:10:35.018</Data>
         <Data AD_Column_ID="57964" Column="Created">2018-03-28 18:10:35.018</Data>
         <Data AD_Column_ID="57963" Column="IsActive">true</Data>
-        <Data AD_Column_ID="57965" Column="Updated">2018-03-28 18:10:35.018</Data>
         <Data AD_Column_ID="57980" Column="IsRange">false</Data>
         <Data AD_Column_ID="57979" Column="IsQueryCriteria">false</Data>
         <Data AD_Column_ID="57985" Column="IsMandatory">false</Data>
@@ -3514,6 +3514,8 @@ If the document type of your document has no automatic document sequence defined
     </Step>
     <Step SeqNo="1090" StepType="AD">
       <PO AD_Table_ID="53223" Action="I" Record_ID="60916" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57978" Column="IsKey">false</Data>
+        <Data AD_Column_ID="57981" Column="Name">Payment Number</Data>
         <Data AD_Column_ID="57964" Column="Created">2018-03-28 18:11:34.052</Data>
         <Data AD_Column_ID="57963" Column="IsActive">true</Data>
         <Data AD_Column_ID="57965" Column="Updated">2018-03-28 18:11:34.052</Data>
@@ -3526,8 +3528,6 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="57974" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="57976" Column="IsDisplayed">true</Data>
         <Data AD_Column_ID="57977" Column="IsIdentifier">false</Data>
-        <Data AD_Column_ID="57978" Column="IsKey">false</Data>
-        <Data AD_Column_ID="57981" Column="Name">Payment Number</Data>
         <Data AD_Column_ID="63579" Column="IsReadOnly">true</Data>
         <Data AD_Column_ID="57975" Column="IsCentrallyMaintained">false</Data>
         <Data AD_Column_ID="64222" Column="IsOrderBy">false</Data>
@@ -4706,10 +4706,10 @@ Invoices and Payment Allocations determine the Open Balance (i.e. not Orders or 
     </Step>
     <Step SeqNo="1450" StepType="AD">
       <PO AD_Table_ID="53224" Action="U" Record_ID="50121" Table="AD_Browse">
-        <Data AD_Column_ID="58000" Column="WhereClause" oldValue="inv.DocStatus IN('CO', 'CL') AND inv.IsPaid = 'N' AND inv.IsSOTrx = 'N'&#10;AND NOT EXISTS(SELECT 1 FROM C_PaySelection ps INNER JOIN C_PaySelectionLine psl ON(psl.C_PaySelection_ID = ps.C_PaySelection_ID) &#10;&#9;&#9;WHERE ps.DocStatus IN('CO', 'CL') AND psl.C_Invoice_ID = inv.C_Invoice_ID)">inv.DocStatus IN('CO', 'CL') 
-AND inv.IsPaid = 'N'</Data>
         <Data AD_Column_ID="57995" Column="EntityType" oldValue="D">ECA02</Data>
         <Data AD_Column_ID="72128" Column="AD_Window_ID" oldValue="183">167</Data>
+        <Data AD_Column_ID="58000" Column="WhereClause" oldValue="inv.DocStatus IN('CO', 'CL') AND inv.IsPaid = 'N' AND inv.IsSOTrx = 'N'&#10;AND NOT EXISTS(SELECT 1 FROM C_PaySelection ps INNER JOIN C_PaySelectionLine psl ON(psl.C_PaySelection_ID = ps.C_PaySelection_ID) &#10;&#9;&#9;WHERE ps.DocStatus IN('CO', 'CL') AND psl.C_Invoice_ID = inv.C_Invoice_ID)">inv.DocStatus IN('CO', 'CL') 
+AND inv.IsPaid = 'N'</Data>
       </PO>
     </Step>
     <Step SeqNo="1460" StepType="AD">
@@ -4755,8 +4755,8 @@ AND inv.IsPaid = 'N'</Data>
     </Step>
     <Step SeqNo="1530" StepType="AD">
       <PO AD_Table_ID="53223" Action="U" Record_ID="60916" Table="AD_Browse_Field">
-        <Data AD_Column_ID="57976" Column="IsDisplayed" oldValue="true">false</Data>
         <Data AD_Column_ID="57982" Column="SeqNo" oldValue="70">0</Data>
+        <Data AD_Column_ID="57976" Column="IsDisplayed" oldValue="true">false</Data>
       </PO>
     </Step>
     <Step SeqNo="1540" StepType="AD">
@@ -4980,8 +4980,8 @@ AND inv.IsPaid = 'N'</Data>
     <Step SeqNo="1840" StepType="AD">
       <PO AD_Table_ID="452" Action="U" Record_ID="53187" Table="AD_TreeNodeMM">
         <Data AD_Column_ID="6161" Column="Node_ID" oldValue="53187">53187</Data>
-        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="31">32</Data>
         <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="31">32</Data>
       </PO>
     </Step>
     <Step SeqNo="1850" StepType="AD">
@@ -5363,17 +5363,17 @@ AND inv.IsPaid = 'N'</Data>
     </Step>
     <Step SeqNo="2070" StepType="AD">
       <PO AD_Table_ID="53224" Action="U" Record_ID="50121" Table="AD_Browse">
-        <Data AD_Column_ID="57997" Column="Name" oldValue="Generate Payment / Receipt (From Invoice)">Generate Payment (From Invoice Customer)</Data>
         <Data AD_Column_ID="58002" Column="AD_Process_ID" oldValue="53890">54062</Data>
+        <Data AD_Column_ID="57997" Column="Name" oldValue="Generate Payment / Receipt (From Invoice)">Generate Payment (From Invoice Customer)</Data>
       </PO>
     </Step>
     <Step SeqNo="2080" StepType="AD">
       <PO AD_Table_ID="53226" Action="U" Record_ID="0" Table="AD_Browse_Trl">
         <Data AD_Column_ID="58023" Column="Description" oldValue="Create Payment / Receipt from Invoices selected">Generar Cobro desde Documento por Cobrar Seleccionado</Data>
         <Data AD_Column_ID="58024" Column="Help" isOldNull="true">Permite generar de Manera Automática un Cobro y la Asignación de pago del mismo desde Documentos por Cobrar</Data>
-        <Data AD_Column_ID="58026" Column="Name" oldValue="Create Payment / Receipt from Invoice">Generar Cobro desde Documento por Cobrar</Data>
         <Data AD_Column_ID="58022" Column="AD_Language" oldValue="es_MX">es_MX</Data>
         <Data AD_Column_ID="58021" Column="AD_Browse_ID" oldValue="50121">50121</Data>
+        <Data AD_Column_ID="58026" Column="Name" oldValue="Create Payment / Receipt from Invoice">Generar Cobro desde Documento por Cobrar</Data>
       </PO>
     </Step>
     <Step SeqNo="2090" StepType="AD">
@@ -7057,6 +7057,28 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
     <Step SeqNo="3140" StepType="AD">
       <PO AD_Table_ID="285" Action="U" Record_ID="56304" Table="AD_Process_Para">
         <Data AD_Column_ID="2826" Column="SeqNo" oldValue="290">310</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="3150" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="60902" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57985" Column="IsMandatory" oldValue="true">false</Data>
+        <Data AD_Column_ID="64354" Column="DefaultValue" isOldNull="true">-1</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="3160" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="60864" Table="AD_Browse_Field">
+        <Data AD_Column_ID="64358" Column="ReadOnlyLogic" isNewNull="true" oldValue="1=1"/>
+      </PO>
+    </Step>
+    <Step SeqNo="3170" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="60902" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57979" Column="IsQueryCriteria" oldValue="true">false</Data>
+        <Data AD_Column_ID="81229" Column="IsInfoOnly" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="3180" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="60864" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57985" Column="IsMandatory" oldValue="false">true</Data>
       </PO>
     </Step>
   </Migration>
