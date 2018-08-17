@@ -103,7 +103,7 @@ public class MBrowseField extends X_AD_Browse_Field {
 			valueObject.Header = field.getName();
 		}
 		catch (IllegalArgumentException e) {
-			valueObject.Header = (String) field.get_Value("Name");;
+			valueObject.Header = (String) field.get_Value("Name");
 		}		
 		valueObject.Callout = field.getCallout();
 		valueObject.initFinish();
@@ -212,6 +212,8 @@ public class MBrowseField extends X_AD_Browse_Field {
 			setAD_Reference_ID(column.getAD_Reference_ID());
 		if (column.get_ID() > 0)
 			setAD_Reference_Value_ID(column.getAD_Column().getAD_Reference_Value_ID());
+		if (column.get_ID() > 0)
+			setFieldLength(column.getAD_Column().getFieldLength());
 		setIsKey(false);
 		setIsDisplayed(true);
 		m_view_column = column;

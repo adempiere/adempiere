@@ -38,9 +38,12 @@ import org.compiere.util.Msg;
 /**
  * Generate Shipment (manual) view class
  * 
+ *  @author https://github.com/homebeaver
+ *	@see <a href="https://github.com/adempiere/adempiere/pull/1664">
+ *       autoQuery()</a>
  */
-public class VInOutGen extends InOutGen implements FormPanel, ActionListener, VetoableChangeListener
-{
+public class VInOutGen extends InOutGen implements FormPanel, ActionListener, VetoableChangeListener {
+	
 	private VGenPanel panel;
 	
 	/**	Window No			*/
@@ -66,8 +69,7 @@ public class VInOutGen extends InOutGen implements FormPanel, ActionListener, Ve
 	 *  @param WindowNo window
 	 *  @param frame frame
 	 */
-	public void init (int WindowNo, FormFrame frame)
-	{
+	public void init(int WindowNo, FormFrame frame) {
 		log.info("");
 		m_WindowNo = WindowNo;
 		m_frame = frame;
@@ -75,27 +77,23 @@ public class VInOutGen extends InOutGen implements FormPanel, ActionListener, Ve
 
 		panel = new VGenPanel(this, WindowNo, frame);
 
-		try
-		{
+		try {
 			super.dynInit();
 			dynInit();
 			jbInit();
-		}
-		catch(Exception ex)
-		{
+		} catch (Exception ex) {
 			log.log(Level.SEVERE, "init", ex);
 		}
-	}	//	init
+	} // init
 	
 	/**
 	 * 	Dispose
 	 */
-	public void dispose()
-	{
+	public void dispose() {
 		if (m_frame != null)
 			m_frame.dispose();
 		m_frame = null;
-	}	//	dispose
+	} // dispose
 	
 	/**
 	 *	Static Init.
@@ -108,15 +106,14 @@ public class VInOutGen extends InOutGen implements FormPanel, ActionListener, Ve
 	 *  </pre>
 	 *  @throws Exception
 	 */
-	void jbInit() throws Exception
-	{		
+	void jbInit() throws Exception {
 		lWarehouse.setLabelFor(fWarehouse);
 		lBPartner.setLabelFor(fBPartner);
 		lBPartner.setText(Msg.translate(Env.getCtx(), "C_BPartner_ID"));
 		lDocAction.setLabelFor(docAction);
 		lDocAction.setText(Msg.translate(Env.getCtx(), "DocAction"));
 		lDocType.setLabelFor(cmbDocType);
-		
+
 		panel.getParameterPanel().add(lWarehouse, null);
 		panel.getParameterPanel().add(fWarehouse, null);
 		panel.getParameterPanel().add(lBPartner, null);
@@ -125,15 +122,14 @@ public class VInOutGen extends InOutGen implements FormPanel, ActionListener, Ve
 		panel.getParameterPanel().add(cmbDocType, null);
 		panel.getParameterPanel().add(lDocAction, null);
 		panel.getParameterPanel().add(docAction, null);
-	}	//	jbInit
+	} // jbInit
 	
 	/**
 	 *	Fill Picks.
 	 *		Column_ID from C_Order
 	 *  @throws Exception if Lookups cannot be initialized
 	 */
-	public void dynInit() throws Exception
-	{
+	public void dynInit() throws Exception {
 		//	C_OrderLine.M_Warehouse_ID
 		MLookup orgL = MLookupFactory.get (Env.getCtx(), m_WindowNo, 0, 2223, DisplayType.TableDir);
 		fWarehouse = new VLookup ("M_Warehouse_ID", true, false, true, orgL);
@@ -158,55 +154,52 @@ public class VInOutGen extends InOutGen implements FormPanel, ActionListener, Ve
 		cmbDocType.addItem(new KeyNamePair(MRMA.Table_ID, Msg.translate(Env.getCtx(), "VendorRMA")));
 		cmbDocType.addActionListener(this);
 		
-		panel.getStatusBar().setStatusLine(Msg.getMsg(Env.getCtx(), "InOutGenerateSel"));//@@
+		panel.getStatusBar().setStatusLine(Msg.getMsg(Env.getCtx(), "InOutGenerateSel"));
+		
+		// AutoQuery with default from ctx:
+		if(autoQuery()) {
+			fWarehouse.set_oldValue();
+			fWarehouse.setValue(Env.getCtx().get("#M_Warehouse_ID"));
+			setM_Warehouse_ID(fWarehouse.getValue());
+			executeQuery();
+		}
+
 	}	//	fillPicks
 	
-	public void executeQuery()
-	{
-		KeyNamePair docTypeKNPair = (KeyNamePair)cmbDocType.getSelectedItem();
+	public void executeQuery() {
+		KeyNamePair docTypeKNPair = (KeyNamePair) cmbDocType.getSelectedItem();
 		executeQuery(docTypeKNPair, panel.getMiniTable());
-	}   //  executeQuery
+	} // executeQuery
 	
 	/**
 	 *	Action Listener
 	 *  @param e event
 	 */
-	public void actionPerformed(ActionEvent e)
-	{
-		if (cmbDocType.equals(e.getSource()))
-		{
-		   executeQuery();
-		    return;
+	public void actionPerformed(ActionEvent e) {
+		if (cmbDocType.equals(e.getSource())) {
+			executeQuery();
+			return;
 		}
-		
-		try
-		{
+
+		try {
 			validate();
-		}
-		catch(Exception ex)
-		{
+		} catch (Exception ex) {
 			ADialog.error(m_WindowNo, this.panel, "Error", ex.getLocalizedMessage());
 		}
-	}	//	actionPerformed
+	} // actionPerformed
 	
-	public void validate()
-	{
+	public void validate() {
 		panel.saveSelection();
-		
-		if (getM_Warehouse_ID() <= 0)
-		{
+
+		if (getM_Warehouse_ID() <= 0) {
 			throw new FillMandatoryException("M_Warehouse_ID");
 		}
-		
+
 		ArrayList<Integer> selection = getSelection();
-		if (selection != null
-			&& selection.size() > 0
-			&& isSelectionActive())	//	on selection tab
+		if (selection != null && selection.size() > 0 && isSelectionActive()) // on selection tab
 		{
 			panel.generate();
-		}
-		else
-		{
+		} else {
 			panel.dispose();
 		}
 	}
@@ -215,24 +208,21 @@ public class VInOutGen extends InOutGen implements FormPanel, ActionListener, Ve
 	 *	Vetoable Change Listener - requery
 	 *  @param e event
 	 */
-	public void vetoableChange(PropertyChangeEvent e)
-	{
+	public void vetoableChange(PropertyChangeEvent e) {
 		log.info(e.getPropertyName() + "=" + e.getNewValue());
 		if (e.getPropertyName().equals("M_Warehouse_ID"))
 			setM_Warehouse_ID(e.getNewValue());
-		if (e.getPropertyName().equals("C_BPartner_ID"))
-		{
+		if (e.getPropertyName().equals("C_BPartner_ID")) {
 			m_C_BPartner_ID = e.getNewValue();
-			fBPartner.setValue(m_C_BPartner_ID);	//	display value
+			fBPartner.setValue(m_C_BPartner_ID); // display value
 		}
 		executeQuery();
-	}	//	vetoableChange
+	} // vetoableChange
 	
 	/**************************************************************************
 	 *	Generate Shipments
 	 */
-	public String generate()
-	{
+	public String generate() {
 		KeyNamePair docTypeKNPair = (KeyNamePair)cmbDocType.getSelectedItem();
 		String docActionSelected = (String)docAction.getValue();	
 		return generate(panel.getStatusBar(), docTypeKNPair, docActionSelected);

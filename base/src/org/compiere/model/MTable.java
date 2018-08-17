@@ -906,6 +906,7 @@ public class MTable extends X_AD_Table
 				column = new MColumn(this, columnName, 22, DisplayType.TableDir, "");
 				column.setIsMandatory(true);
 				column.setUpdateable(false);
+				column.setIsSelectionColumn(true);
 				column.saveEx();
 			}
 			//	Document No
@@ -914,6 +915,9 @@ public class MTable extends X_AD_Table
 				column = new MColumn(this, columnName, 60, DisplayType.String, "");
 				column.setIsMandatory(true);
 				column.setUpdateable(false);
+				column.setIsSelectionColumn(true);
+				column.setIsIdentifier(true);
+				column.setSeqNo(1);
 				column.saveEx();
 			}
 			//	Document Date
@@ -922,6 +926,7 @@ public class MTable extends X_AD_Table
 				column = new MColumn(this, columnName, 7, DisplayType.Date, "@#Date@");
 				column.setIsMandatory(true);
 				column.setUpdateable(false);
+				column.setIsSelectionColumn(true);
 				column.saveEx();
 			}
 			//	Processed
@@ -930,6 +935,15 @@ public class MTable extends X_AD_Table
 				column = new MColumn(this, columnName, 1, DisplayType.YesNo, "N");
 				column.setIsMandatory(true);
 				column.setUpdateable(false);
+				column.saveEx();
+			}
+			//	Processing
+			columnName = "Processing";
+			if(MColumn.getColumn_ID(getTableName(), columnName) <= 0) {
+				column = new MColumn(this, columnName, 1, DisplayType.YesNo, "N");
+				column.setIsMandatory(true);
+				column.setUpdateable(true);
+				column.setIsAlwaysUpdateable(true);
 				column.saveEx();
 			}
 			//	Approved
@@ -947,6 +961,7 @@ public class MTable extends X_AD_Table
 				column.setIsMandatory(false);
 				column.setUpdateable(true);
 				column.setIsAlwaysUpdateable(true);
+				column.setIsSelectionColumn(true);
 				column.saveEx();
 			}
 			//	Document Status
@@ -956,6 +971,9 @@ public class MTable extends X_AD_Table
 				column.setIsMandatory(true);
 				column.setUpdateable(false);
 				column.setAD_Reference_Value_ID(131);
+				column.setIsSelectionColumn(true);
+				column.setIsIdentifier(true);
+				column.setSeqNo(2);
 				column.saveEx();
 			}
 			//	Document Action

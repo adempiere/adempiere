@@ -45,7 +45,7 @@ import org.compiere.util.Env;
  *		<a href="https://github.com/adempiere/adempiere/issues/571">
  * 		@see FR [ 571 ] Process Dialog is not MVC</a>
  */
-public class ProcessModalDialog extends CDialog implements IProcessDialog {
+public class ProcessModalDialog extends CDialog implements IProcessDialog, ASyncProcess {
 	
 	/**
 	 * 
@@ -169,8 +169,8 @@ public class ProcessModalDialog extends CDialog implements IProcessDialog {
 		processInfo.setAD_User_ID (Env.getAD_User_ID(Env.getCtx()));
 		processInfo.setAD_Client_ID(Env.getAD_Client_ID(Env.getCtx()));
 		processPanel = new ProcessPanel(this, windowNo, processInfo, ProcessPanel.COLUMNS_1);
-		processPanel.setIsOnlyPanel(isOnlyPanel);
 		processPanel.setAutoStart(autoStart);
+		processPanel.setIsOnlyPanel(isOnlyPanel);
 		processPanel.createFieldsAndEditors();
 		//	Set Default
 		getContentPane().add(processPanel.getPanel());
@@ -207,7 +207,7 @@ public class ProcessModalDialog extends CDialog implements IProcessDialog {
 	
 	@Override
 	public ASyncProcess getParentProcess() {
-		return aSyncProcess;
+		return this;
 	}
 
 
@@ -220,5 +220,47 @@ public class ProcessModalDialog extends CDialog implements IProcessDialog {
 	@Override
 	public Object getParentContainer() {
 		return this;
+	}
+	
+	/**
+	 * Return true when is auto start process
+	 * @return
+	 */
+	public boolean isAutoStart() {
+		return processPanel.isAutoStart();
+	}
+	
+	@Override
+	public void lockUI(ProcessInfo pi) {
+		if(aSyncProcess != null) {
+			aSyncProcess.lockUI(pi);
+		}
+	}
+
+
+	@Override
+	public void unlockUI(ProcessInfo pi) {
+		if(aSyncProcess != null) {
+			aSyncProcess.unlockUI(pi);
+		}
+		//	
+		processPanel.openResult();
+	}
+
+
+	@Override
+	public boolean isUILocked() {
+		if(aSyncProcess != null) {
+			return aSyncProcess.isUILocked();
+		}
+		return false;
+	}
+
+
+	@Override
+	public void executeASync(ProcessInfo pi) {
+		if(aSyncProcess != null) {
+			aSyncProcess.executeASync(pi);
+		}
 	}
 }	//	ProcessDialog

@@ -366,12 +366,12 @@ public class VPayPrint extends PayPrint implements FormPanel, ActionListener, Ve
 		try
 		{
 			Class<?> clazz = Class.forName(paymentExportClass);
-			if (clazz.isInstance(PaymentExportList.class))
+			if (PaymentExportList.class.isAssignableFrom(clazz))
 			{
 				PaymentExportList custom = (PaymentExportList)clazz.newInstance();
 				no = custom.exportToFile(paySelectionChecks, fc.getSelectedFile(), error);
 			}
-			else if (clazz.isInstance(PaymentExport.class))
+			else if (PaymentExport.class.isAssignableFrom(clazz))
 			{
 				PaymentExport custom = (PaymentExport)clazz.newInstance();
 				no = custom.exportToFile(paySelectionChecks.toArray(new MPaySelectionCheck[paySelectionChecks.size()]), fc.getSelectedFile(), error);
