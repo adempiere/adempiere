@@ -1649,9 +1649,10 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 				"INNER JOIN HR_ListVersion lv ON (lv.HR_List_ID=l.HR_List_ID) " +
 				"INNER JOIN HR_ListLine ll ON (ll.HR_ListVersion_ID=lv.HR_ListVersion_ID) " +
 				"WHERE l.IsActive='Y' AND lv.IsActive='Y' AND ll.IsActive='Y' AND l.Value = ? AND " +
-				"l.AD_Client_ID = ? AND " +
+				"l.AD_Client_ID in (?,0) AND " +
 				"(? BETWEEN lv.ValidFrom AND lv.ValidTo ) AND " +
-				"(? BETWEEN ll.MinValue AND	ll.MaxValue)";
+				"(? BETWEEN ll.MinValue AND	ll.MaxValue)" +
+				" ORDER BY l.AD_CLIENT_ID desc ";
 			params.add(listSearchKey);
 			params.add(getAD_Client_ID());
 			params.add(from);
