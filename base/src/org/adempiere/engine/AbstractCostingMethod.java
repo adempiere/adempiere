@@ -149,37 +149,66 @@ public abstract class AbstractCostingMethod implements ICostingMethod {
 	 * Create Reversal Transaction
 	 */
 	public void createReversalCostDetail() {
-		
-		MTransaction originalTransaction = MTransaction.getByDocumentLine(transaction);
-		if (originalTransaction == null)
-		{	
-			 //throw new AdempiereException("Can not found the original transaction");
-			//System.out.println("Transaction not found :" + transaction);
-			log.info("Transaction not found :" + transaction);
-			return;
-		}	
-		
-		costDetail = new MCostDetail(model.getCtx(), 0, transaction.get_TrxName());
-		// Qty Transaction
-		lastCostDetail = MCostDetail.getByTransaction(
-				originalTransaction.getDocumentLine(),
-				originalTransaction,
-				accountSchema.getC_AcctSchema_ID(),
-                dimension.getM_CostType_ID(),
-                dimension.getM_CostElement_ID());
-		if (lastCostDetail == null)
-		{	
+	    String description = "";
+		if (model instanceof MMatchInv){
+			MMatchInv original = new MMatchInv(model.getCtx(), ((MMatchInv) model).getReversal_ID(), model.get_TrxName());
+			StringBuffer whereClause = new StringBuffer();
+			whereClause.append(" M_CostType_ID=" + dimension.getM_CostType_ID());
+			whereClause.append(" AND M_CostElement_ID=" + dimension.getM_CostElement_ID());
+			whereClause.append(" AND M_InOutLine_ID=?");
+			whereClause.append(" AND C_InvoiceLine_ID="+ original.getC_InvoiceLine_ID());
+			whereClause.append(" AND C_LandedCostAllocation_ID is null");
+			lastCostDetail = MCostDetail.get(original.getCtx(),whereClause.toString(),
+					original.getM_InOutLine_ID(),
+					original.getM_AttributeSetInstance_ID(), dimension.getC_AcctSchema_ID(), original.get_TrxName());
+			description = "Reversal MatchInv " + original.getDocumentNo();
+		}
+
+        else if (model instanceof MMatchPO){
+            MMatchPO original = new MMatchPO(model.getCtx(), ((MMatchInv) model).getReversal_ID(), model.get_TrxName());
+            StringBuffer whereClause = new StringBuffer();
+            whereClause.append(" M_CostType_ID=" + dimension.getM_CostType_ID());
+            whereClause.append(" AND M_CostElement_ID=" + dimension.getM_CostElement_ID());
+            whereClause.append(" AND M_InOutLine_ID=?");
+            whereClause.append(" AND C_ORDERLINE_ID="+ original.getC_InvoiceLine_ID());
+            whereClause.append(" AND C_LandedCostAllocation_ID is null");
+            lastCostDetail = MCostDetail.get(original.getCtx(),whereClause.toString(),
+                    original.getM_InOutLine_ID(),
+                    original.getM_AttributeSetInstance_ID(), dimension.getC_AcctSchema_ID(), original.get_TrxName());
+            description = "Reversal MatchPO " + original.getDocumentNo();
+        }
+		else{
+			MTransaction originalTransaction = MTransaction.getByDocumentLine(transaction);
+			if (originalTransaction == null)
+			{
+				//throw new AdempiereException("Can not found the original transaction");
+				//System.out.println("Transaction not found :" + transaction);
+				log.info("Transaction not found :" + transaction);
+				return;
+			}lastCostDetail = MCostDetail.getByTransaction(
+					originalTransaction.getDocumentLine(),
+					originalTransaction,
+					accountSchema.getC_AcctSchema_ID(),
+					dimension.getM_CostType_ID(),
+					dimension.getM_CostElement_ID());
+			if (lastCostDetail == null)
+			{
 			/*lastCostDetail = MCostDetail.getByTransaction(model,
 					original_trx, accountSchema.getC_AcctSchema_ID(),
 					dimension.getM_CostType_ID(),
 					dimension.getM_CostElement_ID());*/
-			
-			 //throw new
-			 //		 AdempiereException("Can not found the original cost detail");
-			//System.out.println("Detail Cost not found :" + originalTransaction);
-			log.info("Detail Cost not found :" + originalTransaction);
-			return;
+
+				//throw new
+				//		 AdempiereException("Can not found the original cost detail");
+				//System.out.println("Detail Cost not found :" + originalTransaction);
+				log.info("Detail Cost not found :" + originalTransaction);
+				return;
+			}
+			description = "Reversal " + originalTransaction.getM_Transaction_ID();
 		}
+
+		costDetail = new MCostDetail(model.getCtx(), 0, transaction.get_TrxName());
+		// Qty Transaction
 
             costDetail.copyValues(lastCostDetail, costDetail);
 			costDetail.setAD_Org_ID(lastCostDetail.getAD_Org_ID());
@@ -189,7 +218,7 @@ public abstract class AbstractCostingMethod implements ICostingMethod {
 			costDetail.setDateAcct(model.getDateAcct());
 			//costDetail.setProcessing(false); not should change so that be costing re processing by early transaction
 			//costDetail.setM_Transaction_ID(transaction.getM_Transaction_ID());
-			costDetail.setDescription("Reversal " + originalTransaction.getM_Transaction_ID());
+			costDetail.setDescription(description);
 			costDetail.setIsReversal(true);
 			costDetail.saveEx();
 			// Update the original cost detail
@@ -237,7 +266,19 @@ public abstract class AbstractCostingMethod implements ICostingMethod {
 		costDetail.setCostAdjustmentDate(lastCostDetail.getCostAdjustmentDate());
 		currentCostPrice = lastCostDetail.getCurrentCostPrice();
 		currentCostPriceLowerLevel = lastCostDetail.getCurrentCostPriceLL();
-		
+		if (model instanceof MMatchInv){
+
+            costDetail.setAmt(lastCostDetail.getAmt().negate());
+            costDetail.setCostAmt(lastCostDetail.getCostAmt().negate());
+            costDetail.setCostAdjustment(lastCostDetail.getCostAdjustment().negate());
+            costDetail.setAmtLL(lastCostDetail.getAmtLL().negate());
+            costDetail.setCostAmtLL(lastCostDetail.getCostAmtLL().negate());
+            costDetail.setCostAdjustmentLL(lastCostDetail.getCostAdjustmentLL().negate());
+            costDetail.setCostAdjustmentDate(lastCostDetail.getCostAdjustmentDate());
+            currentCostPrice = lastCostDetail.getCurrentCostPrice().negate();
+            currentCostPriceLowerLevel = lastCostDetail.getCurrentCostPriceLL().negate();
+        }
+
 		updateAmountCost();
 		
 		// Update the new cost detail
