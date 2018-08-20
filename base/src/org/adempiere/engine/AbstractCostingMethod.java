@@ -196,7 +196,16 @@ public abstract class AbstractCostingMethod implements ICostingMethod {
 			lastCostDetail.setDescription(lastCostDetail.getDescription() != null ? lastCostDetail.getDescription() : "" + "|Reversal " + costDetail.getM_Transaction_ID());
 			lastCostDetail.setIsReversal(true);
 			lastCostDetail.saveEx(transaction.get_TrxName());
-			
+			if (model.getDateAcct().compareTo(lastCostDetail.getDateAcct()) != 0){
+			    lastCostDetail = MCostDetail.getLastTransaction(model, transaction,
+                        accountSchema.getC_AcctSchema_ID(), dimension.getM_CostType_ID(),
+                        dimension.getM_CostElement_ID(),dateAccounting,
+                        costingLevel);
+			    costDetail.setSeqNo(lastCostDetail.getSeqNo() + 10);
+			    updateAmountCost();
+			    updateInventoryValue();
+            }
+
 		// Only uncomment to debug Trx.get(costDetail.get_TrxName(),
 		// false).commit();
 	}
