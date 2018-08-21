@@ -2245,24 +2245,15 @@ public class MInvoice extends X_C_Invoice implements DocAction , DocumentReversa
 	 */
 	protected boolean reverseMatching(Timestamp reversalDate) {
 		// Remove Match Invoice
-		ArrayList<PO> deleteList = new ArrayList<>();
 		MMatchInv.getByInvoiceId(getCtx(), getC_Invoice_ID(), get_TrxName()).stream()
 				.filter(matchInv -> matchInv.getReversal_ID() <= 0)
 				.forEach(matchInv -> {
-					if (MPeriod.isOpen(getCtx(), matchInv.getDateAcct(), MDocType.DOCBASETYPE_MatchInvoice,
-							matchInv.getAD_Org_ID()) && getDocAction().equals(MInvoice.DOCACTION_Reverse_Correct))
-					{
-						deleteList.add(matchInv);
+					MMatchInv matchInvReverse = matchInv.reverseIt(reversalDate);
+					if (matchInvReverse == null) {
+						processMsg = "Could not Reverse MatchInv";
+						throw new AdempiereException(processMsg);
 					}
-					else
-					{
-						MMatchInv matchInvReverse = matchInv.reverseIt(reversalDate);
-						if (matchInvReverse == null) {
-							processMsg = "Could not Reverse MatchInv";
-							throw new AdempiereException(processMsg);
-						}
-						addDocsPostProcess(matchInvReverse);
-					}
+					addDocsPostProcess(matchInvReverse);
 				});
 
 		// Remove Match PO
@@ -2278,14 +2269,9 @@ public class MInvoice extends X_C_Invoice implements DocAction , DocumentReversa
 						addDocsPostProcess(matchPOReverse);
 					} else {
 						matchPO.setC_InvoiceLine_ID(null);
-						matchPO.setQty(Env.ZERO);
 						matchPO.saveEx(get_TrxName());
 					}
 				});
-		for (PO po:deleteList)
-		{
-			po.deleteEx(true);
-		}
 		return true;
 	}
 

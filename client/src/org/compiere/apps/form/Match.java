@@ -438,14 +438,18 @@ public class Match
 					match = new MMatchInv(iLine, null, qty);
 				}
 				match.setM_InOutLine_ID(M_InOutLine_ID);
+				match.saveEx();
 				if (match.save()) {
 					success = true;
-					if (MClient.isClientAccountingImmediate()) {
-						String ignoreError = DocumentEngine.postImmediate(match.getCtx(), match.getAD_Client_ID(), match.get_Table_ID(), match.get_ID(), true, match.get_TrxName());						
-					}
 				}
 				else
 					log.log(Level.SEVERE, "Inv Match not created: " + match);
+
+				if (match.getC_InvoiceLine().getC_Invoice().getDocStatus().equals("VO") ||
+						match.getC_InvoiceLine().getC_Invoice().getDocStatus().equals("RE") ||
+						match.getM_InOutLine().getM_InOut().getDocStatus().equals("VO") ||
+						match.getM_InOutLine().getM_InOut().getDocStatus().equals("RE"))
+					match.reverseIt(match.getDateAcct());
 			}
 			else
 				success = true;
