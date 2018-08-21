@@ -29,6 +29,9 @@ import org.eevolution.model.MPPCostCollector;
 
 /**
  * @author victor.perez@e-evolution.com, www.e-evolution.com
+ * @author Systemhaus Westfalia SusanneCalderon <susanne.de.calderon@westfalia-it.com>
+ *    <li> Set M_MatchInv_ID and M_MatchPO_ID in Costdetail</>
+ *    https://github.com/adempiere/adempiere/issues/1918
  * 
  */
 public class AverageInvoiceCostingMethod extends AbstractCostingMethod
@@ -545,7 +548,7 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 		if (model instanceof MMatchInv )
 		{	
 			MMatchInv iMatch =  (MMatchInv) model;
-			costDetail.set_CustomColumn(MMatchInv.COLUMNNAME_M_MatchInv_ID, model.get_ID());
+			costDetail.setM_MatchInv_ID(model.get_ID());
 			if(costDetail.getM_InOutLine_ID() == 0)
 				costDetail.setM_InOutLine_ID(iMatch.getM_InOutLine_ID());
 

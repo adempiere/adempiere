@@ -35,7 +35,9 @@ import org.eevolution.model.MPPCostCollector;
 /**
  * @author anca_bradau
  * @author victor.perez@e-evolution.com, www.e-evolution.com
- * 
+ * @author Systemhaus Westfalia SusanneCalderon <susanne.de.calderon@westfalia-it.com>
+ *    <li> New method for searching original cost detail of cancelled match inv and match PO</>
+ *    https://github.com/adempiere/adempiere/issues/1918
  */
 
 /**

@@ -44,6 +44,10 @@ import org.compiere.util.Trx;
 /**
  *  @author eEvolution author Victor Perez <victor.perez@e-evolution.com>
  *			<li>Implement Reverse Accrual for all document https://github.com/adempiere/adempiere/issues/1348</>
+ *
+ *  @author Systemhaus Westfalia SusanneCalderon <susanne.de.calderon@westfalia-it.com>
+ *  <li>Implement Reverse Accrual, ommit createCostDetail and implement reverseIt for match_Inv of cancelled documents
+ *  https://github.com/adempiere/adempiere/issues/1918
  */
 public class Match
 {
