@@ -212,15 +212,27 @@ public class MCostDetail extends X_M_CostDetail
 		if(model instanceof MLandedCostAllocation 
 				|| model instanceof MMatchInv)
 		{
-			Timestamp dateacct = transaction.getDocumentLine().getDateAcct();
-			MDocType dt = new MDocType(transaction.getCtx(), transaction.getDocumentLine().getC_DocType_ID(), transaction.get_TrxName());
-			if (MPeriod.isOpen(transaction.getCtx(), dateacct, dt.getDocBaseType(), transaction.getAD_Org_ID()))
-			{
-				whereClause.append(MCostDetail.COLUMNNAME_M_Transaction_ID + "=? AND ");
-				params.add(transaction.getM_Transaction_ID());				
+			if (model.getReversalLine_ID()!= 0){
+				if (model.getDateAcct().compareTo(transaction.getDocumentLine().getDateAcct())==0){
+					whereClause.append(MCostDetail.COLUMNNAME_M_Transaction_ID + "=? AND ");
+					params.add(transaction.getM_Transaction_ID());
+				}
+				else
+					whereClause.append("DateAcct <= " +DB.TO_DATE(dateAcct) + " AND ");
 			}
-			else
-				whereClause.append("DateAcct <= " +DB.TO_DATE(dateAcct) + " AND ");
+			else {
+				Timestamp dateacct = transaction.getDocumentLine().getDateAcct();
+				MDocType dt = new MDocType(transaction.getCtx(), transaction.getDocumentLine().getC_DocType_ID(), transaction.get_TrxName());
+				if (MPeriod.isOpen(transaction.getCtx(), dateacct, dt.getDocBaseType(), transaction.getAD_Org_ID())) {
+					whereClause.append(MCostDetail.COLUMNNAME_M_Transaction_ID + "=? AND ");
+					params.add(transaction.getM_Transaction_ID());
+				} else
+					whereClause.append("DateAcct <= " + DB.TO_DATE(dateAcct) + " AND ");
+				if (model instanceof MMatchInv) {
+					whereClause.append(" (M_MatchInv_ID <>? OR M_MatchInv_ID is null) AND ");
+					params.add(model.get_ID());
+				}
+			}
 								
 		}	
 		else

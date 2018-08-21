@@ -152,15 +152,28 @@ public abstract class AbstractCostingMethod implements ICostingMethod {
 	    String description = "";
 		if (model instanceof MMatchInv){
 			MMatchInv original = new MMatchInv(model.getCtx(), ((MMatchInv) model).getReversal_ID(), model.get_TrxName());
+			if (original == null)
+			    return ;
 			StringBuffer whereClause = new StringBuffer();
 			whereClause.append(" M_CostType_ID=" + dimension.getM_CostType_ID());
 			whereClause.append(" AND M_CostElement_ID=" + dimension.getM_CostElement_ID());
-			whereClause.append(" AND M_InOutLine_ID=?");
-			whereClause.append(" AND C_InvoiceLine_ID="+ original.getC_InvoiceLine_ID());
-			whereClause.append(" AND C_LandedCostAllocation_ID is null");
+			whereClause.append(" AND M_MatchInv_ID=?");
 			lastCostDetail = MCostDetail.get(original.getCtx(),whereClause.toString(),
-					original.getM_InOutLine_ID(),
+					original.getM_MatchInv_ID(),
 					original.getM_AttributeSetInstance_ID(), dimension.getC_AcctSchema_ID(), original.get_TrxName());
+			if (lastCostDetail == null){
+			    whereClause = new StringBuffer();
+                whereClause.append(" M_CostType_ID=" + dimension.getM_CostType_ID());
+                whereClause.append(" AND M_CostElement_ID=" + dimension.getM_CostElement_ID());
+                whereClause.append(" AND C_Invoiceline_ID=" + original.getC_InvoiceLine_ID());
+                whereClause.append(" AND M_InoutLine_ID=?");
+                lastCostDetail = MCostDetail.get(original.getCtx(),whereClause.toString(),
+                        original.getM_InOutLine_ID(),
+                        original.getM_AttributeSetInstance_ID(), dimension.getC_AcctSchema_ID(), original.get_TrxName());
+                if (lastCostDetail == null)
+                    return;
+            }
+
 			description = "Reversal MatchInv " + original.getDocumentNo();
 		}
 
@@ -169,12 +182,12 @@ public abstract class AbstractCostingMethod implements ICostingMethod {
             StringBuffer whereClause = new StringBuffer();
             whereClause.append(" M_CostType_ID=" + dimension.getM_CostType_ID());
             whereClause.append(" AND M_CostElement_ID=" + dimension.getM_CostElement_ID());
-            whereClause.append(" AND M_InOutLine_ID=?");
-            whereClause.append(" AND C_ORDERLINE_ID="+ original.getC_InvoiceLine_ID());
-            whereClause.append(" AND C_LandedCostAllocation_ID is null");
+            whereClause.append(" AND M_MatchPO_ID=?");
             lastCostDetail = MCostDetail.get(original.getCtx(),whereClause.toString(),
-                    original.getM_InOutLine_ID(),
+                    original.getM_MatchPO_ID(),
                     original.getM_AttributeSetInstance_ID(), dimension.getC_AcctSchema_ID(), original.get_TrxName());
+            if (lastCostDetail ==null)
+                return;
             description = "Reversal MatchPO " + original.getDocumentNo();
         }
 		else{
@@ -231,6 +244,10 @@ public abstract class AbstractCostingMethod implements ICostingMethod {
                         dimension.getM_CostElement_ID(),dateAccounting,
                         costingLevel);
 			    costDetail.setSeqNo(lastCostDetail.getSeqNo() + 10);
+			    costDetail.setCumulatedQty(getNewAccumulatedQuantity(lastCostDetail));
+			    costDetail.setCumulatedAmt(getNewAccumulatedAmount(lastCostDetail));
+			    costDetail.setCumulatedAmtLL(getNewAccumulatedAmountLowerLevel(lastCostDetail));
+
 			    updateAmountCost();
 			    updateInventoryValue();
             }
