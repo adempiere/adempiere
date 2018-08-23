@@ -328,14 +328,26 @@ public class WTrialBalance extends TrialBalanceDrill implements IFormController,
 		MAcctSchemaElement acctElementOrg = acctSchema.getAcctSchemaElement(MAcctSchemaElement.ELEMENTTYPE_Organization);
 		Boolean orgMandatory = acctElementOrg.isBalanced()?true:false;
 
-		if (pa_ReportCube_ID == 0 || c_PeriodTo_ID == 0 || (orgMandatory && m_AD_Org_ID == 0)){
-			String errorMsg = orgMandatory?
-					"@Please fill mandatory fields (Cube, Period, Organization).@"
-					:"@Please fill mandatory fields (Cube, Period).@";
-			FDialog.error(form.getWindowNo(), errorMsg);
+		StringBuffer errorMessage = new StringBuffer();
+		if (pa_ReportCube_ID == 0) {
+			errorMessage.append("@PA_ReportCube_ID@");
+		}
+		if (c_PeriodTo_ID == 0) {
+			if(errorMessage.length() > 0) {
+				errorMessage.append(Env.NL);
+			}
+			errorMessage.append("@C_PeriodTo_ID@");
+		}
+		if (orgMandatory && m_AD_Org_ID == 0) {
+			if(errorMessage.length() > 0) {
+				errorMessage.append(Env.NL);
+			}
+			errorMessage.append("@AD_Org_ID@");
+		}
+		if(errorMessage.length() > 0) {
+			FDialog.error(form.getWindowNo(), "FillMandatory", errorMessage.toString());
 			return;
 		}
-
 		MReportCube cube = new MReportCube(Env.getCtx(), pa_ReportCube_ID, null);
 		String result = cube.update(false, false);
 		log.log(Level.FINE, result);
@@ -700,7 +712,13 @@ public class WTrialBalance extends TrialBalanceDrill implements IFormController,
 	private void setOrgStyle()
 	{MAcctSchema acctSchema = MAcctSchema.getClientAcctSchema(Env.getCtx(), Env.getAD_Client_ID(Env.getCtx()))[0];
 		if (acctSchema == null)
-			FDialog.error(form.getWindowNo(), "@No Acctschema@");
+		{
+			StringBuffer errorMessage = new StringBuffer();
+				errorMessage.append("@No Acctschema@");
+
+			FDialog.error(form.getWindowNo(), errorMessage.toString());
+
+		}
 		MAcctSchemaElement acctElementOrg = acctSchema.getAcctSchemaElement(MAcctSchemaElement.ELEMENTTYPE_Organization);
 		Boolean orgMandatory = acctElementOrg.isBalanced()?true:false;
 
