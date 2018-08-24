@@ -128,6 +128,10 @@ public class FinStatement extends FinStatementAbstract
 		if (getUser2Id() != 0)
 			parameterWhere.append(" AND ").append(MReportTree.getWhereClause(getCtx(),
 					getHierarchyId(), MAcctSchemaElement.ELEMENTTYPE_UserList2, getUser2Id()));
+
+		if (getAccountType() != null){
+			parameterWhere.append(" AND AccountType='").append(getAccountType()).append("'");
+		}
 		setDateAcct();
 		StringBuffer sb = new StringBuffer();
 		sb.append(" - DateAcct ").append(getDateAcct()).append("-").append(getDateAcctTo());

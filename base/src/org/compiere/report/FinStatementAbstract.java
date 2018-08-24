@@ -61,6 +61,8 @@ public abstract class FinStatementAbstract extends SvrProcess {
 	public static final String USER2_ID = "User2_ID";
 	/**	Parameter Name for Reporting Hierarchy	*/
 	public static final String PA_HIERARCHY_ID = "PA_Hierarchy_ID";
+	/**	Parameter Name for Account Type	*/
+	public static final String ACCOUNTTYPE = "AccountType";
 	/**	Parameter Value for Accounting Schema	*/
 	private int acctSchemaId;
 	/**	Parameter Value for Posting Type	*/
@@ -93,6 +95,8 @@ public abstract class FinStatementAbstract extends SvrProcess {
 	private int user2Id;
 	/**	Parameter Value for Reporting Hierarchy	*/
 	private int hierarchyId;
+	/**	Parameter Value for Account Type	*/
+	private String accountType;
 
 	@Override
 	protected void prepare() {
@@ -112,6 +116,7 @@ public abstract class FinStatementAbstract extends SvrProcess {
 		user1Id = getParameterAsInt(USER1_ID);
 		user2Id = getParameterAsInt(USER2_ID);
 		hierarchyId = getParameterAsInt(PA_HIERARCHY_ID);
+		accountType = getParameterAsString(ACCOUNTTYPE);
 	}
 
 	/**	 Getter Parameter Value for Accounting Schema	*/
@@ -272,6 +277,16 @@ public abstract class FinStatementAbstract extends SvrProcess {
 	/**	 Setter Parameter Value for Reporting Hierarchy	*/
 	protected void setHierarchyId(int hierarchyId) {
 		this.hierarchyId = hierarchyId;
+	}
+
+	/**	 Getter Parameter Value for Account Type	*/
+	protected String getAccountType() {
+		return accountType;
+	}
+
+	/**	 Setter Parameter Value for Account Type	*/
+	protected void setAccountType(String accountType) {
+		this.accountType = accountType;
 	}
 
 	/**	 Getter Parameter Value for Process ID	*/
