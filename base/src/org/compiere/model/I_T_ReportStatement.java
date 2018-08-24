@@ -41,6 +41,56 @@ public interface I_T_ReportStatement
 
     /** Load Meta Data */
 
+    /** Column name Account_ID */
+    public static final String COLUMNNAME_Account_ID = "Account_ID";
+
+	/** Set Account.
+	  * Account used
+	  */
+	public void setAccount_ID (int Account_ID);
+
+	/** Get Account.
+	  * Account used
+	  */
+	public int getAccount_ID();
+
+	public org.compiere.model.I_C_ElementValue getAccount() throws RuntimeException;
+
+    /** Column name AccountName */
+    public static final String COLUMNNAME_AccountName = "AccountName";
+
+	/** Set Account Name	  */
+	public void setAccountName (String AccountName);
+
+	/** Get Account Name	  */
+	public String getAccountName();
+
+    /** Column name AccountType */
+    public static final String COLUMNNAME_AccountType = "AccountType";
+
+	/** Set Account Type.
+	  * Indicates the type of account
+	  */
+	public void setAccountType (String AccountType);
+
+	/** Get Account Type.
+	  * Indicates the type of account
+	  */
+	public String getAccountType();
+
+    /** Column name AccountValue */
+    public static final String COLUMNNAME_AccountValue = "AccountValue";
+
+	/** Set Account Key.
+	  * Key of Account Element
+	  */
+	public void setAccountValue (String AccountValue);
+
+	/** Get Account Key.
+	  * Key of Account Element
+	  */
+	public String getAccountValue();
+
     /** Column name AD_PInstance_ID */
     public static final String COLUMNNAME_AD_PInstance_ID = "AD_PInstance_ID";
 
