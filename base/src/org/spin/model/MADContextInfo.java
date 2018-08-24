@@ -31,6 +31,7 @@ import org.compiere.model.I_AD_Field;
 import org.compiere.model.MField;
 import org.compiere.model.Query;
 import org.compiere.util.CCache;
+import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Util;
@@ -48,7 +49,7 @@ public class MADContextInfo extends X_AD_ContextInfo {
 	 */
 	private static final long serialVersionUID = -9157152272245789095L;
 	/**	Logger			*/
-	private static CLogger	log = CLogger.getCLogger(MADContextInfo.class);
+	private static CLogger log = CLogger.getCLogger(MADContextInfo.class);
 
 	public MADContextInfo(Properties ctx, int contextInfoId, String trxName) {
 		super(ctx, contextInfoId, trxName);

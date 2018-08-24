@@ -1956,8 +1956,8 @@ public class ADTabPanel extends Div implements Evaluatee, EventListener, DataSta
      * Change label for each field if it has context info configured
      */
     private void reloadFieldTrxInfo(WEditor editor) {
-    	Map<String, String> contextValues = gridTab.getFieldTrxInfo();
-		if(contextValues == null
+		Map<String, String> contextValues = gridTab.getFieldTrxInfo();
+		if (contextValues == null
 				|| contextValues.size() == 0) {
 			return;
 		}
@@ -1965,11 +1965,12 @@ public class ADTabPanel extends Div implements Evaluatee, EventListener, DataSta
 		GridField field = editor.getField();
 		//	Get trx info
 		String messageValue = contextValues.get(field.getColumnName());
-		if(Util.isEmpty(messageValue)) {
+		if (Util.isEmpty(messageValue)) {
 			return;
 		}
 		//	Set Context info
 		((HtmlBasedComponent) editor.getComponent()).setTooltiptext(messageValue);
+	}
 
 }
 
