@@ -20,6 +20,7 @@ import org.compiere.model.{MOrg, MWarehouse}
 import org.compiere.util.{Env, Trx}
 import org.scalatest._
 
+
 /**
   * Define a trait to create an ADempiere test
   * eEvolution author Victor Perez <victor.perez@e-evolution.com> ,Created by e-Evolution on 07/01/16.
