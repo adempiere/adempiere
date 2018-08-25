@@ -147,7 +147,7 @@ public class ADTabPanel extends Div implements Evaluatee, EventListener, DataSta
     private boolean isSwitchRow = true;	
     
 	private int INC = 30;
-
+	
 	private GridPanel quickPanel;
 
 	public CWindowToolbar getGlobalToolbar()
@@ -585,6 +585,7 @@ public class ADTabPanel extends Div implements Evaluatee, EventListener, DataSta
         {
         	comp.setMandatoryLabels();
         }
+
         //  Selective
         if (col > 0)
         {
@@ -787,11 +788,11 @@ public class ADTabPanel extends Div implements Evaluatee, EventListener, DataSta
         	gridTab.getTableModel().fireTableDataChanged();
     }
 
-    public void setGridTab(GridTab gridTab)
+    public void setGridTab(GridTab gridTab) 
     {
 		this.gridTab = gridTab;
 	}
-
+    
     /**
      * @return GridTab
      */
@@ -868,8 +869,6 @@ public class ADTabPanel extends Div implements Evaluatee, EventListener, DataSta
         		setFocusToField();
         	}
         }
-        //	Load Trx Info
-        reloadFieldTrxInfo();
     }
 
 	private void activateChild(boolean activate, EmbeddedPanel panel) {
@@ -1930,13 +1929,12 @@ public class ADTabPanel extends Div implements Evaluatee, EventListener, DataSta
     }
 
     public void setQuickPanel(GridPanel gridPanel) {
-        quickPanel=gridPanel;
+    	quickPanel=gridPanel;
     }
     public GridPanel getQuickPanel() {
-        return quickPanel;
+    	return quickPanel;
     }
-
-
+    
     /**
      * Change label for each field if it has context info configured
      */
@@ -1951,13 +1949,13 @@ public class ADTabPanel extends Div implements Evaluatee, EventListener, DataSta
             }
         }   //  all components
     }
-
+    
     /**
      * Change label for each field if it has context info configured
      */
     private void reloadFieldTrxInfo(WEditor editor) {
-		Map<String, String> contextValues = gridTab.getFieldTrxInfo();
-		if (contextValues == null
+    	Map<String, String> contextValues = gridTab.getFieldTrxInfo();
+		if(contextValues == null 
 				|| contextValues.size() == 0) {
 			return;
 		}
@@ -1965,12 +1963,11 @@ public class ADTabPanel extends Div implements Evaluatee, EventListener, DataSta
 		GridField field = editor.getField();
 		//	Get trx info
 		String messageValue = contextValues.get(field.getColumnName());
-		if (Util.isEmpty(messageValue)) {
+		if(Util.isEmpty(messageValue)) {
 			return;
 		}
 		//	Set Context info
 		((HtmlBasedComponent) editor.getComponent()).setTooltiptext(messageValue);
-	}
-
+    }
 }
 
