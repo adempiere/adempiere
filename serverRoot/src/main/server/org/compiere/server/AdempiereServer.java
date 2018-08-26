@@ -41,6 +41,7 @@ import org.compiere.wf.MWorkflowProcessor;
  *	ADempiere Server Base
  *
  *  @author Jorg Janke
+ *  @author Marek Mosiewicz - remove LDAP Processor because it do not work in JDK10
  */
 public abstract class AdempiereServer extends Thread
 {
@@ -61,8 +62,8 @@ public abstract class AdempiereServer extends Thread
 			return new AlertProcessor ((MAlertProcessor)model);
 		if (model instanceof MScheduler)
 			return new Scheduler ((MScheduler)model);
-		if (model instanceof MLdapProcessor)
-			return new LdapProcessor((MLdapProcessor)model);
+//		if (model instanceof MLdapProcessor)
+//			return new LdapProcessor((MLdapProcessor)model);
 		if (model instanceof MIMPProcessor) // @Trifon
 			return new ReplicationProcessor((MIMPProcessor)model);
 		//

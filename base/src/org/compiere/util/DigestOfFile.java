@@ -5,15 +5,17 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.security.MessageDigest;
+import java.security.Provider;
 
 import org.apache.commons.codec.binary.Base64; 
 
-import sun.security.provider.Sun;
+//import sun.security.provider.Sun;
 
 
 /**
  * @author rlemeill
  * @author Michael Judd BF [ 2736817 ] - remove deprecated BASE64Encoder classes
+ * @author Marek Mosiewicz - remove adding security provider which is not available in JDK 10. Test with main method works
  *
  */
 public class DigestOfFile
@@ -95,7 +97,7 @@ public class DigestOfFile
     {
         try
         {
-            java.security.Security.addProvider(new Sun());
+            //java.security.Security.addProvider(new Sun());
 
             DigestOfFile md5DigestAgent = new DigestOfFile("MD5");
             
@@ -124,7 +126,7 @@ public class DigestOfFile
     	//compute Hash of exisiting and downloaded
     	String hashFile1;
     	String hashFile2;
-    	java.security.Security.addProvider(new Sun());
+    	//java.security.Security.addProvider(new Sun());
     	try{
     		DigestOfFile md5DigestAgent = new DigestOfFile("MD5");
     		hashFile1 = md5DigestAgent.digestAsBase64(file1);
@@ -143,7 +145,7 @@ public class DigestOfFile
     public static String GetLocalMD5Hash(File file)
     {
     	String hash;
-    	java.security.Security.addProvider(new Sun());
+    	//java.security.Security.addProvider(new Sun());
     	try{
     		DigestOfFile md5DigestAgent = new DigestOfFile("MD5");
     		hash = md5DigestAgent.digestAsBase64(file);
@@ -162,7 +164,7 @@ public class DigestOfFile
     public static String getMD5Hash(byte[] input)
     {
     	String hash;
-    	java.security.Security.addProvider(new Sun());
+    	//java.security.Security.addProvider(new Sun());
     	try{
     		DigestOfFile md5DigestAgent = new DigestOfFile("MD5");
     		hash = md5DigestAgent.digestAsBase64(input);
