@@ -89,7 +89,9 @@ import org.zkoss.zul.Html;
  *		<li>FR [ 1051 ] Process Dialog have not scroll bar in zk
  *		<li>FR [ 1061 ] Process Modal Dialog in zk height is not autosize
  *	@author Michael Mckay michael.mckay@mckayerp.com
- *		<li>BF [ <a href="https://github.com/adempiere/adempiere/issues/495">495</a> ] Parameter Panel & SmartBrowser criteria do not set gridField value
+ *		<li>BF [ <a href="https://github.com/adempiere/adempiere/issues/495">#495</a> ] Parameter Panel & SmartBrowser criteria do not set gridField value
+ *		<li>BF [ <a href="https://github.com/adempiere/adempiere/issues/1926">#1926</a> ] ZK Exports migration XML files to 
+ *       different location than what is selected in the dialogs.
  * 	@version 	2006-12-01
  */
 public class ProcessPanel extends ProcessController implements SmallViewEditable, EventListener, ASyncProcess {
@@ -654,6 +656,13 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 	 */
 	protected void runProcess() {
 		getProcessInfo().setPrintPreview(true);
+		
+		// #1926 ZK Exports migration XML files to different location 
+		// than what is selected in the dialogs. Fix is to let the process
+		// know what interface is being used so it can manage the export 
+		// process correctly.
+		getProcessInfo().setInterfaceType(ProcessInfo.INTERFACE_TYPE_ZK);
+		
 		ProcessCtl worker = new ProcessCtl(this, getWindowNo(), getProcessInfo(),null);
 		worker.run();
 		//	Run
