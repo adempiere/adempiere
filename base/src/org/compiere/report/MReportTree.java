@@ -229,10 +229,10 @@ public class MReportTree {
 		//
 		StringBuffer result = null;
 		if (node != null && node.isSummary()) {
-			Enumeration<MTreeNode> en = node.preorderEnumeration();
+			Enumeration en = node.preorderEnumeration();
 			StringBuffer sb = new StringBuffer ();
 			while (en.hasMoreElements()) {
-				MTreeNode treeNode = en.nextElement ();
+				MTreeNode treeNode = (MTreeNode)en.nextElement();
 				if (!treeNode.isSummary()) {
 					if (sb.length () > 0) {
 						sb.append (", ");
@@ -270,7 +270,7 @@ public class MReportTree {
 		//
 		if (node != null && node.isSummary())
 		{
-			Enumeration<MTreeNode> enumeration = node.preorderEnumeration();
+			Enumeration enumeration = node.preorderEnumeration();
 			while (enumeration.hasMoreElements())
 			{
 				MTreeNode treeNode = (MTreeNode)enumeration.nextElement();

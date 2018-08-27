@@ -576,7 +576,7 @@ public class MTree extends MTree_Base
 		while (needsTrim)
 		{
 			needsTrim = false;
-			Enumeration<MTreeNode> en = treeNode.preorderEnumeration();
+			Enumeration en = treeNode.preorderEnumeration();
 			while (treeNode.getChildCount() > 0 && en.hasMoreElements())
 			{
 				MTreeNode nd = (MTreeNode)en.nextElement();

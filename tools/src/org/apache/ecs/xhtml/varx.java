@@ -39,10 +39,12 @@ import org.apache.ecs.Printable;
     @author <a href="mailto:jon@clearink.com">Jon S. Stevens</a>
 
     @author <a href="mailto:bojan@binarix.com">Bojan Smojver</a>
+    
+    @author Marek Mosiewicz - rename class to varx due to var be keyword in java10. It anyway seems to be dead code
 
 */
 
-public class var extends MultiPartElement implements Printable, MouseEvents, KeyEvents
+public class varx extends MultiPartElement implements Printable, MouseEvents, KeyEvents
 
 {
 
@@ -75,7 +77,7 @@ public class var extends MultiPartElement implements Printable, MouseEvents, Key
 
     */
 
-    public var()
+    public varx()
 
     {
 
@@ -91,7 +93,7 @@ public class var extends MultiPartElement implements Printable, MouseEvents, Key
 
     */
 
-    public var(Element element)
+    public varx(Element element)
 
     {
 
@@ -109,7 +111,7 @@ public class var extends MultiPartElement implements Printable, MouseEvents, Key
 
     */
 
-    public var(String element)
+    public varx(String element)
 
     {
 
@@ -151,7 +153,7 @@ public class var extends MultiPartElement implements Printable, MouseEvents, Key
 
      */
 
-    public var addElement(String hashcode,Element element)
+    public varx addElement(String hashcode,Element element)
 
     {
 
@@ -173,7 +175,7 @@ public class var extends MultiPartElement implements Printable, MouseEvents, Key
 
      */
 
-    public var addElement(String hashcode,String element)
+    public varx addElement(String hashcode,String element)
 
     {
 
@@ -193,7 +195,7 @@ public class var extends MultiPartElement implements Printable, MouseEvents, Key
 
      */
 
-    public var addElement(Element element)
+    public varx addElement(Element element)
 
     {
 
@@ -213,7 +215,7 @@ public class var extends MultiPartElement implements Printable, MouseEvents, Key
 
      */
 
-    public var addElement(String element)
+    public varx addElement(String element)
 
     {
 
@@ -231,7 +233,7 @@ public class var extends MultiPartElement implements Printable, MouseEvents, Key
 
     */
 
-    public var removeElement(String hashcode)
+    public varx removeElement(String hashcode)
 
     {
 
