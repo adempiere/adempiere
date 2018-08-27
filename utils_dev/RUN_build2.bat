@@ -5,8 +5,6 @@
 @IF NOT EXIST "%JAVA_HOME%\bin" goto javahome
 @SET PATH="%JAVA_HOME%\bin";%PATH%
 
-@Rem Check jdk
-@IF NOT EXIST "%JAVA_HOME%\lib\tools.jar" goto jdk
 
 @if (%1) == () goto usage
 

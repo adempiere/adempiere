@@ -266,4 +266,12 @@ public class CCachedRowSet extends OracleCachedRowSet implements CachedRowSet
 			throw new RuntimeException(e);
 		}
     }
+    @Override
+    public <T> T getObject(String name, Class<T> type) throws SQLException{
+    	return null;
+    }
+    @Override
+    public <T> T getObject(int colIndex, Class<T> type) throws SQLException{
+    	return null;
+    }
 }	//	CCachedRowSet
