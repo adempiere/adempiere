@@ -38,6 +38,7 @@ import org.adempiere.util.ProcessUtil;
 import org.compiere.cm.StringUtil;
 import org.compiere.model.MMigration;
 import org.compiere.util.Env;
+import org.compiere.util.Msg;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -61,7 +62,7 @@ public class MigrationToXML extends SvrProcess {
 	protected String doIt() throws Exception {
 		MMigration migration = new MMigration(getCtx(), migrationId, get_TrxName());
 		if ( migration == null || migration.is_new() )
-			return "No migration to export";
+			return "@NoMigrationFound@";  // No migration found
 		
 		log.log(Level.FINE, "Creating xml document for migration: " + migration);
 		Document document = null;
@@ -105,8 +106,7 @@ public class MigrationToXML extends SvrProcess {
 			
 			try 
 			{
-				// TODO - translate "XML file"
-				FileFilter filter = new FileNameExtensionFilter("XML file", "xml");
+				FileFilter filter = new FileNameExtensionFilter(Msg.getMsg(getCtx(), "FileXML"), "xml");
 				JFileChooser chooser = new JFileChooser(path);  // User's default if null or empty
 				chooser.setMultiSelectionEnabled(false);
 				chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -123,7 +123,8 @@ public class MigrationToXML extends SvrProcess {
 				}
 				else
 				{
-					return "Operation cancelled.";
+					// Operation cancelled.
+					return "@OperationCancelled@";
 				}
 				
 			} catch (HeadlessException e) {
@@ -186,13 +187,16 @@ public class MigrationToXML extends SvrProcess {
 				
 			}
 			
-			// Don't delete the temporary file!! The download thread needs to access it.
-			// tempFile.delete();
+			// Don't delete the temporary file right away!! 
+			// The download thread needs to access it.
+			tempFile.deleteOnExit();
 			
-			return "Migration XML sent successfully. The download should start shortly.";  // TODO translate
+			// "Migration exported to XML successfully. The download should start shortly."
+			return "@XMLDownloadSuccessMessage@";
 		}
 
-		return "Exported migration to: " + fileName;  // TODO translate
+		// "Exported migration to: " + fileName
+		return "@ExportedMigrationXMLTo@: " + fileName;
 	}
 
 	@Override
