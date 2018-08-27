@@ -5,12 +5,20 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.logging.Level;
+
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
+
+import org.compiere.apps.EMailDialog;
+import org.compiere.model.MUser;
+import org.compiere.util.CLogger;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
+
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperExportManager;
@@ -19,17 +27,12 @@ import net.sf.jasperreports.engine.export.JRRtfExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
 import net.sf.jasperreports.view.JRViewer;
-import org.compiere.apps.EMailDialog;
-import org.compiere.model.MUser;
-import org.compiere.util.CLogger;
-import org.compiere.util.Env;
-import org.compiere.util.Msg;
 
 public class JasperReportViewer extends JRViewer {
 
 	private static final long serialVersionUID = -7988455595896562947L;
 	private JasperPrint jasperPrint;
-	private JComboBox<Object> comboBox;
+	private JComboBox comboBox;
 
 	public JasperReportViewer(final JasperViewer jasperViewer, final JasperPrint jasperPrint) throws JRException {
 		super( jasperPrint);
@@ -55,7 +58,7 @@ public class JasperReportViewer extends JRViewer {
 		btnExport.addActionListener( new ExportListener( this));
 		tlbToolBar.add(btnExport);
 
-		comboBox = new JComboBox<Object>( new String[] {"PDF","HTML", "XLS", "RTF"});
+		comboBox = new JComboBox( new String[] {"PDF","HTML", "XLS", "RTF"});
 		comboBox.setPreferredSize(new java.awt.Dimension(80, 23));
 		comboBox.setMaximumSize(new java.awt.Dimension(80, 23));
 		comboBox.setMinimumSize(new java.awt.Dimension(80, 23));
@@ -80,11 +83,11 @@ public class JasperReportViewer extends JRViewer {
 class ReportView implements ActionListener {
 
 	private JasperReportViewer viewer;
-	private JComboBox<Object> comboBox;
+	private JComboBox comboBox;
 	/**	Logger */
 	private static final CLogger s_log = CLogger.getCLogger(ReportView.class);
 
-	public ReportView(JasperReportViewer viewer, JComboBox<Object> comboBox) {
+	public ReportView(JasperReportViewer viewer, JComboBox comboBox) {
 		this.viewer = viewer;
 		this.comboBox = comboBox;
 	}
