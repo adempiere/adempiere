@@ -119,6 +119,14 @@ public class MigrationToXML extends SvrProcess {
 				if (result == JFileChooser.APPROVE_OPTION)
 				{
 					tempFile = chooser.getSelectedFile();
+					
+		            // Need to create the file, even if empty.  This won't overwrite 
+					// an existing file, but will make a new one if the file doesn't exist.
+		            // Without this, tempFile.isFile() below will return false if no
+		            // file exists when we need it to return true.
+		            tempFile.createNewFile();
+		            
+		            // Save the path used to the context
 					Env.setContext(getCtx(), "Last Used Path", tempFile.getAbsolutePath());
 				}
 				else
@@ -133,12 +141,18 @@ public class MigrationToXML extends SvrProcess {
 			}
 		}
 		
+		// If tempFile has not been initialized or is not a file
+		// then create a temporary file - this will happen if the
+		// interface type is not Swing, in which case a temporary 
+		// file is needed, or if something went wrong in the file 
+		// chooser above. The later shouldn't happen but "Au cas où..."
 		if (tempFile == null || !tempFile.isFile())
 		{
 			// Create the temporary file
 			tempFile = File.createTempFile("adempiere_", "_"+ fileName);
 		}		
 
+		// The tempFile should now exist somewhere
 		fileName = tempFile.getAbsolutePath();
 		
         log.log(Level.FINE, "Writing xml to file " + fileName);
