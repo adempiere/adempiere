@@ -91,8 +91,10 @@ import org.compiere.util.ValueNamePair;
  *			<li> FR [ 392 ] Translation method does not use PO class
  *			@see https://github.com/adempiere/adempiere/issues/392
  *  @author Nicolas Sarlabos, nicolas.sarlabos@openupsolutions.com, http://www.openupsolutions.com
- **			<li> FR [ 1350 ] Return customized message in model validator
+ *			<li> FR [ 1350 ] Return customized message in model validator
  *			@see https://github.com/adempiere/adempiere/issues/1350
+ *	@author Michael McKay, michael.mckay@mckayerp.com
+ *			<li> BF [ <a href="https://github.com/adempiere/adempiere/issues/1944">1944</a> ] First save of a record with new Yes-No field causes error. 
  *
  */
 public class GridTable extends AbstractTableModel
@@ -2132,13 +2134,21 @@ public class GridTable extends AbstractTableModel
 				Object dbValue = po.get_Value(poIndex);
 				if (m_inserting 
 					|| !m_compareDB
+
 					//	Original == DB
 					|| (oldValue == null && dbValue == null)
 					|| (oldValue != null && oldValue.equals (dbValue))
+					//  #1944  Special case when the field is boolean and not initialized
+					//  false equivalent to null allowed
+					|| (oldValue instanceof Boolean && !((Boolean) oldValue) && dbValue == null)
+
 					//	Target == DB (changed by trigger to new value already)
 					|| (value == null && dbValue == null)
 					|| (value != null && value.equals (dbValue)) 
-					
+					//  #1944  Special case when the field is boolean and not initialized
+					//  false equivalent to null allowed
+					|| (value instanceof Boolean && !((Boolean) value) && dbValue == null)
+
 					//   GridTable.dataSave(boolean manualCmd) has a Bug when comparing new, old and db value 
 					// - https://adempiere.atlassian.net/browse/ADEMPIERE-157
 					|| ((oldValue !=null && dbValue !=  null && oldValue.getClass().equals(byte[].class) &&  dbValue.getClass().equals(byte[].class)) && Arrays.equals((byte[])oldValue, (byte[])dbValue))
