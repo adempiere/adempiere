@@ -44,6 +44,8 @@ import org.compiere.model.*;
  *  @author teo.sarca@gmail.com
  *  	<li>BF [ 2867246 ] Do not show InTrazit WHs on login
  *  		https://sourceforge.net/tracker/?func=detail&aid=2867246&group_id=176962&atid=879332
+ *  @author Michael McKay michael.mckay@mckayerp.com
+ *  	<li>BF [ <a href="https://github.com/adempiere/adempiere/issues/1935">1935</a> ] Add default role
  *  @version $Id: Login.java,v 1.6 2006/10/02 05:19:06 jjanke Exp $
  */
 public class Login
@@ -349,7 +351,7 @@ public class Login
 			.append(" AND u.IsActive='Y'")
 			.append(" AND EXISTS (SELECT 1 FROM AD_Client c "
 					+ "WHERE u.AD_Client_ID=c.AD_Client_ID AND c.IsActive='Y')");
-		sql.append(" ORDER BY r.Name");
+		sql.append(" ORDER BY COALESCE(ur.IsDefault,'N') Desc, r.Name");  // #1935 Show the default role, if defined, first
 		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
