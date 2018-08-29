@@ -455,15 +455,17 @@ public class KeyStoreMgt
 		String[] args = new String[list.size()];
 		list.toArray(args);
 		//vpj-cd add support java 8
+		//marekmosiewicz add support for jdk up to 11
 		Class<?> keyTool = null;
 		try
 		{
 			final String version = System.getProperty("java.version");
-			if (version.startsWith("1.7"))
+			if (version.startsWith("1.7")) {
 				keyTool = Class.forName(KEYTOOL_JAVA7);
-			else if (version.startsWith("1.8"))
+			//FIXME change to 11.0 when final jdk11 will be available
+			}else if (version.startsWith("1.8")||version.startsWith("9.0")||version.startsWith("10.0")||version.startsWith("11")) {
 				keyTool = Class.forName(KEYTOOL_JAVA8);
-
+			}
 			Class[] argTypes = new Class[] { String[].class };
 			Method main = keyTool.getDeclaredMethod("main", argTypes);
 			main.invoke(null, (Object)args);

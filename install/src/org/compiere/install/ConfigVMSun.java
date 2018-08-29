@@ -92,7 +92,8 @@ public class ConfigVMSun extends Config
         final String VERSION18 = "1.8.0";	//	The real one
         final String VERSION_9 = "9.0";	//	The real one
         final String VERSION_10 = "10.0";	//	The real one
-        final String VERSION_11 = "11.0";	//	The real one
+        //FIXME 11 will be probably 11.0 after official release
+        final String VERSION_11 = "11";	//	The real one
         pass = false;
 		String jh = javaHome.getAbsolutePath();
 		if (jh.indexOf(VERSION15) != -1)	//	file name has version = assuming OK
