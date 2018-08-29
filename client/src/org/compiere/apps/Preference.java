@@ -48,7 +48,7 @@ import javax.swing.plaf.metal.MetalTheme;
 import javax.swing.table.DefaultTableModel;
 
 import org.adempiere.plaf.AdempierePLAF;
-//import org.adempiere.plaf.PLAFEditorPanel;
+import org.adempiere.plaf.PLAFEditorPanel;
 import org.compiere.db.CConnection;
 import org.compiere.grid.ed.VDate;
 import org.compiere.minigrid.MiniTable;
@@ -85,7 +85,6 @@ import org.compiere.util.ValueNamePair;
  *  @version 	$Id: Preference.java,v 1.2 2006/07/30 00:51:27 jjanke Exp $
  *  
  *  @author Low Heng Sin
- *  @author Marek Mosiewicz - removed PLAFEditor which seems to be not workable in JDK9+
  *  @version 2006-11-27
  */
 public final class Preference extends CDialog
@@ -184,7 +183,7 @@ public final class Preference extends CDialog
 
 	private CPanel configPanel = new CPanel();
 
-//	private PLAFEditorPanel plafEditor = new PLAFEditorPanel();
+	private PLAFEditorPanel plafEditor = new PLAFEditorPanel();
 	
 	/**
 	 *	Static Init.
@@ -349,7 +348,7 @@ public final class Preference extends CDialog
 		CPanel themePanel = new CPanel();
 		themePanel.setLayout(new GridLayout(1, 1));
 		
-//		themePanel.add(plafEditor);
+		themePanel.add(plafEditor);
 		tabPane.add(themePanel, Msg.getMsg(Env.getCtx(), "UITheme", true));
 		
 		configPanel.setLayout(new BorderLayout());
@@ -631,35 +630,35 @@ public final class Preference extends CDialog
 		Ini.setProperty(Ini.P_CHARSET, charset.name());
 
 		//UI
-//		ValueNamePair laf = plafEditor.getSelectedLook();
-//		ValueNamePair theme = plafEditor.getSelectedTheme();
-//		if ( laf != null ) {
-//			String clazz = laf.getValue();
-//			String currentLaf = UIManager.getLookAndFeel().getClass().getName();
-//			if (clazz != null && clazz.length() > 0 && !currentLaf.equals(clazz))
-//			{
-//				//laf changed
-//				AdempierePLAF.setPLAF(laf, theme, true);
-//				AEnv.updateUI();
-//			}
-//			else
-//			{
-//				if (UIManager.getLookAndFeel() instanceof MetalLookAndFeel)
-//				{
-//					MetalTheme currentTheme = MetalLookAndFeel.getCurrentTheme();
-//					String themeClass = currentTheme.getClass().getName();
-//					String sTheme = theme.getValue();
-//					if (sTheme != null && sTheme.length() > 0 && !sTheme.equals(themeClass))
-//					{
-//						ValueNamePair plaf = new ValueNamePair(
-//								UIManager.getLookAndFeel().getClass().getName(),
-//								UIManager.getLookAndFeel().getName());
-//						AdempierePLAF.setPLAF(plaf, theme, true);
-//						AEnv.updateUI();
-//					}
-//				}
-//			}
-//		}
+		ValueNamePair laf = plafEditor.getSelectedLook();
+		ValueNamePair theme = plafEditor.getSelectedTheme();
+		if ( laf != null ) {
+			String clazz = laf.getValue();
+			String currentLaf = UIManager.getLookAndFeel().getClass().getName();
+			if (clazz != null && clazz.length() > 0 && !currentLaf.equals(clazz))
+			{
+				//laf changed
+				AdempierePLAF.setPLAF(laf, theme, true);
+				AEnv.updateUI();
+			}
+			else
+			{
+				if (UIManager.getLookAndFeel() instanceof MetalLookAndFeel)
+				{
+					MetalTheme currentTheme = MetalLookAndFeel.getCurrentTheme();
+					String themeClass = currentTheme.getClass().getName();
+					String sTheme = theme.getValue();
+					if (sTheme != null && sTheme.length() > 0 && !sTheme.equals(themeClass))
+					{
+						ValueNamePair plaf = new ValueNamePair(
+								UIManager.getLookAndFeel().getClass().getName(),
+								UIManager.getLookAndFeel().getName());
+						AdempierePLAF.setPLAF(plaf, theme, true);
+						AEnv.updateUI();
+					}
+				}
+			}
+		}
 		
 		Ini.saveProperties(Ini.isClient());
 		dispose();
