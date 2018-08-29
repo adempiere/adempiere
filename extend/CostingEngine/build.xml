@@ -48,7 +48,7 @@
   <target name="compile"
         description="compile the source " >
     <!-- Compile the java code from ${src} into ${build} -->
-    <javac debug="false" srcdir="${src}" destdir="${build}">    
+    <javac target="1.8" source="1.8" debug="false" srcdir="${src}" destdir="${build}">    
       <!--include name="**/org/adempiere/engine/*.java"/>
       <include name="**/org/adempiere/exceptions/*.java"/>
       <include name="**/org/eevolution/process/*.java"/-->

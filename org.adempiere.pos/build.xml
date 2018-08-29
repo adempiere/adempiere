@@ -73,7 +73,7 @@
     <!-- Compile the zk java code from ${src} into ${zkclasses} -->
     
     <echo message="Compile ZK Classes "/>
-    <javac encoding="UTF-8" srcdir="${zk_view}" destdir="${zk_classes}" includeantruntime="false" >
+    <javac target="1.8" source="1.8" encoding="UTF-8" srcdir="${zk_view}" destdir="${zk_classes}" includeantruntime="false" >
       <classpath refid="compile.domain.classpath"/>
       <classpath refid="compilezk.classpath"/>
     </javac>
