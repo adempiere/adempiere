@@ -88,7 +88,7 @@
         <Data AD_Column_ID="611" Column="Updated">2018-08-27 08:52:40.671</Data>
         <Data AD_Column_ID="608" Column="IsActive">true</Data>
         <Data AD_Column_ID="344" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="342" Column="MsgText">Migration exported to XML successfully. The download should start shortly.</Data>
+        <Data AD_Column_ID="342" Column="MsgText">Migración fue exportada exitosamente a XML. La descarga iniciará dentro de poco.</Data>
         <Data AD_Column_ID="343" Column="MsgTip" isNewNull="true"/>
         <Data AD_Column_ID="341" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="6767" Column="AD_Message_ID">53486</Data>
@@ -120,7 +120,7 @@
         <Data AD_Column_ID="611" Column="Updated">2018-08-27 08:54:32.568</Data>
         <Data AD_Column_ID="608" Column="IsActive">true</Data>
         <Data AD_Column_ID="344" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="342" Column="MsgText">Exported migration XML to</Data>
+        <Data AD_Column_ID="342" Column="MsgText">Migración XML exportada a </Data>
         <Data AD_Column_ID="343" Column="MsgTip" isNewNull="true"/>
         <Data AD_Column_ID="1192" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="1193" Column="AD_Org_ID">0</Data>
@@ -155,7 +155,7 @@
         <Data AD_Column_ID="611" Column="Updated">2018-08-27 08:57:20.588</Data>
         <Data AD_Column_ID="608" Column="IsActive">true</Data>
         <Data AD_Column_ID="344" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="342" Column="MsgText">Operation cancelled.</Data>
+        <Data AD_Column_ID="342" Column="MsgText">La operación fue cancelada.</Data>
         <Data AD_Column_ID="343" Column="MsgTip" isNewNull="true"/>
         <Data AD_Column_ID="1192" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="1193" Column="AD_Org_ID">0</Data>
@@ -190,7 +190,7 @@
         <Data AD_Column_ID="611" Column="Updated">2018-08-27 09:00:32.257</Data>
         <Data AD_Column_ID="608" Column="IsActive">true</Data>
         <Data AD_Column_ID="344" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="342" Column="MsgText">No migration found.</Data>
+        <Data AD_Column_ID="342" Column="MsgText">No se encontró Migración.</Data>
         <Data AD_Column_ID="343" Column="MsgTip" isNewNull="true"/>
         <Data AD_Column_ID="1192" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="1193" Column="AD_Org_ID">0</Data>
