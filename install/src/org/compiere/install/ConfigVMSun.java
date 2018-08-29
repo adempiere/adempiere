@@ -67,15 +67,16 @@ public class ConfigVMSun extends Config
 		if (!pass)
 			return error;
 		//	Look for tools.jar to make sure that it is not the JRE
-		File tools = new File (p_data.getJavaHome() 
-			+ File.separator + "lib" + File.separator + "tools.jar");
-		pass = tools.exists();
-		error = "Not found: Java SDK = " + tools;
-		if (getPanel() != null)
-			signalOK(getPanel().okJavaHome, "ErrorJavaHome",
-				pass, true, error);
-		if (!pass)
-			return error;
+//FIXME check for SDK to do in some new way for JDK10+
+//		File tools = new File (p_data.getJavaHome() 
+//			+ File.separator + "lib" + File.separator + "tools.jar");
+//		pass = tools.exists();
+//		error = "Not found: Java SDK = " + tools;
+//		if (getPanel() != null)
+//			signalOK(getPanel().okJavaHome, "ErrorJavaHome",
+//				pass, true, error);
+//		if (!pass)
+//			return error;
 		//
 		if (CLogMgt.isLevelFinest())
 			CLogMgt.printProperties(System.getProperties(), "System", true);
