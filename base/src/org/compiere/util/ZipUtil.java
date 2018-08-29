@@ -399,7 +399,7 @@ public class ZipUtil
 			if (pathEntries[i].indexOf(jarFile) != -1)
 				return pathEntries[i];
 		}
-		path = System.getProperty("sun.boot.class.path");
+		path = System.getProperty("java.class.path");
 		pathEntries = path.split(System.getProperty("path.separator"));
 		for (int i = 0; i < pathEntries.length; i++)
 		{
