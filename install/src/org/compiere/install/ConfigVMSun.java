@@ -67,7 +67,7 @@ public class ConfigVMSun extends Config
 		if (!pass)
 			return error;
 		//	Look for tools.jar to make sure that it is not the JRE
-//FIXME check for SDK to do in some new way for JDK10+
+//      FIXME check for SDK to do in some new way for JDK10+
 //		File tools = new File (p_data.getJavaHome() 
 //			+ File.separator + "lib" + File.separator + "tools.jar");
 //		pass = tools.exists();
