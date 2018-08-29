@@ -106,6 +106,12 @@ public class Login
         //Add ADEMPIERE-86 Add JAVA 8.0 support in ADempiere
         if (jVersion.startsWith("1.8.0"))
             return true;
+        if (jVersion.startsWith("9.0"))
+            return true;
+        if (jVersion.startsWith("10.0"))
+            return true;
+        if (jVersion.startsWith("11.0"))
+            return true;
         //end
 		//  Warning
 		boolean ok = false;

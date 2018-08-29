@@ -89,7 +89,10 @@ public class ConfigVMSun extends Config
 		final String VERSION16 = "1.6.0";	//	The real one
 		final String VERSION17 = "1.7.0";	//	The real one
         final String VERSION18 = "1.8.0";	//	The real one
-		pass = false;
+        final String VERSION_9 = "9.0";	//	The real one
+        final String VERSION_10 = "10.0";	//	The real one
+        final String VERSION_11 = "11.0";	//	The real one
+        pass = false;
 		String jh = javaHome.getAbsolutePath();
 		if (jh.indexOf(VERSION15) != -1)	//	file name has version = assuming OK
 			pass = true;
@@ -99,7 +102,15 @@ public class ConfigVMSun extends Config
 			pass = true;
         if (!pass && jh.indexOf(VERSION18) != -1)	//
             pass = true;
-		String thisJH = System.getProperty("java.home");
+        if (!pass && jh.indexOf(VERSION_9) != -1)	//
+            pass = true;
+
+        if (!pass && jh.indexOf(VERSION_10) != -1)	//
+            pass = true;
+        if (!pass && jh.indexOf(VERSION_11) != -1)	//
+            pass = true;
+
+        String thisJH = System.getProperty("java.home");
 		if (thisJH.indexOf(jh) != -1)	//	we are running the version currently
 		{
 			String thisJV = System.getProperty("java.version");
@@ -110,7 +121,14 @@ public class ConfigVMSun extends Config
 				pass = true;
             if (!pass && thisJV.indexOf(VERSION18) != -1)
                 pass = true;
-			if (pass)
+            if (!pass && jh.indexOf(VERSION_9) != -1)	//
+                pass = true;
+            if (!pass && jh.indexOf(VERSION_10) != -1)	//
+                pass = true;
+            if (!pass && jh.indexOf(VERSION_11) != -1)	//
+                pass = true;
+
+            if (pass)
 			  log.info("OK: Version=" + thisJV);
 		}
 		error = "Wrong Java Version: Should be " + VERSION17;
