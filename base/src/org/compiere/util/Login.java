@@ -110,7 +110,8 @@ public class Login
             return true;
         if (jVersion.startsWith("10.0"))
             return true;
-        if (jVersion.startsWith("11.0"))
+        //FIXME change to 11.0 after official release
+        if (jVersion.startsWith("11"))
             return true;
         //end
 		//  Warning
