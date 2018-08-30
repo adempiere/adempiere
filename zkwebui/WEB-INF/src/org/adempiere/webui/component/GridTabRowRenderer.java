@@ -788,7 +788,10 @@ public class GridTabRowRenderer implements RowRenderer, RowRendererExt, Renderer
 	}
 	
 	public void setCurrentCell(int row) {
-		int pgIndex = row >= 0 ? row % paging.getPageSize() : 0;
+		int pgIndex = currentRowIndex;
+		if(paging != null) 
+			pgIndex = row >= 0 ? row % paging.getPageSize() : 0;
+			
 		if (row != currentRowIndex || pgIndex != currentRowIndex)
 		{
 			if (grid.getRows().getChildren().size() <= 0)
