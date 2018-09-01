@@ -19,6 +19,7 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.compiere.model.MAccount;
 import org.compiere.model.MAcctSchema;
@@ -88,7 +89,6 @@ public class   Doc_HRProcess extends Doc
 				+ "					WHERE c.HR_Concept_ID = HR_Movement.HR_Concept_ID "
 				+ "					AND c.AccountSign != 'N')", getTrxName())
 			.setParameters(process.getHR_Process_ID())
-			.setOrderBy("C_BPartner_ID")
 			.list();
 		//	
 		for (MHRMovement line : movements) {
@@ -130,28 +130,41 @@ public class   Doc_HRProcess extends Doc
 			BigDecimal sumAmount = line.getAmtSource();
 			// round amount according to currency
 			sumAmount = sumAmount.setScale(as.getStdPrecision(), BigDecimal.ROUND_HALF_UP);
+			MHRConcept concept = MHRConcept.get(Env.getCtx(), payrollDocLine.getHR_Concept_ID());
 			//	Get Concept Account
-			X_HR_Concept_Acct conceptAcct = payrollDocLine.getConceptAcct(as.getC_AcctSchema_ID());
-			if (conceptAcct == null) {
+			X_HR_Concept_Acct conceptAcct = concept.getConceptAcct(
+					Optional.ofNullable(payrollDocLine.getAccountSchemaId()),
+					Optional.ofNullable(payrollDocLine.getPayrollId()),
+					Optional.ofNullable(payrollDocLine.getPayrollId()));
+
+			if(conceptAcct == null) {
 				continue;
 			}
 			//	
-			if (payrollDocLine.getAccountSign() != null && payrollDocLine.getAccountSign().length() > 0
-					&& (MHRConcept.ACCOUNTSIGN_Debit.equals(payrollDocLine.getAccountSign())
-					|| MHRConcept.ACCOUNTSIGN_Credit.equals(payrollDocLine.getAccountSign()))) {
+			if (payrollDocLine.getAccountSign() != null && payrollDocLine.getAccountSign().length() > 0 
+					&& (MHRConcept.ACCOUNTSIGN_Debit.equals(payrollDocLine.getAccountSign()) 
+							|| MHRConcept.ACCOUNTSIGN_Credit.equals(payrollDocLine.getAccountSign()))) {
 				if (conceptAcct.isBalancing()) {
-					MAccount accountBPD = MAccount.get(getCtx(), conceptAcct.getHR_Expense_Acct());
-					fact.createLine(line, accountBPD, as.getC_Currency_ID(), sumAmount, null);
-					MAccount accountBPC = MAccount.get(getCtx(), conceptAcct.getHR_Revenue_Acct());
-					fact.createLine(line, accountBPC, as.getC_Currency_ID(), null, sumAmount);
+					MAccount accountBPD = MAccount.get (getCtx(), conceptAcct.getHR_Expense_Acct());
+					FactLine debitLine = fact.createLine(line, accountBPD, as.getC_Currency_ID(),sumAmount, null);
+					debitLine.setDescription(process.getName() + " " + concept.getValue() + " " + concept.getName());
+					debitLine.saveEx();
+					MAccount accountBPC = MAccount.get (getCtx(), conceptAcct.getHR_Revenue_Acct());
+					FactLine creditLine = fact.createLine(line,accountBPC, as.getC_Currency_ID(),null,sumAmount);
+					creditLine.setDescription(process.getName() + " " + concept.getValue() + " " + concept.getName());
+					creditLine.saveEx();
 				} else {
 					if (MHRConcept.ACCOUNTSIGN_Debit.equals(payrollDocLine.getAccountSign())) {
-						MAccount accountBPD = MAccount.get(getCtx(), conceptAcct.getHR_Expense_Acct());
-						fact.createLine(line, accountBPD, as.getC_Currency_ID(), sumAmount, null);
+						MAccount accountBPD = MAccount.get (getCtx(), conceptAcct.getHR_Expense_Acct());
+						FactLine debitLine = fact.createLine(line, accountBPD, as.getC_Currency_ID(),sumAmount, null);
+						debitLine.setDescription(process.getName() + " " + concept.getValue() + " " + concept.getName());
+						debitLine.saveEx();
 						totalDebit = totalDebit.add(sumAmount);
 					} else if (MHRConcept.ACCOUNTSIGN_Credit.equals(payrollDocLine.getAccountSign())) {
-						MAccount accountBPC = MAccount.get(getCtx(), conceptAcct.getHR_Revenue_Acct());
-						fact.createLine(line, accountBPC, as.getC_Currency_ID(), null, sumAmount);
+						MAccount accountBPC = MAccount.get (getCtx(), conceptAcct.getHR_Revenue_Acct());
+						FactLine creditLine = fact.createLine(line,accountBPC, as.getC_Currency_ID(),null,sumAmount);
+						creditLine.setDescription(process.getName() + " " + concept.getValue() + " " + concept.getName());
+						creditLine.saveEx();
 						totalCredit = totalCredit.add(sumAmount);
 					}
 				}
@@ -179,30 +192,25 @@ public class   Doc_HRProcess extends Doc
 		facts.add(fact);
 		return facts;
 	}
+
 	private void closeBPartner (BigDecimal totalDebit, BigDecimal totalCredit,
-			Fact fact, MAcctSchema as, int c_bpartner_id)
-	{
-		if(totalDebit.signum() != 0
-				|| totalCredit.signum() != 0)
-		{
-
-			int C_Charge_ID = process.getHR_Payroll().getC_Charge_ID();
-			if (C_Charge_ID > 0) {
-				MAccount acct = MCharge.getAccount(C_Charge_ID, as, totalDebit.subtract(totalCredit));
-				FactLine regTotal = null;
-				if(totalDebit.abs().compareTo(totalCredit.abs()) > 0 )
-					regTotal = fact.createLine(null, acct ,as.getC_Currency_ID(), null, totalDebit.subtract(totalCredit));
-				else
-					regTotal = fact.createLine(null, acct ,as.getC_Currency_ID(), totalCredit.abs().subtract(totalDebit.abs()), null);
-				if (regTotal != null)
-				{
-					regTotal.setAD_Org_ID(getAD_Org_ID());
-					regTotal.setC_BPartner_ID(c_bpartner_id);
-					regTotal.saveEx();
-				}
-
-			}
-		}
-
-	}
+			Fact fact, MAcctSchema as, int c_bpartner_id) {
+        if (totalDebit.signum() != 0
+                || totalCredit.signum() != 0) {
+            int C_Charge_ID = process.getHR_Payroll().getC_Charge_ID();
+            if (C_Charge_ID > 0) {
+                MAccount acct = MCharge.getAccount(C_Charge_ID, as, totalDebit.subtract(totalCredit));
+                FactLine regTotal = null;
+                if (totalDebit.abs().compareTo(totalCredit.abs()) > 0)
+                    regTotal = fact.createLine(null, acct, as.getC_Currency_ID(), null, totalDebit.subtract(totalCredit));
+                else
+                    regTotal = fact.createLine(null, acct, as.getC_Currency_ID(), totalCredit.abs().subtract(totalDebit.abs()), null);
+                if (regTotal != null) {
+                    regTotal.setAD_Org_ID(getAD_Org_ID());
+                    regTotal.setC_BPartner_ID(c_bpartner_id);
+                    regTotal.saveEx();
+                }
+            }
+        }
+    }
 }   //  Doc_Payroll
