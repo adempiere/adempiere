@@ -223,29 +223,13 @@ public class MHRMovement extends X_HR_Movement
 	}
 
 	/**
-	 * Helper Method: gets Concept value of a payroll between 2 dates (Old Compatibility)
-	 * @param ctx
-	 * @param conceptValue
-	 * @param payroll_id
-	 * @param partnerId
-	 * @param from
-	 * @param to
-	 * @return
-	 */
-	public static double getConceptSum(Properties ctx, String conceptValue, int payroll_id, int partnerId, Timestamp from,Timestamp to) {
-		return getConceptSum(ctx, conceptValue, payroll_id, partnerId, from, to, true, null);
-	}
-
-	/**
 	 * Helper Method: gets Concept value of a payroll between 2 dates
-	 * @param ctx
 	 * @param conceptValue
 	 * @param payrollId
 	 * @param partnerId business partner for search
 	 * @param from
 	 * @param to
-	 * @param includeInProcess
-     * @param trxName
+	 * @param trxName
 	 * */
 	public static double getConceptSum(
 			Properties ctx, String
@@ -254,7 +238,27 @@ public class MHRMovement extends X_HR_Movement
 			int partnerId,
 			Timestamp from,
 			Timestamp to,
-            boolean includeInProcess,
+			String trxName) {
+		return getConceptSum(ctx,conceptValue,payrollId,partnerId,from,to,false,trxName);
+	}
+
+	/**
+	 * Helper Method: gets Concept value of a payroll between 2 dates
+	 * @param conceptValue
+	 * @param payrollId
+	 * @param partnerId business partner for search
+	 * @param from
+	 * @param to
+	 * @param includeInProcess
+	 * @param trxName      */
+	public static double getConceptSum(
+			Properties ctx,
+			String conceptValue,
+			int payrollId,
+			int partnerId,
+			Timestamp from,
+			Timestamp to,
+			boolean includeInProcess,
 			String trxName) {
 		
 		MHRConcept concept = MHRConcept.getByValue(ctx, conceptValue, trxName);
@@ -286,8 +290,8 @@ public class MHRMovement extends X_HR_Movement
 		//
 		//check process and payroll
 		whereClause.append(" AND EXISTS (SELECT 1 FROM HR_Process p"
-							+" WHERE HR_Movement.HR_Process_ID = p.HR_Process_ID" 
-							+" AND " + (includeInProcess? "p.DocStatus IN('CO', 'CL')": "p.DocStatus IN('DR', 'IP', 'CO', 'CL')")
+							+" WHERE HR_Movement.HR_Process_ID = p.HR_Process_ID"
+							+" AND " + (includeInProcess ? "p.DocStatus IN('DR','IP', 'CO', 'CL')" : "p.DocStatus IN('CO', 'CL')")
 							+" AND p.HR_Payroll_ID=?");
 
 		params.add(payrollId);
@@ -301,20 +305,6 @@ public class MHRMovement extends X_HR_Movement
 		return value.doubleValue();
 		
 	} // getConcept
-	
-	/**
-	 * Helper Method: gets Concept AVG value of a payroll between 2 dates (Old Compatibility)
-	 * @param ctx
-	 * @param conceptValue
-	 * @param payroll_id
-	 * @param partnerId
-	 * @param from
-	 * @param to
-	 * @return
-	 */
-	public static double getConceptAvg(Properties ctx, String conceptValue, int payroll_id, int partnerId, Timestamp from,Timestamp to) {
-		return getConceptAvg(ctx, conceptValue, payroll_id, partnerId, from, to, true, null);
-	}
 
 	/**
 	 * Helper Method: gets Concept AVG value of a payroll between 2 dates
@@ -323,9 +313,8 @@ public class MHRMovement extends X_HR_Movement
 	 * @param partnerId business partner for search
 	 * @param from
 	 * @param to
-     * @param includeInProcess
-     * @param trxName
-	 * */
+	 * @param trxName
+	 */
 	public static double getConceptAvg(
 			Properties ctx,
 			String conceptValue,
@@ -333,9 +322,29 @@ public class MHRMovement extends X_HR_Movement
 			int partnerId,
 			Timestamp from,
 			Timestamp to,
-            boolean includeInProcess,
 			String trxName) {
+		return getConceptAvg(ctx,conceptValue,payrollId,partnerId,from,to,true,trxName);
+	}
 
+		/**
+         * Helper Method: gets Concept AVG value of a payroll between 2 dates
+		 * @param conceptValue
+		 * @param payrollId
+		 * @param partnerId business partner for search
+		 * @param from
+		 * @param to
+		 * @param includeInProcess
+		 * @param trxName               */
+	public static double getConceptAvg(
+			Properties ctx,
+			String conceptValue,
+			int payrollId,
+			int partnerId,
+			Timestamp from,
+			Timestamp to,
+			boolean includeInProcess,
+			String trxName) {
+		
 		MHRConcept concept = MHRConcept.getByValue(ctx, conceptValue, trxName);
 		if (concept == null)
 			return 0.0;
@@ -365,8 +374,8 @@ public class MHRMovement extends X_HR_Movement
 		//
 		//check process and payroll
 		whereClause.append(" AND EXISTS (SELECT 1 FROM HR_Process p"
-							+" WHERE HR_Movement.HR_Process_ID = p.HR_Process_ID" 
-							+" AND " + (includeInProcess? "p.DocStatus IN('CO', 'CL')": "p.DocStatus IN('DR', 'IP', 'CO', 'CL')")
+							+" WHERE HR_Movement.HR_Process_ID = p.HR_Process_ID"
+							+" AND " + (includeInProcess? "p.DocStatus IN('DR', 'IP', 'CO', 'CL')" : "p.DocStatus IN('CO', 'CL')")
 							+" AND p.HR_Payroll_ID=?");
 
 		params.add(payrollId);
@@ -380,30 +389,6 @@ public class MHRMovement extends X_HR_Movement
 		return value.doubleValue();
 		
 	} // getConcept
-	
-	/**
-	 * Helper Method : Concept by range from-to in periods from a different payroll (Old Compatibility)
-	 * @param ctx
-	 * @param conceptValue
-	 * @param payrollId
-	 * @param partnerId
-	 * @param periodId
-	 * @param periodFrom
-	 * @param periodTo
-	 * @return
-	 */
-	public static double getConceptSum(Properties ctx, String conceptValue, int payrollId, int partnerId, int periodId, int periodFrom,int periodTo) {
-		return getConceptSum(
-		        ctx,
-                conceptValue,
-                payrollId,
-                partnerId,
-                periodId,
-                periodFrom,
-                periodTo,
-                true,
-                null);
-	}
 
 	/**
 	 *  Helper Method : Concept by range from-to in periods from a different payroll
@@ -415,8 +400,7 @@ public class MHRMovement extends X_HR_Movement
 	 *  @param periodId period ID
 	 *  @param periodFrom
 	 *  @param periodTo the search is done by the period value, it helps to search from previous years
-     *  @param includeInProcess
-     *  @param trxName
+	 *  @param trxName
 	 */
 	public static double getConceptSum(
 			Properties ctx,
@@ -426,7 +410,32 @@ public class MHRMovement extends X_HR_Movement
 			int periodId,
 			int periodFrom,
 			int periodTo,
-            boolean includeInProcess,
+			String trxName) {
+		return getConceptSum(ctx,conceptValue,payrollId,partnerId,periodId,periodFrom,periodTo,true,trxName);
+	}
+
+	/**
+	 *  Helper Method : Concept by range from-to in periods from a different payroll
+	 *  periods with values 0 -1 1, etc. actual previous one period, next period
+	 *  0 corresponds to actual period
+	 * @param conceptValue
+	 * @param payrollId ID is the ID of the payroll.
+	 * @param partnerId business partner for search
+	 * @param periodId period ID
+	 * @param periodFrom
+	 * @param periodTo the search is done by the period value, it helps to search from previous years
+	 * @param includeInProcess
+	 * @param trxName
+	 */
+	public static double getConceptSum(
+			Properties ctx,
+			String conceptValue,
+			int payrollId,
+			int partnerId,
+			int periodId,
+			int periodFrom,
+			int periodTo,
+			boolean includeInProcess,
 			String trxName) {
 		MHRConcept concept = MHRConcept.getByValue(ctx, conceptValue, trxName);
 		if (concept == null)
@@ -455,8 +464,8 @@ public class MHRMovement extends X_HR_Movement
 		//check process and payroll
 		whereClause.append(" AND EXISTS (SELECT 1 FROM HR_Process p"
 				+" INNER JOIN HR_Period pr ON (pr.HR_Period_id=p.HR_Period_ID)"
-				+" WHERE HR_Movement.HR_Process_ID = p.HR_Process_ID" 
-				+" AND " + (includeInProcess? "p.DocStatus IN('CO', 'CL')": "p.DocStatus IN('DR', 'IP', 'CO', 'CL')")
+				+" WHERE HR_Movement.HR_Process_ID = p.HR_Process_ID"
+				+" AND " + (includeInProcess? "p.DocStatus IN('DR', 'IP', 'CO', 'CL')" : "p.DocStatus IN('CO', 'CL')")
 				+" AND p.HR_Payroll_ID=?");
 
 		params.add(payrollId);
@@ -604,56 +613,54 @@ public class MHRMovement extends X_HR_Movement
 		return lastMovement.getServiceDate();
 	}
 
-    /**
-     * Helper Method : Concept AVG by range from-to in periods from a different payroll
-     *  periods with values 0 -1 1, etc. actual previous one period, next period
-     *  0 corresponds to actual period
-     * @param ctx
-     * @param conceptValue
-     * @param payrollId
-     * @param partnerId
-     * @param periodId
-     * @param periodFrom
-     * @param periodTo
-     */
-    public static double getConceptAvg(Properties ctx, String conceptValue, int payrollId, int partnerId, int periodId, int periodFrom,int periodTo) {
-        return getConceptAvg(
-                ctx,
-                conceptValue,
-                payrollId,
-                partnerId,
-                periodId,
-                periodFrom,
-                periodTo,
-                true,
-                null);
-    }
-
 	/**
-	 * Helper Method : Concept AVG by range from-to in periods from a different payroll
+	 *  Helper Method : Concept AVG by range from-to in periods from a different payroll
 	 *  periods with values 0 -1 1, etc. actual previous one period, next period
 	 *  0 corresponds to actual period
-	 * @param ctx
 	 * @param conceptValue
-	 * @param payrollId
-	 * @param partnerId
-	 * @param periodId
+	 * @param payrollId ID is the ID of the payroll.
+	 * @param partnerId business partner for search
+	 * @param periodId period ID
 	 * @param periodFrom
-	 * @param periodTo
-	 * @param includeInProcess
-	 * @return
+	 * @param periodTo the search is done by the period value, it helps to search from previous years
+	 * @param trxName
 	 */
-    public static double getConceptAvg(
-            Properties ctx,
-            String conceptValue,
-            int payrollId,
-            int partnerId,
-            int periodId,
-            int periodFrom,
-            int periodTo,
-            boolean includeInProcess,
-            String trxName) {
-        MHRConcept concept = MHRConcept.getByValue(ctx, conceptValue, trxName);
+	public static double getConceptAvg(
+			Properties ctx,
+			String conceptValue,
+			int payrollId,
+			int partnerId,
+			int periodId,
+			int periodFrom,
+			int periodTo,
+			String trxName) {
+		return getConceptAvg(ctx,conceptValue,payrollId,partnerId,periodId ,periodFrom,periodTo,true,trxName);
+	}
+
+	/**
+	 *  Helper Method : Concept AVG by range from-to in periods from a different payroll
+	 *  periods with values 0 -1 1, etc. actual previous one period, next period
+	 *  0 corresponds to actual period
+	 * @param conceptValue
+	 * @param payrollId ID is the ID of the payroll.
+	 * @param partnerId business partner for search
+	 * @param periodId period ID
+	 * @param periodFrom
+	 * @param periodTo the search is done by the period value, it helps to search from previous years
+	 * @param processed
+	 * @param trxName
+	 */
+	public static double getConceptAvg(
+			Properties ctx,
+			String conceptValue,
+			int payrollId,
+			int partnerId,
+			int periodId,
+			int periodFrom,
+			int periodTo,
+			boolean includeInProcess,
+			String trxName) {
+		MHRConcept concept = MHRConcept.getByValue(ctx, conceptValue, trxName);
 		if (concept == null)
 			return 0.0;
 		//
@@ -680,8 +687,8 @@ public class MHRMovement extends X_HR_Movement
 		//check process and payroll
 		whereClause.append(" AND EXISTS (SELECT 1 FROM HR_Process p"
 				+" INNER JOIN HR_Period pr ON (pr.HR_Period_id=p.HR_Period_ID)"
-				+" WHERE HR_Movement.HR_Process_ID = p.HR_Process_ID" 
-				+" AND " + (includeInProcess? "p.DocStatus IN('CO', 'CL')": "p.DocStatus IN('DR', 'IP', 'CO', 'CL')")
+				+" WHERE HR_Movement.HR_Process_ID = p.HR_Process_ID"
+				+" AND " + (includeInProcess? "p.DocStatus IN('DR', 'IP', 'CO', 'CL')" : "p.DocStatus IN('CO', 'CL')")
 				+" AND p.HR_Payroll_ID=?");
 
 		params.add(payrollId);
