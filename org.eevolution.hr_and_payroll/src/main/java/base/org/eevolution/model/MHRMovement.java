@@ -653,7 +653,7 @@ public class MHRMovement extends X_HR_Movement
             int periodTo,
             boolean includeInProcess,
             String trxName) {
-        MHRConcept concept = MHRConcept.getByValue(ctx, conceptValue);
+        MHRConcept concept = MHRConcept.getByValue(ctx, conceptValue, trxName);
 		if (concept == null)
 			return 0.0;
 		//
