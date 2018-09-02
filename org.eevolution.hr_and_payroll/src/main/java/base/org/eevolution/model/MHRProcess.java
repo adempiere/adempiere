@@ -19,7 +19,6 @@ package org.eevolution.model;
 import java.io.File;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -54,7 +53,6 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.TimeUtil;
-import org.compiere.util.Trx;
 import org.compiere.util.Util;
 import org.eevolution.service.HRProcessActionMsg;
 
@@ -1742,6 +1740,7 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 		MHRAttribute attribute = new Query(getCtx(), MHRAttribute.Table_Name, whereClause.toString(), get_TrxName())
 			.setParameters(params)
 			.setOrderBy(MHRAttribute.COLUMNNAME_ValidFrom + " DESC")
+			.setOnlyActiveRecords(true)
 			.first();
 		//	Return
 		return attribute;
@@ -1914,8 +1913,7 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 	 * @param conceptValue concept key(value)
 	 * @param period search is done by the period value, it helps to search from previous years
 	 */
-	public double getConcept (String conceptValue, int period)
-	{
+	public double getConcept (String conceptValue, int period) {
 		return getConcept(conceptValue, null, period,period, true);
 	} // getConcept
 
@@ -1928,8 +1926,7 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 	 * @param periodFrom the search is done by the period value, it helps to search from previous years
 	 * @param periodTo
 	 */
-	public double getConcept (String conceptValue, int periodFrom, int periodTo)
-	{
+	public double getConcept (String conceptValue, int periodFrom, int periodTo) {
 		return getConcept(conceptValue, null, periodFrom,periodTo, true);
 	} // getConcept
 
@@ -1945,6 +1942,7 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 	public double getConcept(String conceptValue, String payrollValue, int periodFrom, int periodTo) {
 		return getConcept(conceptValue, payrollValue, periodFrom , periodTo , true);
 	}
+
 	/**
 	 *  Helper Method : Concept by range from-to in periods from a different payroll
 	 *  periods with values 0 -1 1, etc. actual previous one period, next period
@@ -1981,7 +1979,7 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 	 * @param periodTo the search is done by the period value, it helps to search from previous years
 	 */
 	public double getConceptAvg(String conceptValue, String payrollValue, int periodFrom, int periodTo) {
-		return getConceptAvg(conceptValue,payrollValue,periodFrom, periodTo,false);
+		return getConceptAvg(conceptValue,payrollValue,periodFrom, periodTo,true);
 	}
 
 	/**
@@ -2166,7 +2164,7 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 	 */
 	public double getConcept (String conceptValue ,Timestamp from,Timestamp to)
 	{
-		return getConcept(conceptValue, null , from , to, false);
+		return getConcept(conceptValue, null , from , to, true);
 	}
 
 	/**
@@ -2186,7 +2184,8 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 	 * @param payrollValue
 	 * @param from
 	 * @param to
-	 * @param includeInProcess      */
+	 * @param includeInProcess
+	 * */
 	public double getConcept(String conceptValue, String payrollValue, Timestamp from, Timestamp to, boolean includeInProcess) {
 		int payrollId;
 		if (payrollValue == null) {
@@ -2207,6 +2206,8 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 	 * @param conceptValue
 	 * @param payrollValue
 	 * @param from
+	 * @param to
+	 * @return
 	 */
 	public double getConceptAvg(String conceptValue, String payrollValue, Timestamp from, Timestamp to) {
 		return getConceptAvg(conceptValue, payrollValue , from , to , true);
@@ -2218,7 +2219,8 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 	 * @param payrollValue
 	 * @param from
 	 * @param to
-	 * @param includeInProcess      */
+	 * @param includeInProcess
+	 * */
 	public double getConceptAvg(String conceptValue, String payrollValue, Timestamp from, Timestamp to, boolean includeInProcess) {
 		int payrollId;
 		if (payrollValue == null) {
@@ -2457,7 +2459,7 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 	 * @param partnerValue
 	 * @param conceptValue
      */
-	public MHREmployee setEmployee(String partnerValue,String  conceptValue, String trxName)
+	public MHREmployee setEmployee(String partnerValue,String  conceptValue)
 	{
 
 		MBPartner partner = MBPartner.get(getCtx() , partnerValue);
@@ -2465,13 +2467,13 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 			throw new AdempiereException("@C_BPartner_ID@ @NotFound@ " + partnerValue);
 		partnerId = partner.get_ID();
 
-		MHRConcept concept = MHRConcept.getByValue(getCtx(), conceptValue, trxName);
+		MHRConcept concept = MHRConcept.getByValue(getCtx(), conceptValue, get_TrxName());
 		if (concept == null)
 			throw  new AdempiereException("@HR_Concept_ID@ @NotFound@ " +  conceptValue);
 		payrollConceptId = concept.get_ID();
 		columnType = concept.getColumnType();
 		MHRPeriod  payrollPeriod;
-		employee = MHREmployee.getActiveEmployee(getCtx(), partnerId, trxName);
+		employee = MHREmployee.getActiveEmployee(getCtx(), partnerId, get_TrxName());
 		if(getHR_Payroll_ID() > 0)
 		{
 			payrollId =getHR_Payroll_ID();
