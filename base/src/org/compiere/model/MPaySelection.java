@@ -539,7 +539,7 @@ public class MPaySelection extends X_C_PaySelection implements DocAction, DocOpt
 	 */
 	public BigDecimal getApprovalAmt()
 	{
-		return null;	//getTotalLines();
+		return getTotalAmt();
 	}	//	getApprovalAmt
 
 	@Override
@@ -606,28 +606,36 @@ public class MPaySelection extends X_C_PaySelection implements DocAction, DocOpt
 		//	Don't have account
 		if(getC_BankAccount_ID() == 0)
 			return;
+		MDocType documentType = MDocType.get(getCtx(), getC_DocType_ID());
 		//	Values
 		int chargeId = 0;
 		boolean isPrepayment = false;
+		int bankAccountToId = 0;
 		MPaySelectionCheck paySelectionCheck = null;
 		List<MPaySelectionLine> paySelectionLines = getLines(null, "C_BPartner_ID, PaymentRule, "
-				+ "C_BP_BankAccount_ID, IsPrepayment, C_Charge_ID");
+				+ "C_BP_BankAccount_ID, IsPrepayment, C_Charge_ID, C_BankAccountTo_ID");
 		//	Try to find one
 		for (MPaySelectionLine paySelectionLine : paySelectionLines) {
 			//	already check reference
 			if(paySelectionLine.getC_PaySelectionCheck_ID() != 0)
 				continue;
+			if(documentType.isBankTransfer()
+					&& paySelectionLine.getC_BankAccountTo_ID() == 0) {
+				throw new AdempiereException("@C_BankAccountTo_ID@ @NotFound@");
+			}
 			//	Instance new
 			if(paySelectionCheck == null
 					|| paySelectionCheck.getC_BPartner_ID() != paySelectionLine.getC_BPartner_ID()
 					|| paySelectionCheck.getC_BP_BankAccount_ID() != paySelectionLine.getC_BP_BankAccount_ID()
 					|| !paySelectionCheck.getPaymentRule().equals(paySelectionLine.getPaymentRule())
 					|| chargeId != paySelectionLine.getC_Charge_ID()
-					|| isPrepayment != paySelectionLine.isPrepayment()) {
+					|| isPrepayment != paySelectionLine.isPrepayment()
+					|| bankAccountToId != paySelectionLine.getC_BankAccountTo_ID()) {
 				paySelectionCheck = new MPaySelectionCheck(paySelectionLine, paySelectionLine.getPaymentRule());
 				//	Set current values
 				chargeId = paySelectionLine.getC_Charge_ID();
 				isPrepayment = paySelectionLine.isPrepayment();
+				bankAccountToId = paySelectionLine.getC_BankAccountTo_ID();
 			} else {
 				paySelectionCheck.addLine(paySelectionLine);
 			}

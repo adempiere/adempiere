@@ -46,6 +46,8 @@ public abstract class MigrationFromXMLAbstract extends SvrProcess {
 	@Override
 	protected void prepare() {
 		filePathOrName = getParameterAsString(FILEPATHORNAME);
+		if (filePathOrName == null)
+			filePathOrName = getParameterAsString("FileName");
 		isApply = getParameterAsBoolean(APPLY);
 		isForce = getParameterAsBoolean(ISFORCE);
 	}

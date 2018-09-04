@@ -89,6 +89,8 @@ public interface DocAction
 
 	/** DocAction Ref_List values **/
 	public static final int AD_REFERENCE_ID = 135;
+	/**	DocStatus Ref_List values	*/
+	public static final int DOCSTATUS_AD_REFERENCE_ID = 131;
 	
 	/**
 	 * 	Set Doc Status
