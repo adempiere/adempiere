@@ -530,7 +530,7 @@ public class MHRMovement extends X_HR_Movement
 		
 		whereClause.append(")");
 		//	return
-		return new Query(ctx, I_HR_Movement.Table_Name, whereClause.toString(), null)
+		return new Query(ctx, I_HR_Movement.Table_Name, whereClause.toString(), trxName)
 			.setParameters(params)
 			.setOrderBy(I_HR_Movement.COLUMNNAME_ValidFrom + " DESC")
 			.<MHRMovement>first();
