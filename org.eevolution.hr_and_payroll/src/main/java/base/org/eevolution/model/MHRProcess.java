@@ -167,7 +167,7 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 			return;
 		}
 		final String sql = "UPDATE HR_Process SET Processed=? WHERE HR_Process_ID=?";
-		DB.executeUpdateEx(sql, new Object[]{processed, get_ID()}, null);
+		DB.executeUpdateEx(sql, new Object[]{processed, get_ID()}, get_TrxName());
 	}	//	setProcessed
 
 	@Override
@@ -679,7 +679,7 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 		StringBuffer orderByClause = new StringBuffer();
 		orderByClause.append("(SELECT bp.C_BP_Group_ID FROM C_BPartner bp WHERE bp.C_BPartner_ID=HR_Movement.C_BPartner_ID)");
 		//
-		List<MHRMovement> list = new Query (getCtx(), MHRMovement.Table_Name, whereClause.toString(), null)
+		List<MHRMovement> list = new Query (getCtx(), MHRMovement.Table_Name, whereClause.toString(), get_TrxName())
 		.setParameters(params)
 		.setOrderBy(orderByClause.toString())
 		.list();
@@ -886,7 +886,7 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 		whereClause.append(" AND HR_Concept_ID = ? ");
 		params.add(concept.get_ID());
 		whereClause.append(" AND EXISTS (SELECT 1 FROM HR_Concept conc WHERE conc.HR_Concept_ID = HR_Attribute.HR_Concept_ID )");
-		MHRAttribute attribute = new Query(getCtx(), MHRAttribute.Table_Name, whereClause.toString(), null)
+		MHRAttribute attribute = new Query(getCtx(), MHRAttribute.Table_Name, whereClause.toString(), get_TrxName())
 		.setParameters(params)
 		.setOnlyActiveRecords(true)
 		.setOrderBy(MHRAttribute.COLUMNNAME_ValidFrom + " DESC")
@@ -922,7 +922,7 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 			movement.setIsManual(true);
 			movement.setColumnValue(result);
 			movement.setProcessed(true);
-			int bpGroupId = DB.getSQLValue(null, "SELECT C_BP_Group_ID FROM C_BPartner WHERE C_BPartner_ID=?", this.partnerId);
+			int bpGroupId = DB.getSQLValue(get_TrxName(), "SELECT C_BP_Group_ID FROM C_BPartner WHERE C_BPartner_ID=?", this.partnerId);
 			movement.setC_BP_Group_ID(bpGroupId);
 			movement.setEmployee(employee);
 			movement.saveEx();
@@ -956,7 +956,7 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 		}
 		else
 		{
-			payrollPeriod = new MHRPeriod(getCtx() , 0 , null);
+			payrollPeriod = new MHRPeriod(getCtx() , 0 , get_TrxName());
 			MPeriod period = MPeriod.get(getCtx(),  getDateAcct() , getAD_Org_ID());	
 			if(period != null)
 			{
@@ -1657,7 +1657,7 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 			params.add(from);
 			params.add(BigDecimal.valueOf(amount));
 
-			value = DB.getSQLValueBDEx(null,sqlList,params);
+			value = DB.getSQLValueBDEx(get_TrxName(),sqlList,params);
 		}
 		//
 		if (value == null)
@@ -1680,29 +1680,30 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 	/**
 	 * Overload get Attribute Instance
 	 * @param conceptValue
-	 * @param bpartnerId
+	 * @param partnerId
 	 * @return
 	 */
-	public MHRAttribute getAttributeInstance(String conceptValue, int bpartnerId, Timestamp breakDate) {
+	public MHRAttribute getAttributeInstance(String conceptValue, int partnerId, Timestamp breakDate) {
 		MHRConcept concept = MHRConcept.getByValue(getCtx(), conceptValue, get_TrxName());
-		return getAttributeInstance(concept, bpartnerId, breakDate);
+		return getAttributeInstance(concept, partnerId, breakDate);
 	}
 	
 	/**
 	 * Get attribute like MHRAttribute
-	 * @param conceptValue
-	 * @param bpartnerId
+	 * @param concept
+	 * @param partnerId
+	 * @param breakDate
 	 * @return
 	 */
-	public MHRAttribute getAttributeInstance(MHRConcept concept, int bpartnerId, Timestamp breakDate) {
+	public MHRAttribute getAttributeInstance(MHRConcept concept, int partnerId, Timestamp breakDate) {
 		if (concept == null)
 			return null;
 		//	validate break date
 		if(breakDate == null)
 			breakDate = dateFrom;
 		//	BPartner
-		if(bpartnerId <= 0)
-			bpartnerId = partnerId;
+		if(partnerId <= 0)
+			partnerId = this.partnerId;
 		//	
 		ArrayList<Object> params = new ArrayList<Object>();
 		StringBuffer whereClause = new StringBuffer();
@@ -1734,7 +1735,7 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 		//
 		if (!concept.getType().equals(MHRConcept.TYPE_Information)) {
 			whereClause.append(" AND " + MHRAttribute.COLUMNNAME_C_BPartner_ID + " = ?");
-			params.add(bpartnerId);
+			params.add(partnerId);
 		}
 		//	Get from query
 		MHRAttribute attribute = new Query(getCtx(), MHRAttribute.Table_Name, whereClause.toString(), get_TrxName())
@@ -2490,7 +2491,7 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 		if (getHR_Period_ID() > 0) {
 			payrollPeriod = MHRPeriod.getById(getCtx(),  getHR_Period_ID(), get_TrxName());
 		} else {
-			payrollPeriod = new MHRPeriod(getCtx() , 0 , null);
+			payrollPeriod = new MHRPeriod(getCtx() , 0 , get_TrxName());
 			MPeriod period = MPeriod.get(getCtx(),  getDateAcct() , getAD_Org_ID());
 			if(period != null)
 			{
