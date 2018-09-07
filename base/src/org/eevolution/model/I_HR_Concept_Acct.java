@@ -144,6 +144,17 @@ public interface I_HR_Concept_Acct
 
 	public I_C_ValidCombination getHR_Expense_A() throws RuntimeException;
 
+    /** Column name HR_Payroll_ID */
+    public static final String COLUMNNAME_HR_Payroll_ID = "HR_Payroll_ID";
+
+	/** Set Payroll	  */
+	public void setHR_Payroll_ID (int HR_Payroll_ID);
+
+	/** Get Payroll	  */
+	public int getHR_Payroll_ID();
+
+	public org.eevolution.model.I_HR_Payroll getHR_Payroll() throws RuntimeException;
+
     /** Column name HR_Revenue_Acct */
     public static final String COLUMNNAME_HR_Revenue_Acct = "HR_Revenue_Acct";
 
@@ -180,19 +191,6 @@ public interface I_HR_Concept_Acct
 	  * All transactions within an element value must balance (e.g. cost centers)
 	  */
 	public boolean isBalancing();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -269,4 +267,17 @@ public interface I_HR_Concept_Acct
 	public int getUser4_ID();
 
 	public org.compiere.model.I_C_ElementValue getUser4() throws RuntimeException;
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 }

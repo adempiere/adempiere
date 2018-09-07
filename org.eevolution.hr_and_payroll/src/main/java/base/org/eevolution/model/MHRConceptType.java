@@ -38,23 +38,39 @@ public class MHRConceptType extends X_HR_Concept_Type {
         super(ctx, rs, trxName);
     }
 
+    /**
+     * Ge Concept Type for Value
+     * @param ctx
+     * @param value
+     * @return
+     */
     public static MHRConceptType forValue(Properties ctx, String value)
     {
+        return getByValue(ctx, value , null);
+    }
+
+    /**
+     * get Concept Type by Value
+     * @param ctx
+     * @param value
+     * @param trxName
+     * @return
+     */
+    public static MHRConceptType getByValue(Properties ctx, String value, String trxName)
+    {
         if (value == null)
-        {
             return null;
-        }
+
         final int clientId = Env.getAD_Client_ID(ctx);
         // Try cache
         final String key = clientId+"#"+value;
         MHRConceptType conceptType = cacheValue.get(key);
         if (conceptType != null)
-        {
             return conceptType;
-        }
+
         // Try database
         final String whereClause = COLUMNNAME_Value+"=? AND AD_Client_ID IN (?,?)";
-        conceptType = new Query(ctx, Table_Name, whereClause, null)
+        conceptType = new Query(ctx, Table_Name, whereClause, trxName)
                 .setParameters(value, 0, clientId)
                 .setOnlyActiveRecords(true)
                 .setOrderBy("AD_Client_ID DESC")

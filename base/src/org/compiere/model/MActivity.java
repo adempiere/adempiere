@@ -55,16 +55,17 @@ public class MActivity extends X_C_Activity
 	@Deprecated
 	public static MActivity get(Properties ctx, int activityId)
 	{
-		return getById(ctx, activityId);
+		return getById(ctx, activityId, null);
 	}
 
 	/**
 	 * Get/Load Activity [CACHED]
 	 * @param ctx context
 	 * @param activityId
+	 * @param trxName
 	 * @return activity or null
 	 */
-	public static MActivity getById(Properties ctx, int activityId)
+	public static MActivity getById(Properties ctx, int activityId, String trxName)
 	{
 		if (activityId <= 0)
 			return null;
@@ -73,7 +74,7 @@ public class MActivity extends X_C_Activity
 		if (activity != null && activity.get_ID() > 0)
 			return activity;
 
-		activity = new Query(ctx , Table_Name , COLUMNNAME_C_Activity_ID + "=?" , null)
+		activity = new Query(ctx , Table_Name , COLUMNNAME_C_Activity_ID + "=?" , trxName)
 				.setClient_ID()
 				.setParameters(activityId)
 				.first();
@@ -91,14 +92,15 @@ public class MActivity extends X_C_Activity
 	 * get Activity By Value [CACHED]
 	 * @param ctx
 	 * @param activityvalue
+	 * @param trxName
 	 * @return
 	 */
-	public static MActivity getByValue(Properties ctx , String activityvalue)
+	public static MActivity getByValue(Properties ctx, String activityvalue, String trxName)
 	{
 		if (activityvalue == null)
 			return null;
 		if (activityCacheValues.size() == 0 )
-			getAll(ctx, true);
+			getAll(ctx, true, trxName);
 
 		int clientId = Env.getAD_Client_ID(ctx);
 		String key = clientId + "#" + activityvalue;
@@ -106,7 +108,7 @@ public class MActivity extends X_C_Activity
 		if (activity != null && activity.get_ID() > 0 )
 			return activity;
 
-		activity =  new Query(ctx, Table_Name , COLUMNNAME_Value +  "=?", null)
+		activity =  new Query(ctx, Table_Name , COLUMNNAME_Value +  "=?", trxName)
 				.setClient_ID()
 				.setParameters(activityvalue)
 				.first();
@@ -122,12 +124,13 @@ public class MActivity extends X_C_Activity
 	 * Get All Activity
 	 * @param ctx
 	 * @param resetCache
+	 * @param trxName
 	 * @return
 	 */
-	public static List<MActivity> getAll(Properties ctx, boolean resetCache) {
+	public static List<MActivity> getAll(Properties ctx, boolean resetCache, String trxName) {
 		List<MActivity> activitiesList;
 		if (resetCache || activityCacheIds.size() > 0 ) {
-			activitiesList = new Query(Env.getCtx(), Table_Name, null , null)
+			activitiesList = new Query(Env.getCtx(), Table_Name, null , trxName)
 					.setClient_ID()
 					.setOrderBy(COLUMNNAME_Name)
 					.list();
