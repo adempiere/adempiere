@@ -102,6 +102,13 @@ public class CalloutProject extends CalloutEngine
 
 				if (projectPhase.getM_Product_ID() <=0 )
 					projectPhase.setM_Product_ID(projectTypePhase.getM_Product_ID());
+
+				if (projectPhase.getPP_Product_BOM_ID() <= 0)
+					projectPhase.setPP_Product_BOM_ID(projectTypePhase.getPP_Product_BOM_ID());
+
+				if (projectPhase.getAD_Workflow_ID() <= 0)
+					projectPhase.setAD_Workflow_ID(projectTypePhase.getAD_Workflow_ID());
+
 				if (projectPhase.getQty().signum() == 0)
 					projectPhase.setQty(projectTypePhase.getStandardQty());
 
@@ -147,6 +154,12 @@ public class CalloutProject extends CalloutEngine
 					projectTask.setDurationEstimated(projectTypeTask.getDurationEstimated());
 				if (projectTask.getM_Product_ID() <= 0)
 					projectTask.setM_Product_ID(projectTypeTask.getM_Product_ID());
+
+				if (projectTask.getPP_Product_BOM_ID() <= 0)
+					projectTask.setPP_Product_BOM_ID(projectTypeTask.getPP_Product_BOM_ID());
+
+				if (projectTask.getAD_Workflow_ID() <= 0)
+					projectTask.setAD_Workflow_ID(projectTypeTask.getAD_Workflow_ID());
 
 				projectTask.setIsIndefinite(projectTypeTask.isIndefinite());
 				projectTask.setIsRecurrent(projectTypeTask.isRecurrent());
