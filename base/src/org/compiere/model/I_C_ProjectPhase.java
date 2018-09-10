@@ -120,6 +120,36 @@ public interface I_C_ProjectPhase
 
 	public org.compiere.model.I_C_Campaign getC_Campaign() throws RuntimeException;
 
+    /** Column name C_OrderPO_ID */
+    public static final String COLUMNNAME_C_OrderPO_ID = "C_OrderPO_ID";
+
+	/** Set Purchase Order.
+	  * Purchase Order
+	  */
+	public void setC_OrderPO_ID (int C_OrderPO_ID);
+
+	/** Get Purchase Order.
+	  * Purchase Order
+	  */
+	public int getC_OrderPO_ID();
+
+	public org.compiere.model.I_C_Order getC_OrderPO() throws RuntimeException;
+
+    /** Column name C_Order_ID */
+    public static final String COLUMNNAME_C_Order_ID = "C_Order_ID";
+
+	/** Set Order.
+	  * Order
+	  */
+	public void setC_Order_ID (int C_Order_ID);
+
+	/** Get Order.
+	  * Order
+	  */
+	public int getC_Order_ID();
+
+	public org.compiere.model.I_C_Order getC_Order() throws RuntimeException;
+
     /** Column name C_Phase_ID */
     public static final String COLUMNNAME_C_Phase_ID = "C_Phase_ID";
 
@@ -205,21 +235,6 @@ public interface I_C_ProjectPhase
 	  * The (legal) commitment amount
 	  */
 	public BigDecimal getCommittedAmt();
-
-	/** Column name C_Order_ID */
-	public static final String COLUMNNAME_C_Order_ID = "C_Order_ID";
-
-	/** Set Order.
-	 * Order
-	 */
-	public void setC_Order_ID (int C_Order_ID);
-
-	/** Get Order.
-	 * Order
-	 */
-	public int getC_Order_ID();
-
-	public org.compiere.model.I_C_Order getC_Order() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -489,7 +504,20 @@ public interface I_C_ProjectPhase
 	/** Get Is Milestone	  */
 	public boolean isMilestone();
 
-	/** Column name IsRecurrent */
+    /** Column name IsPurchased */
+    public static final String COLUMNNAME_IsPurchased = "IsPurchased";
+
+	/** Set Purchased.
+	  * Organization purchases this product
+	  */
+	public void setIsPurchased (boolean IsPurchased);
+
+	/** Get Purchased.
+	  * Organization purchases this product
+	  */
+	public boolean isPurchased();
+
+    /** Column name IsRecurrent */
     public static final String COLUMNNAME_IsRecurrent = "IsRecurrent";
 
 	/** Set Is Recurrent.
@@ -796,4 +824,18 @@ public interface I_C_ProjectPhase
 
 	public org.compiere.model.I_C_ElementValue getUser4() throws RuntimeException;
 
+    /** Column name Vendor_ID */
+    public static final String COLUMNNAME_Vendor_ID = "Vendor_ID";
+
+	/** Set Vendor.
+	  * The Vendor of the product/service
+	  */
+	public void setVendor_ID (int Vendor_ID);
+
+	/** Get Vendor.
+	  * The Vendor of the product/service
+	  */
+	public int getVendor_ID();
+
+	public org.compiere.model.I_C_BPartner getVendor() throws RuntimeException;
 }
