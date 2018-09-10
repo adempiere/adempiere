@@ -309,6 +309,19 @@ public interface I_C_ProjectLine
 	  */
 	public boolean isPrinted();
 
+    /** Column name IsPurchased */
+    public static final String COLUMNNAME_IsPurchased = "IsPurchased";
+
+	/** Set Purchased.
+	  * Organization purchases this product
+	  */
+	public void setIsPurchased (boolean IsPurchased);
+
+	/** Get Purchased.
+	  * Organization purchases this product
+	  */
+	public boolean isPurchased();
+
     /** Column name Line */
     public static final String COLUMNNAME_Line = "Line";
 
@@ -489,4 +502,18 @@ public interface I_C_ProjectLine
 	  */
 	public int getUpdatedBy();
 
+    /** Column name Vendor_ID */
+    public static final String COLUMNNAME_Vendor_ID = "Vendor_ID";
+
+	/** Set Vendor.
+	  * The Vendor of the product/service
+	  */
+	public void setVendor_ID (int Vendor_ID);
+
+	/** Get Vendor.
+	  * The Vendor of the product/service
+	  */
+	public int getVendor_ID();
+
+	public org.compiere.model.I_C_BPartner getVendor() throws RuntimeException;
 }

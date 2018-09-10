@@ -464,6 +464,29 @@ public class X_C_ProjectLine extends PO implements I_C_ProjectLine, I_Persistent
 		return false;
 	}
 
+	/** Set Purchased.
+		@param IsPurchased 
+		Organization purchases this product
+	  */
+	public void setIsPurchased (boolean IsPurchased)
+	{
+		throw new IllegalArgumentException ("IsPurchased is virtual column");	}
+
+	/** Get Purchased.
+		@return Organization purchases this product
+	  */
+	public boolean isPurchased () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsPurchased);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Line No.
 		@param Line 
 		Unique line for this document
@@ -748,4 +771,31 @@ public class X_C_ProjectLine extends PO implements I_C_ProjectLine, I_Persistent
 		return (String)get_Value(COLUMNNAME_UUID);
 	}
 
+	public org.compiere.model.I_C_BPartner getVendor() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
+			.getPO(getVendor_ID(), get_TrxName());	}
+
+	/** Set Vendor.
+		@param Vendor_ID 
+		The Vendor of the product/service
+	  */
+	public void setVendor_ID (int Vendor_ID)
+	{
+		if (Vendor_ID < 1) 
+			set_Value (COLUMNNAME_Vendor_ID, null);
+		else 
+			set_Value (COLUMNNAME_Vendor_ID, Integer.valueOf(Vendor_ID));
+	}
+
+	/** Get Vendor.
+		@return The Vendor of the product/service
+	  */
+	public int getVendor_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Vendor_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 }

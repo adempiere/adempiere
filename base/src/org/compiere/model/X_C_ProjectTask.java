@@ -183,6 +183,62 @@ public class X_C_ProjectTask extends PO implements I_C_ProjectTask, I_Persistent
 		return ii.intValue();
 	}
 
+	public org.compiere.model.I_C_Order getC_OrderPO() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_Order)MTable.get(getCtx(), org.compiere.model.I_C_Order.Table_Name)
+			.getPO(getC_OrderPO_ID(), get_TrxName());	}
+
+	/** Set Purchase Order.
+		@param C_OrderPO_ID 
+		Purchase Order
+	  */
+	public void setC_OrderPO_ID (int C_OrderPO_ID)
+	{
+		if (C_OrderPO_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_OrderPO_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_OrderPO_ID, Integer.valueOf(C_OrderPO_ID));
+	}
+
+	/** Get Purchase Order.
+		@return Purchase Order
+	  */
+	public int getC_OrderPO_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_OrderPO_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_Order getC_Order() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_Order)MTable.get(getCtx(), org.compiere.model.I_C_Order.Table_Name)
+			.getPO(getC_Order_ID(), get_TrxName());	}
+
+	/** Set Order.
+		@param C_Order_ID 
+		Order
+	  */
+	public void setC_Order_ID (int C_Order_ID)
+	{
+		if (C_Order_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Order_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Order_ID, Integer.valueOf(C_Order_ID));
+	}
+
+	/** Get Order.
+		@return Order
+	  */
+	public int getC_Order_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Order_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_C_ProjectPhase getC_ProjectPhase() throws RuntimeException
     {
 		return (org.compiere.model.I_C_ProjectPhase)MTable.get(getCtx(), org.compiere.model.I_C_ProjectPhase.Table_Name)
@@ -619,6 +675,23 @@ public class X_C_ProjectTask extends PO implements I_C_ProjectTask, I_Persistent
 		return (String)get_Value(COLUMNNAME_FrequencyType);
 	}
 
+	/** Set Generate Order.
+		@param GenerateOrder 
+		Generate Order
+	  */
+	public void setGenerateOrder (String GenerateOrder)
+	{
+		set_Value (COLUMNNAME_GenerateOrder, GenerateOrder);
+	}
+
+	/** Get Generate Order.
+		@return Generate Order
+	  */
+	public String getGenerateOrder () 
+	{
+		return (String)get_Value(COLUMNNAME_GenerateOrder);
+	}
+
 	/** Set Comment/Help.
 		@param Help 
 		Comment or Hint
@@ -719,6 +792,29 @@ public class X_C_ProjectTask extends PO implements I_C_ProjectTask, I_Persistent
 	public boolean isMilestone () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsMilestone);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Purchased.
+		@param IsPurchased 
+		Organization purchases this product
+	  */
+	public void setIsPurchased (boolean IsPurchased)
+	{
+		throw new IllegalArgumentException ("IsPurchased is virtual column");	}
+
+	/** Get Purchased.
+		@return Organization purchases this product
+	  */
+	public boolean isPurchased () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsPurchased);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 
@@ -1193,6 +1289,34 @@ public class X_C_ProjectTask extends PO implements I_C_ProjectTask, I_Persistent
 	public int getUser4_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_User4_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_BPartner getVendor() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
+			.getPO(getVendor_ID(), get_TrxName());	}
+
+	/** Set Vendor.
+		@param Vendor_ID 
+		The Vendor of the product/service
+	  */
+	public void setVendor_ID (int Vendor_ID)
+	{
+		if (Vendor_ID < 1) 
+			set_Value (COLUMNNAME_Vendor_ID, null);
+		else 
+			set_Value (COLUMNNAME_Vendor_ID, Integer.valueOf(Vendor_ID));
+	}
+
+	/** Get Vendor.
+		@return The Vendor of the product/service
+	  */
+	public int getVendor_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Vendor_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
