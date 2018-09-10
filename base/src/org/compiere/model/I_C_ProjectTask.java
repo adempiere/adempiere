@@ -49,6 +49,19 @@ public interface I_C_ProjectTask
 	  */
 	public int getAD_Client_ID();
 
+    /** Column name AD_OrgTrx_ID */
+    public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
+
+	/** Set Trx Organization.
+	  * Performing or initiating organization
+	  */
+	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID);
+
+	/** Get Trx Organization.
+	  * Performing or initiating organization
+	  */
+	public int getAD_OrgTrx_ID();
+
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
 
@@ -62,18 +75,18 @@ public interface I_C_ProjectTask
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name AD_OrgTrx_ID */
-    public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
+    /** Column name AD_Workflow_ID */
+    public static final String COLUMNNAME_AD_Workflow_ID = "AD_Workflow_ID";
 
-	/** Set Trx Organization.
-	  * Performing or initiating organization
+	/** Set Workflow.
+	  * Workflow or combination of tasks
 	  */
-	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID);
+	public void setAD_Workflow_ID (int AD_Workflow_ID);
 
-	/** Get Trx Organization.
-	  * Performing or initiating organization
+	/** Get Workflow.
+	  * Workflow or combination of tasks
 	  */
-	public int getAD_OrgTrx_ID();
+	public int getAD_Workflow_ID();
 
     /** Column name C_Activity_ID */
     public static final String COLUMNNAME_C_Activity_ID = "C_Activity_ID";
@@ -104,19 +117,6 @@ public interface I_C_ProjectTask
 	public int getC_Campaign_ID();
 
 	public org.compiere.model.I_C_Campaign getC_Campaign() throws RuntimeException;
-
-    /** Column name CommittedAmt */
-    public static final String COLUMNNAME_CommittedAmt = "CommittedAmt";
-
-	/** Set Committed Amount.
-	  * The (legal) commitment amount
-	  */
-	public void setCommittedAmt (BigDecimal CommittedAmt);
-
-	/** Get Committed Amount.
-	  * The (legal) commitment amount
-	  */
-	public BigDecimal getCommittedAmt();
 
     /** Column name C_ProjectPhase_ID */
     public static final String COLUMNNAME_C_ProjectPhase_ID = "C_ProjectPhase_ID";
@@ -176,22 +176,6 @@ public interface I_C_ProjectTask
 	  */
 	public int getC_ProjectTask_ID();
 
-    /** Column name Created */
-    public static final String COLUMNNAME_Created = "Created";
-
-	/** Get Created.
-	  * Date this record was created
-	  */
-	public Timestamp getCreated();
-
-    /** Column name CreatedBy */
-    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
-
-	/** Get Created By.
-	  * User who created this records
-	  */
-	public int getCreatedBy();
-
     /** Column name C_SalesRegion_ID */
     public static final String COLUMNNAME_C_SalesRegion_ID = "C_SalesRegion_ID";
 
@@ -221,6 +205,35 @@ public interface I_C_ProjectTask
 	public int getC_Task_ID();
 
 	public org.compiere.model.I_C_Task getC_Task() throws RuntimeException;
+
+    /** Column name CommittedAmt */
+    public static final String COLUMNNAME_CommittedAmt = "CommittedAmt";
+
+	/** Set Committed Amount.
+	  * The (legal) commitment amount
+	  */
+	public void setCommittedAmt (BigDecimal CommittedAmt);
+
+	/** Get Committed Amount.
+	  * The (legal) commitment amount
+	  */
+	public BigDecimal getCommittedAmt();
+
+    /** Column name Created */
+    public static final String COLUMNNAME_Created = "Created";
+
+	/** Get Created.
+	  * Date this record was created
+	  */
+	public Timestamp getCreated();
+
+    /** Column name CreatedBy */
+    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
+
+	/** Get Created By.
+	  * User who created this records
+	  */
+	public int getCreatedBy();
 
     /** Column name DateDeadline */
     public static final String COLUMNNAME_DateDeadline = "DateDeadline";
@@ -413,6 +426,19 @@ public interface I_C_ProjectTask
 	  */
 	public boolean isActive();
 
+    /** Column name IsBOM */
+    public static final String COLUMNNAME_IsBOM = "IsBOM";
+
+	/** Set Bill of Materials.
+	  * Bill of Materials
+	  */
+	public void setIsBOM (boolean IsBOM);
+
+	/** Get Bill of Materials.
+	  * Bill of Materials
+	  */
+	public boolean isBOM();
+
     /** Column name IsComplete */
     public static final String COLUMNNAME_IsComplete = "IsComplete";
 
@@ -488,6 +514,36 @@ public interface I_C_ProjectTask
 	  * Alphanumeric identifier of the entity
 	  */
 	public String getName();
+
+    /** Column name PP_Order_ID */
+    public static final String COLUMNNAME_PP_Order_ID = "PP_Order_ID";
+
+	/** Set Manufacturing Order.
+	  * Manufacturing Order
+	  */
+	public void setPP_Order_ID (int PP_Order_ID);
+
+	/** Get Manufacturing Order.
+	  * Manufacturing Order
+	  */
+	public int getPP_Order_ID();
+
+	public org.eevolution.model.I_PP_Order getPP_Order() throws RuntimeException;
+
+    /** Column name PP_Product_BOM_ID */
+    public static final String COLUMNNAME_PP_Product_BOM_ID = "PP_Product_BOM_ID";
+
+	/** Set BOM & Formula.
+	  * BOM & Formula
+	  */
+	public void setPP_Product_BOM_ID (int PP_Product_BOM_ID);
+
+	/** Get BOM & Formula.
+	  * BOM & Formula
+	  */
+	public int getPP_Product_BOM_ID();
+
+	public org.eevolution.model.I_PP_Product_BOM getPP_Product_BOM() throws RuntimeException;
 
     /** Column name PercentageCompleted */
     public static final String COLUMNNAME_PercentageCompleted = "PercentageCompleted";
@@ -610,6 +666,19 @@ public interface I_C_ProjectTask
 	  */
 	public int getSeqNo();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -683,19 +752,4 @@ public interface I_C_ProjectTask
 	  * User defined list element #4
 	  */
 	public int getUser4_ID();
-
-	public org.compiere.model.I_C_ElementValue getUser4() throws RuntimeException;
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 }
