@@ -365,11 +365,12 @@ public final class MPaySelectionCheck extends X_C_PaySelectionCheck
 							receiptAccount.setC_BankAccount_ID(line.getC_BankAccountTo_ID());
 							receiptAccount.setIsReceipt(!payment.isReceipt());
 							receiptAccount.setC_DocType_ID(!payment.isReceipt());
-							receiptAccount.setPaymentRelated_ID(payment.getC_Payment_ID());
+							receiptAccount.setRelatedPayment_ID(payment.getC_Payment_ID());
 							receiptAccount.setTenderType(MPayment.TENDERTYPE_DirectDeposit);
 							receiptAccount.saveEx();
 							receiptAccount.processIt(DocAction.ACTION_Complete);
 							receiptAccount.saveEx();
+							payment.setRelatedPayment_ID(receiptAccount.getC_Payment_ID());
 						}
 					}
 				} else {

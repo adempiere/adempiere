@@ -112,7 +112,7 @@ public class BankTransfer extends BankTransferAbstract {
 		paymentBankTo.setC_Charge_ID(getChargeId());
 		paymentBankTo.saveEx();
 
-		paymentBankFrom.setPaymentRelated_ID(paymentBankTo.getC_Payment_ID());
+		paymentBankFrom.setRelatedPayment_ID(paymentBankTo.getC_Payment_ID());
 		paymentBankFrom.saveEx();
 		paymentBankFrom.processIt(MPayment.DOCACTION_Complete);
 		paymentBankFrom.saveEx();
@@ -125,7 +125,7 @@ public class BankTransfer extends BankTransferAbstract {
 						+ " @C_BankStatement_ID@ " + bsl.getC_BankStatement().getName() + "]");
 			}
 		}
-		paymentBankTo.setPaymentRelated_ID(paymentBankFrom.getC_Payment_ID());
+		paymentBankTo.setRelatedPayment_ID(paymentBankFrom.getC_Payment_ID());
 		paymentBankTo.saveEx();
 		paymentBankTo.processIt(MPayment.DOCACTION_Complete);
 		paymentBankTo.saveEx();
