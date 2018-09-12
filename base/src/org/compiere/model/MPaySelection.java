@@ -529,8 +529,7 @@ public class MPaySelection extends X_C_PaySelection implements DocAction, DocOpt
 	 */
 	public int getDoc_User_ID()
 	{
-	//	return getSalesRep_ID();
-		return 0;
+		return getCreatedBy();
 	}	//	getDoc_User_ID
 
 	/**
