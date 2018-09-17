@@ -78,11 +78,12 @@ public class WorkflowNodeNextElementHandler extends AbstractElementHandler {
 			int id = DB.getSQLValue(getTrxName(ctx),sqlB.toString(),wfNodeId,wfNodeNextId);
 
 			MWFNodeNext m_WFNodeNext = new MWFNodeNext(ctx, id, getTrxName(ctx));
-			m_WFNodeNext.setIsDirectLoad(true);
 			int AD_Backup_ID = -1;
 			String Object_Status = null;
-			if (id <= 0 && atts.getValue("AD_WF_NodeNext_ID") != null && Integer.parseInt(atts.getValue("AD_WF_NodeNext_ID")) <= PackOut.MAX_OFFICIAL_ID)
+			if (id <= 0 && atts.getValue("AD_WF_NodeNext_ID") != null && Integer.parseInt(atts.getValue("AD_WF_NodeNext_ID")) <= PackOut.MAX_OFFICIAL_ID) {
 				m_WFNodeNext.setAD_WF_NodeNext_ID(Integer.parseInt(atts.getValue("AD_WF_NodeNext_ID")));
+				m_WFNodeNext.setIsDirectLoad(true);
+			}
 			if (id > 0){		
 				AD_Backup_ID = copyRecord(ctx, "AD_WF_NodeNext",m_WFNodeNext);
 				Object_Status = "Update";			

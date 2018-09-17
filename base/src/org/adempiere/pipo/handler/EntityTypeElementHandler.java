@@ -43,12 +43,12 @@ public class EntityTypeElementHandler extends AbstractElementHandler
 		{
 			int id = get_IDWithColumn(ctx, I_AD_EntityType.Table_Name, I_AD_EntityType.COLUMNNAME_EntityType, entitytype);
 			final MEntityType entity = new MEntityType(ctx, id, getTrxName(ctx));
-			entity.setIsDirectLoad(true);
 			final int AD_Backup_ID;
 			final String Object_Status;
 			if (id <= 0 && getIntValue(atts, I_AD_EntityType.COLUMNNAME_AD_EntityType_ID, 0) <= PackOut.MAX_OFFICIAL_ID)
 			{
 				entity.setAD_EntityType_ID(getIntValue(atts, I_AD_EntityType.COLUMNNAME_AD_EntityType_ID, 0));
+				entity.setIsDirectLoad(true);
 			}
 			if (id > 0)
 			{		

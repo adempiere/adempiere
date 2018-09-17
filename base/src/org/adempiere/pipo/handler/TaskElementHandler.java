@@ -48,11 +48,12 @@ public class TaskElementHandler extends AbstractElementHandler {
 			String name = atts.getValue("ADTaskNameID");
 			int id = get_ID(ctx, "AD_Task", name);
 			MTask m_Task = new MTask(ctx, id, getTrxName(ctx));
-			m_Task.setIsDirectLoad(true);
 			int AD_Backup_ID = -1;
 			String Object_Status = null;
-			if (id <= 0 && atts.getValue("AD_Task_ID") != null && Integer.parseInt(atts.getValue("AD_Task_ID")) <= PackOut.MAX_OFFICIAL_ID)
+			if (id <= 0 && atts.getValue("AD_Task_ID") != null && Integer.parseInt(atts.getValue("AD_Task_ID")) <= PackOut.MAX_OFFICIAL_ID) {
 				m_Task.setAD_Task_ID(Integer.parseInt(atts.getValue("AD_Task_ID")));
+				m_Task.setIsDirectLoad(true);
+			}
 			if (id > 0) {
 				AD_Backup_ID = copyRecord(ctx, "AD_Task", m_Task);
 				Object_Status = "Update";
