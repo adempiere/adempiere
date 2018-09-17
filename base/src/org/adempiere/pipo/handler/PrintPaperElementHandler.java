@@ -101,13 +101,13 @@ public class PrintPaperElementHandler extends AbstractElementHandler
 		final String strIdentifier = atts.getValue(getIdentifierColumnName());
 		final int id = get_IDWithColumn(ctx, getTableName(), getIdentifierColumnName(), strIdentifier);
 		final PO po = getCreatePO(ctx, id, getTrxName(ctx));
-		po.setIsDirectLoad(true);
 		final String keyColumnName = getKeyColumnName();
 		log.info(elementValue+" "+strIdentifier+"["+id+"]");
 
 		if (id <= 0 && keyColumnName != null && getIntValue(atts, keyColumnName, 0) <= PackOut.MAX_OFFICIAL_ID)
 		{
 			po.set_ValueOfColumn(keyColumnName, getIntValue(atts, keyColumnName, 0));
+			po.setIsDirectLoad(true);
 		}
 		
 		final int AD_Backup_ID;

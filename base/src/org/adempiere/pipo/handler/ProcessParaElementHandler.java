@@ -77,11 +77,12 @@ public class ProcessParaElementHandler extends AbstractElementHandler {
 			
 			X_AD_Process_Para m_Process_para = new X_AD_Process_Para(ctx, id,
 					getTrxName(ctx));
-			m_Process_para.setIsDirectLoad(true);
 			int AD_Backup_ID = -1;
 			String Object_Status = null;
-			if (id <= 0 && atts.getValue("AD_Process_Para_ID") != null && Integer.parseInt(atts.getValue("AD_Process_Para_ID")) <= PackOut.MAX_OFFICIAL_ID)
+			if (id <= 0 && atts.getValue("AD_Process_Para_ID") != null && Integer.parseInt(atts.getValue("AD_Process_Para_ID")) <= PackOut.MAX_OFFICIAL_ID) {
 				m_Process_para.setAD_Process_Para_ID(Integer.parseInt(atts.getValue("AD_Process_Para_ID")));
+				m_Process_para.setIsDirectLoad(true);
+			}
 			if (id > 0) {
 				AD_Backup_ID = copyRecord(ctx, "AD_Process_Para",
 						m_Process_para);

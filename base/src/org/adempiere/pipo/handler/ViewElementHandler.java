@@ -67,12 +67,12 @@ public class ViewElementHandler extends AbstractElementHandler {
 				return;
 			}
 			MView m_View = new MView(ctx, id, getTrxName(ctx));
-			m_View.setIsDirectLoad(true);
 			if (id <= 0
 					&& atts.getValue("AD_View_ID") != null
-					&& Integer.parseInt(atts.getValue("AD_View_ID")) <= PackOut.MAX_OFFICIAL_ID)
-				m_View.setAD_View_ID(Integer.parseInt(atts
-						.getValue("AD_View_ID")));
+					&& Integer.parseInt(atts.getValue("AD_View_ID")) <= PackOut.MAX_OFFICIAL_ID) {
+				m_View.setAD_View_ID(Integer.parseInt(atts.getValue("AD_View_ID")));
+				m_View.setIsDirectLoad(true);
+			}
 			String Object_Status = null;
 			int AD_Backup_ID = -1;
 			if (id > 0) {
