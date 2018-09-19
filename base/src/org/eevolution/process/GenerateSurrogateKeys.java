@@ -47,12 +47,17 @@ public class GenerateSurrogateKeys extends GenerateSurrogateKeysAbstract
 	@Override
 	protected String doIt() throws Exception
 	{
-		getTableList(get_TrxName()).stream().filter(table -> table != null).forEach(table -> {
+		List<MTable> tableList = getTableList(get_TrxName());
+		//	Add columns
+		tableList.stream().filter(table -> table != null).forEach(table -> {
 			addColumn(table.getAD_Table_ID());
-			if (isGenerateUUIDforallrecords()) {
-				generateUUIDByTable(table.getTableName());
-			}
 		});
+		//	Generate Surrogate Keys
+		if (isGenerateUUIDforallrecords()) {
+			tableList.stream().filter(table -> table != null).forEach(table -> {
+				generateUUIDByTable(table.getTableName());
+			});
+		}
 		return "@Ok@";
 	}
 
