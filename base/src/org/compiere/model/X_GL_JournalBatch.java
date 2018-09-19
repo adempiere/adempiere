@@ -450,31 +450,6 @@ public class X_GL_JournalBatch extends PO implements I_GL_JournalBatch, I_Persis
 		return false;
 	}
 
-
-	/** Set YearEndClosing.
-	 @param IsApproved
-	 Indicates if this document is a closing of the year document
-	 */
-	public void setIsYearEndClosing (boolean IsYearEndClosing)
-	{
-		set_Value (COLUMNNAME_IsYearEndClosing, Boolean.valueOf(IsYearEndClosing));
-	}
-
-	/** Get Approved.
-	 @return Indicates if this document requires approval
-	 */
-	public boolean isIsYearEndClosing ()
-	{
-		Object oo = get_Value(COLUMNNAME_IsYearEndClosing);
-		if (oo != null)
-		{
-			if (oo instanceof Boolean)
-				return ((Boolean)oo).booleanValue();
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
 	/** PostingType AD_Reference_ID=125 */
 	public static final int POSTINGTYPE_AD_Reference_ID=125;
 	/** Actual = A */

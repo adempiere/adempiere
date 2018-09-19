@@ -25,59 +25,88 @@ public class MHRConceptCategory extends X_HR_Concept_Category
 
 	private static CCache<Integer, MHRConceptCategory> s_cache = new CCache<Integer, MHRConceptCategory>(Table_Name, 20);
 	private static CCache<String, MHRConceptCategory> s_cacheValue = new CCache<String, MHRConceptCategory>(Table_Name+"_Value", 20);
-	
-	public static MHRConceptCategory get(Properties ctx, int HR_Concept_Category_ID)
+
+	/**
+	 *
+	 * @param ctx
+	 * @param conceptCategoryId
+	 * @return
+	 */
+	@Deprecated
+	public static MHRConceptCategory get(Properties ctx, int conceptCategoryId)
 	{
-		if (HR_Concept_Category_ID <= 0)
-		{
-			return null;
-		}
-		// Try cache
-		MHRConceptCategory cc = s_cache.get(HR_Concept_Category_ID);
-		if (cc != null)
-		{
-			return cc;
-		}
-		// Load from DB
-		cc = new MHRConceptCategory(ctx, HR_Concept_Category_ID, null);
-		if (cc.get_ID() != HR_Concept_Category_ID)
-		{
-			return null;
-		}
-		if (cc != null)
-		{
-			s_cache.put(HR_Concept_Category_ID, cc);
-		}
-		return cc;
+		return getById(ctx, conceptCategoryId, null);
 	}
-	
+
+	/**
+	 * Get Payroll Concpet Category
+	 * @param ctx
+	 * @param conceptCategoryId
+	 * @param trxName
+	 * @return
+	 */
+	public static MHRConceptCategory getById(Properties ctx, int conceptCategoryId, String trxName)
+	{
+		if (conceptCategoryId <= 0)
+			return null;
+		// Try cache
+		MHRConceptCategory conceptCategory = s_cache.get(conceptCategoryId);
+		if (conceptCategory != null)
+			return conceptCategory;
+
+		// Load from DB
+		conceptCategory = new MHRConceptCategory(ctx, conceptCategoryId, trxName);
+		if (conceptCategory.get_ID() != conceptCategoryId)
+			return null;
+
+		if (conceptCategory != null)
+			s_cache.put(conceptCategoryId, conceptCategory);
+
+		return conceptCategory;
+	}
+
+	/**
+	 * Ger Concept Category by Value
+	 * @param ctx
+	 * @param value
+	 * @return
+	 */
+	@Deprecated
 	public static MHRConceptCategory forValue(Properties ctx, String value)
 	{
+		return getByValue(ctx, value , null);
+	}
+
+	/**
+	 * Ger Concept Category by Value
+	 * @param ctx
+	 * @param value
+	 * @param trxName
+	 * @return
+	 */
+	public static MHRConceptCategory getByValue(Properties ctx, String value, String trxName)
+	{
 		if (value == null)
-		{
 			return null;
-		}
-		final int AD_Client_ID = Env.getAD_Client_ID(ctx);
+		final int clientId = Env.getAD_Client_ID(ctx);
 		// Try cache
-		final String key = AD_Client_ID+"#"+value;
-		MHRConceptCategory cc = s_cacheValue.get(key);
-		if (cc != null)
-		{
-			return cc;
-		}
+		final String key = clientId+"#"+value;
+		MHRConceptCategory conceptCategory = s_cacheValue.get(key);
+		if (conceptCategory != null)
+			return conceptCategory;
 		// Try database
 		final String whereClause = COLUMNNAME_Value+"=? AND AD_Client_ID IN (?,?)";
-		cc = new Query(ctx, Table_Name, whereClause, null)
-									.setParameters(new Object[]{value, 0, AD_Client_ID})
-									.setOnlyActiveRecords(true)
-									.setOrderBy("AD_Client_ID DESC")
-									.first();
-		if (cc != null)
+		conceptCategory = new Query(ctx, Table_Name, whereClause, trxName)
+				.setParameters(value, 0, clientId)
+				.setOnlyActiveRecords(true)
+				.setOrderBy("AD_Client_ID DESC")
+				.first();
+		if (conceptCategory != null)
 		{
-			s_cacheValue.put(key, cc);
-			s_cache.put(cc.get_ID(), cc);
+			s_cacheValue.put(key, conceptCategory);
+			s_cache.put(conceptCategory.get_ID(), conceptCategory);
 		}
-		return cc;
+		return conceptCategory;
 	}
 
 	public MHRConceptCategory(Properties ctx, int HR_Concept_Category_ID, String trxName)
