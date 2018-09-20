@@ -33,4 +33,5 @@ BEGIN
                 || '-' || substr(v_UUID, 15, 4) 
                 || '-' || substr(v_UUID, 20, 12) INTO v_UUID FROM DUAL;
     RETURN v_UUID;
-END;
+END
+/
