@@ -142,7 +142,7 @@ public class InfoInOut extends Info
 	/** From Clause             */
 	private static String s_From = " M_InOut i";
 	/** Order Clause             */
-	private static String s_Order = "2,3,4";
+	private static String s_Order = " i.MovementDate desc, i.DocumentNo";
 
 	/**  Array of Column Info    */
 	private static final Info_Column[] s_Layout = {
