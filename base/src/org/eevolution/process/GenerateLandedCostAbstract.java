@@ -31,23 +31,28 @@ public abstract class GenerateLandedCostAbstract extends SvrProcess {
 	/** Process Id 	*/
 	private static final int ID_FOR_PROCESS = 53690;
 	/**	Parameter Name for Cost Element	*/
-	private static final String M_COSTELEMENT_ID = "M_CostElement_ID";
+	public static final String M_COSTELEMENT_ID = "M_CostElement_ID";
 	/**	Parameter Name for Cost Distribution	*/
-	private static final String LANDEDCOSTDISTRIBUTION = "LandedCostDistribution";
+	public static final String LANDEDCOSTDISTRIBUTION = "LandedCostDistribution";
 	/**	Parameter Name for Create by Product	*/
-	private static final String ISCREATEBYPRODUCT = "IsCreateByProduct";
+	public static final String ISCREATEBYPRODUCT = "IsCreateByProduct";
+	/**	Parameter Name for Landed Cost Type	*/
+	public static final String LANDEDCOSTTYPE = "LandedCostType";
 	/**	Parameter Value for Cost Element	*/
 	private int costElementId;
 	/**	Parameter Value for Cost Distribution	*/
 	private String landedCostDistribution;
 	/**	Parameter Value for Create by Product	*/
 	private boolean isCreateByProduct;
+	/**	Parameter Value for Landed Cost Type	*/
+	private String landedCostType;
 
 	@Override
 	protected void prepare() {
 		costElementId = getParameterAsInt(M_COSTELEMENT_ID);
 		landedCostDistribution = getParameterAsString(LANDEDCOSTDISTRIBUTION);
 		isCreateByProduct = getParameterAsBoolean(ISCREATEBYPRODUCT);
+		landedCostType = getParameterAsString(LANDEDCOSTTYPE);
 	}
 
 	/**	 Getter Parameter Value for Cost Element	*/
@@ -78,6 +83,16 @@ public abstract class GenerateLandedCostAbstract extends SvrProcess {
 	/**	 Setter Parameter Value for Create by Product	*/
 	protected void setIsCreateByProduct(boolean isCreateByProduct) {
 		this.isCreateByProduct = isCreateByProduct;
+	}
+
+	/**	 Getter Parameter Value for Landed Cost Type	*/
+	protected String getLandedCostType() {
+		return landedCostType;
+	}
+
+	/**	 Setter Parameter Value for Landed Cost Type	*/
+	protected void setLandedCostType(String landedCostType) {
+		this.landedCostType = landedCostType;
 	}
 
 	/**	 Getter Parameter Value for Process ID	*/
