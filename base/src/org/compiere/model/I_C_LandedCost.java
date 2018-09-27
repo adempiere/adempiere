@@ -132,6 +132,19 @@ public interface I_C_LandedCost
 	  */
 	public String getLandedCostDistribution();
 
+    /** Column name LandedCostType */
+    public static final String COLUMNNAME_LandedCostType = "LandedCostType";
+
+	/** Set Landed Cost Type.
+	  * Categorization of landed costs according to Incoterms
+	  */
+	public void setLandedCostType (String LandedCostType);
+
+	/** Get Landed Cost Type.
+	  * Categorization of landed costs according to Incoterms
+	  */
+	public String getLandedCostType();
+
     /** Column name M_CostElement_ID */
     public static final String COLUMNNAME_M_CostElement_ID = "M_CostElement_ID";
 
@@ -147,21 +160,6 @@ public interface I_C_LandedCost
 
 	public org.compiere.model.I_M_CostElement getM_CostElement() throws RuntimeException;
 
-    /** Column name M_InOutLine_ID */
-    public static final String COLUMNNAME_M_InOutLine_ID = "M_InOutLine_ID";
-
-	/** Set Shipment/Receipt Line.
-	  * Line on Shipment or Receipt document
-	  */
-	public void setM_InOutLine_ID (int M_InOutLine_ID);
-
-	/** Get Shipment/Receipt Line.
-	  * Line on Shipment or Receipt document
-	  */
-	public int getM_InOutLine_ID();
-
-	public org.compiere.model.I_M_InOutLine getM_InOutLine() throws RuntimeException;
-
     /** Column name M_InOut_ID */
     public static final String COLUMNNAME_M_InOut_ID = "M_InOut_ID";
 
@@ -176,6 +174,21 @@ public interface I_C_LandedCost
 	public int getM_InOut_ID();
 
 	public org.compiere.model.I_M_InOut getM_InOut() throws RuntimeException;
+
+    /** Column name M_InOutLine_ID */
+    public static final String COLUMNNAME_M_InOutLine_ID = "M_InOutLine_ID";
+
+	/** Set Shipment/Receipt Line.
+	  * Line on Shipment or Receipt document
+	  */
+	public void setM_InOutLine_ID (int M_InOutLine_ID);
+
+	/** Get Shipment/Receipt Line.
+	  * Line on Shipment or Receipt document
+	  */
+	public int getM_InOutLine_ID();
+
+	public org.compiere.model.I_M_InOutLine getM_InOutLine() throws RuntimeException;
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
@@ -201,19 +214,6 @@ public interface I_C_LandedCost
 	/** Get Process Now	  */
 	public boolean isProcessing();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -229,4 +229,17 @@ public interface I_C_LandedCost
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 }
