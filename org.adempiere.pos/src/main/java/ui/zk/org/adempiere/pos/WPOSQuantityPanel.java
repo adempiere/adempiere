@@ -360,10 +360,7 @@ public class WPOSQuantityPanel extends WPOSSubPanel implements POSPanelInterface
 
 	@Override
 	public void changeViewPanel() {
-		if(posPanel.getQty().compareTo(Env.ZERO) == 0)
-			changeStatus(false);
-		else
-			changeStatus(true);
+		changeStatus(true);
 		fieldQuantity.setValue(posPanel.getQty());
 		fieldPrice.setValue(posPanel.getPrice());
 		fieldDiscountPercentage.setValue(posPanel.getDiscountPercentage());
