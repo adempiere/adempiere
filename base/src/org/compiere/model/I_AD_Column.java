@@ -88,6 +88,21 @@ public interface I_AD_Column
 
 	public org.compiere.model.I_AD_Element getAD_Element() throws RuntimeException;
 
+    /** Column name AD_Image_ID */
+    public static final String COLUMNNAME_AD_Image_ID = "AD_Image_ID";
+
+	/** Set Image.
+	  * Image or Icon
+	  */
+	public void setAD_Image_ID (int AD_Image_ID);
+
+	/** Get Image.
+	  * Image or Icon
+	  */
+	public int getAD_Image_ID();
+
+	public org.compiere.model.I_AD_Image getAD_Image() throws RuntimeException;
+
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
 

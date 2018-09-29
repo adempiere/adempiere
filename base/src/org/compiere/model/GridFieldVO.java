@@ -168,6 +168,8 @@ public class GridFieldVO implements Serializable
 					vo.Callout = rs.getString (i);
 				else if (columnName.equalsIgnoreCase("AD_Process_ID"))
 					vo.AD_Process_ID = rs.getInt (i);
+				else if (columnName.equalsIgnoreCase("AD_Image_ID"))
+					vo.AD_Image_ID = rs.getInt (i);
 				else if (columnName.equalsIgnoreCase("AD_Chart_ID"))
 					vo.AD_Chart_ID = rs.getInt (i);
 				else if (columnName.equalsIgnoreCase("ReadOnlyLogic"))
@@ -490,6 +492,8 @@ public class GridFieldVO implements Serializable
 	public String       Callout = "";
 	/**	Process			*/
 	public int          AD_Process_ID = 0;
+	/** Image 			*/
+	public int			AD_Image_ID = 0;
 	/** Chart			*/
 	public int			AD_Chart_ID = 0;
 	/**	Description		*/
@@ -663,6 +667,7 @@ public class GridFieldVO implements Serializable
 		clone.IsParent = IsParent;
 		clone.Callout = Callout;
 		clone.AD_Process_ID = AD_Process_ID;
+		clone.AD_Image_ID = AD_Image_ID;
 		clone.AD_Chart_ID = AD_Chart_ID;
 		clone.Description = Description;
 		clone.Help = Help;
@@ -706,7 +711,8 @@ public class GridFieldVO implements Serializable
         + ", IsEncryptedColumn=" + IsEncryptedColumn + ", IsSelectionColumn=" + IsSelectionColumn + ", SortNo="
         + SortNo + ", FieldLength=" + FieldLength + ", VFormat=" + VFormat + ", ValueMin=" + ValueMin + ", ValueMax="
         + ValueMax + ", FieldGroup=" + FieldGroup + ", FieldGroupType=" + FieldGroupType + ", IsKey=" + IsKey
-        + ", IsParent=" + IsParent + ", Callout=" + Callout + ", AD_Process_ID=" + AD_Process_ID + ", AD_Chart_ID="
+        + ", IsParent=" + IsParent + ", Callout=" + Callout + ", AD_Process_ID=" + AD_Process_ID
+		+ ", AD_Image_ID=" + AD_Image_ID+ ", AD_Chart_ID="
         + AD_Chart_ID + ", Description=" + Description + ", Help=" + Help + ", MandatoryLogic=" + MandatoryLogic
         + ", ReadOnlyLogic=" + ReadOnlyLogic + ", ObscureType=" + ObscureType + ", IsAllowsCopy=" + IsAllowsCopy
         + ", IsInfoOnly=" + IsInfoOnly + ", ValidationCode=" + ValidationCode + ", AD_Reference_Value_ID="
