@@ -36,23 +36,23 @@ public abstract class GenerateLandedCostAbstract extends SvrProcess {
 	public static final String LANDEDCOSTDISTRIBUTION = "LandedCostDistribution";
 	/**	Parameter Name for Create by Product	*/
 	public static final String ISCREATEBYPRODUCT = "IsCreateByProduct";
-	/**	Parameter Name for Landed Cost Type	*/
-	public static final String LANDEDCOSTTYPE = "LandedCostType";
+	/**	Parameter Name for LandedCostType ID	*/
+	public static final String C_LANDEDCOSTTYPE_ID = "C_LandedCostType_ID";
 	/**	Parameter Value for Cost Element	*/
 	private int costElementId;
 	/**	Parameter Value for Cost Distribution	*/
 	private String landedCostDistribution;
 	/**	Parameter Value for Create by Product	*/
 	private boolean isCreateByProduct;
-	/**	Parameter Value for Landed Cost Type	*/
-	private String landedCostType;
+	/**	Parameter Value for LandedCostType ID	*/
+	private int landedCostTypeId;
 
 	@Override
 	protected void prepare() {
 		costElementId = getParameterAsInt(M_COSTELEMENT_ID);
 		landedCostDistribution = getParameterAsString(LANDEDCOSTDISTRIBUTION);
 		isCreateByProduct = getParameterAsBoolean(ISCREATEBYPRODUCT);
-		landedCostType = getParameterAsString(LANDEDCOSTTYPE);
+		landedCostTypeId = getParameterAsInt(C_LANDEDCOSTTYPE_ID);
 	}
 
 	/**	 Getter Parameter Value for Cost Element	*/
@@ -85,14 +85,14 @@ public abstract class GenerateLandedCostAbstract extends SvrProcess {
 		this.isCreateByProduct = isCreateByProduct;
 	}
 
-	/**	 Getter Parameter Value for Landed Cost Type	*/
-	protected String getLandedCostType() {
-		return landedCostType;
+	/**	 Getter Parameter Value for LandedCostType ID	*/
+	protected int getLandedCostTypeId() {
+		return landedCostTypeId;
 	}
 
-	/**	 Setter Parameter Value for Landed Cost Type	*/
-	protected void setLandedCostType(String landedCostType) {
-		this.landedCostType = landedCostType;
+	/**	 Setter Parameter Value for LandedCostType ID	*/
+	protected void setLandedCostTypeId(int landedCostTypeId) {
+		this.landedCostTypeId = landedCostTypeId;
 	}
 
 	/**	 Getter Parameter Value for Process ID	*/
