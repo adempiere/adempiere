@@ -21,7 +21,7 @@ import java.net.URI;
 import java.util.Properties;
 import java.util.logging.Level;
 
-import org.adempiere.pdf.Document;
+import org.adempiere.pdf.ITextDocument;
 import org.compiere.print.ArchiveEngine;
 import org.compiere.print.ReportEngine;
 import org.compiere.util.CLogger;
@@ -35,13 +35,13 @@ import org.compiere.util.Msg;
  */
 public class ExportFormatPDF extends AbstractExportFormat {
 	
+	/**	Static Logger	*/
+	private static CLogger	log	= CLogger.getCLogger (ExportFormatPDF.class);
+	
 	public ExportFormatPDF(Properties ctx, ReportEngine reportEngine) {
 		setCtx(ctx);
 		setReportEngine(reportEngine);
 	}
-	
-	/**	Static Logger	*/
-	private static CLogger	log	= CLogger.getCLogger (ExportFormatPDF.class);
 	
 	@Override
 	public String getExtension() {
@@ -73,12 +73,13 @@ public class ExportFormatPDF extends AbstractExportFormat {
 		URI uri = null;
 
 		try {
+			File fil = file; // to avoid reassigning parameters 
 			if (file == null)
-				file = File.createTempFile ("ReportEngine", ".pdf");
-			fileName = file.getAbsolutePath();
-			uri = file.toURI();
-			if (file.exists())
-				file.delete();
+				fil = File.createTempFile ("ReportEngine", ".pdf");
+			fileName = fil.getAbsolutePath();
+			uri = fil.toURI();
+			if (fil.exists())
+				fil.delete();
 
 		} catch (Exception e) {
 			log.log(Level.SEVERE, "file", e);
@@ -90,7 +91,7 @@ public class ExportFormatPDF extends AbstractExportFormat {
 		try {
 			getReportEngine().getView();
 			ArchiveEngine.get().archive(getLayoutEngine(), getPrintInfo());
-			Document.getPDFAsFile(fileName, getReportEngine().getLayout().getPageable(false));
+			new ITextDocument().getPDFAsFile(fileName, getReportEngine().getLayout().getPageable(false));
 		} catch (Exception e) {
 			log.log(Level.SEVERE, "PDF", e);
 			return false;
