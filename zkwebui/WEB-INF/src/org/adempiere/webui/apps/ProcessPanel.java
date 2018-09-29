@@ -278,21 +278,24 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 				fReportType.appendItem("PDF", "P");
 				if ("PDF".equals(typeSelection))
 					selectionIndex = 0;
+				fReportType.appendItem("CSV", "C");
+				if ("CSV".equals(typeSelection))
+					selectionIndex = 1;
 
 				if (m_isAllowXLSView) {
 					fReportType.appendItem("Excel", "X");
 					if ("XLS".equals(typeSelection))
-						selectionIndex = 1;
+						selectionIndex = 2;
 					fReportType.appendItem("XLSX", "XX");
 					if ("XLSX".equals(typeSelection))
-						selectionIndex = 2;
+						selectionIndex = 3;
 
 				}
 				if (m_isAllowHTMLView)
 					fReportType.appendItem("HTML", "H");
 
 				if ("HTML".equals(typeSelection))
-					selectionIndex = 3;
+					selectionIndex = 4;
 
 				fReportType.setSelectedIndex(selectionIndex);
 
