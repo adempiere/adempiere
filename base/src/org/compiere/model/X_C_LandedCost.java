@@ -30,7 +30,7 @@ public class X_C_LandedCost extends PO implements I_C_LandedCost, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20180927L;
+	private static final long serialVersionUID = 20180928L;
 
     /** Standard Constructor */
     public X_C_LandedCost (Properties ctx, int C_LandedCost_ID, String trxName)
@@ -42,8 +42,6 @@ public class X_C_LandedCost extends PO implements I_C_LandedCost, I_Persistent
 			setC_LandedCost_ID (0);
 			setLandedCostDistribution (null);
 // Q
-			setLandedCostType (null);
-// OTH
 			setM_CostElement_ID (0);
         } */
     }
@@ -135,6 +133,31 @@ public class X_C_LandedCost extends PO implements I_C_LandedCost, I_Persistent
 		return ii.intValue();
 	}
 
+	public org.compiere.model.I_C_LandedCostType getC_LandedCostType() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_LandedCostType)MTable.get(getCtx(), org.compiere.model.I_C_LandedCostType.Table_Name)
+			.getPO(getC_LandedCostType_ID(), get_TrxName());	}
+
+	/** Set LandedCostType ID.
+		@param C_LandedCostType_ID LandedCostType ID	  */
+	public void setC_LandedCostType_ID (int C_LandedCostType_ID)
+	{
+		if (C_LandedCostType_ID < 1) 
+			set_Value (COLUMNNAME_C_LandedCostType_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_LandedCostType_ID, Integer.valueOf(C_LandedCostType_ID));
+	}
+
+	/** Get LandedCostType ID.
+		@return LandedCostType ID	  */
+	public int getC_LandedCostType_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_LandedCostType_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Description.
 		@param Description 
 		Optional short description of the record
@@ -180,54 +203,6 @@ public class X_C_LandedCost extends PO implements I_C_LandedCost, I_Persistent
 	public String getLandedCostDistribution () 
 	{
 		return (String)get_Value(COLUMNNAME_LandedCostDistribution);
-	}
-
-	/** LandedCostType AD_Reference_ID=54069 */
-	public static final int LANDEDCOSTTYPE_AD_Reference_ID=54069;
-	/** Purchase Costs = EXW */
-	public static final String LANDEDCOSTTYPE_PurchaseCosts = "EXW";
-	/** Discounts = DIS */
-	public static final String LANDEDCOSTTYPE_Discounts = "DIS";
-	/** Export customs declaration = ECD */
-	public static final String LANDEDCOSTTYPE_ExportCustomsDeclaration = "ECD";
-	/** Carriage to port of export = CPE */
-	public static final String LANDEDCOSTTYPE_CarriageToPortOfExport = "CPE";
-	/** Unloading port of export = UPE */
-	public static final String LANDEDCOSTTYPE_UnloadingPortOfExport = "UPE";
-	/** Loading in Port of Export = LPE */
-	public static final String LANDEDCOSTTYPE_LoadingInPortOfExport = "LPE";
-	/** Freight costs = FRE */
-	public static final String LANDEDCOSTTYPE_FreightCosts = "FRE";
-	/** Insurance = INS */
-	public static final String LANDEDCOSTTYPE_Insurance = "INS";
-	/** Unloading in Port of Import = UPI */
-	public static final String LANDEDCOSTTYPE_UnloadingInPortOfImport = "UPI";
-	/** Loading in Port of Import = LPI */
-	public static final String LANDEDCOSTTYPE_LoadingInPortOfImport = "LPI";
-	/** Carriage to Place of Destination = CPI */
-	public static final String LANDEDCOSTTYPE_CarriageToPlaceOfDestination = "CPI";
-	/** Import Custom Clearance = ICC */
-	public static final String LANDEDCOSTTYPE_ImportCustomClearance = "ICC";
-	/** Import Duties and Taxes = IDT */
-	public static final String LANDEDCOSTTYPE_ImportDutiesAndTaxes = "IDT";
-	/** Others = OTH */
-	public static final String LANDEDCOSTTYPE_Others = "OTH";
-	/** Set Landed Cost Type.
-		@param LandedCostType 
-		Categorization of landed costs according to Incoterms
-	  */
-	public void setLandedCostType (String LandedCostType)
-	{
-
-		set_Value (COLUMNNAME_LandedCostType, LandedCostType);
-	}
-
-	/** Get Landed Cost Type.
-		@return Categorization of landed costs according to Incoterms
-	  */
-	public String getLandedCostType () 
-	{
-		return (String)get_Value(COLUMNNAME_LandedCostType);
 	}
 
 	public org.compiere.model.I_M_CostElement getM_CostElement() throws RuntimeException
