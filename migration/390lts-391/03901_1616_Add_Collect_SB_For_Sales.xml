@@ -72,14 +72,14 @@ AND NOT EXISTS(SELECT 1 FROM C_PaySelection ps INNER JOIN C_PaySelectionLine psl
     </Step>
     <Step SeqNo="50" StepType="AD">
       <PO AD_Table_ID="53223" Action="I" Record_ID="60864" Table="AD_Browse_Field">
+        <Data AD_Column_ID="64354" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="64853" Column="InfoFactoryClass" isNewNull="true"/>
         <Data AD_Column_ID="57964" Column="Created">2018-03-28 18:09:55.175</Data>
         <Data AD_Column_ID="57963" Column="IsActive">true</Data>
         <Data AD_Column_ID="57965" Column="Updated">2018-03-28 18:09:55.175</Data>
         <Data AD_Column_ID="57980" Column="IsRange">false</Data>
         <Data AD_Column_ID="57979" Column="IsQueryCriteria">true</Data>
         <Data AD_Column_ID="57985" Column="IsMandatory">false</Data>
-        <Data AD_Column_ID="64354" Column="DefaultValue" isNewNull="true"/>
-        <Data AD_Column_ID="64853" Column="InfoFactoryClass" isNewNull="true"/>
         <Data AD_Column_ID="57972" Column="Description">The Currency for this record</Data>
         <Data AD_Column_ID="57974" Column="Help">Indicates the Currency to be used when processing or reporting on this record</Data>
         <Data AD_Column_ID="57976" Column="IsDisplayed">false</Data>
@@ -2766,6 +2766,8 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="860" StepType="AD">
       <PO AD_Table_ID="53227" Action="I" Record_ID="0" Table="AD_Browse_Field_Trl">
+        <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84297" Column="UUID" isNewNull="true"/>
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
         <Data AD_Column_ID="58030" Column="Created">2018-03-28 18:11:12.621</Data>
         <Data AD_Column_ID="58031" Column="Updated">2018-03-28 18:11:12.621</Data>
@@ -2778,8 +2780,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">60904</Data>
-        <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="84297" Column="UUID" isNewNull="true"/>
       </PO>
     </Step>
     <Step SeqNo="870" StepType="AD">
@@ -4706,8 +4706,8 @@ Invoices and Payment Allocations determine the Open Balance (i.e. not Orders or 
     </Step>
     <Step SeqNo="1450" StepType="AD">
       <PO AD_Table_ID="53224" Action="U" Record_ID="50121" Table="AD_Browse">
-        <Data AD_Column_ID="57995" Column="EntityType" oldValue="D">ECA02</Data>
         <Data AD_Column_ID="72128" Column="AD_Window_ID" oldValue="183">167</Data>
+        <Data AD_Column_ID="57995" Column="EntityType" oldValue="D">ECA02</Data>
         <Data AD_Column_ID="58000" Column="WhereClause" oldValue="inv.DocStatus IN('CO', 'CL') AND inv.IsPaid = 'N' AND inv.IsSOTrx = 'N'&#10;AND NOT EXISTS(SELECT 1 FROM C_PaySelection ps INNER JOIN C_PaySelectionLine psl ON(psl.C_PaySelection_ID = ps.C_PaySelection_ID) &#10;&#9;&#9;WHERE ps.DocStatus IN('CO', 'CL') AND psl.C_Invoice_ID = inv.C_Invoice_ID)">inv.DocStatus IN('CO', 'CL') 
 AND inv.IsPaid = 'N'</Data>
       </PO>
@@ -4908,10 +4908,10 @@ AND inv.IsPaid = 'N'</Data>
     </Step>
     <Step SeqNo="1740" StepType="AD">
       <PO AD_Table_ID="452" Action="U" Record_ID="54281" Table="AD_TreeNodeMM">
-        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="54281">54281</Data>
         <Data AD_Column_ID="6155" Column="Parent_ID" oldValue="0">236</Data>
         <Data AD_Column_ID="6157" Column="SeqNo" oldValue="999">22</Data>
         <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="54281">54281</Data>
       </PO>
     </Step>
     <Step SeqNo="1750" StepType="AD">
@@ -4965,9 +4965,9 @@ AND inv.IsPaid = 'N'</Data>
     </Step>
     <Step SeqNo="1820" StepType="AD">
       <PO AD_Table_ID="452" Action="U" Record_ID="244" Table="AD_TreeNodeMM">
-        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="244">244</Data>
         <Data AD_Column_ID="6157" Column="SeqNo" oldValue="29">30</Data>
         <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="244">244</Data>
       </PO>
     </Step>
     <Step SeqNo="1830" StepType="AD">
@@ -7079,6 +7079,17 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
     <Step SeqNo="3180" StepType="AD">
       <PO AD_Table_ID="53223" Action="U" Record_ID="60864" Table="AD_Browse_Field">
         <Data AD_Column_ID="57985" Column="IsMandatory" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="3190" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="60864" Table="AD_Browse_Field">
+        <Data AD_Column_ID="64353" Column="AD_Val_Rule_ID" isNewNull="true" oldValue="52492"/>
+      </PO>
+    </Step>
+    <Step SeqNo="3200" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="56279" Table="AD_Process_Para">
+        <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true" oldValue="1=1"/>
+        <Data AD_Column_ID="3739" Column="DefaultValue" oldValue="@INV_C_BankAccount_ID@">-1</Data>
       </PO>
     </Step>
   </Migration>
