@@ -64,11 +64,6 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="/tools/lib/poi-3.14-20160307.jar">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry kind="lib" path="/tools/lib/swingx-1.6.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
@@ -113,5 +108,7 @@
 	<classpathentry kind="lib" path="/tools/lib/commons-io.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/org.adempiere.project"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/org.adempiere.request"/>
+	<classpathentry kind="lib" path="/tools/lib/poi-3.17.jar"/>
+	<classpathentry kind="lib" path="/tools/lib/poi-ooxml-3.17.jar"/>
 	<classpathentry kind="output" path="build"/>
 </classpath>
