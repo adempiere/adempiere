@@ -609,7 +609,7 @@ public class MTree extends X_AD_Tree
 		}
 		//	
 		logger.finer("TableId=" + tableId);
-		String key = "TableId|" + tableId;
+		String key = "TableId" + "|" + clientId + "|" + tableId;
 		Integer treeId = treeIdFromStringKey.get(key);
 		String whereClause = new String();
 		//	Valid Element
@@ -621,12 +621,12 @@ public class MTree extends X_AD_Tree
 				|| treeId == 0) {
 			String sql = "SELECT tr.AD_Tree_ID "
 					+ "FROM AD_Tree tr "
-					+ "WHERE tr.AD_Client_ID IN(0, ?) "
+					+ "WHERE tr.AD_Client_ID = ? "
 					+ "AND tr.AD_Table_ID = ? "
 					+ "AND tr.IsActive='Y' "
 					+ "AND tr.IsAllNodes='Y' "
 					+ whereClause
-					+ "ORDER BY tr.IsDefault, tr.AD_Tree_ID DESC";
+					+ "ORDER BY tr.IsDefault DESC";
 				//	Get Tree
 			treeId = DB.getSQLValue(null, sql, clientId, tableId);
 			if(treeId > 0) {
