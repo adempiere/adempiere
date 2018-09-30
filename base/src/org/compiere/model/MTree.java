@@ -626,7 +626,7 @@ public class MTree extends X_AD_Tree
 					+ "AND tr.IsActive='Y' "
 					+ "AND tr.IsAllNodes='Y' "
 					+ whereClause
-					+ "ORDER BY tr.IsDefault DESC, tr.AD_Tree_ID";
+					+ "ORDER BY tr.IsDefault, tr.AD_Tree_ID DESC";
 				//	Get Tree
 			treeId = DB.getSQLValue(null, sql, clientId, tableId);
 			if(treeId > 0) {
