@@ -91,7 +91,7 @@ public class PaymentCreateFromInvoice extends PaymentCreateFromInvoiceAbstract {
 				createPayment(invoice.getC_BPartner_ID(), invoice.getC_Currency_ID());
 			}
 			//	get values from result set
-			BigDecimal amtSource = getSelectionAsBigDecimal(invoiceId, "INV_AmtSource");
+			BigDecimal openAmt = getSelectionAsBigDecimal(invoiceId, "INV_OpenAmt");
 			BigDecimal payAmt = getSelectionAsBigDecimal(invoiceId, "INV_PayAmt");
 			BigDecimal discountAmt = getSelectionAsBigDecimal(invoiceId, "INV_DiscountAmt");
 			//	Validate discount
@@ -105,7 +105,7 @@ public class PaymentCreateFromInvoice extends PaymentCreateFromInvoiceAbstract {
 			invoicePayAllocate.setC_Invoice_ID(invoiceId);
 			//	For Pay amount
 			payAmt = payAmt.subtract(discountAmt);
-			BigDecimal overUnderAmt = Env.ZERO;
+			BigDecimal overUnderAmt = openAmt.subtract(payAmt);
 			//	Set Remaining
 			if(remaining.compareTo(Env.ZERO) > 0) {
 				remaining = remaining.subtract(payAmt);
@@ -115,7 +115,7 @@ public class PaymentCreateFromInvoice extends PaymentCreateFromInvoiceAbstract {
 					overUnderAmt = overUnderAmt.subtract(payAmt);
 				}
 			}
-			invoicePayAllocate.setInvoiceAmt(amtSource);
+			invoicePayAllocate.setInvoiceAmt(openAmt);
 			invoicePayAllocate.setAmount(payAmt);
 			invoicePayAllocate.setDiscountAmt(discountAmt);
 			invoicePayAllocate.setOverUnderAmt(overUnderAmt);
@@ -139,6 +139,8 @@ public class PaymentCreateFromInvoice extends PaymentCreateFromInvoiceAbstract {
 			//	Notify
 			return payment.getDescription();
 		}
+		//	Add log
+		addLog(payment.getC_Payment_ID(), payment.getDateTrx(), null, payment.getDocumentNo());
 		//	Default Ok
 		return "@Created@ @C_Payment_ID@ " + payment.getDocumentInfo();
 	}
