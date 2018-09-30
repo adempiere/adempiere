@@ -19,7 +19,11 @@ import org.apache.poi.hssf.usermodel.HSSFRichTextString;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.hssf.util.CellRangeAddress;
+import org.apache.poi.ss.usermodel.BorderStyle;
+import org.apache.poi.ss.usermodel.ClientAnchor;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.VerticalAlignment;
+import org.apache.poi.ss.util.CellRangeAddress;
 import org.compiere.model.MImage;
 import org.compiere.report.MReportColumn;
 import org.compiere.util.CLogger;
@@ -65,13 +69,13 @@ public class SmjXlsReport {
 			HSSFFont font = book.createFont();
 			font.setFontHeightInPoints((short) 13);
 			font.setFontName(HSSFFont.FONT_ARIAL);
-			font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
+			font.setBold(true);
 
 			// estio celda - cell style
 			HSSFCellStyle cellStyle = book.createCellStyle();
 			cellStyle.setWrapText(true);
-			cellStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-			cellStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_TOP);
+			cellStyle.setAlignment(HorizontalAlignment.CENTER);
+			cellStyle.setVerticalAlignment(VerticalAlignment.TOP);
 			cellStyle.setFont(font);
 			// //////////////////////////////////////////////////////////////////////////////////////
 			// agrega el logo
@@ -82,7 +86,7 @@ public class SmjXlsReport {
 				HSSFPatriarch patriarch = sheet.createDrawingPatriarch();
 				HSSFClientAnchor anchor;
 				anchor = new HSSFClientAnchor(100,50,200,255,(short)0,0,(short)1,1);
-				anchor.setAnchorType( HSSFClientAnchor.MOVE_DONT_RESIZE );
+				anchor.setAnchorType( ClientAnchor.AnchorType.MOVE_AND_RESIZE);
 				int pictureIndex = book.addPicture(imageData, HSSFWorkbook.PICTURE_TYPE_PNG );
 				patriarch.createPicture(anchor, pictureIndex);
 				for (int i=0;i<5;i++)
@@ -171,10 +175,10 @@ public class SmjXlsReport {
 
 	/**
 	 * Crea la fila de titulos - create title row
-	 * @param wb
-	 * @param hs
+	 * @param book
+	 * @param sheet
 	 * @param fila
-	 * @param colsName
+	 * @param m_columns
 	 */
 	private void titleTable(HSSFWorkbook book, HSSFSheet sheet, int fila,
 			MReportColumn[] m_columns) {
@@ -183,13 +187,13 @@ public class SmjXlsReport {
 		HSSFFont font = book.createFont();
 		font.setFontHeightInPoints((short) 13);
 		font.setFontName(HSSFFont.FONT_ARIAL);
-		font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
+		font.setBold(true);
 //		font.setColor(HSSFColor.BLUE.index);
 		// estio celda - cell style
 		HSSFCellStyle cellStyle = book.createCellStyle();
 		cellStyle.setWrapText(true);
-		cellStyle.setAlignment(HSSFCellStyle.ALIGN_JUSTIFY);
-		cellStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_TOP);
+		cellStyle.setAlignment(HorizontalAlignment.JUSTIFY);
+		cellStyle.setVerticalAlignment(VerticalAlignment.TOP);
 //		cellStyle.setFillPattern(HSSFCellStyle.SPARSE_DOTS);
 //		cellStyle.setFillBackgroundColor(HSSFColor.GREY_40_PERCENT.index);
 		cellStyle.setFont(font);
@@ -267,11 +271,12 @@ public class SmjXlsReport {
 				HSSFFont fontT = book.createFont();
 				fontT.setFontHeightInPoints((short) 12);
 				fontT.setFontName(HSSFFont.FONT_ARIAL);
-				fontT.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
+				//fontT.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
+				fontT.setBold(true);
 				HSSFCellStyle cellStyleT = book.createCellStyle();
 				cellStyleT.setWrapText(true);
-				cellStyleT.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-				cellStyleT.setVerticalAlignment(HSSFCellStyle.VERTICAL_TOP);
+				cellStyleT.setAlignment(HorizontalAlignment.CENTER);
+				cellStyleT.setVerticalAlignment(VerticalAlignment.TOP);
 				cellStyleT.setFont(fontT);
 				CellRangeAddress region = new CellRangeAddress(fila-1,(short)0,fila-1,endRegion);
 				sheet.addMergedRegion(region);
@@ -283,27 +288,27 @@ public class SmjXlsReport {
 			} else if (rpt.getReportlinestyle() != null && rpt.getReportlinestyle().equals("L")) {
 				// coloca linea en el reporte - Put under line in the report
 				cellStyle.setWrapText(true);
-				cellStyle.setBorderTop(HSSFCellStyle.BORDER_MEDIUM);
+				cellStyle.setBorderTop(BorderStyle.MEDIUM);
 				cellStyle.setBottomBorderColor((short)8);
 				cellStyleD.setWrapText(true);
-				cellStyleD.setBorderTop(HSSFCellStyle.BORDER_MEDIUM);
+				cellStyleD.setBorderTop(BorderStyle.MEDIUM);
 				cellStyleD.setBottomBorderColor((short)8);
 				cellStyleN.setWrapText(true);
-				cellStyleN.setBorderTop(HSSFCellStyle.BORDER_MEDIUM);
+				cellStyleN.setBorderTop(BorderStyle.MEDIUM);
 				cellStyleN.setBottomBorderColor((short)8);
 				newRow = true;
 			} else if (rpt.getReportlinestyle() != null	&& rpt.getReportlinestyle().equals("X")) {
 				// coloca linea de total - Put total line
 				cellStyle.setWrapText(true);
-				cellStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_TOP);
-				cellStyle.setBorderTop(HSSFCellStyle.BORDER_MEDIUM);
+				cellStyle.setVerticalAlignment(VerticalAlignment.TOP);
+				cellStyle.setBorderTop(BorderStyle.MEDIUM);
 				cellStyle.setBottomBorderColor((short)8);
 				newRow = true;
 			}else if (rpt.getReportlinestyle() != null	&& rpt.getReportlinestyle().equals("Z")) {
 				// coloca linea doble de total - Put total line doble
 				cellStyle.setWrapText(true);
-				cellStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_TOP);
-				cellStyle.setBorderTop(HSSFCellStyle.BORDER_DOUBLE);
+				cellStyle.setVerticalAlignment(VerticalAlignment.TOP);
+				cellStyle.setBorderTop(BorderStyle.DOUBLE);
 				cellStyle.setBottomBorderColor((short)8);
 				//--------------
 				row = sheet.createRow(fila++);
@@ -314,8 +319,8 @@ public class SmjXlsReport {
 			}else if (rpt.getReportlinestyle() != null && rpt.getReportlinestyle().equals("D")) {
 				// coloca liena de descripcion - put description line
 				cellStyleD.setWrapText(true);
-				cellStyleD.setVerticalAlignment(HSSFCellStyle.VERTICAL_TOP);
-				cellStyleD.setBorderTop(HSSFCellStyle.BORDER_MEDIUM);
+				cellStyleD.setVerticalAlignment(VerticalAlignment.TOP);
+				cellStyleD.setBorderTop(BorderStyle.MEDIUM);
 				cellStyleD.setBottomBorderColor((short)8);
 				newRow = true;
 			}else if (rpt.getReportlinestyle() != null && rpt.getReportlinestyle().equals("S")) {
@@ -359,7 +364,7 @@ public class SmjXlsReport {
 			HSSFSheet sheet, HSSFRow row, int fila, ReportTO rpt){
 		HSSFRichTextString text;
 		short col = 0;
-		cellStyle.setAlignment(HSSFCellStyle.ALIGN_RIGHT);
+		cellStyle.setAlignment(HorizontalAlignment.RIGHT);
 		//Nombre - Name
 		text = new HSSFRichTextString(rpt.getName());
 		HSSFCell cell = row.createCell(col++);

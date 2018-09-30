@@ -42,12 +42,13 @@ public class MHREmployeeType extends X_HR_EmployeeType {
      * Get all employee type and create cache
      * @param ctx
      * @param resetCache
+     * @param trxName
      * @return
      */
-    public static List<MHREmployeeType> getAll(Properties ctx, boolean resetCache) {
+    public static List<MHREmployeeType> getAll(Properties ctx, boolean resetCache, String trxName) {
         List<MHREmployeeType> employeeTypeList;
         if (resetCache || employeeTypeCacheIds.size() > 0) {
-            employeeTypeList = new Query(Env.getCtx(), Table_Name, null, null)
+            employeeTypeList = new Query(Env.getCtx(), Table_Name, null, trxName)
                     .setClient_ID()
                     .setOrderBy(COLUMNNAME_Name)
                     .list();
@@ -69,20 +70,21 @@ public class MHREmployeeType extends X_HR_EmployeeType {
      * Get employee type by id
      * @param ctx
      * @param employeeTypeId
+     * @param trxName
      * @return
      */
-    public static MHREmployeeType getById(Properties ctx, int employeeTypeId) {
+    public static MHREmployeeType getById(Properties ctx, int employeeTypeId, String trxName) {
         if (employeeTypeId <= 0)
             return null;
         //fiill cache
         if (employeeTypeCacheIds.size() == 0)
-            getAll(ctx, true);
+            getAll(ctx, true, trxName);
 
         MHREmployeeType employeeType = employeeTypeCacheIds.get(employeeTypeId);
         if (employeeType != null)
             return employeeType;
 
-        employeeType = new MHREmployeeType(ctx, employeeTypeId, null);
+        employeeType = new MHREmployeeType(ctx, employeeTypeId, trxName);
         if (employeeType!= null && employeeType.get_ID() == employeeTypeId) {
             int client = Env.getAD_Client_ID(ctx);
             String key = client +"#" + employeeType.getValue();
@@ -96,13 +98,14 @@ public class MHREmployeeType extends X_HR_EmployeeType {
      * Get employee type by search key
      * @param ctx
      * @param value
+     * @param trxName
      * @return
      */
-    public static MHREmployeeType getByValue(Properties ctx, String value) {
+    public static MHREmployeeType getByValue(Properties ctx, String value, String trxName) {
         if (value == null)
             return null;
         if (employeeTypeCacheValues.size() == 0)
-            getAll(ctx, true);
+            getAll(ctx, true, trxName);
 
         int client = Env.getAD_Client_ID(ctx);
         String key = client +"#" + value;
@@ -110,7 +113,7 @@ public class MHREmployeeType extends X_HR_EmployeeType {
         if (employeeType != null && employeeType.get_ID() > 0)
             return employeeType;
 
-        employeeType = new Query(ctx, Table_Name, COLUMNNAME_Value + "=?", null)
+        employeeType = new Query(ctx, Table_Name, COLUMNNAME_Value + "=?", trxName)
                 .setClient_ID()
                 .setParameters(value)
                 .first();

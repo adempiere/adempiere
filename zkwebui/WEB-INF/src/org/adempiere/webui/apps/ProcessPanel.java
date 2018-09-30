@@ -45,6 +45,7 @@ import org.compiere.apps.ProcessCtl;
 import org.compiere.model.GridField;
 import org.compiere.model.Lookup;
 import org.compiere.model.MPInstance;
+import org.compiere.model.MQuery;
 import org.compiere.model.MRole;
 import org.compiere.model.MSysConfig;
 import org.compiere.print.MPrintFormat;
@@ -56,11 +57,13 @@ import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.Msg;
 import org.compiere.util.Util;
+import org.zkforge.keylistener.Keylistener;
 import org.zkoss.zk.au.out.AuEcho;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zk.ui.event.KeyEvent;
 import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zkex.zul.Center;
 import org.zkoss.zkex.zul.North;
@@ -89,7 +92,9 @@ import org.zkoss.zul.Html;
  *		<li>FR [ 1051 ] Process Dialog have not scroll bar in zk
  *		<li>FR [ 1061 ] Process Modal Dialog in zk height is not autosize
  *	@author Michael Mckay michael.mckay@mckayerp.com
- *		<li>BF [ <a href="https://github.com/adempiere/adempiere/issues/495">495</a> ] Parameter Panel & SmartBrowser criteria do not set gridField value
+ *		<li>BF [ <a href="https://github.com/adempiere/adempiere/issues/495">#495</a> ] Parameter Panel & SmartBrowser criteria do not set gridField value
+ *		<li>BF [ <a href="https://github.com/adempiere/adempiere/issues/1926">#1926</a> ] ZK Exports migration XML files to 
+ *       different location than what is selected in the dialogs.
  * 	@version 	2006-12-01
  */
 public class ProcessPanel extends ProcessController implements SmallViewEditable, EventListener, ASyncProcess {
@@ -162,7 +167,10 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 	private Label				lPrintFormat		= new Label(Msg.getMsg(Env.getCtx(),"PrintFormat"));
 	private Label 				lReportType = new Label(Msg.getMsg(Env.getCtx(),"ReportType"));
 
-
+	private Keylistener keyListener;
+	
+	private static final int KEYBOARD_KEY_RETURN = 13;
+	
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(ProcessPanel.class);
 	
@@ -320,6 +328,13 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 		//
 		loadQuerySaved();
 		fSavedName.addEventListener(Events.ON_CHANGE, this);
+		
+		keyListener = new Keylistener();
+		
+		keyListener.setCtrlKeys("#enter");
+		keyListener.addEventListener(Events.ON_CTRL_KEY, this);
+		mainPanel.addEventListener(Events.ON_CANCEL, this);
+		mainPanel.appendChild(keyListener);
 	}
 	
 	/**
@@ -522,6 +537,8 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 		}
 		//	
 		hideBusyDialog();
+		//	Show Result
+		openResult();
 		//	Hide
 		if(isReport() && !pi.isError()) {
 			dispose();
@@ -542,12 +559,18 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 	public void onEvent(Event event) throws Exception {
 		String saveName = null;
 		boolean lastRun = false;
+		int code= 0;
 		if(fSavedName.getRawText() != null) {
 			saveName = fSavedName.getRawText();
 			lastRun = ("** " + Msg.getMsg(Env.getCtx(), "LastRun") + " **").equals(saveName);
 		}
+		if (event.getName().equals(Events.ON_CTRL_KEY) && event.getTarget() == keyListener) {
+			
+			KeyEvent keyEvent = (KeyEvent) event;
+			code = keyEvent.getKeyCode();
+		}
 		//	Ok
-		if (event.getTarget().equals(bOK)) {
+		if (event.getTarget().equals(bOK) || code == KEYBOARD_KEY_RETURN) {
 			setIsOkPressed(true);
 			if(isOnlyPanel()) {
 				//	check if saving parameters is complete
@@ -576,7 +599,7 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 				//	BR [ 265 ]
 				process(saveName);
 			}
-		} else if (event.getTarget().equals(bCancel)) {
+		} else if (event.getTarget().equals(bCancel) || event.getName().equals(Events.ON_CANCEL)) {
 			dispose();
 		}  else if(event.getTarget().equals(bDelete) 
 				&& fSavedName != null && !lastRun) {
@@ -654,6 +677,13 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 	 */
 	protected void runProcess() {
 		getProcessInfo().setPrintPreview(true);
+		
+		// #1926 ZK Exports migration XML files to different location 
+		// than what is selected in the dialogs. Fix is to let the process
+		// know what interface is being used so it can manage the export 
+		// process correctly.
+		getProcessInfo().setInterfaceType(ProcessInfo.INTERFACE_TYPE_ZK);
+		
 		ProcessCtl worker = new ProcessCtl(this, getWindowNo(), getProcessInfo(),null);
 		worker.run();
 		//	Run
@@ -705,5 +735,10 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 	 */
 	public int getQtyRow() {
 		return qtyRow;
+	}
+
+	@Override
+	public void openResult(MQuery query) {
+		AEnv.zoom(query);
 	}
 }	//	ProcessParameterPanel

@@ -50,12 +50,12 @@ assemblyOption in assembly := (assemblyOption in assembly).value.copy(includeSca
 lazy val commonSettings = Seq(
   version := "0.1-SNAPSHOT",
   organization := "org.eevolution",
-  scalaVersion := "2.12.3"
+  scalaVersion := "2.12.6"
 )
 
 
 //val sourceDirectoryTest = "org.adempiere.test"
-val sourceAdempiere = "/Users/e-Evolution/Develop/ADempiere/adempiere"
+val sourceAdempiere = "/Users/e-Evolution/Develop/ADempiere/391"
 
 //System.setProperty("PropertyFile", adempiereProperties)
 

@@ -452,8 +452,8 @@ public class MJournal extends X_GL_Journal implements DocAction , DocumentRevers
 		}
 		
 		//	Add up Amounts
-		BigDecimal amtAcctDr = Env.ZERO;
-		BigDecimal amtAcctCr = Env.ZERO;
+		BigDecimal AmtSourceDr = Env.ZERO;
+		BigDecimal AmtSourceCr = Env.ZERO;
 		for (int i = 0; i < lines.length; i++)
 		{
 			MJournalLine line = lines[i];
@@ -469,10 +469,10 @@ public class MJournal extends X_GL_Journal implements DocAction , DocumentRevers
 			}
 			
 			// Michael Judd (mjudd) BUG: [ 2678088 ] Allow posting to system accounts for non-actual postings
-			if (line.isDocControlled() && !getGL_JournalBatch().isIsYearEndClosing() &&
-					( getPostingType().equals(POSTINGTYPE_Actual) ||
+			if (line.isDocControlled() && 
+					( getPostingType().equals(POSTINGTYPE_Actual)) ||
 					  getPostingType().equals(POSTINGTYPE_Commitment) ||
-					  getPostingType().equals(POSTINGTYPE_Reservation))
+					  getPostingType().equals(POSTINGTYPE_Reservation)
 					 )
 			{
 				m_processMsg = "@DocControlledError@ - @Line@=" + line.getLine()
@@ -504,11 +504,11 @@ public class MJournal extends X_GL_Journal implements DocAction , DocumentRevers
 			}
 			// end BF [2789319] No check of Actual, Budget, Statistical attribute
 			
-			amtAcctDr = amtAcctDr.add(line.getAmtAcctDr());
-			amtAcctCr = amtAcctCr.add(line.getAmtAcctCr());
+			AmtSourceDr = AmtSourceDr.add(line.getAmtSourceDr());
+			AmtSourceCr = AmtSourceCr.add(line.getAmtSourceCr());
 		}
-		setTotalDr(amtAcctDr);
-		setTotalCr(amtAcctCr);
+		setTotalDr(AmtSourceDr);
+		setTotalCr(AmtSourceCr);
 
 		//	Control Amount
 		if (Env.ZERO.compareTo(getControlAmt()) != 0
@@ -519,7 +519,7 @@ public class MJournal extends X_GL_Journal implements DocAction , DocumentRevers
 		}
 		
 		//	Unbalanced Jornal & Not Suspense
-		if (amtAcctDr.compareTo(amtAcctCr) != 0)
+		if (AmtSourceDr.compareTo(AmtSourceCr) != 0)
 		{
 			MAcctSchemaGL gl = MAcctSchemaGL.get(getCtx(), getC_AcctSchema_ID());
 			if (gl == null || !gl.isUseSuspenseBalancing())

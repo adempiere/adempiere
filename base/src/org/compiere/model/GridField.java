@@ -591,8 +591,8 @@ public class GridField
 		 */
 
 		//	No defaults for these fields
-		if (m_vo.IsKey || m_vo.displayType == DisplayType.RowID 
-			|| DisplayType.isLOB(m_vo.displayType))
+		if ((m_vo.IsKey && (getColumnNameAlias() == null || getColumnNameAlias().isEmpty())) || m_vo.displayType == DisplayType.RowID
+				|| DisplayType.isLOB(m_vo.displayType))
 			return null;
 		//	Set Parent to context if not explitly set
 		if (isParentValue()
@@ -2092,4 +2092,12 @@ public class GridField
     public boolean isInfoOnly() {
     	return m_vo.IsInfoOnly;
     }
+    
+    /** Is Quick Entry
+	 * @return true if displayed in Quick Entry Form
+	 */
+	public boolean isQuickEntry()
+	{
+		return m_vo.IsQuickEntry;
+	}
 }   //  MField
