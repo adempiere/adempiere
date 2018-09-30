@@ -503,7 +503,7 @@ public abstract class Browser {
 		//	Valid null
 		LinkedHashMap<String, GridField> panelParameters = getPanelParameters();
 		if(panelParameters == null
-		|| panelParameters.size() == 0) {
+				|| panelParameters.size() == 0) {
 			whereClause = sql.toString();
 			return whereClause;
 		}
