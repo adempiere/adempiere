@@ -38,7 +38,7 @@ import javax.print.attribute.standard.JobPriority;
 import javax.print.event.PrintServiceAttributeEvent;
 import javax.print.event.PrintServiceAttributeListener;
 
-import org.adempiere.pdf.Document;
+import org.adempiere.pdf.ITextDocument;
 import org.compiere.model.MClient;
 import org.compiere.model.MDunningRunEntry;
 import org.compiere.model.MInOut;
@@ -681,7 +681,7 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 		try {
 			if (m_layout == null)
 				layout ();
-			return Document.getPDFAsArray(m_layout.getPageable(false));
+			return new ITextDocument().getPDFAsArray(m_layout.getPageable(false));
 		} catch (Exception e) {
 			log.log(Level.SEVERE, "PDF", e);
 		}

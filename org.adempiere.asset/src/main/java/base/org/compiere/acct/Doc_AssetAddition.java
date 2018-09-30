@@ -49,36 +49,36 @@ public class Doc_AssetAddition extends Doc
 	 * </pre>
 	 */
 	
-	public ArrayList<Fact> createFacts(MAcctSchema as)
+	public ArrayList<Fact> createFacts(MAcctSchema acctSchema)
 	{
-		MAssetAddition assetAdd = getAssetAddition();
+		MAssetAddition assetAddition = getAssetAddition();
 		ArrayList<Fact> facts = new ArrayList<Fact>();
-		Fact fact = new Fact(this, as, assetAdd.getPostingType());
+		Fact fact = new Fact(this, acctSchema, assetAddition.getPostingType());
 		facts.add(fact);
 		//
-		if (MAssetAddition.A_SOURCETYPE_Imported.equals(assetAdd.getA_SourceType()) 
-				|| MAssetAddition.A_CAPVSEXP_Expense.equals(assetAdd.getA_CapvsExp())) //@win prevent create journal if expense addition
+		if (MAssetAddition.A_SOURCETYPE_Imported.equals(assetAddition.getA_SourceType())
+				|| MAssetAddition.A_CAPVSEXP_Expense.equals(assetAddition.getA_CapvsExp())) //@win prevent create journal if expense addition
 		{
 			// no accounting if is imported record
 			return facts;
 		}
 		//
-		BigDecimal assetValueAmt = assetAdd.getAssetValueAmt();
+		BigDecimal assetValueAmt = assetAddition.getAssetValueAmt();
 		FactLine[] fls = FactUtil.createSimpleOperation(fact, null,
-				getA_Asset_Acct(), getP_Asset_Acct(as),
-				as.getC_Currency_ID(),
+				getA_Asset_Acct(), getP_Asset_Acct(acctSchema),
+				acctSchema.getC_Currency_ID(),
 				assetValueAmt,
 				false);
 		// Set BPartner and C_Project dimension for "Imobilizari in curs / Property Being"
-		final int invoiceBP_ID = getInvoicePartner_ID();
-		final int invoiceProject_ID = getInvoiceProject_ID();
-		if (invoiceBP_ID > 0)
+		final int invoiceBusinessPartnerId = getInvoicePartner_ID();
+		final int invoiceProjectId = getInvoiceProject_ID();
+		if (invoiceBusinessPartnerId > 0)
 		{
-			fls[1].setC_BPartner_ID(invoiceBP_ID);
+			fls[1].setC_BPartner_ID(invoiceBusinessPartnerId);
 		}
-		if (invoiceProject_ID >0)
+		if (invoiceProjectId >0)
 		{
-			 fls[1].setC_Project_ID(invoiceProject_ID);
+			 fls[1].setC_Project_ID(invoiceProjectId);
 		}
 		//
 		return facts;
@@ -89,44 +89,44 @@ public class Doc_AssetAddition extends Doc
 		return (MAssetAddition)getPO();
 	}
 	
-	private MAccount getP_Asset_Acct(MAcctSchema as)
+	private MAccount getP_Asset_Acct(MAcctSchema acctSchema)
 	{
-		MAssetAddition assetAdd = getAssetAddition();
+		MAssetAddition assetAddition = getAssetAddition();
 		// Source Account
-		MAccount pAssetAcct = null;
-		if (MAssetAddition.A_SOURCETYPE_Project.equals(assetAdd.getA_SourceType()))
+		MAccount account = null;
+		if (MAssetAddition.A_SOURCETYPE_Project.equals(assetAddition.getA_SourceType()))
 		{
-			I_C_Project prj = assetAdd.getC_Project();
-			return getProjectAcct(prj, as);
+			I_C_Project project = assetAddition.getC_Project();
+			return getProjectAcct(project, acctSchema);
 		}
-		else if (MAssetAddition.A_SOURCETYPE_Manual.equals(assetAdd.getA_SourceType())
+		else if (MAssetAddition.A_SOURCETYPE_Manual.equals(assetAddition.getA_SourceType())
 				&& getC_Charge_ID() > 0) // backward compatibility: only if charge defined; if not fallback to product account 
 		{	
-			pAssetAcct = MCharge.getAccount(getC_Charge_ID(), as, null);
-			return pAssetAcct;
+			account = MCharge.getAccount(getC_Charge_ID(), acctSchema, null);
+			return account;
 		}	
-		else if (MAssetAddition.A_SOURCETYPE_Invoice.equals(assetAdd.getA_SourceType())
-				&& assetAdd.getC_InvoiceLine().getC_Project_ID() > 0)
+		else if (MAssetAddition.A_SOURCETYPE_Invoice.equals(assetAddition.getA_SourceType())
+				&& assetAddition.getC_InvoiceLine().getC_Project_ID() > 0)
 		{
-			I_C_Project prj = assetAdd.getC_InvoiceLine().getC_Project();
-			return getProjectAcct(prj, as);
+			I_C_Project prj = assetAddition.getC_InvoiceLine().getC_Project();
+			return getProjectAcct(prj, acctSchema);
 		}
 		else
 		{
-			pAssetAcct = getP_Expense_Acct(assetAdd.getM_Product_ID(), as);
+			account = getP_Expense_Acct(assetAddition.getM_Product_ID(), acctSchema);
 		}
 		//
-		return pAssetAcct;
+		return account;
 	}
 	
-	public MAccount getP_Expense_Acct(int M_Product_ID, MAcctSchema as)
+	public MAccount getP_Expense_Acct(int productId, MAcctSchema acctSchema)
 	{
-		ProductCost pc = new ProductCost(getCtx(), M_Product_ID, 0, null);
-		return pc.getAccount(ProductCost.ACCTTYPE_P_Expense, as);
+		ProductCost productCost = new ProductCost(getCtx(), productId, 0, getTrxName());
+		return productCost.getAccount(ProductCost.ACCTTYPE_P_Expense, acctSchema);
 	}
 	
 	
-	private MAccount getProjectAcct(I_C_Project prj, MAcctSchema as)
+	private MAccount getProjectAcct(I_C_Project project, MAcctSchema acctSchema)
 	{
 		String acctName = X_C_Project_Acct.COLUMNNAME_PJ_WIP_Acct;
 		String sql = "SELECT "+acctName
@@ -134,26 +134,26 @@ public class Doc_AssetAddition extends Doc
 					+ " WHERE "+I_C_Project_Acct.COLUMNNAME_C_Project_ID+"=?"
 						+" AND "+I_C_Project_Acct.COLUMNNAME_C_AcctSchema_ID+"=?"
 						;
-		int acct_id = DB.getSQLValueEx(getTrxName(), sql, prj.getC_Project_ID(), as.get_ID());	
-		return MAccount.get(getCtx(), acct_id);
+		int accountId = DB.getSQLValueEx(getTrxName(), sql, project.getC_Project_ID(), acctSchema.get_ID());
+		return MAccount.getValidCombination(getCtx(), accountId , getTrxName());
 	}
 
 	private MAccount getA_Asset_Acct()
 	{
-		MAssetAddition assetAdd = getAssetAddition();
-		int acct_id = MAssetAcct
-				.forA_Asset_ID(getCtx(), assetAdd.getA_Asset_ID(), assetAdd.getPostingType(), assetAdd.getDateAcct(), null)
+		MAssetAddition assetAddition = getAssetAddition();
+		int accountId = MAssetAcct
+				.forA_Asset_ID(getCtx(), assetAddition.getA_Asset_ID(), assetAddition.getPostingType(), assetAddition.getDateAcct(), getTrxName())
 				.getA_Asset_Acct();
-		return MAccount.get(getCtx(), acct_id);
+		return MAccount.getValidCombination(getCtx(), accountId , getTrxName());
 	}
 
 	public int getInvoicePartner_ID()
 	{
-		MAssetAddition assetAdd = getAssetAddition();
-		if (MAssetAddition.A_SOURCETYPE_Invoice.equals(assetAdd.getA_SourceType())
-				&& assetAdd.getC_Invoice_ID() > 0)
+		MAssetAddition assetAddition = getAssetAddition();
+		if (MAssetAddition.A_SOURCETYPE_Invoice.equals(assetAddition.getA_SourceType())
+				&& assetAddition.getC_Invoice_ID() > 0)
 		{
-			return assetAdd.getC_Invoice().getC_BPartner_ID();
+			return assetAddition.getC_Invoice().getC_BPartner_ID();
 		}
 		else
 		{
@@ -162,11 +162,11 @@ public class Doc_AssetAddition extends Doc
 	}
 	public int getInvoiceProject_ID()
 	{
-		MAssetAddition assetAdd = getAssetAddition();
-		if (MAssetAddition.A_SOURCETYPE_Invoice.equals(assetAdd.getA_SourceType())
-				&& assetAdd.getC_Invoice_ID() > 0)			
+		MAssetAddition assetAddition = getAssetAddition();
+		if (MAssetAddition.A_SOURCETYPE_Invoice.equals(assetAddition.getA_SourceType())
+				&& assetAddition.getC_Invoice_ID() > 0)
 		{
-			return assetAdd.getC_InvoiceLine().getC_Project_ID();
+			return assetAddition.getC_InvoiceLine().getC_Project_ID();
 		}
 		else
 		{
