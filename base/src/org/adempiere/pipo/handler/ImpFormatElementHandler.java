@@ -57,8 +57,10 @@ public class ImpFormatElementHandler extends AbstractElementHandler {
 		int id = get_ID(ctx, "AD_ImpFormat", atts.getValue("Name"));
 		X_AD_ImpFormat m_ImpFormat = new X_AD_ImpFormat(ctx, id,
 				getTrxName(ctx));
-		if (id <= 0 && atts.getValue("AD_ImpFormat_ID") != null && Integer.parseInt(atts.getValue("AD_ImpFormat_ID")) <= PackOut.MAX_OFFICIAL_ID)
+		if (id <= 0 && atts.getValue("AD_ImpFormat_ID") != null && Integer.parseInt(atts.getValue("AD_ImpFormat_ID")) <= PackOut.MAX_OFFICIAL_ID) {
 			m_ImpFormat.setAD_ImpFormat_ID(Integer.parseInt(atts.getValue("AD_ImpFormat_ID")));
+			m_ImpFormat.setIsDirectLoad(true);
+		}
 		if (id > 0) {
 			AD_Backup_ID = copyRecord(ctx, "AD_ImpFormat", m_ImpFormat);
 			Object_Status = "Update";

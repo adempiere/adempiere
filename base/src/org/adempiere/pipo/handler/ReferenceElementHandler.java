@@ -64,8 +64,10 @@ public class ReferenceElementHandler extends AbstractElementHandler {
 
 			X_AD_Reference m_Reference = new X_AD_Reference(ctx, id,
 					getTrxName(ctx));
-			if (id <= 0 && atts.getValue("AD_Reference_ID") != null && Integer.parseInt(atts.getValue("AD_Reference_ID")) <= PackOut.MAX_OFFICIAL_ID)
+			if (id <= 0 && atts.getValue("AD_Reference_ID") != null && Integer.parseInt(atts.getValue("AD_Reference_ID")) <= PackOut.MAX_OFFICIAL_ID) {
 				m_Reference.setAD_Reference_ID(Integer.parseInt(atts.getValue("AD_Reference_ID")));
+				m_Reference.setIsDirectLoad(true);
+			}
 			if (id > 0) {
 				AD_Backup_ID = copyRecord(ctx, "AD_Reference", m_Reference);
 				Object_Status = "Update";
