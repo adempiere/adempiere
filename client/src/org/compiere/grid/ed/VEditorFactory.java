@@ -21,6 +21,7 @@ import java.util.logging.Level;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
 import org.compiere.model.MAccountLookup;
+import org.compiere.model.MImage;
 import org.compiere.model.MLocationLookup;
 import org.compiere.model.MLocatorLookup;
 import org.compiere.model.MPAttributeLookup;
@@ -238,6 +239,12 @@ public class VEditorFactory
 				mField.getHeader(), mField.getDescription(), mField.getHelp(), mField.getAD_Process_ID());
 			button.setName(columnName);
 			button.setField (mField);
+			if (mField != null && mField.getAD_Image_ID() > 0)
+			{
+				MImage icon = MImage.get(mField.getVO().ctx , mField.getAD_Image_ID());
+				if (icon != null)
+					button.setIcon(icon.getIcon());
+			}
 			editor = button;
 		}
 
