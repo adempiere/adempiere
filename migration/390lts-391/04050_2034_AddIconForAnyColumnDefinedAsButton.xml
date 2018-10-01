@@ -141,4 +141,5 @@ You can either load the image (in the database) or point to a graphic via a URI 
         <Data AD_Column_ID="84310" Column="UUID" isNewNull="true"/>
       </PO>
     </Step>
+  </Migration>
 </Migrations>
