@@ -653,7 +653,7 @@ public class Login
 			return;
 		}
 		//	Summary Org - Get Dependents
-		MTree_Base tree = MTree_Base.get(m_ctx, role.getAD_Tree_Org_ID(), null);
+		MTree tree = MTree.get(m_ctx, role.getAD_Tree_Org_ID(), null);
 		String sql =  "SELECT AD_Client_ID, AD_Org_ID, Name, IsSummary FROM AD_Org "
 			+ "WHERE IsActive='Y' AND AD_Org_ID IN (SELECT Node_ID FROM "
 			+ tree.getNodeTableName()

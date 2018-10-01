@@ -579,7 +579,6 @@ public class MProject extends X_C_Project
 		if (newRecord && success)
 		{
 			insert_Accounting("C_Project_Acct", "C_AcctSchema_Default", null);
-			insert_Tree(MTree_Base.TREETYPE_Project);
 		}
 
 		//	Value/Name change
@@ -605,18 +604,6 @@ public class MProject extends X_C_Project
 	{
 		return delete_Accounting("C_Project_Acct"); 
 	}	//	beforeDelete
-
-	/**
-	 * 	After Delete
-	 *	@param success
-	 *	@return deleted
-	 */
-	protected boolean afterDelete (boolean success)
-	{
-		if (success)
-			delete_Tree(MTree_Base.TREETYPE_Project);
-		return success;
-	}	//	afterDelete
 	
 	/**
 	 * 	Return the Invoices Generated for this Project
