@@ -1129,7 +1129,7 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 	 * @return void
 	 */
 	private void loadSalesRegion(List<Integer> salesRegionList, int salesRegionId) {
-		int m_Tree_ID = MTree.getDefaultAD_Tree_ID(getAD_Client_ID(), X_C_SalesRegion.Table_Name);
+		int m_Tree_ID = MTree.getDefaultTreeIdFromTableName(getAD_Client_ID(), X_C_SalesRegion.Table_Name);
 		final String sql = "SELECT tn.Node_ID AS C_SalesRegion_ID " +
 				"FROM AD_Tree t " +
 				"INNER JOIN AD_TreeNode tn ON(t.AD_Tree_ID = tn.AD_Tree_ID) " +

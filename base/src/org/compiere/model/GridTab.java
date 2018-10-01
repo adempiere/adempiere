@@ -1490,8 +1490,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	 *	Is Read Only?
 	 *  @return true if read only
 	 */
-	public boolean isReadOnly()
-	{
+	public boolean isReadOnly() {
 		if (m_vo.IsReadOnly)
 			return true;
 		
@@ -1508,6 +1507,29 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 			+ " (" + m_vo.ReadOnlyLogic + ") => " + retValue);
 		return retValue;
 	}	//	isReadOnly
+	
+	/**
+	 * Validate read Only from context
+	 * @return
+	 */
+	public boolean isReadOnlyFromContext() {
+		int clientId = Env.getContextAsInt(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo, "AD_Client_ID");
+		if(clientId <= 0) {
+			return false;
+		}
+		int orgId = Env.getContextAsInt(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo, "AD_Org_ID");
+		String keyColumn = Env.getContext(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo, GridTab.CTX_KeyColumnName);
+		if ("EntityType".equals(keyColumn))
+			keyColumn = "AD_EntityType_ID";
+		if (!keyColumn.endsWith("_ID"))
+			keyColumn += "_ID";			//	AD_Language_ID
+		int tableId = m_vo.AD_Table_ID;
+		if (MRole.getDefault(m_vo.ctx, false).canUpdate(
+			clientId, orgId, tableId, 0, false))
+			return false;
+		//	Default
+		return true;
+	}
 
 	/**
 	 * 	Tab contains Always Update Field

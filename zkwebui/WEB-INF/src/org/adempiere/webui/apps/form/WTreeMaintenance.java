@@ -48,7 +48,6 @@ import org.zkoss.zkex.zul.North;
 import org.zkoss.zul.ListModel;
 import org.zkoss.zul.SimpleTreeNode;
 import org.zkoss.zul.Space;
-import org.zkoss.zul.Splitter;
 import org.zkoss.zul.Tree;
 import org.zkoss.zul.Treeitem;
 
@@ -58,12 +57,7 @@ import org.zkoss.zul.Treeitem;
  *  @author Jorg Janke
  *  @version $Id: VTreeMaintenance.java,v 1.3 2006/07/30 00:51:28 jjanke Exp $
  */
-public class WTreeMaintenance extends TreeMaintenance implements IFormController, EventListener
-{
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 3630156132596215136L;
+public class WTreeMaintenance extends TreeMaintenance implements IFormController, EventListener {
 	
 	private CustomForm form = new CustomForm();	
 	
@@ -78,7 +72,6 @@ public class WTreeMaintenance extends TreeMaintenance implements IFormController
 	private Checkbox		cbAllNodes	= new Checkbox ();
 	private Label			treeInfo	= new Label ();
 	//
-	private Splitter		splitPane	= new Splitter();
 	private Tree			centerTree;
 	private Listbox			centerList	= new Listbox();
 
@@ -250,10 +243,6 @@ public class WTreeMaintenance extends TreeMaintenance implements IFormController
 		bAdd.setEnabled(!m_tree.isAllNodes());
 		bDelete.setEnabled(!m_tree.isAllNodes());
 		bDeleteAll.setEnabled(!m_tree.isAllNodes());
-		//
-		String fromClause = m_tree.getSourceTableName(false);	//	fully qualified
-		String columnNameX = m_tree.getSourceTableName(true);
-		String actionColor = m_tree.getActionColorName();
 		
 		//	List
 		SimpleListModel model = new SimpleListModel();
@@ -277,7 +266,7 @@ public class WTreeMaintenance extends TreeMaintenance implements IFormController
 		if (centerTree.getTreechildren() != null)
 			centerTree.getTreechildren().detach();
 		
-		SimpleTreeModel.initADTree(centerTree, m_tree.getAD_Tree_ID(), m_WindowNo);
+		SimpleTreeModel.initADTree(centerTree, m_tree.getAD_Tree_ID(), m_WindowNo, null);
 	}	//	action_fillTree
 	
 	/**
@@ -319,9 +308,9 @@ public class WTreeMaintenance extends TreeMaintenance implements IFormController
 		Treeitem ti = centerTree.getSelectedItem();
 		SimpleTreeNode stn = (SimpleTreeNode) ti.getValue();
 		MTreeNode tn = (MTreeNode)stn.getData();
-		log.info(tn.toString());
 		if (tn == null)
 			return;
+		log.info(tn.toString());
 		ListModel model = centerList.getModel();
 		int size = model.getSize();
 		int index = -1;

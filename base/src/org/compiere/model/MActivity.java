@@ -31,8 +31,11 @@ import org.compiere.util.Env;
  *  @author Jorg Janke
  *  @version $Id: MActivity.java,v 1.2 2006/07/30 00:51:03 jjanke Exp $
  * 
- * @author Teo Sarca, www.arhipac.ro
+ * 	@author Teo Sarca, www.arhipac.ro
  * 			<li>FR [ 2736867 ] Add caching support to MActivity
+ * 	@author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com 2015-09-09
+ *  	<li>FR [ 9223372036854775807 ] Add Support to Dynamic Tree
+ *  @see https://adempiere.atlassian.net/browse/ADEMPIERE-442
  */
 public class MActivity extends X_C_Activity
 {
@@ -183,8 +186,11 @@ public class MActivity extends X_C_Activity
 	{
 		if (!success)
 			return success;
-		if (newRecord)
-			insert_Tree(MTree_Base.TREETYPE_Activity);
+		//	Yamel Senih [ 9223372036854775807 ]
+		//	Change to PO
+//		if (newRecord)
+//			insert_Tree(MTree.TREETYPE_Activity);
+		//	End Yamel Senih
 		//	Value/Name change
 		if (!newRecord && (is_ValueChanged("Value") || is_ValueChanged("Name")))
 			MAccount.updateValueDescription(getCtx(), "C_Activity_ID=" + getC_Activity_ID(), get_TrxName());
@@ -196,11 +202,14 @@ public class MActivity extends X_C_Activity
 	 *	@param success
 	 *	@return deleted
 	 */
-	protected boolean afterDelete (boolean success)
-	{
-		if (success)
-			delete_Tree(MTree_Base.TREETYPE_Activity);
-		return success;
-	}	//	afterDelete
+	//	Yamel Senih [ 9223372036854775807 ]
+	//	Change to PO
+//	protected boolean afterDelete (boolean success)
+//	{
+//		if (success)
+//			delete_Tree(MTree.TREETYPE_Activity);
+//		return success;
+//	}	//	afterDelete
+	//	End Yamel Senih
 
 }	//	MActivity
