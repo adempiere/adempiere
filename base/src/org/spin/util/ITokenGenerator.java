@@ -14,11 +14,9 @@
  * All Rights Reserved.                                                       *
  * Contributor(s): Raul Muñoz www.erpcya.com               					  *
  *****************************************************************************/
-package org.spin.process;
+package org.spin.util;
 
-import java.sql.Timestamp;
-
-import org.spin.model.MToken;
+import org.spin.model.MADToken;
 
 /**
  * @author Raul Muñoz, rMunoz@erpcya.com, ERPCyA http://www.erpcya.com
@@ -28,12 +26,31 @@ import org.spin.model.MToken;
  */
 interface ITokenGenerator {
 
-	public  String generateToken(int userId);
+	/**
+	 * Generate Token
+	 * @param tokenType
+	 * @param userId
+	 * @return
+	 */
+	public  String generateToken(String tokenType, int userId);
 	
+	/**
+	 * Validate Token
+	 * @param token
+	 * @param userId
+	 * @return
+	 */
 	public boolean validateToken(String token, int userId);
 
+	/**
+	 * Get Token Value
+	 * @return
+	 */
 	public  String getTokenValue();
 	
-	public  MToken getToken();
-	
+	/**
+	 * Get PO Token
+	 * @return
+	 */
+	public  MADToken getToken();
 }

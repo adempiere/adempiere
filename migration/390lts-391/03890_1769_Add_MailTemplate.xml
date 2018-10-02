@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Add Mail Template #1769" ReleaseNo="" SeqNo="3890">
+  <Migration EntityType="D" Name="Add Mail Template #1769" ReleaseNo="3.9.1" SeqNo="3890">
+    <Comments>See: https://github.com/adempiere/adempiere/issues/1769</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="416" Action="I" Record_ID="50001" Table="R_MailText">
         <Data AD_Column_ID="5409" Column="Updated">2018-06-18 17:20:52.297</Data>
@@ -36,7 +37,7 @@
                 &lt;td class="" style="border-collapse:collapse!important;color:#222222;font-family:'Helvetica','Arial',sans-serif;font-size:14px;font-weight:normal;line-height:19px;margin:0;padding:0;text-align:left;vertical-align:top;word-break:break-word" align="left" valign="top"&gt;
 </Data>
         <Data AD_Column_ID="13604" Column="MailText3">   &lt;p style="color:#222222;font-family:'Helvetica','Arial',sans-serif;font-size:14px;font-weight:normal;line-height:19px;margin:0 0 10px;padding:0;text-align:left" align="left"&gt;
-  Hi &lt;strong&gt;@Raul-mz&lt;/strong&gt;!
+  Hi &lt;strong&gt;@Name@&lt;/strong&gt;!
 &lt;/p&gt;
 &lt;p style="color:#222222;font-family:'Helvetica','Arial',sans-serif;font-size:14px;font-weight:normal;line-height:19px;margin:0 0 10px;padding:0;text-align:left" align="left"&gt;
   To change your password, click on the following button:
@@ -45,14 +46,14 @@
 
 &lt;div class="m_102215442800384201cta-button-wrap m_102215442800384201cta-button-wrap-centered" style="color:#ffffff;padding:20px 0 33px;text-align:center" align="center"&gt;
 
-    &lt;a class="" href="http://localhost:8080/webui/index.zul?token=@Value@&amp;userId=@AD_User_ID@" style="background:#4183c4;border-radius:3px;color:#ffffff;display:inline-block;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:17px;font-weight:bold;letter-spacing:normal;margin:0 auto;padding:12px 24px;text-align:center;text-decoration:none;width:auto!important" target="_blank"&gt;Verify Token&lt;/a&gt;
+    &lt;a class="" href="http://localhost:8888/webui/index.zul?token=@TokenValue@&amp;userId=@AD_User_ID@" style="background:#4183c4;border-radius:3px;color:#ffffff;display:inline-block;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:17px;font-weight:bold;letter-spacing:normal;margin:0 auto;padding:12px 24px;text-align:center;text-decoration:none;width:auto!important" target="_blank"&gt;Verify Token&lt;/a&gt;
 
 &lt;/div&gt;
 &lt;hr style="background:#d9d9d9;border:none;color:#d9d9d9;height:1px;margin:10px 0 20px"&gt;
 
 &lt;p class="m_102215442800384201email-text-small m_102215442800384201email-text-gray" style="color:#777777;font-family:'Helvetica','Arial',sans-serif;font-size:12px;font-weight:normal;line-height:19px;margin:0 0 10px;padding:0;text-align:left" align="left"&gt;
   Button not working? Paste the following link into your browser:&lt;br&gt;
-  &lt;a href="http://localhost:8080/webui/passwordreset.zul?token=@Value@&amp;userId=@AD_User_ID@"&gt;http://localhost:8080/webui/passwordreset.zul?token=@Value@&amp;userId=@AD_User_ID@&lt;/a&gt;</Data>
+  &lt;a href="http://localhost:8888/webui/passwordreset.zul?token=@TokenValue@&amp;userId=@AD_User_ID@"&gt;http://localhost:8888/webui/passwordreset.zul?token=@TokenValue@&amp;userId=@AD_User_ID@&lt;/a&gt;</Data>
         <Data AD_Column_ID="5410" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="5404" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="5405" Column="AD_Org_ID">0</Data>
@@ -87,7 +88,7 @@
         <Data AD_Column_ID="14612" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="14609" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="14617" Column="MailText3">   &lt;p style="color:#222222;font-family:'Helvetica','Arial',sans-serif;font-size:14px;font-weight:normal;line-height:19px;margin:0 0 10px;padding:0;text-align:left" align="left"&gt;
-  Hi &lt;strong&gt;@Raul-mz&lt;/strong&gt;!
+  Hi &lt;strong&gt;@Name@&lt;/strong&gt;!
 &lt;/p&gt;
 &lt;p style="color:#222222;font-family:'Helvetica','Arial',sans-serif;font-size:14px;font-weight:normal;line-height:19px;margin:0 0 10px;padding:0;text-align:left" align="left"&gt;
   To change your password, click on the following button:
@@ -96,14 +97,14 @@
 
 &lt;div class="m_102215442800384201cta-button-wrap m_102215442800384201cta-button-wrap-centered" style="color:#ffffff;padding:20px 0 33px;text-align:center" align="center"&gt;
 
-    &lt;a class="" href="http://localhost:8080/webui/passwordreset.zul?token=@Value@&amp;userId=@AD_User_ID@" style="background:#4183c4;border-radius:3px;color:#ffffff;display:inline-block;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:17px;font-weight:bold;letter-spacing:normal;margin:0 auto;padding:12px 24px;text-align:center;text-decoration:none;width:auto!important" target="_blank"&gt;Verify Token&lt;/a&gt;
+    &lt;a class="" href="http://localhost:8080/webui/passwordreset.zul?token=@TokenValue@&amp;userId=@AD_User_ID@" style="background:#4183c4;border-radius:3px;color:#ffffff;display:inline-block;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:17px;font-weight:bold;letter-spacing:normal;margin:0 auto;padding:12px 24px;text-align:center;text-decoration:none;width:auto!important" target="_blank"&gt;Verify Token&lt;/a&gt;
 
 &lt;/div&gt;
 &lt;hr style="background:#d9d9d9;border:none;color:#d9d9d9;height:1px;margin:10px 0 20px"&gt;
 
 &lt;p class="m_102215442800384201email-text-small m_102215442800384201email-text-gray" style="color:#777777;font-family:'Helvetica','Arial',sans-serif;font-size:12px;font-weight:normal;line-height:19px;margin:0 0 10px;padding:0;text-align:left" align="left"&gt;
   Button not working? Paste the following link into your browser:&lt;br&gt;
-  &lt;a href="http://localhost:8080/webui/passwordreset.zul?token=@Value@&amp;userId=@AD_User_ID@"&gt;http://localhost:8080/webui/passwordreset.zul?token=@Value@&amp;userId=@AD_User_ID@&lt;/a&gt;</Data>
+  &lt;a href="http://localhost:8080/webui/passwordreset.zul?token=@TokenValue@&amp;userId=@AD_User_ID@"&gt;http://localhost:8080/webui/passwordreset.zul?token=@TokenValue@&amp;userId=@AD_User_ID@&lt;/a&gt;</Data>
         <Data AD_Column_ID="14603" Column="R_MailText_ID">50001</Data>
         <Data AD_Column_ID="14616" Column="MailText2">  &lt;div class="" style="margin-bottom:30px;margin-top:20px;text-align:center!important" align="center !important"&gt;
                       &lt;img class="" src="/images/login-logo.png" width="50" height="48" style="clear:both;display:block;float:none;height:48px;margin:0 auto;max-height:48px;max-width:50px;outline:none;text-decoration:none;width:50px" align="none"&gt;
@@ -124,8 +125,8 @@
     </Step>
     <Step SeqNo="30" StepType="AD">
       <PO AD_Table_ID="826" Action="U" Record_ID="50001" Table="R_MailText_Trl">
-        <Data AD_Column_ID="14617" Column="MailText3" oldValue="   &lt;p style=&quot;color:#222222;font-family:'Helvetica','Arial',sans-serif;font-size:14px;font-weight:normal;line-height:19px;margin:0 0 10px;padding:0;text-align:left&quot; align=&quot;left&quot;&gt;&#10;  Hi &lt;strong&gt;@Raul-mz&lt;/strong&gt;!&#10;&lt;/p&gt;&#10;&lt;p style=&quot;color:#222222;font-family:'Helvetica','Arial',sans-serif;font-size:14px;font-weight:normal;line-height:19px;margin:0 0 10px;padding:0;text-align:left&quot; align=&quot;left&quot;&gt;&#10;  To change your password, click on the following button:&#10;&lt;/p&gt;&#10;&#10;&#10;&lt;div class=&quot;m_102215442800384201cta-button-wrap m_102215442800384201cta-button-wrap-centered&quot; style=&quot;color:#ffffff;padding:20px 0 33px;text-align:center&quot; align=&quot;center&quot;&gt;&#10;&#10;    &lt;a class=&quot;&quot; href=&quot;http://localhost:8080/webui/passwordreset.zul?token=@Value@&amp;userId=@AD_User_ID@&quot; style=&quot;background:#4183c4;border-radius:3px;color:#ffffff;display:inline-block;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:17px;font-weight:bold;letter-spacing:normal;margin:0 auto;padding:12px 24px;text-align:center;text-decoration:none;width:auto!important&quot; target=&quot;_blank&quot;&gt;Verify Token&lt;/a&gt;&#10;&#10;&lt;/div&gt;&#10;&lt;hr style=&quot;background:#d9d9d9;border:none;color:#d9d9d9;height:1px;margin:10px 0 20px&quot;&gt;&#10;&#10;&lt;p class=&quot;m_102215442800384201email-text-small m_102215442800384201email-text-gray&quot; style=&quot;color:#777777;font-family:'Helvetica','Arial',sans-serif;font-size:12px;font-weight:normal;line-height:19px;margin:0 0 10px;padding:0;text-align:left&quot; align=&quot;left&quot;&gt;&#10;  Button not working? Paste the following link into your browser:&lt;br&gt;&#10;  &lt;a href=&quot;http://localhost:8080/webui/passwordreset.zul?token=@Value@&amp;userId=@AD_User_ID@&quot;&gt;http://localhost:8080/webui/passwordreset.zul?token=@Value@&amp;userId=@AD_User_ID@&lt;/a&gt;">   &lt;p style="color:#222222;font-family:'Helvetica','Arial',sans-serif;font-size:14px;font-weight:normal;line-height:19px;margin:0 0 10px;padding:0;text-align:left" align="left"&gt;
-  Hi &lt;strong&gt;@Raul-mz&lt;/strong&gt;!
+        <Data AD_Column_ID="14617" Column="MailText3" oldValue="   &lt;p style=&quot;color:#222222;font-family:'Helvetica','Arial',sans-serif;font-size:14px;font-weight:normal;line-height:19px;margin:0 0 10px;padding:0;text-align:left&quot; align=&quot;left&quot;&gt;&#10;  Hi &lt;strong&gt;@Name@&lt;/strong&gt;!&#10;&lt;/p&gt;&#10;&lt;p style=&quot;color:#222222;font-family:'Helvetica','Arial',sans-serif;font-size:14px;font-weight:normal;line-height:19px;margin:0 0 10px;padding:0;text-align:left&quot; align=&quot;left&quot;&gt;&#10;  To change your password, click on the following button:&#10;&lt;/p&gt;&#10;&#10;&#10;&lt;div class=&quot;m_102215442800384201cta-button-wrap m_102215442800384201cta-button-wrap-centered&quot; style=&quot;color:#ffffff;padding:20px 0 33px;text-align:center&quot; align=&quot;center&quot;&gt;&#10;&#10;    &lt;a class=&quot;&quot; href=&quot;http://localhost:8080/webui/passwordreset.zul?token=@TokenValue@&amp;userId=@AD_User_ID@&quot; style=&quot;background:#4183c4;border-radius:3px;color:#ffffff;display:inline-block;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:17px;font-weight:bold;letter-spacing:normal;margin:0 auto;padding:12px 24px;text-align:center;text-decoration:none;width:auto!important&quot; target=&quot;_blank&quot;&gt;Verify Token&lt;/a&gt;&#10;&#10;&lt;/div&gt;&#10;&lt;hr style=&quot;background:#d9d9d9;border:none;color:#d9d9d9;height:1px;margin:10px 0 20px&quot;&gt;&#10;&#10;&lt;p class=&quot;m_102215442800384201email-text-small m_102215442800384201email-text-gray&quot; style=&quot;color:#777777;font-family:'Helvetica','Arial',sans-serif;font-size:12px;font-weight:normal;line-height:19px;margin:0 0 10px;padding:0;text-align:left&quot; align=&quot;left&quot;&gt;&#10;  Button not working? Paste the following link into your browser:&lt;br&gt;&#10;  &lt;a href=&quot;http://localhost:8080/webui/passwordreset.zul?token=@TokenValue@&amp;userId=@AD_User_ID@&quot;&gt;http://localhost:8080/webui/passwordreset.zul?token=@TokenValue@&amp;userId=@AD_User_ID@&lt;/a&gt;">   &lt;p style="color:#222222;font-family:'Helvetica','Arial',sans-serif;font-size:14px;font-weight:normal;line-height:19px;margin:0 0 10px;padding:0;text-align:left" align="left"&gt;
+  Hi &lt;strong&gt;@Name@&lt;/strong&gt;!
 &lt;/p&gt;
 &lt;p style="color:#222222;font-family:'Helvetica','Arial',sans-serif;font-size:14px;font-weight:normal;line-height:19px;margin:0 0 10px;padding:0;text-align:left" align="left"&gt;
   Para cambiar su contraseña, haga clic en el siguiente enlace:
@@ -134,14 +135,14 @@
 
 &lt;div class="m_102215442800384201cta-button-wrap m_102215442800384201cta-button-wrap-centered" style="color:#ffffff;padding:20px 0 33px;text-align:center" align="center"&gt;
 
-    &lt;a class="" href="http://localhost:8080/webui/passwordreset.zul?token=@Value@&amp;userId=@AD_User_ID@" style="background:#4183c4;border-radius:3px;color:#ffffff;display:inline-block;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:17px;font-weight:bold;letter-spacing:normal;margin:0 auto;padding:12px 24px;text-align:center;text-decoration:none;width:auto!important" target="_blank"&gt;Verificar Token&lt;/a&gt;
+    &lt;a class="" href="http://localhost:8080/webui/passwordreset.zul?token=@TokenValue@&amp;userId=@AD_User_ID@" style="background:#4183c4;border-radius:3px;color:#ffffff;display:inline-block;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:17px;font-weight:bold;letter-spacing:normal;margin:0 auto;padding:12px 24px;text-align:center;text-decoration:none;width:auto!important" target="_blank"&gt;Verificar Token&lt;/a&gt;
 
 &lt;/div&gt;
 &lt;hr style="background:#d9d9d9;border:none;color:#d9d9d9;height:1px;margin:10px 0 20px"&gt;
 
 &lt;p class="m_102215442800384201email-text-small m_102215442800384201email-text-gray" style="color:#777777;font-family:'Helvetica','Arial',sans-serif;font-size:12px;font-weight:normal;line-height:19px;margin:0 0 10px;padding:0;text-align:left" align="left"&gt;
 ¿El botón no funciona? Pega el siguiente enlace en tu navegador::&lt;br&gt;
-  &lt;a href="http://localhost:8080/webui/passwordreset.zul?token=@Value@&amp;userId=@AD_User_ID@"&gt;http://localhost:8080/webui/passwordreset.zul?token=@Value@&amp;userId=@AD_User_ID@&lt;/a&gt;</Data>
+  &lt;a href="http://localhost:8080/webui/passwordreset.zul?token=@TokenValue@&amp;userId=@AD_User_ID@"&gt;http://localhost:8080/webui/passwordreset.zul?token=@TokenValue@&amp;userId=@AD_User_ID@&lt;/a&gt;</Data>
         <Data AD_Column_ID="14603" Column="R_MailText_ID" oldValue="50001">50001</Data>
         <Data AD_Column_ID="14604" Column="AD_Language" oldValue="es_MX">es_MX</Data>
       </PO>

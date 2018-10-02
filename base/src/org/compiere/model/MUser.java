@@ -158,14 +158,16 @@ public class MUser extends X_AD_User
 	 *	@param AD_User_ID id
 	 *	@return user
 	 */
-	public static List<MUser> getUsers (Properties ctx, String userName)
-	{
+	public static List<MUser> getUsers (Properties ctx, String userName) {
 		boolean loginWithValue = M_Element.get(Env.getCtx(), I_AD_User.COLUMNNAME_IsLoginUser) != null;
 		String userLogin = "Name";
 		if(loginWithValue) {
 			userLogin = "Value";
 		}
-		List<MUser> retValue = new Query(ctx, MUser.Table_Name, userLogin+"='"+userName+"'",null).list();
+		List<MUser> retValue = new Query(ctx, MUser.Table_Name, userLogin + " = ?",null)
+				.setParameters(userName)
+				.setOnlyActiveRecords(true)
+				.list();
 		
 		
 		return retValue;

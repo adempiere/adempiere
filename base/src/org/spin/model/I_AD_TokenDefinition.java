@@ -21,24 +21,24 @@ import java.sql.Timestamp;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for AD_Token
+/** Generated Interface for AD_TokenDefinition
  *  @author Adempiere (generated) 
  *  @version Release 3.9.0
  */
-public interface I_AD_Token 
+public interface I_AD_TokenDefinition 
 {
 
-    /** TableName=AD_Token */
-    public static final String Table_Name = "AD_Token";
+    /** TableName=AD_TokenDefinition */
+    public static final String Table_Name = "AD_TokenDefinition";
 
-    /** AD_Table_ID=54429 */
+    /** AD_Table_ID=54529 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
-    /** AccessLevel = 6 - System - Client 
+    /** AccessLevel = 4 - System 
      */
-    BigDecimal accessLevel = BigDecimal.valueOf(6);
+    BigDecimal accessLevel = BigDecimal.valueOf(4);
 
     /** Load Meta Data */
 
@@ -76,35 +76,18 @@ public interface I_AD_Token
 	  */
 	public int getAD_TokenDefinition_ID();
 
-	public org.spin.model.I_AD_TokenDefinition getAD_TokenDefinition() throws RuntimeException;
+    /** Column name Classname */
+    public static final String COLUMNNAME_Classname = "Classname";
 
-    /** Column name AD_Token_ID */
-    public static final String COLUMNNAME_AD_Token_ID = "AD_Token_ID";
-
-	/** Set Token.
-	  * Token for validation and approval
+	/** Set Classname.
+	  * Java Classname
 	  */
-	public void setAD_Token_ID (int AD_Token_ID);
+	public void setClassname (String Classname);
 
-	/** Get Token.
-	  * Token for validation and approval
+	/** Get Classname.
+	  * Java Classname
 	  */
-	public int getAD_Token_ID();
-
-    /** Column name AD_User_ID */
-    public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
-
-	/** Set User/Contact.
-	  * User within the system - Internal or Business Partner Contact
-	  */
-	public void setAD_User_ID (int AD_User_ID);
-
-	/** Get User/Contact.
-	  * User within the system - Internal or Business Partner Contact
-	  */
-	public int getAD_User_ID();
-
-	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException;
+	public String getClassname();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -122,14 +105,18 @@ public interface I_AD_Token
 	  */
 	public int getCreatedBy();
 
-    /** Column name ExpireDate */
-    public static final String COLUMNNAME_ExpireDate = "ExpireDate";
+    /** Column name Description */
+    public static final String COLUMNNAME_Description = "Description";
 
-	/** Set Expire Date	  */
-	public void setExpireDate (Timestamp ExpireDate);
+	/** Set Description.
+	  * Optional short description of the record
+	  */
+	public void setDescription (String Description);
 
-	/** Get Expire Date	  */
-	public Timestamp getExpireDate();
+	/** Get Description.
+	  * Optional short description of the record
+	  */
+	public String getDescription();
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
@@ -144,18 +131,31 @@ public interface I_AD_Token
 	  */
 	public boolean isActive();
 
-    /** Column name TokenValue */
-    public static final String COLUMNNAME_TokenValue = "TokenValue";
+    /** Column name Name */
+    public static final String COLUMNNAME_Name = "Name";
 
-	/** Set Token Value.
-	  * Value of Token generated
+	/** Set Name.
+	  * Alphanumeric identifier of the entity
 	  */
-	public void setTokenValue (String TokenValue);
+	public void setName (String Name);
 
-	/** Get Token Value.
-	  * Value of Token generated
+	/** Get Name.
+	  * Alphanumeric identifier of the entity
 	  */
-	public String getTokenValue();
+	public String getName();
+
+    /** Column name TokenType */
+    public static final String COLUMNNAME_TokenType = "TokenType";
+
+	/** Set TokenType.
+	  * Wiki Token Type
+	  */
+	public void setTokenType (String TokenType);
+
+	/** Get TokenType.
+	  * Wiki Token Type
+	  */
+	public String getTokenType();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -185,4 +185,17 @@ public interface I_AD_Token
 	  * Immutable Universally Unique Identifier
 	  */
 	public String getUUID();
+
+    /** Column name Value */
+    public static final String COLUMNNAME_Value = "Value";
+
+	/** Set Search Key.
+	  * Search key for the record in the format required - must be unique
+	  */
+	public void setValue (String Value);
+
+	/** Get Search Key.
+	  * Search key for the record in the format required - must be unique
+	  */
+	public String getValue();
 }

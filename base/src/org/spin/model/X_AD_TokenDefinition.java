@@ -18,14 +18,14 @@
 package org.spin.model;
 
 import java.sql.ResultSet;
-import java.sql.Timestamp;
 import java.util.Properties;
 import org.compiere.model.*;
+import org.compiere.util.KeyNamePair;
 
-/** Generated Model for AD_Token
+/** Generated Model for AD_TokenDefinition
  *  @author Adempiere (generated) 
  *  @version Release 3.9.0 - $Id$ */
-public class X_AD_Token extends PO implements I_AD_Token, I_Persistent 
+public class X_AD_TokenDefinition extends PO implements I_AD_TokenDefinition, I_Persistent 
 {
 
 	/**
@@ -34,25 +34,27 @@ public class X_AD_Token extends PO implements I_AD_Token, I_Persistent
 	private static final long serialVersionUID = 20181001L;
 
     /** Standard Constructor */
-    public X_AD_Token (Properties ctx, int AD_Token_ID, String trxName)
+    public X_AD_TokenDefinition (Properties ctx, int AD_TokenDefinition_ID, String trxName)
     {
-      super (ctx, AD_Token_ID, trxName);
-      /** if (AD_Token_ID == 0)
+      super (ctx, AD_TokenDefinition_ID, trxName);
+      /** if (AD_TokenDefinition_ID == 0)
         {
 			setAD_TokenDefinition_ID (0);
-			setAD_Token_ID (0);
-			setExpireDate (new Timestamp( System.currentTimeMillis() ));
+			setClassname (null);
+			setName (null);
+			setTokenType (null);
+			setValue (null);
         } */
     }
 
     /** Load Constructor */
-    public X_AD_Token (Properties ctx, ResultSet rs, String trxName)
+    public X_AD_TokenDefinition (Properties ctx, ResultSet rs, String trxName)
     {
       super (ctx, rs, trxName);
     }
 
     /** AccessLevel
-      * @return 6 - System - Client 
+      * @return 4 - System 
       */
     protected int get_AccessLevel()
     {
@@ -68,15 +70,10 @@ public class X_AD_Token extends PO implements I_AD_Token, I_Persistent
 
     public String toString()
     {
-      StringBuffer sb = new StringBuffer ("X_AD_Token[")
+      StringBuffer sb = new StringBuffer ("X_AD_TokenDefinition[")
         .append(get_ID()).append("]");
       return sb.toString();
     }
-
-	public org.spin.model.I_AD_TokenDefinition getAD_TokenDefinition() throws RuntimeException
-    {
-		return (org.spin.model.I_AD_TokenDefinition)MTable.get(getCtx(), org.spin.model.I_AD_TokenDefinition.Table_Name)
-			.getPO(getAD_TokenDefinition_ID(), get_TrxName());	}
 
 	/** Set Token Definition.
 		@param AD_TokenDefinition_ID 
@@ -85,9 +82,9 @@ public class X_AD_Token extends PO implements I_AD_Token, I_Persistent
 	public void setAD_TokenDefinition_ID (int AD_TokenDefinition_ID)
 	{
 		if (AD_TokenDefinition_ID < 1) 
-			set_Value (COLUMNNAME_AD_TokenDefinition_ID, null);
+			set_ValueNoCheck (COLUMNNAME_AD_TokenDefinition_ID, null);
 		else 
-			set_Value (COLUMNNAME_AD_TokenDefinition_ID, Integer.valueOf(AD_TokenDefinition_ID));
+			set_ValueNoCheck (COLUMNNAME_AD_TokenDefinition_ID, Integer.valueOf(AD_TokenDefinition_ID));
 	}
 
 	/** Get Token Definition.
@@ -101,86 +98,81 @@ public class X_AD_Token extends PO implements I_AD_Token, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Token.
-		@param AD_Token_ID 
-		Token for validation and approval
+	/** Set Classname.
+		@param Classname 
+		Java Classname
 	  */
-	public void setAD_Token_ID (int AD_Token_ID)
+	public void setClassname (String Classname)
 	{
-		if (AD_Token_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_Token_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_AD_Token_ID, Integer.valueOf(AD_Token_ID));
+		set_Value (COLUMNNAME_Classname, Classname);
 	}
 
-	/** Get Token.
-		@return Token for validation and approval
+	/** Get Classname.
+		@return Java Classname
 	  */
-	public int getAD_Token_ID () 
+	public String getClassname () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Token_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
+		return (String)get_Value(COLUMNNAME_Classname);
 	}
 
-	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException
-    {
-		return (org.compiere.model.I_AD_User)MTable.get(getCtx(), org.compiere.model.I_AD_User.Table_Name)
-			.getPO(getAD_User_ID(), get_TrxName());	}
-
-	/** Set User/Contact.
-		@param AD_User_ID 
-		User within the system - Internal or Business Partner Contact
+	/** Set Description.
+		@param Description 
+		Optional short description of the record
 	  */
-	public void setAD_User_ID (int AD_User_ID)
+	public void setDescription (String Description)
 	{
-		if (AD_User_ID < 1) 
-			set_Value (COLUMNNAME_AD_User_ID, null);
-		else 
-			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
+		set_Value (COLUMNNAME_Description, Description);
 	}
 
-	/** Get User/Contact.
-		@return User within the system - Internal or Business Partner Contact
+	/** Get Description.
+		@return Optional short description of the record
 	  */
-	public int getAD_User_ID () 
+	public String getDescription () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_User_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
+		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-	/** Set Expire Date.
-		@param ExpireDate Expire Date	  */
-	public void setExpireDate (Timestamp ExpireDate)
-	{
-		set_Value (COLUMNNAME_ExpireDate, ExpireDate);
-	}
-
-	/** Get Expire Date.
-		@return Expire Date	  */
-	public Timestamp getExpireDate () 
-	{
-		return (Timestamp)get_Value(COLUMNNAME_ExpireDate);
-	}
-
-	/** Set Token Value.
-		@param TokenValue 
-		Value of Token generated
+	/** Set Name.
+		@param Name 
+		Alphanumeric identifier of the entity
 	  */
-	public void setTokenValue (String TokenValue)
+	public void setName (String Name)
 	{
-		set_Value (COLUMNNAME_TokenValue, TokenValue);
+		set_Value (COLUMNNAME_Name, Name);
 	}
 
-	/** Get Token Value.
-		@return Value of Token generated
+	/** Get Name.
+		@return Alphanumeric identifier of the entity
 	  */
-	public String getTokenValue () 
+	public String getName () 
 	{
-		return (String)get_Value(COLUMNNAME_TokenValue);
+		return (String)get_Value(COLUMNNAME_Name);
+	}
+
+	/** TokenType AD_Reference_ID=54071 */
+	public static final int TOKENTYPE_AD_Reference_ID=54071;
+	/** SMS (Short Message Service)  = SMS */
+	public static final String TOKENTYPE_SMSShortMessageService = "SMS";
+	/** EMail (E-Mail for User with Code) = EMA */
+	public static final String TOKENTYPE_EMailE_MailForUserWithCode = "EMA";
+	/** URL (Token used as URL) = URL */
+	public static final String TOKENTYPE_URLTokenUsedAsURL = "URL";
+	/** Set TokenType.
+		@param TokenType 
+		Wiki Token Type
+	  */
+	public void setTokenType (String TokenType)
+	{
+
+		set_ValueNoCheck (COLUMNNAME_TokenType, TokenType);
+	}
+
+	/** Get TokenType.
+		@return Wiki Token Type
+	  */
+	public String getTokenType () 
+	{
+		return (String)get_Value(COLUMNNAME_TokenType);
 	}
 
 	/** Set Immutable Universally Unique Identifier.
@@ -199,4 +191,29 @@ public class X_AD_Token extends PO implements I_AD_Token, I_Persistent
 	{
 		return (String)get_Value(COLUMNNAME_UUID);
 	}
+
+	/** Set Search Key.
+		@param Value 
+		Search key for the record in the format required - must be unique
+	  */
+	public void setValue (String Value)
+	{
+		set_Value (COLUMNNAME_Value, Value);
+	}
+
+	/** Get Search Key.
+		@return Search key for the record in the format required - must be unique
+	  */
+	public String getValue () 
+	{
+		return (String)get_Value(COLUMNNAME_Value);
+	}
+
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), getValue());
+    }
 }
