@@ -894,9 +894,9 @@ public class MTree extends X_AD_Tree
 	public String getNodeTableName() {
 		//	Yamel Senih, 2015-11-14
 		//	Add support to old version
-		String tableName = getNodeTableName(getAD_Table_ID());
+		String tableName = getNodeTableName(getTreeType());
 		if(tableName == null) {
-			tableName = getNodeTableName(getTreeType());
+			tableName = getNodeTableName(getAD_Table_ID());
 		}
 		//	Return
 		return tableName;
@@ -1096,7 +1096,7 @@ public class MTree extends X_AD_Tree
 					int AD_Form_ID = nodeRowSet.getInt(index++);
 					int AD_Workflow_ID = nodeRowSet.getInt(index++);
 					int AD_Task_ID = nodeRowSet.getInt(index++);
-//					int AD_Workbench_ID = nodeRowSet.getInt(index++);
+					int AD_Workbench_ID = nodeRowSet.getInt(index++);
 					int AD_Browse_ID = nodeRowSet.getInt(index++);
 					//
 					MRole role = MRole.getDefault(getCtx(), false);
