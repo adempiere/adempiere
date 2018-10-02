@@ -12,24 +12,27 @@
  * For the text or an alternative of this public license, you may reach us    *
  * Copyright (C) 2003-2015 E.R.P. Consultores y Asociados, C.A.               *
  * All Rights Reserved.                                                       *
- * Contributor(s): Yamel Senih www.erpconsultoresyasociados.com               *
+ * Contributor(s): Yamel Senih www.erpya.com                                  *
  *****************************************************************************/
-package org.spin.process;
+package org.spin.util;
 
 import java.util.List;
 
 import org.compiere.model.MClient;
+import org.compiere.model.MClientInfo;
 import org.compiere.model.MMailText;
-import org.compiere.model.MSysConfig;
 import org.compiere.model.MUser;
 import org.compiere.model.MUserMail;
 import org.compiere.util.AdempiereUserError;
 import org.compiere.util.EMail;
 import org.compiere.util.Env;
+import org.compiere.util.Util;
+import org.spin.model.MADTokenDefinition;
 
 
 /**
- * @author Raul Muñoz, rMunoz@erpcya.com, ERPCyA http://www.erpcya.com
+ * @author Raul Muñoz, rMunoz@erpya.com, ERPCyA http://www.erpya.com
+ * @author Yamel Senih, ySenih@erpya.com, ERPCyA http://www.erpya.com
  * <li> FR [ 1769 ] Add option to restore the password from the login
  * @see https://github.com/adempiere/adempiere/issues/1769
  *
@@ -41,53 +44,64 @@ public class GeneratePassword  {
 	
 	public String doIt(String userName) {
 		List<MUser> users = MUser.getUsers(Env.getCtx(), userName);
-		users.forEach(user -> {
-						try {
-							msg.append(generateToken(user));
-						} catch (Exception e) {
-							msg.append(e.getLocalizedMessage());
-						}
+		users
+			.forEach(user -> {
+				try {
+					msg.append(generateToken(user));
+				} catch (Exception e) {
+					msg.append(e.getLocalizedMessage());
+				}
 		});
 		return msg.toString();
 		
 	}
+	
+	/**
+	 * Generate token
+	 * @param user
+	 * @return
+	 * @throws Exception
+	 */
 	public String generateToken(MUser user) throws Exception {
+		if(user == null) {
+			throw new AdempiereUserError ("@AD_User_ID@ @NotFound@");
+		}
+		//	Validate EMail
+		if (Util.isEmpty(user.getEMail())) {
+			throw new AdempiereUserError ("@AD_User_ID@ - @Email@ @NotFound@");
+		}
 		MClient client = MClient.get(user.getCtx());
-		
+		MClientInfo clientInfo = client.getInfo();
+		//	
+		TokenGeneratorHandler.getInstance().generateToken(MADTokenDefinition.TOKENTYPE_URLTokenUsedAsURL, user.getAD_User_ID());
+		//	Get
+		int mailTextId = clientInfo.getRestorePassword_MailText_ID();
+		if(mailTextId <= 0) {
+			throw new AdempiereUserError ("@RestorePassword_MailText_ID@ @NotFound@");
+		}
+		//	Set from mail template
+		MMailText text = new MMailText (Env.getCtx(), mailTextId, null);
+		text.setPO(TokenGeneratorHandler.getInstance().getToken(MADTokenDefinition.TOKENTYPE_URLTokenUsedAsURL));
+		text.setUser(user);
+		//	
+		EMail email = client.createEMail(user.getEMail(), null, null);
+		//	
 		String msg = null;
-		if(user != null) {
-			TokenGeneratorHandler.getInstance().generateToken(user.getAD_User_ID());
-			
-			MMailText text = null;
-			int mailTextId = MSysConfig.getIntValue("MailPasswordReset", 50001);
-			text = new MMailText (Env.getCtx(), mailTextId, null);
-
-				text.setPO(TokenGeneratorHandler.getInstance().getToken());
-				if (user.getEMail() == null)
-					throw new AdempiereUserError ("@NotFound@: @AD_User_Id@ - @Email@" );
-			
-				
-				EMail email = client.createEMail(user.getEMail(), null, null);
-				if (!email.isValid()) {
-					msg = "@RequestActionEMailError@ Invalid EMail: " + user;
-					throw new AdempiereUserError (
-						"@RequestActionEMailError@ Invalid EMail: " + user);
-				}
-				//text.setUser(user);	//	variable context
-				String message = text.getMailText(true);
-				email.setMessageHTML(text.getMailHeader(), message);
-				
-				//
-				msg = email.send();
-				MUserMail um = new MUserMail(text, user.getAD_User_ID(), email);
-				um.saveEx();
-				if (!msg.equals(EMail.SENT_OK)) {
-					throw new AdempiereUserError (
-						user.getName() + " @RequestActionEMailError@ " + msg);
-				}
-		} else {
+		if (!email.isValid()) {
+			msg = "@RequestActionEMailError@ Invalid EMail: " + user;
 			throw new AdempiereUserError (
-					" @NotFound@: @AD_User_Id@ ");
+					"@RequestActionEMailError@ Invalid EMail: " + user);
+		}
+		//text.setUser(user);	//	variable context
+		String message = text.getMailText(true);
+		email.setMessageHTML(text.getMailHeader(), message);
+		//
+		msg = email.send();
+		MUserMail um = new MUserMail(text, user.getAD_User_ID(), email);
+		um.saveEx();
+		if (!msg.equals(EMail.SENT_OK)) {
+			throw new AdempiereUserError (
+					user.getName() + " @RequestActionEMailError@ " + msg);
 		}
   	  	return msg ;
 	}

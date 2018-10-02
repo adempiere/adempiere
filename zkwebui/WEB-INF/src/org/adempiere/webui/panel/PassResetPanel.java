@@ -39,7 +39,7 @@ import org.compiere.model.MSystem;
 import org.compiere.util.CLogger;
 import org.compiere.util.EMail;
 import org.compiere.util.Msg;
-import org.spin.process.GeneratePassword;
+import org.spin.util.GeneratePassword;
 import org.zkoss.zhtml.Div;
 import org.zkoss.zhtml.Table;
 import org.zkoss.zhtml.Td;

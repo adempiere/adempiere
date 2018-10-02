@@ -43,7 +43,8 @@ import org.compiere.util.KeyNamePair;
 import org.compiere.util.Language;
 import org.compiere.util.Login;
 import org.compiere.util.Msg;
-import org.spin.process.TokenGeneratorHandler;
+import org.spin.model.MADTokenDefinition;
+import org.spin.util.TokenGeneratorHandler;
 import org.zkoss.lang.Strings;
 import org.zkoss.util.Locales;
 import org.zkoss.zhtml.Div;
@@ -145,7 +146,8 @@ public class NewPassPanel extends Window implements EventListener
 	    		this.userId = Integer.parseInt(userId); 
 	    	}
 	    	 
-			if(token == null || !TokenGeneratorHandler.getInstance().validateToken(token,this.userId)) {
+			if(token == null 
+					|| !TokenGeneratorHandler.getInstance().validateToken(MADTokenDefinition.TOKENTYPE_URLTokenUsedAsURL, token,this.userId)) {
 				tr = new Tr();
 				tr.setId("Message");
 				table.appendChild(tr);

@@ -12,43 +12,54 @@
  * For the text or an alternative of this public license, you may reach us    *
  * Copyright (C) 2003-2015 E.R.P. Consultores y Asociados, C.A.               *
  * All Rights Reserved.                                                       *
- * Contributor(s): Yamel Senih www.erpconsultoresyasociados.com               *
+ * Contributor(s): Yamel Senih www.erpya.com                                  *
  *****************************************************************************/
-package org.spin.process;
+package org.spin.util;
 
 import java.lang.reflect.Constructor;
-import java.security.SecureRandom;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 
-import org.compiere.model.MSysConfig;
 import org.compiere.util.CLogger;
 import org.compiere.util.Util;
-import org.spin.model.MToken;
+import org.spin.model.MADToken;
+import org.spin.model.MADTokenDefinition;
+import org.compiere.util.Env;
 
 import com.sun.enterprise.admin.util.Logger;
 /**
- * @author Raul Muñoz, rMunoz@erpcya.com, ERPCyA http://www.erpcya.com
+ * @author Raul Muñoz, rMunoz@erpya.com, ERPCyA http://www.erpcya.com
+ * @author Yamel Senih, ySenih@erpya.com, ERPCyA http://www.erpya.com
  *		<a href="https://github.com/adempiere/adempiere/issues/1446">
  * 		@see FR [ 1446 ] Smart Browse for Deposit from cash</a>
  *
  */
 public class TokenGeneratorHandler {
-
-
-    protected static SecureRandom random = new SecureRandom();
+	
     private static TokenGeneratorHandler tokenHandler = null;
     
-
-    private ITokenGenerator  tokenGenerator = null;
-
+    /**	Token Generator	*/
+    private Map<String, ITokenGenerator> tokenGeneratorMap = null;
+    
 	private static final CLogger logger = CLogger.getCLogger(TokenGeneratorHandler.class);
 	
-	
+	/**
+	 * Singleton
+	 * @return
+	 */
     public static TokenGeneratorHandler getInstance() {
-    	if(tokenHandler == null)
+    	if(tokenHandler == null) {
     		tokenHandler = new TokenGeneratorHandler();
-    	
+    	}
     	return tokenHandler;
+    }
+    
+    /**
+     * Instance hash map
+     */
+    private TokenGeneratorHandler() {
+    	tokenGeneratorMap = new HashMap<String, ITokenGenerator>();
     }
     
 
@@ -57,41 +68,68 @@ public class TokenGeneratorHandler {
      * @return
      * @throws Exception
      */
-    private ITokenGenerator getTokenGenerator() throws Exception  {
-        if(tokenGenerator == null) {
-            loadClass();
+    private ITokenGenerator getTokenGenerator(String tokenType) throws Exception  {
+        if(!tokenGeneratorMap.containsKey(tokenType)) {
+            loadClass(tokenType);
         }
         //  Default return
-        return tokenGenerator;
+        return tokenGeneratorMap.get(tokenType);
     }
 
-    public String generateToken(int userId) throws Exception {
-    	return getTokenGenerator().generateToken(userId);
+    /**
+     * Generate Token for User ID
+     * @param tokenType
+     * @param userId
+     * @return
+     * @throws Exception
+     */
+    public String generateToken(String tokenType, int userId) throws Exception {
+    	return getTokenGenerator(tokenType).generateToken(tokenType, userId);
     }
 
-    public boolean validateToken(String token, int userId) throws Exception {
-    	return getTokenGenerator().validateToken(token, userId);
+    /**
+     * Validate a Generated Token
+     * @param tokenType
+     * @param token
+     * @param userId
+     * @return
+     * @throws Exception
+     */
+    public boolean validateToken(String tokenType, String token, int userId) throws Exception {
+    	return getTokenGenerator(tokenType).validateToken(token, userId);
     }
     
-    public MToken getToken() throws Exception {
-    	return getTokenGenerator().getToken();
+    /**
+     * Get a Token
+     * @param tokenType
+     * @return
+     * @throws Exception
+     */
+    public MADToken getToken(String tokenType) throws Exception {
+    	return getTokenGenerator(tokenType).getToken();
     }
     /**
      * Get class name for instance
+     * @param tokenType
      * @return
      */
-    private String getClassname() {
-        return MSysConfig.getValue("TokenGeneratorClass", "org.spin.process.TokenGenerator");
+    private String getClassname(String tokenType) {
+    	MADTokenDefinition definition = MADTokenDefinition.getByTokenType(Env.getCtx(), tokenType, null);
+    	if(definition == null) {
+    		return null;
+    	}
+    	//	Default
+    	return definition.getClassname();
     }
     
     /**
      * Get Class from device type, used for handler
-     * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+     * @param tokenType
      * @return
      * @return Class<?>
      */
-    private Class<?> getHandlerClass() {
-        String className = getClassname();
+    private Class<?> getHandlerClass(String tokenType) {
+        String className = getClassname(tokenType);
         //	Validate null values
         if(Util.isEmpty(className)) {
             return null;
@@ -122,29 +160,24 @@ public class TokenGeneratorHandler {
 
     /**
      * Load class for export
+     * @param tokenType
      * @throws Exception
      */
-    private void loadClass() throws Exception {
-        if(tokenGenerator != null) {
-            return;
-        }
+    private void loadClass(String tokenType) throws Exception {
         //	Load it
         //	Get class from parent
-        Class<?> clazz = getHandlerClass();
+        Class<?> clazz = getHandlerClass(tokenType);
+        ITokenGenerator generator = null;
         //	Not yet implemented
         if (clazz == null) {
             logger.log(Level.SEVERE, "Class not found, Using Standard Class");
-            tokenGenerator = null;
+            generator = null;
             throw new Exception("Class for connection not found");
         }
         //
         Constructor<?> constructor = clazz.getDeclaredConstructor();
         //	new instance
-        tokenGenerator = (ITokenGenerator) constructor.newInstance();
+        generator = (ITokenGenerator) constructor.newInstance();
+        tokenGeneratorMap.put(tokenType, generator);
     }
-
-  	
-	  
-
-	
 }

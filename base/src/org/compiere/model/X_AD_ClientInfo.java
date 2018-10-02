@@ -29,7 +29,7 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170731L;
+	private static final long serialVersionUID = 20180930L;
 
     /** Standard Constructor */
     public X_AD_ClientInfo (Properties ctx, int AD_ClientInfo_ID, String trxName)
@@ -533,6 +533,26 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Logo.
+		@param Logo_ID Logo	  */
+	public void setLogo_ID (int Logo_ID)
+	{
+		if (Logo_ID < 1) 
+			set_Value (COLUMNNAME_Logo_ID, null);
+		else 
+			set_Value (COLUMNNAME_Logo_ID, Integer.valueOf(Logo_ID));
+	}
+
+	/** Get Logo.
+		@return Logo	  */
+	public int getLogo_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Logo_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Logo Report.
 		@param LogoReport_ID Logo Report	  */
 	public void setLogoReport_ID (int LogoReport_ID)
@@ -573,26 +593,6 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Logo.
-		@param Logo_ID Logo	  */
-	public void setLogo_ID (int Logo_ID)
-	{
-		if (Logo_ID < 1) 
-			set_Value (COLUMNNAME_Logo_ID, null);
-		else 
-			set_Value (COLUMNNAME_Logo_ID, Integer.valueOf(Logo_ID));
-	}
-
-	/** Get Logo.
-		@return Logo	  */
-	public int getLogo_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_Logo_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.compiere.model.I_M_Product getM_ProductFreight() throws RuntimeException
     {
 		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
@@ -613,6 +613,34 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 	public int getM_ProductFreight_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_ProductFreight_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_R_MailText getRestorePassword_MailText() throws RuntimeException
+    {
+		return (org.compiere.model.I_R_MailText)MTable.get(getCtx(), org.compiere.model.I_R_MailText.Table_Name)
+			.getPO(getRestorePassword_MailText_ID(), get_TrxName());	}
+
+	/** Set Restore Password Mail Text.
+		@param RestorePassword_MailText_ID 
+		Used for Restore Password Mail Text
+	  */
+	public void setRestorePassword_MailText_ID (int RestorePassword_MailText_ID)
+	{
+		if (RestorePassword_MailText_ID < 1) 
+			set_Value (COLUMNNAME_RestorePassword_MailText_ID, null);
+		else 
+			set_Value (COLUMNNAME_RestorePassword_MailText_ID, Integer.valueOf(RestorePassword_MailText_ID));
+	}
+
+	/** Get Restore Password Mail Text.
+		@return Used for Restore Password Mail Text
+	  */
+	public int getRestorePassword_MailText_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_RestorePassword_MailText_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
