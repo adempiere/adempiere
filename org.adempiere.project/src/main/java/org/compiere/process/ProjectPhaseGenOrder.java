@@ -114,7 +114,7 @@ public class ProjectPhaseGenOrder  extends ProjectPhaseGenOrderAbstract
 
 		//	Project Tasks
 		List<MProjectTask> tasks = fromPhase.getTasks();
-		tasks.stream().forEach(fromTask -> {
+		tasks.stream().filter(task -> task.getM_Product_ID() != 0).forEach(fromTask -> {
 			{
 				MOrderLine orderLine = new MOrderLine(order);
 				orderLine.setLine(fromTask.getSeqNo());
