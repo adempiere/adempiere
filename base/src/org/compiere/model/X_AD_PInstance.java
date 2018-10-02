@@ -275,6 +275,8 @@ public class X_AD_PInstance extends PO implements I_AD_PInstance, I_Persistent
 	public static final String REPORTTYPE_HTML = "H";
 	/** XLSX = XX */
 	public static final String REPORTTYPE_XLSX = "XX";
+	/** CSV = C */
+	public static final String REPORTTYPE_CSV = "C";
 	/** Set Report Type.
 		@param ReportType Report Type	  */
 	public void setReportType (String ReportType)
