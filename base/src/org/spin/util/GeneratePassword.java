@@ -70,7 +70,7 @@ public class GeneratePassword  {
 		if (Util.isEmpty(user.getEMail())) {
 			throw new AdempiereUserError ("@AD_User_ID@ - @Email@ @NotFound@");
 		}
-		MClient client = MClient.get(user.getCtx());
+		MClient client = MClient.get(user.getCtx(), user.getAD_Client_ID());
 		MClientInfo clientInfo = client.getInfo();
 		//	
 		TokenGeneratorHandler.getInstance().generateToken(MADTokenDefinition.TOKENTYPE_URLTokenUsedAsURL, user.getAD_User_ID());
