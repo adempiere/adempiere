@@ -30,6 +30,9 @@ import org.compiere.util.Env;
  *	
  *  @author Jorg Janke
  *  @version $Id: MSalesRegion.java,v 1.3 2006/07/30 00:54:54 jjanke Exp $
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com 2015-09-09
+ *  	<li>FR [ 9223372036854775807 ] Add Support to Dynamic Tree
+ *  @see https://adempiere.atlassian.net/browse/ADEMPIERE-442
  */
 public class MSalesRegion extends X_C_SalesRegion
 {
@@ -47,8 +50,9 @@ public class MSalesRegion extends X_C_SalesRegion
 	 */
 	@Deprecated
 	public static MSalesRegion get (Properties ctx, int salesRegionId) {
-		return getById(ctx, salesRegionId);
+		return getById(ctx, salesRegionId, null);
 	}	//	get
+
 
 	/** Static Cache */
 	private static CCache<Integer, MSalesRegion> salesRegionCacheIds = new CCache<Integer, MSalesRegion>(Table_Name, 30);
@@ -59,9 +63,10 @@ public class MSalesRegion extends X_C_SalesRegion
 	 * Get/Load Campaign [CACHED]
 	 * @param ctx context
 	 * @param salesRegionId
+	 * @param trxName
 	 * @return activity or null
 	 */
-	public static MSalesRegion getById(Properties ctx, int salesRegionId) {
+	public static MSalesRegion getById(Properties ctx, int salesRegionId, String trxName) {
 		if (salesRegionId <= 0)
 			return null;
 
@@ -69,7 +74,7 @@ public class MSalesRegion extends X_C_SalesRegion
 		if (salesRegion != null && salesRegion.get_ID() > 0)
 			return salesRegion;
 
-		salesRegion = new Query(ctx , Table_Name , COLUMNNAME_C_SalesRegion_ID + "=?" , null)
+		salesRegion = new Query(ctx , Table_Name , COLUMNNAME_C_SalesRegion_ID + "=?" , trxName)
 				.setClient_ID()
 				.setParameters(salesRegionId)
 				.first();
@@ -87,13 +92,14 @@ public class MSalesRegion extends X_C_SalesRegion
 	 * get Activity By Value [CACHED]
 	 * @param ctx
 	 * @param salesRegionValue
+	 * @param trxName
 	 * @return
 	 */
-	public static MSalesRegion getByValue(Properties ctx , String salesRegionValue) {
+	public static MSalesRegion getByValue(Properties ctx, String salesRegionValue, String trxName) {
 		if (salesRegionValue == null)
 			return null;
 		if (salesRegionCacheValues.size() == 0 )
-			getAll(ctx, true);
+			getAll(ctx, true, trxName);
 
 		int clientId = Env.getAD_Client_ID(ctx);
 		String key = clientId + "#" + salesRegionValue;
@@ -101,7 +107,7 @@ public class MSalesRegion extends X_C_SalesRegion
 		if (salesRegion != null && salesRegion.get_ID() > 0 )
 			return salesRegion;
 
-		salesRegion =  new Query(ctx, Table_Name , COLUMNNAME_Value +  "=?", null)
+		salesRegion =  new Query(ctx, Table_Name , COLUMNNAME_Value +  "=?", trxName)
 				.setClient_ID()
 				.setParameters(salesRegionValue)
 				.first();
@@ -117,12 +123,13 @@ public class MSalesRegion extends X_C_SalesRegion
 	 * Get All Campaign
 	 * @param ctx
 	 * @param resetCache
+	 * @param trxName
 	 * @return
 	 */
-	public static List<MSalesRegion> getAll(Properties ctx, boolean resetCache) {
+	public static List<MSalesRegion> getAll(Properties ctx, boolean resetCache, String trxName) {
 		List<MSalesRegion> salesRegionList;
 		if (resetCache || salesRegionCacheIds.size() > 0 ) {
-			salesRegionList = new Query(Env.getCtx(), Table_Name, null , null)
+			salesRegionList = new Query(Env.getCtx(), Table_Name, null , trxName)
 					.setClient_ID()
 					.setOrderBy(COLUMNNAME_Name)
 					.list();
@@ -187,8 +194,11 @@ public class MSalesRegion extends X_C_SalesRegion
 	{
 		if (!success)
 			return success;
-		if (newRecord)
-			insert_Tree(MTree_Base.TREETYPE_SalesRegion);
+		//	Yamel Senih [ 9223372036854775807 ]
+		//	Change to PO
+//		if (newRecord)
+//			insert_Tree(MTree.TREETYPE_SalesRegion);
+		//	End Yamel Senih
 		//	Value/Name change
 		if (!newRecord && (is_ValueChanged("Value") || is_ValueChanged("Name")))
 			MAccount.updateValueDescription(getCtx(), "C_SalesRegion_ID=" + getC_SalesRegion_ID(), get_TrxName());
@@ -201,11 +211,14 @@ public class MSalesRegion extends X_C_SalesRegion
 	 *	@param success
 	 *	@return deleted
 	 */
-	protected boolean afterDelete (boolean success)
-	{
-		if (success)
-			delete_Tree(MTree_Base.TREETYPE_SalesRegion);
-		return success;
-	}	//	afterDelete
+	//	Yamel Senih [ 9223372036854775807 ]
+	//	Change to PO
+//	protected boolean afterDelete (boolean success)
+//	{
+//		if (success)
+//			delete_Tree(MTree.TREETYPE_SalesRegion);
+//		return success;
+//	}	//	afterDelete
+	//	End Yamel Senih
 	
 }	//	MSalesRegion

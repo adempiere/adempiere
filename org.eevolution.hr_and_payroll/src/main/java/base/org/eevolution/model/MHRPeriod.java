@@ -19,23 +19,28 @@ public class MHRPeriod extends X_HR_Period
 	private static final long serialVersionUID = -7787966459848200539L;
 	private static CCache<Integer, MHRPeriod> s_cache = new CCache<Integer, MHRPeriod>(Table_Name, 20);
 
-	public static MHRPeriod get(Properties ctx, int HR_Period_ID)
+	
+	@Deprecated
+	public static MHRPeriod get(Properties ctx, int periodId)
 	{
-		if (HR_Period_ID <= 0)
-		{
+		return getById(ctx, periodId , null);
+	}
+
+	public static MHRPeriod getById(Properties ctx, int periodId, String trxName)
+	{
+		if (periodId <= 0)
 			return null;
-		}
 		//
-		MHRPeriod period = s_cache.get(HR_Period_ID);
+		MHRPeriod period = s_cache.get(periodId);
 		if (period != null)
 		{
 			return period;
 		}
 		// Try Load
-		period = new MHRPeriod(ctx, HR_Period_ID, null);
-		if (period.get_ID() == HR_Period_ID)
+		period = new MHRPeriod(ctx, periodId, trxName);
+		if (period.get_ID() == periodId)
 		{
-			s_cache.put(HR_Period_ID, period);
+			s_cache.put(periodId, period);
 		}
 		else
 		{

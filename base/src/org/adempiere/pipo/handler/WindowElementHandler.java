@@ -63,8 +63,10 @@ public class WindowElementHandler extends AbstractElementHandler {
 				return;
 			}
 			MWindow m_Window = new MWindow(ctx, id, getTrxName(ctx));
-			if (id <= 0 && atts.getValue("AD_Window_ID") != null && Integer.parseInt(atts.getValue("AD_Window_ID")) <= PackOut.MAX_OFFICIAL_ID)
+			if (id <= 0 && atts.getValue("AD_Window_ID") != null && Integer.parseInt(atts.getValue("AD_Window_ID")) <= PackOut.MAX_OFFICIAL_ID) {
 				m_Window.setAD_Window_ID(Integer.parseInt(atts.getValue("AD_Window_ID")));
+				m_Window.setIsDirectLoad(true);
+			}
 			String Object_Status = null;
 			int AD_Backup_ID = -1;
 			if (id > 0) {

@@ -17,13 +17,18 @@
 
 package org.adempiere.webui.editor;
 
+import org.adempiere.webui.component.Button;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MAcctSchemaElement;
+import org.compiere.model.MImage;
 import org.compiere.util.CLogger;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
+import org.zkoss.image.AImage;
+
+import java.util.logging.Level;
 
 /**
  *
@@ -130,6 +135,21 @@ public class WebEditorFactory
         else if (displayType == DisplayType.Button)
         {
             editor = new WButtonEditor(gridField);
+            if (gridField.getAD_Image_ID() > 0)
+            {
+            MImage icon = MImage.get(gridField.getVO().ctx , gridField.getAD_Image_ID());
+            AImage imageIcon = null;
+            byte[] image = icon.getData();
+            if (image != null && image.length > 0) {
+                try {
+                    imageIcon = new AImage(null, image);
+                } catch (Exception e) {
+                    logger.log(Level.WARNING, e.getLocalizedMessage(), e);
+                }
+            }
+            if (imageIcon != null)
+                ((Button) editor.getComponent()).setImageContent(imageIcon);
+            }
         }
 
         /** Table Direct */

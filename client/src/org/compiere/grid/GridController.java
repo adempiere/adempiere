@@ -454,17 +454,20 @@ public class GridController extends CPanel
 		}   //  Single-Row
 
 		//  Tree Graphics Layout
-		int treeId = Env.getContextAsInt(Env.getCtx(), m_WindowNo , m_mTab.getTabNo(), "AD_Tree_ID");
+		String treeName = "AD_Tree_ID";
+		int treeId = Env.getContextAsInt(Env.getCtx(), m_WindowNo , m_mTab.getTabNo(), treeName);
 		if (m_mTab.isTreeTab() && treeId == 0)
-			treeId = MTree.getDefaultAD_Tree_ID(Env.getAD_Client_ID(Env.getCtx()), m_mTab.getKeyColumnName());
-			if (treeId > 0)
-				Env.setContext (Env.getCtx(), m_WindowNo, "AD_Tree_ID",  treeId);
+			treeId = MTree.getDefaultTreeIdFromTableId(Env.getAD_Client_ID(Env.getCtx()), m_mTab.getAD_Table_ID());
+			if (treeId > 0) {
+				Env.setContext (Env.getCtx(), m_WindowNo, treeName,  treeId);
+			}
 
 		if (m_mTab.isTreeTab() && treeId > 0)
 		{
-			m_tree = new VTreePanel(m_WindowNo, false, true);
-			if (m_mTab.getTabLevel() == 0)	//	initialize other tabs later
-				m_tree.initTree(treeId);
+			m_tree = new VTreePanel(m_WindowNo, false, !m_mTab.isReadOnly() && !m_mTab.isReadOnlyFromContext());
+			if (m_mTab.getTabLevel() == 0) {	//	initialize other tabs later
+				m_tree.initTree(treeId, m_mTab.getWhereExtended());
+			}
 			m_tree.addPropertyChangeListener(VTreePanel.NODE_SELECTION, this);
 			graphPanel.add(m_tree, BorderLayout.CENTER);
 			splitPane.setDividerLocation(250);
@@ -647,31 +650,20 @@ public class GridController extends CPanel
 		//	Tree to be initiated on second/.. tab
 		if (m_mTab.isTreeTab() && m_mTab.getTabNo() != 0)
 		{
-			String keyColumnName = m_mTab.getKeyColumnName();
 			String treeName = "AD_Tree_ID";
-			if (keyColumnName.startsWith("CM"))
-			{
-				if (keyColumnName.equals("CM_Container_ID"))
-					treeName = "AD_TreeCMC_ID";
-				else if (keyColumnName.equals("CM_CStage_ID"))
-					treeName = "AD_TreeCMS_ID";
-				else if (keyColumnName.equals("CM_Template_ID"))
-					treeName = "AD_TreeCMT_ID";
-				else if (keyColumnName.equals("CM_Media_ID"))
-					treeName = "AD_TreeCMM_ID";
-			}
 			int treeId = Env.getContextAsInt (Env.getCtx(), m_WindowNo, treeName, true);
-			log.config(keyColumnName + " -> " + treeName + " = " + treeId);
+			log.config(treeName + " = " + treeId);
 			if ((m_mTab.isTreeTab() && treeId == 0) || m_mTab.getTabLevel() == 0)
-				treeId = MTree.getDefaultAD_Tree_ID (Env.getAD_Client_ID(Env.getCtx()), m_mTab.getKeyColumnName());
-
+				treeId = MTree.getDefaultTreeIdFromTableId(Env.getAD_Client_ID(Env.getCtx()), m_mTab.getAD_Table_ID());
 			if (treeId == 0) {
-				treeId = MTree.getDefaultAD_Tree_ID(Env.getAD_Client_ID(Env.getCtx()), m_mTab.getKeyColumnName());
+				treeId = MTree.getDefaultTreeIdFromTableId(Env.getAD_Client_ID(Env.getCtx()), m_mTab.getAD_Table_ID());
 				if (treeId > 0 )
-					Env.setContext (Env.getCtx(), m_WindowNo, "AD_Tree_ID",  treeId);
+					Env.setContext (Env.getCtx(), m_WindowNo, treeName,  treeId);
 			}
-			if (m_mTab.isTreeTab() && treeId > 0 &&  m_tree != null && treeId != m_tree.getTreeId())
-				m_tree.initTree (treeId);
+			if (m_mTab.isTreeTab() && treeId > 0 && m_tree != null) {
+				//	Init Tree
+				m_tree.initTree(treeId, m_mTab.getWhereExtended());
+			}
 		}
 
 		activateChilds();
@@ -730,7 +722,11 @@ public class GridController extends CPanel
 		//  Update UI
 		if (!isSingleRow())
 			vTable.autoSize(true);
-		activateChilds();
+		//	Yamel Senih [ 9223372036854775807 ]
+		//	Refresh Tree
+//		activateChilds();
+		activate();
+		//	End Yamel Senih
 	}   //  query
 
 	/*

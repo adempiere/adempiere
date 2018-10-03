@@ -116,7 +116,7 @@ public class MHREmployee extends X_HR_Employee
 		StringBuffer whereClause = new StringBuffer();
 		whereClause.append(" C_BPartner.C_BPartner_ID IN (SELECT e.C_BPartner_ID FROM HR_Employee e WHERE 1=1 ");
 		//	look if it is a not regular payroll
-		MHRPayroll payroll = MHRPayroll.getById(process.getCtx(), process.getHR_Payroll_ID());
+		MHRPayroll payroll = MHRPayroll.getById(process.getCtx(), process.getHR_Payroll_ID(), process.get_TrxName());
 		// This payroll not content periods, NOT IS a Regular Payroll > ogi-cd 28Nov2007
 		if(process.getHR_Payroll_ID() != 0 && process.getHR_Period_ID() != 0 && !payroll.isIgnoreDefaultPayroll())
 		{
@@ -175,11 +175,11 @@ public class MHREmployee extends X_HR_Employee
 		return list.toArray(new MBPartner[list.size()]);
 	}	//	getEmployees
 	
-	public static MHREmployee getActiveEmployee(Properties ctx, int C_BPartner_ID, String trxName)
+	public static MHREmployee getActiveEmployee(Properties ctx, int partnerId, String trxName)
 	{
 		return new Query(ctx, Table_Name, COLUMNNAME_C_BPartner_ID+"=?", trxName)
 							.setOnlyActiveRecords(true)
-							.setParameters(new Object[]{C_BPartner_ID})
+							.setParameters(partnerId)
 							.setOrderBy(COLUMNNAME_HR_Employee_ID+" DESC") // just in case...
 							.first();
 	}

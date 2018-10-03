@@ -99,7 +99,7 @@ public class InfoPaymentPanel extends InfoPanel implements ValueChangeListener, 
 	/** From Clause             */
 	private static String s_From = " C_Payment_v p";
 	/** Order Clause             */
-	private static String s_Order = "2,3,4";
+	private static String s_Order = " p.DateTrx desc, p.DocumentNo";
 	/**  Array of Column Info    */
 	private static final ColumnInfo[] s_Layout = {
 		new ColumnInfo(" ", "p.C_Payment_ID", IDColumn.class),

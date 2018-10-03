@@ -70,8 +70,10 @@ public class ImpFormatRowElementHandler extends AbstractElementHandler {
 		StringBuffer sqlB = new StringBuffer ("SELECT AD_ImpFormat_Row_ID FROM AD_ImpFormat_Row WHERE AD_Column_ID=? and AD_ImpFormat_ID=?");		
 		int id = DB.getSQLValue(getTrxName(ctx),sqlB.toString(),columnid,impformid);
 		X_AD_ImpFormat_Row m_ImpFormat_row = new X_AD_ImpFormat_Row(ctx, id, getTrxName(ctx));
-		if (id <= 0 && atts.getValue("AD_ImpFormat_Row_ID") != null && Integer.parseInt(atts.getValue("AD_ImpFormat_Row_ID")) <= PackOut.MAX_OFFICIAL_ID)
+		if (id <= 0 && atts.getValue("AD_ImpFormat_Row_ID") != null && Integer.parseInt(atts.getValue("AD_ImpFormat_Row_ID")) <= PackOut.MAX_OFFICIAL_ID) {
 			m_ImpFormat_row.setAD_ImpFormat_Row_ID(Integer.parseInt(atts.getValue("AD_ImpFormat_Row_ID")));
+			m_ImpFormat_row.setIsDirectLoad(true);
+		}
 		if (id > 0){
 			AD_Backup_ID = copyRecord(ctx, "AD_ImpFormat",m_ImpFormat_row);
 			Object_Status = "Update";			

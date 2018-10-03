@@ -70,7 +70,7 @@ public class MenuPanel extends Panel implements EventListener
         ctx = Env.getCtx();
         int adRoleId = Env.getAD_Role_ID(ctx);
         int adTreeId = getTreeId(ctx, adRoleId);
-        MTree mTree = new MTree(ctx, adTreeId, false, true, null);
+        MTree mTree = new MTree(ctx, adTreeId, false, null);
         MTreeNode rootNode = mTree.getRoot();
         init();
         initMenu(rootNode);

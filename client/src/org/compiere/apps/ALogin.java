@@ -63,6 +63,7 @@ import org.compiere.util.KeyNamePair;
 import org.compiere.util.Language;
 import org.compiere.util.Login;
 import org.compiere.util.Msg;
+import org.compiere.util.Util;
 
 /**
  *	Application Login Window
@@ -167,6 +168,8 @@ public final class ALogin extends CDialog
 	private Properties      m_ctx = Env.getCtx();
 	
 	private Login			m_login = null;
+	
+	private String			restorePasswordURL = null;
 
 	
 	/**************************************************************************
@@ -336,7 +339,13 @@ public final class ALogin extends CDialog
 		helpBtn.setActionCommand("onlineLoginHelp");
 		helpBtn.addActionListener(this);
 		helpBtn.setToolTipText(res.getString("Help"));
+		//	Forgot password
+		CButton resetPasswordBtn = new CButton(Env.getImageIcon2("LockX24"));
+		resetPasswordBtn.setActionCommand("ResetPassword");
+		resetPasswordBtn.addActionListener(this);
+		
 		confirmPanel.addComponent(helpBtn);
+		confirmPanel.addComponent(resetPasswordBtn);
 		
 		statusBar.setStatusDB(null);
 	} 	//	jbInit
@@ -485,6 +494,17 @@ public final class ALogin extends CDialog
 			orgComboChanged();
 		else if ("onlineLoginHelp".equals(e.getActionCommand()))
 			OnlineHelp.openInDefaultBrowser();
+		else if("ResetPassword".equals(e.getActionCommand())) {
+			if(Util.isEmpty(restorePasswordURL)) {
+				String appHost = CConnection.get().getAppsHost();
+				if(!Util.isEmpty(appHost)) {
+					restorePasswordURL = Adempiere.getWebServer(appHost);
+				}
+			}
+			if(!Util.isEmpty(restorePasswordURL)) {
+				Env.startBrowser(restorePasswordURL);
+			}
+		}
 	}	//	actionPerformed
 
 

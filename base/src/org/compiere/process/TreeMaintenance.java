@@ -22,7 +22,6 @@ import java.sql.ResultSet;
 import java.util.logging.Level;
 
 import org.compiere.model.MTree;
-import org.compiere.model.MTree_Base;
 import org.compiere.model.MTree_Node;
 import org.compiere.model.MTree_NodeBP;
 import org.compiere.model.MTree_NodeMM;
@@ -39,6 +38,9 @@ import org.compiere.util.DB;
  *	
  *  @author Jorg Janke
  *  @version $Id: TreeMaintenance.java,v 1.2 2006/07/30 00:51:02 jjanke Exp $
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com 2015-09-09
+ *  	<li>FR [ 9223372036854775807 ] Add Support to Dynamic Tree
+ *  @see https://adempiere.atlassian.net/browse/ADEMPIERE-442
  */
 public class TreeMaintenance extends SvrProcess
 {
@@ -85,10 +87,10 @@ public class TreeMaintenance extends SvrProcess
 	 *  Verify Tree
 	 * 	@param tree tree
 	 */
-	private String verifyTree (MTree_Base tree)
+	private String verifyTree (MTree tree)
 	{
 		String nodeTableName = tree.getNodeTableName();
-		String sourceTableName = tree.getSourceTableName(true);
+		String sourceTableName = tree.getSourceTableName();
 		String sourceTableKey = sourceTableName + "_ID";
 		int AD_Client_ID = tree.getAD_Client_ID();
 		int C_Element_ID = 0;

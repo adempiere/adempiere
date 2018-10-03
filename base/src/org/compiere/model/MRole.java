@@ -470,6 +470,15 @@ public final class MRole extends X_AD_Role
 			+ "INNER JOIN AD_Role rol ON (rol.AD_Client_ID=client.AD_Client_ID "
 			+ "AND rol.AD_Role_ID=" + getAD_Role_ID() 
 			+ ") )";
+		
+		String sqlDashboard = "INSERT INTO AD_Dashboard_Access "
+				+ "(PA_DashboardContent_ID, AD_Role_ID," 
+				+ " AD_Client_ID,AD_Org_ID,IsActive,Created,CreatedBy,Updated,UpdatedBy) "
+				+ "SELECT b.PA_DashboardContent_ID, " + getAD_Role_ID() + ","
+				+ getAD_Client_ID() + "," + getAD_Org_ID() + ",'Y', SysDate," 
+				+ getUpdatedBy() + ", SysDate," + getUpdatedBy() + " "
+				+ "FROM PA_DashboardContent b "
+				+ "WHERE AccessLevel IN ";
 
 
 		/**
@@ -517,13 +526,17 @@ public final class MRole extends X_AD_Role
 		int wf = DB.executeUpdate(sqlWorkflow + roleAccessLevel, get_TrxName());
 		int docactDel = DB.executeUpdate("DELETE FROM AD_Document_Action_Access" + whereDel, get_TrxName());
 		int docact = DB.executeUpdate(sqlDocAction, get_TrxName());
+		int dashboardDel = DB.executeUpdate("DELETE FROM AD_Dashboard_Access" + whereDel, get_TrxName());
+		int dashboard = DB.executeUpdate(sqlDashboard + roleAccessLevel, get_TrxName());
 
 		log.fine("AD_Window_ID=" + winDel + "+" + win 
 			+ ", AD_Process_ID=" + procDel + "+" + proc
 			+ ", AD_Form_ID=" + formDel + "+" + form
 			+ ", AD_Browse_ID=" + browseDel + "+" + browse
 			+ ", AD_Workflow_ID=" + wfDel + "+" + wf
-			+ ", AD_Document_Action_Access=" + docactDel + "+" + docact);
+			+ ", AD_Document_Action_Access=" + docactDel + "+" + docact
+			+ ", PA_DashboardContent_ID=" + dashboardDel + "+" + dashboard
+			);
 		
 		loadAccess(true);
 		return "@AD_Window_ID@ #" + win 
@@ -531,7 +544,8 @@ public final class MRole extends X_AD_Role
 			+ " -  @AD_Form_ID@ #" + form
 			+ " -  @AD_Browse_ID@ #"+ browse
 			+ " -  @AD_Workflow_ID@ #" + wf
-			+ " -  @DocAction@ #" + docact;
+			+ " -  @DocAction@ #" + docact
+			+ " -  @PA_DashboardContent_ID@ #"+ dashboard;
 	}	//	createAccessRecords
 
 	/**
@@ -546,14 +560,15 @@ public final class MRole extends X_AD_Role
 		int browseDel = DB.executeUpdate("DELETE FROM AD_Browse_Access" + whereDel, get_TrxName());
 		int wfDel = DB.executeUpdate("DELETE FROM AD_WorkFlow_Access" + whereDel, get_TrxName());
 		int docactDel = DB.executeUpdate("DELETE FROM AD_Document_Action_Access" + whereDel, get_TrxName());
-		
+		int dashboardDel = DB.executeUpdate("DELETE FROM AD_Dashboard_Access" + whereDel, get_TrxName());
 
 		log.fine("AD_Window_Access=" + winDel
 			+ ", AD_Process_Access=" + procDel
 			+ ", AD_Form_Access=" + formDel
 			+ ", AD_Browse_Access=" + browseDel
 			+ ", AD_Workflow_Access=" + wfDel
-			+ ", AD_Document_Action_Access=" + docactDel);
+			+ ", AD_Document_Action_Access=" + docactDel
+			+ ", AD_Dashboard_Access=" + dashboardDel);
 	}
 	
 	/**
@@ -808,7 +823,7 @@ public final class MRole extends X_AD_Role
 		if (!org.isSummary())
 			return;
 		//	Summary Org - Get Dependents
-		MTree_Base tree = MTree_Base.get(getCtx(), getAD_Tree_Org_ID(), get_TrxName());
+		MTree tree = MTree.get(getCtx(), getAD_Tree_Org_ID(), get_TrxName());
 		String sql =  "SELECT AD_Client_ID, AD_Org_ID FROM AD_Org "
 			+ "WHERE IsActive='Y' AND AD_Org_ID IN (SELECT Node_ID FROM "
 			+ tree.getNodeTableName()

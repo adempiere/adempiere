@@ -21,6 +21,7 @@ import java.util.Properties;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.MProject;
@@ -52,7 +53,7 @@ public class ProjectGenOrder extends ProjectGenOrderAbstract
 	{
 		log.info("C_Project_ID=" + getRecord_ID());
 		if (getRecord_ID() == 0)
-			throw new IllegalArgumentException("C_Project_ID == 0");
+			throw new AdempiereException("@C_Project_ID@ @NotFound@");
 		MProject fromProject = getProject (getCtx(), getRecord_ID(), get_TrxName());
 		Env.setSOTrx(getCtx(), true);	//	Set SO context
 
@@ -60,7 +61,7 @@ public class ProjectGenOrder extends ProjectGenOrderAbstract
 
 		MOrder order = new MOrder (fromProject, true, MOrder.DocSubTypeSO_OnCredit);
 		if (!order.save())
-			throw new Exception("Could not create Order");
+			throw new AdempiereException("@Error@ @To@ @Generated@ @C_Order_ID@");
 
 		//	***	Lines ***
 		AtomicInteger count = new AtomicInteger(0);
@@ -68,7 +69,7 @@ public class ProjectGenOrder extends ProjectGenOrderAbstract
 		if (MProject.PROJECTCATEGORY_ServiceChargeProject.equals(fromProject.getProjectCategory()))
 		{
 			/** @todo service project invoicing */
-			throw new Exception("Service Charge Projects are on the TODO List");
+			throw new AdempiereException("Service Charge Projects are on the TODO List");
 		}	//	Service Lines
 
 		else	//	Order Lines
@@ -105,13 +106,15 @@ public class ProjectGenOrder extends ProjectGenOrderAbstract
 	{
 		MProject fromProject = new MProject (ctx, projectId, trxName);
 		if (fromProject.getC_Project_ID() == 0)
-			throw new IllegalArgumentException("Project not found C_Project_ID=" + projectId);
+			throw new AdempiereException("@C_Project_ID@ @NotFound@" + projectId);
 		if (fromProject.getM_PriceList_Version_ID() == 0)
-			throw new IllegalArgumentException("Project has no Price List");
+			throw new AdempiereException("@M_PriceList_ID@ @NotFound @@To@ @C_Project_ID@");
 		if (fromProject.getM_Warehouse_ID() == 0)
-			throw new IllegalArgumentException("Project has no Warehouse");
-		if (fromProject.getC_BPartner_ID() == 0 || fromProject.getC_BPartner_Location_ID() == 0)
-			throw new IllegalArgumentException("Project has no Business Partner/Location");
+			throw new AdempiereException("@M_Warehouse_ID@ @NotFound@ @To@ @C_Project_ID@");
+		if (fromProject.getC_BPartner_ID() == 0)
+			throw new AdempiereException("@C_BPartner_ID@ @NotFound@");
+		if (fromProject.getC_BPartner_Location_ID() == 0)
+			throw new AdempiereException("@C_BPartner_Location_ID@ @NotFound@");
 		return fromProject;
 	}	//	getProject
 

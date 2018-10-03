@@ -54,9 +54,10 @@ public class MHRWorkGroup extends X_HR_WorkGroup {
 	 * Get/Load Work group [CACHED]
 	 * @param ctx context
 	 * @param workGroupId
+	 * @param trxName
 	 * @return activity or null
 	 */
-	public static MHRWorkGroup getById(Properties ctx, int workGroupId) {
+	public static MHRWorkGroup getById(Properties ctx, int workGroupId, String trxName) {
 		if (workGroupId <= 0)
 			return null;
 
@@ -64,7 +65,7 @@ public class MHRWorkGroup extends X_HR_WorkGroup {
 		if (workGroup != null && workGroup.get_ID() > 0)
 			return workGroup;
 
-		workGroup = new Query(ctx , Table_Name , COLUMNNAME_HR_WorkGroup_ID + "=?" , null)
+		workGroup = new Query(ctx , Table_Name , COLUMNNAME_HR_WorkGroup_ID + "=?" , trxName)
 				.setClient_ID()
 				.setParameters(workGroupId)
 				.first();
@@ -82,9 +83,10 @@ public class MHRWorkGroup extends X_HR_WorkGroup {
 	 * get Activity By Value [CACHED]
 	 * @param ctx
 	 * @param workGroupValue
+	 * @param trxName
 	 * @return
 	 */
-	public static MHRWorkGroup getByValue(Properties ctx , String workGroupValue) {
+	public static MHRWorkGroup getByValue(Properties ctx, String workGroupValue, String trxName) {
 		if (workGroupValue == null)
 			return null;
 		if (workGroupCacheValues.size() == 0 )
@@ -96,7 +98,7 @@ public class MHRWorkGroup extends X_HR_WorkGroup {
 		if (workGroup != null && workGroup.get_ID() > 0 )
 			return workGroup;
 
-		workGroup =  new Query(ctx, Table_Name , COLUMNNAME_Value +  "=?", null)
+		workGroup =  new Query(ctx, Table_Name , COLUMNNAME_Value +  "=?", trxName)
 				.setClient_ID()
 				.setParameters(workGroupValue)
 				.first();

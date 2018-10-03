@@ -74,11 +74,12 @@ public class RoleElementHandler extends AbstractElementHandler {
 
 		int id = get_ID(ctx, "AD_Role", name);
 		MRole m_Role = new MRole(ctx, id, getTrxName(ctx));
-
 		int AD_Backup_ID = -1;
 		String Object_Status = null;
-		if (id <= 0 && atts.getValue("AD_Role_ID") != null && Integer.parseInt(atts.getValue("AD_Role_ID")) <= PackOut.MAX_OFFICIAL_ID)
+		if (id <= 0 && atts.getValue("AD_Role_ID") != null && Integer.parseInt(atts.getValue("AD_Role_ID")) <= PackOut.MAX_OFFICIAL_ID) {
 			m_Role.setAD_Role_ID(Integer.parseInt(atts.getValue("AD_Role_ID")));
+			m_Role.setIsDirectLoad(true);
+		}
 		if (id > 0) {
 			AD_Backup_ID = copyRecord(ctx, "AD_Role", m_Role);
 			Object_Status = "Update";
