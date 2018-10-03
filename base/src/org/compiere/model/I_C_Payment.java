@@ -422,8 +422,6 @@ public interface I_C_Payment
 	/** Get Payment Related	  */
 	public int getRelatedPayment_ID();
 
-	public org.compiere.model.I_C_Payment getC_RelatedPayment() throws RuntimeException;
-
     /** Column name C_POS_ID */
     public static final String COLUMNNAME_C_POS_ID = "C_POS_ID";
 
@@ -794,15 +792,6 @@ public interface I_C_Payment
 	  * This is a Self-Service entry or this entry can be changed via Self-Service
 	  */
 	public boolean isSelfService();
-
-    /** Column name IsVoidRelatedDocument */
-    public static final String COLUMNNAME_IsVoidRelatedDocument = "IsVoidRelatedDocument";
-
-	/** Set IsVoidRelatedDocument	  */
-	public void setIsVoidRelatedDocument (boolean IsVoidRelatedDocument);
-
-	/** Get IsVoidRelatedDocument	  */
-	public boolean isVoidRelatedDocument();
 
     /** Column name Micr */
     public static final String COLUMNNAME_Micr = "Micr";
