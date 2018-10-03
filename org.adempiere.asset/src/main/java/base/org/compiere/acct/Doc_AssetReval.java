@@ -27,27 +27,25 @@ public class Doc_AssetReval extends Doc
 	}
 
 	
-	public ArrayList<Fact> createFacts(MAcctSchema as)
+	public ArrayList<Fact> createFacts(MAcctSchema acctSchema)
 	{
-		MAssetAcct assetAcct = getAssetAcct();
-		MAssetReval assetRe = getAssetReval();
+		MAssetAcct assetAccount = getAssetAcct();
+		MAssetReval assetRevaluation = getAssetReval();
 		
 		ArrayList<Fact> facts = new ArrayList<Fact>();
-		Fact fact = new Fact(this, as, assetAcct.getPostingType());
+		Fact fact = new Fact(this, acctSchema, assetAccount.getPostingType());
 		facts.add(fact);
 		
-		MAccount dr = MAccount.get(getCtx(), assetAcct.getA_Asset_Acct());  
-		MAccount cr = MAccount.get(getCtx(), assetAcct.getA_Reval_Cost_Offset_Acct());
-		FactUtil.createSimpleOperation(fact, null, dr, cr, as.getC_Currency_ID(),
-				assetRe.getA_Asset_Cost_Change().subtract(assetRe.getA_Asset_Cost()), false);
+		MAccount dr = MAccount.getValidCombination(getCtx(), assetAccount.getA_Asset_Acct(), getTrxName());
+		MAccount cr = MAccount.getValidCombination(getCtx(), assetAccount.getA_Reval_Cost_Offset_Acct() , getTrxName());
+		FactUtil.createSimpleOperation(fact, null, dr, cr, acctSchema.getC_Currency_ID(),
+				assetRevaluation.getA_Asset_Cost_Change().subtract(assetRevaluation.getA_Asset_Cost()), false);
 		
 			
-		MAccount drd = MAccount.get(getCtx(), assetAcct.getA_Reval_Cost_Offset_Acct());  
-		MAccount crd = MAccount.get(getCtx(), assetAcct.getA_Accumdepreciation_Acct());
-		FactUtil.createSimpleOperation(fact, null, drd, crd, as.getC_Currency_ID(),
-				assetRe.getA_Change_Acumulated_Depr().subtract(assetRe.getA_Accumulated_Depr()), false);
-		
-		
+		MAccount drd = MAccount.getValidCombination(getCtx(), assetAccount.getA_Reval_Cost_Offset_Acct() , getTrxName());
+		MAccount crd = MAccount.getValidCombination(getCtx(), assetAccount.getA_Accumdepreciation_Acct() ,  getTrxName());
+		FactUtil.createSimpleOperation(fact, null, drd, crd, acctSchema.getC_Currency_ID(),
+				assetRevaluation.getA_Change_Acumulated_Depr().subtract(assetRevaluation.getA_Accumulated_Depr()), false);
 		return facts;
 	}
 

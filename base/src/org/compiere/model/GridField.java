@@ -591,8 +591,8 @@ public class GridField
 		 */
 
 		//	No defaults for these fields
-		if ((m_vo.IsKey && getColumnNameAlias() == null) || m_vo.displayType == DisplayType.RowID
-			|| DisplayType.isLOB(m_vo.displayType))
+		if ((m_vo.IsKey && (getColumnNameAlias() == null || getColumnNameAlias().isEmpty())) || m_vo.displayType == DisplayType.RowID
+				|| DisplayType.isLOB(m_vo.displayType))
 			return null;
 		//	Set Parent to context if not explitly set
 		if (isParentValue()
@@ -1351,7 +1351,15 @@ public class GridField
 	{
 		return m_vo.AD_Process_ID;
 	}
-	
+
+	/** get AD_Image_ID
+	 * @return Image id
+	 */
+	public int getAD_Image_ID()
+	{
+		return m_vo.AD_Image_ID;
+	}
+
 	/** get AD_Chart_ID
 	 * @return chart id
 	 */

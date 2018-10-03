@@ -66,7 +66,8 @@
           <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/jgraph.jar!/" />
           <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/jnlp.jar!/" />
           <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/jpayment.jar!/" />
-          <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/jpedal.jar!/" />
+          <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/icepdf-core-6.2.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/icepdf-viewer-6.2.2.jar!/" />
           <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/jsp-api.jar!/" />
           <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/jstl.jar!/" />
           <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/junit.jar!/" />
