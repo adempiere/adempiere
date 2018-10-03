@@ -43,6 +43,7 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Evaluatee;
 import org.compiere.util.Evaluator;
+import org.spin.util.FieldDefinition;
 
 /**
  *  Grid Field Model.
@@ -354,6 +355,13 @@ public class GridField
 		//	FR [ 305 ]
 		Evaluator.parseDepends(list, m_vo.DefaultValue);
 		Evaluator.parseDepends(list, m_vo.DefaultValue2);
+
+		FieldDefinition definition = FieldDefinition.getInstance(m_vo);
+		definition.addFieldCondition(m_vo.AD_FieldDefinition_ID);
+		definition.getConditionList().forEach(k -> {
+			Evaluator.parseDepends(list, k.getCondition());
+		});
+		
 		//  Lookup
 		if (m_lookup != null)
 			Evaluator.parseDepends(list, m_lookup.getValidation());
@@ -2092,7 +2100,7 @@ public class GridField
     {
     	return m_vo.isEmbedded;
     }
-    
+
     /**
      * Is Information Only
      * @return
@@ -2101,6 +2109,14 @@ public class GridField
     	return m_vo.IsInfoOnly;
     }
     
+    /**
+     * Is Information Only
+     * @return
+     */
+    public int getAD_FieldDefinition_ID() {
+    	return m_vo.AD_FieldDefinition_ID;
+    }
+
     /** Is Quick Entry
 	 * @return true if displayed in Quick Entry Form
 	 */
@@ -2108,4 +2124,5 @@ public class GridField
 	{
 		return m_vo.IsQuickEntry;
 	}
+
 }   //  MField

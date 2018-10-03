@@ -1691,6 +1691,9 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 	        //curTabPanel.afterSave(onSaveEvent);
 	        toolbar.getCurrentPanel().dynamicDisplay(0);
 	        toolbar.getCurrentPanel().afterSave(onSaveEvent);
+	        GridPanel gridPanel = toolbar.getCurrentPanel().getListPanel();
+	        if(gridPanel != null)
+	        	gridPanel.updateCellStyle();
 
 	        if (wasChanged) {
 		        addToRecentItems();

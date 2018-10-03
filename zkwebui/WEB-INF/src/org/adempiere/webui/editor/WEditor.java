@@ -52,6 +52,8 @@ import org.zkoss.zul.Image;
  *    <li>Implement embedded or horizontal tab panel https://adempiere.atlassian.net/browse/ADEMPIERE-319
  *    <li>New ADempiere 3.8.0 ZK Theme Light  https://adempiere.atlassian.net/browse/ADEMPIERE-320
  *
+ * @author Raul Muñoz, rMunoz@erpcya.com, ERPCyA http://www.erpcya.com
+ *    <li> FR [ 1709 ] Add Need to change the style of the field editors
  * @date    Mar 11, 2007
  * @version $Revision: 0.10 $
  */
@@ -91,6 +93,8 @@ public abstract class WEditor implements CEditor, EventListener, PropertyChangeL
 
     private Object m_oldValue = null;
 	
+    private String style = null;
+    
 	public void setADTabPanel(IADTabPanel panel)
 	{
 		tabPanel = panel;
@@ -748,5 +752,20 @@ public abstract class WEditor implements CEditor, EventListener, PropertyChangeL
 	public void addVetoableChangeListener(VetoableChangeListener listener) {
 		// Not used in ZK		
 	}
-
+	
+	/**
+	 * Set Style for Editor
+	 * @param style
+	*/
+	public void setStyle(String style) {
+		this.style=style;
+	}
+	
+	/**
+	 * Get Style For Editor
+	 * @return style
+	 */
+	public String getStyle() {
+		return style;
+	}
 }
