@@ -28,6 +28,7 @@ import org.spin.model.MADFieldCondition;
 
 /**
  * @author Raul Muñoz, rMunoz@erpcya.com, ERPCyA http://www.erpcya.com
+ * @author Yamel Senih, ySenih@erpya.com, ERPCyA http://www.erpya.com
  *		<a href="https://github.com/adempiere/adempiere/issues/1697">
  * 		@see FR [ 1697 ] Add definition for change style</a>
  *
@@ -81,7 +82,9 @@ public class FieldDefinition {
 		if(fieldConditionId == 0) {
 			return;
 		}
-		List<MADFieldCondition> fieldConditionLists = new Query(Env.getCtx(), I_AD_FieldCondition.Table_Name, "AD_FieldDefinition_ID = "+fieldConditionId, null).list();
+		List<MADFieldCondition> fieldConditionLists = new Query(Env.getCtx(), I_AD_FieldCondition.Table_Name, "AD_FieldDefinition_ID = ?", null)
+				.setParameters(fieldConditionId)
+				.list();
 		
 		for(MADFieldCondition fieldCondition : fieldConditionLists) {
 			FieldCondition condition = new FieldCondition (fieldCondition, gridFielVO);

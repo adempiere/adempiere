@@ -27,25 +27,29 @@ import org.spin.model.MADFieldCondition;
 
 /**
  * @author Raul Muñoz, rMunoz@erpya.com, ERPCyA http://www.erpya.com
+ * @author Yamel Senih, ySenih@erpya.com, ERPCyA http://www.erpya.com
  *		<a href="https://github.com/adempiere/adempiere/issues/1697">
  * 		@see FR [ 1697 ] Add definition for change style</a>
  *
  */
-public class FieldCondition 
-implements Serializable, Evaluatee {
+public class FieldCondition implements Serializable, Evaluatee {
 
 	private static final long serialVersionUID = -3514057815991979828L;
-
+	/**	Style	*/
 	private String styleSheet;
-
+	/**	Condition for It	*/
 	private String condition;
-	
-	private HashMap<String,Object> value;
-	
+	/**	Value	*/
+	private HashMap<String, Object> value;
+	/**	GridField	*/
 	private GridFieldVO gridFieldVO;
 	
 
-
+	/**
+	 * Create from field condition and grid field VO
+	 * @param fieldCondition
+	 * @param gridFieldVO
+	 */
 	public FieldCondition(MADFieldCondition fieldCondition, GridFieldVO gridFieldVO) {
 		setStyleSheet(fieldCondition.getStylesheet());
 		setCondition(fieldCondition.getCondition());
@@ -102,10 +106,11 @@ implements Serializable, Evaluatee {
 		if(value != null) {
 			return String.valueOf(value.get(variableName));
 		}
-	   if( gridFieldVO.TabNo == 0)
-	    	return Env.getContext (gridFieldVO.ctx, gridFieldVO.WindowNo, variableName, true);
-	    else
-	    	return Env.getContext (gridFieldVO.ctx, gridFieldVO.WindowNo, gridFieldVO.TabNo, variableName, false, true);
+	   if( gridFieldVO.TabNo == 0) {
+		   return Env.getContext (gridFieldVO.ctx, gridFieldVO.WindowNo, variableName, true);
+	   } else {
+		   return Env.getContext (gridFieldVO.ctx, gridFieldVO.WindowNo, gridFieldVO.TabNo, variableName, false, true);
+	   }
 	}	//	get_ValueAsString
 
 
@@ -116,9 +121,9 @@ implements Serializable, Evaluatee {
     public boolean isValid() {
     	if(gridFieldVO == null)
     		return false;
-    	if(Evaluator.evaluateLogic(this, condition)) 
-    		return  true;
-    	else    	
+    	if(Evaluator.evaluateLogic(this, condition)) {
+    		return true;
+    	}
     	return false;
     }
 	/**
@@ -127,11 +132,12 @@ implements Serializable, Evaluatee {
      */
     public boolean isValid(HashMap<String, Object> value) {
     	setValue(value);
-    	if(gridFieldVO == null)
+    	if(gridFieldVO == null) {
     		return false;
-    	if(Evaluator.evaluateLogic(this, condition)) 
+    	}
+    	if(Evaluator.evaluateLogic(this, condition)) {
     		return  true;
-    	else    	
+    	}
     	return false;
     }
 
