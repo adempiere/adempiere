@@ -2546,7 +2546,7 @@ public final class MPayment extends X_C_Payment
      */
     private void reverseRelatedPayments() {
         if (getRelatedPayment_ID() !=0){
-            MPayment relatedPayment = (MPayment)getC_RelatedPayment();
+            MPayment relatedPayment = (MPayment)getRelatedPayment();
             if (relatedPayment.isProcessing()) // to avoid endless loop
                 return;
             if (relatedPayment.getDocStatus().equals(MPayment.DOCSTATUS_Completed)){

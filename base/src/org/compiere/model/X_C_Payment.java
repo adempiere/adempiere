@@ -688,7 +688,7 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_Payment getC_RelatedPayment() throws RuntimeException
+	public org.compiere.model.I_C_Payment getRelatedPayment() throws RuntimeException
     {
 		return (org.compiere.model.I_C_Payment)MTable.get(getCtx(), org.compiere.model.I_C_Payment.Table_Name)
 			.getPO(getRelatedPayment_ID(), get_TrxName());	}
@@ -1342,26 +1342,6 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 		return false;
 	}
 
-	/** Set IsVoidRelatedDocument.
-		@param IsVoidRelatedDocument IsVoidRelatedDocument	  */
-	public void setIsVoidRelatedDocument (boolean IsVoidRelatedDocument)
-	{
-		set_Value (COLUMNNAME_IsVoidRelatedDocument, Boolean.valueOf(IsVoidRelatedDocument));
-	}
-
-	/** Get IsVoidRelatedDocument.
-		@return IsVoidRelatedDocument	  */
-	public boolean isVoidRelatedDocument () 
-	{
-		Object oo = get_Value(COLUMNNAME_IsVoidRelatedDocument);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
 
 	/** Set Micr.
 		@param Micr 
