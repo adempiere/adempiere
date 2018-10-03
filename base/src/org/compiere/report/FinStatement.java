@@ -171,36 +171,28 @@ public class FinStatement extends FinStatementAbstract
 	 */
 	private void createBalanceLine()
 	{
-		StringBuffer sb = new StringBuffer ("INSERT INTO T_ReportStatement "
-			+ "(AD_PInstance_ID, Fact_Acct_ID, LevelNo,"
-			+ "DateAcct, Name, Description,"
-			+ "AmtAcctDr, AmtAcctCr, Balance, Qty, ACCOUNT_ID, accountvalue, accountName, accountType) ");
+		StringBuilder where = new StringBuilder();
+		where.append(" WHERE Account_ID = ev.C_ElementValue_ID AND ").append(parameterWhere).append(" AND TRUNC(DateAcct, 'DD') < ").append(DB.TO_DATE(getDateAcct()));
+		StringBuffer sb = new StringBuffer("INSERT INTO T_ReportStatement "
+				+ "(AD_PInstance_ID, Fact_Acct_ID, LevelNo,"
+				+ "DateAcct, Name, Description,"
+				+ "AmtAcctDr, AmtAcctCr, Balance, Qty, ACCOUNT_ID, accountvalue, accountName, accountType) ");
 		sb.append("SELECT ").append(getAD_PInstance_ID()).append(",0,0,")
-			.append(DB.TO_DATE(getDateAcct(), true)).append(",")
-			.append(DB.TO_STRING(Msg.getMsg(Env.getCtx(), "BeginningBalance"))).append(",NULL,"
-			+ "COALESCE(SUM(AmtAcctDr),0), COALESCE(SUM(AmtAcctCr),0), COALESCE(SUM(AmtAcctDr-AmtAcctCr),0), COALESCE(SUM(Qty),0) "
-			+ ", fact_Acct.ACCOUNT_ID, ev.value, ev.name, ev.accounttype "
-			+ "FROM Fact_Acct "
-			+ " INNER JOIN C_ElementValue ev on fact_Acct.account_ID = ev.c_Elementvalue_ID "
-			+ "WHERE ").append(parameterWhere)
-			.append(" AND TRUNC(DateAcct, 'DD') < ").append(DB.TO_DATE(getDateAcct()))
-			.append(" GROUP BY ACCOUNT_ID , ev.value, ev.name , ev.accountType");
+				.append(DB.TO_DATE(getDateAcct(), true)).append(",")
+				.append(DB.TO_STRING(Msg.getMsg(Env.getCtx(), "BeginningBalance"))).append(",NULL,")
+				.append("COALESCE((SELECT SUM(AcctBalance(Account_ID, AmtAcctDr , 0         )) FROM Fact_Acct ").append(where).append(" ),0), ")
+				.append("COALESCE((SELECT SUM(AcctBalance(Account_ID, 0         , AmtAcctCr )) FROM Fact_Acct ").append(where).append(" ),0), ")
+				.append("COALESCE((SELECT SUM(AcctBalance(Account_ID, AmtAcctDr , AmtAcctCr )) FROM Fact_Acct ").append(where).append(" ),0), ")
+				.append("COALESCE((SELECT SUM(AcctBalance(Account_ID, Qty       , 0         )) FROM Fact_Acct ").append(where).append(" ),0), ")
+				.append("ev.C_ElementValue_ID , ev.value, ev.name, ev.accounttype ")
+				.append(" FROM C_ElementValue ev INNER JOIN C_Element e ON (ev.C_Element_ID=e.C_Element_ID) WHERE e.ElementType = 'A' ");
 
-			
-		//	Start Beginning of Year
 		if (getAccountId() > 0)
-		{
-			m_acct = new MElementValue (getCtx(), getAccountId(), get_TrxName());
-			if (!m_acct.isBalanceSheet())
-			{
-				MPeriod first = MPeriod.getFirstInYear (getCtx(), getDateAcct(), getOrgId());
-				if (first != null)
-					sb.append(" AND TRUNC(DateAcct, 'DD') >= ").append(DB.TO_DATE(first.getStartDate()));
-				else
-					log.log(Level.SEVERE, "First period not found");
-			}
-		}
-		//
+			sb.append(" AND  ev.C_ElementValue_ID = ").append(getAccountId());
+
+		if (getAccountType() != null && !getAccountType().isEmpty())
+			sb.append(" AND  ev.AccountType = '").append(getAccountType()).append("'");
+
 		int no = DB.executeUpdate(sb.toString(), get_TrxName());
 		log.fine("#" + no + " (Account_ID=" + getAccountId() + ")");
 		log.finest(sb.toString());
