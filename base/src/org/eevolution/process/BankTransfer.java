@@ -74,7 +74,7 @@ public class BankTransfer extends BankTransferAbstract {
 		}
 
 		MBankAccount mBankFrom = new MBankAccount(getCtx(), getCBankAccountId(), get_TrxName());
-		MBankAccount mBankTo = new MBankAccount(getCtx(), getBankAccountToId(), get_TrxName());
+		MBankAccount mBankTo = new MBankAccount(getCtx(), getToCBankAccountId(), get_TrxName());
 		
 		MPayment paymentBankFrom = new MPayment(getCtx(), 0 ,  get_TrxName());
 		paymentBankFrom.setC_BankAccount_ID(mBankFrom.getC_BankAccount_ID());
