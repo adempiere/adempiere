@@ -92,7 +92,7 @@ public class InfoInOutPanel extends InfoPanel implements ValueChangeListener, Ev
 	/** From Clause             */
 	private static String s_From = " M_InOut i";
 	/** Order Clause             */
-	private static String s_Order = "2,3,4";
+	private static String s_Order = " i.MovementDate desc, i.DocumentNo";
 	/**  Array of Column Info    */
 	private static final ColumnInfo[] s_Layout = {
 		new ColumnInfo(" ", "i.M_InOut_ID", IDColumn.class),

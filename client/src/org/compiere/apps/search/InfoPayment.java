@@ -150,7 +150,7 @@ public class InfoPayment extends Info
 	/** From Clause             */
 	private static String s_From = " C_Payment_v p";
 	/** Order Clause             */
-	private static String s_Order = "2,3,4";
+	private static String s_Order = " p.DateTrx desc, p.DocumentNo";
 
 	/**  Array of Column Info    */
 	private static final Info_Column[] s_Layout = {
