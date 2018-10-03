@@ -71,8 +71,10 @@ public class TableElementHandler extends AbstractElementHandler {
 			}
 			
 			MTable m_Table = new MTable(ctx, id, getTrxName(ctx));
-			if (id <= 0 && atts.getValue("AD_Table_ID") != null && Integer.parseInt(atts.getValue("AD_Table_ID")) <= PackOut.MAX_OFFICIAL_ID)
+			if (id <= 0 && atts.getValue("AD_Table_ID") != null && Integer.parseInt(atts.getValue("AD_Table_ID")) <= PackOut.MAX_OFFICIAL_ID) {
 				m_Table.setAD_Table_ID(Integer.parseInt(atts.getValue("AD_Table_ID")));
+				m_Table.setIsDirectLoad(true);
+			}
 			int AD_Backup_ID = -1;
 			String Object_Status = null;
 			if (id > 0)

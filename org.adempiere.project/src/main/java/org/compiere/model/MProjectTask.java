@@ -95,8 +95,12 @@ public class MProjectTask extends X_C_ProjectTask
 		setName (task.getName());
 		setDescription(task.getDescription());
 		setHelp(task.getHelp());
-		if (task.getM_Product_ID() != 0)
+		if (task.getM_Product_ID() > 0)
 			setM_Product_ID(task.getM_Product_ID());
+		if (task.getPP_Product_BOM_ID() > 0 )
+			setPP_Product_BOM_ID(task.getPP_Product_BOM_ID());
+		if (task.getAD_Workflow_ID() > 0)
+			setAD_Workflow_ID(task.getAD_Workflow_ID());
 		if (phase.getC_Campaign_ID() > 0)
 			setC_Campaign_ID(phase.getC_Campaign_ID());
 		if (phase.getC_Activity_ID() > 0)

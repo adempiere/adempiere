@@ -31,8 +31,11 @@ import org.compiere.util.Env;
  *  @author Jorg Janke
  *  @version $Id: MActivity.java,v 1.2 2006/07/30 00:51:03 jjanke Exp $
  * 
- * @author Teo Sarca, www.arhipac.ro
+ * 	@author Teo Sarca, www.arhipac.ro
  * 			<li>FR [ 2736867 ] Add caching support to MActivity
+ * 	@author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com 2015-09-09
+ *  	<li>FR [ 9223372036854775807 ] Add Support to Dynamic Tree
+ *  @see https://adempiere.atlassian.net/browse/ADEMPIERE-442
  */
 public class MActivity extends X_C_Activity
 {
@@ -55,16 +58,17 @@ public class MActivity extends X_C_Activity
 	@Deprecated
 	public static MActivity get(Properties ctx, int activityId)
 	{
-		return getById(ctx, activityId);
+		return getById(ctx, activityId, null);
 	}
 
 	/**
 	 * Get/Load Activity [CACHED]
 	 * @param ctx context
 	 * @param activityId
+	 * @param trxName
 	 * @return activity or null
 	 */
-	public static MActivity getById(Properties ctx, int activityId)
+	public static MActivity getById(Properties ctx, int activityId, String trxName)
 	{
 		if (activityId <= 0)
 			return null;
@@ -73,7 +77,7 @@ public class MActivity extends X_C_Activity
 		if (activity != null && activity.get_ID() > 0)
 			return activity;
 
-		activity = new Query(ctx , Table_Name , COLUMNNAME_C_Activity_ID + "=?" , null)
+		activity = new Query(ctx , Table_Name , COLUMNNAME_C_Activity_ID + "=?" , trxName)
 				.setClient_ID()
 				.setParameters(activityId)
 				.first();
@@ -91,14 +95,15 @@ public class MActivity extends X_C_Activity
 	 * get Activity By Value [CACHED]
 	 * @param ctx
 	 * @param activityvalue
+	 * @param trxName
 	 * @return
 	 */
-	public static MActivity getByValue(Properties ctx , String activityvalue)
+	public static MActivity getByValue(Properties ctx, String activityvalue, String trxName)
 	{
 		if (activityvalue == null)
 			return null;
 		if (activityCacheValues.size() == 0 )
-			getAll(ctx, true);
+			getAll(ctx, true, trxName);
 
 		int clientId = Env.getAD_Client_ID(ctx);
 		String key = clientId + "#" + activityvalue;
@@ -106,7 +111,7 @@ public class MActivity extends X_C_Activity
 		if (activity != null && activity.get_ID() > 0 )
 			return activity;
 
-		activity =  new Query(ctx, Table_Name , COLUMNNAME_Value +  "=?", null)
+		activity =  new Query(ctx, Table_Name , COLUMNNAME_Value +  "=?", trxName)
 				.setClient_ID()
 				.setParameters(activityvalue)
 				.first();
@@ -122,12 +127,13 @@ public class MActivity extends X_C_Activity
 	 * Get All Activity
 	 * @param ctx
 	 * @param resetCache
+	 * @param trxName
 	 * @return
 	 */
-	public static List<MActivity> getAll(Properties ctx, boolean resetCache) {
+	public static List<MActivity> getAll(Properties ctx, boolean resetCache, String trxName) {
 		List<MActivity> activitiesList;
 		if (resetCache || activityCacheIds.size() > 0 ) {
-			activitiesList = new Query(Env.getCtx(), Table_Name, null , null)
+			activitiesList = new Query(Env.getCtx(), Table_Name, null , trxName)
 					.setClient_ID()
 					.setOrderBy(COLUMNNAME_Name)
 					.list();
@@ -180,8 +186,11 @@ public class MActivity extends X_C_Activity
 	{
 		if (!success)
 			return success;
-		if (newRecord)
-			insert_Tree(MTree_Base.TREETYPE_Activity);
+		//	Yamel Senih [ 9223372036854775807 ]
+		//	Change to PO
+//		if (newRecord)
+//			insert_Tree(MTree.TREETYPE_Activity);
+		//	End Yamel Senih
 		//	Value/Name change
 		if (!newRecord && (is_ValueChanged("Value") || is_ValueChanged("Name")))
 			MAccount.updateValueDescription(getCtx(), "C_Activity_ID=" + getC_Activity_ID(), get_TrxName());
@@ -193,11 +202,14 @@ public class MActivity extends X_C_Activity
 	 *	@param success
 	 *	@return deleted
 	 */
-	protected boolean afterDelete (boolean success)
-	{
-		if (success)
-			delete_Tree(MTree_Base.TREETYPE_Activity);
-		return success;
-	}	//	afterDelete
+	//	Yamel Senih [ 9223372036854775807 ]
+	//	Change to PO
+//	protected boolean afterDelete (boolean success)
+//	{
+//		if (success)
+//			delete_Tree(MTree.TREETYPE_Activity);
+//		return success;
+//	}	//	afterDelete
+	//	End Yamel Senih
 
 }	//	MActivity
