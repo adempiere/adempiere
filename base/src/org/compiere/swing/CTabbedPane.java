@@ -212,11 +212,11 @@ public class CTabbedPane extends JTabbedPane
 			getActionMap().put(ACTION_SELECT, s_action);
 		//
 		if (!setMnemonicAt(index, text))
-		{	//	Only one - set direct
+		{	//	Only one - set direct, @see https://github.com/adempiere/adempiere/issues/1955
 			if (index < 9)
-				setMnemonicAt(index, '1'+index);
+				setMnemonicAt(index, Integer.valueOf(1+index).toString());
 			else if (index == 9)
-				setMnemonicAt(index, '0');
+				setMnemonicAt(index, "0");
 		}
 		else	//	additional ALT-1..0
 		{
