@@ -14,20 +14,19 @@
  * All Rights Reserved. 													  *
  * Contributor(s): Raul Muñoz www.erpya.com				  		          	  *
  ******************************************************************************/
-package org.spin.model;
+package org.spin.util;
 
 import java.io.Serializable;
 import java.util.HashMap;
 
 import org.compiere.model.GridFieldVO;
-import org.compiere.model.MFieldCondition;
 import org.compiere.util.Env;
 import org.compiere.util.Evaluatee;
 import org.compiere.util.Evaluator;
-
+import org.spin.model.MADFieldCondition;
 
 /**
- * @author Raul Muñoz, rMunoz@erpcya.com, ERPCyA http://www.erpcya.com
+ * @author Raul Muñoz, rMunoz@erpya.com, ERPCyA http://www.erpya.com
  *		<a href="https://github.com/adempiere/adempiere/issues/1697">
  * 		@see FR [ 1697 ] Add definition for change style</a>
  *
@@ -47,7 +46,7 @@ implements Serializable, Evaluatee {
 	
 
 
-	public FieldCondition(MFieldCondition fieldCondition, GridFieldVO gridFieldVO) {
+	public FieldCondition(MADFieldCondition fieldCondition, GridFieldVO gridFieldVO) {
 		setStyleSheet(fieldCondition.getStylesheet());
 		setCondition(fieldCondition.getCondition());
 		this.gridFieldVO = gridFieldVO;

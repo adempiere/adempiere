@@ -43,8 +43,7 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Evaluatee;
 import org.compiere.util.Evaluator;
-import org.spin.model.FieldCondition;
-import org.spin.model.FieldDefinition;
+import org.spin.util.FieldDefinition;
 
 /**
  *  Grid Field Model.

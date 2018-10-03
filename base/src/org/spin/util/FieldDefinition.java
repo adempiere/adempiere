@@ -14,17 +14,17 @@
  * All Rights Reserved. 													  *
  * Contributor(s): Raul Muñoz www.erpya.com				  		          	  *
  ******************************************************************************/
-package org.spin.model;
+package org.spin.util;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import org.compiere.model.GridFieldVO;
-import org.compiere.model.I_AD_FieldCondition;
-import org.compiere.model.MFieldCondition;
 import org.compiere.model.Query;
 import org.compiere.util.Env;
+import org.spin.model.I_AD_FieldCondition;
+import org.spin.model.MADFieldCondition;
 
 /**
  * @author Raul Muñoz, rMunoz@erpcya.com, ERPCyA http://www.erpcya.com
@@ -81,9 +81,9 @@ public class FieldDefinition {
 		if(fieldConditionId == 0) {
 			return;
 		}
-		List<MFieldCondition> fieldConditionLists = new Query(Env.getCtx(), I_AD_FieldCondition.Table_Name, "AD_FieldDefinition_ID = "+fieldConditionId, null).list();
+		List<MADFieldCondition> fieldConditionLists = new Query(Env.getCtx(), I_AD_FieldCondition.Table_Name, "AD_FieldDefinition_ID = "+fieldConditionId, null).list();
 		
-		for(MFieldCondition fieldCondition : fieldConditionLists) {
+		for(MADFieldCondition fieldCondition : fieldConditionLists) {
 			FieldCondition condition = new FieldCondition (fieldCondition, gridFielVO);
 			addFieldCondition(condition);
 		}
