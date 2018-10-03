@@ -107,9 +107,10 @@ public class BrowseFieldElementHandler extends AbstractElementHandler {
 				if (id <= 0
 						&& atts.getValue("AD_Browse_Field_ID") != null
 						&& Integer
-								.parseInt(atts.getValue("AD_Browse_Field_ID")) <= PackOut.MAX_OFFICIAL_ID)
-					m_BrowseField.setAD_Browse_Field_ID(Integer.parseInt(atts
-							.getValue("AD_Browse_Field_ID")));
+								.parseInt(atts.getValue("AD_Browse_Field_ID")) <= PackOut.MAX_OFFICIAL_ID) {
+					m_BrowseField.setAD_Browse_Field_ID(Integer.parseInt(atts.getValue("AD_Browse_Field_ID")));
+					m_BrowseField.setIsDirectLoad(true);
+				}
 				int AD_Backup_ID = -1;
 				String Object_Status = null;
 				if (id > 0) {

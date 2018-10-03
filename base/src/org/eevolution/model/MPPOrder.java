@@ -282,7 +282,7 @@ public class MPPOrder extends X_PP_Order implements DocAction
 	 * @param productBOMId
 	 * @param workflowId
 	 */
-	public MPPOrder(MProject project, int productBOMId, int workflowId)
+	public MPPOrder(MProject project, Integer productBOMId, Integer workflowId)
 	{
 		this(project.getCtx(), 0, project.get_TrxName());
 		setAD_Client_ID(project.getAD_Client_ID());
@@ -292,36 +292,23 @@ public class MPPOrder extends X_PP_Order implements DocAction
 		setDescription(project.getName());
 		setLine(10);
 		setPriorityRule(MPPOrder.PRIORITYRULE_Medium);
-		if (project.getDateContract() == null)
-			throw new IllegalStateException("Date Contract is mandatory for Manufacturing Order.");
-		if (project.getDateFinish() == null)
-			throw new IllegalStateException("Date Finish is mandatory for Manufacturing Order.");
-		
-		Timestamp ts = project.getDateContract();
-		Timestamp df= project.getDateContract();
-		
-		if (ts != null) setDateOrdered(ts);
-		if (ts != null) this.setDateStartSchedule(ts);
-		ts = project.getDateFinish();
-		if (df != null) setDatePromised(df);
-		setM_Warehouse_ID(project.getM_Warehouse_ID());
-		setPP_Product_BOM_ID(productBOMId);
-		setAD_Workflow_ID(workflowId);
-		setQtyEntered(Env.ONE);
-		setQtyOrdered(Env.ONE);
+		MWarehouse warehouse = MWarehouse.get(getCtx(), project.getM_Warehouse_ID() , get_TrxName());
+		if (warehouse == null || warehouse.getM_Warehouse_ID() <= 0)
+			throw  new AdempiereException("@M_Warehouse_ID@ @NotFound@ @To@ @C_Project_ID@ " + project.getName());
+		MResource resource = MResource.getDefaultPlant((MWarehouse) project.getM_Warehouse());
+		if (resource == null || resource.getS_Resource_ID() <= 0)
+			throw new AdempiereException("@S_Resource_ID@ @NotFound@ @To@ @M_Warehouse_ID@");
+
+		setM_Warehouse_ID(warehouse.getM_Warehouse_ID());
+		setS_Resource_ID(resource.getS_Resource_ID());
 		MPPProductBOM bom = new MPPProductBOM(project.getCtx(), productBOMId, project.get_TrxName());
 		MProduct product = MProduct.get(project.getCtx(), bom.getM_Product_ID());
-		setC_UOM_ID(product.getC_UOM_ID());
-		
+		setPP_Product_BOM_ID(productBOMId);
+		setAD_Workflow_ID(workflowId);
 		setM_Product_ID(bom.getM_Product_ID());
-		
-		String where = MResource.COLUMNNAME_IsManufacturingResource   +" = 'Y' AND "+ 
-					   MResource.COLUMNNAME_ManufacturingResourceType +" = '" + MResource.MANUFACTURINGRESOURCETYPE_Plant + "' AND " +
-					   MResource.COLUMNNAME_M_Warehouse_ID + " = " + project.getM_Warehouse_ID();
-		MResource resoruce = (MResource) MTable.get(project.getCtx(), MResource.Table_ID).getPO( where , project.get_TrxName());
-		if (resoruce == null)
-			throw new IllegalStateException("Resource is mandatory.");
-		setS_Resource_ID(resoruce.getS_Resource_ID());
+		setC_UOM_ID(product.getC_UOM_ID());
+		setQtyEntered(Env.ONE);
+		setQtyOrdered(Env.ONE);
 	} //	MOrder
 
 	/**

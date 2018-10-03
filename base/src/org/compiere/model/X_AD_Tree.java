@@ -75,6 +75,34 @@ public class X_AD_Tree extends PO implements I_AD_Tree, I_Persistent
       return sb.toString();
     }
 
+	public org.compiere.model.I_AD_Table getAD_Table() throws RuntimeException
+    {
+		return (org.compiere.model.I_AD_Table)MTable.get(getCtx(), org.compiere.model.I_AD_Table.Table_Name)
+			.getPO(getAD_Table_ID(), get_TrxName());	}
+
+	/** Set Table.
+		@param AD_Table_ID 
+		Database Table information
+	  */
+	public void setAD_Table_ID (int AD_Table_ID)
+	{
+		if (AD_Table_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Table_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
+	}
+
+	/** Get Table.
+		@return Database Table information
+	  */
+	public int getAD_Table_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Table_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Tree.
 		@param AD_Tree_ID 
 		Identifies a Tree
@@ -249,6 +277,8 @@ public class X_AD_Tree extends PO implements I_AD_Tree, I_Persistent
 	public static final String TREETYPE_CMTemplate = "CT";
 	/** CM Media = CM */
 	public static final String TREETYPE_CMMedia = "CM";
+	/** Custom Tree = CU */
+	public static final String TREETYPE_CustomTree = "CU";
 	/** Set Type | Area.
 		@param TreeType 
 		Element this tree is built on (i.e Product, Business Partner)

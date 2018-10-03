@@ -107,6 +107,7 @@ public class PrintPaperElementHandler extends AbstractElementHandler
 		if (id <= 0 && keyColumnName != null && getIntValue(atts, keyColumnName, 0) <= PackOut.MAX_OFFICIAL_ID)
 		{
 			po.set_ValueOfColumn(keyColumnName, getIntValue(atts, keyColumnName, 0));
+			po.setIsDirectLoad(true);
 		}
 		
 		final int AD_Backup_ID;

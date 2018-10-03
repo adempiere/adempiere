@@ -1025,8 +1025,11 @@ public class MBPartner extends X_C_BPartner
 	{
 		if (newRecord && success)
 		{
+			//	Yamel Senih [ 9223372036854775807 ]
+			//	Change to PO
 			//	Trees
-			insert_Tree(MTree_Base.TREETYPE_BPartner);
+//			insert_Tree(MTree.TREETYPE_BPartner);
+			//	End Yamel Senih
 			//	Accounting
 			insert_Accounting("C_BP_Customer_Acct", "C_BP_Group_Acct", 
 				"p.C_BP_Group_ID=" + getC_BP_Group_ID());
@@ -1059,11 +1062,14 @@ public class MBPartner extends X_C_BPartner
 	 *	@param success
 	 *	@return deleted
 	 */
-	protected boolean afterDelete (boolean success)
-	{
-		if (success)
-			delete_Tree(MTree_Base.TREETYPE_BPartner);
-		return success;
-	}	//	afterDelete
+	//	Yamel Senih [ 9223372036854775807 ]
+	//	Change to PO
+//	protected boolean afterDelete (boolean success)
+//	{
+//		if (success)
+//			delete_Tree(MTree.TREETYPE_BPartner);
+//		return success;
+//	}	//	afterDelete
+	//	End Yamel Senih
 
 }	//	MBPartner

@@ -117,8 +117,7 @@ public class MReportTree {
 			throw new IllegalArgumentException("No AD_Tree_ID for TreeType=" + treeType
 				+ ", PA_Hierarchy_ID=" + PA_Hierarchy_ID);
 		//
-		boolean clientTree = true;
-		tree = new MTree (ctx, treeId, true, clientTree, null);  // include inactive and empty summary nodes
+		tree = new MTree (ctx, treeId, true, null);  // include inactive and empty summary nodes
 		// remove summary nodes without children
 		tree.trimTree();
 	}	//	MReportTree

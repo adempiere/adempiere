@@ -77,6 +77,21 @@ public interface I_C_DocType
 
 	public org.compiere.model.I_AD_PrintFormat getAD_PrintFormat() throws RuntimeException;
 
+    /** Column name C_BankAccount_ID */
+    public static final String COLUMNNAME_C_BankAccount_ID = "C_BankAccount_ID";
+
+	/** Set Bank Account.
+	  * Account at the Bank
+	  */
+	public void setC_BankAccount_ID (int C_BankAccount_ID);
+
+	/** Get Bank Account.
+	  * Account at the Bank
+	  */
+	public int getC_BankAccount_ID();
+
+	public org.compiere.model.I_C_BankAccount getC_BankAccount() throws RuntimeException;
+
     /** Column name C_DocTypeDifference_ID */
     public static final String COLUMNNAME_C_DocTypeDifference_ID = "C_DocTypeDifference_ID";
 
@@ -329,11 +344,24 @@ public interface I_C_DocType
     /** Column name IsAllocateImmediate */
     public static final String COLUMNNAME_IsAllocateImmediate = "IsAllocateImmediate";
 
-	/** Set IsAllocateImmediate	  */
+	/** Set Allocate Prepayments	  */
 	public void setIsAllocateImmediate (boolean IsAllocateImmediate);
 
-	/** Get IsAllocateImmediate	  */
+	/** Get Allocate Prepayments	  */
 	public boolean isAllocateImmediate();
+
+    /** Column name IsBankTransfer */
+    public static final String COLUMNNAME_IsBankTransfer = "IsBankTransfer";
+
+	/** Set Bank Transfer.
+	  * Bank Transfer
+	  */
+	public void setIsBankTransfer (boolean IsBankTransfer);
+
+	/** Get Bank Transfer.
+	  * Bank Transfer
+	  */
+	public boolean isBankTransfer();
 
     /** Column name IsCopyDocNoOnReversal */
     public static final String COLUMNNAME_IsCopyDocNoOnReversal = "IsCopyDocNoOnReversal";

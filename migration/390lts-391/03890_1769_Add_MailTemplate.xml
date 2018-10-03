@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Add Mail Template #1769" ReleaseNo="3.9.1" SeqNo="3890">
+    <Comments>See: https://github.com/adempiere/adempiere/issues/1769</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="416" Action="I" Record_ID="50001" Table="R_MailText">
+        <Data AD_Column_ID="5409" Column="Updated">2018-06-18 17:20:52.297</Data>
+        <Data AD_Column_ID="5414" Column="MailText">&lt;div id=":rv" class="ii gt"&gt;&lt;div id=":qd" class="a3s aXjCH m150616a0629b2c50"&gt;&lt;u&gt;&lt;/u&gt;
+  &lt;div marginheight="0" marginwidth="0" style="background:#fafafa;color:#222222;font-family:'Helvetica','Arial',sans-serif;font-size:14px;font-weight:normal;line-height:19px;margin:0;min-width:100%;padding:0;text-align:left;width:100%!important" bgcolor="#fafafa"&gt;
+    &lt;table class="m_102215442800384201body" style="background:#fafafa;border-collapse:collapse;border-spacing:0;color:#222222;font-family:'Helvetica','Arial',sans-serif;font-size:14px;font-weight:normal;height:100%;line-height:19px;margin:0;padding:10px;text-align:left;vertical-align:top;width:100%" bgcolor="#fafafa"&gt;
+      &lt;tbody&gt;&lt;tr style="padding:0;text-align:left;vertical-align:top" align="left"&gt;
+        &lt;td class="" align="center" valign="top" style="border-collapse:collapse!important;color:#222222;font-family:'Helvetica','Arial',sans-serif;font-size:14px;font-weight:normal;line-height:19px;margin:0;padding:0;text-align:center;vertical-align:top;word-break:break-word"&gt;
+          &lt;center style="min-width:580px;width:100%"&gt;
+            &lt;table class="m_102215442800384201container" style="border-collapse:collapse;border-spacing:0;margin:0 auto;padding:0;text-align:inherit;vertical-align:top;width:580px"&gt;
+              &lt;tbody&gt;&lt;tr style="padding:0;text-align:left;vertical-align:top" align="left"&gt;
+                &lt;td style="border-collapse:collapse!important;color:#222222;font-family:'Helvetica','Arial',sans-serif;font-size:14px;font-weight:normal;line-height:19px;margin:0;padding:0;text-align:left;vertical-align:top;word-break:break-word" align="left" valign="top"&gt;
+
+                  &lt;table class="m_102215442800384201email-header" style="border-collapse:collapse;border-spacing:0;margin-top:20px;padding:0;text-align:left;vertical-align:top;width:100%"&gt;
+                    &lt;tbody&gt;&lt;tr style="padding:0;text-align:left;vertical-align:top" align="left"&gt;
+                      &lt;td class=""&gt;</Data>
+        <Data AD_Column_ID="5407" Column="Created">2018-06-18 17:20:52.297</Data>
+        <Data AD_Column_ID="5406" Column="IsActive">true</Data>
+        <Data AD_Column_ID="5413" Column="MailHeader">Password Reset</Data>
+        <Data AD_Column_ID="5412" Column="IsHtml">true</Data>
+        <Data AD_Column_ID="5411" Column="Name">Password Reset</Data>
+        <Data AD_Column_ID="13603" Column="MailText2">  &lt;div class="" style="margin-bottom:30px;margin-top:20px;text-align:center!important" align="center !important"&gt;
+                      &lt;img class="" src="/images/login-logo.png" width="50" height="48" style="clear:both;display:block;float:none;height:48px;margin:0 auto;max-height:48px;max-width:50px;outline:none;text-decoration:none;width:50px" align="none"&gt;
+                    &lt;/div&gt;
+                  &lt;/center&gt;
+                &lt;/td&gt;
+                &lt;td class="" style="border-collapse:collapse!important;color:#222222;font-family:'Helvetica','Arial',sans-serif;font-size:14px;font-weight:normal;line-height:19px;margin:0;padding:0;text-align:left;vertical-align:top;width:0px;word-break:break-word" align="left" valign="top"&gt;&lt;/td&gt;
+              &lt;/tr&gt;
+            &lt;/tbody&gt;&lt;/table&gt;
+
+            &lt;table class="" style="background:#ffffff;border-collapse:collapse;border-radius:3px!important;border-spacing:0;border:1px solid #dddddd;padding:0;text-align:left;vertical-align:top" bgcolor="#ffffff"&gt;
+              &lt;tbody&gt;&lt;tr style="padding:0;text-align:left;vertical-align:top" align="left"&gt;
+                &lt;td class="" style="border-collapse:collapse!important;color:#222222;font-family:'Helvetica','Arial',sans-serif;font-size:14px;font-weight:normal;line-height:19px;margin:0;padding:0;text-align:left;vertical-align:top;word-break:break-word" align="left" valign="top"&gt;
+</Data>
+        <Data AD_Column_ID="13604" Column="MailText3">   &lt;p style="color:#222222;font-family:'Helvetica','Arial',sans-serif;font-size:14px;font-weight:normal;line-height:19px;margin:0 0 10px;padding:0;text-align:left" align="left"&gt;
+  Hi &lt;strong&gt;@Name@&lt;/strong&gt;!
+&lt;/p&gt;
+&lt;p style="color:#222222;font-family:'Helvetica','Arial',sans-serif;font-size:14px;font-weight:normal;line-height:19px;margin:0 0 10px;padding:0;text-align:left" align="left"&gt;
+  To change your password, click on the following button:
+&lt;/p&gt;
+
+
+&lt;div class="m_102215442800384201cta-button-wrap m_102215442800384201cta-button-wrap-centered" style="color:#ffffff;padding:20px 0 33px;text-align:center" align="center"&gt;
+
+    &lt;a class="" href="http://localhost:8888/webui/index.zul?token=@TokenValue@&amp;userId=@AD_User_ID@" style="background:#4183c4;border-radius:3px;color:#ffffff;display:inline-block;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:17px;font-weight:bold;letter-spacing:normal;margin:0 auto;padding:12px 24px;text-align:center;text-decoration:none;width:auto!important" target="_blank"&gt;Verify Token&lt;/a&gt;
+
+&lt;/div&gt;
+&lt;hr style="background:#d9d9d9;border:none;color:#d9d9d9;height:1px;margin:10px 0 20px"&gt;
+
+&lt;p class="m_102215442800384201email-text-small m_102215442800384201email-text-gray" style="color:#777777;font-family:'Helvetica','Arial',sans-serif;font-size:12px;font-weight:normal;line-height:19px;margin:0 0 10px;padding:0;text-align:left" align="left"&gt;
+  Button not working? Paste the following link into your browser:&lt;br&gt;
+  &lt;a href="http://localhost:8888/webui/passwordreset.zul?token=@TokenValue@&amp;userId=@AD_User_ID@"&gt;http://localhost:8888/webui/passwordreset.zul?token=@TokenValue@&amp;userId=@AD_User_ID@&lt;/a&gt;</Data>
+        <Data AD_Column_ID="5410" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="5404" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="5405" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="5403" Column="R_MailText_ID">50001</Data>
+        <Data AD_Column_ID="5408" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="85081" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="826" Action="I" Record_ID="50001" Table="R_MailText_Trl">
+        <Data AD_Column_ID="14607" Column="IsActive">true</Data>
+        <Data AD_Column_ID="14610" Column="Updated">2018-06-18 17:20:56.536</Data>
+        <Data AD_Column_ID="14606" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="14605" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="14608" Column="Created">2018-06-18 17:20:56.536</Data>
+        <Data AD_Column_ID="14611" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="14613" Column="Name">Password Reset</Data>
+        <Data AD_Column_ID="14614" Column="MailHeader">Password Reset</Data>
+        <Data AD_Column_ID="14615" Column="MailText">&lt;div id=":rv" class="ii gt"&gt;&lt;div id=":qd" class="a3s aXjCH m150616a0629b2c50"&gt;&lt;u&gt;&lt;/u&gt;
+  &lt;div marginheight="0" marginwidth="0" style="background:#fafafa;color:#222222;font-family:'Helvetica','Arial',sans-serif;font-size:14px;font-weight:normal;line-height:19px;margin:0;min-width:100%;padding:0;text-align:left;width:100%!important" bgcolor="#fafafa"&gt;
+    &lt;table class="m_102215442800384201body" style="background:#fafafa;border-collapse:collapse;border-spacing:0;color:#222222;font-family:'Helvetica','Arial',sans-serif;font-size:14px;font-weight:normal;height:100%;line-height:19px;margin:0;padding:10px;text-align:left;vertical-align:top;width:100%" bgcolor="#fafafa"&gt;
+      &lt;tbody&gt;&lt;tr style="padding:0;text-align:left;vertical-align:top" align="left"&gt;
+        &lt;td class="" align="center" valign="top" style="border-collapse:collapse!important;color:#222222;font-family:'Helvetica','Arial',sans-serif;font-size:14px;font-weight:normal;line-height:19px;margin:0;padding:0;text-align:center;vertical-align:top;word-break:break-word"&gt;
+          &lt;center style="min-width:580px;width:100%"&gt;
+            &lt;table class="m_102215442800384201container" style="border-collapse:collapse;border-spacing:0;margin:0 auto;padding:0;text-align:inherit;vertical-align:top;width:580px"&gt;
+              &lt;tbody&gt;&lt;tr style="padding:0;text-align:left;vertical-align:top" align="left"&gt;
+                &lt;td style="border-collapse:collapse!important;color:#222222;font-family:'Helvetica','Arial',sans-serif;font-size:14px;font-weight:normal;line-height:19px;margin:0;padding:0;text-align:left;vertical-align:top;word-break:break-word" align="left" valign="top"&gt;
+
+                  &lt;table class="m_102215442800384201email-header" style="border-collapse:collapse;border-spacing:0;margin-top:20px;padding:0;text-align:left;vertical-align:top;width:100%"&gt;
+                    &lt;tbody&gt;&lt;tr style="padding:0;text-align:left;vertical-align:top" align="left"&gt;
+                      &lt;td class=""&gt;</Data>
+        <Data AD_Column_ID="14612" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="14609" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="14617" Column="MailText3">   &lt;p style="color:#222222;font-family:'Helvetica','Arial',sans-serif;font-size:14px;font-weight:normal;line-height:19px;margin:0 0 10px;padding:0;text-align:left" align="left"&gt;
+  Hi &lt;strong&gt;@Name@&lt;/strong&gt;!
+&lt;/p&gt;
+&lt;p style="color:#222222;font-family:'Helvetica','Arial',sans-serif;font-size:14px;font-weight:normal;line-height:19px;margin:0 0 10px;padding:0;text-align:left" align="left"&gt;
+  To change your password, click on the following button:
+&lt;/p&gt;
+
+
+&lt;div class="m_102215442800384201cta-button-wrap m_102215442800384201cta-button-wrap-centered" style="color:#ffffff;padding:20px 0 33px;text-align:center" align="center"&gt;
+
+    &lt;a class="" href="http://localhost:8080/webui/passwordreset.zul?token=@TokenValue@&amp;userId=@AD_User_ID@" style="background:#4183c4;border-radius:3px;color:#ffffff;display:inline-block;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:17px;font-weight:bold;letter-spacing:normal;margin:0 auto;padding:12px 24px;text-align:center;text-decoration:none;width:auto!important" target="_blank"&gt;Verify Token&lt;/a&gt;
+
+&lt;/div&gt;
+&lt;hr style="background:#d9d9d9;border:none;color:#d9d9d9;height:1px;margin:10px 0 20px"&gt;
+
+&lt;p class="m_102215442800384201email-text-small m_102215442800384201email-text-gray" style="color:#777777;font-family:'Helvetica','Arial',sans-serif;font-size:12px;font-weight:normal;line-height:19px;margin:0 0 10px;padding:0;text-align:left" align="left"&gt;
+  Button not working? Paste the following link into your browser:&lt;br&gt;
+  &lt;a href="http://localhost:8080/webui/passwordreset.zul?token=@TokenValue@&amp;userId=@AD_User_ID@"&gt;http://localhost:8080/webui/passwordreset.zul?token=@TokenValue@&amp;userId=@AD_User_ID@&lt;/a&gt;</Data>
+        <Data AD_Column_ID="14603" Column="R_MailText_ID">50001</Data>
+        <Data AD_Column_ID="14616" Column="MailText2">  &lt;div class="" style="margin-bottom:30px;margin-top:20px;text-align:center!important" align="center !important"&gt;
+                      &lt;img class="" src="/images/login-logo.png" width="50" height="48" style="clear:both;display:block;float:none;height:48px;margin:0 auto;max-height:48px;max-width:50px;outline:none;text-decoration:none;width:50px" align="none"&gt;
+                    &lt;/div&gt;
+                  &lt;/center&gt;
+                &lt;/td&gt;
+                &lt;td class="" style="border-collapse:collapse!important;color:#222222;font-family:'Helvetica','Arial',sans-serif;font-size:14px;font-weight:normal;line-height:19px;margin:0;padding:0;text-align:left;vertical-align:top;width:0px;word-break:break-word" align="left" valign="top"&gt;&lt;/td&gt;
+              &lt;/tr&gt;
+            &lt;/tbody&gt;&lt;/table&gt;
+
+            &lt;table class="" style="background:#ffffff;border-collapse:collapse;border-radius:3px!important;border-spacing:0;border:1px solid #dddddd;padding:0;text-align:left;vertical-align:top" bgcolor="#ffffff"&gt;
+              &lt;tbody&gt;&lt;tr style="padding:0;text-align:left;vertical-align:top" align="left"&gt;
+                &lt;td class="" style="border-collapse:collapse!important;color:#222222;font-family:'Helvetica','Arial',sans-serif;font-size:14px;font-weight:normal;line-height:19px;margin:0;padding:0;text-align:left;vertical-align:top;word-break:break-word" align="left" valign="top"&gt;
+</Data>
+        <Data AD_Column_ID="14604" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="85082" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="826" Action="U" Record_ID="50001" Table="R_MailText_Trl">
+        <Data AD_Column_ID="14617" Column="MailText3" oldValue="   &lt;p style=&quot;color:#222222;font-family:'Helvetica','Arial',sans-serif;font-size:14px;font-weight:normal;line-height:19px;margin:0 0 10px;padding:0;text-align:left&quot; align=&quot;left&quot;&gt;&#10;  Hi &lt;strong&gt;@Name@&lt;/strong&gt;!&#10;&lt;/p&gt;&#10;&lt;p style=&quot;color:#222222;font-family:'Helvetica','Arial',sans-serif;font-size:14px;font-weight:normal;line-height:19px;margin:0 0 10px;padding:0;text-align:left&quot; align=&quot;left&quot;&gt;&#10;  To change your password, click on the following button:&#10;&lt;/p&gt;&#10;&#10;&#10;&lt;div class=&quot;m_102215442800384201cta-button-wrap m_102215442800384201cta-button-wrap-centered&quot; style=&quot;color:#ffffff;padding:20px 0 33px;text-align:center&quot; align=&quot;center&quot;&gt;&#10;&#10;    &lt;a class=&quot;&quot; href=&quot;http://localhost:8080/webui/passwordreset.zul?token=@TokenValue@&amp;userId=@AD_User_ID@&quot; style=&quot;background:#4183c4;border-radius:3px;color:#ffffff;display:inline-block;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:17px;font-weight:bold;letter-spacing:normal;margin:0 auto;padding:12px 24px;text-align:center;text-decoration:none;width:auto!important&quot; target=&quot;_blank&quot;&gt;Verify Token&lt;/a&gt;&#10;&#10;&lt;/div&gt;&#10;&lt;hr style=&quot;background:#d9d9d9;border:none;color:#d9d9d9;height:1px;margin:10px 0 20px&quot;&gt;&#10;&#10;&lt;p class=&quot;m_102215442800384201email-text-small m_102215442800384201email-text-gray&quot; style=&quot;color:#777777;font-family:'Helvetica','Arial',sans-serif;font-size:12px;font-weight:normal;line-height:19px;margin:0 0 10px;padding:0;text-align:left&quot; align=&quot;left&quot;&gt;&#10;  Button not working? Paste the following link into your browser:&lt;br&gt;&#10;  &lt;a href=&quot;http://localhost:8080/webui/passwordreset.zul?token=@TokenValue@&amp;userId=@AD_User_ID@&quot;&gt;http://localhost:8080/webui/passwordreset.zul?token=@TokenValue@&amp;userId=@AD_User_ID@&lt;/a&gt;">   &lt;p style="color:#222222;font-family:'Helvetica','Arial',sans-serif;font-size:14px;font-weight:normal;line-height:19px;margin:0 0 10px;padding:0;text-align:left" align="left"&gt;
+  Hi &lt;strong&gt;@Name@&lt;/strong&gt;!
+&lt;/p&gt;
+&lt;p style="color:#222222;font-family:'Helvetica','Arial',sans-serif;font-size:14px;font-weight:normal;line-height:19px;margin:0 0 10px;padding:0;text-align:left" align="left"&gt;
+  Para cambiar su contraseña, haga clic en el siguiente enlace:
+&lt;/p&gt;
+
+
+&lt;div class="m_102215442800384201cta-button-wrap m_102215442800384201cta-button-wrap-centered" style="color:#ffffff;padding:20px 0 33px;text-align:center" align="center"&gt;
+
+    &lt;a class="" href="http://localhost:8080/webui/passwordreset.zul?token=@TokenValue@&amp;userId=@AD_User_ID@" style="background:#4183c4;border-radius:3px;color:#ffffff;display:inline-block;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:17px;font-weight:bold;letter-spacing:normal;margin:0 auto;padding:12px 24px;text-align:center;text-decoration:none;width:auto!important" target="_blank"&gt;Verificar Token&lt;/a&gt;
+
+&lt;/div&gt;
+&lt;hr style="background:#d9d9d9;border:none;color:#d9d9d9;height:1px;margin:10px 0 20px"&gt;
+
+&lt;p class="m_102215442800384201email-text-small m_102215442800384201email-text-gray" style="color:#777777;font-family:'Helvetica','Arial',sans-serif;font-size:12px;font-weight:normal;line-height:19px;margin:0 0 10px;padding:0;text-align:left" align="left"&gt;
+¿El botón no funciona? Pega el siguiente enlace en tu navegador::&lt;br&gt;
+  &lt;a href="http://localhost:8080/webui/passwordreset.zul?token=@TokenValue@&amp;userId=@AD_User_ID@"&gt;http://localhost:8080/webui/passwordreset.zul?token=@TokenValue@&amp;userId=@AD_User_ID@&lt;/a&gt;</Data>
+        <Data AD_Column_ID="14603" Column="R_MailText_ID" oldValue="50001">50001</Data>
+        <Data AD_Column_ID="14604" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

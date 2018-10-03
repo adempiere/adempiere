@@ -44,31 +44,31 @@ public class MCharge extends X_C_Charge
 
 	/**
 	 *  Get Charge Account
-	 *  @param C_Charge_ID charge
-	 *  @param as account schema
+	 *  @param chargeId charge
+	 *  @param acctSchema account schema
 	 *  @param amount amount for expense(+)/revenue(-)
 	 *  @return Charge Account or null
 	 */
-	public static MAccount getAccount (int C_Charge_ID, MAcctSchema as, BigDecimal amount)
+	public static MAccount getAccount (int chargeId, MAcctSchema acctSchema, BigDecimal amount)
 	{
-		if (C_Charge_ID == 0 || as == null)
+		if (chargeId == 0 || acctSchema == null)
 			return null;
 
 		String acctName = X_C_Charge_Acct.COLUMNNAME_Ch_Expense_Acct;		//  Expense (positive amt)
 		if (amount != null && amount.signum() < 0)
 			acctName = X_C_Charge_Acct.COLUMNNAME_Ch_Revenue_Acct;			//  Revenue (negative amt)
 		String sql = "SELECT "+acctName+" FROM C_Charge_Acct WHERE C_Charge_ID=? AND C_AcctSchema_ID=?";
-		int Account_ID = DB.getSQLValueEx(null, sql, C_Charge_ID, as.get_ID());
+		int accountId = DB.getSQLValueEx(acctSchema.get_TrxName(), sql, chargeId, acctSchema.get_ID());
 		//	No account
-		if (Account_ID <= 0)
+		if (accountId <= 0)
 		{
-			s_log.severe ("NO account for C_Charge_ID=" + C_Charge_ID);
+			s_log.severe ("NO account for C_Charge_ID=" + chargeId);
 			return null;
 		}
 
 		//	Return Account
-		MAccount acct = MAccount.get (as.getCtx(), Account_ID);
-		return acct;
+		MAccount account = MAccount.getValidCombination (acctSchema.getCtx(), accountId , acctSchema.get_TrxName());
+		return account;
 	}   //  getAccount
 
 	/**

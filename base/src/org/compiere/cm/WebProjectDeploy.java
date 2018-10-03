@@ -97,7 +97,7 @@ public class WebProjectDeploy extends SvrProcess
 			m_map.put(new Integer(stages[i].getCM_CStage_ID()), stages[i]);
 		
 		//	Copy Stage Tree
-		MTree treeS = new MTree (getCtx(), m_project.getAD_TreeCMS_ID(), false, false, get_TrxName());
+		MTree treeS = new MTree (getCtx(), m_project.getAD_TreeCMS_ID(), false, get_TrxName());
 		MTreeNode root = treeS.getRoot();
 		copyStage(root, "/");
 		

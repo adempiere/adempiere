@@ -32,7 +32,7 @@ import java.util.logging.Level;
 
 import javax.swing.JSplitPane;
 
-import org.adempiere.pdf.Document;
+import org.adempiere.pdf.ITextDocument;
 import org.adempiere.pdf.viewer.PDFViewerBean;
 import org.compiere.apps.ConfirmPanel;
 import org.compiere.grid.ed.VDate;
@@ -125,7 +125,7 @@ public class ArchiveViewer extends Archive
 	//
 	private CPanel viewPanel = new CPanel(new BorderLayout(5,5));
 	private JSplitPane viewPanelSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
-	private PDFViewerBean pdfViewer = Document.getViewer();
+	private PDFViewerBean pdfViewer = new ITextDocument().getViewer();
 	private CPanel viewEnterPanel = new CPanel(new GridBagLayout());
 	private CButton bBack = new CButton(Env.getImageIcon("wfBack24.gif"));
 	private CButton bNext = new CButton(Env.getImageIcon("wfNext24.gif"));
@@ -260,8 +260,6 @@ public class ArchiveViewer extends Archive
 		//
 		confirmPanel.addActionListener(this);
 		updateQDisplay();
-		//
-		panel.setPreferredSize(new Dimension (720,500));
 	}	//	jbInit
 	
 	/**

@@ -17,8 +17,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.logging.Level;
-
-import org.compiere.apps.form.TreeMaintenance.ListItem;
 import org.compiere.model.MRole;
 import org.compiere.model.MTree;
 import org.compiere.model.MTree_Node;
@@ -46,20 +44,22 @@ public class TreeMaintenance {
 				"AD_Tree", MRole.SQL_NOTQUALIFIED, MRole.SQL_RW), false);
 	}
 	
-	public ArrayList<ListItem> getTreeItemData()
-	{
+	/**
+	 * Get Tree Item
+	 * @return
+	 */
+	public ArrayList<ListItem> getTreeItemData() {
 		ArrayList<ListItem> data = new ArrayList<ListItem>();
-
-		String columnNameX = m_tree.getSourceTableName(true) + "_ID";
-		String sqlTrl = "select ad_table_ID from ad_table where tablename = '" + m_tree.getSourceTableName(true) + "_Trl" + "'";
-		int ad_table_ID =  DB.getSQLValueEx(null, sqlTrl);
-		Boolean existsTranslation = ad_table_ID>0?true:false;
-		String fromClause = m_tree.getSourceTableName(false);	//	fully qualified
-		if (existsTranslation)
-		{
-				fromClause = fromClause +
-					" LEFT JOIN " + m_tree.getSourceTableName(true) + "_TRL  trl on t." + columnNameX + " = trl." + columnNameX +
-					" AND AD_Language = '" + Env.getAD_Language(Env.getCtx()) + "'";
+		String tableName = m_tree.getSourceTableName();
+		String columnNameX = tableName + "_ID";
+		String sqlTrl = "SELECT AD_Table_ID from AD_Table WHERE TableName = '" + tableName + "_Trl" + "'";
+		int tableId =  DB.getSQLValueEx(null, sqlTrl);
+		boolean existsTranslation = tableId > 0? true: false;
+		String fromClause = tableName + " t";	//	fully qualified
+		if (existsTranslation) {
+				fromClause = fromClause
+					+ " LEFT JOIN " + tableName + "_TRL  trl on t." + columnNameX + " = trl." + columnNameX
+					+ " AND AD_Language = '" + Env.getAD_Language(Env.getCtx()) + "'";
 		}
 		String actionColor = m_tree.getActionColorName();
 		String nameString = existsTranslation?"coalesce(trl.name, t.name) as name," : "t.name,";

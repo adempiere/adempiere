@@ -58,7 +58,7 @@ public class MTree_NodeU1 extends X_AD_TreeNodeU1 {
      * @param nodeId
      * @return
      */
-    public static MTree_NodeU1 get(MTree_Base tree, int nodeId) {
+    public static MTree_NodeU1 get(MTree tree, int nodeId) {
         return new Query(tree.getCtx(), Table_Name, "AD_Tree_ID=? AND Node_ID=?", tree.get_TrxName())
                 .setClient_ID()
                 .setParameters(tree.getAD_Tree_ID(), nodeId)
@@ -87,7 +87,7 @@ public class MTree_NodeU1 extends X_AD_TreeNodeU1 {
      * @param tree   tree
      * @param nodeId node
      */
-    public MTree_NodeU1(MTree_Base tree, int nodeId) {
+    public MTree_NodeU1(MTree tree, int nodeId) {
         super(tree.getCtx(), 0, tree.get_TrxName());
         setClientOrg(tree);
         setAD_Tree_ID(tree.getAD_Tree_ID());

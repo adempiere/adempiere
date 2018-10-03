@@ -62,6 +62,7 @@ public class ModelValidatorElementHandler extends AbstractElementHandler
 			if (id <= 0 && getIntValue(atts, I_AD_ModelValidator.COLUMNNAME_AD_ModelValidator_ID, 0) <= PackOut.MAX_OFFICIAL_ID)
 			{
 				validator.setAD_ModelValidator_ID(getIntValue(atts, I_AD_ModelValidator.COLUMNNAME_AD_ModelValidator_ID, 0));
+				validator.setIsDirectLoad(true);
 			}
 			if (id > 0)
 			{		

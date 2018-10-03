@@ -68,9 +68,10 @@ public class MHRDegree extends X_HR_Degree {
    	 * Get/Load Shift group [CACHED]
    	 * @param ctx context
    	 * @param degreeId
-   	 * @return activity or null
+   	 * @param trxName
+	 * @return activity or null
    	 */
-   	public static MHRDegree getById(Properties ctx, int degreeId) {
+   	public static MHRDegree getById(Properties ctx, int degreeId, String trxName) {
    		if (degreeId <= 0)
    			return null;
 
@@ -78,7 +79,7 @@ public class MHRDegree extends X_HR_Degree {
    		if (degree != null && degree.get_ID() > 0)
    			return degree;
 
-   		degree = new Query(ctx , Table_Name , COLUMNNAME_HR_Degree_ID + "=?" , null)
+   		degree = new Query(ctx , Table_Name , COLUMNNAME_HR_Degree_ID + "=?" , trxName)
    				.setClient_ID()
    				.setParameters(degreeId)
    				.first();
@@ -96,13 +97,14 @@ public class MHRDegree extends X_HR_Degree {
    	 * get Activity By Value [CACHED]
    	 * @param ctx
    	 * @param degreeValue
-   	 * @return
+   	 * @param trxName
+	 * @return
    	 */
-   	public static MHRDegree getByValue(Properties ctx , String degreeValue) {
+   	public static MHRDegree getByValue(Properties ctx, String degreeValue, String trxName) {
    		if (degreeValue == null)
    			return null;
    		if (degreeCacheValues.size() == 0 )
-   			getAll(ctx, true);
+   			getAll(ctx, true, trxName);
 
    		int clientId = Env.getAD_Client_ID(ctx);
    		String key = clientId + "#" + degreeValue;
@@ -110,7 +112,7 @@ public class MHRDegree extends X_HR_Degree {
    		if (degree != null && degree.get_ID() > 0 )
    			return degree;
 
-   		degree =  new Query(ctx, Table_Name , COLUMNNAME_Value +  "=?", null)
+   		degree =  new Query(ctx, Table_Name , COLUMNNAME_Value +  "=?", trxName)
    				.setClient_ID()
    				.setParameters(degreeValue)
    				.first();
@@ -126,12 +128,13 @@ public class MHRDegree extends X_HR_Degree {
    	 * Get All Campaign
    	 * @param ctx
    	 * @param resetCache
-   	 * @return
+   	 * @param trxName
+	 * @return
    	 */
-   	public static List<MHRDegree> getAll(Properties ctx, boolean resetCache) {
+   	public static List<MHRDegree> getAll(Properties ctx, boolean resetCache, String trxName) {
    		List<MHRDegree> degreeList;
    		if (resetCache || degreeCacheIds.size() > 0 ) {
-   			degreeList = new Query(Env.getCtx(), Table_Name, null , null)
+   			degreeList = new Query(Env.getCtx(), Table_Name, null , trxName)
    					.setClient_ID()
    					.setOrderBy(COLUMNNAME_Name)
    					.list();

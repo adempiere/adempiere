@@ -33,7 +33,7 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170731L;
+	private static final long serialVersionUID = 20180912L;
 
     /** Standard Constructor */
     public X_AD_WF_Node (Properties ctx, int AD_WF_Node_ID, String trxName)
@@ -706,6 +706,10 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 	public static final String EMAILRECIPIENT_DocumentBusinessPartner = "B";
 	/** WF Responsible = R */
 	public static final String EMAILRECIPIENT_WFResponsible = "R";
+	/** Supervisor of Document Owner = S */
+	public static final String EMAILRECIPIENT_SupervisorOfDocumentOwner = "S";
+	/** Supervisor of WF Responsible = Z */
+	public static final String EMAILRECIPIENT_SupervisorOfWFResponsible = "Z";
 	/** Set EMail Recipient.
 		@param EMailRecipient 
 		Recipient of the EMail

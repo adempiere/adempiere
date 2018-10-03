@@ -1565,7 +1565,12 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 				log.fine("No User Field in Document");
 		}
 		else if (recipient.equals(MWFNode.EMAILRECIPIENT_DocumentOwner))
-			sendEMail(client, doc.getDoc_User_ID(), null, subject, message, pdf, text.isHtml()); 
+			sendEMail(client, doc.getDoc_User_ID(), null, subject, message, pdf, text.isHtml());
+		else if (recipient.equals(MWFNode.EMAILRECIPIENT_SupervisorOfDocumentOwner) && doc.getDoc_User_ID() > 0) {
+			MUser documentUser = new MUser(getCtx() , doc.getDoc_User_ID(), get_TrxName());
+			if (documentUser.getSupervisor_ID() > 0 )
+				sendEMail(client, documentUser.getSupervisor_ID(), null, subject, message, pdf, text.isHtml());
+		}
 		else if (recipient.equals(MWFNode.EMAILRECIPIENT_WFResponsible))
 		{
 			MWFResponsible resp = getResponsible();
@@ -1589,7 +1594,46 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 				if (org.getSupervisor_ID() == 0)
 					log.fine("No Supervisor for AD_Org_ID=" + m_po.getAD_Org_ID());
 				else
-					sendEMail(client, org.getSupervisor_ID(), null, subject, message, pdf, text.isHtml()); 
+					sendEMail(client, org.getSupervisor_ID(), null, subject, message, pdf, text.isHtml());
+			}
+		}
+		else if (recipient.equals(MWFNode.EMAILRECIPIENT_SupervisorOfWFResponsible))
+		{
+			MWFResponsible resp = getResponsible();
+			if (resp.isInvoker()) {
+				MUser documentUser = new MUser(getCtx() , doc.getDoc_User_ID(), get_TrxName());
+				if (documentUser.getSupervisor_ID() > 0)
+					sendEMail(client, documentUser.getSupervisor_ID(), null, subject, message, pdf, text.isHtml());
+
+			}
+			else if (resp.isHuman()) {
+				MUser documentUser = new MUser(getCtx() , resp.getAD_User_ID() , get_TrxName());
+				if (documentUser.getSupervisor_ID() > 0)
+					sendEMail(client, documentUser.getSupervisor_ID(), null, subject, message, pdf, text.isHtml());
+			}
+			else if (resp.isRole())
+			{
+				MRole role = resp.getRole();
+				if (role != null)
+				{
+					MUser[] users = MUser.getWithRole(role);
+					for (int i = 0; i < users.length; i++) {
+						if (users[i].getSupervisor_ID() > 0) {
+							sendEMail(client, users[i].getSupervisor_ID(), null, subject, message, pdf, text.isHtml());
+						}
+					}
+				}
+			}
+			else if (resp.isOrganization())
+			{
+				MOrgInfo org = MOrgInfo.get(getCtx(), m_po.getAD_Org_ID(), get_TrxName());
+				if (org.getSupervisor_ID() == 0)
+					log.fine("No Supervisor for AD_Org_ID=" + m_po.getAD_Org_ID());
+				else {
+					MUser user = new MUser(getCtx() , org.getSupervisor_ID() , get_TrxName());
+					if (user.getSupervisor_ID() > 0)
+						sendEMail(client, user.getSupervisor_ID() , null, subject, message, pdf, text.isHtml());
+				}
 			}
 		}
 	}	//	sendEMail

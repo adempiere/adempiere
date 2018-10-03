@@ -68,9 +68,10 @@ public class BrowseElementHandler extends AbstractElementHandler {
 			MBrowse m_Browse = new MBrowse(ctx, id, getTrxName(ctx));
 			if (id <= 0
 					&& atts.getValue("AD_Browse_ID") != null
-					&& Integer.parseInt(atts.getValue("AD_Browse_ID")) <= PackOut.MAX_OFFICIAL_ID)
-				m_Browse.setAD_Browse_ID(Integer.parseInt(atts
-						.getValue("AD_Browse_ID")));
+					&& Integer.parseInt(atts.getValue("AD_Browse_ID")) <= PackOut.MAX_OFFICIAL_ID) {
+				m_Browse.setAD_Browse_ID(Integer.parseInt(atts.getValue("AD_Browse_ID")));
+				m_Browse.setIsDirectLoad(true);
+			}
 
 			String Object_Status = null;
 			int AD_Backup_ID = -1;

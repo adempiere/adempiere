@@ -48,13 +48,14 @@ public class MProject extends X_C_Project
 	 * Ge project by Id
 	 * @param ctx
 	 * @param projectId
+	 * @param trxName
 	 * @return
 	 */
-	public static MProject getById(Properties ctx, Integer projectId) {
+	public static MProject getById(Properties ctx, Integer projectId, String trxName) {
 		if (projectId <= 0)
 			return null;
 		if (projectCacheIds.size() == 0)
-			getAll(ctx, true);
+			getAll(ctx, true, trxName);
 
 		MProject project = projectCacheIds.get(projectId);
 		if (project != null)
@@ -78,13 +79,14 @@ public class MProject extends X_C_Project
 	 * Get project by Search Key
 	 * @param ctx
 	 * @param value
+	 * @param trxName
 	 * @return
 	 */
-	public static MProject getByValue(Properties ctx, String value) {
+	public static MProject getByValue(Properties ctx, String value, String trxName) {
 		if (value == null)
 			return null;
 		if (projectCacheValues.size() == 0)
-			getAll(ctx, true);
+			getAll(ctx, true, trxName);
 
 		int clientId = Env.getAD_Client_ID(ctx);
 		String key = clientId + "#" + value;
@@ -92,7 +94,7 @@ public class MProject extends X_C_Project
 		if (project != null && project.get_ID() > 0)
 			return project;
 
-		project = new Query(ctx, Table_Name, COLUMNNAME_Value + "=?", null)
+		project = new Query(ctx, Table_Name, COLUMNNAME_Value + "=?", trxName)
 				.setClient_ID()
 				.setParameters(value)
 				.first();
@@ -107,12 +109,13 @@ public class MProject extends X_C_Project
 	 * Get all project and create cache
 	 * @param ctx
 	 * @param resetCache
+	 * @param trxName
 	 * @return
 	 */
-	public static List<MProject> getAll(Properties ctx, boolean resetCache) {
+	public static List<MProject> getAll(Properties ctx, boolean resetCache, String trxName) {
 		List<MProject> projectList;
 		if (resetCache || projectCacheIds.size() > 0) {
-			projectList = new Query(Env.getCtx(), Table_Name, null, null)
+			projectList = new Query(Env.getCtx(), Table_Name, null, trxName)
 					.setClient_ID()
 					.setOrderBy(COLUMNNAME_Name)
 					.list();
@@ -576,7 +579,6 @@ public class MProject extends X_C_Project
 		if (newRecord && success)
 		{
 			insert_Accounting("C_Project_Acct", "C_AcctSchema_Default", null);
-			insert_Tree(MTree_Base.TREETYPE_Project);
 		}
 
 		//	Value/Name change
@@ -602,18 +604,6 @@ public class MProject extends X_C_Project
 	{
 		return delete_Accounting("C_Project_Acct"); 
 	}	//	beforeDelete
-
-	/**
-	 * 	After Delete
-	 *	@param success
-	 *	@return deleted
-	 */
-	protected boolean afterDelete (boolean success)
-	{
-		if (success)
-			delete_Tree(MTree_Base.TREETYPE_Project);
-		return success;
-	}	//	afterDelete
 	
 	/**
 	 * 	Return the Invoices Generated for this Project

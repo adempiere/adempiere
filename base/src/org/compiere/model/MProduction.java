@@ -51,6 +51,9 @@ import org.eevolution.service.dsl.ProcessBuilder;
  * 		@see FR [ 648 ] Add Support to document Action on Standard Production window</a>
  * 		<a href="https://github.com/adempiere/adempiere/issues/887">
  * 		@see FR [ 887 ] System Config reversal invoice DocNo</a>	
+ * @author https://github.com/homebeaver
+ *    @see <a href="https://github.com/adempiere/adempiere/issues/1782">
+ *    [ 1782 ] check only if MovementDate is in the past</a>  
  */
 public class MProduction extends X_M_Production implements DocAction , DocumentReversalEnabled {
 
@@ -179,7 +182,7 @@ public class MProduction extends X_M_Production implements DocAction , DocumentR
 				String whereClause = "M_Product_ID=? and M_Locator_ID=? and Movementdate<=? ";
 				ArrayList <Object> params = new ArrayList<>();
 				params.add(product.getM_Product_ID());
-				params.add(getM_Locator_ID());
+				params.add(line.getM_Locator_ID());
 				params.add(getMovementDate());
 				if (line.getM_AttributeSetInstance_ID()!=0){
 					whereClause = whereClause + " and M_AttributesetInstance_ID=? ";
@@ -188,7 +191,9 @@ public class MProduction extends X_M_Production implements DocAction , DocumentR
 				BigDecimal qtyOnHand = new Query(getCtx(), MTransaction.Table_Name, whereClause, get_TrxName())
 						.setParameters(params)
 						.aggregate(MTransaction.COLUMNNAME_MovementQty, Query.AGGREGATE_SUM);
-				if (qtyOnHand.compareTo(line.getMovementQty().abs())<0){
+
+				log.config("qtyOnHand="+qtyOnHand + " movementQty="+line.getMovementQty() + " "+product);
+				if (qtyOnHand.add(line.getMovementQty()).compareTo(Env.ZERO)<0) {
 					errors.append(Msg.translate(getCtx(), "NotEnoughStocked") + " " + product.getName()
 					+ ": " + Msg.translate(getCtx(), "QtyAvailable") + " " + qtyOnHand.toString() + ".\n" );
 				}
@@ -421,7 +426,8 @@ public class MProduction extends X_M_Production implements DocAction , DocumentR
 		if (m_processMsg != null)
 			return DocAction.STATUS_Invalid;
 
-		// Std Period open?
+		// Std Period open? @see https://github.com/adempiere/adempiere/issues/1782
+		// and https://github.com/adempiere/adempiere/pull/1826#issuecomment-412618464
 		MPeriod.testPeriodOpen(getCtx(), getMovementDate(), MDocType.DOCBASETYPE_ManufacturingOrder, getAD_Org_ID());
 		//	
 		m_processMsg = validateEndProduct(getM_Product_ID());

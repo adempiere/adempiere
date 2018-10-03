@@ -77,9 +77,10 @@ public class MHRJob extends X_HR_Job {
      * Get Job by Id
      * @param ctx
      * @param jobId
+     * @param trxName
      * @return
      */
-    public static MHRJob getById(Properties ctx, int jobId) {
+    public static MHRJob getById(Properties ctx, int jobId, String trxName) {
         if (jobId <= 0)
             return null;
 
@@ -90,7 +91,7 @@ public class MHRJob extends X_HR_Job {
         if (job != null && job.getHR_Job_ID() > 0)
             return job;
 
-        job = new Query (ctx , Table_Name , MHRJob.COLUMNNAME_HR_Job_ID + "=?", null)
+        job = new Query (ctx , Table_Name , MHRJob.COLUMNNAME_HR_Job_ID + "=?", trxName)
                 .setClient_ID()
                 .setParameters(jobId)
                 .first();
@@ -108,9 +109,10 @@ public class MHRJob extends X_HR_Job {
      * Get Job by search key
      * @param ctx
      * @param value
+     * @param trxName
      * @return
      */
-    public static MHRJob getByValue(Properties ctx, String value) {
+    public static MHRJob getByValue(Properties ctx, String value, String trxName) {
         if (value == null)
             return null;
         if (jobCacheValues.size() == 0)
@@ -122,7 +124,7 @@ public class MHRJob extends X_HR_Job {
         if (job != null && job.get_ID() > 0)
             return job;
 
-        job = new Query(ctx, Table_Name, COLUMNNAME_Value + "=?", null)
+        job = new Query(ctx, Table_Name, COLUMNNAME_Value + "=?", trxName)
                 .setClient_ID()
                 .setParameters(value)
                 .first();

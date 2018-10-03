@@ -87,28 +87,28 @@ public final class DocTax
 
 	/**
 	 *	Get Account
-	 *  @param AcctType see ACCTTYPE_*
-	 *  @param as account schema
+	 *  @param acctType see ACCTTYPE_*
+	 *  @param acctSchema account schema
 	 *  @return Account
 	 */
-	public MAccount getAccount (int AcctType, MAcctSchema as)
+	public MAccount getAccount (int acctType, MAcctSchema acctSchema)
 	{
-		if (AcctType < 0 || AcctType > 4)
+		if (acctType < 0 || acctType > 4)
 			return null;
 		//
 		String sql = "SELECT T_Due_Acct, T_Liability_Acct, T_Credit_Acct, T_Receivables_Acct, T_Expense_Acct "
 			+ "FROM C_Tax_Acct WHERE C_Tax_ID=? AND C_AcctSchema_ID=?";
-		int validCombination_ID = 0;
+		int validCombinationId = 0;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try
 		{
-			pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, acctSchema.get_TrxName());
 			pstmt.setInt(1, m_C_Tax_ID);
-			pstmt.setInt(2, as.getC_AcctSchema_ID());
+			pstmt.setInt(2, acctSchema.getC_AcctSchema_ID());
 			rs = pstmt.executeQuery();
 			if (rs.next())
-				validCombination_ID = rs.getInt(AcctType+1);    //  1..5
+				validCombinationId = rs.getInt(acctType+1);    //  1..5
 		}
 		catch (SQLException e)
 		{
@@ -118,9 +118,9 @@ public final class DocTax
 			DB.close(rs, pstmt);
 			rs = null; pstmt = null;
 		}
-		if (validCombination_ID == 0)
+		if (validCombinationId == 0)
 			return null;
-		return MAccount.get(as.getCtx(), validCombination_ID);
+		return MAccount.getValidCombination(acctSchema.getCtx(), validCombinationId, acctSchema.get_TrxName());
 	}   //  getAccount
 
 	/**

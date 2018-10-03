@@ -18,6 +18,7 @@ package org.compiere.model;
 import java.io.File;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -31,7 +32,10 @@ import org.compiere.util.Env;
  * @author Mario Calderon, mario.calderon@westfalia-it.com, Systemhaus Westfalia, http://www.westfalia-it.com
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  * 		<a href="https://github.com/adempiere/adempiere/issues/648">
- * 		@see FR [ 648 ] Add Support to document Action on Standard Production window</a>		
+ * 		@see FR [ 648 ] Add Support to document Action on Standard Production window</a>	
+ * @author https://github.com/homebeaver
+ *    @see <a href="https://github.com/adempiere/adempiere/issues/1782">
+ *    [ 1782 ] prepareIt: check only if MovementDate is in the past , toString-Methoda</a>  
  */
 public class MProductionBatch extends X_M_ProductionBatch implements DocAction {
 
@@ -244,8 +248,11 @@ public class MProductionBatch extends X_M_ProductionBatch implements DocAction {
 		if (m_processMsg != null)
 			return DocAction.STATUS_Invalid;
 
-		// Std Period open?
-		MPeriod.testPeriodOpen(getCtx(), getMovementDate(), MDocType.DOCBASETYPE_ManufacturingOrder, getAD_Org_ID());
+		// Std Period open? // homebeaver: check only if MovementDate is in the past 
+		// @see https://github.com/adempiere/adempiere/issues/1782
+		if(getMovementDate().before(new Timestamp(System.currentTimeMillis()))) {
+			MPeriod.testPeriodOpen(getCtx(), getMovementDate(), MDocType.DOCBASETYPE_ManufacturingOrder, getAD_Org_ID());
+		}
 
 		if (getTargetQty().compareTo(Env.ZERO) == 0)
 		{
@@ -584,6 +591,16 @@ public class MProductionBatch extends X_M_ProductionBatch implements DocAction {
 					Env.ZERO, reservationQty, Env.ZERO, get_TrxName()))
 				return ;
 		}
+	}
+
+	public String toString() {
+		MDocType mDocType = new MDocType(getCtx(), getC_DocType_ID(), get_TrxName());
+		StringBuffer sb = new StringBuffer("MProductionBatch[");
+		sb.append(get_ID())
+			.append("-").append(mDocType.getName())
+			.append(" ").append(getDocumentNo())
+			.append("]");
+		return sb.toString();
 	}
 
 	/**
