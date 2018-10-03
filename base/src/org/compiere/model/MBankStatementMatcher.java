@@ -16,15 +16,14 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
 import org.compiere.impexp.BankStatementMatcherInterface;
+import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
-import org.compiere.util.DB;
 import org.compiere.util.Env;
 
 /**
@@ -33,12 +32,16 @@ import org.compiere.util.Env;
  *  @author Jorg Janke
  *  @version $Id: MBankStatementMatcher.java,v 1.3 2006/07/30 00:51:02 jjanke Exp $
  */
-public class MBankStatementMatcher extends X_C_BankStatementMatcher
-{
+public class MBankStatementMatcher extends X_C_BankStatementMatcher {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -3756318777177414260L;
+	
+	/**	Cache						*/
+	private static CCache<String, List<MBankStatementMatcher>> cache = new CCache<String, List<MBankStatementMatcher>>(Table_Name, 40, 5);	//	5 minutes
+	/** Static Cache */
+	private static CCache<Integer, MBankStatementMatcher> matchersCacheIds = new CCache<Integer, MBankStatementMatcher>(Table_Name, 30);
 
 	/**
 	 * 	Get Bank Statement Matcher Algorithms
@@ -46,43 +49,47 @@ public class MBankStatementMatcher extends X_C_BankStatementMatcher
 	 *	@param trxName transaction
 	 *	@return matchers
 	 */
-	public static MBankStatementMatcher[] getMatchers (Properties ctx, String trxName)
-	{
-		ArrayList<MBankStatementMatcher> list = new ArrayList<MBankStatementMatcher>();
-		String sql = MRole.getDefault(ctx, false).addAccessSQL(
-			"SELECT * FROM C_BankStatementMatcher ORDER BY SeqNo", 
-			"C_BankStatementMatcher", MRole.SQL_NOTQUALIFIED, MRole.SQL_RO);
-		int AD_Client_ID = Env.getAD_Client_ID(ctx);
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement(sql, trxName);
-			ResultSet rs = pstmt.executeQuery();
-			while (rs.next())
-				list.add (new MBankStatementMatcher(ctx, rs, trxName));
-			rs.close();
-			pstmt.close();
-			pstmt = null;
+	public static MBankStatementMatcher[] getMatchers (Properties ctx, String trxName) {
+		List<MBankStatementMatcher> list = getMatchersList(ctx, 0);
+		if(list != null) {
+			MBankStatementMatcher[] retValue = new MBankStatementMatcher[list.size()];
+			list.toArray(retValue);
+			return retValue;
 		}
-		catch (Exception e)
-		{
-			s_log.log(Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
-		//	Convert		
-		MBankStatementMatcher[] retValue = new MBankStatementMatcher[list.size()];
-		list.toArray(retValue);
-		return retValue;
+		//	
+		return null;
 	}	//	getMatchers
+	
+	/**
+	 * Get Matcher from bank
+	 * @param ctx
+	 * @param bankId
+	 * @return
+	 */
+	public static List<MBankStatementMatcher> getMatchersList(Properties ctx, int bankId) {
+		String key = Env.getAD_Client_ID(ctx) + "|" + bankId;
+		List<MBankStatementMatcher> matcherList = cache.get(key);
+		if(matcherList == null) {
+			s_log.fine("Not from cache");
+			StringBuffer whereClause = new StringBuffer();
+			if(bankId > 0) {
+				whereClause.append("EXISTS(SELECT 1 FROM C_BankMatcher bm WHERE bm.C_Bank_ID = ")
+					.append(bankId).append(" AND bm.C_BankStatementMatcher_ID = C_BankStatementMatcher.C_BankStatementMatcher_ID)");
+			}
+			//	
+			matcherList = new Query(ctx, Table_Name, whereClause.toString(), null)
+				.setOrderBy(COLUMNNAME_SeqNo)
+				.setClient_ID()
+				.setOnlyActiveRecords(true)
+				.list();
+			//	Set
+			if(matcherList != null) {
+				cache.put(key, matcherList);
+			}
+		}
+		//	
+		return matcherList;
+	}
 
 	/** Static Logger					*/
 	private static CLogger 	s_log = CLogger.getCLogger(MBankStatementMatcher.class);
@@ -151,6 +158,28 @@ public class MBankStatementMatcher extends X_C_BankStatementMatcher
 		}
 		return m_matcher;
 	}	//	getMatcher
+	
+	/**
+	 * Get/Load Matcher [CACHED]
+	 * @param ctx context
+	 * @param matcherId
+	 * @return matcher or null
+	 */
+	public static MBankStatementMatcher getById(Properties ctx, int matcherId) {
+		if (matcherId <= 0)
+			return null;
 
+		MBankStatementMatcher matcher = matchersCacheIds.get(matcherId);
+		if (matcher != null && matcher.get_ID() > 0)
+			return matcher;
 
+		matcher = new Query(ctx , Table_Name , COLUMNNAME_C_BankStatementMatcher_ID + "=?" , null)
+				.setClient_ID()
+				.setParameters(matcherId)
+				.first();
+		if (matcher != null && matcher.get_ID() > 0) {
+			matchersCacheIds.put(matcher.get_ID(), matcher);
+		}
+		return matcher;
+	}
 }	//	MBankStatementMatcher
