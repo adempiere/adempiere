@@ -365,22 +365,6 @@
         <Data AD_Column_ID="183" Column="IsSameLine" oldValue="false">true</Data>
       </PO>
     </Step>
-    <Step SeqNo="190" StepType="AD">
-      <PO AD_Table_ID="157" Action="U" Record_ID="0" Table="AD_User_Roles">
-        <Data AD_Column_ID="89838" Column="IsDefault" isOldNull="true">true</Data>
-        <Data AD_Column_ID="542" Column="AD_Role_ID" oldValue="0">0</Data>
-        <Data AD_Column_ID="971" Column="AD_User_ID" oldValue="100">100</Data>
-      </PO>
-    </Step>
-    <Step DBType="ALL" Parse="Y" SeqNo="200" StepType="SQL">
-      <Comments>Set System user default role as System Admin.  Can't use the PO for this as all keys have value 0 and thats the definition of a new record.</Comments>
-      <SQLStatement>UPDATE AD_User_Roles
-SET IsDefault = 'Y'
-WHERE AD_User_ID = 0 AND AD_Role_ID = 0;</SQLStatement>
-      <RollbackStatement>UPDATE AD_User_Roles
-SET IsDefault = 'N'
-WHERE AD_User_ID = 0 AND AD_Role_ID = 0;</RollbackStatement>
-    </Step>
     <Step SeqNo="210" StepType="AD">
       <PO AD_Table_ID="109" Action="I" Record_ID="53490" Table="AD_Message">
         <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
