@@ -2108,4 +2108,12 @@ public class GridField
 	{
 		return m_vo.IsQuickEntry;
 	}
+	
+    /**
+     * Is Information Only
+     * @return
+     */
+    public int getAD_FieldDefinition_ID() {
+    	return m_vo.AD_FieldDefinition_ID;
+    }
 }   //  MField
