@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Add Column Field Definition" ReleaseNo="3.9.1" SeqNo="3790">
+  <Migration EntityType="D" Name="Add Column Field Definition" ReleaseNo="3.9.1" SeqNo="4360">
+    <Comments>See https://github.com/adempiere/adempiere/issues/1697</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="276" Action="I" Record_ID="60084" Table="AD_Element">
         <Data AD_Column_ID="2603" Column="Name">Field Definition</Data>
@@ -52,10 +53,10 @@
     </Step>
     <Step SeqNo="30" StepType="AD">
       <PO AD_Table_ID="277" Action="U" Record_ID="0" Table="AD_Element_Trl">
-        <Data AD_Column_ID="2646" Column="Name" oldValue="Field Definition">Definición de Campo</Data>
         <Data AD_Column_ID="4300" Column="PrintName" oldValue="Field Definition">Definición de Campo</Data>
         <Data AD_Column_ID="2638" Column="AD_Language" oldValue="es_MX">es_MX</Data>
         <Data AD_Column_ID="2637" Column="AD_Element_ID" oldValue="60084">60084</Data>
+        <Data AD_Column_ID="2646" Column="Name" oldValue="Field Definition">Definición de Campo</Data>
       </PO>
     </Step>
     <Step SeqNo="40" StepType="AD">
@@ -743,9 +744,9 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="260" StepType="AD">
       <PO AD_Table_ID="746" Action="U" Record_ID="0" Table="AD_Table_Trl">
-        <Data AD_Column_ID="12716" Column="Name" oldValue="Field Definition">Definición de Campo</Data>
         <Data AD_Column_ID="12715" Column="AD_Language" oldValue="es_MX">es_MX</Data>
         <Data AD_Column_ID="12714" Column="AD_Table_ID" oldValue="54433">54433</Data>
+        <Data AD_Column_ID="12716" Column="Name" oldValue="Field Definition">Definición de Campo</Data>
       </PO>
     </Step>
     <Step SeqNo="270" StepType="AD">
