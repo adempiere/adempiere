@@ -47,6 +47,7 @@ import org.compiere.util.Env;
  * 		@see FR [ 566 ] Process parameter don't have a parameter like only information</a>
  *  @author Raul Munoz, rmunoz@erpcya.com, ERPCyA http://www.erpcya.com
  *    <li>  FR [ 566 ] Get Correct Validation Code 
+ *    <li>  FR [ 1710 ] Get Correct Validation Code 
  *  @version  $Id: GridFieldVO.java,v 1.3 2006/07/30 00:58:04 jjanke Exp $
  */
 public class GridFieldVO implements Serializable
@@ -214,8 +215,12 @@ public class GridFieldVO implements Serializable
 					vo.AD_Field_ID = rs.getInt(i);
 				else if (columnName.equalsIgnoreCase("IsAllowNewAttributeInstance"))
 					vo.IsAllowNewAttributeInstance  = "Y".equals(rs.getString(i));
+				//  FR [ 1710 ] 
+				else if (columnName.equalsIgnoreCase("AD_FieldDefinition_ID"))
+					vo.AD_FieldDefinition_ID  = rs.getInt(i);
 				else if (columnName.equalsIgnoreCase("IsQuickEntry"))
 					vo.IsQuickEntry = "Y".equals(rs.getString (i));
+
 			}
 			if (vo.Header == null)
 				vo.Header = vo.ColumnName;
@@ -537,6 +542,8 @@ public class GridFieldVO implements Serializable
 	public boolean IsAllowCopy = false;
 	/** Allow New Attribute Instance Adaxa Ticket#1406 - jobriant */
 	public boolean IsAllowNewAttributeInstance = false;
+	/** Allow New Attribute Instance Adaxa Ticket#1406 - jobriant */
+	public int AD_FieldDefinition_ID = 0;
 	
 	/**
 	 *  Set Context including contained elements
@@ -684,6 +691,7 @@ public class GridFieldVO implements Serializable
 		// IsQuickEntry
 		clone.IsQuickEntry = IsQuickEntry;
 
+		clone.AD_FieldDefinition_ID = AD_FieldDefinition_ID;	
 		return clone;
 	}	//	clone
 	
@@ -711,7 +719,7 @@ public class GridFieldVO implements Serializable
         + AD_Reference_Value_ID + ", IsRange=" + IsRange + ", DefaultValue2=" + DefaultValue2 + ", lookupInfo="
         + lookupInfo + ", Included_Tab_ID=" + Included_Tab_ID + ", IsCollapsedByDefault=" + IsCollapsedByDefault
         + ", IsAutocomplete=" + IsAutocomplete + ", ColumnNameAlias=" + ColumnNameAlias + ", IsColumnSQLReference="
-        + IsColumnSQLReference + "]";
+        + IsColumnSQLReference +  ", AD_FieldDefinition_ID=" + AD_FieldDefinition_ID +  "]";
   }
 
 	/**
