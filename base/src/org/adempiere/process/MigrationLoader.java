@@ -72,7 +72,8 @@ public class MigrationLoader {
 			.process(org.compiere.process.MigrationFromXML.class)
 			.withTitle("Import Migration from XML")
 			.withParameter("FailOnError",failOnError)
-			.withParameter(MigrationFromXML.FILEPATHORNAME, fileName)
+			.withParameter(MigrationFromXML.FILEPATHORNAME, fileName) // Old parameter name
+			.withParameter(MigrationFromXML.FILENAME, fileName)  // New parameter name
 			.withParameter(MigrationFromXML.APPLY, apply)
 			.withParameter(MigrationFromXML.ISFORCE, force_arg)
 			.withParameter("Clean", clean)
