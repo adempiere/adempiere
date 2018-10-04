@@ -141,4 +141,8 @@ public class FieldCondition implements Serializable, Evaluatee {
     	return false;
     }
 
+	@Override
+	public String toString() {
+		return "FieldCondition [styleSheet=" + styleSheet + ", condition=" + condition + "]";
+	}
 }

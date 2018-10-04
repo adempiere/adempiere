@@ -397,11 +397,14 @@ public class GridTabRowRenderer implements RowRenderer, RowRendererExt, Renderer
 			}
 
 			//	FR [ 1697 ]
-			definition = FieldDefinition.getInstance(gridField[i].getVO());
-			FieldCondition condition = definition.getConditionValid(columnValues);
-			div.setStyle(divStyle);
-			if(condition != null && condition.isValid()) {
-				div.setStyle(divStyle+condition.getStyleSheet());
+			//	Validate field condition
+			if(gridField[i].getAD_FieldDefinition_ID() > 0) {
+				definition = FieldDefinition.getInstance(gridField[i].getVO());
+				FieldCondition condition = definition.getConditionValid(columnValues);
+				div.setStyle(divStyle);
+				if(condition != null && condition.isValid()) {
+					div.setStyle(divStyle + condition.getStyleSheet());
+				}
 			}
 			
 			div.setReadOnly(!gridField[i].isEditable(true));
@@ -688,39 +691,38 @@ public class GridTabRowRenderer implements RowRenderer, RowRendererExt, Renderer
 	 * Valid Condition for Change Div Style
 	 */
 	public void validCondition() {
-				if(definition == null)
-					return;
-				FieldCondition condition = definition.getConditionValid(null);
-				if(condition == null)
-					return;
-				
-				Row currentRow = getCurrentRow();
-
-				String divStyle = DIVSTYLE;
-				GridField[] gridField = gridTab.getFields();
-				
-				for(int i=0; i < gridField.length; i++) {
-					if(gridField[i].getAD_FieldDefinition_ID() != 0) {
-						if(condition.isValid(null)) {
-							if (DisplayType.YesNo == gridField[i].getDisplayType() || DisplayType.Image == gridField[i].getDisplayType()) {
-								divStyle += "text-align:center; ";
-							}
-							else if (DisplayType.isNumeric(gridField[i].getDisplayType())) {
-								divStyle += "text-align:right; ";
-							}
-							List divList = currentRow.getChildren();
-							for(int j=0; j< divList.size(); j++ ) {
-								if(divList.get(j) instanceof Div) {
-									Div div = (Div)divList.get(j);
-									if(div.getAttribute("columnName").equals(gridField[i].getColumnName())) {
-										div.setStyle(divStyle+condition.getStyleSheet());
-										div.invalidate();
-									}
-								}
+		if(definition == null)
+			return;
+		FieldCondition condition = definition.getConditionValid(null);
+		if(condition == null)
+			return;
+			
+		Row currentRow = getCurrentRow();
+		
+		String divStyle = DIVSTYLE;
+		GridField[] gridField = gridTab.getFields();
+		//	Iterate it
+		for(int i=0; i < gridField.length; i++) {
+			if(gridField[i].getAD_FieldDefinition_ID() != 0) {
+				if(condition.isValid(null)) {
+					if (DisplayType.YesNo == gridField[i].getDisplayType() || DisplayType.Image == gridField[i].getDisplayType()) {
+						divStyle += "text-align:center; ";
+					} else if (DisplayType.isNumeric(gridField[i].getDisplayType())) {
+						divStyle += "text-align:right; ";
+					}
+					List<?> divList = currentRow.getChildren();
+					for(int j=0; j< divList.size(); j++ ) {
+						if(divList.get(j) instanceof Div) {
+							Div div = (Div)divList.get(j);
+							if(div.getAttribute("columnName").equals(gridField[i].getColumnName())) {
+								div.setStyle(divStyle + condition.getStyleSheet());
+								div.invalidate();
 							}
 						}
 					}
 				}
+			}
+		}
 	}
 	
 	 /**
