@@ -8,10 +8,10 @@
     </Step>
     <Step SeqNo="20" StepType="AD">
       <PO AD_Table_ID="119" Action="U" Record_ID="0" Table="AD_Message_Trl">
-        <Data AD_Column_ID="342" Column="MsgText" oldValue="Log de Script de Migración">Registre el script de migración</Data>
+        <Data AD_Column_ID="342" Column="MsgText" oldValue="Log de Script de Migraci&#xf3;n">Registre el script de migraci&#xf3;n</Data>
         <Data AD_Column_ID="341" Column="AD_Language" oldValue="es_MX">es_MX</Data>
         <Data AD_Column_ID="6767" Column="AD_Message_ID" oldValue="53007">53007</Data>
-        <Data AD_Column_ID="343" Column="MsgTip" oldValue="Log de Script de Migración -Guarda el script de migración en %TEMP%/migration_script_*.sql">Registre el script de migración - El script se encontrará en la ventana de Migración</Data>
+        <Data AD_Column_ID="343" Column="MsgTip" oldValue="Log de Script de Migraci&#xf3;n -Guarda el script de migraci&#xf3;n en %TEMP%/migration_script_*.sql">Registre el script de migraci&#xf3;n - El script se encontrar&#xe1; en la ventana de Migraci&#xf3;n</Data>
       </PO>
     </Step>
   </Migration>
