@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="1937_ChangeLogMigrationToolTip" ReleaseNo="3.9.1" SeqNo="4040">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="109" Action="U" Record_ID="53007" Table="AD_Message">
+        <Data AD_Column_ID="199" Column="MsgTip" oldValue="Log Migration Script - Save migration scripts file in %TEMP%/migration_script_*.sql">Log Migration Script - The script will be found in the Migration window.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="119" Action="U" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="342" Column="MsgText" oldValue="Log de Script de Migraci&#xf3;n">Registre el script de migraci&#xf3;n</Data>
+        <Data AD_Column_ID="341" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID" oldValue="53007">53007</Data>
+        <Data AD_Column_ID="343" Column="MsgTip" oldValue="Log de Script de Migraci&#xf3;n -Guarda el script de migraci&#xf3;n en %TEMP%/migration_script_*.sql">Registre el script de migraci&#xf3;n - El script se encontrar&#xe1; en la ventana de Migraci&#xf3;n</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>
