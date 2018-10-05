@@ -2721,22 +2721,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="84310" Column="UUID" isNewNull="true"/>
       </PO>
     </Step>
-    <Step SeqNo="890" StepType="AD">
-      <PO AD_Table_ID="752" Action="I" Record_ID="0" Table="AD_Column_Trl">
-        <Data AD_Column_ID="12960" Column="Created">2017-12-26 16:10:54.946</Data>
-        <Data AD_Column_ID="12959" Column="IsActive">true</Data>
-        <Data AD_Column_ID="12952" Column="Updated">2017-12-26 16:10:54.946</Data>
-        <Data AD_Column_ID="12954" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="12957" Column="Name">Request Processor</Data>
-        <Data AD_Column_ID="12961" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="12951" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="12958" Column="UpdatedBy">100</Data>
-        <Data AD_Column_ID="12956" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="12953" Column="AD_Language">es_MX</Data>
-        <Data AD_Column_ID="12955" Column="AD_Column_ID">86204</Data>
-        <Data AD_Column_ID="84310" Column="UUID" isNewNull="true"/>
-      </PO>
-    </Step>
     <Step SeqNo="900" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="86205" Table="AD_Column">
         <Data AD_Column_ID="112" Column="Description">Textual summary of this request</Data>
