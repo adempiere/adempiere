@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="#1935 Add default role flag to AD_User_Roles" ReleaseNo="3.9.1" SeqNo="4020">
+  <Migration EntityType="D" Name="#1935 Add default role flag to AD_User_Roles" ReleaseNo="3.9.1" SeqNo="4021">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="157" Action="U" Record_ID="0" Table="AD_User_Roles">
         <Data AD_Column_ID="89838" Column="IsDefault" isOldNull="true">true</Data>
