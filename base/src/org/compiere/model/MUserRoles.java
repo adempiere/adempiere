@@ -142,13 +142,6 @@ public class MUserRoles extends X_AD_User_Roles
 	 */
 	protected boolean beforeSave(boolean newRecord)
 	{
-		/** Prevents saving
-		log.saveError("Error", Msg.parseTranslation(getCtx(), "@C_Currency_ID@ = @C_Currency_ID@"));
-		log.saveError("FillMandatory", Msg.getElement(getCtx(), "PriceEntered"));
-		/** Issues message
-		log.saveWarning(AD_Message, message);
-		log.saveInfo (AD_Message, message);
-		**/
 		
 		// #1935 Ensure there is only one "default" role per user
 		if ((is_ValueChanged(COLUMNNAME_IsDefault) || is_ValueChanged(COLUMNNAME_IsActive)) 
@@ -169,6 +162,7 @@ public class MUserRoles extends X_AD_User_Roles
 			}
 		}
 		return true;
+		
 	}	//	beforeSave
 
 }	//	MUserRoles
