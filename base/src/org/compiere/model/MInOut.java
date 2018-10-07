@@ -2182,29 +2182,19 @@ public class MInOut extends X_M_InOut implements DocAction , DocumentReversalEna
 	 * @return
 	 */
 	protected boolean reverseMatching(Timestamp reversalDate) {
-		ArrayList<PO> deleteList = new ArrayList<>();
 		MMatchInv.getByInOut(getCtx(), getM_InOut_ID(), get_TrxName()).stream()
 				.filter(matchInvoice -> matchInvoice.getReversal_ID() <= 0)
 				.forEach(matchInvoice ->
 				{
 					String description = matchInvoice.getDescription();
 					if (description == null || !description.endsWith("<-)")) {
-						String docBaseType = MDocType.DOCBASETYPE_MatchInvoice;
-						if (MPeriod.isOpen(getCtx(), matchInvoice.getDateAcct(), docBaseType,
-								matchInvoice.getAD_Org_ID()) && getDocAction().equals(MInOut.DOCACTION_Reverse_Correct))
-						{
-							deleteList.add(matchInvoice);
+						MMatchInv matchInvoiceReverse = matchInvoice.reverseIt(reversalDate);
+						if (matchInvoiceReverse == null) {
+							processMsg = "Failed to create reversal for match invoice " + matchInvoice.getDocumentNo();
+							log.log(Level.SEVERE, processMsg);
+							throw new AdempiereException(processMsg);
 						}
-						else
-						{
-							MMatchInv matchInvoiceReverse = matchInvoice.reverseIt(reversalDate);
-							if (matchInvoiceReverse == null) {
-								processMsg = "Failed to create reversal for match invoice " + matchInvoice.getDocumentNo();
-								log.log(Level.SEVERE, processMsg);
-								throw new AdempiereException(processMsg);
-							}
-							addDocsPostProcess(matchInvoiceReverse);
-						}
+						addDocsPostProcess(matchInvoiceReverse);
 					}
 				});
 		MMatchPO.getByInOutId(getCtx(), getM_InOut_ID(), get_TrxName()).stream()
@@ -2212,28 +2202,15 @@ public class MInOut extends X_M_InOut implements DocAction , DocumentReversalEna
 				.forEach(matchPO -> {
 					String description = matchPO.getDescription();
 					if (description == null || !description.endsWith("<-)")) {
-
-						String docBaseType = MDocType.DOCBASETYPE_MatchPO;
-						if (MPeriod.isOpen(getCtx(), matchPO.getDateAcct(), docBaseType, matchPO.getAD_Org_ID()))
-						{
-							deleteList.add(matchPO);
+						MMatchPO matchPOReverse = matchPO.reverseIt(reversalDate);
+						if (matchPOReverse == null) {
+							processMsg = "Failed to create reversal for match purchase order " + matchPO.getDocumentNo();
+							log.log(Level.SEVERE, processMsg);
+							throw new AdempiereException(processMsg);
 						}
-						else
-						{
-							MMatchPO matchPOReverse = matchPO.reverseIt(reversalDate);
-							if (matchPOReverse == null) {
-								processMsg = "Failed to create reversal for match purchase order " + matchPO.getDocumentNo();
-								log.log(Level.SEVERE, processMsg);
-								throw new AdempiereException(processMsg);
-							}
-							addDocsPostProcess(matchPOReverse);
-						}
+						addDocsPostProcess(matchPOReverse);
 					}
 				});
-		for (PO po:deleteList)
-		{
-			po.deleteEx(true);
-		}
 		return true;
 	}
 

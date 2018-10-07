@@ -29,6 +29,9 @@ import org.eevolution.model.MPPCostCollector;
 
 /**
  * @author victor.perez@e-evolution.com, www.e-evolution.com
+ * @author Systemhaus Westfalia SusanneCalderon <susanne.de.calderon@westfalia-it.com>
+ *    <li> Set M_MatchInv_ID and M_MatchPO_ID in Costdetail</>
+ *    https://github.com/adempiere/adempiere/issues/1918
  * 
  */
 public class AverageInvoiceCostingMethod extends AbstractCostingMethod
@@ -122,18 +125,33 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
             accumulatedQuantity = getNewAccumulatedQuantity(lastCostDetail).add(
                     movementQuantity);
 
-			if (model instanceof MMatchInv && lastCostDetail.getC_InvoiceLine_ID() == 0)
+			if (model instanceof MMatchInv)
 			{
-                provisionOfPurchaseCost = lastCostDetail.getCostAmt();
-				provisionOfPurchaseCostLL =  lastCostDetail.getCostAmtLL();
+				if (lastCostDetail.getM_MatchInv_ID() != 0 || lastCostDetail.getC_LandedCostAllocation_ID() !=0)
+				{
+					StringBuffer whereClause = new StringBuffer();
+					whereClause.append(" M_CostType_ID=" + dimension.getM_CostType_ID());
+					whereClause.append(" AND M_CostElement_ID=" + dimension.getM_CostElement_ID());
+					whereClause.append(" AND M_MatchInv_ID is null and C_LandedCostAllocation_ID is null");
+					whereClause.append(" AND M_InOutline_ID=?");
+					MCostDetail receiptCostDetail = MCostDetail.get(model.getCtx(),whereClause.toString(),
+							((MMatchInv) model).getM_InOutLine_ID(),
+							model.getM_AttributeSetInstance_ID(), dimension.getC_AcctSchema_ID(), model.get_TrxName());
+					provisionOfPurchaseCost = receiptCostDetail.getCostAmt();
+					provisionOfPurchaseCostLL =  receiptCostDetail.getCostAmtLL();
+				}
+				else
+				{
+					provisionOfPurchaseCost = lastCostDetail.getCostAmt();
+					provisionOfPurchaseCostLL =  lastCostDetail.getCostAmtLL();
+				}
 				MMatchInv iMatch =  (MMatchInv) model;
 				//lastCostDetail.setC_InvoiceLine_ID(iMatch.getC_InvoiceLine_ID());
 				//lastCostDetail.saveEx();
                 // reset the accumulated quantity with last cost detail
                 if (lastCostDetail != null && lastCostDetail.getM_CostDetail_ID() > 0)
                     accumulatedQuantity = getNewAccumulatedQuantity(lastCostDetail);
-			}	
-				
+			}
 			adjustCost = model.getMovementQty().multiply(costThisLevel).subtract(provisionOfPurchaseCost);
 			adjustCostLowerLevel =  model.getMovementQty().multiply(costLowLevel).subtract(provisionOfPurchaseCostLL);
 
@@ -203,7 +221,8 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
             // proportionally
 			if (model instanceof MLandedCostAllocation || model instanceof MMatchInv)
 			{
-                if (!isOpenPeriod) {
+                //if (!isOpenPeriod)
+                {
 
 					int attributeSetInstanceId = 0;
 					if (model instanceof  MLandedCostAllocation) {
@@ -526,15 +545,22 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 			costDetail.setC_InvoiceLine_ID(0);
 		}
 
-		if (model instanceof MMatchInv && costDetail.getM_InOutLine_ID() == 0)
+		if (model instanceof MMatchInv )
 		{	
 			MMatchInv iMatch =  (MMatchInv) model;
-			costDetail.setM_InOutLine_ID(iMatch.getM_InOutLine_ID());
+			costDetail.setM_MatchInv_ID(model.get_ID());
+			if(costDetail.getM_InOutLine_ID() == 0)
+				costDetail.setM_InOutLine_ID(iMatch.getM_InOutLine_ID());
+
+			if(costDetail.getC_InvoiceLine_ID() == 0)
+				costDetail.setC_InvoiceLine_ID(iMatch.getM_InOutLine_ID());
 		}
-		if(model instanceof MMatchPO && costDetail.getM_InOutLine_ID() == 0)
+		if(model instanceof MMatchPO )
 		{
 			MMatchPO poMatch =  (MMatchPO) model;
-			costDetail.setM_InOutLine_ID(poMatch.getM_InOutLine_ID());
+			costDetail.setM_MatchPO_ID(poMatch.getM_MatchPO_ID());
+			if (costDetail.getM_InOutLine_ID() == 0)
+				costDetail.setM_InOutLine_ID(poMatch.getM_InOutLine_ID());
 		}
 		if (model instanceof MLandedCostAllocation) {
 			MLandedCostAllocation allocation = (MLandedCostAllocation) model;
@@ -552,6 +578,11 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
             dimension.setCurrentCostPrice(accumulatedAmount.divide(accumulatedQuantity, accountSchema.getCostingPrecision(), BigDecimal.ROUND_HALF_UP));
             dimension.setCurrentCostPriceLL(accumulatedAmountLowerLevel.divide(accumulatedQuantity, accountSchema.getCostingPrecision(), BigDecimal.ROUND_HALF_UP));
         }
+        if (model.getReversalLine_ID() != 0)
+		{
+			if (lastCostDetail == null)
+				return;
+		}
         dimension.setCumulatedAmt(accumulatedAmount);
         dimension.setCumulatedAmtLL(accumulatedAmountLowerLevel);
         dimension.setCumulatedQty(accumulatedQuantity);
