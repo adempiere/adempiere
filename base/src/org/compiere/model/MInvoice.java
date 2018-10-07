@@ -32,6 +32,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.BiFunction;
 import java.util.logging.Level;
 
+import org.adempiere.engine.CostEngineFactory;
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.BPartnerNoAddressException;
 import org.adempiere.exceptions.DBException;
@@ -1887,6 +1888,10 @@ public class MInvoice extends X_C_Invoice implements DocAction , DocumentReversa
 		if (counter != null)
 			info.append(" - @CounterDoc@: @C_Invoice_ID@=").append(counter.getDocumentNo());
 
+        for (MInvoiceLine invoiceLine:getLines()){
+            generateCostDetail(invoiceLine);
+        }
+
 		processMsg = info.toString().trim();
 		setProcessed(true);
 		setDocAction(DOCACTION_Close);
@@ -2533,6 +2538,10 @@ public class MInvoice extends X_C_Invoice implements DocAction , DocumentReversa
 		return ;
 	}
 
-
+    private void generateCostDetail(MInvoiceLine invoiceLine) {
+        for (MLandedCostAllocation allocation : MLandedCostAllocation.getOfInvoiceLine(getCtx(), invoiceLine.getC_InvoiceLine_ID(), get_TrxName())) {
+            CostEngineFactory.getCostEngine(getAD_Client_ID()).createCostDetailForLandedCostAllocation(allocation);
+        }
+    }
 
 }	//	MInvoice
