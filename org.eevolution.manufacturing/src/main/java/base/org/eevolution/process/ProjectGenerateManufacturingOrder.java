@@ -112,10 +112,10 @@ public class ProjectGenerateManufacturingOrder extends ProjectGenerateManufactur
             Optional<Timestamp> dateOrderedTask = Optional.ofNullable(projectTask.getDateStartSchedule());
             Optional<Timestamp> datePromisedTask = Optional.ofNullable(projectTask.getDateFinishSchedule() != null
                     ? projectTask.getDateFinishSchedule() : projectTask.getDateDeadline());
-            atomicDateOrdered.set(Optional.ofNullable(dateOrderedTask.orElse(
-                    Optional.ofNullable(dateOrderedPhase.get()).orElse(project.getDateStartSchedule()))));
-            atomicDatePromised.set(Optional.ofNullable(datePromisedTask.orElse(
-                    Optional.ofNullable(datePromisedPhase.get()).orElse(project.getDateFinishSchedule()))));
+            atomicDateOrdered.set(Optional.ofNullable(dateOrderedTask.orElse(dateOrderedPhase
+                    .orElse(project.getDateStartSchedule()))));
+            atomicDatePromised.set(Optional.ofNullable(datePromisedTask.orElse(datePromisedPhase
+                    .orElse(project.getDateFinishSchedule()))));
         } else if (getProjectPhaseId() > 0) {
             MProjectPhase projectPhase = new MProjectPhase(getCtx(), getProjectPhaseId(), get_TrxName());
             if (!PROJINVOICERULE_ProductQuantity.equals(projectPhase.getProjInvoiceRule())) {
@@ -140,9 +140,9 @@ public class ProjectGenerateManufacturingOrder extends ProjectGenerateManufactur
         }
 
         Timestamp dateOrdered = atomicDateOrdered.get()
-                .orElseThrow(() -> new AdempiereException("@DateOrdered@ @NotFound@"));
+                .orElseThrow(() -> new AdempiereException("@DateStartSchedule@ @NotFound@"));
         Timestamp datePromised = atomicDatePromised.get()
-                .orElseThrow(() -> new AdempiereException("@DatePromised@ @NotFound@"));
+                .orElseThrow(() -> new AdempiereException("@aDateFinishSchedule@ @NotFound@"));
         MPPOrder order = createOrder(
                 project,
                 Optional.ofNullable(atomicProjectPhase.get()),
