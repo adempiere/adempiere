@@ -1025,7 +1025,8 @@ public class MInvoiceLine extends X_C_InvoiceLine implements DocumentReversalLin
 					MLandedCostAllocation lca = new MLandedCostAllocation (this, lc.getM_CostElement_ID());
 					lca.setM_Product_ID(iol.getM_Product_ID());
 					lca.setM_AttributeSetInstance_ID(iol.getM_AttributeSetInstance_ID());
-					lca.setM_InOutLine_ID(iol.getM_InOutLine_ID());//SHW
+					lca.setM_InOutLine_ID(iol.getM_InOutLine_ID());
+					lca.setC_LandedCostType_ID(lc.getC_LandedCostType_ID());
 					BigDecimal base = iol.getBase(lc.getLandedCostDistribution());
 					lca.setBase(base);
 					// MZ Goodwill
@@ -1056,6 +1057,7 @@ public class MInvoiceLine extends X_C_InvoiceLine implements DocumentReversalLin
 				lca.setM_Product_ID(iol.getM_Product_ID());
 				lca.setM_InOutLine_ID(lc.getM_InOutLine_ID());
 				lca.setM_AttributeSetInstance_ID(iol.getM_AttributeSetInstance_ID());
+				lca.setC_LandedCostType_ID(lc.getC_LandedCostType_ID());
 				BigDecimal base = iol.getBase(lc.getLandedCostDistribution()); 
 				lca.setBase(base);
 				lca.setAmt(getLineNetAmt());
@@ -1072,6 +1074,7 @@ public class MInvoiceLine extends X_C_InvoiceLine implements DocumentReversalLin
 			{
 				MLandedCostAllocation lca = new MLandedCostAllocation (this, lc.getM_CostElement_ID());
 				lca.setM_Product_ID(lc.getM_Product_ID());	//	No ASI
+				lca.setC_LandedCostType_ID(lc.getC_LandedCostType_ID());
 				lca.setAmt(getLineNetAmt());
 				if (lca.save())
 					return "";

@@ -32,7 +32,7 @@ public class X_C_LandedCostAllocation extends PO implements I_C_LandedCostAlloca
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170731L;
+	private static final long serialVersionUID = 20180928L;
 
     /** Standard Constructor */
     public X_C_LandedCostAllocation (Properties ctx, int C_LandedCostAllocation_ID, String trxName)
@@ -172,6 +172,31 @@ public class X_C_LandedCostAllocation extends PO implements I_C_LandedCostAlloca
 	public int getC_LandedCostAllocation_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_LandedCostAllocation_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_LandedCostType getC_LandedCostType() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_LandedCostType)MTable.get(getCtx(), org.compiere.model.I_C_LandedCostType.Table_Name)
+			.getPO(getC_LandedCostType_ID(), get_TrxName());	}
+
+	/** Set LandedCostType.
+		@param C_LandedCostType_ID LandedCostType	  */
+	public void setC_LandedCostType_ID (int C_LandedCostType_ID)
+	{
+		if (C_LandedCostType_ID < 1) 
+			set_Value (COLUMNNAME_C_LandedCostType_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_LandedCostType_ID, Integer.valueOf(C_LandedCostType_ID));
+	}
+
+	/** Get LandedCostType.
+		@return LandedCostType	  */
+	public int getC_LandedCostType_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_LandedCostType_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

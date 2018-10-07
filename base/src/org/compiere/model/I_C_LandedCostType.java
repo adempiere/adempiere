@@ -20,24 +20,24 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for C_LandedCost
+/** Generated Interface for C_LandedCostType
  *  @author Adempiere (generated) 
  *  @version Release 3.9.0
  */
-public interface I_C_LandedCost 
+public interface I_C_LandedCostType 
 {
 
-    /** TableName=C_LandedCost */
-    public static final String Table_Name = "C_LandedCost";
+    /** TableName=C_LandedCostType */
+    public static final String Table_Name = "C_LandedCostType";
 
-    /** AD_Table_ID=759 */
+    /** AD_Table_ID=54528 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
-    /** AccessLevel = 1 - Org 
+    /** AccessLevel = 7 - System - Client - Org 
      */
-    BigDecimal accessLevel = BigDecimal.valueOf(1);
+    BigDecimal accessLevel = BigDecimal.valueOf(7);
 
     /** Load Meta Data */
 
@@ -62,34 +62,6 @@ public interface I_C_LandedCost
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name C_InvoiceLine_ID */
-    public static final String COLUMNNAME_C_InvoiceLine_ID = "C_InvoiceLine_ID";
-
-	/** Set Invoice Line.
-	  * Invoice Detail Line
-	  */
-	public void setC_InvoiceLine_ID (int C_InvoiceLine_ID);
-
-	/** Get Invoice Line.
-	  * Invoice Detail Line
-	  */
-	public int getC_InvoiceLine_ID();
-
-	public org.compiere.model.I_C_InvoiceLine getC_InvoiceLine() throws RuntimeException;
-
-    /** Column name C_LandedCost_ID */
-    public static final String COLUMNNAME_C_LandedCost_ID = "C_LandedCost_ID";
-
-	/** Set Landed Cost.
-	  * Landed cost to be allocated to material receipts
-	  */
-	public void setC_LandedCost_ID (int C_LandedCost_ID);
-
-	/** Get Landed Cost.
-	  * Landed cost to be allocated to material receipts
-	  */
-	public int getC_LandedCost_ID();
-
     /** Column name C_LandedCostType_ID */
     public static final String COLUMNNAME_C_LandedCostType_ID = "C_LandedCostType_ID";
 
@@ -98,8 +70,6 @@ public interface I_C_LandedCost
 
 	/** Get LandedCostType ID	  */
 	public int getC_LandedCostType_ID();
-
-	public org.compiere.model.I_C_LandedCostType getC_LandedCostType() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -130,87 +100,31 @@ public interface I_C_LandedCost
 	  */
 	public String getDescription();
 
-    /** Column name LandedCostDistribution */
-    public static final String COLUMNNAME_LandedCostDistribution = "LandedCostDistribution";
+    /** Column name IsActive */
+    public static final String COLUMNNAME_IsActive = "IsActive";
 
-	/** Set Cost Distribution.
-	  * Landed Cost Distribution
+	/** Set Active.
+	  * The record is active in the system
 	  */
-	public void setLandedCostDistribution (String LandedCostDistribution);
+	public void setIsActive (boolean IsActive);
 
-	/** Get Cost Distribution.
-	  * Landed Cost Distribution
+	/** Get Active.
+	  * The record is active in the system
 	  */
-	public String getLandedCostDistribution();
+	public boolean isActive();
 
-    /** Column name M_CostElement_ID */
-    public static final String COLUMNNAME_M_CostElement_ID = "M_CostElement_ID";
+    /** Column name Name */
+    public static final String COLUMNNAME_Name = "Name";
 
-	/** Set Cost Element.
-	  * Product Cost Element
+	/** Set Name.
+	  * Alphanumeric identifier of the entity
 	  */
-	public void setM_CostElement_ID (int M_CostElement_ID);
+	public void setName (String Name);
 
-	/** Get Cost Element.
-	  * Product Cost Element
+	/** Get Name.
+	  * Alphanumeric identifier of the entity
 	  */
-	public int getM_CostElement_ID();
-
-	public org.compiere.model.I_M_CostElement getM_CostElement() throws RuntimeException;
-
-    /** Column name M_InOut_ID */
-    public static final String COLUMNNAME_M_InOut_ID = "M_InOut_ID";
-
-	/** Set Shipment/Receipt.
-	  * Material Shipment Document
-	  */
-	public void setM_InOut_ID (int M_InOut_ID);
-
-	/** Get Shipment/Receipt.
-	  * Material Shipment Document
-	  */
-	public int getM_InOut_ID();
-
-	public org.compiere.model.I_M_InOut getM_InOut() throws RuntimeException;
-
-    /** Column name M_InOutLine_ID */
-    public static final String COLUMNNAME_M_InOutLine_ID = "M_InOutLine_ID";
-
-	/** Set Shipment/Receipt Line.
-	  * Line on Shipment or Receipt document
-	  */
-	public void setM_InOutLine_ID (int M_InOutLine_ID);
-
-	/** Get Shipment/Receipt Line.
-	  * Line on Shipment or Receipt document
-	  */
-	public int getM_InOutLine_ID();
-
-	public org.compiere.model.I_M_InOutLine getM_InOutLine() throws RuntimeException;
-
-    /** Column name M_Product_ID */
-    public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
-
-	/** Set Product.
-	  * Product, Service, Item
-	  */
-	public void setM_Product_ID (int M_Product_ID);
-
-	/** Get Product.
-	  * Product, Service, Item
-	  */
-	public int getM_Product_ID();
-
-	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
-
-    /** Column name Processing */
-    public static final String COLUMNNAME_Processing = "Processing";
-
-	/** Set Process Now	  */
-	public void setProcessing (boolean Processing);
-
-	/** Get Process Now	  */
-	public boolean isProcessing();
+	public String getName();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -240,4 +154,17 @@ public interface I_C_LandedCost
 	  * Immutable Universally Unique Identifier
 	  */
 	public String getUUID();
+
+    /** Column name Value */
+    public static final String COLUMNNAME_Value = "Value";
+
+	/** Set Search Key.
+	  * Search key for the record in the format required - must be unique
+	  */
+	public void setValue (String Value);
+
+	/** Get Search Key.
+	  * Search key for the record in the format required - must be unique
+	  */
+	public String getValue();
 }
