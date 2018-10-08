@@ -21,11 +21,14 @@ import java.util.List;
 import java.util.Properties;
 
 import org.compiere.util.CLogger;
+import org.compiere.util.Msg;
 
 /**
  *	User Roles Model
  *	
  *  @author Jorg Janke
+ *  @author Michael McKay michael.mckay@mckayerp.com
+ *  	<li>BF [ <a href="https://github.com/adempiere/adempiere/issues/1935">1935</a> ] Add default role
  *  @version $Id: MUserRoles.java,v 1.3 2006/07/30 00:58:37 jjanke Exp $
  */
 public class MUserRoles extends X_AD_User_Roles
@@ -131,5 +134,35 @@ public class MUserRoles extends X_AD_User_Roles
 	{
 		set_ValueNoCheck ("AD_Role_ID", new Integer(AD_Role_ID));
 	}	//	setAD_Role_ID
+
+	/**
+	 * 	Called before Save for Pre-Save Operation
+	 * 	@param newRecord new record
+	 *	@return true if record can be saved
+	 */
+	protected boolean beforeSave(boolean newRecord)
+	{
+		
+		// #1935 Ensure there is only one "default" role per user
+		if ((is_ValueChanged(COLUMNNAME_IsDefault) || is_ValueChanged(COLUMNNAME_IsActive)) 
+				&& isDefault() && isActive())
+		{
+			String where = I_AD_User_Roles.COLUMNNAME_IsDefault + "=?" 
+						+ " AND " + I_AD_User_Roles.COLUMNNAME_AD_User_ID + "=?";
+			
+			int count = new Query(getCtx(), I_AD_User_Roles.Table_Name, where, this.get_TrxName())
+							.setOnlyActiveRecords(true)
+							.setParameters(true, getAD_User_ID())
+							.count();
+			
+			if (count > 0)
+			{
+				log.saveError("Error", Msg.parseTranslation(getCtx(), "@OnlyOneDefaultAllowed@"));
+				return false;
+			}
+		}
+		return true;
+		
+	}	//	beforeSave
 
 }	//	MUserRoles

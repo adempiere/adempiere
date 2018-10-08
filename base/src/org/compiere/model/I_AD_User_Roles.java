@@ -121,18 +121,18 @@ public interface I_AD_User_Roles
 	  */
 	public boolean isActive();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
+    /** Column name IsDefault */
+    public static final String COLUMNNAME_IsDefault = "IsDefault";
 
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
+	/** Set Default.
+	  * Default value
 	  */
-	public void setUUID (String UUID);
+	public void setIsDefault (boolean IsDefault);
 
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
+	/** Get Default.
+	  * Default value
 	  */
-	public String getUUID();
+	public boolean isDefault();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -149,4 +149,17 @@ public interface I_AD_User_Roles
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 }
