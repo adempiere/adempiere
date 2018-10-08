@@ -47,8 +47,8 @@ public class ProjectGenerateManufacturingOrder extends ProjectGenerateManufactur
         if (project == null || project.getC_Project_ID() <= 0)
             throw new AdempiereException("@C_Project@ @NotFound@");
 
-        AtomicReference<Timestamp> atomicDateOrdered = new AtomicReference<>();
-        AtomicReference<Timestamp> atomicDatePromised = new AtomicReference<>();
+        AtomicReference<Optional<Timestamp>> atomicDateOrdered = new AtomicReference<>();
+        AtomicReference<Optional<Timestamp>> atomicDatePromised = new AtomicReference<>();
         AtomicInteger atomicBOMId = new AtomicInteger(0);
         AtomicInteger atomicWorkflowId = new AtomicInteger(0);
         AtomicReference<MProjectPhase> atomicProjectPhase = new AtomicReference<>();
@@ -63,28 +63,40 @@ public class ProjectGenerateManufacturingOrder extends ProjectGenerateManufactur
 
             MProduct product = MProduct.get(getCtx(), projectLine.getM_Product_ID());
             validProduct(product);
-            atomicBOMId.set(getProductBOMId() > 0 ? getProductBOMId() : MPPProductBOM.getDefault(product, get_TrxName()).getPP_Product_BOM_ID());
-            atomicWorkflowId.set(getWorkflowId() > 0 ? getWorkflowId() : MWorkflow.getWorkflowSearchKey(product));
+            atomicBOMId.set(getProductBOMId() > 0
+                    ? getProductBOMId() : MPPProductBOM.getDefault(product, get_TrxName()).getPP_Product_BOM_ID());
+            atomicWorkflowId.set(getWorkflowId() > 0
+                    ? getWorkflowId() : MWorkflow.getWorkflowSearchKey(product));
             atomicQuantity.set(projectLine.getPlannedQty());
             projectLine.getProjectPhase().ifPresent(projectPhaseLine -> {
-                Optional<Timestamp> dateOrderedOptional = Optional.ofNullable(projectPhaseLine.getDateStartSchedule());
-                Optional<Timestamp> datePromisedOptional = Optional.ofNullable(projectPhaseLine.getDateFinishSchedule());
+                Optional<Timestamp> dateOrderedOptional = Optional.ofNullable(
+                        Optional.ofNullable(projectPhaseLine.getDateStartSchedule()).orElse(project.getDateStartSchedule()));
+                Optional<Timestamp> datePromisedOptional = Optional.ofNullable(
+                        Optional.ofNullable(projectPhaseLine.getDateFinishSchedule()).orElse(project.getDateFinishSchedule()));
                 atomicProjectPhase.set((MProjectPhase) projectPhaseLine);
-                atomicDateOrdered.set(dateOrderedOptional.orElse(projectPhaseLine.getStartDate()));
-                atomicDatePromised.set(datePromisedOptional.orElse(projectPhaseLine.getDateDeadline()));
+                atomicDateOrdered.set(Optional.ofNullable(dateOrderedOptional.orElse(
+                        Optional.ofNullable(projectPhaseLine.getStartDate()).orElse(project.getDateStartSchedule()))));
+                atomicDatePromised.set(Optional.ofNullable(datePromisedOptional.orElse(
+                        Optional.ofNullable(projectPhaseLine.getDateDeadline()).orElse(project.getDateFinishSchedule()))));
             });
             projectLine.getProjectTask().ifPresent(projectTaskLine -> {
+                MProjectPhase projectPhase = (MProjectPhase) projectTaskLine.getC_ProjectPhase();
                 atomicProjectTask.set((MProjectTask) projectTaskLine);
-                atomicProjectPhase.set((MProjectPhase) projectTaskLine.getC_ProjectPhase());
-                Optional<Timestamp> dateOrderedOptional = Optional.ofNullable(projectTaskLine.getDateStartSchedule());
-                Optional<Timestamp> datePromisedOptional = Optional.ofNullable(projectTaskLine.getDateFinishSchedule());
-                dateOrderedOptional.ifPresent(dateOrdered -> atomicDateOrdered.set(dateOrdered));
-                datePromisedOptional.ifPresent(datePromised -> atomicDatePromised.set(datePromised));
+                atomicProjectPhase.set(projectPhase);
+                Optional<Timestamp> dateOrderedOptional = Optional.ofNullable(Optional.ofNullable(projectTaskLine.getDateStartSchedule())
+                        .orElse(Optional.ofNullable(projectPhase.getDateStartSchedule())
+                                .orElse(project.getDateStartSchedule())));
+                Optional<Timestamp> datePromisedOptional = Optional.ofNullable(Optional.ofNullable(projectTaskLine.getDateFinishSchedule())
+                        .orElse(Optional.ofNullable(projectPhase.getDateFinishSchedule())
+                                .orElse(project.getDateFinishSchedule())));
+                dateOrderedOptional.ifPresent(dateOrdered -> atomicDateOrdered.set(Optional.ofNullable(dateOrdered)));
+                datePromisedOptional.ifPresent(datePromised -> atomicDatePromised.set(Optional.ofNullable(datePromised)));
             });
         } else if (getProjectTaskId() > 0) {
             MProjectTask projectTask = new MProjectTask(getCtx(), getProjectTaskId(), get_TrxName());
             if (!PROJINVOICERULE_ProductQuantity.equals(projectTask.getProjInvoiceRule())) {
-                String errorMessage = "@ProjInvoiceRule@ " + MRefList.getListName(getCtx(), MProjectTask.PROJINVOICERULE_AD_Reference_ID, MProjectTask.PROJINVOICERULE_ProductQuantity);
+                String errorMessage = "@ProjInvoiceRule@ "
+                        + MRefList.getListName(getCtx(), MProjectTask.PROJINVOICERULE_AD_Reference_ID, MProjectTask.PROJINVOICERULE_ProductQuantity);
                 throw new AdempiereException(errorMessage);
             }
             MProduct product = MProduct.get(getCtx(), projectTask.getM_Product_ID());
@@ -98,35 +110,47 @@ public class ProjectGenerateManufacturingOrder extends ProjectGenerateManufactur
             atomicProjectPhase.set(projectPhase);
             atomicProjectTask.set(projectTask);
             Optional<Timestamp> dateOrderedTask = Optional.ofNullable(projectTask.getDateStartSchedule());
-            Optional<Timestamp> datePromisedTask = Optional.ofNullable(projectTask.getDateFinishSchedule() != null ? projectTask.getDateFinishSchedule() : projectTask.getDateDeadline());
-            atomicDateOrdered.set(dateOrderedTask.orElse(dateOrderedPhase.get()));
-            atomicDatePromised.set(datePromisedTask.orElse(datePromisedPhase.get()));
+            Optional<Timestamp> datePromisedTask = Optional.ofNullable(projectTask.getDateFinishSchedule() != null
+                    ? projectTask.getDateFinishSchedule() : projectTask.getDateDeadline());
+            atomicDateOrdered.set(Optional.ofNullable(dateOrderedTask.orElse(dateOrderedPhase
+                    .orElse(project.getDateStartSchedule()))));
+            atomicDatePromised.set(Optional.ofNullable(datePromisedTask.orElse(datePromisedPhase
+                    .orElse(project.getDateFinishSchedule()))));
         } else if (getProjectPhaseId() > 0) {
             MProjectPhase projectPhase = new MProjectPhase(getCtx(), getProjectPhaseId(), get_TrxName());
             if (!PROJINVOICERULE_ProductQuantity.equals(projectPhase.getProjInvoiceRule())) {
-                String errorMessage = "@ProjInvoiceRule@ " + MRefList.getListName(getCtx(), MProjectPhase.PROJINVOICERULE_AD_Reference_ID, MProjectPhase.PROJINVOICERULE_ProductQuantity);
+                String errorMessage = "@ProjInvoiceRule@ "
+                        + MRefList.getListName(getCtx(), MProjectPhase.PROJINVOICERULE_AD_Reference_ID, MProjectPhase.PROJINVOICERULE_ProductQuantity);
                 throw new AdempiereException(errorMessage);
             }
             MProduct product = MProduct.get(getCtx(), projectPhase.getM_Product_ID());
             validProduct(product);
-            atomicBOMId.set(getProductBOMId() > 0 ? getProductBOMId() : MPPProductBOM.getDefault(product, get_TrxName()).getPP_Product_BOM_ID());
-            atomicWorkflowId.set(getWorkflowId() > 0 ? getWorkflowId() : MWorkflow.getWorkflowSearchKey(product));
+            atomicBOMId.set(getProductBOMId() > 0
+                    ? getProductBOMId() : MPPProductBOM.getDefault(product, get_TrxName()).getPP_Product_BOM_ID());
+            atomicWorkflowId.set(getWorkflowId() > 0
+                    ? getWorkflowId() : MWorkflow.getWorkflowSearchKey(product));
             atomicQuantity.set(projectPhase.getQty());
             Optional<Timestamp> dateOrderedPhase = Optional.ofNullable(projectPhase.getDateStartSchedule());
             Optional<Timestamp> datePromisedPhase = Optional.ofNullable(projectPhase.getDateFinishSchedule());
             atomicProjectPhase.set(projectPhase);
-            atomicDateOrdered.set(dateOrderedPhase.orElse(projectPhase.getStartDate()));
-            atomicDatePromised.set(datePromisedPhase.orElse(projectPhase.getDateDeadline()));
+            atomicDateOrdered.set(Optional.ofNullable(dateOrderedPhase.orElse(
+                    Optional.ofNullable(projectPhase.getStartDate()).orElse(project.getDateStartSchedule()))));
+            atomicDatePromised.set(Optional.ofNullable(datePromisedPhase.orElse(
+                    Optional.ofNullable(projectPhase.getDateDeadline()).orElse(project.getDateFinishSchedule()))));
         }
 
+        Timestamp dateOrdered = atomicDateOrdered.get()
+                .orElseThrow(() -> new AdempiereException("@DateStartSchedule@ @NotFound@"));
+        Timestamp datePromised = atomicDatePromised.get()
+                .orElseThrow(() -> new AdempiereException("@aDateFinishSchedule@ @NotFound@"));
         MPPOrder order = createOrder(
                 project,
                 Optional.ofNullable(atomicProjectPhase.get()),
                 Optional.ofNullable(atomicProjectTask.get()),
                 atomicBOMId.get(),
                 atomicWorkflowId.get(),
-                atomicDateOrdered.get(),
-                atomicDatePromised.get(),
+                dateOrdered,
+                datePromised,
                 atomicQuantity.get());
 
         addLog(Msg.parseTranslation(getCtx(), "@PP_Order_ID@ ") + order.getDocumentInfo());
@@ -166,11 +190,13 @@ public class ProjectGenerateManufacturingOrder extends ProjectGenerateManufactur
         order.setQtyOrdered(orderdQuantity);
         projectPhaseOptional.ifPresent(projectPhase -> {
             order.setC_ProjectPhase_ID(projectPhase.getC_ProjectPhase_ID());
-            Optional.ofNullable(projectPhase.getPriorityRule()).ifPresent(priorityRule -> order.setPriorityRule(priorityRule));
+            Optional.ofNullable(projectPhase.getPriorityRule())
+                    .ifPresent(priorityRule -> order.setPriorityRule(priorityRule));
         });
         projectTaskOptional.ifPresent(projectTask -> {
             order.setC_ProjectTask_ID(projectTask.getC_ProjectTask_ID());
-            Optional.ofNullable(projectTask.getPriorityRule()).ifPresent(priorityRule -> order.setPriorityRule(priorityRule));
+            Optional.ofNullable(projectTask.getPriorityRule())
+                    .ifPresent(priorityRule -> order.setPriorityRule(priorityRule));
         });
         order.saveEx();
         return order;
