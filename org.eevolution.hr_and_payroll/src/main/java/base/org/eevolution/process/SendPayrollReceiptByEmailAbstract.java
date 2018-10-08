@@ -29,7 +29,7 @@ public abstract class SendPayrollReceiptByEmailAbstract extends SvrProcess {
 	/** Process Name 	*/
 	private static final String NAME_FOR_PROCESS = "Send Payroll Receipt by Email";
 	/** Process Id 	*/
-	private static final int ID_FOR_PROCESS = 53084;
+	private static final int ID_FOR_PROCESS = 54143;
 	/**	Parameter Name for Process	*/
 	public static final String AD_PROCESS_ID = "AD_Process_ID";
 	/**	Parameter Name for Payroll Process	*/
@@ -44,7 +44,7 @@ public abstract class SendPayrollReceiptByEmailAbstract extends SvrProcess {
 	public static final String HR_DEPARTMENT_ID = "HR_Department_ID";
 	/**	Parameter Name for Payroll Job	*/
 	public static final String HR_JOB_ID = "HR_Job_ID";
-	/**	Parameter Name for Administrative classification	*/
+	/**	Parameter Name for Activity	*/
 	public static final String C_ACTIVITY_ID = "C_Activity_ID";
 	/**	Parameter Value for Process	*/
 	private int aDProcessId;
@@ -60,7 +60,7 @@ public abstract class SendPayrollReceiptByEmailAbstract extends SvrProcess {
 	private int departmentId;
 	/**	Parameter Value for Payroll Job	*/
 	private int jobId;
-	/**	Parameter Value for Administrative classification	*/
+	/**	Parameter Value for Activity	*/
 	private int activityId;
 
 	@Override
@@ -145,12 +145,12 @@ public abstract class SendPayrollReceiptByEmailAbstract extends SvrProcess {
 		this.jobId = jobId;
 	}
 
-	/**	 Getter Parameter Value for Administrative classification	*/
+	/**	 Getter Parameter Value for Activity	*/
 	protected int getActivityId() {
 		return activityId;
 	}
 
-	/**	 Setter Parameter Value for Administrative classification	*/
+	/**	 Setter Parameter Value for Activity	*/
 	protected void setActivityId(int activityId) {
 		this.activityId = activityId;
 	}
