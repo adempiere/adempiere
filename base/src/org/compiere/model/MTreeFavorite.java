@@ -59,8 +59,10 @@ public class MTreeFavorite extends X_AD_Tree_Favorite
 	 */
 	public void loadNode(int AD_Tree_Favorite_ID)
 	{
-		String displayQuery = "SELECT ad_tree_favorite_node_id, parent_id, seqno, nodename,  issummary, ad_menu_id, iscollapsible "
-				+ " FROM ad_tree_favorite_node  WHERE ad_tree_favorite_id = ? "
+		String displayQuery = "SELECT ad_tree_favorite_node_id, parent_id, seqno, nodename,  issummary, fn.ad_menu_id, iscollapsible, t.name as menuTrl "
+				+ " FROM ad_tree_favorite_node fn  "
+				+ " LEFT JOIN AD_Menu_Trl t ON(t.AD_Menu_ID = fn.AD_Menu_ID AND t.AD_Language='" + Env.getAD_Language(p_ctx) + "')"
+				+ " WHERE ad_tree_favorite_id = ? "				
 				+ " ORDER BY COALESCE(parent_id,-1), seqno, nodename";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -75,7 +77,7 @@ public class MTreeFavorite extends X_AD_Tree_Favorite
 			{
 				int NodeID = rs.getInt(1);
 				int parentID = rs.getInt(2);
-				int seqno = rs.getInt(3);
+				int seqno = rs.getInt(3);					
 				String name = rs.getString(4);
 				boolean isSummary = (rs.getString(5).equals("Y"));
 				boolean isCollapsible = rs.getString("iscollapsible").equals("Y");
@@ -84,8 +86,13 @@ public class MTreeFavorite extends X_AD_Tree_Favorite
 				if (!isSummary)
 				{
 					menuID = rs.getInt(6);
-					MMenu mMenu = new MMenu(Env.getCtx(), menuID, null);
-					name = mMenu.getName();
+					MMenu mMenu = new MMenu(Env.getCtx(), menuID, null);	
+					if (Env.getLanguage(Env.getCtx()).isBaseLanguage()) {
+						name = mMenu.getName();
+					}
+					else {
+						name = rs.getString(8);
+					}
 					img = mMenu.getAction();
 				}
 				if (AD_Tree_Favorite_ID == 0 && (parentID == 0 || NodeID == 0))
