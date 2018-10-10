@@ -165,8 +165,19 @@ public class CalloutPaymentAllocate extends CalloutEngine
 		//  PayAmt - calculate write off
 		if (colName.equals("Amount"))
 		{
-			WriteOffAmt = InvoiceAmt.subtract(Amount).subtract(DiscountAmt).subtract(OverUnderAmt);
-			mTab.setValue("WriteOffAmt", WriteOffAmt);
+
+			boolean overUnderPayment = "Y".equals (Env.getContext (ctx,
+				WindowNo, "IsOverUnderPayment"));
+			if (overUnderPayment) {
+				OverUnderAmt = InvoiceAmt.subtract (Amount).subtract (
+					DiscountAmt).subtract (WriteOffAmt);
+				mTab.setValue ("OverUnderAmt", OverUnderAmt);
+			
+			}
+			else {
+				WriteOffAmt = InvoiceAmt.subtract(Amount).subtract(DiscountAmt).subtract(OverUnderAmt);
+				mTab.setValue("WriteOffAmt", WriteOffAmt);				
+			}
 		}
 		else    //  calculate Amount
 		{
