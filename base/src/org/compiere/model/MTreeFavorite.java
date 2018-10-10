@@ -59,8 +59,10 @@ public class MTreeFavorite extends X_AD_Tree_Favorite
 	 */
 	public void loadNode(int AD_Tree_Favorite_ID)
 	{
-		String displayQuery = "SELECT ad_tree_favorite_node_id, parent_id, seqno, nodename,  issummary, fn.ad_menu_id, iscollapsible, t.name as menuTrl "
+		String displayQuery = "SELECT fn.ad_tree_favorite_node_id, fn.parent_id, fn.seqno, fn.nodename,  fn.issummary, fn.ad_menu_id, iscollapsible,"
+				+ " coalesce(t.name, m.name) as menuTrl "
 				+ " FROM ad_tree_favorite_node fn  "
+				+ " LEFT JOIN AD_Menu m on (m.AD_Menu_ID = fn.ad_menu_ID)"
 				+ " LEFT JOIN AD_Menu_Trl t ON(t.AD_Menu_ID = fn.AD_Menu_ID AND t.AD_Language='" + Env.getAD_Language(p_ctx) + "')"
 				+ " WHERE ad_tree_favorite_id = ? "				
 				+ " ORDER BY COALESCE(parent_id,-1), seqno, nodename";
