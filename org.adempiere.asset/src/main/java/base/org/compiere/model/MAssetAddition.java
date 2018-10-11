@@ -1,6 +1,7 @@
 package org.compiere.model;
 
 import org.adempiere.exceptions.FillMandatoryException;
+import org.adempiere.util.POCacheLocal;
 import org.compiere.FA.exceptions.AssetAlreadyDepreciatedException;
 import org.compiere.FA.exceptions.AssetCheckDocumentException;
 import org.compiere.FA.exceptions.AssetException;
@@ -24,7 +25,6 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
-import org.adempiere.util.POCacheLocal;
 
 /**
  *  Asset Addition Model
@@ -43,7 +43,7 @@ public class MAssetAddition extends X_A_Asset_Addition
 	/** Static Logger */
 	private static CLogger s_log = CLogger.getCLogger(MAssetAddition.class);
 
-	public MAssetAddition (Properties ctx, int A_Asset_Addition_ID, String trxName)
+	public MAssetAddition(Properties ctx, int A_Asset_Addition_ID, String trxName)
 	{
 		super (ctx, A_Asset_Addition_ID, trxName);
 		if (A_Asset_Addition_ID == 0)
@@ -54,7 +54,7 @@ public class MAssetAddition extends X_A_Asset_Addition
 		}
 	}	//	MAssetAddition
 
-	public MAssetAddition (Properties ctx, ResultSet rs, String trxName)
+	public MAssetAddition(Properties ctx, ResultSet rs, String trxName)
 	{
 		super (ctx, rs, trxName);
 	}	//	MAAssetAddition
@@ -247,7 +247,7 @@ public class MAssetAddition extends X_A_Asset_Addition
 	 * Construct addition from match invoice 
 	 * @param match	match invoice model
 	 */
-	private MAssetAddition (MMatchInv match)
+	private MAssetAddition(MMatchInv match)
 	{
 		this(match.getCtx(), 0, match.get_TrxName());
 		setM_MatchInv(match);
@@ -260,7 +260,7 @@ public class MAssetAddition extends X_A_Asset_Addition
 	 * Construct addition from Project
 	 * @param project 
 	 */
-	private MAssetAddition (MProject project)
+	private MAssetAddition(MProject project)
 	{
 		this(project.getCtx(), 0, project.get_TrxName());
 		if (log.isLoggable(Level.FINEST)) log.finest("Entering: Project=" + project);
@@ -305,7 +305,7 @@ public class MAssetAddition extends X_A_Asset_Addition
 	 * Construct addition from import
 	 * @param ifa	fixed asset import
 	 */
-	private MAssetAddition (MIFixedAsset ifa)
+	private MAssetAddition(MIFixedAsset ifa)
 	{
 		this(ifa.getCtx(), 0, ifa.get_TrxName());
 		if (log.isLoggable(Level.FINEST)) log.finest("Entering: ifa=" + ifa);
@@ -530,7 +530,7 @@ public class MAssetAddition extends X_A_Asset_Addition
 	public boolean processIt (String processAction)
 	{
 		m_processMsg = null;
-		DocumentEngine engine = new DocumentEngine (this, getDocStatus());
+		DocumentEngine engine = new DocumentEngine(this, getDocStatus());
 		return engine.processIt (processAction, getDocAction());
 	}	//	processIt
 	
@@ -572,10 +572,10 @@ public class MAssetAddition extends X_A_Asset_Addition
 		setA_CreateAsset();
 		
 		// Check AssetValueAmt != 0
-		if (getAssetValueAmt().signum() == 0) {
-			m_processMsg="@Invalid@ @AssetValueAmt@=0";
-			return DocAction.STATUS_Invalid;
-		}
+		//if (getAssetValueAmt().signum() == 0) {
+		//	m_processMsg="@Invalid@ @AssetValueAmt@=0";
+		//	return DocAction.STATUS_Invalid;
+		//}
 		
 		MAsset asset = getA_Asset(true);
 		MDepreciationWorkfile assetwk = MDepreciationWorkfile.get(getCtx(), getA_Asset_ID(), getPostingType(), get_TrxName());
@@ -588,7 +588,7 @@ public class MAssetAddition extends X_A_Asset_Addition
 		}// End - check asset disposal status
 		
 		// Goodwill - Check if asset already depreciated 
-		if (!MAsset.A_ASSET_STATUS_New.equals(asset.getA_Asset_Status()) && assetwk != null 
+		if (!MAsset.A_ASSET_STATUS_New.equals(asset.getA_Asset_Status()) && assetwk != null
 				&& assetwk.getDateAcct() != null && assetwk.isDepreciated(getDateAcct()))
 		{
 			m_processMsg = "Asset already depreciated for this period";
@@ -617,7 +617,7 @@ public class MAssetAddition extends X_A_Asset_Addition
 		*/
 		
 		// If new assets (not renewals) must have nonzero values
-		if (isA_CreateAsset() && hasZeroValues())
+		if (isA_CreateAsset() && hasZeroValues() && asset.isDepreciated())
 		{
 			throw new AssetException("New document must have non-zero values");
 		}
@@ -1260,7 +1260,7 @@ public class MAssetAddition extends X_A_Asset_Addition
 		assetProduct.setM_Locator_ID(getM_Locator_ID());
 		
 		//Goodwill - Activated Asset must have quantity at least 1
-		if (asset.getA_Asset_Status().equals(MAsset.A_ASSET_STATUS_Activated) 
+		if (asset.getA_Asset_Status().equals(MAsset.A_ASSET_STATUS_Activated)
 				&& assetProduct.getA_QTY_Current().compareTo(BigDecimal.ZERO) <= 0
 				&& !isReversal)
 		{
