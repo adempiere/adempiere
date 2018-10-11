@@ -129,17 +129,7 @@ public class SendPayrollReceiptByEmail extends SendPayrollReceiptByEmailAbstract
 
             MClient client = MClient.get(getCtx());
             MUser user = MUser.get(getCtx(), Env.getAD_User_ID(getCtx()));
-            String requestEMail = user.getEMail();
-            String emailFrom = location.getEMail();
-            String userMailFrom = user.getEMailUser();
-            String password = user.getEMailUserPW();
-            if (requestEMail == null || requestEMail.isEmpty()) {
-                requestEMail = client.getRequestEMail();
-                userMailFrom = client.getRequestUser();
-                password = client.getRequestUserPW();
-            }
-            //	Add support to new send mail
-            EMail email = new EMail(client, requestEMail, emailFrom, mailText.getMailHeader(), message);
+            EMail email = client.createEMail(user, location.getEMail() , mailText.getMailHeader(), message);
             if (mailText.isHtml())
                 email.setMessageHTML(mailText.getMailHeader(), message);
             else {
@@ -155,8 +145,6 @@ public class SendPayrollReceiptByEmail extends SendPayrollReceiptByEmailAbstract
                 log.warning("NOT VALID - " + email);
                 return Boolean.FALSE;
             }
-
-            email.createAuthenticator(userMailFrom, password);
             boolean ok = EMail.SENT_OK.equals(email.send());
             if (ok) {
                 addLog(0, null, null, employee.getName() + " @Email@ @OK@");
@@ -164,7 +152,7 @@ public class SendPayrollReceiptByEmail extends SendPayrollReceiptByEmailAbstract
             } else
                 log.warning("FAILURE - " + employee.getURL());
 
-            addLog(0, null, null, (ok ? "@OK@" : "@ERROR@") + " - " + emailFrom);
+            addLog(0, null, null, (ok ? "@OK@" : "@ERROR@") + " - " + email.getFrom().getAddress());
             return ok;
         } catch (Exception e) {
             return Boolean.FALSE;
