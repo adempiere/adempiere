@@ -1829,8 +1829,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
         
 		if(currentTab.getWhereClause() !=null && !currentTab.getWhereClause().isEmpty())
 		{
-			if(currentTab.getWhereClause().length()>0)
-				query.addRestriction(Env.parseContext(ctx, curWindowNo, currentTab.getWhereClause(), false));
+			query.addRestriction(Env.parseContext(ctx, curWindowNo, currentTab.getWhereClause(), false));
 		}
 		//	Link for detail records
 		String queryColumn = currentTab.getLinkColumnName();
