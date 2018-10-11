@@ -44,6 +44,8 @@ import org.compiere.util.Msg;
  * eEvolution @author Victor Perez <victor.perez@e-evolution.com>, Created by e-Evolution on 26/02/16.
  * 		<li>The current isLookupColumnName logic not should be hard code should be solve using column name and name convention #328
  * 		@see http://github.com/adempiere/adempiere/issues/328
+ * @author Michael McKay, mckayERP@gmail.com
+ * 		<li> FR [ <a href="https://github.com/adempiere/adempiere/issues/213">213</a> ] Added support for automatic sync of database and columns.
  */
 public class M_Element extends X_AD_Element
 {
@@ -233,35 +235,45 @@ public class M_Element extends X_AD_Element
 				
 				for (MColumn column: columns)
 				{
-					column.setColumnName(getColumnName());
-					column.setName(getName());
-					column.setDescription(getDescription());
-					column.setHelp(getHelp());
+					// #213 Use set_ValueNoCheck to make changes to columns that are not updateable
+					column.set_ValueNoCheck(X_AD_Column.COLUMNNAME_ColumnName, getColumnName());
+					column.set_ValueNoCheck(X_AD_Column.COLUMNNAME_Name, getName());
+					column.set_ValueNoCheck(X_AD_Column.COLUMNNAME_Description, getDescription());
+					column.set_ValueNoCheck(X_AD_Column.COLUMNNAME_Help, getHelp());
 					column.saveEx();
 					no++;
 				}
 				log.fine("afterSave - Columns updated #" + no);
-				//	Parameter 
-				whereClause = new StringBuffer("UPPER(ColumnName)=?")
-									.append(" AND IsCentrallyMaintained=? AND AD_Element_ID IS NULL");
-				List<MProcessPara> processParas = new Query(getCtx(), MProcessPara.Table_Name, whereClause.toString(), get_TrxName())
-						.setParameters(DB.TO_STRING(getColumnName().toUpperCase()), true)
-						.list();
-				no = 0;
-				for (MProcessPara para: processParas)
+				
+				//	Update Parameters. Search by column name and AD_Element_ID.
+				//  For column name, search by the old name, in case it changed. (See #213)
+				//  Column name first - where the record is marked IsCentrallyMaintained='Y' but 
+				//  the AD_Element_ID is null.  
+				String oldColumnName = (String) get_ValueOld(M_Element.COLUMNNAME_ColumnName);
+				if (oldColumnName != null)
 				{
-					para.setColumnName(getColumnName());
-					para.setName(getName());
-					para.setDescription(getDescription());
-					para.setHelp(getHelp());
-					para.setAD_Element_ID(get_ID());
-					para.saveEx();
-					no++;
+					whereClause = new StringBuffer("UPPER(ColumnName)=?")
+										.append(" AND IsCentrallyMaintained=? AND AD_Element_ID IS NULL");
+					List<MProcessPara> processParas = new Query(getCtx(), MProcessPara.Table_Name, whereClause.toString(), get_TrxName())
+							.setParameters(DB.TO_STRING(oldColumnName.toUpperCase()), true)
+							.list();
+					no = 0;
+					for (MProcessPara para: processParas)
+					{
+						para.setColumnName(getColumnName());
+						para.setName(getName());
+						para.setDescription(getDescription());
+						para.setHelp(getHelp());
+						para.setAD_Element_ID(get_ID());
+						para.saveEx();
+						no++;
+					}
 				}
-
+				
+				// Then by element ID
 				whereClause = new StringBuffer("AD_Element_ID=?")
 						.append(" AND IsCentrallyMaintained=?");
-				processParas = new Query(getCtx(), MProcessPara.Table_Name, whereClause.toString(), get_TrxName())
+				List<MProcessPara> processParas = new Query(getCtx(), MProcessPara.Table_Name, whereClause.toString(), get_TrxName())
 						.setParameters(get_ID(), true)
 						.list();
 				for (MProcessPara para: processParas)
