@@ -1071,7 +1071,7 @@ public class MColumn extends X_AD_Column
 	 * @return true if the sync is automatic.
 	 */
 	public static boolean isAutoSync() {
-		return "Y".equals(MSysConfig.getValue(SYSCONFIG_DATABASE_AUTO_SYNC,"Y",Env.getAD_Client_ID(Env.getCtx())));
+		return "Y".equals(MSysConfig.getValue(SYSCONFIG_DATABASE_AUTO_SYNC,"N",Env.getAD_Client_ID(Env.getCtx())));
 	}
 	
 }	//	MColumn

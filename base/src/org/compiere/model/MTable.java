@@ -758,7 +758,7 @@ public class MTable extends X_AD_Table
 		//  the name has changed.  Running the ColumnSync process
 		//  is not required. The primary key column will be 
 		//  synchronized here.  The goal is to preserve any existing
-		//  data. Synchonization is not required for new tables.
+		//  data. Synchronization is not required for new tables.
 		//
 		//  Synchronizing table changes after the this transaction 
 		//  is complete may result in the creation of a new table 
@@ -1270,7 +1270,9 @@ public class MTable extends X_AD_Table
 
 	/**
 	 * Sync changes in this table definition with the database
-	 * Will only change the table name and constraints.
+	 * Will only change the table name and constraints.  The changes will
+	 * be made in the application dictionary and, if {@link org.compiere.model.MColumn#isAutoSync()} is true,
+	 * also in the database.
 	 * @return the sql statement(s) required to perform the sync 
 	 */
 	public String syncDatabase(String oldTableName)
@@ -1366,7 +1368,8 @@ public class MTable extends X_AD_Table
 				return "";
 
 			// Check if we should auto-sync the column and table.
-			if ("Y".equals(MSysConfig.getValue(MColumn.SYSCONFIG_DATABASE_AUTO_SYNC,"Y",Env.getAD_Client_ID(Env.getCtx())))) {
+			if (MColumn.isAutoSync()) {
+
 				if (sql.indexOf(DB.SQLSTATEMENT_SEPARATOR) == -1)
 				{
 					DB.executeUpdateEx(sql, trxName);
@@ -1380,9 +1383,10 @@ public class MTable extends X_AD_Table
 						DB.executeUpdateEx(statements[i], trxName);
 					}
 				}
+				
+				DB.commit(true, trxName);
+
 			}
-			
-			DB.commit(true, trxName);
 			// Remove the old table definition from cache 
 			POInfo.removeFromCache(getAD_Table_ID());
 			return sql;
@@ -1402,8 +1406,10 @@ public class MTable extends X_AD_Table
 		}
 	} // syncDatabase
 
-	/*
-	 * Update the name of the primary key column
+	/**
+	 * Update the name of the primary key column.  If {@link org.compiere.model.MColumn#isAutoSync()} is true
+	 * this method will change the column name in the database. If false, it will only change the
+	 * application dictionary entry.
 	 */
 	private void updatePrimaryKeyColumn()
 	{		
@@ -1478,20 +1484,19 @@ public class MTable extends X_AD_Table
 		column.setIsDirectLoad(true);  // set directLoad to prevent MColumn.aftersave and possible autosync which will fail.
 		column.saveEx();
 
-		// Rename the column in the database - this has to be done here as the column aftersave will not 
-		// be able to locate the new table name in the metadata and will think a new table has been created. 
-		// To void a duplicate table, the column directload is set to true and the change is made here.
-		StringBuffer sb = new StringBuffer("ALTER TABLE IF EXISTS ").append(oldTableName)
-				.append(" RENAME COLUMN ").append(oldTableName+"_ID").append(" TO ")
-				.append(getTableName()+"_ID;");
-		DB.executeUpdateEx(sb.toString(), get_TrxName());
-
-		// Rename the table in the database 
-//		sb = new StringBuffer("ALTER TABLE IF EXISTS ").append(oldTableName)
-//				.append(" RENAME TO ")
-//				.append(getTableName()+"_ID;");
-//		DB.executeUpdateEx(sb.toString(), get_TrxName());
-
+		//  Check if we should sync the change now.  If not, there will be a duplicate copy 
+		//  of the ID field created when the column is sync'd.
+		if (MColumn.isAutoSync())
+		{
+			// Rename the column in the database - this has to be done here as the column aftersave will not 
+			// be able to locate the new table name in the metadata and will think a new table has been created. 
+			// To void a duplicate table, the column directload is set to true and the change is made here.
+			StringBuffer sb = new StringBuffer("ALTER TABLE IF EXISTS ").append(oldTableName)
+					.append(" RENAME COLUMN ").append(oldTableName+"_ID").append(" TO ")
+					.append(getTableName()+"_ID;");
+			DB.executeUpdateEx(sb.toString(), get_TrxName());
+	
+		}
 	}  // updatePrimaryKeyColumn
 
 }	//	MTable
