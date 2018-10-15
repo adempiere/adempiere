@@ -453,7 +453,7 @@ public final class MAllocationHdr extends X_C_AllocationHdr implements DocAction
 								}
 								if (allocationLine.getC_Invoice_ID() > 0) {
 									I_C_Invoice invoice = allocationLine.getC_Invoice();
-									if (getDateAcct().after(invoice.getDateAcct())) {
+									if (invoice.getDateAcct().after(getDateAcct())) {
 										processMsg = Msg.parseTranslation(getCtx(), "@ValidationError@  "
 												+ " @C_Invoice_ID@ " + invoice.getDocumentNo() + " @DateAcct@" + invoice.getDateAcct()
 												+ " @C_AllocationHdr_ID@ " + getDocumentInfo() + " @DateAcct@ " + getDateAcct());
@@ -463,7 +463,7 @@ public final class MAllocationHdr extends X_C_AllocationHdr implements DocAction
 
 								if (allocationLine.getC_Payment_ID() > 0) {
 									I_C_Payment payment = allocationLine.getC_Payment();
-									if (getDateAcct().after(payment.getDateAcct())) {
+									if (payment.getDateAcct().after(getDateAcct())) {
 										processMsg = Msg.parseTranslation(getCtx(), "@ValidationError@ "
 												+ " @C_Payment_ID@ " + payment.getDocumentNo() + " @DateAcct@" + payment.getDateAcct()
 												+ " @C_AllocationHdr_ID@ " + getDocumentInfo() + " @DateAcct@ " + getDateAcct());
