@@ -341,6 +341,13 @@ public class Login
 		}
 		KeyNamePair[] retValue = null;
 		ArrayList<KeyNamePair> list = new ArrayList<KeyNamePair>();
+		//	Validate if exist column
+		//	Support to old compatibility
+		int isDefaultId = MColumn.getColumn_ID(I_AD_User_Roles.Table_Name, I_AD_User_Roles.COLUMNNAME_IsDefault);
+		String orderBy = "";
+		if(isDefaultId > 0) {
+			orderBy = "COALESCE(ur.IsDefault,'N') Desc,";
+		}
 		//
 		StringBuffer sql = new StringBuffer("SELECT u.AD_User_ID, r.AD_Role_ID,r.Name,")
 			.append(" u.ConnectionProfile ")
@@ -351,7 +358,7 @@ public class Login
 			.append(" AND u.IsActive='Y'")
 			.append(" AND EXISTS (SELECT 1 FROM AD_Client c "
 					+ "WHERE u.AD_Client_ID=c.AD_Client_ID AND c.IsActive='Y')");
-		sql.append(" ORDER BY COALESCE(ur.IsDefault,'N') Desc, r.Name");  // #1935 Show the default role, if defined, first
+		sql.append(" ORDER BY " + orderBy + "r.Name");  // #1935 Show the default role, if defined, first
 		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
