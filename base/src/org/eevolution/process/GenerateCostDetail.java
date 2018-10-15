@@ -52,6 +52,10 @@ import org.eevolution.model.MPPCostCollector;
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *			<li> FR [ 405 ] Wrong Syntax of Delete query in GenerateCostDetail.java
  *			@see https://github.com/adempiere/adempiere/issues/405
+ *  @author Michael McKay, mckayERP@gmail.com
+ *  	<li> BF [ <a href="https://github.com/adempiere/adempiere/issues/197">197</a> ] 
+ *  		GenerateCostDetails does not delete inactive cost types or methods
+
  */
 public class GenerateCostDetail extends GenerateCostDetailAbstract {
     /**
@@ -60,8 +64,19 @@ public class GenerateCostDetail extends GenerateCostDetailAbstract {
     private ArrayList<Object> deleteParameters;
     private ArrayList<Object> resetCostParameters;
     private List<MAcctSchema> acctSchemas = new ArrayList<MAcctSchema>();
+    
+    /** A list of active cost types */
     private List<MCostType> costTypes = new ArrayList<MCostType>();
+
+    /** A list of active and inactive cost types (#197) */
+    private List<MCostType> costTypesForDelete = new ArrayList<MCostType>();
+    
+    /** A list of active cost elements */
     private List<MCostElement> costElements = new ArrayList<MCostElement>();
+    
+    /** A list of active and inactive cost elements (#197)*/
+    private List<MCostElement> costElementsForDelete = new ArrayList<MCostElement>();
+    
     private StringBuffer deleteCostDetailWhereClause;
     private StringBuffer resetCostWhereClause;
     //private List<MTransaction> deferredTransactions = new ArrayList<MTransaction>();
@@ -140,15 +155,40 @@ public class GenerateCostDetail extends GenerateCostDetailAbstract {
                             get_TrxName())));
 
         if (getCostTypeId() > 0)
+        {
             costTypes.add(new MCostType(getCtx(), getCostTypeId(),
                     get_TrxName()));
+            costTypesForDelete.add(new MCostType(getCtx(), getCostTypeId(),
+                    get_TrxName()));
+        }
         else
-            costTypes = MCostType.get(getCtx(), get_TrxName());
-
+        {
+        	// Get the list of active cost types
+            costTypes = MCostType.get(getCtx(), get_TrxName());  // Only active ones
+            
+            // Get the list of all types including inactive entries (#197)
+            costTypesForDelete = new Query(getCtx(), MCostType.Table_Name, null, get_TrxName())
+            		.setClient_ID()
+            		.setOrderBy(MCostType.COLUMNNAME_M_CostType_ID)
+            		.list(); 
+        }
+        
         if (getCostElementId() > 0)
+        {
             costElements.add(MCostElement.get(getCtx(), getCostElementId()));
+            costElementsForDelete.add(MCostElement.get(getCtx(), getCostElementId()));
+        }
         else
+        {
+        	// Get the list of active cost elements
             costElements = MCostElement.getCostElement(getCtx(), get_TrxName());
+            
+            // Get the list of all elements including inactive entries (#197)
+            costElementsForDelete = new Query(getCtx(), MCostElement.Table_Name, null, get_TrxName())
+			.setClient_ID()
+			.setOrderBy(MCostElement.COLUMNNAME_M_CostElement_ID)
+			.list();  
+        }
     }
 
     /**
@@ -238,9 +278,9 @@ public class GenerateCostDetail extends GenerateCostDetailAbstract {
                     //Delete and reset 
                     for (MAcctSchema accountSchema : acctSchemas) {
                         // for each Cost Type
-                        for (MCostType costType : costTypes) {
+                        for (MCostType costType : costTypesForDelete) { // #197 Includes inactive ones
                             // for each Cost Element
-                            for (MCostElement costElement : costElements) {
+                            for (MCostElement costElement : costElementsForDelete) {  // #197 Includes inactive ones
                                 {
                                     applyCriteria(accountSchema.getC_AcctSchema_ID(),
                                             costType.getM_CostType_ID(), costElement.getM_CostElement_ID(),
@@ -257,9 +297,9 @@ public class GenerateCostDetail extends GenerateCostDetailAbstract {
                 // for each Account Schema
                 for (MAcctSchema accountSchema : acctSchemas) {
                     // for each Cost Type
-                    for (MCostType costType : costTypes) {
+                    for (MCostType costType : costTypes) {  // Only active
                         // for each Cost Element
-                        for (MCostElement costElement : costElements) {
+                        for (MCostElement costElement : costElements) {  // Only active
                             generateCostDetail(accountSchema, costType, costElement, transaction);
                         }
                     }
