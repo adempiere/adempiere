@@ -50,7 +50,7 @@ public class MigrationApply extends MigrationApplyAbstract {
 			migration.setIsForce(isForce());
 			
 			try {
-				migration.apply();
+				addLog(migration.apply());
 			} catch (AdempiereException e) {
 				addLog(e.getMessage());
 				if (!isForce())    // abort on first error
