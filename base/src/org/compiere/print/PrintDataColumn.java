@@ -24,6 +24,10 @@ package org.compiere.print;
  *
  * 	@author 	Jorg Janke
  * 	@version 	$Id: PrintDataColumn.java,v 1.2 2006/07/30 00:53:02 jjanke Exp $
+ * 
+ *  @author Michael McKay, mckayERP@gmail.com
+ * 		<li>BR [ <a href="https://github.com/adempiere/adempiere/issues/431">#431</a> ] Report Groups do not handle single values well
+
  */
 public class PrintDataColumn
 {
@@ -59,7 +63,24 @@ public class PrintDataColumn
 	private int			m_columnSize;
 	private String		m_alias;
 	private boolean		m_pageBreak;
-	private String m_FormatPattern;
+	private String 		m_FormatPattern;
+	
+	/** The sort order index or -1 if not set.  
+	 *  Lower numbers are sorted first.  If there
+	 *  is no sort order index or the sort order index
+	 *  is the same for two columns, sorting will be
+	 *  assumed to occur in the order of display of 
+	 *  the columns.  The sort order affects the level
+	 *  of the groups in the report.   
+	 */
+	private int			sortOrderIndex = -1;
+
+	/** The display order index or -1 if not set.  
+	 *  Lower numbers are displayed on the left.  If there
+	 *  is no display order index (<0) or the display order index
+	 *  is the same for two columns, the display order is undefined.   
+	 */
+	private int			displayOrderIndex = -1;
 
 	/*************************************************************************/
 
@@ -141,6 +162,34 @@ public class PrintDataColumn
 	
 	public String getFormatPattern() {
 		return m_FormatPattern;
+	}
+	
+	/**
+	 * @return the sortOrderIndex
+	 */
+	public int getSortOrderIndex() {
+		return sortOrderIndex;
+	}
+	
+	/**
+	 * @param sortOrderIndex the sortOrderIndex to set
+	 */
+	public void setSortOrderIndex(int sortOrderIndex) {
+		this.sortOrderIndex = sortOrderIndex;
+	}
+	
+	/**
+	 * @return the displayOrderIndex
+	 */
+	public int getDisplayOrderIndex() {
+		return displayOrderIndex;
+	}
+	
+	/**
+	 * @param displayOrderIndex the displayOrderIndex to set
+	 */
+	public void setDisplayOrderIndex(int displayOrderIndex) {
+		this.displayOrderIndex = displayOrderIndex;
 	}
 
 }	//	PrintDataColumn
