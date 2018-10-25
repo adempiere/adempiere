@@ -67,8 +67,10 @@ public abstract class SmallViewController implements SmallViewEditable, Vetoable
 		StackTraceElement[] stElements = Thread.currentThread().getStackTrace();
         for (int i=1; i<stElements.length; i++) {
             StackTraceElement ste = stElements[i];
-            if (ste.getClassName().contains("webui")) {
+            if (ste.getClassName().contains("webui")
+            		|| ste.getClassName().contains("zk.ui")) {
                 m_IsSwing = false;
+                break;
             }
         }
 	}	
@@ -708,7 +710,7 @@ public abstract class SmallViewController implements SmallViewEditable, Vetoable
 	 * Validate all fields for values and mandatory
 	 * @return null if nothing happens
 	 */
-	public String 	validateFields() {
+	public String validateFields() {
 		log.config("");
 
 		StringBuffer sb = new StringBuffer();

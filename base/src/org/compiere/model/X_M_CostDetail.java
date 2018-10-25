@@ -1094,4 +1094,64 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
 	{
 		return (String)get_Value(COLUMNNAME_UUID);
 	}
+
+
+	public org.compiere.model.I_M_MatchInv getM_MatchInv() throws RuntimeException
+	{
+		return (org.compiere.model.I_M_MatchInv)MTable.get(getCtx(), org.compiere.model.I_M_MatchInv.Table_Name)
+				.getPO(getM_MatchInv_ID(), get_TrxName());	}
+
+	/** Set MatchInv
+	 @param M_MatchInv_ID
+	 MAtchInv
+	 */
+	public void setM_MatchInv_ID(int M_MatchInv_ID)
+	{
+		if (M_MatchInv_ID < 1)
+			set_Value (COLUMNNAME_M_MatchInv_ID, null);
+		else
+			set_Value (COLUMNNAME_M_MatchInv_ID, Integer.valueOf(M_MatchInv_ID));
+	}
+
+	/** Get MatchInv.
+	 @return Match Invoice
+	 */
+	public int getM_MatchInv_ID()
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_MatchInv_ID);
+		if (ii == null)
+			return 0;
+		return ii.intValue();
+	}
+
+
+	public org.compiere.model.I_M_MatchPO getM_MatchPO() throws RuntimeException
+	{
+		return (org.compiere.model.I_M_MatchPO)MTable.get(getCtx(), org.compiere.model.I_M_MatchPO.Table_Name)
+				.getPO(getM_MatchPO_ID(), get_TrxName());	}
+
+	/** Set MatchPO
+	 @param M_MatchPO_ID
+	 MatchPO
+	 */
+	public void setM_MatchPO_ID(int M_MatchPO_ID)
+	{
+		if (M_MatchPO_ID < 1)
+			set_Value (COLUMNNAME_M_MatchPO_ID, null);
+		else
+			set_Value (COLUMNNAME_M_MatchPO_ID, Integer.valueOf(M_MatchPO_ID));
+	}
+
+	/** Get MatchPO.
+	 @return Match PO
+	 */
+	public int getM_MatchPO_ID()
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_MatchPO_ID);
+		if (ii == null)
+			return 0;
+		return ii.intValue();
+	}
+
+
 }

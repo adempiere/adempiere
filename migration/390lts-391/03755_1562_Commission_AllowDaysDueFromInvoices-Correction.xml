@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Commission_AllowDaysDueFromInvoices-Correction" ReleaseNo="3.9.1" SeqNo="3755">
+    <Comments>Reference to issue: https://github.com/adempiere/adempiere/issues/1562
+Commission for complete payments: allow also for days due originated from invoice</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="276" Action="U" Record_ID="59851" Table="AD_Element">
+        <Data AD_Column_ID="2603" Column="Name" oldValue="IsDaysDueFromPaymentTerm">Days due from Payment Term</Data>
+        <Data AD_Column_ID="4299" Column="PrintName" oldValue="IsDaysDueFromPaymentTerm">Days due Pymt Term</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="87059" Table="AD_Column">
+        <Data AD_Column_ID="112" Column="Description" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="111" Column="Name" oldValue="IsDaysDueFromPaymentTerm">Days due from Payment Term</Data>
+        <Data AD_Column_ID="113" Column="Help" isNewNull="true" isOldNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="85547" Table="AD_Field">
+        <Data AD_Column_ID="169" Column="Description" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="168" Column="Name" oldValue="IsDaysDueFromPaymentTerm">Days due from Payment Term</Data>
+        <Data AD_Column_ID="170" Column="Help" isNewNull="true" isOldNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="85547" Table="AD_Field">
+        <Data AD_Column_ID="169" Column="Description" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="170" Column="Help" isNewNull="true" isOldNull="true"/>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

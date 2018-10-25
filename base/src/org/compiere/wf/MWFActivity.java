@@ -994,17 +994,6 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 			pi.setAD_PInstance_ID(pInstance.getAD_PInstance_ID());
 			return process.processItWithoutTrxClose(pi, trx);
 		}
-		
-		/******	Start Task (Probably redundant;
-		        same can be achieved by attaching a Workflow node sequentially) ******/
-		/*
-		else if (MWFNode.ACTION_AppsTask.equals(action))
-		{
-			log.warning ("Task:AD_Task_ID=" + m_node.getAD_Task_ID());
-			log.warning("Start Task is not implemented yet");
-		}
-		*/
-		
 		/******	EMail						******/
 		else if (MWFNode.ACTION_EMail.equals(action))
 		{
@@ -1015,23 +1004,9 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 				throw new Exception("@WFA.PO@ @NotFound@ - @AD_Table_ID@ = " 
 						+ (table != null? table.getTableName(): getAD_Table_ID()) + ", @Record_ID@ = " + getRecord_ID());
 			}
-			if (m_po instanceof DocAction) {
-				m_emails = new ArrayList<String>();
-				sendEMail();
-				setTextMsg(m_emails.toString());
-			} else {
-				MClient client = MClient.get(getCtx(), getAD_Client_ID());
-				MMailText mailtext = new MMailText(getCtx(),getNode().getR_MailText_ID(),null);
-				mailtext.setPO(getPO() , true);
-				String subject = getNode().getDescription()
-				+ ": " + mailtext.getMailHeader();
-
-				String message = mailtext.getMailText(true)
-				+ Env.NL + "-----" + Env.NL + getNodeHelp();
-				String to = getNode().getEMail();
-
-				client.sendEMail(to, subject, message, null);
-			}
+			m_emails = new ArrayList<String>();
+			//	Send EMail
+			sendEMail();
 			return true;	//	done
 		}	//	EMail
 		
@@ -1210,30 +1185,6 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 		 * this will be respected when trying to find an approval user in
 		 * the call to getApprovalUser(...) below.
 		*/
-		/*
-		if (getNode().isUserApproval() && getPO() instanceof DocAction)
-		{
-			DocAction doc = (DocAction)m_po;
-			MUser user = new MUser (getCtx(), AD_User_ID, null);
-			MRole[] roles = user.getRoles(m_po.getAD_Org_ID());
-			boolean canApproveOwnDoc = false;
-			for (int r = 0; r < roles.length; r++)
-			{
-				if (roles[r].isCanApproveOwnDoc())
-				{
-					canApproveOwnDoc = true;
-					break;
-				}	//	found a role which allows to approve own document
-			}
-			if (!canApproveOwnDoc)
-			{
-				String info = user.getName() + " cannot approve own document " + doc;
-				addTextMsg(info);
-				log.fine(info);
-				return false;		//	ignore
-			}
-		}*/
-		
 		setWFState (StateEngine.STATE_Running);
 		setAD_User_ID(AD_User_ID);
 		Trx trx = ( get_TrxName() != null ) ? Trx.get(get_TrxName(), false) : null;
@@ -1522,20 +1473,40 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 	/*********************************
 	 * 	Send EMail
 	 */
-	private void sendEMail()
-	{
-		DocAction doc = (DocAction)m_po;
+	private void sendEMail() {
+		int userId;
+		String documentInfo;
+		String documentSummary;
+		File pdf = null;
+		//	Validate
+		if (m_po instanceof DocAction) {
+			DocAction doc = (DocAction)m_po;
+			userId = doc.getDoc_User_ID();
+			documentInfo = doc.getDocumentInfo();
+			documentSummary = doc.getSummary();
+			pdf = doc.createPDF();
+		} else {
+			userId = m_po.getCreatedBy();
+			documentInfo = getNode().getDescription();
+			documentSummary = getNodeHelp();
+		}
+		//	Change values
+		if(Util.isEmpty(documentInfo)) {
+			documentInfo = "";
+		}
+		if(Util.isEmpty(documentSummary)) {
+			documentSummary = "";
+		}
 		MMailText text = new MMailText (getCtx(), m_node.getR_MailText_ID(), null);
 		text.setPO(m_po, true);
 		//
-		String subject = doc.getDocumentInfo()  
+		String subject = documentInfo  
 			+ ": " + text.getMailHeader();
 		String message = text.getMailText(true)
-			+ Env.NL + "-----" + Env.NL + doc.getDocumentInfo()
-			+ Env.NL + doc.getSummary();
-		File pdf = doc.createPDF();
+			+ Env.NL + "-----" + Env.NL + documentInfo
+			+ Env.NL + documentSummary;
 		//
-		MClient client = MClient.get(doc.getCtx(), doc.getAD_Client_ID());
+		MClient client = MClient.get(m_po.getCtx(), m_po.getAD_Client_ID());
 		
 		//	Explicit EMail
 		sendEMail(client, 0, m_node.getEMail(), subject, message, pdf, text.isHtml());
@@ -1543,7 +1514,7 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 		String recipient = m_node.getEMailRecipient();
 		//	email to document user
 		if (recipient == null || recipient.length() == 0)
-			sendEMail(client, doc.getDoc_User_ID(), null, subject, message, pdf, text.isHtml()); 
+			sendEMail(client, userId, null, subject, message, pdf, text.isHtml()); 
 		else if (recipient.equals(MWFNode.EMAILRECIPIENT_DocumentBusinessPartner))
 		{
 			int index = m_po.get_ColumnIndex("AD_User_ID");
@@ -1565,12 +1536,17 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 				log.fine("No User Field in Document");
 		}
 		else if (recipient.equals(MWFNode.EMAILRECIPIENT_DocumentOwner))
-			sendEMail(client, doc.getDoc_User_ID(), null, subject, message, pdf, text.isHtml()); 
+			sendEMail(client, userId, null, subject, message, pdf, text.isHtml());
+		else if (recipient.equals(MWFNode.EMAILRECIPIENT_SupervisorOfDocumentOwner) && userId > 0) {
+			MUser documentUser = new MUser(getCtx() , userId, get_TrxName());
+			if (documentUser.getSupervisor_ID() > 0 )
+				sendEMail(client, documentUser.getSupervisor_ID(), null, subject, message, pdf, text.isHtml());
+		}
 		else if (recipient.equals(MWFNode.EMAILRECIPIENT_WFResponsible))
 		{
 			MWFResponsible resp = getResponsible();
 			if (resp.isInvoker())
-				sendEMail(client, doc.getDoc_User_ID(), null, subject, message, pdf, text.isHtml()); 
+				sendEMail(client, userId, null, subject, message, pdf, text.isHtml()); 
 			else if (resp.isHuman())
 				sendEMail(client, resp.getAD_User_ID(), null, subject, message, pdf, text.isHtml()); 
 			else if (resp.isRole())
@@ -1589,7 +1565,46 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 				if (org.getSupervisor_ID() == 0)
 					log.fine("No Supervisor for AD_Org_ID=" + m_po.getAD_Org_ID());
 				else
-					sendEMail(client, org.getSupervisor_ID(), null, subject, message, pdf, text.isHtml()); 
+					sendEMail(client, org.getSupervisor_ID(), null, subject, message, pdf, text.isHtml());
+			}
+		}
+		else if (recipient.equals(MWFNode.EMAILRECIPIENT_SupervisorOfWFResponsible))
+		{
+			MWFResponsible resp = getResponsible();
+			if (resp.isInvoker()) {
+				MUser documentUser = new MUser(getCtx() , userId, get_TrxName());
+				if (documentUser.getSupervisor_ID() > 0)
+					sendEMail(client, documentUser.getSupervisor_ID(), null, subject, message, pdf, text.isHtml());
+
+			}
+			else if (resp.isHuman()) {
+				MUser documentUser = new MUser(getCtx() , resp.getAD_User_ID() , get_TrxName());
+				if (documentUser.getSupervisor_ID() > 0)
+					sendEMail(client, documentUser.getSupervisor_ID(), null, subject, message, pdf, text.isHtml());
+			}
+			else if (resp.isRole())
+			{
+				MRole role = resp.getRole();
+				if (role != null)
+				{
+					MUser[] users = MUser.getWithRole(role);
+					for (int i = 0; i < users.length; i++) {
+						if (users[i].getSupervisor_ID() > 0) {
+							sendEMail(client, users[i].getSupervisor_ID(), null, subject, message, pdf, text.isHtml());
+						}
+					}
+				}
+			}
+			else if (resp.isOrganization())
+			{
+				MOrgInfo org = MOrgInfo.get(getCtx(), m_po.getAD_Org_ID(), get_TrxName());
+				if (org.getSupervisor_ID() == 0)
+					log.fine("No Supervisor for AD_Org_ID=" + m_po.getAD_Org_ID());
+				else {
+					MUser user = new MUser(getCtx() , org.getSupervisor_ID() , get_TrxName());
+					if (user.getSupervisor_ID() > 0)
+						sendEMail(client, user.getSupervisor_ID() , null, subject, message, pdf, text.isHtml());
+				}
 			}
 		}
 	}	//	sendEMail

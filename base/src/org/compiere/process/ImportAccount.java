@@ -293,52 +293,52 @@ public class ImportAccount extends SvrProcess
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next())
 			{
-				X_I_ElementValue impEV = new X_I_ElementValue(getCtx(), rs, get_TrxName());
-				int C_ElementValue_ID = impEV.getC_ElementValue_ID();
-				int I_ElementValue_ID = impEV.getI_ElementValue_ID();
+				X_I_ElementValue importElementValue = new X_I_ElementValue(getCtx(), rs, get_TrxName());
+				int elementValueId = importElementValue.getC_ElementValue_ID();
+				int importElementValueId = importElementValue.getI_ElementValue_ID();
 				
 				//	****	Create/Update ElementValue
-				if (C_ElementValue_ID == 0)		//	New
+				if (elementValueId == 0)		//	New
 				{
-					MElementValue ev = new MElementValue(impEV);
-					if (ev.save())
+					MElementValue elementValue = new MElementValue(importElementValue);
+					if (elementValue.save())
 					{
 						noInsert++;
-						if ( !ev.isSummary() )
-							updateCharge(impEV, ev);
-						impEV.setC_ElementValue_ID(ev.getC_ElementValue_ID());
-						impEV.setI_IsImported(true);
-						impEV.saveEx();
+						if ( !elementValue.isSummary() )
+							updateCharge(importElementValue, elementValue);
+						importElementValue.setC_ElementValue_ID(elementValue.getC_ElementValue_ID());
+						importElementValue.setI_IsImported(true);
+						importElementValue.saveEx();
 					}
 					else
 					{
 						sql = new StringBuffer ("UPDATE I_ElementValue i "
 							+ "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||").append(DB.TO_STRING("Insert ElementValue "))
-							.append("WHERE I_ElementValue_ID=").append(I_ElementValue_ID);
+							.append("WHERE I_ElementValue_ID=").append(importElementValueId);
 						DB.executeUpdate(sql.toString(), get_TrxName());
 					}
 				}
 				else							//	Update existing
 				{
-					MElementValue ev = new MElementValue (getCtx(), C_ElementValue_ID, get_TrxName());
-					if (ev.get_ID() != C_ElementValue_ID)
+					MElementValue elementValue = new MElementValue (getCtx(), elementValueId, get_TrxName());
+					if (elementValue.get_ID() != elementValueId)
 					{
 						
 					}
-					ev.set(impEV);
-					if (ev.save())
+					elementValue.set(importElementValue);
+					if (elementValue.save())
 					{
 						noUpdate++;
-						if (! ev.isSummary() )
-							updateCharge(impEV, ev);
-						impEV.setI_IsImported(true);
-						impEV.saveEx();
+						if (! elementValue.isSummary() )
+							updateCharge(importElementValue, elementValue);
+						importElementValue.setI_IsImported(true);
+						importElementValue.saveEx();
 					}
 					else
 					{
 						sql = new StringBuffer ("UPDATE I_ElementValue i "
 							+ "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||").append(DB.TO_STRING("Update ElementValue"))
-							.append("WHERE I_ElementValue_ID=").append(I_ElementValue_ID);
+							.append("WHERE I_ElementValue_ID=").append(importElementValueId);
 						DB.executeUpdate(sql.toString(), get_TrxName());
 					}
 				}
@@ -646,17 +646,17 @@ public class ImportAccount extends SvrProcess
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next())
 			{
-				int C_ElementValue_ID = rs.getInt(1);
+				int elementValueId = rs.getInt(1);
 				String TableName = rs.getString(2);
 				String ColumnName = rs.getString(3);
-				int I_ElementValue_ID = rs.getInt(4);
+				int importElementValueId = rs.getInt(4);
 				//	Update it
-				int u = updateDefaultAccount(TableName, ColumnName, C_AcctSchema_ID, C_ElementValue_ID);
+				int u = updateDefaultAccount(TableName, ColumnName, C_AcctSchema_ID, elementValueId);
 				counts[u]++;
 				if (u != UPDATE_ERROR)
 				{
 					sql = "UPDATE I_ElementValue SET Processing='N' "
-						+ "WHERE I_ElementValue_ID=" + I_ElementValue_ID;
+						+ "WHERE I_ElementValue_ID=" + importElementValueId;
 					int no = DB.executeUpdate(sql.toString(), get_TrxName());
 					if (no != 1)
 						log.log(Level.SEVERE, "Updated=" + no);
@@ -689,29 +689,29 @@ public class ImportAccount extends SvrProcess
 		 AND NOT EXISTS (SELECT * FROM I_ElementValue i WHERE i.C_ElementValue_ID=e.C_ElementValue_ID);
 	 * 	@param TableName Table Name
 	 * 	@param ColumnName Column Name
-	 * 	@param C_AcctSchema_ID Account Schema
-	 * 	@param C_ElementValue_ID new Account
+	 * 	@param acctSchemaId Account Schema
+	 * 	@param elementValueId new Account
 	 * 	@return UPDATE_* status
 	 */
-	private int updateDefaultAccount (String TableName, String ColumnName, int C_AcctSchema_ID, int C_ElementValue_ID)
+	private int updateDefaultAccount (String TableName, String ColumnName, int acctSchemaId, int elementValueId)
 	{
-		log.fine(TableName + "." + ColumnName + " - " + C_ElementValue_ID);
+		log.fine(TableName + "." + ColumnName + " - " + elementValueId);
 		int retValue = UPDATE_ERROR;
 		StringBuffer sql = new StringBuffer ("SELECT x.")
 			.append(ColumnName).append(",Account_ID FROM ")
 			.append(TableName).append(" x INNER JOIN C_ValidCombination vc ON (x.")
 			.append(ColumnName).append("=vc.C_ValidCombination_ID) ")
-			.append("WHERE x.C_AcctSchema_ID=").append(C_AcctSchema_ID);
+			.append("WHERE x.C_AcctSchema_ID=").append(acctSchemaId);
 		try
 		{
 			PreparedStatement pstmt = DB.prepareStatement(sql.toString(), get_TrxName());
 			ResultSet rs = pstmt.executeQuery();
 			if (rs.next())
 			{
-				int C_ValidCombination_ID = rs.getInt(1);
-				int Account_ID = rs.getInt(2);
+				int validCombinationId = rs.getInt(1);
+				int accountId = rs.getInt(2);
 				//	The current account value is the same
-				if (Account_ID == C_ElementValue_ID)
+				if (accountId == elementValueId)
 				{
 					retValue = UPDATE_SAME;
 					log.fine("Account_ID same as new value");
@@ -721,50 +721,50 @@ public class ImportAccount extends SvrProcess
 				{
 					if (m_createNewCombination)
 					{
-						MAccount acct = MAccount.get(getCtx(), C_ValidCombination_ID);
-						acct.setAccount_ID(C_ElementValue_ID);
-						if (acct.save())
+						MAccount account = MAccount.getValidCombination(getCtx(), validCombinationId, get_TrxName());
+						account.setAccount_ID(elementValueId);
+						if (account.save())
 						{
 							retValue = UPDATE_YES;
-							int newC_ValidCombination_ID = acct.getC_ValidCombination_ID();
-							if (C_ValidCombination_ID != newC_ValidCombination_ID)
+							int newValidCombinationId = account.getC_ValidCombination_ID();
+							if (validCombinationId != newValidCombinationId)
 							{
 								sql = new StringBuffer ("UPDATE ").append(TableName)
-									.append(" SET ").append(ColumnName).append("=").append(newC_ValidCombination_ID)
-									.append(" WHERE C_AcctSchema_ID=").append(C_AcctSchema_ID);
+									.append(" SET ").append(ColumnName).append("=").append(newValidCombinationId)
+									.append(" WHERE C_AcctSchema_ID=").append(acctSchemaId);
 								int no = DB.executeUpdate(sql.toString(), get_TrxName());
 								log.fine("New #" + no + " - "
-									+ TableName + "." + ColumnName + " - " + C_ElementValue_ID
-									+ " -- " + C_ValidCombination_ID + " -> " + newC_ValidCombination_ID);
+									+ TableName + "." + ColumnName + " - " + elementValueId
+									+ " -- " + validCombinationId + " -> " + newValidCombinationId);
 								if (no == 1)
 									retValue = UPDATE_YES;
 							}
 						}
 						else
-							log.log(Level.SEVERE, "Account not saved - " + acct);
+							log.log(Level.SEVERE, "Account not saved - " + account);
 					}
 					else	//	Replace Combination
 					{
 						//	Only Acct Combination directly
 						sql = new StringBuffer ("UPDATE C_ValidCombination SET Account_ID=")
-							.append(C_ElementValue_ID).append(" WHERE C_ValidCombination_ID=").append(C_ValidCombination_ID);
+							.append(elementValueId).append(" WHERE C_ValidCombination_ID=").append(validCombinationId);
 						int no = DB.executeUpdate(sql.toString(), get_TrxName());
 						log.fine("Replace #" + no + " - "
-								+ "C_ValidCombination_ID=" + C_ValidCombination_ID + ", New Account_ID=" + C_ElementValue_ID);
+								+ "C_ValidCombination_ID=" + validCombinationId + ", New Account_ID=" + elementValueId);
 						if (no == 1)
 						{
 							retValue = UPDATE_YES;
 							//	Where Acct was used
 							sql = new StringBuffer ("UPDATE C_ValidCombination SET Account_ID=")
-								.append(C_ElementValue_ID).append(" WHERE Account_ID=").append(Account_ID);
+								.append(elementValueId).append(" WHERE Account_ID=").append(accountId);
 							no = DB.executeUpdate(sql.toString(), get_TrxName());
 							log.fine("ImportAccount.updateDefaultAccount - Replace VC #" + no + " - "
-									+ "Account_ID=" + Account_ID + ", New Account_ID=" + C_ElementValue_ID);
+									+ "Account_ID=" + accountId + ", New Account_ID=" + elementValueId);
 							sql = new StringBuffer ("UPDATE Fact_Acct SET Account_ID=")
-								.append(C_ElementValue_ID).append(" WHERE Account_ID=").append(Account_ID);
+								.append(elementValueId).append(" WHERE Account_ID=").append(accountId);
 							no = DB.executeUpdate(sql.toString(), get_TrxName());
 							log.fine("ImportAccount.updateDefaultAccount - Replace Fact #" + no + " - "
-									+ "Account_ID=" + Account_ID + ", New Account_ID=" + C_ElementValue_ID);
+									+ "Account_ID=" + accountId + ", New Account_ID=" + elementValueId);
 						}
 					}	//	replace combination
 				}	//	need to update

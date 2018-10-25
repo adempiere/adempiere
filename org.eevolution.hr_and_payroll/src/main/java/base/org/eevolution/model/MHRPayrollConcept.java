@@ -81,14 +81,14 @@ public class MHRPayrollConcept extends X_HR_PayrollConcept
 
 	/**
 	 * 	Get Concept's of Payroll Type
-	 * 	@param p HR process
+	 * 	@param process HR process
 	 * 	@return array of HR concepts
 	 */
-	public static MHRPayrollConcept[] getPayrollConcepts (MHRProcess p)
+	public static MHRPayrollConcept[] getPayrollConcepts (MHRProcess process)
 	{
-		List<MHRPayrollConcept> list = new Query(p.getCtx(), Table_Name, COLUMNNAME_HR_Payroll_ID+"=?", null)
+		List<MHRPayrollConcept> list = new Query(process.getCtx(), Table_Name, COLUMNNAME_HR_Payroll_ID+"=?", process.get_TrxName())
 												.setOnlyActiveRecords(true)
-												.setParameters(new Object[]{p.getHR_Payroll_ID()})
+												.setParameters(process.getHR_Payroll_ID())
 												.setOrderBy(COLUMNNAME_SeqNo)
 												.list();	
 		return list.toArray(new MHRPayrollConcept[list.size()]);

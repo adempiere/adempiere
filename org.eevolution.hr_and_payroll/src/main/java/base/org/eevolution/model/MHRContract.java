@@ -69,7 +69,7 @@ public class MHRContract extends X_HR_Contract {
    	 * @param degreeId
    	 * @return activity or null
    	 */
-   	public static MHRContract getById(Properties ctx, int degreeId) {
+   	public static MHRContract getById(Properties ctx, int degreeId, String trxName) {
    		if (degreeId <= 0)
    			return null;
 
@@ -77,7 +77,7 @@ public class MHRContract extends X_HR_Contract {
    		if (degree != null && degree.get_ID() > 0)
    			return degree;
 
-   		degree = new Query(ctx , Table_Name , COLUMNNAME_HR_Contract_ID + "=?" , null)
+   		degree = new Query(ctx , Table_Name , COLUMNNAME_HR_Contract_ID + "=?" , trxName)
    				.setClient_ID()
    				.setParameters(degreeId)
    				.first();

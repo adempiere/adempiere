@@ -44,6 +44,9 @@ import org.compiere.util.Env;
  *		@see https://github.com/adempiere/adempiere/issues/323
  *		<a href="https://github.com/adempiere/adempiere/issues/571">
  * 		@see FR [ 571 ] Process Dialog is not MVC</a>
+ *	@author Michael McKay, michael.mckay@mckayerp.com, 
+ *	 <li>Bug [ <a href="https://github.com/adempiere/adempiere/issues/1926">#1926</a> ] ZK Exports migration XML files to 
+ *       different location than what is selected in the dialogs.
  */
 public class ProcessModalDialog extends CDialog implements IProcessDialog, ASyncProcess {
 	
@@ -168,6 +171,13 @@ public class ProcessModalDialog extends CDialog implements IProcessDialog, ASync
 		log.config("");
 		processInfo.setAD_User_ID (Env.getAD_User_ID(Env.getCtx()));
 		processInfo.setAD_Client_ID(Env.getAD_Client_ID(Env.getCtx()));
+		
+		// #1926 ZK Exports migration XML files to different location 
+		// than what is selected in the dialogs. Fix is to let the process
+		// know what interface is being used so it can manage the export 
+		// process correctly.
+		processInfo.setInterfaceType(ProcessInfo.INTERFACE_TYPE_SWING);
+		
 		processPanel = new ProcessPanel(this, windowNo, processInfo, ProcessPanel.COLUMNS_1);
 		processPanel.setAutoStart(autoStart);
 		processPanel.setIsOnlyPanel(isOnlyPanel);

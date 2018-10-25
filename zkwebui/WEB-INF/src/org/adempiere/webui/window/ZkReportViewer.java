@@ -28,7 +28,7 @@ import java.util.Properties;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
-import org.adempiere.pdf.Document;
+import org.adempiere.pdf.ITextDocument;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.apps.ProcessModalDialog;
 import org.adempiere.webui.apps.WReport;
@@ -219,6 +219,7 @@ public class ZkReportViewer extends Window implements EventListener {
 		
 		previewType.setMold("select");
 		previewType.appendItem("PDF", "PDF");
+		previewType.appendItem("CSV", "CSV");
 		if (m_isAllowHTMLView) {
 			previewType.appendItem("HTML", "HTML");
 		}
@@ -246,6 +247,8 @@ public class ZkReportViewer extends Window implements EventListener {
 			type = "PDF";
 		}
 
+		if ("C".equals(type))
+			type = "CSV";
 		if ("H".equals(type))
 			type = "HTML";
 		if ("X".equals(type))
@@ -269,21 +272,20 @@ public class ZkReportViewer extends Window implements EventListener {
 			
 		if(m_reportEngine.getReportType() != null)
 		{
-			if(m_reportEngine.getReportType().equals("P"))
-			{
+			if(m_reportEngine.getReportType().equals("P")) {
 				previewType.setSelectedIndex(0);
 			}
-			else if(m_reportEngine.getReportType().equals("H"))
-			{
+			else if (m_reportEngine.getReportType().equals("C")) {
 				previewType.setSelectedIndex(1);
 			}
-			else if(m_reportEngine.getReportType().equals("X"))
-			{
+			else if(m_reportEngine.getReportType().equals("H")) {
 				previewType.setSelectedIndex(2);
 			}
-			else if(m_reportEngine.getReportType().equals("XX"))
-			{
+			else if(m_reportEngine.getReportType().equals("X")) {
 				previewType.setSelectedIndex(3);
+			}
+			else if(m_reportEngine.getReportType().equals("XX")) {
+				previewType.setSelectedIndex(4);
 			}
 		}
 
@@ -478,6 +480,17 @@ public class ZkReportViewer extends Window implements EventListener {
 			File file = File.createTempFile(prefix, ".xls", new File(path));
 			m_reportEngine.createXLSX(file);
 			media = new AMedia(prefix, "xlsx", "application/vnd.ms-excel", file, true);
+		}
+		else if ("CSV".equals(previewType.getSelectedItem().getValue())) {
+			String path = System.getProperty("java.io.tmpdir");
+			String prefix = makePrefix(m_reportEngine.getName());
+			if (log.isLoggable(Level.FINE))
+			{
+				log.log(Level.FINE, "Path=" + path + " Prefix=" + prefix);
+			}
+			File file = File.createTempFile(prefix, ".csv", new File(path));
+			m_reportEngine.createCSV(file, ',');
+			media = new AMedia(prefix, "csv", "text/csv", file, true);
 		}
 		iframe.setContent(media);
 	}
@@ -839,7 +852,7 @@ public class ZkReportViewer extends Window implements EventListener {
 	private void cmd_archive ()
 	{
 		boolean success = false;
-		byte[] data = Document.getPDFAsArray(m_reportEngine.getLayout().getPageable(false));	//	No Copy
+		byte[] data = new ITextDocument().getPDFAsArray(m_reportEngine.getLayout().getPageable(false));	//	No Copy
 		if (data != null)
 		{
 			MArchive archive = new MArchive (Env.getCtx(), m_reportEngine.getPrintInfo(), null);

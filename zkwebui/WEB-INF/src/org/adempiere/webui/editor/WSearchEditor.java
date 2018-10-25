@@ -702,7 +702,7 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 				this.getADTabPanel().getListPanel().addKeyListener();
 			GridPanel gridQuick = null;
 			ADTabPanel tabPanel = (ADTabPanel)getADTabPanel();
-			if(tabPanel.getQuickPanel() != null) {
+			if(tabPanel != null && tabPanel.getQuickPanel() != null) {
 				gridQuick = tabPanel.getQuickPanel();
 				gridQuick.addKeyListener();
 			}

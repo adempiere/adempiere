@@ -71,7 +71,7 @@
           
 DROP VIEW IF EXISTS ad_field_v;
 
-CREATE OR REPLACE VIEW adempiere.ad_field_v AS 
+CREATE OR REPLACE VIEW ad_field_v AS
  SELECT t.ad_window_id,
     f.ad_tab_id,
     f.ad_field_id,
@@ -139,7 +139,7 @@ CREATE OR REPLACE VIEW adempiere.ad_field_v AS
      LEFT JOIN ad_val_rule vr ON vr.ad_val_rule_id = COALESCE(f.ad_val_rule_id, c.ad_val_rule_id)
   WHERE f.isactive = 'Y'::bpchar AND c.isactive = 'Y'::bpchar;
   
-CREATE OR REPLACE VIEW adempiere.ad_field_vt AS 
+CREATE OR REPLACE VIEW ad_field_vt AS
  SELECT trl.ad_language,
     t.ad_window_id,
     f.ad_tab_id,

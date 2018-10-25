@@ -60,8 +60,10 @@ public class ReportViewElementHandler extends AbstractElementHandler {
 		int id = get_ID(ctx, "AD_ReportView", name);
 		X_AD_ReportView m_Reportview = new X_AD_ReportView(ctx, id,
 				getTrxName(ctx));
-		if (id <= 0 && atts.getValue("AD_ReportView_ID") != null && Integer.parseInt(atts.getValue("AD_ReportView_ID")) <= PackOut.MAX_OFFICIAL_ID)
+		if (id <= 0 && atts.getValue("AD_ReportView_ID") != null && Integer.parseInt(atts.getValue("AD_ReportView_ID")) <= PackOut.MAX_OFFICIAL_ID) {
 			m_Reportview.setAD_ReportView_ID(Integer.parseInt(atts.getValue("AD_ReportView_ID")));
+			m_Reportview.setIsDirectLoad(true);
+		}
 		if (id > 0) {
 			AD_Backup_ID = copyRecord(ctx, "AD_Reportview", m_Reportview);
 			Object_Status = "Update";
@@ -90,7 +92,6 @@ public class ReportViewElementHandler extends AbstractElementHandler {
 			}
 			id = get_IDWithColumn(ctx, "AD_Table", "TableName", Name);
 		}
-
 		m_Reportview.setAD_Table_ID(id);
 		m_Reportview.setDescription(getStringValue(atts,"Description"));
 		m_Reportview.setEntityType(atts.getValue("EntityType"));

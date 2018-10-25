@@ -119,9 +119,8 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="lib/groovy-all-2.4.15.jar" sourcepath="lib/testing/groovy-all-2.4.15-sources.jar"/>
+	<classpathentry kind="lib" path="lib/postgresql.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
-	<classpathentry exported="true" kind="lib" path="lib/poi-3.14-20160307.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/poi-ooxml-3.14-20160307.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/xmlbeans-2.6.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/mysql-connector-java-5.1.13-bin.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jcommon-1.0.18.jar"/>
@@ -131,5 +130,7 @@
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="lib/poi-3.17.jar"/>
+	<classpathentry kind="lib" path="lib/poi-ooxml-3.17.jar"/>
 	<classpathentry kind="output" path="build"/>
 </classpath>

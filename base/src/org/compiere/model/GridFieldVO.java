@@ -47,6 +47,7 @@ import org.compiere.util.Env;
  * 		@see FR [ 566 ] Process parameter don't have a parameter like only information</a>
  *  @author Raul Munoz, rmunoz@erpcya.com, ERPCyA http://www.erpcya.com
  *    <li>  FR [ 566 ] Get Correct Validation Code 
+ *    <li>  FR [ 1710 ] Get Correct Validation Code 
  *  @version  $Id: GridFieldVO.java,v 1.3 2006/07/30 00:58:04 jjanke Exp $
  */
 public class GridFieldVO implements Serializable
@@ -167,6 +168,8 @@ public class GridFieldVO implements Serializable
 					vo.Callout = rs.getString (i);
 				else if (columnName.equalsIgnoreCase("AD_Process_ID"))
 					vo.AD_Process_ID = rs.getInt (i);
+				else if (columnName.equalsIgnoreCase("AD_Image_ID"))
+					vo.AD_Image_ID = rs.getInt (i);
 				else if (columnName.equalsIgnoreCase("AD_Chart_ID"))
 					vo.AD_Chart_ID = rs.getInt (i);
 				else if (columnName.equalsIgnoreCase("ReadOnlyLogic"))
@@ -212,8 +215,12 @@ public class GridFieldVO implements Serializable
 					vo.AD_Field_ID = rs.getInt(i);
 				else if (columnName.equalsIgnoreCase("IsAllowNewAttributeInstance"))
 					vo.IsAllowNewAttributeInstance  = "Y".equals(rs.getString(i));
+				//  FR [ 1710 ] 
+				else if (columnName.equalsIgnoreCase("AD_FieldDefinition_ID"))
+					vo.AD_FieldDefinition_ID  = rs.getInt(i);
 				else if (columnName.equalsIgnoreCase("IsQuickEntry"))
 					vo.IsQuickEntry = "Y".equals(rs.getString (i));
+
 			}
 			if (vo.Header == null)
 				vo.Header = vo.ColumnName;
@@ -485,6 +492,8 @@ public class GridFieldVO implements Serializable
 	public String       Callout = "";
 	/**	Process			*/
 	public int          AD_Process_ID = 0;
+	/** Image 			*/
+	public int			AD_Image_ID = 0;
 	/** Chart			*/
 	public int			AD_Chart_ID = 0;
 	/**	Description		*/
@@ -533,6 +542,8 @@ public class GridFieldVO implements Serializable
 	public boolean IsAllowCopy = false;
 	/** Allow New Attribute Instance Adaxa Ticket#1406 - jobriant */
 	public boolean IsAllowNewAttributeInstance = false;
+	/** Allow New Attribute Instance Adaxa Ticket#1406 - jobriant */
+	public int AD_FieldDefinition_ID = 0;
 	
 	/**
 	 *  Set Context including contained elements
@@ -656,6 +667,7 @@ public class GridFieldVO implements Serializable
 		clone.IsParent = IsParent;
 		clone.Callout = Callout;
 		clone.AD_Process_ID = AD_Process_ID;
+		clone.AD_Image_ID = AD_Image_ID;
 		clone.AD_Chart_ID = AD_Chart_ID;
 		clone.Description = Description;
 		clone.Help = Help;
@@ -679,6 +691,7 @@ public class GridFieldVO implements Serializable
 		// IsQuickEntry
 		clone.IsQuickEntry = IsQuickEntry;
 
+		clone.AD_FieldDefinition_ID = AD_FieldDefinition_ID;	
 		return clone;
 	}	//	clone
 	
@@ -698,14 +711,15 @@ public class GridFieldVO implements Serializable
         + ", IsEncryptedColumn=" + IsEncryptedColumn + ", IsSelectionColumn=" + IsSelectionColumn + ", SortNo="
         + SortNo + ", FieldLength=" + FieldLength + ", VFormat=" + VFormat + ", ValueMin=" + ValueMin + ", ValueMax="
         + ValueMax + ", FieldGroup=" + FieldGroup + ", FieldGroupType=" + FieldGroupType + ", IsKey=" + IsKey
-        + ", IsParent=" + IsParent + ", Callout=" + Callout + ", AD_Process_ID=" + AD_Process_ID + ", AD_Chart_ID="
+        + ", IsParent=" + IsParent + ", Callout=" + Callout + ", AD_Process_ID=" + AD_Process_ID
+		+ ", AD_Image_ID=" + AD_Image_ID+ ", AD_Chart_ID="
         + AD_Chart_ID + ", Description=" + Description + ", Help=" + Help + ", MandatoryLogic=" + MandatoryLogic
         + ", ReadOnlyLogic=" + ReadOnlyLogic + ", ObscureType=" + ObscureType + ", IsAllowsCopy=" + IsAllowsCopy
         + ", IsInfoOnly=" + IsInfoOnly + ", ValidationCode=" + ValidationCode + ", AD_Reference_Value_ID="
         + AD_Reference_Value_ID + ", IsRange=" + IsRange + ", DefaultValue2=" + DefaultValue2 + ", lookupInfo="
         + lookupInfo + ", Included_Tab_ID=" + Included_Tab_ID + ", IsCollapsedByDefault=" + IsCollapsedByDefault
         + ", IsAutocomplete=" + IsAutocomplete + ", ColumnNameAlias=" + ColumnNameAlias + ", IsColumnSQLReference="
-        + IsColumnSQLReference + "]";
+        + IsColumnSQLReference +  ", AD_FieldDefinition_ID=" + AD_FieldDefinition_ID +  "]";
   }
 
 	/**

@@ -106,10 +106,10 @@ public class CPOS {
 	private MBPartner 			partner;
 	/**	Price List Version		*/
 	private int 				priceListVersionId;
-	/**	Price List Id		*/
+	/**	Price List Id			*/
 	private int 				priceListId;
 	/** Context					*/
-	private Properties 		ctx;
+	private Properties 			ctx;
 	/**	Today's (login) date	*/
 	private Timestamp 			today;
 	/**	Order List				*/

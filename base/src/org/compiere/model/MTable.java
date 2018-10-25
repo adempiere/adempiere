@@ -103,7 +103,10 @@ public class MTable extends X_AD_Table
 	private static final String[]	s_special = new String[] {
 		"AD_Element", "org.compiere.model.M_Element",
 		"AD_Registration", "org.compiere.model.M_Registration",
-		"AD_Tree", "org.compiere.model.MTree_Base",
+		//	Yamel Senih [ 9223372036854775807 ]
+		//	Change to Default
+//		"AD_Tree", "org.compiere.model.MTree_Base",
+		//	End Yamel Senih
 		"R_Category", "org.compiere.model.MRequestCategory",
 		"GL_Category", "org.compiere.model.MGLCategory",
 		"K_Category", "org.compiere.model.MKCategory",

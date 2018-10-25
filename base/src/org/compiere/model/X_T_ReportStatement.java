@@ -33,7 +33,7 @@ public class X_T_ReportStatement extends PO implements I_T_ReportStatement, I_Pe
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170731L;
+	private static final long serialVersionUID = 20180824L;
 
     /** Standard Constructor */
     public X_T_ReportStatement (Properties ctx, int T_ReportStatement_ID, String trxName)
@@ -75,6 +75,97 @@ public class X_T_ReportStatement extends PO implements I_T_ReportStatement, I_Pe
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	public org.compiere.model.I_C_ElementValue getAccount() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_ElementValue)MTable.get(getCtx(), org.compiere.model.I_C_ElementValue.Table_Name)
+			.getPO(getAccount_ID(), get_TrxName());	}
+
+	/** Set Account.
+		@param Account_ID
+		Account used
+	  */
+	public void setAccount_ID (int Account_ID)
+	{
+		if (Account_ID < 1)
+			set_Value (COLUMNNAME_Account_ID, null);
+		else
+			set_Value (COLUMNNAME_Account_ID, Integer.valueOf(Account_ID));
+	}
+
+	/** Get Account.
+		@return Account used
+	  */
+	public int getAccount_ID ()
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Account_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Account Name.
+		@param AccountName Account Name	  */
+	public void setAccountName (String AccountName)
+	{
+		set_Value (COLUMNNAME_AccountName, AccountName);
+	}
+
+	/** Get Account Name.
+		@return Account Name	  */
+	public String getAccountName ()
+	{
+		return (String)get_Value(COLUMNNAME_AccountName);
+	}
+
+	/** AccountType AD_Reference_ID=117 */
+	public static final int ACCOUNTTYPE_AD_Reference_ID=117;
+	/** Asset = A */
+	public static final String ACCOUNTTYPE_Asset = "A";
+	/** Liability = L */
+	public static final String ACCOUNTTYPE_Liability = "L";
+	/** Revenue = R */
+	public static final String ACCOUNTTYPE_Revenue = "R";
+	/** Expense = E */
+	public static final String ACCOUNTTYPE_Expense = "E";
+	/** Owner's Equity = O */
+	public static final String ACCOUNTTYPE_OwnerSEquity = "O";
+	/** Memo = M */
+	public static final String ACCOUNTTYPE_Memo = "M";
+	/** Set Account Type.
+		@param AccountType
+		Indicates the type of account
+	  */
+	public void setAccountType (String AccountType)
+	{
+
+		set_Value (COLUMNNAME_AccountType, AccountType);
+	}
+
+	/** Get Account Type.
+		@return Indicates the type of account
+	  */
+	public String getAccountType ()
+	{
+		return (String)get_Value(COLUMNNAME_AccountType);
+	}
+
+	/** Set Account Key.
+		@param AccountValue
+		Key of Account Element
+	  */
+	public void setAccountValue (String AccountValue)
+	{
+		set_Value (COLUMNNAME_AccountValue, AccountValue);
+	}
+
+	/** Get Account Key.
+		@return Key of Account Element
+	  */
+	public String getAccountValue ()
+	{
+		return (String)get_Value(COLUMNNAME_AccountValue);
+	}
 
 	public org.compiere.model.I_AD_PInstance getAD_PInstance() throws RuntimeException
     {

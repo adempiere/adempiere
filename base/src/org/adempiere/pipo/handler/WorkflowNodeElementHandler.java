@@ -83,8 +83,10 @@ public class WorkflowNodeElementHandler extends AbstractElementHandler {
 			X_AD_WF_Node m_WFNode = new X_AD_WF_Node(ctx, id, getTrxName(ctx));
 			int AD_Backup_ID = -1;
 			String Object_Status = null;
-			if (id <= 0 && atts.getValue("AD_WF_Node_ID") != null && Integer.parseInt(atts.getValue("AD_WF_Node_ID")) <= PackOut.MAX_OFFICIAL_ID)
+			if (id <= 0 && atts.getValue("AD_WF_Node_ID") != null && Integer.parseInt(atts.getValue("AD_WF_Node_ID")) <= PackOut.MAX_OFFICIAL_ID) {
 				m_WFNode.setAD_WF_Node_ID(Integer.parseInt(atts.getValue("AD_WF_Node_ID")));
+				m_WFNode.setIsDirectLoad(true);
+			}
 			if (id > 0) {
 				AD_Backup_ID = copyRecord(ctx, "AD_WF_Node", m_WFNode);
 				Object_Status = "Update";

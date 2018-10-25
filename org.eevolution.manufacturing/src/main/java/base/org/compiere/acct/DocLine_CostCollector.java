@@ -74,17 +74,23 @@ public class DocLine_CostCollector extends DocLine
 	}
 
 	@Override
-	public MAccount getAccount(int AcctType, MAcctSchema as)
+	public MAccount getAccount(int acctType, MAcctSchema acctSchema)
 	{
-		String acctName = s_acctName.get(AcctType);
+		String acctName = s_acctName.get(acctType);
 		if (getM_Product_ID() == 0 || acctName == null)
 		{
-			return super.getAccount(AcctType, as);
+			return super.getAccount(acctType, acctSchema);
 		}
-		return getAccount(acctName, as);
+		return getAccount(acctName, acctSchema);
 	}
-	
-	public MAccount getAccount(String acctName, MAcctSchema as)
+
+	/**
+	 * Get Account
+	 * @param acctName
+	 * @param acctSchema
+	 * @return
+	 */
+	public MAccount getAccount(String acctName, MAcctSchema acctSchema)
 	{
 		final String sql = 
 			 " SELECT "
@@ -94,12 +100,12 @@ public class DocLine_CostCollector extends DocLine
 			+" INNER JOIN M_Product_Category_Acct pca ON (pca.M_Product_Category_ID=p.M_Product_Category_ID AND pca.C_AcctSchema_ID=pa.C_AcctSchema_ID)"
 			+" INNER JOIN C_AcctSchema_Default asd ON (asd.C_AcctSchema_ID=pa.C_AcctSchema_ID)"
 			+" WHERE pa.M_Product_ID=? AND pa.C_AcctSchema_ID=?";
-		int validCombination_ID = DB.getSQLValueEx(null, sql, getM_Product_ID(), as.get_ID());
-		if (validCombination_ID  <= 0)
+		int validCombinationId = DB.getSQLValueEx(getTrxName(), sql, getM_Product_ID(), acctSchema.get_ID());
+		if (validCombinationId  <= 0)
 		{
 			return null;
 		}
-		return MAccount.get(as.getCtx(), validCombination_ID);
+		return MAccount.getValidCombination(acctSchema.getCtx(), validCombinationId, getTrxName());
 	}
 	
 	

@@ -48,24 +48,24 @@ public class MAccount extends X_C_ValidCombination
 	/**
 	 * 	Get existing Account or create it 
 	 *	@param ctx context
-	 *	@param AD_Client_ID
-	 *	@param AD_Org_ID
-	 *	@param C_AcctSchema_ID
-	 *	@param Account_ID
-	 *	@param C_SubAcct_ID
-	 *	@param M_Product_ID
-	 *	@param C_BPartner_ID
-	 *	@param AD_OrgTrx_ID
-	 *	@param C_LocFrom_ID
-	 *	@param C_LocTo_ID
-	 *	@param C_SalesRegion_ID
-	 *	@param C_Project_ID
-	 *	@param C_Campaign_ID
-	 *	@param C_Activity_ID
-	 *	@param User1_ID
-	 *	@param User2_ID
-	 *	@param UserElement1_ID
-	 *	@param UserElement2_ID
+	 *	@param clientId
+	 *	@param orgId
+	 *	@param acctSchemaId
+	 *	@param accountId
+	 *	@param subAcctId
+	 *	@param productId
+	 *	@param partnerId
+	 *	@param orgTrxId
+	 *	@param locFromId
+	 *	@param locToId
+	 *	@param salesRegionId
+	 *	@param projectId
+	 *	@param campaignId
+	 *	@param activityId
+	 *	@param user1Id
+	 *	@param User2Id
+	 *	@param userElement1Id
+	 *	@param userElement2Id
 	 *	@return account or null
 	 * @deprecated Use {@link #get(Properties,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,String)} instead
 	 */
@@ -84,7 +84,6 @@ public class MAccount extends X_C_ValidCombination
 				C_Campaign_ID, C_Activity_ID, User1_ID, User2_ID, 0 , 0 ,
 				UserElement1_ID, UserElement2_ID, null);
 	}	//	get
-
 
 	/**
 	 * Get Account
@@ -153,19 +152,19 @@ public class MAccount extends X_C_ValidCombination
 	 *	@return account or null
 	 */
 	public static MAccount get (Properties ctx, 
-		int AD_Client_ID, int AD_Org_ID, int C_AcctSchema_ID, 
-		int Account_ID, int C_SubAcct_ID,
-		int M_Product_ID, int C_BPartner_ID, int AD_OrgTrx_ID, 
-		int C_LocFrom_ID, int C_LocTo_ID, int C_SalesRegion_ID, 
-		int C_Project_ID, int C_Campaign_ID, int C_Activity_ID,
-		int User1_ID, int User2_ID, int User3_ID, int User4_ID , int UserElement1_ID, int UserElement2_ID, String trxName)
+		int clientId, int orgId, int acctSchemaId,
+		int accountId, int subAcctId,
+		int productId, int partnerId, int orgTrxId,
+		int locFromId, int locToId, int salesRegionId,
+		int projectId, int campaignId, int activityId,
+		int user1Id, int User2Id, int user3Id, int user4Id , int userElement1Id, int userElement2Id, String trxName)
 	{
 		StringBuffer info = new StringBuffer();
-		info.append("AD_Client_ID=").append(AD_Client_ID).append(",AD_Org_ID=").append(AD_Org_ID);
+		info.append("AD_Client_ID=").append(clientId).append(",AD_Org_ID=").append(orgId);
 		//	Schema
-		info.append(",C_AcctSchema_ID=").append(C_AcctSchema_ID);
+		info.append(",C_AcctSchema_ID=").append(acctSchemaId);
 		//	Account
-		info.append(",Account_ID=").append(Account_ID).append(" ");
+		info.append(",Account_ID=").append(accountId).append(" ");
 		
 		ArrayList<Object> params = new ArrayList<Object>();
 		//		Mandatory fields
@@ -173,122 +172,122 @@ public class MAccount extends X_C_ValidCombination
 							+ " AND AD_Org_ID=?"
 							+ " AND C_AcctSchema_ID=?"
 							+ " AND Account_ID=?");			//	#4
-		params.add(AD_Client_ID);
-		params.add(AD_Org_ID);
-		params.add(C_AcctSchema_ID);
-		params.add(Account_ID);
+		params.add(clientId);
+		params.add(orgId);
+		params.add(acctSchemaId);
+		params.add(accountId);
 		//	Optional fields
-		if (C_SubAcct_ID == 0)
+		if (subAcctId == 0)
 			whereClause.append(" AND C_SubAcct_ID IS NULL");	
 		else
 		{	
 			whereClause.append(" AND C_SubAcct_ID=?");
-			params.add(C_SubAcct_ID);
+			params.add(subAcctId);
 		}
-		if (M_Product_ID == 0)
+		if (productId == 0)
 			whereClause.append(" AND M_Product_ID IS NULL");
 		else
 		{
 			whereClause.append(" AND M_Product_ID=?");
-			params.add(M_Product_ID);
+			params.add(productId);
 		}	
-		if (C_BPartner_ID == 0)
+		if (partnerId == 0)
 			whereClause.append(" AND C_BPartner_ID IS NULL");
 		else
 		{
 			whereClause.append(" AND C_BPartner_ID=?");
-			params.add(C_BPartner_ID);
+			params.add(partnerId);
 		}
-		if (AD_OrgTrx_ID == 0)
+		if (orgTrxId == 0)
 			whereClause.append(" AND AD_OrgTrx_ID IS NULL");
 		else
 		{	
 			whereClause.append(" AND AD_OrgTrx_ID=?");
-			params.add(AD_OrgTrx_ID);
+			params.add(orgTrxId);
 		}
-		if (C_LocFrom_ID == 0)
+		if (locFromId == 0)
 			whereClause.append(" AND C_LocFrom_ID IS NULL");
 		else
 		{
 			whereClause.append(" AND C_LocFrom_ID=?");
-			params.add(C_LocFrom_ID);
+			params.add(locFromId);
 		}
-		if (C_LocTo_ID == 0)
+		if (locToId == 0)
 			whereClause.append(" AND C_LocTo_ID IS NULL");
 		else
 		{
 			whereClause.append(" AND C_LocTo_ID=?");
-			params.add(C_LocTo_ID);
+			params.add(locToId);
 		}	
-		if (C_SalesRegion_ID == 0)
+		if (salesRegionId == 0)
 			whereClause.append(" AND C_SalesRegion_ID IS NULL");
 		else
 		{
 			whereClause.append(" AND C_SalesRegion_ID=?");
-			params.add(C_SalesRegion_ID);
+			params.add(salesRegionId);
 		}
-		if (C_Project_ID == 0)
+		if (projectId == 0)
 			whereClause.append(" AND C_Project_ID IS NULL");
 		else
 		{	
 			whereClause.append(" AND C_Project_ID=?");
-			params.add(C_Project_ID);
+			params.add(projectId);
 		}
-		if (C_Campaign_ID == 0)
+		if (campaignId == 0)
 			whereClause.append(" AND C_Campaign_ID IS NULL");
 		else
 		{	
 			whereClause.append(" AND C_Campaign_ID=?");
-			params.add(C_Campaign_ID);
+			params.add(campaignId);
 		}
-		if (C_Activity_ID == 0)
+		if (activityId == 0)
 			whereClause.append(" AND C_Activity_ID IS NULL");
 		else
 		{
 			whereClause.append(" AND C_Activity_ID=?");
-			params.add(C_Activity_ID);
+			params.add(activityId);
 		}
-		if (User1_ID == 0)
+		if (user1Id == 0)
 			whereClause.append(" AND User1_ID IS NULL");
 		else
 		{
 			whereClause.append(" AND User1_ID=?");
-			params.add(User1_ID);
+			params.add(user1Id);
 		}
-		if (User2_ID == 0)
+		if (User2Id == 0)
 			whereClause.append(" AND User2_ID IS NULL");
 		else
 		{
 			whereClause.append(" AND User2_ID=?");
-			params.add(User2_ID);
+			params.add(User2Id);
 		}
-		if (User3_ID == 0)
+		if (user3Id == 0)
 			whereClause.append(" AND User3_ID IS NULL");
 		else
 		{
 			whereClause.append(" AND User3_ID=?");
-			params.add(User3_ID);
+			params.add(user3Id);
 		}
-		if (User4_ID == 0)
+		if (user4Id == 0)
 			whereClause.append(" AND User4_ID IS NULL");
 		else
 		{
 			whereClause.append(" AND User4_ID=?");
-			params.add(User4_ID);
+			params.add(user4Id);
 		}
-		if (UserElement1_ID == 0)
+		if (userElement1Id == 0)
 			whereClause.append(" AND UserElement1_ID IS NULL");
 		else
 		{	
 			whereClause.append(" AND UserElement1_ID=?");
-			params.add(UserElement1_ID);
+			params.add(userElement1Id);
 		}
-		if (UserElement2_ID == 0)
+		if (userElement2Id == 0)
 			whereClause.append(" AND UserElement2_ID IS NULL");
 		else
 		{
 			whereClause.append(" AND UserElement2_ID=?");
-			params.add(UserElement2_ID);
+			params.add(userElement2Id);
 		}
 		//	whereClause.append(" ORDER BY IsFullyQualified DESC");
 		
@@ -304,26 +303,26 @@ public class MAccount extends X_C_ValidCombination
 
 		//	New
 		MAccount newAccount = new MAccount (ctx, 0, trxName);
-		newAccount.setClientOrg(AD_Client_ID, AD_Org_ID);
-		newAccount.setC_AcctSchema_ID(C_AcctSchema_ID);
-		newAccount.setAccount_ID(Account_ID);
+		newAccount.setClientOrg(clientId, orgId);
+		newAccount.setC_AcctSchema_ID(acctSchemaId);
+		newAccount.setAccount_ID(accountId);
 		//	--  Optional Accounting fields
-		newAccount.setC_SubAcct_ID(C_SubAcct_ID);
-		newAccount.setM_Product_ID(M_Product_ID);
-		newAccount.setC_BPartner_ID(C_BPartner_ID);
-		newAccount.setAD_OrgTrx_ID(AD_OrgTrx_ID);
-		newAccount.setC_LocFrom_ID(C_LocFrom_ID);
-		newAccount.setC_LocTo_ID(C_LocTo_ID);
-		newAccount.setC_SalesRegion_ID(C_SalesRegion_ID);
-		newAccount.setC_Project_ID(C_Project_ID);
-		newAccount.setC_Campaign_ID(C_Campaign_ID);
-		newAccount.setC_Activity_ID(C_Activity_ID);
-		newAccount.setUser1_ID(User1_ID);
-		newAccount.setUser2_ID(User2_ID);
-		newAccount.setUser3_ID(User3_ID);
-		newAccount.setUser4_ID(User4_ID);
-		newAccount.setUserElement1_ID(UserElement1_ID);
-		newAccount.setUserElement2_ID(UserElement2_ID);
+		newAccount.setC_SubAcct_ID(subAcctId);
+		newAccount.setM_Product_ID(productId);
+		newAccount.setC_BPartner_ID(partnerId);
+		newAccount.setAD_OrgTrx_ID(orgTrxId);
+		newAccount.setC_LocFrom_ID(locFromId);
+		newAccount.setC_LocTo_ID(locToId);
+		newAccount.setC_SalesRegion_ID(salesRegionId);
+		newAccount.setC_Project_ID(projectId);
+		newAccount.setC_Campaign_ID(campaignId);
+		newAccount.setC_Activity_ID(activityId);
+		newAccount.setUser1_ID(user1Id);
+		newAccount.setUser2_ID(User2Id);
+		newAccount.setUser3_ID(user3Id);
+		newAccount.setUser4_ID(user4Id);
+		newAccount.setUserElement1_ID(userElement1Id);
+		newAccount.setUserElement2_ID(userElement2Id);
 		//
 		if (!newAccount.save())
 		{
@@ -341,6 +340,7 @@ public class MAccount extends X_C_ValidCombination
  	 *	@param alias alias
 	 *	@return account
 	 */
+	@Deprecated
 	public static MAccount get (Properties ctx, int C_AcctSchema_ID, String alias)
 	{
 		final String whereClause = "C_AcctSchema_ID=? AND Alias=?";
@@ -349,37 +349,37 @@ public class MAccount extends X_C_ValidCombination
 		.firstOnly();
 		return retValue;
 	}	//	get
-	
+
 	/**
 	 * 	Get from existing Accounting fact
-	 *	@param fa accounting fact
+	 *	@param factAcct accounting fact
 	 *	@return account
 	 */
-	public static MAccount get (X_Fact_Acct fa)
+	public static MAccount get (X_Fact_Acct factAcct)
 	{
-		MAccount acct = get (fa.getCtx(),
-			fa.getAD_Client_ID(), fa.getAD_Org_ID(), fa.getC_AcctSchema_ID(), 
-			fa.getAccount_ID(), fa.getC_SubAcct_ID(),
-			fa.getM_Product_ID(), fa.getC_BPartner_ID(), fa.getAD_OrgTrx_ID(), 
-			fa.getC_LocFrom_ID(), fa.getC_LocTo_ID(), fa.getC_SalesRegion_ID(), 
-			fa.getC_Project_ID(), fa.getC_Campaign_ID(), fa.getC_Activity_ID(),
-			fa.getUser1_ID(), fa.getUser2_ID(), fa.getUser3_ID() , fa.getUser4_ID(),
-			fa.getUserElement1_ID(), fa.getUserElement2_ID(), null);
-		return acct;
+		MAccount account = get (factAcct.getCtx(),
+			factAcct.getAD_Client_ID(), factAcct.getAD_Org_ID(), factAcct.getC_AcctSchema_ID(),
+			factAcct.getAccount_ID(), factAcct.getC_SubAcct_ID(),
+			factAcct.getM_Product_ID(), factAcct.getC_BPartner_ID(), factAcct.getAD_OrgTrx_ID(),
+			factAcct.getC_LocFrom_ID(), factAcct.getC_LocTo_ID(), factAcct.getC_SalesRegion_ID(),
+			factAcct.getC_Project_ID(), factAcct.getC_Campaign_ID(), factAcct.getC_Activity_ID(),
+			factAcct.getUser1_ID(), factAcct.getUser2_ID(), factAcct.getUser3_ID() , factAcct.getUser4_ID(),
+			factAcct.getUserElement1_ID(), factAcct.getUserElement2_ID(), factAcct.get_TrxName());
+		return account;
 	}	//	get
 	
 	/**************************************************************************
 	 *  Factory: default combination
 	 *  @param ctx context
-	 *  @param C_AcctSchema_ID accounting schema
+	 *  @param acctSchemaId accounting schema
 	 * 	@param optionalNull if true the optional values are null
 	 * 	@param trxName transaction
 	 *  @return Account
 	 */
-	public static MAccount getDefault (Properties ctx, int C_AcctSchema_ID, 
+	public static MAccount getDefault (Properties ctx, int acctSchemaId,
 		boolean optionalNull, String trxName)
 	{
-		MAcctSchema acctSchema = new MAcctSchema (ctx, C_AcctSchema_ID, trxName);
+		MAcctSchema acctSchema = new MAcctSchema (ctx, acctSchemaId, trxName);
 		return getDefault (acctSchema, optionalNull);
 	}   //  getDefault
 
@@ -451,11 +451,25 @@ public class MAccount extends X_C_ValidCombination
 	 *  @param C_ValidCombination_ID combination
 	 *  @return Account
 	 */
+	@Deprecated
 	public static MAccount get (Properties ctx, int C_ValidCombination_ID)
 	{
 		//	Maybe later cache
 		return new MAccount(ctx, C_ValidCombination_ID, null);
 	}   //  getAccount
+
+
+	/**
+	 * Get Valid Combination
+	 * @param ctx
+	 * @param validCombinationId
+	 * @param trxName
+	 * @return
+	 */
+	public static MAccount getValidCombination(Properties ctx, int validCombinationId, String trxName)
+	{
+		return new MAccount(ctx, validCombinationId, trxName);
+	}
 
 	/**
 	 * 	Update Value/Description after change of 
@@ -484,13 +498,13 @@ public class MAccount extends X_C_ValidCombination
 	/**************************************************************************
 	 *  Default constructor
 	 * 	@param ctx context
-	 *  @param C_ValidCombination_ID combination
+	 *  @param validCombinationId combination
 	 *	@param trxName transaction
 	 */
-	public MAccount (Properties ctx, int C_ValidCombination_ID, String trxName)
+	public MAccount (Properties ctx, int validCombinationId, String trxName)
 	{
-		super (ctx, C_ValidCombination_ID, trxName);
-		if (C_ValidCombination_ID == 0)
+		super (ctx, validCombinationId, trxName);
+		if (validCombinationId == 0)
 		{
 		//	setAccount_ID (0);
 		//	setC_AcctSchema_ID (0);
@@ -581,12 +595,12 @@ public class MAccount extends X_C_ValidCombination
 
 	/**
 	 * 	Set Account_ID
-	 * 	@param Account_ID id
+	 * 	@param accountId id
 	 */
-	public void setAccount_ID (int Account_ID)
+	public void setAccount_ID (int accountId)
 	{
 		m_accountEV = null;	//	reset
-		super.setAccount_ID(Account_ID);
+		super.setAccount_ID(accountId);
 	}	//	setAccount
 	
 	/**
@@ -661,14 +675,14 @@ public class MAccount extends X_C_ValidCombination
 		StringBuffer descr = new StringBuffer();
 		boolean fullyQualified = true;
 		//
-		MAcctSchema as = new MAcctSchema(getCtx(), getC_AcctSchema_ID(), get_TrxName());	//	In Trx!
-		MAcctSchemaElement[] elements = MAcctSchemaElement.getAcctSchemaElements(as);
+		MAcctSchema acctSchema = new MAcctSchema(getCtx(), getC_AcctSchema_ID(), get_TrxName());	//	In Trx!
+		MAcctSchemaElement[] elements = MAcctSchemaElement.getAcctSchemaElements(acctSchema);
 		for (int i = 0; i < elements.length; i++)
 		{
 			if (i > 0)
 			{
-				combi.append(as.getSeparator());
-				descr.append(as.getSeparator());
+				combi.append(acctSchema.getSeparator());
+				descr.append(acctSchema.getSeparator());
 			}
 			MAcctSchemaElement element = elements[i];
 			String combiStr = "_";		//	not defined

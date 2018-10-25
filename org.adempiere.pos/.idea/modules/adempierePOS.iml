@@ -77,7 +77,8 @@
           <root url="jar://$MODULE_DIR$/../../../adempiere/tools/lib/postgresql.jar!/" />
           <root url="jar://$MODULE_DIR$/../../../adempiere/tools/lib/commons-codec.jar!/" />
           <root url="jar://$MODULE_DIR$/../../../adempiere/tools/lib/script-api.jar!/" />
-          <root url="jar://$MODULE_DIR$/../../../adempiere/tools/lib/jpedal.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../../adempiere/tools/lib/icepdf-core-6.2.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../../adempiere/tools/lib/icepdf-viewer-6.2.2.jar!/" />
           <root url="jar://$MODULE_DIR$/../../../adempiere/zkwebui/WEB-INF/lib/zcommons-el.jar!/" />
           <root url="jar://$MODULE_DIR$/../../../adempiere/zkwebui/WEB-INF/lib/xercesImpl.jar!/" />
           <root url="jar://$MODULE_DIR$/../../../adempiere/tools/lib/c3p0-0.9.1.2.jar!/" />

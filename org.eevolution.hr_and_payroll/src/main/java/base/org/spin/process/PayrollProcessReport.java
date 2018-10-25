@@ -97,7 +97,7 @@ public class PayrollProcessReport extends PayrollProcessReportAbstract {
 		if(printFormatId == 0) {
 			//	Valid Payroll
 			if(getPayrollId() != 0) {
-				MHRPayroll payroll = MHRPayroll.getById(getCtx(), getPayrollId());
+				MHRPayroll payroll = MHRPayroll.getById(getCtx(), getPayrollId(), get_TrxName());
 				printFormatId = payroll.getAD_PrintFormat_ID();
 				//	Log
 				log.info("Print Format from Payroll");
@@ -110,7 +110,7 @@ public class PayrollProcessReport extends PayrollProcessReportAbstract {
 				//	Get Process
 				MHRProcess process = new MHRProcess(getCtx(), getHRProcessId(), get_TrxName());
 				//	Get Payroll from Process
-				MHRPayroll payroll = MHRPayroll.getById(getCtx(), process.getHR_Payroll_ID());
+				MHRPayroll payroll = MHRPayroll.getById(getCtx(), process.getHR_Payroll_ID(), get_TrxName());
 				//	Get Print Format
 				printFormatId = payroll.getAD_PrintFormat_ID();
 				//	Log

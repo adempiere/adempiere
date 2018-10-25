@@ -49,6 +49,7 @@ import org.zkoss.zhtml.Table;
 import org.zkoss.zhtml.Td;
 import org.zkoss.zhtml.Tr;
 import org.zkoss.zk.au.out.AuFocus;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.WrongValueException;
 import org.zkoss.zk.ui.event.Deferrable;
 import org.zkoss.zk.ui.event.Event;
@@ -66,6 +67,9 @@ import org.zkoss.zul.Image;
  * @date    Feb 25, 2007
  * @version $Revision: 0.10 $
  * @author <a href="mailto:sendy.yagambrum@posterita.org">Sendy Yagambrum</a>
+ * @author Raul Muñoz, rMunoz@erpya.com , http://www.erpya.com
+ * <li> FR [ 1769 ] Add option to restore the password from the login
+ * @see https://github.com/adempiere/adempiere/issues/1769
  * @date    July 18, 2007
  */
 public class RolePanel extends Window implements EventListener, Deferrable
@@ -456,7 +460,10 @@ public class RolePanel extends Window implements EventListener, Deferrable
         {
         	throw new WrongValueException(msg);
         }
-        wndLogin.loginCompleted();
+        if(wndLogin.isPassReset()) 
+        	Executions.sendRedirect("index.zul");
+        else 
+        	wndLogin.loginCompleted();
 
         // Elaine 2009/02/06 save preference to AD_Preference
         UserPreference userPreference = SessionManager.getSessionApplication().getUserPreference();

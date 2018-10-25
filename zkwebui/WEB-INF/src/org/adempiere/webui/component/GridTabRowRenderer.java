@@ -35,6 +35,8 @@ import org.compiere.model.GridTab;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.NamePair;
+import org.spin.util.FieldCondition;
+import org.spin.util.FieldDefinition;
 import org.zkoss.xml.XMLs;
 import org.zkoss.zhtml.Label;
 import org.zkoss.zhtml.Text;
@@ -47,6 +49,7 @@ import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.event.InputEvent;
 import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.Decimalbox;
+import org.zkoss.zul.Div;
 import org.zkoss.zul.Grid;
 import org.zkoss.zul.Paging;
 import org.zkoss.zul.RendererCtrl;
@@ -61,6 +64,10 @@ import org.zkoss.zul.RowRendererExt;
  * @author Teo Sarca, teo.sarca@gmail.com
  * 		<li>BF [ 2996608 ] GridPanel is not displaying time
  * 			https://sourceforge.net/tracker/?func=detail&aid=2996608&group_id=176962&atid=955896
+ * @author Raul Muñoz, rMunoz@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<a href="https://github.com/adempiere/adempiere/issues/1697">
+ * 		@see FR [ 1697 ] Add definition for change style</a>
+ *
  */
 public class GridTabRowRenderer implements RowRenderer, RowRendererExt, RendererCtrl, EventListener {
 
@@ -74,7 +81,6 @@ public class GridTabRowRenderer implements RowRenderer, RowRendererExt, Renderer
 
 	private Map<String, Map<Object, String>> lookupCache = null;
 	private RowListener rowListener;
-
 	private Grid grid = null;
 	private GridPanel gridPanel = null;
 	private Row currentRow = new Row();
@@ -85,8 +91,12 @@ public class GridTabRowRenderer implements RowRenderer, RowRendererExt, Renderer
 	private boolean editing = false;
 	private int currentRowIndex = 0;
 	private AbstractADWindowPanel m_windowPanel;
+	//	FR [ 1697 ]
+	FieldDefinition definition = null;
+	private static final String DIVSTYLE = "border: none; width: 100%; height: 100%;";
+
 	private GridField[] gridField;
-	private int totalColumns = -1;
+	private int totalColumns = -1;	
 	/**
 	 *
 	 * @param gridTab
@@ -348,6 +358,12 @@ public class GridTabRowRenderer implements RowRenderer, RowRendererExt, Renderer
 		if (paging != null && paging.getPageSize() > 0) {
 			rowIndex = (paging.getActivePage() * paging.getPageSize()) + rowIndex;
 		}
+		 //	FR [ 1697 ] 
+		 HashMap<String, Object> columnValues = new  HashMap<String, Object>();
+		
+		for (int i = 0; i < columnCount; i++) {
+			columnValues.put(gridField[i].getColumnName(), currentValues[i]);
+		}
 		int colIndex = -1;
 		for (int i = 0; i < columnCount; i++) {
 			if (gridTab.isQuickEntry() 
@@ -360,6 +376,8 @@ public class GridTabRowRenderer implements RowRenderer, RowRendererExt, Renderer
 			}
 			
 			colIndex ++;
+
+			String divStyle = DIVSTYLE;
 			Component component=null;
 			Col div = new Col();
 			org.zkoss.zul.Column column = (org.zkoss.zul.Column) grid.getColumns().getChildren().get(colIndex);
@@ -377,7 +395,17 @@ public class GridTabRowRenderer implements RowRenderer, RowRendererExt, Renderer
 					div.setTextAlign("left"); 
 				}
 			}
-			
+
+			//	FR [ 1697 ]
+			//	Validate field condition
+			if(gridField[i].getAD_FieldDefinition_ID() > 0) {
+				definition = FieldDefinition.getInstance(gridField[i].getVO());
+				FieldCondition condition = definition.getConditionValid(columnValues);
+				div.setStyle(divStyle);
+				if(condition != null && condition.isValid()) {
+					div.setStyle(divStyle + condition.getStyleSheet());
+				}
+			}
 			
 			div.setReadOnly(!gridField[i].isEditable(true));
 			div.setAttribute("columnName", gridField[i].getColumnName());
@@ -660,6 +688,44 @@ public class GridTabRowRenderer implements RowRenderer, RowRendererExt, Renderer
 	}
 	
 	/**
+	 * Valid Condition for Change Div Style
+	 */
+	public void validCondition() {
+		if(definition == null)
+			return;
+		FieldCondition condition = definition.getConditionValid(null);
+		if(condition == null)
+			return;
+			
+		Row currentRow = getCurrentRow();
+		
+		String divStyle = DIVSTYLE;
+		GridField[] gridField = gridTab.getFields();
+		//	Iterate it
+		for(int i=0; i < gridField.length; i++) {
+			if(gridField[i].getAD_FieldDefinition_ID() != 0) {
+				if(condition.isValid(null)) {
+					if (DisplayType.YesNo == gridField[i].getDisplayType() || DisplayType.Image == gridField[i].getDisplayType()) {
+						divStyle += "text-align:center; ";
+					} else if (DisplayType.isNumeric(gridField[i].getDisplayType())) {
+						divStyle += "text-align:right; ";
+					}
+					List<?> divList = currentRow.getChildren();
+					for(int j=0; j< divList.size(); j++ ) {
+						if(divList.get(j) instanceof Div) {
+							Div div = (Div)divList.get(j);
+							if(div.getAttribute("columnName").equals(gridField[i].getColumnName())) {
+								div.setStyle(divStyle + condition.getStyleSheet());
+								div.invalidate();
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	 /**
 	 * Set Current Column
 	 * @param col
 	 * @return

@@ -6,7 +6,7 @@
       <PO AD_Table_ID="276" Action="I" Record_ID="58384" Table="AD_Element">
         <Data AD_Column_ID="6285" Column="PO_Name" isNewNull="true"/>
         <Data AD_Column_ID="2595" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="2602" Column="ColumnName">isQuickEntry</Data>
+        <Data AD_Column_ID="2602" Column="ColumnName">IsQuickEntry</Data>
         <Data AD_Column_ID="58588" Column="AD_Reference_ID">20</Data>
         <Data AD_Column_ID="58589" Column="FieldLength">1</Data>
         <Data AD_Column_ID="58590" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -84,7 +84,7 @@
         <Data AD_Column_ID="3360" Column="IsUpdateable">true</Data>
         <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
-        <Data AD_Column_ID="116" Column="ColumnName">isQuickEntry</Data>
+        <Data AD_Column_ID="116" Column="ColumnName">IsQuickEntry</Data>
         <Data AD_Column_ID="112" Column="Description">Display in Quick Entry Form</Data>
         <Data AD_Column_ID="111" Column="Name">Quick Entry</Data>
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>

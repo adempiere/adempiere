@@ -88,6 +88,7 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.compiere.util.Util;
 import org.jdesktop.swingx.JXTaskPane;
 import org.jdesktop.swingx.JXTaskPaneContainer;
 
@@ -201,13 +202,13 @@ public final class VTreePanel extends CPanel
 	 *  @param  editable    if true you can edit it
 	 *  @param  hasBar      has OutlookBar
 	 */
-	public VTreePanel(int windowNo, boolean hasBar, boolean editable)
-	{
+	public VTreePanel(int windowNo, boolean hasBar, boolean editable) {
 		super();
 		toolbarList = new ArrayList<JToolBar>();
 		log.config("Bar=" + hasBar + ", Editable=" + editable);
 		this.hasBar = hasBar;
 		this.editable = editable;
+		this.windowNo = windowNo;
 
 		//	static init
 		jbInit();
@@ -283,6 +284,8 @@ public final class VTreePanel extends CPanel
 	private boolean     hasBar;
 	/** The root node               */
 	private MTreeNode  	root = null;
+	/**	Window No	*/
+	private int 		windowNo = 0;
 
 
 	private String      m_search = "";
@@ -290,26 +293,36 @@ public final class VTreePanel extends CPanel
 	private MTreeNode   m_selectedNode;	//	the selected model node
 	private CButton     buttonSelected;
 	private JToolBar	toolSelected;
-
 	private JScrollPane barScrollPane;
 
 	/**	Property Listener NodeSelected	by Left Click		*/
 	public static final String NODE_SELECTION = "NodeSelected";
 
 	/**
+	 * Int tree without Where Clause
+	 * @param AD_Tree_ID
+	 * @return
+	 */
+	public boolean initTree (int AD_Tree_ID) {
+		return initTree(AD_Tree_ID, null);
+	}
+	
+	/**
 	 *  Tree initialization.
 	 * 	May be called several times
 	 *	@param	treeId	tree to load
 	 *  @return true if loaded ok
 	 */
-	public boolean initTree (int treeId)
-	{
+	public boolean initTree (int treeId, String whereClause) {
 		log.config("AD_Tree_ID=" + treeId);
-		//
-		this.treeId = treeId;
-
+		//	Yamel Senih [ 9223372036854775807 ]
+		//	Add Where Clause
+		if(!Util.isEmpty(whereClause)) {
+			whereClause = Env.parseContext(Env.getCtx(), windowNo, whereClause, false, false);
+		}
 		//  Get Tree
-		MTree vTree = new MTree (Env.getCtx(), treeId, editable, true, null);
+		MTree vTree = new MTree (Env.getCtx(), treeId, editable, false, whereClause, null);
+		//	End Yamel Senih
 		root = vTree.getRoot();
 		root.setName(Msg.getMsg(Env.getCtx(), vTree.getName()).replace("&" , "")); // translate name of menu.
 		// m_root.setName(Msg.getMsg(Env.getCtx(), "Menu") ); // @Trifon; this is the hardcoded way.

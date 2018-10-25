@@ -54,8 +54,8 @@ public class BankTransfer extends BankTransferAbstract {
 	 *
 	 */
 	private void generateBankTransfer() {
-		Timestamp statementDate = getStatementdate();
-		Timestamp dateAcct = getAccountDate();
+		Timestamp statementDate = getStatementDate();
+		Timestamp dateAcct = getDateAcct();
 		String documentNoTo = getDocumentNoTo();
 		if(documentNoTo == null
 				|| documentNoTo.trim().length() == 0) {
@@ -73,8 +73,8 @@ public class BankTransfer extends BankTransferAbstract {
 			dateAcct = statementDate;
 		}
 
-		MBankAccount mBankFrom = new MBankAccount(getCtx(), getBankAccountFromId(), get_TrxName());
-		MBankAccount mBankTo = new MBankAccount(getCtx(), getBankAccountToId(), get_TrxName());
+		MBankAccount mBankFrom = new MBankAccount(getCtx(), getCBankAccountId(), get_TrxName());
+		MBankAccount mBankTo = new MBankAccount(getCtx(), getToCBankAccountId(), get_TrxName());
 		
 		MPayment paymentBankFrom = new MPayment(getCtx(), 0 ,  get_TrxName());
 		paymentBankFrom.setC_BankAccount_ID(mBankFrom.getC_BankAccount_ID());
@@ -83,10 +83,10 @@ public class BankTransfer extends BankTransferAbstract {
 		paymentBankFrom.setDateTrx(statementDate);
 		paymentBankFrom.setTenderType(MPayment.TENDERTYPE_DirectDeposit);
 		paymentBankFrom.setDescription(getDescription());
-		paymentBankFrom.setC_BPartner_ID (getBusinessPartnerId());
+		paymentBankFrom.setC_BPartner_ID (getBPartnerId());
 		paymentBankFrom.setC_Currency_ID(getCurrencyId());
-		if(getCurrencyTypeId() > 0) {
-			paymentBankFrom.setC_ConversionType_ID(getCurrencyTypeId());	
+		if(getConversionTypeId() > 0) {
+			paymentBankFrom.setC_ConversionType_ID(getConversionTypeId());	
 		}
 		paymentBankFrom.setPayAmt(getAmount());
 		paymentBankFrom.setOverUnderAmt(Env.ZERO);
@@ -101,10 +101,10 @@ public class BankTransfer extends BankTransferAbstract {
 		paymentBankTo.setDateTrx(statementDate);
 		paymentBankTo.setTenderType(MPayment.TENDERTYPE_DirectDeposit);
 		paymentBankTo.setDescription(getDescription());
-		paymentBankTo.setC_BPartner_ID (getBusinessPartnerId());
+		paymentBankTo.setC_BPartner_ID (getBPartnerId());
 		paymentBankTo.setC_Currency_ID(getCurrencyId());
-		if(getCurrencyTypeId() > 0) {
-			paymentBankFrom.setC_ConversionType_ID(getCurrencyTypeId());	
+		if(getConversionTypeId() > 0) {
+			paymentBankFrom.setC_ConversionType_ID(getConversionTypeId());	
 		}
 		paymentBankTo.setPayAmt(getAmount());
 		paymentBankTo.setOverUnderAmt(Env.ZERO);
@@ -112,12 +112,12 @@ public class BankTransfer extends BankTransferAbstract {
 		paymentBankTo.setC_Charge_ID(getChargeId());
 		paymentBankTo.saveEx();
 
-		paymentBankFrom.setPaymentRelated_ID(paymentBankTo.getC_Payment_ID());
+		paymentBankFrom.setRelatedPayment_ID(paymentBankTo.getC_Payment_ID());
 		paymentBankFrom.saveEx();
 		paymentBankFrom.processIt(MPayment.DOCACTION_Complete);
 		paymentBankFrom.saveEx();
 		//	Add to current bank statement for account
-		if(isReconcileAutomatically()) {
+		if(isAutoReconciled()) {
 			MBankStatementLine bsl = MBankStatement.addPayment(paymentBankFrom);
 			if(bsl != null) {
 				addLog("@C_Payment_ID@: " + paymentBankFrom.getDocumentNo()
@@ -125,12 +125,12 @@ public class BankTransfer extends BankTransferAbstract {
 						+ " @C_BankStatement_ID@ " + bsl.getC_BankStatement().getName() + "]");
 			}
 		}
-		paymentBankTo.setPaymentRelated_ID(paymentBankFrom.getC_Payment_ID());
+		paymentBankTo.setRelatedPayment_ID(paymentBankFrom.getC_Payment_ID());
 		paymentBankTo.saveEx();
 		paymentBankTo.processIt(MPayment.DOCACTION_Complete);
 		paymentBankTo.saveEx();
 		//	Add to current bank statement for account
-		if(isReconcileAutomatically()) {
+		if(isAutoReconciled()) {
 			MBankStatementLine bsl = MBankStatement.addPayment(paymentBankTo);
 			if(bsl != null) {
 				addLog("@C_Payment_ID@: " + paymentBankTo.getDocumentNo() 

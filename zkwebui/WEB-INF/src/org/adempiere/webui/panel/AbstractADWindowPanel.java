@@ -1827,10 +1827,9 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
         }
         
         
-		if(currentTab.getWhereClause()!=null)
+		if(currentTab.getWhereClause() !=null && !currentTab.getWhereClause().isEmpty())
 		{
-			if(currentTab.getWhereClause().length()>0)
-				query.addRestriction(Env.parseContext(ctx, curWindowNo, currentTab.getWhereClause(), false));
+			query.addRestriction(Env.parseContext(ctx, curWindowNo, currentTab.getWhereClause(), false));
 		}
 		//	Link for detail records
 		String queryColumn = currentTab.getLinkColumnName();
@@ -1851,7 +1850,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 			if (infoName != null && infoDisplay != null)
 				break;
 		}
-		if (queryColumn.length() != 0)
+		if (queryColumn.length() != 0 && query.getRestrictionCount() == 0)
 		{
 			if (queryColumn.endsWith("_ID"))
 				query.addRestriction(queryColumn, MQuery.EQUAL,

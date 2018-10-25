@@ -43,6 +43,9 @@ import org.compiere.util.Msg;
  * 
  * @author Mark Ostermann (mark_o), metas consult GmbH
  * 			<li>BF [ 2814628 ] Wrong evaluation of Product inactive in beforeSave()
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com 2015-09-09
+ *  		<li>FR [ 9223372036854775807 ] Add Support to Dynamic Tree
+ * @see https://adempiere.atlassian.net/browse/ADEMPIERE-442
  */
 public class MProduct extends X_M_Product
 {
@@ -710,7 +713,10 @@ public class MProduct extends X_M_Product
 		{
 			insert_Accounting("M_Product_Acct", "M_Product_Category_Acct",
 				"p.M_Product_Category_ID=" + getM_Product_Category_ID());
-			insert_Tree(X_AD_Tree.TREETYPE_Product);
+			//	Yamel Senih [ 9223372036854775807 ]
+			//	Change to PO
+//			insert_Tree(X_AD_Tree.TREETYPE_Product);
+			//	End Yamel Senih
 			//
 			MAcctSchema[] mass = MAcctSchema.getClientAcctSchema(getCtx(), getAD_Client_ID(), get_TrxName());
 			for (int i = 0; i < mass.length; i++)
@@ -827,13 +833,16 @@ public class MProduct extends X_M_Product
 		return delete_Accounting("M_Product_Acct"); 
 	}	//	beforeDelete
 	
-	@Override
-	protected boolean afterDelete (boolean success)
-	{
-		if (success)
-			delete_Tree(X_AD_Tree.TREETYPE_Product);
-		return success;
-	}	//	afterDelete
+	//	Yamel Senih [ 9223372036854775807 ]
+	//	Change to PO
+//	@Override
+//	protected boolean afterDelete (boolean success)
+//	{
+//		if (success)
+//			delete_Tree(X_AD_Tree.TREETYPE_Product);
+//		return success;
+//	}	//	afterDelete
+	//	End Yamel Senih
 	
 	/**
 	 * Get attribute instance for this product by attribute name

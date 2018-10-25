@@ -77,20 +77,21 @@ public class MHRRace extends X_HR_Race {
      * Get Race by Id
      * @param ctx
      * @param raceId
+     * @param trxName
      * @return
      */
-    public static MHRRace getById(Properties ctx, int raceId) {
+    public static MHRRace getById(Properties ctx, int raceId, String trxName) {
         if (raceId <= 0)
             return null;
 
         if (raceCacheIds.size() == 0)
-            getAll(ctx, true);
+            getAll(ctx, true, trxName);
 
         MHRRace race = raceCacheIds.get(raceId);
         if (race != null)
             return race;
 
-        race = new Query(ctx , Table_Name , MHRRace.COLUMNNAME_HR_Race_ID + "=?" , null)
+        race = new Query(ctx , Table_Name , MHRRace.COLUMNNAME_HR_Race_ID + "=?" , trxName)
                 .setClient_ID()
                 .setParameters(raceId)
                 .first();
@@ -107,13 +108,14 @@ public class MHRRace extends X_HR_Race {
      * Get Race by search key
      * @param ctx
      * @param value
+     * @param trxName
      * @return
      */
-    public static MHRRace getByValue(Properties ctx, String value) {
+    public static MHRRace getByValue(Properties ctx, String value, String trxName) {
         if (value == null)
             return null;
         if (raceCacheValues.size() == 0)
-            getAll(ctx, true);
+            getAll(ctx, true, trxName);
 
         int clientId = Env.getAD_Client_ID(ctx);
         String key =  clientId + "#" + value;
@@ -121,7 +123,7 @@ public class MHRRace extends X_HR_Race {
         if (race != null && race.get_ID() > 0)
             return race;
 
-        race = new Query(ctx, Table_Name, COLUMNNAME_Value + "=?", null)
+        race = new Query(ctx, Table_Name, COLUMNNAME_Value + "=?", trxName)
                 .setClient_ID()
                 .setParameters(value)
                 .first();
@@ -137,12 +139,13 @@ public class MHRRace extends X_HR_Race {
      * Get all Race and create cache
      * @param ctx
      * @param resetCache
+     * @param trxName
      * @return
      */
-    public static List<MHRRace> getAll(Properties ctx, boolean resetCache) {
+    public static List<MHRRace> getAll(Properties ctx, boolean resetCache, String trxName) {
         List<MHRRace> raceList;
         if (resetCache || raceCacheIds.size() > 0) {
-            raceList = new Query(Env.getCtx(), Table_Name, null, null)
+            raceList = new Query(ctx, Table_Name, null, trxName)
                     .setClient_ID()
                     .setOrderBy(COLUMNNAME_Name)
                     .list();

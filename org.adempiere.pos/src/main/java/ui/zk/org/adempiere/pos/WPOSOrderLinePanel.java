@@ -166,23 +166,6 @@ public class WPOSOrderLinePanel extends WPOSSubPanel implements WTableModelListe
 		boolean isUpdate = (event.getType() == ListDataEvent.CONTENTS_CHANGED);
 		int col = event.getColumn();
 		int row = posTable.getSelectedRow();
-		/*if(event.getColumn() == POSOrderLineTableHandle.POSITION_DELETE){
-			posTable.getModel().removeTableModelListener(this);
-			ListModelTable m_model = (ListModelTable)event.getModel();
-			for(int x = 0; x < posTable.getRowCount(); x++){
-				String value = m_model.getValueAt(x, 1).toString();
-				if(value.length() == 0){
-					IDColumn key = (IDColumn) m_model.getValueAt(x, 0);
-					orderLineId = key.getRecord_ID();
-					posPanel.deleteLine(orderLineId);
-					posTable.getModel().remove(x);
-				}
-			}
-
-			posTable.getModel().addTableModelListener(this);
-			posPanel.refreshHeader();
-			return;
-		}*/
 		if (!isUpdate
 				|| (col != POSOrderLineTableHandle.POSITION_QTYORDERED
 						&& col != POSOrderLineTableHandle.POSITION_PRICE)) {

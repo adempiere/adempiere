@@ -34,7 +34,7 @@ import com.lowagie.text.pdf.PdfWriter;
 /**
  * Generate PDF document using iText
  * @author Low Heng Sin
- *
+ * @deprecated use singleton ITextDocument 
  */
 public class Document {
 
