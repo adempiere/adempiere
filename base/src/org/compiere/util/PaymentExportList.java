@@ -18,6 +18,7 @@ package org.compiere.util;
 
 import org.compiere.model.MBPBankAccount;
 import org.compiere.model.MPaySelectionCheck;
+import org.compiere.model.MPayment;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -286,9 +287,11 @@ public abstract class PaymentExportList implements PaymentExport {
 			if(isMandatory
 					&& !Util.isEmpty(mandatoryMessage)) {
 				addError(mandatoryMessage);
+				//	
+				return null;
 			}
 			//	Return void text
-			return text;
+			text = "";
 		}
 		String processedText = text;
 		//	Process it
@@ -318,6 +321,35 @@ public abstract class PaymentExportList implements PaymentExport {
 		//	Get any bp account
 		if(defaultWhenNull) {
 			List<MBPBankAccount> bpAccountList = MBPBankAccount.getByPartner(check.getCtx(), check.getC_BPartner_ID());
+			if(bpAccountList == null
+					|| bpAccountList.size() == 0) {
+				return null;
+			}
+			//	Get 
+			Optional<MBPBankAccount> first = bpAccountList.stream().filter(account -> account.isACH()).findFirst();
+			if(first.isPresent()) {
+				return first.get();
+			} else {
+				bpAccountList.get(0);
+			}
+		}
+		//	default
+		return null;
+	}
+	
+	/**
+	 * Get business partner account information as PO
+	 * @param payment
+	 * @param defaultWhenNull if payment selection account is null try get a account of bp
+	 * @return
+	 */
+	public MBPBankAccount getBPAccountInfo(MPayment payment, boolean defaultWhenNull) {
+		if(payment.getC_BP_BankAccount_ID() != 0) {
+			return (MBPBankAccount) payment.getC_BP_BankAccount();
+		}
+		//	Get any bp account
+		if(defaultWhenNull) {
+			List<MBPBankAccount> bpAccountList = MBPBankAccount.getByPartner(Env.getCtx(), payment.getC_BPartner_ID());
 			if(bpAccountList == null
 					|| bpAccountList.size() == 0) {
 				return null;
