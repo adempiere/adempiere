@@ -44,7 +44,8 @@ public class GeneratePassword  {
 	
 	public String doIt(String userName) {
 		List<MUser> users = MUser.getUsers(Env.getCtx(), userName);
-		users
+		users.stream()
+			.filter(user -> user.isActive() && user.isLoginUser())
 			.forEach(user -> {
 				try {
 					msg.append(generateToken(user));
