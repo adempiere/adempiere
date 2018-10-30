@@ -27,7 +27,8 @@
     <libelement value="jar://$MODULE_DIR$/tools/lib/xercesImpl.jar!/" />
     <libelement value="jar://$MODULE_DIR$/tools/lib/xjavadoc-1.1.jar!/" />
     <libelement value="jar://$MODULE_DIR$/tools/lib/xml-apis.jar!/" />
-    <libelement value="jar://$MODULE_DIR$/tools/lib/jpedal.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/tools/lib/icepdf-core-6.2.2.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/tools/lib/icepdf-viewer-6.2.2.jar!/" />
     <libelement value="jar://$MODULE_DIR$/tools/lib/swingx-1.6.jar!/" />
     <libelement value="jar://$MODULE_DIR$/tools/lib/bsh-2.0b6.jar!/" />
     <libelement value="jar://$MODULE_DIR$/tools/lib/bsh-engine.jar!/" />
@@ -207,6 +208,7 @@
       <sourceFolder url="file://$MODULE_DIR$/org.adempiere.pos/src/main/java/ui/swing" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/org.adempiere.pos/src/main/java/ui/zk" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/org.adempiere.request/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/org.adempiere.project/src/main/java" isTestSource="false" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="inheritedJdk" />
@@ -445,9 +447,18 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
-      <library name="jpedal.jar">
+      <library name="icepdf-core-6.2.2.jar">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/tools/lib/jpedal.jar!/" />
+          <root url="jar://$MODULE_DIR$/tools/lib/icepdf-core-6.2.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library name="icepdf-viewer-6.2.2.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/icepdf-viewer-6.2.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
