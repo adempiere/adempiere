@@ -207,8 +207,6 @@
       <sourceFolder url="file://$MODULE_DIR$/org.adempiere.pos/src/main/java/ui/swing" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/org.adempiere.pos/src/main/java/ui/zk" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/org.adempiere.request/src/main/java" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/org.eevolution.manufacturing/src/main/java" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/org.adempiere.project/src" isTestSource="false" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="inheritedJdk" />
@@ -1310,10 +1308,5 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="groovy-all-2.4.15" level="application" />
-    <orderEntry type="library" name="poi-3.17" level="application" />
-    <orderEntry type="library" name="poi-ooxml-3.17" level="application" />
-    <orderEntry type="library" name="jasperreports-6.6.0" level="application" />
-    <orderEntry type="library" name="jasperreports-fonts-6.6.0" level="application" />
   </component>
 </module>
