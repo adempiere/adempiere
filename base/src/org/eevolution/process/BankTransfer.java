@@ -22,6 +22,7 @@ import org.compiere.model.MBankAccount;
 import org.compiere.model.MBankStatement;
 import org.compiere.model.MBankStatementLine;
 import org.compiere.model.MPayment;
+import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
  
 /**
@@ -36,16 +37,14 @@ import org.compiere.util.Env;
  *	
  **/
 public class BankTransfer extends BankTransferAbstract {
-	private int         m_created = 0;
-
+	
 	/**
 	 *  Perform process.
 	 *  @return Message (translated text)
 	 *  @throws Exception if not successful
 	 */
 	protected String doIt() throws Exception {
-		generateBankTransfer();
-		return "@Created@ = " + m_created;
+		return generateBankTransfer();
 	}	//	doIt
 	
 
@@ -53,7 +52,7 @@ public class BankTransfer extends BankTransferAbstract {
 	 * Generate BankTransfer()
 	 *
 	 */
-	private void generateBankTransfer() {
+	private String generateBankTransfer() {
 		Timestamp statementDate = getStatementDate();
 		Timestamp dateAcct = getDateAcct();
 		String documentNoTo = getDocumentNoTo();
@@ -73,8 +72,8 @@ public class BankTransfer extends BankTransferAbstract {
 			dateAcct = statementDate;
 		}
 
-		MBankAccount mBankFrom = new MBankAccount(getCtx(), getCBankAccountId(), get_TrxName());
-		MBankAccount mBankTo = new MBankAccount(getCtx(), getToCBankAccountId(), get_TrxName());
+		MBankAccount mBankFrom = MBankAccount.get(getCtx(), getCBankAccountId());
+		MBankAccount mBankTo = MBankAccount.get(getCtx(), getBankAccountToId());
 		
 		MPayment paymentBankFrom = new MPayment(getCtx(), 0 ,  get_TrxName());
 		paymentBankFrom.setC_BankAccount_ID(mBankFrom.getC_BankAccount_ID());
@@ -138,9 +137,8 @@ public class BankTransfer extends BankTransferAbstract {
 						+ " @C_BankStatement_ID@ " + bsl.getC_BankStatement().getName() + "]");
 			}
 		}
-		m_created++;
-		return;
-
+		//	Return
+		return "@Created@ (1) @From@ " + mBankFrom.getAccountNo()+ " @To@ " + mBankTo.getAccountNo() + " @Amt@ " + DisplayType.getNumberFormat(DisplayType.Amount).format(getAmount());
 	}  //  createCashLines
 	
 }	//	ImmediateBankTransfer
