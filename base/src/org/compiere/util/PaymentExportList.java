@@ -340,7 +340,7 @@ public abstract class PaymentExportList implements PaymentExport {
 	/**
 	 * Get business partner account information as PO
 	 * @param payment
-	 * @param defaultWhenNull if payment selection account is null try get a account of bp
+	 * @param defaultWhenNull if payment account is null try get a account of bp
 	 * @return
 	 */
 	public MBPBankAccount getBPAccountInfo(MPayment payment, boolean defaultWhenNull) {
