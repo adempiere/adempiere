@@ -71,6 +71,7 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
+import org.compiere.util.Util;
 import org.compiere.util.ValueNamePair;
 import org.compiere.wf.MWFActivity;
 import org.compiere.wf.MWFNode;
@@ -726,6 +727,7 @@ public class WFActivity extends CPanel
 		MWFNode node = m_activity.getNode();
 		
 		Object forward = fForward.getValue();
+		String errorMessage = null;
 
 		// ensure activity is ran within a transaction - [ 1953628 ]
 		Trx trx = Trx.get(Trx.createTrxName("FWFA"), true);
@@ -744,7 +746,7 @@ public class WFActivity extends CPanel
 			}
 			if (!m_activity.forwardTo(fw, textMsg))
 			{
-				ADialog.error(m_WindowNo, this, "CannotForward");
+				errorMessage = "@CannotForward@";
 				trx.rollback();
 				trx.close();
 				return;
@@ -765,7 +767,7 @@ public class WFActivity extends CPanel
 			}
 			if (value == null || value.length() == 0)
 			{
-				ADialog.error(m_WindowNo, this, "FillMandatory", Msg.getMsg(Env.getCtx(), "Answer"));
+				errorMessage = "@FillMandatory@ @Answer@";
 				trx.rollback();
 				trx.close();
 				return;
@@ -779,7 +781,7 @@ public class WFActivity extends CPanel
 			catch (Exception e)
 			{
 				log.log(Level.SEVERE, node.getName(), e);
-				ADialog.error(m_WindowNo, this, "Error", e.toString());
+				errorMessage = "@Error@: " + e.getLocalizedMessage();
 				trx.rollback();
 				trx.close();
 				return;
@@ -797,7 +799,7 @@ public class WFActivity extends CPanel
 			catch (Exception e)
 			{
 				log.log(Level.SEVERE, node.getName(), e);
-				ADialog.error(m_WindowNo, this, "Error", e.toString());
+				errorMessage = "@Error@ " + e.getLocalizedMessage();
 				trx.rollback();
 				trx.close();
 				return;
@@ -808,9 +810,12 @@ public class WFActivity extends CPanel
 		trx.commit();
 		trx.close();
 		this.setCursor(Cursor.getDefaultCursor());
-		ADialog.info(m_WindowNo, this, "WorkflowResult" ,
-				Msg.parseTranslation(Env.getCtx(), "@AD_WF_Node_ID@") + " : "  + m_activity.getNodeName() + " -> " +  m_activity.getTextMsg());
-
+		if(Util.isEmpty(errorMessage)) {
+			ADialog.info(m_WindowNo, this, "WorkflowResult" ,
+					Msg.parseTranslation(Env.getCtx(), "@AD_WF_Node_ID@") + " : "  + m_activity.getNodeName() + " -> " +  m_activity.getTextMsg());
+		} else {
+			ADialog.error(m_WindowNo, this, "Error", Msg.parseTranslation(Env.getCtx(), errorMessage));
+		}
 		//	Next
 		loadActivities();
 	}	//	cmd_OK
