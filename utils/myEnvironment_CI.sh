@@ -17,7 +17,7 @@ echo Setting myEnvironment ....
 #	If not in the path, provide a link called netscape to your browser
 
 # 	Homes ...
-ADEMPIERE_HOME=$HOME/build/erpcya/adempiere/adempiere/Adempiere
+ADEMPIERE_HOME=$TRAVIS_BUILD_DIR/adempiere/Adempiere
 export ADEMPIERE_HOME
 #JAVA_HOME=/usr/local/jdk8
 #export JAVA_HOME
