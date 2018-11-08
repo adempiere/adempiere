@@ -116,7 +116,9 @@ public class MHREmployee extends X_HR_Employee
 		StringBuffer whereClause = new StringBuffer();
 		whereClause.append("EXISTS(SELECT 1 FROM HR_Employee e " + 
 				"WHERE e.C_BPartner_ID = C_BPartner.C_BPartner_ID " +
-				"AND e.EmployeeStatus = '13' ");
+				"AND (e.EmployeeStatus = ? OR EmployeeStatus IS NULL) ");
+		//	For Active
+		params.add(MHREmployee.EMPLOYEESTATUS_Active);
 		//	look if it is a not regular payroll
 		MHRPayroll payroll = MHRPayroll.getById(process.getCtx(), process.getHR_Payroll_ID(), process.get_TrxName());
 		// This payroll not content periods, NOT IS a Regular Payroll > ogi-cd 28Nov2007
