@@ -61,6 +61,7 @@ import org.compiere.util.Env;
 import org.compiere.util.ImpExpUtil;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
+import org.compiere.util.Util;
 import org.spin.util.AbstractExportFormat;
 import org.spin.util.ReportExportHandler;
 import org.zkoss.util.media.AMedia;
@@ -1001,13 +1002,27 @@ public class ZkReportViewer extends Window implements EventListener {
 			String ext = li.getValue().toString();
 			String exportName = li.getLabel();
 			File inputFile = File.createTempFile("Export", "." + ext);
-			exportHandler.exportToFile(exportName, inputFile);
+			AbstractExportFormat exporter = exportHandler.getExporter(exportName);
+			if(exporter == null) {
+				winExportFile.onClose();
+				return;
+			}
+			boolean isOk = exporter.exportTo(inputFile);
 			winExportFile.onClose();
-			AMedia media = null;
-			media = new AMedia(m_reportEngine.getPrintFormat().getName() + "." + ext, null, "application/octet-stream", inputFile, true);
-			Filedownload.save(media, m_reportEngine.getPrintFormat().getName() + "." + ext);
+			if(isOk) {
+				if(exporter.getAction().equals(AbstractExportFormat.EXPORT_FILE)) {
+					AMedia media = null;
+					media = new AMedia(m_reportEngine.getPrintFormat().getName() + "." + ext, null, "application/octet-stream", inputFile, true);
+					Filedownload.save(media, m_reportEngine.getPrintFormat().getName() + "." + ext);
+				} else if(exporter.getAction().equals(AbstractExportFormat.SEND_FILE)) {
+					if(!Util.isEmpty(exporter.getMessage())) {
+						FDialog.info(m_WindowNo, this, "user.info", Msg.parseTranslation(m_ctx, exporter.getMessage()));
+					}
+				}
+			}
 		} catch (Exception e) {
 			log.log(Level.SEVERE, "Failed to export content.", e);
+			FDialog.error(m_WindowNo, this, "ExportError", e.getLocalizedMessage());
 		}
 	}
 	
