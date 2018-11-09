@@ -46,10 +46,11 @@
 	<exec dir="${env_directory}" executable="/bin/bash" failonerror="true">
     	<arg value="${RUN_DBRestore}"/>
   	</exec>
-  	
+  	<!--
   	<echo message="Run Migrate XML"/>
 	<exec dir="${AD_directory}" executable="/bin/bash" failonerror="true">
     	<arg value="${RUN_MigrateXML}"/>
   	</exec>
+  	-->
   </target>
 </project>
