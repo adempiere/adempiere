@@ -114,7 +114,11 @@ public class MHREmployee extends X_HR_Employee
 	{
 		List<Object> params = new ArrayList<Object>();
 		StringBuffer whereClause = new StringBuffer();
-		whereClause.append(" C_BPartner.C_BPartner_ID IN (SELECT e.C_BPartner_ID FROM HR_Employee e WHERE 1=1 ");
+		whereClause.append("EXISTS(SELECT 1 FROM HR_Employee e " + 
+				"WHERE e.C_BPartner_ID = C_BPartner.C_BPartner_ID " +
+				"AND (e.EmployeeStatus = ? OR EmployeeStatus IS NULL) ");
+		//	For Active
+		params.add(MHREmployee.EMPLOYEESTATUS_Active);
 		//	look if it is a not regular payroll
 		MHRPayroll payroll = MHRPayroll.getById(process.getCtx(), process.getHR_Payroll_ID(), process.get_TrxName());
 		// This payroll not content periods, NOT IS a Regular Payroll > ogi-cd 28Nov2007
@@ -175,12 +179,15 @@ public class MHREmployee extends X_HR_Employee
 		return list.toArray(new MBPartner[list.size()]);
 	}	//	getEmployees
 	
-	public static MHREmployee getActiveEmployee(Properties ctx, int partnerId, String trxName)
-	{
-		return new Query(ctx, Table_Name, COLUMNNAME_C_BPartner_ID+"=?", trxName)
+	public static MHREmployee getActiveEmployee(Properties ctx, int partnerId, String trxName) {
+		
+		List<Object> params = new ArrayList<Object>();
+		params.add(partnerId);
+		params.add(MHREmployee.EMPLOYEESTATUS_Active);
+		return new Query(ctx, Table_Name, COLUMNNAME_C_BPartner_ID+"=? AND (EmployeeStatus = ? OR EmployeeStatus IS NULL)", trxName)
 							.setOnlyActiveRecords(true)
-							.setParameters(partnerId)
-							.setOrderBy(COLUMNNAME_HR_Employee_ID+" DESC") // just in case...
+							.setParameters(params)
+							.setOrderBy(COLUMNNAME_StartDate+" DESC") // just in case...
 							.first();
 	}
 
