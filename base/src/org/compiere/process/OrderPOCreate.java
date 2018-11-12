@@ -19,9 +19,6 @@ package org.compiere.process;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Timestamp;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.logging.Level;
 
 import org.compiere.model.MBPartner;
@@ -32,8 +29,6 @@ import org.compiere.model.MProduct;
 import org.compiere.model.MStorage;
 import org.compiere.util.AdempiereUserError;
 import org.compiere.util.DB;
-import org.eevolution.model.MPPProductBOM;
-import org.eevolution.model.MPPProductBOMLine;
 
 /**
  *	Generate PO from Sales Order
@@ -47,36 +42,6 @@ import org.eevolution.model.MPPProductBOMLine;
 public class OrderPOCreate extends OrderPOCreateAbstract
 {
 	
-	private int m_explosion_level = 0;
-	private Set<MPPProductBOMLine> bomSet = new HashSet<MPPProductBOMLine>(); 
-	private int explosion(MPPProductBOM bom) throws AdempiereUserError {
-		if(bom == null) return 0;
-		
-		MPPProductBOMLine[] bom_lines = bom.getLines(new Timestamp(System.currentTimeMillis()));
-		for(MPPProductBOMLine bomline : bom_lines) {
-			MProduct component = MProduct.get(getCtx(), bomline.getM_Product_ID());
-
-			if(component.isBOM() && !component.isStocked()) { // recursion for intermediate products
-				explosion(MPPProductBOM.getDefault(component, this.get_TrxName()));
-			} 
-			else if(MProduct.PRODUCTTYPE_Item.equals(component.getProductType()) ||
-					MProduct.PRODUCTTYPE_Service.equals(component.getProductType())
-					) { // nicht BOM 
-				log.config("m_explosion_level="+m_explosion_level + " components="+bomSet.size() 
-						+ " "+component.getProductType() + " component="+component
-						+ (component.isStocked()   ? " isStocked"   : " notStocked")
-						+ (component.isPurchased() ? " isPurchased" : " notPurchased")
-						+ " bomline.getQty()="+bomline.getQty()
-						);
-				bomSet.add(bomline);  
-			} else {
-				throw new AdempiereUserError("PRODUCTTYPE="+component.getProductType());
-			}			
-		}
-		
-		return bomSet.size();
-	}
-
 	/**
 	 *  Prepare - e.g., get Parameters.
 	 */
@@ -257,30 +222,6 @@ public class OrderPOCreate extends OrderPOCreateAbstract
 							}
 						}
 
-						MPPProductBOM bom = null;
-						if(purchaseProduct && mProduct.isBOM()) { // this is a BOM product, must be verified!
-							if(mProduct.isVerified()) {
-								// Get BOM with Default Logic (Product = BOM Product and BOM Value = Product Value)
-								bom = MPPProductBOM.getDefault(mProduct, this.get_TrxName());
-								log.config("bom="+bom);
-								
-								// private members m_explosion_level , bomSet used in explosion method
-								m_explosion_level = 0;
-								bomSet = new HashSet<MPPProductBOMLine>(); 
-								if(explosion(bom)>0) {
-									// TODO purchase component and prepare BOM production
-									log.warning(mProduct.toString() + " is BOM product, will not be purchased (not implemented)");
-									purchaseProduct = false;
-								} else {
-									throw new AdempiereUserError("No BOM Lines. Check BOM definition for "+mProduct);
-								}
-
-							} else {
-								// rs , pstmt will be closed at finally
-								throw new AdempiereUserError("BOM not verified for "+mProduct+" - use verify Button to fix the problem");
-							}
-						}
-						
 						if(purchaseProduct) {
 							MOrderLine poLine = new MOrderLine (po);
 							poLine.setLink_OrderLine_ID(soLines[i].getC_OrderLine_ID());
