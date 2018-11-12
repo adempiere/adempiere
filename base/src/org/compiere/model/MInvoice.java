@@ -32,6 +32,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.BiFunction;
 import java.util.logging.Level;
 
+import org.adempiere.engine.CostEngineFactory;
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.BPartnerNoAddressException;
 import org.adempiere.exceptions.DBException;
@@ -1538,7 +1539,7 @@ public class MInvoice extends X_C_Invoice implements DocAction , DocumentReversa
 
 					//	Calculate Tax
 					if (documentLevel || taxAmt.get().signum() == 0)
-						taxAmt.set(taxParent.calculateTax(taxBaseAmt.get(), isTaxIncluded(), getPrecision()));
+						taxAmt.set(taxChild.calculateTax(taxBaseAmt.get(), isTaxIncluded(), getPrecision()));
 
 					MInvoiceTax newITax = new MInvoiceTax(getCtx(), 0, get_TrxName());
 					newITax.setClientOrg(this);
@@ -1887,6 +1888,9 @@ public class MInvoice extends X_C_Invoice implements DocAction , DocumentReversa
 		if (counter != null)
 			info.append(" - @CounterDoc@: @C_Invoice_ID@=").append(counter.getDocumentNo());
 
+		for (MInvoiceLine invoiceLine:getLines()){
+		    generateCostDetail(invoiceLine);
+        }
 		processMsg = info.toString().trim();
 		setProcessed(true);
 		setDocAction(DOCACTION_Close);
@@ -2245,24 +2249,15 @@ public class MInvoice extends X_C_Invoice implements DocAction , DocumentReversa
 	 */
 	protected boolean reverseMatching(Timestamp reversalDate) {
 		// Remove Match Invoice
-		ArrayList<PO> deleteList = new ArrayList<>();
 		MMatchInv.getByInvoiceId(getCtx(), getC_Invoice_ID(), get_TrxName()).stream()
 				.filter(matchInv -> matchInv.getReversal_ID() <= 0)
 				.forEach(matchInv -> {
-					if (MPeriod.isOpen(getCtx(), matchInv.getDateAcct(), MDocType.DOCBASETYPE_MatchInvoice,
-							matchInv.getAD_Org_ID()) && getDocAction().equals(MInvoice.DOCACTION_Reverse_Correct))
-					{
-						deleteList.add(matchInv);
+					MMatchInv matchInvReverse = matchInv.reverseIt(reversalDate);
+					if (matchInvReverse == null) {
+						processMsg = "Could not Reverse MatchInv";
+						throw new AdempiereException(processMsg);
 					}
-					else
-					{
-						MMatchInv matchInvReverse = matchInv.reverseIt(reversalDate);
-						if (matchInvReverse == null) {
-							processMsg = "Could not Reverse MatchInv";
-							throw new AdempiereException(processMsg);
-						}
-						addDocsPostProcess(matchInvReverse);
-					}
+					addDocsPostProcess(matchInvReverse);
 				});
 
 		// Remove Match PO
@@ -2278,14 +2273,9 @@ public class MInvoice extends X_C_Invoice implements DocAction , DocumentReversa
 						addDocsPostProcess(matchPOReverse);
 					} else {
 						matchPO.setC_InvoiceLine_ID(null);
-						matchPO.setQty(Env.ZERO);
 						matchPO.saveEx(get_TrxName());
 					}
 				});
-		for (PO po:deleteList)
-		{
-			po.deleteEx(true);
-		}
 		return true;
 	}
 
@@ -2532,6 +2522,13 @@ public class MInvoice extends X_C_Invoice implements DocAction , DocumentReversa
 		}
 		return ;
 	}
+
+
+    private void generateCostDetail(MInvoiceLine invoiceLine) {
+        for (MLandedCostAllocation allocation : MLandedCostAllocation.getOfInvoiceLine(getCtx(), invoiceLine.getC_InvoiceLine_ID(), get_TrxName())) {
+            CostEngineFactory.getCostEngine(getAD_Client_ID()).createCostDetailForLandedCostAllocation(allocation);
+        }
+    }
 
 
 

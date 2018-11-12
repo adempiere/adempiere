@@ -40,7 +40,7 @@ import org.compiere.util.Util;
  * @author Cristina Ghita, www.arhipac.ro
  * @version $Id: HRPayroll.java,v 1.0 2005/10/05 ogomezi
  */
-public class /**/MHRPayroll extends X_HR_Payroll {
+public class MHRPayroll extends X_HR_Payroll {
     /**
      *
      */
@@ -85,7 +85,7 @@ public class /**/MHRPayroll extends X_HR_Payroll {
 
     @Deprecated
     public static MHRPayroll forValue(Properties ctx, String payrollValue) {
-        return getByValue(ctx, payrollValue);
+        return getByValue(ctx, payrollValue, null);
     }
 
     /**
@@ -94,7 +94,7 @@ public class /**/MHRPayroll extends X_HR_Payroll {
      * @param payrollValue
      * @return
      */
-    public static MHRPayroll getByValue(Properties ctx, String payrollValue) {
+    public static MHRPayroll getByValue(Properties ctx, String payrollValue, String trxName) {
         if (Util.isEmpty(payrollValue, true))
             return null;
 
@@ -104,7 +104,7 @@ public class /**/MHRPayroll extends X_HR_Payroll {
         if (payroll != null && payroll.get_ID() > 0)
             return payroll;
 
-        payroll = new Query(ctx, Table_Name, MHRPayroll.COLUMNNAME_Value + "=?", null)
+        payroll = new Query(ctx, Table_Name, MHRPayroll.COLUMNNAME_Value + "=?", trxName)
                 .setClient_ID()
                 .setParameters(payrollValue)
                 .setOnlyActiveRecords(true)
@@ -118,7 +118,7 @@ public class /**/MHRPayroll extends X_HR_Payroll {
 
     @Deprecated
     public static MHRPayroll get(Properties ctx, int payrollId) {
-        return getById(ctx, payrollId);
+        return getById(ctx, payrollId, null);
     }
 
     /**
@@ -127,7 +127,7 @@ public class /**/MHRPayroll extends X_HR_Payroll {
      * @param payrollId
      * @return payroll
      */
-    public static MHRPayroll getById(Properties ctx, int payrollId) {
+    public static MHRPayroll getById(Properties ctx, int payrollId, String trxName) {
         if (payrollId <= 0)
             return null;
 
@@ -135,7 +135,7 @@ public class /**/MHRPayroll extends X_HR_Payroll {
         if (payroll != null && payroll.get_ID() > 0)
             return payroll;
 
-        payroll = new Query(ctx , Table_Name , MHRPayroll.COLUMNNAME_HR_Payroll_ID + "=?", null)
+        payroll = new Query(ctx , Table_Name , MHRPayroll.COLUMNNAME_HR_Payroll_ID + "=?", trxName)
                 .setClient_ID()
                 .setParameters(payrollId)
                 .first();

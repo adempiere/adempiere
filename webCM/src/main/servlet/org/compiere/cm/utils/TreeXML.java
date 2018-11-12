@@ -41,7 +41,7 @@ public class TreeXML {
 		for (int i = 0; i < containers.length; i++)
 			m_map.put(new Integer(containers[i].getCM_Container_ID()), containers[i]);
 
-		MTree thisTree = new MTree (m_project.getCtx(), m_project.getAD_TreeCMC_ID(), true, true, m_project.get_TrxName());
+		MTree thisTree = new MTree (m_project.getCtx(), m_project.getAD_TreeCMC_ID(), true, m_project.get_TrxName());
 		generateTree(m_project, thisTree);
 	}
 	

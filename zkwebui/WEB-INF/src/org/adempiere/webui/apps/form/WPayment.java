@@ -68,9 +68,12 @@ import org.compiere.util.TimeUtil;
 import org.compiere.util.Trx;
 import org.compiere.util.TrxRunnable;
 import org.compiere.util.ValueNamePair;
+import org.zkforge.keylistener.Keylistener;
 import org.zkoss.zk.au.out.AuEcho;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zk.ui.event.KeyEvent;
 import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zkex.zul.Borderlayout;
 import org.zkoss.zkex.zul.Center;
@@ -265,6 +268,10 @@ public class WPayment extends Window
 
 	private boolean m_isLocked = false;
 	private BusyDialog progressWindow;
+
+	private Keylistener keyListener;
+	
+	private static final int KEYBOARD_KEY_RETURN = 13;
 	
 
 	/**
@@ -493,6 +500,13 @@ public class WPayment extends Window
 		mainLayout.appendChild(south);
 		south.appendChild(confirmPanel);
 		confirmPanel.addActionListener(this);
+
+		keyListener = new Keylistener();
+		keyListener.setCtrlKeys("#enter");
+		keyListener.addEventListener(Events.ON_CTRL_KEY, this);
+		addEventListener(Events.ON_CANCEL, this);
+		appendChild(keyListener);
+		
 	}	//	jbInit
 
 	
@@ -896,9 +910,13 @@ public class WPayment extends Window
 	public void onEvent(Event e)
 	{
 		log.fine( "WPayment.actionPerformed - " + e.getTarget().getId());
-
+		int code = 0;
+		if (e.getName().equals(Events.ON_CTRL_KEY) && e.getTarget() == keyListener) {
+			KeyEvent keyEvent = (KeyEvent) e;
+			code = keyEvent.getKeyCode();
+		}
 		//	Finish
-		if (e.getTarget().getId().equals(ConfirmPanel.A_OK))
+		if (e.getTarget().getId().equals(ConfirmPanel.A_OK) || code == KEYBOARD_KEY_RETURN)
 		{
 			if (checkMandatory())
 			{
@@ -906,7 +924,7 @@ public class WPayment extends Window
 				dispose ();
 			}
 		}
-		else if (e.getTarget().getId().equals(ConfirmPanel.A_CANCEL))
+		else if (e.getTarget().getId().equals(ConfirmPanel.A_CANCEL) || e.getName().equals(Events.ON_CANCEL))
 			dispose();
 
 		//	Payment Method Change

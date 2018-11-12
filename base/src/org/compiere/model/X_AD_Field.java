@@ -32,7 +32,7 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170731L;
+	private static final long serialVersionUID = 20180928L;
 
     /** Standard Constructor */
     public X_AD_Field (Properties ctx, int AD_Field_ID, String trxName)
@@ -117,6 +117,34 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 		return ii.intValue();
 	}
 
+	public org.spin.model.I_AD_ContextInfo getAD_ContextInfo() throws RuntimeException
+    {
+		return (org.spin.model.I_AD_ContextInfo)MTable.get(getCtx(), org.spin.model.I_AD_ContextInfo.Table_Name)
+			.getPO(getAD_ContextInfo_ID(), get_TrxName());	}
+
+	/** Set Context Info.
+		@param AD_ContextInfo_ID 
+		Context Info Maintainig
+	  */
+	public void setAD_ContextInfo_ID (int AD_ContextInfo_ID)
+	{
+		if (AD_ContextInfo_ID < 1) 
+			set_Value (COLUMNNAME_AD_ContextInfo_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_ContextInfo_ID, Integer.valueOf(AD_ContextInfo_ID));
+	}
+
+	/** Get Context Info.
+		@return Context Info Maintainig
+	  */
+	public int getAD_ContextInfo_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_ContextInfo_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_AD_FieldGroup getAD_FieldGroup() throws RuntimeException
     {
 		return (org.compiere.model.I_AD_FieldGroup)MTable.get(getCtx(), org.compiere.model.I_AD_FieldGroup.Table_Name)
@@ -163,6 +191,34 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 	public int getAD_Field_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Field_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_AD_Image getAD_Image() throws RuntimeException
+    {
+		return (org.compiere.model.I_AD_Image)MTable.get(getCtx(), org.compiere.model.I_AD_Image.Table_Name)
+			.getPO(getAD_Image_ID(), get_TrxName());	}
+
+	/** Set Image.
+		@param AD_Image_ID 
+		Image or Icon
+	  */
+	public void setAD_Image_ID (int AD_Image_ID)
+	{
+		if (AD_Image_ID < 1) 
+			set_Value (COLUMNNAME_AD_Image_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Image_ID, Integer.valueOf(AD_Image_ID));
+	}
+
+	/** Get Image.
+		@return Image or Icon
+	  */
+	public int getAD_Image_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Image_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -845,5 +901,29 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 	public String getUUID () 
 	{
 		return (String)get_Value(COLUMNNAME_UUID);
+	}
+
+	/** Set Quick Entry.
+		@param isQuickEntry 
+		Display in Quick Entry Form
+	  */
+	public void setisQuickEntry (boolean isQuickEntry)
+	{
+		set_Value (COLUMNNAME_isQuickEntry, Boolean.valueOf(isQuickEntry));
+	}
+
+	/** Get Quick Entry.
+		@return Display in Quick Entry Form
+	  */
+	public boolean isQuickEntry () 
+	{
+		Object oo = get_Value(COLUMNNAME_isQuickEntry);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
 	}
 }

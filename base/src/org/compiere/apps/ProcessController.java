@@ -18,6 +18,7 @@ package org.compiere.apps;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
@@ -32,6 +33,7 @@ import org.compiere.model.MPInstance;
 import org.compiere.model.MPInstancePara;
 import org.compiere.model.MProcess;
 import org.compiere.model.MProcessPara;
+import org.compiere.model.MQuery;
 import org.compiere.model.MRole;
 import org.compiere.model.MTable;
 import org.compiere.model.X_AD_ReportView;
@@ -42,6 +44,7 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.compiere.util.Util;
 
 /**
  *	Controller for Process Parameter, it allow to developer create different views from it
@@ -58,6 +61,7 @@ import org.compiere.util.Msg;
  * 		@see FR [ 566 ] Process parameter don't have a parameter like only information</a>
  *	@author Michael Mckay michael.mckay@mckayerp.com
  *		<li>BF [ <a href="https://github.com/adempiere/adempiere/issues/495">495</a> ] Parameter Panel & SmartBrowser criteria do not set gridField value
+ *		<li>BF [ <a href="https://github.com/adempiere/adempiere/issues/2062">2062</a> ] Prevent reuse of AD_PInstance_ID when selecting saved parameters
  *  @author Raul Muñoz, rMunoz@erpcya.com, ERPCyA http://www.erpcya.com
  *		<li>FR [ 299 ] Instance saved, is not supported for swing UI
  */
@@ -587,11 +591,24 @@ public abstract class ProcessController extends SmallViewController {
 		try {
 			for (MPInstance instance: savedParams) {
 				if (instance.getName().equals(saveName)) {
-					processInfo.setAD_PInstance_ID(instance.getAD_PInstance_ID());
-					for (MPInstancePara para : instance.getParameters()) {
-						para.deleteEx(true);
-					}
-					//	Save
+					
+					//  #2062 - the current process Instance ID should not be the same as 
+					//  the saved process parameter instance.  Every run of the process
+					//  should use a new instance ID. It is not valid to assign the 
+					//  AD_PInstance_ID using the ID of the saved parameter set.
+					//  processInfo.setAD_PInstance_ID(instance.getAD_PInstance_ID());
+					
+					//  The following actually deletes the parameters of a possibly valid process instance
+					//  for (MPInstancePara para : instance.getParameters()) {
+					//	  para.deleteEx(true);
+					//  }
+					
+					//  What is required is to update the saved parameters.
+					//  We can do that by removing the instance from the savedParams list.
+					//  A new one will be added when the parameters are saved. 
+					deleteInstance(instance);
+					
+					//	Save the "updated" parameters - this will use the current instance or create a new one.
 					errorMsg = saveParameters(saveName);
 					if(errorMsg != null)
 						throw new AdempiereException(errorMsg);
@@ -620,7 +637,8 @@ public abstract class ProcessController extends SmallViewController {
 		try {
 			for (MPInstance instance: savedParams) {
 				if (instance.getName().equals(saveName)) {
-					instance.deleteEx(true);
+					deleteInstance(instance);
+					break;
 				}
 			}
 		} catch(Exception ex) {
@@ -630,7 +648,21 @@ public abstract class ProcessController extends SmallViewController {
 		//	Default Return
 		return errorMsg;
 	}
-			
+
+	/**
+	 * Remove the instance parameters from the list of saved parameters
+	 * @param instance
+	 */
+	private void deleteInstance(MPInstance instance) {
+		
+		if (instance == null)
+			return;
+		
+		instance.setName(null);
+		instance.saveEx();
+		savedParams.remove(instance);
+		
+	}
 	/**
 	 * Get the Window number
 	 * @return
@@ -759,5 +791,42 @@ public abstract class ProcessController extends SmallViewController {
 			setAutoStart(true);
 		}
 	}
+	
+	/**
+	 * Open result from a table and IDs of process info
+	 * @param tableName
+	 */
+	public void openResult() {
+		if(!getProcessInfo().isOpenResult()) {
+			return;
+		}
+		List<Integer> keys = new ArrayList<Integer>();
+		for(int key : getProcessInfo().getIDs()) {
+			keys.add(key);
+		}
+		//	
+		String tableName = getProcessInfo().getResultTableName();
+		if(Util.isEmpty(tableName)) {
+			return;
+		}
+		//	
+		if(keys == null
+				|| keys.isEmpty()) {
+			return;
+		}
+		//	Not have a key column
+		MTable table = MTable.get(Env.getCtx(), tableName);
+		if(table.getKeyColumns() == null
+				|| table.getKeyColumns().length == 0) {
+			return;
+		}
+		String keyColumn = table.getKeyColumns()[0];
+		String whereClause = new String(keyColumn + " IN" + keys.toString().replace('[','(').replace(']',')'));
+		MQuery query = new MQuery(tableName);
+		query.addRestriction(whereClause);
+		openResult(query);
+	}
+	
+	public abstract void openResult(MQuery query);
 
 }	//	ProcessParameterPanel

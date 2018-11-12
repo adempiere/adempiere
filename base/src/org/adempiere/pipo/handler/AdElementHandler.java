@@ -60,8 +60,10 @@ public class AdElementHandler extends AbstractElementHandler {
 
 			X_AD_Element m_AdElement = new X_AD_Element(ctx, id,
 					getTrxName(ctx));
-			if (id <= 0 && atts.getValue("AD_Element_ID") != null && Integer.parseInt(atts.getValue("AD_Element_ID")) <= PackOut.MAX_OFFICIAL_ID)
+			if (id <= 0 && atts.getValue("AD_Element_ID") != null && Integer.parseInt(atts.getValue("AD_Element_ID")) <= PackOut.MAX_OFFICIAL_ID) {
 				m_AdElement.setAD_Element_ID(Integer.parseInt(atts.getValue("AD_Element_ID")));
+				m_AdElement.setIsDirectLoad(true);
+			}
 			if (id > 0) {
 				AD_Backup_ID = copyRecord(ctx, AD_ELEMENT, m_AdElement);
 				Object_Status = "Update";
@@ -137,7 +139,6 @@ public class AdElementHandler extends AbstractElementHandler {
 		processedElements.add(adElement_id);
 		
 		X_AD_Element m_AdElement = new X_AD_Element(ctx, adElement_id, null);
-		
 		AttributesImpl atts = new AttributesImpl();
 		createAdElementBinding(atts, m_AdElement);
 		

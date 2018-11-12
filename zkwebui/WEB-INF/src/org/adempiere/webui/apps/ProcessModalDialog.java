@@ -44,7 +44,7 @@ import org.compiere.util.Env;
  *		<li> FR [ 1051 ] Process Dialog have not scroll bar in zk
  *		<li> FR [ 1061 ] Process Modal Dialog in zk height is not autosize
  */
-public class ProcessModalDialog extends Window implements IZKProcessDialog {
+public class ProcessModalDialog extends Window implements IZKProcessDialog, ASyncProcess {
 	/**
 	 * generated serial version ID
 	 */
@@ -217,7 +217,7 @@ public class ProcessModalDialog extends Window implements IZKProcessDialog {
 
 	@Override
 	public ASyncProcess getParentProcess() {
-		return aSyncProcess;
+		return this;
 	}
 
 	@Override
@@ -228,6 +228,40 @@ public class ProcessModalDialog extends Window implements IZKProcessDialog {
 	@Override
 	public void runProcess() {
 		processPanel.runProcess();
+	}
+
+	@Override
+	public void lockUI(ProcessInfo pi) {
+		if(aSyncProcess != null) {
+			aSyncProcess.lockUI(pi);
+		}
+	}
+
+
+	@Override
+	public void unlockUI(ProcessInfo pi) {
+		if(aSyncProcess != null) {
+			aSyncProcess.unlockUI(pi);
+		}
+		//	
+		processPanel.openResult();
+	}
+
+
+	@Override
+	public boolean isUILocked() {
+		if(aSyncProcess != null) {
+			return aSyncProcess.isUILocked();
+		}
+		return false;
+	}
+
+
+	@Override
+	public void executeASync(ProcessInfo pi) {
+		if(aSyncProcess != null) {
+			aSyncProcess.executeASync(pi);
+		}
 	}
 
 }	//	ProcessDialog

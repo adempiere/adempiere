@@ -115,6 +115,8 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 
 	public static final String DEFAULT_STATUS_MESSAGE = "NavigateOrUpdate";
 	
+	private ArrayList<Integer> selection = new ArrayList<Integer>();
+	
 	/**
 	 *	Create Tab (Model) from Value Object.
 	 *  <p>
@@ -201,7 +203,11 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	/** Is Tab Included in other Tab  */
 	private boolean    			m_included = false;
 	private boolean    			m_includedAlreadyCalc = false;
-
+	
+	private boolean				IsQuickEntry = false;
+	/** Current Col         */
+	private int					m_currentCol = 0;
+	
 	/**	Logger			*/
 	protected CLogger	log = CLogger.getCLogger(getClass());
 	
@@ -1181,6 +1187,19 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 		log.fine("#" + m_vo.TabNo + " - row=" + m_currentRow);
 		boolean retValue = m_mTable.dataDelete(m_currentRow);
 		setCurrentRow(m_currentRow, true);
+		if (!selection.isEmpty()) 
+		{
+			List<Integer> tmp = new ArrayList<Integer>();
+			for(Integer i : selection)
+			{
+				if (i.intValue() == m_currentRow)
+					continue;
+				else if (i.intValue() > m_currentRow)
+					tmp.add(i.intValue()-1);
+				else
+					tmp.add(i);
+			}
+		}
 		fireStateChangeEvent(new StateChangeEvent(this, StateChangeEvent.DATA_DELETE));
 		return retValue;
 	}   //  dataDelete
@@ -1235,7 +1254,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	 *	Return Table Model
 	 *  @return MTable
 	 */
-	protected GridTable getMTable()
+	public GridTable getMTable()
 	{
 		return m_mTable;
 	}	//	getMTable
@@ -1471,8 +1490,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	 *	Is Read Only?
 	 *  @return true if read only
 	 */
-	public boolean isReadOnly()
-	{
+	public boolean isReadOnly() {
 		if (m_vo.IsReadOnly)
 			return true;
 		
@@ -1489,6 +1507,29 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 			+ " (" + m_vo.ReadOnlyLogic + ") => " + retValue);
 		return retValue;
 	}	//	isReadOnly
+	
+	/**
+	 * Validate read Only from context
+	 * @return
+	 */
+	public boolean isReadOnlyFromContext() {
+		int clientId = Env.getContextAsInt(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo, "AD_Client_ID");
+		if(clientId <= 0) {
+			return false;
+		}
+		int orgId = Env.getContextAsInt(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo, "AD_Org_ID");
+		String keyColumn = Env.getContext(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo, GridTab.CTX_KeyColumnName);
+		if ("EntityType".equals(keyColumn))
+			keyColumn = "AD_EntityType_ID";
+		if (!keyColumn.endsWith("_ID"))
+			keyColumn += "_ID";			//	AD_Language_ID
+		int tableId = m_vo.AD_Table_ID;
+		if (MRole.getDefault(m_vo.ctx, false).canUpdate(
+			clientId, orgId, tableId, 0, false))
+			return false;
+		//	Default
+		return true;
+	}
 
 	/**
 	 * 	Tab contains Always Update Field
@@ -2336,7 +2377,6 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 		return m_currentRow;
 	}   //  setCurrentRow
 
-
 	/**
 	 *  Set current row - used for deleteSelection
 	 *  @return current row
@@ -2973,4 +3013,63 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 			return null;
 		return m_window.getTab(parentTabNo);
 	}
+	public void addToSelection(int rowIndex)
+	{
+		if (!selection.contains(rowIndex))
+			selection.add(rowIndex);
+	}
+	
+	public GridTabVO getM_vo() {
+		return m_vo;
+	}
+	
+	public boolean removeFromSelection(int rowIndex)
+	{
+		return selection.remove((Integer) rowIndex);
+	}
+
+	public int[] getSelection()
+	{
+		int[] selected = new int[selection.size()];
+		int i = 0;
+		for (Integer row : selection)
+		{
+			selected[i++] = row.intValue();
+		}
+		return selected;
+	}
+
+	public boolean isSelected(int rowIndex)
+	{
+		return selection.contains((Integer) rowIndex);
+	}
+
+	public void clearSelection()
+	{
+		selection.clear();
+	}
+
+	public boolean isNew()
+	{
+		return isOpen() && getCurrentRow() >= 0 && getCurrentRow() == m_mTable.getNewRow();
+	}
+	
+	public void setQuickEntry(boolean isQuickEntry) {
+		IsQuickEntry = isQuickEntry;
+	}
+	public boolean isQuickEntry()
+	{
+		return IsQuickEntry;
+	}
+	
+	/**
+	 *  Set current col - used for deleteSelection
+	 *  @return current col
+	 */
+	public void setCurrentCol(int col){
+			m_currentCol = col;
+	}
+	public int getCurrentCol(){
+		return m_currentCol;
+}
 }	//	GridTab

@@ -711,15 +711,15 @@ public class Doc_AllocationHdr extends Doc
 	 * 	Create Realized Gain & Loss.
 	 * 	Compares the Accounted Amount of the Invoice to the
 	 * 	Accounted Amount of the Allocation
-	 *	@param as accounting schema
+	 *	@param acctSchema accounting schema
 	 *	@param fact fact
-	 *	@param acct account
+	 *	@param account account
 	 *	@param invoice invoice
 	 *	@param allocationSource source amt
 	 *	@param allocationAccounted acct amt
 	 *	@return Error Message or null if OK
 	 */
-	private String createRealizedGainLoss (DocLine line, MAcctSchema as, Fact fact, MAccount acct,
+	private String createRealizedGainLoss (DocLine line, MAcctSchema acctSchema, Fact fact, MAccount account,
 		MInvoice invoice, BigDecimal allocationSource, BigDecimal allocationAccounted)
 	{
 		BigDecimal invoiceSource = null;
@@ -740,7 +740,7 @@ public class Doc_AllocationHdr extends Doc
 		{
 			pstmt = DB.prepareStatement(sql, getTrxName());
 			pstmt.setInt(1, invoice.getC_Invoice_ID());
-			pstmt.setInt(2, as.getC_AcctSchema_ID());
+			pstmt.setInt(2, acctSchema.getC_AcctSchema_ID());
 			rs = pstmt.executeQuery();
 			if (rs.next())
 			{
@@ -800,7 +800,7 @@ public class Doc_AllocationHdr extends Doc
 			if (acctDifference.abs().compareTo(TOLERANCE) < 0)
 				acctDifference = Env.ZERO;
 			//	Round
-			int precision = as.getStdPrecision();
+			int precision = acctSchema.getStdPrecision();
 			if (acctDifference.scale() > precision)
 				acctDifference = acctDifference.setScale(precision, BigDecimal.ROUND_HALF_UP);
 			String d2 = "(partial) = " + acctDifference + " - Multiplier=" + multiplier;
@@ -814,24 +814,24 @@ public class Doc_AllocationHdr extends Doc
 			return null;
 		}
 		
-		MAccount gain = MAccount.get (as.getCtx(), as.getAcctSchemaDefault().getRealizedGain_Acct());
-		MAccount loss = MAccount.get (as.getCtx(), as.getAcctSchemaDefault().getRealizedLoss_Acct());
+		MAccount gain = MAccount.getValidCombination (acctSchema.getCtx(), acctSchema.getAcctSchemaDefault().getRealizedGain_Acct() , getTrxName());
+		MAccount loss = MAccount.getValidCombination (acctSchema.getCtx(), acctSchema.getAcctSchemaDefault().getRealizedLoss_Acct() , getTrxName());
 		//
 		if (invoice.isSOTrx())
 		{
 			FactLine fl = fact.createLine (line, loss, gain, 
-				as.getC_Currency_ID(), acctDifference);
+				acctSchema.getC_Currency_ID(), acctDifference);
 			fl.setDescription(description);
-			fact.createLine (line, acct, 
-				as.getC_Currency_ID(), acctDifference.negate());
+			fact.createLine (line, account,
+				acctSchema.getC_Currency_ID(), acctDifference.negate());
 			fl.setDescription(description);
 		}
 		else
 		{
-			fact.createLine (line, acct,
-				as.getC_Currency_ID(), acctDifference);
+			fact.createLine (line, account,
+				acctSchema.getC_Currency_ID(), acctDifference);
 			FactLine fl = fact.createLine (line, loss, gain, 
-				as.getC_Currency_ID(), acctDifference.negate());
+				acctSchema.getC_Currency_ID(), acctDifference.negate());
 		}
 		return null;
 	}	//	createRealizedGainLoss

@@ -813,7 +813,8 @@ public class VBrowser extends Browser implements ActionListener, ListSelectionLi
 
 	@Override
 	public void unlockUI(ProcessInfo pi) {
-		
+		processParameterPanel.setProcessInfo(pi);
+		processParameterPanel.openResult();
 	}
 	
 	@Override

@@ -281,23 +281,7 @@ public interface I_GL_JournalBatch
 	  */
 	public boolean isApproved();
 
-
-	/** Column name IsYearEndClosing */
-
-	public static final String COLUMNNAME_IsYearEndClosing = "IsYearEndClosing";
-
-	/** Set Active.
-	 * The record is active in the system
-	 */
-	public void setIsYearEndClosing (boolean IsYearEndClosing);
-
-	/** Get Active.
-	 * The record is active in the system
-	 */
-	public boolean isIsYearEndClosing();
-
-
-	/** Column name PostingType */
+    /** Column name PostingType */
     public static final String COLUMNNAME_PostingType = "PostingType";
 
 	/** Set Posting Type.

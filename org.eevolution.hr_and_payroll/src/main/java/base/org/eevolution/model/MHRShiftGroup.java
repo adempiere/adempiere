@@ -55,9 +55,10 @@ public class MHRShiftGroup extends X_HR_ShiftGroup
 	 * Get/Load Shift group [CACHED]
 	 * @param ctx context
 	 * @param shiftGroupId
+	 * @param trxName
 	 * @return activity or null
 	 */
-	public static MHRShiftGroup getById(Properties ctx, int shiftGroupId) {
+	public static MHRShiftGroup getById(Properties ctx, int shiftGroupId, String trxName) {
 		if (shiftGroupId <= 0)
 			return null;
 
@@ -65,7 +66,7 @@ public class MHRShiftGroup extends X_HR_ShiftGroup
 		if (shiftGroup != null && shiftGroup.get_ID() > 0)
 			return shiftGroup;
 
-		shiftGroup = new Query(ctx , Table_Name , COLUMNNAME_HR_ShiftGroup_ID+ "=?" , null)
+		shiftGroup = new Query(ctx , Table_Name , COLUMNNAME_HR_ShiftGroup_ID+ "=?" , trxName)
 				.setClient_ID()
 				.setParameters(shiftGroupId)
 				.first();
@@ -83,13 +84,14 @@ public class MHRShiftGroup extends X_HR_ShiftGroup
 	 * get Activity By Value [CACHED]
 	 * @param ctx
 	 * @param shiftGroupValue
+	 * @param trxName
 	 * @return
 	 */
-	public static MHRShiftGroup getByValue(Properties ctx , String shiftGroupValue) {
+	public static MHRShiftGroup getByValue(Properties ctx, String shiftGroupValue, String trxName) {
 		if (shiftGroupValue == null)
 			return null;
 		if (shiftGroupCacheValues.size() == 0 )
-			getAll(ctx, true);
+			getAll(ctx, true, trxName);
 
 		int clientId = Env.getAD_Client_ID(ctx);
 		String key = clientId + "#" + shiftGroupValue;
@@ -97,7 +99,7 @@ public class MHRShiftGroup extends X_HR_ShiftGroup
 		if (shiftGroup != null && shiftGroup.get_ID() > 0 )
 			return shiftGroup;
 
-		shiftGroup =  new Query(ctx, Table_Name , COLUMNNAME_Value +  "=?", null)
+		shiftGroup =  new Query(ctx, Table_Name , COLUMNNAME_Value +  "=?", trxName)
 				.setClient_ID()
 				.setParameters(shiftGroupValue)
 				.first();
@@ -113,12 +115,13 @@ public class MHRShiftGroup extends X_HR_ShiftGroup
 	 * Get All Campaign
 	 * @param ctx
 	 * @param resetCache
+	 * @param trxName
 	 * @return
 	 */
-	public static List<MHRShiftGroup> getAll(Properties ctx, boolean resetCache) {
+	public static List<MHRShiftGroup> getAll(Properties ctx, boolean resetCache, String trxName) {
 		List<MHRShiftGroup> shiftGroupList;
 		if (resetCache || shiftGroupCacheIds.size() > 0 ) {
-			shiftGroupList = new Query(Env.getCtx(), Table_Name, null , null)
+			shiftGroupList = new Query(Env.getCtx(), Table_Name, null , trxName)
 					.setClient_ID()
 					.setOrderBy(COLUMNNAME_Name)
 					.list();

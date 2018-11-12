@@ -21,6 +21,7 @@ import org.compiere.model.MTree;
 import org.compiere.model.MTreeNode;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
+import org.compiere.util.Util;
 import org.zkoss.lang.Objects;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
@@ -38,6 +39,9 @@ import org.zkoss.zul.event.TreeDataEvent;
 /**
  * 
  * @author Low Heng Sin
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com 2015-09-09
+ *  	<li>FR [ 9223372036854775807 ] Add Support to Dynamic Tree
+ * @see https://adempiere.atlassian.net/browse/ADEMPIERE-442
  *
  */
 public class SimpleTreeModel extends org.zkoss.zul.SimpleTreeModel implements TreeitemRenderer, EventListener {
@@ -57,13 +61,15 @@ public class SimpleTreeModel extends org.zkoss.zul.SimpleTreeModel implements Tr
 	}
 	
 	/**
+	 * Init Tree with where clause
 	 * @param tree
-	 * @param AD_Tree_ID
+	 * @param treeId
 	 * @param windowNo
-	 * @return SimpleTreeModel
+	 * @param whereClause
+	 * @return
 	 */
-	public static SimpleTreeModel initADTree(Tree tree, int AD_Tree_ID, int windowNo) {
-		return initADTree(tree, AD_Tree_ID, windowNo, true, null);
+	public static SimpleTreeModel initADTree(Tree tree, int treeId, int windowNo, String whereClause) {
+		return initADTree(tree, treeId, windowNo, true, whereClause, null);
 	}
 	
 	/**
@@ -71,16 +77,22 @@ public class SimpleTreeModel extends org.zkoss.zul.SimpleTreeModel implements Tr
 	 * @param AD_Tree_ID
 	 * @param windowNo
 	 * @param editable
+	 * @param whereClause
 	 * @param trxName
 	 * @return SimpleTreeModel
 	 */
-	public static SimpleTreeModel initADTree(Tree tree, int AD_Tree_ID, int windowNo, boolean editable, String trxName) { 
-		MTree vTree = new MTree (Env.getCtx(), AD_Tree_ID, editable, true, trxName);
+	public static SimpleTreeModel initADTree(Tree tree, int AD_Tree_ID, int windowNo, boolean editable, String whereClause, String trxName) { 
+		//	Change to where clause
+		if(!Util.isEmpty(whereClause)) {
+			whereClause = Env.parseContext(Env.getCtx(), windowNo, whereClause, false, false);
+		}
+		MTree vTree = new MTree (Env.getCtx(), AD_Tree_ID, editable, true, whereClause, trxName);
 		MTreeNode root = vTree.getRoot();
 		SimpleTreeModel treeModel = SimpleTreeModel.createFrom(root);
-		treeModel.setItemDraggable(true);
-		treeModel.addOnDropEventListener(new ADTreeOnDropListener(tree, treeModel, vTree, windowNo));
-
+		treeModel.setItemDraggable(editable);
+		if(editable) {
+			treeModel.addOnDropEventListener(new ADTreeOnDropListener(tree, treeModel, vTree, windowNo));
+		}
 		if (tree.getTreecols() == null) {
 			Treecols treeCols = new Treecols();
 			tree.appendChild(treeCols);

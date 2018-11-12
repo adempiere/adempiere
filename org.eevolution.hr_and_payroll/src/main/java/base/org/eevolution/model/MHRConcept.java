@@ -19,6 +19,7 @@ package org.eevolution.model;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -88,7 +89,12 @@ public class MHRConcept extends X_HR_Concept {
         super(ctx, rs, trxName);
     }
 
+    @Deprecated
     public static MHRConcept get(Properties ctx, int conceptId) {
+       return getById(ctx , conceptId , null);
+    }
+
+    public static MHRConcept getById(Properties ctx, int conceptId, String trxName) {
         if (conceptId <= 0)
             return null;
         //
@@ -96,7 +102,7 @@ public class MHRConcept extends X_HR_Concept {
         if (concept != null)
             return concept;
         //
-        concept = new MHRConcept(ctx, conceptId, null);
+        concept = new MHRConcept(ctx, conceptId, trxName);
         if (concept.get_ID() == conceptId)
             cache.put(conceptId, concept);
         else
@@ -114,7 +120,7 @@ public class MHRConcept extends X_HR_Concept {
      */
     @Deprecated
     public static MHRConcept forValue(Properties ctx, String conceptValue) {
-        return getByValue(ctx, conceptValue);
+        return getByValue(ctx, conceptValue, null);
     }
 
     /**
@@ -124,7 +130,7 @@ public class MHRConcept extends X_HR_Concept {
      * @param conceptValue
      * @return
      */
-    public static MHRConcept getByValue(Properties ctx, String conceptValue) {
+    public static MHRConcept getByValue(Properties ctx, String conceptValue , String trxName) {
         if (Util.isEmpty(conceptValue, true))
             return null;
 
@@ -135,7 +141,7 @@ public class MHRConcept extends X_HR_Concept {
             return concept;
 
         final String whereClause = COLUMNNAME_Value + "=? AND AD_Client_ID IN (?,?)";
-        concept = new Query(ctx, Table_Name, whereClause, null)
+        concept = new Query(ctx, Table_Name, whereClause, trxName)
                 .setParameters(conceptValue, 0, AD_Client_ID)
                 .setOnlyActiveRecords(true)
                 .setOrderBy("AD_Client_ID DESC")
@@ -152,11 +158,24 @@ public class MHRConcept extends X_HR_Concept {
      *
      * @param payrollId    Payroll ID
      * @param departmentId Department ID
-     * @param departmentId Employee_ID
      * @param sqlWhere     Clause SQLWhere
      * @return lines
      */
+    @Deprecated
     public static MHRConcept[] getConcepts(int payrollId, int departmentId, String sqlWhere) {
+        return getConcepts(payrollId, departmentId, sqlWhere, null).toArray(new MHRConcept[0]);
+    }
+
+    /**
+     * Get Employee's of Payroll Type
+     *
+     * @param payrollId    Payroll ID
+     * @param departmentId Department ID
+     * @param sqlWhere     Clause SQLWhere
+     * @param trxName
+     * @return lines
+     */
+    public static List<MHRConcept> getConcepts(int payrollId, int departmentId, String sqlWhere, String trxName) {
         Properties ctx = Env.getCtx();
         List<Object> params = new ArrayList<Object>();
         StringBuffer whereClause = new StringBuffer();
@@ -178,12 +197,11 @@ public class MHRConcept extends X_HR_Concept {
             whereClause.append(sqlWhere);
         }
 
-        List<MHRConcept> list = new Query(ctx, Table_Name, whereClause.toString(), null)
+        return new Query(ctx, Table_Name, whereClause.toString(), trxName)
                 .setParameters(params)
                 .setOnlyActiveRecords(true)
                 .setOrderBy("COALESCE(" + COLUMNNAME_SeqNo + ",999999999999) DESC, " + COLUMNNAME_Value)
                 .list();
-        return list.toArray(new MHRConcept[list.size()]);
     }    //	getConcept
 
     public int getConceptAccountCR() {
@@ -216,6 +234,46 @@ public class MHRConcept extends X_HR_Concept {
     			"HR_Concept_ID = ? AND C_AcctSchema_ID = ?", get_TrxName())
     		.setParameters(getHR_Concept_ID(), acctSchemaId)
     		.first();
+    }
+
+    /**
+     * Get Account configuration
+     * @param optionalAcctSchemaId
+     * @param optionalPayrollId
+     * @param optionalPartnerGroupId
+     * @return
+     */
+    public X_HR_Concept_Acct getConceptAcct(Optional<Integer> optionalAcctSchemaId,
+                                            Optional<Integer> optionalPayrollId,
+                                            Optional<Integer> optionalPartnerGroupId) {
+        StringBuilder whereClause = new StringBuilder();
+        ArrayList<Object> paramenters =  new ArrayList<>();
+        whereClause.append(I_HR_Concept_Acct.COLUMNNAME_HR_Concept_ID).append("=? AND ");
+        paramenters.add(getHR_Concept_ID());
+        optionalAcctSchemaId.ifPresent(accountSchemaId -> {
+            whereClause.append(I_HR_Concept_Acct.COLUMNNAME_C_AcctSchema_ID).append("=? AND ");
+            paramenters.add(accountSchemaId);
+        });
+        optionalPayrollId.ifPresent(payrollId -> {
+            whereClause.append("(")
+                    .append(I_HR_Concept_Acct.COLUMNNAME_HR_Payroll_ID).append("=? OR  ")
+                    .append(I_HR_Concept_Acct.COLUMNNAME_HR_Payroll_ID).append(" IS NULL) AND ");
+            paramenters.add(payrollId);
+        });
+
+        optionalPartnerGroupId.ifPresent(partnerGroupId -> {
+                whereClause.append("(").append(I_HR_Concept_Acct.COLUMNNAME_C_BP_Group_ID).append("=? OR  ")
+                                       .append(I_HR_Concept_Acct.COLUMNNAME_C_BP_Group_ID).append(" IS NULL)");
+                paramenters.add(partnerGroupId);
+        });
+
+        return new Query(getCtx(), I_HR_Concept_Acct.Table_Name, whereClause.toString(), get_TrxName())
+                .setParameters(paramenters)
+                .setOrderBy(
+                        I_HR_Concept_Acct.COLUMNNAME_C_AcctSchema_ID + " DESC , " +
+                        I_HR_Concept_Acct.COLUMNNAME_HR_Payroll_ID + " DESC , " +
+                        I_HR_Concept_Acct.COLUMNNAME_C_BP_Group_ID + " DESC ")
+                .first();
     }
 
     /**

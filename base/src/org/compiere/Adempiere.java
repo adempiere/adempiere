@@ -103,6 +103,8 @@ public final class Adempiere
 	static private ImageIcon 	s_imageIconLogo;
 	
 	static private final String ONLINE_HELP_URL = "http://wiki.adempiere.net/Manual";
+	/**	Reset Password	*/
+	static private final String RESTORE_PASSWORD_PATH = ":8888/webui";
 
 	/**	Logging								*/
 	private static CLogger		log = null;
@@ -291,6 +293,15 @@ public final class Adempiere
 		return SUB_TITLE;
 	}   //  getSubitle
 
+	/**
+	 * Get complete URL for Server
+	 * @param hostName
+	 * @return
+	 */
+	public static String getWebServer(String hostName) {
+		return "http://" + hostName + RESTORE_PASSWORD_PATH;
+	}   //  getWebServer
+	
 	/**
 	 *  Get 16x16 Image.
 	 *	@return Image Icon

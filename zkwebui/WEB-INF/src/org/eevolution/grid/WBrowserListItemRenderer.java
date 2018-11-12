@@ -30,6 +30,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.adempiere.exceptions.ValueChangeEvent;
+import org.adempiere.exceptions.ValueChangeListener;
 import org.adempiere.model.MBrowseField;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Button;
@@ -48,8 +50,6 @@ import org.adempiere.webui.editor.WEditor;
 import org.adempiere.webui.editor.WebEditorFactory;
 import org.adempiere.webui.event.TableValueChangeEvent;
 import org.adempiere.webui.event.TableValueChangeListener;
-import org.adempiere.exceptions.ValueChangeEvent;
-import org.adempiere.exceptions.ValueChangeListener;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.model.GridField;
 import org.compiere.util.DisplayType;
@@ -403,25 +403,14 @@ public class WBrowserListItemRenderer implements ListitemRenderer, EventListener
 					ZkCssHelper.appendStyle(listcell, "text-align:right");
 				}
 			}
-			else if (DisplayType.Date == browseField.getAD_Reference_ID()
-			|| 		 DisplayType.DateTime == browseField.getAD_Reference_ID())
-			{
-				if (field != null) {
-
-					SimpleDateFormat dateFormat = DisplayType.getDateFormat(browseField.getAD_Reference_ID(), AEnv.getLanguage(Env.getCtx()));
-					//	BR [ 270 ]
-					listcell.setValue(dateFormat.format(field));
-					if (isCellEditable) {
-						Datebox datebox = new Datebox();
-						datebox.setFormat(dateFormat.toPattern());
-						//	
-						datebox.setValue((Date) field);
-						datebox.addEventListener(Events.ON_CHANGE, this);
-						listcell.appendChild(datebox);
-					} else {
-						listcell.setLabel(dateFormat.format(field));
-					}
-				}
+			else if (DisplayType.isDate(browseField.getAD_Reference_ID())) {
+				WEditor editor = WebEditorFactory.getEditor(gridField, false);
+				editor.addValueChangeListener(this);
+				editor.dynamicDisplay();
+				editor.setReadWrite(true);
+				editor.fillHorizontal();
+				gridField.addPropertyChangeListener(editor);
+				listcell.appendChild(editor.getComponent());
 			}
 			//	BR [ 269 ]
 			//	Add support to other String
@@ -501,9 +490,10 @@ public class WBrowserListItemRenderer implements ListitemRenderer, EventListener
 					WEditor editor = WebEditorFactory.getEditor(gridField, true);
 					editor.addValueChangeListener(this);
 					editor.dynamicDisplay();
-					editor.setReadWrite(true);
 					editor.fillHorizontal();
+					gridField.removePropertyChangeListener(editor);
 					gridField.addPropertyChangeListener(editor);
+					editor.setValue(gridField.getValue());
 					listcell.appendChild(editor.getComponent());
 				}
 				else
@@ -1084,6 +1074,7 @@ public class WBrowserListItemRenderer implements ListitemRenderer, EventListener
 		if (evt.getSource() instanceof WEditor) {
 			GridField changedField = ((WEditor) evt.getSource()).getGridField();
 			if (changedField != null) {
+				changedField.setValue(evt.getNewValue(), false);
 				//processDependencies(changedField);
 				// future processCallout (changedField);
 			}

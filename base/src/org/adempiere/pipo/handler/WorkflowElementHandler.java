@@ -74,8 +74,10 @@ public class WorkflowElementHandler extends AbstractElementHandler {
 			MWorkflow m_Workflow = new MWorkflow(ctx, id, getTrxName(ctx));
 			int AD_Backup_ID = -1;
 			String Object_Status = null;
-			if (id <= 0 && atts.getValue("AD_Workflow_ID") != null && Integer.parseInt(atts.getValue("AD_Workflow_ID")) <= PackOut.MAX_OFFICIAL_ID)
+			if (id <= 0 && atts.getValue("AD_Workflow_ID") != null && Integer.parseInt(atts.getValue("AD_Workflow_ID")) <= PackOut.MAX_OFFICIAL_ID) {
 				m_Workflow.setAD_Workflow_ID(Integer.parseInt(atts.getValue("AD_Workflow_ID")));
+				m_Workflow.setIsDirectLoad(true);
+			}
 			if (id > 0) {
 				AD_Backup_ID = copyRecord(ctx, "AD_Workflow", m_Workflow);
 				Object_Status = "Update";

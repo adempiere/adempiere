@@ -279,20 +279,22 @@ public abstract class TabbedDesktop extends AbstractDesktop {
 		if (windowContainer.getSelectedTab() != null)
 		{
 			Tabpanel panel = (Tabpanel) windowContainer.getSelectedTab().getLinkedPanel();
-			Component component = panel.getFirstChild();
-			Object att = component.getAttribute(WINDOWNO_ATTRIBUTE);
-
-			if ( windowContainer.closeActiveWindow() )
-			{
-				if (att != null && (att instanceof Integer))
+			if(panel != null) {
+				Component component = panel.getFirstChild();
+				Object att = component.getAttribute(WINDOWNO_ATTRIBUTE);
+	
+				if ( windowContainer.closeActiveWindow() )
 				{
-					unregisterWindow((Integer) att);
+					if (att != null && (att instanceof Integer))
+					{
+						unregisterWindow((Integer) att);
+					}
+					return true;
 				}
-				return true;
-			}
-			else
-			{
-				return false;
+				else
+				{
+					return false;
+				} 
 			}
 		}
 		return false;

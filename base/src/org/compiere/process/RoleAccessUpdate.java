@@ -36,36 +36,19 @@ import org.compiere.util.Env;
  * @author Teo Sarca, teo.sarca@gmail.com
  * 		<li>BF [ 3018005 ] Role Access Update: updates all roles if I log in as System
  * 			https://sourceforge.net/tracker/?func=detail&aid=3018005&group_id=176962&atid=879332
+ * @author Yamel Senih, ysenih@erpya.com , http://www.erpya.com
+ * <li> FR [ 1891 ] Add support for update role process on Dashboard
+ * @see https://github.com/adempiere/adempiere/issues/1891
  */
-public class RoleAccessUpdate extends SvrProcess
-{
+public class RoleAccessUpdate extends RoleAccessUpdateAbstract {
 	/**	Static Logger	*/
 	private static CLogger	s_log	= CLogger.getCLogger (RoleAccessUpdate.class);
-	
-	/**	Update Role				*/
-	private int	p_AD_Role_ID = -1;
-	/**	Update Roles of Client	*/
-	private int	p_AD_Client_ID = -1;
-	
 	
 	/**
 	 * 	Prepare
 	 */
-	protected void prepare ()
-	{
-		ProcessInfoParameter[] para = getParameter();
-		for (int i = 0; i < para.length; i++)
-		{
-			String name = para[i].getParameterName();
-			if (para[i].getParameter() == null)
-				;
-			else if (name.equals("AD_Role_ID"))
-				p_AD_Role_ID = para[i].getParameterAsInt();
-			else if (name.equals("AD_Client_ID"))
-				p_AD_Client_ID = para[i].getParameterAsInt();
-			else
-				log.log(Level.SEVERE, "Unknown Parameter: " + name);
-		}
+	protected void prepare () {
+		super.prepare();
 	}	//	prepare
 
 	/**
@@ -75,36 +58,31 @@ public class RoleAccessUpdate extends SvrProcess
 	 */
 	protected String doIt () throws Exception
 	{
-		log.info("AD_Client_ID=" + p_AD_Client_ID + ", AD_Role_ID=" + p_AD_Role_ID);
+		log.info("AD_Client_ID=" + getClientId() + ", AD_Role_ID=" + getRoleId());
 		//
-		if (p_AD_Role_ID > 0)
-			updateRole (new MRole (getCtx(), p_AD_Role_ID, get_TrxName()));
+		if (getRoleId() > 0)
+			updateRole (new MRole (getCtx(), getRoleId(), get_TrxName()));
 		else
 		{
 			List<Object> params = new ArrayList<Object>();
 			String whereClause = "1=1";
-			if (p_AD_Client_ID > 0)
-			{
+			if (getClientId() > 0) {
 				whereClause += " AND AD_Client_ID=? ";
-				params.add(p_AD_Client_ID);
+				params.add(getClientId());
 			}
-			if (p_AD_Role_ID == 0) // System Role
-			{
+			if (getRoleId() == 0) {	//	System Role
 				whereClause += " AND AD_Role_ID=?";
-				params.add(p_AD_Role_ID);
+				params.add(getRoleId());
 			}
 			//sql += "ORDER BY AD_Client_ID, Name";
 			
-			List<MRole> roles = new Query(getCtx(), MRole.Table_Name, whereClause, get_TrxName())
-			.setOnlyActiveRecords(true)
-			.setParameters(params)
-			.setOrderBy("AD_Client_ID, Name")
-			.list();
-			
-			for (MRole role : roles)
-			{
-				updateRole (role);
-			}
+			new Query(getCtx(), MRole.Table_Name, whereClause, get_TrxName())
+				.setOnlyActiveRecords(true)
+				.setParameters(params)
+				.setOrderBy("AD_Client_ID, Name")
+				.<MRole>list().stream().forEach(role -> {
+					updateRole(role);
+				});
 		}
 		
 		return "";
@@ -114,15 +92,13 @@ public class RoleAccessUpdate extends SvrProcess
 	 * 	Update Role
 	 *	@param role role
 	 */
-	private void updateRole (MRole role)
-	{
+	private void updateRole (MRole role) {
 		addLog(0, null, null, role.getName() + ": " 
 			+ role.updateAccessRecords());
 	}	//	updateRole
 	
 	//add main method, preparing for nightly build
-	public static void main(String[] args) 
-	{
+	public static void main(String[] args)  {
 		Adempiere.startupEnvironment(false);
 		CLogMgt.setLevel(Level.FINE);
 		s_log.info("Role Access Update");

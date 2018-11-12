@@ -417,7 +417,7 @@ public class WMenu extends HttpServlet
 		if (AD_Tree_ID <= 0)
 			AD_Tree_ID = 10;	//	Menu
 		log.fine("doPost - AD_Tree_ID=" + AD_Tree_ID + " - " + Env.getAD_Language(wsc.ctx));
-		MTree tree = new MTree (wsc.ctx, AD_Tree_ID, false, false, null);	// Language set in WLogin
+		MTree tree = new MTree (wsc.ctx, AD_Tree_ID, false, null);	// Language set in WLogin
 		//	Trim tree
 		MTreeNode root = tree.getRoot();
 		Enumeration en = root.preorderEnumeration();

@@ -8,9 +8,9 @@ fi
 echo Restore Adempiere Database from Export- $ADEMPIERE_HOME \($ADEMPIERE_DB_NAME\)
 
 
-echo Re-Create Adempiere User and import $ADEMPIERE_HOME/data/ExpDat.dmp
+echo Re-Create Adempiere User and import $ADEMPIERE_HOME/data/Adempiere_pg.dmp
 echo == The import will show warnings. This is OK ==
-ls -lsa $ADEMPIERE_HOME/data/ExpDat.dmp
+ls -lsa $ADEMPIERE_HOME/data/Adempiere_pg.dmp
 echo Press enter to continue ...
 read in
 

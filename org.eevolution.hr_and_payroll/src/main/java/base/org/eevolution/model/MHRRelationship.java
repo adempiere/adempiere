@@ -49,20 +49,21 @@ public class MHRRelationship extends X_HR_Relationship {
      * Get Race by Id
      * @param ctx
      * @param raceId
+     * @param trxName
      * @return
      */
-    public static MHRRelationship getById(Properties ctx, int raceId) {
+    public static MHRRelationship getById(Properties ctx, int raceId, String trxName) {
         if (raceId <= 0)
             return null;
 
         if (relationshipCacheIds.size() == 0)
-            getAll(ctx, true);
+            getAll(ctx, true, trxName);
 
         MHRRelationship relationship = relationshipCacheIds.get(raceId);
         if (relationship != null)
             return relationship;
 
-        relationship = new Query(ctx , Table_Name , COLUMNNAME_HR_Relationship_ID + "=?" , null)
+        relationship = new Query(ctx , Table_Name , COLUMNNAME_HR_Relationship_ID + "=?" , trxName)
                 .setClient_ID()
                 .setParameters(raceId)
                 .first();
@@ -79,13 +80,14 @@ public class MHRRelationship extends X_HR_Relationship {
      * Get Race by search key
      * @param ctx
      * @param value
+     * @param trxName
      * @return
      */
-    public static MHRRelationship getByValue(Properties ctx, String value) {
+    public static MHRRelationship getByValue(Properties ctx, String value, String trxName) {
         if (value == null)
             return null;
         if (relationshipCacheValues.size() == 0)
-            getAll(ctx, true);
+            getAll(ctx, true, trxName);
 
         int clientId = Env.getAD_Client_ID(ctx);
         String key =  clientId + "#" + value;
@@ -93,7 +95,7 @@ public class MHRRelationship extends X_HR_Relationship {
         if (relationship != null && relationship.get_ID() > 0)
             return relationship;
 
-        relationship = new Query(ctx, Table_Name, COLUMNNAME_Value + "=?", null)
+        relationship = new Query(ctx, Table_Name, COLUMNNAME_Value + "=?", trxName)
                 .setClient_ID()
                 .setParameters(value)
                 .first();
@@ -109,12 +111,13 @@ public class MHRRelationship extends X_HR_Relationship {
      * Get all Race and create cache
      * @param ctx
      * @param resetCache
+     * @param trxName
      * @return
      */
-    public static List<MHRRelationship> getAll(Properties ctx, boolean resetCache) {
+    public static List<MHRRelationship> getAll(Properties ctx, boolean resetCache, String trxName) {
         List<MHRRelationship> raceList;
         if (resetCache || relationshipCacheIds.size() > 0) {
-            raceList = new Query(Env.getCtx(), Table_Name, null, null)
+            raceList = new Query(ctx, Table_Name, null, trxName)
                     .setClient_ID()
                     .setOrderBy(COLUMNNAME_Name)
                     .list();

@@ -470,6 +470,15 @@ public final class MRole extends X_AD_Role
 			+ "INNER JOIN AD_Role rol ON (rol.AD_Client_ID=client.AD_Client_ID "
 			+ "AND rol.AD_Role_ID=" + getAD_Role_ID() 
 			+ ") )";
+		
+		String sqlDashboard = "INSERT INTO AD_Dashboard_Access "
+				+ "(AD_Dashboard_Access_ID, PA_DashboardContent_ID, AD_Role_ID,"
+				+ " AD_Client_ID,AD_Org_ID,IsActive,Created,CreatedBy,Updated,UpdatedBy) "
+				+ "SELECT  nextid(54805,'Y'), b.PA_DashboardContent_ID, " + getAD_Role_ID() + ","
+				+ getAD_Client_ID() + "," + getAD_Org_ID() + ",'Y', SysDate," 
+				+ getUpdatedBy() + ", SysDate," + getUpdatedBy() + " "
+				+ "FROM PA_DashboardContent b "
+				+ "WHERE AccessLevel IN ";
 
 
 		/**
@@ -517,13 +526,17 @@ public final class MRole extends X_AD_Role
 		int wf = DB.executeUpdate(sqlWorkflow + roleAccessLevel, get_TrxName());
 		int docactDel = DB.executeUpdate("DELETE FROM AD_Document_Action_Access" + whereDel, get_TrxName());
 		int docact = DB.executeUpdate(sqlDocAction, get_TrxName());
+		int dashboardDel = DB.executeUpdate("DELETE FROM AD_Dashboard_Access" + whereDel, get_TrxName());
+		int dashboard = DB.executeUpdate(sqlDashboard + roleAccessLevel, get_TrxName());
 
 		log.fine("AD_Window_ID=" + winDel + "+" + win 
 			+ ", AD_Process_ID=" + procDel + "+" + proc
 			+ ", AD_Form_ID=" + formDel + "+" + form
 			+ ", AD_Browse_ID=" + browseDel + "+" + browse
 			+ ", AD_Workflow_ID=" + wfDel + "+" + wf
-			+ ", AD_Document_Action_Access=" + docactDel + "+" + docact);
+			+ ", AD_Document_Action_Access=" + docactDel + "+" + docact
+			+ ", PA_DashboardContent_ID=" + dashboardDel + "+" + dashboard
+			);
 		
 		loadAccess(true);
 		return "@AD_Window_ID@ #" + win 
@@ -531,7 +544,8 @@ public final class MRole extends X_AD_Role
 			+ " -  @AD_Form_ID@ #" + form
 			+ " -  @AD_Browse_ID@ #"+ browse
 			+ " -  @AD_Workflow_ID@ #" + wf
-			+ " -  @DocAction@ #" + docact;
+			+ " -  @DocAction@ #" + docact
+			+ " -  @PA_DashboardContent_ID@ #"+ dashboard;
 	}	//	createAccessRecords
 
 	/**
@@ -546,14 +560,15 @@ public final class MRole extends X_AD_Role
 		int browseDel = DB.executeUpdate("DELETE FROM AD_Browse_Access" + whereDel, get_TrxName());
 		int wfDel = DB.executeUpdate("DELETE FROM AD_WorkFlow_Access" + whereDel, get_TrxName());
 		int docactDel = DB.executeUpdate("DELETE FROM AD_Document_Action_Access" + whereDel, get_TrxName());
-		
+		int dashboardDel = DB.executeUpdate("DELETE FROM AD_Dashboard_Access" + whereDel, get_TrxName());
 
 		log.fine("AD_Window_Access=" + winDel
 			+ ", AD_Process_Access=" + procDel
 			+ ", AD_Form_Access=" + formDel
 			+ ", AD_Browse_Access=" + browseDel
 			+ ", AD_Workflow_Access=" + wfDel
-			+ ", AD_Document_Action_Access=" + docactDel);
+			+ ", AD_Document_Action_Access=" + docactDel
+			+ ", AD_Dashboard_Access=" + dashboardDel);
 	}
 	
 	/**
@@ -649,6 +664,8 @@ public final class MRole extends X_AD_Role
 	private HashMap<Integer,Boolean>	m_browseAccess = null;
 	/**	Info Windows			*/
 	private HashMap<Integer, Boolean>	m_infoAccess = null;
+	/**	DashBoard Browse Access				*/
+	private HashMap<Integer,Boolean>	m_dashboardAccess = null;
 	
 	/**
 	 * 	Set Logged in user
@@ -688,6 +705,7 @@ public final class MRole extends X_AD_Role
 			m_workflowAccess = null;
 			m_formAccess = null;
 			m_browseAccess = null;
+			m_dashboardAccess = null;
 		}
 
 		loadIncludedRoles(reload); // Load/Reload included roles - metas-2009_0021_AP1_G94
@@ -805,7 +823,7 @@ public final class MRole extends X_AD_Role
 		if (!org.isSummary())
 			return;
 		//	Summary Org - Get Dependents
-		MTree_Base tree = MTree_Base.get(getCtx(), getAD_Tree_Org_ID(), get_TrxName());
+		MTree tree = MTree.get(getCtx(), getAD_Tree_Org_ID(), get_TrxName());
 		String sql =  "SELECT AD_Client_ID, AD_Org_ID FROM AD_Org "
 			+ "WHERE IsActive='Y' AND AD_Org_ID IN (SELECT Node_ID FROM "
 			+ tree.getNodeTableName()
@@ -1962,6 +1980,41 @@ public final class MRole extends X_AD_Role
 		return retValue;
 	}	//	getTaskAccess
 
+	/**
+	 * 	Get Process Access
+	 *	@param PA_DashboardContent_ID process
+	 *	@return null in no access, TRUE if r/w and FALSE if r/o
+	 */
+	public Boolean getDashboardAccess (int PA_DashboardContent_ID) {
+		if (m_dashboardAccess == null)
+		{
+			m_dashboardAccess = new HashMap<Integer, Boolean>(50);
+			
+			
+			String sql = "SELECT PA_DashboardContent_ID, IsActive FROM AD_Dashboard_Access WHERE AD_Role_ID=? AND IsActive='Y'" ;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			try
+			{
+				pstmt = DB.prepareStatement(sql, get_TrxName());
+				pstmt.setInt(1, getAD_Role_ID());
+				rs = pstmt.executeQuery();
+				while (rs.next())
+					m_dashboardAccess.put(new Integer(rs.getInt(1)), new Boolean("Y".equals(rs.getString(2))));
+			}
+			catch (Exception e)
+			{
+				log.log(Level.SEVERE, sql, e);
+			}
+			finally
+			{
+				DB.close(rs, pstmt);
+			}
+			mergeIncludedAccess("m_dashboardAccess"); // Load included accesses - metas-2009_0021_AP1_G94
+		}	//	reload
+		Boolean retValue = m_dashboardAccess.get(PA_DashboardContent_ID) == null ? false : m_dashboardAccess.get(PA_DashboardContent_ID);
+		return retValue;
+	}	//	getProcessAccess
 	
 	/*************************************************************************
 	 *	Appends where clause to SQL statement for Table
@@ -3039,6 +3092,11 @@ public final class MRole extends X_AD_Role
 			getFormAccess(-1);
 			return m_formAccess;
 		}
+		else if ("m_dashboardAccess".equals(varname))
+		{
+			getDashboardAccess(-1);
+			return m_dashboardAccess;
+		}
 		else
 		{
 			throw new IllegalArgumentException("varname not supported - "+varname);
@@ -3065,6 +3123,10 @@ public final class MRole extends X_AD_Role
 		else if ("m_formAccess".equals(varname))
 		{
 			m_formAccess = map;
+		}
+		else if ("m_dashboardAccess".equals(varname))
+		{
+			m_dashboardAccess = map;
 		}
 		else
 		{

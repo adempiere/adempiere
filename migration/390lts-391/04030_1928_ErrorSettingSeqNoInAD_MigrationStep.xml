@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="1938 Error setting SeqNo when creating new migration step re" ReleaseNo="3.9.1" SeqNo="4030">
+    <Comments>https://github.com/adempiere/adempiere/issues/1938</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="57875" Table="AD_Column">
+        <Data AD_Column_ID="117" Column="DefaultValue" oldValue="@SQL=SELECT COALESCE(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_MigrationStep WHERE AD_MigrationStep_ID=@AD_MigrationStep_ID@">@SQL=SELECT COALESCE(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_MigrationStep WHERE AD_Migration_ID=@AD_Migration_ID@</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

@@ -35,8 +35,10 @@ import org.adempiere.webui.apps.ProcessModalDialog;
 import org.adempiere.webui.apps.WReport;
 import org.adempiere.webui.apps.form.WCreateFromFactory;
 import org.adempiere.webui.apps.form.WPayment;
+import org.adempiere.webui.apps.form.WQuickEntrySheet;
 import org.adempiere.webui.component.AbstractADTab;
 import org.adempiere.webui.component.CWindowToolbar;
+import org.adempiere.webui.component.GridPanel;
 import org.adempiere.webui.component.IADTab;
 import org.adempiere.webui.component.IADTabList;
 import org.adempiere.webui.component.Window;
@@ -186,7 +188,9 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 	public North north = new North();
 	
 	private WProcessAction processAction;
-
+	
+	private GridPanel quickGridPanel = null;
+	
 
 	/**
 	 * Constructor for non-embedded mode
@@ -399,6 +403,8 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 	        toolbar.enableFind(true);
 	        toolbar.enableHistoryRecords(false);
         }
+       
+        	
 
         updateToolbar();
 
@@ -670,7 +676,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
     private MQuery initialQuery(MQuery query, GridTab mTab)
     {
         // We have a (Zoom) query
-        if (query != null && query.isActive() && query.getRecordCount() < 10)
+        if (query != null && query.isActive())
             return query;
         //
         StringBuffer where = new StringBuffer(Env.parseContext(ctx, curWindowNo, mTab.getWhereExtended(), false));
@@ -1090,10 +1096,16 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 	
 		currentTab = newTabPanel.getGridTab();	
 			
-		if (oldTabPanel != null)
-			oldTabPanel.activate(false);
+		if (oldTabPanel != null) {
+			oldTabPanel.activate(false); 
+			if(oldTabPanel.getListPanel() != null) {
+				oldTabPanel.getListPanel().addKeyListener();
+			}
+		}
 		newTabPanel.activate(true);
-
+		if(newTabPanel.getListPanel() != null) {
+			newTabPanel.getListPanel().addKeyListener();
+		}
 		back = (newTabIndex < oldTabIndex);
 		if (back && newTabPanel.getTabLevel() > 0)
 		{
@@ -1212,6 +1224,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
     		toolbar.enableNavigation(false);
     		toolbar.enableProcess(false);
     	}
+
 	}
 
 	/**
@@ -1220,11 +1233,12 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 	 */
     public void dataStatusChanged(DataStatusEvent e)
     {
-    	CWindowToolbar toolbar = curTabPanel.getGlobalToolbar();
+    		
     	//ignore non-ui thread event for now.
-    	if (Executions.getCurrent() == null)
+    	if (Executions.getCurrent() == null || curTabPanel == null ||  curTabPanel.getGlobalToolbar() == null)
     		return;
-
+    	CWindowToolbar toolbar = curTabPanel.getGlobalToolbar();
+    	
         logger.info(e.getMessage());
         String dbInfo = e.getMessage();
         if (currentTab != null && currentTab.isQueryActive())
@@ -1259,7 +1273,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
                 	statusBar.setStatusLine (sb.toString (), e.isError(), showPopup);
             }
         }
-
+        
         //  Confirm Error
         if (e.isError() && !e.isConfirmed())
         {
@@ -1278,11 +1292,15 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
         	}
             e.setConfirmed(true);   //  show just once - if MTable.setCurrentRow is involved the status event is re-issued
         }
+        
         //  Confirm Warning
         else if (e.isWarning() && !e.isConfirmed())
         {
-            FDialog.warn(curWindowNo, null, e.getAD_Message(), e.getInfo());
-            e.setConfirmed(true);   //  show just once - if MTable.setCurrentRow is involved the status event is re-issued
+        	((ADTabPanel)toolbar.getCurrentPanel()).getListPanel().addKeyListener();
+        	FDialog.warn(curWindowNo, null, e.getAD_Message(), e.getInfo());
+        	
+        	e.setConfirmed(true);   //  show just once - if MTable.setCurrentRow is involved the status event is re-issued
+        	((ADTabPanel)toolbar.getCurrentPanel()).getListPanel().addKeyListener();
         }
 
         //  update Navigation
@@ -1401,7 +1419,6 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
         //
 
         adTab.evaluate(e);
-
         toolbar.enablePrint(currentTab.isPrinted());
         toolbar.enableReport(true);
     }
@@ -1475,7 +1492,8 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
     	GridTab currentTab = toolbar.getCurrentPanel().getGridTab();
     	((ADTabPanel)toolbar.getCurrentPanel()).getListPanel().refresh(currentTab);
     	
-        if (!currentTab.isInsertRecord())
+
+    	if (!currentTab.isInsertRecord())
         {
             logger.warning("Insert Record disabled for Tab");
             return;
@@ -1505,6 +1523,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
             logger.severe("Could not create new record");
         }
         focusToActivePanel();
+        ((ADTabPanel)toolbar.getCurrentPanel()).getListPanel().onPostSelectedRowChanged();
     }
 
     private boolean autoSave() {
@@ -1612,7 +1631,18 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
             currentTab.dataRefresh(true);
 	        curTabPanel.dynamicDisplay(0);
 	        toolbar.enableIgnore(false);
+	        curTabPanel.getListPanel().focusCurrentCol();
+	        if(quickGridPanel!=null) {
+	        	quickGridPanel.dynamicDisplay(0);
+	        	quickGridPanel.focusCurrentCol();
+	        	quickGridPanel.onIgnore();
+	        	toolbar.enableDelete(true);
+		        toolbar.enableDeleteSelection(true);
+		        updateToolbar();
+	        }
+	        
     	}
+    	curTabPanel.getListPanel().addKeyListener();
     	focusToActivePanel();
     }
 
@@ -1797,10 +1827,9 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
         }
         
         
-		if(currentTab.getWhereClause()!=null)
+		if(currentTab.getWhereClause() !=null && !currentTab.getWhereClause().isEmpty())
 		{
-			if(currentTab.getWhereClause().length()>0)
-				query.addRestriction(Env.parseContext(ctx, curWindowNo, currentTab.getWhereClause(), false));
+			query.addRestriction(Env.parseContext(ctx, curWindowNo, currentTab.getWhereClause(), false));
 		}
 		//	Link for detail records
 		String queryColumn = currentTab.getLinkColumnName();
@@ -1821,7 +1850,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 			if (infoName != null && infoDisplay != null)
 				break;
 		}
-		if (queryColumn.length() != 0)
+		if (queryColumn.length() != 0 && query.getRestrictionCount() == 0)
 		{
 			if (queryColumn.endsWith("_ID"))
 				query.addRestriction(queryColumn, MQuery.EQUAL,
@@ -2014,7 +2043,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 			FDialog.error(curWindowNo, parent, "SaveErrorRowNotFound");
 			return;
 		}
-
+		((ADTabPanel)toolbar.getCurrentPanel()).getListPanel().addKeyListener();
 		boolean isProcessMandatory = false;
 		MProcess process = null;
 		if(wButton.getProcess_ID() != 0) {
@@ -2039,6 +2068,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 				onSave(false);
 				onRefresh(false);
 			}
+			((ADTabPanel)toolbar.getCurrentPanel()).getListPanel().addKeyListener();
 		} // PaymentRule
 
 		//	Pop up Document Action (Workflow)
@@ -2053,14 +2083,17 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 			if (win.getNumberOfOptions() == 0)
 			{
 				logger.info("DocAction - No Options");
+				((ADTabPanel)toolbar.getCurrentPanel()).getListPanel().addKeyListener();
 				return;
 			}
 			else
 			{
 				AEnv.showWindow(win);
 
-				if (!win.isStartProcess())
+				if (!win.isStartProcess()) {
+					((ADTabPanel)toolbar.getCurrentPanel()).getListPanel().addKeyListener();
 					return;
+				}
 
 				//batch = win.isBatch();
 				startWOasking = true;
@@ -2081,6 +2114,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 					cf.showWindow();
                     currentTab.dataRefresh();
 				}
+				((ADTabPanel)toolbar.getCurrentPanel()).getListPanel().addKeyListener();
 				return;
 			}
 			// else may start process
@@ -2106,6 +2140,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 				else
 				{
 					FDialog.error(curWindowNo, parent, "PostDocNotComplete");
+					((ADTabPanel)toolbar.getCurrentPanel()).getListPanel().addKeyListener();
 					return;
 				}
 			}
@@ -2143,6 +2178,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 					onRefresh(false);
 				}
 			}
+			((ADTabPanel)toolbar.getCurrentPanel()).getListPanel().addKeyListener();
 			return;
 		}   //  Posted
 
@@ -2165,8 +2201,10 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 
 		if (currentTab.needSave(true, false))
 		{
-			if (!onSave(false))
+			if (!onSave(false)) {
+				((ADTabPanel)toolbar.getCurrentPanel()).getListPanel().addKeyListener();
 				return;
+			}
 		}
 
 		//	Validate Access
@@ -2176,6 +2214,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		if(accessRW == null
 				|| !accessRW.booleanValue()) {
 			FDialog.error(curWindowNo, parent, "AccessCannotProcess");
+			((ADTabPanel)toolbar.getCurrentPanel()).getListPanel().addKeyListener();
 			return;
 		}
 		int adFormID = process.getAD_Form_ID();
@@ -2232,6 +2271,8 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 
 			//onRefresh(true); // Need to fire events to activate subordinate tabs.
 		}
+		((ADTabPanel)toolbar.getCurrentPanel()).getListPanel().addKeyListener();
+		((ADTabPanel)toolbar.getCurrentPanel()).getListPanel().focusCurrentCol();
 	} // actionButton
 
 	/**
@@ -2424,4 +2465,93 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 	public Component getParent() {
 		return this.parent;
 	}
+	
+	public void onQuickEntry() {
+		logger.log(Level.FINE, "Invoke Quick Entry Form");
+		ADTabPanel tabPanel = (ADTabPanel) getADTab().getSelectedTabpanel();
+		GridTab currentGrid = tabPanel.getGridTab();
+			m_popup = new Menupopup();
+
+			Menuitem m_open = new Menuitem(Msg.translate(Env.getCtx(), "AllRecords"));
+			m_popup.appendChild(m_open);
+			
+			
+			m_open.addEventListener(Events.ON_CLICK, new EventListener()
+			{
+				public void onEvent(Event event) throws Exception
+				{
+					MQuery query = tabPanel.getGridTab().getQuery();
+					showQuickGridPanel(query, tabPanel, currentGrid, false);
+				}
+			});
+
+			Menuitem newRecord = new Menuitem(Msg.translate(Env.getCtx(), "NewRecord"));
+			m_popup.appendChild(newRecord);
+			newRecord.addEventListener(Events.ON_CLICK, new EventListener()
+			{
+				public void onEvent(Event event) throws Exception
+				{
+					MQuery query = tabPanel.getGridTab().getQuery().getNoRecordQuery(currentGrid.get_TableName(), true);
+					showQuickGridPanel(query, tabPanel, currentGrid, true);
+				}
+			});
+
+			m_popup.setPage(toolbar.getButton("QuickEntry").getPage());
+		
+		m_popup.open(toolbar.getButton("QuickEntry"));
+	
+////		if (!SessionManager.registerQuickGrid(tabPanel.getGridTab().getAD_Tab_ID())) {
+////			logger.fine("TabID=" + tabPanel.getGridTab().getAD_Tab_ID() + "  is already opened.");
+////			return;
+////		}
+//		
+		
+		
+	}
+	
+	private void showQuickGridPanel(MQuery query, ADTabPanel tabPanel, GridTab currentGrid, boolean isAutoNew) {
+		GridTab quickGridTab = new GridTab(tabPanel.getGridTab().getM_vo(), gridWindow);
+		quickGridTab.setLinkColumnName(tabPanel.getGridTab().getLinkColumnName());
+		quickGridTab.query(false);
+		quickGridTab.setQuery(query);
+		quickGridTab.setQuickEntry(true);
+		curTabPanel.getListPanel().addKeyListener();
+		toolbar.enableHelp(false);
+		boolean isChangeView = false;
+		if(!((ADTabPanel)curTabPanel).isGridView()) {
+			curTabPanel.switchRowPresentation();
+			isChangeView = true;
+		}
+		
+		//quickGrid.init(quickGridTab);
+		WQuickEntrySheet form = new WQuickEntrySheet(curTabPanel.getListPanel(), quickGridTab, tabPanel, this, m_onlyCurrentDays, m_onlyCurrentRows);
+		form.setPosition("center");
+		form.setSizable(true);
+		if(isAutoNew)
+			curTabPanel.getListPanel().createNewLine();
+		AEnv.showCenterScreen(form);
+		form.dispose();
+		adTab.getSelectedTabpanel().getListPanel().addKeyListener();
+		if(isChangeView) {
+			curTabPanel.switchRowPresentation();
+		}
+		currentTab.setQuickEntry(false);
+		toolbar.enableHelp(true);
+		tabPanel.getGridTab().setQuickEntry(false);
+		currentTab.dataRefreshAll();
+		curTabPanel.getListPanel().refresh(currentGrid);
+		curTabPanel.getListPanel().invalidate();
+		curTabPanel.appendChild(curTabPanel.getListPanel());
+		curTabPanel.invalidate();
+		if(!((ADTabPanel)curTabPanel).isGridView()) {
+			curTabPanel.getListPanel().addKeyListener();
+		}
+		m_popup = null;
+		form.detach();
+		form=null;
+	}
+		public GridPanel getQuickGridPanel() {
+			return quickGridPanel;
+		}
+	
 }

@@ -22,7 +22,6 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -53,6 +52,10 @@ import org.compiere.util.Util;
  *		<li>FR [ 352 ] T_Selection is better send to process like a HashMap instead read from disk
  *		@see https://github.com/adempiere/adempiere/issues/352
  *	@author Victor Perez , victor.perez@e-evolution.com, http://e-evolution.com
+ *	@author Michael McKay, michael.mckay@mckayerp.com, 
+ *	 <li>Bug [ <a href="https://github.com/adempiere/adempiere/issues/1926">#1926</a> ] ZK Exports migration XML files to 
+ *       different location than what is selected in the dialogs.
+
  */
 public class ProcessInfo implements Serializable
 {
@@ -176,6 +179,35 @@ public class ProcessInfo implements Serializable
 	 */
 	// 03152: motivation to add this is that now in ait we can assert that a certain exception was thrown.
 	private Throwable 			throwable = null;
+	/**	Table Name for open window after running	*/
+	private String 				resultTableName = null;
+	
+	// Bug #1926 - fix is to provide interface info to the process
+	/** A flag indicating the type of interface in use.  Value can be
+	 *  INTERFACE_TYPE_NOT_SET, INTERFACE_TYPE_ZK or INTERFACE_TYPE_SWING
+	 *  */
+	private String	interfaceType;
+	
+	// Values for the interface_type flag
+	/** 
+	 * A flag value for the interface type indicating the interface type
+	 * is not set.  This is a valid value if the process is not being run
+	 * through a UI dialog.
+	 */
+	public static String		INTERFACE_TYPE_NOT_SET = "not set";
+	
+	/**
+	 * A flag value for the interface type indicating the process is 
+	 * being run from a dialog in a web client
+	 */
+	public static String		INTERFACE_TYPE_ZK = "zk";
+
+	/**
+	 * A flag value for the interface type indicating the process is 
+	 * being run from a dialog in a SWING client
+	 */
+	public static String		INTERFACE_TYPE_SWING = "swing";
+
 	
 	/**
 	 *  String representation
@@ -1336,4 +1368,68 @@ public class ProcessInfo implements Serializable
 		this.drillSource = drillSource;
 	}
 	
+	/**
+	 * Open result from a table and IDs of process info
+	 * @param tableName
+	 */
+	public void openResult(String tableName) {
+		resultTableName = tableName;
+	}
+	
+	/**
+	 * Get result table Name
+	 * @return
+	 */
+	public String getResultTableName() {
+		return resultTableName;
+	}
+	
+	/**
+	 * Validate if result can be open
+	 * @return
+	 */
+	public boolean isOpenResult() {
+		return !Util.isEmpty(getResultTableName());
+	}
+	
+	/**
+	 * Get the interface type this process is being run from.  The interface type
+	 * can be used by the process to perform UI type actions from within the process
+	 * or in the {@link #postProcess(boolean)}
+	 * @return The InterfaceType which will be one of 
+	 * <li> {@link #INTERFACE_TYPE_NOT_SET}
+	 * <li> {@link #INTERFACE_TYPE_SWING} or
+	 * <li> {@link #INTERFACE_TYPE_ZK}
+	 */
+	public String getInterfaceType() {
+		
+		if (interfaceType == null || interfaceType.isEmpty())
+			interfaceType = INTERFACE_TYPE_NOT_SET;
+		
+		return interfaceType;
+	}
+
+	/**
+	 * Sets the Interface Type
+	 * @param uiType which must equal one of the following: 
+	 * <li> {@link #INTERFACE_TYPE_NOT_SET} (default)
+	 * <li> {@link #INTERFACE_TYPE_SWING} or
+	 * <li> {@link #INTERFACE_TYPE_ZK}
+	 * The interface should be set by UI dialogs that start the process.
+	 * @throws IllegalArgumentException if the interfaceType is not recognized.
+	 */
+	public void setInterfaceType(String uiType) {
+		// Limit value to known types
+		if (uiType.equals(INTERFACE_TYPE_NOT_SET)
+			||uiType.equals(INTERFACE_TYPE_ZK)
+			||uiType.equals(INTERFACE_TYPE_SWING) )
+		{
+			this.interfaceType = uiType;
+		}
+		else
+		{
+			throw new IllegalArgumentException("Unknown interface type " + uiType);
+		}
+	}
+
 }   //  ProcessInfo

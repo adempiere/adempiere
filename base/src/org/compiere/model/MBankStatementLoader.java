@@ -20,6 +20,7 @@ import java.sql.ResultSet;
 import java.util.Properties;
 
 import org.compiere.impexp.BankStatementLoaderInterface;
+import org.compiere.util.Util;
  
  
 /**
@@ -254,17 +255,20 @@ import org.compiere.impexp.BankStatementLoaderInterface;
 		imp.setChargeName(m_loader.getChargeName());
 		log.config( "MBankStatementLoader.importLine Charge Amount=" + m_loader.getChargeAmt());
 		imp.setChargeAmt(m_loader.getChargeAmt());
+		//	
+		imp.setC_BankAccount_ID(getC_BankAccount_ID());
+		if(Util.isEmpty(imp.getISO_Code())) {
+			MBankAccount account = MBankAccount.get(getCtx(), getC_BankAccount_ID());
+			imp.setC_Currency_ID(account.getC_Currency_ID());
+		}
 		imp.setProcessed(false);
 		imp.setI_IsImported(false);
-		
-		result = imp.save();
-		if (result)
-		{
+		try {
+			imp.saveEx();
 			loadCount ++;
-		}
-		else
-		{
-			errorMessage = "LoadError";
+			result = true;
+		} catch (Exception e) {
+			errorMessage = e.getLocalizedMessage();
 		}
 		imp = null;
 		return result;

@@ -698,4 +698,38 @@ public interface I_M_CostDetail
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+
+
+	/** Column name M_MatchInv_ID */
+	public static final String COLUMNNAME_M_MatchInv_ID = "M_MatchInv_ID";
+
+	/** Set Match Invoice.
+	 * Match Shipment/Receipt to Invoice
+	 */
+	public void setM_MatchInv_ID (int M_MatchInv_ID);
+
+	/** Get Match Invoice.
+	 * Match Shipment/Receipt to Invoice
+	 */
+	public int getM_MatchInv_ID();
+
+
+
+
+	/** Column name M_MatchPO_ID */
+	public static final String COLUMNNAME_M_MatchPO_ID = "M_MatchPO_ID";
+
+	/** Set Match Invoice.
+	 * Match Shipment/Receipt to Invoice
+	 */
+	public void setM_MatchPO_ID (int M_MatchPO_ID);
+
+	/** Get Match Invoice.
+	 * Match Shipment/Receipt to Invoice
+	 */
+	public int getM_MatchPO_ID();
+
+
+
 }

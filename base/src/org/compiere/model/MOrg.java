@@ -29,6 +29,9 @@ import org.compiere.util.Env;
  *	
  *  @author Jorg Janke
  *  @version $Id: MOrg.java,v 1.3 2006/07/30 00:58:04 jjanke Exp $
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com 2015-09-09
+ *  	<li>FR [ 9223372036854775807 ] Add Support to Dynamic Tree
+ *  @see https://adempiere.atlassian.net/browse/ADEMPIERE-442
  */
 public class MOrg extends X_AD_Org
 {
@@ -154,7 +157,10 @@ public class MOrg extends X_AD_Org
 			role.set_TrxName(get_TrxName());
 			role.loadAccess(true); // reload org access within transaction
 			//	TreeNode
-			insert_Tree(MTree_Base.TREETYPE_Organization);
+			//	Yamel Senih [ 9223372036854775807 ]
+			//	Change to PO
+//			insert_Tree(MTree.TREETYPE_Organization);
+			//	End Yamel Senih
 		}
 		//	Value/Name change
 		if (!newRecord && (is_ValueChanged("Value") || is_ValueChanged("Name")))
@@ -172,12 +178,15 @@ public class MOrg extends X_AD_Org
 	 *	@param success
 	 *	@return deleted
 	 */
-	protected boolean afterDelete (boolean success)
-	{
-		if (success)
-			delete_Tree(MTree_Base.TREETYPE_Organization);
-		return success;
-	}	//	afterDelete
+	//	Yamel Senih [ 9223372036854775807 ]
+	//	Change to PO
+//	protected boolean afterDelete (boolean success)
+//	{
+//		if (success)
+//			delete_Tree(MTree.TREETYPE_Organization);
+//		return success;
+//	}	//	afterDelete
+	//	End Yamel Senih
 
 
 	/**

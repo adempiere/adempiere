@@ -17,7 +17,15 @@
 
 package org.adempiere.webui.component;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zk.ui.event.Express;
 
 /**
  *
@@ -30,12 +38,14 @@ public class Grid extends org.zkoss.zul.Grid
 	private static final long serialVersionUID = -4483759833677794926L;
 	private boolean noStrip = false;
 	private String oddRowSclass;
+	private transient Map<String, List<EventListenerInfo>> listeners;
 
     public Grid() {
 		super();
 		//cache default
 		oddRowSclass = super.getOddRowSclass();
 		super.setOddRowSclass(oddRowSclass);
+		listeners = new HashMap<String, List<EventListenerInfo>>();
 	}
 
 	public void makeNoStrip() {
@@ -75,5 +85,95 @@ public class Grid extends org.zkoss.zul.Grid
 		else
 			oddRowSclass = scls;
 		super.setOddRowSclass(scls);
+	}
+	public boolean addEventListener(String evtnm, EventListener listener)
+	{
+		return addEventListener((listener instanceof Express) ? 1000 : 0, evtnm, listener);
+	}
+	
+	public boolean addEventListener(int priority, String evtnm, EventListener listener)
+	{
+		boolean b = super.addEventListener(evtnm, listener);
+		if (b)
+		{
+			final EventListenerInfo listenerInfo = new EventListenerInfo(priority, listener);
+			List<EventListenerInfo> list = listeners.get(evtnm);
+			if (list != null)
+			{
+				for (Iterator<EventListenerInfo> it = list.iterator(); it.hasNext();)
+				{
+					final EventListenerInfo li = it.next();
+					if (li.listener.equals(listener))
+					{
+						if (li.priority == priority)
+							return false; // nothing to do
+						it.remove(); // re-added later
+						break;
+					}
+				}
+
+				list.add(listenerInfo);
+			}
+			else
+			{
+				listeners.put(evtnm, list = new LinkedList<EventListenerInfo>());
+				list.add(listenerInfo);
+			}
+		}
+		return b;
+	}
+
+	public boolean removeEventListener(String evtnm, EventListener listener)
+	{
+		boolean b = super.removeEventListener(evtnm, listener);
+		if (b)
+		{
+			List<EventListenerInfo> list = listeners.get(evtnm);
+			if (list != null)
+			{
+				for (Iterator<EventListenerInfo> it = list.iterator(); it.hasNext();)
+				{
+					final EventListenerInfo li = it.next();
+					if (li.listener.equals(listener))
+					{
+						it.remove();
+						break;
+					}
+				}
+			}
+		}
+
+		return b;
+	}
+
+	public void copyEventListeners(Grid grid)
+	{
+		for (String evtnm : listeners.keySet())
+		{
+			if (evtnm.equals("onInitModel"))
+				continue;
+			List<EventListenerInfo> list = listeners.get(evtnm);
+			for (EventListenerInfo info : list)
+			{
+				grid.addEventListener(info.priority, evtnm, info.listener);
+			}
+		}
+	}
+
+	/**
+	 * Temporarily hold in memory, Event Listener Info
+	 * 
+	 * @author Sachin
+	 */
+	private static class EventListenerInfo
+	{
+		private final int			priority;
+		private final EventListener	listener;
+
+		private EventListenerInfo(int priority, EventListener listener)
+		{
+			this.priority = priority;
+			this.listener = listener;
+		}
 	}
 }

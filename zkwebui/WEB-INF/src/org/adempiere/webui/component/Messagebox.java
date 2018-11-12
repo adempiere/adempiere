@@ -21,10 +21,12 @@ import java.io.IOException;
 
 import org.adempiere.webui.apps.AEnv;
 import org.compiere.util.CLogger;
+import org.zkforge.keylistener.Keylistener;
 import org.zkoss.zhtml.Text;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zk.ui.event.KeyEvent;
 import org.zkoss.zul.Hbox;
 import org.zkoss.zul.Image;
 import org.zkoss.zul.Separator;
@@ -99,7 +101,12 @@ public class Messagebox extends Window implements EventListener
 
 	/** Contains no symbols. */
 	public static final String NONE = null;
-
+	
+	/**	 */
+	private Keylistener keyListener;
+	
+	private static final int KEYBOARD_KEY_RETURN = 13;
+	
 	public Messagebox()
 	{
 		super();
@@ -159,7 +166,13 @@ public class Messagebox extends Window implements EventListener
 		Panel pnlMessage = new Panel();
 		pnlMessage.setStyle(MESSAGE_PANEL_STYLE);
 		pnlMessage.appendChild(lblMsg);
+
+		keyListener = new Keylistener();
 		
+		keyListener.setCtrlKeys("#enter");
+		keyListener.addEventListener(Events.ON_CTRL_KEY, this);
+		addEventListener(Events.ON_CANCEL, this);
+		appendChild(keyListener);
 		Hbox pnlImage = new Hbox();
 
 		img.setSrc(imgSrc);
@@ -266,12 +279,20 @@ public class Messagebox extends Window implements EventListener
 	{
 		if (event == null)
 			return;
-
-		if (event.getTarget() == btnOk)
+		
+		if (event.getName().equals(Events.ON_CTRL_KEY) && event.getTarget() == keyListener) {
+				
+				KeyEvent keyEvent = (KeyEvent) event;
+				int code = keyEvent.getKeyCode();
+				if (code == KEYBOARD_KEY_RETURN) {
+					returnValue = OK; 
+				}
+		 }
+		if (event.getTarget() == btnOk || event.getName().equals(Events.ON_OK))
 		{
 			returnValue = OK;
 		}
-		else if (event.getTarget() == btnCancel)
+		else if (event.getTarget() == btnCancel || event.getName().equals(Events.ON_CANCEL))
 		{
 			returnValue = CANCEL;
 		}

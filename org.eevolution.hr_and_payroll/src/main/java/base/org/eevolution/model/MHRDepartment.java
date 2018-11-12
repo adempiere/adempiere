@@ -37,19 +37,20 @@ public class MHRDepartment extends X_HR_Department {
      * Ge Department by Id
      * @param ctx
      * @param departmentId
+     * @param trxName
      * @return
      */
-    public static MHRDepartment getById(Properties ctx, Integer departmentId) {
+    public static MHRDepartment getById(Properties ctx, Integer departmentId, String trxName) {
         if (departmentId <= 0)
             return null;
         if (departmentCacheIds.size() == 0)
-            getAll(ctx, true);
+            getAll(ctx, true, trxName);
 
         MHRDepartment department = departmentCacheIds.get(departmentId);
         if (department != null)
             return department;
 
-        department =  new Query(ctx , Table_Name , MHRDepartment.COLUMNNAME_HR_Department_ID + "=?" , null)
+        department =  new Query(ctx , Table_Name , MHRDepartment.COLUMNNAME_HR_Department_ID + "=?" , trxName)
                 .setClient_ID()
                 .setParameters(departmentId)
                 .first();
@@ -67,13 +68,14 @@ public class MHRDepartment extends X_HR_Department {
      * Get Department by Search Key
      * @param ctx
      * @param value
+     * @param trxName
      * @return
      */
-    public static MHRDepartment getByValue(Properties ctx, String value) {
+    public static MHRDepartment getByValue(Properties ctx, String value, String trxName) {
         if (value == null)
             return null;
         if (departmentCacheValues.size() == 0)
-            getAll(ctx, true);
+            getAll(ctx, true, trxName);
 
         int clientId = Env.getAD_Client_ID(ctx);
         String key = clientId + "#" + value;
@@ -81,7 +83,7 @@ public class MHRDepartment extends X_HR_Department {
         if (department != null && department.get_ID() > 0)
             return department;
 
-        department = new Query(ctx, Table_Name, COLUMNNAME_Value + "=?", null)
+        department = new Query(ctx, Table_Name, COLUMNNAME_Value + "=?", trxName)
                 .setClient_ID()
                 .setParameters(value)
                 .first();
@@ -96,12 +98,13 @@ public class MHRDepartment extends X_HR_Department {
      * Get all department and create cache
      * @param ctx
      * @param resetCache
+     * @param trxName
      * @return
      */
-    public static List<MHRDepartment> getAll(Properties ctx, boolean resetCache) {
+    public static List<MHRDepartment> getAll(Properties ctx, boolean resetCache, String trxName) {
         List<MHRDepartment> departmentList;
         if (resetCache || departmentCacheIds.size() > 0) {
-            departmentList = new Query(Env.getCtx(), X_HR_Department.Table_Name, null, null)
+            departmentList = new Query(Env.getCtx(), X_HR_Department.Table_Name, null, trxName)
                     .setClient_ID()
                     .setOrderBy(COLUMNNAME_Name)
                     .list();
