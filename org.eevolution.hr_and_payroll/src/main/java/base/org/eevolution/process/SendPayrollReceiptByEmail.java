@@ -102,9 +102,6 @@ public class SendPayrollReceiptByEmail extends SendPayrollReceiptByEmailAbstract
     private Boolean sendIndividualMail(MMailText mailText, int paymentId, String unSubscribe) {
         try {
             MPayment payment = new MPayment(getCtx(), paymentId, get_TrxName());
-            if (payment == null)
-                throw new AdempiereException("@C_Payment_ID@ @NotFound@");
-
             MBPartner employee = (MBPartner) payment.getC_BPartner();
 
             String message = mailText.getMailText(true);
