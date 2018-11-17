@@ -21,23 +21,19 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-
-import org.compiere.model.I_Persistent;
-import org.compiere.model.MTable;
-import org.compiere.model.PO;
-import org.compiere.model.POInfo;
+import org.compiere.model.*;
 import org.compiere.util.Env;
 
 /** Generated Model for HR_Process
  *  @author Adempiere (generated) 
  *  @version Release 3.9.0 - $Id$ */
-public class X_HR_Process extends PO implements I_HR_Process, I_Persistent
+public class X_HR_Process extends PO implements I_HR_Process, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20180126L;
+	private static final long serialVersionUID = 20180728L;
 
     /** Standard Constructor */
     public X_HR_Process (Properties ctx, int HR_Process_ID, String trxName)

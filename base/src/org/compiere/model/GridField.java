@@ -637,7 +637,7 @@ public class GridField
 			sql = Env.parseContext(m_vo.ctx, m_vo.WindowNo, sql, false, false);	//	replace variables
 			if (sql.equals(""))
 			{
-				log.log(Level.WARNING, "(" + m_vo.ColumnName + ") - Default SQL variable parse failed: "
+				log.log(Level.CONFIG, "(" + m_vo.ColumnName + ") - Default SQL variable parse failed: "
 					+ m_vo.DefaultValue);
 			}
 			else
@@ -649,13 +649,13 @@ public class GridField
 					if (rs.next())
 						defStr = rs.getString(1);
 					else
-						log.log(Level.WARNING, "(" + m_vo.ColumnName + ") - no Result: " + sql);
+						log.log(Level.CONFIG, "(" + m_vo.ColumnName + ") - no Result: " + sql);
 					rs.close();
 					stmt.close();
 				}
 				catch (SQLException e)
 				{
-					log.log(Level.WARNING, "(" + m_vo.ColumnName + ") " + sql, e);
+					log.log(Level.CONFIG, "(" + m_vo.ColumnName + ") " + sql, e);
 				}
 			}
 			if (defStr != null && defStr.length() > 0)
@@ -2108,7 +2108,7 @@ public class GridField
 	{
 		return m_vo.IsQuickEntry;
 	}
-
+	
     /**
      * Is Information Only
      * @return

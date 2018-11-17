@@ -1888,10 +1888,9 @@ public class MInvoice extends X_C_Invoice implements DocAction , DocumentReversa
 		if (counter != null)
 			info.append(" - @CounterDoc@: @C_Invoice_ID@=").append(counter.getDocumentNo());
 
-        for (MInvoiceLine invoiceLine:getLines()){
-            generateCostDetail(invoiceLine);
+		for (MInvoiceLine invoiceLine:getLines()){
+		    generateCostDetail(invoiceLine);
         }
-
 		processMsg = info.toString().trim();
 		setProcessed(true);
 		setDocAction(DOCACTION_Close);
@@ -2524,10 +2523,13 @@ public class MInvoice extends X_C_Invoice implements DocAction , DocumentReversa
 		return ;
 	}
 
+
     private void generateCostDetail(MInvoiceLine invoiceLine) {
         for (MLandedCostAllocation allocation : MLandedCostAllocation.getOfInvoiceLine(getCtx(), invoiceLine.getC_InvoiceLine_ID(), get_TrxName())) {
             CostEngineFactory.getCostEngine(getAD_Client_ID()).createCostDetailForLandedCostAllocation(allocation);
         }
     }
+
+
 
 }	//	MInvoice

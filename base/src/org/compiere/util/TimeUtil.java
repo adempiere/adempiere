@@ -1088,7 +1088,7 @@ public class TimeUtil
 		//	Return
 		return time;
     }
-
+    
     /**
      * Get Hours between two dates
      * @param dateFrom
@@ -1098,7 +1098,7 @@ public class TimeUtil
     public static int getHoursBetween(Timestamp dateFrom, Timestamp dateTo) {
     	return (int) getTimeBetween(dateFrom, dateTo, DURATIONUNIT_Hour);
     }
-
+    
     /**
      * Get Minutes between two dates
      * @param dateFrom
@@ -1108,7 +1108,7 @@ public class TimeUtil
     public static int getMinutesBetween(Timestamp dateFrom, Timestamp dateTo) {
     	return (int) getTimeBetween(dateFrom, dateTo, DURATIONUNIT_Minute);
     }
-
+    
     /**
      * Get Seconds between two dates
      * @param dateFrom
@@ -1118,7 +1118,7 @@ public class TimeUtil
     public static int getSecondsBetween(Timestamp dateFrom, Timestamp dateTo) {
     	return (int) getTimeBetween(dateFrom, dateTo, DURATIONUNIT_Second);
     }
-
+    
     /**
      * Get Duration between two dates
      * @param dateFrom

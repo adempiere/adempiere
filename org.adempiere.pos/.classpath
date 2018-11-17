@@ -4,5 +4,12 @@
 	<classpathentry kind="src" path="src/main/java/ui/swing"/>
 	<classpathentry kind="src" path="src/main/java/base"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/base"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/client"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/org.adempiere.project"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/zkwebui"/>
+	<classpathentry kind="lib" path="/zkwebui/WEB-INF/lib/zhtml.jar" sourcepath="/zkwebui/WEB-INF/lib/zhtml-sources.jar"/>
+	<classpathentry kind="lib" path="/zkwebui/WEB-INF/lib/keylistener.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/tools"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

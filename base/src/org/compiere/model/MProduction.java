@@ -182,7 +182,7 @@ public class MProduction extends X_M_Production implements DocAction , DocumentR
 				String whereClause = "M_Product_ID=? and M_Locator_ID=? and Movementdate<=? ";
 				ArrayList <Object> params = new ArrayList<>();
 				params.add(product.getM_Product_ID());
-        params.add(line.getM_Locator_ID());
+				params.add(line.getM_Locator_ID());
 				params.add(getMovementDate());
 				if (line.getM_AttributeSetInstance_ID()!=0){
 					whereClause = whereClause + " and M_AttributesetInstance_ID=? ";
@@ -191,12 +191,12 @@ public class MProduction extends X_M_Production implements DocAction , DocumentR
 				BigDecimal qtyOnHand = new Query(getCtx(), MTransaction.Table_Name, whereClause, get_TrxName())
 						.setParameters(params)
 						.aggregate(MTransaction.COLUMNNAME_MovementQty, Query.AGGREGATE_SUM);
-				
-        log.config("qtyOnHand="+qtyOnHand + " movementQty="+line.getMovementQty() + " "+product);
-        if (qtyOnHand.add(line.getMovementQty()).compareTo(Env.ZERO)<0) {
-          errors.append(Msg.translate(getCtx(), "NotEnoughStocked") + " " + product.getName()
-          + ": " + Msg.translate(getCtx(), "QtyAvailable") + " " + qtyOnHand.toString() + ".\n" );
-        }
+
+				log.config("qtyOnHand="+qtyOnHand + " movementQty="+line.getMovementQty() + " "+product);
+				if (qtyOnHand.add(line.getMovementQty()).compareTo(Env.ZERO)<0) {
+					errors.append(Msg.translate(getCtx(), "NotEnoughStocked") + " " + product.getName()
+					+ ": " + Msg.translate(getCtx(), "QtyAvailable") + " " + qtyOnHand.toString() + ".\n" );
+				}
 			}
 		}
 		//	Validate error lines
@@ -426,11 +426,9 @@ public class MProduction extends X_M_Production implements DocAction , DocumentR
 		if (m_processMsg != null)
 			return DocAction.STATUS_Invalid;
 
-    // Std Period open? // homebeaver: check only if MovementDate is in the past 
-    // @see https://github.com/adempiere/adempiere/issues/1782
-    if(getMovementDate().before(new Timestamp(System.currentTimeMillis()))) {
-      MPeriod.testPeriodOpen(getCtx(), getMovementDate(), MDocType.DOCBASETYPE_ManufacturingOrder, getAD_Org_ID());
-    }
+		// Std Period open? @see https://github.com/adempiere/adempiere/issues/1782
+		// and https://github.com/adempiere/adempiere/pull/1826#issuecomment-412618464
+		MPeriod.testPeriodOpen(getCtx(), getMovementDate(), MDocType.DOCBASETYPE_ManufacturingOrder, getAD_Org_ID());
 		//	
 		m_processMsg = validateEndProduct(getM_Product_ID());
 		if (!Util.isEmpty(m_processMsg))
@@ -1151,7 +1149,7 @@ public class MProduction extends X_M_Production implements DocAction , DocumentR
 	 * @return
 	 */
 	public String createLines(boolean mustBeStocked)  {
-    log.config("mustBeStocked="+mustBeStocked);
+		
 		lineno = 100;
 		String error ="";
 		// product to be produced	

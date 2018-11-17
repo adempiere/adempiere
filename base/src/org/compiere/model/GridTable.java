@@ -2134,21 +2134,21 @@ public class GridTable extends AbstractTableModel
 				Object dbValue = po.get_Value(poIndex);
 				if (m_inserting 
 					|| !m_compareDB
-
+					
 					//	Original == DB
 					|| (oldValue == null && dbValue == null)
 					|| (oldValue != null && oldValue.equals (dbValue))
 					//  #1944  Special case when the field is boolean and not initialized
 					//  false equivalent to null allowed
 					|| (oldValue instanceof Boolean && !((Boolean) oldValue) && dbValue == null)
-
+					
 					//	Target == DB (changed by trigger to new value already)
 					|| (value == null && dbValue == null)
 					|| (value != null && value.equals (dbValue)) 
 					//  #1944  Special case when the field is boolean and not initialized
 					//  false equivalent to null allowed
 					|| (value instanceof Boolean && !((Boolean) value) && dbValue == null)
-
+					
 					//   GridTable.dataSave(boolean manualCmd) has a Bug when comparing new, old and db value 
 					// - https://adempiere.atlassian.net/browse/ADEMPIERE-157
 					|| ((oldValue !=null && dbValue !=  null && oldValue.getClass().equals(byte[].class) &&  dbValue.getClass().equals(byte[].class)) && Arrays.equals((byte[])oldValue, (byte[])dbValue))

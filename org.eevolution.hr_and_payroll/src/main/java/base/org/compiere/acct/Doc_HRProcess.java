@@ -144,7 +144,7 @@ public class   Doc_HRProcess extends Doc
 			//	
 			if (payrollDocLine.getAccountSign() != null && payrollDocLine.getAccountSign().length() > 0
 					&& (MHRConcept.ACCOUNTSIGN_Debit.equals(payrollDocLine.getAccountSign())
-							|| MHRConcept.ACCOUNTSIGN_Credit.equals(payrollDocLine.getAccountSign()))) {
+					|| MHRConcept.ACCOUNTSIGN_Credit.equals(payrollDocLine.getAccountSign()))) {
 				if (conceptAcct.isBalancing()) {
 					MAccount accountBPD = MAccount.getValidCombination (getCtx(), conceptAcct.getHR_Expense_Acct() , getTrxName());
 					FactLine debitLine = fact.createLine(line, accountBPD, as.getC_Currency_ID(),sumAmount, null);
@@ -193,30 +193,28 @@ public class   Doc_HRProcess extends Doc
 		facts.add(fact);
 		return facts;
 	}
-	private void closeBPartner (BigDecimal totalDebit, BigDecimal totalCredit,
-			Fact fact, MAcctSchema as, int c_bpartner_id)
-	{
-		if(totalDebit.signum() != 0
-				|| totalCredit.signum() != 0)
-		{
 
-			int C_Charge_ID = process.getHR_Payroll().getC_Charge_ID();
-			if (C_Charge_ID > 0) {
-				MAccount acct = MCharge.getAccount(C_Charge_ID, as, totalDebit.subtract(totalCredit));
-				FactLine regTotal = null;
-				if(totalDebit.abs().compareTo(totalCredit.abs()) > 0 )
-					regTotal = fact.createLine(null, acct ,as.getC_Currency_ID(), null, totalDebit.subtract(totalCredit));
-				else
-					regTotal = fact.createLine(null, acct ,as.getC_Currency_ID(), totalCredit.abs().subtract(totalDebit.abs()), null);
-				if (regTotal != null)
-				{
-					regTotal.setAD_Org_ID(getAD_Org_ID());
-					regTotal.setC_BPartner_ID(c_bpartner_id);
-					regTotal.saveEx();
-				}
-
-			}
-		}
-
-	}
+    private void closeBPartner (BigDecimal totalDebit, BigDecimal totalCredit,
+                                Fact fact, MAcctSchema as, int c_bpartner_id)
+    {
+        if(totalDebit.signum() != 0
+                || totalCredit.signum() != 0)
+        {
+            int C_Charge_ID = process.getHR_Payroll().getC_Charge_ID();
+            if (C_Charge_ID > 0) {
+                MAccount acct = MCharge.getAccount(C_Charge_ID, as, totalDebit.subtract(totalCredit));
+                FactLine regTotal = null;
+                if(totalDebit.abs().compareTo(totalCredit.abs()) > 0 )
+                    regTotal = fact.createLine(null, acct ,as.getC_Currency_ID(), null, totalDebit.subtract(totalCredit));
+                else
+                    regTotal = fact.createLine(null, acct ,as.getC_Currency_ID(), totalCredit.abs().subtract(totalDebit.abs()), null);
+                if (regTotal != null)
+                {
+                    regTotal.setAD_Org_ID(getAD_Org_ID());
+                    regTotal.setC_BPartner_ID(c_bpartner_id);
+                    regTotal.saveEx();
+                }
+            }
+        }
+    }
 }   //  Doc_Payroll
