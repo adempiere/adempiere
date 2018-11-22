@@ -474,7 +474,7 @@ public final class MRole extends X_AD_Role
 		String sqlDashboard = "INSERT INTO AD_Dashboard_Access "
 				+ "(AD_Dashboard_Access_ID, PA_DashboardContent_ID, AD_Role_ID,"
 				+ " AD_Client_ID,AD_Org_ID,IsActive,Created,CreatedBy,Updated,UpdatedBy) "
-				+ "SELECT  nextid(54805,'Y'), b.PA_DashboardContent_ID, " + getAD_Role_ID() + ","
+				+ "SELECT  nextidfunc(54805,'Y'), b.PA_DashboardContent_ID, " + getAD_Role_ID() + ","
 				+ getAD_Client_ID() + "," + getAD_Org_ID() + ",'Y', SysDate," 
 				+ getUpdatedBy() + ", SysDate," + getUpdatedBy() + " "
 				+ "FROM PA_DashboardContent b "
