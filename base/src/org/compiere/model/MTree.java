@@ -1010,7 +1010,7 @@ public class MTree extends X_AD_Tree
 			if (containsValueColumn(fromClause) ) {
 				sqlNode.append(", t.Value"); //@Trifon
 			}
-			sqlNode.append(" FROM ").append(fromClause).append(" AS t ");
+			sqlNode.append(" FROM ").append(fromClause).append(" t ");
 			if (!isTreeEditable)
 				sqlNode.append(" WHERE t.IsActive='Y'");
 		}
