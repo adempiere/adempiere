@@ -7,7 +7,7 @@
       <RollbackStatement>ALTER TABLE AD_Field DROP COLUMN AD_ContextInfo_ID</RollbackStatement>
     </Step>   
     <Step DBType="Oracle" Parse="N" SeqNo="0" StepType="SQL">
-      <SQLStatement>ALTER TABLE AD_Field ADD COLUMN AD_ContextInfo_ID NUMBER(10) DEFAULT NULL</SQLStatement>
+      <SQLStatement>ALTER TABLE AD_FIELD ADD (AD_CONTEXTINFO_ID NUMBER(10) DEFAULT NULL)</SQLStatement>
       <RollbackStatement>ALTER TABLE AD_Field DROP COLUMN AD_ContextInfo_ID</RollbackStatement>
     </Step>
     <Step SeqNo="10" StepType="AD">
@@ -19,7 +19,7 @@
         <Data AD_Column_ID="549" Column="Created">2018-06-28 11:12:04.634</Data>
         <Data AD_Column_ID="551" Column="Updated">2018-06-28 11:12:04.634</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="112" Column="Description">Context Info Maintainig</Data>
+        <Data AD_Column_ID="112" Column="Description">Context Info Maintaining</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -81,7 +81,7 @@
     <Step SeqNo="30" StepType="AD">
       <PO AD_Table_ID="107" Action="I" Record_ID="87942" Table="AD_Field">
         <Data AD_Column_ID="168" Column="Name">Context Info</Data>
-        <Data AD_Column_ID="169" Column="Description">Context Info Maintainig</Data>
+        <Data AD_Column_ID="169" Column="Description">Context Info Maintaining</Data>
         <Data AD_Column_ID="185" Column="IsFieldOnly">false</Data>
         <Data AD_Column_ID="578" Column="IsActive">true</Data>
         <Data AD_Column_ID="579" Column="Created">2018-06-28 11:14:20.991</Data>
@@ -131,7 +131,7 @@
         <Data AD_Column_ID="672" Column="Created">2018-06-28 11:14:22.279</Data>
         <Data AD_Column_ID="289" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="286" Column="Name">Context Info</Data>
-        <Data AD_Column_ID="287" Column="Description">Context Info Maintainig</Data>
+        <Data AD_Column_ID="287" Column="Description">Context Info Maintaining</Data>
         <Data AD_Column_ID="675" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="673" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="1205" Column="AD_Org_ID">0</Data>

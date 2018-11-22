@@ -122,16 +122,6 @@
     </Step>
     <Step SeqNo="50" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="89833" Table="AD_Column">
-        <Data AD_Column_ID="112" Column="Description" isNewNull="true"/>
-        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
-        <Data AD_Column_ID="548" Column="IsActive">true</Data>
-        <Data AD_Column_ID="551" Column="Updated">2018-08-24 10:51:23.545</Data>
-        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="111" Column="Name">Account Name</Data>
-        <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
-        <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
-        <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
         <Data AD_Column_ID="120" Column="IsParent">false</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">true</Data>
@@ -171,10 +161,23 @@
         <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="84306" Column="UUID" isNewNull="true"/>
         <Data AD_Column_ID="118" Column="FieldLength">200</Data>
+        <Data AD_Column_ID="112" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="548" Column="IsActive">true</Data>
+        <Data AD_Column_ID="551" Column="Updated">2018-08-24 10:51:23.545</Data>
+        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="111" Column="Name">Account Name</Data>
+        <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
       </PO>
     </Step>
     <Step SeqNo="60" StepType="AD">
       <PO AD_Table_ID="752" Action="I" Record_ID="0" Table="AD_Column_Trl">
+        <Data AD_Column_ID="12953" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="12955" Column="AD_Column_ID">89833</Data>
+        <Data AD_Column_ID="84310" Column="UUID" isNewNull="true"/>
         <Data AD_Column_ID="12960" Column="Created">2018-08-24 10:51:24.409</Data>
         <Data AD_Column_ID="12959" Column="IsActive">true</Data>
         <Data AD_Column_ID="12952" Column="Updated">2018-08-24 10:51:24.409</Data>
@@ -184,9 +187,6 @@
         <Data AD_Column_ID="12951" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="12958" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="12956" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="12953" Column="AD_Language">es_MX</Data>
-        <Data AD_Column_ID="12955" Column="AD_Column_ID">89833</Data>
-        <Data AD_Column_ID="84310" Column="UUID" isNewNull="true"/>
       </PO>
     </Step>
     <Step SeqNo="70" StepType="AD">
@@ -469,7 +469,7 @@
         <Data AD_Column_ID="2826" Column="SeqNo" oldValue="120">150</Data>
       </PO>
     </Step>
-    <Step DBType="ALL" Parse="Y" SeqNo="320" StepType="SQL">
+    <Step DBType="Postgres" Parse="Y" SeqNo="320" StepType="SQL">
       <SQLStatement>Delete from T_Reportstatement; ALTER TABLE t_reportstatement DROP CONSTRAINT t_reportstatement_pkey;
 ALTER TABLE t_reportstatement   ADD CONSTRAINT t_reportstatement_pkey PRIMARY KEY(ad_pinstance_id, fact_acct_id, account_ID);   </SQLStatement>
       <RollbackStatement>Delete from T_Reportstatement;
@@ -477,7 +477,15 @@ ALTER TABLE T_Reportstatement  DROP CONSTRAINT t_reportstatement_pkey;
 ALTER TABLE t_reportstatement
   ADD CONSTRAINT t_reportstatement_pkey PRIMARY KEY(ad_pinstance_id, fact_acct_id);</RollbackStatement>
     </Step>
-    <Step DBType="ALL" Parse="Y" SeqNo="330" StepType="SQL">
+    <Step DBType="Oracle" Parse="Y" SeqNo="320" StepType="SQL">
+      <SQLStatement>DELETE FROM T_Reportstatement; 
+ALTER TABLE T_Reportstatement DROP CONSTRAINT T_REPORTSTATEMENT_KEY CASCADE;
+ALTER TABLE T_Reportstatement ADD CONSTRAINT T_REPORTSTATEMENT_KEY PRIMARY KEY(ad_pinstance_id, fact_acct_id, account_ID);</SQLStatement>
+      <RollbackStatement>DELETE FROM T_ReportStatement;
+ALTER TABLE T_Reportstatement  DROP CONSTRAINT t_reportstatement_key CASCADE;
+ALTER TABLE t_reportstatement ADD CONSTRAINT t_reportstatement_key PRIMARY KEY(ad_pinstance_id, fact_acct_id);</RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" Parse="Y" SeqNo="330" StepType="SQL">
       <SQLStatement>ALTER TABLE T_ReportStatement DROP COLUMN IF EXISTS Account;</SQLStatement>
     </Step>
   </Migration>
