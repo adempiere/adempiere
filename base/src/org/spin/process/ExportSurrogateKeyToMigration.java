@@ -47,6 +47,8 @@ public class ExportSurrogateKeyToMigration extends ExportSurrogateKeyToMigration
 	private MMigration migration = null;
 	/**	Sequence	*/
 	private int sequence = 10;
+	/**	Generated	*/
+	private long generated = 0;
 	
 	@Override
 	protected String doIt() throws Exception {
@@ -59,7 +61,7 @@ public class ExportSurrogateKeyToMigration extends ExportSurrogateKeyToMigration
 			.forEach(table -> {
 			addTableToUpdate(table.getTableName());
 		});
-		return "@Ok@";
+		return "@Created@: " + generated;
 	}
 	
 	private void addMigration() {
@@ -95,6 +97,7 @@ public class ExportSurrogateKeyToMigration extends ExportSurrogateKeyToMigration
 			addStep(updateBuffer.toString(), rollbackBuffer.toString());
 		}
 		//	Clear list
+		generated += updateList.size();
 		updateList = new ArrayList<>();
 		rollbackList = new ArrayList<>();
 	}
