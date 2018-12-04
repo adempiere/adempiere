@@ -714,7 +714,7 @@ public final class APanel extends CPanel
 			}
 			//  Window Init
 			window.addChangeListener(this);
-
+			m_curWinTab = window;
 			/**
 			 *  Init Model
 			 */
