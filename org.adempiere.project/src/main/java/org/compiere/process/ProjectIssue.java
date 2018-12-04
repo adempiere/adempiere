@@ -262,6 +262,8 @@ public class ProjectIssue extends ProjectIssueAbstract
 	{
 		if (projectIssues == null)
 			projectIssues = project.getIssues();
+		if (projectIssues.isEmpty())
+			return false;
 		Boolean exists = projectIssues.stream().allMatch(projectIssue -> projectIssue.getS_TimeExpenseLine_ID() == timeExpenseLineId);
 		if (exists)
 				return true;
