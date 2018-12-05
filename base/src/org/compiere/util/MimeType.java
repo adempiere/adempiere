@@ -16,6 +16,13 @@
  *****************************************************************************/
 package org.compiere.util;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Arrays;
+
+import org.compiere.model.MSysConfig;
 
 /**
  * 	Mime - Content type map.
@@ -23,6 +30,9 @@ package org.compiere.util;
  *
  *	@author Jorg Janke
  *	@version $Id: MimeType.java,v 1.2 2006/07/30 00:54:35 jjanke Exp $
+ 	@author Yamel Senih, ysenih@erpya.com , http://www.erpya.com
+ *	<li> FR [ 2167 ] Validate MimeType and file extension
+ * 	@see https://github.com/adempiere/adempiere/issues/2167
  */
 public class MimeType
 {
@@ -33,7 +43,7 @@ public class MimeType
 	 */
 	public static String getMimeType (String fileName)
 	{
-		if (fileName == null || fileName.indexOf('.') < 0)
+		if (Util.isEmpty(fileName) || fileName.indexOf('.') < 0)
 			return BINARY;
 		//
 		String extension = fileName.substring(fileName.lastIndexOf('.'));
@@ -47,8 +57,99 @@ public class MimeType
 			if (type[0].equals(extension.toLowerCase()))
 				return type[1];
 		}
+		//	
+		Path sourceMimePath = Paths.get(fileName);
+		//	Return
+		try {
+			String mimeType = Files.probeContentType(sourceMimePath);
+			if(Util.isEmpty(mimeType)) {
+				mimeType = BINARY;
+			}
+			return mimeType;
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		//	Default
 		return BINARY;
 	}	//	getMimeType
+	
+	/**	File Types allowed	*/
+	public static final String 	ATTACHMENT_FILE_TYPES_ALLOWED = "ATTACHMENT_FILE_TYPES_ALLOWED";
+	/**	File Types restricted	*/
+	public static final String 	ATTACHMENT_FILE_TYPES_RESTRICTED = "ATTACHMENT_FILE_TYPES_RESTRICTED";
+	
+	/**
+	 * Is Valid Media file
+	 * @param sourcePath
+	 * @return
+	 */
+	public static boolean isValidMimeType(String sourcePath) {
+		String allowedTypes = getAllowedFileTypes();
+		String restrictedTypes = getRestrictedFileTypes();
+		if(Util.isEmpty(sourcePath)
+				|| (Util.isEmpty(allowedTypes) && Util.isEmpty(restrictedTypes))) {
+			return false;
+		}
+		//	Verify MIME Type
+		if(Util.isEmpty(sourcePath)) {
+			return false;
+		}
+		//	Get extension
+		String sourceExtension = sourcePath;
+		if(sourcePath.lastIndexOf(".") > 0) {
+			sourceExtension = sourcePath.substring(sourcePath.lastIndexOf("."));
+			sourceExtension = sourceExtension.trim();
+		}
+		String sourceMimeType = getMimeType(sourcePath);
+		//	For Restricted
+		for(String restrictedExtension : Arrays.asList(restrictedTypes.split(","))) {
+			restrictedExtension = restrictedExtension.trim();
+			if(sourceExtension.equals(restrictedExtension)) {
+				return false;
+			}
+			//	For Mime
+			String restrictedMimeType = getMimeType(restrictedExtension);
+			
+			
+			if(sourceMimeType.equals(restrictedMimeType)) {
+				return false;
+			}
+		}
+		//	For Allowed
+		if(Util.isEmpty(allowedTypes)) {
+			return true;
+		}
+		//	Else
+		for(String allowedExtension : Arrays.asList(allowedTypes.split(","))) {
+			allowedExtension = allowedExtension.trim();
+			if(sourceExtension.equals(allowedExtension)) {
+				return true;
+			}
+			//	For Mime
+			String allowedMimeType = getMimeType(allowedExtension);
+			if(sourceMimeType.equals(allowedMimeType)) {
+				return true;
+			}
+		}
+		//	
+		return false;
+	}
+	
+	/**
+	 * Get Allowed File Types
+	 * @return
+	 */
+	public static String getAllowedFileTypes() {
+		return MSysConfig.getValue(ATTACHMENT_FILE_TYPES_ALLOWED, ".pdf, .png, .jpg, .jpeg, .xls, .xlsx, .doc, .docx, .txt, .log, .properties", Env.getAD_Client_ID(Env.getCtx()));
+	}
+	
+	/**
+	 * Get Restricted File Types
+	 * @return
+	 */
+	public static String getRestrictedFileTypes() {
+		return MSysConfig.getValue(ATTACHMENT_FILE_TYPES_RESTRICTED, ".exe, .sh, .py, .run, .msi, .bat", Env.getAD_Client_ID(Env.getCtx()));
+	}
 
 	/**
 	 * 	Get Mime Type of file name
@@ -792,4 +893,22 @@ public class MimeType
 		{ ".zoo", "application/octet-stream"}, 
 		{ ".zsh", "text/x-script.zsh"}
 	};
+	
+	/**
+	 * A little test
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		org.compiere.Adempiere.startupEnvironment(true);
+		String allowedTypes = MSysConfig.getValue(ATTACHMENT_FILE_TYPES_ALLOWED, ".pdf, .png, .jpg, .jpeg, .xls, .xlsx, .doc, .docx, .txt, .log");
+		String restrictedTypes = MSysConfig.getValue(ATTACHMENT_FILE_TYPES_RESTRICTED, ".exe, .sh, .py, .run, .msi, .bat");
+		System.out.println("Restricted");
+		for(String restricted : Arrays.asList(restrictedTypes.split(","))) {
+			System.err.println(restricted + " isValidMimeType = " + isValidMimeType(restricted));
+		}
+		System.out.println("Allowed");
+		for(String allowed : Arrays.asList(allowedTypes.split(","))) {
+			System.out.println(allowed + " isValidMimeType = " + isValidMimeType(allowed));
+		}
+	}
 } //	MimeType

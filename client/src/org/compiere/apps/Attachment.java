@@ -49,6 +49,7 @@ import org.compiere.swing.CPanel;
 import org.compiere.swing.CTextArea;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
+import org.compiere.util.MimeType;
 import org.compiere.util.Msg;
 
 /**
@@ -535,6 +536,12 @@ public final class Attachment extends CDialog
 					System.getProperty("file.separator") +
 					m_attachment.getEntryName(index);
             File tempFile = new File(fileName);
+            //	Validate File Type
+            if(!MimeType.isValidMimeType(tempFile.getAbsolutePath())) {
+            	log.severe("Invalid Mime Type for " + tempFile.getName() + " only is allowed " + MimeType.getAllowedFileTypes());
+    			log.severe("Restricted files " + MimeType.getRestrictedFileTypes());
+    			return false;
+            }
             m_attachment.getEntryFile(index, tempFile);
         
             if (Env.isWindows())
