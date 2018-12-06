@@ -4,8 +4,8 @@
     <Comments>See https://github.com/adempiere/adempiere/issues/1697</Comments>
     <Step DBType="Oracle" Parse="Y" SeqNo="1" StepType="SQL">
       <Comments>Add AD_FieldDefinition to Field</Comments>
-      <SQLStatement>ALTER TABLE AD_Field ADD COLUMN AD_FieldDefinition_ID NUMBER(10) DEFAULT NULL</SQLStatement>
-      <RollbackStatement>ALTER TABLE AD_Field DROP COLUMN AD_FieldDefinition_ID</RollbackStatement>
+      <SQLStatement>ALTER TABLE AD_Field ADD  (AD_FieldDefinition_ID NUMBER(10) DEFAULT NULL);</SQLStatement>
+      <RollbackStatement>ALTER TABLE AD_Field DROP COLUMN AD_FieldDefinition_ID;</RollbackStatement>
     </Step>
     <Step DBType="Postgres" Parse="Y" SeqNo="1" StepType="SQL">
       <Comments>Add AD_FieldDefinition to Field</Comments>
@@ -122,26 +122,6 @@
     </Step>
     <Step SeqNo="60" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="88863" Table="AD_Column">
-        <Data AD_Column_ID="112" Column="Description">Client/Tenant for this installation.</Data>
-        <Data AD_Column_ID="549" Column="Created">2018-06-22 15:31:06.587</Data>
-        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
-        <Data AD_Column_ID="548" Column="IsActive">true</Data>
-        <Data AD_Column_ID="551" Column="Updated">2018-06-22 15:31:06.587</Data>
-        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="111" Column="Name">Client</Data>
-        <Data AD_Column_ID="124" Column="IsMandatory">true</Data>
-        <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="117" Column="DefaultValue">@#AD_Client_ID@</Data>
-        <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
-        <Data AD_Column_ID="120" Column="IsParent">false</Data>
-        <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
-        <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
-        <Data AD_Column_ID="6483" Column="IsSyncDatabase" isNewNull="true"/>
-        <Data AD_Column_ID="119" Column="IsKey">false</Data>
-        <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isNewNull="true"/>
-        <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
-        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
-        <Data AD_Column_ID="110" Column="Version">1</Data>
         <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
         <Data AD_Column_ID="116" Column="ColumnName">AD_Client_ID</Data>
         <Data AD_Column_ID="113" Column="Help">A Client is a company or a legal entity. You cannot share data between Clients. Tenant is a synonym for Client.</Data>
@@ -170,6 +150,26 @@
         <Data AD_Column_ID="226" Column="AD_Reference_ID">19</Data>
         <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="84306" Column="UUID" isNewNull="true"/>
+        <Data AD_Column_ID="112" Column="Description">Client/Tenant for this installation.</Data>
+        <Data AD_Column_ID="549" Column="Created">2018-06-22 15:31:06.587</Data>
+        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="548" Column="IsActive">true</Data>
+        <Data AD_Column_ID="551" Column="Updated">2018-06-22 15:31:06.587</Data>
+        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="111" Column="Name">Client</Data>
+        <Data AD_Column_ID="124" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="117" Column="DefaultValue">@#AD_Client_ID@</Data>
+        <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="120" Column="IsParent">false</Data>
+        <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
+        <Data AD_Column_ID="6483" Column="IsSyncDatabase" isNewNull="true"/>
+        <Data AD_Column_ID="119" Column="IsKey">false</Data>
+        <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
+        <Data AD_Column_ID="110" Column="Version">1</Data>
       </PO>
     </Step>
     <Step SeqNo="70" StepType="AD">
@@ -1968,6 +1968,17 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="740" StepType="AD">
       <PO AD_Table_ID="107" Action="I" Record_ID="87920" Table="AD_Field">
+        <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="181" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="5375" Column="AD_FieldGroup_ID" isNewNull="true"/>
+        <Data AD_Column_ID="174" Column="AD_Column_ID">88863</Data>
+        <Data AD_Column_ID="54356" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="62479" Column="SeqNoGrid">0</Data>
+        <Data AD_Column_ID="180" Column="DisplayLength">10</Data>
+        <Data AD_Column_ID="172" Column="AD_Tab_ID">54558</Data>
+        <Data AD_Column_ID="54357" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="84320" Column="UUID" isNewNull="true"/>
+        <Data AD_Column_ID="88877" Column="AD_FieldDefinition_ID" isNewNull="true"/>
         <Data AD_Column_ID="59704" Column="PreferredWidth" isNewNull="true"/>
         <Data AD_Column_ID="62478" Column="IsDisplayedGrid">true</Data>
         <Data AD_Column_ID="183" Column="IsSameLine">false</Data>
@@ -1998,17 +2009,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="167" Column="AD_Field_ID">87920</Data>
         <Data AD_Column_ID="7714" Column="EntityType">ECA02</Data>
         <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
-        <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="181" Column="SeqNo">0</Data>
-        <Data AD_Column_ID="5375" Column="AD_FieldGroup_ID" isNewNull="true"/>
-        <Data AD_Column_ID="174" Column="AD_Column_ID">88863</Data>
-        <Data AD_Column_ID="54356" Column="AD_Reference_Value_ID" isNewNull="true"/>
-        <Data AD_Column_ID="62479" Column="SeqNoGrid">0</Data>
-        <Data AD_Column_ID="180" Column="DisplayLength">10</Data>
-        <Data AD_Column_ID="172" Column="AD_Tab_ID">54558</Data>
-        <Data AD_Column_ID="54357" Column="AD_Val_Rule_ID" isNewNull="true"/>
-        <Data AD_Column_ID="84320" Column="UUID" isNewNull="true"/>
-        <Data AD_Column_ID="88877" Column="AD_FieldDefinition_ID" isNewNull="true"/>
       </PO>
     </Step>
     <Step SeqNo="750" StepType="AD">

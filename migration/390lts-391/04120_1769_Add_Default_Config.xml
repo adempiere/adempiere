@@ -20,7 +20,7 @@
         <Data AD_Column_ID="90951" Column="AD_TokenDefinition_ID">50001</Data>
       </PO>
     </Step>
-    <Step DBType="ALL" Parse="N" SeqNo="20" StepType="SQL">
+    <Step DBType="ALL" Parse="Y" SeqNo="20" StepType="SQL">
       <Comments>Update Clients for template</Comments>
       <SQLStatement>UPDATE AD_ClientInfo SET RestorePassword_MailText_ID = 50001 WHERE RestorePassword_MailText_ID IS NULL;</SQLStatement>
       <RollbackStatement>UPDATE AD_ClientInfo SET RestorePassword_MailText_ID = NULL;</RollbackStatement>
