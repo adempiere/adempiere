@@ -45,6 +45,7 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.compiere.util.Env;
 import org.compiere.util.MimeType;
+import org.spin.util.XMLUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -560,8 +561,10 @@ public class MAttachment extends X_AD_Attachment
 			setBinaryData(null);
 			return true;
 		}
-		final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		try {
+			//	Add default features
+			XMLUtils.setDefaultFeatures(factory);
 			final DocumentBuilder builder = factory.newDocumentBuilder();
 			final Document document = builder.newDocument();
 			final Element root = document.createElement("attachments");
@@ -627,7 +630,9 @@ public class MAttachment extends X_AD_Attachment
 			final Source source = new DOMSource(document);
 			final ByteArrayOutputStream bos = new ByteArrayOutputStream();
 			final Result result = new StreamResult(bos);
-			final Transformer xformer = TransformerFactory.newInstance().newTransformer();
+			TransformerFactory transformerFactory = TransformerFactory.newInstance();
+			XMLUtils.setDefaultFeatures(transformerFactory);
+			final Transformer xformer = transformerFactory.newTransformer();
 			xformer.transform(source, result);
 			final byte[] xmlData = bos.toByteArray();
 			log.fine(bos.toString());
@@ -734,6 +739,8 @@ public class MAttachment extends X_AD_Attachment
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
 		try {
+			//	Add default features
+			XMLUtils.setDefaultFeatures(factory);
 			final DocumentBuilder builder = factory.newDocumentBuilder();
 			final Document document = builder.parse(new ByteArrayInputStream(data));
 			final NodeList entries = document.getElementsByTagName("entry");

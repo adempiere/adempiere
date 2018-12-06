@@ -37,6 +37,7 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.Trx;
+import org.spin.util.XMLUtils;
 
 /**
  * IntPackIn Tool.
@@ -132,6 +133,8 @@ public class PackIn extends SvrProcess {
 			handler.setCtx(ctx);
 			handler.setProcess(this);
 			SAXParserFactory factory = SAXParserFactory.newInstance();
+			//	Set default features
+			XMLUtils.setDefaultFeatures(factory);
 			SAXParser parser = factory.newSAXParser();
 			String msg = "Start Parser";
 			log.info(msg);
