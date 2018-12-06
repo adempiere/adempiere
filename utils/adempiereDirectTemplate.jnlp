@@ -1,9 +1,9 @@
 <?xml version = "1.0" encoding = "UTF-8"?>
-<jnlp spec = "1.7+" version = "3.9.0LTS"
+<jnlp spec = "1.7+" version = "3.9.1LTS"
 	codebase = "$$context/admin/adempiereHome"
 	href = "$$context/admin/adempiereHome/adempiereDirect.jnlp">
 	<information>
-		<title>Adempiere Client 3.9.0LTS @ADEMPIERE_APPS_SERVER@ Direct</title>
+		<title>Adempiere Client 3.9.1LTS @ADEMPIERE_APPS_SERVER@ Direct</title>
 		<vendor>ADempiere Foundation.</vendor>
 		<homepage href = "http://www.adempiere.net"/>
 		<description>Adempiere ERP+CRM (local) - Smart Business Solution for Distribution and Service - globally</description>
@@ -14,7 +14,7 @@
 		<icon href = "$$context/admin/C32.gif"/>
 		<shortcut online="true">
 			<desktop/>
-			<menu submenu="Adempiere 3.9.0LTS"/>
+			<menu submenu="Adempiere 3.9.1LTS"/>
 		</shortcut>
 	</information>  
 	<security>
