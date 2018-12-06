@@ -63,7 +63,7 @@ public class PrintDataGroup
 	}	//	addGroup
 
 	/**
-	 * 	Get Grouyp Column Count.
+	 * 	Get Group Column Count.
 	 *  TOTAL is included as a column
 	 * 	@return number of groups
 	 */

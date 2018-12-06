@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
   <Migration EntityType="D" Name="Add Dashboard Acces Tab" ReleaseNo="3.9.1" SeqNo="3935">
+    <Comments>See: https://github.com/adempiere/adempiere/issues/2079</Comments>
+    <Step DBType="Postgres" Parse="Y" SeqNo="0" StepType="SQL">
+      <Comments>Drop Table If Exists</Comments>
+      <SQLStatement>DROP TABLE IF EXISTS AD_Dashboard_Access</SQLStatement>
+    </Step>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="100" Action="I" Record_ID="54428" Table="AD_Table">
         <Data AD_Column_ID="102" Column="Name">Dashboard Access</Data>
@@ -1359,7 +1364,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="54357" Column="AD_Val_Rule_ID" isNewNull="true"/>
         <Data AD_Column_ID="174" Column="AD_Column_ID">89353</Data>
         <Data AD_Column_ID="84320" Column="UUID" isNewNull="true"/>
-        <Data AD_Column_ID="78493" Column="isQuickEntry">false</Data>
+        <Data AD_Column_ID="78493" Column="IsQuickEntry">false</Data>
       </PO>
     </Step>
     <Step SeqNo="630" StepType="AD">

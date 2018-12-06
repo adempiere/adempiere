@@ -40,6 +40,7 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
+import org.spin.util.XMLUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -105,7 +106,8 @@ public class XMLHelper {
 		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 		// validate against XML Schema in dbsql2xml.xsd
 		// documentBuilderFactory.setNamespaceAware(true);
-
+		//	Add default features
+		XMLUtils.setDefaultFeatures(documentBuilderFactory);
 		//INFO change validation to true. Someday when xsd file is complete...
 		documentBuilderFactory.setValidating(false);
 		documentBuilderFactory.setAttribute(JAXP_SCHEMA_LANGUAGE, W3C_XML_SCHEMA);
@@ -124,6 +126,8 @@ public class XMLHelper {
 		// String JAXP_SCHEMA_SOURCE = "http://java.sun.com/xml/jaxp/properties/schemaSource";
 		
 		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+		//	Add default features
+		XMLUtils.setDefaultFeatures(documentBuilderFactory);
 		// validate against XML Schema in dbsql2xml.xsd
 		// documentBuilderFactory.setNamespaceAware(true);
 		

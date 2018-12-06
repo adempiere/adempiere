@@ -361,6 +361,9 @@ public class WPayPrint extends PayPrint implements IFormController, EventListene
 				{
 					PaymentExportList custom = (PaymentExportList)clazz.newInstance();
 					no = custom.exportToFile(paySelectionChecks, tempFile, error);
+					if(custom.getFile() != null) {
+						tempFile = custom.getFile();
+					}
 				}
 				else if (PaymentExport.class.isAssignableFrom(clazz))
 				{
@@ -381,7 +384,7 @@ public class WPayPrint extends PayPrint implements IFormController, EventListene
 				log.log(Level.SEVERE, error.toString(), e);
 			}
 			if (no >= 0) {
-				Filedownload.save(new FileInputStream(tempFile), "plain/text", "paymentExport.txt");
+				Filedownload.save(new FileInputStream(tempFile), "plain/text", tempFile.getName());
 				FDialog.info(windowNo, form, "Saved",
 						Msg.getMsg(Env.getCtx(), "NoOfLines") + "=" + no);
 
@@ -548,7 +551,7 @@ public class WPayPrint extends PayPrint implements IFormController, EventListene
 		if (paySelectionChecks == null || paySelectionChecks.size() == 0)
 		{
 			FDialog.error(windowNo, form, "VPayPrintNoRecords",
-				"(" + Msg.translate(Env.getCtx(), "C_PaySelectionLine_ID") + " #0");
+				"(" + Msg.translate(Env.getCtx(), "C_PaySelectionLine_ID") + " #0)");
 			return false;
 		}
 		paymentBatch = MPaymentBatch.getForPaySelection (Env.getCtx(), paySelectionId, null);

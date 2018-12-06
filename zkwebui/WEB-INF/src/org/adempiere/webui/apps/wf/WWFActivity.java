@@ -51,6 +51,7 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
+import org.compiere.util.Util;
 import org.compiere.util.ValueNamePair;
 import org.compiere.wf.MWFActivity;
 import org.compiere.wf.MWFNode;
@@ -613,7 +614,8 @@ public class WWFActivity extends ADForm implements EventListener
 		//
 		MWFNode node = m_activity.getNode();
 
-		Object forward = null;//fForward.getValue();
+		Object forward = fForward.getValue();
+		String errorMessage = null;
 
 		// ensure activity is ran within a transaction - [ 1953628 ]
 		Trx trx = null;
@@ -634,7 +636,7 @@ public class WWFActivity extends ADForm implements EventListener
 				}
 				if (!m_activity.forwardTo(fw, textMsg))
 				{
-					FDialog.error(m_WindowNo, this, "CannotForward");
+					errorMessage = "@CannotForward@";
 					trx.rollback();
 					trx.close();
 					return;
@@ -655,7 +657,7 @@ public class WWFActivity extends ADForm implements EventListener
 				}
 				if (value == null || value.length() == 0)
 				{
-					FDialog.error(m_WindowNo, this, "FillMandatory", Msg.getMsg(Env.getCtx(), "Answer"));
+					errorMessage = "@FillMandatory@ @Answer@";
 					trx.rollback();
 					trx.close();
 					return;
@@ -669,7 +671,7 @@ public class WWFActivity extends ADForm implements EventListener
 				catch (Exception e)
 				{
 					log.log(Level.SEVERE, node.getName(), e);
-					FDialog.error(m_WindowNo, this, "Error", e.toString());
+					errorMessage = "@Error@: " + e.getLocalizedMessage();
 					trx.rollback();
 					trx.close();
 					return;
@@ -687,7 +689,7 @@ public class WWFActivity extends ADForm implements EventListener
 				catch (Exception e)
 				{
 					log.log(Level.SEVERE, node.getName(), e);
-					FDialog.error(m_WindowNo, this, "Error", e.toString());
+					errorMessage = "@Error@ " + e.getLocalizedMessage();
 					trx.rollback();
 					trx.close();
 					return;
@@ -702,8 +704,12 @@ public class WWFActivity extends ADForm implements EventListener
 			Clients.showBusy(null, false);
 			if (trx != null)
 				trx.close();
-			FDialog.info(m_WindowNo, this , "WorkflowResult" ,
-					Msg.parseTranslation(Env.getCtx(), "@AD_WF_Node_ID@") + " : "  + m_activity.getNodeName() + " -> " +  m_activity.getTextMsg());
+			if(Util.isEmpty(errorMessage)) {
+				FDialog.info(m_WindowNo, this , "WorkflowResult" ,
+						Msg.parseTranslation(Env.getCtx(), "@AD_WF_Node_ID@") + " : "  + m_activity.getNodeName() + " -> " +  m_activity.getTextMsg());
+			} else {
+				FDialog.error(m_WindowNo, this, Msg.parseTranslation(Env.getCtx(), errorMessage));
+			}
 		}
 
 		//	Next
