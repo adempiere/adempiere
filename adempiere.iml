@@ -315,9 +315,9 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
-      <library name="ojdbc6.jar">
+      <library name="oracle.jar">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/tools/lib/ojdbc6.jar!/" />
+          <root url="jar://$MODULE_DIR$/tools/lib/oracle.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -1423,8 +1423,7 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="scala-sdk-2.12.6" level="project" />
-    <orderEntry type="library" name="org.scalatest:scalatest_2.12:3.0.51" level="project" />
     <orderEntry type="library" name="org.scalatest:scalatest_2.12:3.0.5" level="project" />
+    <orderEntry type="library" name="scala-sdk-2.12.6" level="project" />
   </component>
 </module>
