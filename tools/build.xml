@@ -138,7 +138,7 @@
 
 		<!-- Create oracle.jar file 	-->
 		<jar jarfile="${dist.dir}/oracle.jar" duplicate="preserve">
-			<zipfileset src="lib/ojdbc6.jar">
+			<zipfileset src="lib/oracle.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 
