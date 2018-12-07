@@ -16,20 +16,20 @@
 ================================================================================
 
             ===================================================
-            Running The Apache Tomcat 7.0 Servlet/JSP Container
+            Running The Apache Tomcat 8.5 Servlet/JSP Container
             ===================================================
 
-Apache Tomcat 7.0 requires a Java Standard Edition Runtime
-Environment (JRE) version 6 or later.
+Apache Tomcat 8.5 requires a Java Standard Edition Runtime
+Environment (JRE) version 7 or later.
 
 =============================
-Running With JRE 6 Or Later
+Running With JRE 7 Or Later
 =============================
 
 (1) Download and Install a Java SE Runtime Environment (JRE)
 
 (1.1) Download a Java SE Runtime Environment (JRE),
-      release version 6 or later, from
+      release version 7 or later, from
       http://www.oracle.com/technetwork/java/javase/downloads/index.html
 
 (1.2) Install the JRE according to the instructions included with the
@@ -43,7 +43,7 @@ Running With JRE 6 Or Later
 
 (2.1) Download a binary distribution of Tomcat from:
 
-      http://tomcat.apache.org/
+      https://tomcat.apache.org/
 
 (2.2) Unpack the binary distribution so that it resides in its own
       directory (conventionally named "apache-tomcat-[version]").
@@ -67,16 +67,14 @@ create your own from the Tomcat source code, as described in
 
 (3) Configure Environment Variables
 
-Tomcat is a Java application and does not use environment variables. The
-variables are used by the Tomcat startup scripts. The scripts use the variables
-to prepare the command that starts Tomcat.
+Tomcat is a Java application and does not use environment variables directly.
+Environment variables are used by the Tomcat startup scripts. The scripts use
+the environment variables to prepare the command that starts Tomcat.
 
 (3.1) Set CATALINA_HOME (required) and CATALINA_BASE (optional)
 
 The CATALINA_HOME environment variable should be set to the location of the
 root directory of the "binary" distribution of Tomcat.
-
-An example was given in (2.2) above.
 
 The Tomcat startup scripts have some logic to set this variable
 automatically if it is absent, based on the location of the startup script
@@ -159,7 +157,7 @@ create the following script file:
 
 On Windows, %CATALINA_BASE%\bin\setenv.bat:
 
-  set "JRE_HOME=%ProgramFiles%\Java\jre6"
+  set "JRE_HOME=%ProgramFiles%\Java\jre7"
   exit /b 0
 
 On *nix, $CATALINA_BASE/bin/setenv.sh:
@@ -205,7 +203,7 @@ launches Java directly and does not use the script files.
 (4.3) Further information about configuring and running Tomcat can be found in
       the documentation included here, as well as on the Tomcat web site:
 
-      http://tomcat.apache.org/
+      https://tomcat.apache.org/
 
 
 (5) Shut Down Tomcat
@@ -277,7 +275,7 @@ In CATALINA_HOME:
  * endorsed - Libraries that override standard "Endorsed Standards"
               libraries provided by JRE. See Classloading documentation
               in the User Guide for details.
-
+              This is only supported for Java <= 8.
               By default this "endorsed" directory is absent.
 
 In the default configuration the JAR libraries and classes both in
@@ -395,32 +393,32 @@ For further reading:
 
     * Documentation for APR/Native library in the Tomcat User's Guide
 
-      http://tomcat.apache.org/tomcat-7.0-doc/apr.html
+      https://tomcat.apache.org/tomcat-8.5-doc/apr.html
 
     * Documentation for the HTTP and AJP protocol connectors in the Tomcat
       Configuration Reference
 
-      http://tomcat.apache.org/tomcat-7.0-doc/config/http.html
+      https://tomcat.apache.org/tomcat-8.5-doc/config/http.html
 
-      http://tomcat.apache.org/tomcat-7.0-doc/config/ajp.html
+      https://tomcat.apache.org/tomcat-8.5-doc/config/ajp.html
 
  - Apache Tomcat Native project home
 
-      http://tomcat.apache.org/native-doc/
+      https://tomcat.apache.org/native-doc/
 
  - Other projects
 
     * OpenSSL
 
-      http://openssl.org/
+      https://www.openssl.org/
 
     * Apache Portable Runtime
 
-      http://apr.apache.org/
+      https://apr.apache.org/
 
     * Apache HTTP Server
 
-      http://httpd.apache.org/
+      https://httpd.apache.org/
 
 To disable Apache Tomcat Native library:
 
@@ -451,28 +449,28 @@ For further reading:
 
  - Apache Commons Daemon project
 
-      http://commons.apache.org/daemon/
+      https://commons.apache.org/daemon/
 
  - Apache Tomcat documentation
 
     * Installing Apache Tomcat
 
-      http://tomcat.apache.org/tomcat-7.0-doc/setup.html
+      https://tomcat.apache.org/tomcat-8.5-doc/setup.html
 
     * Windows service HOW-TO
 
-      http://tomcat.apache.org/tomcat-7.0-doc/windows-service-howto.html
+      https://tomcat.apache.org/tomcat-8.5-doc/windows-service-howto.html
 
 The binary files of Apache Commons Daemon in Apache Tomcat distributions
 for Windows are named:
 
-  - "tomcat7.exe"
-  - "tomcat7w.exe"
+  - "tomcat8.exe"
+  - "tomcat8w.exe"
 
 These files are renamed copies of "prunsrv.exe" and "prunmgr.exe" from
 Apache Commons Daemon distribution. The file names have a meaning: they are
 used as the service name to register the service in Windows, as well as the
 key name to store distinct configuration for this installation of
-"procrun". If you would like to install several instances of Tomcat 7.0
+"procrun". If you would like to install several instances of Tomcat 8.5
 in parallel, you have to further rename those files, using the same naming
 scheme.

@@ -53,8 +53,10 @@
   <Service name="Catalina">
 
     <!--The connectors can use a shared executor, you can define one or more named thread pools-->
+    <!--
     <Executor name="tomcatThreadPool" namePrefix="catalina-exec-"
-        maxThreads="350" minSpareThreads="4"/>
+        maxThreads="150" minSpareThreads="4"/>
+    -->
 
 
     <!-- A "Connector" represents an endpoint by which requests are received
@@ -64,14 +66,16 @@
          APR (HTTP/AJP) Connector: /docs/apr.html
          Define a non-SSL/TLS HTTP/1.1 Connector on port 8080
     -->
-    <!--Connector port="@ADEMPIERE_WEB_PORT@" protocol="HTTP/1.1"
+    <Connector port="8080" protocol="HTTP/1.1"
                connectionTimeout="20000"
-               redirectPort="@ADEMPIERE_SSL_PORT@" /-->
+               redirectPort="8443" />
     <!-- A "Connector" using the shared thread pool-->
+    <!--
     <Connector executor="tomcatThreadPool"
-               port="@ADEMPIERE_WEB_PORT@" protocol="HTTP/1.1"
+               port="8080" protocol="HTTP/1.1"
                connectionTimeout="20000"
-               redirectPort="@ADEMPIERE_SSL_PORT@" />
+               redirectPort="8443" />
+    -->
     <!-- Define a SSL/TLS HTTP/1.1 Connector on port 8443
          This connector uses the NIO implementation. The default
          SSLImplementation will depend on the presence of the APR/native
@@ -80,14 +84,6 @@
          Either JSSE or OpenSSL style configuration may be used regardless of
          the SSLImplementation selected. JSSE style configuration is used below.
     -->
-    <!-- Define a SSL Coyote HTTP/1.1 Connector on port 8443 -->
-    <Connector
-            protocol="org.apache.coyote.http11.Http11NioProtocol"
-            port="@ADEMPIERE_SSL_PORT@" maxThreads="200"
-            scheme="https" secure="true" SSLEnabled="true"
-            keystoreFile="@ADEMPIERE_KEYSTORE@" keystorePass="@ADEMPIERE_KEYSTOREPASS@"
-            clientAuth="false" sslProtocol="TLS"/>
-
     <!--
     <Connector port="8443" protocol="org.apache.coyote.http11.Http11NioProtocol"
                maxThreads="150" SSLEnabled="true">
@@ -103,8 +99,9 @@
          Either JSSE or OpenSSL style configuration may be used. OpenSSL style
          configuration is used below.
     -->
-    <!--Connector port="@ADEMPIERE_SSL_PORT@" protocol="org.apache.coyote.http11.Http11AprProtocol"
-               maxThreads="350" SSLEnabled="true" >
+    <!--
+    <Connector port="8443" protocol="org.apache.coyote.http11.Http11AprProtocol"
+               maxThreads="150" SSLEnabled="true" >
         <UpgradeProtocol className="org.apache.coyote.http2.Http2Protocol" />
         <SSLHostConfig>
             <Certificate certificateKeyFile="conf/localhost-rsa-key.pem"
@@ -112,10 +109,11 @@
                          certificateChainFile="conf/localhost-rsa-chain.pem"
                          type="RSA" />
         </SSLHostConfig>
-    </Connector-->
+    </Connector>
+    -->
 
     <!-- Define an AJP 1.3 Connector on port 8009 -->
-    <Connector port="8009" protocol="AJP/1.3" redirectPort="@ADEMPIERE_SSL_PORT@" />
+    <Connector port="8009" protocol="AJP/1.3" redirectPort="8443" />
 
 
     <!-- An Engine represents the entry point (within Catalina) that processes
