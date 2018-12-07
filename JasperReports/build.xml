@@ -73,7 +73,6 @@
 	      <!-- SHW:new library  --> 
 	      <pathelement path="../JasperReportsTools/lib/jasperreports-fonts-6.6.0.jar"/>
       	  <pathelement path="../tools/lib/xercesImpl.jar"/>
-      	  <pathelement path="../tools/lib/xml-apis.jar"/>
       	  <pathelement path="../tools/lib/postgresql.jar"/>  
 		  <pathelement path="../tools/lib/iText-2.1.7.jar"/>
       	  <fileset dir="../jboss/client" includes="*.jar"/>
@@ -158,9 +157,6 @@
   		<patternset refid="manifest.exclude"/>
   	  </zipfileset>
   	  <zipfileset src="../tools/lib/xercesImpl.jar" >
-		<patternset refid="manifest.exclude"/>
-	  </zipfileset>
-  	  <zipfileset src="../tools/lib/xml-apis.jar" >
 		<patternset refid="manifest.exclude"/>
 	  </zipfileset>
       <manifest>
