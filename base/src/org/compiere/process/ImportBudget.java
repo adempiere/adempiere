@@ -45,7 +45,6 @@ import org.compiere.model.X_A_Asset;
 import org.compiere.model.X_C_SubAcct;
 import org.compiere.model.X_GL_Budget;
 import org.compiere.model.X_I_Budget;
-import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
@@ -62,7 +61,6 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.logging.Logger;
 
 /**
  * Import Budget
@@ -73,7 +71,6 @@ public class ImportBudget extends ImportBudgetAbstract {
 
     List<MPeriod> glPeriods = new ArrayList<>();
     List<Timestamp> glPeriodsDates = new ArrayList<>();
-	private static Logger log = CLogger.getCLogger(ImportBudget.class);
 
     protected void prepare() {
         super.prepare();
@@ -667,6 +664,7 @@ public class ImportBudget extends ImportBudgetAbstract {
     private int getId(String tableName, String whereClause, String trxName, Object... parameters) {
         return new Query(getCtx(), tableName, whereClause, trxName)
                 .setParameters(parameters)
+                .setClient_ID()
                 .firstId();
     }
 
@@ -687,6 +685,7 @@ public class ImportBudget extends ImportBudgetAbstract {
         return new Query(getCtx(), X_I_Budget.Table_Name, whereClause.toString(), null)
                 .setOnlyActiveRecords(true)
                 .setParameters(documentNo, isImported, isProcessed)
+                .setClient_ID()
                 .getIDs();
 
     }
