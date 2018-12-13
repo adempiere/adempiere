@@ -40,6 +40,7 @@ import org.compiere.util.Util;
  *  
  *  Contributor: Carlos Ruiz - globalqss
  *      Fix [1709952] - Process: "Generate PO from Sales order" bug
+ *  @contributor: author https://github.com/homebeaver
  */
 public class OrderPOCreate extends OrderPOCreateAbstract {
 	
@@ -72,7 +73,8 @@ public class OrderPOCreate extends OrderPOCreateAbstract {
 			throw new AdempiereUserError("@FillMandatory@ @AD_Process_Para_ID@");
 		//	Parameters
 		List<Object> parameters = new ArrayList<>();
-		StringBuffer whereClause = new StringBuffer("IsSOTrx = 'Y'");
+		// see https://github.com/adempiere/adempiere/issues/1649
+		StringBuffer whereClause = new StringBuffer("IsSOTrx = 'Y' AND DocStatus IN('IP', 'CO')");
 		//	No Duplicates
 		whereClause.append(" AND NOT EXISTS (SELECT 1 FROM C_OrderLine ol WHERE ol.C_Order_ID=C_Order.C_Order_ID AND ol.Link_OrderLine_ID IS NOT NULL)");
 		if (getOrderId() != 0) {
@@ -85,21 +87,21 @@ public class OrderPOCreate extends OrderPOCreateAbstract {
 			}
 			//	For vendor
 			if (getVendorId() != 0) {
-				whereClause.append(" AND EXISTS (SELECT * FROM C_OrderLine ol"
-						+ " INNER JOIN M_Product_PO po ON (ol.M_Product_ID=pC_Order.M_Product_ID) "
-							+ "WHERE C_Order.C_Order_ID=ol.C_Order_ID AND pC_Order.C_BPartner_ID=?)");
+				whereClause.append(" AND EXISTS (SELECT 1 FROM C_OrderLine ol "
+						+ "INNER JOIN M_Product_PO po ON (ol.M_Product_ID = po.M_Product_ID) "
+						+ "WHERE C_Order.C_Order_ID = ol.C_Order_ID AND po.C_BPartner_ID=?)");
 				parameters.add(getVendorId());
-			} 
+			}
 			//	For Times
 			if (getDateOrdered() != null && getDateOrderedTo() != null) {
-				whereClause.append("AND TRUNC(C_Order.DateOrdered, 'DD') BETWEEN ? AND ?");
+				whereClause.append(" AND TRUNC(C_Order.DateOrdered, 'DD') BETWEEN ? AND ?");
 				parameters.add(getDateOrdered());
 				parameters.add(getDateOrderedTo());
 			} else if (getDateOrdered() != null && getDateOrderedTo() == null) {
-				whereClause.append("AND TRUNC(C_Order.DateOrdered, 'DD') >= ?");
+				whereClause.append(" AND TRUNC(C_Order.DateOrdered, 'DD') >= ?");
 				parameters.add(getDateOrdered());
 			} else if (getDateOrdered() == null && getDateOrderedTo() != null) {
-				whereClause.append("AND TRUNC(C_Order.DateOrdered, 'DD') <= ?");
+				whereClause.append(" AND TRUNC(C_Order.DateOrdered, 'DD') <= ?");
 				parameters.add(getDateOrderedTo());
 			}
 		}
