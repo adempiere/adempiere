@@ -723,7 +723,7 @@ public class WTrialBalance extends TrialBalanceDrill implements IFormController,
 			StringBuffer errorMessage = new StringBuffer();
 				errorMessage.append("@No Acctschema@");
 
-			FDialog.error(form.getWindowNo(), errorMessage.toString());
+				FDialog.error(form.getWindowNo(), "FillMandatory", Msg.parseTranslation(Env.getCtx(), errorMessage.toString()));
 
 		}
 		MAcctSchemaElement acctElementOrg = acctSchema.getAcctSchemaElement(MAcctSchemaElement.ELEMENTTYPE_Organization);
