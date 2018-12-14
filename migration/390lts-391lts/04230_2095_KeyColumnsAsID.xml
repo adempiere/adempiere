@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="KeyColumnsAsID" ReleaseNo="3.9.1" SeqNo="4230">
+    <Comments>See https://github.com/adempiere/adempiere/issues/2095</Comments>
+    <Step DBType="ALL" Parse="Y" SeqNo="10" StepType="SQL">
+      <SQLStatement>UPDATE AD_Column SET AD_Reference_ID = 13 WHERE AD_Reference_ID &lt;&gt; 13 AND IsKey = 'Y' AND EXISTS(SELECT 1 FROM AD_Table WHERE IsView = 'N' AND AD_Table_ID = AD_Column.AD_Table_ID);</SQLStatement>
+    </Step>
+  </Migration>
+</Migrations>
