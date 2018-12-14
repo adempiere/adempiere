@@ -979,7 +979,11 @@ public class GridTable extends AbstractTableModel
 			}
 		}
 		return -1;
-	}	//	getKeyID
+	}	//
+
+	public String getUUID(int row) {
+		return DB.getSQLValueString(null , "SELECT UUID FROM " + getTableName() + " WHERE " + getKeyColumnName() + " = " + getKeyID(row));
+	}
 
 	/**
 	 *	Get Key ColumnName
