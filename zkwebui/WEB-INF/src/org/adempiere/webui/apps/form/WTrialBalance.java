@@ -58,6 +58,8 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.compiere.apps.form.TrialBalanceDrill;
 import org.compiere.minigrid.IDColumn;
+import org.compiere.model.MAcctSchema;
+import org.compiere.model.MAcctSchemaElement;
 import org.compiere.model.MLookup;
 import org.compiere.model.MLookupFactory;
 import org.compiere.model.MLookupInfo;
@@ -323,11 +325,33 @@ public class WTrialBalance extends TrialBalanceDrill implements IFormController,
 		
 		if (fReportCube.getValue() !=null)
 			pa_ReportCube_ID = (Integer)fReportCube.getValue();
-		
-		//pa_ReportCube_ID = 1000000;		
-		if (pa_ReportCube_ID == 0 || c_PeriodTo_ID == 0 || m_AD_Org_ID == 0)
-		{
-			FDialog.error(form.getWindowNo(), "Please fill mandatory fields (Cube, Period, Organization).");
+
+		//pa_ReportCube_ID = 1000000;
+
+		MAcctSchema acctSchema = MAcctSchema.getClientAcctSchema(Env.getCtx(), Env.getAD_Client_ID(Env.getCtx()))[0];
+		if (acctSchema == null)
+			FDialog.error(form.getWindowNo(), "@No Acctschema@");
+		MAcctSchemaElement acctElementOrg = acctSchema.getAcctSchemaElement(MAcctSchemaElement.ELEMENTTYPE_Organization);
+		Boolean orgMandatory = acctElementOrg.isBalanced()?true:false;
+
+		StringBuffer errorMessage = new StringBuffer();
+		if (pa_ReportCube_ID == 0) {
+			errorMessage.append("@PA_ReportCube_ID@");
+		}
+		if (c_PeriodTo_ID == 0) {
+			if(errorMessage.length() > 0) {
+				errorMessage.append(Env.NL);
+			}
+			errorMessage.append("@C_PeriodTo_ID@");
+		}
+		if (orgMandatory && m_AD_Org_ID == 0) {
+			if(errorMessage.length() > 0) {
+				errorMessage.append(Env.NL);
+			}
+			errorMessage.append("@AD_Org_ID@");
+		}
+		if(errorMessage.length() > 0) {
+			FDialog.error(form.getWindowNo(), "FillMandatory", errorMessage.toString());
 			return;
 		}
 
@@ -693,10 +717,24 @@ public class WTrialBalance extends TrialBalanceDrill implements IFormController,
 	 * Set style on organization Label
 	 */
 	private void setOrgStyle()
-	{
-		if (fieldOrg.getValue() == null)
+	{MAcctSchema acctSchema = MAcctSchema.getClientAcctSchema(Env.getCtx(), Env.getAD_Client_ID(Env.getCtx()))[0];
+		if (acctSchema == null)
+		{
+			StringBuffer errorMessage = new StringBuffer();
+				errorMessage.append("@No Acctschema@");
+
+				FDialog.error(form.getWindowNo(), "FillMandatory", Msg.parseTranslation(Env.getCtx(), errorMessage.toString()));
+
+		}
+		MAcctSchemaElement acctElementOrg = acctSchema.getAcctSchemaElement(MAcctSchemaElement.ELEMENTTYPE_Organization);
+		Boolean orgMandatory = acctElementOrg.isBalanced()?true:false;
+
+
+		if (orgMandatory)
 			lOrg.setStyle("color : red");
 		else
 			lOrg.setStyle("color : black");
+		lPeriodTo.setStyle("color:red");
+		lCube.setStyle("color:red");
 	}
 }
