@@ -26,7 +26,6 @@
     <libelement value="jar://$MODULE_DIR$/tools/lib/looks-2.0.4.jar!/" />
     <libelement value="jar://$MODULE_DIR$/tools/lib/xercesImpl.jar!/" />
     <libelement value="jar://$MODULE_DIR$/tools/lib/xjavadoc-1.1.jar!/" />
-    <libelement value="jar://$MODULE_DIR$/tools/lib/xml-apis.jar!/" />
     <libelement value="jar://$MODULE_DIR$/tools/lib/icepdf-core-6.2.2.jar!/" />
     <libelement value="jar://$MODULE_DIR$/tools/lib/icepdf-viewer-6.2.2.jar!/" />
     <libelement value="jar://$MODULE_DIR$/tools/lib/swingx-1.6.jar!/" />
@@ -426,15 +425,6 @@
       <library name="xjavadoc-1.1.jar">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/tools/lib/xjavadoc-1.1.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="xml-apis.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/tools/lib/xml-apis.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

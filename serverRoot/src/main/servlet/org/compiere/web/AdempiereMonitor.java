@@ -878,8 +878,8 @@ public class AdempiereMonitor extends HttpServlet
 	 */
 	private String getFileName(String fileName) {
 		if(!Util.isEmpty(fileName)) {
-			if(fileName.lastIndexOf("/") != -1) {
-				fileName = fileName.substring(fileName.lastIndexOf("/") + 1);
+			if(fileName.lastIndexOf(File.separator) != -1) {
+				fileName = fileName.substring(fileName.lastIndexOf(File.separator) + 1);
 			}
 		}
 		//	Default

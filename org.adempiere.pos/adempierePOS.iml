@@ -92,7 +92,6 @@
           <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/wizard.jar!/" />
           <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/xercesImpl.jar!/" />
           <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/xjavadoc-1.1.jar!/" />
-          <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/xml-apis.jar!/" />
           <root url="jar://$MODULE_DIR$/../adempiere/tools/lib/jython.jar!/" />
         </CLASSES>
         <JAVADOC />
