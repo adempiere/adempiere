@@ -20,7 +20,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 
 import org.compiere.util.DB;
@@ -143,5 +146,31 @@ public class MInvoiceBatch extends X_C_InvoiceBatch
 		m_lines = null;
 		log.fine(processed + " - Lines=" + noLine);
 	}	//	setProcessed
-	
+
+	/**
+	 * Copy Lines From other InvoiceBatch.
+	 * @param invoiceBatchFrom
+	 * @return no line copy
+	 */
+	public int copyLinesFrom (MInvoiceBatch invoiceBatchFrom)
+	{
+		if (isProcessed())
+			return 0;
+
+		List<MInvoiceBatchLine> fromInvoiceBatchLines = Arrays.asList(invoiceBatchFrom.getLines(true));
+		AtomicInteger count = new AtomicInteger();
+		fromInvoiceBatchLines.stream()
+				.forEach(invoiceBatchLineFrom -> {
+					MInvoiceBatchLine invoiceBatchLineTo = new MInvoiceBatchLine(getCtx(), 0, get_TrxName());
+					PO.copyValues(invoiceBatchLineFrom, invoiceBatchLineTo, invoiceBatchLineFrom.getAD_Client_ID(), invoiceBatchLineFrom.getAD_Org_ID());
+					invoiceBatchLineTo.setC_InvoiceBatch_ID(getC_InvoiceBatch_ID());
+					invoiceBatchLineTo.set_ValueNoCheck("C_InvoiceBatchLine_ID", I_ZERO);    // new
+					invoiceBatchLineTo.setProcessed(false);
+					invoiceBatchLineTo.saveEx();
+					count.updateAndGet(no -> no + 1);
+				});
+		if (fromInvoiceBatchLines.size() != count.get())
+			log.log(Level.SEVERE, "Line difference - From=" + fromInvoiceBatchLines.size() + " <> Saved=" + count);
+		return count.get();
+	}	//	copyLinesFrom
 }	//	MInvoiceBatch
