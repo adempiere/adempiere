@@ -78,7 +78,7 @@ public class ExportSurrogateKeyToMigration extends ExportSurrogateKeyToMigration
 		//	Get length
 		int length = sQLColumn.getFieldLength();
 		for(int i = 0; i < updateList.size(); i++) {
-			if(updateBuffer.length() >= (length - 100)) {
+			if(updateBuffer.length() >= (length - 200)) {
 				addStep(updateBuffer.toString(), rollbackBuffer.toString());
 				updateBuffer = new StringBuffer();
 				rollbackBuffer = new StringBuffer();
