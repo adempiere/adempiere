@@ -105,9 +105,11 @@ public class RecordInfoController {
 		int m_Record_ID = 0;
 		int m_AD_Table_ID = 0;
 		int m_AD_Column_ID = 0;
+		String UUID = null;
 		if(m_Field != null) {
 			//	Set Values
 			m_Record_ID = m_Field.getGridTab().getRecord_ID();
+			UUID = m_Field.getGridTab().getUUID();
 			m_AD_Table_ID = m_Field.getGridTab().getAD_Table_ID();
 			m_AD_Column_ID = m_Field.getAD_Column_ID();
 			//	
@@ -115,10 +117,15 @@ public class RecordInfoController {
 			X_AD_Reference reference = new X_AD_Reference(Env.getCtx(), m_Field.getDisplayType(), null);
 			DecimalFormat format = DisplayType.getNumberFormat(reference.getAD_Reference_ID());
 			MTable table = MTable.get(Env.getCtx(), m_AD_Table_ID);
+			StringBuilder infoTable = new StringBuilder();
+			infoTable.append("SELECT * FROM ").append(table.getTableName()).append(" WHERE ");
 			//  Info
-			m_info.append("(").append(table.getTableName()).append(" - ").append(m_Field.getColumnName())
-				.append(" = ").append(m_Field.getValue()).append(")").append("\n")
-				.append(Msg.translate(Env.getCtx(), "Name"))
+			m_info.append(infoTable).append(m_Field.getColumnName()).append("=").append(m_Field.getValue()).append(";");
+			if (UUID != null) {
+				m_info.append("\n").append(infoTable).append("UUID='").append(UUID).append("';");
+			}
+
+			m_info.append("\n").append(Msg.translate(Env.getCtx(), "Name"))
 				.append(": ").append(m_Field.getHeader()).append("\n")
 				.append(Msg.translate(Env.getCtx(), "Description"))
 				.append(": ").append(m_Field.getDescription()).append("\n")
@@ -171,8 +178,9 @@ public class RecordInfoController {
 					.append(": ").append(user.getName())
 					.append(" - ").append(m_dateTimeFormat.format(dse.Updated)).append("\n");
 			}
-			if (dse.Info != null && dse.Info.length() > 0)
-				m_info.append("\n (").append(dse.Info).append(")");
+			if (dse.Info != null && dse.Info.length() > 0) {
+				m_info.append("\n").append(dse.Info);
+			}
 			
 			//	Title
 			if (dse.AD_Table_ID != 0)
