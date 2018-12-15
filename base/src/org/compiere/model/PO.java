@@ -4229,7 +4229,11 @@ public abstract class PO
 	}
 
 	public String generateUUID() {
-		String uuid = DB.getSQLValueString(get_TrxName(), "SELECT getUUID() FROM DUAL;");
+		String uuid;
+		if (DB.isOracle())
+		 	uuid = DB.getSQLValueString(get_TrxName(), "SELECT getUUID() FROM DUAL;");
+		else
+			uuid = DB.getSQLValueString(get_TrxName(), "SELECT getUUID();");
 		return uuid;
 	}
 }   //  PO
