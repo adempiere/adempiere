@@ -488,21 +488,11 @@
         <Data AD_Column_ID="337" Column="AD_Language" oldValue="es_MX">es_MX</Data>
       </PO>
     </Step>
-    <Step SeqNo="690" StepType="AD">
-      <PO AD_Table_ID="104" Action="U" Record_ID="53546" Table="AD_Ref_List">
-        <Data AD_Column_ID="149" Column="Name" oldValue="Quantity (accounted sign)">Quantity (accounted sign) (DB - CR)</Data>
-      </PO>
-    </Step>
     <Step SeqNo="700" StepType="AD">
       <PO AD_Table_ID="136" Action="U" Record_ID="53546" Table="AD_Ref_List_Trl">
         <Data AD_Column_ID="340" Column="IsTranslated" oldValue="true">false</Data>
         <Data AD_Column_ID="336" Column="AD_Ref_List_ID" oldValue="53546">53546</Data>
         <Data AD_Column_ID="337" Column="AD_Language" oldValue="es_MX">es_MX</Data>
-      </PO>
-    </Step>
-    <Step SeqNo="710" StepType="AD">
-      <PO AD_Table_ID="104" Action="U" Record_ID="53545" Table="AD_Ref_List">
-        <Data AD_Column_ID="149" Column="Name" oldValue="Balance (accounted sign)">Balance (accounted sign) (DB - CR)</Data>
       </PO>
     </Step>
     <Step SeqNo="720" StepType="AD">

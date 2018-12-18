@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="LandedCostType" ReleaseNo="3.9.1" SeqNo="4020">
+  <Migration EntityType="D" Name="LandedCostType" ReleaseNo="3.9.1" SeqNo="4023">
     <Comments>Comments&gt;https://github.com/adempiere/adempiere/issues/2031</Comments>
     <Step SeqNo="5" StepType="AD">
       <PO AD_Table_ID="276" Action="I" Record_ID="60911" Table="AD_Element">
