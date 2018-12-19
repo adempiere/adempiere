@@ -9,7 +9,6 @@
 	<classpathentry kind="lib" path="/zkwebui/WEB-INF/lib/zkmax.jar" sourcepath="/zkwebui/WEB-INF/lib/zkmax-sources.jar"/>
 	<classpathentry kind="lib" path="/tools/lib/iText-2.1.7.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/client"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/org.adempiere.project"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/org.adempiere.request"/>
+	<classpathentry kind="lib" path="/tools/lib/mail.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
