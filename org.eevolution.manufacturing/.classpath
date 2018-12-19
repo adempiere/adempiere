@@ -12,6 +12,5 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/client"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/extend"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/zkwebui"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/org.adempiere.project"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
