@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_AppSupport
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.1
  */
 public interface I_AD_AppSupport 
 {
@@ -45,10 +45,14 @@ public interface I_AD_AppSupport
     /** Column name AD_AppSupport_ID */
     public static final String COLUMNNAME_AD_AppSupport_ID = "AD_AppSupport_ID";
 
-	/** Set App Support	  */
+	/** Set App Support.
+	  * App Support for External Connection
+	  */
 	public void setAD_AppSupport_ID (int AD_AppSupport_ID);
 
-	/** Get App Support	  */
+	/** Get App Support.
+	  * App Support for External Connection
+	  */
 	public int getAD_AppSupport_ID();
 
     /** Column name AD_Client_ID */
@@ -179,6 +183,19 @@ public interface I_AD_AppSupport
 	  */
 	public String getName();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -194,19 +211,6 @@ public interface I_AD_AppSupport
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 
     /** Column name Value */
     public static final String COLUMNNAME_Value = "Value";

@@ -22,10 +22,10 @@ import java.util.Properties;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Model for AD_AppRegistration_Para
+/** Generated Model for AD_AppSupport_Para
  *  @author Adempiere (generated) 
  *  @version Release 3.9.1 - $Id$ */
-public class X_AD_AppRegistration_Para extends PO implements I_AD_AppRegistration_Para, I_Persistent 
+public class X_AD_AppSupport_Para extends PO implements I_AD_AppSupport_Para, I_Persistent 
 {
 
 	/**
@@ -34,13 +34,15 @@ public class X_AD_AppRegistration_Para extends PO implements I_AD_AppRegistratio
 	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
-    public X_AD_AppRegistration_Para (Properties ctx, int AD_AppRegistration_Para_ID, String trxName)
+    public X_AD_AppSupport_Para (Properties ctx, int AD_AppSupport_Para_ID, String trxName)
     {
-      super (ctx, AD_AppRegistration_Para_ID, trxName);
-      /** if (AD_AppRegistration_Para_ID == 0)
+      super (ctx, AD_AppSupport_Para_ID, trxName);
+      /** if (AD_AppSupport_Para_ID == 0)
         {
-			setAD_AppRegistration_ID (0);
-			setAD_AppRegistration_Para_ID (0);
+			setAD_AppSupport_ID (0);
+			setAD_AppSupport_Para_ID (0);
+			setAD_Reference_ID (0);
+// 10
 			setParameterName (null);
 			setParameterType (null);
 // C
@@ -48,7 +50,7 @@ public class X_AD_AppRegistration_Para extends PO implements I_AD_AppRegistratio
     }
 
     /** Load Constructor */
-    public X_AD_AppRegistration_Para (Properties ctx, ResultSet rs, String trxName)
+    public X_AD_AppSupport_Para (Properties ctx, ResultSet rs, String trxName)
     {
       super (ctx, rs, trxName);
     }
@@ -70,66 +72,38 @@ public class X_AD_AppRegistration_Para extends PO implements I_AD_AppRegistratio
 
     public String toString()
     {
-      StringBuffer sb = new StringBuffer ("X_AD_AppRegistration_Para[")
+      StringBuffer sb = new StringBuffer ("X_AD_AppSupport_Para[")
         .append(get_ID()).append("]");
       return sb.toString();
     }
 
-	public org.spin.model.I_AD_AppRegistration getAD_AppRegistration() throws RuntimeException
+	public org.spin.model.I_AD_AppSupport getAD_AppSupport() throws RuntimeException
     {
-		return (org.spin.model.I_AD_AppRegistration)MTable.get(getCtx(), org.spin.model.I_AD_AppRegistration.Table_Name)
-			.getPO(getAD_AppRegistration_ID(), get_TrxName());	}
+		return (org.spin.model.I_AD_AppSupport)MTable.get(getCtx(), org.spin.model.I_AD_AppSupport.Table_Name)
+			.getPO(getAD_AppSupport_ID(), get_TrxName());	}
 
-	/** Set Application Registration.
-		@param AD_AppRegistration_ID 
-		External Application Registration
+	/** Set App Support.
+		@param AD_AppSupport_ID 
+		App Support for External Connection
 	  */
-	public void setAD_AppRegistration_ID (int AD_AppRegistration_ID)
+	public void setAD_AppSupport_ID (int AD_AppSupport_ID)
 	{
-		if (AD_AppRegistration_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_AppRegistration_ID, null);
+		if (AD_AppSupport_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_AppSupport_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_AD_AppRegistration_ID, Integer.valueOf(AD_AppRegistration_ID));
+			set_ValueNoCheck (COLUMNNAME_AD_AppSupport_ID, Integer.valueOf(AD_AppSupport_ID));
 	}
 
-	/** Get Application Registration.
-		@return External Application Registration
+	/** Get App Support.
+		@return App Support for External Connection
 	  */
-	public int getAD_AppRegistration_ID () 
+	public int getAD_AppSupport_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_AppRegistration_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_AppSupport_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
 	}
-
-	/** Set App Registration Parameter.
-		@param AD_AppRegistration_Para_ID 
-		App Registration Parameter used for connect with External App
-	  */
-	public void setAD_AppRegistration_Para_ID (int AD_AppRegistration_Para_ID)
-	{
-		if (AD_AppRegistration_Para_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_AppRegistration_Para_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_AD_AppRegistration_Para_ID, Integer.valueOf(AD_AppRegistration_Para_ID));
-	}
-
-	/** Get App Registration Parameter.
-		@return App Registration Parameter used for connect with External App
-	  */
-	public int getAD_AppRegistration_Para_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_AppRegistration_Para_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public org.spin.model.I_AD_AppSupport_Para getAD_AppSupport_Para() throws RuntimeException
-    {
-		return (org.spin.model.I_AD_AppSupport_Para)MTable.get(getCtx(), org.spin.model.I_AD_AppSupport_Para.Table_Name)
-			.getPO(getAD_AppSupport_Para_ID(), get_TrxName());	}
 
 	/** Set App Support Default Parameter.
 		@param AD_AppSupport_Para_ID 
@@ -154,6 +128,34 @@ public class X_AD_AppRegistration_Para extends PO implements I_AD_AppRegistratio
 		return ii.intValue();
 	}
 
+	public org.compiere.model.I_AD_Reference getAD_Reference() throws RuntimeException
+    {
+		return (org.compiere.model.I_AD_Reference)MTable.get(getCtx(), org.compiere.model.I_AD_Reference.Table_Name)
+			.getPO(getAD_Reference_ID(), get_TrxName());	}
+
+	/** Set Reference.
+		@param AD_Reference_ID 
+		System Reference and Validation
+	  */
+	public void setAD_Reference_ID (int AD_Reference_ID)
+	{
+		if (AD_Reference_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Reference_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Reference_ID, Integer.valueOf(AD_Reference_ID));
+	}
+
+	/** Get Reference.
+		@return System Reference and Validation
+	  */
+	public int getAD_Reference_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Reference_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Description.
 		@param Description 
 		Optional short description of the record
@@ -171,11 +173,52 @@ public class X_AD_AppRegistration_Para extends PO implements I_AD_AppRegistratio
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
+	/** Set Mandatory.
+		@param IsMandatory 
+		Data entry is required in this column
+	  */
+	public void setIsMandatory (boolean IsMandatory)
+	{
+		set_Value (COLUMNNAME_IsMandatory, Boolean.valueOf(IsMandatory));
+	}
+
+	/** Get Mandatory.
+		@return Data entry is required in this column
+	  */
+	public boolean isMandatory () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsMandatory);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Default Parameter.
+		@param ParameterDefault 
+		Default value of the parameter
+	  */
+	public void setParameterDefault (String ParameterDefault)
+	{
+		set_Value (COLUMNNAME_ParameterDefault, ParameterDefault);
+	}
+
+	/** Get Default Parameter.
+		@return Default value of the parameter
+	  */
+	public String getParameterDefault () 
+	{
+		return (String)get_Value(COLUMNNAME_ParameterDefault);
+	}
+
 	/** Set Parameter Name.
 		@param ParameterName Parameter Name	  */
 	public void setParameterName (String ParameterName)
 	{
-		set_ValueNoCheck (COLUMNNAME_ParameterName, ParameterName);
+		set_Value (COLUMNNAME_ParameterName, ParameterName);
 	}
 
 	/** Get Parameter Name.
@@ -184,6 +227,14 @@ public class X_AD_AppRegistration_Para extends PO implements I_AD_AppRegistratio
 	{
 		return (String)get_Value(COLUMNNAME_ParameterName);
 	}
+
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), getParameterName());
+    }
 
 	/** ParameterType AD_Reference_ID=53288 */
 	public static final int PARAMETERTYPE_AD_Reference_ID=53288;
@@ -204,28 +255,6 @@ public class X_AD_AppRegistration_Para extends PO implements I_AD_AppRegistratio
 	public String getParameterType () 
 	{
 		return (String)get_Value(COLUMNNAME_ParameterType);
-	}
-
-    /** Get Record ID/ColumnName
-        @return ID/ColumnName pair
-      */
-    public KeyNamePair getKeyNamePair() 
-    {
-        return new KeyNamePair(get_ID(), String.valueOf(getParameterType()));
-    }
-
-	/** Set Parameter Value.
-		@param ParameterValue Parameter Value	  */
-	public void setParameterValue (String ParameterValue)
-	{
-		set_Value (COLUMNNAME_ParameterValue, ParameterValue);
-	}
-
-	/** Get Parameter Value.
-		@return Parameter Value	  */
-	public String getParameterValue () 
-	{
-		return (String)get_Value(COLUMNNAME_ParameterValue);
 	}
 
 	/** Set Immutable Universally Unique Identifier.

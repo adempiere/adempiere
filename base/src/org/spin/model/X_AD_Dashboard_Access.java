@@ -20,12 +20,11 @@ package org.spin.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 import org.compiere.model.*;
-import org.compiere.util.KeyNamePair;
 
-/** Generated Model for AD_FieldDefinition
+/** Generated Model for AD_Dashboard_Access
  *  @author Adempiere (generated) 
  *  @version Release 3.9.1 - $Id$ */
-public class X_AD_FieldDefinition extends PO implements I_AD_FieldDefinition, I_Persistent 
+public class X_AD_Dashboard_Access extends PO implements I_AD_Dashboard_Access, I_Persistent 
 {
 
 	/**
@@ -34,25 +33,24 @@ public class X_AD_FieldDefinition extends PO implements I_AD_FieldDefinition, I_
 	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
-    public X_AD_FieldDefinition (Properties ctx, int AD_FieldDefinition_ID, String trxName)
+    public X_AD_Dashboard_Access (Properties ctx, int AD_Dashboard_Access_ID, String trxName)
     {
-      super (ctx, AD_FieldDefinition_ID, trxName);
-      /** if (AD_FieldDefinition_ID == 0)
+      super (ctx, AD_Dashboard_Access_ID, trxName);
+      /** if (AD_Dashboard_Access_ID == 0)
         {
-			setAD_FieldDefinition_ID (0);
-			setName (null);
-			setValue (null);
+			setAD_Role_ID (0);
+			setPA_DashboardContent_ID (0);
         } */
     }
 
     /** Load Constructor */
-    public X_AD_FieldDefinition (Properties ctx, ResultSet rs, String trxName)
+    public X_AD_Dashboard_Access (Properties ctx, ResultSet rs, String trxName)
     {
       super (ctx, rs, trxName);
     }
 
     /** AccessLevel
-      * @return 4 - System 
+      * @return 6 - System - Client 
       */
     protected int get_AccessLevel()
     {
@@ -68,55 +66,63 @@ public class X_AD_FieldDefinition extends PO implements I_AD_FieldDefinition, I_
 
     public String toString()
     {
-      StringBuffer sb = new StringBuffer ("X_AD_FieldDefinition[")
+      StringBuffer sb = new StringBuffer ("X_AD_Dashboard_Access[")
         .append(get_ID()).append("]");
       return sb.toString();
     }
 
-	/** Set Field Definition.
-		@param AD_FieldDefinition_ID Field Definition	  */
-	public void setAD_FieldDefinition_ID (int AD_FieldDefinition_ID)
+	public org.compiere.model.I_AD_Role getAD_Role() throws RuntimeException
+    {
+		return (org.compiere.model.I_AD_Role)MTable.get(getCtx(), org.compiere.model.I_AD_Role.Table_Name)
+			.getPO(getAD_Role_ID(), get_TrxName());	}
+
+	/** Set Role.
+		@param AD_Role_ID 
+		Responsibility Role
+	  */
+	public void setAD_Role_ID (int AD_Role_ID)
 	{
-		if (AD_FieldDefinition_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_FieldDefinition_ID, null);
+		if (AD_Role_ID < 0) 
+			set_ValueNoCheck (COLUMNNAME_AD_Role_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_AD_FieldDefinition_ID, Integer.valueOf(AD_FieldDefinition_ID));
+			set_ValueNoCheck (COLUMNNAME_AD_Role_ID, Integer.valueOf(AD_Role_ID));
 	}
 
-	/** Get Field Definition.
-		@return Field Definition	  */
-	public int getAD_FieldDefinition_ID () 
+	/** Get Role.
+		@return Responsibility Role
+	  */
+	public int getAD_Role_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_FieldDefinition_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Role_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
 	}
 
-	/** Set Name.
-		@param Name 
-		Alphanumeric identifier of the entity
-	  */
-	public void setName (String Name)
-	{
-		set_Value (COLUMNNAME_Name, Name);
-	}
-
-	/** Get Name.
-		@return Alphanumeric identifier of the entity
-	  */
-	public String getName () 
-	{
-		return (String)get_Value(COLUMNNAME_Name);
-	}
-
-    /** Get Record ID/ColumnName
-        @return ID/ColumnName pair
-      */
-    public KeyNamePair getKeyNamePair() 
+	public org.compiere.model.I_PA_DashboardContent getPA_DashboardContent() throws RuntimeException
     {
-        return new KeyNamePair(get_ID(), getName());
-    }
+		return (org.compiere.model.I_PA_DashboardContent)MTable.get(getCtx(), org.compiere.model.I_PA_DashboardContent.Table_Name)
+			.getPO(getPA_DashboardContent_ID(), get_TrxName());	}
+
+	/** Set Dashboard Content.
+		@param PA_DashboardContent_ID Dashboard Content	  */
+	public void setPA_DashboardContent_ID (int PA_DashboardContent_ID)
+	{
+		if (PA_DashboardContent_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PA_DashboardContent_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PA_DashboardContent_ID, Integer.valueOf(PA_DashboardContent_ID));
+	}
+
+	/** Get Dashboard Content.
+		@return Dashboard Content	  */
+	public int getPA_DashboardContent_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PA_DashboardContent_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	/** Set Immutable Universally Unique Identifier.
 		@param UUID 
@@ -133,22 +139,5 @@ public class X_AD_FieldDefinition extends PO implements I_AD_FieldDefinition, I_
 	public String getUUID () 
 	{
 		return (String)get_Value(COLUMNNAME_UUID);
-	}
-
-	/** Set Search Key.
-		@param Value 
-		Search key for the record in the format required - must be unique
-	  */
-	public void setValue (String Value)
-	{
-		set_Value (COLUMNNAME_Value, Value);
-	}
-
-	/** Get Search Key.
-		@return Search key for the record in the format required - must be unique
-	  */
-	public String getValue () 
-	{
-		return (String)get_Value(COLUMNNAME_Value);
 	}
 }

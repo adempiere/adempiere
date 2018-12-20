@@ -21,17 +21,17 @@ import java.sql.Timestamp;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for AD_ContextInfo
+/** Generated Interface for ASP_Browse
  *  @author Adempiere (generated) 
  *  @version Release 3.9.1
  */
-public interface I_AD_ContextInfo 
+public interface I_ASP_Browse 
 {
 
-    /** TableName=AD_ContextInfo */
-    public static final String Table_Name = "AD_ContextInfo";
+    /** TableName=ASP_Browse */
+    public static final String Table_Name = "ASP_Browse";
 
-    /** AD_Table_ID=54438 */
+    /** AD_Table_ID=54230 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
@@ -42,6 +42,17 @@ public interface I_AD_ContextInfo
 
     /** Load Meta Data */
 
+    /** Column name AD_Browse_ID */
+    public static final String COLUMNNAME_AD_Browse_ID = "AD_Browse_ID";
+
+	/** Set Smart Browse	  */
+	public void setAD_Browse_ID (int AD_Browse_ID);
+
+	/** Get Smart Browse	  */
+	public int getAD_Browse_ID();
+
+	public org.adempiere.model.I_AD_Browse getAD_Browse() throws RuntimeException;
+
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
 
@@ -49,34 +60,6 @@ public interface I_AD_ContextInfo
 	  * Client/Tenant for this installation.
 	  */
 	public int getAD_Client_ID();
-
-    /** Column name AD_ContextInfo_ID */
-    public static final String COLUMNNAME_AD_ContextInfo_ID = "AD_ContextInfo_ID";
-
-	/** Set Context Info.
-	  * Context Info Maintaining
-	  */
-	public void setAD_ContextInfo_ID (int AD_ContextInfo_ID);
-
-	/** Get Context Info.
-	  * Context Info Maintaining
-	  */
-	public int getAD_ContextInfo_ID();
-
-    /** Column name AD_Message_ID */
-    public static final String COLUMNNAME_AD_Message_ID = "AD_Message_ID";
-
-	/** Set Message.
-	  * System Message
-	  */
-	public void setAD_Message_ID (int AD_Message_ID);
-
-	/** Get Message.
-	  * System Message
-	  */
-	public int getAD_Message_ID();
-
-	public org.compiere.model.I_AD_Message getAD_Message() throws RuntimeException;
 
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
@@ -90,6 +73,35 @@ public interface I_AD_ContextInfo
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
+
+    /** Column name ASP_Browse_ID */
+    public static final String COLUMNNAME_ASP_Browse_ID = "ASP_Browse_ID";
+
+	/** Set ASP Browse	  */
+	public void setASP_Browse_ID (int ASP_Browse_ID);
+
+	/** Get ASP Browse	  */
+	public int getASP_Browse_ID();
+
+    /** Column name ASP_Level_ID */
+    public static final String COLUMNNAME_ASP_Level_ID = "ASP_Level_ID";
+
+	/** Set ASP Level	  */
+	public void setASP_Level_ID (int ASP_Level_ID);
+
+	/** Get ASP Level	  */
+	public int getASP_Level_ID();
+
+	public org.compiere.model.I_ASP_Level getASP_Level() throws RuntimeException;
+
+    /** Column name ASP_Status */
+    public static final String COLUMNNAME_ASP_Status = "ASP_Status";
+
+	/** Set ASP Status	  */
+	public void setASP_Status (String ASP_Status);
+
+	/** Get ASP Status	  */
+	public String getASP_Status();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -107,19 +119,6 @@ public interface I_AD_ContextInfo
 	  */
 	public int getCreatedBy();
 
-    /** Column name Description */
-    public static final String COLUMNNAME_Description = "Description";
-
-	/** Set Description.
-	  * Optional short description of the record
-	  */
-	public void setDescription (String Description);
-
-	/** Get Description.
-	  * Optional short description of the record
-	  */
-	public String getDescription();
-
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
 
@@ -132,28 +131,6 @@ public interface I_AD_ContextInfo
 	  * The record is active in the system
 	  */
 	public boolean isActive();
-
-    /** Column name Name */
-    public static final String COLUMNNAME_Name = "Name";
-
-	/** Set Name.
-	  * Alphanumeric identifier of the entity
-	  */
-	public void setName (String Name);
-
-	/** Get Name.
-	  * Alphanumeric identifier of the entity
-	  */
-	public String getName();
-
-    /** Column name SQLStatement */
-    public static final String COLUMNNAME_SQLStatement = "SQLStatement";
-
-	/** Set SQLStatement	  */
-	public void setSQLStatement (String SQLStatement);
-
-	/** Get SQLStatement	  */
-	public String getSQLStatement();
 
     /** Column name UUID */
     public static final String COLUMNNAME_UUID = "UUID";
@@ -183,17 +160,4 @@ public interface I_AD_ContextInfo
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name Value */
-    public static final String COLUMNNAME_Value = "Value";
-
-	/** Set Search Key.
-	  * Search key for the record in the format required - must be unique
-	  */
-	public void setValue (String Value);
-
-	/** Get Search Key.
-	  * Search key for the record in the format required - must be unique
-	  */
-	public String getValue();
 }

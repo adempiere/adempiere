@@ -23,14 +23,14 @@ import org.compiere.model.*;
 
 /** Generated Model for HR_ProcessReportTemplate
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_HR_ProcessReportTemplate extends PO implements I_HR_ProcessReportTemplate, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20180131L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_HR_ProcessReportTemplate (Properties ctx, int HR_ProcessReportTemplate_ID, String trxName)
@@ -39,8 +39,8 @@ public class X_HR_ProcessReportTemplate extends PO implements I_HR_ProcessReport
       /** if (HR_ProcessReportTemplate_ID == 0)
         {
 			setAD_PrintFormat_ID (0);
-			setHR_ProcessReport_ID (0);
 			setHR_ProcessReportTemplate_ID (0);
+			setHR_ProcessReport_ID (0);
 			setName (null);
         } */
     }
@@ -118,6 +118,26 @@ public class X_HR_ProcessReportTemplate extends PO implements I_HR_ProcessReport
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
+	/** Set Payroll Process Report Template.
+		@param HR_ProcessReportTemplate_ID Payroll Process Report Template	  */
+	public void setHR_ProcessReportTemplate_ID (int HR_ProcessReportTemplate_ID)
+	{
+		if (HR_ProcessReportTemplate_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_HR_ProcessReportTemplate_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_HR_ProcessReportTemplate_ID, Integer.valueOf(HR_ProcessReportTemplate_ID));
+	}
+
+	/** Get Payroll Process Report Template.
+		@return Payroll Process Report Template	  */
+	public int getHR_ProcessReportTemplate_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_HR_ProcessReportTemplate_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.spin.model.I_HR_ProcessReport getHR_ProcessReport() throws RuntimeException
     {
 		return (org.spin.model.I_HR_ProcessReport)MTable.get(getCtx(), org.spin.model.I_HR_ProcessReport.Table_Name)
@@ -138,26 +158,6 @@ public class X_HR_ProcessReportTemplate extends PO implements I_HR_ProcessReport
 	public int getHR_ProcessReport_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_ProcessReport_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Payroll Process Report Template ID.
-		@param HR_ProcessReportTemplate_ID Payroll Process Report Template ID	  */
-	public void setHR_ProcessReportTemplate_ID (int HR_ProcessReportTemplate_ID)
-	{
-		if (HR_ProcessReportTemplate_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_HR_ProcessReportTemplate_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_HR_ProcessReportTemplate_ID, Integer.valueOf(HR_ProcessReportTemplate_ID));
-	}
-
-	/** Get Payroll Process Report Template ID.
-		@return Payroll Process Report Template ID	  */
-	public int getHR_ProcessReportTemplate_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_HR_ProcessReportTemplate_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

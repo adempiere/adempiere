@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_AppRegistration
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.1
  */
 public interface I_AD_AppRegistration 
 {
@@ -36,28 +36,36 @@ public interface I_AD_AppRegistration
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
-    /** AccessLevel = 4 - System 
+    /** AccessLevel = 6 - System - Client 
      */
-    BigDecimal accessLevel = BigDecimal.valueOf(4);
+    BigDecimal accessLevel = BigDecimal.valueOf(6);
 
     /** Load Meta Data */
 
     /** Column name AD_AppRegistration_ID */
     public static final String COLUMNNAME_AD_AppRegistration_ID = "AD_AppRegistration_ID";
 
-	/** Set App Registration ID	  */
+	/** Set Application Registration.
+	  * External Application Registration
+	  */
 	public void setAD_AppRegistration_ID (int AD_AppRegistration_ID);
 
-	/** Get App Registration ID	  */
+	/** Get Application Registration.
+	  * External Application Registration
+	  */
 	public int getAD_AppRegistration_ID();
 
     /** Column name AD_AppSupport_ID */
     public static final String COLUMNNAME_AD_AppSupport_ID = "AD_AppSupport_ID";
 
-	/** Set App Support	  */
+	/** Set App Support.
+	  * App Support for External Connection
+	  */
 	public void setAD_AppSupport_ID (int AD_AppSupport_ID);
 
-	/** Get App Support	  */
+	/** Get App Support.
+	  * App Support for External Connection
+	  */
 	public int getAD_AppSupport_ID();
 
 	public org.spin.model.I_AD_AppSupport getAD_AppSupport() throws RuntimeException;
@@ -182,6 +190,19 @@ public interface I_AD_AppRegistration
 	  */
 	public int getTimeout();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -197,19 +218,6 @@ public interface I_AD_AppRegistration
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 
     /** Column name Value */
     public static final String COLUMNNAME_Value = "Value";

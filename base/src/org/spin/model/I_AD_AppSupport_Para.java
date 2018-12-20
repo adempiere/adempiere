@@ -21,17 +21,17 @@ import java.sql.Timestamp;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for AD_ContextInfo
+/** Generated Interface for AD_AppSupport_Para
  *  @author Adempiere (generated) 
  *  @version Release 3.9.1
  */
-public interface I_AD_ContextInfo 
+public interface I_AD_AppSupport_Para 
 {
 
-    /** TableName=AD_ContextInfo */
-    public static final String Table_Name = "AD_ContextInfo";
+    /** TableName=AD_AppSupport_Para */
+    public static final String Table_Name = "AD_AppSupport_Para";
 
-    /** AD_Table_ID=54438 */
+    /** AD_Table_ID=54544 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
@@ -42,6 +42,34 @@ public interface I_AD_ContextInfo
 
     /** Load Meta Data */
 
+    /** Column name AD_AppSupport_ID */
+    public static final String COLUMNNAME_AD_AppSupport_ID = "AD_AppSupport_ID";
+
+	/** Set App Support.
+	  * App Support for External Connection
+	  */
+	public void setAD_AppSupport_ID (int AD_AppSupport_ID);
+
+	/** Get App Support.
+	  * App Support for External Connection
+	  */
+	public int getAD_AppSupport_ID();
+
+	public org.spin.model.I_AD_AppSupport getAD_AppSupport() throws RuntimeException;
+
+    /** Column name AD_AppSupport_Para_ID */
+    public static final String COLUMNNAME_AD_AppSupport_Para_ID = "AD_AppSupport_Para_ID";
+
+	/** Set App Support Default Parameter.
+	  * Default parameter for App Supported
+	  */
+	public void setAD_AppSupport_Para_ID (int AD_AppSupport_Para_ID);
+
+	/** Get App Support Default Parameter.
+	  * Default parameter for App Supported
+	  */
+	public int getAD_AppSupport_Para_ID();
+
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
 
@@ -49,34 +77,6 @@ public interface I_AD_ContextInfo
 	  * Client/Tenant for this installation.
 	  */
 	public int getAD_Client_ID();
-
-    /** Column name AD_ContextInfo_ID */
-    public static final String COLUMNNAME_AD_ContextInfo_ID = "AD_ContextInfo_ID";
-
-	/** Set Context Info.
-	  * Context Info Maintaining
-	  */
-	public void setAD_ContextInfo_ID (int AD_ContextInfo_ID);
-
-	/** Get Context Info.
-	  * Context Info Maintaining
-	  */
-	public int getAD_ContextInfo_ID();
-
-    /** Column name AD_Message_ID */
-    public static final String COLUMNNAME_AD_Message_ID = "AD_Message_ID";
-
-	/** Set Message.
-	  * System Message
-	  */
-	public void setAD_Message_ID (int AD_Message_ID);
-
-	/** Get Message.
-	  * System Message
-	  */
-	public int getAD_Message_ID();
-
-	public org.compiere.model.I_AD_Message getAD_Message() throws RuntimeException;
 
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
@@ -90,6 +90,21 @@ public interface I_AD_ContextInfo
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
+
+    /** Column name AD_Reference_ID */
+    public static final String COLUMNNAME_AD_Reference_ID = "AD_Reference_ID";
+
+	/** Set Reference.
+	  * System Reference and Validation
+	  */
+	public void setAD_Reference_ID (int AD_Reference_ID);
+
+	/** Get Reference.
+	  * System Reference and Validation
+	  */
+	public int getAD_Reference_ID();
+
+	public org.compiere.model.I_AD_Reference getAD_Reference() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -133,27 +148,49 @@ public interface I_AD_ContextInfo
 	  */
 	public boolean isActive();
 
-    /** Column name Name */
-    public static final String COLUMNNAME_Name = "Name";
+    /** Column name IsMandatory */
+    public static final String COLUMNNAME_IsMandatory = "IsMandatory";
 
-	/** Set Name.
-	  * Alphanumeric identifier of the entity
+	/** Set Mandatory.
+	  * Data entry is required in this column
 	  */
-	public void setName (String Name);
+	public void setIsMandatory (boolean IsMandatory);
 
-	/** Get Name.
-	  * Alphanumeric identifier of the entity
+	/** Get Mandatory.
+	  * Data entry is required in this column
 	  */
-	public String getName();
+	public boolean isMandatory();
 
-    /** Column name SQLStatement */
-    public static final String COLUMNNAME_SQLStatement = "SQLStatement";
+    /** Column name ParameterDefault */
+    public static final String COLUMNNAME_ParameterDefault = "ParameterDefault";
 
-	/** Set SQLStatement	  */
-	public void setSQLStatement (String SQLStatement);
+	/** Set Default Parameter.
+	  * Default value of the parameter
+	  */
+	public void setParameterDefault (String ParameterDefault);
 
-	/** Get SQLStatement	  */
-	public String getSQLStatement();
+	/** Get Default Parameter.
+	  * Default value of the parameter
+	  */
+	public String getParameterDefault();
+
+    /** Column name ParameterName */
+    public static final String COLUMNNAME_ParameterName = "ParameterName";
+
+	/** Set Parameter Name	  */
+	public void setParameterName (String ParameterName);
+
+	/** Get Parameter Name	  */
+	public String getParameterName();
+
+    /** Column name ParameterType */
+    public static final String COLUMNNAME_ParameterType = "ParameterType";
+
+	/** Set Parameter Type	  */
+	public void setParameterType (String ParameterType);
+
+	/** Get Parameter Type	  */
+	public String getParameterType();
 
     /** Column name UUID */
     public static final String COLUMNNAME_UUID = "UUID";
@@ -183,17 +220,4 @@ public interface I_AD_ContextInfo
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name Value */
-    public static final String COLUMNNAME_Value = "Value";
-
-	/** Set Search Key.
-	  * Search key for the record in the format required - must be unique
-	  */
-	public void setValue (String Value);
-
-	/** Get Search Key.
-	  * Search key for the record in the format required - must be unique
-	  */
-	public String getValue();
 }
