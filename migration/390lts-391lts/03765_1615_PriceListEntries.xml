@@ -8411,24 +8411,6 @@ For Multi-Lingual systems, the template is translated based on the Business Part
         <Data AD_Column_ID="57982" Column="SeqNo" oldValue="46">70</Data>
       </PO>
     </Step>
-    <Step SeqNo="5400" StepType="AD">
-      <PO AD_Table_ID="53227" Action="I" Record_ID="0" Table="AD_Browse_Field_Trl">
-        <Data AD_Column_ID="58029" Column="IsActive">true</Data>
-        <Data AD_Column_ID="58030" Column="Created">2018-03-22 12:08:45.114</Data>
-        <Data AD_Column_ID="58031" Column="Updated">2018-03-22 12:08:45.114</Data>
-        <Data AD_Column_ID="58036" Column="Description" isNewNull="true"/>
-        <Data AD_Column_ID="58037" Column="Help" isNewNull="true"/>
-        <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="58039" Column="Name">PriceActual</Data>
-        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
-        <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
-        <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">60815</Data>
-        <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="84297" Column="UUID" isNewNull="true"/>
-      </PO>
-    </Step>
     <Step SeqNo="5420" StepType="AD">
       <PO AD_Table_ID="53223" Action="U" Record_ID="60787" Table="AD_Browse_Field">
         <Data AD_Column_ID="57982" Column="SeqNo" oldValue="50">10</Data>
