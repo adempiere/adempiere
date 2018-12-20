@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PP_ForecastDefinitionLine
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_PP_ForecastDefinitionLine extends PO implements I_PP_ForecastDefinitionLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170731L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_PP_ForecastDefinitionLine (Properties ctx, int PP_ForecastDefinitionLine_ID, String trxName)

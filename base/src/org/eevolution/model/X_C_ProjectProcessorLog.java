@@ -23,14 +23,14 @@ import org.compiere.model.*;
 
 /** Generated Model for C_ProjectProcessorLog
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_C_ProjectProcessorLog extends PO implements I_C_ProjectProcessorLog, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20180118L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_C_ProjectProcessorLog (Properties ctx, int C_ProjectProcessorLog_ID, String trxName)
@@ -38,8 +38,8 @@ public class X_C_ProjectProcessorLog extends PO implements I_C_ProjectProcessorL
       super (ctx, C_ProjectProcessorLog_ID, trxName);
       /** if (C_ProjectProcessorLog_ID == 0)
         {
-			setC_ProjectProcessor_ID (0);
 			setC_ProjectProcessorLog_ID (0);
+			setC_ProjectProcessor_ID (0);
 			setIsError (false);
         } */
     }
@@ -89,31 +89,6 @@ public class X_C_ProjectProcessorLog extends PO implements I_C_ProjectProcessorL
 		return (byte[])get_Value(COLUMNNAME_BinaryData);
 	}
 
-	public org.eevolution.model.I_C_ProjectProcessor getC_ProjectProcessor() throws RuntimeException
-    {
-		return (org.eevolution.model.I_C_ProjectProcessor)MTable.get(getCtx(), org.eevolution.model.I_C_ProjectProcessor.Table_Name)
-			.getPO(getC_ProjectProcessor_ID(), get_TrxName());	}
-
-	/** Set Project Processor.
-		@param C_ProjectProcessor_ID Project Processor	  */
-	public void setC_ProjectProcessor_ID (int C_ProjectProcessor_ID)
-	{
-		if (C_ProjectProcessor_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_ProjectProcessor_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_ProjectProcessor_ID, Integer.valueOf(C_ProjectProcessor_ID));
-	}
-
-	/** Get Project Processor.
-		@return Project Processor	  */
-	public int getC_ProjectProcessor_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_ProjectProcessor_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Project Processor Log ID.
 		@param C_ProjectProcessorLog_ID Project Processor Log ID	  */
 	public void setC_ProjectProcessorLog_ID (int C_ProjectProcessorLog_ID)
@@ -129,6 +104,34 @@ public class X_C_ProjectProcessorLog extends PO implements I_C_ProjectProcessorL
 	public int getC_ProjectProcessorLog_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_ProjectProcessorLog_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.eevolution.model.I_C_ProjectProcessor getC_ProjectProcessor() throws RuntimeException
+    {
+		return (org.eevolution.model.I_C_ProjectProcessor)MTable.get(getCtx(), org.eevolution.model.I_C_ProjectProcessor.Table_Name)
+			.getPO(getC_ProjectProcessor_ID(), get_TrxName());	}
+
+	/** Set Project Processor.
+		@param C_ProjectProcessor_ID 
+		Processor for Project
+	  */
+	public void setC_ProjectProcessor_ID (int C_ProjectProcessor_ID)
+	{
+		if (C_ProjectProcessor_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_ProjectProcessor_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_ProjectProcessor_ID, Integer.valueOf(C_ProjectProcessor_ID));
+	}
+
+	/** Get Project Processor.
+		@return Processor for Project
+	  */
+	public int getC_ProjectProcessor_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_ProjectProcessor_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

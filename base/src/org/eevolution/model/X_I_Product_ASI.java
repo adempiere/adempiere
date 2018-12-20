@@ -23,14 +23,14 @@ import org.compiere.model.*;
 
 /** Generated Model for I_Product_ASI
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_I_Product_ASI extends PO implements I_I_Product_ASI, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170731L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_I_Product_ASI (Properties ctx, int I_Product_ASI_ID, String trxName)

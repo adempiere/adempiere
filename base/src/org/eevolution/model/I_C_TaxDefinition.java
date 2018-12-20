@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_TaxDefinition
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.1
  */
 public interface I_C_TaxDefinition 
 {
@@ -157,10 +157,14 @@ public interface I_C_TaxDefinition
     /** Column name C_TaxType_ID */
     public static final String COLUMNNAME_C_TaxType_ID = "C_TaxType_ID";
 
-	/** Set Tax Type	  */
+	/** Set Tax Type.
+	  * Tax Type
+	  */
 	public void setC_TaxType_ID (int C_TaxType_ID);
 
-	/** Get Tax Type	  */
+	/** Get Tax Type.
+	  * Tax Type
+	  */
 	public int getC_TaxType_ID();
 
 	public org.eevolution.model.I_C_TaxType getC_TaxType() throws RuntimeException;

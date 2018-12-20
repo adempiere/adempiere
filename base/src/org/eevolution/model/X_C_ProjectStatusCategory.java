@@ -19,22 +19,19 @@ package org.eevolution.model;
 
 import java.sql.ResultSet;
 import java.util.Properties;
-
-import org.compiere.model.I_Persistent;
-import org.compiere.model.PO;
-import org.compiere.model.POInfo;
+import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_ProjectStatusCategory
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
-public class X_C_ProjectStatusCategory extends PO implements I_C_ProjectStatusCategory, I_Persistent
+ *  @version Release 3.9.1 - $Id$ */
+public class X_C_ProjectStatusCategory extends PO implements I_C_ProjectStatusCategory, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20171022L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_C_ProjectStatusCategory (Properties ctx, int C_ProjectStatusCategory_ID, String trxName)

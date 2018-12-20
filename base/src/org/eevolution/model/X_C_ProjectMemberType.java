@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_ProjectMemberType
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_C_ProjectMemberType extends PO implements I_C_ProjectMemberType, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20171215L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_C_ProjectMemberType (Properties ctx, int C_ProjectMemberType_ID, String trxName)
@@ -72,8 +72,10 @@ public class X_C_ProjectMemberType extends PO implements I_C_ProjectMemberType, 
       return sb.toString();
     }
 
-	/** Set Project Member Type ID.
-		@param C_ProjectMemberType_ID Project Member Type ID	  */
+	/** Set Project Member Type.
+		@param C_ProjectMemberType_ID 
+		Define the Member Type for a Project
+	  */
 	public void setC_ProjectMemberType_ID (int C_ProjectMemberType_ID)
 	{
 		if (C_ProjectMemberType_ID < 1) 
@@ -82,8 +84,9 @@ public class X_C_ProjectMemberType extends PO implements I_C_ProjectMemberType, 
 			set_ValueNoCheck (COLUMNNAME_C_ProjectMemberType_ID, Integer.valueOf(C_ProjectMemberType_ID));
 	}
 
-	/** Get Project Member Type ID.
-		@return Project Member Type ID	  */
+	/** Get Project Member Type.
+		@return Define the Member Type for a Project
+	  */
 	public int getC_ProjectMemberType_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_ProjectMemberType_ID);

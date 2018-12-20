@@ -27,14 +27,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for HR_Movement
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170731L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_HR_Movement (Properties ctx, int HR_Movement_ID, String trxName)
@@ -76,6 +76,11 @@ public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	public org.compiere.model.I_AD_Org getAD_OrgTrx() throws RuntimeException
+    {
+		return (org.compiere.model.I_AD_Org)MTable.get(getCtx(), org.compiere.model.I_AD_Org.Table_Name)
+			.getPO(getAD_OrgTrx_ID(), get_TrxName());	}
 
 	/** Set Trx Organization.
 		@param AD_OrgTrx_ID 
@@ -1030,6 +1035,34 @@ public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent
 	public String getReferenceNo () 
 	{
 		return (String)get_Value(COLUMNNAME_ReferenceNo);
+	}
+
+	public org.eevolution.model.I_HR_Movement getReversalLine() throws RuntimeException
+    {
+		return (org.eevolution.model.I_HR_Movement)MTable.get(getCtx(), org.eevolution.model.I_HR_Movement.Table_Name)
+			.getPO(getReversalLine_ID(), get_TrxName());	}
+
+	/** Set Reversal Line.
+		@param ReversalLine_ID 
+		Use to keep the reversal line ID for reversing costing purpose
+	  */
+	public void setReversalLine_ID (int ReversalLine_ID)
+	{
+		if (ReversalLine_ID < 1) 
+			set_Value (COLUMNNAME_ReversalLine_ID, null);
+		else 
+			set_Value (COLUMNNAME_ReversalLine_ID, Integer.valueOf(ReversalLine_ID));
+	}
+
+	/** Get Reversal Line.
+		@return Use to keep the reversal line ID for reversing costing purpose
+	  */
+	public int getReversalLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_ReversalLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Sequence.
