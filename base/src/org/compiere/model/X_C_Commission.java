@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Commission
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_C_Commission extends PO implements I_C_Commission, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20180323L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_C_Commission (Properties ctx, int C_Commission_ID, String trxName)
@@ -346,15 +346,15 @@ public class X_C_Commission extends PO implements I_C_Commission, I_Persistent
 		return false;
 	}
 
-	/** Set IsDaysDueFromPaymentTerm.
-		@param IsDaysDueFromPaymentTerm IsDaysDueFromPaymentTerm	  */
+	/** Set Days due from Payment Term.
+		@param IsDaysDueFromPaymentTerm Days due from Payment Term	  */
 	public void setIsDaysDueFromPaymentTerm (boolean IsDaysDueFromPaymentTerm)
 	{
 		set_Value (COLUMNNAME_IsDaysDueFromPaymentTerm, Boolean.valueOf(IsDaysDueFromPaymentTerm));
 	}
 
-	/** Get IsDaysDueFromPaymentTerm.
-		@return IsDaysDueFromPaymentTerm	  */
+	/** Get Days due from Payment Term.
+		@return Days due from Payment Term	  */
 	public boolean isDaysDueFromPaymentTerm () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsDaysDueFromPaymentTerm);

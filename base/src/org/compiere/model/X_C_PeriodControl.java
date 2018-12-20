@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_PeriodControl
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_C_PeriodControl extends PO implements I_C_PeriodControl, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170731L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_C_PeriodControl (Properties ctx, int C_PeriodControl_ID, String trxName)
@@ -198,6 +198,8 @@ public class X_C_PeriodControl extends PO implements I_C_PeriodControl, I_Persis
 	public static final String DOCBASETYPE_APPaymentSelection = "APS";
 	/** Sales Commission = SOC */
 	public static final String DOCBASETYPE_SalesCommission = "SOC";
+	/** Fixed Assets Split = FAS */
+	public static final String DOCBASETYPE_FixedAssetsSplit = "FAS";
 	/** Fixed Assets Addition = FAA */
 	public static final String DOCBASETYPE_FixedAssetsAddition = "FAA";
 	/** Fixed Assets Disposal = FAD */

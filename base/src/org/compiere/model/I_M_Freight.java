@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_Freight
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.1
  */
 public interface I_M_Freight 
 {
@@ -204,6 +204,8 @@ public interface I_M_Freight
 	  * Receiving Country
 	  */
 	public int getTo_Country_ID();
+
+	public org.compiere.model.I_C_Country getTo_Country() throws RuntimeException;
 
     /** Column name To_Region_ID */
     public static final String COLUMNNAME_To_Region_ID = "To_Region_ID";

@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for PA_ReportLine
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.1
  */
 public interface I_PA_ReportLine 
 {
@@ -99,6 +99,15 @@ public interface I_PA_ReportLine
 	  * Optional short description of the record
 	  */
 	public String getDescription();
+
+    /** Column name FixedPercentage */
+    public static final String COLUMNNAME_FixedPercentage = "FixedPercentage";
+
+	/** Set Fixed Percentage	  */
+	public void setFixedPercentage (BigDecimal FixedPercentage);
+
+	/** Get Fixed Percentage	  */
+	public BigDecimal getFixedPercentage();
 
     /** Column name GL_Budget_ID */
     public static final String COLUMNNAME_GL_Budget_ID = "GL_Budget_ID";
@@ -274,6 +283,15 @@ public interface I_PA_ReportLine
 	  */
 	public String getPostingType();
 
+    /** Column name ReportLineStyle */
+    public static final String COLUMNNAME_ReportLineStyle = "ReportLineStyle";
+
+	/** Set Report Line Style	  */
+	public void setReportLineStyle (String ReportLineStyle);
+
+	/** Get Report Line Style	  */
+	public String getReportLineStyle();
+
     /** Column name SeqNo */
     public static final String COLUMNNAME_SeqNo = "SeqNo";
 
@@ -339,22 +357,4 @@ public interface I_PA_ReportLine
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name fixedpercentage */
-    public static final String COLUMNNAME_fixedpercentage = "fixedpercentage";
-
-	/** Set fixedpercentage	  */
-	public void setfixedpercentage (BigDecimal fixedpercentage);
-
-	/** Get fixedpercentage	  */
-	public BigDecimal getfixedpercentage();
-
-    /** Column name reportlinestyle */
-    public static final String COLUMNNAME_reportlinestyle = "reportlinestyle";
-
-	/** Set reportlinestyle	  */
-	public void setreportlinestyle (String reportlinestyle);
-
-	/** Get reportlinestyle	  */
-	public String getreportlinestyle();
 }

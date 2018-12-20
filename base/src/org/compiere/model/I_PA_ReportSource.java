@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for PA_ReportSource
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.1
  */
 public interface I_PA_ReportSource 
 {
@@ -61,6 +61,8 @@ public interface I_PA_ReportSource
 	  * Performing or initiating organization
 	  */
 	public int getAD_OrgTrx_ID();
+
+	public org.compiere.model.I_AD_Org getAD_OrgTrx() throws RuntimeException;
 
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
@@ -548,6 +550,8 @@ public interface I_PA_ReportSource
 	  * Organizational entity within client
 	  */
 	public int getOrg_ID();
+
+	public org.compiere.model.I_AD_Org getOrg() throws RuntimeException;
 
     /** Column name PA_ReportColumn_ID */
     public static final String COLUMNNAME_PA_ReportColumn_ID = "PA_ReportColumn_ID";

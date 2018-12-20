@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for I_GLJournal
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170731L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_I_GLJournal (Properties ctx, int I_GLJournal_ID, String trxName)
@@ -74,6 +74,11 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
       return sb.toString();
     }
 
+	public org.compiere.model.I_AD_Org getAD_OrgDoc() throws RuntimeException
+    {
+		return (org.compiere.model.I_AD_Org)MTable.get(getCtx(), org.compiere.model.I_AD_Org.Table_Name)
+			.getPO(getAD_OrgDoc_ID(), get_TrxName());	}
+
 	/** Set Document Org.
 		@param AD_OrgDoc_ID 
 		Document Organization (independent from account organization)
@@ -96,6 +101,11 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public org.compiere.model.I_AD_Org getAD_OrgTrx() throws RuntimeException
+    {
+		return (org.compiere.model.I_AD_Org)MTable.get(getCtx(), org.compiere.model.I_AD_Org.Table_Name)
+			.getPO(getAD_OrgTrx_ID(), get_TrxName());	}
 
 	/** Set Trx Organization.
 		@param AD_OrgTrx_ID 

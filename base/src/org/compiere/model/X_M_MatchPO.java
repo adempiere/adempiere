@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_MatchPO
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_M_MatchPO extends PO implements I_M_MatchPO, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170731L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_M_MatchPO (Properties ctx, int M_MatchPO_ID, String trxName)
@@ -474,6 +474,34 @@ public class X_M_MatchPO extends PO implements I_M_MatchPO, I_Persistent
 		return bd;
 	}
 
+	public org.compiere.model.I_M_MatchPO getReversal() throws RuntimeException
+    {
+		return (org.compiere.model.I_M_MatchPO)MTable.get(getCtx(), org.compiere.model.I_M_MatchPO.Table_Name)
+			.getPO(getReversal_ID(), get_TrxName());	}
+
+	/** Set Reversal ID.
+		@param Reversal_ID 
+		ID of document reversal
+	  */
+	public void setReversal_ID (int Reversal_ID)
+	{
+		if (Reversal_ID < 1) 
+			set_Value (COLUMNNAME_Reversal_ID, null);
+		else 
+			set_Value (COLUMNNAME_Reversal_ID, Integer.valueOf(Reversal_ID));
+	}
+
+	/** Get Reversal ID.
+		@return ID of document reversal
+	  */
+	public int getReversal_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Reversal_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Immutable Universally Unique Identifier.
 		@param UUID 
 		Immutable Universally Unique Identifier
@@ -489,22 +517,5 @@ public class X_M_MatchPO extends PO implements I_M_MatchPO, I_Persistent
 	public String getUUID () 
 	{
 		return (String)get_Value(COLUMNNAME_UUID);
-	}
-
-
-	/** Get Product.
-	 @return Product, Service, Item
-	 */
-	public int getReversal_ID ()
-	{
-		Integer ii = (Integer)get_Value("Reversal_ID");
-		if (ii == null)
-			return 0;
-		return ii.intValue();
-	}
-
-	public void setReversal_ID(int reversalId)
-	{
-		set_Value("Reversal_ID", reversalId);
 	}
 }

@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for A_Asset_Reval
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.1
  */
 public interface I_A_Asset_Reval 
 {
@@ -74,10 +74,14 @@ public interface I_A_Asset_Reval
     /** Column name A_Asset_Cost */
     public static final String COLUMNNAME_A_Asset_Cost = "A_Asset_Cost";
 
-	/** Set Asset Cost	  */
+	/** Set Fixed Asset Cost.
+	  * Cost of acquisition of the Fixed Asset
+	  */
 	public void setA_Asset_Cost (BigDecimal A_Asset_Cost);
 
-	/** Get Asset Cost	  */
+	/** Get Fixed Asset Cost.
+	  * Cost of acquisition of the Fixed Asset
+	  */
 	public BigDecimal getA_Asset_Cost();
 
     /** Column name A_Asset_Cost_Change */
@@ -92,13 +96,13 @@ public interface I_A_Asset_Reval
     /** Column name A_Asset_ID */
     public static final String COLUMNNAME_A_Asset_ID = "A_Asset_ID";
 
-	/** Set Asset.
-	  * Asset used internally or by customers
+	/** Set Fixed Asset.
+	  * Fixed Asset used internally or by customers
 	  */
 	public void setA_Asset_ID (int A_Asset_ID);
 
-	/** Get Asset.
-	  * Asset used internally or by customers
+	/** Get Fixed Asset.
+	  * Fixed Asset used internally or by customers
 	  */
 	public int getA_Asset_ID();
 

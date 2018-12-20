@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_DunningLevel
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.1
  */
 public interface I_C_DunningLevel 
 {
@@ -62,6 +62,15 @@ public interface I_C_DunningLevel
 	  */
 	public int getAD_Org_ID();
 
+    /** Column name C_DunningLevel_ID */
+    public static final String COLUMNNAME_C_DunningLevel_ID = "C_DunningLevel_ID";
+
+	/** Set Dunning Level	  */
+	public void setC_DunningLevel_ID (int C_DunningLevel_ID);
+
+	/** Get Dunning Level	  */
+	public int getC_DunningLevel_ID();
+
     /** Column name C_Dunning_ID */
     public static final String COLUMNNAME_C_Dunning_ID = "C_Dunning_ID";
 
@@ -77,14 +86,20 @@ public interface I_C_DunningLevel
 
 	public org.compiere.model.I_C_Dunning getC_Dunning() throws RuntimeException;
 
-    /** Column name C_DunningLevel_ID */
-    public static final String COLUMNNAME_C_DunningLevel_ID = "C_DunningLevel_ID";
+    /** Column name C_PaymentTerm_ID */
+    public static final String COLUMNNAME_C_PaymentTerm_ID = "C_PaymentTerm_ID";
 
-	/** Set Dunning Level	  */
-	public void setC_DunningLevel_ID (int C_DunningLevel_ID);
+	/** Set Payment Term.
+	  * The terms of Payment (timing, discount)
+	  */
+	public void setC_PaymentTerm_ID (int C_PaymentTerm_ID);
 
-	/** Get Dunning Level	  */
-	public int getC_DunningLevel_ID();
+	/** Get Payment Term.
+	  * The terms of Payment (timing, discount)
+	  */
+	public int getC_PaymentTerm_ID();
+
+	public org.compiere.model.I_C_PaymentTerm getC_PaymentTerm() throws RuntimeException;
 
     /** Column name ChargeFee */
     public static final String COLUMNNAME_ChargeFee = "ChargeFee";
@@ -111,21 +126,6 @@ public interface I_C_DunningLevel
 	  * Indicates if interest will be charged on overdue invoices
 	  */
 	public boolean isChargeInterest();
-
-    /** Column name C_PaymentTerm_ID */
-    public static final String COLUMNNAME_C_PaymentTerm_ID = "C_PaymentTerm_ID";
-
-	/** Set Payment Term.
-	  * The terms of Payment (timing, discount)
-	  */
-	public void setC_PaymentTerm_ID (int C_PaymentTerm_ID);
-
-	/** Get Payment Term.
-	  * The terms of Payment (timing, discount)
-	  */
-	public int getC_PaymentTerm_ID();
-
-	public org.compiere.model.I_C_PaymentTerm getC_PaymentTerm() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -397,6 +397,19 @@ public interface I_C_DunningLevel
 	  */
 	public String getPrintName();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -412,17 +425,4 @@ public interface I_C_DunningLevel
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 }

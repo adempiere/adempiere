@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for PA_GoalRestriction
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.1
  */
 public interface I_PA_GoalRestriction 
 {
@@ -189,6 +189,8 @@ public interface I_PA_GoalRestriction
 	  * Organizational entity within client
 	  */
 	public int getOrg_ID();
+
+	public org.compiere.model.I_AD_Org getOrg() throws RuntimeException;
 
     /** Column name PA_GoalRestriction_ID */
     public static final String COLUMNNAME_PA_GoalRestriction_ID = "PA_GoalRestriction_ID";
