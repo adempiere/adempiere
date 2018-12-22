@@ -1638,7 +1638,7 @@ AND C_Invoice.IsSOTrx = 'N'</Data>
         <Data AD_Column_ID="364" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="553" Column="IsActive">true</Data>
         <Data AD_Column_ID="554" Column="Created">2017-10-28 23:18:40.925</Data>
-        <Data AD_Column_ID="6486" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6486" Column="EntityType">ECA02</Data>
         <Data AD_Column_ID="139" Column="ValidationType">T</Data>
         <Data AD_Column_ID="132" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="557" Column="UpdatedBy">100</Data>

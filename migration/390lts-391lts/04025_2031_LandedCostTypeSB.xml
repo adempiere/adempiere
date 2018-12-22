@@ -4,7 +4,7 @@
     <Comments>Comments&gt;https://github.com/adempiere/adempiere/issues/2031</Comments>
     <Step SeqNo="90" StepType="AD">
       <PO AD_Table_ID="285" Action="I" Record_ID="56808" Table="AD_Process_Para">
-        <Data AD_Column_ID="2822" Column="Name">C_LandedCostType_ID</Data>
+        <Data AD_Column_ID="2822" Column="Name">Landed Cost Type</Data>
         <Data AD_Column_ID="2817" Column="IsActive">true</Data>
         <Data AD_Column_ID="2820" Column="Updated">2018-12-14 19:55:18.201</Data>
         <Data AD_Column_ID="2818" Column="Created">2018-12-14 19:55:18.201</Data>
@@ -44,7 +44,7 @@
         <Data AD_Column_ID="2838" Column="Updated">2018-12-14 19:55:19.869</Data>
         <Data AD_Column_ID="2835" Column="IsActive">true</Data>
         <Data AD_Column_ID="2842" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="2840" Column="Name">C_LandedCostType_ID</Data>
+        <Data AD_Column_ID="2840" Column="Name">Tipo de Costo Adicional</Data>
         <Data AD_Column_ID="2841" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="3743" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="2833" Column="AD_Client_ID">0</Data>
@@ -68,7 +68,7 @@
         <Data AD_Column_ID="185" Column="IsFieldOnly">false</Data>
         <Data AD_Column_ID="182" Column="SortNo" isNewNull="true"/>
         <Data AD_Column_ID="2745" Column="IsCentrallyMaintained">true</Data>
-        <Data AD_Column_ID="168" Column="Name">C_LandedCostType_ID</Data>
+        <Data AD_Column_ID="168" Column="Name">Landed Cost Type</Data>
         <Data AD_Column_ID="2007" Column="IsReadOnly">false</Data>
         <Data AD_Column_ID="170" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -86,7 +86,7 @@
         <Data AD_Column_ID="384" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="383" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="167" Column="AD_Field_ID">92921</Data>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="582" Column="UpdatedBy">0</Data>
         <Data AD_Column_ID="580" Column="CreatedBy">0</Data>
         <Data AD_Column_ID="181" Column="SeqNo">0</Data>
@@ -111,7 +111,7 @@
         <Data AD_Column_ID="672" Column="Created">2018-12-14 20:02:24.123</Data>
         <Data AD_Column_ID="289" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="287" Column="Description" isNewNull="true"/>
-        <Data AD_Column_ID="286" Column="Name">C_LandedCostType_ID</Data>
+        <Data AD_Column_ID="286" Column="Name">Tipo de Costo Adicional</Data>
         <Data AD_Column_ID="288" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="1205" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="1204" Column="AD_Client_ID">0</Data>

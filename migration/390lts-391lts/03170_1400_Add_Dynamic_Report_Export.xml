@@ -8,7 +8,7 @@
         <Data AD_Column_ID="112" Column="Description">Java Classname</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">85531</Data>
         <Data AD_Column_ID="549" Column="Created">2017-10-26 15:44:07.13</Data>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">ECA02</Data>
         <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="551" Column="Updated">2017-10-26 15:44:07.13</Data>

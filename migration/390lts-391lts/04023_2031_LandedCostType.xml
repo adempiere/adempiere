@@ -4,7 +4,7 @@
     <Comments>Comments&gt;https://github.com/adempiere/adempiere/issues/2031</Comments>
     <Step SeqNo="5" StepType="AD">
       <PO AD_Table_ID="276" Action="I" Record_ID="60911" Table="AD_Element">
-        <Data AD_Column_ID="2603" Column="Name">C_LandedCostType_ID</Data>
+        <Data AD_Column_ID="2603" Column="Name">Landed Cost Type</Data>
         <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="2598" Column="Created">2018-12-14 19:26:12.341</Data>
         <Data AD_Column_ID="2600" Column="Updated">2018-12-14 19:26:12.341</Data>
@@ -13,7 +13,7 @@
         <Data AD_Column_ID="6285" Column="PO_Name" isNewNull="true"/>
         <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="2602" Column="ColumnName">C_LandedCostType_ID</Data>
-        <Data AD_Column_ID="4299" Column="PrintName">C_LandedCostType_ID</Data>
+        <Data AD_Column_ID="4299" Column="PrintName">Landed Cost Type</Data>
         <Data AD_Column_ID="6286" Column="PO_PrintName" isNewNull="true"/>
         <Data AD_Column_ID="6283" Column="PO_Description" isNewNull="true"/>
         <Data AD_Column_ID="58589" Column="FieldLength">0</Data>
@@ -34,12 +34,12 @@
         <Data AD_Column_ID="2642" Column="Created">2018-12-14 19:26:14.037</Data>
         <Data AD_Column_ID="2644" Column="Updated">2018-12-14 19:26:14.037</Data>
         <Data AD_Column_ID="6449" Column="PO_Help" isNewNull="true"/>
-        <Data AD_Column_ID="2646" Column="Name">C_LandedCostType_ID</Data>
+        <Data AD_Column_ID="2646" Column="Name">Tipo de Costo Adicional</Data>
         <Data AD_Column_ID="6450" Column="PO_Name" isNewNull="true"/>
         <Data AD_Column_ID="2648" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="2647" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="2649" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="4300" Column="PrintName">C_LandedCostType_ID</Data>
+        <Data AD_Column_ID="4300" Column="PrintName">Tipo de Costo Adicional</Data>
         <Data AD_Column_ID="6451" Column="PO_PrintName" isNewNull="true"/>
         <Data AD_Column_ID="6448" Column="PO_Description" isNewNull="true"/>
         <Data AD_Column_ID="2640" Column="AD_Org_ID">0</Data>
@@ -53,12 +53,13 @@
     </Step>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="100" Action="I" Record_ID="54580" Table="AD_Table">
-        <Data AD_Column_ID="102" Column="Name">LandedCostType</Data>
+        <Data AD_Column_ID="102" Column="Name">Landed Cost Type</Data>
         <Data AD_Column_ID="543" Column="IsActive">true</Data>
         <Data AD_Column_ID="546" Column="Updated">2018-11-15 08:22:21.393</Data>
         <Data AD_Column_ID="544" Column="Created">2018-11-15 08:22:21.393</Data>
         <Data AD_Column_ID="4196" Column="IsHighVolume">false</Data>
-        <Data AD_Column_ID="103" Column="Description" isNewNull="true"/>
+          <Data AD_Column_ID="103" Column="Description">The Landed Cost Type defines different types of distributed costs.
+              According to the Incoterms for any mode of transport, we generated</Data>
         <Data AD_Column_ID="354" Column="AccessLevel">3</Data>
         <Data AD_Column_ID="104" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="107" Column="TableName">C_LandedCostType</Data>
@@ -94,7 +95,7 @@
         <Data AD_Column_ID="12723" Column="Updated">2018-11-15 08:22:22.52</Data>
         <Data AD_Column_ID="12724" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="12721" Column="IsActive">true</Data>
-        <Data AD_Column_ID="12716" Column="Name">LandedCostType</Data>
+        <Data AD_Column_ID="12716" Column="Name">Tipos de Costo Adicional</Data>
         <Data AD_Column_ID="12720" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="12719" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="12715" Column="AD_Language">es_MX</Data>
@@ -111,7 +112,7 @@
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="551" Column="Updated">2018-12-14 19:45:48.18</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="111" Column="Name">C_LandedCostType_ID</Data>
+        <Data AD_Column_ID="111" Column="Name">Landed Cost Type</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
         <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
@@ -162,7 +163,7 @@
         <Data AD_Column_ID="12959" Column="IsActive">true</Data>
         <Data AD_Column_ID="12952" Column="Updated">2018-12-14 19:45:51.748</Data>
         <Data AD_Column_ID="12954" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="12957" Column="Name">C_LandedCostType_ID</Data>
+        <Data AD_Column_ID="12957" Column="Name">Tipo de Costo Adicional</Data>
         <Data AD_Column_ID="12961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="12951" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="12958" Column="UpdatedBy">0</Data>
@@ -820,7 +821,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="127" Column="SeqNo">0</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">91976</Data>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
@@ -889,7 +890,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="127" Column="SeqNo">0</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">91977</Data>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
@@ -958,7 +959,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="127" Column="SeqNo">0</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">91978</Data>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
@@ -1027,7 +1028,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="127" Column="SeqNo">0</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">91979</Data>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
@@ -1096,7 +1097,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="127" Column="SeqNo">0</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">91980</Data>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
@@ -1144,18 +1145,19 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="571" Column="Updated">2018-11-15 08:30:43.351</Data>
         <Data AD_Column_ID="568" Column="IsActive">true</Data>
         <Data AD_Column_ID="569" Column="Created">2018-11-15 08:30:43.351</Data>
-        <Data AD_Column_ID="156" Column="Name">LandedCostType</Data>
+        <Data AD_Column_ID="156" Column="Name">Landed Cost Type</Data>
         <Data AD_Column_ID="158" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="6769" Column="IsSOTrx">true</Data>
         <Data AD_Column_ID="4198" Column="Processing">false</Data>
         <Data AD_Column_ID="9766" Column="IsDefault">false</Data>
         <Data AD_Column_ID="12457" Column="IsBetaFunctionality">false</Data>
         <Data AD_Column_ID="728" Column="WindowType">M</Data>
-        <Data AD_Column_ID="157" Column="Description" isNewNull="true"/>
+          <Data AD_Column_ID="157" Column="Description">The Landed Cost Type defines different types of distributed costs.
+              According to the Incoterms for any mode of transport, we generated</Data>
         <Data AD_Column_ID="155" Column="AD_Window_ID">53655</Data>
         <Data AD_Column_ID="376" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="375" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="6490" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6490" Column="EntityType">D</Data>
         <Data AD_Column_ID="12130" Column="WinWidth">0</Data>
         <Data AD_Column_ID="570" Column="CreatedBy">0</Data>
         <Data AD_Column_ID="572" Column="UpdatedBy">0</Data>
@@ -1171,9 +1173,10 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="697" Column="Created">2018-11-15 08:30:44.218</Data>
         <Data AD_Column_ID="699" Column="Updated">2018-11-15 08:30:44.218</Data>
         <Data AD_Column_ID="696" Column="IsActive">true</Data>
-        <Data AD_Column_ID="308" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="308" Column="Description">El tipo de costo adicional define diferentes tipos de costos distribuidos.
+            De acuerdo con los Incoterms para cualquier modo de transporte, que generamos</Data>
         <Data AD_Column_ID="309" Column="Help" isNewNull="true"/>
-        <Data AD_Column_ID="310" Column="Name">LandedCostType</Data>
+        <Data AD_Column_ID="310" Column="Name">Tipo de Costos Adicional</Data>
         <Data AD_Column_ID="311" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="1211" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="1212" Column="AD_Org_ID">0</Data>
@@ -1191,10 +1194,11 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="573" Column="IsActive">true</Data>
         <Data AD_Column_ID="4207" Column="Processing">false</Data>
         <Data AD_Column_ID="2742" Column="OrderByClause" isNewNull="true"/>
-        <Data AD_Column_ID="162" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="162" Column="Description">The Landed Cost Type defines different types of distributed costs.
+            According to the Incoterms for any mode of transport, we generated</Data>
         <Data AD_Column_ID="163" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="2741" Column="WhereClause" isNewNull="true"/>
-        <Data AD_Column_ID="161" Column="Name">LandedCostType</Data>
+        <Data AD_Column_ID="161" Column="Name">Landed Cost Type</Data>
         <Data AD_Column_ID="1183" Column="HasTree">false</Data>
         <Data AD_Column_ID="2744" Column="CommitWarning" isNewNull="true"/>
         <Data AD_Column_ID="2042" Column="IsInfoTab">false</Data>
@@ -1211,7 +1215,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="380" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="379" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="160" Column="AD_Tab_ID">54735</Data>
-        <Data AD_Column_ID="7713" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7713" Column="EntityType">D</Data>
         <Data AD_Column_ID="575" Column="CreatedBy">0</Data>
         <Data AD_Column_ID="57842" Column="Parent_Column_ID" isNewNull="true"/>
         <Data AD_Column_ID="165" Column="SeqNo">10</Data>
@@ -1234,9 +1238,10 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="652" Column="Created">2018-11-15 08:31:04.685</Data>
         <Data AD_Column_ID="654" Column="Updated">2018-11-15 08:31:04.685</Data>
         <Data AD_Column_ID="3376" Column="CommitWarning" isNewNull="true"/>
-        <Data AD_Column_ID="266" Column="Name">LandedCostType</Data>
+        <Data AD_Column_ID="266" Column="Name">Tipo de Costo Adicional</Data>
         <Data AD_Column_ID="268" Column="Help" isNewNull="true"/>
-        <Data AD_Column_ID="267" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="267" Column="Description">El tipo de costo de aterrizaje define diferentes tipos de costos distribuidos.
+            De acuerdo con los Incoterms para cualquier modo de transporte que generamos</Data>
         <Data AD_Column_ID="269" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="1198" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="1199" Column="AD_Org_ID">0</Data>
@@ -1280,7 +1285,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="384" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="383" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="167" Column="AD_Field_ID">92843</Data>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="582" Column="UpdatedBy">0</Data>
         <Data AD_Column_ID="580" Column="CreatedBy">0</Data>
         <Data AD_Column_ID="181" Column="SeqNo">0</Data>
@@ -1349,7 +1354,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="384" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="383" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="167" Column="AD_Field_ID">92844</Data>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="582" Column="UpdatedBy">0</Data>
         <Data AD_Column_ID="580" Column="CreatedBy">0</Data>
         <Data AD_Column_ID="181" Column="SeqNo">0</Data>
@@ -1415,7 +1420,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="384" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="383" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="167" Column="AD_Field_ID">92845</Data>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="582" Column="UpdatedBy">0</Data>
         <Data AD_Column_ID="580" Column="CreatedBy">0</Data>
         <Data AD_Column_ID="181" Column="SeqNo">0</Data>
@@ -1481,7 +1486,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="384" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="383" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="167" Column="AD_Field_ID">92846</Data>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="582" Column="UpdatedBy">0</Data>
         <Data AD_Column_ID="580" Column="CreatedBy">0</Data>
         <Data AD_Column_ID="181" Column="SeqNo">0</Data>
@@ -1547,7 +1552,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="384" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="383" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="167" Column="AD_Field_ID">92847</Data>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="582" Column="UpdatedBy">0</Data>
         <Data AD_Column_ID="580" Column="CreatedBy">0</Data>
         <Data AD_Column_ID="181" Column="SeqNo">0</Data>
@@ -1613,7 +1618,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="384" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="383" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="167" Column="AD_Field_ID">92848</Data>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="582" Column="UpdatedBy">0</Data>
         <Data AD_Column_ID="580" Column="CreatedBy">0</Data>
         <Data AD_Column_ID="181" Column="SeqNo">0</Data>
@@ -1680,7 +1685,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="384" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="383" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="167" Column="AD_Field_ID">92849</Data>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="582" Column="UpdatedBy">0</Data>
         <Data AD_Column_ID="580" Column="CreatedBy">0</Data>
         <Data AD_Column_ID="181" Column="SeqNo">0</Data>

@@ -291,7 +291,7 @@
         <Data AD_Column_ID="112" Column="Description">Scheduled start date for this Order</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">85662</Data>
         <Data AD_Column_ID="549" Column="Created">2017-11-01 15:59:51.569</Data>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">EE09</Data>
         <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="551" Column="Updated">2017-11-01 15:59:51.569</Data>
@@ -1461,7 +1461,7 @@
         <Data AD_Column_ID="579" Column="Created">2017-11-01 16:20:03.385</Data>
         <Data AD_Column_ID="167" Column="AD_Field_ID">84254</Data>
         <Data AD_Column_ID="581" Column="Updated">2017-11-01 16:20:03.385</Data>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">EE09</Data>
         <Data AD_Column_ID="59703" Column="IsEmbedded">false</Data>
         <Data AD_Column_ID="74868" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
