@@ -214,7 +214,6 @@ public class OrderPOCreate extends OrderPOCreateAbstract {
 	public MOrder createPOForVendor(int bPartnerId, MOrder salesOrder) {
 		MOrder purchaseOrder = new MOrder (getCtx(), 0, get_TrxName());
 		purchaseOrder.setClientOrg(salesOrder.getAD_Client_ID(), salesOrder.getAD_Org_ID());
-		purchaseOrder.setLink_Order_ID(salesOrder.getC_Order_ID());
 		purchaseOrder.setIsSOTrx(false);
 		purchaseOrder.setC_DocTypeTarget_ID();
 		//
