@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Change length 10 to 36 for UUID " ReleaseNo="3.9.1" SeqNo="4410">
+  <Migration EntityType="D" Name="Change length 10 to 36 for UUID " ReleaseNo="3.9.1" SeqNo="4325">
     <Comments>https://github.com/adempiere/adempiere/issues/2192</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="101" Action="U" Record_ID="84283" Table="AD_Column">
