@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_ContextInfo
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_AD_ContextInfo extends PO implements I_AD_ContextInfo, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20180626L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_AD_ContextInfo (Properties ctx, int AD_ContextInfo_ID, String trxName)
@@ -75,8 +75,10 @@ public class X_AD_ContextInfo extends PO implements I_AD_ContextInfo, I_Persiste
       return sb.toString();
     }
 
-	/** Set Context Info Maintaining ID.
-		@param AD_ContextInfo_ID Context Info Maintaining ID	  */
+	/** Set Context Info.
+		@param AD_ContextInfo_ID 
+		Context Info Maintaining
+	  */
 	public void setAD_ContextInfo_ID (int AD_ContextInfo_ID)
 	{
 		if (AD_ContextInfo_ID < 1) 
@@ -85,8 +87,9 @@ public class X_AD_ContextInfo extends PO implements I_AD_ContextInfo, I_Persiste
 			set_ValueNoCheck (COLUMNNAME_AD_ContextInfo_ID, Integer.valueOf(AD_ContextInfo_ID));
 	}
 
-	/** Get Context Info Maintaining ID.
-		@return Context Info Maintaining ID	  */
+	/** Get Context Info.
+		@return Context Info Maintaining
+	  */
 	public int getAD_ContextInfo_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_ContextInfo_ID);

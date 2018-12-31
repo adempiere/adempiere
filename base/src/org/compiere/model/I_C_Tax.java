@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_Tax
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.1
  */
 public interface I_C_Tax 
 {
@@ -85,6 +85,8 @@ public interface I_C_Tax
 	  * Country 
 	  */
 	public int getC_Country_ID();
+
+	public org.compiere.model.I_C_Country getC_Country() throws RuntimeException;
 
     /** Column name C_Region_ID */
     public static final String COLUMNNAME_C_Region_ID = "C_Region_ID";
@@ -328,6 +330,8 @@ public interface I_C_Tax
 	  * Receiving Country
 	  */
 	public int getTo_Country_ID();
+
+	public org.compiere.model.I_C_Country getTo_Country() throws RuntimeException;
 
     /** Column name To_Region_ID */
     public static final String COLUMNNAME_To_Region_ID = "To_Region_ID";

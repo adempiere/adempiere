@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for HR_ProcessReportLine
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.1
  */
 public interface I_HR_ProcessReportLine 
 {
@@ -107,6 +107,15 @@ public interface I_HR_ProcessReportLine
 
 	public org.eevolution.model.I_HR_Concept getHR_Concept() throws RuntimeException;
 
+    /** Column name HR_ProcessReportLine_ID */
+    public static final String COLUMNNAME_HR_ProcessReportLine_ID = "HR_ProcessReportLine_ID";
+
+	/** Set Payroll Process Report Line	  */
+	public void setHR_ProcessReportLine_ID (int HR_ProcessReportLine_ID);
+
+	/** Get Payroll Process Report Line	  */
+	public int getHR_ProcessReportLine_ID();
+
     /** Column name HR_ProcessReport_ID */
     public static final String COLUMNNAME_HR_ProcessReport_ID = "HR_ProcessReport_ID";
 
@@ -117,15 +126,6 @@ public interface I_HR_ProcessReportLine
 	public int getHR_ProcessReport_ID();
 
 	public org.spin.model.I_HR_ProcessReport getHR_ProcessReport() throws RuntimeException;
-
-    /** Column name HR_ProcessReportLine_ID */
-    public static final String COLUMNNAME_HR_ProcessReportLine_ID = "HR_ProcessReportLine_ID";
-
-	/** Set Payroll Process Report Line	  */
-	public void setHR_ProcessReportLine_ID (int HR_ProcessReportLine_ID);
-
-	/** Get Payroll Process Report Line	  */
-	public int getHR_ProcessReportLine_ID();
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
@@ -194,6 +194,19 @@ public interface I_HR_ProcessReportLine
 	  */
 	public int getSeqNo();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -209,17 +222,4 @@ public interface I_HR_ProcessReportLine
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 }

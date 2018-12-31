@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_AppRegistration_Para
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.1
  */
 public interface I_AD_AppRegistration_Para 
 {
@@ -60,11 +60,30 @@ public interface I_AD_AppRegistration_Para
     /** Column name AD_AppRegistration_Para_ID */
     public static final String COLUMNNAME_AD_AppRegistration_Para_ID = "AD_AppRegistration_Para_ID";
 
-	/** Set App Registration Parameters ID	  */
+	/** Set App Registration Parameter.
+	  * App Registration Parameter used for connect with External App
+	  */
 	public void setAD_AppRegistration_Para_ID (int AD_AppRegistration_Para_ID);
 
-	/** Get App Registration Parameters ID	  */
+	/** Get App Registration Parameter.
+	  * App Registration Parameter used for connect with External App
+	  */
 	public int getAD_AppRegistration_Para_ID();
+
+    /** Column name AD_AppSupport_Para_ID */
+    public static final String COLUMNNAME_AD_AppSupport_Para_ID = "AD_AppSupport_Para_ID";
+
+	/** Set App Support Default Parameter.
+	  * Default parameter for App Supported
+	  */
+	public void setAD_AppSupport_Para_ID (int AD_AppSupport_Para_ID);
+
+	/** Get App Support Default Parameter.
+	  * Default parameter for App Supported
+	  */
+	public int getAD_AppSupport_Para_ID();
+
+	public org.spin.model.I_AD_AppSupport_Para getAD_AppSupport_Para() throws RuntimeException;
 
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
@@ -156,6 +175,19 @@ public interface I_AD_AppRegistration_Para
 	/** Get Parameter Value	  */
 	public String getParameterValue();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -171,17 +203,4 @@ public interface I_AD_AppRegistration_Para
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 }

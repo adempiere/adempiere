@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for T_ReportStatement
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.1
  */
 public interface I_T_ReportStatement 
 {
@@ -41,20 +41,20 @@ public interface I_T_ReportStatement
 
     /** Load Meta Data */
 
-    /** Column name Account_ID */
-    public static final String COLUMNNAME_Account_ID = "Account_ID";
+    /** Column name AD_PInstance_ID */
+    public static final String COLUMNNAME_AD_PInstance_ID = "AD_PInstance_ID";
 
-	/** Set Account.
-	  * Account used
+	/** Set Process Instance.
+	  * Instance of the process
 	  */
-	public void setAccount_ID (int Account_ID);
+	public void setAD_PInstance_ID (int AD_PInstance_ID);
 
-	/** Get Account.
-	  * Account used
+	/** Get Process Instance.
+	  * Instance of the process
 	  */
-	public int getAccount_ID();
+	public int getAD_PInstance_ID();
 
-	public org.compiere.model.I_C_ElementValue getAccount() throws RuntimeException;
+	public org.compiere.model.I_AD_PInstance getAD_PInstance() throws RuntimeException;
 
     /** Column name AccountName */
     public static final String COLUMNNAME_AccountName = "AccountName";
@@ -91,20 +91,20 @@ public interface I_T_ReportStatement
 	  */
 	public String getAccountValue();
 
-    /** Column name AD_PInstance_ID */
-    public static final String COLUMNNAME_AD_PInstance_ID = "AD_PInstance_ID";
+    /** Column name Account_ID */
+    public static final String COLUMNNAME_Account_ID = "Account_ID";
 
-	/** Set Process Instance.
-	  * Instance of the process
+	/** Set Account.
+	  * Account used
 	  */
-	public void setAD_PInstance_ID (int AD_PInstance_ID);
+	public void setAccount_ID (int Account_ID);
 
-	/** Get Process Instance.
-	  * Instance of the process
+	/** Get Account.
+	  * Account used
 	  */
-	public int getAD_PInstance_ID();
+	public int getAccount_ID();
 
-	public org.compiere.model.I_AD_PInstance getAD_PInstance() throws RuntimeException;
+	public org.compiere.model.I_C_ElementValue getAccount() throws RuntimeException;
 
     /** Column name AmtAcctCr */
     public static final String COLUMNNAME_AmtAcctCr = "AmtAcctCr";

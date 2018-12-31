@@ -1,4 +1,4 @@
-x#!/bin/bash
+#!/bin/bash
 #
 # Name:			ImportAdempiere.sh
 # Description:	script to import database into postgresql

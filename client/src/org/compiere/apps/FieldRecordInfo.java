@@ -72,22 +72,25 @@ public class FieldRecordInfo extends CDialog
 	private int AD_Table_ID;
 	private int AD_Column_ID;
 	private int Record_ID;
+	private String UUID;
 
 	/**
 	 *	Record Info
-	 *	@param owner owner
+	 * @param owner owner
 	 *	@param title title
-	 *	@param AD_Table_ID
-	 *  @param AD_Column_ID
-	 *  @param Record_ID
+	 * @param AD_Table_ID
+	 * @param AD_Column_ID
+	 * @param Record_ID
+	 * @param uuid
 	 */
-	public FieldRecordInfo (Frame owner, String title, int AD_Table_ID, int AD_Column_ID, int Record_ID)
+	public FieldRecordInfo(Frame owner, String title, int AD_Table_ID, int AD_Column_ID, int Record_ID, String uuid)
 	{
 		super (owner, title, true);
 		
 		this.AD_Table_ID = AD_Table_ID;
 		this.AD_Column_ID = AD_Column_ID;
 		this.Record_ID = Record_ID;
+		this.UUID = uuid;
 		
 		try
 		{			
@@ -97,9 +100,10 @@ public class FieldRecordInfo extends CDialog
 		{
 			log.log(Level.SEVERE, "", e);
 		}
-		this.setPreferredSize(new Dimension(640, 480));
+		this.setPreferredSize(new Dimension(1000, 512));
 		AEnv.positionCenterWindow (owner, this);
 		AEnv.showCenterScreen(this);
+		pack();
 	}	//	FieldRecordInfo
 
 
@@ -361,6 +365,6 @@ public class FieldRecordInfo extends CDialog
 		int WindowNo = mField.getWindowNo();
 		Frame frame = Env.getWindow(WindowNo);
 		new FieldRecordInfo(frame, mField.getColumnName(), mField.getGridTab().getAD_Table_ID(), 
-				mField.getAD_Column_ID(), mField.getGridTab().getRecord_ID());
+				mField.getAD_Column_ID(), mField.getGridTab().getRecord_ID(), mField.getGridTab().getUUID());
 	}
 }	// FieldRecordInfo

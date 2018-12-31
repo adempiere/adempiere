@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_Freight
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_M_Freight extends PO implements I_M_Freight, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170731L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_M_Freight (Properties ctx, int M_Freight_ID, String trxName)
@@ -268,6 +268,11 @@ public class X_M_Freight extends PO implements I_M_Freight, I_Persistent
     {
         return new KeyNamePair(get_ID(), String.valueOf(getM_Shipper_ID()));
     }
+
+	public org.compiere.model.I_C_Country getTo_Country() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_Country)MTable.get(getCtx(), org.compiere.model.I_C_Country.Table_Name)
+			.getPO(getTo_Country_ID(), get_TrxName());	}
 
 	/** Set To.
 		@param To_Country_ID 

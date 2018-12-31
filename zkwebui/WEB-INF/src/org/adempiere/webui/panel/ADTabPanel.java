@@ -581,7 +581,7 @@ public class ADTabPanel extends Div implements Evaluatee, EventListener, DataSta
         //	End Yamel Senih
         if (!gridTab.isSingleRow() && !isGridView() && !gridTab.isQuickEntry())
         	switchRowPresentation();
-
+        dynamicDisplay(-1);
     }
 
 	private Component createSpacer() {
@@ -1159,7 +1159,7 @@ public class ADTabPanel extends Div implements Evaluatee, EventListener, DataSta
 			treeId = MTree.getDefaultTreeIdFromTableId(Env.getAD_Client_ID(Env.getCtx()), gridTab.getAD_Table_ID());
 		if (gridTab.isTreeTab() && treeId > 0 && treePanel != null) {
 			treePanel.initTree(treeId, gridTab.getWhereExtended());
-			if (!gridTab.isSingleRow() && !isGridView())
+			if (!gridTab.isSingleRow() && !isGridView() && !gridTab.isQuickEntry())
 				switchRowPresentation();
 		}
 

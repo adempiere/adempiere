@@ -23,14 +23,14 @@ import org.compiere.model.*;
 
 /** Generated Model for C_BankMatcher
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_C_BankMatcher extends PO implements I_C_BankMatcher, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20180815L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_C_BankMatcher (Properties ctx, int C_BankMatcher_ID, String trxName)
@@ -38,9 +38,9 @@ public class X_C_BankMatcher extends PO implements I_C_BankMatcher, I_Persistent
       super (ctx, C_BankMatcher_ID, trxName);
       /** if (C_BankMatcher_ID == 0)
         {
-			setC_Bank_ID (0);
 			setC_BankMatcher_ID (0);
 			setC_BankStatementMatcher_ID (0);
+			setC_Bank_ID (0);
         } */
     }
 
@@ -72,36 +72,8 @@ public class X_C_BankMatcher extends PO implements I_C_BankMatcher, I_Persistent
       return sb.toString();
     }
 
-	public org.compiere.model.I_C_Bank getC_Bank() throws RuntimeException
-    {
-		return (org.compiere.model.I_C_Bank)MTable.get(getCtx(), org.compiere.model.I_C_Bank.Table_Name)
-			.getPO(getC_Bank_ID(), get_TrxName());	}
-
-	/** Set Bank.
-		@param C_Bank_ID 
-		Bank
-	  */
-	public void setC_Bank_ID (int C_Bank_ID)
-	{
-		if (C_Bank_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_Bank_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_Bank_ID, Integer.valueOf(C_Bank_ID));
-	}
-
-	/** Get Bank.
-		@return Bank
-	  */
-	public int getC_Bank_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Bank_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Bank Matcher ID.
-		@param C_BankMatcher_ID Bank Matcher ID	  */
+	/** Set Bank Matcher.
+		@param C_BankMatcher_ID Bank Matcher	  */
 	public void setC_BankMatcher_ID (int C_BankMatcher_ID)
 	{
 		if (C_BankMatcher_ID < 1) 
@@ -110,8 +82,8 @@ public class X_C_BankMatcher extends PO implements I_C_BankMatcher, I_Persistent
 			set_ValueNoCheck (COLUMNNAME_C_BankMatcher_ID, Integer.valueOf(C_BankMatcher_ID));
 	}
 
-	/** Get Bank Matcher ID.
-		@return Bank Matcher ID	  */
+	/** Get Bank Matcher.
+		@return Bank Matcher	  */
 	public int getC_BankMatcher_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_BankMatcher_ID);
@@ -143,6 +115,34 @@ public class X_C_BankMatcher extends PO implements I_C_BankMatcher, I_Persistent
 	public int getC_BankStatementMatcher_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_BankStatementMatcher_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_Bank getC_Bank() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_Bank)MTable.get(getCtx(), org.compiere.model.I_C_Bank.Table_Name)
+			.getPO(getC_Bank_ID(), get_TrxName());	}
+
+	/** Set Bank.
+		@param C_Bank_ID 
+		Bank
+	  */
+	public void setC_Bank_ID (int C_Bank_ID)
+	{
+		if (C_Bank_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Bank_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Bank_ID, Integer.valueOf(C_Bank_ID));
+	}
+
+	/** Get Bank.
+		@return Bank
+	  */
+	public int getC_Bank_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Bank_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

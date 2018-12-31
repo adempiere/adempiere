@@ -27,14 +27,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for I_Project
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_I_Project extends PO implements I_I_Project, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20171215L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_I_Project (Properties ctx, int I_Project_ID, String trxName)
@@ -42,25 +42,7 @@ public class X_I_Project extends PO implements I_I_Project, I_Persistent
       super (ctx, I_Project_ID, trxName);
       /** if (I_Project_ID == 0)
         {
-			setC_Currency_ID (0);
-			setCommittedAmt (Env.ZERO);
-			setCommittedQty (Env.ZERO);
-			setInvoicedAmt (Env.ZERO);
-			setInvoicedQty (Env.ZERO);
 			setI_Project_ID (0);
-			setIsCommitCeiling (false);
-			setIsCommitment (false);
-			setIsSummary (false);
-			setPlannedAmt (Env.ZERO);
-			setPlannedMarginAmt (Env.ZERO);
-			setPlannedQty (Env.ZERO);
-			setProcessed (false);
-			setProjectBalanceAmt (Env.ZERO);
-			setProjectLineLevel (null);
-// P
-			setProjInvoiceRule (null);
-// -
-			setValue (null);
         } */
     }
 
@@ -92,20 +74,6 @@ public class X_I_Project extends PO implements I_I_Project, I_Persistent
       return sb.toString();
     }
 
-	/** Set Activity Value.
-		@param ActivityValue Activity Value	  */
-	public void setActivityValue (String ActivityValue)
-	{
-		set_Value (COLUMNNAME_ActivityValue, ActivityValue);
-	}
-
-	/** Get Activity Value.
-		@return Activity Value	  */
-	public String getActivityValue () 
-	{
-		return (String)get_Value(COLUMNNAME_ActivityValue);
-	}
-
 	public org.compiere.model.I_AD_Color getAD_Color() throws RuntimeException
     {
 		return (org.compiere.model.I_AD_Color)MTable.get(getCtx(), org.compiere.model.I_AD_Color.Table_Name)
@@ -132,6 +100,76 @@ public class X_I_Project extends PO implements I_I_Project, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	public org.compiere.model.I_AD_Org getAD_OrgTrx() throws RuntimeException
+    {
+		return (org.compiere.model.I_AD_Org)MTable.get(getCtx(), org.compiere.model.I_AD_Org.Table_Name)
+			.getPO(getAD_OrgTrx_ID(), get_TrxName());	}
+
+	/** Set Trx Organization.
+		@param AD_OrgTrx_ID 
+		Performing or initiating organization
+	  */
+	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID)
+	{
+		if (AD_OrgTrx_ID < 1) 
+			set_Value (COLUMNNAME_AD_OrgTrx_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_OrgTrx_ID, Integer.valueOf(AD_OrgTrx_ID));
+	}
+
+	/** Get Trx Organization.
+		@return Performing or initiating organization
+	  */
+	public int getAD_OrgTrx_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_OrgTrx_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException
+    {
+		return (org.compiere.model.I_AD_User)MTable.get(getCtx(), org.compiere.model.I_AD_User.Table_Name)
+			.getPO(getAD_User_ID(), get_TrxName());	}
+
+	/** Set User/Contact.
+		@param AD_User_ID 
+		User within the system - Internal or Business Partner Contact
+	  */
+	public void setAD_User_ID (int AD_User_ID)
+	{
+		if (AD_User_ID < 1) 
+			set_Value (COLUMNNAME_AD_User_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
+	}
+
+	/** Get User/Contact.
+		@return User within the system - Internal or Business Partner Contact
+	  */
+	public int getAD_User_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_User_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Activity Value.
+		@param ActivityValue Activity Value	  */
+	public void setActivityValue (String ActivityValue)
+	{
+		set_Value (COLUMNNAME_ActivityValue, ActivityValue);
+	}
+
+	/** Get Activity Value.
+		@return Activity Value	  */
+	public String getActivityValue () 
+	{
+		return (String)get_Value(COLUMNNAME_ActivityValue);
 	}
 
 	/** Set Address 1.
@@ -202,74 +240,6 @@ public class X_I_Project extends PO implements I_I_Project, I_Persistent
 		return (String)get_Value(COLUMNNAME_Address4);
 	}
 
-	/** Set Trx Organization.
-		@param AD_OrgTrx_ID 
-		Performing or initiating organization
-	  */
-	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID)
-	{
-		if (AD_OrgTrx_ID < 1) 
-			set_Value (COLUMNNAME_AD_OrgTrx_ID, null);
-		else 
-			set_Value (COLUMNNAME_AD_OrgTrx_ID, Integer.valueOf(AD_OrgTrx_ID));
-	}
-
-	/** Get Trx Organization.
-		@return Performing or initiating organization
-	  */
-	public int getAD_OrgTrx_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_OrgTrx_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException
-    {
-		return (org.compiere.model.I_AD_User)MTable.get(getCtx(), org.compiere.model.I_AD_User.Table_Name)
-			.getPO(getAD_User_ID(), get_TrxName());	}
-
-	/** Set User/Contact.
-		@param AD_User_ID 
-		User within the system - Internal or Business Partner Contact
-	  */
-	public void setAD_User_ID (int AD_User_ID)
-	{
-		if (AD_User_ID < 1) 
-			set_Value (COLUMNNAME_AD_User_ID, null);
-		else 
-			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
-	}
-
-	/** Get User/Contact.
-		@return User within the system - Internal or Business Partner Contact
-	  */
-	public int getAD_User_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_User_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Business Partner Key.
-		@param BPartnerValue 
-		Key of the Business Partner
-	  */
-	public void setBPartnerValue (String BPartnerValue)
-	{
-		set_Value (COLUMNNAME_BPartnerValue, BPartnerValue);
-	}
-
-	/** Get Business Partner Key.
-		@return Key of the Business Partner
-	  */
-	public String getBPartnerValue () 
-	{
-		return (String)get_Value(COLUMNNAME_BPartnerValue);
-	}
-
 	/** Set BP Name.
 		@param BPName BP Name	  */
 	public void setBPName (String BPName)
@@ -301,6 +271,23 @@ public class X_I_Project extends PO implements I_I_Project, I_Persistent
 		return (String)get_Value(COLUMNNAME_BPValue);
 	}
 
+	/** Set Business Partner Key.
+		@param BPartnerValue 
+		Key of the Business Partner
+	  */
+	public void setBPartnerValue (String BPartnerValue)
+	{
+		set_Value (COLUMNNAME_BPartnerValue, BPartnerValue);
+	}
+
+	/** Get Business Partner Key.
+		@return Key of the Business Partner
+	  */
+	public String getBPartnerValue () 
+	{
+		return (String)get_Value(COLUMNNAME_BPartnerValue);
+	}
+
 	public org.compiere.model.I_C_Activity getC_Activity() throws RuntimeException
     {
 		return (org.compiere.model.I_C_Activity)MTable.get(getCtx(), org.compiere.model.I_C_Activity.Table_Name)
@@ -329,18 +316,32 @@ public class X_I_Project extends PO implements I_I_Project, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Campaign Value.
-		@param CampaignValue Campaign Value	  */
-	public void setCampaignValue (String CampaignValue)
+	public org.compiere.model.I_C_BPartner getC_BPartnerSR() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
+			.getPO(getC_BPartnerSR_ID(), get_TrxName());	}
+
+	/** Set BPartner (Agent).
+		@param C_BPartnerSR_ID 
+		Business Partner (Agent or Sales Rep)
+	  */
+	public void setC_BPartnerSR_ID (int C_BPartnerSR_ID)
 	{
-		set_Value (COLUMNNAME_CampaignValue, CampaignValue);
+		if (C_BPartnerSR_ID < 1) 
+			set_Value (COLUMNNAME_C_BPartnerSR_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BPartnerSR_ID, Integer.valueOf(C_BPartnerSR_ID));
 	}
 
-	/** Get Campaign Value.
-		@return Campaign Value	  */
-	public String getCampaignValue () 
+	/** Get BPartner (Agent).
+		@return Business Partner (Agent or Sales Rep)
+	  */
+	public int getC_BPartnerSR_ID () 
 	{
-		return (String)get_Value(COLUMNNAME_CampaignValue);
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartnerSR_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
@@ -394,34 +395,6 @@ public class X_I_Project extends PO implements I_I_Project, I_Persistent
 	public int getC_BPartner_Location_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartner_Location_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public org.compiere.model.I_C_BPartner getC_BPartnerSR() throws RuntimeException
-    {
-		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
-			.getPO(getC_BPartnerSR_ID(), get_TrxName());	}
-
-	/** Set BPartner (Agent).
-		@param C_BPartnerSR_ID 
-		Business Partner (Agent or Sales Rep)
-	  */
-	public void setC_BPartnerSR_ID (int C_BPartnerSR_ID)
-	{
-		if (C_BPartnerSR_ID < 1) 
-			set_Value (COLUMNNAME_C_BPartnerSR_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_BPartnerSR_ID, Integer.valueOf(C_BPartnerSR_ID));
-	}
-
-	/** Get BPartner (Agent).
-		@return Business Partner (Agent or Sales Rep)
-	  */
-	public int getC_BPartnerSR_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartnerSR_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -481,6 +454,244 @@ public class X_I_Project extends PO implements I_I_Project, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_PaymentTerm getC_PaymentTerm() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_PaymentTerm)MTable.get(getCtx(), org.compiere.model.I_C_PaymentTerm.Table_Name)
+			.getPO(getC_PaymentTerm_ID(), get_TrxName());	}
+
+	/** Set Payment Term.
+		@param C_PaymentTerm_ID 
+		The terms of Payment (timing, discount)
+	  */
+	public void setC_PaymentTerm_ID (int C_PaymentTerm_ID)
+	{
+		if (C_PaymentTerm_ID < 1) 
+			set_Value (COLUMNNAME_C_PaymentTerm_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_PaymentTerm_ID, Integer.valueOf(C_PaymentTerm_ID));
+	}
+
+	/** Get Payment Term.
+		@return The terms of Payment (timing, discount)
+	  */
+	public int getC_PaymentTerm_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_PaymentTerm_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.eevolution.model.I_C_ProjectCategory getC_ProjectCategory() throws RuntimeException
+    {
+		return (org.eevolution.model.I_C_ProjectCategory)MTable.get(getCtx(), org.eevolution.model.I_C_ProjectCategory.Table_Name)
+			.getPO(getC_ProjectCategory_ID(), get_TrxName());	}
+
+	/** Set Project Category.
+		@param C_ProjectCategory_ID 
+		Project Category
+	  */
+	public void setC_ProjectCategory_ID (int C_ProjectCategory_ID)
+	{
+		if (C_ProjectCategory_ID < 1) 
+			set_Value (COLUMNNAME_C_ProjectCategory_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_ProjectCategory_ID, Integer.valueOf(C_ProjectCategory_ID));
+	}
+
+	/** Get Project Category.
+		@return Project Category
+	  */
+	public int getC_ProjectCategory_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_ProjectCategory_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.eevolution.model.I_C_ProjectClass getC_ProjectClass() throws RuntimeException
+    {
+		return (org.eevolution.model.I_C_ProjectClass)MTable.get(getCtx(), org.eevolution.model.I_C_ProjectClass.Table_Name)
+			.getPO(getC_ProjectClass_ID(), get_TrxName());	}
+
+	/** Set Project Class.
+		@param C_ProjectClass_ID 
+		Project Class
+	  */
+	public void setC_ProjectClass_ID (int C_ProjectClass_ID)
+	{
+		if (C_ProjectClass_ID < 1) 
+			set_Value (COLUMNNAME_C_ProjectClass_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_ProjectClass_ID, Integer.valueOf(C_ProjectClass_ID));
+	}
+
+	/** Get Project Class.
+		@return Project Class
+	  */
+	public int getC_ProjectClass_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_ProjectClass_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.eevolution.model.I_C_ProjectGroup getC_ProjectGroup() throws RuntimeException
+    {
+		return (org.eevolution.model.I_C_ProjectGroup)MTable.get(getCtx(), org.eevolution.model.I_C_ProjectGroup.Table_Name)
+			.getPO(getC_ProjectGroup_ID(), get_TrxName());	}
+
+	/** Set Project Group.
+		@param C_ProjectGroup_ID 
+		Project Group
+	  */
+	public void setC_ProjectGroup_ID (int C_ProjectGroup_ID)
+	{
+		if (C_ProjectGroup_ID < 1) 
+			set_Value (COLUMNNAME_C_ProjectGroup_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_ProjectGroup_ID, Integer.valueOf(C_ProjectGroup_ID));
+	}
+
+	/** Get Project Group.
+		@return Project Group
+	  */
+	public int getC_ProjectGroup_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_ProjectGroup_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.eevolution.model.I_C_ProjectStatus getC_ProjectStatus() throws RuntimeException
+    {
+		return (org.eevolution.model.I_C_ProjectStatus)MTable.get(getCtx(), org.eevolution.model.I_C_ProjectStatus.Table_Name)
+			.getPO(getC_ProjectStatus_ID(), get_TrxName());	}
+
+	/** Set Project Status.
+		@param C_ProjectStatus_ID 
+		Status for Project, Phase or Task
+	  */
+	public void setC_ProjectStatus_ID (int C_ProjectStatus_ID)
+	{
+		if (C_ProjectStatus_ID < 1) 
+			set_Value (COLUMNNAME_C_ProjectStatus_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_ProjectStatus_ID, Integer.valueOf(C_ProjectStatus_ID));
+	}
+
+	/** Get Project Status.
+		@return Status for Project, Phase or Task
+	  */
+	public int getC_ProjectStatus_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_ProjectStatus_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_ProjectType getC_ProjectType() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_ProjectType)MTable.get(getCtx(), org.compiere.model.I_C_ProjectType.Table_Name)
+			.getPO(getC_ProjectType_ID(), get_TrxName());	}
+
+	/** Set Project Type.
+		@param C_ProjectType_ID 
+		Type of the project
+	  */
+	public void setC_ProjectType_ID (int C_ProjectType_ID)
+	{
+		if (C_ProjectType_ID < 1) 
+			set_Value (COLUMNNAME_C_ProjectType_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_ProjectType_ID, Integer.valueOf(C_ProjectType_ID));
+	}
+
+	/** Get Project Type.
+		@return Type of the project
+	  */
+	public int getC_ProjectType_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_ProjectType_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_Project)MTable.get(getCtx(), org.compiere.model.I_C_Project.Table_Name)
+			.getPO(getC_Project_ID(), get_TrxName());	}
+
+	/** Set Project.
+		@param C_Project_ID 
+		Financial Project
+	  */
+	public void setC_Project_ID (int C_Project_ID)
+	{
+		if (C_Project_ID < 1) 
+			set_Value (COLUMNNAME_C_Project_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
+	}
+
+	/** Get Project.
+		@return Financial Project
+	  */
+	public int getC_Project_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Project_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_SalesRegion getC_SalesRegion() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_SalesRegion)MTable.get(getCtx(), org.compiere.model.I_C_SalesRegion.Table_Name)
+			.getPO(getC_SalesRegion_ID(), get_TrxName());	}
+
+	/** Set Sales Region.
+		@param C_SalesRegion_ID 
+		Sales coverage region
+	  */
+	public void setC_SalesRegion_ID (int C_SalesRegion_ID)
+	{
+		if (C_SalesRegion_ID < 1) 
+			set_Value (COLUMNNAME_C_SalesRegion_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_SalesRegion_ID, Integer.valueOf(C_SalesRegion_ID));
+	}
+
+	/** Get Sales Region.
+		@return Sales coverage region
+	  */
+	public int getC_SalesRegion_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_SalesRegion_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Campaign Value.
+		@param CampaignValue Campaign Value	  */
+	public void setCampaignValue (String CampaignValue)
+	{
+		set_Value (COLUMNNAME_CampaignValue, CampaignValue);
+	}
+
+	/** Get Campaign Value.
+		@return Campaign Value	  */
+	public String getCampaignValue () 
+	{
+		return (String)get_Value(COLUMNNAME_CampaignValue);
 	}
 
 	/** Set City.
@@ -606,230 +817,6 @@ public class X_I_Project extends PO implements I_I_Project, I_Persistent
 	public String getCountryCode () 
 	{
 		return (String)get_Value(COLUMNNAME_CountryCode);
-	}
-
-	public org.compiere.model.I_C_PaymentTerm getC_PaymentTerm() throws RuntimeException
-    {
-		return (org.compiere.model.I_C_PaymentTerm)MTable.get(getCtx(), org.compiere.model.I_C_PaymentTerm.Table_Name)
-			.getPO(getC_PaymentTerm_ID(), get_TrxName());	}
-
-	/** Set Payment Term.
-		@param C_PaymentTerm_ID 
-		The terms of Payment (timing, discount)
-	  */
-	public void setC_PaymentTerm_ID (int C_PaymentTerm_ID)
-	{
-		if (C_PaymentTerm_ID < 1) 
-			set_Value (COLUMNNAME_C_PaymentTerm_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_PaymentTerm_ID, Integer.valueOf(C_PaymentTerm_ID));
-	}
-
-	/** Get Payment Term.
-		@return The terms of Payment (timing, discount)
-	  */
-	public int getC_PaymentTerm_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_PaymentTerm_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public org.eevolution.model.I_C_ProjectCategory getC_ProjectCategory() throws RuntimeException
-    {
-		return (org.eevolution.model.I_C_ProjectCategory)MTable.get(getCtx(), org.eevolution.model.I_C_ProjectCategory.Table_Name)
-			.getPO(getC_ProjectCategory_ID(), get_TrxName());	}
-
-	/** Set Project Category.
-		@param C_ProjectCategory_ID 
-		Project Category
-	  */
-	public void setC_ProjectCategory_ID (int C_ProjectCategory_ID)
-	{
-		if (C_ProjectCategory_ID < 1) 
-			set_Value (COLUMNNAME_C_ProjectCategory_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_ProjectCategory_ID, Integer.valueOf(C_ProjectCategory_ID));
-	}
-
-	/** Get Project Category.
-		@return Project Category
-	  */
-	public int getC_ProjectCategory_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_ProjectCategory_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public org.eevolution.model.I_C_ProjectClass getC_ProjectClass() throws RuntimeException
-    {
-		return (org.eevolution.model.I_C_ProjectClass)MTable.get(getCtx(), org.eevolution.model.I_C_ProjectClass.Table_Name)
-			.getPO(getC_ProjectClass_ID(), get_TrxName());	}
-
-	/** Set Project Class.
-		@param C_ProjectClass_ID 
-		Project Class
-	  */
-	public void setC_ProjectClass_ID (int C_ProjectClass_ID)
-	{
-		if (C_ProjectClass_ID < 1) 
-			set_Value (COLUMNNAME_C_ProjectClass_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_ProjectClass_ID, Integer.valueOf(C_ProjectClass_ID));
-	}
-
-	/** Get Project Class.
-		@return Project Class
-	  */
-	public int getC_ProjectClass_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_ProjectClass_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public org.eevolution.model.I_C_ProjectGroup getC_ProjectGroup() throws RuntimeException
-    {
-		return (org.eevolution.model.I_C_ProjectGroup)MTable.get(getCtx(), org.eevolution.model.I_C_ProjectGroup.Table_Name)
-			.getPO(getC_ProjectGroup_ID(), get_TrxName());	}
-
-	/** Set Project Group.
-		@param C_ProjectGroup_ID 
-		Project Group
-	  */
-	public void setC_ProjectGroup_ID (int C_ProjectGroup_ID)
-	{
-		if (C_ProjectGroup_ID < 1) 
-			set_Value (COLUMNNAME_C_ProjectGroup_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_ProjectGroup_ID, Integer.valueOf(C_ProjectGroup_ID));
-	}
-
-	/** Get Project Group.
-		@return Project Group
-	  */
-	public int getC_ProjectGroup_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_ProjectGroup_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException
-    {
-		return (org.compiere.model.I_C_Project)MTable.get(getCtx(), org.compiere.model.I_C_Project.Table_Name)
-			.getPO(getC_Project_ID(), get_TrxName());	}
-
-	/** Set Project.
-		@param C_Project_ID 
-		Financial Project
-	  */
-	public void setC_Project_ID (int C_Project_ID)
-	{
-		if (C_Project_ID < 1) 
-			set_Value (COLUMNNAME_C_Project_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
-	}
-
-	/** Get Project.
-		@return Financial Project
-	  */
-	public int getC_Project_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Project_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public org.eevolution.model.I_C_ProjectStatus getC_ProjectStatus() throws RuntimeException
-    {
-		return (org.eevolution.model.I_C_ProjectStatus)MTable.get(getCtx(), org.eevolution.model.I_C_ProjectStatus.Table_Name)
-			.getPO(getC_ProjectStatus_ID(), get_TrxName());	}
-
-	/** Set Project Status.
-		@param C_ProjectStatus_ID 
-		Status for Project, Phase or Task
-	  */
-	public void setC_ProjectStatus_ID (int C_ProjectStatus_ID)
-	{
-		if (C_ProjectStatus_ID < 1) 
-			set_Value (COLUMNNAME_C_ProjectStatus_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_ProjectStatus_ID, Integer.valueOf(C_ProjectStatus_ID));
-	}
-
-	/** Get Project Status.
-		@return Status for Project, Phase or Task
-	  */
-	public int getC_ProjectStatus_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_ProjectStatus_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public org.compiere.model.I_C_ProjectType getC_ProjectType() throws RuntimeException
-    {
-		return (org.compiere.model.I_C_ProjectType)MTable.get(getCtx(), org.compiere.model.I_C_ProjectType.Table_Name)
-			.getPO(getC_ProjectType_ID(), get_TrxName());	}
-
-	/** Set Project Type.
-		@param C_ProjectType_ID 
-		Type of the project
-	  */
-	public void setC_ProjectType_ID (int C_ProjectType_ID)
-	{
-		if (C_ProjectType_ID < 1) 
-			set_Value (COLUMNNAME_C_ProjectType_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_ProjectType_ID, Integer.valueOf(C_ProjectType_ID));
-	}
-
-	/** Get Project Type.
-		@return Type of the project
-	  */
-	public int getC_ProjectType_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_ProjectType_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public org.compiere.model.I_C_SalesRegion getC_SalesRegion() throws RuntimeException
-    {
-		return (org.compiere.model.I_C_SalesRegion)MTable.get(getCtx(), org.compiere.model.I_C_SalesRegion.Table_Name)
-			.getPO(getC_SalesRegion_ID(), get_TrxName());	}
-
-	/** Set Sales Region.
-		@param C_SalesRegion_ID 
-		Sales coverage region
-	  */
-	public void setC_SalesRegion_ID (int C_SalesRegion_ID)
-	{
-		if (C_SalesRegion_ID < 1) 
-			set_Value (COLUMNNAME_C_SalesRegion_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_SalesRegion_ID, Integer.valueOf(C_SalesRegion_ID));
-	}
-
-	/** Get Sales Region.
-		@return Sales coverage region
-	  */
-	public int getC_SalesRegion_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_SalesRegion_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
 	}
 
 	/** Set Contract Date.
@@ -1017,6 +1004,23 @@ public class X_I_Project extends PO implements I_I_Project, I_Persistent
 		return (String)get_Value(COLUMNNAME_Fax);
 	}
 
+	/** Set ISO Currency Code.
+		@param ISO_Code 
+		Three letter ISO 4217 Code of the Currency
+	  */
+	public void setISO_Code (String ISO_Code)
+	{
+		set_Value (COLUMNNAME_ISO_Code, ISO_Code);
+	}
+
+	/** Get ISO Currency Code.
+		@return Three letter ISO 4217 Code of the Currency
+	  */
+	public String getISO_Code () 
+	{
+		return (String)get_Value(COLUMNNAME_ISO_Code);
+	}
+
 	/** Set Import Error Message.
 		@param I_ErrorMsg 
 		Messages generated from import process
@@ -1058,13 +1062,33 @@ public class X_I_Project extends PO implements I_I_Project, I_Persistent
 		return false;
 	}
 
+	/** Set Import Project ID.
+		@param I_Project_ID Import Project ID	  */
+	public void setI_Project_ID (int I_Project_ID)
+	{
+		if (I_Project_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_I_Project_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_I_Project_ID, Integer.valueOf(I_Project_ID));
+	}
+
+	/** Get Import Project ID.
+		@return Import Project ID	  */
+	public int getI_Project_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_I_Project_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Invoiced Amount.
 		@param InvoicedAmt 
 		The amount invoiced
 	  */
 	public void setInvoicedAmt (BigDecimal InvoicedAmt)
 	{
-		set_ValueNoCheck (COLUMNNAME_InvoicedAmt, InvoicedAmt);
+		set_Value (COLUMNNAME_InvoicedAmt, InvoicedAmt);
 	}
 
 	/** Get Invoiced Amount.
@@ -1084,7 +1108,7 @@ public class X_I_Project extends PO implements I_I_Project, I_Persistent
 	  */
 	public void setInvoicedQty (BigDecimal InvoicedQty)
 	{
-		set_ValueNoCheck (COLUMNNAME_InvoicedQty, InvoicedQty);
+		set_Value (COLUMNNAME_InvoicedQty, InvoicedQty);
 	}
 
 	/** Get Quantity Invoiced .
@@ -1096,26 +1120,6 @@ public class X_I_Project extends PO implements I_I_Project, I_Persistent
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
-	}
-
-	/** Set Import Project ID.
-		@param I_Project_ID Import Project ID	  */
-	public void setI_Project_ID (int I_Project_ID)
-	{
-		if (I_Project_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_I_Project_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_I_Project_ID, Integer.valueOf(I_Project_ID));
-	}
-
-	/** Get Import Project ID.
-		@return Import Project ID	  */
-	public int getI_Project_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_I_Project_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
 	}
 
 	/** Set Commitment is Ceiling.
@@ -1188,23 +1192,6 @@ public class X_I_Project extends PO implements I_I_Project, I_Persistent
 			return "Y".equals(oo);
 		}
 		return false;
-	}
-
-	/** Set ISO Currency Code.
-		@param ISO_Code 
-		Three letter ISO 4217 Code of the Currency
-	  */
-	public void setISO_Code (String ISO_Code)
-	{
-		set_Value (COLUMNNAME_ISO_Code, ISO_Code);
-	}
-
-	/** Get ISO Currency Code.
-		@return Three letter ISO 4217 Code of the Currency
-	  */
-	public String getISO_Code () 
-	{
-		return (String)get_Value(COLUMNNAME_ISO_Code);
 	}
 
 	/** Set Summary Level.
@@ -1355,6 +1342,23 @@ public class X_I_Project extends PO implements I_I_Project, I_Persistent
 		return (String)get_Value(COLUMNNAME_OrgValue);
 	}
 
+	/** Set Order Reference.
+		@param POReference 
+		Transaction Reference Number (Sales Order, Purchase Order) of your Business Partner
+	  */
+	public void setPOReference (String POReference)
+	{
+		set_Value (COLUMNNAME_POReference, POReference);
+	}
+
+	/** Get Order Reference.
+		@return Transaction Reference Number (Sales Order, Purchase Order) of your Business Partner
+	  */
+	public String getPOReference () 
+	{
+		return (String)get_Value(COLUMNNAME_POReference);
+	}
+
 	/** Set Phone.
 		@param Phone 
 		Identifies a telephone number
@@ -1449,23 +1453,6 @@ public class X_I_Project extends PO implements I_I_Project, I_Persistent
 		return bd;
 	}
 
-	/** Set Order Reference.
-		@param POReference 
-		Transaction Reference Number (Sales Order, Purchase Order) of your Business Partner
-	  */
-	public void setPOReference (String POReference)
-	{
-		set_Value (COLUMNNAME_POReference, POReference);
-	}
-
-	/** Get Order Reference.
-		@return Transaction Reference Number (Sales Order, Purchase Order) of your Business Partner
-	  */
-	public String getPOReference () 
-	{
-		return (String)get_Value(COLUMNNAME_POReference);
-	}
-
 	/** Set ZIP.
 		@param Postal 
 		Postal code
@@ -1558,13 +1545,43 @@ public class X_I_Project extends PO implements I_I_Project, I_Persistent
 		return false;
 	}
 
+	/** ProjInvoiceRule AD_Reference_ID=383 */
+	public static final int PROJINVOICERULE_AD_Reference_ID=383;
+	/** None = - */
+	public static final String PROJINVOICERULE_None = "-";
+	/** Committed Amount = C */
+	public static final String PROJINVOICERULE_CommittedAmount = "C";
+	/** Time&Material max Comitted = c */
+	public static final String PROJINVOICERULE_TimeMaterialMaxComitted = "c";
+	/** Time&Material = T */
+	public static final String PROJINVOICERULE_TimeMaterial = "T";
+	/** Product  Quantity = P */
+	public static final String PROJINVOICERULE_ProductQuantity = "P";
+	/** Set Invoice Rule.
+		@param ProjInvoiceRule 
+		Invoice Rule for the project
+	  */
+	public void setProjInvoiceRule (String ProjInvoiceRule)
+	{
+
+		set_Value (COLUMNNAME_ProjInvoiceRule, ProjInvoiceRule);
+	}
+
+	/** Get Invoice Rule.
+		@return Invoice Rule for the project
+	  */
+	public String getProjInvoiceRule () 
+	{
+		return (String)get_Value(COLUMNNAME_ProjInvoiceRule);
+	}
+
 	/** Set Project Balance.
 		@param ProjectBalanceAmt 
 		Total Project Balance
 	  */
 	public void setProjectBalanceAmt (BigDecimal ProjectBalanceAmt)
 	{
-		set_ValueNoCheck (COLUMNNAME_ProjectBalanceAmt, ProjectBalanceAmt);
+		set_Value (COLUMNNAME_ProjectBalanceAmt, ProjectBalanceAmt);
 	}
 
 	/** Get Project Balance.
@@ -1717,36 +1734,6 @@ public class X_I_Project extends PO implements I_I_Project, I_Persistent
 		return (String)get_Value(COLUMNNAME_ProjectTypeValue);
 	}
 
-	/** ProjInvoiceRule AD_Reference_ID=383 */
-	public static final int PROJINVOICERULE_AD_Reference_ID=383;
-	/** None = - */
-	public static final String PROJINVOICERULE_None = "-";
-	/** Committed Amount = C */
-	public static final String PROJINVOICERULE_CommittedAmount = "C";
-	/** Time&Material max Comitted = c */
-	public static final String PROJINVOICERULE_TimeMaterialMaxComitted = "c";
-	/** Time&Material = T */
-	public static final String PROJINVOICERULE_TimeMaterial = "T";
-	/** Product  Quantity = P */
-	public static final String PROJINVOICERULE_ProductQuantity = "P";
-	/** Set Invoice Rule.
-		@param ProjInvoiceRule 
-		Invoice Rule for the project
-	  */
-	public void setProjInvoiceRule (String ProjInvoiceRule)
-	{
-
-		set_Value (COLUMNNAME_ProjInvoiceRule, ProjInvoiceRule);
-	}
-
-	/** Get Invoice Rule.
-		@return Invoice Rule for the project
-	  */
-	public String getProjInvoiceRule () 
-	{
-		return (String)get_Value(COLUMNNAME_ProjInvoiceRule);
-	}
-
 	/** Set Region.
 		@param RegionName 
 		Name of the Region
@@ -1821,6 +1808,23 @@ public class X_I_Project extends PO implements I_I_Project, I_Persistent
 	public String getTitle () 
 	{
 		return (String)get_Value(COLUMNNAME_Title);
+	}
+
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
 	}
 
 	public org.compiere.model.I_C_ElementValue getUser1() throws RuntimeException
@@ -2030,23 +2034,6 @@ public class X_I_Project extends PO implements I_I_Project, I_Persistent
 	public String getUserValue4 () 
 	{
 		return (String)get_Value(COLUMNNAME_UserValue4);
-	}
-
-	/** Set Immutable Universally Unique Identifier.
-		@param UUID 
-		Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID)
-	{
-		set_Value (COLUMNNAME_UUID, UUID);
-	}
-
-	/** Get Immutable Universally Unique Identifier.
-		@return Immutable Universally Unique Identifier
-	  */
-	public String getUUID () 
-	{
-		return (String)get_Value(COLUMNNAME_UUID);
 	}
 
 	/** Set Search Key.

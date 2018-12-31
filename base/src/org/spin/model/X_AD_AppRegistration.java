@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_AppRegistration
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_AD_AppRegistration extends PO implements I_AD_AppRegistration, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20181101L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_AD_AppRegistration (Properties ctx, int AD_AppRegistration_ID, String trxName)
@@ -57,7 +57,7 @@ public class X_AD_AppRegistration extends PO implements I_AD_AppRegistration, I_
     }
 
     /** AccessLevel
-      * @return 4 - System 
+      * @return 6 - System - Client 
       */
     protected int get_AccessLevel()
     {
@@ -78,8 +78,10 @@ public class X_AD_AppRegistration extends PO implements I_AD_AppRegistration, I_
       return sb.toString();
     }
 
-	/** Set App Registration ID.
-		@param AD_AppRegistration_ID App Registration ID	  */
+	/** Set Application Registration.
+		@param AD_AppRegistration_ID 
+		External Application Registration
+	  */
 	public void setAD_AppRegistration_ID (int AD_AppRegistration_ID)
 	{
 		if (AD_AppRegistration_ID < 1) 
@@ -88,8 +90,9 @@ public class X_AD_AppRegistration extends PO implements I_AD_AppRegistration, I_
 			set_ValueNoCheck (COLUMNNAME_AD_AppRegistration_ID, Integer.valueOf(AD_AppRegistration_ID));
 	}
 
-	/** Get App Registration ID.
-		@return App Registration ID	  */
+	/** Get Application Registration.
+		@return External Application Registration
+	  */
 	public int getAD_AppRegistration_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_AppRegistration_ID);
@@ -104,7 +107,9 @@ public class X_AD_AppRegistration extends PO implements I_AD_AppRegistration, I_
 			.getPO(getAD_AppSupport_ID(), get_TrxName());	}
 
 	/** Set App Support.
-		@param AD_AppSupport_ID App Support	  */
+		@param AD_AppSupport_ID 
+		App Support for External Connection
+	  */
 	public void setAD_AppSupport_ID (int AD_AppSupport_ID)
 	{
 		if (AD_AppSupport_ID < 1) 
@@ -114,7 +119,8 @@ public class X_AD_AppRegistration extends PO implements I_AD_AppRegistration, I_
 	}
 
 	/** Get App Support.
-		@return App Support	  */
+		@return App Support for External Connection
+	  */
 	public int getAD_AppSupport_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_AppSupport_ID);
@@ -127,6 +133,8 @@ public class X_AD_AppRegistration extends PO implements I_AD_AppRegistration, I_
 	public static final int APPLICATIONTYPE_AD_Reference_ID=54081;
 	/** Message Queue = MQS */
 	public static final String APPLICATIONTYPE_MessageQueue = "MQS";
+	/** WebDav Application = WDV */
+	public static final String APPLICATIONTYPE_WebDavApplication = "WDV";
 	/** Set Application Type.
 		@param ApplicationType 
 		Application Type, used for identify a Application Type like Message Queue

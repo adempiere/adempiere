@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for I_ReportLine
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_I_ReportLine extends PO implements I_I_ReportLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170731L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_I_ReportLine (Properties ctx, int I_ReportLine_ID, String trxName)
@@ -552,6 +552,35 @@ public class X_I_ReportLine extends PO implements I_I_ReportLine, I_Persistent
 		return (String)get_Value(COLUMNNAME_ReportLineSetName);
 	}
 
+	/** ReportLineStyle AD_Reference_ID=53564 */
+	public static final int REPORTLINESTYLE_AD_Reference_ID=53564;
+	/** Blank Line = S */
+	public static final String REPORTLINESTYLE_BlankLine = "S";
+	/** Underlined Descriptions = D */
+	public static final String REPORTLINESTYLE_UnderlinedDescriptions = "D";
+	/** Double Line for Total = Z */
+	public static final String REPORTLINESTYLE_DoubleLineForTotal = "Z";
+	/** Line = L */
+	public static final String REPORTLINESTYLE_Line = "L";
+	/** Total Line = X */
+	public static final String REPORTLINESTYLE_TotalLine = "X";
+	/** Centered Title = T */
+	public static final String REPORTLINESTYLE_CenteredTitle = "T";
+	/** Set Report Line Style.
+		@param ReportLineStyle Report Line Style	  */
+	public void setReportLineStyle (String ReportLineStyle)
+	{
+
+		set_Value (COLUMNNAME_ReportLineStyle, ReportLineStyle);
+	}
+
+	/** Get Report Line Style.
+		@return Report Line Style	  */
+	public String getReportLineStyle () 
+	{
+		return (String)get_Value(COLUMNNAME_ReportLineStyle);
+	}
+
 	/** Set Sequence.
 		@param SeqNo 
 		Method of ordering records; lowest number comes first
@@ -607,34 +636,5 @@ public class X_I_ReportLine extends PO implements I_I_ReportLine, I_Persistent
 	public String getUUID () 
 	{
 		return (String)get_Value(COLUMNNAME_UUID);
-	}
-
-	/** reportlinestyle AD_Reference_ID=53564 */
-	public static final int REPORTLINESTYLE_AD_Reference_ID=53564;
-	/** Blank Line = S */
-	public static final String REPORTLINESTYLE_BlankLine = "S";
-	/** Underlined Descriptions = D */
-	public static final String REPORTLINESTYLE_UnderlinedDescriptions = "D";
-	/** Double Line for Total = Z */
-	public static final String REPORTLINESTYLE_DoubleLineForTotal = "Z";
-	/** Line = L */
-	public static final String REPORTLINESTYLE_Line = "L";
-	/** Total Line = X */
-	public static final String REPORTLINESTYLE_TotalLine = "X";
-	/** Centered Title = T */
-	public static final String REPORTLINESTYLE_CenteredTitle = "T";
-	/** Set reportlinestyle.
-		@param reportlinestyle reportlinestyle	  */
-	public void setreportlinestyle (String reportlinestyle)
-	{
-
-		set_Value (COLUMNNAME_reportlinestyle, reportlinestyle);
-	}
-
-	/** Get reportlinestyle.
-		@return reportlinestyle	  */
-	public String getreportlinestyle () 
-	{
-		return (String)get_Value(COLUMNNAME_reportlinestyle);
 	}
 }

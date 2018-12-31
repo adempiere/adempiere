@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_LandedCost
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.1
  */
 public interface I_C_LandedCost 
 {
@@ -77,6 +77,17 @@ public interface I_C_LandedCost
 
 	public org.compiere.model.I_C_InvoiceLine getC_InvoiceLine() throws RuntimeException;
 
+    /** Column name C_LandedCostType_ID */
+    public static final String COLUMNNAME_C_LandedCostType_ID = "C_LandedCostType_ID";
+
+	/** Set C_LandedCostType_ID	  */
+	public void setC_LandedCostType_ID (int C_LandedCostType_ID);
+
+	/** Get C_LandedCostType_ID	  */
+	public int getC_LandedCostType_ID();
+
+	public org.compiere.model.I_C_LandedCostType getC_LandedCostType() throws RuntimeException;
+
     /** Column name C_LandedCost_ID */
     public static final String COLUMNNAME_C_LandedCost_ID = "C_LandedCost_ID";
 
@@ -89,17 +100,6 @@ public interface I_C_LandedCost
 	  * Landed cost to be allocated to material receipts
 	  */
 	public int getC_LandedCost_ID();
-
-    /** Column name C_LandedCostType_ID */
-    public static final String COLUMNNAME_C_LandedCostType_ID = "C_LandedCostType_ID";
-
-	/** Set LandedCostType ID	  */
-	public void setC_LandedCostType_ID (int C_LandedCostType_ID);
-
-	/** Get LandedCostType ID	  */
-	public int getC_LandedCostType_ID();
-
-	public org.compiere.model.I_C_LandedCostType getC_LandedCostType() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -158,21 +158,6 @@ public interface I_C_LandedCost
 
 	public org.compiere.model.I_M_CostElement getM_CostElement() throws RuntimeException;
 
-    /** Column name M_InOut_ID */
-    public static final String COLUMNNAME_M_InOut_ID = "M_InOut_ID";
-
-	/** Set Shipment/Receipt.
-	  * Material Shipment Document
-	  */
-	public void setM_InOut_ID (int M_InOut_ID);
-
-	/** Get Shipment/Receipt.
-	  * Material Shipment Document
-	  */
-	public int getM_InOut_ID();
-
-	public org.compiere.model.I_M_InOut getM_InOut() throws RuntimeException;
-
     /** Column name M_InOutLine_ID */
     public static final String COLUMNNAME_M_InOutLine_ID = "M_InOutLine_ID";
 
@@ -187,6 +172,21 @@ public interface I_C_LandedCost
 	public int getM_InOutLine_ID();
 
 	public org.compiere.model.I_M_InOutLine getM_InOutLine() throws RuntimeException;
+
+    /** Column name M_InOut_ID */
+    public static final String COLUMNNAME_M_InOut_ID = "M_InOut_ID";
+
+	/** Set Shipment/Receipt.
+	  * Material Shipment Document
+	  */
+	public void setM_InOut_ID (int M_InOut_ID);
+
+	/** Get Shipment/Receipt.
+	  * Material Shipment Document
+	  */
+	public int getM_InOut_ID();
+
+	public org.compiere.model.I_M_InOut getM_InOut() throws RuntimeException;
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
@@ -212,6 +212,19 @@ public interface I_C_LandedCost
 	/** Get Process Now	  */
 	public boolean isProcessing();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -227,17 +240,4 @@ public interface I_C_LandedCost
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 }

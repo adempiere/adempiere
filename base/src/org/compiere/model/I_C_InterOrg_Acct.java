@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_InterOrg_Acct
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.1
  */
 public interface I_C_InterOrg_Acct 
 {
@@ -61,6 +61,8 @@ public interface I_C_InterOrg_Acct
 	  * Organization valid for intercompany documents
 	  */
 	public int getAD_OrgTo_ID();
+
+	public org.compiere.model.I_AD_Org getAD_OrgTo() throws RuntimeException;
 
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";

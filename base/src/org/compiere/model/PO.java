@@ -35,7 +35,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
-import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
@@ -2309,13 +2308,6 @@ public abstract class PO
 			try
 			{
 				success = afterSave (newRecord, success);
-				//Generate UUID
-				//TODO : Is necessary Generate UUIDs for all records
-				/*if (get_ColumnIndex("UUID") > 0 && get_ValueAsString("UUID") == null)
-				{
-					UUID uuid = UUID.randomUUID();
-					set_CustomColumn("UUID", uuid.toString());
-				}*/
 				//	Yamel Senih [ 9223372036854775807 ]
 				//	Insert Tree Node
 				if (success && newRecord)
@@ -2487,14 +2479,19 @@ public abstract class PO
 		int size = get_ColumnCount();
 		for (int i = 0; i < size; i++)
 		{
+			String columnName = p_info.getColumnName(i);
 			Object value = m_newValues[i];
+			if (columnName.equals("UUID") && get_Value(columnName) == null)
+			{
+				value = generateUUID();
+			}
+
 			if (value == null
 				|| p_info.isVirtualColumn(i))
 				continue;
 			//  we have a change
 			Class<?> c = p_info.getColumnClass(i);
 			int dt = p_info.getColumnDisplayType(i);
-			String columnName = p_info.getColumnName(i);
 			//
 			//	updated/by
 			if (columnName.equals("UpdatedBy"))
@@ -2757,6 +2754,10 @@ public abstract class PO
 		for (int i = 0; i < size; i++)
 		{
 			Object value = get_Value(i);
+			if (p_info.getColumnName(i).equals("UUID") && value == null) {
+				value = generateUUID();
+			}
+
 			//	Don't insert NULL values (allows Database defaults)
 			if (value == null
 				|| p_info.isVirtualColumn(i))
@@ -4225,5 +4226,14 @@ public abstract class PO
 		clone.m_attachment = null;
 		clone.m_isReplication = false;
 		return clone;
+	}
+
+	public String generateUUID() {
+		String uuid;
+		if (DB.isOracle())
+		 	uuid = DB.getSQLValueString(get_TrxName(), "SELECT getUUID() FROM DUAL");
+		else
+			uuid = DB.getSQLValueString(get_TrxName(), "SELECT getUUID()");
+		return uuid;
 	}
 }   //  PO

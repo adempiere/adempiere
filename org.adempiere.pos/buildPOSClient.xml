@@ -52,7 +52,7 @@
        	 <!-- set zip files to include the necessary zip files for jar -->
             <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/adempiere_380/tools/lib/mail.jar"/>
             <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/adempiere_380/tools/lib/log4j.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/adempiere_380/tools/lib/ojdbc6.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/adempiere_380/tools/lib/oracle.jar"/>
             <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/adempiere_380/tools/lib/jnlp.jar"/>
             <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/adempiere_380/tools/lib/commons-collections-3.1.jar"/>
             <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/adempiere_380/tools/lib/postgresql.jar"/>

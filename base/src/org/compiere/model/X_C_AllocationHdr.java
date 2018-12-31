@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_AllocationHdr
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_C_AllocationHdr extends PO implements I_C_AllocationHdr, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20171108L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_C_AllocationHdr (Properties ctx, int C_AllocationHdr_ID, String trxName)
@@ -44,8 +44,6 @@ public class X_C_AllocationHdr extends PO implements I_C_AllocationHdr, I_Persis
 			setApprovalAmt (Env.ZERO);
 			setC_AllocationHdr_ID (0);
 			setC_Currency_ID (0);
-			setC_DocType_ID (0);
-// @SQL=SELECT C_DocType_ID AS DefaultValue FROM C_DocType WHERE AD_Client_ID=@#AD_Client_ID@ AND DocBaseType='CMA' AND isDefault='Y'
 			setDateAcct (new Timestamp( System.currentTimeMillis() ));
 			setDateTrx (new Timestamp( System.currentTimeMillis() ));
 			setDocAction (null);

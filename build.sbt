@@ -19,10 +19,10 @@ name := "org.adempiere.jetty"
 lazy val commonSettings = Seq(
   organization := "org.adempiere.net",
   version := "3.9.0-SNAPSHOT",
-  scalaVersion := "2.12.4"
+  scalaVersion := "2.12.6"
 )
 
-scalaVersion := "2.12.4"
+scalaVersion := "2.12.6"
 resolvers += "Artima Maven Repository" at "http://repo.artima.com/releases"
 
 fork := true
@@ -52,7 +52,7 @@ test in assembly := {}
 assemblyOption in assembly := (assemblyOption in assembly).value.copy(includeScala = true, includeDependency =false)
 
 val sourceDirectoryTest = "org.adempiere.test"
-val sourceAdempiere = "/Users/e-Evolution/Develop/ADempiere/adempiere"
+val sourceAdempiere = "/Users/e-Evolution/Develop/ADempiere/391"
 
 //javaSource in Compile := baseDirectory.value  / sourceDirectoryTest / "src" / "main" / "java"
 //javaSource in Test := baseDirectory.value  / sourceDirectoryTest / "src" / "test" / "java"
@@ -72,7 +72,7 @@ unmanagedJars in Compile ++= (file(sourceAdempiere + "/lib") * "*.jar").classpat
 unmanagedJars in Compile ++= (file(sourceAdempiere + "/packages") * "*.jar").classpath
 unmanagedJars in Compile ++= (file(sourceAdempiere + "/zkpackages") * "*.jar").classpath
 unmanagedJars in Compile ++= (file("/Users/e-Evolution/Develop/ADempiere/GRP/target/scala-2.12") * "*.jar").classpath
-unmanagedJars in Compile ++= (file("/Users/e-Evolution/Develop/ADempiere/org.eevolution.LMX/target/scala-2.12") * "*.jar").classpath
+unmanagedJars in Compile ++= (file("/Users/e-Evolution/Develop/ADempiere/org.eevolution.LMX//target/scala-2.12") * "*.jar").classpath
 
 testOptions in Test += Tests.Argument("-oD")
 
@@ -80,7 +80,7 @@ enablePlugins(JettyPlugin)
 enablePlugins(WebappPlugin)
 containerLibs in Jetty := Seq("org.eclipse.jetty" % "jetty-runner" % "9.2.1.v20140609" intransitive())
 containerMain in Jetty := "org.eclipse.jetty.runner.Runner"
-containerForkOptions := new ForkOptions(runJVMOptions = Seq("-Dh2g2=42"))
+//containerForkOptions := new ForkOptions(runJVMOptions = Seq("-Dh2g2=42"))
 containerPort := 9090
 containerShutdownOnExit := true
 
@@ -96,11 +96,12 @@ webappPostProcess := {
     IO.copyDirectory(baseDirectory.value / "org.eevolution.manufacturing/src/main/java/ui/zk",webappDir / "WEB-INF" / "classes")
     IO.copyDirectory(baseDirectory.value / "org.eevolution.hr_and_payroll/src/main/java/ui/zk",webappDir / "WEB-INF" / "classes")
     IO.copyDirectory(baseDirectory.value / "zkwebui", webappDir)
-    IO.copyDirectory(baseDirectory.value / "serverRoot" / "src" / "web", webappDir)
+    //IO.copyDirectory(baseDirectory.value / "serverRoot" / "src" / "web", webappDir)
     IO.copyDirectory(baseDirectory.value / "lib", webappDir / "WEB-INF" / "lib")
     IO.copyDirectory(baseDirectory.value / "packages", webappDir / "WEB-INF" / "lib")
     IO.copyDirectory(baseDirectory.value / "zkpackages", webappDir / "WEB-INF" / "lib")
     IO.copyDirectory(baseDirectory.value / "zkwebui/WEB-INF/classes", webappDir / "WEB-INF" / "classes")
-    IO.copyDirectory(file("/Users/e-Evolution/Develop/ADempiere/org.eevolution.LMX/target/scala-2.12"), webappDir / "WEB-INF" / "lib")
-    IO.copyDirectory(file("/Users/e-Evolution/Develop/ADempiere/org.eevolution.LMX/target/scala-2.12/classes"), webappDir / "WEB-INF" / "classes")
+    IO.copyDirectory(file("/Users/e-Evolution/Develop/ADempiere/GRP/target/scala-2.12/classes"), webappDir / "WEB-INF" / "classes")
+    IO.copyDirectory(file("/Users/e-Evolution/Develop/ADempiere/customizationQuimasa/target/scala-2.12/classes"), webappDir / "WEB-INF" / "classes")
+    IO.copyDirectory(file("/Users/e-Evolution/Develop/ADempiere/org.eevolution.LMX/target/classes"), webappDir / "WEB-INF" / "classes")
 }

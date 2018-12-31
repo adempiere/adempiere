@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_AppRegistration_Para
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_AD_AppRegistration_Para extends PO implements I_AD_AppRegistration_Para, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20181101L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_AD_AppRegistration_Para (Properties ctx, int AD_AppRegistration_Para_ID, String trxName)
@@ -103,8 +103,10 @@ public class X_AD_AppRegistration_Para extends PO implements I_AD_AppRegistratio
 		return ii.intValue();
 	}
 
-	/** Set App Registration Parameters ID.
-		@param AD_AppRegistration_Para_ID App Registration Parameters ID	  */
+	/** Set App Registration Parameter.
+		@param AD_AppRegistration_Para_ID 
+		App Registration Parameter used for connect with External App
+	  */
 	public void setAD_AppRegistration_Para_ID (int AD_AppRegistration_Para_ID)
 	{
 		if (AD_AppRegistration_Para_ID < 1) 
@@ -113,11 +115,40 @@ public class X_AD_AppRegistration_Para extends PO implements I_AD_AppRegistratio
 			set_ValueNoCheck (COLUMNNAME_AD_AppRegistration_Para_ID, Integer.valueOf(AD_AppRegistration_Para_ID));
 	}
 
-	/** Get App Registration Parameters ID.
-		@return App Registration Parameters ID	  */
+	/** Get App Registration Parameter.
+		@return App Registration Parameter used for connect with External App
+	  */
 	public int getAD_AppRegistration_Para_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_AppRegistration_Para_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.spin.model.I_AD_AppSupport_Para getAD_AppSupport_Para() throws RuntimeException
+    {
+		return (org.spin.model.I_AD_AppSupport_Para)MTable.get(getCtx(), org.spin.model.I_AD_AppSupport_Para.Table_Name)
+			.getPO(getAD_AppSupport_Para_ID(), get_TrxName());	}
+
+	/** Set App Support Default Parameter.
+		@param AD_AppSupport_Para_ID 
+		Default parameter for App Supported
+	  */
+	public void setAD_AppSupport_Para_ID (int AD_AppSupport_Para_ID)
+	{
+		if (AD_AppSupport_Para_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_AppSupport_Para_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_AppSupport_Para_ID, Integer.valueOf(AD_AppSupport_Para_ID));
+	}
+
+	/** Get App Support Default Parameter.
+		@return Default parameter for App Supported
+	  */
+	public int getAD_AppSupport_Para_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_AppSupport_Para_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

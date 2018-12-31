@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="SBLandedCostTranslations" ReleaseNo="3.9.1" SeqNo="4045">
+    <Comments>https://github.com/adempiere/adempiere/issues/2031</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="53226" Action="U" Record_ID="0" Table="AD_Browse_Trl">
+        <Data AD_Column_ID="58023" Column="Description" oldValue="This browser allows to display receipts">Distribuir Costos a base de recibos</Data>
+        <Data AD_Column_ID="58024" Column="Help" oldValue="This browser allows to display receipts">Este proceso distribuye los costos de la línea de factura a recibos de material, según costo, cantidad, volumen o peso	</Data>
+        <Data AD_Column_ID="58026" Column="Name" oldValue="Generate Landed Cost base on Material Receipts">Distribuir Costos a base de recibos</Data>
+        <Data AD_Column_ID="58022" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="58021" Column="AD_Browse_ID" oldValue="50040">50040</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="286" Action="U" Record_ID="0" Table="AD_Process_Para_Trl">
+        <Data AD_Column_ID="2840" Column="Name" oldValue="Create by Product">Distribuido por línea de recibo</Data>
+        <Data AD_Column_ID="2832" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="2831" Column="AD_Process_Para_ID" oldValue="54926">54926</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

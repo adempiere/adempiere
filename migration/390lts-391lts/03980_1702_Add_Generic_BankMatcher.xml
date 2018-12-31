@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Add support view for Bank Statement #1699" ReleaseNo="3.9.1" SeqNo="3980">
+    <Comments>See: https://github.com/adempiere/adempiere/issues/1702</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="658" Action="I" Record_ID="50000" Table="C_BankStatementMatcher">
+        <Data AD_Column_ID="10772" Column="IsActive">true</Data>
+        <Data AD_Column_ID="10768" Column="Created">2018-05-24 10:25:30.544</Data>
+        <Data AD_Column_ID="10771" Column="Updated">2018-05-24 10:25:30.544</Data>
+        <Data AD_Column_ID="10766" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="10767" Column="Name">Bank Statement Matcher</Data>
+        <Data AD_Column_ID="10775" Column="C_BankStatementMatcher_ID">50000</Data>
+        <Data AD_Column_ID="10773" Column="AD_Org_ID">50001</Data>
+        <Data AD_Column_ID="10770" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="10769" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="10774" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="10777" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84619" Column="UUID" isNewNull="true"/>
+        <Data AD_Column_ID="10776" Column="Classname">org.spin.util.impexp.GenericQIFBankStatementLoader</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

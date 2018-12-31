@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_TaxType
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.1
  */
 public interface I_C_TaxType 
 {
@@ -66,10 +66,14 @@ public interface I_C_TaxType
     /** Column name C_TaxType_ID */
     public static final String COLUMNNAME_C_TaxType_ID = "C_TaxType_ID";
 
-	/** Set Tax Type	  */
+	/** Set Tax Type.
+	  * Tax Type
+	  */
 	public void setC_TaxType_ID (int C_TaxType_ID);
 
-	/** Get Tax Type	  */
+	/** Get Tax Type.
+	  * Tax Type
+	  */
 	public int getC_TaxType_ID();
 
     /** Column name Created */

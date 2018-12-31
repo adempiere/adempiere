@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_ProjectProcessor
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.1
  */
 public interface I_C_ProjectProcessor 
 {
@@ -66,10 +66,14 @@ public interface I_C_ProjectProcessor
     /** Column name C_ProjectProcessor_ID */
     public static final String COLUMNNAME_C_ProjectProcessor_ID = "C_ProjectProcessor_ID";
 
-	/** Set Project Processor ID	  */
+	/** Set Project Processor.
+	  * Processor for Project
+	  */
 	public void setC_ProjectProcessor_ID (int C_ProjectProcessor_ID);
 
-	/** Get Project Processor ID	  */
+	/** Get Project Processor.
+	  * Processor for Project
+	  */
 	public int getC_ProjectProcessor_ID();
 
     /** Column name C_ProjectTaskCategory_ID */
@@ -298,6 +302,19 @@ public interface I_C_ProjectProcessor
 
 	public org.compiere.model.I_AD_User getSupervisor() throws RuntimeException;
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -313,17 +330,4 @@ public interface I_C_ProjectProcessor
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 }
