@@ -4,6 +4,7 @@ package org.adempiere.webui.apps.form;
 import java.util.ArrayList;
 
 import org.adempiere.exceptions.AdempiereException;
+import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.component.Grid;
@@ -116,7 +117,8 @@ public class WQuickEntrySheet extends Window implements EventListener, DataStatu
 	{
 		initZk();
 		createNewRow();
-		gridPanel.refresh(gridTab);
+		AEnv.showCenterScreen(this);
+		//gridPanel.refresh(gridTab);
 	}
 
 	/**
@@ -193,6 +195,9 @@ public class WQuickEntrySheet extends Window implements EventListener, DataStatu
 		setMaximized(false);
 		setClosable(true);
 		this.appendChild(selPanel);
+		setWidth("70%");
+		setHeight("80%");
+		setPosition("center");
 	}
 
 	public void onEvent(Event event) throws Exception

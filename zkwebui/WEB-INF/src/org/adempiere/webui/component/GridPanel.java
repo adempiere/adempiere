@@ -230,7 +230,7 @@ public class GridPanel extends Borderlayout implements EventListener
 	 * Update current row from model
 	 */
 	public void updateListIndex() {
-		if (gridTab == null || !gridTab.isOpen() ) return;
+		if (gridTab == null || !gridTab.isOpen() || paging == null ||gridTab.getRowCount() < 0) return;
 
 		int rowIndex  = gridTab.getCurrentRow();
 		
@@ -432,7 +432,7 @@ public class GridPanel extends Borderlayout implements EventListener
 
 	public void onEvent(Event event) throws Exception
 	{
-		if (event == null) {
+		if (event == null || !((ADTabPanel)tabPanel).isGridView()) {
 			addKeyListener();
 			return;
 		}
@@ -572,11 +572,11 @@ public class GridPanel extends Borderlayout implements EventListener
 						Events.sendEvent(editor.getComponent(), evt);
 					}
 					
-					while(!renderer.editCurrentCol(true)) {
+					/*while(!renderer.editCurrentCol(true)) {
 						currentCol++;
 						renderer.setCurrentColumn(currentCol);
 						
-					}
+					}*/
 				
 				}
 				addKeyListener();
@@ -948,7 +948,7 @@ public class GridPanel extends Borderlayout implements EventListener
 			{
 				windowPanel.getStatusBar().setStatusLine(Msg.getMsg(Env.getCtx(), msg), true, true);
 			}
-        } 
+        }
 		if(windowPanel.getToolbar().getCurrentPanel() != null)
 			windowPanel.getToolbar().getCurrentPanel().afterSave(true);
 		isSave = gridTab.needSave(true, true);
