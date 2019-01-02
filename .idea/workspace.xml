@@ -2,14 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6ea42611-0cd8-47e7-b2d3-d009fb0e3735" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/tools/lib/icepdf-core-6.2.2.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tools/lib/icepdf-viewer-6.2.2.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/scala_sdk_2_12_8.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/org_scalatest_scalatest_2_12_3_0_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/scala_sdk_2_12_4.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/scala_sdk_2_12_6.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/adempiere.iml" beforeDir="false" afterPath="$PROJECT_DIR$/adempiere.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/src/org/adempiere/pdf/viewer/PDFViewerBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/adempiere/pdf/viewer/PDFViewerBean.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.sbt" beforeDir="false" afterPath="$PROJECT_DIR$/build.sbt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/ADInterface-1.0.war" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ADInterface-1.0.war" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/mysql-connector-java-5.1.13-bin.jar" beforeDir="false" afterPath="$PROJECT_DIR$/lib/mysql-connector-java-5.1.13-bin.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tools/lib/jpedal.jar" beforeDir="false" />
     </list>
     <ignored path="extension_apparel_management.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -74,22 +75,32 @@
         </counts>
       </usages-collector>
     </session>
+    <session id="1121583150">
+      <usages-collector id="statistics.lifecycle.project">
+        <counts>
+          <entry key="project.open.time.1" value="1" />
+          <entry key="project.opened" value="1" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.open">
+        <counts>
+          <entry key="JAVA" value="1" />
+          <entry key="sbt" value="2" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.edit">
+        <counts>
+          <entry key="JAVA" value="76" />
+          <entry key="sbt" value="30" />
+        </counts>
+      </usages-collector>
+    </session>
   </component>
   <component name="FavoritesManager">
     <favorites_list name="extension_apparel_management" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/client/src/org/compiere/print/AReport.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="88">
-              <caret line="215" selection-start-line="215" selection-end-line="215" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -125,7 +136,11 @@
       <find>CLogMgt</find>
       <find>Level</find>
       <find>Category</find>
+      <find>Openup Solutions</find>
     </findStrings>
+    <replaceStrings>
+      <replace />
+    </replaceStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$/zkwebui</dir>
     </dirStrings>
@@ -136,7 +151,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/client/src/org/compiere/apps/APanel.java" />
         <option value="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/desktop/AbstractDesktop.java" />
         <option value="$PROJECT_DIR$/client/src/org/compiere/apps/AMenuStartItem.java" />
         <option value="$PROJECT_DIR$/base/src/org/eevolution/service/HRPayPrint.java" />
@@ -180,54 +194,53 @@
         <option value="$PROJECT_DIR$/base/src/org/compiere/model/MCPaySelection.java" />
         <option value="$PROJECT_DIR$/base/src/org/compiere/acct/FactLine.java" />
         <option value="$PROJECT_DIR$/base/src/org/compiere/process/RequestEMailProcessor.java" />
-        <option value="$PROJECT_DIR$/build.sbt" />
         <option value="$PROJECT_DIR$/org.adempiere.test/build.sbt" />
         <option value="$PROJECT_DIR$/org.adempiere.test/src/test/scala/org/eevolution/test/AdempiereStartup.scala" />
         <option value="$PROJECT_DIR$/org.adempiere.test/src/main/scala/org/eevolution/test/AdempiereTestCase.scala" />
         <option value="$PROJECT_DIR$/org.adempiere.test/src/test/scala/org/eevolution/test/CreateSalesOrder.scala" />
         <option value="$PROJECT_DIR$/org.adempiere.test/src/test/scala/org/eevolution/test/AdempiereTestCase.scala" />
         <option value="$PROJECT_DIR$/base/src/org/adempiere/pdf/viewer/PDFViewerBean.java" />
+        <option value="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/window/AboutWindow.java" />
+        <option value="$PROJECT_DIR$/build.sbt" />
       </list>
     </option>
   </component>
   <component name="MavenProjectNavigator">
     <treeState />
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="y" value="22" />
-    <option name="width" value="1920" />
-    <option name="height" value="1178" />
+  <component name="ProjectFrameBounds">
+    <option name="y" value="23" />
+    <option name="width" value="1680" />
+    <option name="height" value="1027" />
   </component>
   <component name="ProjectView">
-    <navigator proportions="" version="1">
+    <navigator currentView="PackagesPane" proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="AndroidView" />
       <pane id="Scope" />
-      <pane id="ProjectPane">
+      <pane id="PackagesPane">
         <subPane>
           <expand>
             <path>
-              <item name="adempiereDevelop" type="b2602c69:ProjectViewProjectNode" />
-              <item name="390a" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="adempiereDevelop" type="b2602c69:ProjectViewProjectNode" />
-              <item name="390a" type="462c0819:PsiDirectoryNode" />
-              <item name="tools" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="adempiereDevelop" type="b2602c69:ProjectViewProjectNode" />
-              <item name="390a" type="462c0819:PsiDirectoryNode" />
-              <item name="tools" type="462c0819:PsiDirectoryNode" />
-              <item name="lib" type="462c0819:PsiDirectoryNode" />
+              <item name="adempiereDevelop" type="58d84e3e:PackageViewProjectNode" />
+              <item name="adempiere" type="616d4139:PackageViewModuleNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="adempiereDevelop" type="b2602c69:ProjectViewProjectNode" />
+              <item name="adempiere" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -254,10 +267,10 @@
     <property name="GenerateAntBuildDialog.outputFileNameProperty" value="adempieredevelop" />
     <property name="Repository.Attach.JavaDocs" value="false" />
     <property name="Repository.Attach.Sources" value="false" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1535048314085" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1546400067265" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/org.adempiere.request/src" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.40536398" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
@@ -526,12 +539,17 @@
     </option>
     <option name="modificationStamps">
       <map>
-        <entry key="$PROJECT_DIR$" value="4605126926000" />
-        <entry key="$PROJECT_DIR$/build.sbt" value="27157" />
+        <entry key="$PROJECT_DIR$" value="4639190061000" />
+        <entry key="$PROJECT_DIR$/build.sbt" value="619370399" />
         <entry key="$PROJECT_DIR$/project/build.properties" value="2466230007" />
         <entry key="$PROJECT_DIR$/project/plugins.sbt" value="2323352507" />
         <entry key="$PROJECT_DIR$/../../Scala/quiz-management-service/tutorial-3" value="1449794724000" />
         <entry key="$PROJECT_DIR$/../../Scala/quiz-management-service/tutorial-4" value="1449794724000" />
+      </map>
+    </option>
+    <option name="projectSyncType">
+      <map>
+        <entry key="$PROJECT_DIR$" value="RE_IMPORT" />
       </map>
     </option>
   </component>
@@ -556,7 +574,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="22" width="1920" height="1178" extended-state="6" />
+    <frame x="0" y="23" width="1680" height="1027" extended-state="6" />
     <layout>
       <window_info id="Structure" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4775673" />
       <window_info id="UI Designer" order="1" />
@@ -564,20 +582,21 @@
       <window_info id="Web" order="3" side_tool="true" weight="0.32960597" />
       <window_info id="Palette&#9;" order="4" />
       <window_info id="Capture Tool" order="5" />
-      <window_info content_ui="combo" id="Project" order="6" side_tool="true" visible="true" weight="0.28381255" />
+      <window_info active="true" content_ui="combo" id="Project" order="6" side_tool="true" visible="true" weight="0.1990232" />
       <window_info id="Image Layers" order="7" />
       <window_info id="DB Browser" order="8" />
       <window_info id="MaxCompute Project Explorer" order="9" />
       <window_info id="MaxCompute Job Explorer" order="10" />
       <window_info id="Nl-Palette" order="11" />
       <window_info id="Learn" order="12" />
+      <window_info anchor="bottom" id="Build" weight="0.32894737" />
       <window_info anchor="bottom" id="GhcMod" order="0" weight="0.32919848" />
       <window_info anchor="bottom" id="Message" order="1" />
       <window_info anchor="bottom" id="Find" order="2" sideWeight="0.4571286" weight="0.16886793" />
-      <window_info anchor="bottom" id="Run" order="3" sideWeight="0.68494517" weight="0.5431338" />
+      <window_info anchor="bottom" id="Run" order="3" sideWeight="0.68494517" weight="0.19846492" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info active="true" anchor="bottom" id="Debug" order="6" sideWeight="0.6560319" visible="true" weight="0.70649105" />
+      <window_info anchor="bottom" id="Debug" order="6" sideWeight="0.6560319" weight="0.61951756" />
       <window_info anchor="bottom" id="TODO" order="7" sideWeight="0.498006" weight="0.32951543" />
       <window_info anchor="bottom" id="Changes" order="8" />
       <window_info anchor="bottom" id="sbt-shell-toolwindow" order="9" weight="0.32924527" />
@@ -594,18 +613,18 @@
       <window_info anchor="bottom" id="SBT Execute" order="20" side_tool="true" />
       <window_info anchor="bottom" id="Application Servers" order="21" weight="0.32985783" />
       <window_info anchor="bottom" id="SQL" order="22" />
-      <window_info anchor="bottom" id="Terminal" order="23" sideWeight="0.8968096" weight="0.696143" />
-      <window_info anchor="bottom" id="Messages" order="24" sideWeight="0.5224327" weight="0.3621825" />
+      <window_info anchor="bottom" id="Terminal" order="23" sideWeight="0.8968096" weight="0.17872807" />
+      <window_info anchor="bottom" id="Messages" order="24" sideWeight="0.5224327" weight="0.3618421" />
       <window_info anchor="right" id="Cabal" order="0" weight="0.32951146" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="1" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="2" sideWeight="0.47339448" visible="true" weight="0.19009584" />
+      <window_info anchor="right" id="Ant Build" order="2" sideWeight="0.47339448" visible="true" weight="0.1898657" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="3" weight="0.25" />
       <window_info anchor="right" id="SBT" order="4" sideWeight="0.4707792" weight="0.23479562" />
       <window_info anchor="right" id="Database" order="5" weight="0.32960597" />
       <window_info anchor="right" id="IDEtalk" order="6" />
       <window_info anchor="right" id="JSF" order="7" />
       <window_info anchor="right" id="Palette" order="8" />
-      <window_info anchor="right" id="sbt" order="9" weight="0.185836" />
+      <window_info anchor="right" id="sbt" order="9" weight="0.18559219" />
       <window_info anchor="right" id="Capture Analysis" order="10" />
       <window_info anchor="right" id="Gradle" order="11" />
       <window_info anchor="right" id="Coverage" order="12" sideWeight="0.52922076" side_tool="true" visible="true" weight="0.21834497" />
@@ -1096,7 +1115,7 @@
         <filter targetName="update" isVisible="false" />
         <filter targetName="transfer" isVisible="true" />
       </targetFilters>
-      <expanded value="true" />
+      <expanded value="false" />
     </buildFile>
     <buildFile url="file://$PROJECT_DIR$/org.eevolution.manufacturing/build.xml">
       <targetFilters>
@@ -1107,7 +1126,7 @@
         <filter targetName="zkdist" isVisible="true" />
         <filter targetName="clean" isVisible="true" />
       </targetFilters>
-      <expanded value="true" />
+      <expanded value="false" />
     </buildFile>
     <buildFile url="file://$PROJECT_DIR$/org.eevolution.warehouse/build.xml">
       <targetFilters>
@@ -1118,7 +1137,7 @@
         <filter targetName="zkdist" isVisible="true" />
         <filter targetName="clean" isVisible="true" />
       </targetFilters>
-      <expanded value="true" />
+      <expanded value="false" />
     </buildFile>
     <buildFile url="file://$PROJECT_DIR$/org.eevolution.hr_and_payroll/build.xml">
       <targetFilters>
@@ -1129,7 +1148,7 @@
         <filter targetName="zkdist" isVisible="true" />
         <filter targetName="clean" isVisible="true" />
       </targetFilters>
-      <expanded value="true" />
+      <expanded value="false" />
     </buildFile>
     <buildFile url="file://$PROJECT_DIR$/org.eevolution.freight/build.xml">
       <targetFilters>
@@ -1140,7 +1159,7 @@
         <filter targetName="zkdist" isVisible="true" />
         <filter targetName="clean" isVisible="true" />
       </targetFilters>
-      <expanded value="true" />
+      <expanded value="false" />
     </buildFile>
     <buildFile url="file://$PROJECT_DIR$/org.eevolution.fleet/build.xml">
       <targetFilters>
@@ -1151,7 +1170,7 @@
         <filter targetName="zkdist" isVisible="true" />
         <filter targetName="clean" isVisible="true" />
       </targetFilters>
-      <expanded value="true" />
+      <expanded value="false" />
     </buildFile>
     <buildFile url="file://$PROJECT_DIR$/org.eevolution.cashflow/build.xml">
       <targetFilters>
@@ -1161,7 +1180,7 @@
         <filter targetName="cashflowDistribute" isVisible="false" />
         <filter targetName="clean" isVisible="false" />
       </targetFilters>
-      <expanded value="true" />
+      <expanded value="false" />
     </buildFile>
     <buildFile url="file://$PROJECT_DIR$/org.eevolution.freight/build.xml">
       <targetFilters>
@@ -1172,7 +1191,7 @@
         <filter targetName="zkdist" isVisible="true" />
         <filter targetName="clean" isVisible="true" />
       </targetFilters>
-      <expanded value="true" />
+      <expanded value="false" />
     </buildFile>
     <buildFile url="file://$PROJECT_DIR$/org.adempiere.production/build.xml">
       <targetFilters>
@@ -1182,7 +1201,7 @@
         <filter targetName="productionDistribute" isVisible="false" />
         <filter targetName="clean" isVisible="false" />
       </targetFilters>
-      <expanded value="true" />
+      <expanded value="false" />
     </buildFile>
     <buildFile url="file://$PROJECT_DIR$/org.adempiere.asset/build.xml">
       <targetFilters>
@@ -1191,7 +1210,7 @@
         <filter targetName="dist" isVisible="true" />
         <filter targetName="clean" isVisible="true" />
       </targetFilters>
-      <expanded value="true" />
+      <expanded value="false" />
     </buildFile>
     <buildFile url="file://$PROJECT_DIR$/org.adempiere.production/build.xml">
       <targetFilters>
@@ -1201,7 +1220,7 @@
         <filter targetName="productionDistribute" isVisible="false" />
         <filter targetName="clean" isVisible="false" />
       </targetFilters>
-      <expanded value="true" />
+      <expanded value="false" />
     </buildFile>
     <buildFile url="file://$PROJECT_DIR$/zkwebui/build.xml">
       <targetFilters>
@@ -1209,7 +1228,7 @@
         <filter targetName="compile" isVisible="true" />
         <filter targetName="war" isVisible="false" />
       </targetFilters>
-      <expanded value="true" />
+      <expanded value="false" />
     </buildFile>
     <buildFile url="file://$PROJECT_DIR$/org.compiere.mobile/build.xml">
       <targetFilters>
@@ -1217,7 +1236,7 @@
         <filter targetName="compile" isVisible="true" />
         <filter targetName="war" isVisible="false" />
       </targetFilters>
-      <expanded value="true" />
+      <expanded value="false" />
     </buildFile>
   </component>
   <component name="designer.settings">
@@ -1225,13 +1244,6 @@
     <option name="serverIp" value="localhost" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/MProduction.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="297">
-          <caret line="640" column="25" selection-start-line="640" selection-start-column="25" selection-end-line="640" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/migration/380lts-release/02280_M_ProductionLine_ReversalLine_ID.xml" />
     <entry file="file://$PROJECT_DIR$/base/src/org/compiere/process/ProcessInfo.java">
       <provider selected="true" editor-type-id="text-editor">
@@ -1485,9 +1497,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="104">
           <caret line="21" lean-forward="true" selection-start-line="21" selection-end-line="21" />
-          <folding>
-            <element signature="e#1246#1290#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1498,21 +1507,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/build.sbt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="474">
-          <caret line="105" selection-start-line="105" selection-end-line="105" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/base/src/org/adempiere/pdf/viewer/PDFViewerBean.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-126">
           <caret line="19" column="26" lean-forward="true" selection-start-line="19" selection-start-column="26" selection-end-line="19" selection-end-column="26" />
-          <folding>
-            <element signature="e#2924#2925#0" expanded="true" />
-            <element signature="e#2963#2964#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1520,6 +1518,20 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="88">
           <caret line="215" selection-start-line="215" selection-end-line="215" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/window/AboutWindow.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-439">
+          <caret line="248" column="34" selection-start-line="248" selection-start-column="34" selection-end-line="248" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build.sbt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="371">
+          <caret line="54" column="63" selection-start-line="54" selection-start-column="63" selection-end-line="54" selection-end-column="63" />
         </state>
       </provider>
     </entry>
@@ -1600,7 +1612,7 @@
       </state>
       <state key="ProjectLibrariesConfigurable.UI">
         <settings>
-          <last-edited>scala-sdk-2.12.6</last-edited>
+          <last-edited>org.scalatest:scalatest_2.12:3.0.5</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
