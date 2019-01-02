@@ -36,6 +36,9 @@ import org.compiere.util.Trx;
  *
  *  @author Jorg Janke
  *  @version $Id: FinReport.java,v 1.2 2006/07/30 00:51:05 jjanke Exp $
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<a href="https://github.com/adempiere/adempiere/issues/1378">
+ * 		@see BR [ 1378 ] jasper report in webui of financial report does not work</a>
  */
 public class FinReportJasper extends FinReport
 {
@@ -76,6 +79,7 @@ public class FinReportJasper extends FinReport
 	    poInfo.setRecord_ID(getRecord_ID());
 	    poInfo.setAD_Process_ID(proc.getAD_Process_ID());
 	    poInfo.setAD_PInstance_ID(instance.getAD_PInstance_ID());
+	    poInfo.setPrintPreview(true);
 
 	    // need to commit in order to allow jasper to view the data
 	    Trx trx = Trx.get(get_TrxName(), true);
@@ -100,7 +104,7 @@ public class FinReportJasper extends FinReport
 	    }
 	    
 	    // TODO - allow java class preprocess if the classname <> ProcessUtil.JASPER_STARTER_CLASS
-
+	    
 	    ProcessUtil.startJavaProcess(getCtx(), poInfo, trx);
 	    
 	    return finReportMsg;

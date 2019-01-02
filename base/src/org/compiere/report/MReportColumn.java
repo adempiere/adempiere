@@ -17,15 +17,15 @@
 package org.compiere.report;
 
 import java.math.BigDecimal;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.compiere.model.I_PA_ReportSource;
 import org.compiere.model.MAcctSchemaElement;
+import org.compiere.model.Query;
 import org.compiere.model.X_PA_ReportColumn;
-import org.compiere.util.DB;
 
 /**
  *  Report Column Model
@@ -79,37 +79,12 @@ public class MReportColumn extends X_PA_ReportColumn
 	/**
 	 * 	Load contained Sources
 	 */
-	private void loadSources()
-	{
-		ArrayList<MReportSource> list = new ArrayList<MReportSource>();
-		String sql = "SELECT * FROM PA_ReportSource WHERE PA_ReportColumn_ID=? AND IsActive='Y'";
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement(sql, get_TrxName());
-			pstmt.setInt(1, getPA_ReportColumn_ID());
-			ResultSet rs = pstmt.executeQuery();
-			while (rs.next())
-				list.add(new MReportSource (getCtx(), rs, null));
-			rs.close();
-			pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, null, e);
-		}
-		finally
-		{
-			try
-			{
-				if (pstmt != null)
-					pstmt.close ();
-			}
-			catch (Exception e)
-			{}
-			pstmt = null;
-		}
+	private void loadSources() {
+		List<MReportSource> list = new Query(getCtx(), I_PA_ReportSource.Table_Name, "PA_ReportColumn_ID = ?", get_TrxName())
+				.setParameters(getPA_ReportColumn_ID())
+				.setClient_ID()
+				.setOnlyActiveRecords(true)
+				.list();
 		//
 		m_sources = new MReportSource[list.size()];
 		list.toArray(m_sources);
@@ -270,10 +245,6 @@ public class MReportColumn extends X_PA_ReportColumn
 	{
 		
 		if (m_sources == null && !isColumnTypeSegmentValue())
-			return "";
-
-		String et = getElementType();
-		if (et == null)
 			return "";
 		
 		if (m_whereClause == null)

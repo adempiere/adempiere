@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for A_Asset_Split
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.1
  */
 public interface I_A_Asset_Split 
 {
@@ -35,9 +35,9 @@ public interface I_A_Asset_Split
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
-    /** AccessLevel = 7 - System - Client - Org 
+    /** AccessLevel = 3 - Client - Org 
      */
-    BigDecimal accessLevel = BigDecimal.valueOf(7);
+    BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
 
@@ -48,6 +48,21 @@ public interface I_A_Asset_Split
 	  * Client/Tenant for this installation.
 	  */
 	public int getAD_Client_ID();
+
+    /** Column name AD_OrgTrx_ID */
+    public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
+
+	/** Set Trx Organization.
+	  * Performing or initiating organization
+	  */
+	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID);
+
+	/** Get Trx Organization.
+	  * Performing or initiating organization
+	  */
+	public int getAD_OrgTrx_ID();
+
+	public org.compiere.model.I_AD_Org getAD_OrgTrx() throws RuntimeException;
 
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
@@ -65,50 +80,55 @@ public interface I_A_Asset_Split
     /** Column name A_Amount_Split */
     public static final String COLUMNNAME_A_Amount_Split = "A_Amount_Split";
 
-	/** Set Amount Split	  */
+	/** Set Amount Split.
+	  * Amount Split for Fixed Asset
+	  */
 	public void setA_Amount_Split (BigDecimal A_Amount_Split);
 
-	/** Get Amount Split	  */
+	/** Get Amount Split.
+	  * Amount Split for Fixed Asset
+	  */
 	public BigDecimal getA_Amount_Split();
-
-    /** Column name A_Asset_Acct_ID */
-    public static final String COLUMNNAME_A_Asset_Acct_ID = "A_Asset_Acct_ID";
-
-	/** Set A_Asset_Acct_ID	  */
-	public void setA_Asset_Acct_ID (int A_Asset_Acct_ID);
-
-	/** Get A_Asset_Acct_ID	  */
-	public int getA_Asset_Acct_ID();
 
     /** Column name A_Asset_Cost */
     public static final String COLUMNNAME_A_Asset_Cost = "A_Asset_Cost";
 
-	/** Set Asset Cost	  */
+	/** Set Fixed Asset Cost.
+	  * Cost of acquisition of the Fixed Asset
+	  */
 	public void setA_Asset_Cost (BigDecimal A_Asset_Cost);
 
-	/** Get Asset Cost	  */
+	/** Get Fixed Asset Cost.
+	  * Cost of acquisition of the Fixed Asset
+	  */
 	public BigDecimal getA_Asset_Cost();
 
     /** Column name A_Asset_ID */
     public static final String COLUMNNAME_A_Asset_ID = "A_Asset_ID";
 
-	/** Set Asset.
-	  * Asset used internally or by customers
+	/** Set Fixed Asset.
+	  * Fixed Asset used internally or by customers
 	  */
 	public void setA_Asset_ID (int A_Asset_ID);
 
-	/** Get Asset.
-	  * Asset used internally or by customers
+	/** Get Fixed Asset.
+	  * Fixed Asset used internally or by customers
 	  */
 	public int getA_Asset_ID();
+
+	public org.compiere.model.I_A_Asset getA_Asset() throws RuntimeException;
 
     /** Column name A_Asset_ID_To */
     public static final String COLUMNNAME_A_Asset_ID_To = "A_Asset_ID_To";
 
-	/** Set To Asset ID	  */
+	/** Set Fixed Asset Split.
+	  * New Fixed Asset Split after completing the document
+	  */
 	public void setA_Asset_ID_To (int A_Asset_ID_To);
 
-	/** Get To Asset ID	  */
+	/** Get Fixed Asset Split.
+	  * New Fixed Asset Split after completing the document
+	  */
 	public int getA_Asset_ID_To();
 
 	public org.compiere.model.I_A_Asset getA_Asset_To() throws RuntimeException;
@@ -116,74 +136,143 @@ public interface I_A_Asset_Split
     /** Column name A_Asset_Split_ID */
     public static final String COLUMNNAME_A_Asset_Split_ID = "A_Asset_Split_ID";
 
-	/** Set Asset Split	  */
+	/** Set Fixed Asset Split Document	  */
 	public void setA_Asset_Split_ID (int A_Asset_Split_ID);
 
-	/** Get Asset Split	  */
+	/** Get Fixed Asset Split Document	  */
 	public int getA_Asset_Split_ID();
 
     /** Column name A_Depreciation_Workfile_ID */
     public static final String COLUMNNAME_A_Depreciation_Workfile_ID = "A_Depreciation_Workfile_ID";
 
-	/** Set A_Depreciation_Workfile_ID	  */
+	/** Set Fixed Asset Balances.
+	  * Fixed Asset Balances
+	  */
 	public void setA_Depreciation_Workfile_ID (int A_Depreciation_Workfile_ID);
 
-	/** Get A_Depreciation_Workfile_ID	  */
+	/** Get Fixed Asset Balances.
+	  * Fixed Asset Balances
+	  */
 	public int getA_Depreciation_Workfile_ID();
 
     /** Column name A_Percent_Original */
     public static final String COLUMNNAME_A_Percent_Original = "A_Percent_Original";
 
-	/** Set Original Percent	  */
+	/** Set Original Percent.
+	  * Original Percent for Fixed Asset
+	  */
 	public void setA_Percent_Original (BigDecimal A_Percent_Original);
 
-	/** Get Original Percent	  */
+	/** Get Original Percent.
+	  * Original Percent for Fixed Asset
+	  */
 	public BigDecimal getA_Percent_Original();
 
     /** Column name A_Percent_Split */
     public static final String COLUMNNAME_A_Percent_Split = "A_Percent_Split";
 
-	/** Set A_Percent_Split	  */
+	/** Set Percent Split.
+	  * Percentage by which a Fixed Asset will be split
+	  */
 	public void setA_Percent_Split (BigDecimal A_Percent_Split);
 
-	/** Get A_Percent_Split	  */
+	/** Get Percent Split.
+	  * Percentage by which a Fixed Asset will be split
+	  */
 	public BigDecimal getA_Percent_Split();
 
     /** Column name A_QTY_Current */
     public static final String COLUMNNAME_A_QTY_Current = "A_QTY_Current";
 
-	/** Set Current Qty	  */
+	/** Set Fixed Asset Current Qty.
+	  * Fixed Asset Current Quantity
+	  */
 	public void setA_QTY_Current (BigDecimal A_QTY_Current);
 
-	/** Get Current Qty	  */
+	/** Get Fixed Asset Current Qty.
+	  * Fixed Asset Current Quantity
+	  */
 	public BigDecimal getA_QTY_Current();
 
     /** Column name A_QTY_Split */
     public static final String COLUMNNAME_A_QTY_Split = "A_QTY_Split";
 
-	/** Set Qty. Split	  */
+	/** Set Quantity to be split.
+	  * Quantity to be split
+	  */
 	public void setA_QTY_Split (BigDecimal A_QTY_Split);
 
-	/** Get Qty. Split	  */
+	/** Get Quantity to be split.
+	  * Quantity to be split
+	  */
 	public BigDecimal getA_QTY_Split();
 
     /** Column name A_Split_Type */
     public static final String COLUMNNAME_A_Split_Type = "A_Split_Type";
 
-	/** Set Split Type	  */
+	/** Set Fixed Asset Split Type	  */
 	public void setA_Split_Type (String A_Split_Type);
 
-	/** Get Split Type	  */
+	/** Get Fixed Asset Split Type	  */
 	public String getA_Split_Type();
 
     /** Column name A_Transfer_Balance_IS */
     public static final String COLUMNNAME_A_Transfer_Balance_IS = "A_Transfer_Balance_IS";
 
-	/** Set A_Transfer_Balance_IS	  */
+	/** Set Is Transferred Balance.
+	  * Indicates whether the balance for a Fixed Asset is transferred to the new Fixed Asset or not
+	  */
 	public void setA_Transfer_Balance_IS (boolean A_Transfer_Balance_IS);
 
-	/** Get A_Transfer_Balance_IS	  */
+	/** Get Is Transferred Balance.
+	  * Indicates whether the balance for a Fixed Asset is transferred to the new Fixed Asset or not
+	  */
 	public boolean isA_Transfer_Balance_IS();
+
+    /** Column name C_Activity_ID */
+    public static final String COLUMNNAME_C_Activity_ID = "C_Activity_ID";
+
+	/** Set Activity.
+	  * Business Activity
+	  */
+	public void setC_Activity_ID (int C_Activity_ID);
+
+	/** Get Activity.
+	  * Business Activity
+	  */
+	public int getC_Activity_ID();
+
+	public org.compiere.model.I_C_Activity getC_Activity() throws RuntimeException;
+
+    /** Column name C_Campaign_ID */
+    public static final String COLUMNNAME_C_Campaign_ID = "C_Campaign_ID";
+
+	/** Set Campaign.
+	  * Marketing Campaign
+	  */
+	public void setC_Campaign_ID (int C_Campaign_ID);
+
+	/** Get Campaign.
+	  * Marketing Campaign
+	  */
+	public int getC_Campaign_ID();
+
+	public org.compiere.model.I_C_Campaign getC_Campaign() throws RuntimeException;
+
+    /** Column name C_DocType_ID */
+    public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
+
+	/** Set Document Type.
+	  * Document type or rules
+	  */
+	public void setC_DocType_ID (int C_DocType_ID);
+
+	/** Get Document Type.
+	  * Document type or rules
+	  */
+	public int getC_DocType_ID();
+
+	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException;
 
     /** Column name C_Period_ID */
     public static final String COLUMNNAME_C_Period_ID = "C_Period_ID";
@@ -199,6 +288,51 @@ public interface I_A_Asset_Split
 	public int getC_Period_ID();
 
 	public org.compiere.model.I_C_Period getC_Period() throws RuntimeException;
+
+    /** Column name C_ProjectPhase_ID */
+    public static final String COLUMNNAME_C_ProjectPhase_ID = "C_ProjectPhase_ID";
+
+	/** Set Project Phase.
+	  * Phase of a Project
+	  */
+	public void setC_ProjectPhase_ID (int C_ProjectPhase_ID);
+
+	/** Get Project Phase.
+	  * Phase of a Project
+	  */
+	public int getC_ProjectPhase_ID();
+
+	public org.compiere.model.I_C_ProjectPhase getC_ProjectPhase() throws RuntimeException;
+
+    /** Column name C_ProjectTask_ID */
+    public static final String COLUMNNAME_C_ProjectTask_ID = "C_ProjectTask_ID";
+
+	/** Set Project Task.
+	  * Actual Project Task in a Phase
+	  */
+	public void setC_ProjectTask_ID (int C_ProjectTask_ID);
+
+	/** Get Project Task.
+	  * Actual Project Task in a Phase
+	  */
+	public int getC_ProjectTask_ID();
+
+	public org.compiere.model.I_C_ProjectTask getC_ProjectTask() throws RuntimeException;
+
+    /** Column name C_Project_ID */
+    public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
+
+	/** Set Project.
+	  * Financial Project
+	  */
+	public void setC_Project_ID (int C_Project_ID);
+
+	/** Get Project.
+	  * Financial Project
+	  */
+	public int getC_Project_ID();
+
+	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -229,6 +363,71 @@ public interface I_A_Asset_Split
 	  */
 	public Timestamp getDateAcct();
 
+    /** Column name DateDoc */
+    public static final String COLUMNNAME_DateDoc = "DateDoc";
+
+	/** Set Document Date.
+	  * Date of the Document
+	  */
+	public void setDateDoc (Timestamp DateDoc);
+
+	/** Get Document Date.
+	  * Date of the Document
+	  */
+	public Timestamp getDateDoc();
+
+    /** Column name Description */
+    public static final String COLUMNNAME_Description = "Description";
+
+	/** Set Description.
+	  * Optional short description of the record
+	  */
+	public void setDescription (String Description);
+
+	/** Get Description.
+	  * Optional short description of the record
+	  */
+	public String getDescription();
+
+    /** Column name DocAction */
+    public static final String COLUMNNAME_DocAction = "DocAction";
+
+	/** Set Document Action.
+	  * The targeted status of the document
+	  */
+	public void setDocAction (String DocAction);
+
+	/** Get Document Action.
+	  * The targeted status of the document
+	  */
+	public String getDocAction();
+
+    /** Column name DocStatus */
+    public static final String COLUMNNAME_DocStatus = "DocStatus";
+
+	/** Set Document Status.
+	  * The current status of the document
+	  */
+	public void setDocStatus (String DocStatus);
+
+	/** Get Document Status.
+	  * The current status of the document
+	  */
+	public String getDocStatus();
+
+    /** Column name DocumentNo */
+    public static final String COLUMNNAME_DocumentNo = "DocumentNo";
+
+	/** Set Document No.
+	  * Document sequence number of the document
+	  */
+	public void setDocumentNo (String DocumentNo);
+
+	/** Get Document No.
+	  * Document sequence number of the document
+	  */
+	public String getDocumentNo();
+
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
 
@@ -241,6 +440,45 @@ public interface I_A_Asset_Split
 	  * The record is active in the system
 	  */
 	public boolean isActive();
+
+    /** Column name IsApproved */
+    public static final String COLUMNNAME_IsApproved = "IsApproved";
+
+	/** Set Approved.
+	  * Indicates if this document requires approval
+	  */
+	public void setIsApproved (boolean IsApproved);
+
+	/** Get Approved.
+	  * Indicates if this document requires approval
+	  */
+	public boolean isApproved();
+
+    /** Column name IsCollectiveAsset */
+    public static final String COLUMNNAME_IsCollectiveAsset = "IsCollectiveAsset";
+
+	/** Set Collective Asset.
+	  * Asset Quantity is Collective
+	  */
+	public void setIsCollectiveAsset (boolean IsCollectiveAsset);
+
+	/** Get Collective Asset.
+	  * Asset Quantity is Collective
+	  */
+	public boolean isCollectiveAsset();
+
+    /** Column name Posted */
+    public static final String COLUMNNAME_Posted = "Posted";
+
+	/** Set Posted.
+	  * Posting status
+	  */
+	public void setPosted (boolean Posted);
+
+	/** Get Posted.
+	  * Posting status
+	  */
+	public boolean isPosted();
 
     /** Column name PostingType */
     public static final String COLUMNNAME_PostingType = "PostingType";
@@ -267,6 +505,19 @@ public interface I_A_Asset_Split
 	  * The document has been processed
 	  */
 	public boolean isProcessed();
+
+    /** Column name ProcessedOn */
+    public static final String COLUMNNAME_ProcessedOn = "ProcessedOn";
+
+	/** Set Processed On.
+	  * The date+time (expressed in decimal format) when the document has been processed
+	  */
+	public void setProcessedOn (BigDecimal ProcessedOn);
+
+	/** Get Processed On.
+	  * The date+time (expressed in decimal format) when the document has been processed
+	  */
+	public BigDecimal getProcessedOn();
 
     /** Column name Processing */
     public static final String COLUMNNAME_Processing = "Processing";
@@ -305,4 +556,64 @@ public interface I_A_Asset_Split
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name User1_ID */
+    public static final String COLUMNNAME_User1_ID = "User1_ID";
+
+	/** Set User List 1.
+	  * User defined list element #1
+	  */
+	public void setUser1_ID (int User1_ID);
+
+	/** Get User List 1.
+	  * User defined list element #1
+	  */
+	public int getUser1_ID();
+
+	public org.compiere.model.I_C_ElementValue getUser1() throws RuntimeException;
+
+    /** Column name User2_ID */
+    public static final String COLUMNNAME_User2_ID = "User2_ID";
+
+	/** Set User List 2.
+	  * User defined list element #2
+	  */
+	public void setUser2_ID (int User2_ID);
+
+	/** Get User List 2.
+	  * User defined list element #2
+	  */
+	public int getUser2_ID();
+
+	public org.compiere.model.I_C_ElementValue getUser2() throws RuntimeException;
+
+    /** Column name User3_ID */
+    public static final String COLUMNNAME_User3_ID = "User3_ID";
+
+	/** Set User List 3.
+	  * User defined list element #3
+	  */
+	public void setUser3_ID (int User3_ID);
+
+	/** Get User List 3.
+	  * User defined list element #3
+	  */
+	public int getUser3_ID();
+
+	public org.compiere.model.I_C_ElementValue getUser3() throws RuntimeException;
+
+    /** Column name User4_ID */
+    public static final String COLUMNNAME_User4_ID = "User4_ID";
+
+	/** Set User List 4.
+	  * User defined list element #4
+	  */
+	public void setUser4_ID (int User4_ID);
+
+	/** Get User List 4.
+	  * User defined list element #4
+	  */
+	public int getUser4_ID();
+
+	public org.compiere.model.I_C_ElementValue getUser4() throws RuntimeException;
 }

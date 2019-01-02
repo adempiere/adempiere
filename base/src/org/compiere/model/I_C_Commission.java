@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_Commission
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.1
  */
 public interface I_C_Commission 
 {
@@ -237,6 +237,15 @@ public interface I_C_Commission
 	  * Allow to consider RMA
 	  */
 	public boolean isAllowRMA();
+
+    /** Column name IsDaysDueFromPaymentTerm */
+    public static final String COLUMNNAME_IsDaysDueFromPaymentTerm = "IsDaysDueFromPaymentTerm";
+
+	/** Set Days due from Payment Term	  */
+	public void setIsDaysDueFromPaymentTerm (boolean IsDaysDueFromPaymentTerm);
+
+	/** Get Days due from Payment Term	  */
+	public boolean isDaysDueFromPaymentTerm();
 
     /** Column name IsTotallyPaid */
     public static final String COLUMNNAME_IsTotallyPaid = "IsTotallyPaid";

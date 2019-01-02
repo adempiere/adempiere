@@ -89,6 +89,7 @@ public class GenerateLandedCost extends GenerateLandedCostAbstract {
         landedCost.setDescription(document.getPOReference());
         landedCost.setLandedCostDistribution(getLandedCostDistribution());
         landedCost.setM_CostElement_ID(getCostElementId());
+        landedCost.setC_LandedCostType_ID(getLandedCostTypeId());
         if (inOut == null) {
             landedCost.setM_InOutLine_ID(inOutLine.getM_InOutLine_ID());
             landedCost.setM_Product_ID(inOutLine.getM_Product_ID());

@@ -1,529 +1,1048 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--ADempiere(r) Release 3.9.0_2017-08-01 -Smart Suite ERP,CRM and SCM- (c) 1999-2017 ADempiere(r); Implementation: ADempiere - Supported by ADempiere community-->
 <!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.net/dtd/adempiereTrl.dtd">-->
 <adempiereTrl language="de_DE" table="AD_Field">
- <row id="1546" trl="N">
-  <value column="Name" original="Link Column">Link Column</value>
-  <value column="Description" original="Link Column for Multi-Parent tables">Link Column for Multi-Parent tables</value>
-  <value column="Help" original="The Link Column indicates which column is the primary key for those situations where there is more than one parent.  Only define it, if the table has more than one parent column (e.g. AD_User_Roles).">The Link Column indicates which column is the primary key for those situations where there is more than one parent.  Only define it, if the table has more than one parent column (e.g. AD_User_Roles).</value>
+ <row id="1546" trl="Y">
+  <value column="Name" original="Link Column">Link-Spalte</value>
+  <value column="Description" original="Link Column for Multi-Parent tables">Link-Spalte bei mehreren übergeordneten Tabellen</value>
+  <value column="Help" original="The Link Column indicates which column is the primary key for those situations where there is more than one parent.  Only define it, if the table has more than one parent column (e.g. AD_User_Roles).">Die "Link-Spalte" zeigt an, welche Spalte zur Verknüpfung verwendet werden muss, wenn mehr als eine übergeordnete Tabelle existiert. Legen Sie diese nur dann fest, wenn eine Tabelle mehr als eine übergeordnete Spalte hat (z.B. AD_User_Roles).</value>
+  <value column="UUID" original=""/>
  </row>
- <row id="2124" trl="N">
-  <value column="Name" original="Language">Language</value>
-  <value column="Description" original="Language for this Business Partner if Multi-Language enabled">Language for this Business Partner if Multi-Language enabled</value>
-  <value column="Help" original="The Language identifies the language to use for display and formatting documents. It requires, that on Client level, Multi-Lingual documents are selected and that you have created/loaded the language.">The Language identifies the language to use for display and formatting documents. It requires, that on Client level, Multi-Lingual documents are selected and that you have created/loaded the language.</value>
+ <row id="2124" trl="Y">
+  <value column="Name" original="Language">Sprache</value>
+  <value column="Description" original="Language for this Business Partner if Multi-Language enabled">Die Sprache für den Geschäftspartner, wenn Mehrsprachigkeit aktiviert wurde.</value>
+  <value column="Help" original="The Language identifies the language to use for display and formatting documents. It requires, that on Client level, Multi-Lingual documents are selected and that you have created/loaded the language.">Die Sprache identifiziert die für die Darstellung und Formatierung von Belegen zu verwendende Sprache. Voraussetzung ist, dass auf Mandantenebene mehrsprachige Belege aktiviert sind und dass die Sprache erzeugt und geladen ist.</value>
+  <value column="UUID" original=""/>
  </row>
- <row id="3665" trl="N">
-  <value column="Name" original="Start Node">Start Node</value>
-  <value column="Description" original="Workflow Node, step or process">Workflow Node, step or process</value>
-  <value column="Help" original="The Workflow Node indicates a unique step or process in a Workflow.">The Workflow Node indicates a unique step or process in a Workflow.</value>
+ <row id="3665" trl="Y">
+  <value column="Name" original="Start Node">Startknoten</value>
+  <value column="Description" original="Workflow Node, step or process">Workflow-Knoten, -schritt oder -prozess</value>
+  <value column="Help" original="The Workflow Node indicates a unique step or process in a Workflow.">Ein Workflow-Knoten ist ein einzelner Schritt oder Prozess in einem Workflow.</value>
+  <value column="UUID" original=""/>
  </row>
- <row id="4055" trl="N">
-  <value column="Name" original="Tax Amount">Tax Amount</value>
-  <value column="Description" original="Tax Amount for Credit Card transaction">Tax Amount for Credit Card transaction</value>
-  <value column="Help" original="The Tax Amount displays the total tax amount. The tax amount is only used for credit card processing.">The Tax Amount displays the total tax amount. The tax amount is only used for credit card processing.</value>
+ <row id="4055" trl="Y">
+  <value column="Name" original="Tax Amount">Steuerbetrag</value>
+  <value column="Description" original="Tax Amount for Credit Card transaction">Der Steuerbetrag für Kreditkartentransaktionen.</value>
+  <value column="Help" original="The Tax Amount displays the total tax amount. The tax amount is only used for credit card processing.">Der "Steuerbetrag" zeigt den Gesamtsteuerbetrag an. Der Steuerbetrag wird nur für die Bearbeitung von Kreditkartentransaktionen verwendet.</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="4253" trl="N">
   <value column="Name" original="Only Currency">Only Currency</value>
   <value column="Description" original="Restrict accepting only this currency">Restrict accepting only this currency</value>
   <value column="Help" original="The Only Currency field indicates that this bank account accepts only the currency identified here.">The Only Currency field indicates that this bank account accepts only the currency identified here.</value>
+  <value column="UUID" original=""/>
  </row>
- <row id="4462" trl="N">
-  <value column="Name" original="Business Partner / Sales Rep">Business Partner / Sales Rep</value>
-  <value column="Description" original="Identifies a Business Partner (Sales Rep) receiving the Commission">Identifies a Business Partner (Sales Rep) receiving the Commission</value>
-  <value column="Help" original="The Business Partner should be a vendor and may be a Sales Representative">The Business Partner should be a vendor and may be a Sales Representative</value>
+ <row id="4462" trl="Y">
+  <value column="Name" original="Business Partner / Sales Rep">Geschäftspartner/Vertriebsbeauftragter</value>
+  <value column="Description" original="Identifies a Business Partner (Sales Rep) receiving the Commission">Zeigt einen Geschäftspartner (Vertriebsbeauftragten) an, der Provision erhält.</value>
+  <value column="Help" original="The Business Partner should be a vendor and may be a Sales Representative">Dieser "Geschäftspartner" ist ein Lieferant sein und darf ein Vertriebsbeauftragter sein.</value>
+  <value column="UUID" original=""/>
  </row>
- <row id="4725" trl="N">
-  <value column="Name" original="Acknowledge">Acknowledge</value>
-  <value column="Description" original="System Notice acknowledged">System Notice acknowledged</value>
-  <value column="Help" original="The Acknowledged checkbox indicates if this notice does not need to be retained.">The Acknowledged checkbox indicates if this notice does not need to be retained.</value>
+ <row id="4725" trl="Y">
+  <value column="Name" original="Acknowledge">Bestätigen</value>
+  <value column="Description" original="System Notice acknowledged">Systemmeldung bestätigt</value>
+  <value column="Help" original="The Acknowledged checkbox indicates if this notice does not need to be retained.">Wurde das Optionsfeld "Bestätigt" aktiviert, kann die Nachricht gelöscht werden.</value>
+  <value column="UUID" original=""/>
  </row>
- <row id="5092" trl="N">
-  <value column="Name" original="Driving Column">Driving Column</value>
-  <value column="Description" original="Column which controls all tabs in the workbench">Column which controls all tabs in the workbench</value>
+ <row id="5092" trl="Y">
+  <value column="Name" original="Driving Column">Steuerspalte</value>
+  <value column="Description" original="Column which controls all tabs in the workbench">Spalte die alle Register der Workbench steuert</value>
   <value column="Help" original=""/>
+  <value column="UUID" original=""/>
  </row>
- <row id="5899" trl="N">
-  <value column="Name" original="System Name">System Name</value>
-  <value column="Description" original="Name your Adempiere System installation, e.g. Joe Block, Inc.">Name your Adempiere System installation, e.g. Joe Block, Inc.</value>
-  <value column="Help" original="The name if the system to differentiate support contracts">The name if the system to differentiate support contracts</value>
+ <row id="5899" trl="Y">
+  <value column="Name" original="System Name">Systemname</value>
+  <value column="Description" original="Name your Adempiere System installation, e.g. Joe Block, Inc.">Benennen Sie Ihre iDempiere Installation, z.B. Joe Block GmbH</value>
+  <value column="Help" original="The name if the system to differentiate support contracts">Der Name - falls das System Supportverträge unterscheidet</value>
+  <value column="UUID" original=""/>
  </row>
- <row id="6344" trl="N">
-  <value column="Name" original="Attribute Set Instance">Attribute Set Instance</value>
-  <value column="Description" original="Product Attribute Values">Product Attribute Values</value>
-  <value column="Help" original="The values of the actual Product Attributes. Product Instance attributes are defined in the actual transactions.">The values of the actual Product Attributes. Product Instance attributes are defined in the actual transactions.</value>
+ <row id="6344" trl="Y">
+  <value column="Name" original="Attribute Set Instance">Attributsatzinstanz</value>
+  <value column="Description" original="Product Attribute Values">Werte Artikelattribut</value>
+  <value column="Help" original="The values of the actual Product Attributes. Product Instance attributes are defined in the actual transactions.">Die Werte eines tatsächlichen Artikelattributs. Die Instanzen der Artikelattribute werden in den tatsächlichen Transaktionen festgelegt.</value>
+  <value column="UUID" original=""/>
  </row>
- <row id="8985" trl="N">
-  <value column="Name" original="Document No">Document No</value>
-  <value column="Description" original="Document sequence number of the document">Document sequence number of the document</value>
-  <value column="Help" original="The document number is usually automatically generated by the system and determined by the document type of the document. If the document is not saved, the preliminary number is displayed in &quot;&lt;&gt;&quot;.&#10;&#10;If the document type of your document has no automatic document sequence defined, the field is empty if you create a new document. This is for documents which usually have an external number (like vendor invoice).  If you leave the field empty, the system will generate a document number for you. The document sequence used for this fallback number is defined in the &quot;Maintain Sequence&quot; window with the name &quot;DocumentNo_&lt;TableName&gt;&quot;, where TableName is the actual name of the table (e.g. C_Order)."><![CDATA[The document number is usually automatically generated by the system and determined by the document type of the document. If the document is not saved, the preliminary number is displayed in "<>".
+ <row id="8985" trl="Y">
+  <value column="Name" original="Document No">Belegnr.</value>
+  <value column="Description" original="Document sequence number of the document">Die Nummer des Belegs im Nummernkreis</value>
+  <value column="Help" original="The document number is usually automatically generated by the system and determined by the document type of the document. If the document is not saved, the preliminary number is displayed in &quot;&lt;&gt;&quot;.&#10;&#10;If the document type of your document has no automatic document sequence defined, the field is empty if you create a new document. This is for documents which usually have an external number (like vendor invoice).  If you leave the field empty, the system will generate a document number for you. The document sequence used for this fallback number is defined in the &quot;Maintain Sequence&quot; window with the name &quot;DocumentNo_&lt;TableName&gt;&quot;, where TableName is the actual name of the table (e.g. C_Order)."><![CDATA[Die Belegnummer wird normalerweise vom System automatisch generiert und bestimmt den Belegtyp. Bei nicht gespeicherten Belegen wird eine vorläufige Nummer in "<>" angezeigt.
 
-If the document type of your document has no automatic document sequence defined, the field is empty if you create a new document. This is for documents which usually have an external number (like vendor invoice).  If you leave the field empty, the system will generate a document number for you. The document sequence used for this fallback number is defined in the "Maintain Sequence" window with the name "DocumentNo_<TableName>", where TableName is the actual name of the table (e.g. C_Order).]]></value>
+Falls der Belegtyp des Belegs keine automatische Belegnummernkreis definiert hat, bleibt das Feld bei neu erstellten Belegen leer. Das ist für Belege die normalerweise eine externe Belegnummer besitzen, wie etwa die Eingangsrechnung eines Lieferanten. Wenn Sie das Feld leer lassen, wird durch das System eine Belegnummer erzeugt. Der für diese Belegnummer verwendete Belegnummernkreis wird im Fenster "Nummernkreis verwalten" mit dem Namen "DocumentNo_<TableName>" definiert. TableName ist dabei der tatsächliche Name der Tabelle (z.B. C_Order).]]></value>
+  <value column="UUID" original=""/>
  </row>
- <row id="10097" trl="N">
-  <value column="Name" original="Value">Value</value>
-  <value column="Description" original="Condition Value">Condition Value</value>
+ <row id="10097" trl="Y">
+  <value column="Name" original="Value">Wert</value>
+  <value column="Description" original="Condition Value">Bedingung Wert</value>
   <value column="Help" original=""/>
+  <value column="UUID" original=""/>
  </row>
- <row id="10886" trl="N">
-  <value column="Name" original="Overwrite Project">Overwrite Project</value>
-  <value column="Description" original="Overwrite the account segment Project with the value specified">Overwrite the account segment Project with the value specified</value>
-  <value column="Help" original="If not overwritten, the value of the original account combination is used. If selected, but not specified, the segment is set to null.">If not overwritten, the value of the original account combination is used. If selected, but not specified, the segment is set to null.</value>
+ <row id="10298" trl="N">
+  <value column="Name" original="Process Now">Process Now</value>
+  <value column="Description" original="Forecast process generates demands for MRP, the demand can be deactivate.">Forecast process generates demands for MRP, the demand can be deactivate.</value>
+  <value column="Help" original="To disable a specific demand only deactivate the line desired">To disable a specific demand only deactivate the line desired</value>
+  <value column="UUID" original=""/>
  </row>
- <row id="11799" trl="N">
-  <value column="Name" original="Attribute Set Instance">Attribute Set Instance</value>
-  <value column="Description" original="Product Attribute Values">Product Attribute Values</value>
-  <value column="Help" original="The values of the actual Product Attributes. Product Instance attributes are defined in the actual transactions.">The values of the actual Product Attributes. Product Instance attributes are defined in the actual transactions.</value>
+ <row id="10886" trl="Y">
+  <value column="Name" original="Overwrite Project">Projekt überschreiben</value>
+  <value column="Description" original="Overwrite the account segment Project with the value specified">Überschreiben Sie das Kontensegment "Projekt" mit einem bestimmten Wert.</value>
+  <value column="Help" original="If not overwritten, the value of the original account combination is used. If selected, but not specified, the segment is set to null.">Wenn das Segment nicht überschrieben wird, wird der Ursprungswert der Kontenkombination verwendet. Wenn das Segment ausgewählt, aber nicht spezifiziert wurde wird es auf 0 gesetzt.</value>
+  <value column="UUID" original=""/>
  </row>
- <row id="12732" trl="N">
-  <value column="Name" original="Language">Language</value>
-  <value column="Description" original="Language for this Business Partner if Multi-Language enabled">Language for this Business Partner if Multi-Language enabled</value>
-  <value column="Help" original="The Language identifies the language to use for display and formatting documents. It requires, that on Client level, Multi-Lingual documents are selected and that you have created/loaded the language.">The Language identifies the language to use for display and formatting documents. It requires, that on Client level, Multi-Lingual documents are selected and that you have created/loaded the language.</value>
+ <row id="11799" trl="Y">
+  <value column="Name" original="Attribute Set Instance">Attributsatzinstanz</value>
+  <value column="Description" original="Product Attribute Values">Werte Artikelattribut</value>
+  <value column="Help" original="The values of the actual Product Attributes. Product Instance attributes are defined in the actual transactions.">Die Werte eines tatsächlichen Artikelattributs. Die Instanzen der Artikelattribute werden in den tatsächlichen Transaktionen festgelegt.</value>
+  <value column="UUID" original=""/>
  </row>
- <row id="13179" trl="N">
-  <value column="Name" original="UserName">UserName</value>
-  <value column="Description" original="UserName / Login to use for login">UserName / Login to use for login</value>
-  <value column="Help" original="UserName / Login to use for the login&#10;Email of the responsible person for the system (registered in WebStore)">UserName / Login to use for the login
-Email of the responsible person for the system (registered in WebStore)</value>
+ <row id="12732" trl="Y">
+  <value column="Name" original="Language">Sprache</value>
+  <value column="Description" original="Language for this Business Partner if Multi-Language enabled">Die Sprache für den Geschäftspartner, wenn Mehrsprachigkeit aktiviert wurde.</value>
+  <value column="Help" original="The Language identifies the language to use for display and formatting documents. It requires, that on Client level, Multi-Lingual documents are selected and that you have created/loaded the language.">Die Sprache identifiziert die für die Darstellung und Formatierung von Belegen zu verwendende Sprache. Voraussetzung ist, dass auf Mandantenebene mehrsprachige Belege aktiviert sind und dass die Sprache erzeugt und geladen ist.</value>
+  <value column="UUID" original=""/>
  </row>
- <row id="13424" trl="N">
-  <value column="Name" original="Mandatory Overwrite">Mandatory Overwrite</value>
-  <value column="Description" original="Overwrite Field Mandatory status">Overwrite Field Mandatory status</value>
-  <value column="Help" original="The field must have a value for the record to be saved to the database.">The field must have a value for the record to be saved to the database.</value>
+ <row id="13179" trl="Y">
+  <value column="Name" original="UserName">Benutzername</value>
+  <value column="Description" original="UserName / Login to use for login">Benutzername/Login für die Anmeldung</value>
+  <value column="Help" original="UserName / Login to use for the login&#10;Email of the responsible person for the system (registered in WebStore)">Benutzername/Login für die Anmeldung
+E-Mail der für das System verantwortlichen Person (im Webshop registriert)</value>
+  <value column="UUID" original=""/>
  </row>
- <row id="13425" trl="N">
-  <value column="Name" original="Reference Overwrite">Reference Overwrite</value>
-  <value column="Description" original="System Reference - optional Overwrite">System Reference - optional Overwrite</value>
-  <value column="Help" original="You can overwrite the Display Type, but only use this if you aware of the consequences.">You can overwrite the Display Type, but only use this if you aware of the consequences.</value>
+ <row id="13424" trl="Y">
+  <value column="Name" original="Mandatory Overwrite">Überschreiben erforderlich</value>
+  <value column="Description" original="Overwrite Field Mandatory status">Pflichtfeldstatus überschreiben</value>
+  <value column="Help" original="The field must have a value for the record to be saved to the database.">Es muss ein Wert eingetragen werden, damit der Eintrag in der Datenbank gespeichert werden kann.</value>
+  <value column="UUID" original=""/>
  </row>
- <row id="13755" trl="N">
-  <value column="Name" original="Search Key">Search Key</value>
-  <value column="Description" original="Search key for the record in the format required">Search key for the record in the format required</value>
-  <value column="Help" original="7 bit lower case alpha numeric - max length 8 - can be used for operating system names.">7 bit lower case alpha numeric - max length 8 - can be used for operating system names.</value>
+ <row id="13425" trl="Y">
+  <value column="Name" original="Reference Overwrite">Referenz überschreiben</value>
+  <value column="Description" original="System Reference - optional Overwrite">Systemreferenz - optional überschreiben.</value>
+  <value column="Help" original="You can overwrite the Display Type, but only use this if you aware of the consequences.">Sie können den Anzeigetyp überschreiben, aber tun Sie dies nur wenn Sie sich über die Konsequenzen im Klaren sind!</value>
+  <value column="UUID" original=""/>
  </row>
- <row id="50066" trl="N">
+ <row id="13755" trl="Y">
+  <value column="Name" original="Search Key">Suchschlüssel</value>
+  <value column="Description" original="Search key for the record in the format required">Suchschlüssel für den Datensatz im benötigten Format</value>
+  <value column="Help" original="7 bit lower case alpha numeric - max length 8 - can be used for operating system names.">7-bit alphanumerisch in Kleinbuchstaben - 8 Zeichen Maximallänge - kann für Betriebssystemnamen verwendet werden.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50066" trl="Y">
   <value column="Name" original="AD_Package_Exp_ID">AD_Package_Exp_ID</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
+  <value column="UUID" original=""/>
  </row>
- <row id="50067" trl="N">
-  <value column="Name" original="Processed">Processed</value>
+ <row id="50067" trl="Y">
+  <value column="Name" original="Processed">Verarbeitet</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
+  <value column="UUID" original=""/>
  </row>
- <row id="50068" trl="N">
-  <value column="Name" original="IsActive">IsActive</value>
+ <row id="50068" trl="Y">
+  <value column="Name" original="IsActive">Ist aktiv</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
+  <value column="UUID" original=""/>
  </row>
- <row id="50069" trl="N">
-  <value column="Name" original="Client">Client</value>
+ <row id="50069" trl="Y">
+  <value column="Name" original="Client">Mandant</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
+  <value column="UUID" original=""/>
  </row>
- <row id="50070" trl="N">
-  <value column="Name" original="Organization">Organization</value>
+ <row id="50070" trl="Y">
+  <value column="Name" original="Organization">Organisation</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
+  <value column="UUID" original=""/>
  </row>
- <row id="50071" trl="N">
-  <value column="Name" original="Name of Package">Name of Package</value>
-  <value column="Description" original="Name of Package">Name of Package</value>
+ <row id="50071" trl="Y">
+  <value column="Name" original="Name of Package">Name des Pakets</value>
+  <value column="Description" original="Name of Package">Name des Pakets</value>
   <value column="Help" original=""/>
+  <value column="UUID" original=""/>
  </row>
- <row id="50075" trl="N">
-  <value column="Name" original="Creation Directory">Creation Directory</value>
+ <row id="50075" trl="Y">
+  <value column="Name" original="Creation Directory">Erstellungsverzeichnis</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
+  <value column="UUID" original=""/>
  </row>
- <row id="50076" trl="N">
-  <value column="Name" original="Created By">Created By</value>
-  <value column="Description" original="User who created the package">User who created the package</value>
+ <row id="50076" trl="Y">
+  <value column="Name" original="Created By">Erstellt durch</value>
+  <value column="Description" original="User who created the package">Benutzer der das Paket erstellt hat</value>
   <value column="Help" original=""/>
+  <value column="UUID" original=""/>
  </row>
- <row id="50077" trl="N">
-  <value column="Name" original="Create Date">Create Date</value>
-  <value column="Description" original="Date when Package was created">Date when Package was created</value>
+ <row id="50077" trl="Y">
+  <value column="Name" original="Create Date">Erstellungsdatum</value>
+  <value column="Description" original="Date when Package was created">Datum an dem das Paket erstellt wurde</value>
   <value column="Help" original=""/>
+  <value column="UUID" original=""/>
  </row>
- <row id="50080" trl="N">
-  <value column="Name" original="Processed By">Processed By</value>
-  <value column="Description" original="User who Processed the package">User who Processed the package</value>
+ <row id="50080" trl="Y">
+  <value column="Name" original="Processed By">Verarbeitet durch</value>
+  <value column="Description" original="User who Processed the package">Benutzer der das Paket verarbeitet hat</value>
   <value column="Help" original=""/>
+  <value column="UUID" original=""/>
  </row>
- <row id="50081" trl="N">
-  <value column="Name" original="Processed Date">Processed Date</value>
-  <value column="Description" original="Date when the package was processed">Date when the package was processed</value>
+ <row id="50081" trl="Y">
+  <value column="Name" original="Processed Date">Verarbeitungsdatum</value>
+  <value column="Description" original="Date when the package was processed">Datum an dem das Paket verarbeitet wurde</value>
   <value column="Help" original=""/>
+  <value column="UUID" original=""/>
  </row>
- <row id="50082" trl="N">
-  <value column="Name" original="Description of Package">Description of Package</value>
+ <row id="50082" trl="Y">
+  <value column="Name" original="Description of Package">Beschreibung des Pakets</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
+  <value column="UUID" original=""/>
  </row>
- <row id="50085" trl="N">
-  <value column="Name" original="Export Package">Export Package</value>
+ <row id="50085" trl="Y">
+  <value column="Name" original="Export Package">Paket exportieren</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
+  <value column="UUID" original=""/>
  </row>
- <row id="50086" trl="N">
+ <row id="50086" trl="Y">
   <value column="Name" original="AD_Package_Exp_Detail_ID">AD_Package_Exp_Detail_ID</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
+  <value column="UUID" original=""/>
  </row>
- <row id="50087" trl="N">
-  <value column="Name" original="Item Name">Item Name</value>
+ <row id="50087" trl="Y">
+  <value column="Name" original="Item Name">Elementname</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
+  <value column="UUID" original=""/>
  </row>
- <row id="50088" trl="N">
-  <value column="Name" original="Processing">Processing</value>
+ <row id="50088" trl="Y">
+  <value column="Name" original="Processing">In Bearbeitung</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
+  <value column="UUID" original=""/>
  </row>
- <row id="50089" trl="N">
-  <value column="Name" original="IsActive">IsActive</value>
+ <row id="50089" trl="Y">
+  <value column="Name" original="IsActive">Ist aktiv</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
+  <value column="UUID" original=""/>
  </row>
- <row id="50090" trl="N">
-  <value column="Name" original="Processed">Processed</value>
+ <row id="50090" trl="Y">
+  <value column="Name" original="Processed">Verarbeitet</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
+  <value column="UUID" original=""/>
  </row>
- <row id="50091" trl="N">
-  <value column="Name" original="Package Build ID">Package Build ID</value>
+ <row id="50091" trl="Y">
+  <value column="Name" original="Package Build ID">ID der Paketerstellung</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
+  <value column="UUID" original=""/>
  </row>
- <row id="50092" trl="N">
-  <value column="Name" original="Client">Client</value>
+ <row id="50092" trl="Y">
+  <value column="Name" original="Client">Mandant</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
+  <value column="UUID" original=""/>
  </row>
- <row id="50093" trl="N">
-  <value column="Name" original="Organization">Organization</value>
+ <row id="50093" trl="Y">
+  <value column="Name" original="Organization">Organisation</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
+  <value column="UUID" original=""/>
  </row>
- <row id="50096" trl="N">
-  <value column="Name" original="Type">Type</value>
+ <row id="50096" trl="Y">
+  <value column="Name" original="Type">Typ</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
+  <value column="UUID" original=""/>
  </row>
- <row id="50097" trl="N">
-  <value column="Name" original="Menu">Menu</value>
+ <row id="50097" trl="Y">
+  <value column="Name" original="Menu">Menü</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
+  <value column="UUID" original=""/>
  </row>
- <row id="50099" trl="N">
-  <value column="Name" original="Source File Directory">Source File Directory</value>
-  <value column="Description" original="Current location of source file">Current location of source file</value>
+ <row id="50099" trl="Y">
+  <value column="Name" original="Source File Directory">Verzeichnis der Quelldatei</value>
+  <value column="Description" original="Current location of source file">Aktueller Pfad der Quelldatei</value>
   <value column="Help" original=""/>
+  <value column="UUID" original=""/>
  </row>
- <row id="50103" trl="N">
-  <value column="Name" original="Table">Table</value>
+ <row id="50103" trl="Y">
+  <value column="Name" original="Table">Tabelle</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
+  <value column="UUID" original=""/>
  </row>
- <row id="50108" trl="N">
-  <value column="Name" original="Form">Form</value>
+ <row id="50108" trl="Y">
+  <value column="Name" original="Form">Formular</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
+  <value column="UUID" original=""/>
  </row>
- <row id="50109" trl="N">
-  <value column="Name" original="Process">Process</value>
+ <row id="50109" trl="Y">
+  <value column="Name" original="Process">Prozess</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
+  <value column="UUID" original=""/>
  </row>
- <row id="50110" trl="N">
+ <row id="50110" trl="Y">
   <value column="Name" original="Workflow">Workflow</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
+  <value column="UUID" original=""/>
  </row>
- <row id="50112" trl="N">
+ <row id="50112" trl="Y">
   <value column="Name" original="Workbench">Workbench</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
+  <value column="UUID" original=""/>
  </row>
- <row id="50117" trl="N">
-  <value column="Name" original="Notes">Notes</value>
+ <row id="50117" trl="Y">
+  <value column="Name" original="Notes">Anmerkungen</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
+  <value column="UUID" original=""/>
  </row>
- <row id="53360" trl="N">
-  <value column="Name" original="Value">Value</value>
-  <value column="Description" original="Condition Value">Condition Value</value>
+ <row id="53360" trl="Y">
+  <value column="Name" original="Value">Wert</value>
+  <value column="Description" original="Condition Value">Bedingung Wert</value>
   <value column="Help" original=""/>
+  <value column="UUID" original=""/>
  </row>
- <row id="53375" trl="N">
-  <value column="Name" original="Resource">Resource</value>
-  <value column="Description" original="Resource">Resource</value>
-  <value column="Help" original="Select the manufacturing resource (previously defined) where you want to execute the operation. For the product costing, the Resource rate is taken from the cost element introduced in the window Product Costing.">Select the manufacturing resource (previously defined) where you want to execute the operation. For the product costing, the Resource rate is taken from the cost element introduced in the window Product Costing.</value>
+ <row id="53375" trl="Y">
+  <value column="Name" original="Resource">Ressource</value>
+  <value column="Description" original="Resource">Ressource</value>
+  <value column="Help" original="Select the manufacturing resource (previously defined) where you want to execute the operation. For the product costing, the Resource rate is taken from the cost element introduced in the window Product Costing.">Wählen Sie die (zuvor festgelegte) Fertigungsressource dort, wo der Vorgang ausgeführt werden soll. Für die Artikelkostenrechnung, wird die Ressourcenrate des Kostenelements verwendet, die im Fenster "Artikelkostenrechnung" ausgewählt wurde.</value>
+  <value column="UUID" original=""/>
  </row>
- <row id="53378" trl="N">
-  <value column="Name" original="Business Partner ">Business Partner </value>
-  <value column="Description" original="Identifies a Business Partner to Subcontrating">Identifies a Business Partner to Subcontrating</value>
-  <value column="Help" original="A Business Partner is anyone with whom you transact.  This can include Vendor, Customer, Employee or Salesperson">A Business Partner is anyone with whom you transact.  This can include Vendor, Customer, Employee or Salesperson</value>
+ <row id="53378" trl="Y">
+  <value column="Name" original="Business Partner ">Geschäftspartner</value>
+  <value column="Description" original="Identifies a Business Partner to Subcontrating">Kennzeichnet einen Geschäftspartner als Subunternehmer</value>
+  <value column="Help" original="A Business Partner is anyone with whom you transact.  This can include Vendor, Customer, Employee or Salesperson">Ein "Geschäftspartner" ist jemand, mit dem Sie interagieren. Geschäftspartner können z.B. Lieferanten, Kunden, Mitarbeiter oder Handelsvertreter sein.</value>
+  <value column="UUID" original=""/>
  </row>
- <row id="53380" trl="N">
-  <value column="Name" original="Valid from">Valid from</value>
-  <value column="Description" original="Valid from including this date (first day)">Valid from including this date (first day)</value>
-  <value column="Help" original="The Valid From date indicates the first day of a date range.&#10;When you enter dates in the fields Valid From - To we give the the period of time where this operation will have to be considered for the elaboration of the product.">The Valid From date indicates the first day of a date range.
-When you enter dates in the fields Valid From - To we give the the period of time where this operation will have to be considered for the elaboration of the product.</value>
+ <row id="53380" trl="Y">
+  <value column="Name" original="Valid from">Gültig ab</value>
+  <value column="Description" original="Valid from including this date (first day)">Gültig ab diesem Tag (erster Tag)</value>
+  <value column="Help" original="The Valid From date indicates the first day of a date range.&#10;When you enter dates in the fields Valid From - To we give the the period of time where this operation will have to be considered for the elaboration of the product.">Das Gültig ab Datum zeigt den ersten Tag eines Datumsbereichs.
+Wenn Sie Datumswerte in die Felder Gültig ab - bis eingeben, ermitteln wir die Zeitspanne in der diese Operation zur Artikelerstellung eingeplant werden sollte.</value>
+  <value column="UUID" original=""/>
  </row>
- <row id="53381" trl="N">
-  <value column="Name" original="Valid to">Valid to</value>
-  <value column="Description" original="Valid to including this date (last day)">Valid to including this date (last day)</value>
-  <value column="Help" original="The Valid To date indicates the last day of a date range&#10;When you enter dates in the fields Valid From - To we give the the period of time where this operation will have to be considered for the elaboration of the product.">The Valid To date indicates the last day of a date range
-When you enter dates in the fields Valid From - To we give the the period of time where this operation will have to be considered for the elaboration of the product.</value>
+ <row id="53381" trl="Y">
+  <value column="Name" original="Valid to">Gültig bis</value>
+  <value column="Description" original="Valid to including this date (last day)">Gültig bis zu diesem Tag (letzter Tag)</value>
+  <value column="Help" original="The Valid To date indicates the last day of a date range&#10;When you enter dates in the fields Valid From - To we give the the period of time where this operation will have to be considered for the elaboration of the product.">Das Gültig bis Datum zeigt den letzten Tag eines Datumsbereichs.
+Wenn Sie Datumswerte in die Felder Gültig ab - bis eingeben, ermitteln wir die Zeitspanne in der diese Operation zur Artikelerstellung eingeplant werden sollte.</value>
+  <value column="UUID" original=""/>
  </row>
- <row id="53449" trl="N">
-  <value column="Name" original="Start Node">Start Node</value>
-  <value column="Description" original="Workflow Node step or process">Workflow Node step or process</value>
-  <value column="Help" original="The Workflow Node indicates a unique step or process in a Workflow.">The Workflow Node indicates a unique step or process in a Workflow.</value>
+ <row id="53449" trl="Y">
+  <value column="Name" original="Start Node">Startknoten</value>
+  <value column="Description" original="Workflow Node step or process">Workflow-Knoten, Schritt oder Prozess</value>
+  <value column="Help" original="The Workflow Node indicates a unique step or process in a Workflow.">Ein Workflow-Knoten ist ein einzelner Schritt oder Prozess in einem Workflow.</value>
+  <value column="UUID" original=""/>
  </row>
- <row id="53480" trl="N">
-  <value column="Name" original="Copy BOM Lines From">Copy BOM Lines From</value>
-  <value column="Description" original="Copy BOM Lines from an exising BOM">Copy BOM Lines from an exising BOM</value>
-  <value column="Help" original="Copy BOM Lines from an exising BOM. The BOM being copied to, must not have any existing BOM Lines.">Copy BOM Lines from an exising BOM. The BOM being copied to, must not have any existing BOM Lines.</value>
+ <row id="53480" trl="Y">
+  <value column="Name" original="Copy BOM Lines From">Stücklistenpositionen kopieren aus</value>
+  <value column="Description" original="Copy BOM Lines from an exising BOM">Kopieren Sie Stücklistenpositionen aus einer bestehenden Stückliste</value>
+  <value column="Help" original="Copy BOM Lines from an exising BOM. The BOM being copied to, must not have any existing BOM Lines.">Kopieren Sie Stücklistenpositionen aus einer bestehenden Stückliste. Die Stückliste in die Sie kopieren, darf noch nicht über Positionen verfügen.</value>
+  <value column="UUID" original=""/>
  </row>
- <row id="53490" trl="N">
-  <value column="Name" original="Valid from">Valid from</value>
-  <value column="Description" original="Valid from including this date (first day)">Valid from including this date (first day)</value>
-  <value column="Help" original="The Valid From date indicates the first day of a date range&#10;&#10;The Valid From and Valid To dates indicate the valid time period to use the BOM in a Manufacturing Order.">The Valid From date indicates the first day of a date range
-
-The Valid From and Valid To dates indicate the valid time period to use the BOM in a Manufacturing Order.</value>
+ <row id="53490" trl="Y">
+  <value column="Name" original="Valid from">Gültig ab</value>
+  <value column="Description" original="Valid from including this date (first day)">Gültig ab diesem Tag (erster Tag)</value>
+  <value column="Help" original="The Valid From date indicates the first day of a date range&#10;&#10;The Valid From and Valid To dates indicate the valid time period to use the BOM in a Manufacturing Order.">Das Gültig-ab-Datum kennzeichnet den ersten Tag eines Datumsbereichs. Die Gültig-ab und Gültig-bis Datumswerte kennzeichnen die gültige Zeitspanne in der die Stückliste für einen Arbeitsauftrag verwendet werden darf.</value>
+  <value column="UUID" original=""/>
  </row>
- <row id="53512" trl="N">
-  <value column="Name" original="Warehouse">Warehouse</value>
-  <value column="Description" original="Storage Warehouse and Service Point">Storage Warehouse and Service Point</value>
-  <value column="Help" original="The Warehouse identifies a unique Warehouse where products are stored or Services are provided.&#10;&#10;Warehouse place where you locate and control the products">The Warehouse identifies a unique Warehouse where products are stored or Services are provided.
-
-Warehouse place where you locate and control the products</value>
+ <row id="53512" trl="Y">
+  <value column="Name" original="Warehouse">Lager</value>
+  <value column="Description" original="Storage Warehouse and Service Point">Lager oder Servicepoint</value>
+  <value column="Help" original="The Warehouse identifies a unique Warehouse where products are stored or Services are provided.&#10;&#10;Warehouse place where you locate and control the products">Das Lager kennzeichnet ein bestimmtes Lager wo Artikel gelagert sind oder Dienstleistungen erbracht werden.</value>
+  <value column="UUID" original=""/>
  </row>
- <row id="53513" trl="N">
-  <value column="Name" original="Resource">Resource</value>
-  <value column="Description" original="Resource">Resource</value>
-  <value column="Help" original="A manufacturing resource is a place where a product will be made.">A manufacturing resource is a place where a product will be made.</value>
+ <row id="53513" trl="Y">
+  <value column="Name" original="Resource">Ressource</value>
+  <value column="Description" original="Resource">Ressource</value>
+  <value column="Help" original="A manufacturing resource is a place where a product will be made.">Eine Fertigungsressource ist ein Ort an dem ein Artikel hergestellt wird.</value>
+  <value column="UUID" original=""/>
  </row>
- <row id="53517" trl="N">
-  <value column="Name" original="BOM &amp; Formula"><![CDATA[BOM & Formula]]></value>
+ <row id="53517" trl="Y">
+  <value column="Name" original="BOM &amp; Formula"><![CDATA[Stückliste & Formel]]></value>
   <value column="Description" original=""/>
-  <value column="Help" original="The name BOM/Formula that you introduce in this window will be considered the default BOM to produce the product in this Organization-Plant-Warehouse. If you do not fill this field the default BOM &amp; Formula for the entity will be the BOM/Formula which has the same name as the product."><![CDATA[The name BOM/Formula that you introduce in this window will be considered the default BOM to produce the product in this Organization-Plant-Warehouse. If you do not fill this field the default BOM & Formula for the entity will be the BOM/Formula which has the same name as the product.]]></value>
+  <value column="Help" original="The name BOM/Formula that you introduce in this window will be considered the default BOM to produce the product in this Organization-Plant-Warehouse. If you do not fill this field the default BOM &amp; Formula for the entity will be the BOM/Formula which has the same name as the product.">Der Name der in diesem Fenster definierte Stückliste/Formel wird als Vorgabe verwendet um den Artikel in dieser Organisation/Produktionsstätte/Lager herzustellen. Falls dieses Feld nicht ausgefüllt ist, wird die Stückliste/Formel als Vorgabe verwendet, die denselben Namen hat wie der Artikel.</value>
+  <value column="UUID" original=""/>
  </row>
- <row id="53518" trl="N">
+ <row id="53518" trl="Y">
   <value column="Name" original="Workflow">Workflow</value>
-  <value column="Description" original="Workflow or combination of tasks">Workflow or combination of tasks</value>
-  <value column="Help" original="The Workflow field identifies a unique Workflow in the system.&#10;&#10;The Workflow you introduce in this window will be considered the default Workflow to produce the product in this Organization-Plant-Warehouse. If you do not fill this field the defaul Workflow for the entity will be the Workflow with the same name as the product.">The Workflow field identifies a unique Workflow in the system.
-
-The Workflow you introduce in this window will be considered the default Workflow to produce the product in this Organization-Plant-Warehouse. If you do not fill this field the defaul Workflow for the entity will be the Workflow with the same name as the product.</value>
+  <value column="Description" original="Workflow or combination of tasks">Ein Workflow oder Kombination von Aufgaben</value>
+  <value column="Help" original="The Workflow field identifies a unique Workflow in the system.&#10;&#10;The Workflow you introduce in this window will be considered the default Workflow to produce the product in this Organization-Plant-Warehouse. If you do not fill this field the defaul Workflow for the entity will be the Workflow with the same name as the product.">Das Workflow-Feld kennzeichnet einen spezifischen Workflow im System. Der in diesem Fenster angegeben Workflow wird als Standard-Workflow angesehen um den Artikel in dieser Organisation/Fabrik/Lager herzustellen. Falls dieses Feld nicht ausgefüllt ist, wird als Standard-Workflow der Eintrag mit demselben Namen wie der Artikel verwendet.</value>
+  <value column="UUID" original=""/>
  </row>
- <row id="53523" trl="N">
-  <value column="Name" original="Promised Delivery Time">Promised Delivery Time</value>
-  <value column="Description" original="Promised days between order and delivery">Promised days between order and delivery</value>
-  <value column="Help" original="The Promised Delivery Time indicates the number of days between the order date and the date that delivery was promised.&#10;&#10;You must enter the average number of days to receive the product in the warehouse since you approve the requisition or manufacturing order until you receive the material in the warehouse . If the product is bought you must register the calendar days required since you make the PO until you receive the material in the warehouse. If the product is manufactured in your plant you must register the number of working days since you release the MO until you receive the material in the warehouse.">The Promised Delivery Time indicates the number of days between the order date and the date that delivery was promised.
-
-You must enter the average number of days to receive the product in the warehouse since you approve the requisition or manufacturing order until you receive the material in the warehouse . If the product is bought you must register the calendar days required since you make the PO until you receive the material in the warehouse. If the product is manufactured in your plant you must register the number of working days since you release the MO until you receive the material in the warehouse.</value>
+ <row id="53523" trl="Y">
+  <value column="Name" original="Promised Delivery Time">Voraussichtliche Lieferzeit</value>
+  <value column="Description" original="Promised days between order and delivery">Zugesagte Anzahl Tage zwischen Auftrag und Lieferung</value>
+  <value column="Help" original="The Promised Delivery Time indicates the number of days between the order date and the date that delivery was promised.&#10;&#10;You must enter the average number of days to receive the product in the warehouse since you approve the requisition or manufacturing order until you receive the material in the warehouse . If the product is bought you must register the calendar days required since you make the PO until you receive the material in the warehouse. If the product is manufactured in your plant you must register the number of working days since you release the MO until you receive the material in the warehouse.">Die voraussichtliche Lieferzeit kennzeichnet die Anzahl an Tagen zwischen dem Auftragsdatum und dem zugesagten Lieferdatum.Sie müssen die durchschnittliche Anzahl an Tagen angeben die benötigt wird um den Artikel im Lager zu empfangen nachdem die Bedarfsanforderung oder der Fertigungsauftrag genehmigt wurde. Falls der Artikel eingekauft wird, müssen die Kalendertage angegeben werden, die zwischen der Bestellung und dem Wareneingang im Lager vergangen sind. Falls der Artikel in Ihrer Produktionsstätte gefertigt wird, muss die Anzahl Arbeitstage angegeben werden, die seit der Freigabe des Fertigungsauftrags und dem Materialeingang im Lager vergangen sind.</value>
+  <value column="UUID" original=""/>
  </row>
- <row id="53533" trl="N">
+ <row id="53533" trl="Y">
+  <value column="Name" original="Working Time">Arbeitszeit</value>
+  <value column="Description" original="Workflow Simulation Execution Time">Durchführungszeit einer Workflow-Simulation</value>
+  <value column="Help" original="Amount of time the performer of the activity needs to perform the task in Duration Unit&#10;&#10;In the field Working Time you enter the accumulated time (using the Promising Delivery Time) in the critical path of the BOM for this product. It is the required time to produce the product as if you would not have any component on hand.">Durchführungszeit einer Aktivität in Zeiteinheiten. Im Feld "Arbeitszeit" geben Sie anhand der voraussichtlichen Lieferzeit die akkumulierte Zeit in den kritischen Pfad der Stückliste des Artikels ein. Das ist die zur Herstellung benötigte Zeit, wenn nicht alle Komponenten verfügbar wären.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="53653" trl="Y">
+  <value column="Name" original="Acknowledge">Bestätigen</value>
+  <value column="Description" original="System Notice acknowledged">Systemmeldung bestätigt</value>
+  <value column="Help" original="The Acknowledged checkbox indicates if this notice does not need to be retained.">Wurde das Optionsfeld "Bestätigt" aktiviert, kann die Nachricht gelöscht werden.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="53742" trl="Y">
+  <value column="Name" original="Accumulated Qty">Akkumulierte Menge</value>
+  <value column="Description" original="Total Quantity">Gesamtmenge</value>
+  <value column="Help" original="Sum of the quantities&#10;&#10;This field shows the sum of the quantities of the product that have had movements.">Summe der Mengen Dieses Feld zeit die Summe der bewegten Artikelmengen an.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="53744" trl="Y">
+  <value column="Name" original="Accumulated Amt">Kumulierter Betrag</value>
+  <value column="Description" original="Total Amount">Gesamtbetrag</value>
+  <value column="Help" original="Sum of all amounts&#10;&#10;This field shows the sum of the amounts of the product that have had movements.">Summe aller Beträge Dieses Feld zeigt die Summe der Beträge des Artikels das Bewegungen gehabt hat.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="53904" trl="Y">
+  <value column="Name" original="Version No">Versions-Nr.</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="54035" trl="Y">
+  <value column="Name" original="Ordered Quantity">Bestellte Menge</value>
+  <value column="Description" original="Ordered Quantity">Bestellte Menge</value>
+  <value column="Help" original="The Ordered Quantity indicates the quantity of a product that was ordered.">Die "Auftragsmenge" zeigt die bestellte Menge des Artikels an.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="54038" trl="Y">
+  <value column="Name" original="Instance">Instanz</value>
+  <value column="Description" original="Product Attribute Set Instance">Artikelattributsatzinstanz</value>
+  <value column="Help" original="The values of the actual Product Attribute Instances.  The product level attributes are defined on Product level.">Die Werte der tatsächlichen Artikelattributinstanzen. Die Attribute einer Artikelebene werden auch auf Artikelebene festgelegt.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="54039" trl="Y">
+  <value column="Name" original="Instance To">Instanz an</value>
+  <value column="Description" original="Target Product Attribute Set Instance">Zielinstanz Artikelattributsatz</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="54133" trl="Y">
+  <value column="Name" original="Resource/Plant">Produktionsstätte/Werk</value>
+  <value column="Description" original="Resource/Plant">Produktionsstätte/Werk</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="54139" trl="Y">
+  <value column="Name" original="Date Ordered">Auftragsdatum</value>
+  <value column="Description" original="Date of Order">Datum des Auftrags</value>
+  <value column="Help" original="Indicates the Date an item was ordered.&#10;Date Ordered is the date when the order was generated. If the MO is created manually the default date ordered is the system date. If the MO was generated by MRP the default date ordered is the day of the MRP process.">Kennzeichnet das Datum an dem die Ware bestellt wurde. Das "Bestelldatum" ist das Datum der Auftragserzeugung. Wird der AA manuell erzeugt, wird das Systemdatum als Bestelldatum verwendet. Wird der AA durch die MBP erzeugt, wird der Tag der MBP als Standarddatum verwendet.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="54140" trl="Y">
+  <value column="Name" original="Date Promised">Zugesagter Termin</value>
+  <value column="Description" original="Date Order was promised">Zugesagtes Lieferdatum des Auftrags</value>
+  <value column="Help" original="The Date Promised indicates the date, if any, that an Order was promised for.&#10;Date Promised Is the date we commit to give the order to the warehouse. If the MO is created manually the default date promised is the system date. If the MO was generated by MRP this date is filled automatically using its algorithm calculation.">Der zugesagte Liefertermin ist das Datum, für das ein Auftrag zugesagt wurde (falls vereinbart). "Zugesagter Liefertermin" ist das Datum, an dem ein Auftrag ans Lager gegeben wird. Wird der AA manuell erstellt, wird als "Zugesagter Liefertermin" das Systemdatum verwendet. Wird der AA durch die MBP erzeugt, wird das Datum über einen Algorithmus berechnet.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="54145" trl="Y">
+  <value column="Name" original="Date Start">Startdatum</value>
+  <value column="Description" original="Indicate the real date to start">Zeigt das tatsächliche Startdatum an</value>
+  <value column="Help" original="It is the date when the first manufacturing order movement is reported, this movement can be an inventory or labor movement.">Das "Startdatum" meldet die erste Arbeitsauftragsbewegung. Diese Bewegung kann den Bestand sowie Arbeitsabläufe betreffen.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="54146" trl="Y">
+  <value column="Name" original="Finish Date">Abschlussdatum</value>
+  <value column="Description" original="Finish or (planned) completion date">Tatsächliches (oder geplantes) Abschlussdatum.</value>
+  <value column="Help" original="The finish date is used to indicate when the project is expected to be completed or has been completed.&#10;&#10;To Manufacturing Order is the date when the last manufacturing order movement is reported, It is the closing order date.">Das Abschlussdatum zeigt an, wann ein Projekt voraussichtlich abgeschlossen sein wird oder wurde. Das Abschlussdatum meldet die letzte Arbeitsauftragsbewegung. Es ist das Abschlussdatum des Auftrags.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="54196" trl="Y">
+  <value column="Name" original="Company Agent">Firmenvertreter</value>
+  <value column="Description" original="Company Agent">Firmenvertreter</value>
+  <value column="Help" original="Company Agent to Distribution Order">Firmenvertreter des Distributionsauftrags</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="54205" trl="Y">
+  <value column="Name" original="Transit Warehouse">Transitlager</value>
+  <value column="Description" original="Storage Warehouse and Service Point">Lager oder Servicepoint</value>
+  <value column="Help" original="The Warehouse identifies a unique Warehouse where products are stored or Services are provided.">Ein "Lager" ist ein einzelnes Artikellager oder ein Standort an dem Dienstleistungen erbracht werden.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="54381" trl="Y">
+  <value column="Name" original="Target Warehouse">Ziellager</value>
+  <value column="Description" original="Target Warehouse and Service Point">Ziellager und Servicepoint</value>
+  <value column="Help" original="The Warehouse identifies a unique Warehouse where products are stored or Services are provided.">Ein "Lager" ist ein einzelnes Artikellager oder ein Standort an dem Dienstleistungen erbracht werden.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="55187" trl="Y">
+  <value column="Name" original="Create from a Window">Aus Fenster erstellen</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="56011" trl="Y">
+  <value column="Name" original="Current Period">Aktuelle Periode</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="56190" trl="Y">
+  <value column="Name" original="Period 1 %">Periode 1 %</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="56191" trl="Y">
+  <value column="Name" original="Period 2 %">Periode 2 %</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="56192" trl="Y">
+  <value column="Name" original="Period 3 %">Periode 3 %</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="56193" trl="Y">
+  <value column="Name" original="Period 4 %">Periode 4 %</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="56194" trl="Y">
+  <value column="Name" original="Period 5 %">Periode 5 %</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="56195" trl="Y">
+  <value column="Name" original="Period 6 %">Periode 6 %</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="56196" trl="Y">
+  <value column="Name" original="Period 7 %">Periode 7 %</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="56197" trl="Y">
+  <value column="Name" original="Period 8 %">Periode 8 %</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="56198" trl="Y">
+  <value column="Name" original="Period 9 %">Periode 9 %</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="56199" trl="Y">
+  <value column="Name" original="Period 10 %">Periode 10 %</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="56200" trl="Y">
+  <value column="Name" original="Period 11 %">Periode 11 %</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="56201" trl="Y">
+  <value column="Name" original="Period 12 %">Periode 12 %</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="56202" trl="Y">
+  <value column="Name" original="Period 13 %">Periode 13 %</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="56203" trl="Y">
+  <value column="Name" original="Period 14 %">Periode 14 %</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="56207" trl="Y">
+  <value column="Name" original="Script">Skript</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="56210" trl="Y">
+  <value column="Name" original="Name">Name</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="57331" trl="Y">
+  <value column="Name" original="Acknowledge">Bestätigen</value>
+  <value column="Description" original="System Notice acknowledged">Systemmeldung bestätigt</value>
+  <value column="Help" original="The Acknowledged checkbox indicates if this notice does not need to be retained.">Wurde das Optionsfeld "Bestätigt" aktiviert, kann die Nachricht gelöscht werden.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="57455" trl="N">
+  <value column="Name" original="Create Fields">Create Fields</value>
+  <value column="Description" original="Creates the fields of Browser based on the View Columns.">Creates the fields of Browser based on the View Columns.</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="57516" trl="N">
+  <value column="Name" original="Create Columns">Create Columns</value>
+  <value column="Description" original="Creates the columns of View based on the table columns.">Creates the columns of View based on the table columns.</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="57987" trl="Y">
+  <value column="Name" original="Search Key">Suchschlüssel</value>
+  <value column="Description" original="Search key for the record in the format required">Suchschlüssel für den Datensatz im benötigten Format</value>
+  <value column="Help" original="7 bit lower case alpha numeric - max length 8 - can be used for operating system names.">7-bit alphanumerisch in Kleinbuchstaben - 8 Zeichen Maximallänge - kann für Betriebssystemnamen verwendet werden.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="58101" trl="Y">
+  <value column="Name" original="Copy BOM Lines From">Stücklistenpositionen kopieren aus</value>
+  <value column="Description" original="Copy BOM Lines from an exising BOM">Kopieren Sie Stücklistenpositionen aus einer bestehenden Stückliste</value>
+  <value column="Help" original="Copy BOM Lines from an exising BOM. The BOM being copied to, must not have any existing BOM Lines.">Kopieren Sie Stücklistenpositionen aus einer bestehenden Stückliste. Die Stückliste in die Sie kopieren, darf noch nicht über Positionen verfügen.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="58114" trl="Y">
+  <value column="Name" original="Valid from">Gültig ab</value>
+  <value column="Description" original="Valid from including this date (first day)">Gültig ab diesem Tag (erster Tag)</value>
+  <value column="Help" original="The Valid From date indicates the first day of a date range&#10;&#10;The Valid From and Valid To dates indicate the valid time period to use the BOM in a Manufacturing Order.">Das Gültig-ab-Datum kennzeichnet den ersten Tag eines Datumsbereichs. Die Gültig-ab und Gültig-bis Datumswerte kennzeichnen die gültige Zeitspanne in der die Stückliste für einen Arbeitsauftrag verwendet werden darf.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="58771" trl="Y">
+  <value column="Name" original="Import Product Planning Data">Import Produktplanungsdaten</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="59028" trl="Y">
+  <value column="Name" original="Account Date">Buchungsdatum</value>
+  <value column="Description" original="Accounting Date">Buchungsdatum</value>
+  <value column="Help" original="The Accounting Date indicates the date to be used on the General Ledger account entries generated from this document. It is also used for any currency conversion.">Das "Buchungsdatum" ist das Datum, das für Einträge des Hauptbuchkontos verwendet wird, wenn die Einträge aus diesem Beleg erzeugt werden. Es wird auch für jede Währungsumwandlung verwendet.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="59306" trl="Y">
+  <value column="Name" original="ID">ID</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="59449" trl="Y">
+  <value column="Name" original="Import Inventory Move">Import Lagerbewegung</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="59499" trl="Y">
+  <value column="Name" original="Import Fixed Asset">Import Anlagevermögen</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="59500" trl="Y">
+  <value column="Name" original="Processed">Verarbeitet</value>
+  <value column="Description" original="The document has been processed">Der Beleg wurde verarbeitet</value>
+  <value column="Help" original="The Processed checkbox indicates that a document has been processed.">Das Optionsfeld "Verarbeitet" zeigt an, ob ein Beleg verarbeitet wurde.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="59822" trl="Y">
+  <value column="Name" original="Attribute Set Instance">Attributsatzinstanz</value>
+  <value column="Description" original="Product Attribute Values">Werte Artikelattribut</value>
+  <value column="Help" original="The values of the actual Product Attributes. Product Instance attributes are defined in the actual transactions.">Die Werte eines tatsächlichen Artikelattributs. Die Instanzen der Artikelattribute werden in den tatsächlichen Transaktionen festgelegt.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="62025" trl="N">
+  <value column="Name" original="Merge Migration">Merge Migration</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="62236" trl="N">
+  <value column="Name" original="Sales Rep Name">Sales Rep Name</value>
+  <value column="Description" original="Sales Representative Name">Sales Representative Name</value>
+  <value column="Help" original="The name of the sales rep that this dashboard relates to.">The name of the sales rep that this dashboard relates to.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="62779" trl="N">
+  <value column="Name" original="Language">Language</value>
+  <value column="Description" original="Language for this Business Partner if Multi-Language enabled">Language for this Business Partner if Multi-Language enabled</value>
+  <value column="Help" original="The Language identifies the language to use for display and formatting documents. It requires, that on Client level, Multi-Lingual documents are selected and that you have created/loaded the language.">The Language identifies the language to use for display and formatting documents. It requires, that on Client level, Multi-Lingual documents are selected and that you have created/loaded the language.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="62991" trl="N">
+  <value column="Name" original="Expected Close">Expected Close</value>
+  <value column="Description" original="Expected Close">Expected Close</value>
+  <value column="Help" original="The Expected Close Date indicates the expected last or final date">The Expected Close Date indicates the expected last or final date</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="64102" trl="N">
+  <value column="Name" original="Default Value">Default Value</value>
+  <value column="Description" original="Default value">Default value</value>
+  <value column="Help" original="Default value to be used if import field is empty.">Default value to be used if import field is empty.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="64309" trl="N">
+  <value column="Name" original="Import Workflow">Import Workflow</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="64310" trl="N">
+  <value column="Name" original="Processed">Processed</value>
+  <value column="Description" original="The document has been processed">The document has been processed</value>
+  <value column="Help" original="The Processed checkbox indicates that a document has been processed.">The Processed checkbox indicates that a document has been processed.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="64459" trl="N">
+  <value column="Name" original="Create Periods">Create Periods</value>
+  <value column="Description" original="Create calendar periods.">Create calendar periods.</value>
+  <value column="Help" original="This process creates the calendar periods, based on the period definition with an start date specified, if this date is not recorded, then Jan 01 will be the default. The period name is created based on the start date of each period using the Java SimpleDataFormat pattern.">This process creates the calendar periods, based on the period definition with an start date specified, if this date is not recorded, then Jan 01 will be the default. The period name is created based on the start date of each period using the Java SimpleDataFormat pattern.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="64509" trl="N">
+  <value column="Name" original="Base Period Definition">Base Period Definition</value>
+  <value column="Description" original="Period Definition, allows to define time cycles for the Operational Calendar">Period Definition, allows to define time cycles for the Operational Calendar</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="64511" trl="N">
+  <value column="Name" original="Target Period Definition">Target Period Definition</value>
+  <value column="Description" original="Period Definition, allows to define time cycles for the Operational Calendar">Period Definition, allows to define time cycles for the Operational Calendar</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="64512" trl="N">
+  <value column="Name" original="Target Warehouse">Target Warehouse</value>
+  <value column="Description" original="Storage Warehouse and Service Point">Storage Warehouse and Service Point</value>
+  <value column="Help" original="The Warehouse identifies a unique Warehouse where products are stored or Services are provided.">The Warehouse identifies a unique Warehouse where products are stored or Services are provided.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="64513" trl="N">
+  <value column="Name" original="Calculate Forecast">Calculate Forecast</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="64562" trl="N">
+  <value column="Name" original="Calculation Class">Calculation Class</value>
+  <value column="Description" original="Java Class for calculation, implementing Interface Measure">Java Class for calculation, implementing Interface Measure</value>
+  <value column="Help" original="The Calculation Class indicates the Java Class used for calculating measures.&#10;&lt;br&gt;&#10;&lt;br&gt;&#10;Forecast Engine.&#10;&lt;br&gt;&#10;&lt;br&gt;&#10;The forecasting engine has the function to expose the implementations for each forecast rule, the interface ForecastRule.java is the interface to implement each forecast rule.&#10;&lt;br&gt;&#10;&lt;br&gt;&#10;The developers can use this interface to implement their own calculation algorithms.&#10;&lt;br&gt;"><![CDATA[The Calculation Class indicates the Java Class used for calculating measures.
+<br>
+<br>
+Forecast Engine.
+<br>
+<br>
+The forecasting engine has the function to expose the implementations for each forecast rule, the interface ForecastRule.java is the interface to implement each forecast rule.
+<br>
+<br>
+The developers can use this interface to implement their own calculation algorithms.
+<br>]]></value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="64824" trl="N">
+  <value column="Name" original="Sales Representative Name">Sales Representative Name</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="64826" trl="N">
+  <value column="Name" original="Import Forecast">Import Forecast</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="65084" trl="N">
   <value column="Name" original="Working Time">Working Time</value>
   <value column="Description" original="Workflow Simulation Execution Time">Workflow Simulation Execution Time</value>
   <value column="Help" original="Amount of time the performer of the activity needs to perform the task in Duration Unit&#10;&#10;In the field Working Time you enter the accumulated time (using the Promising Delivery Time) in the critical path of the BOM for this product. It is the required time to produce the product as if you would not have any component on hand.">Amount of time the performer of the activity needs to perform the task in Duration Unit
 
 In the field Working Time you enter the accumulated time (using the Promising Delivery Time) in the critical path of the BOM for this product. It is the required time to produce the product as if you would not have any component on hand.</value>
+  <value column="UUID" original=""/>
  </row>
- <row id="53653" trl="N">
-  <value column="Name" original="Acknowledge">Acknowledge</value>
-  <value column="Description" original="System Notice acknowledged">System Notice acknowledged</value>
-  <value column="Help" original="The Acknowledged checkbox indicates if this notice does not need to be retained.">The Acknowledged checkbox indicates if this notice does not need to be retained.</value>
+ <row id="65091" trl="N">
+  <value column="Name" original="Resource">Resource</value>
+  <value column="Description" original="Resource">Resource</value>
+  <value column="Help" original="A manufacturing resource is a place where a product will be made.">A manufacturing resource is a place where a product will be made.</value>
+  <value column="UUID" original=""/>
  </row>
- <row id="53742" trl="N">
-  <value column="Name" original="Accumulated Qty">Accumulated Qty</value>
-  <value column="Description" original="Total Quantity">Total Quantity</value>
-  <value column="Help" original="Sum of the quantities&#10;&#10;This field shows the sum of the quantities of the product that have had movements.">Sum of the quantities
-
-This field shows the sum of the quantities of the product that have had movements.</value>
- </row>
- <row id="53744" trl="N">
-  <value column="Name" original="Accumulated Amt">Accumulated Amt</value>
-  <value column="Description" original="Total Amount">Total Amount</value>
-  <value column="Help" original="Sum of all amounts&#10;&#10;This field shows the sum of the amounts of the product that have had movements.">Sum of all amounts
-
-This field shows the sum of the amounts of the product that have had movements.</value>
- </row>
- <row id="53904" trl="N">
-  <value column="Name" original="Version No">Version No</value>
-  <value column="Description" original=""/>
-  <value column="Help" original=""/>
- </row>
- <row id="54035" trl="N">
-  <value column="Name" original="Ordered Quantity">Ordered Quantity</value>
-  <value column="Description" original="Ordered Quantity">Ordered Quantity</value>
-  <value column="Help" original="The Ordered Quantity indicates the quantity of a product that was ordered.">The Ordered Quantity indicates the quantity of a product that was ordered.</value>
- </row>
- <row id="54038" trl="N">
-  <value column="Name" original="Instance">Instance</value>
-  <value column="Description" original="Product Attribute Set Instance">Product Attribute Set Instance</value>
-  <value column="Help" original="The values of the actual Product Attribute Instances.  The product level attributes are defined on Product level.">The values of the actual Product Attribute Instances.  The product level attributes are defined on Product level.</value>
- </row>
- <row id="54039" trl="N">
-  <value column="Name" original="Instance To">Instance To</value>
-  <value column="Description" original="Target Product Attribute Set Instance">Target Product Attribute Set Instance</value>
-  <value column="Help" original=""/>
- </row>
- <row id="54133" trl="N">
-  <value column="Name" original="Resource/Plant">Resource/Plant</value>
-  <value column="Description" original="Resource/Plant">Resource/Plant</value>
-  <value column="Help" original=""/>
- </row>
- <row id="54139" trl="N">
-  <value column="Name" original="Date Ordered">Date Ordered</value>
-  <value column="Description" original="Date of Order">Date of Order</value>
-  <value column="Help" original="Indicates the Date an item was ordered.&#10;Date Ordered is the date when the order was generated. If the MO is created manually the default date ordered is the system date. If the MO was generated by MRP the default date ordered is the day of the MRP process.">Indicates the Date an item was ordered.
-Date Ordered is the date when the order was generated. If the MO is created manually the default date ordered is the system date. If the MO was generated by MRP the default date ordered is the day of the MRP process.</value>
- </row>
- <row id="54140" trl="N">
-  <value column="Name" original="Date Promised">Date Promised</value>
-  <value column="Description" original="Date Order was promised">Date Order was promised</value>
-  <value column="Help" original="The Date Promised indicates the date, if any, that an Order was promised for.&#10;Date Promised Is the date we commit to give the order to the warehouse. If the MO is created manually the default date promised is the system date. If the MO was generated by MRP this date is filled automatically using its algorithm calculation.">The Date Promised indicates the date, if any, that an Order was promised for.
-Date Promised Is the date we commit to give the order to the warehouse. If the MO is created manually the default date promised is the system date. If the MO was generated by MRP this date is filled automatically using its algorithm calculation.</value>
- </row>
- <row id="54145" trl="N">
-  <value column="Name" original="Date Start">Date Start</value>
-  <value column="Description" original="Indicate the real date to start">Indicate the real date to start</value>
-  <value column="Help" original="It is the date when the first manufacturing order movement is reported, this movement can be an inventory or labor movement.">It is the date when the first manufacturing order movement is reported, this movement can be an inventory or labor movement.</value>
- </row>
- <row id="54146" trl="N">
-  <value column="Name" original="Finish Date">Finish Date</value>
-  <value column="Description" original="Finish or (planned) completion date">Finish or (planned) completion date</value>
-  <value column="Help" original="The finish date is used to indicate when the project is expected to be completed or has been completed.&#10;&#10;To Manufacturing Order is the date when the last manufacturing order movement is reported, It is the closing order date.">The finish date is used to indicate when the project is expected to be completed or has been completed.
-
-To Manufacturing Order is the date when the last manufacturing order movement is reported, It is the closing order date.</value>
- </row>
- <row id="54196" trl="N">
-  <value column="Name" original="Company Agent">Company Agent</value>
-  <value column="Description" original="Company Agent">Company Agent</value>
-  <value column="Help" original="Company Agent to Distribution Order">Company Agent to Distribution Order</value>
- </row>
- <row id="54205" trl="N">
-  <value column="Name" original="Transit Warehouse">Transit Warehouse</value>
+ <row id="65092" trl="N">
+  <value column="Name" original="Warehouse">Warehouse</value>
   <value column="Description" original="Storage Warehouse and Service Point">Storage Warehouse and Service Point</value>
-  <value column="Help" original="The Warehouse identifies a unique Warehouse where products are stored or Services are provided.">The Warehouse identifies a unique Warehouse where products are stored or Services are provided.</value>
- </row>
- <row id="54381" trl="N">
-  <value column="Name" original="Target Warehouse">Target Warehouse</value>
-  <value column="Description" original="Target Warehouse and Service Point">Target Warehouse and Service Point</value>
-  <value column="Help" original="The Warehouse identifies a unique Warehouse where products are stored or Services are provided.">The Warehouse identifies a unique Warehouse where products are stored or Services are provided.</value>
- </row>
- <row id="55187" trl="N">
-  <value column="Name" original="Create from a Window">Create from a Window</value>
-  <value column="Description" original=""/>
-  <value column="Help" original=""/>
- </row>
- <row id="56190" trl="N">
-  <value column="Name" original="Period 1 %">Period 1 %</value>
-  <value column="Description" original=""/>
-  <value column="Help" original=""/>
- </row>
- <row id="56191" trl="N">
-  <value column="Name" original="Period 2 %">Period 2 %</value>
-  <value column="Description" original=""/>
-  <value column="Help" original=""/>
- </row>
- <row id="56192" trl="N">
-  <value column="Name" original="Period 3 %">Period 3 %</value>
-  <value column="Description" original=""/>
-  <value column="Help" original=""/>
- </row>
- <row id="56193" trl="N">
-  <value column="Name" original="Period 4 %">Period 4 %</value>
-  <value column="Description" original=""/>
-  <value column="Help" original=""/>
- </row>
- <row id="56194" trl="N">
-  <value column="Name" original="Period 5 %">Period 5 %</value>
-  <value column="Description" original=""/>
-  <value column="Help" original=""/>
- </row>
- <row id="56195" trl="N">
-  <value column="Name" original="Period 6 %">Period 6 %</value>
-  <value column="Description" original=""/>
-  <value column="Help" original=""/>
- </row>
- <row id="56196" trl="N">
-  <value column="Name" original="Period 7 %">Period 7 %</value>
-  <value column="Description" original=""/>
-  <value column="Help" original=""/>
- </row>
- <row id="56197" trl="N">
-  <value column="Name" original="Period 8 %">Period 8 %</value>
-  <value column="Description" original=""/>
-  <value column="Help" original=""/>
- </row>
- <row id="56198" trl="N">
-  <value column="Name" original="Period 9 %">Period 9 %</value>
-  <value column="Description" original=""/>
-  <value column="Help" original=""/>
- </row>
- <row id="56199" trl="N">
-  <value column="Name" original="Period 10 %">Period 10 %</value>
-  <value column="Description" original=""/>
-  <value column="Help" original=""/>
- </row>
- <row id="56200" trl="N">
-  <value column="Name" original="Period 11 %">Period 11 %</value>
-  <value column="Description" original=""/>
-  <value column="Help" original=""/>
- </row>
- <row id="56201" trl="N">
-  <value column="Name" original="Period 12 %">Period 12 %</value>
-  <value column="Description" original=""/>
-  <value column="Help" original=""/>
- </row>
- <row id="56202" trl="N">
-  <value column="Name" original="Period 13 %">Period 13 %</value>
-  <value column="Description" original=""/>
-  <value column="Help" original=""/>
- </row>
- <row id="56203" trl="N">
-  <value column="Name" original="Period 14 %">Period 14 %</value>
-  <value column="Description" original=""/>
-  <value column="Help" original=""/>
- </row>
- <row id="56207" trl="N">
-  <value column="Name" original="Script">Script</value>
-  <value column="Description" original=""/>
-  <value column="Help" original=""/>
- </row>
- <row id="56210" trl="N">
-  <value column="Name" original="Name">Name</value>
-  <value column="Description" original=""/>
-  <value column="Help" original=""/>
- </row>
- <row id="57331" trl="N">
-  <value column="Name" original="Acknowledge">Acknowledge</value>
-  <value column="Description" original="System Notice acknowledged">System Notice acknowledged</value>
-  <value column="Help" original="The Acknowledged checkbox indicates if this notice does not need to be retained.">The Acknowledged checkbox indicates if this notice does not need to be retained.</value>
- </row>
- <row id="57987" trl="N">
-  <value column="Name" original="Search Key">Search Key</value>
-  <value column="Description" original="Search key for the record in the format required">Search key for the record in the format required</value>
-  <value column="Help" original="7 bit lower case alpha numeric - max length 8 - can be used for operating system names.">7 bit lower case alpha numeric - max length 8 - can be used for operating system names.</value>
- </row>
- <row id="58101" trl="N">
-  <value column="Name" original="Copy BOM Lines From">Copy BOM Lines From</value>
-  <value column="Description" original="Copy BOM Lines from an exising BOM">Copy BOM Lines from an exising BOM</value>
-  <value column="Help" original="Copy BOM Lines from an exising BOM. The BOM being copied to, must not have any existing BOM Lines.">Copy BOM Lines from an exising BOM. The BOM being copied to, must not have any existing BOM Lines.</value>
- </row>
- <row id="58114" trl="N">
-  <value column="Name" original="Valid from">Valid from</value>
-  <value column="Description" original="Valid from including this date (first day)">Valid from including this date (first day)</value>
-  <value column="Help" original="The Valid From date indicates the first day of a date range&#10;&#10;The Valid From and Valid To dates indicate the valid time period to use the BOM in a Manufacturing Order.">The Valid From date indicates the first day of a date range
+  <value column="Help" original="The Warehouse identifies a unique Warehouse where products are stored or Services are provided.&#10;&#10;Warehouse place where you locate and control the products">The Warehouse identifies a unique Warehouse where products are stored or Services are provided.
 
-The Valid From and Valid To dates indicate the valid time period to use the BOM in a Manufacturing Order.</value>
+Warehouse place where you locate and control the products</value>
+  <value column="UUID" original=""/>
  </row>
- <row id="58771" trl="N">
-  <value column="Name" original="Import Product Planning Data">Import Product Planning Data</value>
+ <row id="65094" trl="N">
+  <value column="Name" original="BOM &amp; Formula"><![CDATA[BOM & Formula]]></value>
+  <value column="Description" original="BOM &amp; Formula"><![CDATA[BOM & Formula]]></value>
+  <value column="Help" original="The name BOM/Formula that you introduce in this window will be considered the default BOM to produce the product in this Organization-Plant-Warehouse. If you do not fill this field the default BOM &amp; Formula for the entity will be the BOM/Formula which has the same name as the product."><![CDATA[The name BOM/Formula that you introduce in this window will be considered the default BOM to produce the product in this Organization-Plant-Warehouse. If you do not fill this field the default BOM & Formula for the entity will be the BOM/Formula which has the same name as the product.]]></value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="65095" trl="N">
+  <value column="Name" original="Workflow">Workflow</value>
+  <value column="Description" original="Workflow or combination of tasks">Workflow or combination of tasks</value>
+  <value column="Help" original="The Workflow field identifies a unique Workflow in the system.&#10;&#10;The Workflow you introduce in this window will be considered the default Workflow to produce the product in this Organization-Plant-Warehouse. If you do not fill this field the defaul Workflow for the entity will be the Workflow with the same name as the product.">The Workflow field identifies a unique Workflow in the system.
+
+The Workflow you introduce in this window will be considered the default Workflow to produce the product in this Organization-Plant-Warehouse. If you do not fill this field the defaul Workflow for the entity will be the Workflow with the same name as the product.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="65101" trl="N">
+  <value column="Name" original="Promised Delivery Time">Promised Delivery Time</value>
+  <value column="Description" original="Promised days between order and delivery">Promised days between order and delivery</value>
+  <value column="Help" original="The Promised Delivery Time indicates the number of days between the order date and the date that delivery was promised.&#10;&#10;You must enter the average number of days to receive the product in the warehouse since you approve the requisition or manufacturing order until you receive the material in the warehouse . If the product is bought you must register the calendar days required since you make the PO until you receive the material in the warehouse. If the product is manufactured in your plant you must register the number of working days since you release the MO until you receive the material in the warehouse.">The Promised Delivery Time indicates the number of days between the order date and the date that delivery was promised.
+
+You must enter the average number of days to receive the product in the warehouse since you approve the requisition or manufacturing order until you receive the material in the warehouse . If the product is bought you must register the calendar days required since you make the PO until you receive the material in the warehouse. If the product is manufactured in your plant you must register the number of working days since you release the MO until you receive the material in the warehouse.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="65996" trl="N">
+  <value column="Name" original="Generate from Purchase Orders">Generate from Purchase Orders</value>
+  <value column="Description" original="Generate from Pruchase Orders">Generate from Pruchase Orders</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="65997" trl="N">
+  <value column="Name" original="Create from Invoice">Create from Invoice</value>
+  <value column="Description" original="Process which will generate a new document lines based on an existing document">Process which will generate a new document lines based on an existing document</value>
+  <value column="Help" original="The Create From process will create a new document based on information in an existing document selected by the user.">The Create From process will create a new document based on information in an existing document selected by the user.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="65998" trl="N">
+  <value column="Name" original="Scan Barcode">Scan Barcode</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="70242" trl="N">
+  <value column="Name" original="Cash Flow Process">Cash Flow Process</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="70635" trl="N">
+  <value column="Name" original="Manager">Manager</value>
+  <value column="Description" original="Identifies a Manager">Identifies a Manager</value>
+  <value column="Help" original="Identifies a Manager. The Manager must be identified as a business partner">Identifies a Manager. The Manager must be identified as a business partner</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="70646" trl="N">
+  <value column="Name" original="Expected Consumption">Expected Consumption</value>
+  <value column="Description" original="Planned Quantity">Planned Quantity</value>
+  <value column="Help" original="Planned Quantity">Planned Quantity</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="70647" trl="N">
+  <value column="Name" original="Actual Consumption">Actual Consumption</value>
+  <value column="Description" original="The actual quantity">The actual quantity</value>
+  <value column="Help" original="The Actual Quantity indicates the quantity as referenced on a document.">The Actual Quantity indicates the quantity as referenced on a document.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="70727" trl="N">
+  <value column="Name" original="Last Update On">Last Update On</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="70736" trl="N">
+  <value column="Name" original="Salary component">Salary component</value>
+  <value column="Description" original="Salary earning component">Salary earning component</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="70759" trl="N">
+  <value column="Name" original="Agent Name">Agent Name</value>
+  <value column="Description" original="User within the system - Internal or Business Partner Contact">User within the system - Internal or Business Partner Contact</value>
+  <value column="Help" original="The User identifies a unique user in the system. This could be an internal user or a business partner contact">The User identifies a unique user in the system. This could be an internal user or a business partner contact</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="70956" trl="N">
+  <value column="Name" original="Credit Leaves">Credit Leaves</value>
+  <value column="Description" original="Credit Leaves">Credit Leaves</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="71040" trl="N">
+  <value column="Name" original="Employee">Employee</value>
+  <value column="Description" original="Identifies a Employee">Identifies a Employee</value>
+  <value column="Help" original="A Business Partner is anyone with whom you transact.  This can include Vendor, Customer, Employee or Salesperson">A Business Partner is anyone with whom you transact.  This can include Vendor, Customer, Employee or Salesperson</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="71071" trl="N">
+  <value column="Name" original="Effective From Date">Effective From Date</value>
+  <value column="Description" original="Valid from including this date (first day)">Valid from including this date (first day)</value>
+  <value column="Help" original="The Valid From date indicates the first day of a date range">The Valid From date indicates the first day of a date range</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="71072" trl="N">
+  <value column="Name" original="Expiration Date">Expiration Date</value>
+  <value column="Description" original="Valid to including this date (last day)">Valid to including this date (last day)</value>
+  <value column="Help" original="The Valid To date indicates the last day of a date range">The Valid To date indicates the last day of a date range</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="71091" trl="N">
+  <value column="Name" original="Manager Approved">Manager Approved</value>
+  <value column="Description" original="The Supervisor Approved checkbox indicates if this document was approved by Supervisor.">The Supervisor Approved checkbox indicates if this document was approved by Supervisor.</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="71117" trl="N">
+  <value column="Name" original="Employee">Employee</value>
+  <value column="Description" original="Identifies a Employee">Identifies a Employee</value>
+  <value column="Help" original="A Business Partner is anyone with whom you transact.  This can include Vendor, Customer, Employee or Salesperson">A Business Partner is anyone with whom you transact.  This can include Vendor, Customer, Employee or Salesperson</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="71136" trl="N">
+  <value column="Name" original="Desired start date">Desired start date</value>
+  <value column="Description" original="Desired start date">Desired start date</value>
+  <value column="Help" original="The Start Date indicates the first or starting date">The Start Date indicates the first or starting date</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="71202" trl="N">
+  <value column="Name" original="Agent Name">Agent Name</value>
+  <value column="Description" original="User within the system - Internal or Business Partner Contact">User within the system - Internal or Business Partner Contact</value>
+  <value column="Help" original="The User identifies a unique user in the system. This could be an internal user or a business partner contact">The User identifies a unique user in the system. This could be an internal user or a business partner contact</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="71400" trl="N">
+  <value column="Name" original="Credit Leaves">Credit Leaves</value>
+  <value column="Description" original="Credit Leaves">Credit Leaves</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="74297" trl="N">
+  <value column="Name" original="Create Landed Cost from Receipts">Create Landed Cost from Receipts</value>
+  <value column="Description" original="Process which will generate a new document lines based on an existing document">Process which will generate a new document lines based on an existing document</value>
+  <value column="Help" original="The Create From process will create a new document based on information in an existing document selected by the user.">The Create From process will create a new document based on information in an existing document selected by the user.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="74947" trl="N">
+  <value column="Name" original="Import Employee Attribute">Import Employee Attribute</value>
+  <value column="Description" original="Import Employee Attribute">Import Employee Attribute</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="76605" trl="N">
+  <value column="Name" original="Tax exempt">Tax exempt</value>
+  <value column="Description" original="Business partner is exempt from tax on sales">Business partner is exempt from tax on sales</value>
+  <value column="Help" original="If a Concept is exempt from tax">If a Concept is exempt from tax</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="77759" trl="N">
+  <value column="Name" original="Reference Overwrite">Reference Overwrite</value>
+  <value column="Description" original="System Reference - optional Overwrite">System Reference - optional Overwrite</value>
+  <value column="Help" original="You can overwrite the Display Type, but only use this if you aware of the consequences.">You can overwrite the Display Type, but only use this if you aware of the consequences.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="77762" trl="N">
+  <value column="Name" original="Mandatory Overwrite">Mandatory Overwrite</value>
+  <value column="Description" original="Overwrite Field Mandatory status">Overwrite Field Mandatory status</value>
+  <value column="Help" original="The field must have a value for the record to be saved to the database.">The field must have a value for the record to be saved to the database.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="77852" trl="N">
+  <value column="Name" original="MRP">MRP</value>
+  <value column="Description" original="MRP ID">MRP ID</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="78278" trl="N">
+  <value column="Name" original="Create Production + Lines">Create Production + Lines</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="78299" trl="N">
+  <value column="Name" original="Complete Production">Complete Production</value>
+  <value column="Description" original="Complete Production">Complete Production</value>
+  <value column="Help" original="Indication that this is complete">Indication that this is complete</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="79699" trl="N">
+  <value column="Name" original="Reference Name">Reference Name</value>
+  <value column="Description" original="Alphanumeric identifier of the entity">Alphanumeric identifier of the entity</value>
+  <value column="Help" original="The name of an entity (record) is used as an default search option in addition to the search key. The name is up to 60 characters in length.">The name of an entity (record) is used as an default search option in addition to the search key. The name is up to 60 characters in length.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="80734" trl="N">
+  <value column="Name" original="Import Employee Data">Import Employee Data</value>
+  <value column="Description" original="Import Employee Data">Import Employee Data</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="81320" trl="N">
+  <value column="Name" original="Budget Movement">Budget Movement</value>
+  <value column="Description" original="Budget Movement">Budget Movement</value>
+  <value column="Help" original="The Budget Movement identifies a group of budget movements to be processed as a group.">The Budget Movement identifies a group of budget movements to be processed as a group.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="81346" trl="N">
+  <value column="Name" original="Budget Movement">Budget Movement</value>
+  <value column="Description" original="Budget Movement">Budget Movement</value>
+  <value column="Help" original="The Budget Movement identifies a group of Budget Movement Line  which represent a logical business transaction">The Budget Movement identifies a group of Budget Movement Line  which represent a logical business transaction</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="81846" trl="N">
+  <value column="Name" original="Requirement Assignment">Requirement Assignment</value>
+  <value column="Description" original="Process which will assignment Requirement to Vehicle">Process which will assignment Requirement to Vehicle</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="81847" trl="N">
+  <value column="Name" original="License Assignment">License Assignment</value>
+  <value column="Description" original="Process which will assignment License">Process which will assignment License</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="81943" trl="N">
+  <value column="Name" original="Attribute Set Instance">Attribute Set Instance</value>
+  <value column="Description" original="Product Attribute Values">Product Attribute Values</value>
+  <value column="Help" original="The values of the actual Product Attributes. Product Instance attributes are defined in the actual transactions.">The values of the actual Product Attributes. Product Instance attributes are defined in the actual transactions.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="82246" trl="N">
+  <value column="Name" original="Requirement Assignment">Requirement Assignment</value>
+  <value column="Description" original="Process which will assignment Requirement to Driver">Process which will assignment Requirement to Driver</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="82247" trl="N">
+  <value column="Name" original="License Assignment">License Assignment</value>
+  <value column="Description" original="Process which will assignment License">Process which will assignment License</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="82248" trl="N">
+  <value column="Name" original="Requirement Assignment">Requirement Assignment</value>
+  <value column="Description" original="Process which will assignment Requirement to Drive">Process which will assignment Requirement to Drive</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="82249" trl="N">
+  <value column="Name" original="License Types Assignment">License Types Assignment</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="82303" trl="N">
+  <value column="Name" original="Language">Language</value>
+  <value column="Description" original="Language for this Business Partner if Multi-Language enabled">Language for this Business Partner if Multi-Language enabled</value>
+  <value column="Help" original="The Language identifies the language to use for display and formatting documents. It requires, that on Client level, Multi-Lingual documents are selected and that you have created/loaded the language.">The Language identifies the language to use for display and formatting documents. It requires, that on Client level, Multi-Lingual documents are selected and that you have created/loaded the language.</value>
+  <value column="UUID" original=""/>
  </row>
 </adempiereTrl>

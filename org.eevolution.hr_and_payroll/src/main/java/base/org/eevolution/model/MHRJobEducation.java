@@ -42,20 +42,21 @@ public class MHRJobEducation extends X_HR_JobEducation {
      * Get Job Education by id
      * @param ctx
      * @param jobEducationId
+     * @param trxName
      * @return
      */
-    public static MHRJobEducation getById(Properties ctx, int jobEducationId) {
+    public static MHRJobEducation getById(Properties ctx, int jobEducationId, String trxName) {
         if (jobEducationId <= 0)
             return null;
 
         if (jobEducationCacheIds.size() == 0)
-            getAll(ctx, true);
+            getAll(ctx, true, trxName);
 
         MHRJobEducation jobEducation = jobEducationCacheIds.get(jobEducationId);
         if (jobEducation != null && jobEducation.get_ID() > 0)
             return jobEducation;
 
-        jobEducation = new Query(ctx , Table_Name , MHRJobEducation.COLUMNNAME_HR_JobEducation_ID + "=?", null)
+        jobEducation = new Query(ctx , Table_Name , MHRJobEducation.COLUMNNAME_HR_JobEducation_ID + "=?", trxName)
                 .setClient_ID()
                 .setParameters(jobEducationId)
                 .first();
@@ -73,13 +74,14 @@ public class MHRJobEducation extends X_HR_JobEducation {
      * Get Job Education by search key
      * @param ctx
      * @param value
+     * @param trxName
      * @return
      */
-    public static MHRJobEducation getByValue(Properties ctx, String value) {
+    public static MHRJobEducation getByValue(Properties ctx, String value, String trxName) {
         if (value == null)
             return null;
         if (jobEducationCacheValues.size() == 0)
-            getAll(ctx, true);
+            getAll(ctx, true, trxName);
 
         int clientId = Env.getAD_Client_ID(ctx);
         String key = clientId + "#" + value;
@@ -87,7 +89,7 @@ public class MHRJobEducation extends X_HR_JobEducation {
         if (jobEducation != null && jobEducation.get_ID() > 0)
             return jobEducation;
 
-        jobEducation = new Query(ctx, Table_Name, COLUMNNAME_Value + "=?", null)
+        jobEducation = new Query(ctx, Table_Name, COLUMNNAME_Value + "=?", trxName)
                 .setClient_ID()
                 .setParameters(value)
                 .first();
@@ -103,12 +105,13 @@ public class MHRJobEducation extends X_HR_JobEducation {
      * Get all job education and create cache
      * @param ctx
      * @param resetCache
+     * @param trxName
      * @return
      */
-    public static List<MHRJobEducation> getAll(Properties ctx, boolean resetCache) {
+    public static List<MHRJobEducation> getAll(Properties ctx, boolean resetCache, String trxName) {
         List<MHRJobEducation> jobEducationList;
         if (resetCache || jobEducationCacheIds.size() > 0) {
-            jobEducationList = new Query(Env.getCtx(), Table_Name, null, null)
+            jobEducationList = new Query(Env.getCtx(), Table_Name, null, trxName)
                     .setClient_ID()
                     .setOrderBy(COLUMNNAME_Name)
                     .list();

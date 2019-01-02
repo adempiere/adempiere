@@ -20,18 +20,13 @@ package org.eevolution.process;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MMovement;
-import org.compiere.model.PO;
 import org.compiere.process.DocAction;
 import org.compiere.process.ProcessInfo;
 import org.compiere.util.Env;
-import org.compiere.util.Ini;
 import org.compiere.util.Msg;
-import org.eevolution.form.IPrintDocument;
 import org.eevolution.model.MDDOrder;
-import org.eevolution.model.MDDOrderLine;
 import org.eevolution.service.dsl.ProcessBuilder;
 
-import java.lang.reflect.Constructor;
 import java.util.Arrays;
 
 
@@ -43,6 +38,7 @@ import java.util.Arrays;
 public class GenerateMovement extends GenerateMovementAbstract {
 
     private String result;
+
     /**
      * Prepare - e.g., get Parameters.
      */
@@ -52,6 +48,7 @@ public class GenerateMovement extends GenerateMovementAbstract {
 
     /**
      * Generate Movements
+     *
      * @return info
      * @throws Exception
      */
@@ -59,57 +56,26 @@ public class GenerateMovement extends GenerateMovementAbstract {
         ProcessInfo processInfo = ProcessBuilder.create(getCtx()).process(MovementGenerate.getProcessId())
                 .withTitle(GenerateMovement.getProcessName())
                 .withRecordId(MDDOrder.Table_ID, 0)
-                .withSelectedRecordsIds(MDDOrder.Table_ID , getSelectionKeys())
-                .withParameter(MMovement.COLUMNNAME_MovementDate , getMovementDate())
+                .withSelectedRecordsIds(MDDOrder.Table_ID, getSelectionKeys())
+                .withParameter(MMovement.COLUMNNAME_MovementDate, getMovementDate())
                 .withParameter(MMovement.COLUMNNAME_DocAction, DocAction.ACTION_Complete)
                 .execute();
 
         if (processInfo.isError())
-                throw new AdempiereException(processInfo.getSummary());
+            throw new AdempiereException(processInfo.getSummary());
 
         result = processInfo.getSummary();
 
         int[] movementProcessedIds = processInfo.getIDs();
-        if (movementProcessedIds != null && movementProcessedIds.length > 0)
-        {
-            Arrays.stream(movementProcessedIds).filter(movementId -> movementId > 0).forEach(movementId -> {
-                MMovement movement = new MMovement(getCtx(), movementId, null);
-                StringBuffer resultText = new StringBuffer(Msg.translate(Env.getCtx(), "DocumentNo") + " : " + movement.getDocumentNo());
-                result = result == null ? " " + resultText.toString() : result + " " + resultText.toString();
-                printDocument(movement, "Inventory Move Hdr (Example)", processInfo.getWindowNo());
-            });
+        if (movementProcessedIds != null && movementProcessedIds.length > 0) {
+            Arrays.stream(movementProcessedIds).filter(movementId -> movementId > 0)
+                    .forEach(movementId -> {
+                        MMovement movement = new MMovement(getCtx(), movementId, null);
+                        StringBuffer resultText = new StringBuffer(Msg.translate(Env.getCtx(), "DocumentNo") + " : " + movement.getDocumentNo());
+                        result = result == null ? " " + resultText.toString() : result + " " + resultText.toString();
+                        printDocument(movement, "Inventory Move Hdr (Example)");
+                    });
         }
         return result;
     }    //	generate
-
-    /**
-     * Print Document
-     *
-     * @param document
-     * @param printFormantName
-     */
-    static public void printDocument(PO document, String printFormantName, int windowNo) {
-        IPrintDocument IPrintDocument;
-        //	OK to print shipments
-        if (Ini.isClient())
-            IPrintDocument = getPrintDocument("org.eevolution.form.VPrintDocument");
-        else
-            IPrintDocument = getPrintDocument("org.eevolution.form.WPrintDocument");
-
-        IPrintDocument.print(document, printFormantName, windowNo);
-    }
-
-    static public IPrintDocument getPrintDocument(String className) throws RuntimeException {
-        Class<?> clazz;
-        IPrintDocument result = null;
-        try {
-            clazz = Class.forName(className);
-            Constructor<?> constructor = null;
-            constructor = clazz.getDeclaredConstructor();
-            result = (IPrintDocument) constructor.newInstance();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        return result;
-    }
 }    //	MovementGenerate

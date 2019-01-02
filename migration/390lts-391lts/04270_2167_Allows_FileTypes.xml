@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Validate MimeType and file extension #2167" ReleaseNo="3.9.1" SeqNo="4270">
+    <Comments>See: https://github.com/adempiere/adempiere/issues/2167</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="50009" Action="I" Record_ID="50150" Table="AD_SysConfig">
+        <Data AD_Column_ID="50192" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="50193" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="50187" Column="AD_SysConfig_ID">50150</Data>
+        <Data AD_Column_ID="50188" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="50189" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="50191" Column="Updated">2018-12-05 18:08:23.651</Data>
+        <Data AD_Column_ID="50190" Column="Created">2018-12-05 18:08:23.651</Data>
+        <Data AD_Column_ID="50194" Column="IsActive">true</Data>
+        <Data AD_Column_ID="50195" Column="Name">ATTACHMENT_FILE_TYPES_ALLOWED</Data>
+        <Data AD_Column_ID="50196" Column="Value">50000</Data>
+        <Data AD_Column_ID="50197" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="53271" Column="ConfigurationLevel">S</Data>
+        <Data AD_Column_ID="53270" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="84421" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="50009" Action="U" Record_ID="50150" Table="AD_SysConfig">
+        <Data AD_Column_ID="50196" Column="Value" oldValue="50000"> </Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="50009" Action="I" Record_ID="50151" Table="AD_SysConfig">
+        <Data AD_Column_ID="50192" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="50193" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="50187" Column="AD_SysConfig_ID">50151</Data>
+        <Data AD_Column_ID="50188" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="50189" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="50191" Column="Updated">2018-12-05 18:08:55.084</Data>
+        <Data AD_Column_ID="50190" Column="Created">2018-12-05 18:08:55.084</Data>
+        <Data AD_Column_ID="50194" Column="IsActive">true</Data>
+        <Data AD_Column_ID="50195" Column="Name">ATTACHMENT_FILE_TYPES_RESTRICTED</Data>
+        <Data AD_Column_ID="50196" Column="Value">.exe, .sh, .py, .run, .msi, .bat</Data>
+        <Data AD_Column_ID="50197" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="53271" Column="ConfigurationLevel">S</Data>
+        <Data AD_Column_ID="53270" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="84421" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="50009" Action="U" Record_ID="50150" Table="AD_SysConfig">
+        <Data AD_Column_ID="53271" Column="ConfigurationLevel" oldValue="S">C</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="50009" Action="U" Record_ID="50151" Table="AD_SysConfig">
+        <Data AD_Column_ID="53271" Column="ConfigurationLevel" oldValue="S">C</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

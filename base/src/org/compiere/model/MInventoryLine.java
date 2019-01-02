@@ -22,6 +22,7 @@ import java.sql.Timestamp;
 import java.util.Properties;
 
 import org.adempiere.engine.IDocumentLine;
+import org.compiere.process.DocumentReversalLineEnable;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
@@ -36,7 +37,7 @@ import org.compiere.util.Msg;
  * 			<li>BF [ 1817757 ] Error on saving MInventoryLine in a custom environment
  * 			<li>BF [ 1722982 ] Error with inventory when you enter count qty in negative
  */
-public class MInventoryLine extends X_M_InventoryLine implements IDocumentLine
+public class MInventoryLine extends X_M_InventoryLine implements IDocumentLine , DocumentReversalLineEnable
 {
 	/**
 	 * 

@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for PP_Order_Node
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.1
  */
 public interface I_PP_Order_Node 
 {
@@ -312,12 +312,12 @@ public interface I_PP_Order_Node
     /** Column name DateFinishSchedule */
     public static final String COLUMNNAME_DateFinishSchedule = "DateFinishSchedule";
 
-	/** Set Date Finish Schedule.
+	/** Set Finish Schedule.
 	  * Scheduled Finish date for this Order
 	  */
 	public void setDateFinishSchedule (Timestamp DateFinishSchedule);
 
-	/** Get Date Finish Schedule.
+	/** Get Finish Schedule.
 	  * Scheduled Finish date for this Order
 	  */
 	public Timestamp getDateFinishSchedule();
@@ -338,12 +338,12 @@ public interface I_PP_Order_Node
     /** Column name DateStartSchedule */
     public static final String COLUMNNAME_DateStartSchedule = "DateStartSchedule";
 
-	/** Set Date Start Schedule.
+	/** Set Start Schedule.
 	  * Scheduled start date for this Order
 	  */
 	public void setDateStartSchedule (Timestamp DateStartSchedule);
 
-	/** Get Date Start Schedule.
+	/** Get Start Schedule.
 	  * Scheduled start date for this Order
 	  */
 	public Timestamp getDateStartSchedule();

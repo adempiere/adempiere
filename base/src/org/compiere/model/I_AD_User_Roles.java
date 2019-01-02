@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_User_Roles
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.1
  */
 public interface I_AD_User_Roles 
 {
@@ -120,6 +120,19 @@ public interface I_AD_User_Roles
 	  * The record is active in the system
 	  */
 	public boolean isActive();
+
+    /** Column name IsDefault */
+    public static final String COLUMNNAME_IsDefault = "IsDefault";
+
+	/** Set Default.
+	  * Default value
+	  */
+	public void setIsDefault (boolean IsDefault);
+
+	/** Get Default.
+	  * Default value
+	  */
+	public boolean isDefault();
 
     /** Column name UUID */
     public static final String COLUMNNAME_UUID = "UUID";

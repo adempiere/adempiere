@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for I_BPartner
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170731L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_I_BPartner (Properties ctx, int I_BPartner_ID, String trxName)
@@ -135,6 +135,40 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 		return (String)get_Value(COLUMNNAME_Address2);
 	}
 
+	/** Set Address 3.
+		@param Address3 
+		Address Line 3 for the location
+	  */
+	public void setAddress3 (String Address3)
+	{
+		set_Value (COLUMNNAME_Address3, Address3);
+	}
+
+	/** Get Address 3.
+		@return Address Line 3 for the location
+	  */
+	public String getAddress3 () 
+	{
+		return (String)get_Value(COLUMNNAME_Address3);
+	}
+
+	/** Set Address 4.
+		@param Address4 
+		Address Line 4 for the location
+	  */
+	public void setAddress4 (String Address4)
+	{
+		set_Value (COLUMNNAME_Address4, Address4);
+	}
+
+	/** Get Address 4.
+		@return Address Line 4 for the location
+	  */
+	public String getAddress4 () 
+	{
+		return (String)get_Value(COLUMNNAME_Address4);
+	}
+
 	/** Set BP Contact Greeting.
 		@param BPContactGreeting 
 		Greeting for Business Partner Contact
@@ -185,6 +219,11 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	{
 		return (String)get_Value(COLUMNNAME_BirthCountryCode);
 	}
+
+	public org.compiere.model.I_C_Country getBirthCountry() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_Country)MTable.get(getCtx(), org.compiere.model.I_C_Country.Table_Name)
+			.getPO(getBirthCountry_ID(), get_TrxName());	}
 
 	/** Set Birth Country.
 		@param BirthCountry_ID 
@@ -456,6 +495,62 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	public int getC_Greeting_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_Greeting_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.eevolution.model.I_C_ProjectMemberType getC_ProjectMemberType() throws RuntimeException
+    {
+		return (org.eevolution.model.I_C_ProjectMemberType)MTable.get(getCtx(), org.eevolution.model.I_C_ProjectMemberType.Table_Name)
+			.getPO(getC_ProjectMemberType_ID(), get_TrxName());	}
+
+	/** Set Project Member Type.
+		@param C_ProjectMemberType_ID 
+		Define the Member Type for a Project
+	  */
+	public void setC_ProjectMemberType_ID (int C_ProjectMemberType_ID)
+	{
+		if (C_ProjectMemberType_ID < 1) 
+			set_Value (COLUMNNAME_C_ProjectMemberType_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_ProjectMemberType_ID, Integer.valueOf(C_ProjectMemberType_ID));
+	}
+
+	/** Get Project Member Type.
+		@return Define the Member Type for a Project
+	  */
+	public int getC_ProjectMemberType_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_ProjectMemberType_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_Project)MTable.get(getCtx(), org.compiere.model.I_C_Project.Table_Name)
+			.getPO(getC_Project_ID(), get_TrxName());	}
+
+	/** Set Project.
+		@param C_Project_ID 
+		Financial Project
+	  */
+	public void setC_Project_ID (int C_Project_ID)
+	{
+		if (C_Project_ID < 1) 
+			set_Value (COLUMNNAME_C_Project_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
+	}
+
+	/** Get Project.
+		@return Financial Project
+	  */
+	public int getC_Project_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Project_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -823,6 +918,54 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 		return false;
 	}
 
+	/** Set Is Project Manager.
+		@param IsProjectManager 
+		Is Project Manager
+	  */
+	public void setIsProjectManager (boolean IsProjectManager)
+	{
+		set_Value (COLUMNNAME_IsProjectManager, Boolean.valueOf(IsProjectManager));
+	}
+
+	/** Get Is Project Manager.
+		@return Is Project Manager
+	  */
+	public boolean isProjectManager () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsProjectManager);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Is Project Member.
+		@param IsProjectMember 
+		Is Project Member
+	  */
+	public void setIsProjectMember (boolean IsProjectMember)
+	{
+		set_Value (COLUMNNAME_IsProjectMember, Boolean.valueOf(IsProjectMember));
+	}
+
+	/** Get Is Project Member.
+		@return Is Project Member
+	  */
+	public boolean isProjectMember () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsProjectMember);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Vendor.
 		@param IsVendor 
 		Indicates if this Business Partner is a Vendor
@@ -1054,6 +1197,40 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 			return "Y".equals(oo);
 		}
 		return false;
+	}
+
+	/** Set Project Member Type Value.
+		@param ProjectMemberTypeValue 
+		Define the Search Key of Project Member Type
+	  */
+	public void setProjectMemberTypeValue (String ProjectMemberTypeValue)
+	{
+		set_Value (COLUMNNAME_ProjectMemberTypeValue, ProjectMemberTypeValue);
+	}
+
+	/** Get Project Member Type Value.
+		@return Define the Search Key of Project Member Type
+	  */
+	public String getProjectMemberTypeValue () 
+	{
+		return (String)get_Value(COLUMNNAME_ProjectMemberTypeValue);
+	}
+
+	/** Set Project Key.
+		@param ProjectValue 
+		Key of the Project
+	  */
+	public void setProjectValue (String ProjectValue)
+	{
+		set_Value (COLUMNNAME_ProjectValue, ProjectValue);
+	}
+
+	/** Get Project Key.
+		@return Key of the Project
+	  */
+	public String getProjectValue () 
+	{
+		return (String)get_Value(COLUMNNAME_ProjectValue);
 	}
 
 	public org.compiere.model.I_R_InterestArea getR_InterestArea() throws RuntimeException

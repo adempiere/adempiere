@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="base/src"/>
+	<classpathentry kind="src" path="org.adempiere.project/src/main/java"/>
+	<classpathentry kind="src" path="org.adempiere.request/src/main/java"/>
 	<classpathentry kind="src" path="glassfishfacet/src"/>
 	<classpathentry kind="src" path="jbossfacet/src"/>
 	<classpathentry kind="src" path="client/src"/>
@@ -38,7 +40,8 @@
 	<classpathentry kind="src" path="org.eevolution.freight/src/main/java/base"/>
 	<classpathentry kind="src" path="org.adempiere.production/src/main/java/base"/>
 	<classpathentry kind="src" path="org.eevolution.fleet/src/main/java/base"/>
-	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="org.adempiere.crm/src/main/java"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk8"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/jstl.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
@@ -86,11 +89,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="tools/lib/servlet-api.jar">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="tools/lib/ojdbc6.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
@@ -152,16 +150,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="tools/lib/xjavadoc-1.1.jar">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="tools/lib/xml-apis.jar">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="tools/lib/jpedal.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
@@ -247,39 +235,20 @@
 	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/timelinez.jar" sourcepath="zkwebui/WEB-INF/lib/timelinez-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/zcommons-el.jar"/>
 	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/zhtml.jar" sourcepath="zkwebui/WEB-INF/lib/zhtml-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/zhtml-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/zkex.jar" sourcepath="zkwebui/WEB-INF/lib/zkex-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/zkmax.jar" sourcepath="zkwebui/WEB-INF/lib/zkmax-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/zkmax-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/zkplus.jar" sourcepath="zkwebui/WEB-INF/lib/zkplus-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/zml.jar"/>
 	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/bsh.jar"/>
 	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/commons-fileupload.jar"/>
 	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/jython.jar"/>
 	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/timelinez-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/zcommon-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/zkex-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/zk-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/zml-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/zul-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/zweb-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/testing/spiffy-with_source-all-0.05.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/testing/SuperCSV-with_src-1.52.jar"/>
 	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/keylistener.jar"/>
 	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/junit.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/junit.jar"/>
 	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/zweb.jar"/>
-	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/zkplus-sources.jar"/>
-	<!--classpathentry exported="true" kind="lib" path="packages/HumanResourceAndPayroll.jar" sourcepath="/adempiereLiberoHR">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
-		</attributes>
-	</classpathentry-->
-	<!--classpathentry exported="true" kind="lib" path="packages/ManufacturingManagement.jar" sourcepath="/adempiereLibero">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
-		</attributes>
-	</classpathentry-->
 	<classpathentry exported="true" kind="lib" path="tools/lib/iText-2.1.7.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
@@ -305,11 +274,6 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="tools/lib/groovy-all-2.4.7.jar">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="tools/lib/jcommon-1.0.18.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
@@ -320,23 +284,7 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="JasperReportsTools/lib/jasperreports-6.3.1.jar">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="tools/lib/poi-3.14-20160307.jar">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="tools/lib/poi-ooxml-3.14-20160307.jar">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry kind="lib" path="tools/lib/OpenForecast-0.5.0.jar"/>
-	<!--classpathentry kind="lib" path="packages/WarehouseManagement.jar"/-->
 	<classpathentry kind="lib" path="tools/lib/commons-io.jar"/>
 	<classpathentry kind="lib" path="tools/lib/ooxml-schemas-1.3.jar">
 		<attributes>
@@ -360,5 +308,32 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/SBT: org.scalatest:scalatest_2.11:2.2.4:jar"/>
 	<classpathentry kind="lib" path="tools/lib/mariadb-java-client.jar"/>
 	<classpathentry kind="lib" path="tools/lib/slf4j-api-1.6.0.jar"/>
+	<classpathentry kind="lib" path="tools/lib/poi-3.17.jar"/>
+	<classpathentry kind="lib" path="tools/lib/poi-ooxml-3.17.jar"/>
+	<classpathentry kind="lib" path="JasperReportsTools/lib/jasperreports-6.6.0.jar"/>
+	<classpathentry kind="lib" path="JasperReportsTools/lib/commons-beanutils-1.9.3.jar"/>
+	<classpathentry kind="lib" path="JasperReportsTools/lib/commons-digester-2.1.jar"/>
+	<classpathentry kind="lib" path="JasperReportsTools/lib/jasperreports-fonts-6.6.0.jar"/>
+	<classpathentry kind="lib" path="JasperReportsTools/lib/jfreechart-1.0.13.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant-contrib-1.0b1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/cglib.jar"/>
+	<classpathentry kind="lib" path="tools/lib/commons-codec-1.10.jar"/>
+	<classpathentry kind="lib" path="tools/lib/commons-collections4-4.1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/groovy-all-2.4.15.jar"/>
+	<classpathentry kind="lib" path="tools/lib/harness-1.0.0.jar"/>
+	<classpathentry kind="lib" path="tools/lib/icepdf-core-6.2.2.jar"/>
+	<classpathentry kind="lib" path="tools/lib/icepdf-viewer-6.2.2.jar"/>
+	<classpathentry kind="lib" path="tools/lib/io-7.1.1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/itext-carriage-0.8.0.jar"/>
+	<classpathentry kind="lib" path="tools/lib/itext-pdfa-5.5.2.jar"/>
+	<classpathentry kind="lib" path="tools/lib/itextpdf-5.5.2.jar"/>
+	<classpathentry kind="lib" path="tools/lib/javax.inject-1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/kernel-7.1.1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/lablib-checkboxtree-3.3.jar"/>
+	<classpathentry kind="lib" path="tools/lib/layout-7.1.1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/logkit.jar"/>
+	<classpathentry kind="lib" path="tools/lib/pdfa-7.1.1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/wizard.jar"/>
+	<classpathentry kind="lib" path="tools/lib/oracle.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

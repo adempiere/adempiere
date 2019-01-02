@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Field
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.1
  */
 public interface I_AD_Field 
 {
@@ -64,6 +64,32 @@ public interface I_AD_Field
 
 	public org.compiere.model.I_AD_Column getAD_Column() throws RuntimeException;
 
+    /** Column name AD_ContextInfo_ID */
+    public static final String COLUMNNAME_AD_ContextInfo_ID = "AD_ContextInfo_ID";
+
+	/** Set Context Info.
+	  * Context Info Maintaining
+	  */
+	public void setAD_ContextInfo_ID (int AD_ContextInfo_ID);
+
+	/** Get Context Info.
+	  * Context Info Maintaining
+	  */
+	public int getAD_ContextInfo_ID();
+
+	public org.spin.model.I_AD_ContextInfo getAD_ContextInfo() throws RuntimeException;
+
+    /** Column name AD_FieldDefinition_ID */
+    public static final String COLUMNNAME_AD_FieldDefinition_ID = "AD_FieldDefinition_ID";
+
+	/** Set Field Definition	  */
+	public void setAD_FieldDefinition_ID (int AD_FieldDefinition_ID);
+
+	/** Get Field Definition	  */
+	public int getAD_FieldDefinition_ID();
+
+	public org.spin.model.I_AD_FieldDefinition getAD_FieldDefinition() throws RuntimeException;
+
     /** Column name AD_FieldGroup_ID */
     public static final String COLUMNNAME_AD_FieldGroup_ID = "AD_FieldGroup_ID";
 
@@ -91,6 +117,21 @@ public interface I_AD_Field
 	  * Field on a database table
 	  */
 	public int getAD_Field_ID();
+
+    /** Column name AD_Image_ID */
+    public static final String COLUMNNAME_AD_Image_ID = "AD_Image_ID";
+
+	/** Set Image.
+	  * Image or Icon
+	  */
+	public void setAD_Image_ID (int AD_Image_ID);
+
+	/** Get Image.
+	  * Image or Icon
+	  */
+	public int getAD_Image_ID();
+
+	public org.compiere.model.I_AD_Image getAD_Image() throws RuntimeException;
 
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
@@ -420,6 +461,19 @@ public interface I_AD_Field
 	  * Data entry is required in this column
 	  */
 	public String getIsMandatory();
+
+    /** Column name IsQuickEntry */
+    public static final String COLUMNNAME_IsQuickEntry = "IsQuickEntry";
+
+	/** Set Quick Entry.
+	  * Display in Quick Entry Form
+	  */
+	public void setIsQuickEntry (boolean IsQuickEntry);
+
+	/** Get Quick Entry.
+	  * Display in Quick Entry Form
+	  */
+	public boolean isQuickEntry();
 
     /** Column name IsReadOnly */
     public static final String COLUMNNAME_IsReadOnly = "IsReadOnly";

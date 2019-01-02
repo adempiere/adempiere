@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for I_ReportLine
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.1
  */
 public interface I_I_ReportLine 
 {
@@ -339,6 +339,15 @@ public interface I_I_ReportLine
 	  */
 	public String getReportLineSetName();
 
+    /** Column name ReportLineStyle */
+    public static final String COLUMNNAME_ReportLineStyle = "ReportLineStyle";
+
+	/** Set Report Line Style	  */
+	public void setReportLineStyle (String ReportLineStyle);
+
+	/** Get Report Line Style	  */
+	public String getReportLineStyle();
+
     /** Column name SeqNo */
     public static final String COLUMNNAME_SeqNo = "SeqNo";
 
@@ -395,13 +404,4 @@ public interface I_I_ReportLine
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name reportlinestyle */
-    public static final String COLUMNNAME_reportlinestyle = "reportlinestyle";
-
-	/** Set reportlinestyle	  */
-	public void setreportlinestyle (String reportlinestyle);
-
-	/** Get reportlinestyle	  */
-	public String getreportlinestyle();
 }

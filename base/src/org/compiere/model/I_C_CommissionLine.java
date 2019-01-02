@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_CommissionLine
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.1
  */
 public interface I_C_CommissionLine 
 {
@@ -331,6 +331,19 @@ public interface I_C_CommissionLine
 	  */
 	public boolean isPercentage();
 
+    /** Column name IsPercentageFromPrice */
+    public static final String COLUMNNAME_IsPercentageFromPrice = "IsPercentageFromPrice";
+
+	/** Set Percentage From Price.
+	  * Percentage From Price is for calculate % of compliance from price instead quantity
+	  */
+	public void setIsPercentageFromPrice (boolean IsPercentageFromPrice);
+
+	/** Get Percentage From Price.
+	  * Percentage From Price is for calculate % of compliance from price instead quantity
+	  */
+	public boolean isPercentageFromPrice();
+
     /** Column name IsPositiveOnly */
     public static final String COLUMNNAME_IsPositiveOnly = "IsPositiveOnly";
 
@@ -432,6 +445,45 @@ public interface I_C_CommissionLine
 
 	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
+    /** Column name MaxCompliance */
+    public static final String COLUMNNAME_MaxCompliance = "MaxCompliance";
+
+	/** Set Maximum Compliance (%).
+	  * Maximum Compliance of Forecast
+	  */
+	public void setMaxCompliance (BigDecimal MaxCompliance);
+
+	/** Get Maximum Compliance (%).
+	  * Maximum Compliance of Forecast
+	  */
+	public BigDecimal getMaxCompliance();
+
+    /** Column name MaxPercentage */
+    public static final String COLUMNNAME_MaxPercentage = "MaxPercentage";
+
+	/** Set Maximum Percentage.
+	  * Maximum Percentage of the entire amount
+	  */
+	public void setMaxPercentage (BigDecimal MaxPercentage);
+
+	/** Get Maximum Percentage.
+	  * Maximum Percentage of the entire amount
+	  */
+	public BigDecimal getMaxPercentage();
+
+    /** Column name MinCompliance */
+    public static final String COLUMNNAME_MinCompliance = "MinCompliance";
+
+	/** Set Minimum Compliance (%).
+	  * Minimum Compliance of Forecast
+	  */
+	public void setMinCompliance (BigDecimal MinCompliance);
+
+	/** Get Minimum Compliance (%).
+	  * Minimum Compliance of Forecast
+	  */
+	public BigDecimal getMinCompliance();
+
     /** Column name Org_ID */
     public static final String COLUMNNAME_Org_ID = "Org_ID";
 
@@ -444,6 +496,8 @@ public interface I_C_CommissionLine
 	  * Organizational entity within client
 	  */
 	public int getOrg_ID();
+
+	public org.compiere.model.I_AD_Org getOrg() throws RuntimeException;
 
     /** Column name PaymentRule */
     public static final String COLUMNNAME_PaymentRule = "PaymentRule";

@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_PInstance
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_AD_PInstance extends PO implements I_AD_PInstance, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170731L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_AD_PInstance (Properties ctx, int AD_PInstance_ID, String trxName)
@@ -275,6 +275,8 @@ public class X_AD_PInstance extends PO implements I_AD_PInstance, I_Persistent
 	public static final String REPORTTYPE_HTML = "H";
 	/** XLSX = XX */
 	public static final String REPORTTYPE_XLSX = "XX";
+	/** CSV = C */
+	public static final String REPORTTYPE_CSV = "C";
 	/** Set Report Type.
 		@param ReportType Report Type	  */
 	public void setReportType (String ReportType)

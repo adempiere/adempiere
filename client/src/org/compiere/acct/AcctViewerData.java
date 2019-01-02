@@ -438,7 +438,7 @@ class AcctViewerData
 	 *  Create Report Model (Columns)
 	 *  @return Report Model
 	 */
-	private RModel getRModel()
+	public RModel getRModel()
 	{
 		Properties ctx = Env.getCtx();
 		RModel rm = new RModel("Fact_Acct");

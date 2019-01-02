@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_ProjectLine
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_C_ProjectLine extends PO implements I_C_ProjectLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170731L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_C_ProjectLine (Properties ctx, int C_ProjectLine_ID, String trxName)
@@ -86,6 +86,34 @@ public class X_C_ProjectLine extends PO implements I_C_ProjectLine, I_Persistent
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	public org.compiere.model.I_AD_Workflow getAD_Workflow() throws RuntimeException
+    {
+		return (org.compiere.model.I_AD_Workflow)MTable.get(getCtx(), org.compiere.model.I_AD_Workflow.Table_Name)
+			.getPO(getAD_Workflow_ID(), get_TrxName());	}
+
+	/** Set Workflow.
+		@param AD_Workflow_ID 
+		Workflow or combination of tasks
+	  */
+	public void setAD_Workflow_ID (int AD_Workflow_ID)
+	{
+		if (AD_Workflow_ID < 1) 
+			set_Value (COLUMNNAME_AD_Workflow_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Workflow_ID, Integer.valueOf(AD_Workflow_ID));
+	}
+
+	/** Get Workflow.
+		@return Workflow or combination of tasks
+	  */
+	public int getAD_Workflow_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Workflow_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	public org.compiere.model.I_C_Order getC_OrderPO() throws RuntimeException
     {
@@ -389,6 +417,29 @@ public class X_C_ProjectLine extends PO implements I_C_ProjectLine, I_Persistent
 		return bd;
 	}
 
+	/** Set Bill of Materials.
+		@param IsBOM 
+		Bill of Materials
+	  */
+	public void setIsBOM (boolean IsBOM)
+	{
+		throw new IllegalArgumentException ("IsBOM is virtual column");	}
+
+	/** Get Bill of Materials.
+		@return Bill of Materials
+	  */
+	public boolean isBOM () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsBOM);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Printed.
 		@param IsPrinted 
 		Indicates if this document / line is printed
@@ -404,6 +455,29 @@ public class X_C_ProjectLine extends PO implements I_C_ProjectLine, I_Persistent
 	public boolean isPrinted () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsPrinted);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Purchased.
+		@param IsPurchased 
+		Organization purchases this product
+	  */
+	public void setIsPurchased (boolean IsPurchased)
+	{
+		throw new IllegalArgumentException ("IsPurchased is virtual column");	}
+
+	/** Get Purchased.
+		@return Organization purchases this product
+	  */
+	public boolean isPurchased () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsPurchased);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 
@@ -492,6 +566,62 @@ public class X_C_ProjectLine extends PO implements I_C_ProjectLine, I_Persistent
 	public int getM_Product_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_Product_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.eevolution.model.I_PP_Order getPP_Order() throws RuntimeException
+    {
+		return (org.eevolution.model.I_PP_Order)MTable.get(getCtx(), org.eevolution.model.I_PP_Order.Table_Name)
+			.getPO(getPP_Order_ID(), get_TrxName());	}
+
+	/** Set Manufacturing Order.
+		@param PP_Order_ID 
+		Manufacturing Order
+	  */
+	public void setPP_Order_ID (int PP_Order_ID)
+	{
+		if (PP_Order_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PP_Order_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PP_Order_ID, Integer.valueOf(PP_Order_ID));
+	}
+
+	/** Get Manufacturing Order.
+		@return Manufacturing Order
+	  */
+	public int getPP_Order_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Order_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.eevolution.model.I_PP_Product_BOM getPP_Product_BOM() throws RuntimeException
+    {
+		return (org.eevolution.model.I_PP_Product_BOM)MTable.get(getCtx(), org.eevolution.model.I_PP_Product_BOM.Table_Name)
+			.getPO(getPP_Product_BOM_ID(), get_TrxName());	}
+
+	/** Set BOM & Formula.
+		@param PP_Product_BOM_ID 
+		BOM & Formula
+	  */
+	public void setPP_Product_BOM_ID (int PP_Product_BOM_ID)
+	{
+		if (PP_Product_BOM_ID < 1) 
+			set_Value (COLUMNNAME_PP_Product_BOM_ID, null);
+		else 
+			set_Value (COLUMNNAME_PP_Product_BOM_ID, Integer.valueOf(PP_Product_BOM_ID));
+	}
+
+	/** Get BOM & Formula.
+		@return BOM & Formula
+	  */
+	public int getPP_Product_BOM_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Product_BOM_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -639,5 +769,33 @@ public class X_C_ProjectLine extends PO implements I_C_ProjectLine, I_Persistent
 	public String getUUID () 
 	{
 		return (String)get_Value(COLUMNNAME_UUID);
+	}
+
+	public org.compiere.model.I_C_BPartner getVendor() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
+			.getPO(getVendor_ID(), get_TrxName());	}
+
+	/** Set Vendor.
+		@param Vendor_ID 
+		The Vendor of the product/service
+	  */
+	public void setVendor_ID (int Vendor_ID)
+	{
+		if (Vendor_ID < 1) 
+			set_Value (COLUMNNAME_Vendor_ID, null);
+		else 
+			set_Value (COLUMNNAME_Vendor_ID, Integer.valueOf(Vendor_ID));
+	}
+
+	/** Get Vendor.
+		@return The Vendor of the product/service
+	  */
+	public int getVendor_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Vendor_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 }

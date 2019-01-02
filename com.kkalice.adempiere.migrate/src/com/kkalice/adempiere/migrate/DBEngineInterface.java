@@ -813,7 +813,26 @@ public interface DBEngineInterface {
 	 * </table>
 	 */
 	public String sqlMetadata_sequenceDefinitions (String catalogName, String schemaName, String sequenceName);
-	
+
+	/**
+	 * SQL command to find sequence definitions
+	 * @param productVersion the product version
+	 * @param catalogName the catalog to use
+	 * @param schemaName the schema to use
+	 * @param sequenceName the sequence to use
+	 * @return
+	 * <table>
+	 * <tr><th colspan="2" align="left">SQL command returning</th></tr>
+	 * <tr><td><code>MIN_VALUE</code></td><td>minimum value</td></tr>
+	 * <tr><td><code>MAX_VALUE</code></td><td>maximum value</td></tr>
+	 * <tr><td><code>INCREMENT_BY</code></td><td>increment amount</td></tr>
+	 * <tr><td><code>IS_CYCLED</code></td><td>sequence is cycled</td></tr>
+	 * <tr><td><code>CACHE_SIZE</code></td><td>cache size</td></tr>
+	 * <tr><td><code>LAST_VALUE</code></td><td>last used value</td></tr>
+	 * </table>
+	 */
+	public String sqlMetadata_sequenceDefinitions (String productVersion , String catalogName, String schemaName, String sequenceName);
+
 	/**
 	 * gets the database specific SQL command to find primary key names
 	 * @param catalogName the catalog to use

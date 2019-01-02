@@ -274,6 +274,17 @@ public class SendMailText extends SvrProcess
 			message += unsubscribe;
 		//
 		EMail email = m_client.createEMail(m_from, to, m_MailText.getMailHeader(), message);
+		if (email == null) {
+			String errorMessage = "@RequestActionEMailError@ ";
+			if (m_from != null && m_from.getEMail() != null)
+				errorMessage =  errorMessage + " @From@ " + m_from.getEMail();
+			if (to != null && to.getEMail() != null)
+				errorMessage = errorMessage + " @To@ " + to.getEMail();
+
+			addLog(0, null, null, errorMessage);
+			return false;
+		}
+
 		if (m_MailText.isHtml())
 			email.setMessageHTML(m_MailText.getMailHeader(), message);
 		else
@@ -296,7 +307,7 @@ public class SendMailText extends SvrProcess
 			log.fine(to.getEMail());
 		else
 			log.warning("FAILURE - " + to.getEMail());
-		addLog(0, null, null, (OK ? "@OK@" : "@ERROR@") + " - " + to.getEMail());
+		addLog(0, null, null, (OK ? "@OK@" : "@ERROR@")  + " @From@ " + m_from.getEMail() +" @To@ " + to.getEMail());
 		return new Boolean(OK);
 	}	//	sendIndividualMail
 

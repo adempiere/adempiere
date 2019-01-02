@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Browse
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_AD_Browse extends PO implements I_AD_Browse, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170731L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_AD_Browse (Properties ctx, int AD_Browse_ID, String trxName)
@@ -119,6 +119,34 @@ public class X_AD_Browse extends PO implements I_AD_Browse, I_Persistent
 	public int getAD_Process_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Process_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_AD_Table getAD_Table() throws RuntimeException
+    {
+		return (org.compiere.model.I_AD_Table)MTable.get(getCtx(), org.compiere.model.I_AD_Table.Table_Name)
+			.getPO(getAD_Table_ID(), get_TrxName());	}
+
+	/** Set Table.
+		@param AD_Table_ID 
+		Database Table information
+	  */
+	public void setAD_Table_ID (int AD_Table_ID)
+	{
+		if (AD_Table_ID < 1) 
+			set_Value (COLUMNNAME_AD_Table_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
+	}
+
+	/** Get Table.
+		@return Database Table information
+	  */
+	public int getAD_Table_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Table_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -418,6 +446,30 @@ public class X_AD_Browse extends PO implements I_AD_Browse, I_Persistent
 	public boolean isShowTotal () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsShowTotal);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Updatable.
+		@param IsUpdateable 
+		Determines, if the field can be updated
+	  */
+	public void setIsUpdateable (boolean IsUpdateable)
+	{
+		set_Value (COLUMNNAME_IsUpdateable, Boolean.valueOf(IsUpdateable));
+	}
+
+	/** Get Updatable.
+		@return Determines, if the field can be updated
+	  */
+	public boolean isUpdateable () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsUpdateable);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 

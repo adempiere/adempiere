@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_DocType
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_C_DocType extends PO implements I_C_DocType, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170731L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_C_DocType (Properties ctx, int C_DocType_ID, String trxName)
@@ -171,6 +171,34 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 	public int getC_DocTypeInvoice_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocTypeInvoice_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_DocType getC_DocTypePayment() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_DocType)MTable.get(getCtx(), org.compiere.model.I_C_DocType.Table_Name)
+			.getPO(getC_DocTypePayment_ID(), get_TrxName());	}
+
+	/** Set Document Type for Payment.
+		@param C_DocTypePayment_ID 
+		Document type used for Payments generated from this Pay Selection document
+	  */
+	public void setC_DocTypePayment_ID (int C_DocTypePayment_ID)
+	{
+		if (C_DocTypePayment_ID < 1) 
+			set_Value (COLUMNNAME_C_DocTypePayment_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_DocTypePayment_ID, Integer.valueOf(C_DocTypePayment_ID));
+	}
+
+	/** Get Document Type for Payment.
+		@return Document type used for Payments generated from this Pay Selection document
+	  */
+	public int getC_DocTypePayment_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocTypePayment_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -365,6 +393,8 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 	public static final String DOCBASETYPE_APPaymentSelection = "APS";
 	/** Sales Commission = SOC */
 	public static final String DOCBASETYPE_SalesCommission = "SOC";
+	/** Fixed Assets Split = FAS */
+	public static final String DOCBASETYPE_FixedAssetsSplit = "FAS";
 	/** Fixed Assets Addition = FAA */
 	public static final String DOCBASETYPE_FixedAssetsAddition = "FAA";
 	/** Fixed Assets Disposal = FAD */
@@ -557,6 +587,51 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 	public boolean isHasProforma () 
 	{
 		Object oo = get_Value(COLUMNNAME_HasProforma);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Allocate Prepayments.
+		@param IsAllocateImmediate Allocate Prepayments	  */
+	public void setIsAllocateImmediate (boolean IsAllocateImmediate)
+	{
+		set_Value (COLUMNNAME_IsAllocateImmediate, Boolean.valueOf(IsAllocateImmediate));
+	}
+
+	/** Get Allocate Prepayments.
+		@return Allocate Prepayments	  */
+	public boolean isAllocateImmediate () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsAllocateImmediate);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Bank Transfer.
+		@param IsBankTransfer 
+		Bank Transfer
+	  */
+	public void setIsBankTransfer (boolean IsBankTransfer)
+	{
+		set_Value (COLUMNNAME_IsBankTransfer, Boolean.valueOf(IsBankTransfer));
+	}
+
+	/** Get Bank Transfer.
+		@return Bank Transfer
+	  */
+	public boolean isBankTransfer () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsBankTransfer);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 
@@ -815,6 +890,30 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 	public boolean isPrepareSplitDocument () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsPrepareSplitDocument);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Is Reversed with original Accounting.
+		@param IsReversedWithOriginalAcct 
+		Is Reversed with original Accounting
+	  */
+	public void setIsReversedWithOriginalAcct (boolean IsReversedWithOriginalAcct)
+	{
+		set_Value (COLUMNNAME_IsReversedWithOriginalAcct, Boolean.valueOf(IsReversedWithOriginalAcct));
+	}
+
+	/** Get Is Reversed with original Accounting.
+		@return Is Reversed with original Accounting
+	  */
+	public boolean isReversedWithOriginalAcct () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsReversedWithOriginalAcct);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 

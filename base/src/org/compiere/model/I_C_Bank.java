@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_Bank
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.1
  */
 public interface I_C_Bank 
 {
@@ -61,6 +61,34 @@ public interface I_C_Bank
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
+
+    /** Column name BankType */
+    public static final String COLUMNNAME_BankType = "BankType";
+
+	/** Set Bank Type.
+	  * Bank Type define a type of bank or behavior
+	  */
+	public void setBankType (String BankType);
+
+	/** Get Bank Type.
+	  * Bank Type define a type of bank or behavior
+	  */
+	public String getBankType();
+
+    /** Column name C_BPartner_ID */
+    public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
+
+	/** Set Business Partner .
+	  * Identifies a Business Partner
+	  */
+	public void setC_BPartner_ID (int C_BPartner_ID);
+
+	/** Get Business Partner .
+	  * Identifies a Business Partner
+	  */
+	public int getC_BPartner_ID();
+
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
 
     /** Column name C_Bank_ID */
     public static final String COLUMNNAME_C_Bank_ID = "C_Bank_ID";

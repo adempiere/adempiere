@@ -218,6 +218,9 @@ public class ReleaseInOutBound extends ReleaseInOutBoundAbstract
 				orderDistribution.setDateOrdered(getToday());
 				orderDistribution.setDatePromised(getToday());
 				orderDistribution.setM_Shipper_ID(shipperId);
+				orderDistribution.setM_FreightCategory_ID(outboundLine.getParent().getM_FreightCategory_ID());
+				orderDistribution.setFreightCostRule(outboundLine.getParent().getFreightCostRule());
+				orderDistribution.setFreightAmt(outboundLine.getParent().getFreightAmt());
 				orderDistribution.setIsInDispute(false);
 				orderDistribution.setIsInTransit(false);
 				orderDistribution.setSalesRep_ID(getAD_User_ID());
@@ -256,6 +259,9 @@ public class ReleaseInOutBound extends ReleaseInOutBoundAbstract
 					outboundLine.setM_Locator_ID(storage.getM_Locator_ID());
 					outboundLine.saveEx();
 				}
+				orderLine.setFreightAmt(outboundLine.getFreightAmt());
+				orderLine.setM_FreightCategory_ID(outboundLine.getM_FreightCategory_ID());
+				orderLine.setM_Shipper_ID(outboundLine.getM_Shipper_ID());
 				orderLine.saveEx();
 
 			});
@@ -366,6 +372,9 @@ public class ReleaseInOutBound extends ReleaseInOutBoundAbstract
 	public void createManufacturingOrder(MWMInOutBoundLine outBoundOrderLine, MProduct product, BigDecimal qtySupply)
 	{
 		MPPOrder order = MPPOrder.forC_OrderLine_ID(outBoundOrderLine.getCtx(), outBoundOrderLine.getC_OrderLine_ID(), product.get_ID(), outBoundOrderLine.get_TrxName());
+		order.setM_Shipper_ID(outBoundOrderLine.getParent().getM_Shipper_ID());
+		order.setM_FreightCategory_ID(outBoundOrderLine.getParent().getM_FreightCategory_ID());
+		order.setFreightCostRule(outBoundOrderLine.getParent().getFreightCostRule());
 		if(order == null)
 		{	
 			MPPProductBOM bom = MPPProductBOM.getDefault(product, get_TrxName());

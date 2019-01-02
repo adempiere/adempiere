@@ -155,7 +155,7 @@ public class Doc_Movement extends Doc
 					dr.addDescription(description);
                     dr.setM_Product_ID(cost.getM_Product_ID());
 					dr.setQty(cost.getQty().negate());	//	outgoing
-					if (m_DocStatus.equals(MMovement.DOCSTATUS_Reversed) && m_Reversal_ID !=0 && line.getReversalLine_ID() != 0)
+					if (m_Reversal_ID !=0 && line.getReversalLine_ID() != 0)
 					{
 						//	Set AmtAcctDr from Original Movement
 						if (!dr.updateReverseLine (MMovement.Table_ID, 
@@ -179,11 +179,10 @@ public class Doc_Movement extends Doc
 					cr.addDescription(description);
                     cr.setM_Product_ID(cost.getM_Product_ID());
 					cr.setQty(cost.getQty());
-					if (m_DocStatus.equals(MMovement.DOCSTATUS_Reversed) && m_Reversal_ID !=0 && line.getReversalLine_ID() != 0)
+					if (m_Reversal_ID !=0 && line.getReversalLine_ID() != 0)
 					{
 						//	Set AmtAcctCr from Original Movement
-						if (!cr.updateReverseLine (MMovement.Table_ID, 
-								m_Reversal_ID, line.getReversalLine_ID(),cost.getQty() , Env.ONE.negate()))
+						if (!cr.updateReverseLine (MMovement.Table_ID, m_Reversal_ID, line.getReversalLine_ID(),cost.getQty() , Env.ONE.negate()))
 						{
 							p_Error = "Original Inventory Move not posted yet";
 							return null;

@@ -315,9 +315,9 @@ public class ServerProcessCtl implements Runnable {
 		boolean started = false;
 		if (isServerProcess)
 		{
-			Server server = CConnection.get().getServer();
 			try
 			{
+				Server server = CConnection.get().getServer();
 				if (server != null)
 				{	//	See ServerBean
 					processInfo = server.workflow (Env.getRemoteCallCtx(Env.getCtx()), processInfo, AD_Workflow_ID);
@@ -368,9 +368,9 @@ public class ServerProcessCtl implements Runnable {
 		
 		if (isServerProcess && !clientOnly)
 		{
-			Server server = CConnection.get().getServer();
 			try
 			{
+				Server server = CConnection.get().getServer();
 				if (server != null)
 				{	
 					//	See ServerBean
@@ -434,9 +434,9 @@ public class ServerProcessCtl implements Runnable {
 		String trxName = trx != null ? trx.getTrxName() : null;
 		if (isServerProcess)
 		{
-			Server server = CConnection.get().getServer();
 			try
 			{
+				Server server = CConnection.get().getServer();
 				if (server != null)
 				{	//	See ServerBean
 					processInfo = server.dbProcess(processInfo, ProcedureName);

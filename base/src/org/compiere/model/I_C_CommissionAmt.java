@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_CommissionAmt
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.1
  */
 public interface I_C_CommissionAmt 
 {
@@ -187,6 +187,32 @@ public interface I_C_CommissionAmt
 	  * The record is active in the system
 	  */
 	public boolean isActive();
+
+    /** Column name MaxPercentage */
+    public static final String COLUMNNAME_MaxPercentage = "MaxPercentage";
+
+	/** Set Maximum Percentage.
+	  * Maximum Percentage of the entire amount
+	  */
+	public void setMaxPercentage (BigDecimal MaxPercentage);
+
+	/** Get Maximum Percentage.
+	  * Maximum Percentage of the entire amount
+	  */
+	public BigDecimal getMaxPercentage();
+
+    /** Column name Percentage */
+    public static final String COLUMNNAME_Percentage = "Percentage";
+
+	/** Set Percentage.
+	  * Percent of the entire amount
+	  */
+	public void setPercentage (BigDecimal Percentage);
+
+	/** Get Percentage.
+	  * Percent of the entire amount
+	  */
+	public BigDecimal getPercentage();
 
     /** Column name UUID */
     public static final String COLUMNNAME_UUID = "UUID";

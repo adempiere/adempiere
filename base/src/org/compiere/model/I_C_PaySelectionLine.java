@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_PaySelectionLine
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.1
  */
 public interface I_C_PaySelectionLine 
 {
@@ -104,6 +104,21 @@ public interface I_C_PaySelectionLine
 	public int getC_BPartner_ID();
 
 	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
+
+    /** Column name C_BankAccountTo_ID */
+    public static final String COLUMNNAME_C_BankAccountTo_ID = "C_BankAccountTo_ID";
+
+	/** Set Bank Account To.
+	  * Bank Account To make Transfer
+	  */
+	public void setC_BankAccountTo_ID (int C_BankAccountTo_ID);
+
+	/** Get Bank Account To.
+	  * Bank Account To make Transfer
+	  */
+	public int getC_BankAccountTo_ID();
+
+	public org.compiere.model.I_C_BankAccount getC_BankAccountTo() throws RuntimeException;
 
     /** Column name C_Charge_ID */
     public static final String COLUMNNAME_C_Charge_ID = "C_Charge_ID";

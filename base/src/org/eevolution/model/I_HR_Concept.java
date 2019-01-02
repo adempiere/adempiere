@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for HR_Concept
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.1
  */
 public interface I_HR_Concept 
 {
@@ -380,6 +380,19 @@ public interface I_HR_Concept
  lowest number comes first
 	  */
 	public int getSeqNo();
+
+    /** Column name StdPrecision */
+    public static final String COLUMNNAME_StdPrecision = "StdPrecision";
+
+	/** Set Standard Precision.
+	  * Rule for rounding  calculated amounts
+	  */
+	public void setStdPrecision (int StdPrecision);
+
+	/** Get Standard Precision.
+	  * Rule for rounding  calculated amounts
+	  */
+	public int getStdPrecision();
 
     /** Column name Type */
     public static final String COLUMNNAME_Type = "Type";

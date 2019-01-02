@@ -138,7 +138,7 @@
 
 		<!-- Create oracle.jar file 	-->
 		<jar jarfile="${dist.dir}/oracle.jar" duplicate="preserve">
-			<zipfileset src="lib/ojdbc6.jar">
+			<zipfileset src="lib/oracle.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 
@@ -227,7 +227,7 @@
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- Groovy -->
-			<zipfileset src="lib/groovy-all-2.4.7.jar">
+			<zipfileset src="lib/groovy-all-2.4.15.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<zipfileset src="lib/groovy-engine.jar">
@@ -275,10 +275,34 @@
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- PDF -->
-			<zipfileset src="lib/jpedal.jar">
+			<zipfileset src="lib/iText-2.1.7.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
-			<zipfileset src="lib/iText-2.1.7.jar">
+			<zipfileset src="lib/icepdf-core-6.2.2.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/icepdf-viewer-6.2.2.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/itextpdf-5.5.2.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/pdfa-7.1.1.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/harness-1.0.0.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/itext-carriage-0.8.0.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/io-7.1.1.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/javax.inject-1.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/kernel-7.1.1.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- JFreeChart			-->
@@ -300,10 +324,10 @@
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- POI -->
-			<zipfileset src="lib/poi-3.14-20160307.jar">
+			<zipfileset src="lib/poi-3.17.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
-			<zipfileset src="lib/poi-ooxml-3.14-20160307.jar">
+			<zipfileset src="lib/poi-ooxml-3.17.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- CGLib -->
@@ -325,6 +349,9 @@
 			</manifest>
 			<!-- Commons -->
 			<zipfileset src="lib/commons-collections-3.1.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/commons-collections4-4.1.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<zipfileset src="lib/commons-codec-1.10.jar">
@@ -389,7 +416,7 @@
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- Groovy -->
-			<zipfileset src="lib/groovy-all-2.4.7.jar">
+			<zipfileset src="lib/groovy-all-2.4.15.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<zipfileset src="lib/groovy-engine.jar">
@@ -460,10 +487,34 @@
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- PDF -->
-			<zipfileset src="lib/jpedal.jar">
+			<zipfileset src="lib/iText-2.1.7.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
-			<zipfileset src="lib/iText-2.1.7.jar">
+			<zipfileset src="lib/icepdf-core-6.2.2.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/icepdf-viewer-6.2.2.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/itextpdf-5.5.2.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/pdfa-7.1.1.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/harness-1.0.0.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/itext-carriage-0.8.0.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/io-7.1.1.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/javax.inject-1.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/kernel-7.1.1.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<zipfileset src="lib/swingx-1.6.jar">
@@ -481,10 +532,10 @@
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- POI -->
-			<zipfileset src="lib/poi-3.14-20160307.jar">
+			<zipfileset src="lib/poi-3.17.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
-			<zipfileset src="lib/poi-ooxml-3.14-20160307.jar">
+			<zipfileset src="lib/poi-ooxml-3.17.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- Open Forecast -->
@@ -502,6 +553,9 @@
 			</manifest>
 			<!-- Commons -->
 			<zipfileset src="lib/commons-collections-3.1.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/commons-collections4-4.1.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<zipfileset src="lib/commons-codec-1.10.jar">

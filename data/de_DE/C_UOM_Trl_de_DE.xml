@@ -1,74 +1,95 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--ADempiere(r) Release 3.9.0_2017-08-01 -Smart Suite ERP,CRM and SCM- (c) 1999-2017 ADempiere(r); Implementation: ADempiere - Supported by ADempiere community-->
 <!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.net/dtd/adempiereTrl.dtd">-->
 <adempiereTrl language="de_DE" table="C_UOM">
  <row id="100" trl="Y">
   <value column="Name" original="Each">Stück</value>
   <value column="Description" original=""/>
   <value column="UOMSymbol" original="Ea ">Stk</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="101" trl="Y">
   <value column="Name" original="Hour">Stunde</value>
   <value column="Description" original=""/>
   <value column="UOMSymbol" original="h  ">Std</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="102" trl="Y">
   <value column="Name" original="Day">Tag</value>
   <value column="Description" original=""/>
-  <value column="UOMSymbol" original="d  ">T</value>
+  <value column="UOMSymbol" original="d  ">Tg</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="103" trl="Y">
   <value column="Name" original="Minutes">Minute</value>
-  <value column="Description" original="(lowest unit for resorce assigments)">(kleinste Einheit für Ressourcenzuordnung)</value>
-  <value column="UOMSymbol" original="m  ">m</value>
+  <value column="Description" original="(lowest unit for resorce assigments)">(kleinste Einheit für die Ressourcenzuordnung)</value>
+  <value column="UOMSymbol" original="m  ">Min</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="104" trl="Y">
   <value column="Name" original="Work Day">Arbeitstag</value>
   <value column="Description" original="8 hour">8 Stunden</value>
   <value column="UOMSymbol" original="D  ">T</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="105" trl="Y">
   <value column="Name" original="Week">Woche</value>
   <value column="Description" original=""/>
   <value column="UOMSymbol" original="w  ">W</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="106" trl="Y">
   <value column="Name" original="Month">Monat</value>
   <value column="Description" original="30 days">30 Tage</value>
-  <value column="UOMSymbol" original="m  ">M</value>
+  <value column="UOMSymbol" original="m  ">Mon</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="107" trl="Y">
   <value column="Name" original="Working Month">Arbeitsmonat</value>
   <value column="Description" original="20 days">20 Tage</value>
-  <value column="UOMSymbol" original="M  ">M</value>
+  <value column="UOMSymbol" original="M  ">MON</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="108" trl="Y">
   <value column="Name" original="Year">Jahr</value>
   <value column="Description" original=""/>
-  <value column="UOMSymbol" original="y  ">a</value>
+  <value column="UOMSymbol" original="y  ">J</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="109" trl="Y">
   <value column="Name" original="6-Pack">6er-Pack</value>
   <value column="Description" original=""/>
   <value column="UOMSymbol" original="6Pk">6Pk</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="50000" trl="N">
   <value column="Name" original="Mililiter">Milliliter</value>
   <value column="Description" original=""/>
   <value column="UOMSymbol" original="ml">ml</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="50001" trl="N">
   <value column="Name" original="kilogram">Kilogramm</value>
   <value column="Description" original=""/>
   <value column="UOMSymbol" original="Kg">Kg</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="50002" trl="N">
   <value column="Name" original="milligram">Milligramm</value>
   <value column="Description" original=""/>
   <value column="UOMSymbol" original="mg">mg</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="50003" trl="N">
   <value column="Name" original="litre">Liter</value>
   <value column="Description" original=""/>
   <value column="UOMSymbol" original="L">L</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50005" trl="N">
+  <value column="Name" original="Metric Ton">Metric Ton</value>
+  <value column="Description" original="A metric ton is 1000 Kg">A metric ton is 1000 Kg</value>
+  <value column="UOMSymbol" original="t">t</value>
+  <value column="UUID" original=""/>
  </row>
 </adempiereTrl>

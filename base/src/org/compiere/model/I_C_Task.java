@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_Task
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.1
  */
 public interface I_C_Task 
 {
@@ -61,6 +61,21 @@ public interface I_C_Task
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
+
+    /** Column name AD_Workflow_ID */
+    public static final String COLUMNNAME_AD_Workflow_ID = "AD_Workflow_ID";
+
+	/** Set Workflow.
+	  * Workflow or combination of tasks
+	  */
+	public void setAD_Workflow_ID (int AD_Workflow_ID);
+
+	/** Get Workflow.
+	  * Workflow or combination of tasks
+	  */
+	public int getAD_Workflow_ID();
+
+	public org.compiere.model.I_AD_Workflow getAD_Workflow() throws RuntimeException;
 
     /** Column name C_Phase_ID */
     public static final String COLUMNNAME_C_Phase_ID = "C_Phase_ID";
@@ -119,6 +134,58 @@ public interface I_C_Task
 	  */
 	public String getDescription();
 
+    /** Column name DurationEstimated */
+    public static final String COLUMNNAME_DurationEstimated = "DurationEstimated";
+
+	/** Set Estimated Duration.
+	  * Estimated Duration
+	  */
+	public void setDurationEstimated (BigDecimal DurationEstimated);
+
+	/** Get Estimated Duration.
+	  * Estimated Duration
+	  */
+	public BigDecimal getDurationEstimated();
+
+    /** Column name DurationUnit */
+    public static final String COLUMNNAME_DurationUnit = "DurationUnit";
+
+	/** Set Duration Unit.
+	  * Unit of Duration
+	  */
+	public void setDurationUnit (String DurationUnit);
+
+	/** Get Duration Unit.
+	  * Unit of Duration
+	  */
+	public String getDurationUnit();
+
+    /** Column name Frequency */
+    public static final String COLUMNNAME_Frequency = "Frequency";
+
+	/** Set Frequency.
+	  * Frequency of events
+	  */
+	public void setFrequency (int Frequency);
+
+	/** Get Frequency.
+	  * Frequency of events
+	  */
+	public int getFrequency();
+
+    /** Column name FrequencyType */
+    public static final String COLUMNNAME_FrequencyType = "FrequencyType";
+
+	/** Set Frequency Type.
+	  * Frequency of event
+	  */
+	public void setFrequencyType (String FrequencyType);
+
+	/** Get Frequency Type.
+	  * Frequency of event
+	  */
+	public String getFrequencyType();
+
     /** Column name Help */
     public static final String COLUMNNAME_Help = "Help";
 
@@ -144,6 +211,54 @@ public interface I_C_Task
 	  * The record is active in the system
 	  */
 	public boolean isActive();
+
+    /** Column name IsBOM */
+    public static final String COLUMNNAME_IsBOM = "IsBOM";
+
+	/** Set Bill of Materials.
+	  * Bill of Materials
+	  */
+	public void setIsBOM (boolean IsBOM);
+
+	/** Get Bill of Materials.
+	  * Bill of Materials
+	  */
+	public boolean isBOM();
+
+    /** Column name IsIndefinite */
+    public static final String COLUMNNAME_IsIndefinite = "IsIndefinite";
+
+	/** Set Indefinite.
+	  * Indefinite
+	  */
+	public void setIsIndefinite (boolean IsIndefinite);
+
+	/** Get Indefinite.
+	  * Indefinite
+	  */
+	public boolean isIndefinite();
+
+    /** Column name IsMilestone */
+    public static final String COLUMNNAME_IsMilestone = "IsMilestone";
+
+	/** Set Is Milestone	  */
+	public void setIsMilestone (boolean IsMilestone);
+
+	/** Get Is Milestone	  */
+	public boolean isMilestone();
+
+    /** Column name IsRecurrent */
+    public static final String COLUMNNAME_IsRecurrent = "IsRecurrent";
+
+	/** Set Is Recurrent.
+	  * The flag Is Recurrent, indicates if a project task is recurring
+	  */
+	public void setIsRecurrent (boolean IsRecurrent);
+
+	/** Get Is Recurrent.
+	  * The flag Is Recurrent, indicates if a project task is recurring
+	  */
+	public boolean isRecurrent();
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
@@ -172,6 +287,62 @@ public interface I_C_Task
 	  * Alphanumeric identifier of the entity
 	  */
 	public String getName();
+
+    /** Column name PP_Product_BOM_ID */
+    public static final String COLUMNNAME_PP_Product_BOM_ID = "PP_Product_BOM_ID";
+
+	/** Set BOM & Formula.
+	  * BOM & Formula
+	  */
+	public void setPP_Product_BOM_ID (int PP_Product_BOM_ID);
+
+	/** Get BOM & Formula.
+	  * BOM & Formula
+	  */
+	public int getPP_Product_BOM_ID();
+
+	public org.eevolution.model.I_PP_Product_BOM getPP_Product_BOM() throws RuntimeException;
+
+    /** Column name PriorityRule */
+    public static final String COLUMNNAME_PriorityRule = "PriorityRule";
+
+	/** Set Priority.
+	  * Priority of a document
+	  */
+	public void setPriorityRule (String PriorityRule);
+
+	/** Get Priority.
+	  * Priority of a document
+	  */
+	public String getPriorityRule();
+
+    /** Column name R_StandardRequestType_ID */
+    public static final String COLUMNNAME_R_StandardRequestType_ID = "R_StandardRequestType_ID";
+
+	/** Set Standard Request Type.
+	  * Standard Request Type
+	  */
+	public void setR_StandardRequestType_ID (int R_StandardRequestType_ID);
+
+	/** Get Standard Request Type.
+	  * Standard Request Type
+	  */
+	public int getR_StandardRequestType_ID();
+
+	public org.compiere.model.I_R_StandardRequestType getR_StandardRequestType() throws RuntimeException;
+
+    /** Column name RunsMax */
+    public static final String COLUMNNAME_RunsMax = "RunsMax";
+
+	/** Set Maximum Runs.
+	  * Number of recurring runs
+	  */
+	public void setRunsMax (int RunsMax);
+
+	/** Get Maximum Runs.
+	  * Number of recurring runs
+	  */
+	public int getRunsMax();
 
     /** Column name SeqNo */
     public static final String COLUMNNAME_SeqNo = "SeqNo";

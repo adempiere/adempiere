@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Payment
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_C_Payment extends PO implements I_C_Payment, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170731L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_C_Payment (Properties ctx, int C_Payment_ID, String trxName)
@@ -41,7 +41,6 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
       super (ctx, C_Payment_ID, trxName);
       /** if (C_Payment_ID == 0)
         {
-			setC_BPartner_ID (0);
 			setC_Currency_ID (0);
 			setC_DocType_ID (0);
 			setC_Payment_ID (0);
@@ -104,6 +103,11 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	public org.compiere.model.I_AD_Org getAD_OrgTrx() throws RuntimeException
+    {
+		return (org.compiere.model.I_AD_Org)MTable.get(getCtx(), org.compiere.model.I_AD_Org.Table_Name)
+			.getPO(getAD_OrgTrx_ID(), get_TrxName());	}
 
 	/** Set Trx Organization.
 		@param AD_OrgTrx_ID 
@@ -1702,6 +1706,31 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	public int getRef_Payment_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_Ref_Payment_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_Payment getRelatedPayment() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_Payment)MTable.get(getCtx(), org.compiere.model.I_C_Payment.Table_Name)
+			.getPO(getRelatedPayment_ID(), get_TrxName());	}
+
+	/** Set Payment Related.
+		@param RelatedPayment_ID Payment Related	  */
+	public void setRelatedPayment_ID (int RelatedPayment_ID)
+	{
+		if (RelatedPayment_ID < 1) 
+			set_Value (COLUMNNAME_RelatedPayment_ID, null);
+		else 
+			set_Value (COLUMNNAME_RelatedPayment_ID, Integer.valueOf(RelatedPayment_ID));
+	}
+
+	/** Get Payment Related.
+		@return Payment Related	  */
+	public int getRelatedPayment_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_RelatedPayment_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

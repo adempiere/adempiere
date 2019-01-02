@@ -18,7 +18,7 @@ package org.compiere.print;
 
 import java.awt.print.Pageable;
 
-import org.adempiere.pdf.Document;
+import org.adempiere.pdf.ITextDocument;
 import org.compiere.model.MArchive;
 import org.compiere.model.MClient;
 import org.compiere.model.PrintInfo;
@@ -78,8 +78,8 @@ public class ArchiveEngine
 				return null;
 		}
 		
-		//	Create Printable
-		byte[] data = Document.getPDFAsArray(layout.getPageable(false));	//	No Copy
+		//	Create Printable / ITextDocument is a singleton
+		byte[] data = new ITextDocument().getPDFAsArray(layout.getPageable(false));	//	No Copy
 		if (data == null)
 			return null;
 
@@ -99,7 +99,7 @@ public class ArchiveEngine
 	public static boolean isValid (LayoutEngine layout)
 	{
 		return (layout != null 
-			&& Document.isValid((Pageable)layout)
+			&& new ITextDocument().isValid((Pageable)layout)
 			&& layout.getNumberOfPages() > 0);
 	}	//	isValid
 	

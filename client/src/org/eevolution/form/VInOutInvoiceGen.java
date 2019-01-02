@@ -60,7 +60,6 @@ import org.compiere.plaf.CompiereColor;
 import org.compiere.print.ReportCtl;
 import org.compiere.print.ReportEngine;
 import org.compiere.process.ProcessInfo;
-import org.compiere.process.ProcessInfoUtil;
 import org.compiere.swing.CLabel;
 import org.compiere.swing.CPanel;
 import org.compiere.swing.CTabbedPane;
@@ -82,14 +81,14 @@ import org.compiere.util.Trx;
  *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *		<li> FR [ 114 ] Change "Create From" UI for Form like Dialog in window without "hardcode"
  *		@see https://github.com/adempiere/adempiere/issues/114
+ *  @author https://github.com/homebeaver
+ *  @see https://github.com/adempiere/adempiere/issues/1652
+ *	@see <a href="https://github.com/adempiere/adempiere/pull/1664">
+ *       autoQuery()</a>
  */
 public class VInOutInvoiceGen extends CPanel
-	implements FormPanel, ActionListener, VetoableChangeListener, 
-		ChangeListener, TableModelListener, ASyncProcess
-{
-	/**
-	 * 
-	 */
+	implements FormPanel, ActionListener, VetoableChangeListener, ChangeListener, TableModelListener, ASyncProcess {
+
 	private static final long serialVersionUID = -2327667535691916715L;
 
 	/**
@@ -97,25 +96,21 @@ public class VInOutInvoiceGen extends CPanel
 	 *  @param WindowNo window
 	 *  @param frame frame
 	 */
-	public void init (int WindowNo, FormFrame frame)
-	{
+	public void init(int WindowNo, FormFrame frame) {
 		log.info("");
 		m_WindowNo = WindowNo;
 		m_frame = frame;
 		Env.setContext(Env.getCtx(), m_WindowNo, "IsSOTrx", "Y");
-		try
-		{
+		try {
 			fillPicks();
 			jbInit();
 			dynInit();
 			frame.getContentPane().add(tabbedPane, BorderLayout.CENTER);
 			frame.getContentPane().add(statusBar, BorderLayout.SOUTH);
-		}
-		catch(Exception ex)
-		{
+		} catch (Exception ex) {
 			log.log(Level.SEVERE, "init", ex);
 		}
-	}	//	init
+	} // init
 
 	/**	Window No			*/
 	private int         	m_WindowNo = 0;
@@ -165,8 +160,7 @@ public class VInOutInvoiceGen extends CPanel
 	 *  </pre>
 	 *  @throws Exception
 	 */
-	void jbInit() throws Exception
-	{
+	void jbInit() throws Exception {
 		CompiereColor.setBackground(this);
 		//
 		selPanel.setLayout(selPanelLayout);
@@ -186,7 +180,7 @@ public class VInOutInvoiceGen extends CPanel
 		selPanel.add(scrollPane, BorderLayout.CENTER);
 		scrollPane.getViewport().add(miniTable, null);
 		confirmPanelSel.addActionListener(this);
-		//
+
 		tabbedPane.add(genPanel, Msg.getMsg(Env.getCtx(), "Generate"));
 		genPanel.setLayout(genLayout);
 		genPanel.add(info, BorderLayout.CENTER);
@@ -206,8 +200,7 @@ public class VInOutInvoiceGen extends CPanel
 	 *		Column_ID from C_Order
 	 *  @throws Exception if Lookups cannot be initialized
 	 */
-	private void fillPicks() throws Exception
-	{
+	private void fillPicks() throws Exception {
 		//	C_OrderLine.M_Warehouse_ID
 		MLookup orgL = MLookupFactory.get (Env.getCtx(), m_WindowNo, 0, 2223, DisplayType.TableDir);
 		fWarehouse = new VLookup ("M_Warehouse_ID", true, false, true, orgL);
@@ -231,8 +224,7 @@ public class VInOutInvoiceGen extends CPanel
 	 *	- Create GridController & Panel
 	 *	- AD_Column_ID from C_Order
 	 */
-	private void dynInit()
-	{
+	private void dynInit() {
 		//  create Columns
 		miniTable.addColumn("C_Order_ID");
 		miniTable.addColumn("AD_Org_ID");
@@ -256,56 +248,62 @@ public class VInOutInvoiceGen extends CPanel
 		miniTable.autoSize();
 		miniTable.getModel().addTableModelListener(this);
 		//	Info
-		statusBar.setStatusLine(Msg.getMsg(Env.getCtx(), "InOutGenerateSel"));//@@
+		statusBar.setStatusLine(Msg.getMsg(Env.getCtx(), "InOutGenerateSel"));
 		statusBar.setStatusDB(" ");
 		//	Tabbed Pane Listener
 		tabbedPane.addChangeListener(this);
+		
+		// AutoQuery with default from ctx:
+		if(autoQuery()) {
+			fWarehouse.set_oldValue();
+			fWarehouse.setValue(Env.getCtx().get("#M_Warehouse_ID"));
+			m_M_Warehouse_ID = fWarehouse.getValue();
+			executeQuery();
+		}
+
 	}	//	dynInit
 
 	/**
 	 * Get SQL for Orders that needs to be shipped
 	 * @return sql
 	 */
-	private String getOrderSQL()
-	{
-	//  Create SQL
-        StringBuffer sql = new StringBuffer(
-            "SELECT C_Order_ID, o.Name, dt.Name, DocumentNo, bp.Name, DateOrdered, TotalLines "
-            + "FROM M_InOut_Candidate_v ic, AD_Org o, C_BPartner bp, C_DocType dt "
-            + "WHERE ic.AD_Org_ID=o.AD_Org_ID"
-            + " AND ic.C_BPartner_ID=bp.C_BPartner_ID"
-            + " AND ic.C_DocType_ID=dt.C_DocType_ID"
-            + " AND ic.AD_Client_ID=?");
+	private String getOrderSQL() {
+		// Create SQL
+		StringBuffer sql = new StringBuffer(
+				"SELECT C_Order_ID, o.Name, dt.Name, DocumentNo, bp.Name, DateOrdered, TotalLines "
+			            + "FROM M_InOut_Candidate_v ic, AD_Org o, C_BPartner bp, C_DocType dt "
+			            + "WHERE ic.AD_Org_ID=o.AD_Org_ID"
+			            + " AND ic.C_BPartner_ID=bp.C_BPartner_ID"
+			            + " AND ic.C_DocType_ID=dt.C_DocType_ID"
+			            + " AND ic.AD_Client_ID=?");
 
-        if (m_M_Warehouse_ID != null)
-            sql.append(" AND ic.M_Warehouse_ID=").append(m_M_Warehouse_ID);
-        if (m_C_BPartner_ID != null)
-            sql.append(" AND ic.C_BPartner_ID=").append(m_C_BPartner_ID);
-        
-        // bug - [ 1713317 ] Generate Shipments (manual) show locked records
-        /* begin - Exclude locked records; @Trifon */
-        int AD_User_ID = Env.getContextAsInt(Env.getCtx(), "#AD_User_ID");
-        String lockedIDs = MPrivateAccess.getLockedRecordWhere(MOrder.Table_ID, AD_User_ID);
-        if (lockedIDs != null)
-        {
-            if (sql.length() > 0)
-                sql.append(" AND ");
-            sql.append("C_Order_ID").append(lockedIDs);
-        }
-        /* eng - Exclude locked records; @Trifon */
-          
-        //
-        sql.append(" ORDER BY o.Name,bp.Name,DateOrdered");
-        
-        return sql.toString();
+		if (m_M_Warehouse_ID != null)
+			sql.append(" AND ic.M_Warehouse_ID=").append(m_M_Warehouse_ID);
+		if (m_C_BPartner_ID != null)
+			sql.append(" AND ic.C_BPartner_ID=").append(m_C_BPartner_ID);
+
+		// bug - [ 1713317 ] Generate Shipments (manual) show locked records
+		/* begin - Exclude locked records; @Trifon */
+		int AD_User_ID = Env.getContextAsInt(Env.getCtx(), "#AD_User_ID");
+		String lockedIDs = MPrivateAccess.getLockedRecordWhere(MOrder.Table_ID, AD_User_ID);
+		if (lockedIDs != null) {
+			if (sql.length() > 0)
+				sql.append(" AND ");
+			sql.append("C_Order_ID").append(lockedIDs);
+		}
+		/* eng - Exclude locked records; @Trifon */
+
+		//
+		sql.append(" ORDER BY o.Name,bp.Name,DateOrdered");
+
+		return sql.toString();
 	}
 	
 	/**
 	 * Get SQL for Vendor RMA that need to be shipped
 	 * @return sql
 	 */
-	private String getRMASql()
-	{
+	private String getRMASql() {
 	    StringBuffer sql = new StringBuffer();
 	    
 	    sql.append("SELECT rma.M_RMA_ID, org.Name, dt.Name, rma.DocumentNo, bp.Name, rma.Created, rma.Amt ");
@@ -329,8 +327,7 @@ public class VInOutInvoiceGen extends CPanel
         
         int AD_User_ID = Env.getContextAsInt(Env.getCtx(), "#AD_User_ID");
         String lockedIDs = MPrivateAccess.getLockedRecordWhere(MRMA.Table_ID, AD_User_ID);
-        if (lockedIDs != null)
-        {
+        if (lockedIDs != null) {
             sql.append(" AND rma.M_RMA_ID").append(lockedIDs);
         }
 	    
@@ -342,67 +339,58 @@ public class VInOutInvoiceGen extends CPanel
 	/**
 	 *  Query Info
 	 */
-	private void executeQuery()
-	{
+	private void executeQuery() {
 		log.info("");
 		int AD_Client_ID = Env.getAD_Client_ID(Env.getCtx());
-		
+
 		String sql = "";
-		
-		KeyNamePair docTypeKNPair = (KeyNamePair)cmbDocType.getSelectedItem();
-		
-		if (docTypeKNPair.getKey() == MRMA.Table_ID)
-		{
-		    sql = getRMASql();
-		}
-		else
-		{
-		    sql = getOrderSQL();
+
+		KeyNamePair docTypeKNPair = (KeyNamePair) cmbDocType.getSelectedItem();
+
+		if (docTypeKNPair.getKey() == MRMA.Table_ID) {
+			sql = getRMASql();
+		} else {
+			sql = getOrderSQL();
 		}
 
 		log.fine(sql);
-		//  reset table
+		// reset table
 		int row = 0;
 		miniTable.setRowCount(row);
-		//  Execute
-		try
-		{
+		// Execute
+		try {
 			PreparedStatement pstmt = DB.prepareStatement(sql.toString(), null);
 			pstmt.setInt(1, AD_Client_ID);
 			ResultSet rs = pstmt.executeQuery();
 			//
-			while (rs.next())
-			{
-				//  extend table
-				miniTable.setRowCount(row+1);
-				//  set values
-				miniTable.setValueAt(new IDColumn(rs.getInt(1)), row, 0);   //  C_Order_ID
-				miniTable.setValueAt(rs.getString(2), row, 1);              //  Org
-				miniTable.setValueAt(rs.getString(3), row, 2);              //  DocType
-				miniTable.setValueAt(rs.getString(4), row, 3);              //  Doc No
-				miniTable.setValueAt(rs.getString(5), row, 4);              //  BPartner
-				miniTable.setValueAt(rs.getTimestamp(6), row, 5);           //  DateOrdered
-				miniTable.setValueAt(rs.getBigDecimal(7), row, 6);          //  TotalLines
-				//  prepare next
+			while (rs.next()) {
+				// extend table
+				miniTable.setRowCount(row + 1);
+				// set values
+				miniTable.setValueAt(new IDColumn(rs.getInt(1)), row, 0); // C_Order_ID
+				miniTable.setValueAt(rs.getString(2), row, 1); // Org
+				miniTable.setValueAt(rs.getString(3), row, 2); // DocType
+				miniTable.setValueAt(rs.getString(4), row, 3); // Doc No
+				miniTable.setValueAt(rs.getString(5), row, 4); // BPartner
+				miniTable.setValueAt(rs.getTimestamp(6), row, 5); // DateOrdered
+				miniTable.setValueAt(rs.getBigDecimal(7), row, 6); // TotalLines
+				// prepare next
 				row++;
 			}
 			rs.close();
 			pstmt.close();
-		}
-		catch (SQLException e)
-		{
+		} catch (SQLException e) {
 			log.log(Level.SEVERE, sql.toString(), e);
 		}
 		//
 		miniTable.autoSize();
-	//	statusBar.setStatusDB(String.valueOf(miniTable.getRowCount()));
-	}   //  executeQuery
+		// statusBar.setStatusDB(String.valueOf(miniTable.getRowCount()));
+	} // executeQuery
 
 	/**
 	 * 	Dispose
 	 */
-	public void dispose()
-	{
+	public void dispose() {
 		if (m_frame != null)
 			m_frame.dispose();
 		m_frame = null;
@@ -412,57 +400,47 @@ public class VInOutInvoiceGen extends CPanel
 	 *	Action Listener
 	 *  @param e event
 	 */
-	public void actionPerformed (ActionEvent e)
-	{
+	public void actionPerformed(ActionEvent e) {
 		log.info("Cmd=" + e.getActionCommand());
 		//
-		if (e.getActionCommand().equals(ConfirmPanel.A_CANCEL))
-		{
+		if (e.getActionCommand().equals(ConfirmPanel.A_CANCEL)) {
 			dispose();
 			return;
 		}
-		if (cmbDocType.equals(e.getSource()))
-		{
-		    executeQuery();
-		    return;
+		if (cmbDocType.equals(e.getSource())) {
+			executeQuery();
+			return;
 		}
 		//
 		saveSelection();
-		if (selection != null
-			&& selection.size() > 0
-			&& m_selectionActive	//	on selection tab
-			&& m_M_Warehouse_ID != null)
-		{	
-			generateShipments ();
+		if (selection != null && selection.size() > 0 && m_selectionActive // on selection tab
+				&& m_M_Warehouse_ID != null) {
+			generateShipments();
 
-		}
-		else
+		} else
 			dispose();
-	}	//	actionPerformed
+	} // actionPerformed
 
 	/**
 	 *	Vetoable Change Listener - requery
 	 *  @param e event
 	 */
-	public void vetoableChange(PropertyChangeEvent e)
-	{
+	public void vetoableChange(PropertyChangeEvent e) {
 		log.info(e.getPropertyName() + "=" + e.getNewValue());
 		if (e.getPropertyName().equals("M_Warehouse_ID"))
 			m_M_Warehouse_ID = e.getNewValue();
-		if (e.getPropertyName().equals("C_BPartner_ID"))
-		{
+		if (e.getPropertyName().equals("C_BPartner_ID")) {
 			m_C_BPartner_ID = e.getNewValue();
-			fBPartner.setValue(m_C_BPartner_ID);	//	display value
+			fBPartner.setValue(m_C_BPartner_ID); // display value
 		}
 		executeQuery();
-	}	//	vetoableChange
+	} // vetoableChange
 
 	/**
 	 *	Change Listener (Tab changed)
 	 *  @param e event
 	 */
-	public void stateChanged (ChangeEvent e)
-	{
+	public void stateChanged (ChangeEvent e) {
 		int index = tabbedPane.getSelectedIndex();
 		m_selectionActive = (index == 0);
 	}	//	stateChanged
@@ -471,38 +449,34 @@ public class VInOutInvoiceGen extends CPanel
 	 *  Table Model Listener
 	 *  @param e event
 	 */
-	public void tableChanged(TableModelEvent e)
-	{
+	public void tableChanged(TableModelEvent e) {
 		int rowsSelected = 0;
 		int rows = miniTable.getRowCount();
-		for (int i = 0; i < rows; i++)
-		{
-			IDColumn id = (IDColumn)miniTable.getValueAt(i, 0);     //  ID in column 0
+		for (int i = 0; i < rows; i++) {
+			IDColumn id = (IDColumn) miniTable.getValueAt(i, 0); // ID in column 0
 			if (id != null && id.isSelected())
 				rowsSelected++;
 		}
 		statusBar.setStatusDB(" " + rowsSelected + " ");
-	}   //  tableChanged
+	} // tableChanged
 
 	/**
 	 *	Save Selection & return selecion Query or ""
 	 *  @return where clause like C_Order_ID IN (...)
 	 */
-	private void saveSelection()
-	{
+	private void saveSelection() {
 		log.info("");
-		//  ID selection may be pending
+		// ID selection may be pending
 		miniTable.editingStopped(new ChangeEvent(this));
-		//  Array of Integers
+		// Array of Integers
 		ArrayList<Integer> results = new ArrayList<Integer>();
 		selection = null;
 
-		//	Get selected entries
+		// Get selected entries
 		int rows = miniTable.getRowCount();
-		for (int i = 0; i < rows; i++)
-		{
-			IDColumn id = (IDColumn)miniTable.getValueAt(i, 0);     //  ID in column 0
-		//	log.fine( "Row=" + i + " - " + id);
+		for (int i = 0; i < rows; i++) {
+			IDColumn id = (IDColumn) miniTable.getValueAt(i, 0); // ID in column 0
+			// log.fine( "Row=" + i + " - " + id);
 			if (id != null && id.isSelected())
 				results.add(id.getRecord_ID());
 		}
@@ -511,51 +485,44 @@ public class VInOutInvoiceGen extends CPanel
 			return;
 		log.config("Selected #" + results.size());
 		selection = results;
-		
-	}	//	saveSelection
 
+	} // saveSelection
 	
 	/**************************************************************************
 	 *	Generate Shipments
 	 */
-	private void generateShipments ()
-	{
+	private void generateShipments() {
 		log.info("M_Warehouse_ID=" + m_M_Warehouse_ID);
-		String trxName = Trx.createTrxName("IOG");	
-		Trx trx = Trx.get(trxName, true);	//trx needs to be committed too
-		//String trxName = null;
-		//Trx trx = null;
-		
-		m_selectionActive = false;  //  prevents from being called twice
+		String trxName = Trx.createTrxName("IOG");
+		Trx trx = Trx.get(trxName, true); // trx needs to be committed too
+		// String trxName = null;
+		// Trx trx = null;
+
+		m_selectionActive = false; // prevents from being called twice
 		statusBar.setStatusLine(Msg.getMsg(Env.getCtx(), "InOutGenerateGen"));
 		statusBar.setStatusDB(String.valueOf(selection.size()));
 
-		//	Prepare Process
-		int AD_Process_ID = 0;	  
-		KeyNamePair docTypeKNPair = (KeyNamePair)cmbDocType.getSelectedItem();
-        
-        if (docTypeKNPair.getKey() == MRMA.Table_ID)
-        {
-            AD_Process_ID = 52001; // M_InOut_GenerateRMA - org.adempiere.process.InOutGenerateRMA
-        }
-        else
-        {
-            AD_Process_ID = 199;      // M_InOut_Generate - org.compiere.process.InOutGenerate
-        }
-		
+		// Prepare Process
+		int AD_Process_ID = 0;
+		KeyNamePair docTypeKNPair = (KeyNamePair) cmbDocType.getSelectedItem();
+
+		if (docTypeKNPair.getKey() == MRMA.Table_ID) {
+			AD_Process_ID = 52001; // M_InOut_GenerateRMA - org.adempiere.process.InOutGenerateRMA
+		} else {
+			AD_Process_ID = 199; // M_InOut_Generate - org.compiere.process.InOutGenerate
+		}
+
 		MPInstance instance = new MPInstance(Env.getCtx(), AD_Process_ID, 0);
-		if (!instance.save())
-		{
+		if (!instance.save()) {
 			info.setText(Msg.getMsg(Env.getCtx(), "ProcessNoInstance"));
 			return;
 		}
-		
-		//insert selection
+
+		// insert selection
 		StringBuffer insert = new StringBuffer();
 		insert.append("INSERT INTO T_SELECTION(AD_PINSTANCE_ID, T_SELECTION_ID) ");
 		int counter = 0;
-		for(Integer selectedId : selection)
-		{
+		for (Integer selectedId : selection) {
 			counter++;
 			if (counter > 1)
 				insert.append(" UNION ");
@@ -564,12 +531,10 @@ public class VInOutInvoiceGen extends CPanel
 			insert.append(", ");
 			insert.append(selectedId);
 			insert.append(" FROM DUAL ");
-			
-			if (counter == 1000) 
-			{
-				if ( DB.executeUpdate(insert.toString(), trxName) < 0 )
-				{
-					String msg = "No Shipments";     //  not translated!
+
+			if (counter == 1000) {
+				if (DB.executeUpdate(insert.toString(), trxName) < 0) {
+					String msg = "No Shipments"; // not translated!
 					log.config(msg);
 					info.setText(msg);
 					trx.rollback();
@@ -580,152 +545,135 @@ public class VInOutInvoiceGen extends CPanel
 				counter = 0;
 			}
 		}
-		if (counter > 0)
-		{
-			if ( DB.executeUpdate(insert.toString(), trxName) < 0 )
-			{
-				String msg = "No Shipments";     //  not translated!
+		if (counter > 0) {
+			if (DB.executeUpdate(insert.toString(), trxName) < 0) {
+				String msg = "No Shipments"; // not translated!
 				log.config(msg);
 				info.setText(msg);
 				trx.rollback();
 				return;
 			}
 		}
-		
-		//call process
-		ProcessInfo pi = new ProcessInfo ("VInOutGen", AD_Process_ID);
-		pi.setAD_PInstance_ID (instance.getAD_PInstance_ID());
 
-		//	Add Parameter - Selection=Y
+		// call process
+		ProcessInfo pi = new ProcessInfo("VInOutGen", AD_Process_ID);
+		pi.setAD_PInstance_ID(instance.getAD_PInstance_ID());
+
+		// Add Parameter - Selection=Y
 		MPInstancePara ip = new MPInstancePara(instance, 10);
-		ip.setParameter("Selection","Y");
-		if (!ip.save())
-		{
-			String msg = "No Parameter added";  //  not translated
+		ip.setParameter("Selection", "Y");
+		if (!ip.save()) {
+			String msg = "No Parameter added"; // not translated
 			info.setText(msg);
 			log.log(Level.SEVERE, msg);
 			return;
 		}
-		//	Add Parameter - M_Warehouse_ID=x
+		// Add Parameter - M_Warehouse_ID=x
 		ip = new MPInstancePara(instance, 20);
 		ip.setParameter("M_Warehouse_ID", Integer.parseInt(m_M_Warehouse_ID.toString()));
-		if (!ip.save())
-		{
-			String msg = "No Parameter added";  //  not translated
+		if (!ip.save()) {
+			String msg = "No Parameter added"; // not translated
 			info.setText(msg);
 			log.log(Level.SEVERE, msg);
 			return;
 		}
 
-		//	Execute Process
+		// Execute Process
 		ProcessCtl worker = new ProcessCtl(this, Env.getWindowNo(this), pi, trx);
-		worker.start();     //  complete tasks in unlockUI / generateShipments_complete
+		worker.start(); // complete tasks in unlockUI / generateShipments_complete
 		//
-	}	//	generateShipments
+	} // generateShipments
 
 	/**
 	 *  Complete generating shipments.
 	 *  Called from Unlock UI
 	 *  @param pi process info
 	 */
-	private void generateShipments_complete (ProcessInfo pi)
-	{
-		//  Switch Tabs
+	private void generateShipments_complete(ProcessInfo pi) {
+		// Switch Tabs
 		tabbedPane.setSelectedIndex(1);
-		//
-		ProcessInfoUtil.setLogFromDB(pi);
-		//StringBuffer iText = new StringBuffer();
+		// StringBuffer iText = new StringBuffer();
 		iText.append("<b>").append(pi.getSummary())
 			.append("</b><br>(")
 			.append(Msg.getMsg(Env.getCtx(), "InOutGenerateInfo"))
-			//  Shipments are generated depending on the Delivery Rule selection in the Order
+		//  Shipments are generated depending on the Delivery Rule selection in the Order
 			.append(")<br>")
 			.append(pi.getLogInfo(true));
 		info.setText(iText.toString());
 
-		//	Reset Selection
+		// Reset Selection
 		/*
-		String sql = "UPDATE C_Order SET IsSelected='N' WHERE " + m_whereClause;
-		int no = DB.executeUpdate(sql, null);
-		log.config("Reset=" + no);*/
+		 * String sql = "UPDATE C_Order SET IsSelected='N' WHERE " + m_whereClause; int
+		 * no = DB.executeUpdate(sql, null); log.config("Reset=" + no);
+		 */
 
-		//	Get results
+		// Get results
 		int[] ids = pi.getIDs();
 		if (ids == null || ids.length == 0)
 			return;
 		log.config("PrintItems=" + ids.length);
 
 		confirmPanelGen.getOKButton().setEnabled(false);
-		//	OK to print shipments
-		if (ADialog.ask(m_WindowNo, this, "PrintShipments"))
-		{
-		//	info.append("\n\n" + Msg.getMsg(Env.getCtx(), "PrintShipments"));
+		// OK to print shipments
+		if (ADialog.ask(m_WindowNo, this, "PrintShipments")) {
+			// info.append("\n\n" + Msg.getMsg(Env.getCtx(), "PrintShipments"));
 			setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-			int retValue = ADialogDialog.A_CANCEL;	//	see also ProcessDialog.printShipments/Invoices
-			do
-			{
-				//	Loop through all items
-				for (int i = 0; i < ids.length; i++)
-				{
+			int retValue = ADialogDialog.A_CANCEL; // see also ProcessDialog.printShipments/Invoices
+			do {
+				// Loop through all items
+				for (int i = 0; i < ids.length; i++) {
 					int M_InOut_ID = ids[i];
 					ReportCtl.startDocumentPrint(ReportEngine.SHIPMENT, M_InOut_ID, this, Env.getWindowNo(this), true);
 				}
-				//	Yamel Senih 2015-11-23 FR [ 114 ] Add support to dynamic create from
+				// Yamel Senih 2015-11-23 FR [ 114 ] Add support to dynamic create from
 				ADialogDialog d = new ADialogDialog (m_frame.getCFrame(),
-					Env.getHeader(Env.getCtx(), m_WindowNo),
-					Msg.getMsg(Env.getCtx(), "PrintoutOK?"),
-					JOptionPane.QUESTION_MESSAGE);
-				//	End Yamel Senih
+						Env.getHeader(Env.getCtx(), m_WindowNo),
+						Msg.getMsg(Env.getCtx(), "PrintoutOK?"),
+						JOptionPane.QUESTION_MESSAGE);
+				// End Yamel Senih
 				retValue = d.getReturnCode();
-			}
-			while (retValue == ADialogDialog.A_CANCEL);
+			} while (retValue == ADialogDialog.A_CANCEL);
 			setCursor(Cursor.getDefaultCursor());
-		}	//	OK to print shipments
+		} // OK to print shipments
 
 		//
 		confirmPanelGen.getOKButton().setEnabled(true);
-	}   //  generateShipments_complete
+	} // generateShipments_complete
 
 	/**************************************************************************
 	 *	Generate Invoices
 	 */
-	private void generateInvoices ()
-	{
+	private void generateInvoices() {
 		String trxName = Trx.createTrxName("IVG");
-		Trx trx = Trx.get(trxName, true);	//trx needs to be committed too
-		//String trxName = null;
-		//Trx trx = null;
-		
-		m_selectionActive = false;  //  prevents from being called twice
+		Trx trx = Trx.get(trxName, true); // trx needs to be committed too
+		// String trxName = null;
+		// Trx trx = null;
+
+		m_selectionActive = false; // prevents from being called twice
 		statusBar.setStatusLine(Msg.getMsg(Env.getCtx(), "InvGenerateGen"));
 		statusBar.setStatusDB(String.valueOf(selection.size()));
 
-		//	Prepare Process
+		// Prepare Process
 		int AD_Process_ID = 0;
-		KeyNamePair docTypeKNPair = (KeyNamePair)cmbDocType.getSelectedItem();
-        
-        if (docTypeKNPair.getKey() == MRMA.Table_ID)
-        {
-            AD_Process_ID = 52002; // C_Invoice_GenerateRMA - org.adempiere.process.InvoiceGenerateRMA
-        }
-        else
-        {
-            AD_Process_ID = 134;  // HARDCODED    C_InvoiceCreate
-        }
+		KeyNamePair docTypeKNPair = (KeyNamePair) cmbDocType.getSelectedItem();
+
+		if (docTypeKNPair.getKey() == MRMA.Table_ID) {
+			AD_Process_ID = 52002; // C_Invoice_GenerateRMA - org.adempiere.process.InvoiceGenerateRMA
+		} else {
+			AD_Process_ID = 134; // HARDCODED C_InvoiceCreate
+		}
 		MPInstance instance = new MPInstance(Env.getCtx(), AD_Process_ID, 0);
-		if (!instance.save())
-		{
+		if (!instance.save()) {
 			info.setText(Msg.getMsg(Env.getCtx(), "ProcessNoInstance"));
 			return;
 		}
-		
-		//insert selection
-		/*Selection exist from shipment*/
+
+		// insert selection
+		/* Selection exist from shipment */
 		StringBuffer insert = new StringBuffer();
 		insert.append("INSERT INTO T_SELECTION(AD_PINSTANCE_ID, T_SELECTION_ID) ");
 		int counter = 0;
-		for(Integer selectedId : selection)
-		{
+		for (Integer selectedId : selection) {
 			counter++;
 			if (counter > 1)
 				insert.append(" UNION ");
@@ -734,12 +682,10 @@ public class VInOutInvoiceGen extends CPanel
 			insert.append(", ");
 			insert.append(selectedId);
 			insert.append(" FROM DUAL ");
-			
-			if (counter == 1000) 
-			{
-				if ( DB.executeUpdate(insert.toString(), trxName) < 0 )
-				{
-					String msg = "No Shipments";     //  not translated!
+
+			if (counter == 1000) {
+				if (DB.executeUpdate(insert.toString(), trxName) < 0) {
+					String msg = "No Shipments"; // not translated!
 					log.config(msg);
 					info.setText(msg);
 					trx.rollback();
@@ -750,114 +696,97 @@ public class VInOutInvoiceGen extends CPanel
 				counter = 0;
 			}
 		}
-		if (counter > 0)
-		{
-			if ( DB.executeUpdate(insert.toString(), trxName) < 0 )
-			{
-				String msg = "No Shipments";     //  not translated!
+		if (counter > 0) {
+			if (DB.executeUpdate(insert.toString(), trxName) < 0) {
+				String msg = "No Shipments"; // not translated!
 				log.config(msg);
 				info.setText(msg);
 				trx.rollback();
 				return;
 			}
 		}
-		
-		ProcessInfo pi = new ProcessInfo ("", AD_Process_ID);
-		pi.setAD_PInstance_ID (instance.getAD_PInstance_ID());
 
-		//	Add Parameters
+		ProcessInfo pi = new ProcessInfo("", AD_Process_ID);
+		pi.setAD_PInstance_ID(instance.getAD_PInstance_ID());
+
+		// Add Parameters
 		MPInstancePara para = new MPInstancePara(instance, 10);
 		para.setParameter("Selection", "Y");
-		if (!para.save())
-		{
-			String msg = "No Selection Parameter added";  //  not translated
+		if (!para.save()) {
+			String msg = "No Selection Parameter added"; // not translated
 			info.setText(msg);
 			log.log(Level.SEVERE, msg);
 			return;
 		}
 		para = new MPInstancePara(instance, 20);
 		para.setParameter("DocAction", "CO");
-		if (!para.save())
-		{
-			String msg = "No DocAction Parameter added";  //  not translated
+		if (!para.save()) {
+			String msg = "No DocAction Parameter added"; // not translated
 			info.setText(msg);
 			log.log(Level.SEVERE, msg);
 			return;
 		}
 
-		//	Execute Process
+		// Execute Process
 		ProcessCtl worker = new ProcessCtl(this, Env.getWindowNo(this), pi, trx);
-		worker.start();     //  complete tasks in unlockUI / generateInvoice_complete
-	}	//	generateInvoices
+		worker.start(); // complete tasks in unlockUI / generateInvoice_complete
+	} // generateInvoices
 
 	/**
 	 *  Complete generating invoices.
 	 *  Called from Unlock UI
 	 *  @param pi process info
 	 */
-	private void generateInvoice_complete (ProcessInfo pi)
-	{
-		//  Switch Tabs
+	private void generateInvoice_complete(ProcessInfo pi) {
+		// Switch Tabs
 		tabbedPane.setSelectedIndex(1);
-		//
-		ProcessInfoUtil.setLogFromDB(pi);
-		//StringBuffer iText = new StringBuffer();
+		// StringBuffer iText = new StringBuffer();
 		iText.append("<b>").append(pi.getSummary())
 			.append("</b><br>(")
 			.append(Msg.getMsg(Env.getCtx(), "InvGenerateInfo"))
-			//Invoices are generated depending on the Invoicing Rule selection in the Order
+		//Invoices are generated depending on the Invoicing Rule selection in the Order
 			.append(")<br>")
 			.append(pi.getLogInfo(true));
 		info.setText(iText.toString());
 
-		//	Reset Selection
-		/*
-		String sql = "UPDATE C_Order SET IsSelected = 'N' WHERE " + m_whereClause;
-		int no = DB.executeUpdate(sql, null);
-		log.config("Reset=" + no);*/
-
-		//	Get results
+		// Get results
 		int[] ids = pi.getIDs();
 		if (ids == null || ids.length == 0)
 			return;
 
 		confirmPanelGen.getOKButton().setEnabled(false);
-		//	OK to print invoices
-		if (ADialog.ask(m_WindowNo, this, "PrintInvoices"))
-		{
-		//	info.append("\n\n" + Msg.getMsg(Env.getCtx(), "PrintInvoices"));
+		// OK to print invoices
+		if (ADialog.ask(m_WindowNo, this, "PrintInvoices")) {
+			// info.append("\n\n" + Msg.getMsg(Env.getCtx(), "PrintInvoices"));
 			setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			int retValue = ADialogDialog.A_CANCEL;
-			do
-			{
-				//	Loop through all items
-				for (int i = 0; i < ids.length; i++)
-				{
+			do {
+				// Loop through all items
+				for (int i = 0; i < ids.length; i++) {
 					int C_Invoice_ID = ids[i];
 					ReportCtl.startDocumentPrint(ReportEngine.INVOICE, C_Invoice_ID, this, Env.getWindowNo(this), true);
 				}
-				//	Yamel Senih 2015-11-23 FR [ 114 ] Add support to dynamic create from
+				// Yamel Senih 2015-11-23 FR [ 114 ] Add support to dynamic create from
 				ADialogDialog d = new ADialogDialog (m_frame.getCFrame(),
-					Env.getHeader(Env.getCtx(), m_WindowNo),
-					Msg.getMsg(Env.getCtx(), "PrintoutOK?"),
-					JOptionPane.QUESTION_MESSAGE);
-				//	End Yamel Senih
+						Env.getHeader(Env.getCtx(), m_WindowNo),
+						Msg.getMsg(Env.getCtx(), "PrintoutOK?"),
+						JOptionPane.QUESTION_MESSAGE);
+				// End Yamel Senih
 				retValue = d.getReturnCode();
-			}
-			while (retValue == ADialogDialog.A_CANCEL);
+			} while (retValue == ADialogDialog.A_CANCEL);
 			setCursor(Cursor.getDefaultCursor());
-		}	//	OK to print invoices
+		} // OK to print invoices
 
 		//
 		confirmPanelGen.getOKButton().setEnabled(true);
-	}   //  generateInvoices_complete
+	} // generateInvoices_complete
+
 	/**************************************************************************
 	 *  Lock User Interface.
 	 *  Called from the Worker before processing
 	 *  @param pi process info
 	 */
-	public void lockUI (ProcessInfo pi)
-	{
+	public void lockUI (ProcessInfo pi) {
 		this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 		this.setEnabled(false);
 	}   //  lockUI
@@ -867,29 +796,25 @@ public class VInOutInvoiceGen extends CPanel
 	 *  Called from the Worker when processing is done
 	 *  @param pi result of execute ASync call
 	 */
-	public void unlockUI (ProcessInfo pi)
-	{
-		//
-		if(pi.getAD_Process_ID() == 199)
-		{
+	public void unlockUI(ProcessInfo pi) {
+
+		if (pi.getAD_Process_ID() == 199) {
 			generateShipments_complete(pi);
-			generateInvoices ();
+			generateInvoices();
 		}
-		if(pi.getAD_Process_ID() == 134)
-		{
+		if (pi.getAD_Process_ID() == 134) {
 			generateInvoice_complete(pi);
 			this.setEnabled(true);
 			this.setCursor(Cursor.getDefaultCursor());
 		}
-		
-	}   //  unlockUI
+
+	} // unlockUI
 
 	/**
 	 *  Is the UI locked (Internal method)
 	 *  @return true, if UI is locked
 	 */
-	public boolean isUILocked()
-	{
+	public boolean isUILocked() {
 		return this.isEnabled();
 	}   //  isUILocked
 
@@ -898,8 +823,7 @@ public class VInOutInvoiceGen extends CPanel
 	 *  Called from the Worker
 	 *  @param pi ProcessInfo
 	 */
-	public void executeASync (ProcessInfo pi)
-	{
+	public void executeASync (ProcessInfo pi) {
 	}   //  executeASync
 
 }	//	VInOutGen

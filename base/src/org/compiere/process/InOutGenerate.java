@@ -197,6 +197,7 @@ public class InOutGenerate extends SvrProcess
 		{
 			log.log(Level.SEVERE, m_sql, e);
 		}
+		log.config(m_sql);
 		return generate(pstmt);
 	}	//	doIt
 	
@@ -207,12 +208,13 @@ public class InOutGenerate extends SvrProcess
 	 */
 	private String generate (PreparedStatement pstmt)
 	{
-
+		int rs_cnt = 0;
 		try
 		{
 			ResultSet rs = pstmt.executeQuery ();
 			while (rs.next ())		//	Order
 			{
+				rs_cnt++;
 				MOrder order = new MOrder (getCtx(), rs, get_TrxName());
 				//	New Header different Shipper, Shipment Location
 				if (!p_ConsolidateDocument 
@@ -408,7 +410,7 @@ public class InOutGenerate extends SvrProcess
 			pstmt = null;
 		}
 		completeShipment();
-		return "@Created@ = " + m_created;
+		return "@Created@ = " + m_created + " @of@ " + rs_cnt;
 	}	//	generate
 	
 	

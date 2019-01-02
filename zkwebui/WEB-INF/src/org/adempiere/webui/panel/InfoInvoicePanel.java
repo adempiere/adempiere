@@ -150,7 +150,7 @@ public class InfoInvoicePanel extends InfoPanel implements ValueChangeListener
 	/** From Clause             */
 	private static String s_From = " C_Invoice i";
 	/** Order Clause             */
-	private static String s_Order = "2,3";
+	private static String s_Order = " i.DateInvoiced desc, i.DocumentNo";
 
    /**  Array of Column Info    */
     private static final ColumnInfo[] s_Layout = {

@@ -25,6 +25,7 @@ import org.compiere.util.Ini;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
 import org.eevolution.service.dsl.ProcessBuilder;
+import org.spin.util.XMLUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -77,9 +78,10 @@ public class MigrationFromXML extends MigrationFromXMLAbstract {
 		dbf.setIgnoringElementContentWhitespace(true);
 
 		// file can be a file or directory
-		File file = new File(getFileName());		
+		File file = new File(getFilePathOrName());
 
 		try {
+			XMLUtils.setDefaultFeatures(dbf);
 			builder = dbf.newDocumentBuilder();
 			
 			List<File> migrationFiles = new ArrayList<File>();
@@ -174,10 +176,11 @@ public class MigrationFromXML extends MigrationFromXMLAbstract {
 
 	private void applyMigration(Properties ctx  , int migrationId, String trxName) throws AdempiereException {
 		ProcessInfo processInfo = ProcessBuilder.create(ctx)
-				.process(53173)
+				.process(MigrationApply.getProcessId())
 				.withTitle("Apply migration")
 				.withRecordId(MMigration.Table_ID , migrationId)
 				.withParameter("FailOnError",true)
+				.withParameter(ISFORCE, isForce())
 				.execute(trxName);
 
 		log.log(Level.CONFIG, "Process=" + processInfo.getTitle() + " Error="+processInfo.isError() + " Summary=" + processInfo.getSummary());

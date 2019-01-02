@@ -36,6 +36,7 @@ import org.compiere.grid.ed.VLookup;
 import org.compiere.model.GridField;
 import org.compiere.model.Lookup;
 import org.compiere.model.MPInstance;
+import org.compiere.model.MQuery;
 import org.compiere.model.MRole;
 import org.compiere.model.MSysConfig;
 import org.compiere.print.MPrintFormat;
@@ -349,18 +350,7 @@ public class ProcessPanel extends ProcessController
 	 */
 	public void afterInit() {
 		//	BR [ 265 ]
-		if (!hasParameters()) {
-			if (getShowHelp() != null 
-					&& getShowHelp().equals("N")) {
-				setAutoStart(true);    // don't ask first click
-				// anyway show resulting window
-			}
-		}
-		// Check if the process is a silent one
-		if(getShowHelp() != null 
-				&& getShowHelp().equals("S")) {
-			setAutoStart(true);
-		}
+		validateAutoStart();
 		//	
 		mainPanel.validate();
 		//	If is Auto Start
@@ -557,8 +547,9 @@ public class ProcessPanel extends ProcessController
 		
 		// If the process is a silent one and no errors occured, close the dialog
 		if(getShowHelp() != null 
-				&& getShowHelp().equals("S"))
+				&& getShowHelp().equals("S")) {
 			dispose();
+		}
 	}
 
 	@Override
@@ -622,9 +613,10 @@ public class ProcessPanel extends ProcessController
 					if(saveOrUpdateParameters(saveName) == null) {
 						ProcessCtl.process(parent.getParentProcess(), getWindowNo(), this, getProcessInfo(), null);
 					}
-				}
-				if(parent.isEmbedded()) {
-					dispose();
+					//	
+					if(parent.isEmbedded()) {
+						dispose();
+					}
 				}
 			}
 			
@@ -687,6 +679,8 @@ public class ProcessPanel extends ProcessController
 			else if (getProcessInfo().getAD_Process_ID() == 118)
 				printShipments();
 		}
+		//	Show Result
+		openResult();
 	}	//	afterProcessTask
 	
 	/**************************************************************************
@@ -759,5 +753,20 @@ public class ProcessPanel extends ProcessController
 		}
 		while (retValue == ADialogDialog.A_CANCEL);
 	}	//	printInvoices
+	
+	@Override
+	public String validateParameters() {
+		String validError = super.validateParameters();
+		if(validError != null) {
+			ADialog.error(getWindowNo(), getPanel(), "FillMandatory", validError);
+		}
+		//	
+		return validError;
+	}	//	printInvoices
+
+	@Override
+	public void openResult(MQuery query) {
+		AEnv.zoom(query);
+	}
 
 }	//	ProcessParameterPanel

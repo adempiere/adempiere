@@ -183,8 +183,7 @@ public class MHRAttribute extends X_HR_Attribute
 		String ORDERVALUE = " DESC NULLS LAST";
 		List<Object> params = new ArrayList<Object>();
 		StringBuffer whereClause = new StringBuffer();
-		StringBuffer orderByClause = new StringBuffer(MHRAttribute.COLUMNNAME_ValidFrom).append(ORDERVALUE);
-		
+		StringBuffer orderByClause = new StringBuffer(MHRAttribute.COLUMNNAME_ValidFrom).append(ORDERVALUE);		
 		whereClause.append("ValidFrom <= ? AND (ValidTo >= ? OR ValidTo IS NULL)");
 		params.add(dateFrom);
 		params.add(dateTo);
@@ -214,7 +213,7 @@ public class MHRAttribute extends X_HR_Attribute
 			params.add(employee.getHR_Job_ID());
 			orderByClause.append(", " + MHRAttribute.COLUMNNAME_HR_Job_ID).append(ORDERVALUE);
 			//	For Contract
-			MHRPayroll payroll = MHRPayroll.getById(employee.getCtx(), payrollId);
+			MHRPayroll payroll = MHRPayroll.getById(employee.getCtx(), payrollId, concept.get_TrxName());
 			whereClause.append(" AND (HR_Contract_ID = ? OR HR_Contract_ID IS NULL)");
 			params.add(payroll.getHR_Contract_ID());
 			orderByClause.append(", " + MHRAttribute.COLUMNNAME_HR_Contract_ID).append(ORDERVALUE);
@@ -244,9 +243,9 @@ public class MHRAttribute extends X_HR_Attribute
 			}
 			//	Race
 			if(employee.getHR_Race_ID() != 0) {
-				whereClause.append(" AND (HR_Race_ID = ? OR HR_Race_ID IS NULL)").append(ORDERVALUE);
+				whereClause.append(" AND (HR_Race_ID = ? OR HR_Race_ID IS NULL)");
 				params.add(employee.getHR_Race_ID());
-				orderByClause.append(", " + MHRAttribute.COLUMNNAME_HR_Race_ID);
+				orderByClause.append(", " + MHRAttribute.COLUMNNAME_HR_Race_ID).append(ORDERVALUE);
 			}
 			//	Career Level
 			if(employee.getHR_CareerLevel_ID() != 0) {
@@ -327,6 +326,8 @@ public class MHRAttribute extends X_HR_Attribute
 				orderByClause.append(", " + MHRAttribute.COLUMNNAME_AD_OrgTrx_ID).append(ORDERVALUE);
 			}
 		}
+		//	Add for updated
+		orderByClause.append(", " + MHRAttribute.COLUMNNAME_Updated).append(ORDERVALUE);
 		//	
 		MHRAttribute attribute = new Query(concept.getCtx(), MHRAttribute.Table_Name, whereClause.toString(), concept.get_TrxName())
 				.setParameters(params)
@@ -366,9 +367,10 @@ public class MHRAttribute extends X_HR_Attribute
 	 * @param conceptValue
 	 * @param partnerId
 	 * @param startDate
+	 * @param trxName
 	 * @return attribute
 	 */
-	public static MHRAttribute getByConceptValueAndPartnerId(Properties ctx, String conceptValue, int partnerId, Timestamp startDate)
+	public static MHRAttribute getByConceptValueAndPartnerId(Properties ctx, String conceptValue, int partnerId, Timestamp startDate, String trxName)
 	{
 		if (Util.isEmpty(conceptValue, true))
 		{
@@ -381,8 +383,8 @@ public class MHRAttribute extends X_HR_Attribute
 								+ " AND " + COLUMNNAME_ValidFrom +"<=?"
 								+ " AND EXISTS (SELECT 1 FROM HR_Concept c WHERE HR_Attribute.HR_Concept_ID = c.HR_Concept_ID" 
 								+ " AND c.Value=?)"; 
-		MHRAttribute attribute = new Query(ctx, Table_Name, whereClause, null)
-							.setParameters(new Object[]{partnerId, 0, clientId, startDate, conceptValue})
+		MHRAttribute attribute = new Query(ctx, Table_Name, whereClause, trxName)
+							.setParameters(partnerId, 0, clientId, startDate, conceptValue)
 							.setOnlyActiveRecords(true)
 							.setOrderBy(COLUMNNAME_ValidFrom + " DESC")
 							.first();
@@ -398,7 +400,7 @@ public class MHRAttribute extends X_HR_Attribute
 	 * @param endDate
 	 * @return attribute
 	 */	
-	public static MHRAttribute getByConceptValueAndPartnerId(Properties ctx, String conceptValue, int partnerId, Timestamp startDate, Timestamp endDate)
+	public static MHRAttribute getByConceptValueAndPartnerId(Properties ctx, String conceptValue, int partnerId, Timestamp startDate, Timestamp endDate, String trxName)
 	{
 		if (Util.isEmpty(conceptValue, true))
 		{
@@ -407,7 +409,7 @@ public class MHRAttribute extends X_HR_Attribute
 
 		if (endDate == null)
 		{
-			return getByConceptValueAndPartnerId(ctx, conceptValue, partnerId, startDate);
+			return getByConceptValueAndPartnerId(ctx, conceptValue, partnerId, startDate, trxName);
 		}
 		else
 		{			
@@ -417,8 +419,8 @@ public class MHRAttribute extends X_HR_Attribute
 									+ " AND " + COLUMNNAME_ValidFrom +"<=? AND " + COLUMNNAME_ValidTo +">=?"
 									+ " AND EXISTS (SELECT 1 FROM HR_Concept c WHERE HR_Attribute.HR_Concept_ID = c.HR_Concept_ID" 
 									+ " AND c.Value=?)"; 
-			MHRAttribute attribute = new Query(ctx, Table_Name, whereClause, null)
-								.setParameters(new Object[]{partnerId, 0, clientId, startDate, endDate, conceptValue})
+			MHRAttribute attribute = new Query(ctx, Table_Name, whereClause, trxName)
+								.setParameters(partnerId, 0, clientId, startDate, endDate, conceptValue)
 								.setOnlyActiveRecords(true)
 								.setOrderBy(COLUMNNAME_ValidFrom + " DESC")
 								.first();
@@ -465,7 +467,7 @@ public class MHRAttribute extends X_HR_Attribute
 	@Override
 	public I_HR_Concept getHR_Concept()
 	{
-		return MHRConcept.get(getCtx(), getHR_Concept_ID());
+		return MHRConcept.getById(getCtx(), getHR_Concept_ID() , get_TrxName());
 	}
 
 	/**************************************************************************

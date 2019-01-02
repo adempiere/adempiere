@@ -38,9 +38,11 @@ import org.compiere.util.Env;
  *	
  *  @author Jorg Janke
  *  @version $Id: MReportTree.java,v 1.3 2006/07/30 00:51:05 jjanke Exp $
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<a href="https://github.com/adempiere/adempiere/issues/1301">
+ * 		@see BR [ 1301 ] Financial Report have a error with report cube</a>
  */
-public class MReportTree
-{
+public class MReportTree {
 	/**
 	 * 	Get Report Tree (cached)
 	 *	@param ctx context
@@ -115,8 +117,7 @@ public class MReportTree
 			throw new IllegalArgumentException("No AD_Tree_ID for TreeType=" + treeType
 				+ ", PA_Hierarchy_ID=" + PA_Hierarchy_ID);
 		//
-		boolean clientTree = true;
-		tree = new MTree (ctx, treeId, true, clientTree, null);  // include inactive and empty summary nodes
+		tree = new MTree (ctx, treeId, true, null);  // include inactive and empty summary nodes
 		// remove summary nodes without children
 		tree.trimTree();
 	}	//	MReportTree
@@ -215,45 +216,39 @@ public class MReportTree
 	/**
 	 * 	Get Where Clause
 	 *	@param id start node
-	 *	@return ColumnName = 1 or ( ColumnName = 1 OR ColumnName = 2 OR ColumnName = 3)
+	 *	@return ColumnName = 1 or ColumnName IN(1, 2, 3)
 	 */	
 	public String getWhereClause (int id)
 	{
 		logger.fine("(" + elementType + ") ID=" + id);
-		String ColumnName = MAcctSchemaElement.getColumnName(elementType);
+		String columnName = MAcctSchemaElement.getColumnName(elementType);
 		//
 		MTreeNode node = tree.getRoot().findNode(id);
 		logger.finest("Root=" + node);
 		//
 		StringBuffer result = null;
-		if (node != null && node.isSummary ())
-		{
-			
-			Enumeration<MTreeNode> en = node.preorderEnumeration ();
+		if (node != null && node.isSummary()) {
+			Enumeration<MTreeNode> en = node.preorderEnumeration();
 			StringBuffer sb = new StringBuffer ();
-			while (en.hasMoreElements ())
-			{
+			while (en.hasMoreElements()) {
 				MTreeNode treeNode = en.nextElement ();
-				if (!treeNode.isSummary ())
-				{
-					if (sb.length () > 0)
-					{
-						sb.append (" OR ");
+				if (!treeNode.isSummary()) {
+					if (sb.length () > 0) {
+						sb.append (", ");
 					}
-					sb.append (ColumnName);
-					sb.append ('=');
 					sb.append (treeNode.getNode_ID ());
 					logger.finest ("- " + treeNode);
-				}
-				else
+				} else {
 					logger.finest ("- skipped parent (" + treeNode + ")");
+				}
 			}
-			result = new StringBuffer (" ( ");
+			result = new StringBuffer(" ");
+			result.append(columnName).append(" IN(");
 			result.append (sb);
-			result.append (" ) ");
+			result.append (") ");
+		} else {	//	not found or not summary 
+			result = new StringBuffer (columnName).append("=").append(id);
 		}
-		else	//	not found or not summary 
-			result = new StringBuffer (ColumnName).append("=").append(id);
 		//
 		logger.finest(result.toString());
 		return result.toString();
@@ -274,7 +269,7 @@ public class MReportTree
 		//
 		if (node != null && node.isSummary())
 		{
-			Enumeration enumeration = node.preorderEnumeration();
+			Enumeration<MTreeNode> enumeration = node.preorderEnumeration();
 			while (enumeration.hasMoreElements())
 			{
 				MTreeNode treeNode = (MTreeNode)enumeration.nextElement();

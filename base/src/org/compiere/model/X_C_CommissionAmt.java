@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_CommissionAmt
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_C_CommissionAmt extends PO implements I_C_CommissionAmt, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170731L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_C_CommissionAmt (Properties ctx, int C_CommissionAmt_ID, String trxName)
@@ -247,6 +247,46 @@ public class X_C_CommissionAmt extends PO implements I_C_CommissionAmt, I_Persis
 	public BigDecimal getConvertedAmt () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ConvertedAmt);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Maximum Percentage.
+		@param MaxPercentage 
+		Maximum Percentage of the entire amount
+	  */
+	public void setMaxPercentage (BigDecimal MaxPercentage)
+	{
+		set_Value (COLUMNNAME_MaxPercentage, MaxPercentage);
+	}
+
+	/** Get Maximum Percentage.
+		@return Maximum Percentage of the entire amount
+	  */
+	public BigDecimal getMaxPercentage () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_MaxPercentage);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Percentage.
+		@param Percentage 
+		Percent of the entire amount
+	  */
+	public void setPercentage (BigDecimal Percentage)
+	{
+		set_Value (COLUMNNAME_Percentage, Percentage);
+	}
+
+	/** Get Percentage.
+		@return Percent of the entire amount
+	  */
+	public BigDecimal getPercentage () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Percentage);
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;

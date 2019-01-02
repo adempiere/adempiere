@@ -24,6 +24,7 @@ import java.util.Properties;
 
 import org.adempiere.engine.IDocumentLine;
 import org.adempiere.exceptions.AdempiereException;
+import org.compiere.process.DocumentReversalLineEnable;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
@@ -35,7 +36,7 @@ import org.eevolution.model.MDDOrderLine;
  *  @author Jorg Janke
  *  @version $Id: MMovementLine.java,v 1.3 2006/07/30 00:51:03 jjanke Exp $
  */
-public class MMovementLine extends X_M_MovementLine implements IDocumentLine
+public class MMovementLine extends X_M_MovementLine implements IDocumentLine , DocumentReversalLineEnable
 {
 	/**
 	 * 

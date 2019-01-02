@@ -161,6 +161,7 @@ public class VBrowser extends Browser implements ActionListener, ListSelectionLi
 	/**	Tool Bar 					*/
 	private CButton bCancel;
 	private CButton bDelete;
+	private CButton bUpdate;
 	private CButton bExport;
 	private CButton bOk;
 	private CButton bSearch;
@@ -263,10 +264,15 @@ public class VBrowser extends Browser implements ActionListener, ListSelectionLi
 			bSelectAll.setEnabled(true);
 			bExport.setEnabled(true);
 
-			if (isDeleteable())
+			if(isDeleteable()) {
 				bDelete.setEnabled(true);
+			}
+			//	For Updateable
+			if(isUpdateable()) {
+				bUpdate.setEnabled(true);
+			}
 
-			p_loadedOK = initBrowser();
+			loadedOK = initBrowser();
 
 			Env.setContext(Env.getCtx(), 0, "currWindowNo", getWindowNo());
 			if (processParameterPanel != null)
@@ -329,16 +335,32 @@ public class VBrowser extends Browser implements ActionListener, ListSelectionLi
 	 */
 	private void cmd_deleteSelection(){
 		m_frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-		if (ADialog.ask(getWindowNo(), m_frame.getContainer(), "DeleteSelection"))
-		{	
+		boolean deleted = false;
+		if (ADialog.ask(getWindowNo(), m_frame.getContainer(), "DeleteSelection")) {	
 			int records = deleteSelection(detail);
-			setStatusLine(Msg.getMsg(Env.getCtx(), "Deleted") + records, false);
+			setStatusLine(Msg.getMsg(Env.getCtx(), "Deleted") + " " + records, false);
+			deleted = true;
 		}	
 		m_frame.setCursor(Cursor.getDefaultCursor());
 		bDelete.setSelected(false);
-		executeQuery();
+		if(deleted) {
+			executeQuery();
+		}
 		
 	}//cmd_deleteSelection
+	
+	/**
+	 * Show a list to select one or more items to delete.
+	 */
+	private void cmd_updateSelection(){
+		m_frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+		if (ADialog.ask(getWindowNo(), m_frame.getContainer(), "UpdateSelection")) {	
+			int records = updateSelection(detail);
+			setStatusLine(Msg.getMsg(Env.getCtx(), "Updated") + " " + records, false);
+		}	
+		m_frame.setCursor(Cursor.getDefaultCursor());
+		bUpdate.setSelected(false);
+	}//cmd_updateSelection
 
 	/**
 	 * Instance tool bar
@@ -356,6 +378,9 @@ public class VBrowser extends Browser implements ActionListener, ListSelectionLi
 		bExport.addActionListener(this);
 		bDelete = ConfirmPanel.createDeleteButton(true);
 		bDelete.addActionListener(this);
+		AppsAction updateAction = new AppsAction("Save", null, Msg.getMsg(Env.getCtx(),"Update"));
+		updateAction.setDelegate(this);
+		bUpdate = (CButton) updateAction.getButton();
 		AppsAction selectAllAction = new AppsAction("SelectAll", null, Msg.getMsg(Env.getCtx(),"SelectAll"));
 		selectAllAction.setDelegate(this);
 		bSelectAll = (CButton) selectAllAction.getButton();
@@ -402,8 +427,9 @@ public class VBrowser extends Browser implements ActionListener, ListSelectionLi
 		bZoom.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 		bZoom.setEnabled(false);
 		
-		if (AD_Window_ID > 0)
+		if (getAD_Window_ID() > 0) {
 			toolsBar.add(bZoom);
+		}
 
 		bExport.setText(Msg.getMsg(Env.getCtx(),("Export")));
 		bExport.setFocusable(false);
@@ -418,10 +444,21 @@ public class VBrowser extends Browser implements ActionListener, ListSelectionLi
 		bDelete.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 		bDelete.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 		bDelete.setEnabled(false);
-		
-		if(isDeleteable())
+		//	Add to Toolbar
+		if(isDeleteable()) {
 			toolsBar.add(bDelete);
-
+		}
+		
+		bUpdate.setText(Msg.getMsg(Env.getCtx(),"Update").replaceAll("[&]",""));
+		bUpdate.setFocusable(false);
+		bUpdate.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+		bUpdate.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+		bUpdate.setEnabled(false);
+		//	Add to Toolbar
+		if(isUpdateable()) {
+			toolsBar.add(bUpdate);
+		}
+		
 		m_frame.getContentPane()
 				.add(toolsBar, java.awt.BorderLayout.PAGE_START);
 
@@ -528,7 +565,7 @@ public class VBrowser extends Browser implements ActionListener, ListSelectionLi
 				return;
 			}
 			//	Else Reset
-			p_loadedOK = initBrowser();
+			loadedOK = initBrowser();
 			collapsibleSearch.setCollapsed(false);
 		}
 	}
@@ -558,6 +595,7 @@ public class VBrowser extends Browser implements ActionListener, ListSelectionLi
 		bSelectAll.setEnabled(true);
 		bExport.setEnabled(true);
 		bDelete.setEnabled(true);
+		bUpdate.setEnabled(true);
 		Env.setContext(Env.getCtx(), 0, "currWindowNo", getWindowNo());
 
 		if (getAD_Process_ID() > 0)
@@ -634,14 +672,17 @@ public class VBrowser extends Browser implements ActionListener, ListSelectionLi
 							+ Msg.getMsg(Env.getCtx(), "SearchRows_EnterQuery"),
 					false);
 			setStatusDB(Integer.toString(no));
-			if (no == 0)
+			if (no == 0) {
 				log.fine(dataSql);
-			else {
+			} else {
 				detail.getSelectionModel().setSelectionInterval(0, 0);
 				detail.requestFocus();
 			}
+			
 			isAllSelected = isSelectedByDefault();
-			selectedRows(detail);
+			if(isAllSelected) {
+				selectedRows(detail);
+			}
 			//	Set Collapsed
 			if(row > 0)
 				collapsibleSearch.setCollapsed(isCollapsibleByDefault());
@@ -725,6 +766,8 @@ public class VBrowser extends Browser implements ActionListener, ListSelectionLi
 			cmd_Export();
 		} else if(actionEvent.getSource().equals(bDelete)) {
 			cmd_deleteSelection();
+		} else if(actionEvent.getSource().equals(bUpdate)) {
+			cmd_updateSelection();
 		} else if(actionEvent.getSource().equals(bZoom)) {
 			cmd_zoom();
 		}		
@@ -770,7 +813,8 @@ public class VBrowser extends Browser implements ActionListener, ListSelectionLi
 
 	@Override
 	public void unlockUI(ProcessInfo pi) {
-		
+		processParameterPanel.setProcessInfo(pi);
+		processParameterPanel.openResult();
 	}
 	
 	@Override

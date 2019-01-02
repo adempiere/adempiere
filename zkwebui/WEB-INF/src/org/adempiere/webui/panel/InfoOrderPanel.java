@@ -98,7 +98,7 @@ public class InfoOrderPanel extends InfoPanel implements ValueChangeListener
 	/** From Clause             */
 	private static String s_From = " C_Order o";
 	/** Order Clause             */
-	private static String s_Order = "2,3,4";
+	private static String s_Order = " o.DateOrdered desc, o.DocumentNo"; 
 	/**  Array of Column Info    */
 	private static Info_Column[] s_Layout = null;
 

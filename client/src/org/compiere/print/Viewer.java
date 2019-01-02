@@ -63,7 +63,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import org.adempiere.pdf.Document;
+import org.adempiere.pdf.ITextDocument;
 import org.compiere.apps.ADialog;
 import org.compiere.apps.AEnv;
 import org.compiere.apps.AMenu;
@@ -105,6 +105,8 @@ import org.compiere.util.Login;
 import org.compiere.util.Msg;
 import org.compiere.util.NamePair;
 import org.compiere.util.ValueNamePair;
+import org.spin.util.AbstractExportFormat;
+import org.spin.util.ReportExportHandler;
 
 /**
  *	Print View Frame
@@ -132,6 +134,8 @@ import org.compiere.util.ValueNamePair;
  * 			@see https://github.com/adempiere/adempiere/issues/238
  * 		<li>BR [ 237 ] Same Print format but distinct report view
  * 			@see https://github.com/adempiere/adempiere/issues/237
+ * 		<a href="https://github.com/adempiere/adempiere/issues/1400">
+ * 			@see FR [ 1400 ] Dynamic report export</a>
  *	@author Dixon Martinez, dmartinez@erpcya.com, ERPCyA http://www.erpcya.com
  *		<li>BR [1019] New Icon to export report definition is show only swing but not ZK https://github.com/adempiere/adempiere/issues/1019
  */
@@ -212,9 +216,9 @@ public class Viewer extends CFrame
 					File outFile = new File("./"  + m_reportEngine.getPrintFormat().getName() + "_" +  System.currentTimeMillis() + "." + extension);
 					outFile.createNewFile();
 					if (XLS.equals(type))
-						m_reportEngine.createXLS(outFile, m_reportEngine.getPrintFormat().getLanguage());
+						m_reportEngine.createXLS(outFile);
 					if (HTML.equals(type))
-						m_reportEngine.createHTML(outFile, false, m_reportEngine.getPrintFormat().getLanguage());
+						m_reportEngine.createHTML(outFile, false);
 					this.dispose();
 					return;
 				}
@@ -228,14 +232,13 @@ public class Viewer extends CFrame
 					return;
 				}
 			}
-
+			//	Load export
+			exportHandler = new ReportExportHandler(m_ctx, m_reportEngine);
 			jbInit();
 			dynInit();
 			if (!m_viewPanel.isArchivable())
 				log.warning("Cannot archive Document");
 			AEnv.showCenterScreen(this);
-
-
 		}
 		catch(Exception e)
 		{
@@ -269,6 +272,8 @@ public class Viewer extends CFrame
 	private boolean 			m_IsCanLoad = false;
 	private boolean 			m_isAllowHTMLView = false;
 	private boolean 			m_isAllowXLSView= false;
+	/**	Export Handler			*/
+	private ReportExportHandler	exportHandler = null;
 
 	private MQuery 		m_ddQ = null;
 	private MQuery 		m_daQ = null;
@@ -1082,16 +1087,12 @@ public class Viewer extends CFrame
 		String message = "";
 		File attachment = null;
 		
-		try
-		{
-			//attachment = File.createTempFile("mail", ".pdf");
+		try {
 			attachment = m_reportEngine.getPDF(null);
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			log.log(Level.SEVERE, "", e);
 		}
-
+		//	Send it
 		new EMailDialog (this,
 			Msg.getMsg(Env.getCtx(), "SendMail"),
 			from, to, subject, message, attachment);
@@ -1103,7 +1104,7 @@ public class Viewer extends CFrame
 	private void cmd_archive ()
 	{
 		boolean success = false;
-		byte[] data = Document.getPDFAsArray(m_reportEngine.getLayout().getPageable(false));	//	No Copy
+		byte[] data = new ITextDocument().getPDFAsArray(m_reportEngine.getLayout().getPageable(false));	//	No Copy
 		if (data != null)
 		{
 			MArchive archive = new MArchive (Env.getCtx(), m_reportEngine.getPrintInfo(), null);
@@ -1144,24 +1145,22 @@ public class Viewer extends CFrame
 		chooser.setDialogType(JFileChooser.SAVE_DIALOG);
 		chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		chooser.setDialogTitle(Msg.getMsg(m_ctx, "Export") + ": " + getTitle());
-		//
-		chooser.addChoosableFileFilter(new ExtensionFileFilter("ps", Msg.getMsg(m_ctx, "FilePS")));
-		chooser.addChoosableFileFilter(new ExtensionFileFilter("xml", Msg.getMsg(m_ctx, "FileXML")));
-		chooser.addChoosableFileFilter(new ExtensionFileFilter("pdf", Msg.getMsg(m_ctx, "FilePDF")));
-		chooser.addChoosableFileFilter(new ExtensionFileFilter("html", Msg.getMsg(m_ctx, "FileHTML")));
-		chooser.addChoosableFileFilter(new ExtensionFileFilter("txt", Msg.getMsg(m_ctx, "FileTXT")));
-		chooser.addChoosableFileFilter(new ExtensionFileFilter("ssv", Msg.getMsg(m_ctx, "FileSSV")));
-		chooser.addChoosableFileFilter(new ExtensionFileFilter("csv", Msg.getMsg(m_ctx, "FileCSV")));
-		chooser.addChoosableFileFilter(new ExtensionFileFilter("xls", Msg.getMsg(m_ctx, "FileXLS")));
-		chooser.addChoosableFileFilter(new ExtensionFileFilter("xlsx", Msg.getMsg(m_ctx, "FileXLSX")));
-		//	BR [1019]
-		if (m_IsCanLoad) {
-			chooser.addChoosableFileFilter(new ExtensionFileFilter( "arxml", "arxml" + " - Adempiere Report Definition"));
+		//	
+		if(exportHandler.getExportFormatList() != null) {
+			for(AbstractExportFormat exportFormat : exportHandler.getExportFormatList()) {
+				if(exportFormat.getExtension().equals("arxml")
+						&& !m_IsCanLoad) {
+					continue;
+				}
+				//	For all
+				chooser.addChoosableFileFilter(new ExtensionFileFilter(exportFormat.getExtension(), exportFormat.getName()));
+			}
 		}
 		//
 		if (chooser.showSaveDialog(this) != JFileChooser.APPROVE_OPTION)
 			return;
-
+		//	
+		String exportName = chooser.getFileFilter().getDescription();
 		//	Create File
 		File outFile = ExtensionFileFilter.getFile(chooser.getSelectedFile(), chooser.getFileFilter());
 		try
@@ -1186,37 +1185,8 @@ public class Viewer extends CFrame
 		log.config( "File=" + outFile.getPath() + "; Type=" + ext);
 
 		setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-		try {
-			if (ext.equals("pdf"))
-				m_reportEngine.createPDF(outFile);
-			else if (ext.equals("ps"))
-				m_reportEngine.createPS(outFile);
-			else if (ext.equals("xml"))
-				m_reportEngine.createXML(outFile);
-			else if (ext.equals("csv"))
-				m_reportEngine.createCSV(outFile, ',', m_reportEngine.getPrintFormat().getLanguage());
-			else if (ext.equals("ssv"))
-				m_reportEngine.createCSV(outFile, ';', m_reportEngine.getPrintFormat().getLanguage());
-			else if (ext.equals("txt"))
-				m_reportEngine.createCSV(outFile, '\t', m_reportEngine.getPrintFormat().getLanguage());
-			else if (ext.equals("html") || ext.equals("htm"))
-				m_reportEngine.createHTML(outFile, false, m_reportEngine.getPrintFormat().getLanguage());
-			else if (ext.equals("xls"))
-				m_reportEngine.createXLS(outFile, m_reportEngine.getPrintFormat().getLanguage());
-			else if (ext.equals("xlsx"))
-				m_reportEngine.createXLSX(outFile, m_reportEngine.getPrintFormat().getLanguage());
-			else if (ext.equals("arxml"))
-			{
-				ImpExpUtil.exportPrintFormat(outFile, m_reportEngine);
-			}		
-			else
-				ADialog.error(m_WindowNo, this, "FileInvalidExtension");
-		}
-		catch (Exception e) {
-			ADialog.error(m_WindowNo, this, "Error", e.getLocalizedMessage());
-			if (CLogMgt.isLevelFinest())
-				e.printStackTrace();
-		}
+		AbstractExportFormat exporter = exportHandler.getExporter(exportName);
+		exporter.exportTo(outFile);
 		cmd_drill();	//	setCursor
 	}	//	cmd_export
 
@@ -1342,7 +1312,6 @@ public class Viewer extends CFrame
 		
 		String title = null; 
 		String tableName = null;
-		boolean IsInheritFiltertoReports = true;
 
 		//	Get Find Tab Info
 		String sql = "SELECT t.AD_Tab_ID "
@@ -1392,7 +1361,7 @@ public class Viewer extends CFrame
 				+ "             AND ce.ASP_Status = 'H')"; // Hide
 		//
 		//jobriant - Feature #544
-		sql = "SELECT Name, TableName, IsInheritFiltertoReports FROM AD_Tab_v WHERE AD_Tab_ID=? " + ASPFilter;
+		sql = "SELECT Name, TableName FROM AD_Tab_v WHERE AD_Tab_ID=? " + ASPFilter;
 		
 		if (!Env.isBaseLanguage(Env.getCtx(), "AD_Tab"))
 			sql = "SELECT Name, TableName FROM AD_Tab_vt WHERE AD_Tab_ID=?"
@@ -1407,7 +1376,6 @@ public class Viewer extends CFrame
 			{
 				title = rs.getString(1);				
 				tableName = rs.getString(2);
-				IsInheritFiltertoReports = rs.getString(3).equals("Y");
 			}
 			//
 			rs.close();
@@ -1431,15 +1399,9 @@ public class Viewer extends CFrame
 			}
 		} else
 		{
-			/*ASearch search = new ASearch (bFind,this, title,AD_Tab_ID, AD_Table_ID, tableName, m_reportEngine ,findFields, 1);
-			search = null;*/ // Adempiere approach . This time discarded...
-			//jobriant - Inherit filter to reports
 			String whereExtended = "";
-			if (IsInheritFiltertoReports) {
-				whereExtended = m_reportEngine.getWhereExtended();
-			}
-			Find find = new Find (this, m_reportEngine.getWindowNo(), title,
-					AD_Tab_ID, AD_Table_ID, tableName, whereExtended, findFields, 1);
+			whereExtended = m_reportEngine.getWhereExtended();
+			Find find = new Find (this, m_reportEngine.getWindowNo(), title, AD_Tab_ID, AD_Table_ID, tableName, whereExtended, findFields, 1);
 			m_reportEngine.setQuery(find.getQuery());
 			find.dispose();
 			find = null;

@@ -256,7 +256,7 @@ public class WPOS extends CPOS implements IFormController, EventListener, POSPan
 		int orgId = Env.getAD_Org_ID(getCtx());
 		poss = getPOSByOrganization(orgId);
 		//	Select POS
-		String msg = Msg.getMsg(ctx, "SelectPOS");
+		String msg = Msg.getMsg(getCtx(), "SelectPOS");
 		selection = new Window();
 		Panel mainPanel = new Panel();
 		Panel panel = new Panel();
@@ -372,7 +372,6 @@ public class WPOS extends CPOS implements IFormController, EventListener, POSPan
 			frame.detach();
 		
 		frame = null;
-		ctx = null;
 	}	//	dispose
 
 	@Override
@@ -459,7 +458,7 @@ public class WPOS extends CPOS implements IFormController, EventListener, POSPan
 		if (lineError != null) {
 			log.warning("POS Error " + lineError);
 			FDialog.error(0,
-					frame, Msg.parseTranslation(ctx, lineError));
+					frame, Msg.parseTranslation(getCtx(), lineError));
 		}
 		//	Update Info
 		refreshPanel();

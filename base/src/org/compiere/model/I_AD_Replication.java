@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Replication
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.1
  */
 public interface I_AD_Replication 
 {
@@ -271,6 +271,8 @@ public interface I_AD_Replication
 	  */
 	public int getRemote_Client_ID();
 
+	public org.compiere.model.I_AD_Client getRemote_Client() throws RuntimeException;
+
     /** Column name Remote_Org_ID */
     public static final String COLUMNNAME_Remote_Org_ID = "Remote_Org_ID";
 
@@ -283,6 +285,8 @@ public interface I_AD_Replication
 	  * Remote Organization to be used to replicate / synchronize data with.
 	  */
 	public int getRemote_Org_ID();
+
+	public org.compiere.model.I_AD_Org getRemote_Org() throws RuntimeException;
 
     /** Column name Suffix */
     public static final String COLUMNNAME_Suffix = "Suffix";

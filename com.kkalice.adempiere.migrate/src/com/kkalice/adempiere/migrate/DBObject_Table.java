@@ -244,8 +244,10 @@ public class DBObject_Table implements DBObjectInterface {
 		for (Iterator<Integer> it = contentMap.keySet().iterator(); it.hasNext();) {
 			int key = it.next();
 			DBObject_Table_Column col = (DBObject_Table_Column)contentMap.get(key);
-			if (col.isCustomized())
+			if (col.isCustomized()) {
 				result = true;
+				break;
+			}
 		}
 		
 		return result;

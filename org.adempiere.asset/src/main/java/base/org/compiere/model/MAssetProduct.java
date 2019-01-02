@@ -2,6 +2,7 @@ package org.compiere.model;
 
 import java.math.BigDecimal;
 import java.sql.ResultSet;
+import java.util.Optional;
 import java.util.Properties;
 
 import org.compiere.model.Query;
@@ -14,6 +15,18 @@ public class MAssetProduct extends X_A_Asset_Product
 {
 	private static final long serialVersionUID = 1L;
 
+    /**
+     * Get Option Asset Product
+     * @param asset
+     * @return
+     */
+	public static Optional<MAssetProduct> getAssetProduct (MAsset asset)
+	{
+		return Optional.ofNullable(new Query(asset.getCtx() , MAssetProduct.Table_Name , MAssetProduct.COLUMNNAME_A_Asset_ID + "=?", asset.get_TrxName())
+				.setClient_ID()
+				.setParameters(asset.getA_Asset_ID())
+				.first());
+	}
 	/** Standard Constructor */
 	public MAssetProduct (Properties ctx, int A_Asset_Product_ID, String trxName)
 	{

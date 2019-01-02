@@ -299,7 +299,7 @@ public class WHRActionNotice extends HRActionNotice implements IFormController,
 			payrollProcess = new MHRProcess(Env.getCtx(), processKeyNamePair.getKey(), null);
 			payrollProcessId = payrollProcess.getHR_Process_ID();
 			if(payrollProcess.getHR_Period_ID() > 0) {
-				MHRPeriod period = MHRPeriod.get(Env.getCtx(), payrollProcess.getHR_Period_ID());
+				MHRPeriod period = MHRPeriod.getById(Env.getCtx(), payrollProcess.getHR_Period_ID(), null);
 				dateStart= period.getStartDate();
 				dateEnd  = period.getEndDate();
 			} else {
@@ -332,7 +332,7 @@ public class WHRActionNotice extends HRActionNotice implements IFormController,
 			}
 			//	
 			if (conceptId > 0) {
-				MHRConcept concept = MHRConcept.get(Env.getCtx(), conceptId);
+				MHRConcept concept = MHRConcept.getById(Env.getCtx(), conceptId , null);
 				//	Load Data Combo Box
 				loadTextMsgLookup(concept.getAD_Reference_ID());
 				//	
@@ -409,7 +409,7 @@ public class WHRActionNotice extends HRActionNotice implements IFormController,
 				partnerId = ((KeyNamePair) fieldEmployee.getSelectedItem().getValue()).getKey();
 				payrollId = getPayrollProcess().getHR_Payroll_ID();
 				if(payrollProcess.getHR_Period_ID() > 0) {
-					MHRPeriod period = MHRPeriod.get(Env.getCtx(), payrollProcess.getHR_Period_ID());
+					MHRPeriod period = MHRPeriod.getById(Env.getCtx(), payrollProcess.getHR_Period_ID() , null);
 					dateStart = period.getStartDate();
 					dateEnd = period.getEndDate();
 				} else {
@@ -427,7 +427,6 @@ public class WHRActionNotice extends HRActionNotice implements IFormController,
 				description = (String) fieldDescription.getValue();
 				validFrom = (Timestamp) fieldValidFrom.getValue();
 				validTo =  (Timestamp) fieldValidFrom.getValue();
-
 			if (conceptId <= 0
 					|| fieldProcess.getSelectedItem().getValue() == null
 					|| ((KeyNamePair) fieldProcess.getSelectedItem().getValue()).getKey() <= 0

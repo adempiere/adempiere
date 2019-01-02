@@ -294,8 +294,7 @@ public class MReportSource extends X_PA_ReportSource
 
 		return whcomb.toString();
 	}
-
-
+	
 	/**
 	 * 	String Representation
 	 * 	@return info

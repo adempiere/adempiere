@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for PA_Report
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.1
  */
 public interface I_PA_Report 
 {
@@ -190,12 +190,12 @@ public interface I_PA_Report
 	/** Set List Sources.
 	  * List Report Line Sources
 	  */
-	public void setListSources (boolean ListSources);
+	public void setListSources (String ListSources);
 
 	/** Get List Sources.
 	  * List Report Line Sources
 	  */
-	public boolean isListSources();
+	public String getListSources();
 
     /** Column name ListTrx */
     public static final String COLUMNNAME_ListTrx = "ListTrx";
@@ -203,12 +203,12 @@ public interface I_PA_Report
 	/** Set List Transactions.
 	  * List the report transactions
 	  */
-	public void setListTrx (boolean ListTrx);
+	public void setListTrx (String ListTrx);
 
 	/** Get List Transactions.
 	  * List the report transactions
 	  */
-	public boolean isListTrx();
+	public String getListTrx();
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

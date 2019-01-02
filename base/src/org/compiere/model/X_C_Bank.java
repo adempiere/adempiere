@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Bank
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_C_Bank extends PO implements I_C_Bank, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170731L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_C_Bank (Properties ctx, int C_Bank_ID, String trxName)
@@ -73,6 +73,58 @@ public class X_C_Bank extends PO implements I_C_Bank, I_Persistent
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	/** BankType AD_Reference_ID=53978 */
+	public static final int BANKTYPE_AD_Reference_ID=53978;
+	/** Bank = B */
+	public static final String BANKTYPE_Bank = "B";
+	/** Cash Journal = C */
+	public static final String BANKTYPE_CashJournal = "C";
+	/** Set Bank Type.
+		@param BankType 
+		Bank Type define a type of bank or behavior
+	  */
+	public void setBankType (String BankType)
+	{
+
+		set_Value (COLUMNNAME_BankType, BankType);
+	}
+
+	/** Get Bank Type.
+		@return Bank Type define a type of bank or behavior
+	  */
+	public String getBankType () 
+	{
+		return (String)get_Value(COLUMNNAME_BankType);
+	}
+
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
+			.getPO(getC_BPartner_ID(), get_TrxName());	}
+
+	/** Set Business Partner .
+		@param C_BPartner_ID 
+		Identifies a Business Partner
+	  */
+	public void setC_BPartner_ID (int C_BPartner_ID)
+	{
+		if (C_BPartner_ID < 1) 
+			set_Value (COLUMNNAME_C_BPartner_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
+	}
+
+	/** Get Business Partner .
+		@return Identifies a Business Partner
+	  */
+	public int getC_BPartner_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartner_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	/** Set Bank.
 		@param C_Bank_ID 

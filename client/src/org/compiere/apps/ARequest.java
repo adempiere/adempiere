@@ -19,255 +19,156 @@ package org.compiere.apps;
 import java.awt.GraphicsConfiguration;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.logging.Level;
+import java.util.ArrayList;
 
 import javax.swing.JComponent;
 import javax.swing.JPopupMenu;
 
-import org.compiere.model.GridTab;
-import org.compiere.model.I_AD_User;
-import org.compiere.model.I_A_Asset;
-import org.compiere.model.I_C_BPartner;
-import org.compiere.model.I_C_Campaign;
-import org.compiere.model.I_C_Invoice;
-import org.compiere.model.I_C_Order;
-import org.compiere.model.I_C_OrderLine;
-import org.compiere.model.I_C_Payment;
-import org.compiere.model.I_C_Project;
-import org.compiere.model.I_M_InOut;
-import org.compiere.model.I_M_Product;
-import org.compiere.model.I_M_RMA;
-import org.compiere.model.I_R_Request;
-import org.compiere.model.MOrderLine;
 import org.compiere.model.MQuery;
-import org.compiere.model.MRequest;
-import org.compiere.model.MUser;
 import org.compiere.swing.CMenuItem;
 import org.compiere.util.CLogger;
-import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
-
+import org.compiere.util.ValueNamePair;
 
 /**
- *	Request Button Action.
- *	Popup Menu
- *	
- *  @author Jorg Janke
- *  @version $Id: ARequest.java,v 1.2 2006/07/30 00:51:27 jjanke Exp $
- * 
+ * Request Button Action.
+ * Popup Menu
+ *
+ * @author Jorg Janke
+ *
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
- * 			<li>BF [ 1904928 ] Request: Related Request field not filled
+ *      <li>BF [ 1904928 ] Request: Related Request field not filled
+ *
+ * @author OpenUp Solutions Sylvie Bouissa, sylvie.bouissa@openupsolutions.com, http://www.openupsolutions.com
+ *      <li>#1394 Add a submenu with details of each request, in the request icon on the window toolbar
+ *      <li>Reference to issue https://github.com/adempiere/adempiere/issues/1394
+ *
+ * @author eEvolution author Victor Perez <victor.perez@e-evolution.com>, http://www.e-evolution.com
+ *      <li>#1394 Add a submenu with details of each request, in the request icon on the window toolbar
+ *      <li>Reference to issue https://github.com/adempiere/adempiere/issues/1394
  */
-public class ARequest implements ActionListener
-{
-	/**
-	 * 	Constructor
-	 *	@param invoker invoker button
-	 *	@param AD_Table_ID table
-	 *	@param Record_ID record
-	 *	@param C_BPartner_ID optional bp
-	 */
-	public ARequest (JComponent invoker, int AD_Table_ID, int Record_ID,
-		int C_BPartner_ID)
-	{
-		super ();
-		log.config("AD_Table_ID=" + AD_Table_ID + ", Record_ID=" + Record_ID);
-		m_AD_Table_ID = AD_Table_ID;
-		m_Record_ID = Record_ID;
-		m_C_BPartner_ID = C_BPartner_ID;
-		getRequests(invoker);
-	}	//	ARequest
-	
-	/**	The Table						*/
-	private int			m_AD_Table_ID;
-	/** The Record						*/
-	private int			m_Record_ID;
-	/** BPartner						*/
-	private int			m_C_BPartner_ID;
-	
-	/**	The Popup						*/
-	private JPopupMenu 	m_popup = new JPopupMenu("RequestMenu");
-	private CMenuItem 	m_new = null;
-	private CMenuItem 	m_active = null;
-	private CMenuItem 	m_all = null;
-	private GraphicsConfiguration m_graphicsconfig = null;
-	/** Where Clause					*/
-	StringBuffer 		m_where = null;
-	
-	
-	/**	Logger	*/
-	private static CLogger	log	= CLogger.getCLogger (ARequest.class);
-	
-	/**
-	 * 	Display Request Options - New/Existing.
-	 * 	@param invoker button
-	 */
-	private void getRequests (JComponent invoker)
-	{
-		m_new = new CMenuItem(Msg.getMsg(Env.getCtx(), "RequestNew"));
-		m_new.setIcon(Env.getImageIcon("New16.gif"));
-		m_popup.add(m_new).addActionListener(this);
-		m_graphicsconfig = invoker.getGraphicsConfiguration();
-		//
-		int activeCount = 0;
-		int inactiveCount = 0;
-		m_where = new StringBuffer();
-		m_where.append("(AD_Table_ID=").append(m_AD_Table_ID)
-			.append(" AND Record_ID=").append(m_Record_ID)
-			.append(")");
-		//
-		if (m_AD_Table_ID == MUser.Table_ID)
-			m_where.append(" OR AD_User_ID=").append(m_Record_ID)
-				.append(" OR SalesRep_ID=").append(m_Record_ID);
-		else if (m_AD_Table_ID == I_C_BPartner.Table_ID)
-			m_where.append(" OR C_BPartner_ID=").append(m_Record_ID);
-		else if (m_AD_Table_ID == I_C_Order.Table_ID)
-			m_where.append(" OR C_Order_ID=").append(m_Record_ID);
-		else if (m_AD_Table_ID == I_C_Invoice.Table_ID)
-			m_where.append(" OR C_Invoice_ID=").append(m_Record_ID);
-		else if (m_AD_Table_ID == I_C_Payment.Table_ID)
-			m_where.append(" OR C_Payment_ID=").append(m_Record_ID);
-		else if (m_AD_Table_ID == I_M_Product.Table_ID)
-			m_where.append(" OR M_Product_ID=").append(m_Record_ID);
-		else if (m_AD_Table_ID == I_C_Project.Table_ID)
-			m_where.append(" OR C_Project_ID=").append(m_Record_ID);
-		else if (m_AD_Table_ID == I_C_Campaign.Table_ID)
-			m_where.append(" OR C_Campaign_ID=").append(m_Record_ID);
-		else if (m_AD_Table_ID == I_A_Asset.Table_ID)
-			m_where.append(" OR A_Asset_ID=").append(m_Record_ID);
-		//
-		String sql = "SELECT Processed, COUNT(*) "
-			+ "FROM R_Request WHERE " + m_where 
-			+ " GROUP BY Processed "
-			+ "ORDER BY Processed DESC";
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, null);
-			rs = pstmt.executeQuery ();
-			while (rs.next ())
-			{
-				if ("Y".equals(rs.getString(1)))
-					inactiveCount = rs.getInt(2);
-				else
-					activeCount += rs.getInt(2);
-			}
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; 
-			pstmt = null;
-		}
-		//
-		if (activeCount > 0)
-		{
-			m_active = new CMenuItem(Msg.getMsg(Env.getCtx(), "RequestActive") 
-				+ " (" + activeCount + ")");
-			m_popup.add(m_active).addActionListener(this);
-		}
-		if (inactiveCount > 0)
-		{
-			m_all = new CMenuItem(Msg.getMsg(Env.getCtx(), "RequestAll") 
-				+ " (" + (activeCount + inactiveCount) + ")");
-			m_popup.add(m_all).addActionListener(this);
-		}
-		//
-		if (invoker.isShowing())
-			m_popup.show(invoker, 0, invoker.getHeight());	//	below button
-	}	//	getZoomTargets
-	
-	/**
-	 * 	Listner
-	 *	@param e event
-	 */
-	public void actionPerformed (ActionEvent e)
-	{
-		MQuery query = null;
-		if (e.getSource() == m_active)
-		{
-			query = new MQuery("");
-			String where = "(" + m_where + ") AND Processed='N'";
-			query.addRestriction(where);
-			query.setRecordCount(0);
-		}
-		else if (e.getSource() == m_all)
-		{
-			query = new MQuery("");
-			query.addRestriction(m_where.toString());
-			query.setRecordCount(0);
-		}
-		else if (e.getSource() == m_new)
-		{
-			query = new MQuery("");
-			query.addRestriction("1=2");
-			query.setRecordCount(0);
-		}
-		//
-		int AD_Window_ID = 232;		//	232=all - 201=my
-		AWindow frame = new AWindow(m_graphicsconfig);
-		if (!frame.initWindow(AD_Window_ID, query))
-			return;
-		AEnv.addToWindowManager(frame);
-		//	New - set Table/Record
-		if (e.getSource() == m_new)
-		{
-			GridTab tab = frame.getAPanel().getCurrentTab();
-			tab.dataNew (false);
-			tab.setValue("AD_Table_ID", new Integer(m_AD_Table_ID));
-			tab.setValue("Record_ID", new Integer(m_Record_ID));
-			//
-			if (m_C_BPartner_ID != 0)
-				tab.setValue("C_BPartner_ID", new Integer(m_C_BPartner_ID));
-			//
-			if (m_AD_Table_ID == I_C_BPartner.Table_ID)
-				tab.setValue("C_BPartner_ID", new Integer(m_Record_ID));
-			else if (m_AD_Table_ID == I_AD_User.Table_ID)
-				tab.setValue("AD_User_ID", new Integer(m_Record_ID));
-			//
-			else if (m_AD_Table_ID == I_C_Project.Table_ID)
-				tab.setValue("C_Project_ID", new Integer(m_Record_ID));
-			else if (m_AD_Table_ID == I_A_Asset.Table_ID)
-				tab.setValue("A_Asset_ID", new Integer(m_Record_ID));
-			//
-			else if (m_AD_Table_ID == I_C_Order.Table_ID)
-				tab.setValue("C_Order_ID", new Integer(m_Record_ID));
-			else if (m_AD_Table_ID == I_C_Invoice.Table_ID)
-				tab.setValue("C_Invoice_ID", new Integer(m_Record_ID));
-			//
-			else if (m_AD_Table_ID == I_M_Product.Table_ID)
-				tab.setValue("M_Product_ID", new Integer(m_Record_ID));
-			else if (m_AD_Table_ID == I_C_Payment.Table_ID)
-				tab.setValue("C_Payment_ID", new Integer(m_Record_ID));
-			//
-			else if (m_AD_Table_ID == I_M_InOut.Table_ID)
-				tab.setValue("M_InOut_ID", new Integer(m_Record_ID));
-			else if (m_AD_Table_ID == I_M_RMA.Table_ID)
-				tab.setValue("M_RMA_ID", new Integer(m_Record_ID));
-			//
-			else if (m_AD_Table_ID == I_C_Campaign.Table_ID)
-				tab.setValue("C_Campaign_ID", new Integer(m_Record_ID));
-			//
-			else if (m_AD_Table_ID == I_R_Request.Table_ID)
-				tab.setValue(MRequest.COLUMNNAME_R_RequestRelated_ID, new Integer(m_Record_ID));
-			// FR [2842165] - Order Ref link from SO line creating new request
-			else if (m_AD_Table_ID == I_C_OrderLine.Table_ID) {
-				MOrderLine oLine = new MOrderLine(Env.getCtx(), m_Record_ID, null);
-				if (oLine != null) {
-					tab.setValue(MOrderLine.COLUMNNAME_C_Order_ID, new Integer(oLine.getC_Order_ID()));
-				}
-			}
-		}
-		AEnv.showCenterScreen(frame);
-		frame = null;
-	}	//	actionPerformed
-	
-}	//	ARequest
+public class ARequest extends Request implements ActionListener {
+
+    /**
+     * The Popup
+     */
+    private JPopupMenu popupMenu = new JPopupMenu("RequestMenu");
+    private CMenuItem newMenuItem = null;
+    private CMenuItem activeMenuItem = null;
+    private CMenuItem allMenuItem = null;
+    private GraphicsConfiguration graphicsConfiguration = null;
+    private ArrayList<CMenuItem> menuItems = new ArrayList<CMenuItem>();
+
+    protected static CLogger log = CLogger.getCLogger(ARequest.class);
+
+    /**
+     * Constructor
+     *
+     * @param invoker       invoker button
+     * @param tableId   table
+     * @param recordId     record
+     * @param partnerId optional bp
+     */
+    public ARequest(JComponent invoker, int tableId, int recordId, int partnerId) {
+        super();
+        log.config("AD_Table_ID=" + tableId + ", Record_ID=" + recordId);
+        this.tableId = tableId;
+        this.recordId = recordId;
+        this.partnerId = partnerId;
+        getRequests(invoker);
+    }    //	ARequest
+
+    /**
+     * Display Request Options - New/Existing.
+     *
+     * @param invoker button
+     */
+    private void getRequests(JComponent invoker) {
+        newMenuItem = new CMenuItem(Msg.getMsg(Env.getCtx(), "RequestNew"));
+        newMenuItem.setIcon(Env.getImageIcon("New16.gif"));
+        popupMenu.add(newMenuItem).addActionListener(this);
+        graphicsConfiguration = invoker.getGraphicsConfiguration();
+
+        buildWhereClause();
+
+        Long processingCount = getProcessingCount();
+        if (processingCount > 0) {
+            activeMenuItem = new CMenuItem(Msg.getMsg(Env.getCtx(), "RequestActive")
+                    + " (" + processingCount + ")");
+            popupMenu.add(activeMenuItem).addActionListener(this);
+
+        }
+        Long unprocessingCount = getUnprocessingCount();
+        if (unprocessingCount > 0) {
+            allMenuItem = new CMenuItem(Msg.getMsg(Env.getCtx(), "RequestAll")
+                    + " (" + (processingCount + unprocessingCount) + ")");
+            popupMenu.add(allMenuItem).addActionListener(this);
+        }
+
+        fillRequestList();
+        //
+        if (invoker.isShowing())
+            popupMenu.show(invoker, 0, invoker.getHeight());    //	below button
+    }    //	getZoomTargets
+
+
+    private void fillRequestList() {
+        if (getCount() == 0)
+            return;
+
+        popupMenu.addSeparator();
+        getRequestList().entrySet().stream()
+                .forEach(requestEntry  -> {
+                    ValueNamePair requetInfo = requestEntry.getValue();
+                    CMenuItem requestInfoMenu = new CMenuItem(requetInfo.getName());
+                    requestInfoMenu.setName(requestEntry.getKey());
+                    menuItems.add(requestInfoMenu);
+                    popupMenu.add(requestInfoMenu).addActionListener(this);
+                });
+        popupMenu.addSeparator();
+    }
+
+    /**
+     * Listner
+     *
+     * @param actionEvent event
+     */
+    public void actionPerformed(ActionEvent actionEvent) {
+        MQuery query = null;
+        if (actionEvent.getSource() == activeMenuItem) {
+            query = new MQuery("");
+            String where = "(" + whereClause + ") AND Processed='N'";
+            query.addRestriction(where);
+            query.setRecordCount(0);
+        } else if (actionEvent.getSource() == allMenuItem) {
+            query = new MQuery("");
+            query.addRestriction(whereClause.toString());
+            query.setRecordCount(0);
+        } else if (actionEvent.getSource() == newMenuItem) {
+            query = new MQuery("");
+            query.addRestriction("1=2");
+            query.setRecordCount(0);
+        } else if (menuItems.contains(actionEvent.getSource())) {
+            CMenuItem menuItem = (CMenuItem) actionEvent.getSource();
+            query = new MQuery("");
+            String where = "(" + whereClause + ") AND R_Request_ID=" + menuItem.getName();
+            query.addRestriction(where);
+            query.setRecordCount(0);
+
+        }
+        //
+        int windowId = 232;        //	232=all - 201=my
+        AWindow window = new AWindow(graphicsConfiguration);
+        if (!window.initWindow(windowId, query))
+            return;
+        AEnv.addToWindowManager(window);
+        //	New - set Table/Record
+        if (actionEvent.getSource() == newMenuItem)
+            defineGridTab(window.getAPanel().getCurrentTab());
+
+        AEnv.showCenterScreen(window);
+        window = null;
+    }    //	actionPerformed
+
+}    //	ARequest

@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for S_ExpenseType
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_S_ExpenseType extends PO implements I_S_ExpenseType, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170731L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_S_ExpenseType (Properties ctx, int S_ExpenseType_ID, String trxName)
@@ -99,6 +99,34 @@ public class X_S_ExpenseType extends PO implements I_S_ExpenseType, I_Persistent
 	public int getC_TaxCategory_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_TaxCategory_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.eevolution.model.I_C_TaxType getC_TaxType() throws RuntimeException
+    {
+		return (org.eevolution.model.I_C_TaxType)MTable.get(getCtx(), org.eevolution.model.I_C_TaxType.Table_Name)
+			.getPO(getC_TaxType_ID(), get_TrxName());	}
+
+	/** Set Tax Type.
+		@param C_TaxType_ID 
+		Tax Type
+	  */
+	public void setC_TaxType_ID (int C_TaxType_ID)
+	{
+		if (C_TaxType_ID < 1) 
+			set_Value (COLUMNNAME_C_TaxType_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_TaxType_ID, Integer.valueOf(C_TaxType_ID));
+	}
+
+	/** Get Tax Type.
+		@return Tax Type
+	  */
+	public int getC_TaxType_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_TaxType_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

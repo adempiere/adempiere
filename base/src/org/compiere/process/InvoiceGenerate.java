@@ -175,6 +175,7 @@ public class InvoiceGenerate extends SvrProcess
 		{
 			log.log(Level.SEVERE, sql, e);
 		}
+		log.config(sql);
 		return generate(pstmt);
 	}	//	doIt
 	
@@ -186,11 +187,13 @@ public class InvoiceGenerate extends SvrProcess
 	 */
 	private String generate (PreparedStatement pstmt)
 	{
+		int rs_cnt = 0;
 		try
 		{
 			ResultSet rs = pstmt.executeQuery ();
 			while (rs.next ())
 			{
+				rs_cnt++;
 				MOrder order = new MOrder (getCtx(), rs, get_TrxName());
 				
 				//	New Invoice Location
@@ -331,7 +334,7 @@ public class InvoiceGenerate extends SvrProcess
 			pstmt = null;
 		}
 		completeInvoice();
-		return "@Created@ = " + m_created;
+		return "@Created@ = " + m_created + " @of@ " + rs_cnt;
 	}	//	generate
 	
 	

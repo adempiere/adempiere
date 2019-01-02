@@ -16,10 +16,13 @@
  *****************************************************************************/
 package org.compiere.util;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.BitSet;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+
+import org.compiere.model.MCalendar;
 
 
 /**
@@ -30,6 +33,12 @@ import java.util.GregorianCalendar;
  *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *		<a href="https://github.com/adempiere/adempiere/issues/764">
  * 		@see FR [ 764 ] Add hepler method to TimeUtil class</a>
+ * 		<a href="https://github.com/adempiere/adempiere/issues/1526">
+ * 		@see FR [ 1526 ] TimeUtil class have a method non static</a>
+ *  @author Víctor Pérez Juárez , victor.perez@e-evolution.com , http://www.e-evolution.com
+ *  <a href="https://github.com/adempiere/adempiere/issues/1478">
+ *  <li>Add support to create request based on Standard Request Type setting on Project Type #1478
+ *
  */
 public class TimeUtil
 {
@@ -399,9 +408,14 @@ public class TimeUtil
 	 *  <li> Calendar.SATURDAY
 	 * 	@param start start date
 	 * 	@param end end date
+	 * 	@param matchingDay it is used for include a days
 	 * 	@return number of days (0 = same)
 	 */
-	static public int getDaysBetween (Timestamp start, Timestamp end, int... matchingDay) {
+	public static int getDaysBetween (Timestamp start, Timestamp end, int... matchingDay) {
+		if(start == null
+				|| end == null) {
+			return 0;
+		}
 		boolean negative = false;
 		if (end.before(start))
 		{
@@ -445,7 +459,179 @@ public class TimeUtil
 			return counter * -1;
 		return counter;
 	}	//	getDaysBetween
+	
+	/**
+	 * 	Calculate the number of days between start and end, it is only for non business day.
+	 * 	It method get calendar of client for non business days
+	 *  Use any of follow constants for get a specific day of week
+	 *  <li> Calendar.SUNDAY
+	 *  <li> Calendar.MONDAY
+	 *  <li> Calendar.TUESDAY
+	 *  <li> Calendar.WEDNESDAY
+	 *  <li> Calendar.THURSDAY
+	 *  <li> Calendar.FRIDAY
+	 *  <li> Calendar.SATURDAY
+	 * 	@param start start date
+	 * 	@param end end date
+	 * 	@param includeDay it is used for include as non business days
+	 * 	@return number of days (0 = same)
+	 */
+	public static int getNonBusinessDaysBetween (Timestamp start, Timestamp end, int... includeDay) {
+		return getDaysBetweenWithCalendar(start, end, true, includeDay);
+	}	//	getNonBusinessDaysBetween
 
+	/**
+	 * 	Calculate the number of days between start and end, it is only for business day.
+	 * 	It method get calendar of client for non business days
+	 *  Use any of follow constants for get a specific day of week
+	 *  <li> Calendar.SUNDAY
+	 *  <li> Calendar.MONDAY
+	 *  <li> Calendar.TUESDAY
+	 *  <li> Calendar.WEDNESDAY
+	 *  <li> Calendar.THURSDAY
+	 *  <li> Calendar.FRIDAY
+	 *  <li> Calendar.SATURDAY
+	 * 	@param start start date
+	 * 	@param end end date
+	 * 	@param includeDay it is used for include as non business days
+	 * 	@return number of days (0 = same)
+	 */
+	public static int getBusinessDaysBetween (Timestamp start, Timestamp end, int... includeDay) {
+		return getDaysBetweenWithCalendar(start, end, false, includeDay);
+	}	//	getNonBusinessDaysBetween
+	
+	/**
+	 * Get Days Between two dates, note that exist a parameter for match with calendar or not
+	 * 	Use any of follow constants for get a specific day of week
+	 *  <li> Calendar.SUNDAY
+	 *  <li> Calendar.MONDAY
+	 *  <li> Calendar.TUESDAY
+	 *  <li> Calendar.WEDNESDAY
+	 *  <li> Calendar.THURSDAY
+	 *  <li> Calendar.FRIDAY
+	 *  <li> Calendar.SATURDAY
+	 * @param start Start date
+	 * @param end End date
+	 * @param onlyMatchWithCalendar If it is true then only make match with calendar days
+	 * @param includeDay it allows include days of week as days to count
+	 * @return
+	 */
+	private static int getDaysBetweenWithCalendar (Timestamp start, Timestamp end, boolean onlyMatchWithCalendar, int... includeDay) {
+		if(start == null
+				|| end == null) {
+			return 0;
+		}
+		boolean negative = false;
+		if (end.before(start))
+		{
+			negative = true;
+			Timestamp temp = start;
+			start = end;
+			end = temp;
+		}
+		MCalendar clientCalendar = MCalendar.getDefault(Env.getCtx());
+		//
+		GregorianCalendar cal = new GregorianCalendar();
+		cal.setTime(start);
+		cal.set(Calendar.HOUR_OF_DAY, 0);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		cal.set(Calendar.MILLISECOND, 0);
+		GregorianCalendar calEnd = new GregorianCalendar();
+		calEnd.setTime(end);
+		calEnd.set(Calendar.HOUR_OF_DAY, 0);
+		calEnd.set(Calendar.MINUTE, 0);
+		calEnd.set(Calendar.SECOND, 0);
+		calEnd.set(Calendar.MILLISECOND, 0);
+		//	not very efficient, but correct
+		int counter = 0;
+		while (calEnd.after(cal)) {
+			cal.add (Calendar.DAY_OF_YEAR, 1);
+			boolean match = isMatchingDay(cal.get(Calendar.DAY_OF_WEEK), includeDay);
+			boolean isNonBusinessDay = clientCalendar.isNonBusinessDay(cal.getTime());
+			if(onlyMatchWithCalendar) {	//	Include days if is for non business days
+				if(includeDay == null
+						|| includeDay.length == 0) {
+					match = false;
+				}
+				//	
+				if(match
+		    			|| isNonBusinessDay) {
+					counter++;
+				}
+			} else {	//	Exclude when is only for business days
+				if(match
+		    			&& !isNonBusinessDay) {
+					counter++;
+				}
+			}
+		}
+		if (negative)
+			return counter * -1;
+		return counter;
+	}	//	getDaysBetween
+	
+	/**
+	 * Return next date with current date
+	 * @param day Current date
+	 * @param offset Days offset:
+	 * 	<li> Calendar.SUNDAY
+	 *  <li> Calendar.MONDAY
+	 *  <li> Calendar.TUESDAY
+	 *  <li> Calendar.WEDNESDAY
+	 *  <li> Calendar.THURSDAY
+	 *  <li> Calendar.FRIDAY
+	 *  <li> Calendar.SATURDAY
+	 * @param includeDay Days included
+	 * @return
+	 */
+	public static Timestamp addBusinessDays(Timestamp day, int offset, int... includeDay) {
+		return addDays(day, offset, false, includeDay);
+	}
+	
+	/**
+	 * 	Return Day + offset (truncates)
+	 * 	@param day Day
+	 * 	@param offset day offset
+	 * 	@param onlyMatchWithCalendar
+	 * 	@param includeDay
+	 * 	@return Day + offset at 00:00
+	 */
+	private static Timestamp addDays(Timestamp day, int offset, boolean onlyMatchWithCalendar, int... includeDay) {
+		Calendar cal = Calendar.getInstance();
+		//	Valid From .. To
+		if(day == null)
+			return day;
+		
+		int days = 0;
+		
+		cal.setTimeInMillis(day.getTime());
+		//	Get Calendar
+	    MCalendar clientCalendar = MCalendar.getDefault(Env.getCtx());
+		//	Get Business Days
+	    while (days < offset
+	    		|| (days == offset 
+	    			&& (!isMatchingDay(cal.get(Calendar.DAY_OF_WEEK), includeDay)) 
+	    				|| (clientCalendar.isNonBusinessDay(cal.getTime()) && onlyMatchWithCalendar))) {
+	    	boolean match = isMatchingDay(cal.get(Calendar.DAY_OF_WEEK), includeDay);
+			boolean isNonBusinessDay = clientCalendar.isNonBusinessDay(cal.getTime());
+			if(match) {
+				days++;
+			} else {
+				cal.add(Calendar.DATE, 1);
+				continue;
+			}
+			//	
+			if(isNonBusinessDay && !onlyMatchWithCalendar) {
+				days--;
+			}
+	    	//	Add Day
+	    	cal.add(Calendar.DATE, 1);
+	    }
+	    //	log
+	    return new Timestamp(cal.getTimeInMillis());
+	}	//	addDays
+	
 	/**
 	 * 	Return Day + offset (truncates)
 	 * 	@param day Day
@@ -807,7 +993,7 @@ public class TimeUtil
 	 * @param years
 	 * @return Timestamp
 	 */
-	public Timestamp addYears (Timestamp from, int offset) {
+	public static Timestamp addYears (Timestamp from, int offset) {
 		if(from == null)
 			return from;
 		GregorianCalendar cal = new GregorianCalendar();
@@ -820,6 +1006,144 @@ public class TimeUtil
 			return new Timestamp (cal.getTimeInMillis());
 		cal.add(Calendar.YEAR, offset);
 		return new Timestamp (cal.getTimeInMillis());
+	}
+
+	public static final String DURATIONUNIT_Year = "Y";
+	/** Month = M */
+	public static final String DURATIONUNIT_Month = "M";
+	/** Day = D */
+	public static final String DURATIONUNIT_Day = "D";
+	/** hour = h */
+	public static final String DURATIONUNIT_Hour = "h";
+	/** minute = m */
+	public static final String DURATIONUNIT_Minute = "m";
+	/** second = s */
+	public static final String DURATIONUNIT_Second = "s";
+
+	/**
+	 * Get Timestamp based on Duration Unit and Duration
+	 * @param date
+	 * @param durationUnit
+	 * @param duration
+	 * @return
+	 */
+	public static Timestamp addDuration(Timestamp date , String durationUnit , BigDecimal duration)
+	{
+		return addDuration(date, durationUnit , duration.intValue());
+	}
+
+	/**
+	 * Get Timestamp based on Duration Unit and Duration
+	 * @param date
+	 * @param durationUnit
+	 * @param duration
+	 * @return
+	 */
+	public static Timestamp addDuration(Timestamp date , String durationUnit , int duration)
+	{
+		GregorianCalendar calendar = new GregorianCalendar();
+		calendar.setTime(date);
+		calendar.set(Calendar.HOUR_OF_DAY, 0);
+		calendar.set(Calendar.MINUTE, 0);
+		calendar.set(Calendar.SECOND, 0);
+		calendar.set(Calendar.MILLISECOND, 0);
+		if (DURATIONUNIT_Day.equals(durationUnit))
+			calendar.add(Calendar.DAY_OF_YEAR, duration);
+		else if (DURATIONUNIT_Second.equals(durationUnit))
+			calendar.add(Calendar.SECOND, duration);
+		else if (DURATIONUNIT_Minute.equals(durationUnit))
+			calendar.add(Calendar.MINUTE, duration);
+		else if (DURATIONUNIT_Hour.equals(durationUnit))
+			calendar.add(Calendar.HOUR_OF_DAY, duration);
+		else if (DURATIONUNIT_Month.equals(durationUnit))
+			calendar.add(Calendar.MONTH, duration);
+		return new Timestamp(calendar.getTimeInMillis());
+	}
+	
+    /**
+     * Get Time from duration and time unit
+     * It is supported for Day, Hour, Minute and second
+     * @param timeUnit
+     * @param durationInMillis
+     * @return
+     */
+    public static double getTimeBetween(Timestamp dateFrom, Timestamp dateTo, String durationUnit) {
+    	if(Util.isEmpty(durationUnit)
+    			|| dateFrom == null
+    			|| dateTo == null) {
+			return 0;
+		}
+    	//	
+    	double time = 0;
+    	long durationInMillis = getMillisecondsBetween(dateFrom, dateTo);
+    	if (DURATIONUNIT_Day.equals(durationUnit)) {
+    		time = (durationInMillis / (double)(1000 * 60 * 60 * 24));
+    	} else if (DURATIONUNIT_Hour.equals(durationUnit)) {
+    		time = (durationInMillis / (double)(1000 * 60 * 60));
+    	} else if (DURATIONUNIT_Minute.equals(durationUnit)) {
+    		time = (durationInMillis / (double)(1000 * 60));
+    	} else if (DURATIONUNIT_Second.equals(durationUnit)) {
+    		time = (durationInMillis / (double)(1000));
+    	}
+		//	Return
+		return time;
+    }
+    
+    /**
+     * Get Hours between two dates
+     * @param dateFrom
+     * @param dateTo
+     * @return
+     */
+    public static int getHoursBetween(Timestamp dateFrom, Timestamp dateTo) {
+    	return (int) getTimeBetween(dateFrom, dateTo, DURATIONUNIT_Hour);
+    }
+    
+    /**
+     * Get Minutes between two dates
+     * @param dateFrom
+     * @param dateTo
+     * @return
+     */
+    public static int getMinutesBetween(Timestamp dateFrom, Timestamp dateTo) {
+    	return (int) getTimeBetween(dateFrom, dateTo, DURATIONUNIT_Minute);
+    }
+    
+    /**
+     * Get Seconds between two dates
+     * @param dateFrom
+     * @param dateTo
+     * @return
+     */
+    public static int getSecondsBetween(Timestamp dateFrom, Timestamp dateTo) {
+    	return (int) getTimeBetween(dateFrom, dateTo, DURATIONUNIT_Second);
+    }
+    
+    /**
+     * Get Duration between two dates
+     * @param dateFrom
+     * @param dateTo
+     * @return
+     */
+    public static long getMillisecondsBetween(Timestamp dateFrom, Timestamp dateTo) {
+    	if(dateFrom == null
+    			|| dateTo == null) {
+			return 0;
+		}
+    	//	Return
+    	return dateTo.getTime() - dateFrom.getTime();
+    }
+    
+	/**
+	 * Get Day of Week
+	 * @param attendanceTime
+	 * @return
+	 */
+	public static int getDayOfWeek(Timestamp attendanceTime) {
+		Timestamp truncatedDay = TimeUtil.getDay(attendanceTime);
+		Calendar calendar = TimeUtil.getCalendar(truncatedDay);
+		//	Get
+		return calendar.get(Calendar.DAY_OF_WEEK);
 	}
 
 	/**
@@ -874,7 +1198,8 @@ public class TimeUtil
 			counter++;
 			//	Yamel Senih 2014-09-04, 17:15:35
 			//	Add Break on equals values
-			if(calEnd.get(Calendar.MONTH) == cal.get(Calendar.MONTH))
+			if(calEnd.get(Calendar.MONTH) == cal.get(Calendar.MONTH)
+					&& cal.get(Calendar.YEAR) == calEnd.get(Calendar.YEAR))
 				break;
 			//	End Yamel Senih
 		}
@@ -947,29 +1272,4 @@ public class TimeUtil
         //	Value
         return weeks;
 	}
-
-	/**
-	 * 	Test
-	 *	@param args ignored
-	 */
-	public static void main (String[] args)
-	{
-		Timestamp t1 = getDay(01, 01, 01);
-		Timestamp t2 = getDay(02, 02, 02);
-		Timestamp t3 = getDay(03, 03, 03);
-		
-		Timestamp t4 = getDay(01, 01, 01);
-		Timestamp t5 = getDay(02, 02, 02);
-		
-		System.out.println(t1 + " - " + t3);
-		System.out.println(t2 + " - " + isValid (t1,t3, t2));
-		System.out.println(isSameDay(t1, t4) + " == true" );
-		System.out.println(isSameDay(t2, t5) + " == true");
-		System.out.println(isSameDay(t3, t5) + " == false");
-		System.out.println(getDaysBetween(t1, t2));
-		System.out.println(getDaysBetween(t1, t2, Calendar.SATURDAY, Calendar.SUNDAY));
-		System.out.println(getYearsBetween(t1, t2));
-		
-	}	//	main
-	
 }	//	TimeUtil

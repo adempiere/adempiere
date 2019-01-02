@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Add App Registration ADempiere #2109 (Add Default Test Data)" ReleaseNo="3.9.1" SeqNo="4290">
+    <Comments>See: https://github.com/adempiere/adempiere/issues/2109</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="54542" Action="I" Record_ID="50000" Table="AD_AppSupport">
+        <Data AD_Column_ID="91303" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="91304" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="91305" Column="IsActive">true</Data>
+        <Data AD_Column_ID="91306" Column="Created">2018-11-01 12:01:55.928</Data>
+        <Data AD_Column_ID="91307" Column="Updated">2018-11-01 12:01:55.928</Data>
+        <Data AD_Column_ID="91308" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="91309" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="91310" Column="UUID" isNewNull="true"/>
+        <Data AD_Column_ID="91311" Column="AD_AppSupport_ID">50000</Data>
+        <Data AD_Column_ID="91312" Column="Value">MQS-ActiveMQ-Service</Data>
+        <Data AD_Column_ID="91313" Column="Name">ActiveMQ</Data>
+        <Data AD_Column_ID="91314" Column="Description">See: http://activemq.apache.org/</Data>
+        <Data AD_Column_ID="91315" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="91316" Column="Classname">org.spin.util.support.mq.ActiveMQ</Data>
+        <Data AD_Column_ID="91317" Column="ApplicationType">MQS</Data>
+        <Data AD_Column_ID="91318" Column="IsDefault">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="54540" Action="I" Record_ID="50000" Table="AD_AppRegistration">
+        <Data AD_Column_ID="91271" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="91272" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="91273" Column="IsActive">true</Data>
+        <Data AD_Column_ID="91274" Column="Created">2018-11-01 12:02:48.195</Data>
+        <Data AD_Column_ID="91275" Column="Updated">2018-11-01 12:02:48.195</Data>
+        <Data AD_Column_ID="91276" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="91277" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="91278" Column="UUID" isNewNull="true"/>
+        <Data AD_Column_ID="91279" Column="AD_AppRegistration_ID">50000</Data>
+        <Data AD_Column_ID="91280" Column="ApplicationType">MQS</Data>
+        <Data AD_Column_ID="91281" Column="Timeout">0</Data>
+        <Data AD_Column_ID="91282" Column="Port">8161</Data>
+        <Data AD_Column_ID="91283" Column="Name">Local Printing</Data>
+        <Data AD_Column_ID="91284" Column="Value">LPS-ActiveMQ</Data>
+        <Data AD_Column_ID="91285" Column="Description">tcp://localhost:61616</Data>
+        <Data AD_Column_ID="91286" Column="Host">localhost</Data>
+        <Data AD_Column_ID="91287" Column="VersionNo">1.0</Data>
+        <Data AD_Column_ID="91288" Column="AD_AppSupport_ID">50000</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="54541" Action="I" Record_ID="50000" Table="AD_AppRegistration_Para">
+        <Data AD_Column_ID="91297" Column="AD_AppRegistration_Para_ID">50000</Data>
+        <Data AD_Column_ID="91298" Column="ParameterName">URL</Data>
+        <Data AD_Column_ID="91299" Column="ParameterType">C</Data>
+        <Data AD_Column_ID="91300" Column="ParameterValue">tcp://localhost:61616</Data>
+        <Data AD_Column_ID="91301" Column="AD_AppRegistration_ID">50000</Data>
+        <Data AD_Column_ID="91302" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="91289" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="91290" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="91291" Column="IsActive">true</Data>
+        <Data AD_Column_ID="91292" Column="Created">2018-11-01 12:03:16.324</Data>
+        <Data AD_Column_ID="91293" Column="Updated">2018-11-01 12:03:16.324</Data>
+        <Data AD_Column_ID="91294" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="91295" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="91296" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="54541" Action="I" Record_ID="50001" Table="AD_AppRegistration_Para">
+        <Data AD_Column_ID="91297" Column="AD_AppRegistration_Para_ID">50001</Data>
+        <Data AD_Column_ID="91298" Column="ParameterName">UserName</Data>
+        <Data AD_Column_ID="91299" Column="ParameterType">C</Data>
+        <Data AD_Column_ID="91300" Column="ParameterValue">admin</Data>
+        <Data AD_Column_ID="91301" Column="AD_AppRegistration_ID">50000</Data>
+        <Data AD_Column_ID="91302" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="91289" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="91290" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="91291" Column="IsActive">true</Data>
+        <Data AD_Column_ID="91292" Column="Created">2018-11-01 12:03:29.192</Data>
+        <Data AD_Column_ID="91293" Column="Updated">2018-11-01 12:03:29.192</Data>
+        <Data AD_Column_ID="91294" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="91295" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="91296" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="54541" Action="I" Record_ID="50002" Table="AD_AppRegistration_Para">
+        <Data AD_Column_ID="91297" Column="AD_AppRegistration_Para_ID">50002</Data>
+        <Data AD_Column_ID="91298" Column="ParameterName">Password</Data>
+        <Data AD_Column_ID="91299" Column="ParameterType">C</Data>
+        <Data AD_Column_ID="91300" Column="ParameterValue">admin</Data>
+        <Data AD_Column_ID="91301" Column="AD_AppRegistration_ID">50000</Data>
+        <Data AD_Column_ID="91302" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="91289" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="91290" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="91291" Column="IsActive">true</Data>
+        <Data AD_Column_ID="91292" Column="Created">2018-11-01 12:03:41.838</Data>
+        <Data AD_Column_ID="91293" Column="Updated">2018-11-01 12:03:41.838</Data>
+        <Data AD_Column_ID="91294" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="91295" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="91296" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="54541" Action="I" Record_ID="50003" Table="AD_AppRegistration_Para">
+        <Data AD_Column_ID="91297" Column="AD_AppRegistration_Para_ID">50003</Data>
+        <Data AD_Column_ID="91298" Column="ParameterName">TargetChannel</Data>
+        <Data AD_Column_ID="91299" Column="ParameterType">C</Data>
+        <Data AD_Column_ID="91300" Column="ParameterValue">printing</Data>
+        <Data AD_Column_ID="91301" Column="AD_AppRegistration_ID">50000</Data>
+        <Data AD_Column_ID="91302" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="91289" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="91290" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="91291" Column="IsActive">true</Data>
+        <Data AD_Column_ID="91292" Column="Created">2018-11-01 12:03:54.311</Data>
+        <Data AD_Column_ID="91293" Column="Updated">2018-11-01 12:03:54.311</Data>
+        <Data AD_Column_ID="91294" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="91295" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="91296" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

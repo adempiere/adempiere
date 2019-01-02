@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for HR_Employee
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.1
  */
 public interface I_HR_Employee 
 {
@@ -62,6 +62,8 @@ public interface I_HR_Employee
 	  * Performing or initiating organization
 	  */
 	public int getAD_OrgTrx_ID();
+
+	public org.compiere.model.I_AD_Org getAD_OrgTrx() throws RuntimeException;
 
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
@@ -638,6 +640,8 @@ public interface I_HR_Employee
 	  * Nationality
 	  */
 	public int getNationality_ID();
+
+	public org.compiere.model.I_C_Country getNationality() throws RuntimeException;
 
     /** Column name PartnersBirthDate */
     public static final String COLUMNNAME_PartnersBirthDate = "PartnersBirthDate";

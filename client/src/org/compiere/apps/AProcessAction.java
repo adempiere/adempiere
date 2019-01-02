@@ -26,9 +26,9 @@ import javax.swing.AbstractButton;
 import javax.swing.JPopupMenu;
 
 import org.adempiere.apps.toolbar.AProcessActionModel;
-import org.adempiere.model.POWrapper;
 import org.compiere.grid.ed.VButton;
 import org.compiere.model.I_AD_Process;
+import org.compiere.model.MProcess;
 import org.compiere.swing.CMenuItem;
 import org.compiere.util.Env;
 
@@ -74,11 +74,11 @@ public class AProcessAction
 	{
 		JPopupMenu popup = new JPopupMenu("ProcessMenu");
 
-		List<I_AD_Process> processes = model.fetchProcesses(Env.getCtx(), parent.getCurrentTab());
+		List<MProcess> processes = model.fetchProcesses(Env.getCtx(), parent.getCurrentTab());
 		if (processes.size() == 0)
 			return null;
 
-		for (I_AD_Process process : processes)
+		for (MProcess process : processes)
 		{
 			CMenuItem mi = createProcessMenuItem(process);
 			popup.add(mi);
@@ -98,7 +98,7 @@ public class AProcessAction
 			popup.show(button, 0, button.getHeight()); // below button
 	}
 
-	private CMenuItem createProcessMenuItem(final I_AD_Process process)
+	private CMenuItem createProcessMenuItem(final MProcess process)
 	{
 		final CMenuItem mi = new CMenuItem(model.getDisplayName(process));
 		mi.setToolTipText(model.getDescription(process));
@@ -113,16 +113,15 @@ public class AProcessAction
 		return mi;
 	}
 
-	private void startProcess(I_AD_Process process) {
-		final I_AD_Process processTrl = POWrapper.translate(process, I_AD_Process.class);
+	private void startProcess(MProcess process) {
 		final VButton button = new VButton(
 				"StartProcess", // columnName,
 				false, // mandatory,
 				false, // isReadOnly,
 				true, // isUpdateable,
-				processTrl.getName(),
-				processTrl.getDescription(),
-				processTrl.getHelp(),
+				process.get_Translation(I_AD_Process.COLUMNNAME_Name),
+				process.get_Translation(I_AD_Process.COLUMNNAME_Description),
+				process.get_Translation(I_AD_Process.COLUMNNAME_Help),
 				process.getAD_Process_ID());
 		parent.actionButton(button);
 	}

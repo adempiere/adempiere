@@ -65,11 +65,11 @@ public final class Adempiere
 	/** Main Version String         */
 	// Conventions for naming second number is even for stable, and odd for unstable
 	// the releases will have a suffix (a) for alpha - (b) for beta - (t) for trunk - (s) for stable - and (LTS) for long term support
-	static public String	MAIN_VERSION	= "Release 3.9.0";
+	static public String	MAIN_VERSION	= "Release 3.9.1";
 	/** Detail Version as date      Used for Client/Server		*/
-	static public String	DATE_VERSION	= "2017-08-01";
+	static public String	DATE_VERSION	= "2019-01-01";
 	/** Database Version as date    Compared with AD_System		*/
-	static public String	DB_VERSION		= "2017-08-01";
+	static public String	DB_VERSION		= "2019-01-01";
 
 	/** Product Name            */
 	static public final String	NAME 			= "ADempiere\u00AE";
@@ -91,7 +91,7 @@ public final class Adempiere
 	/** Subtitle                */
 	static public final String	SUB_TITLE		= "Smart Suite ERP,CRM and SCM";
 	static public final String	ADEMPIERE_R		= "Powered by ADempiere ERP\u00AE";
-	static public final String	COPYRIGHT		= "\u00A9 1999-2017 ADempiere\u00AE";
+	static public final String	COPYRIGHT		= "\u00A9 1999-2019 ADempiere\u00AE";
 
 	static private String		s_ImplementationVersion = null;
 	static private String		s_ImplementationVendor = null;
@@ -103,6 +103,8 @@ public final class Adempiere
 	static private ImageIcon 	s_imageIconLogo;
 	
 	static private final String ONLINE_HELP_URL = "http://wiki.adempiere.net/Manual";
+	/**	Reset Password	*/
+	static private final String RESTORE_PASSWORD_PATH = ":8888/webui";
 
 	/**	Logging								*/
 	private static CLogger		log = null;
@@ -291,6 +293,15 @@ public final class Adempiere
 		return SUB_TITLE;
 	}   //  getSubitle
 
+	/**
+	 * Get complete URL for Server
+	 * @param hostName
+	 * @return
+	 */
+	public static String getWebServer(String hostName) {
+		return "http://" + hostName + RESTORE_PASSWORD_PATH;
+	}   //  getWebServer
+	
 	/**
 	 *  Get 16x16 Image.
 	 *	@return Image Icon

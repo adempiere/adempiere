@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_Payment
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.1
  */
 public interface I_C_Payment 
 {
@@ -61,6 +61,8 @@ public interface I_C_Payment
 	  * Performing or initiating organization
 	  */
 	public int getAD_OrgTrx_ID();
+
+	public org.compiere.model.I_AD_Org getAD_OrgTrx() throws RuntimeException;
 
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
@@ -1037,6 +1039,17 @@ public interface I_C_Payment
 	public int getRef_Payment_ID();
 
 	public org.compiere.model.I_C_Payment getRef_Payment() throws RuntimeException;
+
+    /** Column name RelatedPayment_ID */
+    public static final String COLUMNNAME_RelatedPayment_ID = "RelatedPayment_ID";
+
+	/** Set Payment Related	  */
+	public void setRelatedPayment_ID (int RelatedPayment_ID);
+
+	/** Get Payment Related	  */
+	public int getRelatedPayment_ID();
+
+	public org.compiere.model.I_C_Payment getRelatedPayment() throws RuntimeException;
 
     /** Column name Reversal_ID */
     public static final String COLUMNNAME_Reversal_ID = "Reversal_ID";

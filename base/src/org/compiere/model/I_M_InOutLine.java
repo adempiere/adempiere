@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_InOutLine
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.1
  */
 public interface I_M_InOutLine 
 {
@@ -61,6 +61,8 @@ public interface I_M_InOutLine
 	  * Performing or initiating organization
 	  */
 	public int getAD_OrgTrx_ID();
+
+	public org.compiere.model.I_AD_Org getAD_OrgTrx() throws RuntimeException;
 
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
@@ -237,6 +239,19 @@ public interface I_M_InOutLine
 	  */
 	public String getDescription();
 
+    /** Column name FreightAmt */
+    public static final String COLUMNNAME_FreightAmt = "FreightAmt";
+
+	/** Set Freight Amount.
+	  * Freight Amount 
+	  */
+	public void setFreightAmt (BigDecimal FreightAmt);
+
+	/** Get Freight Amount.
+	  * Freight Amount 
+	  */
+	public BigDecimal getFreightAmt();
+
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
 
@@ -303,6 +318,21 @@ public interface I_M_InOutLine
 	public int getM_AttributeSetInstance_ID();
 
 	public I_M_AttributeSetInstance getM_AttributeSetInstance() throws RuntimeException;
+
+    /** Column name M_FreightCategory_ID */
+    public static final String COLUMNNAME_M_FreightCategory_ID = "M_FreightCategory_ID";
+
+	/** Set Freight Category.
+	  * Category of the Freight
+	  */
+	public void setM_FreightCategory_ID (int M_FreightCategory_ID);
+
+	/** Get Freight Category.
+	  * Category of the Freight
+	  */
+	public int getM_FreightCategory_ID();
+
+	public org.compiere.model.I_M_FreightCategory getM_FreightCategory() throws RuntimeException;
 
     /** Column name M_InOutLine_ID */
     public static final String COLUMNNAME_M_InOutLine_ID = "M_InOutLine_ID";
@@ -376,6 +406,21 @@ public interface I_M_InOutLine
 	public int getM_RMALine_ID();
 
 	public org.compiere.model.I_M_RMALine getM_RMALine() throws RuntimeException;
+
+    /** Column name M_Shipper_ID */
+    public static final String COLUMNNAME_M_Shipper_ID = "M_Shipper_ID";
+
+	/** Set Shipper.
+	  * Method or manner of product delivery
+	  */
+	public void setM_Shipper_ID (int M_Shipper_ID);
+
+	/** Get Shipper.
+	  * Method or manner of product delivery
+	  */
+	public int getM_Shipper_ID();
+
+	public org.compiere.model.I_M_Shipper getM_Shipper() throws RuntimeException;
 
     /** Column name MovementQty */
     public static final String COLUMNNAME_MovementQty = "MovementQty";

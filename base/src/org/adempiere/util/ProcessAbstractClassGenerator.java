@@ -384,10 +384,7 @@ public class ProcessAbstractClassGenerator {
 	private String getVariableName(MProcessPara parameter) {
 		String parameterName = getParameterName(parameter);
 		StringBuilder variableName = new StringBuilder();
-		if ((DisplayType.List == parameter.getAD_Reference_ID() 
-				&& 319 == parameter.getAD_Reference_Value_ID()))
-			variableName.append("is").append(parameterName);
-		else if (DisplayType.YesNo == parameter.getAD_Reference_ID()) {
+		if (DisplayType.YesNo == parameter.getAD_Reference_ID()) {
 			if(parameterName.startsWith("Is")) {
 				variableName.append(parameterName.replaceFirst("I", "i"));
 			} else {
@@ -426,10 +423,7 @@ public class ProcessAbstractClassGenerator {
 	private String getMethodNameForGet(MProcessPara parameter) {
 		String parameterName = getParameterName(parameter);
 		StringBuilder variableName = new StringBuilder();
-		if ((DisplayType.List == parameter.getAD_Reference_ID() 
-				&& 319 == parameter.getAD_Reference_Value_ID()))
-			variableName.append("is").append(parameterName);
-		else if (DisplayType.YesNo == parameter.getAD_Reference_ID()) {
+		if (DisplayType.YesNo == parameter.getAD_Reference_ID()) {
 			if(parameterName.startsWith("Is")) {
 				variableName.append(parameterName.replaceFirst("I", "i"));
 			} else {
@@ -458,10 +452,6 @@ public class ProcessAbstractClassGenerator {
 		StringBuilder variableName = new StringBuilder();
 		//	Add Parameter Name
 		variableName.append("set");
-		if ((DisplayType.List == parameter.getAD_Reference_ID() 
-				&& 319 == parameter.getAD_Reference_Value_ID())) {
-			variableName.append("Is");
-		}
 		//	
 		variableName.append(parameterName);
 		//	
@@ -493,8 +483,7 @@ public class ProcessAbstractClassGenerator {
 		} else if (clazz == Timestamp.class) {
 			addImportClass(Timestamp.class);
 			return "Timestamp";
-		} else if (clazz == Boolean.class 
-				|| parameter.getAD_Reference_Value_ID() == 319 
+		} else if (clazz == Boolean.class  
 				|| DisplayType.YesNo == parameter.getAD_Reference_ID()) {
 			return "boolean";
 		} else if (DisplayType.List == parameter.getAD_Reference_ID())

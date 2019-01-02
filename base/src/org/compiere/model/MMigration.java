@@ -151,6 +151,8 @@ public class MMigration extends X_AD_Migration {
 					step.apply();
 				} catch(Exception e) {
 					if(!isForce) {
+						//	Synchronize Columns
+						syncColumn();
 						throw e;
 					}
 				}

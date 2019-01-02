@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Browse
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.1
  */
 public interface I_AD_Browse 
 {
@@ -86,6 +86,21 @@ public interface I_AD_Browse
 	public int getAD_Process_ID();
 
 	public org.compiere.model.I_AD_Process getAD_Process() throws RuntimeException;
+
+    /** Column name AD_Table_ID */
+    public static final String COLUMNNAME_AD_Table_ID = "AD_Table_ID";
+
+	/** Set Table.
+	  * Database Table information
+	  */
+	public void setAD_Table_ID (int AD_Table_ID);
+
+	/** Get Table.
+	  * Database Table information
+	  */
+	public int getAD_Table_ID();
+
+	public org.compiere.model.I_AD_Table getAD_Table() throws RuntimeException;
 
     /** Column name AD_View_ID */
     public static final String COLUMNNAME_AD_View_ID = "AD_View_ID";
@@ -290,6 +305,19 @@ public interface I_AD_Browse
 	  * Show totals into Smart Browser
 	  */
 	public boolean isShowTotal();
+
+    /** Column name IsUpdateable */
+    public static final String COLUMNNAME_IsUpdateable = "IsUpdateable";
+
+	/** Set Updatable.
+	  * Determines, if the field can be updated
+	  */
+	public void setIsUpdateable (boolean IsUpdateable);
+
+	/** Get Updatable.
+	  * Determines, if the field can be updated
+	  */
+	public boolean isUpdateable();
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

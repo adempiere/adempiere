@@ -29,8 +29,10 @@ import org.compiere.model.MInvoiceLine;
 import org.compiere.model.MMatchInv;
 import org.compiere.model.MMatchPO;
 import org.compiere.model.MOrderLine;
+import org.compiere.model.MPeriod;
 import org.compiere.model.MRole;
 import org.compiere.model.MStorage;
+import org.compiere.model.MSysConfig;
 import org.compiere.process.DocumentEngine;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -39,6 +41,14 @@ import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
 
+/**
+ *  @author eEvolution author Victor Perez <victor.perez@e-evolution.com>
+ *			<li>Implement Reverse Accrual for all document https://github.com/adempiere/adempiere/issues/1348</>
+ *
+ *  @author Systemhaus Westfalia SusanneCalderon <susanne.de.calderon@westfalia-it.com>
+ *  <li>Implement Reverse Accrual, ommit createCostDetail and implement reverseIt for match_Inv of cancelled documents
+ *  https://github.com/adempiere/adempiere/issues/1918
+ */
 public class Match
 {
 
@@ -348,7 +358,7 @@ public class Match
 				+ " FULL JOIN ")
 				.append(matchToType == MATCH_ORDER ? "M_MatchPO" : "M_MatchInv")
 				.append(" m ON (lin.M_InOutLine_ID=m.M_InOutLine_ID) "
-				+ "WHERE hdr.DocStatus IN ('CO','CL')");
+				+ "WHERE hdr.DocStatus IN ('CO','CL') and dt.issotrx = 'N' ");
 			m_groupBy = " GROUP BY hdr.M_InOut_ID,hdr.DocumentNo,hdr.MovementDate,bp.Name,hdr.C_BPartner_ID,"
 				+ " lin.Line,lin.M_InOutLine_ID,p.Name,lin.M_Product_ID,lin.MovementQty, org.Name, hdr.AD_Org_ID " //JAVIER
 				+ "HAVING "
@@ -414,23 +424,43 @@ public class Match
 			//	Create Shipment - Invoice Link
 			if (iLine.getM_Product_ID() != 0)
 			{
-				MMatchInv match = new MMatchInv (iLine, null, qty);
+				Boolean useReceiptDateAcct = MSysConfig.getBooleanValue("MATCHINV_USE_DATEACCT_FROM_RECEIPT",
+						false, iLine.getAD_Client_ID());
+				MMatchInv match = null;
+				Boolean isreceiptPeriodOpen = MPeriod.isOpen(Env.getCtx(), sLine.getParent().getDateAcct(),
+						sLine.getParent().getC_DocType().getDocBaseType(), sLine.getParent().getAD_Org_ID());
+				Boolean isInvoicePeriodOpen = MPeriod.isOpen(Env.getCtx(), iLine.getParent().getDateAcct(),
+						iLine.getParent().getC_DocType().getDocBaseType(), iLine.getParent().getAD_Org_ID());
+
+				if (useReceiptDateAcct & isreceiptPeriodOpen) {
+					match= new MMatchInv(iLine,sLine.getParent().getDateAcct() , qty);
+				}
+				else if (isInvoicePeriodOpen){
+					match = new MMatchInv(iLine, iLine.getParent().getDateAcct(), qty);
+				}
+				else {
+					match = new MMatchInv(iLine, null, qty);
+				}
 				match.setM_InOutLine_ID(M_InOutLine_ID);
+				match.saveEx();
 				if (match.save()) {
 					success = true;
-					if (MClient.isClientAccountingImmediate()) {
-						String ignoreError = DocumentEngine.postImmediate(match.getCtx(), match.getAD_Client_ID(), match.get_Table_ID(), match.get_ID(), true, match.get_TrxName());						
-					}
 				}
 				else
 					log.log(Level.SEVERE, "Inv Match not created: " + match);
+
+				if (match.getC_InvoiceLine().getC_Invoice().getDocStatus().equals("VO") ||
+						match.getC_InvoiceLine().getC_Invoice().getDocStatus().equals("RE") ||
+						match.getM_InOutLine().getM_InOut().getDocStatus().equals("VO") ||
+						match.getM_InOutLine().getM_InOut().getDocStatus().equals("RE"))
+					match.reverseIt(match.getDateAcct());
 			}
 			else
 				success = true;
 			//	Create PO - Invoice Link = corrects PO
 			if (iLine.getC_OrderLine_ID() != 0 && iLine.getM_Product_ID() != 0)
 			{
-				MMatchPO matchPO = MMatchPO.create(iLine, sLine, null, qty);
+				MMatchPO matchPO = new MMatchPO(iLine, iLine.getParent().getDateAcct() , qty);
 				matchPO.setC_InvoiceLine_ID(iLine);
 				matchPO.setM_InOutLine_ID(M_InOutLine_ID);
 				if (!matchPO.save())

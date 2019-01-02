@@ -16,6 +16,7 @@
  *****************************************************************************/
 package org.compiere.process;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
@@ -36,8 +37,11 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
+import org.compiere.util.Ini;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
+import org.compiere.util.Util;
+import org.eevolution.process.GenerateMovement;
 
 /**
  *  Server Process Template
@@ -207,7 +211,7 @@ public abstract class SvrProcess implements ProcessCall
 		StringBuffer errorMsg = new StringBuffer();
 		//	Loop over parameter, find a mandatory parameter
 		for(MProcessPara parameter : parameters) {
-			if(parameter.isMandatory() && parameter.isActive()) {
+			if(parameter.isMandatory() && parameter.isActive() && Util.isEmpty(parameter.getDisplayLogic())) {
 				ProcessInfoParameter infoParameter = getInfoParameter(parameter.getColumnName());
 				if(infoParameter == null
 						|| infoParameter.getParameter() == null
@@ -900,4 +904,46 @@ public abstract class SvrProcess implements ProcessCall
 		return processInfo.getPrefixAliasForTableSelection();
 	}
 
+	/**
+	 * Print Document
+	 *
+	 * @param document
+	 * @param printFormantName
+	 */
+	public void printDocument(PO document, String printFormantName) {
+		IPrintDocument printDocument;
+		//	OK to print shipments
+		if (Ini.isClient()) {
+			Class<?> clazz;
+			try {
+				clazz = Class.forName("org.eevolution.form.VPrintDocument");
+				Constructor<?> constructor = null;
+				constructor = clazz.getDeclaredConstructor();
+				printDocument = (IPrintDocument) constructor.newInstance();
+			} catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		} else {
+			try {
+				ClassLoader loader = Thread.currentThread().getContextClassLoader();
+				if (loader == null)
+					loader = GenerateMovement.class.getClassLoader();
+				Class<?> clazz = loader.loadClass("org.eevolution.form.WPrintDocument");
+				Constructor<?> constructor = null;
+				constructor = clazz.getDeclaredConstructor();
+				printDocument = (IPrintDocument) constructor.newInstance();
+			} catch (Exception e) {
+				throw new AdempiereException(e);
+			}
+		}
+		printDocument.print(document, printFormantName, getProcessInfo().getWindowNo());
+	}
+	
+	/**
+	 * Open result from a table and IDs of process info
+	 * @param tableName
+	 */
+	public void openResult(String tableName) {
+		processInfo.openResult(tableName);
+	}
 }   //  SvrProcess

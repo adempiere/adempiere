@@ -26,6 +26,7 @@ import java.util.Properties;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
+import org.compiere.process.DocumentReversalLineEnable;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -47,7 +48,7 @@ import org.compiere.util.Msg;
  * 				incorrectly calculated.
  * @author red1 FR: [ 2214883 ] Remove SQL code and Replace for Query
  */
-public class MInvoiceLine extends X_C_InvoiceLine
+public class MInvoiceLine extends X_C_InvoiceLine implements DocumentReversalLineEnable
 {
 	/**
 	 * 
@@ -976,12 +977,14 @@ public class MInvoiceLine extends X_C_InvoiceLine
 		MLandedCost[] lcs = MLandedCost.getLandedCosts(this);
 		if (lcs.length == 0)
 			return "";
-		String sql = "DELETE C_LandedCostAllocation WHERE C_InvoiceLine_ID=" + getC_InvoiceLine_ID();
-		int no = DB.executeUpdate(sql, get_TrxName());
 
-		sql = "DELETE M_CostDetail WHERE C_landedcostallocation_ID in " +
+		String sql = "DELETE M_CostDetail WHERE C_landedcostallocation_ID in " +
 				"(select c_landedCostAllocation_ID from c_landedcostAllocation where c_invoiceline_ID=" + getC_InvoiceLine_ID() + ")";
-		no = DB.executeUpdate(sql, get_TrxName());
+		int no = DB.executeUpdate(sql, get_TrxName());
+		if (no != 0)
+			log.info("Deleted #" + no);
+		sql = "DELETE C_LandedCostAllocation WHERE C_InvoiceLine_ID=" + getC_InvoiceLine_ID();
+		 no = DB.executeUpdate(sql, get_TrxName());
 		if (no != 0)
 			log.info("Deleted #" + no);
 
@@ -1022,7 +1025,8 @@ public class MInvoiceLine extends X_C_InvoiceLine
 					MLandedCostAllocation lca = new MLandedCostAllocation (this, lc.getM_CostElement_ID());
 					lca.setM_Product_ID(iol.getM_Product_ID());
 					lca.setM_AttributeSetInstance_ID(iol.getM_AttributeSetInstance_ID());
-					lca.setM_InOutLine_ID(iol.getM_InOutLine_ID());//SHW
+					lca.setM_InOutLine_ID(iol.getM_InOutLine_ID());
+					lca.setC_LandedCostType_ID(lc.getC_LandedCostType_ID());
 					BigDecimal base = iol.getBase(lc.getLandedCostDistribution());
 					lca.setBase(base);
 					// MZ Goodwill
@@ -1053,6 +1057,7 @@ public class MInvoiceLine extends X_C_InvoiceLine
 				lca.setM_Product_ID(iol.getM_Product_ID());
 				lca.setM_InOutLine_ID(lc.getM_InOutLine_ID());
 				lca.setM_AttributeSetInstance_ID(iol.getM_AttributeSetInstance_ID());
+				lca.setC_LandedCostType_ID(lc.getC_LandedCostType_ID());
 				BigDecimal base = iol.getBase(lc.getLandedCostDistribution()); 
 				lca.setBase(base);
 				lca.setAmt(getLineNetAmt());
@@ -1069,6 +1074,7 @@ public class MInvoiceLine extends X_C_InvoiceLine
 			{
 				MLandedCostAllocation lca = new MLandedCostAllocation (this, lc.getM_CostElement_ID());
 				lca.setM_Product_ID(lc.getM_Product_ID());	//	No ASI
+				lca.setC_LandedCostType_ID(lc.getC_LandedCostType_ID());
 				lca.setAmt(getLineNetAmt());
 				if (lca.save())
 					return "";
@@ -1135,6 +1141,8 @@ public class MInvoiceLine extends X_C_InvoiceLine
 			MLandedCostAllocation lca = new MLandedCostAllocation (this, lcs[0].getM_CostElement_ID());
 			lca.setM_Product_ID(iol.getM_Product_ID());
 			lca.setM_AttributeSetInstance_ID(iol.getM_AttributeSetInstance_ID());
+			lca.setC_LandedCostType_ID(lcs[0].getC_LandedCostType_ID());
+			lca.setM_InOutLine_ID(iol.getM_InOutLine_ID());
 			BigDecimal base = iol.getBase(LandedCostDistribution);
 			lca.setBase(base);
 			// MZ Goodwill

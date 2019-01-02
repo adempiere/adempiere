@@ -1,14 +1,13 @@
 package org.compiere.model;
 
-import java.io.File;
-import java.math.BigDecimal;
-import java.sql.ResultSet;
-import java.sql.Timestamp;
-import java.util.List;
-import java.util.Properties;
-import java.util.logging.Level;
-
 import org.adempiere.exceptions.FillMandatoryException;
+import org.adempiere.util.POCacheLocal;
+import org.compiere.FA.exceptions.AssetAlreadyDepreciatedException;
+import org.compiere.FA.exceptions.AssetCheckDocumentException;
+import org.compiere.FA.exceptions.AssetException;
+import org.compiere.FA.exceptions.AssetNotImplementedException;
+import org.compiere.FA.exceptions.AssetNotSupportedException;
+import org.compiere.FA.feature.UseLifeImpl;
 import org.compiere.process.DocAction;
 import org.compiere.process.DocumentEngine;
 import org.compiere.process.ProcessInfo;
@@ -18,13 +17,14 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
-import org.compiere.FA.exceptions.AssetAlreadyDepreciatedException;
-import org.compiere.FA.exceptions.AssetCheckDocumentException;
-import org.compiere.FA.exceptions.AssetException;
-import org.compiere.FA.exceptions.AssetNotImplementedException;
-import org.compiere.FA.exceptions.AssetNotSupportedException;
-import org.compiere.FA.feature.UseLifeImpl;
-import org.adempiere.util.POCacheLocal;
+
+import java.io.File;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.List;
+import java.util.Properties;
+import java.util.logging.Level;
 
 /**
  *  Asset Addition Model
@@ -43,7 +43,7 @@ public class MAssetAddition extends X_A_Asset_Addition
 	/** Static Logger */
 	private static CLogger s_log = CLogger.getCLogger(MAssetAddition.class);
 
-	public MAssetAddition (Properties ctx, int A_Asset_Addition_ID, String trxName)
+	public MAssetAddition(Properties ctx, int A_Asset_Addition_ID, String trxName)
 	{
 		super (ctx, A_Asset_Addition_ID, trxName);
 		if (A_Asset_Addition_ID == 0)
@@ -53,7 +53,8 @@ public class MAssetAddition extends X_A_Asset_Addition
 			setProcessed(false);
 		}
 	}	//	MAssetAddition
-	public MAssetAddition (Properties ctx, ResultSet rs, String trxName)
+
+	public MAssetAddition(Properties ctx, ResultSet rs, String trxName)
 	{
 		super (ctx, rs, trxName);
 	}	//	MAAssetAddition
@@ -62,40 +63,30 @@ public class MAssetAddition extends X_A_Asset_Addition
 	protected boolean beforeSave (boolean newRecord)
 	{
 		setA_CreateAsset();
-		/*
-		if (getA_Asset().getM_Locator_ID() > 0) 
-		{
-			if (getM_Locator_ID() <= 0)
-				setM_Locator_ID(getA_Asset().getM_Locator_ID());
-			if (!getM_Locator().equals(getA_Asset().getM_Locator()))
-				throw new AssetException("Asset and Addition's Locator are different");
-		}*/
-		
-		//Goodwill - Set Useable Life according to Asset Group Accounting
+		//Set Useable Life according to Asset Group Accounting
 		MAssetGroupAcct assetGrpAcct = MAssetGroupAcct.forA_Asset_Group_ID(getCtx(), getA_Asset().getA_Asset_Group_ID(), POSTINGTYPE_Actual);
 		if (isA_CreateAsset())
 		{
 			setDeltaUseLifeYears(assetGrpAcct.getUseLifeYears());
 			setDeltaUseLifeYears_F(assetGrpAcct.getUseLifeYears_F());
 		}
-		
-		//Goodwill - Check for source invoice
+		//Check for source invoice
 		if (A_SOURCETYPE_Invoice.equals(getA_SourceType()))
 		{
-			MInvoiceLine iLine = new MInvoiceLine(getCtx(), getC_InvoiceLine_ID(), get_TrxName());
-			if (A_CAPVSEXP_Capital.equals(iLine.getA_CapvsExp()) && iLine.getA_Asset_ID() == 0)
+			MInvoiceLine invoiceLine = new MInvoiceLine(getCtx(), getC_InvoiceLine_ID(), get_TrxName());
+			if (A_CAPVSEXP_Capital.equals(invoiceLine.getA_CapvsExp()) && invoiceLine.getA_Asset_ID() == 0)
 			{
-				if (!iLine.get_ValueAsBoolean("IsCollectiveAsset")) 
+				if (!invoiceLine.isCollectiveAsset())
 					setA_QTY_Current(Env.ONE);
 				else
-					setA_QTY_Current(iLine.getQtyEntered());
+					setA_QTY_Current(invoiceLine.getQtyEntered());
 			}
-			if (A_CAPVSEXP_Capital.equals(iLine.getA_CapvsExp()) && iLine.getA_Asset_ID() > 0)
+			if (A_CAPVSEXP_Capital.equals(invoiceLine.getA_CapvsExp()) && invoiceLine.getA_Asset_ID() > 0)
 			{
 				setA_QTY_Current(Env.ZERO);
 				setA_CreateAsset(false);
 			}
-			setA_CapvsExp(iLine.getA_CapvsExp());
+			setA_CapvsExp(invoiceLine.getA_CapvsExp());
 		}//Goodwill - End check
 
 		if (isA_CreateAsset() && getA_QTY_Current().signum() == 0 && !A_SOURCETYPE_Invoice.equals(getA_SourceType()))
@@ -118,79 +109,57 @@ public class MAssetAddition extends X_A_Asset_Addition
 			setA_CapvsExp(A_CAPVSEXP_Capital);
 		}
 		
-		//
-		// Check suspect asset values (UseLife, Amount etc):
-		/* arhipac: teo_sarca: TODO need to integrate
-		if (hasZeroValues() && (!m_confirmed_AssetValues && !isProcessed() && is_UserEntry()))
-		{
-			String msg = "@AssetValueAmt@="+getAssetValueAmt()
-						+ "\n@DeltaUseLifeYears@="+getDeltaUseLifeYears()
-							+ "\n@DeltaUseLifeYears_F@="+getDeltaUseLifeYears_F()+"\n";
-			m_confirmed_AssetValues = UIFactory.getUI().ask(get_WindowNo(), null, "Confirm", Msg.parseTranslation(getCtx(), msg), true);
-			if (!m_confirmed_AssetValues)
-			{
-				throw new AssetCheckDocumentException(msg);
-			}
-		}
-		*/
-		
 		// set approved
 		setIsApproved();
 		
 		return true;
 	}	//	beforeSave
-	
-//	private boolean m_confirmed_AssetValues = false;
 
 	/**
 	 * Create Asset and asset Addition from MMatchInv.
 	 * MAssetAddition is saved.
-	 * @param match match invoice
+	 * @param matchInvoice match invoice
 	 * @return asset addition
 	 */
-	public static MAssetAddition createAsset(MMatchInv match)
+	public static MAssetAddition createAsset(MMatchInv matchInvoice)
 	{
-		MAssetAddition assetAdd = new MAssetAddition(match);
-		assetAdd.dump();
-		//@win add condition to prevent asset creation when expense addition or second addition
-		if (MAssetAddition.A_CAPVSEXP_Capital.equals(assetAdd.getA_CapvsExp())
-			&& match.getC_InvoiceLine().getA_Asset_ID() == 0 && assetAdd.isA_CreateAsset()) 
-		{ 
-		//end @win add condition to prevent asset creation when expense addition or second addition
-			MAsset asset = assetAdd.createAsset();
+		MInvoiceLine invoiceLine = (MInvoiceLine) matchInvoice.getC_InvoiceLine();
+		MAssetAddition assetAddition = new MAssetAddition(matchInvoice);
+		assetAddition.dump();
+		if (invoiceLine.getA_Asset_ID() == 0 && invoiceLine.isA_CreateAsset())
+		{
+			MAsset asset = assetAddition.createAsset();
 			asset.dump();
-			//@win add
-			MAssetGroupAcct assetgrpacct = MAssetGroupAcct.forA_Asset_Group_ID(asset.getCtx(), asset.getA_Asset_Group_ID(), assetAdd.getPostingType());
-			assetAdd.setDeltaUseLifeYears(assetgrpacct.getUseLifeYears());
-			assetAdd.setDeltaUseLifeYears_F(assetgrpacct.getUseLifeYears_F());
-		} 
-		else {
-			assetAdd.setA_Asset_ID(match.getC_InvoiceLine().getA_Asset_ID());
-			assetAdd.setA_CreateAsset(false);
+			MAssetGroupAcct assetGroupAcct = MAssetGroupAcct.forA_Asset_Group_ID(asset.getCtx(), asset.getA_Asset_Group_ID(), assetAddition.getPostingType());
+			assetAddition.setDeltaUseLifeYears(assetGroupAcct.getUseLifeYears());
+			assetAddition.setDeltaUseLifeYears_F(assetGroupAcct.getUseLifeYears_F());
 		}
-		assetAdd.saveEx();
-		return assetAdd;
+		else
+			assetAddition.setA_Asset_ID(matchInvoice.getC_InvoiceLine().getA_Asset_ID());
+
+		assetAddition.saveEx();
+		return assetAddition;
 	}
 	
 	/**
 	 * Create Asset and asset Addition from MIFixedAsset. MAssetAddition is saved. 
 	 * (@win note, not referenced from anywhere. incomplete feature)
-	 * @param	match	match invoice
+	 * @param importFixedAsset match invoice
 	 * @return asset addition
 	 */
-	public static MAssetAddition createAsset(MIFixedAsset ifa)
+	public static MAssetAddition createAsset(MIFixedAsset importFixedAsset)
 	{
-		MAssetAddition assetAdd = new MAssetAddition(ifa);
-		assetAdd.dump();
+		MAssetAddition assetAddition = new MAssetAddition(importFixedAsset);
+		assetAddition.dump();
 		//@win add condition to prevent asset creation when expense addition or second addition
-		if (MAssetAddition.A_CAPVSEXP_Capital.equals(assetAdd.getA_CapvsExp())
-				&& ifa.getA_Asset_ID() == 0) { 
+		if (MAssetAddition.A_CAPVSEXP_Capital.equals(assetAddition.getA_CapvsExp())
+				&& importFixedAsset.getA_Asset_ID() == 0) {
 		//end @win add condition to prevent asset creation when expense addition or second addition
-			MAsset asset = assetAdd.createAsset();
+			MAsset asset = assetAddition.createAsset();
 			asset.dump();	
 		}
-		assetAdd.saveEx();
-		return assetAdd;
+		assetAddition.saveEx();
+		return assetAddition;
 	}
 	
 	//@win create asset from Project
@@ -202,10 +171,10 @@ public class MAssetAddition extends X_A_Asset_Addition
 	 */
 	public static MAssetAddition createAsset(MProject project, MProduct product)
 	{
-		MAssetAddition assetAdd = new MAssetAddition(project);
-		assetAdd.dump();
+		MAssetAddition assetAddition = new MAssetAddition(project);
+		assetAddition.dump();
 		
-		MAsset asset = assetAdd.createAsset();
+		MAsset asset = assetAddition.createAsset();
 		
 		if (product != null) {
 			asset.setM_Product_ID(product.getM_Product_ID());
@@ -219,14 +188,14 @@ public class MAssetAddition extends X_A_Asset_Addition
 		asset.dump();
 		
 		// Copy UseLife values from asset group to workfile
-		MAssetGroupAcct assetgrpacct = MAssetGroupAcct.forA_Asset_Group_ID(asset.getCtx(), asset.getA_Asset_Group_ID(), assetAdd.getPostingType());
-		assetAdd.setDeltaUseLifeYears(assetgrpacct.getUseLifeYears());
-		assetAdd.setDeltaUseLifeYears_F(assetgrpacct.getUseLifeYears_F());
-		assetAdd.setA_Asset(asset);
-		assetAdd.saveEx();
+		MAssetGroupAcct assetgrpacct = MAssetGroupAcct.forA_Asset_Group_ID(asset.getCtx(), asset.getA_Asset_Group_ID(), assetAddition.getPostingType());
+		assetAddition.setDeltaUseLifeYears(assetgrpacct.getUseLifeYears());
+		assetAddition.setDeltaUseLifeYears_F(assetgrpacct.getUseLifeYears_F());
+		assetAddition.setA_Asset(asset);
+		assetAddition.saveEx();
 		//@win add
 		
-		return assetAdd;
+		return assetAddition;
 	}
 	//end @win create asset from Project
 	/**	
@@ -278,7 +247,7 @@ public class MAssetAddition extends X_A_Asset_Addition
 	 * Construct addition from match invoice 
 	 * @param match	match invoice model
 	 */
-	private MAssetAddition (MMatchInv match)
+	private MAssetAddition(MMatchInv match)
 	{
 		this(match.getCtx(), 0, match.get_TrxName());
 		setM_MatchInv(match);
@@ -291,7 +260,7 @@ public class MAssetAddition extends X_A_Asset_Addition
 	 * Construct addition from Project
 	 * @param project 
 	 */
-	private MAssetAddition (MProject project)
+	private MAssetAddition(MProject project)
 	{
 		this(project.getCtx(), 0, project.get_TrxName());
 		if (log.isLoggable(Level.FINEST)) log.finest("Entering: Project=" + project);
@@ -325,6 +294,7 @@ public class MAssetAddition extends X_A_Asset_Addition
 	{
 		return m_cacheCProject.get(requery);
 	}
+
 	private void setC_Project(MProject project)
 	{
 		set_Value("C_Project_ID", project.get_ID());
@@ -335,7 +305,7 @@ public class MAssetAddition extends X_A_Asset_Addition
 	 * Construct addition from import
 	 * @param ifa	fixed asset import
 	 */
-	private MAssetAddition (MIFixedAsset ifa)
+	private MAssetAddition(MIFixedAsset ifa)
 	{
 		this(ifa.getCtx(), 0, ifa.get_TrxName());
 		if (log.isLoggable(Level.FINEST)) log.finest("Entering: ifa=" + ifa);
@@ -394,72 +364,71 @@ public class MAssetAddition extends X_A_Asset_Addition
 		return m_cacheMatchInv.get(requery);
 	}
 	
-	private void setM_MatchInv(MMatchInv mi)
+	private void setM_MatchInv(MMatchInv matchInvoice)
 	{
-		MInvoiceLine iLine = new MInvoiceLine(getCtx(), mi.getC_InvoiceLine_ID(), get_TrxName());
-		
-		mi.load(get_TrxName());
-		setAD_Org_ID(mi.getAD_Org_ID());
+		MInvoiceLine invoiceLine = new MInvoiceLine(getCtx(), matchInvoice.getC_InvoiceLine_ID(), get_TrxName());
+		matchInvoice.load(get_TrxName());
+		setAD_Org_ID(matchInvoice.getAD_Org_ID());
 		setPostingType(POSTINGTYPE_Actual);
 		setA_SourceType(A_SOURCETYPE_Invoice);
-		setM_MatchInv_ID(mi.get_ID());
-		
-		if (MAssetAddition.A_CAPVSEXP_Capital.equals(mi.getC_InvoiceLine().getA_CapvsExp()))
+		setM_MatchInv_ID(matchInvoice.get_ID());
+		setA_CreateAsset(invoiceLine.isA_CreateAsset());
+		if (MAssetAddition.A_CAPVSEXP_Capital.equals(invoiceLine.getA_CapvsExp()))
 		{
-			if (mi.getC_InvoiceLine().getA_Asset_ID() == 0)
+			if (matchInvoice.getC_InvoiceLine().getA_Asset_ID() == 0)
 				setA_CreateAsset(true);
-			if (mi.getC_InvoiceLine().getA_Asset_ID() > 0)
+			if (matchInvoice.getC_InvoiceLine().getA_Asset_ID() > 0)
 				setA_CreateAsset(false);
 		}
-		else 
-			setA_CreateAsset(false);
 		 
-		setC_Invoice_ID(mi.getC_InvoiceLine().getC_Invoice_ID());
-		setC_InvoiceLine_ID(mi.getC_InvoiceLine_ID());
-		setM_InOutLine_ID(mi.getM_InOutLine_ID());
-		setM_Product_ID(mi.getM_Product_ID());
-		setM_AttributeSetInstance_ID(mi.getM_AttributeSetInstance_ID());
-		setLine(mi.getC_InvoiceLine().getLine());
-		setM_Locator_ID(mi.getM_InOutLine().getM_Locator_ID());
-		setA_CapvsExp(mi.getC_InvoiceLine().getA_CapvsExp());
-		setC_Currency_ID(mi.getC_InvoiceLine().getC_Invoice().getC_Currency_ID());
-		setC_ConversionType_ID(mi.getC_InvoiceLine().getC_Invoice().getC_ConversionType_ID());
-		setDateDoc(mi.getM_InOutLine().getM_InOut().getMovementDate());
-		setDateAcct(mi.getM_InOutLine().getM_InOut().getMovementDate());
+		setC_Invoice_ID(invoiceLine.getC_Invoice_ID());
+		setC_InvoiceLine_ID(invoiceLine.getC_InvoiceLine_ID());
+
+		setM_InOutLine_ID(matchInvoice.getM_InOutLine_ID());
+		setM_Product_ID(matchInvoice.getM_Product_ID());
+		setM_AttributeSetInstance_ID(matchInvoice.getM_AttributeSetInstance_ID());
+		setLine(invoiceLine.getLine());
+		setM_Locator_ID(matchInvoice.getM_InOutLine().getM_Locator_ID());
+		setA_CapvsExp(invoiceLine.getA_CapvsExp());
+		setC_Currency_ID(invoiceLine.getC_Invoice().getC_Currency_ID());
+        if (invoiceLine.getC_Invoice().getC_ConversionType_ID() > 0)
+		    setC_ConversionType_ID(invoiceLine.getC_Invoice().getC_ConversionType_ID());
+
+		setDateDoc(matchInvoice.getM_InOutLine().getM_InOut().getMovementDate());
+		setDateAcct(matchInvoice.getM_InOutLine().getM_InOut().getMovementDate());
 		
 		//Goodwill - If the quantities were collective 
-		if (MInvoiceLine.A_CAPVSEXP_Capital.equals(iLine.getA_CapvsExp()) && iLine.get_ValueAsBoolean("IsCollectiveAsset"))
+		if (MInvoiceLine.A_CAPVSEXP_Capital.equals(invoiceLine.getA_CapvsExp()) && invoiceLine.isCollectiveAsset())
 		{
-			setA_QTY_Current(mi.getQty());
-			setAssetAmtEntered(mi.getC_InvoiceLine().getLineNetAmt());
-			setAssetSourceAmt(mi.getC_InvoiceLine().getLineNetAmt());		
+			setA_QTY_Current(matchInvoice.getQty());
+			setAssetAmtEntered(invoiceLine.getLineNetAmt());
+			setAssetSourceAmt(invoiceLine.getLineNetAmt());
 		}
 		//Goodwill - If the quantities were not collective
-		if (MInvoiceLine.A_CAPVSEXP_Capital.equals(iLine.getA_CapvsExp()) && !iLine.get_ValueAsBoolean("IsCollectiveAsset") && iLine.getA_Asset_ID() <= 0)
+		if (MInvoiceLine.A_CAPVSEXP_Capital.equals(invoiceLine.getA_CapvsExp()) && !invoiceLine.isCollectiveAsset() && invoiceLine.getA_Asset_ID() <= 0)
 		{
 			setA_QTY_Current(Env.ONE);
-			setAssetAmtEntered(mi.getC_InvoiceLine().getLineNetAmt().divide(mi.getQty()));
-			setAssetSourceAmt(mi.getC_InvoiceLine().getLineNetAmt().divide(mi.getQty()));
+			setAssetAmtEntered(invoiceLine.getLineNetAmt().divide(matchInvoice.getQty()));
+			setAssetSourceAmt(matchInvoice.getC_InvoiceLine().getLineNetAmt().divide(matchInvoice.getQty()));
 		}
 		//Goodwill - If the invoice not create new asset
 		// or if the invoice is an expense type
-		if ((MInvoiceLine.A_CAPVSEXP_Capital.equals(iLine.getA_CapvsExp()) && iLine.getA_Asset_ID() > 0) || 
-				MInvoiceLine.A_CAPVSEXP_Expense.equals(iLine.getA_CapvsExp()))
+		if ((MInvoiceLine.A_CAPVSEXP_Capital.equals(invoiceLine.getA_CapvsExp()) && invoiceLine.getA_Asset_ID() > 0) ||
+				MInvoiceLine.A_CAPVSEXP_Expense.equals(invoiceLine.getA_CapvsExp()))
 		{
 			setA_QTY_Current(Env.ZERO);
-			setAssetAmtEntered(mi.getC_InvoiceLine().getLineNetAmt());
-			setAssetSourceAmt(mi.getC_InvoiceLine().getLineNetAmt());
+			setAssetAmtEntered(invoiceLine.getLineNetAmt());
+			setAssetSourceAmt(invoiceLine.getLineNetAmt());
 		}
-		m_cacheMatchInv.set(mi);
+		m_cacheMatchInv.set(matchInvoice);
 	}
 	
 	/**
 	 * Copy fields from MatchInv+InvoiceLine+InOutLine
 	 * @param model - to copy from
-	 * @param M_MatchInv_ID - matching invoice id
-	 * @param newRecord new object model is created
+	 * @param matchInvoiceId - matching invoice id
 	 */
-	public static boolean setM_MatchInv(SetGetModel model, int M_MatchInv_ID)
+	public static boolean setM_MatchInv(SetGetModel model, int matchInvoiceId)
 	{
 		boolean newRecord = false;
 		String trxName = null;
@@ -471,7 +440,7 @@ public class MAssetAddition extends X_A_Asset_Addition
 			
 		}
 		
-		if (s_log.isLoggable(Level.FINE)) s_log.fine("Entering: model=" + model + ", M_MatchInv_ID=" + M_MatchInv_ID + ", newRecord=" + newRecord + ", trxName=" + trxName);
+		if (s_log.isLoggable(Level.FINE)) s_log.fine("Entering: model=" + model + ", M_MatchInv_ID=" + matchInvoiceId + ", newRecord=" + newRecord + ", trxName=" + trxName);
 		
 		final String qMatchInv_select = "SELECT"
 				+ "  C_Invoice_ID"
@@ -495,29 +464,7 @@ public class MAssetAddition extends X_A_Asset_Addition
 		if (newRecord) {
 			query += ", A_Asset_ID, A_CreateAsset";
 		}
-		query += qMatchInv_from + M_MatchInv_ID;
-		
-		/*
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-
-		try
-		{
-			pstmt = DB.prepareStatement(query, trxName);
-			DB.setParameters(pstmt, params);
-			rs = pstmt.executeQuery();
-			updateColumns(models, columnNames, rs);
-		}
-		catch (SQLException e)
-		{
-			throw new DBException(e, query);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
-		*/
+		query += qMatchInv_from + matchInvoiceId;
 		SetGetUtil.updateColumns(model, null, query, trxName);
 		
 		s_log.fine("Leaving: RETURN TRUE");
@@ -583,7 +530,7 @@ public class MAssetAddition extends X_A_Asset_Addition
 	public boolean processIt (String processAction)
 	{
 		m_processMsg = null;
-		DocumentEngine engine = new DocumentEngine (this, getDocStatus());
+		DocumentEngine engine = new DocumentEngine(this, getDocStatus());
 		return engine.processIt (processAction, getDocAction());
 	}	//	processIt
 	
@@ -619,16 +566,16 @@ public class MAssetAddition extends X_A_Asset_Addition
 			return DocAction.STATUS_Invalid;
 		}
 		
-		MPeriod.testPeriodOpen(getCtx(), getDateAcct(), "FAA", getAD_Org_ID()); //Goodwill - new asset doctype
+		//MPeriod.testPeriodOpen(getCtx(), getDateAcct(), "FAA", getAD_Org_ID()); //Goodwill - new asset doctype
 		
 		// Goodwill - setting Create Asset checkbox
 		setA_CreateAsset();
 		
 		// Check AssetValueAmt != 0
-		if (getAssetValueAmt().signum() == 0) {
-			m_processMsg="@Invalid@ @AssetValueAmt@=0";
-			return DocAction.STATUS_Invalid;
-		}
+		//if (getAssetValueAmt().signum() == 0) {
+		//	m_processMsg="@Invalid@ @AssetValueAmt@=0";
+		//	return DocAction.STATUS_Invalid;
+		//}
 		
 		MAsset asset = getA_Asset(true);
 		MDepreciationWorkfile assetwk = MDepreciationWorkfile.get(getCtx(), getA_Asset_ID(), getPostingType(), get_TrxName());
@@ -641,7 +588,7 @@ public class MAssetAddition extends X_A_Asset_Addition
 		}// End - check asset disposal status
 		
 		// Goodwill - Check if asset already depreciated 
-		if (!MAsset.A_ASSET_STATUS_New.equals(asset.getA_Asset_Status()) && assetwk != null 
+		if (!MAsset.A_ASSET_STATUS_New.equals(asset.getA_Asset_Status()) && assetwk != null
 				&& assetwk.getDateAcct() != null && assetwk.isDepreciated(getDateAcct()))
 		{
 			m_processMsg = "Asset already depreciated for this period";
@@ -670,7 +617,7 @@ public class MAssetAddition extends X_A_Asset_Addition
 		*/
 		
 		// If new assets (not renewals) must have nonzero values
-		if (isA_CreateAsset() && hasZeroValues())
+		if (isA_CreateAsset() && hasZeroValues() && asset.isDepreciated())
 		{
 			throw new AssetException("New document must have non-zero values");
 		}
@@ -825,6 +772,7 @@ public class MAssetAddition extends X_A_Asset_Addition
 				assetwk.setA_Salvage_Value(this.getA_Salvage_Value());
 			}
 			assetwk.adjustCost(getAssetValueAmt(), getA_QTY_Current(), isA_CreateAsset()); // reset if isA_CreateAsset
+			assetwk.setA_Asset_Life_Current_Year(BigDecimal.ZERO);
 			assetwk.adjustUseLife(getDeltaUseLifeYears(), getDeltaUseLifeYears_F(), isA_CreateAsset()); // reset if isA_CreateAsset
 			assetwk.setDateAcct(getDateAcct());
 			assetwk.setProcessed(true);
@@ -1180,7 +1128,7 @@ public class MAssetAddition extends X_A_Asset_Addition
 
 	/**
 	 * Update Source Document (Invoice, Project etc) Status
-	 * @param isReversal is called from a reversal action (like Void, Reverse-Correct).
+	 * @param isReversalParam is called from a reversal action (like Void, Reverse-Correct).
 	 * 					We need this flag because that when we call the method from voidIt()
 	 * 					the document is not marked as voided yet. Same thing applies for reverseCorrectIt too. 
 	 */
@@ -1198,10 +1146,14 @@ public class MAssetAddition extends X_A_Asset_Addition
 		// Invoice: mark C_InvoiceLine.A_Processed='Y' and set C_InvoiceLine.A_Asset_ID
 		if (A_SOURCETYPE_Invoice.equals(sourceType) && isProcessed())
 		{
-			int C_InvoiceLine_ID = getC_InvoiceLine_ID();
-			MInvoiceLine invoiceLine = new MInvoiceLine(getCtx(), C_InvoiceLine_ID, get_TrxName());
+			int invoiceLineId = getC_InvoiceLine_ID();
+			MInvoiceLine invoiceLine = new MInvoiceLine(getCtx(), invoiceLineId, get_TrxName());
 			invoiceLine.setA_Processed(!isReversal);
-			invoiceLine.setA_Asset_ID(isReversal ? 0 : getA_Asset_ID());
+			if (invoiceLine.isCollectiveAsset())
+				invoiceLine.setA_Asset_ID(isReversal ? 0 : getA_Asset_ID());
+			else
+				invoiceLine.setA_Asset_ID(isReversal ? 0 : -1);
+
 			invoiceLine.saveEx();
 		}
 		//
@@ -1308,7 +1260,7 @@ public class MAssetAddition extends X_A_Asset_Addition
 		assetProduct.setM_Locator_ID(getM_Locator_ID());
 		
 		//Goodwill - Activated Asset must have quantity at least 1
-		if (asset.getA_Asset_Status().equals(MAsset.A_ASSET_STATUS_Activated) 
+		if (asset.getA_Asset_Status().equals(MAsset.A_ASSET_STATUS_Activated)
 				&& assetProduct.getA_QTY_Current().compareTo(BigDecimal.ZERO) <= 0
 				&& !isReversal)
 		{
@@ -1388,7 +1340,7 @@ public class MAssetAddition extends X_A_Asset_Addition
 							+" AND DocStatus IN ('CO','CL') AND IsActive='Y'"      // Goodwill
 							+" AND A_Asset_Addition_ID<>?";
 			
-			int cnt = DB.getSQLValueEx(null, sql, getA_Asset_ID(), getA_Asset_Addition_ID());
+			int countAddition = DB.getSQLValueEx(null, sql, getA_Asset_ID(), getA_Asset_Addition_ID());
 			MAsset asset = new MAsset(getCtx(), getA_Asset_ID(), get_TrxName());   // Goodwill
 			
 			//Goodwill - If Capital type, create asset
@@ -1404,11 +1356,11 @@ public class MAssetAddition extends X_A_Asset_Addition
 			if (isA_CreateAsset())
 			{
 				// A_CreateAsset='Y' must be unique
-				if (cnt >= 1)
+				if (countAddition >= 1)
 				{
 					setA_CreateAsset(false);
 				}
-				else if (cnt == 0)
+				else if (countAddition == 0)
 				{
 					setA_CreateAsset(true);
 					
@@ -1423,7 +1375,7 @@ public class MAssetAddition extends X_A_Asset_Addition
 			else
 			{
 				// Succesfull creation of Asset
-				if (cnt == 0)
+				if (countAddition == 0)
 				{
 					// Goodwill - Check if Asset is Activated, don't Create Asset
 					if (asset.getA_Asset_Status().equals(MAsset.A_ASSET_STATUS_Activated)

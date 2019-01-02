@@ -66,6 +66,7 @@ public class Language implements Serializable
 	private static final String AD_Language_de_DE = "de_DE";
 	private static final String AD_Language_it_IT = "it_IT";
 	private static final String AD_Language_es_ES = "es_ES";
+	private static final String AD_Language_es_SV = "es_SV";
 	private static final String AD_Language_es_MX = "es_MX";
 	private static final String AD_Language_es_CO = "es_CO";
 	private static final String AD_Language_es_DO = "es_DO";
@@ -134,6 +135,10 @@ public class Language implements Serializable
 		new Language ("Espa\u00f1ol",
 			AD_Language_es_ES,  new Locale("es","ES"), new Boolean(false), "dd/MM/yyyy",
 			MediaSize.ISO.A4),
+		new Language ("Espa\u00f1ol (SV)",
+		    AD_Language_es_SV,  new Locale("es","SV"), new Boolean(true), "dd/MM/yyyy",
+			MediaSize.NA.LETTER),
+
 		new Language ("Espa\u00f1ol (MX)",
 			AD_Language_es_MX,  new Locale("es","MX"), new Boolean(true), "dd/MM/yyyy",
 			MediaSize.NA.LETTER),

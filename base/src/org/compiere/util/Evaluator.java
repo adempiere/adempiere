@@ -16,6 +16,8 @@
  *****************************************************************************/
 package org.compiere.util;
 
+import org.compiere.model.PO;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
@@ -271,5 +273,4 @@ public class Evaluator
 			list.add(variable);
 		}
 	}   //  parseDepends
-
 }	//	Evaluator

@@ -64,6 +64,9 @@ import org.zkoss.zul.Separator;
  *  phib - fixing bug [ 1568765 ] Close email dialog button broken
  *  
  *  globalqss - Carlos Ruiz - implement CC - FR [ 1754879 ] Enhancements on sending e-mail
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * 		<li>BR [ 1489 ] ZK Mail dialog have half space for write message
+ * 		@see https://github.com/adempiere/adempiere/issues/1489
  *
  */
 public class WEMailDialog extends Window implements EventListener, ValueChangeListener
@@ -267,6 +270,7 @@ public class WEMailDialog extends Window implements EventListener, ValueChangeLi
 		row.setSpans("2");
 		row.appendChild(fMessage);
 		fMessage.setWidth("100%");
+		fMessage.setHeight("100%");
 		fMessage.setRows(10);
 		
 		row = new Row();

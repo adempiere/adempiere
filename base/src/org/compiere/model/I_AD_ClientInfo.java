@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_ClientInfo
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.1
  */
 public interface I_AD_ClientInfo 
 {
@@ -379,6 +379,21 @@ public interface I_AD_ClientInfo
 	public int getM_ProductFreight_ID();
 
 	public org.compiere.model.I_M_Product getM_ProductFreight() throws RuntimeException;
+
+    /** Column name RestorePassword_MailText_ID */
+    public static final String COLUMNNAME_RestorePassword_MailText_ID = "RestorePassword_MailText_ID";
+
+	/** Set Restore Password Mail Text.
+	  * Used for Restore Password Mail Text
+	  */
+	public void setRestorePassword_MailText_ID (int RestorePassword_MailText_ID);
+
+	/** Get Restore Password Mail Text.
+	  * Used for Restore Password Mail Text
+	  */
+	public int getRestorePassword_MailText_ID();
+
+	public org.compiere.model.I_R_MailText getRestorePassword_MailText() throws RuntimeException;
 
     /** Column name UUID */
     public static final String COLUMNNAME_UUID = "UUID";

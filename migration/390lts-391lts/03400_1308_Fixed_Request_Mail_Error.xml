@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Unable To send test mail #1308" ReleaseNo="3.9.0.a" SeqNo="3400">
+    <Comments>See: https://github.com/adempiere/adempiere/issues/1308</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="50006" Table="AD_Process_Para">
+        <Data AD_Column_ID="2817" Column="IsActive" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="50009" Table="AD_Process_Para">
+        <Data AD_Column_ID="3738" Column="IsMandatory" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="50010" Table="AD_Process_Para">
+        <Data AD_Column_ID="3738" Column="IsMandatory" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="50011" Table="AD_Process_Para">
+        <Data AD_Column_ID="3738" Column="IsMandatory" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="285" Action="I" Record_ID="56149" Table="AD_Process_Para">
+        <Data AD_Column_ID="2822" Column="Name">EMail Configuration</Data>
+        <Data AD_Column_ID="2817" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2820" Column="Updated">2017-11-10 10:10:02.088</Data>
+        <Data AD_Column_ID="2818" Column="Created">2017-11-10 10:10:02.088</Data>
+        <Data AD_Column_ID="3738" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="3742" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="4017" Column="ColumnName">AD_EMailConfig_ID</Data>
+        <Data AD_Column_ID="2823" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="2824" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="2830" Column="IsRange">false</Data>
+        <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="5819" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="5593" Column="DefaultValue2" isNewNull="true"/>
+        <Data AD_Column_ID="3740" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="3741" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="81287" Column="IsInfoOnly">false</Data>
+        <Data AD_Column_ID="2814" Column="AD_Process_Para_ID">56149</Data>
+        <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2816" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
+        <Data AD_Column_ID="3737" Column="FieldLength">10</Data>
+        <Data AD_Column_ID="2825" Column="AD_Process_ID">50012</Data>
+        <Data AD_Column_ID="2819" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2827" Column="AD_Reference_ID">19</Data>
+        <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2826" Column="SeqNo">130</Data>
+        <Data AD_Column_ID="2821" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="7729" Column="AD_Element_ID">58919</Data>
+        <Data AD_Column_ID="84385" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="286" Action="I" Record_ID="0" Table="AD_Process_Para_Trl">
+        <Data AD_Column_ID="2836" Column="Created">2017-11-10 10:10:03.184</Data>
+        <Data AD_Column_ID="2838" Column="Updated">2017-11-10 10:10:03.184</Data>
+        <Data AD_Column_ID="2835" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2842" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="2840" Column="Name">EMail Configuration</Data>
+        <Data AD_Column_ID="2841" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="3743" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="2833" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2834" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2837" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2832" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="2831" Column="AD_Process_Para_ID">56149</Data>
+        <Data AD_Column_ID="2839" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84386" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="56149" Table="AD_Process_Para">
+        <Data AD_Column_ID="2826" Column="SeqNo" oldValue="130">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="50007" Table="AD_Process_Para">
+        <Data AD_Column_ID="2826" Column="SeqNo" oldValue="10">20</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="50008" Table="AD_Process_Para">
+        <Data AD_Column_ID="2826" Column="SeqNo" oldValue="20">30</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="100" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="50009" Table="AD_Process_Para">
+        <Data AD_Column_ID="2826" Column="SeqNo" oldValue="30">40</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="110" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="50010" Table="AD_Process_Para">
+        <Data AD_Column_ID="2826" Column="SeqNo" oldValue="40">50</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="120" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="50011" Table="AD_Process_Para">
+        <Data AD_Column_ID="2826" Column="SeqNo" oldValue="50">60</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="130" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="50012" Table="AD_Process_Para">
+        <Data AD_Column_ID="2826" Column="SeqNo" oldValue="60">70</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="140" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="50013" Table="AD_Process_Para">
+        <Data AD_Column_ID="2826" Column="SeqNo" oldValue="70">80</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="150" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="50014" Table="AD_Process_Para">
+        <Data AD_Column_ID="2826" Column="SeqNo" oldValue="80">90</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="160" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="50015" Table="AD_Process_Para">
+        <Data AD_Column_ID="2826" Column="SeqNo" oldValue="90">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="170" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="50016" Table="AD_Process_Para">
+        <Data AD_Column_ID="2826" Column="SeqNo" oldValue="100">110</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="180" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="50017" Table="AD_Process_Para">
+        <Data AD_Column_ID="2826" Column="SeqNo" oldValue="110">120</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="190" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="50018" Table="AD_Process_Para">
+        <Data AD_Column_ID="2826" Column="SeqNo" oldValue="120">130</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="200" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="50010" Table="AD_Process_Para">
+        <Data AD_Column_ID="3738" Column="IsMandatory" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="210" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="50010" Table="AD_Process_Para">
+        <Data AD_Column_ID="7729" Column="AD_Element_ID" isOldNull="true">50056</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="220" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="50009" Table="AD_Process_Para">
+        <Data AD_Column_ID="2823" Column="Description" isOldNull="true">EMail folder to process incoming emails; if empty INBOX is used</Data>
+        <Data AD_Column_ID="2824" Column="Help" isOldNull="true">Email folder used to read emails to process as requests, If left empty the default mailbox (INBOX) will be used. Requires IMAP services.</Data>
+        <Data AD_Column_ID="7729" Column="AD_Element_ID" isOldNull="true">1699</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="230" StepType="AD">
+      <PO AD_Table_ID="286" Action="U" Record_ID="0" Table="AD_Process_Para_Trl">
+        <Data AD_Column_ID="2842" Column="IsTranslated" oldValue="true">false</Data>
+        <Data AD_Column_ID="2832" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="2831" Column="AD_Process_Para_ID" oldValue="50009">50009</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="240" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="50008" Table="AD_Process_Para">
+        <Data AD_Column_ID="2823" Column="Description" isOldNull="true">Password of the user name (ID) for mail processing</Data>
+        <Data AD_Column_ID="7729" Column="AD_Element_ID" isOldNull="true">1701</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="250" StepType="AD">
+      <PO AD_Table_ID="286" Action="U" Record_ID="0" Table="AD_Process_Para_Trl">
+        <Data AD_Column_ID="2842" Column="IsTranslated" oldValue="true">false</Data>
+        <Data AD_Column_ID="2832" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="2831" Column="AD_Process_Para_ID" oldValue="50008">50008</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="260" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="50007" Table="AD_Process_Para">
+        <Data AD_Column_ID="4017" Column="ColumnName" oldValue="p_IMAPUser">RequestUser</Data>
+        <Data AD_Column_ID="2823" Column="Description" isOldNull="true">User Name (ID) of the email owner</Data>
+        <Data AD_Column_ID="2824" Column="Help" isOldNull="true">EMail user name for requests, alerts and escalation are sent from this email address as well as delivery information if the sales rep does not have an email account. Required, if your mail server requires authentification as well as for processing incoming mails.</Data>
+        <Data AD_Column_ID="7729" Column="AD_Element_ID" isOldNull="true">1700</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="270" StepType="AD">
+      <PO AD_Table_ID="286" Action="U" Record_ID="0" Table="AD_Process_Para_Trl">
+        <Data AD_Column_ID="2842" Column="IsTranslated" oldValue="true">false</Data>
+        <Data AD_Column_ID="2832" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="2831" Column="AD_Process_Para_ID" oldValue="50007">50007</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="280" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="50008" Table="AD_Process_Para">
+        <Data AD_Column_ID="4017" Column="ColumnName" oldValue="p_IMAPPwd">RequestUserPW</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="290" StepType="AD">
+      <PO AD_Table_ID="276" Action="U" Record_ID="50056" Table="AD_Element">
+        <Data AD_Column_ID="2602" Column="ColumnName" oldValue="p_InboxFolder">InboxFolder</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="300" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="50010" Table="AD_Process_Para">
+        <Data AD_Column_ID="4017" Column="ColumnName" oldValue="p_InboxFolder">InboxFolder</Data>
+        <Data AD_Column_ID="2823" Column="Description" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="2824" Column="Help" isNewNull="true" isOldNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="310" StepType="AD">
+      <PO AD_Table_ID="286" Action="U" Record_ID="0" Table="AD_Process_Para_Trl">
+        <Data AD_Column_ID="2842" Column="IsTranslated" oldValue="true">false</Data>
+        <Data AD_Column_ID="2832" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="2831" Column="AD_Process_Para_ID" oldValue="50010">50010</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="320" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="50009" Table="AD_Process_Para">
+        <Data AD_Column_ID="4017" Column="ColumnName" oldValue="p_RequestFolder">RequestFolder</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="330" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="50012" Table="AD_Process_Para">
+        <Data AD_Column_ID="7729" Column="AD_Element_ID" isOldNull="true">187</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="340" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="50013" Table="AD_Process_Para">
+        <Data AD_Column_ID="7729" Column="AD_Element_ID" isOldNull="true">138</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="350" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="50014" Table="AD_Process_Para">
+        <Data AD_Column_ID="7729" Column="AD_Element_ID" isOldNull="true">123</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="360" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="50015" Table="AD_Process_Para">
+        <Data AD_Column_ID="7729" Column="AD_Element_ID" isOldNull="true">1063</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="370" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="50016" Table="AD_Process_Para">
+        <Data AD_Column_ID="7729" Column="AD_Element_ID" isOldNull="true">1894</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="380" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="50017" Table="AD_Process_Para">
+        <Data AD_Column_ID="4017" Column="ColumnName" oldValue="p_DefaultPriority">PriorityRule</Data>
+        <Data AD_Column_ID="2824" Column="Help" isOldNull="true">The Priority indicates the importance (high, medium, low) of this document</Data>
+        <Data AD_Column_ID="7729" Column="AD_Element_ID" isOldNull="true">522</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="390" StepType="AD">
+      <PO AD_Table_ID="286" Action="U" Record_ID="0" Table="AD_Process_Para_Trl">
+        <Data AD_Column_ID="2842" Column="IsTranslated" oldValue="true">false</Data>
+        <Data AD_Column_ID="2832" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="2831" Column="AD_Process_Para_ID" oldValue="50017">50017</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="400" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="50018" Table="AD_Process_Para">
+        <Data AD_Column_ID="4017" Column="ColumnName" oldValue="p_DefaultConfidentiality">ConfidentialType</Data>
+        <Data AD_Column_ID="7729" Column="AD_Element_ID" isOldNull="true">2709</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="410" StepType="AD">
+      <PO AD_Table_ID="276" Action="I" Record_ID="59677" Table="AD_Element">
+        <Data AD_Column_ID="2603" Column="Name">Error Folder</Data>
+        <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="2598" Column="Created">2017-11-10 10:36:31.384</Data>
+        <Data AD_Column_ID="2600" Column="Updated">2017-11-10 10:36:31.384</Data>
+        <Data AD_Column_ID="2597" Column="IsActive">true</Data>
+        <Data AD_Column_ID="6284" Column="PO_Help" isNewNull="true"/>
+        <Data AD_Column_ID="6285" Column="PO_Name" isNewNull="true"/>
+        <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="2602" Column="ColumnName">ErrorFolder</Data>
+        <Data AD_Column_ID="4299" Column="PrintName">Error Folder</Data>
+        <Data AD_Column_ID="6286" Column="PO_PrintName" isNewNull="true"/>
+        <Data AD_Column_ID="6283" Column="PO_Description" isNewNull="true"/>
+        <Data AD_Column_ID="58589" Column="FieldLength">255</Data>
+        <Data AD_Column_ID="58588" Column="AD_Reference_ID">10</Data>
+        <Data AD_Column_ID="2594" Column="AD_Element_ID">59677</Data>
+        <Data AD_Column_ID="2596" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2595" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6484" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="2599" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58590" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2601" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84316" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="420" StepType="AD">
+      <PO AD_Table_ID="277" Action="I" Record_ID="0" Table="AD_Element_Trl">
+        <Data AD_Column_ID="2641" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2642" Column="Created">2017-11-10 10:36:32.467</Data>
+        <Data AD_Column_ID="2644" Column="Updated">2017-11-10 10:36:32.467</Data>
+        <Data AD_Column_ID="6449" Column="PO_Help" isNewNull="true"/>
+        <Data AD_Column_ID="2646" Column="Name">Error Folder</Data>
+        <Data AD_Column_ID="6450" Column="PO_Name" isNewNull="true"/>
+        <Data AD_Column_ID="2648" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="2647" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="2649" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="4300" Column="PrintName">Error Folder</Data>
+        <Data AD_Column_ID="6451" Column="PO_PrintName" isNewNull="true"/>
+        <Data AD_Column_ID="6448" Column="PO_Description" isNewNull="true"/>
+        <Data AD_Column_ID="2640" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2639" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2645" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="2643" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2638" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="2637" Column="AD_Element_ID">59677</Data>
+        <Data AD_Column_ID="84317" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="430" StepType="AD">
+      <PO AD_Table_ID="277" Action="U" Record_ID="0" Table="AD_Element_Trl">
+        <Data AD_Column_ID="2646" Column="Name" oldValue="Error Folder">Carpeta de Error</Data>
+        <Data AD_Column_ID="4300" Column="PrintName" oldValue="Error Folder">Carpeta de Error</Data>
+        <Data AD_Column_ID="2638" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="2637" Column="AD_Element_ID" oldValue="59677">59677</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="440" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="50011" Table="AD_Process_Para">
+        <Data AD_Column_ID="4017" Column="ColumnName" oldValue="p_ErrorFolder">ErrorFolder</Data>
+        <Data AD_Column_ID="7729" Column="AD_Element_ID" isOldNull="true">59677</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="450" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="50009" Table="AD_Process_Para">
+        <Data AD_Column_ID="3738" Column="IsMandatory" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="460" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="50011" Table="AD_Process_Para">
+        <Data AD_Column_ID="3738" Column="IsMandatory" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="470" StepType="AD">
+      <PO AD_Table_ID="54127" Action="I" Record_ID="50001" Table="AD_EMailConfig">
+        <Data AD_Column_ID="80500" Column="Created">2017-11-10 18:15:11.696</Data>
+        <Data AD_Column_ID="80501" Column="Updated">2017-11-10 18:15:11.696</Data>
+        <Data AD_Column_ID="80499" Column="IsActive">true</Data>
+        <Data AD_Column_ID="80505" Column="Name">GMail (SMTP)</Data>
+        <Data AD_Column_ID="80506" Column="IsSmtpAuthorization">true</Data>
+        <Data AD_Column_ID="80507" Column="SMTPHost">smtp.gmail.com</Data>
+        <Data AD_Column_ID="80510" Column="AuthMechanism">L</Data>
+        <Data AD_Column_ID="80511" Column="Description">SMTP Default server configuration</Data>
+        <Data AD_Column_ID="80516" Column="LDAPDomain" isNewNull="true"/>
+        <Data AD_Column_ID="80509" Column="EncryptionType">S</Data>
+        <Data AD_Column_ID="80529" Column="Protocol">S</Data>
+        <Data AD_Column_ID="80497" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="80498" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="80502" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="80503" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="80508" Column="Port">465</Data>
+        <Data AD_Column_ID="80514" Column="Timeout">0</Data>
+        <Data AD_Column_ID="80515" Column="ConnectionTimeout">0</Data>
+        <Data AD_Column_ID="80504" Column="AD_EMailConfig_ID">50001</Data>
+        <Data AD_Column_ID="84315" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="480" StepType="AD">
+      <PO AD_Table_ID="54127" Action="I" Record_ID="50002" Table="AD_EMailConfig">
+        <Data AD_Column_ID="80500" Column="Created">2017-11-10 18:16:01.159</Data>
+        <Data AD_Column_ID="80501" Column="Updated">2017-11-10 18:16:01.159</Data>
+        <Data AD_Column_ID="80499" Column="IsActive">true</Data>
+        <Data AD_Column_ID="80505" Column="Name">GMail (IMAP)</Data>
+        <Data AD_Column_ID="80506" Column="IsSmtpAuthorization">false</Data>
+        <Data AD_Column_ID="80507" Column="SMTPHost">imap.gmail.com</Data>
+        <Data AD_Column_ID="80510" Column="AuthMechanism">L</Data>
+        <Data AD_Column_ID="80511" Column="Description">IMAP Default server configuration</Data>
+        <Data AD_Column_ID="80516" Column="LDAPDomain" isNewNull="true"/>
+        <Data AD_Column_ID="80509" Column="EncryptionType">S</Data>
+        <Data AD_Column_ID="80529" Column="Protocol">I</Data>
+        <Data AD_Column_ID="80497" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="80498" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="80502" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="80503" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="80508" Column="Port">993</Data>
+        <Data AD_Column_ID="80514" Column="Timeout">0</Data>
+        <Data AD_Column_ID="80515" Column="ConnectionTimeout">0</Data>
+        <Data AD_Column_ID="80504" Column="AD_EMailConfig_ID">50002</Data>
+        <Data AD_Column_ID="84315" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="490" StepType="AD">
+      <PO AD_Table_ID="54127" Action="I" Record_ID="50003" Table="AD_EMailConfig">
+        <Data AD_Column_ID="80500" Column="Created">2017-11-10 18:23:32.157</Data>
+        <Data AD_Column_ID="80501" Column="Updated">2017-11-10 18:23:32.157</Data>
+        <Data AD_Column_ID="80499" Column="IsActive">true</Data>
+        <Data AD_Column_ID="80505" Column="Name">Yahoo (SMTP)</Data>
+        <Data AD_Column_ID="80506" Column="IsSmtpAuthorization">false</Data>
+        <Data AD_Column_ID="80507" Column="SMTPHost">smtp.mail.yahoo.com</Data>
+        <Data AD_Column_ID="80510" Column="AuthMechanism">L</Data>
+        <Data AD_Column_ID="80511" Column="Description">SMTP Default server configuration</Data>
+        <Data AD_Column_ID="80516" Column="LDAPDomain" isNewNull="true"/>
+        <Data AD_Column_ID="80509" Column="EncryptionType">S</Data>
+        <Data AD_Column_ID="80529" Column="Protocol">S</Data>
+        <Data AD_Column_ID="80497" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="80498" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="80502" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="80503" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="80508" Column="Port">465</Data>
+        <Data AD_Column_ID="80514" Column="Timeout">0</Data>
+        <Data AD_Column_ID="80515" Column="ConnectionTimeout">0</Data>
+        <Data AD_Column_ID="80504" Column="AD_EMailConfig_ID">50003</Data>
+        <Data AD_Column_ID="84315" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="500" StepType="AD">
+      <PO AD_Table_ID="54127" Action="I" Record_ID="50004" Table="AD_EMailConfig">
+        <Data AD_Column_ID="80500" Column="Created">2017-11-10 18:30:22.219</Data>
+        <Data AD_Column_ID="80501" Column="Updated">2017-11-10 18:30:22.219</Data>
+        <Data AD_Column_ID="80499" Column="IsActive">true</Data>
+        <Data AD_Column_ID="80505" Column="Name">Yahoo (IMAP)</Data>
+        <Data AD_Column_ID="80506" Column="IsSmtpAuthorization">false</Data>
+        <Data AD_Column_ID="80507" Column="SMTPHost">imap.mail.yahoo.com</Data>
+        <Data AD_Column_ID="80510" Column="AuthMechanism">L</Data>
+        <Data AD_Column_ID="80511" Column="Description">IMAP Default server configuration</Data>
+        <Data AD_Column_ID="80516" Column="LDAPDomain" isNewNull="true"/>
+        <Data AD_Column_ID="80509" Column="EncryptionType">S</Data>
+        <Data AD_Column_ID="80529" Column="Protocol">I</Data>
+        <Data AD_Column_ID="80497" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="80498" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="80502" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="80503" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="80508" Column="Port">993</Data>
+        <Data AD_Column_ID="80514" Column="Timeout">0</Data>
+        <Data AD_Column_ID="80515" Column="ConnectionTimeout">0</Data>
+        <Data AD_Column_ID="80504" Column="AD_EMailConfig_ID">50004</Data>
+        <Data AD_Column_ID="84315" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="510" StepType="AD">
+      <PO AD_Table_ID="54127" Action="U" Record_ID="50003" Table="AD_EMailConfig">
+        <Data AD_Column_ID="80506" Column="IsSmtpAuthorization" oldValue="false">true</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

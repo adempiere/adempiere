@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Constraint error set BP Location on Material Movement #2069" ReleaseNo="3.9.1" SeqNo="4310">
+    <Comments>See: https://github.com/adempiere/adempiere/issues/2069</Comments>
+    <Step DBType="ALL" Parse="N" SeqNo="10" StepType="SQL">
+      <Comments>Remove constraint</Comments>
+      <SQLStatement>ALTER TABLE M_Movement DROP CONSTRAINT cbpartnerlocation_mmovement</SQLStatement>
+    </Step>
+  </Migration>
+</Migrations>

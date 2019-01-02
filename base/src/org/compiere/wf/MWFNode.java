@@ -18,20 +18,16 @@ package org.compiere.wf;
 
 import java.awt.Point;
 import java.math.BigDecimal;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-import org.adempiere.exceptions.DBException;
 import org.compiere.model.MColumn;
 import org.compiere.model.Query;
 import org.compiere.model.X_AD_WF_Node;
 import org.compiere.util.CCache;
-import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 
@@ -137,7 +133,6 @@ public class MWFNode extends X_AD_WF_Node
 	{
 		super(ctx, rs, trxName);
 		loadNext();
-		loadTrl();
 		//	Save to Cache
 		s_cache.put (get_ID(), this);
 	}	//	MWFNode
@@ -146,14 +141,6 @@ public class MWFNode extends X_AD_WF_Node
 	
 	/**	Next Modes				*/
 	private List<MWFNodeNext>	m_next = new ArrayList<MWFNodeNext>();
-	/**	Translated Name			*/
-	private String			m_name_trl = null;
-	/**	Translated Description	*/
-	private String			m_description_trl = null;
-	/**	Translated Help			*/
-	private String			m_help_trl = null;
-	/**	Translation Flag		*/
-	private boolean			m_translated = false;
 	/**	Column					*/
 	private MColumn		m_column = null;
 	/**	Process Parameters		*/
@@ -188,44 +175,6 @@ public class MWFNode extends X_AD_WF_Node
 		}
 		log.fine("#" + m_next.size());
 	}	//	loadNext
-
-	/**
-	 * 	Load Translation
-	 */
-	private void loadTrl()
-	{
-		if (Env.isBaseLanguage(getCtx(), "AD_Workflow") || get_ID() == 0)
-			return;
-		final String sql = "SELECT Name, Description, Help FROM AD_WF_Node_Trl"
-							+" WHERE AD_WF_Node_ID=? AND AD_Language=?";
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement(sql, get_TrxName());
-			pstmt.setInt(1, get_ID());
-			pstmt.setString(2, Env.getAD_Language(getCtx()));
-			rs = pstmt.executeQuery();
-			if (rs.next())
-			{
-				m_name_trl = rs.getString(1);
-				m_description_trl = rs.getString(2);
-				m_help_trl = rs.getString(3);
-				m_translated = true;
-			}
-		}
-		catch (SQLException e)
-		{
-			//log.log(Level.SEVERE, sql, e);
-			throw new DBException(e, sql);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
-		log.fine("Trl=" + m_translated);
-	}	//	loadTrl
 
 	/**
 	 * 	Get Number of Next Nodes
@@ -263,8 +212,8 @@ public class MWFNode extends X_AD_WF_Node
 	 */
 	public String getName(boolean translated)
 	{
-		if (translated && m_translated)
-			return m_name_trl;
+		if (translated)
+			return get_Translation(COLUMNNAME_Name);
 		return getName();
 	}	//	getName
 
@@ -275,8 +224,8 @@ public class MWFNode extends X_AD_WF_Node
 	 */
 	public String getDescription(boolean translated)
 	{
-		if (translated && m_translated)
-			return m_description_trl;
+		if (translated)
+			return get_Translation(COLUMNNAME_Description);
 		return getDescription();
 	}	//	getDescription
 
@@ -287,8 +236,8 @@ public class MWFNode extends X_AD_WF_Node
 	 */
 	public String getHelp(boolean translated)
 	{
-		if (translated && m_translated)
-			return m_help_trl;
+		if (translated)
+			return get_Translation(COLUMNNAME_Help);
 		return getHelp();
 	}	//	getHelp
 

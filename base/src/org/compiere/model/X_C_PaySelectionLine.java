@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_PaySelectionLine
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_C_PaySelectionLine extends PO implements I_C_PaySelectionLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170731L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_C_PaySelectionLine (Properties ctx, int C_PaySelectionLine_ID, String trxName)
@@ -168,6 +168,34 @@ public class X_C_PaySelectionLine extends PO implements I_C_PaySelectionLine, I_
     {
         return new KeyNamePair(get_ID(), String.valueOf(getC_BPartner_ID()));
     }
+
+	public org.compiere.model.I_C_BankAccount getC_BankAccountTo() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_BankAccount)MTable.get(getCtx(), org.compiere.model.I_C_BankAccount.Table_Name)
+			.getPO(getC_BankAccountTo_ID(), get_TrxName());	}
+
+	/** Set Bank Account To.
+		@param C_BankAccountTo_ID 
+		Bank Account To make Transfer
+	  */
+	public void setC_BankAccountTo_ID (int C_BankAccountTo_ID)
+	{
+		if (C_BankAccountTo_ID < 1) 
+			set_Value (COLUMNNAME_C_BankAccountTo_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BankAccountTo_ID, Integer.valueOf(C_BankAccountTo_ID));
+	}
+
+	/** Get Bank Account To.
+		@return Bank Account To make Transfer
+	  */
+	public int getC_BankAccountTo_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BankAccountTo_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	public org.compiere.model.I_C_Charge getC_Charge() throws RuntimeException
     {

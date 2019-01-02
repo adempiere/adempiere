@@ -23,6 +23,7 @@ import java.util.logging.Level;
 import org.compiere.model.MRefList;
 import org.compiere.model.PO;
 import org.compiere.util.CLogger;
+import org.compiere.util.Msg;
 
 /**
  *  Asset Addition Model
@@ -43,11 +44,12 @@ public class MAssetChange extends X_A_Asset_Change
 	/**
 	 * 	Default Constructor
 	 *	@param ctx context
-	 *	@param M_InventoryLine_ID line
+	 *	@param assetChangeId line
+	 *  @param trxName
 	 */
-	public MAssetChange (Properties ctx, int A_Asset_Change_ID, String trxName)
+	public MAssetChange (Properties ctx, int assetChangeId, String trxName)
 	{
-		super (ctx, A_Asset_Change_ID, trxName);
+		super (ctx, assetChangeId, trxName);
 	}	//	MAssetChange
 	
 	/**
@@ -74,6 +76,60 @@ public class MAssetChange extends X_A_Asset_Change
 		return true;
 	}	//	beforeSave
 
+	/**
+	 * Create Split change Status
+	 * @param assetSplit
+	 * @param assetBalance
+	 * @return
+	 */
+	public static MAssetChange createSplit(MAssetSplit assetSplit, MDepreciationWorkfile assetBalance) {
+		MAssetChange change = new MAssetChange(assetSplit.getCtx(), 0, assetSplit.get_TrxName());
+		change.setAD_Org_ID(assetSplit.getAD_Org_ID());
+		change.setA_Asset_ID(assetBalance.getA_Asset_ID());
+		change.setChangeType(MAssetChange.CHANGETYPE_Split);
+		String description = Msg.parseTranslation(assetSplit.getCtx(),
+				" @A_Asset_Split_ID@ " + assetSplit.getDocumentInfo());
+		change.setTextDetails(description + " " + MRefList.getListDescription(assetSplit.getCtx(), "A_Update_Type", MAssetChange.CHANGETYPE_Split));
+		change.setPostingType(assetBalance.getPostingType());
+		change.setAssetValueAmt(assetSplit.getA_Asset_Cost());
+		change.setA_QTY_Current(assetSplit.getA_QTY_Split());
+		change.setA_Split_Percent(assetSplit.getA_Percent_Split());
+		change.setDateAcct(assetSplit.getDateAcct());
+		change.setChangeDate(assetSplit.getDateDoc());
+		change.saveEx();
+		return change;
+	}
+
+
+	/**
+	 * Create Addition from Split
+	 * @param assetSplit
+	 * @param source
+	 * @param target
+	 * @param assetBalance
+	 * @return
+	 */
+	public static MAssetChange createAddition(MAssetSplit assetSplit, MAsset source , MAsset target ,  MDepreciationWorkfile assetBalance) {
+		MAssetChange change = new MAssetChange(assetSplit.getCtx(), 0, assetSplit.get_TrxName());
+		change.setAD_Org_ID(assetSplit.getAD_Org_ID());
+		change.setA_Asset_ID(assetBalance.getA_Asset_ID());
+		change.setChangeType(MAssetChange.CHANGETYPE_Addition);
+		String description = Msg.parseTranslation(assetSplit.getCtx(),
+				" @From@ @A_Asset_ID@ " + source.getValue() +
+						" @To@  @Value@" + target.getValue() +
+						" @A_Asset_Split_ID@ " + assetSplit.getDocumentInfo());
+		change.setTextDetails(description + " " + MRefList.getListDescription(assetSplit.getCtx(), "A_Update_Type", MAssetChange.CHANGETYPE_Addition));
+		change.setPostingType(assetBalance.getPostingType());
+		change.setAssetValueAmt(assetBalance.getA_Asset_Cost());
+		change.setA_QTY_Current(assetBalance.getA_QTY_Current());
+		change.setDateAcct(assetSplit.getDateAcct());
+		change.setChangeDate(assetSplit.getDateDoc());
+		change.setA_Split_Percent(assetSplit.getA_Percent_Split());
+		change.setA_Parent_Asset_ID(source.getA_Asset_ID());
+		change.saveEx();
+		return change;
+	}
+
 	public static MAssetChange createAddition(MAssetAddition assetAdd, MDepreciationWorkfile assetwk) {
 		MAssetChange change = new MAssetChange (assetAdd.getCtx(), 0, assetAdd.get_TrxName());
 		change.setAD_Org_ID(assetAdd.getAD_Org_ID()); //@win added
@@ -83,12 +139,12 @@ public class MAssetChange extends X_A_Asset_Change
 		change.setTextDetails(MRefList.getListDescription (assetAdd.getCtx(),"A_Update_Type" , "ADD"));
 		change.setPostingType(assetwk.getPostingType());
 		change.setAssetValueAmt(assetAdd.getAssetValueAmt());
-		change.setA_QTY_Current(assetAdd.getA_QTY_Current());	            
+		change.setA_QTY_Current(assetAdd.getA_QTY_Current());
 		change.saveEx();
-		
+
 		return change;
 	}
-	
+
 	// Goodwill - update history for Asset Disposal
 	/**
 	 * Create Disposal
@@ -106,7 +162,7 @@ public class MAssetChange extends X_A_Asset_Change
 		change.setAssetValueAmt(assetDisposed.getA_Disposal_Amt());
 		change.setA_QTY_Current(assetwk.getA_QTY_Current());
 		change.saveEx();
-		
+
 		return change;
 	}
 	

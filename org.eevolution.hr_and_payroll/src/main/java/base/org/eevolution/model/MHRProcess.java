@@ -31,6 +31,7 @@ import java.util.Properties;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
+import org.adempiere.exceptions.PeriodClosedException;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MCommission;
 import org.compiere.model.MDocType;
@@ -46,11 +47,13 @@ import org.compiere.model.Scriptlet;
 import org.compiere.print.ReportEngine;
 import org.compiere.process.DocAction;
 import org.compiere.process.DocumentEngine;
+import org.compiere.process.DocumentReversalEnabled;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.TimeUtil;
+import org.compiere.util.Util;
 import org.eevolution.service.HRProcessActionMsg;
 
 import javax.script.ScriptEngine;
@@ -76,9 +79,7 @@ import javax.script.ScriptEngine;
  * 		<a href="https://github.com/adempiere/adempiere/issues/766">
  * 		@see FR [ 766 ] Improve Commission Calculation</a>
  */
-public class MHRProcess extends X_HR_Process implements DocAction
-{
-	
+public class MHRProcess extends X_HR_Process implements DocAction , DocumentReversalEnabled {
 
 	/**
 	 * 
@@ -166,7 +167,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 			return;
 		}
 		final String sql = "UPDATE HR_Process SET Processed=? WHERE HR_Process_ID=?";
-		DB.executeUpdateEx(sql, new Object[]{processed, get_ID()}, null);
+		DB.executeUpdateEx(sql, new Object[]{processed, get_ID()}, get_TrxName());
 	}	//	setProcessed
 
 	@Override
@@ -198,15 +199,15 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	 */
 	public boolean processIt (String processAction)
 	{
-		m_processMsg = null;
+		processMsg = null;
 		DocumentEngine engine = new DocumentEngine (this, getDocStatus());
 		return engine.processIt (processAction, getDocAction());
 	}	//	processIt
 
 	/**	Process Message 			*/
-	private String		m_processMsg = null;
+	private String processMsg = null;
 	/**	Just Prepared Flag			*/
-	private boolean		m_justPrepared = false;
+	private boolean justPrepared = false;
 
 	/**
 	 * 	Unlock Document.
@@ -239,13 +240,13 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	{
 		logger.info("prepareIt - " + toString());
 
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_PREPARE);
-		if (m_processMsg != null)
+		processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_PREPARE);
+		if (processMsg != null)
 			return DocAction.STATUS_Invalid;
 
 		reActivateIt();
 		//	Std Period open?
-		MHRPeriod period = MHRPeriod.get(getCtx(), getHR_Period_ID());
+		MHRPeriod period = MHRPeriod.getById(getCtx(), getHR_Period_ID(), get_TrxName());
 		MPeriod.testPeriodOpen(getCtx(), getHR_Period_ID() > 0 ? period.getDateAcct():getDateAcct(), getC_DocTypeTarget_ID(), getAD_Org_ID());
 
 		//	New or in Progress/Invalid
@@ -267,13 +268,14 @@ public class MHRProcess extends X_HR_Process implements DocAction
 			throw new AdempiereException(exception);
 		}
 		
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_PREPARE);
-		if (m_processMsg != null)
+		processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_PREPARE);
+		if (processMsg != null)
 			return DocAction.STATUS_Invalid;
 		//
-		m_justPrepared = true;
+		justPrepared = true;
 		if (!DOCACTION_Complete.equals(getDocAction()))
 			setDocAction(DOCACTION_Complete);
+
 		return DocAction.STATUS_InProgress;
 	}	//	prepareIt
 
@@ -285,20 +287,20 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	public String completeIt()
 	{
 		//	Re-Check
-		if (!m_justPrepared)
+		if (!justPrepared)
 		{
 			String status = prepareIt();
 			if (!DocAction.STATUS_InProgress.equals(status))
 				return status;
 		}
 
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_COMPLETE);
-		if (m_processMsg != null)
+		processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_COMPLETE);
+		if (processMsg != null)
 			return DocAction.STATUS_Invalid;
 
 		//	User Validation
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_COMPLETE);
-		if (m_processMsg != null)
+		processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_COMPLETE);
+		if (processMsg != null)
 		{
 			return DocAction.STATUS_Invalid;
 		}
@@ -346,8 +348,8 @@ public class MHRProcess extends X_HR_Process implements DocAction
 
 		logger.info("voidIt - " + toString());
 		// Before Void
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_VOID);
-		if (m_processMsg != null)
+		processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_VOID);
+		if (processMsg != null)
 			return false;
 	
 	
@@ -356,7 +358,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		|| DOCSTATUS_Reversed.equals(getDocStatus())
 		|| DOCSTATUS_Voided.equals(getDocStatus()))
 		{
-			m_processMsg = "Document Closed: " + getDocStatus();
+			processMsg = "Document Closed: " + getDocStatus();
 			return false;
 		}
 	
@@ -379,7 +381,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 				{	
 					movement.setAmount(Env.ZERO);
 					movement.setDescription("Void (" + oldAmount + ")");
-					movement.save(null);
+					movement.saveEx();
 				}
 			}
 			//
@@ -389,11 +391,25 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		}
 		else
 		{
-			return reverseCorrectIt();
+
+			boolean isAccrual = false;
+			try
+			{
+				MPeriod.testPeriodOpen(getCtx(), getDateAcct(), getC_DocType_ID(), getAD_Org_ID());
+			}
+			catch (PeriodClosedException periodClosedException)
+			{
+				isAccrual = true;
+			}
+
+			if (isAccrual)
+				return reverseAccrualIt();
+			else
+				return reverseCorrectIt();
 		}
 		// After Void
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_VOID);
-		if (m_processMsg != null)
+		processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_VOID);
+		if (processMsg != null)
 			return false;
 
 		return true;
@@ -412,16 +428,16 @@ public class MHRProcess extends X_HR_Process implements DocAction
 			logger.info(toString());
 			
 			// Before Close
-			m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_CLOSE);
-			if (m_processMsg != null)
+			processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_CLOSE);
+			if (processMsg != null)
 				return false;
 			
 			setProcessed(true);
 			setDocAction(DOCACTION_None);
 			
 			// After Close
-			m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_CLOSE);
-			if (m_processMsg != null)
+			processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_CLOSE);
+			if (processMsg != null)
 				return false;
 				
 			return true;	
@@ -432,33 +448,32 @@ public class MHRProcess extends X_HR_Process implements DocAction
 
 
 	/**
-	 * 	Reverse Correction - same void
-	 * 	@return true if success
+	 *
+	 * @param isAccrual
+	 * @return
 	 */
-	public boolean reverseCorrectIt() {
-		logger.info("reverseCorrectIt - " + toString());
-		// Before reverseCorrect
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REVERSECORRECT);
-		if (m_processMsg != null)
-			return false;
-
-		MPeriod.testPeriodOpen(getCtx(), getDateAcct(), MPeriodControl.DOCBASETYPE_Payroll, getAD_Org_ID());
-		
-		MHRProcess reversal = copyFrom (this, getDateAcct(), getC_DocType_ID(), false, null , true);
+	public MHRProcess reverseIt(boolean isAccrual)
+	{
+		Timestamp currentDate = new Timestamp(System.currentTimeMillis());
+		Optional<Timestamp> loginDateOptional = Optional.of(Env.getContextAsDate(getCtx(),"#Date"));
+		Timestamp reversalDate =  isAccrual ? loginDateOptional.orElse(currentDate) : getDateAcct();
+		MPeriod.testPeriodOpen(getCtx(), reversalDate , getC_DocType_ID(), getAD_Org_ID());
+		MHRProcess reversal = copyFrom (this, getDateAcct(), getC_DocType_ID(), false, get_TrxName() , true);
 		if (reversal == null)
 		{
-			m_processMsg = "Could not create Payroll Process Reversal";
-			return false;
+			processMsg = "Could not create Payroll Process Reversal";
+			return null;
 		}
+
 		reversal.setReversal_ID(getHR_Process_ID());
 		reversal.setProcessing (false);
 		reversal.setDocStatus(DOCSTATUS_Reversed);
 		reversal.setDocAction(DOCACTION_None);
 		reversal.setProcessed(true);
 		reversal.setName("("+reversal.getDocumentNo()+" -> "+getDocumentNo()+")");
-		reversal.saveEx(null);
-		
-		m_processMsg = reversal.getDocumentNo();
+		reversal.saveEx();
+
+		processMsg = reversal.getDocumentNo();
 		setProcessed(true);
 		setReversal_ID(reversal.getHR_Process_ID());
 		setDocStatus(DOCSTATUS_Reversed);	//	may come from void
@@ -468,9 +483,27 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		setName("(" + getName() + " <- "+reversal.getDocumentNo() + ")");
 		saveEx();
 
+		return  reversal;
+	}
+
+	/**
+	 * 	Reverse Correction - same void
+	 * 	@return true if success
+	 */
+	public boolean reverseCorrectIt() {
+		logger.info("reverseCorrectIt - " + toString());
+		// Before reverseCorrect
+		processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REVERSECORRECT);
+		if (processMsg != null)
+			return false;
+
+		MHRProcess reversal = reverseIt(false);
+		if (reversal == null)
+			return false;
+
 		// After reverseCorrect
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSECORRECT);
-		if (m_processMsg != null)
+		processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSECORRECT);
+		if (processMsg != null)
 			return false;
 		
 				return true;
@@ -485,16 +518,20 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	public boolean reverseAccrualIt() {
 		logger.info("reverseAccrualIt - " + toString());
 		// Before reverseAccrual
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REVERSEACCRUAL);
-		if (m_processMsg != null)
+		processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REVERSEACCRUAL);
+		if (processMsg != null)
 			return false;
-		
+
+		MHRProcess reversal = reverseIt(true);
+		if (reversal == null)
+			return false;
+
 		// After reverseAccrual
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSEACCRUAL);
-		if (m_processMsg != null)
+		processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSEACCRUAL);
+		if (processMsg != null)
 			return false;
 		
-		return false;
+		return true;
 	}	//	reverseAccrualIt
 
 
@@ -506,8 +543,8 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		logger.info("reActivateIt - " + toString());
 
 		// Before reActivate
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REACTIVATE);
-		if (m_processMsg != null)
+		processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REACTIVATE);
+		if (processMsg != null)
 			return false;
 		
 		//	Can we delete posting
@@ -518,17 +555,16 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		logger.fine("HR_Process deleted #" + no);
 
 		//	Delete Posting
-		no = MFactAcct.deleteEx(MHRProcess.Table_ID, getHR_Process_ID(), null);
+		no = MFactAcct.deleteEx(MHRProcess.Table_ID, getHR_Process_ID(), get_TrxName());
 		logger.fine("Fact_Acct deleted #" + no);
 
 		setProcessed(false);
 		setDocAction(DOCACTION_Complete);
 				
 		// After reActivate
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REACTIVATE);
-		if (m_processMsg != null)
+		processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REACTIVATE);
+		if (processMsg != null)
 			return false;
-
 		return true;
 	}	//	reActivateIt
 
@@ -561,7 +597,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 
 	public String getProcessMsg() 
 	{
-		return m_processMsg;
+		return processMsg;
 	}
 
 	public String getSummary()
@@ -643,7 +679,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		StringBuffer orderByClause = new StringBuffer();
 		orderByClause.append("(SELECT bp.C_BP_Group_ID FROM C_BPartner bp WHERE bp.C_BPartner_ID=HR_Movement.C_BPartner_ID)");
 		//
-		List<MHRMovement> list = new Query (getCtx(), MHRMovement.Table_Name, whereClause.toString(), null)
+		List<MHRMovement> list = new Query (getCtx(), MHRMovement.Table_Name, whereClause.toString(), get_TrxName())
 		.setParameters(params)
 		.setOrderBy(orderByClause.toString())
 		.list();
@@ -659,7 +695,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	{
 		final String whereClause = MHRMovement.COLUMNNAME_HR_Process_ID+"=?"
 		+" AND "+MHRMovement.COLUMNNAME_C_BPartner_ID+"=?";
-		List<MHRMovement> list = new Query(getCtx(), MHRMovement.Table_Name, whereClause, null)
+		List<MHRMovement> list = new Query(getCtx(), MHRMovement.Table_Name, whereClause, get_TrxName())
 		.setParameters(getHR_Process_ID(), partnerId)
 		.list();
 
@@ -668,7 +704,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 			if(movements.containsKey(movement.getHR_Concept_ID()))
 			{
 				MHRMovement lastM = movements.get(movement.getHR_Concept_ID());
-				MHRConcept concept = MHRConcept.get(getCtx(), lastM.getHR_Concept_ID());
+				MHRConcept concept = MHRConcept.getById(getCtx(), lastM.getHR_Concept_ID() , get_TrxName());
 				String columntype = concept.getColumnType();
 				if (columntype.equals(MHRConcept.COLUMNTYPE_Amount))
 				{
@@ -694,13 +730,18 @@ public class MHRProcess extends X_HR_Process implements DocAction
 						.replace(".process.get", ".get");
 			}
 			String resultType = "double";
-			if  (MHRAttribute.COLUMNTYPE_Date.equals(columnType))
+			//	Yamel Senih Add DefValue to another Types
+			String defValue = "0";
+			if  (MHRAttribute.COLUMNTYPE_Date.equals(columnType)) {
 				resultType = "Timestamp";
-			else if  (MHRAttribute.COLUMNTYPE_Text.equals(columnType))
+				defValue = "null";
+			} else if  (MHRAttribute.COLUMNTYPE_Text.equals(columnType)) {
 				resultType = "String";
+				defValue = "null";
+			}
 			final String script =
 					s_scriptImport.toString()
-							+ Env.NL + resultType + " result = 0;"
+							+ Env.NL + resultType + " result = "+ defValue +";"
 							+ Env.NL + "String description = null;"
 							+ Env.NL + text;
 
@@ -709,10 +750,10 @@ public class MHRProcess extends X_HR_Process implements DocAction
 			scriptCtx.entrySet().stream().forEach( entry -> engine.put(entry.getKey(), entry.getValue()));
 			result = engine.eval(script);
 			if (result != null && "@Error@".equals(result.toString())) {
-				throw new AdempiereException("@AD_Rule_ID@ @Error@" + result);
+				throw new AdempiereException("@AD_Rule_ID@ @HR_Concept_ID@ "+ concept.getValue() + "" + concept.getName()+ "	 @@Error@ " + result);
 			}
 			//	
-			description = rule.getValue();
+			description = engine.get("description");
 
 		}
 		catch (Exception e)
@@ -733,8 +774,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		MRule rule = MRule.get(getCtx(), ruleId);
 		Object result = null;
 		description = null;
-		try
-		{
+		try {
 			if (rule == null) {
 				logger.log(Level.WARNING, " @AD_Rule_ID@ @NotFound@");
 			}
@@ -747,8 +787,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 				return  executeScriptEngine(concept, rule , columnType);
 
 			String text = "";
-			if (rule.getScript() != null)
-			{
+			if (rule.getScript() != null) {
 				text = rule.getScript().trim().replaceAll("\\bget", "process.get")
 				.replace(".process.get", ".get");
 			}
@@ -763,22 +802,21 @@ public class MHRProcess extends X_HR_Process implements DocAction
 				defValue = "null";
 			}
 			final String script =
-				s_scriptImport.toString()
-				+" " + resultType + " result = " + defValue + ";"
-				+" String description = null;"
-				+ text;
+					s_scriptImport.toString()
+							+ Env.NL + resultType + " result = "+ defValue +";"
+							+ Env.NL + "String description = null;"
+							+ Env.NL + text;
 			Scriptlet engine = new Scriptlet (Scriptlet.VARIABLE, script, scriptCtx);
 			Exception ex = engine.execute();
-			if (ex != null)
-			{
+			if (ex != null) {
 				throw ex;
 			}
 			result = engine.getResult(false);
 			description = engine.getDescription();
-		}
-		catch (Exception e)
-		{
-			throw new AdempiereException("@HR_Employee_ID@ : " + employee.getName() + " " + employee.getName2() + " @HR_Concept_ID@ " + concept.getValue() + " -> "+ concept.getName() + " @AD_Rule_ID@=" + rule.getValue() + " Execution error " + e.getLocalizedMessage());
+		} catch (Exception e) {
+			throw new AdempiereException("@HR_Employee_ID@ : " + employee.getC_BPartner().getName() + " " + employee.getC_BPartner().getName2() 
+			+ " \n @HR_Concept_ID@ " + concept.getValue() + " -> " + concept.getName()
+			+ " \n @AD_Rule_ID@=" + rule.getValue() + "\n  Script : " + rule.getScript() + " \n Execution error : \n" + e.getLocalizedMessage());
 		}
 		return result;
 	}
@@ -802,7 +840,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		params.add(MPPCostCollector.DOCSTATUS_Completed);
 		params.add(MPPCostCollector.DOCSTATUS_Closed);
 
-		List<MPPCostCollector> listCollector = new Query(getCtx(), MPPCostCollector.Table_Name, whereClause.toString(), null)
+		List<MPPCostCollector> listCollector = new Query(getCtx(), MPPCostCollector.Table_Name, whereClause.toString(), get_TrxName())
 		.setOnlyActiveRecords(true)
 		.setParameters(params)
 		.setOrderBy(MPPCostCollector.COLUMNNAME_PP_Cost_Collector_ID+" DESC") 
@@ -824,7 +862,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	private MHRMovement createMovementForCostCollector(int partnerId, MPPCostCollector costCollector)
 	{
 		//get the concept that should store the labor
-		MHRConcept concept = MHRConcept.getByValue(getCtx(), CONCEPT_PP_COST_COLLECTOR_LABOR);
+		MHRConcept concept = MHRConcept.getByValue(getCtx(), CONCEPT_PP_COST_COLLECTOR_LABOR, costCollector.get_TrxName());
 
 		//get the attribute for specific concept
 		List<Object> params = new ArrayList<Object>();
@@ -848,37 +886,28 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		whereClause.append(" AND HR_Concept_ID = ? ");
 		params.add(concept.get_ID());
 		whereClause.append(" AND EXISTS (SELECT 1 FROM HR_Concept conc WHERE conc.HR_Concept_ID = HR_Attribute.HR_Concept_ID )");
-		MHRAttribute attribute = new Query(getCtx(), MHRAttribute.Table_Name, whereClause.toString(), null)
+		MHRAttribute attribute = new Query(getCtx(), MHRAttribute.Table_Name, whereClause.toString(), get_TrxName())
 		.setParameters(params)
 		.setOnlyActiveRecords(true)
 		.setOrderBy(MHRAttribute.COLUMNNAME_ValidFrom + " DESC")
 		.first();
-		if (attribute == null)
-		{
+		if (attribute == null) {
 			throw new AdempiereException(); // TODO ?? is necessary
 		}
 
-		if (MHRConcept.TYPE_RuleEngine.equals(concept.getType()))
-		{
+		if (MHRConcept.TYPE_RuleEngine.equals(concept.getType())) {
 			Object result;
 			scriptCtx.put("_CostCollector", costCollector);
-			try
-			{
+			try {
 				result = executeScript(concept , attribute.getAD_Rule_ID(), attribute.getColumnType());
 				logger.info(Msg.parseTranslation(getCtx(), "@ScriptResult@ -> @HR_Concept_ID@ @Name@ ") + concept.getName() + " = " + result);
 			}
-			finally
-			{
+			finally {
 				scriptCtx.remove("_CostCollector");
-			}
-			if(result == null)
-			{
-				// TODO: throw exception ???
-				logger.warning("Variable (result) is null");
 			}
 
 			//get employee
-			MHREmployee employee = MHREmployee.getActiveEmployee(getCtx(), partnerId, null);
+			MHREmployee employee = MHREmployee.getActiveEmployee(getCtx(), partnerId, get_TrxName());
 			//create movement
 			MHRMovement movement = new MHRMovement(this, concept);
 			movement.setHR_Attribute_ID(attribute.getHR_Attribute_ID());
@@ -893,7 +922,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 			movement.setIsManual(true);
 			movement.setColumnValue(result);
 			movement.setProcessed(true);
-			int bpGroupId = DB.getSQLValue(null, "SELECT C_BP_Group_ID FROM C_BPartner WHERE C_BPartner_ID=?", this.partnerId);
+			int bpGroupId = DB.getSQLValue(get_TrxName(), "SELECT C_BP_Group_ID FROM C_BPartner WHERE C_BPartner_ID=?", this.partnerId);
 			movement.setC_BP_Group_ID(bpGroupId);
 			movement.setEmployee(employee);
 			movement.saveEx();
@@ -923,11 +952,11 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		
 		if (getHR_Period_ID() > 0)
 		{
-			payrollPeriod = MHRPeriod.get(getCtx(),  getHR_Period_ID());
+			payrollPeriod = MHRPeriod.getById(getCtx(),  getHR_Period_ID(), get_TrxName());
 		}
 		else
 		{
-			payrollPeriod = new MHRPeriod(getCtx() , 0 , null);
+			payrollPeriod = new MHRPeriod(getCtx() , 0 , get_TrxName());
 			MPeriod period = MPeriod.get(getCtx(),  getDateAcct() , getAD_Org_ID());	
 			if(period != null)
 			{
@@ -943,7 +972,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 
 		dateFrom = payrollPeriod.getStartDate();
 		dateTo   = payrollPeriod.getEndDate();
-		MHRPayroll payroll = MHRPayroll.getById(getCtx(), getHR_Payroll_ID());
+		MHRPayroll payroll = MHRPayroll.getById(getCtx(), getHR_Payroll_ID(), get_TrxName());
 		//	Put variables
 		scriptCtx.put("process", this);
 		scriptCtx.put("_Process", getHR_Process_ID());
@@ -1008,12 +1037,17 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	 */
 	private void  calculateMovements(MBPartner partner, MHRPeriod payrollPeriod)
 	{
-		logger.info(Msg.parseTranslation(getCtx() , "@HR_Employee_ID@ # ") + Msg.parseTranslation(getCtx() , " @BPValue@ ") + partner.getValue() +  Msg.parseTranslation(getCtx(), " @BPName@ ") + partner.getName() +  " " + partner.getName2());
+		logger.info(Msg.parseTranslation(getCtx() , "@HR_Employee_ID@ # ") 
+				+ Msg.parseTranslation(getCtx() , " @BPValue@ ") + partner.getValue() 
+				+  Msg.parseTranslation(getCtx(), " @BPName@ ") + partner.getName() +  " " + partner.getName2());
 		partnerId = partner.get_ID();
-		employee = MHREmployee.getActiveEmployee(getCtx(), partnerId, null);
+		employee = MHREmployee.getActiveEmployee(getCtx(), partnerId, get_TrxName());
+		if(employee == null) {
+			return;
+		}
 		String employeePayrollValue = null;
 		if(employee.getHR_Payroll_ID() != 0) {
-			MHRPayroll employeePayroll = MHRPayroll.getById(getCtx(), employee.getHR_Payroll_ID());
+			MHRPayroll employeePayroll = MHRPayroll.getById(getCtx(), employee.getHR_Payroll_ID(), get_TrxName());
 			employeePayrollValue = employeePayroll.getValue();
 		}
 		Timestamp employeeValidFrom = dateFrom;
@@ -1067,7 +1101,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 				continue;
 			}
 			payrollConceptId = payrollConcept.getHR_Concept_ID();
-			MHRConcept concept = MHRConcept.get(getCtx(), payrollConceptId);
+			MHRConcept concept = MHRConcept.getById(getCtx(), payrollConceptId, get_TrxName());
 			boolean printed = payrollConcept.isPrinted() || concept.isPrinted();
 			MHRMovement movement = movements.get(concept.get_ID()); // as it's now recursive, it can happen that the concept is already generated
 			if (movement == null) {
@@ -1106,7 +1140,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		}
 		// Save movements:
 		for (MHRMovement movement: movements.values()) {
-			MHRConcept concept = MHRConcept.get(getCtx() , movement.getHR_Concept_ID());
+			MHRConcept concept = MHRConcept.getById(getCtx() , movement.getHR_Concept_ID() , get_TrxName());
 			if (concept != null && concept.get_ID() > 0) {
 				if (concept.isManual()) {
 					logger.fine("Skip saving " + movement);
@@ -1128,14 +1162,17 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	private int deleteMovements()
 	{
 		// RE-Process, delete movement except concept type Incidence
-		int no = DB.executeUpdateEx("DELETE FROM HR_Movement m WHERE HR_Process_ID=? AND IsManual<>?", new Object[]{getHR_Process_ID(), true}, null);
+		int no = DB.executeUpdateEx("DELETE FROM HR_Movement m WHERE HR_Process_ID=? AND IsManual<>?", new Object[]{getHR_Process_ID(), true}, get_TrxName());
 		logger.info(Msg.parseTranslation(getCtx() , "@HR_Movement_ID@ @Deleted@ #") + no);
 		return  no;
 	}
 
 
 	/**
-	 * Method use to create a movement
+	 * Method use to create a movemeningBuffer whereClause = new StringBuffer();
+		StringBuffer orderByClause = new StringBuffer(MHRAttribute.COLUMNNAME_ValidFrom).append(ORDERVALUE);
+		//	Add for updated
+		orderByClause.append(", " + MHRAttribute.COLUMNNAME_Updated).append(ORDERVALUE);t
 	 * @param concept
 	 * @param isPrinted
 	 * @return
@@ -1162,12 +1199,6 @@ public class MHRProcess extends X_HR_Process implements DocAction
 			Object result = executeScript(concept , attribute.getAD_Rule_ID(), attribute.getColumnType());
 			logger.info(Msg.parseTranslation(getCtx(), "@ScriptResult@ -> @HR_Concept_ID@ @Name@ ") + concept.getName() + " = " + result);
 			activeConceptRule.remove(concept);
-			if (result == null)
-			{
-				// TODO: throw exception ???
-				logger.warning("Variable (result) is null");
-				return;
-			}
 			movement.setColumnValue(result); // double rounded in MHRMovement.setColumnValue
 			if (description != null)
 				movement.setDescription(description.toString());
@@ -1186,7 +1217,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	private void createDummyMovement(MHRConcept concept)
 	{
 		logger.info("Skip concept "+concept+" - attribute not found");
-		MHRMovement dummyMovement = new MHRMovement (getCtx(), 0, null);
+		MHRMovement dummyMovement = new MHRMovement (getCtx(), 0, concept.get_TrxName());
 		dummyMovement.setSeqNo(concept.getSeqNo());
 		dummyMovement.setIsManual(true); // to avoid landing on movement table
 		movements.put(concept.getHR_Concept_ID(), dummyMovement);
@@ -1197,7 +1228,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	 * Get Monthly Salary
 	 * @return
 	 */
-	public double getMonthlySalary() {
+	public double getMonthlySalary(String trxName) {
 		BigDecimal monthtlySalary = employee.getMonthlySalary();
 		if(monthtlySalary != null
 				&& !monthtlySalary.equals(Env.ZERO)) {
@@ -1205,11 +1236,11 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		}
 		//	if not exists
 		if(employee.getHR_Payroll_ID() != 0) {
-			MHRPayroll payroll = MHRPayroll.getById(getCtx(), employee.getHR_Payroll_ID());
-			MHRContract contract = MHRContract.getById(getCtx(), payroll.getHR_Contract_ID());
+			MHRPayroll payroll = MHRPayroll.getById(getCtx(), employee.getHR_Payroll_ID(), trxName);
+			MHRContract contract = MHRContract.getById(getCtx(), payroll.getHR_Contract_ID(), trxName);
 			if(contract != null
 					&& contract.getMonthlySalary_ID() != 0) {
-				MHRConcept concept = MHRConcept.get(getCtx(), contract.getMonthlySalary_ID());
+				MHRConcept concept = MHRConcept.getById(getCtx(), contract.getMonthlySalary_ID() , trxName);
 				//	Get from attribute
 				return getAttribute(concept.getValue());
 			}
@@ -1230,11 +1261,11 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		}
 		//	if not exists
 		if(employee.getHR_Payroll_ID() != 0) {
-			MHRPayroll payroll = MHRPayroll.getById(getCtx(), employee.getHR_Payroll_ID());
-			MHRContract contract = MHRContract.getById(getCtx(), payroll.getHR_Contract_ID());
+			MHRPayroll payroll = MHRPayroll.getById(getCtx(), employee.getHR_Payroll_ID(), get_TrxName());
+			MHRContract contract = MHRContract.getById(getCtx(), payroll.getHR_Contract_ID(), get_TrxName());
 			if(contract != null
 					&& contract.getDailySalary_ID() != 0) {
-				MHRConcept concept = MHRConcept.get(getCtx(), contract.getDailySalary_ID());
+				MHRConcept concept = MHRConcept.getById(getCtx(), contract.getDailySalary_ID(), get_TrxName());
 				//	Get from attribute
 				return getAttribute(concept.getValue());
 			}
@@ -1250,10 +1281,9 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	 * @param isPrinted
 	 * @return
 	 */
-	private MHRMovement createMovement(MHRConcept concept, MHRAttribute attribute, boolean isPrinted)
-	{
+	private MHRMovement createMovement(MHRConcept concept, MHRAttribute attribute, boolean isPrinted) {
 		I_HR_Period payrollPeriod = getHR_Period();
-		MHRMovement movement = new MHRMovement (getCtx(), 0, null);
+		MHRMovement movement = new MHRMovement (getCtx(), 0, get_TrxName());
 		movement.setAD_Org_ID(employee.getAD_Org_ID());
 		movement.setSeqNo(concept.getSeqNo());
 		movement.setHR_Attribute_ID(attribute.getHR_Attribute_ID());
@@ -1270,8 +1300,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		movement.setValidTo(dateTo);
 		movement.setIsPrinted(isPrinted);
 		movement.setIsManual(concept.isManual());
-		int bpGroupId = DB.getSQLValue(null, "SELECT C_BP_Group_ID FROM C_BPartner WHERE C_BPartner_ID=?", partnerId);
-		movement.setC_BP_Group_ID(bpGroupId);
+		movement.setC_BP_Group_ID(employee.getC_BPartner().getC_BP_Group_ID());
 		movement.setEmployee(employee);
 		return movement;
 
@@ -1286,13 +1315,13 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	 */
 	public double getConcept (String conceptValue)
 	{
-		MHRConcept concept = MHRConcept.getByValue(getCtx(), conceptValue.trim());
+		MHRConcept concept = MHRConcept.getByValue(getCtx(), conceptValue.trim(), get_TrxName());
 		if (concept == null)
 			return 0;
 
 		MHRMovement movement = movements.get(concept.get_ID());
 		if (movement == null) {
-			createMovementFromConcept(concept, concept.isPrinted()); // out trx
+			createMovementFromConcept(concept, concept.isPrinted());
 			movement = movements.get(concept.get_ID());
 		}
 		if (movement == null)
@@ -1314,7 +1343,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	 */
 	public String getConceptString (String pconcept)
 	{
-		MHRConcept concept = MHRConcept.getByValue(getCtx(), pconcept.trim());
+		MHRConcept concept = MHRConcept.getByValue(getCtx(), pconcept.trim(), get_TrxName());
 		if (concept == null)
 			return null;
 
@@ -1338,7 +1367,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	 */
 	public Timestamp getConceptDate (String conceptValue)
 	{
-		MHRConcept concept = MHRConcept.getByValue(getCtx(), conceptValue.trim());
+		MHRConcept concept = MHRConcept.getByValue(getCtx(), conceptValue.trim(), get_TrxName());
 		if (concept == null)
 			return null;
 
@@ -1349,7 +1378,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		}
 
 		String type = concept.getColumnType();
-		if (MHRConcept.COLUMNTYPE_Text.equals(type))
+		if (MHRConcept.COLUMNTYPE_Date.equals(type))
 			return movement.getServiceDate();
 		else
 			return null;
@@ -1384,7 +1413,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	 */
 	public void createMovement (String conceptValue, double value)
 	{
-		MHRConcept concept = MHRConcept.getByValue(getCtx(), conceptValue);
+		MHRConcept concept = MHRConcept.getByValue(getCtx(), conceptValue, get_TrxName());
 		if (concept == null)
 			return;
 
@@ -1409,7 +1438,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	 */
 	public void createMovement(String conceptValue, double value , boolean isManual)
 	{
-		MHRConcept concept = MHRConcept.getByValue(getCtx(), conceptValue);
+		MHRConcept concept = MHRConcept.getByValue(getCtx(), conceptValue, get_TrxName());
 		if (concept == null)
 			return;
 
@@ -1476,7 +1505,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	{
 		if (conceptValue == null || conceptValue.length() == 0)
 			throw new AdempiereException("@HR_Concept_ID@ @NotFound@");
-		MHRConcept concept = MHRConcept.getByValue(getCtx() , conceptValue);
+		MHRConcept concept = MHRConcept.getByValue(getCtx() , conceptValue, get_TrxName());
 		if (concept == null || concept.getHR_Concept_ID() == 0)
 			throw new AdempiereException("@HR_Concept_ID@ @NotFound@");
 
@@ -1490,14 +1519,14 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	 */
 	public double getConceptType (String typeValue)
 	{
-		final MHRConceptType conceptType = MHRConceptType.forValue(getCtx(), typeValue);
+		final MHRConceptType conceptType = MHRConceptType.getByValue(getCtx(), typeValue, get_TrxName());
 		if (conceptType == null)
 			return 0.0;
 
 		double value = 0.0;
 		for(MHRPayrollConcept payrollConcept : payrollConcepts)
 		{
-			MHRConcept concept = MHRConcept.get(getCtx(), payrollConcept.getHR_Concept_ID());
+			MHRConcept concept = MHRConcept.getById(getCtx(), payrollConcept.getHR_Concept_ID() , get_TrxName());
 			if(concept.getHR_Concept_Type_ID() == conceptType.get_ID())
 			{
 				MHRMovement movement = movements.get(payrollConcept.getHR_Concept_ID());
@@ -1541,14 +1570,14 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	 */
 	public double getConceptCategory (String categoryValue)
 	{
-		final MHRConceptCategory conceptCategory = MHRConceptCategory.forValue(getCtx(), categoryValue);
+		final MHRConceptCategory conceptCategory = MHRConceptCategory.getByValue(getCtx(), categoryValue, get_TrxName());
 		if (conceptCategory == null)
 			return 0.0;
 
 		double value = 0.0;
 		for(MHRPayrollConcept payrollConcept : payrollConcepts)
 		{
-			MHRConcept concept = MHRConcept.get(getCtx(), payrollConcept.getHR_Concept_ID());
+			MHRConcept concept = MHRConcept.getById(getCtx(), payrollConcept.getHR_Concept_ID() , get_TrxName());
 			if(concept.getHR_Concept_Category_ID() == conceptCategory.get_ID())
 			{
 				MHRMovement movement = movements.get(payrollConcept.getHR_Concept_ID());
@@ -1620,15 +1649,16 @@ public class MHRProcess extends X_HR_Process implements DocAction
 				"INNER JOIN HR_ListVersion lv ON (lv.HR_List_ID=l.HR_List_ID) " +
 				"INNER JOIN HR_ListLine ll ON (ll.HR_ListVersion_ID=lv.HR_ListVersion_ID) " +
 				"WHERE l.IsActive='Y' AND lv.IsActive='Y' AND ll.IsActive='Y' AND l.Value = ? AND " +
-				"l.AD_Client_ID = ? AND " +
+				"l.AD_Client_ID in (?,0) AND " +
 				"(? BETWEEN lv.ValidFrom AND lv.ValidTo ) AND " +
-				"(? BETWEEN ll.MinValue AND	ll.MaxValue)";
+				"(? BETWEEN ll.MinValue AND	ll.MaxValue)" +
+				" ORDER BY l.AD_CLIENT_ID desc ";
 			params.add(listSearchKey);
 			params.add(getAD_Client_ID());
 			params.add(from);
 			params.add(BigDecimal.valueOf(amount));
 
-			value = DB.getSQLValueBDEx(null,sqlList,params);
+			value = DB.getSQLValueBDEx(get_TrxName(),sqlList,params);
 		}
 		//
 		if (value == null)
@@ -1651,29 +1681,30 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	/**
 	 * Overload get Attribute Instance
 	 * @param conceptValue
-	 * @param bpartnerId
+	 * @param partnerId
 	 * @return
 	 */
-	public MHRAttribute getAttributeInstance(String conceptValue, int bpartnerId, Timestamp breakDate) {
-		MHRConcept concept = MHRConcept.getByValue(getCtx(), conceptValue);
-		return getAttributeInstance(concept, bpartnerId, breakDate);
+	public MHRAttribute getAttributeInstance(String conceptValue, int partnerId, Timestamp breakDate) {
+		MHRConcept concept = MHRConcept.getByValue(getCtx(), conceptValue, get_TrxName());
+		return getAttributeInstance(concept, partnerId, breakDate);
 	}
 	
 	/**
 	 * Get attribute like MHRAttribute
-	 * @param conceptValue
-	 * @param bpartnerId
+	 * @param concept
+	 * @param partnerId
+	 * @param breakDate
 	 * @return
 	 */
-	public MHRAttribute getAttributeInstance(MHRConcept concept, int bpartnerId, Timestamp breakDate) {
+	public MHRAttribute getAttributeInstance(MHRConcept concept, int partnerId, Timestamp breakDate) {
 		if (concept == null)
 			return null;
 		//	validate break date
 		if(breakDate == null)
 			breakDate = dateFrom;
 		//	BPartner
-		if(bpartnerId <= 0)
-			bpartnerId = partnerId;
+		if(partnerId <= 0)
+			partnerId = this.partnerId;
 		//	
 		ArrayList<Object> params = new ArrayList<Object>();
 		StringBuffer whereClause = new StringBuffer();
@@ -1705,12 +1736,13 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		//
 		if (!concept.getType().equals(MHRConcept.TYPE_Information)) {
 			whereClause.append(" AND " + MHRAttribute.COLUMNNAME_C_BPartner_ID + " = ?");
-			params.add(bpartnerId);
+			params.add(partnerId);
 		}
 		//	Get from query
-		MHRAttribute attribute = new Query(getCtx(), MHRAttribute.Table_Name, whereClause.toString(), null)
+		MHRAttribute attribute = new Query(getCtx(), MHRAttribute.Table_Name, whereClause.toString(), get_TrxName())
 			.setParameters(params)
 			.setOrderBy(MHRAttribute.COLUMNNAME_ValidFrom + " DESC")
+			.setOnlyActiveRecords(true)
 			.first();
 		//	Return
 		return attribute;
@@ -1722,7 +1754,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	 * @return	Amount of concept, applying to employee
 	 */ 
 	public double getAttribute (String conceptValue) {
-		return getAttribute(conceptValue, null); 
+		return getAttribute(conceptValue, null);
 	} // 
 	
 	/**
@@ -1732,7 +1764,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	 * @return
 	 */
 	public double getAttribute (String conceptValue, Timestamp breakDate) {
-		MHRConcept concept = MHRConcept.getByValue(getCtx(), conceptValue);
+		MHRConcept concept = MHRConcept.getByValue(getCtx(), conceptValue, get_TrxName());
 		if (concept == null)
 			return 0.0;
 		//	Get from PO
@@ -1883,9 +1915,8 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	 * @param conceptValue concept key(value)
 	 * @param period search is done by the period value, it helps to search from previous years
 	 */
-	public double getConcept (String conceptValue, int period)
-	{
-		return getConcept(conceptValue, null, period,period);
+	public double getConcept (String conceptValue, int period) {
+		return getConcept(conceptValue, null, period,period, true);
 	} // getConcept
 
 
@@ -1897,51 +1928,78 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	 * @param periodFrom the search is done by the period value, it helps to search from previous years
 	 * @param periodTo
 	 */
-	public double getConcept (String conceptValue, int periodFrom, int periodTo)
-	{
-		return getConcept(conceptValue, null, periodFrom,periodTo);
+	public double getConcept (String conceptValue, int periodFrom, int periodTo) {
+		return getConcept(conceptValue, null, periodFrom,periodTo, true);
 	} // getConcept
 
 	/**
 	 *  Helper Method : Concept by range from-to in periods from a different payroll
 	 *  periods with values 0 -1 1, etc. actual previous one period, next period
 	 *  0 corresponds to actual period
-	 *  @param conceptValue
-	 *  @param payrollValue is the value of the payroll.
-	 *  @param periodFrom
-	 *  @param periodTo the search is done by the period value, it helps to search from previous years
+	 * @param conceptValue
+	 * @param payrollValue is the value of the payroll.
+	 * @param periodFrom
+	 * @param periodTo the search is done by the period value, it helps to search from previous years
 	 */
-	public double getConcept(String conceptValue, String payrollValue,int periodFrom, int periodTo) {
+	public double getConcept(String conceptValue, String payrollValue, int periodFrom, int periodTo) {
+		return getConcept(conceptValue, payrollValue, periodFrom , periodTo , true);
+	}
+
+	/**
+	 *  Helper Method : Concept by range from-to in periods from a different payroll
+	 *  periods with values 0 -1 1, etc. actual previous one period, next period
+	 *  0 corresponds to actual period
+	 * @param conceptValue
+	 *  @param payrollValue is the value of the payroll.
+	 * @param periodFrom
+	 * @param periodTo the search is done by the period value, it helps to search from previous years
+	 * @param includeInProcess
+	 */
+	public double getConcept(String conceptValue, String payrollValue, int periodFrom, int periodTo, boolean includeInProcess) {
 		int payrollId;
 		if (payrollValue == null) {
 			payrollId = getHR_Payroll_ID();
 		} else {
-			MHRPayroll payroll = MHRPayroll.getByValue(getCtx(), payrollValue);
+			MHRPayroll payroll = MHRPayroll.getByValue(getCtx(), payrollValue, get_TrxName());
 			if(payroll == null)
 				return 0.0;
 			//	
 			payrollId = payroll.get_ID();
 		}
 		//	Get from Movement helper method
-		return MHRMovement.getConceptSum(getCtx(), conceptValue, payrollId, 
-				partnerId, getHR_Period_ID(), periodFrom, periodTo);
+		return MHRMovement.getConceptSum(getCtx(), conceptValue, payrollId,
+				partnerId, getHR_Period_ID(), periodFrom, periodTo, includeInProcess, get_TrxName());
 	} // getConcept
 
 	/**
 	 *  Helper Method : Concept Average by range from-to in periods from a different payroll
 	 *  periods with values 0 -1 1, etc. actual previous one period, next period
 	 *  0 corresponds to actual period
-	 *  @param conceptValue
-	 *  @param payrollValue is the value of the payroll.
-	 *  @param periodFrom
-	 *  @param periodTo the search is done by the period value, it helps to search from previous years
+	 * @param conceptValue
+	 * @param payrollValue is the value of the payroll.
+	 * @param periodFrom
+	 * @param periodTo the search is done by the period value, it helps to search from previous years
 	 */
-	public double getConceptAvg(String conceptValue, String payrollValue,int periodFrom, int periodTo) {
+	public double getConceptAvg(String conceptValue, String payrollValue, int periodFrom, int periodTo) {
+		return getConceptAvg(conceptValue,payrollValue,periodFrom, periodTo,true);
+	}
+
+	/**
+	 *  Helper Method : Concept Average by range from-to in periods from a different payroll
+	 *  periods with values 0 -1 1, etc. actual previous one period, next period
+	 *  0 corresponds to actual period
+	 * @param conceptValue
+	 * @param payrollValue is the value of the payroll.
+	 * @param periodFrom
+	 * @param periodTo the search is done by the period value, it helps to search from previous years
+	 * @param includeInProcess
+	 */
+	public double getConceptAvg(String conceptValue, String payrollValue, int periodFrom, int periodTo, boolean includeInProcess) {
 		int payrollId;
 		if (payrollValue == null) {
 			payrollId = getHR_Payroll_ID();
 		} else {
-			MHRPayroll payroll = MHRPayroll.getByValue(getCtx(), payrollValue);
+			MHRPayroll payroll = MHRPayroll.getByValue(getCtx(), payrollValue, get_TrxName());
 			if(payroll == null)
 				return 0.0;
 			//	
@@ -1949,7 +2007,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		}
 		//	Get from Movement helper method
 		return MHRMovement.getConceptAvg(getCtx(), conceptValue, payrollId, 
-				partnerId, getHR_Period_ID(), periodFrom, periodTo);
+				partnerId, getHR_Period_ID(), periodFrom, periodTo, includeInProcess, get_TrxName());
 	} // getConcept
 	
 	/**
@@ -1974,7 +2032,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		if (payrollValue == null) {
 			payrollId = getHR_Payroll_ID();
 		} else {
-			MHRPayroll payroll = MHRPayroll.getByValue(getCtx(), payrollValue);
+			MHRPayroll payroll = MHRPayroll.getByValue(getCtx(), payrollValue, get_TrxName());
 			if(payroll == null)
 				return 0.0;
 			//	
@@ -1982,7 +2040,121 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		}
 		//	Get from Movement helper method
 		return MHRMovement.getLastConcept(getCtx(), conceptValue, payrollId, 
-				partnerId, breakDate);
+				partnerId, breakDate, get_TrxName());
+	} // getConcept
+	
+	/**
+	 * Get Last concept date for a employee
+	 * @param conceptValue
+	 * @param payrollValue
+	 * @param breakDate
+	 * @return
+	 */
+	public Timestamp getLastConceptDate(String conceptValue, String payrollValue, Timestamp breakDate) {
+		int payrollId;
+		if (payrollValue == null) {
+			payrollId = getHR_Payroll_ID();
+		} else {
+			MHRPayroll payroll = MHRPayroll.getByValue(getCtx(), payrollValue, get_TrxName());
+			if(payroll == null)
+				return null;
+			//	
+			payrollId = payroll.get_ID();
+		}
+		//	Get from Movement helper method
+		return MHRMovement.getLastConceptDate(getCtx(), conceptValue, payrollId, 
+				partnerId, breakDate, get_TrxName());
+	} // getConcept
+	
+	/**
+	 * Get Last concept String for a employee
+	 * @param conceptValue
+	 * @param payrollValue
+	 * @param breakDate
+	 * @return
+	 */
+	public String getLastConceptString(String conceptValue, String payrollValue, Timestamp breakDate) {
+		int payrollId;
+		if (payrollValue == null) {
+			payrollId = getHR_Payroll_ID();
+		} else {
+			MHRPayroll payroll = MHRPayroll.getByValue(getCtx(), payrollValue, get_TrxName());
+			if(payroll == null)
+				return null;
+			//	
+			payrollId = payroll.get_ID();
+		}
+		//	Get from Movement helper method
+		MHRMovement lastMovement = MHRMovement.getLastMovement(getCtx(), conceptValue, payrollId, 
+				partnerId, breakDate, get_TrxName());
+		//	
+		if(lastMovement == null) {
+			return null;
+		}
+		//	For all
+		if(!Util.isEmpty(lastMovement.getTextMsg())) {
+			return lastMovement.getTextMsg();
+		}
+		//	For Description (optional)
+		return lastMovement.getDescription();
+	} // getConcept
+	
+	/**
+	 * Get Last concept Valid From for a employee
+	 * @param conceptValue
+	 * @param payrollValue
+	 * @param breakDate
+	 * @return
+	 */
+	public Timestamp getLastConceptValidFrom(String conceptValue, String payrollValue, Timestamp breakDate) {
+		int payrollId;
+		if (payrollValue == null) {
+			payrollId = getHR_Payroll_ID();
+		} else {
+			MHRPayroll payroll = MHRPayroll.getByValue(getCtx(), payrollValue, get_TrxName());
+			if(payroll == null)
+				return null;
+			//	
+			payrollId = payroll.get_ID();
+		}
+		//	Get from Movement helper method
+		MHRMovement lastMovement = MHRMovement.getLastMovement(getCtx(), conceptValue, payrollId, 
+				partnerId, breakDate, get_TrxName());
+		//	
+		if(lastMovement == null) {
+			return null;
+		}
+		//	Default
+		return lastMovement.getValidFrom();
+	} // getConcept
+	
+	/**
+	 * Get Last concept Valid To for a employee
+	 * @param conceptValue
+	 * @param payrollValue
+	 * @param breakDate
+	 * @return
+	 */
+	public Timestamp getLastConceptValidTo(String conceptValue, String payrollValue, Timestamp breakDate) {
+		int payrollId;
+		if (payrollValue == null) {
+			payrollId = getHR_Payroll_ID();
+		} else {
+			MHRPayroll payroll = MHRPayroll.getByValue(getCtx(), payrollValue, get_TrxName());
+			if(payroll == null)
+				return null;
+			//	
+			payrollId = payroll.get_ID();
+		}
+		//	Get from Movement helper method
+		MHRMovement lastMovement = MHRMovement.getLastMovement(getCtx(), conceptValue, payrollId, 
+				partnerId, breakDate, get_TrxName());
+		//	
+		if(lastMovement == null) {
+			return null;
+		}
+		//	Default
+		return lastMovement.getValidTo();
 	} // getConcept
 	
 	/**
@@ -1994,9 +2166,8 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	 */
 	public double getConcept (String conceptValue ,Timestamp from,Timestamp to)
 	{
-		return getConcept(conceptValue, null , from , to);
+		return getConcept(conceptValue, null , from , to, true);
 	}
-
 
 	/**
 	 * Helper Method: gets Concept value of a payrroll between 2 dates
@@ -2005,19 +2176,31 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	 * @param from
 	 * @param to
 	 * */
-	public double getConcept (String conceptValue, String payrollValue,Timestamp from,Timestamp to) {
+	public double getConcept(String conceptValue, String payrollValue, Timestamp from, Timestamp to) {
+		return getConcept(conceptValue, payrollValue , from , to , true);
+	}
+
+	/**
+	 * Helper Method: gets Concept value of a payrroll between 2 dates
+	 * @param conceptValue
+	 * @param payrollValue
+	 * @param from
+	 * @param to
+	 * @param includeInProcess
+	 * */
+	public double getConcept(String conceptValue, String payrollValue, Timestamp from, Timestamp to, boolean includeInProcess) {
 		int payrollId;
 		if (payrollValue == null) {
 			payrollId = getHR_Payroll_ID();
 		} else {
-			MHRPayroll payroll = MHRPayroll.getByValue(getCtx(), payrollValue);
+			MHRPayroll payroll = MHRPayroll.getByValue(getCtx(), payrollValue, get_TrxName());
 			if(payroll == null)
 				return 0.0;
 			//	
 			payrollId = payroll.get_ID();
 		}
 		//	Get from Movement helper method
-		return MHRMovement.getConceptSum(getCtx(), conceptValue, payrollId, partnerId, from, to);
+		return MHRMovement.getConceptSum(getCtx(), conceptValue, payrollId, partnerId, from, to, includeInProcess, get_TrxName());
 	} // getConcept
 
 	/**
@@ -2026,20 +2209,33 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	 * @param payrollValue
 	 * @param from
 	 * @param to
+	 * @return
+	 */
+	public double getConceptAvg(String conceptValue, String payrollValue, Timestamp from, Timestamp to) {
+		return getConceptAvg(conceptValue, payrollValue , from , to , true);
+	}
+
+	/**
+	 * Helper Method: gets Concept Average value of a payrroll between 2 dates
+	 * @param conceptValue
+	 * @param payrollValue
+	 * @param from
+	 * @param to
+	 * @param includeInProcess
 	 * */
-	public double getConceptAvg(String conceptValue, String payrollValue,Timestamp from,Timestamp to) {
+	public double getConceptAvg(String conceptValue, String payrollValue, Timestamp from, Timestamp to, boolean includeInProcess) {
 		int payrollId;
 		if (payrollValue == null) {
 			payrollId = getHR_Payroll_ID();
 		} else {
-			MHRPayroll payroll = MHRPayroll.getByValue(getCtx(), payrollValue);
+			MHRPayroll payroll = MHRPayroll.getByValue(getCtx(), payrollValue, get_TrxName());
 			if(payroll == null)
 				return 0.0;
 			//	
 			payrollId = payroll.get_ID();
 		}
 		//	Get from Movement helper method
-		return MHRMovement.getConceptAvg(getCtx(), conceptValue, payrollId, partnerId, from, to);
+		return MHRMovement.getConceptAvg(getCtx(), conceptValue, payrollId, partnerId, from, to , includeInProcess, get_TrxName());
 	} // getConcept
 	
 	
@@ -2120,7 +2316,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	 * @return
 	 */
 	public BigDecimal getAttributeByPartnerId(String conceptValue, int partnerId, Timestamp breakDate) {
-		MHRConcept concept = MHRConcept.getByValue(getCtx(), conceptValue);
+		MHRConcept concept = MHRConcept.getByValue(getCtx(), conceptValue, get_TrxName());
 		//	
 		MHRAttribute attribute = getAttributeInstance(conceptValue, partnerId, breakDate);
 		if (attribute == null)
@@ -2172,18 +2368,19 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	
 	
 	public static MHRProcess copyFrom (MHRProcess from, Timestamp dateAcct,
-			int C_DocTypeTarget_ID, boolean counter, String trxName, boolean setOrder)
+			int docTypeTargetId, boolean counter, String trxName, boolean setOrder)
 	{
 		MHRProcess to = new MHRProcess (from.getCtx(), 0, trxName);		
 		PO.copyValues (from, to, from.getAD_Client_ID(), from.getAD_Org_ID());
+		to.setReversal(true);
 		to.set_ValueNoCheck ("DocumentNo", null);
 		//
 		to.setDocStatus (DOCSTATUS_Drafted);		//	Draft
 		to.setDocAction(DOCACTION_Complete);
 		//
 		to.setName(from.getDocumentNo());
-		to.setC_DocType_ID(C_DocTypeTarget_ID);
-		to.setC_DocTypeTarget_ID (C_DocTypeTarget_ID);
+		to.setC_DocType_ID(docTypeTargetId);
+		to.setC_DocTypeTarget_ID (docTypeTargetId);
 		to.setDateAcct (dateAcct);
 		//
 		to.setHR_Job_ID(from.getHR_Job_ID());
@@ -2196,7 +2393,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		to.setPosted (false);
 		to.setProcessed (false);
 		to.setProcessing(false);
-		to.saveEx(trxName);
+		to.saveEx();
 		//	Lines
 		if (to.copyLinesFrom(from) == 0)
 			throw new IllegalStateException("Could not create Payroll Lines");
@@ -2217,8 +2414,9 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		List<MHRMovement> fromLines = MHRMovement.findByProcess(from);
 		for (MHRMovement fromMovement: fromLines)
 		{
-			MHRMovement toMovement = new MHRMovement (getCtx(), 0, null);
+			MHRMovement toMovement = new MHRMovement (getCtx(), 0, from.get_TrxName());
 			PO.copyValues (fromMovement, toMovement, fromMovement.getAD_Client_ID(), fromMovement.getAD_Org_ID());
+			//toMovement
 			toMovement.setIsManual(fromMovement.isManual());
 			toMovement.setHR_Concept_Category_ID(fromMovement.getHR_Concept_Category_ID());
 			toMovement.setHR_Process_ID(getHR_Process_ID());
@@ -2271,13 +2469,13 @@ public class MHRProcess extends X_HR_Process implements DocAction
 			throw new AdempiereException("@C_BPartner_ID@ @NotFound@ " + partnerValue);
 		partnerId = partner.get_ID();
 
-		MHRConcept concept = MHRConcept.getByValue(getCtx(), conceptValue);
+		MHRConcept concept = MHRConcept.getByValue(getCtx(), conceptValue, get_TrxName());
 		if (concept == null)
 			throw  new AdempiereException("@HR_Concept_ID@ @NotFound@ " +  conceptValue);
 		payrollConceptId = concept.get_ID();
 		columnType = concept.getColumnType();
 		MHRPeriod  payrollPeriod;
-		employee = MHREmployee.getActiveEmployee(getCtx(), partnerId, null);
+		employee = MHREmployee.getActiveEmployee(getCtx(), partnerId, get_TrxName());
 		if(getHR_Payroll_ID() > 0)
 		{
 			payrollId =getHR_Payroll_ID();
@@ -2292,9 +2490,9 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		}
 
 		if (getHR_Period_ID() > 0) {
-			payrollPeriod = MHRPeriod.get(getCtx(),  getHR_Period_ID());
+			payrollPeriod = MHRPeriod.getById(getCtx(),  getHR_Period_ID(), get_TrxName());
 		} else {
-			payrollPeriod = new MHRPeriod(getCtx() , 0 , null);
+			payrollPeriod = new MHRPeriod(getCtx() , 0 , get_TrxName());
 			MPeriod period = MPeriod.get(getCtx(),  getDateAcct() , getAD_Org_ID());
 			if(period != null)
 			{
@@ -2409,5 +2607,26 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	public double getCommissionAmt() {
 		return getCommissionAmt(null);
 	}
+
+	/** Reversal Flag		*/
+	private boolean isReversal = false;
+
+	/**
+	 * 	Set Reversal
+	 *	@param isReversal reversal
+	 */
+	public void setReversal(boolean isReversal)
+	{
+		this.isReversal = isReversal;
+	}	//	setReversal
+
+	/**
+	 * 	Is Reversal
+	 *	@return reversal
+	 */
+	public boolean isReversal()
+	{
+		return isReversal;
+	}	//	isReversal
 	
 }	//	MHRProcess

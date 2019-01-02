@@ -25,6 +25,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -33,12 +34,14 @@ import org.compiere.model.MAccount;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MConversionRate;
 import org.compiere.model.MDocType;
+import org.compiere.model.MFactAcct;
 import org.compiere.model.MNote;
 import org.compiere.model.MPeriod;
 import org.compiere.model.MTable;
 import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.ModelValidator;
 import org.compiere.model.PO;
+import org.compiere.model.Query;
 import org.compiere.process.DocumentEngine;
 import org.compiere.util.AdempiereUserError;
 import org.compiere.util.CLogger;
@@ -103,8 +106,9 @@ import org.compiere.util.Trx;
  *  @author Jorg Janke
  *  @author victor.perez@e-evolution.com, e-Evolution http://www.e-evolution.com
  * 				<li>FR [ 2520591 ] Support multiples calendar for Org 
- *				@see http://sourceforge.net/tracker2/?func=detail&atid=879335&aid=2520591&group_id=176962 
- *  @version  $Id: Doc.java,v 1.6 2006/07/30 00:53:33 jjanke Exp $
+ *				@see http://sourceforge.net/tracker2/?func=detail&atid=879335&aid=2520591&group_id=176962
+ *				<li>#1439 Reversed based on the accounting of the original document
+ *				@see https://github.com/adempiere/adempiere/issues/1439
  */
 public abstract class Doc
 {
@@ -128,6 +132,7 @@ public abstract class Doc
 	 *  GL_Journal:         GLJ
 	 *  C_ProjectIssue		PJI
 	 *  M_Requisition		POR
+	 *  M_ProductionBatch	MPO
 	 **************************************************************************/
 
 	/**	AR Invoices - ARI       */
@@ -174,6 +179,8 @@ public abstract class Doc
 	public static final String	DOCTYPE_ProjectIssue	= "PJI";
 	/** Purchase Requisition    */
 	public static final String	DOCTYPE_PurchaseRequisition	= "POR";
+	/** Planned Manufacturing Order    */
+	public static final String	DOCTYPE_ManufacturingPlannedOrder = MDocType.DOCBASETYPE_ManufacturingPlannedOrder;
 
 		
 	//  Posting Status - AD_Reference_ID=234     //
@@ -391,9 +398,10 @@ public abstract class Doc
 		}
 		
 		//	DocStatus
-		int index = p_po.get_ColumnIndex("DocStatus");
-		if (index != -1)
-			m_DocStatus = (String)p_po.get_Value(index);
+		//int index = p_po.get_ColumnIndex("DocStatus");
+		//if (index != -1)
+		//	m_DocStatus = (String)p_po.get_Value(index);
+		getDocStatus();
 		
 		//	Document Type
 		setDocumentType (defaultDocumentType);
@@ -540,15 +548,15 @@ public abstract class Doc
 	 */
 	public final String post (boolean force, boolean repost)
 	{
-		if (m_DocStatus == null)
+		if (getDocStatus() == null)
 			;	//	return "No DocStatus for DocumentNo=" + getDocumentNo();
-		else if (m_DocStatus.equals(DocumentEngine.STATUS_Completed)
-			|| m_DocStatus.equals(DocumentEngine.STATUS_Closed)
-			|| m_DocStatus.equals(DocumentEngine.STATUS_Voided)
-			|| m_DocStatus.equals(DocumentEngine.STATUS_Reversed))
+		else if (getDocStatus().equals(DocumentEngine.STATUS_Completed)
+			|| getDocStatus().equals(DocumentEngine.STATUS_Closed)
+			|| getDocStatus().equals(DocumentEngine.STATUS_Voided)
+			|| getDocStatus().equals(DocumentEngine.STATUS_Reversed))
 			;
 		else
-			return "Invalid DocStatus='" + m_DocStatus + "' for DocumentNo=" + getDocumentNo();
+			return "Invalid DocStatus='" + getDocStatus() + "' for DocumentNo=" + getDocumentNo();
 		//
 		if (p_po.getAD_Client_ID() != m_ass[0].getAD_Client_ID())
 		{
@@ -754,6 +762,9 @@ public abstract class Doc
 		//  rejectPeriodClosed
 		if (!isPeriodOpen())
 			return STATUS_PeriodClosed;
+
+		if (isReversed() && IsReverseGenerated() && isReverseWithOriginalAccounting())
+			return generateReverseWithOriginalAccounting();
 
 		//  createFacts
 		ArrayList<Fact> facts = createFacts (m_ass[index]);
@@ -1304,17 +1315,17 @@ public abstract class Doc
 
 	/**
 	 *	Get the Valid Combination id for Accounting Schema
-	 *  @param AcctType see ACCTTYPE_*
-	 *  @param as accounting schema
+	 *  @param acctType see ACCTTYPE_*
+	 *  @param acctSchema accounting schema
 	 *  @return C_ValidCombination_ID
 	 */
-	public int getValidCombination_ID (int AcctType, MAcctSchema as)
+	public int getValidCombinationId(int acctType, MAcctSchema acctSchema)
 	{
 		int para_1 = 0;     //  first parameter (second is always AcctSchema)
 		String sql = null;
 
 		/**	Account Type - Invoice */
-		if (AcctType == ACCTTYPE_Charge)	//	see getChargeAccount in DocLine
+		if (acctType == ACCTTYPE_Charge)	//	see getChargeAccount in DocLine
 		{
 			int cmp = getAmount(AMTTYPE_Charge).compareTo(Env.ZERO);
 			if (cmp == 0)
@@ -1325,68 +1336,68 @@ public abstract class Doc
 				sql = "SELECT CH_Revenue_Acct FROM C_Charge_Acct WHERE C_Charge_ID=? AND C_AcctSchema_ID=?";
 			para_1 = getC_Charge_ID();
 		}
-		else if (AcctType == ACCTTYPE_V_Liability)
+		else if (acctType == ACCTTYPE_V_Liability)
 		{
 			sql = "SELECT V_Liability_Acct FROM C_BP_Vendor_Acct WHERE C_BPartner_ID=? AND C_AcctSchema_ID=?";
 			para_1 = getC_BPartner_ID();
 		}
-		else if (AcctType == ACCTTYPE_V_Liability_Services)
+		else if (acctType == ACCTTYPE_V_Liability_Services)
 		{
 			sql = "SELECT V_Liability_Services_Acct FROM C_BP_Vendor_Acct WHERE C_BPartner_ID=? AND C_AcctSchema_ID=?";
 			para_1 = getC_BPartner_ID();
 		}
-		else if (AcctType == ACCTTYPE_C_Receivable)
+		else if (acctType == ACCTTYPE_C_Receivable)
 		{
 			sql = "SELECT C_Receivable_Acct FROM C_BP_Customer_Acct WHERE C_BPartner_ID=? AND C_AcctSchema_ID=?";
 			para_1 = getC_BPartner_ID();
 		}
-		else if (AcctType == ACCTTYPE_C_Receivable_Services)
+		else if (acctType == ACCTTYPE_C_Receivable_Services)
 		{
 			sql = "SELECT C_Receivable_Services_Acct FROM C_BP_Customer_Acct WHERE C_BPartner_ID=? AND C_AcctSchema_ID=?";
 			para_1 = getC_BPartner_ID();
 		}
-		else if (AcctType == ACCTTYPE_V_Prepayment)
+		else if (acctType == ACCTTYPE_V_Prepayment)
 		{
 			sql = "SELECT V_Prepayment_Acct FROM C_BP_Vendor_Acct WHERE C_BPartner_ID=? AND C_AcctSchema_ID=?";
 			para_1 = getC_BPartner_ID();
 		}
-		else if (AcctType == ACCTTYPE_C_Prepayment)
+		else if (acctType == ACCTTYPE_C_Prepayment)
 		{
 			sql = "SELECT C_Prepayment_Acct FROM C_BP_Customer_Acct WHERE C_BPartner_ID=? AND C_AcctSchema_ID=?";
 			para_1 = getC_BPartner_ID();
 		}
 
 		/** Account Type - Payment  */
-		else if (AcctType == ACCTTYPE_UnallocatedCash)
+		else if (acctType == ACCTTYPE_UnallocatedCash)
 		{
 			sql = "SELECT B_UnallocatedCash_Acct FROM C_BankAccount_Acct WHERE C_BankAccount_ID=? AND C_AcctSchema_ID=?";
 			para_1 = getC_BankAccount_ID();
 		}
-		else if (AcctType == ACCTTYPE_BankInTransit)
+		else if (acctType == ACCTTYPE_BankInTransit)
 		{
 			sql = "SELECT B_InTransit_Acct FROM C_BankAccount_Acct WHERE C_BankAccount_ID=? AND C_AcctSchema_ID=?";
 			para_1 = getC_BankAccount_ID();
 		}
-		else if (AcctType == ACCTTYPE_PaymentSelect)
+		else if (acctType == ACCTTYPE_PaymentSelect)
 		{
 			sql = "SELECT B_PaymentSelect_Acct FROM C_BankAccount_Acct WHERE C_BankAccount_ID=? AND C_AcctSchema_ID=?";
 			para_1 = getC_BankAccount_ID();
 		}
 		
 		/** Account Type - Allocation   */
-		else if (AcctType == ACCTTYPE_DiscountExp)
+		else if (acctType == ACCTTYPE_DiscountExp)
 		{
 			sql = "SELECT a.PayDiscount_Exp_Acct FROM C_BP_Group_Acct a, C_BPartner bp "
 				+ "WHERE a.C_BP_Group_ID=bp.C_BP_Group_ID AND bp.C_BPartner_ID=? AND a.C_AcctSchema_ID=?";
 			para_1 = getC_BPartner_ID();
 		}
-		else if (AcctType == ACCTTYPE_DiscountRev)
+		else if (acctType == ACCTTYPE_DiscountRev)
 		{
 			sql = "SELECT PayDiscount_Rev_Acct FROM C_BP_Group_Acct a, C_BPartner bp "
 				+ "WHERE a.C_BP_Group_ID=bp.C_BP_Group_ID AND bp.C_BPartner_ID=? AND a.C_AcctSchema_ID=?";
 			para_1 = getC_BPartner_ID();
 		}
-		else if (AcctType == ACCTTYPE_WriteOff)
+		else if (acctType == ACCTTYPE_WriteOff)
 		{
 			sql = "SELECT WriteOff_Acct FROM C_BP_Group_Acct a, C_BPartner bp "
 				+ "WHERE a.C_BP_Group_ID=bp.C_BP_Group_ID AND bp.C_BPartner_ID=? AND a.C_AcctSchema_ID=?";
@@ -1394,57 +1405,57 @@ public abstract class Doc
 		}
 
 		/** Account Type - Bank Statement   */
-		else if (AcctType == ACCTTYPE_BankAsset)
+		else if (acctType == ACCTTYPE_BankAsset)
 		{
 			sql = "SELECT B_Asset_Acct FROM C_BankAccount_Acct WHERE C_BankAccount_ID=? AND C_AcctSchema_ID=?";
 			para_1 = getC_BankAccount_ID();
 		}
-		else if (AcctType == ACCTTYPE_InterestRev)
+		else if (acctType == ACCTTYPE_InterestRev)
 		{
 			sql = "SELECT B_InterestRev_Acct FROM C_BankAccount_Acct WHERE C_BankAccount_ID=? AND C_AcctSchema_ID=?";
 			para_1 = getC_BankAccount_ID();
 		}
-		else if (AcctType == ACCTTYPE_InterestExp)
+		else if (acctType == ACCTTYPE_InterestExp)
 		{
 			sql = "SELECT B_InterestExp_Acct FROM C_BankAccount_Acct WHERE C_BankAccount_ID=? AND C_AcctSchema_ID=?";
 			para_1 = getC_BankAccount_ID();
 		}
 
 		/** Account Type - Cash     */
-		else if (AcctType == ACCTTYPE_CashAsset)
+		else if (acctType == ACCTTYPE_CashAsset)
 		{
 			sql = "SELECT CB_Asset_Acct FROM C_CashBook_Acct WHERE C_CashBook_ID=? AND C_AcctSchema_ID=?";
 			para_1 = getC_CashBook_ID();
 		}
-		else if (AcctType == ACCTTYPE_CashTransfer)
+		else if (acctType == ACCTTYPE_CashTransfer)
 		{
 			sql = "SELECT CB_CashTransfer_Acct FROM C_CashBook_Acct WHERE C_CashBook_ID=? AND C_AcctSchema_ID=?";
 			para_1 = getC_CashBook_ID();
 		}
-		else if (AcctType == ACCTTYPE_CashExpense)
+		else if (acctType == ACCTTYPE_CashExpense)
 		{
 			sql = "SELECT CB_Expense_Acct FROM C_CashBook_Acct WHERE C_CashBook_ID=? AND C_AcctSchema_ID=?";
 			para_1 = getC_CashBook_ID();
 		}
-		else if (AcctType == ACCTTYPE_CashReceipt)
+		else if (acctType == ACCTTYPE_CashReceipt)
 		{
 			sql = "SELECT CB_Receipt_Acct FROM C_CashBook_Acct WHERE C_CashBook_ID=? AND C_AcctSchema_ID=?";
 			para_1 = getC_CashBook_ID();
 		}
-		else if (AcctType == ACCTTYPE_CashDifference)
+		else if (acctType == ACCTTYPE_CashDifference)
 		{
 			sql = "SELECT CB_Differences_Acct FROM C_CashBook_Acct WHERE C_CashBook_ID=? AND C_AcctSchema_ID=?";
 			para_1 = getC_CashBook_ID();
 		}
 
 		/** Inventory Accounts          */
-		else if (AcctType == ACCTTYPE_InvDifferences)
+		else if (acctType == ACCTTYPE_InvDifferences)
 		{
 			sql = "SELECT W_Differences_Acct FROM M_Warehouse_Acct WHERE M_Warehouse_ID=? AND C_AcctSchema_ID=?";
 			//  "SELECT W_Inventory_Acct, W_Revaluation_Acct, W_InvActualAdjust_Acct FROM M_Warehouse_Acct WHERE M_Warehouse_ID=? AND C_AcctSchema_ID=?";
 			para_1 = getM_Warehouse_ID();
 		}
-		else if (AcctType == ACCTTYPE_NotInvoicedReceipts)
+		else if (acctType == ACCTTYPE_NotInvoicedReceipts)
 		{
 			sql = "SELECT NotInvoicedReceipts_Acct FROM C_BP_Group_Acct a, C_BPartner bp "
 				+ "WHERE a.C_BP_Group_ID=bp.C_BP_Group_ID AND bp.C_BPartner_ID=? AND a.C_AcctSchema_ID=?";
@@ -1452,29 +1463,29 @@ public abstract class Doc
 		}
 
 		/** Project Accounts          	*/
-		else if (AcctType == ACCTTYPE_ProjectAsset)
+		else if (acctType == ACCTTYPE_ProjectAsset)
 		{
 			sql = "SELECT PJ_Asset_Acct FROM C_Project_Acct WHERE C_Project_ID=? AND C_AcctSchema_ID=?";
 			para_1 = getC_Project_ID();
 		}
-		else if (AcctType == ACCTTYPE_ProjectWIP)
+		else if (acctType == ACCTTYPE_ProjectWIP)
 		{
 			sql = "SELECT PJ_WIP_Acct FROM C_Project_Acct WHERE C_Project_ID=? AND C_AcctSchema_ID=?";
 			para_1 = getC_Project_ID();
 		}
 
 		/** GL Accounts                 */
-		else if (AcctType == ACCTTYPE_PPVOffset)
+		else if (acctType == ACCTTYPE_PPVOffset)
 		{
 			sql = "SELECT PPVOffset_Acct FROM C_AcctSchema_GL WHERE C_AcctSchema_ID=?";
 			para_1 = -1;
 		}
-		else if (AcctType == ACCTTYPE_CommitmentOffset)
+		else if (acctType == ACCTTYPE_CommitmentOffset)
 		{
 			sql = "SELECT CommitmentOffset_Acct FROM C_AcctSchema_GL WHERE C_AcctSchema_ID=?";
 			para_1 = -1;
 		}
-		else if (AcctType == ACCTTYPE_CommitmentOffsetSales)
+		else if (acctType == ACCTTYPE_CommitmentOffsetSales)
 		{
 			sql = "SELECT CommitmentOffsetSales_Acct FROM C_AcctSchema_GL WHERE C_AcctSchema_ID=?";
 			para_1 = -1;
@@ -1482,13 +1493,13 @@ public abstract class Doc
 
 		else
 		{
-			log.severe ("Not found AcctType=" + AcctType);
+			log.severe ("Not found AcctType=" + acctType);
 			return 0;
 		}
 		//  Do we have sql & Parameter
 		if (sql == null || para_1 == 0)
 		{
-			log.severe ("No Parameter for AcctType=" + AcctType + " - SQL=" + sql);
+			log.severe ("No Parameter for AcctType=" + acctType + " - SQL=" + sql);
 			return 0;
 		}
 
@@ -1500,11 +1511,11 @@ public abstract class Doc
 		{
 			pstmt = DB.prepareStatement(sql, null);
 			if (para_1 == -1)   //  GL Accounts
-				pstmt.setInt (1, as.getC_AcctSchema_ID());
+				pstmt.setInt (1, acctSchema.getC_AcctSchema_ID());
 			else
 			{
 				pstmt.setInt (1, para_1);
-				pstmt.setInt (2, as.getC_AcctSchema_ID());
+				pstmt.setInt (2, acctSchema.getC_AcctSchema_ID());
 			}
 			rs = pstmt.executeQuery();
 			if (rs.next())
@@ -1512,7 +1523,7 @@ public abstract class Doc
 		}
 		catch (SQLException e)
 		{
-			log.log(Level.SEVERE, "AcctType=" + AcctType + " - SQL=" + sql, e);
+			log.log(Level.SEVERE, "AcctType=" + acctType + " - SQL=" + sql, e);
 			return 0;
 		}
 		finally {
@@ -1523,7 +1534,7 @@ public abstract class Doc
 		if (Account_ID == 0)
 		{
 			log.severe ("NO account Type="
-				+ AcctType + ", Record=" + p_po.get_ID());
+				+ acctType + ", Record=" + p_po.get_ID());
 			return 0;
 		}
 		return Account_ID;
@@ -1531,18 +1542,18 @@ public abstract class Doc
 
 	/**
 	 *	Get the account for Accounting Schema
-	 *  @param AcctType see ACCTTYPE_*
-	 *  @param as accounting schema
+	 *  @param acctType see ACCTTYPE_*
+	 *  @param acctSchema accounting schema
 	 *  @return Account
 	 */
-	public final MAccount getAccount (int AcctType, MAcctSchema as)
+	public final MAccount getAccount (int acctType, MAcctSchema acctSchema)
 	{
-		int C_ValidCombination_ID = getValidCombination_ID(AcctType, as);
-		if (C_ValidCombination_ID == 0)
+		int validCombinationId = getValidCombinationId(acctType, acctSchema);
+		if (validCombinationId == 0)
 			return null;
 		//	Return Account
-		MAccount acct = MAccount.get (as.getCtx(), C_ValidCombination_ID);
-		return acct;
+		MAccount account = MAccount.getValidCombination (acctSchema.getCtx(), validCombinationId ,getTrxName());
+		return account;
 	}	//	getAccount
 
 	
@@ -2414,5 +2425,110 @@ public abstract class Doc
 			}
 		}
 	}
-	
+
+	/**
+	 * get Document Status
+	 * @return
+	 */
+	public String getDocStatus()
+	{
+		if (m_DocStatus != null)
+			return m_DocStatus;
+
+		//	DocStatus
+		int index = p_po.get_ColumnIndex("DocStatus");
+		if (index != -1)
+			m_DocStatus = (String)p_po.get_Value(index);
+
+		return m_DocStatus;
+	}
+
+	/** get Reversal Id for this Document
+	 * @return
+	 */
+	public int getReversalId()
+	{
+
+		int index = p_po.get_ColumnIndex("Reversal_ID");
+		if (index != -1)
+		{
+			Integer ii = (Integer)p_po.get_Value(index);
+			if (ii != null)
+				return ii.intValue();
+		}
+		return 0;
+	}
+
+	/**
+	 * Return true if document is reverted
+	 * @return
+	 */
+	public Boolean isReversed()
+	{
+		if (getReversalId() > 0)
+			return true;
+		else
+			return false;
+	}
+
+	/**
+	 * Return true if the document is the reverse generated
+	 * @return
+	 */
+	public Boolean IsReverseGenerated()
+	{
+		return getReversalId() < getPO().get_ID();
+	}
+
+	/**
+	 * Return value from Document Type
+	 * @return
+	 */
+	public Boolean isReverseWithOriginalAccounting()
+	{
+		String isReverseWithOriginalAccounting = DB.getSQLValueString(getPO().get_TrxName() , "SELECT IsReversedWithOriginalAcct FROM C_DocType WHERE C_DocType_ID=?", getC_DocType_ID());
+		if (isReverseWithOriginalAccounting != null && "Y".equals(isReverseWithOriginalAccounting))
+			return true;
+		else
+			return false;
+	}
+
+	/**
+	 * Generate Reverse using Orginal Accounting
+	 * @return
+	 */
+	private String generateReverseWithOriginalAccounting() {
+		getReversalFactAcct().stream().forEach(factAcct -> {
+			MFactAcct reverseFactAcct = new MFactAcct(getPO().getCtx() , 0 , getPO().get_TrxName());
+			reverseFactAcct.copyValues(factAcct, reverseFactAcct);
+			reverseFactAcct.setAD_Org_ID(factAcct.getAD_Org_ID());
+			reverseFactAcct.setAD_Table_ID(getPO().get_Table_ID());
+			reverseFactAcct.setDateAcct(getDateAcct());
+			reverseFactAcct.setC_Period_ID(getC_Period_ID());
+			reverseFactAcct.setRecord_ID(getPO().get_ID());
+			reverseFactAcct.setQty(factAcct.getQty().negate());
+			reverseFactAcct.setAmtSourceDr(factAcct.getAmtSourceDr().negate());
+			reverseFactAcct.setAmtSourceCr(factAcct.getAmtSourceCr().negate());
+			reverseFactAcct.setAmtAcctDr(factAcct.getAmtAcctDr().negate());
+			reverseFactAcct.setAmtAcctCr(factAcct.getAmtAcctCr().negate());
+			reverseFactAcct.saveEx();
+		});
+		return STATUS_Posted;
+	}
+
+	/**
+	 * get Reversal Fact Accounts
+	 * @return
+	 */
+	private List<MFactAcct> getReversalFactAcct()
+	{
+		StringBuilder whereClause = new StringBuilder();
+		whereClause.append(MFactAcct.COLUMNNAME_AD_Table_ID).append("=? AND ");
+		whereClause.append(MFactAcct.COLUMNNAME_Record_ID).append("=?");
+		return new Query(getCtx(), MFactAcct.Table_Name , whereClause.toString() , getPO().get_TrxName())
+				.setClient_ID()
+				.setParameters(getPO().get_Table_ID(), getReversalId())
+				.setOrderBy(MFactAcct.COLUMNNAME_Fact_Acct_ID)
+				.list();
+	}
 }   //  Doc

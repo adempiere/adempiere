@@ -29,6 +29,7 @@
 
 package org.eevolution.process;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.adempiere.exceptions.DocTypeNotFoundException;
@@ -114,6 +115,7 @@ public class GenerateInOutBound extends GenerateInOutBoundAbstract {
         outBoundOrder.setM_Warehouse_ID(locator.getM_Warehouse_ID());
         outBoundOrder.setIsSOTrx(true);
         outBoundOrder.saveEx();
+        addLog(outBoundOrder.get_ID(), outBoundOrder.getShipDate(), BigDecimal.ZERO , outBoundOrder.getDocumentInfo());
         return outBoundOrder;
     }
 

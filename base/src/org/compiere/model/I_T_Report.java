@@ -21,7 +21,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for T_Report
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.1
  */
 public interface I_T_Report 
 {
@@ -61,12 +61,12 @@ public interface I_T_Report
 	/** Set Account Type.
 	  * Indicates the type of account
 	  */
-	public void setAccountType (boolean AccountType);
+	public void setAccountType (String AccountType);
 
 	/** Get Account Type.
 	  * Indicates the type of account
 	  */
-	public boolean isAccountType();
+	public String getAccountType();
 
     /** Column name C_ValidCombination_ID */
     public static final String COLUMNNAME_C_ValidCombination_ID = "C_ValidCombination_ID";
@@ -296,6 +296,15 @@ public interface I_T_Report
 
 	public org.compiere.model.I_Fact_Acct getFact_Acct() throws RuntimeException;
 
+    /** Column name FixedPercentage */
+    public static final String COLUMNNAME_FixedPercentage = "FixedPercentage";
+
+	/** Set Fixed Percentage	  */
+	public void setFixedPercentage (BigDecimal FixedPercentage);
+
+	/** Get Fixed Percentage	  */
+	public BigDecimal getFixedPercentage();
+
     /** Column name LevelNo */
     public static final String COLUMNNAME_LevelNo = "LevelNo";
 
@@ -342,6 +351,15 @@ public interface I_T_Report
 	  */
 	public int getRecord_ID();
 
+    /** Column name ReportLineStyle */
+    public static final String COLUMNNAME_ReportLineStyle = "ReportLineStyle";
+
+	/** Set Report Line Style	  */
+	public void setReportLineStyle (String ReportLineStyle);
+
+	/** Get Report Line Style	  */
+	public String getReportLineStyle();
+
     /** Column name SeqNo */
     public static final String COLUMNNAME_SeqNo = "SeqNo";
 
@@ -382,31 +400,4 @@ public interface I_T_Report
 	  * Immutable Universally Unique Identifier
 	  */
 	public String getUUID();
-
-    /** Column name ax_case */
-    public static final String COLUMNNAME_ax_case = "ax_case";
-
-	/** Set ax_case	  */
-	public void setax_case (boolean ax_case);
-
-	/** Get ax_case	  */
-	public boolean isax_case();
-
-    /** Column name fixedpercentage */
-    public static final String COLUMNNAME_fixedpercentage = "fixedpercentage";
-
-	/** Set fixedpercentage	  */
-	public void setfixedpercentage (BigDecimal fixedpercentage);
-
-	/** Get fixedpercentage	  */
-	public BigDecimal getfixedpercentage();
-
-    /** Column name reportlinestyle */
-    public static final String COLUMNNAME_reportlinestyle = "reportlinestyle";
-
-	/** Set reportlinestyle	  */
-	public void setreportlinestyle (boolean reportlinestyle);
-
-	/** Get reportlinestyle	  */
-	public boolean isreportlinestyle();
 }

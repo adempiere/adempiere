@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="ProjectManagement_c_Projecttype_ID #1549" ReleaseNo="3.9.1" SeqNo="3610">
+    <Comments>https://github.com/adempiere/adempiere/issues/1549</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="8757" Table="AD_Column">
+        <Data AD_Column_ID="126" Column="IsIdentifier" oldValue="true">false</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

@@ -39,6 +39,7 @@ import org.compiere.print.util.SerializableMatrixImpl;
 import org.compiere.report.MReportLine;
 import org.compiere.util.CLogger;
 import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
 import org.compiere.util.Trace;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -728,7 +729,7 @@ public class PrintData implements Serializable
 						element.setAttribute(PrintDataElement.XML_ATTRIBUTE_NAME, pde.getColumnName());
 						if (pde.hasKey())
 							element.setAttribute(PrintDataElement.XML_ATTRIBUTE_KEY, pde.getValueKey());
-						element.appendChild(document.createTextNode(pde.getValueDisplay(null)));	//	not formatted
+						element.appendChild(document.createTextNode(pde.getValueDisplay(Env.getLanguage(Env.getCtx()))));	//	not formatted
 						row.appendChild(element);
 					}
 				}

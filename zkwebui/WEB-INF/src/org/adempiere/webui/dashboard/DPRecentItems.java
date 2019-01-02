@@ -176,8 +176,7 @@ public class DPRecentItems extends DashboardPanel implements EventListener {
 			for (MRecentItem recentItem : recentItemList) {
 				String label = recentItem.getLabel();
 				if (label == null) {
-					recentItem.delete(true);
-					recentItem.save();
+					recentItem.deleteEx(true);
 					continue; // record could have been deleted
 				}
 				ToolBarButton btnrecentItem = new ToolBarButton(String.valueOf(recentItem.getAD_RecentItem_ID()));

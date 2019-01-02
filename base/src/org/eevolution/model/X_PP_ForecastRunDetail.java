@@ -25,14 +25,14 @@ import org.compiere.util.Env;
 
 /** Generated Model for PP_ForecastRunDetail
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_PP_ForecastRunDetail extends PO implements I_PP_ForecastRunDetail, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170731L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_PP_ForecastRunDetail (Properties ctx, int PP_ForecastRunDetail_ID, String trxName)

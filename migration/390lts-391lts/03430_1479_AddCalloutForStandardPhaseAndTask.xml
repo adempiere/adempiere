@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Add callout for Standard Phase and Task" ReleaseNo="3.9.1" SeqNo="3430">
+    <Comments>https://github.com/adempiere/adempiere/issues/1479</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="54209" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="54209">54209</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="0">1</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="364" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="364">364</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="1">2</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="54206" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="54206">54206</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="2">3</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="100" Action="U" Record_ID="203" Table="AD_Table">
+        <Data AD_Column_ID="105" Column="AD_Window_ID" oldValue="130">53545</Data>
+        <Data AD_Column_ID="9342" Column="PO_Window_ID" isOldNull="true">53545</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="100" Action="U" Record_ID="54301" Table="AD_Table">
+        <Data AD_Column_ID="105" Column="AD_Window_ID" isOldNull="true">53545</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="100" Action="U" Record_ID="576" Table="AD_Table">
+        <Data AD_Column_ID="105" Column="AD_Window_ID" oldValue="130">53545</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="100" Action="U" Record_ID="584" Table="AD_Table">
+        <Data AD_Column_ID="105" Column="AD_Window_ID" oldValue="130">53545</Data>
+        <Data AD_Column_ID="9342" Column="PO_Window_ID" isOldNull="true">53545</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="100" Action="U" Record_ID="54300" Table="AD_Table">
+        <Data AD_Column_ID="105" Column="AD_Window_ID" isOldNull="true">53554</Data>
+        <Data AD_Column_ID="9342" Column="PO_Window_ID" isOldNull="true">53554</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <PO AD_Table_ID="108" Action="U" Record_ID="52540" Table="AD_Val_Rule">
+        <Data AD_Column_ID="193" Column="Code" oldValue="EXISTS (SELECT * FROM C_ProjectType pt &#10;INNER JOIN C_ProjectStatusCategory psc ON (pt.C_ProjectStatusCategory_ID=psc.C_ProjectStatusCategory_ID)&#10;WHERE C_ProjectStatus.C_ProjectStatusCategory_ID=psc.C_ProjectStatusCategory_ID&#10;AND pt.C_ProjectType_ID=@C_ProjectType_ID@)">EXISTS (SELECT * FROM C_ProjectType pt 
+INNER JOIN C_ProjectStatusCategory psc ON (pt.C_ProjectStatusCategory_ID=psc.C_ProjectStatusCategory_ID)
+WHERE pt.C_ProjectType_ID=@C_ProjectType_ID@)</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="100" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="85737" Table="AD_Column">
+        <Data AD_Column_ID="117" Column="DefaultValue" isOldNull="true">D</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="110" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="85740" Table="AD_Column">
+        <Data AD_Column_ID="117" Column="DefaultValue" isOldNull="true">D</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="120" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="85674" Table="AD_Column">
+        <Data AD_Column_ID="117" Column="DefaultValue" isOldNull="true">D</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="130" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="85660" Table="AD_Column"/>
+    </Step>
+    <Step SeqNo="140" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="85660" Table="AD_Column"/>
+    </Step>
+    <Step SeqNo="150" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="85662" Table="AD_Column">
+        <Data AD_Column_ID="117" Column="DefaultValue" isOldNull="true">@#Date@</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="160" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="84298" Table="AD_Field">
+        <Data AD_Column_ID="183" Column="IsSameLine" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="170" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="84300" Table="AD_Field">
+        <Data AD_Column_ID="183" Column="IsSameLine" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="180" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="83232" Table="AD_Field">
+        <Data AD_Column_ID="2745" Column="IsCentrallyMaintained" oldValue="true">false</Data>
+        <Data AD_Column_ID="168" Column="Name" oldValue="User/Contact">Contact</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="190" StepType="AD">
+      <PO AD_Table_ID="127" Action="U" Record_ID="83232" Table="AD_Field_Trl">
+        <Data AD_Column_ID="289" Column="IsTranslated" oldValue="true">false</Data>
+        <Data AD_Column_ID="284" Column="AD_Field_ID" oldValue="83232">83232</Data>
+        <Data AD_Column_ID="285" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="200" StepType="AD">
+      <PO AD_Table_ID="127" Action="U" Record_ID="83232" Table="AD_Field_Trl">
+        <Data AD_Column_ID="289" Column="IsTranslated" oldValue="false">true</Data>
+        <Data AD_Column_ID="284" Column="AD_Field_ID" oldValue="83232">83232</Data>
+        <Data AD_Column_ID="285" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="210" StepType="AD">
+      <PO AD_Table_ID="127" Action="U" Record_ID="83232" Table="AD_Field_Trl">
+        <Data AD_Column_ID="287" Column="Description" oldValue="ID de Usuario dentro del sistema">Contacto del Socio de Negocio</Data>
+        <Data AD_Column_ID="288" Column="Help" oldValue="La ID de usuario identifica un usuario único en el sistema">Contacto del Socio de Negocio</Data>
+        <Data AD_Column_ID="284" Column="AD_Field_ID" oldValue="83232">83232</Data>
+        <Data AD_Column_ID="285" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="220" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="83230" Table="AD_Field">
+        <Data AD_Column_ID="2745" Column="IsCentrallyMaintained" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="230" StepType="AD">
+      <PO AD_Table_ID="127" Action="U" Record_ID="83230" Table="AD_Field_Trl">
+        <Data AD_Column_ID="287" Column="Description" oldValue="Socio del Negocio (Repr Comercial)">Agente de la Compañia</Data>
+        <Data AD_Column_ID="286" Column="Name" oldValue="Socio del Negocio (Repr Comercial)">Agente de la Compañia</Data>
+        <Data AD_Column_ID="284" Column="AD_Field_ID" oldValue="83230">83230</Data>
+        <Data AD_Column_ID="285" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="240" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="83282" Table="AD_Field">
+        <Data AD_Column_ID="2007" Column="IsReadOnly" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="250" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="83328" Table="AD_Field">
+        <Data AD_Column_ID="2007" Column="IsReadOnly" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="260" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="8757" Table="AD_Column">
+        <Data AD_Column_ID="62199" Column="IsAllowCopy" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="270" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="83225" Table="AD_Field">
+        <Data AD_Column_ID="74868" Column="IsAllowCopy" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="280" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="7676" Table="AD_Field">
+        <Data AD_Column_ID="74868" Column="IsAllowCopy" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="290" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="7401" Table="AD_Field">
+        <Data AD_Column_ID="74868" Column="IsAllowCopy" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="300" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="8758" Table="AD_Column">
+        <Data AD_Column_ID="62199" Column="IsAllowCopy" oldValue="true">false</Data>
+        <Data AD_Column_ID="118" Column="FieldLength" oldValue="22">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="340" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="8753" Table="AD_Column">
+        <Data AD_Column_ID="62199" Column="IsAllowCopy" oldValue="true">false</Data>
+        <Data AD_Column_ID="118" Column="FieldLength" oldValue="22">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="350" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="83245" Table="AD_Field">
+        <Data AD_Column_ID="74868" Column="IsAllowCopy" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="360" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="83246" Table="AD_Field">
+        <Data AD_Column_ID="74868" Column="IsAllowCopy" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="370" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="83247" Table="AD_Field">
+        <Data AD_Column_ID="74868" Column="IsAllowCopy" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="380" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="8756" Table="AD_Column">
+        <Data AD_Column_ID="62199" Column="IsAllowCopy" oldValue="true">false</Data>
+        <Data AD_Column_ID="118" Column="FieldLength" oldValue="22">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="390" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="83217" Table="AD_Field">
+        <Data AD_Column_ID="74868" Column="IsAllowCopy" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="400" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="8711" Table="AD_Column">
+        <Data AD_Column_ID="62199" Column="IsAllowCopy" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="410" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="83297" Table="AD_Field">
+        <Data AD_Column_ID="74868" Column="IsAllowCopy" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="420" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="9866" Table="AD_Column">
+        <Data AD_Column_ID="62199" Column="IsAllowCopy" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="430" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="9865" Table="AD_Column">
+        <Data AD_Column_ID="62199" Column="IsAllowCopy" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="440" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="8559" Table="AD_Column">
+        <Data AD_Column_ID="62199" Column="IsAllowCopy" oldValue="true">false</Data>
+        <Data AD_Column_ID="118" Column="FieldLength" oldValue="22">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="450" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="8557" Table="AD_Column">
+        <Data AD_Column_ID="62199" Column="IsAllowCopy" oldValue="true">false</Data>
+        <Data AD_Column_ID="118" Column="FieldLength" oldValue="22">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="460" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="9871" Table="AD_Column">
+        <Data AD_Column_ID="62199" Column="IsAllowCopy" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="470" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="6539" Table="AD_Field">
+        <Data AD_Column_ID="74868" Column="IsAllowCopy" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="480" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="6537" Table="AD_Field">
+        <Data AD_Column_ID="74868" Column="IsAllowCopy" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="490" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="83266" Table="AD_Field">
+        <Data AD_Column_ID="74868" Column="IsAllowCopy" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="500" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="83270" Table="AD_Field">
+        <Data AD_Column_ID="74868" Column="IsAllowCopy" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="510" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="83271" Table="AD_Field">
+        <Data AD_Column_ID="74868" Column="IsAllowCopy" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="520" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="83272" Table="AD_Field">
+        <Data AD_Column_ID="74868" Column="IsAllowCopy" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="530" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="83273" Table="AD_Field">
+        <Data AD_Column_ID="74868" Column="IsAllowCopy" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="540" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="83274" Table="AD_Field">
+        <Data AD_Column_ID="74868" Column="IsAllowCopy" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="550" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="83318" Table="AD_Field">
+        <Data AD_Column_ID="74868" Column="IsAllowCopy" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="560" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="83319" Table="AD_Field">
+        <Data AD_Column_ID="74868" Column="IsAllowCopy" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="570" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="83320" Table="AD_Field">
+        <Data AD_Column_ID="74868" Column="IsAllowCopy" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="580" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="83321" Table="AD_Field">
+        <Data AD_Column_ID="74868" Column="IsAllowCopy" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="590" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="83322" Table="AD_Field">
+        <Data AD_Column_ID="74868" Column="IsAllowCopy" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="600" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="83359" Table="AD_Field">
+        <Data AD_Column_ID="74868" Column="IsAllowCopy" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="610" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="83360" Table="AD_Field">
+        <Data AD_Column_ID="74868" Column="IsAllowCopy" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="620" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="83361" Table="AD_Field">
+        <Data AD_Column_ID="74868" Column="IsAllowCopy" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="630" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="83362" Table="AD_Field">
+        <Data AD_Column_ID="74868" Column="IsAllowCopy" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="640" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="83363" Table="AD_Field">
+        <Data AD_Column_ID="74868" Column="IsAllowCopy" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="650" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="83355" Table="AD_Field">
+        <Data AD_Column_ID="74868" Column="IsAllowCopy" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="660" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="83314" Table="AD_Field">
+        <Data AD_Column_ID="74868" Column="IsAllowCopy" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="670" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="8721" Table="AD_Column">
+        <Data AD_Column_ID="1692" Column="Callout" isOldNull="true">org.compiere.model.CalloutProject.standadProjectPhase</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="680" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="8891" Table="AD_Column">
+        <Data AD_Column_ID="1692" Column="Callout" isOldNull="true">org.compiere.model.CalloutProject.standadProjectTask</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="690" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="8891" Table="AD_Column">
+        <Data AD_Column_ID="1692" Column="Callout" oldValue="org.compiere.model.CalloutProject.standadProjectTask">org.compiere.model.CalloutProject.projectTask</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="700" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="8721" Table="AD_Column">
+        <Data AD_Column_ID="1692" Column="Callout" oldValue="org.compiere.model.CalloutProject.standadProjectPhase">org.compiere.model.CalloutProject.projectPhase</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

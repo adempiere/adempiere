@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_LandedCost
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_C_LandedCost extends PO implements I_C_LandedCost, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170731L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_C_LandedCost (Properties ctx, int C_LandedCost_ID, String trxName)
@@ -109,6 +109,31 @@ public class X_C_LandedCost extends PO implements I_C_LandedCost, I_Persistent
     {
         return new KeyNamePair(get_ID(), String.valueOf(getC_InvoiceLine_ID()));
     }
+
+	public org.compiere.model.I_C_LandedCostType getC_LandedCostType() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_LandedCostType)MTable.get(getCtx(), org.compiere.model.I_C_LandedCostType.Table_Name)
+			.getPO(getC_LandedCostType_ID(), get_TrxName());	}
+
+	/** Set C_LandedCostType_ID.
+		@param C_LandedCostType_ID C_LandedCostType_ID	  */
+	public void setC_LandedCostType_ID (int C_LandedCostType_ID)
+	{
+		if (C_LandedCostType_ID < 1) 
+			set_Value (COLUMNNAME_C_LandedCostType_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_LandedCostType_ID, Integer.valueOf(C_LandedCostType_ID));
+	}
+
+	/** Get C_LandedCostType_ID.
+		@return C_LandedCostType_ID	  */
+	public int getC_LandedCostType_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_LandedCostType_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	/** Set Landed Cost.
 		@param C_LandedCost_ID 

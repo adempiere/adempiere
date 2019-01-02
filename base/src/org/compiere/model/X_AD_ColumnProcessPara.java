@@ -22,14 +22,14 @@ import java.util.Properties;
 
 /** Generated Model for AD_ColumnProcessPara
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_AD_ColumnProcessPara extends PO implements I_AD_ColumnProcessPara, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170731L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_AD_ColumnProcessPara (Properties ctx, int AD_ColumnProcessPara_ID, String trxName)

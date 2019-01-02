@@ -42,9 +42,10 @@ public class MHRSalaryStructure extends X_HR_SalaryStructure {
      * Get Salary Structure by Id
      * @param ctx
      * @param salaryStructureId
+     * @param trxName
      * @return
      */
-    public static MHRSalaryStructure getById(Properties ctx, int salaryStructureId) {
+    public static MHRSalaryStructure getById(Properties ctx, int salaryStructureId, String trxName) {
         if (salaryStructureId <= 0)
             return null;
 
@@ -55,7 +56,7 @@ public class MHRSalaryStructure extends X_HR_SalaryStructure {
         if (salaryStructure != null && salaryStructure.get_ID() > 0)
             return salaryStructure;
 
-        salaryStructure = new Query(ctx , Table_Name , MHRSalaryStructure.COLUMNNAME_HR_SalaryStructure_ID + "=?", null)
+        salaryStructure = new Query(ctx , Table_Name , MHRSalaryStructure.COLUMNNAME_HR_SalaryStructure_ID + "=?", trxName)
                 .setClient_ID()
                 .setParameters(salaryStructureId)
                 .first();

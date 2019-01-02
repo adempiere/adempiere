@@ -2,7 +2,6 @@
 /lib
 /install/lib
 /test
-/project
 /backend
 /zkwebui/WEB-INF/classes/metainfo/zk/lang-addon.xml
 /adempiere/
@@ -51,3 +50,6 @@ migration/postgresql.properties
 /packages/
 /posterita/
 /zkpackages/
+/.metadata/
+/.recommenders/
+/RemoteSystemsTempFiles/

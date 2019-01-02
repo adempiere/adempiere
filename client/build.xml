@@ -77,6 +77,8 @@
         <include name="**/*.htm"/>
         <include name="**/*.html"/>
         <include name="**/*.properties"/>
+      	<!-- Include APPLICATION_TEMPLATE.JNLP in adempiere.jar -->
+        <include name="**/*.JNLP"/>
         <exclude name="**/package.html"/>
       </fileset>
     </copy>

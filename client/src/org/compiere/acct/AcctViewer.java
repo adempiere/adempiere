@@ -142,6 +142,7 @@ public class AcctViewer extends CFrame
 	private CButton bQuery = new CButton();
 	private CButton bPrint = new CButton();
 	private CButton bExport = new CButton();
+	private CButton bZoom = new CButton();
 	private CLabel statusLine = new CLabel();
 	private BorderLayout southLayout = new BorderLayout();
 	private BorderLayout queryLayout = new BorderLayout();
@@ -274,6 +275,8 @@ public class AcctViewer extends CFrame
 		displayQty.setText(Msg.getMsg(Env.getCtx(), "DisplayQty"));
 		displaySourceAmt.setText(Msg.getMsg(Env.getCtx(), "DisplaySourceInfo"));
 		displayDocumentInfo.setText(Msg.getMsg(Env.getCtx(), "DisplayDocumentInfo"));
+		displayDocumentInfo.setSelected(true);
+		displayDocumentInfo.addActionListener(this);
 		lSort.setText(Msg.getMsg(Env.getCtx(), "SortBy"));
 		lGroup.setText(Msg.getMsg(Env.getCtx(), "GroupBy"));
 		//
@@ -426,9 +429,14 @@ public class AcctViewer extends CFrame
 		bPrint.addActionListener(this);
 		bExport.setIcon(Env.getImageIcon("Export16.gif"));
 		bExport.setToolTipText(Msg.getMsg(Env.getCtx(), "Export"));
-		bExport.setVisible(tabbedPane.getSelectedIndex() == 1);
+		bExport.setVisible(displayDocumentInfo.isSelected());
 		bExport.addActionListener(this);
+		bZoom.setIcon(Env.getImageIcon("Zoom16.gif"));
+		bZoom.setToolTipText(Msg.getMsg(Env.getCtx(), "Zoom"));
+		bZoom.setVisible(displayDocumentInfo.isSelected());
+		bZoom.addActionListener(this);
 		CPanel rightSide = new CPanel(new FlowLayout(FlowLayout.TRAILING, 0, 0));
+		rightSide.add(bZoom);
 		rightSide.add(bExport);
 		rightSide.add(bPrint);
 		rightSide.add(bQuery);
@@ -522,6 +530,13 @@ public class AcctViewer extends CFrame
 	{
 	//	log.info(e.getActionCommand());
 		Object source = actionEvent.getSource();
+		if (source == displayDocumentInfo)
+		{
+			if (displayDocumentInfo.isSelected())
+				bZoom.setVisible(true);
+			else
+				bZoom.setVisible(false);
+		}
 		if (source == selAcctSchema)
 			actionAcctSchema();
 		else if (source == bQuery)
@@ -534,6 +549,8 @@ public class AcctViewer extends CFrame
 			actionRePost();
 		else if  (source == bPrint)
 			PrintScreenPainter.printScreen(this);
+		else if (source == bZoom)
+			actionZoom();
 		else if  (source == bExport)
 			exportExcel();
 		//  InfoButtons
@@ -881,6 +898,25 @@ public class AcctViewer extends CFrame
 		info = null;
 		return key.intValue();
 	}   //  actionButton
+
+	/**
+	 * Zoom Document
+	 */
+	private  void actionZoom()
+	{
+		if(displayDocumentInfo.isSelected() && table.getSelectedRow() >= 0)
+		{
+			RModel model = accountViewerData.getRModel();
+			int columnTableId = model.getColumnIndex("AD_Table_ID");
+			int columnRecordId = model.getColumnIndex("Record_ID");
+			if (columnRecordId >= 0 && columnRecordId >= 0 ) {
+				KeyNamePair tableKeyPair = (KeyNamePair) table.getValueAt(table.getSelectedRow(), columnTableId);
+				Integer recordId = (Integer) table.getValueAt(table.getSelectedRow(), columnRecordId);
+				if (tableKeyPair != null && recordId != null)
+					AEnv.zoom(tableKeyPair.getKey(), recordId);
+			}
+		}
+	}
 
 	/**
 	 *  RePost Record

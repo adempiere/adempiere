@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PA_Report
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_PA_Report extends PO implements I_PA_Report, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170731L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_PA_Report (Properties ctx, int PA_Report_ID, String trxName)
@@ -40,8 +40,6 @@ public class X_PA_Report extends PO implements I_PA_Report, I_Persistent
         {
 			setC_AcctSchema_ID (0);
 			setC_Calendar_ID (0);
-			setListSources (false);
-			setListTrx (false);
 			setName (null);
 			setPA_ReportColumnSet_ID (0);
 			setPA_ReportLineSet_ID (0);
@@ -246,52 +244,52 @@ public class X_PA_Report extends PO implements I_PA_Report, I_Persistent
 		return (String)get_Value(COLUMNNAME_JasperProcessing);
 	}
 
+	/** ListSources AD_Reference_ID=319 */
+	public static final int LISTSOURCES_AD_Reference_ID=319;
+	/** Yes = Y */
+	public static final String LISTSOURCES_Yes = "Y";
+	/** No = N */
+	public static final String LISTSOURCES_No = "N";
 	/** Set List Sources.
 		@param ListSources 
 		List Report Line Sources
 	  */
-	public void setListSources (boolean ListSources)
+	public void setListSources (String ListSources)
 	{
-		set_Value (COLUMNNAME_ListSources, Boolean.valueOf(ListSources));
+
+		set_Value (COLUMNNAME_ListSources, ListSources);
 	}
 
 	/** Get List Sources.
 		@return List Report Line Sources
 	  */
-	public boolean isListSources () 
+	public String getListSources () 
 	{
-		Object oo = get_Value(COLUMNNAME_ListSources);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
+		return (String)get_Value(COLUMNNAME_ListSources);
 	}
 
+	/** ListTrx AD_Reference_ID=319 */
+	public static final int LISTTRX_AD_Reference_ID=319;
+	/** Yes = Y */
+	public static final String LISTTRX_Yes = "Y";
+	/** No = N */
+	public static final String LISTTRX_No = "N";
 	/** Set List Transactions.
 		@param ListTrx 
 		List the report transactions
 	  */
-	public void setListTrx (boolean ListTrx)
+	public void setListTrx (String ListTrx)
 	{
-		set_Value (COLUMNNAME_ListTrx, Boolean.valueOf(ListTrx));
+
+		set_Value (COLUMNNAME_ListTrx, ListTrx);
 	}
 
 	/** Get List Transactions.
 		@return List the report transactions
 	  */
-	public boolean isListTrx () 
+	public String getListTrx () 
 	{
-		Object oo = get_Value(COLUMNNAME_ListTrx);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
+		return (String)get_Value(COLUMNNAME_ListTrx);
 	}
 
 	/** Set Name.

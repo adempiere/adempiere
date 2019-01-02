@@ -21,21 +21,19 @@ name := "org.adempiere.test"
 
 //organization := "e-Evolution"
 //version := "0.1.0-SNAPSHOT"
-//scalaVersion := "2.11.8"
+scalaVersion := "2.12.6"
 
-
-resolvers ++= Seq(
-  "Artima Maven Repository" at "http://repo.artima.com/releases"
-)
+resolvers += "Artima Maven Repository" at "http://repo.artima.com/releases"
 
 fork := true
-val adempiereProperties = "-DPropertyFile=/Users/e-Evolution/AdempiereTest.properties"
+val adempiereProperties = "-DPropertyFile=/Users/e-Evolution/AdempierePG.properties"
 //scalacOptions ++= Seq("-feature", "-unchecked", "-deprecation", "-encoding" , "utf8")
 javaOptions in Test := Seq (adempiereProperties)
 
 libraryDependencies ++= Seq(
-  "org.scalatest" % "scalatest_2.11" % "2.2.6"
+  "org.scalatest" %% "scalatest" % "3.0.5"
 )
+
 //Documentation here ~compilehttps://github.com/earldouglas/xsbt-web-plugin/blob/master/docs/2.0.md
 //execute with sbt ~jetty:start
 /*javaOptions in Jetty ++= Seq(
@@ -52,12 +50,12 @@ assemblyOption in assembly := (assemblyOption in assembly).value.copy(includeSca
 lazy val commonSettings = Seq(
   version := "0.1-SNAPSHOT",
   organization := "org.eevolution",
-  scalaVersion := "2.11.8"
+  scalaVersion := "2.12.6"
 )
 
 
 //val sourceDirectoryTest = "org.adempiere.test"
-val sourceAdempiere = "../"
+val sourceAdempiere = "/Users/e-Evolution/Develop/ADempiere/391"
 
 //System.setProperty("PropertyFile", adempiereProperties)
 
@@ -69,8 +67,8 @@ val sourceAdempiere = "../"
 
 unmanagedClasspath in Compile += file(sourceAdempiere + "/bin")
 unmanagedClasspath in Compile += file(sourceAdempiere + "/zkwebui/WEB-INF/classes")
-unmanagedClasspath in Compile += file(sourceAdempiere + "/target/scala-2.11/classes")
-unmanagedClasspath in Compile += file(sourceAdempiere + "/target/scala-2.11/test-classes")
+unmanagedClasspath in Compile += file(sourceAdempiere + "/target/scala-2.12/classes")
+unmanagedClasspath in Compile += file(sourceAdempiere + "/target/scala-2.12/test-classes")
 
 //unmanagedJars in Compile += Attributed.blank(file(System.getenv("JAVA_HOME") + "/jre/lib/jfxrt.jar"))
 

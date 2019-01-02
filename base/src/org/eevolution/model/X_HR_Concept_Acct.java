@@ -23,14 +23,14 @@ import org.compiere.model.*;
 
 /** Generated Model for HR_Concept_Acct
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_HR_Concept_Acct extends PO implements I_HR_Concept_Acct, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170731L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_HR_Concept_Acct (Properties ctx, int HR_Concept_Acct_ID, String trxName)
@@ -195,6 +195,31 @@ public class X_HR_Concept_Acct extends PO implements I_HR_Concept_Acct, I_Persis
 	public int getHR_Expense_Acct () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Expense_Acct);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.eevolution.model.I_HR_Payroll getHR_Payroll() throws RuntimeException
+    {
+		return (org.eevolution.model.I_HR_Payroll)MTable.get(getCtx(), org.eevolution.model.I_HR_Payroll.Table_Name)
+			.getPO(getHR_Payroll_ID(), get_TrxName());	}
+
+	/** Set Payroll.
+		@param HR_Payroll_ID Payroll	  */
+	public void setHR_Payroll_ID (int HR_Payroll_ID)
+	{
+		if (HR_Payroll_ID < 1) 
+			set_Value (COLUMNNAME_HR_Payroll_ID, null);
+		else 
+			set_Value (COLUMNNAME_HR_Payroll_ID, Integer.valueOf(HR_Payroll_ID));
+	}
+
+	/** Get Payroll.
+		@return Payroll	  */
+	public int getHR_Payroll_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Payroll_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

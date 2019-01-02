@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for HR_Payroll
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.1
  */
 public interface I_HR_Payroll 
 {
@@ -167,6 +167,19 @@ public interface I_HR_Payroll
 	  * Ignore Default Payroll for Employee
 	  */
 	public boolean isIgnoreDefaultPayroll();
+
+    /** Column name IsPostPerEmployee */
+    public static final String COLUMNNAME_IsPostPerEmployee = "IsPostPerEmployee";
+
+	/** Set Post Per Employee.
+	  * A Payroll is posted per employee when the value is Yes, it is posted accumulated when the value is N
+	  */
+	public void setIsPostPerEmployee (boolean IsPostPerEmployee);
+
+	/** Get Post Per Employee.
+	  * A Payroll is posted per employee when the value is Yes, it is posted accumulated when the value is N
+	  */
+	public boolean isPostPerEmployee();
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

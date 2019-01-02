@@ -23,14 +23,14 @@ import org.compiere.model.*;
 
 /** Generated Model for WM_Strategy_Detail
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_WM_Strategy_Detail extends PO implements I_WM_Strategy_Detail, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170731L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_WM_Strategy_Detail (Properties ctx, int WM_Strategy_Detail_ID, String trxName)

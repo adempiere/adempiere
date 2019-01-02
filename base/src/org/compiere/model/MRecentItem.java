@@ -33,6 +33,8 @@ import org.compiere.util.Util;
  *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  * 		<a href="https://github.com/adempiere/adempiere/issues/884">
  * 		@see FR [ 884 ] Recent Items in Dashboard (Add new functionality)</a>
+ * 		<a href="https://github.com/adempiere/adempiere/issues/1426">
+ * 		@see FR [ 1426 ] Null Pointer Exception at Adempiere start</a>
  */
 public class MRecentItem extends X_AD_RecentItem
 {
@@ -398,11 +400,14 @@ public class MRecentItem extends X_AD_RecentItem
 			//	View Window
 			MWindow win = new MWindow(getCtx(), getAD_Window_ID(), null);
 			optionName = win.get_Translation("Name");
-			//	
-			identifier.append(": ");
 			//	Get info from PO
 			MTable table = MTable.get(getCtx(), getAD_Table_ID());
 			PO po = table.getPO(getRecord_ID(), null);
+			//	Validate PO
+			if(po == null) {
+				return null;
+			}
+			identifier.append(": ");
 			//	
 			table.getColumnsAsList().stream()
 					.sorted(Comparator.comparing(MColumn::getSeqNo))

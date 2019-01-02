@@ -115,7 +115,7 @@ public class GenerateShipmentOutBound extends GenerateShipmentOutBoundAbstract
 				return;
 
 			BigDecimal qtyDelivered = getQtyDelivered(outboundLine , orderLine.getQtyDelivered());
-			MInOut shipment = getShipment(orderLine);
+			MInOut shipment = getShipment(orderLine, outboundLine.getParent());
 			MInOutLine shipmentLine = new MInOutLine(outboundLine.getCtx(), 0 , outboundLine.get_TrxName());
 			shipmentLine.setM_InOut_ID(shipment.getM_InOut_ID());
 			shipmentLine.setM_Locator_ID(outboundLine.getM_LocatorTo_ID());
@@ -123,6 +123,9 @@ public class GenerateShipmentOutBound extends GenerateShipmentOutBoundAbstract
 			shipmentLine.setQtyEntered(qtyDelivered);
 			shipmentLine.setMovementQty(qtyDelivered);
 			shipmentLine.setC_OrderLine_ID(orderLine.getC_OrderLine_ID());
+			shipmentLine.setM_Shipper_ID(outboundLine.getM_Shipper_ID());
+			shipmentLine.setM_FreightCategory_ID(outboundLine.getM_FreightCategory_ID());
+			shipmentLine.setFreightAmt(outboundLine.getFreightAmt());
 			shipmentLine.saveEx();
 		}
 		// Generate Delivery Movement
@@ -226,7 +229,7 @@ public class GenerateShipmentOutBound extends GenerateShipmentOutBoundAbstract
 			Arrays.stream(processInfo.getIDs()).forEach(recordId -> {
 				MMovement movement = new MMovement(getCtx(), recordId, get_TrxName());
 				if (movement != null && movement.get_ID() > 0)
-					GenerateMovement.printDocument(movement, "Inventory Move Hdr (Example)", processInfo.getWindowNo());
+					printDocument(movement, "Inventory Move Hdr (Example)");
 				else
 					throw new AdempiereException("@M_Movement_ID@ @NotFound@");
 			});
@@ -236,9 +239,10 @@ public class GenerateShipmentOutBound extends GenerateShipmentOutBoundAbstract
 	/**
 	 * Create Shipment heder
 	 * @param orderLine Sales Order Line
+	 * @param outbound Outbound Order
 	 * @return MInOut return the Shipment header
 	 */
-	private MInOut getShipment(MOrderLine orderLine)
+	private MInOut getShipment(MOrderLine orderLine, MWMInOutBound outbound)
 	{
 		MInOut shipment = shipments.get(orderLine.getC_Order_ID());
 		if(shipment != null)
@@ -248,6 +252,10 @@ public class GenerateShipmentOutBound extends GenerateShipmentOutBoundAbstract
 		int docTypeId = MDocType.getDocType(MDocType.DOCBASETYPE_MaterialDelivery , orderLine.getAD_Org_ID());
 		shipment = new MInOut(order,docTypeId, getMovementDate());
 		shipment.setIsSOTrx(true);
+		shipment.setM_Shipper_ID(outbound.getM_Shipper_ID());
+		shipment.setM_FreightCategory_ID(outbound.getM_FreightCategory_ID());
+		shipment.setFreightCostRule(outbound.getFreightCostRule());
+		shipment.setFreightAmt(outbound.getFreightAmt());
 		shipment.saveEx();
 
 		shipments.put(order.getC_Order_ID(), shipment);

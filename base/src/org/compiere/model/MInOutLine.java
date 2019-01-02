@@ -25,6 +25,7 @@ import java.util.Properties;
 import org.adempiere.engine.IDocumentLine;
 import org.adempiere.exceptions.FillMandatoryException;
 import org.adempiere.exceptions.WarehouseLocatorConflictException;
+import org.compiere.process.DocumentReversalLineEnable;
 import org.compiere.util.CCache;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -42,9 +43,11 @@ import org.compiere.util.Util;
  *  			https://sourceforge.net/tracker/?func=detail&aid=2784194&group_id=176962&atid=879332
  *  		<li>BF [ 2797938 ] Receipt should not allow lines with Qty=0
  *  			https://sourceforge.net/tracker/?func=detail&atid=879332&aid=2797938&group_id=176962
+ *  @author eEvolution author Victor Perez <victor.perez@e-evolution.com>
+ *			<li>Implement Reverse Accrual for all document https://github.com/adempiere/adempiere/issues/1348</>
  */
 public class MInOutLine extends X_M_InOutLine
-implements IDocumentLine
+implements IDocumentLine , DocumentReversalLineEnable
 {
 	/**
 	 *
@@ -225,6 +228,9 @@ implements IDocumentLine
 		setC_Charge_ID(oLine.getC_Charge_ID());
 		setDescription(oLine.getDescription());
 		setIsDescription(oLine.isDescription());
+		setM_Shipper_ID(oLine.getM_Shipper_ID());
+		setM_FreightCategory_ID(oLine.getM_FreightCategory_ID());
+		setFreightAmt(oLine.getFreightAmt());
 		//
 		setC_Project_ID(oLine.getC_Project_ID());
 		setC_ProjectPhase_ID(oLine.getC_ProjectPhase_ID());

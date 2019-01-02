@@ -22,6 +22,7 @@ import java.sql.Timestamp;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.compiere.process.DocumentReversalLineEnable;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -32,9 +33,10 @@ import org.compiere.util.Msg;
  *	Allocation Line Model
  *	
  *  @author Jorg Janke
- *  @version $Id: MAllocationLine.java,v 1.3 2006/07/30 00:51:03 jjanke Exp $
+ *  @author eEvolution author Victor Perez <victor.perez@e-evolution.com> http://www.e-evolution.com
+ *  <li>Implement Reverse Accrual for all document https://github.com/adempiere/adempiere/issues/1348</>
  */
-public class MAllocationLine extends X_C_AllocationLine
+public class MAllocationLine extends X_C_AllocationLine implements DocumentReversalLineEnable
 {
 	/**
 	 * 
@@ -242,28 +244,28 @@ public class MAllocationLine extends X_C_AllocationLine
 	/**************************************************************************
 	 * 	Process Allocation (does not update line).
 	 * 	- Update and Link Invoice/Payment/Cash
-	 * 	@param reverse if true allocation is reversed
-	 *	@return C_BPartner_ID
+	 * 	@param isReverse if true allocation is reversed
+	 *	@return BPartnerId
 	 */
-	protected int processIt (boolean reverse)
+	protected int processIt (boolean isReverse)
 	{
-		log.fine("Reverse=" + reverse + " - " + toString());
-		int C_Invoice_ID = getC_Invoice_ID();
+		log.fine("Reverse=" + isReverse + " - " + toString());
+		int invoiceId = getC_Invoice_ID();
 		MInvoice invoice = getInvoice();
 		if (invoice != null 
 			&& getC_BPartner_ID() != invoice.getC_BPartner_ID())
 			setC_BPartner_ID(invoice.getC_BPartner_ID());
 		//
-		int C_Payment_ID = getC_Payment_ID();
-		int C_CashLine_ID = getC_CashLine_ID();
+		int paymentId = getC_Payment_ID();
+		int cashLineId = getC_CashLine_ID();
 		
 		//	Update Payment
-		if (C_Payment_ID != 0)
+		if (paymentId != 0)
 		{
-			MPayment payment = new MPayment (getCtx(), C_Payment_ID, get_TrxName());
+			MPayment payment = new MPayment (getCtx(), paymentId, get_TrxName());
 			if (getC_BPartner_ID() != payment.getC_BPartner_ID())
 				log.warning("C_BPartner_ID different - Invoice=" + getC_BPartner_ID() + " - Payment=" + payment.getC_BPartner_ID());
-			if (reverse)
+			if (isReverse)
 			{
 				if (!payment.isCashTrx())
 				{
@@ -279,61 +281,61 @@ public class MAllocationLine extends X_C_AllocationLine
 		}
 		
 		//	Payment - Invoice
-		if (C_Payment_ID != 0 && invoice != null)
+		if (paymentId != 0 && invoice != null)
 		{
 			//	Link to Invoice
-			if (reverse)
+			if (isReverse)
 			{
 				invoice.setC_Payment_ID(0);
-				log.fine("C_Payment_ID=" + C_Payment_ID
-					+ " Unlinked from C_Invoice_ID=" + C_Invoice_ID);
+				log.fine("C_Payment_ID=" + paymentId
+					+ " Unlinked from C_Invoice_ID=" + invoiceId);
 			}
 			else if (invoice.isPaid())
 			{
-				invoice.setC_Payment_ID(C_Payment_ID);
-				log.fine("C_Payment_ID=" + C_Payment_ID
-					+ " Linked to C_Invoice_ID=" + C_Invoice_ID);
+				invoice.setC_Payment_ID(paymentId);
+				log.fine("C_Payment_ID=" + paymentId
+					+ " Linked to C_Invoice_ID=" + invoiceId);
 			}
 			
 			//	Link to Order
 			String update = "UPDATE C_Order o "
 				+ "SET C_Payment_ID=" 
-					+ (reverse ? "NULL " : "(SELECT C_Payment_ID FROM C_Invoice WHERE C_Invoice_ID=" + C_Invoice_ID + ") ")
+					+ (isReverse ? "NULL " : "(SELECT C_Payment_ID FROM C_Invoice WHERE C_Invoice_ID=" + invoiceId + ") ")
 				+ "WHERE o.C_Order_ID = (SELECT i.C_Order_ID FROM C_Invoice i "
-					+ "WHERE i.C_Invoice_ID=" + C_Invoice_ID + ")";
+					+ "WHERE i.C_Invoice_ID=" + invoiceId + ")";
 			if (DB.executeUpdate(update, get_TrxName()) > 0)
-				log.fine("C_Payment_ID=" + C_Payment_ID 
-					+ (reverse ? " UnLinked from" : " Linked to")
-					+ " order of C_Invoice_ID=" + C_Invoice_ID);
+				log.fine("C_Payment_ID=" + paymentId
+					+ (isReverse ? " UnLinked from" : " Linked to")
+					+ " order of C_Invoice_ID=" + invoiceId);
 		}
 		
 		//	Cash - Invoice
-		if (C_CashLine_ID != 0 && invoice != null)
+		if (cashLineId != 0 && invoice != null)
 		{
 			//	Link to Invoice
-			if (reverse)
+			if (isReverse)
 			{
 				invoice.setC_CashLine_ID(0);
-				log.fine("C_CashLine_ID=" + C_CashLine_ID 
-					+ " Unlinked from C_Invoice_ID=" + C_Invoice_ID);
+				log.fine("C_CashLine_ID=" + cashLineId
+					+ " Unlinked from C_Invoice_ID=" + invoiceId);
 			}
 			else
 			{
-				invoice.setC_CashLine_ID(C_CashLine_ID);
-				log.fine("C_CashLine_ID=" + C_CashLine_ID 
-					+ " Linked to C_Invoice_ID=" + C_Invoice_ID);
+				invoice.setC_CashLine_ID(cashLineId);
+				log.fine("C_CashLine_ID=" + cashLineId
+					+ " Linked to C_Invoice_ID=" + invoiceId);
 			}
 			
 			//	Link to Order
 			String update = "UPDATE C_Order o "
 				+ "SET C_CashLine_ID="
-					+ (reverse ? "NULL " : "(SELECT C_CashLine_ID FROM C_Invoice WHERE C_Invoice_ID=" + C_Invoice_ID + ") ")
+					+ (isReverse ? "NULL " : "(SELECT C_CashLine_ID FROM C_Invoice WHERE C_Invoice_ID=" + invoiceId + ") ")
 				+ "WHERE o.C_Order_ID = (SELECT i.C_Order_ID FROM C_Invoice i "
-					+ "WHERE i.C_Invoice_ID=" + C_Invoice_ID + ")";
+					+ "WHERE i.C_Invoice_ID=" + invoiceId + ")";
 			if (DB.executeUpdate(update, get_TrxName()) > 0)
-				log.fine("C_CashLine_ID=" + C_CashLine_ID 
-					+ (reverse ? " UnLinked from" : " Linked to")
-					+ " order of C_Invoice_ID=" + C_Invoice_ID);
+				log.fine("C_CashLine_ID=" + cashLineId
+					+ (isReverse ? " UnLinked from" : " Linked to")
+					+ " order of C_Invoice_ID=" + invoiceId);
 		}		
 		
 		//	Update Balance / Credit used - Counterpart of MInvoice.completeIt

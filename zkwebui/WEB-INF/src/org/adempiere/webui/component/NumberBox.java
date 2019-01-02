@@ -79,6 +79,13 @@ public class NumberBox extends Div
         init();
     }
     
+    /**
+     * @return popup
+     */
+    public Popup getPopupMenu()
+    {
+    	return popup;
+    }
     private void init()
     {
     	Table grid = new Table();
@@ -487,4 +494,7 @@ public class NumberBox extends Div
                 return false;
     }
 
+	public Decimalbox getDecimalBox() {
+		return decimalBox;
+	}
 }

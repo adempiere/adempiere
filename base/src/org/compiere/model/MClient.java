@@ -327,7 +327,7 @@ public class MClient extends X_AD_Client
 		{
 			PreparedStatement stmt = DB.prepareStatement(sql, get_TrxName());
 			ResultSet rs = stmt.executeQuery();
-			MTree_Base tree = null;
+			MTree tree = null;
 			while (rs.next())
 			{
 				String value = rs.getString(1);
@@ -335,49 +335,49 @@ public class MClient extends X_AD_Client
 				//
 				if (value.equals(X_AD_Tree.TREETYPE_Organization))
 				{
-					tree = new MTree_Base (this, name, value);
+					tree = new MTree (this, name, value);
 					success = tree.save();
 					AD_Tree_Org_ID = tree.getAD_Tree_ID();
 				}
 				else if (value.equals(X_AD_Tree.TREETYPE_BPartner))
 				{
-					tree = new MTree_Base (this, name, value);
+					tree = new MTree (this, name, value);
 					success = tree.save();
 					AD_Tree_BPartner_ID = tree.getAD_Tree_ID();
 				}
 				else if (value.equals(X_AD_Tree.TREETYPE_Project))
 				{
-					tree = new MTree_Base (this, name, value);
+					tree = new MTree (this, name, value);
 					success = tree.save();
 					AD_Tree_Project_ID = tree.getAD_Tree_ID();
 				}
 				else if (value.equals(X_AD_Tree.TREETYPE_SalesRegion))
 				{
-					tree = new MTree_Base (this, name, value);
+					tree = new MTree (this, name, value);
 					success = tree.save();
 					AD_Tree_SalesRegion_ID = tree.getAD_Tree_ID();
 				}
 				else if (value.equals(X_AD_Tree.TREETYPE_Product))
 				{
-					tree = new MTree_Base (this, name, value);
+					tree = new MTree (this, name, value);
 					success = tree.save();
 					AD_Tree_Product_ID = tree.getAD_Tree_ID();
 				}
 				else if (value.equals(X_AD_Tree.TREETYPE_ElementValue))
 				{
-					tree = new MTree_Base (this, name, value);
+					tree = new MTree (this, name, value);
 					success = tree.save();
 					m_AD_Tree_Account_ID = tree.getAD_Tree_ID();
 				}
 				else if (value.equals(X_AD_Tree.TREETYPE_Campaign))
 				{
-					tree = new MTree_Base (this, name, value);
+					tree = new MTree (this, name, value);
 					success = tree.save();
 					AD_Tree_Campaign_ID = tree.getAD_Tree_ID();
 				}
 				else if (value.equals(X_AD_Tree.TREETYPE_Activity))
 				{
-					tree = new MTree_Base (this, name, value);
+					tree = new MTree (this, name, value);
 					success = tree.save();
 					AD_Tree_Activity_ID = tree.getAD_Tree_ID();
 				}
@@ -385,7 +385,7 @@ public class MClient extends X_AD_Client
 					success = true;
 				else	//	PC (Product Category), BB (BOM)
 				{
-					tree = new MTree_Base (this, name, value);
+					tree = new MTree (this, name, value);
 					success = tree.save();
 				}
 				if (!success)
@@ -770,9 +770,9 @@ public class MClient extends X_AD_Client
 		EMail email = null;
 		if (isServerEMail() && Ini.isClient())
 		{
-			Server server = CConnection.get().getServer();
 			try
 			{
+				Server server = CConnection.get().getServer();
 				if (server != null)
 				{	//	See ServerBean
 					if (html && message != null)
@@ -791,7 +791,7 @@ public class MClient extends X_AD_Client
 		//	FR [ 402 ]
 		//	Constructor is changed
 		if (email == null)
-			email = new EMail(this, 0, getRequestEMail(), to, subject, message, html);
+			email = new EMail(this, getAD_EMailConfig_ID(), getRequestEMail(), to, subject, message, html);
 		if (isSmtpAuthorization())
 			email.createAuthenticator (getRequestUser(), getRequestUserPW());
 		return email;
@@ -882,9 +882,9 @@ public class MClient extends X_AD_Client
 		EMail email = null;
 		if (isServerEMail() && Ini.isClient())
 		{
-			Server server = CConnection.get().getServer();
 			try
 			{
+				Server server = CConnection.get().getServer();
 				if (server != null)
 				{	//	See ServerBean
 					if (html && message != null)

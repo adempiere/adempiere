@@ -714,6 +714,7 @@ tr.z-list-group{
 	background-image : url(../images/zul/menu/menu-btn.png);
 }
 .z-menu-popup {
+    background-color : #E6E5E1;
 	background-image : url(../images/zul/menu/pp-bg.png);
 }
 .z-menu-popup-cnt .z-menu .z-menu-cnt-img {

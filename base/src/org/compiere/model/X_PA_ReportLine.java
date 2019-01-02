@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PA_ReportLine
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_PA_ReportLine extends PO implements I_PA_ReportLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170731L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_PA_ReportLine (Properties ctx, int PA_ReportLine_ID, String trxName)
@@ -119,6 +119,23 @@ public class X_PA_ReportLine extends PO implements I_PA_ReportLine, I_Persistent
 	public String getDescription () 
 	{
 		return (String)get_Value(COLUMNNAME_Description);
+	}
+
+	/** Set Fixed Percentage.
+		@param FixedPercentage Fixed Percentage	  */
+	public void setFixedPercentage (BigDecimal FixedPercentage)
+	{
+		set_Value (COLUMNNAME_FixedPercentage, FixedPercentage);
+	}
+
+	/** Get Fixed Percentage.
+		@return Fixed Percentage	  */
+	public BigDecimal getFixedPercentage () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_FixedPercentage);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	public org.compiere.model.I_GL_Budget getGL_Budget() throws RuntimeException
@@ -469,6 +486,35 @@ public class X_PA_ReportLine extends PO implements I_PA_ReportLine, I_Persistent
 		return (String)get_Value(COLUMNNAME_PostingType);
 	}
 
+	/** ReportLineStyle AD_Reference_ID=53564 */
+	public static final int REPORTLINESTYLE_AD_Reference_ID=53564;
+	/** Blank Line = S */
+	public static final String REPORTLINESTYLE_BlankLine = "S";
+	/** Underlined Descriptions = D */
+	public static final String REPORTLINESTYLE_UnderlinedDescriptions = "D";
+	/** Double Line for Total = Z */
+	public static final String REPORTLINESTYLE_DoubleLineForTotal = "Z";
+	/** Line = L */
+	public static final String REPORTLINESTYLE_Line = "L";
+	/** Total Line = X */
+	public static final String REPORTLINESTYLE_TotalLine = "X";
+	/** Centered Title = T */
+	public static final String REPORTLINESTYLE_CenteredTitle = "T";
+	/** Set Report Line Style.
+		@param ReportLineStyle Report Line Style	  */
+	public void setReportLineStyle (String ReportLineStyle)
+	{
+
+		set_Value (COLUMNNAME_ReportLineStyle, ReportLineStyle);
+	}
+
+	/** Get Report Line Style.
+		@return Report Line Style	  */
+	public String getReportLineStyle () 
+	{
+		return (String)get_Value(COLUMNNAME_ReportLineStyle);
+	}
+
 	/** Set Sequence.
 		@param SeqNo 
 		Method of ordering records; lowest number comes first
@@ -553,51 +599,5 @@ public class X_PA_ReportLine extends PO implements I_PA_ReportLine, I_Persistent
 	public String getUnderlineStrokeType () 
 	{
 		return (String)get_Value(COLUMNNAME_UnderlineStrokeType);
-	}
-
-	/** Set fixedpercentage.
-		@param fixedpercentage fixedpercentage	  */
-	public void setfixedpercentage (BigDecimal fixedpercentage)
-	{
-		set_Value (COLUMNNAME_fixedpercentage, fixedpercentage);
-	}
-
-	/** Get fixedpercentage.
-		@return fixedpercentage	  */
-	public BigDecimal getfixedpercentage () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_fixedpercentage);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
-	/** reportlinestyle AD_Reference_ID=53564 */
-	public static final int REPORTLINESTYLE_AD_Reference_ID=53564;
-	/** Blank Line = S */
-	public static final String REPORTLINESTYLE_BlankLine = "S";
-	/** Underlined Descriptions = D */
-	public static final String REPORTLINESTYLE_UnderlinedDescriptions = "D";
-	/** Double Line for Total = Z */
-	public static final String REPORTLINESTYLE_DoubleLineForTotal = "Z";
-	/** Line = L */
-	public static final String REPORTLINESTYLE_Line = "L";
-	/** Total Line = X */
-	public static final String REPORTLINESTYLE_TotalLine = "X";
-	/** Centered Title = T */
-	public static final String REPORTLINESTYLE_CenteredTitle = "T";
-	/** Set reportlinestyle.
-		@param reportlinestyle reportlinestyle	  */
-	public void setreportlinestyle (String reportlinestyle)
-	{
-
-		set_Value (COLUMNNAME_reportlinestyle, reportlinestyle);
-	}
-
-	/** Get reportlinestyle.
-		@return reportlinestyle	  */
-	public String getreportlinestyle () 
-	{
-		return (String)get_Value(COLUMNNAME_reportlinestyle);
 	}
 }

@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_User
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_AD_User extends PO implements I_AD_User, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170731L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_AD_User (Properties ctx, int AD_User_ID, String trxName)
@@ -104,6 +104,11 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public org.compiere.model.I_AD_Org getAD_OrgTrx() throws RuntimeException
+    {
+		return (org.compiere.model.I_AD_Org)MTable.get(getCtx(), org.compiere.model.I_AD_Org.Table_Name)
+			.getPO(getAD_OrgTrx_ID(), get_TrxName());	}
 
 	/** Set Trx Organization.
 		@param AD_OrgTrx_ID 
@@ -642,6 +647,54 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 	public boolean isLoginUser () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsLoginUser);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Is Project Manager.
+		@param IsProjectManager 
+		Is Project Manager
+	  */
+	public void setIsProjectManager (boolean IsProjectManager)
+	{
+		set_Value (COLUMNNAME_IsProjectManager, Boolean.valueOf(IsProjectManager));
+	}
+
+	/** Get Is Project Manager.
+		@return Is Project Manager
+	  */
+	public boolean isProjectManager () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsProjectManager);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Is Project Member.
+		@param IsProjectMember 
+		Is Project Member
+	  */
+	public void setIsProjectMember (boolean IsProjectMember)
+	{
+		set_Value (COLUMNNAME_IsProjectMember, Boolean.valueOf(IsProjectMember));
+	}
+
+	/** Get Is Project Member.
+		@return Is Project Member
+	  */
+	public boolean isProjectMember () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsProjectMember);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 

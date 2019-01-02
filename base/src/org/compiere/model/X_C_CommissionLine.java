@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_CommissionLine
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_C_CommissionLine extends PO implements I_C_CommissionLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170731L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_C_CommissionLine (Properties ctx, int C_CommissionLine_ID, String trxName)
@@ -528,6 +528,30 @@ public class X_C_CommissionLine extends PO implements I_C_CommissionLine, I_Pers
 		return false;
 	}
 
+	/** Set Percentage From Price.
+		@param IsPercentageFromPrice 
+		Percentage From Price is for calculate % of compliance from price instead quantity
+	  */
+	public void setIsPercentageFromPrice (boolean IsPercentageFromPrice)
+	{
+		set_Value (COLUMNNAME_IsPercentageFromPrice, Boolean.valueOf(IsPercentageFromPrice));
+	}
+
+	/** Get Percentage From Price.
+		@return Percentage From Price is for calculate % of compliance from price instead quantity
+	  */
+	public boolean isPercentageFromPrice () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsPercentageFromPrice);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Positive only.
 		@param IsPositiveOnly 
 		Do not generate negative commissions
@@ -711,6 +735,71 @@ public class X_C_CommissionLine extends PO implements I_C_CommissionLine, I_Pers
 			 return 0;
 		return ii.intValue();
 	}
+
+	/** Set Maximum Compliance (%).
+		@param MaxCompliance 
+		Maximum Compliance of Forecast
+	  */
+	public void setMaxCompliance (BigDecimal MaxCompliance)
+	{
+		set_Value (COLUMNNAME_MaxCompliance, MaxCompliance);
+	}
+
+	/** Get Maximum Compliance (%).
+		@return Maximum Compliance of Forecast
+	  */
+	public BigDecimal getMaxCompliance () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_MaxCompliance);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Maximum Percentage.
+		@param MaxPercentage 
+		Maximum Percentage of the entire amount
+	  */
+	public void setMaxPercentage (BigDecimal MaxPercentage)
+	{
+		set_Value (COLUMNNAME_MaxPercentage, MaxPercentage);
+	}
+
+	/** Get Maximum Percentage.
+		@return Maximum Percentage of the entire amount
+	  */
+	public BigDecimal getMaxPercentage () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_MaxPercentage);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Minimum Compliance (%).
+		@param MinCompliance 
+		Minimum Compliance of Forecast
+	  */
+	public void setMinCompliance (BigDecimal MinCompliance)
+	{
+		set_Value (COLUMNNAME_MinCompliance, MinCompliance);
+	}
+
+	/** Get Minimum Compliance (%).
+		@return Minimum Compliance of Forecast
+	  */
+	public BigDecimal getMinCompliance () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_MinCompliance);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	public org.compiere.model.I_AD_Org getOrg() throws RuntimeException
+    {
+		return (org.compiere.model.I_AD_Org)MTable.get(getCtx(), org.compiere.model.I_AD_Org.Table_Name)
+			.getPO(getOrg_ID(), get_TrxName());	}
 
 	/** Set Organization.
 		@param Org_ID 

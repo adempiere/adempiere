@@ -324,11 +324,9 @@ public class MStorage extends X_M_Storage
 		
 		ArrayList<MStorage> list = new ArrayList<MStorage>();
 		//	Specific Attribute Set Instance
-		String sql = "SELECT s.M_Product_ID,s.M_Locator_ID,s.M_AttributeSetInstance_ID,"
-			+ "s.AD_Client_ID,s.AD_Org_ID,s.IsActive,s.Created,s.CreatedBy,s.Updated,s.UpdatedBy,"
-			+ "s.QtyOnHand,s.QtyReserved,s.QtyOrdered,s.DateLastInventory "
-			+ "FROM M_Storage s"
-			+ " INNER JOIN M_Locator l ON (l.M_Locator_ID=s.M_Locator_ID) ";
+		String sql = "SELECT s.* "
+				+ " FROM M_Storage s"
+				+ " INNER JOIN M_Locator l ON (l.M_Locator_ID=s.M_Locator_ID) ";
 		if (M_Locator_ID > 0)
 			sql += "WHERE l.M_Locator_ID = ?";
 		else
@@ -349,9 +347,7 @@ public class MStorage extends X_M_Storage
 		//	All Attribute Set Instances
 		if (allAttributeInstances)
 		{
-			sql = "SELECT s.M_Product_ID,s.M_Locator_ID,s.M_AttributeSetInstance_ID,"
-				+ "s.AD_Client_ID,s.AD_Org_ID,s.IsActive,s.Created,s.CreatedBy,s.Updated,s.UpdatedBy,"
-				+ "s.QtyOnHand,s.QtyReserved,s.QtyOrdered,s.DateLastInventory "
+			sql = "SELECT s.* "
 				+ "FROM M_Storage s"
 				+ " INNER JOIN M_Locator l ON (l.M_Locator_ID=s.M_Locator_ID)"
 				+ " LEFT OUTER JOIN M_AttributeSetInstance asi ON (s.M_AttributeSetInstance_ID=asi.M_AttributeSetInstance_ID) ";
@@ -403,8 +399,8 @@ public class MStorage extends X_M_Storage
 			rs = pstmt.executeQuery();
 			while (rs.next())
 			{	
-				if(rs.getBigDecimal(11).signum() != 0)
-				list.add (new MStorage (ctx, rs, trxName));
+				if(rs.getBigDecimal("QtyOnHand").signum() != 0)
+					list.add (new MStorage (ctx, rs, trxName));
 			}	
 		}
 		catch (Exception e)

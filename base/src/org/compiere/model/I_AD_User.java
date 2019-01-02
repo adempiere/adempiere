@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_User
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.1
  */
 public interface I_AD_User 
 {
@@ -72,6 +72,8 @@ public interface I_AD_User
 	  * Performing or initiating organization
 	  */
 	public int getAD_OrgTrx_ID();
+
+	public org.compiere.model.I_AD_Org getAD_OrgTrx() throws RuntimeException;
 
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
@@ -432,6 +434,32 @@ public interface I_AD_User
 
 	/** Get Login User	  */
 	public boolean isLoginUser();
+
+    /** Column name IsProjectManager */
+    public static final String COLUMNNAME_IsProjectManager = "IsProjectManager";
+
+	/** Set Is Project Manager.
+	  * Is Project Manager
+	  */
+	public void setIsProjectManager (boolean IsProjectManager);
+
+	/** Get Is Project Manager.
+	  * Is Project Manager
+	  */
+	public boolean isProjectManager();
+
+    /** Column name IsProjectMember */
+    public static final String COLUMNNAME_IsProjectMember = "IsProjectMember";
+
+	/** Set Is Project Member.
+	  * Is Project Member
+	  */
+	public void setIsProjectMember (boolean IsProjectMember);
+
+	/** Get Is Project Member.
+	  * Is Project Member
+	  */
+	public boolean isProjectMember();
 
     /** Column name IsSalesLead */
     public static final String COLUMNNAME_IsSalesLead = "IsSalesLead";

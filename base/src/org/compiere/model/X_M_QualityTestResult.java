@@ -22,14 +22,14 @@ import java.util.Properties;
 
 /** Generated Model for M_QualityTestResult
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_M_QualityTestResult extends PO implements I_M_QualityTestResult, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170731L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_M_QualityTestResult (Properties ctx, int M_QualityTestResult_ID, String trxName)

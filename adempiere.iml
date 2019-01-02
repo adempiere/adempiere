@@ -26,8 +26,8 @@
     <libelement value="jar://$MODULE_DIR$/tools/lib/looks-2.0.4.jar!/" />
     <libelement value="jar://$MODULE_DIR$/tools/lib/xercesImpl.jar!/" />
     <libelement value="jar://$MODULE_DIR$/tools/lib/xjavadoc-1.1.jar!/" />
-    <libelement value="jar://$MODULE_DIR$/tools/lib/xml-apis.jar!/" />
-    <libelement value="jar://$MODULE_DIR$/tools/lib/jpedal.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/tools/lib/icepdf-core-6.2.2.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/tools/lib/icepdf-viewer-6.2.2.jar!/" />
     <libelement value="jar://$MODULE_DIR$/tools/lib/swingx-1.6.jar!/" />
     <libelement value="jar://$MODULE_DIR$/tools/lib/bsh-2.0b6.jar!/" />
     <libelement value="jar://$MODULE_DIR$/tools/lib/bsh-engine.jar!/" />
@@ -206,6 +206,11 @@
       <sourceFolder url="file://$MODULE_DIR$/org.adempiere.pos/src/main/java/base" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/org.adempiere.pos/src/main/java/ui/swing" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/org.adempiere.pos/src/main/java/ui/zk" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/org.adempiere.request/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/org.adempiere.project/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/org.adempiere.request/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/org.adempiere.project/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/org.adempiere.crm/src/main/java" isTestSource="false" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="inheritedJdk" />
@@ -309,9 +314,9 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
-      <library name="ojdbc6.jar">
+      <library name="oracle.jar">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/tools/lib/ojdbc6.jar!/" />
+          <root url="jar://$MODULE_DIR$/tools/lib/oracle.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -339,15 +344,6 @@
       <library name="commons-collections-3.1.jar">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/tools/lib/commons-collections-3.1.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="commons-logging.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/tools/lib/commons-logging.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -435,18 +431,18 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
-      <library name="xml-apis.jar">
+      <library name="icepdf-core-6.2.2.jar">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/tools/lib/xml-apis.jar!/" />
+          <root url="jar://$MODULE_DIR$/tools/lib/icepdf-core-6.2.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
-      <library name="jpedal.jar">
+      <library name="icepdf-viewer-6.2.2.jar">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/tools/lib/jpedal.jar!/" />
+          <root url="jar://$MODULE_DIR$/tools/lib/icepdf-viewer-6.2.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -982,78 +978,6 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
-      <library name="aspectjlib.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/posterita/reference/aspectJ/aspectjlib.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="aspectjtools.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/posterita/reference/aspectJ/aspectjtools.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="aspectjweaver.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/posterita/reference/aspectJ/aspectjweaver.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="struts.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/posterita/posterita/web/WEB-INF/lib/struts.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="aop.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/posterita/posterita/web/WEB-INF/lib/aop.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="aspectjrt.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/posterita/posterita/web/WEB-INF/lib/aspectjrt.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="barcode4j.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/posterita/posterita/web/WEB-INF/lib/barcode4j.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="commons-validator.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/posterita/posterita/web/WEB-INF/lib/commons-validator.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
       <library name="spiffy-with_source-all-0.05.jar">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/tools/lib/testing/spiffy-with_source-all-0.05.jar!/" />
@@ -1099,15 +1023,6 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
-      <library name="displaytag-1.1.1.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/posterita/posterita/web/WEB-INF/lib/displaytag-1.1.1.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
       <library name="zweb.jar">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/zkwebui/WEB-INF/lib/zweb.jar!/" />
@@ -1120,33 +1035,6 @@
       <library name="zkplus-sources.jar">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/zkwebui/WEB-INF/lib/zkplus-sources.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="displaytag-export-poi-1.1.1.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/posterita/posterita/web/WEB-INF/lib/displaytag-export-poi-1.1.1.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="log4j-1.2.13.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/posterita/posterita/web/WEB-INF/lib/log4j-1.2.13.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="servlet.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/posterita/posterita/web/WEB-INF/lib/servlet.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -1215,15 +1103,6 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="jasperreports-5.1.0.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/JasperReportsTools/lib/jasperreports-5.1.0.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
     <orderEntry type="module-library">
       <library name="OpenForecast-0.5.0.jar">
         <CLASSES>
@@ -1278,33 +1157,12 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="SBT: org.scala-lang:scala-library:2.11.8:jar" level="project" />
     <orderEntry type="library" name="SBT: javax.servlet:javax.servlet-api:3.0.1:jar" level="project" />
-    <orderEntry type="library" name="SBT: org.scalatest:scalatest_2.11:2.2.6:jar" level="project" />
     <orderEntry type="library" name="SBT: com.typesafe:config:1.2.0:jar" level="project" />
-    <orderEntry type="library" name="SBT: org.scala-lang.modules:scala-xml_2.11:1.0.2:jar" level="project" />
     <orderEntry type="module-library">
       <library>
         <CLASSES>
           <root url="jar://$MODULE_DIR$/tools/lib/mariadb-java-client.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/tools/lib/groovy-all-2.4.7.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/tools/lib/poi-ooxml-3.14-20160307.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -1328,16 +1186,6 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/tools/lib/poi-3.14-20160307.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="library" name="xmlbeans-2.6.0" level="project" />
     <orderEntry type="module-library">
       <library>
         <CLASSES>
@@ -1419,5 +1267,153 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/icepdf-core-6.2.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/icepdf-viewer-6.2.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$MODULE_DIR$/tools/lib/icepdf-viewer-6.2.2.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/groovy-all-2.4.15.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/pdfa-7.1.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/layout-7.1.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/kernel-7.1.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/javax.inject-1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/itextpdf-5.5.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/itext-pdfa-5.5.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/itext-carriage-0.8.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/io-7.1.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/harness-1.0.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/poi-ooxml-3.17.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/poi-3.17.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/commons-collections4-4.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/JasperReportsTools/lib/jasperreports-6.6.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="library" name="org.scalatest:scalatest_2.12:3.0.5" level="project" />
+    <orderEntry type="library" name="scala-sdk-2.12.8" level="project" />
   </component>
 </module>

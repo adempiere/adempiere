@@ -1,66 +1,50 @@
 /**
- * 
+ *
  */
 package org.compiere.FA.process;
 
 import org.compiere.model.MDepreciationWorkfile;
-import org.compiere.model.POResultSet;
 import org.compiere.model.Query;
-import org.compiere.process.ProcessInfoParameter;
-import org.compiere.process.SvrProcess;
-import org.compiere.util.DB;
+import org.compiere.util.Trx;
+
+import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 /**
  * Create Depreciation
+ *
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * @author Victor Perez , victor.perez@e-evolution.com e-Evolution Consultant
+ * <li> #1803 Allows evaluate of default value based on the other parameter context
+ * <li> https://github.com/adempiere/adempiere/issues/1803
  */
-public class A_Depreciation_Workfile_Build extends SvrProcess
-{
-	private int A_Depreciation_Workfile_ID = 0;
-	
-	protected void prepare() {
-		A_Depreciation_Workfile_ID = getRecord_ID();
-		ProcessInfoParameter[] para = getParameter();
-		for (int i = 0; i < para.length; i++)
-		{
-			String name = para[i].getParameterName();
-			if (para[i].getParameter() == null)
-				;
-			else if (name.equals("AllAssets")) {
-				if ("Y".equals(para[i].getParameter()))
-					A_Depreciation_Workfile_ID = 0;
-			}
-			else {
-			}
-		}
-	}
-	
-	protected String doIt() throws Exception {
-		int cnt_all = 0;
-		if (A_Depreciation_Workfile_ID > 0) {
-			MDepreciationWorkfile wk = new MDepreciationWorkfile(getCtx(), A_Depreciation_Workfile_ID, get_TrxName());
-			wk.buildDepreciation();
-			wk.saveEx();
-			cnt_all = 1;
-		}
-		else {
-			String whereClause = MDepreciationWorkfile.COLUMNNAME_IsDepreciated + "='Y'";
-			POResultSet<MDepreciationWorkfile>
-			rs = new Query(getCtx(), MDepreciationWorkfile.Table_Name, whereClause, get_TrxName())
-						.scroll();
-			try {
-				while(rs.hasNext()) {
-					MDepreciationWorkfile wk = rs.next(); 
-					wk.buildDepreciation();
-					wk.saveEx();
-				}
-			}
-			finally {
-				DB.close(rs); rs = null;
-			}
-		}
-		//
-		return "@Processed@ #" + cnt_all;
-	}
+public class A_Depreciation_Workfile_Build extends A_Depreciation_Workfile_BuildAbstract {
+
+
+    protected void prepare() {
+        super.prepare();
+    }
+
+    protected String doIt() throws Exception {
+        AtomicInteger recordsProcessed = new AtomicInteger(0);
+        if (isAllAssets()) {
+            int[] depreciationWorkfileIds = getDepreciationWorkfileIds();
+            Arrays.stream(depreciationWorkfileIds).forEach(id -> Trx.run(trxName -> buildDepreciation(id, recordsProcessed, trxName)));
+            return "@Processed@ #" + recordsProcessed.get() + " @of@ " + depreciationWorkfileIds.length;
+        } else Trx.run(trxName -> buildDepreciation(getRecord_ID(), recordsProcessed ,trxName));
+
+        return "@Processed@ # "+recordsProcessed.get() +" @of@ 1";
+    }
+
+    private int[] getDepreciationWorkfileIds() {
+        return new Query(getCtx(), MDepreciationWorkfile.Table_Name, MDepreciationWorkfile.COLUMNNAME_IsDepreciated + "='Y'", get_TrxName()).getIDs();
+    }
+
+    private void buildDepreciation(Integer depreciationWorkfileId, AtomicInteger recordProcessed, String trxName) {
+        MDepreciationWorkfile depreciationWorkfile = new MDepreciationWorkfile(getCtx(), depreciationWorkfileId, trxName);
+        depreciationWorkfile.buildDepreciation();
+        depreciationWorkfile.saveEx();
+        recordProcessed.getAndUpdate(processed -> processed + 1);
+    }
 }

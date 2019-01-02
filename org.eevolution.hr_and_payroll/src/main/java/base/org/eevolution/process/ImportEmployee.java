@@ -134,9 +134,9 @@ public class ImportEmployee extends ImportEmployeeAbstract {
         //Set Race
         MHRRace race = null;
         if (importEmployee.getHR_Race_ID() > 0)
-            race = MHRRace.getById(getCtx(), importEmployee.getHR_Race_ID());
+            race = MHRRace.getById(getCtx(), importEmployee.getHR_Race_ID(), trxName);
         if (race != null && race.getHR_Race_ID() < 0 && importEmployee.getRaceValue() != null)
-            race = MHRRace.getByValue(getCtx(), importEmployee.getRaceValue());
+            race = MHRRace.getByValue(getCtx(), importEmployee.getRaceValue(), trxName);
         if (race == null || race.getHR_Race_ID() < 0) {
             if (importEmployee.getRaceValue() != null && importEmployee.getRaceName() != null) {
                 race = new MHRRace(getCtx(), importEmployee.getRaceValue(), importEmployee.getRaceName(), trxName);
@@ -160,19 +160,18 @@ public class ImportEmployee extends ImportEmployeeAbstract {
         //Set Project
         MProject project = null;
         if (importEmployee.getC_Project_ID() > 0)
-            project = MProject
-                    .getById(getCtx(), importEmployee.getC_Project_ID());
+            project = MProject.getById(getCtx(), importEmployee.getC_Project_ID(), trxName);
         if (project == null && importEmployee.getProjectValue() != null)
-            project = MProject.getByValue(getCtx(), importEmployee.getProjectValue());
+            project = MProject.getByValue(getCtx(), importEmployee.getProjectValue(), trxName);
         if (project != null && project.getC_Project_ID() > 0)
             importEmployee.setC_Project_ID(project.getC_Project_ID());
 
         //Set Department
         MHRDepartment department = null;
         if (importEmployee.getHR_Department_ID() > 0)
-            department = MHRDepartment.getById(getCtx(), importEmployee.getHR_Department_ID());
+            department = MHRDepartment.getById(getCtx(), importEmployee.getHR_Department_ID() , trxName);
         if (department == null  && importEmployee.getDepartmentValue() != null)
-            department = MHRDepartment.getByValue(getCtx(), importEmployee.getDepartmentValue());
+            department = MHRDepartment.getByValue(getCtx(), importEmployee.getDepartmentValue(), trxName);
         if (department == null || department.getHR_Department_ID() < 0) {
             if (importEmployee.getDepartmentValue() != null && importEmployee.getDepartmentName() != null) {
                 department = new MHRDepartment(getCtx(), importEmployee.getDepartmentValue(), importEmployee.getDepartmentName(), trxName);
@@ -184,9 +183,9 @@ public class ImportEmployee extends ImportEmployeeAbstract {
         //Set Job
         MHRJob job = null;
         if (importEmployee.getHR_Job_ID() > 0)
-            job = MHRJob.getById(getCtx(), importEmployee.getHR_Job_ID());
+            job = MHRJob.getById(getCtx(), importEmployee.getHR_Job_ID(), trxName);
         if (job == null && importEmployee.getJobValue() != null)
-            job = MHRJob.getByValue(getCtx(), importEmployee.getJobValue());
+            job = MHRJob.getByValue(getCtx(), importEmployee.getJobValue(), trxName);
         if (job == null || job.getHR_Job_ID() < 0) {
             if (importEmployee.getJobValue() != null && importEmployee.getJobName() != null) {
                 job = new MHRJob(getCtx(), importEmployee.getJobValue(), importEmployee.getJobName(), trxName);
@@ -198,9 +197,9 @@ public class ImportEmployee extends ImportEmployeeAbstract {
         //Set Job Education
         MHRJobEducation jobEducation = null;
         if (importEmployee.getHR_JobEducation_ID() > 0)
-            jobEducation = new MHRJobEducation(getCtx(), importEmployee.getHR_JobEducation_ID(), trxName);
+            jobEducation =  MHRJobEducation.getById(getCtx(), importEmployee.getHR_JobEducation_ID(), trxName);
         if (jobEducation == null && importEmployee.getJobEducationValue() != null)
-            jobEducation = MHRJobEducation.getByValue(getCtx(), importEmployee.getJobEducationValue());
+            jobEducation = MHRJobEducation.getByValue(getCtx(), importEmployee.getJobEducationValue(), trxName);
         if (jobEducation == null || jobEducation.getHR_JobEducation_ID() < 0) {
             if (importEmployee.getJobEducationValue() != null && importEmployee.getJobEducationName() != null) {
                 jobEducation = new MHRJobEducation(getCtx(), importEmployee.getJobEducationValue(), importEmployee.getJobEducationName(), trxName);
@@ -212,9 +211,9 @@ public class ImportEmployee extends ImportEmployeeAbstract {
         // Set Carrer Level
         MHRCareerLevel careerLevel = null;
         if (importEmployee.getHR_CareerLevel_ID() > 0)
-            careerLevel = new MHRCareerLevel(getCtx(), importEmployee.getHR_CareerLevel_ID(), trxName);
+            careerLevel =  MHRCareerLevel.getById(getCtx(), importEmployee.getHR_CareerLevel_ID(), trxName);
         if (careerLevel == null && importEmployee.getCareerLevelValue() != null)
-            careerLevel = MHRCareerLevel.getByValue(getCtx(), importEmployee.getCareerLevelValue());
+            careerLevel = MHRCareerLevel.getByValue(getCtx(), importEmployee.getCareerLevelValue(), trxName);
         if (careerLevel == null || careerLevel.getHR_CareerLevel_ID() < 0) {
             if (importEmployee.getCareerLevelValue() != null && importEmployee.getCareerLevelName() != null) {
                 careerLevel = new MHRCareerLevel(getCtx(), importEmployee.getCareerLevelValue(), importEmployee.getCareerLevelName(), trxName);
@@ -226,9 +225,9 @@ public class ImportEmployee extends ImportEmployeeAbstract {
         // Set Job Type
         MHRJobType jobType = null;
         if (importEmployee.getHR_JobType_ID() > 0)
-            jobType = MHRJobType.getById(getCtx(), importEmployee.getHR_JobType_ID());
+            jobType = MHRJobType.getById(getCtx(), importEmployee.getHR_JobType_ID(), trxName);
         if (jobType == null && importEmployee.getJobTypeValue() != null)
-            jobType = MHRJobType.getByValue(getCtx(), importEmployee.getJobTypeValue());
+            jobType = MHRJobType.getByValue(getCtx(), importEmployee.getJobTypeValue(), trxName);
         if (jobType == null || jobType.getHR_JobType_ID() < 0) {
             if (importEmployee.getJobTypeValue() != null && importEmployee.getJobTypeName() != null) {
                 jobType = new MHRJobType(getCtx(), importEmployee.getJobTypeValue(), importEmployee.getJobTypeName(), trxName);
@@ -241,58 +240,58 @@ public class ImportEmployee extends ImportEmployeeAbstract {
         // Set Payroll
         MHRPayroll payroll = null;
         if (importEmployee.getHR_Payroll_ID() > 0)
-            payroll = MHRPayroll.getById(getCtx(), importEmployee.getHR_Job_ID());
+            payroll = MHRPayroll.getById(getCtx(), importEmployee.getHR_Job_ID(), trxName);
         if (payroll == null && importEmployee.getPayrollValue() != null)
-            payroll = MHRPayroll.getByValue(getCtx(), importEmployee.getPayrollValue());
+            payroll = MHRPayroll.getByValue(getCtx(), importEmployee.getPayrollValue(), trxName);
         if (payroll != null && payroll.getHR_Payroll_ID() > 0)
             importEmployee.setHR_Payroll_ID(payroll.getHR_Payroll_ID());
         // Set Activity
         MActivity activity = null;
         if (importEmployee.getC_Activity_ID() > 0)
-            activity = MActivity.getById(getCtx(), importEmployee.getC_Activity_ID());
+            activity = MActivity.getById(getCtx(), importEmployee.getC_Activity_ID(), trxName);
         if (activity == null && importEmployee.getActivityValue() != null)
-            activity = MActivity.getByValue(getCtx(), importEmployee.getActivityValue());
+            activity = MActivity.getByValue(getCtx(), importEmployee.getActivityValue(), trxName);
         if (activity != null && activity.getC_Activity_ID() > 0)
             importEmployee.setC_Activity_ID(activity.getC_Activity_ID());
         // Set Campaign
         MCampaign campaign = null;
         if (importEmployee.getC_Campaign_ID() > 0)
-        	campaign = MCampaign.getById(getCtx(), importEmployee.getC_Campaign_ID());
+        	campaign = MCampaign.getById(getCtx(), importEmployee.getC_Campaign_ID(), trxName);
         if (campaign == null && importEmployee.getCampaignValue() != null)
-        	campaign = MCampaign.getByValue(getCtx(), importEmployee.getCampaignValue());
+        	campaign = MCampaign.getByValue(getCtx(), importEmployee.getCampaignValue(), trxName);
         if (campaign != null && campaign.getC_Campaign_ID() > 0)
             importEmployee.setC_Campaign_ID(campaign.getC_Campaign_ID());
         // Set Sales Region
         MSalesRegion salesRegion = null;
         if (importEmployee.getC_SalesRegion_ID() > 0)
-        	salesRegion = MSalesRegion.getById(getCtx(), importEmployee.getC_SalesRegion_ID());
+        	salesRegion = MSalesRegion.getById(getCtx(), importEmployee.getC_SalesRegion_ID(), trxName);
         if (salesRegion == null && importEmployee.getSalesRegionValue() != null)
-        	salesRegion = MSalesRegion.getByValue(getCtx(), importEmployee.getSalesRegionValue());
+        	salesRegion = MSalesRegion.getByValue(getCtx(), importEmployee.getSalesRegionValue(), trxName);
         if (salesRegion != null && salesRegion.getC_SalesRegion_ID() > 0)
             importEmployee.setC_SalesRegion_ID(salesRegion.getC_SalesRegion_ID());
         // Set Work Group
         MHRWorkGroup workGroup = null;
         if (importEmployee.getHR_WorkGroup_ID() > 0)
-        	workGroup = MHRWorkGroup.getById(getCtx(), importEmployee.getHR_WorkGroup_ID());
+        	workGroup = MHRWorkGroup.getById(getCtx(), importEmployee.getHR_WorkGroup_ID(), trxName);
         if (workGroup == null && importEmployee.getWorkGroupValue() != null)
-        	workGroup = MHRWorkGroup.getByValue(getCtx(), importEmployee.getWorkGroupValue());
+        	workGroup = MHRWorkGroup.getByValue(getCtx(), importEmployee.getWorkGroupValue(), trxName);
         if (workGroup != null && workGroup.getHR_WorkGroup_ID() > 0)
             importEmployee.setHR_WorkGroup_ID(workGroup.getHR_WorkGroup_ID());
         // Set Shift Group
         MHRShiftGroup shiftGroup = null;
         if (importEmployee.getHR_ShiftGroup_ID() > 0)
-        	shiftGroup = MHRShiftGroup.getById(getCtx(), importEmployee.getHR_WorkGroup_ID());
+        	shiftGroup = MHRShiftGroup.getById(getCtx(), importEmployee.getHR_WorkGroup_ID(), trxName);
         if (shiftGroup == null && importEmployee.getShiftGroupValue() != null)
-        	shiftGroup = MHRShiftGroup.getByValue(getCtx(), importEmployee.getWorkGroupValue());
+        	shiftGroup = MHRShiftGroup.getByValue(getCtx(), importEmployee.getWorkGroupValue(), trxName);
         if (shiftGroup != null && shiftGroup.getHR_ShiftGroup_ID() > 0)
             importEmployee.setHR_ShiftGroup_ID(shiftGroup.getHR_ShiftGroup_ID());
         
         // Set Degree
         MHRDegree degree = null;
         if (importEmployee.getHR_Degree_ID() > 0)
-        	degree = MHRDegree.getById(getCtx(), importEmployee.getHR_Degree_ID());
+        	degree = MHRDegree.getById(getCtx(), importEmployee.getHR_Degree_ID(), trxName);
         if (degree == null && importEmployee.getDegreeValue() != null)
-        	degree = MHRDegree.getByValue(getCtx(), importEmployee.getDegreeValue());
+        	degree = MHRDegree.getByValue(getCtx(), importEmployee.getDegreeValue(), trxName);
         if (degree == null || degree.getHR_Degree_ID() < 0) {
             if (importEmployee.getDegreeValue() != null && importEmployee.getDegreeName() != null) {
             	degree = new MHRDegree(getCtx(), importEmployee.getDegreeValue(), importEmployee.getDegreeName(), trxName);
@@ -305,9 +304,9 @@ public class ImportEmployee extends ImportEmployeeAbstract {
         // Set Grade
         MHRGrade grade = null;
         if (importEmployee.getHR_Grade_ID() > 0)
-        	grade = MHRGrade.getById(getCtx(), importEmployee.getHR_Grade_ID());
+        	grade = MHRGrade.getById(getCtx(), importEmployee.getHR_Grade_ID(), trxName);
         if (grade == null && importEmployee.getGradeValue() != null)
-        	grade = MHRGrade.getByValue(getCtx(), importEmployee.getGradeValue());
+        	grade = MHRGrade.getByValue(getCtx(), importEmployee.getGradeValue(), trxName);
         if (grade == null || grade.getHR_Grade_ID() < 0) {
             if (importEmployee.getGradeValue() != null && importEmployee.getGradeName() != null) {
             	grade = new MHRGrade(getCtx(), importEmployee.getGradeValue(), importEmployee.getGradeName(), trxName);
@@ -319,15 +318,15 @@ public class ImportEmployee extends ImportEmployeeAbstract {
         //Set Designation
         MHRDesignation designation = null;
         if (importEmployee.getHR_Designation_ID() > 0)
-            designation = MHRDesignation.getById(getCtx(), importEmployee.getHR_Designation_ID());
+            designation = MHRDesignation.getById(getCtx(), importEmployee.getHR_Designation_ID(), trxName);
         if (designation == null && importEmployee.getDesignationValue() != null)
-            designation = MHRDesignation.getByValue(getCtx(), importEmployee.getDesignationValue());
+            designation = MHRDesignation.getByValue(getCtx(), importEmployee.getDesignationValue(), trxName);
         if (designation != null && designation.getHR_Designation_ID() > 0)
             importEmployee.setHR_Designation_ID(designation.getHR_Designation_ID());
         //Set Salary Structure
         MHRSalaryStructure salaryStructure = null;
         if (importEmployee.getHR_SalaryRange_ID() > 0)
-            salaryStructure = MHRSalaryStructure.getById(getCtx(), importEmployee.getHR_SalaryStructure_ID());
+            salaryStructure = MHRSalaryStructure.getById(getCtx(), importEmployee.getHR_SalaryStructure_ID(), trxName);
         if (salaryStructure == null && importEmployee.getSalaryStructureValue() != null)
             salaryStructure = MHRSalaryStructure.getByValue(getCtx(), importEmployee.getSalaryStructureValue());
         if (salaryStructure != null && salaryStructure.getHR_SalaryStructure_ID() > 0)
@@ -335,17 +334,17 @@ public class ImportEmployee extends ImportEmployeeAbstract {
         //Set Salary Range
         MHRSalaryRange salaryRange = null;
         if (importEmployee.getHR_SalaryRange_ID() > 0)
-            salaryRange = MHRSalaryRange.getById(getCtx(), importEmployee.getHR_SalaryRange_ID());
+            salaryRange = MHRSalaryRange.getById(getCtx(), importEmployee.getHR_SalaryRange_ID(), trxName);
         if (salaryRange == null && importEmployee.getSalaryRangeValue() != null)
-            salaryRange = MHRSalaryRange.getByValue(getCtx(), importEmployee.getSalaryRangeValue());
+            salaryRange = MHRSalaryRange.getByValue(getCtx(), importEmployee.getSalaryRangeValue(), trxName);
         if (salaryRange != null && salaryRange.getHR_SalaryRange_ID() > 0)
             importEmployee.setHR_SalaryRange_ID(salaryRange.getHR_SalaryRange_ID());
         // Set Employee Type
         MHREmployeeType employeeType = null;
         if (importEmployee.getHR_EmployeeType_ID() > 0)
-            employeeType = MHREmployeeType.getById(getCtx(), importEmployee.getHR_EmployeeType_ID());
+            employeeType = MHREmployeeType.getById(getCtx(), importEmployee.getHR_EmployeeType_ID(), trxName);
         if (employeeType == null && importEmployee.getEmployeeTypeValue() != null)
-            employeeType = MHREmployeeType.getByValue(getCtx(), importEmployee.getEmployeeTypeValue());
+            employeeType = MHREmployeeType.getByValue(getCtx(), importEmployee.getEmployeeTypeValue(), trxName);
         if (employeeType == null || employeeType.getHR_EmployeeType_ID() < 0) {
             if (importEmployee.getEmployeeTypeValue() != null && importEmployee.getEmployeeTypeName() != null 
             		&& payroll != null && payroll.getHR_Payroll_ID() > 0 ) {
@@ -364,9 +363,9 @@ public class ImportEmployee extends ImportEmployeeAbstract {
         // Set Skill Type
         MHRSkillType skillType = null;
         if (importEmployee.getHR_SkillType_ID() > 0)
-            skillType = MHRSkillType.getById(getCtx(), importEmployee.getHR_SkillType_ID());
+            skillType = MHRSkillType.getById(getCtx(), importEmployee.getHR_SkillType_ID(), trxName);
         if (skillType == null && importEmployee.getSkillTypeValue() != null)
-            skillType = MHRSkillType.getByValue(getCtx(), importEmployee.getSkillTypeValue());
+            skillType = MHRSkillType.getByValue(getCtx(), importEmployee.getSkillTypeValue(), trxName);
         if (skillType == null || skillType.getHR_SkillType_ID() < 0) {
             if(importEmployee.getSkillTypeValue() != null && importEmployee.getSkillTypeName() != null) {
                 skillType = new MHRSkillType(getCtx(), importEmployee.getSkillTypeValue(), importEmployee.getSkillTypeName(), trxName);

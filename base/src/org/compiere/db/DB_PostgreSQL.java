@@ -21,19 +21,23 @@ package org.compiere.db;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
 
 import javax.sql.ConnectionPoolDataSource;
 import javax.sql.DataSource;
 import javax.sql.RowSet;
 
+import org.adempiere.exceptions.DBException;
 import org.compiere.Adempiere;
 import org.compiere.dbPort.Convert;
 import org.compiere.dbPort.Convert_PostgreSQL;
+import org.compiere.model.PO;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
@@ -833,4 +837,119 @@ public class DB_PostgreSQL implements AdempiereDatabase
 	public boolean isPagingSupported() {
 		return true;
 	}
+
+	private int getIntProperty(Properties properties, String key, int defaultValue)
+	{
+		int i = defaultValue;
+		try
+		{
+			String s = properties.getProperty(key);
+			if (s != null && s.trim().length() > 0)
+				i = Integer.parseInt(s);
+		}
+		catch (Exception e) {}
+		return i;
+	}
+
+	private boolean getBooleanProperty(Properties properties, String key, boolean defaultValue)
+	{
+		boolean b = defaultValue;
+		try
+		{
+			String s = properties.getProperty(key);
+			if (s != null && s.trim().length() > 0)
+				b = Boolean.valueOf(s);
+		}
+		catch (Exception e) {}
+		return b;
+	}
+
+	private String getStringProperty(Properties properties, String key, String defaultValue)
+	{
+		String b = defaultValue;
+		try
+		{
+			String s = properties.getProperty(key);
+			if (s != null && s.trim().length() > 0)
+				b = s.trim();
+		}
+		catch (Exception e) {}
+		return b;
+	}
+
+	@Override
+	public boolean forUpdate(PO po, int timeout) {
+		//only can lock for update if using trx
+		if (po.get_TrxName() == null)
+			return false;
+
+		String[] keyColumns = po.get_KeyColumns();
+		if (keyColumns != null && keyColumns.length > 0 && !po.is_new()) {
+			StringBuilder sqlBuffer = new StringBuilder(" SELECT ");
+			sqlBuffer.append(keyColumns[0])
+					.append(" FROM ")
+					.append(po.get_TableName())
+					.append(" WHERE ");
+			for(int i = 0; i < keyColumns.length; i++) {
+				if (i > 0)
+					sqlBuffer.append(" AND ");
+				sqlBuffer.append(keyColumns[i]).append("=?");
+			}
+			sqlBuffer.append(" FOR UPDATE ");
+
+			Object[] parameters = new Object[keyColumns.length];
+			for(int i = 0; i < keyColumns.length; i++) {
+				Object parameter = po.get_Value(keyColumns[i]);
+				if (parameter != null && parameter instanceof Boolean) {
+					if ((Boolean) parameter)
+						parameter = "Y";
+					else
+						parameter = "N";
+				}
+				parameters[i] = parameter;
+			}
+
+			PreparedStatement stmt = null;
+			ResultSet rs = null;
+			try {
+				stmt = DB.prepareStatement(sqlBuffer.toString(),
+						ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE, po.get_TrxName());
+				for(int i = 0; i < keyColumns.length; i++) {
+					stmt.setObject(i+1, parameters[i]);
+				}
+				stmt.setQueryTimeout(timeout > 0 ? timeout : LOCK_TIME_OUT);
+
+				rs = stmt.executeQuery();
+				if (rs.next()) {
+					return true;
+				} else {
+					return false;
+				}
+			} catch (Exception e) {
+				if (log.isLoggable(Level.INFO))log.log(Level.INFO, e.getLocalizedMessage(), e);
+				throw new DBException("Could not lock record for " + po.toString() + " caused by " + e.getLocalizedMessage());
+			} finally {
+				DB.close(rs, stmt);
+				rs = null;stmt = null;
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public String getNameOfUniqueConstraintError(Exception e) {
+		String info = e.getMessage();
+		int fromIndex = info.indexOf("\"");
+		if (fromIndex == -1)
+			fromIndex = info.indexOf("\u00ab"); // quote for spanish postgresql message
+		if (fromIndex == -1)
+			return info;
+		int toIndex = info.indexOf("\"", fromIndex + 1);
+		if (toIndex == -1)
+			toIndex = info.indexOf("\u00bb", fromIndex + 1);
+		if (toIndex == -1)
+			return info;
+		return info.substring(fromIndex + 1, toIndex);
+	}
+
 }   //  DB_PostgreSQL

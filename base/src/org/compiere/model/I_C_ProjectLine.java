@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_ProjectLine
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.1
  */
 public interface I_C_ProjectLine 
 {
@@ -61,6 +61,21 @@ public interface I_C_ProjectLine
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
+
+    /** Column name AD_Workflow_ID */
+    public static final String COLUMNNAME_AD_Workflow_ID = "AD_Workflow_ID";
+
+	/** Set Workflow.
+	  * Workflow or combination of tasks
+	  */
+	public void setAD_Workflow_ID (int AD_Workflow_ID);
+
+	/** Get Workflow.
+	  * Workflow or combination of tasks
+	  */
+	public int getAD_Workflow_ID();
+
+	public org.compiere.model.I_AD_Workflow getAD_Workflow() throws RuntimeException;
 
     /** Column name C_OrderPO_ID */
     public static final String COLUMNNAME_C_OrderPO_ID = "C_OrderPO_ID";
@@ -268,6 +283,19 @@ public interface I_C_ProjectLine
 	  */
 	public boolean isActive();
 
+    /** Column name IsBOM */
+    public static final String COLUMNNAME_IsBOM = "IsBOM";
+
+	/** Set Bill of Materials.
+	  * Bill of Materials
+	  */
+	public void setIsBOM (boolean IsBOM);
+
+	/** Get Bill of Materials.
+	  * Bill of Materials
+	  */
+	public boolean isBOM();
+
     /** Column name IsPrinted */
     public static final String COLUMNNAME_IsPrinted = "IsPrinted";
 
@@ -280,6 +308,19 @@ public interface I_C_ProjectLine
 	  * Indicates if this document / line is printed
 	  */
 	public boolean isPrinted();
+
+    /** Column name IsPurchased */
+    public static final String COLUMNNAME_IsPurchased = "IsPurchased";
+
+	/** Set Purchased.
+	  * Organization purchases this product
+	  */
+	public void setIsPurchased (boolean IsPurchased);
+
+	/** Get Purchased.
+	  * Organization purchases this product
+	  */
+	public boolean isPurchased();
 
     /** Column name Line */
     public static final String COLUMNNAME_Line = "Line";
@@ -323,6 +364,36 @@ public interface I_C_ProjectLine
 	public int getM_Product_ID();
 
 	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
+
+    /** Column name PP_Order_ID */
+    public static final String COLUMNNAME_PP_Order_ID = "PP_Order_ID";
+
+	/** Set Manufacturing Order.
+	  * Manufacturing Order
+	  */
+	public void setPP_Order_ID (int PP_Order_ID);
+
+	/** Get Manufacturing Order.
+	  * Manufacturing Order
+	  */
+	public int getPP_Order_ID();
+
+	public org.eevolution.model.I_PP_Order getPP_Order() throws RuntimeException;
+
+    /** Column name PP_Product_BOM_ID */
+    public static final String COLUMNNAME_PP_Product_BOM_ID = "PP_Product_BOM_ID";
+
+	/** Set BOM & Formula.
+	  * BOM & Formula
+	  */
+	public void setPP_Product_BOM_ID (int PP_Product_BOM_ID);
+
+	/** Get BOM & Formula.
+	  * BOM & Formula
+	  */
+	public int getPP_Product_BOM_ID();
+
+	public org.eevolution.model.I_PP_Product_BOM getPP_Product_BOM() throws RuntimeException;
 
     /** Column name PlannedAmt */
     public static final String COLUMNNAME_PlannedAmt = "PlannedAmt";
@@ -430,4 +501,19 @@ public interface I_C_ProjectLine
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name Vendor_ID */
+    public static final String COLUMNNAME_Vendor_ID = "Vendor_ID";
+
+	/** Set Vendor.
+	  * The Vendor of the product/service
+	  */
+	public void setVendor_ID (int Vendor_ID);
+
+	/** Get Vendor.
+	  * The Vendor of the product/service
+	  */
+	public int getVendor_ID();
+
+	public org.compiere.model.I_C_BPartner getVendor() throws RuntimeException;
 }

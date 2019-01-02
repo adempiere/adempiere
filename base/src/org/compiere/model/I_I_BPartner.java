@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for I_BPartner
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.1
  */
 public interface I_I_BPartner 
 {
@@ -103,6 +103,32 @@ public interface I_I_BPartner
 	  */
 	public String getAddress2();
 
+    /** Column name Address3 */
+    public static final String COLUMNNAME_Address3 = "Address3";
+
+	/** Set Address 3.
+	  * Address Line 3 for the location
+	  */
+	public void setAddress3 (String Address3);
+
+	/** Get Address 3.
+	  * Address Line 3 for the location
+	  */
+	public String getAddress3();
+
+    /** Column name Address4 */
+    public static final String COLUMNNAME_Address4 = "Address4";
+
+	/** Set Address 4.
+	  * Address Line 4 for the location
+	  */
+	public void setAddress4 (String Address4);
+
+	/** Get Address 4.
+	  * Address Line 4 for the location
+	  */
+	public String getAddress4();
+
     /** Column name BPContactGreeting */
     public static final String COLUMNNAME_BPContactGreeting = "BPContactGreeting";
 
@@ -154,6 +180,8 @@ public interface I_I_BPartner
 	  * Country of Place of Birth
 	  */
 	public int getBirthCountry_ID();
+
+	public org.compiere.model.I_C_Country getBirthCountry() throws RuntimeException;
 
     /** Column name BirthPostal */
     public static final String COLUMNNAME_BirthPostal = "BirthPostal";
@@ -292,6 +320,36 @@ public interface I_I_BPartner
 	public int getC_Greeting_ID();
 
 	public org.compiere.model.I_C_Greeting getC_Greeting() throws RuntimeException;
+
+    /** Column name C_ProjectMemberType_ID */
+    public static final String COLUMNNAME_C_ProjectMemberType_ID = "C_ProjectMemberType_ID";
+
+	/** Set Project Member Type.
+	  * Define the Member Type for a Project
+	  */
+	public void setC_ProjectMemberType_ID (int C_ProjectMemberType_ID);
+
+	/** Get Project Member Type.
+	  * Define the Member Type for a Project
+	  */
+	public int getC_ProjectMemberType_ID();
+
+	public org.eevolution.model.I_C_ProjectMemberType getC_ProjectMemberType() throws RuntimeException;
+
+    /** Column name C_Project_ID */
+    public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
+
+	/** Set Project.
+	  * Financial Project
+	  */
+	public void setC_Project_ID (int C_Project_ID);
+
+	/** Get Project.
+	  * Financial Project
+	  */
+	public int getC_Project_ID();
+
+	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException;
 
     /** Column name C_Region_ID */
     public static final String COLUMNNAME_C_Region_ID = "C_Region_ID";
@@ -563,6 +621,32 @@ public interface I_I_BPartner
 	  */
 	public boolean isEmployee();
 
+    /** Column name IsProjectManager */
+    public static final String COLUMNNAME_IsProjectManager = "IsProjectManager";
+
+	/** Set Is Project Manager.
+	  * Is Project Manager
+	  */
+	public void setIsProjectManager (boolean IsProjectManager);
+
+	/** Get Is Project Manager.
+	  * Is Project Manager
+	  */
+	public boolean isProjectManager();
+
+    /** Column name IsProjectMember */
+    public static final String COLUMNNAME_IsProjectMember = "IsProjectMember";
+
+	/** Set Is Project Member.
+	  * Is Project Member
+	  */
+	public void setIsProjectMember (boolean IsProjectMember);
+
+	/** Get Is Project Member.
+	  * Is Project Member
+	  */
+	public boolean isProjectMember();
+
     /** Column name IsVendor */
     public static final String COLUMNNAME_IsVendor = "IsVendor";
 
@@ -716,6 +800,32 @@ public interface I_I_BPartner
 
 	/** Get Process Now	  */
 	public boolean isProcessing();
+
+    /** Column name ProjectMemberTypeValue */
+    public static final String COLUMNNAME_ProjectMemberTypeValue = "ProjectMemberTypeValue";
+
+	/** Set Project Member Type Value.
+	  * Define the Search Key of Project Member Type
+	  */
+	public void setProjectMemberTypeValue (String ProjectMemberTypeValue);
+
+	/** Get Project Member Type Value.
+	  * Define the Search Key of Project Member Type
+	  */
+	public String getProjectMemberTypeValue();
+
+    /** Column name ProjectValue */
+    public static final String COLUMNNAME_ProjectValue = "ProjectValue";
+
+	/** Set Project Key.
+	  * Key of the Project
+	  */
+	public void setProjectValue (String ProjectValue);
+
+	/** Get Project Key.
+	  * Key of the Project
+	  */
+	public String getProjectValue();
 
     /** Column name R_InterestArea_ID */
     public static final String COLUMNNAME_R_InterestArea_ID = "R_InterestArea_ID";

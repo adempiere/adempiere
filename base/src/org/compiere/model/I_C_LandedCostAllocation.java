@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_LandedCostAllocation
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.1
  */
 public interface I_C_LandedCostAllocation 
 {
@@ -115,6 +115,17 @@ public interface I_C_LandedCostAllocation
 	  * Allocation for Land Costs
 	  */
 	public int getC_LandedCostAllocation_ID();
+
+    /** Column name C_LandedCostType_ID */
+    public static final String COLUMNNAME_C_LandedCostType_ID = "C_LandedCostType_ID";
+
+	/** Set C_LandedCostType_ID	  */
+	public void setC_LandedCostType_ID (int C_LandedCostType_ID);
+
+	/** Get C_LandedCostType_ID	  */
+	public int getC_LandedCostType_ID();
+
+	public org.compiere.model.I_C_LandedCostType getC_LandedCostType() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

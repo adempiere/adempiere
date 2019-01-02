@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Commission
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_C_Commission extends PO implements I_C_Commission, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170731L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_C_Commission (Properties ctx, int C_Commission_ID, String trxName)
@@ -46,6 +46,8 @@ public class X_C_Commission extends PO implements I_C_Commission, I_Persistent
 // I
 			setFrequencyType (null);
 // M
+			setIsDaysDueFromPaymentTerm (true);
+// Y
 			setListDetails (false);
 			setName (null);
         } */
@@ -270,6 +272,10 @@ public class X_C_Commission extends PO implements I_C_Commission, I_Persistent
 	public static final String DOCBASISTYPE_Invoice = "I";
 	/** Receipt = R */
 	public static final String DOCBASISTYPE_Receipt = "R";
+	/** Forecast vs Invoice = F */
+	public static final String DOCBASISTYPE_ForecastVsInvoice = "F";
+	/** Forecast vs Order = G */
+	public static final String DOCBASISTYPE_ForecastVsOrder = "G";
 	/** Set Calculation Basis.
 		@param DocBasisType 
 		Basis for the calculation the commission
@@ -331,6 +337,27 @@ public class X_C_Commission extends PO implements I_C_Commission, I_Persistent
 	public boolean isAllowRMA () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsAllowRMA);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Days due from Payment Term.
+		@param IsDaysDueFromPaymentTerm Days due from Payment Term	  */
+	public void setIsDaysDueFromPaymentTerm (boolean IsDaysDueFromPaymentTerm)
+	{
+		set_Value (COLUMNNAME_IsDaysDueFromPaymentTerm, Boolean.valueOf(IsDaysDueFromPaymentTerm));
+	}
+
+	/** Get Days due from Payment Term.
+		@return Days due from Payment Term	  */
+	public boolean isDaysDueFromPaymentTerm () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsDaysDueFromPaymentTerm);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 

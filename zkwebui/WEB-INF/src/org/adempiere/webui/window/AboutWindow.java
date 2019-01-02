@@ -246,20 +246,32 @@ public class AboutWindow extends Window implements EventListener {
 		link = new ToolBarButton();
 		link = new ToolBarButton();
 
-		link.setLabel("eEvolution");
-		link.setHref("http://www.eevolution.com/");
+		link.setLabel("e-Evolution");
+		link.setHref("http://www.e-evolution.com/");
 		link.setTarget("_blank");
 		link.setParent(content);
 
 		link = new ToolBarButton();
-		link.setLabel("Adaxa");
-		link.setHref("http://www.adaxa.com/");
+		link.setLabel("ERPCyA");
+		link.setHref("http://www.erpcya.com/");
 		link.setTarget("_blank");
 		link.setParent(content);
 
 		link = new ToolBarButton();
 		link.setLabel("Westfalia IT");
 		link.setHref("http://www.westfalia-it.com");
+		link.setTarget("_blank");
+		link.setParent(content);
+
+		link = new ToolBarButton();
+		link.setLabel("Openup Solutions");
+		link.setHref("http://www.openupsolutions.com/");
+		link.setTarget("_blank");
+		link.setParent(content);
+
+		link = new ToolBarButton();
+		link.setLabel("Adaxa");
+		link.setHref("http://www.adaxa.com/");
 		link.setTarget("_blank");
 		link.setParent(content);
 
@@ -279,19 +291,6 @@ public class AboutWindow extends Window implements EventListener {
 		link.setHref("http://www.idalica.com/");
 		link.setTarget("_blank");
 		link.setParent(content);
-		
-		link = new ToolBarButton();
-		link.setLabel("ERPCyA");
-		link.setHref("http://www.erpcya.com/");
-		link.setTarget("_blank");
-		link.setParent(content);
-
-		link = new ToolBarButton();
-		link.setLabel("Openup Solutions");
-		link.setHref("http://www.openupsolutions.com/");
-		link.setTarget("_blank");
-		link.setParent(content);
-
 
 		separator = new Separator();
 		separator.setParent(vbox);
@@ -310,28 +309,80 @@ public class AboutWindow extends Window implements EventListener {
 		content.setParent(div);
 
 		link = new ToolBarButton();
-		link.setLabel("Victor Pérez");
-		link.setHref("http://wiki.adempiere.net/User:vpj-cd");
+		link.setLabel("Víctor Pérez");
+		link.setHref("https://github.com/e-Evolution");
+		link.setTarget("_blank");
+		link.setParent(content);
+
+		link = new ToolBarButton();
+		link.setLabel("Yamel Senih");
+		link.setHref("https://github.com/yamelsenih");
+		link.setTarget("_blank");
+		link.setParent(content);
+
+		link = new ToolBarButton();
+		link.setLabel("Mario Calderon");
+		link.setHref("https://github.com/marcalwestf");
+		link.setTarget("_blank");
+		link.setParent(content);
+
+		link = new ToolBarButton();
+		link.setLabel("Michael McKay");
+		link.setHref("https://github.com/mckayERP");
+		link.setTarget("_blank");
+		link.setParent(content);
+
+		link = new ToolBarButton();
+		link.setLabel("Susanne Calderon");
+		link.setHref("https://github.com/SusanneCalderon");
+		link.setTarget("_blank");
+		link.setParent(content);
+
+		link = new ToolBarButton();
+		link.setLabel("Raul Muñoz");
+		link.setHref("https://github.com/Raul-mz");
+		link.setTarget("_blank");
+		link.setParent(content);
+
+		link = new ToolBarButton();
+		link.setLabel("Eduardo López");
+		link.setHref("https://www.linkedin.com/in/eduardo-lopez-vessena-9076951b/");
+		link.setTarget("_blank");
+		link.setParent(content);
+
+		link = new ToolBarButton();
+		link.setLabel("Nicolás López");
+		link.setHref("https://www.linkedin.com/in/nicolas-lopez-94338148/");
+		link.setTarget("_blank");
+		link.setParent(content);
+
+		link = new ToolBarButton();
+		link.setLabel("Raúl Capecce");
+		link.setHref("https://github.com/rcapecce");
+		link.setTarget("_blank");
+		link.setParent(content);
+
+		link = new ToolBarButton();
+		link.setLabel("Eugen");
+		link.setHref("https://github.com/homebeaver");
+		link.setTarget("_blank");
+		link.setParent(content);
+
+		link = new ToolBarButton();
+		link.setLabel("Ilya Tsaturov");
+		link.setHref("https://www.ptsecurity.com");
+		link.setTarget("_blank");
+		link.setParent(content);
+
+		link = new ToolBarButton();
+		link.setLabel("Carlos Parada");
+		link.setHref("https://github.com/carlosaparadam");
 		link.setTarget("_blank");
 		link.setParent(content);
 
 		link = new ToolBarButton();
 		link.setLabel("Paul Bowden");
 		link.setHref("http://wiki.adempiere.net/User:Phib");
-		link.setTarget("_blank");
-		link.setParent(content);
-
-
-		link = new ToolBarButton();
-		link.setLabel("Michael McKay");
-		link.setHref("http://wiki.adempiere.net/User:MJMcKay");
-		link.setTarget("_blank");
-		link.setParent(content);
-
-
-		link = new ToolBarButton();
-		link.setLabel("Mario Calderon");
-		link.setHref("http://wiki.adempiere.net/User:mar_cal_westf");
 		link.setTarget("_blank");
 		link.setParent(content);
 
@@ -364,31 +415,6 @@ public class AboutWindow extends Window implements EventListener {
 		link.setHref("http://wiki.adempiere.net/User:Trifonnt");
 		link.setTarget("_blank");
 		link.setParent(content);
-		
-		link = new ToolBarButton();
-		link.setLabel("Yamel Senih");
-		link.setHref("http://wiki.adempiere.net/User:Yamel_Senih");
-		link.setTarget("_blank");
-		link.setParent(content);
-
-		link = new ToolBarButton();
-		link.setLabel("Eduardo López");
-		link.setHref("https://www.linkedin.com/in/eduardo-lopez-vessena-9076951b/");
-		link.setTarget("_blank");
-		link.setParent(content);
-
-		link = new ToolBarButton();
-		link.setLabel("Nicolás López");
-		link.setHref("https://www.linkedin.com/in/nicolas-lopez-94338148/");
-		link.setTarget("_blank");
-		link.setParent(content);
-
-		link = new ToolBarButton();
-		link.setLabel("Raúl Capecce");
-		link.setHref("https://www.linkedin.com/in/rcapecce");
-		link.setTarget("_blank");
-		link.setParent(content);
-
 
 		return tabPanel;
 	}
@@ -443,6 +469,14 @@ public class AboutWindow extends Window implements EventListener {
 		link = new ToolBarButton();
 		link.setLabel("ADempiere Wiki");
 		link.setHref("http://wiki.adempiere.net");
+		link.setTarget("_blank");
+		link.setParent(vbox);
+
+		separator = new Separator();
+		separator.setParent(vbox);
+		link = new ToolBarButton();
+		link.setLabel("ADempiere Documentation");
+		link.setHref("http://docs.adempiere.io/");
 		link.setTarget("_blank");
 		link.setParent(vbox);
 

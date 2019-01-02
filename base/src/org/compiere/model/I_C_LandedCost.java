@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_LandedCost
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.1
  */
 public interface I_C_LandedCost 
 {
@@ -76,6 +76,17 @@ public interface I_C_LandedCost
 	public int getC_InvoiceLine_ID();
 
 	public org.compiere.model.I_C_InvoiceLine getC_InvoiceLine() throws RuntimeException;
+
+    /** Column name C_LandedCostType_ID */
+    public static final String COLUMNNAME_C_LandedCostType_ID = "C_LandedCostType_ID";
+
+	/** Set C_LandedCostType_ID	  */
+	public void setC_LandedCostType_ID (int C_LandedCostType_ID);
+
+	/** Get C_LandedCostType_ID	  */
+	public int getC_LandedCostType_ID();
+
+	public org.compiere.model.I_C_LandedCostType getC_LandedCostType() throws RuntimeException;
 
     /** Column name C_LandedCost_ID */
     public static final String COLUMNNAME_C_LandedCost_ID = "C_LandedCost_ID";

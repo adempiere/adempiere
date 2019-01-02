@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_ImpFormat
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_AD_ImpFormat extends PO implements I_AD_ImpFormat, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170731L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_AD_ImpFormat (Properties ctx, int AD_ImpFormat_ID, String trxName)
@@ -120,6 +120,23 @@ public class X_AD_ImpFormat extends PO implements I_AD_ImpFormat, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Classname.
+		@param Classname 
+		Java Classname
+	  */
+	public void setClassname (String Classname)
+	{
+		set_Value (COLUMNNAME_Classname, Classname);
+	}
+
+	/** Get Classname.
+		@return Java Classname
+	  */
+	public String getClassname () 
+	{
+		return (String)get_Value(COLUMNNAME_Classname);
 	}
 
 	/** Set Description.

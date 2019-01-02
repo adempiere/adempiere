@@ -210,6 +210,13 @@ public class MOrder extends X_C_Order implements DocAction
 		setSalesRep_ID(project.getSalesRep_ID());
 		//
 		setC_Project_ID(project.getC_Project_ID());
+		setC_Activity_ID(project.getC_Activity_ID());
+		setC_Campaign_ID(project.getC_Campaign_ID());
+		setAD_OrgTrx_ID(project.getAD_OrgTrx_ID());
+		setUser1_ID(project.getUser1_ID());
+		setUser2_ID(project.getUser2_ID());
+		setUser3_ID(project.getUser3_ID());
+		setUser4_ID(project.getUser4_ID());
 		setDescription(project.getName());
 		Timestamp ts = project.getDateContract();
 		if (ts != null)
@@ -236,6 +243,7 @@ public class MOrder extends X_C_Order implements DocAction
 		}
 		else
 			setC_DocTypeTarget_ID();
+
 	}	//	MOrder
 
 	/**

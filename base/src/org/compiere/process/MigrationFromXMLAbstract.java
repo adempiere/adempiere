@@ -30,14 +30,16 @@ public abstract class MigrationFromXMLAbstract extends SvrProcess {
 	private static final String NAME_FOR_PROCESS = "Import migration from XML";
 	/** Process Id 	*/
 	private static final int ID_FOR_PROCESS = 53175;
-	/**	Parameter Name for File Name	*/
-	private static final String FILENAME = "FileName";
+	/**	Parameter Name for File Path or Name	*/
+	public static final String FILEPATHORNAME = "FilePathOrName";
+	/**	Parameter Name for File Name	*/  // Parameter changed name in DB
+	public static final String FILENAME = "FileName";
 	/**	Parameter Name for Apply	*/
-	private static final String APPLY = "Apply";
+	public static final String APPLY = "Apply";
 	/**	Parameter Name for Force	*/
-	private static final String ISFORCE = "IsForce";
-	/**	Parameter Value for File Name	*/
-	private String fileName;
+	public static final String ISFORCE = "IsForce";
+	/**	Parameter Value for File Path or Name	*/
+	private String filePathOrName;
 	/**	Parameter Value for Apply	*/
 	private boolean isApply;
 	/**	Parameter Value for Force	*/
@@ -45,19 +47,21 @@ public abstract class MigrationFromXMLAbstract extends SvrProcess {
 
 	@Override
 	protected void prepare() {
-		fileName = getParameterAsString(FILENAME);
+		filePathOrName = getParameterAsString(FILEPATHORNAME);
+		if (filePathOrName == null)
+			filePathOrName = getParameterAsString(FILENAME);
 		isApply = getParameterAsBoolean(APPLY);
 		isForce = getParameterAsBoolean(ISFORCE);
 	}
 
-	/**	 Getter Parameter Value for File Name	*/
-	protected String getFileName() {
-		return fileName;
+	/**	 Getter Parameter Value for File Path or Name	*/
+	protected String getFilePathOrName() {
+		return filePathOrName;
 	}
 
-	/**	 Setter Parameter Value for File Name	*/
-	protected void setFileName(String fileName) {
-		this.fileName = fileName;
+	/**	 Setter Parameter Value for File Path or Name	*/
+	protected void setFilePathOrName(String filePathOrName) {
+		this.filePathOrName = filePathOrName;
 	}
 
 	/**	 Getter Parameter Value for Apply	*/

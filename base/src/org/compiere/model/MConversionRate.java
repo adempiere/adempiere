@@ -17,7 +17,6 @@
 package org.compiere.model;
 
 import java.math.BigDecimal;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -25,7 +24,6 @@ import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
-import java.util.logging.Level;
 
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
@@ -44,6 +42,8 @@ import org.compiere.util.Trx;
  *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *		<li> FR [ 297 ] Payment Selection must be like ADempiere Document
  *		@see https://github.com/adempiere/adempiere/issues/297
+ *		<a href="https://github.com/adempiere/adempiere/issues/1605">
+ * 		@see FR [ 1605 ] New helper method for get Conversion Rate ID for MConversionRate Class</a>
  */
 public class MConversionRate extends X_C_Conversion_Rate
 {
@@ -231,38 +231,7 @@ public class MConversionRate extends X_C_Conversion_Rate
 			+ " AND AD_Client_ID IN (0,?)"				//	#5
 			+ " AND AD_Org_ID IN (0,?) "				//	#6
 			+ "ORDER BY AD_Client_ID DESC, AD_Org_ID DESC, ValidFrom DESC";
-		BigDecimal retValue = null;
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, CurFrom_ID);
-			pstmt.setInt(2, CurTo_ID);
-			pstmt.setInt(3, C_ConversionType_ID);
-			pstmt.setTimestamp(4, ConvDate);
-			pstmt.setInt(5, AD_Client_ID);
-			pstmt.setInt(6, AD_Org_ID);
-			ResultSet rs = pstmt.executeQuery();
-			if (rs.next())
-				retValue = rs.getBigDecimal(1);
-			rs.close();
-			pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			s_log.log(Level.SEVERE, "getRate", e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}			
+		BigDecimal retValue = DB.getSQLValueBD(null, sql, CurFrom_ID, CurTo_ID, C_ConversionType_ID, ConvDate, AD_Client_ID, AD_Org_ID);			
 		if (retValue == null)
 			s_log.info ("getRate - not found - CurFrom=" + CurFrom_ID 
 			  + ", CurTo=" + CurTo_ID
@@ -272,6 +241,54 @@ public class MConversionRate extends X_C_Conversion_Rate
 			  + ", Org=" + AD_Org_ID);
 		return retValue;
 	}	//	getRate
+	
+	/**
+	 * Get Conversion Rate ID from Currency
+	 * @param currencyFromId
+	 * @param CurencyToId
+	 * @param conversionDate
+	 * @param conversionTypeId
+	 * @param clientId
+	 * @param orgId
+	 * @return
+	 */
+	public static int getConversionRateId(int currencyFromId, int CurencyToId, Timestamp conversionDate, int conversionTypeId, int clientId, int orgId) {
+		if (currencyFromId == CurencyToId) {
+			return 0;
+		}
+		//	Conversion Type
+		int internalConversionTypeId = conversionTypeId;
+		if (internalConversionTypeId == 0) {
+			internalConversionTypeId = MConversionType.getDefault(clientId);
+		}
+		//	Conversion Date
+		if (conversionDate == null) {
+			conversionDate = new Timestamp (System.currentTimeMillis());
+		}
+		//	Get Rate
+		String sql = "SELECT C_Conversion_Rate_ID "
+				+ "FROM C_Conversion_Rate "
+				+ "WHERE C_Currency_ID=?"					//	#1
+				+ " AND C_Currency_ID_To=?"					//	#2
+				+ " AND	C_ConversionType_ID=?"				//	#3
+				+ " AND	? BETWEEN ValidFrom AND ValidTo"	//	#4	TRUNC (?) ORA-00932: inconsistent datatypes: expected NUMBER got TIMESTAMP
+				+ " AND AD_Client_ID IN (0,?)"				//	#5
+				+ " AND AD_Org_ID IN (0,?) "				//	#6
+				+ "ORDER BY AD_Client_ID DESC, AD_Org_ID DESC, ValidFrom DESC";
+		//	Get
+		int conversionRateId = DB.getSQLValue(null, sql, currencyFromId, CurencyToId, internalConversionTypeId, conversionDate, clientId, orgId);
+		//	Show Log
+		if (conversionRateId == -1) {
+			s_log.info ("getRate - not found - CurFrom=" + currencyFromId 
+						  + ", CurTo=" + CurencyToId
+						  + ", " + conversionDate 
+						  + ", Type=" + conversionTypeId + (conversionTypeId==internalConversionTypeId ? "" : "->" + internalConversionTypeId) 
+						  + ", Client=" + clientId 
+						  + ", Org=" + orgId);
+		}
+		//	Return
+		return conversionRateId;
+	}	//	getConversionRateId
 	
 	/**
 	 * Get Rate from Conversion ID
@@ -465,5 +482,15 @@ public class MConversionRate extends X_C_Conversion_Rate
 		
 		return true;
 	}	//	beforeSave
+
+	/** Return the message to show when no exchange rate is found */
+	public static String getErrorMessage(Properties ctx, String adMessage, int currencyFromID, int currencyToID, int convertionTypeId, Timestamp date, String trxName)
+	{
+		if (convertionTypeId == 0)
+			convertionTypeId = MConversionType.getDefault(Env.getAD_Client_ID(ctx));
+		String retValue = Msg.getMsg(ctx, adMessage,
+				new Object[] {MCurrency.get(ctx, currencyFromID).getISO_Code(), MCurrency.get(ctx, currencyToID).getISO_Code(), new MConversionType(ctx, convertionTypeId, trxName).getName(), date});
+		return retValue;
+	}
 	
 }	//	MConversionRate

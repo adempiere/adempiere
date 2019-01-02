@@ -20,22 +20,20 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
-import org.compiere.model.I_C_InvoiceLine;
-import org.compiere.model.MInvoiceLine;
-import org.compiere.model.MProcess;
 import org.compiere.model.MRole;
-import org.compiere.model.Query;
 import org.compiere.model.X_AD_PrintFormatItem;
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
+import org.compiere.util.Evaluatee;
+import org.compiere.util.Evaluator;
 import org.compiere.util.Language;
+import org.compiere.util.Util;
 
 /**
  *	Print Format Item Model.
@@ -638,4 +636,24 @@ public class MPrintFormatItem extends X_AD_PrintFormatItem
 		return p;
 		
 	}	//	getLines
+
+	public boolean isDisplayed(PrintData printData) {
+		if ( Util.isEmpty(getDisplayLogic() ))
+			return true;
+		boolean display = Evaluator.evaluateLogic(new Evaluatee() {
+
+			@Override
+			public String get_ValueAsString(String variableName) {
+				Object obj = printData.getNode(variableName);
+				if ( obj == null || !(obj instanceof PrintDataElement))
+					return "";
+				PrintDataElement data = (PrintDataElement) obj;
+				if (data.isNull() )
+					return "";
+				return data.getValueAsString();
+			}
+		}, getDisplayLogic());
+
+		return display;
+	}
 }	//	MPrintFormatItem

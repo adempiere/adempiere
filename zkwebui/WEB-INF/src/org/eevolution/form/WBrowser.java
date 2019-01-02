@@ -111,6 +111,7 @@ public class WBrowser extends Browser implements IFormController,
 
 	private Button bCancel;
 	private Button bDelete;
+	private Button bUpdate;
 	private Button bExport;
 	private Button bOk;
 	private Button bSearch;
@@ -284,10 +285,14 @@ public class WBrowser extends Browser implements IFormController,
 			bSelectAll.setEnabled(true);
 			bExport.setEnabled(true);
 
-			if (isDeleteable())
+			if(isDeleteable()) {
 				bDelete.setEnabled(true);
-
-			p_loadedOK = initBrowser();
+			}
+			//	
+			if(isUpdateable()) {
+				bUpdate.setEnabled(true);
+			}
+			loadedOK = initBrowser();
 
 			Env.setContext(Env.getCtx(), 0, "currWindowNo", getWindowNo());
 			if (parameterPanel != null)
@@ -320,7 +325,6 @@ public class WBrowser extends Browser implements IFormController,
 		MQuery query = getMQuery(detail);
 		if(query != null)
 			AEnv.zoom(getAD_Window_ID() , query);
-		
 		hideBusyDialog();
 	}
 	
@@ -328,12 +332,21 @@ public class WBrowser extends Browser implements IFormController,
 	 * For Delete Selection
 	 */
 	private void cmd_deleteSelection() {
-		if (FDialog.ask(getWindowNo(), m_frame, "DeleteSelection"))
-		{	
+		if (FDialog.ask(getWindowNo(), m_frame, "DeleteSelection")) {	
 			int records = deleteSelection(detail);
-			setStatusLine(Msg.getMsg(Env.getCtx(), "Deleted") + records, false);
-		}	
-		 executeQuery();
+			setStatusLine(Msg.getMsg(Env.getCtx(), "Deleted") + " " + records, false);
+			executeQuery();
+		}
+	}
+	
+	/**
+	 * For Update Selection
+	 */
+	private void cmd_updateSelection() {
+		if (FDialog.ask(getWindowNo(), m_frame, "UpdateSelection")) {	
+			int records = updateSelection(detail);
+			setStatusLine(Msg.getMsg(Env.getCtx(), "Updated") + " " + records, false);
+		}
 	}
 
 	/**
@@ -344,15 +357,15 @@ public class WBrowser extends Browser implements IFormController,
 	public ArrayList<Integer> getSelectedRowKeys() {
 		ArrayList<Integer> selectedDataList = new ArrayList<Integer>();
 
-		if (m_keyColumnIndex == -1) {
+		if (keyColumnIndex == -1) {
 			return selectedDataList;
 		}
 
-		if (p_multiSelection) {
+		if (isMultiSelection) {
 			int rows = detail.getRowCount();
 			for (int row = 0; row < rows; row++) {
 				Object data = detail.getModel().getValueAt(row,
-						m_keyColumnIndex);
+						keyColumnIndex);
 				if (data instanceof IDColumn) {
 					IDColumn dataColumn = (IDColumn) data;
 					if (dataColumn.isSelected()) {
@@ -364,9 +377,9 @@ public class WBrowser extends Browser implements IFormController,
 		
 		if (selectedDataList.size() == 0) {
 			int row = detail.getSelectedRow();
-			if (row != -1 && m_keyColumnIndex != -1) {
+			if (row != -1 && keyColumnIndex != -1) {
 				Object data = detail.getModel().getValueAt(row,
-						m_keyColumnIndex);
+						keyColumnIndex);
 				if (data instanceof IDColumn)
 					selectedDataList.add(((IDColumn) data).getRecord_ID());
 				if (data instanceof Integer)
@@ -396,6 +409,8 @@ public class WBrowser extends Browser implements IFormController,
 			bExport =  action.getButton();
 			action = new WAppsAction (ConfirmPanel.A_DELETE, null, ConfirmPanel.A_DELETE);
 			bDelete = action.getButton();
+			action = new WAppsAction ("Save", null, ConfirmPanel.A_CUSTOMIZE);
+			bUpdate = action.getButton();
 			action = new WAppsAction ("SelectAll", null, Msg.getMsg(Env.getCtx(),"SelectAll"));
 			bSelectAll = action.getButton();
 		}
@@ -414,6 +429,7 @@ public class WBrowser extends Browser implements IFormController,
 		bZoom = new Button();
 		bExport = new Button();
 		bDelete = new Button();
+		bUpdate = new Button();
 		tabsPanel = new Tabbox();
 		searchTab = new Borderlayout();
 		collapsibleSeach = new North();
@@ -441,18 +457,6 @@ public class WBrowser extends Browser implements IFormController,
 
 		toolsBar.appendChild(bSelectAll);
 		
-		//TODO: victor.perez@e-evolution.com pending print functionality
-		/*bPrint.setLabel("Print");
-
-		bPrint.addActionListener(new EventListener() {
-			@Override
-			public void onEvent(Event event) throws Exception {
-				bPrintActionPerformed(event);
-			}
-		});
-
-		toolsBar.appendChild(bPrint);*/
-
 		bZoom.setLabel(Msg.getMsg(Env.getCtx(),"Zoom").replaceAll("[&]",""));
 		bZoom.setEnabled(false);
 		bZoom.addActionListener(new EventListener() {
@@ -462,8 +466,9 @@ public class WBrowser extends Browser implements IFormController,
 		});
 		
 		//Only enable if exist a reference
-		if(AD_Window_ID > 0)
+		if(getAD_Window_ID() > 0) {
 			toolsBar.appendChild(bZoom);
+		}
 
 		bExport.setLabel(Msg.getMsg(Env.getCtx(),"Export"));
 		bExport.setEnabled(false);
@@ -481,9 +486,21 @@ public class WBrowser extends Browser implements IFormController,
 				cmd_deleteSelection();
 			}
 		});
-		
-		if(isDeleteable())
+		//	
+		if(isDeleteable()) {
 			toolsBar.appendChild(bDelete);
+		}
+		bUpdate.setLabel(Msg.getMsg(Env.getCtx(),"Update").replaceAll("[&]",""));
+		bUpdate.setEnabled(false);
+		bUpdate.addActionListener(new EventListener() {
+			public void onEvent(Event evt) {
+				cmd_updateSelection();
+			}
+		});
+		//	For Updateable
+		if(isUpdateable()) {
+			toolsBar.appendChild(bUpdate);
+		}
 
 		m_frame.setWidth("100%");
 		m_frame.setHeight("100%");
@@ -681,7 +698,7 @@ public class WBrowser extends Browser implements IFormController,
 				return;
 			}
 			//	Else Reset
-			p_loadedOK = initBrowser();
+			loadedOK = initBrowser();
 			collapsibleSeach.setOpen(true);
 		}
 	}
@@ -717,6 +734,7 @@ public class WBrowser extends Browser implements IFormController,
 		bSelectAll.setEnabled(true);
 		bExport.setEnabled(true);
 		bDelete.setEnabled(true);
+		bUpdate.setEnabled(true);
 		//	
 		executeQuery();
 	}
@@ -784,10 +802,9 @@ public class WBrowser extends Browser implements IFormController,
 			detail.setFocus(true);
 		}
 		
-		if(isSelectedByDefault())
-		{	
-			isAllSelected = false;
-			selectedRows();			
+		isAllSelected = isSelectedByDefault();
+		if(isAllSelected) {
+			selectedRows();
 		}
 	} // run
 
@@ -819,7 +836,8 @@ public class WBrowser extends Browser implements IFormController,
 
 	@Override
 	public void unlockUI(ProcessInfo pi) {
-		
+		parameterPanel.setProcessInfo(pi);
+		parameterPanel.openResult();
 	}
 
 	@Override
@@ -852,8 +870,7 @@ public class WBrowser extends Browser implements IFormController,
 	/**
 	 * Selected Rows
 	 */
-	private void selectedRows()
-	{
+	private void selectedRows() {
 		int topIndex = detail.isShowTotals() ? 2 : 1;
 		int rows = detail.getRowCount();
 		int selectedList[] = new int[rows];
@@ -861,11 +878,11 @@ public class WBrowser extends Browser implements IFormController,
 		{
 			for (int row = 0; row <= rows - topIndex; row++) {
 				Object data = detail.getModel().getValueAt(row,
-						m_keyColumnIndex);
+						keyColumnIndex);
 				if (data instanceof IDColumn) {
 					IDColumn dataColumn = (IDColumn) data;
 					dataColumn.setSelected(true);
-					detail.getModel().setValueAt(dataColumn, row,m_keyColumnIndex);
+					detail.getModel().setValueAt(dataColumn, row,keyColumnIndex);
 				}
 				selectedList[row] = row;
 			}
@@ -873,11 +890,11 @@ public class WBrowser extends Browser implements IFormController,
 		} else {
 			for (int row = 0; row <= rows - topIndex; row++) {
 				Object data = detail.getModel().getValueAt(row,
-						m_keyColumnIndex);
+						keyColumnIndex);
 				if (data instanceof IDColumn) {
 					IDColumn dataColumn = (IDColumn) data;
 					dataColumn.setSelected(false);
-					detail.getModel().setValueAt(dataColumn, row,m_keyColumnIndex);
+					detail.getModel().setValueAt(dataColumn, row,keyColumnIndex);
 				}
 			}
 			detail.clearSelection();
