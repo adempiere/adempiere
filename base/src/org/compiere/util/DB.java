@@ -608,17 +608,14 @@ public final class DB
         //  Code assumes Database version {0}, but Database has Version {1}.
         String msg = Msg.getMsg(ctx, AD_Message);   //  complete message
         msg = MessageFormat.format(msg, new Object[] {Adempiere.DB_VERSION, version});
-        Object[] options = { UIManager.get("OptionPane.noButtonText"), "Migrate" };
-        int no = JOptionPane.showOptionDialog (null, msg,
+        Object[] options = {"Migrate" };
+        JOptionPane.showOptionDialog (null, msg,
             title, JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE,
             UIManager.getIcon("OptionPane.errorIcon"), options, options[0]);
-        if (no == 1)
-        {
-            JOptionPane.showMessageDialog (null,
+        JOptionPane.showMessageDialog (null,
                 "Start RUN_Migrate (in utils)\nSee: http://wiki.adempiere.net/maintain",
                 title, JOptionPane.INFORMATION_MESSAGE);
             Env.exitEnv(1);
-        }
         return false;
 	}   //  isDatabaseOK
 
