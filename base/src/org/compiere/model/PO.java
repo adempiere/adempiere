@@ -2483,7 +2483,7 @@ public abstract class PO
 			Object value = m_newValues[i];
 			if (columnName.equals("UUID") && get_Value(columnName) == null)
 			{
-				value = generateUUID();
+				value = DB.getUUID(get_TrxName());
 			}
 
 			if (value == null
@@ -2755,7 +2755,7 @@ public abstract class PO
 		{
 			Object value = get_Value(i);
 			if (p_info.getColumnName(i).equals("UUID") && value == null) {
-				value = generateUUID();
+				value = DB.getUUID(get_TrxName());
 			}
 
 			//	Don't insert NULL values (allows Database defaults)
@@ -4226,14 +4226,5 @@ public abstract class PO
 		clone.m_attachment = null;
 		clone.m_isReplication = false;
 		return clone;
-	}
-
-	public String generateUUID() {
-		String uuid;
-		if (DB.isOracle())
-		 	uuid = DB.getSQLValueString(get_TrxName(), "SELECT getUUID() FROM DUAL");
-		else
-			uuid = DB.getSQLValueString(get_TrxName(), "SELECT getUUID()");
-		return uuid;
 	}
 }   //  PO

@@ -37,6 +37,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.UUID;
 import java.util.Map.Entry;
 import java.util.logging.Level;
 
@@ -571,8 +572,9 @@ public final class DB
 	 *  @param ctx context
 	 *  @return true if Database version (date) is the same
 	 */
-	public static boolean isDatabaseOK (Properties ctx)
-	{
+	public static boolean isDatabaseOK (Properties ctx) {
+		//	Validate UUID supported
+	    DB.validateSupportedUUIDFromDB();
 //    Check Version
         String version = "?";
         String sql = "SELECT Version FROM AD_System";
@@ -1436,6 +1438,52 @@ public final class DB
     {
 		return getSQLValueString(trxName, sql, params.toArray(new Object[params.size()]));
     }
+    
+    /**
+     * Validate if is supported UUID from DB
+     */
+    public static void validateSupportedUUIDFromDB() {
+    	String testUUID = getUUID(null, true);
+    	s_cc.setIsSupportedUUIDFromDB(testUUID != null);
+    }
+    
+    /**
+     * Get UUID from DB if it is supported, else return a java UUID
+     * @param trxName
+     * @param onlyFromBD only get from DB
+     * @return
+     */
+    private static String getUUID(String trxName, boolean onlyFromBD) {
+		String uuid;
+		if(s_cc.isSupportedUUIDFromDB()
+				|| onlyFromBD) {
+			if (DB.isOracle()) {
+				uuid = DB.getSQLValueString(trxName, "SELECT getUUID() FROM DUAL");
+			} else {
+				uuid = DB.getSQLValueString(trxName, "SELECT getUUID()");
+			}
+		} else {
+			uuid = UUID.randomUUID().toString();
+		}
+		return uuid;
+	}
+    
+    /**
+     * Get UUID from DB if it is supported, else return a java UUID
+     * @param trxName
+     * @return
+     */
+    public static String getUUID(String trxName) {
+    	return getUUID(trxName, false);
+    }
+    
+    /**
+     * UUID supported as search DB
+     * @return
+     */
+    public static boolean isSupportedUUIDFromDB() {
+    	return s_cc.isSupportedUUIDFromDB();
+    }
 
     /**
      * Get BigDecimal Value from sql
@@ -1976,8 +2024,6 @@ public final class DB
 		if (comment == null || warning == null || comment.length() == 0)
 			throw new IllegalArgumentException("Required parameter missing");
 		log.warning(comment);
-		if (warning == null)
-			return;
 		//
 		SQLWarning warn = warning;
 		while (warn != null)

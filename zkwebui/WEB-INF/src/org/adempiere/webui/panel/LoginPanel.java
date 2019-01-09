@@ -468,7 +468,8 @@ public class LoginPanel extends Window implements EventListener
 		// End of temporary code for [ adempiere-ZK Web Client-2832968 ] User context lost?
 
         Env.setContext(ctx, BrowserToken.REMEMBER_ME, chkRememberMe.isChecked());
-
+		//	Validate UUID supported
+	    DB.validateSupportedUUIDFromDB();
         /* Check DB version */
         String version = DB.getSQLValueString(null, "SELECT Version FROM AD_System");
         //  Identical DB version
