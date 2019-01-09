@@ -37,7 +37,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import java.util.UUID;
 import java.util.Map.Entry;
 import java.util.logging.Level;
 
@@ -1454,7 +1453,7 @@ public final class DB
      * @return
      */
     private static String getUUID(String trxName, boolean onlyFromBD) {
-		String uuid;
+		String uuid = null;
 		if(s_cc.isSupportedUUIDFromDB()
 				|| onlyFromBD) {
 			if (DB.isOracle()) {
@@ -1462,8 +1461,6 @@ public final class DB
 			} else {
 				uuid = DB.getSQLValueString(trxName, "SELECT getUUID()");
 			}
-		} else {
-			uuid = UUID.randomUUID().toString();
 		}
 		return uuid;
 	}
