@@ -58,8 +58,6 @@
   <target name="compile" depends="makedir">
     <!-- compile the java code from ${src} into ${build.dir} -->
     <javac target="1.8" encoding="UTF-8" fork="true" destdir="${build.dir}" deprecation="on" debug="on" memoryinitialsize="512m" memorymaximumsize="512m">
-      <src path="../org.adempiere.request/src/main/java"/>
-      <src path="../org.adempiere.project/src/main/java"/>
       <src path="../org.adempiere.crm/src/main/java"/>
       <src path="${src}"/>
       <src path="${looksSrc}"/>
