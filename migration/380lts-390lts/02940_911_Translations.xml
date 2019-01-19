@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Translations" ReleaseNo="3.9.0" SeqNo="2940">
+    <Comments>https://github.com/adempiere/adempiere/issues/911
+And other translations of ZK Panel</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="50010" Action="U" Record_ID="50001" Table="PA_DashboardContent">
+        <Data AD_Column_ID="51005" Column="Name" oldValue="Favourites">Favourites (System)</Data>
+        <Data AD_Column_ID="51010" Column="Description" oldValue="User favourities">Favourities by System</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="53295" Action="U" Record_ID="50001" Table="PA_DashboardContent_Trl">
+        <Data AD_Column_ID="60122" Column="PA_DashboardContent_ID" oldValue="50001">50001</Data>
+        <Data AD_Column_ID="60125" Column="IsTranslated" oldValue="true">false</Data>
+        <Data AD_Column_ID="60118" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="53295" Action="U" Record_ID="50001" Table="PA_DashboardContent_Trl">
+        <Data AD_Column_ID="60122" Column="PA_DashboardContent_ID" oldValue="50001">50001</Data>
+        <Data AD_Column_ID="60123" Column="Description" oldValue="Favoritos de usuario">Favoritos del sistema</Data>
+        <Data AD_Column_ID="60125" Column="IsTranslated" oldValue="false">true</Data>
+        <Data AD_Column_ID="60126" Column="Name" oldValue="Favoritos">Favoritos (sistema)</Data>
+        <Data AD_Column_ID="60118" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="53295" Action="U" Record_ID="200000" Table="PA_DashboardContent_Trl">
+        <Data AD_Column_ID="60122" Column="PA_DashboardContent_ID" oldValue="200000">200000</Data>
+        <Data AD_Column_ID="60123" Column="Description" oldValue="Recent items">Últimos documentos trabajados</Data>
+        <Data AD_Column_ID="60125" Column="IsTranslated" oldValue="false">true</Data>
+        <Data AD_Column_ID="60126" Column="Name" oldValue="Recent Items">Últimos documentos</Data>
+        <Data AD_Column_ID="60118" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="50010" Action="U" Record_ID="50009" Table="PA_DashboardContent">
+        <Data AD_Column_ID="51005" Column="Name" oldValue="User Favorites">Favorites (User)</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

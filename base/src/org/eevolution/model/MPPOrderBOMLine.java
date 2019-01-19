@@ -69,7 +69,13 @@ public class MPPOrderBOMLine extends X_PP_Order_BOMLine
 	}	//	PP_Order_BOMLine_ID
 
 
-	public MPPOrderBOMLine(Properties ctx, ResultSet rs,String trxName)
+	/**
+	 * Constructor
+	 * @param ctx
+	 * @param rs
+	 * @param trxName
+     */
+	public MPPOrderBOMLine(Properties ctx, ResultSet rs, String trxName)
 	{
 		super (ctx, rs,trxName);
 	}	//	MOrderLine
@@ -167,9 +173,6 @@ public class MPPOrderBOMLine extends X_PP_Order_BOMLine
 				|| is_ValueChanged(COLUMNNAME_QtyRequired)
 			)
 		{
-			if(getQtyRequired().compareTo(getQtyDelivered())<0)
-				throw new AdempiereException("@QtyRequired@ < @QtyDelivered@");
-			
 			int precision = MUOM.getPrecision(getCtx(), getC_UOM_ID());
 			setQtyEntered(getQtyEntered().setScale(precision, RoundingMode.UP));
 			setQtyRequired(getQtyRequired().setScale(precision, RoundingMode.UP));
@@ -197,12 +200,8 @@ public class MPPOrderBOMLine extends X_PP_Order_BOMLine
 	protected boolean beforeDelete()
 	{
 		// Release Reservation
-		if(MPPOrder.DOCSTATUS_InProgress.equals(getParent().getDocStatus()) || 
-		   MPPOrder.DOCSTATUS_Completed.equals(getParent().getDocStatus()))
-		{	
-			setQtyRequired(Env.ZERO);
-			reserveStock();
-		}			
+		setQtyRequired(Env.ZERO);
+		reserveStock();
 		return true;
 	}
 
@@ -324,15 +323,26 @@ public class MPPOrderBOMLine extends X_PP_Order_BOMLine
 			if (getM_Product().getC_UOM_ID() != getC_UOM_ID())
 			{
 				BigDecimal rate = MUOMConversion.getProductRateFrom(getCtx(), getM_Product_ID(), getC_UOM_ID());
+				if (rate == null)
+					throw new AdempiereException("@PP_Product_BOMLine_ID@ @C_UOM_Conversion_ID@ @NotFound@  @M_Product_ID@ "
+							+ getM_Product().getName()
+							+ " @C_UOM_To_ID@ " + getC_UOM().getName());
+
+
 				qtyrequired = qty.multiply(rate);
 			}
 			setQtyRequired(qtyrequired);
 			setQtyEntered(qty);
 		}
-		else if (isComponentType(COMPONENTTYPE_Packing,COMPONENTTYPE_Tools))
+		else if (isComponentType(COMPONENTTYPE_Tools))
 		{
 			setQtyRequired(multiplier);
 			setQtyEntered(multiplier);
+		}
+		else if (isComponentType(COMPONENTTYPE_Packing))
+		{
+			setQtyRequired(multiplier.multiply(getParent().getQtyBatchs()));
+			setQtyEntered(multiplier.multiply(getParent().getQtyBatchs()));
 		}
 		else
 		{

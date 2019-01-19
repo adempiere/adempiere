@@ -1,8 +1,9 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -11,8 +12,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 package org.compiere.model;
 
@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_PrintFormatItem
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0
+ *  @version Release 3.9.1
  */
 public interface I_AD_PrintFormatItem 
 {
@@ -220,6 +220,19 @@ public interface I_AD_PrintFormatItem
 	  */
 	public int getCreatedBy();
 
+    /** Column name DisplayLogic */
+    public static final String COLUMNNAME_DisplayLogic = "DisplayLogic";
+
+	/** Set Display Logic.
+	  * If the Field is displayed, the result determines if the field is actually displayed
+	  */
+	public void setDisplayLogic (String DisplayLogic);
+
+	/** Get Display Logic.
+	  * If the Field is displayed, the result determines if the field is actually displayed
+	  */
+	public String getDisplayLogic();
+
     /** Column name FieldAlignmentType */
     public static final String COLUMNNAME_FieldAlignmentType = "FieldAlignmentType";
 
@@ -323,6 +336,19 @@ public interface I_AD_PrintFormatItem
 	  * Count number of not empty elements
 	  */
 	public boolean isCounted();
+
+    /** Column name IsDesc */
+    public static final String COLUMNNAME_IsDesc = "IsDesc";
+
+	/** Set Descending.
+	  * Sort your data using a SQL Desc Order By statement
+	  */
+	public void setIsDesc (boolean IsDesc);
+
+	/** Get Descending.
+	  * Sort your data using a SQL Desc Order By statement
+	  */
+	public boolean isDesc();
 
     /** Column name IsDeviationCalc */
     public static final String COLUMNNAME_IsDeviationCalc = "IsDeviationCalc";
@@ -479,6 +505,19 @@ public interface I_AD_PrintFormatItem
 	  * Start with new page
 	  */
 	public boolean isPageBreak();
+
+    /** Column name IsPrintBarcodeText */
+    public static final String COLUMNNAME_IsPrintBarcodeText = "IsPrintBarcodeText";
+
+	/** Set Print Barcode Text.
+	  * Print barcode text beneath symbol
+	  */
+	public void setIsPrintBarcodeText (boolean IsPrintBarcodeText);
+
+	/** Get Print Barcode Text.
+	  * Print barcode text beneath symbol
+	  */
+	public boolean isPrintBarcodeText();
 
     /** Column name IsPrinted */
     public static final String COLUMNNAME_IsPrinted = "IsPrinted";
@@ -754,6 +793,19 @@ public interface I_AD_PrintFormatItem
 	  * Determines in what order the records are displayed
 	  */
 	public int getSortNo();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

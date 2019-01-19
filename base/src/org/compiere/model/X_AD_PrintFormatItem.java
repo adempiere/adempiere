@@ -1,8 +1,9 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -11,8 +12,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_PrintFormatItem
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150223L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_AD_PrintFormatItem (Properties ctx, int AD_PrintFormatItem_ID, String trxName)
@@ -46,8 +46,11 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 // D
 			setImageIsAttached (false);
 			setIsAveraged (false);
-			setIsCentrallyMaintained (false);
+			setIsCentrallyMaintained (true);
+// Y
 			setIsCounted (false);
+			setIsDesc (false);
+// N
 			setIsDeviationCalc (false);
 			setIsFilledRectangle (false);
 // N
@@ -56,6 +59,7 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 			setIsHeightOneLine (true);
 // Y
 			setIsImageField (false);
+// N
 			setIsMaxCalc (false);
 			setIsMinCalc (false);
 			setIsNextLine (true);
@@ -63,6 +67,8 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 			setIsNextPage (false);
 			setIsOrderBy (false);
 			setIsPageBreak (false);
+			setIsPrintBarcodeText (true);
+// Y
 			setIsPrinted (true);
 // Y
 			setIsRelativePosition (true);
@@ -420,6 +426,23 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 		return ii.intValue();
 	}
 
+	/** Set Display Logic.
+		@param DisplayLogic 
+		If the Field is displayed, the result determines if the field is actually displayed
+	  */
+	public void setDisplayLogic (String DisplayLogic)
+	{
+		set_Value (COLUMNNAME_DisplayLogic, DisplayLogic);
+	}
+
+	/** Get Display Logic.
+		@return If the Field is displayed, the result determines if the field is actually displayed
+	  */
+	public String getDisplayLogic () 
+	{
+		return (String)get_Value(COLUMNNAME_DisplayLogic);
+	}
+
 	/** FieldAlignmentType AD_Reference_ID=253 */
 	public static final int FIELDALIGNMENTTYPE_AD_Reference_ID=253;
 	/** Default = D */
@@ -571,6 +594,30 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 	public boolean isCounted () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsCounted);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Descending.
+		@param IsDesc 
+		Sort your data using a SQL Desc Order By statement
+	  */
+	public void setIsDesc (boolean IsDesc)
+	{
+		set_Value (COLUMNNAME_IsDesc, Boolean.valueOf(IsDesc));
+	}
+
+	/** Get Descending.
+		@return Sort your data using a SQL Desc Order By statement
+	  */
+	public boolean isDesc () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsDesc);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 
@@ -859,6 +906,30 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 	public boolean isPageBreak () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsPageBreak);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Print Barcode Text.
+		@param IsPrintBarcodeText 
+		Print barcode text beneath symbol
+	  */
+	public void setIsPrintBarcodeText (boolean IsPrintBarcodeText)
+	{
+		set_Value (COLUMNNAME_IsPrintBarcodeText, Boolean.valueOf(IsPrintBarcodeText));
+	}
+
+	/** Get Print Barcode Text.
+		@return Print barcode text beneath symbol
+	  */
+	public boolean isPrintBarcodeText () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsPrintBarcodeText);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 
@@ -1351,6 +1422,23 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
 	}
 
 	/** Set X Position.

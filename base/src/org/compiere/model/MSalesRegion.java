@@ -17,9 +17,12 @@
 package org.compiere.model;
 
 import java.sql.ResultSet;
+import java.util.List;
 import java.util.Properties;
+import java.util.stream.Collectors;
 
 import org.compiere.util.CCache;
+import org.compiere.util.Env;
 
 
 /**
@@ -27,6 +30,9 @@ import org.compiere.util.CCache;
  *	
  *  @author Jorg Janke
  *  @version $Id: MSalesRegion.java,v 1.3 2006/07/30 00:54:54 jjanke Exp $
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com 2015-09-09
+ *  	<li>FR [ 9223372036854775807 ] Add Support to Dynamic Tree
+ *  @see https://adempiere.atlassian.net/browse/ADEMPIERE-442
  */
 public class MSalesRegion extends X_C_SalesRegion
 {
@@ -39,23 +45,107 @@ public class MSalesRegion extends X_C_SalesRegion
 	/**
 	 * 	Get SalesRegion from Cache
 	 *	@param ctx context
-	 *	@param C_SalesRegion_ID id
+	 *	@param salesRegionId id
 	 *	@return MSalesRegion
 	 */
-	public static MSalesRegion get (Properties ctx, int C_SalesRegion_ID)
-	{
-		Integer key = new Integer (C_SalesRegion_ID);
-		MSalesRegion retValue = (MSalesRegion) s_cache.get (key);
-		if (retValue != null)
-			return retValue;
-		retValue = new MSalesRegion (ctx, C_SalesRegion_ID, null);
-		if (retValue.get_ID () != 0)
-			s_cache.put (key, retValue);
-		return retValue;
+	@Deprecated
+	public static MSalesRegion get (Properties ctx, int salesRegionId) {
+		return getById(ctx, salesRegionId, null);
 	}	//	get
 
-	/**	Cache						*/
-	private static CCache<Integer,MSalesRegion>	s_cache	= new CCache<Integer,MSalesRegion>("C_SalesRegion", 10);
+
+	/** Static Cache */
+	private static CCache<Integer, MSalesRegion> salesRegionCacheIds = new CCache<Integer, MSalesRegion>(Table_Name, 30);
+	/** Static Cache */
+	private static CCache<String, MSalesRegion> salesRegionCacheValues = new CCache<String, MSalesRegion>(Table_Name, 30);
+
+	/**
+	 * Get/Load Campaign [CACHED]
+	 * @param ctx context
+	 * @param salesRegionId
+	 * @param trxName
+	 * @return activity or null
+	 */
+	public static MSalesRegion getById(Properties ctx, int salesRegionId, String trxName) {
+		if (salesRegionId <= 0)
+			return null;
+
+		MSalesRegion salesRegion = salesRegionCacheIds.get(salesRegionId);
+		if (salesRegion != null && salesRegion.get_ID() > 0)
+			return salesRegion;
+
+		salesRegion = new Query(ctx , Table_Name , COLUMNNAME_C_SalesRegion_ID + "=?" , trxName)
+				.setClient_ID()
+				.setParameters(salesRegionId)
+				.first();
+		if (salesRegion != null && salesRegion.get_ID() > 0)
+		{
+			int clientId = Env.getAD_Client_ID(ctx);
+			String key = clientId + "#" + salesRegion.getValue();
+			salesRegionCacheValues.put(key, salesRegion);
+			salesRegionCacheIds.put(salesRegion.get_ID(), salesRegion);
+		}
+		return salesRegion;
+	}
+
+	/**
+	 * get Activity By Value [CACHED]
+	 * @param ctx
+	 * @param salesRegionValue
+	 * @param trxName
+	 * @return
+	 */
+	public static MSalesRegion getByValue(Properties ctx, String salesRegionValue, String trxName) {
+		if (salesRegionValue == null)
+			return null;
+		if (salesRegionCacheValues.size() == 0 )
+			getAll(ctx, true, trxName);
+
+		int clientId = Env.getAD_Client_ID(ctx);
+		String key = clientId + "#" + salesRegionValue;
+		MSalesRegion salesRegion = salesRegionCacheValues.get(key);
+		if (salesRegion != null && salesRegion.get_ID() > 0 )
+			return salesRegion;
+
+		salesRegion =  new Query(ctx, Table_Name , COLUMNNAME_Value +  "=?", trxName)
+				.setClient_ID()
+				.setParameters(salesRegionValue)
+				.first();
+
+		if (salesRegion != null && salesRegion.get_ID() > 0) {
+			salesRegionCacheValues.put(key, salesRegion);
+			salesRegionCacheIds.put(salesRegion.get_ID() , salesRegion);
+		}
+		return salesRegion;
+	}
+	
+	/**
+	 * Get All Campaign
+	 * @param ctx
+	 * @param resetCache
+	 * @param trxName
+	 * @return
+	 */
+	public static List<MSalesRegion> getAll(Properties ctx, boolean resetCache, String trxName) {
+		List<MSalesRegion> salesRegionList;
+		if (resetCache || salesRegionCacheIds.size() > 0 ) {
+			salesRegionList = new Query(Env.getCtx(), Table_Name, null , trxName)
+					.setClient_ID()
+					.setOrderBy(COLUMNNAME_Name)
+					.list();
+			salesRegionList.stream().forEach(salesRegion -> {
+				int clientId = Env.getAD_Client_ID(ctx);
+				String key = clientId + "#" + salesRegion.getValue();
+				salesRegionCacheIds.put(salesRegion.getC_SalesRegion_ID(), salesRegion);
+				salesRegionCacheValues.put(key, salesRegion);
+			});
+			return salesRegionList;
+		}
+		salesRegionList = salesRegionCacheIds.entrySet().stream()
+				.map(salesRegion -> salesRegion.getValue())
+				.collect(Collectors.toList());
+		return  salesRegionList;
+	}
 	
 	
 	/**************************************************************************
@@ -104,8 +194,11 @@ public class MSalesRegion extends X_C_SalesRegion
 	{
 		if (!success)
 			return success;
-		if (newRecord)
-			insert_Tree(MTree_Base.TREETYPE_SalesRegion);
+		//	Yamel Senih [ 9223372036854775807 ]
+		//	Change to PO
+//		if (newRecord)
+//			insert_Tree(MTree.TREETYPE_SalesRegion);
+		//	End Yamel Senih
 		//	Value/Name change
 		if (!newRecord && (is_ValueChanged("Value") || is_ValueChanged("Name")))
 			MAccount.updateValueDescription(getCtx(), "C_SalesRegion_ID=" + getC_SalesRegion_ID(), get_TrxName());
@@ -118,11 +211,14 @@ public class MSalesRegion extends X_C_SalesRegion
 	 *	@param success
 	 *	@return deleted
 	 */
-	protected boolean afterDelete (boolean success)
-	{
-		if (success)
-			delete_Tree(MTree_Base.TREETYPE_SalesRegion);
-		return success;
-	}	//	afterDelete
+	//	Yamel Senih [ 9223372036854775807 ]
+	//	Change to PO
+//	protected boolean afterDelete (boolean success)
+//	{
+//		if (success)
+//			delete_Tree(MTree.TREETYPE_SalesRegion);
+//		return success;
+//	}	//	afterDelete
+	//	End Yamel Senih
 	
 }	//	MSalesRegion

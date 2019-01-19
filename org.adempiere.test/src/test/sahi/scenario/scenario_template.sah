@@ -1,0 +1,37 @@
+// Scenario template.  Copy this file and replace the sections as required.
+// Optional: Call the scenario from a suite file and execute through the utils/run_tests.xml ant build
+
+// Global Variable declarations
+
+var $release = "Release 3.6.0LTS";
+var $usr = "GardenAdmin";
+var $pwd = "GardenAdmin";
+var $client = "GardenWorld";
+var $org = "*";
+var $rememberMe = "No";
+
+// Includes - common functions
+//This file includes all other supporting files so you only need to add the one in each scenario
+_include("../lib/common_functions.sah");  
+
+// Includes - test flows - as many as required.  Each should include one or more functions 
+// called test_*() which will execute the test.
+_include("../test/material_management/tf_fr3004020_allocation.sah");
+
+// Setup - called before each test	
+function setUp(){
+	versionTest($release);
+	loginDefault($usr, $pwd);  //defaults
+}
+
+// Tear down - called after each test
+function tearDown() {
+//	logout();
+}
+
+// Run the tests - anything included that starts with "test_".  The order of execution is undefined.
+_runUnitTests();
+
+_log("Scenario completed.", "info"); // Test Completed.
+
+// End of test

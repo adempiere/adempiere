@@ -85,7 +85,7 @@ public class MPrintFormatProcess extends SvrProcess
 			return pf.getName() + " #" + pf.getItemCount();
 		}
 		else
-			throw new Exception (MSG_InvalidArguments);
+			throw new Exception (MESSAGE_InvalidArguments);
 	}	//	doIt
 
 }	//	MPrintFormatProcess

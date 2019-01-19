@@ -56,7 +56,7 @@
 			<attribute name="Implementation-Title" value="sqlj ${env.ADEMPIERE_VERSION}"/>
 			<attribute name="Implementation-Version" value="${env.ADEMPIERE_VERSION} ${DSTAMP}-${TSTAMP}"/>
 			<attribute name="Implementation-Vendor" value="${env.ADEMPIERE_VENDOR}"/>
-			<attribute name="Implementation-URL" value="http://www.adempiere.com"/>
+			<attribute name="Implementation-URL" value="http://wwww.adempiere.net"/>
                         <!--begin vpj-cd e-evolution PostgreSQL-->
 		  	<section name="deployment/sqlj.ddr">
 		  	        <attribute name="SQLJDeploymentDescriptor" value="true"/>

@@ -18,6 +18,7 @@ package org.compiere.print;
 
 import java.awt.Color;
 import java.awt.SystemColor;
+import java.sql.ResultSet;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -138,6 +139,17 @@ public class MPrintColor extends X_AD_PrintColor
 		if (AD_PrintColor_ID == 0)
 			setIsDefault(false);
 	}	//	MPrintColor
+
+	/**
+	 * 	Load Constructor
+	 *	@param ctx context
+	 *	@param rs result set
+	 *	@param trxName transaction name
+	 */
+	public MPrintColor (Properties ctx, ResultSet rs, String trxName)
+	{
+		super(ctx, rs, trxName);
+	}
 
 	/**	Color cached				*/
 	private Color	m_cacheColor = null;

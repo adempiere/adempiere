@@ -13,12 +13,14 @@
  *****************************************************************************/
 package org.adempiere.webui.report;
 
+import org.adempiere.pipo.handler.PrintFormatItemElementHandler;
 import org.adempiere.webui.apps.AEnv;
 import org.apache.ecs.ConcreteElement;
 import org.apache.ecs.xhtml.a;
 import org.apache.ecs.xhtml.div;
 import org.apache.ecs.xhtml.img;
 import org.compiere.print.IHTMLExtension;
+import org.compiere.print.MPrintFormatItem;
 import org.compiere.print.PrintData;
 import org.compiere.print.PrintDataElement;
 import org.compiere.util.Env;
@@ -42,8 +44,8 @@ public class HTMLExtension implements IHTMLExtension {
 	}
 	
 	public void extendIDColumn(int row, ConcreteElement columnElement, a href,
-			PrintDataElement dataElement) {
-		href.addAttribute("onclick", "showColumnMenu(event, '" + dataElement.getColumnName() + "', " + row + ")");		
+			PrintDataElement dataElement, MPrintFormatItem pfi, int AD_PInstance_ID) {
+		href.addAttribute("onclick", "this.style.color='red'; showColumnMenu(event, '" + dataElement.getColumnName() + "', " + row + ")");		
 		
 		//menu div
 		div menu = new div();
@@ -87,6 +89,28 @@ public class HTMLExtension implements IHTMLExtension {
 		href.addElement(image);
 		href.addElement(Msg.getMsg(AEnv.getLanguage(Env.getCtx()), "Report").replace("&", ""));
 
+		if (pfi != null) {
+			//process menu item
+			div process = new div();									
+			process.setStyle("padding: 3px; vertical-align: middle");
+			process.addAttribute("onmouseover", "this.style.backgroundColor = 'lightgray'");
+			process.addAttribute("onmouseout", "this.style.backgroundColor = 'white'");									
+//			process.addAttribute("onclick", "this.parentElement.parentElement.parentElement.style.color = 'red'");									
+			href = new a("javascript:void(0)");						
+			href.setStyle("text-decoration: none; font-size: 10px; vertical-align: middle;");
+			href.addAttribute("onclick", "parent.execute('" 
+					+ componentId + "', '" 
+					+ dataElement.getValueDisplay(Env.getLanguage(Env.getCtx())) + "', '"
+					+ dataElement.getValueAsString() + "', '"
+					+ pfi.getAD_PrintFormatItem_ID() + "', '"
+					+ AD_PInstance_ID + "')");
+			process.addElement(href);
+			menu.addElement(process);
+			image = new img("/webui/images/mProcess.png");
+			image.setAlign("middle");
+			href.addElement(image);
+			href.addElement(Msg.getMsg(AEnv.getLanguage(Env.getCtx()), "Process").replace("&", ""));
+		}
 	}
 
 	public void extendRowElement(ConcreteElement row, PrintData printData) {
@@ -112,4 +136,7 @@ public class HTMLExtension implements IHTMLExtension {
 		return contextPath + "/css/report.css";
 	}
 
+	public String getComponentId() {
+		return componentId;
+	}
 }

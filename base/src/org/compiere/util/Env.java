@@ -50,10 +50,12 @@ import javax.swing.SwingUtilities;
 
 import org.compiere.Adempiere;
 import org.compiere.db.CConnection;
+import org.compiere.model.MBPartner;
 import org.compiere.model.MClient;
 import org.compiere.model.MLookupCache;
 import org.compiere.model.MRole;
 import org.compiere.model.MSession;
+import org.compiere.model.MUser;
 import org.compiere.model.PO;
 import org.compiere.swing.CFrame;
 
@@ -68,12 +70,27 @@ import org.compiere.swing.CFrame;
  * 			<li>BF [ 1619390 ] Use default desktop browser as external browser
  * 			<li>BF [ 2017987 ] Env.getContext(TAB_INFO) should NOT use global context
  * 			<li>FR [ 2392044 ] Introduce Env.WINDOW_MAIN
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * 		<a href="https://github.com/adempiere/adempiere/issues/1143">
+ * 		@see FR [ 1143 ] Login language is not by default on Env.getLanguage(cxt)</a>
  */
 public final class Env
 {
 	/**	Logging								*/
 	private static CLogger				s_log = CLogger.getCLogger(Env.class);
 		
+	public static final String AD_ROLE_ID = "#AD_Role_ID";
+
+	public static final String AD_USER_ID = "#AD_User_ID";
+
+	public static final String AD_ORG_ID = "#AD_Org_ID";
+
+	public static final String AD_CLIENT_ID = "#AD_Client_ID";
+	
+	public static final String AD_ORG_NAME = "#AD_Org_Name";
+	
+	public static final String M_WAREHOUSE_ID = "#M_Warehouse_ID";
+
 	private static ContextProvider contextProvider = new DefaultContextProvider();
 	
 	public static void setContextProvider(ContextProvider provider)
@@ -297,7 +314,7 @@ public final class Env
 	 */
 	public static void setContext (Properties ctx, String context, boolean value)
 	{
-		setContext (ctx, context, value ? "Y" : "N");
+		setContext (ctx, context, convert(value));
 	}	//	setContext
 
 	/**
@@ -378,9 +395,27 @@ public final class Env
 	 */
 	public static void setContext (Properties ctx, int WindowNo, String context, boolean value)
 	{
-		setContext (ctx, WindowNo, context, value ? "Y" : "N");
+		setContext (ctx, WindowNo, context, convert(value));
 	}	//	setContext
 
+	private static String convert(boolean value)
+	{
+		return value ? "Y" : "N";
+	}
+
+	/**
+	 * Set Context for Window to Y/N Value
+	 * 
+	 * @param ctx context
+	 * @param WindowNo window no
+	 * @param context context key
+	 * @param value context value
+	 */
+	public static void setContext(Properties ctx, int WindowNo, int TabNo, String context, boolean value)
+	{
+		setContext(ctx, WindowNo, TabNo, context, convert(value));
+	} // setContext
+	
 	/**
 	 *	Set Context for Window & Tab to Value
 	 *  @param ctx context
@@ -414,7 +449,7 @@ public final class Env
 	{
 		if (ctx == null)
 			return;
-		ctx.setProperty("AutoCommit", autoCommit ? "Y" : "N");
+		ctx.setProperty("AutoCommit", convert(autoCommit));
 	}	//	setAutoCommit
 
 	/**
@@ -427,7 +462,7 @@ public final class Env
 	{
 		if (ctx == null)
 			return;
-		ctx.setProperty(WindowNo+"|AutoCommit", autoCommit ? "Y" : "N");
+		ctx.setProperty(WindowNo+"|AutoCommit", convert(autoCommit));
 	}	//	setAutoCommit
 
 	/**
@@ -439,7 +474,7 @@ public final class Env
 	{
 		if (ctx == null)
 			return;
-		ctx.setProperty("AutoNew", autoNew ? "Y" : "N");
+		ctx.setProperty("AutoNew", convert(autoNew));
 	}	//	setAutoNew
 
 	/**
@@ -452,7 +487,7 @@ public final class Env
 	{
 		if (ctx == null)
 			return;
-		ctx.setProperty(WindowNo+"|AutoNew", autoNew ? "Y" : "N");
+		ctx.setProperty(WindowNo+"|AutoNew", convert(autoNew));
 	}	//	setAutoNew
 	
 	
@@ -465,7 +500,7 @@ public final class Env
 	{
 		if (ctx == null)
 			return;
-		ctx.setProperty("IsSOTrx", isSOTrx ? "Y" : "N");
+		ctx.setProperty("IsSOTrx", convert(isSOTrx));
 	}	//	setSOTrx
 
 	/**
@@ -854,7 +889,7 @@ public final class Env
 	 */
 	public static int getAD_Client_ID (Properties ctx)
 	{
-		return Env.getContextAsInt(ctx, "#AD_Client_ID");
+		return Env.getContextAsInt(ctx, AD_CLIENT_ID);
 	}	//	getAD_Client_ID
 
 	/**
@@ -864,7 +899,7 @@ public final class Env
 	 */
 	public static int getAD_Org_ID (Properties ctx)
 	{
-		return Env.getContextAsInt(ctx, "#AD_Org_ID");
+		return Env.getContextAsInt(ctx, AD_ORG_ID);
 	}	//	getAD_Org_ID
 
 	/**
@@ -874,8 +909,35 @@ public final class Env
 	 */
 	public static int getAD_User_ID (Properties ctx)
 	{
-		return Env.getContextAsInt(ctx, "#AD_User_ID");
+		return Env.getContextAsInt(ctx, AD_USER_ID);
 	}	//	getAD_User_ID
+	
+	/**
+	 * Pick a valid a SalesRep_ID when a login used is not Sales Rep
+	 * @param ctx
+	 * @return
+	 */
+	public static int getValidSalesRep_ID(Properties ctx, int AD_Org_ID)
+	{
+		int id = Env.getContextAsInt(ctx, "#SalesRep_ID");
+		MBPartner bp = (MBPartner) MUser.get(getCtx(), id).getC_BPartner();
+		
+		if (bp.isEmployee() || bp.isSalesRep()) {
+			return id;
+		}
+		String sql = "SELECT supervisor_id FROM ad_orginfo  WHERE ad_org_id = ?";
+		id = DB.getSQLValue(null, sql, AD_Org_ID);
+		if (id <= 0) {
+			sql = "SELECT min(u.ad_user_id) AS salesrep_id " +
+					"FROM ad_user u " +
+					"  INNER JOIN c_bpartner bp ON u.c_bpartner_id = bp.c_bpartner_id " +
+					"WHERE bp.isEmployee = 'Y' AND bp.isSalesRep = 'Y' " +
+					"AND   bp.ad_client_id = ?";
+			
+			id = DB.getSQLValue(null, sql, AD_Org_ID);
+		}
+		return id;
+	}
 	
 	/**
 	 * 	Get Login AD_Role_ID
@@ -884,7 +946,7 @@ public final class Env
 	 */
 	public static int getAD_Role_ID (Properties ctx)
 	{
-		return Env.getContextAsInt(ctx, "#AD_Role_ID");
+		return Env.getContextAsInt(ctx, AD_ROLE_ID);
 	}	//	getAD_Role_ID
 	
 	/**************************************************************************
@@ -1033,11 +1095,12 @@ public final class Env
 	 *  @param ctx context
 	 *	@return Language
 	 */
-	public static Language getLanguage (Properties ctx)
-	{
+	public static Language getLanguage (Properties ctx) {
 		if (ctx != null)
 		{
-			String lang = getContext(ctx, LANGUAGE);
+			String lang = getAD_Language(ctx);
+			if (Util.isEmpty(lang))
+				lang = getPreference(ctx, 0, "Language", false);
 			if (!Util.isEmpty(lang))
 				return Language.getLanguage(lang);
 		}
@@ -1057,7 +1120,7 @@ public final class Env
 	public static ArrayList<String> getSupportedLanguages()
 	{
 		ArrayList<String> AD_Languages = new ArrayList<String>();
-		String sql = "SELECT DISTINCT AD_Language FROM AD_Message_Trl";
+		String sql = "SELECT AD_Language FROM AD_Language WHERE (isBaseLanguage = 'Y' OR isSystemLanguage = 'Y') AND (IsActive = 'Y')";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try
@@ -1068,7 +1131,7 @@ public final class Env
 			{
 				String AD_Language = rs.getString(1);
 				// called to add the language to supported in case it's not added
-				Language.getLanguage(AD_Language);
+				// Language.getLanguage(AD_Language);
 				AD_Languages.add(AD_Language);
 			}
 		}
@@ -1094,9 +1157,12 @@ public final class Env
 		if (language.isBaseLanguage())
 			return;
 		
+		if (!DB.isConnected())
+			return;
+		
 		boolean isSystemLanguage = false;
 		ArrayList<String> AD_Languages = new ArrayList<String>();
-		String sql = "SELECT DISTINCT AD_Language FROM AD_Message_Trl";
+		String sql = "SELECT AD_Language FROM AD_Language WHERE (isBaseLanguage = 'Y' OR isSystemLanguage = 'Y' ) AND (IsActive = 'Y')";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try
@@ -1205,9 +1271,7 @@ public final class Env
 			.append(getContext(ctx, "#AD_Client_Name")).append(".")
 			.append(getContext(ctx, "#AD_Org_Name"))
 			.append(" [").append(CConnection.get().toString()).append("]");
-		
-
-		
+			
 		return sb.toString();
 	}	//	getHeader
 
@@ -1289,6 +1353,12 @@ public final class Env
 		if (value == null || value.length() == 0)
 			return "";
 
+		//jobriant
+		int instances = value.length() - value.replace("@", "").length();
+		if ((instances > 0) && (instances % 2) != 0) { //odd - could be an email address
+			return value;
+		}
+		
 		String token;
 		String inStr = new String(value);
 		StringBuffer outStr = new StringBuffer();
@@ -1635,12 +1705,22 @@ public final class Env
 
 	/***************************************************************************
 	 *  Start Browser
+	 *  @param title title
+	 *  @param url url
+	 */
+	public static void startBrowser (String url, String title)
+	{
+		s_log.info(url);
+		contextProvider.showURL(url, title);
+	}   //  startBrowser
+	
+	/***************************************************************************
+	 *  Start Browser
 	 *  @param url url
 	 */
 	public static void startBrowser (String url)
 	{
-		s_log.info(url);
-		contextProvider.showURL(url);
+		startBrowser(url, url);
 	}   //  startBrowser
 	
 	/**

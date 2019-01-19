@@ -45,6 +45,9 @@ import java.util.logging.Level;
  *  @author Antonio Canaveral, www.e-evolution.com 
  *  eEvolution author Victor Perez <victor.perez@e-evolution.com>
  *  eEvolution author Alberto Juarez <alberto.juarez@e-evolution.com>
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *			<li> FR [ 402 ] Mail setup is hardcoded
+ *			@see https://github.com/adempiere/adempiere/issues/402
  */
 public class PayrollViaEMail extends SvrProcess
 {
@@ -215,14 +218,14 @@ public class PayrollViaEMail extends SvrProcess
             }
 
 			MClient client = MClient.get(getCtx());
-			String smtp = client.getSMTPHost();
 			String eMailFrom = client.getRequestEMail();
 			String emailFrom = location.get_ValueAsString("EMail");
 
 			String userMailFrom = client.getRequestUser();
 			String password = client.getRequestUserPW();
-
-			EMail email = new EMail(getCtx(), smtp, eMailFrom, emailFrom, mailText.getMailHeader(), message);
+			//	FR [ 402 ]
+			//	Add support to new send mail
+			EMail email = new EMail(client, eMailFrom, emailFrom, mailText.getMailHeader(), message);
 
 			if (mailText.isHtml())
 				email.setMessageHTML(mailText.getMailHeader(), message);

@@ -35,10 +35,7 @@ import net.miginfocom.layout.BoundSize;
 import net.miginfocom.layout.ComponentWrapper;
 import net.miginfocom.layout.ConstraintParser;
 import net.miginfocom.layout.LayoutCallback;
-import net.miginfocom.layout.UnitValue;
 import net.miginfocom.swing.MigLayout;
-import net.miginfocom.swing.SwingComponentWrapper;
-import net.miginfocom.swing.SwingContainerWrapper;
 
 import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.apps.APanel;
@@ -46,7 +43,6 @@ import org.compiere.grid.ed.VButton;
 import org.compiere.grid.ed.VCheckBox;
 import org.compiere.grid.ed.VEditor;
 import org.compiere.grid.ed.VEditorFactory;
-import org.compiere.grid.ed.VLine;
 import org.compiere.model.GridField;
 import org.compiere.model.X_AD_FieldGroup;
 import org.compiere.swing.CLabel;
@@ -54,7 +50,6 @@ import org.compiere.swing.CPanel;
 import org.compiere.swing.CTabbedPane;
 import org.compiere.swing.CollapsiblePanel;
 import org.compiere.util.CLogger;
-import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Language;
 import org.compiere.util.Util;
@@ -73,6 +68,9 @@ import com.lowagie.text.Font;
  *  @version 	$Id: VPanel.java,v 1.3 2006/07/30 00:51:28 jjanke Exp $
  *  @contributor Victor Perez , e-Evolution.SC FR [ 1757088 ]
  *               Carlos Ruiz - globalqss / Fix bug 2307133 - Swing client hiding fields incorrectly
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 359 ] Field group created as label overflow the text with ellipsis when the field label is short
+ *		@see https://github.com/adempiere/adempiere/issues/359
  */
 public final class VPanel extends CTabbedPane
 {
@@ -444,7 +442,9 @@ public final class VPanel extends CTabbedPane
 		{
 			CLabel label = new CLabel(fieldGroup, CLabel.LEADING);
 			label.setFont(AdempierePLAF.getFont_Label().deriveFont(Font.BOLDITALIC, AdempierePLAF.getFont_Label().getSize2D()));
-			m_main.add(label, "newline, alignx leading");
+			//	BR [ 359 ]
+			//	Show label completely
+			m_main.add(label, "newline, alignx leading, spanx, growx");
 			m_main.add(new JSeparator(), "newline, spanx, growx");
 			//	reset
 		}

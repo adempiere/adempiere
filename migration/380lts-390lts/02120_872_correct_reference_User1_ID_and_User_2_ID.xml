@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Correct_reference_User1_ID_and_User2_ID" ReleaseNo="3.9.0" SeqNo="02120">
+    <Comments>Correct Reference and Reference Key for both User1_ID and User2_ID in view  RV_OrderLine_Storage.
+See issue https://github.com/adempiere/adempiere/issues/872</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="82254" Table="AD_Column">
+        <Data AD_Column_ID="226" Column="AD_Reference_ID" oldValue="19">18</Data>
+        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isOldNull="true">134</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="82255" Table="AD_Column">
+        <Data AD_Column_ID="226" Column="AD_Reference_ID" oldValue="19">18</Data>
+        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isOldNull="true">137</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

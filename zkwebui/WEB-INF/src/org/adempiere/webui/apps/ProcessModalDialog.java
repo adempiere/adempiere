@@ -16,34 +16,13 @@
  *****************************************************************************/
 package org.adempiere.webui.apps;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Properties;
 import java.util.logging.Level;
 
-import org.adempiere.webui.LayoutUtils;
-import org.adempiere.webui.component.Button;
-import org.adempiere.webui.component.Panel;
-import org.adempiere.webui.component.VerticalBox;
 import org.adempiere.webui.component.Window;
-import org.compiere.apps.ProcessCtl;
-import org.compiere.apps.ProcessDialog;
 import org.compiere.process.ProcessInfo;
 import org.compiere.util.ASyncProcess;
 import org.compiere.util.CLogger;
-import org.compiere.util.DB;
 import org.compiere.util.Env;
-import org.compiere.util.Msg;
-import org.zkoss.zk.au.out.AuEcho;
-import org.zkoss.zk.ui.Component;
-import org.zkoss.zk.ui.event.Event;
-import org.zkoss.zk.ui.event.EventListener;
-import org.zkoss.zk.ui.event.Events;
-import org.zkoss.zk.ui.util.Clients;
-import org.zkoss.zul.Div;
-import org.zkoss.zul.Hbox;
-import org.zkoss.zul.Html;
 
 /**
  * 
@@ -55,15 +34,21 @@ import org.zkoss.zul.Html;
  *  @author 	Low Heng Sin
  *  @author     arboleda - globalqss
  *  - Implement ShowHelp option on processes and reports
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li>FR [ 265 ] ProcessParameterPanel is not MVC
+ *		@see https://github.com/adempiere/adempiere/issues/265
+ *		<a href="https://github.com/adempiere/adempiere/issues/571">
+ * 		@see FR [ 571 ] Process Dialog is not MVC</a>
+ * @author Raul Muñoz, rMunoz@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> BR [ 1004 ] Bad size for processing dialog on ZK Web UI
+ *		<li> FR [ 1051 ] Process Dialog have not scroll bar in zk
+ *		<li> FR [ 1061 ] Process Modal Dialog in zk height is not autosize
  */
-public class ProcessModalDialog extends Window implements EventListener
-{
+public class ProcessModalDialog extends Window implements IZKProcessDialog, ASyncProcess {
 	/**
 	 * generated serial version ID
 	 */
 	private static final long serialVersionUID = -7109707014309321369L;
-	private boolean m_autoStart;
-	private VerticalBox dialogBody;
 
 	/**
 	 * @param aProcess
@@ -71,22 +56,17 @@ public class ProcessModalDialog extends Window implements EventListener
 	 * @param pi
 	 * @param autoStart
 	 */
-	public ProcessModalDialog(ASyncProcess aProcess, int WindowNo, ProcessInfo pi, boolean autoStart)
-	{
-		m_ctx = Env.getCtx();
-		m_ASyncProcess = aProcess;
-		m_WindowNo = WindowNo;
-		m_pi = pi;
-		m_autoStart = autoStart;
-		
+	public ProcessModalDialog(ASyncProcess aProcess, int WindowNo, ProcessInfo pi, boolean autoStart, boolean onlyPanel) {
+		super();
+		aSyncProcess = aProcess;
+		windowNo = WindowNo;
+		processInfo = pi;
+		this.autoStart = autoStart;
+		this.onlyPanel = onlyPanel;
 		log.info("Process=" + pi.getAD_Process_ID());		
-		try
-		{
-			initComponents();
+		try {
 			init();
-		}
-		catch(Exception ex)
-		{
+		} catch(Exception ex) {
 			log.log(Level.SEVERE, "", ex);
 		}
 	}
@@ -96,103 +76,58 @@ public class ProcessModalDialog extends Window implements EventListener
 	 * @param ctx
 	 * @param aProcess
 	 * @param WindowNo
-	 * @param AD_Process_ID
+	 * @param processId
 	 * @param tableId
 	 * @param recordId
 	 * @param autoStart
 	 */
-	public ProcessModalDialog (  ASyncProcess aProcess, int WindowNo, int AD_Process_ID, int tableId, int recordId, boolean autoStart)
-	{						
-		this(aProcess, WindowNo, new ProcessInfo("", AD_Process_ID, tableId, recordId), autoStart);		
+	public ProcessModalDialog (ASyncProcess aProcess, int WindowNo, int processId, int tableId, int recordId, boolean autoStart) {						
+		this(aProcess, WindowNo, new ProcessInfo("", processId, tableId, recordId), autoStart, false);		
 	}
 	
 	/**
-	 * Dialog to start a process/report
-	 * @param ctx
-	 * @param parent not used
-	 * @param title not used
-	 * @param aProcess
+	 * Optional constructor, for launch from ProcessCtl
+	 * @param frame
 	 * @param WindowNo
-	 * @param AD_Process_ID
-	 * @param tableId
-	 * @param recordId
-	 * @param autoStart
-	 * @deprecated
+	 * @param pi
 	 */
-	public ProcessModalDialog (Window parent, String title, 
-			ASyncProcess aProcess, int WindowNo, int AD_Process_ID,
-			int tableId, int recordId, boolean autoStart)
-	{
-		this(aProcess, WindowNo, AD_Process_ID, tableId, recordId, autoStart);
-	}	//	ProcessDialog
-
-	private void initComponents() {
-		this.setBorder("normal");
-		dialogBody = new VerticalBox();
-		Div div = new Div();
-		message = new Html();
-		div.appendChild(message);
-		div.setStyle("max-height: 150pt; overflow: auto;");
-		dialogBody.appendChild(div);
-		centerPanel = new Panel();
-		dialogBody.appendChild(centerPanel);
-		div = new Div();
-		div.setAlign("right");
-		Hbox hbox = new Hbox();
-		Button btn = new Button("Ok");
-		LayoutUtils.addSclass("action-text-button", btn);
-		btn.setId("Ok");
-		btn.addEventListener(Events.ON_CLICK, this);
-		hbox.appendChild(btn);
-		
-		btn = new Button("Cancel");
-		btn.setId("Cancel");
-		LayoutUtils.addSclass("action-text-button", btn);
-		btn.addEventListener(Events.ON_CLICK, this);
-		
-		hbox.appendChild(btn);
-		div.appendChild(hbox);
-		dialogBody.appendChild(div);
-		this.appendChild(dialogBody);
-		
+	public ProcessModalDialog (ASyncProcess aProcess, int WindowNo, ProcessInfo pi) {
+		//	Set Process instance and flag
+		this(aProcess, WindowNo, pi, false, true);
 	}
 
-	private ASyncProcess m_ASyncProcess;
-	private int m_WindowNo;
-	private Properties m_ctx;
-	private String		    m_Name = null;
-	private StringBuffer	m_messageText = new StringBuffer();
-	private String          m_ShowHelp = null; // Determine if a Help Process Window is shown
-	private boolean m_valid = true;
-	
-	private Panel centerPanel = null;
-	private Html message = null;
+	private ASyncProcess 	aSyncProcess;
+	private int 			windowNo;
+	private boolean 		onlyPanel;
+	private boolean 		autoStart;
+	private boolean 		isValid = true;
 	
 	/**	Logger			*/
-	private static CLogger log = CLogger.getCLogger(ProcessDialog.class);
+	private static CLogger log = CLogger.getCLogger(ProcessModalDialog.class);
 	//
-	private ProcessParameterPanel parameterPanel = null;
+	private ProcessPanel 	processPanel = null;
+	/**	Process Information	*/
+	private ProcessInfo 	processInfo = null;
 	
-	private ProcessInfo m_pi = null;
-	private BusyDialog progressWindow;
+	/**	Min Height Panel */
+	private static final int MINHEIGHT = 170;
+	/** Row Height */
+	private static final int ROWHEIGHT = 36;
 	
 	/**
 	 * 	Set Visible 
 	 * 	(set focus to OK if visible)
 	 * 	@param visible true if visible
 	 */
-	public boolean setVisible (boolean visible)
-	{
+	public boolean setVisible (boolean visible) {
 		return super.setVisible(visible);
 	}	//	setVisible
 
 	/**
 	 *	Dispose
 	 */
-	public void dispose()
-	{		
-		parameterPanel.restoreContext();
-		m_valid = false;
+	public void dispose() {		
+		processPanel.restoreContext();
 		this.detach();
 	}	//	dispose
 
@@ -200,162 +135,133 @@ public class ProcessModalDialog extends Window implements EventListener
 	 * is dialog still valid
 	 * @return boolean
 	 */
-	public boolean isValid()
-	{
-		return m_valid;
+	public boolean isValidDialog() {
+		if(autoStart) {
+			setStyle("");
+			getFirstChild().setVisible(false);
+			setTitle(null);
+			setBorder("none");
+			setVisible(false);
+			appendChild(new BusyDialog());
+			processPanel.process();
+		}
+		//	
+		return isValid;
 	}
 
 	/**
 	 *	Dynamic Init
 	 *  @return true, if there is something to process (start from menu)
 	 */
-	public boolean init()
-	{
-		log.config("");
-		//
-		boolean trl = !Env.isBaseLanguage(m_ctx, "AD_Process");
-		String sql = "SELECT Name, Description, Help, IsReport, ShowHelp "
-				+ "FROM AD_Process "
-				+ "WHERE AD_Process_ID=?";
-		if (trl)
-			sql = "SELECT t.Name, t.Description, t.Help, p.IsReport, p.ShowHelp "
-				+ "FROM AD_Process p, AD_Process_Trl t "
-				+ "WHERE p.AD_Process_ID=t.AD_Process_ID"
-				+ " AND p.AD_Process_ID=? AND t.AD_Language=?";
-		
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, m_pi.getAD_Process_ID());
-			if (trl)
-				pstmt.setString(2, Env.getAD_Language(m_ctx));
-			rs = pstmt.executeQuery();
-			if (rs.next())
-			{
-				m_Name = rs.getString(1);
-				m_ShowHelp = rs.getString(5);
-				//
-				m_messageText.append("<b>");
-				String s = rs.getString(2);		//	Description
-				if (rs.wasNull())
-					m_messageText.append(Msg.getMsg(m_ctx, "StartProcess?"));
-				else
-					m_messageText.append(s);
-				m_messageText.append("</b>");
-				
-				s = rs.getString(3);			//	Help
-				if (!rs.wasNull())
-					m_messageText.append("<p>").append(s).append("</p>");
-			}
-		}
-		catch (SQLException e)
-		{
-			log.log(Level.SEVERE, sql, e);
-			return false;
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-		}
+	private boolean init() {
 
-		if (m_Name == null)
-			return false;
-		//
-		this.setTitle(m_Name);
-		message.setContent(m_messageText.toString());
-		
+		log.config("");
 		//	Move from APanel.actionButton
-		m_pi.setAD_User_ID (Env.getAD_User_ID(Env.getCtx()));
-		m_pi.setAD_Client_ID(Env.getAD_Client_ID(Env.getCtx()));
-		m_pi.setTitle(m_Name);
-		parameterPanel = new ProcessParameterPanel(m_WindowNo, m_pi);
-		centerPanel.getChildren().clear();
-		if ( parameterPanel.init() ) {
-			centerPanel.appendChild(parameterPanel);
+		processInfo.setAD_User_ID (Env.getAD_User_ID(Env.getCtx()));
+		processInfo.setAD_Client_ID(Env.getAD_Client_ID(Env.getCtx()));
+		processPanel = new ProcessPanel(this, windowNo, processInfo, "100%");
+		processPanel.setIsOnlyPanel(onlyPanel);
+		isValid = processPanel.createFieldsAndEditors();
+		setTitle(processPanel.getName());
+		//  BR [ 1004 ]
+		if(!autoStart) {
+			setAttribute("modal", true);
+			setBorder("normal");
+			setSizable(true);
+			setClosable(true);
+			setMaximizable(true);
+			setPosition("center");
+			//	FR [ 1051 ]
+			setWidth("55%");
+			
+			appendChild(processPanel.getPanel());
 		} else {
-			if (m_ShowHelp != null && m_ShowHelp.equals("N")) {
-				m_autoStart = true;
-			}
-			if (m_autoStart) {
-				this.getFirstChild().setVisible(false);
-				startProcess();
-				return true;
-			}
+			setTitle(null);
+			appendChild(new BusyDialog());
+			processPanel.process();
 		}
+		//	FR [ 1061 ]
+		int height= ROWHEIGHT * processPanel.getQtyRow() + MINHEIGHT;
+		setStyle("max-height:90%; height:"+height+"px");
 		
-		// Check if the process is a silent one
-		if(isValid() && m_ShowHelp != null && m_ShowHelp.equals("S"))
-		{
-			this.getFirstChild().setVisible(false);
-			startProcess();			
-		}
 		return true;
 	}	//	init
-
-	/**
-	 * launch process
-	 */
-	private void startProcess()
-	{			
-		m_pi.setPrintPreview(true);
-		
-		if (m_ASyncProcess != null) {
-			m_ASyncProcess.lockUI(m_pi);
-			Clients.showBusy(null, false);
-		}
-		
-		showBusyDialog();
-		
-		//use echo, otherwise lock ui wouldn't work
-		Clients.response(new AuEcho(this, "runProcess", null));
-	}
-
-	private void showBusyDialog() {
-		this.setBorder("none");
-		this.setTitle(null);
-		dialogBody.setVisible(false);
-
-		progressWindow = new BusyDialog();
-		this.appendChild(progressWindow);
-	}
 	
 	/**
-	 * internal use, don't call this directly
+	 *	Is everything OK?
+	 *  @return true if parameters saved correctly
 	 */
+	public boolean isOK() {
+		return processPanel.isOkPressed();
+	}	//	isOK
+
+	@Override
+	public void printScreen() {
+		
+	}
+
+	@Override
+	public void validateScreen() {
+		invalidate();
+	}
+
+	@Override
+	public void showCenterScreen() {
+		
+	}
+
+	@Override
+	public Object getParentContainer() {
+		return this;
+	}
+
+	@Override
+	public ASyncProcess getParentProcess() {
+		return this;
+	}
+
+	@Override
+	public boolean isEmbedded() {
+		return true;
+	}
+
+	@Override
 	public void runProcess() {
-		try {
-			ProcessCtl.process(null, m_WindowNo, parameterPanel, m_pi, null);					
-		} finally {
-			dispose();
-			if (m_ASyncProcess != null) {
-				m_ASyncProcess.unlockUI(m_pi);
-			} 
-			hideBusyDialog();
+		processPanel.runProcess();
+	}
+
+	@Override
+	public void lockUI(ProcessInfo pi) {
+		if(aSyncProcess != null) {
+			aSyncProcess.lockUI(pi);
 		}
 	}
 
-	private void hideBusyDialog() {
-		if (progressWindow != null) {
-			progressWindow.dispose();
-			progressWindow = null;
+
+	@Override
+	public void unlockUI(ProcessInfo pi) {
+		if(aSyncProcess != null) {
+			aSyncProcess.unlockUI(pi);
+		}
+		//	
+		processPanel.openResult();
+	}
+
+
+	@Override
+	public boolean isUILocked() {
+		if(aSyncProcess != null) {
+			return aSyncProcess.isUILocked();
+		}
+		return false;
+	}
+
+
+	@Override
+	public void executeASync(ProcessInfo pi) {
+		if(aSyncProcess != null) {
+			aSyncProcess.executeASync(pi);
 		}
 	}
-	
-	/**
-	 * handle events
-	 */
-	public void onEvent(Event event) {
-		Component component = event.getTarget(); 
-		if (component instanceof Button) {
-			Button element = (Button)component;
-			if ("Ok".equalsIgnoreCase(element.getId())) {
-				this.startProcess();
-			} else if ("Cancel".equalsIgnoreCase(element.getId())) {
-				this.dispose();
-			}
-		}		
-	}
-	
+
 }	//	ProcessDialog

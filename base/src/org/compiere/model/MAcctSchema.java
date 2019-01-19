@@ -318,8 +318,8 @@ public class MAcctSchema extends X_C_AcctSchema
 			return m_SuspenseError_Acct;
 		if (m_gl == null)
 			getAcctSchemaGL();
-		int C_ValidCombination_ID = m_gl.getSuspenseBalancing_Acct();
-		m_SuspenseError_Acct = MAccount.get(getCtx(), C_ValidCombination_ID);
+		int validCombinationId = m_gl.getSuspenseBalancing_Acct();
+		m_SuspenseError_Acct = MAccount.getValidCombination(getCtx(), validCombinationId, get_TrxName());
 		return m_SuspenseError_Acct;
 	}	//	getSuspenseBalancing_Acct
 
@@ -344,8 +344,8 @@ public class MAcctSchema extends X_C_AcctSchema
 			return m_CurrencyBalancing_Acct;
 		if (m_gl == null)
 			getAcctSchemaGL();
-		int C_ValidCombination_ID = m_gl.getCurrencyBalancing_Acct();
-		m_CurrencyBalancing_Acct = MAccount.get(getCtx(), C_ValidCombination_ID);
+		int validCombinationId = m_gl.getCurrencyBalancing_Acct();
+		m_CurrencyBalancing_Acct = MAccount.getValidCombination(getCtx(), validCombinationId , get_TrxName());
 		return m_CurrencyBalancing_Acct;
 	}	//	getCurrencyBalancing_Acct
 
@@ -361,8 +361,8 @@ public class MAcctSchema extends X_C_AcctSchema
 			return m_DueTo_Acct;
 		if (m_gl == null)
 			getAcctSchemaGL();
-		int C_ValidCombination_ID = m_gl.getIntercompanyDueTo_Acct();
-		m_DueTo_Acct = MAccount.get(getCtx(), C_ValidCombination_ID);
+		int validCombinationId = m_gl.getIntercompanyDueTo_Acct();
+		m_DueTo_Acct = MAccount.getValidCombination(getCtx(), validCombinationId, get_TrxName());
 		return m_DueTo_Acct;
 	}	//	getDueTo_Acct
 
@@ -377,8 +377,8 @@ public class MAcctSchema extends X_C_AcctSchema
 			return m_DueFrom_Acct;
 		if (m_gl == null)
 			getAcctSchemaGL();
-		int C_ValidCombination_ID = m_gl.getIntercompanyDueFrom_Acct();
-		m_DueFrom_Acct = MAccount.get(getCtx(), C_ValidCombination_ID);
+		int validCombinationId = m_gl.getIntercompanyDueFrom_Acct();
+		m_DueFrom_Acct = MAccount.getValidCombination(getCtx(), validCombinationId, get_TrxName());
 		return m_DueFrom_Acct;
 	}	//	getDueFrom_Acct
 

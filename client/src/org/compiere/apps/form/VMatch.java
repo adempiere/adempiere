@@ -409,8 +409,8 @@ public class VMatch extends Match
 	 */
 	public void valueChanged (ListSelectionEvent e)
 	{
-		if (e.getValueIsAdjusting())
-			return;
+		//if (e.getValueIsAdjusting())
+		//	return;
 	//	log.config( "VMatch.valueChanged");
 		panel.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 		cmd_searchTo();

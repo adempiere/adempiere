@@ -81,6 +81,9 @@ import org.eevolution.model.MDDOrderLine;
  *
  *  @author victor.perez@www.e-evolution.com 
  *  @version $Id: VOrderDistributionReceipt,v 1.0 
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 114 ] Change "Create From" UI for Form like Dialog in window without "hardcode"
+ *		@see https://github.com/adempiere/adempiere/issues/114
  */
 public class VOrderDistributionReceipt extends CPanel
 	implements FormPanel, ActionListener, VetoableChangeListener, 
@@ -557,8 +560,8 @@ public class VOrderDistributionReceipt extends CPanel
 		             re.print();
                      new Viewer(re);
 
-				
-				ADialogDialog d = new ADialogDialog (m_frame,
+             	//	Yamel Senih FR [ 114 ] 2015-11-23
+				ADialogDialog d = new ADialogDialog (m_frame.getCFrame(),
 					Env.getHeader(Env.getCtx(), m_WindowNo),
 					Msg.getMsg(Env.getCtx(), "PrintoutOK?"),
 					JOptionPane.QUESTION_MESSAGE);

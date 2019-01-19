@@ -15,9 +15,10 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.export.JRRtfExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
-import net.sf.jasperreports.view.JRViewer;
+import net.sf.jasperreports.swing.JRViewer;
 import org.compiere.apps.EMailDialog;
 import org.compiere.model.MUser;
 import org.compiere.util.CLogger;
@@ -54,7 +55,7 @@ public class JasperReportViewer extends JRViewer {
 		btnExport.addActionListener( new ExportListener( this));
 		tlbToolBar.add(btnExport);
 
-		comboBox = new JComboBox<Object>( new String[] {"PDF","HTML", "XLS"});
+		comboBox = new JComboBox<Object>( new String[] {"PDF","HTML", "XLS", "RTF"});
 		comboBox.setPreferredSize(new java.awt.Dimension(80, 23));
 		comboBox.setMaximumSize(new java.awt.Dimension(80, 23));
 		comboBox.setMinimumSize(new java.awt.Dimension(80, 23));
@@ -62,8 +63,8 @@ public class JasperReportViewer extends JRViewer {
 		tlbToolBar.add(comboBox);
 
 		// Set default viewer zoom level
-		btnFitPage.setSelected(true);
-		setZooms();
+		setFitWidthZoomRatio();
+		setFitPageZoomRatio();
 	}
 
 	public JasperPrint getJasperPrint() {
@@ -117,6 +118,15 @@ class ReportView implements ActionListener {
 					exporterXLS.setParameter(JRXlsExporterParameter.IS_COLLAPSE_ROW_SPAN, Boolean.TRUE);
 					exporterXLS.setParameter(JRXlsExporterParameter.IS_IGNORE_GRAPHICS, Boolean.FALSE);
 					exporterXLS.exportReport();
+				}
+				else if (comboBox.getSelectedItem().equals("RTF"))
+				{
+					FileOutputStream fos = new FileOutputStream(file);
+		            JRRtfExporter rtfExporter = new JRRtfExporter();
+		            rtfExporter.setParameter(JRExporterParameter.JASPER_PRINT, viewer.getJasperPrint());
+		            rtfExporter.setParameter(JRExporterParameter.OUTPUT_STREAM, fos);
+		            rtfExporter.setParameter(JRExporterParameter.CHARACTER_ENCODING, "UTF-8");
+		            rtfExporter.exportReport();
 				}
 
 			} catch (JRException e) {

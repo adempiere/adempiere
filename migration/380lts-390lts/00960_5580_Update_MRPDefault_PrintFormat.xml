@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Update Replenish Plan default Print Format" ReleaseNo="3.9.0" SeqNo="00960">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="489" Action="U" Record_ID="58209" Table="AD_PrintFormatItem">
+        <Data AD_Column_ID="6949" Column="AD_Column_ID" oldValue="76646">76644</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

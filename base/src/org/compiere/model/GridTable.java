@@ -49,6 +49,7 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.MSort;
+import org.compiere.util.Msg;
 import org.compiere.util.SecureEngine;
 import org.compiere.util.Trx;
 import org.compiere.util.ValueNamePair;
@@ -84,6 +85,17 @@ import org.compiere.util.ValueNamePair;
  *  			https://sourceforge.net/tracker/?func=detail&aid=2910358&group_id=176962&atid=879332
  *     		<li>BF [ 2910368 ] Error in context when IsActive field is found in different
  *  			https://sourceforge.net/tracker/?func=detail&aid=2910368&group_id=176962&atid=879332
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *			<li> FR [ 9223372036854775807 ] Add default values for Name, Description, Entity Type...
+ *			@see https://adempiere.atlassian.net/browse/ADEMPIERE-449
+ *			<li> FR [ 392 ] Translation method does not use PO class
+ *			@see https://github.com/adempiere/adempiere/issues/392
+ *  @author Nicolas Sarlabos, nicolas.sarlabos@openupsolutions.com, http://www.openupsolutions.com
+ *			<li> FR [ 1350 ] Return customized message in model validator
+ *			@see https://github.com/adempiere/adempiere/issues/1350
+ *	@author Michael McKay, michael.mckay@mckayerp.com
+ *			<li> BF [ <a href="https://github.com/adempiere/adempiere/issues/1944">1944</a> ] First save of a record with new Yes-No field causes error. 
+ *
  */
 public class GridTable extends AbstractTableModel
 	implements Serializable
@@ -94,7 +106,20 @@ public class GridTable extends AbstractTableModel
 	private static final long serialVersionUID = 7799823493936826600L;
 	
 	public static final String DATA_REFRESH_MESSAGE = "Refreshed";
+	
+	public String				m_trxName				= null;
 
+	public String getTrxName()
+	{
+		return m_trxName;
+	}
+
+	public void setTrxName(String trxName)
+	{
+		this.m_trxName = trxName;
+	}
+
+	
 	/**
 	 *	JDBC Based Buffered Table
 	 *
@@ -221,6 +246,10 @@ public class GridTable extends AbstractTableModel
 
 	private final static Integer NEW_ROW_ID = Integer.valueOf(-1);
 	private static final int DEFAULT_FETCH_SIZE = 200;
+
+	public ArrayList<Integer> rowChanged=new ArrayList<Integer>();
+	private HashMap<Integer, Object[]> rowChangedData=new HashMap<Integer, Object[]>();
+
 
 	/**
 	 *	Set Table Name
@@ -950,7 +979,11 @@ public class GridTable extends AbstractTableModel
 			}
 		}
 		return -1;
-	}	//	getKeyID
+	}	//
+
+	public String getUUID(int row) {
+		return DB.getSQLValueString(null , "SELECT UUID FROM " + getTableName() + " WHERE " + getKeyColumnName() + " = " + getKeyID(row));
+	}
 
 	/**
 	 *	Get Key ColumnName
@@ -1180,7 +1213,9 @@ public class GridTable extends AbstractTableModel
 			log.finest("r=" + row + " c=" + col + " - R/O=" + m_readOnly + ", Rows=" + m_rowCount + " - Ignored");
 			return;
 		}
-
+		if(!rowChanged.contains(row))
+			rowChanged.add(row);
+		if(!m_fields.get(0).getGridTab().isIncluded()) // && !m_fields.get(0).getGridTab().isQuickEntry())
 		dataSave(row, false);
 
 		//	Has anything changed?
@@ -1221,10 +1256,23 @@ public class GridTable extends AbstractTableModel
 				m_rowData[i] = rowData[i];
 		}
 
+		if(rowChangedData.containsKey(row))
+		{
+			rowChangedData.get(row)[col]=oldValue;
+		}
+		else
+		{
+			Object[] o = new Object[rowData.length];
+			System.arraycopy( rowData, 0, o, 0,rowData.length);
+			rowChangedData.put(row, o);
+		}
+
 		//	save & update
 		rowData[col] = value;
 		setDataAtRow(row, rowData);
-		//  update Table
+		//  update Table // QuickEntry: check for DropDown list populate but focus is lose while LEFT/RIGHT key-event fire.
+		if (!m_fields.get(0).getGridTab().isIncluded()
+				&& (DisplayType.List != m_fields.get(col).getDisplayType()))
 		fireTableCellUpdated(row, col);
 		//  update MField
 		GridField field = getField(col);
@@ -1463,11 +1511,14 @@ public class GridTable extends AbstractTableModel
 			Record_ID = getKeyID(m_rowChanged);
 		try
 		{
-			if (!m_tableName.endsWith("_Trl") && !specialZeroUpdate)	//	translation tables have no model
+			//	FR [ 392 ]
+			if (!specialZeroUpdate)	//	translation tables have no model
 				return dataSavePO (Record_ID);
 		}
 		catch (Throwable e)
 		{
+			fireDataStatusEEvent("SaveErrorNoChange", e.getLocalizedMessage(), true);
+
 			if (e instanceof ClassNotFoundException)
 				log.warning(m_tableName + " - " + e.getLocalizedMessage());
 			else
@@ -1477,6 +1528,7 @@ public class GridTable extends AbstractTableModel
 				return SAVE_ERROR;
 			}
 		}
+		
 		
 		/**	Manual Update of Row (i.e. not via PO class)	**/
 		log.info("NonPO");
@@ -2086,19 +2138,36 @@ public class GridTable extends AbstractTableModel
 				Object dbValue = po.get_Value(poIndex);
 				if (m_inserting 
 					|| !m_compareDB
+					
 					//	Original == DB
 					|| (oldValue == null && dbValue == null)
 					|| (oldValue != null && oldValue.equals (dbValue))
+					//  #1944  Special case when the field is boolean and not initialized
+					//  false equivalent to null allowed
+					|| (oldValue instanceof Boolean && !((Boolean) oldValue) && dbValue == null)
+					
 					//	Target == DB (changed by trigger to new value already)
 					|| (value == null && dbValue == null)
 					|| (value != null && value.equals (dbValue)) 
+					//  #1944  Special case when the field is boolean and not initialized
+					//  false equivalent to null allowed
+					|| (value instanceof Boolean && !((Boolean) value) && dbValue == null)
 					
 					//   GridTable.dataSave(boolean manualCmd) has a Bug when comparing new, old and db value 
 					// - https://adempiere.atlassian.net/browse/ADEMPIERE-157
-					|| ((oldValue.getClass().equals(byte[].class) && dbValue.getClass().equals(byte[].class)) && Arrays.equals((byte[])oldValue, (byte[])dbValue))
-					|| ((value.getClass().equals(byte[].class) && dbValue.getClass().equals(byte[].class)) && Arrays.equals((byte[])oldValue, (byte[])dbValue))
+					|| ((oldValue !=null && dbValue !=  null && oldValue.getClass().equals(byte[].class) &&  dbValue.getClass().equals(byte[].class)) && Arrays.equals((byte[])oldValue, (byte[])dbValue))
+					|| ((value != null && dbValue !=  null && oldValue != null  && value.getClass().equals(byte[].class) &&  dbValue.getClass().equals(byte[].class)) && Arrays.equals((byte[])oldValue, (byte[])dbValue))
 				) {
-					po.set_ValueNoCheck (columnName, value);
+					if(!po.set_ValueNoCheck (columnName, value))
+					{
+						ValueNamePair error = CLogger.retrieveError();
+						if (error != null)
+							fireDataStatusEEvent (error.getValue() != null ? error.getValue() : "" , field.getHeader() + " - " + (error.getName() != null ? error.getName() : "") , true);
+						else
+							fireDataStatusEEvent(Msg.parseTranslation(po.getCtx() , "@Value@ @NotValid@ "), field.getHeader(), true);
+
+						return SAVE_ERROR;
+					}
 				}
 				//	Original != DB
 				else
@@ -2480,7 +2549,8 @@ public class GridTable extends AbstractTableModel
 		//	fill data
 		if (copyCurrent)
 		{
-			boolean hasDocTypeTargetField = (getField("C_DocTypeTarget_ID") != null);
+			//	Changed for is Read Only attribute
+//			boolean hasDocTypeTargetField = (getField("C_DocTypeTarget_ID") != null);
 			Object[] origData = getDataAtRow(currentRow);
 			for (int i = 0; i < size; i++)
 			{
@@ -2489,25 +2559,11 @@ public class GridTable extends AbstractTableModel
 				if (field.isVirtualColumn())
 					;
 				else if (field.isKey()
-					|| columnName.equals("AD_Client_ID")
-					//
-					|| columnName.startsWith("Created") || columnName.startsWith("Updated")
-					|| columnName.equals("EntityType") || columnName.equals("DocumentNo")
-					|| columnName.equals("Processed") || columnName.equals("IsSelfService")
-					|| columnName.equals("DocAction") || columnName.equals("DocStatus")
-					|| columnName.equals("Posted") || columnName.equals("IsReconciled")
-					|| columnName.equals("IsApproved") // BF [ 1943682 ]
-					|| columnName.equals("IsGenerated") // BF [ 1943682 ]
-					|| columnName.startsWith("Ref_")
-					//	Order/Invoice
-					|| columnName.equals("GrandTotal") || columnName.equals("TotalLines")
-					|| columnName.equals("C_CashLine_ID") || columnName.equals("C_Payment_ID")
-					|| columnName.equals("IsPaid") || columnName.equals("IsAllocated")
+					//	FR [ 9223372036854775807 ]
+					|| M_Element.isReservedColumnName(columnName)
 					// Bug [ 1807947 ] 
-					|| ( columnName.equals("C_DocType_ID") && hasDocTypeTargetField )
-					|| ( columnName.equals("Line")
+					|| field.isReadOnly()
 					|| !field.IsAllowCopy())
-				)
 				{
 					rowData[i] = field.getDefault();
 					field.setValue(rowData[i], m_inserting);
@@ -2525,6 +2581,12 @@ public class GridTable extends AbstractTableModel
 				field.setValue(rowData[i], m_inserting);
 			}
 		}
+
+		Object[] o =new Object[rowData.length];
+		System.arraycopy(rowData, 0, o, 0, rowData.length);
+		rowChangedData.put(m_newRow, o);
+		if(!rowChanged.contains(m_newRow))
+			rowChanged.add(m_newRow);
 		
 		m_rowChanged = -1;  //  only changed in setValueAt
 
@@ -2671,6 +2733,20 @@ public class GridTable extends AbstractTableModel
 			}
 		}
 
+		if(rowChanged.contains(row))
+		{
+			rowChangedData.remove(row);
+			//rowChanged.remove(row); jobriant - it passes the element index instead of the key
+			int i = 0;
+			for (int changed : rowChanged) {
+				if (changed == row) {
+					rowChanged.remove(i);
+					break;
+				}
+				i++;
+			}
+		}
+
 		//	inform
 		m_changed = false;
 		m_rowChanged = -1;
@@ -2713,8 +2789,21 @@ public class GridTable extends AbstractTableModel
 			//
 			m_changed = false;
 			m_rowData = null;
+
+			if(!m_inserting && rowChanged.size()> 0)
+			{
+				for(int i=0 ; i<rowChanged.size() ; i++)
+				{
+					setDataAtRow(rowChanged.get(i), rowChangedData.get(rowChanged.get(i)));
+				}
+			}
+			rowChangedData.clear();
+			rowChanged.clear();
+			
 			m_rowChanged = -1;
 			m_inserting = false;
+			
+			
 			//	inform
 			fireTableRowsDeleted(m_newRow, m_newRow);
 		}
@@ -3614,7 +3703,7 @@ public class GridTable extends AbstractTableModel
 					memProcessed = (Boolean) getValueAt(row, colProcessed);
 		    	
 				Boolean dbProcessed = Boolean.TRUE;
-				if (! dbProcessedS.equals("Y"))
+				if (dbProcessedS == null || dbProcessedS.isEmpty() || ! dbProcessedS.equals("Y"))
 					dbProcessed = Boolean.FALSE;
 				if (memProcessed != null && ! memProcessed.equals(dbProcessed))
 					return true;
@@ -3717,4 +3806,26 @@ public class GridTable extends AbstractTableModel
 
 			return where;
 		}
+		
+		public ArrayList<Integer> getRowChanged()
+		{
+			return rowChanged;
+		}
+		
+	public boolean checkField(int m_row) {
+		//	get updated row data
+		if(m_row != -1) {
+			Object[] rowData = getDataAtRow(m_row);
+			//	Check Mandatory
+			String missingColumns = getMandatory(rowData);
+			if (missingColumns.length() != 0)
+			{
+			//	Trace.printStack(false, false);
+				fireDataStatusEEvent("FillMandatory", missingColumns + "\n", true);
+				return false;
+			}
+		}
+		return true;
+	}
+
 }

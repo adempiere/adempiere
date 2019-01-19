@@ -1,0 +1,731 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Financial Report throw a error when is launched #1298" ReleaseNo="3.9.0.a" SeqNo="3030">
+    <Comments>See: https://github.com/adempiere/adempiere/issues/1298</Comments>
+    <Step DBType="ALL" Parse="N" SeqNo="0" StepType="SQL">
+      <Comments>DROP TABLE T_Report</Comments>
+      <SQLStatement>DROP TABLE T_Report</SQLStatement>
+    </Step>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="68923" Table="AD_Column">
+        <Data AD_Column_ID="226" Column="AD_Reference_ID" oldValue="20">17</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="276" Action="U" Record_ID="56491" Table="AD_Element">
+        <Data AD_Column_ID="2602" Column="ColumnName" oldValue="fixedpercentage">FixedPercentage</Data>
+        <Data AD_Column_ID="4299" Column="PrintName" oldValue="fixedpercentage">Fixed Percentage</Data>
+        <Data AD_Column_ID="58589" Column="FieldLength" isOldNull="true">10</Data>
+        <Data AD_Column_ID="58588" Column="AD_Reference_ID" isOldNull="true">12</Data>
+        <Data AD_Column_ID="2603" Column="Name" oldValue="fixedpercentage">Fixed Percentage</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="277" Action="U" Record_ID="0" Table="AD_Element_Trl">
+        <Data AD_Column_ID="2638" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="2637" Column="AD_Element_ID" oldValue="56491">56491</Data>
+        <Data AD_Column_ID="2649" Column="IsTranslated" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="68919" Table="AD_Column">
+        <Data AD_Column_ID="112" Column="Description" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="111" Column="Name" oldValue="fixedpercentage">Fixed Percentage</Data>
+        <Data AD_Column_ID="116" Column="ColumnName" oldValue="fixedpercentage">FixedPercentage</Data>
+        <Data AD_Column_ID="113" Column="Help" isNewNull="true" isOldNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="752" Action="U" Record_ID="0" Table="AD_Column_Trl">
+        <Data AD_Column_ID="12954" Column="IsTranslated" oldValue="true">false</Data>
+        <Data AD_Column_ID="12953" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="12955" Column="AD_Column_ID" oldValue="68919">68919</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="69917" Table="AD_Field">
+        <Data AD_Column_ID="169" Column="Description" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="170" Column="Help" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="168" Column="Name" oldValue="fixedpercentage">Fixed Percentage</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="68920" Table="AD_Column">
+        <Data AD_Column_ID="112" Column="Description" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="111" Column="Name" oldValue="fixedpercentage">Fixed Percentage</Data>
+        <Data AD_Column_ID="116" Column="ColumnName" oldValue="fixedpercentage">FixedPercentage</Data>
+        <Data AD_Column_ID="113" Column="Help" isNewNull="true" isOldNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="752" Action="U" Record_ID="0" Table="AD_Column_Trl">
+        <Data AD_Column_ID="12954" Column="IsTranslated" oldValue="true">false</Data>
+        <Data AD_Column_ID="12953" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="12955" Column="AD_Column_ID" oldValue="68920">68920</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="69917" Table="AD_Field">
+        <Data AD_Column_ID="169" Column="Description" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="170" Column="Help" isNewNull="true" isOldNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="110" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="68920" Table="AD_Column">
+        <Data AD_Column_ID="118" Column="FieldLength" oldValue="131089">10</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID" oldValue="22">12</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="120" StepType="AD">
+      <PO AD_Table_ID="276" Action="U" Record_ID="56434" Table="AD_Element">
+        <Data AD_Column_ID="2603" Column="Name" oldValue="reportlinestyle">Report Line Style</Data>
+        <Data AD_Column_ID="2602" Column="ColumnName" oldValue="reportlinestyle">ReportLineStyle</Data>
+        <Data AD_Column_ID="4299" Column="PrintName" oldValue="reportlinestyle">Report Line Style</Data>
+        <Data AD_Column_ID="58589" Column="FieldLength" isOldNull="true">3</Data>
+        <Data AD_Column_ID="58588" Column="AD_Reference_ID" isOldNull="true">17</Data>
+        <Data AD_Column_ID="58590" Column="AD_Reference_Value_ID" isOldNull="true">53793</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="130" StepType="AD">
+      <PO AD_Table_ID="277" Action="U" Record_ID="0" Table="AD_Element_Trl">
+        <Data AD_Column_ID="2638" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="2637" Column="AD_Element_ID" oldValue="56434">56434</Data>
+        <Data AD_Column_ID="2649" Column="IsTranslated" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="140" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="68436" Table="AD_Column">
+        <Data AD_Column_ID="112" Column="Description" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="111" Column="Name" oldValue="reportlinestyle">Report Line Style</Data>
+        <Data AD_Column_ID="116" Column="ColumnName" oldValue="reportlinestyle">ReportLineStyle</Data>
+        <Data AD_Column_ID="113" Column="Help" isNewNull="true" isOldNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="150" StepType="AD">
+      <PO AD_Table_ID="752" Action="U" Record_ID="0" Table="AD_Column_Trl">
+        <Data AD_Column_ID="12954" Column="IsTranslated" oldValue="true">false</Data>
+        <Data AD_Column_ID="12953" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="12955" Column="AD_Column_ID" oldValue="68436">68436</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="160" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="69731" Table="AD_Field">
+        <Data AD_Column_ID="169" Column="Description" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="168" Column="Name" oldValue="reportlinestyle">Report Line Style</Data>
+        <Data AD_Column_ID="170" Column="Help" isNewNull="true" isOldNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="170" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="68438" Table="AD_Column">
+        <Data AD_Column_ID="112" Column="Description" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="111" Column="Name" oldValue="reportlinestyle">Report Line Style</Data>
+        <Data AD_Column_ID="116" Column="ColumnName" oldValue="reportlinestyle">ReportLineStyle</Data>
+        <Data AD_Column_ID="113" Column="Help" isNewNull="true" isOldNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="180" StepType="AD">
+      <PO AD_Table_ID="752" Action="U" Record_ID="0" Table="AD_Column_Trl">
+        <Data AD_Column_ID="12954" Column="IsTranslated" oldValue="true">false</Data>
+        <Data AD_Column_ID="12953" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="12955" Column="AD_Column_ID" oldValue="68438">68438</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="190" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="69733" Table="AD_Field">
+        <Data AD_Column_ID="169" Column="Description" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="168" Column="Name" oldValue="reportlinestyle">Report Line Style</Data>
+        <Data AD_Column_ID="170" Column="Help" isNewNull="true" isOldNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="200" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="68441" Table="AD_Column">
+        <Data AD_Column_ID="112" Column="Description" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="111" Column="Name" oldValue="reportlinestyle">Report Line Style</Data>
+        <Data AD_Column_ID="116" Column="ColumnName" oldValue="reportlinestyle">ReportLineStyle</Data>
+        <Data AD_Column_ID="113" Column="Help" isNewNull="true" isOldNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="210" StepType="AD">
+      <PO AD_Table_ID="752" Action="U" Record_ID="0" Table="AD_Column_Trl">
+        <Data AD_Column_ID="12954" Column="IsTranslated" oldValue="true">false</Data>
+        <Data AD_Column_ID="12953" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="12955" Column="AD_Column_ID" oldValue="68441">68441</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="220" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="69731" Table="AD_Field">
+        <Data AD_Column_ID="169" Column="Description" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="170" Column="Help" isNewNull="true" isOldNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="230" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="69733" Table="AD_Field">
+        <Data AD_Column_ID="169" Column="Description" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="170" Column="Help" isNewNull="true" isOldNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="250" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="68441" Table="AD_Column">
+        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isOldNull="true">53793</Data>
+        <Data AD_Column_ID="118" Column="FieldLength" oldValue="1">3</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID" oldValue="20">17</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="260" StepType="AD">
+      <PO AD_Table_ID="276" Action="U" Record_ID="56492" Table="AD_Element">
+        <Data AD_Column_ID="2603" Column="Name" oldValue="ax_case">AX Case</Data>
+        <Data AD_Column_ID="2602" Column="ColumnName" oldValue="ax_case">AX_Case</Data>
+        <Data AD_Column_ID="4299" Column="PrintName" oldValue="ax_case">AX Case</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="270" StepType="AD">
+      <PO AD_Table_ID="277" Action="U" Record_ID="0" Table="AD_Element_Trl">
+        <Data AD_Column_ID="2638" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="2637" Column="AD_Element_ID" oldValue="56492">56492</Data>
+        <Data AD_Column_ID="2649" Column="IsTranslated" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="280" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="68924" Table="AD_Column">
+        <Data AD_Column_ID="112" Column="Description" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="111" Column="Name" oldValue="ax_case">AX Case</Data>
+        <Data AD_Column_ID="116" Column="ColumnName" oldValue="ax_case">AX_Case</Data>
+        <Data AD_Column_ID="113" Column="Help" isNewNull="true" isOldNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="290" StepType="AD">
+      <PO AD_Table_ID="752" Action="U" Record_ID="0" Table="AD_Column_Trl">
+        <Data AD_Column_ID="12954" Column="IsTranslated" oldValue="true">false</Data>
+        <Data AD_Column_ID="12953" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="12955" Column="AD_Column_ID" oldValue="68924">68924</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="310" StepType="AD">
+      <PO AD_Table_ID="276" Action="U" Record_ID="56492" Table="AD_Element">
+        <Data AD_Column_ID="2603" Column="Name" oldValue="AX Case">Ax Case</Data>
+        <Data AD_Column_ID="2602" Column="ColumnName" oldValue="AX_Case">Ax_Case</Data>
+        <Data AD_Column_ID="4299" Column="PrintName" oldValue="AX Case">Ax Case</Data>
+        <Data AD_Column_ID="58589" Column="FieldLength" isOldNull="true">1</Data>
+        <Data AD_Column_ID="58588" Column="AD_Reference_ID" isOldNull="true">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="320" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="68924" Table="AD_Column">
+        <Data AD_Column_ID="112" Column="Description" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="111" Column="Name" oldValue="AX Case">Ax Case</Data>
+        <Data AD_Column_ID="116" Column="ColumnName" oldValue="AX_Case">Ax_Case</Data>
+        <Data AD_Column_ID="113" Column="Help" isNewNull="true" isOldNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="340" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="68924" Table="AD_Column">
+        <Data AD_Column_ID="226" Column="AD_Reference_ID" oldValue="20">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="350" StepType="AD">
+      <PO AD_Table_ID="277" Action="U" Record_ID="0" Table="AD_Element_Trl">
+        <Data AD_Column_ID="2646" Column="Name" oldValue="ax_case">Corte de Valor</Data>
+        <Data AD_Column_ID="2638" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="2637" Column="AD_Element_ID" oldValue="56492">56492</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="360" StepType="AD">
+      <PO AD_Table_ID="277" Action="U" Record_ID="0" Table="AD_Element_Trl">
+        <Data AD_Column_ID="2638" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="2637" Column="AD_Element_ID" oldValue="56492">56492</Data>
+        <Data AD_Column_ID="4300" Column="PrintName" oldValue="ax_case">Corte de Valor</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="370" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="4736" Table="AD_Field">
+        <Data AD_Column_ID="183" Column="IsSameLine" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="380" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="54234" Table="AD_Field">
+        <Data AD_Column_ID="183" Column="IsSameLine" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="390" StepType="AD">
+      <PO AD_Table_ID="106" Action="I" Record_ID="54358" Table="AD_Tab">
+        <Data AD_Column_ID="3374" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="574" Column="Created">2017-08-19 10:55:05.489</Data>
+        <Data AD_Column_ID="380" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="379" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="576" Column="Updated">2017-08-19 10:55:05.489</Data>
+        <Data AD_Column_ID="160" Column="AD_Tab_ID">54358</Data>
+        <Data AD_Column_ID="573" Column="IsActive">true</Data>
+        <Data AD_Column_ID="7713" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="4207" Column="Processing">false</Data>
+        <Data AD_Column_ID="2742" Column="OrderByClause" isNewNull="true"/>
+        <Data AD_Column_ID="162" Column="Description">Sequence of Lines</Data>
+        <Data AD_Column_ID="163" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="575" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="57842" Column="Parent_Column_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2741" Column="WhereClause" isNewNull="true"/>
+        <Data AD_Column_ID="161" Column="Name">Sequence</Data>
+        <Data AD_Column_ID="165" Column="SeqNo">40</Data>
+        <Data AD_Column_ID="251" Column="AD_Table_ID">448</Data>
+        <Data AD_Column_ID="1183" Column="HasTree">false</Data>
+        <Data AD_Column_ID="7028" Column="AD_ColumnSortYesNo_ID">6057</Data>
+        <Data AD_Column_ID="2744" Column="CommitWarning" isNewNull="true"/>
+        <Data AD_Column_ID="2042" Column="IsInfoTab">false</Data>
+        <Data AD_Column_ID="6487" Column="ImportFields">N</Data>
+        <Data AD_Column_ID="6313" Column="AD_Image_ID" isNewNull="true"/>
+        <Data AD_Column_ID="577" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="8547" Column="Included_Tab_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6654" Column="TabLevel">1</Data>
+        <Data AD_Column_ID="13995" Column="IsAdvancedTab">false</Data>
+        <Data AD_Column_ID="2043" Column="IsTranslationTab">false</Data>
+        <Data AD_Column_ID="166" Column="IsSingleRow">false</Data>
+        <Data AD_Column_ID="164" Column="AD_Window_ID">218</Data>
+        <Data AD_Column_ID="7027" Column="IsSortTab">true</Data>
+        <Data AD_Column_ID="2044" Column="IsReadOnly">false</Data>
+        <Data AD_Column_ID="2740" Column="AD_Column_ID" isNewNull="true"/>
+        <Data AD_Column_ID="7029" Column="AD_ColumnSortOrder_ID">6055</Data>
+        <Data AD_Column_ID="13449" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="13450" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="13994" Column="IsInsertRecord">false</Data>
+        <Data AD_Column_ID="84423" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="400" StepType="AD">
+      <PO AD_Table_ID="123" Action="I" Record_ID="54358" Table="AD_Tab_Trl">
+        <Data AD_Column_ID="651" Column="IsActive">true</Data>
+        <Data AD_Column_ID="652" Column="Created">2017-08-19 10:55:06.676</Data>
+        <Data AD_Column_ID="654" Column="Updated">2017-08-19 10:55:06.676</Data>
+        <Data AD_Column_ID="1198" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="1199" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="264" Column="AD_Tab_ID">54358</Data>
+        <Data AD_Column_ID="3376" Column="CommitWarning" isNewNull="true"/>
+        <Data AD_Column_ID="655" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="266" Column="Name">Sequence</Data>
+        <Data AD_Column_ID="268" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="653" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="267" Column="Description">Sequence of Lines</Data>
+        <Data AD_Column_ID="265" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="269" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="84424" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="410" StepType="AD">
+      <PO AD_Table_ID="123" Action="U" Record_ID="54358" Table="AD_Tab_Trl">
+        <Data AD_Column_ID="264" Column="AD_Tab_ID" oldValue="54358">54358</Data>
+        <Data AD_Column_ID="266" Column="Name" oldValue="Sequence">Secuencia</Data>
+        <Data AD_Column_ID="267" Column="Description" oldValue="Sequence of Lines">Secuencia de Líneas</Data>
+        <Data AD_Column_ID="265" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="420" StepType="AD">
+      <PO AD_Table_ID="106" Action="U" Record_ID="54358" Table="AD_Tab">
+        <Data AD_Column_ID="165" Column="SeqNo" oldValue="40">20</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="430" StepType="AD">
+      <PO AD_Table_ID="106" Action="U" Record_ID="376" Table="AD_Tab">
+        <Data AD_Column_ID="165" Column="SeqNo" oldValue="20">30</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="440" StepType="AD">
+      <PO AD_Table_ID="106" Action="U" Record_ID="377" Table="AD_Tab">
+        <Data AD_Column_ID="165" Column="SeqNo" oldValue="30">40</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="450" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="4796" Table="AD_Field">
+        <Data AD_Column_ID="183" Column="IsSameLine" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="460" StepType="AD">
+      <PO AD_Table_ID="136" Action="U" Record_ID="54670" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="338" Column="Name" oldValue="Blank line">Línea Blanca</Data>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID" oldValue="54670">54670</Data>
+        <Data AD_Column_ID="337" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="470" StepType="AD">
+      <PO AD_Table_ID="136" Action="U" Record_ID="54104" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="338" Column="Name" oldValue="Customized Line">Línea Personalizada</Data>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID" oldValue="54104">54104</Data>
+        <Data AD_Column_ID="337" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="480" StepType="AD">
+      <PO AD_Table_ID="136" Action="U" Record_ID="54103" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="338" Column="Name" oldValue="Tabbed Text">Texto Tabulado</Data>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID" oldValue="54103">54103</Data>
+        <Data AD_Column_ID="337" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="490" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="4800" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="130">140</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="500" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="4801" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="140">150</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="510" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="58043" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="150">160</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="520" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="5807" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="160">170</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="530" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="58044" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="170">180</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="540" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="69732" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="200">190</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="550" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="80199" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" isOldNull="true">200</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="560" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="69731" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="190">210</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="570" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="77087" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="190">220</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="580" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="77088" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="200">230</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="590" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="77087" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="220">210</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="600" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="77088" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="230">220</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="610" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="69731" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="210">230</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="620" StepType="AD">
+      <PO AD_Table_ID="414" Action="I" Record_ID="50071" Table="AD_FieldGroup">
+        <Data AD_Column_ID="5380" Column="Created">2017-08-19 11:27:07.204</Data>
+        <Data AD_Column_ID="5377" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="5381" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="5378" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="5382" Column="Updated">2017-08-19 11:27:07.204</Data>
+        <Data AD_Column_ID="5376" Column="AD_FieldGroup_ID">50071</Data>
+        <Data AD_Column_ID="5379" Column="IsActive">true</Data>
+        <Data AD_Column_ID="10013" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="5383" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="5384" Column="Name">Line Format</Data>
+        <Data AD_Column_ID="53002" Column="FieldGroupType">C</Data>
+        <Data AD_Column_ID="54259" Column="IsCollapsedByDefault">false</Data>
+        <Data AD_Column_ID="84321" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="630" StepType="AD">
+      <PO AD_Table_ID="415" Action="I" Record_ID="50071" Table="AD_FieldGroup_Trl">
+        <Data AD_Column_ID="5392" Column="Updated">2017-08-19 11:27:08.057</Data>
+        <Data AD_Column_ID="5387" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="5389" Column="IsActive">true</Data>
+        <Data AD_Column_ID="5390" Column="Created">2017-08-19 11:27:08.057</Data>
+        <Data AD_Column_ID="5388" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="5385" Column="AD_FieldGroup_ID">50071</Data>
+        <Data AD_Column_ID="5391" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="5386" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="5393" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="5394" Column="Name">Line Format</Data>
+        <Data AD_Column_ID="5395" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="84322" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="640" StepType="AD">
+      <PO AD_Table_ID="415" Action="U" Record_ID="50071" Table="AD_FieldGroup_Trl">
+        <Data AD_Column_ID="5385" Column="AD_FieldGroup_ID" oldValue="50071">50071</Data>
+        <Data AD_Column_ID="5386" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="5394" Column="Name" oldValue="Line Format">Formato de Línea</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="650" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="77087" Table="AD_Field">
+        <Data AD_Column_ID="5375" Column="AD_FieldGroup_ID" isOldNull="true">50071</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="660" StepType="AD">
+      <PO AD_Table_ID="136" Action="U" Record_ID="53545" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="338" Column="Name" oldValue="Balance (signo contabilizado))">Balance (signo contabilizado)</Data>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID" oldValue="53545">53545</Data>
+        <Data AD_Column_ID="337" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="670" StepType="AD">
+      <PO AD_Table_ID="136" Action="U" Record_ID="53545" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="338" Column="Name" oldValue="Balance (signo contabilizado)">Balance (signo contabilizado) (DB - CR)</Data>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID" oldValue="53545">53545</Data>
+        <Data AD_Column_ID="337" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="680" StepType="AD">
+      <PO AD_Table_ID="136" Action="U" Record_ID="53546" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="338" Column="Name" oldValue="Cantidad (signo contabilizado)">Cantidad (signo contabilizado) (DB - CR)</Data>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID" oldValue="53546">53546</Data>
+        <Data AD_Column_ID="337" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="700" StepType="AD">
+      <PO AD_Table_ID="136" Action="U" Record_ID="53546" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="340" Column="IsTranslated" oldValue="true">false</Data>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID" oldValue="53546">53546</Data>
+        <Data AD_Column_ID="337" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="720" StepType="AD">
+      <PO AD_Table_ID="136" Action="U" Record_ID="53545" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="340" Column="IsTranslated" oldValue="true">false</Data>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID" oldValue="53545">53545</Data>
+        <Data AD_Column_ID="337" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="730" StepType="AD">
+      <PO AD_Table_ID="104" Action="U" Record_ID="53546" Table="AD_Ref_List">
+        <Data AD_Column_ID="150" Column="Description" isOldNull="true">DB - CR</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="740" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="80199" Table="AD_Field">
+        <Data AD_Column_ID="177" Column="DisplayLogic" isOldNull="true">@LineType@=S</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="750" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="4782" Table="AD_Field">
+        <Data AD_Column_ID="183" Column="IsSameLine" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="760" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="4743" Table="AD_Field">
+        <Data AD_Column_ID="183" Column="IsSameLine" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="770" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="4753" Table="AD_Field">
+        <Data AD_Column_ID="183" Column="IsSameLine" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="780" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="4753" Table="AD_Field">
+        <Data AD_Column_ID="183" Column="IsSameLine" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="790" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="4762" Table="AD_Field">
+        <Data AD_Column_ID="183" Column="IsSameLine" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="800" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="4756" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="170">90</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="810" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="4753" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="90">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="820" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="4754" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="100">110</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="830" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="4760" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="120">130</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="840" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="58042" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="130">140</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="850" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="4758" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="140">150</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="860" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="4774" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="150">160</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="870" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="4770" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="160">170</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="880" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="76663" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="470">480</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="890" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="56375" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="480">490</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="900" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="76661" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="480">500</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="910" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="56376" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="490">510</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="920" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="76664" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="490">520</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="930" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="76662" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="500">530</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="940" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="80228" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="510">540</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="950" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="80230" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="520">550</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="960" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="80229" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="530">560</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="970" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="80231" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="540">570</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="980" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="80200" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" isOldNull="true">580</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="990" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="4756" Table="AD_Field">
+        <Data AD_Column_ID="183" Column="IsSameLine" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1000" StepType="AD">
+      <PO AD_Table_ID="106" Action="I" Record_ID="54359" Table="AD_Tab">
+        <Data AD_Column_ID="3374" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="574" Column="Created">2017-08-19 11:55:58.726</Data>
+        <Data AD_Column_ID="380" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="379" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="576" Column="Updated">2017-08-19 11:55:58.726</Data>
+        <Data AD_Column_ID="160" Column="AD_Tab_ID">54359</Data>
+        <Data AD_Column_ID="573" Column="IsActive">true</Data>
+        <Data AD_Column_ID="7713" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="4207" Column="Processing">false</Data>
+        <Data AD_Column_ID="2742" Column="OrderByClause" isNewNull="true"/>
+        <Data AD_Column_ID="162" Column="Description">Sequence of Column</Data>
+        <Data AD_Column_ID="163" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="575" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="57842" Column="Parent_Column_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2741" Column="WhereClause" isNewNull="true"/>
+        <Data AD_Column_ID="161" Column="Name">Sequence</Data>
+        <Data AD_Column_ID="165" Column="SeqNo">40</Data>
+        <Data AD_Column_ID="251" Column="AD_Table_ID">446</Data>
+        <Data AD_Column_ID="1183" Column="HasTree">false</Data>
+        <Data AD_Column_ID="7028" Column="AD_ColumnSortYesNo_ID">6011</Data>
+        <Data AD_Column_ID="2744" Column="CommitWarning" isNewNull="true"/>
+        <Data AD_Column_ID="2042" Column="IsInfoTab">false</Data>
+        <Data AD_Column_ID="6487" Column="ImportFields">N</Data>
+        <Data AD_Column_ID="6313" Column="AD_Image_ID" isNewNull="true"/>
+        <Data AD_Column_ID="577" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="8547" Column="Included_Tab_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6654" Column="TabLevel">0</Data>
+        <Data AD_Column_ID="13995" Column="IsAdvancedTab">false</Data>
+        <Data AD_Column_ID="2043" Column="IsTranslationTab">false</Data>
+        <Data AD_Column_ID="166" Column="IsSingleRow">false</Data>
+        <Data AD_Column_ID="164" Column="AD_Window_ID">217</Data>
+        <Data AD_Column_ID="7027" Column="IsSortTab">true</Data>
+        <Data AD_Column_ID="2044" Column="IsReadOnly">false</Data>
+        <Data AD_Column_ID="2740" Column="AD_Column_ID" isNewNull="true"/>
+        <Data AD_Column_ID="7029" Column="AD_ColumnSortOrder_ID">6009</Data>
+        <Data AD_Column_ID="13449" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="13450" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="13994" Column="IsInsertRecord">true</Data>
+        <Data AD_Column_ID="84423" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="1010" StepType="AD">
+      <PO AD_Table_ID="123" Action="I" Record_ID="54359" Table="AD_Tab_Trl">
+        <Data AD_Column_ID="651" Column="IsActive">true</Data>
+        <Data AD_Column_ID="652" Column="Created">2017-08-19 11:55:59.908</Data>
+        <Data AD_Column_ID="654" Column="Updated">2017-08-19 11:55:59.908</Data>
+        <Data AD_Column_ID="1198" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="1199" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="264" Column="AD_Tab_ID">54359</Data>
+        <Data AD_Column_ID="3376" Column="CommitWarning" isNewNull="true"/>
+        <Data AD_Column_ID="655" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="266" Column="Name">Sequence</Data>
+        <Data AD_Column_ID="268" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="653" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="267" Column="Description">Sequence of Column</Data>
+        <Data AD_Column_ID="265" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="269" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="84424" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="1020" StepType="AD">
+      <PO AD_Table_ID="123" Action="U" Record_ID="54359" Table="AD_Tab_Trl">
+        <Data AD_Column_ID="264" Column="AD_Tab_ID" oldValue="54359">54359</Data>
+        <Data AD_Column_ID="266" Column="Name" oldValue="Sequence">Secuencia</Data>
+        <Data AD_Column_ID="267" Column="Description" oldValue="Sequence of Column">Secuencia de Columnas</Data>
+        <Data AD_Column_ID="265" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1030" StepType="AD">
+      <PO AD_Table_ID="106" Action="U" Record_ID="54359" Table="AD_Tab">
+        <Data AD_Column_ID="165" Column="SeqNo" oldValue="40">20</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1040" StepType="AD">
+      <PO AD_Table_ID="106" Action="U" Record_ID="374" Table="AD_Tab">
+        <Data AD_Column_ID="165" Column="SeqNo" oldValue="20">30</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1050" StepType="AD">
+      <PO AD_Table_ID="106" Action="U" Record_ID="54090" Table="AD_Tab">
+        <Data AD_Column_ID="165" Column="SeqNo" oldValue="30">40</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1060" StepType="AD">
+      <PO AD_Table_ID="106" Action="U" Record_ID="54359" Table="AD_Tab">
+        <Data AD_Column_ID="6654" Column="TabLevel" oldValue="0">1</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

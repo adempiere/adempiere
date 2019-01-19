@@ -100,7 +100,7 @@ public class WPreference extends Popup implements EventListener {
 		this.appendChild(toolbar);
 		ToolBarButton btn = new ToolBarButton("");
         btn.setName("btnSave");
-        btn.setImage("/images/Save24.png");
+        btn.setImage("/images/dark/Save24.png");
         btn.setTooltiptext(Msg.getMsg(Env.getCtx(),"Save"));
         btn.addEventListener(Events.ON_CLICK, this);
         toolbar.appendChild(btn);

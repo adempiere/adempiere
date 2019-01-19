@@ -170,7 +170,7 @@ public class MPrintPaper extends X_AD_PrintPaper
 		{
 			float x = getSizeX().floatValue();
 			float y = getSizeY().floatValue();
-			if (x > 0 && y > 0)
+			if (x > 0 && y > 0 && x <= y)
 			{
 				m_mediaSize = new MediaSize(x, y, getUnitsInt(), MediaSizeName.A);
 				log.fine("Size=" + m_mediaSize);

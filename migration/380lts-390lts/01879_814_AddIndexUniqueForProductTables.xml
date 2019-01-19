@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Add Index Unique for group , class , classification" ReleaseNo="3.9.0" SeqNo="1870">
+    <Comments>https://github.com/adempiere/adempiere/issues/814</Comments>
+    <Step DBType="ALL" Parse="Y" SeqNo="10" StepType="SQL">
+      <SQLStatement>ALTER TABLE m_product_class ADD CONSTRAINT m_product_class_value UNIQUE (ad_client_id , value);
+ALTER TABLE m_product_classification ADD CONSTRAINT m_product_classification_value UNIQUE (ad_client_id , value);
+ALTER TABLE m_product_group ADD CONSTRAINT m_product_group_value UNIQUE (ad_client_id , value);</SQLStatement>
+      <RollbackStatement>ALTER TABLE m_product_class DROP CONSTRAINT m_product_class_value;
+ALTER TABLE m_product_classification DROP CONSTRAINT m_product_classification_value;
+ALTER TABLE m_product_group DROP CONSTRAINT m_product_group_value;</RollbackStatement>
+    </Step>
+  </Migration>
+</Migrations>

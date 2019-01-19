@@ -22,9 +22,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.adempiere.webui.AdempiereIdGenerator;
 import org.adempiere.webui.LayoutUtils;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.compiere.util.Util;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
@@ -71,11 +73,19 @@ public final class ConfirmPanel extends Hbox
     public static final String A_PATTRIBUTE = "PAttribute";
     /** Action String New.   */
     public static final String A_NEW = "New";
-
+    /** Action String Save.  */
+    public static final String A_SAVE = "Save";
+    /** Action String Save Column Witdh.  */
+    public static final String A_SAVE_COLUMN_WIDTH = "SaveColumnWidth";
+    /** Action String Ignore.  */
+    public static final String A_IGNORE = "Ignore";
+    
     private boolean  m_withText = false;
 
     private Map<String, Button> buttonMap = new HashMap<String, Button>();
-
+    
+    private boolean m_withImage = true;
+    
     /**
      * Creates a button of the specified id
      *
@@ -103,8 +113,9 @@ public final class ConfirmPanel extends Hbox
     {
         Button button = new Button();
         button.setName("btn"+name);
-        button.setId(name);  // Might get overwritten by renderer
-        button.setAttribute("zk_component_ID", "ConfirmPanel_btn"+name);
+        button.setId(name);
+        button.setAttribute(AdempiereIdGenerator.ZK_COMPONENT_PREFIX_ATTRIBUTE, button.getId());
+        
         String text = Msg.translate(Env.getCtx(), name);
         if (!name.equals(text))
         	text = text.replaceAll("[&]", "");
@@ -113,13 +124,16 @@ public final class ConfirmPanel extends Hbox
 
         if (m_withText && text != null)
         {
-        	button.setImage("images/"+name+"16.png");
+        	if(m_withImage)
+        	{
+        		button.setImage("images/"+name+"16.png");
+        	}
         	button.setLabel(text);
         	LayoutUtils.addSclass("action-text-button", button);
         }
         else
         {
-        	button.setImage("images/"+name+"24.png");
+        	button.setImage("images/"+name+"16.png");
         	if (text != null)
         		button.setTooltiptext(text);
         	LayoutUtils.addSclass("action-button", button);
@@ -148,6 +162,27 @@ public final class ConfirmPanel extends Hbox
      {
     	 this(withCancelButton, withRefreshButton, withResetButton, withCustomizeButton, withHistoryButton, withZoomButton, false);
      }
+     
+     /**
+      * create confirm panel with multiple options
+      * @param withCancelButton       with cancel
+      * @param withRefreshButton      with refresh
+      * @param withResetButton        with reset
+      * @param withCustomizeButton    with customize
+      * @param withHistoryButton      with history
+      * @param withZoomButton         with zoom
+     * @param withText				  with Text
+     */
+    public ConfirmPanel(boolean withCancelButton,
+              boolean withRefreshButton,
+              boolean withResetButton,
+              boolean withCustomizeButton,
+              boolean withHistoryButton,
+              boolean withZoomButton,
+              boolean withText)
+      {
+     	 this(withCancelButton, withRefreshButton, withResetButton, withCustomizeButton, withHistoryButton, withZoomButton, withText, true);
+      }
 
    /**
     * create confirm panel with multiple options
@@ -157,6 +192,8 @@ public final class ConfirmPanel extends Hbox
     * @param withCustomizeButton    with customize
     * @param withHistoryButton      with history
     * @param withZoomButton         with zoom
+    * @param withText				with Text
+    * @param withImage				with Image
     */
     public ConfirmPanel(boolean withCancelButton,
             boolean withRefreshButton,
@@ -164,9 +201,11 @@ public final class ConfirmPanel extends Hbox
             boolean withCustomizeButton,
             boolean withHistoryButton,
             boolean withZoomButton,
-            boolean withText)
+            boolean withText,
+            boolean withImage)
     {
     	m_withText = withText;
+    	m_withImage  = withImage;
 
         init();
 
@@ -221,6 +260,7 @@ public final class ConfirmPanel extends Hbox
     //
     private Panel pnlBtnRight;
     private Panel pnlBtnLeft;
+    private Panel pnlBtnCenter;
 
     /**
      * initialise components
@@ -232,6 +272,9 @@ public final class ConfirmPanel extends Hbox
 
         pnlBtnRight = new Panel();
         pnlBtnRight.setAlign("right");
+        
+        pnlBtnCenter = new Panel();
+        pnlBtnCenter.setAlign("center");
 
         hboxBtnRight = new Hbox();
         hboxBtnRight.appendChild(pnlBtnRight);
@@ -244,10 +287,28 @@ public final class ConfirmPanel extends Hbox
         hboxBtnLeft.setStyle("text-align:left");
 
         this.appendChild(hboxBtnLeft);
+        this.appendChild(pnlBtnCenter);
         this.appendChild(hboxBtnRight);
         this.setWidth("100%");
     }
 
+	/**
+	 * Feature #1449 Added a process button into center panel
+	 * @author Sachin Bhimani
+	 * @param btName
+	 * @param imgName
+	 * @return Process Button
+	 */
+	public Button addProcessButton(String btName, String imgName)
+	{
+		Button btProcess = createButton(btName);
+		// replace default image with image set at info process
+		if (m_withImage && !Util.isEmpty(imgName, true))
+			btProcess.setImage("images/" + imgName);
+		addComponentsCenter(btProcess);
+		return btProcess;
+	}
+    
     /**
      * add button to the left side of the confirm panel
      * @param button button
@@ -281,6 +342,28 @@ public final class ConfirmPanel extends Hbox
         pnlBtnRight.appendChild(button);
     }
 
+	/**
+	 * add button to the center side of the confirm panel
+	 * 
+	 * @param button button
+	 */
+	public void addComponentsCenter(Button button)
+	{
+		if (!buttonMap.containsKey(button.getId()))
+			buttonMap.put(button.getId(), button);
+		pnlBtnCenter.appendChild(button);
+	}
+    
+	/**
+	 * Add combobox to center panel
+	 * 
+	 * @param cbb
+	 */
+	public void addComponentsCenter(Combobox cbb)
+	{
+		pnlBtnCenter.appendChild(cbb);
+	}
+    
     /**
      * return button of the specified id
      * @param id button id
@@ -412,8 +495,10 @@ public final class ConfirmPanel extends Hbox
     {
         List<?> list1 = pnlBtnLeft.getChildren();
         List<?> list2 = pnlBtnRight.getChildren();
+        List<?> list3 = pnlBtnCenter.getChildren();
         Iterator<?> iter1 = list1.iterator();
         Iterator<?> iter2 = list2.iterator();
+        Iterator<?> iter3 = list3.iterator();
 
         while (iter1.hasNext())
         {
@@ -423,6 +508,11 @@ public final class ConfirmPanel extends Hbox
         while (iter2.hasNext())
         {
             Button button = (Button)iter2.next();
+            button.setEnabled(enabled);
+        }
+        while (iter3.hasNext())
+        {
+            Button button = (Button)iter3.next();
             button.setEnabled(enabled);
         }
     }
@@ -435,8 +525,10 @@ public final class ConfirmPanel extends Hbox
     {
         List<?> list1 = pnlBtnLeft.getChildren();
         List<?> list2 = pnlBtnRight.getChildren();
+        List<?> list3 = pnlBtnCenter.getChildren();
         Iterator<?> iter1 = list1.iterator();
         Iterator<?> iter2 = list2.iterator();
+        Iterator<?> iter3 = list3.iterator();
 
         while (iter1.hasNext())
         {
@@ -446,6 +538,11 @@ public final class ConfirmPanel extends Hbox
         while (iter2.hasNext())
         {
             Button button = (Button)iter2.next();
+            button.addEventListener(event, listener);
+        }
+        while (iter3.hasNext())
+        {
+            Button button = (Button)iter3.next();
             button.addEventListener(event, listener);
         }
     }

@@ -36,7 +36,7 @@ import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Textbox;
 import org.adempiere.webui.component.WListbox;
 import org.adempiere.webui.editor.WSearchEditor;
-import org.adempiere.webui.event.ValueChangeListener;
+import org.adempiere.exceptions.ValueChangeListener;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.model.MColumn;
@@ -150,7 +150,7 @@ public class InfoInvoicePanel extends InfoPanel implements ValueChangeListener
 	/** From Clause             */
 	private static String s_From = " C_Invoice i";
 	/** Order Clause             */
-	private static String s_Order = "2,3";
+	private static String s_Order = " i.DateInvoiced desc, i.DocumentNo";
 
    /**  Array of Column Info    */
     private static final ColumnInfo[] s_Layout = {

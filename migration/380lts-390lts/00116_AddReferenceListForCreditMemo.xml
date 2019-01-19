@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="POS Contribution" ReleaseNo="3.9.0" SeqNo="00116">
+    <Comments>Add reference list for credit memo.</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="104" Action="I" Record_ID="54626" Table="AD_Ref_List">
+        <Data AD_Column_ID="371" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="372" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="151" Column="AD_Reference_ID">214</Data>
+        <Data AD_Column_ID="148" Column="AD_Ref_List_ID">54626</Data>
+        <Data AD_Column_ID="564" Column="Created">2016-01-20 21:41:08.824</Data>
+        <Data AD_Column_ID="565" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="150" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="7712" Column="EntityType">C</Data>
+        <Data AD_Column_ID="563" Column="IsActive">true</Data>
+        <Data AD_Column_ID="149" Column="Name">Credit Memo</Data>
+        <Data AD_Column_ID="566" Column="Updated">2016-01-20 21:41:08.824</Data>
+        <Data AD_Column_ID="567" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="152" Column="ValidFrom" isNewNull="true"/>
+        <Data AD_Column_ID="153" Column="ValidTo" isNewNull="true"/>
+        <Data AD_Column_ID="200" Column="Value">M</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="108" Action="U" Record_ID="52078" Table="AD_Val_Rule">
+        <Data AD_Column_ID="193" Column="Code" oldValue="AD_Ref_List.Value &lt;&gt; 'X'">AD_Ref_List.Value &lt;&gt; 'X' AND AD_Ref_List.Value &lt;&gt; 'M'</Data>
+        <Data AD_Column_ID="188" Column="Name" oldValue="Tender Type - not Cash">Tender Type - not Cash - not Credit Memo</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="108" Action="U" Record_ID="52078" Table="AD_Val_Rule">
+        <Data AD_Column_ID="193" Column="Code" oldValue="AD_Ref_List.Value &lt;&gt; 'X' AND AD_Ref_List.Value &lt;&gt; 'M'">AD_Ref_List.Value &lt;&gt; 'X'</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="108" Action="U" Record_ID="52078" Table="AD_Val_Rule">
+        <Data AD_Column_ID="193" Column="Code" oldValue="AD_Ref_List.Value &lt;&gt; 'X'">AD_Ref_List.Value &lt;&gt; 'X' AND AD_Ref_List.Value &lt;&gt; 'M'</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

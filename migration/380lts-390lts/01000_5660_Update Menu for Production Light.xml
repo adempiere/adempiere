@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Update Menu for Production Light" ReleaseNo="3.9.0" SeqNo="01000">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="116" Action="U" Record_ID="53301" Table="AD_Menu">
+        <Data AD_Column_ID="3375" Column="AD_Process_ID" oldValue="53230">53159</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="116" Action="U" Record_ID="53302" Table="AD_Menu">
+        <Data AD_Column_ID="4621" Column="AD_Form_ID" oldValue="53017">53001</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="116" Action="U" Record_ID="53353" Table="AD_Menu">
+        <Data AD_Column_ID="3375" Column="AD_Process_ID" oldValue="53266">53307</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="116" Action="U" Record_ID="53299" Table="AD_Menu">
+        <Data AD_Column_ID="598" Column="IsActive" oldValue="true">false</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

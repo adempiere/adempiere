@@ -28,7 +28,6 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.regex.Pattern;
 
-import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.BPartnerNoBillToAddressException;
 import org.adempiere.exceptions.BPartnerNoShipToAddressException;
 import org.adempiere.exceptions.FillMandatoryException;
@@ -101,6 +100,7 @@ public class MOrder extends X_C_Order implements DocAction
 		to.setC_DocType_ID(0);
 		to.setC_DocTypeTarget_ID (C_DocTypeTarget_ID);
 		to.setIsSOTrx(isSOTrx);
+		to.setC_Opportunity_ID(from.getC_Opportunity_ID());
 		//
 		to.setIsSelected (false);
 		to.setDateOrdered (dateDoc);
@@ -210,6 +210,13 @@ public class MOrder extends X_C_Order implements DocAction
 		setSalesRep_ID(project.getSalesRep_ID());
 		//
 		setC_Project_ID(project.getC_Project_ID());
+		setC_Activity_ID(project.getC_Activity_ID());
+		setC_Campaign_ID(project.getC_Campaign_ID());
+		setAD_OrgTrx_ID(project.getAD_OrgTrx_ID());
+		setUser1_ID(project.getUser1_ID());
+		setUser2_ID(project.getUser2_ID());
+		setUser3_ID(project.getUser3_ID());
+		setUser4_ID(project.getUser4_ID());
 		setDescription(project.getName());
 		Timestamp ts = project.getDateContract();
 		if (ts != null)
@@ -236,6 +243,7 @@ public class MOrder extends X_C_Order implements DocAction
 		}
 		else
 			setC_DocTypeTarget_ID();
+
 	}	//	MOrder
 
 	/**
@@ -452,17 +460,17 @@ public class MOrder extends X_C_Order implements DocAction
 			setM_PriceList_ID(ii);
 		//	Default Delivery/Via Rule
 		String ss = bp.getDeliveryRule();
-		if (ss != null)
+		if (ss != null && ss.trim().length() != 0)
 			setDeliveryRule(ss);
 		ss = bp.getDeliveryViaRule();
-		if (ss != null)
+		if (ss != null && ss.trim().length() != 0)
 			setDeliveryViaRule(ss);
 		//	Default Invoice/Payment Rule
 		ss = bp.getInvoiceRule();
-		if (ss != null)
+		if (ss != null && ss.trim().length() != 0)
 			setInvoiceRule(ss);
 		ss = bp.getPaymentRule();
-		if (ss != null)
+		if (ss != null && ss.trim().length() != 0)
 			setPaymentRule(ss);
 		//	Sales Rep
 		ii = bp.getSalesRep_ID();
@@ -787,12 +795,27 @@ public class MOrder extends X_C_Order implements DocAction
 			+" WHERE iol.M_InOut_ID=M_InOut.M_InOut_ID"
 			+" AND iol.C_OrderLine_ID=ol.C_OrderLine_ID"
 			+" AND ol.C_Order_ID=?)";
-		List<MInvoice> list = new Query(getCtx(), I_M_InOut.Table_Name, whereClause, get_TrxName())
+		List<MInOut> list = new Query(getCtx(), I_M_InOut.Table_Name, whereClause, get_TrxName())
 									.setParameters(get_ID())
 									.setOrderBy("M_InOut_ID DESC")
 									.list();
 		return list.toArray(new MInOut[list.size()]);
 	}	//	getShipments
+
+	/**
+	 * 	Get RMA of Order
+	 * 	@return RMAs
+	 */
+	public List<MRMA> getRMA()
+	{
+		final String whereClause = "EXISTS (SELECT 1 FROM M_InOut io "
+				+" WHERE io.M_InOut_ID=M_RMA.InOut_ID AND io.C_Order_ID = ?)";
+		return new Query(getCtx(), I_M_RMA.Table_Name , whereClause, get_TrxName())
+				.setParameters(get_ID())
+				.setOrderBy("M_RMA_ID DESC")
+				.list();
+	}	//	get RMAs
+
 
 	/**
 	 *	Get ISO Code of Currency
@@ -1212,9 +1235,6 @@ public class MOrder extends X_C_Order implements DocAction
 			}
 		}	//	convert DocType
 
-		//	Mandatory Product Attribute Set Instance
-		isASIMandatory();
-
 		//	Lines
 		if (explodeBOM())
 			lines = getLines(true, MOrderLine.COLUMNNAME_M_Product_ID);
@@ -1239,6 +1259,9 @@ public class MOrder extends X_C_Order implements DocAction
 			} else if (MDocType.DOCSUBTYPESO_PrepayOrder.equals(dt.getDocSubTypeSO())
 					&& !MSysConfig.getBooleanValue("CHECK_CREDIT_ON_PREPAY_ORDER", true, getAD_Client_ID(), getAD_Org_ID())) {
 				// ignore -- don't validate Prepay Orders depending on sysconfig parameter
+			} else if (MDocType.DOCSUBTYPESO_Proposal.equals(dt.getDocSubTypeSO())
+					&& !MSysConfig.getBooleanValue("CHECK_CREDIT_ON_PROPOSAL", true, getAD_Client_ID(), getAD_Org_ID())) {
+						// ignore -- don't validate Prepay Orders depending on sysconfig parameter
 			} else {
 				MBPartner bp = new MBPartner (getCtx(), getBill_BPartner_ID(), get_TrxName()); // bill bp is guaranteed on beforeSave
 
@@ -1393,6 +1416,7 @@ public class MOrder extends X_C_Order implements DocAction
 	 */
 	private boolean reserveStock (MDocType dt, MOrderLine[] lines)
 	{
+
 		if (dt == null)
 			dt = MDocType.get(getCtx(), getC_DocType_ID());
 
@@ -1430,9 +1454,7 @@ public class MOrder extends X_C_Order implements DocAction
 			}
 			//	Binding
 			BigDecimal target = binding ? line.getQtyOrdered() : Env.ZERO; 
-			BigDecimal difference = target
-				.subtract(line.getQtyReserved())
-				.subtract(line.getQtyDelivered()); 
+			BigDecimal difference = target.subtract(line.getQtyReserved()).subtract(line.getQtyDelivered());
 			if (difference.signum() == 0)
 			{
 				MProduct product = line.getProduct();
@@ -1455,6 +1477,9 @@ public class MOrder extends X_C_Order implements DocAction
 			{
 				if (product.isStocked())
 				{
+					//	Mandatory Product Attribute Set Instance
+					MAttributeSet.validateAttributeSetInstanceMandatory(product, line.Table_ID, isSOTrx() , line.getM_AttributeSetInstance_ID());
+
 					BigDecimal ordered = isSOTrx ? Env.ZERO : difference;
 					BigDecimal reserved = isSOTrx ? difference : Env.ZERO;
 					int M_Locator_ID = 0; 
@@ -1696,6 +1721,11 @@ public class MOrder extends X_C_Order implements DocAction
 			MInvoice invoice = createInvoice (dt, shipment, realTimePOS ? null : getDateOrdered());
 			if (invoice == null)
 				return DocAction.STATUS_Invalid;
+			if ( shipment != null )
+			{
+				shipment.setC_Invoice_ID(invoice.getC_Invoice_ID());
+				shipment.saveEx();
+			}
 			info.append(" - @C_Invoice_ID@: ").append(invoice.getDocumentNo());
 			String msg = invoice.getProcessMsg();
 			if (msg != null && msg.length() > 0)
@@ -2450,18 +2480,25 @@ public class MOrder extends X_C_Order implements DocAction
 	}
 	
 	//Mandatory Product Attribute Set Instance
-	private void isASIMandatory()
+	/*private void isASIMandatory()
 	{
 		for(MOrderLine ol : getLines())
 		{
 			MProduct product = new MProduct(getCtx(), ol.getM_Product_ID(), get_TrxName());
 			if(product.getM_AttributeSet_ID() > 0)
 			{
-				if(product.isASIMandatory(isSOTrx(),getAD_Org_ID()))
+				if(product.isASIMandatory(isSOTrx(), ol.getAD_Org_ID()))
 				{
 					MAttributeSet mas = MAttributeSet.get(getCtx(), product.getM_AttributeSet_ID());
-					if(!mas.excludeEntry(MColumn.getColumn_ID(MOrderLine.Table_Name, MOrderLine.COLUMNNAME_C_OrderLine_ID), isSOTrx())
-						&& ol.getM_AttributeSetInstance_ID() == 0)
+					Boolean isASIMandatory = mas.isMandatory();
+					Boolean isExclude = mas.excludeEntry(MColumn.getColumn_ID(MOrderLine.Table_Name, MOrderLine.COLUMNNAME_C_OrderLine_ID), isSOTrx());
+					Boolean isStandardOrder = isSOTrx()?							
+							(getC_DocTypeTarget().getDocSubTypeSO().equals(MDocType.DOCSUBTYPESO_StandardOrder)
+							|| getC_DocTypeTarget().getDocSubTypeSO().equals(MDocType.DOCSUBTYPESO_Proposal)
+							|| getC_DocTypeTarget().getDocSubTypeSO().equals(MDocType.DOCSUBTYPESO_Quotation))
+							: true;
+					Boolean isAsiInOrderLine = isASIMandatory && !isExclude && !isStandardOrder;
+					if(isAsiInOrderLine	&& ol.getM_AttributeSetInstance_ID() == 0)
 					{
 							m_processMsg = "@LinesWithoutProductAttribute@ (" + ol.getLine()+ ")";
 							throw new AdempiereException(m_processMsg);
@@ -2469,5 +2506,5 @@ public class MOrder extends X_C_Order implements DocAction
 				}
 			}
 		}
-	}
+	}*/
 }	//	MOrder

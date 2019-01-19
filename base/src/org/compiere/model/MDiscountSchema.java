@@ -258,7 +258,7 @@ public class MDiscountSchema extends X_M_DiscountSchema
 		}
 		
 		//	Price Breaks
-		getBreaks(false);
+		getBreaks(true);
 		boolean found = false;
 		BigDecimal Amt = Price.multiply(Qty);
 		if (isQuantityBased())

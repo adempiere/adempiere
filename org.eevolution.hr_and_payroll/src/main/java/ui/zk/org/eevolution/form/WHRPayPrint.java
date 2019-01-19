@@ -44,6 +44,7 @@ import org.compiere.util.ValueNamePair;
 import org.eevolution.util.HRPaymentExport;
 import org.eevolution.model.MHRPaySelection;
 import org.eevolution.model.MHRPaySelectionCheck;
+import org.eevolution.service.HRPayPrint;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zkex.zul.Borderlayout;

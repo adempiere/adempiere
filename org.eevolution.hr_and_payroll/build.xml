@@ -1,7 +1,7 @@
-<project name="Libero" default="zkdist" basedir=".">
+<project name="HumanResourceAndPayroll" default="zkdist" basedir=".">
     <description>
-        Building Libero liberoHR.jar
-		Building Libero LiberozkHR.jar
+        Building HumanResourceAndPayroll.jar
+		Building HumanResourceAndPayrollZk.jar
     </description>
   <!-- set global properties for this build -->
   <property file="build.properties"/>
@@ -51,7 +51,7 @@
   <target name="compile" depends="init"
         description="compile the source " >
     <!-- Compile the java code from ${src} into ${build} -->
-    <javac target="1.7" encoding="UTF-8" fork="true" srcdir="${src}:${srcSwing}" destdir="${build}">
+    <javac target="1.8" encoding="UTF-8" fork="true" srcdir="${src}:${srcSwing}" destdir="${build}">
       <exclude name="**/org/eevolution/plugin/*.java"/>
       <classpath refid="lib.class.path"/>
     </javac>
@@ -63,14 +63,14 @@
     <mkdir dir="${dist}/lib"/>
 
     <!-- Put everything in ${build} into the MyProject-${DSTAMP}.jar file -->
-    <jar jarfile="${dist}/lib/liberoHR.jar" basedir="${build}"/>
+    <jar jarfile="${dist}/lib/HumanResourceAndPayroll.jar" basedir="${build}"/>
 
     <!-- Create target Libero deployment -->
-    <mkdir dir="${env.ADEMPIERE_HOME}/packages/liberoHR/lib"/>
+    <mkdir dir="${env.ADEMPIERE_HOME}/packages/HumanResourceAndPayroll/lib"/>
 
-    <!-- Transfer liberoHR.jar -->
-    <copy file="${dist}/lib/liberoHR.jar" todir="${env.ADEMPIERE_HOME}/packages/liberoHR/lib"/>
-    <copy file="${dist}/lib/liberoHR.jar" todir="${adempiere.trunk}/packages"/>
+    <!-- Transfer HumanResourceAndPayroll.jar -->
+    <copy file="${dist}/lib/HumanResourceAndPayroll.jar" todir="${env.ADEMPIERE_HOME}/packages/HumanResourceAndPayroll/lib"/>
+    <copy file="${dist}/lib/HumanResourceAndPayroll.jar" todir="${adempiere.trunk}/packages"/>
 
   </target>
 
@@ -89,17 +89,16 @@
     <mkdir dir="${dist}/lib"/>
 
     <!-- Put everything in ${zkclasses} into the MyProject-${DSTAMP}.jar file -->
-    <jar jarfile="${dist}/lib/liberozkHR.jar" basedir="${build}" includes="WEB-INF/"/>
+    <jar jarfile="${dist}/lib/HumanResourceAndPayrollZk.jar" basedir="${build}" includes="WEB-INF/"/>
 
     <!-- Create target Liberozk deployment -->
-    <mkdir dir="${env.ADEMPIERE_HOME}/zkpackages/liberozkHR/lib"/>
+    <mkdir dir="${env.ADEMPIERE_HOME}/zkpackages/HumanResourceAndPayroll/lib"/>
 
-    <!-- Transfer liberozkHR.jar -->
-    <copy file="${dist}/lib/liberozkHR.jar" todir="${env.ADEMPIERE_HOME}/zkpackages/liberozkHR/lib"/>
-    <copy file="${dist}/lib/liberozkHR.jar" todir="${adempiere.trunk}/zkpackages"/>
+    <!-- Transfer HumanResourceAndPayrollZk.jar -->
+    <copy file="${dist}/lib/HumanResourceAndPayrollZk.jar" todir="${env.ADEMPIERE_HOME}/zkpackages/liberozkHR/lib"/>
+    <copy file="${dist}/lib/HumanResourceAndPayrollZk.jar" todir="${adempiere.trunk}/zkpackages"/>
       
     <delete dir="${build}"/>
-    <delete dir="${buildPatches}"/>
   </target>
 	
   <target name="clean"

@@ -37,6 +37,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
+import org.adempiere.exceptions.ValueChangeListener;
 import org.compiere.model.GridField;
 import org.compiere.swing.CButton;
 import org.compiere.util.CLogger;
@@ -333,6 +334,12 @@ public class VBinary extends JComponent implements VEditor, ActionListener {
 	@Override
 	public void setForeground(Color color) {
 		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void addValueChangeListener(ValueChangeListener listener) {
+		// TODO Auto-generated method stub
+		
 	}
 
 } // VBinary

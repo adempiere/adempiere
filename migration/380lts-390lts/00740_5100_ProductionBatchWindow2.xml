@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Production Batch window 2" ReleaseNo="3.9.0" SeqNo="00740">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="59757" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="220">195</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="77876" Table="AD_Field">
+        <Data AD_Column_ID="62478" Column="IsDisplayedGrid" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="77874" Table="AD_Field">
+        <Data AD_Column_ID="62478" Column="IsDisplayedGrid" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="77858" Table="AD_Field">
+        <Data AD_Column_ID="62478" Column="IsDisplayedGrid" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="77871" Table="AD_Field">
+        <Data AD_Column_ID="62478" Column="IsDisplayedGrid" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="77875" Table="AD_Field">
+        <Data AD_Column_ID="62478" Column="IsDisplayedGrid" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="77899" Table="AD_Field">
+        <Data AD_Column_ID="62478" Column="IsDisplayedGrid" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="77907" Table="AD_Field">
+        <Data AD_Column_ID="62478" Column="IsDisplayedGrid" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="77914" Table="AD_Field">
+        <Data AD_Column_ID="62478" Column="IsDisplayedGrid" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="100" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="77904" Table="AD_Field">
+        <Data AD_Column_ID="62478" Column="IsDisplayedGrid" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="110" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="77908" Table="AD_Field">
+        <Data AD_Column_ID="62478" Column="IsDisplayedGrid" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="120" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="77911" Table="AD_Field">
+        <Data AD_Column_ID="62478" Column="IsDisplayedGrid" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="130" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="77830" Table="AD_Field">
+        <Data AD_Column_ID="2745" Column="IsCentrallyMaintained" oldValue="true">false</Data>
+        <Data AD_Column_ID="170" Column="Help" oldValue="Indication that this is complete">Cleanup open production order</Data>
+        <Data AD_Column_ID="169" Column="Description" oldValue="It is complete">Close Batch - no further production can be made</Data>
+        <Data AD_Column_ID="168" Column="Name" oldValue="Complete">Close Batch</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="140" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="59748" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="170">270</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

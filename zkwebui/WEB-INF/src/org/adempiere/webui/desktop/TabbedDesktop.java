@@ -71,6 +71,7 @@ public abstract class TabbedDesktop extends AbstractDesktop {
 			pd.setTitle(null);
 			preOpenNewTab();
 			windowContainer.addWindow(tabPanel, title, true);
+			pd.afterInit();
 		}
 		return pd;
 	}
@@ -94,15 +95,15 @@ public abstract class TabbedDesktop extends AbstractDesktop {
 		return form;
 	}
 	
-	public void openBrowse(int AD_Browse_ID)
+	public CustomForm openBrowse(int browseId, Boolean isSOTrx)
 	{
-		MBrowse browse = new MBrowse(Env.getCtx() ,AD_Browse_ID, null);
-		CustomForm ff =  WBrowser.openBrowse(AD_Browse_ID);
+		MBrowse browse = new MBrowse(Env.getCtx() ,browseId, null);
+		CustomForm ff =  WBrowser.openBrowse(0 , browseId, "", isSOTrx );
 		DesktopTabpanel tabPanel = new DesktopTabpanel();
         ff.setParent(tabPanel);
         preOpenNewTab();
         windowContainer.addWindow(tabPanel, browse.getTitle(), true);
-		
+		return  ff;
 	}
 
 	/**
@@ -278,20 +279,22 @@ public abstract class TabbedDesktop extends AbstractDesktop {
 		if (windowContainer.getSelectedTab() != null)
 		{
 			Tabpanel panel = (Tabpanel) windowContainer.getSelectedTab().getLinkedPanel();
-			Component component = panel.getFirstChild();
-			Object att = component.getAttribute(WINDOWNO_ATTRIBUTE);
-
-			if ( windowContainer.closeActiveWindow() )
-			{
-				if (att != null && (att instanceof Integer))
+			if(panel != null) {
+				Component component = panel.getFirstChild();
+				Object att = component.getAttribute(WINDOWNO_ATTRIBUTE);
+	
+				if ( windowContainer.closeActiveWindow() )
 				{
-					unregisterWindow((Integer) att);
+					if (att != null && (att instanceof Integer))
+					{
+						unregisterWindow((Integer) att);
+					}
+					return true;
 				}
-				return true;
-			}
-			else
-			{
-				return false;
+				else
+				{
+					return false;
+				} 
 			}
 		}
 		return false;

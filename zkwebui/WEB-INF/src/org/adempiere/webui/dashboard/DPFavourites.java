@@ -18,7 +18,9 @@ import java.util.Enumeration;
 import org.adempiere.exceptions.DBException;
 import org.adempiere.webui.component.ToolBarButton;
 import org.adempiere.webui.session.SessionManager;
+import org.adempiere.webui.theme.ITheme;
 import org.adempiere.webui.window.FDialog;
+import org.compiere.model.MMenu;
 import org.compiere.model.MTree;
 import org.compiere.model.MTreeNode;
 import org.compiere.util.CLogger;
@@ -76,7 +78,7 @@ public class DPFavourites extends DashboardPanel implements EventListener {
 		this.appendChild(favToolbar);
 		
 		// Elaine 2008/07/24
-		Image img = new Image("/images/Delete24.png");
+		Image img = new Image(ITheme.DASHBOARD_DELETE_IMAGE);
 		favToolbar.appendChild(img);
 		img.setAlign("right");
 		img.setDroppable(DELETE_FAV_DROPPABLE);
@@ -257,15 +259,17 @@ public class DPFavourites extends DashboardPanel implements EventListener {
 		}
 	}
 	
+	
 	private String getIconFile(MTreeNode mt) {
 		if (mt.isWindow())
-			return "images/mWindow.png";
+			return ITheme.MENU_WINDOW_IMAGE;
 		if (mt.isReport())
-			return "images/mReport.png";
+			return ITheme.MENU_REPORT_IMAGE;
 		if (mt.isProcess())
-			return "images/mProcess.png";
+			return ITheme.MENU_PROCESS_IMAGE;
 		if (mt.isWorkFlow())
-			return "images/mWorkFlow.png";
-		return "images/mWindow.png";
+			return ITheme.MENU_WORKFLOW_IMAGE;
+		return ITheme.MENU_WINDOW_IMAGE;
+		//	Default
 	}
 }

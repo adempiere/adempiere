@@ -6,6 +6,12 @@
 	<classpathentry kind="lib" path="WEB-INF/lib/xbean.jar" sourcepath="WEB-INF/lib/xmlbeans-2.4.0-sources.jar"/>
 	<classpathentry kind="lib" path="WEB-INF/lib/xfire-all-1.2.6.jar" sourcepath="WEB-INF/lib/xfire-all-1.2.6-sources.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/adempiereDevelop"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/base"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/zkwebui"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/JasperReportsTools"/>
+	<classpathentry kind="lib" path="/tools/lib/commons-codec-1.10.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/tools"/>
+	<classpathentry kind="lib" path="/JasperReportsTools/lib/jasperreports-6.6.0.jar"/>
+	<classpathentry kind="lib" path="/JasperReportsTools/lib/jasperreports-fonts-6.6.0.jar"/>
 	<classpathentry kind="output" path="WEB-INF/classes"/>
 </classpath>

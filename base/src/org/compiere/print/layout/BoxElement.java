@@ -62,6 +62,9 @@ public class BoxElement extends PrintElement
 		p_height = 0;
 		if (m_item == null)
 			return true;
+		
+		p_width = m_item.getMaxWidth();
+		p_height = m_item.getMaxHeight();
 		return true;
 	}	//	calculateSize
 
@@ -121,5 +124,48 @@ public class BoxElement extends PrintElement
 			}
 		}
 	}	//	paint
+
+	public void draw(Graphics2D g2D, int x, int y) {
+		if (m_item == null)
+			return;
+		//
+		g2D.setColor(m_color);
+		BasicStroke s = new BasicStroke(m_item.getLineWidth());
+		g2D.setStroke(s);
+
+		int width = m_item.getMaxWidth();
+		int height = m_item.getMaxHeight();
+		
+		if (m_item.getPrintFormatType().equals(MPrintFormatItem.PRINTFORMATTYPE_Line))
+			g2D.drawLine(x, y, x+width, y+height);
+		else
+		{
+			String type = m_item.getShapeType();
+			if (type == null)
+				type = "";
+			if (m_item.isFilledRectangle())
+			{
+				if (type.equals(MPrintFormatItem.SHAPETYPE_3DRectangle))
+					g2D.fill3DRect(x, y, width, height, true);
+				else if (type.equals(MPrintFormatItem.SHAPETYPE_Oval))
+					g2D.fillOval(x, y, width, height);
+				else if (type.equals(MPrintFormatItem.SHAPETYPE_RoundRectangle))
+					g2D.fillRoundRect(x, y, width, height, m_item.getArcDiameter(), m_item.getArcDiameter());
+				else
+					g2D.fillRect(x, y, width, height);
+			}
+			else
+			{
+				if (type.equals(MPrintFormatItem.SHAPETYPE_3DRectangle))
+					g2D.draw3DRect(x, y, width, height, true);
+				else if (type.equals(MPrintFormatItem.SHAPETYPE_Oval))
+					g2D.drawOval(x, y, width, height);
+				else if (type.equals(MPrintFormatItem.SHAPETYPE_RoundRectangle))
+					g2D.drawRoundRect(x, y, width, height, m_item.getArcDiameter(), m_item.getArcDiameter());
+				else
+					g2D.drawRect(x, y, width, height);
+			}
+		}
+	}
 	
 }	//	BoxElement

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Manufacturing messages" ReleaseNo="3.9.0" SeqNo="00065">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="109" Action="I" Record_ID="53306" Table="AD_Message">
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53306</Data>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="589" Column="Created">2015-06-06 17:09:08.717</Data>
+        <Data AD_Column_ID="590" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">EE01</Data>
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="198" Column="MsgText">Allows receipts finished product and perform component output</Data>
+        <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="197" Column="MsgType">I</Data>
+        <Data AD_Column_ID="591" Column="Updated">2015-06-06 17:09:08.717</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="6766" Column="Value">IsBackflush</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="109" Action="I" Record_ID="53307" Table="AD_Message">
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53307</Data>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="589" Column="Created">2015-06-06 17:11:20.8</Data>
+        <Data AD_Column_ID="590" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">EE01</Data>
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="198" Column="MsgText">Allows to perform only component output.</Data>
+        <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="197" Column="MsgType">I</Data>
+        <Data AD_Column_ID="591" Column="Updated">2015-06-06 17:11:20.8</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="6766" Column="Value">OnlyIssue</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="109" Action="U" Record_ID="53306" Table="AD_Message">
+        <Data AD_Column_ID="198" Column="MsgText" oldValue="Allows receipts finished product and perform component output">Is backflush</Data>
+        <Data AD_Column_ID="199" Column="MsgTip" isOldNull="true">Allows receipts finished product and perform component output</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="109" Action="U" Record_ID="53307" Table="AD_Message">
+        <Data AD_Column_ID="198" Column="MsgText" oldValue="Allows to perform only component output.">Only issue.</Data>
+        <Data AD_Column_ID="199" Column="MsgTip" isOldNull="true">Allows to perform only component output.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="109" Action="U" Record_ID="53306" Table="AD_Message">
+        <Data AD_Column_ID="198" Column="MsgText" oldValue="Is backflush">Is backflush ?</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="109" Action="U" Record_ID="53307" Table="AD_Message">
+        <Data AD_Column_ID="198" Column="MsgText" oldValue="Only issue.">Only issue?</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="109" Action="U" Record_ID="53307" Table="AD_Message">
+        <Data AD_Column_ID="198" Column="MsgText" oldValue="Only issue?">Only issue</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="109" Action="U" Record_ID="53307" Table="AD_Message">
+        <Data AD_Column_ID="198" Column="MsgText" oldValue="Only issue">Only Issue</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <PO AD_Table_ID="109" Action="U" Record_ID="53307" Table="AD_Message">
+        <Data AD_Column_ID="198" Column="MsgText" oldValue="Only Issue">Only Issues</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="100" StepType="AD">
+      <PO AD_Table_ID="109" Action="U" Record_ID="53307" Table="AD_Message">
+        <Data AD_Column_ID="198" Column="MsgText" oldValue="Only Issues">Only Issue</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="110" StepType="AD">
+      <PO AD_Table_ID="109" Action="U" Record_ID="53306" Table="AD_Message">
+        <Data AD_Column_ID="198" Column="MsgText" oldValue="Is backflush ?">Is backflush</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="120" StepType="AD">
+      <PO AD_Table_ID="109" Action="U" Record_ID="53306" Table="AD_Message">
+        <Data AD_Column_ID="198" Column="MsgText" oldValue="Is backflush">Is Backflush</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="130" StepType="AD">
+      <PO AD_Table_ID="109" Action="U" Record_ID="53242" Table="AD_Message">
+        <Data AD_Column_ID="199" Column="MsgTip" isOldNull="true">Allows receipts</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="140" StepType="AD">
+      <PO AD_Table_ID="109" Action="U" Record_ID="53242" Table="AD_Message">
+        <Data AD_Column_ID="199" Column="MsgTip" oldValue="Allows receipts">Allows only receipts</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="150" StepType="AD">
+      <PO AD_Table_ID="109" Action="I" Record_ID="53308" Table="AD_Message">
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53308</Data>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="589" Column="Created">2015-06-06 17:37:04.857</Data>
+        <Data AD_Column_ID="590" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">EE01</Data>
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="198" Column="MsgText">Only receipts</Data>
+        <Data AD_Column_ID="199" Column="MsgTip">Allows receipts only finished product</Data>
+        <Data AD_Column_ID="197" Column="MsgType">I</Data>
+        <Data AD_Column_ID="591" Column="Updated">2015-06-06 17:37:04.857</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="6766" Column="Value">OnlyReceiptProduct</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

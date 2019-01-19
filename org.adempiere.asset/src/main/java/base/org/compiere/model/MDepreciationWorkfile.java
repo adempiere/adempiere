@@ -18,6 +18,7 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.List;
 import java.util.Properties;
 
 import org.adempiere.exceptions.AdempiereException;
@@ -285,10 +286,10 @@ public class MDepreciationWorkfile extends X_A_Depreciation_Workfile
 	/** Logger										*/
 	private CLogger log = CLogger.getCLogger(getClass());
 
-	public static Collection<MDepreciationWorkfile> forA_Asset_ID(Properties ctx, int asset_id, String trxName)
+	public static List<MDepreciationWorkfile> forA_Asset_ID(Properties ctx, int assetId, String trxName)
 	{
 		return new Query(ctx, Table_Name, MDepreciationWorkfile.COLUMNNAME_A_Asset_ID+"=?", trxName)
-					.setParameters(new Object[]{asset_id})
+					.setParameters(assetId)
 					.list();
 	}
 	

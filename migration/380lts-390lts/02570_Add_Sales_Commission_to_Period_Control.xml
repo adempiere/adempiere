@@ -1,0 +1,558 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Add Sales Commission to Period Control" ReleaseNo="3.9.0" SeqNo="2570">
+    <Comments>From2017 to 2018. Other years have to be done later.</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="229" Action="I" Record_ID="62101" Table="C_PeriodControl">
+        <Data AD_Column_ID="1812" Column="C_PeriodControl_ID">62101</Data>
+        <Data AD_Column_ID="1822" Column="PeriodStatus">N</Data>
+        <Data AD_Column_ID="2354" Column="PeriodAction">O</Data>
+        <Data AD_Column_ID="1820" Column="C_Period_ID">184</Data>
+        <Data AD_Column_ID="5945" Column="DocBaseType">SOC</Data>
+        <Data AD_Column_ID="2355" Column="Processing">false</Data>
+        <Data AD_Column_ID="1813" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="1814" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1815" Column="IsActive">true</Data>
+        <Data AD_Column_ID="1816" Column="Created">2017-04-10 13:07:52.251</Data>
+        <Data AD_Column_ID="1818" Column="Updated">2017-04-10 13:07:52.251</Data>
+        <Data AD_Column_ID="1819" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="1817" Column="CreatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="229" Action="U" Record_ID="62101" Table="C_PeriodControl">
+        <Data AD_Column_ID="1822" Column="PeriodStatus" oldValue="N">O</Data>
+        <Data AD_Column_ID="2354" Column="PeriodAction" oldValue="O">N</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="229" Action="I" Record_ID="62102" Table="C_PeriodControl">
+        <Data AD_Column_ID="1812" Column="C_PeriodControl_ID">62102</Data>
+        <Data AD_Column_ID="1822" Column="PeriodStatus">N</Data>
+        <Data AD_Column_ID="2354" Column="PeriodAction">O</Data>
+        <Data AD_Column_ID="1820" Column="C_Period_ID">185</Data>
+        <Data AD_Column_ID="5945" Column="DocBaseType">SOC</Data>
+        <Data AD_Column_ID="2355" Column="Processing">false</Data>
+        <Data AD_Column_ID="1813" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="1814" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1815" Column="IsActive">true</Data>
+        <Data AD_Column_ID="1816" Column="Created">2017-04-10 13:08:52.459</Data>
+        <Data AD_Column_ID="1818" Column="Updated">2017-04-10 13:08:52.459</Data>
+        <Data AD_Column_ID="1819" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="1817" Column="CreatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="229" Action="U" Record_ID="62102" Table="C_PeriodControl">
+        <Data AD_Column_ID="1822" Column="PeriodStatus" oldValue="N">O</Data>
+        <Data AD_Column_ID="2354" Column="PeriodAction" oldValue="O">N</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="229" Action="I" Record_ID="62103" Table="C_PeriodControl">
+        <Data AD_Column_ID="1812" Column="C_PeriodControl_ID">62103</Data>
+        <Data AD_Column_ID="1822" Column="PeriodStatus">N</Data>
+        <Data AD_Column_ID="2354" Column="PeriodAction">O</Data>
+        <Data AD_Column_ID="1820" Column="C_Period_ID">186</Data>
+        <Data AD_Column_ID="5945" Column="DocBaseType">SOC</Data>
+        <Data AD_Column_ID="2355" Column="Processing">false</Data>
+        <Data AD_Column_ID="1813" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="1814" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1815" Column="IsActive">true</Data>
+        <Data AD_Column_ID="1816" Column="Created">2017-04-10 13:09:19.352</Data>
+        <Data AD_Column_ID="1818" Column="Updated">2017-04-10 13:09:19.352</Data>
+        <Data AD_Column_ID="1819" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="1817" Column="CreatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="229" Action="U" Record_ID="62103" Table="C_PeriodControl">
+        <Data AD_Column_ID="1822" Column="PeriodStatus" oldValue="N">O</Data>
+        <Data AD_Column_ID="2354" Column="PeriodAction" oldValue="O">N</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="229" Action="I" Record_ID="62104" Table="C_PeriodControl">
+        <Data AD_Column_ID="1812" Column="C_PeriodControl_ID">62104</Data>
+        <Data AD_Column_ID="1822" Column="PeriodStatus">N</Data>
+        <Data AD_Column_ID="2354" Column="PeriodAction">O</Data>
+        <Data AD_Column_ID="1820" Column="C_Period_ID">187</Data>
+        <Data AD_Column_ID="5945" Column="DocBaseType">SOC</Data>
+        <Data AD_Column_ID="2355" Column="Processing">false</Data>
+        <Data AD_Column_ID="1813" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="1814" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1815" Column="IsActive">true</Data>
+        <Data AD_Column_ID="1816" Column="Created">2017-04-10 13:09:37.219</Data>
+        <Data AD_Column_ID="1818" Column="Updated">2017-04-10 13:09:37.219</Data>
+        <Data AD_Column_ID="1819" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="1817" Column="CreatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="229" Action="U" Record_ID="62104" Table="C_PeriodControl">
+        <Data AD_Column_ID="1822" Column="PeriodStatus" oldValue="N">O</Data>
+        <Data AD_Column_ID="2354" Column="PeriodAction" oldValue="O">N</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <PO AD_Table_ID="229" Action="I" Record_ID="62105" Table="C_PeriodControl">
+        <Data AD_Column_ID="1812" Column="C_PeriodControl_ID">62105</Data>
+        <Data AD_Column_ID="1822" Column="PeriodStatus">N</Data>
+        <Data AD_Column_ID="2354" Column="PeriodAction">O</Data>
+        <Data AD_Column_ID="1820" Column="C_Period_ID">188</Data>
+        <Data AD_Column_ID="5945" Column="DocBaseType">SOC</Data>
+        <Data AD_Column_ID="2355" Column="Processing">false</Data>
+        <Data AD_Column_ID="1813" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="1814" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1815" Column="IsActive">true</Data>
+        <Data AD_Column_ID="1816" Column="Created">2017-04-10 13:09:53.089</Data>
+        <Data AD_Column_ID="1818" Column="Updated">2017-04-10 13:09:53.089</Data>
+        <Data AD_Column_ID="1819" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="1817" Column="CreatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="100" StepType="AD">
+      <PO AD_Table_ID="229" Action="U" Record_ID="62105" Table="C_PeriodControl">
+        <Data AD_Column_ID="1822" Column="PeriodStatus" oldValue="N">O</Data>
+        <Data AD_Column_ID="2354" Column="PeriodAction" oldValue="O">N</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="110" StepType="AD">
+      <PO AD_Table_ID="229" Action="I" Record_ID="62106" Table="C_PeriodControl">
+        <Data AD_Column_ID="1812" Column="C_PeriodControl_ID">62106</Data>
+        <Data AD_Column_ID="1822" Column="PeriodStatus">N</Data>
+        <Data AD_Column_ID="2354" Column="PeriodAction">O</Data>
+        <Data AD_Column_ID="1820" Column="C_Period_ID">189</Data>
+        <Data AD_Column_ID="5945" Column="DocBaseType">SOC</Data>
+        <Data AD_Column_ID="2355" Column="Processing">false</Data>
+        <Data AD_Column_ID="1813" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="1814" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1815" Column="IsActive">true</Data>
+        <Data AD_Column_ID="1816" Column="Created">2017-04-10 13:10:09.752</Data>
+        <Data AD_Column_ID="1818" Column="Updated">2017-04-10 13:10:09.752</Data>
+        <Data AD_Column_ID="1819" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="1817" Column="CreatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="120" StepType="AD">
+      <PO AD_Table_ID="229" Action="U" Record_ID="62106" Table="C_PeriodControl">
+        <Data AD_Column_ID="1822" Column="PeriodStatus" oldValue="N">O</Data>
+        <Data AD_Column_ID="2354" Column="PeriodAction" oldValue="O">N</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="130" StepType="AD">
+      <PO AD_Table_ID="229" Action="I" Record_ID="62107" Table="C_PeriodControl">
+        <Data AD_Column_ID="1812" Column="C_PeriodControl_ID">62107</Data>
+        <Data AD_Column_ID="1822" Column="PeriodStatus">N</Data>
+        <Data AD_Column_ID="2354" Column="PeriodAction">O</Data>
+        <Data AD_Column_ID="1820" Column="C_Period_ID">190</Data>
+        <Data AD_Column_ID="5945" Column="DocBaseType">SOC</Data>
+        <Data AD_Column_ID="2355" Column="Processing">false</Data>
+        <Data AD_Column_ID="1813" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="1814" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1815" Column="IsActive">true</Data>
+        <Data AD_Column_ID="1816" Column="Created">2017-04-10 13:10:35.536</Data>
+        <Data AD_Column_ID="1818" Column="Updated">2017-04-10 13:10:35.536</Data>
+        <Data AD_Column_ID="1819" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="1817" Column="CreatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="140" StepType="AD">
+      <PO AD_Table_ID="229" Action="U" Record_ID="62107" Table="C_PeriodControl">
+        <Data AD_Column_ID="1822" Column="PeriodStatus" oldValue="N">O</Data>
+        <Data AD_Column_ID="2354" Column="PeriodAction" oldValue="O">N</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="150" StepType="AD">
+      <PO AD_Table_ID="229" Action="I" Record_ID="62108" Table="C_PeriodControl">
+        <Data AD_Column_ID="1812" Column="C_PeriodControl_ID">62108</Data>
+        <Data AD_Column_ID="1822" Column="PeriodStatus">N</Data>
+        <Data AD_Column_ID="2354" Column="PeriodAction">O</Data>
+        <Data AD_Column_ID="1820" Column="C_Period_ID">191</Data>
+        <Data AD_Column_ID="5945" Column="DocBaseType">SOC</Data>
+        <Data AD_Column_ID="2355" Column="Processing">false</Data>
+        <Data AD_Column_ID="1813" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="1814" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1815" Column="IsActive">true</Data>
+        <Data AD_Column_ID="1816" Column="Created">2017-04-10 13:10:52.707</Data>
+        <Data AD_Column_ID="1818" Column="Updated">2017-04-10 13:10:52.707</Data>
+        <Data AD_Column_ID="1819" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="1817" Column="CreatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="160" StepType="AD">
+      <PO AD_Table_ID="229" Action="U" Record_ID="62108" Table="C_PeriodControl">
+        <Data AD_Column_ID="1822" Column="PeriodStatus" oldValue="N">O</Data>
+        <Data AD_Column_ID="2354" Column="PeriodAction" oldValue="O">N</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="170" StepType="AD">
+      <PO AD_Table_ID="229" Action="I" Record_ID="62109" Table="C_PeriodControl">
+        <Data AD_Column_ID="1812" Column="C_PeriodControl_ID">62109</Data>
+        <Data AD_Column_ID="1822" Column="PeriodStatus">N</Data>
+        <Data AD_Column_ID="2354" Column="PeriodAction">O</Data>
+        <Data AD_Column_ID="1820" Column="C_Period_ID">192</Data>
+        <Data AD_Column_ID="5945" Column="DocBaseType">SOC</Data>
+        <Data AD_Column_ID="2355" Column="Processing">false</Data>
+        <Data AD_Column_ID="1813" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="1814" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1815" Column="IsActive">true</Data>
+        <Data AD_Column_ID="1816" Column="Created">2017-04-10 13:11:12.752</Data>
+        <Data AD_Column_ID="1818" Column="Updated">2017-04-10 13:11:12.752</Data>
+        <Data AD_Column_ID="1819" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="1817" Column="CreatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="180" StepType="AD">
+      <PO AD_Table_ID="229" Action="U" Record_ID="62109" Table="C_PeriodControl">
+        <Data AD_Column_ID="1822" Column="PeriodStatus" oldValue="N">O</Data>
+        <Data AD_Column_ID="2354" Column="PeriodAction" oldValue="O">N</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="190" StepType="AD">
+      <PO AD_Table_ID="229" Action="I" Record_ID="62110" Table="C_PeriodControl">
+        <Data AD_Column_ID="1812" Column="C_PeriodControl_ID">62110</Data>
+        <Data AD_Column_ID="1822" Column="PeriodStatus">N</Data>
+        <Data AD_Column_ID="2354" Column="PeriodAction">O</Data>
+        <Data AD_Column_ID="1820" Column="C_Period_ID">193</Data>
+        <Data AD_Column_ID="5945" Column="DocBaseType">SOC</Data>
+        <Data AD_Column_ID="2355" Column="Processing">false</Data>
+        <Data AD_Column_ID="1813" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="1814" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1815" Column="IsActive">true</Data>
+        <Data AD_Column_ID="1816" Column="Created">2017-04-10 13:11:31.451</Data>
+        <Data AD_Column_ID="1818" Column="Updated">2017-04-10 13:11:31.451</Data>
+        <Data AD_Column_ID="1819" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="1817" Column="CreatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="200" StepType="AD">
+      <PO AD_Table_ID="229" Action="U" Record_ID="62110" Table="C_PeriodControl">
+        <Data AD_Column_ID="1822" Column="PeriodStatus" oldValue="N">O</Data>
+        <Data AD_Column_ID="2354" Column="PeriodAction" oldValue="O">N</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="210" StepType="AD">
+      <PO AD_Table_ID="229" Action="I" Record_ID="62111" Table="C_PeriodControl">
+        <Data AD_Column_ID="1812" Column="C_PeriodControl_ID">62111</Data>
+        <Data AD_Column_ID="1822" Column="PeriodStatus">N</Data>
+        <Data AD_Column_ID="2354" Column="PeriodAction">O</Data>
+        <Data AD_Column_ID="1820" Column="C_Period_ID">194</Data>
+        <Data AD_Column_ID="5945" Column="DocBaseType">SOC</Data>
+        <Data AD_Column_ID="2355" Column="Processing">false</Data>
+        <Data AD_Column_ID="1813" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="1814" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1815" Column="IsActive">true</Data>
+        <Data AD_Column_ID="1816" Column="Created">2017-04-10 13:11:52.695</Data>
+        <Data AD_Column_ID="1818" Column="Updated">2017-04-10 13:11:52.695</Data>
+        <Data AD_Column_ID="1819" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="1817" Column="CreatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="220" StepType="AD">
+      <PO AD_Table_ID="229" Action="U" Record_ID="62111" Table="C_PeriodControl">
+        <Data AD_Column_ID="1822" Column="PeriodStatus" oldValue="N">O</Data>
+        <Data AD_Column_ID="2354" Column="PeriodAction" oldValue="O">N</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="230" StepType="AD">
+      <PO AD_Table_ID="229" Action="I" Record_ID="62112" Table="C_PeriodControl">
+        <Data AD_Column_ID="1812" Column="C_PeriodControl_ID">62112</Data>
+        <Data AD_Column_ID="1822" Column="PeriodStatus">N</Data>
+        <Data AD_Column_ID="2354" Column="PeriodAction">O</Data>
+        <Data AD_Column_ID="1820" Column="C_Period_ID">195</Data>
+        <Data AD_Column_ID="5945" Column="DocBaseType">SOC</Data>
+        <Data AD_Column_ID="2355" Column="Processing">false</Data>
+        <Data AD_Column_ID="1813" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="1814" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1815" Column="IsActive">true</Data>
+        <Data AD_Column_ID="1816" Column="Created">2017-04-10 13:12:07.08</Data>
+        <Data AD_Column_ID="1818" Column="Updated">2017-04-10 13:12:07.08</Data>
+        <Data AD_Column_ID="1819" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="1817" Column="CreatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="240" StepType="AD">
+      <PO AD_Table_ID="229" Action="U" Record_ID="62112" Table="C_PeriodControl">
+        <Data AD_Column_ID="1822" Column="PeriodStatus" oldValue="N">O</Data>
+        <Data AD_Column_ID="2354" Column="PeriodAction" oldValue="O">N</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="250" StepType="AD">
+      <PO AD_Table_ID="229" Action="I" Record_ID="62113" Table="C_PeriodControl">
+        <Data AD_Column_ID="1812" Column="C_PeriodControl_ID">62113</Data>
+        <Data AD_Column_ID="1822" Column="PeriodStatus">N</Data>
+        <Data AD_Column_ID="2354" Column="PeriodAction">O</Data>
+        <Data AD_Column_ID="1820" Column="C_Period_ID">196</Data>
+        <Data AD_Column_ID="5945" Column="DocBaseType">SOC</Data>
+        <Data AD_Column_ID="2355" Column="Processing">false</Data>
+        <Data AD_Column_ID="1813" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="1814" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1815" Column="IsActive">true</Data>
+        <Data AD_Column_ID="1816" Column="Created">2017-04-10 13:12:33.099</Data>
+        <Data AD_Column_ID="1818" Column="Updated">2017-04-10 13:12:33.099</Data>
+        <Data AD_Column_ID="1819" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="1817" Column="CreatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="260" StepType="AD">
+      <PO AD_Table_ID="229" Action="U" Record_ID="62113" Table="C_PeriodControl">
+        <Data AD_Column_ID="1822" Column="PeriodStatus" oldValue="N">O</Data>
+        <Data AD_Column_ID="2354" Column="PeriodAction" oldValue="O">N</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="270" StepType="AD">
+      <PO AD_Table_ID="229" Action="I" Record_ID="62114" Table="C_PeriodControl">
+        <Data AD_Column_ID="1812" Column="C_PeriodControl_ID">62114</Data>
+        <Data AD_Column_ID="1822" Column="PeriodStatus">N</Data>
+        <Data AD_Column_ID="2354" Column="PeriodAction">O</Data>
+        <Data AD_Column_ID="1820" Column="C_Period_ID">197</Data>
+        <Data AD_Column_ID="5945" Column="DocBaseType">SOC</Data>
+        <Data AD_Column_ID="2355" Column="Processing">false</Data>
+        <Data AD_Column_ID="1813" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="1814" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1815" Column="IsActive">true</Data>
+        <Data AD_Column_ID="1816" Column="Created">2017-04-10 13:12:47.866</Data>
+        <Data AD_Column_ID="1818" Column="Updated">2017-04-10 13:12:47.866</Data>
+        <Data AD_Column_ID="1819" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="1817" Column="CreatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="280" StepType="AD">
+      <PO AD_Table_ID="229" Action="U" Record_ID="62114" Table="C_PeriodControl">
+        <Data AD_Column_ID="1822" Column="PeriodStatus" oldValue="N">O</Data>
+        <Data AD_Column_ID="2354" Column="PeriodAction" oldValue="O">N</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="290" StepType="AD">
+      <PO AD_Table_ID="229" Action="I" Record_ID="62115" Table="C_PeriodControl">
+        <Data AD_Column_ID="1812" Column="C_PeriodControl_ID">62115</Data>
+        <Data AD_Column_ID="1822" Column="PeriodStatus">N</Data>
+        <Data AD_Column_ID="2354" Column="PeriodAction">O</Data>
+        <Data AD_Column_ID="1820" Column="C_Period_ID">198</Data>
+        <Data AD_Column_ID="5945" Column="DocBaseType">SOC</Data>
+        <Data AD_Column_ID="2355" Column="Processing">false</Data>
+        <Data AD_Column_ID="1813" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="1814" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1815" Column="IsActive">true</Data>
+        <Data AD_Column_ID="1816" Column="Created">2017-04-10 13:13:00.331</Data>
+        <Data AD_Column_ID="1818" Column="Updated">2017-04-10 13:13:00.331</Data>
+        <Data AD_Column_ID="1819" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="1817" Column="CreatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="300" StepType="AD">
+      <PO AD_Table_ID="229" Action="U" Record_ID="62115" Table="C_PeriodControl">
+        <Data AD_Column_ID="1822" Column="PeriodStatus" oldValue="N">O</Data>
+        <Data AD_Column_ID="2354" Column="PeriodAction" oldValue="O">N</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="310" StepType="AD">
+      <PO AD_Table_ID="229" Action="I" Record_ID="62116" Table="C_PeriodControl">
+        <Data AD_Column_ID="1812" Column="C_PeriodControl_ID">62116</Data>
+        <Data AD_Column_ID="1822" Column="PeriodStatus">N</Data>
+        <Data AD_Column_ID="2354" Column="PeriodAction">O</Data>
+        <Data AD_Column_ID="1820" Column="C_Period_ID">199</Data>
+        <Data AD_Column_ID="5945" Column="DocBaseType">SOC</Data>
+        <Data AD_Column_ID="2355" Column="Processing">false</Data>
+        <Data AD_Column_ID="1813" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="1814" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1815" Column="IsActive">true</Data>
+        <Data AD_Column_ID="1816" Column="Created">2017-04-10 13:13:12.004</Data>
+        <Data AD_Column_ID="1818" Column="Updated">2017-04-10 13:13:12.004</Data>
+        <Data AD_Column_ID="1819" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="1817" Column="CreatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="320" StepType="AD">
+      <PO AD_Table_ID="229" Action="U" Record_ID="62116" Table="C_PeriodControl">
+        <Data AD_Column_ID="1822" Column="PeriodStatus" oldValue="N">O</Data>
+        <Data AD_Column_ID="2354" Column="PeriodAction" oldValue="O">N</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="330" StepType="AD">
+      <PO AD_Table_ID="229" Action="I" Record_ID="62117" Table="C_PeriodControl">
+        <Data AD_Column_ID="1812" Column="C_PeriodControl_ID">62117</Data>
+        <Data AD_Column_ID="1822" Column="PeriodStatus">N</Data>
+        <Data AD_Column_ID="2354" Column="PeriodAction">O</Data>
+        <Data AD_Column_ID="1820" Column="C_Period_ID">200</Data>
+        <Data AD_Column_ID="5945" Column="DocBaseType">SOC</Data>
+        <Data AD_Column_ID="2355" Column="Processing">false</Data>
+        <Data AD_Column_ID="1813" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="1814" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1815" Column="IsActive">true</Data>
+        <Data AD_Column_ID="1816" Column="Created">2017-04-10 13:13:25.475</Data>
+        <Data AD_Column_ID="1818" Column="Updated">2017-04-10 13:13:25.475</Data>
+        <Data AD_Column_ID="1819" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="1817" Column="CreatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="340" StepType="AD">
+      <PO AD_Table_ID="229" Action="U" Record_ID="62117" Table="C_PeriodControl">
+        <Data AD_Column_ID="1822" Column="PeriodStatus" oldValue="N">O</Data>
+        <Data AD_Column_ID="2354" Column="PeriodAction" oldValue="O">N</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="350" StepType="AD">
+      <PO AD_Table_ID="229" Action="I" Record_ID="62118" Table="C_PeriodControl">
+        <Data AD_Column_ID="1812" Column="C_PeriodControl_ID">62118</Data>
+        <Data AD_Column_ID="1822" Column="PeriodStatus">N</Data>
+        <Data AD_Column_ID="2354" Column="PeriodAction">O</Data>
+        <Data AD_Column_ID="1820" Column="C_Period_ID">201</Data>
+        <Data AD_Column_ID="5945" Column="DocBaseType">SOC</Data>
+        <Data AD_Column_ID="2355" Column="Processing">false</Data>
+        <Data AD_Column_ID="1813" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="1814" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1815" Column="IsActive">true</Data>
+        <Data AD_Column_ID="1816" Column="Created">2017-04-10 13:13:37.363</Data>
+        <Data AD_Column_ID="1818" Column="Updated">2017-04-10 13:13:37.363</Data>
+        <Data AD_Column_ID="1819" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="1817" Column="CreatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="360" StepType="AD">
+      <PO AD_Table_ID="229" Action="U" Record_ID="62118" Table="C_PeriodControl">
+        <Data AD_Column_ID="1822" Column="PeriodStatus" oldValue="N">O</Data>
+        <Data AD_Column_ID="2354" Column="PeriodAction" oldValue="O">N</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="370" StepType="AD">
+      <PO AD_Table_ID="229" Action="I" Record_ID="62119" Table="C_PeriodControl">
+        <Data AD_Column_ID="1812" Column="C_PeriodControl_ID">62119</Data>
+        <Data AD_Column_ID="1822" Column="PeriodStatus">N</Data>
+        <Data AD_Column_ID="2354" Column="PeriodAction">O</Data>
+        <Data AD_Column_ID="1820" Column="C_Period_ID">202</Data>
+        <Data AD_Column_ID="5945" Column="DocBaseType">SOC</Data>
+        <Data AD_Column_ID="2355" Column="Processing">false</Data>
+        <Data AD_Column_ID="1813" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="1814" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1815" Column="IsActive">true</Data>
+        <Data AD_Column_ID="1816" Column="Created">2017-04-10 13:13:50.932</Data>
+        <Data AD_Column_ID="1818" Column="Updated">2017-04-10 13:13:50.932</Data>
+        <Data AD_Column_ID="1819" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="1817" Column="CreatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="380" StepType="AD">
+      <PO AD_Table_ID="229" Action="U" Record_ID="62119" Table="C_PeriodControl">
+        <Data AD_Column_ID="1822" Column="PeriodStatus" oldValue="N">O</Data>
+        <Data AD_Column_ID="2354" Column="PeriodAction" oldValue="O">N</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="390" StepType="AD">
+      <PO AD_Table_ID="229" Action="I" Record_ID="62120" Table="C_PeriodControl">
+        <Data AD_Column_ID="1812" Column="C_PeriodControl_ID">62120</Data>
+        <Data AD_Column_ID="1822" Column="PeriodStatus">N</Data>
+        <Data AD_Column_ID="2354" Column="PeriodAction">O</Data>
+        <Data AD_Column_ID="1820" Column="C_Period_ID">203</Data>
+        <Data AD_Column_ID="5945" Column="DocBaseType">SOC</Data>
+        <Data AD_Column_ID="2355" Column="Processing">false</Data>
+        <Data AD_Column_ID="1813" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="1814" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1815" Column="IsActive">true</Data>
+        <Data AD_Column_ID="1816" Column="Created">2017-04-10 13:14:05.363</Data>
+        <Data AD_Column_ID="1818" Column="Updated">2017-04-10 13:14:05.363</Data>
+        <Data AD_Column_ID="1819" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="1817" Column="CreatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="400" StepType="AD">
+      <PO AD_Table_ID="229" Action="U" Record_ID="62120" Table="C_PeriodControl">
+        <Data AD_Column_ID="1822" Column="PeriodStatus" oldValue="N">O</Data>
+        <Data AD_Column_ID="2354" Column="PeriodAction" oldValue="O">N</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="410" StepType="AD">
+      <PO AD_Table_ID="229" Action="I" Record_ID="62121" Table="C_PeriodControl">
+        <Data AD_Column_ID="1812" Column="C_PeriodControl_ID">62121</Data>
+        <Data AD_Column_ID="1822" Column="PeriodStatus">N</Data>
+        <Data AD_Column_ID="2354" Column="PeriodAction">O</Data>
+        <Data AD_Column_ID="1820" Column="C_Period_ID">204</Data>
+        <Data AD_Column_ID="5945" Column="DocBaseType">SOC</Data>
+        <Data AD_Column_ID="2355" Column="Processing">false</Data>
+        <Data AD_Column_ID="1813" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="1814" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1815" Column="IsActive">true</Data>
+        <Data AD_Column_ID="1816" Column="Created">2017-04-10 13:14:19.829</Data>
+        <Data AD_Column_ID="1818" Column="Updated">2017-04-10 13:14:19.829</Data>
+        <Data AD_Column_ID="1819" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="1817" Column="CreatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="420" StepType="AD">
+      <PO AD_Table_ID="229" Action="U" Record_ID="62121" Table="C_PeriodControl">
+        <Data AD_Column_ID="1822" Column="PeriodStatus" oldValue="N">O</Data>
+        <Data AD_Column_ID="2354" Column="PeriodAction" oldValue="O">N</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="430" StepType="AD">
+      <PO AD_Table_ID="229" Action="I" Record_ID="62122" Table="C_PeriodControl">
+        <Data AD_Column_ID="1812" Column="C_PeriodControl_ID">62122</Data>
+        <Data AD_Column_ID="1822" Column="PeriodStatus">N</Data>
+        <Data AD_Column_ID="2354" Column="PeriodAction">O</Data>
+        <Data AD_Column_ID="1820" Column="C_Period_ID">205</Data>
+        <Data AD_Column_ID="5945" Column="DocBaseType">SOC</Data>
+        <Data AD_Column_ID="2355" Column="Processing">false</Data>
+        <Data AD_Column_ID="1813" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="1814" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1815" Column="IsActive">true</Data>
+        <Data AD_Column_ID="1816" Column="Created">2017-04-10 13:14:32.409</Data>
+        <Data AD_Column_ID="1818" Column="Updated">2017-04-10 13:14:32.409</Data>
+        <Data AD_Column_ID="1819" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="1817" Column="CreatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="440" StepType="AD">
+      <PO AD_Table_ID="229" Action="U" Record_ID="62122" Table="C_PeriodControl">
+        <Data AD_Column_ID="1822" Column="PeriodStatus" oldValue="N">O</Data>
+        <Data AD_Column_ID="2354" Column="PeriodAction" oldValue="O">N</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="450" StepType="AD">
+      <PO AD_Table_ID="229" Action="I" Record_ID="62123" Table="C_PeriodControl">
+        <Data AD_Column_ID="1812" Column="C_PeriodControl_ID">62123</Data>
+        <Data AD_Column_ID="1822" Column="PeriodStatus">N</Data>
+        <Data AD_Column_ID="2354" Column="PeriodAction">O</Data>
+        <Data AD_Column_ID="1820" Column="C_Period_ID">206</Data>
+        <Data AD_Column_ID="5945" Column="DocBaseType">SOC</Data>
+        <Data AD_Column_ID="2355" Column="Processing">false</Data>
+        <Data AD_Column_ID="1813" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="1814" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1815" Column="IsActive">true</Data>
+        <Data AD_Column_ID="1816" Column="Created">2017-04-10 13:14:42.863</Data>
+        <Data AD_Column_ID="1818" Column="Updated">2017-04-10 13:14:42.863</Data>
+        <Data AD_Column_ID="1819" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="1817" Column="CreatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="460" StepType="AD">
+      <PO AD_Table_ID="229" Action="U" Record_ID="62123" Table="C_PeriodControl">
+        <Data AD_Column_ID="1822" Column="PeriodStatus" oldValue="N">O</Data>
+        <Data AD_Column_ID="2354" Column="PeriodAction" oldValue="O">N</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="470" StepType="AD">
+      <PO AD_Table_ID="229" Action="I" Record_ID="62124" Table="C_PeriodControl">
+        <Data AD_Column_ID="1812" Column="C_PeriodControl_ID">62124</Data>
+        <Data AD_Column_ID="1822" Column="PeriodStatus">N</Data>
+        <Data AD_Column_ID="2354" Column="PeriodAction">O</Data>
+        <Data AD_Column_ID="1820" Column="C_Period_ID">207</Data>
+        <Data AD_Column_ID="5945" Column="DocBaseType">SOC</Data>
+        <Data AD_Column_ID="2355" Column="Processing">false</Data>
+        <Data AD_Column_ID="1813" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="1814" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1815" Column="IsActive">true</Data>
+        <Data AD_Column_ID="1816" Column="Created">2017-04-10 13:14:56.407</Data>
+        <Data AD_Column_ID="1818" Column="Updated">2017-04-10 13:14:56.407</Data>
+        <Data AD_Column_ID="1819" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="1817" Column="CreatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="480" StepType="AD">
+      <PO AD_Table_ID="229" Action="U" Record_ID="62124" Table="C_PeriodControl">
+        <Data AD_Column_ID="1822" Column="PeriodStatus" oldValue="N">O</Data>
+        <Data AD_Column_ID="2354" Column="PeriodAction" oldValue="O">N</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

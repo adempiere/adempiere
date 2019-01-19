@@ -75,12 +75,11 @@ public class FileImportProcessor implements IImportProcessor {
         }
         
 		Document documentToBeImported = XMLHelper.createDocumentFromFile(folder + fileName);
-		StringBuffer result = new StringBuffer();
 		
 		ImportHelper impHelper = new ImportHelper( ctx );
-		impHelper.importXMLDocument(result, documentToBeImported, trxName );
-
-//		addLog(0, null, null, Msg.getMsg(ctx, "ImportModelProcessResult") + "\n" + result.toString());
+		impHelper.importXMLDocument(documentToBeImported, trxName );
+//		String result = impHelper.getResultLog();
+//		addLog(0, null, null, Msg.getMsg(ctx, "ImportModelProcessResult") + "\n" + result);
 	}
 
 	public void stop() throws Exception {

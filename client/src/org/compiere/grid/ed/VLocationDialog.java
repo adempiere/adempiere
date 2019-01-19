@@ -42,7 +42,7 @@ import org.compiere.model.MCountry;
 import org.compiere.model.MLocation;
 import org.compiere.model.MRegion;
 import org.compiere.swing.CButton;
-import org.compiere.swing.CComboBox;
+import org.compiere.swing.CComboBoxEditable;
 import org.compiere.swing.CDialog;
 import org.compiere.swing.CLabel;
 import org.compiere.swing.CPanel;
@@ -117,11 +117,11 @@ public class VLocationDialog extends CDialog
 		Env.setContext(Env.getCtx(), m_WindowNo, Env.TAB_INFO, "C_Country_ID", null);
 
 		//	Current Country
-		fCountry = new CComboBox(MCountry.getCountries(Env.getCtx()));
+		fCountry = new CComboBoxEditable(MCountry.getCountries(Env.getCtx()));
 		fCountry.setSelectedItem(m_location.getCountry());
 		m_origCountry_ID = m_location.getC_Country_ID();
 		//	Current Region
-		fRegion = new CComboBox(MRegion.getRegions(Env.getCtx(), m_origCountry_ID));
+		fRegion = new CComboBoxEditable(MRegion.getRegions(Env.getCtx(), m_origCountry_ID));
 		if (m_location.getCountry().isHasRegion()) {
 			if (   m_location.getCountry().get_Translation(MCountry.COLUMNNAME_RegionName) != null
 				&& m_location.getCountry().get_Translation(MCountry.COLUMNNAME_RegionName).trim().length() > 0)
@@ -171,8 +171,8 @@ public class VLocationDialog extends CDialog
 	private CTextField	fAddress4 = new CTextField(20);		//	length=60
 	private CTextField	fCity  = new CTextField(20);		//	length=60
 	private CityAutoCompleter	fCityAutoCompleter;
-	private CComboBox	fCountry;
-	private CComboBox	fRegion;
+	private CComboBoxEditable	fCountry;
+	private CComboBoxEditable	fRegion;
 	private CTextField	fPostal = new CTextField(5);		//	length=10
 	private CTextField	fPostalAdd = new CTextField(5);		//	length=10
 	private CButton 	fOnline = new CButton();
@@ -691,7 +691,7 @@ public class VLocationDialog extends CDialog
 								// clears cache
 								Env.reset(false);
 								//reload regions to combo box
-								fRegion = new CComboBox(MRegion.getRegions(Env.getCtx(), country.getC_Country_ID()));
+								fRegion = new CComboBoxEditable(MRegion.getRegions(Env.getCtx(), country.getC_Country_ID()));
 								// select region
 								fRegion.setSelectedItem(values);
 							} else

@@ -19,6 +19,7 @@ package org.compiere.print;
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -33,8 +34,12 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.compiere.Adempiere;
+import org.compiere.print.util.SerializableMatrix;
+import org.compiere.print.util.SerializableMatrixImpl;
+import org.compiere.report.MReportLine;
 import org.compiere.util.CLogger;
 import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
 import org.compiere.util.Trace;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -68,6 +73,7 @@ public class PrintData implements Serializable
 			throw new IllegalArgumentException("Name cannot be null");
 		m_ctx = ctx;
 		m_name = name;
+		m_matrix = new SerializableMatrixImpl<Serializable>(name);
 	}	//	PrintData
 
 	/**
@@ -76,26 +82,23 @@ public class PrintData implements Serializable
 	 * 	@param name data element name
 	 *  @param nodes ArrayList with nodes (content not checked)
 	 */
-	public PrintData (Properties ctx, String name, ArrayList<Object> nodes)
+	public PrintData (Properties ctx, String name, ArrayList<Serializable> nodes)
 	{
 		if (name == null)
 			throw new IllegalArgumentException("Name cannot be null");
 		m_ctx = ctx;
-		m_name = name;
+		m_name = name;		
+		m_matrix = new SerializableMatrixImpl<Serializable>(name);
 		if (nodes != null)
-			m_nodes = nodes;
+			addRow(false, 0, nodes);
 	}	//	PrintData
 
+	private SerializableMatrix<Serializable> m_matrix;
+	
 	/**	Context						*/
 	private Properties	m_ctx;
 	/**	Data Structure Name			*/
 	private String 		m_name;
-	/** Data Structure rows			*/
-	private ArrayList<ArrayList<Object>>	m_rows = new ArrayList<ArrayList<Object>>();
-	/** Current Row Data Structure elements		*/
-	private ArrayList<Object>				m_nodes = null;
-	/**	Current Row					*/
-	private int			m_row = -1;
 	/**	List of Function Rows		*/
 	private ArrayList<Integer>	m_functionRows = new ArrayList<Integer>();
 
@@ -127,6 +130,9 @@ public class PrintData implements Serializable
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(PrintData.class);
 	
+	//TableID is added to complete Record_ID and/or Line_ID
+	private boolean hasDummyTableID = false;
+
 	/**
 	 * 	Get Context
 	 * 	@return context
@@ -184,6 +190,22 @@ public class PrintData implements Serializable
 	}	//	getSQL
 
 	/**
+	 * 
+	 * @return
+	 */
+	public boolean isHasDummyTableID() {
+		return hasDummyTableID;
+	}
+
+	/**
+	 * manually set that AD_Table_ID column is added for reference without printing
+	 * @param hasDummyTableID
+	 */
+	public void setHasDummyTableID(boolean hasDummyTableID) {
+		this.hasDummyTableID = hasDummyTableID;
+	}
+	
+	/**
 	 * 	Set TableName (optional)
 	 * 	@param TableName TableName
 	 */
@@ -207,8 +229,8 @@ public class PrintData implements Serializable
 	 */
 	public String toString()
 	{
-		StringBuffer sb = new StringBuffer("PrintData[");
-		sb.append(m_name).append(",Rows=").append(m_rows.size());
+		StringBuilder sb = new StringBuilder("PrintData[");
+		sb.append(m_name).append(",Rows=").append(m_matrix.getRowCount());
 		if (m_TableName != null)
 			sb.append(",TableName=").append(m_TableName);
 		sb.append("]");
@@ -223,9 +245,7 @@ public class PrintData implements Serializable
 	 */
 	public boolean isEmpty()
 	{
-		if (m_nodes == null)
-			return true;
-		return m_nodes.size() == 0;
+		return m_matrix.getRowCount() == 0 || m_matrix.getRowData().isEmpty();
 	}	//	isEmpty
 
 	/**
@@ -234,24 +254,27 @@ public class PrintData implements Serializable
 	 */
 	public int getNodeCount()
 	{
-		if (m_nodes == null)
+		if (m_matrix.getRowCount() == 0)
 			return 0;
-		return m_nodes.size();
+		return m_matrix.getRowData().size();
 	}	//	getNodeCount
 
+	
+	public void addRow (boolean functionRow, int levelNo)
+	{
+		addRow(functionRow, levelNo, new ArrayList<Serializable>());
+	}
 	
 	/**************************************************************************
 	 * 	Add Row
 	 *  @param functionRow true if function row
 	 * 	@param levelNo	Line detail Level Number 0=Normal
 	 */
-	public void addRow (boolean functionRow, int levelNo)
+	public void addRow (boolean functionRow, int levelNo, List<Serializable> nodes)
 	{
-		m_nodes = new ArrayList<Object>();
-		m_row = m_rows.size();
-		m_rows.add (m_nodes);
+		m_matrix.addRow(nodes);
 		if (functionRow)
-			m_functionRows.add(new Integer(m_row));
+			m_functionRows.add(new Integer(m_matrix.getRowIndex()));
 		if (m_hasLevelNo && levelNo != 0)
 			addNode(new PrintDataElement(LEVEL_NO, new Integer(levelNo), DisplayType.Integer, null));
 	}	//	addRow
@@ -263,11 +286,7 @@ public class PrintData implements Serializable
 	 */
 	public boolean setRowIndex (int row)
 	{
-		if (row < 0 || row >= m_rows.size())
-			return false;
-		m_row = row;
-		m_nodes = (ArrayList<Object>)m_rows.get(m_row);
-		return true;
+		return m_matrix.setRowIndex(row);
 	}
 
 	/**
@@ -276,7 +295,7 @@ public class PrintData implements Serializable
 	 */
 	public boolean setRowNext()
 	{
-		return setRowIndex(m_row+1);
+		return m_matrix.setRowNext();
 	}	//	setRowNext
 
 	/**
@@ -285,7 +304,7 @@ public class PrintData implements Serializable
 	 */
 	public int getRowCount()
 	{
-		return m_rows.size();
+		return m_matrix.getRowCount();
 	}	//	getRowCount
 
 	/**
@@ -294,7 +313,7 @@ public class PrintData implements Serializable
 	 */
 	public int getRowIndex()
 	{
-		return m_row;
+		return m_matrix.getRowIndex();
 	}	//	getRowIndex
 
 	/**
@@ -313,7 +332,7 @@ public class PrintData implements Serializable
 	 */
 	public boolean isFunctionRow ()
 	{
-		return m_functionRows.contains(new Integer(m_row));
+		return m_functionRows.contains(new Integer(m_matrix.getRowIndex()));
 	}	//	isFunctionRow
 
 	/**
@@ -323,11 +342,12 @@ public class PrintData implements Serializable
 	public boolean isPageBreak ()
 	{
 		//	page break requires function and meta data
-		if (isFunctionRow() && m_nodes != null)
+		List<Serializable> nodes = m_matrix.getRowData();
+		if (isFunctionRow() && nodes != null)
 		{
-			for (int i = 0; i < m_nodes.size(); i++)
+			for (int i = 0; i < nodes.size(); i++)
 			{
-				Object o = m_nodes.get(i);
+				Object o = nodes.get(i);
 				if (o instanceof PrintDataElement)
 				{
 					PrintDataElement pde = (PrintDataElement)o;
@@ -363,12 +383,13 @@ public class PrintData implements Serializable
 	 */
 	public int getLineLevelNo ()
 	{
-		if (m_nodes == null || !m_hasLevelNo)
+		List<Serializable> nodes = m_matrix.getRowData();
+		if (nodes == null || !m_hasLevelNo)
 			return 0;
 
-		for (int i = 0; i < m_nodes.size(); i++)
+		for (int i = 0; i < nodes.size(); i++)
 		{
-			Object o = m_nodes.get (i);
+			Object o = nodes.get (i);
 			if (o instanceof PrintDataElement)
 			{
 				PrintDataElement pde = (PrintDataElement)o;
@@ -392,9 +413,12 @@ public class PrintData implements Serializable
 	{
 		if (parent == null)
 			throw new IllegalArgumentException("Parent cannot be null");
-		if (m_nodes == null)
-			addRow(false, 0);
-		m_nodes.add (parent);
+		List<Serializable> nodes = m_matrix.getRowData();
+		if (nodes == null) {
+			nodes = new ArrayList<Serializable>();
+			addRow(false, 0, nodes);
+		}
+		nodes.add (parent);
 	}	//	addNode
 
 	/**
@@ -405,10 +429,28 @@ public class PrintData implements Serializable
 	{
 		if (node == null)
 			throw new IllegalArgumentException("Node cannot be null");
-		if (m_nodes == null)
-			addRow(false, 0);
-		m_nodes.add (node);
+		List<Serializable> nodes = m_matrix.getRowData();
+		if (nodes == null) {
+			nodes = new ArrayList<Serializable>();
+			addRow(false, 0, nodes);
+		}
+		nodes.add (node);
 	}	//	addNode
+
+	public void addNode(String s)
+	{
+		if (s == null) {
+			//throw new IllegalArgumentException("String Node cannot be null");
+			return;
+		}
+		
+		List<Serializable> nodes = m_matrix.getRowData();
+		if (nodes == null) {
+			nodes = new ArrayList<Serializable>();
+			addRow(false, 0, nodes);
+		}
+		nodes.add (s);
+	}
 
 	/**
 	 * 	Get Node with index in row
@@ -417,9 +459,10 @@ public class PrintData implements Serializable
 	 */
 	public Object getNode (int index)
 	{
-		if (m_nodes == null || index < 0 || index >= m_nodes.size())
+		List<Serializable> nodes = m_matrix.getRowData();
+		if (nodes == null || index < 0 || index >= nodes.size())
 			return null;
-		return m_nodes.get(index);
+		return nodes.get(index);
 	}	//	getNode
 
 	/**
@@ -432,7 +475,8 @@ public class PrintData implements Serializable
 		int index = getIndex (name);
 		if (index < 0)
 			return null;
-		return m_nodes.get(index);
+		List<Serializable> nodes = m_matrix.getRowData();
+		return nodes.get(index);
 	}	//	getNode
 
 	/**
@@ -445,7 +489,8 @@ public class PrintData implements Serializable
 		int index = getIndex (AD_Column_ID.intValue());
 		if (index < 0)
 			return null;
-		return m_nodes.get(index);
+		List<Serializable> nodes = m_matrix.getRowData();
+		return nodes.get(index);
 	}	//	getNode
 
 	/**
@@ -454,11 +499,12 @@ public class PrintData implements Serializable
 	 */
 	public PrintDataElement getPKey()
 	{
-		if (m_nodes == null)
+		List<Serializable> nodes = m_matrix.getRowData();
+		if (nodes == null)
 			return null;
-		for (int i = 0; i < m_nodes.size(); i++)
+		for (int i = 0; i < nodes.size(); i++)
 		{
-			Object o = m_nodes.get(i);
+			Object o = nodes.get(i);
 			if (o instanceof PrintDataElement)
 			{
 				PrintDataElement pde = (PrintDataElement)o;
@@ -476,11 +522,12 @@ public class PrintData implements Serializable
 	 */
 	public int getIndex (String columnName)
 	{
-		if (m_nodes == null)
+		List<Serializable> nodes = m_matrix.getRowData();
+		if (nodes == null)
 			return -1;
-		for (int i = 0; i < m_nodes.size(); i++)
+		for (int i = 0; i < nodes.size(); i++)
 		{
-			Object o = m_nodes.get(i);
+			Object o = nodes.get(i);
 			if (o instanceof PrintDataElement)
 			{
 				if (columnName.equals(((PrintDataElement)o).getColumnName()))
@@ -491,6 +538,10 @@ public class PrintData implements Serializable
 				if (columnName.equals(((PrintData)o).getName()))
 					return i;
 			}
+			else if (o instanceof String)
+			{
+				return i;
+			}			
 			else
 				log.log(Level.SEVERE, "Element not PrintData(Element) " + o.getClass().getName());
 		}
@@ -541,7 +592,7 @@ public class PrintData implements Serializable
 	 */
 	public void dumpCurrentRow()
 	{
-		dumpRow(this, m_row);
+		dumpRow(this, m_matrix.getRowIndex());
 	}	//	dump
 
 	/**
@@ -561,11 +612,11 @@ public class PrintData implements Serializable
 	 */
 	private static void dumpHeader (PrintData pd)
 	{
-		log.info(pd.toString());
+		if (log.isLoggable(Level.INFO)) log.info(pd.toString());
 		if (pd.getColumnInfo() != null)
 		{
 			for (int i = 0; i < pd.getColumnInfo().length; i++)
-				log.config(i + ": " + pd.getColumnInfo()[i]);
+				if (log.isLoggable(Level.CONFIG)) log.config(i + ": " + pd.getColumnInfo()[i]);
 		}
 	}	//	dump
 
@@ -576,7 +627,7 @@ public class PrintData implements Serializable
 	 */
 	private static void dumpRow (PrintData pd, int row)
 	{
-		log.info("Row #" + row);
+		if (log.isLoggable(Level.INFO)) log.info("Row #" + row);
 		if (row < 0 || row >= pd.getRowCount())
 		{
 			log.warning("- invalid -");
@@ -600,10 +651,10 @@ public class PrintData implements Serializable
 			}
 			else if (obj instanceof PrintDataElement)
 			{
-				log.config(((PrintDataElement)obj).toStringX());
+				if (log.isLoggable(Level.CONFIG)) log.config(((PrintDataElement)obj).toStringX());
 			}
 			else
-				log.config("- INVALID: " + obj);
+				if (log.isLoggable(Level.CONFIG)) log.config("- INVALID: " + obj);
 		}
 	}	//	dumpRow
 
@@ -629,11 +680,14 @@ public class PrintData implements Serializable
 			e.printStackTrace();
 		}
 		//	Root
-		Element root = document.createElement(PrintData.XML_TAG);
-		root.setAttribute(XML_ATTRIBUTE_NAME, getName());
-		root.setAttribute(XML_ATTRIBUTE_COUNT, String.valueOf(getRowCount()));
-		document.appendChild(root);
-		processXML (this, document, root);
+		if (document != null) {
+			Element root = document.createElement(PrintData.XML_TAG);
+			root.setAttribute(XML_ATTRIBUTE_NAME, getName());
+			root.setAttribute(XML_ATTRIBUTE_COUNT, String.valueOf(getRowCount()));
+			document.appendChild(root);
+			processXML (this, document, root);
+		}
+		
 		return document;
 	}	//	getDocument
 
@@ -675,7 +729,7 @@ public class PrintData implements Serializable
 						element.setAttribute(PrintDataElement.XML_ATTRIBUTE_NAME, pde.getColumnName());
 						if (pde.hasKey())
 							element.setAttribute(PrintDataElement.XML_ATTRIBUTE_KEY, pde.getValueKey());
-						element.appendChild(document.createTextNode(pde.getValueDisplay(null)));	//	not formatted
+						element.appendChild(document.createTextNode(pde.getValueDisplay(Env.getLanguage(Env.getCtx()))));	//	not formatted
 						row.appendChild(element);
 					}
 				}
@@ -741,7 +795,7 @@ public class PrintData implements Serializable
 	 */
 	public static PrintData parseXML (Properties ctx, File input)
 	{
-		log.config(input.toString());
+		if (log.isLoggable(Level.CONFIG)) log.config(input.toString());
 		PrintData pd = null;
 		try
 		{
@@ -772,7 +826,7 @@ public class PrintData implements Serializable
 		PrintData pdx = new PrintData(new Properties(), "test2");
 		pdx.addNode(new PrintDataElement("test2element1-1","testvalue11",0,null));
 		pdx.addNode(new PrintDataElement("test2element1-2","testvalue12",0,null));
-		pdx.addRow(false, 0);
+		pdx.addRow(false, 0, new ArrayList<Serializable>());
 		pdx.addNode(new PrintDataElement("test2element2-1","testvalue21",0,null));
 		pdx.addNode(new PrintDataElement("test2element2-2","testvalue22",0,null));
 
@@ -791,5 +845,39 @@ public class PrintData implements Serializable
 		System.out.println("");
 		pd1.dump();
 	}	//	main
+
+	public MReportLine getMReportLine() {
+
+		List<Serializable> nodes = m_matrix.getRowData();
+		
+		if (nodes == null || !m_hasLevelNo)
+			return null;
+
+		for (int i = 0; i < nodes.size(); i++)
+		{
+			Object o = nodes.get (i);
+			if (o instanceof PrintDataElement)
+			{
+				PrintDataElement pde = (PrintDataElement)o;
+				if ("PA_ReportLine_ID".equals (pde.getColumnName()))
+				{
+					Integer ii = (Integer)pde.getValue();
+					if ( ii > 0 )
+					{
+						return new MReportLine(m_ctx, ii, null);
+					}
+				}
+			}
+		}
+			
+			return null;
+	}
+
+	public void addRow(boolean functionRow, int levelNo, int reportLineId) {
+		addRow(functionRow, levelNo);
+		if (m_hasLevelNo && reportLineId != 0)
+			addNode(new PrintDataElement("PA_ReportLine_ID", new Integer(reportLineId), DisplayType.Integer, null));
+		
+	}
 
 }	//	PrintData

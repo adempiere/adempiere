@@ -3,13 +3,12 @@
   <c:redirect url='loginServlet?ForwardTo=emailVerify.jsp'/>
 </c:if>
 <html>
-<!--
+<%--
   - Author:  Jorg Janke
-  - Version: $Id: emailVerify.jsp,v 1.2 2006/05/06 00:41:33 mdeaelfweald Exp $
-  - Adempiere ERP & CRM Smart Business Solution - Copyright (c) 1999-2003 Jorg Janke
+  - ADempiere ERP & CRM Smart Business Solution - Copyright (c) 1999-2003 Jorg Janke
   - - -
   - Web Store Assets
-  -->
+  --%>
 <head>
 <%@ include file="/WEB-INF/jspf/head.jspf" %>
 <title><c:out value='${ctx.name}'/> - Verify EMail</title>
@@ -18,7 +17,7 @@
 <%@ include file="/WEB-INF/jspf/header.jspf" %>
 <div id="main">
 	<%@ include file="/WEB-INF/jspf/menu.jspf" %>
-    <%@ include file="/WEB-INF/jspf/vendor.jspf" %>
+	<%@ include file="/WEB-INF/jspf/vendor.jspf" %>
 	<div id="content">
 	  <h1>Verify Your EMail Address</h1>
         <c:if test='${not empty param.Reason}'>

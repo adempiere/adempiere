@@ -16,51 +16,34 @@
  *****************************************************************************/
 package org.compiere.print;
 
-import java.awt.Font;
 import java.awt.print.PrinterJob;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
 import java.io.Writer;
 import java.net.URI;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Locale;
 import java.util.Properties;
 import java.util.logging.Level;
 
-import javax.print.DocFlavor;
-import javax.print.StreamPrintService;
-import javax.print.StreamPrintServiceFactory;
-import javax.print.attribute.HashPrintRequestAttributeSet;
 import javax.print.attribute.PrintRequestAttributeSet;
 import javax.print.attribute.standard.Copies;
 import javax.print.attribute.standard.JobName;
+import javax.print.attribute.standard.JobPriority;
 import javax.print.event.PrintServiceAttributeEvent;
 import javax.print.event.PrintServiceAttributeListener;
-import javax.xml.transform.stream.StreamResult;
 
-import org.adempiere.pdf.Document;
-import org.adempiere.print.export.PrintDataExcelExporter;
-import org.apache.ecs.XhtmlDocument;
-import org.apache.ecs.xhtml.a;
-import org.apache.ecs.xhtml.link;
-import org.apache.ecs.xhtml.script;
-import org.apache.ecs.xhtml.table;
-import org.apache.ecs.xhtml.td;
-import org.apache.ecs.xhtml.th;
-import org.apache.ecs.xhtml.tr;
+import org.adempiere.pdf.ITextDocument;
 import org.compiere.model.MClient;
 import org.compiere.model.MDunningRunEntry;
 import org.compiere.model.MInOut;
 import org.compiere.model.MInvoice;
+import org.compiere.model.MMovement;
 import org.compiere.model.MOrder;
 import org.compiere.model.MPaySelectionCheck;
 import org.compiere.model.MProject;
@@ -72,14 +55,19 @@ import org.compiere.print.layout.LayoutEngine;
 import org.compiere.process.ProcessInfo;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
-import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.Language;
-import org.compiere.util.Util;
 import org.eevolution.model.MDDOrder;
 import org.eevolution.model.X_HR_PaySelectionCheck;
 import org.eevolution.model.X_PP_Order;  // to be changed by MPPOrder
+import org.spin.util.ExportFormatCSV;
+import org.spin.util.ExportFormatHTML;
+import org.spin.util.ExportFormatPDF;
+import org.spin.util.ExportFormatPS;
+import org.spin.util.ExportFormatXLS;
+import org.spin.util.ExportFormatXLSX;
+import org.spin.util.ExportFormatXML;
 
 /**
  *	Report Engine.
@@ -104,6 +92,18 @@ import org.eevolution.model.X_PP_Order;  // to be changed by MPPOrder
  * 				https://sourceforge.net/tracker/?func=detail&atid=879332&aid=2828886&group_id=176962
  * 
  *  FR 2872010 - Dunning Run for a complete Dunning (not just level) - Developer: Carlos Ruiz - globalqss - Sponsor: Metas
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * 		<li>BR [ 237 ] Same Print format but distinct report view
+ * 		@see https://github.com/adempiere/adempiere/issues/237
+ * 		<li>FR [ 295 ] Report viewer re-query
+ * 		@see https://github.com/adempiere/adempiere/issues/295
+ * 		<li>FR [ 238 ] Is Summary property by default in Print Format (Set default summary property from print format)
+ * 		@see https://github.com/adempiere/adempiere/issues/238
+ * 		<a href="https://github.com/adempiere/adempiere/issues/1400">
+ * 		@see FR [ 1400 ] Dynamic report export</a>
+ * 	@author Raul Capecce
+ * 	    <li>FR [ 1305 ] Setting zoom glass to a dark theme resource</li>
+ * 	    @see https://github.com/adempiere/adempiere/issues/1305
  */
 public class ReportEngine implements PrintServiceAttributeListener
 {
@@ -130,8 +130,7 @@ public class ReportEngine implements PrintServiceAttributeListener
 	 */
 	public ReportEngine ( Properties ctx,MPrintFormat pf,MQuery query,ProcessInfo pInfo, PrintInfo info ){
 		this(ctx, pf, query, info, null);
-		this.setProcessInfo(pInfo) ;
-
+		this.setProcessInfo(pInfo);
 	}
 
 
@@ -153,22 +152,23 @@ public class ReportEngine implements PrintServiceAttributeListener
 		m_printFormat = pf;
 		m_info = info;
 		m_trxName = trxName;
-		setQuery(query);		//	loads Data
-
+		//	FR [ 238 ] Set default summary from print format
+		setSummary(m_printFormat.isSummary());
+		setQuery(query);		//	loads Data		
 	}	//	ReportEngine
 
 	/**	Static Logger	*/
 	private static CLogger	log	= CLogger.getCLogger (ReportEngine.class);
 
 	/**	Context					*/
-	private Properties		m_ctx;
+	protected Properties		m_ctx;
 
 	/**	Print Format			*/
-	private MPrintFormat	m_printFormat;
+	protected MPrintFormat	m_printFormat;
 	/** Print Info				*/
 	private PrintInfo		m_info;
 	/**	Query					*/
-	private MQuery			m_query;
+	protected MQuery			m_query;
 	/**	Query Data				*/
 	private PrintData		m_printData;
 	/** Layout					*/
@@ -178,15 +178,41 @@ public class ReportEngine implements PrintServiceAttributeListener
 	/**	View					*/
 	private View			m_view = null;
 	/** Transaction Name 		*/
-	private String 			m_trxName = null;
+	protected String 			m_trxName = null;
 	/** Where filter */
 	private String 			m_whereExtended = null;
 	/** Window */
-	private int m_windowNo = 0;
+	private int m_windowNo = -1;
 
 	private ProcessInfo processInfo = null ;
-
+	
 	private boolean m_summary = false;
+	//	FR [ 237 ]
+	private int 			m_AD_ReportView_ID = 0;
+	
+	/**
+	 * Set Optional Report View
+	 * @param p_AD_ReportView_ID
+	 */
+	public void setAD_ReportView_ID(int p_AD_ReportView_ID) {
+		m_AD_ReportView_ID = p_AD_ReportView_ID;
+	}
+	
+	/**
+	 * Get Optional Report View
+	 * @return
+	 */
+	public int getAD_ReportView_ID() {
+		return m_AD_ReportView_ID;
+	}
+
+	/* Explicit printer job priority	*/
+	private int m_priority = 0;
+	
+	public void setPriority(int priority) {
+		if ( priority > 0 && priority <= 100 )
+			m_priority = priority;
+	}
 
 	/**
 	 * 	Set PrintFormat.
@@ -205,7 +231,7 @@ public class ReportEngine implements PrintServiceAttributeListener
 		if (m_view != null)
 			m_view.revalidate();
 	}	//	setPrintFormat
-
+	
 	/**
 	 * 	Set Query and generate PrintData.
 	 *  If Layout was created, re-create layout
@@ -238,13 +264,14 @@ public class ReportEngine implements PrintServiceAttributeListener
 	 * 	Nothing set if there is no query
 	 *  Sets m_printData
 	 */
-	private void setPrintData()
+	protected void setPrintData()
 	{
 		if (m_query == null)
 			return;
-
+		
 		DataEngine de = new DataEngine(m_printFormat.getLanguage(),m_trxName);
-		setPrintData(de.getPrintData (m_ctx, m_printFormat, m_query, m_summary));
+		//	FR [ 237 ]
+		setPrintData(de.getPrintData (m_ctx, m_printFormat, m_query, m_summary, getAD_ReportView_ID()));
 		//	m_printData.dump();
 	}	//	setPrintData
 
@@ -269,7 +296,7 @@ public class ReportEngine implements PrintServiceAttributeListener
 		m_printData = printData;
 	}	//	setPrintData
 
-
+	
 	/**************************************************************************
 	 * 	Layout
 	 */
@@ -319,7 +346,7 @@ public class ReportEngine implements PrintServiceAttributeListener
 	{
 		return m_info;
 	}	//	getPrintInfo
-
+	
 	/**
 	 * 	Get PrintLayout (Report) Context
 	 * 	@return context
@@ -344,12 +371,15 @@ public class ReportEngine implements PrintServiceAttributeListener
 	 */
 	public int getColumnCount()
 	{
+		return m_printData.getColumnInfo().length;
+		/*
 		if (m_layout != null)
 			return m_layout.getColumnCount();
 		return 0;
+		*/
 	}	//	getColumnCount
 
-
+	
 	/**************************************************************************
 	 * 	Get View Panel
 	 * 	@return view panel
@@ -362,8 +392,7 @@ public class ReportEngine implements PrintServiceAttributeListener
 			m_view = new View (m_layout);
 		return m_view;
 	}	//	getView
-
-
+	
 	/**************************************************************************
 	 * 	Print Report
 	 */
@@ -372,7 +401,7 @@ public class ReportEngine implements PrintServiceAttributeListener
 		log.info(m_info.toString());
 		if (m_layout == null)
 			layout();
-
+		
 		//	Paper Attributes: 	media-printable-area, orientation-requested, media
 		PrintRequestAttributeSet prats = m_layout.getPaper().getPrintRequestAttributeSet();
 		//	add:				copies, job-name, priority
@@ -382,15 +411,19 @@ public class ReportEngine implements PrintServiceAttributeListener
 			prats.add (new Copies(m_info.getCopies()));
 		Locale locale = Language.getLoginLanguage().getLocale();
 		prats.add(new JobName(m_printFormat.getName(), locale));
-		prats.add(PrintUtil.getJobPriority(m_layout.getNumberOfPages(), m_info.getCopies(), true));
+		JobPriority priority = PrintUtil.getJobPriority(m_layout.getNumberOfPages(), m_info.getCopies(), true);
+		// check for directly set priority
+		if (m_priority  > 0 && m_priority <= 100)
+			priority = new JobPriority(m_priority);
+		prats.add(priority);
 
 		try
 		{
 			//	PrinterJob
 			PrinterJob job = getPrinterJob(m_info.getPrinterName());
-			//	job.getPrintService().addPrintServiceAttributeListener(this);
+		//	job.getPrintService().addPrintServiceAttributeListener(this);
 			job.setPageable(m_layout.getPageable(false));	//	no copy
-			//	Dialog
+		//	Dialog
 			try
 			{
 				if (m_info.isWithDialog() && !job.printDialog(prats))
@@ -402,10 +435,10 @@ public class ReportEngine implements PrintServiceAttributeListener
 				return;
 			}
 
-			//	submit
+		//	submit
 			boolean printCopy = m_info.isDocumentCopy() && m_info.getCopies() > 1;
 			ArchiveEngine.get().archive(m_layout, m_info);
-			PrintUtil.print(job, prats, false, printCopy);
+			PrintUtil.print(job, prats, false, !m_info.isAsync() || printCopy);
 
 			//	Document: Print Copies
 			if (printCopy)
@@ -413,7 +446,7 @@ public class ReportEngine implements PrintServiceAttributeListener
 				log.info("Copy " + (m_info.getCopies()-1));
 				prats.add(new Copies(m_info.getCopies()-1));
 				job = getPrinterJob(m_info.getPrinterName());
-				//	job.getPrintService().addPrintServiceAttributeListener(this);
+			//	job.getPrintService().addPrintServiceAttributeListener(this);
 				job.setPageable (m_layout.getPageable(true));		//	Copy
 				PrintUtil.print(job, prats, false, false);
 			}
@@ -441,9 +474,9 @@ queued-job-count = 1  (class javax.print.attribute.standard.QueuedJobCount)
 PrintEvent on Win32 Printer : \\MAIN\HP LaserJet 5L
 PrintServiceAttributeSet - length=1
 queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
-		 **/
+		**/
 		log.fine("attributeUpdate - " + psae);
-		//	PrintUtil.dump (psae.getAttributes());
+	//	PrintUtil.dump (psae.getAttributes());
 	}	//	attributeUpdate
 
 
@@ -500,11 +533,11 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 	 *  @param language optional language - if null the default language is used to format nubers/dates
 	 * 	@return true if success
 	 */
-	public boolean createHTML (File file, boolean onlyTable, Language language)
-	{
-		return createHTML(file, onlyTable, language, null);
+	@Deprecated
+	public boolean createHTML (File file, boolean onlyTable) {
+		return new ExportFormatHTML(getCtx(), this).createHTML(file, onlyTable, null);
 	}
-
+	
 	/**************************************************************************
 	 * 	Create HTML File
 	 * 	@param file file
@@ -513,193 +546,10 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 	 *  @param extension optional extension for html output
 	 * 	@return true if success
 	 */
-	public boolean createHTML (File file, boolean onlyTable, Language language, IHTMLExtension extension)
-	{
-		try
-		{
-			Language lang = language;
-			if (lang == null)
-				lang = Language.getLoginLanguage();
-			Writer fw = new OutputStreamWriter(new FileOutputStream(file, false), Ini.getCharset()); // teo_sarca: save using adempiere charset [ 1658127 ]
-			return createHTML (new BufferedWriter(fw), onlyTable, lang, extension);
-		}
-		catch (FileNotFoundException fnfe)
-		{
-			log.log(Level.SEVERE, "(f) - " + fnfe.toString());
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, "(f)", e);
-		}
-		return false;
+	@Deprecated
+	public boolean createHTML (File file, boolean onlyTable, IHTMLExtension extension) {
+		return new ExportFormatHTML(m_ctx, this).createHTML(file, onlyTable, extension);
 	}	//	createHTML
-
-	/**
-	 * 	Write HTML to writer
-	 * 	@param writer writer
-	 *  @param onlyTable if false create complete HTML document
-	 *  @param language optional language - if null nubers/dates are not formatted
-	 * 	@return true if success
-	 */
-	public boolean createHTML (Writer writer, boolean onlyTable, Language language)
-	{
-		return createHTML(writer, onlyTable, language, null);
-	}
-
-	/**
-	 * 	Write HTML to writer
-	 * 	@param writer writer
-	 *  @param onlyTable if false create complete HTML document
-	 *  @param language optional language - if null numbers/dates are not formatted
-	 *  @param extension optional extension for html output
-	 * 	@return true if success
-	 */
-	public boolean createHTML (Writer writer, boolean onlyTable, Language language, IHTMLExtension extension)
-	{
-		try
-		{
-			String cssPrefix = extension != null ? extension.getClassPrefix() : null;
-			if (cssPrefix != null && cssPrefix.trim().length() == 0)
-				cssPrefix = null;
-
-			table table = new table();
-			
-			if (m_printFormat.getAD_PrintFont_ID() != 0) {
-				MPrintFont font = (MPrintFont) m_printFormat.getAD_PrintFont();
-				Font ff = font.getFont();
-				String generic = ff.getName();
-				if ( generic.equalsIgnoreCase("sansserif"))
-					generic = "sans-serif";
-				if ( generic.equalsIgnoreCase("monospaced"))
-					generic = "monospace";
-				if ( generic.equalsIgnoreCase("dialog"))
-					generic = "cursive";
-				if ( generic.equalsIgnoreCase("dialoginput"))
-					generic = "fantasy";
-				table.setStyle("font-family:" + generic);
-			}
-			if (cssPrefix != null)
-				table.setClass(cssPrefix + "-table");
-			//
-			//	for all rows (-1 = header row)
-			for (int row = -1; row < m_printData.getRowCount(); row++)
-			{
-				tr tr = new tr();
-				table.addElement(tr);
-				
-				if (cssPrefix != null && row % 2 == 0)
-					tr.setClass(cssPrefix + "-odd");
-				if (row != -1)
-				{
-					m_printData.setRowIndex(row);					
-					if (extension != null)
-					{
-						extension.extendRowElement(tr, m_printData);
-					}
-				}
-				//	for all columns
-				for (int col = 0; col < m_printFormat.getItemCount(); col++)
-				{
-					MPrintFormatItem item = m_printFormat.getItem(col);
-					if (item.isPrinted())
-					{
-						//	header row
-						if (row == -1)
-						{
-							th th = new th();
-							tr.addElement(th);
-							th.addElement(Util.maskHTML(item.getPrintName(language)));
-						}
-						else
-						{
-							td td = new td();
-							tr.addElement(td);
-							if (item.isFixedWidth() && item.getMaxWidth() > 0) {
-								// convert to pixels assuming 96dpi
-								int pxs = (item.getMaxWidth()*96);
-								pxs = pxs / 72;
-								td.setStyle("width:" + pxs + "px");
-							}
-							Object obj = m_printData.getNode(new Integer(item.getAD_Column_ID()));
-							if (obj == null)
-								td.addElement("&nbsp;");
-							else if (obj instanceof PrintDataElement)
-							{
-								PrintDataElement pde = (PrintDataElement) obj;
-								String value = pde.getValueDisplay(language);	//	formatted
-								if (pde.getColumnName().endsWith("_ID") && extension != null)
-								{
-									//link for column
-									a href = new a("javascript:void(0)");									
-									href.setID(pde.getColumnName() + "_" + row + "_a");									
-									td.addElement(href);
-									href.addElement(Util.maskHTML(value));
-									if (cssPrefix != null)
-										href.setClass(cssPrefix + "-href");
-
-									extension.extendIDColumn(row, td, href, pde);
-
-								}
-								else
-								{
-									td.addElement(Util.maskHTML(value));
-								}
-								if (cssPrefix != null)
-								{
-									if (DisplayType.isNumeric(pde.getDisplayType())) {
-										td.setClass(cssPrefix + "-number");
-										td.setClass(cssPrefix + "-numberalign");
-									}
-									
-									else if (DisplayType.isDate(pde.getDisplayType()))
-										td.setClass(cssPrefix + "-date");
-									else
-										td.setClass(cssPrefix + "-text");
-								}								
-							}
-							else if (obj instanceof PrintData)
-							{
-								//	ignore contained Data
-							}
-							else
-								log.log(Level.SEVERE, "Element not PrintData(Element) " + obj.getClass());
-						}
-					}	//	printed
-				}	//	for all columns
-			}	//	for all rows
-
-			//
-			PrintWriter w = new PrintWriter(writer);
-			if (onlyTable)
-				table.output(w);
-			else
-			{
-				XhtmlDocument doc = new XhtmlDocument();
-				doc.appendBody(table);
-				if (extension.getStyleURL() != null)
-				{
-					link l = new link(extension.getStyleURL(), "stylesheet", "text/css");
-					doc.appendHead(l);					
-				}
-				if (extension.getScriptURL() != null)
-				{
-					script jslink = new script();
-					jslink.setLanguage("javascript");
-					jslink.setSrc(extension.getScriptURL());
-					doc.appendHead(jslink);
-				}
-				doc.output(w);
-			}
-			w.flush();
-			w.close();
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, "(w)", e);
-		}
-		return false;
-	}	//	createHTML
-
 
 	/**************************************************************************
 	 * 	Create CSV File
@@ -708,22 +558,9 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 	 *  @param language translation language
 	 * 	@return true if success
 	 */
-	public boolean createCSV (File file, char delimiter, Language language)
-	{
-		try
-		{
-			Writer fw = new OutputStreamWriter(new FileOutputStream(file, false), Ini.getCharset()); // teo_sarca: save using adempiere charset [ 1658127 ]
-			return createCSV (new BufferedWriter(fw), delimiter, language);
-		}
-		catch (FileNotFoundException fnfe)
-		{
-			log.log(Level.SEVERE, "(f) - " + fnfe.toString());
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, "(f)", e);
-		}
-		return false;
+	@Deprecated
+	public boolean createCSV (File file, char delimiter) {
+		return new ExportFormatCSV(getCtx(), this).createCSV(file, delimiter, null);
 	}	//	createCSV
 
 	/**
@@ -733,154 +570,54 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 	 *  @param language translation language
 	 * 	@return true if success
 	 */
-	public boolean createCSV (Writer writer, char delimiter, Language language)
-	{
-		if (delimiter == 0)
-			delimiter = '\t';
-		try
-		{
-			//	for all rows (-1 = header row)
-			for (int row = -1; row < m_printData.getRowCount(); row++)
-			{
-				StringBuffer sb = new StringBuffer();
-				if (row != -1)
-					m_printData.setRowIndex(row);
-
-				//	for all columns
-				boolean first = true;	//	first column to print
-				for (int col = 0; col < m_printFormat.getItemCount(); col++)
-				{
-					MPrintFormatItem item = m_printFormat.getItem(col);
-					if (item.isPrinted())
-					{
-						//	column delimiter (comma or tab)
-						if (first)
-							first = false;
-						else
-							sb.append(delimiter);
-						//	header row
-						if (row == -1)
-							createCSVvalue (sb, delimiter,
-									m_printFormat.getItem(col).getPrintName(language));
-						else
-						{
-							Object obj = m_printData.getNode(new Integer(item.getAD_Column_ID()));
-							String data = "";
-							if (obj == null)
-								;
-							else if (obj instanceof PrintDataElement)
-							{
-								PrintDataElement pde = (PrintDataElement)obj;
-								if (pde.isPKey())
-									data = pde.getValueAsString();
-								else
-									data = pde.getValueDisplay(language);	//	formatted
-							}
-							else if (obj instanceof PrintData)
-							{
-							}
-							else
-								log.log(Level.SEVERE, "Element not PrintData(Element) " + obj.getClass());
-							createCSVvalue (sb, delimiter, data);
-						}
-					}	//	printed
-				}	//	for all columns
-				writer.write(sb.toString());
-				writer.write(Env.NL);
-			}	//	for all rows
-			//
-			writer.flush();
-			writer.close();
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, "(w)", e);
-		}
-		return false;
+	@Deprecated
+	public boolean createCSV (Writer writer, char delimiter, Language language) {
+		return  createCSV(writer, delimiter, language, true);
 	}	//	createCSV
-
+	
 	/**
-	 * 	Add Content to CSV string.
-	 *  Encapsulate/mask content in " if required
-	 * 	@param sb StringBuffer to add to
-	 * 	@param delimiter delimiter
-	 * 	@param content column value
-	 */
-	private void createCSVvalue (StringBuffer sb, char delimiter, String content)
-	{
-		//	nothing to add
-		if (content == null || content.length() == 0)
-			return;
-		//
-		boolean needMask = false;
-		StringBuffer buff = new StringBuffer();
-		char chars[] = content.toCharArray();
-		for (int i = 0; i < chars.length; i++)
-		{
-			char c = chars[i];
-			if (c == '"')
-			{
-				needMask = true;
-				buff.append(c);		//	repeat twice
-			}	//	mask if any control character
-			else if (!needMask && (c == delimiter || !Character.isLetterOrDigit(c)))
-				needMask = true;
-			buff.append(c);
-		}
-
-		//	Optionally mask value
-		if (needMask)
-			sb.append('"').append(buff).append('"');
-		else
-			sb.append(buff);
-	}	//	addCSVColumnValue
-
-
-	/**************************************************************************
-	 * 	Create XML File
-	 * 	@param file file
-	 * 	@return true if success
-	 */
-	public boolean createXML (File file)
-	{
-		try
-		{
-			Writer fw = new OutputStreamWriter(new FileOutputStream(file, false), Ini.getCharset()); // teo_sarca: save using adempiere charset [ 1658127 ]
-			return createXML (new BufferedWriter(fw));
-		}
-		catch (FileNotFoundException fnfe)
-		{
-			log.log(Level.SEVERE, "(f) - " + fnfe.toString());
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, "(f)", e);
-		}
-		return false;
-	}	//	createXML
-
-	/**
-	 * 	Write XML to writer
+	 * 	Write CSV to writer
 	 * 	@param writer writer
+	 *  @param delimiter delimiter, e.g. comma, tab
+	 *  @param language translation language
+	 *  @param printHeader include column headers
 	 * 	@return true if success
 	 */
-	public boolean createXML (Writer writer)
-	{
-		try
-		{
-			m_printData.createXML(new StreamResult(writer));
-			writer.flush();
-			writer.close();
-			return true;
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, "(w)", e);
-		}
-		return false;
-	}	//	createXML
-
-
+	@Deprecated
+	public boolean createCSV (Writer writer, char delimiter, Language language, boolean printHeader) {
+		return new ExportFormatCSV(getCtx(), this).createCSV(writer, delimiter, language, printHeader);
+	}	//	createCSV
+	
+	/**
+	 * Create XML from File
+	 */
+	@Deprecated
+	public boolean createXML(File file) {
+		return new ExportFormatXML(getCtx(), this).exportToFile(file);
+	}
+	
+	/**
+	 * Create XML from Writer
+	 */
+	@Deprecated
+	public boolean createXML(Writer writer) {
+		return new ExportFormatXML(getCtx(), this).createXML(writer);
+	}
+	
+	/**
+	 * 	Write delimited file to writer
+	 * 	@param writer writer
+	 *  @param delimiter delimiter, e.g. comma, tab
+	 *  @param language translation language
+	 *  @param printHeader if you want a row with column names included
+	 *  try
+	 * 	@return true if success
+	 */
+	@Deprecated
+	public boolean createDelimitedFile (Writer writer, char delimiter, Language language, boolean printHeader) {
+		return new ExportFormatXML(getCtx(), this).createDelimitedFile(writer, delimiter, language, printHeader);
+	}
+	
 	/**************************************************************************
 	 * 	Create PDF file.
 	 * 	(created in temporary storage)
@@ -896,15 +633,16 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 	 * 	@param file file
 	 *	@return PDF file
 	 */
-	public File getPDF (File file)
-	{
-		try
-		{
-			if (file == null)
+	public File getPDF (File file) {
+		try {
+			if (file == null) {
 				file = File.createTempFile ("ReportEngine", ".pdf");
-		}
-		catch (IOException e)
-		{
+			}
+			//ordinary temp file - rename it
+			if (!(file.getName().contains("_") || file.getName().contains("-"))) {
+				file = rename(file);
+			}
+		} catch (IOException e) {
 			log.log(Level.SEVERE, "", e);
 		}
 		if (createPDF (file))
@@ -917,141 +655,88 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 	 * 	@param file file
 	 * 	@return true if success
 	 */
-	public boolean createPDF (File file)
-	{
-		String fileName = null;
+	public boolean createPDF (File file) {
 		URI uri = null;
-
-		try
-		{
-			if (file == null)
+		try {
+			if (file == null) {
 				file = File.createTempFile ("ReportEngine", ".pdf");
-			fileName = file.getAbsolutePath();
+			}
 			uri = file.toURI();
-			if (file.exists())
+			if (file.exists()) {
 				file.delete();
-
-		}
-		catch (Exception e)
-		{
+			}
+		} catch (Exception e) {
 			log.log(Level.SEVERE, "file", e);
 			return false;
 		}
-
 		log.fine(uri.toString());
-
-		try
-		{
-			if (m_layout == null)
-				layout ();
-			ArchiveEngine.get().archive(m_layout, m_info);
-			Document.getPDFAsFile(fileName, m_layout.getPageable(false));
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, "PDF", e);
-			return false;
-		}
-
-		File file2 = new File(fileName);
-		log.info(file2.getAbsolutePath() + " - " + file2.length());
-		return file2.exists();
+		return new ExportFormatPDF(m_ctx, this).createPDF(file);
 	}	//	createPDF
 
 	/**
 	 * 	Create PDF as Data array
 	 *	@return pdf data
 	 */
-	public byte[] createPDFData ()
-	{
-		try
-		{
+	public byte[] createPDFData () {
+		try {
 			if (m_layout == null)
 				layout ();
-			return Document.getPDFAsArray(m_layout.getPageable(false));
-		}
-		catch (Exception e)
-		{
+			return new ITextDocument().getPDFAsArray(m_layout.getPageable(false));
+		} catch (Exception e) {
 			log.log(Level.SEVERE, "PDF", e);
 		}
 		return null;
 	}	//	createPDFData
-
+	
 	/**************************************************************************
 	 * 	Create PostScript File
 	 * 	@param file file
 	 * 	@return true if success
 	 */
-	public boolean createPS (File file)
-	{
-		try
-		{
-			return createPS (new FileOutputStream(file));
-		}
-		catch (FileNotFoundException fnfe)
-		{
-			log.log(Level.SEVERE, "(f) - " + fnfe.toString());
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, "(f)", e);
-		}
-		return false;
+	public boolean createPS (File file) {
+		return new ExportFormatPS(m_ctx, this).exportToFile(file);
 	}	//	createPS
-
-	/**
-	 * 	Write PostScript to writer
-	 * 	@param os output stream
-	 * 	@return true if success
-	 */
-	public boolean createPS (OutputStream os)
-	{
-		try
-		{
-			String outputMimeType = DocFlavor.BYTE_ARRAY.POSTSCRIPT.getMimeType();
-			DocFlavor docFlavor = DocFlavor.SERVICE_FORMATTED.PAGEABLE;
-			StreamPrintServiceFactory[] spsfactories =
-				StreamPrintServiceFactory.lookupStreamPrintServiceFactories(docFlavor, outputMimeType);
-			if (spsfactories.length == 0)
-			{
-				log.log(Level.SEVERE, "(fos) - No StreamPrintService");
-				return false;
-			}
-			//	just use first one - sun.print.PSStreamPrinterFactory
-			//	System.out.println("- " + spsfactories[0]);
-			StreamPrintService sps = spsfactories[0].getPrintService(os);
-			//	get format
-			if (m_layout == null)
-				layout();
-			//	print it
-			sps.createPrintJob().print(m_layout.getPageable(false), 
-					new HashPrintRequestAttributeSet());
-			//
-			os.flush();
-			//following 2 line for backward compatibility
-			if (os instanceof FileOutputStream)
-				((FileOutputStream)os).close();
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, "(fos)", e);
-		}
-		return false;
-	}	//	createPS
-
+	
 	/**
 	 * Create Excel file
 	 * @param outFile output file
 	 * @param language
 	 * @throws Exception if error
 	 */
-	public void createXLS(File outFile, Language language)
-	throws Exception
-	{
-		PrintDataExcelExporter exp = new PrintDataExcelExporter(getPrintData(), getPrintFormat());
-		exp.export(outFile, language);
+	public void createXLS(File outFile) {
+		new ExportFormatXLS(m_ctx, this).exportToFile(outFile);
 	}
-
+	
+	/**
+	 * Create Excel file
+	 * @param outFile
+	 */
+	public void createXLSX(File outFile) {
+		new ExportFormatXLSX(m_ctx, this).exportToFile(outFile);
+	}
+	
+	/**
+	 * Create Excel file
+	 * @param outFile output file
+	 * @param language
+	 * @throws Exception if error
+	 */
+	@Deprecated
+	public void createXLS(File outFile, Language language) throws Exception {
+		new ExportFormatXLS(m_ctx, this).exportToFile(outFile, language);
+	}
+	
+	/**
+	 * 
+	 * @param outFile
+	 * @param language
+	 * @throws Exception
+	 */
+	@Deprecated
+	public void createXLSX(File outFile, Language language) throws Exception {
+		new ExportFormatXLSX(m_ctx, this).exportToFile(outFile, language);
+	}
+	
 	/**************************************************************************
 	 * 	Get Report Engine for process info 
 	 *	@param ctx context
@@ -1149,7 +834,7 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 			if (AD_PrintFormat_ID == 0)
 			{
 				log.log(Level.SEVERE, "Report Info NOT found AD_PInstance_ID=" + pi.getAD_PInstance_ID() 
-						+ ",AD_Client_ID=" + AD_Client_ID);
+					+ ",AD_Client_ID=" + AD_Client_ID);
 				return null;
 			}
 		}
@@ -1172,7 +857,7 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 		{
 			query = MQuery.get (ctx, pi.getAD_PInstance_ID(), TableName);
 		}
-
+		
 		//  Add to static where clause from ReportView
 		if (whereClause.length() != 0)
 			query.addRestriction(whereClause);
@@ -1206,10 +891,16 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 		//
 		PrintInfo info = new PrintInfo (pi);
 		info.setAD_Table_ID(AD_Table_ID);
+		
+		query.setWindowNo(pi.getWindowNo());
 
-		return new ReportEngine(ctx, format, query, info, pi.getTransactionName());
+		//	FR [ 295 ]
+		ReportEngine re = new ReportEngine(ctx, format, query, info, pi.getTransactionName());
+		//	Set Process Information
+		re.setProcessInfo(pi);
+		return re;
 	}	//	get
-
+	
 	/*************************************************************************/
 
 	/** Order = 0				*/
@@ -1237,27 +928,29 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 
     public static final int     HR_REMITTANCE = 11;
 
+	public static final int     MOVEMENT = 12;
+	
 
-	//	private static final String[]	DOC_TABLES = new String[] {
-	//		"C_Order_Header_v", "M_InOut_Header_v", "C_Invoice_Header_v", "C_Project_Header_v",
-	//		"C_RfQResponse_v",
-	//		"C_PaySelection_Check_v", "C_PaySelection_Check_v",  
-	//		"C_DunningRunEntry_v","PP_Order_Header_v","DD_Order_Header_v" };
+//	private static final String[]	DOC_TABLES = new String[] {
+//		"C_Order_Header_v", "M_InOut_Header_v", "C_Invoice_Header_v", "C_Project_Header_v",
+//		"C_RfQResponse_v",
+//		"C_PaySelection_Check_v", "C_PaySelection_Check_v",  
+//		"C_DunningRunEntry_v","PP_Order_Header_v","DD_Order_Header_v" };
 	private static final String[]	DOC_BASETABLES = new String[] {
 		"C_Order", "M_InOut", "C_Invoice", "C_Project",
 		"C_RfQResponse",
 		"C_PaySelectionCheck", "C_PaySelectionCheck", 
-		"C_DunningRunEntry","PP_Order", "DD_Order", "HR_PaySelectionCheck","HR_PaySelectionCheck"};
+		"C_DunningRunEntry","PP_Order", "DD_Order", "HR_PaySelectionCheck","HR_PaySelectionCheck", "M_Movement"};
 	private static final String[]	DOC_IDS = new String[] {
 		"C_Order_ID", "M_InOut_ID", "C_Invoice_ID", "C_Project_ID",
 		"C_RfQResponse_ID",
 		"C_PaySelectionCheck_ID", "C_PaySelectionCheck_ID", 
-		"C_DunningRunEntry_ID" , "PP_Order_ID" , "DD_Order_ID" , "HR_PaySelectionCheck_ID", "HR_PaySelectionCheck" };
+		"C_DunningRunEntry_ID" , "PP_Order_ID" , "DD_Order_ID" , "HR_PaySelectionCheck_ID", "HR_PaySelectionCheck_ID" , "M_Movement_ID"};
 	private static final int[]	DOC_TABLE_ID = new int[] {
 		MOrder.Table_ID, MInOut.Table_ID, MInvoice.Table_ID, MProject.Table_ID,
 		MRfQResponse.Table_ID,
 		MPaySelectionCheck.Table_ID, MPaySelectionCheck.Table_ID, 
-		MDunningRunEntry.Table_ID, X_PP_Order.Table_ID, MDDOrder.Table_ID , X_HR_PaySelectionCheck.Table_ID ,  X_HR_PaySelectionCheck.Table_ID };
+		MDunningRunEntry.Table_ID, X_PP_Order.Table_ID, MDDOrder.Table_ID , X_HR_PaySelectionCheck.Table_ID ,  X_HR_PaySelectionCheck.Table_ID , MMovement.Table_ID};
 
 	/**************************************************************************
 	 * 	Get Document Print Engine for Document Type.
@@ -1270,7 +963,7 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 	{
 		return get(ctx, type, Record_ID, null);
 	}
-
+	
 	/**************************************************************************
 	 * 	Get Document Print Engine for Document Type.
 	 * 	@param ctx context
@@ -1288,9 +981,9 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 			return null;
 		}
 		//	Order - Print Shipment or Invoice
-		if (type == ORDER)
+		if (type == ORDER || type == SHIPMENT)
 		{
-			int[] what = getDocumentWhat (Record_ID);
+			int[] what = getDocumentWhat (type, Record_ID);
 			if (what != null)
 			{
 				type = what[0];
@@ -1489,24 +1182,24 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 		//	Get Format & Data
 		MPrintFormat format = MPrintFormat.get (ctx, AD_PrintFormat_ID, false);
 		format.setLanguage(language);		//	BP Language if Multi-Lingual
-		//	if (!Env.isBaseLanguage(language, DOC_TABLES[type]))
-		format.setTranslationLanguage(language);
+	//	if (!Env.isBaseLanguage(language, DOC_TABLES[type]))
+			format.setTranslationLanguage(language);
 		//	query
 		MQuery query = new MQuery(format.getAD_Table_ID());
 		query.addRestriction(DOC_IDS[type], MQuery.EQUAL, Record_ID);
-		//	log.config( "ReportCtrl.startDocumentPrint - " + format, query + " - " + language.getAD_Language());
+	//	log.config( "ReportCtrl.startDocumentPrint - " + format, query + " - " + language.getAD_Language());
 		//
 		if (DocumentNo == null || DocumentNo.length() == 0)
 			DocumentNo = "DocPrint";
 		PrintInfo info = new PrintInfo(
-				DocumentNo,
-				DOC_TABLE_ID[type],
-				Record_ID,
-				C_BPartner_ID);
+			DocumentNo,
+			DOC_TABLE_ID[type],
+			Record_ID,
+			C_BPartner_ID);
 		info.setCopies(copies);
 		info.setDocumentCopy(false);		//	true prints "Copy" on second
 		info.setPrinterName(format.getPrinterName());
-
+		
 		//	Engine
 		ReportEngine re = new ReportEngine(ctx, format, query, info, trxName);
 		return re;
@@ -1514,96 +1207,193 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 
 	/**
 	 *	Determine what Order document to print.
-	 *  @param C_Order_ID id
+	 *  @param Record_ID id
 	 *	@return int Array with [printWhat, ID]
 	 */
-	private static int[] getDocumentWhat (int C_Order_ID)
+	private static int[] getDocumentWhat (int type, int Record_ID)
 	{
-		int[] what = new int[2];
-		what[0] = ORDER;
-		what[1] = C_Order_ID;
-		//
-		String sql = "SELECT dt.DocSubTypeSO "
-			+ "FROM C_DocType dt, C_Order o "
-			+ "WHERE o.C_DocType_ID=dt.C_DocType_ID"
-			+ " AND o.C_Order_ID=?";
-		String DocSubTypeSO = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, C_Order_ID);
-			rs = pstmt.executeQuery();
-			if (rs.next())
-				DocSubTypeSO = rs.getString(1);
 
-			// @Trifon - Order is not completed(C_DoctType_ID=0) then try with C_DocTypeTarget_ID
-			// [ 2819637 ] Wrong print format on non completed order - https://sourceforge.net/tracker/?func=detail&aid=2819637&group_id=176962&atid=879332
-			if (DocSubTypeSO == null || "".equals(DocSubTypeSO)) {
-				sql = "SELECT dt.DocSubTypeSO "
-					+ "FROM C_DocType dt, C_Order o "
-					+ "WHERE o.C_DocTypeTarget_ID=dt.C_DocType_ID"
-					+ " AND o.C_Order_ID=?";
+		int[] what = new int[2];
+		if (type == ORDER)
+		{
+			what[0] = ORDER;
+			what[1] = Record_ID;
+			//
+			String sql = "SELECT dt.DocSubTypeSO, dt.PrintDocument "
+				+ "FROM C_DocType dt, C_Order o "
+				+ "WHERE o.C_DocType_ID=dt.C_DocType_ID"
+				+ " AND o.C_Order_ID=?";
+			String DocSubTypeSO = null;
+			String printDocument = null;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			try
+			{
 				pstmt = DB.prepareStatement(sql, null);
-				pstmt.setInt(1, C_Order_ID);
+				pstmt.setInt(1, Record_ID);
 				rs = pstmt.executeQuery();
-				if (rs.next()) {
+				if (rs.next())
+				{
 					DocSubTypeSO = rs.getString(1);
+					printDocument = rs.getString(2);
+				}
+
+				// @Trifon - Order is not completed(C_DoctType_ID=0) then try with C_DocTypeTarget_ID
+				// [ 2819637 ] Wrong print format on non completed order - https://sourceforge.net/tracker/?func=detail&aid=2819637&group_id=176962&atid=879332
+				if (DocSubTypeSO == null || "".equals(DocSubTypeSO)) {
+					sql = "SELECT dt.DocSubTypeSO, dt.PrintDocument "
+						+ "FROM C_DocType dt, C_Order o "
+						+ "WHERE o.C_DocTypeTarget_ID=dt.C_DocType_ID"
+						+ " AND o.C_Order_ID=?";
+					pstmt = DB.prepareStatement(sql, null);
+					pstmt.setInt(1, Record_ID);
+					rs = pstmt.executeQuery();
+					if (rs.next()) {
+						DocSubTypeSO = rs.getString(1);
+						printDocument = rs.getString(2);
+					}
 				}
 			}
-		}
-		catch (SQLException e1)
-		{
-			log.log(Level.SEVERE, "(1) - " + sql, e1);
-			return null;		//	error
-		}
-		finally {
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
-		if (DocSubTypeSO == null)
-			DocSubTypeSO = "";
-		//	WalkIn Receipt, WalkIn Invoice,
-		if (DocSubTypeSO.equals("WR") || DocSubTypeSO.equals("WI"))
-			what[0] = INVOICE;
-		//	WalkIn Pickup,
-		else if (DocSubTypeSO.equals("WP"))
-			what[0] = SHIPMENT;
-		//	Offer Binding, Offer Nonbinding, Standard Order
-		else
-			return what;
-
-		//	Get Record_ID of Invoice/Receipt
-		if (what[0] == INVOICE)
-			sql = "SELECT C_Invoice_ID REC FROM C_Invoice WHERE C_Order_ID=?"	//	1
-				+ " ORDER BY C_Invoice_ID DESC";
-		else
-			sql = "SELECT M_InOut_ID REC FROM M_InOut WHERE C_Order_ID=?" 	//	1
-				+ " ORDER BY M_InOut_ID DESC";
-		try
-		{
-			pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, C_Order_ID);
-			rs = pstmt.executeQuery();
-			if (rs.next())
+			catch (SQLException e1)
 			{
-				//	if (i == 1 && ADialog.ask(0, null, what[0] == INVOICE ? "PrintOnlyRecentInvoice?" : "PrintOnlyRecentShipment?")) break;
-				what[1] = rs.getInt(1);
+				log.log(Level.SEVERE, "(1) - " + sql, e1);
+				return null;		//	error
 			}
-			else	//	No Document Found
+			finally {
+				DB.close(rs, pstmt);
+				rs = null; pstmt = null;
+			}
+
+			if (DocSubTypeSO == null)
+				DocSubTypeSO = "";
+			
+			if ("0".equals(printDocument))
 				what[0] = ORDER;
+			else if ("1".equals(printDocument))
+				what[0] = SHIPMENT;
+			else if ("2".equals(printDocument))
+				what[0] = INVOICE;
+			//	WalkIn Receipt, WalkIn Invoice,
+			else if (DocSubTypeSO.equals("WR") || DocSubTypeSO.equals("WI"))
+				what[0] = INVOICE;
+			//	WalkIn Pickup,
+			else if (DocSubTypeSO.equals("WP"))
+				what[0] = SHIPMENT;
+			//	Offer Binding, Offer Nonbinding, Standard Order
+			else
+				return what;
+
+			//	Get Record_ID of Invoice/Receipt
+			if (what[0] == INVOICE)
+				sql = "SELECT C_Invoice_ID REC FROM C_Invoice WHERE C_Order_ID=?"	//	1
+					+ " ORDER BY C_Invoice_ID DESC";
+			else
+				sql = "SELECT M_InOut_ID REC FROM M_InOut WHERE C_Order_ID=?" 	//	1
+					+ " ORDER BY M_InOut_ID DESC";
+			try
+			{
+				pstmt = DB.prepareStatement(sql, null);
+				pstmt.setInt(1, Record_ID);
+				rs = pstmt.executeQuery();
+				if (rs.next())
+				{
+					//	if (i == 1 && ADialog.ask(0, null, what[0] == INVOICE ? "PrintOnlyRecentInvoice?" : "PrintOnlyRecentShipment?")) break;
+					what[1] = rs.getInt(1);
+				}
+				else	//	No Document Found
+					what[0] = ORDER;
+			}
+			catch (SQLException e2)
+			{
+				log.log(Level.SEVERE, "(2) - " + sql, e2);
+				return null;
+			}
+			finally {
+				DB.close(rs, pstmt);
+				rs = null; pstmt = null;
+			}
+			log.fine("Order => " + what[0] + " ID=" + what[1]);
 		}
-		catch (SQLException e2)
+		else if (type == SHIPMENT)
 		{
-			log.log(Level.SEVERE, "(2) - " + sql, e2);
-			return null;
+			what[0] = SHIPMENT;
+			what[1] = Record_ID;
+			//
+			String sql = "SELECT dt.PrintDocument "
+				+ "FROM C_DocType dt, M_InOut io "
+				+ "WHERE io.C_DocType_ID=dt.C_DocType_ID"
+				+ " AND io.M_InOut_ID=?";
+			String DocSubTypeSO = null;
+			String printDocument = null;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			try
+			{
+				pstmt = DB.prepareStatement(sql, null);
+				pstmt.setInt(1, Record_ID);
+				rs = pstmt.executeQuery();
+				if (rs.next())
+				{
+					printDocument = rs.getString(1);
+				}
+
+			}
+			catch (SQLException e1)
+			{
+				log.log(Level.SEVERE, "(1) - " + sql, e1);
+				return null;		//	error
+			}
+			finally {
+				DB.close(rs, pstmt);
+				rs = null; pstmt = null;
+			}
+			
+			if (DocSubTypeSO == null)
+				DocSubTypeSO = "";
+			
+			if ("0".equals(printDocument))
+				what[0] = ORDER;
+			else if ("2".equals(printDocument))
+				what[0] = INVOICE;
+			else
+				return what;
+
+			//	Get Record_ID of Invoice/Receipt
+			if (what[0] == ORDER)
+				sql = "SELECT C_Order_ID REC FROM M_InOut WHERE M_InOut_ID=?"	//	1
+					+ " ORDER BY C_Order_ID DESC";
+			else
+				sql = "SELECT C_Invoice_ID REC FROM M_InOut WHERE M_InOut_ID=?" 	//	1
+					+ " ORDER BY M_InOut_ID DESC";
+			try
+			{
+				pstmt = DB.prepareStatement(sql, null);
+				pstmt.setInt(1, Record_ID);
+				rs = pstmt.executeQuery();
+				if (rs.next())
+				{
+					//	if (i == 1 && ADialog.ask(0, null, what[0] == INVOICE ? "PrintOnlyRecentInvoice?" : "PrintOnlyRecentShipment?")) break;
+					what[1] = rs.getInt(1);
+					
+					if ( rs.wasNull())
+					{
+						what[0] = SHIPMENT;
+						what[1] = Record_ID;
+					}
+				}
+				
+			}
+			catch (SQLException e2)
+			{
+				log.log(Level.SEVERE, "(2) - " + sql, e2);
+				return null;
+			}
+			finally {
+				DB.close(rs, pstmt);
+				rs = null; pstmt = null;
+			}
+			log.fine("InOut => " + what[0] + " ID=" + what[1]);
 		}
-		finally {
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
-		log.fine("Order => " + what[0] + " ID=" + what[1]);
 		return what;
 	}	//	getDocumentWhat
 
@@ -1613,23 +1403,23 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 	 * 	@param type document type
 	 * 	@param Record_ID record id
 	 */
-	public static void printConfirm (int type, int Record_ID)
+	public static void printConfirm (int type, int Record_ID, String trxName)
 	{
 		StringBuffer sql = new StringBuffer();
 		if (type == ORDER || type == SHIPMENT || type == INVOICE)
 			sql.append("UPDATE ").append(DOC_BASETABLES[type])
-			.append(" SET DatePrinted=SysDate, IsPrinted='Y' WHERE ")
-			.append(DOC_IDS[type]).append("=").append(Record_ID);
+				.append(" SET DatePrinted=SysDate, IsPrinted='Y' WHERE ")
+				.append(DOC_IDS[type]).append("=").append(Record_ID);
 		//
 		if (sql.length() > 0)
 		{
-			int no = DB.executeUpdate(sql.toString(), null);
+			int no = DB.executeUpdate(sql.toString(), trxName);
 			if (no != 1)
 				log.log(Level.SEVERE, "Updated records=" + no + " - should be just one");
 		}
 	}	//	printConfirm
-
-
+	
+	
 	/*************************************************************************
 	 * 	Test
 	 * 	@param args args
@@ -1655,9 +1445,9 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 		re.createPDF(new File("C:\\Temp\\test.pdf"));
 		/****/
 		re.print();
-		//	re.print(true, 1, false, "Epson Stylus COLOR 900 ESC/P 2");		//	Dialog
-		//	re.print(true, 1, false, "HP LaserJet 3300 Series PCL 6");		//	Dialog
-		//	re.print(false, 1, false, "Epson Stylus COLOR 900 ESC/P 2");	//	Dialog
+	//	re.print(true, 1, false, "Epson Stylus COLOR 900 ESC/P 2");		//	Dialog
+	//	re.print(true, 1, false, "HP LaserJet 3300 Series PCL 6");		//	Dialog
+	//	re.print(false, 1, false, "Epson Stylus COLOR 900 ESC/P 2");	//	Dialog
 		System.exit(0);
 	}	//	main
 
@@ -1672,8 +1462,11 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 	/* Save windowNo of the report to parse the context */
 	public void setWindowNo(int windowNo) {
 		m_windowNo = windowNo;
+		if (m_layout != null)
+			m_layout.setWindowNo(windowNo);
+		
 	}
-
+	
 	public int getWindowNo() {
 		return m_windowNo;
 	}
@@ -1681,6 +1474,32 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 	public void setSummary(boolean summary)
 	{
 		m_summary = summary;
+	}
+	private String reportType;
+	public void setReportType(String type)
+	{
+		reportType=type;
+	}
+	public String getReportType()
+	{
+		return reportType;
+	}
+
+	private File rename(File f) throws IOException 
+	{
+		File d = File.createTempFile("tempdir", "");
+		String path = d.getAbsolutePath();
+		d.delete();
+		d.mkdir();
+		//yyyyMMdd_HHmmss
+		String timeStamp = new SimpleDateFormat("yyyy-MM-dd_HH:mm").format(Calendar.getInstance().getTime());
+		String filename = timeStamp;
+		if (m_printFormat != null) {
+			filename = filename + "_" + m_printFormat.getName();
+		}
+		File doc = new File(path + File.separator + filename + ".pdf");
+		f.renameTo(doc);
+		return doc;
 	}
 
 	public void setProcessInfo(ProcessInfo processInfo) {
@@ -1690,6 +1509,4 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 	public ProcessInfo getProcessInfo() {
 		return processInfo;
 	}
-
-
 }	//	ReportEngine

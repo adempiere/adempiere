@@ -15,12 +15,16 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.util.logging.Level;
+import java.sql.SQLException;
+import java.util.List;
 
 import org.adempiere.exceptions.AdempiereException;
+import org.compiere.model.MColumn;
 import org.compiere.model.MProcess;
 import org.compiere.model.MProcessPara;
-import org.compiere.util.Msg;
+import org.compiere.model.PO;
+import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
 
 /**
  * 
@@ -28,46 +32,106 @@ import org.compiere.util.Msg;
  * Adaxa Pty Ltd
  * Copy settings and parameters from source "Report and Process" to target
  * overwrites existing data (including translations)
- *
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 243 ] Create Process parameter from Report View
+ *		@see https://github.com/adempiere/adempiere/issues/243
  */
-public class CopyReportProcess extends SvrProcess {
+public class CopyReportProcess extends CopyReportProcessAbstract {
 
-	private int sourceId = 0;
-	private int targetId = 0;
-
+	/**	SQL					*/
+	private StringBuffer	sql = new StringBuffer();
+	/**	Sequence			*/
+	private int				seqNo = 0;
+	
 	@Override
 	protected String doIt() throws Exception {
-		
-		MProcess source = new MProcess(getCtx(), sourceId, get_TrxName());
-		MProcess target = new MProcess(getCtx(), targetId, get_TrxName());
-		
-		if ( sourceId <= 0 || targetId <= 0 || source == null || target == null )
-			throw new AdempiereException(Msg.getMsg(getCtx(), "CopyProcessRequired"));
-		
-		target.copyFrom(source);  // saves automatically
-		
+		//	Instance current process
+		MProcess process = MProcess.get(getCtx(), getRecord_ID());
+		//	Get Last Sequence No
+		seqNo = DB.getSQLValueEx(get_TrxName(), "SELECT MAX(SeqNo) "
+				+ "FROM AD_Process_Para WHERE AD_Process_ID = ?", getRecord_ID());
+		//	
+		if(seqNo == -1) {
+			seqNo = 10;
+		} else {
+			seqNo += 10;
+		}
+		//	
+		List<Integer> keys = getSelectionKeys();
+		for(Integer key : keys) {
+			copyFrom(process, key);
+		}
+		//	Default Ok
 		return "@OK@";
-		
 	}
-
+	
+	/**
+	 * Copy parameters to process
+	 * @param process
+	 * @param record
+	 * @throws SQLException 
+	 */
+	private void copyFrom(MProcess process, int key) throws SQLException {
+		//	Get Values
+		int columnId = getSelectionAsInt(key, "PARAMETER_AD_Column_ID");
+		int reportViewId = getSelectionAsInt(key, "PARAMETER_AD_ReportView_ID");
+		int processParaId = getSelectionAsInt(key, "PARAMETER_AD_Process_Para_ID");
+		boolean isMandatory = getSelectionAsBoolean(key, "PARAMETER_IsMandatory");
+		boolean isRange = getSelectionAsBoolean(key, "PARAMETER_IsRange");
+		String defaultValue = getSelectionAsString(key, "PARAMETER_DefaultValue");
+		String defaultValue2 = getSelectionAsString(key, "PARAMETER_DefaultValue2");
+		//	Do it
+		MProcessPara newParameter = new MProcessPara(process);
+		if(reportViewId != 0) {	//	For Create from View
+			MColumn column = MColumn.get(getCtx(), columnId);
+			//	
+			if (column.getAD_Reference_ID() == DisplayType.ID) {
+				return;
+			}
+			//	For Process
+			if(process.getAD_ReportView_ID() != reportViewId) {
+				process.setAD_ReportView_ID(reportViewId);
+				process.saveEx();
+			}
+			//	Set Values
+			newParameter.setEntityType(process.getEntityType());
+			newParameter.setAD_Element_ID(column.getAD_Element_ID());
+			newParameter.setAD_Reference_ID(column.getAD_Reference_ID());
+			newParameter.setAD_Reference_Value_ID(column.getAD_Reference_Value_ID());
+			newParameter.setAD_Val_Rule_ID(column.getAD_Val_Rule_ID());
+			newParameter.setName(column.getName());
+			newParameter.setColumnName(column.getColumnName());
+			newParameter.setDescription(column.getDescription());
+			newParameter.setFieldLength(column.getFieldLength());
+			newParameter.setHelp(column.getHelp());
+			newParameter.setIsCentrallyMaintained(true);
+		} else if(processParaId != 0) {	//	For Copy from Process
+			MProcessPara fromParameter = new MProcessPara(getCtx(), processParaId, get_TrxName());
+			PO.copyValues(fromParameter, newParameter);
+			newParameter.setAD_Process_ID(process.getAD_Process_ID());
+		} else {
+			return;
+		}
+		//	Fill values
+		newParameter.setIsMandatory(isMandatory);
+		newParameter.setIsRange(isRange);
+		newParameter.setDefaultValue(defaultValue);
+		newParameter.setDefaultValue2(defaultValue2);
+		newParameter.setSeqNo(seqNo);
+		//	Save
+		newParameter.saveEx();
+		//	Add new Sequence
+		seqNo += 10;
+		addLog("@AD_Process_Para_ID@ @" + newParameter.getColumnName() + "@ @Added@");
+	}
+	
 	@Override
 	protected void prepare() {
-		
-		ProcessInfoParameter[] params = getParameter();
-		for (ProcessInfoParameter parameter : params)
-		{
-			String para = parameter.getParameterName();
-			if ( para.equals("AD_Process_ID") )
-				sourceId = parameter.getParameterAsInt();
-			else if ( para.equals("AD_Process_To_ID"))
-				targetId = parameter.getParameterAsInt();
-			else
-				log.log(Level.WARNING, "Unknown paramter: " + para);
-		}
-		
-		if ( targetId == 0 )
-			targetId = getRecord_ID();
-
+		super.prepare();
+		//	Valid Record Identifier
+		if(getRecord_ID() <= 0)
+			throw new AdempiereException("@AD_Process_ID@ @NotFound@");
+		//	Log
+		log.fine(sql.toString());
 	}
-
 }

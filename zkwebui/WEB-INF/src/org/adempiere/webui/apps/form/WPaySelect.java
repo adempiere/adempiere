@@ -39,8 +39,8 @@ import org.adempiere.webui.component.WListbox;
 import org.adempiere.webui.editor.WDateEditor;
 import org.adempiere.webui.editor.WPAttributeEditor;
 import org.adempiere.webui.editor.WSearchEditor;
-import org.adempiere.webui.event.ValueChangeEvent;
-import org.adempiere.webui.event.ValueChangeListener;
+import org.adempiere.exceptions.ValueChangeEvent;
+import org.adempiere.exceptions.ValueChangeListener;
 import org.adempiere.webui.event.WTableModelEvent;
 import org.adempiere.webui.event.WTableModelListener;
 import org.adempiere.webui.panel.ADForm;
@@ -81,7 +81,11 @@ import org.zkoss.zul.Space;
  *  @author	Michael McKay
  * 				<li>release/380 - fix row selection event handling to fire single event per row selection.
  * 					Use WSearchEditor for BPartner, include auto query and improve handling of criteria events
+ * 	@author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 297 ] Payment Selection must be like ADempiere Document (It is changed to Smart Browse)
+ *		@see https://github.com/adempiere/adempiere/issues/297
  */
+@Deprecated
 public class WPaySelect extends PaySelect
 	implements IFormController, EventListener, ValueChangeListener, WTableModelListener, ASyncProcess
 {
@@ -512,28 +516,30 @@ public class WPaySelect extends PaySelect
 			return;
 		}
 
+		//	FR [ 297 ]
 		//  Ask to Post it
-		if (!FDialog.ask(m_WindowNo, form, "VPaySelectGenerate?", "(" + m_ps.getName() + ")"))
+		if (!FDialog.ask(m_WindowNo, form, "VPaySelectGenerate?", "(" + m_ps.getDocumentNo()+ ")"))
 			return;
 		
 		//  Prepare Process 
-		int AD_Proces_ID = 155;	//	C_PaySelection_CreatePayment
+		int procesId = 155;	//	C_PaySelection_CreatePayment
 
 		//	Execute Process
-		ProcessModalDialog dialog = new ProcessModalDialog(this, m_WindowNo, 
-				AD_Proces_ID, X_C_PaySelection.Table_ID, m_ps.getC_PaySelection_ID(), false);
-		if (dialog.isValid()) {
+		ProcessModalDialog processModalDialog = new ProcessModalDialog(this, m_WindowNo, procesId, X_C_PaySelection.Table_ID, m_ps.getC_PaySelection_ID(), false);
+		if (processModalDialog.isValidDialog()) {
 			try {
-				dialog.setWidth("500px");
-				dialog.setVisible(true);
-				dialog.setPage(form.getPage());
-				dialog.doModal();
+				processModalDialog.setWidth("500px");
+				processModalDialog.setVisible(true);
+				processModalDialog.setPage(form.getPage());
+				processModalDialog.doModal();
 			} catch (SuspendNotAllowedException e) {
 				log.log(Level.SEVERE, e.getLocalizedMessage(), e);
 			} catch (InterruptedException e) {
 				log.log(Level.SEVERE, e.getLocalizedMessage(), e);
 			}
 		}
+		else
+			processModalDialog.runProcess();
 	}   //  generatePaySelect
 	
 	/**

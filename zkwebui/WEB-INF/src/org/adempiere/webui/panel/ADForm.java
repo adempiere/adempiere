@@ -36,6 +36,9 @@ import org.zkoss.zk.ui.event.EventListener;
  * The form is abstract, so specific types of custom form must be implemented
  *
  * @author Andrew Kimball
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<a href="https://github.com/adempiere/adempiere/issues/605">
+ * 		@see FR [ 605 ] Bad size of form window in ZK GUI</a>
  */
 public abstract class ADForm extends Window implements EventListener
 {
@@ -75,7 +78,7 @@ public abstract class ADForm extends Window implements EventListener
          m_WindowNo = SessionManager.getAppDesktop().registerWindow(this);
 
          this.setWidth("100%");
-         this.setHeight("95%");
+         this.setHeight("100%");
          this.setStyle("position:absolute");
          this.setContentSclass("adform-content");
     }

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Rearrange Dashboard" ReleaseNo="3.9.0"  SeqNo="2890">
+    <Comments>See: https://github.com/adempiere/adempiere/issues/1242</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="50010" Action="U" Record_ID="50000" Table="PA_DashboardContent">
+        <Data AD_Column_ID="51014" Column="Line" oldValue="0">1.000000000000</Data>
+        <Data AD_Column_ID="56469" Column="ColumnNo" oldValue="0">1</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="50010" Action="U" Record_ID="50002" Table="PA_DashboardContent">
+        <Data AD_Column_ID="56469" Column="ColumnNo" oldValue="0">1</Data>
+        <Data AD_Column_ID="51012" Column="HTML" isOldNull="true"></Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="50010" Action="U" Record_ID="200000" Table="PA_DashboardContent">
+        <Data AD_Column_ID="51014" Column="Line" oldValue="0">2.000000000000</Data>
+        <Data AD_Column_ID="56469" Column="ColumnNo" oldValue="1">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="50010" Action="U" Record_ID="50001" Table="PA_DashboardContent">
+        <Data AD_Column_ID="51014" Column="Line" oldValue="1">3.000000000000</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="50010" Action="U" Record_ID="50004" Table="PA_DashboardContent">
+        <Data AD_Column_ID="51014" Column="Line" oldValue="0">3.000000000000</Data>
+        <Data AD_Column_ID="51012" Column="HTML" isOldNull="true"></Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="50010" Action="U" Record_ID="50014" Table="PA_DashboardContent">
+        <Data AD_Column_ID="51014" Column="Line" oldValue="0">0</Data>
+        <Data AD_Column_ID="51012" Column="HTML" isOldNull="true"></Data>
+      </PO>
+    </Step>
+    <Step DBType="Postgres" Parse="Y" SeqNo="70" StepType="SQL">
+      <Comments>Change Client ID to System</Comments>
+      <SQLStatement>UPDATE PA_DashboardContent SET AD_Client_ID=0 WHERE PA_DashboardContent_ID=50014;</SQLStatement>
+    </Step>
+    <Step DBType="Oracle" Parse="Y" SeqNo="80" StepType="SQL">
+      <Comments>Change Client ID to System</Comments>
+      <SQLStatement>UPDATE PA_DashboardContent SET AD_Client_ID=0 WHERE PA_DashboardContent_ID=50014;</SQLStatement>
+    </Step>
+  </Migration>
+</Migrations>

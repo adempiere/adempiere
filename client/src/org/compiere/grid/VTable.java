@@ -41,6 +41,8 @@ import org.jdesktop.swingx.action.BoundAction;
  * @version $Id: VTable.java,v 1.2 2006/07/30 00:51:28 jjanke Exp $
  * 
  * @author 	Teo Sarca, SC ARHIPAC SERVICE SRL - FR [ 1753943 ]
+ * @author  mckayERP www.mckayERP.com
+ * 				<li> #271 Allow immediate editing of GridTable cells in multi-row view
  */
 public final class VTable extends CTable 
 	implements PropertyChangeListener
@@ -196,4 +198,12 @@ public final class VTable extends CTable
 			.append(getModel()).append("]").toString();
 	}   //  toString
 	
+	public void changeSelection(final int row, final int column, boolean toggle, boolean extend)
+    {
+        super.changeSelection(row, column, toggle, extend);
+        if (isCellEditable(row, column)) {
+        	this.editCellAt(row, column);
+        	this.transferFocus();
+        }
+    }
 }	//	VTable

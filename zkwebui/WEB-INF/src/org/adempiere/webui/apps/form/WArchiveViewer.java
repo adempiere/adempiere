@@ -190,11 +190,11 @@ public class WArchiveViewer extends Archive implements IFormController, EventLis
 		createdByQField.setMold("select");
 		createdByQField.setRows(1);
 		
-		updateArchive.setImage("/images/Ok24.png");
+		updateArchive.setImage("/images/Ok16.png");
 		updateArchive.setTooltiptext(Msg.getMsg(Env.getCtx(), "Update"));
 		updateArchive.addEventListener(Events.ON_CLICK, this);
 		
-		bRefresh.setImage("/images/Refresh24.png");
+		bRefresh.setImage("/images/Refresh16.png");
 		bRefresh.setTooltiptext(Msg.getMsg(Env.getCtx(), "Refresh"));
 		bRefresh.addEventListener(Events.ON_CLICK, this);
 		

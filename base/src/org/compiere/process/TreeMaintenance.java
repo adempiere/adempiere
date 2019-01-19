@@ -22,11 +22,14 @@ import java.sql.ResultSet;
 import java.util.logging.Level;
 
 import org.compiere.model.MTree;
-import org.compiere.model.MTree_Base;
 import org.compiere.model.MTree_Node;
 import org.compiere.model.MTree_NodeBP;
 import org.compiere.model.MTree_NodeMM;
 import org.compiere.model.MTree_NodePR;
+import org.compiere.model.MTree_NodeU1;
+import org.compiere.model.MTree_NodeU2;
+import org.compiere.model.MTree_NodeU3;
+import org.compiere.model.MTree_NodeU4;
 import org.compiere.model.PO;
 import org.compiere.util.DB;
 
@@ -35,6 +38,9 @@ import org.compiere.util.DB;
  *	
  *  @author Jorg Janke
  *  @version $Id: TreeMaintenance.java,v 1.2 2006/07/30 00:51:02 jjanke Exp $
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com 2015-09-09
+ *  	<li>FR [ 9223372036854775807 ] Add Support to Dynamic Tree
+ *  @see https://adempiere.atlassian.net/browse/ADEMPIERE-442
  */
 public class TreeMaintenance extends SvrProcess
 {
@@ -81,14 +87,18 @@ public class TreeMaintenance extends SvrProcess
 	 *  Verify Tree
 	 * 	@param tree tree
 	 */
-	private String verifyTree (MTree_Base tree)
+	private String verifyTree (MTree tree)
 	{
 		String nodeTableName = tree.getNodeTableName();
-		String sourceTableName = tree.getSourceTableName(true);
+		String sourceTableName = tree.getSourceTableName();
 		String sourceTableKey = sourceTableName + "_ID";
 		int AD_Client_ID = tree.getAD_Client_ID();
 		int C_Element_ID = 0;
-		if (MTree.TREETYPE_ElementValue.equals(tree.getTreeType()))
+		if (MTree.TREETYPE_ElementValue.equals(tree.getTreeType())
+		||	MTree.TREETYPE_User1.equals(tree.getTreeType())
+		||	MTree.TREETYPE_User2.equals(tree.getTreeType())
+		||	MTree.TREETYPE_User3.equals(tree.getTreeType())
+		||	MTree.TREETYPE_User4.equals(tree.getTreeType()))
 		{
 			String sql = "SELECT C_Element_ID FROM C_Element "
 				+ "WHERE AD_Tree_ID=" + tree.getAD_Tree_ID();
@@ -145,6 +155,14 @@ public class TreeMaintenance extends SvrProcess
 					node = new MTree_NodePR(tree, Node_ID);
 				else if (nodeTableName.equals("AD_TreeNodeMM"))
 					node = new MTree_NodeMM(tree, Node_ID);
+				else if (nodeTableName.equals("AD_TreeNodeU1"))
+					node = new MTree_NodeU1(tree, Node_ID);
+				else if (nodeTableName.equals("AD_TreeNodeU2"))
+					node = new MTree_NodeU2(tree, Node_ID);
+				else if (nodeTableName.equals("AD_TreeNodeU3"))
+					node = new MTree_NodeU3(tree, Node_ID);
+				else if (nodeTableName.equals("AD_TreeNodeU4"))
+					node = new MTree_NodeU4(tree, Node_ID);
 				//				
 				if (node == null)
 					log.log(Level.SEVERE, "No Model for " + nodeTableName);

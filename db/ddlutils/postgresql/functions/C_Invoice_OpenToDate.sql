@@ -76,7 +76,7 @@ BEGIN
           INNER JOIN C_ALLOCATIONHDR a ON (al.C_AllocationHdr_ID=a.C_AllocationHdr_ID)
   WHERE al.C_Invoice_ID = p_C_Invoice_ID
     AND a.DateAcct <= p_DateAcct
-    AND   a.IsActive='Y'
+    AND   a.DocStatus IN('CO', 'CL')
  LOOP
         v_Temp := allocationline.Amount + allocationline.DisCountAmt + allocationline.WriteOffAmt;
   v_PaidAmt := v_PaidAmt
@@ -122,4 +122,30 @@ BEGIN
  RETURN v_TotalOpenAmt;
 END;
 $BODY$
-  LANGUAGE 'plpgsql' ;
+  LANGUAGE 'plpgsql';
+  
+CREATE OR REPLACE FUNCTION InvoiceopenToDate(p_c_invoice_id numeric, p_c_invoicepayschedule_id numeric, p_dateacct date)
+RETURNS numeric
+AS
+$BODY$
+/*************************************************************************
+ * The contents of this file are subject to the Compiere License.  You may
+ * obtain a copy of the License at    http://www.compiere.org/license.html
+ * Software is on an  "AS IS" basis,  WITHOUT WARRANTY OF ANY KIND, either
+ * express or implied. See the License for details. Code: Compiere ERP+CRM
+ * Copyright (C) 1999-2001 Jorg Janke, ComPiere, Inc. All Rights Reserved.
+ *
+ * converted to postgreSQL by Karsten Thiemann (Schaeffer AG), 
+ * kthiemann@adempiere.org
+ *************************************************************************
+ * Title:	Get Due timestamp with time zone
+ * Description:
+ *	Returns the due timestamp with time zone
+ * Test:
+ *	select paymenttermDueDate(106, now()) from Test; => now()+30 days
+ ************************************************************************/
+BEGIN
+	RETURN InvoiceopenToDate(p_c_invoice_id, p_c_invoicepayschedule_id, p_dateacct::timestamp with time zone);
+END;
+$BODY$
+  LANGUAGE 'plpgsql';

@@ -282,6 +282,7 @@ public class DBConnection {
 		s_logger.log(Level.CONFIG, "loadMetadata", getDirection());
 
 		loadDBVendor();
+		loadDBProductVersion();
 		loadDBCatalog();
 		loadDBSchema();
 
@@ -500,6 +501,28 @@ public class DBConnection {
 		setVendor(result);
 
 		s_logger.log(Level.FINE, "dbVendorLoaded", new Object[] {getDirection(), result});
+		s_logger.flush();
+	}
+
+
+	/**
+	 * load the  database product version
+	 */
+	private void loadDBProductVersion() {
+
+		s_logger.log(Level.FINE, "loadDBProductVersion", getDirection());
+
+		String result = null;
+
+		try {
+			result = m_connection.getMetaData().getDatabaseProductVersion();
+		} catch (SQLException e) {
+			s_logger.log(Level.SEVERE, this.getClass().getSimpleName(), Thread.currentThread().getStackTrace()[2].getMethodName(), "loadDBProductVersion", new Object[] {getDirection(), e.getMessage()});
+		}
+
+		setProductVersion(result);
+
+		s_logger.log(Level.FINE, "dbProductVersion", new Object[] {getDirection(), result});
 		s_logger.flush();
 	}
 
@@ -1157,6 +1180,27 @@ public class DBConnection {
 	}
 
 	/**
+	 * @return the database vendor
+	 */
+	public String getProductVersion() {
+		if (isSource())
+			return s_parameters.getSourceProductVersion();
+		else
+			return s_parameters.getTargetProductVersion();
+	}
+
+	/**
+	 * @param vendor the database vendor
+	 */
+	private void setProductVersion(String productVersion) {
+		if (isSource())
+			s_parameters.setSourceProductVersion(productVersion);
+		else
+			s_parameters.setTargetProductVersion(productVersion);
+	}
+
+
+	/**
 	 * @return the database server
 	 */
 	private String getHost() {
@@ -1477,10 +1521,14 @@ public class DBConnection {
 		if (objectMap!=null && objectMap.size()>0) {
 			for (Iterator<String> it = objectMap.keySet().iterator(); it.hasNext();) {
 				String key = it.next();
-				if (key.equalsIgnoreCase(objectName))
+				if (key.equalsIgnoreCase(objectName)) {
 					result = true;
-				else if (objectMap.get(key).isName(objectName))
+					break;
+				}
+				else if (objectMap.get(key).isName(objectName)) {
 					result = true;
+					break;
+				}
 			}
 		}
 

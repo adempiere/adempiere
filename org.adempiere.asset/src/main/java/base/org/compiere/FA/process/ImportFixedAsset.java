@@ -250,7 +250,7 @@ public class ImportFixedAsset extends SvrProcess
 		double toleranceAmt = MSysConfig.getDoubleValue("TOLERANCE_AMT", 1, 0, 0);
 		sql = new StringBuffer ("UPDATE "+MIFixedAsset.Table_Name+ " "
 			  + "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||'ERR=Invalid Accumulated Depreciation, ' "
-			  + "WHERE ABS(((a_asset_cost / uselifemonths) * (a_current_period - 1)) - a_accumulated_depr) > " + BigDecimal.valueOf(toleranceAmt)
+			  + "WHERE uselifemonths<>a_current_period AND ABS(((a_asset_cost / uselifemonths) * (a_current_period - 1)) - a_accumulated_depr) > " + BigDecimal.valueOf(toleranceAmt)
 			  //Goodwill - no toleranceAmt check on fully depreciated asset (current period = 0)
 			  + " AND I_IsImported<>'Y' AND a_current_period <> 0").append (sqlCheck);
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
@@ -387,10 +387,9 @@ public class ImportFixedAsset extends SvrProcess
 		int cnt_ok = 0;
 		int cnt_err = 0;
 		
-		String whereClause = "NVL(I_IsImported,'N')='N'"+sqlCheck;
+		String whereClause = "COALESCE(I_IsImported,'N')='N'"+sqlCheck;
 		POResultSet<X_I_FixedAsset>
-		rs = new Query(getCtx(), X_I_FixedAsset.Table_Name, whereClause, get_TrxName())
-					.scroll();
+		rs = new Query(getCtx(), X_I_FixedAsset.Table_Name, whereClause, get_TrxName()).scroll();
 		try
 		{
 			while (rs.hasNext()) {

@@ -49,8 +49,8 @@ public class MReport extends X_PA_Report
 		//	setName (null);
 		//	setPA_ReportLineSet_ID (0);
 		//	setPA_ReportColumnSet_ID (0);
-			setListSources(false);
-			setListTrx(false);
+			setListSources(LISTSOURCES_No);
+			setListTrx(LISTTRX_No);
 		}
 		else
 		{

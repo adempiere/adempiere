@@ -7,7 +7,7 @@ import java.text.NumberFormat;
 import java.util.logging.Level;
 
 import org.adempiere.webui.component.EditorBox;
-import org.adempiere.webui.event.ValueChangeEvent;
+import org.adempiere.exceptions.ValueChangeEvent;
 import org.adempiere.webui.window.InfoSchedule;
 import org.adempiere.webui.window.WAssignmentDialog;
 import org.compiere.model.GridField;

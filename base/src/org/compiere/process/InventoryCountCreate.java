@@ -61,6 +61,8 @@ public class InventoryCountCreate extends SvrProcess
 	private boolean	p_InventoryCountSetZero = false;
 	/** Delete Parameter			*/
 	private boolean		p_DeleteOld = false;
+	/** Vendor Parameter			*/
+	private int			p_C_BPartner_ID = 0;
 	
 	/** Inventory Line				*/
 	private MInventoryLine	m_line = null; 
@@ -91,6 +93,8 @@ public class InventoryCountCreate extends SvrProcess
 				p_InventoryCountSetZero = "Z".equals(para[i].getParameter());
 			else if (name.equals("DeleteOld"))
 				p_DeleteOld = "Y".equals(para[i].getParameter());
+			else if (name.equals("C_BPartner_ID"))
+				p_C_BPartner_ID = para[i].getParameterAsInt();
 			else
 				log.log(Level.SEVERE, "Unknown Parameter: " + name);
 		}
@@ -109,7 +113,8 @@ public class InventoryCountCreate extends SvrProcess
 			+ ", M_Locator_ID=" + p_M_Locator_ID + ", LocatorValue=" + p_LocatorValue
 			+ ", ProductValue=" + p_ProductValue 
 			+ ", M_Product_Category_ID=" + p_M_Product_Category_ID
-			+ ", QtyRange=" + p_QtyRange + ", DeleteOld=" + p_DeleteOld);
+			+ ", QtyRange=" + p_QtyRange + ", DeleteOld=" + p_DeleteOld
+			 + ", Vendor=" + p_C_BPartner_ID);
 		m_inventory = new MInventory (getCtx(), p_M_Inventory_ID, get_TrxName());
 		if (m_inventory.get_ID() == 0)
 			throw new AdempiereSystemError ("Not found: M_Inventory_ID=" + p_M_Inventory_ID);
@@ -158,11 +163,12 @@ public class InventoryCountCreate extends SvrProcess
 		}
 
 		StringBuffer sql = new StringBuffer(
-			"SELECT s.M_Product_ID, s.M_Locator_ID, s.M_AttributeSetInstance_ID,"
+			"SELECT DISTINCT s.M_Product_ID, s.M_Locator_ID, s.M_AttributeSetInstance_ID,"
 			+ " s.QtyOnHand, p.M_AttributeSet_ID "
 			+ "FROM M_Product p"
 			+ " INNER JOIN M_Storage s ON (s.M_Product_ID=p.M_Product_ID)"
 			+ " INNER JOIN M_Locator l ON (s.M_Locator_ID=l.M_Locator_ID) "
+			+ " LEFT JOIN M_Product_PO ppo ON (p.M_Product_ID=ppo.M_Product_ID) "
 			+ "WHERE l.M_Warehouse_ID=?"
 			+ " AND p.IsActive='Y' AND p.IsStocked='Y' and p.ProductType='I'");
 		//
@@ -183,6 +189,9 @@ public class InventoryCountCreate extends SvrProcess
 		//
 		if (p_M_Product_Category_ID != 0)
 			sql.append(" AND p.M_Product_Category_ID IN (" + getSubCategoryWhereClause(p_M_Product_Category_ID) + ")");
+		//
+		if (p_C_BPartner_ID != 0)
+			sql.append(" AND ppo.C_BPartner_ID = " + p_C_BPartner_ID + " ");
 		
 		//	Do not overwrite existing records
 		if (!p_DeleteOld)
@@ -193,7 +202,7 @@ public class InventoryCountCreate extends SvrProcess
 			+ " AND COALESCE(il.M_AttributeSetInstance_ID,0)=COALESCE(s.M_AttributeSetInstance_ID,0))");
 		//	+ " AND il.M_AttributeSetInstance_ID=s.M_AttributeSetInstance_ID)");
 		//
-		sql.append(" ORDER BY l.Value, p.Value, s.QtyOnHand DESC");	//	Locator/Product
+		sql.append(" ORDER BY s.M_Locator_ID, s.M_Product_ID, s.QtyOnHand DESC");	//	Locator/Product		
 		//
 		int count = 0;
 		PreparedStatement pstmt = null;

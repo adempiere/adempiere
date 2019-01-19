@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Production Plan Tab is waiting for process #1086" ReleaseNo="3.9.0" SeqNo="2770">
+    <Comments>See: https://github.com/adempiere/adempiere/issues/1086</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="106" Action="U" Record_ID="320" Table="AD_Tab">
+        <Data AD_Column_ID="13450" Column="DisplayLogic" oldValue="@M_Product_ID@=0">@M_ProductionBatch_ID@=0</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

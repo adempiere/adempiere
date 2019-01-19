@@ -28,6 +28,9 @@ import org.compiere.util.DB;
  *	
  *  @author Jorg Janke
  *  @version $Id: POInfoColumn.java,v 1.3 2006/07/30 00:58:04 jjanke Exp $
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *			<a href="https://github.com/adempiere/adempiere/issues/922">
+ * 			@see FR [ 922 ] Is Allow Copy in model</a>
  */
 public class POInfoColumn implements Serializable
 {
@@ -55,6 +58,7 @@ public class POInfoColumn implements Serializable
 	 * 	@param isTranslated translated
 	 * 	@param isEncrypted encrypted 
 	 * 	@param isAllowLogging allow logging 
+	 * 	@param isAllowCopy allow copy from model
 	 */
 	public POInfoColumn (int ad_Column_ID, String columnName, String columnSQL, int displayType,
 		boolean isMandatory, boolean isUpdateable, String defaultLogic,
@@ -62,7 +66,7 @@ public class POInfoColumn implements Serializable
 		boolean isKey, boolean isParent,
 		int ad_Reference_Value_ID, String validationCode,
 		int fieldLength, String valueMin, String valueMax,
-		boolean isTranslated, boolean isEncrypted, boolean isAllowLogging)
+		boolean isTranslated, boolean isEncrypted, boolean isAllowLogging, boolean isAllowCopy)
 	{
 		AD_Column_ID = ad_Column_ID;
 		ColumnName = columnName;
@@ -138,6 +142,7 @@ public class POInfoColumn implements Serializable
 		IsTranslated = isTranslated;
 		IsEncrypted = isEncrypted;
 		IsAllowLogging = isAllowLogging;
+		IsAllowCopy = isAllowCopy;
 	}   //  Column
 
 	/** Column ID		*/
@@ -151,7 +156,7 @@ public class POInfoColumn implements Serializable
 	/** Display Type	*/
 	public int          DisplayType;
 	/**	Data Type		*/
-	public Class<?>        ColumnClass;
+	public Class<?>     ColumnClass;
 	/**	Mandatory		*/
 	public boolean      IsMandatory;
 	/**	Default Value	*/
@@ -190,6 +195,8 @@ public class POInfoColumn implements Serializable
 	public BigDecimal	ValueMax_BD = null;
 	
 	public boolean		IsCalculated = false; // metas: pr50_us215
+	/**	Allow Copy		*/
+	public boolean		IsAllowCopy;
 
 	/**
 	 * 	String representation
@@ -200,7 +207,8 @@ public class POInfoColumn implements Serializable
 		StringBuffer sb = new StringBuffer("POInfo.Column[");
 		sb.append(ColumnName).append(",ID=").append(AD_Column_ID)
 			.append(",DisplayType=").append(DisplayType)
-			.append(",ColumnClass=").append(ColumnClass);
+			.append(",ColumnClass=").append(ColumnClass)
+			.append(",IsAllowCopy=").append(IsAllowCopy);
 		sb.append("]");
 		return sb.toString();
 	}	//	toString

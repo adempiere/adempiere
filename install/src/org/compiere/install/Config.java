@@ -29,10 +29,16 @@ import org.compiere.util.DB;
  *	Configuration Setup and Test
  *	
  *  @author Jorg Janke
- *  @version $Id: Config.java,v 1.3 2006/07/30 00:57:42 jjanke Exp $
  */
 public abstract class Config
 {
+	/**	Configuration Data			*/
+	protected ConfigurationData 	p_data = null;
+
+	/**	Logger	*/
+	static CLogger	log	= CLogger.getCLogger (Config.class);
+
+
 	/**
 	 * 	Configuration
 	 * 	@param data configuration
@@ -42,18 +48,12 @@ public abstract class Config
 		super ();
 		p_data = data;
 	}	//	Config
-
-	/**	Configuration Data			*/
-	protected ConfigurationData 	p_data = null;
-	/**	Logger	*/
-	static CLogger	log	= CLogger.getCLogger (Config.class);
-	
 	
 	/**
 	 * 	Initialize
 	 */
 	abstract void init();
-	
+
 	/**
 	 * 	Test
 	 *	@return error message or null of OK
@@ -101,7 +101,7 @@ public abstract class Config
 		p_data.p_properties.setProperty(key, value);
 	}	//	setProperty
 
-        	/**
+	/**
 	 * 	Get Configuration Property
 	 *	@param key key
 	 *	@return value or ""
@@ -119,8 +119,7 @@ public abstract class Config
 	 *	@param critical true if critical
 	 *	@param errorMsg error Message
 	 */
-	void signalOK (CCheckBox cb, String resString, 
-		boolean pass, boolean critical, String errorMsg)
+	void signalOK (CCheckBox cb, String resString, boolean pass, boolean critical, String errorMsg)
 	{
 		p_data.p_panel.signalOK(cb, resString, pass, critical, errorMsg);
 	}	//	signalOK
@@ -130,34 +129,27 @@ public abstract class Config
 	 *	@param con connection
 	 *	@return String of Web Store Names - e.g. /wstore
 	 */
-	protected String getWebStores(Connection con)
-	{
+	protected String getWebStores(Connection con) {
 		String sql = "SELECT WebContext FROM W_Store WHERE IsActive='Y'";
 		Statement stmt = null;
 		ResultSet rs = null;
 		StringBuffer result = new StringBuffer();
-		try
-		{
+		try {
 			stmt = con.createStatement();
 			rs = stmt.executeQuery(sql);
-			while (rs.next ())
-			{
+			while (rs.next()) {
 				if (result.length() > 0)
 					result.append(",");
 				result.append(rs.getString(1));
 			}
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			log.severe(e.toString());
-		}
-		finally
-		{
+		} finally {
 			DB.close(rs, stmt);
-			rs = null; 
+			rs = null;
 			stmt = null;
 		}
 		return result.toString();
-	}	//	getWebStores	
+	} // getWebStores
 
 }	//	Config

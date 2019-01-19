@@ -18,11 +18,6 @@
 package org.eevolution.process;
 
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.logging.Level;
-
 import org.compiere.model.I_M_Movement;
 import org.compiere.model.I_M_MovementLine;
 import org.compiere.model.MBPartner;
@@ -43,13 +38,17 @@ import org.compiere.process.SvrProcess;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
-import org.eevolution.model.I_I_Movement;
 import org.eevolution.model.X_I_Movement;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
 
 
 /**
- *	Import Inventory Movement from I_M_Movemen
+ *	Import Inventory Movement from I_Movemen
  *
  * 	@author 	Alberto Juarez Caballero, alberto.juarez@e-evolution.com, www.e-evolution.com
  * 	@author 	victor.perez@e-evolution.com, www.e-evolution.com
@@ -59,38 +58,30 @@ import org.eevolution.model.X_I_Movement;
 public class ImportInventoryMove extends SvrProcess
 {
 
-	private boolean			m_DeleteOldImported = false;
-
-	private boolean			m_IsImportOnlyNoErrors = true;
-	
-	private String			m_docAction = MMovement.DOCACTION_Prepare;
-	
+	private boolean 		deleteOldImported = false;
+	private boolean 		isImportOnlyNoErrors = true;
+	private String 			docAction = MMovement.DOCACTION_Prepare;
 	private boolean 		isImported = false;
-	
 	private int 			imported = 0;
-	
-	private int 			notimported = 0;
-	
-	private List<String> idsPr = new ArrayList<String>();
+	private int 			notImported = 0;
+	private LinkedHashMap<Integer, MMovement> movementProcessed = new LinkedHashMap<>();
 
 	/**
 	 *  Prepare - e.g., get Parameters.
 	 */
 	protected void prepare()
 	{
-		ProcessInfoParameter[] parameters = getParameter();
-		for (ProcessInfoParameter para: parameters)
+		for (ProcessInfoParameter para: getParameter())
 		{
 			String name = para.getParameterName();
 			if (para.getParameter() == null)
 				;
-
-			else if (name.equals("IsImportOnlyNoErrors"))
-				m_IsImportOnlyNoErrors = "Y".equals(para.getParameter());
-			else if (name.equals("DeleteOldImported"))
-				m_DeleteOldImported = "Y".equals(para.getParameter());
-			else if (name.equals("DocAction"))
-				m_docAction = (String)para.getParameter();
+			else if ("IsImportOnlyNoErrors".equals(name))
+				isImportOnlyNoErrors = para.getParameterAsBoolean();
+			else if ("DeleteOldImported".equals(name))
+				deleteOldImported = para.getParameterAsBoolean();
+			else if ("DocAction".equals(name))
+				docAction = para.getParameterAsString();
 			else
 				log.log(Level.SEVERE, "Unknown Parameter: " + name);			
 		}
@@ -102,17 +93,16 @@ public class ImportInventoryMove extends SvrProcess
 	 *  @return Message
 	 *  @throws Exception
 	 */
-	protected String doIt() throws java.lang.Exception
+	protected String doIt() throws Exception
 	{
 		
-//		Delete Old Imported
-		StringBuffer sql = null;
-		if (m_DeleteOldImported)
+		//Delete Old Imported
+		if (deleteOldImported)
 		{
 			int no = 0;
-			for (X_I_Movement move : getRecords(true,false))
+			for (X_I_Movement movement : getRecords(true,false))
 			{
-			    move.deleteEx(true);
+			    movement.deleteEx(true);
 			    no++;
 			}
 			log.fine("Delete Old Impored =" + no);
@@ -120,7 +110,7 @@ public class ImportInventoryMove extends SvrProcess
 		
 		fillIDValues();		
 		importRecords();	
-		return "Imported: " + imported + ", Not imported: " + notimported;
+		return "@I_IsImported@: " + imported + ", @I_ErrorMsg@ : " + notImported;
 	}	//	doIt
 	
 	
@@ -131,130 +121,113 @@ public class ImportInventoryMove extends SvrProcess
 	private void importRecords()
 	{
 		isImported = false;
-		
-		for(X_I_Movement imove : getRecords(false,m_IsImportOnlyNoErrors))
+		for(X_I_Movement movementImport : getRecords(false,isImportOnlyNoErrors))
 		{
-			MMovement mov = importMInventoryMove(imove);			
-			if(mov!= null)
-			{    
-				isImported = importMInventoryMoveLine(mov,imove);
-			}	
+			MMovement movement = importInventoryMovement(movementImport);
+			if(movement != null)
+				isImported = importInventoryMovementLine(movement,movementImport);
 			else
-			{    
 				isImported = false;
-			}	
 			
 			if(isImported)
 			{
-				imove.setM_Movement_ID(mov.getM_Movement_ID());
-				imove.setI_IsImported(true);
-				imove.setProcessed(true);
-				imove.saveEx();
+				movementImport.setM_Movement_ID(movement.getM_Movement_ID());
+				movementImport.setI_IsImported(true);
+				movementImport.setProcessed(true);
+				movementImport.saveEx();
+				movement.saveEx();
 				imported++;
-				
-				//mov.processIt(m_docAction);
-				addForProcess(mov.getM_Movement_ID());
-				mov.saveEx();
+				addMovementToProcess(movement);
 			}
 			else
 			{
-				imove.setI_IsImported(false);
-				imove.setProcessed(true);
-				imove.saveEx();
-				notimported++;
+				movementImport.setI_IsImported(false);
+				movementImport.setProcessed(true);
+				movementImport.saveEx();
+				notImported++;
 			}
 		}
 		processAll();
 	}
-	
-	private void addForProcess(int id)
+
+	/**
+	 * Add Movement to be processing
+	 * @param movement
+     */
+	private void addMovementToProcess(MMovement movement)
 	{
-		String ids = String.valueOf(id);
-		boolean enc = false;
-		for(String idx : idsPr)
-		{
-			if(idx.equals(ids))
-				enc=true;
-		}
-		if(!enc)
-			idsPr.add(ids);
+		movementProcessed.put(movement.get_ID(), movement);
 	}
-	
+
+	/**
+	 * Process all movement
+	 */
 	private void processAll()
 	{
-		for(String idx : idsPr)
+		for(Map.Entry<Integer, MMovement> entry : movementProcessed.entrySet())
 		{
-			int id = Integer.parseInt(idx);
-			MMovement move = new MMovement(Env.getCtx(), id, get_TrxName());
-			move.processIt(m_docAction);
-			move.saveEx();
+			MMovement movement = entry.getValue();
+			movement.processIt(docAction);
+			movement.saveEx();
 		}
 	}
 	
 	/**
-	 * Import Inventory Move Line using X_I_M_Movement table
-	 * @param move MMovement
-	 * @param imove X_I_M_Movement
+	 * Import Inventory Movement Line using X_I_M_Movement table
+	 * @param movement MMovement
+	 * @param movementImport X_I_Movement
 	 * @return isImported
 	 */
-	private boolean importMInventoryMoveLine(MMovement move, X_I_Movement imove)
+	private boolean importInventoryMovementLine(MMovement movement, X_I_Movement movementImport)
 	{
 		isImported = false;
-		
-		MMovementLine moveLine = getMInventoryMoveLine(move, imove);
-		
-		if(moveLine == null)
-		{
-			moveLine = new MMovementLine(Env.getCtx(), 0 , get_TrxName());
-		}
+		MMovementLine movementLine = getInventoryMovementLine(movement, movementImport);
+		if(movementLine == null)
+			movementLine = new MMovementLine(Env.getCtx(), 0 , get_TrxName());
 		
 		try
 		{
-			moveLine.setM_Movement_ID(move.getM_Movement_ID());
-			moveLine.setAD_Org_ID(imove.getAD_Org_ID());
-			moveLine.setM_Product_ID(imove.getM_Product_ID());
-			moveLine.setM_Locator_ID(imove.getM_Locator_ID());
-			moveLine.setM_LocatorTo_ID(imove.getM_LocatorTo_ID());
-			moveLine.setMovementQty(imove.getMovementQty());
-			moveLine.saveEx();
-			imove.setM_MovementLine_ID(moveLine.getM_MovementLine_ID());
-			imove.saveEx();			
+			movementLine.setM_Movement_ID(movement.getM_Movement_ID());
+			movementLine.setAD_Org_ID(movementImport.getAD_Org_ID());
+			movementLine.setM_Product_ID(movementImport.getM_Product_ID());
+			movementLine.setM_Locator_ID(movementImport.getM_Locator_ID());
+			movementLine.setM_LocatorTo_ID(movementImport.getM_LocatorTo_ID());
+			movementLine.setMovementQty(movementLine.getMovementQty().add(movementImport.getMovementQty()));
+			movementLine.saveEx();
+			movementImport.setM_MovementLine_ID(movementLine.getM_MovementLine_ID());
+			movementImport.saveEx();
 			isImported = true;
 		}
 		catch(Exception e)
 		{
-			imove.setI_ErrorMsg(e.getMessage());
+			movementImport.setI_ErrorMsg(e.getMessage());
 			isImported = false;
 		}
-		
 		return isImported;
 	}
 	
 	/**
-	 * get MMovementLine unique instance based on  X_I_M_Movement data
-	 * @param move MMovement
-	 * @param imove X_I_M_Movement
+	 * get MMovementLine unique instance based on  X_I_Movement data
+	 * @param movement MMovement
+	 * @param movementImport X_I_Movement
 	 * @return  unique instance of MMovementLine
 	 */
-	private MMovementLine getMInventoryMoveLine(MMovement move, X_I_Movement imove)
+	private MMovementLine getInventoryMovementLine(MMovement movement, X_I_Movement movementImport)
 	{
-		
-		final StringBuffer whereClause = new StringBuffer();
+		final StringBuilder whereClause = new StringBuilder();
 		ArrayList<Object> parameters = new ArrayList();
-		
-		MColumn[] cols = getMInventoryMoveColumns();
-		
+		MColumn[] columns = getInventoryMovementColumns();
 		int count = 0;
-		
-		for(MColumn col: cols)
+
+		for(MColumn column: columns)
 		{			
-			if(X_I_Movement.COLUMNNAME_AD_Org_ID.equals(col.getColumnName())
-			|| X_I_Movement.COLUMNNAME_M_Product_ID.equals(col.getColumnName())
-			|| X_I_Movement.COLUMNNAME_M_Locator_ID .equals(col.getColumnName())
-			|| X_I_Movement.COLUMNNAME_M_LocatorTo_ID.equals(col.getColumnName()))
+			if(X_I_Movement.COLUMNNAME_AD_Org_ID.equals(column.getColumnName())
+			|| X_I_Movement.COLUMNNAME_M_Product_ID.equals(column.getColumnName())
+			|| X_I_Movement.COLUMNNAME_M_Locator_ID .equals(column.getColumnName())
+			|| X_I_Movement.COLUMNNAME_M_LocatorTo_ID.equals(column.getColumnName()))
 			{
-				whereClause.append(col.getColumnName()).append("=?");
-				parameters.add(imove.get_Value(col.getColumnName()));
+				whereClause.append(column.getColumnName()).append("=?");
+				parameters.add(movementImport.get_Value(column.getColumnName()));
 				if(count < 3)
 				{
 					whereClause.append(" AND ");
@@ -264,8 +237,7 @@ public class ImportInventoryMove extends SvrProcess
 		}
 		
 		whereClause.append(" AND M_Movement_ID=?");
-		parameters.add(move.getM_Movement_ID());
-		
+		parameters.add(movement.getM_Movement_ID());
 		return new Query(getCtx(), I_M_MovementLine.Table_Name, whereClause.toString(), get_TrxName())
 		.setClient_ID()
 		.setParameters(parameters)
@@ -276,56 +248,54 @@ public class ImportInventoryMove extends SvrProcess
 	 * get Inventory Move Columns
 	 * @return array MColumn
 	 */
-	private MColumn[] getMInventoryMoveColumns()
+	private MColumn[] getInventoryMovementColumns()
 	{
 			return MTable.get(getCtx(),I_M_MovementLine.Table_Name).getColumns(false);
 	}
 	
 	/**
 	 * Import Inventory Move using X_I_M_Movement table
-	 * @param imove X_I_M_Movement
+	 * @param movementImport X_I_Movement
 	 * @return MMovement
 	 */
-	
-	private MMovement importMInventoryMove(X_I_Movement imove)
+	private MMovement importInventoryMovement(X_I_Movement movementImport)
 	{
-	    	final String  whereClause = I_M_Movement.COLUMNNAME_MovementDate + "= ? AND "
-	    				  + I_M_Movement.COLUMNNAME_DocumentNo + "=? AND "	  
-	    				  + I_M_Movement.COLUMNNAME_C_DocType_ID+"=?";
-		int oldID = new Query(Env.getCtx(), I_M_Movement.Table_Name,whereClause, get_TrxName())
+		StringBuilder whereClause = new StringBuilder();
+			whereClause.append("TRUNC(").append(I_M_Movement.COLUMNNAME_MovementDate)
+						.append(",'DD') = " + DB.TO_DATE(movementImport.getMovementDate()) + " AND ")
+	    				.append(I_M_Movement.COLUMNNAME_DocumentNo).append("=? AND ")
+	    				.append(I_M_Movement.COLUMNNAME_C_DocType_ID).append("=?");
+		int movementId = new Query(Env.getCtx(), I_M_Movement.Table_Name, whereClause.toString(), get_TrxName())
 		.setClient_ID()
-		.setParameters(imove.getMovementDate(), imove.getDocumentNo(), imove.getC_DocType_ID())
+		.setParameters(movementImport.getDocumentNo(), movementImport.getC_DocType_ID())
 		.firstId();
 		
-		MMovement move = null;
-		if(oldID<=0)
-		{
-			oldID = 0;
-		}
-		
-		move = new MMovement(Env.getCtx(), oldID, get_TrxName());
-		
+		MMovement movement = null;
+		if(movementId <= 0)
+			movementId = 0;
+
+		movement = new MMovement(getCtx(), movementId, get_TrxName());
 		try{
-			move.setDocumentNo(imove.getDocumentNo());
-			move.setC_DocType_ID(imove.getC_DocType_ID());
-			move.setAD_Org_ID(imove.getAD_Org_ID());
-			move.setMovementDate(imove.getMovementDate());
-			move.setC_DocType_ID(imove.getC_DocType_ID());
-			move.setDocumentNo(imove.getDocumentNo());
-			move.setC_BPartner_ID(imove.getC_BPartner_ID());
-			move.setM_Shipper_ID(imove.getM_Shipper_ID());
-			move.setC_Project_ID(imove.getC_Project_ID());
-			move.setC_Campaign_ID(imove.getC_Campaign_ID());
-			move.setAD_OrgTrx_ID(imove.getAD_OrgTrx_ID());			
-			move.saveEx();
+			movement.setDocumentNo(movementImport.getDocumentNo());
+			movement.setC_DocType_ID(movementImport.getC_DocType_ID());
+			movement.setAD_Org_ID(movementImport.getAD_Org_ID());
+			movement.setMovementDate(movementImport.getMovementDate());
+			movement.setC_DocType_ID(movementImport.getC_DocType_ID());
+			movement.setDocumentNo(movementImport.getDocumentNo());
+			movement.setC_BPartner_ID(movementImport.getC_BPartner_ID());
+			movement.setM_Shipper_ID(movementImport.getM_Shipper_ID());
+			movement.setC_Project_ID(movementImport.getC_Project_ID());
+			movement.setC_Campaign_ID(movementImport.getC_Campaign_ID());
+			movement.setAD_OrgTrx_ID(movementImport.getAD_OrgTrx_ID());
+			movement.saveEx();
 		}
 		catch(Exception e)
 		{	
-			imove.setI_ErrorMsg(e.getMessage());
+			movementImport.setI_ErrorMsg(e.getMessage());
 			isImported = false;
 		}
 		
-		return move;
+		return movement;
 	}
 
 	
@@ -334,53 +304,51 @@ public class ImportInventoryMove extends SvrProcess
 	 */
 	private void fillIDValues()
 	{
-		for(X_I_Movement imove : getRecords(false, m_IsImportOnlyNoErrors))
+		for(X_I_Movement movementImport : getRecords(false, isImportOnlyNoErrors))
 		{
-			//if(imov.getAD_Org_ID()==0)
-				imove.setAD_Org_ID(getID(MOrg.Table_Name,"Value = ?", new Object[]{imove.getOrgValue()}));
-			if(imove.getM_Product_ID()==0)
-				imove.setM_Product_ID(getID(MProduct.Table_Name,"Value = ?", new Object[]{imove.getProductValue()}));
+			//if(movementImport.getAD_Org_ID()==0)
+				movementImport.setAD_Org_ID(getID(MOrg.Table_Name,"Value = ?", new Object[]{movementImport.getOrgValue()}));
+			if(movementImport.getM_Product_ID()==0)
+				movementImport.setM_Product_ID(getID(MProduct.Table_Name,"Value = ?", new Object[]{movementImport.getProductValue()}));
 			//if(imov.getM_Locator_ID()==0)
-				imove.setM_Locator_ID(getID(MLocator.Table_Name,"Value = ?", new Object[]{imove.getLocatorValue()}));
+				movementImport.setM_Locator_ID(getID(MLocator.Table_Name,"Value = ?", new Object[]{movementImport.getLocatorValue()}));
 			//if(imov.getM_LocatorTo_ID()==0)
-				imove.setM_LocatorTo_ID(getID(MLocator.Table_Name,"Value = ?", new Object[]{imove.getLocatorToValue()}));
-			if(imove.getC_DocType_ID()==0)
-				imove.setC_DocType_ID(getID(MDocType.Table_Name,"Name=?", new Object[]{imove.getDocTypeName()}));
-			if(imove.getC_BPartner_ID()==0)
-				imove.setC_BPartner_ID(getID(MBPartner.Table_Name,"Value =?", new Object[]{imove.getBPartnerValue()}));
-			if(imove.getM_Shipper_ID()==0)
-				imove.setM_Shipper_ID(getID(MShipper.Table_Name, "Name = ?", new Object[]{imove.getShipperName()}));
-			if(imove.getC_Project_ID()==0)
-				imove.setC_Project_ID(getID(MProject.Table_Name, "Value = ?", new Object[]{imove.getProjectValue()}));
-			if(imove.getC_Campaign_ID()==0)
-				imove.setC_Campaign_ID(getID(MCampaign.Table_Name, "Value = ?", new Object[]{imove.getCampaignValue()}));
-			if(imove.getAD_OrgTrx_ID()==0)
-				imove.setAD_OrgTrx_ID(getID(MOrg.Table_Name, "Value = ?", new Object[]{imove.getOrgTrxValue()}));
-				
-			
-			imove.saveEx();
-			
-			StringBuffer err = new StringBuffer("");
-			if(imove.getAD_Org_ID() <=0)
+				movementImport.setM_LocatorTo_ID(getID(MLocator.Table_Name,"Value = ?", new Object[]{movementImport.getLocatorToValue()}));
+			if(movementImport.getC_DocType_ID()==0)
+				movementImport.setC_DocType_ID(getID(MDocType.Table_Name,"Name=?", new Object[]{movementImport.getDocTypeName()}));
+			if(movementImport.getC_BPartner_ID()==0)
+				movementImport.setC_BPartner_ID(getID(MBPartner.Table_Name,"Value =?", new Object[]{movementImport.getBPartnerValue()}));
+			if(movementImport.getM_Shipper_ID()==0)
+				movementImport.setM_Shipper_ID(getID(MShipper.Table_Name, "Name = ?", new Object[]{movementImport.getShipperName()}));
+			if(movementImport.getC_Project_ID()==0)
+				movementImport.setC_Project_ID(getID(MProject.Table_Name, "Value = ?", new Object[]{movementImport.getProjectValue()}));
+			if(movementImport.getC_Campaign_ID()==0)
+				movementImport.setC_Campaign_ID(getID(MCampaign.Table_Name, "Value = ?", new Object[]{movementImport.getCampaignValue()}));
+			if(movementImport.getAD_OrgTrx_ID()==0)
+				movementImport.setAD_OrgTrx_ID(getID(MOrg.Table_Name, "Value = ?", new Object[]{movementImport.getOrgTrxValue()}));
+
+			movementImport.saveEx();
+			StringBuilder err = new StringBuilder("");
+			if(movementImport.getAD_Org_ID() <=0)
 				err.append(" @AD_Org_ID@ @NotFound@,");
 			
-			if(imove.getM_Product_ID()<=0)
+			if(movementImport.getM_Product_ID()<=0)
 				err.append(" @M_Product_ID@ @NotFound@,");
 			
-			if(imove.getM_Locator_ID()<=0)
+			if(movementImport.getM_Locator_ID()<=0)
 				err.append(" @M_Locator_ID@ @NotFound@,");
 			
-			if(imove.getM_LocatorTo_ID()<=0)
+			if(movementImport.getM_LocatorTo_ID()<=0)
 				err.append(" @M_LocatorTo_ID@ @NotFound@,");
 			
-			if(imove.getC_DocType_ID()<=0)
+			if(movementImport.getC_DocType_ID()<=0)
 				err.append(" @C_DocType_ID@ @NotFound@,");
 			
-			if(err.toString()!=null && err.toString().length()>0)
+			if(err.toString() != null && err.toString().length()>0)
 			{
-				notimported++;
-				imove.setI_ErrorMsg(Msg.parseTranslation(getCtx(), err.toString()));
-				imove.saveEx();
+				notImported++;
+				movementImport.setI_ErrorMsg(Msg.parseTranslation(getCtx(), err.toString()));
+				movementImport.saveEx();
 			}		
 		}
 	}
@@ -395,29 +363,29 @@ public class ImportInventoryMove extends SvrProcess
 	private int getID(String tableName, String whereClause, Object[] values)
 	{
 		return new Query(getCtx(),tableName,whereClause,get_TrxName())
-		.setParameters(values).firstId();
+		.setClient_ID()
+		.setParameters(values)
+		.firstId();
 	}  
 	
 	
 	/**
-	 * get all records in X_I_ProductPlanning table
-	 * @param imported boolean
+	 * get all records in X_I_Movement table
+	 * @param isImported boolean
 	 * @param isWithError boolean
-	 * @return collection of X_I_ProductPlanning records
+	 * @return List  of X_I_Movement records
 	 */
-	private Collection<X_I_Movement> getRecords(boolean imported, boolean isWithError)
+	private List<X_I_Movement> getRecords(boolean isImported, boolean isWithError)
 	{
-		final StringBuffer whereClause = new StringBuffer(X_I_Movement.COLUMNNAME_I_IsImported)
+		final StringBuilder whereClause = new StringBuilder(X_I_Movement.COLUMNNAME_I_IsImported)
 		.append("=?"); 
 		
 		if(isWithError)
-		{
 		    whereClause.append(" AND ").append(X_I_Movement.COLUMNNAME_I_ErrorMsg).append(" IS NULL");
-		}		
 
 		return new Query(getCtx(),X_I_Movement.Table_Name,whereClause.toString(),get_TrxName())
 		.setClient_ID()
-		.setParameters(imported)
+		.setParameters(isImported)
 		.list();
 	}	
 }	//	Import Inventory Move

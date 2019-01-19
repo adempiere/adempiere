@@ -17,4 +17,13 @@ JAVA_OPTS="-server $ADEMPIERE_JAVA_OPTIONS $SECURE -Djava.awt.headless=true -Dor
 
 export JAVA_OPTS
 
-$JBOSS_HOME/bin/run.sh -c adempiere -b $ADEMPIERE_APPS_SERVER
+if [ $ADEMPIERE_APPS_TYPE = "jboss" ]
+then
+    $JBOSS_HOME/bin/run.sh -c adempiere -b $ADEMPIERE_APPS_SERVER
+fi
+
+if [ $ADEMPIERE_APPS_TYPE = "tomcat" ]
+then
+    ../tomcat/bin/startup.sh
+fi
+

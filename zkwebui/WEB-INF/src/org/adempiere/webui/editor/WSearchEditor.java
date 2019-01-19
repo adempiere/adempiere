@@ -18,25 +18,31 @@
 package org.adempiere.webui.editor;
 
 import java.awt.event.ActionListener;
+import java.awt.event.KeyListener;
 import java.beans.PropertyChangeEvent;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 
+import org.adempiere.exceptions.ValueChangeEvent;
+import org.adempiere.exceptions.ValueChangeListener;
 import org.adempiere.webui.ValuePreference;
 import org.adempiere.webui.apps.AEnv;
+import org.adempiere.webui.component.GridPanel;
 import org.adempiere.webui.component.Searchbox;
 import org.adempiere.webui.event.ContextMenuEvent;
 import org.adempiere.webui.event.ContextMenuListener;
-import org.adempiere.webui.event.ValueChangeEvent;
-import org.adempiere.webui.event.ValueChangeListener;
 import org.adempiere.webui.grid.WBPartner;
+import org.adempiere.webui.panel.ADTabPanel;
+import org.adempiere.webui.panel.AbstractADWindowPanel;
 import org.adempiere.webui.panel.InfoBPartnerPanel;
 import org.adempiere.webui.panel.InfoPanel;
 import org.adempiere.webui.panel.InfoPanelFactory;
 import org.adempiere.webui.panel.InfoProductPanel;
-import org.adempiere.webui.window.WFieldRecordInfo;
+import org.adempiere.webui.session.SessionManager;
+import org.adempiere.webui.window.ADWindow;
+import org.adempiere.webui.window.WRecordInfo;
 import org.compiere.model.GridField;
 import org.compiere.model.Lookup;
 import org.compiere.model.MBPartner;
@@ -55,8 +61,10 @@ import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
 import org.eevolution.model.I_PP_Product_BOMLine;
+import org.zkforge.keylistener.Keylistener;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zk.ui.event.KeyEvent;
 
 /**
  * Search Editor for web UI.
@@ -68,6 +76,9 @@ import org.zkoss.zk.ui.event.Events;
  * @author	Michael McKay
  * 				<li>release/380 - change order of value change and value change event to allow event
  * 					handlers to see the changed value in the same thread. Also added old value comparison
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 146 ] Remove unnecessary class, add support for info to specific column
+ *		@see https://github.com/adempiere/adempiere/issues/146
  */
 
 public class WSearchEditor extends WEditor implements ContextMenuListener, ValueChangeListener, IZoomableEditor
@@ -209,9 +220,9 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 		getComponent().getTextbox().setContext(popupMenu.getId());
 		if (gridField != null && gridField.getGridTab() != null)
 		{
-			WFieldRecordInfo.addMenu(popupMenu);
+			WRecordInfo.addMenu(popupMenu);
 		}
-		
+	
 		return;
 	}
 
@@ -266,6 +277,7 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 
 	public void onEvent(Event e)
 	{
+		
 		if(m_settingValue) // Ignore events if in the middle of setting the value
 		{
 			return;
@@ -276,6 +288,7 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 				autoComplete.setValue(getComponent().getText()); // ADEMPIERE-191
 				autoComplete.setSearchText(getComponent().getText());  // ADEMPIERE-191
 			}
+			
 			actionText(getComponent().getText());
 		}
 		else if (Events.ON_CLICK.equals(e.getName()))
@@ -358,7 +371,7 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 		}
 		else if (WEditorPopupMenu.CHANGE_LOG_EVENT.equals(evt.getContextEvent()))
 		{
-			WFieldRecordInfo.start(gridField);
+			WRecordInfo.start(gridField);
 		}
 		//
 	}
@@ -494,22 +507,27 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 				
 		//  is the value updated ?
 		boolean updated = false;
-		if (value instanceof Object[] && ((Object[])value).length > 0)
+		
+		Object updatedValue = value;
+
+		if (updatedValue != null && updatedValue instanceof Object[] && ((Object[])updatedValue).length > 0)
 		{
-			value = ((Object[])value)[0];
+			updatedValue = ((Object[])updatedValue)[0];
 		}
 		
-		if (value == null && getValue() == null)
+		// Avoid events if the value hasn't changed.
+		if (updatedValue == null && getValue() == null)
 			updated = true;
-		else if (value != null && value.equals(getValue()) && !m_needsUpdate)
+		else if (updatedValue != null && updatedValue.equals(getValue()) && !m_needsUpdate)
 			updated = true;
 		if (!updated)
 		{
-			setValue(value);
+			setValue(updatedValue);
 		}
 		
 		// Fire the change event after the change so listeners can react in the same thread.
-		ValueChangeEvent evt = new ValueChangeEvent(this, this.getColumnName(), oldValue, getValue());
+		// Pass value as it may be an array for multiple selection.  updatedValue will be a single value.
+		ValueChangeEvent evt = new ValueChangeEvent(this, this.getColumnName(), oldValue, value);
 		// -> ADTabpanel - valuechange
 		fireValueChange(evt);
 
@@ -680,12 +698,33 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 		}
 		//
 		if (infoPanel != null){
+			if(this.getADTabPanel() != null && this.getADTabPanel().getListPanel() != null)
+				this.getADTabPanel().getListPanel().addKeyListener();
+			GridPanel gridQuick = null;
+			ADTabPanel tabPanel = (ADTabPanel)getADTabPanel();
+			if(tabPanel != null && tabPanel.getQuickPanel() != null) {
+				gridQuick = tabPanel.getQuickPanel();
+				gridQuick.addKeyListener();
+			}
+
 			infoPanel.addValueChangeListener(this);
 			AEnv.showWindow(infoPanel);
 			//
 			cancelled = infoPanel.isCancelled();
 			result = infoPanel.getSelectedKeys();
 			//
+			if(this.getADTabPanel() != null && this.getADTabPanel().getListPanel() != null) {
+				this.getADTabPanel().getListPanel().addKeyListener();
+				Keylistener keyListener =this.getADTabPanel().getListPanel().getKeyListener();
+				if(gridQuick != null) {
+					gridQuick.addKeyListener();
+					keyListener = gridQuick.getKeyListener();
+				}
+				if(keyListener != null && !cancelled) {
+					KeyEvent event = new KeyEvent(Events.ON_CTRL_KEY, keyListener, 13, false, false, false);
+				 	Events.postEvent(event); 
+				}
+			}
 			infoPanel = null;
 		}
 		//  Result
@@ -1044,6 +1083,11 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 			}
         }
 
+	}
+
+	public boolean isShowingDialog()
+	{
+		return infoPanel != null;
 	}
 
 	/**

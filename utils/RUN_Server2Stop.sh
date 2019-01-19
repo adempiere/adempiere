@@ -15,5 +15,14 @@ export JBOSS_SERVERLIB
 JBOSS_CLASSPATH=$ADEMPIERE_HOME/lib/jboss.jar:$JBOSS_LIB/jboss-system.jar:
 export JBOSS_CLASSPATH
 
-echo sh $JBOSS_HOME/bin/shutdown.sh --server=jnp://$ADEMPIERE_APPS_SERVER:$ADEMPIERE_JNP_PORT --shutdown
-sh $JBOSS_HOME/bin/shutdown.sh --server=jnp://$ADEMPIERE_APPS_SERVER:$ADEMPIERE_JNP_PORT --shutdown
+if [ $ADEMPIERE_APPS_TYPE = "jboss" ]
+then
+    echo sh $JBOSS_HOME/bin/shutdown.sh --server=jnp://$ADEMPIERE_APPS_SERVER:$ADEMPIERE_JNP_PORT --shutdown
+    sh $JBOSS_HOME/bin/shutdown.sh --server=jnp://$ADEMPIERE_APPS_SERVER:$ADEMPIERE_JNP_PORT --shutdown
+fi
+
+if [ $ADEMPIERE_APPS_TYPE = "tomcat" ]
+then
+    echo sh ../tomcat/bin/shutdown.sh
+    sh ../tomcat/bin/shutdown.sh
+fi

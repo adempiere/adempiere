@@ -13,7 +13,7 @@ SELECT o.AD_Client_ID, o.AD_Org_ID, o.IsActive, o.Created, o.CreatedBy, o.Update
 	o.M_Product_ID,o.M_AttributeSetInstance_ID,o.C_UOM_ID,o.S_Resource_ID,o.PP_Product_BOM_ID,o.AD_Workflow_ID, o.Assay, o.C_OrderLine_ID, o.PriorityRule , 
 	o.QtyBatchSize , o.QtyBatchs, o.QtyDelivered, o.QtyEntered, o.QtyOrdered, 
 	o.DateConfirm,o.DateDelivered,o.DateFinish, o.DateFinishSchedule,o.DateOrdered, o.DatePromised,o.QtyReject, o.QtyReserved , o.QtyScrap , o.Yield ,
-	o.C_Campaign_ID, o.C_Project_ID, o.C_Activity_ID, o.User1_ID , o.User2_ID , o.AD_OrgTrx_ID ,o.C_DocTypeTarget_ID,o.ScheduleType , o.IsApproved , o.DocAction , o.Posted , o.IsPrinted, o.OrderType,
+	o.C_Campaign_ID, o.C_Project_ID, o.C_Activity_ID, o.User1_ID , o.User2_ID , o.User3_ID , o.User4_ID , o.AD_OrgTrx_ID ,o.C_DocTypeTarget_ID,o.ScheduleType , o.IsApproved , o.DocAction , o.Posted , o.IsPrinted, o.OrderType,
 	COALESCE(oi.Logo_ID, ci.Logo_ID) AS Logo_ID
 FROM PP_Order o
 	INNER JOIN C_DocType_trl dt ON (o.C_DocType_ID=dt.C_DocType_ID)

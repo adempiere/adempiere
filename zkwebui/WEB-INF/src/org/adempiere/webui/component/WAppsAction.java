@@ -89,7 +89,7 @@ public class WAppsAction
            }
        }
        //
-       URI large = getImage(action, false);
+       URI large = getImage(action, true);
 
        //  Create Button
        m_button = new Button();

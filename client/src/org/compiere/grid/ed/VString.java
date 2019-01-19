@@ -34,7 +34,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.CaretListener;
 
 import org.adempiere.plaf.AdempierePLAF;
-import org.compiere.apps.FieldRecordInfo;
+import org.compiere.apps.RecordInfo;
 import org.compiere.model.GridField;
 import org.compiere.model.MRole;
 import org.compiere.model.Obscure;
@@ -53,6 +53,9 @@ import org.compiere.util.Msg;
  *
  *  @author 	Jorg Janke
  *  @version 	$Id: VString.java,v 1.2 2006/07/30 00:51:27 jjanke Exp $
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 146 ] Remove unnecessary class, add support for info to specific column
+ *		@see https://github.com/adempiere/adempiere/issues/146
  */
 public final class VString extends CTextField
 	implements VEditor, ActionListener, FocusListener
@@ -267,9 +270,9 @@ public final class VString extends CTextField
 				ValuePreference.start (m_mField, getValue());
 			return;
 		}
-		else if(e.getActionCommand().equals(FieldRecordInfo.CHANGE_LOG_COMMAND))
+		else if(e.getActionCommand().equals(RecordInfo.CHANGE_LOG_COMMAND))
 		{
-			FieldRecordInfo.start(m_mField);
+			RecordInfo.start(m_mField);
 			return;
 		}
 
@@ -301,7 +304,7 @@ public final class VString extends CTextField
 			&& MRole.getDefault().isShowPreference())
 			ValuePreference.addMenu (this, popupMenu);
 		if (m_mField != null)
-			FieldRecordInfo.addMenu(this, popupMenu);
+			RecordInfo.addMenu(this, popupMenu);
 	}   //  setField
 
 	@Override

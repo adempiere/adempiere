@@ -70,6 +70,33 @@ public final class MTreeNode extends DefaultMutableTreeNode
 		m_onBar = onBar;
 		m_color = color;
 	}   //  MTreeNode
+	
+	/**
+	 * This Constructor is Used by MTreeFavorite
+	 * @param node_ID
+	 * @param seqNo
+	 * @param name
+	 * @param description
+	 * @param parent_ID
+	 * @param isSummary
+	 * @param menu_ID
+	 * @param img
+	 * @param isCollapsible
+	 */
+	public MTreeNode(int node_ID, int seqNo, String name, String description, int parent_ID, boolean isSummary,
+			int menu_ID, String img, boolean isCollapsible) {
+		m_node_ID = node_ID;
+		m_seqNo = seqNo;
+		m_name = name;
+		m_description = description;
+		if (m_description == null)
+			m_description = "";
+		m_parent_ID = parent_ID;
+		setSummary(isSummary);
+		m_menu_ID = menu_ID;
+		m_iscollapsible = isCollapsible;
+		setImageIndicator(img);
+	}
 
 	/** Node ID         */
 	private int     	m_node_ID;
@@ -91,7 +118,8 @@ public final class MTreeNode extends DefaultMutableTreeNode
 	private boolean 	m_onBar;
 	/**	Color			*/
 	private Color 		m_color;
-
+	private int			m_menu_ID;
+	private boolean		m_iscollapsible;
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(MTreeNode.class);
 	
@@ -181,7 +209,10 @@ public final class MTreeNode extends DefaultMutableTreeNode
 	{
 		return m_parent_ID;
 	}	//	getParent
-
+	
+	public void setParent_ID (int pID){
+		m_parent_ID = pID;
+	}
 	/**
 	 *  Print Name
 	 *  @return info
@@ -319,6 +350,11 @@ public final class MTreeNode extends DefaultMutableTreeNode
 		return m_onBar;
 	}   //  isOnBar
 	
+	public void setOnBar(boolean isOnBar)
+	{
+		m_onBar=isOnBar;
+	}
+	
 	/**
 	 * 	Is Process
 	 *	@return true if Process
@@ -434,5 +470,38 @@ public final class MTreeNode extends DefaultMutableTreeNode
 		}
 		return null;
 	}   //  findNode
+	/**
+	 *  Get Menu ID
+	 * @return Menu ID
+	 */
+	public int getMenu_ID() {
+		return m_menu_ID;
+	}
 
+	/**
+	 * Set Menu ID
+	 * @param m_menu_ID
+	 */
+	public void setMenu_ID(int m_menu_ID) {
+		this.m_menu_ID = m_menu_ID;
+	}
+	
+	/**
+	 * Is Collapsible
+	 * 
+	 * @return boolean
+	 */
+	public boolean IsCollapsible() {
+		return m_iscollapsible;
+	}
+
+	/**
+	 * Set is Collapsible
+	 * 
+	 * @param iscollapsible
+	 */
+	public void setIsCollapsible(boolean iscollapsible) {
+		this.m_iscollapsible = iscollapsible;
+	}
+	
 }   //  MTreeNode

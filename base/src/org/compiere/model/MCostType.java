@@ -36,7 +36,7 @@ public class MCostType extends X_M_CostType
 	private static final long serialVersionUID = -2060640115481013228L;
 	
 	/**	Cache of AcctSchemas 					**/
-	private static CCache<Integer,MCostType> s_cache = new CCache<Integer,MCostType>("MCostType", 3);	//  3 accounting schemas
+	private static CCache<Integer, MCostType> s_cache = new CCache<Integer, MCostType>("MCostType", 3);	//  3 accounting schemas
 	
 	/**
 	 * get Cost Type 
@@ -45,27 +45,27 @@ public class MCostType extends X_M_CostType
 	 * @param AD_Org_ID
 	 * @return return Cost Type 
 	 */
-	public static MCostType get(MAcctSchema as ,int M_Product_ID , int AD_Org_ID)
+	public static MCostType get(MAcctSchema as, int M_Product_ID, int AD_Org_ID)
 	{
 		MProduct product = MProduct.get(as.getCtx(), M_Product_ID);
 		MCostType ct = MCostType.getByOrg(as.getCtx(), AD_Org_ID, as.get_TrxName());
-		
-		if(product != null)
+
+		if (product != null)
 		{
 			MProductCategoryAcct pca = MProductCategoryAcct.get(as.getCtx(), product.getM_Product_Category_ID(), as.getC_AcctSchema_ID(), AD_Org_ID, as.get_TrxName());
-			
-			if(pca != null && pca.getCostingMethod() != null && pca.getCostingMethod().length() > 0)
-			{				
+
+			if (pca != null && pca.getCostingMethod() != null && pca.getCostingMethod().length() > 0)
+			{
 				ct = MCostType.getByMethodCosting(as, pca.getCostingMethod());
 			}
 			else if (ct == null)
 			{
-				ct = MCostType.getByMethodCosting(as , as.getCostingMethod());				 
+				ct = MCostType.getByMethodCosting(as, as.getCostingMethod());				 
 			}
 		}		
-		if(ct == null)
+		if (ct == null)
 			throw new IllegalStateException("A Cost Type does not exist with this Costing method: " + as.getCostingMethod());
-		
+
 		return ct;
 	}
 	

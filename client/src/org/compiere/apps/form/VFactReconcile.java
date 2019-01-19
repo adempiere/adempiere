@@ -52,6 +52,7 @@ import org.compiere.grid.ed.VLookup;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.minigrid.MiniTable;
+import org.compiere.model.I_Fact_Reconciliation;
 import org.compiere.model.MClient;
 import org.compiere.model.MColumn;
 import org.compiere.model.MFactAcct;
@@ -73,18 +74,14 @@ import org.compiere.util.Msg;
 
 /**
 * Original code
+* Create manual match of accounting facts
 * @author Paul Bowden, Adaxa
-*  
-* 
 * Zk Port - minor changes
 * @author Michael McKay, ADEMPIERE-41 GL Reconciliation integration
-* 
+* @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+*		<a href="https://github.com/adempiere/adempiere/issues/889">
+* 		@see FR [ 889 ] Ambidexter General Ledger Reconciliation</a>
 */
-
-
-/**
- *  Create manual match of accounting facts
- */
 public class VFactReconcile extends CPanel
 	implements FormPanel, ActionListener, TableModelListener, ASyncProcess
 {
@@ -539,11 +536,11 @@ public class VFactReconcile extends CPanel
 			{
 				int factId = ((IDColumn) miniTable.getModel().getValueAt(r, idColIndex )).getRecord_ID();
 
-				MFactReconciliation rec = new Query(Env.getCtx(), MFactReconciliation.Table_Name, "Fact_Acct_ID = ?", null)
-				.setParameters(new Object[] {factId}).first();
-
-				if ( rec == null )
-				{
+				MFactReconciliation rec = new Query(Env.getCtx(), I_Fact_Reconciliation.Table_Name, 
+						I_Fact_Reconciliation.COLUMNNAME_Fact_Acct_ID + " = ?", null)
+						.setParameters(new Object[] {factId}).first();
+				//	
+				if (rec == null) {
 					continue;
 				}
 
@@ -614,30 +611,28 @@ public class VFactReconcile extends CPanel
 			return;
 
 
-		String format = "yyyy-MM-dd HH:mm:ss.SSS";
 		Calendar cal = Calendar.getInstance();
-		SimpleDateFormat sdf = new SimpleDateFormat(format);
+		SimpleDateFormat sdf = DisplayType.getDateFormat();
 		String time = sdf.format(cal.getTime());
 
-		String matchcode = "Manual: " + Env.getContext(Env.getCtx(), "#AD_User_Name") + " " + time;
+		String matchcode = Msg.parseTranslation(Env.getCtx(), "@IsManual@: " + Env.getContext(Env.getCtx(), "#AD_User_Name") + " " + time);
 		
 		for ( int r = 0; r < miniTable.getModel().getRowCount(); r++ )
 		{
 			if ( ((IDColumn) miniTable.getModel().getValueAt(r, idColIndex)).isSelected() )
 			{
 				int factId = ((IDColumn) miniTable.getModel().getValueAt(r, idColIndex )).getRecord_ID();
-
-				MFactReconciliation rec = new Query(Env.getCtx(), MFactReconciliation.Table_Name, "Fact_Acct_ID = ?", null)
-				.setParameters(new Object[] {factId}).first();
-
-				if ( rec == null )
-				{
+				//	
+				MFactReconciliation rec = new Query(Env.getCtx(), I_Fact_Reconciliation.Table_Name, 
+						I_Fact_Reconciliation.COLUMNNAME_Fact_Acct_ID + " = ?", null)
+						.setParameters(new Object[] {factId}).first();
+				//	
+				if (rec == null) {
 					rec = new MFactReconciliation(Env.getCtx(), 0, null);
 					rec.setFact_Acct_ID(factId);
 				}
 
 				rec.setMatchCode(matchcode);
-				rec.setIsDirectLoad(true);
 				rec.saveEx();
 
 				((DefaultTableModel) miniTable.getModel()).removeRow(r--);

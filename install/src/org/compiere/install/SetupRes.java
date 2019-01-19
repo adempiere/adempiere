@@ -23,6 +23,9 @@ import java.util.ListResourceBundle;
  *
  * 	@author 	Jorg Janke
  * 	@version 	$Id: SetupRes.java,v 1.3 2006/07/30 00:57:42 jjanke Exp $
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *			<li> FR [ 402 ] Mail setup is hardcoded
+ *			@see https://github.com/adempiere/adempiere/issues/402
  */
 public class SetupRes extends ListResourceBundle
 {
@@ -72,6 +75,11 @@ public class SetupRes extends ListResourceBundle
 	{ "MailPassword", 			"Mail Password" },
 	{ "KeyStorePassword",		"KeyStore Password" },
 	{ "KeyStorePasswordInfo",	"Password for SSL Key Store" },
+	//	
+	{ "MailProtocolInfo",		"EMail Protocol" },
+	{ "MailEncryptionTypeInfo",	"Encryption Type" },
+	{ "MailAuthMechanismInfo",	"Authentication Mechanism" },
+	{ "MailPortInfo",			"Mail Port" },
 	//
 	{ "JavaType",				"Java VM"},
 	{ "JavaTypeInfo",			"Java VM Vendor"},
@@ -100,6 +108,11 @@ public class SetupRes extends ListResourceBundle
 	{ "ErrorMailServer", 		"Error Mail Server (do not use localhost)" },
 	{ "ErrorMail", 				"Error Mail" },
 	{ "ErrorSave", 				"Error Saving File" },
+	//	
+	{ "MailProtocol",			"Protocol" },
+	{ "MailEncryptionType",		"Encryption Type" },
+	{ "MailAuthMechanism",		"Auth. Mechanism" },
+	{ "MailPort",				"Port" },
 
 	{ "EnvironmentSaved", 		"Environment file saved .... starting Deployment\n"
 		+ "You can re-start the Application Server after program completes.\n"

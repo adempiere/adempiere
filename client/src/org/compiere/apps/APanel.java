@@ -33,29 +33,22 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.TreeMap;
-import java.util.Vector;
 import java.util.logging.Level;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.BorderFactory;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
-import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -73,6 +66,7 @@ import org.compiere.grid.VOnlyCurrentDays;
 import org.compiere.grid.VPayment;
 import org.compiere.grid.VSortTab;
 import org.compiere.grid.VTabbedPane;
+import org.compiere.grid.VTable;
 import org.compiere.grid.ed.VButton;
 import org.compiere.grid.ed.VDocAction;
 import org.compiere.model.DataStatusEvent;
@@ -83,10 +77,9 @@ import org.compiere.model.GridTable;
 import org.compiere.model.GridWindow;
 import org.compiere.model.GridWindowVO;
 import org.compiere.model.GridWorkbench;
-import org.compiere.model.Lookup;
-import org.compiere.model.MLookupFactory;
 import org.compiere.model.MProcess;
 import org.compiere.model.MQuery;
+import org.compiere.model.MRecentItem;
 import org.compiere.model.MRole;
 import org.compiere.model.MUser;
 import org.compiere.model.MWindow;
@@ -95,7 +88,6 @@ import org.compiere.print.AReport;
 import org.compiere.process.DocAction;
 import org.compiere.process.ProcessInfo;
 import org.compiere.process.ProcessInfoUtil;
-import org.compiere.swing.CFrame;
 import org.compiere.swing.CPanel;
 import org.compiere.util.ASyncProcess;
 import org.compiere.util.CLogMgt;
@@ -144,6 +136,19 @@ import org.eevolution.form.VBrowser;
  *
  * 	@author hengsin, hengsin.low@idalica.com
  *  @see FR [2887701] https://sourceforge.net/tracker/?func=detail&atid=879335&aid=2887701&group_id=176962
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 114 ] Change "Create From" UI for Form like Dialog in window without "hardcode"
+ *		@see https://github.com/adempiere/adempiere/issues/114
+ *		<li>FR [ 248 ] Smart Browse not open on modal inside a window
+ * 		@see https://github.com/adempiere/adempiere/issues/248
+ * 		<a href="https://github.com/adempiere/adempiere/issues/592">
+ * 		@see FR [ 592 ] Delete Selection dialog is not MVC</a>
+ * 		<a href="https://github.com/adempiere/adempiere/issues/611">
+ * 		@see BR [ 611 ] Error dialog is showed and lost focus from window</a>
+ *		<a href="https://github.com/adempiere/adempiere/issues/990">
+ * 		@see FR [ 990 ] Sort Tab is not MVC</a>
+ * 		<a href="https://github.com/adempiere/adempiere/issues/884">
+ * 		@see FR [ 884 ] Recent Items in Dashboard</a>
  *  @sponsor www.metas.de
  */
 public final class APanel extends CPanel
@@ -164,16 +169,16 @@ public final class APanel extends CPanel
 	public APanel(GridController gc, int windowNo){
 		super();
 		isNested = true;
-		m_ctx = Env.getCtx();
+		ctx = Env.getCtx();
 		try{
 			m_curGC = gc;
 			gc.addDataStatusListener(this);
-			m_curTab = gc.getMTab();
+			currentTab = gc.getMTab();
 
 			Component tabElement = null;
 			tabElement = gc;
 			VTabbedPane tabPane = new VTabbedPane(false);
-			tabPane.addTab(m_curTab.getName().toString(), m_curTab, tabElement);
+			tabPane.addTab(currentTab.getName().toString(), currentTab, tabElement);
 			m_curWinTab = tabPane;
 			m_curWindowNo = windowNo;
 			jbInit();
@@ -187,7 +192,7 @@ public final class APanel extends CPanel
 
 		MRole role = MRole.getDefault();
 		m_curGC.query (m_onlyCurrentRows, m_onlyCurrentDays, role.getMaxQueryRecords());
-		m_curTab.navigateCurrent();     //  updates counter
+		currentTab.navigateCurrent();     //  updates counter
 		m_curGC.dynamicDisplay(0);
 	}
 
@@ -196,7 +201,7 @@ public final class APanel extends CPanel
 		super();
 		m_window = window;
 
-		m_ctx = Env.getCtx();
+		ctx = Env.getCtx();
 		//
 		try
 		{
@@ -214,6 +219,7 @@ public final class APanel extends CPanel
 
 	private AWindow m_window;
 	private boolean isCancel = false; //Goodwill
+	private GridWindow mainWindow;
 
 	/**
 	 *	Dispose
@@ -224,10 +230,10 @@ public final class APanel extends CPanel
 		//  ignore changes
 		m_disposing = true;
 		//
-		if (m_curAPanelTab != null)
+		if (currentAPanelTab != null)
 		{
-			m_curAPanelTab.unregisterPanel();
-			m_curAPanelTab = null;
+			currentAPanelTab.unregisterPanel();
+			currentAPanelTab = null;
 		}
 		//  close panels
 		tabPanel.dispose(this);
@@ -237,9 +243,9 @@ public final class APanel extends CPanel
 		{
 			m_curWindowNo = m_mWorkbench.getWindowNo(i);
 			log.info("#" + m_curWindowNo);
-			Env.setAutoCommit(m_ctx, m_curWindowNo, false);
+			Env.setAutoCommit(ctx, m_curWindowNo, false);
 			m_mWorkbench.dispose(i);
-			Env.clearWinContext(m_ctx, m_curWindowNo);
+			Env.clearWinContext(ctx, m_curWindowNo);
 		}   //  all Workbenchens
 
 		//  Get rid of remaining model
@@ -307,7 +313,7 @@ public final class APanel extends CPanel
 							aNew, aCopy, aDelete, aPrint, aPrintPreview,
 							aExport = null,
 							aRefresh, aHistory, aAttachment, aChat, aMulti, aFind,
-							aWorkflow, aZoomAcross, aRequest, aWinSize, aArchive;
+							aWorkflow, aZoomAcross, aRequest, aProcess, aWinSize, aArchive;
 	/** Ignore Button		*/
 	public AppsAction		aIgnore;
 	/** Save Button			*/
@@ -443,6 +449,8 @@ public final class APanel extends CPanel
 		mGo.addSeparator();
 		aZoomAcross = addAction("ZoomAcross",	mGo, 	null,	false);
 		aRequest =  addAction("Request",		mGo, 	null,	false);
+		//	should be evaluated by window instead table
+		aProcess = AProcessAction.createAppsAction(this);
 		aArchive =  addAction("Archive",		mGo, 	null,	false);
 		aHome =		addAction("Home", 			mGo,	null,	false);
 		//								Tools
@@ -454,7 +462,7 @@ public final class APanel extends CPanel
 		MUser user = MUser.get(Env.getCtx());
 		if (user.isAdministrator())
 			aScript = addAction("Script",	        mTools, 	null,	false);
-		if ("Y".equals(Env.getContext(m_ctx, "#SysAdmin")))	//	set in DB.loginDB
+		if ("Y".equals(Env.getContext(ctx, "#SysAdmin")))	//	set in DB.loginDB
 			aWinSize = addAction("WinSize",     mTools, 	null,	false);
 		if (AEnv.isWorkflowProcess())
 			aWorkflow = addAction("WorkFlow",	mTools,		null,	false);
@@ -523,7 +531,7 @@ public final class APanel extends CPanel
 			if (aWorkflow != null)
 				toolBar.add(aWorkflow.getButton());
 			toolBar.add(aRequest.getButton());
-			toolBar.add(AProcess.createAppsAction(this).getButton());
+			toolBar.add(aProcess.getButton());
 			if (MRole.getDefault().isAllow_Info_Product())
 			{
 				toolBar.add(aProduct.getButton());
@@ -586,23 +594,23 @@ public final class APanel extends CPanel
 		{
 			StringBuffer sb = new StringBuffer();
 			sb.append(m_mWorkbench.getName()).append("  ")
-				.append(Env.getContext(m_ctx, "#AD_User_Name")).append(" (")
-				.append(Env.getContext(m_ctx, "#AD_Role_Name")).append(") @ ")
-				.append(Env.getContext(m_ctx, "#AD_Client_Name")).append(".")
-				.append(Env.getContext(m_ctx, "#AD_Org_Name")).append(" [")
-				.append(Env.getContext(m_ctx, "#DB_UID")).append("]");
+				.append(Env.getContext(ctx, "#AD_User_Name")).append(" (")
+				.append(Env.getContext(ctx, "#AD_Role_Name")).append(") @ ")
+				.append(Env.getContext(ctx, "#AD_Client_Name")).append(".")
+				.append(Env.getContext(ctx, "#AD_Org_Name")).append(" [")
+				.append(Env.getContext(ctx, "#DB_UID")).append("]");
 			return sb.toString();
 		}
-		return Env.getHeader(m_ctx, m_curWindowNo);
+		return Env.getHeader(ctx, m_curWindowNo);
 	}	//	getTitle
 
 
-	private Properties      m_ctx;
+	private Properties      ctx;
 
 	/** Workbench Model                                 */
 	private GridWorkbench	m_mWorkbench;
 	/** Current MTab                                    */
-	private GridTab			m_curTab;
+	private GridTab			currentTab;
 	/** Current GridController                          */
 	private GridController  m_curGC;
 	/** Current Window Panel                            */
@@ -610,9 +618,9 @@ public final class APanel extends CPanel
 	/** Current Window No                               */
 	private int				m_curWindowNo;
 	/** Current Window Panel Index                      */
-	private int				m_curTabIndex = -1;
+	private int				currentTabIndex = -1;
 	/**	Current Tab Order								*/
-	private APanelTab		m_curAPanelTab = null;
+	private APanelTab		currentAPanelTab = null;
 
 	/** Dispose active                                  */
 	private boolean         m_disposing = false;
@@ -628,6 +636,8 @@ public final class APanel extends CPanel
 	private boolean 		m_isPersonalLock = MRole.getDefault().isPersonalLock();
 	/**	Last Modifier of Action Event					*/
 	private int 			m_lastModifiers;
+	/**	Error on the load								*/
+	private String 			loadError = null;
 
 	private HashMap<Integer, GridController> includedMap;
 
@@ -656,7 +666,7 @@ public final class APanel extends CPanel
 
 		//  Single Window
 		if (AD_Workbench_ID == 0)
-			m_mWorkbench = new GridWorkbench(m_ctx, AD_Window_ID);
+			m_mWorkbench = new GridWorkbench(ctx, AD_Window_ID);
 		else
 		//  Workbench
 		{
@@ -668,7 +678,8 @@ public final class APanel extends CPanel
 		//	}
 		//	tabPanel.setWorkbench(true);
 		//	tabPanel.addChangeListener(this);
-			ADialog.warn(0, this, "","Not implemented yet");
+			log.warning("Workbench Not implemented yet [" + this + "]");
+			loadError = "Workbench Not implemented yet";
 			return false;
 		}
 
@@ -684,9 +695,9 @@ public final class APanel extends CPanel
 			m_curWindowNo = Env.createWindowNo (this);			                //  Timing: ca. 1.5 sec
 			m_mWorkbench.setWindowNo(wb, m_curWindowNo);
 			//  Set AutoCommit for this Window
-			Env.setAutoCommit(m_ctx, m_curWindowNo, Env.isAutoCommit(m_ctx));
-			boolean autoNew = Env.isAutoNew(m_ctx);
-			Env.setAutoNew(m_ctx, m_curWindowNo, autoNew);
+			Env.setAutoCommit(ctx, m_curWindowNo, Env.isAutoCommit(ctx));
+			boolean autoNew = Env.isAutoNew(ctx);
+			Env.setAutoNew(ctx, m_curWindowNo, autoNew);
 
 			//  Workbench Window
 			VTabbedPane window = null;
@@ -703,7 +714,7 @@ public final class APanel extends CPanel
 			}
 			//  Window Init
 			window.addChangeListener(this);
-
+			m_curWinTab = window;
 			/**
 			 *  Init Model
 			 */
@@ -719,32 +730,33 @@ public final class APanel extends CPanel
 				GridWindowVO wVO = AEnv.getMWindowVO(m_curWindowNo, m_mWorkbench.getWindowID(wb), 0);
 				if (wVO == null)
 				{
-					ADialog.error(0, null, "AccessTableNoView", "(No Window Model Info)");
+					log.warning("AccessTableNoView for [" + this + "]");
+					loadError = "AccessTableNoView";
 					return false;
 				}
-				GridWindow mWindow = new GridWindow (wVO, true);			                //  Timing: ca. 0.3-1 sec
+				mainWindow = new GridWindow (wVO, true);			                //  Timing: ca. 0.3-1 sec
 				//	Set SO/AutoNew for Window
-				Env.setContext(m_ctx, m_curWindowNo, "IsSOTrx", mWindow.isSOTrx());
-				if (!autoNew && mWindow.isTransaction())
-					Env.setAutoNew(m_ctx, m_curWindowNo, true);
-				m_mWorkbench.setMWindow(wb, mWindow);
+				Env.setContext(ctx, m_curWindowNo, "IsSOTrx", mainWindow.isSOTrx());
+				if (!autoNew && mainWindow.isTransaction())
+					Env.setAutoNew(ctx, m_curWindowNo, true);
+				m_mWorkbench.setMWindow(wb, mainWindow);
 				if (wb == 0)
-					m_onlyCurrentRows = mWindow.isTransaction();	//	default = only current
+					m_onlyCurrentRows = mainWindow.isTransaction();	//	default = only current
 				if (windowSize == null)
-					windowSize = mWindow.getWindowSize();
+					windowSize = mainWindow.getWindowSize();
 
 				/**
 				 *  Window Tabs
 				 */
-				int tabSize = mWindow.getTabCount();
+				int tabSize = mainWindow.getTabCount();
 				boolean goSingleRow = query != null;	//	Zoom Query
 				for (int tab = 0; tab < tabSize; tab++)
 				{
 					boolean included = false;
 					//  MTab
-					if (tab == 0) mWindow.initTab(0);
-					GridTab gTab = mWindow.getTab(tab);
-					Env.setContext(m_ctx, m_curWindowNo, tab, GridTab.CTX_TabLevel, Integer.toString(gTab.getTabLevel()));
+					if (tab == 0) mainWindow.initTab(0);
+					GridTab gTab = mainWindow.getTab(tab);
+					Env.setContext(ctx, m_curWindowNo, tab, GridTab.CTX_TabLevel, Integer.toString(gTab.getTabLevel()));
 					//  Query first tab
 					if (tab == 0)
 					{
@@ -763,7 +775,8 @@ public final class APanel extends CPanel
 					    	}
 							isCancel = false; //Goodwill
 							query = initialQuery (query, gTab);
-							if (isCancel) return false; //Cancel opening window
+							if (isCancel) 
+								return false; //Cancel opening window
 							if (query != null && query.getRecordCount() <= 1)
 								goSingleRow = true;
 						}
@@ -779,7 +792,7 @@ public final class APanel extends CPanel
 							gTab.setQuery(query);
 						}
 						if (wb == 0)
-							m_curTab = gTab;
+							currentTab = gTab;
 					}	//	query on first tab
 
 					Component tabElement = null;
@@ -794,10 +807,10 @@ public final class APanel extends CPanel
 					else	//	normal tab
 					{
 						GridController gc = new GridController();			        //  Timing: ca. .1 sec
-						CompiereColor cc = mWindow.getColor();
+						CompiereColor cc = mainWindow.getColor();
 						if (cc != null)
 							gc.setBackgroundColor(cc);                  //  set color on Window level
-						gc.initGrid(gTab, false, m_curWindowNo, this, mWindow, (tab != 0));  //  will set color on Tab level
+						gc.initGrid(gTab, false, m_curWindowNo, this, mainWindow, (tab != 0));  //  will set color on Tab level
 																		//  Timing: ca. 6-7 sec for first .2 for next
 						gc.addDataStatusListener(this);
 						gc.registerESCAction(aIgnore);      //  register Escape Key
@@ -835,7 +848,7 @@ public final class APanel extends CPanel
 							{
 								// FR [ 1757088 ]
 								gc.removeDataStatusListener(this);
-								GridSynchronizer synchronizer = new GridSynchronizer(mWindow, parent, gc);
+								GridSynchronizer synchronizer = new GridSynchronizer(mainWindow, parent, gc);
 								if (parent == m_curGC)
 									synchronizer.activateChild();
 								included = parent.includeTab(gc,this,synchronizer);
@@ -881,13 +894,13 @@ public final class APanel extends CPanel
 				tabPanel.addTab(m_mWorkbench.getName(wb), m_mWorkbench.getIcon(wb), window, m_mWorkbench.getDescription(wb));
 			}
 			//  Used for Env.getHeader
-			Env.setContext(m_ctx, m_curWindowNo, "WindowName", m_mWorkbench.getName(wb));
+			Env.setContext(ctx, m_curWindowNo, "WindowName", m_mWorkbench.getName(wb));
 
 		}   //  Workbench Loop
 
 		//  stateChanged (<->) triggered
 		toolBar.setName(getTitle());
-		m_curTab.getTableModel().setChanged(false);
+		currentTab.getTableModel().setChanged(false);
 		//	Set Detail Button
 		aDetail.setEnabled(0 != m_curWinTab.getTabCount()-1);
 
@@ -909,6 +922,14 @@ public final class APanel extends CPanel
 		m_curWinTab.requestFocusInWindow();
 		return true;
 	}	//	initPanel
+	
+	/**
+	 * Get load error if the window is not displayed
+	 * @return
+	 */
+	public String getLoadError() {
+		return loadError;
+	}
 
 	private boolean zoomToDetailTab(MQuery query) {
 		if (query != null && query.getZoomTableName() != null && query.getZoomColumnName() != null)
@@ -1056,12 +1077,12 @@ public final class APanel extends CPanel
 	 */
 	private MQuery initialQuery (MQuery query, GridTab mTab)
 	{
-		MRole role = MRole.getDefault(m_ctx, false);
+		MRole role = MRole.getDefault(ctx, false);
 		//	We have a (Zoom) query
 		if (query != null && query.isActive() && !role.isQueryMax(query.getRecordCount()))
 			return query;
 		//
-		StringBuffer where = new StringBuffer(Env.parseContext(m_ctx, m_curWindowNo, mTab.getWhereExtended(), false));
+		StringBuffer where = new StringBuffer(Env.parseContext(ctx, m_curWindowNo, mTab.getWhereExtended(), false));
 		//	Query automatically if high volume and no query
 		boolean require = mTab.isHighVolume();
 		if (!require && !m_onlyCurrentRows)				//	No Trx Window
@@ -1145,7 +1166,7 @@ public final class APanel extends CPanel
 			return;
 		log.info(e.getMessage());
 		String dbInfo = e.getMessage();
-		if (m_curTab != null && m_curTab.isQueryActive())
+		if (currentTab != null && currentTab.isQueryActive())
 			dbInfo = "[ " + dbInfo + " ]";
 		statusBar.setStatusDB(dbInfo, e);
 		if (!isNested)
@@ -1157,7 +1178,7 @@ public final class APanel extends CPanel
 			StringBuffer sb = new StringBuffer();
 			String msg = e.getMessage();
 			if (msg != null && msg.length() > 0)
-				sb.append(Msg.getMsg(m_ctx, e.getAD_Message()));
+				sb.append(Msg.getMsg(ctx, e.getAD_Message()));
 			String info = e.getInfo();
 			if (info != null && info.length() > 0)
 			{
@@ -1204,19 +1225,24 @@ public final class APanel extends CPanel
 
 		if(e.getAD_Message() != null && e.getAD_Message().equals("Saved"))
 			changed = false;
-		boolean readOnly = m_curTab.isReadOnly();
+		boolean readOnly = currentTab.isReadOnly();
 		boolean insertRecord = !readOnly;
 		if (insertRecord)
-			insertRecord = m_curTab.isInsertRecord();
+			insertRecord = currentTab.isInsertRecord();
 		aNew.setEnabled(((inserting && changedColumn>0) || !inserting) && insertRecord);
 		aCopy.setEnabled(!changed && insertRecord);
 		aRefresh.setEnabled(!changed);
 		aDelete.setEnabled(!changed && !readOnly);
 		aDeleteSelection.setEnabled(!changed && !readOnly);
 		//
-		if (readOnly && m_curTab.isAlwaysUpdateField())
+		if (readOnly && currentTab.isAlwaysUpdateField())
 			readOnly = false;
 		aIgnore.setEnabled(changed && !readOnly);
+		//	Add to recent items
+		if (changed && !readOnly && !aSave.isEnabled()) {
+			addToRecentItems();
+		}
+		//	
 		aSave.setEnabled(changed && !readOnly);
 		//
 		//	No Rows
@@ -1231,26 +1257,30 @@ public final class APanel extends CPanel
 
 		//	History	(on first Tab only)
 		if (isFirstTab())
-			aHistory.setPressed(!m_curTab.isOnlyCurrentRows());
+			aHistory.setPressed(!currentTab.isOnlyCurrentRows());
 
 		//	Transaction info
-		String trxInfo = m_curTab.getTrxInfo();
+		String trxInfo = currentTab.getTrxInfo();
 		if (trxInfo != null)
 			statusBar.setInfo(trxInfo);
-
+		//	Reload Field
+		if (m_curWinTab.getSelectedComponent() instanceof GridController) {
+			GridController gridController = (GridController)m_curWinTab.getSelectedComponent();
+			gridController.reloadFieldTrxInfo();
+		}
 		//	Check Attachment
-		boolean canHaveAttachment = m_curTab.canHaveAttachment();		//	not single _ID column
+		boolean canHaveAttachment = currentTab.canHaveAttachment();		//	not single _ID column
 		//
-		if (canHaveAttachment && e.isLoading() && m_curTab.getCurrentRow() > e.getLoadedRows())
+		if (canHaveAttachment && e.isLoading() && currentTab.getCurrentRow() > e.getLoadedRows())
 			canHaveAttachment = false;
-		if (canHaveAttachment && m_curTab.getRecord_ID() == -1)    //	No Key
+		if (canHaveAttachment && currentTab.getRecord_ID() == -1)    //	No Key
 			canHaveAttachment = false;
 		if (canHaveAttachment)
 		{
 			aAttachment.setEnabled(true);
-			aAttachment.setPressed(m_curTab.hasAttachment());
+			aAttachment.setPressed(currentTab.hasAttachment());
 			aChat.setEnabled(true);
-			aChat.setPressed(m_curTab.hasChat());
+			aChat.setPressed(currentTab.hasChat());
 		}
 		else
 		{
@@ -1259,12 +1289,35 @@ public final class APanel extends CPanel
 		}
 		//	Lock Indicator
 		if (m_isPersonalLock)
-			aLock.setPressed(m_curTab.isLocked());
+			aLock.setPressed(currentTab.isLocked());
 
 		if (m_curWinTab instanceof VTabbedPane)
 			((VTabbedPane)m_curWinTab).evaluate(e);
 	//	log.info("- fini", e.getMessage());
 	}	//	dataStatusChanged
+	
+    /**
+     * Add to recent items
+     */
+    private void addToRecentItems() {
+		//	Add Recent Items
+    	if (currentTab.getRecord_ID() > 0) {
+        	if (currentTabIndex == 0) {
+        		MRecentItem.addWindowChange(ctx, currentTab.getAD_Table_ID(),
+        					currentTab.getRecord_ID(), currentTab.getAD_Window_ID(),
+        					currentTab.getAD_Tab_ID());
+        	} else if (mainWindow != null){
+        		//	when a detail record is modified add header to recent items
+        		GridTab mainTab = mainWindow.getTab(0);
+        		if (mainTab != null) {
+        			MRecentItem.addWindowChange(ctx, mainTab.getAD_Table_ID(),
+        					mainTab.getRecord_ID(), mainTab.getAD_Window_ID(),
+        					mainTab.getAD_Tab_ID());
+        		}
+        	}
+        }
+	}
+	
 
 	/**
 	 *	Set Status Line to text
@@ -1359,7 +1412,7 @@ public final class APanel extends CPanel
 			else
 				throw new java.lang.IllegalArgumentException("Window-Tab does not contain GridControler");
 			//  change pointers
-			m_curTabIndex = m_curWinTab.getSelectedIndex();
+			currentTabIndex = m_curWinTab.getSelectedIndex();
 		}
 		else
 		{
@@ -1368,8 +1421,8 @@ public final class APanel extends CPanel
 			m_curWinTab = tp;
 			int tpIndex = m_curWinTab.getSelectedIndex();
 			//	detect no tab change
-			if (tpIndex == m_curTabIndex) return;
-			back = tpIndex < m_curTabIndex;
+			if (tpIndex == currentTabIndex) return;
+			back = tpIndex < currentTabIndex;
 			GridController gc = null;
 			if (m_curWinTab.getSelectedComponent() instanceof GridController)
 				gc = (GridController)m_curWinTab.getSelectedComponent();
@@ -1382,41 +1435,41 @@ public final class APanel extends CPanel
 			{
 				m_curGC.stopEditor(true);
 				//  has anything changed?
-				if (m_curTab.needSave(true, false))
+				if (currentTab.needSave(true, false))
 				{   //  do we have real change
-					if (m_curTab.needSave(true, true))
+					if (currentTab.needSave(true, true))
 					{
 						//	Automatic Save
-						if (Env.isAutoCommit(m_ctx, m_curWindowNo))
+						if (Env.isAutoCommit(ctx, m_curWindowNo))
 						{
-							if (!m_curTab.dataSave(true))
+							if (!currentTab.dataSave(true))
 							{	//  there is a problem, so we go back
 								showLastError();
-								m_curWinTab.setSelectedIndex(m_curTabIndex);
+								m_curWinTab.setSelectedIndex(currentTabIndex);
 								setBusy(false, true);
 								return;
 							}
 						}
 						//  explicitly ask when changing tabs
-						else if (ADialog.ask(m_curWindowNo, this, "SaveChanges?", m_curTab.getCommitWarning()))
+						else if (ADialog.ask(m_curWindowNo, this, "SaveChanges?", currentTab.getCommitWarning()))
 						{   //  yes we want to save
-							if (!m_curTab.dataSave(true))
+							if (!currentTab.dataSave(true))
 							{   //  there is a problem, so we go back
 								showLastError();
-								m_curWinTab.setSelectedIndex(m_curTabIndex);
+								m_curWinTab.setSelectedIndex(currentTabIndex);
 								setBusy(false, true);
 								return;
 							}
 						}
 						else    //  Don't save
 						{
-							int newRecord= m_curTab.getTableModel().getNewRow();     //VOSS COM
+							int newRecord= currentTab.getTableModel().getNewRow();     //VOSS COM
 
 							if( newRecord == -1)
-								m_curTab.dataIgnore();
+								currentTab.dataIgnore();
 							else
 							{
-								m_curWinTab.setSelectedIndex(m_curTabIndex);
+								m_curWinTab.setSelectedIndex(currentTabIndex);
 								setBusy(false, true);
 								return;
 							}
@@ -1424,14 +1477,14 @@ public final class APanel extends CPanel
 		            }
 
 					else    //  new record, but nothing changed
-						m_curTab.dataIgnore();
+						currentTab.dataIgnore();
 				}   //  there is a change
 			}
-			if (m_curAPanelTab != null)
+			if (currentAPanelTab != null)
 			{
-				m_curAPanelTab.saveData();
-				m_curAPanelTab.unregisterPanel();
-				m_curAPanelTab = null;
+				currentAPanelTab.saveData();
+				currentAPanelTab.unregisterPanel();
+				currentAPanelTab = null;
 			}
 
 			//	new tab
@@ -1439,7 +1492,7 @@ public final class APanel extends CPanel
 		//		m_curWinTab.setForegroundAt(m_curTabIndex, AdempierePLAF.getTextColor_Normal());
 		//	m_curWinTab.setForegroundAt(tpIndex, AdempierePLAF.getTextColor_OK());
 		//	previousIndex = m_curTabIndex;
-			m_curTabIndex = tpIndex;
+			currentTabIndex = tpIndex;
 			if (!isAPanelTab) {
 				m_curGC = gc;
 				initSwitchLineAction();
@@ -1449,9 +1502,9 @@ public final class APanel extends CPanel
 		//	Sort Tab Handling
 		if (isAPanelTab)
 		{
-			m_curAPanelTab = (APanelTab)m_curWinTab.getSelectedComponent();
-			m_curAPanelTab.registerAPanel(this);
-			m_curAPanelTab.loadData();
+			currentAPanelTab = (APanelTab)m_curWinTab.getSelectedComponent();
+			currentAPanelTab.registerAPanel(this);
+			currentAPanelTab.loadData();
 			// Consider that APanelTab (e.g. VSortTab) is not navigable - teo_sarca [ 1705444 ]
 			aFirst.setEnabled(false);
 			aPrevious.setEnabled(false);
@@ -1468,11 +1521,11 @@ public final class APanel extends CPanel
 				//needValidate = true;
 			}
 			m_curGC.activate();
-			m_curTab = m_curGC.getMTab();
+			currentTab = m_curGC.getMTab();
 
 			//	Refresh only current row when tab is current
-			if (back && m_curTab.isCurrent())
-				m_curTab.dataRefresh();
+			if (back && currentTab.isCurrent())
+				currentTab.dataRefresh();
 			else	//	Requery & autoSize
 			{
 				MRole role = MRole.getDefault();
@@ -1488,15 +1541,15 @@ public final class APanel extends CPanel
 				}*/
 			}
 			//  Set initial record
-			if (m_curTab.getRowCount() == 0)
+			if (currentTab.getRowCount() == 0)
 			{
 				//	Automatically create New Record, if none & tab not RO
-				if (!m_curTab.isReadOnly()
-					&& (Env.isAutoNew(m_ctx, m_curWindowNo) || m_curTab.isQueryNewRecord()))
+				if (!currentTab.isReadOnly()
+					&& (Env.isAutoNew(ctx, m_curWindowNo) || currentTab.isQueryNewRecord()))
 				{
-					log.config("No record - New - AutoNew=" + Env.isAutoNew(m_ctx, m_curWindowNo)
-						+ " - QueryNew=" + m_curTab.isQueryNewRecord());
-					m_curTab.dataNew(false);
+					log.config("No record - New - AutoNew=" + Env.isAutoNew(ctx, m_curWindowNo)
+						+ " - QueryNew=" + currentTab.isQueryNewRecord());
+					currentTab.dataNew(false);
 				}
 				else	//	No Records found
 				{
@@ -1504,43 +1557,14 @@ public final class APanel extends CPanel
 					aDelete.setEnabled(false);
 					aDeleteSelection.setEnabled(false);
 				}
-				m_curTab.navigateCurrent();     //  updates counter
+				currentTab.navigateCurrent();     //  updates counter
 				m_curGC.dynamicDisplay(0);
 			}
-			/*
-			if (needValidate)
-			{
-				JFrame frame = Env.getFrame(APanel.this);
-				if (frame != null)
-				{
-					//not sure why, the following lines is needed to make dynamic resize work
-					//tested on jdk1.5, 1.6 using jgoodies look and feel
-					frame.getPreferredSize();
-
-					if (frame.getExtendedState() != JFrame.MAXIMIZED_BOTH)
-					{
-						frame.setMinimumSize(frame.getSize());
-						revalidate();
-						SwingUtilities.invokeLater(new Runnable() {
-
-							public void run() {
-								JFrame frame = Env.getFrame(APanel.this);
-								frame.validate();
-								AEnv.showCenterScreen(frame);
-								frame.setMinimumSize(null);
-							}
-
-						});
-					}
-				}
-			}*/
-		//	else		##CHANGE
-		//		m_curTab.navigateCurrent();
 		}
 
 		//	Update <-> Navigation
-		aDetail.setEnabled(m_curTabIndex != m_curWinTab.getTabCount()-1);
-		aParent.setEnabled(m_curTabIndex != 0 && m_curWinTab.getTabCount() > 1);
+		aDetail.setEnabled(currentTabIndex != m_curWinTab.getTabCount()-1);
+		aParent.setEnabled(currentTabIndex != 0 && m_curWinTab.getTabCount() > 1);
 
 		//	History (on first tab only)
 		if (m_mWorkbench.getMWindow(getWindowIndex()).isTransaction())
@@ -1551,10 +1575,10 @@ public final class APanel extends CPanel
 			aHistory.setEnabled(false);
 		}
 		//	Document Print
-		aPrint.setEnabled(m_curTab.isPrinted());
-		aPrintPreview.setEnabled(m_curTab.isPrinted());
+		aPrint.setEnabled(currentTab.isPrinted());
+		aPrintPreview.setEnabled(currentTab.isPrinted());
 		//	Query
-		aFind.setPressed(m_curTab.isQueryActive());
+		aFind.setPressed(currentTab.isQueryActive());
 
 		//	Order Tab
 		if (isAPanelTab)
@@ -1562,12 +1586,23 @@ public final class APanel extends CPanel
 			aMulti.setPressed(false);
 			aMulti.setEnabled(false);
 			aNew.setEnabled(false);
+			aCopy.setEnabled(false);
+			aReport.setEnabled(false);
+			aPrint.setEnabled(false);
+			aPrintPreview.setEnabled(false);
+			aArchive.setEnabled(false);
+			aWorkflow.setEnabled(false);
+			aRequest.setEnabled(false);
+			aProcess.setEnabled(false);
+			aProduct.setEnabled(false);
+			aZoomAcross.setEnabled(false);
 			aDelete.setEnabled(false);
 			aDeleteSelection.setEnabled(false);
 			aFind.setEnabled(false);
 			aRefresh.setEnabled(false);
 			aAttachment.setEnabled(false);
 			aChat.setEnabled(false);
+			aHistory.setEnabled(false);
 		}
 		else	//	Grid Tab
 		{
@@ -1577,6 +1612,14 @@ public final class APanel extends CPanel
 			aRefresh.setEnabled(true);
 			aAttachment.setEnabled(true);
 			aChat.setEnabled(true);
+			//	
+			aReport.setEnabled(true);
+			aArchive.setEnabled(true);
+			aWorkflow.setEnabled(true);
+			aRequest.setEnabled(true);
+			aProcess.setEnabled(true);
+			aProduct.setEnabled(true);
+			aZoomAcross.setEnabled(true);
 		}
 		//
 		m_curWinTab.requestFocusInWindow();
@@ -1740,13 +1783,13 @@ public final class APanel extends CPanel
 			{	/*cmd_save(false);*/
 				m_curGC.getTable().removeEditor();
 				m_curGC.acceptEditorChanges();
-				m_curTab.navigate(0);
+				currentTab.navigate(0);
 			}
 			else if (cmd.equals(aSwitchLinesUpAction.getName()))
 			{
 				//up-key + shift
 				m_curGC.getTable().removeEditor();
-				m_curTab.switchRows(m_curTab.getCurrentRow(), m_curTab.getCurrentRow() - 1, m_curGC.getTable().getSortColumn(), m_curGC.getTable().isSortAscending());
+				currentTab.switchRows(currentTab.getCurrentRow(), currentTab.getCurrentRow() - 1, m_curGC.getTable().getSortColumn(), m_curGC.getTable().isSortAscending());
 				m_curGC.getTable().requestFocus();
 			}
 			else if (cmd.equals(aPrevious.getName()))
@@ -1755,16 +1798,16 @@ public final class APanel extends CPanel
 				m_curGC.getTable().removeEditor();
 				m_curGC.acceptEditorChanges();
 				if ((e.getModifiers() & ActionEvent.SHIFT_MASK) != 0) {
-					m_curTab.switchRows(m_curTab.getCurrentRow(), m_curTab.getCurrentRow() - 1, m_curGC.getTable().getSortColumn(), m_curGC.getTable().isSortAscending());
+					currentTab.switchRows(currentTab.getCurrentRow(), currentTab.getCurrentRow() - 1, m_curGC.getTable().getSortColumn(), m_curGC.getTable().isSortAscending());
 				} else {
-					m_curTab.navigateRelative(-1);
+					currentTab.navigateRelative(-1);
 				}
 			}
 			else if (cmd.equals(aSwitchLinesDownAction.getName()))
 			{
 				//down-key + shift
 				m_curGC.getTable().removeEditor();
-				m_curTab.switchRows(m_curTab.getCurrentRow(), m_curTab.getCurrentRow() + 1, m_curGC.getTable().getSortColumn(), m_curGC.getTable().isSortAscending());
+				currentTab.switchRows(currentTab.getCurrentRow(), currentTab.getCurrentRow() + 1, m_curGC.getTable().getSortColumn(), m_curGC.getTable().isSortAscending());
 				m_curGC.getTable().requestFocus();
 			}
 			else if (cmd.equals(aNext.getName()))
@@ -1773,16 +1816,16 @@ public final class APanel extends CPanel
 				m_curGC.getTable().removeEditor();
 				m_curGC.acceptEditorChanges();
 				if ((e.getModifiers() & ActionEvent.SHIFT_MASK) != 0) {
-					m_curTab.switchRows(m_curTab.getCurrentRow(), m_curTab.getCurrentRow() + 1, m_curGC.getTable().getSortColumn(), m_curGC.getTable().isSortAscending());
+					currentTab.switchRows(currentTab.getCurrentRow(), currentTab.getCurrentRow() + 1, m_curGC.getTable().getSortColumn(), m_curGC.getTable().isSortAscending());
 				} else {
-					m_curTab.navigateRelative(+1);
+					currentTab.navigateRelative(+1);
 				}
 			}
 			else if (cmd.equals(aLast.getName()))
 			{	/*cmd_save(false);*/
 				m_curGC.getTable().removeEditor();
 				m_curGC.acceptEditorChanges();
-				m_curTab.navigate(m_curTab.getRowCount()-1);
+				currentTab.navigate(currentTab.getRowCount()-1);
 			}
 			else if (cmd.equals(aParent.getName()))
 				cmd_parent();
@@ -1797,12 +1840,12 @@ public final class APanel extends CPanel
 			//	Tools
 			else if (aWorkflow != null && cmd.equals(aWorkflow.getName()))
 			{
-				if (m_curTab.getRecord_ID() <= 0)
+				if (currentTab.getRecord_ID() <= 0)
 					;
-				else if (m_curTab.getTabNo() == 0 && m_mWorkbench.getMWindow(getWindowIndex()).isTransaction())
-					AEnv.startWorkflowProcess(m_curTab.getAD_Table_ID(), m_curTab.getRecord_ID());
+				else if (currentTab.getTabNo() == 0 && m_mWorkbench.getMWindow(getWindowIndex()).isTransaction())
+					AEnv.startWorkflowProcess(currentTab.getAD_Table_ID(), currentTab.getRecord_ID());
 				else
-					AEnv.startWorkflowProcess(m_curTab.getAD_Table_ID(), m_curTab.getRecord_ID());
+					AEnv.startWorkflowProcess(currentTab.getAD_Table_ID(), currentTab.getRecord_ID());
 			}
 			else if (aWinSize != null && cmd.equals(aWinSize.getName()))
 				cmd_winSize();
@@ -1823,7 +1866,7 @@ public final class APanel extends CPanel
 			String msg = ex.getMessage();
 			if (msg == null || msg.length() == 0)
 				msg = ex.toString();
-			msg = Msg.parseTranslation(m_ctx, msg);
+			msg = Msg.parseTranslation(ctx, msg);
 			ADialog.error(m_curWindowNo, this, "Error", msg);
 		}
 		//
@@ -1854,8 +1897,8 @@ public final class APanel extends CPanel
 	 */
 	private String processButtonCallout (VButton button)
 	{
-		GridField field = m_curTab.getField(button.getColumnName());
-		return m_curTab.processCallout(field);
+		GridField field = currentTab.getField(button.getColumnName());
+		return currentTab.processCallout(field);
 	}	//	processButtonCallout
 
 	/**
@@ -1865,7 +1908,7 @@ public final class APanel extends CPanel
 	private void cmd_new (boolean copy)
 	{
 		log.config("copy=" + copy);
-		if (!m_curTab.isInsertRecord())
+		if (!currentTab.isInsertRecord())
 		{
 			log.warning("Insert Record disabled for Tab");
 			return;
@@ -1878,7 +1921,7 @@ public final class APanel extends CPanel
 		// m_curTab.needSave instead might miss unfilled mandatory fields.
 		if(aSave.isEnabled()){
 			//	Automatic Save
-			if (Env.isAutoCommit(m_ctx, m_curWindowNo))
+			if (Env.isAutoCommit(ctx, m_curWindowNo))
 			{
 				if (!cmd_save(true))
 				{
@@ -1886,7 +1929,7 @@ public final class APanel extends CPanel
 				}
 			}
 			//  explicitly ask when changing tabs
-			else if (ADialog.ask(m_curWindowNo, this, "SaveChanges?", m_curTab.getCommitWarning()))
+			else if (ADialog.ask(m_curWindowNo, this, "SaveChanges?", currentTab.getCommitWarning()))
 			{   //  yes we want to save
 				if (!cmd_save(true))
 				{
@@ -1894,11 +1937,11 @@ public final class APanel extends CPanel
 				}
 			}
 			else    //  Don't save
-				m_curTab.dataIgnore();
+				currentTab.dataIgnore();
 		}
-		if (copy && m_curTab.getCurrentRow() < 0)
+		if (copy && currentTab.getCurrentRow() < 0)
 			copy = false;
-		m_curTab.dataNew (copy);
+		currentTab.dataNew (copy);
 		m_curGC.dynamicDisplay(0);
 	//	m_curTab.getTableModel().setChanged(false);
 	}   //  cmd_new
@@ -1906,113 +1949,68 @@ public final class APanel extends CPanel
 	/**
 	 *  Confirm & delete record
 	 */
-	private void cmd_delete()
-	{
-		if (m_curTab.isReadOnly())
+	private void cmd_delete() {
+		if (currentTab.isReadOnly())
 			return;
-		int keyID = m_curTab.getRecord_ID();
-		if (ADialog.ask(m_curWindowNo, this, "DeleteRecord?"))
-			if (m_curTab.dataDelete())
-				m_curGC.rowChanged(false, keyID);
-		m_curGC.dynamicDisplay(0);
-	}   //  cmd_delete
+		VTable table = m_curGC.getTable();
 
+		int[] selection = table.getSelectedRows();
+		Arrays.sort(selection);
+
+		if (selection.length <= 1) {
+			int keyID = currentTab.getRecord_ID();
+			if (ADialog.ask(m_curWindowNo, this, "DeleteRecord?")) {
+				if (currentTab.dataDelete()) {
+					m_curGC.rowChanged(false, keyID);
+					m_curGC.dynamicDisplay(0);
+				}
+			}
+		} else {
+			//	FR [ 564 ]
+			ArrayList<Integer> selectionIndex = new ArrayList<>();
+			for(int i = 0; i < selection.length; i++) {
+				int index = table.convertRowIndexToModel(selection[i]);
+				selectionIndex.add(index);
+			}
+			//	Delete only selection
+			cmd_deleteSelection(selectionIndex);
+		}
+	}   //  cmd_delete
+	
 	/**
 	 * Show a list to select one or more items to delete.
 	 */
-	private void cmd_deleteSelection(){
-		if (m_curTab.isReadOnly())
+	private void cmd_deleteSelection() {
+		cmd_deleteSelection(null);
+	}
+	
+	/**
+	 * Show a list to select one or more items to delete.
+	 * @param selectionIndex
+	 */
+	private void cmd_deleteSelection(List<Integer> selectionIndex) {
+		if (currentTab.isReadOnly())
 			return;
-		//show table with deletion rows -> by identifiers columns
-		JPanel messagePanel = new JPanel();
-		JList list = new JList();
-		JScrollPane scrollPane = new JScrollPane(list);
-		Vector<String> data = new Vector<String>();
-		// FR [ 2877111 ]
-		final String keyColumnName = m_curTab.getKeyColumnName();
-		String sql = null;
-		if (! "".equals(keyColumnName)) {
-			sql = MLookupFactory.getLookup_TableDirEmbed(Env.getLanguage(m_ctx), keyColumnName, "[?","?]")
-			   .replace("[?.?]", "?");
-		}
-		int noOfRows = m_curTab.getRowCount();
-		for(int i = 0; i < noOfRows; i++)
-		{
-			StringBuffer displayValue = new StringBuffer();
-			if ("".equals(keyColumnName))
-			{
-				ArrayList<String> parentColumnNames = m_curTab.getParentColumnNames();
-				for (Iterator<String> iter = parentColumnNames.iterator(); iter.hasNext();)
-				{
-					String columnName = iter.next();
-					GridField field = m_curTab.getField(columnName);
-					if(field.isLookup()){
-						Lookup lookup = field.getLookup();
-						if (lookup != null){
-							displayValue = displayValue.append(lookup.getDisplay(m_curTab.getValue(i,columnName))).append(" | ");
-						} else {
-							displayValue = displayValue.append(m_curTab.getValue(i,columnName)).append(" | ");
-						}
-					} else {
-						displayValue = displayValue.append(m_curTab.getValue(i,columnName)).append(" | ");
-					}
-				}
-			} else {
-				final int id = m_curTab.getKeyID(i);
-				String value = DB.getSQLValueStringEx(null, sql, id);
-				if (value != null)
-					value = value.replace(" - ", " | ");
-				displayValue.append(value);
-				// Append ID
-				if (displayValue.length() == 0 || CLogMgt.isLevelFine())
-				{
-					if (displayValue.length() > 0)
-						displayValue.append(" | ");
-					displayValue.append("<").append(id).append(">");
-				}
-			}
-			//
-			data.add(displayValue.toString());
-		}
-		// FR [ 2877111 ]
-		list.setListData(data);
-
-		list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-		messagePanel.add(scrollPane);
-
-		final JOptionPane pane = new JOptionPane(
-				messagePanel, // message
-				JOptionPane.QUESTION_MESSAGE, // messageType
-				JOptionPane.OK_CANCEL_OPTION); // optionType
-		final JDialog deleteDialog = pane.createDialog(this.getParent(), Msg.getMsg(m_ctx, "DeleteSelection"));
-		deleteDialog.setVisible(true);
-		Integer okCancel = (Integer) pane.getValue();
-		if(okCancel != null && okCancel == JOptionPane.OK_OPTION)
-		{
+		//	
+		DeleteSelection dSelection = new DeleteSelection(m_window, currentTab, selectionIndex);
+		dSelection.showDialog();
+		//	Verify Selection
+		if(dSelection.isOkPressed()) {
 			log.fine("ok");
-			Object[] selectedValues = list.getSelectedValues();
-			for (int i = 0; i < selectedValues.length; i++)
-			{
-				log.fine(selectedValues[i].toString());
-			}
-			int[] indices = list.getSelectedIndices();
-			Arrays.sort(indices);
+			int[] indices = dSelection.getSelection();
 			int offset = 0;
-			for (int i = 0; i < indices.length; i++)
-			{
+			for (int i = 0; i < indices.length; i++) {
 				//m_curTab.setCurrentRow(indices[i]-offset);
-				m_curTab.navigate(indices[i]-offset);
-				int keyID = m_curTab.getRecord_ID();
-				if (m_curTab.dataDelete())
-				{
+				currentTab.navigate(indices[i]-offset);
+				int keyID = currentTab.getRecord_ID();
+				if (currentTab.dataDelete()) {
 					m_curGC.rowChanged(false, keyID);
 					offset++;
 				}
 			}
+			//	Refresh
 			m_curGC.dynamicDisplay(0);
-		}
-		else
-		{
+		} else {
 			log.fine("cancel");
 		}
 	}//cmd_deleteSelection
@@ -2024,32 +2022,33 @@ public final class APanel extends CPanel
 	 */
 	public boolean cmd_save (boolean manualCmd)
 	{
-		if (m_curAPanelTab != null)
+		if (currentAPanelTab != null)
 			manualCmd = false;
 		log.config("Manual=" + manualCmd);
 		m_errorDisplayed = false;
 		m_curGC.stopEditor(true);
 		m_curGC.acceptEditorChanges();
-
-		if (m_curAPanelTab != null)
-		{
-			m_curAPanelTab.saveData();
+		//	Was changed
+		boolean wasChanged = aSave.isEnabled();
+		//	
+		if (currentAPanelTab != null) {
+			currentAPanelTab.saveData();
 			aSave.setEnabled(false);	//	set explicitly
 		}
 
-		if (m_curTab.getCommitWarning().length() > 0 && m_curTab.needSave(true, false))
-			if (!ADialog.ask(m_curWindowNo, this, "SaveChanges?", m_curTab.getCommitWarning()))
+		if (currentTab.getCommitWarning().length() > 0 && currentTab.needSave(true, false))
+			if (!ADialog.ask(m_curWindowNo, this, "SaveChanges?", currentTab.getCommitWarning()))
 				return false;
 
 		//  manually initiated
-		boolean retValue = m_curTab.dataSave(manualCmd);
+		boolean retValue = currentTab.dataSave(manualCmd);
 		//   if there is no previous error
 		if (manualCmd && !retValue && !m_errorDisplayed)
 		{
 			showLastError();
 		}
 		if (retValue)
-			m_curGC.rowChanged(true, m_curTab.getRecord_ID());
+			m_curGC.rowChanged(true, currentTab.getRecord_ID());
 		if (manualCmd) {
 			m_curGC.dynamicDisplay(0);
 			if (!isNested)
@@ -2061,7 +2060,10 @@ public final class APanel extends CPanel
 			m_curGC.getGCParent().refreshMTab(m_curGC);
 		}
 		//END - [FR 1953734]
-
+		//	Add to recent item
+		if(wasChanged) {
+			addToRecentItems();
+		}
 		return retValue;
 	}   //  cmd_save
 
@@ -2071,7 +2073,7 @@ public final class APanel extends CPanel
 			ADialog.error(m_curWindowNo, this, null, msg);
 		else
 			ADialog.error(m_curWindowNo, this, "SaveIgnored");
-		setStatusLine(Msg.getMsg(m_ctx, "SaveIgnored"), true);
+		setStatusLine(Msg.getMsg(ctx, "SaveIgnored"), true);
 	}
 
 	/**
@@ -2081,11 +2083,11 @@ public final class APanel extends CPanel
 	{
 		m_curGC.stopEditor(false);
 		// Ignore changes in APanelTab (e.g. VSortTab) - teo_sarca [ 1705429 ]
-		if (m_curAPanelTab != null)
+		if (currentAPanelTab != null)
 		{
-			m_curAPanelTab.loadData();
+			currentAPanelTab.loadData();
 		}
-		m_curTab.dataIgnore();
+		currentTab.dataIgnore();
 		m_curGC.dynamicDisplay(0);
 
 	}   //  cmd_ignore
@@ -2096,7 +2098,7 @@ public final class APanel extends CPanel
 	private void cmd_refresh()
 	{
 		cmd_save(false);
-		m_curTab.dataRefreshAll();
+		currentTab.dataRefreshAll();
 		m_curGC.dynamicDisplay(0);
 	}   //  cmd_refresh
 
@@ -2106,7 +2108,7 @@ public final class APanel extends CPanel
 	private void cmd_report ()
 	{
 		log.info("");
-		if (!MRole.getDefault().isCanReport(m_curTab.getAD_Table_ID()))
+		if (!MRole.getDefault().isCanReport(currentTab.getAD_Table_ID()))
 		{
 			ADialog.error(m_curWindowNo, this, "AccessCannotReport");
 			return;
@@ -2115,18 +2117,18 @@ public final class APanel extends CPanel
 		cmd_save(false);
 
 		//	Query
-		MQuery query = new MQuery(m_curTab.getTableName());
+		MQuery query = new MQuery(currentTab.getTableName());
 		//	Link for detail records
-		String queryColumn = m_curTab.getLinkColumnName();
+		String queryColumn = currentTab.getLinkColumnName();
 		//	Current row otherwise
 		if (queryColumn.length() == 0)
-			queryColumn = m_curTab.getKeyColumnName();
+			queryColumn = currentTab.getKeyColumnName();
 		//	Find display
 		String infoName = null;
 		String infoDisplay = null;
-		for (int i = 0; i < m_curTab.getFieldCount(); i++)
+		for (int i = 0; i < currentTab.getFieldCount(); i++)
 		{
-			GridField field = m_curTab.getField(i);
+			GridField field = currentTab.getField(i);
 			if (field.isKey())
 				infoName = field.getHeader();
 			if ((field.getColumnName().equals("Name") || field.getColumnName().equals("DocumentNo") )
@@ -2139,15 +2141,15 @@ public final class APanel extends CPanel
 		{
 			if (queryColumn.endsWith("_ID"))
 				query.addRestriction(queryColumn, MQuery.EQUAL,
-					new Integer(Env.getContextAsInt(m_ctx, m_curWindowNo, queryColumn)),
+					new Integer(Env.getContextAsInt(ctx, m_curWindowNo, queryColumn)),
 					infoName, infoDisplay);
 			else
 				query.addRestriction(queryColumn, MQuery.EQUAL,
-					Env.getContext(m_ctx, m_curWindowNo, queryColumn),
+					Env.getContext(ctx, m_curWindowNo, queryColumn),
 					infoName, infoDisplay);
 		}
 
-		new AReport (m_curTab.getAD_Table_ID(), aReport.getButton(), query, this, m_curWindowNo, m_curTab.getWhereExtended());
+		new AReport (currentTab.getAD_Table_ID(), aReport.getButton(), query, this, m_curWindowNo, currentTab.getWhereExtended());
 	}	//	cmd_report
 
 
@@ -2156,7 +2158,7 @@ public final class APanel extends CPanel
 	 */
 	private void cmd_zoomAcross()
 	{
-		int record_ID = m_curTab.getRecord_ID();
+		int record_ID = currentTab.getRecord_ID();
 		log.info("ID=" + record_ID);
 		if (record_ID <= 0)
 			return;
@@ -2164,21 +2166,21 @@ public final class APanel extends CPanel
 		//	Query
 		MQuery query = new MQuery();
 		//	Current row
-		String link = m_curTab.getKeyColumnName();
+		String link = currentTab.getKeyColumnName();
 		//	Link for detail records
 		if (link.length() == 0)
-			link = m_curTab.getLinkColumnName();
+			link = currentTab.getLinkColumnName();
 		if (link.length() != 0)
 		{
 			if (link.endsWith("_ID"))
 				query.addRestriction(link, MQuery.EQUAL,
-					new Integer(Env.getContextAsInt(m_ctx, m_curWindowNo, link)));
+					new Integer(Env.getContextAsInt(ctx, m_curWindowNo, link)));
 			else
 				query.addRestriction(link, MQuery.EQUAL,
-					Env.getContext(m_ctx, m_curWindowNo, link));
+					Env.getContext(ctx, m_curWindowNo, link));
 		}
-		new AZoomAcross(aZoomAcross.getButton(), m_curTab.getTableName(),
-				m_curTab.getAD_Window_ID(), query);
+		new AZoomAcross(aZoomAcross.getButton(), currentTab.getTableName(),
+				currentTab.getAD_Window_ID(), query);
 	}	//	cmd_zoom
 
 	/**
@@ -2186,14 +2188,14 @@ public final class APanel extends CPanel
 	 */
 	private void cmd_request()
 	{
-		int record_ID = m_curTab.getRecord_ID();
+		int record_ID = currentTab.getRecord_ID();
 		log.info("ID=" + record_ID);
 		if (record_ID <= 0)
 			return;
 
-		int AD_Table_ID = m_curTab.getAD_Table_ID();
+		int AD_Table_ID = currentTab.getAD_Table_ID();
 		int C_BPartner_ID = 0;
-		Object BPartner_ID = m_curTab.getValue("C_BPartner_ID");
+		Object BPartner_ID = currentTab.getValue("C_BPartner_ID");
 		if (BPartner_ID != null)
 			C_BPartner_ID = ((Integer)BPartner_ID).intValue();
 		new ARequest (aRequest.getButton(), AD_Table_ID, record_ID, C_BPartner_ID);
@@ -2204,12 +2206,12 @@ public final class APanel extends CPanel
 	 */
 	private void cmd_archive()
 	{
-		int record_ID = m_curTab.getRecord_ID();
+		int record_ID = currentTab.getRecord_ID();
 		log.info("ID=" + record_ID);
 		if (record_ID <= 0)
 			return;
 
-		int AD_Table_ID = m_curTab.getAD_Table_ID();
+		int AD_Table_ID = currentTab.getAD_Table_ID();
 		new AArchive (aArchive.getButton(), AD_Table_ID, record_ID);
 	}	//	cmd_archive
 
@@ -2227,7 +2229,7 @@ public final class APanel extends CPanel
 	private void cmd_print(boolean printPreview)
 	{
 		//	Get process defined for this tab
-		int AD_Process_ID = m_curTab.getAD_Process_ID();
+		int AD_Process_ID = currentTab.getAD_Process_ID();
 		log.info("ID=" + AD_Process_ID);
 
 		//	No report defined
@@ -2239,11 +2241,11 @@ public final class APanel extends CPanel
 
 		cmd_save(false);
 		//
-		int table_ID = m_curTab.getAD_Table_ID();
-		int record_ID = m_curTab.getRecord_ID();
+		int table_ID = currentTab.getAD_Table_ID();
+		int record_ID = currentTab.getRecord_ID();
 		ProcessInfo pi = new ProcessInfo (getTitle(), AD_Process_ID, table_ID, record_ID);
-		pi.setAD_User_ID (Env.getAD_User_ID(m_ctx));
-		pi.setAD_Client_ID (Env.getAD_Client_ID(m_ctx));
+		pi.setAD_User_ID (Env.getAD_User_ID(ctx));
+		pi.setAD_Client_ID (Env.getAD_Client_ID(ctx));
 		pi.setPrintPreview(printPreview);
 
 		ProcessCtl.process(this, m_curWindowNo, pi, null); //  calls lockUI, unlockUI
@@ -2255,10 +2257,10 @@ public final class APanel extends CPanel
 	 */
 	private void cmd_find()
 	{
-		if (m_curTab == null)
+		if (currentTab == null)
 			return;
 		cmd_save(false);
-		new ASearch(aFind,Env.getFrame(this), m_curWindowNo,m_curGC, m_curTab, m_onlyCurrentDays);
+		new ASearch(aFind,Env.getFrame(this), m_curWindowNo,m_curGC, currentTab, m_onlyCurrentDays);
 	}	//	cmd_find
 
 	/**
@@ -2266,7 +2268,7 @@ public final class APanel extends CPanel
 	 */
 	private void cmd_attachment()
 	{
-		int record_ID = m_curTab.getRecord_ID();
+		int record_ID = currentTab.getRecord_ID();
 		log.info("Record_ID=" + record_ID);
 		if (record_ID == -1)	//	No Key
 		{
@@ -2276,10 +2278,10 @@ public final class APanel extends CPanel
 
 	//	Attachment va =
 		new Attachment (Env.getFrame(this), m_curWindowNo,
-			m_curTab.getAD_AttachmentID(), m_curTab.getAD_Table_ID(), record_ID, null);
+			currentTab.getAD_AttachmentID(), currentTab.getAD_Table_ID(), record_ID, null);
 		//
-		m_curTab.loadAttachments();				//	reload
-		aAttachment.setPressed(m_curTab.hasAttachment());
+		currentTab.loadAttachments();				//	reload
+		aAttachment.setPressed(currentTab.hasAttachment());
 	}	//	attachment
 
 	/**
@@ -2287,7 +2289,7 @@ public final class APanel extends CPanel
 	 */
 	private void cmd_chat()
 	{
-		int record_ID = m_curTab.getRecord_ID();
+		int record_ID = currentTab.getRecord_ID();
 		log.info("Record_ID=" + record_ID);
 		if (record_ID == -1)	//	No Key
 		{
@@ -2297,9 +2299,9 @@ public final class APanel extends CPanel
 		//	Find display
 		String infoName = null;
 		String infoDisplay = null;
-		for (int i = 0; i < m_curTab.getFieldCount(); i++)
+		for (int i = 0; i < currentTab.getFieldCount(); i++)
 		{
-			GridField field = m_curTab.getField(i);
+			GridField field = currentTab.getField(i);
 			if (field.isKey())
 				infoName = field.getHeader();
 			if ((field.getColumnName().equals("Name") || field.getColumnName().equals("DocumentNo") )
@@ -2312,11 +2314,11 @@ public final class APanel extends CPanel
 		//
 	//	AChat va =
 		new AChat (Env.getFrame(this), m_curWindowNo,
-			m_curTab.getCM_ChatID(), m_curTab.getAD_Table_ID(), record_ID,
+			currentTab.getCM_ChatID(), currentTab.getAD_Table_ID(), record_ID,
 			description, null);
 		//
-		m_curTab.loadChats();				//	reload
-		aChat.setPressed(m_curTab.hasChat());
+		currentTab.loadChats();				//	reload
+		aChat.setPressed(currentTab.hasChat());
 	}	//	chat
 
 	/**
@@ -2327,20 +2329,20 @@ public final class APanel extends CPanel
 		log.info("Modifiers=" + m_lastModifiers);
 		if (!m_isPersonalLock)
 			return;
-		int record_ID = m_curTab.getRecord_ID();
+		int record_ID = currentTab.getRecord_ID();
 		if (record_ID == -1)	//	No Key
 			return;
 		//	Control Pressed
 		if ((m_lastModifiers & InputEvent.CTRL_MASK) != 0)
 		{
-			new RecordAccessDialog(Env.getFrame(this), m_curTab.getAD_Table_ID(), record_ID);
+			new RecordAccessDialog(Env.getFrame(this), currentTab.getAD_Table_ID(), record_ID);
 		}
 		else
 		{
-			m_curTab.lock (Env.getCtx(), record_ID, aLock.getButton().isSelected());
-			m_curTab.loadAttachments();			//	reload
+			currentTab.lock (Env.getCtx(), record_ID, aLock.getButton().isSelected());
+			currentTab.loadAttachments();			//	reload
 		}
-		aLock.setPressed(m_curTab.isLocked());
+		aLock.setPressed(currentTab.isLocked());
 	}	//	lock
 
 	/**
@@ -2351,7 +2353,7 @@ public final class APanel extends CPanel
 		log.info("");
 		if (m_mWorkbench.getMWindow(getWindowIndex()).isTransaction())
 		{
-			if (m_curTab.needSave(true, true) && !cmd_save(false))
+			if (currentTab.needSave(true, true) && !cmd_save(false))
 				return;
 
 			Point pt = new Point (0, aHistory.getButton().getBounds().height);
@@ -2367,7 +2369,7 @@ public final class APanel extends CPanel
 				else
 					m_onlyCurrentRows = false;
 				//
-				m_curTab.setQuery(null);	//	reset previous queries
+				currentTab.setQuery(null);	//	reset previous queries
 				MRole role = MRole.getDefault();
 				int maxRows = role.getMaxQueryRecords();
 				//
@@ -2379,7 +2381,7 @@ public final class APanel extends CPanel
 			// Restore history button's pressed status
 			else {
 				if (isFirstTab())
-					aHistory.setPressed(!m_curTab.isOnlyCurrentRows());
+					aHistory.setPressed(!currentTab.isOnlyCurrentRows());
 			}
 		}
 	}	//	cmd_history
@@ -2426,7 +2428,7 @@ public final class APanel extends CPanel
 			size = new Dimension (0,0);
 		}
 		//
-		MWindow win = new MWindow(m_ctx, m_curTab.getAD_Window_ID(), null);
+		MWindow win = new MWindow(ctx, currentTab.getAD_Window_ID(), null);
 		win.setWindowSize(size);
 		win.saveEx();
 	}	//	cmdWinSize
@@ -2445,63 +2447,66 @@ public final class APanel extends CPanel
 	{
 		log.info(vButton.toString());
 
-		if (m_curTab.hasChangedCurrentTabAndParents()) {
+		if (currentTab.hasChangedCurrentTabAndParents()) {
 			String msg = CLogger.retrieveErrorString("Please ReQuery Window");
 			ADialog.error(m_curWindowNo, this, null, msg);
 			return;
 		}
 
 		boolean startWOasking = false;
-//		boolean batch = false;
 		String col = vButton.getColumnName();
 
 		//  Zoom
 		if (col.equals("Record_ID"))
 		{
-			int AD_Table_ID = Env.getContextAsInt (m_ctx, m_curWindowNo, "AD_Table_ID");
-			int Record_ID = Env.getContextAsInt (m_ctx, m_curWindowNo, "Record_ID");
+			int AD_Table_ID = Env.getContextAsInt (ctx, m_curWindowNo, "AD_Table_ID");
+			int Record_ID = Env.getContextAsInt (ctx, m_curWindowNo, "Record_ID");
 			AEnv.zoom(AD_Table_ID, Record_ID);
 			return;
 		}   //  Zoom
 
 		//  save first	---------------
-		if (m_curTab.needSave(true, false))
+		if (currentTab.needSave(true, false))
 			if (!cmd_save(true))
 				return;
 		// Save included tabs if necessary - teo_sarca BF [ 2876892 ]
-		for (GridTab includedTab : m_curTab.getIncludedTabs())
+		for (GridTab includedTab : currentTab.getIncludedTabs())
 		{
 			if (includedTab.needSave(true, false))
 				if(!includedTab.dataSave(true))
 					return;
 		}
 		//
-		int table_ID = m_curTab.getAD_Table_ID();
+		int table_ID = currentTab.getAD_Table_ID();
 		//	Record_ID
-		int record_ID = m_curTab.getRecord_ID();
+		int record_ID = currentTab.getRecord_ID();
 		//	Record_ID - Language Handling
-		if (record_ID == -1 && m_curTab.getKeyColumnName().equals("AD_Language"))
-			record_ID = Env.getContextAsInt (m_ctx, m_curWindowNo, "AD_Language_ID");
+		if (record_ID == -1 && currentTab.getKeyColumnName().equals("AD_Language"))
+			record_ID = Env.getContextAsInt (ctx, m_curWindowNo, "AD_Language_ID");
 		//	Record_ID - Change Log ID
 		if (record_ID == -1
 			&& (vButton.getProcess_ID() == 306 || vButton.getProcess_ID() == 307))
 		{
-			Integer id = (Integer)m_curTab.getValue("AD_ChangeLog_ID");
+			Integer id = (Integer)currentTab.getValue("AD_ChangeLog_ID");
 			record_ID = id.intValue();
 		}
 		//	Ensure it's saved
-		if (record_ID == -1 && m_curTab.getKeyColumnName().endsWith("_ID"))
+		if (record_ID == -1 && currentTab.getKeyColumnName().endsWith("_ID"))
 		{
 			ADialog.error(m_curWindowNo, this, "SaveErrorRowNotFound");
 			return;
 		}
 
 		boolean isProcessMandatory = false;
+		MProcess process = null;
+		if(vButton.getProcess_ID() != 0) {
+			process = MProcess.get(ctx, vButton.getProcess_ID());
+		}
 
 		//	Pop up Payment Rules
 		if (col.equals("PaymentRule"))
 		{
-			VPayment vp = new VPayment(m_curWindowNo, m_curTab, vButton);
+			VPayment vp = new VPayment(m_curWindowNo, currentTab, vButton);
 			if (vp.isInitOK())		//	may not be allowed
 				vp.setVisible(true);
 			vp.dispose();
@@ -2513,10 +2518,12 @@ public final class APanel extends CPanel
 		}	//	PaymentRule
 
 		//	Pop up Document Action (Workflow)
-		else if (col.equals("DocAction"))
-		{
+		else if (col.equals("DocAction")
+				|| (col.equals("StartProcess")
+						&& process != null
+						&& process.getAD_Workflow_ID() != 0)) {
 			isProcessMandatory = true;
-			VDocAction vda = new VDocAction(m_curWindowNo, m_curTab, vButton, record_ID);
+			VDocAction vda = new VDocAction(m_curWindowNo, currentTab, vButton, record_ID);
 			//	Something to select from?
 			if (vda.getNumberOfOptions() == 0)
 			{
@@ -2529,7 +2536,6 @@ public final class APanel extends CPanel
 				vda.setVisible(true);
 				if (!vda.isStartProcess())
 					return;
-//				batch = vda.isBatch();
 				startWOasking = true;
 				vda.dispose();
 			}
@@ -2541,14 +2547,14 @@ public final class APanel extends CPanel
 			// Run form only if the button has no process defined - teo_sarca [ 1974354 ]
 			if (vButton.getProcess_ID() <= 0)
 			{
-				ICreateFrom cf = VCreateFromFactory.create(m_curTab);
+				ICreateFrom cf = VCreateFromFactory.create(currentTab);
 				if(cf != null)
 				{
 					if(cf.isInitOK())
 					{
 						cf.showWindow();
 						cf.closeWindow();
-						m_curTab.dataRefresh();
+						currentTab.dataRefresh();
 					}
 					else
 						cf.closeWindow();
@@ -2562,10 +2568,10 @@ public final class APanel extends CPanel
 		else if (col.equals("Posted") && MRole.getDefault().isShowAcct())
 		{
 			//  Check Doc Status
-			String processed = Env.getContext(m_ctx, m_curWindowNo, "Processed");
+			String processed = Env.getContext(ctx, m_curWindowNo, "Processed");
 			if (!processed.equals("Y"))
 			{
-				String docStatus = Env.getContext(m_ctx, m_curWindowNo, "DocStatus");
+				String docStatus = Env.getContext(ctx, m_curWindowNo, "DocStatus");
 				if (DocAction.STATUS_Completed.equals(docStatus)
 					|| DocAction.STATUS_Closed.equals(docStatus)
 					|| DocAction.STATUS_Reversed.equals(docStatus)
@@ -2580,19 +2586,19 @@ public final class APanel extends CPanel
 
 			// try to get table and record id from context data (eg for unposted view)
 			// otherwise use current table/record
-			int tableId = Env.getContextAsInt(m_ctx, m_curWindowNo, "AD_Table_ID", true);
-			int recordId = Env.getContextAsInt(m_ctx, m_curWindowNo, "Record_ID", true);
+			int tableId = Env.getContextAsInt(ctx, m_curWindowNo, "AD_Table_ID", true);
+			int recordId = Env.getContextAsInt(ctx, m_curWindowNo, "Record_ID", true);
 			if ( tableId == 0 || recordId == 0 )
 			{
-				tableId = m_curTab.getAD_Table_ID();
-				recordId = m_curTab.getRecord_ID();
+				tableId = currentTab.getAD_Table_ID();
+				recordId = currentTab.getRecord_ID();
 			}
 
 			//  Check Post Status
-			Object ps = m_curTab.getValue("Posted");
+			Object ps = currentTab.getValue("Posted");
 			if (ps != null && ps.equals("Y"))
 			{
-				new org.compiere.acct.AcctViewer (Env.getContextAsInt (m_ctx, m_curWindowNo, "AD_Client_ID"),
+				new org.compiere.acct.AcctViewer (Env.getContextAsInt (ctx, m_curWindowNo, "AD_Client_ID"),
 					tableId, recordId);
 			}
 			else
@@ -2600,7 +2606,7 @@ public final class APanel extends CPanel
 				if (ADialog.ask(m_curWindowNo, this, "PostImmediate?"))
 				{
 					boolean force = ps != null && !ps.equals ("N");		//	force when problems
-					String error = AEnv.postImmediate (m_curWindowNo, Env.getAD_Client_ID(m_ctx),
+					String error = AEnv.postImmediate (m_curWindowNo, Env.getAD_Client_ID(ctx),
 						tableId, recordId, force);
 					if (error != null)
 						ADialog.error(m_curWindowNo, this, "PostingError-N", error);
@@ -2620,43 +2626,53 @@ public final class APanel extends CPanel
 		{
 			if (isProcessMandatory)
 			{
-				ADialog.error(m_curWindowNo, this, null, Msg.parseTranslation(m_ctx, "@NotFound@ @AD_Process_ID@"));
+				ADialog.error(m_curWindowNo, this, null, Msg.parseTranslation(ctx, "@NotFound@ @AD_Process_ID@"));
 			}
 			return;
 		}
 		//	Save item changed
-		if (m_curTab.needSave(true, false))
+		if (currentTab.needSave(true, false))
 			if (!cmd_save(true))
 				return;
-
-		// call form
-		MProcess pr = new MProcess(m_ctx, vButton.getProcess_ID(), null);
-		int form_ID = pr.getAD_Form_ID();
+		
+		//	Validate Access
+		MRole role = MRole.getDefault(ctx, false);
+		Boolean accessRW = role.checkProcessAccess(process.getAD_Process_ID());
+		if(accessRW == null
+				|| !accessRW.booleanValue()) {
+			ADialog.error(m_curWindowNo, this, null, Msg.parseTranslation(ctx, "@AccessCannotProcess@"));
+			return;
+		}
+		//	
+		int form_ID = process.getAD_Form_ID();
 		if (form_ID != 0 )
 		{
 
-			if (m_curTab.needSave(true, false))
+			if (currentTab.needSave(true, false))
 				if (!cmd_save(true))
 					return;
-
-			FormFrame ff = new FormFrame(getGraphicsConfiguration());
+			//	Yamel Senih FR [ 114 ] 2015-11-23 Add Support to Dialog for create from
+			FormFrame ff = new FormFrame(getWindowNo());
 			String title = vButton.getDescription();
 			if (title == null || title.length() == 0)
 				title = vButton.getName();
 			ProcessInfo pi = new ProcessInfo (title, vButton.getProcess_ID(), table_ID, record_ID);
-			pi.setAD_User_ID (Env.getAD_User_ID(m_ctx));
-			pi.setAD_Client_ID (Env.getAD_Client_ID(m_ctx));
+			pi.setAD_User_ID (Env.getAD_User_ID(ctx));
+			pi.setAD_Client_ID (Env.getAD_Client_ID(ctx));
 			ff.setProcessInfo(pi);
 			ff.openForm(form_ID);
 			ff.pack();
 			AEnv.showCenterScreen(ff);
+			//	Refresh
+			currentTab.dataRefresh();
+			//	End Yamel Senih
 			return;
 		}
-		int browse_ID = pr.getAD_Browse_ID();
+		int browse_ID = process.getAD_Browse_ID();
 		if (browse_ID != 0 )
 		{
 
-			if (m_curTab.needSave(true, false))
+			if (currentTab.needSave(true, false))
 				if (!cmd_save(true))
 					return;
 
@@ -2664,24 +2680,27 @@ public final class APanel extends CPanel
 			if (title == null || title.length() == 0)
 				title = vButton.getName();
 			ProcessInfo pi = new ProcessInfo (title, vButton.getProcess_ID(), table_ID, record_ID);
-			pi.setAD_User_ID (Env.getAD_User_ID(m_ctx));
-			pi.setAD_Client_ID (Env.getAD_Client_ID(m_ctx));
-			CFrame ff = new CFrame();
+			pi.setAD_User_ID (Env.getAD_User_ID(ctx));
+			pi.setAD_Client_ID (Env.getAD_Client_ID(ctx));
+			FormFrame ff = new FormFrame(getWindowNo());
+			ff.setProcessInfo(pi);
 			MBrowse browse = new MBrowse(Env.getCtx(), browse_ID , null);
-			VBrowser browser = new VBrowser(ff, true , m_curWindowNo, "" , browse , "" , true, "");
-			browser.setProcessInfo(pi);
-			ff = browser.getFrame();
-			ff.setVisible(true);
+			new VBrowser(ff, true , getWindowNo(), "" , browse , "" , true, "", Env.isSOTrx(Env.getCtx(), m_curWindowNo));
 			ff.pack();
 			AEnv.showCenterScreen(ff);
+			//	Yamel Senih
+			//	Refresh
+			currentTab.dataRefresh();
 			return;
 		}
 		else {
-			ProcessModalDialog dialog = new ProcessModalDialog(m_ctx, Env.getWindow(m_curWindowNo), Env.getHeader(m_ctx, m_curWindowNo),
+			ProcessModalDialog dialog = new ProcessModalDialog(ctx, Env.getWindow(m_curWindowNo), Env.getHeader(ctx, m_curWindowNo),
 					this, m_curWindowNo, vButton.getProcess_ID(), table_ID,
 					record_ID, startWOasking);
-			if (dialog.isValidDialog())
-			{
+			//	FR [ 265 ]
+			//	BR [ 323 ]
+			if(!startWOasking
+					&& !dialog.isAutoStart()) {
 				dialog.validate();
 				dialog.pack();
 				AEnv.showCenterWindow(Env.getWindow(m_curWindowNo), dialog);
@@ -2710,7 +2729,7 @@ public final class APanel extends CPanel
 	{
 	//	log.fine("" + pi);
 		boolean notPrint = pi != null
-			&& pi.getAD_Process_ID() != m_curTab.getAD_Process_ID()
+			&& pi.getAD_Process_ID() != currentTab.getAD_Process_ID()
 			&& pi.isReportingProcess() == false;
 		//
 		setBusy(false, notPrint);
@@ -2718,21 +2737,24 @@ public final class APanel extends CPanel
 		if (notPrint)		//	refresh if not print
 		{
 			//	Refresh data
-			m_curTab.dataRefresh();
+			currentTab.dataRefresh();
 			//	Timeout
 			if (pi.isTimeout())		//	set temporarily to R/O
-				Env.setContext(m_ctx, m_curWindowNo, "Processed", "Y");
+				Env.setContext(ctx, m_curWindowNo, "Processed", "Y");
 			m_curGC.dynamicDisplay(0);
 			//	Update Status Line
 			setStatusLine(pi.getSummary(), pi.isError());
 			if ( pi.isError() )
 				ADialog.error(m_curWindowNo, this, null, pi.getSummary());
 			//	Get Log Info
-			ProcessInfoUtil.setLogFromDB(pi);
-			String logInfo = pi.getLogInfo();
-			if (logInfo.length() > 0)
-				ADialog.info(m_curWindowNo, this, Env.getHeader(m_ctx, m_curWindowNo),
-					pi.getTitle(), logInfo);	//	 clear text
+			else
+			{
+				ProcessInfoUtil.setLogFromDB(pi);
+				String logInfo = pi.getLogInfo();
+				if (logInfo.length() > 0)
+					ADialog.info(m_curWindowNo, this, Env.getHeader(ctx, m_curWindowNo),
+						pi.getTitle(), logInfo);	//	 clear text
+			}
 		}
 		else
 		{
@@ -2768,7 +2790,7 @@ public final class APanel extends CPanel
 	 */
 	public GridTab getCurrentTab()
 	{
-		return m_curTab;
+		return currentTab;
 	}	//	getCurrentTab
 
 	/**

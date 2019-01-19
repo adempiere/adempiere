@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Add User4 M_Inventory" ReleaseNo="3.9.0" SeqNo="431">
+    <Comments>https://github.com/adempiere/adempiere/issues/665</Comments>
+    <Step DBType="Oracle" Parse="Y" SeqNo="10" StepType="SQL">
+      <SQLStatement>ALTER TABLE M_Inventory ADD User4_ID NUMBER(10) DEFAULT NULL; </SQLStatement>
+    </Step>
+    <Step DBType="Postgres" Parse="Y" SeqNo="20" StepType="SQL">
+      <SQLStatement>ALTER TABLE M_Inventory ADD User4_ID NUMERIC(10) DEFAULT NULL; </SQLStatement>
+    </Step>
+  </Migration>
+</Migrations>

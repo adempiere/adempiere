@@ -49,9 +49,14 @@ public class MLocation extends X_C_Location implements Comparator
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -1326655776792201217L;
+	private static final long serialVersionUID = 8332515185354248079L;
 
-
+	// http://jira.idempiere.com/browse/IDEMPIERE-147
+	public static String LOCATION_MAPS_URL_PREFIX     = MSysConfig.getValue("LOCATION_MAPS_URL_PREFIX");
+	public static String LOCATION_MAPS_ROUTE_PREFIX   = MSysConfig.getValue("LOCATION_MAPS_ROUTE_PREFIX");
+	public static String LOCATION_MAPS_SOURCE_ADDRESS      = MSysConfig.getValue("LOCATION_MAPS_SOURCE_ADDRESS");
+	public static String LOCATION_MAPS_DESTINATION_ADDRESS = MSysConfig.getValue("LOCATION_MAPS_DESTINATION_ADDRESS");
+	
 	/**
 	 * 	Get Location from Cache
 	 *	@param ctx context
@@ -368,8 +373,10 @@ public class MLocation extends X_C_Location implements Comparator
 	{
 		if (C_Country_ID != 0 && getC_Country_ID() != C_Country_ID)
 			return false;
-		if (C_Region_ID != 0 && getC_Region_ID() != C_Region_ID)
-			return false;
+		//jobriant - temporarily remove this criteria
+		//assumption - there can't be no exact address but different region
+		//if (C_Region_ID != 0 && getC_Region_ID() != C_Region_ID)
+		//	return false;
 		//	must match
 		if (!equalsNull(Postal, getPostal()))
 			return false;
@@ -607,12 +614,14 @@ public class MLocation extends X_C_Location implements Comparator
 		if (getAD_Org_ID() != 0)
 			setAD_Org_ID(0);
 		//	Region Check
-		if (getC_Region_ID() != 0)
+		if (getC_Region_ID() != 0 || getRegionName() != null)
 		{
 			if (m_c == null || m_c.getC_Country_ID() != getC_Country_ID())
 				getCountry();
-			if (!m_c.isHasRegion())
+			if (!m_c.isHasRegion()) {
 				setC_Region_ID(0);
+				setRegionName(null);
+			}
 		}
 		if (getC_City_ID() <= 0 && getCity() != null && getCity().length() > 0) {
 			int city_id = DB.getSQLValue(
@@ -651,5 +660,23 @@ public class MLocation extends X_C_Location implements Comparator
 				+ " OR C_LocTo_ID=" + getC_Location_ID() + ")", get_TrxName());
 		return success;
 	}	//	afterSave
-	
+
+	/**
+	 * 	Get edited Value (MLocation) for GoogleMaps / IDEMPIERE-147
+	 *  @param MLocation location
+	 *	@return String address
+	 */
+	public String getMapsLocation() {
+
+		MRegion region = new MRegion(Env.getCtx(), getC_Region_ID(), get_TrxName());
+		String address = "";
+		address = address + (getAddress1() != null ? getAddress1() + ", " : "");
+		address = address + (getAddress2() != null ? getAddress2() + ", " : "");
+		address = address + (getCity() != null ? getCity() + ", " : "");
+		address = address + (region.getName() != null ? region.getName() + ", " : "");
+		address = address + (getCountryName() != null ? getCountryName() : "");
+
+		return address.replace(" ", "+");
+	}
+
 }	//	MLocation

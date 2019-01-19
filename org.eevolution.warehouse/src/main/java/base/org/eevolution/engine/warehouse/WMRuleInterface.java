@@ -31,18 +31,19 @@ package org.eevolution.engine.warehouse;
 
 import java.math.BigDecimal;
 import java.util.Collection;
+import java.util.List;
 import java.util.Properties;
 
 import org.compiere.model.MLocator;
 import org.compiere.model.MStorage;
 
 public interface WMRuleInterface {
-	public abstract Collection<MLocator> getLocator(Properties ctx,
-			int M_Warehouse_ID, int M_Product_ID, int WM_Area_Type_ID,
-			int WM_Section_Type_ID, String trxName);
+	public abstract List<MLocator> getLocator(Properties ctx,
+											  int warehouseId, int productId, int warehouseAreaTypeId,
+											  int warehouseSectionTypeId, String trxName);
 
-	public abstract Collection<MStorage> getStorage(Properties ctx,
-			int M_Warehouse_ID, int M_Product_ID,
-			int M_AttributeSetInstance_ID, BigDecimal qtyToDelivery,
-			int WM_Area_Type_ID, int WM_Section_Type_ID, String trxName);
+	public abstract List<MStorage> getStorage(Properties ctx,
+			int warehouseId, int productId,
+			int attributeSetInstanceId, BigDecimal qtyToDelivery,
+			int warehouseAreaTypeId, int warehouseSectionTypeId, String trxName);
 }

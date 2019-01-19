@@ -29,6 +29,7 @@ package org.compiere.db;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -39,19 +40,26 @@ import javax.sql.ConnectionPoolDataSource;
 import javax.sql.DataSource;
 import javax.sql.RowSet;
 
+import org.adempiere.exceptions.DBException;
+import org.compiere.Adempiere;
 import org.compiere.dbPort.Convert;
+import org.compiere.model.PO;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Ini;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
+
 import org.compiere.dbPort.Convert_MySQL;
 
 /**
  * 
  * @author praneet tiwari
  * @author Trifon Trifonov
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *			<li> FR [ 391 ] getSchema method in DB_PostgreSQL.java is better use the adempiere user
+ *			@see https://github.com/adempiere/adempiere/issues/391
  * 
  */
 public class DB_MySQL implements AdempiereDatabase {
@@ -92,9 +100,7 @@ public class DB_MySQL implements AdempiereDatabase {
 	
 	/** Connection String */
 	private String m_connectionURL;
-
-	private boolean m_supportAlias = false;
-
+	
 	/** Logger */
 	private static CLogger log = CLogger.getCLogger(DB_MySQL.class);
 
@@ -200,7 +206,7 @@ public class DB_MySQL implements AdempiereDatabase {
 	public String getCatalog() {
 		if (m_dbName != null)
 			return m_dbName;
-		// log.severe("Database Name not set (yet) - call getConnectionURL first");
+		 log.severe("Database Name not set (yet) - call getConnectionURL first");
 		return null;
 	}
 
@@ -209,7 +215,17 @@ public class DB_MySQL implements AdempiereDatabase {
 	 * @return schema (dbo)
 	 */
 	public String getSchema() {
-		return "adempiere";
+		//	BR [ 391 ]
+		if (m_userName == null) {
+	        CConnection cconn = CConnection.get(Adempiere.getCodeBaseHost());
+	        m_userName = cconn.getDbUid();
+	    }
+    	//	Validate
+        if (m_userName == null) {
+        	log.severe("User Name not set (yet) - call getConnectionURL first");
+        	return null;
+        }
+	    return m_userName;
 	}
 
 	/**
@@ -271,12 +287,8 @@ public class DB_MySQL implements AdempiereDatabase {
 	 */
 	public String convertStatement(String oraStatement) {
 		String retValue[] = m_convert.convert(oraStatement);
-
-		if (retValue.length == 0)
-			return oraStatement;
-
-		if (retValue == null)
-		{
+		//	Valid null
+		if (retValue == null) {
 			log.log(Level.SEVERE,
 					("DB_MySQL.convertStatement - Not Converted ("
 							+ oraStatement + ") - " + m_convert.getConversionError()));
@@ -285,6 +297,9 @@ public class DB_MySQL implements AdempiereDatabase {
 							+ oraStatement + ") - "
 							+ m_convert.getConversionError());
 		}
+		if (retValue.length == 0)
+			return oraStatement;
+		//	
 		if (retValue.length != 1)
 		{
 			log.log(Level.SEVERE,
@@ -728,34 +743,91 @@ public class DB_MySQL implements AdempiereDatabase {
 
 	@Override
 	public String addPagingSQL(String sql, int start, int end) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public boolean isPagingSupported() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean isQueryTimeoutSupported() {
-		// TODO Auto-generated method stub
 		return false;
 	}
-        
-        /*
-         public boolean getSupportAlias()
-        {             
-             
-		if (s_driver == null)
-		{
-			s_driver = new org.gjt.mm.mysql.Driver();
-                         return true;
-                       
+
+	@Override
+	public boolean forUpdate(PO po, int timeout) {
+		//only can lock for update if using trx
+		if (po.get_TrxName() == null)
+			return false;
+
+		String[] keyColumns = po.get_KeyColumns();
+		if (keyColumns != null && keyColumns.length > 0 && !po.is_new()) {
+			StringBuilder sqlBuffer = new StringBuilder(" SELECT ");
+			sqlBuffer.append(keyColumns[0])
+					.append(" FROM ")
+					.append(po.get_TableName())
+					.append(" WHERE ");
+			for(int i = 0; i < keyColumns.length; i++) {
+				if (i > 0)
+					sqlBuffer.append(" AND ");
+				sqlBuffer.append(keyColumns[i]).append("=?");
+			}
+			sqlBuffer.append(" FOR UPDATE ");
+
+			Object[] parameters = new Object[keyColumns.length];
+			for(int i = 0; i < keyColumns.length; i++) {
+				Object parameter = po.get_Value(keyColumns[i]);
+				if (parameter != null && parameter instanceof Boolean) {
+					if ((Boolean) parameter)
+						parameter = "Y";
+					else
+						parameter = "N";
+				}
+				parameters[i] = parameter;
+			}
+
+			PreparedStatement stmt = null;
+			ResultSet rs = null;
+			try {
+				stmt = DB.prepareStatement(sqlBuffer.toString(),
+						ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE, po.get_TrxName());
+				for(int i = 0; i < keyColumns.length; i++) {
+					stmt.setObject(i+1, parameters[i]);
+				}
+				stmt.setQueryTimeout(timeout > 0 ? timeout : LOCK_TIME_OUT);
+
+				rs = stmt.executeQuery();
+				if (rs.next()) {
+					return true;
+				} else {
+					return false;
+				}
+			} catch (Exception e) {
+				if (log.isLoggable(Level.INFO))log.log(Level.INFO, e.getLocalizedMessage(), e);
+				throw new DBException("Could not lock record for " + po.toString() + " caused by " + e.getLocalizedMessage());
+			} finally {
+				DB.close(rs, stmt);
+				rs = null;stmt = null;
+			}
 		}
-             return false;
+		return false;
+	}
 
-        }*/
-
+	@Override
+	public String getNameOfUniqueConstraintError(Exception e) {
+		String info = e.getMessage();
+		int fromIndex = info.indexOf("\"");
+		if (fromIndex == -1)
+			fromIndex = info.indexOf("\u00ab"); // quote for spanish postgresql message
+		if (fromIndex == -1)
+			return info;
+		int toIndex = info.indexOf("\"", fromIndex + 1);
+		if (toIndex == -1)
+			toIndex = info.indexOf("\u00bb", fromIndex + 1);
+		if (toIndex == -1)
+			return info;
+		return info.substring(fromIndex + 1, toIndex);
+	}
 }

@@ -25,6 +25,7 @@ import java.util.Properties;
 import org.adempiere.engine.IDocumentLine;
 import org.adempiere.exceptions.FillMandatoryException;
 import org.adempiere.exceptions.WarehouseLocatorConflictException;
+import org.compiere.process.DocumentReversalLineEnable;
 import org.compiere.util.CCache;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -42,9 +43,11 @@ import org.compiere.util.Util;
  *  			https://sourceforge.net/tracker/?func=detail&aid=2784194&group_id=176962&atid=879332
  *  		<li>BF [ 2797938 ] Receipt should not allow lines with Qty=0
  *  			https://sourceforge.net/tracker/?func=detail&atid=879332&aid=2797938&group_id=176962
+ *  @author eEvolution author Victor Perez <victor.perez@e-evolution.com>
+ *			<li>Implement Reverse Accrual for all document https://github.com/adempiere/adempiere/issues/1348</>
  */
 public class MInOutLine extends X_M_InOutLine
-implements IDocumentLine
+implements IDocumentLine , DocumentReversalLineEnable
 {
 	/**
 	 *
@@ -225,6 +228,9 @@ implements IDocumentLine
 		setC_Charge_ID(oLine.getC_Charge_ID());
 		setDescription(oLine.getDescription());
 		setIsDescription(oLine.isDescription());
+		setM_Shipper_ID(oLine.getM_Shipper_ID());
+		setM_FreightCategory_ID(oLine.getM_FreightCategory_ID());
+		setFreightAmt(oLine.getFreightAmt());
 		//
 		setC_Project_ID(oLine.getC_Project_ID());
 		setC_ProjectPhase_ID(oLine.getC_ProjectPhase_ID());
@@ -234,6 +240,8 @@ implements IDocumentLine
 		setAD_OrgTrx_ID(oLine.getAD_OrgTrx_ID());
 		setUser1_ID(oLine.getUser1_ID());
 		setUser2_ID(oLine.getUser2_ID());
+		setUser3_ID(oLine.getUser3_ID());
+		setUser4_ID(oLine.getUser4_ID());
 	}	//	setOrderLine
 
 	/**
@@ -276,6 +284,8 @@ implements IDocumentLine
 		setAD_OrgTrx_ID(iLine.getAD_OrgTrx_ID());
 		setUser1_ID(iLine.getUser1_ID());
 		setUser2_ID(iLine.getUser2_ID());
+		setUser3_ID(iLine.getUser3_ID());
+		setUser4_ID(iLine.getUser4_ID());
 	}	//	setInvoiceLine
 
 	/**
@@ -487,30 +497,6 @@ implements IDocumentLine
 			ii = getParent().getC_Campaign_ID();
 		return ii;
 	}	//	getC_Campaign_ID
-
-	/**
-	 * 	Get User2_ID
-	 *	@return User2
-	 */
-	public int getUser1_ID ()
-	{
-		int ii = super.getUser1_ID ();
-		if (ii == 0)
-			ii = getParent().getUser1_ID();
-		return ii;
-	}	//	getUser1_ID
-
-	/**
-	 * 	Get User2_ID
-	 *	@return User2
-	 */
-	public int getUser2_ID ()
-	{
-		int ii = super.getUser2_ID ();
-		if (ii == 0)
-			ii = getParent().getUser2_ID();
-		return ii;
-	}	//	getUser2_ID
 
 	/**
 	 * 	Get AD_OrgTrx_ID
@@ -736,44 +722,11 @@ implements IDocumentLine
 	 */
 	public BigDecimal getPriceActual()
 	{
-			// FIXME: ancabradau: we need to implement a real solution that will cover all cases
-			BigDecimal price = null;
-			if (getC_OrderLine_ID() > 0)
-			{	
-						price = DB.getSQLValueBDEx(get_TrxName(),
-							"SELECT currencyBase(ol.PriceActual,o.C_Currency_ID,o.DateAcct,o.AD_Client_ID,o.AD_Org_ID) AS price " +
-						    " FROM C_OrderLine ol INNER JOIN C_Order o ON (o.C_Order_ID=ol.C_Order_ID) " +
-						    " WHERE "+MOrderLine.COLUMNNAME_C_OrderLine_ID+"=?",
-						getC_OrderLine_ID());
-				
-					if (price == null || price.signum() == 0)
-						price = DB.getSQLValueBDEx(get_TrxName(),
-							" SELECT currencyBase(ol.PriceActual,o.C_Currency_ID,o.DateAcct,o.AD_Client_ID,o.AD_Org_ID) AS price" + 
-							" FROM M_MatchPO mpo LEFT JOIN C_OrderLine ol ON ( mpo.C_OrderLine_ID=ol.C_OrderLine_ID) " +
-							" INNER JOIN C_Order o ON (o.C_Order_ID=ol.C_Order_ID) " + 		
-							" WHERE  mpo."+MMatchPO.COLUMNNAME_M_InOutLine_ID+"=?", getM_InOutLine_ID());					
-				
-					if (price == null || price.signum() == 0)				
-						price = DB.getSQLValueBDEx(get_TrxName(), 
-							" SELECT currencyBase(il.PriceActual,i.C_Currency_ID,i.DateAcct,i.AD_Client_ID,i.AD_Org_ID) AS price " +
-							" FROM M_MatchInv mi LEFT JOIN C_InvoiceLine il ON (il.C_InvoiceLine_ID=mi.C_InvoiceLine_ID) " +
-							" INNER JOIN C_Invoice i ON (i.C_Invoice_ID=il.C_Invoice_ID) " +
-							" WHERE  mi."+MMatchInv.COLUMNNAME_M_InOutLine_ID+"=?", getM_InOutLine_ID());		
-			}
-			if (getM_RMALine_ID() > 0)
-			{
-				price = DB.getSQLValueBDEx(get_TrxName(),
-						"SELECT "+MRMALine.COLUMNNAME_Amt+" FROM "+MRMALine.Table_Name
-						+" WHERE "+MRMALine.COLUMNNAME_M_RMALine_ID+"=?",
-						getM_RMALine_ID());
-			}	
-			if (price == null)
-			{
-				//throw new AdempiereException("Shipment: PriceActual not found");
-				price = Env.ZERO;
-			}
-			return price;
-		}
+		BigDecimal priceActual = MConversionRate.convertBase(getCtx(), getPriceActualCurrency(), getC_Currency_ID(),
+				getDateAcct(), getC_ConversionType_ID(),
+				getAD_Client_ID(), getAD_Org_ID());
+			return priceActual;
+	}
 	
 	/**
 	 * get if this document line is the Sales transaction
@@ -809,6 +762,109 @@ implements IDocumentLine
 	@Override
 	public int getC_DocType_ID() {
 		return getParent().getC_DocType_ID();
+	}
+
+	@Override
+	public BigDecimal getPriceActualCurrency() {
+		BigDecimal price = null;
+		if (getC_OrderLine_ID() > 0)
+		{
+			price = DB.getSQLValueBDEx(get_TrxName(),
+					"SELECT ol.PriceActual AS price " +
+							" FROM C_OrderLine ol INNER JOIN C_Order o ON (o.C_Order_ID=ol.C_Order_ID) " +
+							" WHERE "+MOrderLine.COLUMNNAME_C_OrderLine_ID+"=?",
+					getC_OrderLine_ID());
+
+			if (price == null || price.signum() == 0)
+				price = DB.getSQLValueBDEx(get_TrxName(),
+						" SELECT ol.PriceActual AS price" +
+								" FROM M_MatchPO mpo LEFT JOIN C_OrderLine ol ON ( mpo.C_OrderLine_ID=ol.C_OrderLine_ID) " +
+								" INNER JOIN C_Order o ON (o.C_Order_ID=ol.C_Order_ID) " +
+								" WHERE  mpo."+MMatchPO.COLUMNNAME_M_InOutLine_ID+"=?", getM_InOutLine_ID());
+
+			if (price == null || price.signum() == 0)
+				price = DB.getSQLValueBDEx(get_TrxName(),
+						" SELECT il.PriceActual AS price " +
+								" FROM M_MatchInv mi LEFT JOIN C_InvoiceLine il ON (il.C_InvoiceLine_ID=mi.C_InvoiceLine_ID) " +
+								" INNER JOIN C_Invoice i ON (i.C_Invoice_ID=il.C_Invoice_ID) " +
+								" WHERE  mi."+MMatchInv.COLUMNNAME_M_InOutLine_ID+"=?", getM_InOutLine_ID());
+		}
+		if (getM_RMALine_ID() > 0)
+		{
+			price = DB.getSQLValueBDEx(get_TrxName(),
+					"SELECT "+MRMALine.COLUMNNAME_Amt+" FROM "+MRMALine.Table_Name
+							+" WHERE "+MRMALine.COLUMNNAME_M_RMALine_ID+"=?",
+					getM_RMALine_ID());
+		}
+		if (price == null)
+		{
+			price = Env.ZERO;
+		}
+		return price;
+	}
+
+	@Override
+	public int getC_Currency_ID ()
+	{
+		MClient client  = MClient.get(getCtx());
+		int currencyId = client.getC_Currency_ID();
+		if (getC_OrderLine_ID() > 0)
+		{
+			currencyId = DB.getSQLValueEx(get_TrxName(),
+					"SELECT o.C_Currency_ID " +
+							" FROM C_OrderLine ol INNER JOIN C_Order o ON (o.C_Order_ID=ol.C_Order_ID) " +
+							" WHERE "+MOrderLine.COLUMNNAME_C_OrderLine_ID+"=?",
+					getC_OrderLine_ID());
+
+			if (currencyId <= 0)
+				currencyId = DB.getSQLValueEx(get_TrxName(),
+						" SELECT o.C_Currency_ID " +
+								" FROM M_MatchPO mpo LEFT JOIN C_OrderLine ol ON ( mpo.C_OrderLine_ID=ol.C_OrderLine_ID) " +
+								" INNER JOIN C_Order o ON (o.C_Order_ID=ol.C_Order_ID) " +
+								" WHERE  mpo."+MMatchPO.COLUMNNAME_M_InOutLine_ID+"=?", getM_InOutLine_ID());
+
+			if (currencyId <= 0)
+				currencyId = DB.getSQLValueEx(get_TrxName(),
+						" SELECT i.C_Currency_ID " +
+								" FROM M_MatchInv mi LEFT JOIN C_InvoiceLine il ON (il.C_InvoiceLine_ID=mi.C_InvoiceLine_ID) " +
+								" INNER JOIN C_Invoice i ON (i.C_Invoice_ID=il.C_Invoice_ID) " +
+								" WHERE  mi."+MMatchInv.COLUMNNAME_M_InOutLine_ID+"=?", getM_InOutLine_ID());
+		}
+		//if (getM_RMALine_ID() > 0)
+		//	currencyId = -1;
+		return currencyId;
+	}
+
+	@Override
+	public int getC_ConversionType_ID()
+	{
+		int conversionTypeId = MConversionType.getDefault(getAD_Client_ID());
+		if (getC_OrderLine_ID() > 0)
+		{
+			conversionTypeId = DB.getSQLValueEx(get_TrxName(),
+					"SELECT o.C_ConversionType_ID " +
+							" FROM C_OrderLine ol INNER JOIN C_Order o ON (o.C_Order_ID=ol.C_Order_ID) " +
+							" WHERE "+MOrderLine.COLUMNNAME_C_OrderLine_ID+"=?",
+					getC_OrderLine_ID());
+
+			if (conversionTypeId <= 0)
+				conversionTypeId = DB.getSQLValueEx(get_TrxName(),
+						" SELECT o.C_ConversionType_ID " +
+								" FROM M_MatchPO mpo LEFT JOIN C_OrderLine ol ON ( mpo.C_OrderLine_ID=ol.C_OrderLine_ID) " +
+								" INNER JOIN C_Order o ON (o.C_Order_ID=ol.C_Order_ID) " +
+								" WHERE  mpo."+MMatchPO.COLUMNNAME_M_InOutLine_ID+"=?", getM_InOutLine_ID());
+
+			if (conversionTypeId <= 0)
+				conversionTypeId = DB.getSQLValueEx(get_TrxName(),
+						" SELECT i.C_ConversionType_ID " +
+								" FROM M_MatchInv mi LEFT JOIN C_InvoiceLine il ON (il.C_InvoiceLine_ID=mi.C_InvoiceLine_ID) " +
+								" INNER JOIN C_Invoice i ON (i.C_Invoice_ID=il.C_Invoice_ID) " +
+								" WHERE  mi."+MMatchInv.COLUMNNAME_M_InOutLine_ID+"=?", getM_InOutLine_ID());
+		}
+		//if (getM_RMALine_ID() > 0)
+		//	conversionTypeId = -1;
+
+		return conversionTypeId;
 	}
 
 }	//	MInOutLine

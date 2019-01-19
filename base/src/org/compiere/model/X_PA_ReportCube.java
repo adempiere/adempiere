@@ -1,8 +1,9 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -11,8 +12,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PA_ReportCube
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_PA_ReportCube extends PO implements I_PA_ReportCube, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150223L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_PA_ReportCube (Properties ctx, int PA_ReportCube_ID, String trxName)
@@ -480,6 +480,54 @@ public class X_PA_ReportCube extends PO implements I_PA_ReportCube, I_Persistent
 		return false;
 	}
 
+	/** Set User 3 Dimension.
+		@param IsUser3Dim 
+		Include User 3 as a cube dimension
+	  */
+	public void setIsUser3Dim (boolean IsUser3Dim)
+	{
+		set_Value (COLUMNNAME_IsUser3Dim, Boolean.valueOf(IsUser3Dim));
+	}
+
+	/** Get User 3 Dimension.
+		@return Include User 3 as a cube dimension
+	  */
+	public boolean isUser3Dim () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsUser3Dim);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set User 4 Dimension.
+		@param IsUser4Dim 
+		Include User 4 as a cube dimension
+	  */
+	public void setIsUser4Dim (boolean IsUser4Dim)
+	{
+		set_Value (COLUMNNAME_IsUser4Dim, Boolean.valueOf(IsUser4Dim));
+	}
+
+	/** Get User 4 Dimension.
+		@return Include User 4 as a cube dimension
+	  */
+	public boolean isUser4Dim () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsUser4Dim);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set User Element 1 Dimension.
 		@param IsUserElement1Dim 
 		Include User Element 1 as a cube dimension
@@ -612,5 +660,22 @@ public class X_PA_ReportCube extends PO implements I_PA_ReportCube, I_Persistent
 			return "Y".equals(oo);
 		}
 		return false;
+	}
+
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
 	}
 }

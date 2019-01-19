@@ -1,8 +1,9 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -11,8 +12,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Depreciation_Workfile
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_A_Depreciation_Workfile extends PO implements I_A_Depreciation_Workfile, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150223L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_A_Depreciation_Workfile (Properties ctx, int A_Depreciation_Workfile_ID, String trxName)
@@ -141,15 +141,18 @@ public class X_A_Depreciation_Workfile extends PO implements I_A_Depreciation_Wo
 		return bd;
 	}
 
-	/** Set Asset Cost.
-		@param A_Asset_Cost Asset Cost	  */
+	/** Set Fixed Asset Cost.
+		@param A_Asset_Cost 
+		Cost of acquisition of the Fixed Asset
+	  */
 	public void setA_Asset_Cost (BigDecimal A_Asset_Cost)
 	{
 		set_Value (COLUMNNAME_A_Asset_Cost, A_Asset_Cost);
 	}
 
-	/** Get Asset Cost.
-		@return Asset Cost	  */
+	/** Get Fixed Asset Cost.
+		@return Cost of acquisition of the Fixed Asset
+	  */
 	public BigDecimal getA_Asset_Cost () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_A_Asset_Cost);
@@ -163,9 +166,9 @@ public class X_A_Depreciation_Workfile extends PO implements I_A_Depreciation_Wo
 		return (org.compiere.model.I_A_Asset)MTable.get(getCtx(), org.compiere.model.I_A_Asset.Table_Name)
 			.getPO(getA_Asset_ID(), get_TrxName());	}
 
-	/** Set Asset.
+	/** Set Fixed Asset.
 		@param A_Asset_ID 
-		Asset used internally or by customers
+		Fixed Asset used internally or by customers
 	  */
 	public void setA_Asset_ID (int A_Asset_ID)
 	{
@@ -175,8 +178,8 @@ public class X_A_Depreciation_Workfile extends PO implements I_A_Depreciation_Wo
 			set_ValueNoCheck (COLUMNNAME_A_Asset_ID, Integer.valueOf(A_Asset_ID));
 	}
 
-	/** Get Asset.
-		@return Asset used internally or by customers
+	/** Get Fixed Asset.
+		@return Fixed Asset used internally or by customers
 	  */
 	public int getA_Asset_ID () 
 	{
@@ -339,8 +342,10 @@ public class X_A_Depreciation_Workfile extends PO implements I_A_Depreciation_Wo
 		return ii.intValue();
 	}
 
-	/** Set A_Depreciation_Workfile_ID.
-		@param A_Depreciation_Workfile_ID A_Depreciation_Workfile_ID	  */
+	/** Set Fixed Asset Balances.
+		@param A_Depreciation_Workfile_ID 
+		Fixed Asset Balances
+	  */
 	public void setA_Depreciation_Workfile_ID (int A_Depreciation_Workfile_ID)
 	{
 		if (A_Depreciation_Workfile_ID < 1) 
@@ -349,8 +354,9 @@ public class X_A_Depreciation_Workfile extends PO implements I_A_Depreciation_Wo
 			set_ValueNoCheck (COLUMNNAME_A_Depreciation_Workfile_ID, Integer.valueOf(A_Depreciation_Workfile_ID));
 	}
 
-	/** Get A_Depreciation_Workfile_ID.
-		@return A_Depreciation_Workfile_ID	  */
+	/** Get Fixed Asset Balances.
+		@return Fixed Asset Balances
+	  */
 	public int getA_Depreciation_Workfile_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Depreciation_Workfile_ID);
@@ -541,15 +547,18 @@ public class X_A_Depreciation_Workfile extends PO implements I_A_Depreciation_Wo
 		return bd;
 	}
 
-	/** Set Current Qty.
-		@param A_QTY_Current Current Qty	  */
+	/** Set Fixed Asset Current Qty.
+		@param A_QTY_Current 
+		Fixed Asset Current Quantity
+	  */
 	public void setA_QTY_Current (BigDecimal A_QTY_Current)
 	{
 		set_Value (COLUMNNAME_A_QTY_Current, A_QTY_Current);
 	}
 
-	/** Get Current Qty.
-		@return Current Qty	  */
+	/** Get Fixed Asset Current Qty.
+		@return Fixed Asset Current Quantity
+	  */
 	public BigDecimal getA_QTY_Current () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_A_QTY_Current);
@@ -722,7 +731,7 @@ public class X_A_Depreciation_Workfile extends PO implements I_A_Depreciation_Wo
 	public static final String POSTINGTYPE_Statistical = "S";
 	/** Reservation = R */
 	public static final String POSTINGTYPE_Reservation = "R";
-	/** Set PostingType.
+	/** Set Posting Type.
 		@param PostingType 
 		The type of posted amount for the transaction
 	  */
@@ -732,7 +741,7 @@ public class X_A_Depreciation_Workfile extends PO implements I_A_Depreciation_Wo
 		set_Value (COLUMNNAME_PostingType, PostingType);
 	}
 
-	/** Get PostingType.
+	/** Get Posting Type.
 		@return The type of posted amount for the transaction
 	  */
 	public String getPostingType () 
@@ -783,6 +792,23 @@ public class X_A_Depreciation_Workfile extends PO implements I_A_Depreciation_Wo
 			return "Y".equals(oo);
 		}
 		return false;
+	}
+
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
 	}
 
 	/** Set Usable Life - Months.

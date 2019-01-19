@@ -1,8 +1,9 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -11,8 +12,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.eevolution.model;
@@ -27,14 +27,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PP_Order_Node
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150223L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_PP_Order_Node (Properties ctx, int PP_Order_Node_ID, String trxName)
@@ -523,7 +523,7 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 		return (Timestamp)get_Value(COLUMNNAME_DateFinish);
 	}
 
-	/** Set Date Finish Schedule.
+	/** Set Finish Schedule.
 		@param DateFinishSchedule 
 		Scheduled Finish date for this Order
 	  */
@@ -532,7 +532,7 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 		set_Value (COLUMNNAME_DateFinishSchedule, DateFinishSchedule);
 	}
 
-	/** Get Date Finish Schedule.
+	/** Get Finish Schedule.
 		@return Scheduled Finish date for this Order
 	  */
 	public Timestamp getDateFinishSchedule () 
@@ -557,7 +557,7 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 		return (Timestamp)get_Value(COLUMNNAME_DateStart);
 	}
 
-	/** Set Date Start Schedule.
+	/** Set Start Schedule.
 		@param DateStartSchedule 
 		Scheduled start date for this Order
 	  */
@@ -566,7 +566,7 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 		set_Value (COLUMNNAME_DateStartSchedule, DateStartSchedule);
 	}
 
-	/** Get Date Start Schedule.
+	/** Get Start Schedule.
 		@return Scheduled start date for this Order
 	  */
 	public Timestamp getDateStartSchedule () 
@@ -705,36 +705,36 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 
 	/** Set Duration Real.
 		@param DurationReal Duration Real	  */
-	public void setDurationReal (int DurationReal)
+	public void setDurationReal (BigDecimal DurationReal)
 	{
-		set_Value (COLUMNNAME_DurationReal, Integer.valueOf(DurationReal));
+		set_Value (COLUMNNAME_DurationReal, DurationReal);
 	}
 
 	/** Get Duration Real.
 		@return Duration Real	  */
-	public int getDurationReal () 
+	public BigDecimal getDurationReal () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_DurationReal);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_DurationReal);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** Set Duration Required.
 		@param DurationRequired Duration Required	  */
-	public void setDurationRequired (int DurationRequired)
+	public void setDurationRequired (BigDecimal DurationRequired)
 	{
-		set_Value (COLUMNNAME_DurationRequired, Integer.valueOf(DurationRequired));
+		set_Value (COLUMNNAME_DurationRequired, DurationRequired);
 	}
 
 	/** Get Duration Required.
 		@return Duration Required	  */
-	public int getDurationRequired () 
+	public BigDecimal getDurationRequired () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_DurationRequired);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_DurationRequired);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** EntityType AD_Reference_ID=389 */
@@ -1210,36 +1210,36 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 
 	/** Set Setup Time Real.
 		@param SetupTimeReal Setup Time Real	  */
-	public void setSetupTimeReal (int SetupTimeReal)
+	public void setSetupTimeReal (BigDecimal SetupTimeReal)
 	{
-		set_Value (COLUMNNAME_SetupTimeReal, Integer.valueOf(SetupTimeReal));
+		set_Value (COLUMNNAME_SetupTimeReal, SetupTimeReal);
 	}
 
 	/** Get Setup Time Real.
 		@return Setup Time Real	  */
-	public int getSetupTimeReal () 
+	public BigDecimal getSetupTimeReal () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_SetupTimeReal);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_SetupTimeReal);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** Set Setup Time Required.
 		@param SetupTimeRequired Setup Time Required	  */
-	public void setSetupTimeRequired (int SetupTimeRequired)
+	public void setSetupTimeRequired (BigDecimal SetupTimeRequired)
 	{
-		set_Value (COLUMNNAME_SetupTimeRequired, Integer.valueOf(SetupTimeRequired));
+		set_Value (COLUMNNAME_SetupTimeRequired, SetupTimeRequired);
 	}
 
 	/** Get Setup Time Required.
 		@return Setup Time Required	  */
-	public int getSetupTimeRequired () 
+	public BigDecimal getSetupTimeRequired () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_SetupTimeRequired);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_SetupTimeRequired);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** SplitElement AD_Reference_ID=301 */
@@ -1312,6 +1312,23 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 	public String getSubflowExecution () 
 	{
 		return (String)get_Value(COLUMNNAME_SubflowExecution);
+	}
+
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
 	}
 
 	/** Set Units by Cycles.

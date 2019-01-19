@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="New Model Validator to enable the Freight Functionality #690" ReleaseNo="3.9.0" SeqNo="470">
+    <Comments>https://github.com/adempiere/adempiere/issues/690</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="53014" Action="I" Record_ID="50027" Table="AD_ModelValidator">
+        <Data AD_Column_ID="53252" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="53253" Column="AD_ModelValidator_ID">50027</Data>
+        <Data AD_Column_ID="53254" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="53255" Column="Created">2016-11-30 09:21:46.687</Data>
+        <Data AD_Column_ID="53256" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="53261" Column="Description">This Validator enables freight calculation functionality</Data>
+        <Data AD_Column_ID="53263" Column="EntityType">EE03</Data>
+        <Data AD_Column_ID="53262" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="53259" Column="IsActive">true</Data>
+        <Data AD_Column_ID="53264" Column="ModelValidationClass">org.eevolution.model.FreightModelValidator</Data>
+        <Data AD_Column_ID="53260" Column="Name">Model Validator for Freight Management</Data>
+        <Data AD_Column_ID="54094" Column="SeqNo">30</Data>
+        <Data AD_Column_ID="53257" Column="Updated">2016-11-30 09:21:46.687</Data>
+        <Data AD_Column_ID="53258" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

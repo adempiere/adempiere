@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="SysConfig_MatchInv_Use_DateAcct_From_Receipt" ReleaseNo="3.9.1" SeqNo="3620">
+    <Comments>https://github.com/adempiere/adempiere/issues/1551</Comments>
+    <Step SeqNo="570" StepType="AD">
+      <PO AD_Table_ID="50009" Action="I" Record_ID="50129" Table="AD_SysConfig">
+        <Data AD_Column_ID="50187" Column="AD_SysConfig_ID">50129</Data>
+        <Data AD_Column_ID="50188" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="50189" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="50191" Column="Updated">2018-01-24 14:47:20.297</Data>
+        <Data AD_Column_ID="50190" Column="Created">2018-01-24 14:47:20.297</Data>
+        <Data AD_Column_ID="50194" Column="IsActive">true</Data>
+        <Data AD_Column_ID="50192" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="53271" Column="ConfigurationLevel">C</Data>
+        <Data AD_Column_ID="50195" Column="Name">MATCHINV_USE_DATEACCT_FROM_RECEIPT</Data>
+        <Data AD_Column_ID="50193" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="50196" Column="Value">N</Data>
+        <Data AD_Column_ID="50197" Column="Description">For Match Invoice from Invoice complete and special form "Match": When material receipt period open, then use the material receipt dateacct, else use dateacct from invoiceline</Data>
+        <Data AD_Column_ID="53270" Column="EntityType">D</Data>
+        <Data AD_Column_ID="84421" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

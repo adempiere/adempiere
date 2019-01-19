@@ -1,0 +1,202 @@
+/******************************************************************************
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2011, Michael McKay, All Rights Reserved.                    *
+ * This program is free software; you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ ****************************************************************************** 
+ * common_functions.sah
+ * 
+ * A collection of common functions used in multiple scenarios.
+ * 
+ *******************************************************************/
+
+// Wrapper functions - to simplify SAHI for ADempiere testing
+_include("./wrapper/dialogs.sah");
+_include("./wrapper/fields.sah");
+_include("./wrapper/icons.sah");
+_include("./wrapper/info.sah");
+_include("./wrapper/lookup.sah");
+_include("./wrapper/windows.sah");
+
+// User interface support
+_include("./model/VPayment.sah");
+_include("./model/VLocationDialog.sah");
+
+
+// Common test settings
+_setStrictVisibilityCheck(true);  // The default
+
+// Function declarations
+
+/**
+ * verifyLogin($usr, $client, $org)
+ * Test the login id that appears in the top right corner of the browser
+ * @param $usr 		the user name
+ * @param $client	the client 
+ * @param $org		the org
+ */
+function verifyLogin($usr, $client, $org){
+	// Test the login id that appears in the top right corner of the browser
+	var $loginID;
+	$loginID = $usr + "@" + $client + "." + $org;
+	
+	_assertExists(_span($loginID));
+	_assert(_isVisible(_span($loginID)));
+	_assertEqual($loginID, _getText(_span($loginID)));
+	//_assertContainsText($loginID, _span($loginID));
+}
+
+/**
+* loginDefault($usr, $pwd)
+* Login using default
+* @param $usr 		the user name
+* @param $pwd		the password 
+*/
+function loginDefault($usr, $pwd) {
+	login($usr, $pwd, "", "", "", "", "", "");
+}
+
+/**
+* login
+* Login using specific values. $usr, $pwd are required
+* For other variables, null strings will use the default values. 
+* @param $usr 			the user name (required)
+* @param $pwd			the password (required)
+* @param $language		
+* @param $rememberMe	"No" or some string - only No is tested. Anything else will be treated as Yes.
+* @param $role
+* @param $client
+* @param $org
+* @param $warehouse
+*/
+function login($usr, $pwd, $language, $rememberMe, $role, $client, $org, $warehouse){
+	// Used from the main login screen.
+	// $rememberMe can be "", "Yes" or "No"
+	// $usr, $pwd are required
+	// Other variables can be null strings
+	
+	if($usr =="") _log("Common Functions Login: User ID can not be null.", "error");
+	if($pwd =="") _log("Common Functions Login: Password can not be null.", "error");
+
+	// Test that the webui is displayed
+	_assertExists(_textbox(0));
+	_assertExists(_password(0));
+	_assertExists(_textbox(1));
+	_assertExists(_checkbox(0));
+	_assertExists(_image("Ok24.png"));
+	_assert(_isVisible(_image("Ok24.png")));	
+	
+	_setValue(_textbox(0), $usr);
+	_click(_password(0));
+	_setValue(_password(0), $pwd);
+	if ($language != "") _setValue(_textbox(1), $language);
+	_assertExists(_checkbox(0));
+	if (_condition(_exists(_checkbox(0)))) {
+		_assert(_isVisible(_checkbox(0)));
+		if(_condition(_isVisible(_checkbox(0)) && $rememberMe != "")) {;
+			if ($rememberMe == "No") {
+					_uncheck(_checkbox(0)); // Remember Me check box is selected. Deselect it.
+			} 
+			else {
+				_check(_checkbox(0));  // Remember Me check box is deselected. Select it.
+			}
+		}
+	} 
+	_click(_image("Ok24.png")); //Login - Connection
+
+	// Test for role, client, org and warehouse
+	_assertExists(_textbox(0)); // Role
+	_assertExists(_textbox(1)); // Client
+	_assertExists(_textbox(2)); // Organization
+	_assertExists(_textbox(3)); // Warehouse
+	_assertExists(_image("Ok24.png"));
+	_assert(_isVisible(_image("Ok24.png")));
+
+	if ($role != "" && $role != null) {
+		_setValue(_textbox(0), $role);
+	}
+	else {
+		$role = _getValue(_textbox(0));
+	}
+	_log("Login: Role=" + $role, "info");
+	
+	if ($client != "" && $client != null) {
+		_setValue(_textbox(1), $client);
+	}
+	else {
+		$client = _getValue(_textbox(1));
+	}
+	_log("Login: Client=" + $client, "info");
+	
+	if ($org != "" && $org != null) {
+		_setValue(_textbox(2), $org);
+	}
+	else {
+		$org = _getValue(_textbox(2));
+	} 
+	_log("Login: Org=" + $org, "info");
+	
+	if ($warehouse != "" && $warehouse != null){
+		_setValue(_textbox(3), $warehouse); 
+	}
+	else {
+		$warehouse = _getValue(_textbox(3));
+	} 
+	_log("Login: Warehouse=" + $warehouse, "info");
+
+	iConfirm(); //Roles and Organization
+
+	_wait(1000); // Wait for the page to load
+
+	verifyLogin($usr, $client, $org);  //check that the correct login occurred
+}
+
+function logout() {
+	if (_exists(_link("Log Out"))){
+		_click(_link("Log Out"));
+		_wait(20000,_exists(_password(0))); // Give the logout a chance or the url could be reset
+	}
+	else {
+		_log("Logout: Can't find logout link. Did nothing.", "info");
+	}
+}
+
+function versionTest($Version){
+	// Used on login screen to test the version number
+	_assertExists(_cell($Version));
+	_assert(_isVisible(_cell($Version)));
+	_assertEqual($Version, _getText(_cell($Version)));
+	_assertContainsText($Version, _cell($Version));
+}
+
+/********************************************************************
+ *
+ * random_string
+ * 
+ * Generates a string of random letters of a defined length
+ *
+ *******************************************************************/
+function random_string($length_str){
+    var $alphabet = "abcdefghijklmnopqrstuvwxyz";
+    var $rand_str = ""; // string you want to create
+    var $number_str = 0; // rank of the current letter 
+    var $new_letter ;
+    var $l=0;
+    for($l=0;$l<$length_str;$l++){
+        $new_letter = $alphabet.charAt(_random(25));
+        $rand_str += $new_letter;
+        $number_str++;
+    }
+    return $rand_str; 
+}
+
+
+	
+// End of common functions

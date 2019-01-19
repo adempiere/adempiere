@@ -29,7 +29,7 @@
 package org.eevolution.model;
 
 import java.sql.ResultSet;
-import java.util.Collection;
+import java.util.List;
 import java.util.Properties;
 
 import org.compiere.model.Query;
@@ -43,38 +43,38 @@ import org.compiere.util.CLogger;
 public class MWMDefinition extends X_WM_Definition
 {
 
-	public static Collection<MWMDefinition> getAll(Properties ctx,String trxName)
+	public static List<MWMDefinition> getAll(Properties ctx, String trxName)
 	{
-		if (s_Collection != null)
+		if (definitions != null)
 		{
-			return s_Collection;
+			return definitions;
 		}
 		
-		s_Collection = new Query(ctx,Table_Name, null ,trxName)
+		definitions = new Query(ctx,Table_Name, null ,trxName)
 			.setOnlyActiveRecords(true)
 			.setClient_ID()
 			.setOrderBy(MWMDefinition.COLUMNNAME_SeqNo)
 			.list();	
-		return s_Collection;
+		return definitions;
 	}
 	
-	public static Collection<MWMDefinition> getByOutboundType(Properties ctx,String trxName)
+	public static List<MWMDefinition> getByOutBoundType(Properties ctx,String trxName)
 	{
-		if(s_CollectionOudboudType != null)
+		if(definitionOutBoundType != null)
 		{
-			return s_CollectionOudboudType;
+			return definitionOutBoundType;
 		}
-		//EXISTS (SELECT 1 FROM  WM_Strategy WHERE  WM_Strategy.WM_Strategy_ID = WM_Definition.WM_Strategy_ID AND  InOutBoundType = ?)
+
 		String whereClause = "EXISTS (SELECT 1 FROM  WM_Strategy WHERE  WM_Strategy.WM_Strategy_ID = WM_Definition.WM_Strategy_ID AND InOutBoundType = ?)";
 		
-		s_CollectionOudboudType = new Query(ctx,Table_Name, whereClause ,trxName)
+		definitionOutBoundType = new Query(ctx,Table_Name, whereClause ,trxName)
 		.setOnlyActiveRecords(true)
-		.setParameters(new Object[]{MWMRule.INOUTBOUNDTYPE_OutboundOperation})
+		.setParameters(MWMRule.INOUTBOUNDTYPE_OutboundOperation)
 		.setClient_ID()
 		.setOrderBy(MWMDefinition.COLUMNNAME_SeqNo)
 		.list();		
 
-		return s_CollectionOudboudType;
+		return definitionOutBoundType;
 	}
 	
 
@@ -87,13 +87,13 @@ public class MWMDefinition extends X_WM_Definition
 	
 	
 	/**	Cache						*/
-	private static Collection<MWMDefinition> s_Collection = null;
+	private static List<MWMDefinition> definitions = null;
 	
 	/**	Cache OudboudType			*/
-	private static Collection<MWMDefinition> s_CollectionOudboudType = null;
+	private static List<MWMDefinition> definitionOutBoundType = null;
 	
 	/**	Cache OudboudType			*/
-	private static Collection<MWMDefinition> s_CollectionInboudType = null;
+	private static List<MWMDefinition> definitionInBoundType = null;
 	
 	
 	/**************************************************************************
@@ -148,7 +148,7 @@ public class MWMDefinition extends X_WM_Definition
 		return sb.toString ();
 	}	//	toString
 	
-	public MWMStrategy getWMStrategy()
+	public MWMStrategy getWarehouseStrategy()
 	{
 		return new MWMStrategy(getCtx(), getWM_Strategy_ID(), get_TrxName());
 	}

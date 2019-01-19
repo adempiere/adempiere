@@ -1,19 +1,168 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module classpath="eclipse" classpath-dir="$MODULE_DIR$" type="JAVA_MODULE" version="4">
-  <component name="FacetManager">
-    <facet type="web" name="Web">
-      <configuration>
-        <descriptors>
-          <deploymentDescriptor name="web.xml" url="file://$MODULE_DIR$/web/WEB-INF/web.xml" />
-        </descriptors>
-        <webroots>
-          <root url="file://$MODULE_DIR$/zkwebui" relative="/" />
-        </webroots>
-      </configuration>
-    </facet>
+<module version="4">
+  <component name="EclipseModuleManager">
+    <libelement value="jar://$MODULE_DIR$/tools/lib/jstl.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/tools/lib/log4j.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/tools/lib/mail.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/tools/lib/standard.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/tools/lib/Verisign.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/jboss/lib/commons-httpclient.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/tools/lib/ant-commons-net.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/tools/lib/ant-launcher.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/tools/lib/ant.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/tools/lib/jsp-api.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/tools/lib/servlet-api.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/tools/lib/ojdbc6.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/tools/lib/jpayment.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/tools/lib/jnlp.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/tools/lib/commons-collections-3.1.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/tools/lib/commons-logging.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/tools/lib/commons-net-1.4.0.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/tools/lib/jgraph.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/tools/lib/postgresql.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/tools/lib/c3p0-0.9.1.2.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/tools/lib/c3p0-oracle-thin-extras-0.9.1.2.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/tools/lib/activemq-core-5.7.0.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/tools/lib/looks-2.0.4.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/tools/lib/xercesImpl.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/tools/lib/xjavadoc-1.1.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/tools/lib/icepdf-core-6.2.2.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/tools/lib/icepdf-viewer-6.2.2.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/tools/lib/swingx-1.6.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/tools/lib/bsh-2.0b6.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/tools/lib/bsh-engine.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/tools/lib/groovy-engine.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/tools/lib/jython.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/tools/lib/jython-engine.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/tools/lib/script-api.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/tools/lib/barbecue-1.5-beta1.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/tools/lib/javaee.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/serverApps/src/web/WEB-INF/lib/commons-beanutils.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/serverApps/src/web/WEB-INF/lib/commons-beanutils-bean-collections.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/serverApps/src/web/WEB-INF/lib/commons-beanutils-core.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/serverApps/src/web/WEB-INF/lib/commons-codec-1.3.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/serverApps/src/web/WEB-INF/lib/commons-digester-1.7.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/serverApps/src/web/WEB-INF/lib/commons-fileupload.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/serverApps/src/web/WEB-INF/lib/commons-lang-2.1.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/serverApps/src/web/WEB-INF/lib/commons-validator-1.2.0.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/JasperReportsTools/lib/iReport.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/jboss/client/jbosssx-client.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/jboss/client/jnp-client.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/jboss/client/jbossall-client.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/glassfishfacet/lib/appserv-rt.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/zkwebui/WEB-INF/lib/cglib.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/zkwebui/WEB-INF/lib/zcommon.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/zkwebui/WEB-INF/lib/zk.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/zkwebui/WEB-INF/lib/zul.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/zkwebui/WEB-INF/lib/asm.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/zkwebui/WEB-INF/lib/commons-el.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/zkwebui/WEB-INF/lib/commons-io.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/zkwebui/WEB-INF/lib/fckez.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/zkwebui/WEB-INF/lib/Filters.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/zkwebui/WEB-INF/lib/gmapsz.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/zkwebui/WEB-INF/lib/jruby.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/zkwebui/WEB-INF/lib/js.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/zkwebui/WEB-INF/lib/json_simple.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/zkwebui/WEB-INF/lib/jxl.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/zkwebui/WEB-INF/lib/mvel.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/zkwebui/WEB-INF/lib/ognl.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/zkwebui/WEB-INF/lib/timelinez.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/zkwebui/WEB-INF/lib/zcommons-el.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/zkwebui/WEB-INF/lib/zhtml.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/zkwebui/WEB-INF/lib/zhtml-sources.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/zkwebui/WEB-INF/lib/zkex.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/zkwebui/WEB-INF/lib/zkmax.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/zkwebui/WEB-INF/lib/zkmax-sources.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/zkwebui/WEB-INF/lib/zkplus.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/zkwebui/WEB-INF/lib/zml.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/zkwebui/WEB-INF/lib/bsh.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/zkwebui/WEB-INF/lib/commons-fileupload.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/zkwebui/WEB-INF/lib/jython.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/zkwebui/WEB-INF/lib/timelinez-sources.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/zkwebui/WEB-INF/lib/zcommon-sources.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/zkwebui/WEB-INF/lib/zkex-sources.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/zkwebui/WEB-INF/lib/zk-sources.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/zkwebui/WEB-INF/lib/zml-sources.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/zkwebui/WEB-INF/lib/zul-sources.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/zkwebui/WEB-INF/lib/zweb-sources.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/posterita/reference/aspectJ/aspectjlib.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/posterita/reference/aspectJ/aspectjtools.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/posterita/reference/aspectJ/aspectjweaver.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/posterita/posterita/web/WEB-INF/lib/struts.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/posterita/posterita/web/WEB-INF/lib/aop.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/posterita/posterita/web/WEB-INF/lib/aspectjrt.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/posterita/posterita/web/WEB-INF/lib/barcode4j.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/posterita/posterita/web/WEB-INF/lib/commons-validator.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/tools/lib/testing/spiffy-with_source-all-0.05.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/tools/lib/testing/SuperCSV-with_src-1.52.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/zkwebui/WEB-INF/lib/keylistener.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/zkwebui/WEB-INF/lib/junit.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/tools/lib/junit.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/posterita/posterita/web/WEB-INF/lib/displaytag-1.1.1.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/zkwebui/WEB-INF/lib/zweb.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/posterita/posterita/web/WEB-INF/lib/commons-fileupload.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/zkwebui/WEB-INF/lib/zkplus-sources.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/posterita/posterita/web/WEB-INF/lib/displaytag-export-poi-1.1.1.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/posterita/posterita/web/WEB-INF/lib/log4j-1.2.13.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/posterita/posterita/web/WEB-INF/lib/servlet.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/packages/liberoHR.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/packages/liberoMFG.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/tools/lib/iText-2.1.7.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/tools/lib/miglayout-3.7.1-swing.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/tools/lib/payflow.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/tools/lib/cron4j-2.2.1.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/tools/lib/mysql-connector-java-5.1.13-bin.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/tools/lib/groovy-all-2.4.7!/" />
+    <libelement value="jar://$MODULE_DIR$/tools/lib/jcommon-1.0.18.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/tools/lib/jfreechart-1.0.15.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/JasperReportsTools/lib/jasperreports-5.1.0.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/tools/lib/poi-3.9-20121203.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/tools/lib/OpenForecast-0.5.0.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/packages/liberoWM.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/tools/lib/commons-io.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/org.adempiere.webservice/WEB-INF/lib/xfire-all-1.2.6.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/org.adempiere.webservice/WEB-INF/lib/xbean.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/org.adempiere.webservice/WEB-INF/lib/xbean-spring-2.8.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/org.adempiere.webservice/WEB-INF/lib/generated_xmlbeans.jar!/" />
+    <src_description expected_position="0">
+      <src_folder value="file://$MODULE_DIR$/base/src" expected_position="0" />
+      <src_folder value="file://$MODULE_DIR$/glassfishfacet/src" expected_position="1" />
+      <src_folder value="file://$MODULE_DIR$/jbossfacet/src" expected_position="2" />
+      <src_folder value="file://$MODULE_DIR$/client/src" expected_position="3" />
+      <src_folder value="file://$MODULE_DIR$/sqlj/src" expected_position="4" />
+      <src_folder value="file://$MODULE_DIR$/install/src" expected_position="5" />
+      <src_folder value="file://$MODULE_DIR$/extend/src" expected_position="6" />
+      <src_folder value="file://$MODULE_DIR$/serverRoot/src/main/ejb" expected_position="7" />
+      <src_folder value="file://$MODULE_DIR$/serverRoot/src/main/server" expected_position="8" />
+      <src_folder value="file://$MODULE_DIR$/serverRoot/src/main/servlet" expected_position="9" />
+      <src_folder value="file://$MODULE_DIR$/interfaces/src" expected_position="10" />
+      <src_folder value="file://$MODULE_DIR$/serverApps/src/main/servlet" expected_position="11" />
+      <src_folder value="file://$MODULE_DIR$/zkwebui/WEB-INF/src" expected_position="12" />
+      <src_folder value="file://$MODULE_DIR$/JasperReports/src" expected_position="13" />
+      <src_folder value="file://$MODULE_DIR$/JasperReportsWebApp/src" expected_position="14" />
+      <src_folder value="file://$MODULE_DIR$/tools/src" expected_position="15" />
+      <src_folder value="file://$MODULE_DIR$/webCM/src/main/servlet" expected_position="16" />
+      <src_folder value="file://$MODULE_DIR$/migration/src" expected_position="17" />
+      <src_folder value="file://$MODULE_DIR$/posterita/posterita/src/main" expected_position="18" />
+      <src_folder value="file://$MODULE_DIR$/org.eevolution.cashflow/src/main/java" expected_position="19" />
+      <src_folder value="file://$MODULE_DIR$/org.eevolution.hr_and_payroll/src/main/java/base" expected_position="20" />
+      <src_folder value="file://$MODULE_DIR$/org.eevolution.hr_and_payroll/src/main/java/ui/swing" expected_position="21" />
+      <src_folder value="file://$MODULE_DIR$/org.eevolution.hr_and_payroll/src/main/java/ui/zk" expected_position="22" />
+      <src_folder value="file://$MODULE_DIR$/org.eevolution.manufacturing/src/main/java/base" expected_position="23" />
+      <src_folder value="file://$MODULE_DIR$/org.eevolution.manufacturing/src/main/java/test" expected_position="24" />
+      <src_folder value="file://$MODULE_DIR$/org.eevolution.manufacturing/src/main/java/ui/swing" expected_position="25" />
+      <src_folder value="file://$MODULE_DIR$/org.eevolution.manufacturing/src/main/java/ui/zk" expected_position="26" />
+      <src_folder value="file://$MODULE_DIR$/org.eevolution.warehouse/src/main/java/base" expected_position="27" />
+      <src_folder value="file://$MODULE_DIR$/org.adempiere.asset/src/main/java/base" expected_position="28" />
+      <src_folder value="file://$MODULE_DIR$/org.adempiere.webservice/WEB-INF/src" expected_position="29" />
+      <src_folder value="file://$MODULE_DIR$/com.kkalice.adempiere.migrate/src" expected_position="30" />
+      <src_folder value="file://$MODULE_DIR$/org.adempiere.test/src/test/scala" expected_position="31" />
+      <src_folder value="file://$MODULE_DIR$/org.adempiere.test/src/main/scala" expected_position="32" />
+    </src_description>
   </component>
-  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_7" inherit-compiler-output="false">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
     <output url="file://$MODULE_DIR$/bin" />
+    <output-test url="file://$MODULE_DIR$/test" />
     <exclude-output />
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/base/src" isTestSource="false" />
@@ -47,6 +196,21 @@
       <sourceFolder url="file://$MODULE_DIR$/org.adempiere.asset/src/main/java/base" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/org.adempiere.webservice/WEB-INF/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/com.kkalice.adempiere.migrate/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/org.adempiere.test/src/test/scala" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/org.adempiere.test/src/main/scala" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/org.eevolution.warehouse/src/main/java/ui/zk" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/org.adempiere.production/src/main/java/base" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/org.eevolution.fleet /src/main/java/main" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/org.eevolution.fleet/src/main/java/base" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/org.eevolution.fleet/src/main/java/ui/zk" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/org.adempiere.pos/src/main/java/base" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/org.adempiere.pos/src/main/java/ui/swing" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/org.adempiere.pos/src/main/java/ui/zk" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/org.adempiere.request/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/org.adempiere.project/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/org.adempiere.request/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/org.adempiere.project/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/org.adempiere.crm/src/main/java" isTestSource="false" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="inheritedJdk" />
@@ -150,9 +314,9 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
-      <library name="ojdbc6.jar">
+      <library name="oracle.jar">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/tools/lib/ojdbc6.jar!/" />
+          <root url="jar://$MODULE_DIR$/tools/lib/oracle.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -180,15 +344,6 @@
       <library name="commons-collections-3.1.jar">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/tools/lib/commons-collections-3.1.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="commons-logging.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/tools/lib/commons-logging.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -276,18 +431,18 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
-      <library name="xml-apis.jar">
+      <library name="icepdf-core-6.2.2.jar">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/tools/lib/xml-apis.jar!/" />
+          <root url="jar://$MODULE_DIR$/tools/lib/icepdf-core-6.2.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
-      <library name="jpedal.jar">
+      <library name="icepdf-viewer-6.2.2.jar">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/tools/lib/jpedal.jar!/" />
+          <root url="jar://$MODULE_DIR$/tools/lib/icepdf-viewer-6.2.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -303,9 +458,9 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
-      <library name="bsh-2.0b5.jar">
+      <library name="bsh-2.0b6.jar">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/tools/lib/bsh-2.0b5.jar!/" />
+          <root url="jar://$MODULE_DIR$/tools/lib/bsh-2.0b6.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -823,78 +978,6 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
-      <library name="aspectjlib.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/posterita/reference/aspectJ/aspectjlib.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="aspectjtools.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/posterita/reference/aspectJ/aspectjtools.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="aspectjweaver.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/posterita/reference/aspectJ/aspectjweaver.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="struts.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/posterita/posterita/web/WEB-INF/lib/struts.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="aop.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/posterita/posterita/web/WEB-INF/lib/aop.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="aspectjrt.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/posterita/posterita/web/WEB-INF/lib/aspectjrt.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="barcode4j.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/posterita/posterita/web/WEB-INF/lib/barcode4j.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="commons-validator.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/posterita/posterita/web/WEB-INF/lib/commons-validator.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
       <library name="spiffy-with_source-all-0.05.jar">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/tools/lib/testing/spiffy-with_source-all-0.05.jar!/" />
@@ -940,27 +1023,9 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
-      <library name="displaytag-1.1.1.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/posterita/posterita/web/WEB-INF/lib/displaytag-1.1.1.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
       <library name="zweb.jar">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/zkwebui/WEB-INF/lib/zweb.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="posterita/posterita/web/WEB-INF/lib/commons-fileupload.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/posterita/posterita/web/WEB-INF/lib/commons-fileupload.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -973,55 +1038,6 @@
         </CLASSES>
         <JAVADOC />
         <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="displaytag-export-poi-1.1.1.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/posterita/posterita/web/WEB-INF/lib/displaytag-export-poi-1.1.1.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="log4j-1.2.13.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/posterita/posterita/web/WEB-INF/lib/log4j-1.2.13.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="servlet.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/posterita/posterita/web/WEB-INF/lib/servlet.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="liberoHR.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/packages/liberoHR.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="file:///adempiereLiberoHR" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="liberoMFG.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/packages/liberoMFG.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="file:///adempiereLibero" />
-        </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
@@ -1070,15 +1086,6 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
-      <library name="groovy-all-2.0.1.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/tools/lib/groovy-all-2.0.1.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
       <library name="jcommon-1.0.18.jar">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/tools/lib/jcommon-1.0.18.jar!/" />
@@ -1096,37 +1103,10 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="jasperreports-5.1.0.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/JasperReportsTools/lib/jasperreports-5.1.0.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="poi-3.9-20121203.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/tools/lib/poi-3.9-20121203.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
     <orderEntry type="module-library">
       <library name="OpenForecast-0.5.0.jar">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/tools/lib/OpenForecast-0.5.0.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library name="liberoWM.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/packages/liberoWM.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -1177,5 +1157,263 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="SBT: javax.servlet:javax.servlet-api:3.0.1:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.typesafe:config:1.2.0:jar" level="project" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/mariadb-java-client.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/commons-logging-1.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/ooxml-schemas-1.3.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/packages/ADempierePOS.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/packages/CashflowManagement.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/packages/FixedAssetManagement.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/packages/FleetManagement.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/packages/FreightManagement.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/packages/HumanResourceAndPayroll.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/packages/ManufacturingManagement.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/packages/ProductionLight.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/packages/WarehouseManagement.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/icepdf-core-6.2.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/icepdf-viewer-6.2.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$MODULE_DIR$/tools/lib/icepdf-viewer-6.2.2.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/groovy-all-2.4.15.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/pdfa-7.1.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/layout-7.1.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/kernel-7.1.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/javax.inject-1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/itextpdf-5.5.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/itext-pdfa-5.5.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/itext-carriage-0.8.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/io-7.1.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/harness-1.0.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/poi-ooxml-3.17.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/poi-3.17.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/commons-collections4-4.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/JasperReportsTools/lib/jasperreports-6.6.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="library" name="org.scalatest:scalatest_2.12:3.0.5" level="project" />
+    <orderEntry type="library" name="scala-sdk-2.12.8" level="project" />
   </component>
 </module>

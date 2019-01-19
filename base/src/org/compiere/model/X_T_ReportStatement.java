@@ -1,8 +1,9 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -11,8 +12,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for T_ReportStatement
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_T_ReportStatement extends PO implements I_T_ReportStatement, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150223L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_T_ReportStatement (Properties ctx, int T_ReportStatement_ID, String trxName)
@@ -99,6 +99,97 @@ public class X_T_ReportStatement extends PO implements I_T_ReportStatement, I_Pe
 	public int getAD_PInstance_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_PInstance_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Account Name.
+		@param AccountName Account Name	  */
+	public void setAccountName (String AccountName)
+	{
+		set_Value (COLUMNNAME_AccountName, AccountName);
+	}
+
+	/** Get Account Name.
+		@return Account Name	  */
+	public String getAccountName () 
+	{
+		return (String)get_Value(COLUMNNAME_AccountName);
+	}
+
+	/** AccountType AD_Reference_ID=117 */
+	public static final int ACCOUNTTYPE_AD_Reference_ID=117;
+	/** Asset = A */
+	public static final String ACCOUNTTYPE_Asset = "A";
+	/** Liability = L */
+	public static final String ACCOUNTTYPE_Liability = "L";
+	/** Revenue = R */
+	public static final String ACCOUNTTYPE_Revenue = "R";
+	/** Expense = E */
+	public static final String ACCOUNTTYPE_Expense = "E";
+	/** Owner's Equity = O */
+	public static final String ACCOUNTTYPE_OwnerSEquity = "O";
+	/** Memo = M */
+	public static final String ACCOUNTTYPE_Memo = "M";
+	/** Set Account Type.
+		@param AccountType 
+		Indicates the type of account
+	  */
+	public void setAccountType (String AccountType)
+	{
+
+		set_Value (COLUMNNAME_AccountType, AccountType);
+	}
+
+	/** Get Account Type.
+		@return Indicates the type of account
+	  */
+	public String getAccountType () 
+	{
+		return (String)get_Value(COLUMNNAME_AccountType);
+	}
+
+	/** Set Account Key.
+		@param AccountValue 
+		Key of Account Element
+	  */
+	public void setAccountValue (String AccountValue)
+	{
+		set_Value (COLUMNNAME_AccountValue, AccountValue);
+	}
+
+	/** Get Account Key.
+		@return Key of Account Element
+	  */
+	public String getAccountValue () 
+	{
+		return (String)get_Value(COLUMNNAME_AccountValue);
+	}
+
+	public org.compiere.model.I_C_ElementValue getAccount() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_ElementValue)MTable.get(getCtx(), org.compiere.model.I_C_ElementValue.Table_Name)
+			.getPO(getAccount_ID(), get_TrxName());	}
+
+	/** Set Account.
+		@param Account_ID 
+		Account used
+	  */
+	public void setAccount_ID (int Account_ID)
+	{
+		if (Account_ID < 1) 
+			set_Value (COLUMNNAME_Account_ID, null);
+		else 
+			set_Value (COLUMNNAME_Account_ID, Integer.valueOf(Account_ID));
+	}
+
+	/** Get Account.
+		@return Account used
+	  */
+	public int getAccount_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Account_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -280,5 +371,22 @@ public class X_T_ReportStatement extends PO implements I_T_ReportStatement, I_Pe
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
+	}
+
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
 	}
 }

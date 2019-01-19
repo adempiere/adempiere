@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="PlaceOfBirth should be a ID intead a String #960" ReleaseNo="3.8.0" SeqNo="2270">
+    <Comments>See: https://github.com/adempiere/adempiere/issues/960</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="276" Action="I" Record_ID="59323" Table="AD_Element">
+        <Data AD_Column_ID="2595" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2594" Column="AD_Element_ID">59323</Data>
+        <Data AD_Column_ID="2596" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58588" Column="AD_Reference_ID">21</Data>
+        <Data AD_Column_ID="58590" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2602" Column="ColumnName">PlaceOfBirth_ID</Data>
+        <Data AD_Column_ID="2598" Column="Created">2017-04-10 15:50:12.29</Data>
+        <Data AD_Column_ID="2599" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2604" Column="Description">Place of Birth (Location)</Data>
+        <Data AD_Column_ID="6484" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="58589" Column="FieldLength">10</Data>
+        <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="2597" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2603" Column="Name">Place of Birth (Location)</Data>
+        <Data AD_Column_ID="6283" Column="PO_Description" isNewNull="true"/>
+        <Data AD_Column_ID="6284" Column="PO_Help" isNewNull="true"/>
+        <Data AD_Column_ID="6285" Column="PO_Name" isNewNull="true"/>
+        <Data AD_Column_ID="6286" Column="PO_PrintName" isNewNull="true"/>
+        <Data AD_Column_ID="4299" Column="PrintName">Place of Birth (Location)</Data>
+        <Data AD_Column_ID="2600" Column="Updated">2017-04-10 15:50:12.29</Data>
+        <Data AD_Column_ID="2601" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="277" Action="I" Record_ID="59323" Table="AD_Element_Trl">
+        <Data AD_Column_ID="2639" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2637" Column="AD_Element_ID">59323</Data>
+        <Data AD_Column_ID="2638" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="2640" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2642" Column="Created">2017-04-10 15:50:15.323</Data>
+        <Data AD_Column_ID="2643" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2647" Column="Description">Place of Birth (Location)</Data>
+        <Data AD_Column_ID="2648" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="2641" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2649" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="2646" Column="Name">Place of Birth (Location)</Data>
+        <Data AD_Column_ID="6448" Column="PO_Description" isNewNull="true"/>
+        <Data AD_Column_ID="6449" Column="PO_Help" isNewNull="true"/>
+        <Data AD_Column_ID="6450" Column="PO_Name" isNewNull="true"/>
+        <Data AD_Column_ID="6451" Column="PO_PrintName" isNewNull="true"/>
+        <Data AD_Column_ID="4300" Column="PrintName">Place of Birth (Location)</Data>
+        <Data AD_Column_ID="2644" Column="Updated">2017-04-10 15:50:15.323</Data>
+        <Data AD_Column_ID="2645" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="277" Action="U" Record_ID="59323" Table="AD_Element_Trl">
+        <Data AD_Column_ID="2637" Column="AD_Element_ID" oldValue="59323">59323</Data>
+        <Data AD_Column_ID="2638" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="2647" Column="Description" oldValue="Place of Birth (Location)">Lugar de Nacimiento del Empleado</Data>
+        <Data AD_Column_ID="2648" Column="Help" isOldNull="true">Indica en que lugar nació el empleado</Data>
+        <Data AD_Column_ID="2646" Column="Name" oldValue="Place of Birth (Location)">Lugar de Nacimiento (Localización)</Data>
+        <Data AD_Column_ID="4300" Column="PrintName" oldValue="Place of Birth (Location)">Lugar de Nacimiento (Localización)</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="101" Action="I" Record_ID="82798" Table="AD_Column">
+        <Data AD_Column_ID="109" Column="AD_Column_ID">82798</Data>
+        <Data AD_Column_ID="110" Column="Version">0</Data>
+        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
+        <Data AD_Column_ID="548" Column="IsActive">true</Data>
+        <Data AD_Column_ID="114" Column="AD_Table_ID">291</Data>
+        <Data AD_Column_ID="111" Column="Name">Place of Birth (Location)</Data>
+        <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="116" Column="ColumnName">PlaceOfBirth_ID</Data>
+        <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="549" Column="Created">2017-04-10 15:56:34.476</Data>
+        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="6482" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="127" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="112" Column="Description">Place of Birth (Location)</Data>
+        <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="120" Column="IsParent">false</Data>
+        <Data AD_Column_ID="113" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="551" Column="Updated">2017-04-10 15:56:34.476</Data>
+        <Data AD_Column_ID="118" Column="FieldLength">10</Data>
+        <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID">21</Data>
+        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="3360" Column="IsUpdateable">true</Data>
+        <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
+        <Data AD_Column_ID="6483" Column="IsSyncDatabase">N</Data>
+        <Data AD_Column_ID="119" Column="IsKey">false</Data>
+        <Data AD_Column_ID="3369" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
+        <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
+        <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
+        <Data AD_Column_ID="56187" Column="IsAllowLogging">true</Data>
+        <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
+        <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2608" Column="AD_Element_ID">59323</Data>
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="752" Action="I" Record_ID="82798" Table="AD_Column_Trl">
+        <Data AD_Column_ID="12961" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="12955" Column="AD_Column_ID">82798</Data>
+        <Data AD_Column_ID="12953" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="12951" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="12960" Column="Created">2017-04-10 15:56:36.505</Data>
+        <Data AD_Column_ID="12956" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="12959" Column="IsActive">true</Data>
+        <Data AD_Column_ID="12954" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="12957" Column="Name">Place of Birth (Location)</Data>
+        <Data AD_Column_ID="12952" Column="Updated">2017-04-10 15:56:36.505</Data>
+        <Data AD_Column_ID="12958" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="80784" Table="AD_Field">
+        <Data AD_Column_ID="174" Column="AD_Column_ID" oldValue="82084">82798</Data>
+        <Data AD_Column_ID="169" Column="Description" oldValue="Place of Birth">Place of Birth (Location)</Data>
+        <Data AD_Column_ID="170" Column="Help" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="74868" Column="IsAllowCopy" oldValue="true">false</Data>
+        <Data AD_Column_ID="168" Column="Name" oldValue="Place of Birth">Place of Birth (Location)</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="81214" Table="AD_Field">
+        <Data AD_Column_ID="174" Column="AD_Column_ID" oldValue="82084">82798</Data>
+        <Data AD_Column_ID="169" Column="Description" oldValue="Place of Birth">Place of Birth (Location)</Data>
+        <Data AD_Column_ID="170" Column="Help" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="74868" Column="IsAllowCopy" oldValue="true">false</Data>
+        <Data AD_Column_ID="168" Column="Name" oldValue="Place of Birth">Place of Birth (Location)</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="81215" Table="AD_Field">
+        <Data AD_Column_ID="174" Column="AD_Column_ID" oldValue="82084">82798</Data>
+        <Data AD_Column_ID="169" Column="Description" oldValue="Place of Birth">Place of Birth (Location)</Data>
+        <Data AD_Column_ID="170" Column="Help" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="74868" Column="IsAllowCopy" oldValue="true">false</Data>
+        <Data AD_Column_ID="168" Column="Name" oldValue="Place of Birth">Place of Birth (Location)</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <PO AD_Table_ID="752" Action="D" Record_ID="82084" Table="AD_Column_Trl">
+        <Data AD_Column_ID="12961" Column="AD_Client_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="12955" Column="AD_Column_ID" oldValue="82084">82084</Data>
+        <Data AD_Column_ID="12953" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="12951" Column="AD_Org_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="12960" Column="Created" isNewNull="true" oldValue="2017-02-06 19:08:27.0"/>
+        <Data AD_Column_ID="12956" Column="CreatedBy" isNewNull="true" oldValue="100"/>
+        <Data AD_Column_ID="12959" Column="IsActive" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="12954" Column="IsTranslated" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="12957" Column="Name" isNewNull="true" oldValue="Place of Birth"/>
+        <Data AD_Column_ID="12952" Column="Updated" isNewNull="true" oldValue="2017-02-06 19:08:27.0"/>
+        <Data AD_Column_ID="12958" Column="UpdatedBy" isNewNull="true" oldValue="100"/>
+      </PO>
+    </Step>
+    <Step SeqNo="100" StepType="AD">
+      <PO AD_Table_ID="101" Action="D" Record_ID="82084" Table="AD_Column">
+        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="6482" Column="EntityType" isNewNull="true" oldValue="ECA02"/>
+        <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="112" Column="Description" isNewNull="true" oldValue="Place of Birth"/>
+        <Data AD_Column_ID="109" Column="AD_Column_ID" isNewNull="true" oldValue="82084"/>
+        <Data AD_Column_ID="110" Column="Version" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="548" Column="IsActive" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="114" Column="AD_Table_ID" isNewNull="true" oldValue="291"/>
+        <Data AD_Column_ID="111" Column="Name" isNewNull="true" oldValue="Place of Birth"/>
+        <Data AD_Column_ID="124" Column="IsMandatory" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="125" Column="IsTranslated" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="116" Column="ColumnName" isNewNull="true" oldValue="PlaceOfBirth"/>
+        <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="549" Column="Created" isNewNull="true" oldValue="2017-02-06 19:08:25.0"/>
+        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="550" Column="CreatedBy" isNewNull="true" oldValue="100"/>
+        <Data AD_Column_ID="120" Column="IsParent" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="113" Column="Help" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="551" Column="Updated" isNewNull="true" oldValue="2017-04-10 15:56:11.0"/>
+        <Data AD_Column_ID="118" Column="FieldLength" isNewNull="true" oldValue="60"/>
+        <Data AD_Column_ID="126" Column="IsIdentifier" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID" isNewNull="true" oldValue="10"/>
+        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="359" Column="AD_Client_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="360" Column="AD_Org_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="3360" Column="IsUpdateable" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="6244" Column="IsSelectionColumn" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="6483" Column="IsSyncDatabase" isNewNull="true" oldValue="N"/>
+        <Data AD_Column_ID="119" Column="IsKey" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="3369" Column="AD_Process_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="552" Column="UpdatedBy" isNewNull="true" oldValue="100"/>
+        <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="1692" Column="Callout" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="128" Column="IsEncrypted" isNewNull="true" oldValue="N"/>
+        <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="56187" Column="IsAllowLogging" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="56149" Column="IsAutocomplete" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="2608" Column="AD_Element_ID" isNewNull="true" oldValue="56688"/>
+        <Data AD_Column_ID="68024" Column="IsRange" isNewNull="true" oldValue="false"/>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="SBT: org.jsoup:jsoup:1.8.1:jar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/org.jsoup/jsoup/jars/jsoup-1.8.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/org.jsoup/jsoup/srcs/jsoup-1.8.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

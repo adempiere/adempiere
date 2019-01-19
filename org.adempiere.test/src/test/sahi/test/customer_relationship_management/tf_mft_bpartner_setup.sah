@@ -1,0 +1,171 @@
+/******************************************************************************
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2011, Michael McKay, All Rights Reserved.                    *
+ * This program is free software; you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ *                                                                            *
+ * @Author Michael McKay (mjmckay)                                            *
+ *                                                                            *
+ ******************************************************************************/ 
+/**
+ * Test Flow Main Functional Tests
+ * 
+ * Business Partner Setup
+ * 
+ * This test flow creates the business partners that are used in the Main
+ * Functional Tests
+ * 
+ * See http://wiki.adempiere.net/Functional_Tests
+ * 
+ **/
+
+var $mft_bpartner_setup_CSVFilePath = "../test/customer_relationship_management/tf_mft_bpartner_setup.csv";
+var $mft_bpartner_setup_oldValue = "";
+var $mft_bpartner_setup_oldLoc = "";
+var $mft_bpartner_setup_oldContact = "";
+
+function mft_bp_setup(
+		$Value,
+		$Name,
+		$Name2,
+		$C_BP_Group_ID,
+		$IsCustomer,
+		$InvoiceRule,
+		$DeliveryRule,
+		$PaymentRule,
+		$C_PaymentTerm_ID,
+		$SO_CreditLimit,
+		$IsVendor,
+		$PaymentRulePO,
+		$PO_PaymentTerm_ID,
+		$IsManufacturer,
+		$IsEmployee,
+		$LocName,
+		$LocType,
+		$Address1,
+		$Address2,
+		$Address3,
+		$Address4,
+		$C_City_ID,
+		$C_Region_ID,
+		$C_Country_ID,
+		$Postal,
+		$cName,
+		$NotificationType){
+
+	if ($mft_bpartner_setup_oldValue != $Value){ // we have a new business partner 
+		wOpenTab("Business Partner");
+		iNewRecord();
+		fSetText("Value",$Value);
+		fSetText("Name",$Name);
+		fSetText("Name2",$Name2);
+		fSetList("C_BP_Group_ID",$C_BP_Group_ID);
+		iSaveRecord();
+		if ($IsCustomer == "Y"){
+			wOpenTab("Customer");
+			fSetCheckbox("IsCustomer", $IsCustomer);
+			fSetList("InvoiceRule", $InvoiceRule);
+			fSetList("DeliveryRule", $DeliveryRule);
+			fSetList("PaymentRule", $PaymentRule);
+			fSetList("C_PaymentTerm_ID", $C_PaymentTerm_ID);
+			fSetAmount("SO_CreditLimit", $SO_CreditLimit);
+			iSaveRecord();
+		}
+		if ($IsVendor == "Y"){
+			wOpenTab("Vendor");
+			fSetCheckbox("IsVendor", $IsVendor);
+			fSetList("PaymentRulePO", $PaymentRulePO);
+			fSetList("PO_PaymentTerm_ID", $PO_PaymentTerm_ID);
+			fSetCheckbox("IsManufacturer",$IsManufacturer);
+			iSaveRecord();
+		}
+		if ($IsEmployee == "Y"){
+			wOpenTab("Employee");
+			fSetCheckbox("IsEmployee", $IsEmployee);
+			iSaveRecord();
+		}
+		$mft_bpartner_setup_oldValue = $Value;
+		$mft_bpartner_setup_oldLoc = "";
+	}
+
+	if($mft_bpartner_setup_oldLoc != $LocName && $LocName != "") {
+
+		wOpenTab("Location");
+		iNewRecord();
+		fSetText("Name",$LocName);
+		
+		if ($LocType == "Ship" || $LocType == "All"){
+			fSetCheckbox("IsShipTo","Y");
+		} else {
+			fSetCheckbox("IsShipTo", "N");
+		}
+		if ($LocType == "Pay" || $LocType == "All"){
+			fSetCheckbox("IsPayFrom","Y");
+		} else {
+			fSetCheckbox("IsPayFrom", "N");
+		}
+		if ($LocType == "Invoice" || $LocType == "All"){
+			fSetCheckbox("IsBillTo","Y");
+		} else {
+			fSetCheckbox("IsBillTo", "N");
+		}
+		if ($LocType == "Remit" || $LocType == "All"){
+			fSetCheckbox("IsRemitTo","Y");
+		} else {
+			fSetCheckbox("IsRemitTo", "N");
+		}
+
+		
+		// Create address
+		$LocationData = [
+		                ["Address 1", $Address1],
+		                ["Address 2", $Address2],
+		                ["Address 3", $Address3],
+		                ["Address 4", $Address4],
+		        	    ["City", $C_City_ID],
+		                ["State", $C_Region_ID],
+		                ["Province", $C_Region_ID],
+		                ["ZIP",$Postal],
+		                ["Country", $C_Country_ID],
+		        	    ["",""]
+		        	   ];
+		
+		dOpenLocation("C_Location_ID");  // Open the dialog		
+		VLocationDialog($LocationData);  // Fill with data
+		iSaveRecord();
+		$mft_bpartner_setup_oldLoc = $LocName;
+	}
+	
+	if($mft_bpartner_setup_oldContact != $cName || $cName != ""){
+		wOpenTab("Contact (User)");
+		iNewRecord();
+		fSetText("Name", $cName);
+		fSetList("NotificationType",$NotificationType);
+		if($LocName != ""){
+			fSetList("C_BPartner_Location_ID",$LocName);
+		}
+		iSaveRecord();
+	}
+	
+}
+
+function mft_bpartner_setup(){
+	
+	var $data = _readCSVFile($mft_bpartner_setup_CSVFilePath);
+
+	// Assume we are logged in as the administrator
+	wOpenWindow("Business Partner");
+
+	_dataDrive(mft_bp_setup, $data);
+
+	wCloseWindow("Business Partner");
+
+	_log("MFT_BPartner_Setup completed");
+}

@@ -42,6 +42,9 @@ import org.compiere.util.Msg;
  * 
  * @author Teo Sarca, www.arhipac.ro
  * 			<li>BF [ 2444851 ] MLanguage should throw an exception if there is an error
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *			<li> FR [ 392 ] Translation method does not use PO class
+ *			@see https://github.com/adempiere/adempiere/issues/392
  */
 public class MLanguage extends X_AD_Language
 {
@@ -94,14 +97,24 @@ public class MLanguage extends X_AD_Language
 	 */
 	public static void maintain (Properties ctx)
 	{
+		MLanguage[] languages = getMaintainLanguage(ctx);
+		for (MLanguage language : languages) {
+			language.maintain(true);
+		}
+	}	//	maintain
+	
+	/**
+	 * 	Get all maintain active languages
+	 * FR [ 392 ]
+	 * 	@param ctx context
+	 */
+	public static MLanguage[] getMaintainLanguage(Properties ctx) {
 		List<MLanguage> list = new Query(ctx, Table_Name, "IsSystemLanguage=? AND IsBaseLanguage=?", null)
 								.setParameters(true, false)
 								.setOnlyActiveRecords(true)
 								.list();
-		for (MLanguage language : list) {
-			language.maintain(true);
-		}
-	}	//	maintain
+		return list.toArray(new MLanguage[list.size()]);
+	}
 
 //	/**	Logger						*/
 //	private static CLogger		s_log = CLogger.getCLogger (MLanguage.class);

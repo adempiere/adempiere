@@ -34,7 +34,7 @@ import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Textbox;
 import org.adempiere.webui.editor.WEditor;
 import org.adempiere.webui.editor.WSearchEditor;
-import org.adempiere.webui.event.ValueChangeListener;
+import org.adempiere.exceptions.ValueChangeListener;
 import org.compiere.apps.search.Info_Column;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
@@ -99,7 +99,7 @@ public class InfoPaymentPanel extends InfoPanel implements ValueChangeListener, 
 	/** From Clause             */
 	private static String s_From = " C_Payment_v p";
 	/** Order Clause             */
-	private static String s_Order = "2,3,4";
+	private static String s_Order = " p.DateTrx desc, p.DocumentNo";
 	/**  Array of Column Info    */
 	private static final ColumnInfo[] s_Layout = {
 		new ColumnInfo(" ", "p.C_Payment_ID", IDColumn.class),

@@ -16,7 +16,7 @@ package org.adempiere.webui.editor;
 
 import org.adempiere.webui.component.FilenameBox;
 import org.adempiere.webui.component.FolderBrowser;
-import org.adempiere.webui.event.ValueChangeEvent;
+import org.adempiere.exceptions.ValueChangeEvent;
 import org.compiere.model.GridField;
 import org.compiere.util.CLogger;
 import org.zkoss.zk.ui.event.Event;

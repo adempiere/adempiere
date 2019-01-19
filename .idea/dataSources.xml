@@ -6,7 +6,6 @@
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
       <jdbc-url>jdbc:postgresql://localhost:5432/adempiere</jdbc-url>
-      <libraries />
     </data-source>
   </component>
 </project>

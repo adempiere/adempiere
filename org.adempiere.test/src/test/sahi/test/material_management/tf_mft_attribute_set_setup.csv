@@ -1,0 +1,8 @@
+Color,Part Color,Y,Y,Y,Test Lot,C,P,N,,,,,N,,,Always Mandatory,Color Family
+Color,Part Color,Y,Y,Y,Test Lot,C,P,N,,,,,N,,,Always Mandatory,Exact Color
+Lot,Test of Lot,Y,Y,Y,Test Lot,S,B,N,,,,,N,,,Always Mandatory,
+ResistorsFixedSingleSurfMount,Resistors - Fixed Single - Surface Mount,Y,N,,,,,N,,,,,N,,,Always Mandatory,R_Type
+ResistorsFixedSingleSurfMount,Resistors - Fixed Single - Surface Mount,Y,N,,,,,N,,,,,N,,,Always Mandatory,R_PowerRating
+ResistorsFixedSingleSurfMount,Resistors - Fixed Single - Surface Mount,Y,N,,,,,N,,,,,N,,,Always Mandatory,R_Resistance
+ResistorsFixedSingleSurfMount,Resistors - Fixed Single - Surface Mount,Y,N,,,,,N,,,,,N,,,Always Mandatory,R_Package
+ResistorsFixedSingleSurfMount,Resistors - Fixed Single - Surface Mount,Y,N,,,,,N,,,,,N,,,Always Mandatory,R_Packaging

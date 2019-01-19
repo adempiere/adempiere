@@ -1,0 +1,106 @@
+/******************************************************************************
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2011, Michael McKay, All Rights Reserved.                    *
+ * This program is free software; you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ *                                                                            *
+ * @Author Michael McKay (mjmckay)                                            *
+ *                                                                            *
+ ******************************************************************************/
+/**
+ * Test Flow Main Functional Tests
+ * 
+ * Warehouse Setup
+ * 
+ * This test flow creates the main warehouses and locators used in the Main
+ * Functional Tests
+ * 
+ * See http://wiki.adempiere.net/Functional_Tests
+ * 
+ **/
+
+var $mft_warehouse_setup_CSVFilePath = "../test/material_management/tf_mft_warehouse_setup.csv";
+var $mft_warehouse_setup_OldValue = "";
+
+function mft_warehouse_setup_detail(
+		$Value,
+		$Name,
+		$Address1,
+		$Address2,
+		$Address3,
+		$Address4,
+		$C_City_ID,
+		$C_Region_ID,
+		$C_Country_ID,
+		$Postal,
+		$Separator,
+		$M_WarehouseSource_ID,
+		$LocValue,
+		$X,
+		$Y,
+		$Z
+		){
+	
+	if($mft_warehouse_setup_OldValue!=$Value){
+
+		// New Warehouse
+		wOpenTab("Warehouse");
+		iNewRecord();
+		fSetText("Value",$Value);
+		fSetText("Name",$Name);
+		
+		// Create address
+		$LocationData = [
+		                ["Address 1", $Address1],
+		                ["Address 2", $Address2],
+		                ["Address 3", $Address3],
+		                ["Address 4", $Address4],
+		        	    ["City", $C_City_ID],
+		                ["State", $C_Region_ID],
+		                ["Province", $C_Region_ID],
+		                ["ZIP",$Postal],
+		                ["Country", $C_Country_ID],
+		        	    ["",""]
+		        	   ];
+		
+		dOpenLocation("C_Location_ID");  // Open the dialog		
+		VLocationDialog($LocationData);  // Fill with data
+
+		fSetText("Separator",$Separator);
+		fSetListRq("M_WarehouseSource_ID",$M_WarehouseSource_ID,"Y");
+		iSaveRecord();
+		
+		$mft_warehouse_setup_OldValue = $Value;
+		_assertEqual($mft_warehouse_setup_OldValue, $Value, "*** Not Equal!!");
+		
+	}
+	wOpenTab("Locator");
+	iNewRecord();
+	fSetText("Value",$LocValue);
+	fSetText("X",$X);
+	fSetText("Y",$Y);
+	fSetText("Z",$Z);
+	iSaveRecord();
+
+}
+
+function mft_warehouse_setup(){
+	
+	var $data = _readCSVFile($mft_warehouse_setup_CSVFilePath);
+	
+	wOpenWindow("Warehouse & Locators");
+	
+	_dataDrive(mft_warehouse_setup_detail, $data);
+
+	wCloseWindow("Warehouse Locators");
+
+	_log("MFT_Warehouse_Setup completed");
+}
+

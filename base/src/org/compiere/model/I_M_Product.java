@@ -1,8 +1,9 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -11,8 +12,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 package org.compiere.model;
 
@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_Product
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0
+ *  @version Release 3.9.1
  */
 public interface I_M_Product 
 {
@@ -106,6 +106,21 @@ public interface I_M_Product
 	public int getC_TaxCategory_ID();
 
 	public org.compiere.model.I_C_TaxCategory getC_TaxCategory() throws RuntimeException;
+
+    /** Column name C_TaxType_ID */
+    public static final String COLUMNNAME_C_TaxType_ID = "C_TaxType_ID";
+
+	/** Set Tax Type.
+	  * Tax Type
+	  */
+	public void setC_TaxType_ID (int C_TaxType_ID);
+
+	/** Get Tax Type.
+	  * Tax Type
+	  */
+	public int getC_TaxType_ID();
+
+	public org.eevolution.model.I_C_TaxType getC_TaxType() throws RuntimeException;
 
     /** Column name C_UOM_ID */
     public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
@@ -325,15 +340,6 @@ public interface I_M_Product
 	  */
 	public String getHelp();
 
-    /** Column name ISTOFORMULE */
-    public static final String COLUMNNAME_ISTOFORMULE = "ISTOFORMULE";
-
-	/** Set ISTOFORMULE	  */
-	public void setISTOFORMULE (boolean ISTOFORMULE);
-
-	/** Get ISTOFORMULE	  */
-	public boolean isTOFORMULE();
-
     /** Column name ImageURL */
     public static final String COLUMNNAME_ImageURL = "ImageURL";
 
@@ -528,6 +534,15 @@ public interface I_M_Product
 	  * This is a summary entity
 	  */
 	public boolean isSummary();
+
+    /** Column name IsToFormule */
+    public static final String COLUMNNAME_IsToFormule = "IsToFormule";
+
+	/** Set Is To Formule 	  */
+	public void setIsToFormule (boolean IsToFormule);
+
+	/** Get Is To Formule 	  */
+	public boolean isToFormule();
 
     /** Column name IsVerified */
     public static final String COLUMNNAME_IsVerified = "IsVerified";
@@ -871,6 +886,19 @@ public interface I_M_Product
 	  * Bar Code (Universal Product Code or its superset European Article Number)
 	  */
 	public String getUPC();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 
     /** Column name UnitsPerPack */
     public static final String COLUMNNAME_UnitsPerPack = "UnitsPerPack";

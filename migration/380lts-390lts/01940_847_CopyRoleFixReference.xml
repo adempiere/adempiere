@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Copy role not work the role to not show anything #847" ReleaseNo="3.9.0" SeqNo="1940">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="50001" Table="AD_Process_Para">
+        <Data AD_Column_ID="2827" Column="AD_Reference_ID" oldValue="19">18</Data>
+        <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isOldNull="true">53317</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

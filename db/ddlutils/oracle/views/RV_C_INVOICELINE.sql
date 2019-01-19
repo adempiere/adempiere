@@ -8,7 +8,7 @@ CREATE OR REPLACE VIEW RV_C_INVOICELINE
  M_LOT_ID, GUARANTEEDATE, LOT, SERNO, PRICELIST, 
  PRICEACTUAL, PRICELIMIT, PRICEENTERED, DISCOUNT, MARGIN, 
  MARGINAMT, LINENETAMT, LINELISTAMT, LINELIMITAMT, LINEDISCOUNTAMT, 
- LINEOVERLIMITAMT)
+ LINEOVERLIMITAMT, M_Product_Class_ID, M_Product_Group_ID, M_Product_Classification_ID, Description, LineDescription, C_DocTypeTarget_ID)
 AS 
 SELECT 
 	il.AD_Client_ID, il.AD_Org_ID, il.IsActive, il.Created, il.CreatedBy, il.Updated, il.UpdatedBy,
@@ -38,11 +38,10 @@ SELECT
 		ROUND(i.Multiplier*PriceLimit*QtyInvoiced,2) END AS LineLimitAmt,
 	ROUND(i.Multiplier*PriceList*QtyInvoiced-LineNetAmt,2) AS LineDiscountAmt,
 	CASE WHEN COALESCE(il.PriceLimit,0)=0 THEN 0 ELSE
-		ROUND(i.Multiplier*LineNetAmt-PriceLimit*QtyInvoiced,2) END AS LineOverLimitAmt
+		ROUND(i.Multiplier*LineNetAmt-PriceLimit*QtyInvoiced,2) END AS LineOverLimitAmt,
+    p.M_Product_Class_ID, p.M_Product_Group_ID, p.M_Product_Classification_ID, i.Description, 
+    il.Description AS LineDescription, i.C_DocTypeTarget_ID
 FROM  RV_C_Invoice i
   INNER JOIN C_InvoiceLine il ON (i.C_Invoice_ID=il.C_Invoice_ID)
   LEFT OUTER JOIN M_Product p ON (il.M_Product_ID=p.M_Product_ID)
   LEFT OUTER JOIN M_AttributeSetInstance pasi ON (il.M_AttributeSetInstance_ID=pasi.M_AttributeSetInstance_ID);
-
-
-

@@ -1,0 +1,50 @@
+<project name="migrate-db-mysql" default="run-scripts" basedir=".">
+	<property file="../../mysql.properties" />
+	<path id="lib.path">
+		<fileset dir="../../../tools/lib">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+	<taskdef resource="net/sf/antcontrib/antlib.xml">
+		<classpath>
+			<fileset dir="../../../tools/lib">
+				<include name="**/*.jar" />
+			</fileset>
+		</classpath>
+	</taskdef>
+
+	<target name="init">
+		<echo message="============================================================" />
+		<echo message="     MySQL database migration tool for ADempiere ERP" />
+		<echo message="	  	ADempiere License is GNU GPL License" />
+		<echo message="============================================================" />
+		<echo message="" file="mysql.log" append="false" />
+		<echo append="false" file="build.log" message="#Build log:${line.separator}${line.separator}" />
+	</target>
+
+	<target name="run-scripts" depends="init">
+		<echo message="----- Running migration SQL scripts -----" />
+		<echo file="mysql.log" append="true" message="${line.separator}#Run Scripts:${line.separator}${line.separator}" />
+		<foreach param="file.name" target="load">
+			<path>
+				<fileset dir=".">
+					<include name="*.sql" />
+				</fileset>
+			</path>
+		</foreach>
+	</target>
+
+	<target name="load">
+		<echo message="Loading file ${file.name}" />
+		<exec dir="${mysql.home}/bin" executable="${mysql.home}/bin/mysql" resultproperty="mysql.result" output="mysql.log" append="true">
+			<arg line="${mysql.connect.param}" />
+			<arg line='--execute="source ${file.name}"'/>
+		</exec>
+		<echo message="File ${file.name} status ${mysql.result}" />
+		<echo append="true" file="build.log">File ${file.name} status ${mysql.result}</echo>
+		<echo append="true" file="build.log" message="${line.separator}" />
+	</target>
+
+</project>
+
+

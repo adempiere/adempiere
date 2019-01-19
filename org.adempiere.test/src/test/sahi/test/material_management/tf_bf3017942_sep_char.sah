@@ -1,0 +1,21 @@
+/********************************************************************
+ * tf_bf3017942_sep_char.sah
+ * 
+ * BF 3017942 - Version 3.6 lts is not importing accounts
+ *
+ * Test process:
+ *
+ * Log in to ADempiere as GardenAdmin
+ * Open the Import File Loader
+ * Select a CSV Chart of Account file
+ * Select the Import File Format for that file
+ * scroll through a record and verify that the information is parsed 
+ * correctly.
+ *
+ *******************************************************************/
+ 
+ function test_bf3017942_sep_char() {
+ 
+	open_window("Import File Loader");
+	
+ };

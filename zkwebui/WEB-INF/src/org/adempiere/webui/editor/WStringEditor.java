@@ -19,15 +19,15 @@ package org.adempiere.webui.editor;
 
 import java.util.List;
 
+import org.adempiere.exceptions.ValueChangeEvent;
 import org.adempiere.webui.ValuePreference;
 import org.adempiere.webui.component.Combobox;
 import org.adempiere.webui.component.StringBox;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.event.ContextMenuEvent;
 import org.adempiere.webui.event.ContextMenuListener;
-import org.adempiere.webui.event.ValueChangeEvent;
 import org.adempiere.webui.session.SessionManager;
-import org.adempiere.webui.window.WFieldRecordInfo;
+import org.adempiere.webui.window.WRecordInfo;
 import org.adempiere.webui.window.WTextEditorDialog;
 import org.compiere.model.GridField;
 import org.compiere.model.MRole;
@@ -44,6 +44,14 @@ import org.zkoss.zul.Menuitem;
  * @author  <a href="mailto:agramdass@gmail.com">Ashley G Ramdass</a>
  * @date    Mar 11, 2007
  * @version $Revision: 0.10 $
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 146 ] Remove unnecessary class, add support for info to specific column
+ *		@see https://github.com/adempiere/adempiere/issues/146
+ * @author Raul Muñoz, rmunoz@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li href="https://github.com/adempiere/adempiere/issues/1066">
+ * 		@see BR [ 1066 ] Java null exception in text field read-only when pressing editor option zk</li>
+ * 		<li href="https://github.com/adempiere/adempiere/issues/1066">
+ * 		@see BR [ 640 ] When try change of Tab in Migration window get this error</li>
  */
 public class WStringEditor extends WEditor implements ContextMenuListener
 {
@@ -72,6 +80,7 @@ public class WStringEditor extends WEditor implements ContextMenuListener
     public WStringEditor(GridField gridField, boolean tableEditor)
     {
         super(gridField.isAutocomplete() ? new Combobox() : new StringBox(), gridField);
+        this.getComponent().setAttribute("zk_component_prefix", "Field_" + gridField.getColumnName() + "_" + gridField.getAD_Tab_ID() + "_" + gridField.getWindowNo() + "_");
         this.tableEditor = tableEditor;
         init(gridField.getObscureType());
     }
@@ -97,7 +106,11 @@ public class WStringEditor extends WEditor implements ContextMenuListener
 
     @Override
     public org.zkoss.zul.Textbox getComponent() {
-    	return (org.zkoss.zul.Textbox) (((StringBox)component).getTextBox());
+    	// BR [ 640 ]
+    	if(gridField != null && gridField.isAutocomplete())
+    		return (org.zkoss.zul.Textbox) (((Combobox)component));
+    	else
+    		return (org.zkoss.zul.Textbox) (((StringBox)component).getTextBox());
     }
 
     @Override
@@ -114,7 +127,8 @@ public class WStringEditor extends WEditor implements ContextMenuListener
     {
 		if (gridField != null)
 		{
-	        getComponent().setMaxlength(gridField.getFieldLength());
+	        //remove can cause throws an exception org.zkoss.zk.ui.WrongValueException.
+			//getComponent().setMaxlength(gridField.getFieldLength());
 	        int displayLength = gridField.getDisplayLength();
 	        if (displayLength <= 0 || displayLength > MAX_DISPLAY_LENGTH)
 	        {
@@ -141,18 +155,20 @@ public class WStringEditor extends WEditor implements ContextMenuListener
 	            ((HtmlBasedComponent)getComponent()).setSclass("field-memo");
 	        }
 
-	        if (getComponent() instanceof org.zkoss.zul.api.Textbox)
-	        	((StringBox)component).setObscureType(obscureType);
+	       
 
 	        popupMenu = new WEditorPopupMenu(false, false, true);
-	        Menuitem editor = new Menuitem(Msg.getMsg(Env.getCtx(), "Editor"), "images/Editor16.png");
-	        editor.setAttribute("EVENT", EDITOR_EVENT);
-	        editor.addEventListener(Events.ON_CLICK, popupMenu);
-	        popupMenu.appendChild(editor);
+	        // BR [ 1066 ]
+	        if(!getComponent().isReadonly()) {
+	        	Menuitem editor = new Menuitem(Msg.getMsg(Env.getCtx(), "Editor"), "images/dark/Editor16.png");
+	        	editor.setAttribute("EVENT", EDITOR_EVENT);
+	        	editor.addEventListener(Events.ON_CLICK, popupMenu);
+	        	popupMenu.appendChild(editor);
+	        }
 	        
 	        if (gridField != null && gridField.getGridTab() != null)
 			{
-				WFieldRecordInfo.addMenu(popupMenu);
+				WRecordInfo.addMenu(popupMenu);
 			}
 
 	        getComponent().setContext(popupMenu.getId());
@@ -167,6 +183,9 @@ public class WStringEditor extends WEditor implements ContextMenuListener
 	        		combo.appendItem(s);
 	        	}
 	        }
+	        //	BR [ 640 ]
+	        else  if (getComponent() instanceof org.zkoss.zul.api.Textbox)
+	        	((StringBox)component).setObscureType(obscureType);
 		}
     }
 
@@ -262,7 +281,7 @@ public class WStringEditor extends WEditor implements ContextMenuListener
 		}
 		else if (WEditorPopupMenu.CHANGE_LOG_EVENT.equals(evt.getContextEvent()))
 		{
-			WFieldRecordInfo.start(gridField);
+			WRecordInfo.start(gridField);
 		}
 	}
 

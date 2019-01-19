@@ -142,6 +142,8 @@ public class MDistributionLine extends X_GL_DistributionLine
 			isOverwriteActivity() ? getC_Activity_ID() : m_account.getC_Activity_ID(),
 			isOverwriteUser1() ? getUser1_ID() : m_account.getUser1_ID(), 
 			isOverwriteUser2() ? getUser2_ID() : m_account.getUser2_ID(),
+			isOverwriteUser3() ? getUser3_ID() : m_account.getUser3_ID(),
+			isOverwriteUser4() ? getUser4_ID() : m_account.getUser4_ID(),
 				m_account.getUserElement1_ID(),
 				m_account.getUserElement2_ID(), null);
 		return acct;
@@ -246,6 +248,10 @@ public class MDistributionLine extends X_GL_DistributionLine
 			setUser1_ID(0);
 		if (!isOverwriteUser2() && getUser2_ID() != 0)
 			setUser2_ID(0);
+		if (!isOverwriteUser3() && getUser3_ID() != 0)
+			setUser3_ID(0);
+		if (!isOverwriteUser4() && getUser4_ID() != 0)
+			setUser4_ID(0);
 		
 		//	Account Overwrite cannot be 0
 		if (isOverwriteAcct() && getAccount_ID() == 0)

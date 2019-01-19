@@ -34,10 +34,12 @@ import java.util.logging.Level;
 
 import org.adempiere.exceptions.DBException;
 import org.compiere.Adempiere;
+import org.compiere.model.MTable;
 import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
 
 /**
  *  Generate Model Classes extending PO.
@@ -61,6 +63,9 @@ import org.compiere.util.DisplayType;
  *					https://sourceforge.net/tracker/?func=detail&atid=879335&aid=2848449&group_id=176962
  * @author Victor Perez, e-Evolution
  * 				<li>FR [ 1785001 ] Using ModelPackage of EntityType to Generate Model Class
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *				<li> FR [ 94 ] "IsDocument" flag in table for create default columns
+ *				@see https://github.com/adempiere/adempiere/issues/94
  */
 public class ModelClassGenerator
 {
@@ -73,19 +78,35 @@ public class ModelClassGenerator
 	public ModelClassGenerator (int AD_Table_ID, String directory, String packageName)
 	{
 		this.packageName = packageName;
-
+		//	Yamel Senih, FR[ 94 ] 2015-11-16
+		//	Add Support to document class
+		MTable table = MTable.get(Env.getCtx(), AD_Table_ID);
+		//	Valid Null Class
+		if (table == null)
+			throw new RuntimeException ("TableName not found for ID=" + AD_Table_ID);
 		//	create column access methods
 		StringBuffer mandatory = new StringBuffer();
 		StringBuffer sb = createColumns(AD_Table_ID, mandatory);
-
 		// Header
-		String tableName = createHeader(AD_Table_ID, sb, mandatory, packageName);
-
+		String tableName = createHeader(table, sb, mandatory, packageName);
 		// Save
 		if ( ! directory.endsWith(File.separator) )
 			directory += File.separator;
-
+		//	Write to file "X_" class
 		writeToFile (sb, directory + tableName + ".java");
+		//	Create Document Class
+		if(table.isDocument()) {
+			sb = new StringBuffer();
+			tableName = createHeaderDocument(table, tableName, sb, packageName);
+			//	Write to file "M" class
+			String fileName = directory + tableName + ".java";
+			//	Validate if exists
+			File out = new File (fileName);
+			if(!out.exists()) {
+				//	Create a File
+				writeToFile (sb, fileName);
+			}
+		}
 	}
 
 	public static final String NL = "\n";
@@ -105,35 +126,10 @@ public class ModelClassGenerator
 	 * 	@param packageName package name
 	 * 	@return class name
 	 */
-	private String createHeader (int AD_Table_ID, StringBuffer sb, StringBuffer mandatory, String packageName)
+	private String createHeader (MTable p_Table, StringBuffer sb, StringBuffer mandatory, String packageName)
 	{
-		String tableName = "";
-		int accessLevel = 0;
-		String sql = "SELECT TableName, AccessLevel FROM AD_Table WHERE AD_Table_ID=?";
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, AD_Table_ID);
-			rs = pstmt.executeQuery();
-			if (rs.next())
-			{
-				tableName = rs.getString(1);
-				accessLevel = rs.getInt(2);
-			}
-		}
-		catch (SQLException e)
-		{
-			throw new DBException(e, sql);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
-		if (tableName == null)
-			throw new RuntimeException ("TableName not found for ID=" + AD_Table_ID);
+		String tableName = p_Table.getTableName();
+		int accessLevel = Integer.parseInt(p_Table.getAccessLevel());
 		//
 		String accessLevelInfo = accessLevel + " ";
 		if (accessLevel >= 4 )
@@ -253,6 +249,98 @@ public class ModelClassGenerator
 		sb.insert(0, start);
 		sb.append(end);
 
+		return className;
+	}
+	
+	/**
+	 * Create Document Class
+	 * Example: For Table TestDocTable to be create MTestDocTable
+	 * @param p_Table
+	 * @param p_ParentClassName
+	 * @param sb
+	 * @param packageName
+	 * @return
+	 */
+	private String createHeaderDocument(MTable p_Table, String p_ParentClassName, StringBuffer sb, String packageName) {
+		String tableName = p_Table.getTableName();
+		String keyColumn = tableName + "_ID";
+		String className = "M" + tableName.replaceAll("_", "");
+		//
+		StringBuffer start = new StringBuffer ()
+			.append (ModelInterfaceGenerator.COPY)
+			.append("package " + packageName + ";").append(NL)
+			.append(NL)
+		;
+		//	
+		addImportClass(java.io.File.class);
+		addImportClass(java.math.BigDecimal.class);
+		addImportClass(java.sql.ResultSet.class);
+		addImportClass(java.sql.Timestamp.class);
+		addImportClass(java.util.Properties.class);
+		addImportClass(org.compiere.process.DocAction.class);
+		addImportClass(org.compiere.process.DocumentEngine.class);
+		addImportClass(org.compiere.util.DB.class);
+		//	
+		if (!packageName.equals("org.compiere.model"))
+			addImportClass("org.compiere.model.*");
+		createImports(start);
+		//	Class
+		start.append("/** Generated Model for ").append(tableName).append(NL)
+			 .append(" *  @author Adempiere (generated) ").append(NL)
+			 .append(" *  @version ").append(Adempiere.MAIN_VERSION).append(" - $Id$ */").append(NL)
+			 .append("public class ").append(className)
+			 .append(" extends ").append(p_ParentClassName)
+			 .append(" implements DocAction ")	
+			 .append("{").append(NL)
+			 
+			 // serialVersionUID
+			 .append(NL)
+			 .append("\t/**").append(NL)
+			 .append("\t *").append(NL)
+			 .append("\t */").append(NL)
+			 .append("\tprivate static final long serialVersionUID = ")
+			 .append(String.format("%1$tY%1$tm%1$td", new Timestamp(System.currentTimeMillis())))
+		 	 .append("L;").append(NL)
+			 //.append("\tprivate static final long serialVersionUID = 1L;").append(NL)
+
+			//	Standard Constructor
+			 .append(NL)
+			 .append("    /** Standard Constructor */").append(NL)
+			 .append("    public ").append(className).append(" (Properties ctx, int ").append(keyColumn).append(", String trxName)").append(NL)
+			 .append("    {").append(NL)
+			 .append("      super (ctx, ").append(keyColumn).append(", trxName);").append(NL)
+			 .append("    }").append(NL)
+			//	Constructor End
+
+			//	Load Constructor
+			 .append(NL)
+			 .append("    /** Load Constructor */").append(NL)
+			 .append("    public ").append(className).append(" (Properties ctx, ResultSet rs, String trxName)").append(NL)
+			 .append("    {").append(NL)
+			 .append("      super (ctx, rs, trxName);").append(NL)
+			 .append("    }").append(NL)
+			//	Load Constructor End
+			 .append(NL)
+		;
+		
+		start.append(DocumentTemplate.BODY)
+			.append(NL);
+		// toString()
+		start
+			.append(NL)
+			.append("    @Override")
+			.append(NL)
+			.append("    public String toString()").append(NL)
+			.append("    {").append(NL)
+			.append("      StringBuffer sb = new StringBuffer (\"").append(className).append("[\")").append(NL)
+			.append("        .append(getSummary()).append(\"]\");").append(NL)
+			.append("      return sb.toString();").append(NL)
+			.append("    }").append(NL);
+		StringBuffer end = new StringBuffer ("}");
+		//
+		sb.insert(0, start);
+		sb.append(end);
+		//	Return Class Name
 		return className;
 	}
 
@@ -436,7 +524,8 @@ public class ModelClassGenerator
 				if (columnName.equals("AD_Client_ID") || columnName.equals("AD_Org_ID")
 					|| columnName.equals("Record_ID") || columnName.equals("C_DocType_ID")
 					|| columnName.equals("Node_ID") || columnName.equals("AD_Role_ID")
-					|| columnName.equals("M_AttributeSet_ID") || columnName.equals("M_AttributeSetInstance_ID"))
+					|| columnName.equals("M_AttributeSet_ID") || columnName.equals("M_AttributeSetInstance_ID")
+					|| columnName.equals("M_Warehouse_ID"))
 					firstOK = 0;
 				//	set _ID to null if < 0 for special column or < 1 for others
 				sb.append("\t\tif (").append (columnName).append (" < ").append(firstOK).append(") ").append(NL)
@@ -912,5 +1001,4 @@ public class ModelClassGenerator
 		}
 		log.info("Generated = " + count);
 	}
-
 }

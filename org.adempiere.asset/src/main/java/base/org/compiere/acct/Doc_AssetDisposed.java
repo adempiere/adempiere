@@ -62,13 +62,18 @@ public class Doc_AssetDisposed extends Doc
 		//
 		return facts;
 	}
-	
+
+	/**
+	 * Get Account
+	 * @param accountName
+	 * @return
+	 */
 	private MAccount getAccount(String accountName)
 	{
-		MAssetDisposed assetDisp = (MAssetDisposed)getPO();
-		MAssetAcct assetAcct = MAssetAcct.forA_Asset_ID(getCtx(), assetDisp.getA_Asset_ID(), assetDisp.getPostingType(), assetDisp.getDateAcct(),null);
-		int account_id = (Integer)assetAcct.get_Value(accountName);
-		return MAccount.get(getCtx(), account_id);
+		MAssetDisposed assetDisposed = (MAssetDisposed)getPO();
+		MAssetAcct assetAcct = MAssetAcct.forA_Asset_ID(getCtx(), assetDisposed.getA_Asset_ID(), assetDisposed.getPostingType(), assetDisposed.getDateAcct(),getTrxName());
+		int accountId = (Integer)assetAcct.get_Value(accountName);
+		return MAccount.getValidCombination(getCtx(), accountId , getTrxName());
 	}
 
 }

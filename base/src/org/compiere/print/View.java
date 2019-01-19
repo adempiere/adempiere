@@ -190,11 +190,16 @@ public class View extends CPanel
 	
 	private double getScale()
 	{
-		Double scale = ZOOM_ScaleValues.get(ZOOM_OPTIONS[m_zoomLevel]);
-		if (scale != null)
-			return scale.doubleValue();
-		else
-			return 1.00;
+		double scale = 1.00;
+		if (m_zoomLevel >= 0 )
+		{
+			Double scaleZoom = ZOOM_ScaleValues.get(ZOOM_OPTIONS[m_zoomLevel]);
+			if (scaleZoom != null)
+				scale =  scaleZoom.doubleValue();
+			else
+				scale =  1.00;
+		}
+		return scale;
 	}
 
 	/**

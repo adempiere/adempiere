@@ -1,8 +1,9 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -11,8 +12,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 package org.compiere.model;
 
@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for I_BPartner
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0
+ *  @version Release 3.9.1
  */
 public interface I_I_BPartner 
 {
@@ -103,6 +103,32 @@ public interface I_I_BPartner
 	  */
 	public String getAddress2();
 
+    /** Column name Address3 */
+    public static final String COLUMNNAME_Address3 = "Address3";
+
+	/** Set Address 3.
+	  * Address Line 3 for the location
+	  */
+	public void setAddress3 (String Address3);
+
+	/** Get Address 3.
+	  * Address Line 3 for the location
+	  */
+	public String getAddress3();
+
+    /** Column name Address4 */
+    public static final String COLUMNNAME_Address4 = "Address4";
+
+	/** Set Address 4.
+	  * Address Line 4 for the location
+	  */
+	public void setAddress4 (String Address4);
+
+	/** Get Address 4.
+	  * Address Line 4 for the location
+	  */
+	public String getAddress4();
+
     /** Column name BPContactGreeting */
     public static final String COLUMNNAME_BPContactGreeting = "BPContactGreeting";
 
@@ -116,6 +142,88 @@ public interface I_I_BPartner
 	  */
 	public String getBPContactGreeting();
 
+    /** Column name BirthCity */
+    public static final String COLUMNNAME_BirthCity = "BirthCity";
+
+	/** Set Birth City.
+	  * Identifies a City of Birth
+	  */
+	public void setBirthCity (String BirthCity);
+
+	/** Get Birth City.
+	  * Identifies a City of Birth
+	  */
+	public String getBirthCity();
+
+    /** Column name BirthCountryCode */
+    public static final String COLUMNNAME_BirthCountryCode = "BirthCountryCode";
+
+	/** Set Birth Country Code.
+	  * Country Code of Place of Birth
+	  */
+	public void setBirthCountryCode (String BirthCountryCode);
+
+	/** Get Birth Country Code.
+	  * Country Code of Place of Birth
+	  */
+	public String getBirthCountryCode();
+
+    /** Column name BirthCountry_ID */
+    public static final String COLUMNNAME_BirthCountry_ID = "BirthCountry_ID";
+
+	/** Set Birth Country.
+	  * Country of Place of Birth
+	  */
+	public void setBirthCountry_ID (int BirthCountry_ID);
+
+	/** Get Birth Country.
+	  * Country of Place of Birth
+	  */
+	public int getBirthCountry_ID();
+
+	public org.compiere.model.I_C_Country getBirthCountry() throws RuntimeException;
+
+    /** Column name BirthPostal */
+    public static final String COLUMNNAME_BirthPostal = "BirthPostal";
+
+	/** Set Birth Postal Zone.
+	  * Postal Zone of Place of Birth
+	  */
+	public void setBirthPostal (String BirthPostal);
+
+	/** Get Birth Postal Zone.
+	  * Postal Zone of Place of Birth
+	  */
+	public String getBirthPostal();
+
+    /** Column name BirthRegionName */
+    public static final String COLUMNNAME_BirthRegionName = "BirthRegionName";
+
+	/** Set Region of Birth.
+	  * Name of the Region of Birth
+	  */
+	public void setBirthRegionName (String BirthRegionName);
+
+	/** Get Region of Birth.
+	  * Name of the Region of Birth
+	  */
+	public String getBirthRegionName();
+
+    /** Column name BirthRegion_ID */
+    public static final String COLUMNNAME_BirthRegion_ID = "BirthRegion_ID";
+
+	/** Set Region of Birth.
+	  * Name of the Region of Birth
+	  */
+	public void setBirthRegion_ID (int BirthRegion_ID);
+
+	/** Get Region of Birth.
+	  * Name of the Region of Birth
+	  */
+	public int getBirthRegion_ID();
+
+	public org.compiere.model.I_C_Region getBirthRegion() throws RuntimeException;
+
     /** Column name Birthday */
     public static final String COLUMNNAME_Birthday = "Birthday";
 
@@ -128,6 +236,15 @@ public interface I_I_BPartner
 	  * Birthday or Anniversary day
 	  */
 	public Timestamp getBirthday();
+
+    /** Column name BloodGroup */
+    public static final String COLUMNNAME_BloodGroup = "BloodGroup";
+
+	/** Set Blood Group	  */
+	public void setBloodGroup (String BloodGroup);
+
+	/** Get Blood Group	  */
+	public String getBloodGroup();
 
     /** Column name C_BP_Group_ID */
     public static final String COLUMNNAME_C_BP_Group_ID = "C_BP_Group_ID";
@@ -203,6 +320,36 @@ public interface I_I_BPartner
 	public int getC_Greeting_ID();
 
 	public org.compiere.model.I_C_Greeting getC_Greeting() throws RuntimeException;
+
+    /** Column name C_ProjectMemberType_ID */
+    public static final String COLUMNNAME_C_ProjectMemberType_ID = "C_ProjectMemberType_ID";
+
+	/** Set Project Member Type.
+	  * Define the Member Type for a Project
+	  */
+	public void setC_ProjectMemberType_ID (int C_ProjectMemberType_ID);
+
+	/** Get Project Member Type.
+	  * Define the Member Type for a Project
+	  */
+	public int getC_ProjectMemberType_ID();
+
+	public org.eevolution.model.I_C_ProjectMemberType getC_ProjectMemberType() throws RuntimeException;
+
+    /** Column name C_Project_ID */
+    public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
+
+	/** Set Project.
+	  * Financial Project
+	  */
+	public void setC_Project_ID (int C_Project_ID);
+
+	/** Get Project.
+	  * Financial Project
+	  */
+	public int getC_Project_ID();
+
+	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException;
 
     /** Column name C_Region_ID */
     public static final String COLUMNNAME_C_Region_ID = "C_Region_ID";
@@ -339,6 +486,19 @@ public interface I_I_BPartner
 	  */
 	public String getEMail();
 
+    /** Column name FathersName */
+    public static final String COLUMNNAME_FathersName = "FathersName";
+
+	/** Set Father's Name.
+	  * Father's Name
+	  */
+	public void setFathersName (String FathersName);
+
+	/** Get Father's Name.
+	  * Father's Name
+	  */
+	public String getFathersName();
+
     /** Column name Fax */
     public static final String COLUMNNAME_Fax = "Fax";
 
@@ -351,6 +511,15 @@ public interface I_I_BPartner
 	  * Facsimile number
 	  */
 	public String getFax();
+
+    /** Column name Gender */
+    public static final String COLUMNNAME_Gender = "Gender";
+
+	/** Set Gender	  */
+	public void setGender (String Gender);
+
+	/** Get Gender	  */
+	public String getGender();
 
     /** Column name GroupValue */
     public static final String COLUMNNAME_GroupValue = "GroupValue";
@@ -452,6 +621,32 @@ public interface I_I_BPartner
 	  */
 	public boolean isEmployee();
 
+    /** Column name IsProjectManager */
+    public static final String COLUMNNAME_IsProjectManager = "IsProjectManager";
+
+	/** Set Is Project Manager.
+	  * Is Project Manager
+	  */
+	public void setIsProjectManager (boolean IsProjectManager);
+
+	/** Get Is Project Manager.
+	  * Is Project Manager
+	  */
+	public boolean isProjectManager();
+
+    /** Column name IsProjectMember */
+    public static final String COLUMNNAME_IsProjectMember = "IsProjectMember";
+
+	/** Set Is Project Member.
+	  * Is Project Member
+	  */
+	public void setIsProjectMember (boolean IsProjectMember);
+
+	/** Get Is Project Member.
+	  * Is Project Member
+	  */
+	public boolean isProjectMember();
+
     /** Column name IsVendor */
     public static final String COLUMNNAME_IsVendor = "IsVendor";
 
@@ -543,6 +738,21 @@ public interface I_I_BPartner
 	  */
 	public String getPhone2();
 
+    /** Column name PlaceOfBirth_ID */
+    public static final String COLUMNNAME_PlaceOfBirth_ID = "PlaceOfBirth_ID";
+
+	/** Set Place of Birth (Location).
+	  * Place of Birth (Location)
+	  */
+	public void setPlaceOfBirth_ID (int PlaceOfBirth_ID);
+
+	/** Get Place of Birth (Location).
+	  * Place of Birth (Location)
+	  */
+	public int getPlaceOfBirth_ID();
+
+	public I_C_Location getPlaceOfBirth() throws RuntimeException;
+
     /** Column name Postal */
     public static final String COLUMNNAME_Postal = "Postal";
 
@@ -590,6 +800,32 @@ public interface I_I_BPartner
 
 	/** Get Process Now	  */
 	public boolean isProcessing();
+
+    /** Column name ProjectMemberTypeValue */
+    public static final String COLUMNNAME_ProjectMemberTypeValue = "ProjectMemberTypeValue";
+
+	/** Set Project Member Type Value.
+	  * Define the Search Key of Project Member Type
+	  */
+	public void setProjectMemberTypeValue (String ProjectMemberTypeValue);
+
+	/** Get Project Member Type Value.
+	  * Define the Search Key of Project Member Type
+	  */
+	public String getProjectMemberTypeValue();
+
+    /** Column name ProjectValue */
+    public static final String COLUMNNAME_ProjectValue = "ProjectValue";
+
+	/** Set Project Key.
+	  * Key of the Project
+	  */
+	public void setProjectValue (String ProjectValue);
+
+	/** Get Project Key.
+	  * Key of the Project
+	  */
+	public String getProjectValue();
 
     /** Column name R_InterestArea_ID */
     public static final String COLUMNNAME_R_InterestArea_ID = "R_InterestArea_ID";
@@ -644,6 +880,19 @@ public interface I_I_BPartner
 	  * Name this entity is referred to as
 	  */
 	public String getTitle();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

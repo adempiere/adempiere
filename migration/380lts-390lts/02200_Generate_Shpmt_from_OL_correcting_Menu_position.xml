@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Move SB Generate Shpmt from OL to correct position in Menu" ReleaseNo="3.9.0" SeqNo="2200">
+    <Comments>https://github.com/adempiere/adempiere/issues/760</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="116" Action="U" Record_ID="54138" Table="AD_Menu">
+        <Data AD_Column_ID="229" Column="Name" oldValue="Generate Shipment from OrderLine">Generate Shipment from Order Lines</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="120" Action="U" Record_ID="54138" Table="AD_Menu_Trl">
+        <Data AD_Column_ID="245" Column="AD_Menu_ID" oldValue="54138">54138</Data>
+        <Data AD_Column_ID="246" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="247" Column="Name" oldValue="Generate Shipment from OrderLine">Generar entrega desde líneas de Orden</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="54138" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="54138">54138</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6155" Column="Parent_ID" oldValue="0">459</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="999">2</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

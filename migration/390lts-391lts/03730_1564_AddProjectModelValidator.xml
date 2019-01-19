@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Add Project Model Validator to Catch multiples Events #1564" ReleaseNo="3.9.1" SeqNo="3730">
+    <Comments>https://github.com/adempiere/adempiere/issues/1564</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="53014" Action="I" Record_ID="50032" Table="AD_ModelValidator">
+        <Data AD_Column_ID="53259" Column="IsActive">true</Data>
+        <Data AD_Column_ID="53255" Column="Created">2018-02-05 20:09:19.189</Data>
+        <Data AD_Column_ID="53257" Column="Updated">2018-02-05 20:09:19.189</Data>
+        <Data AD_Column_ID="53252" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="53253" Column="AD_ModelValidator_ID">50032</Data>
+        <Data AD_Column_ID="53254" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="53264" Column="ModelValidationClass">org.eevolution.model.ProjectModelValidator</Data>
+        <Data AD_Column_ID="53262" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="53261" Column="Description">This Validator enable multiples validation and functionality for Project Management</Data>
+        <Data AD_Column_ID="53260" Column="Name">Model Validator for Project Management</Data>
+        <Data AD_Column_ID="53256" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="53258" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="53263" Column="EntityType">EE09</Data>
+        <Data AD_Column_ID="54094" Column="SeqNo">100</Data>
+        <Data AD_Column_ID="84352" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

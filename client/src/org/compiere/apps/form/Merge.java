@@ -20,7 +20,7 @@ import java.util.logging.Level;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MPayment;
-import org.compiere.model.X_M_Cost;
+import org.compiere.model.MStorage;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -61,7 +61,7 @@ public class Merge
 		{"M_Product_PO", "M_Replenish", "T_Replenish", 
 		"M_ProductPrice", "M_Product_Costing",
 		"M_Cost", // teo_sarca [ 1704554 ]
-		"M_Product_Trl", "M_Product_Acct"};		//	M_Storage
+		"M_Product_Trl", "M_Product_Acct", "M_Storage"};		//	M_Storage
 
 	public String[]	m_columnName = null;
 	public String[]	m_deleteTables = null;
@@ -210,14 +210,24 @@ public class Merge
 				sql = "DELETE " + TableName + " WHERE " + ColumnName + "=" + from_ID;
 			}
 		}
+
+		if (delete && MStorage.Table_Name.equals(TableName) && M_PRODUCT_ID.equals(ColumnName))
+		{
+			sql += " AND " + MStorage.COLUMNNAME_M_AttributeSetInstance_ID + " = 0 "
+				+  " AND " + MStorage.COLUMNNAME_QtyOnHand +  " = 0 "
+				+  " AND " + MStorage.COLUMNNAME_QtyOrdered + " = 0 "
+				+  " AND " + MStorage.COLUMNNAME_QtyReserved + " = 0 ";
+		}
+
 		// Delete newly created MCost records - teo_sarca [ 1704554 ]
-		if (delete && X_M_Cost.Table_Name.equals(TableName) && M_PRODUCT_ID.equals(ColumnName))
+		// With of new cost engine not is necessary delete when all have zero because the cost can be regenerate
+		/*if (delete && X_M_Cost.Table_Name.equals(TableName) && M_PRODUCT_ID.equals(ColumnName))
 		{
 			sql += " AND " + X_M_Cost.COLUMNNAME_CurrentCostPrice + "=0"
 				+ " AND " + X_M_Cost.COLUMNNAME_CurrentQty + "=0"
 				+ " AND " + X_M_Cost.COLUMNNAME_CumulatedAmt + "=0"
 				+ " AND " + X_M_Cost.COLUMNNAME_CumulatedQty + "=0";
-		}
+		}*/
 
 		int count = DB.executeUpdate(sql, m_trx.getTrxName());
         

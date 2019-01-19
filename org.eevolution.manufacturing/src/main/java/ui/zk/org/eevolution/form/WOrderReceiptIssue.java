@@ -41,8 +41,8 @@ import org.adempiere.webui.editor.WLocatorEditor;
 import org.adempiere.webui.editor.WNumberEditor;
 import org.adempiere.webui.editor.WPAttributeEditor;
 import org.adempiere.webui.editor.WSearchEditor;
-import org.adempiere.webui.event.ValueChangeEvent;
-import org.adempiere.webui.event.ValueChangeListener;
+import org.adempiere.exceptions.ValueChangeEvent;
+import org.adempiere.exceptions.ValueChangeListener;
 import org.adempiere.webui.event.WTableModelEvent;
 import org.adempiere.webui.event.WTableModelListener;
 import org.adempiere.webui.panel.ADForm;
@@ -143,7 +143,7 @@ ValueChangeListener,Serializable,WTableModelListener
 	
 	private WNumberEditor orderedQtyField = new WNumberEditor("QtyOrdered", false, false, false, DisplayType.Quantity, "QtyOrdered");
 	private WNumberEditor deliveredQtyField = new WNumberEditor("QtyDelivered", false, false, false, DisplayType.Quantity, "QtyDelivered");
-	private WNumberEditor openQtyField = new WNumberEditor("QtyOpen", false, false, false, DisplayType.Quantity, "QtyOpen");
+	private WNumberEditor openQtyField = new WNumberEditor("QtyBackOrdered", false, false, false, DisplayType.Quantity, "QtyBackOrdered");
 	private WNumberEditor toDeliverQty = new WNumberEditor("QtyToDeliver", true, false, true, DisplayType.Quantity, "QtyToDeliver");
 	private WNumberEditor rejectQty = new WNumberEditor("Qtyreject", false, false, true, DisplayType.Quantity, "QtyReject");
 	private WNumberEditor scrapQtyField = new WNumberEditor("Qtyscrap", false, false, true, DisplayType.Quantity, "Qtyscrap");
@@ -167,10 +167,7 @@ ValueChangeListener,Serializable,WTableModelListener
 
 	/**
 	 *	Initialize Panel
-	 *  @param WindowNo window
-	 *  @param frame frame
 	 */
-	
 	public WOrderReceiptIssue() 
 	{
 		Env.setContext(Env.getCtx(), form.getWindowNo(), "IsSOTrx", "Y");
@@ -249,14 +246,15 @@ ValueChangeListener,Serializable,WTableModelListener
 		GridField field = new GridField(vo);
 		// M_AttributeSetInstance_ID
 		attribute = new WPAttributeEditor(field.getGridTab(),field);
+		attribute.setReadWrite(true);
 		attribute.setValue(0);
 		// 4Layers - Further init
 		scrapQtyField.setValue(Env.ZERO);
 		rejectQty.setValue(Env.ZERO);
 		// 4Layers - end
-		pickcombo.appendItem(Msg.translate(Env.getCtx(),"IsBackflush"), 1);
-		pickcombo.appendItem(Msg.translate(Env.getCtx(),"OnlyIssue"),2);
-		pickcombo.appendItem(Msg.translate(Env.getCtx(),"OnlyReceipt"),3);
+		pickcombo.appendItem(Msg.parseTranslation(Env.getCtx(),"@IsBackflush@").replaceAll("\n",""), 1);
+		pickcombo.appendItem(Msg.parseTranslation(Env.getCtx(),"@OnlyIssue@").replaceAll("\n",""),2);
+		pickcombo.appendItem(Msg.parseTranslation(Env.getCtx(),"@OnlyReceiptProduct@").replaceAll("\n",""),3);
 		pickcombo.addEventListener(Events.ON_CHANGE, this);
 		Process.addActionListener(this);
 		toDeliverQty.addValueChangeListener(this);
@@ -325,7 +323,7 @@ ValueChangeListener,Serializable,WTableModelListener
 		deliveredQtyLabel.setText(Msg.translate(Env.getCtx(), "QtyDelivered"));
 		tmpRow.appendChild(deliveredQtyLabel.rightAlign());
 		tmpRow.appendChild(deliveredQtyField.getComponent());	
-		openQtyLabel.setText(Msg.translate(Env.getCtx(), "QtyOpen"));
+		openQtyLabel.setText(Msg.translate(Env.getCtx(), "QtyBackOrdered"));
 		tmpRow.appendChild(openQtyLabel.rightAlign());
 		tmpRow.appendChild(openQtyField.getComponent());
 		//3rd
@@ -346,7 +344,7 @@ ValueChangeListener,Serializable,WTableModelListener
 		QtyBatchSizeLabel.setText(Msg.translate(Env.getCtx(), "QtyBatchSize"));
 		tmpRow.appendChild(QtyBatchSizeLabel.rightAlign());
 		tmpRow.appendChild(qtyBatchSizeField.getComponent());	
-		openQtyLabel.setText(Msg.translate(Env.getCtx(), "QtyOpen"));
+		openQtyLabel.setText(Msg.translate(Env.getCtx(), "QtyBackOrdered"));
 		tmpRow.appendChild(openQtyLabel.rightAlign());
 		tmpRow.appendChild(openQtyField.getComponent());
 		//5th
@@ -395,8 +393,8 @@ ValueChangeListener,Serializable,WTableModelListener
 		Tabs tabs = new Tabs(); 
 		Tab tab1 =new Tab();
 		Tab tab2 =new Tab();
-		tab1.setLabel(Msg.translate(Env.getCtx(), "IsShipConfirm"));
-		tab2.setLabel(Msg.translate(Env.getCtx(), "Generate"));
+		tab1.setLabel(Msg.parseTranslation(Env.getCtx(), "@IsShipConfirm@"));
+		tab2.setLabel(Msg.parseTranslation(Env.getCtx(), "@Generate@"));
 		tabs.appendChild(tab1);
 		tabs.appendChild(tab2);
 	
@@ -458,7 +456,7 @@ ValueChangeListener,Serializable,WTableModelListener
 			{
 					try
 					{
-					Messagebox.show( Msg.getMsg(Env.getCtx(), "NoDate"), "Info",Messagebox.OK, Messagebox.INFORMATION);
+					Messagebox.show( Msg.parseTranslation(Env.getCtx(), "@MovementDate@ @NotFound@"), "Info",Messagebox.OK, Messagebox.INFORMATION);
 					}
 					catch (InterruptedException ex)
 					{
@@ -471,7 +469,7 @@ ValueChangeListener,Serializable,WTableModelListener
 			{
 				try
 				{
-				Messagebox.show(Msg.getMsg(Env.getCtx(), "NoLocator"),"Info", Messagebox.OK, Messagebox.INFORMATION);
+				Messagebox.show(Msg.parseTranslation(Env.getCtx(), "@MLocator_ID@ @NotFound@"),"Info", Messagebox.OK, Messagebox.INFORMATION);
 				}
 				catch (InterruptedException ex)
 				{

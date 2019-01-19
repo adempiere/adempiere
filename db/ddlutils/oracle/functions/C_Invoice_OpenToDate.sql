@@ -49,7 +49,7 @@ AS
           INNER JOIN C_ALLOCATIONHDR a ON (al.C_AllocationHdr_ID=a.C_AllocationHdr_ID)
   WHERE al.C_Invoice_ID = p_C_Invoice_ID
     AND a.DateAcct <= p_DateAcct
-    AND   a.IsActive='Y';
+    AND   a.DocStatus IN('CO', 'CL');
     --
  CURSOR Cur_PaySchedule IS
         SELECT  C_InvoicePaySchedule_ID, DueAmt

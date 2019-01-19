@@ -19,6 +19,10 @@ package org.compiere.print.layout;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.Shape;
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
 import java.io.Reader;
 import java.io.StringReader;
 import java.util.logging.Level;
@@ -41,8 +45,13 @@ import org.compiere.util.CLogger;
  *  @author Jorg Janke
  *  @version $Id: HTMLRenderer.java,v 1.3 2006/07/30 00:53:02 jjanke Exp $
  */
-public class HTMLRenderer extends View
+public class HTMLRenderer extends View implements Externalizable
 {
+	/**
+	 * generated serial id
+	 */
+	private static final long serialVersionUID = 7180048200607805705L;
+
 	/**
 	 * 	Get View from HTML String
 	 *	@param html html string
@@ -74,6 +83,10 @@ public class HTMLRenderer extends View
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(HTMLRenderer.class);
 	
+	public HTMLRenderer() {
+		super(null);
+	}
+	
 	/**************************************************************************
 	 * 	Constructor
 	 *	@param f factory
@@ -85,14 +98,18 @@ public class HTMLRenderer extends View
 		m_factory = f;
 		m_view = v;
 		m_view.setParent(this);
+		m_element = m_view.getElement();
 		// initially layout to the preferred size
 		setSize(m_view.getPreferredSpan(X_AXIS), m_view.getPreferredSpan(Y_AXIS));
 	}	//	HTMLRenderer
 
 	private int 			m_width;
-	private View 			m_view;
-	private ViewFactory 	m_factory;
+	private View m_view;
+	private ViewFactory m_factory;
+	private Element 		m_element;
 	private Rectangle		m_allocation;
+	private float m_viewWidth;
+	private float m_viewHeight;
 
 
 	/**
@@ -378,6 +395,8 @@ public class HTMLRenderer extends View
 	public void setSize(float width, float height) 
 	{
 		this.m_width = (int) width;
+		this.m_viewWidth = width;
+		this.m_viewHeight = height;
 		m_view.setSize(width, height);
 	}
         
@@ -396,4 +415,25 @@ public class HTMLRenderer extends View
 		return m_factory;
 	}
 
+	@Override
+	public void writeExternal(ObjectOutput out) throws IOException {
+		out.writeObject(m_element);
+		out.writeObject(m_allocation);
+		out.writeFloat(m_viewWidth);
+		out.writeFloat(m_viewHeight);
+	}
+
+	@Override
+	public void readExternal(ObjectInput in) throws IOException,
+			ClassNotFoundException {
+		m_element = (Element) in.readObject();
+		m_allocation = (Rectangle) in.readObject();
+		HTMLEditorKit kit = new HTMLEditorKit();
+		m_factory = kit.getViewFactory();
+		m_view = m_factory.create(m_element);
+		m_view.setParent(this);
+		float width = in.readFloat();
+		float height = in.readFloat();
+		setSize(width, height);
+	}
 }	//	HTMLRenderer

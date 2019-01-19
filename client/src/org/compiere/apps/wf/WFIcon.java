@@ -31,19 +31,12 @@ import org.compiere.model.MTreeNode;
  *
  * 	@author 	Jorg Janke
  * 	@version 	$Id: WFIcon.java,v 1.2 2006/07/30 00:51:28 jjanke Exp $
+ * 	@author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * 		<a href="https://github.com/adempiere/adempiere/issues/1176">
+ * 		@see FR [ 1176 ] Look and feel style to ADempiere 390 - Change icons on Work Flow</a>
  */
 public class WFIcon implements Icon
 {
-	/**
-	 * 	Constructor
-	 *	@param type see MTreeNode.TYPE_
-	 */
-	public WFIcon (int type)
-	{
-		if (type > 0 && type < MTreeNode.IMAGES.length)
-			m_type = type;
-	}	//	WFIcon
-
 	/**
 	 * 	Constructor
 	 *	@param action image indicator

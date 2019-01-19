@@ -21,6 +21,8 @@ import org.compiere.util.Env;
 
 import test.AdempiereTestCase;
 
+import java.util.List;
+
 /**
  * @author Teo Sarca, www.arhipac.ro // used by red1
  */
@@ -38,18 +40,18 @@ public class MProjectTest extends AdempiereTestCase
 		MProject proj = new MProject(getCtx(),101,null); 
 		{
 			//test ProjectLines
-			MProjectLine[] lines = proj.getLines();
-			assertTrue("There should be lines in this project", lines.length > 0);
+			List<MProjectLine> lines = proj.getLines();
+			assertTrue("There should be lines in this project", lines.size() > 0);
 		}
 		{
 			//test ProjectIssue
-			MProjectIssue[] issues = proj.getIssues();
-			assertTrue("There are no issues in this project", issues.length == 0);
+			List<MProjectIssue> issues = proj.getIssues();
+			assertTrue("There are no issues in this project", issues.size() == 0);
 		}
 		{
 			//test ProjectPhase
-			MProjectPhase[] lines = proj.getPhases();
-			assertTrue("There are no phases in this project", lines.length == 0);
+			List<MProjectPhase> lines = proj.getPhases();
+			assertTrue("There are no phases in this project", lines.size() == 0);
 		}
 	}
 }

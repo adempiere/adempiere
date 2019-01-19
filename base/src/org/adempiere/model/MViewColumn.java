@@ -20,6 +20,7 @@ package org.adempiere.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.compiere.model.I_AD_Column;
 import org.compiere.model.MColumn;
 import org.compiere.model.Query;
 import org.compiere.util.CLogger;
@@ -150,7 +151,11 @@ public class MViewColumn extends X_AD_View_Column {
 	 * @return int AD Element ID
 	 */
 	public int getAD_Element_ID() {
-		return getAD_Column().getAD_Element_ID();
+		I_AD_Column column = getAD_Column();
+		if (column != null )
+			return column.getAD_Element_ID();
+
+		return 0;
 	}
 
 	/**

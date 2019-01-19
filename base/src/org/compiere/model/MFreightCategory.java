@@ -48,11 +48,11 @@ public class MFreightCategory extends X_M_FreightCategory {
      * Default constructor 
      * 
      * @param ctx                   Context
-     * @param M_FreightCategory_ID  If set to 0 a new category is created.
+     * @param freightCategoryId  If set to 0 a new category is created.
      * @param trxName               Name of database transaction 
      */
-    public MFreightCategory(Properties ctx, int M_FreightCategory_ID, String trxName) {
-        super(ctx, M_FreightCategory_ID, trxName);
+    public MFreightCategory(Properties ctx, int freightCategoryId, String trxName) {
+        super(ctx, freightCategoryId, trxName);
     }
 
     /**
@@ -77,10 +77,10 @@ public class MFreightCategory extends X_M_FreightCategory {
      * @return      If a match is found, the freight category. No match returns null.
      */
     public static MFreightCategory getByValue(Properties ctx, String value, String trxName) {
-        
-        Query q = new Query(ctx, I_M_FreightCategory.Table_Name, "Value=?", trxName);
-        q.setParameters(value).setClient_ID();
-        return q.first();
+
+        return new Query(ctx, MFreightCategory.Table_Name, "Value=?", trxName)
+                .setClient_ID()
+                .setParameters(value).first();
     }
     
 }

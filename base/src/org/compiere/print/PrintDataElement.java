@@ -16,6 +16,7 @@
  *****************************************************************************/
 package org.compiere.print;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
@@ -24,6 +25,7 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Language;
+import org.compiere.util.Msg;
 import org.compiere.util.NamePair;
 
 /**
@@ -32,8 +34,13 @@ import org.compiere.util.NamePair;
  * 	@author 	Jorg Janke
  * 	@version 	$Id: PrintDataElement.java,v 1.2 2006/07/30 00:53:02 jjanke Exp $
  */
-public class PrintDataElement
+public class PrintDataElement implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2121125127301364735L;
+
 	/**
 	 *	Print Data Element Constructor
 	 *  @param columnName name
@@ -41,8 +48,9 @@ public class PrintDataElement
 	 *  @param displayType optional displayType
 	 *  @param isPKey is primary key
 	 *  @param isPageBreak if true force page break
+	 *  @param foreignColumnName name foreign
 	 */
-	public PrintDataElement (String columnName, Object value, int displayType, boolean isPKey, boolean isPageBreak, String format)
+	public PrintDataElement (String columnName, Serializable value, int displayType, boolean isPKey, boolean isPageBreak, String format, String foreignColumnName)
 	{
 		if (columnName == null)
 			throw new IllegalArgumentException("PrintDataElement - Name cannot be null");
@@ -52,8 +60,14 @@ public class PrintDataElement
 		m_isPKey = isPKey;
 		m_isPageBreak = isPageBreak;
 		m_formatPattern = format;
+		m_foreignColumnName = foreignColumnName;
 	}	//	PrintDataElement
 
+	public PrintDataElement(String columnName, Serializable value, int displayType, String pattern, String foreignColumnName)
+	{
+		this (columnName, value, displayType, false, false, pattern, foreignColumnName);
+	}	//	PrintDataElement
+	
 	/**
 	 *	Print Data Element Constructor
 	 *  @param columnName name
@@ -61,15 +75,20 @@ public class PrintDataElement
 	 *  @param pattern Number/date format pattern
 	 *  @param displayType optional displayType
 	 */
-	public PrintDataElement(String columnName, Object value, int displayType, String pattern)
+	public PrintDataElement(String columnName, Serializable value, int displayType, String pattern)
 	{
-		this (columnName, value, displayType, false, false, pattern);
+		this (columnName, value, displayType, false, false, pattern, null);
 	}	//	PrintDataElement
+
+	public PrintDataElement (String columnName, Serializable value, int displayType, boolean isPKey, boolean isPageBreak, String format)
+	{
+		this(columnName, value, displayType, isPKey, isPageBreak, format, null);
+	}
 
 	/**	Data Name			*/
 	private String 		m_columnName;
 	/** Data Value			*/
-	private Object 		m_value;
+	private Serializable 	m_value;
 	/** Display Type		*/
 	private int 		m_displayType;
 	/** Is Primary Key		*/
@@ -78,6 +97,8 @@ public class PrintDataElement
 	private boolean		m_isPageBreak;
 	/** Value format pattern */
 	private String		m_formatPattern;
+	/** Value foreign name */
+	private String m_foreignColumnName;
 
 
 	/**	XML Element Name			*/
@@ -96,6 +117,25 @@ public class PrintDataElement
 	{
 		return m_columnName;
 	}	//	getName
+	
+	/**
+	 * 	Get ForeignName
+	 * 	@return name
+	 */
+	public String getForeignColumnName() {
+		if (m_foreignColumnName == null)
+			return m_columnName;
+		else
+			return m_foreignColumnName;
+	}
+
+	/**
+	 * 	Set ForeignName
+	 * 	@return name
+	 */
+	public void setForeignColumnName(String foreignColumnName) {
+		m_foreignColumnName = foreignColumnName;
+	}
 
 	/**
 	 * 	Get Node Value
@@ -119,7 +159,7 @@ public class PrintDataElement
 		if (m_value instanceof BigDecimal)
 			return (BigDecimal)m_value;
 		if (m_value instanceof Number)
-			return new BigDecimal(((Number)m_value).doubleValue());
+			return BigDecimal.valueOf(((Number)m_value).doubleValue());
 
 		//	Boolean - return 1 for true 0 for false
 		if (m_value instanceof Boolean)
@@ -159,13 +199,23 @@ public class PrintDataElement
 		{
 			if (DisplayType.isNumeric(m_displayType)) {
 				retValue = DisplayType.getNumberFormat(m_displayType, language, m_formatPattern).format(m_value);
-			}
-			else if (DisplayType.isDate(m_displayType))
+			} else if (DisplayType.isDate(m_displayType)) {
 				retValue = DisplayType.getDateFormat(m_displayType, language, m_formatPattern).format(m_value);
+			} else if (m_value instanceof Boolean) {
+				if (m_value.toString().equals("true")) {
+					retValue = Msg.getMsg(Env.getCtx(), "Yes");
+				} else if (m_value.toString().equals("false")) {
+					retValue = Msg.getMsg(Env.getCtx(), "No");
+				}
+			}
 		}
 		return retValue;
 	}	//	getValueDisplay
-
+	public static boolean isNumeric(String str)  
+	{ 	  
+	    return str.matches("-?\\d+(\\.\\d+)?");
+	  
+	}
 	/**
 	 * 	Get Node Data Value as String
 	 * 	@return data value
@@ -386,7 +436,7 @@ public class PrintDataElement
 		if (m_value instanceof NamePair)
 		{
 			NamePair pp = (NamePair)m_value;
-			StringBuffer sb = new StringBuffer(m_columnName);
+			StringBuilder sb = new StringBuilder(m_columnName);
 			sb.append("(").append(pp.getID()).append(")")
 				.append("=").append(pp.getName());
 			if (m_isPKey)

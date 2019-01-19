@@ -35,7 +35,7 @@ import org.compiere.util.WebEnv;
 /**
  *  Web Page Counter
  *  <code>
-	http://www.adempiere.com/wstore/counter
+	http://www.adempiere.net/wstore/counter
  *  </code>
  *
  *  @author     Jorg Janke

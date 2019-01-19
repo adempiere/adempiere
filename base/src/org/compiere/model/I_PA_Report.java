@@ -1,8 +1,9 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -11,8 +12,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 package org.compiere.model;
 
@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for PA_Report
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0
+ *  @version Release 3.9.1
  */
 public interface I_PA_Report 
 {
@@ -61,6 +61,17 @@ public interface I_PA_Report
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
+
+    /** Column name AD_PrintFormatHeader_ID */
+    public static final String COLUMNNAME_AD_PrintFormatHeader_ID = "AD_PrintFormatHeader_ID";
+
+	/** Set Header Print Format	  */
+	public void setAD_PrintFormatHeader_ID (int AD_PrintFormatHeader_ID);
+
+	/** Get Header Print Format	  */
+	public int getAD_PrintFormatHeader_ID();
+
+	public org.compiere.model.I_AD_PrintFormat getAD_PrintFormatHeader() throws RuntimeException;
 
     /** Column name AD_PrintFormat_ID */
     public static final String COLUMNNAME_AD_PrintFormat_ID = "AD_PrintFormat_ID";
@@ -179,12 +190,12 @@ public interface I_PA_Report
 	/** Set List Sources.
 	  * List Report Line Sources
 	  */
-	public void setListSources (boolean ListSources);
+	public void setListSources (String ListSources);
 
 	/** Get List Sources.
 	  * List Report Line Sources
 	  */
-	public boolean isListSources();
+	public String getListSources();
 
     /** Column name ListTrx */
     public static final String COLUMNNAME_ListTrx = "ListTrx";
@@ -192,12 +203,12 @@ public interface I_PA_Report
 	/** Set List Transactions.
 	  * List the report transactions
 	  */
-	public void setListTrx (boolean ListTrx);
+	public void setListTrx (String ListTrx);
 
 	/** Get List Transactions.
 	  * List the report transactions
 	  */
-	public boolean isListTrx();
+	public String getListTrx();
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
@@ -292,6 +303,19 @@ public interface I_PA_Report
 
 	/** Get Process Now	  */
 	public boolean isProcessing();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

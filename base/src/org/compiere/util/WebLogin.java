@@ -186,7 +186,8 @@ public class WebLogin
 				m_session.invalidate ();
 			}
 			//	Forward to unsecure /
-			WebUtil.createForwardPage(m_response, "Logout", "http://" + m_request.getServerName() + "/", 2);
+			String url = m_request.getScheme() +"://"+ m_request.getServerName() +":"+m_request.getServerPort() + m_request.getContextPath(); //@Trifon
+			WebUtil.createForwardPage(m_response, "Logout", url, 2); // @Trifon
 		}
 		//	Send EMail				***	Send Password EMail Request
 		else if ("SendEMail".equals(m_mode))
@@ -201,7 +202,7 @@ public class WebLogin
 				//
 				String msg = WebUtil.sendEMail (m_request, m_wu,
 					MMailMsg.MAILMSGTYPE_UserPassword, new Object[]{
-						m_request.getServerName(),
+						m_request.getScheme() +"://"+ m_request.getServerName() +":"+m_request.getServerPort() + m_request.getContextPath(), // @Trifon
 						m_wu.getName(),
 						WebUtil.getFrom(m_request),
 						m_wu.getPassword()});

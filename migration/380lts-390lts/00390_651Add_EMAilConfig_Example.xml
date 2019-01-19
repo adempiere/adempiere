@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Create in Garden World an example Email configuration #651" ReleaseNo="3.9.0" SeqNo="00390">
+    <Comments>See: https://github.com/adempiere/adempiere/issues/651</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="54127" Action="I" Record_ID="50000" Table="AD_EMailConfig">
+        <Data AD_Column_ID="80497" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="80504" Column="AD_EMailConfig_ID">50000</Data>
+        <Data AD_Column_ID="80498" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="80510" Column="AuthMechanism">L</Data>
+        <Data AD_Column_ID="80515" Column="ConnectionTimeout">0</Data>
+        <Data AD_Column_ID="80500" Column="Created">2016-10-31 22:15:35.974</Data>
+        <Data AD_Column_ID="80502" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="80511" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="80509" Column="EncryptionType">N</Data>
+        <Data AD_Column_ID="80499" Column="IsActive">true</Data>
+        <Data AD_Column_ID="80506" Column="IsSmtpAuthorization">false</Data>
+        <Data AD_Column_ID="80516" Column="LDAPDomain" isNewNull="true"/>
+        <Data AD_Column_ID="80505" Column="Name">Server Mail</Data>
+        <Data AD_Column_ID="80508" Column="Port">25</Data>
+        <Data AD_Column_ID="80529" Column="Protocol">S</Data>
+        <Data AD_Column_ID="80507" Column="SMTPHost">company.org</Data>
+        <Data AD_Column_ID="80514" Column="Timeout">0</Data>
+        <Data AD_Column_ID="80501" Column="Updated">2016-10-31 22:15:35.974</Data>
+        <Data AD_Column_ID="80503" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="54127" Action="U" Record_ID="50000" Table="AD_EMailConfig">
+        <Data AD_Column_ID="80506" Column="IsSmtpAuthorization" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="112" Action="U" Record_ID="11" Table="AD_Client">
+        <Data AD_Column_ID="80512" Column="AD_EMailConfig_ID" isOldNull="true">50000</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

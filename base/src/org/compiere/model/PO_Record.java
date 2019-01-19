@@ -59,7 +59,8 @@ public class PO_Record
 	//	X_CM_ContainerTTable.Table_ID,
 	//	X_CM_CStageTTable.Table_ID,
 		X_K_Index.Table_ID,
-		X_AD_Note.Table_ID
+		X_AD_Note.Table_ID,
+		X_AD_RecentItem.Table_ID
 	};
 	/**	Cascade Table Names			*/
 	private static String[]	s_cascadeNames = new String[]{
@@ -68,7 +69,8 @@ public class PO_Record
 	//	X_CM_ContainerTTable.Table_Name,
 	//	X_CM_CStageTTable.Table_Name,
 		X_K_Index.Table_Name,
-		X_AD_Note.Table_Name
+		X_AD_Note.Table_Name,
+		X_AD_RecentItem.Table_Name
 	};
 
 	/**	Restrict Table ID			*/

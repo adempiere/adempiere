@@ -43,6 +43,24 @@ public class MResource extends X_S_Resource
 	private static final long serialVersionUID = 6799272062821593975L;
 	/** Cache */
 	private static CCache<Integer, MResource> s_cache = new CCache<Integer, MResource>(Table_Name, 20);
+
+	/**
+	 * Get Default Plant
+	 *
+	 * @param warehouse
+	 * @return
+	 */
+	static public MResource getDefaultPlant(MWarehouse warehouse)
+	{
+		StringBuilder whereClause = new StringBuilder();
+		whereClause
+				.append(MResource.COLUMNNAME_IsManufacturingResource).append("=? AND ")
+				.append(MResource.COLUMNNAME_ManufacturingResourceType).append("= ? AND ")
+				.append(MResource.COLUMNNAME_M_Warehouse_ID ).append(" = ? ");
+		return new Query(warehouse.getCtx() , MResource.Table_Name , whereClause.toString(), warehouse.get_TrxName()).setClient_ID()
+				.setParameters(true, MANUFACTURINGRESOURCETYPE_Plant, warehouse.getM_Warehouse_ID())
+				.first();
+	}
 	
 	/**
 	 * Get from Cache

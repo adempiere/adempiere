@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Fix Sequence ID  wrongs ids in seed 380 #806" ReleaseNo="3.9.0" SeqNo="65">
+    <Comments>https://github.com/adempiere/adempiere/issues/806</Comments>
+    <Step DBType="ALL" Parse="Y" SeqNo="10" StepType="SQL">
+      <SQLStatement>UPDATE AD_Sequence SET AD_Sequence_ID = 54386 WHERE AD_Sequence_ID = 1000000;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54387 WHERE AD_Sequence_ID = 1000001;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54388 WHERE AD_Sequence_ID = 1000003;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54389 WHERE AD_Sequence_ID = 1000004;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54390 WHERE AD_Sequence_ID = 1000005;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54391 WHERE AD_Sequence_ID = 1000006;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54392 WHERE AD_Sequence_ID = 1000007;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54393 WHERE AD_Sequence_ID = 1000008;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54394 WHERE AD_Sequence_ID = 1000009;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54395 WHERE AD_Sequence_ID = 1000010;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54396 WHERE AD_Sequence_ID = 1000002;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54397 WHERE AD_Sequence_ID = 1000011;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54398 WHERE AD_Sequence_ID = 1000012;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54399 WHERE AD_Sequence_ID = 1000013;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54400 WHERE AD_Sequence_ID = 1000014;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54401 WHERE AD_Sequence_ID = 1000015;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54402 WHERE AD_Sequence_ID = 1000016;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54403 WHERE AD_Sequence_ID = 1000017;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54404 WHERE AD_Sequence_ID = 1000018;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54405 WHERE AD_Sequence_ID = 1000019;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54406 WHERE AD_Sequence_ID = 1000020;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54407 WHERE AD_Sequence_ID = 1000021;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54408 WHERE AD_Sequence_ID = 1000022;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54409 WHERE AD_Sequence_ID = 1000023;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54410 WHERE AD_Sequence_ID = 1000024;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54411 WHERE AD_Sequence_ID = 1000025;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54412 WHERE AD_Sequence_ID = 1000026;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54413 WHERE AD_Sequence_ID = 1000027;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54414 WHERE AD_Sequence_ID = 1000028;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54415 WHERE AD_Sequence_ID = 1000029;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54416 WHERE AD_Sequence_ID = 1000030;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54417 WHERE AD_Sequence_ID = 1000031;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54418 WHERE AD_Sequence_ID = 1000032;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54419 WHERE AD_Sequence_ID = 1000033;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54420 WHERE AD_Sequence_ID = 1000034;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54421 WHERE AD_Sequence_ID = 1000035;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54422 WHERE AD_Sequence_ID = 1000036;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54423 WHERE AD_Sequence_ID = 1000037;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54424 WHERE AD_Sequence_ID = 1000038;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54425 WHERE AD_Sequence_ID = 1000039;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54426 WHERE AD_Sequence_ID = 1000040;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54427 WHERE AD_Sequence_ID = 1000041;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54428 WHERE AD_Sequence_ID = 1000042;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54429 WHERE AD_Sequence_ID = 1000043;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54430 WHERE AD_Sequence_ID = 1000044;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54431 WHERE AD_Sequence_ID = 1000045;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54432 WHERE AD_Sequence_ID = 1000046;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54433 WHERE AD_Sequence_ID = 1000047;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54434 WHERE AD_Sequence_ID = 1000048;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54435 WHERE AD_Sequence_ID = 1000049;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54436 WHERE AD_Sequence_ID = 1000050;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54437 WHERE AD_Sequence_ID = 1000051;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54438 WHERE AD_Sequence_ID = 1000052;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54439 WHERE AD_Sequence_ID = 1000053;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54440 WHERE AD_Sequence_ID = 1000054;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54441 WHERE AD_Sequence_ID = 1000055;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54442 WHERE AD_Sequence_ID = 1000056;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54443 WHERE AD_Sequence_ID = 1000057;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54444 WHERE AD_Sequence_ID = 1000058;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54445 WHERE AD_Sequence_ID = 1000059;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54446 WHERE AD_Sequence_ID = 1000060;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54447 WHERE AD_Sequence_ID = 1000061;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54448 WHERE AD_Sequence_ID = 1000062;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54449 WHERE AD_Sequence_ID = 1000063;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54450 WHERE AD_Sequence_ID = 1000064;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54451 WHERE AD_Sequence_ID = 1000065;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54452 WHERE AD_Sequence_ID = 1000066;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54453 WHERE AD_Sequence_ID = 1000067;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54454 WHERE AD_Sequence_ID = 1000068;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54455 WHERE AD_Sequence_ID = 1000069;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54456 WHERE AD_Sequence_ID = 1000070;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54457 WHERE AD_Sequence_ID = 1000071;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54458 WHERE AD_Sequence_ID = 1000072;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54459 WHERE AD_Sequence_ID = 1000073;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54460 WHERE AD_Sequence_ID = 1000074;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54461 WHERE AD_Sequence_ID = 1000075;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54462 WHERE AD_Sequence_ID = 1000076;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54463 WHERE AD_Sequence_ID = 1000077;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54464 WHERE AD_Sequence_ID = 1000078;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54465 WHERE AD_Sequence_ID = 1000079;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54466 WHERE AD_Sequence_ID = 1000080;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54467 WHERE AD_Sequence_ID = 1000081;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54468 WHERE AD_Sequence_ID = 1000082;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54469 WHERE AD_Sequence_ID = 1000083;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54470 WHERE AD_Sequence_ID = 1000084;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54471 WHERE AD_Sequence_ID = 1000085;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54472 WHERE AD_Sequence_ID = 1000086;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54473 WHERE AD_Sequence_ID = 1000087;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54474 WHERE AD_Sequence_ID = 1000088;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54475 WHERE AD_Sequence_ID = 1000089;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54476 WHERE AD_Sequence_ID = 1000090;
+UPDATE AD_Sequence SET AD_Sequence_ID = 54477 WHERE AD_Sequence_ID = 1000091;</SQLStatement>
+    </Step>
+  </Migration>
+</Migrations>

@@ -34,7 +34,7 @@ import javax.swing.LookAndFeel;
 import javax.swing.SwingUtilities;
 
 import org.adempiere.plaf.AdempierePLAF;
-import org.compiere.apps.FieldRecordInfo;
+import org.compiere.apps.RecordInfo;
 import org.compiere.apps.ScriptEditor;
 import org.compiere.model.GridField;
 import org.compiere.swing.CMenuItem;
@@ -47,6 +47,9 @@ import org.compiere.util.Msg;
  *
  *  @author 	Jorg Janke
  *  @version 	$Id: VText.java,v 1.2 2006/07/30 00:51:28 jjanke Exp $
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 146 ] Remove unnecessary class, add support for info to specific column
+ *		@see https://github.com/adempiere/adempiere/issues/146
  */
 public class VText extends CTextArea
 	implements VEditor, KeyListener, ActionListener, FocusListener
@@ -197,9 +200,9 @@ public class VText extends CTextArea
 			}
 			catch (PropertyVetoException pve)	{}
 		}
-		else if (e.getActionCommand().equals(FieldRecordInfo.CHANGE_LOG_COMMAND))
+		else if (e.getActionCommand().equals(RecordInfo.CHANGE_LOG_COMMAND))
 		{
-			FieldRecordInfo.start(m_mField);
+			RecordInfo.start(m_mField);
 			return;
 		}
 	}	//	actionPerformed
@@ -244,7 +247,7 @@ public class VText extends CTextArea
 	{
 		m_mField = mField;
 		if (m_mField != null)
-			FieldRecordInfo.addMenu(this, popupMenu);
+			RecordInfo.addMenu(this, popupMenu);
 	}   //  setField
 
 	@Override

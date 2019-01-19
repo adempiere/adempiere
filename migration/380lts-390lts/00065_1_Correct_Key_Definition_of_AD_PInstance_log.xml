@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Correct Key Definition of AD_PInstance_log" ReleaseNo="3.9.0" SeqNo="00065">
+    <Comments>https://github.com/adempiere/adempiere/issues/445</Comments>    
+    
+    
+    <Step DBType="Postgres" Parse="Y" SeqNo="10" StepType="SQL">
+      <SQLStatement>ALTER TABLE ad_pinstance_log RENAME log_id TO ad_pinstance_log_id;</SQLStatement>
+    </Step>
+    <Step DBType="Oracle" Parse="Y" SeqNo="20" StepType="SQL">
+      <SQLStatement>ALTER TABLE ad_pinstance_log RENAME COLUMN log_id TO ad_pinstance_log_id;</SQLStatement>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="276" Action="U" Record_ID="2064" Table="AD_Element">
+        <Data AD_Column_ID="2602" Column="ColumnName" oldValue="Log_ID">AD_PInstance_Log_ID</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="8779" Table="AD_Column">
+        <Data AD_Column_ID="112" Column="Description" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="116" Column="ColumnName" oldValue="Log_ID">AD_PInstance_Log_ID</Data>
+        <Data AD_Column_ID="113" Column="Help" isNewNull="true" isOldNull="true"/>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

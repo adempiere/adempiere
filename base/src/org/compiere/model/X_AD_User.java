@@ -1,8 +1,9 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -11,8 +12,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_User
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_AD_User extends PO implements I_AD_User, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150223L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_AD_User (Properties ctx, int AD_User_ID, String trxName)
@@ -79,6 +79,36 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	public org.compiere.model.I_AD_EMailConfig getAD_EMailConfig() throws RuntimeException
+    {
+		return (org.compiere.model.I_AD_EMailConfig)MTable.get(getCtx(), org.compiere.model.I_AD_EMailConfig.Table_Name)
+			.getPO(getAD_EMailConfig_ID(), get_TrxName());	}
+
+	/** Set EMail Configuration.
+		@param AD_EMailConfig_ID EMail Configuration	  */
+	public void setAD_EMailConfig_ID (int AD_EMailConfig_ID)
+	{
+		if (AD_EMailConfig_ID < 1) 
+			set_Value (COLUMNNAME_AD_EMailConfig_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_EMailConfig_ID, Integer.valueOf(AD_EMailConfig_ID));
+	}
+
+	/** Get EMail Configuration.
+		@return EMail Configuration	  */
+	public int getAD_EMailConfig_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_EMailConfig_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_AD_Org getAD_OrgTrx() throws RuntimeException
+    {
+		return (org.compiere.model.I_AD_Org)MTable.get(getCtx(), org.compiere.model.I_AD_Org.Table_Name)
+			.getPO(getAD_OrgTrx_ID(), get_TrxName());	}
 
 	/** Set Trx Organization.
 		@param AD_OrgTrx_ID 
@@ -581,6 +611,99 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 		return false;
 	}
 
+	/** Set Internal User.
+		@param IsInternalUser 
+		Is just for use internal
+	  */
+	public void setIsInternalUser (boolean IsInternalUser)
+	{
+		set_Value (COLUMNNAME_IsInternalUser, Boolean.valueOf(IsInternalUser));
+	}
+
+	/** Get Internal User.
+		@return Is just for use internal
+	  */
+	public boolean isInternalUser () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsInternalUser);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Login User.
+		@param IsLoginUser Login User	  */
+	public void setIsLoginUser (boolean IsLoginUser)
+	{
+		set_Value (COLUMNNAME_IsLoginUser, Boolean.valueOf(IsLoginUser));
+	}
+
+	/** Get Login User.
+		@return Login User	  */
+	public boolean isLoginUser () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsLoginUser);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Is Project Manager.
+		@param IsProjectManager 
+		Is Project Manager
+	  */
+	public void setIsProjectManager (boolean IsProjectManager)
+	{
+		set_Value (COLUMNNAME_IsProjectManager, Boolean.valueOf(IsProjectManager));
+	}
+
+	/** Get Is Project Manager.
+		@return Is Project Manager
+	  */
+	public boolean isProjectManager () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsProjectManager);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Is Project Member.
+		@param IsProjectMember 
+		Is Project Member
+	  */
+	public void setIsProjectMember (boolean IsProjectMember)
+	{
+		set_Value (COLUMNNAME_IsProjectMember, Boolean.valueOf(IsProjectMember));
+	}
+
+	/** Get Is Project Member.
+		@return Is Project Member
+	  */
+	public boolean isProjectMember () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsProjectMember);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Sales Lead.
 		@param IsSalesLead 
 		This contact is a sales lead
@@ -596,6 +719,30 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 	public boolean isSalesLead () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsSalesLead);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Webstore User.
+		@param IsWebstoreUser 
+		Is a user for Webstore
+	  */
+	public void setIsWebstoreUser (boolean IsWebstoreUser)
+	{
+		set_Value (COLUMNNAME_IsWebstoreUser, Boolean.valueOf(IsWebstoreUser));
+	}
+
+	/** Get Webstore User.
+		@return Is a user for Webstore
+	  */
+	public boolean isWebstoreUser () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsWebstoreUser);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 
@@ -883,6 +1030,40 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 		return false;
 	}
 
+	/** Set RecentItems Max Saved.
+		@param RecentItemsMaxSaved RecentItems Max Saved	  */
+	public void setRecentItemsMaxSaved (int RecentItemsMaxSaved)
+	{
+		set_Value (COLUMNNAME_RecentItemsMaxSaved, Integer.valueOf(RecentItemsMaxSaved));
+	}
+
+	/** Get RecentItems Max Saved.
+		@return RecentItems Max Saved	  */
+	public int getRecentItemsMaxSaved () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_RecentItemsMaxSaved);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set RecentItems Max Shown.
+		@param RecentItemsMaxShown RecentItems Max Shown	  */
+	public void setRecentItemsMaxShown (int RecentItemsMaxShown)
+	{
+		set_Value (COLUMNNAME_RecentItemsMaxShown, Integer.valueOf(RecentItemsMaxShown));
+	}
+
+	/** Get RecentItems Max Shown.
+		@return RecentItems Max Shown	  */
+	public int getRecentItemsMaxShown () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_RecentItemsMaxShown);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_AD_User getSalesRep() throws RuntimeException
     {
 		return (org.compiere.model.I_AD_User)MTable.get(getCtx(), org.compiere.model.I_AD_User.Table_Name)
@@ -971,6 +1152,23 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 	public String getTitle () 
 	{
 		return (String)get_Value(COLUMNNAME_Title);
+	}
+
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
 	}
 
 	/** Set User PIN.

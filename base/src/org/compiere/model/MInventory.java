@@ -21,9 +21,12 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
 
+import org.adempiere.exceptions.PeriodClosedException;
 import org.compiere.process.DocAction;
+import org.compiere.process.DocumentReversalEnabled;
 import org.compiere.process.DocumentEngine;
 import org.compiere.util.CCache;
 import org.compiere.util.DB;
@@ -42,8 +45,11 @@ import org.compiere.util.Msg;
  *  @author Armen Rizal, Goodwill Consulting
  * 			<li>BF [ 1745154 ] Cost in Reversing Material Related Docs
  *  @see http://sourceforge.net/tracker/?func=detail&atid=879335&aid=1948157&group_id=176962
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com 2015-05-25, 18:20
+ * 			<a href="https://github.com/adempiere/adempiere/issues/887">
+ * 			@see FR [ 887 ] System Config reversal invoice DocNo</a>
  */
-public class MInventory extends X_M_Inventory implements DocAction
+public class MInventory extends X_M_Inventory implements DocAction, DocumentReversalEnabled
 {
 	/**
 	 * 
@@ -569,9 +575,12 @@ public class MInventory extends X_M_Inventory implements DocAction
 			setMovementDate(new Timestamp (System.currentTimeMillis()));
 		}
 		if (dt.isOverwriteSeqOnComplete()) {
-			String value = DB.getDocumentNo(getC_DocType_ID(), get_TrxName(), true, this);
-			if (value != null)
-				setDocumentNo(value);
+			Boolean isOverwrite = !isReversal() || (isReversal() && !dt.isCopyDocNoOnReversal());
+			if (isOverwrite){String value = DB.getDocumentNo(getC_DocType_ID(), get_TrxName(), true, this);
+				if (value != null)
+					setDocumentNo(value);
+			}
+
 		}
 	}
 
@@ -606,6 +615,7 @@ public class MInventory extends X_M_Inventory implements DocAction
 				}
 				if (asi == null)
 				{
+					MAttributeSet.validateAttributeSetInstanceMandatory(product,MInventoryLine.Table_ID , false , line.getM_AttributeSetInstance_ID());
 					asi = MAttributeSetInstance.create(getCtx(), product, get_TrxName());
 				}
 				line.setM_AttributeSetInstance_ID(asi.getM_AttributeSetInstance_ID());
@@ -646,6 +656,7 @@ public class MInventory extends X_M_Inventory implements DocAction
 				//	No AttributeSetInstance found for remainder
 				if (qtyToDeliver.signum() != 0)
 				{
+					MAttributeSet.validateAttributeSetInstanceMandatory(product, MInventoryLine.Table_ID , false , line.getM_AttributeSetInstance_ID());
 					//deliver using new asi
 					MAttributeSetInstance asi = MAttributeSetInstance.create(getCtx(), product, get_TrxName());
 					int M_AttributeSetInstance_ID = asi.getM_AttributeSetInstance_ID();
@@ -710,7 +721,20 @@ public class MInventory extends X_M_Inventory implements DocAction
 		}
 		else
 		{
-			return reverseCorrectIt();
+			boolean isAccrual = false;
+			try
+			{
+				MPeriod.testPeriodOpen(getCtx(), getMovementDate(), getC_DocType_ID(), getAD_Org_ID());
+			}
+			catch (PeriodClosedException periodClosedException)
+			{
+				isAccrual = true;
+			}
+
+			if (isAccrual)
+				return reverseAccrualIt();
+			else
+				return reverseCorrectIt();
 		}
 			
 		// After Void
@@ -741,7 +765,88 @@ public class MInventory extends X_M_Inventory implements DocAction
 			return false;
 		return true;
 	}	//	closeIt
-	
+
+	public MInventory reverseIt(boolean isAccrual)
+	{
+
+		Timestamp currentDate = new Timestamp(System.currentTimeMillis());
+		Optional<Timestamp> loginDateOptional = Optional.of(Env.getContextAsDate(getCtx(),"#Date"));
+		Timestamp reversalDate =  isAccrual ? loginDateOptional.orElse(currentDate) : getMovementDate();
+		MDocType dt = MDocType.get(getCtx(), getC_DocType_ID());
+		MPeriod.testPeriodOpen(getCtx(), reversalDate , dt.getDocBaseType(), getAD_Org_ID());
+
+		//	Deep Copy
+		MInventory reversal = new MInventory(getCtx(), 0, get_TrxName());
+		copyValues(this, reversal, getAD_Client_ID(), getAD_Org_ID());
+		reversal.set_ValueNoCheck("DocumentNo", null);
+		//	Set Document No from flag
+		if(dt.isCopyDocNoOnReversal()) {
+			reversal.setDocumentNo(getDocumentNo() + Msg.getMsg(getCtx(), "^"));
+		}
+		reversal.setDocStatus(DOCSTATUS_Drafted);
+		reversal.setDocAction(DOCACTION_Complete);
+		reversal.setIsApproved (false);
+		reversal.setPosted(false);
+		reversal.setProcessed(false);
+		reversal.addDescription("{->" + getDocumentNo() + ")");
+		reversal.setReversal_ID(getM_Inventory_ID());
+		reversal.saveEx();
+		reversal.setReversal(true);
+
+		//	Reverse Line Qty
+		MInventoryLine[] oLines = getLines(true);
+		for (int i = 0; i < oLines.length; i++)
+		{
+			MInventoryLine oLine = oLines[i];
+			MInventoryLine rLine = new MInventoryLine(getCtx(), 0, get_TrxName());
+			copyValues(oLine, rLine, oLine.getAD_Client_ID(), oLine.getAD_Org_ID());
+			rLine.setM_Inventory_ID(reversal.getM_Inventory_ID());
+			rLine.setParent(reversal);
+			//AZ Goodwill
+			// store original (voided/reversed) document line
+			rLine.setReversalLine_ID(oLine.getM_InventoryLine_ID());
+			//
+			rLine.setQtyBook (oLine.getQtyCount());		//	switch
+			rLine.setQtyCount (oLine.getQtyBook());
+			rLine.setQtyInternalUse (oLine.getQtyInternalUse().negate());
+
+			rLine.saveEx();
+
+			//We need to copy MA
+			if (rLine.getM_AttributeSetInstance_ID() == 0)
+			{
+				MInventoryLineMA mas[] = MInventoryLineMA.get(getCtx(),
+						oLines[i].getM_InventoryLine_ID(), get_TrxName());
+				for (int j = 0; j < mas.length; j++)
+				{
+					MInventoryLineMA ma = new MInventoryLineMA (rLine,
+							mas[j].getM_AttributeSetInstance_ID(),
+							mas[j].getMovementQty().negate());
+					ma.saveEx();
+				}
+			}
+		}
+		//
+		if (!reversal.processIt(DocAction.ACTION_Complete))
+		{
+			m_processMsg = "Reversal ERROR: " + reversal.getProcessMsg();
+			return null;
+		}
+		reversal.closeIt();
+		reversal.setDocStatus(DOCSTATUS_Reversed);
+		reversal.setDocAction(DOCACTION_None);
+		reversal.saveEx();
+		m_processMsg = reversal.getDocumentNo();
+
+		//	Update Reversed (this)
+		addDescription("(" + reversal.getDocumentNo() + "<-)");
+		setProcessed(true);
+		setReversal_ID(reversal.getM_Inventory_ID());
+		setDocStatus(DOCSTATUS_Reversed);	//	may come from void
+		setDocAction(DOCACTION_None);
+		return reversal;
+	}
+
 	/**
 	 * 	Reverse Correction
 	 * 	@return false 
@@ -754,12 +859,21 @@ public class MInventory extends X_M_Inventory implements DocAction
 		if (m_processMsg != null)
 			return false;
 
-		MDocType dt = MDocType.get(getCtx(), getC_DocType_ID());
+		MInventory reversal = reverseIt(false);
+		if (reversal == null)
+			return false;
+
+		/*MDocType dt = MDocType.get(getCtx(), getC_DocType_ID());
 		MPeriod.testPeriodOpen(getCtx(), getMovementDate(), dt.getDocBaseType(), getAD_Org_ID());
 
 		//	Deep Copy
 		MInventory reversal = new MInventory(getCtx(), 0, get_TrxName());
 		copyValues(this, reversal, getAD_Client_ID(), getAD_Org_ID());
+		reversal.set_ValueNoCheck("DocumentNo", null);
+		//	Set Document No from flag
+		if(dt.isCopyDocNoOnReversal()) {
+			reversal.setDocumentNo(getDocumentNo() + "^");
+		}
 		reversal.setDocStatus(DOCSTATUS_Drafted);
 		reversal.setDocAction(DOCACTION_Complete);
 		reversal.setIsApproved (false);
@@ -826,7 +940,14 @@ public class MInventory extends X_M_Inventory implements DocAction
 		//FR1948157
 		setReversal_ID(reversal.getM_Inventory_ID());
 		setDocStatus(DOCSTATUS_Reversed);	//	may come from void
-		setDocAction(DOCACTION_None);
+		setDocAction(DOCACTION_None);*/
+
+		// After reverseCorrect
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSECORRECT);
+		if (m_processMsg != null)
+			return false;
+
+		m_processMsg = reversal.getDocumentNo();
 
 		return true;
 	}	//	reverseCorrectIt
@@ -842,13 +963,17 @@ public class MInventory extends X_M_Inventory implements DocAction
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REVERSEACCRUAL);
 		if (m_processMsg != null)
 			return false;
+
+		MInventory reversal = reverseIt(true);
+		if (reversal == null)
+			return false;
 		
 		// After reverseAccrual
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSEACCRUAL);
 		if (m_processMsg != null)
 			return false;
 		
-		return false;
+		return true;
 	}	//	reverseAccrualIt
 	
 	/** 
@@ -926,7 +1051,7 @@ public class MInventory extends X_M_Inventory implements DocAction
 	 * 	Set Reversal
 	 *	@param reversal reversal
 	 */
-	private void setReversal(boolean reversal)
+	public void setReversal(boolean reversal)
 	{
 		m_reversal = reversal;
 	}	//	setReversal
@@ -934,92 +1059,10 @@ public class MInventory extends X_M_Inventory implements DocAction
 	 * 	Is Reversal
 	 *	@return reversal
 	 */
-	private boolean isReversal()
+	public boolean isReversal()
 	{
 		return m_reversal;
 	}	//	isReversal
-	
-	/**
-	 * Create Cost Detail
-	 * @param line
-	 * @param Qty
-	 * @return an EMPTY String on success otherwise an ERROR message
-	 */
-	/*
-	private String createCostDetail(MInventoryLine line, int M_AttributeSetInstance_ID, BigDecimal qty)
-	{
-		// Get Account Schemas to create MCostDetail
-		MAcctSchema[] acctschemas = MAcctSchema.getClientAcctSchema(getCtx(), getAD_Client_ID());
-		for(int asn = 0; asn < acctschemas.length; asn++)
-		{
-			MAcctSchema as = acctschemas[asn];
-			
-			if (as.isSkipOrg(getAD_Org_ID()) || as.isSkipOrg(line.getAD_Org_ID()))
-			{
-				continue;
-			}
-			
-			BigDecimal costs = Env.ZERO;
-			if (isReversal())
-			{				
-				String sql = "SELECT amt * -1 FROM M_CostDetail WHERE M_InventoryLine_ID=?"; // negate costs				
-				MProduct product = new MProduct(getCtx(), line.getM_Product_ID(), line.get_TrxName());
-				String CostingLevel = product.getCostingLevel(as);
-				if (MAcctSchema.COSTINGLEVEL_Organization.equals(CostingLevel))
-					sql = sql + " AND AD_Org_ID=" + getAD_Org_ID(); 
-				else if (MAcctSchema.COSTINGLEVEL_BatchLot.equals(CostingLevel) && M_AttributeSetInstance_ID != 0)
-					sql = sql + " AND M_AttributeSetInstance_ID=" + M_AttributeSetInstance_ID;
-				costs = DB.getSQLValueBD(line.get_TrxName(), sql, line.getReversalLine_ID());
-			}
-			else 
-			{
-				ProductCost pc = new ProductCost (getCtx(), 
-						line.getM_Product_ID(), M_AttributeSetInstance_ID, line.get_TrxName());
-				pc.setQty(qty);
-				costs = pc.getProductCosts(as, line.getAD_Org_ID(), as.getCostingMethod(), 0,true);							
-			}
-			if (costs == null)
-			{
-				return "No Costs for " + line.getProduct().getName();
-			}
-			
-			// Set Total Amount and Total Quantity from Inventory
-			MCostDetail.createInventory(as, line.getAD_Org_ID(), 
-					line.getM_Product_ID(), M_AttributeSetInstance_ID,
-					line.getM_InventoryLine_ID(), 0,	//	no cost element
-					costs, qty,			
-					line.getDescription(), line.get_TrxName());
-		}
-		
-		return "";
-	}*/
-
-	//if isReversal CostDetail is created from CostDetail of original document 
-	// is made a new CostDetail where Amt and Qty are negate
-	private void createCostDetail(MTransaction trx, int reversalLine_ID) {
-			
-		String whereClause = MCostDetail.COLUMNNAME_M_InventoryLine_ID+"=?"
-		                                 +" AND "+MCostDetail.COLUMNNAME_M_AttributeSetInstance_ID+"=?";
-		List<MCostDetail> list = new Query(trx.getCtx(), MCostDetail.Table_Name, whereClause, trx.get_TrxName())
-		                      .setParameters(new Object[]{reversalLine_ID, trx.getM_AttributeSetInstance_ID()})
-		                      .list();
-		
-		MCostDetail cdnew = null;
-		for (MCostDetail cd : list)
-		{
-			cdnew = new MCostDetail(trx.getCtx(), 0, trx.get_TrxName());
-			copyValues((PO) cd, cdnew);
-			cdnew.setProcessed(false);
-			cdnew.setM_AttributeSetInstance_ID(cd.getM_AttributeSetInstance_ID());
-			cdnew.setM_InventoryLine_ID(trx.getM_InventoryLine_ID());
-			cdnew.setM_Product_ID(cd.getM_Product_ID());
-			cdnew.setAmt(cd.getAmt().negate());
-			cdnew.setQty(cd.getQty().negate());
-			cdnew.saveEx();
-			cdnew.process();
-		}
-		
-	}
 
 	/**
 	 * 	Document Status is Complete or Closed

@@ -48,6 +48,7 @@ public class EntityTypeElementHandler extends AbstractElementHandler
 			if (id <= 0 && getIntValue(atts, I_AD_EntityType.COLUMNNAME_AD_EntityType_ID, 0) <= PackOut.MAX_OFFICIAL_ID)
 			{
 				entity.setAD_EntityType_ID(getIntValue(atts, I_AD_EntityType.COLUMNNAME_AD_EntityType_ID, 0));
+				entity.setIsDirectLoad(true);
 			}
 			if (id > 0)
 			{		

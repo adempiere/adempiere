@@ -474,7 +474,7 @@ public class ImportPayment extends SvrProcess
 				payment.setCreditCardVV(imp.getCreditCardVV());
 				payment.setSwipe(imp.getSwipe());
 				
-				payment.setDateAcct(imp.getDateTrx());
+				payment.setDateAcct(imp.getDateAcct());
 				payment.setDateTrx(imp.getDateTrx());
 			//	payment.setDescription(imp.getDescription());
 				//

@@ -1,8 +1,9 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -11,8 +12,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_POS
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_C_POS extends PO implements I_C_POS, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150223L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_C_POS (Properties ctx, int C_POS_ID, String trxName)
@@ -274,6 +274,66 @@ public class X_C_POS extends PO implements I_C_POS, I_Persistent
 		return (String)get_Value(COLUMNNAME_CashDrawer);
 	}
 
+	public org.compiere.model.I_C_BankAccount getCashTransferBankAccount() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_BankAccount)MTable.get(getCtx(), org.compiere.model.I_C_BankAccount.Table_Name)
+			.getPO(getCashTransferBankAccount_ID(), get_TrxName());	}
+
+	/** Set Transfer Cash trx to.
+		@param CashTransferBankAccount_ID 
+		Bank Account on which to transfer all Cash transactions
+	  */
+	public void setCashTransferBankAccount_ID (int CashTransferBankAccount_ID)
+	{
+		if (CashTransferBankAccount_ID < 1) 
+			set_Value (COLUMNNAME_CashTransferBankAccount_ID, null);
+		else 
+			set_Value (COLUMNNAME_CashTransferBankAccount_ID, Integer.valueOf(CashTransferBankAccount_ID));
+	}
+
+	/** Get Transfer Cash trx to.
+		@return Bank Account on which to transfer all Cash transactions
+	  */
+	public int getCashTransferBankAccount_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_CashTransferBankAccount_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** DeliveryRule AD_Reference_ID=151 */
+	public static final int DELIVERYRULE_AD_Reference_ID=151;
+	/** After Receipt = R */
+	public static final String DELIVERYRULE_AfterReceipt = "R";
+	/** Availability = A */
+	public static final String DELIVERYRULE_Availability = "A";
+	/** Complete Line = L */
+	public static final String DELIVERYRULE_CompleteLine = "L";
+	/** Complete Order = O */
+	public static final String DELIVERYRULE_CompleteOrder = "O";
+	/** Force = F */
+	public static final String DELIVERYRULE_Force = "F";
+	/** Manual = M */
+	public static final String DELIVERYRULE_Manual = "M";
+	/** Set Delivery Rule.
+		@param DeliveryRule 
+		Defines the timing of Delivery
+	  */
+	public void setDeliveryRule (String DeliveryRule)
+	{
+
+		set_Value (COLUMNNAME_DeliveryRule, DeliveryRule);
+	}
+
+	/** Get Delivery Rule.
+		@return Defines the timing of Delivery
+	  */
+	public String getDeliveryRule () 
+	{
+		return (String)get_Value(COLUMNNAME_DeliveryRule);
+	}
+
 	/** Set Description.
 		@param Description 
 		Optional short description of the record
@@ -289,6 +349,23 @@ public class X_C_POS extends PO implements I_C_POS, I_Persistent
 	public String getDescription () 
 	{
 		return (String)get_Value(COLUMNNAME_Description);
+	}
+
+	/** Set Electronic Scales.
+		@param ElectronicScales 
+		Allows to define path for Device Electronic Scales e.g. /dev/ttyS0/
+	  */
+	public void setElectronicScales (String ElectronicScales)
+	{
+		set_Value (COLUMNNAME_ElectronicScales, ElectronicScales);
+	}
+
+	/** Get Electronic Scales.
+		@return Allows to define path for Device Electronic Scales e.g. /dev/ttyS0/
+	  */
+	public String getElectronicScales () 
+	{
+		return (String)get_Value(COLUMNNAME_ElectronicScales);
 	}
 
 	/** Set Comment/Help.
@@ -308,6 +385,58 @@ public class X_C_POS extends PO implements I_C_POS, I_Persistent
 		return (String)get_Value(COLUMNNAME_Help);
 	}
 
+	/** InvoiceRule AD_Reference_ID=150 */
+	public static final int INVOICERULE_AD_Reference_ID=150;
+	/** After Order delivered = O */
+	public static final String INVOICERULE_AfterOrderDelivered = "O";
+	/** After Delivery = D */
+	public static final String INVOICERULE_AfterDelivery = "D";
+	/** Customer Schedule after Delivery = S */
+	public static final String INVOICERULE_CustomerScheduleAfterDelivery = "S";
+	/** Immediate = I */
+	public static final String INVOICERULE_Immediate = "I";
+	/** Set Invoice Rule.
+		@param InvoiceRule 
+		Frequency and method of invoicing 
+	  */
+	public void setInvoiceRule (String InvoiceRule)
+	{
+
+		set_Value (COLUMNNAME_InvoiceRule, InvoiceRule);
+	}
+
+	/** Get Invoice Rule.
+		@return Frequency and method of invoicing 
+	  */
+	public String getInvoiceRule () 
+	{
+		return (String)get_Value(COLUMNNAME_InvoiceRule);
+	}
+
+	/** Set Enable POS Product Lookup.
+		@param IsEnableProductLookup 
+		Allows product lookup in order to show search key , name , quantity available , standard price and list price for selecting a product
+	  */
+	public void setIsEnableProductLookup (boolean IsEnableProductLookup)
+	{
+		set_Value (COLUMNNAME_IsEnableProductLookup, Boolean.valueOf(IsEnableProductLookup));
+	}
+
+	/** Get Enable POS Product Lookup.
+		@return Allows product lookup in order to show search key , name , quantity available , standard price and list price for selecting a product
+	  */
+	public boolean isEnableProductLookup () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsEnableProductLookup);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Modify Price.
 		@param IsModifyPrice 
 		Allow modifying the price
@@ -323,6 +452,30 @@ public class X_C_POS extends PO implements I_C_POS, I_Persistent
 	public boolean isModifyPrice () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsModifyPrice);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set POS Required PIN.
+		@param IsPOSRequiredPIN 
+		Indicates that a Supervisor Pin is mandatory to execute some tasks e.g. (Change Price , Offer Discount , Delete POS Line)
+	  */
+	public void setIsPOSRequiredPIN (boolean IsPOSRequiredPIN)
+	{
+		set_Value (COLUMNNAME_IsPOSRequiredPIN, Boolean.valueOf(IsPOSRequiredPIN));
+	}
+
+	/** Get POS Required PIN.
+		@return Indicates that a Supervisor Pin is mandatory to execute some tasks e.g. (Change Price , Offer Discount , Delete POS Line)
+	  */
+	public boolean isPOSRequiredPIN () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsPOSRequiredPIN);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 
@@ -371,7 +524,7 @@ public class X_C_POS extends PO implements I_C_POS, I_Persistent
 	  */
 	public void setM_Warehouse_ID (int M_Warehouse_ID)
 	{
-		if (M_Warehouse_ID < 1) 
+		if (M_Warehouse_ID < 0) 
 			set_Value (COLUMNNAME_M_Warehouse_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_Warehouse_ID, Integer.valueOf(M_Warehouse_ID));
@@ -386,6 +539,23 @@ public class X_C_POS extends PO implements I_C_POS, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Measure Request Code.
+		@param MeasureRequestCode 
+		String for  taking measurement from Device Electronic Scales
+	  */
+	public void setMeasureRequestCode (String MeasureRequestCode)
+	{
+		set_Value (COLUMNNAME_MeasureRequestCode, MeasureRequestCode);
+	}
+
+	/** Get Measure Request Code.
+		@return String for  taking measurement from Device Electronic Scales
+	  */
+	public String getMeasureRequestCode () 
+	{
+		return (String)get_Value(COLUMNNAME_MeasureRequestCode);
 	}
 
 	/** Set Name.
@@ -469,6 +639,26 @@ public class X_C_POS extends PO implements I_C_POS, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set PIN Entry Timeout.
+		@param PINEntryTimeout 
+		PIN Entry Timeout - the amount of time from initial display until the PIN entry dialog times out, in milliseconds.
+	  */
+	public void setPINEntryTimeout (int PINEntryTimeout)
+	{
+		set_Value (COLUMNNAME_PINEntryTimeout, Integer.valueOf(PINEntryTimeout));
+	}
+
+	/** Get PIN Entry Timeout.
+		@return PIN Entry Timeout - the amount of time from initial display until the PIN entry dialog times out, in milliseconds.
+	  */
+	public int getPINEntryTimeout () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PINEntryTimeout);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Printer Name.
 		@param PrinterName 
 		Name of the Printer
@@ -512,5 +702,39 @@ public class X_C_POS extends PO implements I_C_POS, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Ticket Handler Class Name.
+		@param TicketClassName 
+		Java Classname for Ticket Handler
+	  */
+	public void setTicketClassName (String TicketClassName)
+	{
+		set_Value (COLUMNNAME_TicketClassName, TicketClassName);
+	}
+
+	/** Get Ticket Handler Class Name.
+		@return Java Classname for Ticket Handler
+	  */
+	public String getTicketClassName () 
+	{
+		return (String)get_Value(COLUMNNAME_TicketClassName);
+	}
+
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
 	}
 }

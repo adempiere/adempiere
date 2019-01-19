@@ -1,0 +1,606 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="ECA02" Name="Add Payment Description for Bank Statement #1008" ReleaseNo="3.9.0" SeqNo="2400">
+    <Comments>See: https://github.com/adempiere/adempiere/issues/1008</Comments>
+    <Step DBType="Postgres" Parse="N" SeqNo="0" StepType="SQL">
+      <Comments>Change on View</Comments>
+      <SQLStatement>CREATE OR REPLACE VIEW C_Payment_v AS
+ SELECT p.C_Payment_ID,
+    p.AD_Client_ID,
+    p.AD_Org_ID,
+    p.IsActive,
+    p.Created,
+    p.CreatedBy,
+    p.Updated,
+    p.UpdatedBy,
+    p.DocumentNo,
+    p.DateTrx,
+    p.DateAcct,
+    p.IsReceipt,
+    p.C_Doctype_ID,
+    p.TrxType,
+    p.C_BankAccount_ID,
+    p.C_BPartner_ID,
+    p.C_Invoice_ID,
+    p.C_BP_BankAccount_ID,
+    p.C_PaymentBatch_ID,
+    p.TenderType,
+    p.CreditCardType,
+    p.CreditCardNumber,
+    p.CreditCardVV,
+    p.CreditCardExpMM,
+    p.CreditCardExpYY,
+    p.Micr,
+    p.RoutingNo,
+    p.AccountNo,
+    p.CheckNo,
+    p.A_Name,
+    p.A_Street,
+    p.A_City,
+    p.A_State,
+    p.A_Zip,
+    p.A_Ident_DL,
+    p.A_Ident_SSN,
+    p.A_Email,
+    p.VoiceAuthCode,
+    p.Orig_TrxID,
+    p.PONum,
+    p.C_Currency_ID,
+    p.C_ConversionType_ID,
+        CASE p.IsReceipt
+            WHEN 'Y' THEN p.PayAmt
+            ELSE p.PayAmt * (-1)
+        END AS PayAmt,
+        CASE p.IsReceipt
+            WHEN 'Y' THEN p.DiscountAmt
+            ELSE p.DiscountAmt * (-1)
+        END AS DiscountAmt,
+        CASE p.IsReceipt
+            WHEN 'Y' THEN p.WriteOffAmt
+            ELSE p.WriteOffAmt * (-1)
+        END AS WriteOffAmt,
+        CASE p.IsReceipt
+            WHEN 'Y' THEN p.TaxAmt
+            ELSE p.TaxAmt * (-1)
+        END AS TaxAmt,
+        CASE p.IsReceipt
+            WHEN 'Y' THEN p.OverUnderAmt
+            ELSE p.OverUnderAmt * (-1)
+        END AS OverUnderAmt,
+        CASE p.IsReceipt
+            WHEN 'Y' THEN 1
+            ELSE (-1)
+        END AS MultiplierAP,
+    p.IsOverUnderPayment,
+    p.IsApproved,
+    p.R_PNRef,
+    p.R_Result,
+    p.R_RespMsg,
+    p.R_AuthCode,
+    p.R_AvsAddr,
+    p.r_AvsZip,
+    p.r_Info,
+    p.Processing,
+    p.Oprocessing,
+    p.DocStatus,
+    p.DocAction,
+    p.IsPrepayment,
+    p.C_Charge_ID,
+    p.IsReconciled,
+    p.IsAllocated,
+    p.IsOnline,
+    p.Processed,
+    p.Posted,
+    p.C_Campaign_ID,
+    p.C_Project_ID,
+    p.C_Activity_ID,
+    p.C_Order_ID,
+    p.User1_ID,
+    p.User2_ID, 
+    p.Description
+   FROM C_Payment p;</SQLStatement>
+      <RollbackStatement>DROP VIEW C_Payment_v;
+CREATE OR REPLACE VIEW C_Payment_v AS
+ SELECT p.C_Payment_ID,
+    p.AD_Client_ID,
+    p.AD_Org_ID,
+    p.IsActive,
+    p.Created,
+    p.CreatedBy,
+    p.Updated,
+    p.UpdatedBy,
+    p.DocumentNo,
+    p.DateTrx,
+    p.DateAcct,
+    p.IsReceipt,
+    p.C_Doctype_ID,
+    p.TrxType,
+    p.C_BankAccount_ID,
+    p.C_BPartner_ID,
+    p.C_Invoice_ID,
+    p.C_BP_BankAccount_ID,
+    p.C_PaymentBatch_ID,
+    p.TenderType,
+    p.CreditCardType,
+    p.CreditCardNumber,
+    p.CreditCardVV,
+    p.CreditCardExpMM,
+    p.CreditCardExpYY,
+    p.Micr,
+    p.RoutingNo,
+    p.AccountNo,
+    p.CheckNo,
+    p.A_Name,
+    p.A_Street,
+    p.A_City,
+    p.A_State,
+    p.A_Zip,
+    p.A_Ident_DL,
+    p.A_Ident_SSN,
+    p.A_Email,
+    p.VoiceAuthCode,
+    p.Orig_TrxID,
+    p.PONum,
+    p.C_Currency_ID,
+    p.C_ConversionType_ID,
+        CASE p.IsReceipt
+            WHEN 'Y' THEN p.PayAmt
+            ELSE p.PayAmt * (-1)
+        END AS PayAmt,
+        CASE p.IsReceipt
+            WHEN 'Y' THEN p.DiscountAmt
+            ELSE p.DiscountAmt * (-1)
+        END AS DiscountAmt,
+        CASE p.IsReceipt
+            WHEN 'Y' THEN p.WriteOffAmt
+            ELSE p.WriteOffAmt * (-1)
+        END AS WriteOffAmt,
+        CASE p.IsReceipt
+            WHEN 'Y' THEN p.TaxAmt
+            ELSE p.TaxAmt * (-1)
+        END AS TaxAmt,
+        CASE p.IsReceipt
+            WHEN 'Y' THEN p.OverUnderAmt
+            ELSE p.OverUnderAmt * (-1)
+        END AS OverUnderAmt,
+        CASE p.IsReceipt
+            WHEN 'Y' THEN 1
+            ELSE (-1)
+        END AS MultiplierAP,
+    p.IsOverUnderPayment,
+    p.IsApproved,
+    p.R_PNRef,
+    p.R_Result,
+    p.R_RespMsg,
+    p.R_AuthCode,
+    p.R_AvsAddr,
+    p.r_AvsZip,
+    p.r_Info,
+    p.Processing,
+    p.Oprocessing,
+    p.DocStatus,
+    p.DocAction,
+    p.IsPrepayment,
+    p.C_Charge_ID,
+    p.IsReconciled,
+    p.IsAllocated,
+    p.IsOnline,
+    p.Processed,
+    p.Posted,
+    p.C_Campaign_ID,
+    p.C_Project_ID,
+    p.C_Activity_ID,
+    p.C_Order_ID,
+    p.User1_ID,
+    p.User2_ID
+   FROM C_Payment p;</RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" Parse="Y" SeqNo="0" StepType="SQL">
+      <Comments>Change on View</Comments>
+      <SQLStatement>CREATE OR REPLACE VIEW C_Payment_v AS
+ SELECT p.C_Payment_ID,
+    p.AD_Client_ID,
+    p.AD_Org_ID,
+    p.IsActive,
+    p.Created,
+    p.CreatedBy,
+    p.Updated,
+    p.UpdatedBy,
+    p.DocumentNo,
+    p.DateTrx,
+    p.DateAcct,
+    p.IsReceipt,
+    p.C_Doctype_ID,
+    p.TrxType,
+    p.C_BankAccount_ID,
+    p.C_BPartner_ID,
+    p.C_Invoice_ID,
+    p.C_BP_BankAccount_ID,
+    p.C_PaymentBatch_ID,
+    p.TenderType,
+    p.CreditCardType,
+    p.CreditCardNumber,
+    p.CreditCardVV,
+    p.CreditCardExpMM,
+    p.CreditCardExpYY,
+    p.Micr,
+    p.RoutingNo,
+    p.AccountNo,
+    p.CheckNo,
+    p.A_Name,
+    p.A_Street,
+    p.A_City,
+    p.A_State,
+    p.A_Zip,
+    p.A_Ident_DL,
+    p.A_Ident_SSN,
+    p.A_Email,
+    p.VoiceAuthCode,
+    p.Orig_TrxID,
+    p.PONum,
+    p.C_Currency_ID,
+    p.C_ConversionType_ID,
+        CASE p.IsReceipt
+            WHEN 'Y' THEN p.PayAmt
+            ELSE p.PayAmt * (-1)
+        END AS PayAmt,
+        CASE p.IsReceipt
+            WHEN 'Y' THEN p.DiscountAmt
+            ELSE p.DiscountAmt * (-1)
+        END AS DiscountAmt,
+        CASE p.IsReceipt
+            WHEN 'Y' THEN p.WriteOffAmt
+            ELSE p.WriteOffAmt * (-1)
+        END AS WriteOffAmt,
+        CASE p.IsReceipt
+            WHEN 'Y' THEN p.TaxAmt
+            ELSE p.TaxAmt * (-1)
+        END AS TaxAmt,
+        CASE p.IsReceipt
+            WHEN 'Y' THEN p.OverUnderAmt
+            ELSE p.OverUnderAmt * (-1)
+        END AS OverUnderAmt,
+        CASE p.IsReceipt
+            WHEN 'Y' THEN 1
+            ELSE (-1)
+        END AS MultiplierAP,
+    p.IsOverUnderPayment,
+    p.IsApproved,
+    p.R_PNRef,
+    p.R_Result,
+    p.R_RespMsg,
+    p.R_AuthCode,
+    p.R_AvsAddr,
+    p.r_AvsZip,
+    p.r_Info,
+    p.Processing,
+    p.Oprocessing,
+    p.DocStatus,
+    p.DocAction,
+    p.IsPrepayment,
+    p.C_Charge_ID,
+    p.IsReconciled,
+    p.IsAllocated,
+    p.IsOnline,
+    p.Processed,
+    p.Posted,
+    p.C_Campaign_ID,
+    p.C_Project_ID,
+    p.C_Activity_ID,
+    p.C_Order_ID,
+    p.User1_ID,
+    p.User2_ID,
+    p.Description
+   FROM C_Payment p;</SQLStatement>
+      <RollbackStatement>DROP VIEW C_Payment_v;
+CREATE OR REPLACE VIEW C_Payment_v AS
+ SELECT p.C_Payment_ID,
+    p.AD_Client_ID,
+    p.AD_Org_ID,
+    p.IsActive,
+    p.Created,
+    p.CreatedBy,
+    p.Updated,
+    p.UpdatedBy,
+    p.DocumentNo,
+    p.DateTrx,
+    p.DateAcct,
+    p.IsReceipt,
+    p.C_Doctype_ID,
+    p.TrxType,
+    p.C_BankAccount_ID,
+    p.C_BPartner_ID,
+    p.C_Invoice_ID,
+    p.C_BP_BankAccount_ID,
+    p.C_PaymentBatch_ID,
+    p.TenderType,
+    p.CreditCardType,
+    p.CreditCardNumber,
+    p.CreditCardVV,
+    p.CreditCardExpMM,
+    p.CreditCardExpYY,
+    p.Micr,
+    p.RoutingNo,
+    p.AccountNo,
+    p.CheckNo,
+    p.A_Name,
+    p.A_Street,
+    p.A_City,
+    p.A_State,
+    p.A_Zip,
+    p.A_Ident_DL,
+    p.A_Ident_SSN,
+    p.A_Email,
+    p.VoiceAuthCode,
+    p.Orig_TrxID,
+    p.PONum,
+    p.C_Currency_ID,
+    p.C_ConversionType_ID,
+        CASE p.IsReceipt
+            WHEN 'Y' THEN p.PayAmt
+            ELSE p.PayAmt * (-1)
+        END AS PayAmt,
+        CASE p.IsReceipt
+            WHEN 'Y' THEN p.DiscountAmt
+            ELSE p.DiscountAmt * (-1)
+        END AS DiscountAmt,
+        CASE p.IsReceipt
+            WHEN 'Y' THEN p.WriteOffAmt
+            ELSE p.WriteOffAmt * (-1)
+        END AS WriteOffAmt,
+        CASE p.IsReceipt
+            WHEN 'Y' THEN p.TaxAmt
+            ELSE p.TaxAmt * (-1)
+        END AS TaxAmt,
+        CASE p.IsReceipt
+            WHEN 'Y' THEN p.OverUnderAmt
+            ELSE p.OverUnderAmt * (-1)
+        END AS OverUnderAmt,
+        CASE p.IsReceipt
+            WHEN 'Y' THEN 1
+            ELSE (-1)
+        END AS MultiplierAP,
+    p.IsOverUnderPayment,
+    p.IsApproved,
+    p.R_PNRef,
+    p.R_Result,
+    p.R_RespMsg,
+    p.R_AuthCode,
+    p.R_AvsAddr,
+    p.r_AvsZip,
+    p.r_Info,
+    p.Processing,
+    p.Oprocessing,
+    p.DocStatus,
+    p.DocAction,
+    p.IsPrepayment,
+    p.C_Charge_ID,
+    p.IsReconciled,
+    p.IsAllocated,
+    p.IsOnline,
+    p.Processed,
+    p.Posted,
+    p.C_Campaign_ID,
+    p.C_Project_ID,
+    p.C_Activity_ID,
+    p.C_Order_ID,
+    p.User1_ID,
+    p.User2_ID
+   FROM C_Payment p;</RollbackStatement>
+    </Step>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="101" Action="I" Record_ID="83439" Table="AD_Column">
+        <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
+        <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="109" Column="AD_Column_ID">83439</Data>
+        <Data AD_Column_ID="2608" Column="AD_Element_ID">275</Data>
+        <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="3369" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID">10</Data>
+        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="114" Column="AD_Table_ID">554</Data>
+        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="116" Column="ColumnName">Description</Data>
+        <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
+        <Data AD_Column_ID="549" Column="Created">2017-05-10 22:05:01.625</Data>
+        <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="112" Column="Description">Optional short description of the record</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="118" Column="FieldLength">255</Data>
+        <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="113" Column="Help">A description is limited to 255 characters.</Data>
+        <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="548" Column="IsActive">true</Data>
+        <Data AD_Column_ID="56187" Column="IsAllowLogging">true</Data>
+        <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
+        <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
+        <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
+        <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="119" Column="IsKey">false</Data>
+        <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="120" Column="IsParent">false</Data>
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
+        <Data AD_Column_ID="6244" Column="IsSelectionColumn">true</Data>
+        <Data AD_Column_ID="6483" Column="IsSyncDatabase" isNewNull="true"/>
+        <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="3360" Column="IsUpdateable">false</Data>
+        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
+        <Data AD_Column_ID="111" Column="Name">Description</Data>
+        <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
+        <Data AD_Column_ID="551" Column="Updated">2017-05-10 22:05:01.625</Data>
+        <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="110" Column="Version">0</Data>
+        <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="752" Action="I" Record_ID="83439" Table="AD_Column_Trl">
+        <Data AD_Column_ID="12961" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="12955" Column="AD_Column_ID">83439</Data>
+        <Data AD_Column_ID="12953" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="12951" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="12960" Column="Created">2017-05-10 22:05:03.279</Data>
+        <Data AD_Column_ID="12956" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="12959" Column="IsActive">true</Data>
+        <Data AD_Column_ID="12954" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="12957" Column="Name">Description</Data>
+        <Data AD_Column_ID="12952" Column="Updated">2017-05-10 22:05:03.279</Data>
+        <Data AD_Column_ID="12958" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="53232" Action="I" Record_ID="55604" Table="AD_View_Column">
+        <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58109" Column="AD_Column_ID">83439</Data>
+        <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58100" Column="AD_View_Column_ID">55604</Data>
+        <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50115</Data>
+        <Data AD_Column_ID="58108" Column="AD_View_ID">50053</Data>
+        <Data AD_Column_ID="58107" Column="ColumnName">P_Description</Data>
+        <Data AD_Column_ID="58106" Column="ColumnSQL">p.Description</Data>
+        <Data AD_Column_ID="58096" Column="Created">2017-05-10 22:07:04.748</Data>
+        <Data AD_Column_ID="58098" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58102" Column="Description">Description</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="58104" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="58095" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58105" Column="Name">Description</Data>
+        <Data AD_Column_ID="58097" Column="Updated">2017-05-10 22:07:04.748</Data>
+        <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="53228" Action="I" Record_ID="0" Table="AD_View_Column_Trl">
+        <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58047" Column="AD_View_Column_ID">55604</Data>
+        <Data AD_Column_ID="58043" Column="Created">2017-05-10 22:07:05.904</Data>
+        <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58049" Column="Description">Description</Data>
+        <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="58042" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="58052" Column="Name">Description</Data>
+        <Data AD_Column_ID="58044" Column="Updated">2017-05-10 22:07:05.904</Data>
+        <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="53223" Action="I" Record_ID="56934" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">56934</Data>
+        <Data AD_Column_ID="57983" Column="AD_Browse_ID">50060</Data>
+        <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="57969" Column="AD_Element_ID">275</Data>
+        <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="57970" Column="AD_Reference_ID">10</Data>
+        <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="64353" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="57971" Column="AD_View_Column_ID">55604</Data>
+        <Data AD_Column_ID="63218" Column="Axis_Column_ID" isNewNull="true"/>
+        <Data AD_Column_ID="63219" Column="Axis_Parent_Column_ID" isNewNull="true"/>
+        <Data AD_Column_ID="67114" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="57964" Column="Created">2017-05-10 22:08:03.674</Data>
+        <Data AD_Column_ID="57966" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="64354" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="64355" Column="DefaultValue2" isNewNull="true"/>
+        <Data AD_Column_ID="57972" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="64356" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="57973" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="64357" Column="FieldLength">0</Data>
+        <Data AD_Column_ID="57974" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="64853" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="57963" Column="IsActive">true</Data>
+        <Data AD_Column_ID="57975" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="57976" Column="IsDisplayed">true</Data>
+        <Data AD_Column_ID="57977" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
+        <Data AD_Column_ID="57978" Column="IsKey">false</Data>
+        <Data AD_Column_ID="57985" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="64222" Column="IsOrderBy">false</Data>
+        <Data AD_Column_ID="57979" Column="IsQueryCriteria">false</Data>
+        <Data AD_Column_ID="57980" Column="IsRange">false</Data>
+        <Data AD_Column_ID="63579" Column="IsReadOnly">true</Data>
+        <Data AD_Column_ID="57981" Column="Name">Description</Data>
+        <Data AD_Column_ID="64358" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="57982" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="78559" Column="SeqNoGrid">0</Data>
+        <Data AD_Column_ID="64221" Column="SortNo">0</Data>
+        <Data AD_Column_ID="57965" Column="Updated">2017-05-10 22:08:03.674</Data>
+        <Data AD_Column_ID="57967" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="64360" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="64361" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="64359" Column="VFormat" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="53227" Action="I" Record_ID="56934" Table="AD_Browse_Field_Trl">
+        <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">56934</Data>
+        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58030" Column="Created">2017-05-10 22:08:04.831</Data>
+        <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58036" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="58037" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="58029" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="58039" Column="Name">Description</Data>
+        <Data AD_Column_ID="58031" Column="Updated">2017-05-10 22:08:04.831</Data>
+        <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="53227" Action="U" Record_ID="56934" Table="AD_Browse_Field_Trl">
+        <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID" oldValue="56934">56934</Data>
+        <Data AD_Column_ID="58035" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="58039" Column="Name" oldValue="Description">Descripción</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55759" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57982" Column="SeqNo" oldValue="10">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55765" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57982" Column="SeqNo" oldValue="10">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="100" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55766" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57982" Column="SeqNo" oldValue="11">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="110" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="56934" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57982" Column="SeqNo" oldValue="0">40</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="120" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55684" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57982" Column="SeqNo" oldValue="40">50</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="130" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55683" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57982" Column="SeqNo" oldValue="50">60</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="140" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55704" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57982" Column="SeqNo" oldValue="60">70</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="150" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55661" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57982" Column="SeqNo" oldValue="70">80</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

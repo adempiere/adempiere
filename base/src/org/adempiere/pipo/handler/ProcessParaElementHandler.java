@@ -79,8 +79,10 @@ public class ProcessParaElementHandler extends AbstractElementHandler {
 					getTrxName(ctx));
 			int AD_Backup_ID = -1;
 			String Object_Status = null;
-			if (id <= 0 && atts.getValue("AD_Process_Para_ID") != null && Integer.parseInt(atts.getValue("AD_Process_Para_ID")) <= PackOut.MAX_OFFICIAL_ID)
+			if (id <= 0 && atts.getValue("AD_Process_Para_ID") != null && Integer.parseInt(atts.getValue("AD_Process_Para_ID")) <= PackOut.MAX_OFFICIAL_ID) {
 				m_Process_para.setAD_Process_Para_ID(Integer.parseInt(atts.getValue("AD_Process_Para_ID")));
+				m_Process_para.setIsDirectLoad(true);
+			}
 			if (id > 0) {
 				AD_Backup_ID = copyRecord(ctx, "AD_Process_Para",
 						m_Process_para);
@@ -174,7 +176,9 @@ public class ProcessParaElementHandler extends AbstractElementHandler {
 					.setIsActive(atts.getValue("isActive") != null ? Boolean
 							.valueOf(atts.getValue("isActive")).booleanValue()
 							: true);
-			
+
+			m_Process_para.setReadOnlyLogic(getStringValue(atts,"ReadOnlyLogic"));
+			m_Process_para.setDisplayLogic(getStringValue(atts,"DisplayLogic"));
 			m_Process_para.setVFormat(getStringValue(atts,"VFormat"));
 			m_Process_para.setValueMax(getStringValue(atts,"ValueMax"));
 			m_Process_para.setValueMin(getStringValue(atts,"ValueMin"));
@@ -279,6 +283,10 @@ public class ProcessParaElementHandler extends AbstractElementHandler {
 		atts.addAttribute("", "", "DefaultValue2", "CDATA", (m_Processpara
 				.getDefaultValue2() != null ? m_Processpara.getDefaultValue2()
 				: ""));
+		atts.addAttribute("", "" , "ReadOnlyLogic" ,"CDATA" ,
+				m_Processpara.getReadOnlyLogic() != null ? m_Processpara.getReadOnlyLogic() : "");
+		atts.addAttribute("", "" , "DisplayLogic" ,"CDATA" ,
+				m_Processpara.getDisplayLogic() != null ? m_Processpara.getDisplayLogic() : "");
 		atts.addAttribute("", "", "Description", "CDATA",
 				(m_Processpara.getDescription() != null ? m_Processpara
 						.getDescription() : ""));

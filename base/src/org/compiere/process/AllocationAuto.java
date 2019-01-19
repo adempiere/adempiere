@@ -21,6 +21,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 
 import org.compiere.model.MAllocationHdr;
@@ -415,18 +416,18 @@ public class AllocationAuto extends SvrProcess
 					continue;
 				//
 				BigDecimal totalInvoice = Env.ZERO;
-				MPaySelectionLine[] psLines = psCheck.getPaySelectionLines(false);
-				for (int i = 0; i < psLines.length; i++)
+				List<MPaySelectionLine> paySelectionLines = psCheck.getPaySelectionLinesAsList(false);
+				//for (int i = 0; i < psLines.length; i++)
+				for (MPaySelectionLine paySelectionLine : paySelectionLines)
 				{
-					MPaySelectionLine line = psLines[i];
-					MInvoice invoice = line.getInvoice();
+					MInvoice invoice = paySelectionLine.getInvoice();
 					if (payment.getC_Currency_ID() == invoice.getC_Currency_ID())
 					{
 						BigDecimal invoiceAmt = invoice.getOpenAmt(true, null);
-						BigDecimal overUnder = line.getOpenAmt().subtract(line.getPayAmt())
-							.subtract(line.getDiscountAmt()).subtract(line.getDifferenceAmt());
-						invoiceAmt = invoiceAmt.subtract(line.getDiscountAmt())
-							.subtract(line.getDifferenceAmt()).subtract(overUnder);
+						BigDecimal overUnder = paySelectionLine.getOpenAmt().subtract(paySelectionLine.getPayAmt())
+							.subtract(paySelectionLine.getDiscountAmt()).subtract(paySelectionLine.getDifferenceAmt());
+						invoiceAmt = invoiceAmt.subtract(paySelectionLine.getDiscountAmt())
+							.subtract(paySelectionLine.getDifferenceAmt()).subtract(overUnder);
 						if (!invoice.isSOTrx())
 							invoiceAmt = invoiceAmt.negate();
 						log.fine(invoice + ", Invoice=" + invoiceAmt);

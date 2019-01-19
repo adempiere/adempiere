@@ -1,0 +1,33 @@
+// A simple test to show the use of the field functions to abstract
+// the sahi scripts.
+// 
+
+//Global Variable declarations
+
+var $usr = "GardenAdmin";
+var $pwd = "GardenAdmin";
+
+// Includes - common functions
+//This file includes all other supporting files so you only need to add the one in each scenario
+_include("../lib/common_functions.sah");  
+
+// Includes - test flows - as many as required.  Each should include one or more functions 
+// called test_*() which will execute the test.
+_include("../test/example/test_example.sah");
+
+// Setup - called before each test	
+function setUp(){
+	loginDefault($usr, $pwd);  //defaults
+}
+
+// Tear down - called after each test
+function tearDown() {
+//	logout();
+}
+
+// Run the tests - anything included that starts with "test_".  The order of execution is undefined.
+_runUnitTests();
+
+_log("Scenario completed.", "info"); // Test Completed.
+
+// End of test

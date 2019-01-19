@@ -43,5 +43,5 @@ public interface ICostingMethod
 	public void setCostingMethod(MAcctSchema accountSchema, MTransaction transaction, IDocumentLine model,
                                  MCost dimension, BigDecimal costThisLevel, BigDecimal costLowLevel, Boolean isSalesTransaction);
 	public MCostDetail process();
-	public void processCostDetail(MCostDetail costDetail);
+	//public void processCostDetail(MCostDetail costDetail);
 }

@@ -22,6 +22,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -32,6 +33,9 @@ import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Util;
+import org.compiere.wf.MWFNode;
+import org.compiere.wf.MWFNodeNext;
+import org.compiere.wf.MWorkflow;
 
 /**
  *	Persistent Table Model
@@ -54,15 +58,69 @@ import org.compiere.util.Util;
  * 			https://sourceforge.net/tracker/?func=detail&aid=3426137&group_id=176962&atid=879335 
  *  		<li>FR [ 3426233 ] New Table should create the required columns
  * 			https://sourceforge.net/tracker/?func=detail&aid=3426233&group_id=176962&atid=879335
- *  @version $Id: MTable.java,v 1.3 2006/07/30 00:58:04 jjanke Exp $
+ *	@author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *			<li> FR [ 94 ] "IsDocument" flag in table for create default columns
+ *			@see https://github.com/adempiere/adempiere/issues/94
+ *			<li> BR [ 304 ] Is Document Attribute in table create columns with bad size
+ *			@see https://github.com/adempiere/adempiere/issues/304
+ *			<a href="https://github.com/adempiere/adempiere/issues/657">
+ * 			@see FR [ 657 ] The tables mark like IsDocument is deleteable</a>
+ * 			<a href="https://github.com/adempiere/adempiere/issues/884">
+ * 			@see FR [ 884 ] Recent Items in Dashboard (Add new functionality)</a>
+ *
+ *	@author Trifon Trifon
+ *			<li> FR [ 356 ] Decrease verbosity of SQL statement closing lines.
+ *			@see https://github.com/adempiere/adempiere/issues/356
+ *	
  */
 public class MTable extends X_AD_Table
 {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -2367316254623142732L;
+
+	/**	Cache						*/
+	private static CCache<Integer,MTable> s_cache = new CCache<Integer,MTable>("AD_Table", 20);
+	private static CCache<String,Class<?>> s_classCache = new CCache<String,Class<?>>("PO_Class", 20);
+
+	/**	Columns				*/
+	private List<MColumn>	columns = null;
+	
+	/**	Static Logger	*/
+	private static CLogger	s_log	= CLogger.getCLogger (MTable.class);
+	
+	/**	Packages for Model Classes	*/
+	private static final String[]	s_packages = new String[] {
+
+		"org.compiere.model", "org.compiere.wf", 
+		"org.compiere.report", // teo_sarca BF[3133032]
+		"org.compiere.print", "org.compiere.impexp",
+		"compiere.model",			//	globalqss allow compatibility with other plugins 	
+		"adempiere.model",			//	Extensions
+		"org.adempiere.model"
+	};
+	
+	/**	Special Classes				*/
+	private static final String[]	s_special = new String[] {
+		"AD_Element", "org.compiere.model.M_Element",
+		"AD_Registration", "org.compiere.model.M_Registration",
+		//	Yamel Senih [ 9223372036854775807 ]
+		//	Change to Default
+//		"AD_Tree", "org.compiere.model.MTree_Base",
+		//	End Yamel Senih
+		"R_Category", "org.compiere.model.MRequestCategory",
+		"GL_Category", "org.compiere.model.MGLCategory",
+		"K_Category", "org.compiere.model.MKCategory",
+		"C_ValidCombination", "org.compiere.model.MAccount",
+		"C_Phase", "org.compiere.model.MProjectTypePhase",
+		"C_Task", "org.compiere.model.MProjectTypeTask",
+		"AD_View_Column", "org.adempiere.model.MViewColumn",
+		"AD_View","org.adempiere.model.MView",
+		"AD_View_Definition","org.adempiere.model.MViewDefinition",
+		"AD_Browse","org.adempiere.model.MBrowse",
+		"AD_Browse_Field","org.adempiere.model.MBrowseField",
+		"T_Selection","org.adempiere.model.X_T_Selection"
+	//	AD_Attribute_Value, AD_TreeNode
+	};
 
 	/**
 	 * 	Get Table from Cache
@@ -109,30 +167,17 @@ public class MTable extends X_AD_Table
 		MTable retValue = null;
 		String sql = "SELECT * FROM AD_Table WHERE UPPER(TableName)=?";
 		PreparedStatement pstmt = null;
-		try
-		{
+		ResultSet rs = null;
+		try {
 			pstmt = DB.prepareStatement (sql, null);
 			pstmt.setString(1, tableName.toUpperCase());
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			if (rs.next ())
 				retValue = new MTable (ctx, rs, null);
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			s_log.log(Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+		} finally {
+			DB.close(rs, pstmt);
 		}
 		
 		if (retValue != null)
@@ -153,46 +198,8 @@ public class MTable extends X_AD_Table
 	{
 		return MTable.get(ctx, AD_Table_ID).getTableName();
 	}	//	getTableName
-	
-	
-	/**	Cache						*/
-	private static CCache<Integer,MTable> s_cache = new CCache<Integer,MTable>("AD_Table", 20);
-	private static CCache<String,Class<?>> s_classCache = new CCache<String,Class<?>>("PO_Class", 20);
-	
-	/**	Static Logger	*/
-	private static CLogger	s_log	= CLogger.getCLogger (MTable.class);
-	
-	/**	Packages for Model Classes	*/
-	private static final String[]	s_packages = new String[] {
 
-		"org.compiere.model", "org.compiere.wf", 
-		"org.compiere.report", // teo_sarca BF[3133032]
-		"org.compiere.print", "org.compiere.impexp",
-		"compiere.model",			//	globalqss allow compatibility with other plugins 	
-		"adempiere.model",			//	Extensions
-		"org.adempiere.model"
-	};
-	
-	/**	Special Classes				*/
-	private static final String[]	s_special = new String[] {
-		"AD_Element", "org.compiere.model.M_Element",
-		"AD_Registration", "org.compiere.model.M_Registration",
-		"AD_Tree", "org.compiere.model.MTree_Base",
-		"R_Category", "org.compiere.model.MRequestCategory",
-		"GL_Category", "org.compiere.model.MGLCategory",
-		"K_Category", "org.compiere.model.MKCategory",
-		"C_ValidCombination", "org.compiere.model.MAccount",
-		"C_Phase", "org.compiere.model.MProjectTypePhase",
-		"C_Task", "org.compiere.model.MProjectTypeTask",
-		"AD_View_Column", "org.adempiere.model.MViewColumn",
-		"AD_View","org.adempiere.model.MView",
-		"AD_View_Definition","org.adempiere.model.MViewDefinition",
-		"AD_Browse","org.adempiere.model.MBrowse",
-		"AD_Browse_Field","org.adempiere.model.MBrowseField",
-		"T_Selection","org.adempiere.model.X_T_Selection"
-	//	AD_Attribute_Value, AD_TreeNode
-	};
-	
+
 	/**
 	 * 	Get Persistence Class for Table
 	 *	@param tableName table name
@@ -264,6 +271,12 @@ public class MTable extends X_AD_Table
 					s_classCache.put(tableName, clazz);
 					return clazz;
 				}
+				//Allows extend core clase based original table
+				clazz = getPOclass(etmodelpackage + ".M" + tableName.substring(tableName.indexOf("_") + 1 ), tableName);
+				if (clazz != null) {
+					s_classCache.put(tableName, clazz);
+					return clazz;
+				}
 				clazz = getPOclass(etmodelpackage + ".X_" + tableName, tableName);
 				if (clazz != null) {
 					s_classCache.put(tableName, clazz);
@@ -281,14 +294,6 @@ public class MTable extends X_AD_Table
 		{
 			if (index < 3)		//	AD_, A_
 				 className = className.substring(index+1);
-			/* DELETEME: this part is useless - teo_sarca, [ 1648850 ]
-			else
-			{
-				String prefix = className.substring(0,index);
-				if (prefix.equals("Fact"))		//	keep custom prefix
-					className = className.substring(index+1);
-			}
-			*/
 		}
 		//	Remove underlines
 		className = Util.replace(className, "_", "");
@@ -423,67 +428,59 @@ public class MTable extends X_AD_Table
 		super(ctx, rs, trxName);
 	}	//	MTable
 	
-	/**	Columns				*/
-	private MColumn[]	m_columns = null;
-	
 	/**
 	 * 	Get Columns
 	 *	@param requery requery
 	 *	@return array of columns
 	 */
-	public MColumn[] getColumns (boolean requery)
-	{
-		if (m_columns != null && !requery)
-			return m_columns;
-		String sql = "SELECT * FROM AD_Column WHERE AD_Table_ID=? ORDER BY ColumnName";
-		ArrayList<MColumn> list = new ArrayList<MColumn>();
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, get_TrxName());
-			pstmt.setInt (1, getAD_Table_ID());
-			ResultSet rs = pstmt.executeQuery ();
-			while (rs.next ())
-				list.add (new MColumn (getCtx(), rs, get_TrxName()));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
-		//
-		m_columns = new MColumn[list.size ()];
-		list.toArray (m_columns);
-		return m_columns;
+	public MColumn[] getColumns (boolean requery) {
+		List<MColumn> columnList = getColumnsAsList(requery);
+		MColumn[] columnArray = new MColumn[columnList.size()];
+		columns.toArray (columnArray);
+		return columnArray;
 	}	//	getColumns
+
+	/**
+	 * Get Column As List, by default it not re-query
+	 * @return
+	 */
+	public List<MColumn> getColumnsAsList() {
+		return getColumnsAsList(false);
+	}
+	
+	//@Trifon
+	public List<MColumn> getColumnsAsList(boolean requery) {
+		if (columns != null
+				&& columns.size() != 0
+				&& !requery) {
+			return columns;
+		}
+		//	Default find
+		columns = new Query(getCtx(), I_AD_Column.Table_Name, "AD_Table_ID = ?", get_TrxName())
+				.setParameters(getAD_Table_ID())
+				.setOrderBy(I_AD_Column.COLUMNNAME_ColumnName)
+				.list();
+		//	Default Return
+		return columns;
+	}
 	
 	/**
 	 * 	Get Column
 	 *	@param columnName (case insensitive)
 	 *	@return column if found
 	 */
-	public MColumn getColumn (String columnName)
-	{
-		if (columnName == null || columnName.length() == 0)
+	public MColumn getColumn (String columnName) {
+		if (columnName == null || columnName.isEmpty() )
 			return null;
-		getColumns(false);
+
+		if (columns == null
+				|| columns.size() == 0) {
+			getColumns(false);
+		}
 		//
-		for (int i = 0; i < m_columns.length; i++)
-		{
-			if (columnName.equalsIgnoreCase(m_columns[i].getColumnName()))
-				return m_columns[i];
+		for (MColumn column : columns) {
+			if (columnName.equalsIgnoreCase(column.getColumnName()))
+				return column;
 		}
 		return null;
 	}	//	getColumn
@@ -502,14 +499,11 @@ public class MTable extends X_AD_Table
 	 * 	Get Key Columns of Table
 	 *	@return key columns
 	 */
-	public String[] getKeyColumns()
-	{
+	public String[] getKeyColumns() {
 		getColumns(false);
 		ArrayList<String> list = new ArrayList<String>();
 		//
-		for (int i = 0; i < m_columns.length; i++)
-		{
-			MColumn column = m_columns[i];
+		for (MColumn column : columns) {
 			if (column.isKey())
 				return new String[]{column.getColumnName()};
 			if (column.isParent())
@@ -657,8 +651,8 @@ public class MTable extends X_AD_Table
 		sqlBuffer.append(" WHERE ").append(whereClause);
 		String sql = sqlBuffer.toString(); 
 		PreparedStatement pstmt = null;
-		try
-		{
+		ResultSet rs = null;
+		try {
 			pstmt = DB.prepareStatement (sql, trxName);
 			if (params != null && params.length > 0) 
 			{
@@ -667,31 +661,16 @@ public class MTable extends X_AD_Table
 					pstmt.setObject(i+1, params[i]);
 				}
 			}
-			ResultSet rs = pstmt.executeQuery ();
-			if (rs.next ())
-			{
+			rs = pstmt.executeQuery ();
+			if (rs.next ()) {
 				po = getPO(rs, trxName);
 			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			log.log(Level.SEVERE, sql, e);
 			log.saveError("Error", e);
+		} finally {
+			DB.close(rs, pstmt);
 		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
-		
 		return po;
 	}
 	
@@ -702,7 +681,8 @@ public class MTable extends X_AD_Table
 	 */
 	protected boolean beforeSave (boolean newRecord)
 	{
-		if (isView() && isDeleteable())
+		if ((isView() || isDocument()) 
+				&& isDeleteable())
 			setIsDeleteable(false);
 		//
 		return true;
@@ -716,10 +696,16 @@ public class MTable extends X_AD_Table
 	 */
 	protected boolean afterSave (boolean newRecord, boolean success)
 	{
+		// Skip the ogic while migration process is executed
+		if(isDirectLoad())
+			return success;
+
 		//	Sync Table ID
 		if (newRecord)
 		{
 			createMandatoryColumns();
+			//	Create Standard columns for Documents
+			createMandatoryDocumentColumns();
 			
 			MSequence seq = MSequence.get(getCtx(), getTableName(), get_TrxName());
 			if (seq == null || seq.get_ID() == 0)
@@ -727,12 +713,34 @@ public class MTable extends X_AD_Table
 		}
 		else
 		{
-			MSequence seq = MSequence.get(getCtx(), getTableName(), get_TrxName());
+			//	Create Standard columns for Documents
+			if(is_ValueChanged(COLUMNNAME_IsDocument)) {
+				createMandatoryDocumentColumns();
+			}
+			
+			// Find or create the associated sequence and 
+			// Check if the database table name changed.
+			String oldTableName = (String) get_ValueOld(MTable.COLUMNNAME_TableName);
+
+			// Find the sequence based on the old TableName. If the table name hasn't 
+			// changed, nothing needs be done.
+			MSequence seq = MSequence.get(getCtx(), oldTableName, get_TrxName());
 			if (seq == null || seq.get_ID() == 0)
-				MSequence.createTableSequence(getCtx(), getTableName(), get_TrxName());
+			{
+				// Not found.  Check if a sequence exists with the new name.
+				seq = MSequence.get(getCtx(), getTableName(), get_TrxName());
+				if (seq == null || seq.get_ID() == 0)
+				{
+					// No sequence matches the old or new table name.  
+					// Create a new sequence using the new name.
+					MSequence.createTableSequence(getCtx(), getTableName(), get_TrxName());
+				} // else, sequence with the current tablename exists. Do nothing.
+			}
+			// A sequence with the old TableName exists. Check if it needs to be updated.
 			else if (!seq.getName().equals(getTableName()))
 			{
 				seq.setName(getTableName());
+				seq.setDescription("Table " + getTableName());
 				seq.saveEx();
 			}
 		}	
@@ -753,9 +761,8 @@ public class MTable extends X_AD_Table
 		boolean hasParents = false;
 		StringBuffer constraints = new StringBuffer();
 		getColumns(true);
-		for (int i = 0; i < m_columns.length; i++)
-		{
-			MColumn column = m_columns[i];
+		for (int i = 0; i < columns.size(); i++) {
+			MColumn column = columns.get(i);
 			String colSQL = column.getSQLDDL();
 			if ( colSQL != null )
 			{
@@ -778,9 +785,7 @@ public class MTable extends X_AD_Table
 		if (!hasPK && hasParents)
 		{
 			StringBuffer cols = new StringBuffer();
-			for (int i = 0; i < m_columns.length; i++)
-			{
-				MColumn column = m_columns[i];
+			for (MColumn column : columns) {
 				if (!column.isParent())
 					continue;
 				if (cols.length() > 0)
@@ -806,25 +811,23 @@ public class MTable extends X_AD_Table
 	public static int getTable_ID(String tableName) {
 		int retValue = 0;
 		String SQL = "SELECT AD_Table_ID FROM AD_Table WHERE tablename = ?";
-		try
-		{
-			PreparedStatement pstmt = DB.prepareStatement(SQL, null);
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			pstmt = DB.prepareStatement(SQL, null);
 			pstmt.setString(1, tableName);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 				retValue = rs.getInt(1);
-			rs.close();
-			pstmt.close();
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			s_log.log(Level.SEVERE, SQL, e);
 			retValue = -1;
+		} finally {
+			DB.close(rs, pstmt);
 		}
 		return retValue;
-	}		int retValue = 0;
+	}
 
-	
 	/**
 	 * Create query to retrieve one or more PO.
 	 * @param whereClause
@@ -865,6 +868,9 @@ public class MTable extends X_AD_Table
 		column = new MColumn(this, COLUMNNAME_UpdatedBy	, 22 , DisplayType.Table, "");
 		column.setAD_Reference_Value_ID(110);
 		column.saveEx();
+		column = new MColumn(this, COLUMNNAME_UUID, 36 , DisplayType.String, "");
+		column.setIsMandatory(false);
+		column.saveEx();
 		if(!isView())
 		{	
 			if(getTableName().endsWith("_Trl") || getTableName().endsWith("_Access"))
@@ -886,7 +892,206 @@ public class MTable extends X_AD_Table
 			column.setUpdateable(false);
 			column.setIsMandatory(true);
 			column.saveEx();
-		}	
+		}
+	}
+	
+	/**
+	 * Create Standard columns for tables marks like Document
+	 */
+	private void createMandatoryDocumentColumns() {
+		//	Yamel Senih, 2015-11-14
+		//	Add Default Columns for Document Tables
+		if(isDocument()) {
+			//	Document Type
+			MColumn column = null;
+			String columnName = "C_DocType_ID";
+			if(MColumn.getColumn_ID(getTableName(), columnName) <= 0) {
+				column = new MColumn(this, columnName, 22, DisplayType.TableDir, "");
+				column.setIsMandatory(true);
+				column.setUpdateable(false);
+				column.setIsSelectionColumn(true);
+				column.saveEx();
+			}
+			//	Document No
+			columnName = "DocumentNo";
+			if(MColumn.getColumn_ID(getTableName(), columnName) <= 0) {
+				column = new MColumn(this, columnName, 60, DisplayType.String, "");
+				column.setIsMandatory(true);
+				column.setUpdateable(false);
+				column.setIsSelectionColumn(true);
+				column.setIsIdentifier(true);
+				column.setSeqNo(1);
+				column.saveEx();
+			}
+			//	Document Date
+			columnName = "DateDoc";
+			if(MColumn.getColumn_ID(getTableName(), columnName) <= 0) {
+				column = new MColumn(this, columnName, 7, DisplayType.Date, "@#Date@");
+				column.setIsMandatory(true);
+				column.setUpdateable(false);
+				column.setIsSelectionColumn(true);
+				column.saveEx();
+			}
+			//	Processed
+			columnName = "Processed";
+			if(MColumn.getColumn_ID(getTableName(), columnName) <= 0) {
+				column = new MColumn(this, columnName, 1, DisplayType.YesNo, "N");
+				column.setIsMandatory(true);
+				column.setUpdateable(false);
+				column.saveEx();
+			}
+			//	Processing
+			columnName = "Processing";
+			if(MColumn.getColumn_ID(getTableName(), columnName) <= 0) {
+				column = new MColumn(this, columnName, 1, DisplayType.YesNo, "N");
+				column.setIsMandatory(true);
+				column.setUpdateable(true);
+				column.setIsAlwaysUpdateable(true);
+				column.saveEx();
+			}
+			//	Approved
+			columnName = "IsApproved";
+			if(MColumn.getColumn_ID(getTableName(), columnName) <= 0) {
+				column = new MColumn(this, columnName, 1, DisplayType.YesNo, "N");
+				column.setIsMandatory(true);
+				column.setUpdateable(false);
+				column.saveEx();
+			}
+			//	Document Description
+			columnName = "Description";
+			if(MColumn.getColumn_ID(getTableName(), columnName) <= 0) {
+				column = new MColumn(this, columnName, 255, DisplayType.Text, "");
+				column.setIsMandatory(false);
+				column.setUpdateable(true);
+				column.setIsAlwaysUpdateable(true);
+				column.setIsSelectionColumn(true);
+				column.saveEx();
+			}
+			//	Document Status
+			columnName = "DocStatus";
+			if(MColumn.getColumn_ID(getTableName(), columnName) <= 0) {
+				column = new MColumn(this, columnName, 2, DisplayType.List, "DR");
+				column.setIsMandatory(true);
+				column.setUpdateable(false);
+				column.setAD_Reference_Value_ID(131);
+				column.setIsSelectionColumn(true);
+				column.setIsIdentifier(true);
+				column.setSeqNo(2);
+				column.saveEx();
+			}
+			//	Document Action
+			columnName = "DocAction";
+			if(MColumn.getColumn_ID(getTableName(), columnName) <= 0) {
+				column = new MColumn(this, columnName, 2, DisplayType.Button, "CO");
+				column.setIsMandatory(true);
+				column.setUpdateable(false);
+				column.setAD_Reference_Value_ID(135);
+				column.setAD_Process_ID(getworkFlowProcess());
+				column.saveEx();
+			}
+		}
+		//	End Yamel Senih
+	}
+	
+	/**
+	 * Get / Create Process and Work Flow
+	 * @return
+	 */
+	private int getworkFlowProcess() {
+		//	Search or create Work Flow
+		MWorkflow workFlow = MWorkflow
+				.getWorkFlowFromDocumentTable(getCtx(), getAD_Table_ID(), get_TrxName());
+		//	validate null
+		if(workFlow == null) {
+			workFlow = new MWorkflow(getCtx(), 0, get_TrxName());
+			workFlow.setValue("Process_" + getName());
+			workFlow.setName(workFlow.getValue());
+			workFlow.setDescription("(Standard Process_" + getName() + ")");
+			workFlow.setWorkflowType(X_AD_Workflow.WORKFLOWTYPE_DocumentProcess);
+			workFlow.setAD_Table_ID(getAD_Table_ID());
+			workFlow.setAccessLevel(getAccessLevel());
+			workFlow.setEntityType(getEntityType());
+			workFlow.setPublishStatus(X_AD_Workflow.PUBLISHSTATUS_Test);
+			workFlow.setAuthor("ADempiere");
+			workFlow.setDuration(1);
+			workFlow.saveEx();
+			//	Create Work Flow Node for (Start)
+			MWFNode wfNode_Start = new MWFNode(workFlow, "(Start)", "(Start)");
+			wfNode_Start.setDescription(workFlow.getName());
+			wfNode_Start.setEntityType(getEntityType());
+			wfNode_Start.setJoinElement(X_AD_WF_Node.JOINELEMENT_XOR);
+			wfNode_Start.setSplitElement(X_AD_WF_Node.SPLITELEMENT_XOR);
+			wfNode_Start.setAction(X_AD_WF_Node.ACTION_WaitSleep);
+			wfNode_Start.saveEx();
+			//	Set Start node in Workflow
+			workFlow.setAD_WF_Node_ID(wfNode_Start.getAD_WF_Node_ID());
+			workFlow.saveEx();
+			//	Create Work Flow Node for (DocAuto)
+			MWFNode wfNode_Auto = new MWFNode(workFlow, "(DocAuto)", "(DocAuto)");
+			wfNode_Auto.setDescription(workFlow.getName());
+			wfNode_Auto.setEntityType(getEntityType());
+			wfNode_Auto.setJoinElement(X_AD_WF_Node.JOINELEMENT_XOR);
+			wfNode_Auto.setSplitElement(X_AD_WF_Node.SPLITELEMENT_XOR);
+			wfNode_Auto.setAction(X_AD_WF_Node.ACTION_DocumentAction);
+			wfNode_Auto.setDocAction(X_AD_WF_Node.DOCACTION_None);
+			wfNode_Auto.saveEx();
+			//	Create Work Flow Node for (DocPrepare)
+			MWFNode wfNode_Prepare = new MWFNode(workFlow, "(DocPrepare)", "(DocPrepare)");
+			wfNode_Prepare.setDescription(workFlow.getName());
+			wfNode_Prepare.setEntityType(getEntityType());
+			wfNode_Prepare.setJoinElement(X_AD_WF_Node.JOINELEMENT_XOR);
+			wfNode_Prepare.setSplitElement(X_AD_WF_Node.SPLITELEMENT_XOR);
+			wfNode_Prepare.setAction(X_AD_WF_Node.ACTION_DocumentAction);
+			wfNode_Prepare.setDocAction(X_AD_WF_Node.DOCACTION_Prepare);
+			wfNode_Prepare.saveEx();
+			//	Create Work Flow Node for (DocComplete)
+			MWFNode wfNode_Complete = new MWFNode(workFlow, "(DocComplete)", "(DocComplete)");
+			wfNode_Complete.setDescription(workFlow.getName());
+			wfNode_Complete.setEntityType(getEntityType());
+			wfNode_Complete.setJoinElement(X_AD_WF_Node.JOINELEMENT_XOR);
+			wfNode_Complete.setSplitElement(X_AD_WF_Node.SPLITELEMENT_XOR);
+			wfNode_Complete.setAction(X_AD_WF_Node.ACTION_DocumentAction);
+			wfNode_Complete.setDocAction(X_AD_WF_Node.DOCACTION_Complete);
+			wfNode_Complete.saveEx();
+			//	Create Transition For Start Node
+			//	For Start
+			MWFNodeNext wfNodeNext = new MWFNodeNext(wfNode_Start, wfNode_Prepare.getAD_WF_Node_ID());
+			wfNodeNext.setDescription("(Standard Approval)");
+			wfNodeNext.setEntityType(getEntityType());
+			wfNodeNext.setSeqNo(10);
+			wfNodeNext.setIsStdUserWorkflow(true);
+			wfNodeNext.saveEx();
+			//	For DocAuto
+			wfNodeNext = new MWFNodeNext(wfNode_Start, wfNode_Auto.getAD_WF_Node_ID());
+			wfNodeNext.setDescription("(Standard Transition)");
+			wfNodeNext.setEntityType(getEntityType());
+			wfNodeNext.setSeqNo(100);
+			wfNodeNext.setIsStdUserWorkflow(false);
+			wfNodeNext.saveEx();
+			//	Create Transition For Prepare Node
+			//	For DocComplete
+			wfNodeNext = new MWFNodeNext(wfNode_Prepare, wfNode_Complete.getAD_WF_Node_ID());
+			wfNodeNext.setDescription("(Standard Transition)");
+			wfNodeNext.setEntityType(getEntityType());
+			wfNodeNext.setSeqNo(100);
+			wfNodeNext.setIsStdUserWorkflow(false);
+			wfNodeNext.saveEx();
+		}
+		//	Create Standard Process for Document Action
+		int m_AD_Process_ID = MProcess.getProcess_ID(getTableName() + "_Process", get_TrxName());
+		if(m_AD_Process_ID <= 0) {
+			MProcess workFlowProcess = new MProcess(getCtx(), 0, get_TrxName());
+			workFlowProcess.setValue(getTableName() + "_Process");
+			workFlowProcess.setName("Process " + getName());
+			workFlowProcess.setEntityType(getEntityType());
+			workFlowProcess.setAccessLevel(getAccessLevel());
+			workFlowProcess.setAD_Workflow_ID(workFlow.getAD_Workflow_ID());
+			workFlowProcess.saveEx();
+			//	Default Return
+			return workFlowProcess.getAD_Process_ID();
+		}
+		//	Default Return
+		return m_AD_Process_ID;
 	}
 
 	/**
@@ -899,5 +1104,5 @@ public class MTable extends X_AD_Table
 		sb.append (get_ID()).append ("-").append (getTableName()).append ("]");
 		return sb.toString ();
 	}	//	toString
-	
+
 }	//	MTable

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Change print fonts in GW Print Formats" ReleaseNo="3.9.0" SeqNo="2180">
+    <Comments>https://github.com/adempiere/adempiere/issues/593</Comments>
+    <Step DBType="Postgres" Parse="Y" SeqNo="10" StepType="SQL">
+      <Comments>Set Default Print Font from SansSerif 11 to SansSerif 9</Comments>
+      <SQLStatement>UPDATE AD_PrintFont SET IsDefault ='Y' WHERE AD_PrintFont_ID=163;
+UPDATE AD_PrintFont SET IsDefault ='N' WHERE AD_PrintFont_ID=130;
+      </SQLStatement>
+    </Step>
+    <Step DBType="Postgres" Parse="Y" SeqNo="20" StepType="SQL">
+      <Comments>Set Print Font to NULL in template and standard Print Formats</Comments>
+      <SQLStatement>UPDATE ad_printformatitem SET AD_PrintFont_ID = NULL where ad_printformatitem_id in ( 
+50636, 50634, 51026, 50418, 50442, 51070, 1885, 1886, 53126, 53127,
+53128, 53131, 53123, 53124, 53125, 1949, 1968, 2009, 2148, 51164, 
+51336, 51074, 51075, 51097, 51098, 51269, 51270, 50059, 51076,
+51337, 51212, 51235, 51247, 50474, 50941, 50477, 1244, 1245,
+1708, 1709, 1681, 56534, 56535, 56536, 56537, 56539, 56540,
+2325, 2326, 980, 981, 982, 983, 984, 985, 986, 987, 54463,
+54491, 54485, 54486, 54487, 54488, 51646, 51647, 51648);
+      </SQLStatement>
+    </Step>
+    <Step DBType="Postgres" Parse="Y" SeqNo="30" StepType="SQL">
+      <Comments>Set Print Font to SansSerif 8 in PF "Transaction value Report"</Comments>
+      <SQLStatement>UPDATE ad_printformatitem SET AD_PrintFont_ID=133 WHERE ad_printformatitem_id in ( 
+51589, 51590, 51629, 51631);
+      </SQLStatement>
+    </Step>
+    <Step DBType="Postgres" Parse="Y" SeqNo="40" StepType="SQL">
+      <Comments>Set Print Font o SansSerif 9 in Standard Reports</Comments>
+      <SQLStatement>UPDATE AD_PrintFormat SET AD_PrintFont_ID = 163 WHERE AD_PrintFormat_ID IN (
+50053, 50095, 50195, 50091, 50051, 50038, 50057, 50131, 50132,
+50336, 50023, 50022, 50015, 50014, 50019, 50018, 50016, 50017,
+50021, 50020, 50032, 50033, 50031, 154, 155, 50000, 50003, 50337,
+50004, 162, 50013, 50035, 50006, 50007, 167, 50012, 50028,
+50027, 50030, 50024, 50029, 50025, 50008, 161, 163, 164,
+50026, 134, 142, 124, 153, 156, 120, 121, 118, 119, 126,
+125, 122, 123, 143);
+      </SQLStatement>
+    </Step>
+    <Step DBType="Oracle" Parse="Y" SeqNo="50" StepType="SQL">
+      <Comments>Set Default Print Font from SansSerif 11 to SansSerif 9</Comments>
+      <SQLStatement>UPDATE AD_PrintFont SET IsDefault ='Y' WHERE AD_PrintFont_ID=163;
+UPDATE AD_PrintFont SET IsDefault ='N' WHERE AD_PrintFont_ID=130;
+      </SQLStatement>
+    </Step>
+    <Step DBType="Oracle" Parse="Y" SeqNo="60" StepType="SQL">
+      <Comments>Set Print Font to NULL in template and standard Print Formats</Comments>
+      <SQLStatement>UPDATE ad_printformatitem SET AD_PrintFont_ID = NULL where ad_printformatitem_id in ( 
+50636, 50634, 51026, 50418, 50442, 51070, 1885, 1886, 53126, 53127,
+53128, 53131, 53123, 53124, 53125, 1949, 1968, 2009, 2148, 51164, 
+51336, 51074, 51075, 51097, 51098, 51269, 51270, 50059, 51076,
+51337, 51212, 51235, 51247, 50474, 50941, 50477, 1244, 1245,
+1708, 1709, 1681, 56534, 56535, 56536, 56537, 56539, 56540,
+2325, 2326, 980, 981, 982, 983, 984, 985, 986, 987, 54463,
+54491, 54485, 54486, 54487, 54488, 51646, 51647, 51648);
+      </SQLStatement>
+    </Step>
+    <Step DBType="Oracle" Parse="Y" SeqNo="70" StepType="SQL">
+      <Comments>Set Print Font to SansSerif 8 in PF "Transaction value Report"</Comments>
+      <SQLStatement>UPDATE ad_printformatitem SET AD_PrintFont_ID=133 WHERE ad_printformatitem_id in ( 
+51589, 51590, 51629, 51631);
+      </SQLStatement>
+    </Step>
+    <Step DBType="Oracle" Parse="Y" SeqNo="80" StepType="SQL">
+      <Comments>Set Print Font o SansSerif 9 in Standard Reports</Comments>
+      <SQLStatement>UPDATE AD_PrintFormat SET AD_PrintFont_ID = 163 WHERE AD_PrintFormat_ID IN (
+50053, 50095, 50195, 50091, 50051, 50038, 50057, 50131, 50132,
+50336, 50023, 50022, 50015, 50014, 50019, 50018, 50016, 50017,
+50021, 50020, 50032, 50033, 50031, 154, 155, 50000, 50003, 50337,
+50004, 162, 50013, 50035, 50006, 50007, 167, 50012, 50028,
+50027, 50030, 50024, 50029, 50025, 50008, 161, 163, 164,
+50026, 134, 142, 124, 153, 156, 120, 121, 118, 119, 126,
+125, 122, 123, 143);
+      </SQLStatement>
+    </Step>
+  </Migration>
+</Migrations>

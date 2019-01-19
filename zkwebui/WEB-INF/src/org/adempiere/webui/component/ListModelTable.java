@@ -38,9 +38,9 @@ import org.zkoss.zul.event.ListDataEvent;
  * in addition to the rows provided by {@link org.zkoss.zul.ListModelList}.
  *
  * @author Andrew Kimball
- *
+ * @param <E>
  */
-public class ListModelTable extends ListModelList implements ListModelExt
+public class ListModelTable<E> extends ListModelList implements ListModelExt
 {
 	/**
 	 * 
@@ -69,6 +69,7 @@ public class ListModelTable extends ListModelList implements ListModelExt
 	 *
 	 * @param collection	The collection of objects with which to initialise the list
 	 */
+	@SuppressWarnings("rawtypes")
 	public ListModelTable(Collection collection)
 	{
 		super(collection);

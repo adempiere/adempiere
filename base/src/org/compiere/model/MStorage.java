@@ -93,6 +93,64 @@ public class MStorage extends X_M_Storage
 		return retValue;
 	}	//	get
 
+
+	/**
+	 * get Qty Reserved
+	 * @param ctx
+	 * @param productId
+	 * @param warehouseId
+	 * @param attributeSetInstanceId
+	 * @param trxName
+	 * @return
+	 */
+	public static MStorage getQtyReserved (Properties ctx,
+		int productId, int warehouseId, int attributeSetInstanceId, String trxName)
+	{
+		final StringBuilder whereClause = new StringBuilder();
+		whereClause.append("EXISTS (SELECT 1 FROM M_Locator l WHERE l.M_Locator_ID=M_Storage.M_Locator_ID AND l.M_Warehouse_ID=? ) AND ");
+		whereClause.append(MStorage.COLUMNNAME_M_Product_ID).append("=? AND ");
+		if (attributeSetInstanceId == 0)
+			whereClause.append(MStorage.COLUMNNAME_M_AttributeSetInstance_ID).append("=? OR ").append(MStorage.COLUMNNAME_M_AttributeSetInstance_ID).append(" IS NULL ");
+		else
+			whereClause.append(MStorage.COLUMNNAME_M_AttributeSetInstance_ID).append("=?");
+
+		whereClause.append(" AND QtyReserved <> 0");
+
+		return new Query(ctx,MStorage.Table_Name, whereClause.toString(), trxName).setClient_ID()
+		.setParameters( warehouseId , productId , attributeSetInstanceId)
+		.setOrderBy(MStorage.COLUMNNAME_QtyReserved + " Desc")
+		.first();
+	}	//	get
+
+
+	/**
+	 * get Qty Ordered
+	 * @param ctx
+	 * @param productId
+	 * @param warehouseId
+	 * @param attributeSetInstanceId
+	 * @param trxName
+	 * @return
+	 */
+	public static MStorage getQtyOrdered (Properties ctx,
+		int productId, int warehouseId , int attributeSetInstanceId, String trxName)
+	{
+		final StringBuilder whereClause = new StringBuilder();
+		whereClause.append("EXISTS (SELECT 1 FROM M_Locator l WHERE l.M_Locator_ID=M_Storage.M_Locator_ID AND l.M_Warehouse_ID=? ) AND ");
+		whereClause.append(MStorage.COLUMNNAME_M_Product_ID).append("=? AND ");
+		if (attributeSetInstanceId == 0)
+			whereClause.append(MStorage.COLUMNNAME_M_AttributeSetInstance_ID).append("=? OR ").append(MStorage.COLUMNNAME_M_AttributeSetInstance_ID).append(" IS NULL ");
+		else
+			whereClause.append(MStorage.COLUMNNAME_M_AttributeSetInstance_ID).append("=?");
+
+		whereClause.append(" AND QtyOrdered <> 0");
+
+		return new Query(ctx,MStorage.Table_Name, whereClause.toString(), trxName).setClient_ID()
+		.setParameters( warehouseId , productId , attributeSetInstanceId)
+		.setOrderBy(MStorage.COLUMNNAME_QtyOrdered)
+		.first();
+	}	//	get
+
 	/**
 	 * 	Get all Storages for Product with ASI and QtyOnHand <> 0
 	 *	@param ctx context
@@ -266,11 +324,9 @@ public class MStorage extends X_M_Storage
 		
 		ArrayList<MStorage> list = new ArrayList<MStorage>();
 		//	Specific Attribute Set Instance
-		String sql = "SELECT s.M_Product_ID,s.M_Locator_ID,s.M_AttributeSetInstance_ID,"
-			+ "s.AD_Client_ID,s.AD_Org_ID,s.IsActive,s.Created,s.CreatedBy,s.Updated,s.UpdatedBy,"
-			+ "s.QtyOnHand,s.QtyReserved,s.QtyOrdered,s.DateLastInventory "
-			+ "FROM M_Storage s"
-			+ " INNER JOIN M_Locator l ON (l.M_Locator_ID=s.M_Locator_ID) ";
+		String sql = "SELECT s.* "
+				+ " FROM M_Storage s"
+				+ " INNER JOIN M_Locator l ON (l.M_Locator_ID=s.M_Locator_ID) ";
 		if (M_Locator_ID > 0)
 			sql += "WHERE l.M_Locator_ID = ?";
 		else
@@ -291,9 +347,7 @@ public class MStorage extends X_M_Storage
 		//	All Attribute Set Instances
 		if (allAttributeInstances)
 		{
-			sql = "SELECT s.M_Product_ID,s.M_Locator_ID,s.M_AttributeSetInstance_ID,"
-				+ "s.AD_Client_ID,s.AD_Org_ID,s.IsActive,s.Created,s.CreatedBy,s.Updated,s.UpdatedBy,"
-				+ "s.QtyOnHand,s.QtyReserved,s.QtyOrdered,s.DateLastInventory "
+			sql = "SELECT s.* "
 				+ "FROM M_Storage s"
 				+ " INNER JOIN M_Locator l ON (l.M_Locator_ID=s.M_Locator_ID)"
 				+ " LEFT OUTER JOIN M_AttributeSetInstance asi ON (s.M_AttributeSetInstance_ID=asi.M_AttributeSetInstance_ID) ";
@@ -345,8 +399,8 @@ public class MStorage extends X_M_Storage
 			rs = pstmt.executeQuery();
 			while (rs.next())
 			{	
-				if(rs.getBigDecimal(11).signum() != 0)
-				list.add (new MStorage (ctx, rs, trxName));
+				if(rs.getBigDecimal("QtyOnHand").signum() != 0)
+					list.add (new MStorage (ctx, rs, trxName));
 			}	
 		}
 		catch (Exception e)
@@ -444,8 +498,14 @@ public class MStorage extends X_M_Storage
 		MStorage storage0 = null;
 		if (M_AttributeSetInstance_ID != reservationAttributeSetInstance_ID)
 		{
-			storage0 = get(ctx, M_Locator_ID, 
-				M_Product_ID, reservationAttributeSetInstance_ID, trxName);
+			//consumed the reserved qty storage
+			if(diffQtyReserved != null && diffQtyReserved.signum() != 0)
+				storage0 = getQtyReserved(ctx,
+				M_Product_ID, M_Warehouse_ID , reservationAttributeSetInstance_ID, trxName);
+			if(diffQtyOrdered.signum() != 0)
+				storage0 = getQtyOrdered(ctx,
+						M_Product_ID, M_Warehouse_ID, reservationAttributeSetInstance_ID, trxName);
+
 			if (storage0 == null)	//	create if not existing - should not happen
 			{
 				MWarehouse wh = MWarehouse.get(ctx, M_Warehouse_ID);

@@ -22,9 +22,11 @@ import java.sql.DatabaseMetaData;
 import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
 
 import javax.sql.DataSource;
@@ -35,6 +37,7 @@ import org.adempiere.exceptions.DBException;
 import org.compiere.Adempiere;
 import org.compiere.dbPort.Convert;
 import org.compiere.dbPort.Convert_Oracle;
+import org.compiere.model.PO;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
@@ -54,6 +57,9 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
  *  connection pooling framework for better and more efficient connnection handling
  *  
  *  @author Ashley Ramdass (Posterita)
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *			<li> FR [ 391 ] getSchema method in DB_PostgreSQL.java is better use the adempiere user
+ *			@see https://github.com/adempiere/adempiere/issues/391
  */
 public class DB_Oracle implements AdempiereDatabase
 {
@@ -98,7 +104,7 @@ public class DB_Oracle implements AdempiereDatabase
     private String                  m_connectionURL;
 
     /** Statement Cache (50)        */
-    private static final String     MAX_STATEMENTS = "200";
+    public static final String     MAX_STATEMENTS = "200";
     /** Data Source                 */
     private ComboPooledDataSource   m_ds = null;
 
@@ -274,12 +280,18 @@ public class DB_Oracle implements AdempiereDatabase
      *  Get JDBC Schema
      *  @return user name
      */
-    public String getSchema()
-    {
-        if (m_userName != null)
-            return m_userName.toUpperCase();
-        log.severe("User Name not set (yet) - call getConnectionURL first");
-        return null;
+    public String getSchema() {
+    	if (m_userName == null) {
+	        CConnection cconn = CConnection.get(Adempiere.getCodeBaseHost());
+	        m_userName = cconn.getDbUid();
+	    }
+    	//	Validate
+        if (m_userName == null) {
+        	log.severe("User Name not set (yet) - call getConnectionURL first");
+        	return null;
+        }
+        //	
+        return m_userName.toUpperCase();
     }   //  getSchema
 
     /**
@@ -1117,5 +1129,114 @@ public class DB_Oracle implements AdempiereDatabase
 	public boolean isPagingSupported() {
 		return false;
 	}
+
+
+
+    private int getIntProperty(Properties properties, String key, int defaultValue)
+    {
+        int i = defaultValue;
+        try
+        {
+            String s = properties.getProperty(key);
+            if (s != null && s.trim().length() > 0)
+                i = Integer.parseInt(s);
+        }
+        catch (Exception e) {}
+        return i;
+    }
+
+    private boolean getBooleanProperty(Properties properties, String key, boolean defaultValue)
+    {
+        boolean b = defaultValue;
+        try
+        {
+            String s = properties.getProperty(key);
+            if (s != null && s.trim().length() > 0)
+                b = Boolean.valueOf(s);
+        }
+        catch (Exception e) {}
+        return b;
+    }
+
+    private	String getStringProperty(Properties properties,	String key, String defaultValue)
+    {
+        String b = defaultValue;
+        try
+        {
+            String s = properties.getProperty(key);
+            if	(s != null && s.trim().length() > 0)
+                b = s.trim();
+        }
+        catch(Exception e){}
+        return b;
+    }
+
+    @Override
+    public boolean forUpdate(PO po, int timeout) {
+        //only can lock for update if using trx
+        if (po.get_TrxName() == null)
+            return false;
+
+        String[] keyColumns = po.get_KeyColumns();
+        if (keyColumns != null && keyColumns.length > 0 && !po.is_new()) {
+            StringBuilder sqlBuffer = new StringBuilder(" SELECT ");
+            sqlBuffer.append(keyColumns[0])
+                    .append(" FROM ")
+                    .append(po.get_TableName())
+                    .append(" WHERE ");
+            for(int i = 0; i < keyColumns.length; i++) {
+                if (i > 0)
+                    sqlBuffer.append(" AND ");
+                sqlBuffer.append(keyColumns[i]).append("=?");
+            }
+            sqlBuffer.append(" FOR UPDATE WAIT ").append((timeout > 0 ? timeout : LOCK_TIME_OUT));
+
+            Object[] parameters = new Object[keyColumns.length];
+            for(int i = 0; i < keyColumns.length; i++) {
+                Object parameter = po.get_Value(keyColumns[i]);
+                if (parameter != null && parameter instanceof Boolean) {
+                    if ((Boolean) parameter)
+                        parameter = "Y";
+                    else
+                        parameter = "N";
+                }
+                parameters[i] = parameter;
+            }
+
+            PreparedStatement stmt = null;
+            ResultSet rs = null;
+            try {
+                stmt = DB.prepareStatement(sqlBuffer.toString(),
+                        ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE, po.get_TrxName());
+                for(int i = 0; i < keyColumns.length; i++) {
+                    stmt.setObject(i+1, parameters[i]);
+                }
+                rs = stmt.executeQuery();
+                if (rs.next()) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } catch (Exception e) {
+                if (log.isLoggable(Level.INFO))log.log(Level.INFO, e.getLocalizedMessage(), e);
+                throw new DBException("Could not lock record for " + po.toString() + " caused by " + e.getLocalizedMessage());
+            } finally {
+                DB.close(rs, stmt);
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public String getNameOfUniqueConstraintError(Exception e) {
+        String info = e.getMessage();
+        int fromIndex = info.indexOf(".");
+        if (fromIndex == -1)
+            return info;
+        int toIndex = info.indexOf(")", fromIndex + 1);
+        if (toIndex == -1)
+            return info;
+        return info.substring(fromIndex + 1, toIndex);
+    }
 
 }   //  DB_Oracle

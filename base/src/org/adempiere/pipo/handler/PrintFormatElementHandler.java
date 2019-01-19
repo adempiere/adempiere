@@ -42,6 +42,10 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 
+/**
+ *	@author Dixon Martinez, dmartinez@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li>BR [1019] New Icon to export report definition is show only swing but not ZK https://github.com/adempiere/adempiere/issues/1019
+ */
 public class PrintFormatElementHandler extends AbstractElementHandler {
 
 	private PrintFormatItemElementHandler itemHandler = new PrintFormatItemElementHandler();
@@ -60,8 +64,10 @@ public class PrintFormatElementHandler extends AbstractElementHandler {
 		int id = get_IDWithColumn(ctx, "AD_PrintFormat", "Name", name);
 		X_AD_PrintFormat m_PrintFormat = new X_AD_PrintFormat(ctx, id,
 				getTrxName(ctx));
-		if (id <= 0 && atts.getValue("AD_PrintFormat_ID") != null && Integer.parseInt(atts.getValue("AD_PrintFormat_ID")) <= PackOut.MAX_OFFICIAL_ID)
+		if (id <= 0 && atts.getValue("AD_PrintFormat_ID") != null && Integer.parseInt(atts.getValue("AD_PrintFormat_ID")) <= PackOut.MAX_OFFICIAL_ID) {
 			m_PrintFormat.setAD_PrintFormat_ID(Integer.parseInt(atts.getValue("AD_PrintFormat_ID")));
+			m_PrintFormat.setIsDirectLoad(true);
+		}
 		if (id > 0) {
 			AD_Backup_ID = copyRecord(ctx, "AD_PrintFormat", m_PrintFormat);
 			Object_Status = "Update";
@@ -185,6 +191,11 @@ public class PrintFormatElementHandler extends AbstractElementHandler {
 			throws SAXException {
 		int AD_PrintFormat_ID = Env.getContextAsInt(ctx, X_AD_Package_Exp_Detail.COLUMNNAME_AD_PrintFormat_ID);
 		PackOut packOut = (PackOut) ctx.get("PackOutProcess");
+		//	BR [1019]
+		if(packOut == null ) {
+			packOut = new PackOut();
+			packOut.setLocalContext(ctx);
+		}
 		
 		if (formats.contains(AD_PrintFormat_ID))
 			return;

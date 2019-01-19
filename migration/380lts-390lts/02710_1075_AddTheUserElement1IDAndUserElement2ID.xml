@@ -1,0 +1,705 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="The UserElement1_ID and UserElement2_ID missing" ReleaseNo="3.9.0" SeqNo="2710">
+    <Comments>https://github.com/adempiere/adempiere/issues/1075</Comments>
+    <Step DBType="Postgres" Parse="Y" SeqNo="5" StepType="SQL">
+      <SQLStatement>DROP VIEW rv_reconciliation;
+DROP VIEW RV_FACT_ACCT;
+CREATE OR REPLACE VIEW RV_FACT_ACCT
+(AD_CLIENT_ID, AD_ORG_ID, ISACTIVE, CREATED, CREATEDBY, 
+ UPDATED, UPDATEDBY, FACT_ACCT_ID, C_ACCTSCHEMA_ID, ACCOUNT_ID, 
+ DATETRX, DATEACCT, C_PERIOD_ID, AD_TABLE_ID, RECORD_ID, 
+ LINE_ID, GL_CATEGORY_ID, GL_BUDGET_ID, C_TAX_ID, M_LOCATOR_ID, 
+ POSTINGTYPE, C_CURRENCY_ID, AMTSOURCEDR, AMTSOURCECR, AMTSOURCE, 
+ AMTACCTDR, AMTACCTCR, AMTACCT, RATE, C_UOM_ID, 
+ QTY, M_PRODUCT_ID, C_BPARTNER_ID, AD_ORGTRX_ID, C_LOCFROM_ID, 
+ C_LOCTO_ID, C_SALESREGION_ID, C_PROJECT_ID, C_CAMPAIGN_ID, C_ACTIVITY_ID, 
+ USER1_ID, USER2_ID, USER3_ID , USER4_ID ,
+ USERELEMENT1_ID  , USERELEMENT2_ID ,
+ A_ASSET_ID, DESCRIPTION, ORGVALUE,
+ ORGNAME, ACCOUNTVALUE, NAME, ACCOUNTTYPE, BPARTNERVALUE,
+ BPNAME, C_BP_GROUP_ID, PRODUCTVALUE, PRODUCTNAME, UPC,
+ M_PRODUCT_CATEGORY_ID)
+AS
+SELECT f.AD_Client_ID, f.AD_Org_ID, f.IsActive,f.Created,f.CreatedBy,f.Updated,f.UpdatedBy,
+    f.Fact_Acct_ID,
+    f.C_AcctSchema_ID, f.Account_ID, f.DateTrx, f.DateAcct, f.C_Period_ID,
+    f.AD_Table_ID, f.Record_ID, f.Line_ID,
+    f.GL_Category_ID, f.GL_Budget_ID, f.C_Tax_ID, f.M_Locator_ID,
+    f.PostingType, f.C_Currency_ID,
+    f.AmtSourceDr, f.AmtSourceCr, (f.AmtSourceDr - f.AmtSourceCr) AS AmtSource,
+    f.AmtAcctDr, f.AmtAcctCr, (f.AmtAcctDr - f.AmtAcctCr) AS AmtAcct,
+    CASE WHEN (f.AmtSourceDr - f.AmtSourceCr) = 0 THEN 0 ELSE
+        (f.AmtAcctDr - f.AmtAcctCr) / (f.AmtSourceDr - f.AmtSourceCr) END AS Rate,
+    f.C_UOM_ID, f.Qty,
+    f.M_Product_ID, f.C_BPartner_ID, f.AD_OrgTrx_ID,
+    f.C_LocFrom_ID, f.C_LocTo_ID, f.C_SalesRegion_ID,
+    f.C_Project_ID, f.C_Campaign_ID, f.C_Activity_ID,
+    f.User1_ID, f.User2_ID, f.User3_ID , f.User4_ID ,
+    f.UserElement1_ID  , f.UserElement2_ID ,
+    f.A_Asset_ID,
+    f.Description,
+    o.Value AS OrgValue, o.Name AS OrgName,
+    ev.Value AS AccountValue, ev.Name, ev.AccountType,
+    bp.Value AS BPartnerValue, bp.Name AS BPName, bp.C_BP_Group_ID,
+    p.Value AS ProductValue, p.Name AS ProductName, p.UPC, p.M_Product_Category_ID
+FROM Fact_Acct f
+  INNER JOIN AD_Org o ON (f.AD_Org_ID=o.AD_Org_ID)
+  INNER JOIN C_ElementValue ev ON (f.Account_ID=ev.C_ElementValue_ID)
+  LEFT OUTER JOIN C_BPartner bp ON (f.C_BPartner_ID=bp.C_BPartner_ID)
+  LEFT OUTER JOIN M_Product p ON (f.M_Product_ID=p.M_Product_ID);
+  
+CREATE OR REPLACE VIEW rv_reconciliation AS
+ SELECT f.ad_client_id,
+    f.ad_org_id,
+    f.isactive,
+    f.created,
+    f.createdby,
+    f.updated,
+    f.updatedby,
+    f.fact_acct_id,
+    f.c_acctschema_id,
+    f.account_id,
+    f.datetrx,
+    f.dateacct,
+    f.c_period_id,
+    f.ad_table_id,
+    f.record_id,
+    f.line_id,
+    f.gl_category_id,
+    f.gl_budget_id,
+    f.c_tax_id,
+    f.m_locator_id,
+    f.postingtype,
+    f.c_currency_id,
+    f.amtsourcedr,
+    f.amtsourcecr,
+    f.amtsource,
+    f.amtacctdr,
+    f.amtacctcr,
+    f.amtacct,
+    f.rate,
+    f.c_uom_id,
+    f.qty,
+    f.m_product_id,
+    f.c_bpartner_id,
+    f.ad_orgtrx_id,
+    f.c_locfrom_id,
+    f.c_locto_id,
+    f.c_salesregion_id,
+    f.c_project_id,
+    f.c_campaign_id,
+    f.c_activity_id,
+    f.user1_id,
+    f.user2_id,
+    f.user3_id,
+    f.user4_id,
+    f.userelement1_id,
+    f.userelement2_id,
+    f.a_asset_id,
+    f.description,
+    f.orgvalue,
+    f.orgname,
+    f.accountvalue,
+    f.name,
+    f.accounttype,
+    f.bpartnervalue,
+    f.bpname,
+    f.c_bp_group_id,
+    f.productvalue,
+    f.productname,
+    f.upc,
+    f.m_product_category_id,
+    t.ad_pinstance_id,
+    t.matchcode
+   FROM rv_fact_acct f
+     JOIN t_reconciliation t ON f.fact_acct_id = t.fact_acct_id;</SQLStatement>
+      <RollbackStatement>DROP VIEW rv_reconciliation;
+DROP VIEW RV_FACT_ACCT;
+CREATE OR REPLACE VIEW RV_FACT_ACCT
+(AD_CLIENT_ID, AD_ORG_ID, ISACTIVE, CREATED, CREATEDBY, 
+ UPDATED, UPDATEDBY, FACT_ACCT_ID, C_ACCTSCHEMA_ID, ACCOUNT_ID, 
+ DATETRX, DATEACCT, C_PERIOD_ID, AD_TABLE_ID, RECORD_ID, 
+ LINE_ID, GL_CATEGORY_ID, GL_BUDGET_ID, C_TAX_ID, M_LOCATOR_ID, 
+ POSTINGTYPE, C_CURRENCY_ID, AMTSOURCEDR, AMTSOURCECR, AMTSOURCE, 
+ AMTACCTDR, AMTACCTCR, AMTACCT, RATE, C_UOM_ID, 
+ QTY, M_PRODUCT_ID, C_BPARTNER_ID, AD_ORGTRX_ID, C_LOCFROM_ID, 
+ C_LOCTO_ID, C_SALESREGION_ID, C_PROJECT_ID, C_CAMPAIGN_ID, C_ACTIVITY_ID, 
+ USER1_ID, USER2_ID, USER3_ID , USER4_ID , A_ASSET_ID, DESCRIPTION, ORGVALUE,
+ ORGNAME, ACCOUNTVALUE, NAME, ACCOUNTTYPE, BPARTNERVALUE,
+ BPNAME, C_BP_GROUP_ID, PRODUCTVALUE, PRODUCTNAME, UPC,
+ M_PRODUCT_CATEGORY_ID)
+AS
+SELECT f.AD_Client_ID, f.AD_Org_ID, f.IsActive,f.Created,f.CreatedBy,f.Updated,f.UpdatedBy,
+    f.Fact_Acct_ID,
+    f.C_AcctSchema_ID, f.Account_ID, f.DateTrx, f.DateAcct, f.C_Period_ID,
+    f.AD_Table_ID, f.Record_ID, f.Line_ID,
+    f.GL_Category_ID, f.GL_Budget_ID, f.C_Tax_ID, f.M_Locator_ID,
+    f.PostingType, f.C_Currency_ID,
+    f.AmtSourceDr, f.AmtSourceCr, (f.AmtSourceDr - f.AmtSourceCr) AS AmtSource,
+    f.AmtAcctDr, f.AmtAcctCr, (f.AmtAcctDr - f.AmtAcctCr) AS AmtAcct,
+    CASE WHEN (f.AmtSourceDr - f.AmtSourceCr) = 0 THEN 0 ELSE
+        (f.AmtAcctDr - f.AmtAcctCr) / (f.AmtSourceDr - f.AmtSourceCr) END AS Rate,
+    f.C_UOM_ID, f.Qty,
+    f.M_Product_ID, f.C_BPartner_ID, f.AD_OrgTrx_ID,
+    f.C_LocFrom_ID, f.C_LocTo_ID, f.C_SalesRegion_ID,
+    f.C_Project_ID, f.C_Campaign_ID, f.C_Activity_ID,
+    f.User1_ID, f.User2_ID, f.User3_ID , f.User4_ID , f.A_Asset_ID,
+    f.Description,
+    o.Value AS OrgValue, o.Name AS OrgName,
+    ev.Value AS AccountValue, ev.Name, ev.AccountType,
+    bp.Value AS BPartnerValue, bp.Name AS BPName, bp.C_BP_Group_ID,
+    p.Value AS ProductValue, p.Name AS ProductName, p.UPC, p.M_Product_Category_ID
+FROM Fact_Acct f
+  INNER JOIN AD_Org o ON (f.AD_Org_ID=o.AD_Org_ID)
+  INNER JOIN C_ElementValue ev ON (f.Account_ID=ev.C_ElementValue_ID)
+  LEFT OUTER JOIN C_BPartner bp ON (f.C_BPartner_ID=bp.C_BPartner_ID)
+  LEFT OUTER JOIN M_Product p ON (f.M_Product_ID=p.M_Product_ID);
+
+CREATE OR REPLACE VIEW rv_reconciliation AS
+ SELECT f.ad_client_id,
+    f.ad_org_id,
+    f.isactive,
+    f.created,
+    f.createdby,
+    f.updated,
+    f.updatedby,
+    f.fact_acct_id,
+    f.c_acctschema_id,
+    f.account_id,
+    f.datetrx,
+    f.dateacct,
+    f.c_period_id,
+    f.ad_table_id,
+    f.record_id,
+    f.line_id,
+    f.gl_category_id,
+    f.gl_budget_id,
+    f.c_tax_id,
+    f.m_locator_id,
+    f.postingtype,
+    f.c_currency_id,
+    f.amtsourcedr,
+    f.amtsourcecr,
+    f.amtsource,
+    f.amtacctdr,
+    f.amtacctcr,
+    f.amtacct,
+    f.rate,
+    f.c_uom_id,
+    f.qty,
+    f.m_product_id,
+    f.c_bpartner_id,
+    f.ad_orgtrx_id,
+    f.c_locfrom_id,
+    f.c_locto_id,
+    f.c_salesregion_id,
+    f.c_project_id,
+    f.c_campaign_id,
+    f.c_activity_id,
+    f.user1_id,
+    f.user2_id,
+    f.user3_id,
+    f.user4_id,
+    f.a_asset_id,
+    f.description,
+    f.orgvalue,
+    f.orgname,
+    f.accountvalue,
+    f.name,
+    f.accounttype,
+    f.bpartnervalue,
+    f.bpname,
+    f.c_bp_group_id,
+    f.productvalue,
+    f.productname,
+    f.upc,
+    f.m_product_category_id,
+    t.ad_pinstance_id,
+    t.matchcode
+   FROM rv_fact_acct f
+     JOIN t_reconciliation t ON f.fact_acct_id = t.fact_acct_id;</RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" Parse="Y" SeqNo="7" StepType="SQL">
+      <SQLStatement>DROP VIEW rv_reconciliation;
+DROP VIEW RV_FACT_ACCT;
+CREATE OR REPLACE VIEW RV_FACT_ACCT
+(AD_CLIENT_ID, AD_ORG_ID, ISACTIVE, CREATED, CREATEDBY, 
+ UPDATED, UPDATEDBY, FACT_ACCT_ID, C_ACCTSCHEMA_ID, ACCOUNT_ID, 
+ DATETRX, DATEACCT, C_PERIOD_ID, AD_TABLE_ID, RECORD_ID, 
+ LINE_ID, GL_CATEGORY_ID, GL_BUDGET_ID, C_TAX_ID, M_LOCATOR_ID, 
+ POSTINGTYPE, C_CURRENCY_ID, AMTSOURCEDR, AMTSOURCECR, AMTSOURCE, 
+ AMTACCTDR, AMTACCTCR, AMTACCT, RATE, C_UOM_ID, 
+ QTY, M_PRODUCT_ID, C_BPARTNER_ID, AD_ORGTRX_ID, C_LOCFROM_ID, 
+ C_LOCTO_ID, C_SALESREGION_ID, C_PROJECT_ID, C_CAMPAIGN_ID, C_ACTIVITY_ID, 
+ USER1_ID, USER2_ID, USER3_ID , USER4_ID ,
+ USERELEMENT1_ID  , USERELEMENT2_ID ,
+ A_ASSET_ID, DESCRIPTION, ORGVALUE,
+ ORGNAME, ACCOUNTVALUE, NAME, ACCOUNTTYPE, BPARTNERVALUE, 
+ BPNAME, C_BP_GROUP_ID, PRODUCTVALUE, PRODUCTNAME, UPC, 
+ M_PRODUCT_CATEGORY_ID)
+AS 
+SELECT f.AD_Client_ID, f.AD_Org_ID, f.IsActive,f.Created,f.CreatedBy,f.Updated,f.UpdatedBy,
+    f.Fact_Acct_ID,
+    f.C_AcctSchema_ID, f.Account_ID, f.DateTrx, f.DateAcct, f.C_Period_ID, 
+    f.AD_Table_ID, f.Record_ID, f.Line_ID,
+    f.GL_Category_ID, f.GL_Budget_ID, f.C_Tax_ID, f.M_Locator_ID, 
+    f.PostingType, f.C_Currency_ID,
+    f.AmtSourceDr, f.AmtSourceCr, (f.AmtSourceDr - f.AmtSourceCr) AS AmtSource,
+    f.AmtAcctDr, f.AmtAcctCr, (f.AmtAcctDr - f.AmtAcctCr) AS AmtAcct,
+    CASE WHEN (f.AmtSourceDr - f.AmtSourceCr) = 0 THEN 0 ELSE
+        (f.AmtAcctDr - f.AmtAcctCr) / (f.AmtSourceDr - f.AmtSourceCr) END AS Rate,
+    f.C_UOM_ID, f.Qty,
+    f.M_Product_ID, f.C_BPartner_ID, f.AD_OrgTrx_ID, 
+    f.C_LocFrom_ID, f.C_LocTo_ID, f.C_SalesRegion_ID,
+    f.C_Project_ID, f.C_Campaign_ID, f.C_Activity_ID, 
+    f.User1_ID, f.User2_ID, f.User3_ID , f.User4_ID ,
+    f.UserElement1_ID  , f.UserElement2_ID ,
+    f.A_Asset_ID,
+    f.Description,
+    o.Value AS OrgValue, o.Name AS OrgName,
+    ev.Value AS AccountValue, ev.Name, ev.AccountType,
+    bp.Value AS BPartnerValue, bp.Name AS BPName, bp.C_BP_Group_ID, 
+    p.Value AS ProductValue, p.Name AS ProductName, p.UPC, p.M_Product_Category_ID
+FROM Fact_Acct f
+  INNER JOIN AD_Org o ON (f.AD_Org_ID=o.AD_Org_ID)
+  INNER JOIN C_ElementValue ev ON (f.Account_ID=ev.C_ElementValue_ID)
+  LEFT OUTER JOIN C_BPartner bp ON (f.C_BPartner_ID=bp.C_BPartner_ID)
+  LEFT OUTER JOIN M_Product p ON (f.M_Product_ID=p.M_Product_ID);
+
+CREATE OR REPLACE VIEW RV_Reconciliation AS
+ SELECT f.ad_client_id,
+    f.ad_org_id,
+    f.isactive,
+    f.created,
+    f.createdby,
+    f.updated,
+    f.updatedby,
+    f.fact_acct_id,
+    f.c_acctschema_id,
+    f.account_id,
+    f.datetrx,
+    f.dateacct,
+    f.c_period_id,
+    f.ad_table_id,
+    f.record_id,
+    f.line_id,
+    f.gl_category_id,
+    f.gl_budget_id,
+    f.c_tax_id,
+    f.m_locator_id,
+    f.postingtype,
+    f.c_currency_id,
+    f.amtsourcedr,
+    f.amtsourcecr,
+    f.amtsource,
+    f.amtacctdr,
+    f.amtacctcr,
+    f.amtacct,
+    f.rate,
+    f.c_uom_id,
+    f.qty,
+    f.m_product_id,
+    f.c_bpartner_id,
+    f.ad_orgtrx_id,
+    f.c_locfrom_id,
+    f.c_locto_id,
+    f.c_salesregion_id,
+    f.c_project_id,
+    f.c_campaign_id,
+    f.c_activity_id,
+    f.user1_id,
+    f.user2_id,
+    f.user3_id,
+    f.user4_id,
+    f.userelement1_id,
+    f.userelement2_id,
+    f.a_asset_id,
+    f.description,
+    f.orgvalue,
+    f.orgname,
+    f.accountvalue,
+    f.name,
+    f.accounttype,
+    f.bpartnervalue,
+    f.bpname,
+    f.c_bp_group_id,
+    f.productvalue,
+    f.productname,
+    f.upc,
+    f.m_product_category_id,
+    t.ad_pinstance_id,
+    t.matchcode
+   FROM rv_fact_acct f
+     JOIN t_reconciliation t ON f.fact_acct_id = t.fact_acct_id;</SQLStatement>
+      <RollbackStatement>DROP VIEW rv_reconciliation;
+DROP VIEW RV_FACT_ACCT;
+CREATE OR REPLACE VIEW RV_FACT_ACCT
+(AD_CLIENT_ID, AD_ORG_ID, ISACTIVE, CREATED, CREATEDBY, 
+ UPDATED, UPDATEDBY, FACT_ACCT_ID, C_ACCTSCHEMA_ID, ACCOUNT_ID, 
+ DATETRX, DATEACCT, C_PERIOD_ID, AD_TABLE_ID, RECORD_ID, 
+ LINE_ID, GL_CATEGORY_ID, GL_BUDGET_ID, C_TAX_ID, M_LOCATOR_ID, 
+ POSTINGTYPE, C_CURRENCY_ID, AMTSOURCEDR, AMTSOURCECR, AMTSOURCE, 
+ AMTACCTDR, AMTACCTCR, AMTACCT, RATE, C_UOM_ID, 
+ QTY, M_PRODUCT_ID, C_BPARTNER_ID, AD_ORGTRX_ID, C_LOCFROM_ID, 
+ C_LOCTO_ID, C_SALESREGION_ID, C_PROJECT_ID, C_CAMPAIGN_ID, C_ACTIVITY_ID, 
+ USER1_ID, USER2_ID, USER3_ID , USER4_ID , A_ASSET_ID, DESCRIPTION, ORGVALUE,
+ ORGNAME, ACCOUNTVALUE, NAME, ACCOUNTTYPE, BPARTNERVALUE,
+ BPNAME, C_BP_GROUP_ID, PRODUCTVALUE, PRODUCTNAME, UPC,
+ M_PRODUCT_CATEGORY_ID)
+AS
+SELECT f.AD_Client_ID, f.AD_Org_ID, f.IsActive,f.Created,f.CreatedBy,f.Updated,f.UpdatedBy,
+    f.Fact_Acct_ID,
+    f.C_AcctSchema_ID, f.Account_ID, f.DateTrx, f.DateAcct, f.C_Period_ID,
+    f.AD_Table_ID, f.Record_ID, f.Line_ID,
+    f.GL_Category_ID, f.GL_Budget_ID, f.C_Tax_ID, f.M_Locator_ID,
+    f.PostingType, f.C_Currency_ID,
+    f.AmtSourceDr, f.AmtSourceCr, (f.AmtSourceDr - f.AmtSourceCr) AS AmtSource,
+    f.AmtAcctDr, f.AmtAcctCr, (f.AmtAcctDr - f.AmtAcctCr) AS AmtAcct,
+    CASE WHEN (f.AmtSourceDr - f.AmtSourceCr) = 0 THEN 0 ELSE
+        (f.AmtAcctDr - f.AmtAcctCr) / (f.AmtSourceDr - f.AmtSourceCr) END AS Rate,
+    f.C_UOM_ID, f.Qty,
+    f.M_Product_ID, f.C_BPartner_ID, f.AD_OrgTrx_ID,
+    f.C_LocFrom_ID, f.C_LocTo_ID, f.C_SalesRegion_ID,
+    f.C_Project_ID, f.C_Campaign_ID, f.C_Activity_ID,
+    f.User1_ID, f.User2_ID, f.User3_ID , f.User4_ID , f.A_Asset_ID,
+    f.Description,
+    o.Value AS OrgValue, o.Name AS OrgName,
+    ev.Value AS AccountValue, ev.Name, ev.AccountType,
+    bp.Value AS BPartnerValue, bp.Name AS BPName, bp.C_BP_Group_ID,
+    p.Value AS ProductValue, p.Name AS ProductName, p.UPC, p.M_Product_Category_ID
+FROM Fact_Acct f
+  INNER JOIN AD_Org o ON (f.AD_Org_ID=o.AD_Org_ID)
+  INNER JOIN C_ElementValue ev ON (f.Account_ID=ev.C_ElementValue_ID)
+  LEFT OUTER JOIN C_BPartner bp ON (f.C_BPartner_ID=bp.C_BPartner_ID)
+  LEFT OUTER JOIN M_Product p ON (f.M_Product_ID=p.M_Product_ID);
+CREATE OR REPLACE VIEW rv_reconciliation AS
+ SELECT f.ad_client_id,
+    f.ad_org_id,
+    f.isactive,
+    f.created,
+    f.createdby,
+    f.updated,
+    f.updatedby,
+    f.fact_acct_id,
+    f.c_acctschema_id,
+    f.account_id,
+    f.datetrx,
+    f.dateacct,
+    f.c_period_id,
+    f.ad_table_id,
+    f.record_id,
+    f.line_id,
+    f.gl_category_id,
+    f.gl_budget_id,
+    f.c_tax_id,
+    f.m_locator_id,
+    f.postingtype,
+    f.c_currency_id,
+    f.amtsourcedr,
+    f.amtsourcecr,
+    f.amtsource,
+    f.amtacctdr,
+    f.amtacctcr,
+    f.amtacct,
+    f.rate,
+    f.c_uom_id,
+    f.qty,
+    f.m_product_id,
+    f.c_bpartner_id,
+    f.ad_orgtrx_id,
+    f.c_locfrom_id,
+    f.c_locto_id,
+    f.c_salesregion_id,
+    f.c_project_id,
+    f.c_campaign_id,
+    f.c_activity_id,
+    f.user1_id,
+    f.user2_id,
+    f.user3_id,
+    f.user4_id,
+    f.a_asset_id,
+    f.description,
+    f.orgvalue,
+    f.orgname,
+    f.accountvalue,
+    f.name,
+    f.accounttype,
+    f.bpartnervalue,
+    f.bpname,
+    f.c_bp_group_id,
+    f.productvalue,
+    f.productname,
+    f.upc,
+    f.m_product_category_id,
+    t.ad_pinstance_id,
+    t.matchcode
+   FROM rv_fact_acct f
+     JOIN t_reconciliation t ON f.fact_acct_id = t.fact_acct_id;</RollbackStatement>
+    </Step>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="101" Action="I" Record_ID="84054" Table="AD_Column">
+        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
+        <Data AD_Column_ID="127" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="112" Column="Description">User defined accounting Element</Data>
+        <Data AD_Column_ID="109" Column="AD_Column_ID">84054</Data>
+        <Data AD_Column_ID="110" Column="Version">0</Data>
+        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
+        <Data AD_Column_ID="114" Column="AD_Table_ID">657</Data>
+        <Data AD_Column_ID="111" Column="Name">User Element 1</Data>
+        <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="116" Column="ColumnName">UserElement1_ID</Data>
+        <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="120" Column="IsParent">false</Data>
+        <Data AD_Column_ID="113" Column="Help">A user defined accounting element refers to a Adempiere table. This allows to use any table content as an accounting dimension (e.g. Project Task).  Note that User Elements are optional and are populated from the context of the document (i.e. not requested)</Data>
+        <Data AD_Column_ID="62199" Column="IsAllowCopy">false</Data>
+        <Data AD_Column_ID="118" Column="FieldLength">10</Data>
+        <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID">13</Data>
+        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="3360" Column="IsUpdateable">true</Data>
+        <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
+        <Data AD_Column_ID="6483" Column="IsSyncDatabase">N</Data>
+        <Data AD_Column_ID="119" Column="IsKey">false</Data>
+        <Data AD_Column_ID="3369" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
+        <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
+        <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="56187" Column="IsAllowLogging">true</Data>
+        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
+        <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
+        <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2608" Column="AD_Element_ID">2877</Data>
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
+        <Data AD_Column_ID="548" Column="IsActive">true</Data>
+        <Data AD_Column_ID="549" Column="Created">2017-06-05 14:05:08.366</Data>
+        <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="551" Column="Updated">2017-06-05 14:05:08.366</Data>
+        <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="752" Action="I" Record_ID="84054" Table="AD_Column_Trl">
+        <Data AD_Column_ID="12955" Column="AD_Column_ID">84054</Data>
+        <Data AD_Column_ID="12957" Column="Name">User Element 1</Data>
+        <Data AD_Column_ID="12954" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="12953" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="12958" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="12960" Column="Created">2017-06-05 14:05:10.597</Data>
+        <Data AD_Column_ID="12961" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="12959" Column="IsActive">true</Data>
+        <Data AD_Column_ID="12956" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="12951" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="12952" Column="Updated">2017-06-05 14:05:10.597</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="101" Action="I" Record_ID="84055" Table="AD_Column">
+        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
+        <Data AD_Column_ID="127" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="112" Column="Description">User defined accounting Element</Data>
+        <Data AD_Column_ID="109" Column="AD_Column_ID">84055</Data>
+        <Data AD_Column_ID="110" Column="Version">0</Data>
+        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
+        <Data AD_Column_ID="114" Column="AD_Table_ID">657</Data>
+        <Data AD_Column_ID="111" Column="Name">User Element 2</Data>
+        <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="116" Column="ColumnName">UserElement2_ID</Data>
+        <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="120" Column="IsParent">false</Data>
+        <Data AD_Column_ID="113" Column="Help">A user defined accounting element refers to a Adempiere table. This allows to use any table content as an accounting dimension (e.g. Project Task).  Note that User Elements are optional and are populated from the context of the document (i.e. not requested)</Data>
+        <Data AD_Column_ID="62199" Column="IsAllowCopy">false</Data>
+        <Data AD_Column_ID="118" Column="FieldLength">10</Data>
+        <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID">13</Data>
+        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="3360" Column="IsUpdateable">true</Data>
+        <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
+        <Data AD_Column_ID="6483" Column="IsSyncDatabase">N</Data>
+        <Data AD_Column_ID="119" Column="IsKey">false</Data>
+        <Data AD_Column_ID="3369" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
+        <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
+        <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="56187" Column="IsAllowLogging">true</Data>
+        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
+        <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
+        <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2608" Column="AD_Element_ID">2878</Data>
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
+        <Data AD_Column_ID="548" Column="IsActive">true</Data>
+        <Data AD_Column_ID="549" Column="Created">2017-06-05 14:05:32.317</Data>
+        <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="551" Column="Updated">2017-06-05 14:05:32.317</Data>
+        <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="752" Action="I" Record_ID="84055" Table="AD_Column_Trl">
+        <Data AD_Column_ID="12955" Column="AD_Column_ID">84055</Data>
+        <Data AD_Column_ID="12957" Column="Name">User Element 2</Data>
+        <Data AD_Column_ID="12954" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="12953" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="12958" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="12960" Column="Created">2017-06-05 14:05:34.077</Data>
+        <Data AD_Column_ID="12961" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="12959" Column="IsActive">true</Data>
+        <Data AD_Column_ID="12956" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="12951" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="12952" Column="Updated">2017-06-05 14:05:34.077</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="101" Action="I" Record_ID="84056" Table="AD_Column">
+        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
+        <Data AD_Column_ID="127" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="112" Column="Description">User defined accounting Element</Data>
+        <Data AD_Column_ID="109" Column="AD_Column_ID">84056</Data>
+        <Data AD_Column_ID="110" Column="Version">0</Data>
+        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
+        <Data AD_Column_ID="114" Column="AD_Table_ID">53285</Data>
+        <Data AD_Column_ID="111" Column="Name">User Element 1</Data>
+        <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="116" Column="ColumnName">UserElement1_ID</Data>
+        <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="120" Column="IsParent">false</Data>
+        <Data AD_Column_ID="113" Column="Help">A user defined accounting element refers to a Adempiere table. This allows to use any table content as an accounting dimension (e.g. Project Task).  Note that User Elements are optional and are populated from the context of the document (i.e. not requested)</Data>
+        <Data AD_Column_ID="62199" Column="IsAllowCopy">false</Data>
+        <Data AD_Column_ID="118" Column="FieldLength">10</Data>
+        <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID">13</Data>
+        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="3360" Column="IsUpdateable">true</Data>
+        <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
+        <Data AD_Column_ID="6483" Column="IsSyncDatabase">N</Data>
+        <Data AD_Column_ID="119" Column="IsKey">false</Data>
+        <Data AD_Column_ID="3369" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
+        <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
+        <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="56187" Column="IsAllowLogging">true</Data>
+        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
+        <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
+        <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2608" Column="AD_Element_ID">2877</Data>
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
+        <Data AD_Column_ID="548" Column="IsActive">true</Data>
+        <Data AD_Column_ID="549" Column="Created">2017-06-05 14:41:00.61</Data>
+        <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="551" Column="Updated">2017-06-05 14:41:00.61</Data>
+        <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="752" Action="I" Record_ID="84056" Table="AD_Column_Trl">
+        <Data AD_Column_ID="12955" Column="AD_Column_ID">84056</Data>
+        <Data AD_Column_ID="12957" Column="Name">User Element 1</Data>
+        <Data AD_Column_ID="12954" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="12953" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="12958" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="12960" Column="Created">2017-06-05 14:41:01.999</Data>
+        <Data AD_Column_ID="12961" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="12959" Column="IsActive">true</Data>
+        <Data AD_Column_ID="12956" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="12951" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="12952" Column="Updated">2017-06-05 14:41:01.999</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="101" Action="I" Record_ID="84057" Table="AD_Column">
+        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
+        <Data AD_Column_ID="127" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="112" Column="Description">User defined accounting Element</Data>
+        <Data AD_Column_ID="109" Column="AD_Column_ID">84057</Data>
+        <Data AD_Column_ID="110" Column="Version">0</Data>
+        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
+        <Data AD_Column_ID="114" Column="AD_Table_ID">53285</Data>
+        <Data AD_Column_ID="111" Column="Name">User Element 2</Data>
+        <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="116" Column="ColumnName">UserElement2_ID</Data>
+        <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="120" Column="IsParent">false</Data>
+        <Data AD_Column_ID="113" Column="Help">A user defined accounting element refers to a Adempiere table. This allows to use any table content as an accounting dimension (e.g. Project Task).  Note that User Elements are optional and are populated from the context of the document (i.e. not requested)</Data>
+        <Data AD_Column_ID="62199" Column="IsAllowCopy">false</Data>
+        <Data AD_Column_ID="118" Column="FieldLength">10</Data>
+        <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID">13</Data>
+        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="3360" Column="IsUpdateable">true</Data>
+        <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
+        <Data AD_Column_ID="6483" Column="IsSyncDatabase">N</Data>
+        <Data AD_Column_ID="119" Column="IsKey">false</Data>
+        <Data AD_Column_ID="3369" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
+        <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
+        <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="56187" Column="IsAllowLogging">true</Data>
+        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
+        <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
+        <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2608" Column="AD_Element_ID">2878</Data>
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
+        <Data AD_Column_ID="548" Column="IsActive">true</Data>
+        <Data AD_Column_ID="549" Column="Created">2017-06-05 14:41:19.169</Data>
+        <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="551" Column="Updated">2017-06-05 14:41:19.169</Data>
+        <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="752" Action="I" Record_ID="84057" Table="AD_Column_Trl">
+        <Data AD_Column_ID="12955" Column="AD_Column_ID">84057</Data>
+        <Data AD_Column_ID="12957" Column="Name">User Element 2</Data>
+        <Data AD_Column_ID="12954" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="12953" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="12958" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="12960" Column="Created">2017-06-05 14:41:20.443</Data>
+        <Data AD_Column_ID="12961" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="12959" Column="IsActive">true</Data>
+        <Data AD_Column_ID="12956" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="12951" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="12952" Column="Updated">2017-06-05 14:41:20.443</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

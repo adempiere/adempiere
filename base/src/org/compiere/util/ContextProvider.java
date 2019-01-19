@@ -27,6 +27,6 @@ public interface ContextProvider {
 
 	public Properties getContext();
 	
-	public void showURL(String url);
+	public void showURL(String url, String title);
 	
 }

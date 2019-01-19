@@ -1,3 +1,4 @@
+"[Account_Value]","[Account_Name]","[Account_Description]","[Account_Type]","[Account_Sign]","[Account_Document]","[Account_Summary]","[Default_Account]","[Account_Parent]","[Balance Sheet]","[Balance Sheet_Name]","[US 1120 Balance Sheet]","US 1120 Balance Sheet_Name","[Profit & Loss]","[Profit & Loss_Name]","[US 1120 Income Statement]","[US 1120 Income Statement_Name]","[Cash Flow]","[Cash Flow_Name]"
 0,"НЕУПЛАЋЕНИ УПИСАНИ КАПИТАЛ И СТАЛНА ИМОВИНА",,"Asset","D",,"Yes",,,"0","НЕУПЛАЋЕНИ УПИСАНИ КАПИТАЛ И СТАЛНА ИМОВИНА",,,,,,,,
 00,"НЕУПЛАЋЕНИ УПИСАНИ КАПИТАЛ",,"Asset","D",,"Yes",,"0","00","НЕУПЛАЋЕНИ УПИСАНИ КАПИТАЛ",,,,,,,,
 000,"Неуплаћене уписане акције",,"Asset","D",,"Yes",,"00",,,,,,,,,,
@@ -1094,7 +1095,7 @@
 599364,"P_OVERHEAD_ACCT",,"Expense","D","Yes","No","P_OVERHEAD_ACCT",599,,,,,,,,,,
 599365,"P_SCRAP_ACCT ",,"Expense","D","Yes","No","P_SCRAP_ACCT ",599,,,,,,,,,,
 599366,"P_OUTSIDEPROCESSING_ACCT",,"Expense","D","Yes","No","P_OUTSIDEPROCESSING_ACCT",599,,,,,,,,,,
-599366,"P_WIP_ACCT",,"Expense","D","Yes","No","P_WIP_ACCT",599,,,,,,,,,,
+599366123,"P_WIP_ACCT",,"Expense","D","Yes","No","P_WIP_ACCT",599,,,,,,,,,,
 6,"ПРИХОДИ",,"Revenue","C",,"Yes",,,,,,,"6","ПРИХОДИ",,,,
 60,"ПРИХОДИ ОД ПРОДАЈЕ РОБЕ",,"Revenue","C",,"Yes",,6,,,,,"60","ПРИХОДИ ОД ПРОДАЈЕ РОБЕ",,,,
 600,"Приходи од продаје робе матичним и зависним правним лицима",,"Revenue","C",,"Yes",,60,,,,,,,,,,
@@ -1545,3 +1546,4 @@
 9940,"Вишкови материјала",,"Revenue","D",,"No",,994,,,,,,,,,,
 9941,"Вишкови робе",,"Revenue","D",,"No",,994,,,,,,,,,,
 999,"Закључак обрачуна трошкова и учинака",,"Memo","Natural",,"Yes",,99,,,,,,,,,,
+58800,"Average Cost Variance","Account for Average Cost Variance","Expense",,"Yes","No","P_AVERAGECOSTVARIANCE_ACCT",58,,,,,,,,,,

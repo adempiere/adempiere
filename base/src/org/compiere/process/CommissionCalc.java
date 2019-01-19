@@ -244,7 +244,7 @@ public class CommissionCalc extends SvrProcess
 			log.fine("Line=" + lines[i].getLine() + " - " + sql);
 			//
 			createDetail(sql.toString(), comAmt);
-			comAmt.calculateCommission();
+			comAmt.updateCommissionAmount();
 			comAmt.saveEx();
 		}	//	for all commission lines
 		

@@ -1,8 +1,9 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -11,8 +12,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PA_ReportSource
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_PA_ReportSource extends PO implements I_PA_ReportSource, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150223L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_PA_ReportSource (Properties ctx, int PA_ReportSource_ID, String trxName)
@@ -59,11 +59,22 @@ public class X_PA_ReportSource extends PO implements I_PA_ReportSource, I_Persis
 // N
 			setIsIncludeNullsSalesRegion (false);
 // N
+			setIsIncludeNullsUser1 (false);
+// N
+			setIsIncludeNullsUser2 (false);
+// N
+			setIsIncludeNullsUser3 (false);
+// N
+			setIsIncludeNullsUser4 (false);
+// N
 			setIsIncludeNullsUserElement1 (false);
 // N
 			setIsIncludeNullsUserElement2 (false);
 // N
-			setPA_ReportLine_ID (0);
+			setIsIncludeNullsUserList1 (false);
+// N
+			setIsIncludeNullsUserList2 (false);
+// N
 			setPA_ReportSource_ID (0);
         } */
     }
@@ -95,6 +106,11 @@ public class X_PA_ReportSource extends PO implements I_PA_ReportSource, I_Persis
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	public org.compiere.model.I_AD_Org getAD_OrgTrx() throws RuntimeException
+    {
+		return (org.compiere.model.I_AD_Org)MTable.get(getCtx(), org.compiere.model.I_AD_Org.Table_Name)
+			.getPO(getAD_OrgTrx_ID(), get_TrxName());	}
 
 	/** Set Trx Organization.
 		@param AD_OrgTrx_ID 
@@ -368,6 +384,10 @@ public class X_PA_ReportSource extends PO implements I_PA_ReportSource, I_Persis
 	public static final String ELEMENTTYPE_UserElement2 = "X2";
 	/** Combination = CO */
 	public static final String ELEMENTTYPE_Combination = "CO";
+	/** User List 3 = U3 */
+	public static final String ELEMENTTYPE_UserList3 = "U3";
+	/** User List 4 = U4 */
+	public static final String ELEMENTTYPE_UserList4 = "U4";
 	/** Set Type.
 		@param ElementType 
 		Element Type (account or user defined)
@@ -634,6 +654,102 @@ public class X_PA_ReportSource extends PO implements I_PA_ReportSource, I_Persis
 		return false;
 	}
 
+	/** Set Include Nulls in User 1.
+		@param IsIncludeNullsUser1 
+		Include nulls in the selection of the user 1
+	  */
+	public void setIsIncludeNullsUser1 (boolean IsIncludeNullsUser1)
+	{
+		set_Value (COLUMNNAME_IsIncludeNullsUser1, Boolean.valueOf(IsIncludeNullsUser1));
+	}
+
+	/** Get Include Nulls in User 1.
+		@return Include nulls in the selection of the user 1
+	  */
+	public boolean isIncludeNullsUser1 () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsIncludeNullsUser1);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Include Nulls in User 2.
+		@param IsIncludeNullsUser2 
+		Include nulls in the selection of the user 2
+	  */
+	public void setIsIncludeNullsUser2 (boolean IsIncludeNullsUser2)
+	{
+		set_Value (COLUMNNAME_IsIncludeNullsUser2, Boolean.valueOf(IsIncludeNullsUser2));
+	}
+
+	/** Get Include Nulls in User 2.
+		@return Include nulls in the selection of the user 2
+	  */
+	public boolean isIncludeNullsUser2 () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsIncludeNullsUser2);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Include Nulls in User 3.
+		@param IsIncludeNullsUser3 
+		Include nulls in the selection of the user 3
+	  */
+	public void setIsIncludeNullsUser3 (boolean IsIncludeNullsUser3)
+	{
+		set_Value (COLUMNNAME_IsIncludeNullsUser3, Boolean.valueOf(IsIncludeNullsUser3));
+	}
+
+	/** Get Include Nulls in User 3.
+		@return Include nulls in the selection of the user 3
+	  */
+	public boolean isIncludeNullsUser3 () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsIncludeNullsUser3);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Include Nulls in User 4.
+		@param IsIncludeNullsUser4 
+		Include nulls in the selection of the user 4
+	  */
+	public void setIsIncludeNullsUser4 (boolean IsIncludeNullsUser4)
+	{
+		set_Value (COLUMNNAME_IsIncludeNullsUser4, Boolean.valueOf(IsIncludeNullsUser4));
+	}
+
+	/** Get Include Nulls in User 4.
+		@return Include nulls in the selection of the user 4
+	  */
+	public boolean isIncludeNullsUser4 () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsIncludeNullsUser4);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Include Nulls in User Element 1.
 		@param IsIncludeNullsUserElement1 
 		Include nulls in the selection of the user element 1
@@ -682,6 +798,150 @@ public class X_PA_ReportSource extends PO implements I_PA_ReportSource, I_Persis
 		return false;
 	}
 
+	/** Set Include Nulls in User List 1.
+		@param IsIncludeNullsUserList1 
+		Include nulls in the selection of the User List 1
+	  */
+	public void setIsIncludeNullsUserList1 (boolean IsIncludeNullsUserList1)
+	{
+		set_Value (COLUMNNAME_IsIncludeNullsUserList1, Boolean.valueOf(IsIncludeNullsUserList1));
+	}
+
+	/** Get Include Nulls in User List 1.
+		@return Include nulls in the selection of the User List 1
+	  */
+	public boolean isIncludeNullsUserList1 () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsIncludeNullsUserList1);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Include Nulls in User List 2.
+		@param IsIncludeNullsUserList2 
+		Include nulls in the selection of the User List 2
+	  */
+	public void setIsIncludeNullsUserList2 (boolean IsIncludeNullsUserList2)
+	{
+		set_Value (COLUMNNAME_IsIncludeNullsUserList2, Boolean.valueOf(IsIncludeNullsUserList2));
+	}
+
+	/** Get Include Nulls in User List 2.
+		@return Include nulls in the selection of the User List 2
+	  */
+	public boolean isIncludeNullsUserList2 () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsIncludeNullsUserList2);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Include Nulls in User List 3.
+		@param IsIncludeNullsUserList3 
+		Include nulls in the selection of the User List 3
+	  */
+	public void setIsIncludeNullsUserList3 (boolean IsIncludeNullsUserList3)
+	{
+		set_Value (COLUMNNAME_IsIncludeNullsUserList3, Boolean.valueOf(IsIncludeNullsUserList3));
+	}
+
+	/** Get Include Nulls in User List 3.
+		@return Include nulls in the selection of the User List 3
+	  */
+	public boolean isIncludeNullsUserList3 () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsIncludeNullsUserList3);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Include Nulls in User List 4.
+		@param IsIncludeNullsUserList4 
+		Include nulls in the selection of the User List 4
+	  */
+	public void setIsIncludeNullsUserList4 (boolean IsIncludeNullsUserList4)
+	{
+		set_Value (COLUMNNAME_IsIncludeNullsUserList4, Boolean.valueOf(IsIncludeNullsUserList4));
+	}
+
+	/** Get Include Nulls in User List 4.
+		@return Include nulls in the selection of the User List 4
+	  */
+	public boolean isIncludeNullsUserList4 () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsIncludeNullsUserList4);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set List Sources.
+		@param ListSources 
+		List Report Line Sources
+	  */
+	public void setListSources (boolean ListSources)
+	{
+		set_Value (COLUMNNAME_ListSources, Boolean.valueOf(ListSources));
+	}
+
+	/** Get List Sources.
+		@return List Report Line Sources
+	  */
+	public boolean isListSources () 
+	{
+		Object oo = get_Value(COLUMNNAME_ListSources);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set List Transactions.
+		@param ListTrx 
+		List the report transactions
+	  */
+	public void setListTrx (boolean ListTrx)
+	{
+		set_Value (COLUMNNAME_ListTrx, Boolean.valueOf(ListTrx));
+	}
+
+	/** Get List Transactions.
+		@return List the report transactions
+	  */
+	public boolean isListTrx () 
+	{
+		Object oo = get_Value(COLUMNNAME_ListTrx);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
     {
 		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
@@ -710,6 +970,11 @@ public class X_PA_ReportSource extends PO implements I_PA_ReportSource, I_Persis
 		return ii.intValue();
 	}
 
+	public org.compiere.model.I_AD_Org getOrg() throws RuntimeException
+    {
+		return (org.compiere.model.I_AD_Org)MTable.get(getCtx(), org.compiere.model.I_AD_Org.Table_Name)
+			.getPO(getOrg_ID(), get_TrxName());	}
+
 	/** Set Organization.
 		@param Org_ID 
 		Organizational entity within client
@@ -728,6 +993,34 @@ public class X_PA_ReportSource extends PO implements I_PA_ReportSource, I_Persis
 	public int getOrg_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_Org_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_PA_ReportColumn getPA_ReportColumn() throws RuntimeException
+    {
+		return (org.compiere.model.I_PA_ReportColumn)MTable.get(getCtx(), org.compiere.model.I_PA_ReportColumn.Table_Name)
+			.getPO(getPA_ReportColumn_ID(), get_TrxName());	}
+
+	/** Set Report Column.
+		@param PA_ReportColumn_ID 
+		Column in Report
+	  */
+	public void setPA_ReportColumn_ID (int PA_ReportColumn_ID)
+	{
+		if (PA_ReportColumn_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PA_ReportColumn_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PA_ReportColumn_ID, Integer.valueOf(PA_ReportColumn_ID));
+	}
+
+	/** Get Report Column.
+		@return Column in Report
+	  */
+	public int getPA_ReportColumn_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PA_ReportColumn_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -776,6 +1069,135 @@ public class X_PA_ReportSource extends PO implements I_PA_ReportSource, I_Persis
 	public int getPA_ReportSource_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PA_ReportSource_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
+	}
+
+	public org.compiere.model.I_C_ElementValue getUser1() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_ElementValue)MTable.get(getCtx(), org.compiere.model.I_C_ElementValue.Table_Name)
+			.getPO(getUser1_ID(), get_TrxName());	}
+
+	/** Set User List 1.
+		@param User1_ID 
+		User defined list element #1
+	  */
+	public void setUser1_ID (int User1_ID)
+	{
+		if (User1_ID < 1) 
+			set_Value (COLUMNNAME_User1_ID, null);
+		else 
+			set_Value (COLUMNNAME_User1_ID, Integer.valueOf(User1_ID));
+	}
+
+	/** Get User List 1.
+		@return User defined list element #1
+	  */
+	public int getUser1_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_User1_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_ElementValue getUser2() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_ElementValue)MTable.get(getCtx(), org.compiere.model.I_C_ElementValue.Table_Name)
+			.getPO(getUser2_ID(), get_TrxName());	}
+
+	/** Set User List 2.
+		@param User2_ID 
+		User defined list element #2
+	  */
+	public void setUser2_ID (int User2_ID)
+	{
+		if (User2_ID < 1) 
+			set_Value (COLUMNNAME_User2_ID, null);
+		else 
+			set_Value (COLUMNNAME_User2_ID, Integer.valueOf(User2_ID));
+	}
+
+	/** Get User List 2.
+		@return User defined list element #2
+	  */
+	public int getUser2_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_User2_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_ElementValue getUser3() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_ElementValue)MTable.get(getCtx(), org.compiere.model.I_C_ElementValue.Table_Name)
+			.getPO(getUser3_ID(), get_TrxName());	}
+
+	/** Set User List 3.
+		@param User3_ID 
+		User defined list element #3
+	  */
+	public void setUser3_ID (int User3_ID)
+	{
+		if (User3_ID < 1) 
+			set_Value (COLUMNNAME_User3_ID, null);
+		else 
+			set_Value (COLUMNNAME_User3_ID, Integer.valueOf(User3_ID));
+	}
+
+	/** Get User List 3.
+		@return User defined list element #3
+	  */
+	public int getUser3_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_User3_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_ElementValue getUser4() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_ElementValue)MTable.get(getCtx(), org.compiere.model.I_C_ElementValue.Table_Name)
+			.getPO(getUser4_ID(), get_TrxName());	}
+
+	/** Set User List 4.
+		@param User4_ID 
+		User defined list element #4
+	  */
+	public void setUser4_ID (int User4_ID)
+	{
+		if (User4_ID < 1) 
+			set_Value (COLUMNNAME_User4_ID, null);
+		else 
+			set_Value (COLUMNNAME_User4_ID, Integer.valueOf(User4_ID));
+	}
+
+	/** Get User List 4.
+		@return User defined list element #4
+	  */
+	public int getUser4_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_User4_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

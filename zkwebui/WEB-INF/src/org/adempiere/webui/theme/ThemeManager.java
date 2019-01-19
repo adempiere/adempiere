@@ -13,8 +13,19 @@
  *****************************************************************************/
 package org.adempiere.webui.theme;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.util.logging.Level;
+
 import org.adempiere.webui.AdempiereWebUI;
+import org.compiere.model.MClient;
+import org.compiere.model.MClientInfo;
+import org.compiere.model.MImage;
 import org.compiere.model.MSysConfig;
+import org.compiere.util.CCache;
+import org.compiere.util.CLogger;
+import org.compiere.util.Env;
+import org.zkoss.zk.ui.Executions;
 
 /**
  *
@@ -23,13 +34,87 @@ import org.compiere.model.MSysConfig;
  */
 public final class ThemeManager {
 
+    //--> Ashley
+    /** Logo Cache           */
+    private static CCache<String, String> logoCache = new CCache<String, String>("ZKLogo", 40, 0);
+    /** Static Logger   */
+    private static CLogger  logger   = CLogger.getCLogger(ThemeManager.class);
+    
+    private static String getLogo(int clientId, String type, String logoFile, String defaultValue)
+    {
+        MClientInfo clientInfo = MClientInfo.get(Env.getCtx(), clientId);
+        int imageId = 0;
+        String retLogoPath = defaultValue;
+        
+        if ("ZK_LOGO_LARGE".equals(type))
+        {
+            imageId = clientInfo.getLogoWeb_ID();
+        }
+        else if ("ZK_LOGO_SMALL".equals(type))
+        {
+            imageId = clientInfo.get_ValueAsInt("LogoWebHeader_ID");
+        }
+        else
+        {
+            return retLogoPath;
+        }
+        
+        if (imageId <= 0)
+        {
+            if (clientId > 0)
+            {
+                // Return the System logo if configured
+                return getLogo(0, type, logoFile, defaultValue);
+            }
+            else
+            {
+                return retLogoPath;
+            }
+        }
+        
+        try
+        {
+            MImage image = MImage.get(Env.getCtx(), imageId);
+            String logoFilePath = Executions.getCurrent().getDesktop().getWebApp().getRealPath("") + File.separator + logoFile;
+            FileOutputStream outStream = new FileOutputStream(logoFilePath);
+            outStream.write(image.getBinaryData());
+            outStream.close();
+            retLogoPath = logoFile;
+        }
+        catch (Exception ex)
+        {
+            logger.log(Level.SEVERE, "Could not write logo file, using default", ex);
+        }
+        
+        return retLogoPath;
+    }
+    
+    private static String getLogo(String type, String defaultValue)
+    {
+        String key = MClient.get(Env.getCtx()).getValue();
+        
+        String logoFile = key + type + ".png";
+        
+        if (logoCache.get(logoFile) == null)
+        {
+            String loadedFile = getLogo(Env.getAD_Client_ID(Env.getCtx()), type, logoFile, defaultValue);
+            logoCache.put(logoFile, loadedFile);
+        }
+        
+        return logoCache.get(logoFile);
+    }
+    //<--
+
 	/**
 	 * @return url for large logo
 	 */
 	public static String getLargeLogo() {
 		String theme = getTheme();
 		String def = ITheme.THEME_PATH_PREFIX+theme+ITheme.LOGIN_LOGO_IMAGE;
-		return MSysConfig.getValue("ZK_LOGO_LARGE", def);
+        //--> Ashley
+        //return MSysConfig.getValue("ZK_LOGO_LARGE", def);
+        return getLogo("ZK_LOGO_LARGE", def);
+        //<--
 	}
 
 	/**
@@ -41,7 +126,11 @@ public final class ThemeManager {
 		String url = MSysConfig.getValue("ZK_LOGO_SMALL", null);
 		if (url == null)
 			url = MSysConfig.getValue("WEBUI_LOGOURL", def);
-		return url;
+		//--> Ashley
+		//return url;
+		//def = MSysConfig.getValue("WEBUI_LOGOURL", def);
+		return getLogo("ZK_LOGO_SMALL", url);
+		//<--
 	}
 
 	/**
@@ -69,6 +158,14 @@ public final class ThemeManager {
 	 * @return title text for the browser window
 	 */
 	public static String getBrowserTitle() {
+	    //--> Ashley
+	    String title = MSysConfig.getValue("ZK_BROWSER_TITLE", null, Env.getAD_Client_ID(Env.getCtx()));
+	    
+	    if (title != null)
+	    {
+	        return title;
+	    }
+	    //<--
 		return MSysConfig.getValue("ZK_BROWSER_TITLE", AdempiereWebUI.APP_NAME);
 	}
 
@@ -111,5 +208,12 @@ public final class ThemeManager {
 		String theme = getTheme();
 		String def = ITheme.THEME_PATH_PREFIX + theme + ITheme.BROWSER_ICON_IMAGE;
 		return MSysConfig.getValue("ZK_BROWSER_ICON", def);
+	}
+	public static String getThemeResource(String name) {
+		StringBuilder builder = new StringBuilder(ITheme.THEME_PATH_PREFIX);
+		builder.append(getTheme());
+		builder.append("/").append(name);
+		String url = builder.toString().intern();
+		return  url;
 	}
 }

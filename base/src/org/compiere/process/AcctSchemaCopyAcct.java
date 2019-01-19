@@ -117,10 +117,10 @@ public class AcctSchemaCopyAcct extends SvrProcess
 		ArrayList<KeyNamePair> list = source.getAcctInfo();
 		for (int i = 0; i < list.size(); i++)
 		{
-			KeyNamePair pp = list.get(i);
-			int sourceC_ValidCombination_ID = pp.getKey();
-			String columnName = pp.getName();
-			MAccount sourceAccount = MAccount.get(getCtx(), sourceC_ValidCombination_ID);
+			KeyNamePair keyNamePair = list.get(i);
+			int sourceValidCombinationId = keyNamePair.getKey();
+			String columnName = keyNamePair.getName();
+			MAccount sourceAccount = MAccount.getValidCombination(getCtx(), sourceValidCombinationId, get_TrxName());
 			MAccount targetAccount = createAccount(targetAS, sourceAccount);
 			target.setValue(columnName, new Integer(targetAccount.getC_ValidCombination_ID()));
 		}
@@ -130,10 +130,10 @@ public class AcctSchemaCopyAcct extends SvrProcess
 	
 	/**
 	 * 	Copy Default
-	 *	@param targetAS target
+	 *	@param acctSchema target
 	 *	@throws Exception
 	 */
-	private void copyDefault(MAcctSchema targetAS) throws Exception
+	private void copyDefault(MAcctSchema acctSchema) throws Exception
 	{
 		MAcctSchemaDefault source = MAcctSchemaDefault.get(getCtx(), p_SourceAcctSchema_ID);
 		MAcctSchemaDefault target = new MAcctSchemaDefault(getCtx(), 0, get_TrxName());
@@ -143,10 +143,10 @@ public class AcctSchemaCopyAcct extends SvrProcess
 		for (int i = 0; i < list.size(); i++)
 		{
 			KeyNamePair pp = list.get(i);
-			int sourceC_ValidCombination_ID = pp.getKey();
+			int sourceValidCombinationId = pp.getKey();
 			String columnName = pp.getName();
-			MAccount sourceAccount = MAccount.get(getCtx(), sourceC_ValidCombination_ID);
-			MAccount targetAccount = createAccount(targetAS, sourceAccount);
+			MAccount sourceAccount = MAccount.getValidCombination(getCtx(), sourceValidCombinationId , get_TrxName());
+			MAccount targetAccount = createAccount(acctSchema, sourceAccount);
 			target.setValue(columnName, new Integer(targetAccount.getC_ValidCombination_ID()));
 		}
 		if (!target.save())
@@ -178,6 +178,8 @@ public class AcctSchemaCopyAcct extends SvrProcess
 		int C_Activity_ID = 0;
 		int User1_ID = 0;
 		int User2_ID = 0;
+		int User3_ID = 0;
+		int User4_ID = 0;
 		int UserElement1_ID = 0;
 		int UserElement2_ID = 0;
 		//
@@ -216,6 +218,10 @@ public class AcctSchemaCopyAcct extends SvrProcess
 				User1_ID = sourceAcct.getUser1_ID();
 			else if (elementType.equals(MAcctSchemaElement.ELEMENTTYPE_UserList2))
 				User2_ID = sourceAcct.getUser2_ID();
+			else if (elementType.equals(MAcctSchemaElement.ELEMENTTYPE_UserList3))
+				User3_ID = sourceAcct.getUser3_ID();
+			else if (elementType.equals(MAcctSchemaElement.ELEMENTTYPE_UserList4))
+				User3_ID = sourceAcct.getUser4_ID();
 			else if (elementType.equals(MAcctSchemaElement.ELEMENTTYPE_UserElement1))
 				UserElement1_ID = sourceAcct.getUserElement1_ID();
 			else if (elementType.equals(MAcctSchemaElement.ELEMENTTYPE_UserElement2))
@@ -228,7 +234,7 @@ public class AcctSchemaCopyAcct extends SvrProcess
 			M_Product_ID, C_BPartner_ID, AD_OrgTrx_ID,
 			C_LocFrom_ID, C_LocTo_ID, C_SalesRegion_ID, 
 			C_Project_ID, C_Campaign_ID, C_Activity_ID,
-			User1_ID, User2_ID, UserElement1_ID, UserElement2_ID, null);
+			User1_ID, User2_ID, User3_ID , User4_ID , UserElement1_ID, UserElement2_ID, null);
 	}	//	createAccount
 	
 	

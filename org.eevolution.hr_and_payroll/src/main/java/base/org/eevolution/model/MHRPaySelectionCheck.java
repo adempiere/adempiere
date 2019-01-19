@@ -105,7 +105,7 @@ public final class MHRPaySelectionCheck extends X_HR_PaySelectionCheck
 		
 		List<MHRPaySelectionCheck> pscs = new Query(ctx, I_HR_PaySelectionCheck.Table_Name, where , trxName)
 		.setClient_ID()
-		.setParameters(new Object[]{HR_PaySelection_ID, PaymentRule})
+		.setParameters(HR_PaySelection_ID, PaymentRule)
 		.list();
 		
 		int docNo = startDocumentNo;
@@ -298,29 +298,21 @@ public final class MHRPaySelectionCheck extends X_HR_PaySelectionCheck
 		for (MHRPaySelectionCheck check : checks)
 		{
 
-			String sqlConcept = "SELECT HR_Concept_ID FROM HR_Movement " +
-									" WHERE HR_Movement_ID IN(SELECT HR_Movement_ID FROM HR_PaySelectionLine " +
-									" WHERE C_BPartner_ID="+check.getC_BPartner_ID()+
-									" AND HR_PaySelection_ID="+check.getHR_PaySelection_ID()+")";	
-			System.err.println("Concept: " + sqlConcept);
-			
-			int HR_Concept_ID = DB.getSQLValue(check.get_TrxName(), sqlConcept);
-			
-			String sqlPayroll = "SELECT HR_Payroll_ID FROM HR_Process " +
-									" WHERE HR_Process_ID IN(SELECT HR_Process_ID FROM HR_Movement "+
-									" WHERE HR_Movement_ID IN(SELECT HR_Movement_ID FROM HR_PaySelectionLine " +
-											" WHERE C_BPartner_ID="+check.getC_BPartner_ID()+
-											" AND HR_PaySelection_ID="+check.getHR_PaySelection_ID()+") )";
-			
-			System.err.println("Payroll: " + sqlPayroll);
-			int HR_Payroll_ID = DB.getSQLValue(check.get_TrxName(), sqlPayroll);
-			MHRConcept concept = new MHRConcept(check.getCtx(),HR_Concept_ID,check.get_TrxName());
-			MHRPayroll payroll = new MHRPayroll(check.getCtx(),HR_Payroll_ID,check.get_TrxName());
-			
-			
+			StringBuilder sqlConcept = new StringBuilder();
+					sqlConcept.append("SELECT HR_Concept_ID FROM HR_Movement m ")
+									.append(" WHERE EXISTS(SELECT 1 FROM HR_PaySelectionLine psl ")
+									.append(" WHERE psl.HR_Movement_ID = m.HR_Movement_ID AND m.C_BPartner_ID=?")
+									.append(" AND psl.HR_PaySelection_ID=?)");
+			int conceptId = DB.getSQLValue(check.get_TrxName(),sqlConcept.toString(), check.getC_BPartner_ID(),check.getHR_PaySelection_ID());
+			StringBuilder sqlPayroll = new StringBuilder();
+			sqlPayroll.append("SELECT HR_Payroll_ID FROM HR_PaySelection ps INNER JOIN HR_Process p ON (p.HR_Process_ID=ps.HR_Process_ID) ")
+					.append("WHERE ps.HR_PaySelection_ID=?");
+			int payrollId = DB.getSQLValueEx(check.get_TrxName(), sqlPayroll.toString() ,check.getHR_PaySelection_ID());
+			MHRConcept concept = new MHRConcept(check.getCtx(),conceptId,check.get_TrxName());
+			MHRPayroll payroll = new MHRPayroll(check.getCtx(),payrollId,check.get_TrxName());
 			MPayment payment = new MPayment(check.getCtx(), check.getC_Payment_ID(), check.get_TrxName());
 			//	Existing Payment
-			if (check.getC_Payment_ID() != 0)
+			if (check.getC_Payment_ID() > 0)
 			{
 				//	Update check number
 				if (check.getPaymentRule().equals(PAYMENTRULE_Check))
@@ -332,7 +324,7 @@ public final class MHRPaySelectionCheck extends X_HR_PaySelectionCheck
 			}
 			else	//	New Payment
 			{
-				payment = new MPayment(check.getCtx(), 0, null);
+				payment = new MPayment(check.getCtx(), 0, check.get_TrxName());
 				if (check.getPaymentRule().equals(PAYMENTRULE_Check))
 					payment.setBankCheck (check.getParent().getC_BankAccount_ID(), false, check.getDocumentNo());
 				else if (check.getPaymentRule().equals(PAYMENTRULE_CreditCard))
@@ -346,6 +338,8 @@ public final class MHRPaySelectionCheck extends X_HR_PaySelectionCheck
 					continue;
 				}
 				payment.setTrxType(X_C_Payment.TRXTYPE_CreditPayment);
+                payment.setDescription(check.getHR_PaySelection().getDescription());
+                payment.setIsReceipt(check.isReceipt());
 				payment.setAmount(check.getParent().getC_Currency_ID(), check.getPayAmt());
 				payment.setDiscountAmt(check.getDiscountAmt());
 				payment.setDateTrx(check.getParent().getPayDate());
@@ -361,18 +355,21 @@ public final class MHRPaySelectionCheck extends X_HR_PaySelectionCheck
 					payment.setC_PaymentBatch_ID(batch.getC_PaymentBatch_ID());
 				}
 				*/
-				int C_Charge_ID = DB.getSQLValue(check.get_TrxName(), 
-									"SELECT MAX(C_Charge_ID) FROM HR_Attribute WHERE IsActive='Y' AND HR_Concept_ID="+HR_Concept_ID);
-				if(C_Charge_ID <= 0) // modify e-Evolution 25May2010  if(C_Charge_ID < 0)
-					payment.setC_Charge_ID(payroll.getC_Charge_ID());
-				else
-					payment.setC_Charge_ID(C_Charge_ID);
+				if (concept.isPrepayment()) {
+					payment.setIsPrepayment(true);
+				}
+				else {
+					int C_Charge_ID = DB.getSQLValue(check.get_TrxName(),
+							"SELECT MAX(C_Charge_ID) FROM HR_Attribute WHERE IsActive='Y' AND HR_Concept_ID=" + conceptId);
+					if (C_Charge_ID <= 0) // modify e-Evolution 25May2010  if(C_Charge_ID < 0)
+						payment.setC_Charge_ID(payroll.getC_Charge_ID());
+					else
+						payment.setC_Charge_ID(C_Charge_ID);
+				}
 				
 				payment.setC_BankAccount_ID(check.getParent().getC_BankAccount_ID());
 				payment.setWriteOffAmt(Env.ZERO);
-				if (!payment.save())
-					s_log.log(Level.SEVERE, "Payment not saved: " + payment);
-				//
+				payment.saveEx();
 				int C_Payment_ID = payment.get_ID();
 				if (C_Payment_ID < 1)
 					s_log.log(Level.SEVERE, "Payment not created=" + check);
@@ -403,8 +400,7 @@ public final class MHRPaySelectionCheck extends X_HR_PaySelectionCheck
 			}
 			check.setIsPrinted(true);
 			check.setProcessed(true);
-			if (!check.save ())
-				s_log.log(Level.SEVERE, "Check not saved: " + check);
+			check.saveEx();
 		}	//	all checks
 
 		s_log.fine("Last Document No = " + lastDocumentNo);
@@ -412,7 +408,7 @@ public final class MHRPaySelectionCheck extends X_HR_PaySelectionCheck
 	}	//	confirmPrint
 
 	/** Logger								*/
-	static private CLogger	s_log = CLogger.getCLogger (MHRPaySelectionCheck.class);
+	static private CLogger s_log = CLogger.getCLogger(MHRPaySelectionCheck.class);
 	/** BPartner Info Index for Value       */
 	private static final int     BP_VALUE = 0;
 	/** BPartner Info Index for Name        */
@@ -440,7 +436,7 @@ public final class MHRPaySelectionCheck extends X_HR_PaySelectionCheck
 	 *  @param HR_PaySelectionCheck_ID HR_PaySelectionCheck_ID
 	 *	@param trxName transaction
 	 */
-	public MHRPaySelectionCheck (Properties ctx, int HR_PaySelectionCheck_ID, String trxName)
+	public MHRPaySelectionCheck(Properties ctx, int HR_PaySelectionCheck_ID, String trxName)
 	{
 		super(ctx, HR_PaySelectionCheck_ID, trxName);
 		if (HR_PaySelectionCheck_ID == 0)
@@ -469,40 +465,29 @@ public final class MHRPaySelectionCheck extends X_HR_PaySelectionCheck
 	 *	@param line payment selection
 	 *	@param PaymentRule payment rule
 	 */
-	public MHRPaySelectionCheck (MHRPaySelectionLine line, String PaymentRule)
+	public MHRPaySelectionCheck(MHRPaySelectionLine line, String PaymentRule)
 	{
 		this (line.getCtx(), 0, line.get_TrxName());
 		setClientOrg(line);
 		setHR_PaySelection_ID (line.getHR_PaySelection_ID());
 		setAD_Org_ID(line.getHR_Movement().getAD_Org_ID());
-		int C_BPartner_ID = line.getHR_Movement().getC_BPartner_ID();
-		setC_BPartner_ID (C_BPartner_ID);
+		int partnerId = line.getHR_Movement().getC_BPartner_ID();
+		setC_BPartner_ID (partnerId);
 		//
 		if (X_C_Order.PAYMENTRULE_DirectDebit.equals(PaymentRule))
 		{
-			MBPBankAccount[] bas = MBPBankAccount.getOfBPartner (line.getCtx(), C_BPartner_ID); 
-			for (int i = 0; i < bas.length; i++) 
-			{
-				MBPBankAccount account = bas[i];
-				if (account.isDirectDebit())
-				{
-					setC_BP_BankAccount_ID(account.getC_BP_BankAccount_ID());
-					break;
-				}
-			}
+			List<MBPBankAccount>parterBankAccts = MBPBankAccount.getByPartner(line.getCtx(), partnerId);
+			parterBankAccts.stream().filter(partnerBankAccount -> partnerBankAccount != null && partnerBankAccount.isDirectDebit())
+					.findFirst()
+					.ifPresent( partnerBankAccount -> setC_BP_BankAccount_ID(partnerBankAccount.getC_BP_BankAccount_ID()));
 		}
 		else if (X_C_Order.PAYMENTRULE_DirectDeposit.equals(PaymentRule))
 		{
-			MBPBankAccount[] bas = MBPBankAccount.getOfBPartner (line.getCtx(), C_BPartner_ID); 
-			for (int i = 0; i < bas.length; i++) 
-			{
-				MBPBankAccount account = bas[i];
-				if (account.isDirectDeposit())
-				{
-					setC_BP_BankAccount_ID(account.getC_BP_BankAccount_ID());
-					break;
-				}
-			}
+			List<MBPBankAccount>  parterBankAccts = MBPBankAccount.getByPartner(line.getCtx(), partnerId);
+			parterBankAccts.stream()
+					.filter(partnerBankAccount -> partnerBankAccount != null && partnerBankAccount.isDirectDeposit())
+					.findFirst()
+					.ifPresent( partnerBankAccount -> setC_BP_BankAccount_ID(partnerBankAccount.getC_BP_BankAccount_ID()));
 		}
 		setPaymentRule (PaymentRule);
 		//
@@ -517,7 +502,7 @@ public final class MHRPaySelectionCheck extends X_HR_PaySelectionCheck
 	 *	@param ps payment selection
 	 *	@param PaymentRule payment rule
 	 */
-	public MHRPaySelectionCheck (MHRPaySelection ps, String PaymentRule)
+	public MHRPaySelectionCheck(MHRPaySelection ps, String PaymentRule)
 	{
 		this (ps.getCtx(), 0, ps.get_TrxName());
 		setClientOrg(ps);
@@ -527,9 +512,9 @@ public final class MHRPaySelectionCheck extends X_HR_PaySelectionCheck
 	
 	
 	/**	Parent					*/
-	private MHRPaySelection			m_parent = null;
+	private MHRPaySelection m_parent = null;
 	/**	Payment Selection lines of this check	*/
-	private List<MHRPaySelectionLine>		m_lines = null;
+	private List<MHRPaySelectionLine> m_lines = null;
 
 	
 	/**
@@ -561,7 +546,7 @@ public final class MHRPaySelectionCheck extends X_HR_PaySelectionCheck
 	public MHRPaySelection getParent()
 	{
 		if (m_parent == null)
-			m_parent = new MHRPaySelection (getCtx(), getHR_PaySelection_ID(), get_TrxName());
+			m_parent = new MHRPaySelection(getCtx(), getHR_PaySelection_ID(), get_TrxName());
 		return m_parent;
 	}	//	getParent
 
@@ -632,7 +617,7 @@ public final class MHRPaySelectionCheck extends X_HR_PaySelectionCheck
 	public static boolean deleteGeneratedDraft(Properties ctx, int C_Payment_ID, String trxName)
 	{
 		
-		MHRPaySelectionCheck mpsc = MHRPaySelectionCheck.getOfPayment (ctx, C_Payment_ID, trxName);
+		MHRPaySelectionCheck mpsc = MHRPaySelectionCheck.getOfPayment(ctx, C_Payment_ID, trxName);
 		
 		if (mpsc != null && mpsc.isGeneratedDraft())  
 		{

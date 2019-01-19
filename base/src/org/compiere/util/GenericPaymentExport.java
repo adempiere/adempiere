@@ -21,6 +21,7 @@ import java.io.FileWriter;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.logging.Level;
 
 import org.compiere.model.MCurrency;
@@ -35,9 +36,11 @@ import org.compiere.model.MPaySelectionLine;
  * 
  *  Contributors:
  *    Carlos Ruiz - GlobalQSS - FR 3132033 - Make payment export class configurable per bank
+ *	@author  victor.perez , victor.perez@e-evolution.com http://www.e-evolution.com
+ * 		<li> FR [ 297 ] Apply ADempiere best Pratice
+ *		@see https://github.com/adempiere/adempiere/issues/297
  */
-public class GenericPaymentExport implements PaymentExport
-{
+public class GenericPaymentExport extends PaymentExportList {
 	/** Logger								*/
 	static private CLogger	s_log = CLogger.getCLogger (GenericPaymentExport.class);
 
@@ -63,22 +66,21 @@ public class GenericPaymentExport implements PaymentExport
 	/** BPartner Info Index for Reference No    */
 	private static final int     BP_REFNO = 9;
 
-	
 	/**************************************************************************
 	 *  Export to File
-	 *  @param checks array of checks
+	 *  @param paySelectionChecks array of checks
 	 *  @param file file to export checks
 	 *  @return number of lines
 	 */
-	public int exportToFile (MPaySelectionCheck[] checks, File file, StringBuffer err)
+	public int exportToFile (List<MPaySelectionCheck> paySelectionChecks, File file, StringBuffer error)
 	{
-		if (checks == null || checks.length == 0)
+		if (paySelectionChecks == null || paySelectionChecks.size() == 0)
 			return 0;
 		//  Must be a file
 		if (file.isDirectory())
 		{
-			err.append("No se puede escribir, el archivo seleccionado es un directorio - " + file.getAbsolutePath());
-			s_log.log(Level.SEVERE, err.toString());
+			error.append("No se puede escribir, el archivo seleccionado es un directorio - " + file.getAbsolutePath());
+			s_log.log(Level.SEVERE, error.toString());
 			return -1;
 		}
 		//  delete if exists
@@ -121,23 +123,23 @@ public class GenericPaymentExport implements PaymentExport
 			noLines++;
 
 			//  write lines
-			for (int i = 0; i < checks.length; i++)
+			for (MPaySelectionCheck paySelectionCheck : paySelectionChecks)
 			{
-				MPaySelectionCheck mpp = checks[i];
-				if (mpp == null)
+				if (paySelectionCheck == null)
 					continue;
 				//  BPartner Info
-				String bp[] = getBPartnerInfo(mpp.getC_BPartner_ID());
+				String bp[] = getBPartnerInfo(paySelectionCheck.getC_BPartner_ID());
 
 				//  Comment - list of invoice document no
 				StringBuffer comment = new StringBuffer();
-				MPaySelectionLine[] psls = mpp.getPaySelectionLines(false);
-				for (int l = 0; l < psls.length; l++)
+				List<MPaySelectionLine> paySelectionLines = paySelectionCheck.getPaySelectionLinesAsList(false);
+				for (MPaySelectionLine paySelectionLine : paySelectionLines)
 				{
-					if (l > 0)
-						comment.append(", ");
-					comment.append(psls[l].getInvoice().getDocumentNo());
+					if (paySelectionLine.get_ID() == paySelectionLines.get(0).get_ID())
+					comment.append(", ");
+					comment.append(paySelectionLine.getInvoice().getDocumentNo());
 				}
+
 				line = new StringBuffer();
 				line.append(x).append(bp[BP_VALUE]).append(x).append(",")   // Value
 					.append(x).append(bp[BP_NAME]).append(x).append(",")    // Name
@@ -150,10 +152,10 @@ public class GenericPaymentExport implements PaymentExport
 					.append(x).append(bp[BP_COUNTRY]).append(x).append(",") // Country
 					.append(x).append(bp[BP_REFNO]).append(x).append(",")   // ReferenceNo
 					//  Payment Info
-					.append(x).append(mpp.getDocumentNo()).append(x).append(",")    // DocumentNo
-					.append(mpp.getParent().getPayDate()).append(",")               // PayDate
-					.append(x).append(MCurrency.getISO_Code(Env.getCtx(), mpp.getParent().getC_Currency_ID())).append(x).append(",")    // Currency
-					.append(mpp.getPayAmt()).append(",")                // PayAmount
+					.append(x).append(paySelectionCheck.getDocumentNo()).append(x).append(",")    // DocumentNo
+					.append(paySelectionCheck.getParent().getPayDate()).append(",")               // PayDate
+					.append(x).append(MCurrency.getISO_Code(Env.getCtx(), paySelectionCheck.getParent().getC_Currency_ID())).append(x).append(",")    // Currency
+					.append(paySelectionCheck.getPayAmt()).append(",")                // PayAmount
 					.append(x).append(comment.toString()).append(x)     // Comment
 					.append(Env.NL);
 				fw.write(line.toString());
@@ -165,7 +167,7 @@ public class GenericPaymentExport implements PaymentExport
 		}
 		catch (Exception e)
 		{
-			err.append(e.toString());
+			error.append(e.toString());
 			s_log.log(Level.SEVERE, "", e);
 			return -1;
 		}
@@ -176,10 +178,10 @@ public class GenericPaymentExport implements PaymentExport
 	/**
 	 *  Get Customer/Vendor Info.
 	 *  Based on BP_ static variables
-	 *  @param C_BPartner_ID BPartner
+	 *  @param partnerId BPartner
 	 *  @return info array
 	 */
-	private static String[] getBPartnerInfo (int C_BPartner_ID)
+	private static String[] getBPartnerInfo (int partnerId)
 	{
 		String[] bp = new String[10];
 
@@ -197,7 +199,7 @@ public class GenericPaymentExport implements PaymentExport
 		try
 		{
 			PreparedStatement pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, C_BPartner_ID);
+			pstmt.setInt(1, partnerId);
 			ResultSet rs = pstmt.executeQuery();
 			//
 			if (rs.next())
@@ -242,6 +244,4 @@ public class GenericPaymentExport implements PaymentExport
 		}
 		return bp;
 	}   //  getBPartnerInfo
-
-	
 }	//	PaymentExport

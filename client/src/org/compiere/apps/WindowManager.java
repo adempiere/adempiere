@@ -120,12 +120,17 @@ public class WindowManager {
 		return null;
 	}
 	
+	/**
+	 * Create from Exists frame
+	 * @param AD_FORM_ID
+	 * @return
+	 */
+	//	Yamel Senih FR [ 114 ]
 	public FormFrame findForm(int AD_FORM_ID) {
 		for ( CFrame w : windows ) {
-			if ( w instanceof FormFrame ) {
-				FormFrame ff = (FormFrame)w;
-				if ( ff.getAD_Form_ID() == AD_FORM_ID )
-					return ff;
+			if (w.getAD_Form_ID() == AD_FORM_ID) {
+				FormFrame ff = new FormFrame(w);
+				return ff;
 			}
 		}
 		return null;

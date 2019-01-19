@@ -21,6 +21,7 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
@@ -191,8 +192,7 @@ public class MTimeExpenseLine extends X_S_TimeExpenseLine
 	protected boolean beforeSave (boolean newRecord)
 	{
 		if (newRecord && getParent().isComplete()) {
-			log.saveError("ParentComplete", Msg.translate(getCtx(), "S_TimeExpenseLine"));
-			return false;
+			throw new AdempiereException("Parent was Completed" + Msg.translate(getCtx(), "S_TimeExpenseLine"));
 		}
 		//	Calculate Converted Amount
 		if (newRecord || is_ValueChanged("ExpenseAmt") || is_ValueChanged("C_Currency_ID"))

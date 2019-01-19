@@ -1,8 +1,9 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -11,8 +12,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_BPartner
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150223L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_C_BPartner (Properties ctx, int C_BPartner_ID, String trxName)
@@ -125,6 +125,34 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 		return (String)get_Value(COLUMNNAME_AD_OrgBP_ID);
 	}
 
+	/** Set AP Enquiry.
+		@param APEnquiry AP Enquiry	  */
+	public void setAPEnquiry (String APEnquiry)
+	{
+		set_Value (COLUMNNAME_APEnquiry, APEnquiry);
+	}
+
+	/** Get AP Enquiry.
+		@return AP Enquiry	  */
+	public String getAPEnquiry () 
+	{
+		return (String)get_Value(COLUMNNAME_APEnquiry);
+	}
+
+	/** Set AR Enquiry.
+		@param AREnquiry AR Enquiry	  */
+	public void setAREnquiry (String AREnquiry)
+	{
+		set_Value (COLUMNNAME_AREnquiry, AREnquiry);
+	}
+
+	/** Get AR Enquiry.
+		@return AR Enquiry	  */
+	public String getAREnquiry () 
+	{
+		return (String)get_Value(COLUMNNAME_AREnquiry);
+	}
+
 	/** Set Acquisition Cost.
 		@param AcqusitionCost 
 		The cost of gaining the prospect as a customer
@@ -186,6 +214,56 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Birthday.
+		@param Birthday 
+		Birthday or Anniversary day
+	  */
+	public void setBirthday (Timestamp Birthday)
+	{
+		set_Value (COLUMNNAME_Birthday, Birthday);
+	}
+
+	/** Get Birthday.
+		@return Birthday or Anniversary day
+	  */
+	public Timestamp getBirthday () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_Birthday);
+	}
+
+	/** BloodGroup AD_Reference_ID=53616 */
+	public static final int BLOODGROUP_AD_Reference_ID=53616;
+	/** A - = A- */
+	public static final String BLOODGROUP_A_ = "A-";
+	/** A + = A+ */
+	public static final String BLOODGROUP_APlus = "A+";
+	/** AB - = AB- */
+	public static final String BLOODGROUP_AB_ = "AB-";
+	/** AB + = AB+ */
+	public static final String BLOODGROUP_ABPlus = "AB+";
+	/** B - = B- */
+	public static final String BLOODGROUP_B_ = "B-";
+	/** B + = B+ */
+	public static final String BLOODGROUP_BPlus = "B+";
+	/** O - = O- */
+	public static final String BLOODGROUP_O_ = "O-";
+	/** O + = O+ */
+	public static final String BLOODGROUP_OPlus = "O+";
+	/** Set Blood Group.
+		@param BloodGroup Blood Group	  */
+	public void setBloodGroup (String BloodGroup)
+	{
+
+		set_Value (COLUMNNAME_BloodGroup, BloodGroup);
+	}
+
+	/** Get Blood Group.
+		@return Blood Group	  */
+	public String getBloodGroup () 
+	{
+		return (String)get_Value(COLUMNNAME_BloodGroup);
 	}
 
 	public org.compiere.model.I_C_BP_Group getC_BP_Group() throws RuntimeException
@@ -376,6 +454,20 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Customer Open Invoices.
+		@param CustomerOpenInvoices Customer Open Invoices	  */
+	public void setCustomerOpenInvoices (String CustomerOpenInvoices)
+	{
+		set_Value (COLUMNNAME_CustomerOpenInvoices, CustomerOpenInvoices);
+	}
+
+	/** Get Customer Open Invoices.
+		@return Customer Open Invoices	  */
+	public String getCustomerOpenInvoices () 
+	{
+		return (String)get_Value(COLUMNNAME_CustomerOpenInvoices);
+	}
+
 	/** Set D-U-N-S.
 		@param DUNS 
 		Dun & Bradstreet Number
@@ -502,6 +594,23 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 		return (Timestamp)get_Value(COLUMNNAME_DunningGrace);
 	}
 
+	/** Set Father's Name.
+		@param FathersName 
+		Father's Name
+	  */
+	public void setFathersName (String FathersName)
+	{
+		set_Value (COLUMNNAME_FathersName, FathersName);
+	}
+
+	/** Get Father's Name.
+		@return Father's Name
+	  */
+	public String getFathersName () 
+	{
+		return (String)get_Value(COLUMNNAME_FathersName);
+	}
+
 	/** Set First Sale.
 		@param FirstSale 
 		Date of First Sale
@@ -565,6 +674,27 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 	public String getFreightCostRule () 
 	{
 		return (String)get_Value(COLUMNNAME_FreightCostRule);
+	}
+
+	/** Gender AD_Reference_ID=53612 */
+	public static final int GENDER_AD_Reference_ID=53612;
+	/** Female = F */
+	public static final String GENDER_Female = "F";
+	/** Male = M */
+	public static final String GENDER_Male = "M";
+	/** Set Gender.
+		@param Gender Gender	  */
+	public void setGender (String Gender)
+	{
+
+		set_Value (COLUMNNAME_Gender, Gender);
+	}
+
+	/** Get Gender.
+		@return Gender	  */
+	public String getGender () 
+	{
+		return (String)get_Value(COLUMNNAME_Gender);
 	}
 
 	/** InvoiceRule AD_Reference_ID=150 */
@@ -960,6 +1090,35 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 		return ii.intValue();
 	}
 
+	/** MaritalStatus AD_Reference_ID=53614 */
+	public static final int MARITALSTATUS_AD_Reference_ID=53614;
+	/** Divorced = D */
+	public static final String MARITALSTATUS_Divorced = "D";
+	/** Live-in = L */
+	public static final String MARITALSTATUS_Live_In = "L";
+	/** Married = M */
+	public static final String MARITALSTATUS_Married = "M";
+	/** Single = S */
+	public static final String MARITALSTATUS_Single = "S";
+	/** Widow = W */
+	public static final String MARITALSTATUS_Widow = "W";
+	/** Windower = X */
+	public static final String MARITALSTATUS_Windower = "X";
+	/** Set Marital Status.
+		@param MaritalStatus Marital Status	  */
+	public void setMaritalStatus (String MaritalStatus)
+	{
+
+		set_Value (COLUMNNAME_MaritalStatus, MaritalStatus);
+	}
+
+	/** Get Marital Status.
+		@return Marital Status	  */
+	public String getMaritalStatus () 
+	{
+		return (String)get_Value(COLUMNNAME_MaritalStatus);
+	}
+
 	/** Set NAICS/SIC.
 		@param NAICS 
 		Standard Industry Code or its successor NAIC - http://www.osha.gov/oshstats/sicser.html
@@ -1017,6 +1176,20 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 	public String getName2 () 
 	{
 		return (String)get_Value(COLUMNNAME_Name2);
+	}
+
+	/** Set Not Posted.
+		@param NotPosted Not Posted	  */
+	public void setNotPosted (String NotPosted)
+	{
+		set_Value (COLUMNNAME_NotPosted, NotPosted);
+	}
+
+	/** Get Not Posted.
+		@return Not Posted	  */
+	public String getNotPosted () 
+	{
+		return (String)get_Value(COLUMNNAME_NotPosted);
 	}
 
 	/** Set Employees.
@@ -1206,6 +1379,34 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 	public String getPaymentRulePO () 
 	{
 		return (String)get_Value(COLUMNNAME_PaymentRulePO);
+	}
+
+	public I_C_Location getPlaceOfBirth() throws RuntimeException
+    {
+		return (I_C_Location)MTable.get(getCtx(), I_C_Location.Table_Name)
+			.getPO(getPlaceOfBirth_ID(), get_TrxName());	}
+
+	/** Set Place of Birth (Location).
+		@param PlaceOfBirth_ID 
+		Place of Birth (Location)
+	  */
+	public void setPlaceOfBirth_ID (int PlaceOfBirth_ID)
+	{
+		if (PlaceOfBirth_ID < 1) 
+			set_Value (COLUMNNAME_PlaceOfBirth_ID, null);
+		else 
+			set_Value (COLUMNNAME_PlaceOfBirth_ID, Integer.valueOf(PlaceOfBirth_ID));
+	}
+
+	/** Get Place of Birth (Location).
+		@return Place of Birth (Location)
+	  */
+	public int getPlaceOfBirth_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PlaceOfBirth_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Potential Life Time Value.
@@ -1515,6 +1716,37 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 		return (String)get_Value(COLUMNNAME_URL);
 	}
 
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
+	}
+
+	/** Set Unapplied Payments.
+		@param UnappliedPayments Unapplied Payments	  */
+	public void setUnappliedPayments (String UnappliedPayments)
+	{
+		set_Value (COLUMNNAME_UnappliedPayments, UnappliedPayments);
+	}
+
+	/** Get Unapplied Payments.
+		@return Unapplied Payments	  */
+	public String getUnappliedPayments () 
+	{
+		return (String)get_Value(COLUMNNAME_UnappliedPayments);
+	}
+
 	/** Set Search Key.
 		@param Value 
 		Search key for the record in the format required - must be unique
@@ -1530,5 +1762,19 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 	public String getValue () 
 	{
 		return (String)get_Value(COLUMNNAME_Value);
+	}
+
+	/** Set Vendor Open Invoices.
+		@param VendorOpenInvoices Vendor Open Invoices	  */
+	public void setVendorOpenInvoices (String VendorOpenInvoices)
+	{
+		set_Value (COLUMNNAME_VendorOpenInvoices, VendorOpenInvoices);
+	}
+
+	/** Get Vendor Open Invoices.
+		@return Vendor Open Invoices	  */
+	public String getVendorOpenInvoices () 
+	{
+		return (String)get_Value(COLUMNNAME_VendorOpenInvoices);
 	}
 }

@@ -19,6 +19,7 @@ package org.compiere.process;
 import org.compiere.model.MDistribution;
 import org.compiere.util.AdempiereSystemError;
 import org.compiere.util.AdempiereUserError;
+import org.compiere.util.Trx;
 
 
 /**
@@ -51,6 +52,10 @@ public class DistributionVerify extends SvrProcess
 
 		String error = distribution.validate();
 		boolean saved = distribution.save();
+		
+		Trx trx = Trx.get(get_TrxName(), false);
+		trx.commit();
+		
 		if (error != null)
 			throw new AdempiereUserError(error);
 		if (!saved)

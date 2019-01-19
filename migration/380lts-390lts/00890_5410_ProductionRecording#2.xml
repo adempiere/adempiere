@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Production Recording#2" ReleaseNo="3.9.0" SeqNo="00890">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="106" Action="U" Record_ID="54177" Table="AD_Tab">
+        <Data AD_Column_ID="2740" Column="AD_Column_ID" isOldNull="true">59960</Data>
+        <Data AD_Column_ID="57842" Column="Parent_Column_ID" isOldNull="true">3596</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="78610" Table="AD_Field">
+        <Data AD_Column_ID="78296" Column="IsAllowNewAttributeInstance" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="78569" Table="AD_Field">
+        <Data AD_Column_ID="182" Column="SortNo" isOldNull="true">1.000000000000</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="78569" Table="AD_Field">
+        <Data AD_Column_ID="182" Column="SortNo" oldValue="1">10.000000000000</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="78596" Table="AD_Field">
+        <Data AD_Column_ID="182" Column="SortNo" isOldNull="true">1</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="78596" Table="AD_Field">
+        <Data AD_Column_ID="182" Column="SortNo" oldValue="10">1.000000000000</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

@@ -16,6 +16,7 @@
  *****************************************************************************/
 package org.compiere.model;
 
+import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
 
@@ -42,6 +43,16 @@ public class MReplication extends X_AD_Replication
 		super (ctx, AD_Replication_ID, trxName);
 	}	//	MReplication
 
+	/**
+	 * Load Constructor
+	 * @param ctx
+	 * @param rs
+	 * @param trxName
+     */
+	public MReplication (Properties ctx, ResultSet rs, String trxName)
+	{
+		super(ctx, rs, trxName);
+	}
 	/**
 	 *	Public Access
 	 * 	@param DateLastRun date last run

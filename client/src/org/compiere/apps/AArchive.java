@@ -42,6 +42,9 @@ import org.compiere.util.Msg;
  *	
  *  @author Jorg Janke
  *  @version $Id: AArchive.java,v 1.2 2006/07/30 00:51:27 jjanke Exp $
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 114 ] Change "Create From" UI for Form like Dialog in window without "hardcode"
+ *		@see https://github.com/adempiere/adempiere/issues/114
  */
 public class AArchive implements ActionListener
 {
@@ -177,9 +180,13 @@ public class AArchive implements ActionListener
 		else	//	all Reports
 			av.query(true, m_AD_Table_ID, 0);
 		//
-		AEnv.addToWindowManager(ff);
+		//	Yamel Senih 2015-11-23 Add support to dynamic Create From
+		if(!ff.isDialog()) {
+			AEnv.addToWindowManager(ff);
+		}
 		ff.pack();
 		AEnv.showCenterScreen(ff);
+		//	End Yamel Senih
 		ff = null;
 	}	//	actionPerformed
 

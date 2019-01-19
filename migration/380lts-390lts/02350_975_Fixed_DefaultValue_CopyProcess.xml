@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Copy from Process don't have default value for #975" ReleaseNo="3.8.0" SeqNo="2350">
+    <Comments>See: https://github.com/adempiere/adempiere/issues/975</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="53224" Action="U" Record_ID="50050" Table="AD_Browse">
+        <Data AD_Column_ID="58000" Column="WhereClause" isOldNull="true">NOT EXISTS(SELECT 1 FROM AD_Process_Para pp WHERE pp.AD_Process_ID = @AD_Process_ID@ AND pp.ColumnName = Parameter.ColumnName)</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55092" Table="AD_Browse_Field">
+        <Data AD_Column_ID="64354" Column="DefaultValue" oldValue="-1">@SQL=SELECT COALESCE(p.AD_ReportView_ID, -1) AS DefaultValue FROM AD_Process p WHERE p.AD_Process_ID=@AD_Process_ID@</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

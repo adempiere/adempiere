@@ -18,6 +18,7 @@
 
 package org.eevolution.form;
 
+import org.compiere.process.IPrintDocument;
 import org.compiere.apps.ADialog;
 import org.compiere.apps.ADialogDialog;
 import org.compiere.model.MQuery;
@@ -40,30 +41,33 @@ public class VPrintDocument implements IPrintDocument {
     @Override
     public void print(PO document, String printFormantName, int windowNo) {
         JFrame window = Env.getWindow(windowNo);
-
         if (ADialog.ask(windowNo, window, "PrintShipments")) {
             window.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             int retValue = ADialogDialog.A_CANCEL;    //	see also ProcessDialog.printShipments/Invoices
             do {
-                String keyColumnName = document.get_KeyColumns()[0];
-                MPrintFormat format = MPrintFormat.get(
-                        Env.getCtx(),
-                        MPrintFormat.getPrintFormat_ID(printFormantName, document.get_Table_ID(), 0),
-                        false);
-                MQuery query = new MQuery(document.get_TableName());
-                query.addRestriction(keyColumnName, MQuery.EQUAL, document.get_ValueAsInt(keyColumnName));
+                try {
+                    String keyColumnName = document.get_KeyColumns()[0];
+                    MPrintFormat format = MPrintFormat.get(
+                            Env.getCtx(),
+                            MPrintFormat.getPrintFormat_ID(printFormantName, document.get_Table_ID(), 0),
+                            false);
+                    MQuery query = new MQuery(document.get_TableName());
+                    query.addRestriction(keyColumnName, MQuery.EQUAL, document.get_ValueAsInt(keyColumnName));
 
-                //	Engine
-                PrintInfo info = new PrintInfo(document.get_TableName(), document.get_Table_ID(), document.get_ValueAsInt(keyColumnName));
-                ReportEngine re = new ReportEngine(Env.getCtx(), format, query, info);
-                re.print();
-                new Viewer(re);
+                    //	Engine
+                    PrintInfo info = new PrintInfo(document.get_TableName(), document.get_Table_ID(), document.get_ValueAsInt(keyColumnName));
+                    ReportEngine re = new ReportEngine(Env.getCtx(), format, query, info);
+                    re.print();
+                    new Viewer(re);
+                } catch (Exception e) {
 
-                ADialogDialog d = new ADialogDialog(window,
-                        Env.getHeader(Env.getCtx(), windowNo),
-                        Msg.getMsg(Env.getCtx(), "PrintoutOK?"),
-                        JOptionPane.QUESTION_MESSAGE);
-                retValue = d.getReturnCode();
+                } finally {
+                    ADialogDialog d = new ADialogDialog(window,
+                            Env.getHeader(Env.getCtx(), windowNo),
+                            Msg.getMsg(Env.getCtx(), "PrintoutOK?"),
+                            JOptionPane.QUESTION_MESSAGE);
+                    retValue = d.getReturnCode();
+                }
             }
             while (retValue == ADialogDialog.A_CANCEL);
             window.setCursor(Cursor.getDefaultCursor());

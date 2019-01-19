@@ -24,12 +24,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.adempiere.exceptions.DBException;
 import org.compiere.apps.form.GenForm;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.minigrid.IMiniTable;
 import org.compiere.model.MAttributeSetInstance;
+import org.compiere.model.MOrder;
 import org.compiere.model.MProduct;
 import org.compiere.model.MStorage;
 import org.compiere.util.CLogger;
@@ -241,14 +243,19 @@ public class OrderReceiptIssue extends GenForm {
 		for (int i = 0; i < issue.getRowCount(); i++) {
 			ArrayList<Object> data = new ArrayList<Object>();
 			IDColumn id = (IDColumn) issue.getValueAt(i, 0);
-			KeyNamePair key = new KeyNamePair(id.getRecord_ID(),
-					id.isSelected() ? "Y" : "N");
+			KeyNamePair key = new KeyNamePair(id.getRecord_ID(), id.isSelected() ? "Y" : "N");
 			data.add(key); // 0 - ID
 			data.add(issue.getValueAt(i, 1)); // 1 - IsCritical
 			data.add(issue.getValueAt(i, 2)); // 2 - Value
 			data.add(issue.getValueAt(i, 3)); // 3 - KeyNamePair Product
 			data.add(getValueBigDecimal(issue, i, 8)); // 4 - QtyToDeliver
 			data.add(getValueBigDecimal(issue, i, 9)); // 5 - QtyScrapComponent
+			KeyNamePair location = (KeyNamePair) issue.getValueAt(i , 13); // 6 - Location Id
+			if (location != null)
+				data.add(location.getID()); // 7 - Location
+			else
+				data.add(0);
+
 			m_issue[row][0] = data;
 			row++;
 		}
@@ -259,51 +266,64 @@ public class OrderReceiptIssue extends GenForm {
 		for (int i = 0; i < m_issue.length; i++) {
 			KeyNamePair key = (KeyNamePair) m_issue[i][0].get(0);
 			boolean isSelected = key.getName().equals("Y");
-			if (key == null || !isSelected) {
+			if (key == null || !isSelected)
 				continue;
-			}
 
 			Boolean isCritical = (Boolean) m_issue[i][0].get(1);
 			String value = (String) m_issue[i][0].get(2);
 			KeyNamePair productkey = (KeyNamePair) m_issue[i][0].get(3);
-			int M_Product_ID = productkey.getKey();
-
+			int productId = productkey.getKey();
 			MPPOrderBOMLine orderbomLine = null;
-			int PP_Order_BOMLine_ID = 0;
-			int M_AttributeSetInstance_ID = 0;
-
+			int orderBOMLineId = 0;
+			int attributeSetInstanceId = 0;
+			int locatorId = 0;
 			BigDecimal qtyToDeliver = (BigDecimal) m_issue[i][0].get(4);
 			BigDecimal qtyScrapComponent = (BigDecimal) m_issue[i][0].get(5);
-
-			MProduct product = MProduct.get(order.getCtx(), M_Product_ID);
+			MProduct product = MProduct.get(order.getCtx(), productId);
 			if (product != null && product.get_ID() != 0 && product.isStocked()) {
-
 				if (value == null && isSelected) {
-					M_AttributeSetInstance_ID = (Integer) key.getKey();
-					orderbomLine = MPPOrderBOMLine.forM_Product_ID(
-							Env.getCtx(), order.get_ID(), M_Product_ID,
-							order.get_TrxName());
-					if (orderbomLine != null) {
-						PP_Order_BOMLine_ID = orderbomLine.get_ID();
-					}
+					attributeSetInstanceId =  key.getKey();
+					locatorId =  new Integer((String)m_issue[i][0].get(6));
+					if (attributeSetInstanceId == 0 )
+						attributeSetInstanceId = (Integer) key.getKey();
+
+					orderbomLine = MPPOrderBOMLine.forM_Product_ID(Env.getCtx(), order.get_ID(), productId, order.get_TrxName());
+					if (orderbomLine != null)
+						orderBOMLineId = orderbomLine.get_ID();
+
 				} else if (value != null && isSelected) {
-					PP_Order_BOMLine_ID = (Integer) key.getKey();
-					if (PP_Order_BOMLine_ID > 0) {
-						orderbomLine = new MPPOrderBOMLine(order.getCtx(),
-								PP_Order_BOMLine_ID, order.get_TrxName());
-						M_AttributeSetInstance_ID = orderbomLine
-								.getM_AttributeSetInstance_ID();
-					}
+					orderBOMLineId = (Integer) key.getKey();
+					if (orderBOMLineId > 0)
+						orderbomLine = new MPPOrderBOMLine(order.getCtx(), orderBOMLineId, order.get_TrxName());attributeSetInstanceId = orderbomLine.getM_AttributeSetInstance_ID();
 				}
 
-				MStorage[] storages = MPPOrder.getStorages(Env.getCtx(),
-						M_Product_ID, order.getM_Warehouse_ID(),
-						M_AttributeSetInstance_ID, minGuaranteeDate,
+				MStorage[] totalStorages = MPPOrder.getStorages(Env.getCtx(),
+						productId, order.getM_Warehouse_ID(),
+						attributeSetInstanceId, minGuaranteeDate,
 						order.get_TrxName());
 
-				MPPOrder.createIssue(order, PP_Order_BOMLine_ID, movementDate,
+				MStorage[] storages;
+				if (locatorId > 0) {
+					int finalLocatorId = locatorId;
+					storages  = Arrays.stream(totalStorages)
+							.filter(storaage -> storaage.getM_Locator_ID() == finalLocatorId)
+							.toArray(MStorage[]::new);
+				}
+				else
+					storages = totalStorages;
+
+				boolean forceIssue = false;
+				BigDecimal toIssue = qtyToDeliver.add(qtyScrapComponent);
+
+				//allow return quantity order line
+				if (storages == null || storages.length == 0 ) {
+					if (toIssue.signum() < 0 && toIssue.add(orderbomLine.getQtyDelivered()).signum() >= 0)
+						forceIssue = true;
+				}
+
+				MPPOrder.createIssue(order, orderbomLine , movementDate,
 						qtyToDeliver, qtyScrapComponent, Env.ZERO, storages,
-						false);
+						forceIssue);
 			}
 		}
 	}
@@ -375,10 +395,8 @@ public class OrderReceiptIssue extends GenForm {
 				issue.setValueAt(isCritical, row, 1); // IsCritical
 				issue.setValueAt(rs.getString(3), row, 2); // Product's Search
 															// key
-				issue.setValueAt(
-						new KeyNamePair(rs.getInt(4), rs.getString(5)), row, 3); // Product
-				issue.setValueAt(
-						new KeyNamePair(rs.getInt(6), rs.getString(7)), row, 4); // UOM
+				issue.setValueAt(new KeyNamePair(rs.getInt(4), rs.getString(5)), row, 3); // Product
+				issue.setValueAt(new KeyNamePair(rs.getInt(6), rs.getString(7)), row, 4); // UOM
 				// ... 5 - ASI
 				issue.setValueAt(qtyRequired, row, 6); // QtyRequired
 				issue.setValueAt(qtyDelivered, row, 7); // QtyDelivered
@@ -388,42 +406,32 @@ public class OrderReceiptIssue extends GenForm {
 				issue.setValueAt(rs.getBigDecimal(9), row, 11); // QtyReserved
 				issue.setValueAt(rs.getBigDecimal(10), row, 12); // QtyAvailable
 				// ... 13 - M_Locator_ID
-				issue.setValueAt(
-						new KeyNamePair(rs.getInt(13), rs.getString(14)), row,
-						14); // Warehouse
+				issue.setValueAt(new KeyNamePair(rs.getInt(13), rs.getString(14)), row, 14); // Warehouse
 				issue.setValueAt(qtyBom, row, 15); // QtyBom
 				issue.setValueAt(isQtyPercentage, row, 16); // isQtyPercentage
 				issue.setValueAt(qtyBatch, row, 17); // QtyBatch
 
-				if (componentType
-						.equals(MPPProductBOMLine.COMPONENTTYPE_Component)
-						|| componentType
-								.equals(MPPProductBOMLine.COMPONENTTYPE_Packing)) {
+				if (componentType.equals(MPPProductBOMLine.COMPONENTTYPE_Component)
+				||  componentType.equals(MPPProductBOMLine.COMPONENTTYPE_Packing)) {
 					// If the there is product on hand and product is required
 					// the product should be selected
-					id.setSelected(qtyOnHand.signum() > 0
-							&& qtyRequired.signum() > 0);
+					id.setSelected(qtyOnHand.signum() > 0 && qtyRequired.signum() > 0);
 					issue.setValueAt(id, row, 0); // PP_OrderBOMLine_ID
 
 					if (isQtyPercentage) {
 						// If the quantity of product is calculated as a
 						// percentage
-						BigDecimal qtyBatchPerc = qtyBatch.divide(
-								Env.ONEHUNDRED, 8, RoundingMode.HALF_UP);
+						BigDecimal qtyBatchPerc = qtyBatch.divide(Env.ONEHUNDRED, 8, RoundingMode.HALF_UP);
 
 						if (isBackflush()) { // Is Backflush - Calculate
 												// Component from Qty To Deliver
-							if (qtyRequired.signum() == 0
-									|| qtyOpen.signum() == 0) {
+							if (qtyRequired.signum() == 0 || qtyOpen.signum() == 0) {
 								componentToDeliverQty = Env.ZERO;
 							} else {
-								componentToDeliverQty = toDeliverQty
-										.multiply(qtyBatchPerc);
+								componentToDeliverQty = toDeliverQty.multiply(qtyBatchPerc);
 
-								if (qtyRequired.subtract(qtyDelivered).signum() < 0
-										| componentToDeliverQty.signum() == 0)
-									componentToDeliverQty = qtyRequired
-											.subtract(qtyDelivered);
+								if (qtyRequired.subtract(qtyDelivered).signum() < 0 | componentToDeliverQty.signum() == 0)
+									componentToDeliverQty = qtyRequired.subtract(qtyDelivered);
 
 							}
 
@@ -434,8 +442,7 @@ public class OrderReceiptIssue extends GenForm {
 								// componentQtyReq =
 								// toDeliverQty.multiply(qtyBatchPerc); // TODO:
 								// set scale 4
-								componentQtyToDel = componentToDeliverQty
-										.setScale(4, BigDecimal.ROUND_HALF_UP);
+								componentQtyToDel = componentToDeliverQty.setScale(4, BigDecimal.ROUND_HALF_UP);
 								// issue.setValueAt(toDeliverQty.multiply(qtyBatchPerc),
 								// row, 6); // QtyRequired
 								issue.setValueAt(componentToDeliverQty, row, 8); // QtyToDelivery
@@ -445,15 +452,10 @@ public class OrderReceiptIssue extends GenForm {
 									// Qty
 							componentToDeliverQty = qtyOpen;
 							if (componentToDeliverQty.signum() != 0) {
-								componentQtyReq = openQty
-										.multiply(qtyBatchPerc); // scale 4
-								componentQtyToDel = componentToDeliverQty
-										.setScale(4, BigDecimal.ROUND_HALF_UP);
-								issue.setValueAt(componentToDeliverQty
-										.setScale(8, BigDecimal.ROUND_HALF_UP),
-										row, 8); // QtyToDelivery
-								issue.setValueAt(
-										openQty.multiply(qtyBatchPerc), row, 6); // QtyRequired
+								componentQtyReq = openQty.multiply(qtyBatchPerc); // scale 4
+								componentQtyToDel = componentToDeliverQty.setScale(4, BigDecimal.ROUND_HALF_UP);
+								issue.setValueAt(componentToDeliverQty.setScale(8, BigDecimal.ROUND_HALF_UP), row, 8); // QtyToDelivery
+								issue.setValueAt(openQty.multiply(qtyBatchPerc), row, 6); // QtyRequired
 							}
 						}
 
@@ -467,11 +469,17 @@ public class OrderReceiptIssue extends GenForm {
 							issue.setValueAt(componentScrapQty, row, 9); // QtyScrap
 					} else { // Absolute Qtys (not Percentage)
 						if (isBackflush()) { // Is Backflush - Calculate
-												// Component from Qty To Deliver
-							componentToDeliverQty = toDeliverQty
-									.multiply(qtyBom); // TODO: set Number scale
+							// Component from Qty To Deliver
+							if (componentType.equals(MPPProductBOMLine.COMPONENTTYPE_Packing))
+								componentToDeliverQty = qtyRequired.subtract(qtyDelivered);
+							else
+								componentToDeliverQty = toDeliverQty.multiply(qtyBom); // TODO: set Number scale
+
 							if (componentToDeliverQty.signum() != 0) {
-								componentQtyReq = toDeliverQty.multiply(qtyBom);
+								if (componentType.equals(MPPProductBOMLine.COMPONENTTYPE_Packing))
+									componentQtyReq = qtyRequired.subtract(qtyDelivered);
+								else
+									componentQtyReq = toDeliverQty.multiply(qtyBom);
 								componentQtyToDel = componentToDeliverQty;
 								issue.setValueAt(componentQtyReq, row, 6); // QtyRequired
 								issue.setValueAt(componentToDeliverQty, row, 8); // QtyToDelivery
@@ -480,7 +488,11 @@ public class OrderReceiptIssue extends GenForm {
 									// Qty
 							componentToDeliverQty = qtyOpen;
 							if (componentToDeliverQty.signum() != 0) {
-								componentQtyReq = openQty.multiply(qtyBom);
+								if (componentType.equals(MPPProductBOMLine.COMPONENTTYPE_Packing))
+									componentQtyReq = qtyOpen;
+								else
+									componentQtyReq = openQty.multiply(qtyBom);
+
 								componentQtyToDel = componentToDeliverQty;
 								issue.setValueAt(componentQtyReq, row, 6); // QtyRequired
 								issue.setValueAt(componentToDeliverQty, row, 8); // QtyToDelivery
@@ -541,7 +553,7 @@ public class OrderReceiptIssue extends GenForm {
 		StringBuffer iText = new StringBuffer();
 
 		iText.append("<b>");
-		iText.append(Msg.translate(Env.getCtx(), "IsShipConfirm"));
+		iText.append(Msg.parseTranslation(Env.getCtx(), "@IsShipConfirm@"));
 		iText.append("</b>");
 		iText.append("<br />");
 
@@ -594,9 +606,35 @@ public class OrderReceiptIssue extends GenForm {
 										.getM_Warehouse_ID(), 0,
 								minGuaranteeDate, null);
 
-						BigDecimal todelivery = getValueBigDecimal(issue, i, 8); // QtyOpen
+
+						BigDecimal qtyDelivered = getValueBigDecimal(issue, i, 7); // Qty Delivered
+						BigDecimal toDelivery = getValueBigDecimal(issue, i, 8); // QtyOpen
 						BigDecimal scrap = getValueBigDecimal(issue, i, 9); // QtyScrap
-						BigDecimal toIssue = todelivery.add(scrap);
+						BigDecimal toIssue = toDelivery.add(scrap);
+
+						//allow return quantity order line
+						if (storages == null || storages.length == 0)
+						{
+							if (toIssue.signum() < 0 && qtyDelivered.signum() > 0 && qtyDelivered.add(toIssue).signum() >= 0) {
+								String[] row = {"", "", "", "", "0.00", "0.00",
+										"0.00"};
+								row[0] = issue.getValueAt(i, 2) != null ? issue
+										.getValueAt(i, 2).toString() : "";
+								row[1] = m_productkey.toString();
+								row[2] = m_uomkey != null ? m_uomkey.toString()
+										: "";
+								String desc = null;
+								row[3] = desc != null ? desc : "";
+								row[4] = toIssue.setScale(2,
+										BigDecimal.ROUND_HALF_UP).toString();
+								row[5] = getValueBigDecimal(issue, i, 7).setScale(
+										2, BigDecimal.ROUND_HALF_UP).toString();
+								row[6] = getValueBigDecimal(issue, i, 9).toString();
+								table.add(row);
+							}
+							continue;
+						}
+
 						for (MStorage storage : storages) {
 							// TODO Selection of ASI
 
@@ -758,7 +796,7 @@ public class OrderReceiptIssue extends GenForm {
 
 		final String sql = "SELECT "
 				+ "s.M_Product_ID , s.QtyOnHand, s.M_AttributeSetInstance_ID"
-				+ ", p.Name, masi.Description, l.Value, w.Value, w.M_warehouse_ID,p.Value"
+				+ ", p.Name, masi.Description, l.M_Locator_ID , l.Value, w.Value, w.M_warehouse_ID,p.Value"
 				+ "  FROM M_Storage s "
 				+ " INNER JOIN M_Product p ON (s.M_Product_ID = p.M_Product_ID) "
 				+ " INNER JOIN C_UOM u ON (u.C_UOM_ID = p.C_UOM_ID) "
@@ -788,18 +826,17 @@ public class OrderReceiptIssue extends GenForm {
 				// issue.setRowSelectionAllowed(true);
 				issue.setValueAt(id1, row, 0);
 				// Product
-				KeyNamePair productkey = new KeyNamePair(rs.getInt(1),
-						rs.getString(4));
+				KeyNamePair productkey = new KeyNamePair(rs.getInt(1), rs.getString(4));
 				issue.setValueAt(productkey, row, 3);
 				// QtyOnHand
 				issue.setValueAt(qtyOnHand, row, 10);
 				// ASI
 				issue.setValueAt(rs.getString(5), row, 5);
 				// Locator
-				issue.setValueAt(rs.getString(6), row, 13);
+				KeyNamePair locatorKey =  new KeyNamePair(rs.getInt(6), rs.getString(7));
+				issue.setValueAt(locatorKey, row, 13);
 				// Warehouse
-				KeyNamePair m_warehousekey = new KeyNamePair(rs.getInt(8),
-						rs.getString(7));
+				KeyNamePair m_warehousekey = new KeyNamePair(rs.getInt(9), rs.getString(8));
 				issue.setValueAt(m_warehousekey, row, 14);
 				issue.setValueAt(Env.ZERO, row, 6); // QtyRequired
 				issue.setValueAt(Env.ZERO, row, 8); // QtyToDelivery

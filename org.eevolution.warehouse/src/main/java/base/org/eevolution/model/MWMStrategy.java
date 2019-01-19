@@ -29,7 +29,7 @@
 package org.eevolution.model;
 
 import java.sql.ResultSet;
-import java.util.Collection;
+import java.util.List;
 import java.util.Properties;
 
 import org.compiere.model.Query;
@@ -43,7 +43,14 @@ import org.compiere.util.CLogger;
 public class MWMStrategy extends X_WM_Strategy
 {
 
-	public static Collection<MWMStrategy> getByBoundType(Properties ctx ,String boundType , String trxName)
+	/**
+	 * get Strategy based on bound type (In/Out)
+	 * @param ctx
+	 * @param boundType
+	 * @param trxName
+     * @return
+     */
+	public static List<MWMStrategy> getByBoundType(Properties ctx , String boundType , String trxName)
 	{
 		final String whereClause = MWMStrategy.COLUMNNAME_InOutBoundType + "=" + boundType;
 		return new Query(ctx, MWMStrategy.Table_Name, whereClause, trxName)
@@ -95,8 +102,12 @@ public class MWMStrategy extends X_WM_Strategy
 		super(ctx, rs, trxName);
 	}	//	MAsset
 
-	
-	public Collection <MWMStrategyDetail> getDetail()
+
+	/**
+	 * Get Strategy Detail
+	 * @return
+     */
+	public List <MWMStrategyDetail> getStrategyDetail()
 	{
 		final String whereClause = MWMStrategyDetail.COLUMNNAME_WM_Strategy_ID + "=?";
 		return new Query(getCtx() , MWMStrategyDetail.Table_Name , whereClause , get_TrxName())

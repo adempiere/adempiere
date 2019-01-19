@@ -33,12 +33,14 @@ import java.beans.PropertyVetoException;
 import java.beans.VetoableChangeListener;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import java.util.logging.Level;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.KeyStroke;
@@ -74,8 +76,6 @@ import org.compiere.model.GridWindow;
 import org.compiere.model.Lookup;
 import org.compiere.model.MLookup;
 import org.compiere.model.MMemo;
-import org.compiere.model.MQuery;
-import org.compiere.model.MTable;
 import org.compiere.model.MTree;
 import org.compiere.model.MTreeNode;
 import org.compiere.swing.CPanel;
@@ -157,6 +157,10 @@ import org.compiere.util.Util;
  * @author Teo Sarca - BF [ 1742159 ], BF [ 1707876 ]
  * @contributor Victor Perez , e-Evolution.SC FR [ 1757088 ]
  * @contributor fer_luck @ centuryon  FR [ 1757088 ]
+ * 
+ * @author mckayERP www.mckayERP.com
+ * 		<li> BF [ <a href="https://github.com/adempiere/adempiere/issues/281">#283</a> ] GridController in swing will not set value to null in vetoableChange
+ * 		<li> BF [ <a href="https://github.com/adempiere/adempiere/issues/421">#421</a> ] Embedded tab is not updated
  */
 public class GridController extends CPanel
 	implements DataStatusListener, ListSelectionListener, Evaluatee,
@@ -451,15 +455,20 @@ public class GridController extends CPanel
 		}   //  Single-Row
 
 		//  Tree Graphics Layout
-		int AD_Tree_ID = 0;
-		if (m_mTab.isTreeTab())
-			AD_Tree_ID = MTree.getDefaultAD_Tree_ID (
-				Env.getAD_Client_ID(Env.getCtx()), m_mTab.getKeyColumnName());
-		if (m_mTab.isTreeTab() && AD_Tree_ID != 0)
+		String treeName = "AD_Tree_ID";
+		int treeId = Env.getContextAsInt(Env.getCtx(), m_WindowNo , m_mTab.getTabNo(), treeName);
+		if (m_mTab.isTreeTab() && treeId == 0)
+			treeId = MTree.getDefaultTreeIdFromTableId(Env.getAD_Client_ID(Env.getCtx()), m_mTab.getAD_Table_ID());
+			if (treeId > 0) {
+				Env.setContext (Env.getCtx(), m_WindowNo, treeName,  treeId);
+			}
+
+		if (m_mTab.isTreeTab() && treeId > 0)
 		{
-			m_tree = new VTreePanel(m_WindowNo, false, true);
-			if (m_mTab.getTabNo() == 0)	//	initialize other tabs later
-				m_tree.initTree(AD_Tree_ID);
+			m_tree = new VTreePanel(m_WindowNo, false, !m_mTab.isReadOnly() && !m_mTab.isReadOnlyFromContext());
+			if (m_mTab.getTabLevel() == 0) {	//	initialize other tabs later
+				m_tree.initTree(treeId, m_mTab.getWhereExtended());
+			}
 			m_tree.addPropertyChangeListener(VTreePanel.NODE_SELECTION, this);
 			graphPanel.add(m_tree, BorderLayout.CENTER);
 			splitPane.setDividerLocation(250);
@@ -642,26 +651,20 @@ public class GridController extends CPanel
 		//	Tree to be initiated on second/.. tab
 		if (m_mTab.isTreeTab() && m_mTab.getTabNo() != 0)
 		{
-			String keyColumnName = m_mTab.getKeyColumnName();
 			String treeName = "AD_Tree_ID";
-			if (keyColumnName.startsWith("CM"))
-			{
-				if (keyColumnName.equals("CM_Container_ID"))
-					treeName = "AD_TreeCMC_ID";
-				else if (keyColumnName.equals("CM_CStage_ID"))
-					treeName = "AD_TreeCMS_ID";
-				else if (keyColumnName.equals("CM_Template_ID"))
-					treeName = "AD_TreeCMT_ID";
-				else if (keyColumnName.equals("CM_Media_ID"))
-					treeName = "AD_TreeCMM_ID";
+			int treeId = Env.getContextAsInt (Env.getCtx(), m_WindowNo, treeName, true);
+			log.config(treeName + " = " + treeId);
+			if ((m_mTab.isTreeTab() && treeId == 0) || m_mTab.getTabLevel() == 0)
+				treeId = MTree.getDefaultTreeIdFromTableId(Env.getAD_Client_ID(Env.getCtx()), m_mTab.getAD_Table_ID());
+			if (treeId == 0) {
+				treeId = MTree.getDefaultTreeIdFromTableId(Env.getAD_Client_ID(Env.getCtx()), m_mTab.getAD_Table_ID());
+				if (treeId > 0 )
+					Env.setContext (Env.getCtx(), m_WindowNo, treeName,  treeId);
 			}
-			int AD_Tree_ID = Env.getContextAsInt (Env.getCtx(), m_WindowNo, treeName, true);
-			log.config(keyColumnName + " -> " + treeName + " = " + AD_Tree_ID);
-			if (AD_Tree_ID == 0)
-				AD_Tree_ID = MTree.getDefaultAD_Tree_ID (
-					Env.getAD_Client_ID(Env.getCtx()), m_mTab.getKeyColumnName());
-			if (m_tree != null)
-				m_tree.initTree (AD_Tree_ID);
+			if (m_mTab.isTreeTab() && treeId > 0 && m_tree != null) {
+				//	Init Tree
+				m_tree.initTree(treeId, m_mTab.getWhereExtended());
+			}
 		}
 
 		activateChilds();
@@ -720,7 +723,11 @@ public class GridController extends CPanel
 		//  Update UI
 		if (!isSingleRow())
 			vTable.autoSize(true);
-		activateChilds();
+		//	Yamel Senih [ 9223372036854775807 ]
+		//	Refresh Tree
+//		activateChilds();
+		activate();
+		//	End Yamel Senih
 	}   //  query
 
 	/*
@@ -750,6 +757,14 @@ public class GridController extends CPanel
 			return;
 		cardLayout.first(cardPanel);
 		m_singleRow = true;
+		
+		// Refresh the data to ensure embedded tabs are updated with
+		// the selected row. Check if the table model is open before 
+		// trying to refresh.  It may not have been opened yet, in 
+		// which case, the refresh will cause an error. See issue #421
+		if (m_mTab.getTableModel().isOpen()) 
+			m_mTab.dataRefresh(m_mTab.getCurrentRow());  // Fix for #421
+		
 		dynamicDisplay(0);
 	//	vPanel.requestFocus();
 	}   //  switchSingleRow
@@ -992,7 +1007,7 @@ public class GridController extends CPanel
 			log.config("(" + m_mTab.toString() + ") "
 				+ columnName + " - Dependents=" + dependants.size());
 			//	No Dependents and no Callout - Set just Background
-			if (dependants.size() == 0 && changedField.getCallout().length() > 0)
+			if (dependants.size() == 0 && changedField.getCallout().length() == 0)
 			{
 				Component[] comp = vPanel.getComponentsRecursive();
 				for (int i = 0; i < comp.length; i++)
@@ -1065,7 +1080,8 @@ public class GridController extends CPanel
 							//	log.log(Level.FINEST, "RW=" + rw + " " + mField);
 								boolean manMissing = false;
 							//  least expensive operations first        //  missing mandatory
-								if (rw && mField.getValue() == null && mField.isMandatory(true))    //  check context
+								if (rw && (mField.getValue() == null || mField.getValue().toString().isEmpty()) 
+										&& mField.isMandatory(true))    //  check context. Some fields can return "" instead of null
 									manMissing = true;
 								ve.setBackground(manMissing || mField.isError());
 							}
@@ -1250,9 +1266,15 @@ public class GridController extends CPanel
 		int row = m_mTab.getCurrentRow();
 		int col = mTable.findColumn(e.getPropertyName());
 		//
-		if (e.getNewValue() == null && e.getOldValue() != null
-			&& e.getOldValue().toString().length() > 0)		//	some editors return "" instead of null
+		if ((e.getNewValue() == null || e.getNewValue().toString().isEmpty()) 
+			&& e.getOldValue() != null && e.getOldValue().toString().length() > 0)		//	some editors return "" instead of null
+		{
+			//  #283 Set value to null
+			GridField gridField = m_mTab.getField(col);
+			if (!gridField.getVO().IsMandatory)
+				mTable.setValueAt (null, row, col);	//	-> dataStatusChanged -> dynamicDisplay
 			mTable.setChanged (true);
+		}	
 		else
 		{
 		//	mTable.setValueAt (e.getNewValue(), row, col, true);
@@ -1499,4 +1521,51 @@ public class GridController extends CPanel
 			}
 		}
 	}
+	
+	/**
+	 * Change label for each field if it has context info configured
+	 */
+	public void reloadFieldTrxInfo() {
+		Component[] comps = vPanel.getComponentsRecursive();
+		for (int i = 0; i < comps.length; i++) {
+			Component comp = comps[i];
+			String columnName = comp.getName();
+			if (columnName != null && columnName.length() > 0) {
+				GridField mField = m_mTab.getField(columnName);
+				if (mField != null) {
+					if (mField.isDisplayed(true)) {		//  check context
+						//End Feature Request [1707462]
+						if (comp instanceof VEditor) {
+			                //	Change Context info
+			                reloadFieldTrxInfo(((VEditor) comp));
+						}
+					}
+				}
+			}
+		}   //  all components
+	}
+	
+	/**
+     * Change label for each field if it has context info configured
+     */
+    private void reloadFieldTrxInfo(VEditor editor) {
+    	if(!(editor instanceof JComponent)) {
+    		return;
+    	}
+    	//	
+    	Map<String, String> contextValues = m_mTab.getFieldTrxInfo();
+		if(contextValues == null 
+				|| contextValues.size() == 0) {
+			return;
+		}
+		//	change fields
+		GridField field = editor.getField();
+		//	Get trx info
+		String messageValue = contextValues.get(field.getColumnName());
+		if(Util.isEmpty(messageValue)) {
+			return;
+		}
+		//	Set Context info
+		((JComponent) editor).setToolTipText(messageValue);
+    }
 }   //  GridController

@@ -23,7 +23,8 @@ import java.math.BigDecimal;
 import javax.swing.JFrame;
 
 import org.compiere.apps.ADialog;
-import org.compiere.apps.ProcessParameter;
+import org.compiere.apps.AEnv;
+import org.compiere.apps.ProcessModalDialog;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.eevolution.process.ProcessInfoHandler;
@@ -32,8 +33,16 @@ import org.eevolution.tools.swing.SwingTool;
 /**
  * @author Gunther Hoppe, tranSIT GmbH Ilmenau/Germany
  * @version 1.0, October 14th 2005
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * 		<li>FR [ 265 ] ProcessParameterPanel is not MVC
+ *		@see https://github.com/adempiere/adempiere/issues/265
  */
 public abstract class ProcessPopupAction extends PopupAction {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3448172696734034976L;
 	
 	protected JFrame window;
 	protected ProcessInfoHandler pih;
@@ -120,19 +129,19 @@ public abstract class ProcessPopupAction extends PopupAction {
 	}
 	
 	protected void showDialog(ProcessInfoHandler pib) {
-		
-		ProcessParameter para = new ProcessParameter(
+		//	FR [ 265 ]
+		//	Change for Standard dialog
+		ProcessModalDialog para = new ProcessModalDialog(
 				Env.getFrame((Container)window), Env.getWindowNo(window), pib.getProcessInfo());
 		
-		if (para.initDialog()) {
+		if (para.isValidDialog()) {
 			
-			para.setVisible(true);
-			
+			para.validate();
+			para.pack();
+			AEnv.showCenterWindow(Env.getFrame((Container)window), para);
 			if (!para.isOK()) {
-		
-				setError(Msg.translate(Env.getCtx(), "Cancel"));
+				setError(pib.getProcessInfo().getSummary());
 				setIgnoreChange(true);
-				pib.setProcessError();
 				return;
 			}
 		}

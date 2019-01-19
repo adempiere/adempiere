@@ -49,8 +49,8 @@ import org.adempiere.webui.component.Window;
 import org.adempiere.webui.editor.WPAttributeEditor;
 import org.adempiere.webui.editor.WSearchEditor;
 import org.adempiere.webui.editor.WTableDirEditor;
-import org.adempiere.webui.event.ValueChangeEvent;
-import org.adempiere.webui.event.ValueChangeListener;
+import org.adempiere.exceptions.ValueChangeEvent;
+import org.adempiere.exceptions.ValueChangeListener;
 import org.adempiere.webui.event.WTableModelEvent;
 import org.adempiere.webui.event.WTableModelListener;
 import org.adempiere.webui.part.ITabOnSelectHandler;
@@ -66,11 +66,13 @@ import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 import org.compiere.util.Util;
+import org.zkforge.keylistener.Keylistener;
 import org.zkoss.zk.au.out.AuEcho;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zk.ui.event.KeyEvent;
 import org.zkoss.zk.ui.event.SelectEvent;
 import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zkex.zul.Borderlayout;
@@ -525,6 +527,14 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
         this.addEventListener(Events.ON_OK, this);
         this.setVisible(true);
         
+        // Add Key Events
+        keyListener = new Keylistener();
+		
+		keyListener.setCtrlKeys("#enter");
+		keyListener.addEventListener(Events.ON_CTRL_KEY, this);
+		addEventListener(Events.ON_CANCEL, this);
+		appendChild(keyListener);
+        
 	}  //  init
 	
 	private static String SYSCONFIG_INFO_AUTO_WILDCARD = "INFO_AUTO_WILDCARD";
@@ -606,7 +616,7 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 	private int					m_SO_Window_ID = -1;
 	/**	PO Zoom Window						*/
 	private int					m_PO_Window_ID = -1;
-
+	private Keylistener keyListener = new Keylistener();
 	/**	Logger			*/
 	protected CLogger log = CLogger.getCLogger(getClass());
 	
@@ -626,7 +636,8 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 	private boolean m_busy = false;
 
 	private static final String[] lISTENER_EVENTS = {};
-
+	
+	private static final int KEYBOARD_KEY_RETURN = 13;
 	/**
 	 *  Loaded correctly
 	 *  @return true if loaded OK
@@ -1459,7 +1470,7 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 
         if  (event!=null)
         {
-    		if (event.getName().equals("onOK"))
+    		if (event.getName().equals("onOK") && event.getTarget() != keyListener)
     		{
     			//  The enter key was pressed in a criteria field.  Ignore it.  The key click will trigger
     			//  other events that will be trapped.
@@ -1523,21 +1534,28 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 				}
     			
     			//  Buttons
-	        	if (component.equals(confirmPanel.getButton(ConfirmPanel.A_OK)))
+	        	if (component.equals(confirmPanel.getButton(ConfirmPanel.A_OK)) || event.getName().equals(Events.ON_CTRL_KEY) )
 	            {
-					//  The enter key is mapped to the Ok button which will close the dialog.
-					//  Don't let this happen if there are outstanding changes to any of the 
-					//  VLookup fields in the criteria
-					if (hasOutstandingChanges())
-					{
-						return;
-					}
-					else
-					{
-						// We might close
-						p_triggerRefresh = false;
-					}
-	                onOk();
+	        		if(event.getTarget().equals(keyListener)) {
+	        		KeyEvent keyEvent = (KeyEvent) event;
+    				int code = keyEvent.getKeyCode();
+    					if (code != KEYBOARD_KEY_RETURN)
+    						return;
+	        		}	
+						//  The enter key is mapped to the Ok button which will close the dialog.
+						//  Don't let this happen if there are outstanding changes to any of the 
+						//  VLookup fields in the criteria
+						if (hasOutstandingChanges())
+						{
+							return;
+						}
+						else
+						{
+							// We might close
+							p_triggerRefresh = false;
+						}
+		                onOk();
+    			
 	            }
 	            else if (component == p_table && event.getName().equals(Events.ON_DOUBLE_CLICK))
 	            {
@@ -1564,7 +1582,7 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 					p_triggerRefresh = true;
 					p_refreshNow = true;	
 	            }
-	            else if (component.equals(confirmPanel.getButton(ConfirmPanel.A_CANCEL)))
+	            else if (component.equals(confirmPanel.getButton(ConfirmPanel.A_CANCEL)) || event.getName().equals(Events.ON_CANCEL))
 	            {
 	            	m_cancel = true;
 	                dispose(false);  // close

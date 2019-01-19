@@ -1,8 +1,9 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -11,8 +12,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 package org.eevolution.model;
 
@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for PP_Order_Node
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0
+ *  @version Release 3.9.1
  */
 public interface I_PP_Order_Node 
 {
@@ -312,12 +312,12 @@ public interface I_PP_Order_Node
     /** Column name DateFinishSchedule */
     public static final String COLUMNNAME_DateFinishSchedule = "DateFinishSchedule";
 
-	/** Set Date Finish Schedule.
+	/** Set Finish Schedule.
 	  * Scheduled Finish date for this Order
 	  */
 	public void setDateFinishSchedule (Timestamp DateFinishSchedule);
 
-	/** Get Date Finish Schedule.
+	/** Get Finish Schedule.
 	  * Scheduled Finish date for this Order
 	  */
 	public Timestamp getDateFinishSchedule();
@@ -338,12 +338,12 @@ public interface I_PP_Order_Node
     /** Column name DateStartSchedule */
     public static final String COLUMNNAME_DateStartSchedule = "DateStartSchedule";
 
-	/** Set Date Start Schedule.
+	/** Set Start Schedule.
 	  * Scheduled start date for this Order
 	  */
 	public void setDateStartSchedule (Timestamp DateStartSchedule);
 
-	/** Get Date Start Schedule.
+	/** Get Start Schedule.
 	  * Scheduled start date for this Order
 	  */
 	public Timestamp getDateStartSchedule();
@@ -404,19 +404,19 @@ public interface I_PP_Order_Node
     public static final String COLUMNNAME_DurationReal = "DurationReal";
 
 	/** Set Duration Real	  */
-	public void setDurationReal (int DurationReal);
+	public void setDurationReal (BigDecimal DurationReal);
 
 	/** Get Duration Real	  */
-	public int getDurationReal();
+	public BigDecimal getDurationReal();
 
     /** Column name DurationRequired */
     public static final String COLUMNNAME_DurationRequired = "DurationRequired";
 
 	/** Set Duration Required	  */
-	public void setDurationRequired (int DurationRequired);
+	public void setDurationRequired (BigDecimal DurationRequired);
 
 	/** Get Duration Required	  */
-	public int getDurationRequired();
+	public BigDecimal getDurationRequired();
 
     /** Column name EntityType */
     public static final String COLUMNNAME_EntityType = "EntityType";
@@ -705,19 +705,19 @@ public interface I_PP_Order_Node
     public static final String COLUMNNAME_SetupTimeReal = "SetupTimeReal";
 
 	/** Set Setup Time Real	  */
-	public void setSetupTimeReal (int SetupTimeReal);
+	public void setSetupTimeReal (BigDecimal SetupTimeReal);
 
 	/** Get Setup Time Real	  */
-	public int getSetupTimeReal();
+	public BigDecimal getSetupTimeReal();
 
     /** Column name SetupTimeRequired */
     public static final String COLUMNNAME_SetupTimeRequired = "SetupTimeRequired";
 
 	/** Set Setup Time Required	  */
-	public void setSetupTimeRequired (int SetupTimeRequired);
+	public void setSetupTimeRequired (BigDecimal SetupTimeRequired);
 
 	/** Get Setup Time Required	  */
-	public int getSetupTimeRequired();
+	public BigDecimal getSetupTimeRequired();
 
     /** Column name SplitElement */
     public static final String COLUMNNAME_SplitElement = "SplitElement";
@@ -757,6 +757,19 @@ public interface I_PP_Order_Node
 	  * Mode how the sub-workflow is executed
 	  */
 	public String getSubflowExecution();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 
     /** Column name UnitsCycles */
     public static final String COLUMNNAME_UnitsCycles = "UnitsCycles";

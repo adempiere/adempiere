@@ -16,12 +16,16 @@
  *****************************************************************************/
 package org.compiere.util;
 
+import java.sql.Types;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 import java.util.logging.Level;
+
+import org.compiere.model.MColumn;
+import org.compiere.model.MRefTable;
 
 /**
  *	System Display Types.
@@ -33,6 +37,9 @@ import java.util.logging.Level;
  * 
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 				<li>BF [ 1810632 ] PricePrecision error in InfoProduct (and similar)
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<a href="https://github.com/adempiere/adempiere/issues/676">
+ * 		@see FR [ 677 ] Process Class Generator not get parameters type correctly</a>
  */
 public final class DisplayType
 {
@@ -193,7 +200,8 @@ public final class DisplayType
 	{
 		if (displayType == String || displayType == Text 
 			|| displayType == TextLong || displayType == Memo
-			|| displayType == FilePath || displayType == FileName
+			|| displayType == FilePath || displayType == FileName 
+			|| displayType == FilePathOrName
 			|| displayType == URL || displayType == PrinterName)
 			return true;
 		return false;
@@ -444,9 +452,10 @@ public final class DisplayType
 	 *	@param displayType AD_Reference_ID
 	 *	@param columnName name
 	 *	@param fieldLength length
+	 *	@param referenceValueId reference value for column
 	 *	@return SQL Data Type in Oracle Notation
 	 */
-	public static String getSQLDataType (int displayType, String columnName, int fieldLength)
+	public static String getSQLDataType (int displayType, String columnName, int fieldLength, int referenceValueId)
 	{
 		if (columnName.equals("EntityType")
 			|| columnName.equals ("AD_Language"))
@@ -455,17 +464,32 @@ public final class DisplayType
 		if (DisplayType.isID(displayType))
 		{
 			if (displayType == DisplayType.Image 	//	FIXTHIS
-				&& columnName.equals("BinaryData"))
+				&& columnName.equals("BinaryData")) {
 				return "BLOB";
+			} 
+			//	For columns with reference value
+			else if(referenceValueId > 0) {
+				MRefTable reference = MRefTable.getById(Env.getCtx(), referenceValueId);
+				// get Reference
+				if(reference != null) {
+					MColumn column = MColumn.get(Env.getCtx(), reference.getAD_Key());
+					return getSQLDataType(column.getAD_Reference_ID(), 
+							column.getColumnName(), column.getFieldLength(), column.getAD_Reference_Value_ID());
+				}
+			}
 			//	ID, CreatedBy/UpdatedBy, Acct
 			else if (columnName.endsWith("_ID") 
 				|| columnName.endsWith("tedBy") 
-				|| columnName.endsWith("_Acct") )
+				|| columnName.endsWith("_Acct")) {
 				return "NUMBER(10)";
-			else if (fieldLength < 4)
+			}
+			else if (fieldLength < 4) {
 				return "CHAR(" + fieldLength + ")";
-			else	//	EntityType, AD_Language	fallback
+			}
+			//	EntityType, AD_Language	fallback
+			else {
 				return "VARCHAR2(" + fieldLength + ")";
+			}
 		}
 		//
 		if (displayType == DisplayType.Integer)
@@ -505,6 +529,226 @@ public final class DisplayType
 			s_log.severe("Unhandled Data Type = " + displayType);
 				
 		return "NVARCHAR2(" + fieldLength + ")";
+	}	//	getSQLDataType
+	
+	/**
+	 * Validate if is same Data Type
+	 * @param column
+	 * @param dataType
+	 * @return
+	 */
+	public static boolean isSameType(MColumn column, int dataType, int dataLength) {
+		int columnDataType = getDBDataType(column.getAD_Reference_ID(), column.getColumnName(), 
+				column.getFieldLength(), column.getAD_Reference_Value_ID());
+		int columnDataLength = getDBDataLength(column.getAD_Reference_ID(), column.getColumnName(), 
+				column.getFieldLength(), column.getAD_Reference_Value_ID());
+		if(columnDataType == dataType) {
+			return (columnDataLength == 0 || columnDataLength == dataLength);
+		}
+		//	Varchar
+		if((dataType == Types.VARCHAR
+				|| dataType == Types.NVARCHAR)
+				&& (columnDataType == Types.VARCHAR
+						|| columnDataType == Types.NVARCHAR)) {
+			return (columnDataLength == 0 || columnDataLength == dataLength);
+		} else if((dataType == Types.NUMERIC
+				|| dataType == Types.DECIMAL)
+				&& (columnDataType == Types.NUMERIC
+						|| columnDataType == Types.DECIMAL)) {
+			return (columnDataLength == 0 || columnDataLength == dataLength);
+		} else if((dataType == Types.TIMESTAMP
+				|| dataType == Types.TIMESTAMP_WITH_TIMEZONE
+				|| dataType == Types.TIME
+				|| dataType == Types.TIME_WITH_TIMEZONE
+				|| dataType == Types.DATE)
+				&& (columnDataType == Types.TIMESTAMP
+						|| columnDataType == Types.TIMESTAMP_WITH_TIMEZONE
+						|| columnDataType == Types.TIME
+						|| columnDataType == Types.TIME_WITH_TIMEZONE
+						|| columnDataType == Types.DATE)) {
+			return (columnDataLength == 0 || columnDataLength == dataLength);
+		}
+		//	
+		return false;
+	}
+	
+	/**
+	 * Get valid DB length for column
+	 * @param column
+	 * @return
+	 */
+	public static int getDBDataLength(MColumn column) {
+		if(column == null) {
+			return 0;
+		}
+		//	
+		return getDBDataLength(column.getAD_Reference_ID(), column.getColumnName(), 
+				column.getFieldLength(), column.getAD_Reference_Value_ID());
+	}
+	
+	/**
+	 * Get DB Length
+	 * @param displayType
+	 * @param columnName
+	 * @param fieldLength
+	 * @param referenceValueId
+	 * @return
+	 */
+	public static int getDBDataLength(int displayType, String columnName, int fieldLength, int referenceValueId) {
+		if (columnName.equals("EntityType")
+			|| columnName.equals ("AD_Language"))
+			return fieldLength;
+		//	ID
+		if (DisplayType.isID(displayType))
+		{
+			if (displayType == DisplayType.Image 	//	FIXTHIS
+				&& columnName.equals("BinaryData")) {
+				return 0;
+			} 
+			//	For columns with reference value
+			else if(referenceValueId > 0) {
+				MRefTable reference = MRefTable.getById(Env.getCtx(), referenceValueId);
+				// get Reference
+				if(reference != null) {
+					MColumn column = MColumn.get(Env.getCtx(), reference.getAD_Key());
+					return getDBDataLength(column.getAD_Reference_ID(), 
+							column.getColumnName(), column.getFieldLength(), column.getAD_Reference_Value_ID());
+				}
+			}
+			//	ID, CreatedBy/UpdatedBy, Acct
+			else if (columnName.endsWith("_ID") 
+				|| columnName.endsWith("tedBy") 
+				|| columnName.endsWith("_Acct")) {
+				return 10;
+			}
+			else if (fieldLength < 4) {
+				return fieldLength;
+			}
+			//	EntityType, AD_Language	fallback
+			else {
+				return fieldLength;
+			}
+		}
+		//
+		if (displayType == DisplayType.Integer)
+			return 10;
+		if (DisplayType.isDate(displayType))
+			return 0;
+		if (DisplayType.isNumeric(displayType))
+			return 0;
+		if (displayType == DisplayType.Binary)
+			return 0;
+		if (displayType == DisplayType.TextLong 
+			|| (displayType == DisplayType.Text && fieldLength >= 4000))
+			return fieldLength;
+		if (displayType == DisplayType.YesNo)
+			return 1;
+		if (displayType == DisplayType.List) {
+			if (fieldLength == 1)
+				return fieldLength;
+			else
+				return fieldLength;
+		}
+		if (displayType == DisplayType.Color) // this condition is never reached - filtered above in isID
+		{
+			if (columnName.endsWith("_ID"))
+				return 10;
+			else
+				return fieldLength;
+		}
+		if (displayType == DisplayType.Button)
+		{
+			if (columnName.endsWith("_ID"))
+				return 10;
+			else
+				return fieldLength;
+		}
+		if (!DisplayType.isText(displayType))
+			s_log.severe("Unhandled Data Type = " + displayType);
+				
+		return fieldLength;
+	}	//	getSQLDataType
+	/**
+	 * Get Data Type used for compare with DB
+	 * @param displayType
+	 * @param columnName
+	 * @param fieldLength
+	 * @param referenceValueId
+	 * @return
+	 */
+	private static int getDBDataType(int displayType, String columnName, int fieldLength, int referenceValueId) {
+		if (columnName.equals("EntityType")
+			|| columnName.equals ("AD_Language"))
+			return Types.VARCHAR;
+		//	ID
+		if (DisplayType.isID(displayType))
+		{
+			if (displayType == DisplayType.Image 	//	FIXTHIS
+				&& columnName.equals("BinaryData")) {
+				return Types.BLOB;
+			} 
+			//	For columns with reference value
+			else if(referenceValueId > 0) {
+				MRefTable reference = MRefTable.getById(Env.getCtx(), referenceValueId);
+				// get Reference
+				if(reference != null) {
+					MColumn column = MColumn.get(Env.getCtx(), reference.getAD_Key());
+					return getDBDataType(column.getAD_Reference_ID(), 
+							column.getColumnName(), column.getFieldLength(), column.getAD_Reference_Value_ID());
+				}
+			}
+			//	ID, CreatedBy/UpdatedBy, Acct
+			else if (columnName.endsWith("_ID") 
+				|| columnName.endsWith("tedBy") 
+				|| columnName.endsWith("_Acct")) {
+				return Types.DECIMAL;
+			}
+			else if (fieldLength < 4) {
+				return Types.CHAR;
+			}
+			//	EntityType, AD_Language	fallback
+			else {
+				return Types.VARCHAR;
+			}
+		}
+		//
+		if (displayType == DisplayType.Integer)
+			return Types.DECIMAL;
+		if (DisplayType.isDate(displayType))
+			return Types.TIMESTAMP;
+		if (DisplayType.isNumeric(displayType))
+			return Types.DECIMAL;
+		if (displayType == DisplayType.Binary)
+			return Types.BLOB;
+		if (displayType == DisplayType.TextLong 
+			|| (displayType == DisplayType.Text && fieldLength >= 4000))
+			return Types.CLOB;
+		if (displayType == DisplayType.YesNo)
+			return Types.CHAR;
+		if (displayType == DisplayType.List) {
+			if (fieldLength == 1)
+				return Types.CHAR;
+			else
+				return Types.NVARCHAR;			
+		}
+		if (displayType == DisplayType.Color) // this condition is never reached - filtered above in isID
+		{
+			if (columnName.endsWith("_ID"))
+				return Types.DECIMAL;
+			else
+				return Types.CHAR;
+		}
+		if (displayType == DisplayType.Button)
+		{
+			if (columnName.endsWith("_ID"))
+				return Types.DECIMAL;
+			else
+				return Types.CHAR;
+		}
+		if (!DisplayType.isText(displayType))
+			s_log.severe("Unhandled Data Type = " + displayType);
+				
+		return Types.NVARCHAR;
 	}	//	getSQLDataType
 	
 	/**

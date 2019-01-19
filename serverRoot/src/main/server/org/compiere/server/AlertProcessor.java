@@ -428,7 +428,7 @@ public class AlertProcessor extends AdempiereServer
 		// File
 		File file = rule.createReportFile("xls");
 		//
-		ArrayExcelExporter exporter = new ArrayExcelExporter(getCtx(), data);
+		ArrayExcelExporter exporter = new ArrayExcelExporter(getCtx(), data, false);
 		exporter.export(file, null, false);
 		attachments.add(file);
 		String msg = rule.getName() + " (@SeeAttachment@ "+file.getName()+")"+Env.NL;

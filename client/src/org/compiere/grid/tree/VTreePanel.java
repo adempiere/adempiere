@@ -18,7 +18,6 @@ package org.compiere.grid.tree;
 
 
 import java.awt.BorderLayout;
-import java.awt.Container;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -35,6 +34,7 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
@@ -66,10 +66,19 @@ import org.adempiere.exceptions.DBException;
 import org.adempiere.plaf.AdempierePLAF;
 import org.adempiere.plaf.AdempiereTaskPaneUI;
 import org.compiere.apps.ADialog;
+import org.compiere.apps.AEnv;
+import org.compiere.apps.AMenu;
+import org.compiere.apps.AMenuStartItem;
+import org.compiere.apps.ConfirmPanel;
+import org.compiere.model.MMenu;
+import org.compiere.model.MQuery;
+import org.compiere.model.MRecentItem;
+import org.compiere.model.MTable;
 import org.compiere.model.MTree;
 import org.compiere.model.MTreeNode;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CCheckBox;
+import org.compiere.swing.CFrame;
 import org.compiere.swing.CLabel;
 import org.compiere.swing.CMenuItem;
 import org.compiere.swing.CPanel;
@@ -79,8 +88,7 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
-import org.compiere.util.Trx;
-import org.compiere.util.TrxRunnable;
+import org.compiere.util.Util;
 import org.jdesktop.swingx.JXTaskPane;
 import org.jdesktop.swingx.JXTaskPaneContainer;
 
@@ -111,6 +119,9 @@ import de.schaeffer.compiere.tools.DocumentSearch;
  * @author Paul Bowden
  *          <li>FR [ 2032092 ] Java 6 improvements to tree drag and drop
  *          https://sourceforge.net/tracker/index.php?func=detail&aid=2032092&group_id=176962&atid=879335
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * 		<a href="https://github.com/adempiere/adempiere/issues/884">
+ * 		@see FR [ 884 ] Recent Items in Dashboard (Add new functionality)</a>
  */
 public final class VTreePanel extends CPanel
 	implements ActionListener
@@ -177,26 +188,27 @@ public final class VTreePanel extends CPanel
 	private static final long serialVersionUID = -6798614427038652192L;
 
 	private static final String PREFIX_DOCUMENT_SEARCH = "/";
+	private static final String PREFIX_RECENT_ITEM = "RecentItem_";
+	private static final String PREFIX_BAR_ITEM = "ItemBar_";
 
-	protected boolean m_lookAndFeelChanged = false;
+	protected boolean lookAndFeelChanged = false;
 
 	private VTreeTransferHandler handler = new VTreeTransferHandler();
 
 	/**
 	 *  Tree Panel for browsing and editing of a tree.
 	 *  Need to call initTree
-	 *  @param  WindowNo	WindowNo
+	 *  @param  windowNo	WindowNo
 	 *  @param  editable    if true you can edit it
 	 *  @param  hasBar      has OutlookBar
 	 */
-	public VTreePanel(int WindowNo, boolean hasBar, boolean editable)
-	{
+	public VTreePanel(int windowNo, boolean hasBar, boolean editable) {
 		super();
-		toolbar = new ArrayList<JToolBar>();
+		toolbarList = new ArrayList<JToolBar>();
 		log.config("Bar=" + hasBar + ", Editable=" + editable);
-		m_WindowNo = WindowNo;
-		m_hasBar = hasBar;
-		m_editable = editable;
+		this.hasBar = hasBar;
+		this.editable = editable;
+		this.windowNo = windowNo;
 
 		//	static init
 		jbInit();
@@ -210,14 +222,14 @@ public final class VTreePanel extends CPanel
 			//End - [FR 1953769]
 			centerSplitPane.setDividerLocation(0);
 			centerSplitPane.setDividerSize(0);
-			popMenuTree.remove(mBarAdd);
+			popMenuTree.remove(barAdd);
 		}
 		else {
 			centerSplitPane.setDividerLocation(80);
 			UIManager.addPropertyChangeListener(new PropertyChangeListener() {
 				public void propertyChange(PropertyChangeEvent evt) {
 					if ("lookAndFeel".equals(evt.getPropertyName()))
-						m_lookAndFeelChanged = true;
+						lookAndFeelChanged = true;
 				}
 				
 			});
@@ -236,88 +248,6 @@ public final class VTreePanel extends CPanel
 		}
 	}   //  VTreePanel
 
-	/**
-	 *  Tree initialization.
-	 * 	May be called several times
-	 *	@param	AD_Tree_ID	tree to load
-	 *  @return true if loaded ok
-	 */
-	public boolean initTree (int AD_Tree_ID)
-	{
-		log.config("AD_Tree_ID=" + AD_Tree_ID);
-		//
-		m_AD_Tree_ID = AD_Tree_ID;
-
-		//  Get Tree
-		MTree vTree = new MTree (Env.getCtx(), AD_Tree_ID, m_editable, true, null);
-		m_root = vTree.getRoot();
-		m_root.setName(Msg.getMsg(Env.getCtx(), vTree.getName() ) ); // translate name of menu.
-		// m_root.setName(Msg.getMsg(Env.getCtx(), "Menu") ); // @Trifon; this is the hardcoded way.
-
-		log.config("root=" + m_root);
-		m_nodeTableName = vTree.getNodeTableName();
-		treeModel = new AdempiereTreeModel(m_root, true);
-		treeModel.setMTree(vTree);
-		tree.setModel(treeModel);
-
-		//  Shortcut Bar
-		if (m_hasBar)
-		{
-			for (JToolBar jt : toolbar)
-				jt.removeAll();
-			toolbarMap = new HashMap<Integer, JToolBar>();
-			Enumeration<?> enTop = m_root.children();
-			JToolBar jt = null;	
-			Map<JToolBar,String> titleMap = new HashMap<JToolBar, String>();
-			while (enTop.hasMoreElements())
-			{
-				MTreeNode ndTop = (MTreeNode)enTop.nextElement();
-				Enumeration<?> en = ndTop.preorderEnumeration();
-				boolean labelDrawn=false;
-				while (en.hasMoreElements())
-				{
-					MTreeNode nd = (MTreeNode)en.nextElement();
-					if (nd.isOnBar()) {
-						if (!labelDrawn) {
-							jt = new JToolBar(JToolBar.VERTICAL);
-							titleMap.put(jt, ndTop.toString().trim());
-							labelDrawn=true;
-							toolbarMap.put(ndTop.getNode_ID(), jt);
-						}
-						addToBar(nd, jt, false);
-					}
-				}
-				if (jt!=null)
-					toolbar.add(jt);
-				jt=null;
-			}
-			//jbInit();
-			for (JToolBar jt2 : toolbar) {
-				jt2.setOpaque(false);
-				//jt2.setLayout(new GridBagLayout());
-				jt2.setFloatable(false);
-				jt2.setRollover(true);
-				jt2.setBorder(BorderFactory.createEmptyBorder());
-				
-				JXTaskPane barPart = new JXTaskPane();
-				//Begin - [FR 1953769]
-				barPart.setUI(new AdempiereTaskPaneUI());
-				barPart.getContentPane().setBackground(AdempierePLAF.getFormBackground());
-				//End - [FR 1953769]
-				barPart.setAnimated(true);
-				barPart.setLayout(new BorderLayout());
-				barPart.add(jt2, BorderLayout.NORTH);
-				barPart.setTitle(titleMap.get(jt2));
-				
-				bar.add(barPart);
-				//Begin - [FR 1953769]
-				bar.setBackground(AdempierePLAF.getFormBackground());
-				//End - [FR 1953769]
-			}
-		}
-		return true;
-	}   //  initTree
-
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(VTreePanel.class);
 
@@ -331,44 +261,167 @@ public final class VTreePanel extends CPanel
 	private CLabel treeSearchLabel = new CLabel();
 	private JPopupMenu popMenuTree = new JPopupMenu();
 	private JPopupMenu popMenuBar = new JPopupMenu();
+	private JPopupMenu popToolBar = new JPopupMenu();
 	private CMenuItem mFrom = new CMenuItem();
 	private CMenuItem mTo = new CMenuItem();
 	private JXTaskPaneContainer bar = new JXTaskPaneContainer();
-	private java.util.List<JToolBar> toolbar;
+	private List<JToolBar> toolbarList;
 	private HashMap<Integer, JToolBar> toolbarMap;
-	private int toolBarCols=3;
-	private CMenuItem mBarAdd = new CMenuItem();
-	private CMenuItem mBarRemove = new CMenuItem();
+	private CMenuItem barAdd = new CMenuItem();
+	private CMenuItem refreshBar = new CMenuItem();
+	private CMenuItem barRemove = new CMenuItem();
 	private BorderLayout southLayout = new BorderLayout();
 	private JSplitPane centerSplitPane = new JSplitPane();
 	private JScrollPane treePane = new JScrollPane();
 	private MouseListener mouseListener = new VTreePanel_mouseAdapter(this);
 	private KeyListener keyListener = new VTreePanel_keyAdapter(this);
-
-	//
-	private int			m_WindowNo;
+	
 	/** Tree ID                     */
-	private int			m_AD_Tree_ID = 0;
-	/** Table Name for TreeNode     */
-	private String      m_nodeTableName = null;
+	private int			treeId = 0;
 	/** Tree is editable (can move nodes) - also not active shown   */
-	private boolean     m_editable;
+	private boolean     editable;
 	/** Tree has a shortcut Bar     */
-	private boolean     m_hasBar;
+	private boolean     hasBar;
 	/** The root node               */
-	private MTreeNode  	m_root = null;
+	private MTreeNode  	root = null;
+	/**	Window No	*/
+	private int 		windowNo = 0;
 
 
 	private String      m_search = "";
 	private Enumeration<?> m_nodeEn;
 	private MTreeNode   m_selectedNode;	//	the selected model node
-	private CButton     m_buttonSelected;
-
+	private CButton     buttonSelected;
+	private JToolBar	toolSelected;
 	private JScrollPane barScrollPane;
 
 	/**	Property Listener NodeSelected	by Left Click		*/
 	public static final String NODE_SELECTION = "NodeSelected";
 
+	/**
+	 * Int tree without Where Clause
+	 * @param AD_Tree_ID
+	 * @return
+	 */
+	public boolean initTree (int AD_Tree_ID) {
+		return initTree(AD_Tree_ID, null);
+	}
+	
+	/**
+	 *  Tree initialization.
+	 * 	May be called several times
+	 *	@param	treeId	tree to load
+	 *  @return true if loaded ok
+	 */
+	public boolean initTree (int treeId, String whereClause) {
+		log.config("AD_Tree_ID=" + treeId);
+		//	Yamel Senih [ 9223372036854775807 ]
+		//	Add Where Clause
+		if(!Util.isEmpty(whereClause)) {
+			whereClause = Env.parseContext(Env.getCtx(), windowNo, whereClause, false, false);
+		}
+		//  Get Tree
+		MTree vTree = new MTree (Env.getCtx(), treeId, editable, false, whereClause, null);
+		//	End Yamel Senih
+		root = vTree.getRoot();
+		root.setName(Msg.getMsg(Env.getCtx(), vTree.getName()).replace("&" , "")); // translate name of menu.
+		// m_root.setName(Msg.getMsg(Env.getCtx(), "Menu") ); // @Trifon; this is the hardcoded way.
+
+		log.config("root=" + root);
+		treeModel = new AdempiereTreeModel(root, true);
+		treeModel.setMTree(vTree);
+		tree.setModel(treeModel);
+
+		//  Shortcut Bar
+		if (hasBar) {
+			for (JToolBar currentToolbar : toolbarList) {
+				currentToolbar.removeAll();
+			}
+			//	Temp
+			JToolBar newToolbar = null;	
+			Map<JToolBar,String> titleMap = new HashMap<JToolBar, String>();
+			//	
+			toolbarMap = new HashMap<Integer, JToolBar>();
+			boolean first = true;
+			//	Delete unnecessary items
+			MRecentItem.deleteExtraItems(Env.getCtx());
+			List<MRecentItem> recentItemList = MRecentItem.getFromUserAndRole(Env.getCtx());
+			if(recentItemList != null
+					&& recentItemList.size() != 0) {
+				//	Add Recent Items
+				for(MRecentItem recentItem : recentItemList) {
+					if (first) {
+						newToolbar = new JToolBar(JToolBar.VERTICAL);
+						MTable table = MTable.get(Env.getCtx(), MRecentItem.Table_ID);
+						titleMap.put(newToolbar, table.get_Translation(MTable.COLUMNNAME_Name));
+						toolbarMap.put(recentItem.getAD_RecentItem_ID(), newToolbar);
+						newToolbar.setName(PREFIX_RECENT_ITEM + recentItem.getAD_RecentItem_ID());
+						first = false;
+					}
+					//	
+					addToBar(recentItem, newToolbar, false);
+				}
+				//	Add to Tool bar
+				if (newToolbar!=null) {
+					newToolbar.addMouseListener(mouseListener);
+					toolbarList.add(newToolbar);
+				}
+			}
+			newToolbar=null;
+			//	
+			Enumeration<?> enTop = root.children();
+			while (enTop.hasMoreElements()) {
+				MTreeNode ndTop = (MTreeNode)enTop.nextElement();
+				Enumeration<?> en = ndTop.preorderEnumeration();
+				boolean labelDrawn=false;
+				while (en.hasMoreElements())
+				{
+					MTreeNode item = (MTreeNode)en.nextElement();
+					if (item.isOnBar()) {
+						if (!labelDrawn) {
+							newToolbar = new JToolBar(JToolBar.VERTICAL);
+							titleMap.put(newToolbar, ndTop.toString().trim());
+							labelDrawn = true;
+							toolbarMap.put(ndTop.getNode_ID(), newToolbar);
+							newToolbar.setName(PREFIX_BAR_ITEM + ndTop.getNode_ID());
+						}
+						addToBar(item, newToolbar, false);
+					}
+				}
+				if (newToolbar!=null) {
+					newToolbar.addMouseListener(mouseListener);
+					toolbarList.add(newToolbar);
+				}
+				newToolbar=null;
+			}
+			//jbInit();
+			for (JToolBar toolbarBorder : toolbarList) {
+				toolbarBorder.setOpaque(false);
+				//jt2.setLayout(new GridBagLayout());
+				toolbarBorder.setFloatable(false);
+				toolbarBorder.setRollover(true);
+				toolbarBorder.setBorder(BorderFactory.createEmptyBorder());
+				
+				JXTaskPane barPart = new JXTaskPane();
+				//Begin - [FR 1953769]
+				barPart.setUI(new AdempiereTaskPaneUI());
+				barPart.getContentPane().setBackground(AdempierePLAF.getFormBackground());
+				//End - [FR 1953769]
+				barPart.setAnimated(true);
+				barPart.setLayout(new BorderLayout());
+				barPart.add(toolbarBorder, BorderLayout.NORTH);
+				barPart.setTitle(titleMap.get(toolbarBorder));
+				bar.add(barPart);
+				//Begin - [FR 1953769]
+				bar.setBackground(AdempierePLAF.getFormBackground());
+				//End - [FR 1953769]
+			}
+			bar.validate();
+			bar.repaint();
+		}
+		return true;
+	}   //  initTree
+	
 	/**
 	 *  Static Component initialization.
 	 *  <pre>
@@ -444,22 +497,31 @@ public final class VTreePanel extends CPanel
 		mTo.setMnemonic(KeyEvent.VK_V);
 		mTo.addActionListener(this);
 		
-		mBarAdd.setText(Msg.getMsg(Env.getCtx(), "BarAdd"));
-		mBarAdd.setActionCommand("BarAdd");
-		mBarAdd.addActionListener(this);
-		mBarRemove.setText(Msg.getMsg(Env.getCtx(), "BarRemove"));
-		mBarRemove.setActionCommand("BarRemove");
-		mBarRemove.addActionListener(this);
+		barAdd.setText(Msg.getMsg(Env.getCtx(), "BarAdd"));
+		barAdd.setActionCommand("BarAdd");
+		barAdd.setIcon(Env.getImageIcon2(ConfirmPanel.A_NEW + "16"));
+		barAdd.addActionListener(this);
+		refreshBar.setText(Msg.getMsg(Env.getCtx(), "BarRefresh"));
+		refreshBar.setActionCommand("BarRefresh");
+		refreshBar.setIcon(Env.getImageIcon2(ConfirmPanel.A_REFRESH + "16"));
+		refreshBar.addActionListener(this);
+		barRemove.setText(Msg.getMsg(Env.getCtx(), "BarRemove"));
+		barRemove.setActionCommand("BarRemove");
+		barRemove.setIcon(Env.getImageIcon2(ConfirmPanel.A_DELETE + "16"));
+		barRemove.addActionListener(this);
 		//
 		popMenuTree.setLightWeightPopupEnabled(false);
-		popMenuTree.add(mBarAdd);
+		popMenuTree.add(barAdd);
 		popMenuTree.add(mFrom);
-		if(!m_hasBar){
-		popMenuTree.addSeparator();
+		if(!hasBar){
+			popMenuTree.addSeparator();
 		}
 		popMenuTree.add(mTo);
 		popMenuBar.setLightWeightPopupEnabled(false);
-		popMenuBar.add(mBarRemove);
+		popMenuBar.add(barRemove);
+		//	For ToolBar
+		popToolBar.setLightWeightPopupEnabled(false);
+		popToolBar.add(refreshBar);
 	}   //  jbInit
 
 
@@ -539,7 +601,7 @@ public final class VTreePanel extends CPanel
 			if (!search.equals(m_search))
 			{
 				//  get enumeration of all nodes
-				m_nodeEn = m_root.preorderEnumeration();
+				m_nodeEn = root.preorderEnumeration();
 				m_search = search;
 			}
 
@@ -589,7 +651,7 @@ public final class VTreePanel extends CPanel
 			}
 
 			//  Right Click for PopUp
-			else if ((m_editable || m_hasBar)
+			else if ((editable || hasBar)
 				&& SwingUtilities.isRightMouseButton(e) )
 			{
 				int selRow = tree.getRowForLocation(e.getX(), e.getY());
@@ -601,9 +663,9 @@ public final class VTreePanel extends CPanel
 				{
 					MTreeNode nd = (MTreeNode)tree.getSelectionPath().getLastPathComponent();
 					if (nd.isLeaf())                    //  only add leaves to bar
-						mBarAdd.setEnabled(true);
+						barAdd.setEnabled(true);
 					else
-						mBarAdd.setEnabled(false);
+						barAdd.setEnabled(false);
 					Rectangle r = tree.getPathBounds(tree.getSelectionPath());
 					popMenuTree.show(tree, (int)r.getMaxX(), (int)r.getY());
 				}
@@ -615,10 +677,16 @@ public final class VTreePanel extends CPanel
 		{
 			if (SwingUtilities.isRightMouseButton(e))
 			{
-				m_buttonSelected = (CButton)e.getSource();
-				popMenuBar.show(m_buttonSelected, e.getX(), e.getY());
+				buttonSelected = (CButton) e.getSource();
+				popMenuBar.show(buttonSelected, e.getX(), e.getY());
 			}
-		}   //  JButton
+		}   //  JToolBar
+		else if(e.getSource() instanceof JToolBar) {
+			if(SwingUtilities.isRightMouseButton(e)) {
+				toolSelected = (JToolBar) e.getSource();
+				popToolBar.show(toolSelected, e.getX(), e.getY());
+			}
+		}
 
 	}   //  mouseClicked
 
@@ -650,7 +718,7 @@ public final class VTreePanel extends CPanel
 	{
 		log.config("ID=" + nodeID);
 		if (nodeID != -1)				//	new is -1
-			return selectID(nodeID, true);     //  show selection
+			return selectId(nodeID, true);     //  show selection
 		return false;
 	}   //  setSelectedNode
 
@@ -660,14 +728,14 @@ public final class VTreePanel extends CPanel
 	 *  @param show	scroll to node
 	 * 	@return true if selected
 	 */
-	private boolean selectID (int nodeID, boolean show)
+	private boolean selectId (int nodeID, boolean show)
 	{
-		if (m_root == null)
+		if (root == null)
 			return false;
 		log.config("NodeID=" + nodeID 
-			+ ", Show=" + show + ", root=" + m_root);
+			+ ", Show=" + show + ", root=" + root);
 		//  try to find the node
-		MTreeNode node = m_root.findNode (nodeID);
+		MTreeNode node = root.findNode (nodeID);
 		if (node != null)
 		{
 			TreePath treePath = new TreePath(node.getPath());
@@ -715,20 +783,20 @@ public final class VTreePanel extends CPanel
 		log.config("Save=" + save + ", KeyID=" + keyID
 			+ ", Name=" + name + ", Description=" + description 
 			+ ", IsSummary=" + isSummary + ", ImageInd=" + imageIndicator
-			+ ", root=" + m_root);
+			+ ", root=" + root);
 		//	if ID==0=root - don't update it
 		if (keyID == 0)
 			return;	
 			
 		//  try to find the node
-		MTreeNode node = m_root.findNode(keyID);
+		MTreeNode node = root.findNode(keyID);
 
 		//  Node not found and saved -> new
 		if (node == null && save)
 		{
 			node = new MTreeNode (keyID, 0, name, description,
-				m_root.getNode_ID(), isSummary, imageIndicator, false, null);
-			m_root.add (node);
+				root.getNode_ID(), isSummary, imageIndicator, false, null);
+			root.add (node);
 		}
 
 		//  Node found and saved -> change
@@ -775,11 +843,32 @@ public final class VTreePanel extends CPanel
 		//  bar button pressed
 		if (e.getSource() instanceof JButton)
 		{
-			//  Find Node - don't show
-			selectID(Integer.parseInt(e.getActionCommand()), false);
-			//  Select it
-			MTreeNode tn = (MTreeNode)tree.getSelectionPath().getLastPathComponent();
-			setSelectedNode(tn);
+			//	Verify if is a Recent Item or a Item for bar
+			if(e.getActionCommand().startsWith(PREFIX_BAR_ITEM)) {
+				//  Find Node - don't show
+				selectId(Integer.parseInt(e.getActionCommand().replaceAll(PREFIX_BAR_ITEM, "")), false);
+				//  Select it
+				MTreeNode tn = (MTreeNode) tree.getSelectionPath().getLastPathComponent();
+				setSelectedNode(tn);
+			} else if(e.getActionCommand().startsWith(PREFIX_RECENT_ITEM)) {
+				MRecentItem recentItem = MRecentItem.get(Env.getCtx(), 
+						Integer.parseInt(e.getActionCommand().replaceAll(PREFIX_RECENT_ITEM, "")));
+				//	Launch
+				if(recentItem.isOptionMenu()) {
+					MMenu menu = MMenu.getFromId(Env.getCtx(), recentItem.getAD_Menu_ID());
+					CFrame frame = (CFrame) Env.getFrame((JButton) e.getSource());
+					AMenu aMenu = AEnv.getAMenu(frame);
+					new AMenuStartItem(menu.getAD_Menu_ID(), true, 
+							menu.get_Translation(MMenu.COLUMNNAME_Name), aMenu)
+							.start();
+				} else {
+					setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+					String TableName = MTable.getTableName(Env.getCtx(), recentItem.getAD_Table_ID());
+	    			MQuery query = MQuery.getEqualQuery(TableName + "_ID", recentItem.getRecord_ID());
+					AEnv.zoom((JButton) e.getSource(), recentItem.getAD_Window_ID(), query);
+					setCursor(Cursor.getDefaultCursor());
+				}
+			}
 		}
 
 		//  popup menu commands
@@ -791,20 +880,22 @@ public final class VTreePanel extends CPanel
 	            a.actionPerformed(new ActionEvent(tree,
 	                                              ActionEvent.ACTION_PERFORMED,
 	                                              null));
+	        } else if (action.equals("BarAdd")) {
+	        	barAdd();
+	        } else if (action.equals("BarRemove")) {
+	        	barRemove();
+	        } else if(action.equals("BarRefresh")) {
+	        	barRefresh(toolSelected);
+	    		//	
+	    		bar.validate();
+	    		bar.repaint();
 	        }
-			else if (action.equals("BarAdd"))
-				barAdd();
-			else if (action.equals("BarRemove"))
-				barRemove();
-		}
-
-		else if (e.getSource() instanceof JCheckBox)
-		{
+		} else if (e.getSource() instanceof JCheckBox) {
 			if (e.getActionCommand().equals("Expand"))
 				expandTree();
 		}
 	}   //  actionPerformed
-
+	
 	/**
 	 *  Add selected TreeNode to Bar
 	 */
@@ -827,15 +918,16 @@ public final class VTreePanel extends CPanel
 		int topParentId = getTopParentId(nd);
 		JToolBar parent = toolbarMap.get(topParentId);
 		if(parent==null){
-			Enumeration<?> enTop =m_root.children();
+			Enumeration<?> enTop =root.children();
 			while (enTop.hasMoreElements()) {
 				MTreeNode ndTop = (MTreeNode)enTop.nextElement();
-				if(ndTop.getNode_ID()==topParentId){
+				if(ndTop.getNode_ID() == topParentId){
 					log.fine("add new category: " + ndTop);
 					parent = new JToolBar(JToolBar.VERTICAL);
-
+					parent.setName(PREFIX_BAR_ITEM + ndTop.getNode_ID());
+					parent.addMouseListener(mouseListener);
 					toolbarMap.put(ndTop.getNode_ID(), parent);
-					toolbar.add(parent);
+					toolbarList.add(parent);
 					parent.setOpaque(false);
 					parent.setFloatable(false);
 					parent.setRollover(true);
@@ -873,6 +965,70 @@ public final class VTreePanel extends CPanel
 		}
 		return nd.getNode_ID();
 	}
+	
+	/**
+	 * Update All info
+	 */
+	public void updateInfo() {
+		//	For tool bar
+		barRefresh();
+	}
+	
+	
+	/**
+	 * Refresh All
+	 */
+	private void barRefresh() {
+		for(JToolBar toolbar : toolbarList) {
+			barRefresh(toolbar);
+		}
+		//	
+		bar.validate();
+		bar.repaint();
+	}
+	
+	/**
+	 * Refresh
+	 */
+	private void barRefresh(JToolBar toolBar) {
+		//	Validate null
+		if(toolBar == null)
+			return;
+		//	
+		toolBar.removeAll();
+		//	Verify Type
+		if(toolBar.getName().startsWith(PREFIX_RECENT_ITEM)) {
+			//	Delete unnecessary items
+			MRecentItem.deleteExtraItems(Env.getCtx());
+			//	
+			for(MRecentItem recentItem : MRecentItem.getFromUserAndRole(Env.getCtx())) {
+				addToBar(recentItem, toolBar, false);
+			}
+		} else if(toolBar.getName().startsWith(PREFIX_BAR_ITEM)) {
+			try {
+				int [] nodeIds = DB.getIDsEx(null, "SELECT Node_ID "
+						+ "FROM AD_TreeBar "
+						+ "WHERE AD_Client_ID = ? "
+						+ "AND AD_User_ID = ? "
+						+ "AND AD_Tree_ID = ?", 
+						Env.getAD_Client_ID(Env.getCtx()), 
+						Env.getAD_User_ID(Env.getCtx()), 
+						treeId);
+				//	Iterate
+				for(int nodeId : nodeIds) {
+					MTreeNode node = root.findNode(nodeId);
+					int parentId = getTopParentId(node);
+					int parentBarId = Integer.parseInt(toolBar.getName().replaceAll(PREFIX_BAR_ITEM, ""));
+					if(node != null
+							&& parentId == parentBarId) {
+						addToBar(node, toolBar, false);
+					}
+				}
+			} catch(Exception e) {
+				//	
+			}
+		}
+	}
 
 	/**
 	 *  Add TreeNode to Bar
@@ -882,10 +1038,6 @@ public final class VTreePanel extends CPanel
 	{
 		//	Only first word of Label
 		String label = nd.toString().trim();
-	//	int space = label.indexOf(' ');
-	//	if (space != -1)
-	//		label = label.substring(0, space);
-
 		if (!isLabel) {
 			CButton button = new CButton(label);
 			button.setOpaque(false);
@@ -894,44 +1046,69 @@ public final class VTreePanel extends CPanel
 			button.setIcon(nd.getIcon());
 			button.setRequestFocusEnabled(false);
 			button.setToolTipText(nd.getDescription());
-			button.setActionCommand(String.valueOf(nd.getNode_ID()));
+			button.setActionCommand(PREFIX_BAR_ITEM + String.valueOf(nd.getNode_ID()));
 			button.addActionListener(this);
 			button.addMouseListener(mouseListener);
 			currentToolBar.add(button);
 	    } else {
 	    	currentToolBar.add(new JLabel("<html><u><b>" +label+"</b></u></html>"));
 	    }
-		bar.validate();
-		//if (centerSplitPane.getDividerLocation() == -1)
-		//	centerSplitPane.setDividerLocation(button.getPreferredSize().width);
-		bar.repaint();
+	}   //  addToBar
+	
+	/**
+	 *  Add Recent Item to Bar
+	 *  @param recentItem node
+	 */
+	private void addToBar(MRecentItem recentItem, JToolBar currentToolBar, boolean isLabel) {
+		//	Only first word of Label
+		String label = recentItem.getLabel();
+		
+		// Item in the meantime not existent ?
+		if (label == null) {
+			recentItem.deleteEx(true);
+			return; // record could have been deleted
+		}
+		
+		if (!isLabel) {
+			//	Validate only menu option
+			if(recentItem.getAD_Menu_ID() == 0)
+				return;
+			MMenu menu = MMenu.getFromId(Env.getCtx(), recentItem.getAD_Menu_ID());
+			CButton button = new CButton(label);
+			button.setOpaque(false);
+			button.setHorizontalAlignment(JButton.LEFT);
+			button.setMargin(new Insets(0, 0, 0, 0));
+			button.setIcon(MTreeNode.getIcon(MTreeNode.getImageIndex(menu.getAction())));
+			button.setRequestFocusEnabled(false);
+			button.setToolTipText(label);
+			button.setActionCommand(PREFIX_RECENT_ITEM + String.valueOf(recentItem.getAD_RecentItem_ID()));
+			button.addActionListener(this);
+			button.addMouseListener(mouseListener);
+			currentToolBar.add(button);
+	    } else {
+	    	currentToolBar.add(new JLabel("<html><u><b>" + label +"</b></u></html>"));
+	    }
 	}   //  addToBar
 
 	/**
 	 *  Remove from Bar
 	 */
-	private void barRemove()
-	{
+	private void barRemove() {
 		//the button in on a JToolBar which is on a CPanel
-		JToolBar parentBar = (JToolBar) m_buttonSelected.getParent();
-		Container parentPanel = null;
-		if(parentBar!=null){
-			parentPanel = parentBar.getParent();
-		}
-		for (JToolBar jt : toolbar) {
-			jt.remove(m_buttonSelected);
-		}
-
-		if(parentPanel != null && parentBar.getComponentCount()==1){
-			//only label left
-			bar.remove(parentPanel);
-			//remove from toolBarMap..
-			toolbarMap.values().remove(parentBar);
-			
+		for (JToolBar jt : toolbarList) {
+			jt.remove(buttonSelected);
 		}
 		bar.validate();
 		bar.repaint();
-		barDBupdate(false, Integer.parseInt(m_buttonSelected.getActionCommand()));
+		//	For Recent Item or Item Bar
+		if(buttonSelected.getActionCommand().startsWith(PREFIX_BAR_ITEM)) {
+			barDBupdate(false, Integer.parseInt(buttonSelected.getActionCommand().replaceAll(PREFIX_BAR_ITEM, "")));
+		} else if(buttonSelected.getActionCommand().startsWith(PREFIX_RECENT_ITEM))  {
+			MRecentItem item = MRecentItem.get(Env.getCtx(), 
+					Integer.parseInt(buttonSelected.getActionCommand().replaceAll(PREFIX_RECENT_ITEM, "")));
+			//	Delete item
+			item.delete(true);
+		}
 	}   //  barRemove
 
 	/**
@@ -951,12 +1128,12 @@ public final class VTreePanel extends CPanel
 				+ "(AD_Tree_ID,AD_User_ID,Node_ID, "
 				+ "AD_Client_ID,AD_Org_ID, "
 				+ "IsActive,Created,CreatedBy,Updated,UpdatedBy)VALUES (")
-				.append(m_AD_Tree_ID).append(",").append(AD_User_ID).append(",").append(Node_ID).append(",")
+				.append(treeId).append(",").append(AD_User_ID).append(",").append(Node_ID).append(",")
 				.append(AD_Client_ID).append(",").append(AD_Org_ID).append(",")
 				.append("'Y',SysDate,").append(AD_User_ID).append(",SysDate,").append(AD_User_ID).append(")");
 			//	if already exist, will result in ORA-00001: unique constraint (ADEMPIERE.AD_TREEBAR_KEY)
 		else
-			sql.append("DELETE AD_TreeBar WHERE AD_Tree_ID=").append(m_AD_Tree_ID)
+			sql.append("DELETE AD_TreeBar WHERE AD_Tree_ID=").append(treeId)
 				.append(" AND AD_User_ID=").append(AD_User_ID)
 				.append(" AND Node_ID=").append(Node_ID);
 		int no = DB.executeUpdate(sql.toString(), false, null);
@@ -984,9 +1161,9 @@ public final class VTreePanel extends CPanel
 
 	@Override
 	public void paint(Graphics g) {
-		if (m_lookAndFeelChanged) {
-			m_lookAndFeelChanged = false;
-			if (m_hasBar) removeSplitPaneBorder();
+		if (lookAndFeelChanged) {
+			lookAndFeelChanged = false;
+			if (hasBar) removeSplitPaneBorder();
 		}
 		super.paint(g);
 	}
@@ -1023,9 +1200,9 @@ public final class VTreePanel extends CPanel
 			treeSearch.setCursor(Cursor.getDefaultCursor());
 		}
 	}	//	set Busy
-    
+
+	public int getTreeId()
+	{
+		return treeId;
+	}
 }   //  VTreePanel
-
-
-
- 	  	 

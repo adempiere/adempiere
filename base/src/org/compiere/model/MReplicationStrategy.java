@@ -17,8 +17,10 @@
 
 package org.compiere.model;
 
+import java.sql.ResultSet;
 import java.util.List;
 import java.util.Properties;
+import java.util.stream.Collectors;
 
 import org.compiere.util.CLogger;
 
@@ -53,7 +55,18 @@ public class MReplicationStrategy extends X_AD_ReplicationStrategy {
 	public MReplicationStrategy(Properties ctx, int AD_ReplicationStrategy_ID, String trxName) {
 		super(ctx, AD_ReplicationStrategy_ID, trxName);
 	}
-	
+
+	/**
+	 * Load Constructor
+	 * @param ctx
+	 * @param rs
+	 * @param trxName
+     */
+	public MReplicationStrategy (Properties ctx, ResultSet rs, String trxName)
+	{
+		super(ctx, rs, trxName);
+	}
+
 	/**
 	 * @return the list the X_AD_ReplicationTable
 	 */
@@ -87,11 +100,11 @@ public class MReplicationStrategy extends X_AD_ReplicationStrategy {
 	 * @param AD_Table_ID
 	 * @return X_AD_ReplicationTable table to replication
 	 */
-	public static X_AD_ReplicationTable getReplicationTable(Properties ctx ,int AD_ReplicationStrategy_ID, int AD_Table_ID)
+	public static MReplicationTable getReplicationTable(Properties ctx ,int AD_ReplicationStrategy_ID, int AD_Table_ID)
 	{
 	    	final String whereClause = I_AD_ReplicationTable.COLUMNNAME_AD_ReplicationStrategy_ID + "=? AND "
 	    				 			 + I_AD_ReplicationTable.COLUMNNAME_AD_Table_ID + "=?";
-		return new Query(ctx, I_AD_ReplicationTable.Table_Name, whereClause, null)
+		return new Query(ctx, MReplicationTable.Table_Name, whereClause, null)
 			.setClient_ID()
 			.setOnlyActiveRecords(true)
 			.setApplyAccessFilter(false)
@@ -105,11 +118,11 @@ public class MReplicationStrategy extends X_AD_ReplicationStrategy {
 	 * @param AD_Table_ID
 	 * @return X_AD_ReplicationDocument Document to replication
 	 */
-	public static X_AD_ReplicationDocument getReplicationDocument(Properties ctx ,int AD_ReplicationStrategy_ID , int AD_Table_ID)
+	public static MReplicationDocument getReplicationDocument(Properties ctx ,int AD_ReplicationStrategy_ID , int AD_Table_ID)
 	{
 	    	final String whereClause = I_AD_ReplicationDocument.COLUMNNAME_AD_ReplicationStrategy_ID + "=? AND "
 			 		 				 + I_AD_ReplicationDocument.COLUMNNAME_AD_Table_ID + "=?";
-		return new Query(ctx, I_AD_ReplicationDocument.Table_Name, whereClause, null)
+		return new Query(ctx, MReplicationDocument.Table_Name, whereClause, null)
 			.setClient_ID()
 			.setOnlyActiveRecords(true)
 			.setApplyAccessFilter(false)
@@ -136,4 +149,43 @@ public class MReplicationStrategy extends X_AD_ReplicationStrategy {
 			.first();
 	}
 
+	static public  List<MReplicationStrategy> getByClient(Properties ctx , String trxName)
+	{
+		return new Query(ctx, MReplicationStrategy.Table_Name, null , trxName).setClient_ID().list();
+	}
+
+	static public List<MReplicationStrategy> getByOrgAndRole(Properties ctx, int orgId , int roleId , String trxName)
+	{
+		List<MReplicationStrategy> replicationStrategies = getByClient(ctx , trxName);
+		return replicationStrategies
+				.stream()
+				.filter(replicationStrategy -> replicationStrategy.validateOrganization(orgId) && replicationStrategy.validateRole(roleId))
+				.collect(Collectors.toList());
+	}
+
+	public Boolean validateOrganization (int orgId)
+	{
+		return getOrgAccess().stream().anyMatch(replicationOrgAccess -> replicationOrgAccess.getAD_Org_ID() == orgId);
+	}
+
+	public Boolean validateRole(int roleId)
+	{
+		return getRoleAccess().stream().anyMatch(replicationRoleAccess -> replicationRoleAccess.getAD_Role_ID() == roleId);
+	}
+
+	public List<MReplicationOrgAccess> getOrgAccess()
+	{
+		return new Query(getCtx() , MReplicationOrgAccess.Table_Name, MReplicationOrgAccess.COLUMNNAME_AD_ReplicationStrategy_ID + "=?" , get_TrxName())
+				.setClient_ID()
+				.setParameters(get_ID())
+				.list();
+	}
+
+	public List<MReplicationRoleAccess> getRoleAccess()
+	{
+		return new Query(getCtx() , MReplicationRoleAccess.Table_Name, MReplicationRoleAccess.COLUMNNAME_AD_ReplicationStrategy_ID + "=?" , get_TrxName())
+				.setClient_ID()
+				.setParameters(get_ID())
+				.list();
+	}
 }

@@ -18,6 +18,8 @@ package org.compiere.util;
 
 import java.io.File;
 
+import org.compiere.model.MClient;
+
 import junit.framework.TestCase;
 
 /**
@@ -27,6 +29,11 @@ import junit.framework.TestCase;
  *
  *  @author Jorg Janke
  *  @version  $Id: EMailTest.java,v 1.2 2006/07/30 00:54:36 jjanke Exp $
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *			<li> FR [ 402 ] Mail setup is hardcoded
+ *			@see https://github.com/adempiere/adempiere/issues/402
+ *			<li> FR [ 1308 ] Unable To send test mail
+ *			@see https://github.com/adempiere/adempiere/issues/1308
  */
 public class EMailTest extends TestCase
 {
@@ -40,15 +47,15 @@ public class EMailTest extends TestCase
 		super(name);
 	}
 
-	String host = 	"admin.adempiere.org";
-	String usr = 	"jjanke";
-	String pwd = 	"";
+	String host = 	"smtp.gmail.com";
+	String usr = 	"ysenih@erpconsultoresyasociados.com";
+	String pwd = 	"CorvetteZR2";
 	//
-	String from = 	"jjanke@adempiere.org";
+	String from = 	"ysenih@erpconsultoresyasociados.com";
 	//
-	String to = 	"jjanke@yahoo.com";
-	String to2 = 	"jjanke@acm.org";
-	String to3 = 	"jorg.janke@adempiere.org";
+	String to = 	"ysenih@erpconsultoresyasociados.com";
+	String to2 = 	"ysenih@erpconsultoresyasociados.com";
+	String to3 = 	"ysenih@erpconsultoresyasociados.com";
 
 	/**
 	 * Perform pre-test initialization
@@ -127,14 +134,16 @@ public class EMailTest extends TestCase
 	/**
 	 *	Test sending Attachment HTML
 	 */
-	public void testAttachmentHTML()
-	{
-		EMail emailTest = new EMail(System.getProperties(), host, from, to, null, null);
+	public void testAttachmentHTML() {
+		//	FR [ 402 ]
+		EMail emailTest = new EMail(MClient.get(Env.getCtx()));
+		if(emailTest.isSmtpAuthorization()) {
+			emailTest.createAuthenticator(usr, pwd);
+		}
 		emailTest.addTo(to2);
 		emailTest.addCc(to3);
 		emailTest.setMessageHTML("TestAttachmentHTML", "Test Attachment HTML Message");
 		emailTest.addAttachment(new File("C:\\Adempiere\\RUN_Adempiere.sh"));
-		emailTest.createAuthenticator(usr, pwd);
 		assertEquals(emailTest.send(), EMail.SENT_OK);
 	}	//	testAttachmentHTML
 

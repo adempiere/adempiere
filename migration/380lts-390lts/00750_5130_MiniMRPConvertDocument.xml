@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Replenish Plan Convert Document" ReleaseNo="3.9.0" SeqNo="00750">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="376" Action="I" Record_ID="53063" Table="AD_Form">
+        <Data AD_Column_ID="5791" Column="AccessLevel">3</Data>
+        <Data AD_Column_ID="4606" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="13022" Column="JSPURL" isNewNull="true"/>
+        <Data AD_Column_ID="12738" Column="IsBetaFunctionality">false</Data>
+        <Data AD_Column_ID="7708" Column="EntityType">D</Data>
+        <Data AD_Column_ID="4605" Column="Description">Convert Planned Order to Manufacturing Order</Data>
+        <Data AD_Column_ID="4604" Column="Name">Replenish Plan Convert Document</Data>
+        <Data AD_Column_ID="4597" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="4603" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="4601" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="4602" Column="Updated">2016-01-05 11:36:22.62</Data>
+        <Data AD_Column_ID="4599" Column="IsActive">true</Data>
+        <Data AD_Column_ID="4600" Column="Created">2016-01-05 11:36:22.62</Data>
+        <Data AD_Column_ID="4596" Column="AD_Form_ID">53063</Data>
+        <Data AD_Column_ID="4598" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="4607" Column="Classname">org.adaxa.form.VReplenishPlanConvertForm</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="116" Action="I" Record_ID="54028" Table="AD_Menu">
+        <Data AD_Column_ID="233" Column="AD_Window_ID" isNewNull="true"/>
+        <Data AD_Column_ID="228" Column="AD_Menu_ID">54028</Data>
+        <Data AD_Column_ID="230" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="234" Column="AD_Workflow_ID" isNewNull="true"/>
+        <Data AD_Column_ID="235" Column="AD_Task_ID" isNewNull="true"/>
+        <Data AD_Column_ID="399" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="598" Column="IsActive">true</Data>
+        <Data AD_Column_ID="599" Column="Created">2016-01-05 11:37:16.052</Data>
+        <Data AD_Column_ID="400" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="600" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="601" Column="Updated">2016-01-05 11:37:16.052</Data>
+        <Data AD_Column_ID="57960" Column="AD_Browse_ID" isNewNull="true"/>
+        <Data AD_Column_ID="1169" Column="IsSummary">false</Data>
+        <Data AD_Column_ID="6297" Column="AD_Workbench_ID" isNewNull="true"/>
+        <Data AD_Column_ID="4426" Column="IsSOTrx">false</Data>
+        <Data AD_Column_ID="6651" Column="IsReadOnly">false</Data>
+        <Data AD_Column_ID="3375" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="4621" Column="AD_Form_ID">53063</Data>
+        <Data AD_Column_ID="7721" Column="EntityType">D</Data>
+        <Data AD_Column_ID="59134" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="602" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="229" Column="Name">Replenish Plan Convert Document</Data>
+        <Data AD_Column_ID="232" Column="Action">X</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

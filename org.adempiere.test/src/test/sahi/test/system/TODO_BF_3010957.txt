@@ -1,0 +1,8 @@
+refers to:
+http://wiki.adempiere.net/Bug_Month_May_2011#Bug_Trackings, Rev 6336
+
+Review for 361-LTS
+My understanding:
+*Delimiter is either comma or tab or customer, depending on FormatType. The bug was, that the system always tired to load the delimiter cahracter, when it should have loaded that characted only if format type == custom
+*Carloz patch makes sure that the character is only loaded if type == custom, but
+**Apparently, the loaded chancter is never used if type != custom, so it's not obvious to me,  how this solves the error that user "lbetanzo" reported in this thread: https://sourceforge.net/projects/adempiere/forums/forum/610548/topic/3744151

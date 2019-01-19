@@ -12,11 +12,11 @@ SELECT cr.AD_Client_ID, cr.AD_Org_ID, cr.IsActive, cr.Created,cr.CreatedBy, cr.U
     cr.C_CommissionRun_ID, cr.DocumentNo, cr.Description, 
     cr.StartDate, cr.GrandTotal, cr.Processed,
     -- Commission
-    c.C_Commission_ID, c.C_BPartner_ID AS Commission_BPartner_ID,
+    c.C_Commission_ID, ca.C_BPartner_ID AS Commission_BPartner_ID,
     --  Commission Amount
     ca.C_CommissionAmt_ID, 
-    ca.ConvertedAmt AS CommissionConvertedAmt, ca.ActualQty AS CommissionQty, 
-    ca.CommissionAmt,
+    cd.ConvertedAmt AS CommissionConvertedAmt, cd.ActualQty AS CommissionQty, 
+    cd.CommissionAmt,
     --  Commission Detail
     cd.C_CommissionDetail_ID,
     cd.Reference,
@@ -41,6 +41,3 @@ FROM C_CommissionRun cr
     LEFT OUTER JOIN C_InvoiceLine il ON (cd.C_InvoiceLine_ID=il.C_InvoiceLine_ID)
     LEFT OUTER JOIN C_Order o ON (ol.C_Order_ID=o.C_Order_ID)
     LEFT OUTER JOIN C_Invoice i ON (il.C_Invoice_ID=i.C_Invoice_ID);
-
-
-

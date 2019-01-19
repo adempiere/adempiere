@@ -19,6 +19,8 @@ import org.compiere.util.Env;
 
 import test.AdempiereTestCase;
 
+import java.util.List;
+
 /**
  * @author Teo Sarca, www.arhipac.ro //red1 borrows from MInvoiceTest
  */
@@ -34,8 +36,8 @@ public class MDistributionTest extends AdempiereTestCase
 	public void testQuery() throws Exception
 	{
 		MDistribution dist = new MDistribution(getCtx(), 100, getTrxName());
-		MDistributionLine[] dl = dist.getLines(true); //red1 test with false no effect as mlines is null
-		assertTrue("Dist Lines exists", dl.length > 0);		
+		List<MDistributionLine> dl = dist.getLines(true); //red1 test with false no effect as mlines is null
+		assertTrue("Dist Lines exists", dl.size() > 0);
 	}
 
 }

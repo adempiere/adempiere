@@ -1,5 +1,5 @@
 Wiki page
-http://www.adempiere.com/index.php/Sponsored_Development:_Libero_Smart_Browse
+http://wiki.adempiere.net/Sponsored_Development:_Libero_Smart_Browse
 Tracker to report bug
 https://sourceforge.net/tracker/?group_id=176962&atid=1179552
 

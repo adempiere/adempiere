@@ -726,7 +726,7 @@ public class VPayment extends CDialog
 		 *  Load Bank Accounts
 		 */
 		SQL = MRole.getDefault().addAccessSQL(
-			"SELECT C_BankAccount_ID, Name || ' ' || AccountNo, IsDefault "
+			"SELECT C_BankAccount_ID, ba.accountno, IsDefault "
 			+ "FROM C_BankAccount ba"
 			+ " INNER JOIN C_Bank b ON (ba.C_Bank_ID=b.C_Bank_ID) "
 			+ "WHERE b.IsActive='Y'",

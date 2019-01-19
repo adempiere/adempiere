@@ -234,7 +234,7 @@ public class MRequisitionLine extends X_M_RequisitionLine
 		log.fine("M_PriceList_ID=" + M_PriceList_ID);
 		boolean isSOTrx = false;
 		MProductPricing pp = new MProductPricing (getM_Product_ID(), 
-			getC_BPartner_ID(), getQty(), isSOTrx);
+			getC_BPartner_ID(), getQty(), isSOTrx, null);
 		pp.setM_PriceList_ID(M_PriceList_ID);
 	//	pp.setPriceDate(getDateOrdered());
 		//

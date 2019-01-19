@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="EE02" Name="Enable unique constraint for payroll tables and value column" ReleaseNo="3.9.0" SeqNo="1880">
+    <Comments>https://github.com/adempiere/adempiere/issues/815</Comments>
+    <Step DBType="ALL" Parse="Y" SeqNo="10" StepType="SQL">
+      <SQLStatement>DROP INDEX  hr_job_value;
+ALTER TABLE hr_job ADD CONSTRAINT hr_job_value UNIQUE (ad_client_id , value);
+ALTER TABLE hr_jobtype ADD CONSTRAINT hr_jobtype_value UNIQUE (ad_client_id , value);
+ALTER TABLE hr_jobeducation ADD CONSTRAINT hr_jobeducation_value UNIQUE (ad_client_id , value);
+ALTER TABLE hr_careerlevel ADD CONSTRAINT hr_careerlevel_value UNIQUE (ad_client_id , value);
+ALTER TABLE hr_skilltype ADD CONSTRAINT hr_skilltype_value UNIQUE (ad_client_id , value);
+ALTER TABLE hr_employeetype ADD CONSTRAINT hr_employeetype_value UNIQUE (ad_client_id , value);
+DROP INDEX hr_department_value;
+ALTER TABLE hr_department ADD CONSTRAINT hr_department_value UNIQUE (ad_client_id , value);
+ALTER TABLE hr_race ADD CONSTRAINT hr_race_value UNIQUE (ad_client_id , value);
+ALTER TABLE hr_salarystructure ADD CONSTRAINT hr_salarystructure_value UNIQUE (ad_client_id , value);
+ALTER TABLE hr_salaryrange ADD CONSTRAINT hr_salaryrange_value UNIQUE (ad_client_id , value);
+ALTER TABLE hr_concept_type ADD CONSTRAINT hr_concept_type_value UNIQUE (ad_client_id , value);
+ALTER TABLE hr_degree ADD CONSTRAINT hr_degree_value UNIQUE (ad_client_id , value);
+ALTER TABLE hr_designation ADD CONSTRAINT hr_designation_value UNIQUE (ad_client_id , value);
+ALTER TABLE hr_grade ADD CONSTRAINT hr_grade_value UNIQUE (ad_client_id , value);
+ALTER TABLE hr_insurancetype ADD CONSTRAINT hr_insurancetype_value UNIQUE (ad_client_id , value);
+ALTER TABLE hr_leavereason ADD CONSTRAINT hr_leavereason_value UNIQUE (ad_client_id , value);
+ALTER TABLE hr_leavetype ADD CONSTRAINT hr_leavetype_value UNIQUE (ad_client_id , value);
+ALTER TABLE hr_list ADD CONSTRAINT hr_list_value UNIQUE (ad_client_id , value);
+ALTER TABLE hr_listtype ADD CONSTRAINT hr_listtype_value UNIQUE (ad_client_id , value);
+ALTER TABLE hr_payroll ADD CONSTRAINT hr_payroll_value UNIQUE (ad_client_id , value);
+ALTER TABLE hr_relationship ADD CONSTRAINT hr_relationship_value UNIQUE (ad_client_id , value);
+ALTER TABLE hr_shiftgroup ADD CONSTRAINT hr_shiftgroup_value UNIQUE (ad_client_id , value);
+ALTER TABLE hr_workgroup ADD CONSTRAINT hr_workgroup_value UNIQUE (ad_client_id , value);
+ALTER TABLE hr_workshift ADD CONSTRAINT hr_workshift_value UNIQUE (ad_client_id , value);
+CREATE INDEX idx_hr_movement_c_bpartner_id ON hr_movement (c_bpartner_id);
+CREATE INDEX idx_hr_movement_hr_concept_id ON hr_movement (hr_concept_id);
+CREATE INDEX idx_hr_movement_servicedate ON hr_movement (servicedate);
+CREATE INDEX idx_hr_movement_validfrom ON hr_movement (validfrom);
+</SQLStatement>
+      <RollbackStatement>ALTER TABLE hr_job DROP CONSTRAINT hr_job_value;
+ALTER TABLE hr_jobtype DROP CONSTRAINT hr_jobtype_value;
+ALTER TABLE hr_jobeducation DROP CONSTRAINT hr_jobeducation_value;
+ALTER TABLE hr_careerlevel DROP CONSTRAINT hr_careerlevel_value;
+ALTER TABLE hr_skilltype DROP CONSTRAINT hr_skilltype_value;
+ALTER TABLE hr_employeetype DROP CONSTRAINT hr_employeetype_value;
+ALTER TABLE hr_department DROP CONSTRAINT hr_department_value;
+ALTER TABLE hr_race DROP CONSTRAINT hr_race_value;
+ALTER TABLE hr_salarystructure DROP CONSTRAINT hr_salarystructure_value;
+ALTER TABLE hr_salaryrange DROP CONSTRAINT hr_salaryrange_value;
+ALTER TABLE hr_concept_type DROP CONSTRAINT hr_concept_type_value;
+ALTER TABLE hr_degree DROP CONSTRAINT hr_degree_value;
+ALTER TABLE hr_designation DROP CONSTRAINT hr_designation_value;
+ALTER TABLE hr_grade DROP CONSTRAINT hr_grade_value;
+ALTER TABLE hr_insurancetype DROP CONSTRAINT hr_insurancetype_value;
+ALTER TABLE hr_leavereason DROP CONSTRAINT hr_leavereason_value;
+ALTER TABLE hr_leavetype DROP CONSTRAINT hr_leavetype_value ;
+ALTER TABLE hr_list DROP CONSTRAINT hr_list_value;
+ALTER TABLE hr_listtype DROP CONSTRAINT hr_listtype_value;
+ALTER TABLE hr_payroll DROP CONSTRAINT hr_payroll_value;
+ALTER TABLE hr_relationship DROP CONSTRAINT hr_relationship_value;
+ALTER TABLE hr_shiftgroup DROP CONSTRAINT hr_shiftgroup_value;
+ALTER TABLE hr_workgroup DROP CONSTRAINT hr_workgroup_value;
+ALTER TABLE hr_workshift DROP CONSTRAINT hr_workshift_value;
+DROP INDEX idx_hr_movement_c_bpartner_id;
+DROP INDEX idx_hr_movement_hr_concept_id;
+DROP INDEX idx_hr_movement_servicedate;
+DROP INDEX idx_hr_movement_validfrom;</RollbackStatement>
+    </Step>
+  </Migration>
+</Migrations>

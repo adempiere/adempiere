@@ -18,6 +18,7 @@
 package org.compiere.model;
 
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -63,44 +64,44 @@ public class MTableScriptValidator extends X_AD_Table_ScriptValidator
 	/**
 	 * 	Get Model Validation Script Rules for a table/event
 	 *	@param ctx context
-	 *	@param table_id AD_Table_ID
+	 *	@param tableId AD_Table_ID
 	 *	@param event Event
 	 *	@return array of MTableScriptValidator or null if error or no validators found
 	 */
-	public static List<MTableScriptValidator> getModelValidatorRules (Properties ctx, int ad_table_id, String event)
+	public static List<MTableScriptValidator> getModelValidatorRules (Properties ctx, int tableId, String event)
 	{
 		// Try cache
-		final MultiKey key = new MultiKey(ad_table_id, event);
-		List<MTableScriptValidator> mvrs = s_cacheTableEvent.get(key);
-		if (mvrs != null)
+		final MultiKey multiKey = new MultiKey(tableId, event);
+		List<MTableScriptValidator> tableScriptValidators = s_cacheTableEvent.get(multiKey);
+		if (tableScriptValidators != null)
 		{
-			if (mvrs.size() > 0)
-				return mvrs;
+			if (tableScriptValidators.size() > 0)
+				return tableScriptValidators;
 			else
-				return null;
+				return new ArrayList<>();
 		}
 		//
 		// Fetch now
 		final String whereClause = "AD_Table_ID=? AND EventModelValidator=?";
-		mvrs = new Query(ctx, Table_Name, whereClause, null)
-		.setParameters(ad_table_id, event)
+		tableScriptValidators = new Query(ctx, Table_Name, whereClause, null)
+		.setParameters(tableId, event)
 		.setOnlyActiveRecords(true)
 		.setOrderBy(COLUMNNAME_SeqNo)
 		.list();
 		// Store to cache
-		for (MTableScriptValidator rule : mvrs)
+		for (MTableScriptValidator rule : tableScriptValidators)
 		{
 			s_cache.put(rule.get_ID(), rule);
 		}
 		
 		// Store to cache
-		if (mvrs != null)
-			s_cacheTableEvent.put(key, mvrs);
+		if (tableScriptValidators != null)
+			s_cacheTableEvent.put(multiKey, tableScriptValidators);
 		//
-		if (mvrs != null && mvrs.size() > 0)
-			return mvrs;
+		if (tableScriptValidators != null && tableScriptValidators.size() > 0)
+			return tableScriptValidators;
 		else
-			return null;
+			return new ArrayList<>();
 	}	//	getModelValidatorRules
 
 	/**	Cache						*/

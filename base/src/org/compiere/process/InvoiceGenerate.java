@@ -62,7 +62,7 @@ public class InvoiceGenerate extends SvrProcess
 	private String		p_docAction = DocAction.ACTION_Complete;
 	
 	/**	The current Invoice	*/
-	private MInvoice 	m_invoice = null;
+	private MInvoice 	invoice = null;
 	/**	The current Shipment	*/
 	private MInOut	 	m_ship = null;
 	/** Number of Invoices		*/
@@ -175,6 +175,7 @@ public class InvoiceGenerate extends SvrProcess
 		{
 			log.log(Level.SEVERE, sql, e);
 		}
+		log.config(sql);
 		return generate(pstmt);
 	}	//	doIt
 	
@@ -186,17 +187,19 @@ public class InvoiceGenerate extends SvrProcess
 	 */
 	private String generate (PreparedStatement pstmt)
 	{
+		int rs_cnt = 0;
 		try
 		{
 			ResultSet rs = pstmt.executeQuery ();
 			while (rs.next ())
 			{
+				rs_cnt++;
 				MOrder order = new MOrder (getCtx(), rs, get_TrxName());
 				
 				//	New Invoice Location
 				if (!p_ConsolidateDocument 
-					|| (m_invoice != null 
-					&& m_invoice.getC_BPartner_Location_ID() != order.getBill_Location_ID()) )
+					|| (invoice != null 
+					&& invoice.getC_BPartner_Location_ID() != order.getBill_Location_ID()) )
 					completeInvoice();
 				boolean completeOrder = MOrder.INVOICERULE_AfterOrderDelivered.equals(order.getInvoiceRule());
 				
@@ -331,7 +334,7 @@ public class InvoiceGenerate extends SvrProcess
 			pstmt = null;
 		}
 		completeInvoice();
-		return "@Created@ = " + m_created;
+		return "@Created@ = " + m_created + " @of@ " + rs_cnt;
 	}	//	generate
 	
 	
@@ -346,14 +349,14 @@ public class InvoiceGenerate extends SvrProcess
 	private void createLine (MOrder order, MOrderLine orderLine, 
 		BigDecimal qtyInvoiced, BigDecimal qtyEntered)
 	{
-		if (m_invoice == null)
+		if (invoice == null)
 		{
-			m_invoice = new MInvoice (order, 0, p_DateInvoiced);
-			if (!m_invoice.save())
+			invoice = new MInvoice (order, 0, p_DateInvoiced);
+			if (!invoice.save())
 				throw new IllegalStateException("Could not create Invoice (o)");
 		}
 		//	
-		MInvoiceLine line = new MInvoiceLine (m_invoice);
+		MInvoiceLine line = new MInvoiceLine (invoice);
 		line.setOrderLine(orderLine);
 		line.setQtyInvoiced(qtyInvoiced);
 		line.setQtyEntered(qtyEntered);
@@ -371,10 +374,10 @@ public class InvoiceGenerate extends SvrProcess
 	 */
 	private void createLine (MOrder order, MInOut ship, MInOutLine sLine)
 	{
-		if (m_invoice == null)
+		if (invoice == null)
 		{
-			m_invoice = new MInvoice (order, 0, p_DateInvoiced);
-			if (!m_invoice.save())
+			invoice = new MInvoice (order, 0, p_DateInvoiced);
+			if (!invoice.save())
 				throw new IllegalStateException("Could not create Invoice (s)");
 		}
 		//	Create Shipment Comment Line
@@ -399,7 +402,7 @@ public class InvoiceGenerate extends SvrProcess
 				+ " - " + format.format(ship.getMovementDate());
 			m_ship = ship;
 			//
-			MInvoiceLine line = new MInvoiceLine (m_invoice);
+			MInvoiceLine line = new MInvoiceLine (invoice);
 			line.setIsDescription(true);
 			line.setDescription(reference);
 			line.setLine(m_line + sLine.getLine() - 2);
@@ -409,7 +412,7 @@ public class InvoiceGenerate extends SvrProcess
 			if (order.getBill_Location_ID() != ship.getC_BPartner_Location_ID())
 			{
 				MLocation addr = MLocation.getBPLocation(getCtx(), ship.getC_BPartner_Location_ID(), null);
-				line = new MInvoiceLine (m_invoice);
+				line = new MInvoiceLine (invoice);
 				line.setIsDescription(true);
 				line.setDescription(addr.toString());
 				line.setLine(m_line + sLine.getLine() - 1);
@@ -418,7 +421,7 @@ public class InvoiceGenerate extends SvrProcess
 			}
 		}
 		//	
-		MInvoiceLine line = new MInvoiceLine (m_invoice);
+		MInvoiceLine line = new MInvoiceLine (invoice);
 		line.setShipLine(sLine);
 		if (sLine.sameOrderLineUOM())
 			line.setQtyEntered(sLine.getQtyEntered());
@@ -453,19 +456,19 @@ public class InvoiceGenerate extends SvrProcess
 	 */
 	private void completeInvoice()
 	{
-		if (m_invoice != null)
+		if (invoice != null)
 		{
-			if (!m_invoice.processIt(p_docAction))
+			if (!invoice.processIt(p_docAction))
 			{
-				log.warning("completeInvoice - failed: " + m_invoice);
-				addLog("completeInvoice - failed: " + m_invoice); // Elaine 2008/11/25
+				log.warning("completeInvoice - failed: " + invoice);
+				addLog("completeInvoice - failed: " + invoice); // Elaine 2008/11/25
 			}
-			m_invoice.saveEx();
+			invoice.saveEx();
 
-			addLog(m_invoice.getC_Invoice_ID(), m_invoice.getDateInvoiced(), null, m_invoice.getDocumentNo());
+			addLog(invoice.getC_Invoice_ID(), invoice.getDateInvoiced(), null, invoice.getDocumentNo());
 			m_created++;
 		}
-		m_invoice = null;
+		invoice = null;
 		m_ship = null;
 		m_line = 0;
 	}	//	completeInvoice

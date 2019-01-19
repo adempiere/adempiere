@@ -38,15 +38,14 @@ import org.compiere.util.TimeUtil;
 import org.compiere.wf.MWorkflowProcessor;
 
 /**
- *	Adempiere Server Base
+ *	ADempiere Server Base
  *
  *  @author Jorg Janke
- *  @version $Id: AdempiereServer.java,v 1.3 2006/10/09 00:23:26 jjanke Exp $
  */
 public abstract class AdempiereServer extends Thread
 {
 	/**
-	 * 	Create New Server Thead
+	 * 	Create New Server Thread
 	 *	@param model model
 	 *	@return server tread or null
 	 */

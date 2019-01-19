@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="System Config ZK Report output type Contribution #948(Adaxa)" ReleaseNo="3.9.0" SeqNo="01170">
+      <Comments>https://github.com/adempiere/adempiere/issues/885</Comments>
+    <Step DBType="Oracle" SeqNo="10" StepType="SQL">
+      <SQLStatement>-- Feb 5, 2012 12:56:29 PM COT
+INSERT INTO AD_SysConfig (AD_SysConfig_ID,EntityType,ConfigurationLevel,Name,Value,Description,AD_Client_ID,AD_Org_ID,Created,Updated,CreatedBy,UpdatedBy,IsActive) VALUES (200002,&apos;D&apos;,&apos;O&apos;,&apos;ZK_REPORT_FORM_OUTPUT_TYPE&apos;,&apos;PDF&apos;,&apos;Type of output in zkwebui for reports of type form, possible values are PDF, HTML, XLS&apos;,0,0,TO_DATE(&apos;2012-02-05 12:56:28&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),TO_DATE(&apos;2012-02-05 12:56:28&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),0,0,&apos;Y&apos;)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="20" StepType="SQL">
+      <SQLStatement>
+-- Feb 5, 2012 12:56:54 PM COT
+INSERT INTO AD_SysConfig (AD_SysConfig_ID,EntityType,ConfigurationLevel,Name,Value,Description,AD_Client_ID,AD_Org_ID,Created,Updated,CreatedBy,UpdatedBy,IsActive) VALUES (200003,&apos;D&apos;,&apos;O&apos;,&apos;ZK_REPORT_TABLE_OUTPUT_TYPE&apos;,&apos;PDF&apos;,&apos;Type of output in zkwebui for reports of type table, possible values are PDF, HTML, XLS&apos;,0,0,TO_DATE(&apos;2012-02-05 12:56:54&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),TO_DATE(&apos;2012-02-05 12:56:54&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),0,0,&apos;Y&apos;)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="30" StepType="SQL">
+      <SQLStatement>
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="10" StepType="SQL">
+      <SQLStatement>-- Feb 5, 2012 12:56:29 PM COT
+INSERT INTO AD_SysConfig (AD_SysConfig_ID,EntityType,ConfigurationLevel,Name,Value,Description,AD_Client_ID,AD_Org_ID,Created,Updated,CreatedBy,UpdatedBy,IsActive) VALUES (200002,&apos;D&apos;,&apos;O&apos;,&apos;ZK_REPORT_FORM_OUTPUT_TYPE&apos;,&apos;PDF&apos;,&apos;Type of output in zkwebui for reports of type form, possible values are PDF, HTML, XLS&apos;,0,0,TO_TIMESTAMP(&apos;2012-02-05 12:56:28&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),TO_TIMESTAMP(&apos;2012-02-05 12:56:28&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),0,0,&apos;Y&apos;)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="20" StepType="SQL">
+      <SQLStatement>
+-- Feb 5, 2012 12:56:54 PM COT
+INSERT INTO AD_SysConfig (AD_SysConfig_ID,EntityType,ConfigurationLevel,Name,Value,Description,AD_Client_ID,AD_Org_ID,Created,Updated,CreatedBy,UpdatedBy,IsActive) VALUES (200003,&apos;D&apos;,&apos;O&apos;,&apos;ZK_REPORT_TABLE_OUTPUT_TYPE&apos;,&apos;PDF&apos;,&apos;Type of output in zkwebui for reports of type table, possible values are PDF, HTML, XLS&apos;,0,0,TO_TIMESTAMP(&apos;2012-02-05 12:56:54&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),TO_TIMESTAMP(&apos;2012-02-05 12:56:54&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),0,0,&apos;Y&apos;)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="30" StepType="SQL">
+      <SQLStatement>
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+  </Migration>
+</Migrations>

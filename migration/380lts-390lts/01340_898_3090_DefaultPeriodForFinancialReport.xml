@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Default Period for Financial Report #898 contribution #3090(Adaxa)" ReleaseNo="3.9.0" SeqNo="01340">
+    <Comments>https://github.com/adempiere/adempiere/issues/898</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="280" Table="AD_Process_Para">
+        <Data AD_Column_ID="3739" Column="DefaultValue" isOldNull="true">@SQL=(SELECT p.C_Period_ID AS DefaultValue FROM C_Period p JOIN C_Year y ON y.C_Year_ID=p.C_Year_ID WHERE p.StartDate &lt;= getdate() - interval '1 month' AND p.EndDate &gt;= getdate() - interval '1 month' AND y.C_Calendar_ID=@C_Calendar_ID@)</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

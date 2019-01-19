@@ -39,6 +39,7 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Secure;
 import org.compiere.util.SecureEngine;
+import org.compiere.util.Util;
 
 /**
  *  User Model
@@ -148,6 +149,30 @@ public class MUser extends X_AD_User
 		}
 		return retValue;
 	}	//	get
+	
+
+	/**
+	 * 	Get User (cached)
+	 * 	Also loads Admninistrator (0)
+	 *	@param ctx context
+	 *	@param AD_User_ID id
+	 *	@return user
+	 */
+	public static List<MUser> getUsers (Properties ctx, String userName) {
+		boolean loginWithValue = M_Element.get(Env.getCtx(), I_AD_User.COLUMNNAME_IsLoginUser) != null;
+		String userLogin = "Name";
+		if(loginWithValue) {
+			userLogin = "Value";
+		}
+		List<MUser> retValue = new Query(ctx, MUser.Table_Name, userLogin + " = ?",null)
+				.setParameters(userName)
+				.setOnlyActiveRecords(true)
+				.list();
+		
+		
+		return retValue;
+	}	//	get
+
 
 	/**
 	 * 	Get Current User (cached)
@@ -262,53 +287,35 @@ public class MUser extends X_AD_User
 	/** User Access Rights				*/
 	private X_AD_UserBPAccess[]	m_bpAccess = null;
 	private boolean hashed = false;
-	
-		
-	/**
-	 * 	Get Value - 7 bit lower case alpha numerics max length 8
-	 *	@return value
-	 */
-	public String getValue()
-	{
-		String s = super.getValue();
-		if (s != null)
-			return s;
-		setValue(null);
-		return super.getValue();
-	}	//	getValue
 
 	/**
 	 * 	Set Value - 7 bit lower case alpha numerics max length 8
-	 *	@param Value
+	 *	@param value
 	 */
 	@Override
-	public void setValue(String Value)
+	public void setValue(String value)
 	{
-		if (Value == null || Value.trim().length () == 0)
-			Value = getLDAPUser();
-		if (Value == null || Value.length () == 0)
-			Value = getName();
-		if (Value == null || Value.length () == 0)
-			Value = "noname";
-		//
-		String result = cleanValue(Value);
-		if (result.length() > 8)
-		{
-			String first = getName(Value, true);
-			String last = getName(Value, false);
-			if (last.length() > 0)
-			{
-				String temp = last;
-				if (first.length() > 0)
-					temp = first.substring (0, 1) + last;
-				result = cleanValue(temp);
+		if (Util.isEmpty(value)
+				 && isLoginUser()) {
+			if(isWebstoreUser()) {
+				value = getEMail();
 			}
-			else
-				result = cleanValue(first);
+			//	Get from Name
+			if(Util.isEmpty(value)
+					&& getName() != null) {
+				value = getName();
+			}	
 		}
-		if (result.length() > 8)
-			result = result.substring (0, 8);
-		super.setValue(result);
+		//	For LDAP User
+		if (Util.isEmpty(value)) {
+			value = getLDAPUser();
+		}
+		//	Replace bad character
+		if(!Util.isEmpty(value)) {
+			value = value.replaceAll(" ", "")
+					.replaceAll("[+^:&áàäéèëíìïóòöúùñÁÀÄÉÈËÍÌÏÓÒÖÚÙÜÑçÇ$#*/]","");
+		}
+		super.setValue(value);
 	}	//	setValue
 	
 	/**
@@ -324,7 +331,7 @@ public class MUser extends X_AD_User
 			return;
 		}
 		
-		if ( hashed  )
+		if (hashed)
 			return;
 		
 		hashed = true;   // prevents double call from beforeSave
@@ -362,6 +369,22 @@ public class MUser extends X_AD_User
             throw new AdempiereException( "Password hashing not supported by JVM");
         }
     }
+    
+    /**
+     * Get Hash Password
+     * @param password
+     * @param salt
+     * @return
+     */
+    public static String getHashPasword(final String password, final  String salt) {
+        try {
+          return SecureEngine.getSHA512Hash(1000, password, Secure.convertHexString(salt));
+        } catch (NoSuchAlgorithmException ignored) {
+         throw new AdempiereException("Password hashing not supported by JVM");
+        } catch (UnsupportedEncodingException ignored) {
+            throw new AdempiereException( "Password hashing not supported by JVM");
+        }
+    }
 	
 	/**
 	 * check if hashed password matches
@@ -382,26 +405,6 @@ public class MUser extends X_AD_User
 
         return MUser.authenticateHash(password, hash , salt);		
 	}
-
-	/**
-	 * 	Clean Value
-	 *	@param value value
-	 *	@return lower case cleaned value
-	 */
-	private String cleanValue (String value)
-	{
-		char[] chars = value.toCharArray();
-		StringBuffer sb = new StringBuffer();
-		for (int i = 0; i < chars.length; i++)
-		{
-			char ch = chars[i];
-			ch = Character.toLowerCase (ch);
-			if ((ch >= '0' && ch <= '9')		//	digits
-				|| (ch >= 'a' && ch <= 'z'))	//	characters
-				sb.append(ch);
-		}
-		return sb.toString ();
-	}	//	cleanValue
 	
 	/**
 	 * 	Get First Name
@@ -535,8 +538,7 @@ public class MUser extends X_AD_User
 		try
 		{
 			InternetAddress ia = new InternetAddress (email, true);
-			if (ia != null)
-				ia.validate();	//	throws AddressException
+			ia.validate();	//	throws AddressException
 			return ia;
 		}
 		catch (AddressException ex)
@@ -833,7 +835,9 @@ public class MUser extends X_AD_User
 			setValue(super.getValue());
 		if ((newRecord || is_ValueChanged("Password")) && !hashed)
 			setPassword(super.getPassword());                 // needed for updating in User window
-		
+		if(Util.isEmpty(super.getValue())
+				&& isLoginUser())
+			throw new AdempiereException("@Value@ @IsMandatory@");
 		hashed = false;
 		
 		return true;

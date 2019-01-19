@@ -1,8 +1,9 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -11,8 +12,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_DocType
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_C_DocType extends PO implements I_C_DocType, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150223L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_C_DocType (Properties ctx, int C_DocType_ID, String trxName)
@@ -171,6 +171,34 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 	public int getC_DocTypeInvoice_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocTypeInvoice_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_DocType getC_DocTypePayment() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_DocType)MTable.get(getCtx(), org.compiere.model.I_C_DocType.Table_Name)
+			.getPO(getC_DocTypePayment_ID(), get_TrxName());	}
+
+	/** Set Document Type for Payment.
+		@param C_DocTypePayment_ID 
+		Document type used for Payments generated from this Pay Selection document
+	  */
+	public void setC_DocTypePayment_ID (int C_DocTypePayment_ID)
+	{
+		if (C_DocTypePayment_ID < 1) 
+			set_Value (COLUMNNAME_C_DocTypePayment_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_DocTypePayment_ID, Integer.valueOf(C_DocTypePayment_ID));
+	}
+
+	/** Get Document Type for Payment.
+		@return Document type used for Payments generated from this Pay Selection document
+	  */
+	public int getC_DocTypePayment_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocTypePayment_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -359,6 +387,14 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 	public static final String DOCBASETYPE_ManufacturingCostCollector = "MCC";
 	/** Warehouse Management Order = WMO */
 	public static final String DOCBASETYPE_WarehouseManagementOrder = "WMO";
+	/** Manufacturing Planned Order = MPO */
+	public static final String DOCBASETYPE_ManufacturingPlannedOrder = "MPO";
+	/** AP Payment Selection = APS */
+	public static final String DOCBASETYPE_APPaymentSelection = "APS";
+	/** Sales Commission = SOC */
+	public static final String DOCBASETYPE_SalesCommission = "SOC";
+	/** Fixed Assets Split = FAS */
+	public static final String DOCBASETYPE_FixedAssetsSplit = "FAS";
 	/** Fixed Assets Addition = FAA */
 	public static final String DOCBASETYPE_FixedAssetsAddition = "FAA";
 	/** Fixed Assets Disposal = FAD */
@@ -551,6 +587,75 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 	public boolean isHasProforma () 
 	{
 		Object oo = get_Value(COLUMNNAME_HasProforma);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Allocate Prepayments.
+		@param IsAllocateImmediate Allocate Prepayments	  */
+	public void setIsAllocateImmediate (boolean IsAllocateImmediate)
+	{
+		set_Value (COLUMNNAME_IsAllocateImmediate, Boolean.valueOf(IsAllocateImmediate));
+	}
+
+	/** Get Allocate Prepayments.
+		@return Allocate Prepayments	  */
+	public boolean isAllocateImmediate () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsAllocateImmediate);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Bank Transfer.
+		@param IsBankTransfer 
+		Bank Transfer
+	  */
+	public void setIsBankTransfer (boolean IsBankTransfer)
+	{
+		set_Value (COLUMNNAME_IsBankTransfer, Boolean.valueOf(IsBankTransfer));
+	}
+
+	/** Get Bank Transfer.
+		@return Bank Transfer
+	  */
+	public boolean isBankTransfer () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsBankTransfer);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Copy Document No On Reversal.
+		@param IsCopyDocNoOnReversal 
+		It Copy the Document No on Reversal Document instead of generate a new Sequence
+	  */
+	public void setIsCopyDocNoOnReversal (boolean IsCopyDocNoOnReversal)
+	{
+		set_Value (COLUMNNAME_IsCopyDocNoOnReversal, Boolean.valueOf(IsCopyDocNoOnReversal));
+	}
+
+	/** Get Copy Document No On Reversal.
+		@return It Copy the Document No on Reversal Document instead of generate a new Sequence
+	  */
+	public boolean isCopyDocNoOnReversal () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsCopyDocNoOnReversal);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 
@@ -794,6 +899,30 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 		return false;
 	}
 
+	/** Set Is Reversed with original Accounting.
+		@param IsReversedWithOriginalAcct 
+		Is Reversed with original Accounting
+	  */
+	public void setIsReversedWithOriginalAcct (boolean IsReversedWithOriginalAcct)
+	{
+		set_Value (COLUMNNAME_IsReversedWithOriginalAcct, Boolean.valueOf(IsReversedWithOriginalAcct));
+	}
+
+	/** Get Is Reversed with original Accounting.
+		@return Is Reversed with original Accounting
+	  */
+	public boolean isReversedWithOriginalAcct () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsReversedWithOriginalAcct);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Sales Transaction.
 		@param IsSOTrx 
 		This is a Sales Transaction
@@ -891,6 +1020,32 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
         return new KeyNamePair(get_ID(), getName());
     }
 
+	/** PrintDocument AD_Reference_ID=53425 */
+	public static final int PRINTDOCUMENT_AD_Reference_ID=53425;
+	/** Order = 0 */
+	public static final String PRINTDOCUMENT_Order = "0";
+	/** Shipment = 1 */
+	public static final String PRINTDOCUMENT_Shipment = "1";
+	/** Invoice = 2 */
+	public static final String PRINTDOCUMENT_Invoice = "2";
+	/** Set Print Document.
+		@param PrintDocument 
+		Document to print
+	  */
+	public void setPrintDocument (String PrintDocument)
+	{
+
+		set_Value (COLUMNNAME_PrintDocument, PrintDocument);
+	}
+
+	/** Get Print Document.
+		@return Document to print
+	  */
+	public String getPrintDocument () 
+	{
+		return (String)get_Value(COLUMNNAME_PrintDocument);
+	}
+
 	/** Set Print Text.
 		@param PrintName 
 		The label text to be printed on a document or correspondence.
@@ -906,5 +1061,22 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 	public String getPrintName () 
 	{
 		return (String)get_Value(COLUMNNAME_PrintName);
+	}
+
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
 	}
 }

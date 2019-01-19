@@ -44,6 +44,11 @@ extends AbstractExcelExporter
 	public String getHeaderName(int col) {
 		return m_model.getRColumn(col).getColHeader();
 	}
+	
+	@Override
+	public String getFormatPattern(int col) {
+		return null;
+	}
 
 	@Override
 	public int getRowCount() {

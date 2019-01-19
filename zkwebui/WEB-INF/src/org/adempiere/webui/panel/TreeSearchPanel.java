@@ -31,6 +31,7 @@ import org.adempiere.webui.util.TreeUtils;
 import org.compiere.model.MTreeNode;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
@@ -64,6 +65,8 @@ public class TreeSearchPanel extends Panel implements EventListener, TreeDataLis
 	private Tree tree;
 
 	private String eventToFire;
+	private int m_windowno = 0;
+	private int m_tabno = 0;
 
 	private static final String PREFIX_DOCUMENT_SEARCH = "/";
 
@@ -87,11 +90,27 @@ public class TreeSearchPanel extends Panel implements EventListener, TreeDataLis
         init();
     }
 
+    /**
+     * @param tree
+     * @param event
+     */
+    public TreeSearchPanel(Tree tree, String event, int windowno, int tabno)
+    {
+        super();
+        this.tree = tree;
+        this.eventToFire = event;
+        m_windowno = windowno;
+        m_tabno = tabno;
+        init();
+    }
+
     private void init()
     {
     	Div div = new Div();
         lblSearch = new Label();
-        LayoutUtils.addSclass("desktop-header-font", lblSearch);
+        //	[ #1118 ] Remove Class
+        //	LayoutUtils.addSclass("desktop-header-font", lblSearch);
+        
         lblSearch.setValue(Msg.getMsg(Env.getCtx(),"TreeSearch").replaceAll("&", "") + ":");
         lblSearch.setTooltiptext(Msg.getMsg(Env.getCtx(),"TreeSearchText"));
         div.appendChild(lblSearch);
@@ -150,7 +169,8 @@ public class TreeSearchPanel extends Panel implements EventListener, TreeDataLis
 		if (tree.getModel() == null) {
 	    	TreeUtils.traverse(tree, new TreeItemAction() {
 				public void run(Treeitem treeItem) {
-					addTreeItem(treeItem);
+					if (treeItem.isVisible())
+					    addTreeItem(treeItem);
 				}
 	    	});
 		} else {
@@ -224,6 +244,9 @@ public class TreeSearchPanel extends Panel implements EventListener, TreeDataLis
                 select(treeItem);
                 Clients.showBusy(Msg.getMsg(Env.getCtx(), "Loading"), true);
                 Events.echoEvent("onPostSelect", this, null);
+                Event event2=new Event(Events.ON_CLICK, ((Component)(treeItem.getTreerow().getChildren().get(0))));
+                Events.postEvent(event2);
+				cmbSearch.setText(null);
             }
         }
     }
@@ -234,7 +257,9 @@ public class TreeSearchPanel extends Panel implements EventListener, TreeDataLis
     public void onPostSelect() {
     	Clients.showBusy(null, false);
     	Event event = null;
-    	if (eventToFire.equals(Events.ON_CLICK))
+    	if(tree.getSelectedItem() == null && eventToFire.equals(Events.ON_CLICK))
+    		return;
+    	if (eventToFire.equals(Events.ON_CLICK) )
     		event = new Event(Events.ON_CLICK, tree.getSelectedItem().getTreerow());
     	else
     		event = new Event(eventToFire, tree);
@@ -249,7 +274,10 @@ public class TreeSearchPanel extends Panel implements EventListener, TreeDataLis
 
 			parent = parent.getParentItem();
 		}
-		selectedItem.getTree().setSelectedItem(selectedItem);
+		
+		if(selectedItem.getTree() != null)
+			selectedItem.getTree().setSelectedItem(selectedItem);
+	
 	}
 
 	/**

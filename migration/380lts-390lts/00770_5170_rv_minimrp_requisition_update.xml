@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="RV_M_ReplenishPlan_Requisition update" ReleaseNo="3.9.0" SeqNo="00770">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="101" Action="I" Record_ID="78363" Table="AD_Column">
+        <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
+        <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="114" Column="AD_Table_ID">54055</Data>
+        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
+        <Data AD_Column_ID="110" Column="Version">0</Data>
+        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
+        <Data AD_Column_ID="113" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="120" Column="IsParent">false</Data>
+        <Data AD_Column_ID="118" Column="FieldLength">29</Data>
+        <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID">16</Data>
+        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="119" Column="IsKey">false</Data>
+        <Data AD_Column_ID="2608" Column="AD_Element_ID">2451</Data>
+        <Data AD_Column_ID="3369" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
+        <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="56149" Column="IsAutocomplete" isNewNull="true"/>
+        <Data AD_Column_ID="56187" Column="IsAllowLogging" isNewNull="true"/>
+        <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
+        <Data AD_Column_ID="3360" Column="IsUpdateable">false</Data>
+        <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
+        <Data AD_Column_ID="116" Column="ColumnName">DateRequired</Data>
+        <Data AD_Column_ID="112" Column="Description">Date when required</Data>
+        <Data AD_Column_ID="111" Column="Name">Date Required</Data>
+        <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6483" Column="IsSyncDatabase" isNewNull="true"/>
+        <Data AD_Column_ID="109" Column="AD_Column_ID">78363</Data>
+        <Data AD_Column_ID="62199" Column="IsAllowCopy" isNewNull="true"/>
+        <Data AD_Column_ID="551" Column="Updated">2016-01-14 17:58:44.7</Data>
+        <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="548" Column="IsActive">true</Data>
+        <Data AD_Column_ID="549" Column="Created">2016-01-14 17:58:44.7</Data>
+        <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
+      </PO>
+    </Step>
+    <Step DBType="Postgres" Parse="Y" SeqNo="20" StepType="SQL">
+      <SQLStatement>DROP VIEW IF EXISTS rv_m_replenishplan_requisition;
+
+CREATE OR REPLACE VIEW rv_m_replenishplan_requisition AS
+ SELECT mrl.ad_client_id, mrl.ad_org_id, mrl.m_replenishplanline_id, mrl.m_replenishplan_id, r.m_requisition_id, r.documentno, rl.line, p.m_product_id, po.vendorproductno, rl.c_bpartner_id, rl.qty, rl.priceactual, rl.isactive
+ , r.daterequired
+   FROM m_replenishplanline mrl
+   JOIN m_requisitionline rl ON rl.m_requisition_id = mrl.m_requisition_id AND rl.m_product_id = mrl.m_product_id
+   JOIN m_requisition r ON r.m_requisition_id = rl.m_requisition_id
+   JOIN m_product p ON p.m_product_id = rl.m_product_id
+   LEFT JOIN m_product_po po ON po.m_product_id = p.m_product_id AND po.c_bpartner_id = rl.c_bpartner_id
+  ORDER BY r.m_requisition_id, rl.line;
+
+ALTER TABLE rv_m_replenishplan_requisition
+  OWNER TO adempiere;
+</SQLStatement>
+      <RollbackStatement>DROP VIEW IF EXISTS rv_m_replenishplan_requisition;
+CREATE OR REPLACE VIEW rv_m_replenishplan_requisition AS
+ SELECT mrl.ad_client_id, mrl.ad_org_id, mrl.m_replenishplanline_id, mrl.m_replenishplan_id, r.m_requisition_id, r.documentno, rl.line, p.m_product_id, po.vendorproductno, rl.c_bpartner_id, rl.qty, rl.priceactual, rl.isactive
+   FROM m_replenishplanline mrl
+   JOIN m_requisitionline rl ON rl.m_requisition_id = mrl.m_requisition_id AND rl.m_product_id = mrl.m_product_id
+   JOIN m_requisition r ON r.m_requisition_id = rl.m_requisition_id
+   JOIN m_product p ON p.m_product_id = rl.m_product_id
+   LEFT OUTER JOIN m_product_po po ON po.m_product_id = p.m_product_id AND po.c_bpartner_id = rl.c_bpartner_id
+  ORDER BY r.m_requisition_id, rl.line;</RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" Parse="Y" SeqNo="30" StepType="SQL">
+      <SQLStatement>DROP VIEW rv_m_replenishplan_requisition;
+
+CREATE VIEW rv_m_replenishplan_requisition 
+(
+AD_CLIENT_ID, AD_ORG_ID, M_REPLENISHPLANLINE_ID, M_REPLENISHPLAN_ID, M_REQUISITION_ID, DOCUMENTNO, 
+LINE, M_PRODUCT_ID, VENDORPRODUCTNO, C_BPARTNER_ID, QTY, PRICEACTUAL, ISACTIVE, DATEREQUIRED
+)
+AS
+ SELECT mrl.ad_client_id, mrl.ad_org_id, mrl.m_replenishplanline_id, mrl.m_replenishplan_id, r.m_requisition_id, r.documentno, 
+rl.line, p.m_product_id, po.vendorproductno, rl.c_bpartner_id, rl.qty, rl.priceactual, rl.isactive
+ , r.daterequired
+   FROM m_replenishplanline mrl
+   INNER JOIN m_requisitionline rl ON rl.m_requisition_id = mrl.m_requisition_id AND rl.m_product_id = mrl.m_product_id
+   INNER JOIN m_requisition r ON r.m_requisition_id = rl.m_requisition_id
+   INNER JOIN m_product p ON p.m_product_id = rl.m_product_id
+   LEFT OUTER JOIN m_product_po po ON po.m_product_id = p.m_product_id AND po.c_bpartner_id = rl.c_bpartner_id
+  ORDER BY r.m_requisition_id, rl.line;</SQLStatement>
+      <RollbackStatement>DROP VIEW rv_m_replenishplan_requisition;
+
+CREATE VIEW rv_m_replenishplan_requisition 
+(
+AD_CLIENT_ID, AD_ORG_ID, M_REPLENISHPLANLINE_ID, M_REPLENISHPLAN_ID, M_REQUISITION_ID, DOCUMENTNO, 
+LINE, M_PRODUCT_ID, VENDORPRODUCTNO, C_BPARTNER_ID, QTY, PRICEACTUAL, ISACTIVE, DATEREQUIRED
+)
+AS
+ SELECT mrl.ad_client_id, mrl.ad_org_id, mrl.m_replenishplanline_id, mrl.m_replenishplan_id, r.m_requisition_id, r.documentno, 
+rl.line, p.m_product_id, po.vendorproductno, rl.c_bpartner_id, rl.qty, rl.priceactual, rl.isactive
+ , r.daterequired
+   FROM m_replenishplanline mrl
+   INNER JOIN m_requisitionline rl ON rl.m_requisition_id = mrl.m_requisition_id AND rl.m_product_id = mrl.m_product_id
+   INNER JOIN m_requisition r ON r.m_requisition_id = rl.m_requisition_id
+   INNER JOIN m_product p ON p.m_product_id = rl.m_product_id
+   LEFT OUTER JOIN m_product_po po ON po.m_product_id = p.m_product_id AND po.c_bpartner_id = rl.c_bpartner_id
+  ORDER BY r.m_requisition_id, rl.line;</RollbackStatement>
+    </Step>
+  </Migration>
+</Migrations>

@@ -30,7 +30,7 @@ package org.eevolution.model;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import java.util.Properties;
 
 import org.compiere.model.MLocator;
@@ -56,7 +56,7 @@ public class MWMSectionDetail extends X_WM_Section_Detail
 	 * @param section
 	 * @return Collection of the MLocator
 	 */
-	public  static Collection<MLocator> getMLocators(MWMSection section)
+	public  static List<MLocator> getLocatorBySection(MWMSection section)
 	{
 		ArrayList locators = new ArrayList();  
 		String whereClause = "EXISTS (SELECT 1 FROM WM_Section_Detail sd WHERE sd.WM_Section_ID = ? AND sd.M_Locator_ID=M_Locator.M_Locator_ID) ";

@@ -262,6 +262,8 @@ public class CalloutGLJournal extends CalloutEngine
 				|| colName.equals("C_Activity_ID")
 				|| colName.equals("User1_ID")
 				|| colName.equals("User2_ID")
+				|| colName.equals("User3_ID")
+				|| colName.equals("User4_ID")
 				|| colName.equals("UserElement1_ID")
 				|| colName.equals("UserElement2_ID")
 			)
@@ -303,6 +305,8 @@ public class CalloutGLJournal extends CalloutEngine
 			mTab.setValue("C_Activity_ID", combi.getC_Activity_ID() != 0 ? combi.getC_Activity_ID() : null);
 			mTab.setValue("User1_ID", combi.getUser1_ID() != 0 ? combi.getUser1_ID() : null);
 			mTab.setValue("User2_ID", combi.getUser2_ID()!= 0 ? combi.getUser2_ID() : null);
+			mTab.setValue("User3_ID", combi.getUser3_ID() != 0 ? combi.getUser3_ID() : null);
+			mTab.setValue("User4_ID", combi.getUser4_ID()!= 0 ? combi.getUser4_ID() : null);
 			mTab.setValue("UserElement1_ID", combi.getUserElement1_ID() != 0 ? combi.getUserElement1_ID() : null);
 			mTab.setValue("UserElement2_ID", combi.getUserElement2_ID() != 0 ? combi.getUserElement2_ID() : null);
 		}

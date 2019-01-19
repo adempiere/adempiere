@@ -16,18 +16,23 @@
  *****************************************************************************/
 package org.compiere.print;
 
+import java.io.Serializable;
 import java.sql.Clob;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Properties;
+import java.util.TreeMap;
 import java.util.logging.Level;
 
+import org.compiere.model.MFactAcct;
 import org.compiere.model.MLookupFactory;
 import org.compiere.model.MQuery;
 import org.compiere.model.MRole;
+import org.compiere.model.MSysConfig;
 import org.compiere.model.MTable;
 import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
@@ -62,6 +67,17 @@ import org.compiere.util.ValueNamePair;
  * @author Paul Bowden (phib)
  * 				<li> BF 2908435 Virtual columns with lookup reference types can't be printed
  *                   https://sourceforge.net/tracker/?func=detail&aid=2908435&group_id=176962&atid=879332
+ *  @contributor  Fernandinho (FAIRE)
+ *  				- http://jira.idempiere.com/browse/IDEMPIERE-153
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * 		<li>BR [ 236 ] Report View does not refresh when print format is changed
+ * 			@see https://github.com/adempiere/adempiere/issues/236
+ * 		<li>BR [ 237 ] Same Print format but distinct report view
+ * 			@see https://github.com/adempiere/adempiere/issues/237
+ *		<a href="https://github.com/adempiere/adempiere/issues/1539">
+ * 		@see FR [ 1539 ] Add Process for Reporting</a>
+ * @author Michael McKay, mckayERP@gmail.com
+ * 		<li>BR [ <a href="https://github.com/adempiere/adempiere/issues/431">#431</a> ] Report Groups do not handle single values well
  */
 public class DataEngine
 {
@@ -73,7 +89,7 @@ public class DataEngine
 	{
 		this(language, null);
 	}	//	DataEngine
-	
+
 	/**
 	 *	Constructor
 	 *	@param language Language of the data (for translation)
@@ -95,6 +111,9 @@ public class DataEngine
 	private Language		m_language = Language.getLoginLanguage();
 	/** Break & Column Functions		*/
 	private PrintDataGroup 	m_group = new PrintDataGroup();
+	/** The PrintData being printed */
+	private PrintData printData = null;
+	
 	/**	Start Time						*/
 	private long			m_startTime = System.currentTimeMillis();
 	/** Running Total after .. lines	*/
@@ -105,8 +124,13 @@ public class DataEngine
 	private String			m_trxName = null;
 	/** Report Summary FR [ 2011569 ]**/ 
 	private boolean 		m_summary = false;
+
+	TreeMap<Integer, PrintDataColumn> columnsSortedByGroupOrder = null;
+	
 	/** Key Indicator in Report			*/
 	public static final String KEY = "*";
+
+	private static final String REPORT_DISPLAY_YES_NO = "REPORT_DISPLAY_YES_NO";
 
 
 	/**************************************************************************
@@ -119,7 +143,7 @@ public class DataEngine
 	 */
 	public PrintData getPrintData (Properties ctx, MPrintFormat format, MQuery query)
 	{
-		return getPrintData(ctx, format, query, false);
+		return getPrintData(ctx, format, query, false, 0);
 	}
 	
 	/**************************************************************************
@@ -129,20 +153,28 @@ public class DataEngine
 	 * 	@param query query
 	 * 	@param ctx context
 	 *  @param summary
+	 *  @param p_AD_ReportView_ID
 	 * 	@return PrintData or null
 	 */
-	public PrintData getPrintData (Properties ctx, MPrintFormat format, MQuery query, boolean summary)
+	public PrintData getPrintData (Properties ctx, MPrintFormat format, MQuery query, boolean summary, int p_AD_ReportView_ID)
 	{
-
-		/** Report Summary FR [ 2011569 ]**/ 
-		m_summary = summary; 
 
 		if (format == null)
 			throw new IllegalStateException ("No print format");
+
+		/** Report Summary FR [ 2011569 ]**/ 
+		m_summary = !format.isForm() && summary;
 		String tableName = null;
 		String reportName = format.getName();
-		//
-		if (format.getAD_ReportView_ID() != 0)
+		//	Yamel Senih BR [ 236 ] Clear Query before add new restrictions
+		query.clear();
+		//	End Yamel Senih
+		//	FR [ 237 ]
+		if(p_AD_ReportView_ID == 0) {
+			p_AD_ReportView_ID = format.getAD_ReportView_ID();
+		}
+		//	
+		if (p_AD_ReportView_ID > 0)
 		{
 			String sql = "SELECT t.AD_Table_ID, t.TableName, rv.Name, rv.WhereClause "
 				+ "FROM AD_Table t"
@@ -153,7 +185,7 @@ public class DataEngine
 			try
 			{				
 				pstmt = DB.prepareStatement(sql, m_trxName);
-				pstmt.setInt(1, format.getAD_ReportView_ID());
+				pstmt.setInt(1, p_AD_ReportView_ID);
 				rs = pstmt.executeQuery();
 				if (rs.next())
 				{
@@ -193,7 +225,7 @@ public class DataEngine
 				tableName += "t";
 				format.setTranslationViewQuery (query);
 			}
-		}		
+		}
 		//
 		PrintData pd = getPrintDataInfo (ctx, format, query, reportName, tableName);
 		if (pd == null)
@@ -236,6 +268,10 @@ public class DataEngine
 		StringBuffer sqlSELECT = new StringBuffer("SELECT ");
 		StringBuffer sqlFROM = new StringBuffer(" FROM ").append(tableName);
 		ArrayList<String> groupByColumns = new ArrayList<String>();
+		
+		//Activate when Line_ID or Record_ID is present
+		boolean isTableIDRequired = false;
+		boolean isTableIDPresent = false;
 		//
 		boolean IsGroupedBy = false;
 		//
@@ -249,6 +285,8 @@ public class DataEngine
 			+ "pfi.isRunningTotal,pfi.RunningTotalLines, "				//	20..21
 			+ "pfi.IsVarianceCalc, pfi.IsDeviationCalc, "				//	22..23
 			+ "c.ColumnSQL, COALESCE(pfi.FormatPattern, c.FormatPattern) "		//	24, 25
+			+ " , pfi.isDesc " //26
+			+ " , pfi.SeqNo " //27
 			+ "FROM AD_PrintFormat pf"
 			+ " INNER JOIN AD_PrintFormatItem pfi ON (pf.AD_PrintFormat_ID=pfi.AD_PrintFormat_ID)"
 			+ " INNER JOIN AD_Column c ON (pfi.AD_Column_ID=c.AD_Column_ID)"
@@ -315,17 +353,28 @@ public class DataEngine
 					//	RunningTotalLines only once - use max
 					m_runningTotalLines = Math.max(m_runningTotalLines, rs.getInt(21));	
 
+				if (ColumnName.equalsIgnoreCase(MFactAcct.COLUMNNAME_Line_ID) 
+						|| ColumnName.equalsIgnoreCase(MFactAcct.COLUMNNAME_Record_ID)
+						) {
+					isTableIDRequired = true;
+				}
+				
+				if (ColumnName.equalsIgnoreCase(MFactAcct.COLUMNNAME_AD_Table_ID)) {
+					isTableIDPresent = true;
+				}				
 				//	General Info
 				boolean IsPrinted = "Y".equals(rs.getString(15));
 				int SortNo = rs.getInt(16);
 				boolean isPageBreak = "Y".equals(rs.getString(17));
 				
 				String formatPattern = rs.getString(25);
-
+				boolean isDesc = "Y".equals(rs.getString(26));
 				//	Fully qualified Table.Column for ordering
 				String orderName = tableName + "." + ColumnName;
 				String lookupSQL = orderName;
 				PrintDataColumn pdc = null;
+
+				int seqNo = rs.getInt(27);
 
 				//  -- Key --
 				if (IsKey)
@@ -341,8 +390,17 @@ public class DataEngine
 					;
 				}
 				//	-- Parent, TableDir (and unqualified Search) --
-				else if ( (IsParent && DisplayType.isLookup(AD_Reference_ID)) 
-						|| AD_Reference_ID == DisplayType.TableDir
+				else if ( /* (IsParent && DisplayType.isLookup(AD_Reference_ID))
+				// Test case - create a IsParent column with a different name than parent with ref table -- reporting on this column break  
+				 * or try to report on any column here:
+				 * 
+select t.tablename, c.columnname, c.ad_reference_id, c.AD_Reference_Value_ID
+from ad_column  c join ad_table t on c.AD_TABLE_ID=t.AD_TABLE_ID
+where c.isparent = 'Y' and  not
+(c.ad_reference_id = 19
+or (c.ad_reference_id = 30 and c.AD_Reference_Value_ID is null))
+order by 1,2
+						|| */ AD_Reference_ID == DisplayType.TableDir
 						|| (AD_Reference_ID == DisplayType.Search && AD_Reference_Value_ID == 0)
 					)
 				{
@@ -580,6 +638,9 @@ public class DataEngine
 				{
 					if (AD_Column_ID == orderAD_Column_IDs[i])
 					{
+						if (isDesc)
+							orderName += " DESC";
+
 						orderColumns.set(i, orderName);
 						// We need to GROUP BY even is not printed, because is used in ORDER clause
 						if (!IsPrinted && !IsGroupFunction)
@@ -595,6 +656,8 @@ public class DataEngine
 					continue;
 
 				pdc.setFormatPattern(formatPattern);
+				pdc.setSortOrderIndex(SortNo);
+				pdc.setDisplayOrderIndex(seqNo);
 				columns.add(pdc);
 			}	//	for all Fields in Tab
 		}
@@ -609,7 +672,8 @@ public class DataEngine
 			pstmt = null;
 		}
 
-		if (columns.size() == 0)
+		if (columns.size() == 0
+				&& format.getJasperProcess_ID() == 0)
 		{
 			log.log(Level.SEVERE, "No Colums - Delete Report Format " + reportName + " and start again");
 			log.finest("No Colums - SQL=" + sql + " - ID=" + format.get_ID());
@@ -622,7 +686,17 @@ public class DataEngine
 			hasLevelNo = true;
 			if (sqlSELECT.indexOf("LevelNo") == -1)
 				sqlSELECT.append("LevelNo,");
+			
+			if ( tableName.equals("T_Report") &&
+					sqlSELECT.indexOf("PA_ReportLine_ID") == -1)
+				sqlSELECT.append("PA_ReportLine_ID,");
 		}
+
+		//Table ID PrintColumn is needed but not present, manually add a dummy column
+		if (isTableIDRequired && !isTableIDPresent) {
+			sqlSELECT.append(tableName).append(".").append(MFactAcct.COLUMNNAME_AD_Table_ID).append(",");
+		}
+		
 
 		/**
 		 *	Assemble final SQL - delete last SELECT ','
@@ -640,6 +714,19 @@ public class DataEngine
 				String q = query.getWhereClause (i);
 				if (q.indexOf("AD_PInstance_ID") != -1)	//	ignore all other Parameters
 					finalSQL.append (q);
+			}	//	for all restrictions
+		}
+		else if (tableName.startsWith("AD_PInstance"))
+		{
+			finalSQL.append(" WHERE ");
+			for (int i = 0; i < query.getRestrictionCount(); i++)
+			{
+				String q = query.getWhereClause (i);
+				if (q.indexOf("AD_PInstance_ID") != -1)	
+				{//	ignore all other Parameters
+					q=q.substring(9);
+						finalSQL.append (q);
+				}
 			}	//	for all restrictions
 		}
 		else
@@ -689,7 +776,7 @@ public class DataEngine
 				finalSQL.append(by);
 			}
 		}	//	order by
-		
+
 
 		//	Print Data
 		PrintData pd = new PrintData (ctx, reportName);
@@ -699,7 +786,10 @@ public class DataEngine
 		pd.setTableName(tableName);
 		pd.setSQL(finalSQL.toString());
 		pd.setHasLevelNo(hasLevelNo);
-
+		if (isTableIDRequired && !isTableIDPresent) {
+			pd.setHasDummyTableID(true);
+		}
+		
 		log.finest (finalSQL.toString ());
 		log.finest ("Group=" + m_group);
 		return pd;
@@ -793,6 +883,9 @@ public class DataEngine
 		PrintDataColumn pdc = null;
 		boolean hasLevelNo = pd.hasLevelNo();
 		int levelNo = 0;
+		int reportLineId = 0;
+		log.log(Level.FINE, "SQL: " +pd.getSQL());
+		printData = pd;
 		//
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -804,69 +897,27 @@ public class DataEngine
 			while (rs.next())
 			{
 				if (hasLevelNo)
+				{
 					levelNo = rs.getInt("LevelNo");
+					if(pd.getTableName().equals("T_Report"))
+						reportLineId = rs.getInt("PA_ReportLine_ID");
+				}
 				else
 					levelNo = 0;
 				//	Check Group Change ----------------------------------------
 				if (m_group.getGroupColumnCount() > 1)	//	one is GRANDTOTAL_
 				{
-					//	Check Columns for Function Columns
-					for (int i = pd.getColumnInfo().length-1; i >= 0; i--)	//	backwards (leaset group first)
-					{
-						PrintDataColumn group_pdc = pd.getColumnInfo()[i];
-						if (!m_group.isGroupColumn(group_pdc.getColumnName()))
-							continue;
-						
-						//	Group change
-						Object value = m_group.groupChange(group_pdc.getColumnName(), rs.getObject(group_pdc.getAlias()));
-						if (value != null)	//	Group change
-						{
-							char[] functions = m_group.getFunctions(group_pdc.getColumnName());
-							for (int f = 0; f < functions.length; f++)
-							{
-								printRunningTotal(pd, levelNo, rowNo++);
-								pd.addRow(true, levelNo);
-								//	get columns
-								for (int c = 0; c < pd.getColumnInfo().length; c++)
-								{
-									pdc = pd.getColumnInfo()[c];
-								//	log.fine("loadPrintData - PageBreak = " + pdc.isPageBreak());
-
-									if (group_pdc.getColumnName().equals(pdc.getColumnName()))
-									{
-										String valueString = value.toString();
-										if (value instanceof Timestamp)
-											valueString = DisplayType.getDateFormat(pdc.getDisplayType(), m_language).format(value);
-										valueString	+= PrintDataFunction.getFunctionSymbol(functions[f]);
-										pd.addNode(new PrintDataElement(pdc.getColumnName(),
-											valueString, DisplayType.String, false, pdc.isPageBreak(), pdc.getFormatPattern()));
-									}
-									else if (m_group.isFunctionColumn(pdc.getColumnName(), functions[f]))
-									{
-										pd.addNode(new PrintDataElement(pdc.getColumnName(),
-											m_group.getValue(group_pdc.getColumnName(), 
-												pdc.getColumnName(), functions[f]), 
-											PrintDataFunction.getFunctionDisplayType(functions[f], pdc.getDisplayType()), 
-												false, pdc.isPageBreak(), pdc.getFormatPattern()));
-									}
-								}	//	 for all columns
-							}	//	for all functions
-							//	Reset Group Values
-							for (int c = 0; c < pd.getColumnInfo().length; c++)
-							{
-								pdc = pd.getColumnInfo()[c];
-								m_group.reset(group_pdc.getColumnName(), pdc.getColumnName());
-							}
-						}	//	Group change
-					}	//	for all columns
+					int firstColumn = getFirstColumnIndexInGroupOrder();
+					rowNo = checkGroupChange(firstColumn, pd, rs, false, levelNo, rowNo); // Check for changes and add summary rows
 				}	//	group change
 
 				//	new row ---------------------------------------------------
 				printRunningTotal(pd, levelNo, rowNo++);
 
 				/** Report Summary FR [ 2011569 ]**/ 
-				if(!m_summary)					
-					pd.addRow(false, levelNo);
+				if(!m_summary)
+					pd.addRow(false, levelNo, reportLineId);
+
 				int counter = 1;
 				//	get columns
 				for (int i = 0; i < pd.getColumnInfo().length; i++)
@@ -933,12 +984,27 @@ public class DataEngine
 							//	Transformation for Booleans
 							if (pdc.getDisplayType() == DisplayType.YesNo)
 							{
+								String displayAs = MSysConfig.getValue(REPORT_DISPLAY_YES_NO, "text", Env.getAD_Client_ID(pd.getCtx()));
 								String s = rs.getString(counter++);
 								if (!rs.wasNull())
 								{
+									Serializable value = null;
 									boolean b = s.equals("Y");
-									pde = new PrintDataElement(pdc.getColumnName(), new Boolean(b), pdc.getDisplayType(), pdc.getFormatPattern());
+									if ( "symbol".equalsIgnoreCase(displayAs) )
+									{
+										value = b ? "\u2714" : "\u2718";
+									}
+									else if ( "image".equalsIgnoreCase(displayAs) )
+									{
+										value = Boolean.valueOf(b);
 								}
+									else  // default text
+									{
+										value = b ? "Y" : "N";
+							}
+									pde = new PrintDataElement(pdc.getColumnName(), value, pdc.getDisplayType(), pdc.getFormatPattern());
+								}
+								
 							}
 							else if (pdc.getDisplayType() == DisplayType.TextLong)
 							{
@@ -960,7 +1026,7 @@ public class DataEngine
 							}
                             // fix bug [ 1755592 ] Printing time in format
                             else if (pdc.getDisplayType() == DisplayType.DateTime)
-{
+                            {
                                 Timestamp datetime = rs.getTimestamp(counter++);
                                 pde = new PrintDataElement(pdc.getColumnName(), datetime, pdc.getDisplayType(), pdc.getFormatPattern());
                             }
@@ -984,7 +1050,7 @@ public class DataEngine
 										pde = new PrintDataElement(pdc.getColumnName(), s, pdc.getDisplayType(), pdc.getFormatPattern());
 									}
 									else
-										pde = new PrintDataElement(pdc.getColumnName(), obj, pdc.getDisplayType(), pdc.getFormatPattern());
+										pde = new PrintDataElement(pdc.getColumnName(), (Serializable) obj, pdc.getDisplayType(), pdc.getFormatPattern());
 								}
 							}
 						}	//	Value only
@@ -997,8 +1063,20 @@ public class DataEngine
 						m_group.addValue(pde.getColumnName(), pde.getFunctionValue());
 					}
 				}	//	for all columns
-
+				if (pd.isHasDummyTableID()) {
+					String tableID = rs.getString("AD_Table_ID");
+					pd.addNode(tableID);
+				}
 			}	//	for all rows
+			
+			//	--	we have all rows - add the group functions, if any.
+			//	Check last Group Change
+			if (m_group.getGroupColumnCount() > 1)	//	one is TOTAL
+			{
+				// Check for changes and add summary rows - force the groups to change
+				int firstColumn = getFirstColumnIndexInGroupOrder();
+				rowNo = checkGroupChange(firstColumn, pd, rs, true, levelNo, rowNo);
+			}
 		}
 		catch (SQLException e)
 		{
@@ -1009,51 +1087,6 @@ public class DataEngine
 			DB.close(rs, pstmt);
 			rs = null; pstmt = null;
 		}
-
-		//	--	we have all rows - finish
-		//	Check last Group Change
-		if (m_group.getGroupColumnCount() > 1)	//	one is TOTAL
-		{
-			for (int i = pd.getColumnInfo().length-1; i >= 0; i--)	//	backwards (leaset group first)
-			{
-				PrintDataColumn group_pdc = pd.getColumnInfo()[i];
-				if (!m_group.isGroupColumn(group_pdc.getColumnName()))
-					continue;
-				Object value = m_group.groupChange(group_pdc.getColumnName(), new Object());
-				if (value != null)	//	Group change
-				{
-					char[] functions = m_group.getFunctions(group_pdc.getColumnName());
-					for (int f = 0; f < functions.length; f++)
-					{
-						printRunningTotal(pd, levelNo, rowNo++);
-						pd.addRow(true, levelNo);
-						//	get columns
-						for (int c = 0; c < pd.getColumnInfo().length; c++)
-						{
-							pdc = pd.getColumnInfo()[c];
-							if (group_pdc.getColumnName().equals(pdc.getColumnName()))
-							{
-								String valueString = value.toString();
-								if (value instanceof Timestamp)
-									valueString = DisplayType.getDateFormat(pdc.getDisplayType(), m_language).format(value);
-								valueString	+= PrintDataFunction.getFunctionSymbol(functions[f]);
-								pd.addNode(new PrintDataElement(pdc.getColumnName(),
-									valueString, DisplayType.String, pdc.getFormatPattern()));
-							}
-							else if (m_group.isFunctionColumn(pdc.getColumnName(), functions[f]))
-							{
-								pd.addNode(new PrintDataElement(pdc.getColumnName(),
-									m_group.getValue(group_pdc.getColumnName(), 
-										pdc.getColumnName(), functions[f]),
-									PrintDataFunction.getFunctionDisplayType(functions[f],
-											pdc.getDisplayType()),pdc.getFormatPattern()));
-							}
-						}
-					}	//	for all functions
-					//	No Need to Reset
-				}	//	Group change
-			}
-		}	//	last group change
 
 		//	Add Total Lines
 		if (m_group.isGroupColumn(PrintDataGroup.TOTAL))
@@ -1072,7 +1105,8 @@ public class DataEngine
 						String name = "";
 						if (!format.getTableFormat().isPrintFunctionSymbols())		//	Translate Sum, etc.
 							name = Msg.getMsg(format.getLanguage(), PrintDataFunction.getFunctionName(functions[f]));
-						name += PrintDataFunction.getFunctionSymbol(functions[f]);	//	Symbol
+						else
+							name = PrintDataFunction.getFunctionSymbol(functions[f]);	//	Symbol
 						pd.addNode(new PrintDataElement(pdc.getColumnName(), name.trim(),
 								DisplayType.String, pdc.getFormatPattern()));
 					}
@@ -1163,6 +1197,173 @@ public class DataEngine
 	//	pd.createXML(new javax.xml.transform.stream.StreamResult(System.out));
 	}
 		
+	/**
+	 * A recursive method that checks the columns for report functions (Sum, Average, etc...)
+	 * and adds rows for the function results.  The functions are based on groups of data so 
+	 * the results are triggered when there is a change in the grouped column value.  If there 
+	 * are more than one group, the groups are nested where a higher level group change will
+	 * force a change in all lower level groups.
+	 * <p>See <a href="https://github.com/adempiere/adempiere/issues/431">BR #431</a>
+	 * 
+	 * @param columnIndex - the column index to examine, zero based
+	 * @param pd - the PrintData structure
+	 * @param rs - the report Result Set
+	 * @param forceChange - set to true if the columnIndex and all subordinate groups are to
+	 * 			act as if there is a change in value
+	 * @param levelNo
+	 * @param rowNo
+	 * @return The row number completed.
+	 * @throws SQLException
+	 * 
+	 */
+	private int checkGroupChange(int columnIndex, PrintData pd, ResultSet rs, boolean forceChange, int levelNo, int rowNo) throws SQLException {
+		//	Recursively Check Columns for Function Columns
+				
+		// Check if we have exceeded the number of columns which means we are done.
+		if (columnIndex >= pd.getColumnInfo().length)
+			return rowNo;
+		
+		// Check if this is not a group column and move on (recursive)
+		PrintDataColumn group_pdc = pd.getColumnInfo()[columnIndex];
+		PrintDataColumn pdc = null;
+		if (!m_group.isGroupColumn(group_pdc.getColumnName())) {
+			columnIndex = getNextColumnIndexInGroupOrder(columnIndex);
+			return checkGroupChange(columnIndex, pd, rs, forceChange, levelNo, rowNo);
+		}
+		
+		// Check if this column has a change, if so, force the change in the lower groups, recursively
+		Object currentValue = new Object();
+		if (!rs.isAfterLast())
+		{
+			currentValue = rs.getObject(group_pdc.getAlias());
+		}
+		Object value = m_group.groupChange(group_pdc.getColumnName(), currentValue);
+		forceChange = forceChange || (value!=null);
+		columnIndex = getNextColumnIndexInGroupOrder(columnIndex);
+		rowNo = checkGroupChange(columnIndex, pd, rs, forceChange, levelNo, rowNo);
+		
+		// On the way out of the recursive loop
+		if (forceChange)	//	Group change. ForceChange on value change or if a higher group changed.
+		{
+			// Add rows for all the functions affected
+			char[] functions = m_group.getFunctions(group_pdc.getColumnName());
+			for (int f = 0; f < functions.length; f++)
+			{
+				printRunningTotal(pd, levelNo, rowNo++);
+				pd.addRow(true, levelNo);
+				//	get columns
+				for (int c = getFirstColumnIndexInGroupOrder(); c < pd.getColumnInfo().length; c = getNextColumnIndexInGroupOrder(c))
+				{
+					pdc = pd.getColumnInfo()[c];
+				//	log.fine("loadPrintData - PageBreak = " + pdc.isPageBreak());
+					if (group_pdc.getColumnName().equals(pdc.getColumnName()))
+					{
+						if (value == null) { // Indicates no change in value
+							if (!rs.isAfterLast())
+							{
+								value = rs.getObject(group_pdc.getAlias());  // Use the current value
+							}
+							if (value == null)
+								value = "";
+						}
+						String valueString = value.toString();
+						if (value instanceof Timestamp)
+							valueString = DisplayType.getDateFormat(pdc.getDisplayType(), m_language).format(value);
+						valueString	+= PrintDataFunction.getFunctionSymbol(functions[f]);
+						pd.addNode(new PrintDataElement(pdc.getColumnName(),
+							valueString, DisplayType.String, false, pdc.isPageBreak(), pdc.getFormatPattern()));
+					}
+					else if (m_group.isFunctionColumn(pdc.getColumnName(), functions[f]))
+					{
+						pd.addNode(new PrintDataElement(pdc.getColumnName(),
+							m_group.getValue(group_pdc.getColumnName(), 
+								pdc.getColumnName(), functions[f]), 
+							PrintDataFunction.getFunctionDisplayType(functions[f], pdc.getDisplayType()), 
+								false, pdc.isPageBreak(), pdc.getFormatPattern()));
+					}
+				}	//	 for all columns
+			}	//	for all functions
+			//	Reset Group Values
+			for (int c = 0; c < pd.getColumnInfo().length; c++)
+			{
+				pdc = pd.getColumnInfo()[c];
+				m_group.reset(group_pdc.getColumnName(), pdc.getColumnName());
+			}
+		}
+		return rowNo;
+	}
+
+	private int getNextColumnIndexInGroupOrder(int columnIndex) {
+
+		if (printData == null)
+			return -1;
+
+		sortColumnsByGroupOrder();  // runs once
+		
+		Integer nextColIndex = columnsSortedByGroupOrder.higherKey(new Integer(columnIndex));
+		
+		if (nextColIndex == null)
+			return printData.getColumnInfo().length;
+		
+		return nextColIndex.intValue();
+	}
+
+	private int getPreviousColumnIndexInGroupOrder(int columnIndex) {
+
+		if (printData == null)
+			return -1;
+
+		sortColumnsByGroupOrder();  // runs once
+		
+		Integer prevColIndex = columnsSortedByGroupOrder.lowerKey(new Integer(columnIndex));
+		
+		if (prevColIndex == null)
+			return -1;
+		
+		return prevColIndex.intValue();
+	}
+
+	private int getFirstColumnIndexInGroupOrder() {
+
+		if (printData == null)
+			return -1;
+
+		sortColumnsByGroupOrder();  // runs once
+		
+		Integer firstColIndex = columnsSortedByGroupOrder.firstKey();
+		
+		if (firstColIndex == null)
+			return 0;
+		
+		return firstColIndex.intValue();
+	}
+
+	private int getLastColumnIndexInGroupOrder() {
+
+		if (printData == null)
+			return -1;
+
+		sortColumnsByGroupOrder();  // runs once
+		
+		return columnsSortedByGroupOrder.lastKey().intValue();
+		
+	}
+
+	private void sortColumnsByGroupOrder() {
+				
+		if (printData == null || columnsSortedByGroupOrder != null)
+			return;
+		
+		columnsSortedByGroupOrder 
+		= new TreeMap<Integer, PrintDataColumn>(new GroupOrderComparator(printData));
+
+		for (int i=0; i<printData.getColumnInfo().length; i++)
+		{
+			columnsSortedByGroupOrder.put(new Integer(i), printData.getColumnInfo()[i]);
+		}
+		
+	}
+
 }	//	DataEngine
 
 /**
@@ -1181,3 +1382,73 @@ class TableReference
 	/** Translated		*/
 	public boolean	IsTranslated = false;
 }	//	TableReference
+
+class GroupOrderComparator implements Comparator<Integer> 
+{
+	
+	PrintData printData = null;
+	
+	GroupOrderComparator(PrintData data) {
+		printData = data;
+	}
+	
+	/**
+	 * Used to compare columns by the sort order to set the level for the grouping.
+	 * @return a negative integer if a comes before b (a<b), positive if b comes before a (b<a)
+	 * or 0 if it doesn't matter - both are equivalent.
+	 * 
+	 */
+	public int compare(Integer aIndex, Integer bIndex) {
+		
+		if (printData == null)
+			throw new IllegalArgumentException("PrintData not initialized");
+
+		if (aIndex.compareTo(bIndex) == 0)
+			return 0;
+
+		if (aIndex.compareTo(0) < 0 || aIndex.compareTo(printData.getColumnInfo().length) > 0)
+			throw new IllegalArgumentException("aIndex out of bounds");
+
+		if (bIndex.compareTo(0) < 0 || bIndex.compareTo(printData.getColumnInfo().length) > 0)
+			throw new IllegalArgumentException("bIndex out of bounds");
+
+		PrintDataColumn a = printData.getColumnInfo()[aIndex.intValue()];
+		PrintDataColumn b = printData.getColumnInfo()[bIndex.intValue()];
+	
+		if (a == null || b == null)
+			throw new IllegalArgumentException("Cannot compare null values.");
+
+		int result = compare(a.getSortOrderIndex(), b.getSortOrderIndex());
+
+		if (result == 0)
+		{
+			result = compare(a.getDisplayOrderIndex(), b.getDisplayOrderIndex());
+		}
+
+		return result;
+		
+	}
+	
+	private int compare(int a, int b) {
+
+		if (a > 0 && b > 0)
+		{
+			return a - b;  
+		}
+		
+		if (a > 0 && b <= 0)
+		{
+			return -1 * a;  
+		}
+
+		if (a <= 0 && b > 0)
+		{
+			return b;  
+		}
+		
+		// a == 0 && b == 0
+		return 0;
+		
+	}
+
+}

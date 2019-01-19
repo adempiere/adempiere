@@ -21,14 +21,23 @@ import java.awt.event.WindowEvent;
 
 import org.compiere.apps.form.FormFrame;
 import org.compiere.apps.form.FormPanel;
+import org.compiere.swing.CFrame;
 import org.compiere.swing.CPanel;
 import org.compiere.util.Env;
 
 /**
  * @author Gunther Hoppe, tranSIT GmbH Ilmenau/Germany
  * @version 1.0, October 14th 2005
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 114 ] Change "Create From" UI for Form like Dialog in window without "hardcode"
+ *		@see https://github.com/adempiere/adempiere/issues/114
  */
 public abstract class CAbstractForm extends CPanel implements FormPanel {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1748655281844742688L;
 
 	// Later it may inherit some functionallity. Therefore its included any longer.
 	class FrameHandler extends WindowAdapter {
@@ -62,12 +71,12 @@ public abstract class CAbstractForm extends CPanel implements FormPanel {
 	}
 
 	public int getWindowNo() {
-		
-		return Env.getWindowNo(frame);
+		//	Yamel Senih FR [ 114 ] 2015-11-23
+		return Env.getWindowNo(frame.getContainer());
 	}
 	
-	public FormFrame getWindow() {
-		
-		return frame;
+	public CFrame getWindow() {
+		//	Yamel Senih FR [ 114 ] 2015-11-23
+		return frame.getCFrame();
 	}
 }

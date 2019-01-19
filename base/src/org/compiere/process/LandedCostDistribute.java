@@ -56,7 +56,7 @@ public class LandedCostDistribute extends SvrProcess
 
 		String error = m_lc.allocateCosts();
 		
-		generateCostDetail();
+		//generateCostDetail();
 		
 		if (error == null || error.length() == 0)
 			return "@OK@";

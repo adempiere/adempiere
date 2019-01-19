@@ -1,8 +1,9 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -11,8 +12,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 package org.eevolution.model;
 
@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for HR_Process
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0
+ *  @version Release 3.9.1
  */
 public interface I_HR_Process 
 {
@@ -63,21 +63,6 @@ public interface I_HR_Process
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name AD_PrintFormat_ID */
-    public static final String COLUMNNAME_AD_PrintFormat_ID = "AD_PrintFormat_ID";
-
-	/** Set Print Format.
-	  * Data Print Format
-	  */
-	public void setAD_PrintFormat_ID (int AD_PrintFormat_ID);
-
-	/** Get Print Format.
-	  * Data Print Format
-	  */
-	public int getAD_PrintFormat_ID();
-
-	public org.compiere.model.I_AD_PrintFormat getAD_PrintFormat() throws RuntimeException;
-
     /** Column name AD_Workflow_ID */
     public static final String COLUMNNAME_AD_Workflow_ID = "AD_Workflow_ID";
 
@@ -108,21 +93,6 @@ public interface I_HR_Process
 
 	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
 
-    /** Column name C_Charge_ID */
-    public static final String COLUMNNAME_C_Charge_ID = "C_Charge_ID";
-
-	/** Set Charge.
-	  * Additional document charges
-	  */
-	public void setC_Charge_ID (int C_Charge_ID);
-
-	/** Get Charge.
-	  * Additional document charges
-	  */
-	public int getC_Charge_ID();
-
-	public org.compiere.model.I_C_Charge getC_Charge() throws RuntimeException;
-
     /** Column name C_DocTypeTarget_ID */
     public static final String COLUMNNAME_C_DocTypeTarget_ID = "C_DocTypeTarget_ID";
 
@@ -152,34 +122,6 @@ public interface I_HR_Process
 	public int getC_DocType_ID();
 
 	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException;
-
-    /** Column name C_PaySelection_ID */
-    public static final String COLUMNNAME_C_PaySelection_ID = "C_PaySelection_ID";
-
-	/** Set Payment Selection.
-	  * Payment Selection
-	  */
-	public void setC_PaySelection_ID (int C_PaySelection_ID);
-
-	/** Get Payment Selection.
-	  * Payment Selection
-	  */
-	public int getC_PaySelection_ID();
-
-	public org.compiere.model.I_C_PaySelection getC_PaySelection() throws RuntimeException;
-
-    /** Column name ColumnSQL */
-    public static final String COLUMNNAME_ColumnSQL = "ColumnSQL";
-
-	/** Set Column SQL.
-	  * Virtual Column (r/o)
-	  */
-	public void setColumnSQL (String ColumnSQL);
-
-	/** Get Column SQL.
-	  * Virtual Column (r/o)
-	  */
-	public String getColumnSQL();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -252,14 +194,10 @@ public interface I_HR_Process
     /** Column name HR_Department_ID */
     public static final String COLUMNNAME_HR_Department_ID = "HR_Department_ID";
 
-	/** Set Department.
-	  * Department of the organization
-	  */
+	/** Set Payroll Department	  */
 	public void setHR_Department_ID (int HR_Department_ID);
 
-	/** Get Department.
-	  * Department of the organization
-	  */
+	/** Get Payroll Department	  */
 	public int getHR_Department_ID();
 
 	public org.eevolution.model.I_HR_Department getHR_Department() throws RuntimeException;
@@ -289,14 +227,10 @@ public interface I_HR_Process
     /** Column name HR_Payroll_ID */
     public static final String COLUMNNAME_HR_Payroll_ID = "HR_Payroll_ID";
 
-	/** Set Payroll.
-	  * The Payroll definition allows to define all the payroll concepts , year and periods, to  calculate a payroll.
-	  */
+	/** Set Payroll	  */
 	public void setHR_Payroll_ID (int HR_Payroll_ID);
 
-	/** Get Payroll.
-	  * The Payroll definition allows to define all the payroll concepts , year and periods, to  calculate a payroll.
-	  */
+	/** Get Payroll	  */
 	public int getHR_Payroll_ID();
 
 	public org.eevolution.model.I_HR_Payroll getHR_Payroll() throws RuntimeException;
@@ -409,6 +343,19 @@ public interface I_HR_Process
 	public int getReversal_ID();
 
 	public org.eevolution.model.I_HR_Process getReversal() throws RuntimeException;
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

@@ -54,6 +54,9 @@ import org.eevolution.model.MPPOrder;
  * 	Client Accounting Processor
  *	
  *  @author Carlos Ruiz
+ *  @author eEvolution author Victor Perez <victor.perez@e-evolution.com>
+ *  @see  [ 1250 ] Client Accounting Processor error to get standard timestamp</a>
+ * 		<a href="https://github.com/adempiere/adempiere/issues/1250">
  */
 public class ClientAcctProcessor extends SvrProcess
 {
@@ -109,7 +112,6 @@ public class ClientAcctProcessor extends SvrProcess
 			m_ass = new MAcctSchema[] {new MAcctSchema (getCtx(), p_C_AcctSchema_ID, get_TrxName())};
 		
 		postSession();
-		MCost.create(m_client);
 
 		addLog(m_summary.toString());
 
@@ -122,13 +124,13 @@ public class ClientAcctProcessor extends SvrProcess
 	private void postSession()
 	{
 		List<BigDecimal> listProcessedOn = new ArrayList<BigDecimal>();
-		for (Timestamp dateacct:getListDateacct())
+		for (Timestamp dateacct: getListDateAcct())
 		{
 			listProcessedOn.clear();
 			listProcessedOn.add(Env.ZERO); // to include potential null values
 
 			//get current time from db
-			Timestamp ts = DB.getSQLValueTS(get_TrxName(), "SELECT CURRENT_TIMESTAMP FROM DUAL");
+			Timestamp ts = DB.getSQLValueTS(get_TrxName(), "SELECT getdate() FROM DUAL");
 			//go back 2 second to be safe (to avoid posting documents being completed at this precise moment)
 			long ms = ts.getTime()- (2 * 1000);
 			ts = new Timestamp(ms);
@@ -149,7 +151,7 @@ public class ClientAcctProcessor extends SvrProcess
 
 				StringBuffer sql = new StringBuffer ("SELECT DISTINCT ProcessedOn FROM ").append(TableName)
 						.append(" WHERE AD_Client_ID=? AND ProcessedOn<?")
-						.append(" AND Processed='Y' AND Posted='N' AND IsActive='Y' and " + getColumnnameDateacct(AD_Table_ID) + "  = ? ");
+						.append(" AND Processed='Y' AND Posted='N' AND IsActive='Y' and " + getColumnNameDateAcct(AD_Table_ID) + "  = ? ");
 				PreparedStatement pstmt = null;
 				ResultSet rs = null;
 				try
@@ -241,7 +243,7 @@ public class ClientAcctProcessor extends SvrProcess
 							}
 							catch (Exception e)
 							{
-								log.log(Level.SEVERE, getName() + ": " + TableName, e);
+								log.log(Level.SEVERE, getName() + ": " + TableName, e);	
 								ok = false;
 							}
 							finally
@@ -296,10 +298,10 @@ public class ClientAcctProcessor extends SvrProcess
 
 	}	//	postSession
 	
-	private List<Timestamp> getListDateacct()
+	private List<Timestamp> getListDateAcct()
 	{
 		//get current time from db
-		Timestamp ts = DB.getSQLValueTS(get_TrxName(), "SELECT CURRENT_TIMESTAMP FROM DUAL");
+		Timestamp ts = DB.getSQLValueTS(get_TrxName(), "SELECT getdate() FROM DUAL");
 		//go back 2 second to be safe (to avoid posting documents being completed at this precise moment)
 		long ms = ts.getTime()- (2 * 1000);
 		ts = new Timestamp(ms);
@@ -322,17 +324,15 @@ public class ClientAcctProcessor extends SvrProcess
 				&& p_AD_Table_ID != AD_Table_ID)
 				continue;
 			
-			StringBuffer sql = new StringBuffer ("SELECT DISTINCT " + getColumnnameDateacct(AD_Table_ID) +" FROM ").append(TableName)
+			StringBuffer sql = new StringBuffer ("SELECT DISTINCT " + getColumnNameDateAcct(AD_Table_ID) +" FROM ").append(TableName)
 				.append(" WHERE AD_Client_ID=? ")
 				.append(" AND Processed='Y' AND Posted='N' AND IsActive='Y'");
-				//.append(" and " + getColumnnameDateacct(AD_Table_ID)+ " < to_date('31/01/2012','dd/mm/yyyy')");
 			PreparedStatement pstmt = null;
 			ResultSet rs = null;
 			try
 			{
 				pstmt = DB.prepareStatement(sql.toString(), get_TrxName());
 				pstmt.setInt(1, getAD_Client_ID());
-				//pstmt.setBigDecimal(2, value);
 				rs = pstmt.executeQuery();
 				while (rs.next())
 				{
@@ -355,26 +355,29 @@ public class ClientAcctProcessor extends SvrProcess
 		  return listDateAcct;
 	}
 
-	private String getColumnnameDateacct(int AD_Table_ID)
+	private String getColumnNameDateAcct(int AD_Table_ID)
 	{
-		if (AD_Table_ID == 392)
+		if (AD_Table_ID == MBankStatement.Table_ID)
 			return MBankStatement.COLUMNNAME_StatementDate;
-		if (AD_Table_ID == 623)
+		if (AD_Table_ID == MProjectIssue.Table_ID)
 			return MProjectIssue.COLUMNNAME_MovementDate;
-		if (AD_Table_ID == 321)
+		if (AD_Table_ID == MInventory.Table_ID)
 			return MInventory.COLUMNNAME_MovementDate;
-		if (AD_Table_ID == 323)
+		if (AD_Table_ID == MMovement.Table_ID)
 			return MMovement.COLUMNNAME_MovementDate;
-		if (AD_Table_ID == 325)
+		if (AD_Table_ID == MProduct.Table_ID)
 			return MProduction.COLUMNNAME_MovementDate;
-		if (AD_Table_ID == 702)
+		if (AD_Table_ID == MRequisition.Table_ID)
 			return MRequisition.COLUMNNAME_DateDoc;
-		if (AD_Table_ID == 53027)
+		if (AD_Table_ID == MPPOrder.Table_ID)
 			return MPPOrder.COLUMNNAME_DateOrdered;
-		if (AD_Table_ID == 53037)
+		if (AD_Table_ID == MDDOrder.Table_ID)
 			return MDDOrder.COLUMNNAME_DateOrdered;
-		
-		
+		if (AD_Table_ID == MProduction.Table_ID)
+			return MProductionBatch.COLUMNNAME_MovementDate;
+		if (AD_Table_ID == MProductionBatch.Table_ID)
+			return MProduction.COLUMNNAME_MovementDate;
+
 		return MInvoice.COLUMNNAME_DateAcct;
 	}
 

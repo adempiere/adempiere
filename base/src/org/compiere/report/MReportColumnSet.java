@@ -55,6 +55,16 @@ public class MReportColumnSet extends X_PA_ReportColumnSet
 			loadColumns();
 	}	//	MReportColumnSet
 
+	/**
+	 * Constructor
+	 * @param ctx
+	 * @param rs
+	 * @param trxName
+     */
+	public MReportColumnSet (Properties ctx, ResultSet rs, String trxName)
+	{
+		super (ctx, rs,trxName);
+	}
 	/** Contained Columns		*/
 	private MReportColumn[]	m_columns = null;
 

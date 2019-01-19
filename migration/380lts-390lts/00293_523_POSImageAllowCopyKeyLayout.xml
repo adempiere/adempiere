@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="fields image #523" ReleaseNo="3.9.0" SeqNo="00293">
+    <Comments>See: https://github.com/adempiere/adempiere/issues/523</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="58816" Table="AD_Field">
+        <Data AD_Column_ID="74868" Column="IsAllowCopy" oldValue="true">false</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

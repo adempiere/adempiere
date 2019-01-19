@@ -37,7 +37,7 @@ public class StringBox extends Div implements org.zkoss.zul.api.Textbox
 	 */
 	private static final long serialVersionUID = 7089099079981906933L;
 
-	private Textbox textbox = new Textbox();
+	private Textbox textbox = null;
 	
 	private Obscure	m_obscure = null;
 
@@ -288,4 +288,5 @@ public class StringBox extends Div implements org.zkoss.zul.api.Textbox
 		super.setHeight(height);
 		textbox.setHeight("95%");
 	}
+	
 }

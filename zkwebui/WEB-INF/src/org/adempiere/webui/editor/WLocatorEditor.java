@@ -28,8 +28,8 @@ import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.EditorBox;
 import org.adempiere.webui.event.ContextMenuEvent;
 import org.adempiere.webui.event.ContextMenuListener;
-import org.adempiere.webui.event.ValueChangeEvent;
-import org.adempiere.webui.window.WFieldRecordInfo;
+import org.adempiere.exceptions.ValueChangeEvent;
+import org.adempiere.webui.window.WRecordInfo;
 import org.adempiere.webui.window.WLocatorDialog;
 import org.compiere.model.GridField;
 import org.compiere.model.MLocator;
@@ -51,6 +51,9 @@ import org.zkoss.zk.ui.event.Events;
  * 
  * @author  Niraj Sohun
  * @date    Jul 23, 2007
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 146 ] Remove unnecessary class, add support for info to specific column
+ *		@see https://github.com/adempiere/adempiere/issues/146
  */
 
 public class WLocatorEditor extends WEditor implements EventListener, PropertyChangeListener, ContextMenuListener, IZoomableEditor
@@ -59,6 +62,7 @@ public class WLocatorEditor extends WEditor implements EventListener, PropertyCh
     
 	private MLocatorLookup m_mLocator;
 	private Object m_value;
+	private Object oldValue;
 	private int m_WindowNo;
 	
 	private WEditorPopupMenu popupMenu;
@@ -116,7 +120,7 @@ public class WLocatorEditor extends WEditor implements EventListener, PropertyCh
         	popupMenu = new WEditorPopupMenu(true, true, false);
         	if (gridField != null && gridField.getGridTab() != null)
     		{
-    			WFieldRecordInfo.addMenu(popupMenu);
+    			WRecordInfo.addMenu(popupMenu);
     		}
         	getComponent().setContext(popupMenu.getId());
         }			
@@ -140,16 +144,18 @@ public class WLocatorEditor extends WEditor implements EventListener, PropertyCh
 			m_mLocator.setOnly_Warehouse_ID (getOnly_Warehouse_ID ());
 			m_mLocator.setOnly_Product_ID(getOnly_Product_ID());
 			
-			if (!m_mLocator.isValid(value))
+			if (!m_mLocator.isValid(value)) {
 				value = null;
+				gridField.setValue(null, false);
+			}
 		}
-
+		oldValue = m_value;
 		m_value = value;
 		getComponent().setText(m_mLocator.getDisplay(value));	//	loads value
 		
 		//	Data Binding
 		if (fire) {
-			ValueChangeEvent val = new ValueChangeEvent(this, getColumnName(), null, value); 
+			ValueChangeEvent val = new ValueChangeEvent(this, getColumnName(), oldValue, value);
 			fireValueChange(val);
 		}
 
@@ -243,8 +249,10 @@ public class WLocatorEditor extends WEditor implements EventListener, PropertyCh
 	
 			//	redisplay
 			
-			if (!ld.isChanged())
+			if (!ld.isChanged()) {
+				setValue(null , true);
 				return;
+			}
 			setValue (ld.getValue(), true);
 		}
 	}
@@ -296,7 +304,7 @@ public class WLocatorEditor extends WEditor implements EventListener, PropertyCh
 		}
 		else if (WEditorPopupMenu.CHANGE_LOG_EVENT.equals(evt.getContextEvent()))
 		{
-			WFieldRecordInfo.start(gridField);
+			WRecordInfo.start(gridField);
 		}
 	}
 	

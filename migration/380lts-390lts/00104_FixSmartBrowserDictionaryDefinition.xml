@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Fix Smart Browser Dictionary Definition" ReleaseNo="3.9.0" SeqNo="00104">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="108" Action="I" Record_ID="52443" Table="AD_Val_Rule">
+        <Data AD_Column_ID="387" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="388" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="187" Column="AD_Val_Rule_ID">52443</Data>
+        <Data AD_Column_ID="193" Column="Code">EXISTS  (SELECT 1 FROM AD_View_Definition vd WHERE vd.AD_View_Definition_ID=AD_View_Column.AD_View_Definition_ID AND vd.AD_View_ID=@AD_View_ID@)</Data>
+        <Data AD_Column_ID="584" Column="Created">2015-11-30 12:56:51.098</Data>
+        <Data AD_Column_ID="585" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="189" Column="Description">View include for the Browser</Data>
+        <Data AD_Column_ID="7715" Column="EntityType">EE07</Data>
+        <Data AD_Column_ID="583" Column="IsActive">true</Data>
+        <Data AD_Column_ID="188" Column="Name">AD_View_Column for AD_Browse</Data>
+        <Data AD_Column_ID="192" Column="Type">S</Data>
+        <Data AD_Column_ID="586" Column="Updated">2015-11-30 12:56:51.098</Data>
+        <Data AD_Column_ID="587" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="57971" Table="AD_Column">
+        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID">52443</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="57969" Table="AD_Column">
+        <Data AD_Column_ID="226" Column="AD_Reference_ID" oldValue="19">30</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="57985" Table="AD_Column">
+        <Data AD_Column_ID="117" Column="DefaultValue" oldValue="Y">N</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

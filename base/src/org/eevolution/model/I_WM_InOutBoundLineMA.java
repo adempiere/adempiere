@@ -1,8 +1,9 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -11,8 +12,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 package org.eevolution.model;
 
@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for WM_InOutBoundLineMA
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a
+ *  @version Release 3.9.1
  */
 public interface I_WM_InOutBoundLineMA 
 {
@@ -31,7 +31,7 @@ public interface I_WM_InOutBoundLineMA
     /** TableName=WM_InOutBoundLineMA */
     public static final String Table_Name = "WM_InOutBoundLineMA";
 
-    /** AD_Table_ID=1000015 */
+    /** AD_Table_ID=53450 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
@@ -105,6 +105,23 @@ public interface I_WM_InOutBoundLineMA
 	  */
 	public int getM_AttributeSetInstance_ID();
 
+	public I_M_AttributeSetInstance getM_AttributeSetInstance() throws RuntimeException;
+
+    /** Column name M_InOutLine_ID */
+    public static final String COLUMNNAME_M_InOutLine_ID = "M_InOutLine_ID";
+
+	/** Set Shipment/Receipt Line.
+	  * Line on Shipment or Receipt document
+	  */
+	public void setM_InOutLine_ID (int M_InOutLine_ID);
+
+	/** Get Shipment/Receipt Line.
+	  * Line on Shipment or Receipt document
+	  */
+	public int getM_InOutLine_ID();
+
+	public org.compiere.model.I_M_InOutLine getM_InOutLine() throws RuntimeException;
+
     /** Column name MovementQty */
     public static final String COLUMNNAME_MovementQty = "MovementQty";
 
@@ -117,6 +134,19 @@ public interface I_WM_InOutBoundLineMA
 	  * Quantity of a product moved.
 	  */
 	public BigDecimal getMovementQty();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -137,10 +167,10 @@ public interface I_WM_InOutBoundLineMA
     /** Column name WM_InOutBoundLineMA_ID */
     public static final String COLUMNNAME_WM_InOutBoundLineMA_ID = "WM_InOutBoundLineMA_ID";
 
-	/** Set WM_InOutBoundLineMA ID	  */
+	/** Set Inbound & Outbound Order Line MA ID	  */
 	public void setWM_InOutBoundLineMA_ID (int WM_InOutBoundLineMA_ID);
 
-	/** Get WM_InOutBoundLineMA ID	  */
+	/** Get Inbound & Outbound Order Line MA ID	  */
 	public int getWM_InOutBoundLineMA_ID();
 
     /** Column name WM_InOutBoundLine_ID */

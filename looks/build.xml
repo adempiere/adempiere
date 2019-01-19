@@ -46,7 +46,7 @@
 
   <target name="looksCompile" depends="makedir">
     <!-- compile the java code from ${src} into ${build.dir} -->
-    <javac target="1.7" encoding="UTF-8" srcdir="${src}" destdir="${build.dir}" deprecation="on" debug="on">
+    <javac target="1.8" encoding="UTF-8" srcdir="${src}" destdir="${build.dir}" deprecation="on" debug="on">
       <classpath refid="project.class.path"/>
     </javac>
     <!-- copy all image & sound files from src to the build directory -->
@@ -81,7 +81,7 @@
 	<attribute name="Implementation-Title" value="CLooks ${env.ADEMPIERE_VERSION}${version}"/>
 	<attribute name="Implementation-Version" value="${env.ADEMPIERE_VERSION}${version} ${DSTAMP}-${TSTAMP}"/>
 	<attribute name="Implementation-Vendor" value="${env.ADEMPIERE_VENDOR}"/>
-	<attribute name="Implementation-URL" value="http://www.adempiere.org"/>
+	<attribute name="Implementation-URL" value="http://www.adempiere.net"/>
 	<attribute name="Main-Class" value="org.adempiere.plaf.AdempierePLAF"/>
       </manifest>
     </jar>

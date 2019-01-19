@@ -41,6 +41,7 @@ import org.compiere.apps.form.FormFrame;
 import org.compiere.apps.form.FormPanel;
 import org.compiere.grid.ed.VComboBox;
 import org.compiere.grid.ed.VDate;
+import org.compiere.grid.ed.VLookup;
 import org.compiere.grid.ed.VNumber;
 import org.compiere.minigrid.MiniTable;
 import org.compiere.plaf.CompiereColor;
@@ -55,10 +56,10 @@ import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 import org.compiere.util.ValueNamePair;
 import org.eevolution.model.MHRConcept;
-import org.eevolution.model.MHREmployee;
 import org.eevolution.model.MHRMovement;
 import org.eevolution.model.MHRPeriod;
 import org.eevolution.model.MHRProcess;
+import org.eevolution.service.HRActionNotice;
 
 /**
  *  @author Oscar Gomez
@@ -70,21 +71,25 @@ import org.eevolution.model.MHRProcess;
  *  Contributor: Carlos Ruiz (globalqss) 
  *    [ adempiere-Libero-2840048 ] Apply ABP to VHRActionNotice  
  *    [ adempiere-Libero-2840056 ] Payroll Action Notice - concept list wrong
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<a href="https://github.com/adempiere/adempiere/issues/779">
+ * 		@see FR [ 779 ] Payroll Action Notice is slow</a>
  */
 public class VHRActionNotice extends HRActionNotice implements FormPanel, ActionListener, VetoableChangeListener
 {
-	public static CTextField fieldDescription = new CTextField(22);
-	public static VDate fieldValidFrom = new VDate();
-	public static VNumber fieldQty = new VNumber();
-	public static VNumber fieldAmount = new VNumber();
-	public static VDate fieldDate = new VDate();
-	public static CTextField fieldText = new CTextField(22);
+	private CTextField fieldDescription = new CTextField(22);
+	private VDate fieldValidFrom = new VDate();
+	private VNumber fieldQty = new VNumber();
+	private VNumber fieldAmount = new VNumber();
+	private VDate fieldDate = new VDate();
+	private CTextField fieldText = new CTextField(22);
 	private CPanel mainPanel = new CPanel();
 	private BorderLayout mainLayout = new BorderLayout();
 	private CPanel parameterPanel = new CPanel();
-	public static VComboBox fieldProcess = new VComboBox();
-	public static VComboBox fieldEmployee = new VComboBox();
-	public static VComboBox fieldConcept = new VComboBox();
+	private VComboBox fieldProcess = new VComboBox();
+	private VComboBox fieldEmployee = new VComboBox();
+	private VComboBox fieldConcept = new VComboBox();
+	private VComboBox fieldTextLookup = new VComboBox();
 
 	/**	Window No			*/
 	private int           m_WindowNo = 0;
@@ -96,13 +101,13 @@ public class VHRActionNotice extends HRActionNotice implements FormPanel, Action
 	private CLabel labelProcess = new CLabel();
 	private CLabel labelEmployee = new CLabel();
 	private CLabel labelColumnType = new CLabel();
-	private static CTextField fieldColumnType = new CTextField(18);
+	private VLookup fieldColumnType = null;
 	private CLabel labelConcept = new CLabel();
 	private JLabel labelValue = new JLabel();
 	private JLabel dataStatus = new JLabel();
 	private JScrollPane dataPane = new JScrollPane();
 	private VNumber fieldRuleE = new VNumber();
-	private static MiniTable miniTable = new MiniTable();
+	private MiniTable miniTable = new MiniTable();
 	private CPanel commandPanel = new CPanel();
 	private FlowLayout commandLayout = new FlowLayout();
 	private JButton bOk = ConfirmPanel.createOKButton(true);
@@ -116,22 +121,18 @@ public class VHRActionNotice extends HRActionNotice implements FormPanel, Action
 	 *  @param WindowNo window
 	 *  @param frame frame
 	 */
-	public void init (int WindowNo, FormFrame frame)
-	{
+	public void init (int WindowNo, FormFrame frame) {
 		log.info("");
 		m_WindowNo = WindowNo;
 		m_frame = frame;
 		Env.setContext(Env.getCtx(), m_WindowNo, "IsSOTrx", "Y");
-		try
-		{
+		try {
 			super.dynInit();
 			dynInit();
 			jbInit();
 			frame.getContentPane().add(mainPanel, BorderLayout.CENTER);
 			frame.setSize(1000, 400);
-		}
-		catch(Exception ex)
-		{
+		} catch(Exception ex) {
 			log.log(Level.SEVERE, "init", ex);
 		}
 	}	//	init
@@ -140,8 +141,7 @@ public class VHRActionNotice extends HRActionNotice implements FormPanel, Action
 	/**
 	 * 	Dispose
 	 */
-	public void dispose()
-	{
+	public void dispose() {
 		if (m_frame != null)
 			m_frame.dispose();
 		m_frame = null;
@@ -152,8 +152,7 @@ public class VHRActionNotice extends HRActionNotice implements FormPanel, Action
 	 *  Static Init
 	 *  @throws Exception
 	 */
-	private void jbInit()
-	{
+	private void jbInit() {
 		CompiereColor.setBackground(mainPanel);
 		mainPanel.setLayout(mainLayout);
 		///mainPanel.setSize(500, 500);
@@ -181,45 +180,48 @@ public class VHRActionNotice extends HRActionNotice implements FormPanel, Action
 		mainPanel.add(parameterPanel, BorderLayout.NORTH);
 		// Process
 		parameterPanel.add(labelProcess,  new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
-				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+				,GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), 0, 0));
 		parameterPanel.add(fieldProcess,   new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), 0, 0));
 		// Employee
 		parameterPanel.add(labelEmployee,  new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0
-				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+				,GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), 0, 0));
 		parameterPanel.add(fieldEmployee,   new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), 0, 0));
 		// ValidFrom
 		parameterPanel.add(labelValidFrom,   new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0
-				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+				,GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), 0, 0));
 		parameterPanel.add(fieldValidFrom,    new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0
 				,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), 0, 0));
-		// Concepto
+		// Concept
 		parameterPanel.add(labelConcept,  new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0
-				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+				,GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), 0, 0));
 		parameterPanel.add(fieldConcept,  new GridBagConstraints(3, 1, 1, 1, 0.0, 0.0
-				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+				,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), 0, 0));
 		// ColumnType
 		parameterPanel.add(labelColumnType,  new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0
-				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+				,GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), 0, 0));
 		parameterPanel.add(fieldColumnType,  new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0
-				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+				,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), 0, 0));
 		// Qty-Amount-Date-Text-RuleEngine
 		parameterPanel.add(labelValue,  new GridBagConstraints(2, 2, 1, 1, 0.0, 0.0
-				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+				,GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), 0, 0));
 		parameterPanel.add(fieldQty,  new GridBagConstraints(3, 2, 1, 1, 0.0, 0.0
-				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+				,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), 0, 0));
 		parameterPanel.add(fieldAmount,  new GridBagConstraints(3, 2, 1, 1, 0.0, 0.0
-				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+				,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), 0, 0));
 		parameterPanel.add(fieldDate,  new GridBagConstraints(3, 2, 1, 1, 0.0, 0.0
-				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+				,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), 0, 0));
+		//	Text Message
 		parameterPanel.add(fieldText,  new GridBagConstraints(3, 2, 1, 1, 0.0, 0.0
-				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+				,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), 0, 0));
+		parameterPanel.add(fieldTextLookup,  new GridBagConstraints(3, 2, 1, 1, 0.0, 0.0
+				,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), 0, 0));
 		// Description
 		parameterPanel.add(labelDescription,  new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0
-				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+				,GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), 0, 0));
 		parameterPanel.add(fieldDescription,  new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0
-				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+				,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), 0, 0));
 		// Refresh
 		parameterPanel.add(bOk, new GridBagConstraints(3, 3, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
@@ -262,7 +264,10 @@ public class VHRActionNotice extends HRActionNotice implements FormPanel, Action
 		fieldDescription.setValue("");
 		fieldDescription.setReadWrite(false);
 		// ColumnType
+		fieldColumnType = new VLookup("ColumnType", true, true, false, getColumnTypeLookup());
 		fieldColumnType.setReadWrite(false);
+		//	For Text Message like reference
+		fieldTextLookup.setReadWrite(true);
 		// Qty-Amount-Date-Text-RuleEngine
 		fieldQty.setReadWrite(false);
 		fieldQty.setDisplayType(DisplayType.Quantity);
@@ -271,16 +276,22 @@ public class VHRActionNotice extends HRActionNotice implements FormPanel, Action
 		fieldAmount.setVisible(false);
 		fieldDate.setVisible(false);
 		fieldText.setVisible(false);
+		fieldTextLookup.setVisible(false);
 		fieldRuleE.setVisible(false);
 		//
 		bOk.addActionListener(this);
+		//	Yamel Senih 2013-03-11
+		//	Fixed columns increment in minitable
+		miniTable = new MiniTable();
+		//	End Yamel Senih
 		configureMiniTable(miniTable);
 	}	//	fillPicks
 
-
-	public static void executeQuery()
-	{
-		executeQuery(Env.getCtx(),miniTable);
+	/**
+	 * Run query
+	 */
+	private void executeQuery() {
+		executeQuery(Env.getCtx(), miniTable, 1);
 	}   //  executeQuery
 
 
@@ -288,25 +299,50 @@ public class VHRActionNotice extends HRActionNotice implements FormPanel, Action
 	 *  vetoableChange
 	 *  @param e event
 	 */
-	public void vetoableChange(PropertyChangeEvent e) throws PropertyVetoException 
-	{
+	public void vetoableChange(PropertyChangeEvent e) throws PropertyVetoException {
 		fieldConcept.setReadWrite(true);
 		log.fine("Event"+ e);
 		log.fine("Event Source "+ e.getSource());
 		log.fine("Event Property "+ e.getPropertyName());
-		Integer   HR_Period_ID = new MHRProcess(Env.getCtx(),(Integer)fieldProcess.getValue(),null).getHR_Period_ID(); 
+		Integer   periodId = getPayrollProcess().getHR_Period_ID();
 		String date = DB.TO_DATE((Timestamp)fieldValidFrom.getValue());
-		int existRange = DB.getSQLValueEx(null,"SELECT HR_Period_ID FROM HR_Period WHERE " +date+
-				" >= StartDate AND "+date+	" <= EndDate AND HR_Period_ID = "+HR_Period_ID);
+		int existRange = DB.getSQLValueEx(null,"SELECT HR_Period_ID FROM HR_Period "
+						+ "WHERE " + date + " >= StartDate "
+						+ "AND " + date + " <= EndDate "
+						+ "AND HR_Period_ID = "+periodId);
 		// Exist of Range Payroll
 		if ( existRange < 0){
 			fieldConcept.setReadWrite(false);
 			return;
 		}
-		if (fieldConcept != null)
-			sHR_Movement_ID = seekMovement((Timestamp)fieldValidFrom.getValue());  // exist movement record to date actual
-	}   //  vetoableChange
+		else {
+			fieldConcept.setReadWrite(true);
+		}
 
+		if (fieldConcept != null)
+			movementId = seekMovement((Timestamp)fieldValidFrom.getValue());  // exist movement record to date actual
+	}   //  vetoableChange
+	
+	/**
+	 * Load Text Message Lookup
+	 * @param referenceId
+	 * @return void
+	 */
+	private void loadTextMsgLookup(int referenceId) {
+		//	Remove all Items
+		fieldTextLookup.removeAllItems();
+		isLookupTextMsg = false;
+		//	Valid reference
+		if(referenceId == 0)
+			return;
+		//	Set to new
+		ArrayList<ValueNamePair> conceptData = getConceptReference(referenceId);
+		for(ValueNamePair vp : conceptData) {
+			fieldTextLookup.addItem(vp);
+		}
+		//	Set Flag
+		isLookupTextMsg = true;
+	}
 
 	/**************************************************************************
 	 *	Action Listener
@@ -314,100 +350,105 @@ public class VHRActionNotice extends HRActionNotice implements FormPanel, Action
 	 */
 	public void actionPerformed(ActionEvent e)
 	{
-		
-		
 		log.fine("Event "+ e);
 		log.fine("Event Source "+ e.getSource());
-		if ( e.getSource().equals(fieldProcess) ) {					// Process
+		if (e.getSource().equals(fieldProcess)) {					// Process
 			KeyNamePair pp = (KeyNamePair)fieldProcess.getSelectedItem();
 			if (pp != null){
-				m_HR_Process_ID = pp.getKey();
-				m_process = new MHRProcess(Env.getCtx(),m_HR_Process_ID, null);
-					if(m_process.getHR_Period_ID() > 0)
-					{
-						MHRPeriod period = MHRPeriod.get(Env.getCtx(), m_process.getHR_Period_ID());
-						m_dateStart= period.getStartDate();				
-						m_dateEnd  = period.getEndDate();
-					}
-					else
-					{
-						m_dateEnd = m_process.getDateAcct();
-					}
-				m_HR_Payroll_ID = m_process.getHR_Payroll_ID();
+				payrollProcessId = pp.getKey();
+				payrollProcess = new MHRProcess(Env.getCtx(), payrollProcessId, null);
+				if(payrollProcess.getHR_Period_ID() > 0) {
+					MHRPeriod period = MHRPeriod.getById(Env.getCtx(), payrollProcess.getHR_Period_ID() , null);
+					dateStart= period.getStartDate();
+					dateEnd  = period.getEndDate();
+				} else {
+					dateEnd = payrollProcess.getDateAcct();
+				}
+				payrollId = payrollProcess.getHR_Payroll_ID();
 				fieldEmployee.removeAllItems();
-
-				for(KeyNamePair ppt : getEmployeeValid(m_process))
-				{
+				for(KeyNamePair ppt : getEmployeeValid(payrollProcess)) {
 					fieldEmployee.addItem(ppt);
 				}
 				fieldEmployee.setSelectedIndex(0);
 				fieldEmployee.setReadWrite(true);
 			}
 		}
-		else if ( e.getSource().equals(fieldEmployee) ){			// Employee
-			KeyNamePair pp = (KeyNamePair)fieldEmployee.getSelectedItem();
-			if ( pp != null )
-				m_C_BPartner_ID = pp.getKey();
-			if ( m_C_BPartner_ID > 0){			
-				fieldValidFrom.setValue(m_dateEnd);
+		else if (e.getSource().equals(fieldEmployee)){			// Employee
+			KeyNamePair keyNamePair = (KeyNamePair)fieldEmployee.getSelectedItem();
+			if (keyNamePair != null) {
+				partnerId = keyNamePair.getKey();
+			}
+			if (partnerId > 0){
+				fieldValidFrom.setValue(dateEnd);
 				fieldValidFrom.setReadWrite(true);
-								
-				ArrayList<ValueNamePair> conceptData = getConcept(m_process, fieldProcess != null);
-				for(ValueNamePair vp : conceptData)
+				fieldConcept.removeAllItems();
+				for(KeyNamePair vp : getConcept(payrollProcess, fieldProcess != null)) {
 					fieldConcept.addItem(vp);
-
+				}
+				//	
 				fieldConcept.setReadWrite(true);
-				executeQuery();
 			}
 		}
-		else if ( e.getSource().equals(fieldConcept) ) {			// Concept
-			ValueNamePair pp = (ValueNamePair)fieldConcept.getSelectedItem();
-			if (pp != null)
-			{
-				try{
-					m_HR_Concept_ID = Integer.parseInt(pp.getValue());
-				}
-				catch(Exception ex){
-					m_HR_Concept_ID = 0;
-				}
+		else if (e.getSource().equals(fieldConcept)) {			// Concept
+			KeyNamePair conceptPair = (KeyNamePair)fieldConcept.getSelectedItem();
+			if (conceptPair != null) {
+				conceptId = conceptPair.getKey();
 			}
-			
-			if (m_HR_Concept_ID > 0) {
-				MHRConcept concept = MHRConcept.get(Env.getCtx(),m_HR_Concept_ID);
+			//	
+			if (conceptId > 0) {
+				MHRConcept concept = MHRConcept.getById(Env.getCtx(), conceptId , null);
+				//	Load Data Combo Box
+				loadTextMsgLookup(concept.getAD_Reference_ID());
 				// Name To Type Column
-				fieldColumnType.setValue(DB.getSQLValueStringEx(null, getSQL_ColumnType(Env.getCtx(), "?"), concept.getColumnType() )); 
-				sHR_Movement_ID = seekMovement((Timestamp)fieldValidFrom.getValue()); //  exist movement record to date actual				
+				fieldColumnType.setValue(concept.getColumnType());
+				fieldColumnType.setVisible(true);
+				movementId = seekMovement((Timestamp)fieldValidFrom.getValue()); //  exist movement record to date actual
 
-				if (sHR_Movement_ID > 0){
-					MHRMovement movementFound = new MHRMovement(Env.getCtx(),sHR_Movement_ID,null);
+				if (movementId > 0){
+					MHRMovement movementFound = new MHRMovement(Env.getCtx(), movementId,null);
 					fieldDescription.setValue(movementFound.getDescription());
 					fieldText.setValue("");
 					fieldDate.setValue(null);
 					fieldQty.setValue(Env.ZERO);
 					fieldAmount.setValue(Env.ZERO);
-					if ( concept.getColumnType().equals(MHRConcept.COLUMNTYPE_Quantity) )	// Quantity
+					if (concept.getColumnType().equals(MHRConcept.COLUMNTYPE_Quantity)) {	// Quantity
 						fieldQty.setValue(movementFound.getQty());
-					else if (concept.getColumnType().equals(MHRConcept.COLUMNTYPE_Amount) )	// Amount
+					} else if (concept.getColumnType().equals(MHRConcept.COLUMNTYPE_Amount)) {	// Amount
 						fieldAmount.setValue(movementFound.getAmount());
-					else if (concept.getColumnType().equals(MHRConcept.COLUMNTYPE_Text) )	// Text
-						fieldText.setValue(movementFound.getTextMsg());
-					else if (concept.getColumnType().equals(MHRConcept.COLUMNTYPE_Date) )	// Date
+					} else if (concept.getColumnType().equals(MHRConcept.COLUMNTYPE_Text)) {	// Text
+						//	Verify Reference
+						if(isLookupTextMsg) {
+							fieldTextLookup.setValue(movementFound.getTextMsg());
+						} else {
+							fieldText.setValue(movementFound.getTextMsg());
+						}
+					} else if (concept.getColumnType().equals(MHRConcept.COLUMNTYPE_Date)) {	// Date
 						fieldDate.setValue(movementFound.getServiceDate());
+					}
+				} else {
+					fieldQty.setValue(null);
+					fieldAmount.setValue(null);
+					fieldDescription.setValue(null);
+					fieldText.setValue(null);
+					fieldTextLookup.setValue(null);
+					fieldDate.setValue(null);
 				}
-				
+				//	
 				if (concept.getColumnType().equals(MHRConcept.COLUMNTYPE_Quantity)){				// Concept Type
 					fieldQty.setVisible(true);
 					fieldQty.setReadWrite(true);
 					fieldAmount.setVisible(false);
 					fieldDate.setVisible(false);
 					fieldText.setVisible(false);
-					fieldRuleE.setVisible(false);				
+					fieldTextLookup.setVisible(false);
+					fieldRuleE.setVisible(false);
 				} else if (concept.getColumnType().equals(MHRConcept.COLUMNTYPE_Amount)){
 					fieldQty.setVisible(false);
 					fieldAmount.setVisible(true);
 					fieldAmount.setReadWrite(true);
 					fieldDate.setVisible(false);
 					fieldText.setVisible(false);
+					fieldTextLookup.setVisible(false);
 					fieldRuleE.setVisible(false);
 				} else if (concept.getColumnType().equals(MHRConcept.COLUMNTYPE_Date)){
 					fieldQty.setVisible(false);
@@ -415,10 +456,22 @@ public class VHRActionNotice extends HRActionNotice implements FormPanel, Action
 					fieldDate.setVisible(true);
 					fieldDate.setReadWrite(true);
 					fieldText.setVisible(false);
+					fieldTextLookup.setVisible(false);
 					fieldRuleE.setVisible(false);
 				} else if (concept.getColumnType().equals(MHRConcept.COLUMNTYPE_Text)){
-					fieldText.setVisible(true);
-					fieldText.setReadWrite(true);
+					//	Verify Reference
+					if(isLookupTextMsg) {
+						fieldText.setVisible(false);
+						fieldText.setReadWrite(false);
+						fieldTextLookup.setVisible(true);
+						fieldTextLookup.setReadWrite(true);
+					} else {
+						fieldTextLookup.setVisible(false);
+						fieldTextLookup.setReadWrite(false);
+						fieldText.setVisible(true);
+						fieldText.setReadWrite(true);
+					}
+					fieldQty.setVisible(false);
 					fieldAmount.setVisible(false);
 					fieldDate.setVisible(false);
 					fieldRuleE.setVisible(false);
@@ -427,9 +480,29 @@ public class VHRActionNotice extends HRActionNotice implements FormPanel, Action
 			}
 		} // Concept
 		else if (e instanceof ActionEvent && e.getSource().equals(bOk) ){					 // Movement SAVE
-			ValueNamePair pp = (ValueNamePair)fieldConcept.getSelectedItem();
-			m_HR_Concept_ID = Integer.parseInt(pp.getValue());
-			if ( m_HR_Concept_ID <= 0
+			conceptId = ((KeyNamePair) fieldConcept.getSelectedItem()).getKey();
+			partnerId = ((KeyNamePair) fieldEmployee.getSelectedItem()).getKey();
+			payrollId = getPayrollProcess().getHR_Payroll_ID();
+			if(payrollProcess.getHR_Period_ID() > 0) {
+				MHRPeriod period = MHRPeriod.getById(Env.getCtx(), payrollProcess.getHR_Period_ID(), null);
+				dateStart = period.getStartDate();
+				dateEnd = period.getEndDate();
+			} else {
+				dateEnd = payrollProcess.getDateAcct();
+			}
+			quantity = (BigDecimal) fieldQty.getValue();
+			amount = (BigDecimal) fieldAmount.getValue();
+			//	Get from List
+			if(isLookupTextMsg) {
+				text = (String) fieldTextLookup.getValue();
+			} else {
+				text = (String) fieldText.getValue();
+			}
+			serviceDate = (Timestamp) fieldDate.getValue();
+			description = (String) fieldDescription.getValue();
+			validFrom = (Timestamp) fieldValidFrom.getValue();
+			validTo =  (Timestamp) fieldValidFrom.getValue();
+			if ( conceptId <= 0
 				|| fieldProcess.getValue() == null
 				|| ((Integer)fieldProcess.getValue()).intValue() <= 0
 				|| fieldEmployee.getValue() == null
@@ -445,56 +518,4 @@ public class VHRActionNotice extends HRActionNotice implements FormPanel, Action
 		executeQuery();
 		return;
 	}   //  actionPerformed
-
-	public static void saveMovement()
-	{
-		MHRConcept conceptOK   = MHRConcept.get(Env.getCtx(),m_HR_Concept_ID);
-		int mov = sHR_Movement_ID > 0 ? sHR_Movement_ID : 0;
-		MHRMovement movementOK = new MHRMovement(Env.getCtx(),mov,null);
-		movementOK.setDescription(fieldDescription.getValue() != null ? (String)fieldDescription.getValue().toString() : "");
-		movementOK.setHR_Process_ID((Integer)fieldProcess.getValue());
-		movementOK.setC_BPartner_ID((Integer)fieldEmployee.getValue());
-		movementOK.setHR_Concept_ID(Integer.parseInt((String)fieldConcept.getValue()));
-		movementOK.setHR_Concept_Category_ID(conceptOK.getHR_Concept_Category_ID());
-		movementOK.setColumnType(conceptOK.getColumnType());
-		movementOK.setQty(fieldQty.getValue() != null ? (BigDecimal)fieldQty.getValue() : Env.ZERO);
-		movementOK.setAmount(fieldAmount.getValue() != null ? (BigDecimal)fieldAmount.getValue() : Env.ZERO );
-		movementOK.setTextMsg(fieldText.getValue() != null ? (String)fieldText.getValue().toString() : "");
-		movementOK.setServiceDate(fieldDate.getValue() != null ? (Timestamp)fieldDate.getValue() : null);
-		movementOK.setValidFrom((Timestamp)fieldValidFrom.getTimestamp());
-		movementOK.setValidTo((Timestamp)fieldValidFrom.getTimestamp());
-		MHREmployee employee  = MHREmployee.getActiveEmployee(Env.getCtx(), movementOK.getC_BPartner_ID(), null);
-		if (employee != null) {
-			movementOK.setAD_Org_ID(employee.getAD_Org_ID());
-			movementOK.setHR_Department_ID(employee.getHR_Department_ID());
-			movementOK.setHR_Job_ID(employee.getHR_Job_ID());
-			movementOK.setC_Activity_ID(employee.getC_Activity_ID() > 0 ? employee.getC_Activity_ID() : employee.getHR_Department().getC_Activity_ID());
-		}
-		movementOK.setIsManual(true);
-		movementOK.saveEx();
-			// check if user saved an empty record and delete it
-		if ( (movementOK.getAmount() == null || Env.ZERO.compareTo(movementOK.getAmount()) == 0)
-					&& (movementOK.getQty() == null || Env.ZERO.compareTo(movementOK.getQty()) == 0)
-					&& (movementOK.getServiceDate() == null)
-					&& (movementOK.getTextMsg() == null || movementOK.getTextMsg().trim().length() == 0)) {
-		movementOK.deleteEx(false);
-		}
-		executeQuery();
-		fieldValidFrom.setValue(m_dateEnd);
-		fieldColumnType.setValue("");
-		fieldQty.setValue(Env.ZERO);
-		fieldAmount.setValue(Env.ZERO);
-		fieldQty.setReadWrite(false);
-		fieldAmount.setReadWrite(false);
-		fieldText.setReadWrite(false);
-		fieldDescription.setReadWrite(false);
-		sHR_Movement_ID = 0; // Initial not exist record in Movement to actual date
-		// clear fields
-		fieldDescription.setValue("");
-		fieldText.setValue("");
-		fieldDate.setValue(null);
-		fieldQty.setValue(Env.ZERO);
-		fieldAmount.setValue(Env.ZERO);
-		fieldConcept.setSelectedIndex(0);
-	}
 }   //  VHRActionNotice

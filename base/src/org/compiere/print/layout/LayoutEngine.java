@@ -34,12 +34,16 @@ import java.awt.print.PrinterJob;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
+import java.io.Serializable;
 import java.net.URL;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
+
 import javax.print.Doc;
 import javax.print.DocFlavor;
 import javax.print.attribute.DocAttributeSet;
@@ -47,6 +51,7 @@ import javax.print.attribute.DocAttributeSet;
 import org.compiere.Adempiere;
 import org.compiere.model.MClientInfo;
 import org.compiere.model.MQuery;
+import org.compiere.model.MSysConfig;
 import org.compiere.model.MTable;
 import org.compiere.model.PrintInfo;
 import org.compiere.print.ArchiveEngine;
@@ -60,13 +65,19 @@ import org.compiere.print.MPrintPaper;
 import org.compiere.print.MPrintTableFormat;
 import org.compiere.print.PrintData;
 import org.compiere.print.PrintDataElement;
+import org.compiere.print.util.SerializableMatrix;
+import org.compiere.print.util.SerializableMatrixImpl;
+import org.compiere.report.MReportLine;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
+import org.compiere.util.Evaluatee;
+import org.compiere.util.Evaluator;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 import org.compiere.util.NamePair;
+import org.compiere.util.Util;
 import org.compiere.util.ValueNamePair;
 
 /**
@@ -116,7 +127,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 	public LayoutEngine (MPrintFormat format, PrintData data, MQuery query, PrintInfo info ,  String trxName)
 	{
 		m_TrxName = trxName;
-		log.info(format + " - " + data + " - " + query);
+		if (log.isLoggable(Level.INFO)) log.info(format + " - " + data + " - " + query);
 	//	s_FASTDRAW = MClient.get(format.getCtx()).isUseBetaFunctions();
 		//
 		setPrintFormat(format, false);
@@ -209,6 +220,8 @@ public class LayoutEngine implements Pageable, Printable, Doc
 	/** Print Copy (print interface)	*/
 	private boolean				m_isCopy = false;
 
+	private int windowNo = -1;
+
 		
 	/*************************************************************************/
 
@@ -219,6 +232,8 @@ public class LayoutEngine implements Pageable, Printable, Doc
 	/** Image Size				*/
 	public static Dimension		IMAGE_SIZE = new Dimension(10,10);
 
+	public Boolean[] colSuppressRepeats;
+	
 	static {
 		Toolkit tk = Toolkit.getDefaultToolkit();
 		URL url = LayoutEngine.class.getResource("true10.gif");
@@ -259,7 +274,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 		m_printFont = MPrintFont.get (format.getAD_PrintFont_ID());
 
 		//	Print Context
-		Env.setContext(m_printCtx, Page.CONTEXT_REPORTNAME, m_format.getName());
+		Env.setContext(m_printCtx, Page.CONTEXT_REPORTNAME, m_format.get_Translation(MPrintFormat.COLUMNNAME_Name));
 		Env.setContext(m_printCtx, Page.CONTEXT_HEADER, Env.getHeader(m_printCtx, 0));
 		Env.setContext(m_printCtx, Env.LANGUAGE, m_format.getLanguage().getAD_Language());
 
@@ -317,7 +332,8 @@ public class LayoutEngine implements Pageable, Printable, Doc
 		if (!paperChange)
 			paperChange = !paper.equals(m_paper);
 		//
-		log.fine(paper + " - Header=" + headerHeight + ", Footer=" + footerHeight);
+		if (log.isLoggable(Level.FINE))
+			log.fine(paper + " - Header=" + headerHeight + ", Footer=" + footerHeight);
 		m_paper = paper;
 		m_headerHeight = headerHeight;
 		m_footerHeight = footerHeight;
@@ -404,8 +420,8 @@ public class LayoutEngine implements Pageable, Printable, Doc
 		height = m_footerHeight;
 		m_footer.setBounds (x, y, w, height);
 
-		log.fine("Paper=" + m_paper + ",HeaderHeight=" + m_headerHeight + ",FooterHeight=" + m_footerHeight
-			+ " => Header=" + m_header + ",Contents=" + m_content + ",Footer=" + m_footer);
+		if (log.isLoggable(Level.FINE)) log.fine("Paper=" + m_paper + ",HeaderHeight=" + m_headerHeight + ",FooterHeight=" + m_footerHeight
+					+ " => Header=" + m_header + ",Contents=" + m_content + ",Footer=" + m_footer);
 	}	//	calculatePageSize
 
 	/**
@@ -435,24 +451,31 @@ public class LayoutEngine implements Pageable, Printable, Doc
 		newPage(true, false);	//	initialize
 		//
 		if (m_format.isForm())
-			layoutForm();
+			layoutForm(false);
 		else
 		{
+			if ( !m_format.isStandardHeaderFooter())
+				layoutForm(true);
 			//	Parameter
-			PrintElement element = layoutParameter();
-			if (element != null)
+			PrintElement element =  null;
+			if ( m_format.isPrintParameters() )
 			{
-				m_currPage.addElement (element);
-				element.setLocation(m_position[AREA_CONTENT]);
-				m_position[AREA_CONTENT].y += element.getHeight() + 5;	//	GAP
-			}
-			// Process Instance Log (if any):
-			element = layoutPInstanceLogs();
-			if (element != null)
-			{
-				m_currPage.addElement (element);
-				element.setLocation(m_position[AREA_CONTENT]);
-				m_position[AREA_CONTENT].y += element.getHeight() + 5;	//	GAP
+				element = layoutParameter();
+
+				if (element != null)
+				{
+					m_currPage.addElement (element);
+					element.setLocation(m_position[AREA_CONTENT]);
+					m_position[AREA_CONTENT].y += element.getHeight() + 5;	//	GAP
+				}
+				// Process Instance Log (if any):
+				element = layoutPInstanceLogs();
+				if (element != null)
+				{
+					m_currPage.addElement (element);
+					element.setLocation(m_position[AREA_CONTENT]);
+					m_position[AREA_CONTENT].y += element.getHeight() + 5;	//	GAP
+				}
 			}
 			//	Table
 			if (m_data != null)
@@ -581,7 +604,8 @@ public class LayoutEngine implements Pageable, Printable, Doc
 			&& m_position[AREA_CONTENT].getX() == m_content.x
 			&& m_position[AREA_CONTENT].getY() == m_content.y)
 		{
-			log.fine("skipped");
+			if (log.isLoggable(Level.FINE))
+				log.fine("skipped");
 			return m_pageNo;
 		}
 		
@@ -596,7 +620,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 			m_position[AREA_CONTENT].setLocation(m_content.x, m_content.y);
 		m_position[AREA_FOOTER].setLocation(m_footer.x, m_footer.y);
 		m_maxHeightSinceNewLine = new float[] {0f, 0f, 0f};
-		log.finer("Page=" + m_pageNo);
+		if (log.isLoggable(Level.FINER)) log.finer("Page=" + m_pageNo);
 		return m_pageNo;
 	}	//	newPage
 
@@ -619,14 +643,14 @@ public class LayoutEngine implements Pageable, Printable, Doc
 		if (isYspaceFor(m_maxHeightSinceNewLine[m_area]))
 		{
 			m_position[m_area].setLocation(xPos, m_position[m_area].y + m_maxHeightSinceNewLine[m_area]);
-			log.finest("Page=" + m_pageNo + " [" + m_area + "] " + m_position[m_area].x + "/" + m_position[m_area].y);
+			if (log.isLoggable(Level.FINEST)) log.finest("Page=" + m_pageNo + " [" + m_area + "] " + m_position[m_area].x + "/" + m_position[m_area].y);
 		}
 		else if (m_area == AREA_CONTENT)
 		{
-			log.finest("Not enough Y space "
+			if (log.isLoggable(Level.FINEST)) log.finest("Not enough Y space "
 				+ m_lastHeight[m_area] + " - remaining " + getYspace() + " - Area=" + m_area);
 			newPage(true, false);
-			log.finest("Page=" + m_pageNo + " [" + m_area + "] " + m_position[m_area].x + "/" + m_position[m_area].y);
+			if (log.isLoggable(Level.FINEST)) log.finest("Page=" + m_pageNo + " [" + m_area + "] " + m_position[m_area].x + "/" + m_position[m_area].y);
 		}
 		else	//	footer/header
 		{
@@ -705,7 +729,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 		if (m_tableElement == null || m_tableElement.getPageXCount() == 1)
 			return "";
 		int pi = m_tableElement.getPageIndex(pageNo);
-		StringBuffer sb = new StringBuffer("(");
+		StringBuilder sb = new StringBuilder("(");
 		sb.append(m_tableElement.getPageYIndex(pi)+1).append(",")
 			.append(m_tableElement.getPageXIndex(pi)+1).append(")");
 		return sb.toString();
@@ -719,7 +743,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 	{
 		if (m_tableElement == null || m_tableElement.getPageXCount() == 1)
 			return "";
-		StringBuffer sb = new StringBuffer("(");
+		StringBuilder sb = new StringBuilder("(");
 		sb.append(m_tableElement.getPageYCount()).append(",")
 			.append(m_tableElement.getPageXCount()).append(")");
 		return sb.toString();
@@ -765,7 +789,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 		else if (m_area == AREA_FOOTER)
 			part = m_footer;
 		m_position[m_area].setLocation(part.x + p.getX(), part.y + p.getY());
-		log.finest("Page=" + m_pageNo + " [" + m_area + "] " + m_position[m_area].x + "/" + m_position[m_area].y);
+		if (log.isLoggable(Level.FINEST)) log.finest("Page=" + m_pageNo + " [" + m_area + "] " + m_position[m_area].x + "/" + m_position[m_area].y);
 	}	//	setPosition
 
 	/**
@@ -794,7 +818,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 	protected void setX (float x)
 	{
 		m_position[m_area].x = x;
-		log.finest("Page=" + m_pageNo + " [" + m_area + "] " + m_position[m_area].x + "/" + m_position[m_area].y);
+		if (log.isLoggable(Level.FINEST)) log.finest("Page=" + m_pageNo + " [" + m_area + "] " + m_position[m_area].x + "/" + m_position[m_area].y);
 	}	//	setX
 
 	/**
@@ -806,7 +830,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 		if (xOffset == 0f)
 			return;
 		m_position[m_area].x += xOffset;
-		log.finest("Page=" + m_pageNo + " [" + m_area + "] " + m_position[m_area].x + "/" + m_position[m_area].y);
+		if (log.isLoggable(Level.FINEST)) log.finest("Page=" + m_pageNo + " [" + m_area + "] " + m_position[m_area].x + "/" + m_position[m_area].y);
 	}	//	addX
 
 	/**
@@ -825,7 +849,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 	protected void setY (int y)
 	{
 		m_position[m_area].y = y;
-		log.finest("Page=" + m_pageNo + " [" + m_area + "] " + m_position[m_area].x + "/" + m_position[m_area].y);
+		if (log.isLoggable(Level.FINEST)) log.finest("Page=" + m_pageNo + " [" + m_area + "] " + m_position[m_area].x + "/" + m_position[m_area].y);
 	}	//	setY
 
 	/**
@@ -839,14 +863,14 @@ public class LayoutEngine implements Pageable, Printable, Doc
 		if (isYspaceFor(yOffset))
 		{
 			m_position[m_area].y += yOffset;
-			log.finest("Page=" + m_pageNo + " [" + m_area + "] " + m_position[m_area].x + "/" + m_position[m_area].y);
+			if (log.isLoggable(Level.FINEST)) log.finest("Page=" + m_pageNo + " [" + m_area + "] " + m_position[m_area].x + "/" + m_position[m_area].y);
 		}
 		else if (m_area == AREA_CONTENT)
 		{
-			log.finest("Not enough Y space "
+			if (log.isLoggable(Level.FINEST)) log.finest("Not enough Y space "
 				+ m_lastHeight[m_area] + " - remaining " + getYspace() + " - Area=" + m_area);
 			newPage(true, true);
-			log.finest("Page=" + m_pageNo + " [" + m_area + "] " + m_position[m_area].x + "/" + m_position[m_area].y);
+			if (log.isLoggable(Level.FINEST)) log.finest("Page=" + m_pageNo + " [" + m_area + "] " + m_position[m_area].x + "/" + m_position[m_area].y);
 		}
 		else
 		{
@@ -976,13 +1000,14 @@ public class LayoutEngine implements Pageable, Printable, Doc
 	}	//	createStandardHeaderFooter
 
 
-
+	
 	/**************************************************************************
 	 * 	Layout Form.
 	 *  For every Row, loop through the Format
 	 *  and calculate element size and position.
+	 * @param headerFooterOnly 
 	 */
-	private void layoutForm()
+	private void layoutForm(boolean headerFooterOnly)
 	{
 	//	log.info("layoutForm");
 		m_columnCount = 0;
@@ -997,6 +1022,9 @@ public class LayoutEngine implements Pageable, Printable, Doc
 			//	for every item
 			for (int i = 0; i < m_format.getItemCount(); i++)
 			{
+				if (headerFooterOnly && row > 0)
+					break;
+				
 				MPrintFormatItem item = m_format.getItem(i);
 			//	log.fine("layoutForm - Row=" + row + " - #" + i + " - " + item);
 				if (!item.isPrinted())
@@ -1011,8 +1039,10 @@ public class LayoutEngine implements Pageable, Printable, Doc
 					setArea(AREA_HEADER);
 				else if (item.isFooter())
 					setArea(AREA_FOOTER);
-				else
+				else if (!headerFooterOnly)
 					setArea(AREA_CONTENT);
+				else
+					continue;
 				//
 				if (item.isSetNLPosition() && item.isRelativePosition())
 					m_tempNLPositon = 0;
@@ -1067,16 +1097,20 @@ public class LayoutEngine implements Pageable, Printable, Doc
 						lineAligned = true;
 					}
 				}
-
+				
 				//	Type
 				PrintElement element = null;
-				if (item.isTypePrintFormat())		//** included PrintFormat
+				if ( !item.isDisplayed(m_data) )
+				{
+					;
+				}
+				else if (item.isTypePrintFormat())		//** included PrintFormat
 				{
 					element = includeFormat (item, m_data);
 				}
 				else if (item.isBarcode())
 				{
-					element = createBarcodeElement(item);
+					element = createBarcodeElement(item, m_data);
 					if (element != null)
 					{
 						element.layout(maxWidth, item.getMaxHeight(), false, alignment);
@@ -1085,7 +1119,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 				else if (item.isTypeImage())		//**	Image
 				{
 					if (item.isImageField())
-						element = createImageElement (item);
+						element = createImageElement (item, m_data);
 					else if (item.isImageIsAttached())
 						element = ImageElement.get (item.get_ID());
 					else
@@ -1117,7 +1151,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 						item.getAD_PrintColor_ID (), item.getAD_PrintFont_ID (),
 						maxWidth, item.getMaxHeight (), item.isHeightOneLine (), alignment, true);
 				}
-
+				
 				//	Printed - set last width/height
 				if (element != null)
 				{
@@ -1146,13 +1180,13 @@ public class LayoutEngine implements Pageable, Printable, Doc
 				{
 					if (!isXspaceFor(m_lastWidth[m_area]))
 					{
-						log.finest("Not enough X space for "
+						if (log.isLoggable(Level.FINEST)) log.finest("Not enough X space for "
 								+ m_lastWidth[m_area] + " - remaining " + getXspace() + " - Area=" + m_area);
 						newLine ();
 					}
 					if (m_area == AREA_CONTENT && !isYspaceFor(m_lastHeight[m_area]))
 					{
-						log.finest("Not enough Y space "
+						if (log.isLoggable(Level.FINEST)) log.finest("Not enough Y space "
 								+ m_lastHeight[m_area] + " - remaining " + getYspace() + " - Area=" + m_area);
 						newPage (true, true);
 					}
@@ -1179,7 +1213,6 @@ public class LayoutEngine implements Pageable, Printable, Doc
 		}	//	for every row
 	}	//	layoutForm
 
-
 	/**
 	 * 	Include Table Format
 	 *	@param item print format item
@@ -1196,7 +1229,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 		if (m_format.isTranslationView())
 			format.setTranslationLanguage(m_format.getLanguage());
 		int AD_Column_ID = item.getAD_Column_ID();
-		log.info(format + " - Item=" + item.getName() + " (" + AD_Column_ID + ")");
+		if (log.isLoggable(Level.INFO)) log.info(format + " - Item=" + item.getName() + " (" + AD_Column_ID + ")");
 		//
 		Object obj = data.getNode(new Integer(AD_Column_ID));
 		//	Object obj = data.getNode(item.getColumnName());	//	slower
@@ -1204,7 +1237,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 		{
 			data.dumpHeader();
 			data.dumpCurrentRow();
-			log.log(Level.SEVERE, "No Node - AD_Column_ID="
+			log.log(Level.SEVERE, "No Node - AD_Column_ID=" 
 				+ AD_Column_ID + " - " + item + " - " + data);
 			return null;
 		}
@@ -1234,6 +1267,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 		MQuery query = new MQuery (format.getAD_Table_ID());
 		query.addRestriction(item.getColumnName(), MQuery.EQUAL, new Integer(Record_ID));
 		format.setTranslationViewQuery(query);
+		query.setWindowNo(windowNo);
 		log.fine(query.toString());
 		//
 		DataEngine de = new DataEngine(format.getLanguage(),m_TrxName);
@@ -1242,8 +1276,9 @@ public class LayoutEngine implements Pageable, Printable, Doc
 			return null;
 
         data.addNode(includedData);
-
-		log.fine(includedData.toString());
+        
+		if (log.isLoggable(Level.FINE))
+			log.fine(includedData.toString());
 		//
 		element = layoutTable (format, includedData, item.getXSpace());
 		//	handle multi page tables
@@ -1259,19 +1294,19 @@ public class LayoutEngine implements Pageable, Printable, Doc
 			m_position[m_area] = loc;
 			((TableElement)element).setHeightToLastPage();
 		}
-
+		
 		m_lastWidth[m_area] = element.getWidth();
 		m_lastHeight[m_area] = element.getHeight();
 
 		if (!isXspaceFor(m_lastWidth[m_area]))
 		{
-			log.finest("Not enough X space for "
+			if (log.isLoggable(Level.FINEST)) log.finest("Not enough X space for "
 					+ m_lastWidth[m_area] + " - remaining " + getXspace() + " - Area=" + m_area);
 			newLine ();
 		}
 		if (m_area == AREA_CONTENT && !isYspaceFor(m_lastHeight[m_area]))
 		{
-			log.finest("Not enough Y space "
+			if (log.isLoggable(Level.FINEST)) log.finest("Not enough Y space "
 					+ m_lastHeight[m_area] + " - remaining " + getYspace() + " - Area=" + m_area);
 			newPage (true, false);
 		}
@@ -1351,11 +1386,12 @@ public class LayoutEngine implements Pageable, Printable, Doc
 		Object content = stringContent;
 		if (data.getValue() instanceof Boolean)
 			content = data.getValue();
-
+			
 		//	Convert AmtInWords Content to alpha
 		if (item.getColumnName().equals("AmtInWords"))
 		{
-			log.fine("AmtInWords: " + stringContent);
+			if (log.isLoggable(Level.FINE))
+				log.fine("AmtInWords: " + stringContent);
 			stringContent = Msg.getAmtInWords (m_format.getLanguage(), stringContent);
 			content = stringContent;
 		}
@@ -1427,7 +1463,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 	private PrintElement createBoxElement (MPrintFormatItem item)
 	{
 		Color color = getColor();	//	default
-		if (item.getAD_PrintColor_ID() != 0
+		if (item.getAD_PrintColor_ID() != 0 
 			&& m_printColor.get_ID() != item.getAD_PrintColor_ID())
 		{
 			MPrintColor c = MPrintColor.get (getCtx(), item.getAD_PrintColor_ID());
@@ -1436,15 +1472,15 @@ public class LayoutEngine implements Pageable, Printable, Doc
 		}
 		return new BoxElement(item, color);
 	}	//	createBoxElement
-
+	
 	/**
 	 * 	Create Image Element from item
 	 *	@param item item
 	 *	@return image element
 	 */
-	private PrintElement createImageElement (MPrintFormatItem item)
+	private PrintElement createImageElement (MPrintFormatItem item, PrintData printData)
 	{
-		Object obj = m_data.getNode(new Integer(item.getAD_Column_ID()));
+		Object obj = printData.getNode(new Integer(item.getAD_Column_ID())); 
 		if (obj == null)
 			return null;
 		else if (obj instanceof PrintDataElement)
@@ -1474,16 +1510,16 @@ public class LayoutEngine implements Pageable, Printable, Doc
 		}
 		return element;
 	}	//	createImageElement
-
+	
 	/**
 	 * 	Create Barcode Element
 	 *	@param item item
 	 *	@return barcode element
 	 */
-	private PrintElement createBarcodeElement (MPrintFormatItem item)
+	private PrintElement createBarcodeElement (MPrintFormatItem item, PrintData printData)
 	{
 		//	Get Data
-		Object obj = m_data.getNode(new Integer(item.getAD_Column_ID()));
+		Object obj = printData.getNode(new Integer(item.getAD_Column_ID()));
 		if (obj == null)
 			return null;
 		else if (obj instanceof PrintDataElement)
@@ -1507,7 +1543,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 			return element;
 		return null;
 	}	//	createBarcodeElement
-
+	
 	/**
 	 * 	Get default Color
 	 *	@return color
@@ -1516,9 +1552,9 @@ public class LayoutEngine implements Pageable, Printable, Doc
 	{
 		if (m_printColor == null)
 			return Color.BLACK;
-		return m_printColor.getColor();
+		return m_printColor.getColor(); 
 	}	//	getColor
-
+	
 	/**************************************************************************
 	 * 	Layout Table.
 	 *	Convert PrintData into TableElement
@@ -1530,7 +1566,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 	private PrintElement layoutTable (MPrintFormat format, PrintData printData,
 		int xOffset)
 	{
-		log.info(format.getName() + " - " + printData.getName());
+		if (log.isLoggable(Level.INFO)) log.info(format.getName() + " - " + printData.getName());
 		MPrintTableFormat tf = format.getTableFormat();
 		//	Initial Values
 		HashMap<Point,Font> rowColFont = new HashMap<Point,Font>();
@@ -1546,6 +1582,9 @@ public class LayoutEngine implements Pageable, Printable, Doc
 		//
 		HashMap<Point,Color> rowColBackground = new HashMap<Point,Color>();
 		rowColBackground.put(new Point(TableElement.HEADER_ROW,TableElement.ALL), tf.getHeaderBG_Color());
+		
+		HashMap<Point, MReportLine> rowColReportLine = new HashMap<Point, MReportLine>();
+		
 		//	Sizes
 		boolean multiLineHeader = tf.isMultiLineHeader();
 		int pageNoStart = m_pageNo;
@@ -1563,7 +1602,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 		int columnCount = 0;
 		for (int c = 0; c < format.getItemCount(); c++)
 		{
-			if (format.getItem(c).isPrinted())
+			if (format.getItem(c).isPrinted() && format.getItem(c).isContent())
 				columnCount++;
 		}
 		//	System.out.println("Cols=" + cols);
@@ -1573,15 +1612,15 @@ public class LayoutEngine implements Pageable, Printable, Doc
 		int[] columnMaxWidth = new int[columnCount];
 		int[] columnMaxHeight = new int[columnCount];
 		boolean[] fixedWidth = new boolean [columnCount];
-		boolean[] colSuppressRepeats = new boolean[columnCount];
+		Boolean [] colSuppressRepeats = new Boolean[columnCount];
 		String[] columnJustification = new String[columnCount];
 		HashMap<Integer,Integer> additionalLines = new HashMap<Integer,Integer>();
-
+		HashMap<String, Integer> colPositions = new HashMap<String, Integer>();
 		int col = 0;
 		for (int c = 0; c < format.getItemCount(); c++)
 		{
 			MPrintFormatItem item = format.getItem(c);
-			if (item.isPrinted())
+			if (item.isPrinted() && item.isContent())
 			{
 				if (item.isNextLine() && item.getBelowColumn() != 0)
 				{
@@ -1594,6 +1633,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 				}
 				columnHeader[col] = new ValueNamePair(item.getColumnName(),
 					item.getPrintName(format.getLanguage()));
+				colPositions.put(item.getPrintName(), col);
 				columnMaxWidth[col] = item.getMaxWidth();
 				fixedWidth[col] = (columnMaxWidth[col] != 0 && item.isFixedWidth());
 				colSuppressRepeats[col] = item.isSuppressRepeats();
@@ -1628,17 +1668,21 @@ public class LayoutEngine implements Pageable, Printable, Doc
 
 		//	The Data
 		int rows = printData.getRowCount();
-	//	System.out.println("Rows=" + rows);
-		Object[][] data = new Object [rows][columnCount];
+		SerializableMatrix<Serializable> elements = new SerializableMatrixImpl<Serializable>(m_PrintInfo.getName());
 		KeyNamePair[] pk = new KeyNamePair[rows];
 		String pkColumnName = null;
 		ArrayList<Integer> functionRows = new ArrayList<Integer>();
+		ArrayList<Integer> finReportSumRows = new ArrayList<Integer>();
 		ArrayList<Integer> pageBreak = new ArrayList<Integer>();
+		ArrayList<Integer> blankRows = new ArrayList<Integer>();
+		
+		int lastLevelNo = 0;
 
 		//	for all rows
 		for (int row = 0; row < rows; row++)
 		{
-		//	System.out.println("row=" + row);
+			int levelNo = 0;
+			ArrayList<Serializable> columns = new ArrayList<Serializable>();
 			printData.setRowIndex(row);
 			if (printData.isFunctionRow())
 			{
@@ -1649,13 +1693,20 @@ public class LayoutEngine implements Pageable, Printable, Doc
 				if (printData.isPageBreak())
 				{
 					pageBreak.add(new Integer(row));
-					log.finer("PageBreak row=" + row);
+					if (log.isLoggable(Level.FINER))
+						log.finer("PageBreak row=" + row);
 				}
 			}
-			//	Summary/Line Levels for Finanial Reports
+			//	Summary/Line Levels for Financial Reports
 			else
 			{
-				int levelNo = printData.getLineLevelNo();
+				levelNo = printData.getLineLevelNo();
+				if (levelNo < 0)
+					levelNo = -levelNo;
+				
+				if ( levelNo < lastLevelNo )
+					finReportSumRows.add(row);
+				
 				if (levelNo != 0)
 				{
 					if (levelNo < 0)
@@ -1668,26 +1719,65 @@ public class LayoutEngine implements Pageable, Printable, Doc
 						rowColFont.put(new Point(row, TableElement.ALL), new Font (base.getName(),
 							Font.PLAIN, base.getSize()-levelNo));
 				}
+				
+				lastLevelNo = levelNo;
+				
 			}
+			
+			MReportLine rLine = printData.getMReportLine();
+			
+			if (rLine != null && "B".equals(rLine.getLineType()))
+				blankRows.add(new Integer(row));
+			
 			//	for all columns
 			col = 0;
 			for (int c = 0; c < format.getItemCount(); c++)
 			{
+				Serializable columnElement = null;
 				MPrintFormatItem item = format.getItem(c);
-				Object dataElement = null;
-				if (item.isPrinted())	//	Text Columns
+
+				Serializable dataElement = null;
+				if (item.isPrinted() && item.isContent())	//	Text Columns
 				{
-					if (item.isTypeImage())
+
+					if ( rLine != null && levelNo == 0 && item.getColumnName().startsWith("Col_"))
+						rowColReportLine.put(new Point(row, colPositions.get(item.getPrintName())), rLine);
+					
+					if (!item.isDisplayed(m_data) )
+					{
+						;
+					}
+					else if (item.isTypeImage())
 					{
 						if (item.isImageField())
-							data[row][col] = createImageElement(item);
+						{
+							Object obj = null;
+							if (item.getAD_Column_ID() > 0) // teo_sarca, [ 1673542 ]
+								obj = printData.getNode(new Integer(item.getAD_Column_ID()));
+							if (obj == null)
+								;
+							else if (obj instanceof PrintDataElement)
+							{
+								PrintDataElement pde = (PrintDataElement)obj;
+								// Get the PrintDataElement string value - teo_sarca [ 1673505 ]
+								Object o = pde.getValue();
+								String value = null;
+								if (o == null)
+									value = "";
+								else if (o instanceof KeyNamePair)
+									value = ((KeyNamePair)o).getName();
+								else
+									value = o.toString();
+								
+								columnElement = ImageElement.get (value);
+							}
+						}
 						else if (item.isImageIsAttached())
-							data[row][col] = ImageElement.get (item.get_ID());
+							columnElement = ImageElement.get (item.get_ID());
 						else
-							data[row][col] = ImageElement.get (item.getImageURL());
-						// Image layout - teo_sarca, [ 1673548 ]
-						if (data[row][col] != null)
-							((ImageElement)data[row][col]).layout(item.getMaxWidth(), item.getMaxHeight(), false, item.getFieldAlignmentType());
+							columnElement = ImageElement.get (item.getImageURL());
+						if (columnElement != null)
+							((PrintElement)columnElement).layout(item.getMaxWidth(), item.getMaxHeight(), false, item.getFieldAlignmentType());
 					}
 					else if (item.isBarcode())
 					{
@@ -1711,16 +1801,16 @@ public class LayoutEngine implements Pageable, Printable, Doc
 							BarcodeElement element = new BarcodeElement (value, item);
 
 							if (element.isValid())
-								data[row][col] = element;
+								columnElement = element;
 						}
-
-						if (data[row][col] != null)
-							((BarcodeElement)data[row][col]).layout(item.getMaxWidth(), item.getMaxHeight(), false, item.getFieldAlignmentType());
-
+						
+						if (columnElement != null)
+							((BarcodeElement)columnElement).layout(item.getMaxWidth(), item.getMaxHeight(), false, item.getFieldAlignmentType());
+					
 					}
 					else if (item.isTypeText() )
 					{
-						data[row][col] = item.getPrintName(format.getLanguage());
+						columnElement = item.getPrintName(format.getLanguage());	
 					}
 					else if (item.isTypeField())
 					{
@@ -1733,26 +1823,43 @@ public class LayoutEngine implements Pageable, Printable, Doc
 						{
 							PrintDataElement pde = (PrintDataElement)obj;
 							if (pde.isID() || pde.isYesNo())
-								dataElement = pde.getValue();
+								dataElement = (Serializable) pde.getValue();
+							else if ( levelNo > 0 && item.getColumnName().startsWith("Name") )
+							{
+								if ( levelNo == 2)
+									dataElement = "        " + pde.getValueDisplay(format.getLanguage());
+								else 
+									dataElement = "    " + pde.getValueDisplay(format.getLanguage());
+							}
 							else
 								dataElement = pde.getValueDisplay(format.getLanguage());
 							}
+							else if (obj instanceof String) 
+							{
+								// do nothing
+							}
 						else
 							log.log(Level.SEVERE, "Element not PrintDataElement " + obj.getClass());
-					//	System.out.println("  row=" + row + ",col=" + col + " - " + item.getAD_Column_ID() + " => " + dataElement);
-						data[row][col] = dataElement;
+						columnElement = dataElement;
 					}
-                    else if (item.isTypePrintFormat())
-                    {
-                        m_currPage.addElement (includeFormat(item, printData)) ;
-                    }
+					else if (item.isTypePrintFormat())
+					{
+						m_currPage.addElement (includeFormat(item, printData)) ;
+					}
+					else if (item.isTypeBox())
+					{
+						columnElement = createBoxElement(item);
+						if (columnElement != null)
+							((BoxElement)columnElement).layout(item.getMaxWidth(), item.getMaxHeight(), false, item.getFieldAlignmentType());
+					}
 					else  // item.isTypeBox() or isTypePrintFormat()
 					{
 						log.warning("Unsupported: " + (item.isTypeBox() ? "Box" : "PrintFormat") + " in Table: " + item);
 					}
-					col++;
+					columns.add(columnElement);
 				}	//	printed
 			}	//	for all columns
+			elements.addRow(columns);
 
 			PrintDataElement pde = printData.getPKey();
 			if (pde != null)	//	for FunctionRows
@@ -1769,13 +1876,16 @@ public class LayoutEngine implements Pageable, Printable, Doc
 		TableElement table = new TableElement(columnHeader,
 			columnMaxWidth, columnMaxHeight, columnJustification,
 			fixedWidth, functionRows, multiLineHeader,
-			data, pk, pkColumnName,
+			elements, pk, pkColumnName,
 			pageNoStart, firstPage, nextPages, repeatedColumns, additionalLines,
 			rowColFont, rowColColor, rowColBackground,
-			tf, pageBreak, colSuppressRepeats);
+			tf, pageBreak, colSuppressRepeats, rowColReportLine, finReportSumRows, blankRows);
 		table.layout(0,0,false, MPrintFormatItem.FIELDALIGNMENTTYPE_LeadingLeft);
 		if (m_tableElement == null)
 			m_tableElement = table;
+		
+		if (format == m_format)
+			this.colSuppressRepeats = colSuppressRepeats;
 		return table;
 	}	//	layoutTable
 
@@ -1792,9 +1902,9 @@ public class LayoutEngine implements Pageable, Printable, Doc
 		pe.layout(0, 0, false, null);
 		return pe;
 	}	//	layoutParameter
-
+	
 	/**
-	 * Layout Process Instance Logs (if any)
+	 * Layout Process Instance Logs (if any) 
 	 * @return PrintElement
 	 */
 	private PrintElement layoutPInstanceLogs()
@@ -1810,7 +1920,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 		return e;
 	}
 
-
+	
 	/**************************************************************************
 	 * 	Get number of pages (Pageable Interface)
 	 * 	@return number of pages
@@ -1890,7 +2000,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 	{
 		return m_isCopy;
 	}	//	isCopy
-
+	
 	/**
 	 * 	Set Copy
 	 *	@param isCopy if true document is a copy
@@ -1921,7 +2031,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 
 	/**
 	 * 	Get Document Attributes (Doc Interface)
-	 *	@return null to obtain all attribute values from the
+	 *	@return null to obtain all attribute values from the 
 	 *		job's attribute set.
 	 */
 	public DocAttributeSet getAttributes()
@@ -1950,10 +2060,10 @@ public class LayoutEngine implements Pageable, Printable, Doc
 	{
 		return null;
 	}	//	getStreamForBytes
-	
+
 	/**
-	 * 
-	 * @param PrintInfo info
+	 *
+	 * @param info
 	 */
 	public void setPrintInfo(PrintInfo info)
 	{
@@ -1968,5 +2078,21 @@ public class LayoutEngine implements Pageable, Printable, Doc
 	{
 		return  m_PrintInfo;
 	}
+	
+	public void setWindowNo(int windowNo) {
+		this.windowNo = windowNo;		
+	}
 
+	public static Boolean [] getColSuppressRepeats (MPrintFormat format){
+		List<Boolean> colSuppressRepeats = new ArrayList<Boolean>();
+		for (int c = 0; c < format.getItemCount(); c++)
+		{
+			MPrintFormatItem item = format.getItem(c);
+			if (item.isPrinted())
+			{
+				colSuppressRepeats.add(item.isSuppressRepeats());
+			}
+		}
+		return colSuppressRepeats.toArray(new Boolean[0]);
+	}
 }	//	LayoutEngine

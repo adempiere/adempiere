@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Migration resize SQLStatement" ReleaseNo="3.9.0" SeqNo="72">
+    <Step DBType="Oracle" Parse="Y" SeqNo="10" StepType="SQL">
+      <SQLStatement>ALTER TABLE AD_MigrationStep ADD SQLStatementNew CLOB;
+UPDATE AD_MigrationStep  SET SQLStatementNew = SQLStatement;
+ALTER TABLE AD_MigrationStep DROP COLUMN SQLStatement;
+ALTER TABLE AD_MigrationStep RENAME COLUMN  SQLStatementNew TO SQLStatement;
+UPDATE AD_Column SET FieldLength = 16000 WHERE AD_Column_ID = 57873;
+
+ALTER TABLE AD_MigrationStep ADD RollbackStatementNew CLOB;
+UPDATE AD_MigrationStep  SET RollbackStatementNew = RollbackStatement;
+ALTER TABLE AD_MigrationStep DROP COLUMN RollbackStatement;
+ALTER TABLE AD_MigrationStep RENAME COLUMN  RollbackStatementNew TO RollbackStatement;
+UPDATE AD_Column SET FieldLength = 16000 WHERE AD_Column_ID = 57874;</SQLStatement>
+    </Step>
+    <Step DBType="Postgres" Parse="Y" SeqNo="20" StepType="SQL">
+      <SQLStatement>ALTER TABLE AD_MigrationStep ADD SQLStatementNew TEXT;
+ALTER TABLE AD_MigrationStep ADD RollbackStatementNew TEXT;</SQLStatement>
+    </Step>
+    <Step DBType="Postgres" Parse="Y" SeqNo="21" StepType="SQL">
+      <SQLStatement>UPDATE AD_MigrationStep  SET SQLStatementNew = SQLStatement;
+UPDATE AD_Column SET FieldLength = 16000 WHERE AD_Column_ID = 57873;
+UPDATE AD_MigrationStep  SET RollbackStatementNew = RollbackStatement;
+UPDATE AD_Column SET FieldLength = 16000 WHERE AD_Column_ID = 57874;</SQLStatement>
+    </Step>
+    <Step DBType="Postgres" Parse="Y" SeqNo="22" StepType="SQL">
+      <SQLStatement>ALTER TABLE AD_MigrationStep DROP COLUMN SQLStatement;
+ALTER TABLE AD_MigrationStep RENAME COLUMN  SQLStatementNew TO SQLStatement;
+ALTER TABLE AD_MigrationStep DROP COLUMN RollbackStatement;
+ALTER TABLE AD_MigrationStep RENAME COLUMN  RollbackStatementNew TO RollbackStatement;</SQLStatement>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="57875" Table="AD_Column">
+        <Data AD_Column_ID="117" Column="DefaultValue" isOldNull="true">@SQL=SELECT COALESCE(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_MigrationStep WHERE AD_MigrationStep_ID=@AD_MigrationStep_ID@</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

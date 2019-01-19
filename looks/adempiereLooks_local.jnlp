@@ -13,7 +13,7 @@
     <description kind="short">Adempiere Looks (Local)</description>
     <description kind="one-line">Adempiere Looks (Local)</description>
     <description kind="tooltip">Adempiere Looks (Local)</description>
-    <icon href="http://www.adempiere.org/looks/CL64.gif" />
+    <icon href="http://www.adempiere.net/looks/CL64.gif" />
   </information>
   <resources>
     <j2se version="1.4*" href="http://java.sun.com/products/autodl/j2se" initial-heap-size="8m" max-heap-size="128m" />

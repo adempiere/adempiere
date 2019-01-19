@@ -34,10 +34,9 @@ import org.compiere.util.Env;
 import org.compiere.wf.MWorkflowProcessor;
 
 /**
- *	Adempiere Server Manager
+ *	ADempiere Server Manager
  *	
  *  @author Jorg Janke
- *  @version $Id: AdempiereServerMgr.java,v 1.4 2006/10/09 00:23:26 jjanke Exp $
  */
 public class AdempiereServerMgr
 {

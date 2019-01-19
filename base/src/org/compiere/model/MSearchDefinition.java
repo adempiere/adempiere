@@ -68,6 +68,17 @@ public class MSearchDefinition extends X_AD_SearchDefinition {
 	}
 
 	/**
+	 * Load Constructor
+	 * @param ctx
+	 * @param rs
+	 * @param trxName
+     */
+	public MSearchDefinition (Properties ctx, ResultSet rs, String trxName)
+	{
+		super(ctx, rs, trxName);
+	}
+
+	/**
 	 * Returns all SearchDefinition objects with the given transaction code
 	 * 
 	 * @param transactionCode

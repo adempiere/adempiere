@@ -17,6 +17,7 @@
 package org.compiere.process;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 
 import org.compiere.model.MBPartner;
@@ -32,7 +33,15 @@ import org.compiere.util.AdempiereUserError;
  *	
  *  @author Jorg Janke
  *  @version $Id: PaySelectionCreateCheck.java,v 1.2 2006/07/30 00:51:01 jjanke Exp $
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 297 ] Payment Selection must be like ADempiere Document, this process is changed to 
+ *			document workflow of Payment Selection
+ *		@see https://github.com/adempiere/adempiere/issues/297
+ *	@author  victor.perez , victor.perez@e-evolution.com http://www.e-evolution.com
+ * 		<li> FR [ 297 ] Apply ADempiere best Pratice
+ *		@see https://github.com/adempiere/adempiere/issues/297
  */
+@Deprecated
 public class PaySelectionCreateCheck extends SvrProcess
 {
 	/**	Target Payment Rule			*/
@@ -40,7 +49,7 @@ public class PaySelectionCreateCheck extends SvrProcess
 	/**	Payment Selection			*/
 	private int			p_C_PaySelection_ID = 0;
 	/** The checks					*/
-	private ArrayList<MPaySelectionCheck>	m_list = new ArrayList<MPaySelectionCheck>();
+	private List<MPaySelectionCheck> paySelectionChecks = new ArrayList<MPaySelectionCheck>();
 	
 	/**
 	 *  Prepare - e.g., get Parameters.
@@ -73,25 +82,23 @@ public class PaySelectionCreateCheck extends SvrProcess
 		log.info ("C_PaySelection_ID=" + p_C_PaySelection_ID
 			+ ", PaymentRule=" + p_PaymentRule);
 		
-		MPaySelection psel = new MPaySelection (getCtx(), p_C_PaySelection_ID, get_TrxName());
-		if (psel.get_ID() == 0)
+		MPaySelection paySelection = new MPaySelection (getCtx(), p_C_PaySelection_ID, get_TrxName());
+		if (paySelection.get_ID() == 0)
 			throw new IllegalArgumentException("Not found C_PaySelection_ID=" + p_C_PaySelection_ID);
-		if (psel.isProcessed())
+		if (paySelection.isProcessed())
 			throw new IllegalArgumentException("@Processed@");
-		//
-		MPaySelectionLine[] lines = psel.getLines(false);
-		for (int i = 0; i < lines.length; i++)
+
+		for (MPaySelectionLine paySelectionLine : paySelection.getLines(false))
 		{
-			MPaySelectionLine line = lines[i];
-			if (!line.isActive() || line.isProcessed())
+			if (!paySelectionLine.isActive() || paySelectionLine.isProcessed())
 				continue;
-			createCheck (line);
+			createCheck (paySelectionLine);
 		}
 		//
-		psel.setProcessed(true);
-		psel.saveEx();
+		paySelection.setProcessed(true);
+		paySelection.saveEx();
 		
-		return "@C_PaySelectionCheck_ID@ - #" + m_list.size();
+		return "@C_PaySelectionCheck_ID@ - #" + paySelectionChecks.size();
 	}	//	doIt
 
 	/**
@@ -102,9 +109,9 @@ public class PaySelectionCreateCheck extends SvrProcess
 	private void createCheck (MPaySelectionLine line) throws Exception
 	{
 		//	Try to find one
-		for (int i = 0; i < m_list.size(); i++)
+		for (int i = 0; i < paySelectionChecks.size(); i++)
 		{
-			MPaySelectionCheck check = (MPaySelectionCheck)m_list.get(i);
+			MPaySelectionCheck check = (MPaySelectionCheck) paySelectionChecks.get(i);
 			//	Add to existing
 			if (check.getC_BPartner_ID() == line.getInvoice().getC_BPartner_ID())
 			{
@@ -139,7 +146,7 @@ public class PaySelectionCreateCheck extends SvrProcess
 		line.setProcessed(true);
 		if (!line.save())
 			throw new IllegalStateException("Cannot save MPaySelectionLine");
-		m_list.add(check);
+		paySelectionChecks.add(check);
 	}	//	createCheck
 	
 }	//	PaySelectionCreateCheck

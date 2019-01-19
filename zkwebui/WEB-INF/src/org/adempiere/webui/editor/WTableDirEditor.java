@@ -25,12 +25,17 @@ import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Combobox;
 import org.adempiere.webui.event.ContextMenuEvent;
 import org.adempiere.webui.event.ContextMenuListener;
-import org.adempiere.webui.event.ValueChangeEvent;
-import org.adempiere.webui.window.WFieldRecordInfo;
+import org.adempiere.exceptions.ValueChangeEvent;
+import org.adempiere.webui.window.WRecordInfo;
 import org.compiere.model.GridField;
 import org.compiere.model.Lookup;
 import org.compiere.model.MRole;
-import org.compiere.util.*;
+import org.compiere.util.CLogger;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
+import org.compiere.util.NamePair;
+import org.compiere.util.ValueNamePair;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zul.Comboitem;
@@ -40,6 +45,9 @@ import org.zkoss.zul.Comboitem;
  * @author  <a href="mailto:agramdass@gmail.com">Ashley G Ramdass</a>
  * @date    Mar 12, 2007
  * @version $Revision: 0.10 $
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 146 ] Remove unnecessary class, add support for info to specific column
+ *		@see https://github.com/adempiere/adempiere/issues/146
  */
 public class WTableDirEditor extends WEditor implements ListDataListener, 
 ContextMenuListener, IZoomableEditor
@@ -141,7 +149,7 @@ ContextMenuListener, IZoomableEditor
         	popupMenu = new WEditorPopupMenu(zoom, true, true);
         	if (gridField != null &&  gridField.getGridTab() != null)
     		{
-    			WFieldRecordInfo.addMenu(popupMenu);
+    			WRecordInfo.addMenu(popupMenu);
     		}
         	getComponent().setContext(popupMenu.getId());
         }
@@ -212,7 +220,7 @@ ContextMenuListener, IZoomableEditor
         else
         {
             getComponent().setValue(null);
-            oldValue = value;
+			oldValue = value;
         }                                
     }
     
@@ -308,7 +316,6 @@ ContextMenuListener, IZoomableEditor
 	        if (isValueChange(newValue)) {
 		        ValueChangeEvent changeEvent = new ValueChangeEvent(this, this.getColumnName(), oldValue, newValue);
 		        super.fireValueChange(changeEvent);
-		        oldValue = newValue;
 	        }
     	}
     	else if (Events.ON_BLUR.equalsIgnoreCase(event.getName()))
@@ -402,7 +409,7 @@ ContextMenuListener, IZoomableEditor
 		}
 		else if (WEditorPopupMenu.CHANGE_LOG_EVENT.equals(evt.getContextEvent()))
 		{
-			WFieldRecordInfo.start(gridField);
+			WRecordInfo.start(gridField);
 		}
 	}
 	

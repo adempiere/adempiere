@@ -19,11 +19,14 @@ package org.compiere.swing;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.beans.PropertyChangeEvent;
 
 import javax.swing.JTextField;
 import javax.swing.text.Document;
 
+import org.adempiere.exceptions.ValueChangeListener;
 import org.adempiere.plaf.AdempierePLAF;
+import org.compiere.model.GridField;
 
 /**
  *  Adempiere Text Field
@@ -296,6 +299,24 @@ public class CTextField extends JTextField
 				return true;
 			else
 				return false;
+	}
+
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addValueChangeListener(ValueChangeListener listener) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public GridField getField() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }   //  CTextField

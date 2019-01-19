@@ -1,8 +1,9 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -11,8 +12,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PA_ReportLine
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_PA_ReportLine extends PO implements I_PA_ReportLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150223L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_PA_ReportLine (Properties ctx, int PA_ReportLine_ID, String trxName)
@@ -121,6 +121,23 @@ public class X_PA_ReportLine extends PO implements I_PA_ReportLine, I_Persistent
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
+	/** Set Fixed Percentage.
+		@param FixedPercentage Fixed Percentage	  */
+	public void setFixedPercentage (BigDecimal FixedPercentage)
+	{
+		set_Value (COLUMNNAME_FixedPercentage, FixedPercentage);
+	}
+
+	/** Get Fixed Percentage.
+		@return Fixed Percentage	  */
+	public BigDecimal getFixedPercentage () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_FixedPercentage);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
 	public org.compiere.model.I_GL_Budget getGL_Budget() throws RuntimeException
     {
 		return (org.compiere.model.I_GL_Budget)MTable.get(getCtx(), org.compiere.model.I_GL_Budget.Table_Name)
@@ -173,6 +190,30 @@ public class X_PA_ReportLine extends PO implements I_PA_ReportLine, I_Persistent
 		return false;
 	}
 
+	/** Set Show Opposite Sign.
+		@param IsShowOppositeSign 
+		Display values with the opposite sign
+	  */
+	public void setIsShowOppositeSign (boolean IsShowOppositeSign)
+	{
+		set_Value (COLUMNNAME_IsShowOppositeSign, Boolean.valueOf(IsShowOppositeSign));
+	}
+
+	/** Get Show Opposite Sign.
+		@return Display values with the opposite sign
+	  */
+	public boolean isShowOppositeSign () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsShowOppositeSign);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** LineType AD_Reference_ID=241 */
 	public static final int LINETYPE_AD_Reference_ID=241;
 	/** Segment Value = S */
@@ -183,6 +224,8 @@ public class X_PA_ReportLine extends PO implements I_PA_ReportLine, I_Persistent
 	public static final String LINETYPE_TabbedText = "T";
 	/** Customized Line = L */
 	public static final String LINETYPE_CustomizedLine = "L";
+	/** Blank line = B */
+	public static final String LINETYPE_BlankLine = "B";
 	/** Set Line Type.
 		@param LineType Line Type	  */
 	public void setLineType (String LineType)
@@ -277,6 +320,35 @@ public class X_PA_ReportLine extends PO implements I_PA_ReportLine, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** OverlineStrokeType AD_Reference_ID=53793 */
+	public static final int OVERLINESTROKETYPE_AD_Reference_ID=53793;
+	/** Solid = s */
+	public static final String OVERLINESTROKETYPE_Solid = "s";
+	/** Double Solid = d_s */
+	public static final String OVERLINESTROKETYPE_DoubleSolid = "d_s";
+	/** Dotted = d */
+	public static final String OVERLINESTROKETYPE_Dotted = "d";
+	/** Double Dotted = d_d */
+	public static final String OVERLINESTROKETYPE_DoubleDotted = "d_d";
+	/** Dashed = D */
+	public static final String OVERLINESTROKETYPE_Dashed = "D";
+	/** Double Dashed = d_D */
+	public static final String OVERLINESTROKETYPE_DoubleDashed = "d_D";
+	/** Set Overline Stroke Type.
+		@param OverlineStrokeType Overline Stroke Type	  */
+	public void setOverlineStrokeType (String OverlineStrokeType)
+	{
+
+		set_Value (COLUMNNAME_OverlineStrokeType, OverlineStrokeType);
+	}
+
+	/** Get Overline Stroke Type.
+		@return Overline Stroke Type	  */
+	public String getOverlineStrokeType () 
+	{
+		return (String)get_Value(COLUMNNAME_OverlineStrokeType);
 	}
 
 	/** PAAmountType AD_Reference_ID=53328 */
@@ -396,7 +468,7 @@ public class X_PA_ReportLine extends PO implements I_PA_ReportLine, I_Persistent
 	public static final String POSTINGTYPE_Statistical = "S";
 	/** Reservation = R */
 	public static final String POSTINGTYPE_Reservation = "R";
-	/** Set PostingType.
+	/** Set Posting Type.
 		@param PostingType 
 		The type of posted amount for the transaction
 	  */
@@ -406,12 +478,41 @@ public class X_PA_ReportLine extends PO implements I_PA_ReportLine, I_Persistent
 		set_Value (COLUMNNAME_PostingType, PostingType);
 	}
 
-	/** Get PostingType.
+	/** Get Posting Type.
 		@return The type of posted amount for the transaction
 	  */
 	public String getPostingType () 
 	{
 		return (String)get_Value(COLUMNNAME_PostingType);
+	}
+
+	/** ReportLineStyle AD_Reference_ID=53564 */
+	public static final int REPORTLINESTYLE_AD_Reference_ID=53564;
+	/** Blank Line = S */
+	public static final String REPORTLINESTYLE_BlankLine = "S";
+	/** Underlined Descriptions = D */
+	public static final String REPORTLINESTYLE_UnderlinedDescriptions = "D";
+	/** Double Line for Total = Z */
+	public static final String REPORTLINESTYLE_DoubleLineForTotal = "Z";
+	/** Line = L */
+	public static final String REPORTLINESTYLE_Line = "L";
+	/** Total Line = X */
+	public static final String REPORTLINESTYLE_TotalLine = "X";
+	/** Centered Title = T */
+	public static final String REPORTLINESTYLE_CenteredTitle = "T";
+	/** Set Report Line Style.
+		@param ReportLineStyle Report Line Style	  */
+	public void setReportLineStyle (String ReportLineStyle)
+	{
+
+		set_Value (COLUMNNAME_ReportLineStyle, ReportLineStyle);
+	}
+
+	/** Get Report Line Style.
+		@return Report Line Style	  */
+	public String getReportLineStyle () 
+	{
+		return (String)get_Value(COLUMNNAME_ReportLineStyle);
 	}
 
 	/** Set Sequence.
@@ -454,49 +555,49 @@ public class X_PA_ReportLine extends PO implements I_PA_ReportLine, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set fixedpercentage.
-		@param fixedpercentage fixedpercentage	  */
-	public void setfixedpercentage (BigDecimal fixedpercentage)
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
 	{
-		set_Value (COLUMNNAME_fixedpercentage, fixedpercentage);
+		set_Value (COLUMNNAME_UUID, UUID);
 	}
 
-	/** Get fixedpercentage.
-		@return fixedpercentage	  */
-	public BigDecimal getfixedpercentage () 
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
 	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_fixedpercentage);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
+		return (String)get_Value(COLUMNNAME_UUID);
 	}
 
-	/** reportlinestyle AD_Reference_ID=53564 */
-	public static final int REPORTLINESTYLE_AD_Reference_ID=53564;
-	/** Blank Line = S */
-	public static final String REPORTLINESTYLE_BlankLine = "S";
-	/** Underlined Descriptions = D */
-	public static final String REPORTLINESTYLE_UnderlinedDescriptions = "D";
-	/** Double Line for Total = Z */
-	public static final String REPORTLINESTYLE_DoubleLineForTotal = "Z";
-	/** Line = L */
-	public static final String REPORTLINESTYLE_Line = "L";
-	/** Total Line = X */
-	public static final String REPORTLINESTYLE_TotalLine = "X";
-	/** Centered Title = T */
-	public static final String REPORTLINESTYLE_CenteredTitle = "T";
-	/** Set reportlinestyle.
-		@param reportlinestyle reportlinestyle	  */
-	public void setreportlinestyle (String reportlinestyle)
+	/** UnderlineStrokeType AD_Reference_ID=53793 */
+	public static final int UNDERLINESTROKETYPE_AD_Reference_ID=53793;
+	/** Solid = s */
+	public static final String UNDERLINESTROKETYPE_Solid = "s";
+	/** Double Solid = d_s */
+	public static final String UNDERLINESTROKETYPE_DoubleSolid = "d_s";
+	/** Dotted = d */
+	public static final String UNDERLINESTROKETYPE_Dotted = "d";
+	/** Double Dotted = d_d */
+	public static final String UNDERLINESTROKETYPE_DoubleDotted = "d_d";
+	/** Dashed = D */
+	public static final String UNDERLINESTROKETYPE_Dashed = "D";
+	/** Double Dashed = d_D */
+	public static final String UNDERLINESTROKETYPE_DoubleDashed = "d_D";
+	/** Set Underline Stroke Type.
+		@param UnderlineStrokeType Underline Stroke Type	  */
+	public void setUnderlineStrokeType (String UnderlineStrokeType)
 	{
 
-		set_Value (COLUMNNAME_reportlinestyle, reportlinestyle);
+		set_Value (COLUMNNAME_UnderlineStrokeType, UnderlineStrokeType);
 	}
 
-	/** Get reportlinestyle.
-		@return reportlinestyle	  */
-	public String getreportlinestyle () 
+	/** Get Underline Stroke Type.
+		@return Underline Stroke Type	  */
+	public String getUnderlineStrokeType () 
 	{
-		return (String)get_Value(COLUMNNAME_reportlinestyle);
+		return (String)get_Value(COLUMNNAME_UnderlineStrokeType);
 	}
 }

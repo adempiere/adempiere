@@ -87,10 +87,11 @@ public class ModelInterfaceGenerator
 	/** File Header			*/
 	public static final String COPY = 
 		 "/******************************************************************************\n"
-		+" * Product: Adempiere ERP & CRM Smart Business Solution                       *\n"
-		+" * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *\n"
+		+" * Product: ADempiere ERP & CRM Smart Business Solution                       *\n"
+		+" * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *\n"
 		+" * This program is free software, you can redistribute it and/or modify it    *\n"
 		+" * under the terms version 2 of the GNU General Public License as published   *\n"
+		+" * or (at your option) any later version.										*\n"
 		+" * by the Free Software Foundation. This program is distributed in the hope   *\n"
 		+" * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *\n"
 		+" * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *\n"
@@ -99,8 +100,7 @@ public class ModelInterfaceGenerator
 		+" * with this program, if not, write to the Free Software Foundation, Inc.,    *\n"
 		+" * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *\n"
 		+" * For the text or an alternative of this public license, you may reach us    *\n"
-		+" * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *\n"
-		+" * or via info@compiere.org or http://www.compiere.org/license.html           *\n"
+		+" * or via info@adempiere.net or http://www.adempiere.net/license.html         *\n"
 		+" *****************************************************************************/\n";
 	
 	/** Logger */

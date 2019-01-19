@@ -1,8 +1,9 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -11,8 +12,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 package org.compiere.model;
 
@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_ProjectPhase
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0
+ *  @version Release 3.9.1
  */
 public interface I_C_ProjectPhase 
 {
@@ -49,6 +49,21 @@ public interface I_C_ProjectPhase
 	  */
 	public int getAD_Client_ID();
 
+    /** Column name AD_OrgTrx_ID */
+    public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
+
+	/** Set Trx Organization.
+	  * Performing or initiating organization
+	  */
+	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID);
+
+	/** Get Trx Organization.
+	  * Performing or initiating organization
+	  */
+	public int getAD_OrgTrx_ID();
+
+	public org.compiere.model.I_AD_Org getAD_OrgTrx() throws RuntimeException;
+
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
 
@@ -61,6 +76,66 @@ public interface I_C_ProjectPhase
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
+
+    /** Column name AD_Workflow_ID */
+    public static final String COLUMNNAME_AD_Workflow_ID = "AD_Workflow_ID";
+
+	/** Set Workflow.
+	  * Workflow or combination of tasks
+	  */
+	public void setAD_Workflow_ID (int AD_Workflow_ID);
+
+	/** Get Workflow.
+	  * Workflow or combination of tasks
+	  */
+	public int getAD_Workflow_ID();
+
+	public org.compiere.model.I_AD_Workflow getAD_Workflow() throws RuntimeException;
+
+    /** Column name C_Activity_ID */
+    public static final String COLUMNNAME_C_Activity_ID = "C_Activity_ID";
+
+	/** Set Activity.
+	  * Business Activity
+	  */
+	public void setC_Activity_ID (int C_Activity_ID);
+
+	/** Get Activity.
+	  * Business Activity
+	  */
+	public int getC_Activity_ID();
+
+	public org.compiere.model.I_C_Activity getC_Activity() throws RuntimeException;
+
+    /** Column name C_Campaign_ID */
+    public static final String COLUMNNAME_C_Campaign_ID = "C_Campaign_ID";
+
+	/** Set Campaign.
+	  * Marketing Campaign
+	  */
+	public void setC_Campaign_ID (int C_Campaign_ID);
+
+	/** Get Campaign.
+	  * Marketing Campaign
+	  */
+	public int getC_Campaign_ID();
+
+	public org.compiere.model.I_C_Campaign getC_Campaign() throws RuntimeException;
+
+    /** Column name C_OrderPO_ID */
+    public static final String COLUMNNAME_C_OrderPO_ID = "C_OrderPO_ID";
+
+	/** Set Purchase Order.
+	  * Purchase Order
+	  */
+	public void setC_OrderPO_ID (int C_OrderPO_ID);
+
+	/** Get Purchase Order.
+	  * Purchase Order
+	  */
+	public int getC_OrderPO_ID();
+
+	public org.compiere.model.I_C_Order getC_OrderPO() throws RuntimeException;
 
     /** Column name C_Order_ID */
     public static final String COLUMNNAME_C_Order_ID = "C_Order_ID";
@@ -105,6 +180,21 @@ public interface I_C_ProjectPhase
 	  */
 	public int getC_ProjectPhase_ID();
 
+    /** Column name C_ProjectStatus_ID */
+    public static final String COLUMNNAME_C_ProjectStatus_ID = "C_ProjectStatus_ID";
+
+	/** Set Project Status.
+	  * Status for Project, Phase or Task
+	  */
+	public void setC_ProjectStatus_ID (int C_ProjectStatus_ID);
+
+	/** Get Project Status.
+	  * Status for Project, Phase or Task
+	  */
+	public int getC_ProjectStatus_ID();
+
+	public org.eevolution.model.I_C_ProjectStatus getC_ProjectStatus() throws RuntimeException;
+
     /** Column name C_Project_ID */
     public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
 
@@ -119,6 +209,21 @@ public interface I_C_ProjectPhase
 	public int getC_Project_ID();
 
 	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException;
+
+    /** Column name C_SalesRegion_ID */
+    public static final String COLUMNNAME_C_SalesRegion_ID = "C_SalesRegion_ID";
+
+	/** Set Sales Region.
+	  * Sales coverage region
+	  */
+	public void setC_SalesRegion_ID (int C_SalesRegion_ID);
+
+	/** Get Sales Region.
+	  * Sales coverage region
+	  */
+	public int getC_SalesRegion_ID();
+
+	public org.compiere.model.I_C_SalesRegion getC_SalesRegion() throws RuntimeException;
 
     /** Column name CommittedAmt */
     public static final String COLUMNNAME_CommittedAmt = "CommittedAmt";
@@ -149,6 +254,71 @@ public interface I_C_ProjectPhase
 	  */
 	public int getCreatedBy();
 
+    /** Column name DateDeadline */
+    public static final String COLUMNNAME_DateDeadline = "DateDeadline";
+
+	/** Set Deadline.
+	  * Deadline
+	  */
+	public void setDateDeadline (Timestamp DateDeadline);
+
+	/** Get Deadline.
+	  * Deadline
+	  */
+	public Timestamp getDateDeadline();
+
+    /** Column name DateFinishSchedule */
+    public static final String COLUMNNAME_DateFinishSchedule = "DateFinishSchedule";
+
+	/** Set Finish Schedule.
+	  * Scheduled Finish date for this Order
+	  */
+	public void setDateFinishSchedule (Timestamp DateFinishSchedule);
+
+	/** Get Finish Schedule.
+	  * Scheduled Finish date for this Order
+	  */
+	public Timestamp getDateFinishSchedule();
+
+    /** Column name DateLastRun */
+    public static final String COLUMNNAME_DateLastRun = "DateLastRun";
+
+	/** Set Date last run.
+	  * Date the process was last run.
+	  */
+	public void setDateLastRun (Timestamp DateLastRun);
+
+	/** Get Date last run.
+	  * Date the process was last run.
+	  */
+	public Timestamp getDateLastRun();
+
+    /** Column name DateNextRun */
+    public static final String COLUMNNAME_DateNextRun = "DateNextRun";
+
+	/** Set Date next run.
+	  * Date the process will run next
+	  */
+	public void setDateNextRun (Timestamp DateNextRun);
+
+	/** Get Date next run.
+	  * Date the process will run next
+	  */
+	public Timestamp getDateNextRun();
+
+    /** Column name DateStartSchedule */
+    public static final String COLUMNNAME_DateStartSchedule = "DateStartSchedule";
+
+	/** Set Start Schedule.
+	  * Scheduled start date for this Order
+	  */
+	public void setDateStartSchedule (Timestamp DateStartSchedule);
+
+	/** Get Start Schedule.
+	  * Scheduled start date for this Order
+	  */
+	public Timestamp getDateStartSchedule();
+
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
 
@@ -162,6 +332,41 @@ public interface I_C_ProjectPhase
 	  */
 	public String getDescription();
 
+    /** Column name DurationEstimated */
+    public static final String COLUMNNAME_DurationEstimated = "DurationEstimated";
+
+	/** Set Estimated Duration.
+	  * Estimated Duration
+	  */
+	public void setDurationEstimated (BigDecimal DurationEstimated);
+
+	/** Get Estimated Duration.
+	  * Estimated Duration
+	  */
+	public BigDecimal getDurationEstimated();
+
+    /** Column name DurationReal */
+    public static final String COLUMNNAME_DurationReal = "DurationReal";
+
+	/** Set Duration Real	  */
+	public void setDurationReal (int DurationReal);
+
+	/** Get Duration Real	  */
+	public int getDurationReal();
+
+    /** Column name DurationUnit */
+    public static final String COLUMNNAME_DurationUnit = "DurationUnit";
+
+	/** Set Duration Unit.
+	  * Unit of Duration
+	  */
+	public void setDurationUnit (String DurationUnit);
+
+	/** Get Duration Unit.
+	  * Unit of Duration
+	  */
+	public String getDurationUnit();
+
     /** Column name EndDate */
     public static final String COLUMNNAME_EndDate = "EndDate";
 
@@ -174,6 +379,32 @@ public interface I_C_ProjectPhase
 	  * Last effective date (inclusive)
 	  */
 	public Timestamp getEndDate();
+
+    /** Column name Frequency */
+    public static final String COLUMNNAME_Frequency = "Frequency";
+
+	/** Set Frequency.
+	  * Frequency of events
+	  */
+	public void setFrequency (int Frequency);
+
+	/** Get Frequency.
+	  * Frequency of events
+	  */
+	public int getFrequency();
+
+    /** Column name FrequencyType */
+    public static final String COLUMNNAME_FrequencyType = "FrequencyType";
+
+	/** Set Frequency Type.
+	  * Frequency of event
+	  */
+	public void setFrequencyType (String FrequencyType);
+
+	/** Get Frequency Type.
+	  * Frequency of event
+	  */
+	public String getFrequencyType();
 
     /** Column name GenerateOrder */
     public static final String COLUMNNAME_GenerateOrder = "GenerateOrder";
@@ -214,6 +445,19 @@ public interface I_C_ProjectPhase
 	  */
 	public boolean isActive();
 
+    /** Column name IsBOM */
+    public static final String COLUMNNAME_IsBOM = "IsBOM";
+
+	/** Set Bill of Materials.
+	  * Bill of Materials
+	  */
+	public void setIsBOM (boolean IsBOM);
+
+	/** Get Bill of Materials.
+	  * Bill of Materials
+	  */
+	public boolean isBOM();
+
     /** Column name IsCommitCeiling */
     public static final String COLUMNNAME_IsCommitCeiling = "IsCommitCeiling";
 
@@ -239,6 +483,54 @@ public interface I_C_ProjectPhase
 	  * It is complete
 	  */
 	public boolean isComplete();
+
+    /** Column name IsIndefinite */
+    public static final String COLUMNNAME_IsIndefinite = "IsIndefinite";
+
+	/** Set Indefinite.
+	  * Indefinite
+	  */
+	public void setIsIndefinite (boolean IsIndefinite);
+
+	/** Get Indefinite.
+	  * Indefinite
+	  */
+	public boolean isIndefinite();
+
+    /** Column name IsMilestone */
+    public static final String COLUMNNAME_IsMilestone = "IsMilestone";
+
+	/** Set Is Milestone	  */
+	public void setIsMilestone (boolean IsMilestone);
+
+	/** Get Is Milestone	  */
+	public boolean isMilestone();
+
+    /** Column name IsPurchased */
+    public static final String COLUMNNAME_IsPurchased = "IsPurchased";
+
+	/** Set Purchased.
+	  * Organization purchases this product
+	  */
+	public void setIsPurchased (boolean IsPurchased);
+
+	/** Get Purchased.
+	  * Organization purchases this product
+	  */
+	public boolean isPurchased();
+
+    /** Column name IsRecurrent */
+    public static final String COLUMNNAME_IsRecurrent = "IsRecurrent";
+
+	/** Set Is Recurrent.
+	  * The flag Is Recurrent, indicates if a project task is recurring
+	  */
+	public void setIsRecurrent (boolean IsRecurrent);
+
+	/** Get Is Recurrent.
+	  * The flag Is Recurrent, indicates if a project task is recurring
+	  */
+	public boolean isRecurrent();
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
@@ -268,6 +560,49 @@ public interface I_C_ProjectPhase
 	  */
 	public String getName();
 
+    /** Column name PP_Order_ID */
+    public static final String COLUMNNAME_PP_Order_ID = "PP_Order_ID";
+
+	/** Set Manufacturing Order.
+	  * Manufacturing Order
+	  */
+	public void setPP_Order_ID (int PP_Order_ID);
+
+	/** Get Manufacturing Order.
+	  * Manufacturing Order
+	  */
+	public int getPP_Order_ID();
+
+	public org.eevolution.model.I_PP_Order getPP_Order() throws RuntimeException;
+
+    /** Column name PP_Product_BOM_ID */
+    public static final String COLUMNNAME_PP_Product_BOM_ID = "PP_Product_BOM_ID";
+
+	/** Set BOM & Formula.
+	  * BOM & Formula
+	  */
+	public void setPP_Product_BOM_ID (int PP_Product_BOM_ID);
+
+	/** Get BOM & Formula.
+	  * BOM & Formula
+	  */
+	public int getPP_Product_BOM_ID();
+
+	public org.eevolution.model.I_PP_Product_BOM getPP_Product_BOM() throws RuntimeException;
+
+    /** Column name PercentageCompleted */
+    public static final String COLUMNNAME_PercentageCompleted = "PercentageCompleted";
+
+	/** Set Percentage completed.
+	  * Percentage completed
+	  */
+	public void setPercentageCompleted (BigDecimal PercentageCompleted);
+
+	/** Get Percentage completed.
+	  * Percentage completed
+	  */
+	public BigDecimal getPercentageCompleted();
+
     /** Column name PlannedAmt */
     public static final String COLUMNNAME_PlannedAmt = "PlannedAmt";
 
@@ -294,6 +629,19 @@ public interface I_C_ProjectPhase
 	  */
 	public BigDecimal getPriceActual();
 
+    /** Column name PriorityRule */
+    public static final String COLUMNNAME_PriorityRule = "PriorityRule";
+
+	/** Set Priority.
+	  * Priority of a document
+	  */
+	public void setPriorityRule (String PriorityRule);
+
+	/** Get Priority.
+	  * Priority of a document
+	  */
+	public String getPriorityRule();
+
     /** Column name ProjInvoiceRule */
     public static final String COLUMNNAME_ProjInvoiceRule = "ProjInvoiceRule";
 
@@ -319,6 +667,47 @@ public interface I_C_ProjectPhase
 	  * Quantity
 	  */
 	public BigDecimal getQty();
+
+    /** Column name Responsible_ID */
+    public static final String COLUMNNAME_Responsible_ID = "Responsible_ID";
+
+	/** Set Responsible.
+	  * Responsible
+	  */
+	public void setResponsible_ID (int Responsible_ID);
+
+	/** Get Responsible.
+	  * Responsible
+	  */
+	public int getResponsible_ID();
+
+	public org.compiere.model.I_AD_User getResponsible() throws RuntimeException;
+
+    /** Column name RunsMax */
+    public static final String COLUMNNAME_RunsMax = "RunsMax";
+
+	/** Set Maximum Runs.
+	  * Number of recurring runs
+	  */
+	public void setRunsMax (int RunsMax);
+
+	/** Get Maximum Runs.
+	  * Number of recurring runs
+	  */
+	public int getRunsMax();
+
+    /** Column name RunsRemaining */
+    public static final String COLUMNNAME_RunsRemaining = "RunsRemaining";
+
+	/** Set Remaining Runs.
+	  * Number of recurring runs remaining
+	  */
+	public void setRunsRemaining (int RunsRemaining);
+
+	/** Get Remaining Runs.
+	  * Number of recurring runs remaining
+	  */
+	public int getRunsRemaining();
 
     /** Column name SeqNo */
     public static final String COLUMNNAME_SeqNo = "SeqNo";
@@ -348,6 +737,19 @@ public interface I_C_ProjectPhase
 	  */
 	public Timestamp getStartDate();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -363,4 +765,79 @@ public interface I_C_ProjectPhase
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name User1_ID */
+    public static final String COLUMNNAME_User1_ID = "User1_ID";
+
+	/** Set User List 1.
+	  * User defined list element #1
+	  */
+	public void setUser1_ID (int User1_ID);
+
+	/** Get User List 1.
+	  * User defined list element #1
+	  */
+	public int getUser1_ID();
+
+	public org.compiere.model.I_C_ElementValue getUser1() throws RuntimeException;
+
+    /** Column name User2_ID */
+    public static final String COLUMNNAME_User2_ID = "User2_ID";
+
+	/** Set User List 2.
+	  * User defined list element #2
+	  */
+	public void setUser2_ID (int User2_ID);
+
+	/** Get User List 2.
+	  * User defined list element #2
+	  */
+	public int getUser2_ID();
+
+	public org.compiere.model.I_C_ElementValue getUser2() throws RuntimeException;
+
+    /** Column name User3_ID */
+    public static final String COLUMNNAME_User3_ID = "User3_ID";
+
+	/** Set User List 3.
+	  * User defined list element #3
+	  */
+	public void setUser3_ID (int User3_ID);
+
+	/** Get User List 3.
+	  * User defined list element #3
+	  */
+	public int getUser3_ID();
+
+	public org.compiere.model.I_C_ElementValue getUser3() throws RuntimeException;
+
+    /** Column name User4_ID */
+    public static final String COLUMNNAME_User4_ID = "User4_ID";
+
+	/** Set User List 4.
+	  * User defined list element #4
+	  */
+	public void setUser4_ID (int User4_ID);
+
+	/** Get User List 4.
+	  * User defined list element #4
+	  */
+	public int getUser4_ID();
+
+	public org.compiere.model.I_C_ElementValue getUser4() throws RuntimeException;
+
+    /** Column name Vendor_ID */
+    public static final String COLUMNNAME_Vendor_ID = "Vendor_ID";
+
+	/** Set Vendor.
+	  * The Vendor of the product/service
+	  */
+	public void setVendor_ID (int Vendor_ID);
+
+	/** Get Vendor.
+	  * The Vendor of the product/service
+	  */
+	public int getVendor_ID();
+
+	public org.compiere.model.I_C_BPartner getVendor() throws RuntimeException;
 }

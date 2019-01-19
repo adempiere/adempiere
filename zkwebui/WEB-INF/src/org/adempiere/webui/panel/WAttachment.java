@@ -142,7 +142,7 @@ public class WAttachment extends Window implements EventListener
 		{
 			setAttribute(Window.MODE_KEY, Window.MODE_HIGHLIGHTED);			
 			AEnv.showWindow(this);
-			displayData(0, true);
+			displayData(0, false);
 			String script = "setTimeout(\"$e('"+ preview.getUuid() + "').src = $e('" +
 			preview.getUuid() + "').src\", 1000)";
 			Clients.response(new AuScript(null, script));
@@ -205,15 +205,15 @@ public class WAttachment extends Window implements EventListener
 		northPanel.appendChild(div);
 		
 		bSave.setEnabled(false);
-		bSave.setImage("/images/Export24.png");
+		bSave.setImage("/images/Export16.png");
 		bSave.setTooltiptext(Msg.getMsg(Env.getCtx(), "AttachmentSave"));
 		bSave.addEventListener(Events.ON_CLICK, this);
 
-		bLoad.setImage("/images/Import24.png");
+		bLoad.setImage("/images/Import16.png");
 		bLoad.setTooltiptext(Msg.getMsg(Env.getCtx(), "Load"));
 		bLoad.addEventListener(Events.ON_CLICK, this);
 
-		bDelete.setImage("/images/Delete24.png");
+		bDelete.setImage("/images/Delete16.png");
 		bDelete.setTooltiptext(Msg.getMsg(Env.getCtx(), "Delete"));
 		bDelete.addEventListener(Events.ON_CLICK, this);
 
@@ -232,16 +232,16 @@ public class WAttachment extends Window implements EventListener
 		southPane.appendChild(confirmPanel);
 		southPane.setHeight("30px");
 		
-		bCancel.setImage("/images/Cancel24.png");
+		bCancel.setImage("/images/Cancel16.png");
 		bCancel.addEventListener(Events.ON_CLICK, this);
 
-		bOk.setImage("/images/Ok24.png");
+		bOk.setImage("/images/Ok16.png");
 		bOk.addEventListener(Events.ON_CLICK, this);
 		
-		bDeleteAll.setImage("/images/Delete24.png");
+		bDeleteAll.setImage("/images/Delete16.png");
 		bDeleteAll.addEventListener(Events.ON_CLICK, this);
 		
-		bRefresh.setImage("/images/Refresh24.png");
+		bRefresh.setImage("/images/Refresh16.png");
 		bRefresh.addEventListener(Events.ON_CLICK, this);
 		
 		confirmPanel.appendChild(bDeleteAll);

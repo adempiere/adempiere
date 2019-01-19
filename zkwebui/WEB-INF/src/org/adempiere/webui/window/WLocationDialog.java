@@ -38,15 +38,16 @@ import org.adempiere.webui.component.Textbox;
 import org.adempiere.webui.component.Window;
 import org.compiere.model.MCountry;
 import org.compiere.model.MLocation;
+import org.compiere.model.MOrgInfo;
 import org.compiere.model.MRegion;
 import org.compiere.util.CLogger;
 import org.compiere.util.DefaultContextProvider;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
-import org.zkoss.zul.Hbox;
 
 /**
  * @author Sendy Yagambrum
@@ -61,16 +62,31 @@ import org.zkoss.zul.Hbox;
  * @author victor.perez@e-evolution.com, www.e-evolution.com
  * 			<li>BF [ 3294610] The location should allow open a google map
  * 				https://sourceforge.net/tracker/?func=detail&atid=879335&aid=3294610&group_id=176962
- * 
+ * 		<a href="https://github.com/adempiere/adempiere/issues/886">
+ * 		@see FR [ 886 ] System config Google Map</a>
+ *
  * @TODO: Implement fOnline button present in swing client
- * 
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<a href="https://github.com/adempiere/adempiere/issues/685">
+ * 		@see FR [ 685 ] Location dialog for ZK don't have a Standard ADempiere Buttons Position</a>
+ * @author Raul Muñoz, rmunoz@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<a href="https://github.com/adempiere/adempiere/issues/1150">
+ * 		@see FR [ 1150 ] The url location based on google map not work when the location is empty or with data</a>
+ * @author Raul Muñoz, rmunoz@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<a href="https://github.com/adempiere/adempiere/issues/1158">
+ * 		@see FR [ 1158 ] Problems with location address: wrong region and not showing region field</a>
+ *
+ * @contributors - Carlos Ruiz / globalqss
+ * 				 - Show GoogleMap on Location Dialog (integrate approach from LBR)	
+ * 				 - http://jira.idempiere.com/browse/IDEMPIERE-147
  **/
+
 public class WLocationDialog extends Window implements EventListener
 {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 6892969005447776082L;
+	private static final long serialVersionUID = -8511642461845783366L;
 	private static final String LABEL_STYLE = "white-space: nowrap;";
 	/** Logger          */
 	private static CLogger log = CLogger.getCLogger(WLocationDialog.class);
@@ -94,7 +110,6 @@ public class WLocationDialog extends Window implements EventListener
 	private Textbox txtPostalAdd;
 	private Listbox lstRegion;
 	private Listbox lstCountry;
-	private Button btnUrl;
 
 	private Button btnOk;
 	private Button btnCancel;
@@ -118,6 +133,15 @@ public class WLocationDialog extends Window implements EventListener
 
 	private boolean inCountryAction;
 	private boolean inOKAction;
+
+	/** The "route" key  */
+	private static final String TO_ROUTE = Msg.getMsg(Env.getCtx(), "Route");
+	/** The "to link" key  */
+	private static final String TO_LINK = Msg.getMsg(Env.getCtx(), "Map");
+
+	private Button toLink;
+	private Button toRoute;
+	//END
 
 	public WLocationDialog(String title, MLocation location)
 	{
@@ -222,17 +246,21 @@ public class WLocationDialog extends Window implements EventListener
 		lstCountry.setMold("select");
 		lstCountry.setWidth("154px");
 		lstCountry.setRows(0);
-		
-		btnUrl =  new Button();
-		btnUrl.setImage("/images/Online10.png");
-		btnUrl.addEventListener(Events.ON_CLICK,this);
-		
+
 		btnOk = new Button();
 		btnOk.setImage("/images/Ok16.png");
 		btnOk.addEventListener(Events.ON_CLICK,this);
 		btnCancel = new Button();
 		btnCancel.setImage("/images/Cancel16.png");
 		btnCancel.addEventListener(Events.ON_CLICK,this);
+
+		toLink = new Button(TO_LINK);
+		toLink.setImage("/images/Online10.png");
+		toLink.addEventListener(Events.ON_CLICK,this);
+
+		toRoute = new Button(TO_ROUTE);
+		toRoute.setImage("/images/Route10.png");
+		toRoute.addEventListener(Events.ON_CLICK,this);
 
 		mainPanel = GridFactory.newGridLayout();
 		mainPanel.setStyle("padding:5px");
@@ -276,24 +304,26 @@ public class WLocationDialog extends Window implements EventListener
 		pnlCountry.appendChild(lblCountry.rightAlign());
 		pnlCountry.appendChild(lstCountry);
 
-		Panel pnlButtonLeft = new Panel();
-	    pnlButtonLeft.appendChild(btnUrl);
-	    pnlButtonLeft.setAlign("left");
-	        
-		Panel pnlButtonRight   = new Panel();
-		pnlButtonRight.appendChild(btnOk);
-		pnlButtonRight.appendChild(btnCancel);
-		pnlButtonRight.setWidth("100%");
-		pnlButtonRight.setStyle("text-align:right");
+		Panel pnlLinks    = new Panel();
+		pnlLinks.appendChild(toLink);
+		if (MLocation.LOCATION_MAPS_URL_PREFIX == null)
+			toLink.setVisible(false);
+		pnlLinks.appendChild(toRoute);
+		if (MLocation.LOCATION_MAPS_ROUTE_PREFIX == null)
+			toRoute.setVisible(false);
+		pnlLinks.setWidth("100%");
+		pnlLinks.setStyle("text-align:left");
 
-		Hbox hboxButton = new Hbox();
-	    hboxButton.appendChild(pnlButtonLeft);
-	    hboxButton.appendChild(pnlButtonRight);
-	    hboxButton.setWidth("100%");
-	        
+		Panel pnlButton   = new Panel();
+		pnlButton.appendChild(btnOk);
+		pnlButton.appendChild(btnCancel);
+		pnlButton.setWidth("100%");
+		pnlButton.setStyle("text-align:right");
+
 		this.appendChild(mainPanel);
-		this.appendChild(hboxButton);
-
+		if (MLocation.LOCATION_MAPS_URL_PREFIX != null || MLocation.LOCATION_MAPS_ROUTE_PREFIX != null)
+			this.appendChild(pnlLinks);
+		this.appendChild(pnlButton);
 	}
 	/**
 	 * Dynamically add fields to the Location dialog box
@@ -516,6 +546,38 @@ public class WLocationDialog extends Window implements EventListener
 			m_change = false;
 			this.dispose();
 		}
+		else if (toLink.equals(event.getTarget()))
+		{
+			String urlString = MLocation.LOCATION_MAPS_URL_PREFIX + m_location.getMapsLocation();
+			String message = null;
+			try {
+				Env.startBrowser(urlString+"&output=embed");
+			}
+			catch (Exception e) {
+				message = e.getMessage();
+				FDialog.warn(0, this, "URLnotValid", message);
+			}
+		}
+		else if (toRoute.equals(event.getTarget()))
+		{
+			int orgId = Env.getAD_Org_ID(Env.getCtx());
+			if (orgId != 0){
+				MOrgInfo orgInfo = 	MOrgInfo.get(Env.getCtx(), orgId,null);
+				MLocation orgLocation = new MLocation(Env.getCtx(),orgInfo.getC_Location_ID(),null);
+
+				String urlString = MLocation.LOCATION_MAPS_ROUTE_PREFIX +
+						         MLocation.LOCATION_MAPS_SOURCE_ADDRESS + orgLocation.getMapsLocation() + //org
+						         MLocation.LOCATION_MAPS_DESTINATION_ADDRESS + m_location.getMapsLocation(); //partner
+				String message = null;
+				try {
+					Env.startBrowser(urlString+"&output=embed");
+				}
+				catch (Exception e) {
+					message = e.getMessage();
+					FDialog.warn(0, this, "URLnotValid", message);
+				}
+			}
+		}
 		//  Country Changed - display in new Format
 		else if (lstCountry.equals(event.getTarget()))
 		{
@@ -539,12 +601,6 @@ public class WLocationDialog extends Window implements EventListener
 			m_location.setCity(null);
 			//  refresh
 			initLocation();
-		}
-		else if (btnUrl.equals(event.getTarget()))
-		{
-			Env.startBrowser(DefaultContextProvider.GOOGLE_MAPS_URL_PREFIX + getCurrentLocation());
-			m_change = false;
-			this.dispose();
 		}
 	}
 
@@ -627,30 +683,5 @@ public class WLocationDialog extends Window implements EventListener
 		}	
 		super.dispose();
 	}
-	
-	/**
-	 * 	Get edited Value (MLocation)
-	 *	@return location
-	 */
-	private String getCurrentLocation() {
-		m_location.setAddress1(txtAddress1.getText());
-		m_location.setAddress2(txtAddress2.getText());
-		m_location.setAddress3(txtAddress3.getText());
-		m_location.setAddress4(txtAddress4.getText());
-		m_location.setCity(txtCity.getText());
-		m_location.setPostal(txtPostal.getText());
-		m_location.setPostal_Add(txtPostalAdd.getText());
-		//  Country/Region
-		MCountry c = (MCountry)lstCountry.getSelectedItem().getValue();
-		m_location.setCountry(c);
-		if (m_location.getCountry().isHasRegion())
-		{
-			MRegion r = (MRegion)lstRegion.getSelectedItem().getValue();
-			m_location.setRegion(r);
-		}
-		else
-			m_location.setC_Region_ID(0);
-		
-		return m_location.toString().replace(" ", "%");
-	}
+
 }

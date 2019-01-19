@@ -1,1 +1,0 @@
-java -DPropertyFile=../Adempiere.properties -cp ./trlImporter.jar:../lib/Adempiere.jar:../lib/CSTools.jar:../lib/CCTools.jar:../lib/oracle.jar:../lib/postgresql.jar:../lib/j2ee.jar:../lib/sqlj.jar com.tamak.core.utils.MsgImporter messages.csv

@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="SBT: com.vaadin:vaadin-client-compiled:7.5.6:jar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/com.vaadin/vaadin-client-compiled/jars/vaadin-client-compiled-7.5.6.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

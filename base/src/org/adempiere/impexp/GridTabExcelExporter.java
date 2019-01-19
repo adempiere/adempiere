@@ -38,7 +38,14 @@ public class GridTabExcelExporter extends AbstractExcelExporter
 		m_tab = tab;
 		setFreezePane(0, 1);
 	}
-	
+
+	public GridTabExcelExporter(Properties ctx, GridTab tab, boolean isXLSX)
+	{
+		m_tab = tab;
+		this.isXLSX = isXLSX;
+		setFreezePane(0, 1);
+	}
+
 	@Override
 	public int getColumnCount()
 	{
@@ -55,6 +62,11 @@ public class GridTabExcelExporter extends AbstractExcelExporter
 	public String getHeaderName(int col)
 	{
 		return m_tab.getField(col).getHeader();
+	}
+
+	@Override
+	public String getFormatPattern(int col) {
+		return null;
 	}
 
 	@Override

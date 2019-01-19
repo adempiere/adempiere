@@ -45,6 +45,11 @@ import org.compiere.util.Msg;
  *  @author Teo Sarca, www.arhipac.ro
  * 			<li>FR [ 1776045 ] Add ReActivate action to GL Journal
  *	@version $Id: MJournalBatch.java,v 1.3 2006/07/30 00:51:03 jjanke Exp $
+ *	@author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com 2015-05-25, 18:20
+ * 			<a href="https://github.com/adempiere/adempiere/issues/1073">
+ * 			@see BR [ 1073 ] Duplicate key when try reverse a Journal Batch</a>
+ * 			<a href="https://github.com/adempiere/adempiere/issues/887">
+ * 			@see FR [ 887 ] System Config reversal invoice DocNo</a>
  */
 public class MJournalBatch extends X_GL_JournalBatch implements DocAction
 {
@@ -79,8 +84,7 @@ public class MJournalBatch extends X_GL_JournalBatch implements DocAction
 		to.setIsApproved(false);
 		to.setProcessed (false);
 		//
-		if (!to.save())
-			throw new IllegalStateException("Could not create Journal Batch");
+		to.saveEx();
 
 		if (to.copyDetailsFrom(from) == 0)
 			throw new IllegalStateException("Could not create Journal Batch Details");
@@ -135,7 +139,6 @@ public class MJournalBatch extends X_GL_JournalBatch implements DocAction
 	{
 		this (original.getCtx(), 0, original.get_TrxName());
 		setClientOrg(original);
-		setGL_JournalBatch_ID(original.getGL_JournalBatch_ID());
 		//
 	//	setC_AcctSchema_ID(original.getC_AcctSchema_ID());
 	//	setGL_Budget_ID(original.getGL_Budget_ID());
@@ -606,12 +609,28 @@ public class MJournalBatch extends X_GL_JournalBatch implements DocAction
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REVERSECORRECT);
 		if (m_processMsg != null)
 			return false;
-				
-		MJournal[] journals = getJournals(true);
+		
+		boolean isOk = reverseBatch(false);
+		if(!isOk) {
+			return false;
+		}
+		
+		// After reverseCorrect
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSECORRECT);
+		if (m_processMsg != null)
+			return false;
+		//	
+		return true;
+	}	//	reverseCorrectionIt
+	
+	/**
+	 * Reverse Journal Batch
+	 * @return
+	 */
+	private boolean reverseBatch(boolean isAccrual) {
+		MJournal [] journals = getJournals(true);
 		//	check prerequisites
-		for (int i = 0; i < journals.length; i++)
-		{
-			MJournal journal = journals[i];
+		for (MJournal journal : journals) {
 			if (!journal.isActive())
 				continue;
 			//	All need to be closed/Completed
@@ -626,18 +645,25 @@ public class MJournalBatch extends X_GL_JournalBatch implements DocAction
 		
 		//	Reverse it
 		MJournalBatch reverse = new MJournalBatch (this);
-		reverse.setDateDoc(getDateDoc());
-		reverse.setC_Period_ID(getC_Period_ID());
-		reverse.setDateAcct(getDateAcct());
-		//	Reverse indicator
-		String description = reverse.getDescription();
-		if (description == null)
-			description = "** " + getDocumentNo() + " **";
-		else
-			description += " ** " + getDocumentNo() + " **";
-		reverse.setDescription(description);
+		if(isAccrual) {
+			reverse.setC_Period_ID(0);
+			reverse.setDateDoc(new Timestamp(System.currentTimeMillis()));
+			reverse.setDateAcct(reverse.getDateDoc());
+		} else {
+			reverse.setDateDoc(getDateDoc());
+			reverse.setC_Period_ID(getC_Period_ID());
+			reverse.setDateAcct(getDateAcct());
+		}
+		reverse.addDescription("** (->" + getDocumentNo() + ") **");
 		//[ 1948157  ]
 		reverse.setReversal_ID(getGL_JournalBatch_ID());
+		reverse.setControlAmt(getControlAmt().negate());
+		reverse.set_ValueNoCheck("DocumentNo", null);
+		MDocType docType = MDocType.get(getCtx(), getC_DocType_ID());
+		//	Set Document No from flag
+		if(docType.isCopyDocNoOnReversal()) {
+			reverse.setDocumentNo(getDocumentNo() + Msg.getMsg(reverse.getCtx(), "^"));
+		}
 		reverse.saveEx();
 		//
 		
@@ -647,24 +673,47 @@ public class MJournalBatch extends X_GL_JournalBatch implements DocAction
 			MJournal journal = journals[i];
 			if (!journal.isActive())
 				continue;
-			if (journal.reverseCorrectIt(reverse.getGL_JournalBatch_ID()) == null)
-			{
-				m_processMsg = "Could not reverse " + journal;
-				return false;
+			if(isAccrual) {
+				if (journal.reverseAccrualIt(reverse.getGL_JournalBatch_ID()) == null)
+				{
+					m_processMsg = "Could not reverse " + journal;
+					return false;
+				}
+			} else {
+				if (journal.reverseCorrectIt(reverse.getGL_JournalBatch_ID()) == null) {
+					m_processMsg = "Could not reverse " + journal;
+					return false;
+				}
 			}
+			//	Save if is ok
 			journal.saveEx();
 		}
 		
 		//[ 1948157  ]
+		reverse.setDocAction(DOCACTION_None);
+		reverse.setDocStatus(DOCSTATUS_Reversed);
+		reverse.setProcessed(true);
+		reverse.saveEx();
+		addDescription("** (" + reverse.getDocumentNo() + "<-) **");
+		//	
 		setReversal_ID(reverse.getGL_JournalBatch_ID());
-		save();
-		// After reverseCorrect
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSECORRECT);
-		if (m_processMsg != null)
-			return false;
-		
+		setDocAction(DOCACTION_None);
+		saveEx();
+		//	Is Ok
 		return true;
-	}	//	reverseCorrectionIt
+	}
+	
+	/**
+	 * 	Add to Description
+	 *	@param description text
+	 */
+	public void addDescription (String description) {
+		String desc = getDescription();
+		if (desc == null)
+			setDescription(description);
+		else
+			setDescription(desc + " | " + description);
+	}	//	addDescription
 	
 	/**
 	 * 	Reverse Accrual.
@@ -679,49 +728,11 @@ public class MJournalBatch extends X_GL_JournalBatch implements DocAction
 		if (m_processMsg != null)
 			return false;
 		
-		MJournal[] journals = getJournals(true);
-		//	check prerequisites
-		for (int i = 0; i < journals.length; i++)
-		{
-			MJournal journal = journals[i];
-			if (!journal.isActive())
-				continue;
-			//	All need to be closed/Completed
-			if (DOCSTATUS_Completed.equals(journal.getDocStatus()))
-				;
-			else
-			{
-				m_processMsg = "All Journals need to be Completed: " + journal.getSummary();
-				return false;
-			}
+		boolean isOk = reverseBatch(true);
+		if(!isOk) {
+			return false;
 		}
-		//	Reverse it
-		MJournalBatch reverse = new MJournalBatch (this);
-		reverse.setC_Period_ID(0);
-		reverse.setDateDoc(new Timestamp(System.currentTimeMillis()));
-		reverse.setDateAcct(reverse.getDateDoc());
-		//	Reverse indicator
-		String description = reverse.getDescription();
-		if (description == null)
-			description = "** " + getDocumentNo() + " **";
-		else
-			description += " ** " + getDocumentNo() + " **";
-		reverse.setDescription(description);
-		reverse.saveEx();
 		
-		//	Reverse Journals
-		for (int i = 0; i < journals.length; i++)
-		{
-			MJournal journal = journals[i];
-			if (!journal.isActive())
-				continue;
-			if (journal.reverseAccrualIt(reverse.getGL_JournalBatch_ID()) == null)
-			{
-				m_processMsg = "Could not reverse " + journal;
-				return false;
-			}
-			journal.saveEx();
-		}
 		// After reverseAccrual
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSEACCRUAL);
 		if (m_processMsg != null)

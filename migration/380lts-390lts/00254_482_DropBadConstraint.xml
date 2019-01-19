@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Drop Bad constraint for table #482" ReleaseNo="3.9.0" SeqNo="254">
+    <Comments>See: https://github.com/adempiere/adempiere/issues/482</Comments>
+    <Step DBType="Oracle" Parse="Y" SeqNo="0" StepType="SQL">
+      <SQLStatement>ALTER TABLE hr_shiftgroup DROP CONSTRAINT hrshiftgroup_hrshiftgroup;
+ALTER TABLE c_country DROP CONSTRAINT ccountry_ccountry;
+ALTER TABLE hr_jobopening DROP CONSTRAINT hrjobopening_hrjobopening;
+ALTER TABLE hr_salarystructure DROP CONSTRAINT hrsalarystructure_hrsalarystru;
+ALTER TABLE ad_wf_process DROP CONSTRAINT adwfprocess_adwfprocess;</SQLStatement>
+      <RollbackStatement>ALTER TABLE hr_shiftgroup ADD CONSTRAINT hrshiftgroup_hrshiftgroup FOREIGN KEY (hr_shiftgroup_id) REFERENCES hr_shiftgroup (hr_shiftgroup_id) MATCH SIMPLE ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE c_country ADD CONSTRAINT ccountry_ccountry FOREIGN KEY (c_country_id) REFERENCES c_country (c_country_id) MATCH SIMPLE ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE hr_jobopening ADD CONSTRAINT hrjobopening_hrjobopening FOREIGN KEY (hr_jobopening_id) REFERENCES hr_jobopening (hr_jobopening_id) MATCH SIMPLE ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE hr_salarystructure ADD CONSTRAINT hrsalarystructure_hrsalarystru FOREIGN KEY (hr_salarystructure_id) REFERENCES hr_salarystructure (hr_salarystructure_id) MATCH SIMPLE ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE ad_wf_process ADD CONSTRAINT adwfprocess_adwfprocess FOREIGN KEY (ad_wf_process_id) REFERENCES ad_wf_process (ad_wf_process_id) MATCH SIMPLE ON DELETE NO ACTION ON UPDATE NO ACTION;</RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" Parse="Y" SeqNo="0" StepType="SQL">
+      <SQLStatement>ALTER TABLE hr_shiftgroup DROP CONSTRAINT IF EXISTS hrshiftgroup_hrshiftgroup;
+ALTER TABLE c_country DROP CONSTRAINT IF EXISTS ccountry_ccountry;
+ALTER TABLE hr_jobopening DROP CONSTRAINT IF EXISTS hrjobopening_hrjobopening;
+ALTER TABLE hr_salarystructure DROP CONSTRAINT IF EXISTS hrsalarystructure_hrsalarystru;
+ALTER TABLE ad_wf_process DROP CONSTRAINT IF EXISTS adwfprocess_adwfprocess;</SQLStatement>
+      <RollbackStatement>ALTER TABLE hr_shiftgroup ADD CONSTRAINT hrshiftgroup_hrshiftgroup FOREIGN KEY (hr_shiftgroup_id) REFERENCES hr_shiftgroup (hr_shiftgroup_id) MATCH SIMPLE ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE c_country ADD CONSTRAINT ccountry_ccountry FOREIGN KEY (c_country_id) REFERENCES c_country (c_country_id) MATCH SIMPLE ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE hr_jobopening ADD CONSTRAINT hrjobopening_hrjobopening FOREIGN KEY (hr_jobopening_id) REFERENCES hr_jobopening (hr_jobopening_id) MATCH SIMPLE ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE hr_salarystructure ADD CONSTRAINT hrsalarystructure_hrsalarystru FOREIGN KEY (hr_salarystructure_id) REFERENCES hr_salarystructure (hr_salarystructure_id) MATCH SIMPLE ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE ad_wf_process ADD CONSTRAINT adwfprocess_adwfprocess FOREIGN KEY (ad_wf_process_id) REFERENCES ad_wf_process (ad_wf_process_id) MATCH SIMPLE ON DELETE NO ACTION ON UPDATE NO ACTION;</RollbackStatement>
+    </Step>
+  </Migration>
+</Migrations>

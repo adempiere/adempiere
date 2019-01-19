@@ -43,6 +43,9 @@ import org.compiere.util.Msg;
  * 
  * @author Mark Ostermann (mark_o), metas consult GmbH
  * 			<li>BF [ 2814628 ] Wrong evaluation of Product inactive in beforeSave()
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com 2015-09-09
+ *  		<li>FR [ 9223372036854775807 ] Add Support to Dynamic Tree
+ * @see https://adempiere.atlassian.net/browse/ADEMPIERE-442
  */
 public class MProduct extends X_M_Product
 {
@@ -263,6 +266,9 @@ public class MProduct extends X_M_Product
 		setProductType(impP.getProductType());
 		setImageURL(impP.getImageURL());
 		setDescriptionURL(impP.getDescriptionURL());
+		setM_Product_Class_ID(impP.getM_Product_Class_ID());
+		setM_Product_Classification_ID(impP.getM_Product_Classification_ID());
+		setM_Product_Group_ID(impP.getM_Product_Group_ID());
 	}	//	MProduct
 	
 	/** Additional Downloads				*/
@@ -321,6 +327,11 @@ public class MProduct extends X_M_Product
 		if (parent.getC_TaxCategory_ID() != getC_TaxCategory_ID())
 		{
 			setC_TaxCategory_ID(parent.getC_TaxCategory_ID());
+			changed = true;
+		}
+		if (parent.getC_TaxType_ID() != getC_TaxType_ID())
+		{
+			setC_TaxType_ID(parent.getC_TaxType_ID());
 			changed = true;
 		}
 		//
@@ -398,6 +409,11 @@ public class MProduct extends X_M_Product
 		if (parent.getC_TaxCategory_ID() != getC_TaxCategory_ID())
 		{
 			setC_TaxCategory_ID(parent.getC_TaxCategory_ID());
+			changed = true;
+		}
+		if (parent.getC_TaxType_ID() != getC_TaxType_ID())
+		{
+			setC_TaxType_ID(parent.getC_TaxType_ID());
 			changed = true;
 		}
 		//
@@ -609,7 +625,14 @@ public class MProduct extends X_M_Product
 		//	UOM reset
 		if (m_precision != null && is_ValueChanged("C_UOM_ID"))
 			m_precision = null;
-		
+
+		if (getM_AttributeSet_ID() > 0 )
+		{
+			MAttributeSet attributeSet = MAttributeSet.get(getCtx(), getM_AttributeSet_ID());
+			if (!attributeSet.isInstanceAttribute() && attributeSet.isMandatoryAlways() && getM_AttributeSetInstance_ID() == 0)
+				throw new AdempiereException("@M_AttributeSetInstance_ID@ @FillMandatory@ @M_AttributeSetInstance_ID@ : " + attributeSet.getName());
+
+		}
 		// AttributeSetInstance reset
 		if (is_ValueChanged(COLUMNNAME_M_AttributeSet_ID))
 		{
@@ -618,7 +641,8 @@ public class MProduct extends X_M_Product
 			// Delete the old m_attributesetinstance
 			try {
 				asi.deleteEx(true, get_TrxName());
-			} catch (AdempiereException ex)
+			}
+			catch (AdempiereException ex)
 			{
 				log.saveError("Error", "Error deleting the AttributeSetInstance");
 				return false;
@@ -689,7 +713,10 @@ public class MProduct extends X_M_Product
 		{
 			insert_Accounting("M_Product_Acct", "M_Product_Category_Acct",
 				"p.M_Product_Category_ID=" + getM_Product_Category_ID());
-			insert_Tree(X_AD_Tree.TREETYPE_Product);
+			//	Yamel Senih [ 9223372036854775807 ]
+			//	Change to PO
+//			insert_Tree(X_AD_Tree.TREETYPE_Product);
+			//	End Yamel Senih
 			//
 			MAcctSchema[] mass = MAcctSchema.getClientAcctSchema(getCtx(), getAD_Client_ID(), get_TrxName());
 			for (int i = 0; i < mass.length; i++)
@@ -792,18 +819,30 @@ public class MProduct extends X_M_Product
 		{	
 			download.deleteEx(true);
 		}
-		
+		// @Trifon Delete Product Memo
+		List<MMemo> memos = new Query(getCtx(), I_AD_Memo.Table_Name, whereClause, get_TrxName())
+			.setClient_ID()
+			.setParameters( get_ID() )
+			.setOnlyActiveRecords( false )
+			.list();
+		for(MMemo memo : memos)
+		{	
+			memo.deleteEx( true );
+		}		
 		//
 		return delete_Accounting("M_Product_Acct"); 
 	}	//	beforeDelete
 	
-	@Override
-	protected boolean afterDelete (boolean success)
-	{
-		if (success)
-			delete_Tree(X_AD_Tree.TREETYPE_Product);
-		return success;
-	}	//	afterDelete
+	//	Yamel Senih [ 9223372036854775807 ]
+	//	Change to PO
+//	@Override
+//	protected boolean afterDelete (boolean success)
+//	{
+//		if (success)
+//			delete_Tree(X_AD_Tree.TREETYPE_Product);
+//		return success;
+//	}	//	afterDelete
+	//	End Yamel Senih
 	
 	/**
 	 * Get attribute instance for this product by attribute name
@@ -838,51 +877,14 @@ public class MProduct extends X_M_Product
 			MMPolicy = MClient.get(getCtx()).getMMPolicy();
 		return MMPolicy;
 	}
-	
-	/**
-	 * Check if ASI is mandatory
-	 * @param isSOTrx is outgoing trx?
-	 * @return true if ASI is mandatory, false otherwise
-	 * @deprecated
-	 */
-	/*
-	public boolean isASIMandatory(boolean isSOTrx) {
-		//
-		//	If CostingLevel is BatchLot ASI is always mandatory - check all client acct schemas
-		MAcctSchema[] mass = MAcctSchema.getClientAcctSchema(getCtx(), getAD_Client_ID(), get_TrxName());
-		for (MAcctSchema as : mass)
-		{
-			String cl = getCostingLevel(as);
-			if (MAcctSchema.COSTINGLEVEL_BatchLot.equals(cl)) {
-				return true;
-			}
-		}
-		//
-		// Check Attribute Set settings
-		int M_AttributeSet_ID = getM_AttributeSet_ID();
-		if (M_AttributeSet_ID != 0)
-		{
-			MAttributeSet mas = MAttributeSet.get(getCtx(), M_AttributeSet_ID);
-			if (mas == null || !mas.isInstanceAttribute())
-				return false;
-			// Outgoing transaction
-			else if (isSOTrx)
-				return mas.isMandatory();
-			// Incoming transaction
-			else // isSOTrx == false
-				return mas.isMandatoryAlways();
-		}
-		//
-		// Default not mandatory
-		return false;
-	}*/
+
 	
 	/**
 	 * Check if ASI is mandatory
 	 * @param isSOTrx is outgoing trx?
 	 * @return true if ASI is mandatory, false otherwise
 	 */
-	public boolean isASIMandatory(boolean isSOTrx,int AD_Org_ID) {
+	/*public boolean isASIMandatory(boolean isSOTrx,int AD_Org_ID) {
 		//
 		//	If CostingLevel is BatchLot ASI is always mandatory - check all client acct schemas
 		MAcctSchema[] mass = MAcctSchema.getClientAcctSchema(getCtx(), getAD_Client_ID(), get_TrxName());
@@ -912,7 +914,7 @@ public class MProduct extends X_M_Product
 		//
 		// Default not mandatory
 		return false;
-	}
+	}*
 	
 	/**
 	 * Get Product Costing Level

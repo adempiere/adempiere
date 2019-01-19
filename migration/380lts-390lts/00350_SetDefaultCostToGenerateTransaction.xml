@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Set Default cost to regenerate cost" ReleaseNo="3.9.0" SeqNo="00350">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="53444" Table="AD_Process_Para">
+        <Data AD_Column_ID="5593" Column="DefaultValue2" isOldNull="true">@#Date@</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

@@ -1,0 +1,35 @@
+// Variable declarations
+
+var $release = "Release 3.7.0LTS";
+var $usr = "GardenAdmin";
+var $pwd = "GardenAdmin";
+var $client = "GardenWorld";
+var $org = "*";
+var $rememberMe = "No";
+
+// Includes - common functions
+_include("../lib/common_functions.sah");
+
+// Includes - test flows
+_include("../test/user_interface/tf_rev6418.sah");
+_include("../test/system/tf_rev6419.sah");
+_include("../test/customer_relationship_managemetn/tf_check_bpbalance.sah");
+_include("../test/material_management/tf_fr3004020_allocation.sah");
+
+// Setup	
+function setUp(){
+	versionTest($release);
+	loginDefault($usr, $pwd);  //defaults
+}
+
+// Tear down
+function tearDown() {
+	logout();
+}
+
+// Run the tests
+_runUnitTests();
+
+_log("Scenario miscellaneous Completed", "info"); // Test Completed.
+
+// End of test

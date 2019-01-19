@@ -57,6 +57,7 @@ import org.adempiere.webui.panel.StatusBarPanel;
 import org.adempiere.webui.session.SessionManager;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
+import org.compiere.model.I_Fact_Reconciliation;
 import org.compiere.model.MClient;
 import org.compiere.model.MColumn;
 import org.compiere.model.MFactAcct;
@@ -84,17 +85,15 @@ import org.zkoss.zul.Space;
 
 /**
 * Based on VFactReconcile.java contributed by Adaxa
-*  
+* Create manual match of accounting facts
 * 
 * Zk Port
 * 
 * @author Michael McKay, ADEMPIERE-41 GL Reconciliation integration
-* 
+* @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+*		<a href="https://github.com/adempiere/adempiere/issues/889">
+* 		@see FR [ 889 ] Ambidexter General Ledger Reconciliation</a>
 */
-
-/**
- *  Create manual match of accounting facts
- */
 public class WFactReconcile extends CustomForm
 	implements IFormController, EventListener, WTableModelListener, ASyncProcess
 {
@@ -688,11 +687,11 @@ public class WFactReconcile extends CustomForm
         {
 			int factId = miniTable.getRowKey(rows[row]);
 
-			MFactReconciliation rec = new Query(Env.getCtx(), MFactReconciliation.Table_Name, "Fact_Acct_ID = ?", null)
-			.setParameters(new Object[] {factId}).first();
-
-			if ( rec == null )
-			{
+			MFactReconciliation rec = new Query(Env.getCtx(), I_Fact_Reconciliation.Table_Name, 
+					I_Fact_Reconciliation.COLUMNNAME_Fact_Acct_ID + " = ?", null)
+					.setParameters(new Object[] {factId}).first();
+			//	
+			if (rec == null) {
 				continue;
 			}
 
@@ -755,12 +754,11 @@ public class WFactReconcile extends CustomForm
 		if (m_noSelected == 0)
 			return;
 
-		String format = "yyyy-MM-dd HH:mm:ss.SSS";
 		Calendar cal = Calendar.getInstance();
-		SimpleDateFormat sdf = new SimpleDateFormat(format);
+		SimpleDateFormat sdf = DisplayType.getDateFormat();
 		String time = sdf.format(cal.getTime());
 
-		String matchcode = "Manual: " + Env.getContext(Env.getCtx(), "#AD_User_Name") + " " + time;
+		String matchcode = Msg.parseTranslation(Env.getCtx(), "@IsManual@: " + Env.getContext(Env.getCtx(), "#AD_User_Name") + " " + time);
         
     	int[] rows = miniTable.getSelectedIndices();
     	Arrays.sort(rows);
@@ -771,18 +769,17 @@ public class WFactReconcile extends CustomForm
         for (int row = sortedRows.length-1; row >= 0; row--)  //work backwards and shrink the table as you go
         {
 			int factId = miniTable.getRowKey(sortedRows[row]);
-
-			MFactReconciliation rec = new Query(Env.getCtx(), MFactReconciliation.Table_Name, "Fact_Acct_ID = ?", null)
-			.setParameters(new Object[] {factId}).first();
-
-			if ( rec == null )
-			{
+			//	
+			MFactReconciliation rec = new Query(Env.getCtx(), I_Fact_Reconciliation.Table_Name, 
+					I_Fact_Reconciliation.COLUMNNAME_Fact_Acct_ID + " = ?", null)
+					.setParameters(new Object[] {factId}).first();
+			//	
+			if (rec == null) {
 				rec = new MFactReconciliation(Env.getCtx(), 0, null);
 				rec.setFact_Acct_ID(factId);
 			}
 
 			rec.setMatchCode(matchcode);
-			rec.setIsDirectLoad(true);
 			rec.saveEx();
 
 			miniTable.getModel().remove(rows[row]);

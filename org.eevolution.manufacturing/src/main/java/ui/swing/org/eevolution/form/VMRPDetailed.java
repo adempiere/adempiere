@@ -31,7 +31,6 @@ import java.sql.Timestamp;
 import java.util.logging.Level;
 
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
@@ -96,6 +95,9 @@ import org.eevolution.model.X_PP_Product_Planning;
  * 
  * @author victor.perez@e-evolution.com, www.e-evolution.com
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 114 ] Change "Create From" UI for Form like Dialog in window without "hardcode"
+ *		@see https://github.com/adempiere/adempiere/issues/114
  */
 public class VMRPDetailed extends MRPDetailed implements FormPanel,
 		ActionListener, VetoableChangeListener, ChangeListener,
@@ -818,8 +820,8 @@ public class VMRPDetailed extends MRPDetailed implements FormPanel,
 		MWarehouse wh = MWarehouse.get(getCtx(), m_warehouse_id);
 		String title = product.get_Translation(MProduct.COLUMNNAME_Name)
 				+ " - " + wh.get_Translation(MWarehouse.COLUMNNAME_Name);
-
-		PAttributeInstance pai = new PAttributeInstance(m_frame, title,
+		//	Yamel Senih FR [ 114 ] 2015-11-23
+		PAttributeInstance pai = new PAttributeInstance(m_frame.getCFrame(), title,
 				m_warehouse_id, 0, m_product_id, 0);
 		if (pai.getM_AttributeSetInstance_ID() != -1) {
 			fAttrSetInstance_ID.setText(pai.getM_AttributeSetInstanceName());

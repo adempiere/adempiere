@@ -34,6 +34,9 @@ import org.compiere.util.TimeUtil;
  * 	red1 - FR: [ 2214883 ] Remove SQL code and Replace for Query
  *  trifonnt - BF [2913276] - Allow only one Default Tax Rate per Tax Category
  *  mjmckay - BF [2948632] - Allow edits to the Default Tax Rate 
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 1445 ] Order by for Tax is not by default Tax
+ *		@see https://github.com/adempiere/adempiere/issues/1445
  */
 public class MTax extends X_C_Tax
 {
@@ -71,7 +74,8 @@ public class MTax extends X_C_Tax
 		//FR: [ 2214883 ] Remove SQL code and Replace for Query - red1
 		List<MTax> list = new Query(ctx, I_C_Tax.Table_Name, null, null)
 								.setClient_ID()
-								.setOrderBy("C_Country_ID, C_Region_ID, To_Country_ID, To_Region_ID")
+								.setOrderBy("C_Country_ID ASC, C_Region_ID ASC, To_Country_ID ASC, "
+										+ "To_Region_ID ASC, C_TaxCategory_ID ASC, IsDefault DESC, C_Tax_ID ASC")
 								.setOnlyActiveRecords(true)
 								.list();
 		for (MTax tax : list)
@@ -279,6 +283,10 @@ public class MTax extends X_C_Tax
 
 	@Override
 	protected boolean beforeSave(boolean newRecord) {
+		//prevents putting as tax father himself
+		if (getParent_Tax_ID() ==  getC_Tax_ID())
+			setParent_Tax_ID(-1);
+		
 		if (isDefault()) {
 			// @Trifon - Ensure that only one tax rate is set as Default!
 			// @Mckay - Allow edits to the Default tax rate

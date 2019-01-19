@@ -41,8 +41,10 @@ import org.zkoss.zul.Vbox;
  * @author  <a href="mailto:agramdass@gmail.com">Ashley G Ramdass</a>
  * @date    Mar 11, 2007
  * @version $Revision: 0.10 $
- * 
  * @author Low Heng Sin
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * 		<li><a href="https://github.com/adempiere/adempiere/issues/547">
+ * 		FR [ 547 ] Bad align in Number box ZK</a>
  */
 public class NumberBox extends Div
 {
@@ -77,6 +79,13 @@ public class NumberBox extends Div
         init();
     }
     
+    /**
+     * @return popup
+     */
+    public Popup getPopupMenu()
+    {
+    	return popup;
+    }
     private void init()
     {
     	Table grid = new Table();
@@ -96,7 +105,8 @@ public class NumberBox extends Div
 		decimalBox = new Decimalbox();
     	if (integral)
     		decimalBox.setScale(0);
-    	decimalBox.setStyle("display: inline;");
+    	//	FR 547
+    	decimalBox.setStyle("display: inline; text-align: right; padding-right: 2px");
 		td.appendChild(decimalBox);
 		
 		Td btnColumn = new Td();
@@ -484,4 +494,7 @@ public class NumberBox extends Div
                 return false;
     }
 
+	public Decimalbox getDecimalBox() {
+		return decimalBox;
+	}
 }

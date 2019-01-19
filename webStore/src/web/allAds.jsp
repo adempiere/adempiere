@@ -1,12 +1,11 @@
 <%@ include file="/WEB-INF/jspf/page.jspf" %>
 <html>
-<!--
+<%--
   - Author:  Jorg Janke
-  - Version: $Id: allAds.jsp,v 1.2 2006/05/06 00:41:33 mdeaelfweald Exp $
-  - Adempiere ERP & CRM Smart Business Solution - Copyright (c) 1999-2003 Jorg Janke
+  - ADempiere ERP & CRM Smart Business Solution - Copyright (c) 1999-2003 Jorg Janke
   - - -
   - Web Advertisements
-  -->
+  --%>
 <head>
 <%@ include file="/WEB-INF/jspf/head.jspf" %>
 <title><c:out value='${ctx.name}'/> - All Ads</title>
@@ -39,14 +38,14 @@
         <tr> 
           <td> 
 		    <a name="<c:out value='${ad.salesRep_ID}'/>"></a>
-		    <a href="http://www.adempiere.com/wstore/click?<c:out value='${ad.clickTargetURL}'/>" target="_blank"> 
+		    <a href="http://www.adempiere.net/wstore/click?<c:out value='${ad.clickTargetURL}'/>" target="_blank">
 		    <img src="<c:out value='${ad.imageURL}'/>" alt="<c:out value='${ad.name}'/>" border="0" align="left" /></a> 
 		    <img src="<c:out value='${ad.webParam2}'/>" alt="<c:out value='${ad.webParam1}'/>" border="0" align="right" /> 
 		    &nbsp; <b><c:out value='${ad.description}'/></b>
 				<br>
-		    &nbsp; <a href="http://www.adempiere.com/wstore/request.jsp?SalesRep_ID=<c:out value='${ad.salesRep_ID}'/>">Contact</a>
+		    &nbsp; <a href="http://www.adempiere.net/wstore/request.jsp?SalesRep_ID=<c:out value='${ad.salesRep_ID}'/>">Contact</a>
 				<br>
-		    &nbsp; <a href="http://www.adempiere.com/wstore/basketServlet?M_Product_ID=1000018&SalesRep_ID=<c:out value='${ad.salesRep_ID}'/>">Buy Next Step</a>
+		    &nbsp; <a href="http://www.adempiere.net/wstore/basketServlet?M_Product_ID=1000018&SalesRep_ID=<c:out value='${ad.salesRep_ID}'/>">Buy Next Step</a>
 				<br>
 				&nbsp; <i><c:out value='${ad.webParam3}' escapeXml='false'/></i>
 				<p><c:out value='${ad.adText}' escapeXml='false'/></p>

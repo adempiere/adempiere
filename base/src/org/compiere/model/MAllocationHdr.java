@@ -22,14 +22,20 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
+import org.adempiere.exceptions.PeriodClosedException;
 import org.compiere.process.DocAction;
+import org.compiere.process.DocumentReversalEnabled;
 import org.compiere.process.DocumentEngine;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -49,13 +55,17 @@ import org.compiere.util.Msg;
  *				<li> http://sourceforge.net/tracker2/?func=detail&atid=879335&aid=2520591&group_id=176962 
  *				<li>BF [ 2880182 ] Error you can allocate a payment to invoice that was paid
  *				<li> https://sourceforge.net/tracker/index.php?func=detail&aid=2880182&group_id=176962&atid=879332
+ *				<li>Implement Reverse Accrual for all document https://github.com/adempiere/adempiere/issues/1348
+ *				<li>Add document type for Payment Allocation #1469 https://github.com/adempiere/adempiere/issues/1469
 */
-public final class MAllocationHdr extends X_C_AllocationHdr implements DocAction
+public final class MAllocationHdr extends X_C_AllocationHdr implements DocAction , DocumentReversalEnabled
 {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 8726957992840702609L;
+
+	private static final BigDecimal	TOLERANCE = BigDecimal.valueOf(0.02);
 
 
 	/**
@@ -84,7 +94,7 @@ public final class MAllocationHdr extends X_C_AllocationHdr implements DocAction
 		}
 		catch (Exception e)
 		{
-			s_log.log(Level.SEVERE, sql, e);
+			logger.log(Level.SEVERE, sql, e);
 		}
 		finally
 		{
@@ -122,7 +132,7 @@ public final class MAllocationHdr extends X_C_AllocationHdr implements DocAction
 		}
 		catch (Exception e)
 		{
-			s_log.log(Level.SEVERE, sql, e);
+			logger.log(Level.SEVERE, sql, e);
 		}
 		finally
 		{
@@ -158,7 +168,7 @@ public final class MAllocationHdr extends X_C_AllocationHdr implements DocAction
 	}	//	getOfCash
 	
 	/**	Logger						*/
-	private static CLogger s_log = CLogger.getCLogger(MAllocationHdr.class);
+	private static CLogger logger = CLogger.getCLogger(MAllocationHdr.class);
 	
 	
 	/**************************************************************************
@@ -294,6 +304,17 @@ public final class MAllocationHdr extends X_C_AllocationHdr implements DocAction
 	 */
 	protected boolean beforeSave (boolean newRecord)
 	{
+		if (getC_DocType_ID() <= 0)
+		{
+			Optional<MDocType> doctypeOptional = Arrays.stream(MDocType.getOfDocBaseType(getCtx(), MDocType.DOCBASETYPE_PaymentAllocation))
+					.sorted((docType1, docType2) -> Boolean.compare(docType2.isDefault(), docType1.isDefault()))
+					.findFirst();
+			doctypeOptional.ifPresent(docType -> setC_DocType_ID(docType.getC_DocType_ID()));
+			if (getC_DocType_ID() <= 0)
+				throw new AdempiereException("@C_DocType_ID@ @FillMandatory@");
+
+		}
+
 		//	Changed from Not to Active
 		if (!newRecord && is_ValueChanged("IsActive") && isActive())
 		{
@@ -325,14 +346,11 @@ public final class MAllocationHdr extends X_C_AllocationHdr implements DocAction
 		
 		//	Unlink
 		getLines(true);
-		HashSet<Integer> bps = new HashSet<Integer>();
-		for (int i = 0; i < m_lines.length; i++)
-		{
-			MAllocationLine line = m_lines[i];
-			bps.add(new Integer(line.getC_BPartner_ID()));
-			line.deleteEx(true, trxName);
-		}
-		updateBP(bps);
+		if (!updateBP(true))
+			return false;
+
+		Arrays.stream(getLines(false))
+				.forEach( allocationLine -> allocationLine.deleteEx(true) );
 		return true;
 	}	//	beforeDelete
 
@@ -354,15 +372,15 @@ public final class MAllocationHdr extends X_C_AllocationHdr implements DocAction
 	 */
 	public boolean processIt (String processAction)
 	{
-		m_processMsg = null;
+		processMsg = null;
 		DocumentEngine engine = new DocumentEngine (this, getDocStatus());
 		return engine.processIt (processAction, getDocAction());
 	}	//	processIt
 	
 	/**	Process Message 			*/
-	private String		m_processMsg = null;
+	private String processMsg = null;
 	/**	Just Prepared Flag			*/
-	private boolean		m_justPrepared = false;
+	private boolean justPrepared = false;
 
 	/**
 	 * 	Unlock Document.
@@ -393,8 +411,8 @@ public final class MAllocationHdr extends X_C_AllocationHdr implements DocAction
 	public String prepareIt()
 	{
 		log.info(toString());
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_PREPARE);
-		if (m_processMsg != null)
+		processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_PREPARE);
+		if (processMsg != null)
 			return DocAction.STATUS_Invalid;
 
 		//	Std Period open?
@@ -402,47 +420,65 @@ public final class MAllocationHdr extends X_C_AllocationHdr implements DocAction
 		getLines(false);
 		if (m_lines.length == 0)
 		{
-			m_processMsg = "@NoLines@";
+			processMsg = "@NoLines@";
 			return DocAction.STATUS_Invalid;
 		}
-		
+
+		List<MAllocationLine> allocationLines = Arrays.asList(getLines(false));
 		// Stop the Document Workflow if invoice to allocate is as paid
-		for (MAllocationLine line :m_lines)
-		{	
-			if (line.getC_Invoice_ID() != 0)
-			{
-				final String whereClause = I_C_Invoice.COLUMNNAME_C_Invoice_ID + "=? AND " 
-								   + I_C_Invoice.COLUMNNAME_IsPaid + "=? AND "
-								   + I_C_Invoice.COLUMNNAME_DocStatus + " NOT IN (?,?)";
-				boolean InvoiceIsPaid = new Query(getCtx(), I_C_Invoice.Table_Name, whereClause, get_TrxName())
-				.setClient_ID()
-				.setParameters(line.getC_Invoice_ID(), "Y", X_C_Invoice.DOCSTATUS_Voided, X_C_Invoice.DOCSTATUS_Reversed)
-				.match();
-				if(InvoiceIsPaid)
-					throw new  AdempiereException("@ValidationError@ @C_Invoice_ID@ @IsPaid@");
-			}
-		}	
-		
-		//	Add up Amounts & validate
-		BigDecimal approval = Env.ZERO;
-		for (int i = 0; i < m_lines.length; i++)
-		{
-			MAllocationLine line = m_lines[i];
-			approval = approval.add(line.getWriteOffAmt()).add(line.getDiscountAmt());
-			//	Make sure there is BP
-			if (line.getC_BPartner_ID() == 0)
-			{
-				m_processMsg = "No Business Partner";
-				return DocAction.STATUS_Invalid;
-			}
+		if (!isReversal()) {
+			allocationLines.stream()
+					.filter(allocationLine -> allocationLine.getC_Invoice_ID() != 0)
+					.forEach(allocationLine -> {
+						final String whereClause = I_C_Invoice.COLUMNNAME_C_Invoice_ID + "=? AND "
+								+ I_C_Invoice.COLUMNNAME_IsPaid + "=? AND "
+								+ I_C_Invoice.COLUMNNAME_DocStatus + " NOT IN (?,?)";
+						boolean InvoiceIsPaid = new Query(getCtx(), I_C_Invoice.Table_Name, whereClause, get_TrxName())
+								.setClient_ID()
+								.setParameters(allocationLine.getC_Invoice_ID(), "Y", X_C_Invoice.DOCSTATUS_Voided, X_C_Invoice.DOCSTATUS_Reversed)
+								.match();
+						if (InvoiceIsPaid)
+							throw new AdempiereException("@ValidationError@ @C_Invoice_ID@ @IsPaid@");
+					});
 		}
-		setApprovalAmt(approval);
+
+		//	Add up Amounts & validate
+		AtomicReference<BigDecimal> approval = new AtomicReference<>(Env.ZERO);
+		allocationLines.stream()
+				.forEach(allocationLine -> {
+								approval.updateAndGet(approvalAmount -> approvalAmount.add(allocationLine.getWriteOffAmt()).add(allocationLine.getDiscountAmt()));
+								if (allocationLine.getC_BPartner_ID() == 0) {
+									processMsg = Msg.parseTranslation(getCtx(), "@C_BPartner_ID@ @NotFound@");
+									throw new AdempiereException(processMsg);
+								}
+								if (allocationLine.getC_Invoice_ID() > 0) {
+									I_C_Invoice invoice = allocationLine.getC_Invoice();
+									if (invoice.getDateAcct().after(getDateAcct())) {
+										processMsg = Msg.parseTranslation(getCtx(), "@ValidationError@  "
+												+ " @C_Invoice_ID@ " + invoice.getDocumentNo() + " @DateAcct@" + invoice.getDateAcct()
+												+ " @C_AllocationHdr_ID@ " + getDocumentInfo() + " @DateAcct@ " + getDateAcct());
+										throw new AdempiereException(processMsg);
+									}
+								}
+
+								if (allocationLine.getC_Payment_ID() > 0) {
+									I_C_Payment payment = allocationLine.getC_Payment();
+									if (payment.getDateAcct().after(getDateAcct())) {
+										processMsg = Msg.parseTranslation(getCtx(), "@ValidationError@ "
+												+ " @C_Payment_ID@ " + payment.getDocumentNo() + " @DateAcct@" + payment.getDateAcct()
+												+ " @C_AllocationHdr_ID@ " + getDocumentInfo() + " @DateAcct@ " + getDateAcct());
+										throw new AdempiereException(processMsg);
+									}
+								}
+							});
+
+		setApprovalAmt(approval.get());
 		//
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_PREPARE);
-		if (m_processMsg != null)
+		processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_PREPARE);
+		if (processMsg != null)
 			return DocAction.STATUS_Invalid;
 		
-		m_justPrepared = true;
+		justPrepared = true;
 		if (!DOCACTION_Complete.equals(getDocAction()))
 			setDocAction(DOCACTION_Complete);
 		
@@ -478,15 +514,15 @@ public final class MAllocationHdr extends X_C_AllocationHdr implements DocAction
 	public String completeIt()
 	{
 		//	Re-Check
-		if (!m_justPrepared)
+		if (!justPrepared)
 		{
 			String status = prepareIt();
 			if (!DocAction.STATUS_InProgress.equals(status))
 				return status;
 		}
 
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_COMPLETE);
-		if (m_processMsg != null)
+		processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_COMPLETE);
+		if (processMsg != null)
 			return DocAction.STATUS_Invalid;
 		
 		//	Implicit Approval
@@ -496,19 +532,18 @@ public final class MAllocationHdr extends X_C_AllocationHdr implements DocAction
 
 		//	Link
 		getLines(false);
-		HashSet<Integer> bps = new HashSet<Integer>();
-		for (int i = 0; i < m_lines.length; i++)
-		{
-			MAllocationLine line = m_lines[i];
-			bps.add(new Integer(line.processIt(false)));	//	not reverse
-		}
-		updateBP(bps);
+		if(!updateBP(isReversal()))
+			return DocAction.STATUS_Invalid;
+
+		Arrays.stream(getLines(false))
+				.forEach(allocationLine ->
+						 allocationLine.processIt(isReversal()));
 
 		//	User Validation
 		String valid = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_COMPLETE);
 		if (valid != null)
 		{
-			m_processMsg = valid;
+			processMsg = valid;
 			return DocAction.STATUS_Invalid;
 		}
 
@@ -525,17 +560,67 @@ public final class MAllocationHdr extends X_C_AllocationHdr implements DocAction
 	public boolean voidIt()
 	{
 		log.info(toString());
-
-		// Before Void
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_VOID);
-		if (m_processMsg != null)
+		boolean retValue = false;
+		if (DOCSTATUS_Closed.equals(getDocStatus())
+				|| DOCSTATUS_Reversed.equals(getDocStatus())
+				|| DOCSTATUS_Voided.equals(getDocStatus()))
+		{
+			processMsg = "Document Closed: " + getDocStatus();
+			setDocAction(DOCACTION_None);
 			return false;
+		}
 
-		boolean retValue = reverseIt();
+		//	Not Processed
+		if (DOCSTATUS_Drafted.equals(getDocStatus())
+				|| DOCSTATUS_Invalid.equals(getDocStatus())
+				|| DOCSTATUS_InProgress.equals(getDocStatus())
+				|| DOCSTATUS_Approved.equals(getDocStatus()))
+
+		{
+			processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_VOID);
+			if (processMsg != null)
+				return false;
+
+			//	Set lines to 0
+			List<MAllocationLine> allocationLines = Arrays.asList(getLines(true));
+			if(!updateBP(true))
+				return false;
+
+			allocationLines.stream()
+					.forEach(allocationLine -> {
+						allocationLine.setAmount(Env.ZERO);
+						allocationLine.setDiscountAmt(Env.ZERO);
+						allocationLine.setWriteOffAmt(Env.ZERO);
+						allocationLine.setOverUnderAmt(Env.ZERO);
+						allocationLine.saveEx();
+						// Unlink invoices
+						allocationLine.processIt(true);
+
+					});
+			addDescription(Msg.getMsg(getCtx(), "Voided"));
+			retValue = true;
+		}
+		else
+		{
+			boolean accrual = false;
+			try
+			{
+				MPeriod.testPeriodOpen(getCtx(), getDateTrx(), MPeriodControl.DOCBASETYPE_PaymentAllocation, getAD_Org_ID());
+			}
+			catch (PeriodClosedException e)
+			{
+				accrual = true;
+			}
+
+			if (accrual)
+				return reverseAccrualIt();
+			else
+				return reverseCorrectIt();
+		}
 
 		// After Void
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_VOID);
-		if (m_processMsg != null)
+		processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_VOID);
+		if (processMsg != null)
 			return false;
 		
 		setDocAction(DOCACTION_None);
@@ -552,15 +637,15 @@ public final class MAllocationHdr extends X_C_AllocationHdr implements DocAction
 	{
 		log.info(toString());
 		// Before Close
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_CLOSE);
-		if (m_processMsg != null)
+		processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_CLOSE);
+		if (processMsg != null)
 			return false;
 
 		setDocAction(DOCACTION_None);
 
 		// After Close
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_CLOSE);
-		if (m_processMsg != null)
+		processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_CLOSE);
+		if (processMsg != null)
 			return false;
 
 		return true;
@@ -574,19 +659,21 @@ public final class MAllocationHdr extends X_C_AllocationHdr implements DocAction
 	{
 		log.info(toString());
 		// Before reverseCorrect
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REVERSECORRECT);
-		if (m_processMsg != null)
+		processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REVERSECORRECT);
+		if (processMsg != null)
 			return false;
 		
-		boolean retValue = reverseIt();
+		MAllocationHdr reversal = reverseIt(false);
+		if (reversal == null)
+			return false;
 
 		// After reverseCorrect
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSECORRECT);
-		if (m_processMsg != null)
+		processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSECORRECT);
+		if (processMsg != null)
 			return false;
 		
 		setDocAction(DOCACTION_None);
-		return retValue;
+		return true;
 	}	//	reverseCorrectionIt
 	
 	/**
@@ -597,19 +684,20 @@ public final class MAllocationHdr extends X_C_AllocationHdr implements DocAction
 	{
 		log.info(toString());
 		// Before reverseAccrual
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REVERSEACCRUAL);
-		if (m_processMsg != null)
+		processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REVERSEACCRUAL);
+		if (processMsg != null)
 			return false;
 		
-		boolean retValue = reverseIt();
-
+		MAllocationHdr reversal = reverseIt(true);
+		if (reversal == null)
+			return false;
 		// After reverseAccrual
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSEACCRUAL);
-		if (m_processMsg != null)
+		processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSEACCRUAL);
+		if (processMsg != null)
 			return false;
 		
 		setDocAction(DOCACTION_None);
-		return retValue;
+		return true;
 	}	//	reverseAccrualIt
 	
 	/** 
@@ -620,13 +708,13 @@ public final class MAllocationHdr extends X_C_AllocationHdr implements DocAction
 	{
 		log.info(toString());
 		// Before reActivate
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REACTIVATE);
-		if (m_processMsg != null)
+		processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REACTIVATE);
+		if (processMsg != null)
 			return false;	
 		
 		// After reActivate
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REACTIVATE);
-		if (m_processMsg != null)
+		processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REACTIVATE);
+		if (processMsg != null)
 			return false;
 		
 		return false;
@@ -707,7 +795,7 @@ public final class MAllocationHdr extends X_C_AllocationHdr implements DocAction
 	 */
 	public String getProcessMsg()
 	{
-		return m_processMsg;
+		return processMsg;
 	}	//	getProcessMsg
 	
 	/**
@@ -719,51 +807,135 @@ public final class MAllocationHdr extends X_C_AllocationHdr implements DocAction
 		return getCreatedBy();
 	}	//	getDoc_User_ID
 
+	/**
+	 * 	Add to Description
+	 *	@param description text
+	 */
+	public void addDescription (String description)
+	{
+		String desc = getDescription();
+		if (desc == null)
+			setDescription(description);
+		else
+			setDescription(desc + " | " + description);
+	}	//	addDescription
+
 	
 	/**************************************************************************
 	 * 	Reverse Allocation.
 	 * 	Period needs to be open
 	 *	@return true if reversed
+	 * @param isAccrual
 	 */
-	private boolean reverseIt() 
+	public MAllocationHdr reverseIt(boolean isAccrual)
 	{
-		if (!isActive())
-			throw new IllegalStateException("Allocation already reversed (not active)");
+		if (!isActive() || getDocStatus().equals(DOCSTATUS_Voided) || getDocStatus().equals(DOCSTATUS_Reversed)) {
+			// Goodwill: don't throw exception here
+			//	BF: Reverse is not allowed at Payment void when Allocation is already reversed at Invoice void
+			//throw new IllegalStateException("Allocation already reversed (not active)");
+			log.warning("Allocation already reversed (not active)");
+			return null;
+		}
+
+		Timestamp currentDate = new Timestamp(System.currentTimeMillis());
+		Optional<Timestamp> loginDateOptional = Optional.of(Env.getContextAsDate(getCtx(),"#Date"));
+		Timestamp reversalDate =  isAccrual ? loginDateOptional.orElse(currentDate) : getDateAcct();
+
+		MAllocationHdr reversalAllocationHdr;
 
 		//	Can we delete posting
-		MPeriod.testPeriodOpen(getCtx(), getDateTrx(), MPeriodControl.DOCBASETYPE_PaymentAllocation, getAD_Org_ID());
-
-		//	Set Inactive
-		setIsActive (false);
-		if ( !isPosted() )
-			setPosted(true);
-		setDocumentNo(getDocumentNo()+"^");
-		setDocStatus(DOCSTATUS_Reversed);	//	for direct calls
-		if (!save() || isActive())
-			throw new IllegalStateException("Cannot de-activate allocation");
-			
-		//	Delete Posting
-		MFactAcct.deleteEx(MAllocationHdr.Table_ID, getC_AllocationHdr_ID(), get_TrxName());
-		
-		//	Unlink Invoices
-		getLines(true);
-		HashSet<Integer> bps = new HashSet<Integer>();
-		for (int i = 0; i < m_lines.length; i++)
+		MPeriod.testPeriodOpen(getCtx(), reversalDate, MPeriodControl.DOCBASETYPE_PaymentAllocation, getAD_Org_ID());
+		setReversal(true);
+		if (isAccrual)
 		{
-			MAllocationLine line = m_lines[i];
-			line.setIsActive(false);
-			line.saveEx();
-			bps.add(new Integer(line.processIt(true)));	//	reverse
+			reversalAllocationHdr = copyFrom(this, reversalDate, reversalDate , get_TrxName());
+			if (reversalAllocationHdr == null)
+			{
+				processMsg = "Could not create Payment Allocation Reversal";
+				return null;
+			}
+			//	Reverse Line Amt
+			Arrays.stream(reversalAllocationHdr.getLines(false))
+					.forEach(reverseAllocationLine -> {
+						reverseAllocationLine.setAmount(reverseAllocationLine.getAmount().negate());
+						reverseAllocationLine.setDiscountAmt(reverseAllocationLine.getDiscountAmt().negate());
+						reverseAllocationLine.setWriteOffAmt(reverseAllocationLine.getWriteOffAmt().negate());
+						reverseAllocationLine.setOverUnderAmt(reverseAllocationLine.getOverUnderAmt().negate());
+						reverseAllocationLine.saveEx(get_TrxName());
+					});
+
+			reversalAllocationHdr.setReversal(true);
+			reversalAllocationHdr.setDocumentNo(getDocumentNo()+"^");
+			reversalAllocationHdr.addDescription("{->" + getDocumentNo() + ")");
+			reversalAllocationHdr.setReversal_ID(getC_AllocationHdr_ID());
+			reversalAllocationHdr.saveEx();
+			//
+			if (!DocumentEngine.processIt(reversalAllocationHdr, DocAction.ACTION_Complete))
+			{
+				processMsg = "Reversal ERROR: " + reversalAllocationHdr.getProcessMsg();
+				return null;
+			}
+
+			DocumentEngine.processIt(reversalAllocationHdr, DocAction.ACTION_Close);
+			reversalAllocationHdr.setProcessing (false);
+			reversalAllocationHdr.setDocStatus(DOCSTATUS_Reversed);
+			reversalAllocationHdr.setDocAction(DOCACTION_None);
+			reversalAllocationHdr.saveEx();
+
+			processMsg = reversalAllocationHdr.getDocumentNo();
+			addDescription("(" + reversalAllocationHdr.getDocumentNo() + "<-)");
+			addDescription(Msg.getMsg(getCtx(), "Voided"));
+			setReversal_ID(reversalAllocationHdr.getReversal_ID());
+			setProcessed(true);
+			setDocStatus(DOCSTATUS_Reversed);	//	may come from void
+			setDocAction(DOCACTION_None);
+			return reversalAllocationHdr;
 		}
-		updateBP(bps);
-		return true;
+		else
+		{
+			//	Set Inactive
+			setIsActive (false);
+			if ( !isPosted() )
+				setPosted(true);
+			setDocumentNo(getDocumentNo()+"^");
+			setDocStatus(DOCSTATUS_Reversed);	//	for direct calls
+			if (!save() || isActive())
+				throw new IllegalStateException("Cannot de-activate allocation");
+
+			//	Delete Posting
+			MFactAcct.deleteEx(MAllocationHdr.Table_ID, getC_AllocationHdr_ID(), get_TrxName());
+			//	Unlink Invoices
+			List<MAllocationLine> allocationLines = Arrays.asList(getLines(true));
+			if (!updateBP(true))
+				return null;
+
+			allocationLines.stream()
+					.forEach(allocationLine -> {
+						allocationLine.setIsActive(false);
+						allocationLine.setAmount(Env.ZERO);
+						allocationLine.setDiscountAmt(Env.ZERO);
+						allocationLine.setWriteOffAmt(Env.ZERO);
+						allocationLine.setOverUnderAmt(Env.ZERO);
+						allocationLine.saveEx();
+						allocationLine.processIt(true);    //	reverse
+					});
+
+			addDescription(Msg.getMsg(getCtx(), "Voided"));
+			setProcessed(true);
+			setDocStatus(DOCSTATUS_Reversed);	//	may come from void
+			setDocAction(DOCACTION_None);
+			return this;
+		}
 	}	//	reverse
 
-	
+
+
+
 	/**
 	 * 	Update Open Balance of BP's
 	 *	@param bps list of business partners
 	 */
+	@Deprecated
 	private void updateBP(HashSet<Integer> bps)
 	{
 		log.info("#" + bps.size());
@@ -792,5 +964,296 @@ public final class MAllocationHdr extends X_C_AllocationHdr implements DocAction
 			|| DOCSTATUS_Closed.equals(ds)
 			|| DOCSTATUS_Reversed.equals(ds);
 	}	//	isComplete
-	
+
+	/**
+	 * Update Business Partners balance
+	 * @param isReverse
+	 * @return
+	 */
+	private boolean updateBP(boolean isReverse)
+	{
+		List<MAllocationLine> allocationLines = Arrays.asList(getLines(false));
+		allocationLines.stream()
+				.filter(allocationLine -> allocationLine.getC_BPartner_ID() != 0
+						|| (allocationLine.getC_Invoice_ID() != 0) && (allocationLine.getC_Payment_ID() != 0))
+				.forEach(allocationLine -> {
+
+					boolean isSOTrxInvoice = false;
+					MInvoice invoice = null;
+
+					if (allocationLine.getC_Invoice_ID() > 0) {
+						invoice = allocationLine.getC_Invoice_ID() > 0 ? new MInvoice(getCtx(), allocationLine.getC_Invoice_ID(), get_TrxName()) : null;
+						isSOTrxInvoice = invoice.isSOTrx();
+					}
+
+					MBPartner partner = new MBPartner(getCtx(), allocationLine.getC_BPartner_ID(), get_TrxName());
+					DB.getDatabase().forUpdate(partner, 0);
+
+					BigDecimal allocationAmount = allocationLine.getAmount().add(allocationLine.getDiscountAmt()).add(allocationLine.getWriteOffAmt());
+					BigDecimal openBalanceDifference = Env.ZERO;
+					MClient client = MClient.get(getCtx(), getAD_Client_ID());
+
+					boolean paymentProcessed = false;
+					boolean paymentIsReceipt = false;
+
+					// get payment information
+					if (allocationLine.getC_Payment_ID() > 0) {
+						int conversionTypeId = 0;
+						Timestamp paymentDate = null;
+						MPayment payment = new MPayment(getCtx(), allocationLine.getC_Payment_ID(), get_TrxName());
+						conversionTypeId = payment.getC_ConversionType_ID();
+						paymentDate = payment.getDateAcct();
+						paymentProcessed = payment.isProcessed();
+						paymentIsReceipt = payment.isReceipt();
+
+						// Adjust open amount with allocated amount.
+						if (paymentProcessed) {
+							if (invoice != null) {
+								// If payment is already processed, only adjust open balance by discount and write off amounts.
+								BigDecimal amount = MConversionRate.convertBase(getCtx(), allocationLine.getWriteOffAmt().add(allocationLine.getDiscountAmt()),
+										getC_Currency_ID(), paymentDate, conversionTypeId, getAD_Client_ID(), getAD_Org_ID());
+								if (amount == null) {
+									processMsg = MConversionRate.getErrorMessage(getCtx(), "ErrorConvertingAllocationCurrencyToBaseCurrency",
+											getC_Currency_ID(), MClient.get(getCtx()).getC_Currency_ID(), conversionTypeId, paymentDate, get_TrxName());
+									throw new AdempiereException(processMsg);
+								}
+								openBalanceDifference = openBalanceDifference.add(amount);
+							} else {
+								// Allocating payment to payment.
+								BigDecimal amount = MConversionRate.convertBase(getCtx(), allocationAmount,
+										getC_Currency_ID(), paymentDate, conversionTypeId, getAD_Client_ID(), getAD_Org_ID());
+								if (amount == null) {
+									processMsg = MConversionRate.getErrorMessage(getCtx(), "ErrorConvertingAllocationCurrencyToBaseCurrency",
+											getC_Currency_ID(), MClient.get(getCtx()).getC_Currency_ID(), conversionTypeId, paymentDate, get_TrxName());
+									throw new AdempiereException(processMsg);
+								}
+								openBalanceDifference = openBalanceDifference.add(amount);
+							}
+						} else {
+							// If payment has not been processed, adjust open balance by entire allocated amount.
+							BigDecimal allocationAmountBase = MConversionRate.convertBase(getCtx(), allocationAmount,
+									getC_Currency_ID(), getDateAcct(), conversionTypeId, getAD_Client_ID(), getAD_Org_ID());
+							if (allocationAmountBase == null) {
+								processMsg = MConversionRate.getErrorMessage(getCtx(), "ErrorConvertingAllocationCurrencyToBaseCurrency",
+										getC_Currency_ID(), MClient.get(getCtx()).getC_Currency_ID(), conversionTypeId, getDateAcct(), get_TrxName());
+								throw new AdempiereException(processMsg);
+							}
+
+							openBalanceDifference = openBalanceDifference.add(allocationAmountBase);
+						}
+					} else if (invoice != null) {
+						// adjust open balance by discount and write off amounts.
+						BigDecimal amount = MConversionRate.convertBase(getCtx(), allocationLine.getWriteOffAmt().add(allocationLine.getDiscountAmt()),
+								getC_Currency_ID(), invoice.getDateAcct(), invoice.getC_ConversionType_ID(), getAD_Client_ID(), getAD_Org_ID());
+						if (amount == null) {
+							processMsg = MConversionRate.getErrorMessage(getCtx(), "ErrorConvertingAllocationCurrencyToBaseCurrency",
+									getC_Currency_ID(), MClient.get(getCtx()).getC_Currency_ID(), invoice.getC_ConversionType_ID(), invoice.getDateAcct(), get_TrxName());
+							throw new AdempiereException(processMsg);
+						}
+						openBalanceDifference = openBalanceDifference.add(amount);
+					}
+
+					// Adjust open amount for currency gain/loss
+					if ((invoice != null) &&
+							((getC_Currency_ID() != client.getC_Currency_ID()) ||
+									(getC_Currency_ID() != invoice.getC_Currency_ID()))) {
+						if (getC_Currency_ID() != invoice.getC_Currency_ID()) {
+							allocationAmount = MConversionRate.convert(getCtx(), allocationAmount,
+									getC_Currency_ID(), invoice.getC_Currency_ID(), getDateAcct(), invoice.getC_ConversionType_ID(), getAD_Client_ID(), getAD_Org_ID());
+							if (allocationAmount == null) {
+								processMsg = MConversionRate.getErrorMessage(getCtx(), "ErrorConvertingAllocationCurrencyToInvoiceCurrency",
+										getC_Currency_ID(), invoice.getC_Currency_ID(), invoice.getC_ConversionType_ID(), getDateAcct(), get_TrxName());
+								throw new AdempiereException(processMsg);
+							}
+						}
+						BigDecimal invoiceAmountAccounted = MConversionRate.convertBase(getCtx(), invoice.getGrandTotal(),
+								invoice.getC_Currency_ID(), invoice.getDateAcct(), invoice.getC_ConversionType_ID(), getAD_Client_ID(), getAD_Org_ID());
+						if (invoiceAmountAccounted == null) {
+							processMsg = MConversionRate.getErrorMessage(getCtx(), "ErrorConvertingInvoiceCurrencyToBaseCurrency",
+									invoice.getC_Currency_ID(), MClient.get(getCtx()).getC_Currency_ID(), invoice.getC_ConversionType_ID(), invoice.getDateAcct(), get_TrxName());
+							throw new AdempiereException(processMsg);
+						}
+
+						BigDecimal allocationAmountAccounted = MConversionRate.convertBase(getCtx(), allocationAmount,
+								invoice.getC_Currency_ID(), getDateAcct(), invoice.getC_ConversionType_ID(), getAD_Client_ID(), getAD_Org_ID());
+						if (allocationAmountAccounted == null) {
+							processMsg = MConversionRate.getErrorMessage(getCtx(), "ErrorConvertingInvoiceCurrencyToBaseCurrency",
+									invoice.getC_Currency_ID(), MClient.get(getCtx()).getC_Currency_ID(), invoice.getC_ConversionType_ID(), getDateAcct(), get_TrxName());
+							throw new AdempiereException(processMsg);
+						}
+
+						if (allocationAmount.compareTo(invoice.getGrandTotal()) == 0) {
+							openBalanceDifference = openBalanceDifference.add(invoiceAmountAccounted).subtract(allocationAmountAccounted);
+						} else {
+							//	allocation as a percentage of the invoice
+							double multiplier = allocationAmount.doubleValue() / invoice.getGrandTotal().doubleValue();
+							//	Reduce Orig Invoice Accounted
+							invoiceAmountAccounted = invoiceAmountAccounted.multiply(BigDecimal.valueOf(multiplier));
+							//	Difference based on percentage of Orig Invoice
+							openBalanceDifference = openBalanceDifference.add(invoiceAmountAccounted).subtract(allocationAmountAccounted);
+							//	ignore Tolerance
+							if (openBalanceDifference.abs().compareTo(TOLERANCE) < 0)
+								openBalanceDifference = Env.ZERO;
+							//	Round
+							int precision = MCurrency.getStdPrecision(getCtx(), client.getC_Currency_ID());
+							if (openBalanceDifference.scale() > precision)
+								openBalanceDifference = openBalanceDifference.setScale(precision, BigDecimal.ROUND_HALF_UP);
+						}
+					}
+
+					//	Total Balance
+					BigDecimal newBalance = partner.getTotalOpenBalance();
+					if (newBalance == null)
+						newBalance = Env.ZERO;
+
+					BigDecimal originalBalance = new BigDecimal(newBalance.toString());
+
+					if (openBalanceDifference.signum() != 0) {
+						if (isReverse)
+							newBalance = newBalance.add(openBalanceDifference);
+						else
+							newBalance = newBalance.subtract(openBalanceDifference);
+					}
+
+					// Update BP Credit Used only for Customer Invoices and for payment-to-payment allocations.
+					BigDecimal newCreditAmount = BigDecimal.ZERO;
+					if (isSOTrxInvoice || (invoice == null && paymentIsReceipt && paymentProcessed)) {
+						if (invoice == null)
+							openBalanceDifference = openBalanceDifference.negate();
+
+						newCreditAmount = partner.getSO_CreditUsed();
+
+						if (isReverse) {
+							if (newCreditAmount == null)
+								newCreditAmount = openBalanceDifference;
+							else
+								newCreditAmount = newCreditAmount.add(openBalanceDifference);
+						} else {
+							if (newCreditAmount == null)
+								newCreditAmount = openBalanceDifference.negate();
+							else
+								newCreditAmount = newCreditAmount.subtract(openBalanceDifference);
+						}
+
+						if (log.isLoggable(Level.FINE)) {
+							log.fine("TotalOpenBalance=" + partner.getTotalOpenBalance() + "(" + openBalanceDifference
+									+ ", Credit=" + partner.getSO_CreditUsed() + "->" + newCreditAmount
+									+ ", Balance=" + partner.getTotalOpenBalance() + " -> " + newBalance);
+						}
+						partner.setSO_CreditUsed(newCreditAmount);
+					} else {
+						if (log.isLoggable(Level.FINE)) {
+							log.fine("TotalOpenBalance=" + partner.getTotalOpenBalance() + "(" + openBalanceDifference
+									+ ", Balance=" + partner.getTotalOpenBalance() + " -> " + newBalance);
+						}
+					}
+
+					if (newBalance.compareTo(originalBalance) != 0)
+						partner.setTotalOpenBalance(newBalance);
+
+					partner.setSOCreditStatus();
+					if (!partner.save(get_TrxName())) {
+						processMsg = "Could not update Business Partner";
+						throw new AdempiereException(processMsg);
+					}
+				}); // for all lines
+
+		return true;
+	}	//	updateBP
+
+	// Goodwill.co.id
+	/** Reversal Flag		*/
+	private boolean isReversal = false;
+
+	/**
+	 * 	Set Reversal
+	 *	@param reversal reversal
+	 */
+	public void setReversal(boolean reversal)
+	{
+		isReversal = reversal;
+	}	//	setReversal
+
+	/**
+	 * 	Is Reversal
+	 *	@return reversal
+	 */
+	public boolean isReversal()
+	{
+		return isReversal;
+	}	//	isReversal
+
+
+	/**
+	 * 	Create new Allocation by copying
+	 * 	@param allocationHdrFrom allocation
+	 * 	@param dateAcct date of the document accounting date
+	 *  @param dateTrx date of the document transaction.
+	 * 	@param trxName
+	 *	@return Allocation
+	 */
+	public static MAllocationHdr copyFrom (MAllocationHdr allocationHdrFrom, Timestamp dateAcct, Timestamp dateTrx, String trxName)
+	{
+		MAllocationHdr allocationHdrTo = new MAllocationHdr (allocationHdrFrom.getCtx(), 0, trxName);
+		PO.copyValues (allocationHdrFrom, allocationHdrTo, allocationHdrFrom.getAD_Client_ID(), allocationHdrFrom.getAD_Org_ID());
+		allocationHdrTo.set_ValueNoCheck ("DocumentNo", null);
+		allocationHdrTo.setDocStatus (DOCSTATUS_Drafted);		//	Draft
+		allocationHdrTo.setDocAction(DOCACTION_Complete);
+		allocationHdrTo.setDateTrx (dateAcct);
+		allocationHdrTo.setDateAcct (dateTrx);
+		allocationHdrTo.setIsManual(false);
+		allocationHdrTo.setIsApproved (false);
+		allocationHdrTo.setPosted (false);
+		allocationHdrTo.setProcessed (false);
+		allocationHdrTo.saveEx();
+		//	Lines
+		if (allocationHdrTo.copyLinesFrom(allocationHdrFrom) == 0)
+			throw new AdempiereException("Could not create Allocation Lines");
+
+		return allocationHdrTo;
+	}	//	copyFrom
+
+	/**
+	 * 	Copy Lines From other Allocation.
+	 *	@param allocationHdrFrom allocation
+	 *	@return number of lines copied
+	 */
+	public int copyLinesFrom (MAllocationHdr allocationHdrFrom)
+	{
+		if (isProcessed() || isPosted() || (allocationHdrFrom == null))
+			return 0;
+
+		AtomicInteger lines = new AtomicInteger();
+		List<MAllocationLine> allocationLines = Arrays.asList(allocationHdrFrom.getLines(false));
+		allocationLines.stream()
+				.forEach(allocationLineFrom -> {
+					MAllocationLine allocationLineTo = new MAllocationLine(getCtx(), 0, allocationLineFrom.get_TrxName());
+					PO.copyValues(allocationLineFrom, allocationLineTo, allocationLineFrom.getAD_Client_ID(), allocationLineFrom.getAD_Org_ID());
+					allocationLineTo.setC_AllocationHdr_ID(getC_AllocationHdr_ID());
+					allocationLineTo.setParent(this);
+					allocationLineTo.set_ValueNoCheck("C_AllocationLine_ID", I_ZERO);    // new
+					if (allocationLineTo.getC_Payment_ID() != 0) {
+						MPayment payment = new MPayment(getCtx(), allocationLineTo.getC_Payment_ID(), get_TrxName());
+						if (DOCSTATUS_Reversed.equals(payment.getDocStatus())) {
+							MPayment reversal = (MPayment) payment.getReversal();
+							if (reversal != null) {
+								allocationLineTo.setPaymentInfo(reversal.getC_Payment_ID(), 0);
+							}
+						}
+					}
+					allocationLineTo.saveEx();
+
+					if (allocationHdrFrom.isReversal()) {
+						allocationLineTo.setReversalLine_ID(allocationLineFrom.get_ID());
+						allocationLineTo.saveEx();
+						allocationLineFrom.setReversalLine_ID(allocationLineTo.get_ID());
+						allocationLineFrom.saveEx();
+					}
+					lines.updateAndGet(count -> count + 1);
+				});
+
+		if (allocationLines.size() != lines.get())
+			log.log(Level.WARNING, "Line difference - From=" + allocationLines.size() + " <> Saved=" + lines.get());
+		return lines.get();
+	}	//	copyLinesFrom
 }   //  MAllocation

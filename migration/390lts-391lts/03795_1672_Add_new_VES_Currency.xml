@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Add new ISO code for VES currency #1672" ReleaseNo="3.9.1" SeqNo="3795">
+    <Comments>See: https://github.com/adempiere/adempiere/issues/1672</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="141" Action="I" Record_ID="50001" Table="C_Currency">
+        <Data AD_Column_ID="794" Column="Updated">2018-04-26 17:20:00.049</Data>
+        <Data AD_Column_ID="792" Column="Created">2018-04-26 17:20:00.049</Data>
+        <Data AD_Column_ID="791" Column="IsActive">true</Data>
+        <Data AD_Column_ID="460" Column="Description">Bolivar</Data>
+        <Data AD_Column_ID="458" Column="ISO_Code">VES</Data>
+        <Data AD_Column_ID="797" Column="IsEuro">false</Data>
+        <Data AD_Column_ID="796" Column="CurSymbol">Bs.S</Data>
+        <Data AD_Column_ID="798" Column="IsEMUMember">false</Data>
+        <Data AD_Column_ID="462" Column="EMUEntryDate" isNewNull="true"/>
+        <Data AD_Column_ID="463" Column="EMURate">0</Data>
+        <Data AD_Column_ID="52074" Column="RoundOffFactor">1</Data>
+        <Data AD_Column_ID="457" Column="C_Currency_ID">50001</Data>
+        <Data AD_Column_ID="789" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="790" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="461" Column="CostingPrecision">4</Data>
+        <Data AD_Column_ID="459" Column="StdPrecision">2</Data>
+        <Data AD_Column_ID="793" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="795" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84646" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="617" Action="I" Record_ID="50001" Table="C_Currency_Trl">
+        <Data AD_Column_ID="84648" Column="UUID" isNewNull="true"/>
+        <Data AD_Column_ID="9625" Column="IsActive">true</Data>
+        <Data AD_Column_ID="9626" Column="Updated">2018-04-26 17:20:03.105</Data>
+        <Data AD_Column_ID="9624" Column="Created">2018-04-26 17:20:03.105</Data>
+        <Data AD_Column_ID="9633" Column="CurSymbol">Bs.S</Data>
+        <Data AD_Column_ID="9628" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="9629" Column="Description">Bolivar</Data>
+        <Data AD_Column_ID="9632" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="9634" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="9631" Column="C_Currency_ID">50001</Data>
+        <Data AD_Column_ID="9627" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="9623" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="9630" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="617" Action="U" Record_ID="50001" Table="C_Currency_Trl">
+        <Data AD_Column_ID="9629" Column="Description" oldValue="Bolivar">Bolivar Soverano</Data>
+        <Data AD_Column_ID="9631" Column="C_Currency_ID" oldValue="50001">50001</Data>
+        <Data AD_Column_ID="9627" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="617" Action="U" Record_ID="50001" Table="C_Currency_Trl">
+        <Data AD_Column_ID="9629" Column="Description" oldValue="Bolivar Soverano">Bolivar</Data>
+        <Data AD_Column_ID="9631" Column="C_Currency_ID" oldValue="50001">50001</Data>
+        <Data AD_Column_ID="9627" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="140" Action="I" Record_ID="50000" Table="C_Conversion_Rate">
+        <Data AD_Column_ID="781" Column="IsActive">true</Data>
+        <Data AD_Column_ID="784" Column="Updated">2018-04-26 17:21:28.064</Data>
+        <Data AD_Column_ID="782" Column="Created">2018-04-26 17:21:28.064</Data>
+        <Data AD_Column_ID="456" Column="DivideRate">0.001000000000</Data>
+        <Data AD_Column_ID="454" Column="ValidTo">2056-01-29 00:00:00.0</Data>
+        <Data AD_Column_ID="455" Column="MultiplyRate">1000.000000000000</Data>
+        <Data AD_Column_ID="453" Column="ValidFrom">2000-01-01 00:00:00.0</Data>
+        <Data AD_Column_ID="780" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="779" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="778" Column="C_Conversion_Rate_ID">50000</Data>
+        <Data AD_Column_ID="785" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="787" Column="C_Currency_ID_To">50000</Data>
+        <Data AD_Column_ID="786" Column="C_Currency_ID">50001</Data>
+        <Data AD_Column_ID="783" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="10294" Column="C_ConversionType_ID">114</Data>
+        <Data AD_Column_ID="84643" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="140" Action="I" Record_ID="50001" Table="C_Conversion_Rate">
+        <Data AD_Column_ID="781" Column="IsActive">true</Data>
+        <Data AD_Column_ID="784" Column="Updated">2018-04-26 17:22:15.163</Data>
+        <Data AD_Column_ID="782" Column="Created">2018-04-26 17:22:15.163</Data>
+        <Data AD_Column_ID="456" Column="DivideRate">1000.000000000000</Data>
+        <Data AD_Column_ID="454" Column="ValidTo">2056-01-29 00:00:00.0</Data>
+        <Data AD_Column_ID="455" Column="MultiplyRate">0.001000000000</Data>
+        <Data AD_Column_ID="453" Column="ValidFrom">2000-01-01 00:00:00.0</Data>
+        <Data AD_Column_ID="780" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="779" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="778" Column="C_Conversion_Rate_ID">50001</Data>
+        <Data AD_Column_ID="785" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="787" Column="C_Currency_ID_To">50001</Data>
+        <Data AD_Column_ID="786" Column="C_Currency_ID">50000</Data>
+        <Data AD_Column_ID="783" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="10294" Column="C_ConversionType_ID">114</Data>
+        <Data AD_Column_ID="84643" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

@@ -1,0 +1,128 @@
+/******************************************************************************
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2011, Michael McKay, All Rights Reserved.                    *
+ * This program is free software; you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ ****************************************************************************** 
+ *
+ * Scenario Main Functional Tests
+ * 
+ * This scenario runs through the various test flows defined in the ADempiere
+ * functional test list.
+ * 
+ * See http://wiki.adempiere.net/Functional_Tests
+ * 
+ **/
+
+// Variable declarations
+var $AdminUsr = "PlantAdmin";
+var $NormalUsr = "PlantUser";
+var $TestKey = "";
+var $TestClient = "";
+
+var $usr = "";
+var $pwd = "";
+
+// Includes - common functions
+_include("../lib/common_functions.sah");
+
+// Includes - setup steps that are order specific
+_include("../test/system/tf_mft_create_client.sah");
+_include("../test/customer_relationship_management/tf_mft_bpartner_groups_setup.sah");
+_include("../test/customer_relationship_management/tf_mft_payment_term_setup.sah");
+_include("../test/customer_relationship_management/tf_mft_bpartner_setup.sah");
+_include("../test/financial_management/tf_mft_tax_setup.sah");
+_include("../test/material_management/tf_mft_warehouse_setup.sah");
+_include("../test/material_management/tf_mft_product_category_setup.sah");
+_include("../test/material_management/tf_mft_attribute_setup.sah");
+_include("../test/material_management/tf_mft_lot_control_setup.sah");
+_include("../test/material_management/tf_mft_attribute_set_setup.sah");
+_include("../test/material_management/tf_mft_product_setup.sah");
+_include("../test/material_management/tf_mft_pricelist_schema_setup.sah");
+_include("../test/material_management/tf_mft_pricelist_setup.sah");
+
+//Includes - test flows which are order independent
+_include("../test/ap_management/tf_mft_rfq_to_po.sah");
+_include("../test/ar_management/tf_mft_create_indirect_documents.sah");
+
+
+// Setup	
+function setUp(){
+	try {
+		login($AdminUsr, $AdminUsr); // will fail if Client not created yet
+	} catch (e){
+		// Do nothing.
+	}
+}
+
+// Tear down
+function tearDown() {
+	logout();  // in case
+}
+
+
+// Run the tests
+
+$TestKey = random_string(4);
+$TestClient = "Plant World " + $TestKey;
+$AdminUsr = $AdminUsr + $TestKey;
+$NormalUsr = $NormalUsr + $TestKey;
+
+// Create a 2D array of data for client tests.  This csv file could be used to test
+// all the COA files.  We only want to do one test here and we want to use the 
+// variables elsewhere
+var $ClientData = [
+           [$TestClient, 
+		   "Test Org", 
+		   $AdminUsr, 
+		   $NormalUsr, 
+		   "CAD", 
+		   "Canada",
+		   //"e:\\adempiere\\data\\import\\AccountingUS.csv",
+		   "/tmp/adempiere_3049301037091456529_AccountingUS.csv",
+		   "11100",  // First default account in the list
+		   "1", 	// First account in the list
+		   "376"]
+	   	];  // The number of accounts
+
+var $ClientDataPath = "../test/system/tf_mtf_create_client_single.csv";
+_writeCSVFile($ClientData, $ClientDataPath,true,",");
+
+// Pass the path info to the test file.  Could do this as a global variable but 
+// this allows the function to use a default if we don't need to test multiple clients
+mft_creat_client_set_path($ClientDataPath);
+
+
+// Manually call the tests - setup and teardown won't be called.
+//login("System","System", "English", "No", "System Administrator", "System", "*", "");
+
+// Setup functions that have to run in order 
+mft_create_client();  // Performs login/out
+login($AdminUsr, $AdminUsr); // will fail if Client not created yet
+mft_bpartner_group_setup();
+mft_payment_term_setup();
+mft_bpartner_setup();
+mft_tax_setup();
+mft_warehouse_setup();
+mft_product_category_setup();
+mft_attribute_setup();
+mft_lot_control_setup();
+mft_attribute_set_setup();
+mft_product_setup();
+mft_pricelist_schema_setup();
+mft_pricelist_setup();
+logout();
+
+_runUnitTests();  // Run the remaining tests in a random order  
+
+_log("Scenario Main Functional Tests completed", "info"); // Test Completed.
+
+logout();
+// End of test

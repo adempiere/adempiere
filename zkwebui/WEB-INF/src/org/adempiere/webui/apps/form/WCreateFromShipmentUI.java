@@ -14,13 +14,13 @@
 
 package org.adempiere.webui.apps.form;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 import java.util.logging.Level;
 
-import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Checkbox;
 import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.GridFactory;
@@ -35,16 +35,18 @@ import org.adempiere.webui.editor.WEditor;
 import org.adempiere.webui.editor.WLocatorEditor;
 import org.adempiere.webui.editor.WSearchEditor;
 import org.adempiere.webui.editor.WStringEditor;
-import org.adempiere.webui.event.ValueChangeEvent;
-import org.adempiere.webui.event.ValueChangeListener;
-import org.compiere.grid.CreateFromShipment;
-import org.compiere.model.GridTab;
-import org.compiere.model.MInvoice;
+import org.adempiere.exceptions.ValueChangeEvent;
+import org.adempiere.exceptions.ValueChangeListener;
+import org.adempiere.webui.panel.ADForm;
+import org.adempiere.webui.panel.CustomForm;
+import org.adempiere.webui.panel.IFormController;
+import org.compiere.apps.form.CreateFromShipment;
+import org.compiere.apps.form.ICreateFrom;
 import org.compiere.model.MLocatorLookup;
 import org.compiere.model.MLookup;
 import org.compiere.model.MLookupFactory;
 import org.compiere.model.MProduct;
-import org.compiere.model.MRMA;
+import org.compiere.process.ProcessInfo;
 import org.compiere.util.CLogger;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
@@ -57,38 +59,60 @@ import org.zkoss.zkex.zul.Borderlayout;
 import org.zkoss.zkex.zul.Center;
 import org.zkoss.zul.Space;
 
-public class WCreateFromShipmentUI extends CreateFromShipment implements EventListener, ValueChangeListener
-{
-	private static final int WINDOW_CUSTOMER_RETURN = 53097;
-
-	private static final int WINDOW_RETURN_TO_VENDOR = 53098;
-
-	private WCreateFromWindow window;
+/**
+ * @author	Michael McKay
+ * 				<li>release/380 - fix row selection event handling to fire single event per row selection
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 114 ] Change "Create From" UI for Form like Dialog in window without "hardcode"
+ *		@see https://github.com/adempiere/adempiere/issues/114
+ * 		<li> FR [ 327 ] Create From in M_InOut change to Smart Browse
+ *  	@see https://github.com/adempiere/adempiere/issues/327
+ */
+@Deprecated
+public class WCreateFromShipmentUI extends CreateFromShipment 
+	implements IFormController, ICreateFrom, EventListener, ValueChangeListener {
 	
-	public WCreateFromShipmentUI(GridTab tab) 
-	{
-		super(tab);
-		log.info(getGridTab().toString());
-		
-		window = new WCreateFromWindow(this, getGridTab().getWindowNo());
-		
-		p_WindowNo = getGridTab().getWindowNo();
+	/**
+	 * Standard Constructor
+	 */
+	public WCreateFromShipmentUI() {
+		try {
+			v_CreateFromPanel = new WCreateFromPanel(this);
+			v_Container = new CustomForm() {
 
-		try
-		{
-			if (!dynInit())
-				return;
-			zkInit();
-			setInitOK(true);
-		}
-		catch(Exception e)
-		{
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = -3454354880167040226L;
+
+				public void setProcessInfo(ProcessInfo pi) {
+					p_WindowNo = pi.getWindowNo();
+					try {
+						//	Valid for launched from a window
+						if(pi != null) {
+							//	Valid Table and Record
+							validTable(pi.getTable_ID(), 
+									pi.getRecord_ID());
+						}
+						//	Init
+						if (!dynInit())
+							return;
+						zkInit();
+					} catch(Exception e) {
+						log.log(Level.SEVERE, "", e);
+					}
+				}
+			};
+		} catch (IOException e) {
 			log.log(Level.SEVERE, "", e);
-			setInitOK(false);
 		}
-		AEnv.showWindow(window);
 	}
 	
+	//	Yamel Senih FR [ 114 ], 2015-11-26
+	//	Change to form
+	private CustomForm v_Container = null;
+	/**	Main Panel for Create From	*/
+	private WCreateFromPanel v_CreateFromPanel;
 	/** Window No               */
 	private int p_WindowNo;
 
@@ -113,10 +137,7 @@ public class WCreateFromShipmentUI extends CreateFromShipment implements EventLi
 	protected WLocatorEditor locatorField = new WLocatorEditor();
 	protected Label upcLabel = new Label();
 	protected WStringEditor upcField = new WStringEditor();
-	/**  Loaded Invoice             */
-	private MInvoice		m_invoice = null;
-    /**  Loaded RMA             */
-    private MRMA            m_rma = null;
+
     
 	/**
 	 *  Dynamic Init
@@ -127,10 +148,6 @@ public class WCreateFromShipmentUI extends CreateFromShipment implements EventLi
 	{
 		log.config("");
 		
-		super.dynInit();
-		
-		window.setTitle(getTitle());
-
 		sameWarehouseCb.setSelected(true);
 		sameWarehouseCb.addActionListener(this);
 		//  load Locator
@@ -147,9 +164,13 @@ public class WCreateFromShipmentUI extends CreateFromShipment implements EventLi
 		return true;
 	}   //  dynInit
 	
+	/**
+	 * Instance Data
+	 * @throws Exception
+	 */
 	protected void zkInit() throws Exception
 	{
-    	boolean isRMAWindow = ((getGridTab().getAD_Window_ID() == WINDOW_RETURN_TO_VENDOR) || (getGridTab().getAD_Window_ID() == WINDOW_CUSTOMER_RETURN)); 
+    	boolean isRMAWindow = isRMA(); 
 
     	bPartnerLabel.setText(Msg.getElement(Env.getCtx(), "C_BPartner_ID"));
 		orderLabel.setText(Msg.getElement(Env.getCtx(), "C_Order_ID", false));
@@ -161,9 +182,9 @@ public class WCreateFromShipmentUI extends CreateFromShipment implements EventLi
         upcLabel.setText(Msg.getElement(Env.getCtx(), "UPC", false));
 
 		Borderlayout parameterLayout = new Borderlayout();
-		parameterLayout.setHeight("110px");
+		parameterLayout.setHeight("120px");
 		parameterLayout.setWidth("100%");
-    	Panel parameterPanel = window.getParameterPanel();
+    	Panel parameterPanel = v_CreateFromPanel.getParameterPanel();
 		parameterPanel.appendChild(parameterLayout);
 		
 		Grid parameterStdLayout = GridFactory.newGridLayout();
@@ -205,6 +226,10 @@ public class WCreateFromShipmentUI extends CreateFromShipment implements EventLi
             row.appendChild(rmaLabel.rightAlign());
             row.appendChild(rmaField);
     	}
+    	//	Add to Main
+    	v_CreateFromPanel.setWidth("100%");
+    	v_CreateFromPanel.setHeight("100%");
+    	v_Container.appendChild(v_CreateFromPanel);
 	}
 
 	private boolean 	m_actionActive = false;
@@ -272,7 +297,6 @@ public class WCreateFromShipmentUI extends CreateFromShipment implements EventLi
 				invoiceField.setSelectedIndex(-1);
                 rmaField.setSelectedIndex(-1);
 				loadOrder(C_Order_ID, false, locatorField.getValue()!=null?((Integer)locatorField.getValue()).intValue():0);
-				m_invoice = null;
 			}
 		}
 		//  Invoice
@@ -326,7 +350,7 @@ public class WCreateFromShipmentUI extends CreateFromShipment implements EventLi
 	{
 		String upc = upcField.getDisplay();
 		//DefaultTableModel model = (DefaultTableModel) dialog.getMiniTable().getModel();
-		ListModelTable model = (ListModelTable) window.getWListbox().getModel();
+		ListModelTable model = (ListModelTable) v_CreateFromPanel.getWListbox().getModel();
 		
 		// Lookup UPC
 		List<MProduct> products = MProduct.getByUPC(Env.getCtx(), upc, null);
@@ -355,7 +379,7 @@ public class WCreateFromShipmentUI extends CreateFromShipment implements EventLi
 	private int findProductRow(int M_Product_ID)
 	{
 		//DefaultTableModel model = (DefaultTableModel)dialog.getMiniTable().getModel();
-		ListModelTable model = (ListModelTable) window.getWListbox().getModel();
+		ListModelTable model = (ListModelTable) v_CreateFromPanel.getWListbox().getModel();
 		KeyNamePair kp;
 		for (int i=0; i<model.getRowCount(); i++) {
 			kp = (KeyNamePair)model.getValueAt(i, 4);
@@ -380,7 +404,7 @@ public class WCreateFromShipmentUI extends CreateFromShipment implements EventLi
 			int C_BPartner_ID = ((Integer)e.getNewValue()).intValue();
 			initBPOrderDetails (C_BPartner_ID, true);
 		}
-		window.tableChanged(null);
+		v_CreateFromPanel.tableChanged(null);
 	}   //  vetoableChange
 	
 	/**************************************************************************
@@ -395,7 +419,7 @@ public class WCreateFromShipmentUI extends CreateFromShipment implements EventLi
 		MLookup lookup = MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, AD_Column_ID, DisplayType.Search);
 		bPartnerField = new WSearchEditor ("C_BPartner_ID", true, false, true, lookup);
 		//
-		int C_BPartner_ID = Env.getContextAsInt(Env.getCtx(), p_WindowNo, "C_BPartner_ID");
+		int C_BPartner_ID = getC_BPartner_ID();
 		bPartnerField.setValue(new Integer(C_BPartner_ID));
 
 		//  initial loading
@@ -439,8 +463,11 @@ public class WCreateFromShipmentUI extends CreateFromShipment implements EventLi
 		orderField.removeActionListener(this);
 		orderField.removeAllItems();
 		orderField.addItem(pp);
-		
-		ArrayList<KeyNamePair> list = loadOrderData(C_BPartner_ID, forInvoice, sameWarehouseCb.isSelected());
+		//	Validate Same Warehouse
+		int m_M_Warehouse_ID = 0;
+		if(sameWarehouseCb.isSelected())
+			m_M_Warehouse_ID = getM_Warehouse_ID();
+		ArrayList<KeyNamePair> list = loadOrderData(C_BPartner_ID, forInvoice, m_M_Warehouse_ID);
 		for(KeyNamePair knp : list)
 			orderField.addItem(knp);
 		
@@ -534,26 +561,38 @@ public class WCreateFromShipmentUI extends CreateFromShipment implements EventLi
 	 */
 	protected void loadTableOIS (Vector<?> data)
 	{
-		window.getWListbox().clear();
+		v_CreateFromPanel.getWListbox().clear();
 		
 		//  Remove previous listeners
-		window.getWListbox().getModel().removeTableModelListener(window);
+		v_CreateFromPanel.getWListbox().getModel().removeTableModelListener(v_CreateFromPanel);
 		//  Set Model
 		ListModelTable model = new ListModelTable(data);
-		model.addTableModelListener(window);
-		window.getWListbox().setData(model, getOISColumnNames());
+		model.addTableModelListener(v_CreateFromPanel);
+		v_CreateFromPanel.getWListbox().setData(model, getOISColumnNames());
 		//
 		
-		configureMiniTable(window.getWListbox());
+		configureMiniTable(v_CreateFromPanel.getWListbox());
 	}   //  loadOrder
 	
-	public void showWindow()
-	{
-		window.setVisible(true);
-	}
+	/**
+	 *  List total amount
+	 */
+	public boolean info() {
+		return false;
+	}   //  infoStatement
 	
-	public void closeWindow()
-	{
-		window.dispose();
+	@Override
+	public int getWindowNo() {
+		return v_Container.getWindowNo();
+	}
+
+	@Override
+	public void dispose() {
+		v_Container.dispose();
+	}
+
+	@Override
+	public ADForm getForm() {
+		return v_Container;
 	}
 }

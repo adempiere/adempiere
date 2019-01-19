@@ -313,8 +313,8 @@ public class WGenForm extends ADForm implements EventListener, WTableModelListen
 		
 		//  Switch Tabs
 		tabbedPane.setSelectedIndex(1);
-		//
-		ProcessInfoUtil.setLogFromDB(genForm.getProcessInfo());
+		// commented by reason of "prints result twice":
+		//ProcessInfoUtil.setLogFromDB(genForm.getProcessInfo());
 		StringBuffer iText = new StringBuffer();
 		iText.append("<b>").append(genForm.getProcessInfo().getSummary())
 			.append("</b><br>(")
@@ -369,8 +369,8 @@ public class WGenForm extends ADForm implements EventListener, WTableModelListen
 			{	
 				re = ReportEngine.get (Env.getCtx(), genForm.getReportEngineType(), RecordID);
 			}	
-			
-			pdfList.add(re.getPDF());				
+			if (re != null)
+				pdfList.add(re.getPDF());
 		}
 		
 		if (pdfList.size() > 1) {

@@ -1,0 +1,312 @@
+/******************************************************************************
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2011, Michael McKay, All Rights Reserved.                    *
+ * This program is free software; you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ ****************************************************************************** 
+ *
+ * Test Flow WebUI test of Product Info panel.
+ * 
+ * This test flow exercises the various features of the product search field 
+ * and the Product Info panel.
+ * 
+ **/
+
+ // Need to determine what test functions are required.
+ 
+/**
+ * Test the product info window.
+ */
+ function test_wip_product_info()
+{
+
+	 _log("tf_wip_product_ifo starting.","custom");
+	 
+	//  Open the Product Info panel
+	info_viewInfo("Product");
+
+	_assertEqual("HQ Warehouse",info_getCriteriaFieldText("M_Warehouse_ID"),"Error: tf_wip_product_info: Warehouse not set as expected.");
+	_assertEqual("Standard 2003",info_getCriteriaFieldText("M_PriceList_Version_ID"),"Error: tf_wip_product_info: Pricelist Version not set as expected.");
+
+	//  Default should be to auto query
+	//  Check that all records are returned - expecting 27 (based on default database)
+	_assertEqual("27",String(info_getStatus()).substring(0, 2),"Error: tf_wip_product_info: initial auto query not returning what was expected");
+
+	//  Check that the Warehouse tab works
+	//  The first row - Azalea Bush - should be selected.
+
+	_assertEqual("HQ Warehouse",info_getDataFieldText("0", "1", "Warehouse"),"Error: tf_wip_product_info: First row of Warehouse tab not set as expected.");
+	_assertEqual("5",info_getDataFieldText("0", "2", "Warehouse"),"Error: tf_wip_product_info: First row of Warehouse tab not set as expected.");
+
+	//  Check that the Warehouse tab responds to clicks in the main table
+	info_clickListRow("1", "SearchResults");  // This will trigger a refresh of the other data tables
+
+	_assertEqual("HQ Warehouse",info_getDataFieldText("0", "1", "Warehouse"),"Error: tf_wip_product_info: First row of Warehouse tab not set as expected.");
+	_assertEqual("10",info_getDataFieldText("0", "2", "Warehouse"),"Error: tf_wip_product_info: First row of Warehouse tab not set as expected.");
+	
+	//  Check that the other tables also refresh properly
+	info_clickListRow("0", "SearchResults");  // This will trigger a refresh of the other data tables
+
+	_assertEqual("HQ Warehouse",info_getDataFieldText("0", "1", "Warehouse"),"Error: tf_wip_product_info: First row of Warehouse tab not set as expected.");
+	_assertEqual("5",info_getDataFieldText("0", "2", "Warehouse"),"Error: tf_wip_product_info: First row of Warehouse tab not set as expected.");
+	
+	info_clickTab("Description");
+	_assertEqual("Azaleas are flowering shrubs.", String(info_getTextArea("Description")).substring(0,29),"Error: tf_wip_product_info: Product Description not as expected.");
+
+	info_clickTab("Substitute");
+	_assertEqual("Holly Bush", info_getDataFieldText("0", "2", "Substitute"),"Error: tf_wip_product_info: First substitute product not as expected.");
+
+	info_clickTab("Related Product");
+	_assertEqual("Mulch", info_getDataFieldText("0", "2", "Related"),"Error: tf_wip_product_info: First related product not as expected.");
+
+	info_clickTab("Available to Promise");
+	_assertEqual("HQ Warehouse", info_getDataFieldText("0", "1", "ATP"),"Error: tf_wip_product_info: First ATP record not as expected.");
+
+	// Key field
+	info_setCriteriaText("fieldValue","Oak");
+
+	info_clickTab("Warehouse");
+	info_clickListRow("0", "Warehouse");  // This will refresh the ATP tab
+
+	info_clickTab("Available to Promise");
+	_assertEqual("Store Central", info_getDataFieldText("0", "1", "ATP"),"Error: tf_wip_product_info: First ATP record not as expected.");
+
+	// The tabs and events are working.  Now check the search criteria
+	
+	// Key field
+	info_setCriteriaText("fieldValue","Az");
+	//  Check that all records are returned - expecting 1 (not based on default database)
+	_assertEqual("1 ",String(info_getStatus()).substring(0, 2),"Error: tf_wip_product_info: initial auto query not returning what was expected");
+	_wait(1000);
+
+	info_resetCriteria();
+
+	info_setCriteriaText("fieldName","Ho");
+	//  Check that all records are returned - expecting 3 (not based on default database)
+	_assertEqual("3 ",String(info_getStatus()).substring(0, 2),"Error: tf_wip_product_info: initial auto query not returning what was expected");
+	
+	info_resetCriteria();
+
+	info_setCriteriaText("fieldUPC","123");
+	//  Check that all records are returned - expecting 1 (not based on default database)
+	_assertEqual("1 ",String(info_getStatus()).substring(0, 2),"Error: tf_wip_product_info: initial auto query not returning what was expected");
+
+	info_resetCriteria();
+
+	info_setCriteriaText("fieldSKU","abc");
+	//  Check that all records are returned - expecting 0 (not based on default database)
+	_assertEqual("0 ",String(info_getStatus()).substring(0, 2),"Error: tf_wip_product_info: initial auto query not returning what was expected");
+
+	info_resetCriteria();
+
+	info_setCriteriaText("fieldSKU","123");
+	//  Check that all records are returned - expecting 1 (not based on default database)
+	_assertEqual("1 ",String(info_getStatus()).substring(0, 2),"Error: tf_wip_product_info: initial auto query not returning what was expected");
+
+	info_resetCriteria();
+
+	info_setCriteriaText("M_ProductCategory_ID","Bushes");
+	//  Check that all records are returned - expecting 3 (not based on default database)
+	_assertEqual("3 ",String(info_getStatus()).substring(0, 2),"Error: tf_wip_product_info: initial auto query not returning what was expected");
+
+	info_resetCriteria();
+
+	//  Check that the InfoBPartner panel opens with vendors selected.
+	info_clickSearchButton("C_BPartner_ID");
+	//  The context should be overridden to isSOTrx = N
+	_assertEqual("Only Vendors", _getText(_label("z-checkbox-cnt",_in(_span("Lookup_Criteria_checkCustomer")))),"Error: tf_wip_Product_info: BPartner context not set to isSOTrx = N.");
+	// Have to be picky about which button to close the window. There are two visible to sahi.
+	_click(_image("Cancel24.png[1]"));  // Close the dialog.
+	
+	_wait(2000);
+	
+	info_setSearchText("C_BPartner_ID","Seed");
+	//  Check that all records are returned - expecting 10 (not based on default database)
+	_assertEqual("10",String(info_getStatus()).substring(0, 2),"Error: tf_wip_product_info: initial auto query not returning what was expected");
+
+	// Check the dynamic columns
+	_assertEqual("40",info_getDataFieldText("0", "12", "SearchResults"),"Error: tf_wip_product_info: initial auto query not returning what was expected");
+	info_setCriteriaText("M_Warehouse_ID"," ");
+	_wait(2000);
+	_assertEqual("",info_getDataFieldText("0", "12", "SearchResults"),"Error: tf_wip_product_info: initial auto query not returning what was expected");
+	
+	_assertEqual("20.00",info_getDataFieldText("0", "7", "SearchResults"),"Error: tf_wip_product_info: initial auto query not returning what was expected");
+	info_setCriteriaText("M_PriceList_Version_ID"," ");
+	_wait(3000);
+	_assertEqual("Seed Farm Inc.",info_getDataFieldText("0", "7", "SearchResults"), "Error: tf_wip_product_info: dynamic columns for warehouse are not working.");
+
+	info_resetCriteria();
+	
+	_assertEqual("99,999",info_getDataFieldText("6", "12", "SearchResults"), "Error: tf_wip_product_info: Looking for 99,999 but didn't find it.");
+	info_setCheckbox("checkOnlyStock","Y");
+	_wait(2000);
+	_assertEqual("0",info_getDataFieldText("6", "12", "SearchResults"), "Error: tf_wip_product_info: Looking for 0 but didn't find it.");
+
+	info_resetCriteria();
+
+	info_setCriteriaText("M_PAttributeSet_ID","T-Shirt");
+	_assertEqual("2 ",String(info_getStatus()).substring(0, 2),"Error: tf_wip_product_info: initial auto query not returning what was expected");
+	
+	info_openPASI("M_PAttributeSetInstance_ID");
+	_assertNull(_textbox("InfoPAttributePanel_serNoField"), "Error: PAttributeInstancePanel is showing the Serial No field when it shouldn't be");
+	
+	_setSelected(_select("InfoPAttributePanel_field_Color (R-G-B)"), "Green");
+	_setSelected(_select("InfoPAttributePanel_field_Size (S-M-L)"), "Large");
+
+	iOk(); // Close the PASI panel
+
+	_assertEqual("1 ",String(info_getStatus()).substring(0, 2),"Error: tf_wip_product_info: initial auto query not returning what was expected");
+
+	info_resetCriteria();
+
+	info_openPASI("M_PAttributeSetInstance_ID");
+	_assertNotNull(_textbox("InfoPAttributePanel_serNoField"), "Error: PAttributeInstancePanel is not showing the Serial No field when it should be");
+	
+	_setSelected(_select("InfoPAttributePanel_field_Color (R-G-B)"), "Green");
+	_setSelected(_select("InfoPAttributePanel_field_Size (S-M-L)"), "Large");
+
+	iOk(); // Close the PASI panel
+
+	_assertEqual("1 ",String(info_getStatus()).substring(0, 2),"Error: tf_wip_product_info: initial auto query not returning what was expected");
+
+	info_uncheckAutoQuery();
+	info_setCheckbox("checkAND","N");
+	info_setCriteriaText("M_Warehouse_ID"," ");
+	info_setCriteriaText("M_PriceList_Version_ID"," ");
+	info_setCriteriaText("fieldValue","Az");	
+	info_checkAutoQuery();
+	
+	//  Check that all records are returned - expecting 2 (not based on default database)
+	_assertEqual("2 ",String(info_getStatus()).substring(0, 2),"Error: tf_wip_product_info: any/OR with Green-Large and Value=Az not returning 2 records");
+	
+	
+	//Check the buttons are enabled properly in non-modal mode (single selection)
+	info_resetCriteria();
+	// First record should be selected  (azaela)
+	_assertEqual("N",info_isButtonEnabled("PAttribute"),"Error: PAttribute button enabled but shouldn't be");
+	info_clickListRow("4","SearchResults"); // Fertilizer #70
+	_assertEqual("Y",info_isButtonEnabled("PAttribute"),"Error: PAttribute button not enabled but should be");
+
+	
+	//  If all that was successful, the basic functions of the panel are working.
+	
+	iCancel();
+	
+	//Create an order
+	wOpenWindow("Sales Order");
+	iFormView();
+	iNewRecord();	
+	fSetSearch("C_BPartner_ID", "Joe Block");
+	iSaveRecord();
+	wOpenTab("Order Line");
+	iFormView();
+	//
+	// Test the product search field
+	// Look for a known product that doesn't trigger the info window
+	// Look for a vague or unknown product
+	// Verify that the product selected in the info window is returned
+	// Click the icon in the product field and verify that the product is the only one listed in the info window.
+	// Delete the product and verify that the product field is blank
+	//
+
+	fSetSearch("M_Product_ID","Oak");
+	_assertEqual("/^Oak/", fGetSearch("M_Product_ID"),"Error: tf_wip_product_info: product query for Oak did not find the right product");
+	fClickSearchButton("M_Product_ID"); // Opens the product info window
+	// We should only have one product listed
+	_assertEqual(String(info_getStatus()).substring(0, 2),"1 ","Error: tf_wip_product_info: initial auto query not returning what was expected");
+	
+	iCancel();
+
+	_assertEqual("", fGetSearch("M_Product_ID"),"Error: tf_wip_product_info: Product not cleared when Info window cancelled.");
+	
+	fSetSearch("M_Product_ID","tree");  // will open the product info window
+	// Should have three product listed.  Assumes the the search flags are configured for %*%
+	_assertEqual(String(info_getStatus()).substring(0, 2),"3 ","Error: tf_wip_product_info: initial auto query not returning what was expected");
+	_assertEqual("", info_getCriteriaFieldText("M_Warehouse_ID"),"Error: tf_wip_product_info: Warehouse not set as expected.");
+	_assertEqual("", info_getCriteriaFieldText("M_PriceList_Version_ID"),"Error: tf_wip_product_info: Pricelist Version not set as expected.");
+	_assertEqual("tree", info_getCriteriaFieldText("fieldValue"),"Error: tf_wip_product_info: Value not set as expected.");
+	_assertEqual("tree", info_getCriteriaFieldText("fieldName"),"Error: tf_wip_product_info: Name Version not set as expected.");
+	_assertEqual("tree", info_getCriteriaFieldText("fieldUPC"),"Error: tf_wip_product_info: UPC Version not set as expected.");
+	_assertEqual("tree", info_getCriteriaFieldText("fieldSKU"),"Error: tf_wip_product_info: SKU Version not set as expected.");
+
+	info_clickListRow("0", "SearchResults"); 
+	iConfirm();
+	_assertEqual("Elm_Elm Tree", fGetSearch("M_Product_ID"),"Error: tf_wip_product_info: product query for Elm did not find the right product");
+	//
+	fClickSearchButton("M_Product_ID"); // Opens the product info window
+	iCancel();
+
+	//  Test multi-selection
+	fClickSearchButton("M_Product_ID"); // Opens the product info window
+	//  Check the attribute button is enabled properly in multi-selection
+	info_clickListRow("4","SearchResults"); // Fertilizer #70
+	_assertEqual("Y",info_isButtonEnabled("PAttribute"),"Error: PAttribute button not enabled but should be");
+	info_clickListRow("5","SearchResults"); // Mulch
+	_assertEqual("N",info_isButtonEnabled("PAttribute"),"Error: PAttribute button enabled but shouldn't be");
+	_check(_checkbox("/^zk/",_in(_div("/^ListItem_Cell_4_0/"))));  // two lines selected
+	_assertEqual("N",info_isButtonEnabled("PAttribute"),"Error: PAttribute button enabled but shouldn't be");
+	_uncheck(_checkbox("/^zk/",_in(_div("/^ListItem_Cell_5_0/"))));  // one lines selected
+	_assertEqual("Y",info_isButtonEnabled("PAttribute"),"Error: PAttribute button not enabled but should be");
+	_uncheck(_checkbox("/^zk/",_in(_div("/^ListItem_Cell_4_0/"))));  // no lines selected
+	_assertEqual("N",info_isButtonEnabled("PAttribute"),"Error: PAttribute button enabled but shouldn't be");
+	
+	//  Test Instance Attribute Selection and Callout_Order
+	fClickSearchButton("M_Product_ID"); // Opens the product info window
+	//  Check the attribute button is enabled properly in multi-selection
+	info_clickListRow("4","SearchResults"); // Fertilizer #70
+	_assertEqual("Y",info_isButtonEnabled("PAttribute"),"Error: PAttribute button not enabled but should be");
+	info_clickButton("PAttribute");
+	_wait(1000);
+	// Will be blank because there is no Fertilizer in the HQ warehouse.
+	info_setCheckbox("showAll","Y");  //  Show other warehouses.
+	info_clickListRow("0","ASIResults");
+	// Have to be picky about which button to close the window. There are two visible to sahi.
+	_click(_image("Ok24.png[1]"));  // Close the dialog.
+
+	//  There should be no inventory so expect an error
+	_wait(500);
+	_assertExists(_span("/^No Inventory Available/"),"Error: tf_wip_product_info: Expected No Inventory Error");
+	if(_condition(_isVisible(_span("/^No Inventory Available/"))))
+	{
+		iOk();  // Close the dialog.
+	}
+	_wait(500);
+	
+	// Check that the callout filled in the ASI.
+	_assertEqual("Fertilizer#70_Fertilizer #70", fGetSearch("M_Product_ID"),"Error: tf_wip_product_info: product query for Fertilizer #70 did not find the right product");
+	_assertEqual("\u00AB12345678\u00BB_01/15/2014", fGetSearch("M_AttributeSetInstance_ID"),"Error: tf_wip_product_info: Attribute Set Instance for Fertilizer #70 not set as expected");
+
+	// Clear the field
+	fClickSearchButton("M_Product_ID"); // Opens the product info window
+	iCancel();
+
+	// Check that the call out clears the ASI when the product is cleared.
+	_assertEqual("", fGetSearch("M_AttributeSetInstance_ID"),"Error: tf_wip_product_info: Attribute Set Instance not cleared when product is cleared");
+
+	//  Test multi selection to order lines
+	fClickSearchButton("M_Product_ID"); // Opens the product info window
+	_check(_checkbox("/^zk/",_in(_div("/^ListItem_Cell_0_0/"))));
+	_check(_checkbox("/^zk/",_in(_div("/^ListItem_Cell_1_0/"))));
+	_check(_checkbox("/^zk/",_in(_div("/^ListItem_Cell_2_0/"))));
+	
+	iConfirm();
+	
+	_wait(2000);  // Three lines will be added to the order.
+	
+	_assertEqual("3 Line(s)", String(wGetStatus()).substring(0, 9),"Error: tf_wip_product_info: multi-line selection didn't work.");
+	
+	wOpenTab("Order");
+	iDeleteRecord();
+	iConfirm();
+	
+	wCloseWindow("Sales Order");
+	
+	_log("tf_wip_product_info completed.","custom");
+}

@@ -35,6 +35,11 @@ public class AdempiereIdGenerator implements IdGenerator
 {
 	public static final String SYSCONFIG_IdGenerator = "org.adempiere.webui.IdGenerator";
 	public static final String SYSCONFIG_IdGenerator_Default = org.adempiere.webui.SahiIdGenerator.class.getCanonicalName();
+	
+	/* use this to add a component prefix to identify zk component
+	 * if the prefix starts with unq then it will be used as is - if it doesn't then a sequence suffix will be added to guarantee uniqueness
+	 */
+	public static final String ZK_COMPONENT_PREFIX_ATTRIBUTE = "zk_component_prefix";
 
 	private static IdGenerator idGenerator = null;
 

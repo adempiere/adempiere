@@ -62,6 +62,7 @@ public class SessionContextListener implements ExecutionInit,
             	ctx = new Properties();
             	HttpSession session = (HttpSession)exec.getDesktop().getSession().getNativeSession();
             	ctx.setProperty(SERVLET_SESSION_ID, session.getId());
+                ctx.setProperty("#UI", "WebUI");
                 exec.getDesktop().getSession().setAttribute(SESSION_CTX, ctx);
             }
             

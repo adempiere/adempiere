@@ -1,0 +1,421 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Replenishment AddProductionColumn" ReleaseNo="3.9.0" SeqNo="00610">
+  <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="102" Action="I" Record_ID="53782" Table="AD_Reference">
+        <Data AD_Column_ID="139" Column="ValidationType">T</Data>
+        <Data AD_Column_ID="1180" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="132" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="6486" Column="EntityType">D</Data>
+        <Data AD_Column_ID="54355" Column="IsOrderByValue">false</Data>
+        <Data AD_Column_ID="130" Column="Name">M_Production_ReplenishPlan</Data>
+        <Data AD_Column_ID="131" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="363" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="555" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="556" Column="Updated">2015-06-29 17:42:40.678</Data>
+        <Data AD_Column_ID="554" Column="Created">2015-06-29 17:42:40.678</Data>
+        <Data AD_Column_ID="553" Column="IsActive">true</Data>
+        <Data AD_Column_ID="557" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="129" Column="AD_Reference_ID">53782</Data>
+        <Data AD_Column_ID="364" Column="AD_Org_ID">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="103" Action="I" Record_ID="53782" Table="AD_Ref_Table">
+        <Data AD_Column_ID="2377" Column="IsValueDisplayed">false</Data>
+        <Data AD_Column_ID="146" Column="WhereClause" isNewNull="true"/>
+        <Data AD_Column_ID="147" Column="OrderByClause" isNewNull="true"/>
+        <Data AD_Column_ID="143" Column="AD_Table_ID">325</Data>
+        <Data AD_Column_ID="142" Column="AD_Reference_ID">53782</Data>
+        <Data AD_Column_ID="144" Column="AD_Key">3596</Data>
+        <Data AD_Column_ID="145" Column="AD_Display">59966</Data>
+        <Data AD_Column_ID="7711" Column="EntityType">D</Data>
+        <Data AD_Column_ID="57270" Column="AD_Window_ID" isNewNull="true"/>
+        <Data AD_Column_ID="62121" Column="DisplaySQL">M_Production.DocumentNo,'-1') ||'_'|| NVL(TRIM(TO_CHAR(M_Production.DatePromised,'MM/DD/YYYY'))</Data>
+        <Data AD_Column_ID="62120" Column="IsAlert">false</Data>
+        <Data AD_Column_ID="62122" Column="IsDisplayIdentifier">false</Data>
+        <Data AD_Column_ID="560" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="561" Column="Updated">2015-06-29 17:43:28.091</Data>
+        <Data AD_Column_ID="559" Column="Created">2015-06-29 17:43:28.091</Data>
+        <Data AD_Column_ID="562" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="367" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="558" Column="IsActive">true</Data>
+        <Data AD_Column_ID="368" Column="AD_Org_ID">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="101" Action="I" Record_ID="76644" Table="AD_Column">
+        <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
+        <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="114" Column="AD_Table_ID">53975</Data>
+        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
+        <Data AD_Column_ID="110" Column="Version">0</Data>
+        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID">53782</Data>
+        <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="127" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="113" Column="Help">The Production uniquely identifies a Production Plan</Data>
+        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="120" Column="IsParent">false</Data>
+        <Data AD_Column_ID="118" Column="FieldLength">22</Data>
+        <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID">18</Data>
+        <Data AD_Column_ID="72747" Column="IsSecure">false</Data>
+        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="119" Column="IsKey">false</Data>
+        <Data AD_Column_ID="2608" Column="AD_Element_ID">1032</Data>
+        <Data AD_Column_ID="3369" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
+        <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
+        <Data AD_Column_ID="56187" Column="IsAllowLogging">true</Data>
+        <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
+        <Data AD_Column_ID="3360" Column="IsUpdateable">true</Data>
+        <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
+        <Data AD_Column_ID="116" Column="ColumnName">M_Production_ID</Data>
+        <Data AD_Column_ID="112" Column="Description">Plan for producing a product</Data>
+        <Data AD_Column_ID="111" Column="Name">Production</Data>
+        <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6483" Column="IsSyncDatabase">N</Data>
+        <Data AD_Column_ID="109" Column="AD_Column_ID">76644</Data>
+        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
+        <Data AD_Column_ID="551" Column="Updated">2015-06-29 17:37:36.662</Data>
+        <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="548" Column="IsActive">true</Data>
+        <Data AD_Column_ID="549" Column="Created">2015-06-29 17:37:36.662</Data>
+        <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="276" Action="I" Record_ID="58022" Table="AD_Element">
+        <Data AD_Column_ID="2602" Column="ColumnName">OrderInfo</Data>
+        <Data AD_Column_ID="58588" Column="AD_Reference_ID" isNewNull="true"/>
+        <Data AD_Column_ID="58589" Column="FieldLength">0</Data>
+        <Data AD_Column_ID="58590" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="6283" Column="PO_Description" isNewNull="true"/>
+        <Data AD_Column_ID="6284" Column="PO_Help" isNewNull="true"/>
+        <Data AD_Column_ID="6484" Column="EntityType">D</Data>
+        <Data AD_Column_ID="6286" Column="PO_PrintName" isNewNull="true"/>
+        <Data AD_Column_ID="2603" Column="Name">Order Info</Data>
+        <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="4299" Column="PrintName">Order Info</Data>
+        <Data AD_Column_ID="6285" Column="PO_Name" isNewNull="true"/>
+        <Data AD_Column_ID="2595" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2598" Column="Created">2015-06-29 17:50:43.982</Data>
+        <Data AD_Column_ID="2600" Column="Updated">2015-06-29 17:50:43.982</Data>
+        <Data AD_Column_ID="2597" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2599" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2601" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="2594" Column="AD_Element_ID">58022</Data>
+        <Data AD_Column_ID="2596" Column="AD_Org_ID">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="101" Action="I" Record_ID="76645" Table="AD_Column">
+        <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
+        <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="114" Column="AD_Table_ID">53975</Data>
+        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
+        <Data AD_Column_ID="110" Column="Version">0</Data>
+        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="127" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="113" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="120" Column="IsParent">false</Data>
+        <Data AD_Column_ID="118" Column="FieldLength">50</Data>
+        <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID">10</Data>
+        <Data AD_Column_ID="72747" Column="IsSecure">false</Data>
+        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="119" Column="IsKey">false</Data>
+        <Data AD_Column_ID="2608" Column="AD_Element_ID">58022</Data>
+        <Data AD_Column_ID="3369" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
+        <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
+        <Data AD_Column_ID="56187" Column="IsAllowLogging">true</Data>
+        <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
+        <Data AD_Column_ID="3360" Column="IsUpdateable">true</Data>
+        <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
+        <Data AD_Column_ID="116" Column="ColumnName">OrderInfo</Data>
+        <Data AD_Column_ID="112" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="111" Column="Name">Order Info</Data>
+        <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6483" Column="IsSyncDatabase">N</Data>
+        <Data AD_Column_ID="109" Column="AD_Column_ID">76645</Data>
+        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
+        <Data AD_Column_ID="551" Column="Updated">2015-06-29 17:51:26.509</Data>
+        <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="548" Column="IsActive">true</Data>
+        <Data AD_Column_ID="549" Column="Created">2015-06-29 17:51:26.509</Data>
+        <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="276" Action="I" Record_ID="58023" Table="AD_Element">
+        <Data AD_Column_ID="2602" Column="ColumnName">ProductionInfo</Data>
+        <Data AD_Column_ID="58588" Column="AD_Reference_ID" isNewNull="true"/>
+        <Data AD_Column_ID="58589" Column="FieldLength">0</Data>
+        <Data AD_Column_ID="58590" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="6283" Column="PO_Description" isNewNull="true"/>
+        <Data AD_Column_ID="6284" Column="PO_Help" isNewNull="true"/>
+        <Data AD_Column_ID="6484" Column="EntityType">D</Data>
+        <Data AD_Column_ID="6286" Column="PO_PrintName" isNewNull="true"/>
+        <Data AD_Column_ID="2603" Column="Name">Production Info</Data>
+        <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="4299" Column="PrintName">Production Info</Data>
+        <Data AD_Column_ID="6285" Column="PO_Name" isNewNull="true"/>
+        <Data AD_Column_ID="2595" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2598" Column="Created">2015-06-29 17:56:39.44</Data>
+        <Data AD_Column_ID="2600" Column="Updated">2015-06-29 17:56:39.44</Data>
+        <Data AD_Column_ID="2597" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2599" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2601" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="2594" Column="AD_Element_ID">58023</Data>
+        <Data AD_Column_ID="2596" Column="AD_Org_ID">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="101" Action="I" Record_ID="76646" Table="AD_Column">
+        <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
+        <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="114" Column="AD_Table_ID">53975</Data>
+        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
+        <Data AD_Column_ID="110" Column="Version">0</Data>
+        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="127" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="113" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="120" Column="IsParent">false</Data>
+        <Data AD_Column_ID="118" Column="FieldLength">50</Data>
+        <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID">10</Data>
+        <Data AD_Column_ID="72747" Column="IsSecure">false</Data>
+        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="119" Column="IsKey">false</Data>
+        <Data AD_Column_ID="2608" Column="AD_Element_ID">58023</Data>
+        <Data AD_Column_ID="3369" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
+        <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
+        <Data AD_Column_ID="56187" Column="IsAllowLogging">true</Data>
+        <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
+        <Data AD_Column_ID="3360" Column="IsUpdateable">true</Data>
+        <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
+        <Data AD_Column_ID="116" Column="ColumnName">ProductionInfo</Data>
+        <Data AD_Column_ID="112" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="111" Column="Name">Production Info</Data>
+        <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6483" Column="IsSyncDatabase">N</Data>
+        <Data AD_Column_ID="109" Column="AD_Column_ID">76646</Data>
+        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
+        <Data AD_Column_ID="551" Column="Updated">2015-06-29 17:57:11.291</Data>
+        <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="548" Column="IsActive">true</Data>
+        <Data AD_Column_ID="549" Column="Created">2015-06-29 17:57:11.291</Data>
+        <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="107" Action="I" Record_ID="76656" Table="AD_Field">
+        <Data AD_Column_ID="182" Column="SortNo">0</Data>
+        <Data AD_Column_ID="186" Column="IsEncrypted">false</Data>
+        <Data AD_Column_ID="180" Column="DisplayLength">0</Data>
+        <Data AD_Column_ID="176" Column="IsDisplayed">true</Data>
+        <Data AD_Column_ID="183" Column="IsSameLine">true</Data>
+        <Data AD_Column_ID="184" Column="IsHeading">false</Data>
+        <Data AD_Column_ID="174" Column="AD_Column_ID">76644</Data>
+        <Data AD_Column_ID="185" Column="IsFieldOnly">false</Data>
+        <Data AD_Column_ID="181" Column="SeqNo">360</Data>
+        <Data AD_Column_ID="2745" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="172" Column="AD_Tab_ID">54088</Data>
+        <Data AD_Column_ID="2007" Column="IsReadOnly">false</Data>
+        <Data AD_Column_ID="170" Column="Help">The Production uniquely identifies a Production Plan</Data>
+        <Data AD_Column_ID="5375" Column="AD_FieldGroup_ID" isNewNull="true"/>
+        <Data AD_Column_ID="9969" Column="ObscureType" isNewNull="true"/>
+        <Data AD_Column_ID="15011" Column="AD_Reference_ID" isNewNull="true"/>
+        <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="15013" Column="IsMandatory" isNewNull="true"/>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
+        <Data AD_Column_ID="53265" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="54356" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54357" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
+        <Data AD_Column_ID="169" Column="Description">Plan for producing a product</Data>
+        <Data AD_Column_ID="168" Column="Name">Production</Data>
+        <Data AD_Column_ID="62478" Column="IsDisplayedGrid">true</Data>
+        <Data AD_Column_ID="62479" Column="SeqNoGrid">360</Data>
+        <Data AD_Column_ID="62200" Column="IsAllowCopy" isNewNull="true"/>
+        <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="578" Column="IsActive">true</Data>
+        <Data AD_Column_ID="579" Column="Created">2015-06-29 18:00:23.651</Data>
+        <Data AD_Column_ID="383" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="581" Column="Updated">2015-06-29 18:00:23.651</Data>
+        <Data AD_Column_ID="167" Column="AD_Field_ID">76656</Data>
+        <Data AD_Column_ID="384" Column="AD_Org_ID">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="76656" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="360">75</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="100" StepType="AD">
+      <PO AD_Table_ID="489" Action="U" Record_ID="57605" Table="AD_PrintFormatItem">
+        <Data AD_Column_ID="6949" Column="AD_Column_ID" oldValue="74116">76645</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="110" StepType="AD">
+      <PO AD_Table_ID="489" Action="I" Record_ID="58209" Table="AD_PrintFormatItem">
+        <Data AD_Column_ID="6959" Column="Updated">2015-06-29 18:10:29.65</Data>
+        <Data AD_Column_ID="200016" Column="IsDesc">false</Data>
+        <Data AD_Column_ID="6948" Column="SortNo">0</Data>
+        <Data AD_Column_ID="6967" Column="XPosition">0</Data>
+        <Data AD_Column_ID="6970" Column="IsOrderBy">false</Data>
+        <Data AD_Column_ID="7058" Column="ImageURL" isNewNull="true"/>
+        <Data AD_Column_ID="6969" Column="IsPrinted">true</Data>
+        <Data AD_Column_ID="6965" Column="IsHeightOneLine">true</Data>
+        <Data AD_Column_ID="7032" Column="PrintAreaType">C</Data>
+        <Data AD_Column_ID="6960" Column="AD_PrintFormat_ID">50250</Data>
+        <Data AD_Column_ID="6945" Column="AD_PrintFormatChild_ID" isNewNull="true"/>
+        <Data AD_Column_ID="64457" Column="IsPrintBarcodeText">true</Data>
+        <Data AD_Column_ID="6971" Column="IsGroupBy">false</Data>
+        <Data AD_Column_ID="6966" Column="MaxHeight">0</Data>
+        <Data AD_Column_ID="7031" Column="PrintFormatType">F</Data>
+        <Data AD_Column_ID="7059" Column="ImageIsAttached">false</Data>
+        <Data AD_Column_ID="6939" Column="SeqNo">280</Data>
+        <Data AD_Column_ID="7030" Column="LineAlignmentType">X</Data>
+        <Data AD_Column_ID="6949" Column="AD_Column_ID">76646</Data>
+        <Data AD_Column_ID="6962" Column="XSpace">0</Data>
+        <Data AD_Column_ID="6968" Column="FieldAlignmentType">D</Data>
+        <Data AD_Column_ID="6951" Column="IsRelativePosition">true</Data>
+        <Data AD_Column_ID="6957" Column="YPosition">0</Data>
+        <Data AD_Column_ID="7565" Column="IsSuppressNull">false</Data>
+        <Data AD_Column_ID="7655" Column="IsFixedWidth">false</Data>
+        <Data AD_Column_ID="6950" Column="IsPageBreak">false</Data>
+        <Data AD_Column_ID="6943" Column="IsNextLine">true</Data>
+        <Data AD_Column_ID="7638" Column="BelowColumn">0</Data>
+        <Data AD_Column_ID="7639" Column="AD_PrintGraph_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6947" Column="YSpace">0</Data>
+        <Data AD_Column_ID="7566" Column="IsSetNLPosition">false</Data>
+        <Data AD_Column_ID="13055" Column="LineWidth">1</Data>
+        <Data AD_Column_ID="6953" Column="MaxWidth">0</Data>
+        <Data AD_Column_ID="7654" Column="IsNextPage">false</Data>
+        <Data AD_Column_ID="9965" Column="RunningTotalLines">20</Data>
+        <Data AD_Column_ID="13237" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="10258" Column="IsVarianceCalc">false</Data>
+        <Data AD_Column_ID="13056" Column="ArcDiameter">0</Data>
+        <Data AD_Column_ID="13057" Column="ShapeType">N</Data>
+        <Data AD_Column_ID="13054" Column="IsFilledRectangle">false</Data>
+        <Data AD_Column_ID="13238" Column="IsImageField">false</Data>
+        <Data AD_Column_ID="15015" Column="BarcodeType" isNewNull="true"/>
+        <Data AD_Column_ID="56351" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="56359" Column="IsSuppressRepeats">true</Data>
+        <Data AD_Column_ID="9967" Column="IsMinCalc">false</Data>
+        <Data AD_Column_ID="6956" Column="IsSummarized">false</Data>
+        <Data AD_Column_ID="9964" Column="IsMaxCalc">false</Data>
+        <Data AD_Column_ID="7061" Column="IsAveraged">false</Data>
+        <Data AD_Column_ID="7060" Column="IsCounted">false</Data>
+        <Data AD_Column_ID="10259" Column="IsDeviationCalc">false</Data>
+        <Data AD_Column_ID="9966" Column="IsRunningTotal">false</Data>
+        <Data AD_Column_ID="6946" Column="PrintName">Production</Data>
+        <Data AD_Column_ID="6940" Column="Name">Production</Data>
+        <Data AD_Column_ID="8197" Column="PrintNameSuffix" isNewNull="true"/>
+        <Data AD_Column_ID="6958" Column="AD_PrintColor_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6963" Column="AD_PrintFont_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6952" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="6944" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6955" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="6942" Column="Created">2015-06-29 18:10:29.65</Data>
+        <Data AD_Column_ID="6964" Column="IsActive">true</Data>
+        <Data AD_Column_ID="6954" Column="AD_PrintFormatItem_ID">58209</Data>
+        <Data AD_Column_ID="6961" Column="AD_Org_ID">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="120" StepType="AD">
+      <PO AD_Table_ID="489" Action="U" Record_ID="58209" Table="AD_PrintFormatItem">
+        <Data AD_Column_ID="6939" Column="SeqNo" oldValue="280">35</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="130" StepType="AD">
+      <PO AD_Table_ID="102" Action="I" Record_ID="53783" Table="AD_Reference">
+        <Data AD_Column_ID="139" Column="ValidationType">T</Data>
+        <Data AD_Column_ID="1180" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="132" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="6486" Column="EntityType">D</Data>
+        <Data AD_Column_ID="54355" Column="IsOrderByValue">false</Data>
+        <Data AD_Column_ID="130" Column="Name">C_Order_ReplenishPlan</Data>
+        <Data AD_Column_ID="131" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="363" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="555" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="556" Column="Updated">2015-06-29 18:15:10.112</Data>
+        <Data AD_Column_ID="554" Column="Created">2015-06-29 18:15:10.112</Data>
+        <Data AD_Column_ID="553" Column="IsActive">true</Data>
+        <Data AD_Column_ID="557" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="129" Column="AD_Reference_ID">53783</Data>
+        <Data AD_Column_ID="364" Column="AD_Org_ID">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="140" StepType="AD">
+      <PO AD_Table_ID="103" Action="I" Record_ID="53783" Table="AD_Ref_Table">
+        <Data AD_Column_ID="2377" Column="IsValueDisplayed">false</Data>
+        <Data AD_Column_ID="146" Column="WhereClause" isNewNull="true"/>
+        <Data AD_Column_ID="147" Column="OrderByClause" isNewNull="true"/>
+        <Data AD_Column_ID="143" Column="AD_Table_ID">259</Data>
+        <Data AD_Column_ID="142" Column="AD_Reference_ID">53783</Data>
+        <Data AD_Column_ID="144" Column="AD_Key">2161</Data>
+        <Data AD_Column_ID="145" Column="AD_Display">2182</Data>
+        <Data AD_Column_ID="7711" Column="EntityType">D</Data>
+        <Data AD_Column_ID="57270" Column="AD_Window_ID" isNewNull="true"/>
+        <Data AD_Column_ID="62121" Column="DisplaySQL">C_Order.DocumentNo,'-1') ||'_'|| NVL(TRIM(TO_CHAR(C_Order.DatePromised,'MM/DD/YYYY'))</Data>
+        <Data AD_Column_ID="62120" Column="IsAlert">false</Data>
+        <Data AD_Column_ID="62122" Column="IsDisplayIdentifier">false</Data>
+        <Data AD_Column_ID="560" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="561" Column="Updated">2015-06-29 18:15:53.74</Data>
+        <Data AD_Column_ID="559" Column="Created">2015-06-29 18:15:53.74</Data>
+        <Data AD_Column_ID="562" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="367" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="558" Column="IsActive">true</Data>
+        <Data AD_Column_ID="368" Column="AD_Org_ID">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="150" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="76553" Table="AD_Column">
+        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isOldNull="true">53783</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID" oldValue="19">18</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

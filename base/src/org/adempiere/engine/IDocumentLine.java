@@ -47,6 +47,9 @@ public interface IDocumentLine
 	public BigDecimal getMovementQty();
 	public boolean isSOTrx();
 	public int getReversalLine_ID();
+	public int getC_Currency_ID();
+	public int getC_ConversionType_ID();
 	public BigDecimal getPriceActual();
+	public BigDecimal getPriceActualCurrency();
 	public IDocumentLine getReversalDocumentLine();
 }

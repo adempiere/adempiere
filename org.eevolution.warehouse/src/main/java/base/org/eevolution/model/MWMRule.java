@@ -48,9 +48,6 @@ public class MWMRule extends X_WM_Rule
 	private static final long serialVersionUID = 930993957329465177L;
 	/**	Logger	**/
 	private static CLogger	s_log = CLogger.getCLogger (MWMRule.class);
-	/** MColumn **/
-	private MColumn m_column = null;
-	
 	/**************************************************************************
 	 * 	Warehouse Management Rule Constructor
 	 *	@param ctx context

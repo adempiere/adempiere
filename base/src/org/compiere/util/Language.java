@@ -33,6 +33,11 @@ import javax.print.attribute.standard.MediaSize;
  *
  *  @author     Jorg Janke
  *  @version    $Id: Language.java,v 1.2 2006/07/30 00:52:23 jjanke Exp $
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *  	<li> Add Support to Language Venezuela
+ *  	@see https://adempiere.atlassian.net/browse/ADEMPIERE-397
+ *  	<a href="https://github.com/adempiere/adempiere/issues/580">
+ * 		@see FR [ 580 ] Bad language for es Venezuela</a>
  */
 public class Language implements Serializable
 {
@@ -61,9 +66,11 @@ public class Language implements Serializable
 	private static final String AD_Language_de_DE = "de_DE";
 	private static final String AD_Language_it_IT = "it_IT";
 	private static final String AD_Language_es_ES = "es_ES";
+	private static final String AD_Language_es_SV = "es_SV";
 	private static final String AD_Language_es_MX = "es_MX";
 	private static final String AD_Language_es_CO = "es_CO";
 	private static final String AD_Language_es_DO = "es_DO";
+	private static final String AD_Language_es_VE = "es_VE";
 	private static final String AD_Language_fr_FR = "fr_FR";
 	private static final String AD_Language_fr_CA = "fr_CA";
 	private static final String AD_Language_bg_BG = "bg_BG";
@@ -128,6 +135,10 @@ public class Language implements Serializable
 		new Language ("Espa\u00f1ol",
 			AD_Language_es_ES,  new Locale("es","ES"), new Boolean(false), "dd/MM/yyyy",
 			MediaSize.ISO.A4),
+		new Language ("Espa\u00f1ol (SV)",
+		    AD_Language_es_SV,  new Locale("es","SV"), new Boolean(true), "dd/MM/yyyy",
+			MediaSize.NA.LETTER),
+
 		new Language ("Espa\u00f1ol (MX)",
 			AD_Language_es_MX,  new Locale("es","MX"), new Boolean(true), "dd/MM/yyyy",
 			MediaSize.NA.LETTER),
@@ -135,8 +146,8 @@ public class Language implements Serializable
 			AD_Language_es_CO,  new Locale("es","ES"), new Boolean(false), "dd/MM/yyyy",
 			MediaSize.NA.LETTER),
 		new Language ("Espa\u00f1ol (VE)",
-			AD_Language_es_ES,  new Locale("es","ES"), new Boolean(false), "dd/MM/yyyy",
-			MediaSize.ISO.A4),				
+			AD_Language_es_VE,  new Locale("es","VE"), new Boolean(false), "dd/MM/yyyy",
+			MediaSize.NA.LETTER),				
 		new Language ("Espa\u00f1ol (EC)",
 			AD_Language_es_ES,  new Locale("es","ES"), new Boolean(false), "dd/MM/yyyy",
 			MediaSize.ISO.A4),
@@ -443,11 +454,11 @@ public class Language implements Serializable
 	{
 		if (name == null || AD_Language == null || locale == null)
 			throw new IllegalArgumentException ("Language - parameter is null");
-		m_name = name;
-		m_AD_Language = AD_Language;
-		m_locale = locale;
+		this.name = name;
+		this.language = AD_Language;
+		this.locale = locale;
 		//
-		m_decimalPoint = decimalPoint;
+		this.decimalPoint = decimalPoint;
 		setDateFormat (javaDatePattern);
 		setMediaSize (mediaSize);
 	}   //  Language
@@ -466,13 +477,13 @@ public class Language implements Serializable
 
 
 	/**	Name					*/
-	private String  m_name;
+	private String  name;
 	/**	Language (key)			*/
-	private String  m_AD_Language;
+	private String  language;
 	/** Locale					*/
-	private Locale  m_locale;
+	private Locale  locale;
 	//
-	private Boolean             m_decimalPoint;
+	private Boolean             decimalPoint;
 	private Boolean				m_leftToRight;
 	private SimpleDateFormat    m_dateFormat;
 	private MediaSize 			m_mediaSize = MediaSize.ISO.A4;
@@ -484,7 +495,7 @@ public class Language implements Serializable
 	 */
 	public String getName()
 	{
-		return m_name;
+		return name;
 	}   //  getName
 
 	/**
@@ -494,7 +505,7 @@ public class Language implements Serializable
 	 */
 	public String getAD_Language()
 	{
-		return m_AD_Language;
+		return language;
 	}   //  getAD_Language
 
 	/**
@@ -505,7 +516,7 @@ public class Language implements Serializable
 	{
 		if (AD_Language != null)
 		{
-			m_AD_Language = AD_Language;
+			language = AD_Language;
 			log.config(toString());
 		}
 	}   //  getAD_Language
@@ -516,7 +527,7 @@ public class Language implements Serializable
 	 */
 	public Locale getLocale()
 	{
-		return m_locale;
+		return locale;
 	}   //  getLocale
 
 	/**
@@ -527,8 +538,8 @@ public class Language implements Serializable
 	{
 		if (locale == null)
 			return;
-		m_locale = locale;
-		m_decimalPoint = null;  //  reset
+		this.locale = locale;
+		decimalPoint = null;  //  reset
 	}   //  getLocale
 
 	/**
@@ -538,7 +549,7 @@ public class Language implements Serializable
 	 */
 	public String getLanguageCode()
 	{
-		return m_locale.getLanguage();
+		return locale.getLanguage();
 	}   //  getLanguageCode
 
 	/**
@@ -549,7 +560,7 @@ public class Language implements Serializable
 	{
 		if (m_leftToRight == null)
 			//  returns true if language not iw, ar, fa, ur
-			m_leftToRight = new Boolean(ComponentOrientation.getOrientation(m_locale).isLeftToRight());
+			m_leftToRight = new Boolean(ComponentOrientation.getOrientation(locale).isLeftToRight());
 		return m_leftToRight.booleanValue();
 	}   //  isLeftToRight
 
@@ -559,12 +570,12 @@ public class Language implements Serializable
 	 */
 	public boolean isDecimalPoint()
 	{
-		if (m_decimalPoint == null)
+		if (decimalPoint == null)
 		{
-			DecimalFormatSymbols dfs = new DecimalFormatSymbols(m_locale);
-			m_decimalPoint = new Boolean(dfs.getDecimalSeparator() == '.');
+			DecimalFormatSymbols dfs = new DecimalFormatSymbols(locale);
+			decimalPoint = new Boolean(dfs.getDecimalSeparator() == '.');
 		}
-		return m_decimalPoint.booleanValue();
+		return decimalPoint.booleanValue();
 	}   //  isDecimalPoint
 
 	/**
@@ -589,7 +600,7 @@ public class Language implements Serializable
 		if (javaDatePattern == null)
 			return;
 		m_dateFormat = (SimpleDateFormat)DateFormat.getDateInstance
-				(DateFormat.SHORT, m_locale);
+				(DateFormat.SHORT, locale);
 		try
 		{
 			m_dateFormat.applyPattern(javaDatePattern);
@@ -612,7 +623,7 @@ public class Language implements Serializable
 		if (m_dateFormat == null)
 		{
 			m_dateFormat = (SimpleDateFormat)DateFormat.getDateInstance
-				(DateFormat.SHORT, m_locale);
+				(DateFormat.SHORT, locale);
 			String sFormat = m_dateFormat.toPattern();
 			//	some short formats have only one M and/or d (e.g. ths US)
 			if (sFormat.indexOf("MM") == -1 || sFormat.indexOf("dd") == -1)
@@ -654,7 +665,7 @@ public class Language implements Serializable
 	public SimpleDateFormat getDateTimeFormat()
 	{
 		SimpleDateFormat retValue = (SimpleDateFormat)DateFormat.getDateTimeInstance
-			(DateFormat.MEDIUM, DateFormat.LONG, m_locale);
+			(DateFormat.MEDIUM, DateFormat.LONG, locale);
 	//	log.finer("Pattern=" + retValue.toLocalizedPattern() + ", Loc=" + retValue.toLocalizedPattern());
 		return retValue;
 	}	//	getDateTimeFormat
@@ -667,7 +678,7 @@ public class Language implements Serializable
 	public SimpleDateFormat getTimeFormat()
 	{
 		return (SimpleDateFormat)DateFormat.getTimeInstance
-			(DateFormat.LONG, m_locale);
+			(DateFormat.LONG, locale);
 	}	//	getTimeFormat
 
 	/**
@@ -677,7 +688,7 @@ public class Language implements Serializable
 	 */
 	public String getDBdatePattern()
 	{
-		return getDateFormat().toPattern().toUpperCase(m_locale);
+		return getDateFormat().toPattern().toUpperCase(locale);
 	}   //  getDBdatePattern
 
 	/**
@@ -706,8 +717,8 @@ public class Language implements Serializable
 	public String toString()
 	{
 		StringBuffer sb = new StringBuffer("Language=[");
-		sb.append(m_name).append(",Locale=").append(m_locale.toString())
-			.append(",AD_Language=").append(m_AD_Language)
+		sb.append(name).append(",Locale=").append(locale.toString())
+			.append(",AD_Language=").append(language)
 			.append(",DatePattern=").append(getDBdatePattern())
 			.append(",DecimalPoint=").append(isDecimalPoint())
 			.append("]");
@@ -720,7 +731,7 @@ public class Language implements Serializable
 	 */
 	public int hashCode()
 	{
-		return m_AD_Language.hashCode();
+		return language.hashCode();
 	}	//	hashcode
 
 	/**
@@ -734,7 +745,7 @@ public class Language implements Serializable
 		if (obj instanceof Language)
 		{
 			Language cmp = (Language)obj;
-			if (cmp.getAD_Language().equals(m_AD_Language))
+			if (cmp.getAD_Language().equals(language))
 				return true;
 		}
 		return false;

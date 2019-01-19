@@ -27,28 +27,35 @@ import org.compiere.util.Util;
  *
  */
 public class ArrayExcelExporter extends AbstractExcelExporter {
-	private Properties m_ctx = null;
-	private ArrayList<ArrayList<Object>> m_data = null;
-	
-	public ArrayExcelExporter(Properties ctx, ArrayList<ArrayList<Object>> data) {
+	private Properties context = null;
+	private ArrayList<ArrayList<Object>> data = null;
+
+	/**
+	 * Export Array Exporter
+	 * @param context
+	 * @param data
+	 * @param dataIncludeHeader
+	 */
+	public ArrayExcelExporter(Properties context, ArrayList<ArrayList<Object>> data, Boolean dataIncludeHeader) {
 		super();
-		m_ctx = ctx;
-		m_data = data;
+		this.context = context;
+		this.data = data;
+		super.dataIncludeHeader = dataIncludeHeader;
 	}
 	
 	@Override
 	public Properties getCtx() {
-		return m_ctx;
+		return context;
 	}
 	
 	@Override
 	public int getColumnCount() {
-		return m_data.get(0).size();
+		return data.get(0).size();
 	}
 
 	@Override
 	public int getDisplayType(int row, int col) {
-		ArrayList<Object> dataRow = m_data.get(row+1);
+		ArrayList<Object> dataRow = data.get(row);
 		Object value = dataRow.get(col);
 		if (value == null)
 			;
@@ -75,22 +82,27 @@ public class ArrayExcelExporter extends AbstractExcelExporter {
 
 	@Override
 	public String getHeaderName(int col) {
-		Object o = m_data.get(0).get(col);
+		Object o = data.get(0).get(col);
 		String name = o != null ? o.toString() : null;
 		String nameTrl = Msg.translate(getLanguage(), name);
 		if (Util.isEmpty(nameTrl))
 			nameTrl = name;
 		return nameTrl;
 	}
+	
+	@Override
+	public String getFormatPattern(int col) {
+		return null;
+	}
 
 	@Override
 	public int getRowCount() {
-		return m_data.size() - 1;
+		return data.size();
 	}
 
 	@Override
 	public Object getValueAt(int row, int col) {
-		ArrayList<Object> dataRow = m_data.get(row+1);
+		ArrayList<Object> dataRow = data.get(row);
 		Object value = dataRow.get(col);
 		return value;
 	}

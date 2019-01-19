@@ -16,6 +16,7 @@
  *****************************************************************************/
 package org.compiere.model;
 
+import java.sql.ResultSet;
 import java.util.Properties;
 
 /**
@@ -47,5 +48,16 @@ public class MReplicationLog extends X_AD_Replication_Log
 		setIsReplicated(false);
 		setP_Msg(P_Msg);
 	}	//	MReplicationLog
+
+	/**
+	 * Load Constructor
+	 * @param ctx
+	 * @param rs
+	 * @param trxName
+     */
+	public MReplicationLog (Properties ctx, ResultSet rs, String trxName)
+	{
+		super(ctx, rs, trxName);
+	}
 
 }	//	MReplicationLog

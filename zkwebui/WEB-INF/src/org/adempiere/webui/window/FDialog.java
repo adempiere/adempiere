@@ -32,6 +32,9 @@ import org.adempiere.webui.component.Messagebox;
 /**
  *
  * @author  <a href="mailto:agramdass@gmail.com">Ashley G Ramdass</a>
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> Cancel action does not apply when delete a record
+ *		@see https://adempiere.atlassian.net/browse/ADEMPIERE-451
  * @date    Feb 25, 2007
  * @version $Revision: 0.10 $
  */
@@ -285,9 +288,8 @@ public class FDialog
     public static boolean ask(int windowNo, Component comp, String adMessage)
     {
     	// Display the message with no clear text component.
-    	ask(windowNo, comp, adMessage, null);
-    	
-        return true;
+    	//	Yamel Senih, Raúl Muñoz Add return instead true
+    	return ask(windowNo, comp, adMessage, null);
     }
     
     /**

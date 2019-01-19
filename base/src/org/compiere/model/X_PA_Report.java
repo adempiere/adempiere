@@ -1,8 +1,9 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -11,8 +12,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PA_Report
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_PA_Report extends PO implements I_PA_Report, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150223L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_PA_Report (Properties ctx, int PA_Report_ID, String trxName)
@@ -40,8 +40,6 @@ public class X_PA_Report extends PO implements I_PA_Report, I_Persistent
         {
 			setC_AcctSchema_ID (0);
 			setC_Calendar_ID (0);
-			setListSources (false);
-			setListTrx (false);
 			setName (null);
 			setPA_ReportColumnSet_ID (0);
 			setPA_ReportLineSet_ID (0);
@@ -77,6 +75,31 @@ public class X_PA_Report extends PO implements I_PA_Report, I_Persistent
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	public org.compiere.model.I_AD_PrintFormat getAD_PrintFormatHeader() throws RuntimeException
+    {
+		return (org.compiere.model.I_AD_PrintFormat)MTable.get(getCtx(), org.compiere.model.I_AD_PrintFormat.Table_Name)
+			.getPO(getAD_PrintFormatHeader_ID(), get_TrxName());	}
+
+	/** Set Header Print Format.
+		@param AD_PrintFormatHeader_ID Header Print Format	  */
+	public void setAD_PrintFormatHeader_ID (int AD_PrintFormatHeader_ID)
+	{
+		if (AD_PrintFormatHeader_ID < 1) 
+			set_Value (COLUMNNAME_AD_PrintFormatHeader_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_PrintFormatHeader_ID, Integer.valueOf(AD_PrintFormatHeader_ID));
+	}
+
+	/** Get Header Print Format.
+		@return Header Print Format	  */
+	public int getAD_PrintFormatHeader_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_PrintFormatHeader_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	public org.compiere.model.I_AD_PrintFormat getAD_PrintFormat() throws RuntimeException
     {
@@ -221,52 +244,52 @@ public class X_PA_Report extends PO implements I_PA_Report, I_Persistent
 		return (String)get_Value(COLUMNNAME_JasperProcessing);
 	}
 
+	/** ListSources AD_Reference_ID=319 */
+	public static final int LISTSOURCES_AD_Reference_ID=319;
+	/** Yes = Y */
+	public static final String LISTSOURCES_Yes = "Y";
+	/** No = N */
+	public static final String LISTSOURCES_No = "N";
 	/** Set List Sources.
 		@param ListSources 
 		List Report Line Sources
 	  */
-	public void setListSources (boolean ListSources)
+	public void setListSources (String ListSources)
 	{
-		set_Value (COLUMNNAME_ListSources, Boolean.valueOf(ListSources));
+
+		set_Value (COLUMNNAME_ListSources, ListSources);
 	}
 
 	/** Get List Sources.
 		@return List Report Line Sources
 	  */
-	public boolean isListSources () 
+	public String getListSources () 
 	{
-		Object oo = get_Value(COLUMNNAME_ListSources);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
+		return (String)get_Value(COLUMNNAME_ListSources);
 	}
 
+	/** ListTrx AD_Reference_ID=319 */
+	public static final int LISTTRX_AD_Reference_ID=319;
+	/** Yes = Y */
+	public static final String LISTTRX_Yes = "Y";
+	/** No = N */
+	public static final String LISTTRX_No = "N";
 	/** Set List Transactions.
 		@param ListTrx 
 		List the report transactions
 	  */
-	public void setListTrx (boolean ListTrx)
+	public void setListTrx (String ListTrx)
 	{
-		set_Value (COLUMNNAME_ListTrx, Boolean.valueOf(ListTrx));
+
+		set_Value (COLUMNNAME_ListTrx, ListTrx);
 	}
 
 	/** Get List Transactions.
 		@return List the report transactions
 	  */
-	public boolean isListTrx () 
+	public String getListTrx () 
 	{
-		Object oo = get_Value(COLUMNNAME_ListTrx);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
+		return (String)get_Value(COLUMNNAME_ListTrx);
 	}
 
 	/** Set Name.
@@ -445,5 +468,22 @@ public class X_PA_Report extends PO implements I_PA_Report, I_Persistent
 			return "Y".equals(oo);
 		}
 		return false;
+	}
+
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
 	}
 }

@@ -16,6 +16,8 @@
  *****************************************************************************/
 package org.compiere.model;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
 import java.sql.ResultSet;
 import java.util.Properties;
 
@@ -27,6 +29,9 @@ import org.compiere.util.Env;
  *	
  *  @author Jorg Janke
  *  @version $Id: MCommissionLine.java,v 1.3 2006/07/30 00:51:05 jjanke Exp $
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * 		<a href="https://github.com/adempiere/adempiere/issues/1080">
+ * 		@see FR [ 1080 ] Commission: percentage definition not only as multiplier, but also as percentage</a>
  */
 public class MCommissionLine extends X_C_CommissionLine
 {
@@ -68,6 +73,18 @@ public class MCommissionLine extends X_C_CommissionLine
 		super(ctx, rs, trxName);
 	}	//	MCommissionLine
 
-	
+	@Override
+	public BigDecimal getAmtMultiplier() {
+		BigDecimal multiplier = super.getAmtMultiplier();
+		//	Validate possible NPE
+		if(multiplier == null) {
+			multiplier = Env.ZERO;
+		}
+		//	Apply percentage
+		if(isPercentage()) {
+			multiplier = multiplier.divide(Env.ONEHUNDRED, MathContext.DECIMAL128);
+		}
+		return multiplier;
+	}
 	
 }	//	MCommissionLine

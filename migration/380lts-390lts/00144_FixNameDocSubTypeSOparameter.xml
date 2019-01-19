@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Fix name DocSubTypeSO parameter" ReleaseNo="3.9.0" SeqNo="00144">
+    <Comments>Fix name DocSubTypeSO parameter</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="55361" Table="AD_Process_Para">
+        <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" oldValue="183">148</Data>
+        <Data AD_Column_ID="7729" Column="AD_Element_ID" oldValue="865">1018</Data>
+        <Data AD_Column_ID="4017" Column="ColumnName" oldValue="DocBaseType">DocSubTypeSO</Data>
+        <Data AD_Column_ID="2823" Column="Description" isOldNull="true">Sales Order Sub Type</Data>
+        <Data AD_Column_ID="2824" Column="Help" isOldNull="true">The SO Sub Type indicates the type of sales order this document refers to.  This field only appears when the Document Base Type is Sales Order.  The selection made here will determine which documents will be generated when an order is processed and which documents must be generated manually or in batches.  &lt;br&gt;
+The following outlines this process.&lt;br&gt;
+SO Sub Type of &lt;b&gt;Standard Order&lt;/b&gt; will generate just the &lt;b&gt;Order&lt;/b&gt; document when the order is processed.  &lt;br&gt;
+The &lt;b&gt;Delivery Note&lt;/b&gt;, &lt;b&gt;Invoice&lt;/b&gt; and &lt;b&gt;Receipt&lt;/b&gt; must be generated via other processes.  &lt;br&gt;
+SO Sub Type of &lt;b&gt;Warehouse Order&lt;/b&gt; will generate the &lt;b&gt;Order&lt;/b&gt; and &lt;b&gt;Delivery Note&lt;/b&gt;. &lt;br&gt; The &lt;b&gt;Invoice&lt;/b&gt; and &lt;b&gt;Receipt&lt;/b&gt; must be generated via other processes.&lt;br&gt;
+SO Sub Type of &lt;b&gt;Credit Order&lt;/b&gt; will generate the &lt;b&gt;Order&lt;/b&gt;, &lt;b&gt;Delivery Note&lt;/b&gt; and &lt;b&gt;Invoice&lt;/b&gt;. &lt;br&gt; The &lt;b&gt;Receipt&lt;/b&gt; must be generated via other processes.&lt;br&gt;
+SO Sub Type of &lt;b&gt;POS&lt;/b&gt; (Point of Sale) will generate all document</Data>
+        <Data AD_Column_ID="2822" Column="Name" oldValue="DocBaseType">SO Sub Type</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

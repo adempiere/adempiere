@@ -1,0 +1,106 @@
+/******************************************************************************
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2011, Michael McKay, All Rights Reserved.                    *
+ * This program is free software; you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ *                                                                            *
+ * @Author Michael McKay (mjmckay)                                            *
+ *                                                                            *
+ ******************************************************************************/
+/**
+ * Test Flow Main Functional Tests
+ * 
+ * Pricelist Setup
+ * 
+ * This test flow creates the price list used in the Main
+ * Functional Tests
+ * 
+ * See http://wiki.adempiere.net/Functional_Tests
+ * 
+ **/
+// Local test - un-comment next three lines if running just this file
+//var $mft_pricelist_setup_CSVFilePath = "../material_management/tf_mft_pricelist_setup.csv";
+//_include("../../lib/common_functions.sah");
+//mft_pricelist_setup();
+
+// General test - un-comment if including this file in a scenario
+var $mft_pricelist_setup_CSVFilePath = "../test/material_management/tf_mft_pricelist_setup.csv";
+
+//  Keep this for both single test or scenario
+var $mft_pricelist_setup_OldName = "";  
+
+function mft_pricelist_setup_detail(
+		$Name,
+		$Description,
+		$IsDefault,
+		$C_Currency_ID,
+		$PricePrecision,
+		$IsSOPriceList,
+		$IsTaxIncluded,
+		$EnforcePriceLimit,
+		$V_Name,
+		$V_Description,
+		$M_DiscountSchema_ID,
+		$M_Pricelist_Version_Base_ID,
+		$ValidFrom
+	){
+	
+	_log("$mft_pricelist_setup_OldName=" + $mft_pricelist_setup_OldName + " $Name="+ $Name + " " + ($mft_pricelist_setup_OldName!=$Name));
+	// Main Schema tab
+	if($mft_pricelist_setup_OldName!=$Name){
+
+		// New Price List
+		wOpenTab("Price List");
+		iFormView();
+		iNewRecord();
+		fSetText("Name",$Name);
+		fSetText("Description",$Description);          	
+		fSetCheckbox("IsDefault",$IsDefault);
+		fSetList("C_Currency_ID",$C_Currency_ID);
+		fSetAmount("PricePrecision",$PricePrecision);
+		fSetCheckbox("IsSOPriceList",$IsSOPriceList);
+		fSetCheckbox("IsTaxIncluded",$IsTaxIncluded);
+		fSetCheckbox("EnforcePriceLimit",$EnforcePriceLimit);
+		iSaveRecord();
+		_set($mft_pricelist_setup_OldName,$Name);
+		_assertEqual($mft_pricelist_setup_OldName, $Name, "*** Not Equal!!");
+	}
+
+	wOpenTab("Version");
+	iFormView();
+	fSetText("Name",$V_Name);
+	fSetText("Description",$V_Description);
+	fSetListRq("M_DiscountSchema_ID",$M_DiscountSchema_ID,"Y");
+	fSetListRq("M_Pricelist_Version_Base_ID",$M_Pricelist_Version_Base_ID,"Y");
+	fSetText("ValidFrom",$ValidFrom);
+
+	iSaveRecord();	
+	
+	fClickButton("ProcCreate");
+	_wait(2000);
+	iOk();
+	_wait(120000,_div("Price List " + $V_Name));
+	iConfirm();
+	iRefresh();
+}
+
+function mft_pricelist_setup(){
+	
+	var $data = _readCSVFile($mft_pricelist_setup_CSVFilePath);
+	
+	wOpenWindow("Price List");
+	
+	_dataDrive(mft_pricelist_setup_detail, $data);
+
+	wCloseWindow("Price List");
+
+	_log("MFT_Pricelist_Setup completed");
+}
+

@@ -17,12 +17,15 @@
 package org.compiere.swing;
 
 import java.awt.Color;
+import java.beans.PropertyChangeEvent;
 
 import javax.swing.Action;
 import javax.swing.Icon;
 import javax.swing.JToggleButton;
 
+import org.adempiere.exceptions.ValueChangeListener;
 import org.adempiere.plaf.AdempierePLAF;
+import org.compiere.model.GridField;
 import org.compiere.plaf.CompiereColor;
 import org.compiere.plaf.CompiereLookAndFeel;
 
@@ -262,5 +265,23 @@ public class CToggleButton extends JToggleButton implements CEditor
 	{
 		return getText();
 	}   //  getDisplay
+
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addValueChangeListener(ValueChangeListener listener) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public GridField getField() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }   //  CToggleButton

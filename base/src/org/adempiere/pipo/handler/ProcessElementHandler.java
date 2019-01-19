@@ -67,15 +67,16 @@ public class ProcessElementHandler extends AbstractElementHandler {
 				Object_Status = "Update";
 			} else {
 				m_Process = new X_AD_Process(ctx, id, getTrxName(ctx));
-				if (id <= 0 && atts.getValue("AD_Process_ID") != null && Integer.parseInt(atts.getValue("AD_Process_ID")) <= PackOut.MAX_OFFICIAL_ID)
+				if (id <= 0 && atts.getValue("AD_Process_ID") != null && Integer.parseInt(atts.getValue("AD_Process_ID")) <= PackOut.MAX_OFFICIAL_ID) {
 					m_Process.setAD_Process_ID(Integer.parseInt(atts.getValue("AD_Process_ID")));
+					m_Process.setIsDirectLoad(true);
+				}
 				Object_Status = "New";
 				AD_Backup_ID = 0;
 			}
 
 			String name = atts.getValue("Name");
 			m_Process.setName(name);
-
 			name = atts.getValue("ADWorkflowNameID");
 			if (name != null && name.trim().length() > 0) {
 				    id = get_IDWithColumn(ctx, "AD_Workflow", "Name", name);

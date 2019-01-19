@@ -29,7 +29,6 @@ import org.compiere.model.X_I_BankStatement;
  *	Bank Statement Matching
  *	
  *  @author Jorg Janke
- *  @version $Id: BankStatementMatcher.java,v 1.3 2006/09/25 00:59:41 jjanke Exp $
  */
 public class BankStatementMatcher extends SvrProcess
 {
@@ -60,20 +59,21 @@ public class BankStatementMatcher extends SvrProcess
 	 */
 	protected String doIt() throws Exception
 	{
-		int Table_ID = getTable_ID();
-		int Record_ID = getRecord_ID();
+		int tableId = getTable_ID();
+		int recordId = getRecord_ID();
 		if (m_matchers == null || m_matchers.length == 0)
 			throw new IllegalStateException("No Matchers found");
 		//
-		log.info ("doIt - Table_ID=" + Table_ID + ", Record_ID=" + Record_ID
-			+ ", Matchers=" + m_matchers.length);
+		log.info ("doIt - Table_ID=" + tableId + ", Record_ID=" + recordId + ", Matchers=" + m_matchers.length);
 		
-		if (Table_ID == X_I_BankStatement.Table_ID)
-			return match (new X_I_BankStatement(getCtx(), Record_ID, get_TrxName()));
-		else if (Table_ID == MBankStatement.Table_ID)
-			return match (new MBankStatement(getCtx(), Record_ID, get_TrxName()));
-		else if (Table_ID == MBankStatementLine.Table_ID)
-			return match (new MBankStatementLine(getCtx(), Record_ID, get_TrxName()));
+		if (tableId == X_I_BankStatement.Table_ID)
+			return matchImportBankStatement (new X_I_BankStatement(getCtx(), recordId, get_TrxName()));
+		
+		else if (tableId == MBankStatement.Table_ID)
+			return matchBankStatement (new MBankStatement(getCtx(), recordId, get_TrxName()));
+
+		else if (tableId == MBankStatementLine.Table_ID)
+			return matchBankStatementLine (new MBankStatementLine(getCtx(), recordId, get_TrxName()));
 		
 		return "??";
 	}	//	doIt
@@ -83,7 +83,7 @@ public class BankStatementMatcher extends SvrProcess
 	 *	@param ibs import bank statement line
 	 *	@return Message
 	 */
-	private String match (X_I_BankStatement ibs)
+	private String matchImportBankStatement (X_I_BankStatement ibs)
 	{
 		if (m_matchers == null || ibs == null || ibs.getC_Payment_ID() != 0)
 			return "--";
@@ -109,7 +109,7 @@ public class BankStatementMatcher extends SvrProcess
 			}
 		}	//	for all matchers
 		return "--";
-	}	//	match 
+	}
 
 
 	/**
@@ -117,7 +117,7 @@ public class BankStatementMatcher extends SvrProcess
 	 *	@param bsl bank statement line
 	 *	@return Message
 	 */
-	private String match (MBankStatementLine bsl)
+	private String matchBankStatementLine (MBankStatementLine bsl)
 	{
 		if (m_matchers == null || bsl == null || bsl.getC_Payment_ID() != 0)
 			return "--";
@@ -143,14 +143,14 @@ public class BankStatementMatcher extends SvrProcess
 			}
 		}	//	for all matchers
 		return "--";
-	}	//	match 
+	}
 
 	/**
 	 * 	Perform Match
 	 *	@param bs bank statement
 	 *	@return Message
 	 */
-	private String match (MBankStatement bs)
+	private String matchBankStatement (MBankStatement bs)
 	{
 		if (m_matchers == null || bs == null)
 			return "--";
@@ -161,11 +161,11 @@ public class BankStatementMatcher extends SvrProcess
 		{
 			if (lines[i].getC_Payment_ID() == 0)
 			{
-				match(lines[i]);
+				matchBankStatementLine(lines[i]);
 				count++;
 			}
 		}
 		return String.valueOf(count);
-	}	//	match 
+	}
 
 }	//	BankStatementMatcher

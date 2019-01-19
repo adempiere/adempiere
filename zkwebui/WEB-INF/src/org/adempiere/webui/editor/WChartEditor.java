@@ -22,7 +22,7 @@ import java.util.logging.Level;
 
 import org.adempiere.apps.graph.GraphColumn;
 import org.adempiere.webui.apps.AEnv;
-import org.adempiere.webui.event.ValueChangeEvent;
+import org.adempiere.exceptions.ValueChangeEvent;
 import org.adempiere.webui.window.WImageDialog;
 import org.compiere.model.GridField;
 import org.compiere.model.MChart;

@@ -17,17 +17,16 @@
 
 package org.adempiere.webui.component;
 
-import java.util.Properties;
+import java.io.IOException;
 
-import org.adempiere.webui.LayoutUtils;
 import org.adempiere.webui.apps.AEnv;
-import org.compiere.util.Env;
-import org.compiere.util.Msg;
-import org.compiere.util.Util;
+import org.compiere.util.CLogger;
+import org.zkforge.keylistener.Keylistener;
 import org.zkoss.zhtml.Text;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zk.ui.event.KeyEvent;
 import org.zkoss.zul.Hbox;
 import org.zkoss.zul.Image;
 import org.zkoss.zul.Separator;
@@ -37,8 +36,10 @@ import org.zkoss.zul.Separator;
 *
 * @author  Niraj Sohun
 * @date    Jul 31, 2007
+* @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<a href="https://github.com/adempiere/adempiere/issues/609">
+ * 		@see FR [ 609 ] Confirm dialog for ZK don't have a Standard ADempiere Buttons</a>
 */
-
 public class Messagebox extends Window implements EventListener
 {	
 	/**
@@ -48,6 +49,8 @@ public class Messagebox extends Window implements EventListener
 	private static final String MESSAGE_PANEL_STYLE = "text-align:left; word-break: break-all; overflow: auto; max-height: 350pt; min-width: 230pt; max-width: 450pt;";	
 	private String msg = new String("");
 	private String imgSrc = new String("");
+	/**	Logger			*/
+	public static CLogger log = CLogger.getCLogger(Messagebox.class);
 
 	private Text lblMsg = new Text();
 
@@ -68,37 +71,42 @@ public class Messagebox extends Window implements EventListener
 
 	/** A Cancel button. */
 	public static final int CANCEL = 0x0002;
-
+	@Deprecated
 	/** A Yes button. */
 	public static final int YES = 0x0010;
-
+	@Deprecated
 	/** A No button. */
 	public static final int NO = 0x0020;
-
+	@Deprecated
 	/** A Abort button. */
 	public static final int ABORT = 0x0100;
-
+	@Deprecated
 	/** A Retry button. */
 	public static final int RETRY = 0x0200;
-
+	@Deprecated
 	/** A IGNORE button. */
 	public static final int IGNORE = 0x0400;
 
 	/** A symbol consisting of a question mark in a circle. */
-	public static final String QUESTION = "~./zul/img/msgbox/question-btn.png";
+	public static final String QUESTION = "/images/dark/Question-btn.png";
 
 	/** A symbol consisting of an exclamation point in a triangle with a yellow background. */
-	public static final String EXCLAMATION  = "~./zul/img/msgbox/warning-btn.png";
+	public static final String EXCLAMATION  = "/images/dark/Warning-btn.png";
 
 	/** A symbol of a lowercase letter i in a circle. */
-	public static final String INFORMATION = "~./zul/img/msgbox/info-btn.png";
+	public static final String INFORMATION = "/images/dark/Info-btn.png";
 
 	/** A symbol consisting of a white X in a circle with a red background. */
-	public static final String ERROR = "~./zul/img/msgbox/stop-btn.png";
+	public static final String ERROR = "/images/dark/Stop-btn.png";
 
 	/** Contains no symbols. */
 	public static final String NONE = null;
-
+	
+	/**	 */
+	private Keylistener keyListener;
+	
+	private static final int KEYBOARD_KEY_RETURN = 13;
+	
 	public Messagebox()
 	{
 		super();
@@ -106,46 +114,65 @@ public class Messagebox extends Window implements EventListener
 
 	private void init()
 	{
-		Properties ctx = Env.getCtx();
 		lblMsg.setValue(msg);
-
-		btnCancel.setLabel(Util.cleanAmp(Msg.getMsg(ctx, "Cancel")));
-		btnCancel.setImage("/images/Cancel16.png");
-		btnCancel.addEventListener(Events.ON_CLICK, this);
-		LayoutUtils.addSclass("action-text-button", btnCancel);
 		
-		btnOk.setLabel(Util.cleanAmp(Msg.getMsg(ctx, "OK")));
-		btnOk.setImage("/images/Ok16.png");
-		btnOk.addEventListener(Events.ON_CLICK, this);
-		LayoutUtils.addSclass("action-text-button", btnOk);
-
-		btnYes.setLabel(Util.cleanAmp(Msg.getMsg(ctx, "Yes")));
-		btnYes.setImage("/images/Ok16.png");
-		btnYes.addEventListener(Events.ON_CLICK, this);
-		LayoutUtils.addSclass("action-text-button", btnYes);
-
-		btnNo.setLabel(Util.cleanAmp(Msg.getMsg(ctx, "No")));
-		btnNo.setImage("/images/Cancel16.png");
-		btnNo.addEventListener(Events.ON_CLICK, this);
-		LayoutUtils.addSclass("action-text-button", btnNo);
-
-		btnAbort.setLabel("Abort");
-		btnAbort.addEventListener(Events.ON_CLICK, this);
-		LayoutUtils.addSclass("action-text-button", btnAbort);
-
-		btnRetry.setLabel("Retry");
-		btnRetry.addEventListener(Events.ON_CLICK, this);
-		LayoutUtils.addSclass("action-text-button", btnRetry);
-
-		btnIgnore.setLabel("Ignore");
-		btnIgnore.setImage("/images/Ignore16.png");
-		btnIgnore.addEventListener(Events.ON_CLICK, this);
-		LayoutUtils.addSclass("action-text-button", btnIgnore);
+		WAppsAction action;
+		try {
+			//	For Cancel
+			action = new WAppsAction (ConfirmPanel.A_CANCEL, null, ConfirmPanel.A_CANCEL);
+			btnCancel = action.getButton();
+			btnCancel.addEventListener(Events.ON_CLICK, this);
+			//	For Ok
+			action = new WAppsAction (ConfirmPanel.A_OK, null, ConfirmPanel.A_OK);
+			btnOk = action.getButton();
+			btnOk.addEventListener(Events.ON_CLICK, this);
+			//	For Yes
+			action = new WAppsAction (ConfirmPanel.A_OK, null, ConfirmPanel.A_OK);
+			btnYes = action.getButton();
+			btnYes.addEventListener(Events.ON_CLICK, this);
+			btnYes.setName("btnYes");
+			btnYes.setId("btnYes");
+			//	For No
+			action = new WAppsAction (ConfirmPanel.A_CANCEL, null, ConfirmPanel.A_CANCEL);
+			btnNo = action.getButton();
+			btnNo.addEventListener(Events.ON_CLICK, this);
+			btnYes.setName("btnNo");
+			btnYes.setId("btnNo");
+			//	For Abort
+			action = new WAppsAction (ConfirmPanel.A_CANCEL, null, ConfirmPanel.A_CANCEL);
+			btnAbort = action.getButton();
+			btnAbort.addEventListener(Events.ON_CLICK, this);
+			btnAbort.setLabel("Abort");
+			btnAbort.setName("btnAbort");
+			btnAbort.setId("btnAbort");
+			//	For Retry
+			action = new WAppsAction (ConfirmPanel.A_CANCEL, null, ConfirmPanel.A_CANCEL);
+			btnRetry = action.getButton();
+			btnRetry.addEventListener(Events.ON_CLICK, this);
+			btnRetry.setLabel("Retry");
+			btnRetry.setName("btnRetry");
+			btnRetry.setId("btnRetry");
+			//	For Ignore
+			action = new WAppsAction (ConfirmPanel.A_CANCEL, null, ConfirmPanel.A_CANCEL);
+			btnIgnore = action.getButton();
+			btnIgnore.addEventListener(Events.ON_CLICK, this);
+			btnIgnore.setLabel("Ignore");
+			btnIgnore.setName("btnIgnore");
+			btnIgnore.setId("btnIgnore");
+		} catch (IOException e) {
+			log.warning("Error loading buttons " + e.getLocalizedMessage());
+		}
 
 		Panel pnlMessage = new Panel();
 		pnlMessage.setStyle(MESSAGE_PANEL_STYLE);
 		pnlMessage.appendChild(lblMsg);
+
+		keyListener = new Keylistener();
 		
+		keyListener.setCtrlKeys("#enter");
+		keyListener.addEventListener(Events.ON_CTRL_KEY, this);
+		addEventListener(Events.ON_CANCEL, this);
+		appendChild(keyListener);
 		Hbox pnlImage = new Hbox();
 
 		img.setSrc(imgSrc);
@@ -194,7 +221,9 @@ public class Messagebox extends Window implements EventListener
 	{
 		this.msg = message;
 		this.imgSrc = icon;
-
+		
+		init();
+		
 		btnOk.setVisible(false);
 		btnCancel.setVisible(false);
 		btnYes.setVisible(false);
@@ -224,8 +253,6 @@ public class Messagebox extends Window implements EventListener
 		if ((buttons & IGNORE) != 0)
 			btnIgnore.setVisible(true);
 
-		init();
-
 		this.setTitle(title);
 		this.setPosition("center");
 		this.setClosable(true);
@@ -252,12 +279,20 @@ public class Messagebox extends Window implements EventListener
 	{
 		if (event == null)
 			return;
-
-		if (event.getTarget() == btnOk)
+		
+		if (event.getName().equals(Events.ON_CTRL_KEY) && event.getTarget() == keyListener) {
+				
+				KeyEvent keyEvent = (KeyEvent) event;
+				int code = keyEvent.getKeyCode();
+				if (code == KEYBOARD_KEY_RETURN) {
+					returnValue = OK; 
+				}
+		 }
+		if (event.getTarget() == btnOk || event.getName().equals(Events.ON_OK))
 		{
 			returnValue = OK;
 		}
-		else if (event.getTarget() == btnCancel)
+		else if (event.getTarget() == btnCancel || event.getName().equals(Events.ON_CANCEL))
 		{
 			returnValue = CANCEL;
 		}

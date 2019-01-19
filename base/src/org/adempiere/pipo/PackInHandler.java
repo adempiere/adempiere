@@ -101,6 +101,7 @@ import org.compiere.util.Env;
 import org.compiere.util.Trx;
 import org.compiere.wf.MWFNode;
 import org.compiere.wf.MWorkflow;
+import org.spin.util.XMLUtils;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
@@ -172,7 +173,8 @@ public class PackInHandler extends DefaultHandler {
 		}
 		streamResult_document = new StreamResult(fw_document);		
 		tf_document = (SAXTransformerFactory) SAXTransformerFactory.newInstance();	
-		
+		//	Default features
+		XMLUtils.setDefaultFeatures(tf_document);
 		try {
 			logDocument = tf_document.newTransformerHandler();
 		} catch (TransformerConfigurationException e2) {

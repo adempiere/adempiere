@@ -12,7 +12,7 @@ html,body {
 
 <%-- login --%>
 .login-window {
-	background-color: #FAFAFA;
+	background-color: #003764;
 }
 
 .login-box-body {
@@ -155,7 +155,7 @@ html,body {
 	background-position: bottom left;
 	background-color: white;
 	width: 100%;
-	height: 80px;
+	height: 50px;
 }
 
 .desktop-header-font {
@@ -240,7 +240,7 @@ div.wc-modal, div.wc-modal-none, div.wc-highlighted, div.wc-highlighted-none {
 }
 
 .adwindow-nav-content {
-	background-color: #FAFAFA;
+	background-color: #f0faff;
 	height: 100%;
 	width:110px;
 	-moz-box-shadow: inset 0 0 5px #333;
@@ -282,7 +282,7 @@ div.wc-modal, div.wc-modal-none, div.wc-highlighted, div.wc-highlighted-none {
 	-moz-box-shadow: 0 0 5px #333;
 	-webkit-box-shadow: 0 0 5px #333;
 	box-shadow: 0 0 5px #333;
-	
+
 
 	background-color: #0068c5 !important;
 	background-image: url(../images/adtab-left-bg.png);
@@ -374,7 +374,7 @@ div.wc-modal, div.wc-modal-none, div.wc-highlighted, div.wc-highlighted-none {
 	height: 100%;
 	position: absolute;
 	background-color: #EDEDED;
-	
+
 }
 
 .adtab-grid-panel {
@@ -387,7 +387,7 @@ div.wc-modal, div.wc-modal-none, div.wc-highlighted, div.wc-highlighted-none {
 .adtab-grid {
 	width: 100%;
 	position: absolute;
-	
+
 }
 
 .adtab-tabpanels {
@@ -396,7 +396,7 @@ div.wc-modal, div.wc-modal-none, div.wc-highlighted, div.wc-highlighted-none {
 	border-bottom: 1px solid #9CBDFF;
 	border-left: 2px solid #9CBDFF;
 	border-right: 2px solid #9CBDFF;
-	
+
 }
 
 <%-- status bar --%>
@@ -437,7 +437,7 @@ div.wc-modal, div.wc-modal-none, div.wc-highlighted, div.wc-highlighted-none {
 }
 
 .message-error-text{
-	color: black; 
+	color: black;
 	font-weight: bold;
 	margin-top:10px;
 }
@@ -445,11 +445,11 @@ div.wc-modal, div.wc-modal-none, div.wc-highlighted, div.wc-highlighted-none {
 
 
 .message-info{
-	background-color:#DDE3EB;
+	background-color:#FFFFFF;
 }
 
 .message-info-text{
-	color: black; 
+	color: black;
 	font-weight: bold;
 }
 
@@ -459,7 +459,7 @@ div.wc-modal, div.wc-modal-none, div.wc-highlighted, div.wc-highlighted-none {
 }
 
 .message-warning-text{
-	color: black; 
+	color: black;
 	font-weight: bold;
 }
 
@@ -549,4 +549,76 @@ tr.z-row td.z-row-inner{
 	border-bottom: 0px solid #DDE3EB;
 	border-left: 0;
 	border-right: 0px solid #DDE3EB;
+}
+
+<%-- Document Status Indicator First Column - Number --%>
+.docStatus td:first-child {
+	width : 60px;
+	text-align : right;
+
+}
+
+.docStatus-sep {
+	min-width :10px !important;
+}
+
+<%-- Document Status Indicator 3rd Column - Name Label --%>
+
+.docStatus td {
+	text-align : left;
+}
+
+
+input[type="checkbox"]  {
+
+	border: 1px solid #bbbbbb;
+	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05);
+	padding: 9px;
+	display: inline-block;
+	position: relative;
+	appearance: none;
+	-webkit-appearance: initial !important;
+
+}
+
+input[type="checkbox"] :active, input[type="checkbox"]:checked :active {
+	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px 1px 3px rgba(0,0,0,0.1);
+}
+
+input[type="checkbox"]:checked  {
+	background-color: #e9ecee;
+	border: 1px solid #adb8c0;
+	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05), inset 15px 10px -12px rgba(255,255,255,0.1);
+	color: #99a1a7;
+	background   : url('../images/zul/input/check.png')
+
+}
+input[type="checkbox"]:disabled {
+    border: 1px solid #f0f0f0 !important;
+    background: f0f0f0;
+    }
+input[type="checkbox"]:checked :after {
+	background   : url('../images/zul/input/check.png')
+	font-size: 14px;
+	position: absolute;
+	top: 0px;
+	left: 3px;
+	color: #99a1a7;
+}
+.z-checkbox-cnt {
+	position: relative;
+    bottom: 8px;
+}
+
+.z-tab-close {
+    background-image: url(../images/zul/tab/tab-close.png);
+    background-repeat: no-repeat;
+    cursor: pointer;
+    display: block;
+    width: 12px;
+    height: 22px;
+    position: absolute;
+    right: 1px; 
+    top: 1px;
+    z-index: 15;
 }

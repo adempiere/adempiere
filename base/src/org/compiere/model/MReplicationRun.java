@@ -16,6 +16,7 @@
  *****************************************************************************/
 package org.compiere.model;
 
+import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
 
@@ -46,6 +47,16 @@ public class MReplicationRun extends X_AD_Replication_Run
 		super.setIsReplicated (false);
 	}	//	MReplicationRun
 
+	/**
+	 * Load Constructor
+	 * @param ctx
+	 * @param rs
+	 * @param trxName
+     */
+	public MReplicationRun (Properties ctx, ResultSet rs, String trxName)
+	{
+		super(ctx, rs, trxName);
+	}
 	/**
 	 * 	Set Replication Flag
 	 * 	@param IsReplicated replicated

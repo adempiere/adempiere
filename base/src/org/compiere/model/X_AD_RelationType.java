@@ -1,8 +1,9 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -11,8 +12,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_RelationType
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_AD_RelationType extends PO implements I_AD_RelationType, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150223L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_AD_RelationType (Properties ctx, int AD_RelationType_ID, String trxName)
@@ -217,6 +217,34 @@ public class X_AD_RelationType extends PO implements I_AD_RelationType, I_Persis
 	public static final String ROLE_SOURCE_Order = "Order";
 	/** Invoice = Invoice */
 	public static final String ROLE_SOURCE_Invoice = "Invoice";
+	/** Invoice Open = InvoiceOpen */
+	public static final String ROLE_SOURCE_InvoiceOpen = "InvoiceOpen";
+	/** Unallocated Payments = UnallocatedPayments */
+	public static final String ROLE_SOURCE_UnallocatedPayments = "UnallocatedPayments";
+	/** Sales Invoice Open = SalesInvoiceOpen */
+	public static final String ROLE_SOURCE_SalesInvoiceOpen = "SalesInvoiceOpen";
+	/** Vendor Invoice Open = VendorInvoiceOpen */
+	public static final String ROLE_SOURCE_VendorInvoiceOpen = "VendorInvoiceOpen";
+	/** Sales Invoice Allocated = SalesInvoiceAllocated */
+	public static final String ROLE_SOURCE_SalesInvoiceAllocated = "SalesInvoiceAllocated";
+	/** Vendor Invoice Allocated = VendorInvoiceAllocated */
+	public static final String ROLE_SOURCE_VendorInvoiceAllocated = "VendorInvoiceAllocated";
+	/** Payment Allocated = PaymentAllocated */
+	public static final String ROLE_SOURCE_PaymentAllocated = "PaymentAllocated";
+	/** Invoice Matched = InvoiceMatched */
+	public static final String ROLE_SOURCE_InvoiceMatched = "InvoiceMatched";
+	/** Order Matched = OrderMatched */
+	public static final String ROLE_SOURCE_OrderMatched = "OrderMatched";
+	/** Receipt Matched = ReceiptMatched */
+	public static final String ROLE_SOURCE_ReceiptMatched = "ReceiptMatched";
+	/** View Matched Receipt Line = ViewMatchedReceiptLine */
+	public static final String ROLE_SOURCE_ViewMatchedReceiptLine = "ViewMatchedReceiptLine";
+	/** View Matched Order Line = ViewMatchedOrdertLine */
+	public static final String ROLE_SOURCE_ViewMatchedOrderLine = "ViewMatchedOrdertLine";
+	/** Deposit from Cash = DepositFromCash */
+	public static final String ROLE_SOURCE_DepositFromCash = "DepositFromCash";
+	/** Cash from Deposit = CashFromDeposit */
+	public static final String ROLE_SOURCE_CashFromDeposit = "CashFromDeposit";
 	/** Set Source Role.
 		@param Role_Source 
 		If set, this role will be used as label for the zoom destination instead of the destinations's window name
@@ -241,6 +269,34 @@ public class X_AD_RelationType extends PO implements I_AD_RelationType, I_Persis
 	public static final String ROLE_TARGET_Order = "Order";
 	/** Invoice = Invoice */
 	public static final String ROLE_TARGET_Invoice = "Invoice";
+	/** Invoice Open = InvoiceOpen */
+	public static final String ROLE_TARGET_InvoiceOpen = "InvoiceOpen";
+	/** Unallocated Payments = UnallocatedPayments */
+	public static final String ROLE_TARGET_UnallocatedPayments = "UnallocatedPayments";
+	/** Sales Invoice Open = SalesInvoiceOpen */
+	public static final String ROLE_TARGET_SalesInvoiceOpen = "SalesInvoiceOpen";
+	/** Vendor Invoice Open = VendorInvoiceOpen */
+	public static final String ROLE_TARGET_VendorInvoiceOpen = "VendorInvoiceOpen";
+	/** Sales Invoice Allocated = SalesInvoiceAllocated */
+	public static final String ROLE_TARGET_SalesInvoiceAllocated = "SalesInvoiceAllocated";
+	/** Vendor Invoice Allocated = VendorInvoiceAllocated */
+	public static final String ROLE_TARGET_VendorInvoiceAllocated = "VendorInvoiceAllocated";
+	/** Payment Allocated = PaymentAllocated */
+	public static final String ROLE_TARGET_PaymentAllocated = "PaymentAllocated";
+	/** Invoice Matched = InvoiceMatched */
+	public static final String ROLE_TARGET_InvoiceMatched = "InvoiceMatched";
+	/** Order Matched = OrderMatched */
+	public static final String ROLE_TARGET_OrderMatched = "OrderMatched";
+	/** Receipt Matched = ReceiptMatched */
+	public static final String ROLE_TARGET_ReceiptMatched = "ReceiptMatched";
+	/** View Matched Receipt Line = ViewMatchedReceiptLine */
+	public static final String ROLE_TARGET_ViewMatchedReceiptLine = "ViewMatchedReceiptLine";
+	/** View Matched Order Line = ViewMatchedOrdertLine */
+	public static final String ROLE_TARGET_ViewMatchedOrderLine = "ViewMatchedOrdertLine";
+	/** Deposit from Cash = DepositFromCash */
+	public static final String ROLE_TARGET_DepositFromCash = "DepositFromCash";
+	/** Cash from Deposit = CashFromDeposit */
+	public static final String ROLE_TARGET_CashFromDeposit = "CashFromDeposit";
 	/** Set Target Role.
 		@param Role_Target 
 		If set, this role will be used as label for the zoom destination instead of the destinations's window name
@@ -281,5 +337,22 @@ public class X_AD_RelationType extends PO implements I_AD_RelationType, I_Persis
 	public String getType () 
 	{
 		return (String)get_Value(COLUMNNAME_Type);
+	}
+
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
 	}
 }

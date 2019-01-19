@@ -1,8 +1,9 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -11,31 +12,27 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.eevolution.model;
 
-import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.model.*;
 import org.compiere.util.Env;
-import org.compiere.util.KeyNamePair;
 
 /** Generated Model for WM_InOutBoundLineMA
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_WM_InOutBoundLineMA extends PO implements I_WM_InOutBoundLineMA, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20081221L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_WM_InOutBoundLineMA (Properties ctx, int WM_InOutBoundLineMA_ID, String trxName)
@@ -43,8 +40,6 @@ public class X_WM_InOutBoundLineMA extends PO implements I_WM_InOutBoundLineMA, 
       super (ctx, WM_InOutBoundLineMA_ID, trxName);
       /** if (WM_InOutBoundLineMA_ID == 0)
         {
-			setM_AttributeSetInstance_ID (0);
-			setMovementQty (Env.ZERO);
 			setWM_InOutBoundLineMA_ID (0);
 			setWM_InOutBoundLine_ID (0);
         } */
@@ -78,6 +73,11 @@ public class X_WM_InOutBoundLineMA extends PO implements I_WM_InOutBoundLineMA, 
       return sb.toString();
     }
 
+	public I_M_AttributeSetInstance getM_AttributeSetInstance() throws RuntimeException
+    {
+		return (I_M_AttributeSetInstance)MTable.get(getCtx(), I_M_AttributeSetInstance.Table_Name)
+			.getPO(getM_AttributeSetInstance_ID(), get_TrxName());	}
+
 	/** Set Attribute Set Instance.
 		@param M_AttributeSetInstance_ID 
 		Product Attribute Set Instance
@@ -96,6 +96,34 @@ public class X_WM_InOutBoundLineMA extends PO implements I_WM_InOutBoundLineMA, 
 	public int getM_AttributeSetInstance_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_AttributeSetInstance_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_M_InOutLine getM_InOutLine() throws RuntimeException
+    {
+		return (org.compiere.model.I_M_InOutLine)MTable.get(getCtx(), org.compiere.model.I_M_InOutLine.Table_Name)
+			.getPO(getM_InOutLine_ID(), get_TrxName());	}
+
+	/** Set Shipment/Receipt Line.
+		@param M_InOutLine_ID 
+		Line on Shipment or Receipt document
+	  */
+	public void setM_InOutLine_ID (int M_InOutLine_ID)
+	{
+		if (M_InOutLine_ID < 1) 
+			set_Value (COLUMNNAME_M_InOutLine_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_InOutLine_ID, Integer.valueOf(M_InOutLine_ID));
+	}
+
+	/** Get Shipment/Receipt Line.
+		@return Line on Shipment or Receipt document
+	  */
+	public int getM_InOutLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_InOutLine_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -121,8 +149,25 @@ public class X_WM_InOutBoundLineMA extends PO implements I_WM_InOutBoundLineMA, 
 		return bd;
 	}
 
-	/** Set WM_InOutBoundLineMA ID.
-		@param WM_InOutBoundLineMA_ID WM_InOutBoundLineMA ID	  */
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
+	}
+
+	/** Set Inbound & Outbound Order Line MA ID.
+		@param WM_InOutBoundLineMA_ID Inbound & Outbound Order Line MA ID	  */
 	public void setWM_InOutBoundLineMA_ID (int WM_InOutBoundLineMA_ID)
 	{
 		if (WM_InOutBoundLineMA_ID < 1) 
@@ -131,8 +176,8 @@ public class X_WM_InOutBoundLineMA extends PO implements I_WM_InOutBoundLineMA, 
 			set_ValueNoCheck (COLUMNNAME_WM_InOutBoundLineMA_ID, Integer.valueOf(WM_InOutBoundLineMA_ID));
 	}
 
-	/** Get WM_InOutBoundLineMA ID.
-		@return WM_InOutBoundLineMA ID	  */
+	/** Get Inbound & Outbound Order Line MA ID.
+		@return Inbound & Outbound Order Line MA ID	  */
 	public int getWM_InOutBoundLineMA_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_WM_InOutBoundLineMA_ID);
@@ -141,29 +186,10 @@ public class X_WM_InOutBoundLineMA extends PO implements I_WM_InOutBoundLineMA, 
 		return ii.intValue();
 	}
 
-    /** Get Record ID/ColumnName
-        @return ID/ColumnName pair
-      */
-    public KeyNamePair getKeyNamePair() 
+	public org.eevolution.model.I_WM_InOutBoundLine getWM_InOutBoundLine() throws RuntimeException
     {
-        return new KeyNamePair(get_ID(), String.valueOf(getWM_InOutBoundLineMA_ID()));
-    }
-
-	public org.eevolution.model.I_WM_InOutBoundLine getWM_InOutBoundLine() throws RuntimeException 
-    {
-        Class<?> clazz = MTable.getClass(org.eevolution.model.I_WM_InOutBoundLine.Table_Name);
-        org.eevolution.model.I_WM_InOutBoundLine result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (org.eevolution.model.I_WM_InOutBoundLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getWM_InOutBoundLine_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (org.eevolution.model.I_WM_InOutBoundLine)MTable.get(getCtx(), org.eevolution.model.I_WM_InOutBoundLine.Table_Name)
+			.getPO(getWM_InOutBoundLine_ID(), get_TrxName());	}
 
 	/** Set Inbound & Outbound Order Line.
 		@param WM_InOutBoundLine_ID Inbound & Outbound Order Line	  */

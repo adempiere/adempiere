@@ -166,6 +166,7 @@ public class VMemo extends CTextArea
 	public void setValue(Object value)
 	{
 		super.setValue(value);
+		m_oldText = getText();
 		m_firstChange = true;
 		//	Always position Top 
 		setCaretPosition(0);
@@ -200,11 +201,9 @@ public class VMemo extends CTextArea
 				s = Editor.startEditor (this, Msg.translate(Env.getCtx(), m_columnName), 
 					getText(), isEditable(), m_fieldLength);
 			menuEditor.setEnabled(true);
-			setValue(s);
 			try
 			{
-				fireVetoableChange(m_columnName, null, getText());
-				m_oldText = getText();
+				fireVetoableChange(m_columnName, m_oldText, s);
 			}
 			catch (PropertyVetoException pve)	{}
 		}
@@ -253,10 +252,10 @@ public class VMemo extends CTextArea
 	public void focusGained (FocusEvent e)
 	{
 		log.config(e.paramString());
-		if (e.getSource() instanceof VMemo)
-			requestFocus();
-		else
-			m_oldText = getText();
+		//if (e.getSource() instanceof VMemo)
+		//	requestFocus();
+		//else
+		//	m_oldText = getText();
 	}	//	focusGained
 
 	/**
@@ -267,10 +266,18 @@ public class VMemo extends CTextArea
 	{
 		//  Indicate Change
 		log.fine( "focusLost");
+		
+		if (getText() == null && m_oldText == null)
+			return;
+		else if (getText().equals(m_oldText))
+			return;
+		//
 		try
 		{
 			String text = getText();
-			fireVetoableChange(m_columnName, text, null);   //  No data committed - done when focus lost !!!
+			fireVetoableChange(m_columnName, m_oldText, text);
+			//m_oldText = text;  set by setValue();
+			return;
 		}
 		catch (PropertyVetoException pve)	{}
 	}	//	focusLost
@@ -299,20 +306,21 @@ private class CInputVerifier extends InputVerifier {
 	 public boolean verify(JComponent input) {
 
 
-		//NOTE: We return true no matter what since the InputVerifier is only introduced to fireVetoableChange in due time
-		if (getText() == null && m_oldText == null)
-			return true;
-		else if (getText().equals(m_oldText))
-			return true;
-		//
-		try
-		{
-			String text = getText();
-			fireVetoableChange(m_columnName, null, text);
-			m_oldText = text;
-			return true;
-		}
-		catch (PropertyVetoException pve)	{}
+//		NOTE: We return true no matter what since the InputVerifier is only introduced to fireVetoableChange in due time
+//		in which case, this code serves no purpose.  Code moved to focusLost where the binding should take place. 
+//		if (getText() == null && m_oldText == null)
+//			return true;
+//		else if (getText().equals(m_oldText))
+//			return true;
+//		//
+//		try
+//		{
+//			String text = getText();
+//			fireVetoableChange(m_columnName, m_oldText, text);
+//			//m_oldText = text;  set by setValue();
+//			return true;
+//		}
+//		catch (PropertyVetoException pve)	{}
 		return true;
 
 	 } // verify

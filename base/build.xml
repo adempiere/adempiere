@@ -25,6 +25,7 @@
     <pathelement path="${jar.path}/CCTools.jar"/>
     <pathelement path="${jar.path}/oracle.jar"/>
     <pathelement path="${jar.path}/postgresql.jar"/>
+    <pathelement path="${jar.path}/mariadb-java-client.jar"/>
     <pathelement path="${jar.path}/jboss.jar"/>
     <pathelement path="${jar.path}/glassfish.jar"/>
 	<pathelement path="../tools/lib/mysql-connector-java-5.1.13-bin.jar"/><!--@MySQl-->
@@ -34,6 +35,7 @@
     <pathelement path="../tools/lib/servlet-api.jar" />  	
   	<pathelement path="../tools/lib/cron4j-2.2.1.jar" />
     <pathelement path="../tools/lib/commons-io.jar"/>
+  	<pathelement path="../tools/lib/poi-ooxml-3.17.jar" />
   </path>
 
 
@@ -55,7 +57,10 @@
   
   <target name="compile" depends="makedir">
     <!-- compile the java code from ${src} into ${build.dir} -->
-    <javac target="1.7" encoding="UTF-8" fork="true" destdir="${build.dir}" deprecation="on" debug="on" memoryinitialsize="512m" memorymaximumsize="512m">
+    <javac target="1.8" encoding="UTF-8" fork="true" destdir="${build.dir}" deprecation="on" debug="on" memoryinitialsize="512m" memorymaximumsize="512m">
+      <src path="../org.adempiere.request/src/main/java"/>
+      <src path="../org.adempiere.project/src/main/java"/>
+      <src path="../org.adempiere.crm/src/main/java"/>
       <src path="${src}"/>
       <src path="${looksSrc}"/>
       <src path="../glassfishfacet/src"/>

@@ -19,6 +19,8 @@ import org.compiere.util.Env;
 
 import test.AdempiereTestCase;
 
+import java.util.List;
+
 /**
  * @author Teo Sarca, www.arhipac.ro
  */
@@ -36,8 +38,8 @@ public class MPaySelectionTest extends AdempiereTestCase
 	public void testQuery() throws Exception
 	{
 		lines = new MPaySelection(getCtx(), 100, getTrxName());
-		MPaySelectionLine[] payselection = lines.getLines(true);
-		assertTrue("There should be payment lines", payselection.length > 0);
+		List<MPaySelectionLine> payselection = lines.getLines(true);
+		assertTrue("There should be payment lines", payselection.size() > 0);
 
 	}
 

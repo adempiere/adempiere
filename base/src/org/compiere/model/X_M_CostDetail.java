@@ -1,8 +1,9 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -11,8 +12,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
@@ -25,14 +25,14 @@ import org.compiere.util.Env;
 
 /** Generated Model for M_CostDetail
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150223L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_M_CostDetail (Properties ctx, int M_CostDetail_ID, String trxName)
@@ -817,6 +817,62 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
 		return ii.intValue();
 	}
 
+	public org.compiere.model.I_M_MatchInv getM_MatchInv() throws RuntimeException
+    {
+		return (org.compiere.model.I_M_MatchInv)MTable.get(getCtx(), org.compiere.model.I_M_MatchInv.Table_Name)
+			.getPO(getM_MatchInv_ID(), get_TrxName());	}
+
+	/** Set Match Invoice.
+		@param M_MatchInv_ID 
+		Match Shipment/Receipt to Invoice
+	  */
+	public void setM_MatchInv_ID (int M_MatchInv_ID)
+	{
+		if (M_MatchInv_ID < 1) 
+			set_Value (COLUMNNAME_M_MatchInv_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_MatchInv_ID, Integer.valueOf(M_MatchInv_ID));
+	}
+
+	/** Get Match Invoice.
+		@return Match Shipment/Receipt to Invoice
+	  */
+	public int getM_MatchInv_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_MatchInv_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_M_MatchPO getM_MatchPO() throws RuntimeException
+    {
+		return (org.compiere.model.I_M_MatchPO)MTable.get(getCtx(), org.compiere.model.I_M_MatchPO.Table_Name)
+			.getPO(getM_MatchPO_ID(), get_TrxName());	}
+
+	/** Set Match PO.
+		@param M_MatchPO_ID 
+		Match Purchase Order to Shipment/Receipt and Invoice
+	  */
+	public void setM_MatchPO_ID (int M_MatchPO_ID)
+	{
+		if (M_MatchPO_ID < 1) 
+			set_Value (COLUMNNAME_M_MatchPO_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_MatchPO_ID, Integer.valueOf(M_MatchPO_ID));
+	}
+
+	/** Get Match PO.
+		@return Match Purchase Order to Shipment/Receipt and Invoice
+	  */
+	public int getM_MatchPO_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_MatchPO_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_M_MovementLine getM_MovementLine() throws RuntimeException
     {
 		return (org.compiere.model.I_M_MovementLine)MTable.get(getCtx(), org.compiere.model.I_M_MovementLine.Table_Name)
@@ -932,7 +988,7 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
 	  */
 	public void setM_Warehouse_ID (int M_Warehouse_ID)
 	{
-		if (M_Warehouse_ID < 1) 
+		if (M_Warehouse_ID < 0) 
 			set_ValueNoCheck (COLUMNNAME_M_Warehouse_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_M_Warehouse_ID, Integer.valueOf(M_Warehouse_ID));
@@ -1076,5 +1132,22 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
 	}
 }

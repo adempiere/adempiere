@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--ADempiere(r) Release 3.7.0LTS_2011-10-15 -Smart Suite ERP,CRM and SCM- (c) 1999-2010 ADempiere(r); Implementation: ADempiere - Supported by ADempiere community-->
-<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
-<adempiereTrl language="es_MX" table="AD_Reference">
+<!--ADempiere(r) Release 3.9.0_2017-08-01 -Smart Suite ERP,CRM and SCM- (c) 1999-2017 ADempiere(r); Implementation: ADempiere - Supported by ADempiere community--><!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.net/dtd/adempiereTrl.dtd">--><adempiereTrl language="es_MX" table="AD_Reference">
  <row id="1" trl="Y">
   <value column="Name" original="AD_Reference Data Types">AD_Reference Data Types</value>
   <value column="Description" original="Data Type selection">Selección de tipo de datos</value>
@@ -178,13 +176,13 @@
   <value column="Help" original=""/>
  </row>
  <row id="40" trl="Y">
-  <value column="Name" original="URL">Dirección Web</value>
-  <value column="Description" original="URL">Dirección Web</value>
+  <value column="Name" original="URL">URL</value>
+  <value column="Description" original="URL">URL</value>
   <value column="Help" original=""/>
  </row>
  <row id="42" trl="Y">
-  <value column="Name" original="Printer Name">Nombre Impresora</value>
-  <value column="Description" original=""/>
+  <value column="Name" original="Printer Name">Nombre de la impresora</value>
+  <value column="Description" original="">Nombre de la impresora</value>
   <value column="Help" original=""/>
  </row>
  <row id="100" trl="Y">
@@ -738,7 +736,7 @@
   <value column="Help" original=""/>
  </row>
  <row id="223" trl="Y">
-  <value column="Name" original="C_BPartner Vendors Avtive">C_BPartner Vendors Avtive</value>
+  <value column="Name" original="C_BPartner Vendors Active">Proveedores activos</value>
   <value column="Description" original="Vendor selection">Selección de Proveedor</value>
   <value column="Help" original=""/>
  </row>
@@ -1937,6 +1935,11 @@
   <value column="Description" original=""/>
   <value column="Help" original=""/>
  </row>
+ <row id="53288" trl="Y">
+  <value column="Name" original="WS Parameter Type">WS Parameter Type</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
  <row id="53289" trl="Y">
   <value column="Name" original="C_DocType MFG Cost Collector">C_DocType MFG Cost Collector</value>
   <value column="Description" original=""/>
@@ -1997,6 +2000,21 @@
   <value column="Description" original="RMA Line">Línea Autorización Devolución</value>
   <value column="Help" original=""/>
  </row>
+ <row id="53311" trl="Y">
+  <value column="Name" original="AD_Migration Status">AD_Migration Status</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53312" trl="Y">
+  <value column="Name" original="AD_Migration Apply/Rollback">AD_Migration Apply/Rollback</value>
+  <value column="Description" original="Apply or Rollback migration">Apply or Rollback migration</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53313" trl="Y">
+  <value column="Name" original="Migration step type">Migration step type</value>
+  <value column="Description" original="Type of migration step">Type of migration step</value>
+  <value column="Help" original="Either Application Dictionary change or SQL statement.">Either Application Dictionary change or SQL statement.</value>
+ </row>
  <row id="53315" trl="Y">
   <value column="Name" original="PA_Goal ChartType">PA_Goal ChartType</value>
   <value column="Description" original="Chart Type">Tipo Cuadro</value>
@@ -2007,7 +2025,7 @@
   <value column="Description" original="Type of goal display on dashboard">Tipo de objetivo a desplegar en el tablero</value>
   <value column="Help" original=""/>
  </row>
- <row id="53317" trl="N">
+ <row id="53317" trl="Y">
   <value column="Name" original="AD_Role">AD_Role</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
@@ -2022,98 +2040,650 @@
   <value column="Description" original="Manufacturing Resources">Recursos de Manufactura</value>
   <value column="Help" original=""/>
  </row>
+ <row id="53321" trl="Y">
+  <value column="Name" original="WM_InOutBound InOutboundType">WM_InOutBound InOutboundType</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53322" trl="Y">
+  <value column="Name" original="WM_InOutBound Inbound &amp; Outbound Rule"><![CDATA[WM_InOutBound Inbound & Outbound Rule]]></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
  <row id="53323" trl="Y">
   <value column="Name" original="UOM Type">UOM Type</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
  </row>
- <row id="53327" trl="N">
+ <row id="53324" trl="Y">
+  <value column="Name" original="C_DocType Outbound">C_DocType Outbound</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53325" trl="Y">
+  <value column="Name" original="C_DocType Distribution Order">C_DocType Distribution Order</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53326" trl="Y">
+  <value column="Name" original="WM_InOutBound Draft Status">WM_InOutBound Draft Status</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53327" trl="Y">
   <value column="Name" original="PA_Report Period Type">PA_Report Period Type</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
  </row>
- <row id="53328" trl="N">
+ <row id="53328" trl="Y">
   <value column="Name" original="PA_Report Amount Type">PA_Report Amount Type</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
  </row>
- <row id="53330" trl="N">
+ <row id="53330" trl="Y">
   <value column="Name" original="AD_Reference Table">AD_Reference Table</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
  </row>
- <row id="53331" trl="N">
+ <row id="53331" trl="Y">
   <value column="Name" original="AD_RelationType Role">AD_RelationType Role</value>
   <value column="Description" original="Defines the possible &quot;roles&quot; a the records of a relation can have">Defines the possible "roles" a the records of a relation can have</value>
   <value column="Help" original=""/>
  </row>
- <row id="53332" trl="N">
+ <row id="53332" trl="Y">
   <value column="Name" original="AD_RelationType Type">AD_RelationType Type</value>
   <value column="Description" original="&quot;Type&quot; of a relation type">"Type" of a relation type</value>
   <value column="Help" original="For now we only have implicit realtion types, i.e. the record pairs are defined by the rule itself. In future we would like to have explicit type also. An explizit type just defines a template, the actual pairs can be added by a user or by the system itself.">For now we only have implicit realtion types, i.e. the record pairs are defined by the rule itself. In future we would like to have explicit type also. An explizit type just defines a template, the actual pairs can be added by a user or by the system itself.</value>
  </row>
- <row id="53333" trl="N">
+ <row id="53333" trl="Y">
   <value column="Name" original="RelType C_Order (Sales) &lt;= C_Invoice_ID (Customer)"><![CDATA[RelType C_Invoice_ID->C_Order]]></value>
   <value column="Description" original="Finds C_Order_IDs for a given C_Invoice_ID">Finds C_OrderIDs for a given C_Invoice_ID</value>
   <value column="Help" original=""/>
  </row>
- <row id="53334" trl="N">
+ <row id="53334" trl="Y">
   <value column="Name" original="RelType C_Invoice (Customer) &lt;= C_Order_ID (Sales)"><![CDATA[RelType C_Order_ID->C_Invoice]]></value>
   <value column="Description" original="Finds C_Invoice_IDs for a given C_C_Order_ID"/>
   <value column="Help" original=""/>
  </row>
- <row id="53335" trl="N">
+ <row id="53335" trl="Y">
   <value column="Name" original="C_BPartner -Active,Manufacturer, Non summary">C_BPartner -Active,Manufacturer, Non summary</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
  </row>
- <row id="53343" trl="N">
+ <row id="53336" trl="Y">
+  <value column="Name" original="Account_ID - User3">Account_ID - User3</value>
+  <value column="Description" original="User3 selection based on Client">User3 selection based on Client</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53337" trl="Y">
+  <value column="Name" original="Account_ID - User4">Account_ID - User4</value>
+  <value column="Description" original="User4 selection based on Client">User3 selection based on Client</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53343" trl="Y">
   <value column="Name" original="M_DiscountSchema PL">M_DiscountSchema PL</value>
   <value column="Description" original="Price List Discount Schema">Price List Discount Schema</value>
   <value column="Help" original=""/>
  </row>
- <row id="53345" trl="N">
+ <row id="53345" trl="Y">
   <value column="Name" original="RelType M_InOut (Shipment) &lt;= C_Invoice_ID (Customer)"><![CDATA[RelType C_Invoice_ID->M_InOut]]></value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
  </row>
- <row id="53347" trl="N">
+ <row id="53347" trl="Y">
   <value column="Name" original="RelType M_InOut (Shipment) &lt;=  C_Order_ID"><![CDATA[RelType C_Order->M_InOut]]></value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
  </row>
- <row id="53348" trl="N">
+ <row id="53348" trl="Y">
   <value column="Name" original="RelType C_Invoice (Customer) &lt;= M_InOut_ID (Shipment)"><![CDATA[RelType M_InOut_ID->C_Invoice]]></value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
  </row>
- <row id="53349" trl="N">
+ <row id="53349" trl="Y">
   <value column="Name" original="RelType C_Order (Sales) &lt;=  M_InOut_ID (Shipment)"><![CDATA[RelType M_InOut_ID->C_Order]]></value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
  </row>
- <row id="53350" trl="N">
+ <row id="53350" trl="Y">
   <value column="Name" original="C_POSKeyLayout">C_POSKeyLayout</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
  </row>
- <row id="53351" trl="N">
+ <row id="53351" trl="Y">
   <value column="Name" original="POSKeyLayoutType">POSKeyLayoutType</value>
   <value column="Description" original="POS Key layout types">POS Key layout types</value>
   <value column="Help" original=""/>
  </row>
- <row id="53352" trl="N">
+ <row id="53352" trl="Y">
   <value column="Name" original="RelType C_BPartner &lt;= Vendor/Customer Return"><![CDATA[RelType C_BPartner_ID->Customer_RMA]]></value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
  </row>
- <row id="53353" trl="N">
+ <row id="53353" trl="Y">
   <value column="Name" original="RelType Customer Return &lt;= C_BPartner_ID"><![CDATA[RelType Customer_RMA->C_BPartner_ID]]></value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
  </row>
- <row id="53354" trl="N">
+ <row id="53354" trl="Y">
   <value column="Name" original="RelType Vendor Return &lt;= C_BPartner_ID"><![CDATA[RelType Vendor_RMA <= C_BPartner_ID]]></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53357" trl="Y">
+  <value column="Name" original="A_Asset_Group">A_Asset_Group</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53358" trl="Y">
+  <value column="Name" original="A_Asset_Class (all)">A_Asset_Class (all)</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53359" trl="Y">
+  <value column="Name" original="A_Asset Status">A_Asset Status</value>
+  <value column="Description" original="Asset Status">Asset Status</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53360" trl="Y">
+  <value column="Name" original="A_Asset Actions">A_Asset Actions</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53361" trl="Y">
+  <value column="Name" original="A_Tip_Finantare">A_Tip_Finantare</value>
+  <value column="Description" original="Tip finantare investitii">Tip finantare investitii</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53362" trl="Y">
+  <value column="Name" original="A_Depreciation_Method">A_Depreciation_Method</value>
+  <value column="Description" original="Depreciation Calculation Method">Depreciation Calculation Method</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53363" trl="Y">
+  <value column="Name" original="M_MatchInv for Asset Addition">M_MatchInv for Asset Addition</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53364" trl="Y">
+  <value column="Name" original="A_Activation_Method">A_Activation_Method</value>
+  <value column="Description" original="Activation Methods">Activation Methods</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53365" trl="Y">
+  <value column="Name" original="Yes-No-Unknown">Yes-No-Unknown</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53366" trl="Y">
+  <value column="Name" original="C_Period - all, acct, sysdate, desc">C_Period - all, acct, sysdate, desc</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53370" trl="Y">
+  <value column="Name" original="Chart">Chart</value>
+  <value column="Description" original="Chart">Chart</value>
+  <value column="Help" original="A chart provides a graphical display of information.">A chart provides a graphical display of information.</value>
+ </row>
+ <row id="53371" trl="Y">
+  <value column="Name" original="Reconciliation Type">Reconciliation Type</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53372" trl="Y">
+  <value column="Name" original="Reconciliation Rules">Reconciliation Rules</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53375" trl="Y">
+  <value column="Name" original="ChartOrientation">ChartOrientation</value>
+  <value column="Description" original="Chart Orientation">Chart Orientation</value>
+  <value column="Help" original="Horizontal or vertical">Horizontal or vertical</value>
+ </row>
+ <row id="53376" trl="Y">
+  <value column="Name" original="TimeUnit">TimeUnit</value>
+  <value column="Description" original="Time units for charting.">Time units for charting.</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53377" trl="Y">
+  <value column="Name" original="ChartType">ChartType</value>
+  <value column="Description" original="Chart Type">Chart Type</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53410" trl="Y">
+  <value column="Name" original="PriceOverrideType">PriceOverrideType</value>
+  <value column="Description" original="Price Override Type">Price Override Type</value>
+  <value column="Help" original="Fixed price or discount off list">Fixed price or discount off list</value>
+ </row>
+ <row id="53412" trl="Y">
+  <value column="Name" original="M_Replenishment Production Create ">M_Replenishment Production Create </value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53415" trl="Y">
+  <value column="Name" original="Lead Source">Lead Source</value>
+  <value column="Description" original="Lead Source">Lead Source</value>
+  <value column="Help" original="The source of a lead">The source of a lead</value>
+ </row>
+ <row id="53416" trl="Y">
+  <value column="Name" original="Lead Status">Lead Status</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53417" trl="Y">
+  <value column="Name" original="C_Order for opportunity">C_Order for opportunity</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53423" trl="Y">
+  <value column="Name" original="C_ContactActivity Type">C_ContactActivity Type</value>
+  <value column="Description" original="Contact Activity Types">Contact Activity Types</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53424" trl="Y">
+  <value column="Name" original="C_SalesStage">C_SalesStage</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53425" trl="Y">
+  <value column="Name" original="Print Document">Documento a imprimir</value>
+  <value column="Description" original="">Documento a imprimir</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53431" trl="Y">
+  <value column="Name" original="M_Product_Classification Parent">M_Product Classification Parent</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53432" trl="Y">
+  <value column="Name" original="M_Product_Class Parent">M_Product Class Parent</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53433" trl="Y">
+  <value column="Name" original="M_Product_Group Parent">M_Product Group Parent</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53434" trl="Y">
+  <value column="Name" original="M_Product_Classification Value">M_Product Classification Value</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53435" trl="Y">
+  <value column="Name" original="M_Product_Class Value">M_Product_Class Value</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53436" trl="Y">
+  <value column="Name" original="M_Product_Group Value">M_Product_Group Value</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53437" trl="Y">
+  <value column="Name" original="AD_View_Column">AD_View_Column</value>
+  <value column="Description" original="View Column selection">View Column selection</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53438" trl="Y">
+  <value column="Name" original="PP_DefinitionPeriod">PP_DefinitionPeriod</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53439" trl="Y">
+  <value column="Name" original="PP_Forecast Action Type">PP_Forecast Action Type</value>
+  <value column="Description" original="Forecast Action Type List containt the option if the forecast is replaced or combined">Forecast Action Type List containt the option if the forecast is replaced or combined</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53440" trl="Y">
+  <value column="Name" original="PP_Forecast Load Type">PP_Forecast Load Type</value>
+  <value column="Description" original="List Forecast Load Type indicated that period date is use to create the forecast line.">List Forecast Load Type indicated that period date is use to create the forecast line.</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53458" trl="Y">
+  <value column="Name" original="AD_Message MRP &amp; DRP"><![CDATA[AD_Message MRP & DRP]]></value>
+  <value column="Description" original="Message selection MRP &amp; DRP"><![CDATA[Message selection MRP & DRP]]></value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53459" trl="Y">
+  <value column="Name" original="PP_MRP">PP_MRP</value>
+  <value column="Description" original="Material Requirement Planning">Material Requirement Planning</value>
+  <value column="Help" original="Material Requirement Planning">Material Requirement Planning</value>
+ </row>
+ <row id="53460" trl="Y">
+  <value column="Name" original="PP_MRP Document No">PP_MRP Document No</value>
+  <value column="Description" original="Material Requirement Planning">Material Requirement Planning</value>
+  <value column="Help" original="Material Requirement Planning">Material Requirement Planning</value>
+ </row>
+ <row id="53562" trl="Y">
+  <value column="Name" original="Aisle (X)">Aisle (X)</value>
+  <value column="Description" original="Warehouse locator Aisle (X)">Warehouse locator Aisle (X)</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53564" trl="Y">
+  <value column="Name" original="_ReportStyle">_ReportStyle</value>
+  <value column="Description" original="The styles for a report are defined">The styles for a report are defined</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53572" trl="Y">
+  <value column="Name" original="PA_DashBoard">PA_DashBoard</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53573" trl="Y">
+  <value column="Name" original="AD_Zoom_Win">AD_Zoom_Win</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53574" trl="Y">
+  <value column="Name" original="Event List">Event List</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53588" trl="Y">
+  <value column="Name" original="AD_Browse_Fields">PA_Dashboard_Fields</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53598" trl="Y">
+  <value column="Name" original="C_ValidCombination (with Alias defined)">C_ValidCombination (with Alias defined)</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53607" trl="Y">
+  <value column="Name" original="HR_LeaveType Leave Repeated Type">HR_LeaveType Leave Repeated Type</value>
+  <value column="Description" original="Leave Repeated Type">Leave Repeated Type</value>
+  <value column="Help" original="Leave Repeated Type">Leave Repeated Type</value>
+ </row>
+ <row id="53608" trl="Y">
+  <value column="Name" original="HR_LeaveType Credit Time">HR_LeaveType Credit Time</value>
+  <value column="Description" original="Leave Type Credit Time">Leave Type Credit Time</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53609" trl="Y">
+  <value column="Name" original="HR_LeaveType Adjacent Holidays Type">HR_LeaveType Adjacent Holidays Type</value>
+  <value column="Description" original="Adjacent Holidays Type">Adjacent Holidays Type</value>
+  <value column="Help" original="Adjacent Holidays Type">Adjacent Holidays Type</value>
+ </row>
+ <row id="53610" trl="Y">
+  <value column="Name" original="HR_LeaveReason Types Of the reasons">HR_LeaveReason Types Of the reasons</value>
+  <value column="Description" original="Types Of the reasons">Types Of the reasons</value>
+  <value column="Help" original="Types Of the reasons">Types Of the reasons</value>
+ </row>
+ <row id="53611" trl="Y">
+  <value column="Name" original="C_BPartner Of Type  Department Managers">C_BPartner Of Type  Department Managers</value>
+  <value column="Description" original="BPartners Of Type  Department Managers">BPartners Of Type  Department Managers</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53612" trl="Y">
+  <value column="Name" original="Gender">Gender</value>
+  <value column="Description" original="Gender">Gender</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53613" trl="Y">
+  <value column="Name" original="C_Country Nationality">C_Country Nationality</value>
+  <value column="Description" original="Nationality">Nationality</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53614" trl="Y">
+  <value column="Name" original="Marital Status">Marital Status</value>
+  <value column="Description" original="Marital Status">Marital Status</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53615" trl="Y">
+  <value column="Name" original="HR_Race Race">HR_Race Race</value>
+  <value column="Description" original="Race">Race</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53616" trl="Y">
+  <value column="Name" original="C_BPartner Blood Group">C_BPartner Blood Group</value>
+  <value column="Description" original="Blood Group">Blood Group</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53617" trl="Y">
+  <value column="Name" original="HR_Employee Status &amp; ESI Response Code"><![CDATA[HR_Employee Status & ESI Response Code]]></value>
+  <value column="Description" original="Employee Status &amp; ESI Response Code"><![CDATA[Employee Status & ESI Response Code]]></value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53618" trl="Y">
+  <value column="Name" original="HR_Education Year Of Passing">HR_Education Year Of Passing</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53619" trl="Y">
+  <value column="Name" original="C_BPartner_Location Contact Type">C_BPartner_Location Contact Type</value>
+  <value column="Description" original="C_BPartner_Location">C_BPartner_Location</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53620" trl="Y">
+  <value column="Name" original="HR_EmployeeInsurance Payment Frequency">HR_EmployeeInsurance Payment Frequency</value>
+  <value column="Description" original="Payment Frequency">Payment Frequency</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53621" trl="Y">
+  <value column="Name" original="HR_EmployeeType Wage Level">HR_EmployeeType Wage Level</value>
+  <value column="Description" original="Wage Level">Wage Level</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53622" trl="Y">
+  <value column="Name" original="HR_JobApplication Identity Proof">HR_JobApplication Identity Proof</value>
+  <value column="Description" original="Identity Proof">Identity Proof</value>
+  <value column="Help" original="Identity Proof">Identity Proof</value>
+ </row>
+ <row id="53623" trl="Y">
+  <value column="Name" original="HR_Application Status">HR_Application Status</value>
+  <value column="Description" original="Status Of The Application">Status Of The Application</value>
+  <value column="Help" original="Applied&#10;- Shortlisted&#10;- Rejected&#10;- Interview (In-progress)&#10;- Offered&#10;- Offer Accepted&#10;- Joined&#10;">Applied
+- Shortlisted
+- Rejected
+- Interview (In-progress)
+- Offered
+- Offer Accepted
+- Joined
+</value>
+ </row>
+ <row id="53624" trl="Y">
+  <value column="Name" original="C_BPartner Employee Display Code">C_BPartner Employee Display Code</value>
+  <value column="Description" original="Dispalay Code">Dispalay Code</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53625" trl="Y">
+  <value column="Name" original="Inter View Rating / Score">Inter View Rating / Score</value>
+  <value column="Description" original="Inter View Rating / Score">Inter View Rating / Score</value>
+  <value column="Help" original="Inter View Rating / Score">Inter View Rating / Score</value>
+ </row>
+ <row id="53629" trl="Y">
+  <value column="Name" original="HR_LeaveTypeCombination Valid leave type for an leave">HR_LeaveTypeCombination Valid leave type for an leave</value>
+  <value column="Description" original="Valid leave type for an leave">Valid leave type for an leave</value>
+  <value column="Help" original="Valid leave type for an leave">Valid leave type for an leave</value>
+ </row>
+ <row id="53670" trl="Y">
+  <value column="Name" original="FilePathOrName">Nombre o ruta del archivo</value>
+  <value column="Description" original="Local File Path or Name">Nombre o ruta del archivo</value>
+  <value column="Help" original="Selects a path or a single file.">Selecciona una ruta o un archivo.</value>
+ </row>
+ <row id="53688" trl="Y">
+  <value column="Name" original="_Document Action Import budget">_Document Action Import budget</value>
+  <value column="Description" original="Document action list">Document action list</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53691" trl="Y">
+  <value column="Name" original="header print format">header print format</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53767" trl="Y">
+  <value column="Name" original="ReportType">ReportType</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53782" trl="Y">
+  <value column="Name" original="M_Production_ReplenishPlan">M_Production_ReplenishPlan</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53783" trl="Y">
+  <value column="Name" original="C_Order_ReplenishPlan">C_Order_ReplenishPlan</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53793" trl="Y">
+  <value column="Name" original="PA_ReportLine Line Stroke Type">PA_ReportLine Line Stroke Type</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53800" trl="Y">
+  <value column="Name" original="M_Production">M_Production</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53805" trl="Y">
+  <value column="Name" original="C_PaySelectionLine">C_PaySelectionLine</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53808" trl="Y">
+  <value column="Name" original="CreateFromType List">CreateFromType List</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53835" trl="Y">
+  <value column="Name" original="EncryptionType List">EncryptionType List</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53836" trl="Y">
+  <value column="Name" original="AuthMechanisms List">AuthMechanisms List</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53837" trl="Y">
+  <value column="Name" original="Protocol List">Protocol List</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53843" trl="Y">
+  <value column="Name" original="DD_Order">DD_Order</value>
+  <value column="Description" original="Distribution Order">Distribution Order</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53856" trl="Y">
+  <value column="Name" original="RelType M_ProductionBatch &lt;= M_Production"><![CDATA[RelType M_ProductionBatch <= M_Production]]></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53857" trl="Y">
+  <value column="Name" original="RelType M_Production &lt;= M_ProductionBatch"><![CDATA[RelType M_Production <= M_ProductionBatch]]></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53858" trl="Y">
+  <value column="Name" original="RelType M_ProductionBatch &lt;= M_Movement"><![CDATA[RelType M_ProductionBatch <= M_Movement]]></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53859" trl="Y">
+  <value column="Name" original="RelType M_Movement &lt;= M_ProductionBatch"><![CDATA[RelType M_Movement <= M_ProductionBatch]]></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53871" trl="Y">
+  <value column="Name" original="HR_Movement">HR_Movement</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53875" trl="Y">
+  <value column="Name" original="M_MovementConfirm">M_MovementConfirm</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53876" trl="Y">
+  <value column="Name" original="M_MovementLineConfirm">M_MovementLineConfirm</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53887" trl="Y">
+  <value column="Name" original="HR_Concept reference">HR_Concept reference</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53900" trl="Y">
+  <value column="Name" original="DD_LicenseType Tipo de Licencia de Transporte">DD_LicenseType Transport License Type</value>
+  <value column="Description" original="Tipo de Licencia de Transporte">Transport License Type</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53901" trl="Y">
+  <value column="Name" original="DD_TransportUnitType Transport Mode">DD_TransportUnitType Transport Mode</value>
+  <value column="Description" original="The modes of transport supported">The modes of transport supported</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53902" trl="Y">
+  <value column="Name" original="DD_TransportUnitType Transport Physical Type">DD_TransportUnitType Tipo Transporte Fisico</value>
+  <value column="Description" original=" physical type of the transport unit into a part that carries the load, a mover, and other load bearing elements">El tipo físico de la unidad de transporte en una parte que lleva la carga, un elemento móvil y otros elementos de soporte de carga</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53903" trl="Y">
+  <value column="Name" original="DD_TransportUnit Transport Unit Status">DD_TransportUnit Transport Unit Status</value>
+  <value column="Description" original="Transport unit status">Transport unit status</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53904" trl="Y">
+  <value column="Name" original="DD_Driver Driver Status">DD_Driver Driver Status</value>
+  <value column="Description" original="Driver Status">Driver Status</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53905" trl="Y">
+  <value column="Name" original="DD_VehicleType Vehicle Type">DD_VehicleType Tipo de Vehículo</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53906" trl="Y">
+  <value column="Name" original="DD_Vehicle Vehicle Status">DD_Vehicle Vehicle Status</value>
+  <value column="Description" original="Vehicle Status">Vehicle Status</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53921" trl="Y">
+  <value column="Name" original="RelType C_Payment -&gt; C_PaySelection"><![CDATA[RelType C_Payment -> C_PaySelection]]></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53922" trl="Y">
+  <value column="Name" original="RelType C_PaySelection -&gt; C_Payment"><![CDATA[RelType C_PaySelection -> C_Payment]]></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53923" trl="Y">
+  <value column="Name" original="RelType C_Payment -&gt; C_PaymentBatch"><![CDATA[RelType C_Payment -> C_PaymentBatch]]></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53924" trl="Y">
+  <value column="Name" original="RelType C_PaymentBatch -&gt; C_Payment"><![CDATA[RelType C_PaymentBatch -> C_Payment]]></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53925" trl="Y">
+  <value column="Name" original="RelType C_PaySelection -&gt; C_PaymentBatch"><![CDATA[RelType C_PaySelection -> C_PaymentBatch]]></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53926" trl="Y">
+  <value column="Name" original="RelType C_PaymentBatch -&gt; C_PaySelection"><![CDATA[RelType C_PaymentBatch -> C_PaySelection]]></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53927" trl="Y">
+  <value column="Name" original="RelType C_PaySelection -&gt; C_PaySelection (Payment Request)"><![CDATA[RelType C_PaySelection -> C_PaySelection (Payment Request)]]></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53928" trl="Y">
+  <value column="Name" original="RelType C_PaySelection (Payment Request) -&gt; C_PaySelection"><![CDATA[RelType C_PaySelection (Payment Request) -> C_PaySelection]]></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53929" trl="Y">
+  <value column="Name" original="C_City Reference">C_City Reference</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
  </row>

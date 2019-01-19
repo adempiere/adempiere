@@ -29,14 +29,16 @@ import org.compiere.wf.MWFNode;
 /**
  * 
  * @author Low Heng Sin
- *
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * 		<a href="https://github.com/adempiere/adempiere/issues/1176">
+ * 		@see FR [ 1176 ] Look and feel style to ADempiere 390 - Change icons on Work Flow</a>	
  */
 public class WFNode {
 
 	/**	Size of the Node				*/
 	private static Dimension	s_size = new Dimension (120, 50);
-	private MWFNode m_node;
-	private WFIcon m_icon;
+	private MWFNode node;
+	private WWFIcon icon;
 	private Rectangle m_bounds;
 	
 	/**
@@ -44,28 +46,28 @@ public class WFNode {
 	 * 	@param node model
 	 */
 	public WFNode (MWFNode node) {
-		m_node = node;
-		m_icon = new WFIcon(node.getAction());		
-		m_bounds = new Rectangle(m_node.getXPosition(), m_node.getYPosition(), s_size.width,
+		this.node = node;
+		icon = new WWFIcon(node.getAction());		
+		m_bounds = new Rectangle(node.getXPosition(), node.getYPosition(), s_size.width,
 				s_size.height);
 	}
 	
 	public void paint(Graphics2D g2D) {
-		m_icon.paintIcon(null, g2D, 0, 0);
+		icon.paintIcon(null, g2D, 0, 0);
 		//	Paint Text
 		g2D.setPaint(Color.BLACK);
 		Font base = new Font(null);
 		Font font = new Font(base.getName(), Font.ITALIC | Font.BOLD, base.getSize());
 		//
-		AttributedString aString = new AttributedString(m_node.getName(true));
+		AttributedString aString = new AttributedString(node.getName(true));
 		aString.addAttribute(TextAttribute.FONT, font);
 		aString.addAttribute(TextAttribute.FOREGROUND, Color.BLACK);
 		AttributedCharacterIterator iter = aString.getIterator();
 		//
 		LineBreakMeasurer measurer = new LineBreakMeasurer(iter, g2D.getFontRenderContext());
-		float width = s_size.width - m_icon.getIconWidth() - 2;
+		float width = s_size.width - icon.getIconWidth() - 2;
 		TextLayout layout = measurer.nextLayout(width);
-		float xPos = m_icon.getIconWidth();
+		float xPos = icon.getIconWidth();
 		float yPos = layout.getAscent() + 2;
 		//
 		layout.draw(g2D, xPos, yPos);
@@ -83,7 +85,7 @@ public class WFNode {
 	 * @return AD_WF_Node_ID
 	 */
 	public int getAD_WF_Node_ID() {
-		return m_node.getAD_WF_Node_ID();
+		return node.getAD_WF_Node_ID();
 	}
 
 	public Rectangle getBounds() {
@@ -91,7 +93,7 @@ public class WFNode {
 	}
 	
 	public MWFNode getNode() {
-		return m_node;
+		return node;
 	}
 
 	/**

@@ -26,6 +26,7 @@ import java.beans.PropertyVetoException;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
+import org.adempiere.exceptions.ValueChangeListener;
 import org.compiere.model.GridField;
 import org.compiere.model.MImage;
 import org.compiere.util.CLogger;
@@ -248,6 +249,12 @@ public class VImage extends JButton
 	@Override
 	public GridField getField() {
 		return m_mField;
+	}
+
+	@Override
+	public void addValueChangeListener(ValueChangeListener listener) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }   //  VImage

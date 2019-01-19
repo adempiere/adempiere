@@ -22,6 +22,7 @@ import java.sql.Timestamp;
 import java.util.Properties;
 
 import org.adempiere.engine.IDocumentLine;
+import org.compiere.process.DocumentReversalLineEnable;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
@@ -36,7 +37,7 @@ import org.compiere.util.Msg;
  * 			<li>BF [ 1817757 ] Error on saving MInventoryLine in a custom environment
  * 			<li>BF [ 1722982 ] Error with inventory when you enter count qty in negative
  */
-public class MInventoryLine extends X_M_InventoryLine implements IDocumentLine
+public class MInventoryLine extends X_M_InventoryLine implements IDocumentLine , DocumentReversalLineEnable
 {
 	/**
 	 * 
@@ -256,11 +257,12 @@ public class MInventoryLine extends X_M_InventoryLine implements IDocumentLine
 			if (getM_AttributeSetInstance_ID() == 0)
 			{
 				MProduct product = MProduct.get(getCtx(), getM_Product_ID());
-				if (product != null && product.isASIMandatory(isSOTrx(), getAD_Org_ID()))
+				MAttributeSet.validateAttributeSetInstanceMandatory(product, Table_ID, isSOTrx() , getM_AttributeSetInstance_ID());
+				/*if (product != null && product.isASIMandatory(isSOTrx(), getAD_Org_ID()))
 				{
 					log.saveError("FillMandatory", Msg.getElement(getCtx(), COLUMNNAME_M_AttributeSetInstance_ID));
 					return false;
-				}
+				}*/
 			}	//	No ASI
 		}	//	new or manual
 		
@@ -414,8 +416,10 @@ public class MInventoryLine extends X_M_InventoryLine implements IDocumentLine
 	}
 
 	public BigDecimal getPriceActual() {
-		// TODO Auto-generated method stub
-		return null;
+		BigDecimal priceActual = MConversionRate.convertBase(getCtx(), getCurrentCostPrice(), getC_Currency_ID(),
+				getDateAcct(), getC_ConversionType_ID(),
+				getAD_Client_ID(), getAD_Org_ID());
+		return priceActual;
 	}
 
 	@Override
@@ -443,5 +447,24 @@ public class MInventoryLine extends X_M_InventoryLine implements IDocumentLine
 	@Override
 	public int getC_DocType_ID() {
 		return getParent().getC_DocType_ID();
+	}
+
+
+	@Override
+	public BigDecimal getPriceActualCurrency() {
+		return getCurrentCostPrice();
+	}
+
+	@Override
+	public int getC_Currency_ID ()
+	{
+		MClient client  = MClient.get(getCtx());
+		return client.getC_Currency_ID();
+	}
+
+	@Override
+	public int getC_ConversionType_ID()
+	{
+		return MConversionType.getDefault(getAD_Client_ID());
 	}
 }	//	MInventoryLine

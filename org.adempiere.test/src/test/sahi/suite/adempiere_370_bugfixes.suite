@@ -1,0 +1,5 @@
+
+//  ADempiere test suite - bugs and feature tests related to release 3.7.0
+
+../scenario/scenario_370_bugfix_tests.sah
+../scenario/scenario_370_FR3208588_Rounding.sah

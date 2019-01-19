@@ -104,7 +104,6 @@ public class ImportForecast extends SvrProcess {
 				ifl.setI_ErrorMsg("");
 				ifl.saveEx();
 				imported++;
-				ifl.saveEx();
 			} else {
 				ifl.setI_IsImported(false);
 				ifl.setProcessed(true);
@@ -137,9 +136,16 @@ public class ImportForecast extends SvrProcess {
 		fl.setIsActive(true);
 		fl.setSalesRep_ID(ifl.getSalesRep_ID());
 		fl.setDatePromised(ifl.getDatePromised());
-		fl.setPP_Period_ID(MPPPeriod.findByCalendar(getCtx(),
-				ifl.getDatePromised(), f.getPP_Calendar_ID(), get_TrxName())
-				.get_ID());
+		MPPPeriod period = MPPPeriod.findByCalendar(getCtx(),
+				ifl.getDatePromised(), f.getPP_Calendar_ID(), get_TrxName());
+		if (period == null)
+		{
+			ifl.setI_ErrorMsg(Msg.parseTranslation(ifl.getCtx() , "@PP_Period_ID@ @NotFound@ @To@ @DatePromised@" + ifl.getDatePromised()));
+			isImported = false;
+			return null;
+		}
+
+		fl.setPP_Period_ID(period.get_ID());
 		fl.saveEx();
 		isImported = true;
 		return fl;

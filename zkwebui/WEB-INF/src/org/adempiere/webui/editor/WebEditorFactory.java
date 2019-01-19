@@ -17,13 +17,18 @@
 
 package org.adempiere.webui.editor;
 
+import org.adempiere.webui.component.Button;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MAcctSchemaElement;
+import org.compiere.model.MImage;
 import org.compiere.util.CLogger;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
+import org.zkoss.image.AImage;
+
+import java.util.logging.Level;
 
 /**
  *
@@ -130,6 +135,21 @@ public class WebEditorFactory
         else if (displayType == DisplayType.Button)
         {
             editor = new WButtonEditor(gridField);
+            if (gridField.getAD_Image_ID() > 0)
+            {
+            MImage icon = MImage.get(gridField.getVO().ctx , gridField.getAD_Image_ID());
+            AImage imageIcon = null;
+            byte[] image = icon.getData();
+            if (image != null && image.length > 0) {
+                try {
+                    imageIcon = new AImage(null, image);
+                } catch (Exception e) {
+                    logger.log(Level.WARNING, e.getLocalizedMessage(), e);
+                }
+            }
+            if (imageIcon != null)
+                ((Button) editor.getComponent()).setImageContent(imageIcon);
+            }
         }
 
         /** Table Direct */
@@ -188,17 +208,23 @@ public class WebEditorFactory
         }
         
         // Change the label from the column to a user defined value for specific fields.
-        if (gridField.getColumnName().equals("User1_ID") || gridField.getColumnName().equals("User2_ID")) {
+        if (gridField.getColumnName() != null && gridField.getColumnName().equals("User1_ID")
+         || gridField.getColumnName() != null && gridField.getColumnName().equals("User2_ID")
+         || gridField.getColumnName() != null && gridField.getColumnName().equals("User3_ID")
+         || gridField.getColumnName() != null && gridField.getColumnName().equals("User4_ID")) {
         	int accountSchemaId = Env.getContextAsInt(Env.getCtx(), "$C_AcctSchema_ID");
         	if (accountSchemaId > 0) {
             	MAcctSchema accountSchema = MAcctSchema.get(Env.getCtx(),	accountSchemaId);
             	if (accountSchema != null) {
-            		MAcctSchemaElement accountSchemaElement;
-            		if (gridField.getColumnName().equals("User1_ID")) {
+            		MAcctSchemaElement accountSchemaElement = null;
+            		if (gridField.getColumnName().equals("User1_ID"))
                     	accountSchemaElement = accountSchema.getAcctSchemaElement(MAcctSchemaElement.ELEMENTTYPE_UserList1);
-            		}
-            		else
+            		else if (gridField.getColumnName().equals("User2_ID"))
             			accountSchemaElement = accountSchema.getAcctSchemaElement(MAcctSchemaElement.ELEMENTTYPE_UserList2);
+                    else if (gridField.getColumnName().equals("User3_ID"))
+                        accountSchemaElement = accountSchema.getAcctSchemaElement(MAcctSchemaElement.ELEMENTTYPE_UserList3);
+                    else if (gridField.getColumnName().equals("User4_ID"))
+                        accountSchemaElement = accountSchema.getAcctSchemaElement(MAcctSchemaElement.ELEMENTTYPE_UserList4);
             		
             		if ( accountSchemaElement != null )
             			editor.setLabel(accountSchemaElement.getName());

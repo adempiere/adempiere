@@ -5,7 +5,7 @@ CREATE OR REPLACE VIEW T_INVOICEGL_V
  DATEINVOICED, DATEACCT, C_PAYMENTTERM_ID, C_BPARTNER_ID, C_BPARTNER_LOCATION_ID, 
  AD_USER_ID, ISSELFSERVICE, C_CURRENCY_ID, C_CONVERSIONTYPE_ID, GRANDTOTAL, 
  ISTAXINCLUDED, C_CAMPAIGN_ID, C_PROJECT_ID, C_ACTIVITY_ID, AD_ORGTRX_ID, 
- USER1_ID, USER2_ID, C_LOCFROM_ID, C_LOCTO_ID, C_SALESREGION_ID, 
+ USER1_ID, USER2_ID, USER3_ID, USER4_ID, C_LOCFROM_ID, C_LOCTO_ID, C_SALESREGION_ID,
  FACT_ACCT_ID, C_ACCTSCHEMA_ID, ACCOUNT_ID, C_PERIOD_ID, GL_CATEGORY_ID, 
  GL_BUDGET_ID, C_TAX_ID, M_LOCATOR_ID, POSTINGTYPE, AMTSOURCEDR, 
  AMTSOURCECR, AMTACCTDR, AMTACCTCR, C_UOM_ID, QTY, 
@@ -21,7 +21,7 @@ SELECT i.AD_Client_ID, i.AD_Org_ID, i.IsActive, i.Created,i.CreatedBy, i.Updated
     i.C_Currency_ID, i.C_ConversionType_ID, i.GrandTotal, i.IsTaxIncluded,
 --  References
     i.C_Campaign_ID, i.C_Project_ID, i.C_Activity_ID,
-    i.AD_OrgTrx_ID, i.User1_ID, i.User2_ID,
+    i.AD_OrgTrx_ID, i.User1_ID, i.User2_ID, i.User3_ID, i.User4_ID,
     fa.C_LocFrom_ID, fa.C_LocTo_ID, fa.C_SalesRegion_ID,
 --  Accounting
     fa.Fact_Acct_ID, fa.C_AcctSchema_ID, fa.Account_ID, fa.C_Period_ID, fa.GL_Category_ID, fa.GL_Budget_ID,

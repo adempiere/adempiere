@@ -16,11 +16,15 @@
  *****************************************************************************/
 package org.compiere.model;
 
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
+
+import org.compiere.util.DB;
 
 /**
  *	Model for Commission.
@@ -30,6 +34,9 @@ import java.util.logging.Level;
  *  @version $Id: MCommission.java,v 1.3 2006/07/30 00:51:02 jjanke Exp $
  *  @author victor.perez@e-evolution.com www.e-evolution.com [ 1867477 ] http://sourceforge.net/tracker/index.php?func=detail&aid=1867477&group_id=176962&atid=879332
  *	FR: [ 2214883 ] Remove SQL code and Replace for Query - red1
+ *	@author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * 		<a href="https://github.com/adempiere/adempiere/issues/766">
+ * 		@see FR [ 766 ] Improve Commission Calculation</a>
  */
 public class MCommission extends X_C_Commission
 {
@@ -124,5 +131,75 @@ public class MCommission extends X_C_Commission
 			log.log(Level.SEVERE, "copyLinesFrom - Line difference - From=" + fromLines.length + " <> Saved=" + count);
 		return count;
 	}	//	copyLinesFrom
-
+	
+	/**
+	 * Get Sales Representative for commission run
+	 * @return
+	 */
+	public List<MBPartner> getSalesRepsOfCommission() {
+		List<MBPartner> salesRepsList = new ArrayList<MBPartner>();
+		if(getC_BPartner_ID() != 0) {
+			salesRepsList.add((MBPartner) getC_BPartner());
+		} else {
+			salesRepsList = new Query(getCtx(), I_C_BPartner.Table_Name, "EXISTS(SELECT 1 FROM C_CommissionSalesRep csr "
+					+ "WHERE csr.C_BPartner_ID = C_BPartner.C_BPartner_ID "
+					+ "AND csr.C_Commission_ID = ?"
+					+ "AND csr.IsActive = 'Y')", get_TrxName())
+											.setParameters(getC_Commission_ID())
+											.setOnlyActiveRecords(true)
+											.list();
+		}
+		return salesRepsList;
+	}
+	
+	/**********************************************************************************
+	 * Helper Method for Get Amount from commission                                   *
+	 **********************************************************************************/
+	
+	/**
+	 * Get Commission of Employee sales representative from Commission Run
+	 * @param bPartnerId
+	 * @param from
+	 * @param to
+	 * @return
+	 */
+	public static BigDecimal getCommissionAmt(int bPartnerId, Timestamp from, Timestamp to, String docBasisType) {
+		ArrayList<Object> params = new ArrayList<Object>();
+		String whereClause = new String();
+		//	Add BPartner
+		params.add(bPartnerId);
+		//	Add From and To
+		params.add(from);
+		params.add(to);
+		//	For Doc Basis Type
+		if(docBasisType != null
+				&& docBasisType.trim().length() > 0) {
+			params.add(docBasisType);
+			whereClause = "AND EXISTS(SELECT 1 FROM C_Commission c "
+					+ "					INNER JOIN C_CommissionLine cl ON(cl.C_Commission_ID = c.C_Commission_ID) "
+					+ "					WHERE cl.C_CommissionLine_ID = cah.C_CommissionLine_ID "
+					+ "					AND c.DocBasisType = ?)";
+		}
+		String sql = new String("SELECT COALESCE(SUM(cah.CommissionAmt), 0) "
+				+ "FROM C_CommissionRun crh "
+				+ "INNER JOIN C_CommissionAmt cah ON(cah.C_CommissionRun_ID = crh.C_CommissionRun_ID) "
+				+ "WHERE crh.DocStatus IN('CO', 'CL') "
+				+ "AND cah.C_BPartner_ID = ? "
+				+ "AND crh.DateDoc BETWEEN ? AND ? ")
+				+ whereClause;
+		BigDecimal value = DB.getSQLValueBDEx(null, sql.toString(), params);
+		//	Valid Value
+		return value;
+	}
+	
+	/**
+	 * Get commission amount for a sales representative without doc basis type
+	 * @param bPartnerId
+	 * @param from
+	 * @param to
+	 * @return
+	 */
+	public static BigDecimal getCommissionAmt(int bPartnerId, Timestamp from, Timestamp to) {
+		return getCommissionAmt(bPartnerId, from, to, null);
+	}
 }	//	MCommission

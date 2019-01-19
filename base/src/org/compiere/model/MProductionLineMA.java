@@ -1,10 +1,14 @@
 package org.compiere.model;
 
 import java.math.BigDecimal;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.Properties;
+import java.util.logging.Level;
 
-import org.compiere.model.X_M_ProductionLineMA;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
 import org.compiere.util.Env;
 
 public class MProductionLineMA extends X_M_ProductionLineMA {
@@ -13,6 +17,8 @@ public class MProductionLineMA extends X_M_ProductionLineMA {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	/**	Logger	*/
+	private static CLogger	s_log	= CLogger.getCLogger (MInventoryLineMA.class);
 
 	public MProductionLineMA(Properties ctx, int M_ProductionLineMA_ID,
 			String trxName) {
@@ -39,7 +45,7 @@ public class MProductionLineMA extends X_M_ProductionLineMA {
 		setM_AttributeSetInstance_ID(asi);
 		setM_ProductionLine_ID(parent.get_ID());
 		setMovementQty(qty);
-		
+		setAD_Org_ID(parent.getAD_Org_ID());
 	}
 	
 	public static MProductionLineMA get( MProductionLine parent, int asi )  {
@@ -56,5 +62,33 @@ public class MProductionLineMA extends X_M_ProductionLineMA {
 				asi,
 				Env.ZERO);
 	}
+	public static MProductionLineMA[] get (Properties ctx, int M_ProductionLine_ID, String trxName)
+	{
+		ArrayList<MProductionLineMA> list = new ArrayList<MProductionLineMA>();
+		String sql = "SELECT * FROM M_ProductionLineMA WHERE M_ProductionLine_ID=?";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try
+		{
+			pstmt = DB.prepareStatement (sql, trxName);
+			pstmt.setInt (1, M_ProductionLine_ID);
+			rs = pstmt.executeQuery ();
+			while (rs.next ())
+				list.add (new MProductionLineMA (ctx, rs, trxName));
+		}
+		catch (Exception e)
+		{
+			s_log.log (Level.SEVERE, sql, e);
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
+		}
+
+		MProductionLineMA[] retValue = new MProductionLineMA[list.size ()];
+		list.toArray (retValue);
+		return retValue;
+		}
 
 }

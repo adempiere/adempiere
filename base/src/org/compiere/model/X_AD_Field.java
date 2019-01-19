@@ -1,8 +1,9 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -11,8 +12,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Field
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_AD_Field extends PO implements I_AD_Field, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150223L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_AD_Field (Properties ctx, int AD_Field_ID, String trxName)
@@ -52,6 +52,7 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 			setIsDisplayedGrid (true);
 // Y
 			setIsEncrypted (false);
+// N
 			setIsFieldOnly (false);
 			setIsHeading (false);
 			setIsReadOnly (false);
@@ -116,6 +117,59 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 		return ii.intValue();
 	}
 
+	public org.spin.model.I_AD_ContextInfo getAD_ContextInfo() throws RuntimeException
+    {
+		return (org.spin.model.I_AD_ContextInfo)MTable.get(getCtx(), org.spin.model.I_AD_ContextInfo.Table_Name)
+			.getPO(getAD_ContextInfo_ID(), get_TrxName());	}
+
+	/** Set Context Info.
+		@param AD_ContextInfo_ID 
+		Context Info Maintaining
+	  */
+	public void setAD_ContextInfo_ID (int AD_ContextInfo_ID)
+	{
+		if (AD_ContextInfo_ID < 1) 
+			set_Value (COLUMNNAME_AD_ContextInfo_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_ContextInfo_ID, Integer.valueOf(AD_ContextInfo_ID));
+	}
+
+	/** Get Context Info.
+		@return Context Info Maintaining
+	  */
+	public int getAD_ContextInfo_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_ContextInfo_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.spin.model.I_AD_FieldDefinition getAD_FieldDefinition() throws RuntimeException
+    {
+		return (org.spin.model.I_AD_FieldDefinition)MTable.get(getCtx(), org.spin.model.I_AD_FieldDefinition.Table_Name)
+			.getPO(getAD_FieldDefinition_ID(), get_TrxName());	}
+
+	/** Set Field Definition.
+		@param AD_FieldDefinition_ID Field Definition	  */
+	public void setAD_FieldDefinition_ID (int AD_FieldDefinition_ID)
+	{
+		if (AD_FieldDefinition_ID < 1) 
+			set_Value (COLUMNNAME_AD_FieldDefinition_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_FieldDefinition_ID, Integer.valueOf(AD_FieldDefinition_ID));
+	}
+
+	/** Get Field Definition.
+		@return Field Definition	  */
+	public int getAD_FieldDefinition_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_FieldDefinition_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_AD_FieldGroup getAD_FieldGroup() throws RuntimeException
     {
 		return (org.compiere.model.I_AD_FieldGroup)MTable.get(getCtx(), org.compiere.model.I_AD_FieldGroup.Table_Name)
@@ -162,6 +216,34 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 	public int getAD_Field_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Field_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_AD_Image getAD_Image() throws RuntimeException
+    {
+		return (org.compiere.model.I_AD_Image)MTable.get(getCtx(), org.compiere.model.I_AD_Image.Table_Name)
+			.getPO(getAD_Image_ID(), get_TrxName());	}
+
+	/** Set Image.
+		@param AD_Image_ID 
+		Image or Icon
+	  */
+	public void setAD_Image_ID (int AD_Image_ID)
+	{
+		if (AD_Image_ID < 1) 
+			set_Value (COLUMNNAME_AD_Image_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Image_ID, Integer.valueOf(AD_Image_ID));
+	}
+
+	/** Get Image.
+		@return Image or Icon
+	  */
+	public int getAD_Image_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Image_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -648,6 +730,30 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 		return (String)get_Value(COLUMNNAME_IsMandatory);
 	}
 
+	/** Set Quick Entry.
+		@param IsQuickEntry 
+		Display in Quick Entry Form
+	  */
+	public void setIsQuickEntry (boolean IsQuickEntry)
+	{
+		set_Value (COLUMNNAME_IsQuickEntry, Boolean.valueOf(IsQuickEntry));
+	}
+
+	/** Get Quick Entry.
+		@return Display in Quick Entry Form
+	  */
+	public boolean isQuickEntry () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsQuickEntry);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Read Only.
 		@param IsReadOnly 
 		Field is read only
@@ -827,5 +933,22 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
+	}
+
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
 	}
 }

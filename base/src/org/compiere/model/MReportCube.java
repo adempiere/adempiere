@@ -165,6 +165,10 @@ public class MReportCube extends X_PA_ReportCube {
 				values.add("User1_ID");
 			if ( isUser2Dim() )
 				values.add("User2_ID");
+			if ( isUser3Dim() )
+				values.add("User3_ID");
+			if ( isUser4Dim() )
+				values.add("User4_ID");
 			if ( isUserElement1Dim() )
 				values.add("UserElement1_ID");
 			if ( isUserElement2Dim() )

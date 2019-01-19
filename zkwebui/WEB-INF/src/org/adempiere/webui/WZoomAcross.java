@@ -16,9 +16,8 @@
  *****************************************************************************/
 package org.adempiere.webui;
 
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.adempiere.model.ZoomInfoFactory;
 import org.adempiere.webui.apps.AEnv;

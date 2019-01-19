@@ -44,7 +44,9 @@ import org.eevolution.model.X_I_HR_Movement;
  *	Import Payroll Movements from I_HR_Movement
  *
  * 	@author 	GlobalQSS/jjgq
+ * 	@deprecated implement new approach not si not use direct inserts
  */
+@Deprecated
 public class ImportPayrollMovement extends SvrProcess
 {
 	/**	Client to be imported to		*/
@@ -236,9 +238,9 @@ public class ImportPayrollMovement extends SvrProcess
 			rs = pstmt.executeQuery();
 			while (rs.next())
 			{
-				X_I_HR_Movement imp = new X_I_HR_Movement(getCtx(), rs, get_TrxName());
-				int I_HR_Movement_ID = imp.getI_HR_Movement_ID();
-				int HR_Movement_ID = imp.getHR_Movement_ID();
+				X_I_HR_Movement importMovement = new X_I_HR_Movement(getCtx(), rs, get_TrxName());
+				int I_HR_Movement_ID = importMovement.getI_HR_Movement_ID();
+				int HR_Movement_ID = importMovement.getHR_Movement_ID();
 				boolean newPayrollMovement = HR_Movement_ID == 0;
 				log.fine("I_HR_Movement_ID=" + I_HR_Movement_ID + ", HR_Movement_ID=" + HR_Movement_ID);
 
@@ -246,7 +248,7 @@ public class ImportPayrollMovement extends SvrProcess
 				//	HR Movement
 				if (newPayrollMovement)			//	Insert new HR Movement
 				{
-					payrollMovement = new MHRMovement(imp);
+					payrollMovement = new MHRMovement(importMovement);
 					if (payrollMovement.save())
 					{
 						HR_Movement_ID = payrollMovement.getHR_Movement_ID();
@@ -266,18 +268,21 @@ public class ImportPayrollMovement extends SvrProcess
 					MHRConcept payrollConcept = new MHRConcept(getCtx(), payrollMovement.getHR_Concept_ID(), get_TrxName());
 					
 					// set corresponding values
+					payrollMovement.setSeqNo(payrollConcept.getSeqNo());
+					payrollMovement.setDescription(importMovement.getDescription());
+					payrollMovement.setReferenceNo(importMovement.getReferenceNo());
 					payrollMovement.setAmount(null);
 					payrollMovement.setQty(null);
 					payrollMovement.setServiceDate(null);
 					payrollMovement.setTextMsg(null);
 					if (payrollConcept.getColumnType().equals(MHRConcept.COLUMNTYPE_Quantity)){				// Concept Type
-						payrollMovement.setQty(imp.getQty());
+						payrollMovement.setQty(importMovement.getQty());
 					} else if (payrollConcept.getColumnType().equals(MHRConcept.COLUMNTYPE_Amount)){
-						payrollMovement.setAmount(imp.getAmount());
+						payrollMovement.setAmount(importMovement.getAmount());
 					} else if (payrollConcept.getColumnType().equals(MHRConcept.COLUMNTYPE_Date)){
-						payrollMovement.setServiceDate(imp.getServiceDate());
+						payrollMovement.setServiceDate(importMovement.getServiceDate());
 					} else if (payrollConcept.getColumnType().equals(MHRConcept.COLUMNTYPE_Text)){
-						payrollMovement.setTextMsg(imp.getTextMsg());
+						payrollMovement.setTextMsg(importMovement.getTextMsg());
 					}
 					
 					if (payrollMovement.save())
@@ -326,6 +331,4 @@ public class ImportPayrollMovement extends SvrProcess
 		addLog (0, null, new BigDecimal (noUpdatehrm), "@HR_Movement_ID@: @Updated@");
 		return "";
 	}	//	doIt
-	
-
 }	//	ImportPayrollMovement

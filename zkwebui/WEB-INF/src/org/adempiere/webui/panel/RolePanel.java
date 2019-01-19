@@ -40,7 +40,6 @@ import org.adempiere.webui.util.UserPreference;
 import org.adempiere.webui.window.LoginWindow;
 import org.compiere.model.MRole;
 import org.compiere.model.MSysConfig;
-import org.compiere.model.MUser;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Language;
@@ -50,6 +49,7 @@ import org.zkoss.zhtml.Table;
 import org.zkoss.zhtml.Td;
 import org.zkoss.zhtml.Tr;
 import org.zkoss.zk.au.out.AuFocus;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.WrongValueException;
 import org.zkoss.zk.ui.event.Deferrable;
 import org.zkoss.zk.ui.event.Event;
@@ -67,6 +67,9 @@ import org.zkoss.zul.Image;
  * @date    Feb 25, 2007
  * @version $Revision: 0.10 $
  * @author <a href="mailto:sendy.yagambrum@posterita.org">Sendy Yagambrum</a>
+ * @author Raul Muñoz, rMunoz@erpya.com , http://www.erpya.com
+ * <li> FR [ 1769 ] Add option to restore the password from the login
+ * @see https://github.com/adempiere/adempiere/issues/1769
  * @date    July 18, 2007
  */
 public class RolePanel extends Window implements EventListener, Deferrable
@@ -260,7 +263,16 @@ public class RolePanel extends Window implements EventListener, Deferrable
         btnCancel.addEventListener("onClick", this);
 
         // initial role - Elaine 2009/02/06
-        UserPreference userPreference = SessionManager.getSessionApplication().getUserPreference();
+        updateRoleList();
+    }
+
+	/**
+	 * 
+	 */
+	private void updateRoleList()
+	{
+		lstRole.getItems().clear();
+		UserPreference userPreference = SessionManager.getSessionApplication().getUserPreference();
         String initDefault = userPreference.getProperty(UserPreference.P_ROLE);
         for(int i = 0; i < rolesKNPairs.length; i++)
         {
@@ -272,7 +284,7 @@ public class RolePanel extends Window implements EventListener, Deferrable
         if (lstRole.getSelectedIndex() == -1 && lstRole.getItemCount() > 0)
         	lstRole.setSelectedIndex(0);
         //
-        
+
 		// If we have only one role, we can hide the combobox - metas-2009_0021_AP1_G94
 		if (lstRole.getItemCount() == 1 && ! MSysConfig.getBooleanValue("ALogin_ShowOneRole", true))
 		{
@@ -285,7 +297,7 @@ public class RolePanel extends Window implements EventListener, Deferrable
 			lblRole.setVisible(true);
 			lstRole.setVisible(true);
 		}
-        
+
         updateClientList();
     }
 
@@ -448,7 +460,10 @@ public class RolePanel extends Window implements EventListener, Deferrable
         {
         	throw new WrongValueException(msg);
         }
-        wndLogin.loginCompleted();
+        if(wndLogin.isPassReset()) 
+        	Executions.sendRedirect("index.zul");
+        else 
+        	wndLogin.loginCompleted();
 
         // Elaine 2009/02/06 save preference to AD_Preference
         UserPreference userPreference = SessionManager.getSessionApplication().getUserPreference();
@@ -463,5 +478,24 @@ public class RolePanel extends Window implements EventListener, Deferrable
 
 	public boolean isDeferrable() {
 		return false;
+	}	
+	
+	/**
+	 * @param ctx
+	 */
+	public void changeRole(Properties ctx)
+	{
+		updateRoleList();
+		int AD_Role_ID = Env.getAD_Role_ID(ctx);
+		lstRole.setValue(AD_Role_ID);
+		updateClientList();
+		int AD_Client_ID = Env.getAD_Client_ID(ctx);
+		lstClient.setValue(AD_Client_ID);
+		updateOrganisationList();
+		int AD_Org_ID = Env.getAD_Org_ID(ctx);
+		lstOrganisation.setValue(AD_Org_ID);
+		updateWarehouseList();
+		int M_Warehouse_ID = Env.getContextAsInt(ctx, Env.M_WAREHOUSE_ID);
+		lstWarehouse.setValue(M_Warehouse_ID);
 	}
 }

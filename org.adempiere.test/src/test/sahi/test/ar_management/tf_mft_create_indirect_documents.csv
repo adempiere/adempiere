@@ -1,0 +1,7 @@
+Joe Block,Proposal,Oak Tree,Completed,N,N,
+Joe Block,Quotation,Oak Tree,Completed,N,N,
+Joe Block,Prepay Order,Oak Tree,Waiting Payment,N,N,
+Joe Block,On Credit Order,Oak Tree,Completed,Y,Y,
+Joe Block,POS Order,Oak Tree,Completed,Y,Y,
+Joe Block,Warehouse Order,Oak Tree,Completed,Y,N,
+Joe Block,Standard Order,Oak Tree,Completed,N,N,

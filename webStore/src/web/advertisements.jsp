@@ -3,13 +3,12 @@
   <c:redirect url='loginServlet?ForwardTo=advertisements.jsp'/>
 </c:if>
 <html>
-<!--
+<%--
   - Author:  Jorg Janke
-  - Version: $Id: advertisements.jsp,v 1.2 2006/05/06 00:41:33 mdeaelfweald Exp $
-  - Adempiere ERP & CRM Smart Business Solution - Copyright (c) 1999-2003 Jorg Janke
+  - ADempiere ERP & CRM Smart Business Solution - Copyright (c) 1999-2003 Jorg Janke
   - - -
   - Web Advertisements
-  -->
+  --%>
 <head>
 <%@ include file="/WEB-INF/jspf/head.jspf" %>
 <title><c:out value='${ctx.name}'/> - My Advertisements</title>
@@ -28,7 +27,7 @@
         <c:forEach items='${info.advertisements}' var='ad'> 
         <tr> 
           <td colspan="2">
-		    <a href="http://www.adempiere.com/wstore/click?<c:out value='${ad.clickTargetURL}'/>" target="_blank"> 
+		    <a href="http://www.adempiere.net/wstore/click?<c:out value='${ad.clickTargetURL}'/>" target="_blank">
             <img src="<c:out value='${ad.imageURL}'/>" alt="<c:out value='${ad.name}'/>" border="0" align="left"></a> 
             <img src="<c:out value='${ad.webParam2}'/>" alt="<c:out value='${ad.webParam1}'/>" border="0" align="right"> 
             &nbsp; <b><c:out value='${ad.description}'/></b>

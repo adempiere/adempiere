@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="System Config report display Yes - No #905 " ReleaseNo="3.9.0" SeqNo="01430">
+    <Comments>https://github.com/adempiere/adempiere/issues/905</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <Comments>Display Y/N columns in reports as text, symbols or images</Comments>
+      <PO AD_Table_ID="50009" Action="I" Record_ID="50122" Table="AD_SysConfig">
+        <Data AD_Column_ID="50188" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="50187" Column="AD_SysConfig_ID">50122</Data>
+        <Data AD_Column_ID="50189" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="53271" Column="ConfigurationLevel">S</Data>
+        <Data AD_Column_ID="50190" Column="Created">2016-11-02 13:39:31</Data>
+        <Data AD_Column_ID="50192" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="50193" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="50197" Column="Description">Display Y/N columns in reports as text, symbols or images. If the value =="Y" or "N"", the result will be a Y or no in the report. If the value =="symbol" or "image", a symbol or an image will be displayed</Data>
+        <Data AD_Column_ID="50195" Column="Name">REPORT_DISPLAY_YES_NO</Data>
+        <Data AD_Column_ID="50196" Column="Value">Y</Data>
+        <Data AD_Column_ID="50191" Column="Updated">2016-11-02 13:39:31</Data>
+        <Data AD_Column_ID="50194" Column="IsActive">true</Data>
+        <Data AD_Column_ID="53270" Column="EntityType">D</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

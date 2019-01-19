@@ -1,0 +1,122 @@
+/******************************************************************************
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2011, Michael McKay, All Rights Reserved.                    *
+ * This program is free software; you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ ****************************************************************************** 
+ *
+ * dialog.sah
+ * 
+ * Functions related to the specific dialogs.
+ * 
+ * lookup
+ * location
+ *
+ **/
+//<browser>
+/********************************************************************
+*
+* dLookup($windowName)
+* 
+* Returns the element of the Lookup window label.  Do not use as 
+* a containing element.  
+*
+*******************************************************************/
+function dLookup($windowName) { 
+	return __div("Lookup Record: " + $windowName); // Returns null if none exist.
+}
+//</browser>
+
+/********************************************************************
+*
+* dConfirmLookup($windowName)
+* 
+* Clicks the Confirm button in the lookup window.  
+*
+*******************************************************************/
+function dConfirmLookup($windowName){
+	if(_condition(dLookup($windowName) != null)){
+		iConfirm();
+	}
+}
+
+/********************************************************************
+*
+* dCancelLookup($windowName)
+* 
+* Clicks the cancel button in a lookup window.  
+*
+*******************************************************************/
+function dCancelLookup($windowName){
+	if(_condition(dLookup($windowName) != null)){
+		iCancel();
+	}
+}
+
+/********************************************************************
+*
+* dNewLookup($windowName)
+* 
+* Clicks the New Record icon in a lookup window.  
+*
+*******************************************************************/
+function dNewLookup($windowName){
+	if(_condition(dLookup($windowName) != null)){
+		iNewRecord();
+	}
+}
+
+/********************************************************************
+*
+* dPerformLookup($TabName, $FieldValues)
+* 
+* Performs a lookup on the currently displayed window/tab using 
+* the default fields.  
+* 
+* $TabName is the name of the current tab/window
+* 
+* $FieldValues contains an array of the form field name,value.  
+* Field names that can't be found on the lookup are ignored but 
+* noted in the log.  The function opens the lookup so it can be 
+* called stand-alone.   
+*
+*******************************************************************/
+function dPerformLookup($TabName, $FieldValues){
+	
+	iLookup(); // Open the lookup record
+	if(_condition(dLookup($TabName) == null)){
+		_log("Error: dPerformLookup: No lookup for tab " + $TabName + " found.","error");
+		return;
+	}
+	
+	if($FieldValues[0][0] != ""){
+		var $i = 0;
+		while($FieldValues[$i][0] != "" && $i < 10){
+			fSetTextModal($FieldValues[$i][0],$FieldValues[$i][1]);
+			$i++;
+		}
+	}
+	iConfirm();
+}
+
+/********************************************************************
+*
+* dOpenLocation($FieldName)
+* 
+* Opens a location dialog  
+* 
+* $FieldName is the column name of the location field
+* 
+*
+*******************************************************************/
+function dOpenLocation($FieldName){	
+	_assertExists(_image(/Location10.png/, _in(_div("/^Field_" + $FieldName + "/"))), "Error: dOpenLocation() can't find field " + $FieldName);
+	_click(_image(/Location10.png/, _in(_div("/^Field_" + $FieldName + "/"))));
+}

@@ -340,7 +340,8 @@ public class InvoicePrint extends SvrProcess
 					ServerReportCtl.startDocumentPrint(ReportEngine.INVOICE, 
 													   null, // No custom print format
 													   C_Invoice_ID,
-													   null  // No custom printer
+													   null,  // No custom printer
+													   null
 													   );					
 					count++;
 					printed = true;

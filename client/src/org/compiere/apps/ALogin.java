@@ -47,7 +47,6 @@ import org.compiere.grid.ed.VComboBox;
 import org.compiere.grid.ed.VDate;
 import org.compiere.model.MSysConfig;
 import org.compiere.model.MSystem;
-import org.compiere.model.MUser;
 import org.compiere.print.CPrinter;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CDialog;
@@ -64,6 +63,7 @@ import org.compiere.util.KeyNamePair;
 import org.compiere.util.Language;
 import org.compiere.util.Login;
 import org.compiere.util.Msg;
+import org.compiere.util.Util;
 
 /**
  *	Application Login Window
@@ -148,10 +148,6 @@ public final class ALogin extends CDialog
 	private BorderLayout southLayout = new BorderLayout();
 	private StatusBar statusBar = new StatusBar();
 	private ConfirmPanel confirmPanel = new ConfirmPanel(true, false, false, false, false, false, false);
-	//private OnlineHelp onlineHelp = new OnlineHelp(true);
-	//private CPanel helpPanel = new CPanel();
-	// private JScrollPane helpScrollPane = new JScrollPane();
-	// private BorderLayout helpLayout = new BorderLayout();
 
 	/** Server Connection       */
 	private CConnection 	m_cc;
@@ -172,6 +168,8 @@ public final class ALogin extends CDialog
 	private Properties      m_ctx = Env.getCtx();
 	
 	private Login			m_login = null;
+	
+	private String			restorePasswordURL = null;
 
 	
 	/**************************************************************************
@@ -324,24 +322,8 @@ public final class ALogin extends CDialog
 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 12, 5, 5), 0, 0));
 		defaultPanel.add(warehouseCombo,   new GridBagConstraints(1, 3, 1, 1, 1.0, 0.0
 			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 12), 0, 0));
-		
-		// @Trifon - begin
-/*		
-		defaultPanel.add(languageLabel, new GridBagConstraints(0, 6, 1, 1, 0.0, 0.0
-				, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 12, 5, 5), 0, 0));
-		defaultPanel.add(languageCombo,    new GridBagConstraints(1, 6, 3, 1, 1.0, 0.0
-				, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 12), 0, 0));
-*/
-		// @Trifon - end
 		//
 		loginTabPane.add(defaultPanel, res.getString("Defaults"));
-
-		//  Help
-		/*
-		helpPanel.setLayout(helpLayout);
-		helpPanel.setPreferredSize(new Dimension (100,100));
-		helpPanel.add(helpScollPane,  BorderLayout.CENTER);
-		loginTabPane.add(helpPanel,  "?");*/
 		//
 		this.getContentPane().add(mainPanel);
 		mainPanel.add(loginTabPane, BorderLayout.CENTER);
@@ -357,7 +339,13 @@ public final class ALogin extends CDialog
 		helpBtn.setActionCommand("onlineLoginHelp");
 		helpBtn.addActionListener(this);
 		helpBtn.setToolTipText(res.getString("Help"));
+		//	Forgot password
+		CButton resetPasswordBtn = new CButton(Env.getImageIcon2("LockX24"));
+		resetPasswordBtn.setActionCommand("ResetPassword");
+		resetPasswordBtn.addActionListener(this);
+		
 		confirmPanel.addComponent(helpBtn);
+		confirmPanel.addComponent(resetPasswordBtn);
 		
 		statusBar.setStatusDB(null);
 	} 	//	jbInit
@@ -506,6 +494,17 @@ public final class ALogin extends CDialog
 			orgComboChanged();
 		else if ("onlineLoginHelp".equals(e.getActionCommand()))
 			OnlineHelp.openInDefaultBrowser();
+		else if("ResetPassword".equals(e.getActionCommand())) {
+			if(Util.isEmpty(restorePasswordURL)) {
+				String appHost = CConnection.get().getAppsHost();
+				if(!Util.isEmpty(appHost)) {
+					restorePasswordURL = Adempiere.getWebServer(appHost);
+				}
+			}
+			if(!Util.isEmpty(restorePasswordURL)) {
+				Env.startBrowser(restorePasswordURL);
+			}
+		}
 	}	//	actionPerformed
 
 
@@ -524,9 +523,9 @@ public final class ALogin extends CDialog
 		if (m_connectionOK)			
 		{
 			//  Verify Language & Load Msg
-			Language l = Language.getLoginLanguage();
-			Env.verifyLanguage (m_ctx, l);
-			Env.setContext(m_ctx, Env.LANGUAGE, l.getAD_Language());
+			Language language = Language.getLoginLanguage();
+			Env.verifyLanguage (m_ctx, language);
+			Env.setContext(m_ctx, Env.LANGUAGE, language.getAD_Language());
 			Msg.getMsg(m_ctx, "0");
 			
 			//	Migration

@@ -1,0 +1,80 @@
+/******************************************************************************
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2011, Michael McKay, All Rights Reserved.                    *
+ * This program is free software; you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ *                                                                            *
+ * @Author Michael McKay (mjmckay)                                            *
+ *                                                                            *
+ ******************************************************************************/
+/**
+ * Test Flow Main Functional Tests
+ * 
+ * Attribute Setup
+ * 
+ * This test flow creates the simple attributes used in the Main
+ * Functional Tests
+ * 
+ * See http://wiki.adempiere.net/Functional_Tests
+ * 
+ **/
+
+var $mft_attribute_setup_CSVFilePath = "../test/material_management/tf_mft_attribute_setup.csv";
+var $mft_attribute_setup_OldName = "";
+
+function mft_attribute_setup_detail(
+		$Name,
+		$Description,
+		$AttributeValueType,
+		$IsMandatory,
+		$AV_Value,
+		$AV_Name,
+		$AV_Description
+		){
+	
+	if($mft_attribute_setup_OldName!=$Name){ 
+
+		// New attribute Instance
+		wOpenTab("Attribute");
+		iFormView();
+		iNewRecord();
+		fSetText("Name",$Name);
+		fSetList("AttributeValueType",$AttributeValueType);		
+		fSetCheckbox("IsMandatory",$IsMandatory);
+		iSaveRecord();		
+		$mft_attribute_setup_OldName = $Name;
+		_assertEqual($mft_attribute_setup_OldName, $Name, "*** Not Equal!!");
+		
+	}
+	if($AttributeValueType=="List"){ 
+		wOpenTab("Attribute Value");
+		iFormView();
+		iNewRecord();
+		fSetText("Value",$AV_Value);
+		fSetText("Name",$AV_Name);
+		fSetText("Description",$AV_Description);
+		iSaveRecord();
+	}
+
+}
+
+function mft_attribute_setup(){
+	
+	var $data = _readCSVFile($mft_attribute_setup_CSVFilePath);
+	
+	wOpenWindow("Attribute");
+	
+	_dataDrive(mft_attribute_setup_detail, $data);
+
+	wCloseWindow("Attribute");
+
+	_log("MFT_Attribute_Setup completed");
+}
+

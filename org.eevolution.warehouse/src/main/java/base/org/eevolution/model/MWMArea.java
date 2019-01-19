@@ -31,6 +31,7 @@ package org.eevolution.model;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Properties;
 
 import org.compiere.model.Query;
@@ -43,26 +44,40 @@ import org.compiere.util.CLogger;
  */
 public class MWMArea extends X_WM_Area
 {
-
-	public static Collection <MWMArea> getMWMArea(Properties ctx, int M_Warehouse_ID, String trxName)
+	/**
+	 * Get Warehouse Area Type
+	 * @param ctx
+	 * @param warehouseId
+	 * @param trxName
+     * @return
+     */
+	public static List<MWMArea> getByWarehouse(Properties ctx, int warehouseId, String trxName)
 	{
 		final String whereClause =	MWMArea.COLUMNNAME_M_Warehouse_ID + "=?";
 		return new Query(ctx, MWMArea.Table_Name, whereClause, trxName)
 					.setClient_ID()
 					.setOnlyActiveRecords(true)
-					.setParameters(new Object[]{M_Warehouse_ID})
+					.setParameters(warehouseId)
 					.list();
 	}
-	
-	public static Collection<MWMArea> getWMAreas(Properties ctx, int M_Warehouse_ID, int WM_Area_Type_ID, String trxName)
+
+	/**
+	 * Get Area Type based on warehouse id and area type id
+	 * @param ctx
+	 * @param warehouseId
+	 * @param warehouseAreaTypeId
+	 * @param trxName
+     * @return
+     */
+	public static List<MWMArea> getByWarehouseAndAreaType(Properties ctx, int warehouseId, int warehouseAreaTypeId, String trxName)
 	{
 		ArrayList<Object> parameters = new ArrayList();
 		StringBuffer whereClause = new StringBuffer(MWMArea.COLUMNNAME_M_Warehouse_ID).append("= ?");
-		parameters.add(M_Warehouse_ID);
-		if(WM_Area_Type_ID > 0)
+		parameters.add(warehouseId);
+		if(warehouseAreaTypeId > 0)
 		{
 			whereClause.append("AND WM_Area_Type_ID = ?");
-			parameters.add(WM_Area_Type_ID);
+			parameters.add(warehouseAreaTypeId);
 		}
 	
 	return  new Query(ctx, MWMArea.Table_Name,whereClause.toString(), trxName)
@@ -70,6 +85,7 @@ public class MWMArea extends X_WM_Area
 	.setParameters(parameters)
 	.list();
 	}
+
 	/**
 	 * 
 	 */
@@ -128,38 +144,22 @@ public class MWMArea extends X_WM_Area
 			.append ("]");
 		return sb.toString ();
 	}	//	toString
-	
 
-	
-	public Collection <MWMArea> getMWMAreaByType(int M_Warehouse_ID, int WM_AreaType_ID)
-	{
-		final String whereClause = MWMArea.COLUMNNAME_M_Warehouse_ID + "=? AND"
-								 + MWMArea.COLUMNNAME_WM_Area_Type_ID + "=?";
-		return new Query(getCtx(), MWMArea.Table_Name, whereClause, get_TrxName())
-					.setClient_ID()
-					.setOnlyActiveRecords(true)
-					.setParameters(new Object[]{M_Warehouse_ID,WM_AreaType_ID})
-					.list();
-	}
-	
-
-	
-	
-	public Collection <MWMSection> getWMSection(int WM_Section_Type_ID)
+	public List <MWMSection> getBySectionType(int warehouseSectionTypeId)
 	{
 		final StringBuffer whereClause = new StringBuffer(MWMSection.COLUMNNAME_WM_Area_ID + "=? ");
 		ArrayList<Object> parameters = new ArrayList();
-		parameters.add(getWM_Area_ID());		
-		if( WM_Section_Type_ID > 0)
+		parameters.add(getWM_Area_ID());
+		if( warehouseSectionTypeId > 0)
 		{
 			whereClause.append("AND ");
 			whereClause.append(MWMSection.COLUMNNAME_WM_Section_Type_ID + "=?");
-			parameters.add(WM_Section_Type_ID);
+			parameters.add(warehouseSectionTypeId);
 		}
 		return new Query(getCtx(), MWMSection.Table_Name, whereClause.toString(), get_TrxName())
-					.setClient_ID()
-					.setOnlyActiveRecords(true)
-					.setParameters(parameters)
-					.list();
+				.setClient_ID()
+				.setOnlyActiveRecords(true)
+				.setParameters(parameters)
+				.list();
 	}
 }	

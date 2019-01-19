@@ -1,0 +1,149 @@
+/******************************************************************************
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2011, Michael McKay, All Rights Reserved.                    *
+ * This program is free software; you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ *                                                                            *
+ * @Author Michael McKay (mjmckay)                                            *
+ *                                                                            *
+ ******************************************************************************/
+/**
+ * Test Flow Main Functional Tests
+ * 
+ * Pricelist Schema Setup
+ * 
+ * This test flow creates the price list schemas used in the Main
+ * Functional Tests
+ * 
+ * See http://wiki.adempiere.net/Functional_Tests
+ * 
+ **/
+// Local test - un-comment if running just this file
+// Includes - common functions
+//var $mft_pricelist_schema_setup_CSVFilePath = "../material_management/tf_mft_pricelist_schema_setup.csv";
+//_include("../../lib/common_functions.sah");
+//mft_pricelist_schema_setup();
+
+// General test - un-comment if including this file in a scenario
+var $mft_pricelist_schema_setup_CSVFilePath = "../test/material_management/tf_mft_pricelist_schema_setup.csv";
+
+var $mft_pricelist_schema_setup_OldName = "";  
+
+function mft_pricelist_schema_setup_detail(
+		$Name,
+		$Description,
+		$ValidFrom,
+		$DiscountType,
+		$SL_SeqNo,
+		$SL_C_ConversionType_ID,
+		$SL_ConversionDate,
+		$SL_C_BPartner_ID,
+		$SL_M_Product_ID,
+		$SL_M_Product_Category_ID,
+		$SL_Classification,
+		$SL_Group1,
+		$SL_Group2,
+		$SL_List_Base,
+		$SL_List_Fixed,
+		$SL_List_MinAmt,
+		$SL_List_AddAmt,
+		$SL_List_MaxAmt,
+		$SL_List_Discount,
+		$SL_List_Rounding,
+		$SL_Std_Base,
+		$SL_Std_Fixed,
+		$SL_Std_MinAmt,
+		$SL_Std_AddAmt,
+		$SL_Std_MaxAmt,
+		$SL_Std_Discount,
+		$SL_Std_Rounding,
+		$SL_Limit_Base,
+		$SL_Limit_Fixed,
+		$SL_Limit_MinAmt,
+		$SL_Limit_AddAmt,
+		$SL_Limit_MaxAmt,
+		$SL_Limit_Discount,
+		$SL_Limit_Rounding
+	){
+	
+	// Main Schema tab
+	if($mft_pricelist_schema_setup_OldName!=$Name){
+
+		// New Schema
+		wOpenTab("Price List Schema");
+		iFormView();
+		iNewRecord();
+		fSetText("Name",$Name);
+		fSetText("Description",$Description);
+		fSetText("ValidFrom",$ValidFrom);
+		fSetList("DiscountType",$DiscountType);
+		iSaveRecord();
+		
+		$mft_pricelist_schema_setup_OldName = $Name;		
+	}
+	
+	// Schema Line tab
+	wOpenTab("Schema Line");
+	iFormView();
+	iNewRecord();
+	fSetAmount("SeqNo",$SL_SeqNo);
+	fSetListRq("C_ConversionType_ID",$SL_C_ConversionType_ID,"N");
+	fSetText("ConversionDate",$SL_ConversionDate);
+	fSetSearch("C_BPartner_ID",$SL_C_BPartner_ID);
+	fSetSearch("M_Product_ID",$SL_M_Product_ID);
+	fSetListRq("M_Product_Category_ID",$SL_M_Product_Category_ID,"N");
+	fSetListRq("Classification",$SL_Classification,"N");
+	fSetListRq("Group1",$SL_Group1,"N");
+	fSetListRq("Group2",$SL_Group2,"N");
+	fSetListRq("List_Base",$SL_List_Base,"N");
+	if($SL_List_Base == "Fixed"){
+		fSetAmount("List_Fixed",$SL_List_Fixed);
+	} else {
+		fSetAmount("List_MinAmt",$SL_List_MinAmt);
+		fSetAmount("List_AddAmt",$SL_List_AddAmt);
+		fSetAmount("List_MaxAmt",$SL_List_MaxAmt);
+		fSetAmount("List_Discount",$SL_List_Discount);
+		fSetListRq("List_Rounding",$SL_List_Rounding,"N");
+	}
+	if($SL_Std_Base == "Fixed"){
+		fSetAmount("Std_Fixed",$SL_Std_Fixed);
+	} else {
+		fSetAmount("Std_MinAmt",$SL_Std_MinAmt);
+		fSetAmount("Std_AddAmt",$SL_Std_AddAmt);
+		fSetAmount("Std_MaxAmt",$SL_Std_MaxAmt);
+		fSetAmount("Std_Discount",$SL_Std_Discount);
+		fSetListRq("Std_Rounding",$SL_Std_Rounding,"N");
+	}
+	if($SL_Limit_Base == "Fixed"){
+		fSetAmount("Limit_Fixed",$SL_Limit_Fixed);
+	} else {
+		fSetAmount("Limit_MinAmt",$SL_Limit_MinAmt);
+		fSetAmount("Limit_AddAmt",$SL_Limit_AddAmt);
+		fSetAmount("Limit_MaxAmt",$SL_Limit_MaxAmt);
+		fSetAmount("Limit_Discount",$SL_Limit_Discount);
+		fSetListRq("Limit_Rounding",$SL_Limit_Rounding,"N");
+	}
+	iSaveRecord();
+
+}
+
+function mft_pricelist_schema_setup(){
+	
+	var $data = _readCSVFile($mft_pricelist_schema_setup_CSVFilePath);
+	
+	wOpenWindow("Price List Schema");
+	
+	_dataDrive(mft_pricelist_schema_setup_detail, $data);
+
+	wCloseWindow("Price List Schema");
+
+	_log("MFT_Pricelist_Schema_Setup completed");
+}
+

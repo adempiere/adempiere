@@ -14,7 +14,7 @@ import org.compiere.process.ServerProcessCtl;
 import org.compiere.util.ASyncProcess;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
-
+import org.compiere.util.Trx;
 
 
 public class ServerReportCtl {
@@ -28,20 +28,26 @@ public class ServerReportCtl {
 	
 	/**	Static Logger	*/
 	private static CLogger	s_log	= CLogger.getCLogger (ServerReportCtl.class);
-	
+
 	/**
-	 * 	Start Document Print for Type with specified printer.
-	 * 	@param type document type in ReportEngine
-	 * 	@param Record_ID id
-	 *  @param parent The window which invoked the printing
-	 *  @param WindowNo The windows number which invoked the printing
-	 * 	@param printerName 	Specified printer name
-	 * 	@return true if success
-	 */
-	public static boolean startDocumentPrint (int type, MPrintFormat customPrintFormat, int Record_ID, String printerName)
+	 * Start Document Print for Type with specified printer.
+	 * @param type
+	 * @param customPrintFormat
+	 * @param recordId
+	 * @param printerName
+	 * @param processInfo
+     * @return
+     */
+	public static boolean startDocumentPrint (int type, MPrintFormat customPrintFormat, int recordId, String printerName , ProcessInfo processInfo)
 	{
-		ReportEngine re = ReportEngine.get (Env.getCtx(), type, Record_ID);
-		if (re == null)
+		String trxName;
+		if (processInfo != null)
+			trxName = processInfo.getTransactionName();
+		else
+			trxName = null;
+
+		ReportEngine reportEngine = ReportEngine.get (Env.getCtx(), type, recordId , trxName);
+		if (reportEngine == null)
 		{
 			CLogger log = CLogger.getCLogger(ServerReportCtl.class);
 			log.warning("NoDocPrintFormat");
@@ -49,47 +55,59 @@ public class ServerReportCtl {
 		}
 		if (customPrintFormat!=null) {
 			// Use custom print format if available
-			re.setPrintFormat(customPrintFormat);
+			reportEngine.setPrintFormat(customPrintFormat);
 		}
 		
-		if (re.getPrintFormat()!=null)
+		if (reportEngine.getPrintFormat()!=null)
 		{
-			MPrintFormat format = re.getPrintFormat();
+			MPrintFormat format = reportEngine.getPrintFormat();
 			
 			// We have a Jasper Print Format
 			// ==============================
 			if(format.getJasperProcess_ID() > 0)	
 			{
-				boolean result = runJasperProcess(Record_ID, re, true, printerName);
+				boolean result = runJasperProcess(recordId, reportEngine, true, printerName , processInfo);
 				return(result);
 			}
 			else
 			// Standard Print Format (Non-Jasper)
 			// ==================================
 			{
-				createOutput(re, printerName);
-				ReportEngine.printConfirm (type, Record_ID);
+				// set generated PDF
+				if (processInfo != null)
+					processInfo.setPDFReport(reportEngine.getPDF());
+
+				createOutput(reportEngine, printerName);
+				ReportEngine.printConfirm (type, recordId, trxName);
 			}
 		}
 		return true;
 	}	//	StartDocumentPrint
 	
-
 	/**
 	 * Runs a Jasper process that prints the record
-	 * 
-	 * @param format
-	 * @param Record_ID
-	 * @param re
-	 * @param IsDirectPrint
+	 *
+	 * @param recordId
+	 * @param reportEngine
+	 * @param isDirectPrint
 	 * @param printerName
-	 * @return
-	 */
-	public static boolean runJasperProcess(int Record_ID, ReportEngine re, boolean IsDirectPrint, String printerName) {
-		MPrintFormat format = re.getPrintFormat();
-		ProcessInfo pi = new ProcessInfo ("", format.getJasperProcess_ID());
-		pi.setPrintPreview( !IsDirectPrint );
-		pi.setRecord_ID ( Record_ID );
+	 * @param processInfo
+     * @return
+     */
+	public static boolean runJasperProcess(int recordId, ReportEngine reportEngine, boolean isDirectPrint, String printerName, ProcessInfo processInfo) {
+		Trx trx;
+		if (processInfo != null)
+			trx = Trx.get(processInfo.getTransactionName() , false);
+		else
+			trx = null;
+		MPrintFormat format = reportEngine.getPrintFormat();
+		ProcessInfo jasperProcessInfo = new ProcessInfo ("", format.getJasperProcess_ID());
+		jasperProcessInfo.setPrintPreview( !isDirectPrint );
+		MQuery query = reportEngine.getQuery();
+		if (query != null )
+			recordId = (Integer) query.getCode(0);
+
+		jasperProcessInfo.setRecord_ID(recordId);
 		Vector<ProcessInfoParameter> jasperPrintParams = new Vector<ProcessInfoParameter>();
 		ProcessInfoParameter pip;
 		if (printerName!=null && printerName.trim().length()>0) {
@@ -99,15 +117,18 @@ public class ServerReportCtl {
 		}
 		pip = new ProcessInfoParameter(PARAM_PRINT_FORMAT, format, null, null, null);
 		jasperPrintParams.add(pip);
-		pip = new ProcessInfoParameter(PARAM_PRINT_INFO, re.getPrintInfo(), null, null, null);
+		pip = new ProcessInfoParameter(PARAM_PRINT_INFO, reportEngine.getPrintInfo(), null, null, null);
 		jasperPrintParams.add(pip);
-		
-		pi.setParameter(jasperPrintParams.toArray(new ProcessInfoParameter[]{}));
+
+		jasperProcessInfo.setParameter(jasperPrintParams.toArray(new ProcessInfoParameter[]{}));
 		
 		ServerProcessCtl.process(null,		// Parent set to null for synchronous processing, see bugtracker 3010932  
-				   pi,
-				   null); 		
-		
+				   jasperProcessInfo,
+				trx);
+
+		if (processInfo != null)
+			processInfo.setPDFReport(jasperProcessInfo.getPDFReport());
+
 		boolean result = true;
 		return(result);
 	}
@@ -115,15 +136,15 @@ public class ServerReportCtl {
 	/**
 	 * Create output (server only)
 	 * 
-	 * @param re
+	 * @param reportEngine
 	 * @param printerName
 	 */
-	private static void createOutput(ReportEngine re, String printerName)
+	private static void createOutput(ReportEngine reportEngine, String printerName)
 	{
 		if (printerName!=null) {
-			re.getPrintInfo().setPrinterName(printerName);
+			reportEngine.getPrintInfo().setPrinterName(printerName);
 		}
-		re.print();
+		reportEngine.print();
 	}
 	
 	
@@ -131,55 +152,52 @@ public class ServerReportCtl {
 	 *	Create Report.
 	 *	Called from ProcessCtl.
 	 *	- Check special reports first, if not, create standard Report
-	 *
-	 *  @param parent The window which invoked the printing
-	 *  @param WindowNo The windows number which invoked the printing
-	 *  @param pi process info
-	 *  @param IsDirectPrint if true, prints directly - otherwise View
-	 *  @return true if created
-	 */
-	static public boolean start (ASyncProcess parent, ProcessInfo pi)
+	 * @param parent
+	 * @param processInfo
+     * @return true if created
+     */
+	static public boolean start (ASyncProcess parent, ProcessInfo processInfo)
 	{
 
 		/**
 		 *	Order Print
 		 */
-		if (pi.getAD_Process_ID() == 110)			//	C_Order
-			return startDocumentPrint(ReportEngine.ORDER, null, pi.getRecord_ID(), null);
-		if (pi.getAD_Process_ID() ==  MProcess.getProcess_ID("Rpt PP_Order", null))			//	C_Order
-			return startDocumentPrint(ReportEngine.MANUFACTURING_ORDER, null, pi.getRecord_ID(), null);
-		if (pi.getAD_Process_ID() ==  MProcess.getProcess_ID("Rpt DD_Order", null))			//	C_Order
-			return startDocumentPrint(ReportEngine.DISTRIBUTION_ORDER, null, pi.getRecord_ID(), null);
-		else if (pi.getAD_Process_ID() == 116)		//	C_Invoice
-			return startDocumentPrint(ReportEngine.INVOICE, null, pi.getRecord_ID(), null);
-		else if (pi.getAD_Process_ID() == 117)		//	M_InOut
-			return startDocumentPrint(ReportEngine.SHIPMENT, null, pi.getRecord_ID(), null);
-		else if (pi.getAD_Process_ID() == 217)		//	C_Project
-			return startDocumentPrint(ReportEngine.PROJECT, null, pi.getRecord_ID(), null);
-		else if (pi.getAD_Process_ID() == 276)		//	C_RfQResponse
-			return startDocumentPrint(ReportEngine.RFQ, null, pi.getRecord_ID(), null);
-		else if (pi.getAD_Process_ID() == 159)		//	Dunning
-			return startDocumentPrint(ReportEngine.DUNNING, null, pi.getRecord_ID(), null);
- 	    else if (pi.getAD_Process_ID() == 202			//	Financial Report
-			|| pi.getAD_Process_ID() == 204)			//	Financial Statement
-		   return startFinReport (pi);
+		if (processInfo.getAD_Process_ID() == 110)			//	C_Order
+			return startDocumentPrint(ReportEngine.ORDER, null, processInfo.getRecord_ID(), null , processInfo);
+		if (processInfo.getAD_Process_ID() ==  MProcess.getProcess_ID("Rpt PP_Order", null))			//	C_Order
+			return startDocumentPrint(ReportEngine.MANUFACTURING_ORDER, null, processInfo.getRecord_ID(), null,  processInfo);
+		if (processInfo.getAD_Process_ID() ==  MProcess.getProcess_ID("Rpt DD_Order", null))			//	C_Order
+			return startDocumentPrint(ReportEngine.DISTRIBUTION_ORDER, null, processInfo.getRecord_ID(), null , processInfo);
+		else if (processInfo.getAD_Process_ID() == 116)		//	C_Invoice
+			return startDocumentPrint(ReportEngine.INVOICE, null, processInfo.getRecord_ID(), null, processInfo);
+		else if (processInfo.getAD_Process_ID() == 117)		//	M_InOut
+			return startDocumentPrint(ReportEngine.SHIPMENT, null, processInfo.getRecord_ID(), null, processInfo);
+		else if (processInfo.getAD_Process_ID() == 217)		//	C_Project
+			return startDocumentPrint(ReportEngine.PROJECT, null, processInfo.getRecord_ID(), null, processInfo);
+		else if (processInfo.getAD_Process_ID() == 276)		//	C_RfQResponse
+			return startDocumentPrint(ReportEngine.RFQ, null, processInfo.getRecord_ID(), null, processInfo);
+		else if (processInfo.getAD_Process_ID() == 159)		//	Dunning
+			return startDocumentPrint(ReportEngine.DUNNING, null, processInfo.getRecord_ID(), null, processInfo);
+ 	    else if (processInfo.getAD_Process_ID() == 202			//	Financial Report
+			|| processInfo.getAD_Process_ID() == 204)			//	Financial Statement
+		   return startFinReport (processInfo);
 		/********************
 		 *	Standard Report
 		 *******************/
-		return startStandardReport (pi);
+		return startStandardReport (processInfo);
 	}	//	create
 
 	/**************************************************************************
 	 *	Start Standard Report.
 	 *  - Get Table Info & submit
-	 *  @param pi Process Info
-	 *  @param IsDirectPrint if true, prints directly - otherwise View
+	 *  @param processInfo Process Info
+	 *  @param isDirectPrint if true, prints directly - otherwise View
 	 *  @return true if OK
 	 */
-	static public boolean startStandardReport (ProcessInfo pi, boolean IsDirectPrint)
+	static public boolean startStandardReport (ProcessInfo processInfo, boolean isDirectPrint)
 	{
-		pi.setPrintPreview(!IsDirectPrint);
-		return startStandardReport(pi);
+		processInfo.setPrintPreview(!isDirectPrint);
+		return startStandardReport(processInfo);
 	}
 	
 	/**************************************************************************
@@ -190,24 +208,23 @@ public class ServerReportCtl {
 	 *  <li>attached MPrintFormat, if any (see {@link ProcessInfo#setTransientObject(Object)}, {@link ProcessInfo#setSerializableObject(java.io.Serializable)}
 	 *  <li>process information (AD_Process.AD_PrintFormat_ID, AD_Process.AD_ReportView_ID)
 	 *  </ol>
-	 *  @param pi Process Info
-	 *  @param IsDirectPrint if true, prints directly - otherwise View
-	 *  @return true if OK
-	 */
-	static public boolean startStandardReport (ProcessInfo pi)
+	 * @param processInfo
+	 * @return true if OK
+     */
+	static public boolean startStandardReport (ProcessInfo processInfo)
 	{
 		ReportEngine re = null;
 		//
 		// Create Report Engine by using attached MPrintFormat (if any)
-		Object o = pi.getTransientObject();
+		Object o = processInfo.getTransientObject();
 		if (o == null)
-			o = pi.getSerializableObject();
+			o = processInfo.getSerializableObject();
 		if (o != null && o instanceof MPrintFormat) {
 			Properties ctx = Env.getCtx();
 			MPrintFormat format = (MPrintFormat)o;
 			String TableName = MTable.getTableName(ctx, format.getAD_Table_ID());
-			MQuery query = MQuery.get (ctx, pi.getAD_PInstance_ID(), TableName);
-			PrintInfo info = new PrintInfo(pi);
+			MQuery query = MQuery.get (ctx, processInfo.getAD_PInstance_ID(), TableName);
+			PrintInfo info = new PrintInfo(processInfo);
 			re = new ReportEngine(ctx, format, query, info);
 			createOutput(re, null);
 			return true;
@@ -215,10 +232,10 @@ public class ServerReportCtl {
 		//
 		// Create Report Engine normally
 		else {
-			re = ReportEngine.get(Env.getCtx(), pi);
+			re = ReportEngine.get(Env.getCtx(), processInfo);
 			if (re == null)
 			{
-				pi.setSummary("No ReportEngine");
+				processInfo.setSummary("No ReportEngine");
 				return false;
 			}
 		}
@@ -249,10 +266,10 @@ public class ServerReportCtl {
 			s_log.log(Level.SEVERE, "startFinReport - No PrintFormat");
 			return false;
 		}
-		PrintInfo info = new PrintInfo(pi);
+		PrintInfo printInfo = new PrintInfo(pi);
 
-		ReportEngine re = new ReportEngine(Env.getCtx(), format, query, info);
-		createOutput(re, null);
+		ReportEngine reportEngine = new ReportEngine(Env.getCtx(), format, query, printInfo);
+		createOutput(reportEngine, null);
 		return true;
 	}	//	startFinReport
 	

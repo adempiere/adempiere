@@ -17,13 +17,11 @@
 package org.compiere.process;
 
 import java.sql.Timestamp;
-import java.util.logging.*;
 
-import org.apache.commons.net.ntp.TimeStamp;
-import org.compiere.model.*;
-import org.compiere.process.ProcessInfoParameter;
-import org.compiere.process.SvrProcess;
-import org.compiere.util.DB;
+import org.compiere.model.MInOut;
+import org.compiere.model.MInOutLine;
+import org.compiere.model.MOrder;
+import org.compiere.model.MOrderLine;
 import org.compiere.util.Env;
  
 /**
@@ -31,36 +29,28 @@ import org.compiere.util.Env;
  *	
  *  @author Jorg Janke
  *  @version $Id: OrderLineCreateShipment.java,v 1.1 2007/07/23 05:34:35 mfuggle Exp $
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<a href="https://github.com/adempiere/adempiere/issues/920">
+ * 		@see FR [ 920 ] Error in element definition createshipment should be CreateShipment and define the right element description</a>
  */
-public class OrderLineCreateShipment extends SvrProcess
-{
-	/**	Shipment					*/
-	private int 	p_C_OrderLine_ID = 0;
-	private Timestamp p_MovementDate = null;
-	
+public class OrderLineCreateShipment extends OrderLineCreateShipmentAbstract {
 	/**
 	 *  Prepare - e.g., get Parameters.
 	 */
-	protected void prepare()
-	{
-		ProcessInfoParameter[] para = getParameter();
-		for (int i = 0; i < para.length; i++)
-		{
-			String name = para[i].getParameterName();
-			if (para[i].getParameter() == null)
-				;
-			if (name.equals("MovementDate"))
-				p_MovementDate = (Timestamp) para[i].getParameter();
-			else
-				log.log(Level.SEVERE, "Unknown Parameter: " + name);
+	protected void prepare() {
+		super.prepare();
+		if(getMovementDate() == null) {
+			setMovementDate(Env.getContextAsDate(getCtx(), "#Date"));
+			if (getMovementDate() == null) {
+				setMovementDate(new Timestamp(System.currentTimeMillis()));
+			}
 		}
-		
-		if (p_MovementDate == null)
-			p_MovementDate = Env.getContextAsDate(getCtx(), "#Date");
-		if ( p_MovementDate==null)
-			p_MovementDate = new Timestamp(System.currentTimeMillis());
-		
-		p_C_OrderLine_ID = getRecord_ID();
+		//	DocAction check
+		if (getDocAction() == null) { 
+			setDocAction(DocAction.ACTION_Complete);
+		} else if(!DocAction.ACTION_Complete.equals(getDocAction())) {
+			setDocAction(DocAction.ACTION_Prepare);
+		}
 	}	//	prepare
 
 	/**
@@ -68,44 +58,42 @@ public class OrderLineCreateShipment extends SvrProcess
 	 *	@return document no
 	 *	@throws Exception
 	 */
-	protected String doIt () throws Exception
-	{
-		log.info("C_OrderLine_ID=" + p_C_OrderLine_ID );
-		if (p_C_OrderLine_ID == 0)
-			throw new IllegalArgumentException("No OrderLine");
+	protected String doIt () throws Exception {
+		log.info("C_OrderLine_ID=" + getRecord_ID());
+		if (getRecord_ID() == 0) {
+			throw new IllegalArgumentException("@C_OrderLine_ID@ @NotFound@");
+		}
 		//
-		MOrderLine line = new MOrderLine (getCtx(), p_C_OrderLine_ID, get_TrxName());
-		if (line.get_ID() == 0)
-			throw new IllegalArgumentException("Order line not found");
+		MOrderLine line = new MOrderLine (getCtx(), getRecord_ID(), get_TrxName());
+		if (line.get_ID() == 0) {
+			throw new IllegalArgumentException("@C_OrderLine_ID@ @NotFound@");
+		}
 		MOrder order = new MOrder (getCtx(), line.getC_Order_ID(), get_TrxName());
 		if (!MOrder.DOCSTATUS_Completed.equals(order.getDocStatus()))
-			throw new IllegalArgumentException("Order not completed");
+			throw new IllegalArgumentException("@CreateShipment.OrderNotCompleted@");
 		
-		if ( (line.getQtyOrdered().subtract(line.getQtyDelivered())).compareTo(Env.ZERO) <= 0 )
-			return "Ordered quantity already shipped";
+		if ((line.getQtyOrdered().subtract(line.getQtyDelivered())).compareTo(Env.ZERO) <= 0 )
+			return "@CreateShipment.LineShipped@";
 		
-		int C_DocTypeShipment_ID = DB.getSQLValue(get_TrxName(),
-				"SELECT C_DocTypeShipment_ID FROM C_DocType WHERE C_DocType_ID=?", 
-				order.getC_DocType_ID());
-		
-		MInOut shipment = new MInOut (order, C_DocTypeShipment_ID, p_MovementDate);
+		MInOut shipment = new MInOut(order, getDocTypeId(), getMovementDate());
 		shipment.setM_Warehouse_ID(line.getM_Warehouse_ID());
 		shipment.setMovementDate(line.getDatePromised());
-		if (!shipment.save())
-			throw new IllegalArgumentException("Cannot save shipment header");
-		
-		
-		MInOutLine sline = new MInOutLine( shipment );
+		shipment.saveEx();
+		//	Add Line
+		MInOutLine sline = new MInOutLine(shipment);
 		sline.setOrderLine(line, 0, line.getQtyReserved());
-		//sline.setDatePromised(line.getDatePromised());
 		sline.setQtyEntered(line.getQtyReserved());
 		sline.setC_UOM_ID(line.getC_UOM_ID());
 		sline.setQty(line.getQtyReserved());
 		sline.setM_Warehouse_ID(line.getM_Warehouse_ID());
-		if (!sline.save())
-			throw new IllegalArgumentException("Cannot save Shipment Line");
+		sline.saveEx();
+		//	Process It
+		if (!shipment.processIt(getDocAction())) {
+			log.warning("Failed: " + shipment);
+		}
+		shipment.saveEx();
 	
-		return shipment.getDocumentNo();
+		return "@M_InOut_ID@ @Created@: " + shipment.getDocumentNo();
 	}	//	OrderLineCreateShipment
 	
 }	//	OrderLineCreateShipment

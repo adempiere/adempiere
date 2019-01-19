@@ -1,0 +1,17 @@
+﻿1003005,Brick 1X1,,Bricks,Test Tax Category,Each,Item,Y,Y,Y,Color,The Lego(tm) Store,3005,CAD,0.11,0.08,3005,,,
+1006111,Brick 1X10,,Bricks,Test Tax Category,Each,Item,Y,Y,Y,Color,The Lego(tm) Store,6111,CAD,0.29,0.2,6111,,,
+1006112,Brick 1X12,,Bricks,Test Tax Category,Each,Item,Y,Y,Y,Color,The Lego(tm) Store,6112,CAD,0.3,0.21,6112,,,
+1002465,Brick 1X16,,Bricks,Test Tax Category,Each,Item,Y,Y,Y,Color,The Lego(tm) Store,2465,CAD,0.34,0.25,2465,,,
+1003004,Brick 1X2,,Bricks,Test Tax Category,Each,Item,Y,Y,Y,Color,The Lego(tm) Store,3004,CAD,0.17,0.12,3004,,,
+1003003,Brick 2X2,,Bricks,Test Tax Category,Each,Item,Y,Y,Y,Color,The Lego(tm) Store,3003,CAD,0.17,0.12,3003,,,
+1002420,Corner Plate 1X2X2,,Plates,Test Tax Category,Each,Item,Y,Y,Y,Color,The Lego(tm) Store,2420,CAD,0.11,0.09,2420,,,
+1003024,Plate 1X1,,Plates,Test Tax Category,Each,Item,Y,Y,Y,Color,The Lego(tm) Store,3024,CAD,0.1,0.08,3024,,,
+1003023,Plate 1X2,,Plates,Test Tax Category,Each,Item,Y,Y,Y,Color,The Lego(tm) Store,3023,CAD,0.09,0.07,3023,,,
+1093571,Ball Cup 3M Ø10.2,,Figure Parts,Test Tax Category,Each,Item,Y,Y,Y,Color,The Lego(tm) Store,93571,CAD,0.38,0.285,93571,,,
+1090661,Base 3X7x3 W. Ball Cup Ø10.2,,Figure Parts,Test Tax Category,Each,Item,Y,Y,Y,Color,The Lego(tm) Store,90661,CAD,0.69,0.5175,90661,,,
+1087837,Claw W. Ballcup,,Figure Parts,Test Tax Category,Each,Item,Y,Y,Y,Color,The Lego(tm) Store,87837,CAD,0.45,0.3375,87837,,,
+2000000,Res Thick Film 0603 100K,Res Thick Film 0603 100K Ohm 1% 1/10W ±100ppm/°C Molded SMD Paper T/R,Resistors,Test Tax Category,Each,Item,Y,Y,N,ResistorsFixedSingleSurfMount,Arrow Electronics,,USD,0.0024,0.0024,RMCF0603FT100K,SEI Stackpole Electronics,5000,5000
+2000000,Res Thick Film 0603 100K,Res Thick Film 0603 100K Ohm 1% 1/10W ±100ppm/°C Molded SMD Paper T/R,Resistors,Test Tax Category,Each,Item,Y,Y,N,ResistorsFixedSingleSurfMount,Digi-Key Corporation,,USD,0.00228,0.00228,RMCF0603FT100K,SEI Stackpole Electronics,5000,5000
+2000001,Res Thick Film 0603 100K,Res Thick Film 0603 100K Ohm 1% 1/10W ±100ppm/°C Molded SMD Paper T/R,Resistors,Test Tax Category,Each,Item,Y,Y,N,ResistorsFixedSingleSurfMount,Arrow Electronics,,USD,0.0084,0.0084,CRCW0603100KFKTA,Vishay,5000,5000
+,Tubular wdiget with frangible spleen,"Distributed widget sent to VARs.  We buy at 50%, sell at 35% off list.",Widgets,Test Tax Category,Each,Item,Y,Y,N,,ACME Supply Co,,USD,1000,500,Widget1,,,10
+,Boxy looking thingamagummy with a whatchamacallit attached,"Distributed widget sent to VARs.  We buy at 50%, sell at 35% off list.",Widgets,Test Tax Category,Each,Item,Y,Y,N,,ACME Supply Co,,USD,2000,1000,Widget2,,,20

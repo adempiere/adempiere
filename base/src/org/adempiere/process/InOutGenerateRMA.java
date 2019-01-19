@@ -166,6 +166,8 @@ public class InOutGenerateRMA extends SvrProcess
         shipment.setC_Activity_ID(originalReceipt.getC_Activity_ID());
         shipment.setUser1_ID(originalReceipt.getUser1_ID());
         shipment.setUser2_ID(originalReceipt.getUser2_ID());
+        shipment.setUser3_ID(originalReceipt.getUser3_ID());
+        shipment.setUser4_ID(originalReceipt.getUser4_ID());
         
         if (!shipment.save())
         {
@@ -200,6 +202,8 @@ public class InOutGenerateRMA extends SvrProcess
                 shipLine.setC_ProjectTask_ID(rmaLine.getC_ProjectTask_ID());
                 shipLine.setUser1_ID(rmaLine.getUser1_ID());
                 shipLine.setUser2_ID(rmaLine.getUser2_ID());
+                shipLine.setUser3_ID(rmaLine.getUser3_ID());
+                shipLine.setUser4_ID(rmaLine.getUser4_ID());
                 shipLine.saveEx();
                 shipLineList.add(shipLine);
                 //

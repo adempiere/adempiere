@@ -1,8 +1,9 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -11,8 +12,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for T_Report
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_T_Report extends PO implements I_T_Report, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150223L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_T_Report (Properties ctx, int T_Report_ID, String trxName)
@@ -40,10 +40,6 @@ public class X_T_Report extends PO implements I_T_Report, I_Persistent
       super (ctx, T_Report_ID, trxName);
       /** if (T_Report_ID == 0)
         {
-			setAD_PInstance_ID (0);
-			setFact_Acct_ID (0);
-			setPA_ReportLine_ID (0);
-			setRecord_ID (0);
         } */
     }
 
@@ -103,28 +99,64 @@ public class X_T_Report extends PO implements I_T_Report, I_Persistent
 		return ii.intValue();
 	}
 
+	/** AccountType AD_Reference_ID=117 */
+	public static final int ACCOUNTTYPE_AD_Reference_ID=117;
+	/** Asset = A */
+	public static final String ACCOUNTTYPE_Asset = "A";
+	/** Liability = L */
+	public static final String ACCOUNTTYPE_Liability = "L";
+	/** Revenue = R */
+	public static final String ACCOUNTTYPE_Revenue = "R";
+	/** Expense = E */
+	public static final String ACCOUNTTYPE_Expense = "E";
+	/** Owner's Equity = O */
+	public static final String ACCOUNTTYPE_OwnerSEquity = "O";
+	/** Memo = M */
+	public static final String ACCOUNTTYPE_Memo = "M";
 	/** Set Account Type.
 		@param AccountType 
 		Indicates the type of account
 	  */
-	public void setAccountType (boolean AccountType)
+	public void setAccountType (String AccountType)
 	{
-		set_Value (COLUMNNAME_AccountType, Boolean.valueOf(AccountType));
+
+		set_Value (COLUMNNAME_AccountType, AccountType);
 	}
 
 	/** Get Account Type.
 		@return Indicates the type of account
 	  */
-	public boolean isAccountType () 
+	public String getAccountType () 
 	{
-		Object oo = get_Value(COLUMNNAME_AccountType);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
+		return (String)get_Value(COLUMNNAME_AccountType);
+	}
+
+	public org.compiere.model.I_C_ValidCombination getC_ValidCombination() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_ValidCombination)MTable.get(getCtx(), org.compiere.model.I_C_ValidCombination.Table_Name)
+			.getPO(getC_ValidCombination_ID(), get_TrxName());	}
+
+	/** Set Combination.
+		@param C_ValidCombination_ID 
+		Valid Account Combination
+	  */
+	public void setC_ValidCombination_ID (int C_ValidCombination_ID)
+	{
+		if (C_ValidCombination_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_ValidCombination_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_ValidCombination_ID, Integer.valueOf(C_ValidCombination_ID));
+	}
+
+	/** Get Combination.
+		@return Valid Account Combination
+	  */
+	public int getC_ValidCombination_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_ValidCombination_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Col_0.
@@ -501,6 +533,11 @@ public class X_T_Report extends PO implements I_T_Report, I_Persistent
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
+	public org.compiere.model.I_Fact_Acct getFact_Acct() throws RuntimeException
+    {
+		return (org.compiere.model.I_Fact_Acct)MTable.get(getCtx(), org.compiere.model.I_Fact_Acct.Table_Name)
+			.getPO(getFact_Acct_ID(), get_TrxName());	}
+
 	/** Set Accounting Fact.
 		@param Fact_Acct_ID Accounting Fact	  */
 	public void setFact_Acct_ID (int Fact_Acct_ID)
@@ -519,6 +556,23 @@ public class X_T_Report extends PO implements I_T_Report, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Fixed Percentage.
+		@param FixedPercentage Fixed Percentage	  */
+	public void setFixedPercentage (BigDecimal FixedPercentage)
+	{
+		set_Value (COLUMNNAME_FixedPercentage, FixedPercentage);
+	}
+
+	/** Get Fixed Percentage.
+		@return Fixed Percentage	  */
+	public BigDecimal getFixedPercentage () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_FixedPercentage);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** Set Level no.
@@ -611,6 +665,35 @@ public class X_T_Report extends PO implements I_T_Report, I_Persistent
 		return ii.intValue();
 	}
 
+	/** ReportLineStyle AD_Reference_ID=53793 */
+	public static final int REPORTLINESTYLE_AD_Reference_ID=53793;
+	/** Solid = s */
+	public static final String REPORTLINESTYLE_Solid = "s";
+	/** Double Solid = d_s */
+	public static final String REPORTLINESTYLE_DoubleSolid = "d_s";
+	/** Dotted = d */
+	public static final String REPORTLINESTYLE_Dotted = "d";
+	/** Double Dotted = d_d */
+	public static final String REPORTLINESTYLE_DoubleDotted = "d_d";
+	/** Dashed = D */
+	public static final String REPORTLINESTYLE_Dashed = "D";
+	/** Double Dashed = d_D */
+	public static final String REPORTLINESTYLE_DoubleDashed = "d_D";
+	/** Set Report Line Style.
+		@param ReportLineStyle Report Line Style	  */
+	public void setReportLineStyle (String ReportLineStyle)
+	{
+
+		set_Value (COLUMNNAME_ReportLineStyle, ReportLineStyle);
+	}
+
+	/** Get Report Line Style.
+		@return Report Line Style	  */
+	public String getReportLineStyle () 
+	{
+		return (String)get_Value(COLUMNNAME_ReportLineStyle);
+	}
+
 	/** Set Sequence.
 		@param SeqNo 
 		Method of ordering records; lowest number comes first
@@ -651,62 +734,20 @@ public class X_T_Report extends PO implements I_T_Report, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set ax_case.
-		@param ax_case ax_case	  */
-	public void setax_case (boolean ax_case)
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
 	{
-		set_Value (COLUMNNAME_ax_case, Boolean.valueOf(ax_case));
+		set_Value (COLUMNNAME_UUID, UUID);
 	}
 
-	/** Get ax_case.
-		@return ax_case	  */
-	public boolean isax_case () 
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
 	{
-		Object oo = get_Value(COLUMNNAME_ax_case);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
-	/** Set fixedpercentage.
-		@param fixedpercentage fixedpercentage	  */
-	public void setfixedpercentage (BigDecimal fixedpercentage)
-	{
-		set_Value (COLUMNNAME_fixedpercentage, fixedpercentage);
-	}
-
-	/** Get fixedpercentage.
-		@return fixedpercentage	  */
-	public BigDecimal getfixedpercentage () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_fixedpercentage);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
-	/** Set reportlinestyle.
-		@param reportlinestyle reportlinestyle	  */
-	public void setreportlinestyle (boolean reportlinestyle)
-	{
-		set_Value (COLUMNNAME_reportlinestyle, Boolean.valueOf(reportlinestyle));
-	}
-
-	/** Get reportlinestyle.
-		@return reportlinestyle	  */
-	public boolean isreportlinestyle () 
-	{
-		Object oo = get_Value(COLUMNNAME_reportlinestyle);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
+		return (String)get_Value(COLUMNNAME_UUID);
 	}
 }

@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="SBT: vaadin.scala:scaladin_2.11:3.1-SNAPSHOT:jar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/vaadin.scala/scaladin_2.11/jars/scaladin_2.11-3.1-SNAPSHOT.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/vaadin.scala/scaladin_2.11/srcs/scaladin_2.11-3.1-SNAPSHOT-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

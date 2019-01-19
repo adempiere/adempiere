@@ -20,9 +20,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.DBException;
 import org.compiere.util.CCache;
 import org.compiere.util.DB;
@@ -43,6 +45,38 @@ public class MAttributeSet extends X_M_AttributeSet
 	 */
 	private static final long serialVersionUID = -2703536167929259405L;
 
+	/**
+	 * Is AttributeSet Instance Mandatory
+	 * @param product
+	 * @param tableId
+	 * @param isSOTrx
+	 * @param attributeSetIntanceId
+	 */
+	public static void validateAttributeSetInstanceMandatory(MProduct product, int tableId, boolean isSOTrx , int attributeSetIntanceId)
+	{
+		//	If CostingLevel is BatchLot ASI is always mandatory - check all client acct schemas
+		Arrays.stream(MAcctSchema.getClientAcctSchema(product.getCtx(), product.getAD_Client_ID(), product.get_TrxName()))
+		.forEach( as -> {
+			String costingLevel = product.getCostingLevel(as);
+			if (MAcctSchema.COSTINGLEVEL_BatchLot.equals(costingLevel) && attributeSetIntanceId == 0)
+				throw new AdempiereException("@LinesWithoutProductAttribute@ " + product.getName());
+		});
+		// Check Attribute Set settings
+		MAttributeSet attributeSet = MAttributeSet.get(product.getCtx(), product.getM_AttributeSet_ID());
+		if (attributeSet == null || !attributeSet.isInstanceAttribute())
+			return;
+
+		boolean isExcludeEntry = attributeSet.excludeEntry(tableId, isSOTrx);
+		if (!isExcludeEntry && attributeSet.isMandatoryAlways() && attributeSetIntanceId == 0)
+			throw new AdempiereException("@LinesWithoutProductAttribute@ " + product.getName());
+
+		if(!isExcludeEntry && attributeSet.isMandatory() && attributeSetIntanceId == 0)
+			throw new AdempiereException("@LinesWithoutProductAttribute@ " + product.getName());
+
+		if (!isExcludeEntry && attributeSet.isMandatoryShipping() && attributeSetIntanceId == 0 && isSOTrx)
+			throw new AdempiereException("@LinesWithoutProductAttribute@ " + product.getName());
+
+	}
 
 	/**
 	 * 	Get MAttributeSet from Cache
@@ -208,13 +242,34 @@ public class MAttributeSet extends X_M_AttributeSet
 	{
 		return MANDATORYTYPE_WhenShipping.equals(getMandatoryType());
 	}	//	isMandatoryShipping
-	
+
+	/**
+	 * 	Exclude entry
+	 *	@param tableId tableId
+	 *	@param isSOTrx sales order
+	 *	@return true if excluded
+	 */
+	public boolean excludeEntry (int tableId , boolean isSOTrx)
+	{
+		final StringBuilder whereClause = new StringBuilder();
+		whereClause.append(X_M_AttributeSetExclude.COLUMNNAME_M_AttributeSet_ID).append("=? AND ");
+		whereClause.append(X_M_AttributeSetExclude.COLUMNNAME_AD_Table_ID).append("=? AND ");
+		whereClause.append(X_M_AttributeSetExclude.COLUMNNAME_IsSOTrx).append("=?");
+
+		return new Query(getCtx(), X_M_AttributeSetExclude.Table_Name, whereClause.toString(), null)
+				.setParameters(getM_AttributeSet_ID(), tableId , isSOTrx)
+				.setOnlyActiveRecords(true)
+				.match();
+
+	}
+
 	/**
 	 * 	Exclude entry
 	 *	@param AD_Column_ID column
 	 *	@param isSOTrx sales order
 	 *	@return true if excluded
 	 */
+	/*
 	public boolean excludeEntry (int AD_Column_ID, boolean isSOTrx)
 	{
 		if (m_excludes == null)
@@ -240,6 +295,7 @@ public class MAttributeSet extends X_M_AttributeSet
 		}
 		return false;
 	}	//	excludeEntry
+    */
 	
 	/**
 	 * 	Exclude Lot creation

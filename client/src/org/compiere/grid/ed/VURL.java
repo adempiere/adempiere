@@ -39,9 +39,10 @@ import javax.swing.JTextField;
 import javax.swing.LookAndFeel;
 import javax.swing.SwingUtilities;
 
+import org.adempiere.exceptions.ValueChangeListener;
 import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.apps.ADialog;
-import org.compiere.apps.FieldRecordInfo;
+import org.compiere.apps.RecordInfo;
 import org.compiere.model.GridField;
 import org.compiere.model.MRole;
 import org.compiere.swing.CButton;
@@ -56,6 +57,9 @@ import org.compiere.util.Msg;
  *	
  *  @author Jorg Janke
  *  @version $Id: VURL.java,v 1.2 2006/07/30 00:51:28 jjanke Exp $
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 146 ] Remove unnecessary class, add support for info to specific column
+ *		@see https://github.com/adempiere/adempiere/issues/146
  */
 public class VURL extends JComponent
 	implements VEditor, ActionListener, KeyListener, FocusListener
@@ -376,9 +380,9 @@ public class VURL extends JComponent
 				ValuePreference.start (m_mField, getValue());
 			return;
 		}
-		else if (e.getActionCommand().equals(FieldRecordInfo.CHANGE_LOG_COMMAND))
+		else if (e.getActionCommand().equals(RecordInfo.CHANGE_LOG_COMMAND))
 		{
-			FieldRecordInfo.start(m_mField);
+			RecordInfo.start(m_mField);
 			return;
 		}
 
@@ -439,7 +443,7 @@ public class VURL extends JComponent
 			&& MRole.getDefault().isShowPreference())
 			ValuePreference.addMenu (this, popupMenu);
 		if (m_mField != null)
-			FieldRecordInfo.addMenu(this, popupMenu);
+			RecordInfo.addMenu(this, popupMenu);
 	}   //  setField
 
 	@Override
@@ -501,6 +505,12 @@ public class VURL extends JComponent
 		m_infocus = false;
 		setText(getText());		//	obscure
 	}	//	focus Lost
+
+	@Override
+	public void addValueChangeListener(ValueChangeListener listener) {
+		// TODO Auto-generated method stub
+		
+	}
 
 	
 }	//	VURL

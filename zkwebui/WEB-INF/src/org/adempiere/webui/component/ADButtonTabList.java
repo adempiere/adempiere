@@ -27,7 +27,9 @@ import org.zkoss.zk.ui.event.Events;
 /**
  *
  * @author <a href="mailto:hengsin@gmail.com">Low Heng Sin</a>
- *
+ * @author Raul Muñoz , http://erpcya.com rmunoz@erpcya.com
+ * 		<li> FR [ 1115 ] Look & Feel Corrections - When field is only read need other background to identify easily this difference
+ *  	@see https://github.com/adempiere/adempiere/issues/1115
  */
 public class ADButtonTabList extends Panel implements IADTabList, EventListener {
 
@@ -40,6 +42,7 @@ public class ADButtonTabList extends Panel implements IADTabList, EventListener 
 	private IADTab tabbox;
 	private int selectedIndex = 0;
 	private int tabPlacement = IADTab.LEFT;
+	private static final String STYLE_TAB_READONLY = ";font-style: italic";
 
 	public ADButtonTabList() {
 		this.setStyle("margin:0;padding:0");
@@ -69,9 +72,11 @@ public class ADButtonTabList extends Panel implements IADTabList, EventListener 
 		Object[] items = listItems.toArray();
 		int tabWidth = 100;
 		List<Button> btnList = new ArrayList<Button>();
+		
 		for (int i = 0; i < items.length; i++) {
 			ADTabLabel tabLabel = (ADTabLabel) items[i];
 			Button button = new Button();
+			
 			button.setDynamicProperty("Title", tabLabel.description);
 			Text text = new Text(tabLabel.label);
 			button.appendChild(text);
@@ -101,6 +106,13 @@ public class ADButtonTabList extends Panel implements IADTabList, EventListener 
 				if (width > tabWidth)
 					tabWidth = width;
 			}
+			//	FR [ 1115 ]
+			if(tabbox instanceof AbstractADTab) {
+				AbstractADTab tab = (AbstractADTab) tabbox;
+				if(tab.isReadOnly(i))
+				 style += STYLE_TAB_READONLY;
+			}
+			
 			btnList.add(button);
 			button.setStyle(style);
 

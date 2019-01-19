@@ -29,9 +29,6 @@
 
 package org.eevolution.engine.warehouse;
 
-import org.eevolution.engine.warehouse.WMRuleFIFO;
-import org.eevolution.engine.warehouse.WMRuleInterface;
-
 /**
  * Factory of WM Rules
  * victor.perez@e-evolution.com, victor.perez@e-evolution.com

@@ -16,17 +16,24 @@
  *****************************************************************************/
 package org.compiere.apps.form;
 
+import java.awt.Container;
 import java.awt.Cursor;
+import java.awt.Dialog.ModalityType;
+import java.awt.Dimension;
 import java.awt.Event;
+import java.awt.Frame;
 import java.awt.GraphicsConfiguration;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Properties;
 import java.util.logging.Level;
+import java.awt.Window;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -41,6 +48,7 @@ import org.compiere.apps.WindowMenu;
 import org.compiere.model.MRole;
 import org.compiere.model.MUser;
 import org.compiere.process.ProcessInfo;
+import org.compiere.swing.CDialog;
 import org.compiere.swing.CFrame;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -56,15 +64,13 @@ import org.compiere.util.Trace;
  * 
  *  Colin Rooney 2007/03/20 RFE#1670185 & BUG#1684142 
  *                           Extend security to Info Queries
+ *	@author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 114 ] Change "Create From" UI for Form like Dialog in window without "hardcode"
+ *		@see https://github.com/adempiere/adempiere/issues/114
  */
-public class FormFrame extends CFrame 
+public class FormFrame
 	implements ActionListener 
 {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 2559005548469735515L;
-
 	/**
 	 * @deprecated
 	 *	Create Form.
@@ -72,7 +78,7 @@ public class FormFrame extends CFrame
 	 */
 	public FormFrame ()
 	{
-		this(null);
+		this(0);
 	}	//	FormFrame
 	
 	/**
@@ -80,19 +86,29 @@ public class FormFrame extends CFrame
 	 *  Need to call openForm
 	 *	@param gc
 	 */
-	public FormFrame (GraphicsConfiguration gc)
+	public FormFrame (int p_ParentWindowNo)
 	{
-		super(gc);
-		addWindowListener(new java.awt.event.WindowAdapter() 
-		{
-			public void windowOpened(java.awt.event.WindowEvent evt) 
+		Frame owner = Env.getWindow(p_ParentWindowNo);
+		if(p_ParentWindowNo == 0) {
+			CFrame frame = new CFrame(owner.getGraphicsConfiguration());
+			frame.setGlassPane(m_glassPane);
+			frame.addWindowListener(new java.awt.event.WindowAdapter() 
 			{
-				formWindowOpened(evt);
-			}
-		});
+				public void windowOpened(java.awt.event.WindowEvent evt) 
+				{
+					formWindowOpened(evt);
+				}
+			});
+			m_MainContent = frame;
+			m_WindowNo = Env.createWindowNo (m_MainContent);
+		} else {
+			CDialog dialog = new CDialog(owner, true);
+			dialog.setModalityType(ModalityType.DOCUMENT_MODAL);
+			m_MainContent = dialog;
+			m_WindowNo = p_ParentWindowNo;
+		}
 		
-		m_WindowNo = Env.createWindowNo (this);
-	    setGlassPane(m_glassPane);
+
 		try
 		{
 			jbInit();
@@ -103,6 +119,24 @@ public class FormFrame extends CFrame
 			log.log(Level.SEVERE, "", e);
 		}
 	}	//	FormFrame
+	
+	/**
+	 * Constuctor for create from previous frame
+	 * @param frame
+	 */
+	public FormFrame(CFrame frame) {
+		m_MainContent = frame;
+		p_AD_Form_ID = frame.getAD_Form_ID();
+	}
+	
+	/**
+	 * 
+	 * @param gc
+	 */
+	@Deprecated
+	public FormFrame(GraphicsConfiguration gc) {
+		this(0);
+	}
 
 	private ProcessInfo  m_pi;
 	
@@ -124,19 +158,22 @@ public class FormFrame extends CFrame
 	private static CLogger log = CLogger.getCLogger(FormFrame.class);
 	
 	/** Form ID			*/
-	private int		p_AD_Form_ID = 0;
-
+	private int			p_AD_Form_ID = 0;
+	//	Yamel Senih FR [ 114 ]
+	/**	Container		*/
+	private Container 	m_MainContent	= null;
+	
 	/**
 	 * 	Static Init
 	 * 	@throws Exception
 	 */
 	private void jbInit() throws Exception
 	{
-		this.setIconImage(org.compiere.Adempiere.getImage16());
-		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		this.setJMenuBar(menuBar);
+		setIconImage(org.compiere.Adempiere.getImage16());
+		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+		setJMenuBar(menuBar);
 	}	//	jbInit
-
+	
 	/**
 	 *  Create Menu
 	 */
@@ -218,7 +255,7 @@ public class FormFrame extends CFrame
 		
 		//		Window
 		AMenu aMenu = (AMenu)Env.getWindow(0);
-		JMenu mWindow = new WindowMenu(aMenu.getWindowManager(), this);
+		JMenu mWindow = new WindowMenu(aMenu.getWindowManager(), null);
 		menuBar.add(mWindow);
 
 		//      Help
@@ -241,7 +278,7 @@ public class FormFrame extends CFrame
 			m_panel.dispose();
 		m_panel = null;
 		Env.clearWinContext(m_WindowNo);
-		super.dispose();
+		getWindow().dispose();
 	}	//  dispose
 
 	/**
@@ -311,7 +348,6 @@ public class FormFrame extends CFrame
 		Properties ctx = Env.getCtx();
 		Env.setContext(ctx, m_WindowNo, "WindowName", name);
 		setTitle(Env.getHeader(ctx, m_WindowNo));
-
 		try
 		{
 			//	Create instance w/o parameters
@@ -348,7 +384,7 @@ public class FormFrame extends CFrame
 			dispose();
 		else if (cmd.equals("Help"))
 			actionHelp();
-		else if (!AEnv.actionPerformed(cmd, m_WindowNo, this))
+		else if (!AEnv.actionPerformed(cmd, m_WindowNo, m_MainContent))
 			log.log(Level.SEVERE, "Not handeled=" + cmd);
 	}   //  actionPerformed
 
@@ -362,7 +398,7 @@ public class FormFrame extends CFrame
 			sb.append("<h2>").append(m_Description).append("</h2>");
 		if (m_Help != null && m_Help.length() > 0)
 			sb.append("<p>").append(m_Help);
-		Help hlp = new Help (Env.getFrame(this), this.getTitle(), sb.toString());
+		Help hlp = new Help (Env.getFrame(m_MainContent), getTitle(), sb.toString());
 		hlp.setVisible(true);
 	}	//	actionHelp
 
@@ -384,7 +420,7 @@ public class FormFrame extends CFrame
 		m_glassPane.setVisible(busy);
 		m_glassPane.requestFocus();
 	}   //  setBusy
-
+	
 	/**
 	 *  Set Busy Message
 	 *  @param AD_Message message
@@ -423,8 +459,8 @@ public class FormFrame extends CFrame
 	{
 		if (m_maximize == true)
 		{
-			super.setVisible(true);
-			super.setExtendedState(JFrame.MAXIMIZED_BOTH);
+			((CFrame) m_MainContent).setVisible(true);
+			((CFrame) m_MainContent).setExtendedState(JFrame.MAXIMIZED_BOTH);
 		}
    }	//	formWindowOpened
 
@@ -477,5 +513,194 @@ public class FormFrame extends CFrame
 	{
 		return menuBar;
 	}
-
+	
+	/**
+	 * Set Title to Frame
+	 * @param p_Title
+	 */
+	public void setTitle(String p_Title) {
+		if(m_MainContent instanceof CFrame) {
+			((CFrame) m_MainContent).setTitle(p_Title);
+		} else {
+			((CDialog) m_MainContent).setTitle(p_Title);
+		}
+	}
+	
+	/**
+	 * Get Title
+	 * @return
+	 */
+	public String getTitle() {
+		if(m_MainContent instanceof CFrame) {
+			return ((CFrame) m_MainContent).getTitle();
+		} else {
+			return ((CDialog) m_MainContent).getTitle();
+		}
+	}
+	
+	/**
+	 * Verify if is frame
+	 * @return
+	 */
+	public boolean isDialog() {
+		return !(m_MainContent instanceof CFrame);
+	}
+	
+	/**
+	 * Send to Front
+	 */
+	public void toFront() {
+		getWindow().toFront();
+	}
+	
+	/**
+	 * Get Container
+	 * @return
+	 */
+	public Container getContainer() {
+		return m_MainContent;
+	}
+	
+	/**
+	 * Get parse to Window
+	 * @return
+	 */
+	public Window getWindow() {
+		return ((Window) m_MainContent);
+	}
+	
+	/**
+	 * Get Frame
+	 * @return
+	 */
+	public CFrame getCFrame() {
+		if(!isDialog()) {
+			CFrame frame = ((CFrame) m_MainContent);
+			//	Set Form ID
+			frame.setAD_Form_ID(p_AD_Form_ID);
+			return frame;
+		}
+		//	Default
+		return null;
+	}
+	
+	/**
+	 * Get Dialog
+	 * @return
+	 */
+	public CDialog getCDialog() {
+		if(isDialog()) {
+			return ((CDialog) m_MainContent);
+		}
+		//	Default
+		return null;
+	}
+	
+	/**
+	 * Support to pack
+	 */
+	public void pack() {
+		getWindow().pack();
+	}
+	
+	/**
+	 * Return getContentPanel
+	 * @return
+	 */
+	public Container getContentPane() {
+		return getContainer();
+	}
+	
+	/**
+	 * Support to setIconImage
+	 * @param p_Image
+	 */
+	public void setIconImage(Image p_Image) {
+		if(!isDialog()) {
+			((CFrame) m_MainContent).setIconImage(p_Image);
+		} else {
+			((CDialog) m_MainContent).setIconImage(p_Image);
+		}
+	}
+	
+	/**
+	 * Support to setDefaultCloseOperation
+	 * @param p_CloseOperetion
+	 */
+	public void setDefaultCloseOperation(int p_CloseOperetion) {
+		if(!isDialog()) {
+			((CFrame) m_MainContent).setDefaultCloseOperation(p_CloseOperetion);
+		} else {
+			((CDialog) m_MainContent).setDefaultCloseOperation(p_CloseOperetion);
+		}
+	}
+	
+	/**
+	 * Support to setJMenuBar
+	 * @param p_MenuBar
+	 */
+	public void setJMenuBar(JMenuBar p_MenuBar) {
+		if(!isDialog()) {
+			((CFrame) m_MainContent).setJMenuBar(p_MenuBar);
+		} else {
+			((CDialog) m_MainContent).setJMenuBar(p_MenuBar);
+		}
+	}
+	
+	/**
+	 * Add support to setCursor
+	 * @param cursor
+	 */
+	public void setCursor(Cursor cursor) {
+		getWindow().setCursor(cursor);
+	}
+	
+	/**
+	 * Add support to setSize
+	 * @param size
+	 */
+	public void setSize(Dimension size) {
+		getWindow().setSize(size);
+	}
+	
+	/**
+	 * Add support to getPreferredSize
+	 * @return
+	 */
+	public Dimension getPreferredSize() {
+		return getWindow().getPreferredSize();
+	}
+	
+	/**
+	 * Add Support to getGraphicsConfiguration
+	 * @return
+	 */
+	public GraphicsConfiguration getGraphicsConfiguration() {
+		return getWindow().getGraphicsConfiguration();
+	}
+	
+	/**
+	 * Add support to setSize
+	 * @param width
+	 * @param height
+	 */
+	public void setSize(int width, int height) {
+		getWindow().setSize(width, height);
+	}
+	
+	/**
+	 * Add support to addWindowListener
+	 * @param adapter
+	 */
+	public void addWindowListener(WindowAdapter adapter) {
+		getWindow().addWindowListener(adapter);
+	}
+	
+	/**
+	 * Add support to setVisible Nethod
+	 * @param visible
+	 */
+	public void setVisible(boolean visible) {
+		getWindow().setVisible(visible);
+	}
 }	//	FormFrame

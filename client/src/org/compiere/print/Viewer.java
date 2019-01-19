@@ -20,6 +20,7 @@ package org.compiere.print;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Container;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Event;
@@ -62,25 +63,29 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import org.adempiere.pdf.Document;
+import org.adempiere.pdf.ITextDocument;
 import org.compiere.apps.ADialog;
 import org.compiere.apps.AEnv;
 import org.compiere.apps.AMenu;
-import org.compiere.apps.ASearch;
 import org.compiere.apps.AWindow;
 import org.compiere.apps.AWindowListener;
 import org.compiere.apps.AppsAction;
 import org.compiere.apps.EMailDialog;
+import org.compiere.apps.ProcessCtl;
+import org.compiere.apps.ProcessModalDialog;
 import org.compiere.apps.StatusBar;
 import org.compiere.apps.WindowMenu;
+import org.compiere.apps.search.Find;
 import org.compiere.model.GridField;
 import org.compiere.model.MArchive;
 import org.compiere.model.MClient;
 import org.compiere.model.MQuery;
 import org.compiere.model.MRole;
+import org.compiere.model.MSysConfig;
 import org.compiere.model.MUser;
 import org.compiere.model.PrintInfo;
 import org.compiere.model.X_C_Invoice;
+import org.compiere.process.ProcessInfo;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CCheckBox;
 import org.compiere.swing.CComboBox;
@@ -93,12 +98,15 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.ExtensionFileFilter;
+import org.compiere.util.ImpExpUtil;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Language;
 import org.compiere.util.Login;
 import org.compiere.util.Msg;
 import org.compiere.util.NamePair;
 import org.compiere.util.ValueNamePair;
+import org.spin.util.AbstractExportFormat;
+import org.spin.util.ReportExportHandler;
 
 /**
  *	Print View Frame
@@ -121,7 +129,15 @@ import org.compiere.util.ValueNamePair;
  * @author victor.perez@e-evolution.com 
  *				<li>FR [ 1966328 ] New Window Info to MRP and CRP into View http://sourceforge.net/tracker/index.php?func=detail&aid=1966328&group_id=176962&atid=879335
  *				<li>FR [ 2011569 ] Implementing new Summary flag in Report View  http://sourceforge.net/tracker/index.php?func=detail&aid=2011569&group_id=176962&atid=879335
- * 
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * 		<li>BR [ 238 ] Is Summary property by default in Print Format
+ * 			@see https://github.com/adempiere/adempiere/issues/238
+ * 		<li>BR [ 237 ] Same Print format but distinct report view
+ * 			@see https://github.com/adempiere/adempiere/issues/237
+ * 		<a href="https://github.com/adempiere/adempiere/issues/1400">
+ * 			@see FR [ 1400 ] Dynamic report export</a>
+ *	@author Dixon Martinez, dmartinez@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li>BR [1019] New Icon to export report definition is show only swing but not ZK https://github.com/adempiere/adempiere/issues/1019
  */
 public class Viewer extends CFrame
 	implements ActionListener, ChangeListener, WindowStateListener
@@ -130,6 +146,9 @@ public class Viewer extends CFrame
 	 * 
 	 */
 	private static final long serialVersionUID = 7306392362119021781L;
+	private static final String PDF = "P";
+	private static final String XLS = "X";
+	private static final String HTML = "H";
 
 	/**
 	 * 	@deprecated
@@ -160,10 +179,61 @@ public class Viewer extends CFrame
 			this.dispose();
 		}
 		m_isCanExport = MRole.getDefault().isCanExport(m_AD_Table_ID);
+		//	BR [1019]
+		m_IsCanLoad = MRole.getDefault().isCanLoad(m_AD_Table_ID);
+		m_isAllowHTMLView =  MRole.getDefault().isAllow_HTML_View();
+		m_isAllowXLSView =  MRole.getDefault().isAllow_XLS_View();
 		try
 		{
 			m_viewPanel = re.getView();
 			m_ctx = m_reportEngine.getCtx();
+			String type = m_reportEngine.getReportType();
+			if (type == null) {
+				type = m_reportEngine.getPrintFormat().isForm()
+						? MSysConfig.getValue("ZK_REPORT_FORM_OUTPUT_TYPE")
+						: MSysConfig.getValue("ZK_REPORT_TABLE_OUTPUT_TYPE");
+				if (type != null && XLS.equals(type))
+					type = XLS;
+				if (type != null && PDF.equals(type))
+					type = PDF;
+			}
+
+			if (HTML.equals(type)  && !m_isAllowHTMLView) {
+				type = PDF;
+			}
+			if ((XLS.equals(type)  && !m_isAllowXLSView) || ("XX".equals(type)  && !m_isAllowXLSView)) {
+				type = PDF;
+			}
+
+			if (XLS.equals(type) || HTML.equals(type)) {
+				try {
+					String extension = "pdf";
+					if (XLS.equals(type))
+						extension = "xls";
+					if (HTML.equals(type))
+						extension = "html";
+
+					File outFile = new File("./"  + m_reportEngine.getPrintFormat().getName() + "_" +  System.currentTimeMillis() + "." + extension);
+					outFile.createNewFile();
+					if (XLS.equals(type))
+						m_reportEngine.createXLS(outFile);
+					if (HTML.equals(type))
+						m_reportEngine.createHTML(outFile, false);
+					this.dispose();
+					return;
+				}
+				catch (Exception e)
+				{
+					ADialog.error(m_WindowNo, this, "Error", e.getLocalizedMessage());
+					if (CLogMgt.isLevelFinest())
+						e.printStackTrace();
+
+					this.dispose();
+					return;
+				}
+			}
+			//	Load export
+			exportHandler = new ReportExportHandler(m_ctx, m_reportEngine);
 			jbInit();
 			dynInit();
 			if (!m_viewPanel.isArchivable())
@@ -197,7 +267,14 @@ public class Viewer extends CFrame
 	/** Table ID					*/
 	private int					m_AD_Table_ID = 0;
 	private boolean				m_isCanExport;
-	
+	//	BR [1019]
+	/**	Is Can Load							*/
+	private boolean 			m_IsCanLoad = false;
+	private boolean 			m_isAllowHTMLView = false;
+	private boolean 			m_isAllowXLSView= false;
+	/**	Export Handler			*/
+	private ReportExportHandler	exportHandler = null;
+
 	private MQuery 		m_ddQ = null;
 	private MQuery 		m_daQ = null;
 	private CMenuItem 	m_ddM = null;
@@ -224,6 +301,7 @@ public class Viewer extends CFrame
 	private CComboBox comboReport = new CComboBox();
 	private CButton bPrevious = new CButton();
 	private CButton bNext = new CButton();
+	private CButton bLoad = new CButton();
 	private SpinnerNumberModel spinnerModel = new SpinnerNumberModel(1,1,100,1);
 	private JSpinner spinner = new JSpinner(spinnerModel);
 	private CLabel labelDrill = new CLabel();
@@ -231,6 +309,8 @@ public class Viewer extends CFrame
 	//FR 201156
 	private CCheckBox summary = new CCheckBox();
 	private CComboBox comboZoom = new CComboBox(View.ZOOM_OPTIONS);
+	//	FR [  ]
+	private CComboBox comboReportView = new CComboBox();
 
 
 	/**
@@ -244,7 +324,8 @@ public class Viewer extends CFrame
 		//
 		northPanel.setLayout(northLayout);
 		this.getContentPane().add(northPanel, BorderLayout.NORTH);
-		northPanel.add(toolBar,  BorderLayout.EAST);
+		//	BR [1019]
+		northPanel.add(toolBar,  BorderLayout.WEST);
 		this.getContentPane().add(centerScrollPane, BorderLayout.CENTER);
 		centerScrollPane.getViewport().add(m_viewPanel, null);
 		// pb add: set scrolling with scrollbar buttons to move by 20 pixels
@@ -295,6 +376,9 @@ public class Viewer extends CFrame
 		toolBar.addSeparator();
 		toolBar.add(comboReport);
 		comboReport.setToolTipText(Msg.translate(m_ctx, "AD_PrintFormat_ID"));
+		//	FR [ 237 ]
+		toolBar.add(comboReportView);
+		comboReportView.setToolTipText(Msg.translate(m_ctx, "AD_ReportView_ID"));
 		//FR 201156
 		toolBar.add(summary);
 		summary.setText(Msg.getMsg(m_ctx, "Summary"));
@@ -315,6 +399,11 @@ public class Viewer extends CFrame
 			bExport.setToolTipText(Msg.getMsg(m_ctx, "Export"));
 			toolBar.add(bExport);
 		}
+		//	BR [1019]
+		if (m_IsCanLoad) {
+			bLoad.setToolTipText("Load New Report Definition");
+			toolBar.add(bLoad);
+		}
 		// 	End
 		toolBar.addSeparator();
 		toolBar.add(bEnd, null);
@@ -333,6 +422,8 @@ public class Viewer extends CFrame
 		//pb comment this out so that scrolling works normally
 		//centerScrollPane.getViewport().addChangeListener(this);
 		// end pb
+		//	Default summary from print format
+		summary.setSelected(m_reportEngine.getPrintFormat().isSummary());
 		//FR 201156
 		summary.addActionListener(this);
 		//	Max Page
@@ -426,6 +517,7 @@ public class Viewer extends CFrame
 				+ "WHERE AD_Table_ID=? "
 				//Added Lines by Armen
 				+ "AND IsActive='Y' "
+				+ "AND AD_Client_ID=? "				
 				//End of Added Lines
 				+ "ORDER BY Name",
 			"AD_PrintFormat", MRole.SQL_NOTQUALIFIED, MRole.SQL_RO);
@@ -434,6 +526,7 @@ public class Viewer extends CFrame
 		{
 			PreparedStatement pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, AD_Table_ID);
+			pstmt.setInt(2, Env.getAD_Client_ID(m_ctx));
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next())
 			{
@@ -460,7 +553,83 @@ public class Viewer extends CFrame
 	    if (selectValue != null)
 			comboReport.setSelectedItem(selectValue);
 		comboReport.addActionListener(this);
+		//	FR [ 237 ]
+		fillComboReportView();
 	}	//	fillComboReport
+	
+	/**
+	 * 	Fill ComboBox comboReportView (report view options)
+	 */
+	private void fillComboReportView() {
+		comboReportView.removeActionListener(this);
+		comboReportView.removeAllItems();
+		KeyNamePair selectValue = null;
+		//	fill Report View Options
+		String sql = "";
+		//	For base language
+		if (Env.isBaseLanguage(Env.getCtx(), "AD_ReportView")) {
+			sql = MRole.getDefault().addAccessSQL(
+					"SELECT AD_ReportView_ID, COALESCE(PrintName, Name) AS Name "
+						+ "FROM AD_ReportView "
+						+ "WHERE AD_Table_ID = ? "
+						+ "AND IsActive='Y' "
+						+ "ORDER BY Name",
+					"AD_ReportView", MRole.SQL_NOTQUALIFIED, MRole.SQL_RO);
+		} else {
+			sql = MRole.getDefault().addAccessSQL(
+					"SELECT rv.AD_ReportView_ID, COALESCE(rvt.PrintName, rv.PrintName, rvt.Name, rv.Name) AS Name "
+						+ "FROM AD_ReportView rv "
+						+ "LEFT JOIN AD_ReportView_Trl rvt ON(rvt.AD_ReportView_ID = rv.AD_ReportView_ID "
+						+ "										AND rvt.AD_Language = '" + Env.getAD_Language(Env.getCtx()) + "') "
+						+ "WHERE rv.AD_Table_ID = ? "
+						+ "AND rv.IsActive='Y' "
+						+ "ORDER BY rvt.Name",
+					"rv", MRole.SQL_FULLYQUALIFIED, MRole.SQL_RO);
+		}
+		//	Get Table
+		int AD_Table_ID = m_reportEngine.getPrintFormat().getAD_Table_ID();
+		//	Get Default Report View
+		int AD_ReportView_ID = m_reportEngine.getPrintFormat().getAD_ReportView_ID();
+		//	Get from DB
+		KeyNamePair [] pairs = DB.getKeyNamePairs(sql, true, AD_Table_ID);
+		//	fill combo
+		for(KeyNamePair view : pairs) {
+			comboReportView.addItem(view);
+			if (view.getKey() == AD_ReportView_ID)
+				selectValue = view;
+		}
+		//	Select Default
+	    if (selectValue != null) {
+	    	comboReportView.setSelectedItem(selectValue);
+	    }
+	    //	Add Listener
+	    comboReportView.addActionListener(this);
+	}	//	fillComboReport
+	
+	/**
+	 * Select a Report view from print format
+	 * @param p_AD_ReportView_ID
+	 */
+	private void selectReportView(int p_AD_ReportView_ID) {
+		comboReportView.removeActionListener(this);
+		//	Select
+		KeyNamePair selectValue = null;
+		for(int i = 0; i < comboReportView.getItemCount(); i++) {
+			KeyNamePair pp = (KeyNamePair) comboReportView.getItemAt(i);
+			if (pp.getKey() == p_AD_ReportView_ID) {
+				selectValue = pp;
+				break;
+			}
+		}
+		//	Set Value
+		if(selectValue != null) {
+			comboReportView.setSelectedItem(selectValue);
+		} else {
+			comboReportView.setSelectedIndex(0);
+		}
+		//	Add Listener
+		comboReportView.addActionListener(this);
+	}
 
 	/**
 	 * 	Revalidate settings after change of environment
@@ -511,6 +680,10 @@ public class Viewer extends CFrame
 		AEnv.addMenuItem("Print", null, KeyStroke.getKeyStroke(KeyEvent.VK_P, Event.CTRL_MASK), mFile, this);
 		if (m_isCanExport)
 			AEnv.addMenuItem("Export", null, null, mFile, this);
+		//	BR [1019]
+		if(m_IsCanLoad) {
+			AEnv.addMenuItem("Load", "Import", null, mFile, this);
+		}
 		mFile.addSeparator();
 		AEnv.addMenuItem("End", null, KeyStroke.getKeyStroke(KeyEvent.VK_X, Event.ALT_MASK), mFile, this);
 		AEnv.addMenuItem("Logout", null, KeyStroke.getKeyStroke(KeyEvent.VK_L, Event.SHIFT_MASK+Event.ALT_MASK), mFile, this);
@@ -624,6 +797,9 @@ public class Viewer extends CFrame
 		setButton(bCustomize, "PrintCustomize", "Preference");
 		//
 		setButton(bEnd, "End", "End");
+		//	BR [1019]
+		if (m_IsCanLoad)
+			setButton(bLoad, "Load", "Import");
 	}   //  createMenu
 
 	/**
@@ -675,12 +851,14 @@ public class Viewer extends CFrame
 			cmd_zoom();
 		else if (e.getSource() == comboReport)
 			cmd_report();
-		else if (e.getSource() == comboDrill)
+		else if(e.getSource() == comboReportView) {	//	FR [ 237 ]
+			cmd_reportView();
+		} else if (e.getSource() == comboDrill)
 			cmd_drill();
 		else if (e.getSource() == summary) //FR 201156
 		{	
 			m_reportEngine.setSummary(summary.isSelected());
-			cmd_report();
+			cmd_isSummary();
 		}	
 		else if (cmd.equals("First"))
 			setPage(1);
@@ -708,6 +886,8 @@ public class Viewer extends CFrame
 			cmd_translate();
 		else if (cmd.equals("End"))
 			dispose();
+		else if (cmd.equals("Load"))
+			cmd_LoadFormat();
 		//
 		else if (e.getSource() == m_ddM)
 			cmd_window(m_ddQ);
@@ -907,16 +1087,12 @@ public class Viewer extends CFrame
 		String message = "";
 		File attachment = null;
 		
-		try
-		{
-			attachment = File.createTempFile("mail", ".pdf");
-			m_reportEngine.getPDF(attachment);
-		}
-		catch (Exception e)
-		{
+		try {
+			attachment = m_reportEngine.getPDF(null);
+		} catch (Exception e) {
 			log.log(Level.SEVERE, "", e);
 		}
-
+		//	Send it
 		new EMailDialog (this,
 			Msg.getMsg(Env.getCtx(), "SendMail"),
 			from, to, subject, message, attachment);
@@ -928,7 +1104,7 @@ public class Viewer extends CFrame
 	private void cmd_archive ()
 	{
 		boolean success = false;
-		byte[] data = Document.getPDFAsArray(m_reportEngine.getLayout().getPageable(false));	//	No Copy
+		byte[] data = new ITextDocument().getPDFAsArray(m_reportEngine.getLayout().getPageable(false));	//	No Copy
 		if (data != null)
 		{
 			MArchive archive = new MArchive (Env.getCtx(), m_reportEngine.getPrintInfo(), null);
@@ -969,19 +1145,22 @@ public class Viewer extends CFrame
 		chooser.setDialogType(JFileChooser.SAVE_DIALOG);
 		chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		chooser.setDialogTitle(Msg.getMsg(m_ctx, "Export") + ": " + getTitle());
-		//
-		chooser.addChoosableFileFilter(new ExtensionFileFilter("ps", Msg.getMsg(m_ctx, "FilePS")));
-		chooser.addChoosableFileFilter(new ExtensionFileFilter("xml", Msg.getMsg(m_ctx, "FileXML")));
-		chooser.addChoosableFileFilter(new ExtensionFileFilter("pdf", Msg.getMsg(m_ctx, "FilePDF")));
-		chooser.addChoosableFileFilter(new ExtensionFileFilter("html", Msg.getMsg(m_ctx, "FileHTML")));
-		chooser.addChoosableFileFilter(new ExtensionFileFilter("txt", Msg.getMsg(m_ctx, "FileTXT")));
-		chooser.addChoosableFileFilter(new ExtensionFileFilter("ssv", Msg.getMsg(m_ctx, "FileSSV")));
-		chooser.addChoosableFileFilter(new ExtensionFileFilter("csv", Msg.getMsg(m_ctx, "FileCSV")));
-		chooser.addChoosableFileFilter(new ExtensionFileFilter("xls", Msg.getMsg(m_ctx, "FileXLS")));
+		//	
+		if(exportHandler.getExportFormatList() != null) {
+			for(AbstractExportFormat exportFormat : exportHandler.getExportFormatList()) {
+				if(exportFormat.getExtension().equals("arxml")
+						&& !m_IsCanLoad) {
+					continue;
+				}
+				//	For all
+				chooser.addChoosableFileFilter(new ExtensionFileFilter(exportFormat.getExtension(), exportFormat.getName()));
+			}
+		}
 		//
 		if (chooser.showSaveDialog(this) != JFileChooser.APPROVE_OPTION)
 			return;
-
+		//	
+		String exportName = chooser.getFileFilter().getDescription();
 		//	Create File
 		File outFile = ExtensionFileFilter.getFile(chooser.getSelectedFile(), chooser.getFileFilter());
 		try
@@ -1006,31 +1185,8 @@ public class Viewer extends CFrame
 		log.config( "File=" + outFile.getPath() + "; Type=" + ext);
 
 		setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-		try {
-			if (ext.equals("pdf"))
-				m_reportEngine.createPDF(outFile);
-			else if (ext.equals("ps"))
-				m_reportEngine.createPS(outFile);
-			else if (ext.equals("xml"))
-				m_reportEngine.createXML(outFile);
-			else if (ext.equals("csv"))
-				m_reportEngine.createCSV(outFile, ',', m_reportEngine.getPrintFormat().getLanguage());
-			else if (ext.equals("ssv"))
-				m_reportEngine.createCSV(outFile, ';', m_reportEngine.getPrintFormat().getLanguage());
-			else if (ext.equals("txt"))
-				m_reportEngine.createCSV(outFile, '\t', m_reportEngine.getPrintFormat().getLanguage());
-			else if (ext.equals("html") || ext.equals("htm"))
-				m_reportEngine.createHTML(outFile, false, m_reportEngine.getPrintFormat().getLanguage());
-			else if (ext.equals("xls"))
-				m_reportEngine.createXLS(outFile, m_reportEngine.getPrintFormat().getLanguage());
-			else
-				ADialog.error(m_WindowNo, this, "FileInvalidExtension");
-		}
-		catch (Exception e) {
-			ADialog.error(m_WindowNo, this, "Error", e.getLocalizedMessage());
-			if (CLogMgt.isLevelFinest())
-				e.printStackTrace();
-		}
+		AbstractExportFormat exporter = exportHandler.getExporter(exportName);
+		exporter.exportTo(outFile);
 		cmd_drill();	//	setCursor
 	}	//	cmd_export
 
@@ -1038,7 +1194,39 @@ public class Viewer extends CFrame
 	/**
 	 * 	Report Combo - Start other Report or create new one
 	 */
-	private void cmd_report()
+	private void cmd_report() {
+		KeyNamePair pp = (KeyNamePair)comboReport.getSelectedItem();
+		if (pp != null
+				&& pp.getKey() >= 0) {
+			//	Set Default Report View
+			MPrintFormat pf = MPrintFormat.get (Env.getCtx(), pp.getKey(), true);
+			selectReportView(pf.getAD_ReportView_ID());
+		}
+		//	Call Report
+		cmd_report(false);
+	}
+	
+	/**
+	 * Call report with change in property is Summary
+	 */
+	private void cmd_isSummary() {
+		//	FR [ 238 ]
+		cmd_report(true);
+	}
+	
+	/**
+	 * Report View Combo - Start the same report with other where clause
+	 */
+	private void cmd_reportView() {
+		//	FR [ 237 ]
+		cmd_report(false);
+	}
+	
+	/**
+	 * 	Report Combo - Start other Report or create new one
+	 *	@param isSummaryChanged for when the check Is Summary is changed
+	 */
+	private void cmd_report(boolean isSummaryChanged)
 	{
 		KeyNamePair pp = (KeyNamePair)comboReport.getSelectedItem();
 		if (pp == null)
@@ -1071,7 +1259,7 @@ public class Viewer extends CFrame
 				return;
 		}
 		//copy current
-		if (AD_PrintFormat_ID == -2) {
+		else if (AD_PrintFormat_ID == -2) {
 			MPrintFormat current = m_reportEngine.getPrintFormat();
 			if (current != null) {
 				pf = MPrintFormat.copyToClient(m_ctx,
@@ -1084,16 +1272,30 @@ public class Viewer extends CFrame
 					return;
 			} else
 				return;
-		}		
+		}
 		else
 			pf = MPrintFormat.get (Env.getCtx(), AD_PrintFormat_ID, true);
-		
+		//	FR [ 238 ]
+		if(pf == null)
+			return;
+		//	
+		if(!isSummaryChanged) {
+			summary.setSelected(pf.isSummary());
+		}
+		// Set Summary for report
+		m_reportEngine.setSummary(summary.isSelected());
 		//	Get Language from previous - thanks Gunther Hoppe 
 		if (m_reportEngine.getPrintFormat() != null)
 		{
 			pf.setLanguage(m_reportEngine.getPrintFormat().getLanguage());		//	needs to be re-set - otherwise viewer will be blank
 			pf.setTranslationLanguage(m_reportEngine.getPrintFormat().getLanguage());
 		}
+		//	FR [ 237 ]
+		KeyNamePair reportView = (KeyNamePair)comboReportView.getSelectedItem();
+		if (reportView != null) {
+			m_reportEngine.setAD_ReportView_ID(reportView.getKey());
+		}
+		//	
 		m_reportEngine.setPrintFormat(pf);
 		revalidate();
 
@@ -1158,7 +1360,9 @@ public class Viewer extends CFrame
 				+ "             AND ce.AD_Field_ID IS NULL "
 				+ "             AND ce.ASP_Status = 'H')"; // Hide
 		//
+		//jobriant - Feature #544
 		sql = "SELECT Name, TableName FROM AD_Tab_v WHERE AD_Tab_ID=? " + ASPFilter;
+		
 		if (!Env.isBaseLanguage(Env.getCtx(), "AD_Tab"))
 			sql = "SELECT Name, TableName FROM AD_Tab_vt WHERE AD_Tab_ID=?"
 				+ " AND AD_Language='" + Env.getAD_Language(Env.getCtx()) + "' " + ASPFilter;
@@ -1185,17 +1389,62 @@ public class Viewer extends CFrame
 		GridField[] findFields = null;
 		if (tableName != null)
 			findFields = GridField.createFields(m_ctx, m_WindowNo, 0, AD_Tab_ID);
-		
-		if (findFields == null)		//	No Tab for Table exists
-			bFind.setEnabled(false);
-		else
+		//	FR [ 295 ]
+		if (findFields == null)		{	//	No Tab for Table exists
+			 bFind.setEnabled(false);
+			if(launchProcessPara()) {
+				revalidate();
+			}else {
+				return;
+			}
+		} else
 		{
-			ASearch search = new ASearch (bFind,this, title,AD_Tab_ID, AD_Table_ID, tableName, m_reportEngine ,findFields, 1);
-			search = null;
+			String whereExtended = "";
+			whereExtended = m_reportEngine.getWhereExtended();
+			Find find = new Find (this, m_reportEngine.getWindowNo(), title, AD_Tab_ID, AD_Table_ID, tableName, whereExtended, findFields, 1);
+			m_reportEngine.setQuery(find.getQuery());
+			find.dispose();
+			find = null;
 			revalidate();
 		}
 		cmd_drill();	//	setCursor
 	}	//	cmd_find
+	
+	/**
+	 * FR [ 295 ]
+	 * Launch Parameters for re-query
+	 * @return isOk
+	 */
+	private boolean launchProcessPara() {
+		if(m_reportEngine.getProcessInfo() == null)
+			return false;
+		//	Create new Instance
+		ProcessInfo pi = new ProcessInfo(m_reportEngine.getProcessInfo().getTitle(), 
+				m_reportEngine.getProcessInfo().getAD_Process_ID(), 
+				m_reportEngine.getProcessInfo().getTable_ID(), 
+				m_reportEngine.getProcessInfo().getRecord_ID());
+		//	Launch dialog
+		ProcessModalDialog para = new ProcessModalDialog(Env.getFrame((Container)this), m_WindowNo, pi);
+		if (para.isValidDialog()) {
+			para.validate();
+			para.pack();
+			AEnv.showCenterWindow(Env.getWindow(m_WindowNo), para);
+			if (para.isOK()) {
+				//	execute
+				ProcessCtl worker = new ProcessCtl(null, m_WindowNo, pi, true, null);
+				//synchrous
+				worker.run();
+				//	
+				ReportEngine re = ReportEngine.get(Env.getCtx(), pi);
+				//	
+				m_reportEngine.setQuery(re.getQuery());
+				//	
+				return true;
+			}
+		}
+		//	Default
+		return false;
+	}
 
 	/**
 	 * 	Call Customize
@@ -1229,11 +1478,18 @@ public class Viewer extends CFrame
 			int AD_PrintFormat_ID = m_reportEngine.getPrintFormat().get_ID();
 			Language language = m_reportEngine.getPrintFormat().getLanguage();
 			MPrintFormat pf = MPrintFormat.get (Env.getCtx(), AD_PrintFormat_ID, true);
-			pf.setLanguage (language);		//	needs to be re-set - otherwise viewer will be blank
-			pf.setTranslationLanguage (language);
-			m_reportEngine.setPrintFormat(pf);
-			revalidate();
-			cmd_drill();	//	setCursor
+			
+			if ( pf == null) 		// print format deleted
+			{
+				dispose();
+			}
+			else {
+				pf.setLanguage (language);		//	needs to be re-set - otherwise viewer will be blank
+				pf.setTranslationLanguage (language);
+				m_reportEngine.setPrintFormat(pf);
+				revalidate();
+				cmd_drill();	//	setCursor
+			}
 		}
 	}	//	windowStateChanged
 
@@ -1325,6 +1581,22 @@ public class Viewer extends CFrame
 		m_reportEngine.setPrintFormat(MPrintFormat.get (Env.getCtx(), AD_PrintFormat_ID, true));
 		revalidate();
 	}	//	cmd_translate
+	
+	
+	private void cmd_LoadFormat()
+	{
+		JFileChooser chooser = new JFileChooser();
+		chooser.setFileFilter(new ExtensionFileFilter("arxml", "Adempiere Report Definition"));
+		
+		if (chooser.showOpenDialog(this) != JFileChooser.APPROVE_OPTION)
+			return;
+
+		File reportFile = ExtensionFileFilter.getFile(chooser.getSelectedFile(), chooser.getFileFilter());
+		if (ImpExpUtil.importPrintFormat(reportFile)) {
+			ADialog.info(m_WindowNo, this, "Report Definition Loaded");
+			fillComboReport(m_reportEngine.getPrintFormat().get_ID());
+		}
+	}
 
 	/*************************************************************************/
 

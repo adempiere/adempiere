@@ -1,8 +1,9 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -11,8 +12,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 package org.compiere.model;
 
@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for PA_ReportColumn
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0
+ *  @version Release 3.9.1
  */
 public interface I_PA_ReportColumn 
 {
@@ -61,6 +61,8 @@ public interface I_PA_ReportColumn
 	  * Performing or initiating organization
 	  */
 	public int getAD_OrgTrx_ID();
+
+	public org.compiere.model.I_AD_Org getAD_OrgTrx() throws RuntimeException;
 
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
@@ -331,6 +333,19 @@ public interface I_PA_ReportColumn
 	  */
 	public boolean isAdhocConversion();
 
+    /** Column name IsAllowOppositeSign */
+    public static final String COLUMNNAME_IsAllowOppositeSign = "IsAllowOppositeSign";
+
+	/** Set Allow Opposite Sign.
+	  * Allow column values to be displayed with the opposite sign
+	  */
+	public void setIsAllowOppositeSign (boolean IsAllowOppositeSign);
+
+	/** Get Allow Opposite Sign.
+	  * Allow column values to be displayed with the opposite sign
+	  */
+	public boolean isAllowOppositeSign();
+
     /** Column name IsIncludeNullsActivity */
     public static final String COLUMNNAME_IsIncludeNullsActivity = "IsIncludeNullsActivity";
 
@@ -461,6 +476,58 @@ public interface I_PA_ReportColumn
 	  */
 	public boolean isIncludeNullsSalesRegion();
 
+    /** Column name IsIncludeNullsUser1 */
+    public static final String COLUMNNAME_IsIncludeNullsUser1 = "IsIncludeNullsUser1";
+
+	/** Set Include Nulls in User 1.
+	  * Include nulls in the selection of the user 1
+	  */
+	public void setIsIncludeNullsUser1 (boolean IsIncludeNullsUser1);
+
+	/** Get Include Nulls in User 1.
+	  * Include nulls in the selection of the user 1
+	  */
+	public boolean isIncludeNullsUser1();
+
+    /** Column name IsIncludeNullsUser2 */
+    public static final String COLUMNNAME_IsIncludeNullsUser2 = "IsIncludeNullsUser2";
+
+	/** Set Include Nulls in User 2.
+	  * Include nulls in the selection of the user 2
+	  */
+	public void setIsIncludeNullsUser2 (boolean IsIncludeNullsUser2);
+
+	/** Get Include Nulls in User 2.
+	  * Include nulls in the selection of the user 2
+	  */
+	public boolean isIncludeNullsUser2();
+
+    /** Column name IsIncludeNullsUser3 */
+    public static final String COLUMNNAME_IsIncludeNullsUser3 = "IsIncludeNullsUser3";
+
+	/** Set Include Nulls in User 3.
+	  * Include nulls in the selection of the user 3
+	  */
+	public void setIsIncludeNullsUser3 (boolean IsIncludeNullsUser3);
+
+	/** Get Include Nulls in User 3.
+	  * Include nulls in the selection of the user 3
+	  */
+	public boolean isIncludeNullsUser3();
+
+    /** Column name IsIncludeNullsUser4 */
+    public static final String COLUMNNAME_IsIncludeNullsUser4 = "IsIncludeNullsUser4";
+
+	/** Set Include Nulls in User 4.
+	  * Include nulls in the selection of the user 4
+	  */
+	public void setIsIncludeNullsUser4 (boolean IsIncludeNullsUser4);
+
+	/** Get Include Nulls in User 4.
+	  * Include nulls in the selection of the user 4
+	  */
+	public boolean isIncludeNullsUser4();
+
     /** Column name IsIncludeNullsUserElement1 */
     public static final String COLUMNNAME_IsIncludeNullsUserElement1 = "IsIncludeNullsUserElement1";
 
@@ -571,6 +638,8 @@ public interface I_PA_ReportColumn
 	  */
 	public int getOrg_ID();
 
+	public org.compiere.model.I_AD_Org getOrg() throws RuntimeException;
+
     /** Column name PAAmountType */
     public static final String COLUMNNAME_PAAmountType = "PAAmountType";
 
@@ -628,12 +697,12 @@ public interface I_PA_ReportColumn
     /** Column name PostingType */
     public static final String COLUMNNAME_PostingType = "PostingType";
 
-	/** Set PostingType.
+	/** Set Posting Type.
 	  * The type of posted amount for the transaction
 	  */
 	public void setPostingType (String PostingType);
 
-	/** Get PostingType.
+	/** Get Posting Type.
 	  * The type of posted amount for the transaction
 	  */
 	public String getPostingType();
@@ -651,6 +720,19 @@ public interface I_PA_ReportColumn
 	  */
 	public BigDecimal getRelativePeriod();
 
+    /** Column name RelativePeriodTo */
+    public static final String COLUMNNAME_RelativePeriodTo = "RelativePeriodTo";
+
+	/** Set Relative Period To.
+	  * Period offset (0 is current)
+	  */
+	public void setRelativePeriodTo (BigDecimal RelativePeriodTo);
+
+	/** Get Relative Period To.
+	  * Period offset (0 is current)
+	  */
+	public BigDecimal getRelativePeriodTo();
+
     /** Column name SeqNo */
     public static final String COLUMNNAME_SeqNo = "SeqNo";
 
@@ -665,6 +747,19 @@ public interface I_PA_ReportColumn
  lowest number comes first
 	  */
 	public int getSeqNo();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -681,6 +776,66 @@ public interface I_PA_ReportColumn
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name User1_ID */
+    public static final String COLUMNNAME_User1_ID = "User1_ID";
+
+	/** Set User List 1.
+	  * User defined list element #1
+	  */
+	public void setUser1_ID (int User1_ID);
+
+	/** Get User List 1.
+	  * User defined list element #1
+	  */
+	public int getUser1_ID();
+
+	public org.compiere.model.I_C_ElementValue getUser1() throws RuntimeException;
+
+    /** Column name User2_ID */
+    public static final String COLUMNNAME_User2_ID = "User2_ID";
+
+	/** Set User List 2.
+	  * User defined list element #2
+	  */
+	public void setUser2_ID (int User2_ID);
+
+	/** Get User List 2.
+	  * User defined list element #2
+	  */
+	public int getUser2_ID();
+
+	public org.compiere.model.I_C_ElementValue getUser2() throws RuntimeException;
+
+    /** Column name User3_ID */
+    public static final String COLUMNNAME_User3_ID = "User3_ID";
+
+	/** Set User List 3.
+	  * User defined list element #3
+	  */
+	public void setUser3_ID (int User3_ID);
+
+	/** Get User List 3.
+	  * User defined list element #3
+	  */
+	public int getUser3_ID();
+
+	public org.compiere.model.I_C_ElementValue getUser3() throws RuntimeException;
+
+    /** Column name User4_ID */
+    public static final String COLUMNNAME_User4_ID = "User4_ID";
+
+	/** Set User List 4.
+	  * User defined list element #4
+	  */
+	public void setUser4_ID (int User4_ID);
+
+	/** Get User List 4.
+	  * User defined list element #4
+	  */
+	public int getUser4_ID();
+
+	public org.compiere.model.I_C_ElementValue getUser4() throws RuntimeException;
 
     /** Column name UserElement1_ID */
     public static final String COLUMNNAME_UserElement1_ID = "UserElement1_ID";

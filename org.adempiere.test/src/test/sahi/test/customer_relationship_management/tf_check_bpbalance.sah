@@ -1,0 +1,86 @@
+ var $openBalance = null;
+ var $grandTotal = "100.00";
+ var $bpartnerName = "Joe Block";
+ 
+ function openBP($bpName) {
+ 	_click(_div("Business Partner"));
+ 	_assertExists(_textbox(/Field_Name_/));
+ 	_setValue(_textbox(/Field_Name_/), $bpName);
+ 	_assertExists(_image("Ok24.png"));
+ 	_click(_image("Ok24.png"));
+ }
+ 
+ function createInvoiceCustomer($bpName, $grandTotal) {
+  	_click(_div("Invoice (Customer)"));
+  	_assertExists(_span("Invoice (Customer)"));
+  	_setStrictVisibilityCheck(true); 
+  	_click(_image("New24.png"));
+ 	_assertExists(_span("Target Document Type"));
+  	_setValue(_textbox(0, _near(_span("Target Document Type"))), "AR Invoice");
+  	_assertExists(_span("Business Partner", _near(_span("Target Document Type"))));
+	_setValue(_textbox(0, _near(_span("Business Partner", _near(_span("Target Document Type"))))), $bpName);
+	_click(_image("Save24.png"));
+	_click(_span("Invoice Line"));
+	_assertExists(_span("Price"));
+	_setValue(_textbox(0, _near(_span("Price"))), $grandTotal);
+	_click(_image("Save24.png"));
+	_click(_span("Invoice"));
+	_assertExists(_span("Total Lines"));
+	_assertEqual($grandTotal, _getValue(_textbox(0, _near(_span("Total Lines")))));
+	_click(_cell("Complete"));
+	_click(_image("Ok24.png"));
+	_setStrictVisibilityCheck(false); 
+ }
+ 
+  function createPaymentCustomer($bpName, $grandTotal) {
+  
+   	_click(_div("Payment"));
+   	_assertExists(_span("Payment"));
+   	_setStrictVisibilityCheck(true); 
+   	_click(_image("New24.png"));
+  	_assertExists(_span("Document Type"));
+   	_setValue(_textbox(0, _near(_span("Document Type"))), "AR Receipt");
+   	_assertExists(_span("Business Partner", _near(_span("Document Type"))));
+ 	_setValue(_textbox(0, _near(_span("Business Partner", _near(_span("Document Type"))))), $bpName);
+ 	_assertExists(_span("Payment amount"));
+ 	_setValue(_textbox(0, _near(_span("Payment amount"))), $grandTotal);
+ 	_click(_image("Save24.png"));
+ 	
+ 	_click(_cell("Complete"));
+ 	_click(_image("Ok24.png"));
+ 	_setStrictVisibilityCheck(false); 
+ }
+
+
+function test_bpbalance() { 
+ //open bpartner Joe Block and get actual balance
+ openBP($bpartnerName);
+ _assertExists(_span("Open Balance"));
+ //the nearest textbox is the credit status - that's why we need to find the nearest number textbox
+ _set($openBalance, _textbox(/z-decimalbox/, _near(_span("Open Balance"))).value);
+ 
+ //create a new invoice and get the invoice grand total (can be different because of standard tax)
+ createInvoiceCustomer($bpartnerName, $grandTotal);
+ _assertExists(_span("Grand Total"));
+ _set($grandTotal, _textbox(0, _near(_span("Grand Total"))).value);
+ 
+ //refresh Joe Block and check balance
+ _click(_span("Business Partner"));
+ _setStrictVisibilityCheck(true);
+ _click(_image("Refresh24.png"));
+ _assertEqual(parseFloat($openBalance) + parseFloat($grandTotal), parseFloat(_getValue(_textbox(/z-decimalbox/, _near(_span("Open Balance")))).replace(/,/g, "") ));
+ //problems with numbers greater than 1000 because of the format parseFloat("1,000.23") will give 1 as result
+ //that's why we have to removes all ',' with the replace function
+ _setStrictVisibilityCheck(false); 
+ 
+ //create a payment with grand total
+ createPaymentCustomer($bpartnerName, $grandTotal);
+ 
+ //refresh Joe Block and check balance -> should be back to original open balance
+ _click(_span("Business Partner"));
+ _setStrictVisibilityCheck(true);
+ _click(_image("Refresh24.png"));
+ _assertEqual(parseFloat($openBalance), parseFloat(_getValue(_textbox(/z-decimalbox/, _near(_span("Open Balance")))).replace(/,/g, "") ));
+ _setStrictVisibilityCheck(false); 
+
+ }

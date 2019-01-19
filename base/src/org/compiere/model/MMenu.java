@@ -22,6 +22,8 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
+
+import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 
@@ -33,6 +35,9 @@ import org.compiere.util.DB;
  *  @see FR [ 1966326 ] Is necessary create method to get ID menu use menu Name http://sourceforge.net/tracker/index.php?func=detail&aid=1966326&group_id=176962&atid=879335
  *  @author red1 - FR: [ 2214883 ] Remove SQL code and Replace for Query
  *  @version $Id: MMenu.java,v 1.3 2006/07/30 00:58:18 jjanke Exp $
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * 		<a href="https://github.com/adempiere/adempiere/issues/884">
+ * 		@see FR [ 884 ] Recent Items in Dashboard</a>
  */
 public class MMenu extends X_AD_Menu
 {
@@ -41,6 +46,8 @@ public class MMenu extends X_AD_Menu
 	 * 
 	 */
 	private static final long serialVersionUID = -6671861281736697100L;
+	/**	Recent Item Cache				*/
+	private static CCache<Integer, MMenu>	cache = new CCache<Integer, MMenu>(I_AD_Menu.Table_Name, 10);
 
 	/**
 	 * Get menues with where clause
@@ -143,24 +150,30 @@ public class MMenu extends X_AD_Menu
 	 *	@param success success
 	 *	@return success
 	 */
-	protected boolean afterSave (boolean newRecord, boolean success)
-	{
-		if (newRecord)
-			insert_Tree(MTree_Base.TREETYPE_Menu);
-		return success;
-	}	//	afterSave
+	//	Yamel Senih [ 9223372036854775807 ]
+	//	Change to PO
+//	protected boolean afterSave (boolean newRecord, boolean success)
+//	{
+//		if (newRecord)
+//			insert_Tree(MTree.TREETYPE_Menu);
+//		return success;
+//	}	//	afterSave
+	//	End Yamel Senih
 
 	/**
 	 * 	After Delete
 	 *	@param success
 	 *	@return deleted
 	 */
-	protected boolean afterDelete (boolean success)
-	{
-		if (success)
-			delete_Tree(MTree_Base.TREETYPE_Menu);
-		return success;
-	}	//	afterDelete
+	//	Yamel Senih [ 9223372036854775807 ]
+	//	Change to PO
+//	protected boolean afterDelete (boolean success)
+//	{
+//		if (success)
+//			delete_Tree(MTree.TREETYPE_Menu);
+//		return success;
+//	}	//	afterDelete
+	//	End Yamel Senih
 	
 	/**
 	 *  FR [ 1966326 ]
@@ -191,6 +204,58 @@ public class MMenu extends X_AD_Menu
 			DB.close(rs, pstmt);
 		}
 		return retValue;
+	}
+	
+	/**
+	 * Get menu from ID, it use cache and can return null if not exist
+	 * @param ctx
+	 * @param menuId
+	 * @return
+	 */
+	public static MMenu getFromId(Properties ctx, int menuId) {
+		MMenu menuItem = cache.get(menuId);
+		if(menuItem == null) {
+			menuItem = new Query(ctx, I_AD_Menu.Table_Name, 
+					I_AD_Menu.COLUMNNAME_AD_Menu_ID + " = " + menuId, null)
+					.first();
+			//	Validate
+			if(menuItem == null) {
+				return null;
+			}
+			//	set on cache
+			cache.put(menuId, menuItem);
+		}
+		//	
+		return menuItem;
+	}
+	
+	/**
+	 * Get Option ID, return 0 if don't have action
+	 * @return
+	 */
+	public int getOptionId() {
+		if(getAction() == null) {
+			return 0;
+		}
+		//	
+		if (getAction().equals(MMenu.ACTION_Window)) {	//	Window
+			return getAD_Window_ID();
+		} else if (getAction().equals(MMenu.ACTION_Process) 
+				|| getAction().equals(MMenu.ACTION_Report)) {	//	Process & Report
+			return getAD_Process_ID();
+		} else if (getAction().equals(MMenu.ACTION_Workbench)) {	//	Workbench
+			return getAD_Workbench_ID();
+		} else if (getAction().equals(MMenu.ACTION_WorkFlow)) {	//	WorkFlow
+			return getAD_Workflow_ID();
+		} else if (getAction().equals(MMenu.ACTION_Task)) {	//	Task
+			return getAD_Task_ID();
+		} else if (getAction().equals(MMenu.ACTION_Form)) {	//	Form
+			return getAD_Form_ID();
+		} else if (getAction().equals(MMenu.ACTION_SmartBrowse)) {	//	Smart Browse
+			return getAD_Browse_ID();
+		}
+		//	Return
+		return 0;
 	}
 	
 }	//	MMenu

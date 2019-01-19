@@ -1,0 +1,735 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="IS Desc Print Format Item #888 contibution #953(Adaxa)" ReleaseNo="3.9.0" SeqNo="01220">
+      <Comments>https://github.com/adempiere/adempiere/issues/888</Comments>
+    <Step DBType="Oracle" SeqNo="10" StepType="SQL">
+      <SQLStatement>-- Feb 18, 2012 8:32:49 PM COT
+INSERT INTO AD_Element (AD_Element_ID,ColumnName,EntityType,Name,Description,PrintName,AD_Client_ID,Created,Updated,IsActive,AD_Org_ID,CreatedBy,UpdatedBy) VALUES (200003,&apos;IsDesc&apos;,&apos;D&apos;,&apos;Descending&apos;,&apos;Sort your data using a SQL Desc Order By statement&apos;,&apos;Descending&apos;,0,TO_DATE(&apos;2012-02-18 20:32:48&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),TO_DATE(&apos;2012-02-18 20:32:48&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),&apos;Y&apos;,0,100,100)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="20" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:32:49 PM COT
+INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Help,PO_Description,PO_Help,Name,Description,PrintName,PO_PrintName,PO_Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Element_ID, t.Help,t.PO_Description,t.PO_Help,t.Name,t.Description,t.PrintName,t.PO_PrintName,t.PO_Name, &apos;N&apos;,t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Element t WHERE l.IsActive=&apos;Y&apos; AND l.IsSystemLanguage=&apos;Y&apos; AND l.IsBaseLanguage=&apos;N&apos; AND t.AD_Element_ID=200003 AND NOT EXISTS (SELECT * FROM AD_Element_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Element_ID=t.AD_Element_ID)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="30" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:32:50 PM COT
+INSERT INTO AD_Column (DefaultValue,AD_Column_ID,AD_Table_ID,EntityType,Version,IsMandatory,IsTranslated,IsIdentifier,IsParent,FieldLength,IsSelectionColumn,AD_Reference_ID,IsSyncDatabase,IsKey,AD_Element_ID,IsEncrypted,IsUpdateable,IsAlwaysUpdateable,ColumnName,Description,Name,CreatedBy,Updated,AD_Client_ID,AD_Org_ID,IsActive,Created,UpdatedBy) VALUES (&apos;N&apos;,200016,489,&apos;D&apos;,0,&apos;Y&apos;,&apos;N&apos;,&apos;N&apos;,&apos;N&apos;,1,&apos;N&apos;,20,&apos;Y&apos;,&apos;N&apos;,200003,&apos;N&apos;,&apos;Y&apos;,&apos;N&apos;,&apos;IsDesc&apos;,&apos;Sort your data using a SQL Desc Order By statement&apos;,&apos;Descending&apos;,100,TO_DATE(&apos;2012-02-18 20:32:49&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),0,0,&apos;Y&apos;,TO_DATE(&apos;2012-02-18 20:32:49&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),100)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="40" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:32:50 PM COT
+INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, &apos;N&apos;,t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive=&apos;Y&apos; AND l.IsSystemLanguage=&apos;Y&apos; AND l.IsBaseLanguage=&apos;N&apos; AND t.AD_Column_ID=200016 AND NOT EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Column_ID=t.AD_Column_ID)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="50" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:32:50 PM COT
+ALTER TABLE AD_PrintFormatItem ADD IsDesc CHAR(1) DEFAULT &apos;N&apos; CHECK (IsDesc IN (&apos;Y&apos;,&apos;N&apos;)) NOT NULL
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="60" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:32:53 PM COT
+INSERT INTO AD_Field (SortNo,DisplayLength,IsDisplayed,IsSameLine,IsHeading,AD_Column_ID,IsFieldOnly,SeqNo,IsCentrallyMaintained,AD_Tab_ID,AD_Field_ID,IsReadOnly,DisplayLogic,EntityType,Description,Name,UpdatedBy,AD_Org_ID,IsActive,Created,AD_Client_ID,CreatedBy,Updated) VALUES (0,0,&apos;Y&apos;,&apos;Y&apos;,&apos;N&apos;,200016,&apos;N&apos;,430,&apos;Y&apos;,426,200001,&apos;N&apos;,&apos;@IsOrderBy@=Y&apos;,&apos;D&apos;,&apos;Sort your data using a SQL Desc Order By statement&apos;,&apos;Descending&apos;,100,0,&apos;Y&apos;,TO_DATE(&apos;2012-02-18 20:32:52&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),0,100,TO_DATE(&apos;2012-02-18 20:32:52&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;))
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="70" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:32:53 PM COT
+INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Help,Description,Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Field_ID, t.Help,t.Description,t.Name, &apos;N&apos;,t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Field t WHERE l.IsActive=&apos;Y&apos; AND l.IsSystemLanguage=&apos;Y&apos; AND l.IsBaseLanguage=&apos;N&apos; AND t.AD_Field_ID=200001 AND NOT EXISTS (SELECT * FROM AD_Field_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Field_ID=t.AD_Field_ID)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="80" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=0,IsDisplayed=&apos;N&apos; WHERE AD_Field_ID=5692
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="90" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=100,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=5760
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="100" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=110,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=56378
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="110" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=150,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=56373
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="120" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=160,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=5671
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="130" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=170,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=11200
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="140" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=180,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=5756
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="150" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=190,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=5755
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="160" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=200,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=5697
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="170" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=210,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=13016
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="180" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=220,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=5677
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="190" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=230,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=5761
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="200" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=240,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=5690
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="210" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=250,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=5681
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="220" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=260,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=5669
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="230" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=270,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=5804
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="240" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=280,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=5763
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="250" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=290,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=5695
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="260" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=300,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=5691
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="270" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=310,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=5685
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="280" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=320,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=5673
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="290" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=330,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=5678
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="300" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=340,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=5805
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="310" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=350,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=11023
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="320" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=360,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=5689
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="330" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=370,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=5688
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="340" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=380,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=11021
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="350" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=390,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=5682
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="360" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=400,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=5686
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="370" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=410,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=11020
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="380" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=420,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=5693
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="390" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=430,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=5674
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="400" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=440,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=200001
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="410" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=450,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=5694
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="420" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=460,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=5676
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="430" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=470,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=5680
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="440" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=480,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=8294
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="450" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=490,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=5757
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="460" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=500,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=8293
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="470" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=510,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=8295
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="480" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=520,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=8292
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="490" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=530,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=5758
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="500" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=540,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=8604
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="510" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=550,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=8605
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="520" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:57:37 PM COT
+-- IDEMPIERE-153 OrderBy Type (Print Format Item View)
+UPDATE AD_Field SET DisplayLength=1, IsSameLine=&apos;N&apos;, DisplayLogic=&apos;@PrintFormatType@=F &amp; @IsOrderBy@=Y&apos;,Updated=TO_DATE(&apos;2012-02-18 20:57:37&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Field_ID=200001
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="10" StepType="SQL">
+      <SQLStatement>-- Feb 18, 2012 8:32:49 PM COT
+-- IDEMPIERE-153 OrderBy Type (Print Format Item View)
+INSERT INTO AD_Element (AD_Element_ID,ColumnName,EntityType,Name,Description,PrintName,AD_Client_ID,Created,Updated,IsActive,AD_Org_ID,CreatedBy,UpdatedBy) VALUES (200003,&apos;IsDesc&apos;,&apos;D&apos;,&apos;Descending&apos;,&apos;Sort your data using a SQL Desc Order By statement&apos;,&apos;Descending&apos;,0,TO_TIMESTAMP(&apos;2012-02-18 20:32:48&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),TO_TIMESTAMP(&apos;2012-02-18 20:32:48&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),&apos;Y&apos;,0,100,100)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="20" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:32:49 PM COT
+INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Help,PO_Description,PO_Help,Name,Description,PrintName,PO_PrintName,PO_Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Element_ID, t.Help,t.PO_Description,t.PO_Help,t.Name,t.Description,t.PrintName,t.PO_PrintName,t.PO_Name, &apos;N&apos;,t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Element t WHERE l.IsActive=&apos;Y&apos; AND l.IsSystemLanguage=&apos;Y&apos; AND l.IsBaseLanguage=&apos;N&apos; AND t.AD_Element_ID=200003 AND NOT EXISTS (SELECT * FROM AD_Element_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Element_ID=t.AD_Element_ID)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="30" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:32:50 PM COT
+INSERT INTO AD_Column (DefaultValue,AD_Column_ID,AD_Table_ID,EntityType,Version,IsMandatory,IsTranslated,IsIdentifier,IsParent,FieldLength,IsSelectionColumn,AD_Reference_ID,IsSyncDatabase,IsKey,AD_Element_ID,IsEncrypted,IsUpdateable,IsAlwaysUpdateable,ColumnName,Description,Name,CreatedBy,Updated,AD_Client_ID,AD_Org_ID,IsActive,Created,UpdatedBy) VALUES (&apos;N&apos;,200016,489,&apos;D&apos;,0,&apos;Y&apos;,&apos;N&apos;,&apos;N&apos;,&apos;N&apos;,1,&apos;N&apos;,20,&apos;Y&apos;,&apos;N&apos;,200003,&apos;N&apos;,&apos;Y&apos;,&apos;N&apos;,&apos;IsDesc&apos;,&apos;Sort your data using a SQL Desc Order By statement&apos;,&apos;Descending&apos;,100,TO_TIMESTAMP(&apos;2012-02-18 20:32:49&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),0,0,&apos;Y&apos;,TO_TIMESTAMP(&apos;2012-02-18 20:32:49&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),100)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="40" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:32:50 PM COT
+INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, &apos;N&apos;,t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive=&apos;Y&apos; AND l.IsSystemLanguage=&apos;Y&apos; AND l.IsBaseLanguage=&apos;N&apos; AND t.AD_Column_ID=200016 AND NOT EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Column_ID=t.AD_Column_ID)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="50" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:32:50 PM COT
+ALTER TABLE AD_PrintFormatItem ADD COLUMN IsDesc CHAR(1) DEFAULT &apos;N&apos; CHECK (IsDesc IN (&apos;Y&apos;,&apos;N&apos;)) NOT NULL
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="60" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:32:53 PM COT
+INSERT INTO AD_Field (SortNo,DisplayLength,IsDisplayed,IsSameLine,IsHeading,AD_Column_ID,IsFieldOnly,SeqNo,IsCentrallyMaintained,AD_Tab_ID,AD_Field_ID,IsReadOnly,DisplayLogic,EntityType,Description,Name,UpdatedBy,AD_Org_ID,IsActive,Created,AD_Client_ID,CreatedBy,Updated) VALUES (0,0,&apos;Y&apos;,&apos;Y&apos;,&apos;N&apos;,200016,&apos;N&apos;,430,&apos;Y&apos;,426,200001,&apos;N&apos;,&apos;@IsOrderBy@=Y&apos;,&apos;D&apos;,&apos;Sort your data using a SQL Desc Order By statement&apos;,&apos;Descending&apos;,100,0,&apos;Y&apos;,TO_TIMESTAMP(&apos;2012-02-18 20:32:52&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),0,100,TO_TIMESTAMP(&apos;2012-02-18 20:32:52&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;))
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="70" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:32:53 PM COT
+INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Help,Description,Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Field_ID, t.Help,t.Description,t.Name, &apos;N&apos;,t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Field t WHERE l.IsActive=&apos;Y&apos; AND l.IsSystemLanguage=&apos;Y&apos; AND l.IsBaseLanguage=&apos;N&apos; AND t.AD_Field_ID=200001 AND NOT EXISTS (SELECT * FROM AD_Field_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Field_ID=t.AD_Field_ID)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="80" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=0,IsDisplayed=&apos;N&apos; WHERE AD_Field_ID=5692
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="90" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=100,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=5760
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="100" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=110,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=56378
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="110" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=150,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=56373
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="120" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=160,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=5671
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="130" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=170,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=11200
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="140" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=180,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=5756
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="150" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=190,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=5755
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="160" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=200,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=5697
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="170" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=210,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=13016
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="180" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=220,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=5677
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="190" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=230,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=5761
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="200" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=240,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=5690
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="210" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=250,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=5681
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="220" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=260,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=5669
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="230" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=270,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=5804
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="240" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=280,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=5763
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="250" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=290,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=5695
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="260" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=300,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=5691
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="270" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=310,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=5685
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="280" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=320,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=5673
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="290" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=330,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=5678
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="300" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=340,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=5805
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="310" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=350,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=11023
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="320" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=360,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=5689
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="330" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=370,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=5688
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="340" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=380,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=11021
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="350" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=390,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=5682
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="360" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=400,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=5686
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="370" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=410,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=11020
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="380" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=420,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=5693
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="390" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=430,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=5674
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="400" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=440,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=200001
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="410" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=450,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=5694
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="420" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=460,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=5676
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="430" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=470,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=5680
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="440" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=480,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=8294
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="450" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=490,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=5757
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="460" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=500,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=8293
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="470" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=510,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=8295
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="480" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=520,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=8292
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="490" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=530,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=5758
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="500" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=540,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=8604
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="510" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:35:40 PM COT
+UPDATE AD_Field SET SeqNo=550,IsDisplayed=&apos;Y&apos; WHERE AD_Field_ID=8605
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="520" StepType="SQL">
+      <SQLStatement>
+-- Feb 18, 2012 8:57:37 PM COT
+-- IDEMPIERE-153 OrderBy Type (Print Format Item View)
+UPDATE AD_Field SET DisplayLength=1, IsSameLine=&apos;N&apos;, DisplayLogic=&apos;@PrintFormatType@=F &amp; @IsOrderBy@=Y&apos;,Updated=TO_TIMESTAMP(&apos;2012-02-18 20:57:37&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Field_ID=200001
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+  </Migration>
+</Migrations>

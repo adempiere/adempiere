@@ -77,9 +77,23 @@ public class Tax
 		int billC_BPartner_Location_ID, int shipC_BPartner_Location_ID,
 		boolean IsSOTrx)
 	{
+		return get(ctx, M_Product_ID, C_Charge_ID,
+				billDate, shipDate,
+				AD_Org_ID, M_Warehouse_ID,
+				billC_BPartner_Location_ID, shipC_BPartner_Location_ID,
+				IsSOTrx, null);
+	}	//	get
+
+	public static int get (Properties ctx, int M_Product_ID, int C_Charge_ID,
+		Timestamp billDate, Timestamp shipDate,
+		int AD_Org_ID, int M_Warehouse_ID,
+		int billC_BPartner_Location_ID, int shipC_BPartner_Location_ID,
+		boolean IsSOTrx, String trxName)
+	{
 		if (M_Product_ID != 0)
 			return getProduct (ctx, M_Product_ID, billDate, shipDate, AD_Org_ID, M_Warehouse_ID,
-				billC_BPartner_Location_ID, shipC_BPartner_Location_ID, IsSOTrx);
+				billC_BPartner_Location_ID, shipC_BPartner_Location_ID, IsSOTrx
+				, trxName);
 		else if (C_Charge_ID != 0)
 			return getCharge (ctx, C_Charge_ID, billDate, shipDate, AD_Org_ID, M_Warehouse_ID,
 				billC_BPartner_Location_ID, shipC_BPartner_Location_ID, IsSOTrx);
@@ -215,6 +229,18 @@ public class Tax
 		  billDate, billFromC_Location_ID, billToC_Location_ID);
 	}	//	getCharge
 
+	public static int getProduct (Properties ctx, int M_Product_ID,
+			Timestamp billDate, Timestamp shipDate,
+			int AD_Org_ID, int M_Warehouse_ID,
+			int billC_BPartner_Location_ID, int shipC_BPartner_Location_ID,
+			boolean IsSOTrx)
+	{
+		return getProduct(ctx, M_Product_ID,
+				billDate, shipDate,
+				AD_Org_ID, M_Warehouse_ID,
+				billC_BPartner_Location_ID, shipC_BPartner_Location_ID,
+				IsSOTrx, null);
+	}
 
 	/**
 	 *	Get Tax ID - converts parameters to call Get Tax.
@@ -245,7 +271,7 @@ public class Tax
 		Timestamp billDate, Timestamp shipDate,
 		int AD_Org_ID, int M_Warehouse_ID,
 		int billC_BPartner_Location_ID, int shipC_BPartner_Location_ID,
-		boolean IsSOTrx)
+		boolean IsSOTrx, String trxName)
 	{
 		String variable = "";
 		int C_TaxCategory_ID = 0;
@@ -272,7 +298,7 @@ public class Tax
 				+ " AND o.AD_Org_ID=?"
 				+ " AND il.C_BPartner_Location_ID=?"
 				+ " AND sl.C_BPartner_Location_ID=?";
-			pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, trxName);
 			pstmt.setInt(1, M_Warehouse_ID);
 			pstmt.setInt(2, M_Product_ID);
 			pstmt.setInt(3, AD_Org_ID);
@@ -317,7 +343,7 @@ public class Tax
 					+ ", shipToC_Location_ID=" + shipToC_Location_ID);
 				return get(ctx, C_TaxCategory_ID, IsSOTrx,
 					shipDate, shipFromC_Location_ID, shipToC_Location_ID,
-					billDate, billFromC_Location_ID, billToC_Location_ID);
+					billDate, billFromC_Location_ID, billToC_Location_ID, trxName);
 			}
 
 			// ----------------------------------------------------------------
@@ -351,7 +377,7 @@ public class Tax
 				+ " FROM C_BPartner_Location l"
 				+ " INNER JOIN C_BPartner b ON (l.C_BPartner_ID=b.C_BPartner_ID) "
 				+ " WHERE C_BPartner_Location_ID=?";
-			pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, trxName);
 			pstmt.setInt(1, billC_BPartner_Location_ID);
 			rs = pstmt.executeQuery();
 			found = false;
@@ -396,7 +422,7 @@ public class Tax
 		//	shipC_BPartner_Location_ID 	->	shipToC_Location_ID
 			variable = "C_BPartner_Location_ID";
 			sql = "SELECT C_Location_ID FROM C_BPartner_Location WHERE C_BPartner_Location_ID=?";
-			shipToC_Location_ID = DB.getSQLValueEx(null, sql, shipC_BPartner_Location_ID);
+			shipToC_Location_ID = DB.getSQLValueEx(trxName, sql, shipC_BPartner_Location_ID);
 			found = shipToC_Location_ID != -1;
 			if (shipToC_Location_ID <= 0)
 			{
@@ -474,6 +500,19 @@ public class Tax
 		Timestamp shipDate, int shipFromC_Location_ID, int shipToC_Location_ID,
 		Timestamp billDate, int billFromC_Location_ID, int billToC_Location_ID)
 	{
+		return get(ctx,
+			C_TaxCategory_ID, IsSOTrx,
+			shipDate, shipFromC_Location_ID, shipToC_Location_ID,
+			billDate, billFromC_Location_ID, billToC_Location_ID
+			, null);
+	}
+
+	protected static int get (Properties ctx,
+		int C_TaxCategory_ID, boolean IsSOTrx,
+		Timestamp shipDate, int shipFromC_Location_ID, int shipToC_Location_ID,
+		Timestamp billDate, int billFromC_Location_ID, int billToC_Location_ID
+		, String trxName)
+	{
 		//	C_TaxCategory contains CommodityCode
 		
 		//	API to Tax Vendor comes here
@@ -487,8 +526,8 @@ public class Tax
 		}
 
 		MTax[] taxes = MTax.getAll (ctx);
-		MLocation lFrom = new MLocation (ctx, billFromC_Location_ID, null); 
-		MLocation lTo = new MLocation (ctx, billToC_Location_ID, null); 
+		MLocation lFrom = new MLocation (ctx, billFromC_Location_ID, trxName); 
+		MLocation lTo = new MLocation (ctx, billToC_Location_ID, trxName); 
 		log.finer("From=" + lFrom);
 		log.finer("To=" + lTo);
 		

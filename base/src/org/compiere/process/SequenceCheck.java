@@ -35,6 +35,9 @@ import org.compiere.util.Trx;
  *	
  *  @author Jorg Janke
  *  @version $Id: SequenceCheck.java,v 1.3 2006/07/30 00:54:44 jjanke Exp $
+ *  
+ *  @author mckayERP www.mckayERP.com
+ *  			<li>#284 The SequenceCheck fails if the the AD_Sequence Table ID sequence is out of sequence.
  */
 public class SequenceCheck extends SvrProcess
 {
@@ -58,8 +61,11 @@ public class SequenceCheck extends SvrProcess
 	{
 		log.info("");
 		//
+		// #284
+		checkTableID (Env.getCtx(), this, true);
+		this.commitEx();
 		checkTableSequences (Env.getCtx(), this);
-		checkTableID (Env.getCtx(), this);
+		checkTableID (Env.getCtx(), this, false);
 		checkClientSequences (Env.getCtx(), this);
 		return "Sequence Check";
 	}	//	doIt
@@ -72,8 +78,10 @@ public class SequenceCheck extends SvrProcess
 	{
 		try
 		{
-			checkTableSequences (ctx, null);
-			checkTableID (ctx, null);
+			// #284
+			checkTableID (ctx, null, true); // Only AD_Sequence
+			checkTableSequences (ctx, null); // Requires AD_Sequence to be valid
+			checkTableID (ctx, null, false); // Check others
 			checkClientSequences (ctx, null);
 		}
 		catch (Exception e)
@@ -185,7 +193,8 @@ public class SequenceCheck extends SvrProcess
 	 *	@param ctx context
 	 *	@param sp server process or null
 	 */
-	private static void checkTableID (Properties ctx, SvrProcess sp)
+	private static void checkTableID (Properties ctx, SvrProcess sp, 
+			boolean onlyADSequence) // #284
 	{
 		int IDRangeEnd = DB.getSQLValue(null,
 			"SELECT IDRangeEnd FROM AD_System");
@@ -195,8 +204,11 @@ public class SequenceCheck extends SvrProcess
 		s_log.info("IDRangeEnd = " + IDRangeEnd);
 		//
 		String sql = "SELECT * FROM AD_Sequence "
-			+ "WHERE IsTableID='Y' "
-			+ "ORDER BY Name";
+			+ "WHERE IsTableID='Y' ";
+		if (onlyADSequence) {
+			sql += " AND AD_Sequence_ID = 16 "; // HARDCODED: AD_Sequence  #284
+		}
+		sql	+= "ORDER BY Name";
 		int counter = 0;
 		PreparedStatement pstmt = null;
 		String trxName = null;

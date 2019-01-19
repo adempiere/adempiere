@@ -50,7 +50,13 @@ import org.compiere.util.Msg;
 import org.compiere.util.Trx;
 import org.compiere.util.ValueNamePair;
 
-
+/**
+ * 
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 297 ] Payment Selection must be like ADempiere Document (It is chage to Smart Browse)
+ *		@see https://github.com/adempiere/adempiere/issues/297
+ */
+@Deprecated
 public class PaySelect
 {
 	/** @todo withholding */
@@ -427,7 +433,8 @@ public class PaySelect
 
 		//  Create Header
 		m_ps = new MPaySelection(Env.getCtx(), 0, trxName);
-		m_ps.setName (Msg.getMsg(Env.getCtx(), "VPaySelect")
+		//	FR [ 297 ]
+		m_ps.setDescription(Msg.getMsg(Env.getCtx(), "VPaySelect")
 				+ " - " + paymentRule.getName()
 				+ " - " + payDate);
 		m_ps.setPayDate (payDate);
@@ -458,7 +465,7 @@ public class PaySelect
 				boolean isSOTrx = false;
 				//
 				psl.setInvoice(C_Invoice_ID, C_InvoicePaySchedule_ID, isSOTrx,
-					OpenAmt, PayAmt, OpenAmt.subtract(PayAmt));
+						OpenAmt, PayAmt, OpenAmt.subtract(PayAmt));
 				if (!psl.save(trxName))
 				{
 					return Msg.translate(Env.getCtx(), "C_PaySelectionLine_ID");

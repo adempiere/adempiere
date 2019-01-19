@@ -1,8 +1,9 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -11,8 +12,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Commission
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_C_Commission extends PO implements I_C_Commission, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150223L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_C_Commission (Properties ctx, int C_Commission_ID, String trxName)
@@ -39,7 +39,6 @@ public class X_C_Commission extends PO implements I_C_Commission, I_Persistent
       super (ctx, C_Commission_ID, trxName);
       /** if (C_Commission_ID == 0)
         {
-			setC_BPartner_ID (0);
 			setC_Charge_ID (0);
 			setC_Commission_ID (0);
 			setC_Currency_ID (0);
@@ -47,6 +46,8 @@ public class X_C_Commission extends PO implements I_C_Commission, I_Persistent
 // I
 			setFrequencyType (null);
 // M
+			setIsDaysDueFromPaymentTerm (true);
+// Y
 			setListDetails (false);
 			setName (null);
         } */
@@ -131,6 +132,31 @@ public class X_C_Commission extends PO implements I_C_Commission, I_Persistent
 	public int getC_Charge_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_Charge_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_CommissionGroup getC_CommissionGroup() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_CommissionGroup)MTable.get(getCtx(), org.compiere.model.I_C_CommissionGroup.Table_Name)
+			.getPO(getC_CommissionGroup_ID(), get_TrxName());	}
+
+	/** Set Commission Group.
+		@param C_CommissionGroup_ID Commission Group	  */
+	public void setC_CommissionGroup_ID (int C_CommissionGroup_ID)
+	{
+		if (C_CommissionGroup_ID < 1) 
+			set_Value (COLUMNNAME_C_CommissionGroup_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_CommissionGroup_ID, Integer.valueOf(C_CommissionGroup_ID));
+	}
+
+	/** Get Commission Group.
+		@return Commission Group	  */
+	public int getC_CommissionGroup_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_CommissionGroup_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -246,6 +272,10 @@ public class X_C_Commission extends PO implements I_C_Commission, I_Persistent
 	public static final String DOCBASISTYPE_Invoice = "I";
 	/** Receipt = R */
 	public static final String DOCBASISTYPE_Receipt = "R";
+	/** Forecast vs Invoice = F */
+	public static final String DOCBASISTYPE_ForecastVsInvoice = "F";
+	/** Forecast vs Order = G */
+	public static final String DOCBASISTYPE_ForecastVsOrder = "G";
 	/** Set Calculation Basis.
 		@param DocBasisType 
 		Basis for the calculation the commission
@@ -290,6 +320,75 @@ public class X_C_Commission extends PO implements I_C_Commission, I_Persistent
 	public String getFrequencyType () 
 	{
 		return (String)get_Value(COLUMNNAME_FrequencyType);
+	}
+
+	/** Set Allow RMA.
+		@param IsAllowRMA 
+		Allow to consider RMA
+	  */
+	public void setIsAllowRMA (boolean IsAllowRMA)
+	{
+		set_Value (COLUMNNAME_IsAllowRMA, Boolean.valueOf(IsAllowRMA));
+	}
+
+	/** Get Allow RMA.
+		@return Allow to consider RMA
+	  */
+	public boolean isAllowRMA () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsAllowRMA);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Days due from Payment Term.
+		@param IsDaysDueFromPaymentTerm Days due from Payment Term	  */
+	public void setIsDaysDueFromPaymentTerm (boolean IsDaysDueFromPaymentTerm)
+	{
+		set_Value (COLUMNNAME_IsDaysDueFromPaymentTerm, Boolean.valueOf(IsDaysDueFromPaymentTerm));
+	}
+
+	/** Get Days due from Payment Term.
+		@return Days due from Payment Term	  */
+	public boolean isDaysDueFromPaymentTerm () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsDaysDueFromPaymentTerm);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Paid totally.
+		@param IsTotallyPaid 
+		The document is totally paid
+	  */
+	public void setIsTotallyPaid (boolean IsTotallyPaid)
+	{
+		set_Value (COLUMNNAME_IsTotallyPaid, Boolean.valueOf(IsTotallyPaid));
+	}
+
+	/** Get Paid totally.
+		@return The document is totally paid
+	  */
+	public boolean isTotallyPaid () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsTotallyPaid);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
 	}
 
 	/** Set List Details.
@@ -360,5 +459,22 @@ public class X_C_Commission extends PO implements I_C_Commission, I_Persistent
 			return "Y".equals(oo);
 		}
 		return false;
+	}
+
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
 	}
 }

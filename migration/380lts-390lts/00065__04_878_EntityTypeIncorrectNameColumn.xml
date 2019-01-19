@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Entity Type incorrect for M_Product_SubstituteRelated_v #878" ReleaseNo="3.9.0" SeqNo="65">
+    <Comments>https://github.com/adempiere/adempiere/issues/878</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="75906" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="U">D</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

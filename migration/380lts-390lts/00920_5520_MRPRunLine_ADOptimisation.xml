@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Replenish Plan Run line AD Optimization" ReleaseNo="3.9.0" SeqNo="00920">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="76644" Table="AD_Column">
+        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" oldValue="53782">53800</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID" oldValue="19">30</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

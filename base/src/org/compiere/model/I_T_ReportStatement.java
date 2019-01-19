@@ -1,8 +1,9 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -11,8 +12,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 package org.compiere.model;
 
@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for T_ReportStatement
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0
+ *  @version Release 3.9.1
  */
 public interface I_T_ReportStatement 
 {
@@ -55,6 +55,56 @@ public interface I_T_ReportStatement
 	public int getAD_PInstance_ID();
 
 	public org.compiere.model.I_AD_PInstance getAD_PInstance() throws RuntimeException;
+
+    /** Column name AccountName */
+    public static final String COLUMNNAME_AccountName = "AccountName";
+
+	/** Set Account Name	  */
+	public void setAccountName (String AccountName);
+
+	/** Get Account Name	  */
+	public String getAccountName();
+
+    /** Column name AccountType */
+    public static final String COLUMNNAME_AccountType = "AccountType";
+
+	/** Set Account Type.
+	  * Indicates the type of account
+	  */
+	public void setAccountType (String AccountType);
+
+	/** Get Account Type.
+	  * Indicates the type of account
+	  */
+	public String getAccountType();
+
+    /** Column name AccountValue */
+    public static final String COLUMNNAME_AccountValue = "AccountValue";
+
+	/** Set Account Key.
+	  * Key of Account Element
+	  */
+	public void setAccountValue (String AccountValue);
+
+	/** Get Account Key.
+	  * Key of Account Element
+	  */
+	public String getAccountValue();
+
+    /** Column name Account_ID */
+    public static final String COLUMNNAME_Account_ID = "Account_ID";
+
+	/** Set Account.
+	  * Account used
+	  */
+	public void setAccount_ID (int Account_ID);
+
+	/** Get Account.
+	  * Account used
+	  */
+	public int getAccount_ID();
+
+	public org.compiere.model.I_C_ElementValue getAccount() throws RuntimeException;
 
     /** Column name AmtAcctCr */
     public static final String COLUMNNAME_AmtAcctCr = "AmtAcctCr";
@@ -162,4 +212,17 @@ public interface I_T_ReportStatement
 	  * Quantity
 	  */
 	public BigDecimal getQty();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 }

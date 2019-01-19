@@ -1,8 +1,9 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -11,8 +12,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_PaySelectionLine
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_C_PaySelectionLine extends PO implements I_C_PaySelectionLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150223L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_C_PaySelectionLine (Properties ctx, int C_PaySelectionLine_ID, String trxName)
@@ -40,7 +40,6 @@ public class X_C_PaySelectionLine extends PO implements I_C_PaySelectionLine, I_
       super (ctx, C_PaySelectionLine_ID, trxName);
       /** if (C_PaySelectionLine_ID == 0)
         {
-			setC_Invoice_ID (0);
 			setC_PaySelectionLine_ID (0);
 			setC_PaySelection_ID (0);
 			setDifferenceAmt (Env.ZERO);
@@ -85,6 +84,202 @@ public class X_C_PaySelectionLine extends PO implements I_C_PaySelectionLine, I_
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	/** Set Source Amount.
+		@param AmtSource 
+		Amount Balance in Source Currency
+	  */
+	public void setAmtSource (BigDecimal AmtSource)
+	{
+		set_Value (COLUMNNAME_AmtSource, AmtSource);
+	}
+
+	/** Get Source Amount.
+		@return Amount Balance in Source Currency
+	  */
+	public BigDecimal getAmtSource () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_AmtSource);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	public org.compiere.model.I_C_BP_BankAccount getC_BP_BankAccount() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_BP_BankAccount)MTable.get(getCtx(), org.compiere.model.I_C_BP_BankAccount.Table_Name)
+			.getPO(getC_BP_BankAccount_ID(), get_TrxName());	}
+
+	/** Set Partner Bank Account.
+		@param C_BP_BankAccount_ID 
+		Bank Account of the Business Partner
+	  */
+	public void setC_BP_BankAccount_ID (int C_BP_BankAccount_ID)
+	{
+		if (C_BP_BankAccount_ID < 1) 
+			set_Value (COLUMNNAME_C_BP_BankAccount_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BP_BankAccount_ID, Integer.valueOf(C_BP_BankAccount_ID));
+	}
+
+	/** Get Partner Bank Account.
+		@return Bank Account of the Business Partner
+	  */
+	public int getC_BP_BankAccount_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BP_BankAccount_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
+			.getPO(getC_BPartner_ID(), get_TrxName());	}
+
+	/** Set Business Partner .
+		@param C_BPartner_ID 
+		Identifies a Business Partner
+	  */
+	public void setC_BPartner_ID (int C_BPartner_ID)
+	{
+		if (C_BPartner_ID < 1) 
+			set_Value (COLUMNNAME_C_BPartner_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
+	}
+
+	/** Get Business Partner .
+		@return Identifies a Business Partner
+	  */
+	public int getC_BPartner_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartner_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), String.valueOf(getC_BPartner_ID()));
+    }
+
+	public org.compiere.model.I_C_BankAccount getC_BankAccountTo() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_BankAccount)MTable.get(getCtx(), org.compiere.model.I_C_BankAccount.Table_Name)
+			.getPO(getC_BankAccountTo_ID(), get_TrxName());	}
+
+	/** Set Bank Account To.
+		@param C_BankAccountTo_ID 
+		Bank Account To make Transfer
+	  */
+	public void setC_BankAccountTo_ID (int C_BankAccountTo_ID)
+	{
+		if (C_BankAccountTo_ID < 1) 
+			set_Value (COLUMNNAME_C_BankAccountTo_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BankAccountTo_ID, Integer.valueOf(C_BankAccountTo_ID));
+	}
+
+	/** Get Bank Account To.
+		@return Bank Account To make Transfer
+	  */
+	public int getC_BankAccountTo_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BankAccountTo_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_Charge getC_Charge() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_Charge)MTable.get(getCtx(), org.compiere.model.I_C_Charge.Table_Name)
+			.getPO(getC_Charge_ID(), get_TrxName());	}
+
+	/** Set Charge.
+		@param C_Charge_ID 
+		Additional document charges
+	  */
+	public void setC_Charge_ID (int C_Charge_ID)
+	{
+		if (C_Charge_ID < 1) 
+			set_Value (COLUMNNAME_C_Charge_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Charge_ID, Integer.valueOf(C_Charge_ID));
+	}
+
+	/** Get Charge.
+		@return Additional document charges
+	  */
+	public int getC_Charge_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Charge_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_ConversionType getC_ConversionType() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_ConversionType)MTable.get(getCtx(), org.compiere.model.I_C_ConversionType.Table_Name)
+			.getPO(getC_ConversionType_ID(), get_TrxName());	}
+
+	/** Set Currency Type.
+		@param C_ConversionType_ID 
+		Currency Conversion Rate Type
+	  */
+	public void setC_ConversionType_ID (int C_ConversionType_ID)
+	{
+		if (C_ConversionType_ID < 1) 
+			set_Value (COLUMNNAME_C_ConversionType_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_ConversionType_ID, Integer.valueOf(C_ConversionType_ID));
+	}
+
+	/** Get Currency Type.
+		@return Currency Conversion Rate Type
+	  */
+	public int getC_ConversionType_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_ConversionType_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_Conversion_Rate getC_Conversion_Rate() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_Conversion_Rate)MTable.get(getCtx(), org.compiere.model.I_C_Conversion_Rate.Table_Name)
+			.getPO(getC_Conversion_Rate_ID(), get_TrxName());	}
+
+	/** Set Conversion Rate.
+		@param C_Conversion_Rate_ID 
+		Rate used for converting currencies
+	  */
+	public void setC_Conversion_Rate_ID (int C_Conversion_Rate_ID)
+	{
+		if (C_Conversion_Rate_ID < 1) 
+			set_Value (COLUMNNAME_C_Conversion_Rate_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Conversion_Rate_ID, Integer.valueOf(C_Conversion_Rate_ID));
+	}
+
+	/** Get Conversion Rate.
+		@return Rate used for converting currencies
+	  */
+	public int getC_Conversion_Rate_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Conversion_Rate_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	public org.compiere.model.I_C_InvoicePaySchedule getC_InvoicePaySchedule() throws RuntimeException
     {
@@ -142,6 +337,34 @@ public class X_C_PaySelectionLine extends PO implements I_C_PaySelectionLine, I_
 		return ii.intValue();
 	}
 
+	public org.compiere.model.I_C_Order getC_Order() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_Order)MTable.get(getCtx(), org.compiere.model.I_C_Order.Table_Name)
+			.getPO(getC_Order_ID(), get_TrxName());	}
+
+	/** Set Order.
+		@param C_Order_ID 
+		Order
+	  */
+	public void setC_Order_ID (int C_Order_ID)
+	{
+		if (C_Order_ID < 1) 
+			set_Value (COLUMNNAME_C_Order_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Order_ID, Integer.valueOf(C_Order_ID));
+	}
+
+	/** Get Order.
+		@return Order
+	  */
+	public int getC_Order_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Order_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_C_PaySelectionCheck getC_PaySelectionCheck() throws RuntimeException
     {
 		return (org.compiere.model.I_C_PaySelectionCheck)MTable.get(getCtx(), org.compiere.model.I_C_PaySelectionCheck.Table_Name)
@@ -193,13 +416,30 @@ public class X_C_PaySelectionLine extends PO implements I_C_PaySelectionLine, I_
 		return ii.intValue();
 	}
 
-    /** Get Record ID/ColumnName
-        @return ID/ColumnName pair
-      */
-    public KeyNamePair getKeyNamePair() 
+	public org.compiere.model.I_C_PaySelectionLine getC_PaySelectionLine_Parent() throws RuntimeException
     {
-        return new KeyNamePair(get_ID(), String.valueOf(getC_PaySelectionLine_ID()));
-    }
+		return (org.compiere.model.I_C_PaySelectionLine)MTable.get(getCtx(), org.compiere.model.I_C_PaySelectionLine.Table_Name)
+			.getPO(getC_PaySelectionLine_Parent_ID(), get_TrxName());	}
+
+	/** Set Parent Pay Selection Line.
+		@param C_PaySelectionLine_Parent_ID Parent Pay Selection Line	  */
+	public void setC_PaySelectionLine_Parent_ID (int C_PaySelectionLine_Parent_ID)
+	{
+		if (C_PaySelectionLine_Parent_ID < 1) 
+			set_Value (COLUMNNAME_C_PaySelectionLine_Parent_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_PaySelectionLine_Parent_ID, Integer.valueOf(C_PaySelectionLine_Parent_ID));
+	}
+
+	/** Get Parent Pay Selection Line.
+		@return Parent Pay Selection Line	  */
+	public int getC_PaySelectionLine_Parent_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_PaySelectionLine_Parent_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	public org.compiere.model.I_C_PaySelection getC_PaySelection() throws RuntimeException
     {
@@ -286,6 +526,31 @@ public class X_C_PaySelectionLine extends PO implements I_C_PaySelectionLine, I_
 		return bd;
 	}
 
+	public org.eevolution.model.I_HR_Movement getHR_Movement() throws RuntimeException
+    {
+		return (org.eevolution.model.I_HR_Movement)MTable.get(getCtx(), org.eevolution.model.I_HR_Movement.Table_Name)
+			.getPO(getHR_Movement_ID(), get_TrxName());	}
+
+	/** Set Payroll Movement.
+		@param HR_Movement_ID Payroll Movement	  */
+	public void setHR_Movement_ID (int HR_Movement_ID)
+	{
+		if (HR_Movement_ID < 1) 
+			set_Value (COLUMNNAME_HR_Movement_ID, null);
+		else 
+			set_Value (COLUMNNAME_HR_Movement_ID, Integer.valueOf(HR_Movement_ID));
+	}
+
+	/** Get Payroll Movement.
+		@return Payroll Movement	  */
+	public int getHR_Movement_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Movement_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Manual.
 		@param IsManual 
 		This is a manual process
@@ -301,6 +566,30 @@ public class X_C_PaySelectionLine extends PO implements I_C_PaySelectionLine, I_
 	public boolean isManual () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsManual);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Prepayment.
+		@param IsPrepayment 
+		The Payment/Receipt is a Prepayment
+	  */
+	public void setIsPrepayment (boolean IsPrepayment)
+	{
+		set_Value (COLUMNNAME_IsPrepayment, Boolean.valueOf(IsPrepayment));
+	}
+
+	/** Get Prepayment.
+		@return The Payment/Receipt is a Prepayment
+	  */
+	public boolean isPrepayment () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsPrepayment);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 
@@ -450,5 +739,22 @@ public class X_C_PaySelectionLine extends PO implements I_C_PaySelectionLine, I_
 			return "Y".equals(oo);
 		}
 		return false;
+	}
+
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
 	}
 }

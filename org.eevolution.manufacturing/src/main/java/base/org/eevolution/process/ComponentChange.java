@@ -39,6 +39,9 @@ import org.eevolution.model.MPPProductBOMLine;
  *  @version $Id: ComponentChange.java
  *  
  *  @author Teo Sarca, www.arhipac.ro
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> BR [ 264 ] Bad index for Process SeqNo
+ *		@see https://github.com/adempiere/adempiere/issues/264
  */
 public class ComponentChange extends SvrProcess
 {
@@ -60,26 +63,22 @@ public class ComponentChange extends SvrProcess
 	@Override
 	protected void prepare()
 	{
-		int morepara = 0;
-		
 		for (ProcessInfoParameter para : getParameter())
 		{
 			String name = para.getParameterName();
 
 			if (para.getParameter() == null)
 				;
-			else if (name.equals("M_Product_ID") && morepara == 0)
-			{    
+			//	BR [ 264 ] Parameter Name Changed
+			else if (name.equals("M_Product_ID"))
 				p_M_Product_ID = para.getParameterAsInt();
-				morepara = 1;
-			}
 			else if (name.equals("ValidTo"))
 				p_ValidTo = ((Timestamp)para.getParameter());
 			else if (name.equals("ValidFrom")) 
 				p_ValidFrom = ((Timestamp)para.getParameter());
 			else if (name.equals("Action"))
 				p_Action = ((String)para.getParameter());
-			else if (name.equals("M_Product_ID"))
+			else if (name.equals("M_Product_To_ID"))
 				p_New_M_Product_ID = para.getParameterAsInt();
 			else if (name.equals("Qty")) 
 				p_Qty = ((BigDecimal)para.getParameter());

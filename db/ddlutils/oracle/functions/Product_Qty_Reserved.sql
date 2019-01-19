@@ -1,4 +1,4 @@
-CREATE OR REPLACE FUNCTION prodQtyReserved
+CREATE OR REPLACE FUNCTION PRODQTYRESERVED
 (
 	p_Product_ID 		IN NUMBER,
     p_Warehouse_ID		IN NUMBER,
@@ -22,16 +22,7 @@ AS
  	v_ProductQty		NUMBER;
 	v_StdPrecision		NUMBER;
 	--	Get BOM Product info
-	CURSOR CUR_BOM IS
-		/*SELECT b.M_ProductBOM_ID, b.BOMQty, p.IsBOM, p.IsStocked, p.ProductType
-		FROM M_PRODUCT_BOM b, M_PRODUCT p
-		WHERE b.M_ProductBOM_ID=p.M_Product_ID
-		  AND b.M_Product_ID=p_Product_ID;*/
-		SELECT bl.M_Product_ID AS M_ProductBOM_ID, CASE WHEN bl.IsQtyPercentage = 'N' THEN bl.QtyBOM ELSE bl.QtyBatch / 100 END AS BomQty , p.IsBOM , p.IsStocked, p.ProductType 
-		FROM PP_PRODUCT_BOM b
-			   INNER JOIN M_PRODUCT p ON (p.M_Product_ID=b.M_Product_ID)
-			   INNER JOIN PP_PRODUCT_BOMLINE bl ON (bl.PP_Product_BOM_ID=b.PP_Product_BOM_ID)
-		WHERE b.M_Product_ID = p_Product_ID;
+	
 	--
 BEGIN
 	--	Check Parameters
@@ -69,7 +60,7 @@ BEGIN
 		  INTO	v_ProductQty
 		FROM M_ProductionLine p
 		WHERE M_Product_ID=p_Product_ID AND MovementQty < 0 AND p.Processed = 'N'
-		  AND EXISTS (SELECT * FROM M_LOCATOR l WHERE s.M_Locator_ID=l.M_Locator_ID
+		  AND EXISTS (SELECT * FROM M_LOCATOR l WHERE p.M_Locator_ID=l.M_Locator_ID
 		  	AND l.M_Warehouse_ID=v_Warehouse_ID);
 		--
 		RETURN v_ProductQty;

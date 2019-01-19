@@ -1,8 +1,9 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -11,8 +12,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for I_BPartner
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150223L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_I_BPartner (Properties ctx, int I_BPartner_ID, String trxName)
@@ -135,6 +135,40 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 		return (String)get_Value(COLUMNNAME_Address2);
 	}
 
+	/** Set Address 3.
+		@param Address3 
+		Address Line 3 for the location
+	  */
+	public void setAddress3 (String Address3)
+	{
+		set_Value (COLUMNNAME_Address3, Address3);
+	}
+
+	/** Get Address 3.
+		@return Address Line 3 for the location
+	  */
+	public String getAddress3 () 
+	{
+		return (String)get_Value(COLUMNNAME_Address3);
+	}
+
+	/** Set Address 4.
+		@param Address4 
+		Address Line 4 for the location
+	  */
+	public void setAddress4 (String Address4)
+	{
+		set_Value (COLUMNNAME_Address4, Address4);
+	}
+
+	/** Get Address 4.
+		@return Address Line 4 for the location
+	  */
+	public String getAddress4 () 
+	{
+		return (String)get_Value(COLUMNNAME_Address4);
+	}
+
 	/** Set BP Contact Greeting.
 		@param BPContactGreeting 
 		Greeting for Business Partner Contact
@@ -152,6 +186,130 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 		return (String)get_Value(COLUMNNAME_BPContactGreeting);
 	}
 
+	/** Set Birth City.
+		@param BirthCity 
+		Identifies a City of Birth
+	  */
+	public void setBirthCity (String BirthCity)
+	{
+		set_Value (COLUMNNAME_BirthCity, BirthCity);
+	}
+
+	/** Get Birth City.
+		@return Identifies a City of Birth
+	  */
+	public String getBirthCity () 
+	{
+		return (String)get_Value(COLUMNNAME_BirthCity);
+	}
+
+	/** Set Birth Country Code.
+		@param BirthCountryCode 
+		Country Code of Place of Birth
+	  */
+	public void setBirthCountryCode (String BirthCountryCode)
+	{
+		set_Value (COLUMNNAME_BirthCountryCode, BirthCountryCode);
+	}
+
+	/** Get Birth Country Code.
+		@return Country Code of Place of Birth
+	  */
+	public String getBirthCountryCode () 
+	{
+		return (String)get_Value(COLUMNNAME_BirthCountryCode);
+	}
+
+	public org.compiere.model.I_C_Country getBirthCountry() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_Country)MTable.get(getCtx(), org.compiere.model.I_C_Country.Table_Name)
+			.getPO(getBirthCountry_ID(), get_TrxName());	}
+
+	/** Set Birth Country.
+		@param BirthCountry_ID 
+		Country of Place of Birth
+	  */
+	public void setBirthCountry_ID (int BirthCountry_ID)
+	{
+		if (BirthCountry_ID < 1) 
+			set_Value (COLUMNNAME_BirthCountry_ID, null);
+		else 
+			set_Value (COLUMNNAME_BirthCountry_ID, Integer.valueOf(BirthCountry_ID));
+	}
+
+	/** Get Birth Country.
+		@return Country of Place of Birth
+	  */
+	public int getBirthCountry_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_BirthCountry_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Birth Postal Zone.
+		@param BirthPostal 
+		Postal Zone of Place of Birth
+	  */
+	public void setBirthPostal (String BirthPostal)
+	{
+		set_Value (COLUMNNAME_BirthPostal, BirthPostal);
+	}
+
+	/** Get Birth Postal Zone.
+		@return Postal Zone of Place of Birth
+	  */
+	public String getBirthPostal () 
+	{
+		return (String)get_Value(COLUMNNAME_BirthPostal);
+	}
+
+	/** Set Region of Birth.
+		@param BirthRegionName 
+		Name of the Region of Birth
+	  */
+	public void setBirthRegionName (String BirthRegionName)
+	{
+		set_Value (COLUMNNAME_BirthRegionName, BirthRegionName);
+	}
+
+	/** Get Region of Birth.
+		@return Name of the Region of Birth
+	  */
+	public String getBirthRegionName () 
+	{
+		return (String)get_Value(COLUMNNAME_BirthRegionName);
+	}
+
+	public org.compiere.model.I_C_Region getBirthRegion() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_Region)MTable.get(getCtx(), org.compiere.model.I_C_Region.Table_Name)
+			.getPO(getBirthRegion_ID(), get_TrxName());	}
+
+	/** Set Region of Birth.
+		@param BirthRegion_ID 
+		Name of the Region of Birth
+	  */
+	public void setBirthRegion_ID (int BirthRegion_ID)
+	{
+		if (BirthRegion_ID < 1) 
+			set_Value (COLUMNNAME_BirthRegion_ID, null);
+		else 
+			set_Value (COLUMNNAME_BirthRegion_ID, Integer.valueOf(BirthRegion_ID));
+	}
+
+	/** Get Region of Birth.
+		@return Name of the Region of Birth
+	  */
+	public int getBirthRegion_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_BirthRegion_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Birthday.
 		@param Birthday 
 		Birthday or Anniversary day
@@ -167,6 +325,39 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	public Timestamp getBirthday () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_Birthday);
+	}
+
+	/** BloodGroup AD_Reference_ID=53616 */
+	public static final int BLOODGROUP_AD_Reference_ID=53616;
+	/** A - = A- */
+	public static final String BLOODGROUP_A_ = "A-";
+	/** A + = A+ */
+	public static final String BLOODGROUP_APlus = "A+";
+	/** AB - = AB- */
+	public static final String BLOODGROUP_AB_ = "AB-";
+	/** AB + = AB+ */
+	public static final String BLOODGROUP_ABPlus = "AB+";
+	/** B - = B- */
+	public static final String BLOODGROUP_B_ = "B-";
+	/** B + = B+ */
+	public static final String BLOODGROUP_BPlus = "B+";
+	/** O - = O- */
+	public static final String BLOODGROUP_O_ = "O-";
+	/** O + = O+ */
+	public static final String BLOODGROUP_OPlus = "O+";
+	/** Set Blood Group.
+		@param BloodGroup Blood Group	  */
+	public void setBloodGroup (String BloodGroup)
+	{
+
+		set_Value (COLUMNNAME_BloodGroup, BloodGroup);
+	}
+
+	/** Get Blood Group.
+		@return Blood Group	  */
+	public String getBloodGroup () 
+	{
+		return (String)get_Value(COLUMNNAME_BloodGroup);
 	}
 
 	public org.compiere.model.I_C_BP_Group getC_BP_Group() throws RuntimeException
@@ -304,6 +495,62 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	public int getC_Greeting_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_Greeting_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.eevolution.model.I_C_ProjectMemberType getC_ProjectMemberType() throws RuntimeException
+    {
+		return (org.eevolution.model.I_C_ProjectMemberType)MTable.get(getCtx(), org.eevolution.model.I_C_ProjectMemberType.Table_Name)
+			.getPO(getC_ProjectMemberType_ID(), get_TrxName());	}
+
+	/** Set Project Member Type.
+		@param C_ProjectMemberType_ID 
+		Define the Member Type for a Project
+	  */
+	public void setC_ProjectMemberType_ID (int C_ProjectMemberType_ID)
+	{
+		if (C_ProjectMemberType_ID < 1) 
+			set_Value (COLUMNNAME_C_ProjectMemberType_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_ProjectMemberType_ID, Integer.valueOf(C_ProjectMemberType_ID));
+	}
+
+	/** Get Project Member Type.
+		@return Define the Member Type for a Project
+	  */
+	public int getC_ProjectMemberType_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_ProjectMemberType_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_Project)MTable.get(getCtx(), org.compiere.model.I_C_Project.Table_Name)
+			.getPO(getC_Project_ID(), get_TrxName());	}
+
+	/** Set Project.
+		@param C_Project_ID 
+		Financial Project
+	  */
+	public void setC_Project_ID (int C_Project_ID)
+	{
+		if (C_Project_ID < 1) 
+			set_Value (COLUMNNAME_C_Project_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
+	}
+
+	/** Get Project.
+		@return Financial Project
+	  */
+	public int getC_Project_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Project_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -473,6 +720,23 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 		return (String)get_Value(COLUMNNAME_EMail);
 	}
 
+	/** Set Father's Name.
+		@param FathersName 
+		Father's Name
+	  */
+	public void setFathersName (String FathersName)
+	{
+		set_Value (COLUMNNAME_FathersName, FathersName);
+	}
+
+	/** Get Father's Name.
+		@return Father's Name
+	  */
+	public String getFathersName () 
+	{
+		return (String)get_Value(COLUMNNAME_FathersName);
+	}
+
 	/** Set Fax.
 		@param Fax 
 		Facsimile number
@@ -488,6 +752,27 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	public String getFax () 
 	{
 		return (String)get_Value(COLUMNNAME_Fax);
+	}
+
+	/** Gender AD_Reference_ID=53612 */
+	public static final int GENDER_AD_Reference_ID=53612;
+	/** Female = F */
+	public static final String GENDER_Female = "F";
+	/** Male = M */
+	public static final String GENDER_Male = "M";
+	/** Set Gender.
+		@param Gender Gender	  */
+	public void setGender (String Gender)
+	{
+
+		set_Value (COLUMNNAME_Gender, Gender);
+	}
+
+	/** Get Gender.
+		@return Gender	  */
+	public String getGender () 
+	{
+		return (String)get_Value(COLUMNNAME_Gender);
 	}
 
 	/** Set Group Key.
@@ -633,6 +918,54 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 		return false;
 	}
 
+	/** Set Is Project Manager.
+		@param IsProjectManager 
+		Is Project Manager
+	  */
+	public void setIsProjectManager (boolean IsProjectManager)
+	{
+		set_Value (COLUMNNAME_IsProjectManager, Boolean.valueOf(IsProjectManager));
+	}
+
+	/** Get Is Project Manager.
+		@return Is Project Manager
+	  */
+	public boolean isProjectManager () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsProjectManager);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Is Project Member.
+		@param IsProjectMember 
+		Is Project Member
+	  */
+	public void setIsProjectMember (boolean IsProjectMember)
+	{
+		set_Value (COLUMNNAME_IsProjectMember, Boolean.valueOf(IsProjectMember));
+	}
+
+	/** Get Is Project Member.
+		@return Is Project Member
+	  */
+	public boolean isProjectMember () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsProjectMember);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Vendor.
 		@param IsVendor 
 		Indicates if this Business Partner is a Vendor
@@ -759,6 +1092,34 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 		return (String)get_Value(COLUMNNAME_Phone2);
 	}
 
+	public I_C_Location getPlaceOfBirth() throws RuntimeException
+    {
+		return (I_C_Location)MTable.get(getCtx(), I_C_Location.Table_Name)
+			.getPO(getPlaceOfBirth_ID(), get_TrxName());	}
+
+	/** Set Place of Birth (Location).
+		@param PlaceOfBirth_ID 
+		Place of Birth (Location)
+	  */
+	public void setPlaceOfBirth_ID (int PlaceOfBirth_ID)
+	{
+		if (PlaceOfBirth_ID < 1) 
+			set_Value (COLUMNNAME_PlaceOfBirth_ID, null);
+		else 
+			set_Value (COLUMNNAME_PlaceOfBirth_ID, Integer.valueOf(PlaceOfBirth_ID));
+	}
+
+	/** Get Place of Birth (Location).
+		@return Place of Birth (Location)
+	  */
+	public int getPlaceOfBirth_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PlaceOfBirth_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set ZIP.
 		@param Postal 
 		Postal code
@@ -838,6 +1199,40 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 		return false;
 	}
 
+	/** Set Project Member Type Value.
+		@param ProjectMemberTypeValue 
+		Define the Search Key of Project Member Type
+	  */
+	public void setProjectMemberTypeValue (String ProjectMemberTypeValue)
+	{
+		set_Value (COLUMNNAME_ProjectMemberTypeValue, ProjectMemberTypeValue);
+	}
+
+	/** Get Project Member Type Value.
+		@return Define the Search Key of Project Member Type
+	  */
+	public String getProjectMemberTypeValue () 
+	{
+		return (String)get_Value(COLUMNNAME_ProjectMemberTypeValue);
+	}
+
+	/** Set Project Key.
+		@param ProjectValue 
+		Key of the Project
+	  */
+	public void setProjectValue (String ProjectValue)
+	{
+		set_Value (COLUMNNAME_ProjectValue, ProjectValue);
+	}
+
+	/** Get Project Key.
+		@return Key of the Project
+	  */
+	public String getProjectValue () 
+	{
+		return (String)get_Value(COLUMNNAME_ProjectValue);
+	}
+
 	public org.compiere.model.I_R_InterestArea getR_InterestArea() throws RuntimeException
     {
 		return (org.compiere.model.I_R_InterestArea)MTable.get(getCtx(), org.compiere.model.I_R_InterestArea.Table_Name)
@@ -915,6 +1310,23 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	public String getTitle () 
 	{
 		return (String)get_Value(COLUMNNAME_Title);
+	}
+
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
 	}
 
 	/** Set Search Key.

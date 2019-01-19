@@ -1,8 +1,9 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -11,8 +12,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for Fact_Reconciliation
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_Fact_Reconciliation extends PO implements I_Fact_Reconciliation, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150223L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_Fact_Reconciliation (Properties ctx, int Fact_Reconciliation_ID, String trxName)
@@ -42,6 +42,7 @@ public class X_Fact_Reconciliation extends PO implements I_Fact_Reconciliation, 
       /** if (Fact_Reconciliation_ID == 0)
         {
 			setFact_Acct_ID (0);
+			setFact_Reconciliation_ID (0);
         } */
     }
 
@@ -156,6 +157,11 @@ public class X_Fact_Reconciliation extends PO implements I_Fact_Reconciliation, 
 		return (Timestamp)get_Value(COLUMNNAME_DateAcct);
 	}
 
+	public org.compiere.model.I_Fact_Acct getFact_Acct() throws RuntimeException
+    {
+		return (org.compiere.model.I_Fact_Acct)MTable.get(getCtx(), org.compiere.model.I_Fact_Acct.Table_Name)
+			.getPO(getFact_Acct_ID(), get_TrxName());	}
+
 	/** Set Accounting Fact.
 		@param Fact_Acct_ID Accounting Fact	  */
 	public void setFact_Acct_ID (int Fact_Acct_ID)
@@ -184,6 +190,26 @@ public class X_Fact_Reconciliation extends PO implements I_Fact_Reconciliation, 
         return new KeyNamePair(get_ID(), String.valueOf(getFact_Acct_ID()));
     }
 
+	/** Set Accounting Fact Reconciliation.
+		@param Fact_Reconciliation_ID Accounting Fact Reconciliation	  */
+	public void setFact_Reconciliation_ID (int Fact_Reconciliation_ID)
+	{
+		if (Fact_Reconciliation_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_Fact_Reconciliation_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_Fact_Reconciliation_ID, Integer.valueOf(Fact_Reconciliation_ID));
+	}
+
+	/** Get Accounting Fact Reconciliation.
+		@return Accounting Fact Reconciliation	  */
+	public int getFact_Reconciliation_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Fact_Reconciliation_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Match Code.
 		@param MatchCode 
 		String identifying related accounting facts
@@ -199,5 +225,22 @@ public class X_Fact_Reconciliation extends PO implements I_Fact_Reconciliation, 
 	public String getMatchCode () 
 	{
 		return (String)get_Value(COLUMNNAME_MatchCode);
+	}
+
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
 	}
 }

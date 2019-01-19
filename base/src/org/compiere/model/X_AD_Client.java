@@ -1,8 +1,9 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -11,8 +12,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Client
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_AD_Client extends PO implements I_AD_Client, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150223L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_AD_Client (Properties ctx, int AD_Client_ID, String trxName)
@@ -46,8 +46,6 @@ public class X_AD_Client extends PO implements I_AD_Client, I_Persistent
 			setIsPostImmediate (false);
 // N
 			setIsServerEMail (false);
-			setIsSmtpAuthorization (false);
-// N
 			setIsUseASP (false);
 // N
 			setIsUseBetaFunctions (true);
@@ -88,6 +86,31 @@ public class X_AD_Client extends PO implements I_AD_Client, I_Persistent
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	public org.compiere.model.I_AD_EMailConfig getAD_EMailConfig() throws RuntimeException
+    {
+		return (org.compiere.model.I_AD_EMailConfig)MTable.get(getCtx(), org.compiere.model.I_AD_EMailConfig.Table_Name)
+			.getPO(getAD_EMailConfig_ID(), get_TrxName());	}
+
+	/** Set EMail Configuration.
+		@param AD_EMailConfig_ID EMail Configuration	  */
+	public void setAD_EMailConfig_ID (int AD_EMailConfig_ID)
+	{
+		if (AD_EMailConfig_ID < 1) 
+			set_Value (COLUMNNAME_AD_EMailConfig_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_EMailConfig_ID, Integer.valueOf(AD_EMailConfig_ID));
+	}
+
+	/** Get EMail Configuration.
+		@return EMail Configuration	  */
+	public int getAD_EMailConfig_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_EMailConfig_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	/** AD_Language AD_Reference_ID=327 */
 	public static final int AD_LANGUAGE_AD_Reference_ID=327;
@@ -312,30 +335,6 @@ public class X_AD_Client extends PO implements I_AD_Client, I_Persistent
 		return false;
 	}
 
-	/** Set SMTP Authentication.
-		@param IsSmtpAuthorization 
-		Your mail server requires Authentication
-	  */
-	public void setIsSmtpAuthorization (boolean IsSmtpAuthorization)
-	{
-		set_Value (COLUMNNAME_IsSmtpAuthorization, Boolean.valueOf(IsSmtpAuthorization));
-	}
-
-	/** Get SMTP Authentication.
-		@return Your mail server requires Authentication
-	  */
-	public boolean isSmtpAuthorization () 
-	{
-		Object oo = get_Value(COLUMNNAME_IsSmtpAuthorization);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
 	/** Set IsUseASP.
 		@param IsUseASP IsUseASP	  */
 	public void setIsUseASP (boolean IsUseASP)
@@ -529,23 +528,6 @@ public class X_AD_Client extends PO implements I_AD_Client, I_Persistent
 		return (String)get_Value(COLUMNNAME_RequestUserPW);
 	}
 
-	/** Set Mail Host.
-		@param SMTPHost 
-		Hostname of Mail Server for SMTP and IMAP
-	  */
-	public void setSMTPHost (String SMTPHost)
-	{
-		set_Value (COLUMNNAME_SMTPHost, SMTPHost);
-	}
-
-	/** Get Mail Host.
-		@return Hostname of Mail Server for SMTP and IMAP
-	  */
-	public String getSMTPHost () 
-	{
-		return (String)get_Value(COLUMNNAME_SMTPHost);
-	}
-
 	/** Set Store Archive On File System.
 		@param StoreArchiveOnFileSystem Store Archive On File System	  */
 	public void setStoreArchiveOnFileSystem (boolean StoreArchiveOnFileSystem)
@@ -586,6 +568,23 @@ public class X_AD_Client extends PO implements I_AD_Client, I_Persistent
 			return "Y".equals(oo);
 		}
 		return false;
+	}
+
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
 	}
 
 	/** Set Unix Archive Path.

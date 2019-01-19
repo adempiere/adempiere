@@ -1,8 +1,9 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -11,8 +12,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 package org.eevolution.model;
 
@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for HR_EmployeeDependent
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0
+ *  @version Release 3.9.1
  */
 public interface I_HR_EmployeeDependent 
 {
@@ -63,19 +63,6 @@ public interface I_HR_EmployeeDependent
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name Age */
-    public static final String COLUMNNAME_Age = "Age";
-
-	/** Set Age.
-	  * Age of a person
-	  */
-	public void setAge (String Age);
-
-	/** Get Age.
-	  * Age of a person
-	  */
-	public String getAge();
-
     /** Column name Birthday */
     public static final String COLUMNNAME_Birthday = "Birthday";
 
@@ -88,6 +75,36 @@ public interface I_HR_EmployeeDependent
 	  * Birthday or Anniversary day
 	  */
 	public Timestamp getBirthday();
+
+    /** Column name C_BPartnerRelation_ID */
+    public static final String COLUMNNAME_C_BPartnerRelation_ID = "C_BPartnerRelation_ID";
+
+	/** Set Related Partner.
+	  * Related Business Partner
+	  */
+	public void setC_BPartnerRelation_ID (int C_BPartnerRelation_ID);
+
+	/** Get Related Partner.
+	  * Related Business Partner
+	  */
+	public int getC_BPartnerRelation_ID();
+
+	public org.compiere.model.I_C_BPartner getC_BPartnerRelation() throws RuntimeException;
+
+    /** Column name C_BPartner_ID */
+    public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
+
+	/** Set Business Partner .
+	  * Identifies a Business Partner
+	  */
+	public void setC_BPartner_ID (int C_BPartner_ID);
+
+	/** Get Business Partner .
+	  * Identifies a Business Partner
+	  */
+	public int getC_BPartner_ID();
+
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -104,6 +121,45 @@ public interface I_HR_EmployeeDependent
 	  * User who created this records
 	  */
 	public int getCreatedBy();
+
+    /** Column name Gender */
+    public static final String COLUMNNAME_Gender = "Gender";
+
+	/** Set Gender	  */
+	public void setGender (String Gender);
+
+	/** Get Gender	  */
+	public String getGender();
+
+    /** Column name HR_CareerLevel_ID */
+    public static final String COLUMNNAME_HR_CareerLevel_ID = "HR_CareerLevel_ID";
+
+	/** Set Career Level.
+	  * The Career Level for this position
+	  */
+	public void setHR_CareerLevel_ID (int HR_CareerLevel_ID);
+
+	/** Get Career Level.
+	  * The Career Level for this position
+	  */
+	public int getHR_CareerLevel_ID();
+
+	public org.eevolution.model.I_HR_CareerLevel getHR_CareerLevel() throws RuntimeException;
+
+    /** Column name HR_Degree_ID */
+    public static final String COLUMNNAME_HR_Degree_ID = "HR_Degree_ID";
+
+	/** Set Degree.
+	  * Degree for an Employee
+	  */
+	public void setHR_Degree_ID (int HR_Degree_ID);
+
+	/** Get Degree.
+	  * Degree for an Employee
+	  */
+	public int getHR_Degree_ID();
+
+	public org.eevolution.model.I_HR_Degree getHR_Degree() throws RuntimeException;
 
     /** Column name HR_EmployeeDependent_ID */
     public static final String COLUMNNAME_HR_EmployeeDependent_ID = "HR_EmployeeDependent_ID";
@@ -128,6 +184,36 @@ public interface I_HR_EmployeeDependent
 	public int getHR_Employee_ID();
 
 	public org.eevolution.model.I_HR_Employee getHR_Employee() throws RuntimeException;
+
+    /** Column name HR_Grade_ID */
+    public static final String COLUMNNAME_HR_Grade_ID = "HR_Grade_ID";
+
+	/** Set Grade.
+	  * Grade
+	  */
+	public void setHR_Grade_ID (int HR_Grade_ID);
+
+	/** Get Grade.
+	  * Grade
+	  */
+	public int getHR_Grade_ID();
+
+	public org.eevolution.model.I_HR_Grade getHR_Grade() throws RuntimeException;
+
+    /** Column name HR_Race_ID */
+    public static final String COLUMNNAME_HR_Race_ID = "HR_Race_ID";
+
+	/** Set Race.
+	  * Race
+	  */
+	public void setHR_Race_ID (int HR_Race_ID);
+
+	/** Get Race.
+	  * Race
+	  */
+	public int getHR_Race_ID();
+
+	public org.eevolution.model.I_HR_Race getHR_Race() throws RuntimeException;
 
     /** Column name HR_Relationship_ID */
     public static final String COLUMNNAME_HR_Relationship_ID = "HR_Relationship_ID";
@@ -157,6 +243,19 @@ public interface I_HR_EmployeeDependent
 	  */
 	public boolean isActive();
 
+    /** Column name IsActiveStudent */
+    public static final String COLUMNNAME_IsActiveStudent = "IsActiveStudent";
+
+	/** Set Active Student.
+	  * Is a Active Student
+	  */
+	public void setIsActiveStudent (boolean IsActiveStudent);
+
+	/** Get Active Student.
+	  * Is a Active Student
+	  */
+	public boolean isActiveStudent();
+
     /** Column name IsCollectCash */
     public static final String COLUMNNAME_IsCollectCash = "IsCollectCash";
 
@@ -170,6 +269,32 @@ public interface I_HR_EmployeeDependent
 	  */
 	public boolean isCollectCash();
 
+    /** Column name IsDepending */
+    public static final String COLUMNNAME_IsDepending = "IsDepending";
+
+	/** Set Depending.
+	  * Is Depending from Employee
+	  */
+	public void setIsDepending (boolean IsDepending);
+
+	/** Get Depending.
+	  * Is Depending from Employee
+	  */
+	public boolean isDepending();
+
+    /** Column name IsScholarship */
+    public static final String COLUMNNAME_IsScholarship = "IsScholarship";
+
+	/** Set Is Scholarship.
+	  * Is Dependent Scholarship
+	  */
+	public void setIsScholarship (boolean IsScholarship);
+
+	/** Get Is Scholarship.
+	  * Is Dependent Scholarship
+	  */
+	public boolean isScholarship();
+
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
 
@@ -182,6 +307,19 @@ public interface I_HR_EmployeeDependent
 	  * Alphanumeric identifier of the entity
 	  */
 	public String getName();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -198,4 +336,17 @@ public interface I_HR_EmployeeDependent
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name Value */
+    public static final String COLUMNNAME_Value = "Value";
+
+	/** Set Search Key.
+	  * Search key for the record in the format required - must be unique
+	  */
+	public void setValue (String Value);
+
+	/** Get Search Key.
+	  * Search key for the record in the format required - must be unique
+	  */
+	public String getValue();
 }

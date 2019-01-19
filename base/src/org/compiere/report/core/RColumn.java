@@ -148,7 +148,8 @@ public class RColumn
 			m_colClass = String.class;
 			Language language = Language.getLanguage(Env.getAD_Language(ctx));
 			if (columnName.equals("Account_ID") 
-				|| columnName.equals("User1_ID") || columnName.equals("User2_ID"))
+				|| columnName.equals("User1_ID") || columnName.equals("User2_ID")
+				|| columnName.equals("User3_ID") || columnName.equals("User4_ID"))
 			{
 				m_displaySQL = "(" + MLookupFactory.getLookup_TableDirEmbed(
 					language, "C_ElementValue_ID", RModel.TABLE_ALIAS, columnName) + ")";

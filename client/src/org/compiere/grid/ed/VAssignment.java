@@ -39,8 +39,9 @@ import javax.swing.JTextField;
 import javax.swing.LookAndFeel;
 import javax.swing.SwingUtilities;
 
+import org.adempiere.exceptions.ValueChangeListener;
 import org.adempiere.plaf.AdempierePLAF;
-import org.compiere.apps.FieldRecordInfo;
+import org.compiere.apps.RecordInfo;
 import org.compiere.apps.search.InfoSchedule;
 import org.compiere.model.GridField;
 import org.compiere.model.MResourceAssignment;
@@ -57,6 +58,9 @@ import org.compiere.util.Msg;
  *
  * 	@author 	Jorg Janke
  * 	@version 	$Id: VAssignment.java,v 1.2 2006/07/30 00:51:28 jjanke Exp $
+ * 	@author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 146 ] Remove unnecessary class, add support for info to specific column
+ *		@see https://github.com/adempiere/adempiere/issues/146
  */
 public class VAssignment extends JComponent
 	implements VEditor, ActionListener
@@ -358,7 +362,7 @@ public class VAssignment extends JComponent
 	{
 		m_mField = mField;
 		if (m_mField != null)
-			FieldRecordInfo.addMenu(this, popupMenu);
+			RecordInfo.addMenu(this, popupMenu);
 	}	//	setField
 
 	@Override
@@ -381,9 +385,9 @@ public class VAssignment extends JComponent
 	 */
 	public void actionPerformed(ActionEvent e)
 	{
-		if (e.getActionCommand().equals(FieldRecordInfo.CHANGE_LOG_COMMAND))
+		if (e.getActionCommand().equals(RecordInfo.CHANGE_LOG_COMMAND))
 		{
-			FieldRecordInfo.start(m_mField);
+			RecordInfo.start(m_mField);
 			return;
 		}
 		if (!m_button.isEnabled())
@@ -433,5 +437,11 @@ public class VAssignment extends JComponent
 		if (evt.getPropertyName().equals(org.compiere.model.GridField.PROPERTY))
 			setValue(evt.getNewValue());
 	}   //  propertyChange
+
+	@Override
+	public void addValueChangeListener(ValueChangeListener listener) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }	//	VAssignment

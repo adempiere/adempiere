@@ -43,7 +43,15 @@ mrp.typemrp,
 p.LowLevel,
 mrp.C_BPartner_ID,
 mrp.version,
-documentNo(mrp.pp_mrp_id) AS documentNo
+documentNo(mrp.pp_mrp_id) AS documentNo,
+mrp.c_projectphase_id,
+mrp.c_projecttask_id,
+mrp.c_project_id,
+pp.isrequiredmrp,
+pp.isrequireddrp,
+p.ispurchased,
+p.isbom,
+p.m_product_category_id
 FROM pp_mrp mrp
 INNER JOIN M_Product p ON (mrp.M_Product_ID = p.M_Product_ID)
 LEFT JOIN pp_product_planning pp ON (pp.m_product_id = mrp.m_product_id AND mrp.m_warehouse_id = pp.m_warehouse_id)
@@ -92,8 +100,15 @@ null, --mrp.priority,
 p.LowLevel,
 null, --C_BPartner_ID
 null,
-'Safety Strock'   --documentNo(mrp.pp_mrp_id) AS documentNo
+'Safety Strock',   --documentNo(mrp.pp_mrp_id) AS documentNo
+null, --c_projectphase_id
+null,  --c_projecttask_id
+null,  --c_project_id
+pp.isrequiredmrp,
+pp.isrequireddrp,
+p.ispurchased,
+p.isbom,
+p.m_product_category_id
 FROM pp_product_planning pp 
 INNER JOIN M_Product p ON (pp.M_Product_ID = p.M_Product_ID)
-WHERE bomqtyonhand(pp.M_Product_ID,pp.M_Warehouse_ID, 0) < pp.safetystock 
-;
+WHERE bomqtyonhand(pp.M_Product_ID,pp.M_Warehouse_ID, 0) < pp.safetystock;

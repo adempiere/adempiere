@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Manufacturing Planned Order RefList" ReleaseNo="3.9.0" SeqNo="00790">
+    <Comments>add to reference list</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="104" Action="I" Record_ID="54625" Table="AD_Ref_List">
+        <Data AD_Column_ID="149" Column="Name">Manufacturing Planned Order</Data>
+        <Data AD_Column_ID="566" Column="Updated">2016-01-15 12:19:04.479</Data>
+        <Data AD_Column_ID="567" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="565" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="564" Column="Created">2016-01-15 12:19:04.479</Data>
+        <Data AD_Column_ID="563" Column="IsActive">true</Data>
+        <Data AD_Column_ID="371" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="148" Column="AD_Ref_List_ID">54625</Data>
+        <Data AD_Column_ID="372" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="152" Column="ValidFrom" isNewNull="true"/>
+        <Data AD_Column_ID="151" Column="AD_Reference_ID">183</Data>
+        <Data AD_Column_ID="153" Column="ValidTo" isNewNull="true"/>
+        <Data AD_Column_ID="7712" Column="EntityType">D</Data>
+        <Data AD_Column_ID="150" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="200" Column="Value">MPO</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

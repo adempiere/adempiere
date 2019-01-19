@@ -20,6 +20,7 @@ import org.adempiere.webui.util.TreeUtils;
 import org.compiere.model.MTreeNode;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.compiere.util.Util;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
@@ -33,7 +34,9 @@ import org.zkoss.zul.Treeitem;
 /**
  * 
  * @author hengsin
- *
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com 2015-09-09
+ *  	<li>FR [ 9223372036854775807 ] Add Support to Dynamic Tree
+ * @see https://adempiere.atlassian.net/browse/ADEMPIERE-442
  */
 public class ADTreePanel extends Panel implements EventListener
 {
@@ -43,23 +46,39 @@ public class ADTreePanel extends Panel implements EventListener
 	private static final long serialVersionUID = 5473705529310157142L;
 	private TreeSearchPanel pnlSearch;
     private Tree tree;
+    private int treeId = 0 ;
     
     private Checkbox chkExpand; // Elaine 2009/02/27 - expand tree
     
-    public ADTreePanel()
-    {
+    /**
+     * Constructor with window no and editable property
+     * @param windowNo
+     * @param editable
+     */
+    public ADTreePanel(int windowNo, boolean editable) {
+    	this.editable = editable;
+    	this.windowNo = windowNo;
         init();        
     }
+    
+	/** Tree is editable (can move nodes) - also not active shown   */
+	private boolean     editable;
+	/**	Window No	*/
+	private int 		windowNo = 0;
     
     /**
      * @param AD_Tree_ID
      * @param windowNo
+     * @param whereClause
      */
-    public void initTree(int AD_Tree_ID, int windowNo) 
-    {
-    	SimpleTreeModel.initADTree(tree, AD_Tree_ID, windowNo);
+    public void initTree(int AD_Tree_ID, String whereClause) {
+    	if(!Util.isEmpty(whereClause)) {
+			whereClause = Env.parseContext(Env.getCtx(), windowNo, whereClause, false, false);
+		}
+    	SimpleTreeModel.initADTree(tree, AD_Tree_ID, windowNo, editable, whereClause, null);
     	pnlSearch.initialise();
     }
+    //	End Yamel Senih
     
     private void init()
     {
@@ -217,5 +236,10 @@ public class ADTreePanel extends Panel implements EventListener
 			return;
 
 	}   //  nodeChanged
+
+	public int getTreeId()
+	{
+		return treeId;
+	}
 
 }

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="The classification field not is synchronize #412" ReleaseNo="3.9.0" SeqNo="00145">
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="276" Action="U" Record_ID="56431" Table="AD_Element">
+        <Data AD_Column_ID="2602" Column="ColumnName" oldValue="ISTOFORMULE">IsToFormule</Data>
+        <Data AD_Column_ID="2603" Column="Name" oldValue="ISTOFORMULE">Is To Formule </Data>
+        <Data AD_Column_ID="4299" Column="PrintName" oldValue="ISTOFORMULE">Is To Formule </Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="68432" Table="AD_Column">
+        <Data AD_Column_ID="112" Column="Description" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="111" Column="Name" oldValue="ISTOFORMULE">Is To Formule </Data>
+        <Data AD_Column_ID="116" Column="ColumnName" oldValue="ISTOFORMULE">IsToFormule</Data>
+        <Data AD_Column_ID="113" Column="Help" isNewNull="true" isOldNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="70353" Table="AD_Field">
+        <Data AD_Column_ID="169" Column="Description" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="170" Column="Help" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="168" Column="Name" oldValue="ISTOFORMULE">Is To Formule </Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="69725" Table="AD_Field">
+        <Data AD_Column_ID="169" Column="Description" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="170" Column="Help" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="168" Column="Name" oldValue="ISTOFORMULE">Is To Formule </Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="70353" Table="AD_Field">
+        <Data AD_Column_ID="169" Column="Description" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="170" Column="Help" isNewNull="true" isOldNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="69725" Table="AD_Field">
+        <Data AD_Column_ID="169" Column="Description" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="170" Column="Help" isNewNull="true" isOldNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="3016" Table="AD_Column">
+        <Data AD_Column_ID="118" Column="FieldLength" oldValue="60">12</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="7829" Table="AD_Column">
+        <Data AD_Column_ID="118" Column="FieldLength" oldValue="60">12</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

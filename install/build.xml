@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- ============================================= -->
-<!-- Adempiere Installer build file                 -->
+<!-- ADempiere Installer build file                -->
 <!-- ============================================= -->
-<!-- $Header: /cvs/adempiere/install/build.xml,v 1.7 2006/07/24 08:20:55 comdivision Exp $-->
 
 <project name="install" default="installDistribution" basedir=".">
 
   <description>
-	This buildfile is used to create the Adempiere installer.
+	This buildfile is used to create the ADempiere installer.
   </description>
 
   <!--<property environment="env"/>-->
@@ -63,7 +62,7 @@
   <!-- ======================================================= -->
   <target name="installCompile" depends="installInit">
 	<!-- compile the java code from ${src} into ${build.dir} -->
-	<javac  target="1.7" encoding="UTF-8" srcdir="${src}" destdir="${compile.dir}" deprecation="on" debug="on">
+	<javac  target="1.8" encoding="UTF-8" srcdir="${src}" destdir="${compile.dir}" deprecation="on" debug="on">
 	  <classpath refid="project.class.path"/>
 	</javac>
 	<!-- copy all image & sound files from src to the build directory -->
@@ -107,7 +106,7 @@
 		<attribute name="Implementation-Title" value="CInstall ${env.ADEMPIERE_VERSION}"/>
 		<attribute name="Implementation-Version" value="${env.ADEMPIERE_VERSION} ${DSTAMP}-${TSTAMP}"/>
 		<attribute name="Implementation-Vendor" value="${env.ADEMPIERE_VENDOR}"/>
-		<attribute name="Implementation-URL" value="http://www.adempiere.org"/>
+		<attribute name="Implementation-URL" value="http://www.adempiere.net"/>
 		<attribute name="Main-Class" value="org.compiere.install.Setup"/>
 		<attribute name="Class-Path" value="CTools.jar CClient.jar oracle.jar"/>
 	  </manifest>
@@ -131,7 +130,7 @@
 	<fixcrlf srcdir="${utils.dir}/unix"
 		eol="lf" eof="remove"
 		includes="*"/>
-	<fixcrlf srcdir="../sqlj/oracle"
+	<fixcrlf srcdir="../sqlj/Oracle"
 		eol="lf" eof="remove"
 		includes="*.sh"/>
   </target>
@@ -147,35 +146,72 @@
   	<mkdir dir="${build.dir}/Adempiere/packages"/>
   	<mkdir dir="${build.dir}/Adempiere/zkpackages"/>
   	
-	<mkdir dir="${build.dir}/Adempiere/packages/liberoMFG"/>
-	<mkdir dir="${build.dir}/Adempiere/packages/liberoMFG/lib"/>
-  	<copy file="../packages/liberoMFG.jar" tofile="${build.dir}/Adempiere/packages/liberoMFG/lib/liberoMFG.jar"/>
+	<mkdir dir="${build.dir}/Adempiere/packages/ManufacturingManagement"/>
+	<mkdir dir="${build.dir}/Adempiere/packages/ManufacturingManagement/lib"/>
+  	<copy file="../packages/ManufacturingManagement.jar" tofile="${build.dir}/Adempiere/packages/ManufacturingManagement/lib/ManufacturingManagement.jar"/>
 
-   <mkdir dir="${build.dir}/Adempiere/packages/FixedAsset"/>
-   <mkdir dir="${build.dir}/Adempiere/packages/FixedAsset/lib"/>
-   <copy file="../packages/FixedAsset.jar" tofile="${build.dir}/Adempiere/packages/FixedAsset/lib/FixedAsset.jar"/>
+	<mkdir dir="${build.dir}/Adempiere/zkpackages/ManufacturingManagement"/>
+	<mkdir dir="${build.dir}/Adempiere/zkpackages/ManufacturingManagement/lib"/>
+	<copy file="../zkpackages/ManufacturingManagementZk.jar" tofile="${build.dir}/Adempiere/zkpackages/ManufacturingManagement/lib/ManufacturingManagementZk.jar"/>
 
-	<mkdir dir="${build.dir}/Adempiere/packages/liberoCashflow"/>
-	<mkdir dir="${build.dir}/Adempiere/packages/liberoCashflow/lib"/>
-  	<copy file="../packages/liberoCashflow.jar" tofile="${build.dir}/Adempiere/packages/liberoCashflow/lib/liberoCashflow.jar"/>
+   	<mkdir dir="${build.dir}/Adempiere/packages/FixedAssetManagement"/>
+   	<mkdir dir="${build.dir}/Adempiere/packages/FixedAssetManagement/lib"/>
+   	<copy file="../packages/FixedAssetManagement.jar" tofile="${build.dir}/Adempiere/packages/FixedAssetManagement/lib/FixedAssetManagement.jar"/>
+
+	<mkdir dir="${build.dir}/Adempiere/packages/CashflowManagement"/>
+	<mkdir dir="${build.dir}/Adempiere/packages/CashflowManagement/lib"/>
+  	<copy file="../packages/CashflowManagement.jar" tofile="${build.dir}/Adempiere/packages/CashflowManagement/lib/CashflowManagement.jar"/>
   	
-  	<mkdir dir="${build.dir}/Adempiere/packages/liberoWM"/>
-  	<mkdir dir="${build.dir}/Adempiere/packages/liberoWM/lib"/>
-  	<copy file="../packages/liberoWM.jar" tofile="${build.dir}/Adempiere/packages/liberoWM/lib/liberoWM.jar"/>
-  	
-	<mkdir dir="${build.dir}/Adempiere/zkpackages/liberoMFG"/>
-	<mkdir dir="${build.dir}/Adempiere/zkpackages/liberoMFG/lib"/>
-  	<copy file="../zkpackages/liberozkMFG.jar" tofile="${build.dir}/Adempiere/zkpackages/liberoMFG/lib/liberozkMFG.jar"/>
-  	
-  	<mkdir dir="${build.dir}/Adempiere/packages/liberoHR"/>
-  	<mkdir dir="${build.dir}/Adempiere/packages/liberoHR/lib"/>
-  	<copy file="../packages/liberoHR.jar" tofile="${build.dir}/Adempiere/packages/liberoHR/lib/liberoHR.jar"/>
+  	<mkdir dir="${build.dir}/Adempiere/packages/WarehouseManagement"/>
+  	<mkdir dir="${build.dir}/Adempiere/packages/WarehouseManagement/lib"/>
+  	<copy file="../packages/WarehouseManagement.jar" tofile="${build.dir}/Adempiere/packages/WarehouseManagement/lib/WarehouseManagement.jar"/>
 
-	<mkdir dir="${build.dir}/Adempiere/zkpackages/liberoHR"/>
-	<mkdir dir="${build.dir}/Adempiere/zkpackages/liberoHR/lib"/>
-	<copy file="../zkpackages/liberozkHR.jar" tofile="${build.dir}/Adempiere/zkpackages/liberozkHR/lib/liberozkHR.jar"/>
+    <mkdir dir="${build.dir}/Adempiere/zkpackages/WarehouseManagement"/>
+    <mkdir dir="${build.dir}/Adempiere/zkpackages/WarehouseManagement/lib"/>
+    <copy file="../zkpackages/WarehouseManagementZk.jar" tofile="${build.dir}/Adempiere/zkpackages/WarehouseManagement/lib/WarehouseManagementZk.jar"/>
 
-  	<copy file="../lib/CheckConflicts.sh" tofile="${build.dir}/Adempiere/lib/CheckConflicts.sh"/>
+  	<mkdir dir="${build.dir}/Adempiere/packages/HumanResourceAndPayroll"/>
+  	<mkdir dir="${build.dir}/Adempiere/packages/HumanResourceAndPayroll/lib"/>
+  	<copy file="../packages/HumanResourceAndPayroll.jar" tofile="${build.dir}/Adempiere/packages/HumanResourceAndPayroll/lib/HumanResourceAndPayroll.jar"/>
+
+	<mkdir dir="${build.dir}/Adempiere/zkpackages/HumanResourceAndPayroll"/>
+	<mkdir dir="${build.dir}/Adempiere/zkpackages/HumanResourceAndPayroll/lib"/>
+	<copy file="../zkpackages/HumanResourceAndPayrollZk.jar" tofile="${build.dir}/Adempiere/zkpackages/HumanResourceAndPayroll/lib/HumanResourceAndPayrollZk.jar"/>
+
+	<mkdir dir="${build.dir}/Adempiere/packages/ADempierePOS"/>
+	<mkdir dir="${build.dir}/Adempiere/packages/ADempierePOS/lib"/>
+	<copy file="../packages/ADempierePOS.jar" tofile="${build.dir}/Adempiere/packages/ADempierePOS/lib/ADempierePOS.jar"/>
+
+	<mkdir dir="${build.dir}/Adempiere/zkpackages/ADempierePOS"/>
+	<mkdir dir="${build.dir}/Adempiere/zkpackages/ADempierePOS/lib"/>
+	<copy file="../zkpackages/ADempierePOSzk.jar" tofile="${build.dir}/Adempiere/zkpackages/ADempierePOS/lib/ADempierePOSzk.jar"/>
+
+    <mkdir dir="${build.dir}/Adempiere/packages/FreightManagement"/>
+    <mkdir dir="${build.dir}/Adempiere/packages/FreightManagement/lib"/>
+    <copy file="../packages/FreightManagement.jar" tofile="${build.dir}/Adempiere/packages/FreightManagement/lib/FreightManagement.jar"/>
+
+    <mkdir dir="${build.dir}/Adempiere/zkpackages/FreightManagement"/>
+    <mkdir dir="${build.dir}/Adempiere/zkpackages/FreightManagement/lib"/>
+    <copy file="../zkpackages/FreightManagementZk.jar" tofile="${build.dir}/Adempiere/zkpackages/FreightManagement/lib/FreightManagementZk.jar"/>
+
+	<mkdir dir="${build.dir}/Adempiere/packages/FleetManagement"/>
+	<mkdir dir="${build.dir}/Adempiere/packages/FleetManagement/lib"/>
+	<copy file="../packages/FleetManagement.jar" tofile="${build.dir}/Adempiere/packages/FleetManagement/lib/FleetManagement.jar"/>
+
+    <mkdir dir="${build.dir}/Adempiere/zkpackages/FleetManagement"/>
+    <mkdir dir="${build.dir}/Adempiere/zkpackages/FleetManagement/lib"/>
+    <copy file="../zkpackages/FleetManagementZk.jar" tofile="${build.dir}/Adempiere/zkpackages/FreightManagement/lib/FleetManagementZk.jar"/>
+
+	<mkdir dir="${build.dir}/Adempiere/packages/CashflowManagement"/>
+	<mkdir dir="${build.dir}/Adempiere/packages/CashflowManagement/lib"/>
+	<copy file="../packages/CashflowManagement.jar" tofile="${build.dir}/Adempiere/packages/CashflowManagement/lib/CashflowManagement.jar"/>
+
+	<mkdir dir="${build.dir}/Adempiere/zkpackages/CashflowManagement"/>
+	<mkdir dir="${build.dir}/Adempiere/zkpackages/CashflowManagement/lib"/>
+	<!-- copy file="../zkpackages/CashflowManagementZk.jar" tofile="${build.dir}/Adempiere/zkpackages/CashflowManagement/lib/CashflowManagementZk.jar"/-->
+
+
+	  <copy file="../lib/CheckConflicts.sh" tofile="${build.dir}/Adempiere/lib/CheckConflicts.sh"/>
 
 	<!-- Base Directory			-->
 	<copy todir="${build.dir}/Adempiere">
@@ -211,16 +247,16 @@
 	<copy todir="${build.dir}/Adempiere/utils">
 	  <fileset dir="${utils.dir}" excludes="**/pg/**,.project"/>
 	</copy>
-	<copy todir="${build.dir}/Adempiere/utils/oracle">
-	  <fileset dir="${dbStartup.dir}/oracle" includes="*.sql"/>
-	  <fileset dir="../sqlj/oracle/"/>
+	<copy todir="${build.dir}/Adempiere/utils/Oracle">
+	  <fileset dir="${dbStartup.dir}/Oracle" includes="*.sql"/>
+	  <fileset dir="../sqlj/Oracle/"/>
 	</copy>
-	<copy todir="${build.dir}/Adempiere/utils/postgresql">
-	  <fileset dir="${dbStartup.dir}/postgresql" includes="*.sql"/>
-	  <fileset dir="../sqlj/postgresql/"/>
+	<copy todir="${build.dir}/Adempiere/utils/PostgreSQL">
+	  <fileset dir="${dbStartup.dir}/PostgreSQL" includes="*.sql"/>
+	  <fileset dir="../sqlj/PostgreSQL/"/>
 	</copy>
-	<copy todir="${build.dir}/Adempiere/utils/oracleXE">
-	  <fileset dir="${dbStartup.dir}/oracleXE" includes="*.sql"/>
+	<copy todir="${build.dir}/Adempiere/utils/OracleXE">
+	  <fileset dir="${dbStartup.dir}/OracleXE" includes="*.sql"/>
 	</copy>
 
 
@@ -273,6 +309,12 @@
   		<fileset dir="../glassfishfacet/config"/>
   	</copy>
 
+    <!-- tomcat -->
+    <mkdir dir="${build.dir}/Adempiere/tomcat"/>
+    <copy todir="${build.dir}/Adempiere/tomcat">
+	  <fileset dir="../tomcat"/>
+    </copy>
+
   <chmod perm="755">
       <fileset dir="${build.dir}/Adempiere/">
           <include name="*.sh"/>
@@ -292,21 +334,20 @@
   	<tar longfile="gnu" tarfile="${build.dir}/Adempiere_${env.ADEMPIERE_VERSION_FILE}.tar.gz"
 	  	compression="gzip" >
   		<tarfileset dir="${build.dir}" includes="Adempiere/**" excludes="Adempiere/**/*.sh" >
-  		    </tarfileset>
+  		</tarfileset>
   		<!-- <tarfileset dir="${build.dir}" includes="Adempiere/**/*.sh" filemode="755"> -->
   		<tarfileset dir="${build.dir}" includes="Adempiere/**/*.sh">
-  		   </tarfileset>
+  		</tarfileset>
 	</tar>  	
 
 	<!-- Create Checksums		-->
-  	
+
   	<checksum file="${build.dir}/Adempiere_${env.ADEMPIERE_VERSION_FILE}.tar.gz"/>
   	<sleep milliseconds="2000"/>
   	<loadfile property="myfile" srcFile="${build.dir}/Adempiere_${env.ADEMPIERE_VERSION_FILE}.tar.gz.MD5">
   	     <filterchain>
   	        <striplinebreaks/>
   	      </filterchain>
-  	       
   	 </loadfile>  		
   	 <concat destfile="${build.dir}/Adempiere_${env.ADEMPIERE_VERSION_FILE}.tar.gz.MD5">${myfile} Adempiere_${env.ADEMPIERE_VERSION_FILE}.tar.gz</concat>
   		<!-- Test with md5sum -c Adempiere_251.zip.MD5	-->
@@ -318,7 +359,6 @@
   	  	   </filterchain>  	  	       
   	  	 </loadfile>  	
   		<concat destfile="${build.dir}/Adempiere_${env.ADEMPIERE_VERSION_FILE}.zip.MD5">${myfile2} Adempiere_${env.ADEMPIERE_VERSION_FILE}.zip</concat>
-
   </target>
 
   <target name="clean" description="deletes build">

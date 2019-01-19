@@ -299,36 +299,36 @@ public final class Convert_PostgreSQLTest extends TestCase{
 		+ "(AD_Client_ID, AD_Org_ID, C_AcctSchema_ID, DateAcct,"
 		+ " Account_ID, PostingType, M_Product_ID, C_BPartner_ID,"
 		+ "	C_Project_ID, AD_OrgTrx_ID,	C_SalesRegion_ID,C_Activity_ID,"
-		+ " C_Campaign_ID, C_LocTo_ID, C_LocFrom_ID, User1_ID, User2_ID, GL_Budget_ID,"
+		+ " C_Campaign_ID, C_LocTo_ID, C_LocFrom_ID, User1_ID, User2_ID, User3_ID, User4_ID, GL_Budget_ID,"
 		+ " AmtAcctDr, AmtAcctCr, Qty) "
 		+ "SELECT AD_Client_ID, AD_Org_ID, C_AcctSchema_ID, TRUNC(DateAcct),"
 		+ " Account_ID, PostingType, M_Product_ID, C_BPartner_ID,"
 		+ " C_Project_ID, AD_OrgTrx_ID, C_SalesRegion_ID,C_Activity_ID,"
-		+ " C_Campaign_ID, C_LocTo_ID, C_LocFrom_ID, User1_ID, User2_ID, GL_Budget_ID,"
+		+ " C_Campaign_ID, C_LocTo_ID, C_LocFrom_ID, User1_ID, User2_ID, User3_ID, User4_ID, GL_Budget_ID,"
 		+ " COALESCE(SUM(AmtAcctDr),0), COALESCE(SUM(AmtAcctCr),0), COALESCE(SUM(Qty),0) "
 		+ "FROM Fact_Acct a "
 		+ "WHERE C_AcctSchema_ID=0" 
 		+ " GROUP BY AD_Client_ID,AD_Org_ID, C_AcctSchema_ID, TRUNC(DateAcct),"
 		+ " Account_ID, PostingType, M_Product_ID, C_BPartner_ID,"
 		+ " C_Project_ID, AD_OrgTrx_ID, C_SalesRegion_ID, C_Activity_ID,"
-		+ " C_Campaign_ID, C_LocTo_ID, C_LocFrom_ID, User1_ID, User2_ID, GL_Budget_ID";
+		+ " C_Campaign_ID, C_LocTo_ID, C_LocFrom_ID, User1_ID, User2_ID, User3_ID, User4_ID, GL_Budget_ID";
 		sqe = "INSERT INTO Fact_Acct_Balance "
 			+ "(AD_Client_ID, AD_Org_ID, C_AcctSchema_ID, DateAcct,"
 			+ " Account_ID, PostingType, M_Product_ID, C_BPartner_ID,"
 			+ " C_Project_ID, AD_OrgTrx_ID, C_SalesRegion_ID,C_Activity_ID,"
-			+ " C_Campaign_ID, C_LocTo_ID, C_LocFrom_ID, User1_ID, User2_ID, GL_Budget_ID,"
+			+ " C_Campaign_ID, C_LocTo_ID, C_LocFrom_ID, User1_ID, User2_ID, User3_ID, User4_ID, GL_Budget_ID,"
 			+ " AmtAcctDr, AmtAcctCr, Qty) "
 			+ "SELECT AD_Client_ID, AD_Org_ID, C_AcctSchema_ID, TRUNC(DateAcct),"
 			+ " Account_ID, PostingType, M_Product_ID, C_BPartner_ID,"
 			+ " C_Project_ID, AD_OrgTrx_ID, C_SalesRegion_ID,C_Activity_ID,"
-			+ " C_Campaign_ID, C_LocTo_ID, C_LocFrom_ID, User1_ID, User2_ID, GL_Budget_ID,"
+			+ " C_Campaign_ID, C_LocTo_ID, C_LocFrom_ID, User1_ID, User2_ID, User3_ID, User4_ID, GL_Budget_ID,"
 			+ " COALESCE(SUM(AmtAcctDr),0), COALESCE(SUM(AmtAcctCr),0), COALESCE(SUM(Qty),0) "
 			+ "FROM Fact_Acct a "
 			+ "WHERE C_AcctSchema_ID=0" 
 			+ " GROUP BY AD_Client_ID,AD_Org_ID, C_AcctSchema_ID, TRUNC(DateAcct),"
 			+ " Account_ID, PostingType, M_Product_ID, C_BPartner_ID,"
 			+ " C_Project_ID, AD_OrgTrx_ID, C_SalesRegion_ID, C_Activity_ID,"
-			+ " C_Campaign_ID, C_LocTo_ID, C_LocFrom_ID, User1_ID, User2_ID, GL_Budget_ID";
+			+ " C_Campaign_ID, C_LocTo_ID, C_LocFrom_ID, User1_ID, User2_ID , User3_ID, User4_ID, GL_Budget_ID";
 		r = convert.convert(sql);
 		assertEquals(sqe, r[0]);
 	}

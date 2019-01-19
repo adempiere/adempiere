@@ -48,6 +48,9 @@ import org.compiere.util.Env;
  *  
  *  globalqss: fix error about null pointer in OnlineHelp.Worker.run
  *             change the URL for online help for connection
+ *  @athor Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 379 ] Change URL in About
+ *		@see https://github.com/adempiere/adempiere/issues/379
  */
 public class OnlineHelp extends JEditorPane implements HyperlinkListener
 {
@@ -95,7 +98,7 @@ public class OnlineHelp extends JEditorPane implements HyperlinkListener
 	}   //  OnlineHelp
 
 	/** Base of Online Help System      */
-	protected static final String   BASE_URL = "http://www.adempiere.com/wiki/index.php/OnlineLoginHelp";
+	protected static final String   BASE_URL = "http://wiki.adempiere.net/OnlineLoginHelp";
 
 	public static void openInDefaultBrowser()
 	{

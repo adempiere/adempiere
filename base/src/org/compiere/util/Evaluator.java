@@ -16,6 +16,8 @@
  *****************************************************************************/
 package org.compiere.util;
 
+import org.compiere.model.PO;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
@@ -255,7 +257,8 @@ public class Evaluator
 		if (parseString == null || parseString.length() == 0)
 			return;
 	//	log.fine( "MField.parseDepends", parseString);
-		String s = parseString;
+		//	FR [ 305 ]
+		String s = parseString.replaceFirst("@SQL=", "");
 		//  while we have variables
 		while (s.indexOf('@') != -1)
 		{
@@ -270,5 +273,4 @@ public class Evaluator
 			list.add(variable);
 		}
 	}   //  parseDepends
-
 }	//	Evaluator

@@ -44,6 +44,32 @@ public class MDocType extends X_C_DocType
 	private static final long serialVersionUID = -1406832071359080959L;
 
 	/**
+	 * Return the first Doc Type for this Document subtype sales order
+	 * @param orgId
+	 * @param docBaseType
+	 * @param docSubTypeSO
+     * @return
+     */
+	static public int getDocTypeBaseOnSubType(int orgId , String docBaseType , String docSubTypeSO)
+	{
+		Integer documentId = null;
+		for (MDocType docType : MDocType.getOfDocBaseType(Env.getCtx() , docBaseType))
+		{
+			if (docSubTypeSO != null
+					&& docSubTypeSO.equals(docType.getDocSubTypeSO())
+					&& docType.getAD_Org_ID() == orgId)
+				documentId = docType.get_ID();
+		}
+
+		for (MDocType docType : MDocType.getOfDocBaseType(Env.getCtx() , docBaseType))
+		{
+			if (docSubTypeSO != null
+					&& docSubTypeSO.equals(docType.getDocSubTypeSO()))
+				documentId = docType.get_ID();
+		}
+		return documentId;
+	}
+	/**
 	 * Return the first Doc Type for this BaseType
 	 * @param DocBaseType
 	 * @return

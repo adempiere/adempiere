@@ -211,29 +211,9 @@ public class OrderDistributionReceipt extends GenForm
 
 		Properties m_ctx = Env.getCtx();
 		
-		Timestamp MovementDate = (Timestamp) m_MovementDate;
+		Timestamp movementDate = (Timestamp) m_MovementDate;
 		MDDOrder order = new MDDOrder(m_ctx , Integer.parseInt(m_DD_Order_ID.toString()), trxName);
-		MMovement movement = new MMovement(m_ctx , 0 , trxName);
-		
-		movement.setDD_Order_ID(order.getDD_Order_ID());
-		movement.setAD_User_ID(order.getAD_User_ID());
-		movement.setPOReference(order.getPOReference());
-		movement.setReversal_ID(0);
-		movement.setM_Shipper_ID(order.getM_Shipper_ID());
-		movement.setDescription(order.getDescription());
-		movement.setC_BPartner_ID(order.getC_BPartner_ID());
-		movement.setC_BPartner_Location_ID(order.getC_BPartner_Location_ID());
-		movement.setAD_Org_ID(order.getAD_Org_ID());
-		movement.setAD_OrgTrx_ID(order.getAD_OrgTrx_ID());
-		movement.setAD_User_ID(order.getAD_User_ID());
-		movement.setC_Activity_ID(order.getC_Activity_ID());
-		movement.setC_Campaign_ID(order.getC_Campaign_ID());
-		movement.setC_Project_ID(order.getC_Project_ID());
-		movement.setMovementDate(MovementDate);
-		movement.setDeliveryRule(order.getDeliveryRule());
-		movement.setDeliveryViaRule(order.getDeliveryViaRule());
-		movement.setDocAction(MMovement.ACTION_Prepare);
-		movement.setDocStatus(MMovement.DOCSTATUS_Drafted);
+		MMovement movement = new MMovement(order, movementDate);
 		movement.saveEx();
 		
 		ArrayList<Integer> ids = getSelection();

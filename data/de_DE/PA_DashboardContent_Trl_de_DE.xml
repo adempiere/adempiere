@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--ADempiere(r) Release 3.9.0_2017-08-01 -Smart Suite ERP,CRM and SCM- (c) 1999-2017 ADempiere(r); Implementation: ADempiere - Supported by ADempiere community-->
+<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.net/dtd/adempiereTrl.dtd">-->
+<adempiereTrl language="de_DE" table="PA_DashboardContent">
+ <row id="50000" trl="Y">
+  <value column="Name" original="Activities">Aktivitäten</value>
+  <value column="Description" original="Workflow activities, notices and requests">Workflow-Aktivitäten, Hinweise und Anfragen</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50001" trl="Y">
+  <value column="Name" original="Favourites (System)">Favoriten</value>
+  <value column="Description" original="Favourities by System">Eigene Favoriten</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50002" trl="Y">
+  <value column="Name" original="Views">Ansichten</value>
+  <value column="Description" original="Info views">Info Ansichten</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50003" trl="Y">
+  <value column="Name" original="Performance">Leistung</value>
+  <value column="Description" original="Performance meters">Leistungsindikatoren</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50004" trl="N">
+  <value column="Name" original="Calendar">Calendar</value>
+  <value column="Description" original="Google Calendar">Google Calendar</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50009" trl="N">
+  <value column="Name" original="Favorites (User)">Favorites (User)</value>
+  <value column="Description" original="User's Favorites Menu Display">User's Favorites Menu Display</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50014" trl="N">
+  <value column="Name" original="Document tasks">Document tasks</value>
+  <value column="Description" original="Pending documents to finish">Pending documents to finish</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="200000" trl="Y">
+  <value column="Name" original="Recent Items">Zuletzt verwendet</value>
+  <value column="Description" original="Recent items">Zuletzt verwendet</value>
+  <value column="UUID" original=""/>
+ </row>
+</adempiereTrl>

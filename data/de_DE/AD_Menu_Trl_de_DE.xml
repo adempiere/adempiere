@@ -1,312 +1,625 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
+<!--ADempiere(r) Release 3.9.0_2017-08-01 -Smart Suite ERP,CRM and SCM- (c) 1999-2017 ADempiere(r); Implementation: ADempiere - Supported by ADempiere community-->
+<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.net/dtd/adempiereTrl.dtd">-->
 <adempiereTrl language="de_DE" table="AD_Menu">
  <row id="100" trl="Y">
-  <value column="Name" original="Invoice Inquiry">Rechnungs-Übersichten</value>
+  <value column="Name" original="Invoice Inquiry">Rechnungsübersichten</value>
   <value column="Description" original=""/>
+  <value column="UUID" original=""/>
  </row>
  <row id="153" trl="Y">
   <value column="Name" original="Application Dictionary">Application-Dictionary</value>
-  <value column="Description" original="Maintain Application Dictionary">Application-Dictionary verwalten</value>
+  <value column="Description" original="Maintain Application Dictionary">Verwaltung Application-Dictionary</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="155" trl="Y">
-  <value column="Name" original="General Rules">Allgemeine Einstellungen</value>
+  <value column="Name" original="General Rules">Einstellungen allgemein</value>
   <value column="Description" original=""/>
+  <value column="UUID" original=""/>
  </row>
  <row id="156" trl="Y">
   <value column="Name" original="Client Rules">Einstellungen Mandant</value>
-  <value column="Description" original="Maintain Client Rules">Mandanten-Einstellungen verwalten</value>
+  <value column="Description" original="Maintain Client Rules">Verwaltung Mandanteneinstellungen</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="157" trl="Y">
   <value column="Name" original="Data">Daten</value>
-  <value column="Description" original="Maintain Data">Daten verwalten</value>
+  <value column="Description" original="Maintain Data">Verwaltung von Daten</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="158" trl="Y">
-  <value column="Name" original="Performance Measurement">Ergebnisbewertung</value>
+  <value column="Name" original="Performance Measurement">Leistungsmessung</value>
   <value column="Description" original=""/>
+  <value column="UUID" original=""/>
  </row>
  <row id="159" trl="Y">
   <value column="Name" original="Utility">Hilfsfunktionen</value>
   <value column="Description" original=""/>
+  <value column="UUID" original=""/>
  </row>
  <row id="160" trl="Y">
-  <value column="Name" original="Project Management">Projekt-Verwaltung</value>
+  <value column="Name" original="Project Management">Projektverwaltung</value>
   <value column="Description" original=""/>
+  <value column="UUID" original=""/>
  </row>
  <row id="161" trl="Y">
   <value column="Name" original="System Rules">Einstellungen System</value>
-  <value column="Description" original="General System Rules">Allgemeine System-Einstellungen</value>
+  <value column="Description" original="General System Rules">Allgemeine Systemeinstellungen</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="163" trl="Y">
-  <value column="Name" original="Data Import">Daten-Import</value>
+  <value column="Name" original="Data Import">Datenimport</value>
   <value column="Description" original=""/>
+  <value column="UUID" original=""/>
  </row>
  <row id="164" trl="Y">
   <value column="Name" original="Accounting Rules">Einstellungen Buchführung</value>
   <value column="Description" original=""/>
+  <value column="UUID" original=""/>
  </row>
  <row id="165" trl="Y">
   <value column="Name" original="Business Partner Rules">Einstellungen Geschäftspartner</value>
   <value column="Description" original=""/>
+  <value column="UUID" original=""/>
  </row>
  <row id="166" trl="Y">
   <value column="Name" original="Quote-to-Invoice">Vertrieb</value>
   <value column="Description" original=""/>
+  <value column="UUID" original=""/>
  </row>
  <row id="167" trl="Y">
   <value column="Name" original="Material Management Rules">Einstellungen Materialwirtschaft</value>
   <value column="Description" original=""/>
+  <value column="UUID" original=""/>
  </row>
  <row id="175" trl="Y">
   <value column="Name" original="Organization Rules">Einstellungen Organisation</value>
   <value column="Description" original=""/>
+  <value column="UUID" original=""/>
  </row>
  <row id="183" trl="Y">
   <value column="Name" original="Material Management">Materialwirtschaft</value>
   <value column="Description" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="193" trl="N">
+  <value column="Name" original="Generate Shipments from Outbound Order">Generate Shipments from Outbound Order</value>
+  <value column="Description" original=""/>
+  <value column="UUID" original=""/>
  </row>
  <row id="203" trl="Y">
   <value column="Name" original="Requisition-to-Invoice">Beschaffung</value>
   <value column="Description" original=""/>
+  <value column="UUID" original=""/>
  </row>
  <row id="218" trl="Y">
-  <value column="Name" original="System Admin">System-Administration</value>
+  <value column="Name" original="System Admin">Systemadministration</value>
   <value column="Description" original=""/>
+  <value column="UUID" original=""/>
  </row>
  <row id="236" trl="Y">
   <value column="Name" original="Open Items">Offene Posten</value>
   <value column="Description" original=""/>
+  <value column="UUID" original=""/>
  </row>
  <row id="263" trl="Y">
-  <value column="Name" original="Partner Relations">Geschäftspartner</value>
-  <value column="Description" original="Customer Relations and Partner Management">Geschäftspartner und deren Beziehungen verwalten</value>
+  <value column="Name" original="Partner Relations">Geschäftsbeziehungen</value>
+  <value column="Description" original="Customer Relations and Partner Management">Verwaltung von Kunden und Geschäftspartnern</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="271" trl="Y">
   <value column="Name" original="Service">Dienstleistung</value>
-  <value column="Description" original="Service Management">Verwaltung Dienstleistungen</value>
+  <value column="Description" original="Service Management">Verwaltung der Services</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="272" trl="Y">
-  <value column="Name" original="Sales and Marketing">Verkauf und Marketing</value>
+  <value column="Name" original="Sales and Marketing">Marketing und Vertrieb</value>
   <value column="Description" original=""/>
+  <value column="UUID" original=""/>
  </row>
  <row id="278" trl="Y">
-  <value column="Name" original="Performance Analysis">Ergebnis-Analyse</value>
+  <value column="Name" original="Performance Analysis">Buchführung</value>
   <value column="Description" original=""/>
+  <value column="UUID" original=""/>
  </row>
  <row id="280" trl="Y">
-  <value column="Name" original="Financial Reporting">Finanz-Berichte</value>
+  <value column="Name" original="Financial Reporting">Finanzberichte</value>
   <value column="Description" original=""/>
- </row>
- <row id="301" trl="Y">
-  <value column="Name" original="Sales">Verkauf</value>
-  <value column="Description" original=""/>
+  <value column="UUID" original=""/>
  </row>
  <row id="326" trl="Y">
-  <value column="Name" original="Printing">Drucke</value>
-  <value column="Description" original="Print Definition">Druck-Einstellungen</value>
+  <value column="Name" original="Printing">Drucken</value>
+  <value column="Description" original="Print Definition">Druckereinstellungen</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="345" trl="Y">
-  <value column="Name" original="Assets">Abschreibungen</value>
+  <value column="Name" original="Assets">Vermögenswerte</value>
   <value column="Description" original=""/>
+  <value column="UUID" original=""/>
  </row>
  <row id="357" trl="Y">
-  <value column="Name" original="Product Attributes">Produktmerkmal</value>
+  <value column="Name" original="Product Attributes">Artikelattribute</value>
   <value column="Description" original=""/>
+  <value column="UUID" original=""/>
  </row>
  <row id="367" trl="Y">
   <value column="Name" original="Security">Sicherheit</value>
   <value column="Description" original=""/>
+  <value column="UUID" original=""/>
  </row>
  <row id="372" trl="Y">
   <value column="Name" original="Web">Web</value>
   <value column="Description" original=""/>
+  <value column="UUID" original=""/>
  </row>
  <row id="392" trl="Y">
   <value column="Name" original="Knowledge Base">Wissensbasis</value>
   <value column="Description" original=""/>
+  <value column="UUID" original=""/>
  </row>
  <row id="456" trl="Y">
   <value column="Name" original="Server">Server</value>
-  <value column="Description" original="Adempiere Server Maintenance">ADempiere-Server-Verwaltung</value>
+  <value column="Description" original="Adempiere Server Maintenance">iDempiere Server-Wartung</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="457" trl="Y">
   <value column="Name" original="Sales Orders">Aufträge</value>
   <value column="Description" original=""/>
+  <value column="UUID" original=""/>
  </row>
  <row id="458" trl="Y">
   <value column="Name" original="Sales Invoices">Verkaufsrechnungen</value>
   <value column="Description" original=""/>
+  <value column="UUID" original=""/>
  </row>
  <row id="459" trl="Y">
-  <value column="Name" original="Shipments">Lieferscheine</value>
+  <value column="Name" original="Shipments">Lieferungen</value>
   <value column="Description" original=""/>
+  <value column="UUID" original=""/>
  </row>
  <row id="460" trl="Y">
-  <value column="Name" original="Market Place">Markt-Platz</value>
+  <value column="Name" original="Market Place">Marktplatz</value>
   <value column="Description" original=""/>
+  <value column="UUID" original=""/>
  </row>
  <row id="501" trl="Y">
   <value column="Name" original="Workflow">Workflow</value>
-  <value column="Description" original="Adempiere Workflow">ADempiere-Workflow</value>
+  <value column="Description" original="Adempiere Workflow">iDempiere-Workflow</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="522" trl="Y">
   <value column="Name" original="Costing">Kostenrechnung</value>
   <value column="Description" original=""/>
+  <value column="UUID" original=""/>
  </row>
  <row id="528" trl="Y">
   <value column="Name" original="Request">Anfrage</value>
   <value column="Description" original=""/>
+  <value column="UUID" original=""/>
  </row>
  <row id="566" trl="Y">
   <value column="Name" original="Collaboration">Zusammenarbeit</value>
-  <value column="Description" original="Collaboration and Content Management">Zusammenarbeit und Content Management</value>
+  <value column="Description" original="Collaboration and Content Management">Zusammenarbeit und Inhaltspflege</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="50001" trl="Y">
-  <value column="Name" original="Application Packaging">Erweiterungen</value>
-  <value column="Description" original="Import and export packaging">Im- und Export von Erweiterungspaketen</value>
+  <value column="Name" original="Application Packaging">Anwendungspakete</value>
+  <value column="Description" original="Import and export packaging">Import und Export von Paketen</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="52001" trl="Y">
-  <value column="Name" original="Web POS">Web-Kassenoberfläche</value>
+  <value column="Name" original="Web POS">Web-Kassensystem</value>
   <value column="Description" original=""/>
+  <value column="UUID" original=""/>
  </row>
  <row id="53014" trl="Y">
-  <value column="Name" original="Manufacturing Management">Produktionssteuerung</value>
-  <value column="Description" original="Manufacturing">Manufacturing</value>
+  <value column="Name" original="Manufacturing Management">Produktionsmanagement</value>
+  <value column="Description" original="Manufacturing">Produktion</value>
+  <value column="UUID" original=""/>
  </row>
- <row id="53016" trl="N">
-  <value column="Name" original="Engineering Management">Engineering Management</value>
-  <value column="Description" original="Engineering management involves the overall management of organizations with an orientation to manufacturing, engineering, technology or production.">Engineering management involves the overall management of organizations with an orientation to manufacturing, engineering, technology or production.</value>
+ <row id="53016" trl="Y">
+  <value column="Name" original="Engineering Management">Verwaltung Konstruktion</value>
+  <value column="Description" original="Engineering management involves the overall management of organizations with an orientation to manufacturing, engineering, technology or production.">Die "Verwaltung Konstruktion" beinhaltet die gesamte Verwaltung von Organisationen mit einer Ausrichtung auf Herstellung, Konstruktion, Technologie und Produktion.</value>
+  <value column="UUID" original=""/>
  </row>
- <row id="53017" trl="N">
-  <value column="Name" original="Resource Manufacturing">Resource Manufacturing</value>
-  <value column="Description" original="Resource Manufacturing">Resource Manufacturing</value>
+ <row id="53017" trl="Y">
+  <value column="Name" original="Resource Manufacturing">Ressourcenfertigung</value>
+  <value column="Description" original="Resource Manufacturing">Ressourcenfertigung</value>
+  <value column="UUID" original=""/>
  </row>
- <row id="53019" trl="N">
-  <value column="Name" original="Manufacturing Workflow">Manufacturing Workflow</value>
+ <row id="53019" trl="Y">
+  <value column="Name" original="Manufacturing Workflow">Fertigungs-Workflow</value>
   <value column="Description" original=""/>
+  <value column="UUID" original=""/>
  </row>
- <row id="53022" trl="N">
-  <value column="Name" original="Bill of Material &amp; Formulas"><![CDATA[Bill of Material & Formulas]]></value>
-  <value column="Description" original="Bill of Material &amp; Formulas"><![CDATA[Bill of Material & Formulas]]></value>
+ <row id="53022" trl="Y">
+  <value column="Name" original="Bill of Material &amp; Formulas"><![CDATA[Stücklisten & Formeln]]></value>
+  <value column="Description" original="Bill of Material &amp; Formulas"><![CDATA[Stücklisten & Formeln]]></value>
+  <value column="UUID" original=""/>
  </row>
- <row id="53029" trl="N">
-  <value column="Name" original="Planning Management">Planning Management</value>
-  <value column="Description" original="Using Planning Management you answer the question: When and How Many products we must get?">Using Planning Management you answer the question: When and How Many products we must get?</value>
+ <row id="53029" trl="Y">
+  <value column="Name" original="Planning Management">Planungsmanagement</value>
+  <value column="Description" original="Using Planning Management you answer the question: When and How Many products we must get?">Mit Hilfe des Planungsmanagements können Sie planen, wann und wie viele Artikel vorhanden sein müssen.</value>
+  <value column="UUID" original=""/>
  </row>
- <row id="53031" trl="N">
-  <value column="Name" original="Product Planning">Product Planning</value>
-  <value column="Description" original="Product Planning">Product Planning</value>
+ <row id="53031" trl="Y">
+  <value column="Name" original="Product Planning">Produktplanung</value>
+  <value column="Description" original="Product Planning">Produktplanung</value>
+  <value column="UUID" original=""/>
  </row>
- <row id="53034" trl="N">
-  <value column="Name" original="MRP">MRP</value>
-  <value column="Description" original="Materials Requirements Planning">Materials Requirements Planning</value>
+ <row id="53034" trl="Y">
+  <value column="Name" original="MRP">MBP</value>
+  <value column="Description" original="Materials Requirements Planning">Materialbedarfsplanung</value>
+  <value column="UUID" original=""/>
  </row>
- <row id="53043" trl="N">
-  <value column="Name" original="CRP">CRP</value>
-  <value column="Description" original="Capacity Requirements Planning">Capacity Requirements Planning</value>
+ <row id="53043" trl="Y">
+  <value column="Name" original="CRP">KP</value>
+  <value column="Description" original="Capacity Requirements Planning">Kapazitätsplanung</value>
+  <value column="UUID" original=""/>
  </row>
- <row id="53048" trl="N">
-  <value column="Name" original="DRP">DRP</value>
-  <value column="Description" original="Distribution Resource Planning">Distribution Resource Planning</value>
+ <row id="53048" trl="Y">
+  <value column="Name" original="DRP">Einsatzplanung Distribution (EPD)</value>
+  <value column="Description" original="Distribution Resource Planning">Einsatzplanung Distribution</value>
+  <value column="UUID" original=""/>
  </row>
- <row id="53052" trl="N">
-  <value column="Name" original="Production Management">Production Management</value>
-  <value column="Description" original="Production Management">Production Management</value>
+ <row id="53052" trl="Y">
+  <value column="Name" original="Production Management">Verwaltung Produktion</value>
+  <value column="Description" original="Production Management">Verwaltung Produktion</value>
+  <value column="UUID" original=""/>
  </row>
- <row id="53053" trl="N">
-  <value column="Name" original="Discreet Manufacturing">Discreet Manufacturing</value>
+ <row id="53053" trl="Y">
+  <value column="Name" original="Discreet Manufacturing">Diskrete Fertigung</value>
   <value column="Description" original=""/>
+  <value column="UUID" original=""/>
  </row>
- <row id="53061" trl="N">
-  <value column="Name" original="Management Maintenance">Management Maintenance</value>
-  <value column="Description" original="Management Maintenance">Management Maintenance</value>
+ <row id="53061" trl="Y">
+  <value column="Name" original="Management Maintenance">Verwaltung Wartung</value>
+  <value column="Description" original="Management Maintenance">Verwaltung Wartung</value>
+  <value column="UUID" original=""/>
  </row>
- <row id="53063" trl="N">
-  <value column="Name" original="Activity Control">Activity Control</value>
-  <value column="Description" original="Activity Control">Activity Control</value>
+ <row id="53063" trl="Y">
+  <value column="Name" original="Activity Control">Aktivitätssteuerung</value>
+  <value column="Description" original="Activity Control">Aktivitätssteuerung</value>
+  <value column="UUID" original=""/>
  </row>
- <row id="53066" trl="N">
-  <value column="Name" original="Distribution Management">Distribution Management</value>
-  <value column="Description" original="Distribution Resource Planning (DRP) is a method used in business administration for planning orders within a supply chain. ">Distribution Resource Planning (DRP) is a method used in business administration for planning orders within a supply chain. </value>
+ <row id="53066" trl="Y">
+  <value column="Name" original="Distribution Management">Verwaltung Distribution</value>
+  <value column="Description" original="Distribution Resource Planning (DRP) is a method used in business administration for planning orders within a supply chain. ">Die Einsatzplanung Distribution (EPD) ist eine Methode der Betriebswirtschaftslehre zur Planung von Aufträgen innerhalb einer Lieferkette.</value>
+  <value column="UUID" original=""/>
  </row>
- <row id="53071" trl="N">
-  <value column="Name" original="Quality Management">Quality Management</value>
-  <value column="Description" original="Quality Management">Quality Management</value>
+ <row id="53071" trl="Y">
+  <value column="Name" original="Quality Management">Qualitätsmanagement</value>
+  <value column="Description" original="Quality Management">Qualitätsmanagement</value>
+  <value column="UUID" original=""/>
  </row>
- <row id="53074" trl="N">
-  <value column="Name" original="Standard Costing Management">Standard Costing Management</value>
-  <value column="Description" original="Standard Costing Management">Standard Costing Management</value>
+ <row id="53074" trl="Y">
+  <value column="Name" original="Standard Costing Management">Verwaltung Standardkostenrechnung</value>
+  <value column="Description" original="Standard Costing Management">Verwaltung Standardkostenrechnung</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="53091" trl="Y">
-  <value column="Name" original="Global Tax Management">Globale Steuerverwaltung</value>
+  <value column="Name" original="Global Tax Management">Allgemeine Steuerverwaltung</value>
   <value column="Description" original=""/>
+  <value column="UUID" original=""/>
  </row>
- <row id="53098" trl="N">
-  <value column="Name" original="Replication Data">Replication Data</value>
+ <row id="53098" trl="Y">
+  <value column="Name" original="Replication Data">Replikationsdaten</value>
   <value column="Description" original=""/>
+  <value column="UUID" original=""/>
  </row>
  <row id="53108" trl="Y">
-  <value column="Name" original="Human Resource &amp; Payroll">Personalverwaltung</value>
-  <value column="Description" original="Human Resource &amp; Payroll"><![CDATA[Human Resource & Payroll]]></value>
+  <value column="Name" original="Human Resource &amp; Payroll"><![CDATA[Personal & Gehaltsabrechnung]]></value>
+  <value column="Description" original="Human Resource &amp; Payroll"><![CDATA[Personal & Gehaltsabrechnung]]></value>
+  <value column="UUID" original=""/>
  </row>
- <row id="53109" trl="N">
-  <value column="Name" original="Human Resource">Human Resource</value>
+ <row id="53109" trl="Y">
+  <value column="Name" original="Human Resource">Personal</value>
   <value column="Description" original=""/>
+  <value column="UUID" original=""/>
  </row>
- <row id="53114" trl="N">
-  <value column="Name" original="Payroll">Payroll</value>
+ <row id="53114" trl="Y">
+  <value column="Name" original="Payroll">Lohn- und Gehaltsabrechnung</value>
   <value column="Description" original=""/>
+  <value column="UUID" original=""/>
  </row>
- <row id="53133" trl="N">
-  <value column="Name" original="Customer Service">Customer Service</value>
-  <value column="Description" original="Customer Related Assets">Customer Related Assets</value>
+ <row id="53133" trl="Y">
+  <value column="Name" original="Customer Service">Kundenservice</value>
+  <value column="Description" original="Customer Related Assets">Kundenbezogenes Anlagevermögen</value>
+  <value column="UUID" original=""/>
  </row>
- <row id="53134" trl="Y">
-  <value column="Name" original="Fixed Assets">Anlagevermögen</value>
-  <value column="Description" original="Applications to setup and maintain fixed assets">Applications to setup and maintain fixed assets</value>
+ <row id="53136" trl="Y">
+  <value column="Name" original="Asset Revaluation">Neubewertung von Vermögenswerten</value>
+  <value column="Description" original="Process Asset Revaluations">Neubewertung von Vermögenswerten verarbeiten</value>
+  <value column="UUID" original=""/>
  </row>
- <row id="53135" trl="N">
-  <value column="Name" original="Processing">Processing</value>
-  <value column="Description" original="Process Fixed Assets">Process Fixed Assets</value>
+ <row id="53139" trl="Y">
+  <value column="Name" original="Asset Transactions ">Übertragungen/Abgänge aufteilen</value>
+  <value column="Description" original="Asset Transactions (Addition, Disposal, Split &amp; Transfer)">Der Vorgang trennt Übertragungen und Abgänge</value>
+  <value column="UUID" original=""/>
  </row>
- <row id="53136" trl="N">
-  <value column="Name" original="Asset Revaluation">Asset Revaluation</value>
-  <value column="Description" original="Process Asset Revaluations">Process Asset Revaluations</value>
- </row>
- <row id="53139" trl="N">
-  <value column="Name" original="Splits Transfers and Disposals">Splits Transfers and Disposals</value>
-  <value column="Description" original="Process Assets Splits Transfers and Disposals">Process Assets Splits Transfers and Disposals</value>
- </row>
- <row id="53149" trl="N">
-  <value column="Name" original="Depreciation Processing">Depreciation Processing</value>
-  <value column="Description" original="Applications to Process Fixed Assets to the GL">Applications to Process Fixed Assets to the GL</value>
+ <row id="53149" trl="Y">
+  <value column="Name" original="Depreciation Processing">Abschreibungen verarbeiten</value>
+  <value column="Description" original="Applications to Process Fixed Assets to the GL">Anwendungen die Anlagevermögen im Hauptbuch verarbeiten</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="53155" trl="Y">
-  <value column="Name" original="Reporting">Berichtswesen</value>
-  <value column="Description" original="Reporting for fixed assets">BErichtswesen für Anlagegüter</value>
+  <value column="Name" original="Reporting">Berichte</value>
+  <value column="Description" original="Reporting for fixed assets">Berichte über Anlagevermögen</value>
+  <value column="UUID" original=""/>
  </row>
- <row id="53163" trl="N">
-  <value column="Name" original="Setup and Maintain">Setup and Maintain</value>
-  <value column="Description" original="Setup and maintain assets">Setup and maintain assets</value>
+ <row id="53171" trl="Y">
+  <value column="Name" original="Depreciation Setup">Einrichtung Abschreibungen</value>
+  <value column="Description" original="Applications to setup and maintain depreciation">Anwendungen zur Einrichtung und Verwaltung von Abschreibungen</value>
+  <value column="UUID" original=""/>
  </row>
- <row id="53164" trl="N">
-  <value column="Name" original="Fixed Assets Setup">Fixed Assets Setup</value>
-  <value column="Description" original="Setup and Maintain Fixed Assets">Setup and Maintain Fixed Assets</value>
- </row>
- <row id="53171" trl="N">
-  <value column="Name" original="Depreciation Setup">Depreciation Setup</value>
-  <value column="Description" original="Applications to setup and maintain depreciation">Applications to setup and maintain depreciation</value>
- </row>
- <row id="53180" trl="N">
-  <value column="Name" original="Forecast Management">Forecast Management</value>
+ <row id="53180" trl="Y">
+  <value column="Name" original="Forecast Management">Verwaltung Prognosen</value>
   <value column="Description" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="53207" trl="N">
+  <value column="Name" original="Cash Flow Management">Cash Flow Management</value>
+  <value column="Description" original="Cash Flow Management">Cash Flow Management</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="53229" trl="N">
+  <value column="Name" original="Warehouse Management">Warehouse Management</value>
+  <value column="Description" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="53230" trl="N">
+  <value column="Name" original="Outbound Operations">Outbound Operations</value>
+  <value column="Description" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="53232" trl="N">
+  <value column="Name" original="Release Outbound Order to Pick">Release Outbound Order to Pick</value>
+  <value column="Description" original="This process generates that Distribution Order to pick,   based on the warehouse rules.">This process generates that Distribution Order to pick,   based on the warehouse rules.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="53233" trl="N">
+  <value column="Name" original="Generate Outbound Order based on Sales Orders">Generate Outbound Order based on Sales Orders</value>
+  <value column="Description" original="This process allows to generate a new document as the result of gathering Sales Orders based on several criteria such as :">This process allows to generate a new document as the result of gathering Sales Orders based on several criteria such as :</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="53234" trl="N">
+  <value column="Name" original="Inbound Operations">Inbound Operations</value>
+  <value column="Description" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="53235" trl="N">
+  <value column="Name" original="Warehouse Management Setup">Warehouse Management Setup</value>
+  <value column="Description" original=""/>
+  <value column="UUID" original=""/>
  </row>
  <row id="53242" trl="Y">
-  <value column="Name" original="Returns">Rücksendungen</value>
-  <value column="Description" original="">Rücksendungen verwalten</value>
+  <value column="Name" original="Returns">Retouren</value>
+  <value column="Description" original=""/>
+  <value column="UUID" original=""/>
  </row>
  <row id="53247" trl="Y">
   <value column="Name" original="EDI">EDI</value>
-  <value column="Description" original="">Electronic Data Interchange</value>
+  <value column="Description" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="53296" trl="N">
+  <value column="Name" original="Production Light">Manufacturing</value>
+  <value column="Description" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="53363" trl="Y">
+  <value column="Name" original="Sales Management">Sales/Lead Management</value>
+  <value column="Description" original="">Ein Lead ist ein Kontakt mit einem potenziellen Kunden.Lead Management/Marketing ist ein Oberbegriff.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="53427" trl="N">
+  <value column="Name" original="Forecast Simulation Result">Forecast Simulation Result</value>
+  <value column="Description" original="The forecast simulation browser allows to compare base period data with the simulation result of the target period, after executing a forecast simulation. The goal of this query is to validate that the results are considered in the company plans.">The forecast simulation browser allows to compare base period data with the simulation result of the target period, after executing a forecast simulation. The goal of this query is to validate that the results are considered in the company plans.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="53451" trl="N">
+  <value column="Name" original="MRP Action Messages">MRP Action Messages</value>
+  <value column="Description" original="MRP Action Messages">MRP Action Messages</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="53452" trl="N">
+  <value column="Name" original="Approval Material Requisition">Approval Material Requisition</value>
+  <value column="Description" original="A planned material requisition is a suggested by the MRP process and contains its quantity and its release and promise dates.">A planned material requisition is a suggested by the MRP process and contains its quantity and its release and promise dates.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="53453" trl="N">
+  <value column="Name" original="Approval Distribution Order">Approval Distribution Order</value>
+  <value column="Description" original="A planned distribution order is a suggested by the MRP process and contains its quantity and its release and promise dates.">A planned distribution order is a suggested by the MRP process and contains its quantity and its release and promise dates.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="53454" trl="N">
+  <value column="Name" original="Approval Manufacturing Order">Approval Manufacturing Order</value>
+  <value column="Description" original="A planned Manufacturing Order is a suggested by the MRP process and contains its quantity and its release and promise dates.">A planned Manufacturing Order is a suggested by the MRP process and contains its quantity and its release and promise dates.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="53458" trl="N">
+  <value column="Name" original="MRP Demands Browse">MRP Demands Browse</value>
+  <value column="Description" original="MRP Demands Browse">MRP Demands Browse</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="53459" trl="N">
+  <value column="Name" original="MRP Supplies Browse">MRP Supplies Browse</value>
+  <value column="Description" original="MRP Supplies Browse">MRP Supplies Browse</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="53497" trl="N">
+  <value column="Name" original="Scheduling of the Demands">Scheduling of the Demands</value>
+  <value column="Description" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="53498" trl="N">
+  <value column="Name" original="Scheduling of the Supplies">Scheduling of the Supplies</value>
+  <value column="Description" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="53499" trl="N">
+  <value column="Name" original="Activities Scheduling">Activities Scheduling</value>
+  <value column="Description" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="53500" trl="N">
+  <value column="Name" original="Activities Progress Monitor">Activities Progress Monitor</value>
+  <value column="Description" original="Activities Progress Monitor">Activities Progress Monitor</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="53501" trl="N">
+  <value column="Name" original="Activities Progress Control">Activities Progress Control</value>
+  <value column="Description" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="53697" trl="N">
+  <value column="Name" original="Employee Setup">Employee Setup</value>
+  <value column="Description" original="Employee Setup">Employee Setup</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="53712" trl="N">
+  <value column="Name" original="Recruitment Management">Recruitment Management</value>
+  <value column="Description" original="Recruitment Management">Recruitment Management</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="53713" trl="N">
+  <value column="Name" original="Job Openings Browser">Job Openings Browser</value>
+  <value column="Description" original="Displays the detail of Job Openins">Displays the detail of Job Openins</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="53714" trl="N">
+  <value column="Name" original="My Applicants Browser">My Applicants Browser</value>
+  <value column="Description" original="My Applicants Browser">My Applicants Browser</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="53902" trl="N">
+  <value column="Name" original="History Payroll Movement">History Payroll Movement</value>
+  <value column="Description" original="History Payroll Movement">History Payroll Movement</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="53912" trl="N">
+  <value column="Name" original="Manufacturing Order Cost">Manufacturing Order Cost</value>
+  <value column="Description" original="Manufacturing Order Cost">Manufacturing Order Cost</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="53921" trl="N">
+  <value column="Name" original="Generate Movement Manual">Generate Movement Manual</value>
+  <value column="Description" original="Generate Movement to a Order Distribution">Generate Movement to a Order Distribution</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="53922" trl="N">
+  <value column="Name" original="Material Receipt Distribution Order">Material Receipt Distribution Order</value>
+  <value column="Description" original="Material Receipt Distribution Order">Material Receipt Distribution Order</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="54024" trl="N">
+  <value column="Name" original="Generate Outbound Order based on Demands">Generate Outbound Order based on Demands</value>
+  <value column="Description" original="This process allows to generate a new document as the result of gathering Sales Orders, Manufacture Orders, Distribution Orders based on several criteria such as :">This process allows to generate a new document as the result of gathering Sales Orders, Manufacture Orders, Distribution Orders based on several criteria such as :</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="54026" trl="N">
+  <value column="Name" original="Generate Shipments from Demands">Generate Shipments from Demands</value>
+  <value column="Description" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="54030" trl="N">
+  <value column="Name" original="Point of Sales">Point of Sales</value>
+  <value column="Description" original="The Point of Sales menu">The Point of Sales menu</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="54045" trl="N">
+  <value column="Name" original="POS Withdrawal">POS Withdrawal</value>
+  <value column="Description" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="54046" trl="N">
+  <value column="Name" original="POS Bank Statement Close">POS Bank Statement Close</value>
+  <value column="Description" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="54093" trl="N">
+  <value column="Name" original="Browser Purchase Order">Browser Purchase Order</value>
+  <value column="Description" original="Smart Browser allows for a selection to be processed">Smart Browser allows for a selection to be processed</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="54094" trl="N">
+  <value column="Name" original="Browser Sales Order">Browser Sales Order</value>
+  <value column="Description" original="Smart Browser allows for a selection to be processed">Smart Browser allows for a selection to be processed</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="54095" trl="N">
+  <value column="Name" original="Browser AR Invoice">Browser AR Invoice</value>
+  <value column="Description" original="Smart Browser allows for a selection to be processed">Smart Browser allows for a selection to be processed</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="54096" trl="N">
+  <value column="Name" original="Browser AP Invoice">Browser AP Invoice</value>
+  <value column="Description" original="Smart Browser allows for a selection to be processed">Smart Browser allows for a selection to be processed</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="54102" trl="N">
+  <value column="Name" original="Generate Payment Selection (From Invoice)">Generate Payment Selection (From Invoice)</value>
+  <value column="Description" original="Create Payment Selection lines from Invoices selected">Create Payment Selection lines from Invoices selected</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="54132" trl="N">
+  <value column="Name" original="Browser Global Payroll Concept">Browser Global Payroll Concept</value>
+  <value column="Description" original="Browser Global Payroll Concept">Browser Global Payroll Concept</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="54137" trl="N">
+  <value column="Name" original="Process Orders">Process Orders</value>
+  <value column="Description" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="54138" trl="N">
+  <value column="Name" original="Generate Shipment from Order Lines">Generate Shipment from Order Lines</value>
+  <value column="Description" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="54139" trl="N">
+  <value column="Name" original="Generate Invoice From Order Lines">Generate Invoice From Order Lines</value>
+  <value column="Description" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="54152" trl="N">
+  <value column="Name" original="Budget Management">Budget Management</value>
+  <value column="Description" original="This functionality allows the management of a budget accounting">This functionality allows the management of a budget accounting</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="54156" trl="N">
+  <value column="Name" original="Employee Information">Employee Information</value>
+  <value column="Description" original="Employee Information">Employee Information</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="54170" trl="N">
+  <value column="Name" original="Fleet Management">Fleet Management</value>
+  <value column="Description" original="Fleet Management">Fleet Management</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="54180" trl="N">
+  <value column="Name" original="Transport Requirement Browser">Transport Requirement Browser</value>
+  <value column="Description" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="54181" trl="N">
+  <value column="Name" original="Transport License Browser">Transport License Browser</value>
+  <value column="Description" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="54182" trl="N">
+  <value column="Name" original="Driver Browser">Driver Browser</value>
+  <value column="Description" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="54183" trl="N">
+  <value column="Name" original="Vehicle Browser">Vehicle Browser</value>
+  <value column="Description" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="54193" trl="N">
+  <value column="Name" original="Transport Unit Browser">Transport Unit Browser</value>
+  <value column="Description" original="Transport Unit Browser">Transport Unit Browser</value>
+  <value column="UUID" original=""/>
  </row>
 </adempiereTrl>

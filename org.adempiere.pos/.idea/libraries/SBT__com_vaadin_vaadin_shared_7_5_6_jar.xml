@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="SBT: com.vaadin:vaadin-shared:7.5.6:jar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/com.vaadin/vaadin-shared/jars/vaadin-shared-7.5.6.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/com.vaadin/vaadin-shared/srcs/vaadin-shared-7.5.6-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -1,8 +1,9 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -11,8 +12,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 package org.compiere.model;
 
@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_CostDetail
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0
+ *  @version Release 3.9.1
  */
 public interface I_M_CostDetail 
 {
@@ -527,6 +527,36 @@ public interface I_M_CostDetail
 
 	public org.compiere.model.I_M_InventoryLine getM_InventoryLine() throws RuntimeException;
 
+    /** Column name M_MatchInv_ID */
+    public static final String COLUMNNAME_M_MatchInv_ID = "M_MatchInv_ID";
+
+	/** Set Match Invoice.
+	  * Match Shipment/Receipt to Invoice
+	  */
+	public void setM_MatchInv_ID (int M_MatchInv_ID);
+
+	/** Get Match Invoice.
+	  * Match Shipment/Receipt to Invoice
+	  */
+	public int getM_MatchInv_ID();
+
+	public org.compiere.model.I_M_MatchInv getM_MatchInv() throws RuntimeException;
+
+    /** Column name M_MatchPO_ID */
+    public static final String COLUMNNAME_M_MatchPO_ID = "M_MatchPO_ID";
+
+	/** Set Match PO.
+	  * Match Purchase Order to Shipment/Receipt and Invoice
+	  */
+	public void setM_MatchPO_ID (int M_MatchPO_ID);
+
+	/** Get Match PO.
+	  * Match Purchase Order to Shipment/Receipt and Invoice
+	  */
+	public int getM_MatchPO_ID();
+
+	public org.compiere.model.I_M_MatchPO getM_MatchPO() throws RuntimeException;
+
     /** Column name M_MovementLine_ID */
     public static final String COLUMNNAME_M_MovementLine_ID = "M_MovementLine_ID";
 
@@ -669,6 +699,19 @@ public interface I_M_CostDetail
  lowest number comes first
 	  */
 	public int getSeqNo();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

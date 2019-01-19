@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Hide SalesRep from Commission Window" ReleaseNo="3.9.0" SeqNo="2560">
+    <Comments>https://github.com/adempiere/adempiere/issues/957</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="4462" Table="AD_Field">
+        <Data AD_Column_ID="176" Column="IsDisplayed" oldValue="true">false</Data>
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="110">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="81290" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="120">110</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="4577" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="130">120</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="4465" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="140">130</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="4470" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="150">140</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

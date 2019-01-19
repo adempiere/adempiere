@@ -33,10 +33,9 @@ import org.compiere.util.WebSessionCtx;
 import org.compiere.util.WebUtil;
 
 /**
- *	Web Product Serach
+ *	Web Product Search
  *
  * 	@author 	Jorg Janke
- * 	@version 	$Id: ProductServlet.java,v 1.2 2006/07/30 00:53:21 jjanke Exp $
  */
 public class ProductServlet  extends HttpServlet
 {
@@ -65,7 +64,7 @@ public class ProductServlet  extends HttpServlet
 	 */
 	public String getServletInfo()
 	{
-		return "Adempiere Product Serach Servlet";
+		return "ADempiere Product Search Servlet";
 	}	//	getServletInfo
 
 	/**

@@ -1,8 +1,9 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -11,8 +12,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.eevolution.model;
@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for HR_Payroll
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_HR_Payroll extends PO implements I_HR_Payroll, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150223L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_HR_Payroll (Properties ctx, int HR_Payroll_ID, String trxName)
@@ -42,6 +42,8 @@ public class X_HR_Payroll extends PO implements I_HR_Payroll, I_Persistent
 			setC_Charge_ID (0);
 			setHR_Contract_ID (0);
 			setHR_Payroll_ID (0);
+			setIsPostPerEmployee (false);
+// N
 			setName (null);
 			setPaymentRule (null);
         } */
@@ -174,9 +176,7 @@ public class X_HR_Payroll extends PO implements I_HR_Payroll, I_Persistent
 	}
 
 	/** Set Payroll.
-		@param HR_Payroll_ID 
-		The Payroll definition allows to define all the payroll concepts , year and periods, to  calculate a payroll.
-	  */
+		@param HR_Payroll_ID Payroll	  */
 	public void setHR_Payroll_ID (int HR_Payroll_ID)
 	{
 		if (HR_Payroll_ID < 1) 
@@ -186,14 +186,61 @@ public class X_HR_Payroll extends PO implements I_HR_Payroll, I_Persistent
 	}
 
 	/** Get Payroll.
-		@return The Payroll definition allows to define all the payroll concepts , year and periods, to  calculate a payroll.
-	  */
+		@return Payroll	  */
 	public int getHR_Payroll_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Payroll_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Ignore Default Payroll.
+		@param IsIgnoreDefaultPayroll 
+		Ignore Default Payroll for Employee
+	  */
+	public void setIsIgnoreDefaultPayroll (boolean IsIgnoreDefaultPayroll)
+	{
+		set_Value (COLUMNNAME_IsIgnoreDefaultPayroll, Boolean.valueOf(IsIgnoreDefaultPayroll));
+	}
+
+	/** Get Ignore Default Payroll.
+		@return Ignore Default Payroll for Employee
+	  */
+	public boolean isIgnoreDefaultPayroll () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsIgnoreDefaultPayroll);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Post Per Employee.
+		@param IsPostPerEmployee 
+		A Payroll is posted per employee when the value is Yes, it is posted accumulated when the value is N
+	  */
+	public void setIsPostPerEmployee (boolean IsPostPerEmployee)
+	{
+		set_Value (COLUMNNAME_IsPostPerEmployee, Boolean.valueOf(IsPostPerEmployee));
+	}
+
+	/** Get Post Per Employee.
+		@return A Payroll is posted per employee when the value is Yes, it is posted accumulated when the value is N
+	  */
+	public boolean isPostPerEmployee () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsPostPerEmployee);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
 	}
 
 	/** Set Name.
@@ -298,6 +345,23 @@ public class X_HR_Payroll extends PO implements I_HR_Payroll, I_Persistent
 			return "Y".equals(oo);
 		}
 		return false;
+	}
+
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
 	}
 
 	/** Set Search Key.

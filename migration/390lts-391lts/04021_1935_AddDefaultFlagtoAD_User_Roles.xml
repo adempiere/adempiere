@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="#1935 Add default role flag to AD_User_Roles" ReleaseNo="3.9.1" SeqNo="4021">
+    <Comments>https://github.com/adempiere/adempiere/issues/1935</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="157" Action="U" Record_ID="0" Table="AD_User_Roles">
+        <Data AD_Column_ID="89838" Column="IsDefault" isOldNull="true">true</Data>
+        <Data AD_Column_ID="542" Column="AD_Role_ID" oldValue="0">0</Data>
+        <Data AD_Column_ID="971" Column="AD_User_ID" oldValue="100">100</Data>
+      </PO>
+    </Step>
+    <Step DBType="ALL" Parse="Y" SeqNo="20" StepType="SQL">
+      <Comments>Set System user default role as System Admin.  Can't use the PO for this as all keys have value 0 and thats the definition of a new record.</Comments>
+      <SQLStatement>UPDATE AD_User_Roles
+SET IsDefault = 'Y'
+WHERE AD_User_ID = 0 AND AD_Role_ID = 0;</SQLStatement>
+      <RollbackStatement>UPDATE AD_User_Roles
+SET IsDefault = 'N'
+WHERE AD_User_ID = 0 AND AD_Role_ID = 0;</RollbackStatement>
+    </Step>
+  </Migration>
+</Migrations>

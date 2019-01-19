@@ -33,65 +33,101 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import java.util.Properties;
 
 import org.compiere.model.MLocator;
 import org.compiere.model.MStorage;
 import org.compiere.util.DB;
-import org.eevolution.engine.warehouse.WMRuleInterface;
 import org.eevolution.model.MWMArea;
 import org.eevolution.model.MWMSection;
 import org.eevolution.model.MWMSectionDetail;
 
+/**
+ * victor.perez@e-evolution.com , www.e-evolution.com
+ */
 public class WMRuleFIFO implements WMRuleInterface {
 
-	public Collection<MLocator> getLocator(Properties ctx, int M_Warehouse_ID,
-			int M_Product_ID, int WM_Area_Type_ID, int WM_Section_Type_ID,
+	/**
+	 * Get locator
+	 * @param ctx
+	 * @param warehouseId
+	 * @param productId
+	 * @param warehouseAreaTypeId
+	 * @param warehouseSectionTypeId
+	 * @param trxName
+     * @return
+     */
+	public List<MLocator> getLocator(Properties ctx, int warehouseId,
+			int productId, int warehouseAreaTypeId, int warehouseSectionTypeId,
 			String trxName) {
 		ArrayList<MLocator> locators = new ArrayList();
-		Collection<MWMArea> areas = MWMArea.getMWMArea(ctx, M_Warehouse_ID,
+		List<MWMArea> areas = MWMArea.getByWarehouse(ctx, warehouseId,
 				trxName);
 		for (MWMArea area : areas) {
-			Collection<MWMSection> sections = area
-					.getWMSection(WM_Section_Type_ID);
+			List<MWMSection> sections = area
+					.getBySectionType(warehouseSectionTypeId);
 			for (MWMSection section : sections) {
-				locators.addAll(MWMSectionDetail.getMLocators(section));
+				locators.addAll(MWMSectionDetail.getLocatorBySection(section));
 			}
 		}
 
 		return locators;
 	}
 
-	public Collection<MStorage> getStorage(Properties ctx, int M_Warehouse_ID,
-			int M_Product_ID, int M_AttributeSetInstance_ID,
-			BigDecimal qtyToDelivery, int WM_Area_Type_ID,
-			int WM_Section_Type_ID, String trxName) {
-		ArrayList<MStorage> storages = new ArrayList();
-		for (MWMArea area : MWMArea.getMWMArea(ctx, M_Warehouse_ID, trxName)) {
-			for (MWMSection section : area.getWMSection(WM_Section_Type_ID)) {
-				for (MLocator locator : MWMSectionDetail.getMLocators(section)) {
-					storages.addAll(getWarehouse(ctx, M_Warehouse_ID,
-							M_Product_ID, M_AttributeSetInstance_ID, true,
+	/**
+	 * Get Storages
+	 * @param ctx
+	 * @param warehouseId
+	 * @param productId
+	 * @param attributeSetInstanceId
+	 * @param qtyToDelivery
+	 * @param warehouseAreaTypeId
+	 * @param warehouseSectionTypeId
+     * @param trxName
+     * @return
+     */
+	public List<MStorage> getStorage(Properties ctx, int warehouseId,
+									 int productId, int attributeSetInstanceId,
+									 BigDecimal qtyToDelivery, int warehouseAreaTypeId,
+									 int warehouseSectionTypeId, String trxName) {
+		ArrayList<MStorage> storage = new ArrayList();
+		for (MWMArea area : MWMArea.getByWarehouse(ctx, warehouseId, trxName)) {
+			for (MWMSection section : area.getBySectionType(warehouseSectionTypeId)) {
+				for (MLocator locator : MWMSectionDetail.getLocatorBySection(section)) {
+					storage.addAll(getWarehouse(ctx, warehouseId,
+							productId, attributeSetInstanceId, true,
 							true, locator.getM_Locator_ID(), trxName));
 				}
 			}
 		}
-		return storages;
+		return storage;
 	}
 
-	public Collection<MStorage> getWarehouse(Properties ctx,
-			int M_Warehouse_ID, int M_Product_ID,
-			int M_AttributeSetInstance_ID, boolean FiFo, boolean positiveOnly,
-			int M_Locator_ID, String trxName) {
+	/**
+	 * Get Storage
+	 * @param ctx
+	 * @param warehouseId
+	 * @param productId
+	 * @param attributeSetInstanceId
+	 * @param FiFo
+	 * @param positiveOnly
+	 * @param locatorId
+     * @param trxName
+     * @return
+     */
+	public List<MStorage> getWarehouse(Properties ctx,
+			int warehouseId, int productId,
+			int attributeSetInstanceId, boolean FiFo, boolean positiveOnly,
+			int locatorId, String trxName) {
 		Timestamp minGuaranteeDate = new Timestamp(System.currentTimeMillis());
 		ArrayList<MStorage> list = new ArrayList<MStorage>();
 
-		if ((M_Warehouse_ID == 0 && M_Locator_ID == 0) || M_Product_ID == 0)
+		if ((warehouseId == 0 && locatorId == 0) || productId == 0)
 			return list;
 
 		boolean allAttributeInstances = false;
-		if (M_AttributeSetInstance_ID == 0)
+		if (attributeSetInstanceId == 0)
 			allAttributeInstances = true;
 
 		// Specific Attribute Set Instance
@@ -100,7 +136,7 @@ public class WMRuleFIFO implements WMRuleInterface {
 				+ "s.QtyOnHand,s.QtyReserved,s.QtyOrdered,s.DateLastInventory "
 				+ "FROM M_Storage s"
 				+ " INNER JOIN M_Locator l ON (l.M_Locator_ID=s.M_Locator_ID) ";
-		if (M_Locator_ID > 0)
+		if (locatorId > 0)
 			sql += "WHERE l.M_Locator_ID = ?";
 		else
 			sql += "WHERE l.M_Warehouse_ID=?";
@@ -122,7 +158,7 @@ public class WMRuleFIFO implements WMRuleInterface {
 					+ "FROM M_Storage s"
 					+ " INNER JOIN M_Locator l ON (l.M_Locator_ID=s.M_Locator_ID)"
 					+ " LEFT OUTER JOIN M_AttributeSetInstance asi ON (s.M_AttributeSetInstance_ID=asi.M_AttributeSetInstance_ID) ";
-			if (M_Locator_ID > 0)
+			if (locatorId > 0)
 				sql += "WHERE l.M_Locator_ID = ?";
 			else
 				sql += "WHERE l.M_Warehouse_ID=?";
@@ -150,10 +186,10 @@ public class WMRuleFIFO implements WMRuleInterface {
 		ResultSet rs = null;
 		try {
 			pstmt = DB.prepareStatement(sql, trxName);
-			pstmt.setInt(1, M_Locator_ID > 0 ? M_Locator_ID : M_Warehouse_ID);
-			pstmt.setInt(2, M_Product_ID);
+			pstmt.setInt(1, locatorId > 0 ? locatorId : warehouseId);
+			pstmt.setInt(2, productId);
 			if (!allAttributeInstances) {
-				pstmt.setInt(3, M_AttributeSetInstance_ID);
+				pstmt.setInt(3, attributeSetInstanceId);
 			} else if (minGuaranteeDate != null) {
 				pstmt.setTimestamp(3, minGuaranteeDate);
 			}

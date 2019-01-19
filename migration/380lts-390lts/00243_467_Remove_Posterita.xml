@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Remove Posterita #467" ReleaseNo="3.9.0" SeqNo="00243">
+    <Comments>https://github.com/adempiere/adempiere/issues/467</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="105" Action="U" Record_ID="53065" Table="AD_Window">
+        <Data AD_Column_ID="568" Column="IsActive" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="116" Action="U" Record_ID="53196" Table="AD_Menu">
+        <Data AD_Column_ID="230" Column="Description" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="598" Column="IsActive" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="120" Action="U" Record_ID="0" Table="AD_Menu_Trl">
+        <Data AD_Column_ID="246" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="245" Column="AD_Menu_ID" oldValue="53196">53196</Data>
+        <Data AD_Column_ID="249" Column="IsTranslated" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="53002" Table="AD_Process">
+        <Data AD_Column_ID="2804" Column="IsActive" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="116" Action="U" Record_ID="53013" Table="AD_Menu">
+        <Data AD_Column_ID="230" Column="Description" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="598" Column="IsActive" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="120" Action="U" Record_ID="0" Table="AD_Menu_Trl">
+        <Data AD_Column_ID="246" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="245" Column="AD_Menu_ID" oldValue="53013">53013</Data>
+        <Data AD_Column_ID="249" Column="IsTranslated" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="105" Action="U" Record_ID="52000" Table="AD_Window">
+        <Data AD_Column_ID="568" Column="IsActive" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="116" Action="U" Record_ID="52002" Table="AD_Menu">
+        <Data AD_Column_ID="598" Column="IsActive" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <PO AD_Table_ID="105" Action="U" Record_ID="52001" Table="AD_Window">
+        <Data AD_Column_ID="568" Column="IsActive" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="100" StepType="AD">
+      <PO AD_Table_ID="116" Action="U" Record_ID="52003" Table="AD_Menu">
+        <Data AD_Column_ID="598" Column="IsActive" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="110" StepType="AD">
+      <PO AD_Table_ID="116" Action="U" Record_ID="52004" Table="AD_Menu">
+        <Data AD_Column_ID="598" Column="IsActive" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="120" StepType="AD">
+      <PO AD_Table_ID="105" Action="U" Record_ID="52002" Table="AD_Window">
+        <Data AD_Column_ID="568" Column="IsActive" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="130" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="52003" Table="AD_Process">
+        <Data AD_Column_ID="2804" Column="IsActive" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="140" StepType="AD">
+      <PO AD_Table_ID="116" Action="U" Record_ID="52000" Table="AD_Menu">
+        <Data AD_Column_ID="230" Column="Description" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="598" Column="IsActive" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="150" StepType="AD">
+      <PO AD_Table_ID="120" Action="U" Record_ID="0" Table="AD_Menu_Trl">
+        <Data AD_Column_ID="246" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="245" Column="AD_Menu_ID" oldValue="52000">52000</Data>
+        <Data AD_Column_ID="249" Column="IsTranslated" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="160" StepType="AD">
+      <PO AD_Table_ID="105" Action="U" Record_ID="52003" Table="AD_Window">
+        <Data AD_Column_ID="568" Column="IsActive" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="170" StepType="AD">
+      <PO AD_Table_ID="116" Action="U" Record_ID="52005" Table="AD_Menu">
+        <Data AD_Column_ID="598" Column="IsActive" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="180" StepType="AD">
+      <PO AD_Table_ID="116" Action="U" Record_ID="52001" Table="AD_Menu">
+        <Data AD_Column_ID="598" Column="IsActive" oldValue="true">false</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

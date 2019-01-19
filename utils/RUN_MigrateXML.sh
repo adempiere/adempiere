@@ -20,6 +20,7 @@ echo
 # Can be called with argument "clean" to mark the applied dictionary migrations as processed
 # and delete the steps and data to reduce the database size.
 CLEAN_MODE=$1
+FORCE_MODE=$2
 
 # change to directory in which this script resides
 DIR_SAV=$(pwd)
@@ -68,7 +69,7 @@ then
 	CP=$ADEMPIERE_HOME/lib/CInstall.jar:$ADEMPIERE_HOME/lib/Adempiere.jar:$ADEMPIERE_HOME/lib/CCTools.jar:$ADEMPIERE_HOME/lib/oracle.jar:$ADEMPIERE_HOME/lib/jboss.jar:$ADEMPIERE_HOME/lib/postgresql.jar:
 	JAVA=$JAVA_HOME/bin/java
 
-	$JAVA -classpath $CP -DADEMPIERE_HOME=$ADEMPIERE_HOME org.adempiere.process.MigrationLoader $CLEAN_MODE
+	$JAVA -classpath $CP -DADEMPIERE_HOME=$ADEMPIERE_HOME org.adempiere.process.MigrationLoader $CLEAN_MODE $FORCE_MODE
 	result=$? 
 		
 else

@@ -143,17 +143,17 @@ public class MMovementLineMA extends X_M_MovementLineMA
 	/**
 	 * 	Parent Constructor
 	 *	@param parent parent
-	 *	@param M_AttributeSetInstance_ID asi
-	 *	@param MovementQty qty
+	 *	@param attributeSetInstanceId asi
+	 *	@param movementQty qty
 	 */
-	public MMovementLineMA (MMovementLine parent, int M_AttributeSetInstance_ID, BigDecimal MovementQty)
+	public MMovementLineMA (MMovementLine parent, int attributeSetInstanceId, BigDecimal movementQty)
 	{
 		this (parent.getCtx(), 0, parent.get_TrxName());
 		setClientOrg(parent);
 		setM_MovementLine_ID(parent.getM_MovementLine_ID());
 		//
-		setM_AttributeSetInstance_ID(M_AttributeSetInstance_ID);
-		setMovementQty(MovementQty);
+		setM_AttributeSetInstance_ID(attributeSetInstanceId);
+		setMovementQty(movementQty);
 	}	//	MMovementLineMA
 	
 	/**

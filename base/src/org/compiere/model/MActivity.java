@@ -17,9 +17,12 @@
 package org.compiere.model;
 
 import java.sql.ResultSet;
+import java.util.List;
 import java.util.Properties;
+import java.util.stream.Collectors;
 
 import org.compiere.util.CCache;
+import org.compiere.util.Env;
 
 
 /**
@@ -28,8 +31,11 @@ import org.compiere.util.CCache;
  *  @author Jorg Janke
  *  @version $Id: MActivity.java,v 1.2 2006/07/30 00:51:03 jjanke Exp $
  * 
- * @author Teo Sarca, www.arhipac.ro
+ * 	@author Teo Sarca, www.arhipac.ro
  * 			<li>FR [ 2736867 ] Add caching support to MActivity
+ * 	@author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com 2015-09-09
+ *  	<li>FR [ 9223372036854775807 ] Add Support to Dynamic Tree
+ *  @see https://adempiere.atlassian.net/browse/ADEMPIERE-442
  */
 public class MActivity extends X_C_Activity
 {
@@ -39,37 +45,110 @@ public class MActivity extends X_C_Activity
 	private static final long serialVersionUID = 3014706648686670575L;
 	
 	/** Static Cache */
-	private static CCache<Integer, MActivity> s_cache = new CCache<Integer, MActivity>(Table_Name, 30);
+	private static CCache<Integer, MActivity> activityCacheIds = new CCache<Integer, MActivity>(Table_Name, 30);
+	/** Static Cache */
+	private static CCache<String, MActivity> activityCacheValues = new CCache<String, MActivity>(Table_Name, 30);
+
+	/**
+	 *
+	 * @param ctx
+	 * @param activityId
+	 * @return
+	 */
+	@Deprecated
+	public static MActivity get(Properties ctx, int activityId)
+	{
+		return getById(ctx, activityId, null);
+	}
 
 	/**
 	 * Get/Load Activity [CACHED]
 	 * @param ctx context
-	 * @param C_Activity_ID
+	 * @param activityId
+	 * @param trxName
 	 * @return activity or null
 	 */
-	public static MActivity get(Properties ctx, int C_Activity_ID)
+	public static MActivity getById(Properties ctx, int activityId, String trxName)
 	{
-		if (C_Activity_ID <= 0)
-		{
+		if (activityId <= 0)
 			return null;
-		}
-		// Try cache
-		MActivity activity = s_cache.get(C_Activity_ID);
-		if (activity != null)
-		{
+
+		MActivity activity = activityCacheIds.get(activityId);
+		if (activity != null && activity.get_ID() > 0)
 			return activity;
-		}
-		// Load from DB
-		activity = new MActivity(ctx, C_Activity_ID, null);
-		if (activity.get_ID() == C_Activity_ID)
+
+		activity = new Query(ctx , Table_Name , COLUMNNAME_C_Activity_ID + "=?" , trxName)
+				.setClient_ID()
+				.setParameters(activityId)
+				.first();
+		if (activity != null && activity.get_ID() > 0)
 		{
-			s_cache.put(C_Activity_ID, activity);
-		}
-		else
-		{
-			activity = null;
+			int clientId = Env.getAD_Client_ID(ctx);
+			String key = clientId + "#" + activity.getValue();
+			activityCacheValues.put(key, activity);
+			activityCacheIds.put(activity.get_ID(), activity);
 		}
 		return activity;
+	}
+
+	/**
+	 * get Activity By Value [CACHED]
+	 * @param ctx
+	 * @param activityvalue
+	 * @param trxName
+	 * @return
+	 */
+	public static MActivity getByValue(Properties ctx, String activityvalue, String trxName)
+	{
+		if (activityvalue == null)
+			return null;
+		if (activityCacheValues.size() == 0 )
+			getAll(ctx, true, trxName);
+
+		int clientId = Env.getAD_Client_ID(ctx);
+		String key = clientId + "#" + activityvalue;
+		MActivity activity = activityCacheValues.get(key);
+		if (activity != null && activity.get_ID() > 0 )
+			return activity;
+
+		activity =  new Query(ctx, Table_Name , COLUMNNAME_Value +  "=?", trxName)
+				.setClient_ID()
+				.setParameters(activityvalue)
+				.first();
+
+		if (activity != null && activity.get_ID() > 0) {
+			activityCacheValues.put(key, activity);
+			activityCacheIds.put(activity.get_ID() , activity);
+		}
+		return activity;
+	}
+
+	/**
+	 * Get All Activity
+	 * @param ctx
+	 * @param resetCache
+	 * @param trxName
+	 * @return
+	 */
+	public static List<MActivity> getAll(Properties ctx, boolean resetCache, String trxName) {
+		List<MActivity> activitiesList;
+		if (resetCache || activityCacheIds.size() > 0 ) {
+			activitiesList = new Query(Env.getCtx(), Table_Name, null , trxName)
+					.setClient_ID()
+					.setOrderBy(COLUMNNAME_Name)
+					.list();
+			activitiesList.stream().forEach(activity -> {
+				int clientId = Env.getAD_Client_ID(ctx);
+				String key = clientId + "#" + activity.getValue();
+				activityCacheIds.put(activity.getC_Activity_ID(), activity);
+				activityCacheValues.put(key, activity);
+			});
+			return activitiesList;
+		}
+		activitiesList = activityCacheIds.entrySet().stream()
+				.map(activity -> activity.getValue())
+				.collect(Collectors.toList());
+		return  activitiesList;
 	}
 
 	/**
@@ -107,8 +186,11 @@ public class MActivity extends X_C_Activity
 	{
 		if (!success)
 			return success;
-		if (newRecord)
-			insert_Tree(MTree_Base.TREETYPE_Activity);
+		//	Yamel Senih [ 9223372036854775807 ]
+		//	Change to PO
+//		if (newRecord)
+//			insert_Tree(MTree.TREETYPE_Activity);
+		//	End Yamel Senih
 		//	Value/Name change
 		if (!newRecord && (is_ValueChanged("Value") || is_ValueChanged("Name")))
 			MAccount.updateValueDescription(getCtx(), "C_Activity_ID=" + getC_Activity_ID(), get_TrxName());
@@ -120,11 +202,14 @@ public class MActivity extends X_C_Activity
 	 *	@param success
 	 *	@return deleted
 	 */
-	protected boolean afterDelete (boolean success)
-	{
-		if (success)
-			delete_Tree(MTree_Base.TREETYPE_Activity);
-		return success;
-	}	//	afterDelete
+	//	Yamel Senih [ 9223372036854775807 ]
+	//	Change to PO
+//	protected boolean afterDelete (boolean success)
+//	{
+//		if (success)
+//			delete_Tree(MTree.TREETYPE_Activity);
+//		return success;
+//	}	//	afterDelete
+	//	End Yamel Senih
 
 }	//	MActivity

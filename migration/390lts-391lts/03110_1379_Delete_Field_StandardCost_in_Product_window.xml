@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Delete Field StandardCost in Product Window" ReleaseNo="3.9.0.a" SeqNo="3110">
+    <Comments>https://github.com/adempiere/adempiere/issues/1379</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="127" Action="D" Record_ID="70359" Table="AD_Field_Trl">
+        <Data AD_Column_ID="1205" Column="AD_Org_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="674" Column="Updated" isNewNull="true" oldValue="2015-02-25 23:34:54.602186"/>
+        <Data AD_Column_ID="1204" Column="AD_Client_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="671" Column="IsActive" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="672" Column="Created" isNewNull="true" oldValue="2013-11-13 12:40:29.0"/>
+        <Data AD_Column_ID="284" Column="AD_Field_ID" oldValue="70359">70359</Data>
+        <Data AD_Column_ID="289" Column="IsTranslated" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="287" Column="Description" isNewNull="true" oldValue="Costo Estándar"/>
+        <Data AD_Column_ID="673" Column="CreatedBy" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="675" Column="UpdatedBy" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="285" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="286" Column="Name" isNewNull="true" oldValue="Costo Estándar"/>
+        <Data AD_Column_ID="288" Column="Help" isNewNull="true" oldValue="Costos Estándar (Plan)"/>
+        <Data AD_Column_ID="84323" Column="UUID" isNewNull="true" isOldNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="107" Action="D" Record_ID="70359" Table="AD_Field">
+        <Data AD_Column_ID="384" Column="AD_Org_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="383" Column="AD_Client_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="578" Column="IsActive" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="579" Column="Created" isNewNull="true" oldValue="2013-11-13 12:40:29.0"/>
+        <Data AD_Column_ID="167" Column="AD_Field_ID" isNewNull="true" oldValue="70359"/>
+        <Data AD_Column_ID="581" Column="Updated" isNewNull="true" oldValue="2013-11-20 19:25:48.0"/>
+        <Data AD_Column_ID="7714" Column="EntityType" isNewNull="true" oldValue="D"/>
+        <Data AD_Column_ID="59703" Column="IsEmbedded" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="74868" Column="IsAllowCopy" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="582" Column="UpdatedBy" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="169" Column="Description" isNewNull="true" oldValue="Standard Costs"/>
+        <Data AD_Column_ID="176" Column="IsDisplayed" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="185" Column="IsFieldOnly" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="182" Column="SortNo" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="2745" Column="IsCentrallyMaintained" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="580" Column="CreatedBy" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="181" Column="SeqNo" isNewNull="true" oldValue="480"/>
+        <Data AD_Column_ID="168" Column="Name" isNewNull="true" oldValue="Standard Cost"/>
+        <Data AD_Column_ID="2007" Column="IsReadOnly" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="170" Column="Help" isNewNull="true" oldValue="Standard (plan) costs."/>
+        <Data AD_Column_ID="5375" Column="AD_FieldGroup_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="174" Column="AD_Column_ID" isNewNull="true" oldValue="61998"/>
+        <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true" oldValue="@#IsLiberoEnabled@=N |  @#IsLiberoEnabled@=''"/>
+        <Data AD_Column_ID="15011" Column="AD_Reference_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="15013" Column="IsMandatory" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="54356" Column="AD_Reference_Value_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="59704" Column="PreferredWidth" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="62478" Column="IsDisplayedGrid" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="62479" Column="SeqNoGrid" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="180" Column="DisplayLength" isNewNull="true" oldValue="10"/>
+        <Data AD_Column_ID="183" Column="IsSameLine" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="184" Column="IsHeading" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="172" Column="AD_Tab_ID" isNewNull="true" oldValue="180"/>
+        <Data AD_Column_ID="9969" Column="ObscureType" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="54357" Column="AD_Val_Rule_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="53265" Column="DefaultValue" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="186" Column="IsEncrypted" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="84320" Column="UUID" isNewNull="true" isOldNull="true"/>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

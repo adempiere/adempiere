@@ -65,6 +65,9 @@ public class CreateBrowseField extends SvrProcess {
 		MView view = browse.getAD_View();
 		int seq = 10;
 		for (MViewColumn column : view.getViewColumns()) {
+			if (column.getAD_Column_ID() <= 0)
+				continue;
+
 			MBrowseField field = MBrowseField.get(browse, column);
 			if (field != null)
 				continue;

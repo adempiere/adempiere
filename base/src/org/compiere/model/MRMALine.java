@@ -505,6 +505,34 @@ public class MRMALine extends X_M_RMALine
         }
         return m_ioLine.getUser2_ID();
     }
+
+    /**
+     * Get User3
+     * @return user3 if based on shipment line and 0 for charge based
+     */
+    public int getUser3_ID()
+    {
+        if (m_ioLine == null)
+        {
+            return 0;
+        }
+        return m_ioLine.getUser3_ID();
+    }
+
+
+    /**
+     * Get User4
+     * @return user4 if based on shipment line and 0 for charge based
+     */
+    public int getUser4_ID()
+    {
+        if (m_ioLine == null)
+        {
+            return 0;
+        }
+        return m_ioLine.getUser4_ID();
+    }
+
     
     /**
      * Get Attribute Set Instance

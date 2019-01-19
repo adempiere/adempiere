@@ -38,6 +38,9 @@ import org.compiere.util.Msg;
  * 	Web Store
  *  @author Jorg Janke
  *  @version $Id: MStore.java,v 1.4 2006/07/30 00:51:05 jjanke Exp $
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *			<li> FR [ 402 ] Mail setup is hardcoded
+ *			@see https://github.com/adempiere/adempiere/issues/402
  */
 public class MStore extends X_W_Store
 {
@@ -357,9 +360,9 @@ public class MStore extends X_W_Store
 		MClient client = MClient.get(getCtx(), getAD_Client_ID());
 		if (client.isServerEMail() && Ini.isClient())
 		{
-			Server server = CConnection.get().getServer();
 			try
 			{
+				Server server = CConnection.get().getServer();
 				if (server != null)
 				{	//	See ServerBean
 					email = server.createEMail(Env.getRemoteCallCtx(getCtx()), getAD_Client_ID(), 
@@ -377,7 +380,7 @@ public class MStore extends X_W_Store
 		if (from == null || from.length() == 0)
 			from = client.getRequestEMail();
 		if (email == null)
-			email = new EMail (client,
+			email = new EMail(client,
 				   from, to,
 				   subject, message);
 		//	Authorizetion

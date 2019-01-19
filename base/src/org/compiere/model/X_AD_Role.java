@@ -1,8 +1,9 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -11,8 +12,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Role
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_AD_Role extends PO implements I_AD_Role, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150223L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_AD_Role (Properties ctx, int AD_Role_ID, String trxName)
@@ -206,6 +206,27 @@ public class X_AD_Role extends PO implements I_AD_Role, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Allow HTML View.
+		@param Allow_HTML_View Allow HTML View	  */
+	public void setAllow_HTML_View (boolean Allow_HTML_View)
+	{
+		set_Value (COLUMNNAME_Allow_HTML_View, Boolean.valueOf(Allow_HTML_View));
+	}
+
+	/** Get Allow HTML View.
+		@return Allow HTML View	  */
+	public boolean isAllow_HTML_View () 
+	{
+		Object oo = get_Value(COLUMNNAME_Allow_HTML_View);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
 	}
 
 	/** Set Allow Info Account.
@@ -481,6 +502,27 @@ public class X_AD_Role extends PO implements I_AD_Role, I_Persistent
 		return false;
 	}
 
+	/** Set Allow XLS View.
+		@param Allow_XLS_View Allow XLS View	  */
+	public void setAllow_XLS_View (boolean Allow_XLS_View)
+	{
+		set_Value (COLUMNNAME_Allow_XLS_View, Boolean.valueOf(Allow_XLS_View));
+	}
+
+	/** Get Allow XLS View.
+		@return Allow XLS View	  */
+	public boolean isAllow_XLS_View () 
+	{
+		Object oo = get_Value(COLUMNNAME_Allow_XLS_View);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Approval Amount.
 		@param AmtApproval 
 		The approval amount limit for this role
@@ -657,6 +699,30 @@ public class X_AD_Role extends PO implements I_AD_Role, I_Persistent
 	public boolean isCanExport () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsCanExport);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Can Load.
+		@param IsCanLoad 
+		Users with this role can load data
+	  */
+	public void setIsCanLoad (boolean IsCanLoad)
+	{
+		set_Value (COLUMNNAME_IsCanLoad, Boolean.valueOf(IsCanLoad));
+	}
+
+	/** Get Can Load.
+		@return Users with this role can load data
+	  */
+	public boolean isCanLoad () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsCanLoad);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 
@@ -999,6 +1065,23 @@ public class X_AD_Role extends PO implements I_AD_Role, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
 	}
 
 	/** Set UserDiscount.

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="The mandatory parameter new logic not working #463" ReleaseNo="3.9.0" SeqNo="00233">
+    <Comments>https://github.com/adempiere/adempiere/issues/463</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="326" Table="AD_Process_Para">
+        <Data AD_Column_ID="3739" Column="DefaultValue" oldValue="0">-1</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="569" Table="AD_Process_Para">
+        <Data AD_Column_ID="3739" Column="DefaultValue" oldValue="0">-1</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="358" Table="AD_Process_Para">
+        <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true" oldValue="0"/>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="125" Table="AD_Process_Para">
+        <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true" oldValue="0"/>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="601" Table="AD_Process_Para">
+        <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true" oldValue="0"/>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="643" Table="AD_Process_Para">
+        <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true" oldValue="0"/>
+      </PO>
+    </Step>
+    <Step SeqNo="100" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="393" Table="AD_Process_Para">
+        <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true" oldValue="0"/>
+      </PO>
+    </Step>
+    <Step SeqNo="130" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="608" Table="AD_Process_Para">
+        <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true" oldValue="0"/>
+      </PO>
+    </Step>
+    <Step SeqNo="140" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="604" Table="AD_Process_Para">
+        <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true" oldValue="0"/>
+      </PO>
+    </Step>
+    <Step SeqNo="160" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="384" Table="AD_Process_Para">
+        <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true" oldValue="0"/>
+      </PO>
+    </Step>
+    <Step SeqNo="180" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="606" Table="AD_Process_Para">
+        <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true" oldValue="0"/>
+      </PO>
+    </Step>
+    <Step SeqNo="190" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="543" Table="AD_Process_Para">
+        <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true" oldValue="0"/>
+      </PO>
+    </Step>
+    <Step SeqNo="200" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="157" Table="AD_Process_Para">
+        <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true" oldValue="0"/>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

@@ -15,16 +15,23 @@
  * _____________________________________________
  *****************************************************************************/
 package org.adempiere.webui.window;
+
+import java.io.FileInputStream;
+import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.SMJReportViewer;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.session.SessionManager;
 import org.compiere.model.MSysConfig;
 import org.compiere.print.ReportEngine;
 import org.compiere.print.ReportViewerProvider;
+import org.compiere.util.CLogger;
+import org.zkoss.zk.ui.Desktop;
 import org.compiere.process.ProcessInfo;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.report.MReport;
-import org.compiere.util.Env;
+import org.compiere.util.CLogger;
+import org.zkoss.zk.ui.Desktop;
+import org.zkoss.zk.ui.Executions;
 
 /**
  * 
@@ -32,6 +39,9 @@ import org.compiere.util.Env;
  *
  */
 public class ZkReportViewerProvider implements ReportViewerProvider {
+
+	protected static CLogger	log = CLogger.getCLogger (ZkReportViewerProvider.class);
+	private Desktop m_desktop = null;
 
 
 
@@ -60,5 +70,58 @@ public class ZkReportViewerProvider implements ReportViewerProvider {
 			viewer.setAttribute(Window.INSERT_POSITION_KEY, Window.INSERT_NEXT);
 			SessionManager.getAppDesktop().showWindow(viewer);
 		}
+	}
+	
+	public void openViewer(ReportEngine report, Object objDesktop) {
+		if (objDesktop == null) {
+			log.severe("Report Viewer got a NULL desktop. This shouldn't happen.");
+			return;
+		}
+		m_desktop = (Desktop) objDesktop;
+		boolean wait = true;
+		int n = 1;
+		while (wait) {
+			if (n > 1) {
+				log.info("Activate Desktop. Attempt#" + n);
+			}
+			wait = !SessionManager.activateDesktop(m_desktop);
+			n++;
+		}
+		openViewer(report);
+		SessionManager.releaseDesktop(m_desktop);
+	}
+
+	@Override
+	public void openViewer(String  title, FileInputStream input)
+	{
+		  boolean inUIThread = Executions.getCurrent() != null;
+		  boolean desktopActivated = false;
+		  
+		  Desktop desktop = null;
+		  try {
+		      if (!inUIThread) {
+		    	  desktop = AEnv.getDesktop();
+		    	  
+		       if (desktop == null)
+		       {
+		        log.warning("desktop is null");
+		        return;
+		       }
+		       //1 second timeout
+		       if (Executions.activate(desktop, 1000)) {
+		        desktopActivated = true;
+		       } else {
+		        log.warning("could not activate desktop");
+		        return;
+		       }
+		      }
+		   Window win = new SimplePDFViewer(title, input);
+		   SessionManager.getAppDesktop().showWindow(win, "center");
+		  } catch (Exception e) {
+		     } finally {
+		      if (!inUIThread && desktopActivated) {
+		       Executions.deactivate(desktop);
+		      }
+		     }		
 	}
 }

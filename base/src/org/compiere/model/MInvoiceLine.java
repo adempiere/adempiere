@@ -26,6 +26,7 @@ import java.util.Properties;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
+import org.compiere.process.DocumentReversalLineEnable;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -47,7 +48,7 @@ import org.compiere.util.Msg;
  * 				incorrectly calculated.
  * @author red1 FR: [ 2214883 ] Remove SQL code and Replace for Query
  */
-public class MInvoiceLine extends X_C_InvoiceLine
+public class MInvoiceLine extends X_C_InvoiceLine implements DocumentReversalLineEnable
 {
 	/**
 	 * 
@@ -221,6 +222,8 @@ public class MInvoiceLine extends X_C_InvoiceLine
 		setAD_OrgTrx_ID(oLine.getAD_OrgTrx_ID());
 		setUser1_ID(oLine.getUser1_ID());
 		setUser2_ID(oLine.getUser2_ID());
+		setUser3_ID(oLine.getUser3_ID());
+		setUser4_ID(oLine.getUser4_ID());
 		//
 		setRRAmt(oLine.getRRAmt());
 		setRRStartDate(oLine.getRRStartDate());
@@ -297,6 +300,8 @@ public class MInvoiceLine extends X_C_InvoiceLine
 		setAD_OrgTrx_ID(sLine.getAD_OrgTrx_ID());
 		setUser1_ID(sLine.getUser1_ID());
 		setUser2_ID(sLine.getUser2_ID());
+		setUser3_ID(sLine.getUser3_ID());
+		setUser4_ID(sLine.getUser4_ID());
 	}	//	setShipLine
 
 	/**
@@ -352,7 +357,7 @@ public class MInvoiceLine extends X_C_InvoiceLine
 		//
 		log.fine("M_PriceList_ID=" + M_PriceList_ID);
 		m_productPricing = new MProductPricing (getM_Product_ID(),
-			C_BPartner_ID, getQtyInvoiced(), m_IsSOTrx);
+			C_BPartner_ID, getQtyInvoiced(), m_IsSOTrx, null);
 		m_productPricing.setM_PriceList_ID(M_PriceList_ID);
 		m_productPricing.setPriceDate(m_DateInvoiced);
 		//
@@ -410,7 +415,7 @@ public class MInvoiceLine extends X_C_InvoiceLine
 		int C_Tax_ID = Tax.get(getCtx(), getM_Product_ID(), getC_Charge_ID() , m_DateInvoiced, m_DateInvoiced,
 			getAD_Org_ID(), M_Warehouse_ID,
 			m_C_BPartner_Location_ID,		//	should be bill to
-			m_C_BPartner_Location_ID, m_IsSOTrx);
+			m_C_BPartner_Location_ID, m_IsSOTrx, get_TrxName());
 		if (C_Tax_ID == 0)
 		{
 			log.log(Level.SEVERE, "No Tax found");
@@ -427,20 +432,22 @@ public class MInvoiceLine extends X_C_InvoiceLine
 	 */
 	public void setTaxAmt ()
 	{
-		BigDecimal TaxAmt = Env.ZERO;
+		BigDecimal taxAmt = Env.ZERO;
 		if (getC_Tax_ID() == 0)
 			return;
 	//	setLineNetAmt();
 		MTax tax = MTax.get (getCtx(), getC_Tax_ID());
-		if (tax.isDocumentLevel() && m_IsSOTrx)		//	AR Inv Tax
+		if (tax.isDocumentLevel() && m_IsSOTrx)	{	//	AR Inv Tax
+			setLineTotalAmt(getLineNetAmt()); // @Trifon
 			return;
+		}
 		//
-		TaxAmt = tax.calculateTax(getLineNetAmt(), isTaxIncluded(), getPrecision());
+		taxAmt = tax.calculateTax(getLineNetAmt(), isTaxIncluded(), getPrecision());
 		if (isTaxIncluded())
 			setLineTotalAmt(getLineNetAmt());
 		else
-			setLineTotalAmt(getLineNetAmt().add(TaxAmt));
-		super.setTaxAmt (TaxAmt);
+			setLineTotalAmt(getLineNetAmt().add(taxAmt));
+		super.setTaxAmt (taxAmt);
 	}	//	setTaxAmt
 
 	/**
@@ -661,30 +668,6 @@ public class MInvoiceLine extends X_C_InvoiceLine
 	}	//	getC_Campaign_ID
 
 	/**
-	 * 	Get User2_ID
-	 *	@return User2
-	 */
-	public int getUser1_ID ()
-	{
-		int ii = super.getUser1_ID ();
-		if (ii == 0)
-			ii = getParent().getUser1_ID();
-		return ii;
-	}	//	getUser1_ID
-
-	/**
-	 * 	Get User2_ID
-	 *	@return User2
-	 */
-	public int getUser2_ID ()
-	{
-		int ii = super.getUser2_ID ();
-		if (ii == 0)
-			ii = getParent().getUser2_ID();
-		return ii;
-	}	//	getUser2_ID
-
-	/**
 	 * 	Get AD_OrgTrx_ID
 	 *	@return trx org
 	 */
@@ -870,7 +853,7 @@ public class MInvoiceLine extends X_C_InvoiceLine
 		setLineNetAmt();
 		// TaxAmt recalculations should be done if the TaxAmt is zero
 		// or this is an Invoice(Customer) - teo_sarca, globalqss [ 1686773 ]
-		if (m_IsSOTrx || getTaxAmt().compareTo(Env.ZERO) == 0)
+		if (getTaxAmt().compareTo(Env.ZERO) == 0)
 			setTaxAmt();
 		//
 		return true;
@@ -994,8 +977,14 @@ public class MInvoiceLine extends X_C_InvoiceLine
 		MLandedCost[] lcs = MLandedCost.getLandedCosts(this);
 		if (lcs.length == 0)
 			return "";
-		String sql = "DELETE C_LandedCostAllocation WHERE C_InvoiceLine_ID=" + getC_InvoiceLine_ID();
+
+		String sql = "DELETE M_CostDetail WHERE C_landedcostallocation_ID in " +
+				"(select c_landedCostAllocation_ID from c_landedcostAllocation where c_invoiceline_ID=" + getC_InvoiceLine_ID() + ")";
 		int no = DB.executeUpdate(sql, get_TrxName());
+		if (no != 0)
+			log.info("Deleted #" + no);
+		sql = "DELETE C_LandedCostAllocation WHERE C_InvoiceLine_ID=" + getC_InvoiceLine_ID();
+		 no = DB.executeUpdate(sql, get_TrxName());
 		if (no != 0)
 			log.info("Deleted #" + no);
 
@@ -1036,7 +1025,8 @@ public class MInvoiceLine extends X_C_InvoiceLine
 					MLandedCostAllocation lca = new MLandedCostAllocation (this, lc.getM_CostElement_ID());
 					lca.setM_Product_ID(iol.getM_Product_ID());
 					lca.setM_AttributeSetInstance_ID(iol.getM_AttributeSetInstance_ID());
-					lca.setM_InOutLine_ID(iol.getM_InOutLine_ID());//SHW
+					lca.setM_InOutLine_ID(iol.getM_InOutLine_ID());
+					lca.setC_LandedCostType_ID(lc.getC_LandedCostType_ID());
 					BigDecimal base = iol.getBase(lc.getLandedCostDistribution());
 					lca.setBase(base);
 					// MZ Goodwill
@@ -1065,7 +1055,9 @@ public class MInvoiceLine extends X_C_InvoiceLine
 					return "Invalid Receipt Line - " + iol;
 				MLandedCostAllocation lca = new MLandedCostAllocation (this, lc.getM_CostElement_ID());
 				lca.setM_Product_ID(iol.getM_Product_ID());
+				lca.setM_InOutLine_ID(lc.getM_InOutLine_ID());
 				lca.setM_AttributeSetInstance_ID(iol.getM_AttributeSetInstance_ID());
+				lca.setC_LandedCostType_ID(lc.getC_LandedCostType_ID());
 				BigDecimal base = iol.getBase(lc.getLandedCostDistribution()); 
 				lca.setBase(base);
 				lca.setAmt(getLineNetAmt());
@@ -1082,6 +1074,7 @@ public class MInvoiceLine extends X_C_InvoiceLine
 			{
 				MLandedCostAllocation lca = new MLandedCostAllocation (this, lc.getM_CostElement_ID());
 				lca.setM_Product_ID(lc.getM_Product_ID());	//	No ASI
+				lca.setC_LandedCostType_ID(lc.getC_LandedCostType_ID());
 				lca.setAmt(getLineNetAmt());
 				if (lca.save())
 					return "";
@@ -1148,6 +1141,8 @@ public class MInvoiceLine extends X_C_InvoiceLine
 			MLandedCostAllocation lca = new MLandedCostAllocation (this, lcs[0].getM_CostElement_ID());
 			lca.setM_Product_ID(iol.getM_Product_ID());
 			lca.setM_AttributeSetInstance_ID(iol.getM_AttributeSetInstance_ID());
+			lca.setC_LandedCostType_ID(lcs[0].getC_LandedCostType_ID());
+			lca.setM_InOutLine_ID(iol.getM_InOutLine_ID());
 			BigDecimal base = iol.getBase(LandedCostDistribution);
 			lca.setBase(base);
 			// MZ Goodwill
