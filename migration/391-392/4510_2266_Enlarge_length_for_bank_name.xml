@@ -45,5 +45,13 @@
         <Data AD_Column_ID="118" Column="FieldLength" oldValue="60">120</Data>
       </PO>
     </Step>
+    <Step DBType="Postgres" Parse="Y" SeqNo="70" StepType="SQL">
+      <SQLStatement>ALTER TABLE C_Bank ALTER COLUMN Name TYPE character varying(120)</SQLStatement>
+      <RollbackStatement>ALTER TABLE C_Bank ALTER COLUMN Name TYPE character varying(60)</RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" Parse="Y" SeqNo="80" StepType="SQL">
+      <SQLStatement>ALTER TABLE C_Bank MODIFY Name NVARCHAR2(120)</SQLStatement>
+      <RollbackStatement>ALTER TABLE C_Bank MODIFY Name NVARCHAR2(60)</RollbackStatement>
+    </Step>
   </Migration>
 </Migrations>
