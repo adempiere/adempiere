@@ -855,16 +855,17 @@ public class MPPOrder extends X_PP_Order implements DocAction
 		}
 		
 		//Close all the activity do not reported
-		MPPOrderWorkflow m_order_wf = getMPPOrderWorkflow(); 
-		m_order_wf.closeActivities(m_order_wf.getLastNode(getAD_Client_ID()), getUpdated(),false);
-		
-		BigDecimal old = getQtyOrdered();
-		if (old.signum() != 0)
-		{	
-			addDescription(Msg.parseTranslation(getCtx(),"@closed@ @QtyOrdered@ : (" + old + ")"));
+		MPPOrderWorkflow orderWorkflow = getMPPOrderWorkflow();
+		MPPOrderNode activity = orderWorkflow.getLastNode(getAD_Client_ID());
+		if (activity != null)
+			orderWorkflow.closeActivities(orderWorkflow.getLastNode(getAD_Client_ID()), getUpdated(),false);
+
+		BigDecimal quantityOrderdOld = getQtyOrdered();
+		if (quantityOrderdOld.signum() != 0) {
+			addDescription(Msg.parseTranslation(getCtx(), "@closed@ @QtyOrdered@ : (" + quantityOrderdOld + ")"));
 			setQtyOrdered(getQtyDelivered());
 			saveEx();
-		}	
+		}
 	
 		orderStock(); // Clear Ordered Quantities
 		reserveStock(getLines()); //	Clear Reservations
