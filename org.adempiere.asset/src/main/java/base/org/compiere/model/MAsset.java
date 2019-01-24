@@ -22,12 +22,16 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.compiere.util.*;
 import org.compiere.FA.exceptions.AssetCheckDocumentException;
+import org.compiere.util.CLogMgt;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
+import org.compiere.util.TimeUtil;
 
 /**
  * Asset Model
@@ -146,6 +150,10 @@ public class MAsset extends X_A_Asset
 		setIsOwned(true);
 		setIsInPosession(true);
 		setA_Asset_CreateDate(inoutLine.getM_InOut().getMovementDate());
+		if (invoiceLine.getC_Project_ID() > 0)
+			setC_Project_ID(invoiceLine.getC_Project_ID());
+		if (invoiceLine.getC_Activity_ID() > 0)
+			setC_Activity_ID(invoiceLine.getC_Activity_ID());
 		
 		// Asset Group:
 		int A_Asset_Group_ID = invoiceLine.getA_Asset_Group_ID();
@@ -174,36 +182,37 @@ public class MAsset extends X_A_Asset
 	 * Construct from MIFixedAsset (import)
 	 * @param match match invoice
 	 */
-	protected MAsset (MIFixedAsset ifa)
+	protected MAsset (MIFixedAsset importFixedAsset)
 	{
-		this(ifa.getCtx(), 0, ifa.get_TrxName());
+		this(importFixedAsset.getCtx(), 0, importFixedAsset.get_TrxName());
 		
-		setAD_Org_ID(ifa.getAD_Org_ID()); //added by @win
+		setAD_Org_ID(importFixedAsset.getAD_Org_ID()); //added by @win
 		setIsOwned(true);
 		setIsInPosession(true);
 		
-		String inventoryNo = ifa.getInventoryNo();
+		String inventoryNo = importFixedAsset.getInventoryNo();
 		if (inventoryNo != null) {
 			inventoryNo = inventoryNo.trim();
 			setInventoryNo(inventoryNo);
 			setValue(inventoryNo);
 		}
-		setA_Asset_CreateDate(ifa.getAssetServiceDate());
+		setA_Asset_CreateDate(importFixedAsset.getAssetServiceDate());
 		//setAssetServiceDate(ifa.getAssetServiceDate()); //commented by @win
 		/* commented by @win
 		setA_Asset_Class_ID(ifa.getA_Asset_Class_ID());
 		*/ // commented by @win
-		MProduct product = ifa.getProduct();
+		MProduct product = importFixedAsset.getProduct();
 		if (product != null) {
 			setM_Product_ID(product.getM_Product_ID());
-			setA_Asset_Group_ID(ifa.getA_Asset_Group_ID());
+			setA_Asset_Group_ID(importFixedAsset.getA_Asset_Group_ID());
 			MAttributeSetInstance asi = MAttributeSetInstance.create(getCtx(), product, get_TrxName());
 			setM_AttributeSetInstance_ID(asi.getM_AttributeSetInstance_ID());
 		}
 		
-		setDateAcct(ifa.getDateAcct());
-		setName(ifa.getName());
-		setDescription(ifa.getDescription());
+		setDateAcct(importFixedAsset.getDateAcct());
+		setName(importFixedAsset.getName());
+		setDescription(importFixedAsset.getDescription());
+
 	}
 
 	/**
@@ -219,6 +228,7 @@ public class MAsset extends X_A_Asset
 		setHelp(Msg.getMsg(MClient.get(getCtx()).getAD_Language(), "CreatedFromProject", new Object[] { project.getName()}));
 		setDateAcct(new Timestamp(System.currentTimeMillis()));
 		setDescription(project.getDescription());
+		setC_Project_ID(project.getC_Project_ID());
 	}
 	
 	public MAsset(MInOut mInOut, MInOutLine sLine, int deliveryCount) {
@@ -235,27 +245,28 @@ public class MAsset extends X_A_Asset
 	/**
 	 * Create Asset from Inventory
 	 * @param inventory	inventory
-	 * @param invLine 	inventory line
-	 * @param deliveryCount 0 or number of delivery
-	 * @return A_Asset_ID
+	 * @param invoiceLine 	inventory line
+	 * @param quantity
+	 * @param costs
+	 * @return Asset Entity
 	 */
 	
-	public MAsset (MInventory inventory, MInventoryLine invLine, BigDecimal qty, BigDecimal costs)
+	public MAsset (MInventory inventory, MInventoryLine invoiceLine, BigDecimal quantity, BigDecimal costs)
 	{
-		super(invLine.getCtx(), 0, invLine.get_TrxName());
-		setClientOrg(invLine);
+		super(invoiceLine.getCtx(), 0, invoiceLine.get_TrxName());
+		setClientOrg(invoiceLine);
 		
-		MProduct product = MProduct.get(getCtx(), invLine.getM_Product_ID());
+		MProduct product = MProduct.get(getCtx(), invoiceLine.getM_Product_ID());
 		// Defaults from group:
-		MAssetGroup assetGroup = MAssetGroup.get(invLine.getCtx(), invLine.getM_Product().getM_Product_Category().getA_Asset_Group_ID());
+		MAssetGroup assetGroup = MAssetGroup.get(invoiceLine.getCtx(), invoiceLine.getM_Product().getM_Product_Category().getA_Asset_Group_ID());
 		if (assetGroup == null)
-			assetGroup = MAssetGroup.get(invLine.getCtx(), product.getA_Asset_Group_ID());
+			assetGroup = MAssetGroup.get(invoiceLine.getCtx(), product.getA_Asset_Group_ID());
 		setAssetGroup(assetGroup);
 		
 		
 		//setValue(prod)
 		setName(product.getName());
-		setHelp(invLine.getDescription());
+		setHelp(invoiceLine.getDescription());
 		//	Header
 		setAssetServiceDate(inventory.getMovementDate());
 		setIsOwned(true);
@@ -267,24 +278,33 @@ public class MAsset extends X_A_Asset
 		//setGuaranteeDate(TimeUtil.addDays(shipment.getMovementDate(), product.getGuaranteeDays()));
 		setVersionNo(product.getVersionNo());
 		// ASI
-		if (invLine.getM_AttributeSetInstance_ID() != 0)
+		if (invoiceLine.getM_AttributeSetInstance_ID() != 0)
 		{
-			MAttributeSetInstance asi = new MAttributeSetInstance (getCtx(), invLine.getM_AttributeSetInstance_ID(), get_TrxName());
+			MAttributeSetInstance asi = new MAttributeSetInstance (getCtx(), invoiceLine.getM_AttributeSetInstance_ID(), get_TrxName());
 			setASI(asi);
 		}
 		//setSerNo(invLine.getSerNo());
-		setQty(qty);
-		
+		setQty(quantity);
+
 		// Costs:
 		//setA_Asset_Cost(costs);  //commented by @win, set at asset addition
-		
 		// Activity
-		/*
-		if (invLine.getC_Activity_ID() > 0)
-			setC_Activity_ID(invLine.getC_Activity_ID());
-		*/
-		if (inventory.getC_Activity_ID() > 0)
-			setC_Activity_ID(inventory.getC_Activity_ID());
+		Optional.ofNullable(invoiceLine).ifPresent(il -> {
+			if (il.getC_Activity_ID() > 0)
+				setC_Activity_ID(il.getC_Activity_ID());
+
+			if (il.getC_Project_ID() > 0)
+				setC_Project_ID(il.getC_Project_ID());
+		});
+
+		Optional.ofNullable(inventory).ifPresent(i -> {
+			if (i.getC_Activity_ID() > 0)
+				setC_Project_ID(i.getC_Activity_ID());
+
+			if (i.getC_Project_ID() > 0)
+				setC_Project_ID(i.getC_Project_ID());
+		});
+
 		
 		//
 		
