@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Add Entity type for Export UUID" ReleaseNo="3.9.2" SeqNo="4420">
+    <Comments>See: https://github.com/adempiere/adempiere/pull/2284</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="56816" Table="AD_Process_Para">
+        <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true" oldValue="-1"/>
+        <Data AD_Column_ID="2827" Column="AD_Reference_ID" oldValue="18">17</Data>
+        <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" oldValue="389">245</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="56816" Table="AD_Process_Para">
+        <Data AD_Column_ID="2827" Column="AD_Reference_ID" oldValue="17">18</Data>
+        <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" oldValue="245">389</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>
