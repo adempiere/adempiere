@@ -64,7 +64,7 @@
 
     <!--	Compile all -->
     <javac
-      target="1.8" encoding="UTF-8"
+      target="11" encoding="UTF-8"
 	  destdir="${build.classes.dir}"
 	  debug="on"
 	  deprecation="off"
@@ -73,6 +73,7 @@
       <src path="${src.ejb.dir}"/>
       <src path="${src.servlet.dir}"/>
       <src path="${src.server.dir}"/>
+      <compilerarg line="--add-exports java.naming/com.sun.jndi.ldap=ALL-UNNAMED"/>
     </javac>
 
   </target>

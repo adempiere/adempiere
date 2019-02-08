@@ -39,6 +39,7 @@ import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Util;
 
+import javax.swing.tree.TreeNode;
 /**
  *  Builds Tree.
  *  Creates tree structure - maintained in VTreePanel
@@ -1170,7 +1171,7 @@ public class MTree extends X_AD_Tree
 		while (needsTrim)
 		{
 			needsTrim = false;
-			Enumeration<MTreeNode> en = rootNode.preorderEnumeration();
+			Enumeration<? extends TreeNode> en = rootNode.preorderEnumeration();
 			while (rootNode.getChildCount() > 0 && en.hasMoreElements())
 			{
 				MTreeNode nd = (MTreeNode)en.nextElement();

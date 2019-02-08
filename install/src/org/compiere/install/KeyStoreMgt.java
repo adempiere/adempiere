@@ -463,6 +463,8 @@ public class KeyStoreMgt
 				keyTool = Class.forName(KEYTOOL_JAVA7);
 			else if (version.startsWith("1.8"))
 				keyTool = Class.forName(KEYTOOL_JAVA8);
+			else if (version.startsWith("11.0"))
+				keyTool = Class.forName(KEYTOOL_JAVA8);
 
 			Class[] argTypes = new Class[] { String[].class };
 			Method main = keyTool.getDeclaredMethod("main", argTypes);

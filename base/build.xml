@@ -57,7 +57,7 @@
   
   <target name="compile" depends="makedir">
     <!-- compile the java code from ${src} into ${build.dir} -->
-    <javac target="1.8" encoding="UTF-8" fork="true" destdir="${build.dir}" deprecation="on" debug="on" memoryinitialsize="512m" memorymaximumsize="512m">
+    <javac target="11" encoding="UTF-8" fork="true" destdir="${build.dir}" deprecation="on" debug="on" memoryinitialsize="512m" memorymaximumsize="512m">
       <src path="../org.adempiere.request/src/main/java"/>
       <src path="../org.adempiere.project/src/main/java"/>
       <src path="../org.adempiere.crm/src/main/java"/>
@@ -66,6 +66,10 @@
       <src path="../glassfishfacet/src"/>
       <src path="../jbossfacet/src"/>
       <classpath refid="project.class.path"/>
+      <compilerarg line="--add-exports java.desktop/sun.swing=ALL-UNNAMED"/>
+      <compilerarg line="--add-exports java.desktop/sun.awt=ALL-UNNAMED"/>
+      <compilerarg line="--add-exports java.sql.rowset/com.sun.rowset=ALL-UNNAMED"/>
+      <compilerarg line="--add-exports java.base/sun.security.provider=ALL-UNNAMED"/>
     </javac>
     <!-- copy all image & sound files from src to the build directory -->
     <copy todir="${build.dir}">

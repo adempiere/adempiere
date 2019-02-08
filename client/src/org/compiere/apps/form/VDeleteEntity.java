@@ -46,6 +46,7 @@ import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 
+import javax.swing.tree.TreeNode;
 /**
  *	Delete Dialog.
  *
@@ -107,9 +108,9 @@ public class VDeleteEntity extends DeleteEntityControler
 		//	Load from parent
 		loadChilds(currentNode, root);
 		//	
-		Enumeration<DefaultMutableTreeNode> kids = root.children();
+		Enumeration<? extends TreeNode> kids = root.children();
 		while (kids.hasMoreElements()) {
-			DefaultMutableTreeNode node = kids.nextElement();
+			DefaultMutableTreeNode node = (DefaultMutableTreeNode)kids.nextElement();
 			if (root.isNodeAncestor(node)) {
 				log.log(Level.WARNING, "Loop detected, escaping.");
 				break;

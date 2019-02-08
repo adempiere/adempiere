@@ -108,6 +108,8 @@ public class Login
         //Add ADEMPIERE-86 Add JAVA 8.0 support in ADempiere
         if (jVersion.startsWith("1.8.0"))
             return true;
+		if (jVersion.startsWith("11.0."))
+			return true;
         //end
 		//  Warning
 		boolean ok = false;
@@ -121,7 +123,7 @@ public class Login
 		if (ok)
 			msg.append("(untested)");
 		//msg.append(" <> 1.5.0, 1.6.0, 1.7.0 1.8.0");
-        msg.append(" <> 1.7.0 , 1.8.0");
+        msg.append(" <> 1.7.0 , 1.8.0, 11.0.X");
 		//
 		if (isClient)
 			JOptionPane.showMessageDialog(null, msg.toString(),

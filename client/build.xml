@@ -31,8 +31,9 @@
     <pathelement path="../lib/jfreechart-1.0.13.jar"/>
     <pathelement path="../extend/Extend.jar"/>
     <pathelement path="../tools/lib/j2ee.jar"/>
-  	<pathelement path="../tools/lib/swinglabs-0.8.0.jar"/>  	
-  	<pathelement path="../tools/lib/lablib-checkboxtree-3.3.jar"/>  	
+    <pathelement path="../tools/lib/swinglabs-0.8.0.jar"/>
+    <pathelement path="../tools/lib/lablib-checkboxtree-3.3.jar"/>
+    <pathelement path="../tools/lib/javax.activation-1.2.0.jar"/>
   </path>
 
 
@@ -64,7 +65,7 @@
   <!-- =========================================== -->
   <target name="clientCompile" depends="clientMakedir">
     <!-- compile the java code from ${src} into ${build.dir} -->
-    <javac  target="1.8" encoding="UTF-8" srcdir="${src}" destdir="${build.dir}" deprecation="on" debug="on">
+    <javac  target="11" encoding="UTF-8" srcdir="${src}" destdir="${build.dir}" deprecation="on" debug="on">
       <classpath refid="project.class.path"/>
     </javac>
     <!-- copy all image & sound files from src to the build directory -->
