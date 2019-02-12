@@ -19,7 +19,7 @@ import org.compiere.util.Env;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
-
+@Deprecated
 public class CommonTranslationHandler extends AbstractElementHandler implements ElementHandler{
 	
 	public static final String CONTEXT_KEY__PARENT_TABLE = "currentParentTableForTranslation";

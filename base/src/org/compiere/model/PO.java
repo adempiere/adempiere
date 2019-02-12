@@ -2675,7 +2675,7 @@ public abstract class PO
 		//  Set ID for single key - Multi-Key values need explicitly be set previously
 		if (m_IDs.length == 1 && p_info.hasKeyColumn()
 			&& m_KeyColumns[0].endsWith("_ID")
-			&& !isDirectLoad )	//	AD_Language, EntityType
+			&& (!isDirectLoad || get_ID() <= 0))	//	AD_Language, EntityType
 		{
 			int no = saveNew_getID();
 			if (no <= 0)
