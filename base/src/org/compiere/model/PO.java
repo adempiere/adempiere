@@ -2523,21 +2523,23 @@ public abstract class PO
 			//	Update Document No
 			if (columnName.equals("DocumentNo"))
 			{
-				String strValue = (String)value;
-				if (strValue.startsWith("<") && strValue.endsWith(">"))
-				{
-					value = null;
-					int AD_Client_ID = getAD_Client_ID();
-					int index = p_info.getColumnIndex("C_DocTypeTarget_ID");
-					if (index == -1)
-						index = p_info.getColumnIndex("C_DocType_ID");
-					if (index != -1)		//	get based on Doc Type (might return null)
-						value = DB.getDocumentNo(get_ValueAsInt(index), m_trxName, false, this);
-					if (value == null)	//	not overwritten by DocType and not manually entered
-						value = DB.getDocumentNo(AD_Client_ID, p_info.getTableName(), m_trxName, this);
+				if(value instanceof String) {
+					String strValue = (String)value;
+					if (strValue.startsWith("<") && strValue.endsWith(">"))
+					{
+						value = null;
+						int AD_Client_ID = getAD_Client_ID();
+						int index = p_info.getColumnIndex("C_DocTypeTarget_ID");
+						if (index == -1)
+							index = p_info.getColumnIndex("C_DocType_ID");
+						if (index != -1)		//	get based on Doc Type (might return null)
+							value = DB.getDocumentNo(get_ValueAsInt(index), m_trxName, false, this);
+						if (value == null)	//	not overwritten by DocType and not manually entered
+							value = DB.getDocumentNo(AD_Client_ID, p_info.getTableName(), m_trxName, this);
+					}
+					else
+						log.warning("DocumentNo updated: " + m_oldValues[i] + " -> " + value);
 				}
-				else
-					log.warning("DocumentNo updated: " + m_oldValues[i] + " -> " + value);
 			}
 
 			if (changes)
