@@ -42,20 +42,21 @@ public class MHRCareerLevel extends X_HR_CareerLevel {
      * Get career level by id
      * @param ctx
      * @param careerLevelId
+     * @param trxName
      * @return
      */
-    public static MHRCareerLevel getById(Properties ctx, int careerLevelId) {
+    public static MHRCareerLevel getById(Properties ctx, int careerLevelId, String trxName) {
         if (careerLevelId <= 0)
             return null;
 
         if (careerLevelCacheIds.size() == 0)
-            getAll(ctx, true);
+            getAll(ctx, true, trxName);
 
         MHRCareerLevel careerLevel = careerLevelCacheIds.get(careerLevelId);
         if (careerLevel != null && careerLevel.get_ID() > 0)
             return careerLevel;
 
-        careerLevel = new Query(ctx , Table_Name , MHRCareerLevel.COLUMNNAME_HR_CareerLevel_ID +  "=?", null)
+        careerLevel = new Query(ctx , Table_Name , MHRCareerLevel.COLUMNNAME_HR_CareerLevel_ID +  "=?", trxName)
                 .setClient_ID()
                 .setParameters(careerLevelId)
                 .first();
@@ -73,14 +74,15 @@ public class MHRCareerLevel extends X_HR_CareerLevel {
      * Get Career Level by search key
      * @param ctx
      * @param value
+     * @param trxName
      * @return
      */
-    public static MHRCareerLevel getByValue(Properties ctx, String value) {
+    public static MHRCareerLevel getByValue(Properties ctx, String value, String trxName) {
         if (value == null)
             return null;
 
         if (careerLavelCacheValues.size() == 0)
-            getAll(ctx, true);
+            getAll(ctx, true, trxName);
 
         int clientId = Env.getAD_Client_ID(ctx);
         String key = clientId + "#" + value;
@@ -88,7 +90,7 @@ public class MHRCareerLevel extends X_HR_CareerLevel {
         if (careerLevel != null && careerLevel.get_ID() > 0)
             return careerLevel;
 
-        careerLevel = new Query(ctx, Table_Name, COLUMNNAME_Value + "=?", null)
+        careerLevel = new Query(ctx, Table_Name, COLUMNNAME_Value + "=?", trxName)
                 .setClient_ID()
                 .setParameters(value)
                 .first();
@@ -104,12 +106,13 @@ public class MHRCareerLevel extends X_HR_CareerLevel {
      * Get all Career Level and create cache
      * @param ctx
      * @param resetCache
+     * @param trxName
      * @return
      */
-    public static List<MHRCareerLevel> getAll(Properties ctx, boolean resetCache) {
+    public static List<MHRCareerLevel> getAll(Properties ctx, boolean resetCache, String trxName) {
         List<MHRCareerLevel> careerLevelList;
         if (resetCache || careerLevelCacheIds.size() > 0) {
-            careerLevelList = new Query(Env.getCtx(), Table_Name, null, null)
+            careerLevelList = new Query(Env.getCtx(), Table_Name, null, trxName)
                     .setClient_ID()
                     .setOrderBy(COLUMNNAME_Name)
                     .list();

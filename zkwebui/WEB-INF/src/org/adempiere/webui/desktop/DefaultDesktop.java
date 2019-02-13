@@ -42,6 +42,7 @@ import org.adempiere.webui.util.UserPreference;
 import org.compiere.model.I_AD_Menu;
 import org.compiere.model.MDashboardContent;
 import org.compiere.model.MGoal;
+import org.compiere.model.MRole;
 import org.compiere.model.X_PA_DashboardContent;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -225,7 +226,9 @@ public class DefaultDesktop extends TabbedDesktop implements MenuListener, Seria
 			rs = pstmt.executeQuery();
 			
 			while (rs.next()) {
-				
+			    MRole role = MRole.getDefault(Env.getCtx(), false);
+        		if(role.getDashboardAccess((int)rs.getInt(X_PA_DashboardContent.COLUMNNAME_PA_DashboardContent_ID))) {
+
 				int columnNo = rs.getInt(X_PA_DashboardContent.COLUMNNAME_ColumnNo);
 				if (portalchildren == null || currentColumnNo != columnNo) {
 					portalchildren = new Portalchildren();
@@ -235,7 +238,7 @@ public class DefaultDesktop extends TabbedDesktop implements MenuListener, Seria
 
 					currentColumnNo = columnNo;
 				}
-    
+				
 	        	Panel panel = new Panel();
 	        	panel.setStyle("margin-bottom:10px");
 	        	panel.setTitle(rs.getString(X_PA_DashboardContent.COLUMNNAME_Name));
@@ -256,7 +259,7 @@ public class DefaultDesktop extends TabbedDesktop implements MenuListener, Seria
 	            panel.appendChild(content);
 
 	            boolean panelEmpty = true;
-
+	        
 	            // HTML content
 	            String htmlContent = rs.getString(X_PA_DashboardContent.COLUMNNAME_HTML);
 	            if(htmlContent != null)
@@ -293,13 +296,15 @@ public class DefaultDesktop extends TabbedDesktop implements MenuListener, Seria
 	        		MDashboardContent dashboardContent = new MDashboardContent( Env.getCtx(), 
 	        																	rs.getInt(X_PA_DashboardContent.COLUMNNAME_PA_DashboardContent_ID) , 
 	        																	null);
-		        	int AD_Menu_ID = dashboardContent.getAD_Menu_ID();
-					ToolBarButton btn = new ToolBarButton(String.valueOf(AD_Menu_ID));
-					I_AD_Menu menu = dashboardContent.getAD_Menu();
-					btn.setLabel(menu.getName());
-					btn.addEventListener(Events.ON_CLICK, this);
-					content.appendChild(btn);
-					panelEmpty = false;
+
+			        	int AD_Menu_ID = dashboardContent.getAD_Menu_ID();
+						ToolBarButton btn = new ToolBarButton(String.valueOf(AD_Menu_ID));
+						I_AD_Menu menu = dashboardContent.getAD_Menu();
+						btn.setLabel(menu.getName());
+						btn.addEventListener(Events.ON_CLICK, this);
+						content.appendChild(btn);
+						panelEmpty = false;
+	        		
 	        	}
 
 	            
@@ -403,6 +408,7 @@ public class DefaultDesktop extends TabbedDesktop implements MenuListener, Seria
 	        	if (panelEmpty)
 	        		panel.detach();
 	        }
+		}
 		}
         catch (Exception e)
         {

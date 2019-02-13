@@ -254,7 +254,7 @@ public final class ProcessUtil {
 		
 			msg = engine.eval(rule.getScript()).toString();
 			//transaction should rollback if there are error in process
-			if ("@Error@".equals(msg))
+			if (msg!=null && msg.startsWith("@Error@"))
 				success = false;
 			
 			//	Parse Variables

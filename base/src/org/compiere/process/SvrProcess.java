@@ -40,6 +40,7 @@ import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
+import org.compiere.util.Util;
 import org.eevolution.process.GenerateMovement;
 
 /**
@@ -210,7 +211,7 @@ public abstract class SvrProcess implements ProcessCall
 		StringBuffer errorMsg = new StringBuffer();
 		//	Loop over parameter, find a mandatory parameter
 		for(MProcessPara parameter : parameters) {
-			if(parameter.isMandatory() && parameter.isActive()) {
+			if(parameter.isMandatory() && parameter.isActive() && Util.isEmpty(parameter.getDisplayLogic())) {
 				ProcessInfoParameter infoParameter = getInfoParameter(parameter.getColumnName());
 				if(infoParameter == null
 						|| infoParameter.getParameter() == null
@@ -914,7 +915,6 @@ public abstract class SvrProcess implements ProcessCall
 		//	OK to print shipments
 		if (Ini.isClient()) {
 			Class<?> clazz;
-			IPrintDocument result = null;
 			try {
 				clazz = Class.forName("org.eevolution.form.VPrintDocument");
 				Constructor<?> constructor = null;
@@ -924,7 +924,6 @@ public abstract class SvrProcess implements ProcessCall
 				throw new RuntimeException(e);
 			}
 		} else {
-			IPrintDocument result = null;
 			try {
 				ClassLoader loader = Thread.currentThread().getContextClassLoader();
 				if (loader == null)
@@ -938,5 +937,13 @@ public abstract class SvrProcess implements ProcessCall
 			}
 		}
 		printDocument.print(document, printFormantName, getProcessInfo().getWindowNo());
+	}
+	
+	/**
+	 * Open result from a table and IDs of process info
+	 * @param tableName
+	 */
+	public void openResult(String tableName) {
+		processInfo.openResult(tableName);
 	}
 }   //  SvrProcess

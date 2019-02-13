@@ -37,9 +37,12 @@ import org.compiere.util.Msg;
 
 /**
  * "Generate Invoices from Shipments (manual)" - view class
- * 
+ *  @author https://github.com/homebeaver
+ *	@see <a href="https://github.com/adempiere/adempiere/issues/1657"> 
+ * 		  bug in swing client "Generate Invoices from Shipments (manual)"</a>
  */
 public class VInvoiceGenFromShipment extends InvoiceGenFromShipment implements FormPanel, ActionListener, VetoableChangeListener {
+	
 	private VGenPanel panel;
 	
 	/**	Window No			*/
@@ -51,14 +54,14 @@ public class VInvoiceGenFromShipment extends InvoiceGenFromShipment implements F
 	private static CLogger log = CLogger.getCLogger(VInvoiceGenFromShipment.class);
 	//
 
-	private CLabel lOrg = new CLabel();
-	private VLookup fOrg;
-	private CLabel lBPartner = new CLabel();
-	private VLookup fBPartner;	
-	private CLabel     lDocType = new CLabel();
-	private VComboBox  cmbDocType = new VComboBox();
-	private CLabel     lDocAction = new CLabel();
-	private VLookup    docAction;
+	private CLabel    lOrg = new CLabel();
+	private VLookup   fOrg;
+	private CLabel    lBPartner = new CLabel();
+	private VLookup   fBPartner;
+	private CLabel    lDocType = new CLabel();
+	private VComboBox cmbDocType = new VComboBox();
+	private CLabel    lDocAction = new CLabel();
+	private VLookup   docAction;
 	
 	/**
 	 *	Initialize Panel
@@ -140,19 +143,25 @@ public class VInvoiceGenFromShipment extends InvoiceGenFromShipment implements F
 		docAction.addVetoableChangeListener(this);
 		docAction.setValue( "PR" );//@Trifon - Pre-select "Prepare"
 		
-		//
 		MLookup bpL = MLookupFactory.get (Env.getCtx(), m_WindowNo, 0, 2762, DisplayType.Search);
 		fBPartner = new VLookup ("C_BPartner_ID", false, false, true, bpL);
 	//	lBPartner.setText(Msg.translate(Env.getCtx(), "C_BPartner_ID"));
 		fBPartner.addVetoableChangeListener(this);
 		
-		//Document Type: Shipment/Vendor RMA
+		//Document Type: Shipment 
         lDocType.setText(Msg.translate(Env.getCtx(), "C_DocType_ID"));
         cmbDocType.addItem(new KeyNamePair(MInOut.Table_ID, Msg.translate(Env.getCtx(), "M_InOut_ID")));
-        //cmbDocType.addItem(new KeyNamePair(MRMA.Table_ID, Msg.translate(Env.getCtx(), "CustomerRMA")));
         cmbDocType.addActionListener(this);
         
-        panel.getStatusBar().setStatusLine(Msg.getMsg(Env.getCtx(), "InvGenerateSel"));//@@
+        panel.getStatusBar().setStatusLine(Msg.getMsg(Env.getCtx(), "InvGenerateSel"));
+        
+		// AutoQuery with default from ctx:
+		if(autoQuery()) {
+			fOrg.set_oldValue();
+			fOrg.setValue(Env.getCtx().get("#AD_Org_ID"));
+			m_AD_Org_ID = fOrg.getValue();
+			executeQuery();
+		}
 	}
 	
 	public void executeQuery() {
@@ -165,27 +174,37 @@ public class VInvoiceGenFromShipment extends InvoiceGenFromShipment implements F
 	 *  @param e event
 	 */
 	public void actionPerformed(ActionEvent e) {
+		log.fine("event " + e);
 		if (cmbDocType.equals(e.getSource())) {
 		   executeQuery();
-		    return;
+		   return;
 		}
 		
 		validate();
+	}
+	
+	private void logconfig(Integer M_InOut_ID) {
+		log.config("selection shipment:" + new MInOut(Env.getCtx(), M_InOut_ID.intValue(), null));
 	}
 	
 	public void validate() {
 		panel.saveSelection();
 		
 		ArrayList<Integer> selection = getSelection();
-		if (selection != null && selection.size() > 0 && isSelectionActive())		
+		if (selection != null && selection.size() > 0 && isSelectionActive()) {
+			log.config("selection.size =" + selection.size());
+			selection.forEach(this::logconfig);
 			panel.generate();
-		else
+		}
+		else {
 			panel.dispose();
+		}
 	}
 
 	/**
 	 *	Vetoable Change Listener - requery
 	 *  @param e event
+	 *  
 	 */
 	public void vetoableChange(PropertyChangeEvent e) {
 		log.info(e.getPropertyName() + "=" + e.getNewValue());
@@ -202,7 +221,7 @@ public class VInvoiceGenFromShipment extends InvoiceGenFromShipment implements F
 	 *	Generate Invoices from Shipments
 	 */
 	public String generate() {
-		KeyNamePair docTypeKNPair = (KeyNamePair)cmbDocType.getSelectedItem();
+		KeyNamePair docTypeKNPair = (KeyNamePair)cmbDocType.getSelectedItem(); //@@@EUG nur einer?
 		String docActionSelected = (String)docAction.getValue();	
 		return generate(panel.getStatusBar(), docTypeKNPair, docActionSelected);
 	}

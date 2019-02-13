@@ -308,54 +308,54 @@ public class InvoiceNGL extends SvrProcess
 
 	/**
 	 * 	Create Balancing Entry
-	 *	@param asDefaultAccts acct schema default accounts
+	 *	@param acctSchemaDefault acct schema default accounts
 	 *	@param journal journal
-	 *	@param drTotal dr
-	 *	@param crTotal cr
-	 *	@param AD_Org_ID org
+	 *	@param debitTotal dr
+	 *	@param creditTotal cr
+	 *	@param orgId org
 	 *	@param lineNo base line no
 	 */
-	private void createBalancing (MAcctSchemaDefault asDefaultAccts, MJournal journal, 
-		BigDecimal drTotal, BigDecimal crTotal, int AD_Org_ID, int lineNo)
+	private void createBalancing (MAcctSchemaDefault acctSchemaDefault, MJournal journal,
+		BigDecimal debitTotal, BigDecimal creditTotal, int orgId, int lineNo)
 	{
 		if (journal == null)
 			throw new IllegalArgumentException("Jornal is null");
 		//		CR Entry = Gain
-		if (drTotal.signum() != 0)
+		if (debitTotal.signum() != 0)
 		{
 			MJournalLine line = new MJournalLine(journal);
 			line.setLine(lineNo+1);
-			MAccount base = MAccount.get(getCtx(), asDefaultAccts.getUnrealizedGain_Acct());
-			MAccount acct = MAccount.get(getCtx(), asDefaultAccts.getAD_Client_ID(), AD_Org_ID, 
-				asDefaultAccts.getC_AcctSchema_ID(), base.getAccount_ID(), base.getC_SubAcct_ID(),
+			MAccount base = MAccount.getValidCombination(getCtx(), acctSchemaDefault.getUnrealizedGain_Acct(), get_TrxName());
+			MAccount acct = MAccount.get(getCtx(), acctSchemaDefault.getAD_Client_ID(), orgId,
+				acctSchemaDefault.getC_AcctSchema_ID(), base.getAccount_ID(), base.getC_SubAcct_ID(),
 				base.getM_Product_ID(), base.getC_BPartner_ID(), base.getAD_OrgTrx_ID(), 
 				base.getC_LocFrom_ID(), base.getC_LocTo_ID(), base.getC_SalesRegion_ID(), 
 				base.getC_Project_ID(), base.getC_Campaign_ID(), base.getC_Activity_ID(),
 				base.getUser1_ID(), base.getUser2_ID() , base.getUser3_ID(), base.getUser4_ID(),
-				base.getUserElement1_ID(), base.getUserElement2_ID(), null);
+				base.getUserElement1_ID(), base.getUserElement2_ID(), get_TrxName());
 			line.setDescription(Msg.getElement(getCtx(), "UnrealizedGain_Acct"));
 			line.setC_ValidCombination_ID(acct.getC_ValidCombination_ID());
-			line.setAmtSourceCr (drTotal);
-			line.setAmtAcctCr (drTotal);
+			line.setAmtSourceCr (debitTotal);
+			line.setAmtAcctCr (debitTotal);
 			line.saveEx();
 		}
 		//	DR Entry = Loss
-		if (crTotal.signum() != 0)
+		if (creditTotal.signum() != 0)
 		{
 			MJournalLine line = new MJournalLine(journal);
 			line.setLine(lineNo+2);
-			MAccount base = MAccount.get(getCtx(), asDefaultAccts.getUnrealizedLoss_Acct());
-			MAccount acct = MAccount.get(getCtx(), asDefaultAccts.getAD_Client_ID(), AD_Org_ID, 
-				asDefaultAccts.getC_AcctSchema_ID(), base.getAccount_ID(), base.getC_SubAcct_ID(),
+			MAccount base = MAccount.getValidCombination(getCtx(), acctSchemaDefault.getUnrealizedLoss_Acct(), get_TrxName());
+			MAccount acct = MAccount.get(getCtx(), acctSchemaDefault.getAD_Client_ID(), orgId,
+				acctSchemaDefault.getC_AcctSchema_ID(), base.getAccount_ID(), base.getC_SubAcct_ID(),
 				base.getM_Product_ID(), base.getC_BPartner_ID(), base.getAD_OrgTrx_ID(), 
 				base.getC_LocFrom_ID(), base.getC_LocTo_ID(), base.getC_SalesRegion_ID(), 
 				base.getC_Project_ID(), base.getC_Campaign_ID(), base.getC_Activity_ID(),
 				base.getUser1_ID(), base.getUser2_ID() , base.getUser3_ID(), base.getUser4_ID(),
-				base.getUserElement1_ID(), base.getUserElement2_ID(), null);
+				base.getUserElement1_ID(), base.getUserElement2_ID(), get_TrxName());
 			line.setDescription(Msg.getElement(getCtx(), "UnrealizedLoss_Acct"));
 			line.setC_ValidCombination_ID(acct.getC_ValidCombination_ID());
-			line.setAmtSourceDr (crTotal);
-			line.setAmtAcctDr (crTotal);
+			line.setAmtSourceDr (creditTotal);
+			line.setAmtAcctDr (creditTotal);
 			line.saveEx();
 		}
 	}	//	createBalancing

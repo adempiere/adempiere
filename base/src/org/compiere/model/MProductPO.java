@@ -17,14 +17,18 @@
 package org.compiere.model;
 
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
 
 /**
  *	Product PO Model
  *	
  *  @author Jorg Janke
- *  @version $Id: MProductPO.java,v 1.3 2006/07/30 00:51:03 jjanke Exp $
+ *  @author Víctor Pérez Juárez , victor.perez@e-evolution.com , http://www.e-evolution.com
+ *  <a href="https://github.com/adempiere/adempiere/issues/1675">
+ *  <li>Enhancement adding a button in project line to a generate a Purchase Order #1675
  */
 public class MProductPO extends X_M_Product_PO
 {
@@ -33,6 +37,38 @@ public class MProductPO extends X_M_Product_PO
 	 */
 	private static final long serialVersionUID = -747761340543484440L;
 
+	/**
+	 *
+	 * @param ctx
+	 * @param partnerId
+	 * @param productId
+	 * @param trxName
+	 * @return
+	 */
+	public static List<MProductPO> getByPartner(Properties ctx , Integer partnerId, Integer productId, String trxName)
+	{
+		List<Object> parameters = new ArrayList<>();
+		StringBuilder whereClause = new StringBuilder();
+		Optional.ofNullable(partnerId)
+				.filter(id -> id > 0)
+				.ifPresent(Id -> {
+					whereClause.append(MProductPO.COLUMNNAME_C_BPartner_ID).append("=? AND ");
+					parameters.add(Id);
+				});
+
+		whereClause.append(MProductPO.COLUMNNAME_M_Product_ID).append("=?");
+		parameters.add(productId);
+		List<MProductPO> purchaseProducts = new Query(ctx, MProductPO.Table_Name, whereClause.toString() , trxName)
+				.setClient_ID()
+				.setParameters(parameters)
+				.setOrderBy(MProductPO.COLUMNNAME_IsCurrentVendor)
+				.list();
+		if (purchaseProducts == null)
+			return new ArrayList<>();
+		else
+			return purchaseProducts;
+
+	}
 
 	/**
 	 * 	Get current PO of Product
@@ -71,6 +107,22 @@ public class MProductPO extends X_M_Product_PO
 			setIsCurrentVendor (true);	// Y
 		}
 	}	//	MProduct_PO
+
+	/**
+	 * Load Constructor
+	 * @param ctx
+	 * @param productId
+	 * @param partnerId
+	 * @param trxName
+	 */
+	public MProductPO (Properties ctx , int productId , int partnerId , int currencyId , String trxName)
+	{
+		super(ctx, 0 , trxName);
+		setM_Product_ID(productId);
+		setC_BPartner_ID(partnerId);
+		setC_Currency_ID(currencyId);
+		setIsCurrentVendor (true);
+	}
 	
 	
 	/**

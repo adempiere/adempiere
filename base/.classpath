@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8">
+		<attributes>
+			<attribute name="owner.project.facets" value="java"/>
+		</attributes>
+		<accessrules>
+			<accessrule kind="discouraged" pattern="com/sun/rowset/**"/>
+			<accessrule kind="discouraged" pattern="sun/security/provider/**"/>
+			<accessrule kind="discouraged" pattern="sun/swing/**"/>
+			<accessrule kind="discouraged" pattern="sun/awt/**"/>
+		</accessrules>
+	</classpathentry>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="src" path="/tools"/>
 	<classpathentry kind="lib" path="/tools/lib/commons-net-1.4.0.jar">
 		<attributes>
@@ -9,11 +19,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="/tools/lib/ant.jar">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="/tools/lib/jpedal.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
 		</attributes>
@@ -59,21 +64,6 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="/tools/lib/poi-3.14-20160307.jar">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="/tools/lib/jcommon-1.0.16.jar">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="/tools/lib/jfreechart-1.0.13.jar">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry kind="lib" path="/tools/lib/swingx-1.6.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
@@ -101,5 +91,24 @@
 	</classpathentry>
 	<classpathentry kind="src" path="/JasperReportsTools"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
+	<classpathentry kind="lib" path="/tools/lib/harness-1.0.0.jar"/>
+	<classpathentry kind="lib" path="/tools/lib/icepdf-core-6.2.2.jar"/>
+	<classpathentry kind="lib" path="/tools/lib/icepdf-viewer-6.2.2.jar"/>
+	<classpathentry kind="lib" path="/tools/lib/itext-carriage-0.8.0.jar"/>
+	<classpathentry kind="lib" path="/tools/lib/itext-pdfa-5.5.2.jar"/>
+	<classpathentry kind="lib" path="/tools/lib/itextpdf-5.5.2.jar"/>
+	<classpathentry kind="lib" path="/tools/lib/jcommon-1.0.18.jar"/>
+	<classpathentry kind="lib" path="/tools/lib/jfreechart-1.0.15.jar"/>
+	<classpathentry kind="lib" path="/tools/lib/kernel-7.1.1.jar"/>
+	<classpathentry kind="lib" path="/tools/lib/io-7.1.1.jar"/>
+	<classpathentry kind="lib" path="/tools/lib/layout-7.1.1.jar"/>
+	<classpathentry kind="lib" path="/tools/lib/pdfa-7.1.1.jar"/>
+	<classpathentry kind="lib" path="/tools/lib/javax.inject-1.jar"/>
+	<classpathentry kind="lib" path="/tools/lib/mariadb-java-client.jar"/>
+	<classpathentry kind="lib" path="/tools/lib/commons-io.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/org.adempiere.project"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/org.adempiere.request"/>
+	<classpathentry kind="lib" path="/tools/lib/poi-3.17.jar"/>
+	<classpathentry kind="lib" path="/tools/lib/poi-ooxml-3.17.jar"/>
 	<classpathentry kind="output" path="build"/>
 </classpath>

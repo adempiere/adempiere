@@ -44,8 +44,11 @@ import org.compiere.util.Env;
  *		@see https://github.com/adempiere/adempiere/issues/323
  *		<a href="https://github.com/adempiere/adempiere/issues/571">
  * 		@see FR [ 571 ] Process Dialog is not MVC</a>
+ *	@author Michael McKay, michael.mckay@mckayerp.com, 
+ *	 <li>Bug [ <a href="https://github.com/adempiere/adempiere/issues/1926">#1926</a> ] ZK Exports migration XML files to 
+ *       different location than what is selected in the dialogs.
  */
-public class ProcessModalDialog extends CDialog implements IProcessDialog {
+public class ProcessModalDialog extends CDialog implements IProcessDialog, ASyncProcess {
 	
 	/**
 	 * 
@@ -168,9 +171,16 @@ public class ProcessModalDialog extends CDialog implements IProcessDialog {
 		log.config("");
 		processInfo.setAD_User_ID (Env.getAD_User_ID(Env.getCtx()));
 		processInfo.setAD_Client_ID(Env.getAD_Client_ID(Env.getCtx()));
+		
+		// #1926 ZK Exports migration XML files to different location 
+		// than what is selected in the dialogs. Fix is to let the process
+		// know what interface is being used so it can manage the export 
+		// process correctly.
+		processInfo.setInterfaceType(ProcessInfo.INTERFACE_TYPE_SWING);
+		
 		processPanel = new ProcessPanel(this, windowNo, processInfo, ProcessPanel.COLUMNS_1);
-		processPanel.setIsOnlyPanel(isOnlyPanel);
 		processPanel.setAutoStart(autoStart);
+		processPanel.setIsOnlyPanel(isOnlyPanel);
 		processPanel.createFieldsAndEditors();
 		//	Set Default
 		getContentPane().add(processPanel.getPanel());
@@ -207,7 +217,7 @@ public class ProcessModalDialog extends CDialog implements IProcessDialog {
 	
 	@Override
 	public ASyncProcess getParentProcess() {
-		return aSyncProcess;
+		return this;
 	}
 
 
@@ -220,5 +230,47 @@ public class ProcessModalDialog extends CDialog implements IProcessDialog {
 	@Override
 	public Object getParentContainer() {
 		return this;
+	}
+	
+	/**
+	 * Return true when is auto start process
+	 * @return
+	 */
+	public boolean isAutoStart() {
+		return processPanel.isAutoStart();
+	}
+	
+	@Override
+	public void lockUI(ProcessInfo pi) {
+		if(aSyncProcess != null) {
+			aSyncProcess.lockUI(pi);
+		}
+	}
+
+
+	@Override
+	public void unlockUI(ProcessInfo pi) {
+		if(aSyncProcess != null) {
+			aSyncProcess.unlockUI(pi);
+		}
+		//	
+		processPanel.openResult();
+	}
+
+
+	@Override
+	public boolean isUILocked() {
+		if(aSyncProcess != null) {
+			return aSyncProcess.isUILocked();
+		}
+		return false;
+	}
+
+
+	@Override
+	public void executeASync(ProcessInfo pi) {
+		if(aSyncProcess != null) {
+			aSyncProcess.executeASync(pi);
+		}
 	}
 }	//	ProcessDialog

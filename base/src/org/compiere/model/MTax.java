@@ -283,6 +283,10 @@ public class MTax extends X_C_Tax
 
 	@Override
 	protected boolean beforeSave(boolean newRecord) {
+		//prevents putting as tax father himself
+		if (getParent_Tax_ID() ==  getC_Tax_ID())
+			setParent_Tax_ID(-1);
+		
 		if (isDefault()) {
 			// @Trifon - Ensure that only one tax rate is set as Default!
 			// @Mckay - Allow edits to the Default tax rate

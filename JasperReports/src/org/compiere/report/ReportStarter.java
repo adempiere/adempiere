@@ -488,6 +488,24 @@ public class ReportStarter implements ProcessCall, ClientProcess
                         params.put( subData.getJasperName(), subData.getJasperFile().getAbsolutePath());
                     }
             	} // @Trifon - end
+            	else if(            			
+            			//	Yamel Senih, 2016-02-22
+            			//	Add support to image attachment
+            			subreports[i].getName().toLowerCase().endsWith(".jpg") 
+            				|| subreports[i].getName().toLowerCase().endsWith(".png")) {
+            		String paramName = subreports[i].getName();
+            		int index = subreports[i].getName().toLowerCase().lastIndexOf(".jpg");
+            		if(index < 0) {
+            			index = subreports[i].getName().toLowerCase().lastIndexOf(".png");
+            		}
+            		if(index > 0
+            				&& index < paramName.length()) {
+            			paramName = paramName.substring(0, index);
+            		}
+            		//	Put Parameter
+            		params.put(paramName, subreports[i].getAbsolutePath());
+            	}
+            			//	End Yamel Senih)
             }
 
             if (Record_ID > 0) {

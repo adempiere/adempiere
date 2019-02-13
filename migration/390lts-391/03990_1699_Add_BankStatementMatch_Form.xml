@@ -1,0 +1,621 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name=" Add support view for Bank Statement Reconciliate #1699" ReleaseNo="3.9.1" SeqNo="3820">
+    <Comments>https://github.com/adempiere/adempiere/issues/1699</Comments>
+    <Step SeqNo="320" StepType="AD">
+      <PO AD_Table_ID="376" Action="I" Record_ID="53077" Table="AD_Form">
+        <Data AD_Column_ID="4606" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="4602" Column="Updated">2018-06-21 11:05:52.384</Data>
+        <Data AD_Column_ID="4599" Column="IsActive">true</Data>
+        <Data AD_Column_ID="4600" Column="Created">2018-06-21 11:05:52.384</Data>
+        <Data AD_Column_ID="5791" Column="AccessLevel">3</Data>
+        <Data AD_Column_ID="4605" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="4607" Column="Classname">org.spin.apps.form.VBankStatementMatch</Data>
+        <Data AD_Column_ID="4604" Column="Name">Bank Statement Match</Data>
+        <Data AD_Column_ID="12738" Column="IsBetaFunctionality">false</Data>
+        <Data AD_Column_ID="13022" Column="JSPURL" isNewNull="true"/>
+        <Data AD_Column_ID="4601" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="4603" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="4596" Column="AD_Form_ID">53077</Data>
+        <Data AD_Column_ID="7708" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="4597" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="4598" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="84325" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="330" StepType="AD">
+      <PO AD_Table_ID="377" Action="I" Record_ID="53077" Table="AD_Form_Trl">
+        <Data AD_Column_ID="4618" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="4615" Column="Updated">2018-06-21 11:05:53.46</Data>
+        <Data AD_Column_ID="4613" Column="Created">2018-06-21 11:05:53.46</Data>
+        <Data AD_Column_ID="4612" Column="IsActive">true</Data>
+        <Data AD_Column_ID="4620" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="4617" Column="Name">Bank Statement Match</Data>
+        <Data AD_Column_ID="4619" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="4614" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="4616" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="4610" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="4611" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="4608" Column="AD_Form_ID">53077</Data>
+        <Data AD_Column_ID="4609" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84327" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="340" StepType="AD">
+      <PO AD_Table_ID="377" Action="U" Record_ID="53077" Table="AD_Form_Trl">
+        <Data AD_Column_ID="4618" Column="Description" isOldNull="true">Realiza una Conciliación del Estado de Cuenta Bancario con los Movimientos de ADempiere</Data>
+        <Data AD_Column_ID="4617" Column="Name" oldValue="Bank Statement Match">Conciliación de Estado de Cuenta</Data>
+        <Data AD_Column_ID="4608" Column="AD_Form_ID" oldValue="53077">53077</Data>
+        <Data AD_Column_ID="4609" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="350" StepType="AD">
+      <PO AD_Table_ID="376" Action="U" Record_ID="53077" Table="AD_Form">
+        <Data AD_Column_ID="4605" Column="Description" isOldNull="true">Make a Match between bank statement and ADempiere Payments</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="360" StepType="AD">
+      <PO AD_Table_ID="116" Action="I" Record_ID="54311" Table="AD_Menu">
+        <Data AD_Column_ID="4426" Column="IsSOTrx">false</Data>
+        <Data AD_Column_ID="6651" Column="IsReadOnly">false</Data>
+        <Data AD_Column_ID="57960" Column="AD_Browse_ID" isNewNull="true"/>
+        <Data AD_Column_ID="598" Column="IsActive">true</Data>
+        <Data AD_Column_ID="599" Column="Created">2018-06-21 11:08:36.128</Data>
+        <Data AD_Column_ID="601" Column="Updated">2018-06-21 11:08:36.128</Data>
+        <Data AD_Column_ID="229" Column="Name">Bank Statement Match</Data>
+        <Data AD_Column_ID="1169" Column="IsSummary">false</Data>
+        <Data AD_Column_ID="230" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="232" Column="Action">X</Data>
+        <Data AD_Column_ID="59134" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="6297" Column="AD_Workbench_ID" isNewNull="true"/>
+        <Data AD_Column_ID="4621" Column="AD_Form_ID">53077</Data>
+        <Data AD_Column_ID="3375" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="602" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="600" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="228" Column="AD_Menu_ID">54311</Data>
+        <Data AD_Column_ID="7721" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="399" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="400" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="234" Column="AD_Workflow_ID" isNewNull="true"/>
+        <Data AD_Column_ID="233" Column="AD_Window_ID" isNewNull="true"/>
+        <Data AD_Column_ID="235" Column="AD_Task_ID" isNewNull="true"/>
+        <Data AD_Column_ID="84344" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="370" StepType="AD">
+      <PO AD_Table_ID="120" Action="I" Record_ID="54311" Table="AD_Menu_Trl">
+        <Data AD_Column_ID="637" Column="Created">2018-06-21 11:08:37.738</Data>
+        <Data AD_Column_ID="636" Column="IsActive">true</Data>
+        <Data AD_Column_ID="639" Column="Updated">2018-06-21 11:08:37.738</Data>
+        <Data AD_Column_ID="247" Column="Name">Bank Statement Match</Data>
+        <Data AD_Column_ID="248" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="249" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="638" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="640" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="1194" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="1195" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="245" Column="AD_Menu_ID">54311</Data>
+        <Data AD_Column_ID="246" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84345" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="380" StepType="AD">
+      <PO AD_Table_ID="452" Action="I" Record_ID="54311" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6153" Column="Updated">2018-06-21 11:08:37.933</Data>
+        <Data AD_Column_ID="6150" Column="IsActive">true</Data>
+        <Data AD_Column_ID="6151" Column="Created">2018-06-21 11:08:37.933</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo">999</Data>
+        <Data AD_Column_ID="6154" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="6152" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID">54311</Data>
+        <Data AD_Column_ID="6155" Column="Parent_ID">0</Data>
+        <Data AD_Column_ID="6162" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6149" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID">10</Data>
+        <Data AD_Column_ID="84442" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="390" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="54311" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="999">28</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="54311">54311</Data>
+        <Data AD_Column_ID="6155" Column="Parent_ID" oldValue="0">236</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="400" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="54039" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="28">29</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="54039">54039</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="410" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="244" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="29">30</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="244">244</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="420" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="53190" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="30">31</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="53190">53190</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="430" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="53187" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="31">32</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="53187">53187</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="440" StepType="AD">
+      <PO AD_Table_ID="376" Action="U" Record_ID="53077" Table="AD_Form">
+        <Data AD_Column_ID="4605" Column="Description" oldValue="Make a Match between bank statement and ADempiere Payments">Make a Match between bank statement and ADempiere Payments</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="450" StepType="AD">
+      <PO AD_Table_ID="284" Action="I" Record_ID="54098" Table="AD_Process">
+        <Data AD_Column_ID="63488" Column="AD_Browse_ID" isNewNull="true"/>
+        <Data AD_Column_ID="4374" Column="AD_ReportView_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6485" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="2813" Column="ProcedureName" isNewNull="true"/>
+        <Data AD_Column_ID="50182" Column="JasperReport" isNewNull="true"/>
+        <Data AD_Column_ID="50181" Column="ShowHelp">Y</Data>
+        <Data AD_Column_ID="2805" Column="Created">2018-06-21 11:11:16.728</Data>
+        <Data AD_Column_ID="2807" Column="Updated">2018-06-21 11:11:16.728</Data>
+        <Data AD_Column_ID="2804" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2809" Column="Name">Bank Statement Match</Data>
+        <Data AD_Column_ID="2810" Column="Description">Make a Match between bank statement and ADempiere Payments</Data>
+        <Data AD_Column_ID="4656" Column="Classname" isNewNull="true"/>
+        <Data AD_Column_ID="2811" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="4214" Column="IsDirectPrint">false</Data>
+        <Data AD_Column_ID="4023" Column="Value">BankStatementMatch</Data>
+        <Data AD_Column_ID="11563" Column="WorkflowValue" isNewNull="true"/>
+        <Data AD_Column_ID="56515" Column="AD_Form_ID">53077</Data>
+        <Data AD_Column_ID="5790" Column="AccessLevel">3</Data>
+        <Data AD_Column_ID="12458" Column="IsBetaFunctionality">false</Data>
+        <Data AD_Column_ID="3371" Column="IsReport">false</Data>
+        <Data AD_Column_ID="14084" Column="IsServerProcess">false</Data>
+        <Data AD_Column_ID="78843" Column="GenerateClass">N</Data>
+        <Data AD_Column_ID="57920" Column="CopyFromProcess">N</Data>
+        <Data AD_Column_ID="7752" Column="AD_PrintFormat_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2808" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="2806" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2801" Column="AD_Process_ID">54098</Data>
+        <Data AD_Column_ID="2802" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2803" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="11834" Column="AD_Workflow_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6653" Column="Statistic_Seconds">0</Data>
+        <Data AD_Column_ID="6652" Column="Statistic_Count">0</Data>
+        <Data AD_Column_ID="84383" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="460" StepType="AD">
+      <PO AD_Table_ID="287" Action="I" Record_ID="0" Table="AD_Process_Trl">
+        <Data AD_Column_ID="2854" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="2850" Column="Updated">2018-06-21 11:11:17.855</Data>
+        <Data AD_Column_ID="2847" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2848" Column="Created">2018-06-21 11:11:17.855</Data>
+        <Data AD_Column_ID="2852" Column="Name">Bank Statement Match</Data>
+        <Data AD_Column_ID="2853" Column="Description">Make a Match between bank statement and ADempiere Payments</Data>
+        <Data AD_Column_ID="2855" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="2849" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2851" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="2846" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2845" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2844" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="2843" Column="AD_Process_ID">54098</Data>
+        <Data AD_Column_ID="84387" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="470" StepType="AD">
+      <PO AD_Table_ID="287" Action="U" Record_ID="0" Table="AD_Process_Trl">
+        <Data AD_Column_ID="2852" Column="Name" oldValue="Bank Statement Match">Conciliación de Estado de Cuenta</Data>
+        <Data AD_Column_ID="2853" Column="Description" oldValue="Make a Match between bank statement and ADempiere Payments">Realiza una Conciliación del Estado de Cuenta Bancario con los Movimientos de ADempiere</Data>
+        <Data AD_Column_ID="2844" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="2843" Column="AD_Process_ID" oldValue="54098">54098</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="480" StepType="AD">
+      <PO AD_Table_ID="53660" Action="I" Record_ID="392" Table="AD_Table_Process">
+        <Data AD_Column_ID="69648" Column="AD_Table_ID">392</Data>
+        <Data AD_Column_ID="69641" Column="IsActive">true</Data>
+        <Data AD_Column_ID="69642" Column="Created">2018-06-21 11:12:24.053</Data>
+        <Data AD_Column_ID="69643" Column="Updated">2018-06-21 11:12:24.053</Data>
+        <Data AD_Column_ID="69647" Column="AD_Process_ID">54098</Data>
+        <Data AD_Column_ID="69645" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="69644" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="69649" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="69640" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="69639" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="84427" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="490" StepType="AD">
+      <PO AD_Table_ID="109" Action="I" Record_ID="53451" Table="AD_Message">
+        <Data AD_Column_ID="197" Column="MsgType">I</Data>
+        <Data AD_Column_ID="198" Column="MsgText">Imported Payments</Data>
+        <Data AD_Column_ID="591" Column="Updated">2018-06-21 11:22:24.485</Data>
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="589" Column="Created">2018-06-21 11:22:24.485</Data>
+        <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="6766" Column="Value">BankStatementMatch.Imported</Data>
+        <Data AD_Column_ID="590" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53451</Data>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="84346" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="500" StepType="AD">
+      <PO AD_Table_ID="119" Action="I" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="342" Column="MsgText">Imported Payments</Data>
+        <Data AD_Column_ID="609" Column="Created">2018-06-21 11:22:25.345</Data>
+        <Data AD_Column_ID="611" Column="Updated">2018-06-21 11:22:25.345</Data>
+        <Data AD_Column_ID="608" Column="IsActive">true</Data>
+        <Data AD_Column_ID="344" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="343" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="341" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID">53451</Data>
+        <Data AD_Column_ID="610" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="612" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="1192" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="1193" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="84347" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="510" StepType="AD">
+      <PO AD_Table_ID="119" Action="U" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="342" Column="MsgText" oldValue="Imported Payments">Movimientos Importados</Data>
+        <Data AD_Column_ID="341" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID" oldValue="53451">53451</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="520" StepType="AD">
+      <PO AD_Table_ID="109" Action="I" Record_ID="53452" Table="AD_Message">
+        <Data AD_Column_ID="197" Column="MsgType">I</Data>
+        <Data AD_Column_ID="198" Column="MsgText">Current Payments</Data>
+        <Data AD_Column_ID="591" Column="Updated">2018-06-21 11:23:04.05</Data>
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="589" Column="Created">2018-06-21 11:23:04.05</Data>
+        <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="6766" Column="Value">BankStatementMatch.Current</Data>
+        <Data AD_Column_ID="590" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53452</Data>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="84346" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="530" StepType="AD">
+      <PO AD_Table_ID="119" Action="I" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="342" Column="MsgText">Current Payments</Data>
+        <Data AD_Column_ID="609" Column="Created">2018-06-21 11:23:04.914</Data>
+        <Data AD_Column_ID="611" Column="Updated">2018-06-21 11:23:04.914</Data>
+        <Data AD_Column_ID="608" Column="IsActive">true</Data>
+        <Data AD_Column_ID="344" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="343" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="341" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID">53452</Data>
+        <Data AD_Column_ID="610" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="612" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="1192" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="1193" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="84347" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="540" StepType="AD">
+      <PO AD_Table_ID="119" Action="U" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="342" Column="MsgText" oldValue="Current Payments">Pagos del Sistema</Data>
+        <Data AD_Column_ID="341" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID" oldValue="53452">53452</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="550" StepType="AD">
+      <PO AD_Table_ID="109" Action="I" Record_ID="53453" Table="AD_Message">
+        <Data AD_Column_ID="197" Column="MsgType">I</Data>
+        <Data AD_Column_ID="198" Column="MsgText">Matched Payments</Data>
+        <Data AD_Column_ID="591" Column="Updated">2018-06-21 11:23:44.53</Data>
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="589" Column="Created">2018-06-21 11:23:44.53</Data>
+        <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="6766" Column="Value">BankStatementMatch.Matched</Data>
+        <Data AD_Column_ID="590" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53453</Data>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="84346" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="560" StepType="AD">
+      <PO AD_Table_ID="119" Action="I" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="342" Column="MsgText">Matched Payments</Data>
+        <Data AD_Column_ID="609" Column="Created">2018-06-21 11:23:45.516</Data>
+        <Data AD_Column_ID="611" Column="Updated">2018-06-21 11:23:45.516</Data>
+        <Data AD_Column_ID="608" Column="IsActive">true</Data>
+        <Data AD_Column_ID="344" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="343" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="341" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID">53453</Data>
+        <Data AD_Column_ID="610" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="612" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="1192" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="1193" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="84347" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="570" StepType="AD">
+      <PO AD_Table_ID="119" Action="U" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="342" Column="MsgText" oldValue="Matched Payments">Pagos con Coincidencia</Data>
+        <Data AD_Column_ID="341" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID" oldValue="53453">53453</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="580" StepType="AD">
+      <PO AD_Table_ID="109" Action="I" Record_ID="53454" Table="AD_Message">
+        <Data AD_Column_ID="197" Column="MsgType">I</Data>
+        <Data AD_Column_ID="198" Column="MsgText">Simulate Match</Data>
+        <Data AD_Column_ID="591" Column="Updated">2018-06-21 11:25:05.714</Data>
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="589" Column="Created">2018-06-21 11:25:05.714</Data>
+        <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="6766" Column="Value">BankStatementMatch.SimulateMatch</Data>
+        <Data AD_Column_ID="590" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53454</Data>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="84346" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="590" StepType="AD">
+      <PO AD_Table_ID="119" Action="I" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="342" Column="MsgText">Simulate Match</Data>
+        <Data AD_Column_ID="609" Column="Created">2018-06-21 11:25:06.883</Data>
+        <Data AD_Column_ID="611" Column="Updated">2018-06-21 11:25:06.883</Data>
+        <Data AD_Column_ID="608" Column="IsActive">true</Data>
+        <Data AD_Column_ID="344" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="343" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="341" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID">53454</Data>
+        <Data AD_Column_ID="610" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="612" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="1192" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="1193" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="84347" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="600" StepType="AD">
+      <PO AD_Table_ID="119" Action="U" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="342" Column="MsgText" oldValue="Simulate Match">Simular Conciliación</Data>
+        <Data AD_Column_ID="341" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID" oldValue="53454">53454</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="610" StepType="AD">
+      <PO AD_Table_ID="109" Action="I" Record_ID="53455" Table="AD_Message">
+        <Data AD_Column_ID="197" Column="MsgType">I</Data>
+        <Data AD_Column_ID="198" Column="MsgText">Simulate (Delete Match)</Data>
+        <Data AD_Column_ID="591" Column="Updated">2018-06-21 11:26:34.198</Data>
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="589" Column="Created">2018-06-21 11:26:34.198</Data>
+        <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="6766" Column="Value">BankStatementMatch.SimulateUnMatch</Data>
+        <Data AD_Column_ID="590" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53455</Data>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="84346" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="620" StepType="AD">
+      <PO AD_Table_ID="119" Action="I" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="342" Column="MsgText">Simulate (Delete Match)</Data>
+        <Data AD_Column_ID="609" Column="Created">2018-06-21 11:26:34.978</Data>
+        <Data AD_Column_ID="611" Column="Updated">2018-06-21 11:26:34.978</Data>
+        <Data AD_Column_ID="608" Column="IsActive">true</Data>
+        <Data AD_Column_ID="344" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="343" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="341" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID">53455</Data>
+        <Data AD_Column_ID="610" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="612" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="1192" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="1193" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="84347" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="630" StepType="AD">
+      <PO AD_Table_ID="119" Action="U" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="342" Column="MsgText" oldValue="Simulate (Delete Match)">Simular (Eliminar Conciliación)</Data>
+        <Data AD_Column_ID="341" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID" oldValue="53455">53455</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="640" StepType="AD">
+      <PO AD_Table_ID="109" Action="I" Record_ID="53456" Table="AD_Message">
+        <Data AD_Column_ID="197" Column="MsgType">I</Data>
+        <Data AD_Column_ID="198" Column="MsgText">Do you want to Delete Matchs?</Data>
+        <Data AD_Column_ID="591" Column="Updated">2018-06-21 11:28:36.917</Data>
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="589" Column="Created">2018-06-21 11:28:36.917</Data>
+        <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="6766" Column="Value">BankStatementMatch.AskUnMatch</Data>
+        <Data AD_Column_ID="590" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53456</Data>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="84346" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="650" StepType="AD">
+      <PO AD_Table_ID="119" Action="I" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="342" Column="MsgText">Do you want to Delete Matchs?</Data>
+        <Data AD_Column_ID="609" Column="Created">2018-06-21 11:28:37.908</Data>
+        <Data AD_Column_ID="611" Column="Updated">2018-06-21 11:28:37.908</Data>
+        <Data AD_Column_ID="608" Column="IsActive">true</Data>
+        <Data AD_Column_ID="344" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="343" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="341" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID">53456</Data>
+        <Data AD_Column_ID="610" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="612" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="1192" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="1193" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="84347" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="660" StepType="AD">
+      <PO AD_Table_ID="119" Action="U" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="342" Column="MsgText" oldValue="Do you want to Delete Matchs?">Desea Eliminar la Conciliación Seleccionada?</Data>
+        <Data AD_Column_ID="341" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID" oldValue="53456">53456</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="670" StepType="AD">
+      <PO AD_Table_ID="109" Action="I" Record_ID="53457" Table="AD_Message">
+        <Data AD_Column_ID="197" Column="MsgType">I</Data>
+        <Data AD_Column_ID="198" Column="MsgText">Do you want to Save Match?</Data>
+        <Data AD_Column_ID="591" Column="Updated">2018-06-21 11:29:43.409</Data>
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="589" Column="Created">2018-06-21 11:29:43.409</Data>
+        <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="6766" Column="Value">BankStatementMatch.AskMatch</Data>
+        <Data AD_Column_ID="590" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53457</Data>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="84346" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="680" StepType="AD">
+      <PO AD_Table_ID="119" Action="I" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="342" Column="MsgText">Do you want to Save Match?</Data>
+        <Data AD_Column_ID="609" Column="Created">2018-06-21 11:29:44.298</Data>
+        <Data AD_Column_ID="611" Column="Updated">2018-06-21 11:29:44.298</Data>
+        <Data AD_Column_ID="608" Column="IsActive">true</Data>
+        <Data AD_Column_ID="344" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="343" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="341" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID">53457</Data>
+        <Data AD_Column_ID="610" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="612" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="1192" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="1193" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="84347" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="690" StepType="AD">
+      <PO AD_Table_ID="109" Action="U" Record_ID="53456" Table="AD_Message">
+        <Data AD_Column_ID="198" Column="MsgText" oldValue="Do you want to Delete Matchs?">Do you want to Delete Match?</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="700" StepType="AD">
+      <PO AD_Table_ID="119" Action="U" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="342" Column="MsgText" oldValue="Do you want to Save Match?">Desea Guardar la Conciliación?</Data>
+        <Data AD_Column_ID="341" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID" oldValue="53457">53457</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="710" StepType="AD">
+      <PO AD_Table_ID="109" Action="I" Record_ID="53458" Table="AD_Message">
+        <Data AD_Column_ID="197" Column="MsgType">I</Data>
+        <Data AD_Column_ID="198" Column="MsgText">No Matched Found</Data>
+        <Data AD_Column_ID="591" Column="Updated">2018-06-21 11:30:48.588</Data>
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="589" Column="Created">2018-06-21 11:30:48.588</Data>
+        <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="6766" Column="Value">BankStatementMatch.NoMatchedFound</Data>
+        <Data AD_Column_ID="590" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53458</Data>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="84346" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="720" StepType="AD">
+      <PO AD_Table_ID="119" Action="I" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="342" Column="MsgText">No Matched Found</Data>
+        <Data AD_Column_ID="609" Column="Created">2018-06-21 11:30:49.413</Data>
+        <Data AD_Column_ID="611" Column="Updated">2018-06-21 11:30:49.413</Data>
+        <Data AD_Column_ID="608" Column="IsActive">true</Data>
+        <Data AD_Column_ID="344" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="343" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="341" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID">53458</Data>
+        <Data AD_Column_ID="610" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="612" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="1192" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="1193" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="84347" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="730" StepType="AD">
+      <PO AD_Table_ID="119" Action="U" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="342" Column="MsgText" oldValue="No Matched Found">No se encontró Coincidencia entre Pagos Importados y Los Pagos del Sistema</Data>
+        <Data AD_Column_ID="341" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID" oldValue="53458">53458</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="740" StepType="AD">
+      <PO AD_Table_ID="109" Action="I" Record_ID="53459" Table="AD_Message">
+        <Data AD_Column_ID="197" Column="MsgType">I</Data>
+        <Data AD_Column_ID="198" Column="MsgText">Matched Processed</Data>
+        <Data AD_Column_ID="591" Column="Updated">2018-06-21 11:31:59.195</Data>
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="589" Column="Created">2018-06-21 11:31:59.195</Data>
+        <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="6766" Column="Value">BankStatementMatch.MatchedProcessed</Data>
+        <Data AD_Column_ID="590" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53459</Data>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="84346" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="750" StepType="AD">
+      <PO AD_Table_ID="119" Action="I" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="342" Column="MsgText">Matched Processed</Data>
+        <Data AD_Column_ID="609" Column="Created">2018-06-21 11:32:00.094</Data>
+        <Data AD_Column_ID="611" Column="Updated">2018-06-21 11:32:00.094</Data>
+        <Data AD_Column_ID="608" Column="IsActive">true</Data>
+        <Data AD_Column_ID="344" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="343" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="341" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID">53459</Data>
+        <Data AD_Column_ID="610" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="612" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="1192" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="1193" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="84347" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="760" StepType="AD">
+      <PO AD_Table_ID="119" Action="U" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="342" Column="MsgText" oldValue="Matched Processed">Conciliación Realizada</Data>
+        <Data AD_Column_ID="341" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID" oldValue="53459">53459</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

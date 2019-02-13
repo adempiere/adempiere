@@ -37,44 +37,13 @@ import org.compiere.util.Env;
  *		@see https://github.com/adempiere/adempiere/issues/264
  */
 
-public class CopyRole extends SvrProcess
-{
-	private int m_AD_Role_ID_From = 0;
-	private int m_AD_Role_ID_To = 0;
-	private int m_AD_Client_ID = 0;	
-	private int m_AD_Org_ID = 0;
-	
-	/**
-	 *  Prepare - e.g., get Parameters.
-	 */
-	protected void prepare()
-	{
-		
-		ProcessInfoParameter[] para = getParameter();
-		for (int i = 0; i < para.length; i++)
-		{
-			String name = para[i].getParameterName();
-			if (para[i].getParameter() == null)
-				;
-			//	BR [ 264 ] Parameter Name Changed
-			else if (name.equals("AD_Role_ID"))
-				m_AD_Role_ID_From = para[i].getParameterAsInt();
-			else if (name.equals("AD_Role_To_ID"))
-				m_AD_Role_ID_To = para[i].getParameterAsInt();
-			else if (name.equals("AD_Client_ID"))
-				m_AD_Client_ID = para[i].getParameterAsInt();
-			else if (name.equals("AD_Org_ID"))
-				m_AD_Org_ID = para[i].getParameterAsInt();
-		}		
-	}	//	prepare
-
+public class CopyRole extends CopyRoleAbstract {
 	/**
 	 * 	Copy the role access records
 	 *	@return info
 	 *	@throws Exception
 	 */
-	protected String doIt() throws Exception
-	{	
+	protected String doIt() throws Exception {	
 		String[] tables = new String[] {"AD_Window_Access", "AD_Process_Access", "AD_Form_Access",
 				"AD_Workflow_Access", "AD_Task_Access", "AD_Document_Action_Access", "AD_Browse_Access",
 				I_AD_Role_Included.Table_Name,
@@ -91,7 +60,7 @@ public class CopyRole extends SvrProcess
 			String table = tables[i];
 			String keycolumn = keycolumns[i];
 			
-			String sql = "DELETE FROM " + table + " WHERE AD_Role_ID = " + m_AD_Role_ID_To;
+			String sql = "DELETE FROM " + table + " WHERE AD_Role_ID = " + getRoleToId();
 			int no = DB.executeUpdateEx(sql, get_TrxName());
 			addLog(action++, null, BigDecimal.valueOf(no), "Old records deleted from " + table );
 			
@@ -109,18 +78,18 @@ public class CopyRole extends SvrProcess
 				sql += ", isReadWrite) ";
 			else
 				sql +=  ") ";
-			sql	+= "SELECT " + m_AD_Client_ID
-			+	", "+ m_AD_Org_ID
+			sql	+= "SELECT " + getClientId()
+			+	", "+ getOrgId()
 			+	", getdate(), "+ Env.getAD_User_ID(Env.getCtx())
 			+	", getdate(), "+ Env.getAD_User_ID(Env.getCtx())
-			+	", " + m_AD_Role_ID_To
+			+	", " + getRoleToId()
 			+	", " + keycolumn
 			+	", IsActive ";
 			if (column_SeqNo)
 				sql += ", SeqNo ";
 			if (column_IsReadWrite)
 				sql += ", isReadWrite ";
-			sql += "FROM " + table + " WHERE AD_Role_ID = " + m_AD_Role_ID_From;
+			sql += "FROM " + table + " WHERE AD_Role_ID = " + getRoleId();
 
 			no = DB.executeUpdateEx (sql, get_TrxName());
 

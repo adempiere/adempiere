@@ -104,8 +104,7 @@ public class WProcessCtl {
 				return;
 			}
 		}
-		else
-			processModalDialog.runProcess();
+		processModalDialog.runProcess();
 		return;
 
 	}	//	execute

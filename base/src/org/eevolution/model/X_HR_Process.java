@@ -21,23 +21,19 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-
-import org.compiere.model.I_Persistent;
-import org.compiere.model.MTable;
-import org.compiere.model.PO;
-import org.compiere.model.POInfo;
+import org.compiere.model.*;
 import org.compiere.util.Env;
 
 /** Generated Model for HR_Process
  *  @author Adempiere (generated) 
  *  @version Release 3.9.0 - $Id$ */
-public class X_HR_Process extends PO implements I_HR_Process, I_Persistent
+public class X_HR_Process extends PO implements I_HR_Process, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20180126L;
+	private static final long serialVersionUID = 20180728L;
 
     /** Standard Constructor */
     public X_HR_Process (Properties ctx, int HR_Process_ID, String trxName)
@@ -52,10 +48,6 @@ public class X_HR_Process extends PO implements I_HR_Process, I_Persistent
 			setDocStatus (null);
 // DR
 			setHR_Payroll_ID (0);
-			setIsPostPerEmployee (false);
-// N
-			setIsReversal (false);
-// N
 			setName (null);
 			setPosted (false);
 // N
@@ -93,7 +85,7 @@ public class X_HR_Process extends PO implements I_HR_Process, I_Persistent
 
 	public org.compiere.model.I_AD_Workflow getAD_Workflow() throws RuntimeException
     {
-		return (org.compiere.model.I_AD_Workflow) MTable.get(getCtx(), org.compiere.model.I_AD_Workflow.Table_Name)
+		return (org.compiere.model.I_AD_Workflow)MTable.get(getCtx(), org.compiere.model.I_AD_Workflow.Table_Name)
 			.getPO(getAD_Workflow_ID(), get_TrxName());	}
 
 	/** Set Workflow.
@@ -472,54 +464,6 @@ public class X_HR_Process extends PO implements I_HR_Process, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set IsPostPerEmployee.
-		@param IsPostPerEmployee 
-		A Payroll is posted per employee when the value is Yes, it is posted accumulated when the value is N
-	  */
-	public void setIsPostPerEmployee (boolean IsPostPerEmployee)
-	{
-		set_Value (COLUMNNAME_IsPostPerEmployee, Boolean.valueOf(IsPostPerEmployee));
-	}
-
-	/** Get IsPostPerEmployee.
-		@return A Payroll is posted per employee when the value is Yes, it is posted accumulated when the value is N
-	  */
-	public boolean isPostPerEmployee () 
-	{
-		Object oo = get_Value(COLUMNNAME_IsPostPerEmployee);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
-	/** Set Reversal.
-		@param IsReversal 
-		This is a reversing transaction
-	  */
-	public void setIsReversal (boolean IsReversal)
-	{
-		set_ValueNoCheck (COLUMNNAME_IsReversal, Boolean.valueOf(IsReversal));
-	}
-
-	/** Get Reversal.
-		@return This is a reversing transaction
-	  */
-	public boolean isReversal () 
-	{
-		Object oo = get_Value(COLUMNNAME_IsReversal);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
 	}
 
 	/** Set Name.

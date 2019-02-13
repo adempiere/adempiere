@@ -24,7 +24,6 @@ import java.util.stream.Collectors;
 
 import org.compiere.model.I_C_BPartner;
 import org.compiere.model.Query;
-import org.compiere.util.Env;
 
 /**
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
@@ -60,6 +59,8 @@ public class MHREmployeeDependent extends X_HR_EmployeeDependent {
 
 	/**
 	 * Get Dependents of Business Partner
+	 *
+	 * @param ctx
 	 * @param bpartnerId
 	 * @param relationshipValue
 	 * @param gradeValue
@@ -68,8 +69,40 @@ public class MHREmployeeDependent extends X_HR_EmployeeDependent {
 	 * @param onlyActiveStudent
 	 * @return
 	 */
-	public static MHREmployeeDependent[] getEmployeeDependents(int bpartnerId, String relationshipValue, String gradeValue, 
-			boolean onlyDepending, boolean onlyScholarship, boolean onlyActiveStudent) {
+	@Deprecated
+	public static MHREmployeeDependent[] getEmployeeDependents(
+			Properties ctx,
+			int bpartnerId,
+			String relationshipValue,
+			String gradeValue,
+			boolean onlyDepending,
+			boolean onlyScholarship,
+			boolean onlyActiveStudent) {
+		return getEmployeeDependents(ctx, bpartnerId, relationshipValue, gradeValue, onlyDepending, onlyDepending, onlyActiveStudent, null).toArray(new MHREmployeeDependent[0]);
+	}
+
+	/**
+	 * Get Dependents of Business Partner
+	 *
+	 * @param ctx
+	 * @param bpartnerId
+	 * @param relationshipValue
+	 * @param gradeValue
+	 * @param onlyDepending
+	 * @param onlyScholarship
+	 * @param onlyActiveStudent
+	 * @param trxName
+	 * @return
+	 */
+	public static List<MHREmployeeDependent> getEmployeeDependents(
+			Properties ctx,
+			int bpartnerId,
+			String relationshipValue,
+			String gradeValue,
+			boolean onlyDepending,
+			boolean onlyScholarship,
+			boolean onlyActiveStudent,
+			String trxName) {
 		
 		StringBuffer whereClause = new StringBuffer();
 		//	Parameters
@@ -109,25 +142,21 @@ public class MHREmployeeDependent extends X_HR_EmployeeDependent {
 			params.add(true);
 		}
 		//	Get Family
-		List<MHREmployeeDependent> list = new Query(Env.getCtx(), I_HR_EmployeeDependent.Table_Name, whereClause.toString(), null)
+		return new Query(ctx, I_HR_EmployeeDependent.Table_Name, whereClause.toString(), trxName)
 				.setParameters(params)
 				.setOnlyActiveRecords(true)
 				.<MHREmployeeDependent>list();
-		//	Convert to Array
-		MHREmployeeDependent [] dependents = new MHREmployeeDependent[list.size()];
-		list.toArray(dependents);
-		//	
-		return dependents;
 	}
 	
 	/**
 	 * Static method for depending load
 	 * @param ctx
 	 * @param bpartnerId
+	 * @param trxName
 	 * @return
 	 */
-	public static MHREmployeeDependent loadDependent(Properties ctx, int bpartnerId) {
-		return new MHREmployeeDependent(ctx, 0, null).loadDependent(bpartnerId);
+	public static MHREmployeeDependent loadDependent(Properties ctx, int bpartnerId, String trxName) {
+		return new MHREmployeeDependent(ctx, 0, trxName).loadDependent(bpartnerId);
 	}
 	
 	/**
@@ -137,7 +166,7 @@ public class MHREmployeeDependent extends X_HR_EmployeeDependent {
 	 */
 	public MHREmployeeDependent loadDependent(int bpartnerId) {
 		//	Get Family
-		dependentList = new Query(Env.getCtx(), I_HR_EmployeeDependent.Table_Name, I_C_BPartner.COLUMNNAME_C_BPartner_ID + " = ?", null)
+		dependentList = new Query(getCtx(), I_HR_EmployeeDependent.Table_Name, I_C_BPartner.COLUMNNAME_C_BPartner_ID + " = ?", get_TrxName())
 				.setParameters(bpartnerId)
 				.setOnlyActiveRecords(true)
 				.<MHREmployeeDependent>list();
@@ -206,7 +235,7 @@ public class MHREmployeeDependent extends X_HR_EmployeeDependent {
 		if(dependentList != null
 				&& dependentList.size() > 0) {
 			//	Get Degree Id
-			MHRDegree degree = MHRDegree.getByValue(getCtx(), degreeValue);
+			MHRDegree degree = MHRDegree.getByValue(getCtx(), degreeValue, get_TrxName());
 			if(degree != null
 					&& degree.getHR_Degree_ID() != 0) {
 				dependentList = dependentList.stream()
@@ -231,7 +260,7 @@ public class MHREmployeeDependent extends X_HR_EmployeeDependent {
 		if(dependentList != null
 				&& dependentList.size() > 0) {
 			//	Get Degree Id
-			MHRGrade grade = MHRGrade.getByValue(getCtx(), gradeValue);
+			MHRGrade grade = MHRGrade.getByValue(getCtx(), gradeValue, get_TrxName());
 			if(grade != null
 					&& grade.getHR_Grade_ID() != 0) {
 				dependentList = dependentList.stream()
@@ -256,7 +285,7 @@ public class MHREmployeeDependent extends X_HR_EmployeeDependent {
 		if(dependentList != null
 				&& dependentList.size() > 0) {
 			//	Get Degree Id
-			MHRCareerLevel careerLevel = MHRCareerLevel.getByValue(getCtx(), careerLevelValue);
+			MHRCareerLevel careerLevel = MHRCareerLevel.getByValue(getCtx(), careerLevelValue, get_TrxName());
 			if(careerLevel != null
 					&& careerLevel.getHR_CareerLevel_ID() != 0) {
 				dependentList = dependentList.stream()
@@ -281,7 +310,7 @@ public class MHREmployeeDependent extends X_HR_EmployeeDependent {
 		if(dependentList != null
 				&& dependentList.size() > 0) {
 			//	Get Degree Id
-			MHRRace race = MHRRace.getByValue(getCtx(), raceValue);
+			MHRRace race = MHRRace.getByValue(getCtx(), raceValue, get_TrxName());
 			if(race != null
 					&& race.getHR_Race_ID() != 0) {
 				dependentList = dependentList.stream()
@@ -306,7 +335,7 @@ public class MHREmployeeDependent extends X_HR_EmployeeDependent {
 		if(dependentList != null
 				&& dependentList.size() > 0) {
 			//	Get Degree Id
-			MHRRelationship race = MHRRelationship.getByValue(getCtx(), relationshipValue);
+			MHRRelationship race = MHRRelationship.getByValue(getCtx(), relationshipValue, get_TrxName());
 			if(race != null
 					&& race.getHR_Relationship_ID() != 0) {
 				dependentList = dependentList.stream()

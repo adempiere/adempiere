@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.MProject;
@@ -58,6 +59,9 @@ public class ProjectPhaseGenOrder  extends ProjectPhaseGenOrderAbstract
 			throw new IllegalArgumentException("C_ProjectPhase_ID == 0");
 		MProjectPhase fromPhase = new MProjectPhase (getCtx(), getRecord_ID(), get_TrxName());
 		MProject fromProject = ProjectGenOrder.getProject (getCtx(), fromPhase.getC_Project_ID(), get_TrxName());
+		if (fromProject.getC_PaymentTerm_ID() <= 0)
+			throw new AdempiereException("@C_PaymentTerm_ID@ @NotFound@");
+
 		MOrder order = new MOrder (fromProject, true, MOrder.DocSubTypeSO_OnCredit);
 		order.setDescription(order.getDescription() + " - " + fromPhase.getName());
 		order.saveEx();
@@ -110,25 +114,24 @@ public class ProjectPhaseGenOrder  extends ProjectPhaseGenOrderAbstract
 
 		//	Project Tasks
 		List<MProjectTask> tasks = fromPhase.getTasks();
-		tasks.stream()
-				.forEach(fromTask -> {
-					{
-						MOrderLine orderLine = new MOrderLine(order);
-						orderLine.setLine(fromTask.getSeqNo());
-						StringBuilder stringBuilder = new StringBuilder(fromTask.getName());
-						if (fromTask.getDescription() != null && fromTask.getDescription().length() > 0)
-							stringBuilder.append(" - ").append(fromTask.getDescription());
-						orderLine.setDescription(stringBuilder.toString());
-						orderLine.setM_Product_ID(fromTask.getM_Product_ID(), true);
-						orderLine.setQty(fromTask.getQty());
-						orderLine.setPrice();
-						orderLine.setC_Project_ID(fromProject.getC_Project_ID());
-						orderLine.setC_ProjectPhase_ID(fromTask.getC_ProjectPhase_ID());
-						orderLine.setC_ProjectTask_ID(fromTask.getC_ProjectTask_ID());
-						orderLine.setTax();
-						orderLine.saveEx();
-						count.getAndUpdate(no -> no + 1);
-					}
+		tasks.stream().filter(task -> task.getM_Product_ID() != 0).forEach(fromTask -> {
+			{
+				MOrderLine orderLine = new MOrderLine(order);
+				orderLine.setLine(fromTask.getSeqNo());
+				StringBuilder stringBuilder = new StringBuilder(fromTask.getName());
+				if (fromTask.getDescription() != null && fromTask.getDescription().length() > 0)
+					stringBuilder.append(" - ").append(fromTask.getDescription());
+				orderLine.setDescription(stringBuilder.toString());
+				orderLine.setM_Product_ID(fromTask.getM_Product_ID(), true);
+				orderLine.setQty(fromTask.getQty());
+				orderLine.setPrice();
+				orderLine.setC_Project_ID(fromProject.getC_Project_ID());
+				orderLine.setC_ProjectPhase_ID(fromTask.getC_ProjectPhase_ID());
+				orderLine.setC_ProjectTask_ID(fromTask.getC_ProjectTask_ID());
+				orderLine.setTax();
+				orderLine.saveEx();
+				count.getAndUpdate(no -> no + 1);
+			}
 				});    //	for all lines
 		if (tasks.size() != count.get() - projectLines.size())
 			log.log(Level.SEVERE, "doIt - Lines difference - ProjectTasks=" + tasks.size() + " <> Saved=" + count.get());

@@ -358,7 +358,7 @@ public class VHRActionNotice extends HRActionNotice implements FormPanel, Action
 				payrollProcessId = pp.getKey();
 				payrollProcess = new MHRProcess(Env.getCtx(), payrollProcessId, null);
 				if(payrollProcess.getHR_Period_ID() > 0) {
-					MHRPeriod period = MHRPeriod.get(Env.getCtx(), payrollProcess.getHR_Period_ID());
+					MHRPeriod period = MHRPeriod.getById(Env.getCtx(), payrollProcess.getHR_Period_ID() , null);
 					dateStart= period.getStartDate();
 					dateEnd  = period.getEndDate();
 				} else {
@@ -396,7 +396,7 @@ public class VHRActionNotice extends HRActionNotice implements FormPanel, Action
 			}
 			//	
 			if (conceptId > 0) {
-				MHRConcept concept = MHRConcept.get(Env.getCtx(), conceptId);
+				MHRConcept concept = MHRConcept.getById(Env.getCtx(), conceptId , null);
 				//	Load Data Combo Box
 				loadTextMsgLookup(concept.getAD_Reference_ID());
 				// Name To Type Column
@@ -484,7 +484,7 @@ public class VHRActionNotice extends HRActionNotice implements FormPanel, Action
 			partnerId = ((KeyNamePair) fieldEmployee.getSelectedItem()).getKey();
 			payrollId = getPayrollProcess().getHR_Payroll_ID();
 			if(payrollProcess.getHR_Period_ID() > 0) {
-				MHRPeriod period = MHRPeriod.get(Env.getCtx(), payrollProcess.getHR_Period_ID());
+				MHRPeriod period = MHRPeriod.getById(Env.getCtx(), payrollProcess.getHR_Period_ID(), null);
 				dateStart = period.getStartDate();
 				dateEnd = period.getEndDate();
 			} else {

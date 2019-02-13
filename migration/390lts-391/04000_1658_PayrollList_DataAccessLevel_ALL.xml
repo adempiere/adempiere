@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="1658_Payroll_List_accessible_allclients" ReleaseNo="3.9.1" SeqNo="4000">
+    <Comments>https://github.com/adempiere/adempiere/issues/1658</Comments>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="100" Action="U" Record_ID="53099" Table="AD_Table">
+        <Data AD_Column_ID="354" Column="AccessLevel" oldValue="3">7</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="100" Action="U" Record_ID="53101" Table="AD_Table">
+        <Data AD_Column_ID="354" Column="AccessLevel" oldValue="3">7</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="100" Action="U" Record_ID="53098" Table="AD_Table">
+        <Data AD_Column_ID="354" Column="AccessLevel" oldValue="3">7</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="100" Action="U" Record_ID="53100" Table="AD_Table">
+        <Data AD_Column_ID="354" Column="AccessLevel" oldValue="3">7</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

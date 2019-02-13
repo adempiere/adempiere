@@ -11,5 +11,7 @@
 	<classpathentry kind="lib" path="/tools/lib/barbecue-1.5-beta1.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/serverApps"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
+	<classpathentry kind="lib" path="/JasperReportsTools/lib/jasperreports-6.6.0.jar"/>
+	<classpathentry kind="lib" path="/JasperReportsTools/lib/jasperreports-fonts-6.6.0.jar"/>
 	<classpathentry kind="output" path="build"/>
 </classpath>

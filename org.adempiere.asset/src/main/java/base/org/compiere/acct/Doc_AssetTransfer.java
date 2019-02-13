@@ -59,8 +59,8 @@ public class Doc_AssetTransfer extends Doc
 		// Change Asset Account
 		if (assetTr.getA_Asset_New_Acct() != assetTr.getA_Asset_Acct())
 		{
-			MAccount dr = MAccount.get(getCtx(), assetTr.getA_Asset_New_Acct());  
-			MAccount cr = MAccount.get(getCtx(), assetTr.getA_Asset_Acct());
+			MAccount dr = MAccount.getValidCombination(getCtx(), assetTr.getA_Asset_New_Acct(), getTrxName());
+			MAccount cr = MAccount.getValidCombination(getCtx(), assetTr.getA_Asset_Acct() , getTrxName());
 			FactUtil.createSimpleOperation(fact, null, dr, cr, as.getC_Currency_ID(),
 					wk.getA_Asset_Cost(), false);
 		}
@@ -68,8 +68,8 @@ public class Doc_AssetTransfer extends Doc
 		// Change Asset Accum. Depr. Account
 		if (assetTr.getA_Accumdepreciation_New_Acct() != assetTr.getA_Accumdepreciation_Acct())
 		{
-			MAccount cr = MAccount.get(getCtx(), assetTr.getA_Accumdepreciation_New_Acct());  
-			MAccount dr = MAccount.get(getCtx(), assetTr.getA_Accumdepreciation_Acct());
+			MAccount cr = MAccount.getValidCombination(getCtx(), assetTr.getA_Accumdepreciation_New_Acct() , getTrxName());
+			MAccount dr = MAccount.getValidCombination(getCtx(), assetTr.getA_Accumdepreciation_Acct() , getTrxName());
 			FactUtil.createSimpleOperation(fact, null, dr, cr, as.getC_Currency_ID(),
 					wk.getA_Accumulated_Depr(), false);
 			        //exp.getA_Accumulated_Depr(), false);

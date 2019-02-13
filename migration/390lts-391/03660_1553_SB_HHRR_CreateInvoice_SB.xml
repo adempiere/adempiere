@@ -12550,11 +12550,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="57977" Column="IsIdentifier" oldValue="false">true</Data>
       </PO>
     </Step>
-    <Step SeqNo="5510" StepType="AD">
-      <PO AD_Table_ID="53223" Action="U" Record_ID="60446" Table="AD_Browse_Field">
-        <Data AD_Column_ID="57971" Column="AD_View_Column_ID" oldValue="62318">62398</Data>
-      </PO>
-    </Step>
     <Step SeqNo="5520" StepType="AD">
       <PO AD_Table_ID="53223" Action="U" Record_ID="60452" Table="AD_Browse_Field">
         <Data AD_Column_ID="57978" Column="IsKey" oldValue="false">true</Data>

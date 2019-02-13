@@ -127,7 +127,8 @@ public class WStringEditor extends WEditor implements ContextMenuListener
     {
 		if (gridField != null)
 		{
-	        getComponent().setMaxlength(gridField.getFieldLength());
+	        //remove can cause throws an exception org.zkoss.zk.ui.WrongValueException.
+			//getComponent().setMaxlength(gridField.getFieldLength());
 	        int displayLength = gridField.getDisplayLength();
 	        if (displayLength <= 0 || displayLength > MAX_DISPLAY_LENGTH)
 	        {

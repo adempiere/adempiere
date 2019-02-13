@@ -714,7 +714,7 @@ public final class APanel extends CPanel
 			}
 			//  Window Init
 			window.addChangeListener(this);
-
+			m_curWinTab = window;
 			/**
 			 *  Init Model
 			 */
@@ -1263,7 +1263,11 @@ public final class APanel extends CPanel
 		String trxInfo = currentTab.getTrxInfo();
 		if (trxInfo != null)
 			statusBar.setInfo(trxInfo);
-
+		//	Reload Field
+		if (m_curWinTab.getSelectedComponent() instanceof GridController) {
+			GridController gridController = (GridController)m_curWinTab.getSelectedComponent();
+			gridController.reloadFieldTrxInfo();
+		}
 		//	Check Attachment
 		boolean canHaveAttachment = currentTab.canHaveAttachment();		//	not single _ID column
 		//
@@ -2695,7 +2699,8 @@ public final class APanel extends CPanel
 					record_ID, startWOasking);
 			//	FR [ 265 ]
 			//	BR [ 323 ]
-			if(!startWOasking) {
+			if(!startWOasking
+					&& !dialog.isAutoStart()) {
 				dialog.validate();
 				dialog.pack();
 				AEnv.showCenterWindow(Env.getWindow(m_curWindowNo), dialog);

@@ -91,8 +91,10 @@ import org.compiere.util.ValueNamePair;
  *			<li> FR [ 392 ] Translation method does not use PO class
  *			@see https://github.com/adempiere/adempiere/issues/392
  *  @author Nicolas Sarlabos, nicolas.sarlabos@openupsolutions.com, http://www.openupsolutions.com
- **			<li> FR [ 1350 ] Return customized message in model validator
+ *			<li> FR [ 1350 ] Return customized message in model validator
  *			@see https://github.com/adempiere/adempiere/issues/1350
+ *	@author Michael McKay, michael.mckay@mckayerp.com
+ *			<li> BF [ <a href="https://github.com/adempiere/adempiere/issues/1944">1944</a> ] First save of a record with new Yes-No field causes error. 
  *
  */
 public class GridTable extends AbstractTableModel
@@ -104,7 +106,20 @@ public class GridTable extends AbstractTableModel
 	private static final long serialVersionUID = 7799823493936826600L;
 	
 	public static final String DATA_REFRESH_MESSAGE = "Refreshed";
+	
+	public String				m_trxName				= null;
 
+	public String getTrxName()
+	{
+		return m_trxName;
+	}
+
+	public void setTrxName(String trxName)
+	{
+		this.m_trxName = trxName;
+	}
+
+	
 	/**
 	 *	JDBC Based Buffered Table
 	 *
@@ -231,6 +246,10 @@ public class GridTable extends AbstractTableModel
 
 	private final static Integer NEW_ROW_ID = Integer.valueOf(-1);
 	private static final int DEFAULT_FETCH_SIZE = 200;
+
+	public ArrayList<Integer> rowChanged=new ArrayList<Integer>();
+	private HashMap<Integer, Object[]> rowChangedData=new HashMap<Integer, Object[]>();
+
 
 	/**
 	 *	Set Table Name
@@ -1190,7 +1209,9 @@ public class GridTable extends AbstractTableModel
 			log.finest("r=" + row + " c=" + col + " - R/O=" + m_readOnly + ", Rows=" + m_rowCount + " - Ignored");
 			return;
 		}
-
+		if(!rowChanged.contains(row))
+			rowChanged.add(row);
+		if(!m_fields.get(0).getGridTab().isIncluded()) // && !m_fields.get(0).getGridTab().isQuickEntry())
 		dataSave(row, false);
 
 		//	Has anything changed?
@@ -1231,10 +1252,23 @@ public class GridTable extends AbstractTableModel
 				m_rowData[i] = rowData[i];
 		}
 
+		if(rowChangedData.containsKey(row))
+		{
+			rowChangedData.get(row)[col]=oldValue;
+		}
+		else
+		{
+			Object[] o = new Object[rowData.length];
+			System.arraycopy( rowData, 0, o, 0,rowData.length);
+			rowChangedData.put(row, o);
+		}
+
 		//	save & update
 		rowData[col] = value;
 		setDataAtRow(row, rowData);
-		//  update Table
+		//  update Table // QuickEntry: check for DropDown list populate but focus is lose while LEFT/RIGHT key-event fire.
+		if (!m_fields.get(0).getGridTab().isIncluded()
+				&& (DisplayType.List != m_fields.get(col).getDisplayType()))
 		fireTableCellUpdated(row, col);
 		//  update MField
 		GridField field = getField(col);
@@ -1490,6 +1524,7 @@ public class GridTable extends AbstractTableModel
 				return SAVE_ERROR;
 			}
 		}
+		
 		
 		/**	Manual Update of Row (i.e. not via PO class)	**/
 		log.info("NonPO");
@@ -2099,12 +2134,20 @@ public class GridTable extends AbstractTableModel
 				Object dbValue = po.get_Value(poIndex);
 				if (m_inserting 
 					|| !m_compareDB
+					
 					//	Original == DB
 					|| (oldValue == null && dbValue == null)
 					|| (oldValue != null && oldValue.equals (dbValue))
+					//  #1944  Special case when the field is boolean and not initialized
+					//  false equivalent to null allowed
+					|| (oldValue instanceof Boolean && !((Boolean) oldValue) && dbValue == null)
+					
 					//	Target == DB (changed by trigger to new value already)
 					|| (value == null && dbValue == null)
 					|| (value != null && value.equals (dbValue)) 
+					//  #1944  Special case when the field is boolean and not initialized
+					//  false equivalent to null allowed
+					|| (value instanceof Boolean && !((Boolean) value) && dbValue == null)
 					
 					//   GridTable.dataSave(boolean manualCmd) has a Bug when comparing new, old and db value 
 					// - https://adempiere.atlassian.net/browse/ADEMPIERE-157
@@ -2534,6 +2577,12 @@ public class GridTable extends AbstractTableModel
 				field.setValue(rowData[i], m_inserting);
 			}
 		}
+
+		Object[] o =new Object[rowData.length];
+		System.arraycopy(rowData, 0, o, 0, rowData.length);
+		rowChangedData.put(m_newRow, o);
+		if(!rowChanged.contains(m_newRow))
+			rowChanged.add(m_newRow);
 		
 		m_rowChanged = -1;  //  only changed in setValueAt
 
@@ -2680,6 +2729,20 @@ public class GridTable extends AbstractTableModel
 			}
 		}
 
+		if(rowChanged.contains(row))
+		{
+			rowChangedData.remove(row);
+			//rowChanged.remove(row); jobriant - it passes the element index instead of the key
+			int i = 0;
+			for (int changed : rowChanged) {
+				if (changed == row) {
+					rowChanged.remove(i);
+					break;
+				}
+				i++;
+			}
+		}
+
 		//	inform
 		m_changed = false;
 		m_rowChanged = -1;
@@ -2722,8 +2785,21 @@ public class GridTable extends AbstractTableModel
 			//
 			m_changed = false;
 			m_rowData = null;
+
+			if(!m_inserting && rowChanged.size()> 0)
+			{
+				for(int i=0 ; i<rowChanged.size() ; i++)
+				{
+					setDataAtRow(rowChanged.get(i), rowChangedData.get(rowChanged.get(i)));
+				}
+			}
+			rowChangedData.clear();
+			rowChanged.clear();
+			
 			m_rowChanged = -1;
 			m_inserting = false;
+			
+			
 			//	inform
 			fireTableRowsDeleted(m_newRow, m_newRow);
 		}
@@ -3726,4 +3802,26 @@ public class GridTable extends AbstractTableModel
 
 			return where;
 		}
+		
+		public ArrayList<Integer> getRowChanged()
+		{
+			return rowChanged;
+		}
+		
+	public boolean checkField(int m_row) {
+		//	get updated row data
+		if(m_row != -1) {
+			Object[] rowData = getDataAtRow(m_row);
+			//	Check Mandatory
+			String missingColumns = getMandatory(rowData);
+			if (missingColumns.length() != 0)
+			{
+			//	Trace.printStack(false, false);
+				fireDataStatusEEvent("FillMandatory", missingColumns + "\n", true);
+				return false;
+			}
+		}
+		return true;
+	}
+
 }

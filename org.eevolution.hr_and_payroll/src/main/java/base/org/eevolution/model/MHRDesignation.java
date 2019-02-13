@@ -43,20 +43,21 @@ public class MHRDesignation extends  X_HR_Designation{
      * Get Designation by Id
      * @param ctx
      * @param designationId
+     * @param trxName
      * @return
      */
-    public static MHRDesignation getById(Properties ctx, int designationId) {
+    public static MHRDesignation getById(Properties ctx, int designationId, String trxName) {
         if (designationId <= 0)
             return null;
 
         if (designationCacheIds.size() == 0)
-            getAll(ctx, true);
+            getAll(ctx, true, trxName);
 
         MHRDesignation designation = designationCacheIds.get(designationId);
         if (designation != null)
             return designation;
 
-        designation = new Query(ctx , Table_Name , COLUMNNAME_HR_Designation_ID + "=? ", null)
+        designation = new Query(ctx , Table_Name , COLUMNNAME_HR_Designation_ID + "=? ", trxName)
                 .setClient_ID()
                 .setParameters(designationId)
                 .first();
@@ -74,13 +75,14 @@ public class MHRDesignation extends  X_HR_Designation{
      * Get Desugnation by search key
      * @param ctx
      * @param value
+     * @param trxName
      * @return
      */
-    public static MHRDesignation getByValue(Properties ctx, String value) {
+    public static MHRDesignation getByValue(Properties ctx, String value, String trxName) {
         if (value == null)
             return null;
         if (designationCacheValues.size() == 0)
-            getAll(ctx, true);
+            getAll(ctx, true, trxName);
 
         int clientId = Env.getAD_Client_ID(ctx);
         String key = clientId + "#" + value;
@@ -88,7 +90,7 @@ public class MHRDesignation extends  X_HR_Designation{
         if (designation != null && designation.get_ID() > 0)
             return designation;
 
-        designation = new Query(ctx, Table_Name, COLUMNNAME_Value + "=?", null)
+        designation = new Query(ctx, Table_Name, COLUMNNAME_Value + "=?", trxName)
                 .setClient_ID()
                 .setParameters(value)
                 .first();
@@ -103,12 +105,13 @@ public class MHRDesignation extends  X_HR_Designation{
      * Get all Designation
      * @param ctx
      * @param resetCache
+     * @param trxName
      * @return
      */
-    public static List<MHRDesignation> getAll(Properties ctx, boolean resetCache) {
+    public static List<MHRDesignation> getAll(Properties ctx, boolean resetCache, String trxName) {
         List<MHRDesignation> designationList;
         if (resetCache || designationCacheIds.size() > 0) {
-            designationList = new Query(Env.getCtx(), Table_Name, null, null)
+            designationList = new Query(Env.getCtx(), Table_Name, null, trxName)
                     .setClient_ID()
                     .setOrderBy(COLUMNNAME_Name)
                     .list();

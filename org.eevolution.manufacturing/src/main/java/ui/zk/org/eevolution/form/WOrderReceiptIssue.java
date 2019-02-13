@@ -252,9 +252,9 @@ ValueChangeListener,Serializable,WTableModelListener
 		scrapQtyField.setValue(Env.ZERO);
 		rejectQty.setValue(Env.ZERO);
 		// 4Layers - end
-		pickcombo.appendItem(Msg.parseTranslation(Env.getCtx(),"@IsBackflush@"), 1);
-		pickcombo.appendItem(Msg.parseTranslation(Env.getCtx(),"@OnlyIssue@"),2);
-		pickcombo.appendItem(Msg.parseTranslation(Env.getCtx(),"@OnlyReceiptProduct@"),3);
+		pickcombo.appendItem(Msg.parseTranslation(Env.getCtx(),"@IsBackflush@").replaceAll("\n",""), 1);
+		pickcombo.appendItem(Msg.parseTranslation(Env.getCtx(),"@OnlyIssue@").replaceAll("\n",""),2);
+		pickcombo.appendItem(Msg.parseTranslation(Env.getCtx(),"@OnlyReceiptProduct@").replaceAll("\n",""),3);
 		pickcombo.addEventListener(Events.ON_CHANGE, this);
 		Process.addActionListener(this);
 		toDeliverQty.addValueChangeListener(this);

@@ -50,8 +50,10 @@ public class FormElementHandler extends AbstractElementHandler {
 			MForm m_Form = new MForm(ctx, id, getTrxName(ctx));
 			int AD_Backup_ID = -1;
 			String Object_Status = null;
-			if (id <= 0 && atts.getValue("AD_Form_ID") != null && Integer.parseInt(atts.getValue("AD_Form_ID")) <= PackOut.MAX_OFFICIAL_ID)
+			if (id <= 0 && atts.getValue("AD_Form_ID") != null && Integer.parseInt(atts.getValue("AD_Form_ID")) <= PackOut.MAX_OFFICIAL_ID) {
 				m_Form.setAD_Form_ID(Integer.parseInt(atts.getValue("AD_Form_ID")));
+				m_Form.setIsDirectLoad(true);
+			}
 			if (id > 0){
 				AD_Backup_ID = copyRecord(ctx, "AD_Form",m_Form);
 				Object_Status = "Update";

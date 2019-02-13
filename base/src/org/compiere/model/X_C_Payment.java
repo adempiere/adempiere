@@ -688,26 +688,26 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_Payment getC_PaymentRelated() throws RuntimeException
+	public org.compiere.model.I_C_Payment getRelatedPayment() throws RuntimeException
     {
 		return (org.compiere.model.I_C_Payment)MTable.get(getCtx(), org.compiere.model.I_C_Payment.Table_Name)
-			.getPO(getPaymentRelated_ID(), get_TrxName());	}
+			.getPO(getRelatedPayment_ID(), get_TrxName());	}
 
 	/** Set Payment Related.
-		@param PaymentRelated_ID Payment Related	  */
-	public void setPaymentRelated_ID (int PaymentRelated_ID)
+		@param RelatedPayment_ID Payment Related	  */
+	public void setRelatedPayment_ID (int RelatedPayment_ID)
 	{
-		if (PaymentRelated_ID < 1) 
-			set_Value (COLUMNNAME_PaymentRelated_ID, null);
+		if (RelatedPayment_ID < 1) 
+			set_Value (COLUMNNAME_RelatedPayment_ID, null);
 		else 
-			set_Value (COLUMNNAME_PaymentRelated_ID, Integer.valueOf(PaymentRelated_ID));
+			set_Value (COLUMNNAME_RelatedPayment_ID, Integer.valueOf(RelatedPayment_ID));
 	}
 
 	/** Get Payment Related.
 		@return Payment Related	  */
-	public int getPaymentRelated_ID () 
+	public int getRelatedPayment_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_PaymentRelated_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_RelatedPayment_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -1342,26 +1342,6 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 		return false;
 	}
 
-	/** Set IsVoidRelatedDocument.
-		@param IsVoidRelatedDocument IsVoidRelatedDocument	  */
-	public void setIsVoidRelatedDocument (boolean IsVoidRelatedDocument)
-	{
-		set_Value (COLUMNNAME_IsVoidRelatedDocument, Boolean.valueOf(IsVoidRelatedDocument));
-	}
-
-	/** Get IsVoidRelatedDocument.
-		@return IsVoidRelatedDocument	  */
-	public boolean isVoidRelatedDocument () 
-	{
-		Object oo = get_Value(COLUMNNAME_IsVoidRelatedDocument);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
 
 	/** Set Micr.
 		@param Micr 

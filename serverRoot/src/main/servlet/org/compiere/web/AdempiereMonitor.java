@@ -70,6 +70,7 @@ import org.compiere.util.CacheMgt;
 import org.compiere.util.Ini;
 import org.compiere.util.TimeUtil;
 import org.compiere.util.Trx;
+import org.compiere.util.Util;
 import org.compiere.util.WebDoc;
 import org.compiere.util.WebEnv;
 import org.compiere.util.WebUtil;
@@ -329,15 +330,12 @@ public class AdempiereMonitor extends HttpServlet
 		else if (traceCmd.equals("DELETE"))
 		{
 			File logDir = fileHandler.getLogDirectory();
-			if (logDir != null && logDir.isDirectory())
-			{
-				File[] logs = logDir.listFiles();
-				for (int i = 0; i < logs.length; i++) 
-				{
-					String fileName = logs[i].getAbsolutePath();
+			if (logDir != null && logDir.isDirectory()) {
+				for (File logFile : logDir.listFiles()) {
+					String fileName = logFile.getAbsolutePath();
 					if (fileName.equals(fileHandler.getFileName()))
 						continue;
-					if (logs[i].delete())
+					if (logFile.delete())
 						log.warning("Deleted: " + fileName);
 					else
 						log.warning("Not Deleted: " + fileName);
@@ -346,61 +344,54 @@ public class AdempiereMonitor extends HttpServlet
 			return false;	//	re-display
 		}
 		
+		//	Convert
+		traceCmd = getFileName(traceCmd);
+		
 		//	Display current log File
-		if (fileHandler != null && fileHandler.getFileName().equals(traceCmd))
+		if (fileHandler != null && getFileName(fileHandler.getFileName()).equals(traceCmd)) {
 			fileHandler.flush();
-		
-		//	Spool File
-        ////prevent local file inclusion
-        if (!traceCmd.contains(Ini.getAdempiereHome()))
-        {
-        			log.warning ("Trying to access unauthorized system files");
-        	return false;
-        }
-		File file = new File (traceCmd);
-		if (!file.exists())
-		{
-			log.warning ("Did not find File: " + traceCmd);
-			return false;
 		}
-		if (file.length() == 0)
-		{
-			log.warning ("File Length=0: " + traceCmd);
-			return false;
-		}
-		
-		//	Stream Log
-		log.info ("Streaming: " + traceCmd);
-		try
-		{
-			long time = System.currentTimeMillis();		//	timer start
-			int fileLength = (int)file.length();
-			int bufferSize = 2048; //	2k Buffer
-			byte[] buffer = new byte[bufferSize];
-			//
-			response.setContentType("text/plain");
-			response.setBufferSize(bufferSize);
-			response.setContentLength(fileLength);
-			//
-			FileInputStream fis = new FileInputStream(file);
-			ServletOutputStream out = response.getOutputStream ();
-			int read = 0;
-			while ((read = fis.read(buffer)) > 0)
-				out.write (buffer, 0, read);
-			out.flush();
-			out.close();
-			fis.close();
-			//
-			time = System.currentTimeMillis() - time;
-			double speed = (fileLength/1024) / ((double)time/1000);
-			log.info("length=" 
-				+ fileLength + " - " 
-				+ time + " ms - " 
-				+ speed + " kB/sec");
-		}
-		catch (IOException ex)
-		{
-			log.log(Level.SEVERE, "stream" + ex);
+		//	Get Parent
+		File logDir = fileHandler.getLogDirectory();
+		if (logDir != null && logDir.isDirectory()) {
+			for (File logFile : logDir.listFiles()) {
+				if(logFile.getName().equals(traceCmd)) {
+					//	Stream Log
+					log.info ("Streaming: " + traceCmd);
+					try
+					{
+						long time = System.currentTimeMillis();		//	timer start
+						int fileLength = (int)logFile.length();
+						int bufferSize = 2048; //	2k Buffer
+						byte[] buffer = new byte[bufferSize];
+						//
+						response.setContentType("text/plain");
+						response.setBufferSize(bufferSize);
+						response.setContentLength(fileLength);
+						//
+						FileInputStream fis = new FileInputStream(logFile);
+						ServletOutputStream out = response.getOutputStream ();
+						int read = 0;
+						while ((read = fis.read(buffer)) > 0)
+							out.write (buffer, 0, read);
+						out.flush();
+						out.close();
+						fis.close();
+						//
+						time = System.currentTimeMillis() - time;
+						double speed = (fileLength/1024) / ((double)time/1000);
+						log.info("length=" 
+							+ fileLength + " - " 
+							+ time + " ms - " 
+							+ speed + " kB/sec");
+					}
+					catch (IOException ex)
+					{
+						log.log(Level.SEVERE, "stream" + ex);
+					}
+					return true;
+				}
+			}
 		}
 		return true;
 	}	//	processTraceParameter
@@ -794,8 +785,9 @@ public class AdempiereMonitor extends HttpServlet
 		//
 		line = new tr();
 		CLogFile fileHandler = CLogFile.get (true, null, false);
+		String fileName = getFileName(fileHandler.getFileName());
 		line.addElement(new th().addElement("Trace File"));
-		line.addElement(new td().addElement(new a ("adempiereMonitor?Trace=" + fileHandler.getFileName(), "Current")));
+		line.addElement(new td().addElement(new a ("adempiereMonitor?Trace=" + fileName, "Current")));
 		table.addElement(line);
 		//
 		line = new tr();
@@ -813,18 +805,21 @@ public class AdempiereMonitor extends HttpServlet
 		if (logDir != null && logDir.isDirectory())
 		{
 			File[] logs = logDir.listFiles();
-			for (int i = 0; i < logs.length; i++) 
-			{
+			boolean isFirst = true;
+			for (File log : logs)  {
 				// Skip if is not a file - teo_sarca [ 1726066 ]
-				if (!logs[i].isFile())
+				if (!log.isFile())
 					continue;
 				
-				if (i != 0)
+				if (!isFirst) {
 					p.addElement(" - ");
-				String fileName = logs[i].getAbsolutePath();
+				} else {
+					isFirst = !isFirst;
+				}
+				fileName = log.getName();
 				a link = new a ("adempiereMonitor?Trace=" + fileName, fileName);
 				p.addElement(link);
-				int size = (int)(logs[i].length()/1024);
+				int size = (int)(log.length()/1024);
 				if (size < 1024)
 					p.addElement(" (" + size + "k)");
 				else
@@ -875,6 +870,21 @@ public class AdempiereMonitor extends HttpServlet
 		//
 		bb.addElement(table);
 	}	//	createLogMgtPage
+	
+	/**
+	 * Get name of file
+	 * @param fileName
+	 * @return
+	 */
+	private String getFileName(String fileName) {
+		if(!Util.isEmpty(fileName)) {
+			if(fileName.lastIndexOf(File.separator) != -1) {
+				fileName = fileName.substring(fileName.lastIndexOf(File.separator) + 1);
+			}
+		}
+		//	Default
+		return fileName;
+	}
 	
 	/**************************************************************************
 	 * 	Init

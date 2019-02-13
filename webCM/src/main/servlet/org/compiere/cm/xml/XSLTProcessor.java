@@ -28,6 +28,8 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
+import org.spin.util.XMLUtils;
+
 /**
  * @author YS
  * @version $Id$
@@ -62,6 +64,7 @@ public class XSLTProcessor
 	{
 		Calendar myCal = Calendar.getInstance ();
 		TransformerFactory tFactory = TransformerFactory.newInstance ();
+		XMLUtils.setDefaultFeatures(tFactory);
 		Transformer transformer = tFactory.newTransformer (new StreamSource (
 			new StringReader (xslStream)));
 		Enumeration e = request.getParameterNames ();

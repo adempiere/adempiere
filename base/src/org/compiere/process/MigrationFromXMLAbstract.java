@@ -32,6 +32,8 @@ public abstract class MigrationFromXMLAbstract extends SvrProcess {
 	private static final int ID_FOR_PROCESS = 53175;
 	/**	Parameter Name for File Path or Name	*/
 	public static final String FILEPATHORNAME = "FilePathOrName";
+	/**	Parameter Name for File Name	*/  // Parameter changed name in DB
+	public static final String FILENAME = "FileName";
 	/**	Parameter Name for Apply	*/
 	public static final String APPLY = "Apply";
 	/**	Parameter Name for Force	*/
@@ -46,6 +48,8 @@ public abstract class MigrationFromXMLAbstract extends SvrProcess {
 	@Override
 	protected void prepare() {
 		filePathOrName = getParameterAsString(FILEPATHORNAME);
+		if (filePathOrName == null)
+			filePathOrName = getParameterAsString(FILENAME);
 		isApply = getParameterAsBoolean(APPLY);
 		isForce = getParameterAsBoolean(ISFORCE);
 	}

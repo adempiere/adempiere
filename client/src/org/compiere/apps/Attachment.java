@@ -37,7 +37,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 
-import org.adempiere.pdf.Document;
+import org.adempiere.pdf.ITextDocument;
 import org.adempiere.pdf.viewer.PDFViewerBean;
 import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.model.MAttachment;
@@ -49,6 +49,7 @@ import org.compiere.swing.CPanel;
 import org.compiere.swing.CTextArea;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
+import org.compiere.util.MimeType;
 import org.compiere.util.Msg;
 
 /**
@@ -138,7 +139,7 @@ public final class Attachment extends CDialog
 	private CPanel graphPanel = new CPanel(new BorderLayout());
 	private GImage gifPanel = new GImage();
 	private JScrollPane gifScroll = new JScrollPane (gifPanel);
-	private PDFViewerBean pdfViewer = Document.getViewer();
+	private PDFViewerBean pdfViewer = new ITextDocument().getViewer();
 	private CTextArea info = new CTextArea();
 
 	/**
@@ -331,12 +332,6 @@ public final class Attachment extends CDialog
 		}
 
 		log.config("Size=" + size);
-	//	graphPanel.setPreferredSize(size);
-	//	centerPane.setDividerLocation(size.width+30);
-	//	size.width += 100;
-	//	size.height += 100;
-	//	centerPane.setPreferredSize(size);
-		pack();
 	}   //  displayData
 
 
@@ -541,6 +536,12 @@ public final class Attachment extends CDialog
 					System.getProperty("file.separator") +
 					m_attachment.getEntryName(index);
             File tempFile = new File(fileName);
+            //	Validate File Type
+            if(!MimeType.isValidMimeType(tempFile.getAbsolutePath())) {
+            	log.severe("Invalid Mime Type for " + tempFile.getName() + " only is allowed " + MimeType.getAllowedFileTypes());
+    			log.severe("Restricted files " + MimeType.getRestrictedFileTypes());
+    			return false;
+            }
             m_attachment.getEntryFile(index, tempFile);
         
             if (Env.isWindows())

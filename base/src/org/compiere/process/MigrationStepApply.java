@@ -62,6 +62,7 @@ public class MigrationStepApply extends SvrProcess {
 		
 		// This call will either rollback or apply based on the 
 		// status of the step.
-		return migrationStep.apply();			
+		migrationStep.apply();
+		return "";			
 	}
 }

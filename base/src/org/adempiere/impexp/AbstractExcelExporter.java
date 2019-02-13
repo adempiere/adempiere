@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.DataFormat;
@@ -172,13 +173,13 @@ public abstract class AbstractExcelExporter
 		if (isHeader) {
 			if (m_fontHeader == null) {
 				m_fontHeader = m_workbook.createFont();
-				m_fontHeader.setBoldweight(Font.BOLDWEIGHT_BOLD);
+				m_fontHeader.setBold(true);
 			}
 			font = m_fontHeader;
 		}
 		else if (isFunctionRow()) {
 			font = m_workbook.createFont();
-			font.setBoldweight(Font.BOLDWEIGHT_BOLD);
+			font.setBold(true);
 			font.setItalic(true);
 		}
 		else {
@@ -239,10 +240,10 @@ public abstract class AbstractExcelExporter
 			Font font = getFont(false);
 			cs.setFont(font);
 			// Border
-			cs.setBorderLeft((short)1);
-			cs.setBorderTop((short)1);
-			cs.setBorderRight((short)1);
-			cs.setBorderBottom((short)1);
+			cs.setBorderLeft(BorderStyle.THIN);
+			cs.setBorderTop(BorderStyle.THIN);
+			cs.setBorderRight(BorderStyle.THIN);
+			cs.setBorderBottom(BorderStyle.THIN);
 			String formatPattern = getFormatPattern(col);
 			//
 			if (DisplayType.isDate(displayType)) {
@@ -276,10 +277,10 @@ public abstract class AbstractExcelExporter
 			Font font_header = getFont(true);
 			cs_header = m_workbook.createCellStyle();
 			cs_header.setFont(font_header);
-			cs_header.setBorderLeft((short)2);
-			cs_header.setBorderTop((short)2);
-			cs_header.setBorderRight((short)2);
-			cs_header.setBorderBottom((short)2);
+			cs_header.setBorderLeft(BorderStyle.THIN);
+			cs_header.setBorderTop(BorderStyle.THIN);
+			cs_header.setBorderRight(BorderStyle.THIN);
+			cs_header.setBorderBottom(BorderStyle.THIN);
 			//cs_header.setDataFormat(HSSFDataFormat.getBuiltinFormat("text"));
 			cs_header.setDataFormat(m_workbook.createDataFormat().getFormat("text"));
 			cs_header.setWrapText(true);

@@ -16,23 +16,21 @@
 
 package org.eevolution.process;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+
 import org.compiere.model.I_AD_Element;
 import org.compiere.model.MColumn;
 import org.compiere.model.MTable;
 import org.compiere.model.M_Element;
-import org.compiere.model.PO;
 import org.compiere.model.Query;
+import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Trx;
 import org.compiere.util.TrxRunnable;
 import org.jfree.util.Log;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /** Generated Process for (Generate Surrogate Key UUID for all tables)
  *  @author ADempiere (generated) 
@@ -49,17 +47,23 @@ public class GenerateSurrogateKeys extends GenerateSurrogateKeysAbstract
 	@Override
 	protected String doIt() throws Exception
 	{
-		Arrays.stream(getTableIds(null)).filter(tableId -> tableId > 0).forEach(tableId -> {
-			addColumn(tableId);
-			if ( isGenerateUUIDforallrecords())
-				generateUUIDByTable(tableId);
+		List<MTable> tableList = getTableList(get_TrxName());
+		//	Add columns
+		tableList.stream().filter(table -> table != null).forEach(table -> {
+			addColumn(table.getAD_Table_ID());
 		});
+		//	Generate Surrogate Keys
+		if (isGenerateUUIDforallrecords()) {
+			tableList.stream().filter(table -> table != null).forEach(table -> {
+				generateUUIDByTable(table.getTableName());
+			});
+		}
 		return "@Ok@";
 	}
 
 	private void addColumn(int tableId) {
 		try {
-			//System.out.println("Procesing Add Column UUID in tables");
+			//System.out.println("Processing Add Column UUID in tables");
 			Log.info("Procesing Add Column UUID in tables");
 			AtomicInteger elementId = new AtomicInteger();
 			AtomicInteger columnId = new AtomicInteger();
@@ -83,12 +87,10 @@ public class GenerateSurrogateKeys extends GenerateSurrogateKeysAbstract
 				}
 			});
 
-			MColumn column = null;
 			Trx.run(new TrxRunnable() {
 				public void run(String trxName) {
 					MTable table = MTable.get(Env.getCtx() , tableId);
-					System.out.println("Table Name: " + table.getTableName() + " ...");
-					Log.info("Table Name: " + table.getTableName() + " ...");
+					log.info("Table Name: " + table.getTableName() + " ...");
 					M_Element element = new M_Element(Env.getCtx() , elementId.get() , trxName);
 					MColumn column = table.getColumn("UUID");
 					if (column == null) {
@@ -126,51 +128,21 @@ public class GenerateSurrogateKeys extends GenerateSurrogateKeysAbstract
 		}
 	}
 
-	private void generateUUIDByTable(int tableId) {
-		try {
-			Trx.run(new TrxRunnable() {
-				public void run(String trxName) {
-					MTable table = MTable.get(Env.getCtx() , tableId);
-					//System.out.println("Procesing generating UUIDs for Table " + table.getTableName() +  " Name : " + table.getName() );
-					Log.info("Procesing generating UUIDs for Table " + table.getTableName() +  " Name : " + table.getName());
-					List<PO> records = new Query(Env.getCtx(),table.getTableName(),"UUID IS NULL",trxName).list();
-					records.stream()
-							.filter(    po -> po != null && po.get_ColumnIndex("UUID") > 0 && po.get_Value("UUID") == null)
-							.forEach(   po -> {
-								String keys[] = po.get_KeyColumns();
-								String sqlKeys = "";
-								List<Object> parameters = new ArrayList<Object>();
-								for( int i=0 ; i < keys.length ; i++){
-									sqlKeys+=keys[i]+"=? ";
-									parameters.add(po.get_Value(keys[i]));
-
-									if(i<keys.length-1)
-										sqlKeys+=" AND ";
-								}
-
-								if(parameters.size() > 1)
-									po = new Query(Env.getCtx(),table.getTableName(),sqlKeys.toString(),trxName)
-											.setParameters(parameters)
-											.first();
-
-								String UUIDString= UUID.randomUUID().toString();
-								//System.out.println("Table: "+table.getTableName()+" Record Id : "+po.get_ID()+" UUID: "+UUIDString+" Object :"+po.toString());
-								Log.info("Table: "+table.getTableName()+" Record Id : "+po.get_ID()+" UUID: "+UUIDString+" Object :"+po.toString());
-								if(po.get_ID() == 0 && parameters.size()==1 && po != null)
-									System.out.println("Table : " + po.get_TableName() + " Object Without Id : " + po.toString());
-								else{
-									po.set_CustomColumn("UUID",UUIDString);
-									po.saveEx();
-								}
-							});
-				}
-			});
-		} catch (Exception e) {
-			addLog(e.getMessage());
-		}
+	/**
+	 * Generate UUID for Table
+	 * @param tableName
+	 */
+	private void generateUUIDByTable(String tableName) {
+		int updated = DB.executeUpdate("UPDATE " + tableName + " SET UUID = getUUID() WHERE UUID IS NULL", get_TrxName());
+		addLog(tableName + " @Updated@: " + updated);
 	}
 
-	private int[] getTableIds(String trxName) {
+	/**
+	 * Get Table List
+	 * @param trxName
+	 * @return
+	 */
+	private List<MTable> getTableList(String trxName) {
 		List<Object> parameters = new ArrayList<>();
 		StringBuilder whereClause = new StringBuilder(MTable.COLUMNNAME_IsView + "=?");
 		parameters.add("N");
@@ -183,7 +155,7 @@ public class GenerateSurrogateKeys extends GenerateSurrogateKeysAbstract
 				.setOnlyActiveRecords(true)
 				.setParameters(parameters)
 				.setOrderBy(MTable.COLUMNNAME_TableName)
-				.getIDs();
+				.list();
 	}
 
 	public static M_Element getElement(String name, String trxName) {

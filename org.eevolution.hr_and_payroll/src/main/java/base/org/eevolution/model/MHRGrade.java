@@ -68,9 +68,10 @@ public class MHRGrade extends X_HR_Grade {
    	 * Get/Load Shift group [CACHED]
    	 * @param ctx context
    	 * @param gradeId
-   	 * @return activity or null
+   	 * @param trxName
+	 * @return activity or null
    	 */
-   	public static MHRGrade getById(Properties ctx, int gradeId) {
+   	public static MHRGrade getById(Properties ctx, int gradeId, String trxName) {
    		if (gradeId <= 0)
    			return null;
 
@@ -78,7 +79,7 @@ public class MHRGrade extends X_HR_Grade {
    		if (grade != null && grade.get_ID() > 0)
    			return grade;
 
-   		grade = new Query(ctx , Table_Name , COLUMNNAME_HR_Grade_ID + "=?" , null)
+   		grade = new Query(ctx , Table_Name , COLUMNNAME_HR_Grade_ID + "=?" , trxName)
    				.setClient_ID()
    				.setParameters(gradeId)
    				.first();
@@ -96,13 +97,14 @@ public class MHRGrade extends X_HR_Grade {
    	 * get Activity By Value [CACHED]
    	 * @param ctx
    	 * @param gradeValue
-   	 * @return
+   	 * @param trxName
+	 * @return
    	 */
-   	public static MHRGrade getByValue(Properties ctx , String gradeValue) {
+   	public static MHRGrade getByValue(Properties ctx, String gradeValue, String trxName) {
    		if (gradeValue == null)
    			return null;
    		if (gradeCacheValues.size() == 0 )
-   			getAll(ctx, true);
+   			getAll(ctx, true, trxName);
 
    		int clientId = Env.getAD_Client_ID(ctx);
    		String key = clientId + "#" + gradeValue;
@@ -110,7 +112,7 @@ public class MHRGrade extends X_HR_Grade {
    		if (grade != null && grade.get_ID() > 0 )
    			return grade;
 
-   		grade =  new Query(ctx, Table_Name , COLUMNNAME_Value +  "=?", null)
+   		grade =  new Query(ctx, Table_Name , COLUMNNAME_Value +  "=?", trxName)
    				.setClient_ID()
    				.setParameters(gradeValue)
    				.first();
@@ -126,12 +128,13 @@ public class MHRGrade extends X_HR_Grade {
    	 * Get All Campaign
    	 * @param ctx
    	 * @param resetCache
-   	 * @return
+   	 * @param trxName
+	 * @return
    	 */
-   	public static List<MHRGrade> getAll(Properties ctx, boolean resetCache) {
+   	public static List<MHRGrade> getAll(Properties ctx, boolean resetCache, String trxName) {
    		List<MHRGrade> gradeList;
    		if (resetCache || gradeCacheIds.size() > 0 ) {
-   			gradeList = new Query(Env.getCtx(), Table_Name, null , null)
+   			gradeList = new Query(Env.getCtx(), Table_Name, null , trxName)
    					.setClient_ID()
    					.setOrderBy(COLUMNNAME_Name)
    					.list();

@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="src" path="/base"/>
 	<classpathentry kind="src" path="/tools"/>
 	<classpathentry kind="lib" path="/tools/lib/swingx-1.6.jar"/>
-	<classpathentry kind="lib" path="/tools/lib/groovy-all-2.4.7.jar"/>
-	<classpathentry kind="lib" path="/tools/lib/jcommon-1.0.16.jar"/>
-	<classpathentry kind="lib" path="/tools/lib/jfreechart-1.0.13.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
+	<classpathentry kind="lib" path="/tools/lib/jcommon-1.0.18.jar"/>
+	<classpathentry kind="lib" path="/tools/lib/jfreechart-1.0.15.jar"/>
+	<classpathentry kind="lib" path="/tools/lib/lablib-checkboxtree-3.3.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8">
+		<attributes>
+			<attribute name="owner.project.facets" value="java"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/tools/lib/groovy-all-2.4.15.jar" sourcepath="/tools/lib/testing/groovy-all-2.4.15-sources.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/org.adempiere.project"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/org.adempiere.request"/>
 	<classpathentry kind="output" path="build"/>
 </classpath>

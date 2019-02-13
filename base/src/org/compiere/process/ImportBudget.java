@@ -45,7 +45,6 @@ import org.compiere.model.X_A_Asset;
 import org.compiere.model.X_C_SubAcct;
 import org.compiere.model.X_GL_Budget;
 import org.compiere.model.X_I_Budget;
-import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
@@ -62,7 +61,6 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.logging.Logger;
 
 /**
  * Import Budget
@@ -73,7 +71,6 @@ public class ImportBudget extends ImportBudgetAbstract {
 
     List<MPeriod> glPeriods = new ArrayList<>();
     List<Timestamp> glPeriodsDates = new ArrayList<>();
-	private static Logger log = CLogger.getCLogger(ImportBudget.class);
 
     protected void prepare() {
         super.prepare();
@@ -125,9 +122,6 @@ public class ImportBudget extends ImportBudgetAbstract {
         //Validation document
         int[] budgetLinesIds = getBudget(documentNo, false, false);
         validateBudget(budgetLinesIds);
-
-        //AtomicInteger importedRecord = new AtomicInteger(0);
-        //AtomicInteger withErrors = new AtomicInteger(0);
 
         Arrays.stream(budgetLinesIds).forEach(importBudgetId -> {
             Trx.run(trxName -> {
@@ -439,19 +433,20 @@ public class ImportBudget extends ImportBudgetAbstract {
         Arrays.stream(budgetLinesIds)
                 .forEach(importBudgetId -> {
                     X_I_Budget importBudget = new X_I_Budget(getCtx(), importBudgetId, null);
-                    if (importBudget.getMonth_0_Amt().signum() != 0 && importBudget.getMonth_0_Qty().signum() != 0 && importBudget.getMonth_0_Amt() != importBudget.getMonth_0_Qty()
-                            || importBudget.getMonth_1_Amt().signum() != 0 && importBudget.getMonth_1_Qty().signum() != 0 && importBudget.getMonth_1_Amt() != importBudget.getMonth_1_Qty()
-                            || importBudget.getMonth_2_Amt().signum() != 0 && importBudget.getMonth_2_Qty().signum() != 0 && importBudget.getMonth_2_Amt() != importBudget.getMonth_2_Qty()
-                            || importBudget.getMonth_3_Amt().signum() != 0 && importBudget.getMonth_3_Qty().signum() != 0 && importBudget.getMonth_3_Amt() != importBudget.getMonth_3_Qty()
-                            || importBudget.getMonth_4_Amt().signum() != 0 && importBudget.getMonth_4_Qty().signum() != 0 && importBudget.getMonth_4_Amt() != importBudget.getMonth_4_Qty()
-                            || importBudget.getMonth_5_Amt().signum() != 0 && importBudget.getMonth_5_Qty().signum() != 0 && importBudget.getMonth_5_Amt() != importBudget.getMonth_5_Qty()
-                            || importBudget.getMonth_6_Amt().signum() != 0 && importBudget.getMonth_6_Qty().signum() != 0 && importBudget.getMonth_6_Amt() != importBudget.getMonth_6_Qty()
-                            || importBudget.getMonth_7_Amt().signum() != 0 && importBudget.getMonth_7_Qty().signum() != 0 && importBudget.getMonth_7_Amt() != importBudget.getMonth_7_Qty()
-                            || importBudget.getMonth_8_Amt().signum() != 0 && importBudget.getMonth_8_Qty().signum() != 0 && importBudget.getMonth_8_Amt() != importBudget.getMonth_8_Qty()
-                            || importBudget.getMonth_9_Amt().signum() != 0 && importBudget.getMonth_9_Qty().signum() != 0 && importBudget.getMonth_9_Amt() != importBudget.getMonth_9_Qty()
-                            || importBudget.getMonth_10_Amt().signum() != 0 && importBudget.getMonth_10_Qty().signum() != 0 && importBudget.getMonth_10_Amt() != importBudget.getMonth_10_Qty()
-                            || importBudget.getMonth_11_Amt().signum() != 0 && importBudget.getMonth_11_Qty().signum() != 0 && importBudget.getMonth_11_Amt() != importBudget.getMonth_11_Qty())
-                        throw new AdempiereException("Amount balance(DR-CR) of all journals are not zero");
+                    if ((importBudget.getMonth_0_Amt().signum() != 0 && importBudget.getMonth_0_Qty().signum() != 0 && importBudget.getMonth_0_Amt().signum() != importBudget.getMonth_0_Qty().signum())
+                     || (importBudget.getMonth_1_Amt().signum() != 0 && importBudget.getMonth_1_Qty().signum() != 0 && importBudget.getMonth_1_Amt().signum() != importBudget.getMonth_1_Qty().signum())
+                     || (importBudget.getMonth_2_Amt().signum() != 0 && importBudget.getMonth_2_Qty().signum() != 0 && importBudget.getMonth_2_Amt().signum() != importBudget.getMonth_2_Qty().signum())
+                     || (importBudget.getMonth_3_Amt().signum() != 0 && importBudget.getMonth_3_Qty().signum() != 0 && importBudget.getMonth_3_Amt().signum() != importBudget.getMonth_3_Qty().signum())
+                     || (importBudget.getMonth_4_Amt().signum() != 0 && importBudget.getMonth_4_Qty().signum() != 0 && importBudget.getMonth_4_Amt().signum() != importBudget.getMonth_4_Qty().signum())
+                     || (importBudget.getMonth_5_Amt().signum() != 0 && importBudget.getMonth_5_Qty().signum() != 0 && importBudget.getMonth_5_Amt().signum() != importBudget.getMonth_5_Qty().signum())
+                     || (importBudget.getMonth_6_Amt().signum() != 0 && importBudget.getMonth_6_Qty().signum() != 0 && importBudget.getMonth_6_Amt().signum() != importBudget.getMonth_6_Qty().signum())
+                     || (importBudget.getMonth_7_Amt().signum() != 0 && importBudget.getMonth_7_Qty().signum() != 0 && importBudget.getMonth_7_Amt().signum() != importBudget.getMonth_7_Qty().signum())
+                     || (importBudget.getMonth_8_Amt().signum() != 0 && importBudget.getMonth_8_Qty().signum() != 0 && importBudget.getMonth_8_Amt().signum() != importBudget.getMonth_8_Qty().signum())
+                     || (importBudget.getMonth_9_Amt().signum() != 0 && importBudget.getMonth_9_Qty().signum() != 0 && importBudget.getMonth_9_Amt().signum() != importBudget.getMonth_9_Qty().signum())
+                     || (importBudget.getMonth_10_Amt().signum() != 0 && importBudget.getMonth_10_Qty().signum() != 0 && importBudget.getMonth_10_Amt().signum() != importBudget.getMonth_10_Qty().signum())
+                     || (importBudget.getMonth_11_Amt().signum() != 0 && importBudget.getMonth_11_Qty().signum() != 0 && importBudget.getMonth_11_Amt().signum() != importBudget.getMonth_11_Qty().signum())
+                    )
+                        throw new AdempiereException("@X_I_Budget_ID@ " + importBudgetId + " ERR=Qty Mismatch. Credit Line must have negative qty and Debit line must have positive qty.");
 
 					balance0.updateAndGet(balance -> balance.add(importBudget.getMonth_0_Amt()));
 					balance1.updateAndGet(balance -> balance.add(importBudget.getMonth_1_Amt()));
@@ -669,6 +664,7 @@ public class ImportBudget extends ImportBudgetAbstract {
     private int getId(String tableName, String whereClause, String trxName, Object... parameters) {
         return new Query(getCtx(), tableName, whereClause, trxName)
                 .setParameters(parameters)
+                .setClient_ID()
                 .firstId();
     }
 
@@ -689,6 +685,7 @@ public class ImportBudget extends ImportBudgetAbstract {
         return new Query(getCtx(), X_I_Budget.Table_Name, whereClause.toString(), null)
                 .setOnlyActiveRecords(true)
                 .setParameters(documentNo, isImported, isProcessed)
+                .setClient_ID()
                 .getIDs();
 
     }

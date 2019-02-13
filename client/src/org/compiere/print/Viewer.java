@@ -63,7 +63,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import org.adempiere.pdf.Document;
+import org.adempiere.pdf.ITextDocument;
 import org.compiere.apps.ADialog;
 import org.compiere.apps.AEnv;
 import org.compiere.apps.AMenu;
@@ -1104,7 +1104,7 @@ public class Viewer extends CFrame
 	private void cmd_archive ()
 	{
 		boolean success = false;
-		byte[] data = Document.getPDFAsArray(m_reportEngine.getLayout().getPageable(false));	//	No Copy
+		byte[] data = new ITextDocument().getPDFAsArray(m_reportEngine.getLayout().getPageable(false));	//	No Copy
 		if (data != null)
 		{
 			MArchive archive = new MArchive (Env.getCtx(), m_reportEngine.getPrintInfo(), null);
@@ -1185,7 +1185,8 @@ public class Viewer extends CFrame
 		log.config( "File=" + outFile.getPath() + "; Type=" + ext);
 
 		setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-		exportHandler.exportToFile(exportName, outFile);
+		AbstractExportFormat exporter = exportHandler.getExporter(exportName);
+		exporter.exportTo(outFile);
 		cmd_drill();	//	setCursor
 	}	//	cmd_export
 
@@ -1311,7 +1312,6 @@ public class Viewer extends CFrame
 		
 		String title = null; 
 		String tableName = null;
-		boolean IsInheritFiltertoReports = true;
 
 		//	Get Find Tab Info
 		String sql = "SELECT t.AD_Tab_ID "
@@ -1361,7 +1361,7 @@ public class Viewer extends CFrame
 				+ "             AND ce.ASP_Status = 'H')"; // Hide
 		//
 		//jobriant - Feature #544
-		sql = "SELECT Name, TableName, IsInheritFiltertoReports FROM AD_Tab_v WHERE AD_Tab_ID=? " + ASPFilter;
+		sql = "SELECT Name, TableName FROM AD_Tab_v WHERE AD_Tab_ID=? " + ASPFilter;
 		
 		if (!Env.isBaseLanguage(Env.getCtx(), "AD_Tab"))
 			sql = "SELECT Name, TableName FROM AD_Tab_vt WHERE AD_Tab_ID=?"
@@ -1376,7 +1376,6 @@ public class Viewer extends CFrame
 			{
 				title = rs.getString(1);				
 				tableName = rs.getString(2);
-				IsInheritFiltertoReports = rs.getString(3).equals("Y");
 			}
 			//
 			rs.close();
@@ -1400,15 +1399,9 @@ public class Viewer extends CFrame
 			}
 		} else
 		{
-			/*ASearch search = new ASearch (bFind,this, title,AD_Tab_ID, AD_Table_ID, tableName, m_reportEngine ,findFields, 1);
-			search = null;*/ // Adempiere approach . This time discarded...
-			//jobriant - Inherit filter to reports
 			String whereExtended = "";
-			if (IsInheritFiltertoReports) {
-				whereExtended = m_reportEngine.getWhereExtended();
-			}
-			Find find = new Find (this, m_reportEngine.getWindowNo(), title,
-					AD_Tab_ID, AD_Table_ID, tableName, whereExtended, findFields, 1);
+			whereExtended = m_reportEngine.getWhereExtended();
+			Find find = new Find (this, m_reportEngine.getWindowNo(), title, AD_Tab_ID, AD_Table_ID, tableName, whereExtended, findFields, 1);
 			m_reportEngine.setQuery(find.getQuery());
 			find.dispose();
 			find = null;

@@ -1786,7 +1786,7 @@ public class DBEngine_Postgresql implements DBEngineInterface {
 	public String sqlMetadata_sequenceDefinitions(String catalogName, String schemaName, String sequenceName) {
 		StringBuffer sql = new StringBuffer();
 
-		sql.append("SELECT " 
+		sql.append("SELECT "
 				+ "min_value AS MIN_VALUE, "
 				+ "max_value AS MAX_VALUE, "
 				+ "increment_by AS INCREMENT_BY, "
@@ -1796,6 +1796,27 @@ public class DBEngine_Postgresql implements DBEngineInterface {
 				+ "FROM ").append(schemaName).append(".").append(sequenceName).append(" ");
 
 		return sql.toString();
+	}
+
+	/* (non-Javadoc)
+	 * @see com.kkalice.adempiere.migrate.DBEngineInterface#sqlMetadata_sequenceDefinitions(com.kkalice.adempiere.migrate.Parameters, com.kkalice.adempiere.migrate.Logger, com.kkalice.adempiere.migrate.DBEngine, java.lang.String, java.lang.String, java.lang.String)
+	 */
+	public String sqlMetadata_sequenceDefinitions(String productVersion , String catalogName, String schemaName, String sequenceName) {
+		if (productVersion.startsWith("10.")) { // add support for postgresql 10
+			StringBuffer sql = new StringBuffer();
+			sql.append("SELECT "
+					+ "min_value AS MIN_VALUE, "
+					+ "max_value AS MAX_VALUE, "
+					+ "increment_by AS INCREMENT_BY, "
+					+ "cycle AS IS_CYCLED ,"
+					+ "cache_size AS CACHE_SIZE, "
+					+ "last_value AS LAST_VALUE "
+					+ "FROM ").append("pg_sequences WHERE sequencename='").append(sequenceName).append("' ");
+
+			return sql.toString();
+		} else { // support for postgresql 9
+			return sqlMetadata_sequenceDefinitions(catalogName, schemaName, sequenceName);
+		}
 	}
 
 	/* (non-Javadoc)

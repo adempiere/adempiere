@@ -44,7 +44,6 @@ import org.compiere.print.ReportCtl;
 import org.compiere.print.ReportEngine;
 import org.compiere.print.Viewer;
 import org.compiere.process.ProcessInfo;
-import org.compiere.process.ProcessInfoUtil;
 import org.compiere.swing.CPanel;
 import org.compiere.swing.CTabbedPane;
 import org.compiere.swing.CTextPane;
@@ -58,6 +57,7 @@ import org.compiere.util.Msg;
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *		<li> FR [ 114 ] Change "Create From" UI for Form like Dialog in window without "hardcode"
  *		@see https://github.com/adempiere/adempiere/issues/114
+ * @see https://github.com/adempiere/adempiere/issues/1652
  */
 public class VGenPanel extends CPanel implements ActionListener, ChangeListener, TableModelListener, ASyncProcess
 {
@@ -259,8 +259,7 @@ public class VGenPanel extends CPanel implements ActionListener, ChangeListener,
 	{
 		//  Switch Tabs
 		tabbedPane.setSelectedIndex(1);
-		//
-		ProcessInfoUtil.setLogFromDB(pi);
+
 		StringBuffer iText = new StringBuffer();
 		iText.append("<b>").append(pi.getSummary())
 			.append("</b><br>(")

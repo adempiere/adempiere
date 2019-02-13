@@ -373,7 +373,8 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 			pstmt.setInt(1, getAD_Client_ID());
 			pstmt.setTimestamp(2, getStartDate());
 			pstmt.setTimestamp(3, getEndDate());
-            if (commission.isTotallyPaid()){
+            if (commission.getDocBasisType().equals(MCommission.DOCBASISTYPE_Receipt)
+					&& commission.isTotallyPaid()){
             	// Last payment must be within commission period 
                 pstmt.setTimestamp(4, getStartDate());
                 pstmt.setTimestamp(5, getEndDate());
@@ -655,12 +656,6 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 		//	
 		MCommissionLine[] commissionLines = commission.getLines();
 		List<Integer> salesRegion;
-		String sqlAppend = "";
-		if (commission.isTotallyPaid()) 
-        	// Last payment must be within commission period 
-			sqlAppend = " AND (p.DateTrx <? or  p.DateTrx <?) AND maxPayDate(h.c_Invoice_ID) between ? AND ? ";
-		else 
-			sqlAppend = " AND p.DateTrx BETWEEN ? AND ? ";
 		
 		m_comissionLog.append("<h4>" + "Processing Commission line" + "</h4>");
 		for (MCommissionLine commissionLine : commissionLines) {
@@ -679,7 +674,14 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 			StringBuffer sql = new StringBuffer();
 			StringBuffer sqlWhere = new StringBuffer();
 			if (MCommission.DOCBASISTYPE_Receipt.equals(commission.getDocBasisType()))
-			{			
+			{		
+				String sqlAppend = "";
+				if (commission.isTotallyPaid()) 
+		        	// Last payment must be within commission period 
+					sqlAppend = " AND (p.DateTrx <? or  p.DateTrx <?) AND maxPayDate(h.c_Invoice_ID) between ? AND ? ";
+				else 
+					sqlAppend = " AND p.DateTrx BETWEEN ? AND ? ";
+				
 				if (commission.isListDetails())
 				{
 					//	the view must be change
@@ -1128,7 +1130,7 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 	 * @return void
 	 */
 	private void loadSalesRegion(List<Integer> salesRegionList, int salesRegionId) {
-		int m_Tree_ID = MTree.getDefaultAD_Tree_ID(getAD_Client_ID(), X_C_SalesRegion.Table_Name);
+		int m_Tree_ID = MTree.getDefaultTreeIdFromTableName(getAD_Client_ID(), X_C_SalesRegion.Table_Name);
 		final String sql = "SELECT tn.Node_ID AS C_SalesRegion_ID " +
 				"FROM AD_Tree t " +
 				"INNER JOIN AD_TreeNode tn ON(t.AD_Tree_ID = tn.AD_Tree_ID) " +

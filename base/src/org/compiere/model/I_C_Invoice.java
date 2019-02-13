@@ -559,14 +559,6 @@ public interface I_C_Invoice
 	  */
 	public boolean isActive();
 
-    /** Column name IsAllocateImmediate */
-    public static final String COLUMNNAME_IsAllocateImmediate = "IsAllocateImmediate";
-
-	/** Set IsAllocateImmediate	  */
-	public void setIsAllocateImmediate (boolean IsAllocateImmediate);
-
-	/** Get IsAllocateImmediate	  */
-	public boolean isAllocateImmediate();
 
     /** Column name IsApproved */
     public static final String COLUMNNAME_IsApproved = "IsApproved";

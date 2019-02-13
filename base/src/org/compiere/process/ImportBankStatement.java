@@ -19,7 +19,6 @@ package org.compiere.process;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.Properties;
 import java.util.logging.Level;
 
 import org.compiere.model.MBankAccount;
@@ -34,64 +33,27 @@ import org.compiere.util.Env;
  *
  *	author Eldir Tomassen
  *	@version $Id: ImportBankStatement.java,v 1.2 2006/07/30 00:51:01 jjanke Exp $
+ *	@author Yamel Senih, ysenih@erpya.com , http://www.erpya.com
+ *  <li> FR [ 1699 ] Add support view for Bank Statement
+ *  @see https://github.com/adempiere/adempiere/issues/1699
  */
-public class ImportBankStatement extends SvrProcess
-{
-	/**	Client to be imported to		*/
-	private int				p_AD_Client_ID = 0;
-	/**	Organization to be imported to	*/
-	private int				p_AD_Org_ID = 0;
-	/** Default Bank Account			*/
-	private int				p_C_BankAccount_ID = 0;
-	/**	Delete old Imported				*/
-	private boolean			p_deleteOldImported = false;
-	
-	/** Properties						*/
-	private Properties 		m_ctx;
-
-	/**
-	 *  Prepare - e.g., get Parameters.
-	 */
-	protected void prepare()
-	{
-		ProcessInfoParameter[] para = getParameter();
-		for (int i = 0; i < para.length; i++)
-		{
-			String name = para[i].getParameterName();
-			if (para[i].getParameter() == null)
-				;
-			else if (name.equals("AD_Client_ID"))
-				p_AD_Client_ID = ((BigDecimal)para[i].getParameter()).intValue();
-			else if (name.equals("AD_Org_ID"))
-				p_AD_Org_ID = ((BigDecimal)para[i].getParameter()).intValue();
-			else if (name.equals("C_BankAccount_ID"))
-				p_C_BankAccount_ID = ((BigDecimal)para[i].getParameter()).intValue();
-			else if (name.equals("DeleteOldImported"))
-				p_deleteOldImported = "Y".equals(para[i].getParameter());
-			else
-				log.log(Level.SEVERE, "Unknown Parameter: " + name);
-		}
-		m_ctx = Env.getCtx();
-	}	//	prepare
-
+public class ImportBankStatement extends ImportBankStatementAbstract {
 
 	/**
 	 *  Perform process.
 	 *  @return Message
 	 *  @throws Exception
 	 */
-	protected String doIt() throws java.lang.Exception
-	{
-		log.info("AD_Org_ID=" + p_AD_Org_ID + ", C_BankAccount_ID" + p_C_BankAccount_ID);
+	protected String doIt() throws java.lang.Exception {
+		log.info("AD_Org_ID=" + getOrgId() + ", C_BankAccount_ID" + getBankAccountId());
 		StringBuffer sql = null;
 		int no = 0;
-		String clientCheck = " AND AD_Client_ID=" + p_AD_Client_ID;
+		String clientCheck = " AND AD_Client_ID=" + getClientId();
 
 		//	****	Prepare	****
 
 		//	Delete Old Imported
-		if (p_deleteOldImported)
-		{
+		if (isDeleteOldImported()){
 			sql = new StringBuffer ("DELETE I_BankStatement "
 				  + "WHERE I_IsImported='Y'").append (clientCheck);
 			no = DB.executeUpdate(sql.toString(), get_TrxName());
@@ -100,8 +62,8 @@ public class ImportBankStatement extends SvrProcess
 
 		//	Set Client, Org, IsActive, Created/Updated
 		sql = new StringBuffer ("UPDATE I_BankStatement "
-			  + "SET AD_Client_ID = COALESCE (AD_Client_ID,").append (p_AD_Client_ID).append ("),"
-			  + " AD_Org_ID = COALESCE (AD_Org_ID,").append (p_AD_Org_ID).append ("),");
+			  + "SET AD_Client_ID = COALESCE (AD_Client_ID,").append (getClientId()).append ("),"
+			  + " AD_Org_ID = COALESCE (AD_Org_ID,").append (getOrgId()).append ("),");
 		sql.append(" IsActive = COALESCE (IsActive, 'Y'),"
 			  + " Created = COALESCE (Created, SysDate),"
 			  + " CreatedBy = COALESCE (CreatedBy, 0),"
@@ -160,7 +122,7 @@ public class ImportBankStatement extends SvrProcess
 			log.info("Bank Account (Without Routing No)=" + no);
 		//
 		sql = new StringBuffer("UPDATE I_BankStatement i "
-			+ "SET C_BankAccount_ID=(SELECT C_BankAccount_ID FROM C_BankAccount a WHERE a.C_BankAccount_ID=").append(p_C_BankAccount_ID);
+			+ "SET C_BankAccount_ID=(SELECT C_BankAccount_ID FROM C_BankAccount a WHERE a.C_BankAccount_ID=").append(getBankAccountId());
 		sql.append(" and a.AD_Client_ID=i.AD_Client_ID) "
 			+ "WHERE i.C_BankAccount_ID IS NULL "
 			+ "AND i.BankAccountNo IS NULL "
@@ -378,18 +340,18 @@ public class ImportBankStatement extends SvrProcess
 				
 			while (rs.next())
 			{ 
-				X_I_BankStatement imp = new X_I_BankStatement(m_ctx, rs, get_TrxName());
+				X_I_BankStatement imp = new X_I_BankStatement(getCtx(), rs, get_TrxName());
 				//	Get the bank account for the first statement
 				if (account == null)
 				{
-					account = MBankAccount.get (m_ctx, imp.getC_BankAccount_ID());
+					account = MBankAccount.get (getCtx(), imp.getC_BankAccount_ID());
 					statement = null;
 					log.info("New Statement, Account=" + account.getAccountNo());
 				}
 				//	Create a new Bank Statement for every account
 				else if (account.getC_BankAccount_ID() != imp.getC_BankAccount_ID())
 				{
-					account = MBankAccount.get (m_ctx, imp.getC_BankAccount_ID());
+					account = MBankAccount.get (getCtx(), imp.getC_BankAccount_ID());
 					statement = null;
 					log.info("New Statement, Account=" + account.getAccountNo());
 				}
@@ -447,45 +409,7 @@ public class ImportBankStatement extends SvrProcess
 				}
 				
 				//	New StatementLine
-				MBankStatementLine line = new MBankStatementLine(statement, lineNo);
-				
-				//	Copy statement line data
-				//line.setC_BPartner_ID(imp.getC_BPartner_ID());
-				//line.setC_Invoice_ID(imp.getC_Invoice_ID());
-				line.setReferenceNo(imp.getReferenceNo());
-				line.setDescription(imp.getLineDescription());
-				line.setStatementLineDate(imp.getStatementLineDate());
-				line.setDateAcct(imp.getStatementLineDate());
-				line.setValutaDate(imp.getValutaDate());
-				line.setIsReversal(imp.isReversal());
-				line.setC_Currency_ID(imp.getC_Currency_ID());
-				line.setTrxAmt(imp.getTrxAmt());
-				line.setStmtAmt(imp.getStmtAmt());
-				if (imp.getC_Charge_ID() != 0)
-				{
-					line.setC_Charge_ID(imp.getC_Charge_ID());
-				}
-				line.setInterestAmt(imp.getInterestAmt());
-				line.setChargeAmt(imp.getChargeAmt());
-				line.setMemo(imp.getMemo());
-				if (imp.getC_Payment_ID() != 0)
-				{
-					line.setC_Payment_ID(imp.getC_Payment_ID());
-				}
-				
-				//	Copy statement line reference data
-				line.setEftTrxID(imp.getEftTrxID());
-				line.setEftTrxType(imp.getEftTrxType());
-				line.setEftCheckNo(imp.getEftCheckNo());
-				line.setEftReference(imp.getEftReference());
-				line.setEftMemo(imp.getEftMemo());
-				line.setEftPayee(imp.getEftPayee());
-				line.setEftPayeeAccount(imp.getEftPayeeAccount());
-				line.setEftStatementLineDate(imp.getEftStatementLineDate());
-				line.setEftValutaDate(imp.getEftValutaDate());
-				line.setEftCurrency(imp.getEftCurrency());
-				line.setEftAmt(imp.getEftAmt());
-				
+				MBankStatementLine line = new MBankStatementLine(statement, imp, lineNo);
 				//	Save statement line
 				if (line.save())
 				{

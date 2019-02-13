@@ -107,6 +107,10 @@ public class MProjectPhase extends X_C_ProjectPhase
 		setDurationEstimated(phase.getDurationEstimated());
 		if (phase.getM_Product_ID() > 0)
 			setM_Product_ID(phase.getM_Product_ID());
+		if (phase.getPP_Product_BOM_ID() > 0)
+			setPP_Product_BOM_ID(phase.getPP_Product_BOM_ID());
+		if (phase.getAD_Workflow_ID() > 0)
+			setAD_Workflow_ID(phase.getAD_Workflow_ID());
 		if (project.getC_Campaign_ID() > 0)
 			setC_Campaign_ID(project.getC_Campaign_ID());
 		if (project.getC_Activity_ID() > 0)
@@ -334,4 +338,10 @@ public class MProjectPhase extends X_C_ProjectPhase
 				.setParameters(getC_ProjectPhase_ID())
 				.list();
 	}
+
+	public Integer getBPartnerId()
+	{
+		return getC_Project().getC_BPartner_ID();
+	}
+
 }	//	MProjectPhase

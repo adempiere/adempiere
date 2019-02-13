@@ -1,8 +1,9 @@
 /******************************************************************************
  * Product: ADempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 2006-2016 ADempiere Foundation, All Rights Reserved.         *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -19,169 +20,230 @@ package org.eevolution.process;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import org.compiere.process.SvrProcess;
+
 /** Generated Process for (Bank Transfer)
  *  @author ADempiere (generated) 
  *  @version Release 3.9.0
  */
-public abstract class BankTransferAbstract extends SvrProcess
-{
+public abstract class BankTransferAbstract extends SvrProcess {
 	/** Process Value 	*/
-	private static final String VALUE = "C_BankStatement BankTransfer";
+	private static final String VALUE_FOR_PROCESS = "C_BankStatement BankTransfer";
 	/** Process Name 	*/
-	private static final String NAME = "Bank Transfer";
+	private static final String NAME_FOR_PROCESS = "Bank Transfer";
 	/** Process Id 	*/
-	private static final int ID = 53153;
- 
-	/**	Parameter Name for From_C_BankAccount_ID	*/
-	public static final String From_C_BankAccount_ID = "From_C_BankAccount_ID";
-	/**	Parameter Name for To_C_BankAccount_ID	*/
-	public static final String To_C_BankAccount_ID = "To_C_BankAccount_ID";
-	/**	Parameter Name for C_BPartner_ID	*/
-	public static final String C_BPartner_ID = "C_BPartner_ID";
-	/**	Parameter Name for C_Currency_ID	*/
-	public static final String C_Currency_ID = "C_Currency_ID";
-	/**	Parameter Name for C_ConversionType_ID	*/
-	public static final String C_ConversionType_ID = "C_ConversionType_ID";
-	/**	Parameter Name for C_Charge_ID	*/
-	public static final String C_Charge_ID = "C_Charge_ID";
-	/**	Parameter Name for DocumentNo	*/
-	public static final String DocumentNo = "DocumentNo";
-	/**	Parameter Name for DocumentNoTo	*/
-	public static final String DocumentNoTo = "DocumentNoTo";
+	private static final int ID_FOR_PROCESS = 53153;
+	/**	Parameter Name for Bank Account From	*/
+	public static final String FROM_C_BANKACCOUNT_ID = "From_C_BankAccount_ID";
+	/**	Parameter Name for Bank Account To	*/
+	public static final String C_BANKACCOUNTTO_ID = "C_BankAccountTo_ID";
+	/**	Parameter Name for Business Partner 	*/
+	public static final String C_BPARTNER_ID = "C_BPartner_ID";
+	/**	Parameter Name for Currency	*/
+	public static final String C_CURRENCY_ID = "C_Currency_ID";
+	/**	Parameter Name for Currency Type	*/
+	public static final String C_CONVERSIONTYPE_ID = "C_ConversionType_ID";
+	/**	Parameter Name for Charge	*/
+	public static final String C_CHARGE_ID = "C_Charge_ID";
+	/**	Parameter Name for Document No	*/
+	public static final String DOCUMENTNO = "DocumentNo";
+	/**	Parameter Name for Document No (To)	*/
+	public static final String DOCUMENTNOTO = "DocumentNoTo";
 	/**	Parameter Name for Amount	*/
-	public static final String Amount = "Amount";
+	public static final String AMOUNT = "Amount";
 	/**	Parameter Name for Description	*/
-	public static final String Description = "Description";
-	/**	Parameter Name for StatementDate	*/
-	public static final String StatementDate = "StatementDate";
-	/**	Parameter Name for DateAcct	*/
-	public static final String DateAcct = "DateAcct";
-	/**	Parameter Name for IsAutoReconciled	*/
-	public static final String IsAutoReconciled = "IsAutoReconciled";
-
-	/**	Parameter Value for bankAccountFromId	*/
-	private int bankAccountFromId;
-	/**	Parameter Value for bankAccountToId	*/
+	public static final String DESCRIPTION = "Description";
+	/**	Parameter Name for Statement date	*/
+	public static final String STATEMENTDATE = "StatementDate";
+	/**	Parameter Name for Account Date	*/
+	public static final String DATEACCT = "DateAcct";
+	/**	Parameter Name for Reconcile Automatically	*/
+	public static final String ISAUTORECONCILED = "IsAutoReconciled";
+	/**	Parameter Value for Bank Account From	*/
+	private int cBankAccountId;
+	/**	Parameter Value for Bank Account To	*/
 	private int bankAccountToId;
-	/**	Parameter Value for businessPartnerId	*/
-	private int businessPartnerId;
-	/**	Parameter Value for currencyId	*/
+	/**	Parameter Value for Business Partner 	*/
+	private int bPartnerId;
+	/**	Parameter Value for Currency	*/
 	private int currencyId;
-	/**	Parameter Value for currencyTypeId	*/
-	private int currencyTypeId;
-	/**	Parameter Value for chargeId	*/
+	/**	Parameter Value for Currency Type	*/
+	private int conversionTypeId;
+	/**	Parameter Value for Charge	*/
 	private int chargeId;
-	/**	Parameter Value for documentNo	*/
+	/**	Parameter Value for Document No	*/
 	private String documentNo;
-	/**	Parameter Value for documentNoTo	*/
+	/**	Parameter Value for Document No (To)	*/
 	private String documentNoTo;
-	/**	Parameter Value for amount	*/
+	/**	Parameter Value for Amount	*/
 	private BigDecimal amount;
-	/**	Parameter Value for description	*/
+	/**	Parameter Value for Description	*/
 	private String description;
-	/**	Parameter Value for statementdate	*/
-	private Timestamp statementdate;
-	/**	Parameter Value for accountDate	*/
-	private Timestamp accountDate;
-	/**	Parameter Value for isReconcileAutomatically	*/
-	private boolean isReconcileAutomatically;
- 
+	/**	Parameter Value for Statement date	*/
+	private Timestamp statementDate;
+	/**	Parameter Value for Account Date	*/
+	private Timestamp dateAcct;
+	/**	Parameter Value for Reconcile Automatically	*/
+	private boolean isAutoReconciled;
 
 	@Override
-	protected void prepare()
-	{
-		bankAccountFromId = getParameterAsInt(From_C_BankAccount_ID);
-		bankAccountToId = getParameterAsInt(To_C_BankAccount_ID);
-		businessPartnerId = getParameterAsInt(C_BPartner_ID);
-		currencyId = getParameterAsInt(C_Currency_ID);
-		currencyTypeId = getParameterAsInt(C_ConversionType_ID);
-		chargeId = getParameterAsInt(C_Charge_ID);
-		documentNo = getParameterAsString(DocumentNo);
-		documentNoTo = getParameterAsString(DocumentNoTo);
-		amount = getParameterAsBigDecimal(Amount);
-		description = getParameterAsString(Description);
-		statementdate = getParameterAsTimestamp(StatementDate);
-		accountDate = getParameterAsTimestamp(DateAcct);
-		isReconcileAutomatically = getParameterAsBoolean(IsAutoReconciled);
+	protected void prepare() {
+		cBankAccountId = getParameterAsInt(FROM_C_BANKACCOUNT_ID);
+		bankAccountToId = getParameterAsInt(C_BANKACCOUNTTO_ID);
+		bPartnerId = getParameterAsInt(C_BPARTNER_ID);
+		currencyId = getParameterAsInt(C_CURRENCY_ID);
+		conversionTypeId = getParameterAsInt(C_CONVERSIONTYPE_ID);
+		chargeId = getParameterAsInt(C_CHARGE_ID);
+		documentNo = getParameterAsString(DOCUMENTNO);
+		documentNoTo = getParameterAsString(DOCUMENTNOTO);
+		amount = getParameterAsBigDecimal(AMOUNT);
+		description = getParameterAsString(DESCRIPTION);
+		statementDate = getParameterAsTimestamp(STATEMENTDATE);
+		dateAcct = getParameterAsTimestamp(DATEACCT);
+		isAutoReconciled = getParameterAsBoolean(ISAUTORECONCILED);
 	}
 
-	/**	 Getter Parameter Value for bankAccountFromId	*/
-	protected int getBankAccountFromId() {
-		return bankAccountFromId;
+	/**	 Getter Parameter Value for Bank Account From	*/
+	protected int getCBankAccountId() {
+		return cBankAccountId;
 	}
 
-	/**	 Getter Parameter Value for bankAccountToId	*/
+	/**	 Setter Parameter Value for Bank Account From	*/
+	protected void setCBankAccountId(int cBankAccountId) {
+		this.cBankAccountId = cBankAccountId;
+	}
+
+	/**	 Getter Parameter Value for Bank Account To	*/
 	protected int getBankAccountToId() {
 		return bankAccountToId;
 	}
 
-	/**	 Getter Parameter Value for businessPartnerId	*/
-	protected int getBusinessPartnerId() {
-		return businessPartnerId;
+	/**	 Setter Parameter Value for Bank Account To	*/
+	protected void setBankAccountToId(int bankAccountToId) {
+		this.bankAccountToId = bankAccountToId;
 	}
 
-	/**	 Getter Parameter Value for currencyId	*/
+	/**	 Getter Parameter Value for Business Partner 	*/
+	protected int getBPartnerId() {
+		return bPartnerId;
+	}
+
+	/**	 Setter Parameter Value for Business Partner 	*/
+	protected void setBPartnerId(int bPartnerId) {
+		this.bPartnerId = bPartnerId;
+	}
+
+	/**	 Getter Parameter Value for Currency	*/
 	protected int getCurrencyId() {
 		return currencyId;
 	}
 
-	/**	 Getter Parameter Value for currencyTypeId	*/
-	protected int getCurrencyTypeId() {
-		return currencyTypeId;
+	/**	 Setter Parameter Value for Currency	*/
+	protected void setCurrencyId(int currencyId) {
+		this.currencyId = currencyId;
 	}
 
-	/**	 Getter Parameter Value for chargeId	*/
+	/**	 Getter Parameter Value for Currency Type	*/
+	protected int getConversionTypeId() {
+		return conversionTypeId;
+	}
+
+	/**	 Setter Parameter Value for Currency Type	*/
+	protected void setConversionTypeId(int conversionTypeId) {
+		this.conversionTypeId = conversionTypeId;
+	}
+
+	/**	 Getter Parameter Value for Charge	*/
 	protected int getChargeId() {
 		return chargeId;
 	}
 
-	/**	 Getter Parameter Value for documentNo	*/
+	/**	 Setter Parameter Value for Charge	*/
+	protected void setChargeId(int chargeId) {
+		this.chargeId = chargeId;
+	}
+
+	/**	 Getter Parameter Value for Document No	*/
 	protected String getDocumentNo() {
 		return documentNo;
 	}
 
-	/**	 Getter Parameter Value for documentNoTo	*/
+	/**	 Setter Parameter Value for Document No	*/
+	protected void setDocumentNo(String documentNo) {
+		this.documentNo = documentNo;
+	}
+
+	/**	 Getter Parameter Value for Document No (To)	*/
 	protected String getDocumentNoTo() {
 		return documentNoTo;
 	}
 
-	/**	 Getter Parameter Value for amount	*/
+	/**	 Setter Parameter Value for Document No (To)	*/
+	protected void setDocumentNoTo(String documentNoTo) {
+		this.documentNoTo = documentNoTo;
+	}
+
+	/**	 Getter Parameter Value for Amount	*/
 	protected BigDecimal getAmount() {
 		return amount;
 	}
 
-	/**	 Getter Parameter Value for description	*/
+	/**	 Setter Parameter Value for Amount	*/
+	protected void setAmount(BigDecimal amount) {
+		this.amount = amount;
+	}
+
+	/**	 Getter Parameter Value for Description	*/
 	protected String getDescription() {
 		return description;
 	}
 
-	/**	 Getter Parameter Value for statementdate	*/
-	protected Timestamp getStatementdate() {
-		return statementdate;
+	/**	 Setter Parameter Value for Description	*/
+	protected void setDescription(String description) {
+		this.description = description;
 	}
 
-	/**	 Getter Parameter Value for accountDate	*/
-	protected Timestamp getAccountDate() {
-		return accountDate;
+	/**	 Getter Parameter Value for Statement date	*/
+	protected Timestamp getStatementDate() {
+		return statementDate;
 	}
 
-	/**	 Getter Parameter Value for isReconcileAutomatically	*/
-	protected boolean isReconcileAutomatically() {
-		return isReconcileAutomatically;
+	/**	 Setter Parameter Value for Statement date	*/
+	protected void setStatementDate(Timestamp statementDate) {
+		this.statementDate = statementDate;
+	}
+
+	/**	 Getter Parameter Value for Account Date	*/
+	protected Timestamp getDateAcct() {
+		return dateAcct;
+	}
+
+	/**	 Setter Parameter Value for Account Date	*/
+	protected void setDateAcct(Timestamp dateAcct) {
+		this.dateAcct = dateAcct;
+	}
+
+	/**	 Getter Parameter Value for Reconcile Automatically	*/
+	protected boolean isAutoReconciled() {
+		return isAutoReconciled;
+	}
+
+	/**	 Setter Parameter Value for Reconcile Automatically	*/
+	protected void setIsAutoReconciled(boolean isAutoReconciled) {
+		this.isAutoReconciled = isAutoReconciled;
 	}
 
 	/**	 Getter Parameter Value for Process ID	*/
 	public static final int getProcessId() {
-		return ID;
+		return ID_FOR_PROCESS;
 	}
 
 	/**	 Getter Parameter Value for Process Value	*/
 	public static final String getProcessValue() {
-		return VALUE;
+		return VALUE_FOR_PROCESS;
 	}
 
 	/**	 Getter Parameter Value for Process Name	*/
 	public static final String getProcessName() {
-		return NAME;
+		return NAME_FOR_PROCESS;
 	}
 }

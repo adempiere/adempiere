@@ -18,9 +18,14 @@ package org.compiere.model;
 
 import java.math.BigDecimal;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Optional;
 import java.util.Properties;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Level;
 
+import org.apache.commons.net.ntp.TimeStamp;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 
@@ -191,7 +196,7 @@ public class MProjectLine extends X_C_ProjectLine
 		if (is_ValueChanged("M_Product_ID") || is_ValueChanged("M_Product_Category_ID")
 			|| is_ValueChanged("PlannedQty") || is_ValueChanged("PlannedPrice"))
 		{
-			if (getM_Product_ID() != 0)
+			if (getM_Product_ID() != 0 && getProject().getM_PriceList_ID() > 0)
 			{
 				BigDecimal marginEach = getPlannedPrice().subtract(getLimitPrice());
 				setPlannedMarginAmt(marginEach.multiply(getPlannedQty()));
@@ -309,5 +314,63 @@ public class MProjectLine extends X_C_ProjectLine
 		}
 		/*onhate + globalqss BF 3060367*/		
 	} // updateHeader
+
+	protected Optional<I_C_ProjectTask> projectTask = Optional.empty();
+	protected Optional<I_C_ProjectPhase> projectPhase = Optional.empty();
+
+	public Optional<I_C_ProjectTask> getProjectTask() {
+		projectTask = Optional.ofNullable(getC_ProjectTask());
+		return projectTask;
+	}
+
+	public Optional<I_C_ProjectPhase> getProjectPhase() {
+			projectPhase = Optional.ofNullable(getC_ProjectPhase());
+		return projectPhase;
+	}
+
+	public Integer getReposibleId()
+	{
+		AtomicInteger reposibleId = new AtomicInteger(getCreatedBy());
+		getProjectPhase().ifPresent( phase -> reposibleId.set(phase.getResponsible_ID()));
+		getProjectTask().ifPresent( task -> reposibleId.set(task.getResponsible_ID()));
+		return reposibleId.get();
+	}
+
+	public Optional<Timestamp> getDateStartSchedule(){
+		AtomicReference<Timestamp> dateStartSchedule = new AtomicReference<>(getCreated());
+		getProjectPhase().ifPresent(phase -> dateStartSchedule.set(phase.getDateStartSchedule()));
+		getProjectTask().ifPresent(task -> dateStartSchedule.set(task.getDateStartSchedule()));
+		return Optional.ofNullable(dateStartSchedule.get());
+	}
+
+	public Optional<Timestamp> getDateFinishSchedule(){
+		AtomicReference<Timestamp> dateStartSchedule = new AtomicReference<>();
+		getProjectPhase().ifPresent(phase -> dateStartSchedule.set(phase.getDateFinishSchedule()));
+		getProjectTask().ifPresent(task -> dateStartSchedule.set(task.getDateFinishSchedule()));
+		return Optional.ofNullable(dateStartSchedule.get());
+	}
+
+	public Optional<Timestamp> getDateDeadline(){
+		AtomicReference<Timestamp> dateDeadline = new AtomicReference<>();
+		getProjectPhase().ifPresent(phase -> dateDeadline.set(phase.getDateDeadline()));
+		getProjectTask().ifPresent(task -> dateDeadline.set(task.getDateDeadline()));
+		return Optional.ofNullable(dateDeadline.get());
+	}
+
+	public Timestamp getDateOrdered() {
+		return getDateStartSchedule().orElse(getCreated());
+	}
+
+	public Timestamp getDatePromised() {
+		return getDateFinishSchedule().orElse(getDateDeadline().orElse(getCreated()));
+	}
+
+	public String getPriorityRule()
+	{
+		AtomicReference<String> priorityRule = new AtomicReference<>();
+		getProjectPhase().ifPresent(phase -> priorityRule.set(phase.getPriorityRule()));
+		getProjectTask().ifPresent(task -> priorityRule.set(task.getPriorityRule()));
+		return priorityRule.get();
+	}
 
 } // MProjectLine

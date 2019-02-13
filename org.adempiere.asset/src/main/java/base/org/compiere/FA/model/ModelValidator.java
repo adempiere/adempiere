@@ -467,10 +467,6 @@ implements org.compiere.model.ModelValidator, org.compiere.model.FactsValidator
 			}
 		
 			//Expense Asset_ID check
-			if (X_C_InvoiceLine.A_CAPVSEXP_Expense.equals(invoiceLine.getA_CapvsExp()) && invoiceLine.getA_Asset_ID() <= 0)
-			{
-				throw new AdempiereException("@A_Asset_ID@ @NotFound@");
-			}
 			if (X_C_InvoiceLine.A_CAPVSEXP_Expense.equals(invoiceLine.getA_CapvsExp()) && invoiceLine.getA_Asset_ID() > 0)
 			{
 				invoiceLine.setA_Asset_ID(invoiceLine.getA_Asset().getA_Asset_ID());

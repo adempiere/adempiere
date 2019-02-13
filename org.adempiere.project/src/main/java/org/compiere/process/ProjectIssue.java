@@ -16,12 +16,9 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.logging.Level;
 
 import org.compiere.model.MInOut;
 import org.compiere.model.MInOutLine;
@@ -265,6 +262,8 @@ public class ProjectIssue extends ProjectIssueAbstract
 	{
 		if (projectIssues == null)
 			projectIssues = project.getIssues();
+		if (projectIssues.isEmpty())
+			return false;
 		Boolean exists = projectIssues.stream().allMatch(projectIssue -> projectIssue.getS_TimeExpenseLine_ID() == timeExpenseLineId);
 		if (exists)
 				return true;

@@ -672,14 +672,17 @@ public class VBrowser extends Browser implements ActionListener, ListSelectionLi
 							+ Msg.getMsg(Env.getCtx(), "SearchRows_EnterQuery"),
 					false);
 			setStatusDB(Integer.toString(no));
-			if (no == 0)
+			if (no == 0) {
 				log.fine(dataSql);
-			else {
+			} else {
 				detail.getSelectionModel().setSelectionInterval(0, 0);
 				detail.requestFocus();
 			}
+			
 			isAllSelected = isSelectedByDefault();
-			selectedRows(detail);
+			if(isAllSelected) {
+				selectedRows(detail);
+			}
 			//	Set Collapsed
 			if(row > 0)
 				collapsibleSearch.setCollapsed(isCollapsibleByDefault());
@@ -810,7 +813,8 @@ public class VBrowser extends Browser implements ActionListener, ListSelectionLi
 
 	@Override
 	public void unlockUI(ProcessInfo pi) {
-		
+		processParameterPanel.setProcessInfo(pi);
+		processParameterPanel.openResult();
 	}
 	
 	@Override

@@ -158,7 +158,7 @@ public class MProjectIssue extends X_C_ProjectIssue implements IDocumentLine
 
 		//	**	Create Material Transactions **
 		MTransaction mTrx = new MTransaction (getCtx(), getAD_Org_ID(), 
-			MTransaction.MOVEMENTTYPE_WorkOrderPlus,
+			MTransaction.MOVEMENTTYPE_WorkOrder_,
 			getM_Locator_ID(), getM_Product_ID(), getM_AttributeSetInstance_ID(),
 			getMovementQty().negate(), getMovementDate(), get_TrxName());
 		mTrx.setC_ProjectIssue_ID(getC_ProjectIssue_ID());

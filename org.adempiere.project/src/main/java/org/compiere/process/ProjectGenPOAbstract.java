@@ -34,12 +34,16 @@ public abstract class ProjectGenPOAbstract extends SvrProcess {
 	public static final String C_PROJECT_ID = "C_Project_ID";
 	/**	Parameter Name for Project Line	*/
 	public static final String C_PROJECTLINE_ID = "C_ProjectLine_ID";
+	/**	Parameter Name for Vendor	*/
+	public static final String VENDOR_ID = "Vendor_ID";
 	/**	Parameter Name for Consolidate to one Document	*/
 	public static final String CONSOLIDATEDOCUMENT = "ConsolidateDocument";
 	/**	Parameter Value for Project	*/
 	private int projectId;
 	/**	Parameter Value for Project Line	*/
 	private int projectLineId;
+	/**	Parameter Value for Vendor	*/
+	private int vendorId;
 	/**	Parameter Value for Consolidate to one Document	*/
 	private boolean isConsolidateDocument;
 
@@ -47,6 +51,7 @@ public abstract class ProjectGenPOAbstract extends SvrProcess {
 	protected void prepare() {
 		projectId = getParameterAsInt(C_PROJECT_ID);
 		projectLineId = getParameterAsInt(C_PROJECTLINE_ID);
+		vendorId = getParameterAsInt(VENDOR_ID);
 		isConsolidateDocument = getParameterAsBoolean(CONSOLIDATEDOCUMENT);
 	}
 
@@ -68,6 +73,16 @@ public abstract class ProjectGenPOAbstract extends SvrProcess {
 	/**	 Setter Parameter Value for Project Line	*/
 	protected void setProjectLineId(int projectLineId) {
 		this.projectLineId = projectLineId;
+	}
+
+	/**	 Getter Parameter Value for Vendor	*/
+	protected int getVendorId() {
+		return vendorId;
+	}
+
+	/**	 Setter Parameter Value for Vendor	*/
+	protected void setVendorId(int vendorId) {
+		this.vendorId = vendorId;
 	}
 
 	/**	 Getter Parameter Value for Consolidate to one Document	*/

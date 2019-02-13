@@ -28,7 +28,7 @@ import java.util.Properties;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
-import org.adempiere.pdf.Document;
+import org.adempiere.pdf.ITextDocument;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.apps.ProcessModalDialog;
 import org.adempiere.webui.apps.WReport;
@@ -61,6 +61,7 @@ import org.compiere.util.Env;
 import org.compiere.util.ImpExpUtil;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
+import org.compiere.util.Util;
 import org.spin.util.AbstractExportFormat;
 import org.spin.util.ReportExportHandler;
 import org.zkoss.util.media.AMedia;
@@ -219,6 +220,7 @@ public class ZkReportViewer extends Window implements EventListener {
 		
 		previewType.setMold("select");
 		previewType.appendItem("PDF", "PDF");
+		previewType.appendItem("CSV", "CSV");
 		if (m_isAllowHTMLView) {
 			previewType.appendItem("HTML", "HTML");
 		}
@@ -246,6 +248,8 @@ public class ZkReportViewer extends Window implements EventListener {
 			type = "PDF";
 		}
 
+		if ("C".equals(type))
+			type = "CSV";
 		if ("H".equals(type))
 			type = "HTML";
 		if ("X".equals(type))
@@ -269,21 +273,20 @@ public class ZkReportViewer extends Window implements EventListener {
 			
 		if(m_reportEngine.getReportType() != null)
 		{
-			if(m_reportEngine.getReportType().equals("P"))
-			{
+			if(m_reportEngine.getReportType().equals("P")) {
 				previewType.setSelectedIndex(0);
 			}
-			else if(m_reportEngine.getReportType().equals("H"))
-			{
+			else if (m_reportEngine.getReportType().equals("C")) {
 				previewType.setSelectedIndex(1);
 			}
-			else if(m_reportEngine.getReportType().equals("X"))
-			{
+			else if(m_reportEngine.getReportType().equals("H")) {
 				previewType.setSelectedIndex(2);
 			}
-			else if(m_reportEngine.getReportType().equals("XX"))
-			{
+			else if(m_reportEngine.getReportType().equals("X")) {
 				previewType.setSelectedIndex(3);
+			}
+			else if(m_reportEngine.getReportType().equals("XX")) {
+				previewType.setSelectedIndex(4);
 			}
 		}
 
@@ -478,6 +481,17 @@ public class ZkReportViewer extends Window implements EventListener {
 			File file = File.createTempFile(prefix, ".xls", new File(path));
 			m_reportEngine.createXLSX(file);
 			media = new AMedia(prefix, "xlsx", "application/vnd.ms-excel", file, true);
+		}
+		else if ("CSV".equals(previewType.getSelectedItem().getValue())) {
+			String path = System.getProperty("java.io.tmpdir");
+			String prefix = makePrefix(m_reportEngine.getName());
+			if (log.isLoggable(Level.FINE))
+			{
+				log.log(Level.FINE, "Path=" + path + " Prefix=" + prefix);
+			}
+			File file = File.createTempFile(prefix, ".csv", new File(path));
+			m_reportEngine.createCSV(file, ',');
+			media = new AMedia(prefix, "csv", "text/csv", file, true);
 		}
 		iframe.setContent(media);
 	}
@@ -839,7 +853,7 @@ public class ZkReportViewer extends Window implements EventListener {
 	private void cmd_archive ()
 	{
 		boolean success = false;
-		byte[] data = Document.getPDFAsArray(m_reportEngine.getLayout().getPageable(false));	//	No Copy
+		byte[] data = new ITextDocument().getPDFAsArray(m_reportEngine.getLayout().getPageable(false));	//	No Copy
 		if (data != null)
 		{
 			MArchive archive = new MArchive (Env.getCtx(), m_reportEngine.getPrintInfo(), null);
@@ -988,13 +1002,27 @@ public class ZkReportViewer extends Window implements EventListener {
 			String ext = li.getValue().toString();
 			String exportName = li.getLabel();
 			File inputFile = File.createTempFile("Export", "." + ext);
-			exportHandler.exportToFile(exportName, inputFile);
+			AbstractExportFormat exporter = exportHandler.getExporter(exportName);
+			if(exporter == null) {
+				winExportFile.onClose();
+				return;
+			}
+			boolean isOk = exporter.exportTo(inputFile);
 			winExportFile.onClose();
-			AMedia media = null;
-			media = new AMedia(m_reportEngine.getPrintFormat().getName() + "." + ext, null, "application/octet-stream", inputFile, true);
-			Filedownload.save(media, m_reportEngine.getPrintFormat().getName() + "." + ext);
+			if(isOk) {
+				if(exporter.getAction().equals(AbstractExportFormat.EXPORT_FILE)) {
+					AMedia media = null;
+					media = new AMedia(m_reportEngine.getPrintFormat().getName() + "." + ext, null, "application/octet-stream", inputFile, true);
+					Filedownload.save(media, m_reportEngine.getPrintFormat().getName() + "." + ext);
+				} else if(exporter.getAction().equals(AbstractExportFormat.SEND_FILE)) {
+					if(!Util.isEmpty(exporter.getMessage())) {
+						FDialog.info(m_WindowNo, this, "user.info", Msg.parseTranslation(m_ctx, exporter.getMessage()));
+					}
+				}
+			}
 		} catch (Exception e) {
 			log.log(Level.SEVERE, "Failed to export content.", e);
+			FDialog.error(m_WindowNo, this, "ExportError", e.getLocalizedMessage());
 		}
 	}
 	
@@ -1213,7 +1241,9 @@ public class ZkReportViewer extends Window implements EventListener {
 				return;
 			}
 		} else {
-            FindWindow find = new FindWindow(m_WindowNo, title, AD_Table_ID, tableName,"", findFields, 1, AD_Tab_ID);
+			String whereExtended = "";
+			whereExtended = m_reportEngine.getWhereExtended();
+            FindWindow find = new FindWindow(m_WindowNo, title, AD_Table_ID, tableName,whereExtended, findFields, 1, AD_Tab_ID);
             if (!find.isCancel())
             {
             	m_reportEngine.setQuery(find.getQuery());

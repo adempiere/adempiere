@@ -85,6 +85,9 @@ import org.zkoss.zul.Image;
  * @author eEvolution author Victor Perez <victor.perez@e-evolution.com>
  * @see  [ 1258 ]The change role throw exception  </a>
  *         <a href="https://github.com/adempiere/adempiere/issues/1258">
+ * @author Raul Muñoz, rMunoz@erpya.com , http://www.erpya.com
+ * <li> FR [ 1769 ] Add option to restore the password from the login
+ * @see https://github.com/adempiere/adempiere/issues/1699
  */
 public class LoginPanel extends Window implements EventListener
 {
@@ -105,6 +108,7 @@ public class LoginPanel extends Window implements EventListener
     private Combobox lstLanguage;
     private LoginWindow wndLogin;
     private Checkbox chkRememberMe;
+    private Label lblForgotPass;
 
     public LoginPanel(Properties ctx, LoginWindow loginWindow)
     {
@@ -196,6 +200,19 @@ public class LoginPanel extends Window implements EventListener
         	tr.appendChild(td);
         	td.appendChild(chkRememberMe);
     	}
+        	tr = new Tr();
+            tr.setId("rowPasswordReset");
+            table.appendChild(tr);
+        	td = new Td();
+        	tr.appendChild(td);
+        	td.setSclass(ITheme.LOGIN_LABEL_CLASS);
+        	td.appendChild(new Label(""));
+        	td = new Td();
+        	tr.appendChild(td);
+	    	td.setDynamicProperty("colspan", "2");
+        	td.setSclass(ITheme.LOGIN_FIELD_CLASS);
+        	td.appendChild(lblForgotPass);
+        	lblForgotPass.addEventListener(Events.ON_CLICK,this);
 
     	div = new Div();
     	div.setSclass(ITheme.LOGIN_BOX_FOOTER_CLASS);
@@ -296,6 +313,8 @@ public class LoginPanel extends Window implements EventListener
 
         chkRememberMe = new Checkbox(Msg.getMsg(Language.getBaseAD_Language(), "RememberMe"));
 
+        lblForgotPass = new Label(Msg.getMsg(Language.getBaseAD_Language(), "ForgotPassword"));
+    	
         // Make the default language the language of client System
         String defaultLanguage = MClient.get(ctx, 0).getAD_Language();
         for(int i = 0; i < lstLanguage.getItemCount(); i++)
@@ -313,8 +332,11 @@ public class LoginPanel extends Window implements EventListener
     public void onEvent(Event event)
     {
         Component eventComp = event.getTarget();
-
-        if (event.getTarget().getId().equals(ConfirmPanel.A_OK))
+        
+        if(event.getTarget().equals(lblForgotPass)) {
+        	wndLogin.resetPassword();
+        }
+        else if (event.getTarget().getId().equals(ConfirmPanel.A_OK))
         {
             validateLogin();
         }
@@ -373,6 +395,8 @@ public class LoginPanel extends Window implements EventListener
     	lblPassword.setValue(res.getString("Password"));
     	lblLanguage.setValue(res.getString("Language"));
     	chkRememberMe.setLabel(Msg.getMsg(language, "RememberMe"));
+    	if(Msg.getMsg(language, "ForgotPassword") != null)
+    		lblForgotPass.setValue(Msg.getMsg(language, "ForgotPassword"));
     }
 
 	private Language findLanguage(String langName) {

@@ -1400,6 +1400,16 @@ public class FinReport extends FinReportAbstract {
 		// Reload to pick up changed pfi
 		printFormat = MPrintFormat.get (getCtx(), printFormatId, true);	//	no cache
 		MPrintFormat printFormatHeader = MPrintFormat.get(getCtx(), finReport.getAD_PrintFormatHeader_ID() ,true);
+
+		int orgID = getOrgId()!=0? getOrgId(): Env.getAD_Org_ID(Env.getCtx());
+		MOrgInfo orgInfo = null;
+		if (orgID != 0) {
+			orgInfo = MOrgInfo.get(Env.getCtx(), orgID, null);
+		}
+
+		MLocation loc = null;
+		if (orgInfo.getC_Location_ID() != 0)
+			loc = new MLocation(getCtx(), orgInfo.getC_Location_ID(), get_TrxName());
 		for(int j=0; j < printFormatHeader.getItemCount();j++)
 		{
 			MPrintFormatItem printFormatItem = printFormatHeader.getItem(j);
@@ -1409,122 +1419,62 @@ public class FinReport extends FinReportAbstract {
 				printFormatItem.setPrintName(null);
 			
 			if(name.contains("@Name@")) {
-				if (!printFormatItem.isPrinted()) {
-					printFormatItem.setIsPrinted(true);
-				}
-				if (printFormatItem.isOrderBy()) {
-					printFormatItem.setIsOrderBy(false);
-				}
-				if (printFormatItem.getSortNo() != 0) {
-					printFormatItem.setSortNo(0);
-				}
-				printFormatItem.setPrintName(name.replaceFirst("@Name@", finReport.getName()));
+				adjustPrintFormatItem(printFormatItem);
+				name = name.replaceFirst("@Name@", finReport.getName());
+				printFormatItem.setPrintName(name);
 			}
 			if(name.contains("@Client@"))
 			{
-				if (!printFormatItem.isPrinted()) {
-					printFormatItem.setIsPrinted(true);
-				}
-				if (printFormatItem.isOrderBy()) {
-					printFormatItem.setIsOrderBy(false);
-				}
-				if (printFormatItem.getSortNo() != 0) {
-					printFormatItem.setSortNo(0);
-				}
+				adjustPrintFormatItem(printFormatItem);
 				MClient client=new MClient(getCtx(), Env.getAD_Client_ID(getCtx()), get_TrxName());
-				printFormatItem.setPrintName(name.replaceFirst("@Client@", client.getName()));
+				name = name.replaceFirst("@Client@", client.getName());
+				printFormatItem.setPrintName(name);
 				
 			}
-			if(name.equalsIgnoreCase("Report"))
-			{
-				if (!printFormatItem.isPrinted()) {
-					printFormatItem.setIsPrinted(true);
-				}
-				if (printFormatItem.isOrderBy()) {
-					printFormatItem.setIsOrderBy(false);
-				}
-				if (printFormatItem.getSortNo() != 0) {
-					printFormatItem.setSortNo(0);
-				}
+			if(name.equalsIgnoreCase("Report")){
+				adjustPrintFormatItem(printFormatItem);
 				printFormatItem.setAD_PrintFormatChild_ID(printFormat.get_ID());
 			}
 			if(name.contains("@Organization@")) {
 				if (getOrgId() != 0) {
-					if (!printFormatItem.isPrinted()) {
-						printFormatItem.setIsPrinted(true);
-					}
-					if (printFormatItem.isOrderBy()) {
-						printFormatItem.setIsOrderBy(false);
-					}
-					if (printFormatItem.getSortNo() != 0) {
-						printFormatItem.setSortNo(0);
-					}
+					adjustPrintFormatItem(printFormatItem);
 					MOrg org = new MOrg(getCtx(), getOrgId(), get_TrxName());
-					printFormatItem.setPrintName(name.replaceFirst("@Organization@", org.getName()));
+					name = name.replaceFirst("@Organization@", org.getName());
+					printFormatItem.setPrintName(name);
 				}
 				else
 					printFormatItem.setIsPrinted(false);
 			}
 			if(name.contains("@Currency@")) {
-				if (!printFormatItem.isPrinted()) {
-					printFormatItem.setIsPrinted(true);
-				}
-				if (printFormatItem.isOrderBy()) {
-					printFormatItem.setIsOrderBy(false);
-				}
-				if (printFormatItem.getSortNo() != 0) {
-					printFormatItem.setSortNo(0);
-				}
-				printFormatItem.setPrintName(name.replaceFirst("@Currency@", finReport.getC_AcctSchema().getC_Currency().getDescription()));
+				adjustPrintFormatItem(printFormatItem);
+				name = name.replaceFirst("@Currency@", finReport.getC_AcctSchema().getC_Currency().getDescription());
+				printFormatItem.setPrintName(name);
 			}
 			if(name.contains("@Period@")) {
 				if (getPeriodId() != 0)	{
-					if (!printFormatItem.isPrinted()) {
-						printFormatItem.setIsPrinted(true);
-					}
-					if (printFormatItem.isOrderBy()) {
-						printFormatItem.setIsOrderBy(false);
-					}
-					if (printFormatItem.getSortNo() != 0) {
-						printFormatItem.setSortNo(0);
-					}
+					adjustPrintFormatItem(printFormatItem);
 					MPeriod period=MPeriod.get(getCtx(), getPeriodId());
-					printFormatItem.setPrintName(name.replaceFirst("@Period@", period.getName()));
+					name = name.replaceFirst("@Period@", period.getName());
+					printFormatItem.setPrintName(name);
 				} else {
 					printFormatItem.setIsPrinted(false);
 				}
 			}
 			if(name.contains("@Business Partner@")) {
 				if ( getOrgId() !=0 ) {
-					if (!printFormatItem.isPrinted()) {
-						printFormatItem.setIsPrinted(true);
-					}
-					if (printFormatItem.isOrderBy()) {
-						printFormatItem.setIsOrderBy(false);
-					}
-					if (printFormatItem.getSortNo() != 0) {
-						printFormatItem.setSortNo(0);
-					}
+					adjustPrintFormatItem(printFormatItem);
 					MBPartner bpartner=MBPartner.get(getCtx(), getBPartnerId());
-					printFormatItem.setPrintName(name.replaceFirst("@Business Partner@", bpartner.getName()));
+					name = name.replaceFirst("@Business Partner@", bpartner.getName());
+					printFormatItem.setPrintName(name);
 				} else {
 					printFormatItem.setIsPrinted(false);
 				}
 			}
 			if(name.equalsIgnoreCase("@Logo@")) {
-				if (!printFormatItem.isPrinted()) {
-					printFormatItem.setIsPrinted(true);
-				}
-				if (printFormatItem.isOrderBy()) {
-					printFormatItem.setIsOrderBy(false);
-				}
-				if (printFormatItem.getSortNo() != 0) {
-					printFormatItem.setSortNo(0);
-				}		
+				adjustPrintFormatItem(printFormatItem);
 				MImage image = null;
-				
-				if (getOrgId() != 0) {
-					MOrgInfo orgInfo = MOrgInfo.get(Env.getCtx(), getOrgId(), null);
+
+				if (orgInfo != null) {
 					if (orgInfo.getLogo_ID() > 0) {
 						image = MImage.get(Env.getCtx(), orgInfo.getLogo_ID());
 					}
@@ -1548,34 +1498,69 @@ public class FinReport extends FinReportAbstract {
 					CacheMgt.get().reset("ImageElement");
 				}
 			}
-			
-			if(name.contains("@City@")) {
-				if(getOrgId() !=0) {
-					if (!printFormatItem.isPrinted()) {
-						printFormatItem.setIsPrinted(true);
-					}
-					if (printFormatItem.isOrderBy()) {
-						printFormatItem.setIsOrderBy(false);
-					}
-					if (printFormatItem.getSortNo() != 0) {
-						printFormatItem.setSortNo(0);
-					}
-					int ordId=0;
-					if(getOrgId() != 0) {
-						ordId= getOrgId();
-					} else {
-						ordId=Env.getAD_Org_ID(Env.getCtx());
-					}
-					MOrgInfo oi = MOrgInfo.get(Env.getCtx(), ordId, null);
-					MLocation loc=new MLocation(getCtx(), oi.getC_Location_ID(), get_TrxName());
-					printFormatItem.setPrintName(name.replaceFirst("@City@",loc.getCity()));
-				} else {
-					printFormatItem.setIsPrinted(false);
+			if (orgInfo != null){
+				orgInfo = MOrgInfo.get(Env.getCtx(), orgID, null);
+				if(name.contains("@City@") && orgInfo.getC_Location_ID() !=0) {
+					adjustPrintFormatItem(printFormatItem);
+					name = name.replaceFirst("@City@", loc.getCity());
+					printFormatItem.setPrintName(name);
+				}
+
+				if(name.contains("@TaxID@") && orgInfo.getTaxID() != null) {
+					adjustPrintFormatItem(printFormatItem);
+					name = name.replaceFirst("@TaxID@", orgInfo.getTaxID());
+					printFormatItem.setPrintName(name);
+				}
+				if(name.contains("@DUNS@" ) &&orgInfo.getDUNS() != null) {
+					adjustPrintFormatItem(printFormatItem);
+					name = name.replaceFirst("@DUNS@", orgInfo.getDUNS());
+					printFormatItem.setPrintName(name);
+				}
+				if(name.contains("@Address1@") && orgInfo.getC_Location_ID() !=0 && loc.getAddress1() != null) {
+					adjustPrintFormatItem(printFormatItem);
+					name = name.replaceFirst("@Address1@", loc.getAddress1());
+					printFormatItem.setPrintName(name);
+				}
+				if(name.contains("@Address2@") && orgInfo.getC_Location_ID() !=0 && loc.getAddress2() != null) {
+					adjustPrintFormatItem(printFormatItem);
+					name = name.replaceFirst("@Address2@", loc.getAddress2());
+					printFormatItem.setPrintName(name);
+				}
+				if(name.contains("@Address3@") && orgInfo.getC_Location_ID() !=0 && loc.getAddress3() != null) {
+					adjustPrintFormatItem(printFormatItem);
+					name = name.replaceFirst("@Address3@", loc.getAddress3());
+					printFormatItem.setPrintName(name);
+				}
+				if(name.contains("@Address4@") && orgInfo.getC_Location_ID() !=0 && loc.getAddress4() != null) {
+					adjustPrintFormatItem(printFormatItem);
+					name = name.replaceFirst("@Address4@", loc.getAddress4());
+					printFormatItem.setPrintName(name);
 				}
 			}
-			printFormatItem.saveEx();
+			//else{
+			//	printFormatItem.setIsPrinted(false);
+			//	}
+				printFormatItem.saveEx();
+			if (!name.equalsIgnoreCase("Report") && !name.equalsIgnoreCase("Logo")
+					&& printFormatItem.getPrintName()==null)
+				printFormatItem.setIsPrinted(false);
 		}
-		//	
+
+		//
 		return printFormatHeader;
+
 	}	//	getPrintFormat
+
+	private void adjustPrintFormatItem(MPrintFormatItem printFormatItem){
+		if (!printFormatItem.isPrinted()) {
+			printFormatItem.setIsPrinted(true);
+		}
+		if (printFormatItem.isOrderBy()) {
+			printFormatItem.setIsOrderBy(false);
+		}
+		if (printFormatItem.getSortNo() != 0) {
+			printFormatItem.setSortNo(0);
+		}
+
+	}
 }	//	FinReport

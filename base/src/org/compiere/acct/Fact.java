@@ -303,9 +303,9 @@ public final class Fact
 
 		//  Amount
 		if (diff.signum() < 0)   //  negative balance => DR
-			line.setAmtSource(line.getC_Currency_ID(), diff.abs(), Env.ZERO);
+			line.setAmtSource(m_doc.getC_Currency_ID(), diff.abs(), Env.ZERO);
 		else                                //  positive balance => CR
-			line.setAmtSource(line.getC_Currency_ID(), Env.ZERO, diff);
+			line.setAmtSource(m_doc.getC_Currency_ID(), Env.ZERO, diff);
 			
 		//  Convert
 		line.convert();
@@ -456,12 +456,12 @@ public final class Fact
 						if (difference.isReversal())
 						{
 							line.setAccount(m_acctSchema, m_acctSchema.getDueTo_Acct(elementType));
-							line.setAmtSource(line.getC_Currency_ID(), Env.ZERO, difference.getPostBalance());
+							line.setAmtSource(m_doc.getC_Currency_ID(), Env.ZERO, difference.getPostBalance());
 						}
 						else
 						{
 							line.setAccount(m_acctSchema, m_acctSchema.getDueFrom_Acct(elementType));
-							line.setAmtSource(line.getC_Currency_ID(), difference.getPostBalance(), Env.ZERO);
+							line.setAmtSource(m_doc.getC_Currency_ID(), difference.getPostBalance(), Env.ZERO);
 						}
 					}
 					else
@@ -469,12 +469,12 @@ public final class Fact
 						if (difference.isReversal())
 						{
 							line.setAccount(m_acctSchema, m_acctSchema.getDueFrom_Acct(elementType));
-							line.setAmtSource(line.getC_Currency_ID(), difference.getPostBalance(), Env.ZERO);
+							line.setAmtSource(m_doc.getC_Currency_ID(), difference.getPostBalance(), Env.ZERO);
 						}
 						else
 						{
 							line.setAccount(m_acctSchema, m_acctSchema.getDueTo_Acct(elementType));
-							line.setAmtSource(line.getC_Currency_ID(), Env.ZERO, difference.getPostBalance());
+							line.setAmtSource(m_doc.getC_Currency_ID(), Env.ZERO, difference.getPostBalance());
 						}
 					}
 					line.convert();
@@ -573,7 +573,7 @@ public final class Fact
 			line.setAccount (m_acctSchema, m_acctSchema.getCurrencyBalancing_Acct());
 			
 			//  Amount
-			line.setAmtSource(line.getC_Currency_ID(), Env.ZERO, Env.ZERO);
+			line.setAmtSource(m_doc.getC_Currency_ID(), Env.ZERO, Env.ZERO);
 			line.convert();
 			//	Accounted
 			BigDecimal drAmt = Env.ZERO;
