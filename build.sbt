@@ -34,7 +34,8 @@ libraryDependencies ++= Seq(
   "javax.servlet" % "javax.servlet-api" % "3.0.1" % "provided",
   "com.typesafe" % "config" % "1.2.0",
   "org.scala-lang" % "scala-reflect" % "2.12.8",
-  "org.scalatest" %% "scalatest" % "3.0.5" % Test
+  "org.scalactic" %% "scalactic" % "3.0.5",
+  "org.scalatest" %% "scalatest" % "3.0.5" % "test"
 )
 
 
@@ -52,7 +53,7 @@ test in assembly := {}
 assemblyOption in assembly := (assemblyOption in assembly).value.copy(includeScala = true, includeDependency =false)
 
 val sourceDirectoryTest = "org.adempiere.test"
-val sourceAdempiere = "/Users/e-Evolution/Develop/ADempiere/391"
+val sourceAdempiere = "/Users/e-Evolution/Develop/ADempiere/develop"
 
 //javaSource in Compile := baseDirectory.value  / sourceDirectoryTest / "src" / "main" / "java"
 //javaSource in Test := baseDirectory.value  / sourceDirectoryTest / "src" / "test" / "java"
@@ -67,6 +68,7 @@ unmanagedClasspath in Compile += file(sourceAdempiere + "/target/scala-2.12/test
 
 unmanagedJars in Compile ++= (file(sourceAdempiere + "/zkwebui/WEB-INF/lib") * "*.jar").classpath
 unmanagedJars in Compile ++= (file(sourceAdempiere + "/tools/lib") * "*.jar").classpath
+unmanagedJars in Compile ++= (file(sourceAdempiere + "/JasperReportsTools/lib") * "*.jar").classpath
 unmanagedJars in Compile ++= (file(sourceAdempiere + "/lib") * "*.jar").classpath
 unmanagedJars in Compile ++= (file(sourceAdempiere + "/packages") * "*.jar").classpath
 unmanagedJars in Compile ++= (file(sourceAdempiere + "/zkpackages") * "*.jar").classpath
@@ -75,6 +77,7 @@ testOptions in Test += Tests.Argument("-oD")
 
 enablePlugins(JettyPlugin)
 enablePlugins(WebappPlugin)
+
 containerLibs in Jetty := Seq("org.eclipse.jetty" % "jetty-runner" % "9.2.1.v20140609" intransitive())
 containerMain in Jetty := "org.eclipse.jetty.runner.Runner"
 //containerForkOptions := new ForkOptions(runJVMOptions = Seq("-Dh2g2=42"))
