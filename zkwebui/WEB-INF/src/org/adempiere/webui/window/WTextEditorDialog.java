@@ -175,7 +175,8 @@ public class WTextEditorDialog extends Window implements EventListener{
 			detach();
 		} else if (event.getTarget().getId().equals(ConfirmPanel.A_RESET)) {
 			textBox.setText(text);
-			editor.setValue(text);
+			if(editor != null)
+				editor.setValue(text);
 		} else if (event.getName().equals(Events.ON_SELECT)) {
 			if (editable) {
 				if (tabbox.getSelectedIndex() == 0) {
