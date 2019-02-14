@@ -68,12 +68,12 @@
 	      <pathelement path="../tools/lib/commons-logging-1.2.jar"/>
       	  <pathelement path="../JasperReportsTools/lib/commons-beanutils-1.9.3.jar"/>
 	      <pathelement path="../JasperReportsTools/lib/jasperreports-fonts-6.6.0.jar"/>
-          <pathelement path="../JasperReportsTools/lib/batik-all-1.9.jar"/>
-          <pathelement path="../JasperReportsTools/lib/org.krysalis.barcode4j_2.1.0.jar"/>
-          <pathelement path="../JasperReportsTools/lib/xml-apis-1.3.04.jar"/>
-          <pathelement path="../JasperReportsTools/lib/xml-apis-ext-1.3.04.jar"/>
-          <pathelement path="../JasperReportsTools/lib/xmlgraphics-commons-2.2.jar"/>
-          <pathelement path="../JasperReportsTools/lib/zxing-2.3.0.jar"/>
+          <pathelement path="../tools/lib/batik-all-1.9.jar"/>
+          <pathelement path="../tools/lib/org.krysalis.barcode4j_2.1.0.jar"/>
+          <pathelement path="../tools/lib/xml-apis-1.3.04.jar"/>
+          <pathelement path="../tools/lib/xml-apis-ext-1.3.04.jar"/>
+          <pathelement path="../tools/lib/xmlgraphics-commons-2.2.jar"/>
+          <pathelement path="../tools/lib/zxing-2.3.0.jar"/>
       	  <pathelement path="../tools/lib/xercesImpl.jar"/>
       	  <pathelement path="../tools/lib/postgresql.jar"/>  
 		  <pathelement path="../tools/lib/iText-2.1.7.jar"/>
@@ -153,24 +153,6 @@
         </zipfileset>
         <!-- SHW: new lib-->
         <zipfileset src="../JasperReportsTools/lib/jasperreports-fonts-6.6.0.jar">
-            <patternset refid="manifest.exclude"/>
-        </zipfileset>
-        <zipfileset src="../JasperReportsTools/lib/batik-all-1.9.jar">
-            <patternset refid="manifest.exclude"/>
-        </zipfileset>
-        <zipfileset src="../JasperReportsTools/lib/org.krysalis.barcode4j_2.1.0.jar">
-            <patternset refid="manifest.exclude"/>
-        </zipfileset>
-        <zipfileset src="../JasperReportsTools/lib/xml-apis-1.3.04.jar">
-            <patternset refid="manifest.exclude"/>
-        </zipfileset>
-        <zipfileset src="../JasperReportsTools/lib/xml-apis-ext-1.3.04.jar">
-            <patternset refid="manifest.exclude"/>
-        </zipfileset>
-        <zipfileset src="../JasperReportsTools/lib/xmlgraphics-commons-2.2.jar">
-            <patternset refid="manifest.exclude"/>
-        </zipfileset>
-        <zipfileset src="../JasperReportsTools/lib/zxing-2.3.0.jar">
             <patternset refid="manifest.exclude"/>
         </zipfileset>
         <zipfileset src="../tools/lib/xercesImpl.jar">
