@@ -85,12 +85,16 @@ public class WStringEditorDialog extends Window implements EventListener{
 	 */
 	public void onEvent(Event event) throws Exception {
 		if (Events.ON_CANCEL.equals(event.getName())) {
+			// Hit <Esc>
 			cancelled = true;
 			text = originalText;
 			detach();
 		} else if (Events.ON_CHANGE.equals(event.getName())) {
 			if (editable) {
-				text = textBox.getText();
+				if (textBox.getText() != null && !textBox.getText().isEmpty())
+					text = textBox.getText();
+				else
+					text = originalText;
 			}
 		} else if (Events.ON_OK.equals(event.getName())) {
 			detach();
