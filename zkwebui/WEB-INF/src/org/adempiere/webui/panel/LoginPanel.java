@@ -36,6 +36,7 @@ import org.adempiere.webui.component.Combobox;
 import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.Textbox;
+import org.adempiere.webui.component.ToolBarButton;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.event.TokenEvent;
 import org.adempiere.webui.exception.ApplicationException;
@@ -108,7 +109,7 @@ public class LoginPanel extends Window implements EventListener
     private Combobox lstLanguage;
     private LoginWindow wndLogin;
     private Checkbox chkRememberMe;
-    private Label lblForgotPass;
+    private ToolBarButton btnForgotPass;
 
     public LoginPanel(Properties ctx, LoginWindow loginWindow)
     {
@@ -200,19 +201,21 @@ public class LoginPanel extends Window implements EventListener
         	tr.appendChild(td);
         	td.appendChild(chkRememberMe);
     	}
-        	tr = new Tr();
-            tr.setId("rowPasswordReset");
-            table.appendChild(tr);
-        	td = new Td();
-        	tr.appendChild(td);
-        	td.setSclass(ITheme.LOGIN_LABEL_CLASS);
-        	td.appendChild(new Label(""));
-        	td = new Td();
-        	tr.appendChild(td);
-	    	td.setDynamicProperty("colspan", "2");
-        	td.setSclass(ITheme.LOGIN_FIELD_CLASS);
-        	td.appendChild(lblForgotPass);
-        	lblForgotPass.addEventListener(Events.ON_CLICK,this);
+    	
+    	tr = new Tr();
+    	tr.setId("rowPasswordReset");
+    	table.appendChild(tr);
+    	td = new Td();
+    	tr.appendChild(td);
+    	td.setSclass(ITheme.LOGIN_LABEL_CLASS);
+    	td.appendChild(new Label(""));
+    	td = new Td();
+    	tr.appendChild(td);
+    	td.setDynamicProperty("colspan", "2");
+    	td.setSclass(ITheme.LOGIN_LABEL_CLASS);
+    	td.setStyle("text-align:left");
+    	td.appendChild(btnForgotPass);
+    	btnForgotPass.addEventListener(Events.ON_CLICK,this);
 
     	div = new Div();
     	div.setSclass(ITheme.LOGIN_BOX_FOOTER_CLASS);
@@ -313,7 +316,7 @@ public class LoginPanel extends Window implements EventListener
 
         chkRememberMe = new Checkbox(Msg.getMsg(Language.getBaseAD_Language(), "RememberMe"));
 
-        lblForgotPass = new Label(Msg.getMsg(Language.getBaseAD_Language(), "ForgotPassword"));
+        btnForgotPass = new ToolBarButton(Msg.getMsg(Language.getBaseAD_Language(), "ForgotPassword"));
     	
         // Make the default language the language of client System
         String defaultLanguage = MClient.get(ctx, 0).getAD_Language();
@@ -333,7 +336,7 @@ public class LoginPanel extends Window implements EventListener
     {
         Component eventComp = event.getTarget();
         
-        if(event.getTarget().equals(lblForgotPass)) {
+        if(event.getTarget().equals(btnForgotPass)) {
         	wndLogin.resetPassword();
         }
         else if (event.getTarget().getId().equals(ConfirmPanel.A_OK))
@@ -396,7 +399,7 @@ public class LoginPanel extends Window implements EventListener
     	lblLanguage.setValue(res.getString("Language"));
     	chkRememberMe.setLabel(Msg.getMsg(language, "RememberMe"));
     	if(Msg.getMsg(language, "ForgotPassword") != null)
-    		lblForgotPass.setValue(Msg.getMsg(language, "ForgotPassword"));
+    		btnForgotPass.setLabel(Msg.getMsg(language, "ForgotPassword"));
     }
 
 	private Language findLanguage(String langName) {
