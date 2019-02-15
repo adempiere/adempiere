@@ -17,8 +17,10 @@ import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.Adempiere;
+import org.compiere.model.MColumn;
 import org.compiere.model.MProcess;
 import org.compiere.model.MProcessPara;
+import org.compiere.model.MRefTable;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.CLogger;
 import org.compiere.util.DisplayType;
@@ -399,7 +401,8 @@ public class ProcessAbstractClassGenerator {
 		if (DisplayType.Location == parameter.getAD_Reference_ID()
 				|| DisplayType.Locator == parameter.getAD_Reference_ID()
 				|| (DisplayType.isLookup(parameter.getAD_Reference_ID()) 
-						&& DisplayType.List != parameter.getAD_Reference_ID())) {
+						&& DisplayType.List != parameter.getAD_Reference_ID()
+						&& !isReturnString(parameter))) {
 			variableName.append("Id");
 		}
 		//	
@@ -435,7 +438,8 @@ public class ProcessAbstractClassGenerator {
 		if (DisplayType.Location == parameter.getAD_Reference_ID()
 				|| DisplayType.Locator == parameter.getAD_Reference_ID()
 				|| (DisplayType.isLookup(parameter.getAD_Reference_ID())
-				&& DisplayType.List != parameter.getAD_Reference_ID())) {
+						&& DisplayType.List != parameter.getAD_Reference_ID()
+						&& !isReturnString(parameter))) {
 			variableName.append("Id");
 		}
 
@@ -458,7 +462,8 @@ public class ProcessAbstractClassGenerator {
 		if (DisplayType.Location == parameter.getAD_Reference_ID()
 				|| DisplayType.Locator == parameter.getAD_Reference_ID()
 				|| (DisplayType.isLookup(parameter.getAD_Reference_ID())
-				&& DisplayType.List != parameter.getAD_Reference_ID())) {
+						&& DisplayType.List != parameter.getAD_Reference_ID()
+						&& !isReturnString(parameter))) {
 			variableName.append("Id");
 		}
 
@@ -473,7 +478,8 @@ public class ProcessAbstractClassGenerator {
 	private String getType(MProcessPara parameter) {
 		Class<?> clazz = DisplayType.getClass(parameter.getAD_Reference_ID(), true);
 		//	Verify Type
-		if (clazz == String.class && DisplayType.isText(parameter.getAD_Reference_ID())) {
+		if (clazz == String.class && DisplayType.isText(parameter.getAD_Reference_ID())
+				|| (DisplayType.isLookup(parameter.getAD_Reference_ID()) && isReturnString(parameter))) {
 			return "String";
 		} else if (clazz == Integer.class) {
 			return "int";
@@ -621,5 +627,25 @@ public class ProcessAbstractClassGenerator {
 				.replaceAll(" ", "")
 				.replaceAll("/","");
 		return replaceSpecialCharacter(parameterName);
+	}
+	
+	/**
+	 * Verify if key column is string
+	 * Can be useful for EntytyType
+	 * @param processParameter
+	 * @return
+	 */
+	boolean isReturnString(MProcessPara processParameter) {
+		if(DisplayType.Table == processParameter.getAD_Reference_ID()) {
+			MRefTable referenceTable = MRefTable.getById(Env.getCtx(), processParameter.getAD_Reference_Value_ID());
+			if(referenceTable != null) {
+				MColumn keyColumn = MColumn.get(Env.getCtx(), referenceTable.getAD_Key());
+				if(DisplayType.isText(keyColumn.getAD_Reference_ID())) {
+					return true;
+				}
+			}
+		}
+		//	
+		return false;
 	}
 }
